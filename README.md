@@ -35,4 +35,6 @@ Visit the issue/task tracker here: https://github.com/chylex/Hardcore-Ender-Expa
 
 **User request** - request of a new feature or enhancement
 
+**User idea** - one or more ideas (or polite feature request, if you will)
+
 **User bug report** - bug or crash report
