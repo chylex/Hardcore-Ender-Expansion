@@ -7,7 +7,7 @@ Issues added by users will be marked with **user issue tags**, **admin issue tag
 
 Always provide as much information and detail in an issue as possible. If it is a bug or crash report, always **provide logs** and conditions under which the bug or crash happened!
 
-Resolved issues will have a resolution in square brackets in their name. Resolutions may be *[finished]*, *[rejected]*, *[fixed]* or *[works as intended]*.
+Resolved issues will have a resolution in square brackets in their name. Resolutions may be *[finished]*, *[rejected]*, *[fixed]* or *[works as intended]*. Optionally, there may be a version of Hardcore Ender Expansion in the resolution, for example *[fixed 1.5a]*.
 
 Visit the issue/task tracker here: https://github.com/chylex/Hardcore-Ender-Expansion/issues
 
