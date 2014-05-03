@@ -3,9 +3,9 @@ Hardcore Ender Expansion
 
 This page is an issue & task tracker for the Hardcore Ender Expansion mod for Minecraft.
 
-Users can add an issue, however **always** tag them with one of the **user issue tags**! All invalidly tagged issues will be closed. Admin and status tags are going to be managed by myself.
+Issues added by users will be marked with **user issue tags**, **admin issue tags** will only be present on issues created by myself.
 
-Always provide as much information in an issue as possible. If it is a bug or crash report, always **provide logs** and conditions under which the bug or crash happened!
+Always provide as much information and detail in an issue as possible. If it is a bug or crash report, always **provide logs** and conditions under which the bug or crash happened!
 
 Resolved issues will have a resolution in square brackets in their name. Resolutions may be *[finished]*, *[rejected]*, *[fixed]* or *[works as intended]*.
 
@@ -25,11 +25,13 @@ Visit the issue/task tracker here: https://github.com/chylex/Hardcore-Ender-Expa
 
 #### Status tags
 
-**Issue invalid** - denied requests and unreplicable bug reports
+**Issue invalid** - missing required information, issues not caused by the mod, etc.
 
-**Issue in progress** - issue is accepted and is, or will be worked on
+**Issue acknowledged** - acknowledged feature request or bug report
 
-**Issue resolved** - request completed or bug/crash fixed 
+**Issue in progress** - issue is currently being worked on
+
+**Issue resolved** - issue has been handled, resolution will be in issue name with more details in the comments
 
 ## User issue tags
 
