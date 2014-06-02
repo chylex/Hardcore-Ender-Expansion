@@ -7,7 +7,7 @@ Always provide as much information and detail in an issue as possible. If it is 
 
 Issues added by users will be marked with **user issue tags**, issues created by myself will be marked with **admin issue tags**.
 
-Resolved issues will have a resolution in square brackets. Resolutions may be *[DONE]*, *[FIXED]*, *[ACKNOWLEDGED]*, *[RESOLVED]*, *[ANSWERED]*, *[INVALID]* or *[NOT A BUG]*. There may also be a version of HEE in the resolution, for example *[FIXED 1.6]*.
+Resolved issues will have a resolution in square brackets. Resolutions may be *[DONE]*, *[FIXED]*, *[ACKNOWLEDGED]*, *[ANSWERED]*, *[INVALID]* or *[NOT A BUG]*. There may also be a version of HEE in the resolution, for example *[FIXED 1.6]*.
 
 Visit the issue/task tracker here: https://github.com/chylex/Hardcore-Ender-Expansion/issues
 
