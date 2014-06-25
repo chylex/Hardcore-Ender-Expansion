@@ -1,9 +1,15 @@
 Hardcore Ender Expansion
 ========================
 
-## Source code license
+## Source code and asset license
 
-...
+This part will become relevant once the mod's source code is publicly visible.
+
+The project is under All Rights Reserved license, which means that making the source public does not give you right to redistribute it. I would however like to say what exactly you can and cannot do:
+
+1. Feel free to fork the project on GitHub, modify the code and submit Pull Requests. The repository must be publicly visible.
+2. You are allowed to study the code and learn from it, but you are not allowed to copy large portions of the code into your project.
+3. The mod's terms of use still apply, which means that you cannot redistribute any part of the mod or claim it as your own. The only exception for redistribution of the source and assets is forking, as said above.
 
 ## Issue & task tracker
 
