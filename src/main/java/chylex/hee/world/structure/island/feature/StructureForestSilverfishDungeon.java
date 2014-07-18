@@ -5,6 +5,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemKnowledgeFragment;
@@ -16,8 +18,9 @@ import chylex.hee.world.loot.IItemPostProcessor;
 import chylex.hee.world.loot.ItemUtil;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
+import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 
-public class StructureForestSilverfishDungeon extends AbstractIslandStructure{
+public class StructureForestSilverfishDungeon extends AbstractIslandStructure implements ITileEntityGenerator{
 	public static WeightedLootList lootDungeon = new WeightedLootList(
 		new LootItemStack(Items.paper).setAmount(1,11).setWeight(36),
 		new LootItemStack(Items.book).setAmount(1,8).setWeight(25),
@@ -123,7 +126,7 @@ public class StructureForestSilverfishDungeon extends AbstractIslandStructure{
 			
 			world.setBlock(xx,lowestY,zz,BlockList.custom_spawner,1);
 			
-			if (/*biome.hasRareVariation(RareVariationForest.SPECIAL_DUNGEONS) &&*/ rand.nextInt(5) <= 1){
+			if (/*biome.hasRareVariation(RareVariationForest.SPECIAL_DUNGEONS) &&*/ rand.nextInt(5) <= 1){ // TODO
 				for(int nextSpawnerAttempt = 0,spawnerX,spawnerY,spawnerZ; nextSpawnerAttempt < 10; nextSpawnerAttempt++){
 					spawnerX = xx+rand.nextInt(10)-5;
 					spawnerY = yy+rand.nextInt(7)-5;
@@ -158,17 +161,22 @@ public class StructureForestSilverfishDungeon extends AbstractIslandStructure{
 				chestZ = zz;
 			}
 			
-			world.setBlock(chestX,chestY,chestZ,Blocks.chest,0); // TODO
-			/*TileEntityChest chest = (TileEntityChest)getTileEntity(chestX,chestY,chestZ);
-			if (chest != null){
-				for(int a = 0; a < 7+rand.nextInt(4)+rand.nextInt(6)+(/*biome.hasRareVariation(RareVariationForest.SPECIAL_DUNGEONS)?3+rand.nextInt(4):*//*0); a++){
-					/*chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootDungeon.generateIS(rand));
-				}
-			}*/
+			world.setBlock(chestX,chestY,chestZ,Blocks.chest,0);
+			world.setTileEntityGenerator(chestX,chestY,chestZ,"silverfishDungeonChest",this);
 			
 			break;
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
+		if (key.equals("silverfishDungeonChest") && tile instanceof TileEntityChest){
+			TileEntityChest chest = (TileEntityChest)tile;
+			for(int a = 0; a < 7+rand.nextInt(4)+rand.nextInt(6)+(/*biome.hasRareVariation(RareVariationForest.SPECIAL_DUNGEONS)?3+rand.nextInt(4):*/0); a++){ // TODO
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootDungeon.generateIS(rand));
+			}
+		}
 	}
 }
