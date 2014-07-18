@@ -38,7 +38,7 @@ public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		EnhancementHandler.appendEnhancementNames(is,textLines);
 	}
 }

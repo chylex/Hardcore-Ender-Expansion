@@ -72,14 +72,14 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		return colRgb;
 	}
 	
-    @Override
+	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
-    	nbt.setFloat("colRed",colRgb[0]);
-    	nbt.setFloat("colGreen",colRgb[1]);
-    	nbt.setFloat("colBlue",colRgb[2]);
-    	data.writeToNBT(nbt);
-    	return nbt;
-    }
+		nbt.setFloat("colRed",colRgb[0]);
+		nbt.setFloat("colGreen",colRgb[1]);
+		nbt.setFloat("colBlue",colRgb[2]);
+		data.writeToNBT(nbt);
+		return nbt;
+	}
 
 	@Override
 	public void readTileFromNBT(NBTTagCompound nbt){

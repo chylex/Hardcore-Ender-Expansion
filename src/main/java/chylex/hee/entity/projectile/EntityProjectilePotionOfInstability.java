@@ -12,14 +12,14 @@ import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 
 public class EntityProjectilePotionOfInstability extends EntityPotion{
 	public EntityProjectilePotionOfInstability(World world){
-        super(world);
-    }
+		super(world);
+	}
 
-    public EntityProjectilePotionOfInstability(World world, EntityLivingBase thrower){
-        super(world,thrower,new ItemStack(ItemList.potion_of_instability,1,1));
-    }
-    
-    @Override
+	public EntityProjectilePotionOfInstability(World world, EntityLivingBase thrower){
+		super(world,thrower,new ItemStack(ItemList.potion_of_instability,1,1));
+	}
+	
+	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote){
 			for(Object o:worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(4D,2D,4D))){

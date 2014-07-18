@@ -31,7 +31,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	public EntityBlockEnhancedTNTPrimed(World world){
 		super(world);
 		fuse = 80;
-        yOffset = 0;
+		yOffset = 0;
 	}
 
 	public EntityBlockEnhancedTNTPrimed(World world, double x, double y, double z, EntityLivingBase igniter, List<Enum> enhancements){
@@ -95,11 +95,11 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 
 	private void explode(){
 		EnhancedTNTExplosion explosion = new EnhancedTNTExplosion(worldObj,this,posX,posY,posZ,tntEnhancements.contains(TNTEnhancements.EXTRA_POWER) ? 5F : 4F);
-        explosion.isFlaming = tntEnhancements.contains(TNTEnhancements.FIRE);
-        explosion.isSmoking = !tntEnhancements.contains(TNTEnhancements.NO_BLOCK_DAMAGE);
-        explosion.damageEntities = !tntEnhancements.contains(TNTEnhancements.NO_ENTITY_DAMAGE);
-        explosion.doExplosionA();
-        explosion.doExplosionB(true);
+		explosion.isFlaming = tntEnhancements.contains(TNTEnhancements.FIRE);
+		explosion.isSmoking = !tntEnhancements.contains(TNTEnhancements.NO_BLOCK_DAMAGE);
+		explosion.damageEntities = !tntEnhancements.contains(TNTEnhancements.NO_ENTITY_DAMAGE);
+		explosion.doExplosionA();
+		explosion.doExplosionB(true);
 	}
 	
 	@Override
@@ -124,11 +124,11 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	}
 	
 	private static final class EnhancedTNTExplosion extends Explosion{
-	    private final World worldObj;
-	    private final int dist = 16;
-	    private final Map<EntityPlayer,Vec3> hurtPlayers = new HashMap<>();
-	    
-	    public boolean damageEntities = true;
+		private final World worldObj;
+		private final int dist = 16;
+		private final Map<EntityPlayer,Vec3> hurtPlayers = new HashMap<>();
+		
+		public boolean damageEntities = true;
 
 		public EnhancedTNTExplosion(World world, Entity sourceEntity, double x, double y, double z, float power){
 			super(world,sourceEntity,x,y,z,power);

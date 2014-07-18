@@ -24,7 +24,7 @@ public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
 	public static final byte metaInfested = 0, metaBurned = 1, metaEnchanted = 2;
 	
 	@SideOnly(Side.CLIENT)
-    private IIcon[] iconTop,iconSide;
+	private IIcon[] iconTop,iconSide;
 	
 	public BlockEndstoneTerrain(){
 		super(Material.rock);

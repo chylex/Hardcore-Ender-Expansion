@@ -29,7 +29,7 @@ public class ItemBlockWithSubtypes extends ItemBlock{
 	public String getUnlocalizedName(ItemStack is){
 		if (isIBlockSubtypes)return ((IBlockSubtypes)field_150939_a).getUnlocalizedName(is);
 		else return super.getUnlocalizedName(is);
-    }
+	}
 	
 	public static interface IBlockSubtypes{
 		String getUnlocalizedName(ItemStack is);

@@ -27,23 +27,23 @@ public final class DimensionOverride{
 	private static void overrideBiome(){
 		Field modifiersField = null;
 		
-	    try{
+		try{
 			BiomeGenBase sky = (new BiomeGenHardcoreEnd(9)).setColor(8421631).setBiomeName("Sky").setDisableRain();
 			BiomeGenBase.getBiomeGenArray()[9] = sky;
 			
-    		modifiersField = Field.class.getDeclaredField("modifiers");
-    		modifiersField.setAccessible(true);
-    		
-    		for(Field field:BiomeGenBase.class.getDeclaredFields()){
-    			if (BiomeGenEnd.class.isAssignableFrom(field.getType())){
+			modifiersField = Field.class.getDeclaredField("modifiers");
+			modifiersField.setAccessible(true);
+			
+			for(Field field:BiomeGenBase.class.getDeclaredFields()){
+				if (BiomeGenEnd.class.isAssignableFrom(field.getType())){
 					modifiersField.setInt(field,modifiersField.getInt(field) & ~Modifier.FINAL);
 					field.set(null,sky);
-    				break;
-    			}
-    		}
-    	}catch(Exception e){
-    		throw new RuntimeException("Could not override the End biome!",e);
-    	}
+					break;
+				}
+			}
+		}catch(Exception e){
+			throw new RuntimeException("Could not override the End biome!",e);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")

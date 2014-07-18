@@ -19,12 +19,12 @@ public class ModelEndermanHeadBiped extends ModelBiped{
 		bipedHead.setRotationPoint(0F,0F,0F);
 		
 		bipedHead.showModel = true;
-        bipedHeadwear.showModel = true;
-        bipedBody.showModel = false;
-        bipedRightArm.showModel = false;
-        bipedLeftArm.showModel = false;
-        bipedRightLeg.showModel = false;
-        bipedLeftLeg.showModel = false;
+		bipedHeadwear.showModel = true;
+		bipedBody.showModel = false;
+		bipedRightArm.showModel = false;
+		bipedLeftArm.showModel = false;
+		bipedRightLeg.showModel = false;
+		bipedLeftLeg.showModel = false;
 	}
 	
 	@Override

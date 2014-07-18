@@ -44,7 +44,7 @@ public class BlockEnergyCluster extends BlockContainer{
 
 	public BlockEnergyCluster(){
 		super(Material.glass);
-        setBlockBounds(0.3F,0.3F,0.3F,0.7F,0.7F,0.7F);
+		setBlockBounds(0.3F,0.3F,0.3F,0.7F,0.7F,0.7F);
 	}
 
 	@Override

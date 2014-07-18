@@ -16,11 +16,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderMiniBossEnderEye extends RenderLiving{
-    private static final ResourceLocation texAwake = new ResourceLocation("hardcoreenderexpansion:textures/entity/ender_eye.png");
-    private static final ResourceLocation texAsleep = new ResourceLocation("hardcoreenderexpansion:textures/entity/ender_eye_asleep.png");
+	private static final ResourceLocation texAwake = new ResourceLocation("hardcoreenderexpansion:textures/entity/ender_eye.png");
+	private static final ResourceLocation texAsleep = new ResourceLocation("hardcoreenderexpansion:textures/entity/ender_eye_asleep.png");
 
-    private byte statusTick = 0;
-    
+	private byte statusTick = 0;
+	
 	public RenderMiniBossEnderEye(){
 		super(new ModelEnderEye(),0.75F);
 	}
@@ -56,8 +56,8 @@ public class RenderMiniBossEnderEye extends RenderLiving{
 			}
 		}
 		
-        super.doRender(entity,x,y,z,yaw,partialTickTime);
-    }
+		super.doRender(entity,x,y,z,yaw,partialTickTime);
+	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
@@ -66,6 +66,6 @@ public class RenderMiniBossEnderEye extends RenderLiving{
 	
 	@Override
 	protected boolean func_110813_b(EntityLiving entity){ // OBFUSCATED show mob name
-        return false;
-    }
+		return false;
+	}
 }

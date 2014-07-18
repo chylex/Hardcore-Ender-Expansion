@@ -50,10 +50,10 @@ public class EntityProjectileGolemFireball extends EntityLargeFireball{
 			ChunkPosition pos;
 			for(Iterator<?> iter = affectedBlockPositions.iterator(); iter.hasNext();){
 				pos = (ChunkPosition)iter.next();
-                if (worldObj.getBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ).getMaterial() == Material.air &&
-                	worldObj.getBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ).func_149730_j() && // OBFUSCATED is block opaque
-                	worldObj.rand.nextInt(5) == 0)worldObj.setBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ,Blocks.fire);
-            }
+				if (worldObj.getBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ).getMaterial() == Material.air &&
+					worldObj.getBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ).func_149730_j() && // OBFUSCATED is block opaque
+					worldObj.rand.nextInt(5) == 0)worldObj.setBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ,Blocks.fire);
+			}
 		}
 	}
 }

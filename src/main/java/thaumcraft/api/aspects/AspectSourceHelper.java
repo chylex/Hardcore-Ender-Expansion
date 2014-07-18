@@ -22,15 +22,15 @@ public class AspectSourceHelper {
 	 * @return boolean returns true if essentia was found and removed from a source.
 	 */
 	public static boolean drainEssentia(TileEntity tile, Aspect aspect, ForgeDirection direction, int range) {
-	    try {
-	        if(drainEssentia == null) {
-	            Class fake = Class.forName("thaumcraft.common.lib.events.EssentiaHandler");
-	            drainEssentia = fake.getMethod("drainEssentia", TileEntity.class, Aspect.class, ForgeDirection.class, int.class);
-	        }
-	        return (Boolean) drainEssentia.invoke(null, tile, aspect, direction, range);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.events.EssentiaHandler method drainEssentia");
-	    }
+		try {
+			if(drainEssentia == null) {
+				Class fake = Class.forName("thaumcraft.common.lib.events.EssentiaHandler");
+				drainEssentia = fake.getMethod("drainEssentia", TileEntity.class, Aspect.class, ForgeDirection.class, int.class);
+			}
+			return (Boolean) drainEssentia.invoke(null, tile, aspect, direction, range);
+		} catch(Exception ex) { 
+			FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.events.EssentiaHandler method drainEssentia");
+		}
 		return false;
 	}
 	
@@ -44,15 +44,15 @@ public class AspectSourceHelper {
 	 * @return boolean returns true if essentia was found and removed from a source.
 	 */
 	public static boolean findEssentia(TileEntity tile, Aspect aspect, ForgeDirection direction, int range) {
-	    try {
-	        if(findEssentia == null) {
-	            Class fake = Class.forName("thaumcraft.common.lib.events.EssentiaHandler");
-	            findEssentia = fake.getMethod("findEssentia", TileEntity.class, Aspect.class, ForgeDirection.class, int.class);
-	        }
-	        return (Boolean) findEssentia.invoke(null, tile, aspect, direction, range);
-	    } catch(Exception ex) { 
-	    	FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.events.EssentiaHandler method findEssentia");
-	    }
+		try {
+			if(findEssentia == null) {
+				Class fake = Class.forName("thaumcraft.common.lib.events.EssentiaHandler");
+				findEssentia = fake.getMethod("findEssentia", TileEntity.class, Aspect.class, ForgeDirection.class, int.class);
+			}
+			return (Boolean) findEssentia.invoke(null, tile, aspect, direction, range);
+		} catch(Exception ex) { 
+			FMLLog.warning("[Thaumcraft API] Could not invoke thaumcraft.common.lib.events.EssentiaHandler method findEssentia");
+		}
 		return false;
 	}
 }

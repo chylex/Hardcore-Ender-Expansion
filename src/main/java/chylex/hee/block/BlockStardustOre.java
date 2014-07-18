@@ -67,12 +67,12 @@ public class BlockStardustOre extends BlockAbstractOre{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side){
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side){
 		int meta = world.getBlockMetadata(x,y,z);
 		if (meta == 0)return Blocks.end_stone.getIcon(world,x,y,z,side);
 		
 		return iconArray[iconIndexes[side][meta]];
-    }
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

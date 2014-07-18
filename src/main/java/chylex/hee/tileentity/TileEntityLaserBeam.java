@@ -38,12 +38,12 @@ public class TileEntityLaserBeam extends TileEntity{
 	}
 	
 	@Override
-    public void writeToNBT(NBTTagCompound nbt){
-    	super.writeToNBT(nbt);
+	public void writeToNBT(NBTTagCompound nbt){
+		super.writeToNBT(nbt);
 		
 		nbt.setFloat("beamAng",beamAngle);
 		nbt.setInteger("ticksLeft",ticksLeft);
-    }
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){

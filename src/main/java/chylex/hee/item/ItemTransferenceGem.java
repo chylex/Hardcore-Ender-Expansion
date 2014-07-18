@@ -113,7 +113,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		GemData gemData = GemData.loadFromItemStack(is);
 		
 		if (gemData.isLinked()){
@@ -138,13 +138,13 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIconIndex(ItemStack is){
-        return iconArray[getIcon(is)];
-    }
+	public IIcon getIconIndex(ItemStack is){
+		return iconArray[getIcon(is)];
+	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-    public void registerIcons(IIconRegister iconRegister){
+	public void registerIcons(IIconRegister iconRegister){
 		iconArray = new IIcon[3];
 		for(int a = 0; a < iconArray.length; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:transference_gem_"+(a+1));
 	}

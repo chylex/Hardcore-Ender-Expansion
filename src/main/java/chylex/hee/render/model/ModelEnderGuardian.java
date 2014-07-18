@@ -110,9 +110,9 @@ public class ModelEnderGuardian extends ModelBase{
 		
 		rightHorn.rotateAngleY = leftHorn.rotateAngleY = head.rotateAngleY = MathUtil.toRad(rotationYaw);
 		rightHorn.rotateAngleX = leftHorn.rotateAngleX = head.rotateAngleX = MathUtil.toRad(rotationPitch);
-        
-        float limbSwing1 = MathHelper.cos(limbSwing*0.6662F),
-        	  limbSwing2 = MathHelper.cos(limbSwing*0.6662F+(float)Math.PI);
+		
+		float limbSwing1 = MathHelper.cos(limbSwing*0.6662F),
+			  limbSwing2 = MathHelper.cos(limbSwing*0.6662F+(float)Math.PI);
 
 		rightArm.rotateAngleX = limbSwing2*2F*prevLimbSwing*0.5F;
 		leftArm.rotateAngleX = limbSwing1*2F*prevLimbSwing*0.5F;

@@ -64,8 +64,8 @@ public class ItemScorchingPickaxe extends Item{
 	
 	@Override
 	public boolean canHarvestBlock(Block block, ItemStack is){
-        return isBlockValid(block);
-    }
+		return isBlockValid(block);
+	}
 
 	@Override
 	public int getHarvestLevel(ItemStack is, String toolClass){
@@ -79,9 +79,9 @@ public class ItemScorchingPickaxe extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean isFull3D(){
-        return true;
-    }
+	public boolean isFull3D(){
+		return true;
+	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onBlockDropItems(HarvestDropsEvent e){

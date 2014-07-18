@@ -8,10 +8,10 @@ public class ItemRunic extends Item implements IRunicArmor  {
 	int charge;
 	
 	public ItemRunic (int charge)
-    {
-        super();
-        this.charge = charge;
-    }
+	{
+		super();
+		this.charge = charge;
+	}
 			
 	@Override
 	public int getRunicCharge(ItemStack itemstack) {

@@ -14,12 +14,12 @@ public class EntityBigPortalFX extends EntityFX{
 		super(world,x,y,z,motionX,motionY,motionZ);
 		
 		particleRed = particleGreen = particleBlue = 1F*rand.nextFloat()*0.6F+0.4F;
-        particleGreen *= 0.3F;
-        particleRed *= 0.9F;
+		particleGreen *= 0.3F;
+		particleRed *= 0.9F;
 		particleMaxAge = (int)(Math.random()*10D)+40;
-        noClip = false;
-        setParticleTextureIndex((int)(Math.random()*8D));
-        
+		noClip = false;
+		setParticleTextureIndex((int)(Math.random()*8D));
+		
 		particleScale = portalParticleScale = 2.75F+rand.nextFloat()*0.4F;
 		realParticleAge = (byte)(rand.nextInt(20)+35);
 		

@@ -53,29 +53,29 @@ public class EntityAltarOrbFX extends EntityFX{
 	@Override
 	public void onUpdate(){
 		prevPosX = posX;
-        prevPosY = posY;
-        prevPosZ = posZ;
+		prevPosY = posY;
+		prevPosZ = posZ;
 
-        trueX += movementVec.xCoord;
-        trueY += movementVec.yCoord;
-        trueZ += movementVec.zCoord;
-        
-        posX = trueX+Math.cos(offsetAngle[0])*offsetDistance;
-        posY = trueY+Math.cos(offsetAngle[1])*offsetDistance;
-        posZ = trueZ+Math.cos(offsetAngle[2])*offsetDistance;
-        
-        for(int a = 0; a < 3; a++){
-        	if (rand.nextInt(18) == 0)offsetAngleMode[a] = (byte)(offsetAngleMode[a] == 1?-1:1);
-        	offsetAngle[a] += offsetAngleMode[a]*0.0698131*rand.nextFloat()*0.2D;
-        }
-        
-        double dist = Math.sqrt(MathUtil.square(trueX-targetX)+MathUtil.square(trueY-targetY)+MathUtil.square(trueZ-targetZ));
+		trueX += movementVec.xCoord;
+		trueY += movementVec.yCoord;
+		trueZ += movementVec.zCoord;
+		
+		posX = trueX+Math.cos(offsetAngle[0])*offsetDistance;
+		posY = trueY+Math.cos(offsetAngle[1])*offsetDistance;
+		posZ = trueZ+Math.cos(offsetAngle[2])*offsetDistance;
+		
+		for(int a = 0; a < 3; a++){
+			if (rand.nextInt(18) == 0)offsetAngleMode[a] = (byte)(offsetAngleMode[a] == 1?-1:1);
+			offsetAngle[a] += offsetAngleMode[a]*0.0698131*rand.nextFloat()*0.2D;
+		}
+		
+		double dist = Math.sqrt(MathUtil.square(trueX-targetX)+MathUtil.square(trueY-targetY)+MathUtil.square(trueZ-targetZ));
 
-        if (++particleAge > 300 || dist < 0.06D){
-        	setDead();
-        }
-        else if (particleAge > 8 && particleAge < 35)offsetDistance += 0.015F;
-        else if (dist < 1D && offsetDistance >= 0.015D)offsetDistance -= 0.015F;
+		if (++particleAge > 300 || dist < 0.06D){
+			setDead();
+		}
+		else if (particleAge > 8 && particleAge < 35)offsetDistance += 0.015F;
+		else if (dist < 1D && offsetDistance >= 0.015D)offsetDistance -= 0.015F;
 	}
 	
 	@Override

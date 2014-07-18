@@ -27,7 +27,7 @@ public class ItemSpecialEffects extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister){
+	public void registerIcons(IIconRegister iconRegister){
 		icons = new IIcon[21+IslandBiomeBase.biomeList.size()];
 		
 		for(int a = 0; a < 10; a++)icons[a] = iconRegister.registerIcon("hardcoreenderexpansion:"+a);

@@ -65,12 +65,12 @@ public final class FragmentWeightLists{
 				.add(TRANSFERENCE_GEM,6)
 				.add(TEMPLE_CALLER,6)
 				.add(INFESTED_FOREST_BIOME,6)
-			    .add(BURNING_MOUNTAINS_BIOME,6)
-			    .add(ENCHANTED_ISLAND_BIOME,6)
-			    .add(ENDER_EYE,5)
-			    .add(DEATH_FLOWER,4)
-			    .add(TRANSFERENCE_GEM_ENH,4)
-			    .add(OBSIDIAN_VARIATIONS,3);
+				.add(BURNING_MOUNTAINS_BIOME,6)
+				.add(ENCHANTED_ISLAND_BIOME,6)
+				.add(ENDER_EYE,5)
+				.add(DEATH_FLOWER,4)
+				.add(TRANSFERENCE_GEM_ENH,4)
+				.add(OBSIDIAN_VARIATIONS,3);
 		
 		endSilverfishDungeons.add(GHOST_AMULET,5)
 							 .add(SPOOKY_TREES,5)

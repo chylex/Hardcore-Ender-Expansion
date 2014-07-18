@@ -10,7 +10,7 @@ import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityWeatherLightningBoltDemon extends EntityLightningBolt{
 	private int lightningState;
-    private int boltLivingTime;
+	private int boltLivingTime;
 	private boolean isSafe;
 	
 	public EntityWeatherLightningBoltDemon(World world, double x, double y, double z){

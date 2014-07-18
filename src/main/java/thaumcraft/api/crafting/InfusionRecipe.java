@@ -29,15 +29,15 @@ public class InfusionRecipe
 	}
 
 	/**
-     * Used to check if a recipe matches current crafting inventory
-     * @param player 
-     */
+	 * Used to check if a recipe matches current crafting inventory
+	 * @param player 
+	 */
 	public boolean matches(ArrayList<ItemStack> input, ItemStack central, World world, EntityPlayer player) {
 		if (getRecipeInput() == null) return false;
 			
 		if (research.length()>0 && !ThaumcraftApiHelper.isResearchComplete(player.getCommandSenderName(), research)) {
-    		return false;
-    	}
+			return false;
+		}
 		
 		ItemStack i2 = central.copy();
 		if (getRecipeInput().getItemDamage() == OreDictionary.WILDCARD_VALUE) {
@@ -67,10 +67,10 @@ public class InfusionRecipe
 			if (!b) return false;
 		}
 		return ii.size() == 0?true:false;
-    }
+	}
 	
 	protected boolean areItemStacksEqual(ItemStack stack0, ItemStack stack1, boolean fuzzy)
-    {
+	{
 		if (stack0 == null && stack1 != null) return false;
 		if (stack0 != null && stack1 == null) return false;
 		if (stack0 == null && stack1 == null) return true;
@@ -86,26 +86,26 @@ public class InfusionRecipe
 		}
 		else
 			t1 = ItemStack.areItemStackTagsEqual(stack0, stack1);		
-        return stack0.getItem() != stack1.getItem() ? false : (stack0.getItemDamage() != stack1.getItemDamage() ? false : (stack0.stackSize > stack0.getMaxStackSize() ? false : t1));
-    }
+		return stack0.getItem() != stack1.getItem() ? false : (stack0.getItemDamage() != stack1.getItemDamage() ? false : (stack0.stackSize > stack0.getMaxStackSize() ? false : t1));
+	}
 	
    
-    public Object getRecipeOutput() {
+	public Object getRecipeOutput() {
 		return getRecipeOutput(this.getRecipeInput());
-    }
-    
-    public AspectList getAspects() {
+	}
+	
+	public AspectList getAspects() {
 		return getAspects(this.getRecipeInput());
-    }
+	}
 
-    public int getInstability() {
+	public int getInstability() {
 		return getInstability(this.getRecipeInput());
-    }
-    
-    public String getResearch() {
+	}
+	
+	public String getResearch() {
 		return research;
-    }
-    
+	}
+	
 	public ItemStack getRecipeInput() {
 		return recipeInput;
 	}
@@ -116,13 +116,13 @@ public class InfusionRecipe
 	
 	public Object getRecipeOutput(ItemStack input) {
 		return recipeOutput;
-    }
-    
-    public AspectList getAspects(ItemStack input) {
+	}
+	
+	public AspectList getAspects(ItemStack input) {
 		return aspects;
-    }
-    
-    public int getInstability(ItemStack input) {
+	}
+	
+	public int getInstability(ItemStack input) {
 		return instability;
-    }
+	}
 }

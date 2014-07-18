@@ -30,7 +30,7 @@ public class EntityMobFireGolem extends EntityMob{
 	private static final AttributeModifier cancelMovement = (new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2)).setSaved(false);
 	
 	private byte rangedStatus = -1, teleportCooldown = 0;
-    
+	
 	public EntityMobFireGolem(World world){
 		super(world);
 		setSize(0.9F,1.4F);

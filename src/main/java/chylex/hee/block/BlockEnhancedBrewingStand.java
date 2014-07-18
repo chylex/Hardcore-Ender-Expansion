@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	@SideOnly(Side.CLIENT)
-    private IIcon theIcon;
+	private IIcon theIcon;
 	
 	public BlockEnhancedBrewingStand(){
 		super();
@@ -39,8 +39,8 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	
 	@Override
 	public Item getItem(World world, int x, int y, int z){
-        return ItemList.enhanced_brewing_stand;
-    }
+		return ItemList.enhanced_brewing_stand;
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

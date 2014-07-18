@@ -221,9 +221,9 @@ public class AspectList implements Serializable {
 	 * @return 
 	 */
 	public void readFromNBT(NBTTagCompound nbttagcompound)
-    {
-        aspects.clear();
-        NBTTagList tlist = nbttagcompound.getTagList("Aspects",(byte)10);
+	{
+		aspects.clear();
+		NBTTagList tlist = nbttagcompound.getTagList("Aspects",(byte)10);
 		for (int j = 0; j < tlist.tagCount(); j++) {
 			NBTTagCompound rs = tlist.getCompoundTagAt(j);
 			if (rs.hasKey("key")) {
@@ -231,7 +231,7 @@ public class AspectList implements Serializable {
 						rs.getInteger("amount"));
 			}
 		}
-    }
+	}
 	
 	/**
 	 * Writes the list of aspects to nbt
@@ -239,8 +239,8 @@ public class AspectList implements Serializable {
 	 * @return 
 	 */
 	public void writeToNBT(NBTTagCompound nbttagcompound)
-    {
-        NBTTagList tlist = new NBTTagList();
+	{
+		NBTTagList tlist = new NBTTagList();
 		nbttagcompound.setTag("Aspects", tlist);
 		for (Aspect aspect : getAspects())
 			if (aspect != null) {
@@ -249,7 +249,7 @@ public class AspectList implements Serializable {
 				f.setInteger("amount", getAmount(aspect));
 				tlist.appendTag(f);
 			}
-    }
+	}
 	
 	
 	

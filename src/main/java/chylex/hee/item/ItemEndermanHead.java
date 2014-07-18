@@ -21,7 +21,7 @@ public class ItemEndermanHead extends Item{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		return BlockList.enderman_head.getUnlocalizedName();
-    }
+	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
@@ -72,7 +72,7 @@ public class ItemEndermanHead extends Item{
 	@Override
 	public boolean isValidArmor(ItemStack stack, int armorType, Entity entity){
 		return armorType == 0;
-    }
+	}
 
 	private static final ResourceLocation tex = new ResourceLocation("hardcoreenderexpansion:textures/armor/enderman_head.png");
 	

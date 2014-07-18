@@ -20,8 +20,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderMobBabyEnderman extends RenderLiving{
-    private static final ResourceLocation texEndermanEyes = new ResourceLocation("textures/entity/enderman/enderman_eyes.png");
-    private static final ResourceLocation texEndermanBody = new ResourceLocation("textures/entity/enderman/enderman.png");
+	private static final ResourceLocation texEndermanEyes = new ResourceLocation("textures/entity/enderman/enderman_eyes.png");
+	private static final ResourceLocation texEndermanBody = new ResourceLocation("textures/entity/enderman/enderman.png");
 
 	private ModelEnderman endermanModel;
 

@@ -49,7 +49,7 @@ public class ItemEnderCompendium extends Item{
 	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		if (is.getItemDamage() == 1)textLines.add("Creative mode");
 	}
 	

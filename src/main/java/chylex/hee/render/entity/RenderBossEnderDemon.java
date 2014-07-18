@@ -30,8 +30,8 @@ public class RenderBossEnderDemon extends RenderLiving{
 	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
 		BossStatus.setBossStatus((EntityBossEnderDemon)entity,true);
 		BossType.update(BossType.ENDER_DEMON);
-        super.doRender(entity,x,y,z,yaw,partialTickTime);
-    }
+		super.doRender(entity,x,y,z,yaw,partialTickTime);
+	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){

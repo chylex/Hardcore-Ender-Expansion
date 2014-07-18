@@ -23,7 +23,7 @@ public class ItemBlockEssenceAltar extends ItemBlock{
 	public String getUnlocalizedName(ItemStack is){
 		EssenceType essenceType = EssenceType.getById(is.getItemDamage());
 		return "tile.essenceAltar."+(essenceType == null?EssenceType.INVALID:essenceType).essenceNameLowercase;
-    }
+	}
 	
 	@Override
 	public boolean placeBlockAt(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata){

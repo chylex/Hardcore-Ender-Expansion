@@ -87,7 +87,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	}
 	
 	@Override
-    public void velocityToAddToEntity(World world, int x, int y, int z, Entity entity, Vec3 vec){}
+	public void velocityToAddToEntity(World world, int x, int y, int z, Entity entity, Vec3 vec){}
 	
 	private static final PotionEffect weakness = new PotionEffect(Potion.weakness.id,5,1,false),
 									  miningFatigue = new PotionEffect(Potion.digSlowdown.id,5,1,false),
@@ -129,15 +129,15 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	}
 	
 	@Override
-    public float getFilledPercentage(World world, int x, int y, int z){
+	public float getFilledPercentage(World world, int x, int y, int z){
 		return 1F-super.getFilledPercentage(world,x,y,z);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);
-    }
+	}
 	
 	@SubscribeEvent
 	public void onBucketFill(FillBucketEvent e){

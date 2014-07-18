@@ -21,18 +21,18 @@ public class TileEntityEnhancedTNT extends TileEntity{
 	
 	@Override
 	public boolean canUpdate(){
-        return false;
-    }
+		return false;
+	}
 	
 	@Override
-    public void writeToNBT(NBTTagCompound nbt){
-        super.writeToNBT(nbt);
-        nbt.setString("enhancements",EnhancementEnumHelper.serialize(tntEnhancements));
-    }
+	public void writeToNBT(NBTTagCompound nbt){
+		super.writeToNBT(nbt);
+		nbt.setString("enhancements",EnhancementEnumHelper.serialize(tntEnhancements));
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
-        super.readFromNBT(nbt);
-        tntEnhancements = EnhancementEnumHelper.deserialize(nbt.getString("enhancements"),TNTEnhancements.class);
-    }
+		super.readFromNBT(nbt);
+		tntEnhancements = EnhancementEnumHelper.deserialize(nbt.getString("enhancements"),TNTEnhancements.class);
+	}
 }

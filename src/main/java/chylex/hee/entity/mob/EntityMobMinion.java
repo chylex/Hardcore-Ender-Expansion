@@ -141,9 +141,9 @@ public class EntityMobMinion extends EntityFlying/* implements IEntityOwnable*/{
 	
 	@Override
 	protected void onDeathUpdate(){
-        super.onDeathUpdate();
-        if (deathTime == 5)minionData.updateAbilitiesOnDeath();
-    }
+		super.onDeathUpdate();
+		if (deathTime == 5)minionData.updateAbilitiesOnDeath();
+	}
 	
 	public MinionData getMinionData(){
 		return minionData;

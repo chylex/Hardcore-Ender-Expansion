@@ -16,7 +16,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	protected short spawnCount = 4;
 	protected short maxNearbyEntities = 6;
 	protected short activatingRangeFromPlayer = 16;
-    protected Entity entityCache;
+	protected Entity entityCache;
 
 	protected CustomSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		this.spawnerTile = spawnerTile;

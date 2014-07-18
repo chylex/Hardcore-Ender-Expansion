@@ -20,8 +20,8 @@ public class BlockEssenceAltar extends BlockContainer{
 	private static final float hitCenter1 = 0.09F, hitCenter2 = 0.9F, hitDist = 0.05F;
 	
 	@SideOnly(Side.CLIENT)
-    private IIcon[] iconTop,iconSide,iconBottom;
-    
+	private IIcon[] iconTop,iconSide,iconBottom;
+	
 	public BlockEssenceAltar(){
 		super(Material.iron);
 		setBlockBounds(0.0F,0.0F,0.0F,1.0F,0.75F,1.0F);

@@ -14,18 +14,18 @@ import thaumcraft.api.crafting.InfusionRecipe;
 
 public class ResearchPage {
 	public static enum PageType
-    {
-        TEXT,
-        TEXT_CONCEALED,
-        IMAGE,
-        CRUCIBLE_CRAFTING,
-        ARCANE_CRAFTING,
-        ASPECTS,
-        NORMAL_CRAFTING,
-        INFUSION_CRAFTING,
-        COMPOUND_CRAFTING,
-        INFUSION_ENCHANTMENT
-    }
+	{
+		TEXT,
+		TEXT_CONCEALED,
+		IMAGE,
+		CRUCIBLE_CRAFTING,
+		ARCANE_CRAFTING,
+		ASPECTS,
+		NORMAL_CRAFTING,
+		INFUSION_CRAFTING,
+		COMPOUND_CRAFTING,
+		INFUSION_ENCHANTMENT
+	}
 	
 	public PageType type = PageType.TEXT;
 	

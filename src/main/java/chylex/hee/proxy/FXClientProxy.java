@@ -182,8 +182,8 @@ public class FXClientProxy extends FXCommonProxy{
 		else{
 			spawn(new EntityBreakingFX(orb.worldObj,orb.posX,orb.posY+0.25D,orb.posZ,motX,motY,motZ,ItemList.instability_orb,0){{
 				particleGravity /= 3F;
-		        particleScale /= 2.5F;
-		        particleMaxAge = 80+rand.nextInt(30);
+				particleScale /= 2.5F;
+				particleMaxAge = 80+rand.nextInt(30);
 			}});
 		}
 	}

@@ -140,10 +140,10 @@ public class TileEntitySoulCharm extends TileEntity{
 	}
 	
 	@Override
-    public void writeToNBT(NBTTagCompound nbt){
-    	super.writeToNBT(nbt);
-    	nbt.setTag("enhancements",enhancements);
-    }
+	public void writeToNBT(NBTTagCompound nbt){
+		super.writeToNBT(nbt);
+		nbt.setTag("enhancements",enhancements);
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){

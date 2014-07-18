@@ -111,7 +111,7 @@ public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwn
 			attackEntityFrom(DamageSource.magic,-1F);
 			hurtTimer = 0;
 		}
-    }
+	}
 	
 	@Override
 	protected void onDeathUpdate(){

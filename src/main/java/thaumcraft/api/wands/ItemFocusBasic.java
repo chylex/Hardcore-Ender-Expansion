@@ -22,12 +22,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemFocusBasic extends Item  implements IWandFocus {
 	
 	public ItemFocusBasic ()
-    {
-        super();
-        maxStackSize = 1;
-        canRepair = false;
-        this.setMaxDamage(0);
-    }
+	{
+		super();
+		maxStackSize = 1;
+		canRepair = false;
+		this.setMaxDamage(0);
+	}
 	
 	public IIcon icon;
 	
@@ -39,9 +39,9 @@ public class ItemFocusBasic extends Item  implements IWandFocus {
 	
 	@Override
 	public boolean isItemTool(ItemStack par1ItemStack)
-    {
-        return true;
-    }	
+	{
+		return true;
+	}	
 
 	@Override
 	public boolean isDamageable() {
@@ -69,9 +69,9 @@ public class ItemFocusBasic extends Item  implements IWandFocus {
 
 	@Override
 	public EnumRarity getRarity(ItemStack itemstack)
-    {
-        return EnumRarity.rare;
-    }
+	{
+		return EnumRarity.rare;
+	}
 	
 	
 	@Override

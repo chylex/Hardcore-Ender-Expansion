@@ -9,8 +9,8 @@ public class TileEntityEndermanHead extends TileEntityAbstractSynchronized{
 	
 	@Override
 	public boolean canUpdate(){
-        return false;
-    }
+		return false;
+	}
 
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){

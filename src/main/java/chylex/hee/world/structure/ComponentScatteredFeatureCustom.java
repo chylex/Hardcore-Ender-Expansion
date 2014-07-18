@@ -7,9 +7,9 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 
 public abstract class ComponentScatteredFeatureCustom extends StructureComponent{
-    protected int sizeX,sizeY,sizeZ;
-    
-    public ComponentScatteredFeatureCustom(){}
+	protected int sizeX,sizeY,sizeZ;
+	
+	public ComponentScatteredFeatureCustom(){}
 
 	protected ComponentScatteredFeatureCustom(Random rand, int x, int y, int z, int sizeX, int sizeY, int sizeZ){
 		super(0);

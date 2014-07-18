@@ -21,8 +21,8 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	
 	@Override
 	public boolean canBeCollidedWith(){
-        return false;
-    }
+		return false;
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -38,17 +38,17 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 				return;
 			}
 			
-            worldObj.setBlockToAir(xx,yy,zz);
-            
-            for(int x = xx+2; x < xx+5; x++){
-            	for(int z = zz-1; z <= zz+1; z++){
-            		if (worldObj.getBlock(x,yy-1,z) == BlockList.temple_end_portal)worldObj.setBlockMetadataWithNotify(x,yy-1,z,1,2);
-            	}
-            }
+			worldObj.setBlockToAir(xx,yy,zz);
+			
+			for(int x = xx+2; x < xx+5; x++){
+				for(int z = zz-1; z <= zz+1; z++){
+					if (worldObj.getBlock(x,yy-1,z) == BlockList.temple_end_portal)worldObj.setBlockMetadataWithNotify(x,yy-1,z,1,2);
+				}
+			}
 		}
 		
 		moveEntity(motionX,motionY,motionZ);
-        
+		
 		for(int y = 7; y >= 0; y--){
 			for(int a = 0; a < Math.min(10,field_145812_b/4F); a++){
 				worldObj.spawnParticle("portal",posX+rand.nextDouble()-0.5D,posY+y+rand.nextDouble()-0.3D,posZ+rand.nextDouble()-0.5D,0D,0D,0D);
@@ -88,7 +88,7 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 				}
 			}
 		}
-    }
+	}
 	
 	@Override
 	protected void fall(float distance){}

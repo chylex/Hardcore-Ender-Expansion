@@ -35,6 +35,6 @@ public class ItemAdventurersDiary extends Item{
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack is){
-        return super.getItemStackDisplayName(is)+(is.getItemDamage() > 0 ? " (page "+is.getItemDamage()+")" : "");
-    }
+		return super.getItemStackDisplayName(is)+(is.getItemDamage() > 0 ? " (page "+is.getItemDamage()+")" : "");
+	}
 }

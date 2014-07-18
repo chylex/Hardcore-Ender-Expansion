@@ -40,8 +40,8 @@ public final class TempleEvents{
 	}
 	
 	/**
-     * Returns true if player was in temple, not if the temple was destroyed
-     */
+	 * Returns true if player was in temple, not if the temple was destroyed
+	 */
 	public static boolean attemptDestroyTemple(EntityPlayer player){
 		ServerSavefile save = BiomeDecoratorHardcoreEnd.getCache(player.worldObj);
 		List<String> playersInTemple = save.getPlayersInTemple();

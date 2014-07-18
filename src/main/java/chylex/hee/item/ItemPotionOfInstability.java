@@ -104,9 +104,9 @@ public class ItemPotionOfInstability extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses(){
-        return true;
-    }
+	public boolean requiresMultipleRenderPasses(){
+		return true;
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

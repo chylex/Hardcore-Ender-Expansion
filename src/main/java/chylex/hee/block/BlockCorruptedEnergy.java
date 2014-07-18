@@ -136,8 +136,8 @@ public class BlockCorruptedEnergy extends Block{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister){}
-    
+	public void registerBlockIcons(IIconRegister iconRegister){}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){

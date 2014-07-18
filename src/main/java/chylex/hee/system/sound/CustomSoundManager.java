@@ -23,18 +23,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class CustomSoundManager extends SoundManager{
 	private static final Marker logMarker = MarkerManager.getMarker("SOUNDS");
-    private static final Logger logger = LogManager.getLogger();
-    
-    private final SoundHandler soundHandler;
-    private final GameSettings gameSettings;
-    private int playTime = 0;
-    
-    private Field fieldSndSystem;
-    private Map playingSounds;
-    private Map playingSoundPoolEntries;
-    private Multimap categorySounds;
-    private Map playingSoundsStopTime;
-    
+	private static final Logger logger = LogManager.getLogger();
+	
+	private final SoundHandler soundHandler;
+	private final GameSettings gameSettings;
+	private int playTime = 0;
+	
+	private Field fieldSndSystem;
+	private Map playingSounds;
+	private Map playingSoundPoolEntries;
+	private Multimap categorySounds;
+	private Map playingSoundsStopTime;
+	
 	public CustomSoundManager(SoundHandler soundHandler, GameSettings gameSettings){
 		super(soundHandler,gameSettings);
 		this.soundHandler = soundHandler;

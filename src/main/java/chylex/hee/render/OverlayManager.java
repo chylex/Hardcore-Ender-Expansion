@@ -157,8 +157,8 @@ public class OverlayManager{
 	
 				int scale = e.resolution.getScaleFactor();
 				double fontScale = scale == 1 ? 2D:
-							       scale == 2 ? 1D:
-							       scale == 3 ? 0.677D : 0.5D,
+								   scale == 2 ? 1D:
+								   scale == 3 ? 0.677D : 0.5D,
 					   fontScale2 = 1D/fontScale;
 				
 				GL11.glPushMatrix();

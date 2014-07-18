@@ -182,7 +182,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 			GL11.glPopMatrix();
 			GL11.glPopMatrix();
 		}
-    }
+	}
 
 	private void startVerticalItem(){
 		GL11.glPushMatrix();

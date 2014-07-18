@@ -113,7 +113,7 @@ public class EntityMobEnderGuardian extends EntityMob{
 				attackPhase = 0;
 				explosionTimer = 10;
 				teleportTimer = 80;
-        
+		
 				if (rand.nextInt(30) == 0){
 					List players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,3D,8D));
 					for(Object o:players){

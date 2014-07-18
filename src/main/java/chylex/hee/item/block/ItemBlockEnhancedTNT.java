@@ -29,7 +29,7 @@ public class ItemBlockEnhancedTNT extends ItemBlock{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		EnhancementHandler.appendEnhancementNames(is,textLines);
 	}
 }

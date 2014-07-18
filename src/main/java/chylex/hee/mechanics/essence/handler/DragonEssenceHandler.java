@@ -117,18 +117,18 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						if (Math.abs(xx-altar.xCoord) <= 1 && Math.abs(zz-altar.zCoord) <= 1)continue;
 						
 						if (world.isAirBlock(xx,altar.yCoord+1,zz)&&
-						    (world.isAirBlock(xx-1,altar.yCoord,zz) || !hasCollisionBox(altar,xx-1,altar.yCoord,zz)) &&
-						    (world.isAirBlock(xx+1,altar.yCoord,zz) || !hasCollisionBox(altar,xx+1,altar.yCoord,zz)) &&
-						    (world.isAirBlock(xx,altar.yCoord,zz-1) || !hasCollisionBox(altar,xx,altar.yCoord,zz-1)) &&
-						    (world.isAirBlock(xx,altar.yCoord,zz+1) || !hasCollisionBox(altar,xx,altar.yCoord,zz+1)) &&
-						    hasCollisionBox(altar,xx,altar.yCoord,zz)){
-						    Block block = world.getBlock(xx,altar.yCoord,zz);
-						    if (block.getMaterial() == Material.air)continue;
-						    
-						    blocks[range+xx-altar.xCoord][range+zz-altar.zCoord] = block;
-						    
-						    if (blockCounts.containsKey(block))blockCounts.put(block,(byte)(blockCounts.get(block)+1));
-						    else blockCounts.put(block,(byte)1);
+							(world.isAirBlock(xx-1,altar.yCoord,zz) || !hasCollisionBox(altar,xx-1,altar.yCoord,zz)) &&
+							(world.isAirBlock(xx+1,altar.yCoord,zz) || !hasCollisionBox(altar,xx+1,altar.yCoord,zz)) &&
+							(world.isAirBlock(xx,altar.yCoord,zz-1) || !hasCollisionBox(altar,xx,altar.yCoord,zz-1)) &&
+							(world.isAirBlock(xx,altar.yCoord,zz+1) || !hasCollisionBox(altar,xx,altar.yCoord,zz+1)) &&
+							hasCollisionBox(altar,xx,altar.yCoord,zz)){
+							Block block = world.getBlock(xx,altar.yCoord,zz);
+							if (block.getMaterial() == Material.air)continue;
+							
+							blocks[range+xx-altar.xCoord][range+zz-altar.zCoord] = block;
+							
+							if (blockCounts.containsKey(block))blockCounts.put(block,(byte)(blockCounts.get(block)+1));
+							else blockCounts.put(block,(byte)1);
 						}
 					}
 				}

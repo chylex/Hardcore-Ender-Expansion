@@ -23,26 +23,26 @@ public class ItemInfestationRemedy extends Item{
 	public int getMaxItemUseDuration(ItemStack is){
 		return 32;
 	}
-    
-    @Override
+	
+	@Override
 	public EnumAction getItemUseAction(ItemStack is){
-        return EnumAction.drink;
-    }
-    
-    @Override
+		return EnumAction.drink;
+	}
+	
+	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-    	player.setItemInUse(is,getMaxItemUseDuration(is));
+		player.setItemInUse(is,getMaxItemUseDuration(is));
 		return is;
 	}
-    
-    @Override
+	
+	@Override
 	public ItemStack onEaten(ItemStack is, World world, EntityPlayer player){
-        if (!player.capabilities.isCreativeMode)--is.stackSize;
-        
-        Set<Integer> toRemove = new HashSet<>();
-        Map<PotionEffect,Short> newDurations = new HashMap<>();
-        
-        for(Object o:player.getActivePotionEffects()){
+		if (!player.capabilities.isCreativeMode)--is.stackSize;
+		
+		Set<Integer> toRemove = new HashSet<>();
+		Map<PotionEffect,Short> newDurations = new HashMap<>();
+		
+		for(Object o:player.getActivePotionEffects()){
 			PotionEffect eff = (PotionEffect)o;
 			if (eff.getIsAmbient() && InfestationEvents.isValidPotionEffect(eff.getPotionID())){
 				int dur = eff.getDuration()-3000+world.rand.nextInt(600);
@@ -51,16 +51,16 @@ public class ItemInfestationRemedy extends Item{
 				else newDurations.put(eff,(short)dur);
 			}
 		}
-        
-        for(Integer i:toRemove)player.removePotionEffect(i);
-        for(Entry<PotionEffect,Short> entry:newDurations.entrySet()){
-        	PotionEffect oldEff = entry.getKey();
-        	player.removePotionEffect(oldEff.getPotionID());
-        	player.addPotionEffect(new PotionEffect(oldEff.getPotionID(),entry.getValue(),oldEff.getAmplifier(),oldEff.getIsAmbient()));
-        }
-        
+		
+		for(Integer i:toRemove)player.removePotionEffect(i);
+		for(Entry<PotionEffect,Short> entry:newDurations.entrySet()){
+			PotionEffect oldEff = entry.getKey();
+			player.removePotionEffect(oldEff.getPotionID());
+			player.addPotionEffect(new PotionEffect(oldEff.getPotionID(),entry.getValue(),oldEff.getAmplifier(),oldEff.getIsAmbient()));
+		}
+		
 		if (is.stackSize <= 0)return new ItemStack(Items.glass_bottle);
 		player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
-        return is;
-    }
+		return is;
+	}
 }

@@ -74,7 +74,7 @@ public class ItemSpectralWand extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		if (is.stackTagCompound == null || !is.stackTagCompound.hasKey("cluster"))return;
 		textLines.add("Holding cluster with "+formatTwoPlaces.format(is.stackTagCompound.getCompoundTag("cluster").getShort("energyAmt")*0.01F)+" Energy");
 	}

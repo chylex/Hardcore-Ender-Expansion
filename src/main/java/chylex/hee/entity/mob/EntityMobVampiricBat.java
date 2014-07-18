@@ -51,8 +51,8 @@ public class EntityMobVampiricBat extends EntityBat{
 	
 	@Override
 	public boolean canBePushed(){
-        return true;
-    }
+		return true;
+	}
 	
 	@Override
 	protected void collideWithNearbyEntities(){
@@ -66,7 +66,7 @@ public class EntityMobVampiricBat extends EntityBat{
 	}
 
 	@Override
-    protected void collideWithEntity(Entity entity){
+	protected void collideWithEntity(Entity entity){
 		entity.applyEntityCollision(this);
 		
 		if (entity instanceof EntityPlayer){

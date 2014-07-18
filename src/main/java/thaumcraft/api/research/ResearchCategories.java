@@ -78,24 +78,24 @@ public class ResearchCategories {
 			rl.research.put(ri.key, ri);
 			
 			if (ri.displayColumn < rl.minDisplayColumn) 
-	        {
-	            rl.minDisplayColumn = ri.displayColumn;
-	        }
+			{
+				rl.minDisplayColumn = ri.displayColumn;
+			}
 
-	        if (ri.displayRow < rl.minDisplayRow)
-	        {
-	            rl.minDisplayRow = ri.displayRow;
-	        }
+			if (ri.displayRow < rl.minDisplayRow)
+			{
+				rl.minDisplayRow = ri.displayRow;
+			}
 
-	        if (ri.displayColumn > rl.maxDisplayColumn)
-	        {
-	            rl.maxDisplayColumn = ri.displayColumn;
-	        }
+			if (ri.displayColumn > rl.maxDisplayColumn)
+			{
+				rl.maxDisplayColumn = ri.displayColumn;
+			}
 
-	        if (ri.displayRow > rl.maxDisplayRow)
-	        {
-	            rl.maxDisplayRow = ri.displayRow;
-	        }
-	        		}
+			if (ri.displayRow > rl.maxDisplayRow)
+			{
+				rl.maxDisplayRow = ri.displayRow;
+			}
+					}
 	}
 }

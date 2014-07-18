@@ -22,17 +22,17 @@ public abstract class TileEntityAbstractSynchronized extends TileEntity{
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet){
 		readTileFromNBT(packet.func_148857_g()); // OBFUSCATED get tag data
 		worldObj.markBlockRangeForRenderUpdate(xCoord,yCoord,zCoord,xCoord,yCoord,zCoord);
-    }
+	}
 	
 	@Override
-    public void writeToNBT(NBTTagCompound nbt){
-        super.writeToNBT(nbt);
-        writeTileToNBT(nbt);
-    }
+	public void writeToNBT(NBTTagCompound nbt){
+		super.writeToNBT(nbt);
+		writeTileToNBT(nbt);
+	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
-        super.readFromNBT(nbt);
-        readTileFromNBT(nbt);
-    }
+		super.readFromNBT(nbt);
+		readTileFromNBT(nbt);
+	}
 }

@@ -68,13 +68,13 @@ public class ContainerEndPowderEnhancements extends Container{
 	
 	@Override
 	public void addCraftingToCrafters(ICrafting crafter){
-        super.addCraftingToCrafters(crafter);
-        
-        if (crafter instanceof EntityPlayerMP){
-        	if (owner != null)throw new IllegalArgumentException("Cannot add second player to End Powder Enhancement container!");
-        	owner = (EntityPlayerMP)crafter;
-        }
-    }
+		super.addCraftingToCrafters(crafter);
+		
+		if (crafter instanceof EntityPlayerMP){
+			if (owner != null)throw new IllegalArgumentException("Cannot add second player to End Powder Enhancement container!");
+			owner = (EntityPlayerMP)crafter;
+		}
+	}
 	
 	@Override
 	public boolean canInteractWith(EntityPlayer player){

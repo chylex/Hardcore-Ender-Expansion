@@ -15,7 +15,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	private static final int[] topSlots = new int[]{3},
 							   sideSlots = new int[]{0,1,2},
 							   bottomSlots = new int[]{4};
-    
+	
 	private ItemStack[] slotItems = new ItemStack[5];
 	private byte filledSlotsCache;
 	private short startBrewTime,brewTime,requiredPowder;
@@ -96,8 +96,8 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	
 	@Override
 	public int getSizeInventory(){
-        return slotItems.length;
-    }
+		return slotItems.length;
+	}
 	
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack is){
@@ -106,8 +106,8 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	
 	@Override
 	public ItemStack getStackInSlot(int slot){
-        return slot >= 0 && slot < slotItems.length?slotItems[slot]:null;
-    }
+		return slot >= 0 && slot < slotItems.length?slotItems[slot]:null;
+	}
 	
 	@Override
 	public ItemStack decrStackSize(int slot, int amount){
@@ -161,8 +161,8 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	
 	@Override
 	public int getBrewTime(){
-        return brewTime;
-    }
+		return brewTime;
+	}
 	
 	public int getStartBrewTime(){
 		return startBrewTime;
@@ -187,10 +187,10 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	}
 	
 	@Override
-    public void writeToNBT(NBTTagCompound nbt){
-    	super.writeToNBT(nbt);
-    	
-    	NBTTagList tagItemList = new NBTTagList();
+	public void writeToNBT(NBTTagCompound nbt){
+		super.writeToNBT(nbt);
+		
+		NBTTagList tagItemList = new NBTTagList();
 		for(int i = 0; i < slotItems.length; ++i){
 			if (slotItems[i] != null){
 				NBTTagCompound tagSlot = new NBTTagCompound();
@@ -202,7 +202,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		nbt.setTag("hedItems",tagItemList);
 		
 		nbt.setShort("hedBrewTime",brewTime);
-    }
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
@@ -217,6 +217,6 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 			if (slotId >= 0 && slotId < slotItems.length)slotItems[slotId] = ItemStack.loadItemStackFromNBT(tagSlot);
 		}
 
-    	brewTime = nbt.getShort("hedBrewTime");
+		brewTime = nbt.getShort("hedBrewTime");
 	}
 }

@@ -58,18 +58,18 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 		super.onLivingUpdate();
 	}
 	
-    @Override
+	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-    	if (rand.nextInt(3) == 0)dropItem(getDropItem(),1);
-    	
-    	for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.18F,new short[]{ 0,1 });
-    }
+		if (rand.nextInt(3) == 0)dropItem(getDropItem(),1);
+		
+		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.18F,new short[]{ 0,1 });
+	}
 	
 	@Override
 	protected boolean teleportTo(double x, double y, double z){
 		if (rand.nextInt(10) == 0)return super.teleportTo(x,y,z);
 		return true;
-    }
+	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){

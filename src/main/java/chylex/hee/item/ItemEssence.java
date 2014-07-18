@@ -22,7 +22,7 @@ public class ItemEssence extends Item{
 	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(EssenceType essenceType:EssenceType.values()){
 			if (essenceType == EssenceType.INVALID)continue;
@@ -34,7 +34,7 @@ public class ItemEssence extends Item{
 	public String getUnlocalizedName(ItemStack is){
 		EssenceType essenceType = EssenceType.getById(is.getItemDamage()+1);
 		return "item.essence."+(essenceType == null?"invalid":essenceType.essenceNameLowercase);
-    }
+	}
 	
 	@Override
 	public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player){
@@ -55,7 +55,7 @@ public class ItemEssence extends Item{
 	
 	@SideOnly(Side.CLIENT)
 	@Override
-    public void registerIcons(IIconRegister iconRegister){
+	public void registerIcons(IIconRegister iconRegister){
 		iconArray = new IIcon[EssenceType.values().length-1];
 		int index = -1;
 		

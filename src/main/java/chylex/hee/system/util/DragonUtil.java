@@ -20,29 +20,29 @@ public class DragonUtil{
 	public static int portalEffectX,portalEffectZ;
 	
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAscending(Map<K,V> map){
-	    SortedSet<Entry<K,V>> sorted = new TreeSet<>(
-	        new Comparator<Entry<K,V>>(){
-	            @Override public int compare(Entry<K,V> e1, Entry<K,V> e2){
-	            	int r = e1.getValue().compareTo(e2.getValue());
-	            	return r == 0?1:r;
-	            }
-	        }
-	    );
-	    sorted.addAll(map.entrySet());
-	    return sorted;
+		SortedSet<Entry<K,V>> sorted = new TreeSet<>(
+			new Comparator<Entry<K,V>>(){
+				@Override public int compare(Entry<K,V> e1, Entry<K,V> e2){
+					int r = e1.getValue().compareTo(e2.getValue());
+					return r == 0?1:r;
+				}
+			}
+		);
+		sorted.addAll(map.entrySet());
+		return sorted;
 	}
 
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueDescending(Map<K,V> map){
-	    SortedSet<Entry<K,V>> sorted = new TreeSet<>(
-	        new Comparator<Entry<K,V>>(){
-	            @Override public int compare(Entry<K,V> e1, Entry<K,V> e2){
-	            	int r = e2.getValue().compareTo(e1.getValue());
-	            	return r == 0?1:r;
-	            }
-	        }
-	    );
-	    sorted.addAll(map.entrySet());
-	    return sorted;
+		SortedSet<Entry<K,V>> sorted = new TreeSet<>(
+			new Comparator<Entry<K,V>>(){
+				@Override public int compare(Entry<K,V> e1, Entry<K,V> e2){
+					int r = e2.getValue().compareTo(e1.getValue());
+					return r == 0?1:r;
+				}
+			}
+		);
+		sorted.addAll(map.entrySet());
+		return sorted;
 	}
 	
 	private static final double[] rayX = new double[]{ -1D, -1D, 1D, 1D },

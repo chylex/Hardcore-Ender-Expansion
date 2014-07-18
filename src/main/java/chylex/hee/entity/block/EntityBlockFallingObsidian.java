@@ -16,8 +16,8 @@ import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 
 public class EntityBlockFallingObsidian extends EntityFallingBlock{
 	public EntityBlockFallingObsidian(World world){
-        super(world);
-    }
+		super(world);
+	}
 	
 	public EntityBlockFallingObsidian(World world, double x, double y, double z){
 		super(world,x,y,z,BlockList.obsidian_end);
@@ -80,7 +80,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 				}
 			}
 		}
-    }
+	}
 	
 	@Override
 	public Block func_145805_f(){

@@ -14,7 +14,7 @@ public class ModelFireFiend extends ModelBase{
 	ModelRenderer rightArm1,rightArm2,leftArm1,leftArm2;
 	ModelRenderer rightLeg1,rightLeg2,rightLeg3,RHoof,RHoofIn,RHoofOut;
 	ModelRenderer leftLeg1,leftLeg2,leftLeg3,LHoof,LHoofIn,LHoofOut;
-    ModelRenderer leftWing1,leftWing2,rightWing1,rightWing2;
+	ModelRenderer leftWing1,leftWing2,rightWing1,rightWing2;
 
 	public ModelFireFiend(){
 		textureWidth = 64;

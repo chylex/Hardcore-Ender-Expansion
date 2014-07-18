@@ -70,7 +70,7 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 		else if (meta == 5)return new ItemStack(this,1,0);
 		else if (meta == 6)return new ItemStack(this,1,1);
 		else return super.createStackedBlock(meta);
-    }
+	}
 	
 	@Override
 	public int getRenderType(){
@@ -84,7 +84,7 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 			case 1: return isGlowing ? "tile.obsidianSpecialGlowing.chiseled" : "tile.obsidianSpecial.chiseled";
 			case 2: return isGlowing ? "tile.obsidianSpecialGlowing.pillar" : "tile.obsidianSpecial.pillar";
 		}
-    }
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

@@ -41,7 +41,7 @@ public class ItemBlockSoulCharm extends ItemBlock{
 			case 0: return "tile.soulCharm";
 			case 1: return "tile.emptySoulCharm";
 		}
-    }
+	}
 	
 	@Override
 	public int getMaxItemUseDuration(ItemStack is){
@@ -144,7 +144,7 @@ public class ItemBlockSoulCharm extends ItemBlock{
 	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage){
 		return damage == 1?iconEmptySoulCharm:iconSoulCharm;
 	}
@@ -152,7 +152,7 @@ public class ItemBlockSoulCharm extends ItemBlock{
 	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		if (is.getItemDamage() != 0)return;
 		
 		for(Entry<SoulCharmEnhancements,Byte> entry:SoulCharmEnhancements.getEnhancements(is).entrySet()){

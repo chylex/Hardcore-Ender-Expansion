@@ -118,9 +118,9 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List list){
+	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(int a = 0; a < eggTypes.length; a++)list.add(new ItemStack(item,1,a));
-    }
+	}
 
 	static class EggData{
 		private String entityName;

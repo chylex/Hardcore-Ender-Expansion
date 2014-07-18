@@ -32,8 +32,8 @@ public class RenderMiniBossFireFiend extends RenderLiving{
 			BossStatus.setBossStatus(fiend,true);
 			BossType.update(BossType.FIRE_FIEND);
 		}
-        super.doRender(entity,x,y,z,yaw,partialTickTime);
-    }
+		super.doRender(entity,x,y,z,yaw,partialTickTime);
+	}
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
@@ -42,6 +42,6 @@ public class RenderMiniBossFireFiend extends RenderLiving{
 	
 	@Override
 	protected boolean func_110813_b(EntityLiving entity){ // OBFUSCATED show mob name
-        return false;
-    }
+		return false;
+	}
 }

@@ -40,7 +40,7 @@ public class PacketPipeline{
 	private EnumMap<Side,FMLEmbeddedChannel> channels;
 
 	private TByteObjectHashMap<Class<? extends AbstractPacket>> idToPacket = new TByteObjectHashMap<Class<? extends AbstractPacket>>();
-    private TObjectByteHashMap<Class<? extends AbstractPacket>> packetToId = new TObjectByteHashMap<Class<? extends AbstractPacket>>();
+	private TObjectByteHashMap<Class<? extends AbstractPacket>> packetToId = new TObjectByteHashMap<Class<? extends AbstractPacket>>();
 	
 	private PacketPipeline(){}
 	
@@ -166,5 +166,5 @@ public class PacketPipeline{
 		FMLEmbeddedChannel channel = instance.channels.get(Side.CLIENT);
 		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.TOSERVER);
 		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-    }
+	}
 }

@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 public class EntityWeatherLightningBoltSafe extends EntityLightningBolt{
 	private int lightningState;
-    private int boltLivingTime;
+	private int boltLivingTime;
 	
 	public EntityWeatherLightningBoltSafe(World world, double x, double y, double z){
 		super(world,x,y,z);

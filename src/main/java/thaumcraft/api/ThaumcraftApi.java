@@ -156,11 +156,11 @@ public class ThaumcraftApi {
 	 * @param recipe The recipe. Format is exactly the same as vanilla recipes. Input itemstacks are NBT sensitive.
 	 */
 	public static ShapedArcaneRecipe addArcaneCraftingRecipe(String research, ItemStack result, AspectList aspects, Object ... recipe)
-    {
+	{
 		ShapedArcaneRecipe r= new ShapedArcaneRecipe(research, result, aspects, recipe);
-        craftingRecipes.add(r);
+		craftingRecipes.add(r);
 		return r;
-    }
+	}
 	
 	/**
 	 * @param research the research key required for this recipe to work. Leave blank if it will work without research
@@ -169,11 +169,11 @@ public class ThaumcraftApi {
 	 * @param recipe The recipe. Format is exactly the same as vanilla shapeless recipes. Input itemstacks are NBT sensitive.
 	 */
 	public static ShapelessArcaneRecipe addShapelessArcaneCraftingRecipe(String research, ItemStack result, AspectList aspects, Object ... recipe)
-    {
+	{
 		ShapelessArcaneRecipe r = new ShapelessArcaneRecipe(research, result, aspects, recipe);
-        craftingRecipes.add(r);
+		craftingRecipes.add(r);
 		return r;
-    }
+	}
 	
 	/**
 	 * @param research the research key required for this recipe to work. Leave blank if it will work without research
@@ -187,12 +187,12 @@ public class ThaumcraftApi {
 	 * 
 	 */
 	public static InfusionRecipe addInfusionCraftingRecipe(String research, Object result, int instability, AspectList aspects, ItemStack input,ItemStack[] recipe)
-    {
+	{
 		if (!(result instanceof ItemStack || result instanceof Object[])) return null;
 		InfusionRecipe r= new InfusionRecipe(research, result, instability, aspects, input, recipe);
-        craftingRecipes.add(r);
+		craftingRecipes.add(r);
 		return r;
-    }
+	}
 	
 	/**
 	 * @param research the research key required for this recipe to work. Leave blank if it will work without research
@@ -205,11 +205,11 @@ public class ThaumcraftApi {
 	 * 
 	 */
 	public static InfusionEnchantmentRecipe addInfusionEnchantmentRecipe(String research, Enchantment enchantment, int instability, AspectList aspects, ItemStack[] recipe)
-    {
+	{
 		InfusionEnchantmentRecipe r= new InfusionEnchantmentRecipe(research, enchantment, instability, aspects, recipe);
-        craftingRecipes.add(r);
+		craftingRecipes.add(r);
 		return r;
-    }
+	}
 	
 	/**
 	 * @param stack the recipe result
@@ -227,20 +227,20 @@ public class ThaumcraftApi {
 		return null;
 	}
 
-    
-    /**
-     * @param key the research key required for this recipe to work. 
-     * @param result the output result
-     * @param catalyst an itemstack of the catalyst or a string if it is an ore dictionary item
-     * @param cost the vis cost
-     * @param tags the aspects required to craft this
-     */
-    public static CrucibleRecipe addCrucibleRecipe(String key, ItemStack result, Object catalyst, AspectList tags) {
-    	CrucibleRecipe rc = new CrucibleRecipe(key, result, catalyst, tags);
-    	getCraftingRecipes().add(rc);
+	
+	/**
+	 * @param key the research key required for this recipe to work. 
+	 * @param result the output result
+	 * @param catalyst an itemstack of the catalyst or a string if it is an ore dictionary item
+	 * @param cost the vis cost
+	 * @param tags the aspects required to craft this
+	 */
+	public static CrucibleRecipe addCrucibleRecipe(String key, ItemStack result, Object catalyst, AspectList tags) {
+		CrucibleRecipe rc = new CrucibleRecipe(key, result, catalyst, tags);
+		getCraftingRecipes().add(rc);
 		return rc;
 	}
-    
+	
 	
 	/**
 	 * @param stack the recipe result

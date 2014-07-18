@@ -41,5 +41,5 @@ public class EntityRelicGlyphFX extends EntityFX{
 		
 		moveBehavior.update(this);
 		if (++particleAge > particleMaxAge)setDead();
-    }
+	}
 }

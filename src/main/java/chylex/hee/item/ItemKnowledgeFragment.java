@@ -73,7 +73,7 @@ public class ItemKnowledgeFragment extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		String registration = is.stackTagCompound != null?is.stackTagCompound.getString("knowledgeRegistration"):null;
 		
 		if (registration != null){

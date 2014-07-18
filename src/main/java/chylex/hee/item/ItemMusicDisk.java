@@ -68,15 +68,15 @@ public class ItemMusicDisk extends ItemRecord{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int damage){
-        return iconArray[Math.max(0,Math.min(iconArray.length-1,damage))];
-    }
+	public IIcon getIconFromDamage(int damage){
+		return iconArray[Math.max(0,Math.min(iconArray.length-1,damage))];
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-    public String getRecordNameLocal(){
-        return "qwertygiy - ";
-    }
+	public String getRecordNameLocal(){
+		return "qwertygiy - ";
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -94,7 +94,7 @@ public class ItemMusicDisk extends ItemRecord{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister){
+	public void registerIcons(IIconRegister iconRegister){
 		iconArray = new IIcon[musicNames.size()];
 
 		for(int index = 0; index < iconArray.length; index++){

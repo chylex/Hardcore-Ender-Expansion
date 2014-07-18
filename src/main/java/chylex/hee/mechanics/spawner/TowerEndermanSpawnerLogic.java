@@ -136,7 +136,7 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 		nbt.setInteger("minY",minY);
 		nbt.setInteger("maxY",maxY);
 	}
-        
+		
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);

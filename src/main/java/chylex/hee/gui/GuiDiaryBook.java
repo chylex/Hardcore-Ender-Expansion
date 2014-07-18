@@ -14,13 +14,13 @@ public class GuiDiaryBook extends GuiScreenBook{
 	private static final ResourceLocation resource = new ResourceLocation("hardcoreenderexpansion:textures/gui/diary_book.png");
 
 	private int bookImageWidth = 192;
-    private int bookImageHeight = 192;
-    private NBTTagList bookPages;
-    private int bookTotalPages = 1;
-    public int currPage;
-    private GuiButtonPageArrow buttonNextPage;
-    private GuiButtonPageArrow buttonPreviousPage;
-    
+	private int bookImageHeight = 192;
+	private NBTTagList bookPages;
+	private int bookTotalPages = 1;
+	public int currPage;
+	private GuiButtonPageArrow buttonNextPage;
+	private GuiButtonPageArrow buttonPreviousPage;
+	
 	public GuiDiaryBook(EntityPlayer player, ItemStack is){
 		super(player,is,false);
 		bookImageHeight = 217; // +23

@@ -40,37 +40,37 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 	public static int mouseX,mouseY;
 	
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/knowledge_book.png");
-    private static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/knowledge_book_back.png");
+	private static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/knowledge_book_back.png");
 	private static final ResourceLocation texPortalSky = new ResourceLocation("textures/environment/end_sky.png");
-    private static final ResourceLocation texPortal = new ResourceLocation("textures/entity/end_portal.png");
-    private static final Random consistentRandom = new Random(31100L);
+	private static final ResourceLocation texPortal = new ResourceLocation("textures/entity/end_portal.png");
+	private static final Random consistentRandom = new Random(31100L);
 	public static final RenderItem renderItem = new RenderItem();
 	
-    private FloatBuffer floatBuffer = GLAllocation.createDirectFloatBuffer(16);
-    
-    private ItemStack bookItemStack;
-    private float offsetX = 0, offsetY = 0;
-    private float prevOffsetX = 0, prevOffsetY = 0;
-    private float startOffsetX = 0, startOffsetY = 0;
-    private float targetOffsetX = 0, targetOffsetY = 0;
-    private float time = 0;
-    
-    private KnowledgeCategory highlightedCategory;
-    private KnowledgeRegistration highlightedRegistration;
-    private Map<KnowledgeFragment,Boolean> activeFragments = new LinkedHashMap<>();
-    private short pageIndex;
-    private Stack<Short> pageIndexPrev = new Stack<>();
-    private GuiButton[] pageArrows = new GuiButton[2];
-    private GuiButton helpButton;
-    
-    public GuiKnowledgeBook(ItemStack bookItemStack){
-    	this.bookItemStack = bookItemStack;
-    }
-    
-    @Override
-    public void initGui(){
-    	int pageLeft = (width-guiPageTexWidth)>>1,top = ((height-guiHeight)>>1)+guiTopOffset;
-    	
+	private FloatBuffer floatBuffer = GLAllocation.createDirectFloatBuffer(16);
+	
+	private ItemStack bookItemStack;
+	private float offsetX = 0, offsetY = 0;
+	private float prevOffsetX = 0, prevOffsetY = 0;
+	private float startOffsetX = 0, startOffsetY = 0;
+	private float targetOffsetX = 0, targetOffsetY = 0;
+	private float time = 0;
+	
+	private KnowledgeCategory highlightedCategory;
+	private KnowledgeRegistration highlightedRegistration;
+	private Map<KnowledgeFragment,Boolean> activeFragments = new LinkedHashMap<>();
+	private short pageIndex;
+	private Stack<Short> pageIndexPrev = new Stack<>();
+	private GuiButton[] pageArrows = new GuiButton[2];
+	private GuiButton helpButton;
+	
+	public GuiKnowledgeBook(ItemStack bookItemStack){
+		this.bookItemStack = bookItemStack;
+	}
+	
+	@Override
+	public void initGui(){
+		int pageLeft = (width-guiPageTexWidth)>>1,top = ((height-guiHeight)>>1)+guiTopOffset;
+		
 		buttonList.add(new GuiButton(0,(width>>1)-100,top+guiHeight+20,98,20,I18n.format("gui.back")));
 		buttonList.add(new GuiButton(4,(width>>1)+2,top+guiHeight+20,98,20,I18n.format("gui.done")));
 		buttonList.add(pageArrows[0] = new GuiButtonPageArrow(1,pageLeft+18,top+guiPageTexHeight-18,false));
@@ -80,51 +80,51 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 		helpButton.visible = false;
 		
 		if (bookItemStack.stackTagCompound != null && bookItemStack.stackTagCompound.hasKey("knowledgeLast")){
-    		NBTTagCompound tag = bookItemStack.stackTagCompound.getCompoundTag("knowledgeLast");
-    		String catName = tag.getString("cat"),regName = tag.getString("reg");
-    		short fid = tag.getShort("fid");
-    		
-    		for(KnowledgeCategory category:KnowledgeCategory.categories){
-    			if (category.identifier.equals(catName)){
-    				for(KnowledgeRegistration registration:category.registrations){
-    					if (registration.identifier.equals(regName)){
-    						highlightedCategory = category;
-    						prevOffsetX = offsetX = targetOffsetX = -category.getTargetOffsetX();
-    						prevOffsetY = offsetY = targetOffsetY = -category.getTargetOffsetY();
-    						openRegistration(registration);
-    						
-    						int index = 0, yy = 0, fragmentHeight;
-    						top = guiTop+((height-guiPageTexHeight)>>1);
-    						
-    						for(Entry<KnowledgeFragment,Boolean> entry:activeFragments.entrySet()){
-    							if (top+yy+(fragmentHeight = entry.getKey().getHeight(mc,entry.getValue())+10) > top+guiPageHeight){
-    								pageIndexPrev.add(pageIndex);
-    								pageIndex = (short)index;
-    								top = guiTop+((height-guiPageTexHeight)>>1);
-    								break;
-    							}
-    							
-    							++index;
-    							if (entry.getKey().id >= fid)break;
-    							yy += fragmentHeight;
-    						}
-    						
-    						break;
-    					}
-    				}
-    				break;
-    			}
-    		}
-    		
-    		bookItemStack.stackTagCompound.removeTag("knowledgeLast");
-    	}
+			NBTTagCompound tag = bookItemStack.stackTagCompound.getCompoundTag("knowledgeLast");
+			String catName = tag.getString("cat"),regName = tag.getString("reg");
+			short fid = tag.getShort("fid");
+			
+			for(KnowledgeCategory category:KnowledgeCategory.categories){
+				if (category.identifier.equals(catName)){
+					for(KnowledgeRegistration registration:category.registrations){
+						if (registration.identifier.equals(regName)){
+							highlightedCategory = category;
+							prevOffsetX = offsetX = targetOffsetX = -category.getTargetOffsetX();
+							prevOffsetY = offsetY = targetOffsetY = -category.getTargetOffsetY();
+							openRegistration(registration);
+							
+							int index = 0, yy = 0, fragmentHeight;
+							top = guiTop+((height-guiPageTexHeight)>>1);
+							
+							for(Entry<KnowledgeFragment,Boolean> entry:activeFragments.entrySet()){
+								if (top+yy+(fragmentHeight = entry.getKey().getHeight(mc,entry.getValue())+10) > top+guiPageHeight){
+									pageIndexPrev.add(pageIndex);
+									pageIndex = (short)index;
+									top = guiTop+((height-guiPageTexHeight)>>1);
+									break;
+								}
+								
+								++index;
+								if (entry.getKey().id >= fid)break;
+								yy += fragmentHeight;
+							}
+							
+							break;
+						}
+					}
+					break;
+				}
+			}
+			
+			bookItemStack.stackTagCompound.removeTag("knowledgeLast");
+		}
 		else if (bookItemStack.stackTagCompound != null){
 			MovingObjectPosition mop = mc.objectMouseOver;
 			// TODO stuff
 		}
-    }
-    
-    @Override
+	}
+	
+	@Override
 	protected void actionPerformed(GuiButton button){
 		if (!(button.enabled && button.visible))return;
 		
@@ -168,22 +168,22 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 			}
 		}
 	}
-    
-    @Override
+	
+	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
-    	if (buttonId == 1){
-    		actionPerformed((GuiButton)buttonList.get(0));
-    	}
-    	else if (!((GuiButton)buttonList.get(1)).mousePressed(mc,mouseX,mouseY) && highlightedRegistration != null){
-    		if (mouseX<((width-guiPageTexWidth)>>1) || mouseX>((width+guiPageTexWidth)>>1) || mouseY<((height-guiPageTexHeight)>>1) || mouseY>((height+guiPageTexHeight)>>1)){
-    			highlightedRegistration = null;
-    			return;
-    		}
-    	}
-    	
-    	super.mouseClicked(mouseX,mouseY,buttonId);
+		if (buttonId == 1){
+			actionPerformed((GuiButton)buttonList.get(0));
+		}
+		else if (!((GuiButton)buttonList.get(1)).mousePressed(mc,mouseX,mouseY) && highlightedRegistration != null){
+			if (mouseX<((width-guiPageTexWidth)>>1) || mouseX>((width+guiPageTexWidth)>>1) || mouseY<((height-guiPageTexHeight)>>1) || mouseY>((height+guiPageTexHeight)>>1)){
+				highlightedRegistration = null;
+				return;
+			}
+		}
+		
+		super.mouseClicked(mouseX,mouseY,buttonId);
 	}
-    
+	
 	@Override
 	protected void keyTyped(char key, int keyCode){
 		if (keyCode == 1){
@@ -201,12 +201,12 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 		}
 	}
 
-    @Override
+	@Override
 	public void updateScreen(){
 		prevOffsetX = offsetX;
 		prevOffsetY = offsetY;
 		
-    	if (offsetX != targetOffsetX || offsetY != targetOffsetY){
+		if (offsetX != targetOffsetX || offsetY != targetOffsetY){
 			if (time == 0){
 				startOffsetX = offsetX;
 				startOffsetY = offsetY;
@@ -222,15 +222,15 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 				
 				if (offsetX == 0 && offsetY == 0)highlightedCategory = null;
 			}
-    	}
-    }
-    
+		}
+	}
+	
 	private float cubicEase(float time, float startValue, float step, float duration){
 		if ((time /= duration/2F) < 1)return step/2F*time*time*time+startValue;
 		time -= 2F;
 		return step/2F*(time*time*time+2F)+startValue;
 	}
-    
+	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTickTime){
 		drawDefaultBackground();
@@ -239,11 +239,11 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 		GL11.glTranslatef(0F,0F,-200F);
 		renderPortalBackground(partialTickTime);
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
-        GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glEnable(GL11.GL_CULL_FACE);
 		renderScreen(mouseX,mouseY,partialTickTime);
 		GL11.glPopMatrix();
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		super.drawScreen(mouseX,mouseY,partialTickTime);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
@@ -259,23 +259,23 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		mc.getTextureManager().bindTexture(texBack);
 		int l = (width-guiWidth)>>1,t = ((height-guiHeight)>>1)+guiTopOffset;
-        drawTexturedModalRect(l-16,t-16,0,0,24,24);
-        drawTexturedModalRect(l+256-8,t-16,25,0,24,24);
-        drawTexturedModalRect(l-16,t+256-8,0,25,24,24);
-        drawTexturedModalRect(l+256-8,t+256-8,25,25,24,24);
-        for(int a = 0; a < 2; a++){
-        	drawTexturedModalRect(l+8+120*a,t-16,50,0,120,24);
-        	drawTexturedModalRect(l+256-8,t+8+120*a,232,0,24,120);
-        	drawTexturedModalRect(l+8+120*a,t+256-8,50,25,120,24);
-        	drawTexturedModalRect(l-16,t+8+120*a,206,0,24,120);
-        }
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
+		drawTexturedModalRect(l-16,t-16,0,0,24,24);
+		drawTexturedModalRect(l+256-8,t-16,25,0,24,24);
+		drawTexturedModalRect(l-16,t+256-8,0,25,24,24);
+		drawTexturedModalRect(l+256-8,t+256-8,25,25,24,24);
+		for(int a = 0; a < 2; a++){
+			drawTexturedModalRect(l+8+120*a,t-16,50,0,120,24);
+			drawTexturedModalRect(l+256-8,t+8+120*a,232,0,24,120);
+			drawTexturedModalRect(l+8+120*a,t+256-8,50,25,120,24);
+			drawTexturedModalRect(l-16,t+8+120*a,206,0,24,120);
+		}
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
-        GL11.glPushMatrix();
-        GL11.glTranslatef(prevOffsetX+(offsetX-prevOffsetX)*partialTickTime,prevOffsetY+(offsetY-prevOffsetY)*partialTickTime,0F);
+		GL11.glPushMatrix();
+		GL11.glTranslatef(prevOffsetX+(offsetX-prevOffsetX)*partialTickTime,prevOffsetY+(offsetY-prevOffsetY)*partialTickTime,0F);
 		helpButton.visible = true;
 		helpButton.xPosition = (width>>1)-10;
-    	helpButton.yPosition = (height>>1)-10+guiTopOffset;
+		helpButton.yPosition = (height>>1)-10+guiTopOffset;
 		helpButton.drawButton(mc,mouseX,mouseY);
 		if (helpButton.mousePressed(mc,mouseX,mouseY) && Mouse.isButtonDown(0) && highlightedRegistration == null && highlightedCategory == null){
 			highlightedRegistration = KnowledgeRegistrations.HELP;
@@ -333,8 +333,8 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 		if (highlightedRegistration != null){
 			GL11.glPushMatrix();
 			GL11.glColor4f(1F,1F,1F,1F);
-	        GL11.glDepthFunc(GL11.GL_LEQUAL);
-	        GL11.glDisable(GL11.GL_DEPTH_TEST);
+			GL11.glDepthFunc(GL11.GL_LEQUAL);
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
 	   
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -371,7 +371,7 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
 			GL11.glDepthFunc(GL11.GL_LEQUAL);
-	        GL11.glEnable(GL11.GL_CULL_FACE);
+			GL11.glEnable(GL11.GL_CULL_FACE);
 			GL11.glPopMatrix();
 		}
 		else{
@@ -441,8 +441,8 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 	private void renderPortalBackground(float partialTickTime){
 		int hw = width>>1,hh = height>>1;
 
-        GL11.glDisable(GL11.GL_LIGHTING);
-        consistentRandom.setSeed(31100L);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		consistentRandom.setSeed(31100L);
 
 		for(int layer = 0; layer < 16; ++layer){
 			GL11.glPushMatrix();
@@ -519,7 +519,7 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 		GL11.glDisable(GL11.GL_TEXTURE_GEN_T);
 		GL11.glDisable(GL11.GL_TEXTURE_GEN_R);
 		GL11.glDisable(GL11.GL_TEXTURE_GEN_Q);
-        GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 	
 	private FloatBuffer insertIntoBufferAndFlip(float value1, float value2, float value3, float value4){

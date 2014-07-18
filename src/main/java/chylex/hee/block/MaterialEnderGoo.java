@@ -9,6 +9,6 @@ public class MaterialEnderGoo extends MaterialLiquid{
 	
 	@Override
 	public boolean blocksMovement(){
-        return true;
-    }
+		return true;
+	}
 }

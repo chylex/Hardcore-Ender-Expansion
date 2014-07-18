@@ -272,7 +272,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 			}
 			else target = null;
 		}
-    }
+	}
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
