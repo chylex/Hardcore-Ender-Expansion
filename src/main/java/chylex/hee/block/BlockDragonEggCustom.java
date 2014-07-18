@@ -28,8 +28,8 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-        fallIfPossible(world,x,y,z);
-    }
+		fallIfPossible(world,x,y,z);
+	}
 	
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
@@ -66,11 +66,11 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	
 	@Override
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player){
-    	if (player != null && player.isSneaking() && player.getHeldItem() != null &&
-    		player.getHeldItem().getItemUseAction() == EnumAction.block){
-    		world.setBlockToAir(x,y,z);
-    		dropBlockAsItem(world,x,y,z,new ItemStack(Blocks.dragon_egg));
-    	}
+		if (player != null && player.isSneaking() && player.getHeldItem() != null &&
+			player.getHeldItem().getItemUseAction() == EnumAction.block){
+			world.setBlockToAir(x,y,z);
+			dropBlockAsItem(world,x,y,z,new ItemStack(Blocks.dragon_egg));
+		}
 		else teleportNearby(world,x,y,z);
 	}
 	
