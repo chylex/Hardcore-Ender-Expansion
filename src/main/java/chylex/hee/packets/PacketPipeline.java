@@ -39,7 +39,7 @@ public class PacketPipeline{
 	private FMLEventChannel eventDrivenChannel;
 	private EnumMap<Side,FMLEmbeddedChannel> channels;
 
-    private TByteObjectHashMap<Class<? extends AbstractPacket>> idToPacket = new TByteObjectHashMap<Class<? extends AbstractPacket>>();
+	private TByteObjectHashMap<Class<? extends AbstractPacket>> idToPacket = new TByteObjectHashMap<Class<? extends AbstractPacket>>();
     private TObjectByteHashMap<Class<? extends AbstractPacket>> packetToId = new TObjectByteHashMap<Class<? extends AbstractPacket>>();
 	
 	private PacketPipeline(){}
