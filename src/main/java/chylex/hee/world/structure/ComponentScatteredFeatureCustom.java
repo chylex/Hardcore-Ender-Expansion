@@ -2,6 +2,7 @@ package chylex.hee.world.structure;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
@@ -63,5 +64,10 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 			return true;
 		}
 		else return false;
+	}
+	
+	public final TileEntity getBlockTileEntity(int x, int y, int z, World world, StructureBoundingBox bb){
+		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
+		return bb.isVecInside(xx,yy,zz) ? world.getTileEntity(xx,yy,zz) : null;
 	}
 }

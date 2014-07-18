@@ -83,7 +83,7 @@ public final class LargeStructureChunk{
 	public void generateInStructure(ComponentScatteredFeatureCustom structure, World world, StructureBoundingBox bb, int addX, int addY, int addZ){
 		if (minBlockY == ySize && maxBlockY == 0)return;
 		
-		boolean hasBlocksToUpdate = !scheduledForUpdate.isEmpty(), continueY = true;
+		boolean hasBlocksToUpdate = !scheduledForUpdate.isEmpty(), hasTileEntities = !storedTileEntities.isEmpty(), continueY = true;
 		Block block;
 		
 		for(int x = 0; x < 16; x++){
@@ -93,6 +93,11 @@ public final class LargeStructureChunk{
 					
 					if (hasBlocksToUpdate && isBlockScheduledForUpdate(x,y,z))continueY = structure.placeBlockAndUpdate(block,getMetadata(x,y,z),addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
 					else continueY = structure.placeBlockWithoutUpdate(block,getMetadata(x,y,z),addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
+					
+					if (continueY && hasTileEntities && storedTileEntityClues.containsKey(y*256+x*16+z)){
+						String key = storedTileEntityClues.get(y*256+x*16+z);
+						storedTileEntities.get(key).onTileEntityRequested(key,structure.getBlockTileEntity(addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb),world.rand);
+					}
 				}
 				
 				continueY = true;
