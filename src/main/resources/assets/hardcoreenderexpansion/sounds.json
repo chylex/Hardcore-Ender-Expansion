@@ -1,0 +1,214 @@
+{
+    "mob.endereye.living": {
+        "category": "hostile",
+        "sounds": [
+            "endereye/living"
+        ]
+    },
+    "mob.endereye.hurt": {
+        "category": "hostile",
+        "sounds": [
+            "endereye/hurt"
+        ]
+    },
+    "mob.endereye.death": {
+        "category": "hostile",
+        "sounds": [
+            "endereye/death"
+        ]
+    },
+    "mob.endereye.attack.poof": {
+        "category": "hostile",
+        "sounds": [
+            "endereye/attack_poof"
+        ]
+    },
+    "mob.endereye.attack.confusion": {
+        "category": "hostile",
+        "sounds": [
+            "endereye/attack_confusion"
+        ]
+    },
+    "mob.endereye.attack.laseradd": {
+        "category": "hostile",
+        "sounds": [
+            "endereye/attack_laser_add"
+        ]
+    },
+    "mob.endereye.attack.laserend": {
+        "category": "hostile",
+        "sounds": [
+            "endereye/attack_laser_end"
+        ]
+    },
+    "mob.firefiend.hurt": {
+        "category": "hostile",
+        "sounds": [
+            "firefiend/hurt"
+        ]
+    },
+    "mob.enderdemon.scream": {
+        "category": "hostile",
+        "sounds": [
+            "enderdemon/scream"
+        ]
+    },
+    "mob.enderdemon.hurt": {
+        "category": "hostile",
+        "sounds": [
+            "enderdemon/hurt"
+        ]
+    },
+    "mob.enderdemon.death": {
+        "category": "hostile",
+        "sounds": [
+            "enderdemon/death"
+        ]
+    },
+    "mob.ghost.spawn": {
+        "category": "hostile",
+        "sounds": [
+            "ghost/spawn"
+        ]
+    },
+    "mob.ghost.death": {
+        "category": "hostile",
+        "sounds": [
+            "ghost/death1",
+            "ghost/death2"
+        ]
+    },
+    "mob.firegolem.hurt": {
+        "category": "hostile",
+        "sounds": [
+            "firegolem/hurt"
+        ]
+    },
+    "mob.firegolem.death": {
+        "category": "hostile",
+        "sounds": [
+            "firegolem/death"
+        ]
+    },
+    "mob.scorchinglens.living": {
+        "category": "hostile",
+        "sounds": [
+            "scorchinglens/living"
+        ]
+    },
+    "mob.scorchinglens.hurt": {
+        "category": "hostile",
+        "sounds": [
+            "scorchinglens/hurt"
+        ]
+    },
+    "mob.scorchinglens.death": {
+        "category": "hostile",
+        "sounds": [
+            "scorchinglens/death"
+        ]
+    },
+    "mob.mirage.appear": {
+        "category": "neutral",
+        "sounds": [
+            "random/mirage"
+        ]
+    },
+    "block.random.transform": {
+        "category": "block",
+        "sounds": [
+            "random/transform"
+        ]
+    },
+    "environment.gem.link": {
+        "category": "ambient",
+        "sounds": [
+            "random/transferencegem_link"
+        ]
+    },
+    "environment.random.bubble": {
+        "category": "ambient",
+        "sounds": [
+            "random/bubble1",
+            "random/bubble2",
+            "random/bubble3",
+            "random/bubble4"
+        ]
+    },
+    "environment.random.freeze": {
+        "category": "ambient",
+        "sounds": [
+            "random/freeze1",
+            "random/freeze2",
+            "random/freeze3",
+            "random/freeze4"
+        ]
+    },
+    "player.random.pageflip": {
+        "category": "player",
+        "sounds": [
+            "random/pageflip"
+        ]
+    },
+    "player.random.spatialdash": {
+        "category": "player",
+        "sounds": [
+            "random/spatialdash"
+        ]
+    },
+    "music.game.end": {
+        "category": "music",
+        "sounds": [
+            {
+                "name": "music/random_qwertygiy_CryingSoul",
+                "stream": true
+            },
+            {
+                "name": "music/random_qwertygiy_Onion",
+                "stream": true
+            }
+        ]
+    },
+    "music.game.end.dragoncalm": {
+        "category": "music",
+        "sounds": [
+            {
+                "name": "music/dragoncalm_qwertygiy_Asteroid",
+                "stream": true
+            },
+            {
+                "name": "music/dragoncalm_qwertygiy_Banjolic",
+                "stream": true
+            },
+            {
+                "name": "music/dragoncalm_qwertygiy_InTheEnd",
+                "stream": true
+            },
+            {
+                "name": "music/dragoncalm_qwertygiy_Stewed",
+                "stream": true
+            }
+        ]
+    },
+    "music.game.end.dragonangry": {
+        "category": "music",
+        "sounds": [
+            {
+                "name": "music/dragonangry_qwertygiy_BeatTheDragon",
+                "stream": true
+            },
+            {
+                "name": "music/dragonangry_qwertygiy_Granite",
+                "stream": true
+            },
+            {
+                "name": "music/dragonangry_qwertygiy_RememberThis",
+                "stream": true
+            },
+            {
+                "name": "music/dragonangry_qwertygiy_Spyder",
+                "stream": true
+            }
+        ]
+    }
+}

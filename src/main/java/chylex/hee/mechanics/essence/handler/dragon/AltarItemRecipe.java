@@ -1,0 +1,35 @@
+package chylex.hee.mechanics.essence.handler.dragon;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import chylex.hee.entity.item.EntityItemAltar;
+
+public class AltarItemRecipe{
+	private ItemStack source,result;
+	private short cost;
+	
+	public AltarItemRecipe(Item source, Item result, int cost){
+		this(new ItemStack(source,1,0),new ItemStack(result,1,0),cost);
+	}
+	
+	public AltarItemRecipe(ItemStack source, ItemStack result, int cost){
+		this.source = source.copy();
+		this.result = result.copy();
+		this.cost = (short)cost;
+	}
+	
+	public boolean isApplicable(ItemStack is){
+		return source.isItemEqual(is);
+	}
+	
+	public void doTransaction(EntityItem item){
+		ItemStack is = result.copy();
+		is.stackSize = 1;
+		item.setEntityItemStack(is);
+		if (item instanceof EntityItemAltar)((EntityItemAltar)item).setSparkling();
+	}
+	
+	public final short getCost(){
+		return cost;
+	}
+}

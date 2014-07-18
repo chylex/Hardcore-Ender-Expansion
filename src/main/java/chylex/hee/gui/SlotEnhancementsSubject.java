@@ -1,0 +1,25 @@
+package chylex.hee.gui;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
+
+class SlotEnhancementsSubject extends Slot{
+	private final ContainerEndPowderEnhancements container;
+	
+	public SlotEnhancementsSubject(ContainerEndPowderEnhancements container, IInventory inv, int id, int x, int z){
+		super(inv,id,x,z);
+		this.container = container;
+	}
+
+	@Override
+	public boolean isItemValid(ItemStack is){
+		return is != null ? EnhancementHandler.canEnhanceItem(is.getItem()) : false;
+	}
+	
+	@Override
+	public void onSlotChanged(){
+		super.onSlotChanged();
+		container.onSubjectChanged();
+	}
+}
