@@ -7,39 +7,57 @@ import chylex.hee.system.creativetab.CreativeTabItemList;
 public final class BlockList{
 	public static final CreativeTabItemList tabOrderedList = new CreativeTabItemList();
 	
+	// BUILDING BLOCKS
+	
 	public static Block obsidian_end;
 	public static Block obsidian_stairs;
 	public static Block obsidian_special;
 	public static Block obsidian_special_glow;
+	public static Block end_terrain;
+	public static Block ravaged_brick;
+	public static Block dungeon_puzzle;
+	
+	// ORES
+	
+	public static Block end_powder_ore;
+	public static Block stardust_ore;
+	public static Block igneous_rock_ore;
+	public static Block instability_orb_ore;
+	public static Block sphalerite;
+	
+	// FUNCTIONAL BLOCKS
+	
 	public static Block essence_altar;
 	public static Block enhanced_brewing_stand;
 	public static Block enhanced_tnt;
 	public static Block decomposition_table;
 	public static Block energy_extraction_table;
-	public static Block end_powder_ore;
-	public static Block stardust_ore;
-	public static Block igneous_rock_ore;
-	public static Block instability_orb_ore;
-	public static Block ender_goo;
-	public static Block end_terrain;
-	public static Block crossed_decoration;
+	
+	// OPAQUE BLOCKS
+	
 	public static Block spooky_log;
 	public static Block spooky_leaves;
 	public static Block soul_charm;
-	public static Block death_flower;
-	public static Block death_flower_pot;
+	
+	// TRANSPARENT BLOCKS
+	
+	public static Block ender_goo;
+	public static Block crossed_decoration;
 	public static Block enderman_head;
-	//public static Block infestation_cauldron;
-	public static Block sphalerite;
-	public static Block ravaged_brick;
-	public static Block dungeon_puzzle;
+	public static Block death_flower;
 	public static Block energy_cluster;
 	public static Block corrupted_energy_high;
 	public static Block corrupted_energy_low;
+	
+	// TECHNICAL
+	
+	public static Block death_flower_pot;
 	public static Block laser_beam;
 	public static Block custom_spawner;
 	public static Block temple_end_portal;
 	public static Block biome_core;
+	
+	// LOAD
 	
 	public static void loadBlocks(){
 		FluidRegistry.registerFluid(BlockEnderGoo.fluid);
@@ -131,10 +149,6 @@ public final class BlockList{
 		enderman_head = new BlockEndermanHead()
 		.setHardness(1F).setStepSound(Block.soundTypeStone)
 		.setBlockName("endermanHead").setBlockTextureName("hardcoreenderexpansion:enderman_head");
-		
-		/*infestation_cauldron = new BlockInfestationRemedyCauldron()
-		.setHardness(2F)
-		.setBlockName("cauldron").setBlockTextureName("cauldron");*/
 		
 		sphalerite = new BlockSphalerite()
 		.setHardness(1.8F).setResistance(40F)

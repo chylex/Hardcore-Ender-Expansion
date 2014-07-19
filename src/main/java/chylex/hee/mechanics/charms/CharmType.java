@@ -1,7 +1,8 @@
 package chylex.hee.mechanics.charms;
 import static chylex.hee.mechanics.charms.RuneType.*;
+import org.apache.commons.lang3.tuple.Pair;
 
-public enum CharmType{
+public enum CharmType{	
 	BASIC_POWER(new CharmRecipe[]{
 		new CharmRecipe(0).rune(POWER,3).prop("dmg",25),
 		new CharmRecipe(1).rune(POWER,4).prop("dmg",45),
@@ -121,6 +122,18 @@ public enum CharmType{
 		new CharmRecipe(63).rune(VIGOR).rune(MAGIC,2).rune(VOID).prop("recdurabilitychance",32).prop("recdurabilityamt",16),
 		new CharmRecipe(64).rune(VIGOR).rune(MAGIC,3).rune(VOID).prop("recdurabilitychance",44).prop("recdurabilityamt",12)
 	});
+	
+	public static Pair<CharmType,CharmRecipe> findRecipe(RuneType[] runes){
+		if (runes.length < 3 || runes.length > 5)return null;
+		
+		for(CharmType type:values()){
+			for(CharmRecipe recipe:type.recipes){
+				if (recipe.checkRunes(runes))return Pair.of(type,recipe);
+			}
+		}
+		
+		return null;
+	}
 	
 	private final CharmRecipe[] recipes;
 	

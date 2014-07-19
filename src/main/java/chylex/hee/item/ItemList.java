@@ -8,47 +8,58 @@ import chylex.hee.system.creativetab.CreativeTabItemList;
 public final class ItemList{
 	public static final CreativeTabItemList tabOrderedList = new CreativeTabItemList();
 	
-	// 
+	// COMPENDIUM
+	
+	public static Item adventurers_diary;
+	public static Item ender_compendium;
+	public static Item knowledge_fragment;
 	
 	// BASIC MATERIALS
 	
-	// BIOME ITEMS
-	
-	// OTHER
-	
-	public static Item adventurers_diary;
-	public static Item altar_nexus;
-	public static Item essence;
-	public static Item enhanced_brewing_stand;
-	public static Item enhanced_ender_pearl;
 	public static Item end_powder;
 	public static Item stardust;
 	public static Item igneous_rock;
 	public static Item instability_orb;
+	
+	// COMPLEX MATERIALS
+	
+	public static Item altar_nexus;
+	public static Item essence;
+	public static Item enhanced_brewing_stand;
+	public static Item enhanced_ender_pearl;
 	public static Item potion_of_instability;
 	public static Item biome_compass;
 	public static Item spatial_dash_gem;
 	public static Item transference_gem;
 	public static Item temple_caller;
+	
+	// BIOME ITEMS
+	
 	public static Item silverfish_blood;
 	public static Item dry_splinter;
 	public static Item infestation_remedy;
 	public static Item ghost_amulet;
 	public static Item ectoplasm;
-	public static Item corporeal_mirage_orb;
-	public static Item spectral_wand;
 	public static Item charm_pouch;
 	public static Item rune;
 	public static Item charm;
 	public static Item scorching_pickaxe;
+	public static Item corporeal_mirage_orb;
+	public static Item spectral_wand;
+	
+	// WORLD
+	
 	public static Item enderman_relic;
 	public static Item enderman_head;
 	public static Item bucket_ender_goo;
 	public static Item music_disk;
-	public static Item ender_compendium;
-	public static Item knowledge_fragment;
+	
+	// TECHNICAL
+	
 	public static Item spawn_eggs;
 	public static Item special_effects;
+	
+	// LOAD
 	
 	public static void loadItems(){
 		adventurers_diary = new ItemAdventurersDiary()
