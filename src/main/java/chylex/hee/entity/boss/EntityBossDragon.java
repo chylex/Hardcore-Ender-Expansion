@@ -59,7 +59,7 @@ import chylex.hee.packets.client.C26SetPlayerVelocity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.commands.DebugBoard;
-import chylex.hee.system.commands.HeeDebugCommandProcessor;
+import chylex.hee.system.commands.HeeDebugCommand;
 import chylex.hee.system.savedata.ServerSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -248,7 +248,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				if (moveSpeedMp > spd)moveSpeedMp = moveSpeedMp < 0.2D && spd == 0D ? 0D : Math.max(spd,moveSpeedMp-0.0175D);
 				else if (moveSpeedMp < spd)moveSpeedMp = Math.min(spd,moveSpeedMp+0.0175D);
 
-				float wng = frozen ? HeeDebugCommandProcessor.overrideWingSpeed : currentAttack.overrideWingSpeed(), curWng = getWingSpeed();
+				float wng = frozen ? HeeDebugCommand.overrideWingSpeed : currentAttack.overrideWingSpeed(), curWng = getWingSpeed();
 				if (curWng > wng)curWng = Math.max(wng,curWng-0.015F);
 				else if (curWng < wng)curWng = Math.min(wng,curWng+0.015F);
 				
