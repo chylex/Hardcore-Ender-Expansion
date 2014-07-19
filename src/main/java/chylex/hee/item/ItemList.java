@@ -8,6 +8,14 @@ import chylex.hee.system.creativetab.CreativeTabItemList;
 public final class ItemList{
 	public static final CreativeTabItemList tabOrderedList = new CreativeTabItemList();
 	
+	// 
+	
+	// BASIC MATERIALS
+	
+	// BIOME ITEMS
+	
+	// OTHER
+	
 	public static Item adventurers_diary;
 	public static Item altar_nexus;
 	public static Item essence;
@@ -29,6 +37,9 @@ public final class ItemList{
 	public static Item ectoplasm;
 	public static Item corporeal_mirage_orb;
 	public static Item spectral_wand;
+	public static Item charm_pouch;
+	public static Item rune;
+	public static Item charm;
 	public static Item scorching_pickaxe;
 	public static Item enderman_relic;
 	public static Item enderman_head;

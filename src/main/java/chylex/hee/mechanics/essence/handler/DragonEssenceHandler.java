@@ -210,9 +210,9 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		 */
 		
 		if (rand.nextInt(3) != 0){
-			if (is.isItemStackDamageable() && is.getItemDamage() != 0){
-				for(int a = 0; a < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST?(1+(socketBoost>>2)):0); a++){
-					if (++repairCounter > 56+((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST?1+Math.floor(socketBoost*0.6D):0)){
+			if (is.isItemStackDamageable() && is.getItemDamage() != 0 && is.getItem().isRepairable()){
+				for(int a = 0; a < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST ? (1+(socketBoost>>2)) : 0); a++){
+					if (++repairCounter > 56+((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST ? 1+Math.floor(socketBoost*0.6D) : 0)){
 						altar.drainEssence(1);
 						repairCounter = 0;
 					}
