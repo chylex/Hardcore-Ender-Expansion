@@ -41,6 +41,6 @@ This project also contains an issue tracker for the mod, which you should use fo
 
 Always provide as much information and details as possible. If you're reporting a bug or a crash, always **provide logs** and conditions under which the bug or crash happened!
 
-Resolved issues will have a resolution in square brackets. Resolutions may be *[DONE]*, *[FIXED]*, *[ACKNOWLEDGED]*, *[ANSWERED]*, *[INVALID]* or *[NOT A BUG]*. There may also be a version of HEE in the resolution, for example *[FIXED 1.6]*.
+Resolved issues will have a resolution in square brackets. Resolutions may be *[DONE]*, *[FIXED]*, *[ACKNOWLEDGED]*, *[ANSWERED]*, *[INVALID]*, *[WILL NOT FIX]* or *[NOT A BUG]*. There may also be a version of HEE in the resolution, for example *[FIXED 1.6]*.
 
 Visit the issue tracker here: https://github.com/chylex/Hardcore-Ender-Expansion/issues
