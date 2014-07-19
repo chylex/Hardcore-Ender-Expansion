@@ -308,6 +308,7 @@ public class HardcoreEnderExpansion{
 	@EventHandler
 	public void onPostInit(FMLPostInitializationEvent e){
 		ModIntegrationManager.integrateMods();
+		DimensionOverride.postInit();
 	}
 
 	@EventHandler

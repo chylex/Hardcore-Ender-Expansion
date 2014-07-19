@@ -25,8 +25,8 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	}
 
 	@Override
-	public void func_147421_b(int x, int z, Block[] blocks, BiomeGenBase[] biomes){
-		super.func_147421_b(x,z,blocks,biomes);
+	public void replaceBiomeBlocks(int x, int z, Block[] blocks, BiomeGenBase[] biomes, byte[] metadata){
+		super.replaceBiomeBlocks(x,z,blocks,biomes,metadata);
 
 		if (world.provider.dimensionId == 1){
 			islandGen.func_151539_a(this,world,x,z,blocks);

@@ -24,6 +24,10 @@ public final class DimensionOverride{
 		MapGenStructureIO.func_143031_a(ComponentScatteredFeatureIsland.class,"hardcoreenderdragon_EndIslandC");
 	}
 	
+	public static void postInit(){
+		((BiomeGenHardcoreEnd)BiomeGenBase.getBiome(9)).overrideMobLists();
+	}
+	
 	private static void overrideBiome(){
 		Field modifiersField = null;
 		

@@ -11,6 +11,7 @@ import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.sound.MusicManager;
 import chylex.hee.system.update.UpdateNotificationManager;
+import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -74,6 +75,7 @@ public final class ConfigHandler{
 		ModCommonProxy.opMobs = config.get("general","overpoweredMobs",false).getBoolean(false);
 		BlockEnderGoo.shouldBattleWater = config.get("general","gooBattlesWater",true).getBoolean(true);
 		ItemTempleCaller.isEnabled = config.get("general","enableTempleCaller",true).getBoolean(true);
+		BiomeGenHardcoreEnd.overrideMobLists = config.get("general","overrideBiomeMobs",false).getBoolean(false);
 		
 		if (firstTimeGeneral){
 			ModCommonProxy.achievementStartId = hideAndReturn(config.get("general","achievementStartId",3500)).getInt(3500);

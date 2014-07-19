@@ -1,8 +1,6 @@
 package chylex.hee.api;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 import chylex.hee.api.wrappers.LootList;
-import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.feature.StructureForestSilverfishDungeon;
 import chylex.hee.world.structure.tower.ComponentScatteredFeatureTower;
@@ -13,17 +11,6 @@ import chylex.hee.world.util.SpawnEntry;
  */
 public final class WorldAPI extends AbstractAPI{
 	WorldAPI(){}
-	
-	/**
-	 * Adds a monster to the dimension ({@link BiomeGenBase.spawnableMonsterList}).
-	 * @param mobClass Class of the mob to spawn.
-	 * @param minAmount Minimum amount of mob instances spawned at once.
-	 * @param maxAmount Maximum amount of mob instances spawned at once.
-	 * @param weight Weight of the spawn entry (Enderman has a weight of 10).
-	 */
-	public static void addMonsterToDimension(Class<? extends EntityLiving> mobClass, int minGroup, int maxGroup, int weight){
-		BiomeGenHardcoreEnd.addMonsterSpawnEntry(new SpawnListEntry(mobClass,weight,minGroup,maxGroup));
-	}
 	
 	/**
 	 * Adds a mob spawning entry to specified biome. List of existing entries is in javadoc of each {@link Biome}.
