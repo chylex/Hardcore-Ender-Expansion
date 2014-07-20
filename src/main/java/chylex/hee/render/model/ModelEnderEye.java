@@ -8,46 +8,46 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelEnderEye extends ModelBase{
-	ModelRenderer Head;
-	ModelRenderer RightArm;
-	ModelRenderer LeftArm;
+	ModelRenderer head;
+	ModelRenderer rightArm;
+	ModelRenderer leftArm;
 	private float wakeupAngle,animationAngle;
 
 	public ModelEnderEye(){
 		textureWidth = 128;
 		textureHeight = 64;
 		
-		Head = new ModelRenderer(this,0,0);
-		Head.addBox(-9F,-8F,-9F,18,18,18);
-		Head.setRotationPoint(0F,0F,0F);
-		Head.setTextureSize(128,64);
-		Head.mirror = true;
-		setRotation(Head,0F,0F,0F);
+		head = new ModelRenderer(this,0,0);
+		head.addBox(-9F,-8F,-9F,18,18,18);
+		head.setRotationPoint(0F,0F,0F);
+		head.setTextureSize(128,64);
+		head.mirror = true;
+		setRotation(head,0F,0F,0F);
 		
-		RightArm = new ModelRenderer(this,116,0);
-		RightArm.addBox(-12F,-27F,-3F,3,30,3);
-		RightArm.setRotationPoint(0F,0F,0F);
-		RightArm.setTextureSize(128,64);
-		RightArm.mirror = true;
-		setRotation(RightArm,1.570796F,0F,0F);
+		rightArm = new ModelRenderer(this,116,0);
+		rightArm.addBox(-12F,-27F,-3F,3,30,3);
+		rightArm.setRotationPoint(0F,0F,0F);
+		rightArm.setTextureSize(128,64);
+		rightArm.mirror = true;
+		setRotation(rightArm,1.570796F,0F,0F);
 		
-		LeftArm = new ModelRenderer(this,116,0);
-		LeftArm.addBox(9F,-27F,-3F,3,30,3);
-		LeftArm.setRotationPoint(0F,0F,0F);
-		LeftArm.setTextureSize(128,64);
-		LeftArm.mirror = true;
-		setRotation(LeftArm,1.570796F,0F,0F);
-		LeftArm.mirror = false;
+		leftArm = new ModelRenderer(this,116,0);
+		leftArm.addBox(9F,-27F,-3F,3,30,3);
+		leftArm.setRotationPoint(0F,0F,0F);
+		leftArm.setTextureSize(128,64);
+		leftArm.mirror = true;
+		setRotation(leftArm,1.570796F,0F,0F);
+		leftArm.mirror = false;
 	}
 
 	@Override
-	public void render(Entity entity, float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		super.render(entity,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-		setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
-		Head.render(unitPixel);
-		RightArm.render(unitPixel);
-		LeftArm.render(unitPixel);
+		head.render(unitPixel);
+		rightArm.render(unitPixel);
+		leftArm.render(unitPixel);
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z){
@@ -57,8 +57,8 @@ public class ModelEnderEye extends ModelBase{
 	}
 	
 	@Override
-	public void setRotationAngles(float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
+		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
 		float yawRad = rotationYaw/(180F/(float)Math.PI),
 			  pitchRad = (-rotationPitch)/(180F/(float)Math.PI);
@@ -71,11 +71,11 @@ public class ModelEnderEye extends ModelBase{
 		if (eye.isAsleep())wakeupAngle = Math.min(-pitchRad+1.570796F,wakeupAngle+0.098175F);
 		else if (wakeupAngle != 0F)wakeupAngle = Math.max(0F,wakeupAngle-0.098175F);
 
-		Head.rotateAngleY = yawRad;
-		Head.rotateAngleX = pitchRad;
-		LeftArm.rotateAngleY = yawRad;
-		LeftArm.rotateAngleX = pitchRad+1.570796F-animationAngle+wakeupAngle;
-		RightArm.rotateAngleY = yawRad;
-		RightArm.rotateAngleX = pitchRad+1.570796F-animationAngle+wakeupAngle;
+		head.rotateAngleY = yawRad;
+		head.rotateAngleX = pitchRad;
+		leftArm.rotateAngleY = yawRad;
+		leftArm.rotateAngleX = pitchRad+1.570796F-animationAngle+wakeupAngle;
+		rightArm.rotateAngleY = yawRad;
+		rightArm.rotateAngleX = pitchRad+1.570796F-animationAngle+wakeupAngle;
 	}
 }

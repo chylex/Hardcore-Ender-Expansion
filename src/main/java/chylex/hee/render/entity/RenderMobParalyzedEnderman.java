@@ -11,10 +11,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderMobParalyzedEnderman extends RenderEnderman{
 	private static final ResourceLocation texEndermanEyes = new ResourceLocation("hardcoreenderexpansion:textures/entity/enderman_eyes_brainless.png");
 
-	public RenderMobParalyzedEnderman(){
-		super();
-	}
-
 	@Override
 	protected int shouldRenderPass(EntityEnderman enderman, int pass, float partialTickTime){
 		if (pass != 0)return -1;

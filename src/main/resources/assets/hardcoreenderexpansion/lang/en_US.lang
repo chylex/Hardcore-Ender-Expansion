@@ -69,6 +69,7 @@ item.bucketEnderGoo.name=Ender Goo Bucket
 item.enderCompendium.name=Ender Compendium
 item.knowledgeFragment.name=Knowledge Fragment
 item.enhancedBrewingStand.name=Enhanced Brewing Stand
+item.scorchingPickaxe.name=Scorching Pickaxe
 item.charmPouch.name=Charm Pouch
 item.rune.power.name=Rune of Power
 item.rune.agility.name=Rune of Agility
@@ -112,6 +113,7 @@ entity.infestedBat.name=Infested Bat
 entity.forestGhost.name=Ghost
 entity.fireGolem.name=Fire Golem
 entity.scorchingLens.name=Scorching Lens
+entity.louse.name=Louse
 
 namegenerator.middle=, the 
 

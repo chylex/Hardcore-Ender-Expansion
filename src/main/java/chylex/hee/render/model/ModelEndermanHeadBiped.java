@@ -28,9 +28,9 @@ public class ModelEndermanHeadBiped extends ModelBiped{
 	}
 	
 	@Override
-	public void render(Entity entity, float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		super.render(entity,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-		setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
 		GL11.glPushMatrix();
 		GL11.glScalef(1.05F,1.05F,1.05F);
@@ -39,8 +39,8 @@ public class ModelEndermanHeadBiped extends ModelBiped{
 	}
 
 	@Override
-	public void setRotationAngles(float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
+		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
 		bipedHead.rotateAngleY = MathUtil.toRad(rotationYaw);
 		bipedHead.rotateAngleX = MathUtil.toRad(rotationPitch);

@@ -120,7 +120,7 @@ public class ModelEnderDragon extends ModelBase{
 	}
 
 	@Override
-	public void render(Entity entity, float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
 		GL11.glPushMatrix();
 		EntityBossDragon dragon = (EntityBossDragon)entity;
 		float animTime = dragon.prevAnimTime+(dragon.animTime-dragon.prevAnimTime)*partialTicks;

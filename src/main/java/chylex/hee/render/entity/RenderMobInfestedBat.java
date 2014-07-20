@@ -11,11 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderMobInfestedBat extends RenderBat{
 	private static final ResourceLocation tex = new ResourceLocation("hardcoreenderexpansion:textures/entity/bat_infested.png");
-	
-	public RenderMobInfestedBat(){
-		super();
-	}
-	
+
 	@Override
 	protected void preRenderCallback(EntityBat bat, float partialTickTime){
 		float scale = ((EntityMobInfestedBat)bat).getScale();

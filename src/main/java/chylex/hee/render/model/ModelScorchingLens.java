@@ -97,9 +97,9 @@ public class ModelScorchingLens extends ModelBase{
 	}
 
 	@Override
-	public void render(Entity entity, float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		super.render(entity,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-		setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
 		rightLeg1.render(unitPixel);
 		rightFoot.render(unitPixel);
@@ -118,10 +118,10 @@ public class ModelScorchingLens extends ModelBase{
 	private static final float ex = 1.047198F;
 	
 	@Override
-	public void setRotationAngles(float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
+		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 
-		float swing = MathHelper.sin(limbSwing*0.7F)*1.2F*prevLimbSwing;
+		float swing = MathHelper.sin(limbSwing*0.7F)*1.2F*limbSwingAngle;
 
 		body.rotateAngleX = MathUtil.toRad(rotationPitch);
 		rightLeg1.rotateAngleX = ex-swing;

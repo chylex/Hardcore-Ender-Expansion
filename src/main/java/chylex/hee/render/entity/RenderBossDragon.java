@@ -42,19 +42,19 @@ public class RenderBossDragon extends RenderLiving{
 		}
 	}
 
-	protected void renderDragonModel(EntityBossDragon dragon, float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+	protected void renderDragonModel(EntityBossDragon dragon, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
 		if (dragon.deathTicks > 0){
 			GL11.glDepthFunc(GL11.GL_LEQUAL);
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
 			GL11.glAlphaFunc(GL11.GL_GREATER,dragon.deathTicks/200F);
 			bindTexture(texDeathExplosions);
-			mainModel.render(dragon,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+			mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 			GL11.glAlphaFunc(GL11.GL_GREATER,0.1F);
 			GL11.glDepthFunc(GL11.GL_EQUAL);
 		}
 
 		bindEntityTexture(dragon);
-		mainModel.render(dragon,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 
 		if (dragon.hurtTime > 0){
 			GL11.glDepthFunc(GL11.GL_EQUAL);
@@ -62,7 +62,7 @@ public class RenderBossDragon extends RenderLiving{
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glColor4f(1F,0F,0F,0.5F);
-			this.mainModel.render(dragon,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+			this.mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -209,8 +209,8 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	@Override
-	protected void renderModel(EntityLivingBase entity, float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		renderDragonModel((EntityBossDragon)entity,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+	protected void renderModel(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+		renderDragonModel((EntityBossDragon)entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 	}
 
 	@Override

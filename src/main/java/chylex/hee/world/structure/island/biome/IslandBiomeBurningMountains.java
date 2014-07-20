@@ -4,6 +4,7 @@ import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
+import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorBurningMountains;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
@@ -15,6 +16,9 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	}
 	*/
 	
+	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(8);
+	public static final BiomeContentVariation MINE = new BiomeContentVariation(5);
+	
 	private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
 	
 	protected IslandBiomeBurningMountains(int biomeID, KnowledgeRegistration knowledgeRegistration){
@@ -24,7 +28,10 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	}
 
 	@Override
-	protected void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ){}
+	protected void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ){
+		if (data.content == SCORCHING)decorator.genScorching();
+		else if (data.content == MINE)decorator.genMine();
+	}
 	
 	// TODO
 	/*@Override
@@ -78,17 +85,27 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	
 	@Override
 	public float getIslandSurfaceHeightMultiplier(){
-		return 8F;
+		return data.content == SCORCHING ? 7F : 8F;
+	}
+	
+	@Override
+	public float getIslandMassHeightMultiplier(){
+		return data.content == SCORCHING ? 0.9F : 1F;
 	}
 	
 	@Override
 	public float getCaveAmountMultiplier(){
-		return 1.9F; //hasRareVariation(RareVariationMountains.MORE_CAVES) ? 2.5F : 1.9F;
+		return data.content == MINE ? 2.2F : 1.75F;
+	}
+	
+	@Override
+	public float getCaveBranchingChance(){
+		return data.content == MINE ? 0.05F : 0.04F;
 	}
 	
 	@Override
 	public float getOreAmountMultiplier(){
-		return 1.35F;
+		return data.content == MINE ? 1.4F : 1.15F;
 	}
 
 	@Override

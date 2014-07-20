@@ -83,9 +83,9 @@ public class ModelEnderGuardian extends ModelBase{
 	}
 
 	@Override
-	public void render(Entity entity, float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		super.render(entity,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-		setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
 		rightHorn.render(unitPixel);
 		leftHorn.render(unitPixel);
@@ -105,8 +105,8 @@ public class ModelEnderGuardian extends ModelBase{
 	}
 
 	@Override
-	public void setRotationAngles(float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
+		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
 		rightHorn.rotateAngleY = leftHorn.rotateAngleY = head.rotateAngleY = MathUtil.toRad(rotationYaw);
 		rightHorn.rotateAngleX = leftHorn.rotateAngleX = head.rotateAngleX = MathUtil.toRad(rotationPitch);
@@ -114,10 +114,10 @@ public class ModelEnderGuardian extends ModelBase{
 		float limbSwing1 = MathHelper.cos(limbSwing*0.6662F),
 			  limbSwing2 = MathHelper.cos(limbSwing*0.6662F+(float)Math.PI);
 
-		rightArm.rotateAngleX = limbSwing2*2F*prevLimbSwing*0.5F;
-		leftArm.rotateAngleX = limbSwing1*2F*prevLimbSwing*0.5F;
-		rightLeg.rotateAngleX = limbSwing1*1.4F*prevLimbSwing;
-		leftLeg.rotateAngleX = limbSwing2*1.4F*prevLimbSwing;
+		rightArm.rotateAngleX = limbSwing2*2F*limbSwingAngle*0.5F;
+		leftArm.rotateAngleX = limbSwing1*2F*limbSwingAngle*0.5F;
+		rightLeg.rotateAngleX = limbSwing1*1.4F*limbSwingAngle;
+		leftLeg.rotateAngleX = limbSwing2*1.4F*limbSwingAngle;
 
 		rightArm.rotateAngleX = (float)(rightArm.rotateAngleX*0.5D);
 		leftArm.rotateAngleX = (float)(leftArm.rotateAngleX*0.5D);

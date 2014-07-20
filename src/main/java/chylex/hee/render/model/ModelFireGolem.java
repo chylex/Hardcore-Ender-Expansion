@@ -204,9 +204,9 @@ public class ModelFireGolem extends ModelBase{
 	}
 
 	@Override
-	public void render(Entity entity, float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		super.render(entity,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
-		setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
 		headMain.render(unitPixel);
 		headBrow.render(unitPixel);
@@ -237,11 +237,11 @@ public class ModelFireGolem extends ModelBase{
 	private static final float ex = 1.047198F;
 
 	@Override
-	public void setRotationAngles(float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
+	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
+		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
-		float movcos1 = MathHelper.cos(limbSwing*0.7F)*0.3F*prevLimbSwing;
-		float movsin1 = MathHelper.sin(limbSwing*0.7F)*1.2F*prevLimbSwing;
+		float movcos1 = MathHelper.cos(limbSwing*0.7F)*0.3F*limbSwingAngle;
+		float movsin1 = MathHelper.sin(limbSwing*0.7F)*1.2F*limbSwingAngle;
 		float yawRad = MathUtil.toRad(rotationYaw);
 		float pitchRad = MathUtil.toRad(rotationPitch)-lx;
 		

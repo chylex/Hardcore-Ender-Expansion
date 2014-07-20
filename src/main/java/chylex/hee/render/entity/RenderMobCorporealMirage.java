@@ -18,7 +18,7 @@ public class RenderMobCorporealMirage extends RendererLivingEntity{
 	}
 	
 	@Override
-	protected void renderModel(EntityLivingBase entity, float limbSwing, float prevLimbSwing, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+	protected void renderModel(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
 		if (entity.ticksExisted < 2){
 			entity.prevRotationYaw = entity.renderYawOffset = entity.prevRenderYawOffset = entity.rotationYaw;
 			return;
@@ -36,7 +36,7 @@ public class RenderMobCorporealMirage extends RendererLivingEntity{
 		GL11.glAlphaFunc(GL11.GL_GREATER,0.003921569F);
 		
 		GL11.glTranslated(0F,Math.cos(((EntityMobCorporealMirage)entity).angle += angleStep)*alpha,0F);
-		mainModel.render(entity,limbSwing,prevLimbSwing,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		mainModel.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 		
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glAlphaFunc(GL11.GL_GREATER,0.1F);
