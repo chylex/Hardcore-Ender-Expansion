@@ -5,15 +5,20 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.mechanics.charms.RuneType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemRune extends Item{
+public class ItemCharm extends Item{
 	@SideOnly(Side.CLIENT)
-	private IIcon iconBack,iconFore;
+	private static final byte iconsForeAmount = 1;
+	@SideOnly(Side.CLIENT)
+	private IIcon iconBack,iconDrop;
+	@SideOnly(Side.CLIENT)
+	private IIcon[] iconArrayFore;
 	
-	public ItemRune(){
+	public ItemCharm(){
 		setHasSubtypes(true);
 	}
 	
@@ -26,15 +31,15 @@ public class ItemRune extends Item{
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		RuneType[] types = RuneType.values();
-		int damage = is.getItemDamage();
-		return "item.rune."+(damage >= 0 && damage < types.length ? types[damage].name().toLowerCase() : "invalid");
+		CharmType type = CharmType.getTypeFromDamage(is.getItemDamage());
+		return "item.charm."+(type != null ? type.name().toLowerCase().replaceAll("_","") : "invalid");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
     public IIcon getIconFromDamageForRenderPass(int damage, int pass){
-        return pass == 0 ? iconBack : iconFore;
+		CharmType type = pass == 2 ? CharmType.getTypeFromDamage(damage) : null;
+        return pass == 0 ? iconBack : pass == 1 ? iconDrop : iconArrayFore[type == null ? 0 : type.foregroundIcon];
     }
 
 	@Override
@@ -42,9 +47,8 @@ public class ItemRune extends Item{
 	public int getColorFromItemStack(ItemStack is, int pass){
 		if (pass == 0)return 16777215;
 		else{
-			RuneType[] types = RuneType.values();
-			int damage = is.getItemDamage();
-			return (damage >= 0 && damage < types.length ? types[damage].color : 0);
+			CharmType type = CharmType.getTypeFromDamage(is.getItemDamage());
+			return pass == 1 ? type.dropColor : type.foreColor;
 		}
 	}
 
@@ -53,11 +57,21 @@ public class ItemRune extends Item{
 	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
+	
+	@Override
+	public int getRenderPasses(int metadata){
+        return 3;
+    }
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IIconRegister iconRegister){
 		iconBack = iconRegister.registerIcon(getIconString()+"_back");
-		iconFore = iconRegister.registerIcon(getIconString()+"_fore");
+		iconDrop = iconRegister.registerIcon(getIconString()+"_drop");
+		iconArrayFore = new IIcon[iconsForeAmount];
+		
+		for(int a = 0; a < iconsForeAmount; a++){
+			iconArrayFore[a] = iconRegister.registerIcon(getIconString()+"_icon_"+a);
+		}
 	}
 }

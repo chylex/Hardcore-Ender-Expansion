@@ -17,7 +17,6 @@ public class ItemEssence extends Item{
 	private IIcon[] iconArray;
 	
 	public ItemEssence(){
-		super();
 		setHasSubtypes(true);
 	}
 	

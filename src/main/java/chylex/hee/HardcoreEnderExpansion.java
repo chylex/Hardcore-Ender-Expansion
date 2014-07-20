@@ -201,6 +201,8 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerItem(ItemList.infestation_remedy, "infestation_remedy");
 		GameRegistryUtil.registerItem(ItemList.ghost_amulet, "ghost_amulet");
 		GameRegistryUtil.registerItem(ItemList.ectoplasm, "endoplasm");
+		GameRegistryUtil.registerItem(ItemList.rune, "rune");
+		GameRegistryUtil.registerItem(ItemList.charm, "charm");
 		GameRegistryUtil.registerItem(ItemList.corporeal_mirage_orb, "corporeal_mirage_orb");
 		GameRegistryUtil.registerItem(ItemList.spectral_wand, "spectral_wand");
 		GameRegistryUtil.registerItem(ItemList.scorching_pickaxe, "schorching_pickaxe");

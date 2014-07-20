@@ -137,6 +137,9 @@ public final class ItemList{
 		rune = new ItemRune()
 		.setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune");
 		
+		charm = new ItemCharm()
+		.setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm");
+		
 		corporeal_mirage_orb = new ItemCorporealMirageOrb()
 		.setMaxStackSize(4)
 		.setUnlocalizedName("corporealMirageOrb").setTextureName("hardcoreenderexpansion:corporeal_mirage_orb");
@@ -172,7 +175,7 @@ public final class ItemList{
 			adventurers_diary,altar_nexus,essence,enhanced_brewing_stand,
 			end_powder,stardust,igneous_rock,instability_orb,potion_of_instability,
 			biome_compass,spatial_dash_gem,transference_gem,temple_caller,
-			silverfish_blood,dry_splinter,infestation_remedy,
+			silverfish_blood,dry_splinter,infestation_remedy,rune,charm,
 			ghost_amulet,ectoplasm,corporeal_mirage_orb
 		).addBlocks(
 			BlockList.soul_charm

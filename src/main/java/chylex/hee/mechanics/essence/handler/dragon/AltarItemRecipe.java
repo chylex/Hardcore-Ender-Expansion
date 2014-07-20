@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 import chylex.hee.entity.item.EntityItemAltar;
 
 public class AltarItemRecipe{
-	private ItemStack source,result;
-	private short cost;
+	private final ItemStack source,result;
+	private final short cost;
 	
 	public AltarItemRecipe(Item source, Item result, int cost){
 		this(new ItemStack(source,1,0),new ItemStack(result,1,0),cost);
