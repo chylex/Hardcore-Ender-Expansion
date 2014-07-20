@@ -46,10 +46,10 @@ public final class ItemList{
 	public static Item scorching_pickaxe;
 	public static Item corporeal_mirage_orb;
 	public static Item spectral_wand;
+	public static Item enderman_relic;
 	
 	// WORLD
 	
-	public static Item enderman_relic;
 	public static Item enderman_head;
 	public static Item bucket_ender_goo;
 	public static Item music_disk;
@@ -66,18 +66,13 @@ public final class ItemList{
 		.setMaxStackSize(1)
 		.setUnlocalizedName("lorePage").setTextureName("hardcoreenderexpansion:lore_page");
 		
-		altar_nexus = new Item()
-		.setUnlocalizedName("altarNexus").setTextureName("hardcoreenderexpansion:altar_nexus");
+		ender_compendium = new ItemEnderCompendium()
+		.setMaxStackSize(1)
+		.setUnlocalizedName("enderCompendium").setTextureName("hardcoreenderexpansion:ender_compendium");
 		
-		essence = new ItemEssence()
-		.setUnlocalizedName("essence");
-		
-		enhanced_brewing_stand = new ItemReed(BlockList.enhanced_brewing_stand)
-		.setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand");
-		
-		enhanced_ender_pearl = new ItemEnhancedEnderPearl()
-		.setCreativeTab(null)
-		.setUnlocalizedName("enderPearl").setTextureName("ender_pearl");
+		knowledge_fragment = new ItemKnowledgeFragment()
+		.setMaxStackSize(1)
+		.setUnlocalizedName("knowledgeFragment").setTextureName("hardcoreenderexpansion:knowledge_fragment");
 		
 		end_powder = new ItemEndPowder()
 		.setUnlocalizedName("endPowder").setTextureName("hardcoreenderexpansion:end_powder");
@@ -91,9 +86,26 @@ public final class ItemList{
 		instability_orb = new ItemInstabilityOrb()
 		.setUnlocalizedName("instabilityOrb").setTextureName("hardcoreenderexpansion:instability_orb");
 		
+		altar_nexus = new Item()
+		.setUnlocalizedName("altarNexus").setTextureName("hardcoreenderexpansion:altar_nexus");
+		
+		essence = new ItemEssence()
+		.setUnlocalizedName("essence");
+		
+		enhanced_brewing_stand = new ItemReed(BlockList.enhanced_brewing_stand)
+		.setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand");
+		
+		enhanced_ender_pearl = new ItemEnhancedEnderPearl()
+		.setCreativeTab(null)
+		.setUnlocalizedName("enderPearl").setTextureName("ender_pearl");
+		
 		potion_of_instability = new ItemPotionOfInstability()
 		.setMaxStackSize(1)
 		.setTextureName("hardcoreenderexpansion:potion_of_instability");
+		
+		biome_compass = new ItemBiomeCompass()
+		.setMaxStackSize(1)
+		.setUnlocalizedName("biomeCompass").setTextureName("hardcoreenderexpansion:biome_compass");
 		
 		spatial_dash_gem = new ItemSpatialDashGem()
 		.setMaxStackSize(1).setMaxDamage(300).setNoRepair()
@@ -106,10 +118,6 @@ public final class ItemList{
 		temple_caller = new ItemTempleCaller()
 		.setMaxStackSize(1).setMaxDamage(50).setNoRepair()
 		.setUnlocalizedName("templeCaller").setTextureName("hardcoreenderexpansion:temple_caller");
-		
-		biome_compass = new ItemBiomeCompass()
-		.setMaxStackSize(1)
-		.setUnlocalizedName("biomeCompass").setTextureName("hardcoreenderexpansion:biome_compass");
 
 		silverfish_blood = new Item()
 		.setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood");
@@ -125,6 +133,9 @@ public final class ItemList{
 		
 		ectoplasm = new Item()
 		.setUnlocalizedName("endoplasm").setTextureName("hardcoreenderexpansion:endoplasm");
+		
+		rune = new ItemRune()
+		.setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune");
 		
 		corporeal_mirage_orb = new ItemCorporealMirageOrb()
 		.setMaxStackSize(4)
@@ -150,14 +161,6 @@ public final class ItemList{
 		
 		music_disk = new ItemMusicDisk()
 		.setUnlocalizedName("record").setTextureName("hardcoreenderexpansion:music_disk");
-		
-		ender_compendium = new ItemEnderCompendium()
-		.setMaxStackSize(1)
-		.setUnlocalizedName("enderCompendium").setTextureName("hardcoreenderexpansion:ender_compendium");
-		
-		knowledge_fragment = new ItemKnowledgeFragment()
-		.setMaxStackSize(1)
-		.setUnlocalizedName("knowledgeFragment").setTextureName("hardcoreenderexpansion:knowledge_fragment");
 		
 		spawn_eggs = new ItemSpawnEggs()
 		.setUnlocalizedName("monsterPlacer").setTextureName("spawn_egg");

@@ -19,7 +19,6 @@ import chylex.hee.item.ItemTransferenceGem;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.mechanics.essence.handler.SpectralEssenceHandler;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.data.UnlockResult;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
@@ -45,7 +44,7 @@ public class MiscEvents{
 	 */
 	@SubscribeEvent
 	public void onLivingDrops(LivingDropsEvent e){
-		if (e.entity.worldObj.isRemote || SpectralEssenceHandler.handleMobDeath(e) || !e.recentlyHit)return;
+		if (e.entity.worldObj.isRemote /*|| SpectralEssenceHandler.handleMobDeath(e)*/ || !e.recentlyHit)return;
 		
 		ItemStack is = null;
 		Random rand = e.entityLiving.getRNG();

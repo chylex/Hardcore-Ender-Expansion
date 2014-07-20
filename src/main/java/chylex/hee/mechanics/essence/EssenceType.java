@@ -7,7 +7,6 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.handler.AltarActionHandler;
 import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.mechanics.essence.handler.FieryEssenceHandler;
-import chylex.hee.mechanics.essence.handler.SpectralEssenceHandler;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.system.util.IItemSelector;
@@ -45,7 +44,7 @@ public enum EssenceType{
 		new RuneItem(Blocks.coal_block, "dig.stone")
 	}, new float[]{ 0.5898F,0.4023F,0.125F }),
 	
-	SPECTRAL(3, "Spectral", SpectralEssenceHandler.class, new RuneItem[]{
+	SPECTRAL(3, "Spectral", AltarActionHandler.class, new RuneItem[]{
 		new RuneItem(Items.fish, "random.burp"),
 		new RuneItem(Items.chicken, "random.burp"),
 		new RuneItem(Blocks.red_flower, "dig.dirt"),

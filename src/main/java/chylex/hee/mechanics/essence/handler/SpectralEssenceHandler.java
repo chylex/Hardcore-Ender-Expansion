@@ -1,5 +1,5 @@
 package chylex.hee.mechanics.essence.handler;
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -235,7 +235,7 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 			
 			currentMinionData = null;
 			altar.getWorldObj().markBlockForUpdate(altar.xCoord,altar.yCoord,altar.zCoord);*/
-			return true;
+			/*return true;
 		}
 
 		return false;
@@ -315,3 +315,4 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 		}
 	}
 }
+*/
