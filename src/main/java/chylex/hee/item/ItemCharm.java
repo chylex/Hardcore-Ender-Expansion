@@ -31,14 +31,14 @@ public class ItemCharm extends Item{
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		CharmType type = CharmType.getTypeFromDamage(is.getItemDamage());
+		CharmType type = CharmType.getFromDamage(is.getItemDamage()).getLeft();
 		return "item.charm."+(type != null ? type.name().toLowerCase().replaceAll("_","") : "invalid");
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
     public IIcon getIconFromDamageForRenderPass(int damage, int pass){
-		CharmType type = pass == 2 ? CharmType.getTypeFromDamage(damage) : null;
+		CharmType type = pass == 2 ? CharmType.getFromDamage(damage).getLeft() : null;
         return pass == 0 ? iconBack : pass == 1 ? iconDrop : iconArrayFore[type == null ? 0 : type.foregroundIcon];
     }
 
@@ -47,7 +47,7 @@ public class ItemCharm extends Item{
 	public int getColorFromItemStack(ItemStack is, int pass){
 		if (pass == 0)return 16777215;
 		else{
-			CharmType type = CharmType.getTypeFromDamage(is.getItemDamage());
+			CharmType type = CharmType.getFromDamage(is.getItemDamage()).getLeft();
 			return pass == 1 ? type.dropColor : type.foreColor;
 		}
 	}

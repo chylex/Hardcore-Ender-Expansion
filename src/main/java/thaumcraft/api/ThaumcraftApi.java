@@ -133,6 +133,7 @@ public class ThaumcraftApi {
 	 * @param in The input of the smelting operation. e.g. new ItemStack(oreGold)
 	 * @return the The bonus item that can be produced
 	 */
+	@SuppressWarnings("deprecation")
 	public static ItemStack getSmeltingBonus(ItemStack in) {
 		ItemStack out = smeltingBonus.get(Arrays.asList(in.getItem(),in.getItemDamage()));
 		if (out == null) {

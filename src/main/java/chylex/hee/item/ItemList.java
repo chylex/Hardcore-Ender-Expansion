@@ -134,6 +134,9 @@ public final class ItemList{
 		ectoplasm = new Item()
 		.setUnlocalizedName("endoplasm").setTextureName("hardcoreenderexpansion:endoplasm");
 		
+		charm_pouch = new ItemCharmPouch()
+		.setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch");
+		
 		rune = new ItemRune()
 		.setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune");
 		
@@ -175,7 +178,7 @@ public final class ItemList{
 			adventurers_diary,altar_nexus,essence,enhanced_brewing_stand,
 			end_powder,stardust,igneous_rock,instability_orb,potion_of_instability,
 			biome_compass,spatial_dash_gem,transference_gem,temple_caller,
-			silverfish_blood,dry_splinter,infestation_remedy,rune,charm,
+			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,charm,
 			ghost_amulet,ectoplasm,corporeal_mirage_orb
 		).addBlocks(
 			BlockList.soul_charm

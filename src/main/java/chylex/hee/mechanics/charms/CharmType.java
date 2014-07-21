@@ -123,10 +123,10 @@ public enum CharmType{
 		new CharmRecipe(64).rune(VIGOR).rune(MAGIC,3).rune(VOID).prop("recdurabilitychance",44).prop("recdurabilityamt",12)
 	});
 	
-	public static CharmType getTypeFromDamage(int damage){
+	public static Pair<CharmType,CharmRecipe> getFromDamage(int damage){
 		for(CharmType type:values()){
 			for(CharmRecipe recipe:type.recipes){
-				if (recipe.id == damage)return type;
+				if (recipe.id == damage)return Pair.of(type,recipe);
 			}
 		}
 		

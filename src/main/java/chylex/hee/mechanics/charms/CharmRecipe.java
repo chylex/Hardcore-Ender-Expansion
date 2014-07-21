@@ -30,6 +30,10 @@ public class CharmRecipe{
 		return this;
 	}
 	
+	public short getProp(String name){
+		return properties.containsKey(name) ? properties.get(name) : -1;
+	}
+	
 	public boolean checkRunes(RuneType[] runes){
 		if (runes.length != runeAmount)return false;
 		

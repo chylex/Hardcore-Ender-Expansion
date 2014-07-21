@@ -1,7 +1,6 @@
 package thaumcraft.api.crafting;
 
 import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -69,6 +68,7 @@ public class InfusionRecipe
 		return ii.size() == 0?true:false;
 	}
 	
+	@SuppressWarnings("deprecation")
 	protected boolean areItemStacksEqual(ItemStack stack0, ItemStack stack1, boolean fuzzy)
 	{
 		if (stack0 == null && stack1 != null) return false;

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishFood.FishType;
@@ -56,7 +57,8 @@ public class PotionTypes{
 			ItemDamagePair item = entry.getKey();
 			if (item.check(is))return entry.getValue();
 		}
-		return new Byte[0];
+		
+		return ArrayUtils.EMPTY_BYTE_OBJECT_ARRAY;
 	}
 	
 	static{

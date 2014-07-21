@@ -40,7 +40,7 @@ public class ObjectFragmentSet{
 	// ITEMSTACK METHODS
 	
 	public int[] getUnlockedFragments(ItemStack is){
-		if (is.stackTagCompound == null)return new int[0];
+		if (is.stackTagCompound == null)return ArrayUtils.EMPTY_INT_ARRAY;
 		return is.stackTagCompound.getCompoundTag("knowledge").getCompoundTag(registration.category.identifier).getIntArray(registration.identifier);
 	}
 	

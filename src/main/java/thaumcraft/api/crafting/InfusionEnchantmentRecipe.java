@@ -3,7 +3,6 @@ package thaumcraft.api.crafting;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -88,6 +87,7 @@ public class InfusionEnchantmentRecipe
 		return ii.size() == 0?true:false;
 	}
 	
+	@SuppressWarnings("deprecation")
 	private boolean areItemStacksEqual(ItemStack stack0, ItemStack stack1, boolean fuzzy)
 	{
 		if (stack0 == null && stack1 != null) return false;
