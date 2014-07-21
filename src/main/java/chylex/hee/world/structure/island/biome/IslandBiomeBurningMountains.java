@@ -33,15 +33,6 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 		else if (data.content == MINE)decorator.genMine();
 	}
 	
-	// TODO
-	/*@Override
-	public void decorateIsland(World world, Random rand, int centerX, int bottomY, int centerZ){
-		
-
-		if (rand.nextInt(5) <= 1)new StructureMountainResourcePit().generateInWorld(world,rand,centerX,bottomY,centerZ,this);
-		new StructureMountainPuzzle().generateInWorld(world,rand,centerX,bottomY,centerZ,this);
-	}*/
-	
 	@Override
 	public float getIslandSurfaceHeightMultiplier(){
 		return data.content == SCORCHING ? 7F : 8F;

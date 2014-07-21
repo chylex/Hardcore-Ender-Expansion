@@ -4,6 +4,7 @@ import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
+import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorEnchantedIsland;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
@@ -13,6 +14,8 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	/*public static enum RareVariationIsland implements IRareVariationEnum{
 		TALL_PILLARS, LARGE_LAKES
 	}*/
+	
+	public static final BiomeContentVariation HOMELAND = new BiomeContentVariation(6);
 	
 	private final BiomeDecoratorEnchantedIsland decorator = new BiomeDecoratorEnchantedIsland();
 	
@@ -24,7 +27,9 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 
 	// TODO
 	@Override
-	protected void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ){}
+	protected void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ){
+		if (data.content == HOMELAND)decorator.genHomeland();
+	}
 
 	/*@Override
 	public void decorateIsland(World world, Random rand, int centerX, int bottomY, int centerZ){

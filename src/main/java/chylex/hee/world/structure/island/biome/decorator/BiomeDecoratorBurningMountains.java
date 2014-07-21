@@ -7,7 +7,7 @@ import chylex.hee.world.structure.island.feature.StructureMountainIgneousOre;
 
 public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	private static IslandBiomeBase getBiome(){
-		return IslandBiomeBase.infestedForest;
+		return IslandBiomeBase.burningMountains;
 	}
 	
 	/*
