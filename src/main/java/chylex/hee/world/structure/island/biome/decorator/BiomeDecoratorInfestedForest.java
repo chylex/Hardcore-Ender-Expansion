@@ -3,14 +3,13 @@ import static chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest.
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
-import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.feature.StructureForestBush;
 import chylex.hee.world.structure.island.feature.StructureForestRavagedDungeon;
 import chylex.hee.world.structure.island.feature.StructureForestRuinPillar;
 import chylex.hee.world.structure.island.feature.StructureForestRuinStructure;
-import chylex.hee.world.structure.island.feature.StructureForestTree;
 import chylex.hee.world.structure.island.feature.StructureForestRuinStructure.RuinStructureType;
+import chylex.hee.world.structure.island.feature.StructureForestTree;
 import chylex.hee.world.structure.island.feature.StructureForestTree.TreeType;
 
 public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
@@ -78,8 +77,8 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		}
 		
 		for(int pick = 0, pickAmount = rand.nextInt(50)+240; pick < pickAmount; pick++){
-			int xx = centerX+rand.nextInt(ComponentScatteredFeatureIsland.halfSize)-rand.nextInt(ComponentScatteredFeatureIsland.halfSize),
-				zz = centerZ+rand.nextInt(ComponentScatteredFeatureIsland.halfSize)-rand.nextInt(ComponentScatteredFeatureIsland.halfSize),
+			int xx = getRandomXZ(rand,16),
+				zz = getRandomXZ(rand,16),
 				yy = 8+rand.nextInt(30),
 				type = rand.nextInt(3);
 			
@@ -149,8 +148,8 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 
 		
 		for(int bulkAttempt = 0, bulk = 0, xx, yy, zz; bulkAttempt < 18 && bulk < 4+rand.nextInt(3); bulkAttempt++){
-			xx = centerX+rand.nextInt(ComponentScatteredFeatureIsland.halfSize-32)+16-rand.nextInt(ComponentScatteredFeatureIsland.halfSize);
-			zz = centerZ+rand.nextInt(ComponentScatteredFeatureIsland.halfSize-32)+16-rand.nextInt(ComponentScatteredFeatureIsland.halfSize);
+			xx = getRandomXZ(rand,16);
+			zz = getRandomXZ(rand,16);
 			yy = 10+rand.nextInt(30);
 			
 			boolean generates = false;
@@ -187,8 +186,8 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		}
 		
 		for(int attempt = 0, yAttempt, xx, yy = 0, zz, checkX, checkZ; attempt < 1000; attempt++){
-			xx = centerX+rand.nextInt(ComponentScatteredFeatureIsland.halfSize)-rand.nextInt(ComponentScatteredFeatureIsland.halfSize);
-			zz = centerZ+rand.nextInt(ComponentScatteredFeatureIsland.halfSize)-rand.nextInt(ComponentScatteredFeatureIsland.halfSize);
+			xx = getRandomXZ(rand,0);
+			zz = getRandomXZ(rand,0);
 			
 			boolean canGenerate = false;
 			
