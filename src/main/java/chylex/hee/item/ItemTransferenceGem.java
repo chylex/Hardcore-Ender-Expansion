@@ -27,15 +27,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
-
-	// TODO remove eventually
-	@Override
-	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (!world.isRemote && is.stackTagCompound != null && is.stackTagCompound.hasKey("display") && !is.stackTagCompound.hasKey("HEE_enhancements")){
-			for(TransferenceGemEnhancements enhancement:TransferenceGemEnhancements.getOldEnhancements(is))EnhancementHandler.addEnhancementToItemStack(is,enhancement);
-			if (is.stackTagCompound.hasKey("display"))is.stackTagCompound.getCompoundTag("display").removeTag("Lore");
-		}
-	}
 	
 	@Override
 	protected boolean canAcceptEnergy(ItemStack is){

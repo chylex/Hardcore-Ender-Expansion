@@ -39,7 +39,7 @@ public final class AchievementManager{
 		LEARNING_THE_POWERS = addAchievement(1, "learningThePowers", 2, -2, ItemList.essence, 0, TIME_FOR_NEW_ADVENTURES), //
 		REBIRTH = addAchievement(50, "rebirth", 1, -4, ItemList.temple_caller, 0, LEARNING_THE_POWERS), //
 		TRAVELING_101 = addAchievement(2, "traveling101", 0, 1, ItemList.end_powder, 0, TIME_FOR_NEW_ADVENTURES), //
-		SUPER_SHINY = addAchievement(51, "superShiny", -3, 1, Items.ender_pearl, 0, TRAVELING_101), // // TODO change to enhanced pearl w/ effect
+		SUPER_SHINY = addAchievement(51, "superShiny", -3, 1, ItemList.enhanced_ender_pearl, 0, TRAVELING_101), //
 		DEAD_VISIONARY = addAchievement(4, "deadVisionary", 2, 2, Items.ender_eye, 0, TRAVELING_101), //
 		//THAT_WAS_CLOSE = addAchievement(52, "thatWasClose", 1, 4, ItemList.spatial_dash_gem, 0, DEAD_VISIONARY),
 		WHOLE_NEW_CULTURES = addAchievement(6, "wholeNewCultures", 4, 2, BlockList.end_terrain, 0, DEAD_VISIONARY), //

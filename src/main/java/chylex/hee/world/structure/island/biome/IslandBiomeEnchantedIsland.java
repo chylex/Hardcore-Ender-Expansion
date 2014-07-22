@@ -11,10 +11,6 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
-	/*public static enum RareVariationIsland implements IRareVariationEnum{
-		TALL_PILLARS, LARGE_LAKES
-	}*/
-	
 	public static final BiomeContentVariation HOMELAND = new BiomeContentVariation(6);
 	
 	private final BiomeDecoratorEnchantedIsland decorator = new BiomeDecoratorEnchantedIsland();

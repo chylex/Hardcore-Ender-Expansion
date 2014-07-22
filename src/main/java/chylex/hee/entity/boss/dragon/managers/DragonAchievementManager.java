@@ -74,13 +74,14 @@ public class DragonAchievementManager{
 	
 	public NBTTagCompound writeToNBT(){
 		NBTTagCompound tag = new NBTTagCompound();
-		tag.setInteger("timer",battleTimer); // TODO change
+		tag.setInteger("___timer",battleTimer);
 		for(Entry<String,AchievementData> entry:playerData.entrySet())tag.setTag(entry.getKey(),entry.getValue().writeToNBT());
 		return tag;
 	}
 
 	public void readFromNBT(NBTTagCompound tag){
-		battleTimer = tag.getInteger("timer");
+		battleTimer = tag.hasKey("__timer") ? tag.getInteger("___timer") : tag.getInteger("timer"); // TODO review later and remove legacy compatibility
+		
 		for(Object o:tag.func_150296_c()){ // OBFUSCATED list tags?
 			String key = (String)o;
 			NBTBase b = tag.getTag(key);
