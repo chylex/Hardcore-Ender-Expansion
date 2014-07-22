@@ -10,10 +10,6 @@ import chylex.hee.system.savedata.LoreSavefile;
 import chylex.hee.system.savedata.WorldData;
 
 public class ItemAdventurersDiary extends Item{
-	public ItemAdventurersDiary(){
-		super();
-	}
-
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		world.playSoundAtEntity(player,"hardcoreenderexpansion:player.random.pageflip",1.5F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.8F));

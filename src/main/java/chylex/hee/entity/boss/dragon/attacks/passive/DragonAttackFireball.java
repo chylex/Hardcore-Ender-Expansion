@@ -15,7 +15,7 @@ public class DragonAttackFireball extends DragonPassiveAttackBase{
 			double dist = dragon.target.getDistanceSqToEntity(dragon.dragonPartHead);
 			if (dist > 400D){
 				dragon.initShot().setType(ShotType.FIREBALL).setTarget(dragon.target).shoot();
-				if (dragon.target instanceof EntityPlayer)KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment((EntityPlayer)dragon.target,0.15F,new short[]{ 0,2 });
+				if (dragon.target instanceof EntityPlayer)KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment((EntityPlayer)dragon.target,0.15F,new byte[]{ 0,2 });
 			}
 		}
 	}

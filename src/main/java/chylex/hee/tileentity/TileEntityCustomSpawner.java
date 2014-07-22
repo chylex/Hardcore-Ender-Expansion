@@ -20,7 +20,7 @@ public class TileEntityCustomSpawner extends TileEntity{
 		switch(id){
 			case 0: logic = new TowerEndermanSpawnerLogic(this); break;
 			case 1: logic = new SilverfishSpawnerLogic(this); break;
-			default: throw new RuntimeException("Unable to find spawner logic "+id+", this is not supposed to happen! Shutting down Minecraft to prevent more errors...");
+			default: throw new IllegalArgumentException("Unable to find spawner logic "+id+", this is not supposed to happen! Shutting down Minecraft to prevent more errors...");
 		}
 		this.logicId = id;
 	}

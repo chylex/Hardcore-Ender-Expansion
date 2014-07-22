@@ -47,7 +47,7 @@ public class DragonAttackStaynfire extends DragonSpecialAttackBase{
 					if (shootTimer++>rand.nextInt(15)+26-damageTaken*2 || (shootTimer > 25 && rand.nextInt(5) == 0) || damageTaken > 13)ended = true;
 					
 					if (rand.nextBoolean() && rand.nextBoolean()){
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.16F,new short[]{ 7,9 });
+						for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.16F,new byte[]{ 7,9 });
 					}
 				}
 			

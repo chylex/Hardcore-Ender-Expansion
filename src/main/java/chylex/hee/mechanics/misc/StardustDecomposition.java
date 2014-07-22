@@ -200,7 +200,7 @@ public final class StardustDecomposition{
 		return randRecipeIngredients;
 	}
 
-	private static final <T> T[] getNonNullValues(T[] array){
+	private static <T> T[] getNonNullValues(T[] array){
 		if (array.length == 0)return array;
 
 		int nonNull = 0, cnt = 0;

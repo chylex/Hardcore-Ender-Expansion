@@ -1,9 +1,9 @@
 package chylex.hee.item;
+import gnu.trove.iterator.TIntIterator;
+import gnu.trove.set.hash.TIntHashSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -39,8 +39,8 @@ public class ItemInfestationRemedy extends Item{
 	public ItemStack onEaten(ItemStack is, World world, EntityPlayer player){
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		
-		Set<Integer> toRemove = new HashSet<>();
-		Map<PotionEffect,Short> newDurations = new HashMap<>();
+		TIntHashSet toRemove = new TIntHashSet(5);
+		Map<PotionEffect,Integer> newDurations = new HashMap<>();
 		
 		for(Object o:player.getActivePotionEffects()){
 			PotionEffect eff = (PotionEffect)o;
@@ -48,12 +48,12 @@ public class ItemInfestationRemedy extends Item{
 				int dur = eff.getDuration()-3000+world.rand.nextInt(600);
 				
 				if (dur <= 0)toRemove.add(eff.getPotionID());
-				else newDurations.put(eff,(short)dur);
+				else newDurations.put(eff,dur);
 			}
 		}
 		
-		for(Integer i:toRemove)player.removePotionEffect(i);
-		for(Entry<PotionEffect,Short> entry:newDurations.entrySet()){
+		for(TIntIterator iter = toRemove.iterator(); iter.hasNext();)player.removePotionEffect(iter.next());
+		for(Entry<PotionEffect,Integer> entry:newDurations.entrySet()){
 			PotionEffect oldEff = entry.getKey();
 			player.removePotionEffect(oldEff.getPotionID());
 			player.addPotionEffect(new PotionEffect(oldEff.getPotionID(),entry.getValue(),oldEff.getAmplifier(),oldEff.getIsAmbient()));

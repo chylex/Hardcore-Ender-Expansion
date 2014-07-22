@@ -23,7 +23,7 @@ public enum DungeonDir{
 			case DOWN: return UP;
 			case LEFT: return RIGHT;
 			case RIGHT: return LEFT;
-			default: throw new RuntimeException("Invalid Dir");
+			default: throw new IllegalStateException("Invalid Dir");
 		}
 	}
 	
@@ -33,7 +33,7 @@ public enum DungeonDir{
 			case LEFT: return DOWN;
 			case DOWN: return RIGHT;
 			case RIGHT: return UP;
-			default: throw new RuntimeException("Invalid Dir");
+			default: throw new IllegalStateException("Invalid Dir");
 		}
 	}
 	
@@ -43,7 +43,7 @@ public enum DungeonDir{
 			case RIGHT: return DOWN;
 			case DOWN: return LEFT;
 			case LEFT: return UP;
-			default: throw new RuntimeException("Invalid Dir");
+			default: throw new IllegalStateException("Invalid Dir");
 		}
 	}
 }

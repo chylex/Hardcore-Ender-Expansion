@@ -53,7 +53,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 
 			if (field_145812_b > 5 && worldObj.getBlock(ix,iy,iz) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).size() == 0){
 				if (worldObj.setBlock(ix,iy,iz,func_145805_f())){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,ix+0.5D,iy+0.5D,iz+0.5D,8D))KnowledgeRegistrations.FALLING_OBSIDIAN.tryUnlockFragment(observer,1F,new short[]{ 0,1 });
+					for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,ix+0.5D,iy+0.5D,iz+0.5D,8D))KnowledgeRegistrations.FALLING_OBSIDIAN.tryUnlockFragment(observer,1F,new byte[]{ 0,1 });
 					setDead();
 				}
 			}
@@ -75,7 +75,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 				((Entity)o).attackEntityFrom(DamageSource.fallingBlock,Math.min(MathHelper.floor_float(i*5F),60));
 				
 				if (!hurt){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers((Entity)o,8D))KnowledgeRegistrations.FALLING_OBSIDIAN.tryUnlockFragment(observer,1F,new short[]{ 0,1 });
+					for(EntityPlayer observer:ObservationUtil.getAllObservers((Entity)o,8D))KnowledgeRegistrations.FALLING_OBSIDIAN.tryUnlockFragment(observer,1F,new byte[]{ 0,1 });
 					hurt = true;
 				}
 			}

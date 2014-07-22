@@ -120,8 +120,8 @@ public class TileEntitySoulCharm extends TileEntity{
 	
 	private void triggerKnowledge(Entity entity){
 		for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,8D)){
-			if (KnowledgeRegistrations.SOUL_CHARM.tryUnlockFragment(observer,0.16F,new short[]{ 0,1 }).stopTrying)continue;
-			if (KnowledgeRegistrations.SOUL_CHARM.tryUnlockFragment(observer,0.09F,new short[]{ 2 }) == UnlockResult.NOTHING_TO_UNLOCK){
+			if (KnowledgeRegistrations.SOUL_CHARM.tryUnlockFragment(observer,0.16F,new byte[]{ 0,1 }).stopTrying)continue;
+			if (KnowledgeRegistrations.SOUL_CHARM.tryUnlockFragment(observer,0.09F,new byte[]{ 2 }) == UnlockResult.NOTHING_TO_UNLOCK){
 				KnowledgeRegistrations.SOUL_CHARM_ENH.tryUnlockFragment(observer,1F);
 			}
 		}

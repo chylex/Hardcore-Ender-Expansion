@@ -1,14 +1,13 @@
 package chylex.hee.world.structure.island.feature.ravageddungeon;
+import gnu.trove.set.hash.TIntHashSet;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class RavagedDungeonGenerator{
 	private static final Random rand = new Random();
 	private final byte width, height;
-	private final List<Set<Integer>> blockedLocs = new ArrayList<>(5);
+	private final List<TIntHashSet> blockedLocs = new ArrayList<>(5);
 	public final DungeonLayer[] layers;
 	
 	public RavagedDungeonGenerator(int width, int height, int layers){
@@ -16,7 +15,7 @@ public class RavagedDungeonGenerator{
 		this.height = (byte)height;
 		this.layers = new DungeonLayer[layers];
 		
-		for(int a = 0; a < layers; a++)blockedLocs.add(new HashSet<Integer>());
+		for(int a = 0; a < layers; a++)blockedLocs.add(new TIntHashSet());
 	}
 	
 	public void blockLocation(int layer, int x, int y){

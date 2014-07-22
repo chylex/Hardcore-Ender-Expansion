@@ -112,7 +112,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 				}
 				else{
 					List<?> nearPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,4D,8D));
-					if (nearPlayers.size() > 0){
+					if (!nearPlayers.isEmpty()){
 						target = (EntityPlayer)nearPlayers.get(0);
 						sleepTimer = 0;
 					}
@@ -182,7 +182,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								
 								player.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs?6F:3F);
 								
-								KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(player,0.2F,new short[]{ 0,1,2,4 });
+								KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(player,0.2F,new byte[]{ 0,1,2,4 });
 							}
 							
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_POOF,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
@@ -206,7 +206,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								EntityPlayer player = (EntityPlayer)o;
 								player.addPotionEffect(effBlind);
 								player.addPotionEffect(effSlow);
-								KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(player,0.2F,new short[]{ 0,1,2,4 });
+								KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(player,0.2F,new byte[]{ 0,1,2,4 });
 							}
 						}
 					}
@@ -251,7 +251,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 							laserTopY = 0;
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_LASER_END,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
 							
-							for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(observer,0.2F,new short[]{ 0,1,2,4 });
+							for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(observer,0.2F,new byte[]{ 0,1,2,4 });
 						}
 					}
 					/*
@@ -301,7 +301,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		}
 		
 		Entity damager = source.getEntity();
-		if (damager != null && damager instanceof EntityPlayer)KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment((EntityPlayer)damager,0.04F,new short[]{ 0,1,2,3 });
+		if (damager != null && damager instanceof EntityPlayer)KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment((EntityPlayer)damager,0.04F,new byte[]{ 0,1,2,3 });
 		
 		if (amount < 7F)return true;
 		
@@ -343,8 +343,8 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		dropItem(ItemList.spatial_dash_gem,1);
 		
 		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D)){
-			if (KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(observer,0.7F,new short[]{ 5 }).stopTrying)return;
-			KnowledgeRegistrations.SPATIAL_DASH_GEM.tryUnlockFragment(observer,0.42F,new short[]{ 0,1 });
+			if (KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(observer,0.7F,new byte[]{ 5 }).stopTrying)return;
+			KnowledgeRegistrations.SPATIAL_DASH_GEM.tryUnlockFragment(observer,0.42F,new byte[]{ 0,1 });
 		}
 	}
 	

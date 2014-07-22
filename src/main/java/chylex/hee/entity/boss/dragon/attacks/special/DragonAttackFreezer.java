@@ -35,7 +35,7 @@ public class DragonAttackFreezer extends DragonSpecialAttackBase{
 				if (shootTimer++>16){
 					dragon.initShot().setType(ShotType.FREEZEBALL).setTarget(target).shoot();
 					shootTimer = 0;
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.3F,new short[]{ 7,12 });
+					for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.3F,new byte[]{ 7,12 });
 				}
 				double dist = target.getDistanceSqToEntity(dragon.dragonPartHead);
 				if (dist < 105D)phase = 2;
@@ -49,8 +49,8 @@ public class DragonAttackFreezer extends DragonSpecialAttackBase{
 	}
 	
 	@Override
-	public short getNextAttackTimer(){
-		return (short)(2+((4-dragon.getWorldDifficulty())*5));
+	public int getNextAttackTimer(){
+		return 2+((4-dragon.getWorldDifficulty())*5);
 	}
 	
 	@Override

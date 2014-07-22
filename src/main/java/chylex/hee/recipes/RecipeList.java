@@ -10,7 +10,7 @@ import chylex.hee.mechanics.enhancements.types.SoulCharmEnhancements;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
-	public static final void addRecipes(){
+	public static void addRecipes(){
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
 			"DED",
 			'D',Items.diamond, 'E',Items.ender_eye
@@ -97,4 +97,6 @@ public final class RecipeList{
 		RecipeSorter.register("hee:soul_charm_enhancements",SoulCharmEnhancementRecipe.class,RecipeSorter.Category.SHAPED,"after:minecraft:shapeless");
 		for(SoulCharmEnhancements enhancement:SoulCharmEnhancements.values())GameRegistry.addRecipe(new SoulCharmEnhancementRecipe(enhancement));
 	}
+	
+	private RecipeList(){}
 }

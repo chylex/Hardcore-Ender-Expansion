@@ -5,12 +5,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class KnowledgeFragment{
-	public final short id;
+	public final byte id;
 	private int[] requirements = new int[0];
 	private IFragmentUnlockAction unlockAction;
 	
 	protected KnowledgeFragment(int id){
-		this.id = (short)id;
+		this.id = (byte)id;
 	}
 	
 	public KnowledgeFragment setUnlockRequirements(int...unlockRequirementIds){

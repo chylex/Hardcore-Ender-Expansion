@@ -98,10 +98,10 @@ public class ModClientProxy extends ModCommonProxy{
 	
 	@Override
 	public void registerRenderers(){
-		renderIdObsidianSpecial = (short)RenderingRegistry.getNextAvailableRenderId();
-		renderIdFlowerPot = (short)RenderingRegistry.getNextAvailableRenderId();
-		renderIdSpookyLeaves = (short)RenderingRegistry.getNextAvailableRenderId();
-		renderIdInfestationRemedyCauldron = (short)RenderingRegistry.getNextAvailableRenderId();
+		renderIdObsidianSpecial = RenderingRegistry.getNextAvailableRenderId();
+		renderIdFlowerPot = RenderingRegistry.getNextAvailableRenderId();
+		renderIdSpookyLeaves = RenderingRegistry.getNextAvailableRenderId();
+		renderIdInfestationRemedyCauldron = RenderingRegistry.getNextAvailableRenderId();
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockObsidianSpecial());
 		RenderingRegistry.registerBlockHandler(new RenderBlockEndFlowerPot());

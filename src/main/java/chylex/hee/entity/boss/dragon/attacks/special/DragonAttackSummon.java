@@ -79,7 +79,7 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 				summoned++;
 				
 				if (rand.nextBoolean()){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.41F,new short[]{ 7,13 });
+					for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.41F,new byte[]{ 7,13 });
 				}
 			}
 			if ((summoned > 4 && rand.nextInt(12)+6 < damageTaken) || summoned > 13)ended = true;
@@ -108,8 +108,8 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 	}
 	
 	@Override
-	public short getNextAttackTimer(){
-		return (short)(super.getNextAttackTimer()+80);
+	public int getNextAttackTimer(){
+		return super.getNextAttackTimer()+80;
 	}
 	
 	@Override

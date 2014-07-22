@@ -51,7 +51,7 @@ public class EntityMobScorchingLens extends EntityMob{
 				));
 				
 				if (rand.nextInt(8) == 0){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.SCORCHING_LENS.tryUnlockFragment(observer,0.2F,new short[]{ 0,1,2 });
+					for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.SCORCHING_LENS.tryUnlockFragment(observer,0.2F,new byte[]{ 0,1,2 });
 				}
 			}
 		}
@@ -76,7 +76,7 @@ public class EntityMobScorchingLens extends EntityMob{
 		dropItem(ItemList.igneous_rock,rand.nextInt(2)+rand.nextInt(2));
 		if (recentlyHit)entityDropItem(new ItemStack(ItemList.essence,rand.nextInt(5+looting),EssenceType.FIERY.getItemDamage()),0F);
 		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.SCORCHING_LENS.tryUnlockFragment(observer,0.25F,new short[]{ 3,4 });
+		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.SCORCHING_LENS.tryUnlockFragment(observer,0.25F,new byte[]{ 3,4 });
 	}
 	
 	@Override

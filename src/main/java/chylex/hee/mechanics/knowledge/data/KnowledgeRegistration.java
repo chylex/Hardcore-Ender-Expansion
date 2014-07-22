@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.knowledge.data;
+import gnu.trove.map.hash.TObjectByteHashMap;
 import java.util.HashMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -13,7 +14,7 @@ import chylex.hee.system.util.DragonUtil;
 
 public class KnowledgeRegistration{
 	public static final HashMap<String,KnowledgeRegistration> lookup = new HashMap<>();
-	private static final HashMap<String,Byte> compendiumSlotCache = new HashMap<>();
+	private static final TObjectByteHashMap<String> compendiumSlotCache = new TObjectByteHashMap<>();
 	private static final DummyRenderer dummyRenderer = new DummyRenderer();
 	
 	public final KnowledgeCategory category;
@@ -71,8 +72,8 @@ public class KnowledgeRegistration{
 	}
 	
 	public boolean hasSomeFragments(EntityPlayer player){
-		Byte cache = compendiumSlotCache.get(player.getCommandSenderName());
-		if (cache != null){
+		byte cache = compendiumSlotCache.get(player.getCommandSenderName());
+		if (cache != compendiumSlotCache.getNoEntryValue()){
 			ItemStack invIS = player.inventory.mainInventory[cache];
 			
 			if (invIS != null && invIS.getItem() == ItemList.ender_compendium)return fragmentSet.getUnlockedFragments(invIS).length > 0;
@@ -94,7 +95,7 @@ public class KnowledgeRegistration{
 		return tryUnlockFragment(player,chance,null);
 	}
 	
-	public UnlockResult tryUnlockFragment(EntityPlayer player, float chance, short[] unlockableFragments){
+	public UnlockResult tryUnlockFragment(EntityPlayer player, float chance, byte[] unlockableFragments){
 		if (player == null){
 			Thread.dumpStack();
 			DragonUtil.severe("Player is null when unlocking knowledge fragment!");
@@ -106,8 +107,8 @@ public class KnowledgeRegistration{
 		int compendiumSlot = -1,paperSlot = -1;
 		ItemStack[] inv = player.inventory.mainInventory;
 		
-		Byte cache = compendiumSlotCache.get(player.getCommandSenderName());
-		if (cache != null){
+		byte cache = compendiumSlotCache.get(player.getCommandSenderName());
+		if (cache != compendiumSlotCache.getNoEntryValue()){
 			ItemStack invIS = inv[cache];
 			
 			if (invIS != null && invIS.getItem() == ItemList.ender_compendium)compendiumSlot = cache;

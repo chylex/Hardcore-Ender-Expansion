@@ -1,6 +1,7 @@
 package chylex.hee.block;
 import java.util.List;
 import java.util.Random;
+import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -39,11 +40,11 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	public void updateTick(World world, int x, int y, int z, Random rand){
 		int meta = world.getBlockMetadata(x,y,z);
 		byte[] offset = meta == metaSpreadingLitN || meta == metaSpreadingUnlitN ? new byte[]{ 0, -1 } :
-					  meta == metaSpreadingLitS || meta == metaSpreadingUnlitS ? new byte[]{ 0, 1 } :
-					  meta == metaSpreadingLitE || meta == metaSpreadingUnlitE ? new byte[]{ 1, 0 } :
-					  meta == metaSpreadingLitW || meta == metaSpreadingUnlitW ? new byte[]{ -1, 0 } :
-					  null;
-		if (offset == null)return;
+					    meta == metaSpreadingLitS || meta == metaSpreadingUnlitS ? new byte[]{ 0, 1 } :
+					    meta == metaSpreadingLitE || meta == metaSpreadingUnlitE ? new byte[]{ 1, 0 } :
+					    meta == metaSpreadingLitW || meta == metaSpreadingUnlitW ? new byte[]{ -1, 0 } :
+					    ArrayUtils.EMPTY_BYTE_ARRAY;
+		if (offset.length == 0)return;
 		
 		// update nearby
 		

@@ -108,7 +108,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 						}
 					}
 					
-					KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(player,0.32F,new short[]{ 7,14 });
+					KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(player,0.32F,new byte[]{ 7,14 });
 				}
 			}
 		}

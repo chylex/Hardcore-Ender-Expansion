@@ -106,7 +106,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 				EntityPlayer player = (EntityPlayer)tar;
 				
 				if (!KnowledgeRegistrations.DRAGON_LAIR.tryUnlockFragment(player,0.25F).stopTrying){
-					KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(player,0.16F,new short[]{ 1,4 });
+					KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(player,0.16F,new byte[]{ 1,4 });
 				}
 			}
 		}

@@ -1,9 +1,8 @@
 package chylex.hee.mechanics.knowledge.data;
-import java.util.ArrayList;
+import gnu.trove.list.array.TByteArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -69,7 +68,7 @@ public class ObjectFragmentSet{
 		is.stackTagCompound.setTag("knowledge",knowledgeData);
 	}
 	
-	public boolean unlockFragment(EntityPlayer player, ItemStack is, short fragmentId){
+	public boolean unlockFragment(EntityPlayer player, ItemStack is, byte fragmentId){
 		if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
 		
 		NBTTagCompound knowledgeData = is.stackTagCompound.getCompoundTag("knowledge");
@@ -96,7 +95,7 @@ public class ObjectFragmentSet{
 		lastUnlock.setShort("time",(short)200);
 		lastUnlock.setString("cat",registration.category.identifier);
 		lastUnlock.setString("reg",registration.identifier);
-		lastUnlock.setShort("fid",fragmentId);
+		lastUnlock.setByte("fid",fragmentId);
 		is.stackTagCompound.setTag("knowledgeLast",lastUnlock);
 		
 		if (player != null){
@@ -106,17 +105,17 @@ public class ObjectFragmentSet{
 		return true;
 	}
 	
-	public boolean unlockRandomFragment(EntityPlayer player, ItemStack is, short[] unlockableFragments){
-		List<Short> canUnlock = new ArrayList<>();
+	public boolean unlockRandomFragment(EntityPlayer player, ItemStack is, byte[] unlockableFragments){
+		TByteArrayList canUnlock = new TByteArrayList(10);
 		
-		int[] unlocked = is.stackTagCompound != null?is.stackTagCompound.getCompoundTag("knowledge").getCompoundTag(registration.category.identifier).getIntArray(registration.identifier):null;
+		int[] unlocked = is.stackTagCompound == null ? null : is.stackTagCompound.getCompoundTag("knowledge").getCompoundTag(registration.category.identifier).getIntArray(registration.identifier);
 		
 		for(KnowledgeFragment fragment:fragments){
-			if (checkUnlockRequirements(is,fragment.id) && (unlocked == null || !ArrayUtils.contains(unlocked,fragment.id))){
-				if (unlockableFragments == null || ArrayUtils.contains(unlockableFragments,fragment.id))canUnlock.add(fragment.id);
+			if (checkUnlockRequirements(is,fragment.id) && (unlocked == null || !ArrayUtils.contains(unlocked,fragment.id)) && (unlockableFragments == null || ArrayUtils.contains(unlockableFragments,fragment.id))){
+				canUnlock.add(fragment.id);
 			}
 		}
 
-		return canUnlock.isEmpty()?false:unlockFragment(player,is,canUnlock.get(player.getRNG().nextInt(canUnlock.size())));
+		return canUnlock.isEmpty() ? false : unlockFragment(player,is,canUnlock.get(player.getRNG().nextInt(canUnlock.size())));
 	}
 }

@@ -24,7 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
-	public static RenderBlocks blockRenderer;
+	private static RenderBlocks blockRenderer;
 	
 	private RenderManager renderManager;
 	private Random rand = new Random();

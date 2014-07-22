@@ -40,7 +40,7 @@ public class ItemBiomeCompass extends Item{
 			}
 			
 			if (isHeld && world.rand.nextInt(70) == 0 && entity instanceof EntityPlayer){
-				KnowledgeRegistrations.BIOME_COMPASS.tryUnlockFragment((EntityPlayer)entity,1F,new short[]{ 1 });
+				KnowledgeRegistrations.BIOME_COMPASS.tryUnlockFragment((EntityPlayer)entity,1F,new byte[]{ 1 });
 			}
 		}
 		else if (is.stackTagCompound != null && entity instanceof EntityPlayer){

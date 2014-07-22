@@ -1,6 +1,5 @@
 package chylex.hee.mechanics.enhancements;
-import java.util.HashSet;
-import java.util.Set;
+import gnu.trove.set.hash.TShortHashSet;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,8 +17,8 @@ public class EnhancementFragmentUtil{
 		return fragments;
 	}
 	
-	public static Set<Short> getUnlockedEnhancements(KnowledgeRegistration registration, EntityPlayer player){
-		Set<Short> unlockedEnhancements = new HashSet<Short>();
+	public static TShortHashSet getUnlockedEnhancements(KnowledgeRegistration registration, EntityPlayer player){
+		TShortHashSet unlockedEnhancements = new TShortHashSet(8);
 		
 		InventoryPlayer inv = player.inventory;
 		
@@ -41,7 +40,7 @@ public class EnhancementFragmentUtil{
 			ItemStack is = inv.mainInventory[a];
 			if (is == null || is.getItem() != ItemList.ender_compendium || is.stackTagCompound == null)continue;
 			
-			return registration.tryUnlockFragment(player,1F,new short[]{ (short)enhancement.ordinal() }) == UnlockResult.SUCCESSFUL;
+			return registration.tryUnlockFragment(player,1F,new byte[]{ (byte)enhancement.ordinal() }) == UnlockResult.SUCCESSFUL;
 		}
 		
 		return false;

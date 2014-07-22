@@ -13,8 +13,8 @@ import chylex.hee.world.structure.island.MapGenIsland;
 import chylex.hee.world.structure.tower.MapGenTower;
 
 public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
-	private World world;
-	private MapGenScatteredFeature islandGen,towerGen;
+	private final World world;
+	private final MapGenScatteredFeature islandGen,towerGen;
 	
 	public ChunkProviderHardcoreEnd(World world, long seed){
 		super(world,seed);

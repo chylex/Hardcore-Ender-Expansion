@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.feature.ravageddungeon;
+import gnu.trove.set.hash.TIntHashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -8,12 +9,12 @@ import chylex.hee.world.structure.island.feature.ravageddungeon.DungeonElementTy
 public final class DungeonLayer{
 	private final DungeonElementType[][] elementArray;
 	private final DungeonElementList elementList;
-	private final Set<Integer> blockedLocs;
+	private final TIntHashSet blockedLocs;
 	private final byte width, height;
 	private byte x = Byte.MIN_VALUE, y = Byte.MIN_VALUE;
 	private byte entranceX = -1, entranceY = -1;
 	
-	public DungeonLayer(int width, int height, Set<Integer> blockedLocs){
+	public DungeonLayer(int width, int height, TIntHashSet blockedLocs){
 		elementArray = new DungeonElementType[width][height];
 		elementList = new DungeonElementList(width,height);
 		
@@ -27,7 +28,7 @@ public final class DungeonLayer{
 	}
 	
 	public void createEntrance(int x, int y){
-		if (this.entranceX != -1 || this.entranceY != -1)throw new RuntimeException("Created entrance twice!");
+		if (this.entranceX != -1 || this.entranceY != -1)throw new IllegalStateException("Created entrance twice!");
 		this.entranceX = this.x = (byte)x;
 		this.entranceY = this.y = (byte)y;
 		elementArray[x][y] = DungeonElementType.ENTRANCE;
@@ -35,16 +36,16 @@ public final class DungeonLayer{
 	}
 	
 	public void createDescend(int x, int y){
-		if (elementList.getTypeAt(x,y) != DungeonElementType.ROOM)throw new RuntimeException("Cannot create descend, invalid dungeon element!");
+		if (elementList.getTypeAt(x,y) != DungeonElementType.ROOM)throw new IllegalStateException("Cannot create descend, invalid dungeon element!");
 		elementArray[x][y] = DungeonElementType.DESCEND;
 		elementList.add(new DungeonElement(x,y,DungeonElementType.DESCEND));
 	}
 	
 	public void createEnd(int x, int y){
-		if (elementList.getTypeAt(x,y) != DungeonElementType.ROOM)throw new RuntimeException("Cannot create end, invalid dungeon element!");
+		if (elementList.getTypeAt(x,y) != DungeonElementType.ROOM)throw new IllegalStateException("Cannot create end, invalid dungeon element!");
 		
 		Set<DungeonElement> connected = elementList.getGrouped(elementList.getAt(x,y));
-		if (connected.size() != 4)throw new RuntimeException("Cannot create end, invalid dungeon element size!");
+		if (connected.size() != 4)throw new IllegalStateException("Cannot create end, invalid dungeon element size!");
 		
 		List<DungeonElement> endElements = new ArrayList<DungeonElement>();
 		

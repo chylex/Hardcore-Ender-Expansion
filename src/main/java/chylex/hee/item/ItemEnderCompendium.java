@@ -34,9 +34,9 @@ public class ItemEnderCompendium extends Item{
 			NBTTagCompound tag = is.stackTagCompound.getCompoundTag("knowledgeLast");
 			
 			if (tag.hasKey("time")){
-				short s = tag.getShort("time");
+				int s = tag.getShort("time");
 				if (--s <= 0)is.stackTagCompound.removeTag("knowledgeLast");
-				else tag.setShort("time",s);
+				else tag.setShort("time",(short)s);
 			}
 		}
 	}

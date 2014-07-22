@@ -1,7 +1,5 @@
 package chylex.hee.tileentity;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import gnu.trove.map.hash.TObjectByteHashMap;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,27 +20,27 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory implements IInventoryInvalidateable{
 	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1,2 }, slotsBottom = new int[]{};
-	private static final Map<ItemDamagePair,Short> energyValues = new HashMap<>();
+	private static final TObjectByteHashMap<ItemDamagePair> energyValues = new TObjectByteHashMap<>();
 	
 	private static void setItemEnergy(Block block, int energy){
-		energyValues.put(new ItemDamagePair(Item.getItemFromBlock(block),-1),(short)energy);
+		energyValues.put(new ItemDamagePair(Item.getItemFromBlock(block),-1),(byte)energy);
 	}
 	
 	private static void setItemEnergy(Block block, int metadata, int energy){
-		energyValues.put(new ItemDamagePair(Item.getItemFromBlock(block),metadata),(short)energy);
+		energyValues.put(new ItemDamagePair(Item.getItemFromBlock(block),metadata),(byte)energy);
 	}
 	
 	private static void setItemEnergy(Item item, int energy){
-		energyValues.put(new ItemDamagePair(item,-1),(short)energy);
+		energyValues.put(new ItemDamagePair(item,-1),(byte)energy);
 	}
 	
 	private static void setItemEnergy(Item item, int damage, int energy){
-		energyValues.put(new ItemDamagePair(item,damage),(short)energy);
+		energyValues.put(new ItemDamagePair(item,damage),(byte)energy);
 	}
 	
 	private static short getItemEnergy(ItemStack is){
-		for(Entry<ItemDamagePair,Short> entry:energyValues.entrySet()){
-			if (entry.getKey().check(is))return entry.getValue();
+		for(ItemDamagePair idp:energyValues.keySet()){
+			if (idp.check(is))return energyValues.get(idp);
 		}
 		
 		return 0;

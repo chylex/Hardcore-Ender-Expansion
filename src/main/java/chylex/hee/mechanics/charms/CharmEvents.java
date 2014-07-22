@@ -1,6 +1,5 @@
 package chylex.hee.mechanics.charms;
-import java.util.ArrayList;
-import java.util.List;
+import gnu.trove.list.array.TShortArrayList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,15 +23,13 @@ final class CharmEvents{
 		CharmPouchInfo info = CharmPouchHandler.getActivePouch(player);
 		if (info == null)return ArrayUtils.EMPTY_SHORT_ARRAY;
 		
-		List<Short> values = new ArrayList<Short>(5);
+		TShortArrayList values = new TShortArrayList(5);
 		for(Pair<CharmType,CharmRecipe> entry:info.charms){
 			short value = entry.getRight().getProp(prop);
 			if (value != -1)values.add(value);
 		}
 		
-		short[] array = new short[values.size()];
-		for(int a = 0; a < array.length; a++)array[a] = values.get(0).shortValue();
-		return array;
+		return values.toArray();
 	}
 	
 	private CharmEvents(){}

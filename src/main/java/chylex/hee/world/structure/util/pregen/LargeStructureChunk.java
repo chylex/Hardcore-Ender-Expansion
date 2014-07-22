@@ -1,8 +1,7 @@
 package chylex.hee.world.structure.util.pregen;
+import gnu.trove.set.hash.TIntHashSet;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -17,7 +16,7 @@ public final class LargeStructureChunk{
 	
 	private final Block[] storedBlocks;
 	private final byte[] storedMetadata;
-	private final Set<Integer> scheduledForUpdate = new HashSet<Integer>();
+	private final TIntHashSet scheduledForUpdate = new TIntHashSet();
 	private final Map<Integer,String> storedTileEntityClues = new HashMap<>();
 	private final Map<String,ITileEntityGenerator> storedTileEntities = new HashMap<>();
 	

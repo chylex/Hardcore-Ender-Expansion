@@ -1,6 +1,5 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
-import java.util.HashMap;
-import java.util.Map;
+import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -16,9 +15,9 @@ public abstract class DragonSpecialAttackBase{
 	protected static Random rand = new Random();
 	
 	protected EntityBossDragon dragon;
-	protected float damageTaken = 0f;
-	protected float damageDealt = 0f;
-	protected Map<String, Float> lastPlayerHealth = new HashMap<>();
+	protected float damageTaken = 0F;
+	protected float damageDealt = 0F;
+	protected TObjectFloatHashMap<String> lastPlayerHealth = new TObjectFloatHashMap<>();
 	public int tick = 0;
 	public int phase = 0;
 	public double previousEffectivness = 0D;
@@ -85,23 +84,22 @@ public abstract class DragonSpecialAttackBase{
 			if (o instanceof EntityPlayer){
 				EntityPlayer player = (EntityPlayer)o;
 				String username = player.getCommandSenderName();
+				
 				if (lastPlayerHealth.containsKey(username)){
 					float last = lastPlayerHealth.get(username);
-					if (player.getHealth() < last){
-						damageDealt += (last-player.getHealth());
-					}
+					if (player.getHealth() < last)damageDealt += (last-player.getHealth());
 				}
+				
 				lastPlayerHealth.put(username,player.getHealth());
 			}
 		}
 	}
 	
 	protected double calculateTempEffectivness(){
-		double D = damageDealt;
-		double T = damageTaken;
-		//System.out.println("d "+D+" / t "+T);
-		if (D-T>0)return ((MathUtil.square(D-T)/10D)+Math.sqrt(D)+Math.sqrt((4D*(D-T))/(T == 0D?1D:T))-(((T*T)+T)/35D));
-		return (Math.sqrt(3D*D)-((T*T)+T)/30D-Math.sqrt(T)+(D/2D*T));
+		double dealt = damageDealt;
+		double taken = damageTaken;
+		if (dealt-taken > 0)return ((MathUtil.square(dealt-taken)*0.1D)+Math.sqrt(dealt)+Math.sqrt((4D*(dealt-taken))/(taken == 0D ? 1D : taken))-(((taken*taken)+taken)/35D));
+		return (Math.sqrt(3D*dealt)-((taken*taken)+taken)/30D-Math.sqrt(taken)+(dealt/2D*taken));
 	}
 	
 	protected double calculateFinalEffectivness(){
@@ -116,8 +114,8 @@ public abstract class DragonSpecialAttackBase{
 		return true;
 	}
 	
-	public short getNextAttackTimer(){
-		return (short)Math.max(140,180+rand.nextInt(100)+((4-dragon.getWorldDifficulty())*30)-dragon.worldObj.playerEntities.size()*15);  
+	public int getNextAttackTimer(){
+		return Math.max(140,180+rand.nextInt(100)+((4-dragon.getWorldDifficulty())*30)-dragon.worldObj.playerEntities.size()*15);  
 	}
 
 	public float overrideMovementSpeed(){

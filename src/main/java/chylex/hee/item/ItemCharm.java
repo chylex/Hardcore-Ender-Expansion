@@ -32,7 +32,7 @@ public class ItemCharm extends Item{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		CharmType type = CharmType.getFromDamage(is.getItemDamage()).getLeft();
-		return "item.charm."+(type != null ? type.name().toLowerCase().replaceAll("_","") : "invalid");
+		return "item.charm."+(type == null ? "invalid" : type.name().toLowerCase().replaceAll("_",""));
 	}
 	
 	@Override

@@ -16,7 +16,7 @@ public class ItemIgneousRock extends ItemAbstractCustomEntity implements IFuelHa
 
 		if (is != null && is.getItem() == ItemList.igneous_rock){
 			entity.setFire((int)Math.ceil(mp*(world.rand.nextInt(4)+3+Math.max(1,is.stackSize/10))));
-			if (entity instanceof EntityPlayer)KnowledgeRegistrations.IGNEOUS_ROCK.tryUnlockFragment((EntityPlayer)entity,0.2F,new short[]{ 0,1,2,3,4 });
+			if (entity instanceof EntityPlayer)KnowledgeRegistrations.IGNEOUS_ROCK.tryUnlockFragment((EntityPlayer)entity,0.2F,new byte[]{ 0,1,2,3,4 });
 		}
 	}
 

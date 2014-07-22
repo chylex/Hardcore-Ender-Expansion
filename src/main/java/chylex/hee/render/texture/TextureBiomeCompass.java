@@ -1,7 +1,7 @@
 package chylex.hee.render.texture;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureCompass;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
@@ -11,12 +11,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class TextureBiomeCompass extends TextureCompass{
+public class TextureBiomeCompass extends TextureAtlasSprite{
 	public double currentAngle;
 	public double angleDelta;
 	private double lastSavedX,lastSavedZ;
 	private ChunkCoordinates cachedCoords;
-	private byte cachedBiomeId = 0;
+	private byte cachedBiomeId;
 
 	public TextureBiomeCompass(String iconName){
 		super(iconName);
@@ -34,7 +34,6 @@ public class TextureBiomeCompass extends TextureCompass{
 		}
 	}
 
-	@Override
 	public void updateCompass(World world, double x, double z, double yaw, boolean isInMenu, boolean isItemFrame){
 		if (!framesTextureData.isEmpty()){
 			double angle = 0D;

@@ -1,4 +1,5 @@
 package chylex.hee.world.util;
+import java.lang.reflect.InvocationTargetException;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.world.World;
 import chylex.hee.system.weight.IWeightProvider;
@@ -25,7 +26,7 @@ public class SpawnEntry implements IWeightProvider{
 	public EntityLiving createMob(World world){
 		try{
 			return mobClass.getConstructor(World.class).newInstance(world);
-		}catch(Exception e){
+		}catch(NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e){
 			e.printStackTrace();
 		}
 		return null;

@@ -40,25 +40,25 @@ public class PotionTypes{
 		/* 16 */ new TimedPotion(Potion.confusion,8251,8253,1,6,48,6)
 	));
 	
-	private static final Map<ItemDamagePair,Byte[]> itemToIndex = new HashMap<>();
+	private static final Map<ItemDamagePair,byte[]> itemToIndex = new HashMap<>();
 	
 	private static void mapItemToIndex(Item item, int...indexes){
 		mapItemToIndex(item,(short)0,indexes);
 	}
 	
 	private static void mapItemToIndex(Item item, Short damage, int...indexes){
-		Byte[] byteIndexes = new Byte[indexes.length];
+		byte[] byteIndexes = new byte[indexes.length];
 		for(int a = 0; a < indexes.length; a++)byteIndexes[a] = (byte)indexes[a];
 		itemToIndex.put(new ItemDamagePair(item,damage),byteIndexes);
 	}
 	
-	public static Byte[] getItemIndexes(ItemStack is){
-		for(Entry<ItemDamagePair,Byte[]> entry:itemToIndex.entrySet()){
+	public static byte[] getItemIndexes(ItemStack is){
+		for(Entry<ItemDamagePair,byte[]> entry:itemToIndex.entrySet()){
 			ItemDamagePair item = entry.getKey();
 			if (item.check(is))return entry.getValue();
 		}
 		
-		return ArrayUtils.EMPTY_BYTE_OBJECT_ARRAY;
+		return ArrayUtils.EMPTY_BYTE_ARRAY;
 	}
 	
 	static{
@@ -89,7 +89,7 @@ public class PotionTypes{
 		return null;
 	}
 	
-	public static short getRequiredPowder(Item ingredient, ItemStack is){
+	public static int getRequiredPowder(Item ingredient, ItemStack is){
 		if (is.getItemDamage() <= 16){
 			if (is.getItemDamage() == 0 && (ingredient == ItemList.instability_orb || ingredient == ItemList.silverfish_blood))return 8;
 			else return 0;
@@ -100,15 +100,15 @@ public class PotionTypes{
 
 		if (ingredient == Items.redstone){
 			AbstractPotionData potionData = getPotionData(is);
-			if (potionData instanceof TimedPotion)return (short)(((TimedPotion)potionData).getDurationLevel(eff.getDuration())+1);
+			if (potionData instanceof TimedPotion)return ((TimedPotion)potionData).getDurationLevel(eff.getDuration())+1;
 		}
-		else if (ingredient == Items.glowstone_dust)return (short)(2*(eff.getAmplifier()+1));
+		else if (ingredient == Items.glowstone_dust)return 2*(eff.getAmplifier()+1);
 		else if (ingredient == Items.gunpowder)return 3;
 		return 0;
 	}
 	
 	public static boolean canBeApplied(Item ingredient, ItemStack is){
-		Byte[] indexes = getItemIndexes(is);
+		byte[] indexes = getItemIndexes(is);
 		if (indexes.length == 0){
 			if (is.getItemDamage() <= 16){
 				if ((ingredient == ItemList.instability_orb || ingredient == ItemList.silverfish_blood) ||
@@ -143,7 +143,7 @@ public class PotionTypes{
 		else if (ingredient == ItemList.silverfish_blood)return new ItemStack(ItemList.infestation_remedy);
 		else if (ingredient == Items.gunpowder && is.getItem() == ItemList.potion_of_instability)return new ItemStack(ItemList.potion_of_instability,1,1);
 		
-		Byte[] indexes = getItemIndexes(is);
+		byte[] indexes = getItemIndexes(is);
 		if (indexes.length == 0){
 			PotionEffect eff = getEffectIfValid(is);
 			if (eff == null)return is;

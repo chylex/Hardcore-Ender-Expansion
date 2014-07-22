@@ -78,7 +78,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 							
 							for(EntityPlayer observer:ObservationUtil.getAllObservers(owner,12D)){
 								if (KnowledgeRegistrations.ENDERMAN_RELIC.tryUnlockFragment(observer,0.6F).stopTrying)continue;
-								KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.3F,new short[]{ 0 });
+								KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.3F,new byte[]{ 0 });
 							}
 							
 							break;

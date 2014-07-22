@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.tower;
+import gnu.trove.list.array.TByteArrayList;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -171,8 +172,8 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 			ladderMeta = getMetadataWithOffset(Blocks.ladder,a%2 == 0?2:3);
 			fillWithMetadataBlocks(world,bb,centerX,yy+1,centerZ-3+6*(a%2),centerX,yy+6,centerZ-3+6*(a%2),Blocks.ladder,ladderMeta,Blocks.ladder,ladderMeta,false);
 			
-			generateWallDecorations(world,rand,bb,centerX,yy,centerZ);
-			generateFloor(world,rand,bb,centerX,yy,centerZ,a);
+			generateWallDecorations(world,bb,centerX,yy,centerZ);
+			generateFloor(world,bb,centerX,yy,centerZ,a);
 			
 			if (a < roomAmount-1)generateBasicRoom(world,rand,bb,centerX,yy+1,centerZ,a);
 			else generateChestRoom(world,rand,bb,centerX,yy+1,centerZ,a);
@@ -219,11 +220,11 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 			placeBlockAndUpdate(Blocks.glowstone,0,centerX,topY+13,centerZ-8+16*a,world,bb);
 		}
 		
-		int _z = roomAmount%2 == 1?2:-2;
+		int zOffset = roomAmount%2 == 1 ? 2 : -2;
 		placeBlockAtCurrentPosition(world,Blocks.ladder,getMetadataWithOffset(Blocks.ladder,roomAmount%2 == 0?3:2),centerX,topY,centerZ+(roomAmount%2 == 1?-3:3),bb);
-		placeBlockAndUpdate(BlockList.obsidian_special_glow,1,centerX,topY+1,centerZ+_z,world,bb);
+		placeBlockAndUpdate(BlockList.obsidian_special_glow,1,centerX,topY+1,centerZ+zOffset,world,bb);
 		
-		int xx = getXWithOffset(centerX,centerZ+_z),yy = getYWithOffset(topY+1),zz = getZWithOffset(centerX,centerZ+_z);
+		int xx = getXWithOffset(centerX,centerZ+zOffset),yy = getYWithOffset(topY+1),zz = getZWithOffset(centerX,centerZ+zOffset);
 		if (bb.isVecInside(xx,yy,zz)){
 			EntityMiniBossEnderEye eye = new EntityMiniBossEnderEye(world,xx+0.5D,yy+0.825D,zz+0.5D);
 			eye.setPositionAndRotation(eye.posX,eye.posY,eye.posZ,90*coordBaseMode,0);
@@ -233,7 +234,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		return true;
 	}
 	
-	private void generateWallDecorations(World world, Random rand, StructureBoundingBox bb, int x, int y, int z){
+	private void generateWallDecorations(World world, StructureBoundingBox bb, int x, int y, int z){
 		for(int a = 0; a < 2; a++){
 			// outline
 			fillWithMetadataBlocks(world,bb,x-5+10*a,y+6,z-2,x-5+10*a,y+6,z+2,BlockList.obsidian_special,1,BlockList.obsidian_special,1,false);
@@ -265,7 +266,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		}
 	}
 	
-	private void generateFloor(World world, Random rand, StructureBoundingBox bb, int x, int y, int z, int roomNb){
+	private void generateFloor(World world, StructureBoundingBox bb, int x, int y, int z, int roomNb){
 		for(int a = 0; a < 2; a++){
 			for(int b = 0; b < 2; b++){
 				// 2x2 obsidian blocks on sides
@@ -438,8 +439,8 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		 * beacons and shelves with stairs on sides
 		 */
 		else if (n == 7){
-			int _z = isRoomEven?-3:3;
-			placeBlockAtCurrentPosition(world,Blocks.stone_brick_stairs,4+getMetadataWithOffset(Blocks.stone_stairs,Facing.SOUTH_POSZ.getStairs()),x,y+4,z-_z,bb);
+			int zOffset = isRoomEven ? -3 : 3;
+			placeBlockAtCurrentPosition(world,Blocks.stone_brick_stairs,4+getMetadataWithOffset(Blocks.stone_stairs,Facing.SOUTH_POSZ.getStairs()),x,y+4,z-zOffset,bb);
 			//fillWithBlocks(world,bb,x,y+2,z+_z,x,y+3,z+_z,Blocks.bookshelf,Blocks.bookshelf,false);
 			
 			for(int a = 0; a < 2; a++){
@@ -589,9 +590,9 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 				}
 			}
 			
-			int _z = isRoomEven?3:-3;
-			fillWithBlocks(world,bb,x,y+2,z+_z,x,y+3,z+_z,Blocks.nether_brick_fence,Blocks.air,false);
-			placeBlockAtCurrentPosition(world,Blocks.hopper,0,x,y+4,z+_z,bb);
+			int zOffset = isRoomEven ? 3 : -3;
+			fillWithBlocks(world,bb,x,y+2,z+zOffset,x,y+3,z+zOffset,Blocks.nether_brick_fence,Blocks.air,false);
+			placeBlockAtCurrentPosition(world,Blocks.hopper,0,x,y+4,z+zOffset,bb);
 		}
 		/*
 		 * one chest with torches on nether fences in corners
@@ -630,10 +631,11 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		return new Offsets(xx,yy,zz,bb.isVecInside(xx,yy,zz));
 	}
 	
-	private int[] potionData = new int[]{
+	private final int[] potionData = new int[]{
 		0, 16, 8193, 8257, 8225, 8194, 8258, 8226, 8195, 8259, 8227, 8197, 8261, 8229, 8198, 8262, 8201,
 		8265, 8233, 8206, 8270, 8196, 8260, 8228, 8200, 8264, 8232, 8202, 8266, 8234, 8204, 8268, 8236
 	};
+	
 	private void spawnBrewingStand(World world, Random rand, StructureBoundingBox bb, int x, int y, int z){
 		Offsets offsets = getOffsets(x,y,z,bb);
 		if (!offsets.isInsideBB)return;
@@ -641,21 +643,21 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		placeBlockAtCurrentPosition(world,rand.nextInt(100) == 0?BlockList.enhanced_brewing_stand:Blocks.brewing_stand,0,x,y,z,bb);
 		
 		float r = rand.nextFloat();
-		int fill = r > 0.9F?3:r > 0.6F?2:r > 0.25F?1:0;
+		int fill = r > 0.9F ? 3 : r > 0.6F ? 2 : r > 0.25F ? 1 : 0;
 		if (fill == 0)return;
 		
 		TileEntityBrewingStand brewingStand = (TileEntityBrewingStand)world.getTileEntity(offsets.x,offsets.y,offsets.z);
 		if (brewingStand == null)return;
 		
-		List<Byte> slots = new ArrayList<>();
+		TByteArrayList slots = new TByteArrayList(3);
 		for(byte a = 0; a < 3; a++)slots.add(a);
 		
 		for(int a = 0; a < fill; a++){
 			byte slot = slots.get(rand.nextInt(slots.size()));
-			slots.remove((Object)slot);
+			slots.remove(slot);
 			
 			int data = potionData[rand.nextInt(potionData.length)];
-			brewingStand.setInventorySlotContents(slot,new ItemStack(Items.potionitem,1,data > 16 && rand.nextInt(5) == 0?data|16384:data));
+			brewingStand.setInventorySlotContents(slot,new ItemStack(Items.potionitem,1,data > 16 && rand.nextInt(5) == 0 ? data|16384 : data));
 		}
 	}
 	

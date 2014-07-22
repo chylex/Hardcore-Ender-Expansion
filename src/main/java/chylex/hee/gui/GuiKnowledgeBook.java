@@ -1,10 +1,10 @@
 package chylex.hee.gui;
+import gnu.trove.stack.array.TShortArrayStack;
 import java.nio.FloatBuffer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.Stack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -46,20 +46,20 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 	private static final Random consistentRandom = new Random(31100L);
 	public static final RenderItem renderItem = new RenderItem();
 	
-	private FloatBuffer floatBuffer = GLAllocation.createDirectFloatBuffer(16);
+	private final FloatBuffer floatBuffer = GLAllocation.createDirectFloatBuffer(16);
 	
 	private ItemStack bookItemStack;
-	private float offsetX = 0, offsetY = 0;
-	private float prevOffsetX = 0, prevOffsetY = 0;
-	private float startOffsetX = 0, startOffsetY = 0;
-	private float targetOffsetX = 0, targetOffsetY = 0;
-	private float time = 0;
+	private float offsetX, offsetY;
+	private float prevOffsetX, prevOffsetY;
+	private float startOffsetX, startOffsetY;
+	private float targetOffsetX, targetOffsetY;
+	private float time;
 	
 	private KnowledgeCategory highlightedCategory;
 	private KnowledgeRegistration highlightedRegistration;
 	private Map<KnowledgeFragment,Boolean> activeFragments = new LinkedHashMap<>();
 	private short pageIndex;
-	private Stack<Short> pageIndexPrev = new Stack<>();
+	private TShortArrayStack pageIndexPrev = new TShortArrayStack();
 	private GuiButton[] pageArrows = new GuiButton[2];
 	private GuiButton helpButton;
 	
@@ -82,7 +82,7 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 		if (bookItemStack.stackTagCompound != null && bookItemStack.stackTagCompound.hasKey("knowledgeLast")){
 			NBTTagCompound tag = bookItemStack.stackTagCompound.getCompoundTag("knowledgeLast");
 			String catName = tag.getString("cat"),regName = tag.getString("reg");
-			short fid = tag.getShort("fid");
+			byte fid = tag.getByte("fid");
 			
 			for(KnowledgeCategory category:KnowledgeCategory.categories){
 				if (category.identifier.equals(catName)){
@@ -98,7 +98,7 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 							
 							for(Entry<KnowledgeFragment,Boolean> entry:activeFragments.entrySet()){
 								if (top+yy+(fragmentHeight = entry.getKey().getHeight(mc,entry.getValue())+10) > top+guiPageHeight){
-									pageIndexPrev.add(pageIndex);
+									pageIndexPrev.push(pageIndex);
 									pageIndex = (short)index;
 									top = guiTop+((height-guiPageTexHeight)>>1);
 									break;
@@ -145,9 +145,9 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 			mc.displayGuiScreen((GuiScreen)null);
 			mc.setIngameFocus();
 		}
-		else if (button.id == 1)pageIndex = pageIndexPrev.isEmpty() ? 0 : pageIndexPrev.pop();
+		else if (button.id == 1)pageIndex = pageIndexPrev.size() == 0 ? 0 : pageIndexPrev.pop();
 		else if (button.id == 2){
-			pageIndexPrev.add(pageIndex);
+			pageIndexPrev.push(pageIndex);
 			
 			int top = guiTop+((height-guiPageTexHeight)>>1)+guiTopOffset, yy = 0, index = 0, fragmentHeight;
 			
@@ -175,7 +175,7 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 			actionPerformed((GuiButton)buttonList.get(0));
 		}
 		else if (!((GuiButton)buttonList.get(1)).mousePressed(mc,mouseX,mouseY) && highlightedRegistration != null){
-			if (mouseX<((width-guiPageTexWidth)>>1) || mouseX>((width+guiPageTexWidth)>>1) || mouseY<((height-guiPageTexHeight)>>1) || mouseY>((height+guiPageTexHeight)>>1)){
+			if (mouseX < ((width-guiPageTexWidth)>>1) || mouseX > ((width+guiPageTexWidth)>>1) || mouseY < ((height-guiPageTexHeight)>>1) || mouseY > ((height+guiPageTexHeight)>>1)){
 				highlightedRegistration = null;
 				return;
 			}
@@ -388,7 +388,7 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 			if (fragment.canShow(unlocked))activeFragments.put(fragment,ArrayUtils.contains(unlocked,fragment.id));
 		}
 		
-		if (activeFragments.size() == 0){
+		if (activeFragments.isEmpty()){
 			activeFragments.put(new TextKnowledgeFragment(-1).setLocalizedText("(no available knowledge)"),true);
 		}
 		

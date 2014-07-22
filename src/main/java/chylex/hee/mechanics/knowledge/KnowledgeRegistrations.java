@@ -445,7 +445,7 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(3).setLocalizedText("Applying the powder to a Death Flower will slightly heal it.").setUnlockRequirements(0).setUnlockAction(new IFragmentUnlockAction(){
 				@Override
 				public void trigger(EntityPlayer player){
-					KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(player,1F,new short[]{ 5 });
+					KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(player,1F,new byte[]{ 5 });
 				}
 			})
 		});

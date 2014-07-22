@@ -23,7 +23,7 @@ public class StructureMountainResourcePit extends AbstractIslandStructure{
 			// CHECK AREA
 			
 			boolean canGenerate = true;
-			short maxy = 0;
+			int maxy = 0;
 			
 			for(int a = 0,toph,btmh = 0; a < 4; a++){
 				if ((toph = world.getHighestY(xx+xoff[a],zz+zoff[a])) == 0){
@@ -42,7 +42,7 @@ public class StructureMountainResourcePit extends AbstractIslandStructure{
 					canGenerate = false;
 					break;
 				}
-				else if (toph > maxy)maxy = (short)toph;
+				else if (toph > maxy)maxy = toph;
 			}
 			
 			if (!canGenerate)continue;

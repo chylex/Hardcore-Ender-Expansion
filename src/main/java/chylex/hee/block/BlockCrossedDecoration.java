@@ -102,7 +102,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 			}
 			
 			if (world.rand.nextInt(66) == 0){
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,8D))KnowledgeRegistrations.INFESTED_FOREST_BIOME.tryUnlockFragment(observer,0.3F,new short[]{ 1 });
+				for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,8D))KnowledgeRegistrations.INFESTED_FOREST_BIOME.tryUnlockFragment(observer,0.3F,new byte[]{ 1 });
 			}
 		}
 	}

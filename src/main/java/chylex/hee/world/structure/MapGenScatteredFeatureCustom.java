@@ -6,16 +6,16 @@ import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 
 public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeature{
 	private final Random coordCheckRand = new Random();
-	protected final short minSpacing;
-	protected final short maxSpacing;
-	protected final short minDistanceFromCenter;
-	protected final short featureSize;
+	protected final int minSpacing;
+	protected final int maxSpacing;
+	protected final int minDistanceFromCenter;
+	protected final int featureSize;
 	
 	public MapGenScatteredFeatureCustom(int minSpacing, int maxSpacing, int minDistanceFromCenter, int featureSize){
-		this.minSpacing = (short)minSpacing;
-		this.maxSpacing = (short)maxSpacing;
-		this.minDistanceFromCenter = (short)minDistanceFromCenter;
-		this.featureSize = (short)featureSize;
+		this.minSpacing = minSpacing;
+		this.maxSpacing = maxSpacing;
+		this.minDistanceFromCenter = minDistanceFromCenter;
+		this.featureSize = featureSize;
 	}
 	
 	protected abstract boolean canStructureSpawn(int x, int z, Random rand);

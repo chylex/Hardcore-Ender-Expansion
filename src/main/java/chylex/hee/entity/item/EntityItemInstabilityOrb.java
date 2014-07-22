@@ -55,7 +55,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 						isTntNearby = true;
 						
 						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,16D)){
-							KnowledgeRegistrations.INSTABILITY_ORB.tryUnlockFragment(observer,0.6F,new short[]{ 5 });
+							KnowledgeRegistrations.INSTABILITY_ORB.tryUnlockFragment(observer,0.6F,new byte[]{ 5 });
 						}
 						
 						break;

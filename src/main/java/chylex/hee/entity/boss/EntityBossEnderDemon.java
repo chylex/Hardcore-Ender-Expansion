@@ -83,7 +83,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 					   zz = lightningTarget.posZ+(rand.nextDouble()-0.5D)*1.5D;
 				
 				lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs?7F:4F);
-				KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(lightningTarget,0.1F,new short[]{ 3,4 });
+				KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(lightningTarget,0.1F,new byte[]{ 3,4 });
 
 				EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,xx,yy,zz,this,false);
 				worldObj.weatherEffects.add(bolt);
@@ -120,7 +120,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 								worldObj.addWeatherEffect(bolt);
 								PacketPipeline.sendToAllAround(bolt,512D,new C18CustomWeather(bolt,(byte)0));
 								
-								for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.22F,new short[]{ 0,1,2 });
+								for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.22F,new byte[]{ 0,1,2 });
 							
 								break;
 							}
@@ -147,7 +147,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 						}
 						
 						if (placed > 5 && rand.nextInt(15) <= 1){
-							for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.25F,new short[]{ 0,1,2 });
+							for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.25F,new byte[]{ 0,1,2 });
 							break;
 						}
 					}
@@ -205,7 +205,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 			if (lightningTarget == null)lightningStartCounter -= (int)amount;
 			
 			if (rand.nextInt(5) == 0){
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.33F,new short[]{ 0,1,2,3,4 });
+				for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.33F,new byte[]{ 0,1,2,3,4 });
 			}
 			
 			return true;
@@ -240,8 +240,8 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 			
 			
 			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D)){
-				if (KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.2F,new short[]{ 5 }).stopTrying)continue;
-				KnowledgeRegistrations.ENDERMAN_RELIC.tryUnlockFragment(observer,0.13F,new short[]{ 0,1,2,3,4,5 });
+				if (KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.2F,new byte[]{ 5 }).stopTrying)continue;
+				KnowledgeRegistrations.ENDERMAN_RELIC.tryUnlockFragment(observer,0.13F,new byte[]{ 0,1,2,3,4,5 });
 			}
 		}
 	}

@@ -59,9 +59,9 @@ public class BlockStardustOre extends BlockAbstractOre{
 	@Override
 	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){
 		if (KnowledgeRegistrations.STARDUST_ORE.tryUnlockFragment(player,0.05F).stopTrying)return;
-		if (KnowledgeRegistrations.STARDUST.tryUnlockFragment(player,0.04F,new short[]{ 0 }) == UnlockResult.NOTHING_TO_UNLOCK){
-			if (player.worldObj.rand.nextBoolean())KnowledgeRegistrations.DECOMPOSITION_TABLE.tryUnlockFragment(player,0.03F,new short[]{ 0,1 });
-			else KnowledgeRegistrations.ENERGY_EXTRACTION_TABLE.tryUnlockFragment(player,0.03F,new short[]{ 0,1 });
+		if (KnowledgeRegistrations.STARDUST.tryUnlockFragment(player,0.04F,new byte[]{ 0 }) == UnlockResult.NOTHING_TO_UNLOCK){
+			if (player.worldObj.rand.nextBoolean())KnowledgeRegistrations.DECOMPOSITION_TABLE.tryUnlockFragment(player,0.03F,new byte[]{ 0,1 });
+			else KnowledgeRegistrations.ENERGY_EXTRACTION_TABLE.tryUnlockFragment(player,0.03F,new byte[]{ 0,1 });
 		}
 	}
 	

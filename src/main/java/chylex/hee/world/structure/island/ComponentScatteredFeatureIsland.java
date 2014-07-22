@@ -20,7 +20,7 @@ import chylex.hee.world.structure.util.Offsets;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCustom{
-	public static final short size = 208, halfSize = size>>1;
+	public static final int size = 208, halfSize = size>>1;
 	
 	private boolean isSetup = false;
 	
@@ -28,7 +28,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 	
 	private NoiseGeneratorOctaves noiseGen1,noiseGen2,noiseGen3,noiseGen4,noiseGen5;
 	private double[] noiseData1,noiseData2,noiseData3,noiseData4,noiseData5;
-	private double[] densities;
+	private double[] densities; // TODO see if I can get rid of these somehow
 	
 	private int startX,startZ,islandBottomY;
 	

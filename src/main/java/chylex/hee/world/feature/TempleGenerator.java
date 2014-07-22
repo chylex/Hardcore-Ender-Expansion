@@ -57,11 +57,11 @@ public class TempleGenerator{
 			linex(x+3,x+6,z+3+6*a,y,Blocks.quartz_block);
 			block(x+6,z+2+8*a,y,Blocks.quartz_block);
 			rect(x+17,z+11*a,x+18,z+1+11*a,y,Blocks.quartz_block);
-			for(int b = 0; b < 13; b++)linez(z+11*a,z+1+11*a,x+4+b,y,Blocks.quartz_block,b%2 == 0?2:0);
+			for(int b = 0; b < 13; b++)linez(z+11*a,z+1+11*a,x+4+b,y,Blocks.quartz_block,b%2 == 0 ? 2 : 0);
 			linez(z+11*a,z+1+11*a,x+3,y,Blocks.quartz_block);
 			linex(x+3,x+5,z+2+8*a,y,Blocks.water);
 		}
-		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,Blocks.quartz_block,a%2 == 1?0:2);
+		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,Blocks.quartz_block,a%2 == 1 ? 0 : 2);
 		
 		for(int a = 0; a < 2; a++)block(x,z+5+2*a,y,Blocks.quartz_block);
 		block(x,z+6,y,Blocks.quartz_block,2);

@@ -19,7 +19,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
-public class ApocalypseEvents{
+public final class ApocalypseEvents{
 	private static ApocalypseEvents instance;
 	
 	private static final WeightedList<SpawnEntry> spawnList = new WeightedList<>(

@@ -20,7 +20,7 @@ public class DragonAttackFreezeball extends DragonPassiveAttackBase{
 				if (e != null && dragon.worldObj.getEntitiesWithinAABB(EntityTNTPrimed.class,e.boundingBox.expand(8D,60D,8D)).size() > 0){
 					dragon.trySetTarget(e);
 					dragon.initShot().setType(ShotType.FREEZEBALL).setTarget(e).setRandom().shoot();
-					if (e instanceof EntityPlayer)KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment((EntityPlayer)e,0.2F,new short[]{ 0,2 });
+					if (e instanceof EntityPlayer)KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment((EntityPlayer)e,0.2F,new byte[]{ 0,2 });
 				}
 			}
 		}

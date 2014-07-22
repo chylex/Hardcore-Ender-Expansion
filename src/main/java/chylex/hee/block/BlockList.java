@@ -62,7 +62,7 @@ public final class BlockList{
 	public static void loadBlocks(){
 		FluidRegistry.registerFluid(BlockEnderGoo.fluid);
 		
-		obsidian_end = (new BlockObsidianEnd())
+		obsidian_end = new BlockObsidianEnd()
 		.setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone)
 		.setBlockName("obsidianEnd").setBlockTextureName("obsidian");
 	

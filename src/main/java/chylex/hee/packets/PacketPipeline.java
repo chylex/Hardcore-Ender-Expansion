@@ -4,6 +4,7 @@ import gnu.trove.map.hash.TObjectByteHashMap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.EnumMap;
 import net.minecraft.client.Minecraft;
@@ -30,7 +31,7 @@ public class PacketPipeline{
 	private static PacketPipeline instance;
 	private static final String channelName = "hee";
 	
-	public static void initializePipeline(){
+	public static synchronized void initializePipeline(){
 		if (instance != null)throw new RuntimeException("Packet pipeline has already been registered!");
 		instance = new PacketPipeline();
 		instance.load();
@@ -39,8 +40,8 @@ public class PacketPipeline{
 	private FMLEventChannel eventDrivenChannel;
 	private EnumMap<Side,FMLEmbeddedChannel> channels;
 
-	private TByteObjectHashMap<Class<? extends AbstractPacket>> idToPacket = new TByteObjectHashMap<Class<? extends AbstractPacket>>();
-	private TObjectByteHashMap<Class<? extends AbstractPacket>> packetToId = new TObjectByteHashMap<Class<? extends AbstractPacket>>();
+	private final TByteObjectHashMap<Class<? extends AbstractPacket>> idToPacket = new TByteObjectHashMap<Class<? extends AbstractPacket>>();
+	private final TObjectByteHashMap<Class<? extends AbstractPacket>> packetToId = new TObjectByteHashMap<Class<? extends AbstractPacket>>();
 	
 	private PacketPipeline(){}
 	
@@ -66,8 +67,8 @@ public class PacketPipeline{
 				Class cls = clsInfo.load();
 				if (!cls.getName().endsWith("__"))registerPacket(++id,cls);
 			}
-		}catch(Exception e){
-			throw new RuntimeException(e);
+		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException | IOException e){
+			throw new RuntimeException("Unable to load the Packet system!",e);
 		}
 	}
 	
@@ -99,7 +100,7 @@ public class PacketPipeline{
 					packet.handle(Side.SERVER,((NetHandlerPlayServer)fmlPacket.handler()).playerEntity);
 					break;
 			}
-		}catch(Exception e){
+		}catch(InstantiationException | IllegalAccessException e){
 			e.printStackTrace();
 		}
 	}

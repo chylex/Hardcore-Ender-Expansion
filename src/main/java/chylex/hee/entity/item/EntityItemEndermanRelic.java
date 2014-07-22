@@ -100,7 +100,7 @@ public class EntityItemEndermanRelic extends EntityItem{
 			EntityPlayer player = worldObj.getClosestPlayerToEntity(this,12D);
 			if (player == null)return;
 			
-			KnowledgeRegistrations.ENDERMAN_RELIC.tryUnlockFragment(player,1F,new short[]{ 0,1,2 });
+			KnowledgeRegistrations.ENDERMAN_RELIC.tryUnlockFragment(player,1F,new byte[]{ 0,1,2 });
 			worldObj.spawnEntityInWorld(new EntityBossEnderDemon(worldObj,posX,276D,posZ));
 			
 			doEffects(player);

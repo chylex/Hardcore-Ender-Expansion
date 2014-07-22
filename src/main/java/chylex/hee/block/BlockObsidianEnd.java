@@ -55,6 +55,6 @@ public class BlockObsidianEnd extends BlockStone{
 	@Override
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
 		super.dropBlockAsItemWithChance(world,x,y,z,meta,chance,fortune);
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,6D))KnowledgeRegistrations.FALLING_OBSIDIAN.tryUnlockFragment(observer,1F,new short[]{ 2,3 });
+		for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,6D))KnowledgeRegistrations.FALLING_OBSIDIAN.tryUnlockFragment(observer,1F,new byte[]{ 2,3 });
 	}
 }

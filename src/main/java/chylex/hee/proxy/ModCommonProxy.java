@@ -5,7 +5,7 @@ import chylex.hee.system.ConfigHandler;
 public class ModCommonProxy{
 	public static boolean opMobs = false;
 	public static int achievementStartId = 3500;
-	public static short renderIdObsidianSpecial,renderIdFlowerPot,renderIdSpookyLeaves,renderIdInfestationRemedyCauldron;
+	public static int renderIdObsidianSpecial,renderIdFlowerPot,renderIdSpookyLeaves,renderIdInfestationRemedyCauldron;
 	
 	public void loadConfiguration(){
 		ConfigHandler.loadGeneral();

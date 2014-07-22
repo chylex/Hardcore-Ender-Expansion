@@ -29,7 +29,7 @@ public class DragonAttackBitemadness extends DragonSpecialAttackBase{
 		if (target != null){
 			if (dragon.target != null && biteCooldown == 0){
 				biteCooldown = (byte)(dragon.attacks.biteClosePlayer()?6:3);
-				if (dragon.target instanceof EntityPlayer)KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment((EntityPlayer)dragon.target,0.14F,new short[]{ 7,10 });
+				if (dragon.target instanceof EntityPlayer)KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment((EntityPlayer)dragon.target,0.14F,new byte[]{ 7,10 });
 			}
 			if (biteCooldown > 0)--biteCooldown;
 		}

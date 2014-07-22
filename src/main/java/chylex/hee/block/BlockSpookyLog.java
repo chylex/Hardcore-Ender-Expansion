@@ -81,8 +81,8 @@ public class BlockSpookyLog extends Block{
 							if (KnowledgeRegistrations.ECTOPLASM.tryUnlockFragment(observer,0.1F).stopTrying)continue;
 							
 							switch(world.rand.nextInt(3)){
-								case 0: KnowledgeRegistrations.CORPOREAL_MIRAGE_ORB.tryUnlockFragment(observer,0.05F,new short[]{ 0 }); break;
-								case 1: KnowledgeRegistrations.SOUL_CHARM.tryUnlockFragment(observer,0.07F,new short[]{ 0,1 }); break;
+								case 0: KnowledgeRegistrations.CORPOREAL_MIRAGE_ORB.tryUnlockFragment(observer,0.05F,new byte[]{ 0 }); break;
+								case 1: KnowledgeRegistrations.SOUL_CHARM.tryUnlockFragment(observer,0.07F,new byte[]{ 0,1 }); break;
 								case 2: KnowledgeRegistrations.SPECTRAL_WAND.tryUnlockFragment(observer,0.1F); break;
 							}
 						}

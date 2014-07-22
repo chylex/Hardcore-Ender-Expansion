@@ -57,7 +57,7 @@ public class BlockEndFlower extends BlockFlower{
 							world.spawnEntityInWorld(enderman);
 							
 							if (++spawned == 1){
-								for(EntityPlayer observer:ObservationUtil.getAllObservers(enderman,20D))KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(observer,0.7F,new short[]{ 0,1,2,3,4,6,7 });
+								for(EntityPlayer observer:ObservationUtil.getAllObservers(enderman,20D))KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(observer,0.7F,new byte[]{ 0,1,2,3,4,6,7 });
 							}
 							
 							break;
@@ -123,7 +123,7 @@ public class BlockEndFlower extends BlockFlower{
 								
 								if (!spawned){
 									spawned = true;
-									for(EntityPlayer observer:ObservationUtil.getAllObservers(enderman,32D))KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(observer,1F,new short[]{ 0,1,2,3,4,6,7 });
+									for(EntityPlayer observer:ObservationUtil.getAllObservers(enderman,32D))KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(observer,1F,new byte[]{ 0,1,2,3,4,6,7 });
 								}
 								
 								break;
@@ -159,9 +159,9 @@ public class BlockEndFlower extends BlockFlower{
 			}
 			for(int a = 0; a < 3; a++)world.spawnParticle("portal",x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),0D,0D,0D);
 			
-			KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(player,0.18F,new short[]{ 0,1,2,3,4,6,7 });
+			KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(player,0.18F,new byte[]{ 0,1,2,3,4,6,7 });
 			EntityPlayer observer = ObservationUtil.getRandomObserver(player,6D);
-			if (observer != player)KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(observer,0.16F,new short[]{ 0,1,2,3,4,6,7 });
+			if (observer != player)KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(observer,0.16F,new byte[]{ 0,1,2,3,4,6,7 });
 			
 			return true;
 		}
@@ -187,7 +187,7 @@ public class BlockEndFlower extends BlockFlower{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return meta == 15?iconDeadFlower:blockIcon;
+		return meta == 15 ? iconDeadFlower : blockIcon;
 	}
 	
 	@Override

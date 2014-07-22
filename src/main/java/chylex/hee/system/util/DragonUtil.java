@@ -24,7 +24,7 @@ public class DragonUtil{
 			new Comparator<Entry<K,V>>(){
 				@Override public int compare(Entry<K,V> e1, Entry<K,V> e2){
 					int r = e1.getValue().compareTo(e2.getValue());
-					return r == 0?1:r;
+					return r == 0 ? 1 : r;
 				}
 			}
 		);
@@ -37,7 +37,7 @@ public class DragonUtil{
 			new Comparator<Entry<K,V>>(){
 				@Override public int compare(Entry<K,V> e1, Entry<K,V> e2){
 					int r = e2.getValue().compareTo(e1.getValue());
-					return r == 0?1:r;
+					return r == 0 ? 1 : r;
 				}
 			}
 		);

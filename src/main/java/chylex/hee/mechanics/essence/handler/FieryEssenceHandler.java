@@ -26,7 +26,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	
 	@Override
 	public void onUpdate(){
-		short level = altar.getEssenceLevel();
+		int level = altar.getEssenceLevel();
 		int n = 35+Math.min(60,level>>3);
 		boolean drained = false;
 		

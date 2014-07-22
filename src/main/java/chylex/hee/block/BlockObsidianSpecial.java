@@ -49,8 +49,7 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	
 	@Override
 	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta){
-		if (meta == 2)meta = side == 0 || side == 1?2:side == 2 || side == 3?4:side == 4 || side == 5?3:meta;
-		return meta;
+		return (meta == 2) ? (side == 0 || side == 1 ? 2 : side == 2 || side == 3 ? 4 : side == 4 || side == 5 ? 3 : meta) : meta;
 	}
 	
 	@Override
@@ -80,9 +79,9 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		switch(is.getItemDamage()){
-			default: return isGlowing ? "tile.obsidianSpecialGlowing.smooth" : "tile.obsidianSpecial.smooth";
 			case 1: return isGlowing ? "tile.obsidianSpecialGlowing.chiseled" : "tile.obsidianSpecial.chiseled";
 			case 2: return isGlowing ? "tile.obsidianSpecialGlowing.pillar" : "tile.obsidianSpecial.pillar";
+			default: return isGlowing ? "tile.obsidianSpecialGlowing.smooth" : "tile.obsidianSpecial.smooth";
 		}
 	}
 	

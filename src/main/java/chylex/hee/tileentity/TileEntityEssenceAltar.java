@@ -33,7 +33,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	public static final byte STAGE_BASIC = 0, STAGE_HASTYPE = 1, STAGE_WORKING = 2;
 	
 	private EssenceType essenceType = EssenceType.INVALID;
-	private short essenceLevel = 0;
+	private int essenceLevel = 0;
 	private byte currentStage;
 	private RuneItem[] runeItems = new RuneItem[8]; // @STAGE_HASTYPE
 	private byte runeItemIndex = -2; // @STAGE_HASTYPE
@@ -58,7 +58,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 		return essenceType;
 	}
 	
-	public short getEssenceLevel(){
+	public int getEssenceLevel(){
 		return essenceLevel;
 	}
 	
@@ -95,7 +95,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
 		nbt.setByte("stage",currentStage);
 		nbt.setByte("essenceTypeId",essenceType.id);
-		nbt.setShort("essence",essenceLevel);
+		nbt.setShort("essence",(short)essenceLevel);
 				
 		NBTTagList runeTag = new NBTTagList();
 		for(int a = 0; a < runeItems.length; a++){
@@ -285,7 +285,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 				sockets[socketId].stackSize = 1;
 				if (!player.capabilities.isCreativeMode)--is.stackSize;
 				
-				KnowledgeRegistrations.BASIC_ESSENCE_ALTAR.tryUnlockFragment(player,0.25F,new short[]{ 4,5,6 });
+				KnowledgeRegistrations.BASIC_ESSENCE_ALTAR.tryUnlockFragment(player,0.25F,new byte[]{ 4,5,6 });
 			}
 		}
 		

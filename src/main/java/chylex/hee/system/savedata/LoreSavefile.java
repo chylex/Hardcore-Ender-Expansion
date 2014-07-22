@@ -1,7 +1,5 @@
 package chylex.hee.system.savedata;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import gnu.trove.list.array.TByteArrayList;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.mechanics.misc.LoreTexts;
 
@@ -18,12 +16,12 @@ public class LoreSavefile extends Savefile{
 		byte[] alreadyUnlocked = nbt.getByteArray(player.getCommandSenderName());
 		
 		if (alreadyUnlocked.length < LoreTexts.pageAmount){
-			List<Byte> list = new ArrayList<>();
-			for(int a = 1; a <= LoreTexts.pageAmount; a++)list.add((byte)a);
-			for(byte b:alreadyUnlocked)list.remove(new Byte(b));
+			TByteArrayList list = new TByteArrayList(LoreTexts.pageAmount);
+			for(byte a = 1; a <= LoreTexts.pageAmount; a++)list.add(a);
+			list.removeAll(alreadyUnlocked);
 			
-			if (list.size() == 0)return -1;
-			Collections.sort(list);
+			if (list.isEmpty())return -1;
+			list.sort();
 			byte[] updated = new byte[alreadyUnlocked.length+1];
 			for(int a = 0; a < alreadyUnlocked.length; a++)updated[a] = alreadyUnlocked[a];
 			updated[alreadyUnlocked.length] = list.get(0);

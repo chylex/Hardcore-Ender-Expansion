@@ -1,5 +1,5 @@
 package chylex.hee.system.savedata;
-import java.util.HashMap;
+import gnu.trove.map.hash.TObjectShortHashMap;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -13,7 +13,7 @@ public class ApocalypseSavefile extends Savefile{
 					   		 APOCALYPSE_BOSS = 5,
 					   		 APOCALYPSE_BOSS_DEAD = 6;
 	
-	private HashMap<String,Short> times = new HashMap<>();
+	private TObjectShortHashMap<String> times = new TObjectShortHashMap<>();
 	
 	public ApocalypseSavefile(WorldData worldData){
 		super(worldData,"endermanpocalypse.nbt");
@@ -79,7 +79,7 @@ public class ApocalypseSavefile extends Savefile{
 	}
 	
 	public void resetApocalypseTime(String username){
-		if (times.remove(username) != null){
+		if (times.remove(username) != times.getNoEntryValue()){
 			nbt.getCompoundTag("times").removeTag(username);
 			save();
 		}

@@ -22,11 +22,9 @@ public class CaveGenerator{
 		}
 	}
 	
-	private int centerX,centerY,centerZ;
-	private int radX,radY,radZ;
-	
-	private Set<BlockLocation> airList = new HashSet<>();
-	private Set<BlockLocation> clusterList = new HashSet<>();
+	private final int centerX,centerY,centerZ,radX,radY,radZ;
+	private final Set<BlockLocation> airList = new HashSet<>();
+	private final Set<BlockLocation> clusterList = new HashSet<>();
 	
 	public CaveGenerator(int centerX, int centerY, int centerZ, int radX, int radY, int radZ){
 		this.centerX = centerX;

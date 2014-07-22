@@ -9,7 +9,7 @@ import chylex.hee.world.loot.WeightedLootList;
  * A wrapper class for simplified access to weighted loot list.
  */
 public class LootList{
-	private WeightedLootList wrappedCollection;
+	private final WeightedLootList wrappedCollection;
 	
 	public LootList(WeightedLootList loot){
 		this.wrappedCollection = loot;

@@ -10,11 +10,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelEnderDemon extends ModelBase{
-	ModelRenderer head,body;
-	ModelRenderer rightArm1,rightArm2,rightArm3,rightArm4;
-	ModelRenderer leftArm1,leftArm2,leftArm3,leftArm4;
+	private final ModelRenderer head,body;
+	private final ModelRenderer rightArm1,rightArm2,rightArm3,rightArm4;
+	private final ModelRenderer leftArm1,leftArm2,leftArm3,leftArm4;
 	
-	float limbSwingMp = 1F;
+	private float limbSwingMp = 1F;
 
 	public ModelEnderDemon(){
 		textureWidth = 64;

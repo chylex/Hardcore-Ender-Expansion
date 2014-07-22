@@ -1,4 +1,5 @@
 package chylex.hee.entity.boss.dragon.managers;
+import gnu.trove.list.array.TByteArrayList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -97,7 +98,7 @@ public class DragonAttackManager{
 			}
 		}
 		
-		KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(player,0.1F,new short[]{ 0,3 });
+		KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(player,0.1F,new byte[]{ 0,3 });
 		
 		return true;
 	}
@@ -145,7 +146,7 @@ public class DragonAttackManager{
 		if (healthPercentage == 0)return null;
 		
 		Map<Byte,Double> effList = new TreeMap<>();
-		List<Byte> notTried = new ArrayList<>();
+		TByteArrayList notTried = new TByteArrayList();
 		//DragonUtil.info("Starting attack picking");
 		
 		for(DragonSpecialAttackBase attack:specialAttackList){
@@ -163,7 +164,7 @@ public class DragonAttackManager{
 		
 		//DragonUtil.info("effList size: %0%",effList.size());
 		//DragonUtil.info("notTried size: %0%",notTried.size());
-		if (effList.size() == 0)return null;
+		if (effList.isEmpty())return null;
 		
 		if (notTried.size() > 1 || (notTried.size() == 1 && rand.nextBoolean())){
 			return getSpecialAttackById(notTried.get(rand.nextInt(notTried.size()))); // try a new attack

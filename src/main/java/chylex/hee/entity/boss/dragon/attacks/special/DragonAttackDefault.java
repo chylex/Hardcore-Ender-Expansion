@@ -1,6 +1,5 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
-import java.util.HashMap;
-import java.util.Map;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -13,11 +12,11 @@ import chylex.hee.system.commands.DebugBoard;
 import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackDefault extends DragonSpecialAttackBase{
-	private short attackCooldown = 140, nextTargetTimer = 100;
+	private int attackCooldown = 140, nextTargetTimer = 100;
 	private EntityPlayer overrideTarget = null;
 	private boolean isOverriding = false;
 	
-	private Map<String,Short> seesDragon = new HashMap<>();
+	private TObjectIntHashMap<String> seesDragon = new TObjectIntHashMap<>();
 	private byte seesCheck = 0;
 	private boolean stealthInProgress = false;
 	
@@ -63,8 +62,8 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 			if (!stealthInProgress && ++seesCheck > 20 && dragon.target == null){
 				for(Object o:dragon.worldObj.playerEntities){
 					EntityPlayer p = (EntityPlayer)o;
-					Short cur = seesDragon.get(p.getCommandSenderName());
-					cur = (short)(cur == null || getVision(dragon,p)?0:cur+1);
+					int cur = seesDragon.get(p.getCommandSenderName());
+					cur = (cur == seesDragon.getNoEntryValue() || getVision(dragon,p) ? 0 : cur+1);
 
 					if (cur > 4+(dragon.getWorldDifficulty() <= 1?1:0)){
 						overrideTarget = p;
@@ -77,13 +76,11 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 				}
 				seesCheck = 0;
 			}
-			else if (stealthInProgress && overrideTarget != null && seesCheck%3 == 0){
-				if (dragon.dragonPartHead.getDistanceSqToEntity(overrideTarget) < 27D){
-					dragon.attacks.biteClosePlayer();
-					isOverriding = stealthInProgress = false;
-					overrideTarget = null;
-					dragon.rewards.addHandicap(0.3F,false);
-				}
+			else if (stealthInProgress && overrideTarget != null && seesCheck%3 == 0 && dragon.dragonPartHead.getDistanceSqToEntity(overrideTarget) < 27D){
+				dragon.attacks.biteClosePlayer();
+				isOverriding = stealthInProgress = false;
+				overrideTarget = null;
+				dragon.rewards.addHandicap(0.3F,false);
 			}
 		}
 		else stealthInProgress = false;
@@ -113,13 +110,13 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	}
 	
 	@Override
-	public short getNextAttackTimer(){
-		return (short)(120+rand.nextInt(60)+((4-dragon.getWorldDifficulty())*20));
+	public int getNextAttackTimer(){
+		return (120+rand.nextInt(60)+((4-dragon.getWorldDifficulty())*20));
 	}
 
 	@Override
 	public float overrideMovementSpeed(){
-		return dragon.target != null?1.5F:1F;
+		return dragon.target != null ? 1.5F : 1F;
 	}
 	
 	@Override
@@ -134,7 +131,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 			return;
 		}
 		
-		if (isOverriding)event.newTarget = attackCooldown > 1?null:overrideTarget;
+		if (isOverriding)event.newTarget = attackCooldown > 1 ? null : overrideTarget;
 		
 		if (event.newTarget != null && !event.newTarget.equals(event.oldTarget) && rand.nextInt(5-dragon.getWorldDifficulty()) == 0){
 			dragon.initShot().setTarget(event.newTarget).setType(ShotType.FREEZEBALL).shoot();

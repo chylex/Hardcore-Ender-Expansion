@@ -9,9 +9,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelScorchingLens extends ModelBase{
-	ModelRenderer body;
-	ModelRenderer rightLeg1,rightLeg2,leftLeg1,leftLeg2;
-	ModelRenderer rightFoot,RToeIn,RToeOut,leftFoot,LToeIn,LToeOut;
+	private final ModelRenderer body;
+	private final ModelRenderer rightLeg1,rightLeg2,leftLeg1,leftLeg2;
+	private final ModelRenderer rightFoot,RToeIn,RToeOut,leftFoot,LToeIn,LToeOut;
 
 	public ModelScorchingLens() {
 		textureWidth = 64;

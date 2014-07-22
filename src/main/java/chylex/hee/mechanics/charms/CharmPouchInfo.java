@@ -16,7 +16,7 @@ public final class CharmPouchInfo{
 	
 	@Override
 	public boolean equals(Object o){
-		if (o.getClass() == CharmPouchInfo.class)return ((CharmPouchInfo)o).pouchID == pouchID;
+		if (o != null && o.getClass() == CharmPouchInfo.class)return ((CharmPouchInfo)o).pouchID == pouchID;
 		else return false;
 	}
 	

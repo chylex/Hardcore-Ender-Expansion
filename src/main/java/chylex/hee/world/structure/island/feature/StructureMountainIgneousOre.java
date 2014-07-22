@@ -5,10 +5,10 @@ import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
 
 public class StructureMountainIgneousOre extends AbstractIslandStructure{
-	private short attempts = 150;
+	private int attempts = 150;
 	
 	public StructureMountainIgneousOre setAttemptAmount(int attempts){
-		this.attempts = (short)attempts;
+		this.attempts = attempts;
 		return this;
 	}
 	
@@ -17,7 +17,7 @@ public class StructureMountainIgneousOre extends AbstractIslandStructure{
 		int minX = 0, maxX = ComponentScatteredFeatureIsland.size,
 			minY = 20, maxY = 60,
 			minZ = 0, maxZ = ComponentScatteredFeatureIsland.size,
-			amount, _x, _y, _z;
+			amount, px, py, pz;
 
 		for(int a = 0; a < attempts; a++){
 			amount = 3+rand.nextInt(4);
@@ -25,12 +25,12 @@ public class StructureMountainIgneousOre extends AbstractIslandStructure{
 			double sqrtAmount = Math.sqrt(amount*2D);
 			
 			for(int attempt = 0, placed = 0; attempt < amount*4 && placed < amount; attempt++){
-				_x = xx+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
-				_y = yy+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
-				_z = zz+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
+				px = xx+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
+				py = yy+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
+				pz = zz+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
 				
-				if (world.getBlock(_x,_y,_z) == Blocks.end_stone){
-					world.setBlock(_x,_y,_z,BlockList.igneous_rock_ore);
+				if (world.getBlock(px,py,pz) == Blocks.end_stone){
+					world.setBlock(px,py,pz,BlockList.igneous_rock_ore);
 					++placed;
 				}
 			}

@@ -8,23 +8,23 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelLouse extends ModelBase{ // TODO review model
-	ModelRenderer headMain,headFront,eyes;
-	ModelRenderer antR,antL,mandible;
-	ModelRenderer thx;
-	ModelRenderer legBase1,legBase2,legBase3;
-	ModelRenderer abMain,abSide,abBack;
-	ModelRenderer rFLeg1,rFLeg2,rFLeg3;
-	ModelRenderer rFLegClawOuter,rFLegClawInner;
-	ModelRenderer rBLeg1,rBLeg2,rBLeg3;
-	ModelRenderer rBLegClawOuter,rBLegClawInner;
-	ModelRenderer lBLeg1,lBLeg2,lBLeg3;
-	ModelRenderer lBLegClawOuter,lBLegClawInner;
-	ModelRenderer lFLeg1,lFLeg2,lFLeg3;
-	ModelRenderer lFLegClawOuter,lFLegClawInner;
-	ModelRenderer rMLeg2,rMLeg1,rMLeg3;
-	ModelRenderer rMLegClawOuter,rMLegClawInner;
-	ModelRenderer lMLeg1,lMLeg2,lMLeg3;
-	ModelRenderer lMLegClawOuter,lMLegClawInner;
+	private final ModelRenderer headMain,headFront,eyes;
+	private final ModelRenderer antR,antL,mandible;
+	private final ModelRenderer thx;
+	private final ModelRenderer legBase1,legBase2,legBase3;
+	private final ModelRenderer abMain,abSide,abBack;
+	private final ModelRenderer rFLeg1,rFLeg2,rFLeg3;
+	private final ModelRenderer rFLegClawOuter,rFLegClawInner;
+	private final ModelRenderer rBLeg1,rBLeg2,rBLeg3;
+	private final ModelRenderer rBLegClawOuter,rBLegClawInner;
+	private final ModelRenderer lBLeg1,lBLeg2,lBLeg3;
+	private final ModelRenderer lBLegClawOuter,lBLegClawInner;
+	private final ModelRenderer lFLeg1,lFLeg2,lFLeg3;
+	private final ModelRenderer lFLegClawOuter,lFLegClawInner;
+	private final ModelRenderer rMLeg2,rMLeg1,rMLeg3;
+	private final ModelRenderer rMLegClawOuter,rMLegClawInner;
+	private final ModelRenderer lMLeg1,lMLeg2,lMLeg3;
+	private final ModelRenderer lMLegClawOuter,lMLegClawInner;
 
 	public ModelLouse(){
 		textureWidth = 64;

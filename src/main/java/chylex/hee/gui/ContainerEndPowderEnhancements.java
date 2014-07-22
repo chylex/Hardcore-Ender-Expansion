@@ -1,9 +1,8 @@
 package chylex.hee.gui;
+import gnu.trove.set.hash.TShortHashSet;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -135,14 +134,14 @@ public class ContainerEndPowderEnhancements extends Container{
 	
 	public void updateClientItems(){
 		ItemStack mainIS = getSlot(0).getStack();
-		List<IEnhancementEnum> enhancements = mainIS != null ? EnhancementHandler.getEnhancementsForItem(mainIS.getItem()) : null;
+		List<IEnhancementEnum> enhancements = mainIS == null ? null : EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
 		
 		for(int a = enhancements == null ? 0 : enhancements.size(); a < enhancementSlotX.length; a++){
 			clientEnhancementItems[a] = null;
 			clientEnhancementTooltips[a] = "";
 		}
 		
-		Set<Short> unlockedEnhancements = mainIS == null || HardcoreEnderExpansion.proxy.getClientSidePlayer() == null ? new HashSet<Short>(1) : EnhancementFragmentUtil.getUnlockedEnhancements(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),HardcoreEnderExpansion.proxy.getClientSidePlayer());
+		TShortHashSet unlockedEnhancements = mainIS == null || HardcoreEnderExpansion.proxy.getClientSidePlayer() == null ? new TShortHashSet(1) : EnhancementFragmentUtil.getUnlockedEnhancements(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),HardcoreEnderExpansion.proxy.getClientSidePlayer());
 		
 		for(int a = 0; a < (enhancements == null ? 0 : enhancements.size()); a++){
 			IEnhancementEnum enhancement = enhancements.get(a);
@@ -302,9 +301,9 @@ public class ContainerEndPowderEnhancements extends Container{
 	
 	public void onEnhancementSlotChangeClient(int selectedSlot){
 		ItemStack mainIS = getSlot(0).getStack();
-		List<IEnhancementEnum> enhancements = mainIS != null ? EnhancementHandler.getEnhancementsForItem(mainIS.getItem()) : null;
-		List<Enum> currentEnhancements = mainIS != null ? EnhancementHandler.getEnhancements(mainIS) : new ArrayList<Enum>(1);
-		Set<Short> unlockedEnhancements = mainIS == null || HardcoreEnderExpansion.proxy.getClientSidePlayer() == null ? new HashSet<Short>(1) : EnhancementFragmentUtil.getUnlockedEnhancements(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),HardcoreEnderExpansion.proxy.getClientSidePlayer());
+		List<IEnhancementEnum> enhancements = mainIS == null ? null : EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
+		List<Enum> currentEnhancements = mainIS == null ? new ArrayList<Enum>(1) : EnhancementHandler.getEnhancements(mainIS);
+		TShortHashSet unlockedEnhancements = mainIS == null || HardcoreEnderExpansion.proxy.getClientSidePlayer() == null ? new TShortHashSet(1) : EnhancementFragmentUtil.getUnlockedEnhancements(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),HardcoreEnderExpansion.proxy.getClientSidePlayer());
 		StringBuilder build = new StringBuilder();
 		
 		for(int a = 0; a < (enhancements == null ? 0 : enhancements.size()); a++){

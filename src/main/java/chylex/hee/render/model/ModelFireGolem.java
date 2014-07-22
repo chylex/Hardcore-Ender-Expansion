@@ -9,11 +9,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelFireGolem extends ModelBase{
-	ModelRenderer headMain,headBrow,headHorn1,headHorn2,headLip,headJaw,headRTooth,headLTooth;
-	ModelRenderer trunk,torso;
-	ModelRenderer rightArm1,rightArm2,leftArm1,leftArm2;
-	ModelRenderer rightLeg1,rightLeg2,rightLeg3,rightHoof,rightHoofIn,rightHoofOut;
-	ModelRenderer leftLeg1,leftLeg2,leftLeg3,leftHoof,leftHoofIn,leftHoofOut;
+	private final ModelRenderer headMain,headBrow,headHorn1,headHorn2,headLip,headJaw,headRTooth,headLTooth;
+	private final ModelRenderer trunk,torso;
+	private final ModelRenderer rightArm1,rightArm2,leftArm1,leftArm2;
+	private final ModelRenderer rightLeg1,rightLeg2,rightLeg3,rightHoof,rightHoofIn,rightHoofOut;
+	private final ModelRenderer leftLeg1,leftLeg2,leftLeg3,leftHoof,leftHoofIn,leftHoofOut;
 
 	public ModelFireGolem(){
 		textureWidth = 64;

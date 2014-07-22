@@ -24,7 +24,7 @@ public class BlockCorruptedEnergy extends Block{
 								offsetY = new byte[]{ 0, 0, -1, 1, 0, 0 },
 								offsetZ = new byte[]{ 0, 0, 0, 0, -1, 1 };
 	
-	private boolean isHighLevel;
+	private final boolean isHighLevel;
 	
 	public BlockCorruptedEnergy(boolean isHighLevel){
 		super(corruptedEnergy);

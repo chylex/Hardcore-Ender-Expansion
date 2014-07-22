@@ -6,17 +6,17 @@ import chylex.hee.tileentity.TileEntityEnergyCluster;
 public final class EnergyClusterData{
 	public static final byte MAX_BOOST = 24;
 	
-	private short energyAmount;
-	private short maxEnergyAmount;
-	private short maxRegenerativeEnergyAmount;
+	private int energyAmount;
+	private int maxEnergyAmount;
+	private int maxRegenerativeEnergyAmount;
 	private byte weaknessLevel;
 	private byte healTimer;
 	private byte regenBoost;
 	
 	public EnergyClusterData(Random rand){
-		maxEnergyAmount = (short)Math.min(1600,380+rand.nextInt(1300));
-		maxRegenerativeEnergyAmount = (short)(maxEnergyAmount/5+rand.nextInt(maxEnergyAmount-maxEnergyAmount/3-maxEnergyAmount/8));
-		energyAmount = (short)(80+rand.nextInt(535));
+		maxEnergyAmount = Math.min(1600,380+rand.nextInt(1300));
+		maxRegenerativeEnergyAmount = maxEnergyAmount/5+rand.nextInt(maxEnergyAmount-maxEnergyAmount/3-maxEnergyAmount/8);
+		energyAmount = 80+rand.nextInt(535);
 		while(energyAmount > maxRegenerativeEnergyAmount)energyAmount -= 50+rand.nextInt(80);
 		
 		if (rand.nextInt(10) == 0)regenBoost = 1;
@@ -80,9 +80,9 @@ public final class EnergyClusterData{
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt){
-		nbt.setShort("energyAmt",energyAmount);
-		nbt.setShort("maxAmt",maxEnergyAmount);
-		nbt.setShort("maxRegen",maxRegenerativeEnergyAmount);
+		nbt.setShort("energyAmt",(short)energyAmount);
+		nbt.setShort("maxAmt",(short)maxEnergyAmount);
+		nbt.setShort("maxRegen",(short)maxRegenerativeEnergyAmount);
 		nbt.setByte("weakness",weaknessLevel);
 		nbt.setByte("healTimer",healTimer);
 		nbt.setByte("regenBoost",regenBoost);

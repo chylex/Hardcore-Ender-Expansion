@@ -15,7 +15,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fluids.IFluidBlock;
 import chylex.hee.item.ItemList;
 
-public class OrbAcquirableItems{
+public final class OrbAcquirableItems{
 	public static final WeightedItemList idList = new WeightedItemList();
 	
 	public static void initialize(){
@@ -82,4 +82,6 @@ public class OrbAcquirableItems{
 			}
 		}
 	}
+	
+	private OrbAcquirableItems(){}
 }

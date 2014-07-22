@@ -99,7 +99,7 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 					
 					PacketPipeline.sendToAllAround(world.provider.dimensionId,x,y,z,76D,new C20ParticleDragonEggTeleportation(x,y,z,xx,yy,zz));
 					
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,12D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.25F,new short[]{ 16,17 });
+					for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,12D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.25F,new byte[]{ 16,17 });
 
 					return;
 				}

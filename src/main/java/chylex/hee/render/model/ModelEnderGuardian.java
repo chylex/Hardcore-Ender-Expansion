@@ -9,10 +9,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelEnderGuardian extends ModelBase{
-	ModelRenderer rightHorn,leftHorn;
-	ModelRenderer head,bodyTop,bodyBottom;
-	ModelRenderer rightArm,leftArm;
-	ModelRenderer rightLeg,leftLeg;
+	private final ModelRenderer rightHorn,leftHorn;
+	private final ModelRenderer head,bodyTop,bodyBottom;
+	private final ModelRenderer rightArm,leftArm;
+	private final ModelRenderer rightLeg,leftLeg;
 
 	public ModelEnderGuardian(){
 		textureWidth = 128;

@@ -67,7 +67,7 @@ public class MiscEvents{
 				for(EntityPlayer observer:ObservationUtil.getAllObservers(e.entity,8D)){
 					if (KnowledgeRegistrations.SILVERFISH_BLOOD.tryUnlockFragment(observer,0.8F) == UnlockResult.NOTHING_TO_UNLOCK){
 						if (!KnowledgeRegistrations.INFESTATION_REMEDY.tryUnlockFragment(observer,0.5F).stopTrying){
-							KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(observer,0.4F,new short[]{ 4 });
+							KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(observer,0.4F,new byte[]{ 4 });
 						}
 					}
 				}
@@ -76,7 +76,7 @@ public class MiscEvents{
 				EntityPlayer player = (EntityPlayer)e.source.getEntity();
 				
 				if (!KnowledgeRegistrations.INFESTATION_REMEDY.tryUnlockFragment(player,0.5F).stopTrying){
-					KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(player,0.2F,new short[]{ 4 });
+					KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(player,0.2F,new byte[]{ 4 });
 				}
 			}
 		}
@@ -127,7 +127,7 @@ public class MiscEvents{
 			if (altarItem.hasChanged && altarItem.essenceType == EssenceType.DRAGON.id)KnowledgeRegistrations.DRAGON_ESSENCE_ALTAR.tryUnlockFragment(e.entityPlayer,0.3F);
 		}
 		else if (e.item.getEntityItem().getItem() == ItemList.biome_compass){
-			KnowledgeRegistrations.BIOME_COMPASS.tryUnlockFragment(e.entityPlayer,1F,new short[]{ 0 }); // TODO wtf?
+			KnowledgeRegistrations.BIOME_COMPASS.tryUnlockFragment(e.entityPlayer,1F,new byte[]{ 0 }); // TODO wtf?
 		}
 	}
 }

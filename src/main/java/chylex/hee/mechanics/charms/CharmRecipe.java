@@ -1,14 +1,12 @@
 package chylex.hee.mechanics.charms;
+import gnu.trove.map.hash.TObjectByteHashMap;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class CharmRecipe{
 	public final byte id;
-	private final Map<RuneType,Byte> runes = new HashMap<>();
-	private final Map<String,Short> properties = new HashMap<>();
+	private final TObjectByteHashMap<RuneType> runes = new TObjectByteHashMap<>();
+	private final TObjectByteHashMap<String> properties = new TObjectByteHashMap<>();
 	private byte runeAmount = 0;
 	
 	public CharmRecipe(int id){
@@ -26,7 +24,8 @@ public class CharmRecipe{
 	}
 	
 	public CharmRecipe prop(String name, int value){
-		properties.put(name,(short)value);
+		if (value >= 128)throw new IllegalArgumentException("CharmRecipe prop value cannot be larger than 127!");
+		properties.put(name,(byte)value);
 		return this;
 	}
 	
@@ -40,9 +39,9 @@ public class CharmRecipe{
 		List<RuneType> runeList = new ArrayList<RuneType>();
 		for(RuneType rune:runes)runeList.add(rune);
 		
-		for(Entry<RuneType,Byte> entry:this.runes.entrySet()){
-			for(int amt = 0; amt < entry.getValue(); amt++){
-				if (!runeList.remove(entry.getKey()))return false;
+		for(RuneType runeType:this.runes.keySet()){
+			for(int amt = 0, total = this.runes.get(runeType); amt < total; amt++){
+				if (!runeList.remove(runeType))return false;
 			}
 		}
 		

@@ -83,7 +83,7 @@ public class EntityMobFireGolem extends EntityMob{
 						
 						PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.SPAWN_FIREBALL,posX,posY,posZ,1.5F,0.85F+rand.nextFloat()*0.1F));
 						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment(observer,0.09F,new short[]{ 0,1,2,3 });
+						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment(observer,0.09F,new byte[]{ 0,1,2,3 });
 					}
 				}
 			}
@@ -131,7 +131,7 @@ public class EntityMobFireGolem extends EntityMob{
 				}
 				
 				if (source.getEntity() instanceof EntityPlayer){
-					KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment((EntityPlayer)source.getEntity(),0.08F,new short[]{ 0,1,2,3 });
+					KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment((EntityPlayer)source.getEntity(),0.08F,new byte[]{ 0,1,2,3 });
 				}
 			}
 		}
@@ -148,7 +148,7 @@ public class EntityMobFireGolem extends EntityMob{
 		dropItem(Items.fire_charge,rand.nextInt(2));
 		if (recentlyHit)entityDropItem(new ItemStack(ItemList.essence,rand.nextInt(4+looting)+1,EssenceType.FIERY.getItemDamage()),0F);
 		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment(observer,0.25F,new short[]{ 4,5 });
+		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment(observer,0.25F,new byte[]{ 4,5 });
 	}
 	
 	@Override

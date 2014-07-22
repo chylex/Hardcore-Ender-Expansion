@@ -34,7 +34,7 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 					entityToAttack = (EntityLiving)nearby.get(rand.nextInt(nearby.size()));
 					if (!canEntityBeSeen(entityToAttack))entityToAttack = null;
 					else{
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.3F,new short[]{ 0,2 });
+						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.3F,new byte[]{ 0,2 });
 					}
 				}
 			}
@@ -52,7 +52,7 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 				setDead();
 			}
 			
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,7D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.45F,new short[]{ 0,3 });
+			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,7D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.45F,new byte[]{ 0,3 });
 		}
 
 		super.onLivingUpdate();
@@ -62,7 +62,7 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 	protected void dropFewItems(boolean recentlyHit, int looting){
 		if (rand.nextInt(3) == 0)dropItem(getDropItem(),1);
 		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.18F,new short[]{ 0,1 });
+		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.18F,new byte[]{ 0,1 });
 	}
 	
 	@Override

@@ -31,10 +31,10 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 			if (++observationTimer > 120){
 				observationTimer = 0;
 				for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,6D)){
-					if (rand.nextBoolean() && rand.nextBoolean())KnowledgeRegistrations.SPECTRAL_WAND.tryUnlockFragment(observer,0.3F,new short[]{ 1,2 });
+					if (rand.nextBoolean() && rand.nextBoolean())KnowledgeRegistrations.SPECTRAL_WAND.tryUnlockFragment(observer,0.3F,new byte[]{ 1,2 });
 					else{
 						boolean hasWand = observer.inventory.getCurrentItem() != null && observer.inventory.getCurrentItem().getItem() == ItemList.spectral_wand;
-						KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,hasWand ? 0.34F : 0.22F,new short[]{ 0,1,2,5,6 });
+						KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,hasWand ? 0.34F : 0.22F,new byte[]{ 0,1,2,5,6 });
 					}
 				}
 			}

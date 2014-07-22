@@ -74,7 +74,7 @@ public class BlockEnergyCluster extends BlockContainer{
 		
 		if (world.rand.nextInt(3) == 0){
 			for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,6D)){
-				KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,0.37F,new short[]{ 2,3,4 });
+				KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,0.37F,new byte[]{ 2,3,4 });
 			}
 		}
 		
@@ -106,7 +106,7 @@ public class BlockEnergyCluster extends BlockContainer{
 		}
 		
 		for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,8D)){
-			KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,0.37F,new short[]{ 0,1 });
+			KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,0.37F,new byte[]{ 0,1 });
 		}
 	}
 	

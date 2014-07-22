@@ -32,7 +32,7 @@ public final class DimensionOverride{
 		Field modifiersField = null;
 		
 		try{
-			BiomeGenBase sky = (new BiomeGenHardcoreEnd(9)).setColor(8421631).setBiomeName("Sky").setDisableRain();
+			BiomeGenBase sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
 			BiomeGenBase.getBiomeGenArray()[9] = sky;
 			
 			modifiersField = Field.class.getDeclaredField("modifiers");
@@ -45,7 +45,7 @@ public final class DimensionOverride{
 					break;
 				}
 			}
-		}catch(Exception e){
+		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException e){
 			throw new RuntimeException("Could not override the End biome!",e);
 		}
 	}
@@ -59,7 +59,7 @@ public final class DimensionOverride{
 			Hashtable<Integer,Class<? extends WorldProvider>> providers = (Hashtable<Integer,Class<? extends WorldProvider>>)f.get(null);
 			providers.put(1,WorldProviderHardcoreEnd.class);
 			f.set(null,providers);
-		}catch(Exception e){
+		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException e){
 			throw new RuntimeException("Could not override the DimensionManager providers!",e);
 		}
 	}

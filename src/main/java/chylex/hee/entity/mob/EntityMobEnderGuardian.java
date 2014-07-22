@@ -64,7 +64,7 @@ public class EntityMobEnderGuardian extends EntityMob{
 						attackPhase = 1;
 						explosionTimer = 10;
 						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(entityToAttack,12D))KnowledgeRegistrations.ENDER_GUARDIAN.tryUnlockFragment(observer,0.6F,new short[]{ 0,1,2 });
+						for(EntityPlayer observer:ObservationUtil.getAllObservers(entityToAttack,12D))KnowledgeRegistrations.ENDER_GUARDIAN.tryUnlockFragment(observer,0.6F,new byte[]{ 0,1,2 });
 					}
 					else if (explosionTimer == 8)playSound("mob.endermen.portal",3.8F,3.4F+rand.nextFloat()*0.2F);
 					
@@ -123,7 +123,7 @@ public class EntityMobEnderGuardian extends EntityMob{
 							ItemStack is = player.inventory.getStackInSlot(a);
 							if (is != null && is.getItem() == ItemList.enderman_relic){
 								entityToAttack = player;
-								KnowledgeRegistrations.ENDER_GUARDIAN.tryUnlockFragment(player,1F,new short[]{ 1 });
+								KnowledgeRegistrations.ENDER_GUARDIAN.tryUnlockFragment(player,1F,new byte[]{ 1 });
 								break;
 							}
 						}
@@ -143,7 +143,7 @@ public class EntityMobEnderGuardian extends EntityMob{
 		amount = 1+rand.nextInt(3+(looting>>1));
 		for(int a = 0; a < amount; a++)dropItem(Item.getItemFromBlock(Blocks.obsidian),1);
 		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.ENDER_GUARDIAN.tryUnlockFragment(observer,0.42F,new short[]{ 3,4 });
+		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.ENDER_GUARDIAN.tryUnlockFragment(observer,0.42F,new byte[]{ 3,4 });
 	}
 	
 	@Override

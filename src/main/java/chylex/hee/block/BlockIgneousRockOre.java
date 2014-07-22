@@ -35,7 +35,7 @@ public class BlockIgneousRockOre extends BlockAbstractOre{
 	@Override
 	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){
 		if (KnowledgeRegistrations.IGNEOUS_ROCK_ORE.tryUnlockFragment(player,0.08F).stopTrying)return;
-		KnowledgeRegistrations.IGNEOUS_ROCK.tryUnlockFragment(player,0.06F,new short[]{ 0,1,2 });
+		KnowledgeRegistrations.IGNEOUS_ROCK.tryUnlockFragment(player,0.06F,new byte[]{ 0,1,2 });
 	}
 	
 	@Override

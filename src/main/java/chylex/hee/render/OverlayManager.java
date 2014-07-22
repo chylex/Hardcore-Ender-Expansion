@@ -41,8 +41,8 @@ public class OverlayManager{
 	private final List<Notification> notifications = new ArrayList<>();
 	
 	public static void addNotification(String notification){
-		if (instance != null)instance.notifications.add(new Notification(notification));
-		else DragonUtil.warning("OverlayManager instance is null!");
+		if (instance == null)DragonUtil.warning("OverlayManager instance is null!");
+		else instance.notifications.add(new Notification(notification));
 	}
 	
 	public static void register(){

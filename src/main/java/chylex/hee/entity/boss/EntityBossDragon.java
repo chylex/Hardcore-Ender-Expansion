@@ -101,7 +101,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	public static long lastUpdate;
 
 	public boolean angryStatus = false, doSpecialAttacks = false, forceAttackEnd = false, frozen = false;
-	public short spawnCooldown = 140, nextAttackTicks = 0;
+	public int spawnCooldown = 140, nextAttackTicks = 0;
 	public double moveSpeedMp = 1D;
 
 	public DragonAttackManager attacks;
@@ -235,7 +235,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				else if (currentAttack.hasEnded() || forceAttackEnd){
 					forceAttackEnd = false;
 					currentAttack.end();
-					nextAttackTicks = (short)Math.ceil(currentAttack.getNextAttackTimer()*(0.5D+attacks.getHealthPercentage()/200D));
+					nextAttackTicks = (int)Math.ceil(currentAttack.getNextAttackTimer()*(0.5D+attacks.getHealthPercentage()/200D));
 					(currentAttack = DEFAULT).init();
 				}
 			}
@@ -269,8 +269,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 					
 					if (rand.nextInt(60) == 0){
 						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,250D)){
-							if (KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.36F,new short[]{ 0,1,2,3 }).stopTrying)continue;
-							if (isAngry())KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.29F,new short[]{ 4,5,6,7 });
+							if (KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.36F,new byte[]{ 0,1,2,3 }).stopTrying)continue;
+							if (isAngry())KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.29F,new byte[]{ 4,5,6,7 });
 						}
 					}
 					
@@ -535,7 +535,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				if (entity instanceof EntityPlayer){
 					PacketPipeline.sendToPlayer((EntityPlayer)entity,new C26SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
 					if (rand.nextInt(13) == 0){
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,100D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.33F,new short[]{ 0,2,5,6 });
+						for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,100D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.33F,new byte[]{ 0,2,5,6 });
 					}
 				}
 			}
@@ -713,8 +713,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
  			
  			if (deathTicks > 20 && deathTicks < 110 && deathTicks%15 == 0){
  				for(EntityPlayer observer:ObservationUtil.getAllObservers(this,250D)){
- 					if (KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.4F,new short[]{ 15 }).stopTrying)continue;
- 					KnowledgeRegistrations.ALTAR_NEXUS.tryUnlockFragment(observer,0.7F,new short[]{ 0,1 });
+ 					if (KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.4F,new byte[]{ 15 }).stopTrying)continue;
+ 					KnowledgeRegistrations.ALTAR_NEXUS.tryUnlockFragment(observer,0.7F,new byte[]{ 0,1 });
  				}
  			}
 		}

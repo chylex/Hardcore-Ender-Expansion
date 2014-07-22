@@ -21,8 +21,8 @@ public class EntityMobInfestedBat extends EntityBat{
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
 		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D)){
-			if (KnowledgeRegistrations.INFESTED_BAT.tryUnlockFragment(observer,0.3F,new short[]{ 0,1 }).stopTrying)continue;
-			if (rand.nextInt(3) == 0)KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(observer,0.3F,new short[]{ 4 });
+			if (KnowledgeRegistrations.INFESTED_BAT.tryUnlockFragment(observer,0.3F,new byte[]{ 0,1 }).stopTrying)continue;
+			if (rand.nextInt(3) == 0)KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(observer,0.3F,new byte[]{ 4 });
 			else KnowledgeRegistrations.INFESTATION_REMEDY.tryUnlockFragment(observer,0.4F);
 		}
 	}

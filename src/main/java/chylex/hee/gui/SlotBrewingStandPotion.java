@@ -29,7 +29,7 @@ class SlotBrewingStandPotion extends Slot{
 		if (is.getItem() instanceof ItemPotion && is.getItemDamage() > 0){
 			player.addStat(AchievementList.potion,1);
 			if (is.stackTagCompound != null && is.stackTagCompound.hasKey("hasPotionChanged")){
-				KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(player,0.36F,new short[]{ 0,1,2 });
+				KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(player,0.36F,new byte[]{ 0,1,2 });
 				is.stackTagCompound.removeTag("hasPotionChanged");
 			}
 		}

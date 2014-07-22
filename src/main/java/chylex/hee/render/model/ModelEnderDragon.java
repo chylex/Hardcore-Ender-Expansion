@@ -10,18 +10,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelEnderDragon extends ModelBase{
-	private ModelRenderer head;
-	private ModelRenderer neck;
-	private ModelRenderer jaw;
-	private ModelRenderer body;
-	private ModelRenderer rearLeg;
-	private ModelRenderer frontLeg;
-	private ModelRenderer rearLegTip;
-	private ModelRenderer frontLegTip;
-	private ModelRenderer rearFoot;
-	private ModelRenderer frontFoot;
-	private ModelRenderer wing;
-	private ModelRenderer wingTip;
+	private final ModelRenderer head,neck,jaw,body;
+	private final ModelRenderer rearLeg,frontLeg;
+	private final ModelRenderer rearLegTip,frontLegTip;
+	private final ModelRenderer rearFoot,frontFoot;
+	private final ModelRenderer wing,wingTip;
 	private float partialTicks;
 
 	public ModelEnderDragon(){

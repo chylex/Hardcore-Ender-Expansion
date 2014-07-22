@@ -57,7 +57,7 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 						target.attackEntityFrom(DamageSource.causeMobDamage(dragon),2+dragon.getWorldDifficulty());
 						ended = true;
 						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,100D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.3F,new short[]{ 7,11 });
+						for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,100D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.3F,new byte[]{ 7,11 });
 					}
 				}
 			}

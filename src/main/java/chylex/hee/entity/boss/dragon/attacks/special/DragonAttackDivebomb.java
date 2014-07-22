@@ -69,7 +69,7 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 				phase = 1;
 				tmpTarget = null;
 				
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,1F,new short[]{ 7,8 });
+				for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,1F,new byte[]{ 7,8 });
 			}
 		}
 		else if (phase == 1){

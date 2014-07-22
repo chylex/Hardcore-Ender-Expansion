@@ -33,7 +33,7 @@ public class BlockCustomSpawner extends BlockMobSpawner{
 		super.harvestBlock(world,player,x,y,z,meta);
 		
 		if (meta == 0){
-			KnowledgeRegistrations.DUNGEON_TOWER.tryUnlockFragment(player,0.1F,new short[]{ 0,1,2,3 });
+			KnowledgeRegistrations.DUNGEON_TOWER.tryUnlockFragment(player,0.1F,new byte[]{ 0,1,2,3 });
 		}
 	}
 }
