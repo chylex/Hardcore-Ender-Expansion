@@ -7,10 +7,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityOrbitingPortalFX extends EntityPortalFX{
-	private byte customAge = 0, customMaxAge;
-	private double orbitAngle,orbitSpeed;
-	private double portalPosX,portalPosZ;
-	private float portalParticleScale;
+	private final double orbitSpeed, portalPosX, portalPosZ;
+	private final float portalParticleScale;
+	private byte customAge, customMaxAge;
+	private double orbitAngle;
 
 	public EntityOrbitingPortalFX(World world, double x, double y, double z, double motionY){
 		super(world,x,y,z,0D,motionY,0D);

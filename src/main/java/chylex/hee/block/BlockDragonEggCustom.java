@@ -36,7 +36,7 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		if (x == 9 && z == 6 && y == 249 && world.provider.dimensionId == 1 && !world.isRemote){
 			ServerSavefile save = BiomeDecoratorHardcoreEnd.getCache(world);
 			List<String> playersInTemple = save.getPlayersInTemple();
-			if (playersInTemple.size() > 0){
+			if (!playersInTemple.isEmpty()){
 				save.setPreventTempleDestruction(true);
 				for(Object o:world.playerEntities){
 					EntityPlayer player = (EntityPlayer)o;

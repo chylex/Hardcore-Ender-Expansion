@@ -23,9 +23,9 @@ import chylex.hee.system.util.DragonUtil;
 
 public class EntityMobEnderGuardian extends EntityMob{
 	private static final UUID cancelMovementModifierUUID = UUID.fromString("7107DE5E-7CE8-4030-940E-514C1F160890");
-	private static final AttributeModifier cancelMovement = (new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2)).setSaved(false);
+	private static final AttributeModifier cancelMovement = new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2).setSaved(false);
 	
-	private byte attackPhase = 0, explosionTimer = 10, teleportTimer = 80;
+	private byte attackPhase, explosionTimer = 10, teleportTimer = 80;
 	
 	public EntityMobEnderGuardian(World world){
 		super(world);

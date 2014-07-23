@@ -149,7 +149,7 @@ public class OverlayManager{
 				minion.getMinionData().render();
 			}*/
 			
-			if (notifications.size() > 0){
+			if (!notifications.isEmpty()){
 				FontRenderer font = mc.fontRenderer;
 				
 				boolean prevUnicode = font.getUnicodeFlag();

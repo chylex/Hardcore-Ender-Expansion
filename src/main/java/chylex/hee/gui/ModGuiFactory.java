@@ -6,7 +6,7 @@ import cpw.mods.fml.client.IModGuiFactory;
 
 public final class ModGuiFactory implements IModGuiFactory{
 	@Override
-	public void initialize(Minecraft minecraftInstance){}
+	public void initialize(Minecraft mc){}
 
 	@Override
 	public Class<? extends GuiScreen> mainConfigGuiClass(){

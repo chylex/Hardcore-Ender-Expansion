@@ -35,6 +35,8 @@ public final class HeeAPI{
 	}
 	
 	private static void validate(){
-		if (!Loader.instance().isInState(LoaderState.POSTINITIALIZATION))throw new RuntimeException("Do not use HEE API outside post initialization!");
+		if (!Loader.instance().isInState(LoaderState.POSTINITIALIZATION))throw new IllegalStateException("Do not use HEE API outside post initialization!");
 	}
+	
+	private HeeAPI(){}
 }

@@ -10,7 +10,7 @@ import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 
 public class DragonAttackBitemadness extends DragonSpecialAttackBase{
 	private EntityLivingBase target;
-	private byte biteCooldown = 0;
+	private byte biteCooldown;
 	
 	public DragonAttackBitemadness(EntityBossDragon dragon, int attackId){
 		super(dragon,attackId);

@@ -101,7 +101,7 @@ public class EntityItemIgneousRock extends EntityItem{
 			
 			if (rand.nextInt(80-Math.min(32,is.stackSize/3)) == 0){
 				List<?> nearbyEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(3D,3D,3D));
-				if (nearbyEntities.size() > 0){
+				if (!nearbyEntities.isEmpty()){
 					Object o = nearbyEntities.get(rand.nextInt(nearbyEntities.size()));
 					((Entity)o).setFire(1+rand.nextInt(4)+getEntityItem().stackSize/10);
 				}

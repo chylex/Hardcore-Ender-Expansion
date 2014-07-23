@@ -97,8 +97,8 @@ public abstract class IslandBiomeBase{
 		if (world.playerEntities.isEmpty())return;
 		
 		if (world.rand.nextInt(3) == 0){
-			short halfsz = ComponentScatteredFeatureIsland.halfSize;
-			short playerCheck = (short)(halfsz*2);
+			int halfsz = ComponentScatteredFeatureIsland.halfSize;
+			int playerCheck = halfsz*2;
 			
 			SpawnEntry entry = spawnEntries.getRandomItem(world.rand);
 			if (entry == null)return;
@@ -120,10 +120,10 @@ public abstract class IslandBiomeBase{
 					if (MathUtil.distance(player.posX-x,player.posZ-z) > playerCheck)continue;
 					
 					double ang = world.rand.nextDouble()*2D*Math.PI,len = 19+world.rand.nextInt(55)+Math.abs(world.rand.nextGaussian()*12D);
-					double posX = player.posX+Math.cos(ang)*len,posZ = player.posZ+Math.sin(ang)*len;
+					double posX = player.posX+Math.cos(ang)*len, posZ = player.posZ+Math.sin(ang)*len;
 					
 					for(int yAttempt = 0; yAttempt < 28; yAttempt++){
-						e.setLocationAndAngles(player.posX+Math.cos(ang)*len,(int)Math.floor(player.posY+(world.rand.nextDouble()-0.65D)*(yAttempt+4)*3D)+0.01D,player.posZ+Math.sin(ang)*len,world.rand.nextFloat()*360F,0F);
+						e.setLocationAndAngles(posX,(int)Math.floor(player.posY+(world.rand.nextDouble()-0.65D)*(yAttempt+4)*3D)+0.01D,posZ,world.rand.nextFloat()*360F,0F);
 						if (hasEntitySpace(world,e))break;
 					}
 					
@@ -207,9 +207,7 @@ public abstract class IslandBiomeBase{
 	
 	protected abstract IslandBiomeDecorator getDecorator();
 	
-	public int getTopBlockMeta(){
-		return 0;
-	}
+	public abstract int getTopBlockMeta();
 	
 	public static final Block getTopBlock(){
 		return BlockList.end_terrain;

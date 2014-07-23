@@ -89,10 +89,9 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 
 			PacketPipeline.sendToAllAround(entity.dimension,entity.posX,entity.posY,entity.posZ,64D,new C10ParticleTransferenceGemLink(false,(int)Math.floor(entity.posX),(int)Math.floor(entity.posY+1.25D),(int)Math.floor(entity.posZ)));
 
-			if (!KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.15F).stopTrying){
-				if (KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.1F,new byte[]{ 7 }) == UnlockResult.NOTHING_TO_UNLOCK){
-					KnowledgeRegistrations.TRANSFERENCE_GEM_ENH.tryUnlockFragment(player,1F);
-				}
+			if (!KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.15F).stopTrying &&
+				KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.1F,new byte[]{ 7 }) == UnlockResult.NOTHING_TO_UNLOCK){
+				KnowledgeRegistrations.TRANSFERENCE_GEM_ENH.tryUnlockFragment(player,1F);
 			}
 			
 			for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,10D))KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(observer,0.13F);

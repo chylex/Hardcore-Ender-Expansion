@@ -11,8 +11,8 @@ import chylex.hee.gui.GuiDiaryBook;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class LoreTexts{
-	public static final int pageAmount = 16;
+public final class LoreTexts{
+	public static int pageAmount = 16;
 	
 	public static String getPage(int page){
 		switch(page){
@@ -157,4 +157,6 @@ public class LoreTexts{
 			bookGui.updateButtons();
 		}
 	}
+	
+	private LoreTexts(){}
 }

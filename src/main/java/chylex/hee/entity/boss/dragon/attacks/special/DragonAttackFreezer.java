@@ -10,7 +10,7 @@ import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 
 public class DragonAttackFreezer extends DragonSpecialAttackBase{
 	private EntityLivingBase target;
-	private int shootTimer = 0;
+	private int shootTimer;
 	
 	public DragonAttackFreezer(EntityBossDragon dragon, int attackId){
 		super(dragon,attackId);
@@ -19,6 +19,7 @@ public class DragonAttackFreezer extends DragonSpecialAttackBase{
 	@Override
 	public void init(){
 		super.init();
+		target = null;
 		shootTimer = 0;
 	}
 	

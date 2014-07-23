@@ -22,7 +22,7 @@ public class KnowledgeRegistration{
 	private IRegistrationRenderer renderer;
 	public final String identifier;
 	private int x,y;
-	private byte textureIndex = 0;
+	private byte textureIndex;
 	
 	public KnowledgeRegistration(KnowledgeCategory category, String identifier){
 		if (category != null)(this.category = category).registrations.add(this);

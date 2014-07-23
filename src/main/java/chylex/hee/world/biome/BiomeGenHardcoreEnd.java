@@ -4,8 +4,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenEnd;
 
-public class BiomeGenHardcoreEnd extends BiomeGenEnd{
-	public static boolean overrideMobLists = false;
+public final class BiomeGenHardcoreEnd extends BiomeGenEnd{
+	public static boolean overrideMobLists;
 	
 	public BiomeGenHardcoreEnd(int id){
 		super(id);

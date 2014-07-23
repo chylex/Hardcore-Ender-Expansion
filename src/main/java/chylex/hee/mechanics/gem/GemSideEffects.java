@@ -89,6 +89,8 @@ public enum GemSideEffects implements IWeightProvider{
 				info.setRaining(true);
 				info.setThundering(true);
 				break;
+				
+			default:
 		}
 	}
 }

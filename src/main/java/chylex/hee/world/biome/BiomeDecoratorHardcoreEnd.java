@@ -18,9 +18,9 @@ import chylex.hee.world.feature.WorldGenSpikes;
 public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	private static ServerSavefile serverSaveCache;
 	
-	private WorldGenBlob blobGen;
-	private WorldGenMeteoroid meteoroidGen;
-	private WorldGenEndPowderOre endPowderOreGen;
+	private final WorldGenBlob blobGen;
+	private final WorldGenMeteoroid meteoroidGen;
+	private final WorldGenEndPowderOre endPowderOreGen;
 	
 	public BiomeDecoratorHardcoreEnd(){
 		super();
@@ -74,8 +74,8 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 				yy = 35+randomGenerator.nextInt(92);
 				zz = chunk_Z+randomGenerator.nextInt(16);
 				
-				if (currentWorld.getBlock(xx,yy,zz) == Blocks.end_stone){
-					if (endPowderOreGen.generate(currentWorld,randomGenerator,xx,yy,zz))++placed;
+				if (currentWorld.getBlock(xx,yy,zz) == Blocks.end_stone && endPowderOreGen.generate(currentWorld,randomGenerator,xx,yy,zz)){
+					++placed;
 				}
 			}
 		}catch(Exception e){

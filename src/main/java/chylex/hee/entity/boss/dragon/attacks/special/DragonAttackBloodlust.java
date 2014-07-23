@@ -52,11 +52,9 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 			dragon.targetX = targetX;
 			dragon.targetZ = targetZ;
 			
-			if (MathUtil.distance(targetX-dragon.posX,targetZ-dragon.posZ) < 80D){
-				if ((moveSpeed -= 0.035F) < 0.01F){
-					moveSpeed = 0F;
-					phase = 1;
-				}
+			if (MathUtil.distance(targetX-dragon.posX,targetZ-dragon.posZ) < 80D && (moveSpeed -= 0.035F) < 0.01F){
+				moveSpeed = 0F;
+				phase = 1;
 			}
 		}
 		else if (phase == 1){
@@ -102,6 +100,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 							for(int a = 0; a < 2+rand.nextInt(3)+(dragon.getWorldDifficulty()>>1); a++){
 								spawnBatAt(enderman.posX,enderman.posY+rand.nextFloat()*enderman.height,enderman.posZ,player);
 							}
+							
 							enderman.setDead();
 							PacketPipeline.sendToAllAround(enderman,128D,new C05ParticleBloodlustSmoke(enderman));
 							break;
@@ -123,7 +122,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	
 	@Override
 	public boolean canStart(){
-		return dragon.getHealth() < 120 && dragon.worldObj.playerEntities.size() > 0;
+		return dragon.getHealth() < 120 && !dragon.worldObj.playerEntities.isEmpty();
 	}
 	
 	@Override

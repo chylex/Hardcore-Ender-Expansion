@@ -12,10 +12,10 @@ import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackDivebomb extends DragonSpecialAttackBase{
-	private Entity temp = null;
+	private Entity temp;
 	private float speed = 1F;
-	private byte timer = 0;
-	private EntityPlayer tmpTarget = null;
+	private byte timer;
+	private EntityPlayer tmpTarget;
 	
 	public DragonAttackDivebomb(EntityBossDragon dragon, int attackId){
 		super(dragon,attackId);

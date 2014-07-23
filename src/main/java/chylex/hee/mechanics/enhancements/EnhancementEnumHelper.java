@@ -14,7 +14,7 @@ public final class EnhancementEnumHelper{
 	
 	public static String serialize(List<Enum> list){
 		StringBuilder build = new StringBuilder();
-		for(Enum enhancement:list)build.append(enhancement.name()).append(",");
+		for(Enum enhancement:list)build.append(enhancement.name()).append(',');
 		return (build.length() > 0 ? build.deleteCharAt(build.length()-1) : build).toString();
 	}
 	
@@ -29,4 +29,6 @@ public final class EnhancementEnumHelper{
 		
 		return types;
 	}
+	
+	private EnhancementEnumHelper(){}
 }

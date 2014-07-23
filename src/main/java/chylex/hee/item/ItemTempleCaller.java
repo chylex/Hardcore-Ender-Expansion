@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 	public static boolean isEnabled = true;
-	public static int templeX = 0, templeY = 246, templeZ = 0;
+	public static int templeX, templeZ = 0, templeY = 246;
 	
 	@Override
 	protected boolean canAcceptEnergy(ItemStack is){

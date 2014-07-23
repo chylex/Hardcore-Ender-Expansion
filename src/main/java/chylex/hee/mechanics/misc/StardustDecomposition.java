@@ -215,4 +215,6 @@ public final class StardustDecomposition{
 
 		return newArray;
 	}
+	
+	private StardustDecomposition(){}
 }

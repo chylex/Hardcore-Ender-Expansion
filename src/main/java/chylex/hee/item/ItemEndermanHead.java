@@ -47,7 +47,7 @@ public class ItemEndermanHead extends Item{
 			case 3: ++z; break;
 			case 4: --x; break;
 			case 5: ++x; break;
-			default:;
+			default:
 		}
 
 		if (!player.canPlayerEdit(x,y,z,side,is) || !BlockList.enderman_head.canPlaceBlockAt(world,x,y,z))return false;

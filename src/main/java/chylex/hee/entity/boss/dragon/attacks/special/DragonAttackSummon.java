@@ -16,9 +16,9 @@ import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackSummon extends DragonSpecialAttackBase{
 	private EntityLivingBase target;
-	private boolean ended = false;
-	private int summonTimer = 0;
-	private short summoned = 0;
+	private boolean ended;
+	private int summonTimer;
+	private short summoned;
 	private float speed = 1F;
 	
 	public DragonAttackSummon(EntityBossDragon dragon, int attackId){

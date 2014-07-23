@@ -122,7 +122,7 @@ public final class DungeonLayer{
 						switch(rand.nextInt(3)){
 							case 0: dir = dir.rotatedLeft(); break;
 							case 1: dir = dir.rotatedRight(); break;
-							default:;
+							default:
 						}
 
 						move(dir,1);

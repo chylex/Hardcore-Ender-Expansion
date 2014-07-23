@@ -14,7 +14,7 @@ import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.util.SpawnEntry;
 
-public class OrbSpawnableMobs{
+public final class OrbSpawnableMobs{
 	public static final Set<Class<?>> classList = new HashSet<>();
 	
 	public static void initialize(){
@@ -38,4 +38,6 @@ public class OrbSpawnableMobs{
 			EntityVillager.class, EntitySilverfish.class, EntityIronGolem.class
 		})classList.add(cls);
 	}
+	
+	private OrbSpawnableMobs(){}
 }

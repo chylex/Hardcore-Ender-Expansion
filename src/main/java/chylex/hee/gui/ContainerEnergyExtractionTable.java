@@ -11,8 +11,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEnergyExtractionTable extends Container{
-	private TileEntityEnergyExtractionTable tileEnergyExtractionTable;
-	private int prevReqStardust = 0, prevTime = 0, prevContainedEnergy = 0;
+	private final TileEntityEnergyExtractionTable tileEnergyExtractionTable;
+	private int prevReqStardust, prevTime, prevContainedEnergy;
 	
 	public ContainerEnergyExtractionTable(InventoryPlayer inv, TileEntityEnergyExtractionTable tile){
 		tileEnergyExtractionTable = tile;

@@ -37,9 +37,8 @@ public class ItemBlockSoulCharm extends ItemBlock{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		switch(is.getItemDamage()){
-			default: return "";
-			case 0: return "tile.soulCharm";
 			case 1: return "tile.emptySoulCharm";
+			default: return "tile.soulCharm";
 		}
 	}
 	

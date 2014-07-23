@@ -1,4 +1,5 @@
 package chylex.hee.item;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -123,9 +124,9 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	}
 
 	static class EggData{
-		private String entityName;
-		private Class<? extends EntityLiving> entityClass;
-		private int primaryColor,secondaryColor;
+		private final String entityName;
+		private final Class<? extends EntityLiving> entityClass;
+		private final int primaryColor,secondaryColor;
 		
 		EggData(String entityName, Class<? extends EntityLiving> entityClass, int[] rgbPrimaryColor, int[] rgbSecondaryColor){
 			this.entityName = entityName;
@@ -139,7 +140,7 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 			
 			try{
 				e = entityClass.getConstructor(World.class).newInstance(world);
-			}catch(Exception ex){
+			}catch(NoSuchMethodError | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex){
 				return null;
 			}
 			

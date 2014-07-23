@@ -3,9 +3,9 @@ import net.minecraft.entity.Entity;
 
 public class TargetPositionSetEvent{
 	public Entity currentEntityTarget;
-	public double oldTargetX,oldTargetY,oldTargetZ;
-	public double newTargetX,newTargetY,newTargetZ;
-	private boolean isCancelled = false;
+	public double oldTargetX, oldTargetY, oldTargetZ;
+	public double newTargetX, newTargetY, newTargetZ;
+	private boolean isCancelled;
 	
 	public TargetPositionSetEvent(Entity currentEntityTarget, double oldTargetX, double oldTargetY, double oldTargetZ, double newTargetX, double newTargetY, double newTargetZ){
 		this.currentEntityTarget = currentEntityTarget;

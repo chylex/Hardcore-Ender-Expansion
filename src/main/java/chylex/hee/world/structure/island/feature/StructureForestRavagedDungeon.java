@@ -34,7 +34,8 @@ public class StructureForestRavagedDungeon extends AbstractIslandStructure{
 		TimeMeasurement.start("RavagedDungeonGen");
 		RavagedDungeonGenerator gen = new RavagedDungeonGenerator(dungW,dungH,3);
 
-		for(int xx = 0, zz, yy, worldX, worldZ, th = hallHeight+1, layer, visibility; xx < dungW; xx++){
+		int xx, zz, yy, worldX, worldZ, th = hallHeight+1, layer, visibility;
+		for(xx = 0; xx < dungW; xx++){
 			for(zz = 0; zz < dungH; zz++){
 				worldX = islandCenterX-dungHalfW*scale+xx*scale+scaleHalf;
 				worldZ = islandCenterZ-dungHalfH*scale+zz*scale+scaleHalf;

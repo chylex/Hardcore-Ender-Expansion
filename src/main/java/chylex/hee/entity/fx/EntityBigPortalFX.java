@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityBigPortalFX extends EntityFX{
-	private byte realParticleAge = 0;
+	private byte realParticleAge;
 	protected float portalParticleScale;
 	
 	public EntityBigPortalFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ){

@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class ItemBlockWithSubtypes extends ItemBlock{
-	private boolean isIBlockSubtypes;
+	private final boolean isIBlockSubtypes;
 	
 	public ItemBlockWithSubtypes(Block block){
 		super(block);

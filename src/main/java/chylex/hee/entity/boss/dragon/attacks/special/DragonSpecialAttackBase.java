@@ -15,16 +15,16 @@ public abstract class DragonSpecialAttackBase{
 	protected static Random rand = new Random();
 	
 	protected EntityBossDragon dragon;
-	protected float damageTaken = 0F;
-	protected float damageDealt = 0F;
+	protected float damageTaken;
+	protected float damageDealt;
 	protected TObjectFloatHashMap<String> lastPlayerHealth = new TObjectFloatHashMap<>();
-	public int tick = 0;
-	public int phase = 0;
-	public double previousEffectivness = 0D;
-	public double newEffectivness = 0D;
-	public double effectivness = 0D;
+	public int tick;
+	public int phase;
+	public double previousEffectivness;
+	public double newEffectivness;
+	public double effectivness;
 	private byte[] disabledPassiveAttacks = new byte[0];
-	public boolean disabled = false;
+	public boolean disabled;
 	public final byte id;
 	
 	public DragonSpecialAttackBase(EntityBossDragon dragon, int attackId){

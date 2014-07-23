@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityAltarOrbFX extends EntityFX{
 	private static final ResourceLocation tex = new ResourceLocation("hardcoreenderexpansion:textures/particles/altar_orb.png");
 	
-	private Vec3 movementVec;
+	private final Vec3 movementVec;
 	private double trueX,trueY,trueZ,targetX,targetY,targetZ;
 	private float offsetDistance,offsetAngle[];
 	private byte offsetAngleMode[];

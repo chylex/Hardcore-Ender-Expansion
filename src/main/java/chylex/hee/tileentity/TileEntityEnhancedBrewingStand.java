@@ -12,9 +12,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand implements IAcceptFieryEssence{
-	private static final int[] topSlots = new int[]{3},
-							   sideSlots = new int[]{0,1,2},
-							   bottomSlots = new int[]{4};
+	private static final int[] topSlots = new int[]{ 3 },
+							   sideSlots = new int[]{ 0, 1, 2 },
+							   bottomSlots = new int[]{ 4 };
 	
 	private ItemStack[] slotItems = new ItemStack[5];
 	private byte filledSlotsCache;

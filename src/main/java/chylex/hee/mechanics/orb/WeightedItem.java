@@ -17,7 +17,7 @@ public class WeightedItem implements IWeightProvider{
 	public WeightedItem(Item item, int damage, int weight){
 		this.item = item;
 		this.possibleDamageValues = new short[]{ (short)damage };
-		this.weight = (short)weight;
+		this.weight = weight;
 	}
 	
 	public Item getItem(){

@@ -87,7 +87,7 @@ public class CustomMusicTicker extends MusicTicker{
 				switch(BossType.validateAndGetBossType()){
 					case DRAGON_CALM: suggestedType = END_DRAGON_CALM; break;
 					case DRAGON_ANGRY: suggestedType = END_DRAGON_ANGRY; break;
-					default:;
+					default:
 				}
 			}
 			

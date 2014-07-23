@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityEnderGooFX extends EntityLavaFX{
-	private float lavaParticleScale;
+	private final float lavaParticleScale;
 	
 	public EntityEnderGooFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ){
 		super(world,x,y,z);

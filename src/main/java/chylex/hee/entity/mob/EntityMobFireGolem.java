@@ -27,7 +27,7 @@ import chylex.hee.system.util.MathUtil;
 
 public class EntityMobFireGolem extends EntityMob{
 	private static final UUID cancelMovementModifierUUID = UUID.fromString("7107DE5E-7CE8-4030-940E-514C1F160890");
-	private static final AttributeModifier cancelMovement = (new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2)).setSaved(false);
+	private static final AttributeModifier cancelMovement = new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2).setSaved(false);
 	
 	private byte rangedStatus = -1, teleportCooldown = 0;
 	

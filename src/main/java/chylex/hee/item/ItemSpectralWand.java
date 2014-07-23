@@ -60,19 +60,6 @@ public class ItemSpectralWand extends Item{
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote){
-			/*EntityMobMinion minion = new EntityMobMinion(world);
-			minion.setLocationAndAngles(player.posX,player.posY+1.8D,player.posZ,0F,0F);
-			minion.setOwner(player);
-			minion.loadEntityFromItem(is);
-			world.spawnEntityInWorld(minion);*/
-		}
-		
-		return is;
-	}
-	
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		if (is.stackTagCompound == null || !is.stackTagCompound.hasKey("cluster"))return;

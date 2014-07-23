@@ -13,20 +13,15 @@ import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackDefault extends DragonSpecialAttackBase{
 	private int attackCooldown = 140, nextTargetTimer = 100;
-	private EntityPlayer overrideTarget = null;
-	private boolean isOverriding = false;
+	private EntityPlayer overrideTarget;
+	private boolean isOverriding;
 	
 	private TObjectIntHashMap<String> seesDragon = new TObjectIntHashMap<>();
-	private byte seesCheck = 0;
-	private boolean stealthInProgress = false;
+	private byte seesCheck;
+	private boolean stealthInProgress;
 	
 	public DragonAttackDefault(EntityBossDragon dragon, int attackId){
 		super(dragon,attackId);
-	}
-	
-	@Override
-	public void init(){
-		super.init();
 	}
 	
 	@Override
@@ -46,8 +41,8 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 			DebugBoard.updateValue("TargetChance",250-iangry);
 			DebugBoard.updateValue("HealthPerc",healthPerc);
 			
-			if (rand.nextInt(250-iangry) == 0 || (nextTargetTimer = (short)Math.max(0,nextTargetTimer-1)) <= 0){
-				nextTargetTimer = (short)(rand.nextInt(1+(healthPerc>>1))+healthPerc+120+(dragon.angryStatus?0:50)-dragon.getWorldDifficulty()*8-Math.min(5,dragon.worldObj.playerEntities.size())*5);
+			if (rand.nextInt(250-iangry) == 0 || (nextTargetTimer = Math.max(0,nextTargetTimer-1)) <= 0){
+				nextTargetTimer = rand.nextInt(1+(healthPerc>>1))+healthPerc+120+(dragon.angryStatus?0:50)-dragon.getWorldDifficulty()*8-Math.min(5,dragon.worldObj.playerEntities.size())*5;
 				dragon.trySetTarget(dragon.attacks.getRandomPlayer());
 			}
 		}

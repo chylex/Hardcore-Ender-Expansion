@@ -195,7 +195,6 @@ public class ContainerEndPowderEnhancements extends Container{
 		else if (selectedEnhancement != null){ // TRY ENHANCE
 			ItemStack mainIS = getSlot(0).getStack();
 			List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
-			SlotList slots = EnhancementHandler.getEnhancementSlotsForItem(mainIS.getItem());
 			
 			if (slot < 0 || slot >= enhancements.size()){
 				DragonUtil.warning("Received S01 enhancement gui packet with invalid slot!");
@@ -204,6 +203,8 @@ public class ContainerEndPowderEnhancements extends Container{
 			
 			IEnhancementEnum enhancement = enhancements.get(slot);
 			if (EnhancementHandler.getEnhancements(mainIS).contains(enhancement))return;
+			
+			SlotList slots = EnhancementHandler.getEnhancementSlotsForItem(mainIS.getItem());
 			int enhancedAmount = mainIS.stackSize;
 			ItemStack is;
 			

@@ -9,7 +9,7 @@ import chylex.hee.mechanics.knowledge.data.UnlockResult;
 import chylex.hee.mechanics.knowledge.fragment.EnhancementKnowledgeFragment;
 import chylex.hee.mechanics.knowledge.fragment.KnowledgeFragment;
 
-public class EnhancementFragmentUtil{
+public final class EnhancementFragmentUtil{
 	public static KnowledgeFragment[] getEnhancementFragments(Class<? extends Enum> enhancementEnum){
 		Enum[] values = enhancementEnum.getEnumConstants();
 		KnowledgeFragment[] fragments = new KnowledgeFragment[values.length];
@@ -44,4 +44,6 @@ public class EnhancementFragmentUtil{
 		
 		return false;
 	}
+	
+	private EnhancementFragmentUtil(){}
 }

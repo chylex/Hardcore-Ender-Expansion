@@ -11,7 +11,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEnhancedBrewingStand extends Container{
-	private TileEntityEnhancedBrewingStand tileBrewingStand;
+	private final TileEntityEnhancedBrewingStand tileBrewingStand;
 	private final Slot ingredientSlot,powderSlot;
 	private int startBrewTime,brewTime,requiredPowder;
 

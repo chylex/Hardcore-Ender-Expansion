@@ -212,7 +212,7 @@ public class BlockSpookyLog extends Block{
 	public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer){
 		for(int a = 0; a < 30; a++){
 			int x = target.blockX,y = target.blockY,z = target.blockZ;
-			effectRenderer.addEffect((new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0)).applyColourMultiplier(x,y,z).multiplyVelocity(0.3F+world.rand.nextFloat()*0.6F).multipleParticleScaleBy(0.2F+world.rand.nextFloat()*2F));
+			effectRenderer.addEffect(new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0).applyColourMultiplier(x,y,z).multiplyVelocity(0.3F+world.rand.nextFloat()*0.6F).multipleParticleScaleBy(0.2F+world.rand.nextFloat()*2F));
 		}
 		return false;
 	}
@@ -221,7 +221,7 @@ public class BlockSpookyLog extends Block{
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
 		for(int a = 0; a < 90; a++){
-			effectRenderer.addEffect((new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat()*1.5F,z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0)).applyColourMultiplier(x,y,z).multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
+			effectRenderer.addEffect(new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat()*1.5F,z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0).applyColourMultiplier(x,y,z).multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
 		}
 		return false;
 	}
@@ -230,7 +230,7 @@ public class BlockSpookyLog extends Block{
 	public boolean addDestroyEffectsCustom(World world, int x, int y, int z){
 		EffectRenderer eff = Minecraft.getMinecraft().effectRenderer;
 		for(int a = 0; a < 30; a++){
-			eff.addEffect((new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat()*1.5F,z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0)).applyColourMultiplier(x,y,z).multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
+			eff.addEffect(new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat()*1.5F,z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0).applyColourMultiplier(x,y,z).multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
 		}
 		return false;
 	}

@@ -38,7 +38,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 		energyValues.put(new ItemDamagePair(item,damage),(byte)energy);
 	}
 	
-	private static short getItemEnergy(ItemStack is){
+	private static byte getItemEnergy(ItemStack is){
 		for(ItemDamagePair idp:energyValues.keySet()){
 			if (idp.check(is))return energyValues.get(idp);
 		}
@@ -66,9 +66,9 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 		setItemEnergy(ItemList.ectoplasm, 112);
 	}
 
-	private short time = 0, timeStep = 0;
-	private byte requiredStardust = 0;
-	private short containedEnergy = 0;
+	private short time, timeStep;
+	private byte requiredStardust;
+	private int containedEnergy;
 	private byte leakTimer = 100;
 	
 	@Override
@@ -119,7 +119,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 								else{
 									NBTTagCompound nbt = new NBTTagCompound();
 									cluster.data.writeToNBT(nbt);
-									nbt.setShort("energyAmt",(short)releasedEnergy);
+									nbt.setInteger("energyAmt",releasedEnergy);
 									nbt.setByte("weakness",(byte)0);
 									nbt.setByte("regenBoost",(byte)0);
 									cluster.data.readFromNBT(nbt);
@@ -191,7 +191,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 		resetExtraction();
 		
 		if (items[0] != null){
-			short energy = getItemEnergy(items[0]);
+			byte energy = getItemEnergy(items[0]);
 			if (energy > 0){
 				requiredStardust = (byte)(1+(energy>>5)+(energy>>3));
 				timeStep = (short)Math.max(1,20-Math.sqrt(2*energy));
@@ -249,14 +249,14 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		nbt.setShort("energy",containedEnergy);
+		nbt.setInteger("energy",containedEnergy);
 		nbt.setByte("leakTimer",leakTimer);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
-		containedEnergy = nbt.getShort("energy");
+		containedEnergy = nbt.getInteger("energy");
 		leakTimer = nbt.getByte("leakTimer");
 		invalidateInventory();
 	}

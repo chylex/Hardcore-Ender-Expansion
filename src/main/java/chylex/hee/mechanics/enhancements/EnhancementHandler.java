@@ -24,31 +24,31 @@ public final class EnhancementHandler{
 	private static final IdentityHashMap<Item, EnhancementData> itemMap = new IdentityHashMap<>(8);
 	
 	static{
-		SlotType P = SlotType.POWDER, I = SlotType.INGREDIENT;
+		SlotType p = SlotType.POWDER, i = SlotType.INGREDIENT;
 		
 		itemMap.put(
 			Items.ender_pearl,
-			new EnhancementData(EnderPearlEnhancements.class, KnowledgeRegistrations.ENDER_PEARLS_ENH, ItemList.enhanced_ender_pearl, P, I, P)
+			new EnhancementData(EnderPearlEnhancements.class, KnowledgeRegistrations.ENDER_PEARLS_ENH, ItemList.enhanced_ender_pearl, p, i, p)
 		);
 		
 		itemMap.put(
 			ItemList.enhanced_ender_pearl,
-			new EnhancementData(EnderPearlEnhancements.class, KnowledgeRegistrations.ENDER_PEARLS_ENH, ItemList.enhanced_ender_pearl, P, I, P)
+			new EnhancementData(EnderPearlEnhancements.class, KnowledgeRegistrations.ENDER_PEARLS_ENH, ItemList.enhanced_ender_pearl, p, i, p)
 		);
 		
 		itemMap.put(
 			ItemList.transference_gem,
-			new EnhancementData(TransferenceGemEnhancements.class, KnowledgeRegistrations.TRANSFERENCE_GEM_ENH, ItemList.transference_gem, P, P, P, I, P, P, P)
+			new EnhancementData(TransferenceGemEnhancements.class, KnowledgeRegistrations.TRANSFERENCE_GEM_ENH, ItemList.transference_gem, p, p, p, i, p, p, p)
 		);
 		
 		itemMap.put(
 			Item.getItemFromBlock(Blocks.tnt),
-			new EnhancementData(TNTEnhancements.class, KnowledgeRegistrations.TNT_ENH, Item.getItemFromBlock(BlockList.enhanced_tnt), P, P, I, I, P, P)
+			new EnhancementData(TNTEnhancements.class, KnowledgeRegistrations.TNT_ENH, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
 		);
 		
 		itemMap.put(
 			Item.getItemFromBlock(BlockList.enhanced_tnt),
-			new EnhancementData(TNTEnhancements.class, KnowledgeRegistrations.TNT_ENH, Item.getItemFromBlock(BlockList.enhanced_tnt), P, P, I, I, P, P)
+			new EnhancementData(TNTEnhancements.class, KnowledgeRegistrations.TNT_ENH, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
 		);
 		
 		//itemMap.put(Item.getItemFromBlock(BlockList.soul_charm), new EnhancementData(SoulCharmEnhancements.class));
@@ -75,12 +75,12 @@ public final class EnhancementHandler{
 		
 		if (is.stackTagCompound == null || !canEnhanceItem(is.getItem()))return enhancements;
 		NBTTagList list = is.stackTagCompound.getTagList("HEE_enhancements",Constants.NBT.TAG_STRING);
-		EnhancementData EnhancementData = itemMap.get(is.getItem());
+		EnhancementData enhancementData = itemMap.get(is.getItem());
 		
 		for(int a = 0; a < list.tagCount(); a++){
 			String name = list.getStringTagAt(a);
 			
-			for(Enum e:EnhancementData.valuesEnum){
+			for(Enum e:enhancementData.valuesEnum){
 				if (e.name().equals(name)){
 					enhancements.add(e);
 					break;
@@ -96,7 +96,7 @@ public final class EnhancementHandler{
 	}
 
 	public static ItemStack addEnhancement(ItemStack is, Object enhancement){
-		if (!(enhancement instanceof IEnhancementEnum))throw new RuntimeException("Tried adding foreign object "+enhancement+" as an enhancement!");
+		if (!(enhancement instanceof IEnhancementEnum))throw new IllegalArgumentException("Tried adding foreign object "+enhancement+" as an enhancement!");
 		return addEnhancement(is,(Enum)enhancement);
 	}
 
@@ -121,4 +121,6 @@ public final class EnhancementHandler{
 	public static void appendEnhancementNames(ItemStack is, List list){
 		for(Enum e:getEnhancements(is))list.add(((IEnhancementEnum)e).getName());
 	}
+	
+	private EnhancementHandler(){}
 }

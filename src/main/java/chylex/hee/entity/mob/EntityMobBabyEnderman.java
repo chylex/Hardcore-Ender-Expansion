@@ -45,10 +45,10 @@ import chylex.hee.system.util.IItemSelector;
 
 public class EntityMobBabyEnderman extends EntityMob{
 	private EntityPlayer target;
-	private List<ItemPriorityLevel> itemPriorities = new ArrayList<>();
+	private final List<ItemPriorityLevel> itemPriorities = new ArrayList<>();
 	private ItemPriorityLevel carryingLevel = ItemPriorityLevel.RANDOM;
-	private byte itemDecisionTimer = 0, attentionLossTimer = -125;
-	private boolean isFamilyChosen = false, isScared = false;
+	private byte itemDecisionTimer, attentionLossTimer = -125;
+	private boolean isFamilyChosen, isScared;
 	
 	public EntityMobBabyEnderman(World world){
 		super(world);
@@ -101,7 +101,7 @@ public class EntityMobBabyEnderman extends EntityMob{
 			if (target == null){
 				if (!hasIS && !isScared && rand.nextInt(550) == 0){ // set target
 					List list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,3D,6D));
-					if (list.size() > 0){
+					if (!list.isEmpty()){
 						target = (EntityPlayer)list.get(rand.nextInt(list.size()));
 						
 						ItemStack headArmor = target.getCurrentArmor(3);
@@ -335,7 +335,7 @@ public class EntityMobBabyEnderman extends EntityMob{
 }
 
 class DistanceComparator<T extends Entity> implements Comparator<T>{
-	private Entity source;
+	private final Entity source;
 	
 	public DistanceComparator(Entity source){
 		this.source = source;

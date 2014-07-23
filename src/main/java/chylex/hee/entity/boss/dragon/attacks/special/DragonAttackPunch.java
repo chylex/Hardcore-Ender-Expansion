@@ -14,7 +14,7 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 	private EntityLivingBase target;
 	private EntityLivingBase tempTarget;
 	private float speed = 1F;
-	private boolean ended = false;
+	private boolean ended;
 	
 	public DragonAttackPunch(EntityBossDragon dragon, int attackId){
 		super(dragon,attackId);
@@ -23,6 +23,7 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 	@Override
 	public void init(){
 		super.init();
+		target = tempTarget = null;
 		speed = 1F;
 		ended = false;
 	}

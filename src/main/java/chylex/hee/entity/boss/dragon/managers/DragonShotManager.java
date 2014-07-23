@@ -11,7 +11,7 @@ public class DragonShotManager{
 		NONE, FIREBALL, FREEZEBALL
 	}
 	
-	private EntityBossDragon dragon;
+	private final EntityBossDragon dragon;
 	private double x,y,z;
 	private boolean random;
 	private ShotType type;

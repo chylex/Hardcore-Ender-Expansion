@@ -223,7 +223,7 @@ public final class MusicManager{
 	
 	public static boolean hasPoolAnyTracks(String poolName){
 		for(MusicPool pool:instance.poolList){
-			if (pool.getPrefix().equals(poolName))return pool.listTrackEntries().size() > 0;
+			if (pool.getPrefix().equals(poolName))return !pool.listTrackEntries().isEmpty();
 		}
 		
 		return false;

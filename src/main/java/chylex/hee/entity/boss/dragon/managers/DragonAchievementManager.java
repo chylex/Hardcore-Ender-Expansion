@@ -9,10 +9,10 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.system.achievements.AchievementManager;
 
 public class DragonAchievementManager{
-	private EntityBossDragon dragon;
-	private Map<String,AchievementData> playerData;
-	private int battleTimer = 0;
-	private byte playerCheck = 0;
+	private final EntityBossDragon dragon;
+	private final Map<String,AchievementData> playerData;
+	private int battleTimer;
+	private byte playerCheck;
 	
 	public DragonAchievementManager(EntityBossDragon dragon){
 		this.dragon = dragon;
@@ -94,9 +94,9 @@ public class DragonAchievementManager{
 	}
 	
 	class AchievementData{
-		private short participationCounter = 0;
-		private short deathAmount = 0;
-		private boolean killedEnderman = false;
+		private short participationCounter;
+		private short deathAmount;
+		private boolean killedEnderman;
 		
 		private final NBTTagCompound writeToNBT(){
 			NBTTagCompound tag = new NBTTagCompound();

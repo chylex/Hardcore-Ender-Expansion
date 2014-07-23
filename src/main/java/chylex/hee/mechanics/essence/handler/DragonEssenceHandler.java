@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.mechanics.essence.SocketManager;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
@@ -73,7 +72,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	}));
 	
 	private AxisAlignedBB itemBoundingBox;
-	private List<BlockLocation> pedestals = new ArrayList<>();
+	private final List<BlockLocation> pedestals = new ArrayList<>();
 	private byte updatePedestalTimer = 2;
 	private long pedestalAreaHash;
 	private byte lastMaxPedestals;
@@ -201,7 +200,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	};
 	
 	private void updatePedestalItem(EntityItemAltar item){
-		byte socketEffects = SocketManager.getSocketEffects(altar),socketBoost = SocketManager.getSocketBoost(altar);
+		byte socketEffects = getSocketEffects(altar),socketBoost = getSocketBoost(altar);
 		
 		ItemStack is = item.getEntityItem();
 		
@@ -246,8 +245,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						
 						for(Object o:enchList){
 							EnchantmentData ench = (EnchantmentData)o;
-							short cost = getEnchantmentCost(ench.enchantmentobj,1);
-							if ((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST)cost = (short)Math.max(cost>>2,cost*(1F-socketBoost/42F));
+							int cost = getEnchantmentCost(ench.enchantmentobj,1);
+							if ((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST)cost = (int)Math.max(cost>>2,cost*(1F-socketBoost/42F));
 							
 							if (!hasEnchantment(enchants,ench.enchantmentobj) && altar.getEssenceLevel() >= cost){
 								boolean incompatible = false;
@@ -284,8 +283,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 							NBTTagCompound tag = enchants.getCompoundTagAt(a);
 							if (tag.getShort("id") != chosenEnchantment.effectId)continue;
 							
-							short level = tag.getShort("lvl"),cost = getEnchantmentCost(chosenEnchantment,level+1);
-							if ((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST)cost = (short)Math.max(cost>>2,cost*(1F-socketBoost/42F));
+							int level = tag.getShort("lvl"),cost = getEnchantmentCost(chosenEnchantment,level+1);
+							if ((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST)cost = (int)Math.max(cost>>2,cost*(1F-socketBoost/42F));
 							if (level >= chosenEnchantment.getMaxLevel() || altar.getEssenceLevel() < cost)continue;
 							
 							altar.drainEssence(cost);
@@ -335,8 +334,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		return false;
 	}
 	
-	private short getEnchantmentCost(Enchantment ench, int level){
-		return (short)Math.floor(Math.max(1F,1F+(1.7F*level*((float)level/ench.getMaxLevel()))+(10-ench.getWeight())*0.2F));
+	private int getEnchantmentCost(Enchantment ench, int level){
+		return (int)Math.floor(Math.max(1F,1F+(1.7F*level*((float)level/ench.getMaxLevel()))+(10-ench.getWeight())*0.2F));
 	}
 	
 	/**

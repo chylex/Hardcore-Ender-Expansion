@@ -63,4 +63,6 @@ public final class BlockRenderHelper{
 		
 		GL11.glTranslatef(0.5F,0.5F,0.5F);
 	}
+	
+	private BlockRenderHelper(){}
 }

@@ -14,16 +14,16 @@ import chylex.hee.system.commands.DebugBoard;
 public class DragonRewardManager{
 	private static byte[] difficultyHandicap = new byte[]{ 7,20,70,100 };
 	
-	private Random rand = new Random();
-	private EntityBossDragon dragon;
+	private final Random rand = new Random();
+	private final EntityBossDragon dragon;
 	
-	private List<String> deadPlayers = new ArrayList<>();
+	private final List<String> deadPlayers = new ArrayList<>();
 	private int[] difficultyTimer = new int[4];
 	private float extraHandicap;
 	private int finalDifficulty = -1;
 	
 	private byte difficultyCooldown = 120;
-	private boolean deadPlayerCheck = false;
+	private boolean deadPlayerCheck;
 	
 	public DragonRewardManager(EntityBossDragon dragon){
 		this.dragon = dragon;
@@ -47,17 +47,19 @@ public class DragonRewardManager{
 	public void updateManager(){
 		byte diff = (byte)dragon.worldObj.difficultySetting.getDifficultyId();
 
-		if ((deadPlayerCheck = !deadPlayerCheck) == true){
+		if ((deadPlayerCheck = deadPlayerCheck^true) == true){
 			for(Object o:dragon.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
 				boolean wasDead = deadPlayers.contains(p.getCommandSenderName());
 				if (p.isDead && !wasDead){
-					float v = 4F;
+					float v;
 					switch(diff){
-						case 1: v = 3.8F; break;
-						case 2: v = 3.5F; break;
 						case 3: v = 2.9F; break;
+						case 2: v = 3.5F; break;
+						case 1: v = 3.8F; break;
+						default: v = 4F;
 					}
+					
 					addHandicap(v,true);
 					deadPlayers.add(p.getCommandSenderName());
 				}

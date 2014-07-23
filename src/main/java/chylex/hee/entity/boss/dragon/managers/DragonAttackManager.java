@@ -25,9 +25,9 @@ import chylex.hee.system.weight.WeightedList;
 public class DragonAttackManager{
 	public static boolean nocreative = false;
 	
-	protected Random rand = new Random();
-	private List<DragonPassiveAttackBase> passiveAttackList = new ArrayList<>();
-	private List<DragonSpecialAttackBase> specialAttackList = new ArrayList<>();
+	protected final Random rand = new Random();
+	private final List<DragonPassiveAttackBase> passiveAttackList = new ArrayList<>();
+	private final List<DragonSpecialAttackBase> specialAttackList = new ArrayList<>();
 	
 	public DragonPassiveAttackBase getPassiveAttackById(int id){
 		for(DragonPassiveAttackBase attack:passiveAttackList){
@@ -80,13 +80,14 @@ public class DragonAttackManager{
 			}
 		}
 		if (player == null)return false;
-		int diff = dragon.getWorldDifficulty(),rm = 10;
+		int diff = dragon.getWorldDifficulty(), rm;
 		player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs?9F:4F)+diff);
 		
 		switch(diff){
 			case 3: rm = 34; break;
 			case 2: rm = 22; break;
 			case 1: rm = 15; break;
+			default: rm = 10;
 		}
 		
 		if (rand.nextInt(100) < rm){

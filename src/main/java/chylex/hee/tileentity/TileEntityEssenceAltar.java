@@ -1,4 +1,5 @@
 package chylex.hee.tileentity;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,14 +34,14 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	public static final byte STAGE_BASIC = 0, STAGE_HASTYPE = 1, STAGE_WORKING = 2;
 	
 	private EssenceType essenceType = EssenceType.INVALID;
-	private int essenceLevel = 0;
+	private int essenceLevel;
 	private byte currentStage;
 	private RuneItem[] runeItems = new RuneItem[8]; // @STAGE_HASTYPE
 	private byte runeItemIndex = -2; // @STAGE_HASTYPE
 	private ItemStack[] sockets = new ItemStack[4];
 	
 	private AltarActionHandler actionHandler;
-	private Map<String,ItemUseCache> playerItemCache = new HashMap<>();
+	private final Map<String,ItemUseCache> playerItemCache = new HashMap<>();
 	
 	/*
 	 * GETTERS, LOADING & SAVING
@@ -87,7 +88,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	}
 	
 	public void drainEssence(int amount){
-		essenceLevel = (short)Math.max(essenceLevel-amount,0);
+		essenceLevel = Math.max(essenceLevel-amount,0);
 		worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
 	}
 	
@@ -95,7 +96,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
 		nbt.setByte("stage",currentStage);
 		nbt.setByte("essenceTypeId",essenceType.id);
-		nbt.setShort("essence",(short)essenceLevel);
+		nbt.setInteger("essence",essenceLevel);
 				
 		NBTTagList runeTag = new NBTTagList();
 		for(int a = 0; a < runeItems.length; a++){
@@ -118,7 +119,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	public void readTileFromNBT(NBTTagCompound nbt){
 		currentStage = nbt.getByte("stage");
 		essenceType = EssenceType.getById(nbt.getByte("essenceTypeId"));
-		essenceLevel = nbt.getShort("essence");
+		essenceLevel = nbt.getInteger("essence");
 		
 		NBTTagList runeTag = nbt.getTagList("runeItems",Constants.NBT.TAG_BYTE);
 		for(int a = 0; a < Math.min(runeItems.length,runeTag.tagCount()); a++){
@@ -162,7 +163,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	private void createActionHandler(){
 		try{
 			actionHandler = essenceType.actionHandlerClass.getConstructor(TileEntityEssenceAltar.class).newInstance(this);
-		}catch(Exception e){
+		}catch(NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException e){
 			e.printStackTrace();
 			DragonUtil.severe("Unable to create AltarActionHandler!");
 		}
@@ -208,8 +209,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 		if (is == null)return;
 		
 		int giveAmount = player.capabilities.isCreativeMode ? (player.isSneaking() ? 1 : 32) : Math.min(is.stackSize,player.isSneaking() ? 1 : 32);
-		boolean actionDone = true;
-		
+				
 		if (is.getItem() == ItemList.essence){
 			if (currentStage == STAGE_BASIC){
 				essenceType = EssenceType.getById(is.getItemDamage()+1);
@@ -263,8 +263,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 			return;
 		}
 		else return;
-		
-		if (!actionDone)return;
 		
 		addOrRenewCache(player,is);
 
