@@ -8,7 +8,7 @@ import chylex.hee.system.weight.IWeightProvider;
 public class WeightedItem implements IWeightProvider{
 	private Item item;
 	private short[] possibleDamageValues;
-	private short weight;
+	private int weight;
 	
 	public WeightedItem(Block block, int damage, int weight){
 		this(Item.getItemFromBlock(block),damage,weight);
@@ -35,12 +35,12 @@ public class WeightedItem implements IWeightProvider{
 		return possibleDamageValues;
 	}
 	
-	public void setWeight(short weight){
+	public void setWeight(int weight){
 		this.weight = weight;
 	}
 	
 	@Override
-	public short getWeight(){
+	public int getWeight(){
 		return weight;
 	}
 	

@@ -17,8 +17,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class TileEntityDecompositionTable extends TileEntityAbstractInventory implements IInventoryInvalidateable{
 	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1 }, slotsBottom = new int[]{ 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-	private short time = 0, timeStep = 0;
-	private byte requiredStardust = 0;
+	private short time, timeStep;
+	private byte requiredStardust;
 	private List<ItemStack> chosenIngredients = new ArrayList<>();
 	
 	@Override

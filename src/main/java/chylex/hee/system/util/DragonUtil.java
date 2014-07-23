@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityBossDragon;
 import cpw.mods.fml.common.FMLLog;
 
-public class DragonUtil{
+public final class DragonUtil{
 	public static int portalEffectX,portalEffectZ;
 	
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAscending(Map<K,V> map){
@@ -169,4 +169,6 @@ public class DragonUtil{
 	public static void severe(String message, Object...objs){
 		FMLLog.severe(getMessage(message,objs));
 	}
+	
+	private DragonUtil(){}
 }

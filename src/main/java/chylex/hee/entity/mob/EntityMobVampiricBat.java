@@ -14,7 +14,7 @@ import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityMobVampiricBat extends EntityBat{
-	public Entity target = null;
+	public Entity target;
 	
 	public EntityMobVampiricBat(World world){
 		super(world);
@@ -44,7 +44,7 @@ public class EntityMobVampiricBat extends EntityBat{
 		motionX += (Math.signum(xDiff)*0.5D-motionX)*0.1D;
 		motionY += (Math.signum(yDiff)*0.7D-motionY)*0.1D;
 		motionZ += (Math.signum(zDiff)*0.5D-motionZ)*0.1D;
-		rotationYaw += MathHelper.wrapAngleTo180_float((float)(Math.atan2(motionZ,motionX)*180D/Math.PI)-90F-rotationYaw);;
+		rotationYaw += MathHelper.wrapAngleTo180_float((float)(Math.atan2(motionZ,motionX)*180D/Math.PI)-90F-rotationYaw);
 		moveForward = 0.5F;
 		
 	}

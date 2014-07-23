@@ -4,11 +4,11 @@ import chylex.hee.system.weight.IWeightProvider;
 
 public class WeightedRegistrationWrapper implements IWeightProvider{
 	private final KnowledgeRegistration registration;
-	private final short weight;
+	private final byte weight;
 	
 	WeightedRegistrationWrapper(KnowledgeRegistration registration, int weight){
 		this.registration = registration;
-		this.weight = (short)weight;
+		this.weight = (byte)weight;
 	}
 	
 	public KnowledgeRegistration getRegistration(){
@@ -16,7 +16,7 @@ public class WeightedRegistrationWrapper implements IWeightProvider{
 	}
 	
 	@Override
-	public short getWeight(){
+	public int getWeight(){
 		return weight;
 	}
 }

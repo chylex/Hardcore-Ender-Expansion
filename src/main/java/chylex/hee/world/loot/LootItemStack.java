@@ -54,7 +54,7 @@ public class LootItemStack implements IWeightProvider{
 	}
 	
 	@Override
-	public short getWeight(){
+	public int getWeight(){
 		return weight;
 	}
 	

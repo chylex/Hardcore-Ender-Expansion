@@ -110,7 +110,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 		
 		int cx = startX+((dungeonSize-1)>>1),cz = startZ+((dungeonSize-1)>>1);
 		
-		if (isFinished && cnt > 32 && world.getEntitiesWithinAABB(EntityMiniBossFireFiend.class,AxisAlignedBB.getBoundingBox(cx-4,y-8,cz-4,cx+4,y,cz+4)).size() == 0){
+		if (isFinished && cnt > 32 && world.getEntitiesWithinAABB(EntityMiniBossFireFiend.class,AxisAlignedBB.getBoundingBox(cx-4,y-8,cz-4,cx+4,y,cz+4)).isEmpty()){
 			EntityMiniBossFireFiend fireFiend = new EntityMiniBossFireFiend(world);
 			fireFiend.setLocationAndAngles(cx+0.5D,y-4D,cz+0.5D,rand.nextFloat()*360F,0F);
 			world.spawnEntityInWorld(fireFiend);

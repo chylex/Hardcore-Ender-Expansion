@@ -1,6 +1,4 @@
 package chylex.hee.mechanics.infestation;
-import java.util.ArrayList;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import chylex.hee.system.weight.IWeightProvider;
@@ -27,11 +25,11 @@ class InfestationEffect implements IWeightProvider{
 	}
 	
 	@Override
-	public short getWeight(){
+	public int getWeight(){
 		return weight;
 	}
 	
 	static void setCurativeItems(PotionEffect eff){
-		eff.setCurativeItems(new ArrayList<ItemStack>());
+		eff.getCurativeItems().clear();
 	}
 }

@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
-	private List<PotionEffect> effects = new ArrayList<>();
+	private final List<PotionEffect> effects = new ArrayList<>();
 	private int minY,maxY;
 	
 	public TowerEndermanSpawnerLogic(TileEntityCustomSpawner spawnerTile){
@@ -108,7 +108,7 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	protected void resetTimer(){
 		World world = spawnerTile.getWorldObj();
-		spawnDelay = minSpawnDelay+world.rand.nextInt(maxSpawnDelay-minSpawnDelay)+(world.provider.dimensionId != 1?120+world.rand.nextInt(80):0);
+		spawnDelay = minSpawnDelay+world.rand.nextInt(maxSpawnDelay-minSpawnDelay)+(world.provider.dimensionId == 1 ? 0 : 120+world.rand.nextInt(80));
 		func_98267_a(1);
 	}
 	

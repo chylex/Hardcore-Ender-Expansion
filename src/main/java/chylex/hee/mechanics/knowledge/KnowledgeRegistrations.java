@@ -883,4 +883,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(0).setLocalizedText("Discs containing various music that plays in the End, found in various dungeons of the dimension.")
 		});
 	}
+	
+	private KnowledgeRegistrations(){}
 }

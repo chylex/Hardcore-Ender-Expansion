@@ -22,15 +22,15 @@ public final class InfestationEvents{
 	}
 	
 	private static WeightedList<InfestationEffect> basicEffects = new WeightedList<>(
-		new InfestationEffect(Potion.digSlowdown,1f,10),
-		new InfestationEffect(Potion.moveSlowdown,0.86f,9),
-		new InfestationEffect(Potion.weakness,0.925f,7)
+		new InfestationEffect(Potion.digSlowdown,1F,10),
+		new InfestationEffect(Potion.moveSlowdown,0.86F,9),
+		new InfestationEffect(Potion.weakness,0.925F,7)
 	);
 	
 	private static WeightedList<InfestationEffect> criticalEffects = new WeightedList<>(
-		new InfestationEffect(Potion.blindness,0.95f,10),
-		new InfestationEffect(Potion.confusion,0.6f,7),
-		new InfestationEffect(Potion.poison,0.68f,5)
+		new InfestationEffect(Potion.blindness,0.95F,10),
+		new InfestationEffect(Potion.confusion,0.6F,7),
+		new InfestationEffect(Potion.poison,0.68F,5)
 	);
 	
 	public static boolean isValidPotionEffect(int potionId){
@@ -49,7 +49,7 @@ public final class InfestationEvents{
 		return infestationSaveCache;
 	}
 	
-	private short tickTimer = 0;
+	private short tickTimer;
 	
 	private InfestationEvents(){}
 	

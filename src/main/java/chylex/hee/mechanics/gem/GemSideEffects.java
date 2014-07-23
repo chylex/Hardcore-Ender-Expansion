@@ -14,11 +14,11 @@ import chylex.hee.system.weight.WeightedList;
 public enum GemSideEffects implements IWeightProvider{
 	DEFLECTION(10), SLOWNESS(10), NAUSEA(8), WEAKNESS(6), HUNGER(5, 0.72F), ENDERMEN(3, 0.78F), ITEMDROP(2, 0.82F), STORM(1, 0.88F);
 	
-	private short weight;
+	private byte weight;
 	private float minPerc;
 	
 	private GemSideEffects(int weight, float minPercentage){
-		this.weight = (short)weight;
+		this.weight = (byte)weight;
 		this.minPerc = minPercentage;
 	}
 	
@@ -27,7 +27,7 @@ public enum GemSideEffects implements IWeightProvider{
 	}
 	
 	@Override
-	public short getWeight(){
+	public int getWeight(){
 		return weight;
 	}
 	

@@ -35,12 +35,12 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	private static final byte STAGE_AFTERFLIGHT = -1, STAGE_REFRESHING = 0, STAGE_CREATING = 1, STAGE_SHOOTING = 2, STAGE_TOUCHING = 3;
 	
 	private EntityLivingBase target;
-	private byte attackStage = STAGE_AFTERFLIGHT, fireballAttackTimer = 0, touchAttemptTimer = 0;
-	private Set < float[]> fireballOffsets = new HashSet<>();
-	private short spawnY;
+	private byte attackStage = STAGE_AFTERFLIGHT, fireballAttackTimer, touchAttemptTimer;
+	private Set<float[]> fireballOffsets = new HashSet<>();
+	private int spawnY;
   
-	public byte spawnTimer = 80, damageInflicted = 0;
-	public float wingAnimation = 0F, wingAnimationStep = 0F, damageTaken = 0F;
+	public byte spawnTimer = 80, damageInflicted;
+	public float wingAnimation, wingAnimationStep, damageTaken;
 	
 	public EntityMiniBossFireFiend(World world){
 		super(world);
@@ -90,7 +90,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			}
 			else if (spawnTimer == 6){
 				breakBlocksAround(2,iy+3,iy+4);
-				spawnY = (short)Math.floor(posY);
+				spawnY = (int)Math.floor(posY);
 			}
 			
 			if (spawnTimer <= 7){
@@ -104,7 +104,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			breakBlocksAround(1,iy+3,iy+3);
 			
 			boolean hasSpace = true;
-			for(int xx = (int)Math.floor(posX)-1,id; xx <= Math.floor(posX+1); xx++){
+			for(int xx = (int)Math.floor(posX)-1; xx <= Math.floor(posX+1); xx++){
 				for(int zz = (int)Math.floor(posZ)-1; zz <= Math.floor(posZ+1); zz++){
 					for(int yy = (int)Math.floor(posY)+1; yy <= (int)Math.floor(posY+9); yy++){
 						if (!worldObj.isAirBlock(xx,yy,zz)){
@@ -128,10 +128,11 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	
 	private void breakBlocksAround(int rad, int minY, int maxY){
 		Block block;
+		int xx, yy, zz, meta;
 		
-		for(int xx = (int)Math.floor(posX)-rad,id,meta; xx <= Math.floor(posX+rad); xx++){
-			for(int zz = (int)Math.floor(posZ)-rad; zz <= Math.floor(posZ+rad); zz++){
-				for(int yy = minY; yy <= maxY; yy++){
+		for(xx = (int)Math.floor(posX)-rad; xx <= Math.floor(posX+rad); xx++){
+			for(zz = (int)Math.floor(posZ)-rad; zz <= Math.floor(posZ+rad); zz++){
+				for(yy = minY; yy <= maxY; yy++){
 					if ((block = worldObj.getBlock(xx,yy,zz)).getMaterial() == Material.air)continue;
 					
 					if (block.getItemDropped(meta = worldObj.getBlockMetadata(xx,yy,zz),rand,0) != Item.getItemFromBlock(Blocks.air))block.dropBlockAsItem(worldObj,xx,yy,zz,meta,0);
@@ -339,7 +340,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
 		nbt.setByte("spawnTimer",spawnTimer);
-		nbt.setShort("spawnY",spawnY);
+		nbt.setInteger("spawnY",spawnY);
 		nbt.setByte("attackStage",attackStage);
 		nbt.setFloat("damageTaken",damageTaken);
 	}
@@ -348,7 +349,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
 		spawnTimer = nbt.getByte("spawnTimer");
-		spawnY = nbt.getShort("spawnY");
+		spawnY = nbt.getInteger("spawnY");
 		attackStage = (byte)Math.min(STAGE_REFRESHING,nbt.getByte("attackStage"));
 		damageTaken = nbt.getFloat("damageTaken");
 	}

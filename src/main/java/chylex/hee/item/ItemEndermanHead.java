@@ -47,6 +47,7 @@ public class ItemEndermanHead extends Item{
 			case 3: ++z; break;
 			case 4: --x; break;
 			case 5: ++x; break;
+			default:;
 		}
 
 		if (!player.canPlayerEdit(x,y,z,side,is) || !BlockList.enderman_head.canPlaceBlockAt(world,x,y,z))return false;
@@ -54,7 +55,8 @@ public class ItemEndermanHead extends Item{
 		world.setBlock(x,y,z,BlockList.enderman_head,side,2);
 		
 		if (side == 1 && ApocalypseEvents.checkEndermanpocalypseStructure(world,x,y,z)){
-			int rotation = (int)((MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15)*360F/16F);
+			//int rotation = (int)((MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15)*360F/16F);
+			// TODO probably do something?
 			--is.stackSize;
 			return true;
 		}

@@ -18,9 +18,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiItemViewer extends GuiScreen{
-	private GuiItemRenderHelper itemRenderer = new GuiItemRenderHelper();
-	private List<ItemStack> toRender = new ArrayList<>();
-	private int prevGuiScale,yStart;
+	private final GuiItemRenderHelper itemRenderer = new GuiItemRenderHelper();
+	private final List<ItemStack> toRender = new ArrayList<>();
+	private final int prevGuiScale;
+	private int yStart;
 	
 	public GuiItemViewer(){
 		super();

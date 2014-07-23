@@ -51,7 +51,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 			motionZ *= 0.7D;
 			motionY *= -0.5D;
 
-			if (field_145812_b > 5 && worldObj.getBlock(ix,iy,iz) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).size() == 0){
+			if (field_145812_b > 5 && worldObj.getBlock(ix,iy,iz) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).isEmpty()){
 				if (worldObj.setBlock(ix,iy,iz,func_145805_f())){
 					for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,ix+0.5D,iy+0.5D,iz+0.5D,8D))KnowledgeRegistrations.FALLING_OBSIDIAN.tryUnlockFragment(observer,1F,new byte[]{ 0,1 });
 					setDead();

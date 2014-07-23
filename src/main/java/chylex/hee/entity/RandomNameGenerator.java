@@ -66,11 +66,11 @@ public class RandomNameGenerator{
 
 	static class Char implements IWeightProvider{
 		private char character;
-		private short weight;
+		private byte weight;
 
 		Char(char character, int weight){
 			this.character = character;
-			this.weight = (short)weight;
+			this.weight = (byte)weight;
 		}
 
 		public char getChar(){
@@ -78,7 +78,7 @@ public class RandomNameGenerator{
 		}
 
 		@Override
-		public short getWeight(){
+		public int getWeight(){
 			return weight;
 		}
 	}

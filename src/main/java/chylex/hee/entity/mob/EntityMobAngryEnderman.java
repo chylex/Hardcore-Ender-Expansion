@@ -21,7 +21,7 @@ import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityMobAngryEnderman extends EntityMob{
 	private static final UUID aggroSpeedBoostID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
-	private static final AttributeModifier aggroSpeedBoost = (new AttributeModifier(aggroSpeedBoostID, "Attacking speed boost", 7.4D, 0)).setSaved(false); // 6.2 -> 7.4
+	private static final AttributeModifier aggroSpeedBoost = new AttributeModifier(aggroSpeedBoostID,"Attacking speed boost",7.4D,0).setSaved(false); // 6.2 -> 7.4
 	
 	private Entity lastEntityToAttack;
 	private int teleportDelay = 0;
@@ -40,8 +40,8 @@ public class EntityMobAngryEnderman extends EntityMob{
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(18,new Byte((byte)1));
-		dataWatcher.addObject(19,new Byte((byte)0));
+		dataWatcher.addObject(18,Byte.valueOf((byte)1));
+		dataWatcher.addObject(19,Byte.valueOf((byte)0));
 	}
 	
 	@Override

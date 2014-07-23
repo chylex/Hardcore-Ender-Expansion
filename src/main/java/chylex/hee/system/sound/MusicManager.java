@@ -23,7 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public final class MusicManager{
-	private static final short MUSIC_INTERVAL = 1680;
+	private static final int MUSIC_INTERVAL = 1680;
 	public static final MusicManager instance = new MusicManager();
 	public static boolean enableMusic = true;
 	
@@ -31,19 +31,19 @@ public final class MusicManager{
 		MinecraftForge.EVENT_BUS.register(instance);
 	}
 	
-	private Random rand = new Random();
-	private boolean hasLoaded = false;
+	private final Random rand = new Random();
+	private boolean hasLoaded;
 	private String lastBgMusic;
 	private byte tickTimer;
 	private short randomMusicTimer = MUSIC_INTERVAL;
-	private List<MusicPool> poolList = new ArrayList<>();
-	private MusicPool poolDragonCalm = new MusicPool(poolList,"dragoncalm"),
-					  poolDragonAngry = new MusicPool(poolList,"dragonangry"),
-					  poolTower = new MusicPool(poolList,"tower"),
-					  poolFireFiend = new MusicPool(poolList,"firefiend"),
-					  poolEnderDemon = new MusicPool(poolList,"enderdemon"),
-					  poolRandom = new MusicPool(poolList,"random"),
-					  poolFallback = new MusicPool();
+	private final List<MusicPool> poolList = new ArrayList<>();
+	private final MusicPool poolDragonCalm = new MusicPool(poolList,"dragoncalm"),
+							poolDragonAngry = new MusicPool(poolList,"dragonangry"),
+							poolTower = new MusicPool(poolList,"tower"),
+							poolFireFiend = new MusicPool(poolList,"firefiend"),
+							poolEnderDemon = new MusicPool(poolList,"enderdemon"),
+							poolRandom = new MusicPool(poolList,"random"),
+							poolFallback = new MusicPool();
 	
 	private MusicManager(){}
 	
@@ -128,7 +128,7 @@ public final class MusicManager{
 			}
 		}).start();*/
 		
-		DragonUtil.warning("Playing MC 1.7.2, HEE music will not be activated!");
+		DragonUtil.warning("Playing MC 1.7.10, HEE music will not be activated!");
 		
 		//loadMusicFromZip();
 		//loadMusicFromFolder();
@@ -190,14 +190,14 @@ public final class MusicManager{
 		File musicDir = new File(HardcoreEnderExpansion.configPath,"HardcoreEnderExpansionMusic");
 		if (!musicDir.exists())musicDir.mkdir();
 		
-		short loadedTracks = 0;
-		String name;
-		
 		File[] fileList = musicDir.listFiles();
 		if (fileList == null){
 			DragonUtil.severe(".minecraft/config/HardcoreEnderExpansionMusic/ is invalid!");
 			return;
 		}
+		
+		byte loadedTracks = 0;
+		String name;
 		
 		for(File file:fileList){
 			try{
@@ -233,7 +233,7 @@ public final class MusicManager{
 		for(MusicPool pool:instance.poolList){
 			if (pool.getPrefix().equals(poolName)){
 				List<Entry<String,URL>> entries = new ArrayList<>(pool.listTrackEntries());
-				if (entries.size() == 0)return null;
+				if (entries.isEmpty())return null;
 				
 				Entry<String,URL> pick = entries.get(instance.rand.nextInt(entries.size()));
 				for(int i = 0; i < 10; i++){

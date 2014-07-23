@@ -149,7 +149,7 @@ public final class ApocalypseEvents{
 	}
 	
 	private void doRandomLightning(World world, int chanceRange, int chance){
-		if (world.rand.nextInt(chanceRange) >= chance || world.playerEntities.size() == 0)return;
+		if (world.rand.nextInt(chanceRange) >= chance || world.playerEntities.isEmpty())return;
 		
 		EntityPlayer randPlayer = (EntityPlayer)world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
 		double x = randPlayer.posX+world.rand.nextGaussian()*70D,

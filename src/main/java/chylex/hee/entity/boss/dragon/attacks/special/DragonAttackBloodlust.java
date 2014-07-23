@@ -70,7 +70,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 					
 					List<?> endermanList = dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(64D,96D,64D));
 					
-					if (endermanList.size() == 0){
+					if (endermanList.isEmpty()){
 						for(int a = 0; a < 2+rand.nextInt(3)+(dragon.getWorldDifficulty()>>1); a++){
 							double pX = 0,pY = 0,pZ = 0,len = 24D;
 							for(int attempt = 0; attempt < 18; attempt++){

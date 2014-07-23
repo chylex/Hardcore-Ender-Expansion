@@ -10,12 +10,12 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	protected TileEntityCustomSpawner spawnerTile;
-	protected short minSpawnDelay = 200;
-	protected short maxSpawnDelay = 800;
-	protected short spawnRange;
-	protected short spawnCount = 4;
-	protected short maxNearbyEntities = 6;
-	protected short activatingRangeFromPlayer = 16;
+	protected int minSpawnDelay = 200;
+	protected int maxSpawnDelay = 800;
+	protected byte spawnRange;
+	protected byte spawnCount = 4;
+	protected byte maxNearbyEntities = 6;
+	protected byte activatingRangeFromPlayer = 16;
 	protected Entity entityCache;
 
 	protected CustomSpawnerLogic(TileEntityCustomSpawner spawnerTile){

@@ -19,7 +19,7 @@ public class SilverfishSpawnerLogic extends CustomSpawnerLogic{
 		this.spawnRange = 5;
 		this.spawnCount = 2;
 		this.maxNearbyEntities = 6;
-		this.activatingRangeFromPlayer = 128;
+		this.activatingRangeFromPlayer = 127;
 	}
 	
 	@Override

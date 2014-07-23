@@ -4,6 +4,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureStart;
 
 public class StructureTower extends StructureStart{
+	/**
+	 * Required for reflection.
+	 */
 	public StructureTower(){}
 	
 	@SuppressWarnings("unchecked")

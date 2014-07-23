@@ -77,7 +77,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	private byte updatePedestalTimer = 2;
 	private long pedestalAreaHash;
 	private byte lastMaxPedestals;
-	private short repairCounter = 0;
+	private short repairCounter;
 	
 	public DragonEssenceHandler(TileEntityEssenceAltar altar){
 		super(altar);
@@ -88,7 +88,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		if (--updatePedestalTimer <= 0){
 			updatePedestalTimer = 20;
 			
-			int maxPedestals = Math.min(12,8+((SocketManager.getSocketEffects(altar)&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE ? (int)Math.ceil(4F*SocketManager.getSocketBoost(altar)/26F) : 0));
+			int maxPedestals = Math.min(12,8+((getSocketEffects(altar)&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE ? (int)Math.ceil(4F*getSocketBoost(altar)/26F) : 0));
 			int range = maxPedestals > 8 ? 4 : 3;
 			long currentHash = 0L;
 			
@@ -173,7 +173,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				targZ = loc.z+0.5D;
 				
 				if (Math.abs(item.posX-targX) > 0.001D || Math.abs(item.posY-targY) > 0.001D || Math.abs(item.posZ-targZ) > 0.001D){
-					if (world.getEntitiesWithinAABB(EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).size() == 0&&
+					if (world.getEntitiesWithinAABB(EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).isEmpty()&&
 						Math.sqrt(MathUtil.square(targX-item.posX)+MathUtil.square(targY-item.posY)+MathUtil.square(targZ-item.posZ)) < 0.275D){
 						world.spawnEntityInWorld(new EntityItemAltar(world,targX,targY,targZ,item,EssenceType.DRAGON.id));
 					}

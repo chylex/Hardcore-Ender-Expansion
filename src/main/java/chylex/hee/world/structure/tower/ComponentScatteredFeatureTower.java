@@ -90,7 +90,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 				
 				for(int a = 0; a < 1+Math.abs((int)Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
 					EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
-					if (availableTypes.size() == 0)break;
+					if (availableTypes.isEmpty())break;
 				}
 			}
 			else if (is.getItem() == ItemList.knowledge_fragment){
@@ -119,6 +119,9 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 	private int startX,startZ;
 	private byte lastRoomUsed = -1;
 	
+	/**
+	 * Required for reflection.
+	 */
 	public ComponentScatteredFeatureTower(){}
 	
 	protected ComponentScatteredFeatureTower(Random rand, int x, int z){
@@ -292,7 +295,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 	}
 	
 	private void generateBasicRoom(World world, Random rand, StructureBoundingBox bb, int x, int y, int z, int roomNb){
-		int n = roomNb == 0?rand.nextInt(8)+1:rand.nextInt(9)+1; // lazy to prevent 9 from being the first room
+		int n = roomNb == 0 ? rand.nextInt(8)+1 : rand.nextInt(9)+1; // lazy to prevent 9 from being the first room
 		boolean isRoomEven = roomNb%2 == 0;
 		
 		if (n == lastRoomUsed)n = rand.nextInt(9)+1;
@@ -746,7 +749,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 				effects.add(new PotionEffect(potion.id,12000,Math.min(3,(int)Math.floor(difficulty/4.4D+spawnerRand.nextDouble()*(difficulty/3.8D)))));
 				
 				availablePotions.remove(potion);
-				if (availablePotions.size() == 0)break;
+				if (availablePotions.isEmpty())break;
 			}
 			
 			MobSpawnerBaseLogic logic = spawner.getSpawnerLogic();

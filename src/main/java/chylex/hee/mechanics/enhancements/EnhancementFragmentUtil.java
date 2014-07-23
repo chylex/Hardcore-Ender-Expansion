@@ -18,19 +18,18 @@ public class EnhancementFragmentUtil{
 	}
 	
 	public static TShortHashSet getUnlockedEnhancements(KnowledgeRegistration registration, EntityPlayer player){
-		TShortHashSet unlockedEnhancements = new TShortHashSet(8);
-		
 		InventoryPlayer inv = player.inventory;
 		
 		for(int a = 0; a < inv.mainInventory.length; a++){
 			ItemStack is = inv.mainInventory[a];
 			if (is == null || is.getItem() != ItemList.ender_compendium || is.stackTagCompound == null)continue;
-			
+
+			TShortHashSet unlockedEnhancements = new TShortHashSet(8);
 			for(int id:registration.fragmentSet.getUnlockedFragments(is))unlockedEnhancements.add((short)id);
-			break;
+			return unlockedEnhancements;
 		}
 		
-		return unlockedEnhancements;
+		return new TShortHashSet(0);
 	}
 	
 	public static boolean unlockEnhancement(KnowledgeRegistration registration, Enum enhancement, EntityPlayer player){

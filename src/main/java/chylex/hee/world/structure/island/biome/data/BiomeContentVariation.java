@@ -2,14 +2,14 @@ package chylex.hee.world.structure.island.biome.data;
 import chylex.hee.system.weight.IWeightProvider;
 
 public final class BiomeContentVariation implements IWeightProvider{
-	private final short weight;
+	private final byte weight;
 	
 	public BiomeContentVariation(int weight){
-		this.weight = (short)weight;
+		this.weight = (byte)weight;
 	}
 	
 	@Override
-	public short getWeight(){
+	public int getWeight(){
 		return weight;
 	}
 	

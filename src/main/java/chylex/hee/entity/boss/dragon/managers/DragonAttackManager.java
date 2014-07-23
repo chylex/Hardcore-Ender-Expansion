@@ -110,7 +110,7 @@ public class DragonAttackManager{
 				EntityPlayer p = (EntityPlayer)o;
 				if (!p.capabilities.isCreativeMode)list.add(p);
 			}
-			return list.size() == 0 ? null : list.get(rand.nextInt(list.size()));
+			return list.isEmpty() ? null : list.get(rand.nextInt(list.size()));
 		}
 		
 		if (dragon.worldObj.playerEntities.isEmpty())return null;
@@ -119,7 +119,7 @@ public class DragonAttackManager{
 	
 	public EntityPlayer getWeakPlayer(){
 		List<?> list = dragon.worldObj.playerEntities;
-		if (list.size() == 0)return null;
+		if (list.isEmpty())return null;
 		else if (list.size() == 1)return getRandomPlayer();
 		
 		WeightedList<ObjectWeightPair<EntityPlayer>> players = new WeightedList<>();

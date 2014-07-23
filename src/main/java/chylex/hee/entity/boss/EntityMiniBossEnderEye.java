@@ -32,8 +32,8 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 
 public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplayData{
-	private byte sleepTimer = 0, healTimer = 0, attackTimer = 0;
-	private short laserTopY = 0;
+	private byte sleepTimer, healTimer, attackTimer;
+	private short laserTopY;
 	private AttackType attackType, lastAttackType;
 	public EntityLivingBase target;
 	
@@ -116,6 +116,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 						target = (EntityPlayer)nearPlayers.get(0);
 						sleepTimer = 0;
 					}
+					
 					attackTimer = (byte)(-65+rand.nextInt(15));
 				}
 			}
@@ -215,9 +216,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					 */
 					else if (attackType == AttackType.LaserBeams){
 						if (attackAnim > 35 && attackAnim < 99 && attackAnim%7 == 0){
-							int myY = (int)Math.floor(posY);
+							int myY = (int)Math.floor(posY), attempt, x, y, z, minY;
 							
-							for(int attempt = 0,x,y,z,minY; attempt < 12; attempt++){
+							for(attempt = 0; attempt < 12; attempt++){
 								x = (int)Math.floor(posX)+rand.nextInt(16)-8;
 								z = (int)Math.floor(posZ)+rand.nextInt(16)-8;
 								
@@ -301,7 +302,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		}
 		
 		Entity damager = source.getEntity();
-		if (damager != null && damager instanceof EntityPlayer)KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment((EntityPlayer)damager,0.04F,new byte[]{ 0,1,2,3 });
+		if (damager instanceof EntityPlayer)KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment((EntityPlayer)damager,0.04F,new byte[]{ 0,1,2,3 });
 		
 		if (amount < 7F)return true;
 		

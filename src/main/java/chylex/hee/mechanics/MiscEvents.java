@@ -65,10 +65,9 @@ public class MiscEvents{
 			if (drop){
 				is = new ItemStack(ItemList.silverfish_blood);
 				for(EntityPlayer observer:ObservationUtil.getAllObservers(e.entity,8D)){
-					if (KnowledgeRegistrations.SILVERFISH_BLOOD.tryUnlockFragment(observer,0.8F) == UnlockResult.NOTHING_TO_UNLOCK){
-						if (!KnowledgeRegistrations.INFESTATION_REMEDY.tryUnlockFragment(observer,0.5F).stopTrying){
-							KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(observer,0.4F,new byte[]{ 4 });
-						}
+					if (KnowledgeRegistrations.SILVERFISH_BLOOD.tryUnlockFragment(observer,0.8F) == UnlockResult.NOTHING_TO_UNLOCK &&
+						!KnowledgeRegistrations.INFESTATION_REMEDY.tryUnlockFragment(observer,0.5F).stopTrying){
+						KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(observer,0.4F,new byte[]{ 4 });
 					}
 				}
 			}

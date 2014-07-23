@@ -30,10 +30,10 @@ import chylex.hee.system.util.DragonUtil;
 public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayData{
 	private static final PotionEffect endermanStrength = new PotionEffect(Potion.damageBoost.id,600,2,true);
 	
-	private byte healthRegenTimer = 10, lightningStartCounter = 30, lightningCounter = 0,
+	private byte healthRegenTimer = 10, lightningStartCounter = 30, lightningCounter,
 				 endermanSpawnTimer = 25, obsidianSpawnTimer = 69;
-	private EntityPlayerMP lastAttacker = null;
-	private EntityPlayer lightningTarget = null;
+	private EntityPlayerMP lastAttacker;
+	private EntityPlayer lightningTarget;
 	
 	public EntityBossEnderDemon(World world){
 		super(world);
@@ -99,8 +99,9 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 				
 				for(Object o:worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(128D,64D,128D))){
 					EntityPlayer player = (EntityPlayer)o;
+					int attempt, ix, iy, iz;
 					
-					for(int attempt = 0,ix,iy,iz; attempt < 40; attempt++){
+					for(attempt = 0; attempt < 40; attempt++){
 						double ang = rand.nextDouble()*Math.PI*2D,len = 3.5D+rand.nextDouble()*2D;
 						
 						ix = (int)Math.floor(player.posX+Math.cos(ang)*len);
@@ -165,16 +166,16 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 			}
 		}
 		
-		if (!hasBlockBelow){
+		if (hasBlockBelow){
+			motionY *= 0.9D;
+			if (Math.abs(motionY) < 0.04D)motionY = 0D;
+		}
+		else{
 			motionY = -0.3D;
 			++endermanSpawnTimer;
 			++obsidianSpawnTimer;
 			rotationPitch = -90F;
 			lastAttacker = (EntityPlayerMP)worldObj.getClosestPlayerToEntity(this,512D);
-		}
-		else{
-			motionY *= 0.9D;
-			if (Math.abs(motionY) < 0.04D)motionY = 0D;
 		}
 		
 		if (lastAttacker != null){
@@ -210,7 +211,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 			
 			return true;
 		}
-		return false;
+		else return false;
 	}
 	
 	@Override

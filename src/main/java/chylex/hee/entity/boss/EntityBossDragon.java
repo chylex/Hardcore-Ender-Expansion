@@ -100,19 +100,18 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	
 	public static long lastUpdate;
 
-	public boolean angryStatus = false, doSpecialAttacks = false, forceAttackEnd = false, frozen = false;
-	public int spawnCooldown = 140, nextAttackTicks = 0;
+	public boolean angryStatus, doSpecialAttacks, forceAttackEnd, frozen;
+	public int spawnCooldown = 140, nextAttackTicks;
 	public double moveSpeedMp = 1D;
 
 	public DragonAttackManager attacks;
 	public DragonRewardManager rewards;
 	public DragonAchievementManager achievements;
 
-	private DragonSpecialAttackBase lastAttack = null;
-	private DragonSpecialAttackBase currentAttack = null;
-
-	private DragonPassiveAttackBase FIREBALL,FREEZEBALL,BITE;
-	private DragonSpecialAttackBase DEFAULT,DIVEBOMB,STAYNFIRE,BITEMADNESS,PUNCH,FREEZER,WHIRLWIND,SUMMON,BLOODLUST;
+	private DragonSpecialAttackBase lastAttack, currentAttack;
+	
+	private final DragonPassiveAttackBase FIREBALL,FREEZEBALL,BITE;
+	private final DragonSpecialAttackBase DEFAULT,DIVEBOMB,STAYNFIRE,BITEMADNESS,PUNCH,FREEZER,WHIRLWIND,SUMMON,BLOODLUST;
 	// END
 
 	public EntityBossDragon(World world){
@@ -280,10 +279,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		}
 		// END
 
-		if (worldObj.isRemote){
-			if (MathHelper.cos(prevAnimTime*(float)Math.PI*2F) <= -0.3F && MathHelper.cos(animTime*(float)Math.PI*2F) >= -0.3F){
-				worldObj.playSound(posX,posY,posZ,"mob.enderdragon.wings",5F,0.8F+rand.nextFloat()*0.3F,false);
-			}
+		if (worldObj.isRemote && MathHelper.cos(prevAnimTime*(float)Math.PI*2F) <= -0.3F && MathHelper.cos(animTime*(float)Math.PI*2F) >= -0.3F){
+			worldObj.playSound(posX,posY,posZ,"mob.enderdragon.wings",5F,0.8F+rand.nextFloat()*0.3F,false);
 		}
 
 		prevAnimTime = animTime;
@@ -576,6 +573,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	}
 
 	private boolean destroyBlocksInAABB(AxisAlignedBB aabb){
+		// CHANGE
+		if (!worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))return false;
+
 		int minX = MathHelper.floor_double(aabb.minX);
 		int minY = MathHelper.floor_double(aabb.minY);
 		int minZ = MathHelper.floor_double(aabb.minZ);
@@ -584,9 +584,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		int maxZ = MathHelper.floor_double(aabb.maxZ);
 		boolean wasBlocked = false;
 		boolean spawnParticles = false;
-		
-		// CHANGE
-		if (!worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))return false;
 		
 		minX -= Math.min(3,rand.nextGaussian()*2.5D-0.25D); maxX += Math.min(3,rand.nextGaussian()*2.5D-0.25D);
 		minY -= Math.min(3,rand.nextGaussian()*2.5D-0.25D); maxY += Math.min(3,rand.nextGaussian()*2.5D-0.25D);
@@ -858,9 +855,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 			switch(getDifficulty()){
 				case 1: return "entity.dragon.baby.name";
 				case 0: return "entity.dragon.derpy.name";
+				default: return "entity.EnderDragon.name";
 			}
 		}
-		return "entity.EnderDragon.name";
 	}
 	
 	@Override

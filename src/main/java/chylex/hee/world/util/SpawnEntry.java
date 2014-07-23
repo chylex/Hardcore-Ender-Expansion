@@ -5,14 +5,14 @@ import net.minecraft.world.World;
 import chylex.hee.system.weight.IWeightProvider;
 
 public class SpawnEntry implements IWeightProvider{
-	private Class<? extends EntityLiving> mobClass;
-	private byte maxAmount;
-	private short weight;
+	private final Class<? extends EntityLiving> mobClass;
+	private final byte maxAmount;
+	private final byte weight;
 	
 	public SpawnEntry(Class<? extends EntityLiving> mobClass, int maxAmount, int weight){
 		this.mobClass = mobClass;
 		this.maxAmount = (byte)maxAmount;
-		this.weight = (short)weight;
+		this.weight = (byte)weight;
 	}
 	
 	public Class<? extends EntityLiving> getMobClass(){
@@ -33,7 +33,7 @@ public class SpawnEntry implements IWeightProvider{
 	}
 
 	@Override
-	public short getWeight(){
+	public int getWeight(){
 		return weight;
 	}
 }

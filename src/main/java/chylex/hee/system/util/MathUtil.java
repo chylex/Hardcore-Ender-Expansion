@@ -54,4 +54,6 @@ public final class MathUtil{
 	public static double lendiry(double len, double dir){
 		return Math.cos(Math.toRadians(dir))*len;
 	}
+	
+	private MathUtil(){}
 }

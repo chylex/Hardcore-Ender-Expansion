@@ -148,7 +148,7 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 					targZ = altar.zCoord+0.5D+pedestalOffsetZ[a];
 					
 					if (Math.abs(item.posX-targX) > 0.001D || Math.abs(item.posY-targY) > 0.001D || Math.abs(item.posZ-targZ) > 0.001D){
-						if (world.getEntitiesWithinAABB(EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).size() == 0&&
+						if (world.getEntitiesWithinAABB(EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).isEmpty()&&
 							Math.sqrt(MathUtil.square(targX-item.posX)+MathUtil.square(targY-item.posY)+MathUtil.square(targZ-item.posZ)) < 0.275D){
 							world.spawnEntityInWorld(new EntityItemAltar(world,targX,targY,targZ,item,EssenceType.SPECTRAL.id));
 						}

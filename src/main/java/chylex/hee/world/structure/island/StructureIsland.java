@@ -4,6 +4,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureStart;
 
 public class StructureIsland extends StructureStart{
+	/**
+	 * Required for reflection.
+	 */
 	public StructureIsland(){}
 	
 	@SuppressWarnings("unchecked")

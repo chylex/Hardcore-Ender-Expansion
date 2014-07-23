@@ -25,4 +25,6 @@ public final class ColorUtil{
 		
 		return new float[3];
 	}
+	
+	private ColorUtil(){}
 }

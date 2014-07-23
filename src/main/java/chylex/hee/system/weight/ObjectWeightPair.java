@@ -2,11 +2,11 @@ package chylex.hee.system.weight;
 
 public class ObjectWeightPair<T> implements IWeightProvider{
 	private T obj;
-	private short weight;
+	private int weight;
 	
 	public ObjectWeightPair(T obj, int weight){
 		this.obj = obj;
-		this.weight = (short)weight;
+		this.weight = weight;
 	}
 	
 	public T getObject(){
@@ -14,7 +14,7 @@ public class ObjectWeightPair<T> implements IWeightProvider{
 	}
 
 	@Override
-	public short getWeight(){
+	public int getWeight(){
 		return weight;
 	}
 }

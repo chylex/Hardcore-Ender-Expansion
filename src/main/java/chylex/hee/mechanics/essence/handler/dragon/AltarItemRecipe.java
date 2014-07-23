@@ -6,7 +6,7 @@ import chylex.hee.entity.item.EntityItemAltar;
 
 public class AltarItemRecipe{
 	private final ItemStack source,result;
-	private final short cost;
+	private final byte cost;
 	
 	public AltarItemRecipe(Item source, Item result, int cost){
 		this(new ItemStack(source,1,0),new ItemStack(result,1,0),cost);
@@ -15,7 +15,7 @@ public class AltarItemRecipe{
 	public AltarItemRecipe(ItemStack source, ItemStack result, int cost){
 		this.source = source.copy();
 		this.result = result.copy();
-		this.cost = (short)cost;
+		this.cost = (byte)cost;
 	}
 	
 	public boolean isApplicable(ItemStack is){
@@ -29,7 +29,7 @@ public class AltarItemRecipe{
 		if (item instanceof EntityItemAltar)((EntityItemAltar)item).setSparkling();
 	}
 	
-	public final short getCost(){
+	public final int getCost(){
 		return cost;
 	}
 }

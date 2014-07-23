@@ -15,7 +15,7 @@ public class AltarSpawnEggRecipe extends AltarItemRecipe{
 	
 	@SuppressWarnings("unchecked")
 	private static ItemStack getSpawnEgg(Class<? extends Entity> entity){
-		if (classToId.size() == 0){
+		if (classToId.isEmpty()){
 			int a = 0;
 			
 			for(Field field:EntityList.class.getDeclaredFields()){

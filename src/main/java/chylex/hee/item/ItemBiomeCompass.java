@@ -32,7 +32,28 @@ public class ItemBiomeCompass extends Item{
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (!world.isRemote){
+		if (world.isRemote){
+			if (is.stackTagCompound != null && entity instanceof EntityPlayer){
+				if (lastSavedX == Integer.MAX_VALUE && lastSavedZ == Integer.MAX_VALUE){
+					int x,z;
+					
+					for(x = entity.chunkCoordX-96; x <= entity.chunkCoordX+96; x++){
+						for(z = entity.chunkCoordZ-96; z <= entity.chunkCoordZ+96; z++){
+							byte biome = checkBiome(x,z,is);
+							
+							if (biome != -1)locations.get(biome).add(new ChunkCoordinates(x*16+(featureSize>>1),0,z*16+(featureSize>>1)));
+						}
+					}
+					
+					lastSavedX = entity.chunkCoordX;
+					lastSavedZ = entity.chunkCoordZ;
+				}
+				else if (MathUtil.square(entity.chunkCoordX-lastSavedX) + MathUtil.square(entity.chunkCoordZ-lastSavedZ) > 250F){
+					lastSavedX = lastSavedZ = Integer.MAX_VALUE;
+				}
+			}
+		}
+		else{
 			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
 			if (!is.stackTagCompound.hasKey("seed1")){
 				is.stackTagCompound.setLong("seed1",world.getSeed());
@@ -41,23 +62,6 @@ public class ItemBiomeCompass extends Item{
 			
 			if (isHeld && world.rand.nextInt(70) == 0 && entity instanceof EntityPlayer){
 				KnowledgeRegistrations.BIOME_COMPASS.tryUnlockFragment((EntityPlayer)entity,1F,new byte[]{ 1 });
-			}
-		}
-		else if (is.stackTagCompound != null && entity instanceof EntityPlayer){
-			if (lastSavedX == Integer.MAX_VALUE && lastSavedZ == Integer.MAX_VALUE){
-				for(int x = entity.chunkCoordX-96, z; x <= entity.chunkCoordX+96; x++){
-					for(z = entity.chunkCoordZ-96; z <= entity.chunkCoordZ+96; z++){
-						byte biome = checkBiome(x,z,is);
-						
-						if (biome != -1)locations.get(biome).add(new ChunkCoordinates(x*16+(featureSize>>1),0,z*16+(featureSize>>1)));
-					}
-				}
-				
-				lastSavedX = entity.chunkCoordX;
-				lastSavedZ = entity.chunkCoordZ;
-			}
-			else if (MathUtil.square(entity.chunkCoordX-lastSavedX) + MathUtil.square(entity.chunkCoordZ-lastSavedZ) > 250F){
-				lastSavedX = lastSavedZ = Integer.MAX_VALUE;
 			}
 		}
 	}

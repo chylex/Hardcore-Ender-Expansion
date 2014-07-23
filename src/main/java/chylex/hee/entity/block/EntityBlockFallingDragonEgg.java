@@ -56,7 +56,7 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 			motionZ *= 0.7D;
 			motionY *= -0.5D;
 
-			if (worldObj.getBlock(i,j,k) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).size() == 0){
+			if (worldObj.getBlock(i,j,k) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).isEmpty()){
 				if (worldObj.setBlock(i,j,k,func_145805_f()))setDead(); // OBFUSCATED get block
 				else die();
 			}

@@ -32,7 +32,7 @@ class UpdateThread extends Thread{
 			StringBuilder build = new StringBuilder();
 			
 			BufferedReader read = new BufferedReader(new InputStreamReader(new URL("https://dl.dropboxusercontent.com/u/17157118/update/hardcoreenderexpansion.txt").openStream()));
-			while((line = read.readLine()) != null)build.append(line).append("\n");
+			while((line = read.readLine()) != null)build.append(line).append('\n');
 			read.close();
 			
 			JsonElement root = new JsonParser().parse(build.toString());
@@ -78,7 +78,7 @@ class UpdateThread extends Thread{
 				
 				if (newestVersion != newestVersionForCurrentMC){
 					message.append("\n\n There is also an update ").append(EnumChatFormatting.GREEN).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)
-						   .append(" for Minecraft ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append(".");
+						   .append(" for Minecraft ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append('.');
 				}
 				
 				message.append("\n\n ").append(EnumChatFormatting.GRAY).append("http://tinyurl.com/hc-ender-expansion");

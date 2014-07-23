@@ -21,4 +21,6 @@ public final class GameRegistryUtil{
 	public static void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String name){
 		GameRegistry.registerTileEntity(tileEntityClass,"HardcoreEnderExpansion:"+name);
 	}
+	
+	private GameRegistryUtil(){}
 }

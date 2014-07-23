@@ -3,7 +3,6 @@ import java.util.Iterator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -94,7 +93,12 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1;
 		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
 		
-		if (container.containerInv.getStackInSlot(0) != null){
+		if (container.containerInv.getStackInSlot(0) == null){
+			for(int a = 0; a < container.enhancementSlotX.length; a++)container.enhancementSlotX[a] = -3200;
+			for(int a = 0; a < container.powderSlots.length; a++)container.powderSlots[a].xDisplayPosition = -3200;
+			for(int a = 0; a < container.ingredientSlots.length; a++)container.ingredientSlots[a].xDisplayPosition = -3200;
+		}
+		else{
 			int enhAmount = EnhancementHandler.getEnhancementsForItem(container.containerInv.getStackInSlot(0).getItem()).size();
 			
 			for(int a = 0, w = 18*enhAmount, x; a < enhAmount; a++){
@@ -109,18 +113,13 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 				
 				for(Iterator<SlotType> iter = slots.iterator(); iter.hasNext();){
 					SlotType type = iter.next();
-					if (type != SlotType.POWDER && type != SlotType.INGREDIENT)throw new RuntimeException("Invalid slot type "+type);
+					if (type != SlotType.POWDER && type != SlotType.INGREDIENT)throw new IllegalArgumentException("Invalid slot type "+type);
 	
 					x = (int)Math.floor(88-w*0.5F+18*(index++));
 					drawTexturedModalRect(guiX+x,guiY+56,176,type == SlotType.POWDER ? 18 : 0,18,18);
 					(type == SlotType.POWDER ? container.powderSlots : container.ingredientSlots)[type == SlotType.POWDER ? indexPowder++ : indexIngredient++].xDisplayPosition = x+1;
 				}
 			}
-		}
-		else{
-			for(int a = 0; a < container.enhancementSlotX.length; a++)container.enhancementSlotX[a] = -3200;
-			for(int a = 0; a < container.powderSlots.length; a++)container.powderSlots[a].xDisplayPosition = -3200;
-			for(int a = 0; a < container.ingredientSlots.length; a++)container.ingredientSlots[a].xDisplayPosition = -3200;
 		}
 	}
 	
@@ -135,10 +134,6 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 	
 	private boolean checkRect(int mouseX, int mouseY, int x, int y, int w, int h){
 		return mouseX >= x && mouseX <= x+w && mouseY >= y && mouseY <= y+h;
-	}
-	
-	private boolean isMouseOverSlot(Slot slot, int mouseX, int mouseY){
-		return checkRect(mouseX-guiLeft,mouseY-guiTop,slot.xDisplayPosition-1,slot.yDisplayPosition-1,17,17);
 	}
 
 	@Override

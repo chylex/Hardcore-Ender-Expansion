@@ -39,6 +39,9 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 	private long totalGenLen = 0;
 	private int amt = 0;
 	
+	/**
+	 * Required for reflection.
+	 */
 	public ComponentScatteredFeatureIsland(){}
 	
 	protected ComponentScatteredFeatureIsland(Random rand, int x, int z){

@@ -11,14 +11,13 @@ import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraft.tileentity.TileEntityFurnace;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.mechanics.essence.SocketManager;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C17ParticleAltarOrb;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
 public class FieryEssenceHandler extends AltarActionHandler{
-	private byte essenceUsageCounter = 0;
+	private byte essenceUsageCounter;
 	
 	public FieryEssenceHandler(TileEntityEssenceAltar altar){
 		super(altar);
@@ -30,7 +29,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 		int n = 35+Math.min(60,level>>3);
 		boolean drained = false;
 		
-		byte socketEffects = SocketManager.getSocketEffects(altar),socketBoost = SocketManager.getSocketBoost(altar);
+		byte socketEffects = getSocketEffects(altar),socketBoost = getSocketBoost(altar);
 		
 		int range = 12+((socketEffects&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE?(int)Math.floor(Math.sqrt(socketBoost*3D))*2:0);
 		n += (range-12)*2;
@@ -97,7 +96,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 			else{
 				TileEntity tile = altar.getWorldObj().getTileEntity(xx,yy,zz);
 				
-				if (tile != null && tile instanceof IAcceptFieryEssence){
+				if (tile instanceof IAcceptFieryEssence){
 					IAcceptFieryEssence acceptor = (IAcceptFieryEssence)tile;
 					n = acceptor.getBoostAmount(level);
 					
@@ -115,7 +114,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	}
 	
 	private boolean tryDrainEssence(){
-		if (++essenceUsageCounter > 60+((SocketManager.getSocketEffects(altar)&EFFECT_LOWER_COST) == EFFECT_LOWER_COST?3+(int)Math.floor(SocketManager.getSocketBoost(altar)*0.7D):0)){
+		if (++essenceUsageCounter > 60+((getSocketEffects(altar)&EFFECT_LOWER_COST) == EFFECT_LOWER_COST ? 3+(int)Math.floor(getSocketBoost(altar)*0.7D) : 0)){
 			essenceUsageCounter = 0;
 			altar.drainEssence(1);
 			return true;

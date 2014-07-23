@@ -5,12 +5,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 final class VersionEntry implements Comparable<VersionEntry>{
-	final String versionIdentifier;
-	final String modVersionName;
-	final String modVersion;
-	final String[] mcVersions;
-	final String releaseDate;
-	private final Short orderId;
+	public final String versionIdentifier;
+	public final String modVersionName;
+	public final String modVersion;
+	public final String[] mcVersions;
+	public final String releaseDate;
+	private final Byte orderId;
 	
 	VersionEntry(String versionIdentifier, JsonObject node){
 		this.versionIdentifier = versionIdentifier;
@@ -23,7 +23,7 @@ final class VersionEntry implements Comparable<VersionEntry>{
 		
 		releaseDate = node.get("releaseDate").getAsString();
 		
-		short i = 0;
+		byte i = 0;
 		String tmp = modVersion;
 		String[] idSplit = versionIdentifier.split(" - ");
 		
@@ -32,16 +32,17 @@ final class VersionEntry implements Comparable<VersionEntry>{
 			tmp = idSplit[1];
 			
 			try{
-				i = Short.parseShort(idSplit[0]);
+				i = Byte.parseByte(idSplit[0]);
 			}catch(NumberFormatException e){
 				DragonUtil.warning("Incorrect version identifier: "+versionIdentifier);
 			}
 		}
-		orderId = i;
+		
+		orderId = Byte.valueOf(i);
 		modVersionName = tmp;
 	}
 	
-	boolean isSupportedByMC(String mcVersion){
+	public boolean isSupportedByMC(String mcVersion){
 		for(String version:mcVersions){
 			if (version.equals(mcVersion))return true;
 		}

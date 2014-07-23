@@ -45,6 +45,7 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 			i -= obj.getWeight();
 			if (i < 0)return obj;
 		}
+		
 		return null;
 	}
 }

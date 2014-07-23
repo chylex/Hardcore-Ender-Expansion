@@ -11,8 +11,8 @@ import chylex.hee.item.ItemList;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
 
 public class ContainerDecompositionTable extends Container{
-	private TileEntityDecompositionTable tileDecompositionTable;
-	private int prevReqStardust = 0, prevTime = 0;
+	private final TileEntityDecompositionTable tileDecompositionTable;
+	private int prevReqStardust,prevTime;
 	
 	public ContainerDecompositionTable(InventoryPlayer inv, TileEntityDecompositionTable tile){
 		tileDecompositionTable = tile;

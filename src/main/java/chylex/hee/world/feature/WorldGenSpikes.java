@@ -10,12 +10,11 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 
 public class WorldGenSpikes extends WorldGenerator{
-	private static Block surfaceID = Blocks.end_stone;
+	private static final Block surfaceID = Blocks.end_stone;
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
 		if (world.isAirBlock(x,y,z) && world.getBlock(x,y-1,z) == surfaceID){
-			int height = rand.nextInt(32)+6;
 			int radius = rand.nextInt(4)+1;
 
 			for(int xx = x-radius; xx <= x+radius; ++xx){
@@ -25,6 +24,8 @@ public class WorldGenSpikes extends WorldGenerator{
 					}
 				}
 			}
+			
+			int height = rand.nextInt(32)+6;
 
 			for(int yy = y; yy < y+height && yy < 128; ++yy){
 				for(int xx = x-radius; xx <= x+radius; ++xx){

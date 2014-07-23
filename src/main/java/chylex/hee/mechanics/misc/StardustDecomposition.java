@@ -173,7 +173,7 @@ public final class StardustDecomposition{
 					else if (objs[a] instanceof ArrayList){
 						ArrayList list = (ArrayList)objs[a];
 
-						if (list.size() == 0){
+						if (list.isEmpty()){
 							failed = true;
 							break;
 						}

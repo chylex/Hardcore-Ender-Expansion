@@ -23,7 +23,7 @@ public class EntityWeatherLightningBoltDemon extends EntityLightningBolt{
 	public EntityWeatherLightningBoltDemon(World world, double x, double y, double z, EntityBossEnderDemon caster, boolean shouldMakeFire){
 		this(world,x,y,z);
 		
-		isSafe = !shouldMakeFire;
+		isSafe = shouldMakeFire^true;
 
 		if (!world.isRemote){
 			int ix = (int)Math.floor(x),iy = (int)Math.floor(y),iz = (int)Math.floor(z);
@@ -75,10 +75,8 @@ public class EntityWeatherLightningBoltDemon extends EntityLightningBolt{
 				}
 			}
 	
-			if (lightningState >= 0){
-				if (worldObj.isRemote){
-					worldObj.lastLightningBolt = 2;
-				}
+			if (lightningState >= 0 && worldObj.isRemote){
+				worldObj.lastLightningBolt = 2;
 			}
 		}
 		else super.onUpdate();

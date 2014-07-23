@@ -68,7 +68,7 @@ public class WorldGenBlob extends WorldGenerator{
 		for(int a = 0; a < 3; a++)n += Math.min(2.2F,Math.abs(0.9F*rand.nextGaussian()));
 		
 		for(int a = 0; a < Math.floor(n); a++){
-			if (availablePopulators.size() == 0)break;
+			if (availablePopulators.isEmpty())break;
 			
 			try{
 				availablePopulators.remove(rand.nextInt(availablePopulators.size())).populate(size,minPos,maxPos,world,rand,x,y,z);
@@ -98,7 +98,8 @@ public class WorldGenBlob extends WorldGenerator{
 	private void createBlob(WorldGeneratorBlockList blocks, Random random, int x, int y, int z, float rad, int iteration){
 		BlockLocation blockLoc;
 		
-		for(float xx = x-rad, yy, zz; xx <= x+rad; xx++){
+		double xx, yy, zz;
+		for(xx = x-rad; xx <= x+rad; xx++){
 			for(yy = y-rad; yy <= y+rad; yy++){
 				for(zz = z-rad; zz <= z+rad; zz++){
 					if (Math.sqrt(MathUtil.square(xx-x)+MathUtil.square(yy-y)+MathUtil.square(zz-z)) < rad){

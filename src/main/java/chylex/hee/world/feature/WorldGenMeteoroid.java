@@ -26,20 +26,21 @@ public class WorldGenMeteoroid extends WorldGenerator{
 		
 		world.setBlock(xx,yy,zz,BlockList.sphalerite,0,2);
 		
-		for(int iteration = 0, attempt, extraIterations = rand.nextInt(15); iteration < 8+extraIterations+rand.nextInt(9); iteration++){
+		int iteration, attempt, extraIterations = rand.nextInt(15);
+		for(iteration = 0; iteration < 8+extraIterations+rand.nextInt(9); iteration++){
 			for(attempt = 0; attempt < rand.nextInt(12); attempt++){
-				xx += rand.nextInt(3) != 0 ? 0 : rand.nextInt(3)-1;
-				yy += rand.nextInt(3) != 0 ? 0 : rand.nextInt(3)-1;
-				zz += rand.nextInt(3) != 0 ? 0 : rand.nextInt(3)-1;
+				xx += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
+				yy += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
+				zz += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
 				
 				if (canPlaceAt(world,xx,yy,zz) && checkBoundaries(x,y,z,xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.sphalerite,0,2);
 			}
 			
 			if (rand.nextBoolean()){
 				for(attempt = 0; attempt < 1+rand.nextInt(3); attempt++){
-					xx += rand.nextInt(3) != 0 ? 0 : rand.nextInt(3)-1;
-					yy += rand.nextInt(3) != 0 ? 0 : rand.nextInt(3)-1;
-					zz += rand.nextInt(3) != 0 ? 0 : rand.nextInt(3)-1;
+					xx += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
+					yy += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
+					zz += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
 					
 					if (canPlaceAt(world,xx,yy,zz) && checkBoundaries(x,y,z,xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.sphalerite,1,2);
 				}

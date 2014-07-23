@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 
 public class TempleGenerator{
-	private World world;
+	private final World world;
 	
 	public TempleGenerator(World world){
 		this.world = world;
