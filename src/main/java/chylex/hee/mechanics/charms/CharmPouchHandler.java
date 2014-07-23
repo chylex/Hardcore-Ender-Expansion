@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -27,9 +28,10 @@ public final class CharmPouchHandler{
 		return instance.activePouchIDs.get(player.getGameProfile().getId());
 	}
 	
-	private Map<UUID,CharmPouchInfo> activePouchIDs = new HashMap<>();
-	private boolean isHandlerActive = false;
-	private boolean refresh = false;
+	private final Map<UUID,CharmPouchInfo> activePouchIDs = new HashMap<>();
+	private final CharmEvents events = new CharmEvents();
+	private boolean isHandlerActive;
+	private boolean refresh;
 	
 	private CharmPouchHandler(){}
 	
@@ -39,11 +41,15 @@ public final class CharmPouchHandler{
 		
 		if (!isHandlerActive && !activePouchIDs.isEmpty()){
 			isHandlerActive = true;
-			CharmEvents.enable();
+			
+			MinecraftForge.EVENT_BUS.register(events);
+			FMLCommonHandler.instance().bus().register(events);
 		}
 		else if (isHandlerActive && activePouchIDs.isEmpty()){
 			isHandlerActive = false;
-			CharmEvents.disable();
+
+			MinecraftForge.EVENT_BUS.unregister(events);
+			FMLCommonHandler.instance().bus().unregister(events);
 		}
 		
 		refresh = false;

@@ -12,10 +12,10 @@ import chylex.hee.world.util.BlockLocation;
 public class OreGenerator{
 	private static final byte attemptMp = 3;
 	
-	private int minX,minY,minZ,maxX,maxY,maxZ;
+	private final int minX,minY,minZ,maxX,maxY,maxZ;
 	
-	private List<OreLocationList> oreListStardust = new ArrayList<>();
-	private List<OreLocationList> oreListInstabilityOrb = new ArrayList<>();
+	private final List<OreLocationList> oreListStardust = new ArrayList<>();
+	private final List<OreLocationList> oreListInstabilityOrb = new ArrayList<>();
 	
 	public OreGenerator(int minX, int minY, int minZ, int maxX, int maxY, int maxZ){
 		this.minX = minX;
@@ -88,8 +88,8 @@ public class OreGenerator{
 	}
 	
 	private class OreLocationList{
-		private List<BlockLocation> blockList;
-		private byte placeAmount;
+		private final List<BlockLocation> blockList;
+		private final byte placeAmount;
 		
 		public OreLocationList(int amount){
 			this.blockList = new ArrayList<>(amount*attemptMp);

@@ -1,13 +1,14 @@
 package chylex.hee.mechanics.charms;
 import gnu.trove.map.hash.TObjectByteHashMap;
+import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CharmRecipe{
 	public final byte id;
 	private final TObjectByteHashMap<RuneType> runes = new TObjectByteHashMap<>();
-	private final TObjectByteHashMap<String> properties = new TObjectByteHashMap<>();
-	private byte runeAmount = 0;
+	private final TObjectFloatHashMap<String> properties = new TObjectFloatHashMap<>();
+	private byte runeAmount;
 	
 	public CharmRecipe(int id){
 		this.id = (byte)id;
@@ -23,14 +24,13 @@ public class CharmRecipe{
 		return this;
 	}
 	
-	public CharmRecipe prop(String name, int value){
-		if (value >= 128)throw new IllegalArgumentException("CharmRecipe prop value cannot be larger than 127!");
-		properties.put(name,(byte)value);
+	public CharmRecipe prop(String name, float value){
+		properties.put(name,value);
 		return this;
 	}
 	
-	public short getProp(String name){
-		return properties.containsKey(name) ? properties.get(name) : -1;
+	public float getProp(String name){
+		return properties.containsKey(name) ? properties.get(name) : -1F;
 	}
 	
 	public boolean checkRunes(RuneType[] runes){

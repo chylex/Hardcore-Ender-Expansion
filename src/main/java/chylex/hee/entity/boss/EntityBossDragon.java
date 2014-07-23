@@ -156,7 +156,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D+Math.min(50,BiomeDecoratorHardcoreEnd.getCache(worldObj).getDragonDeathAmount()*8)+(ModCommonProxy.opMobs?80D:0D)); // CHANGED LINE
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D+Math.min(50,BiomeDecoratorHardcoreEnd.getCache(worldObj).getDragonDeathAmount()*8)+(ModCommonProxy.opMobs ? 80D : 0D)); // CHANGED LINE
 	}
 
 	@Override

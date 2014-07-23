@@ -4,15 +4,15 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public enum CharmType{	
 	BASIC_POWER(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(0).rune(POWER,3).prop("dmg",25),
-		new CharmRecipe(1).rune(POWER,4).prop("dmg",45),
-		new CharmRecipe(2).rune(POWER,5).prop("dmg",60)
+		new CharmRecipe(0).rune(POWER,3).prop("dmg",1.25F),
+		new CharmRecipe(1).rune(POWER,4).prop("dmg",1.45F),
+		new CharmRecipe(2).rune(POWER,5).prop("dmg",1.60F)
 	}),
 	
 	BASIC_AGILITY(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(3).rune(AGILITY,3).prop("spd",15),
-		new CharmRecipe(4).rune(AGILITY,4).prop("spd",28),
-		new CharmRecipe(5).rune(AGILITY,5).prop("spd",40)
+		new CharmRecipe(3).rune(AGILITY,3).prop("spd",1.15F),
+		new CharmRecipe(4).rune(AGILITY,4).prop("spd",1.28F),
+		new CharmRecipe(5).rune(AGILITY,5).prop("spd",1.40F)
 	}),
 	
 	BASIC_VIGOR(0,0x000000,0x000000,new CharmRecipe[]{
@@ -22,15 +22,15 @@ public enum CharmType{
 	}),
 	
 	BASIC_DEFENSE(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(9).rune(DEFENSE,3).prop("reducedmg",10),
-		new CharmRecipe(10).rune(DEFENSE,4).prop("reducedmg",20),
-		new CharmRecipe(11).rune(DEFENSE,5).prop("reducedmg",30)
+		new CharmRecipe(9).rune(DEFENSE,3).prop("reducedmg",0.10F),
+		new CharmRecipe(10).rune(DEFENSE,4).prop("reducedmg",0.20F),
+		new CharmRecipe(11).rune(DEFENSE,5).prop("reducedmg",0.30F)
 	}),
 	
 	BASIC_MAGIC(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(12).rune(MAGIC,3).prop("exp",10),
-		new CharmRecipe(13).rune(MAGIC,4).prop("exp",20),
-		new CharmRecipe(14).rune(MAGIC,5).prop("exp",30)
+		new CharmRecipe(12).rune(MAGIC,3).prop("exp",1.10F),
+		new CharmRecipe(13).rune(MAGIC,4).prop("exp",1.20F),
+		new CharmRecipe(14).rune(MAGIC,5).prop("exp",1.30F)
 	}),
 	
 	BASIC_VOID(0,0x000000,0x000000,new CharmRecipe[]{
@@ -38,25 +38,25 @@ public enum CharmType{
 	}),
 	
 	EQUALITY(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(18).rune(POWER).rune(AGILITY).rune(VIGOR).rune(DEFENSE).rune(MAGIC).prop("dmg",8).prop("spd",5).prop("regenspd",6).prop("reducedmg",3).prop("exp",3)
+		new CharmRecipe(18).rune(POWER).rune(AGILITY).rune(VIGOR).rune(DEFENSE).rune(MAGIC).prop("dmg",1.08F).prop("spd",1.05F).prop("regenspd",6).prop("reducedmg",0.03F).prop("exp",1.03F)
 	}),
 	
 	BLOCKING(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(19).rune(POWER).rune(DEFENSE).rune(VOID).prop("reducedmgblock",20),
-		new CharmRecipe(20).rune(POWER).rune(DEFENSE,2).rune(VOID).prop("reducedmgblock",32),
-		new CharmRecipe(21).rune(POWER).rune(DEFENSE,3).rune(VOID).prop("reducedmgblock",45)
+		new CharmRecipe(19).rune(POWER).rune(DEFENSE).rune(VOID).prop("reducedmgblock",0.20F),
+		new CharmRecipe(20).rune(POWER).rune(DEFENSE,2).rune(VOID).prop("reducedmgblock",0.32F),
+		new CharmRecipe(21).rune(POWER).rune(DEFENSE,3).rune(VOID).prop("reducedmgblock",0.45F)
 	}),
 	
 	BLOCKING_REFLECTION(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(22).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",20).prop("reflectdmg",10),
-		new CharmRecipe(23).rune(POWER).rune(DEFENSE).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",32).prop("reflectdmg",10),
-		new CharmRecipe(24).rune(POWER).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",20).prop("reflectdmg",20)
+		new CharmRecipe(22).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.10F),
+		new CharmRecipe(23).rune(POWER).rune(DEFENSE).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.32F).prop("blockreflectdmg",0.10F),
+		new CharmRecipe(24).rune(POWER).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.20F)
 	}),
 	
 	DIGESTIVE_RECOVER(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(25).rune(POWER).rune(VIGOR).rune(VOID).prop("healthperhunger",50), // x100
-		new CharmRecipe(26).rune(POWER).rune(VIGOR,2).rune(VOID).prop("healthperhunger",100),
-		new CharmRecipe(27).rune(POWER).rune(VIGOR,3).rune(VOID).prop("healthperhunger",200)
+		new CharmRecipe(25).rune(POWER).rune(VIGOR).rune(VOID).prop("healthperhunger",5), // x10
+		new CharmRecipe(26).rune(POWER).rune(VIGOR,2).rune(VOID).prop("healthperhunger",10),
+		new CharmRecipe(27).rune(POWER).rune(VIGOR,3).rune(VOID).prop("healthperhunger",20)
 	}),
 	
 	LIFE_STEAL(0,0x000000,0x000000,new CharmRecipe[]{
@@ -107,20 +107,20 @@ public enum CharmType{
 	}),
 	
 	CRITICAL_STRIKE(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(54).rune(POWER,2).rune(AGILITY).prop("critchance",10).prop("critdmg",15), // x10
-		new CharmRecipe(55).rune(POWER,3).rune(AGILITY).prop("critchance",10).prop("critdmg",20),
-		new CharmRecipe(56).rune(POWER,4).rune(AGILITY).prop("critchance",10).prop("critdmg",26),
-		new CharmRecipe(57).rune(POWER,2).rune(AGILITY,2).prop("critchance",15).prop("critdmg",15),
-		new CharmRecipe(58).rune(POWER,2).rune(AGILITY,3).prop("critchance",22).prop("critdmg",15),
-		new CharmRecipe(59).rune(POWER,3).rune(AGILITY,3).prop("critchance",15).prop("critdmg",20)
+		new CharmRecipe(54).rune(POWER,2).rune(AGILITY).prop("critchance",0.10F).prop("critdmg",1.50F),
+		new CharmRecipe(55).rune(POWER,3).rune(AGILITY).prop("critchance",0.10F).prop("critdmg",2.00F),
+		new CharmRecipe(56).rune(POWER,4).rune(AGILITY).prop("critchance",0.10F).prop("critdmg",2.60F),
+		new CharmRecipe(57).rune(POWER,2).rune(AGILITY,2).prop("critchance",0.15F).prop("critdmg",1.50F),
+		new CharmRecipe(58).rune(POWER,2).rune(AGILITY,3).prop("critchance",0.22F).prop("critdmg",1.50F),
+		new CharmRecipe(59).rune(POWER,3).rune(AGILITY,3).prop("critchance",0.15F).prop("critdmg",2.00F)
 	}),
 	
 	SECOND_DURABILITY(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(60).rune(VIGOR).rune(MAGIC).rune(VOID).prop("recdurabilitychance",28).prop("recdurabilityamt",10),
-		new CharmRecipe(61).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("recdurabilitychance",25).prop("recdurabilityamt",18),
-		new CharmRecipe(62).rune(VIGOR,3).rune(MAGIC).rune(VOID).prop("recdurabilitychance",22).prop("recdurabilityamt",25),
-		new CharmRecipe(63).rune(VIGOR).rune(MAGIC,2).rune(VOID).prop("recdurabilitychance",32).prop("recdurabilityamt",16),
-		new CharmRecipe(64).rune(VIGOR).rune(MAGIC,3).rune(VOID).prop("recdurabilitychance",44).prop("recdurabilityamt",12)
+		new CharmRecipe(60).rune(VIGOR).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.28F).prop("recdurabilityamt",10),
+		new CharmRecipe(61).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.25F).prop("recdurabilityamt",18),
+		new CharmRecipe(62).rune(VIGOR,3).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.22F).prop("recdurabilityamt",25),
+		new CharmRecipe(63).rune(VIGOR).rune(MAGIC,2).rune(VOID).prop("recdurabilitychance",0.32F).prop("recdurabilityamt",16),
+		new CharmRecipe(64).rune(VIGOR).rune(MAGIC,3).rune(VOID).prop("recdurabilitychance",0.44F).prop("recdurabilityamt",12)
 	});
 	
 	public static Pair<CharmType,CharmRecipe> getFromDamage(int damage){

@@ -48,7 +48,7 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 	
 	private final FloatBuffer floatBuffer = GLAllocation.createDirectFloatBuffer(16);
 	
-	private ItemStack bookItemStack;
+	private final ItemStack bookItemStack;
 	private float offsetX, offsetY;
 	private float prevOffsetX, prevOffsetY;
 	private float startOffsetX, startOffsetY;
@@ -112,6 +112,7 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 							break;
 						}
 					}
+					
 					break;
 				}
 			}
