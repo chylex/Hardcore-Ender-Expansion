@@ -16,15 +16,21 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	}
 	*/
 	
-	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(8);
-	public static final BiomeContentVariation MINE = new BiomeContentVariation(5);
+	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1,8);
+	public static final BiomeContentVariation MINE = new BiomeContentVariation(5,5);
 	
 	private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
 	
 	protected IslandBiomeBurningMountains(int biomeID, KnowledgeRegistration knowledgeRegistration){
 		super(biomeID,knowledgeRegistration);
-		spawnEntries.add(new SpawnEntry(EntityMobFireGolem.class,14,10));
-		spawnEntries.add(new SpawnEntry(EntityMobScorchingLens.class,10,6));
+		
+		contentVariations.add(SCORCHING);
+		contentVariations.add(MINE);
+		
+		spawnEntries.get(SCORCHING.id).addAll(new SpawnEntry[]{
+			new SpawnEntry(EntityMobFireGolem.class,14,10),
+			new SpawnEntry(EntityMobScorchingLens.class,10,6)
+		});
 	}
 
 	@Override

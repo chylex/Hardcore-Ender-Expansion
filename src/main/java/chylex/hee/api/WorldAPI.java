@@ -2,6 +2,9 @@ package chylex.hee.api;
 import net.minecraft.entity.EntityLiving;
 import chylex.hee.api.wrappers.LootList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
+import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
+import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
+import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
 import chylex.hee.world.structure.island.feature.StructureForestSilverfishDungeon;
 import chylex.hee.world.structure.tower.ComponentScatteredFeatureTower;
 import chylex.hee.world.util.SpawnEntry;
@@ -23,9 +26,13 @@ public final class WorldAPI extends AbstractAPI{
 		SpawnEntry entry = new SpawnEntry(mobClass,maxAmount,weight);
 		
 		switch(biome){
-			case InfestedForest: IslandBiomeBase.infestedForest.spawnEntries.add(entry); break;
-			case BurningMountains: IslandBiomeBase.burningMountains.spawnEntries.add(entry); break;
-			case EnchantedIsland: IslandBiomeBase.enchantedIsland.spawnEntries.add(entry); break;
+			case InfestedForestDeep: IslandBiomeBase.infestedForest.spawnEntries.get(IslandBiomeInfestedForest.DEEP.id).add(entry); break;
+			case InfestedForestRavaged: IslandBiomeBase.infestedForest.spawnEntries.get(IslandBiomeInfestedForest.RAVAGED.id).add(entry); break;
+			case InfestedForestRuins: IslandBiomeBase.infestedForest.spawnEntries.get(IslandBiomeInfestedForest.RUINS.id).add(entry); break;
+			case BurningMountainsScorching: IslandBiomeBase.burningMountains.spawnEntries.get(IslandBiomeBurningMountains.SCORCHING.id).add(entry); break;
+			case BurningMountainsMine: IslandBiomeBase.burningMountains.spawnEntries.get(IslandBiomeBurningMountains.MINE.id).add(entry); break;
+			case EnchantedIslandHomeland: IslandBiomeBase.enchantedIsland.spawnEntries.get(IslandBiomeEnchantedIsland.HOMELAND.id).add(entry); break;
+			default:
 		}
 	}
 	
@@ -52,21 +59,27 @@ public final class WorldAPI extends AbstractAPI{
 		 * {@code EntitySilverfish, 35, 35}<br>
 		 * {@code EntityMobInfestedBat, 8, 10}<br>
 		 */
-		InfestedForest,
+		InfestedForestDeep,
+		
+		InfestedForestRavaged,
+		
+		InfestedForestRuins,
 		
 		/**
 		 * <strong>{@code Mob type, max amount, weight}</strong><br>
 		 * {@code EntityMobFireGolem, 14, 10}<br>
 		 * {@code EntityMobScorchingLens, 10, 6}<br>
 		 */
-		BurningMountains,
+		BurningMountainsScorching,
+		
+		BurningMountainsMine,
 		
 		/**
 		 * <strong>{@code Mob type, max amount, weight}</strong><br>
 		 * {@code EntityMobEnderGuardian, 9, 30}<br>
 		 * {@code EntityMobBabyEnderman, 16, 20}<br>
 		 */
-		EnchantedIsland
+		EnchantedIslandHomeland
 	}
 
 	/**

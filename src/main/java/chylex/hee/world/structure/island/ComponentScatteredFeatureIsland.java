@@ -135,7 +135,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 			
 			totalGenLen += TimeMeasurement.finish("IslandGen - biome");
 			
-			structure.setBlock(104,8,104,BlockList.biome_core,biome.biomeID,true);
+			structure.setBlock(104,8,104,BlockList.biome_core,biomeData.content.id,true);
 		
 			isSetup = true;
 		}

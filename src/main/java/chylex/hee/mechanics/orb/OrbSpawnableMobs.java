@@ -11,6 +11,7 @@ import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
+import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.util.SpawnEntry;
 
@@ -30,7 +31,9 @@ public final class OrbSpawnableMobs{
 		}
 		
 		for(IslandBiomeBase biome:IslandBiomeBase.biomeList){
-			for(SpawnEntry entry:biome.spawnEntries)classList.add(entry.getMobClass());
+			for(WeightedList<SpawnEntry> list:biome.spawnEntries.valueCollection()){
+				for(SpawnEntry entry:list)classList.add(entry.getMobClass());
+			}
 		}
 
 		for(Class cls:new Class<?>[]{

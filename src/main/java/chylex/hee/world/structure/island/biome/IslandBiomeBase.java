@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome;
+import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -6,7 +7,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
@@ -33,18 +33,14 @@ public abstract class IslandBiomeBase{
 	
 	public static final List<IslandBiomeBase> biomeList = new ArrayList<>(Arrays.asList(infestedForest,burningMountains,enchantedIsland));
 	
-	public static IslandBiomeBase pickRandomBiome(Random rand){
-		int i = rand.nextInt(3);
-		
-		if (i == 0)return infestedForest;
-		else if (i == 1)return burningMountains;
-		else return enchantedIsland;
+	public static final IslandBiomeBase pickRandomBiome(Random rand){
+		return biomeList.get(rand.nextInt(3));
 	}
 	
 	public final byte biomeID;
 	private final KnowledgeRegistration knowledgeRegistration;
 	
-	public final WeightedList<SpawnEntry> spawnEntries;
+	public final TByteObjectHashMap<WeightedList<SpawnEntry>> spawnEntries;
 	protected final WeightedList<BiomeContentVariation> contentVariations;
 	protected final List<BiomeRandomDeviation> randomDeviations;
 	
@@ -54,7 +50,7 @@ public abstract class IslandBiomeBase{
 		this.biomeID = (byte)biomeID;
 		this.knowledgeRegistration = knowledgeRegistration;
 		
-		this.spawnEntries = new WeightedList<>();
+		this.spawnEntries = new TByteObjectHashMap<>();
 		this.contentVariations = new WeightedList<>();
 		this.randomDeviations = new ArrayList<>();
 	}
@@ -92,18 +88,25 @@ public abstract class IslandBiomeBase{
 	}
 	
 	protected abstract void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ);
+
+	public boolean isValidMetadata(int meta){
+		for(BiomeContentVariation variation:contentVariations){
+			if (variation.id == meta)return true;
+		}
+		
+		return false;
+	}
 	
-	public void updateCore(World world, int x, int y, int z){
+	public void updateCore(World world, int x, int y, int z, int meta){
 		if (world.playerEntities.isEmpty())return;
 		
 		if (world.rand.nextInt(3) == 0){
-			int halfsz = ComponentScatteredFeatureIsland.halfSize;
-			int playerCheck = halfsz*2;
+			int halfsz = ComponentScatteredFeatureIsland.halfSize, playerCheck = halfsz*2;
 			
-			SpawnEntry entry = spawnEntries.getRandomItem(world.rand);
+			SpawnEntry entry = spawnEntries.containsKey((byte)meta) ? spawnEntries.get((byte)meta).getRandomItem(world.rand) : null;
 			if (entry == null)return;
 			
-			if (world.difficultySetting == EnumDifficulty.PEACEFUL && EntityMob.class.isAssignableFrom(entry.getMobClass()))return;
+			if (world.difficultySetting == EnumDifficulty.PEACEFUL && entry.isMob)return;
 			
 			int currentAmount = world.getEntitiesWithinAABB(entry.getMobClass(),AxisAlignedBB.getBoundingBox(x-halfsz,y+10,z-halfsz,x+halfsz,y+55,z+halfsz)).size();
 			if (currentAmount >= entry.getMaxAmount() || world.rand.nextFloat()*1.1F<(float)currentAmount/entry.getMaxAmount())return;
@@ -114,12 +117,10 @@ public abstract class IslandBiomeBase{
 				EntityLiving e = entry.createMob(world);
 				
 				for(int attempt = 0; attempt < 20+Math.min(10,playerAmount); attempt++){
-					Object o = world.playerEntities.get(world.rand.nextInt(playerAmount));
-					EntityPlayer player = (EntityPlayer)o;
-					
+					EntityPlayer player = (EntityPlayer)world.playerEntities.get(world.rand.nextInt(playerAmount));
 					if (MathUtil.distance(player.posX-x,player.posZ-z) > playerCheck)continue;
 					
-					double ang = world.rand.nextDouble()*2D*Math.PI,len = 19+world.rand.nextInt(55)+Math.abs(world.rand.nextGaussian()*12D);
+					double ang = world.rand.nextDouble()*2D*Math.PI, len = 19+world.rand.nextInt(55)+Math.abs(world.rand.nextGaussian()*12D);
 					double posX = player.posX+Math.cos(ang)*len, posZ = player.posZ+Math.sin(ang)*len;
 					
 					for(int yAttempt = 0; yAttempt < 28; yAttempt++){
@@ -127,7 +128,7 @@ public abstract class IslandBiomeBase{
 						if (hasEntitySpace(world,e))break;
 					}
 					
-					int xx = (int)Math.floor(e.posX),zz = (int)Math.floor(e.posZ);
+					int xx = (int)Math.floor(e.posX), zz = (int)Math.floor(e.posZ);
 					boolean hasBlockBelow = false;
 					
 					for(int yy = (int)e.posY-1; yy > e.posY-4D; yy--){
@@ -136,6 +137,7 @@ public abstract class IslandBiomeBase{
 							break;
 						}
 					}
+					
 					if (!hasBlockBelow || DragonUtil.getTopBlock(world,BlockList.end_terrain,xx,zz,120) <= 30)continue;
 					
 					e.setPositionAndUpdate(e.posX,e.posY+0.01D,e.posZ);

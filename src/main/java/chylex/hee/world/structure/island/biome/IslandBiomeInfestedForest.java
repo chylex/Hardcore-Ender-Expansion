@@ -15,9 +15,9 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeInfestedForest extends IslandBiomeBase{
-	public static final BiomeContentVariation DEEP = new BiomeContentVariation(5);
-	public static final BiomeContentVariation RAVAGED = new BiomeContentVariation(3);
-	public static final BiomeContentVariation RUINS = new BiomeContentVariation(2);
+	public static final BiomeContentVariation DEEP = new BiomeContentVariation(0,5);
+	public static final BiomeContentVariation RAVAGED = new BiomeContentVariation(3,3);
+	public static final BiomeContentVariation RUINS = new BiomeContentVariation(4,2);
 	
 	public static final BiomeRandomDeviation TALL_TREES = new BiomeRandomDeviation(DEEP, RAVAGED);
 	public static final BiomeRandomDeviation MORE_THORNY_BUSHES = new BiomeRandomDeviation(DEEP);
@@ -26,16 +26,18 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	
 	protected IslandBiomeInfestedForest(int biomeID, KnowledgeRegistration knowledgeRegistration){
 		super(biomeID,knowledgeRegistration);
-		
-		spawnEntries.add(new SpawnEntry(EntitySilverfish.class,35,35));
-		spawnEntries.add(new SpawnEntry(EntityMobInfestedBat.class,8,10));
-		
+
 		contentVariations.add(DEEP);
 		contentVariations.add(RAVAGED);
 		contentVariations.add(RUINS);
 		
 		randomDeviations.add(TALL_TREES);
 		randomDeviations.add(MORE_THORNY_BUSHES);
+		
+		spawnEntries.get(DEEP.id).addAll(new SpawnEntry[]{
+			new SpawnEntry(EntitySilverfish.class,35,35),
+			new SpawnEntry(EntityMobInfestedBat.class,8,10)
+		});
 	}
 	
 	@Override
@@ -46,8 +48,8 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	}
 	
 	@Override
-	public void updateCore(World world, int x, int y, int z){
-		super.updateCore(world,x,y,z);
+	public void updateCore(World world, int x, int y, int z, int meta){
+		super.updateCore(world,x,y,z,meta);
 		
 		for(Object o:world.playerEntities){
 			if (world.rand.nextInt(5) <= 2)continue;

@@ -18,6 +18,11 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		return b;
 	}
 	
+	public boolean addAll(T[] obj){
+		
+		return true;
+	}
+	
 	@Override
 	public T remove(int index){
 		T is = super.remove(index);

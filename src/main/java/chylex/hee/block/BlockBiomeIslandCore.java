@@ -31,8 +31,8 @@ public class BlockBiomeIslandCore extends Block{
 		int meta = world.getBlockMetadata(x,y,z);
 		
 		for(IslandBiomeBase biome:IslandBiomeBase.biomeList){
-			if (biome.biomeID == meta){
-				biome.updateCore(world,x,y,z);
+			if (biome.isValidMetadata(meta)){
+				biome.updateCore(world,x,y,z,meta);
 				break;
 			}
 		}

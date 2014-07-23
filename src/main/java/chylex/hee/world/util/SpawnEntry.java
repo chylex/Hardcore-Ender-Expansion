@@ -1,6 +1,7 @@
 package chylex.hee.world.util;
 import java.lang.reflect.InvocationTargetException;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.world.World;
 import chylex.hee.system.weight.IWeightProvider;
 
@@ -8,11 +9,13 @@ public class SpawnEntry implements IWeightProvider{
 	private final Class<? extends EntityLiving> mobClass;
 	private final byte maxAmount;
 	private final byte weight;
+	public final boolean isMob;
 	
 	public SpawnEntry(Class<? extends EntityLiving> mobClass, int maxAmount, int weight){
 		this.mobClass = mobClass;
 		this.maxAmount = (byte)maxAmount;
 		this.weight = (byte)weight;
+		this.isMob = EntityMob.class.isAssignableFrom(mobClass);
 	}
 	
 	public Class<? extends EntityLiving> getMobClass(){
@@ -29,6 +32,7 @@ public class SpawnEntry implements IWeightProvider{
 		}catch(NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e){
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 
