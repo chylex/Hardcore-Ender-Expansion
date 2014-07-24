@@ -72,7 +72,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		StructureForestTree treeGen = new StructureForestTree().setCanGenerateFace(false).setLooseSpaceCheck(false);
 		
 		for(int attempt = 0, placed = 0; attempt < 1600 && placed < 420; attempt++){
-			treeGen.setTreeType(rand.nextInt(4) == 0 ? TreeType.SIMPLE_PYRAMID : (rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL));
+			treeGen.setTreeType(rand.nextInt(4) == 0 ? TreeType.SIMPLE_PYRAMID : rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL);
 			if (generateStructure(treeGen,getBiome()))++placed;
 		}
 		
@@ -146,8 +146,9 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			generateStructure(tree,getBiome());
 		}
 
+		int xx, yy, zz;
 		
-		for(int bulkAttempt = 0, bulk = 0, xx, yy, zz; bulkAttempt < 18 && bulk < 4+rand.nextInt(3); bulkAttempt++){
+		for(int bulkAttempt = 0, bulk = 0; bulkAttempt < 18 && bulk < 4+rand.nextInt(3); bulkAttempt++){
 			xx = getRandomXZ(rand,16);
 			zz = getRandomXZ(rand,16);
 			yy = 10+rand.nextInt(30);
@@ -166,7 +167,8 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			double density = 12D+rand.nextDouble()*rand.nextDouble()*6D;
 			int totalAttempts = (int)(18*density);
 			
-			for(int attempt = 0, px, py, pz; attempt < totalAttempts; attempt++){
+			int px, py, pz;
+			for(int attempt = 0; attempt < totalAttempts; attempt++){
 				px = xx+(int)((rand.nextInt(20)-rand.nextInt(20))*rand.nextGaussian()*((2D*attempt)/totalAttempts));
 				pz = zz+(int)((rand.nextInt(20)-rand.nextInt(20))*rand.nextGaussian()*((2D*attempt)/totalAttempts));
 				
@@ -185,9 +187,12 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			++bulk;
 		}
 		
-		for(int attempt = 0, yAttempt, xx, yy = 0, zz, checkX, checkZ; attempt < 1000; attempt++){
+		int yAttempt, checkX, checkZ;
+		
+		for(int attempt = 0; attempt < 1000; attempt++){
 			xx = getRandomXZ(rand,0);
 			zz = getRandomXZ(rand,0);
+			yy = 0;
 			
 			boolean canGenerate = false;
 			

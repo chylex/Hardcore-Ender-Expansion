@@ -123,7 +123,7 @@ public class EntityMobBabyEnderman extends EntityMob{
 								if (itemPriorities.indexOf(level) < carryingLevelIndex){
 									if (hasIS){
 										EntityItem newItem = new EntityItem(worldObj,posX,posY,posZ,getCarriedItemStack());
-										float power = 0.3F,yawRadians = (float)Math.toRadians(rotationYaw),randomAngle = rand.nextFloat()*(float)Math.PI*2F;
+										float power = 0.3F, yawRadians = (float)Math.toRadians(rotationYaw), randomAngle = rand.nextFloat()*(float)Math.PI*2F;
 										
 										newItem.motionX = (-MathHelper.sin(yawRadians)*MathHelper.cos(yawRadians)*power);
 										newItem.motionZ = (MathHelper.cos(yawRadians)*MathHelper.cos(yawRadians)*power);

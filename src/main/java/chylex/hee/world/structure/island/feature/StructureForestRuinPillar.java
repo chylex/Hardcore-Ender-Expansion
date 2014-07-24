@@ -65,7 +65,7 @@ public class StructureForestRuinPillar extends AbstractIslandStructure{
 	public static void placeRandomPillarBlock(LargeStructureWorld world, int x, int y, int z, Random rand){
 		int n = rand.nextInt(20);
 		
-		if (n < 15)world.setBlock(x,y,z,Blocks.stonebrick,rand.nextInt(7) <= 4 ? 0 : (rand.nextBoolean() ? 1 : 2));
+		if (n < 15)world.setBlock(x,y,z,Blocks.stonebrick,rand.nextInt(7) <= 4 ? 0 : rand.nextBoolean() ? 1 : 2);
 		else if (n < 18)world.setBlock(x,y,z,Blocks.cobblestone);
 		else if (n < 20)world.setBlock(x,y,z,Blocks.stone);
 	}

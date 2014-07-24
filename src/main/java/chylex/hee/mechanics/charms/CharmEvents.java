@@ -1,11 +1,20 @@
 package chylex.hee.mechanics.charms;
 import gnu.trove.list.array.TFloatArrayList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.ReflectionPublicizer;
@@ -41,7 +50,7 @@ final class CharmEvents{
 	CharmEvents(){}
 	
 	/**
-	 * BASIC_POWER, BASIC_DEFENSE, EQUALITY, BLOCKING, BLOCKING_REFLECTION, CRITICAL_STRIKE, FALLING_PROTECTION
+	 * BASIC_POWER, BASIC_DEFENSE, EQUALITY, BLOCKING, BLOCKING_REFLECTION, CRITICAL_STRIKE, FALLING_PROTECTION, WITCHERY_HARM
 	 * It is not called on client side, check not needed.
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -77,6 +86,26 @@ final class CharmEvents{
 					
 					e.ammount += val;
 				}
+				
+				// WITCHERY_HARM
+				float[] badEff = getProp(sourcePlayer,"badeffchance");
+				
+				if (badEff.length > 0){
+					float[] badEffLvl = getProp(sourcePlayer,"badefflvl");
+					float[] badEffTime = getProp(sourcePlayer,"badefftime");
+					List<Potion> potionEffects = new ArrayList<>(Arrays.asList(
+						Potion.weakness, Potion.moveSlowdown, Potion.blindness, Potion.poison, null // null = fire
+					));
+					
+					for(int a = 0; a < badEff.length && !potionEffects.isEmpty(); a++){
+						if (e.entity.worldObj.rand.nextFloat() < badEff[a]){
+							Potion type = potionEffects.remove(e.entity.worldObj.rand.nextInt(potionEffects.size()));
+							
+							if (type == null)sourcePlayer.setFire((int)badEffTime[a]);
+							else sourcePlayer.addPotionEffect(new PotionEffect(type.id,20*(int)badEffTime[a],(int)badEffLvl[a]-1));
+						}
+					}
+				}
 			}
 				
 			// BASIC_DEFENSE / EQUALITY
@@ -86,7 +115,7 @@ final class CharmEvents{
 				// BLOCKING
 				e.ammount -= getPropMultiplied(targetPlayer,"reducedmgblock",e.ammount);
 				
-				// BLOCKING REFLECTION
+				// BLOCKING_REFLECTION
 				float[] reflect = getProp(targetPlayer,"reducedmgblock");
 				
 				if (reflect.length > 0){
@@ -119,6 +148,47 @@ final class CharmEvents{
 				int split = EntityXPOrb.getXPSplit(xp);
 				xp -= split;
 				e.entity.worldObj.spawnEntityInWorld(new EntityXPOrb(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,split));
+			}
+		}
+	}
+	
+	/**
+	 * SECOND_DURABILITY
+	 */
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onItemDestroyed(PlayerDestroyItemEvent e){
+		if (e.entity.worldObj.isRemote)return;
+		
+		// SECOND_DURABILITY
+		if (e.original.isItemStackDamageable() && e.original.getItem().isRepairable()){
+			float[] repair = getProp(e.entityPlayer,"recdurabilitychance");
+			
+			if (repair.length > 0){
+				float[] repairAmt = getProp(e.entityPlayer,"recdurabilityamt");
+				float toRepair = 0F;
+				
+				for(int a = 0; a < repair.length; a++){
+					if (e.entity.worldObj.rand.nextFloat() < repair[a])toRepair += repairAmt[a];
+				}
+				
+				ItemStack newIS = e.original.copy();
+				newIS.setItemDamage(newIS.getMaxDamage()-(int)Math.floor(newIS.getMaxDamage()*Math.min(1F,toRepair)));
+				
+				EntityItem newItem = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY+e.entityPlayer.getEyeHeight()-0.3D,e.entity.posZ,newIS);
+				newItem.delayBeforeCanPickup = 40;
+				
+				float power = 0.3F, yawRadians = (float)Math.toRadians(e.entityPlayer.rotationYaw), randomAngle = e.entity.worldObj.rand.nextFloat()*(float)Math.PI*2F;
+				
+				newItem.motionX = (-MathHelper.sin(yawRadians)*MathHelper.cos(yawRadians)*power);
+				newItem.motionZ = (MathHelper.cos(yawRadians)*MathHelper.cos(yawRadians)*power);
+				newItem.motionY = (-MathHelper.sin((float)Math.toRadians(e.entity.rotationPitch))*power+0.1F);
+
+				power = 0.02F*e.entity.worldObj.rand.nextFloat();
+				newItem.motionX += MathHelper.cos(randomAngle)*power;
+				newItem.motionY += (e.entity.worldObj.rand.nextFloat()-e.entity.worldObj.rand.nextFloat())*0.1F;
+				newItem.motionZ += MathHelper.sin(randomAngle)*power;
+				
+				e.entity.worldObj.spawnEntityInWorld(newItem);
 			}
 		}
 	}

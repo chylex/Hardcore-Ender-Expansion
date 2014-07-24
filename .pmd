@@ -345,7 +345,7 @@
         </rule>
         <rule>
             <name>AssignmentInOperand</name>
-            <ruleset>Basic Ecmascript</ruleset>
+            <ruleset>Controversial</ruleset>
         </rule>
         <rule>
             <name>UnreachableCode</name>
@@ -397,11 +397,11 @@
         </rule>
         <rule>
             <name>AvoidDeeplyNestedIfStmts</name>
-            <ruleset>Design</ruleset>
+            <ruleset>Basic Velocity</ruleset>
         </rule>
         <rule>
             <name>AvoidReassigningParameters</name>
-            <ruleset>Design</ruleset>
+            <ruleset>Basic Velocity</ruleset>
         </rule>
         <rule>
             <name>SwitchDensity</name>
@@ -693,7 +693,7 @@
         </rule>
         <rule>
             <name>UnnecessaryParentheses</name>
-            <ruleset>Unnecessary</ruleset>
+            <ruleset>Controversial</ruleset>
         </rule>
         <rule>
             <name>UnnecessaryBlock</name>
@@ -1125,7 +1125,7 @@
         </rule>
         <rule>
             <name>CollapsibleIfStatements</name>
-            <ruleset>Basic</ruleset>
+            <ruleset>Basic Velocity</ruleset>
         </rule>
         <rule>
             <name>ClassCastExceptionWithToArray</name>
@@ -1193,7 +1193,7 @@
         </rule>
         <rule>
             <name>EmptyIfStmt</name>
-            <ruleset>Empty Code</ruleset>
+            <ruleset>Basic Velocity</ruleset>
         </rule>
         <rule>
             <name>EmptyWhileStmt</name>
@@ -1329,7 +1329,7 @@
         </rule>
         <rule>
             <name>EmptyIfStmt</name>
-            <ruleset>Empty Code</ruleset>
+            <ruleset>Basic Velocity</ruleset>
         </rule>
         <rule>
             <name>EmptyWhileStmt</name>

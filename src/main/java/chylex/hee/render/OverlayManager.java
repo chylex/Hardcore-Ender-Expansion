@@ -226,8 +226,8 @@ public class OverlayManager{
 	
 	private static class Notification{
 		final String text;
-		byte yy = 0;
-		float alpha = 0F;
+		byte yy;
+		float alpha;
 		long lastTime;
 
 		Notification(String text){

@@ -85,9 +85,10 @@ public enum CharmType{
 	}),
 	
 	WITCHERY_HARM(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(44).rune(POWER).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",8).prop("badefflvl",1),
-		new CharmRecipe(45).rune(POWER).rune(MAGIC).rune(VIGOR,2).rune(VOID).prop("badeffchance",8).prop("badefflvl",2),
-		new CharmRecipe(46).rune(POWER).rune(MAGIC,2).rune(VIGOR).rune(VOID).prop("badeffchance",12).prop("badefflvl",1)
+		new CharmRecipe(44).rune(POWER).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",0.08F).prop("badefflvl",1).prop("badefftime",5),
+		new CharmRecipe(45).rune(POWER).rune(MAGIC).rune(VIGOR,2).rune(VOID).prop("badeffchance",0.09F).prop("badefflvl",2).prop("badefftime",5),
+		new CharmRecipe(46).rune(POWER).rune(MAGIC,2).rune(VIGOR).rune(VOID).prop("badeffchance",0.14F).prop("badefflvl",1).prop("badefftime",5),
+		new CharmRecipe(65).rune(POWER,2).rune(MAGIC).rune(VIGOR).rune(VOID).prop("baddeffchance",0.09F).prop("badefflvl",1).prop("badefftime",10)
 	}),
 	
 	WITCHERY_DEFENSE(0,0x000000,0x000000,new CharmRecipe[]{
@@ -116,12 +117,14 @@ public enum CharmType{
 	}),
 	
 	SECOND_DURABILITY(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(60).rune(VIGOR).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.28F).prop("recdurabilityamt",10),
-		new CharmRecipe(61).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.25F).prop("recdurabilityamt",18),
-		new CharmRecipe(62).rune(VIGOR,3).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.22F).prop("recdurabilityamt",25),
-		new CharmRecipe(63).rune(VIGOR).rune(MAGIC,2).rune(VOID).prop("recdurabilitychance",0.32F).prop("recdurabilityamt",16),
-		new CharmRecipe(64).rune(VIGOR).rune(MAGIC,3).rune(VOID).prop("recdurabilitychance",0.44F).prop("recdurabilityamt",12)
+		new CharmRecipe(60).rune(VIGOR).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.28F).prop("recdurabilityamt",0.10F),
+		new CharmRecipe(61).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.25F).prop("recdurabilityamt",0.18F),
+		new CharmRecipe(62).rune(VIGOR,3).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.22F).prop("recdurabilityamt",0.25F),
+		new CharmRecipe(63).rune(VIGOR).rune(MAGIC,2).rune(VOID).prop("recdurabilitychance",0.32F).prop("recdurabilityamt",0.16F),
+		new CharmRecipe(64).rune(VIGOR).rune(MAGIC,3).rune(VOID).prop("recdurabilitychance",0.44F).prop("recdurabilityamt",0.12F)
 	});
+	
+	// last used id: 65
 	
 	public static Pair<CharmType,CharmRecipe> getFromDamage(int damage){
 		for(CharmType type:values()){

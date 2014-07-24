@@ -39,8 +39,7 @@ public class StructureForestTree extends AbstractIslandStructure{
 		int xx = getRandomXZ(rand,treeType.rad), zz = getRandomXZ(rand,treeType.rad), yy = world.getHighestY(xx,zz);
 			
 		if (world.getBlock(xx,yy++,zz) == surface()){
-			boolean hasFace = false, tallTrees = biomeData.hasDeviation(IslandBiomeInfestedForest.TALL_TREES);
-			
+			boolean tallTrees = biomeData.hasDeviation(IslandBiomeInfestedForest.TALL_TREES);
 			int treeHeight = rand.nextInt(4+rand.nextInt(4))+(tallTrees ? 5+rand.nextInt(1+rand.nextInt(7)) : 4);
 			
 			// CHECK SPACE
@@ -60,6 +59,8 @@ public class StructureForestTree extends AbstractIslandStructure{
 			}
 			
 			// GENERATE
+			
+			boolean hasFace = false;
 			
 			for(int treeY = 0, meta = 0; treeY < treeHeight; treeY++, meta = canGenerateFace && rand.nextInt(12) == 0 ? rand.nextInt(5) : 0){
 				world.setBlock(xx,yy+treeY,zz,BlockList.spooky_log,hasFace ? 0 : meta);
