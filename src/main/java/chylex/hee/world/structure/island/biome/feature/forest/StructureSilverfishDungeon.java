@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
@@ -18,9 +18,10 @@ import chylex.hee.world.loot.IItemPostProcessor;
 import chylex.hee.world.loot.ItemUtil;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 
-public class StructureForestSilverfishDungeon extends AbstractIslandStructure implements ITileEntityGenerator{
+public class StructureSilverfishDungeon extends AbstractIslandStructure implements ITileEntityGenerator{
 	public static WeightedLootList lootDungeon = new WeightedLootList(
 		new LootItemStack(Items.paper).setAmount(1,11).setWeight(36),
 		new LootItemStack(Items.book).setAmount(1,8).setWeight(25),

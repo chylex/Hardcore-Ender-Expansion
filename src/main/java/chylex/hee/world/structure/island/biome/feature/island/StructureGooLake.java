@@ -1,10 +1,11 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
-public class StructureIslandLake extends AbstractIslandStructure{
+public class StructureGooLake extends AbstractIslandStructure{
 	@Override
 	protected boolean generate(Random rand){
 		int xx = getRandomXZ(rand,16),

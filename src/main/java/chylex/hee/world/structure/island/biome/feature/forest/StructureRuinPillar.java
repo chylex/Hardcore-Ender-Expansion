@@ -1,18 +1,19 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
-public class StructureForestRuinPillar extends AbstractIslandStructure{
+public class StructureRuinPillar extends AbstractIslandStructure{
 	private boolean isDeep;
 	private int forcedX, forcedY, forcedZ;
 	
-	public StructureForestRuinPillar setIsDeep(boolean isDeep){
+	public StructureRuinPillar setIsDeep(boolean isDeep){
 		this.isDeep = isDeep;
 		return this;
 	}
 	
-	public StructureForestRuinPillar setForcedCoords(int forcedX, int forcedY, int forcedZ){
+	public StructureRuinPillar setForcedCoords(int forcedX, int forcedY, int forcedZ){
 		this.forcedX = forcedX;
 		this.forcedY = forcedY;
 		this.forcedZ = forcedZ;

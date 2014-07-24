@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
-import chylex.hee.world.structure.island.feature.AbstractIslandStructure;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public abstract class IslandBiomeDecorator{

@@ -1,9 +1,10 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
-public class StructureMountainResourcePit extends AbstractIslandStructure{
+public class StructureResourcePit extends AbstractIslandStructure{
 	@Override
 	protected boolean generate(Random rand){
 		double rad = rand.nextDouble()*2.5D+3.5D;

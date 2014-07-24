@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.feature.ravageddungeon;
+package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import gnu.trove.set.hash.TIntHashSet;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,8 +7,9 @@ import net.minecraft.block.BlockFlower;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
-public class StructureIslandStash extends AbstractIslandStructure{
+public class StructureEndermanStash extends AbstractIslandStructure{
 	private static Block[] blockList;
 	
 	static{

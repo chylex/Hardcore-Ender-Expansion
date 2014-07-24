@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature;
 import java.util.Random;
 import net.minecraft.block.Block;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;

@@ -1,17 +1,18 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.system.util.TimeMeasurement;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
-import chylex.hee.world.structure.island.feature.ravageddungeon.DungeonDir;
-import chylex.hee.world.structure.island.feature.ravageddungeon.DungeonElement;
-import chylex.hee.world.structure.island.feature.ravageddungeon.DungeonElementList;
-import chylex.hee.world.structure.island.feature.ravageddungeon.DungeonElementType;
-import chylex.hee.world.structure.island.feature.ravageddungeon.RavagedDungeonGenerator;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
+import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonDir;
+import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElement;
+import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElementList;
+import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElementType;
+import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.RavagedDungeonGenerator;
 
-public class StructureForestRavagedDungeon extends AbstractIslandStructure{
+public class StructureRavagedDungeon extends AbstractIslandStructure{
 	private static final byte dungW = 26, dungH = 26,
 							  dungHalfW = dungW>>1, dungHalfH = dungH>>1,
 							  scale = 5, scaleHalf = 2,

@@ -21,6 +21,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.ReflectionPublicizer;
@@ -187,6 +188,16 @@ final class CharmEvents{
 				e.entity.worldObj.spawnEntityInWorld(new EntityXPOrb(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,split));
 			}
 		}
+	}
+	
+	/**
+	 * BASIC_MAGIC, EQUALITY
+	 */
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onBlockBreak(BreakEvent e){
+		if (e.getPlayer() == null)return;
+		
+		e.setExpToDrop(e.getExpToDrop()+(int)Math.ceil(getPropMultiplied(e.getPlayer(),"exp",e.getExpToDrop())));
 	}
 	
 	/**

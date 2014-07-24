@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
@@ -6,6 +6,7 @@ import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.island.gen.CaveGenerator;
 
 public class StructureMountainPuzzle extends AbstractIslandStructure{

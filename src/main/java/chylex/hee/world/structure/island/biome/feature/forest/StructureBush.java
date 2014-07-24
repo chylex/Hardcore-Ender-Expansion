@@ -1,9 +1,10 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
-public class StructureForestBush extends AbstractIslandStructure{
+public class StructureBush extends AbstractIslandStructure{
 	@Override
 	protected boolean generate(Random rand){
 		int xx = getRandomXZ(rand,1), zz = getRandomXZ(rand,1), yy = 0;

@@ -4,13 +4,13 @@ import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
-import chylex.hee.world.structure.island.feature.StructureForestBush;
-import chylex.hee.world.structure.island.feature.StructureForestRavagedDungeon;
-import chylex.hee.world.structure.island.feature.StructureForestRuinPillar;
-import chylex.hee.world.structure.island.feature.StructureForestRuinStructure;
-import chylex.hee.world.structure.island.feature.StructureForestRuinStructure.RuinStructureType;
-import chylex.hee.world.structure.island.feature.StructureForestTree;
-import chylex.hee.world.structure.island.feature.StructureForestTree.TreeType;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureBush;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureRavagedDungeon;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureRuinPillar;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureRuinStructure;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureTree;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureRuinStructure.RuinStructureType;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureTree.TreeType;
 
 public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	private static IslandBiomeBase getBiome(){
@@ -22,7 +22,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	 */
 	
 	public void genDeep(){
-		StructureForestTree tree = new StructureForestTree().setCanGenerateFace(true).setLooseSpaceCheck(true);
+		StructureTree tree = new StructureTree().setCanGenerateFace(true).setLooseSpaceCheck(true);
 		
 		for(int attempt = 0, placed = 0; attempt < 10000 && placed < 2900; attempt++){
 			tree.setTreeType(rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL);
@@ -69,7 +69,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	 */
 	
 	public void genRavaged(){
-		StructureForestTree treeGen = new StructureForestTree().setCanGenerateFace(false).setLooseSpaceCheck(false);
+		StructureTree treeGen = new StructureTree().setCanGenerateFace(false).setLooseSpaceCheck(false);
 		
 		for(int attempt = 0, placed = 0; attempt < 1600 && placed < 420; attempt++){
 			treeGen.setTreeType(rand.nextInt(4) == 0 ? TreeType.SIMPLE_PYRAMID : rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL);
@@ -105,7 +105,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		}
 		
 		for(int attempt = 0; attempt < 3; attempt++){
-			if (generateStructure(new StructureForestRavagedDungeon(),getBiome()))break;
+			if (generateStructure(new StructureRavagedDungeon(),getBiome()))break;
 		}
 		
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
@@ -127,9 +127,9 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	 */
 	
 	public void genRuins(){
-		StructureForestRuinPillar ruin = new StructureForestRuinPillar();
+		StructureRuinPillar ruin = new StructureRuinPillar();
 		
-		StructureForestBush bush = new StructureForestBush();
+		StructureBush bush = new StructureBush();
 		for(int attempt = 0; attempt < 280; attempt++)generateStructure(bush,getBiome());
 		
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
@@ -139,7 +139,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			}
 		}
 
-		StructureForestTree tree = new StructureForestTree().setCanGenerateFace(false).setLooseSpaceCheck(false);
+		StructureTree tree = new StructureTree().setCanGenerateFace(false).setLooseSpaceCheck(false);
 		
 		for(int attempt = 0; attempt < 650; attempt++){
 			tree.setTreeType(TreeType.values()[rand.nextInt(TreeType.values().length)]);
@@ -218,7 +218,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			}
 		}
 		
-		StructureForestRuinStructure structure = new StructureForestRuinStructure();
+		StructureRuinStructure structure = new StructureRuinStructure();
 		
 		for(int attempt = 0; attempt < 42; attempt++){
 			structure.setStructureType(RuinStructureType.WALL); // TODO

@@ -3,8 +3,8 @@ import net.minecraft.block.BlockFalling;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
-import chylex.hee.world.structure.island.feature.StructureIslandLake;
-import chylex.hee.world.structure.island.feature.StructureIslandStash;
+import chylex.hee.world.structure.island.biome.feature.island.StructureGooLake;
+import chylex.hee.world.structure.island.biome.feature.island.StructureEndermanStash;
 
 public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	private static IslandBiomeBase getBiome(){
@@ -16,13 +16,13 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	 */
 	
 	public void genHomeland(){ // TODO temp
-		StructureIslandLake lake = new StructureIslandLake();
+		StructureGooLake lake = new StructureGooLake();
 		
 		for(int attempt = 0, placed = 0, amount = rand.nextInt(3)+5; attempt < 170 && placed < amount; attempt++){
 			if (generateStructure(lake,getBiome()))++placed;
 		}
 		
-		StructureIslandStash stash = new StructureIslandStash();
+		StructureEndermanStash stash = new StructureEndermanStash();
 		
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
 			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){	

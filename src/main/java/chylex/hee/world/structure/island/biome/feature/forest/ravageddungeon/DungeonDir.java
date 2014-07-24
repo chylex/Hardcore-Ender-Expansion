@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.feature.ravageddungeon;
+package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import java.util.Random;
 
 public enum DungeonDir{

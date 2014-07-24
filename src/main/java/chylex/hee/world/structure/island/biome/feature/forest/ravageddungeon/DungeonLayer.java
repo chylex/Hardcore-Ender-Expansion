@@ -1,10 +1,10 @@
-package chylex.hee.world.structure.island.feature.ravageddungeon;
+package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import gnu.trove.set.hash.TIntHashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import chylex.hee.world.structure.island.feature.ravageddungeon.DungeonElementType.RoomShape;
+import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElementType.RoomShape;
 
 public final class DungeonLayer{
 	private final DungeonElementType[][] elementArray;

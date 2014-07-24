@@ -1,10 +1,11 @@
-package chylex.hee.world.structure.island.feature;
+package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
+import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
-public class StructureForestTree extends AbstractIslandStructure{
+public class StructureTree extends AbstractIslandStructure{
 	public static enum TreeType{
 		SIMPLE_PYRAMID(1), SIMPLE_BULGING(1), SIMPLE_SPHERICAL(2);
 		
@@ -19,17 +20,17 @@ public class StructureForestTree extends AbstractIslandStructure{
 	private boolean canGenerateFace;
 	private boolean looseSpaceCheck;
 	
-	public StructureForestTree setTreeType(TreeType treeType){
+	public StructureTree setTreeType(TreeType treeType){
 		this.treeType = treeType;
 		return this;
 	}
 	
-	public StructureForestTree setCanGenerateFace(boolean canGenerateFace){
+	public StructureTree setCanGenerateFace(boolean canGenerateFace){
 		this.canGenerateFace = canGenerateFace;
 		return this;
 	}
 	
-	public StructureForestTree setLooseSpaceCheck(boolean looseSpaceCheck){
+	public StructureTree setLooseSpaceCheck(boolean looseSpaceCheck){
 		this.looseSpaceCheck = looseSpaceCheck;
 		return this;
 	}
