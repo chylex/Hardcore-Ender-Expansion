@@ -16,9 +16,9 @@ public enum CharmType{
 	}),
 	
 	BASIC_VIGOR(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(6).rune(VIGOR,3).prop("regenspd",20),
-		new CharmRecipe(7).rune(VIGOR,4).prop("regenspd",40),
-		new CharmRecipe(8).rune(VIGOR,5).prop("regenspd",55)
+		new CharmRecipe(6).rune(VIGOR,3).prop("regenspd",0.80F),
+		new CharmRecipe(7).rune(VIGOR,4).prop("regenspd",0.60F),
+		new CharmRecipe(8).rune(VIGOR,5).prop("regenspd",0.45F)
 	}),
 	
 	BASIC_DEFENSE(0,0x000000,0x000000,new CharmRecipe[]{
@@ -33,12 +33,8 @@ public enum CharmType{
 		new CharmRecipe(14).rune(MAGIC,5).prop("exp",1.30F)
 	}),
 	
-	BASIC_VOID(0,0x000000,0x000000,new CharmRecipe[]{
-		
-	}),
-	
 	EQUALITY(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(18).rune(POWER).rune(AGILITY).rune(VIGOR).rune(DEFENSE).rune(MAGIC).prop("dmg",1.08F).prop("spd",1.05F).prop("regenspd",6).prop("reducedmg",0.03F).prop("exp",1.03F)
+		new CharmRecipe(18).rune(POWER).rune(AGILITY).rune(VIGOR).rune(DEFENSE).rune(MAGIC).prop("dmg",1.08F).prop("spd",1.05F).prop("regenspd",0.94F).prop("reducedmg",0.03F).prop("exp",1.03F)
 	}),
 	
 	BLOCKING(0,0x000000,0x000000,new CharmRecipe[]{
@@ -54,9 +50,9 @@ public enum CharmType{
 	}),
 	
 	DIGESTIVE_RECOVER(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(25).rune(POWER).rune(VIGOR).rune(VOID).prop("healthperhunger",5), // x10
-		new CharmRecipe(26).rune(POWER).rune(VIGOR,2).rune(VOID).prop("healthperhunger",10),
-		new CharmRecipe(27).rune(POWER).rune(VIGOR,3).rune(VOID).prop("healthperhunger",20)
+		new CharmRecipe(25).rune(POWER).rune(VIGOR).rune(VOID).prop("healthperhunger",0.50F),
+		new CharmRecipe(26).rune(POWER).rune(VIGOR,2).rune(VOID).prop("healthperhunger",1.00F),
+		new CharmRecipe(27).rune(POWER).rune(VIGOR,3).rune(VOID).prop("healthperhunger",2.00F)
 	}),
 	
 	LIFE_STEAL(0,0x000000,0x000000,new CharmRecipe[]{
@@ -102,9 +98,9 @@ public enum CharmType{
 	}),
 	
 	HASTE(0,0x000000,0x000000,new CharmRecipe[]{
-		new CharmRecipe(51).rune(AGILITY,2).rune(VOID).prop("breakspd",10),
-		new CharmRecipe(52).rune(AGILITY,3).rune(VOID).prop("breakspd",18),
-		new CharmRecipe(53).rune(AGILITY,4).rune(VOID).prop("breakspd",25)
+		new CharmRecipe(51).rune(AGILITY,2).rune(VOID).prop("breakspd",1.10F),
+		new CharmRecipe(52).rune(AGILITY,3).rune(VOID).prop("breakspd",1.18F),
+		new CharmRecipe(53).rune(AGILITY,4).rune(VOID).prop("breakspd",1.25F)
 	}),
 	
 	CRITICAL_STRIKE(0,0x000000,0x000000,new CharmRecipe[]{
@@ -122,9 +118,23 @@ public enum CharmType{
 		new CharmRecipe(62).rune(VIGOR,3).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.22F).prop("recdurabilityamt",0.25F),
 		new CharmRecipe(63).rune(VIGOR).rune(MAGIC,2).rune(VOID).prop("recdurabilitychance",0.32F).prop("recdurabilityamt",0.16F),
 		new CharmRecipe(64).rune(VIGOR).rune(MAGIC,3).rune(VOID).prop("recdurabilitychance",0.44F).prop("recdurabilityamt",0.12F)
+	}),
+	
+	VOID_RESCUE(0,0x000000,0x000000,new CharmRecipe[]{
+		new CharmRecipe(15).rune(DEFENSE).rune(VOID,3).prop("voidrescue",30),
+		new CharmRecipe(16).rune(DEFENSE,2).rune(VOID,3).prop("voidrescue",20)		
+	}),
+	
+	SLAUGHTER_IMPACT(0,0x000000,0x000000,new CharmRecipe[]{
+		new CharmRecipe(17).rune(POWER).rune(MAGIC).rune(VOID).prop("impactamt",0.60F).prop("impactrad",3F),
+		new CharmRecipe(66).rune(POWER,2).rune(MAGIC).rune(VOID).prop("impactamt",0.90F).prop("impactrad",3F),
+		new CharmRecipe(67).rune(POWER,3).rune(MAGIC).rune(VOID).prop("impactamt",1.40F).prop("impactrad",3F),
+		new CharmRecipe(68).rune(POWER).rune(MAGIC,2).rune(VOID).prop("impactamt",0.70F).prop("impactrad",4.5F),
+		new CharmRecipe(69).rune(POWER).rune(MAGIC,3).rune(VOID).prop("impactamt",0.70F).prop("impactrad",6F),
+		new CharmRecipe(70).rune(POWER,2).rune(MAGIC,2).rune(VOID).prop("impactamt",1.00F).prop("impactrad",4.5F)
 	});
 	
-	// last used id: 65
+	// last used id: 70
 	
 	public static Pair<CharmType,CharmRecipe> getFromDamage(int damage){
 		for(CharmType type:values()){

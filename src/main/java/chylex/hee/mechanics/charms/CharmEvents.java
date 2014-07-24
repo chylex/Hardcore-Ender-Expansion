@@ -1,12 +1,16 @@
 package chylex.hee.mechanics.charms;
 import gnu.trove.list.array.TFloatArrayList;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -15,13 +19,20 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.ReflectionPublicizer;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import cpw.mods.fml.relauncher.Side;
 
 final class CharmEvents{
+	private static final float DEFAULT_PLAYER_SPEED = 0.1F;
+	
 	private static float[] getProp(EntityPlayer player, String prop){
 		CharmPouchInfo info = CharmPouchHandler.getActivePouch(player);
 		if (info == null)return ArrayUtils.EMPTY_FLOAT_ARRAY;
@@ -47,7 +58,33 @@ final class CharmEvents{
 		return finalValue;
 	}
 	
+	private final TObjectIntHashMap<UUID> playerProperties = new TObjectIntHashMap<>();
+	
 	CharmEvents(){}
+	
+	/**
+	 * BASIC_AGILITY, BASIC_VIGOR, EQUALITY
+	 */
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onPlayerTick(PlayerTickEvent e){
+		if (e.side == Side.CLIENT){
+			if (e.phase == Phase.START){
+				// BASIC_AGILITY, EQUALITY
+				float spd = getPropMultiplied(e.player,"spd",DEFAULT_PLAYER_SPEED);
+				if (spd > 0F)e.player.capabilities.setPlayerWalkSpeed(DEFAULT_PLAYER_SPEED+spd);
+			}
+		}
+		else if (e.side == Side.SERVER){
+			if (e.phase == Phase.START){
+				// BASIC_VIGOR, EQUALITY
+				float regen = getPropMultiplied(e.player,"regenspd",40F);
+				
+				if (regen > 0F && playerProperties.adjustOrPutValue(e.player.getGameProfile().getId(),1,0) >= 40F-regen){
+					e.player.heal(1F);
+				}
+			}
+		}
+	}
 	
 	/**
 	 * BASIC_POWER, BASIC_DEFENSE, EQUALITY, BLOCKING, BLOCKING_REFLECTION, CRITICAL_STRIKE, FALLING_PROTECTION, WITCHERY_HARM
@@ -179,9 +216,9 @@ final class CharmEvents{
 				
 				float power = 0.3F, yawRadians = (float)Math.toRadians(e.entityPlayer.rotationYaw), randomAngle = e.entity.worldObj.rand.nextFloat()*(float)Math.PI*2F;
 				
-				newItem.motionX = (-MathHelper.sin(yawRadians)*MathHelper.cos(yawRadians)*power);
-				newItem.motionZ = (MathHelper.cos(yawRadians)*MathHelper.cos(yawRadians)*power);
-				newItem.motionY = (-MathHelper.sin((float)Math.toRadians(e.entity.rotationPitch))*power+0.1F);
+				newItem.motionX = -MathHelper.sin(yawRadians)*MathHelper.cos(yawRadians)*power;
+				newItem.motionZ = MathHelper.cos(yawRadians)*MathHelper.cos(yawRadians)*power;
+				newItem.motionY = -MathHelper.sin((float)Math.toRadians(e.entity.rotationPitch))*power+0.1F;
 
 				power = 0.02F*e.entity.worldObj.rand.nextFloat();
 				newItem.motionX += MathHelper.cos(randomAngle)*power;
@@ -191,5 +228,32 @@ final class CharmEvents{
 				e.entity.worldObj.spawnEntityInWorld(newItem);
 			}
 		}
+	}
+	
+	/**
+	 * DIGESTIVE_RECOVER
+	 */
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onPlayerFinishUsingItem(PlayerUseItemEvent.Finish e){
+		if (e.entity.worldObj.isRemote)return;
+		
+		// DIGESTIVE_RECOVER
+		if (e.item.getItemUseAction() == EnumAction.eat && e.item.getItem() instanceof ItemFood){
+			int hungerRecovered = ((ItemFood)e.item.getItem()).func_150905_g(e.item);
+			
+			float healthRecovered = getPropMultiplied(e.entityPlayer,"healthperhunger",hungerRecovered);
+			if (healthRecovered > 0F)e.entityPlayer.heal(healthRecovered);
+		}
+	}
+	
+	/**
+	 * HASTE
+	 */
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	public void onBreakSpeed(BreakSpeed e){
+		if (e.entity.worldObj.isRemote)return;
+		
+		// HASTE
+		e.newSpeed *= 1F+getPropMultiplied(e.entityPlayer,"breakspd",1F);
 	}
 }
