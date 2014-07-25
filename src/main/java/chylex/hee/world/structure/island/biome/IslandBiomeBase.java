@@ -2,6 +2,7 @@ package chylex.hee.world.structure.island.biome;
 import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -40,7 +41,7 @@ public abstract class IslandBiomeBase{
 	public final byte biomeID;
 	private final KnowledgeRegistration knowledgeRegistration;
 	
-	public final TByteObjectHashMap<WeightedList<SpawnEntry>> spawnEntries;
+	private final TByteObjectHashMap<WeightedList<SpawnEntry>> spawnEntries;
 	protected final WeightedList<BiomeContentVariation> contentVariations;
 	protected final List<BiomeRandomDeviation> randomDeviations;
 	
@@ -53,6 +54,15 @@ public abstract class IslandBiomeBase{
 		this.spawnEntries = new TByteObjectHashMap<>();
 		this.contentVariations = new WeightedList<>();
 		this.randomDeviations = new ArrayList<>();
+	}
+	
+	public Collection<WeightedList<SpawnEntry>> getAllSpawnEntries(){
+		return spawnEntries.valueCollection();
+	}
+	
+	public WeightedList<SpawnEntry> getSpawnEntries(BiomeContentVariation contentVariation){
+		spawnEntries.putIfAbsent(contentVariation.id,new WeightedList<SpawnEntry>());
+		return spawnEntries.get(contentVariation.id);
 	}
 	
 	public final IslandBiomeData generateData(Random rand){

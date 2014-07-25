@@ -11,11 +11,6 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeBurningMountains extends IslandBiomeBase{
-	/*public static enum RareVariationMountains implements IRareVariationEnum{
-		EXTRA_LILYFIRES, MORE_CAVES
-	}
-	*/
-	
 	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1,8);
 	public static final BiomeContentVariation MINE = new BiomeContentVariation(5,5);
 	
@@ -27,7 +22,7 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 		contentVariations.add(SCORCHING);
 		contentVariations.add(MINE);
 		
-		spawnEntries.get(SCORCHING.id).addAll(new SpawnEntry[]{
+		getSpawnEntries(SCORCHING).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobFireGolem.class,14,10),
 			new SpawnEntry(EntityMobScorchingLens.class,10,6)
 		});

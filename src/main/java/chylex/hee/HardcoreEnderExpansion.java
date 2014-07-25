@@ -155,6 +155,7 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerBlock(BlockList.sphalerite, "sphalerite", ItemBlockWithSubtypes.class);
 		GameRegistryUtil.registerBlock(BlockList.ravaged_brick, "ravaged_brick", ItemBlockWithSubtypes.class);
 		GameRegistryUtil.registerBlock(BlockList.dungeon_puzzle, "dungeon_puzzle", ItemBlockWithSubtypes.class);
+		GameRegistryUtil.registerBlock(BlockList.cinder, "cinder");
 		GameRegistryUtil.registerBlock(BlockList.energy_cluster, "energy_cluster");
 		GameRegistryUtil.registerBlock(BlockList.corrupted_energy_high, "corrupted_energy_high");
 		GameRegistryUtil.registerBlock(BlockList.corrupted_energy_low, "corrupted_energy_low");
@@ -172,6 +173,7 @@ public class HardcoreEnderExpansion{
 		BlockList.instability_orb_ore.setHarvestLevel("pickaxe", 3);
 		BlockList.sphalerite.setHarvestLevel("pickaxe", 1);
 		BlockList.end_terrain.setHarvestLevel("pickaxe", 1);
+		BlockList.cinder.setHarvestLevel("pickaxe", 2);
 		BlockList.spooky_log.setHarvestLevel("axe", 0);
 		Blocks.fire.setFireInfo(BlockList.spooky_log, 10, 10);
 		Blocks.fire.setFireInfo(BlockList.spooky_leaves, 40, 30);

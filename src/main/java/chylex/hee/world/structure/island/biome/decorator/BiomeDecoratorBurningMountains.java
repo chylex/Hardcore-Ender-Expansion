@@ -43,7 +43,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){
 				if (rand.nextInt(4) <= 1){
 					for(int a = 0; a < 1+rand.nextInt(6)+rand.nextInt(5); a++){
-						int xx = cx*16+rand.nextInt(16),zz = cz*16+rand.nextInt(16), yy = world.getHighestY(xx,zz);
+						int xx = cx*16+rand.nextInt(16), zz = cz*16+rand.nextInt(16), yy = world.getHighestY(xx,zz);
 						if (world.getBlock(xx,yy,zz) == BlockList.end_terrain){
 							world.setBlock(xx,yy,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire);
 						}

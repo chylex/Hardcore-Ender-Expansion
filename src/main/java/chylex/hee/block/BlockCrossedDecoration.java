@@ -23,17 +23,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
+import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockCrossedDecoration extends BlockFlower implements IShearable, IBlockSubtypes{
 	private static final String[] decorTypes = new String[]{
 		"decor_bullrush_bottom", "decor_bullrush_top", "decor_thorn_bush", "decor_infested_grass", "decor_infested_fern", "decor_infested_tallgrass",
-		"decor_lily_fire"
+		"decor_lily_fire", "decor_violet_moss_tall", "decor_violet_moss_moderate", "decor_violet_moss_short"
 	};
 	
 	public static final byte dataThornBush = 2, dataInfestedGrass = 3, dataInfestedFern = 4, dataInfestedTallgrass = 5,
-					   		 dataLilyFire = 6;
+					   		 dataLilyFire = 6, dataVioletMossTall = 7, dataVioletMossModerate = 8, dataVioletMossShort = 9;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
@@ -110,13 +111,21 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		switch(is.getItemDamage()){
-			case BlockCrossedDecoration.dataThornBush: return "tile.crossedDecoration.thornyBush";
-			case BlockCrossedDecoration.dataInfestedFern: return "tile.crossedDecoration.infestedFern";
-			case BlockCrossedDecoration.dataInfestedGrass: return "tile.crossedDecoration.infestedBush";
-			case BlockCrossedDecoration.dataInfestedTallgrass: return "tile.crossedDecoration.infestedGrass";
-			case BlockCrossedDecoration.dataLilyFire: return "tile.crossedDecoration.lilyfire";
+			case dataThornBush: return "tile.crossedDecoration.thornyBush";
+			case dataInfestedFern: return "tile.crossedDecoration.infestedFern";
+			case dataInfestedGrass: return "tile.crossedDecoration.infestedBush";
+			case dataInfestedTallgrass: return "tile.crossedDecoration.infestedGrass";
+			case dataLilyFire: return "tile.crossedDecoration.lilyfire";
+			case dataVioletMossTall: return "tile.crossedDecoration.violetMoss.tall";
+			case dataVioletMossModerate: return "tile.crossedDecoration.violetMoss.moderate";
+			case dataVioletMossShort: return "tile.crossedDecoration.violetMoss.short";
 			default: return "";
 		}
+	}
+
+	@Override
+	public int getRenderType(){
+		return ModCommonProxy.renderIdCrossedDecoration;
 	}
 	
 	@Override

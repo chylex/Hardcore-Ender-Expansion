@@ -20,7 +20,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		
 		contentVariations.add(HOMELAND);
 		
-		spawnEntries.get(HOMELAND.id).addAll(new SpawnEntry[]{
+		getSpawnEntries(HOMELAND).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobEnderGuardian.class,9,30),
 			new SpawnEntry(EntityMobBabyEnderman.class,16,20)
 		});

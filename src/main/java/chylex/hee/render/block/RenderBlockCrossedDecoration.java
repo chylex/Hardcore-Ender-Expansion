@@ -5,13 +5,14 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
+import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderBlockSpookyLeaves implements ISimpleBlockRenderingHandler{
+public class RenderBlockCrossedDecoration implements ISimpleBlockRenderingHandler{
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer){}
 
@@ -35,17 +36,42 @@ public class RenderBlockSpookyLeaves implements ISimpleBlockRenderingHandler{
 
 		long offsetSeed = (x*3129871)^z*116129781L^y;
 		offsetSeed = offsetSeed*offsetSeed*42317861L+offsetSeed*11L;
-		float scale = (float)(1.05D+(((offsetSeed>>16&15L)/15F)-0.5D)*0.08D);
-		posX += (((offsetSeed>>16&15L)/15F)-0.5D)*0.2D;
-		posY += (((offsetSeed>>20&15L)/15F)-1D)*0.15D;
-		posZ += (((offsetSeed>>24&15L)/15F)-0.5D)*0.2D;
+		
+		int meta = world.getBlockMetadata(x,y,z);
+		float scale = 1F, xzScaleMp = 0.45F;
+		
+		switch(meta){
+			case BlockCrossedDecoration.dataInfestedGrass:
+			case BlockCrossedDecoration.dataInfestedTallgrass:
+			case BlockCrossedDecoration.dataInfestedFern:
+			case BlockCrossedDecoration.dataThornBush:
+				posX += (((offsetSeed>>16&15L)/15F)-0.5D)*0.5D;
+				posY += (((offsetSeed>>20&15L)/15F)-1D)*0.2D;
+				posZ += (((offsetSeed>>24&15L)/15F)-0.5D)*0.5D;
+				break;
+				
+			case BlockCrossedDecoration.dataLilyFire:
+				posX += (((offsetSeed>>16&15L)/15F)-0.5D)*0.3D;
+				posZ += (((offsetSeed>>24&15L)/15F)-0.5D)*0.3D;
+				break;
+				
+			case BlockCrossedDecoration.dataVioletMossTall:
+			case BlockCrossedDecoration.dataVioletMossModerate:
+			case BlockCrossedDecoration.dataVioletMossShort:
+				scale = (float)(0.65D+(((offsetSeed>>8&15L)/15F)-0.5D)*0.1D);
+				xzScaleMp = (float)(0.4D+(((offsetSeed>>8&15L)/15F)-0.5D)*0.15D);
+				posX += (((offsetSeed>>16&15L)/15F)-0.5D)*0.6D;
+				posY += (((offsetSeed>>20&15L)/15F)-1D)*0.1D;
+				posZ += (((offsetSeed>>24&15L)/15F)-0.5D)*0.6D;
+				break;
+		}
 
-		drawCrossedSquares(block,world.getBlockMetadata(x,y,z),posX,posY,posZ,scale,renderer);
+		drawCrossedSquares(block,meta,posX,posY,posZ,scale,xzScaleMp,renderer);
 
 		return true;
 	}
 
-	private void drawCrossedSquares(Block block, int meta, double x, double y, double z, float scale, RenderBlocks renderer){
+	private void drawCrossedSquares(Block block, int meta, double x, double y, double z, float scale, float xzScaleMp, RenderBlocks renderer){
 		Tessellator tessellator = Tessellator.instance;
 		IIcon icon = renderer.getBlockIconFromSideAndMetadata(block,0,meta);
 
@@ -58,16 +84,11 @@ public class RenderBlockSpookyLeaves implements ISimpleBlockRenderingHandler{
 		double iconV1 = icon.getMinV();
 		double iconU2 = icon.getMaxU();
 		double iconV2 = icon.getMaxV();
-		double finalScale = 0.45D*scale;
+		double finalScale = xzScaleMp*scale;
 		double minX = x+0.5D-finalScale;
 		double maxX = x+0.5D+finalScale;
 		double minZ = z+0.5D-finalScale;
 		double maxZ = z+0.5D+finalScale;
-
-		minX -= xOffset;
-		maxX += xOffset;
-		minZ -= zOffset;
-		maxZ += zOffset;
 
 		tessellator.addVertexWithUV(minX,y+scale,minZ,iconU1,iconV1);
 		tessellator.addVertexWithUV(minX,y,minZ,iconU1,iconV2);
@@ -94,6 +115,6 @@ public class RenderBlockSpookyLeaves implements ISimpleBlockRenderingHandler{
 
 	@Override
 	public int getRenderId(){
-		return ModCommonProxy.renderIdSpookyLeaves;
+		return ModCommonProxy.renderIdCrossedDecoration;
 	}
 }

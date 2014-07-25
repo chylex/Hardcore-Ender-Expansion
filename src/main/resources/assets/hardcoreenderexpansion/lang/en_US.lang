@@ -30,6 +30,9 @@ tile.crossedDecoration.infestedFern.name=Infested Fern
 tile.crossedDecoration.infestedBush.name=Infested Bush
 tile.crossedDecoration.infestedGrass.name=Infested Grass
 tile.crossedDecoration.lilyfire.name=Lilyfire
+tile.crossedDecoration.violetMoss.tall.name=Tall Violet Moss
+tile.crossedDecoration.violetMoss.moderate.name=Moderate Violet Moss
+tile.crossedDecoration.violetMoss.short.name=Short Violet Moss
 tile.endermanHead.name=Enderman Head
 tile.sphalerite.name=Sphalerite
 tile.sphalerite.stardust.name=Sphalerite with Stardust
@@ -40,6 +43,7 @@ tile.dungeonPuzzle.wall.name=Dungeon Puzzle (Wall)
 tile.dungeonPuzzle.wallRock.name=Dungeon Puzzle (Wall Rock)
 tile.dungeonPuzzle.wallLit.name=Dungeon Puzzle (Lit Wall)
 tile.energyCluster.name=Energy Cluster
+tile.cinder.name=Cinder
 
 item.essence.dragon.name=Dragon Essence
 item.essence.fiery.name=Fiery Essence

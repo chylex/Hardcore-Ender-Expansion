@@ -1,5 +1,6 @@
 package chylex.hee.block;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fluids.FluidRegistry;
 import chylex.hee.system.creativetab.CreativeTabItemList;
@@ -16,6 +17,7 @@ public final class BlockList{
 	public static Block end_terrain;
 	public static Block ravaged_brick;
 	public static Block dungeon_puzzle;
+	public static Block cinder;
 	
 	// ORES
 	
@@ -37,7 +39,6 @@ public final class BlockList{
 	
 	public static Block spooky_log;
 	public static Block spooky_leaves;
-	public static Block soul_charm;
 	
 	// TRANSPARENT BLOCKS
 	
@@ -48,6 +49,7 @@ public final class BlockList{
 	public static Block energy_cluster;
 	public static Block corrupted_energy_high;
 	public static Block corrupted_energy_low;
+	public static Block soul_charm;
 	
 	// TECHNICAL
 	
@@ -162,6 +164,10 @@ public final class BlockList{
 		.setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal)
 		.setBlockName("dungeonPuzzle");
 		
+		cinder = new BlockBasic(Material.rock)
+		.setHardness(1F).setResistance(10F).setStepSound(Block.soundTypeStone)
+		.setBlockName("cinder").setBlockTextureName("hardcoreenderexpansion:cinder");
+		
 		energy_cluster = new BlockEnergyCluster()
 		.setHardness(0.7F).setResistance(0.2F).setStepSound(BlockEnergyCluster.soundTypeEnergyCluster)
 		.setBlockName("energyCluster").setBlockTextureName("hardcoreenderexpansion:energy_cluster");
@@ -192,10 +198,16 @@ public final class BlockList{
 			obsidian_end,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			essence_altar,decomposition_table,energy_extraction_table,
 			end_powder_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
-			sphalerite,end_terrain,spooky_log,spooky_leaves,ravaged_brick,dungeon_puzzle,
+			sphalerite,end_terrain,spooky_log,spooky_leaves,ravaged_brick,dungeon_puzzle,cinder,
 			crossed_decoration,death_flower
 		);
 	}
 	
 	private BlockList(){} // static class
+	
+	public static class BlockBasic extends Block{
+		public BlockBasic(Material material){
+			super(material);
+		}
+	}
 }

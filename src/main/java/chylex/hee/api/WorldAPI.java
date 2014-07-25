@@ -26,12 +26,12 @@ public final class WorldAPI extends AbstractAPI{
 		SpawnEntry entry = new SpawnEntry(mobClass,maxAmount,weight);
 		
 		switch(biome){
-			case InfestedForestDeep: IslandBiomeBase.infestedForest.spawnEntries.get(IslandBiomeInfestedForest.DEEP.id).add(entry); break;
-			case InfestedForestRavaged: IslandBiomeBase.infestedForest.spawnEntries.get(IslandBiomeInfestedForest.RAVAGED.id).add(entry); break;
-			case InfestedForestRuins: IslandBiomeBase.infestedForest.spawnEntries.get(IslandBiomeInfestedForest.RUINS.id).add(entry); break;
-			case BurningMountainsScorching: IslandBiomeBase.burningMountains.spawnEntries.get(IslandBiomeBurningMountains.SCORCHING.id).add(entry); break;
-			case BurningMountainsMine: IslandBiomeBase.burningMountains.spawnEntries.get(IslandBiomeBurningMountains.MINE.id).add(entry); break;
-			case EnchantedIslandHomeland: IslandBiomeBase.enchantedIsland.spawnEntries.get(IslandBiomeEnchantedIsland.HOMELAND.id).add(entry); break;
+			case InfestedForestDeep: IslandBiomeBase.infestedForest.getSpawnEntries(IslandBiomeInfestedForest.DEEP).add(entry); break;
+			case InfestedForestRavaged: IslandBiomeBase.infestedForest.getSpawnEntries(IslandBiomeInfestedForest.RAVAGED).add(entry); break;
+			case InfestedForestRuins: IslandBiomeBase.infestedForest.getSpawnEntries(IslandBiomeInfestedForest.RUINS).add(entry); break;
+			case BurningMountainsScorching: IslandBiomeBase.burningMountains.getSpawnEntries(IslandBiomeBurningMountains.SCORCHING).add(entry); break;
+			case BurningMountainsMine: IslandBiomeBase.burningMountains.getSpawnEntries(IslandBiomeBurningMountains.MINE).add(entry); break;
+			case EnchantedIslandHomeland: IslandBiomeBase.enchantedIsland.getSpawnEntries(IslandBiomeEnchantedIsland.HOMELAND).add(entry); break;
 			default:
 		}
 	}

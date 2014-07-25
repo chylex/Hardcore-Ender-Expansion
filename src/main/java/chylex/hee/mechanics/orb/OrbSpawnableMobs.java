@@ -31,7 +31,7 @@ public final class OrbSpawnableMobs{
 		}
 		
 		for(IslandBiomeBase biome:IslandBiomeBase.biomeList){
-			for(WeightedList<SpawnEntry> list:biome.spawnEntries.valueCollection()){
+			for(WeightedList<SpawnEntry> list:biome.getAllSpawnEntries()){
 				for(SpawnEntry entry:list)classList.add(entry.getMobClass());
 			}
 		}
