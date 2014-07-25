@@ -72,9 +72,9 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		for(int a = 0; a < gen.layers.length; a++){
 			DungeonElementList elements = gen.layers[a].getElements();
 			
-			if (a == 0){
-				y = generateEntrance(rand,elements,elements.getAll(DungeonElementType.ENTRANCE).get(0),y);
-			}
+			if (a == 0)y = generateEntrance(rand,elements,elements.getAll(DungeonElementType.ENTRANCE).get(0),y);
+			if (a < gen.layers.length-1)generateDescendRoom(rand,elements,elements.getAll(DungeonElementType.DESCEND).get(0),y);
+			if (a > 0)generateConnections(elements,elements.getAll(DungeonElementType.DESCENDBOTTOM).get(0),y);
 			
 			for(DungeonElement hallway:elements.getAll(DungeonElementType.HALLWAY))generateHallway(rand,elements,hallway,y);
 			for(DungeonElement room:elements.getAll(DungeonElementType.ROOM))generateRoom(rand,elements,room,y);
@@ -111,6 +111,21 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		generateConnections(elements,entrance,y-maxEntranceHeight);
 		
 		return y-maxEntranceHeight;
+	}
+	
+	private void generateDescendRoom(Random rand, DungeonElementList elements, DungeonElement descend, int y){
+		int x = getElementX(descend), z = getElementZ(descend);
+		
+		generateRoom(rand,elements,descend,y);
+		
+		for(int yy = y; yy >= y-hallHeight-2; yy--){
+			for(int xx = x-2; xx <= x+2; xx++){
+				for(int zz = z-2; zz <= z+2; zz++){
+					if (Math.abs(xx-x) <= 1 && Math.abs(zz-z) <= 1 && yy != y-hallHeight-2)world.setBlock(xx,yy,zz,Blocks.air);
+					else world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
+				}
+			}
+		}
 	}
 	
 	private void generateHallway(Random rand, DungeonElementList elements, DungeonElement hallway, int y){
@@ -167,6 +182,8 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 						}
 					}
 				}
+				
+				world.setBlock(getElementX(element)+dir.addX,y+1,getElementZ(element)+dir.addY,Blocks.bedrock);
 			}
 		}
 	}

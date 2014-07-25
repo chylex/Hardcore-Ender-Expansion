@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import java.util.Random;
 
 public enum DungeonElementType{
-	EMPTY('#'), ENTRANCE('E'), HALLWAY(' '), ROOM('+'), DESCEND('V'), END('X');
+	EMPTY('#'), ENTRANCE('E'), HALLWAY(' '), ROOM('+'), DESCEND('V'), DESCENDBOTTOM('T'), END('X');
 	
 	public final char c;
 	
@@ -10,10 +10,10 @@ public enum DungeonElementType{
 		this.c = c;
 	}
 	
-	static enum RoomShape{
+	static enum RoomCombo{
 		LONG, TURN, BLOCK;
 		
-		public static RoomShape random(Random rand){
+		public static RoomCombo random(Random rand, int layer){
 			int n = rand.nextInt(6);
 			
 			if (n == 0)return TURN;

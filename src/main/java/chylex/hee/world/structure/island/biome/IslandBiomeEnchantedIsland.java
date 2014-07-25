@@ -12,6 +12,7 @@ import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	public static final BiomeContentVariation HOMELAND = new BiomeContentVariation(2,6);
+	public static final BiomeContentVariation LABORATORY = new BiomeContentVariation(6,4);
 	
 	private final BiomeDecoratorEnchantedIsland decorator = new BiomeDecoratorEnchantedIsland();
 	

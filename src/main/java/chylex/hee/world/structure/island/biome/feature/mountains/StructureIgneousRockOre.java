@@ -15,9 +15,9 @@ public class StructureIgneousRockOre extends AbstractIslandStructure{
 	
 	@Override
 	protected boolean generate(Random rand){
-		int minX = 0, maxX = ComponentScatteredFeatureIsland.size,
+		int minX = 20, maxX = ComponentScatteredFeatureIsland.size-20,
 			minY = 20, maxY = 60,
-			minZ = 0, maxZ = ComponentScatteredFeatureIsland.size,
+			minZ = 20, maxZ = ComponentScatteredFeatureIsland.size-20,
 			amount, px, py, pz;
 
 		for(int a = 0; a < attempts; a++){

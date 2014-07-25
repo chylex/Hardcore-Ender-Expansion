@@ -52,7 +52,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			for(int attempt = 0; attempt < 100; attempt++){
 				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 70 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
 				if (world.getBlock(xx,yy,zz) == topBlock){
-					world.setBlock(xx,yy,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass);
+					world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass);
 				}
 			}
 			
@@ -60,7 +60,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			for(int attempt = 0; attempt < 85; attempt++){
 				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 60 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
 				if (world.getBlock(xx,yy,zz) == topBlock){
-					world.setBlock(xx,yy,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedFern);
+					world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedFern);
 				}
 			}
 			
@@ -68,7 +68,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			for(int attempt = 0; attempt < 80; attempt++){
 				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 50 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
 				if (world.getBlock(xx,yy,zz) == topBlock){
-					world.setBlock(xx,yy,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass);
+					world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass);
 				}
 			}
 		}
@@ -79,6 +79,11 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	 */
 	
 	public void genRavaged(){
+		// RAVAGED DUNGEON
+		for(int attempt = 0; attempt < 5; attempt++){
+			if (generateStructure(new StructureRavagedDungeon(),getBiome()))break;
+		}
+		
 		// TREES
 		genTree.setCanGenerateFace(false).setLooseSpaceCheck(false);
 		
@@ -89,8 +94,8 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		
 		// PATCHES OF INFESTED GRASS, TALL GRASS AND FERNS
 		for(int pick = 0, pickAmount = rand.nextInt(50)+240; pick < pickAmount; pick++){
-			int xx = getRandomXZ(rand,16),
-				zz = getRandomXZ(rand,16),
+			int xx = getRandomXZ(rand,48),
+				zz = getRandomXZ(rand,48),
 				yy = 8+rand.nextInt(30),
 				type = rand.nextInt(3);
 			
@@ -114,11 +119,6 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 					world.setBlock(px,py+1,pz,BlockList.crossed_decoration,meta);
 				}
 			}
-		}
-		
-		// RAVAGED DUNGEON
-		for(int attempt = 0; attempt < 5; attempt++){
-			if (generateStructure(new StructureRavagedDungeon(),getBiome()))break;
 		}
 		
 		// RANDOM INFESTED GRASS, TALL GRASS AND FERNS

@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Set;
 
 public final class DungeonElementList{
-	private final EnumMap<DungeonElementType,List<DungeonElement>> data = new EnumMap<DungeonElementType,List<DungeonElement>>(DungeonElementType.class);
+	private final EnumMap<DungeonElementType,List<DungeonElement>> data = new EnumMap<>(DungeonElementType.class);
 	private final DungeonElement[] locReference;
 	private final byte width;
 	

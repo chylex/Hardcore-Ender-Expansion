@@ -33,8 +33,10 @@ public class RavagedDungeonGenerator{
 				hasSmallRoom = hasBlockRoom = false;
 				
 				dung = new DungeonLayer(width,height,blockedLocs.get(layer));
-				dung.createEntrance(layer > 0 ? entranceX : rand.nextInt(width),layer > 0 ? entranceY : rand.nextInt(height));
-								
+				
+				if (layer == 0)dung.createEntrance(rand.nextInt(width),rand.nextInt(height));
+				else dung.createDescendBottom(entranceX,entranceY);
+				
 				DungeonElementList elements = dung.getElements();
 				
 				int iteration,attempt,attempts,path,pathLength,test;

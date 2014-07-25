@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElementType.RoomShape;
+import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElementType.RoomCombo;
 
 public final class DungeonLayer{
 	private final DungeonElementType[][] elementArray;
@@ -37,8 +37,26 @@ public final class DungeonLayer{
 	
 	public void createDescend(int x, int y){
 		if (elementList.getTypeAt(x,y) != DungeonElementType.ROOM)throw new IllegalStateException("Cannot create descend, invalid dungeon element!");
+		
+		DungeonElement descend;
 		elementArray[x][y] = DungeonElementType.DESCEND;
-		elementList.add(new DungeonElement(x,y,DungeonElementType.DESCEND));
+		elementList.add(descend = new DungeonElement(x,y,DungeonElementType.DESCEND));
+		
+		for(DungeonDir dir:DungeonDir.values){
+			DungeonElement element = elementList.getAt(x+dir.addX*2,y+dir.addY*2);
+			
+			if (element != null){
+				descend.connect(dir);
+				element.connect(dir.reversed());
+			}
+		}
+	}
+	
+	public void createDescendBottom(int x, int y){
+		this.entranceX = this.x = (byte)x;
+		this.entranceY = this.y = (byte)y;
+		elementArray[x][y] = DungeonElementType.DESCENDBOTTOM;
+		elementList.add(new DungeonElement(x,y,DungeonElementType.DESCENDBOTTOM));
 	}
 	
 	public void createEnd(int x, int y){
@@ -112,10 +130,10 @@ public final class DungeonLayer{
 		if (move(dir,2)){
 			addRoomAt(x,y);
 			
-			if (rand.nextInt(5) <= 1){
-				List < byte[]> rooms = new ArrayList < byte[]>(4);
+			if (rand.nextInt(6) <= 1){
+				List<byte[]> rooms = new ArrayList<byte[]>(4);
 				byte origX = x, origY = y;
-				RoomShape shape = DungeonElementType.RoomShape.random(rand);
+				RoomCombo shape = DungeonElementType.RoomCombo.random(rand,0); // TODO layer
 				
 				switch(shape){
 					case LONG:
@@ -137,7 +155,7 @@ public final class DungeonLayer{
 					case BLOCK:
 						boolean turnWay = rand.nextBoolean();
 						
-						for(int a = 0; a < (shape == RoomShape.TURN ? 2 : 3); a++){
+						for(int a = 0; a < (shape == RoomCombo.TURN ? 2 : 3); a++){
 							move(dir,1);
 							if (!canGenerateRoom(dir)){
 								rooms.clear();
