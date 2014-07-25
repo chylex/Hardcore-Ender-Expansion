@@ -22,39 +22,39 @@ public class StructureRuinPillar extends AbstractIslandStructure{
 	
 	@Override
 	protected boolean generate(Random rand){
-		int xx,yy,zz;
+		int x,y,z;
 		
 		if (forcedY != 0){
-			xx = forcedX;
-			zz = forcedZ;
-			yy = forcedY;
+			x = forcedX;
+			z = forcedZ;
+			y = forcedY;
 		}
 		else{
-			xx = getRandomXZ(rand,0);
-			zz = getRandomXZ(rand,0);
-			yy = world.getHighestY(xx,zz)+1;
+			x = getRandomXZ(rand,0);
+			z = getRandomXZ(rand,0);
+			y = world.getHighestY(x,z)+1;
 		}
 		
-		if (world.getBlock(xx,yy-1,zz) == surface()){
-			int py = yy, height = 1+rand.nextInt(3+rand.nextInt(10));
+		if (world.getBlock(x,y-1,z) == surface()){
+			int py = y, height = 1+rand.nextInt(3+rand.nextInt(10));
 			
-			for(; py < yy+height; py++){
-				placeRandomPillarBlock(world,xx,py,zz,rand);
+			for(; py < y+height; py++){
+				placeRandomPillarBlock(world,x,py,z,rand);
 				if (rand.nextInt(5) == 0)break;
 			}
 			
-			if (rand.nextInt(4) == 0)placeRandomTopBlock(world,xx,py,zz,rand);
+			if (rand.nextInt(4) == 0)placeRandomTopBlock(world,x,py,z,rand);
 			
 			if (isDeep){
 				int undergroundSpike = 4+rand.nextInt(30);
 				int bottomBlockY = 0;
 				
 				for(; bottomBlockY < 30; bottomBlockY++){
-					if (!world.isAir(xx,bottomBlockY,zz))break;
+					if (!world.isAir(x,bottomBlockY,z))break;
 				}
 				
-				for(py = yy-1; py > yy-undergroundSpike && py > bottomBlockY; py--){
-					placeRandomPillarBlock(world,xx,py,zz,rand);
+				for(py = y-1; py > y-undergroundSpike && py > bottomBlockY; py--){
+					placeRandomPillarBlock(world,x,py,z,rand);
 				}
 			}
 			

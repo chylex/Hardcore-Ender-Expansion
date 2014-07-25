@@ -22,13 +22,13 @@ public class StructureIgneousRockOre extends AbstractIslandStructure{
 
 		for(int a = 0; a < attempts; a++){
 			amount = 3+rand.nextInt(4);
-			int xx = rand.nextInt(maxX-minX+1)+minX, yy = rand.nextInt(maxY-minY+1)+minY, zz = rand.nextInt(maxZ-minZ+1)+minZ;
+			int x = rand.nextInt(maxX-minX+1)+minX, y = rand.nextInt(maxY-minY+1)+minY, z = rand.nextInt(maxZ-minZ+1)+minZ;
 			double sqrtAmount = Math.sqrt(amount*2D);
 			
 			for(int attempt = 0, placed = 0; attempt < amount*4 && placed < amount; attempt++){
-				px = xx+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
-				py = yy+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
-				pz = zz+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
+				px = x+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
+				py = y+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
+				pz = z+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*sqrtAmount*rand.nextDouble());
 				
 				if (world.getBlock(px,py,pz) == Blocks.end_stone){
 					world.setBlock(px,py,pz,BlockList.igneous_rock_ore);

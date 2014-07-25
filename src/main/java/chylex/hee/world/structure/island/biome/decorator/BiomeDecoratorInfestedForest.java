@@ -6,30 +6,37 @@ import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.feature.forest.StructureBush;
 import chylex.hee.world.structure.island.biome.feature.forest.StructureRavagedDungeon;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureRuinBuild;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureRuinBuild.RuinStructureType;
 import chylex.hee.world.structure.island.biome.feature.forest.StructureRuinPillar;
-import chylex.hee.world.structure.island.biome.feature.forest.StructureRuinStructure;
-import chylex.hee.world.structure.island.biome.feature.forest.StructureTree;
-import chylex.hee.world.structure.island.biome.feature.forest.StructureRuinStructure.RuinStructureType;
-import chylex.hee.world.structure.island.biome.feature.forest.StructureTree.TreeType;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureSpookyTree;
+import chylex.hee.world.structure.island.biome.feature.forest.StructureSpookyTree.TreeType;
 
 public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	private static IslandBiomeBase getBiome(){
 		return IslandBiomeBase.infestedForest;
 	}
 	
+	private final StructureSpookyTree genTree = new StructureSpookyTree();
+	private final StructureBush genBush = new StructureBush();
+	private final StructureRuinPillar genRuinPillar = new StructureRuinPillar();
+	private final StructureRuinBuild genRuinBuild = new StructureRuinBuild();
+	
 	/*
 	 * DEEP
 	 */
 	
 	public void genDeep(){
-		StructureTree tree = new StructureTree().setCanGenerateFace(true).setLooseSpaceCheck(true);
+		// TREES
+		genTree.setCanGenerateFace(true).setLooseSpaceCheck(true);
 		
 		for(int attempt = 0, placed = 0; attempt < 10000 && placed < 2900; attempt++){
-			tree.setTreeType(rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL);
-			if (generateStructure(tree,getBiome()))++placed;
+			genTree.setTreeType(rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL);
+			if (generateStructure(genTree,getBiome()))++placed;
 		}
 		
 		for(int a = 0; a < 169; a++){
+			// THORNY BUSHES
 			if (rand.nextBoolean() || data.hasDeviation(MORE_THORNY_BUSHES)){
 				for(int attempt = 0; attempt < 18; attempt++){
 					int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = world.getHighestY(xx,zz);
@@ -41,6 +48,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 				}
 			}
 			
+			// INFESTED GRASS
 			for(int attempt = 0; attempt < 100; attempt++){
 				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 70 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
 				if (world.getBlock(xx,yy,zz) == topBlock){
@@ -48,6 +56,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 				}
 			}
 			
+			// INFESTED FERNS
 			for(int attempt = 0; attempt < 85; attempt++){
 				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 60 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
 				if (world.getBlock(xx,yy,zz) == topBlock){
@@ -55,6 +64,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 				}
 			}
 			
+			// INFESTED TALL GRASS
 			for(int attempt = 0; attempt < 80; attempt++){
 				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 50 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
 				if (world.getBlock(xx,yy,zz) == topBlock){
@@ -69,13 +79,15 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	 */
 	
 	public void genRavaged(){
-		StructureTree treeGen = new StructureTree().setCanGenerateFace(false).setLooseSpaceCheck(false);
+		// TREES
+		genTree.setCanGenerateFace(false).setLooseSpaceCheck(false);
 		
 		for(int attempt = 0, placed = 0; attempt < 1600 && placed < 420; attempt++){
-			treeGen.setTreeType(rand.nextInt(4) == 0 ? TreeType.SIMPLE_PYRAMID : rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL);
-			if (generateStructure(treeGen,getBiome()))++placed;
+			genTree.setTreeType(rand.nextInt(4) == 0 ? TreeType.SIMPLE_PYRAMID : rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL);
+			if (generateStructure(genTree,getBiome()))++placed;
 		}
 		
+		// PATCHES OF INFESTED GRASS, TALL GRASS AND FERNS
 		for(int pick = 0, pickAmount = rand.nextInt(50)+240; pick < pickAmount; pick++){
 			int xx = getRandomXZ(rand,16),
 				zz = getRandomXZ(rand,16),
@@ -104,10 +116,12 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			}
 		}
 		
-		for(int attempt = 0; attempt < 3; attempt++){
+		// RAVAGED DUNGEON
+		for(int attempt = 0; attempt < 5; attempt++){
 			if (generateStructure(new StructureRavagedDungeon(),getBiome()))break;
 		}
 		
+		// RANDOM INFESTED GRASS, TALL GRASS AND FERNS
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
 			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){
 				for(int attempt = 0, type; attempt < 120; attempt++){
@@ -127,31 +141,29 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	 */
 	
 	public void genRuins(){
-		StructureRuinPillar ruin = new StructureRuinPillar();
+		// BUSHES
+		for(int attempt = 0; attempt < 280; attempt++)generateStructure(genBush,getBiome());
 		
-		StructureBush bush = new StructureBush();
-		for(int attempt = 0; attempt < 280; attempt++)generateStructure(bush,getBiome());
-		
+		// RANDOM RUIN PILLARS
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
 			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){
-				for(int attempt = 0; attempt < rand.nextInt(6); attempt++)generateStructure(bush,getBiome());
-				for(int attempt = 0, amount = 14+rand.nextInt(7); attempt < amount; attempt++)generateStructure(ruin.setIsDeep(rand.nextInt(20) == 0),getBiome());
+				for(int attempt = 0, amount = 14+rand.nextInt(7); attempt < amount; attempt++)generateStructure(genRuinPillar.setIsDeep(rand.nextInt(20) == 0),getBiome());
 			}
 		}
 
-		StructureTree tree = new StructureTree().setCanGenerateFace(false).setLooseSpaceCheck(false);
+		// TREES
+		genTree.setCanGenerateFace(false).setLooseSpaceCheck(false);
 		
 		for(int attempt = 0; attempt < 650; attempt++){
-			tree.setTreeType(TreeType.values()[rand.nextInt(TreeType.values().length)]);
-			generateStructure(tree,getBiome());
+			genTree.setTreeType(TreeType.values()[rand.nextInt(TreeType.values().length)]);
+			generateStructure(genTree,getBiome());
 		}
 
-		int xx, yy, zz;
-		
+		// CLUSTERS OF RUIN PILLARS
 		for(int bulkAttempt = 0, bulk = 0; bulkAttempt < 18 && bulk < 4+rand.nextInt(3); bulkAttempt++){
-			xx = getRandomXZ(rand,16);
-			zz = getRandomXZ(rand,16);
-			yy = 10+rand.nextInt(30);
+			int xx = getRandomXZ(rand,16);
+			int zz = getRandomXZ(rand,16);
+			int yy = 10+rand.nextInt(30);
 			
 			boolean generates = false;
 			
@@ -176,9 +188,9 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 				
 				for(py = yy-1-rand.nextInt(4); py < yy+4; py++){
 					if (world.getBlock(px,py,pz) == topBlock){
-						ruin.setIsDeep(rand.nextInt(6) == 0);
-						ruin.setForcedCoords(px,py+1,pz);
-						generateStructure(ruin,getBiome());
+						genRuinPillar.setIsDeep(rand.nextInt(6) == 0);
+						genRuinPillar.setForcedCoords(px,py+1,pz);
+						generateStructure(genRuinPillar,getBiome());
 						break;
 					}
 				}
@@ -187,12 +199,11 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			++bulk;
 		}
 		
-		int yAttempt, checkX, checkZ;
-		
+		// COBWEBS
 		for(int attempt = 0; attempt < 1000; attempt++){
-			xx = getRandomXZ(rand,0);
-			zz = getRandomXZ(rand,0);
-			yy = 0;
+			int xx = getRandomXZ(rand,0);
+			int zz = getRandomXZ(rand,0);
+			int yy = 0, yAttempt, checkX, checkZ;
 			
 			boolean canGenerate = false;
 			
@@ -218,11 +229,10 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			}
 		}
 		
-		StructureRuinStructure structure = new StructureRuinStructure();
-		
+		// RUIN BUILDS
 		for(int attempt = 0; attempt < 42; attempt++){
-			structure.setStructureType(RuinStructureType.WALL); // TODO
-			generateStructure(structure,getBiome());
+			genRuinBuild.setStructureType(RuinStructureType.WALL); // TODO
+			generateStructure(genRuinBuild,getBiome());
 		}
 	}
 }

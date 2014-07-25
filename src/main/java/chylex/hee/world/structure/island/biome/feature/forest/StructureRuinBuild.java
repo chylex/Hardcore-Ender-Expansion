@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
-public class StructureRuinStructure extends AbstractIslandStructure{
+public class StructureRuinBuild extends AbstractIslandStructure{
 	public static enum RuinStructureType{
 		WALL(6), PLATEAU(3);
 		
@@ -15,14 +15,14 @@ public class StructureRuinStructure extends AbstractIslandStructure{
 	
 	private RuinStructureType structureType;
 	
-	public StructureRuinStructure setStructureType(RuinStructureType structureType){
+	public StructureRuinBuild setStructureType(RuinStructureType structureType){
 		this.structureType = structureType;
 		return this;
 	}
 	
 	@Override
 	protected boolean generate(Random rand){
-		int xx = getRandomXZ(rand,structureType.rad), zz = getRandomXZ(rand,structureType.rad), yy = world.getHighestY(xx,zz);
+		int x = getRandomXZ(rand,structureType.rad), z = getRandomXZ(rand,structureType.rad), y = world.getHighestY(x,z);
 		
 		if (structureType == RuinStructureType.WALL){
 			
