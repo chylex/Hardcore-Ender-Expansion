@@ -1,6 +1,7 @@
 package chylex.hee.tileentity.spawner;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
@@ -10,121 +11,147 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	protected TileEntityCustomSpawner spawnerTile;
+	protected Entity entityCache;
+	
 	protected int minSpawnDelay = 200;
 	protected int maxSpawnDelay = 800;
 	protected byte spawnRange;
+	protected byte attemptCount = 4;
 	protected byte spawnCount = 4;
 	protected byte maxNearbyEntities = 6;
 	protected byte activatingRangeFromPlayer = 16;
-	protected Entity entityCache;
+	
+	public double renderRotation;
+    public double renderRotationPrev;
 
 	protected CustomSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		this.spawnerTile = spawnerTile;
 	}
+	
+	/*
+	 * METHODS FOR CLASSES THAT EXTEND THIS
+	 */
 
 	public void onBlockBreak(){}
-
-	@Override
-	public void func_98267_a(int i){
-		spawnerTile.getWorldObj().addBlockEvent(spawnerTile.xCoord,spawnerTile.yCoord,spawnerTile.zCoord,Blocks.mob_spawner,i,0);
-	}
-
-	@Override
-	public World getSpawnerWorld(){
-		return spawnerTile.getWorldObj();
-	}
-
-	@Override
-	public int getSpawnerX(){
-		return spawnerTile.xCoord;
-	}
-
-	@Override
-	public int getSpawnerY(){
-		return spawnerTile.yCoord;
-	}
-
-	@Override
-	public int getSpawnerZ(){
-		return spawnerTile.zCoord;
-	}
-
+	
 	@Override
 	public boolean isActivated(){
 		return getSpawnerWorld().getClosestPlayer(getSpawnerX()+0.5D,getSpawnerY()+0.5D,getSpawnerZ()+0.5D,activatingRangeFromPlayer) != null;
 	}
+	
+	protected void resetTimer(){
+		if (maxSpawnDelay <= minSpawnDelay)spawnDelay = minSpawnDelay;
+		else spawnDelay = minSpawnDelay+getSpawnerWorld().rand.nextInt(maxSpawnDelay-minSpawnDelay);
+		func_98267_a(1);
+	}
+	
+	protected AxisAlignedBB getSpawnerCheckBB(){
+		return AxisAlignedBB.getBoundingBox(getSpawnerX(),getSpawnerY(),getSpawnerZ(),getSpawnerX()+1,getSpawnerY()+1,getSpawnerZ()+1).expand(spawnRange*2D,4D,spawnRange*2D);
+	}
+	
+	protected boolean checkSpawnerConditions(){
+		return true;
+	}
+	
+	protected boolean canMobSpawn(EntityLiving entity){
+		return true;
+	}
+	
+	protected void onMobSpawned(EntityLiving entity){}
+	
+	protected abstract EntityLiving createMob(World world);
+	
+	/*
+	 * THESE ARE NOT OVERRIDABLE
+	 */
 
 	@Override
-	public void updateSpawner(){
-		if (isActivated()){
-			if (getSpawnerWorld().isRemote){
-				double x = (getSpawnerX()+getSpawnerWorld().rand.nextFloat());
-				double y = (getSpawnerY()+getSpawnerWorld().rand.nextFloat());
-				double z = (getSpawnerZ()+getSpawnerWorld().rand.nextFloat());
-				getSpawnerWorld().spawnParticle("smoke",x,y,z,0D,0D,0D);
-				getSpawnerWorld().spawnParticle("flame",x,y,z,0D,0D,0D);
+	public final void func_98267_a(int i){
+		spawnerTile.getWorldObj().addBlockEvent(spawnerTile.xCoord,spawnerTile.yCoord,spawnerTile.zCoord,Blocks.mob_spawner,i,0);
+	}
 
-				if (spawnDelay > 0){
-					--spawnDelay;
-				}
+	@Override
+	public final void updateSpawner(){
+		if (!isActivated())return;
 
-				field_98284_d = field_98287_c;
-				field_98287_c = (field_98287_c+(1000.0F/(spawnDelay+200.0F)))%360.0D;
+		World world = getSpawnerWorld();
+		
+		if (getSpawnerWorld().isRemote){
+			double particleX = getSpawnerX()+getSpawnerWorld().rand.nextFloat();
+			double particleY = getSpawnerY()+getSpawnerWorld().rand.nextFloat();
+			double particleZ = getSpawnerZ()+getSpawnerWorld().rand.nextFloat();
+			getSpawnerWorld().spawnParticle("smoke",particleX,particleY,particleZ,0D,0D,0D);
+			getSpawnerWorld().spawnParticle("flame",particleX,particleY,particleZ,0D,0D,0D);
+
+			if (spawnDelay > 0)--spawnDelay;
+
+			renderRotationPrev = renderRotation;
+			renderRotation = (renderRotation+(1000F/(spawnDelay+200F)))%360D;
+		}
+		else{
+			if (spawnDelay == -1)resetTimer();
+
+			if (spawnDelay > 0){
+				--spawnDelay;
+				return;
 			}
-			else{
-				if (spawnDelay == -1){
-					resetTimer();
-				}
+			
+			int spawned = 0;
 
-				if (spawnDelay > 0){
-					--spawnDelay;
+			for(int attempt = 0; attempt < attemptCount && spawned < spawnCount; ++attempt){
+				EntityLiving entity = createMob(getSpawnerWorld());
+				if (entity == null)return;
+
+				int nearby = getSpawnerWorld().getEntitiesWithinAABB(entity.getClass(),getSpawnerCheckBB()).size();
+
+				if (nearby >= maxNearbyEntities || !checkSpawnerConditions()){
+					resetTimer();
 					return;
 				}
 
-				boolean flag = false;
+				double posX = getSpawnerX()+(world.rand.nextDouble()-world.rand.nextDouble())*spawnRange;
+				double posY = getSpawnerY()+getSpawnerWorld().rand.nextInt(3)-1;
+				double posZ = getSpawnerZ()+(world.rand.nextDouble()-world.rand.nextDouble())*spawnRange;
+				entity.setLocationAndAngles(posX,posY,posZ,getSpawnerWorld().rand.nextFloat()*360F,0F);
 
-				for(int i = 0; i < spawnCount; ++i){
-					Entity entity = EntityList.createEntityByName(getEntityNameToSpawn(),getSpawnerWorld());
-					if (entity == null)return;
-
-					int nearby = getSpawnerWorld().getEntitiesWithinAABB(entity.getClass(),AxisAlignedBB.getBoundingBox(getSpawnerX(),getSpawnerY(),getSpawnerZ(),(getSpawnerX()+1),(getSpawnerY()+1),(getSpawnerZ()+1)).expand((spawnRange*2),4.0D,(spawnRange*2))).size();
-
-					if (nearby >= maxNearbyEntities){
-						resetTimer();
-						return;
-					}
-
-					double posX = getSpawnerX()+(getSpawnerWorld().rand.nextDouble()-getSpawnerWorld().rand.nextDouble())*spawnRange;
-					double posY = (getSpawnerY()+getSpawnerWorld().rand.nextInt(3)-1);
-					double posZ = getSpawnerZ()+(getSpawnerWorld().rand.nextDouble()-getSpawnerWorld().rand.nextDouble())*spawnRange;
-					EntityLiving entityliving = entity instanceof EntityLiving?(EntityLiving)entity:null;
-					entity.setLocationAndAngles(posX,posY,posZ,getSpawnerWorld().rand.nextFloat()*360F,0F);
-
-					if (entityliving == null || entityliving.getCanSpawnHere()){
-						func_98265_a(entity); // OBFUSCATED spawn entity
-						getSpawnerWorld().playAuxSFX(2004,getSpawnerX(),getSpawnerY(),getSpawnerZ(),0);
-
-						if (entityliving != null){
-							entityliving.spawnExplosionParticle();
-						}
-
-						flag = true;
-					}
-				}
-
-				if (flag){
-					resetTimer();
+				if (canMobSpawn(entity)){
+					func_98265_a(entity); // OBFUSCATED spawn entity
+					getSpawnerWorld().playAuxSFX(2004,getSpawnerX(),getSpawnerY(),getSpawnerZ(),0);
+					entity.spawnExplosionParticle();
+					
+					onMobSpawned(entity);
+					++spawned;
 				}
 			}
+
+			if (spawned != 0)resetTimer();
 		}
 	}
 
-	protected void resetTimer(){
-		if (maxSpawnDelay <= minSpawnDelay)spawnDelay = minSpawnDelay;
-		else{
-			int i = maxSpawnDelay-minSpawnDelay;
-			spawnDelay = minSpawnDelay+getSpawnerWorld().rand.nextInt(i);
-		}
-		func_98267_a(1);
+	@Override
+	public final World getSpawnerWorld(){
+		return spawnerTile.getWorldObj();
+	}
+
+	@Override
+	public final int getSpawnerX(){
+		return spawnerTile.xCoord;
+	}
+
+	@Override
+	public final int getSpawnerY(){
+		return spawnerTile.yCoord;
+	}
+
+	@Override
+	public final int getSpawnerZ(){
+		return spawnerTile.zCoord;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public final Entity func_98281_h(){
+		if (entityCache == null)entityCache = func_98265_a(createMob(null)); // OBFUSCATED spawn entity
+		return entityCache;
 	}
 }

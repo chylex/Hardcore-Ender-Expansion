@@ -20,9 +20,8 @@ public class EntityMobLouse extends EntityMob{
 		setSize(0.5F,0.5F);
 	}
 	
-	public EntityMobLouse(World world, double x, double y, double z, LouseSpawnData louseData){
+	public EntityMobLouse(World world, LouseSpawnData louseData){
 		this(world);
-		setPosition(x,y,z);
 		this.louseData = louseData;
 	}
 	

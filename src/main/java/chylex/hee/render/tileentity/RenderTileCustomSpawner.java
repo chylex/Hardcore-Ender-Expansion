@@ -2,10 +2,10 @@ package chylex.hee.render.tileentity;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
+import chylex.hee.tileentity.spawner.CustomSpawnerLogic;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,13 +16,13 @@ public class RenderTileCustomSpawner extends TileEntitySpecialRenderer{
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)x+0.5F,(float)y,(float)z+0.5F);
 
-		MobSpawnerBaseLogic logic = ((TileEntityCustomSpawner)tile).getSpawnerLogic();
+		CustomSpawnerLogic logic = ((TileEntityCustomSpawner)tile).getSpawnerLogic();
 		Entity entity = logic.func_98281_h(); // OBFUSCATED spawn entity
 
 		if (entity != null){
 			entity.setWorld(logic.getSpawnerWorld());
 			GL11.glTranslatef(0F,0.4F,0F);
-			GL11.glRotatef((float)(logic.field_98284_d+(logic.field_98287_c-logic.field_98284_d)*partialTickTime)*10F,0F,1F,0F);
+			GL11.glRotatef((float)(logic.renderRotationPrev+(logic.renderRotation-logic.renderRotationPrev)*partialTickTime)*10F,0F,1F,0F);
 			GL11.glRotatef(-30F,1F,0F,0F);
 			GL11.glTranslatef(0F,-0.4F,0F);
 			GL11.glScalef(0.4375F,0.4375F,0.4375F);
