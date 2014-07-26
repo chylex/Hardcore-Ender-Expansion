@@ -1,6 +1,4 @@
 package chylex.hee.entity.mob;
-import chylex.hee.mechanics.spawner.LouseSpawnerLogic.LouseSpawnData;
-import chylex.hee.mechanics.spawner.LouseSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,6 +8,9 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import chylex.hee.mechanics.spawner.LouseSpawnerLogic.LouseSpawnData;
+import chylex.hee.mechanics.spawner.LouseSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
+import chylex.hee.system.util.DragonUtil;
 
 public class EntityMobLouse extends EntityMob{
 	private LouseSpawnData louseData;
@@ -19,6 +20,12 @@ public class EntityMobLouse extends EntityMob{
 		setSize(0.5F,0.5F);
 	}
 	
+	public EntityMobLouse(World world, double x, double y, double z, LouseSpawnData louseData){
+		this(world);
+		setPosition(x,y,z);
+		this.louseData = louseData;
+	}
+	
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
@@ -26,6 +33,11 @@ public class EntityMobLouse extends EntityMob{
 	}
 	
 	private void loadAttributeValues(){
+		if (louseData == null){
+			louseData = new LouseSpawnData((byte)0,getRNG());
+			DragonUtil.warning("Louse spawn data is null!");
+		}
+		
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12D+8D*louseData.attribute(EnumLouseAttribute.HEALTH));
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.7D+0.06D*louseData.attribute(EnumLouseAttribute.SPEED));
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(3D+2.5D*louseData.attribute(EnumLouseAttribute.ATTACK));

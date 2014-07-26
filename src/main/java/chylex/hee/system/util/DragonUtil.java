@@ -10,14 +10,16 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import chylex.hee.entity.boss.EntityBossDragon;
-import cpw.mods.fml.common.FMLLog;
 
 public final class DragonUtil{
-	public static int portalEffectX,portalEffectZ;
+	private static final Logger logger = LogManager.getLogger("HardcoreEnderExpansion");
+	public static int portalEffectX, portalEffectZ;
 	
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAscending(Map<K,V> map){
 		SortedSet<Entry<K,V>> sorted = new TreeSet<>(
@@ -155,19 +157,19 @@ public final class DragonUtil{
 	
 	private static String getMessage(String message, Object...data){
 		for(int a = 0; a < data.length; a++)message = message.replace("%"+a+"%",String.valueOf(data[a]));
-		return "[HardcoreEnderExpansion] "+message;
+		return message;
 	}
 	
 	public static void info(String message, Object...objs){
-		FMLLog.info(getMessage(message,objs));
+		logger.info(getMessage(message,objs));
 	}
 	
 	public static void warning(String message, Object...objs){
-		FMLLog.warning(getMessage(message,objs));
+		logger.warn(getMessage(message,objs));
 	}
 	
 	public static void severe(String message, Object...objs){
-		FMLLog.severe(getMessage(message,objs));
+		logger.error(getMessage(message,objs));
 	}
 	
 	private DragonUtil(){}

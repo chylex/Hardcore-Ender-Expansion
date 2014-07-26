@@ -60,13 +60,16 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	 */
 	
 	private enum EnumHallwayDesign{
-		NONE, DESTROYED_WALLS, EMBEDDED_CHEST
+		NONE, DESTROYED_WALLS, STAIR_PATTERN, EMBEDDED_CHEST, COBWEBS, FLOOR_CEILING_SLABS
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumHallwayDesign>> hallwayDesignList = new WeightedList<>(
-		ObjectWeightPair.make(EnumHallwayDesign.NONE,100),
-		ObjectWeightPair.make(EnumHallwayDesign.EMBEDDED_CHEST,55),
-		ObjectWeightPair.make(EnumHallwayDesign.DESTROYED_WALLS,122)
+		ObjectWeightPair.make(EnumHallwayDesign.NONE, 100),
+		ObjectWeightPair.make(EnumHallwayDesign.EMBEDDED_CHEST, 48),
+		ObjectWeightPair.make(EnumHallwayDesign.DESTROYED_WALLS, 42),
+		ObjectWeightPair.make(EnumHallwayDesign.STAIR_PATTERN, 30),
+		ObjectWeightPair.make(EnumHallwayDesign.COBWEBS, 24),
+		ObjectWeightPair.make(EnumHallwayDesign.FLOOR_CEILING_SLABS, 24)
 	);
 	
 	public void generateHallway(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement hallway){
@@ -87,12 +90,15 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		boolean isStraight = (hallway.checkConnection(DungeonDir.UP) && hallway.checkConnection(DungeonDir.DOWN) && !hallway.checkConnection(DungeonDir.LEFT) && !hallway.checkConnection(DungeonDir.RIGHT)) ||
 							 (hallway.checkConnection(DungeonDir.LEFT) && hallway.checkConnection(DungeonDir.RIGHT) && !hallway.checkConnection(DungeonDir.UP) && !hallway.checkConnection(DungeonDir.DOWN));
 		boolean isDeadEnd = ((hallway.checkConnection(DungeonDir.UP) ? 1 : 0) + (hallway.checkConnection(DungeonDir.DOWN) ? 1 : 0) + (hallway.checkConnection(DungeonDir.LEFT) ? 1 : 0) + (hallway.checkConnection(DungeonDir.RIGHT) ? 1 : 0)) == 1;
+		boolean isFullyOpen = hallway.checkConnection(DungeonDir.UP) && hallway.checkConnection(DungeonDir.LEFT) && hallway.checkConnection(DungeonDir.DOWN) && hallway.checkConnection(DungeonDir.RIGHT);
+		
+		DungeonDir off;
+		Facing offFacing;
+		boolean isLR;
 		
 		switch(design){
-			case DESTROYED_WALLS:
-				int attempts = 80+rand.nextInt(40+rand.nextInt(30));
-				
-				for(int attempt = 0, xx, yy, zz; attempt < attempts; attempt++){
+			case DESTROYED_WALLS:				
+				for(int attempt = 0, attempts = 80+rand.nextInt(40+rand.nextInt(30)), xx, yy, zz; attempt < attempts; attempt++){
 					xx = x+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
 					zz = z+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
 					yy = y+1+rand.nextInt(hallHeight);
@@ -104,21 +110,49 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				
 				break;
 				
+			case STAIR_PATTERN:
+				if (isFullyOpen)break;
+				
+				off = DungeonDir.values[rand.nextInt(DungeonDir.values.length)];
+				while(hallway.checkConnection(off))off = DungeonDir.values[rand.nextInt(DungeonDir.values.length)];
+				offFacing = dirToFacing(off);
+				
+				isLR = off == DungeonDir.LEFT || off == DungeonDir.RIGHT;
+				int metaStairsLeft = (isLR ? offFacing.getRotatedRight() : offFacing.getRotatedLeft()).getStairs()+(rand.nextBoolean() ? 0 : 4),
+					metaStairsRight = (isLR ? offFacing.getRotatedLeft() : offFacing.getRotatedRight()).getStairs()+(rand.nextBoolean() ? 0 : 4);
+				
+				for(int yy = y+1; yy <= y+hallHeight; yy++){
+					for(int ax1 = -1; ax1 <= 1; ax1++){
+						for(int ax2 = 2; ax2 <= 3; ax2++){
+							if (ax2 == 2 && (ax1 == -1 || ax1 == 1)){
+								world.setBlock(x+rotX(off,ax1,2),yy,z+rotZ(off,ax1,2),BlockList.ravaged_brick_stairs,ax1 == -1 ? metaStairsLeft : metaStairsRight);
+								continue;
+							}
+							
+							if (world.getBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2)) != Blocks.end_stone)continue;
+							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air : BlockList.ravaged_brick,ax2 == 2 ? 0 : getBrickMeta(rand));
+						}
+					}
+				}
+				
+				break;
+				
 			case EMBEDDED_CHEST:
 				if (!isStraight && !isDeadEnd)break;
 				
-				DungeonDir off = hallway.checkConnection(DungeonDir.UP) || hallway.checkConnection(DungeonDir.DOWN) ? DungeonDir.LEFT : DungeonDir.UP;
+				off = hallway.checkConnection(DungeonDir.UP) || hallway.checkConnection(DungeonDir.DOWN) ? DungeonDir.LEFT : DungeonDir.UP;
 				if (rand.nextBoolean())off = off.reversed();
 				
-				boolean isLR = off == DungeonDir.LEFT || off == DungeonDir.RIGHT; // metadata is a pile of ass, just die already
+				isLR = off == DungeonDir.LEFT || off == DungeonDir.RIGHT; // TODO metadata is a pile of ass, just die already
 				
-				Facing offFacing = dirToFacing(off);
+				offFacing = dirToFacing(off);
 				
 				int sz = isDeadEnd ? 1 : 2;
 				
 				for(int yy = y+1; yy <= y+hallHeight; yy++){
 					for(int ax1 = -sz; ax1 <= sz; ax1++){
 						for(int ax2 = 2; ax2 <= 3; ax2++){
+							if (world.getBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2)) != Blocks.end_stone)continue;
 							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air : BlockList.ravaged_brick,ax2 == 2 ? 0 : getBrickMeta(rand));
 						}
 						
@@ -138,6 +172,27 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				world.setTileEntityGenerator(x+rotX(off,0,2),y+2,z+rotZ(off,0,2),"hallwayEmbeddedChest",this);
 				break;
 				
+			case COBWEBS:
+				for(int attempt = 0, attempts = 2+rand.nextInt(6*(1+rand.nextInt(2))), xx, yy, zz; attempt < attempts; attempt++){
+					xx = x+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
+					zz = z+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
+					yy = y+1+rand.nextInt(hallHeight);
+					
+					if (world.isAir(xx,yy,zz))world.setBlock(xx,yy,zz,Blocks.web);
+				}
+				break;
+				
+			case FLOOR_CEILING_SLABS:
+				for(int attempt = 0, attempts = 5+rand.nextInt(8), xx, yy, zz; attempt < attempts; attempt++){
+					xx = x+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
+					zz = z+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
+					yy = rand.nextBoolean() ? y+1 : y+hallHeight;
+					
+					if (world.isAir(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.ravaged_brick_slab,yy == y+1 ? 0 : 8);
+				}
+				break;
+				
+			case NONE:
 			default:
 		}
 	}
@@ -165,7 +220,9 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	
 	@Override
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
-		// TODO
+		if (key.equals("hallwayEmbeddedChest")){
+			
+		}
 	}
 	
 	/*

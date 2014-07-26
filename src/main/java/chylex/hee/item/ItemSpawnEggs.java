@@ -141,6 +141,7 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 			try{
 				e = entityClass.getConstructor(World.class).newInstance(world);
 			}catch(NoSuchMethodError | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex){
+				ex.printStackTrace();
 				return null;
 			}
 			
