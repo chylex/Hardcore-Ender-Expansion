@@ -1,7 +1,10 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import scala.actors.threadpool.Arrays;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.system.weight.ObjectWeightPair;
@@ -60,7 +63,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	 */
 	
 	private enum EnumHallwayDesign{
-		NONE, DESTROYED_WALLS, STAIR_PATTERN, EMBEDDED_CHEST, COBWEBS, FLOOR_CEILING_SLABS
+		NONE, DESTROYED_WALLS, STAIR_PATTERN, EMBEDDED_CHEST, COBWEBS, FLOOR_CEILING_SLABS, LAPIS_BLOCK, WALL_MOUNTED_SPAWNERS
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumHallwayDesign>> hallwayDesignList = new WeightedList<>(
@@ -69,7 +72,9 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		ObjectWeightPair.make(EnumHallwayDesign.DESTROYED_WALLS, 42),
 		ObjectWeightPair.make(EnumHallwayDesign.STAIR_PATTERN, 30),
 		ObjectWeightPair.make(EnumHallwayDesign.COBWEBS, 24),
-		ObjectWeightPair.make(EnumHallwayDesign.FLOOR_CEILING_SLABS, 24)
+		ObjectWeightPair.make(EnumHallwayDesign.FLOOR_CEILING_SLABS, 22),
+		ObjectWeightPair.make(EnumHallwayDesign.WALL_MOUNTED_SPAWNERS, 17),
+		ObjectWeightPair.make(EnumHallwayDesign.LAPIS_BLOCK, 8)
 	);
 	
 	public void generateHallway(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement hallway){
@@ -129,7 +134,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 								continue;
 							}
 							
-							if (world.getBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2)) != Blocks.end_stone)continue;
+							if (ax2 == 3 && world.getBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2)) != Blocks.end_stone)continue;
 							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air : BlockList.ravaged_brick,ax2 == 2 ? 0 : getBrickMeta(rand));
 						}
 					}
@@ -152,7 +157,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				for(int yy = y+1; yy <= y+hallHeight; yy++){
 					for(int ax1 = -sz; ax1 <= sz; ax1++){
 						for(int ax2 = 2; ax2 <= 3; ax2++){
-							if (world.getBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2)) != Blocks.end_stone)continue;
+							if (ax2 == 3 && world.getBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2)) != Blocks.end_stone)continue;
 							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air : BlockList.ravaged_brick,ax2 == 2 ? 0 : getBrickMeta(rand));
 						}
 						
@@ -180,16 +185,41 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					
 					if (world.isAir(xx,yy,zz))world.setBlock(xx,yy,zz,Blocks.web);
 				}
+				
 				break;
 				
 			case FLOOR_CEILING_SLABS:
-				for(int attempt = 0, attempts = 5+rand.nextInt(8), xx, yy, zz; attempt < attempts; attempt++){
+				for(int attempt = 0, attempts = 6+rand.nextInt(7), xx, yy, zz; attempt < attempts; attempt++){
 					xx = x+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
 					zz = z+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
 					yy = rand.nextBoolean() ? y+1 : y+hallHeight;
 					
 					if (world.isAir(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.ravaged_brick_slab,yy == y+1 ? 0 : 8);
 				}
+				
+				break;
+				
+			case LAPIS_BLOCK:
+				world.setBlock(x,y,z,Blocks.lapis_block);
+				world.setBlock(x,y-1,z,BlockList.ravaged_brick);
+				break;
+				
+			case WALL_MOUNTED_SPAWNERS:
+				List<DungeonDir> availableDirs = new ArrayList<DungeonDir>(Arrays.asList(DungeonDir.values));
+				
+				for(int attempt = 0, placed = 0; attempt < 1+rand.nextInt(3) && !availableDirs.isEmpty(); attempt++){
+					off = availableDirs.remove(rand.nextInt(availableDirs.size()));
+					
+					if (hallway.checkConnection(off)){
+						if (placed == 0)--attempt;
+						continue;
+					}
+					
+					world.setBlock(x+rotX(off,1,0),y+3,z+rotZ(off,1,0),BlockList.ravaged_brick_slab,8);
+					world.setBlock(x+rotX(off,1,0),y+4,z+rotZ(off,1,0),BlockList.custom_spawner,2);
+					world.setBlock(x+rotX(off,1,0),y+5,z+rotZ(off,1,0),BlockList.ravaged_brick_slab,0);
+				}
+				
 				break;
 				
 			case NONE:

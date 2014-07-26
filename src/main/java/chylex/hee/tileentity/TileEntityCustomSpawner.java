@@ -3,9 +3,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import chylex.hee.mechanics.spawner.CustomSpawnerLogic;
-import chylex.hee.mechanics.spawner.SilverfishSpawnerLogic;
-import chylex.hee.mechanics.spawner.TowerEndermanSpawnerLogic;
+import chylex.hee.tileentity.spawner.CustomSpawnerLogic;
+import chylex.hee.tileentity.spawner.SilverfishSpawnerLogic;
+import chylex.hee.tileentity.spawner.TowerEndermanSpawnerLogic;
 
 public class TileEntityCustomSpawner extends TileEntity{
 	private byte logicId;

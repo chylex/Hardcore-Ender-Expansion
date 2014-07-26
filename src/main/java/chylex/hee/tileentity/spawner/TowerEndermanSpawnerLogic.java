@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.spawner;
+package chylex.hee.tileentity.spawner;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.Entity;

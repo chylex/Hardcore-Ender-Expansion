@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.spawner;
+package chylex.hee.tileentity.spawner;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

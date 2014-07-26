@@ -8,9 +8,9 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.spawner.LouseSpawnerLogic.LouseSpawnData;
-import chylex.hee.mechanics.spawner.LouseSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData;
+import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 
 public class EntityMobLouse extends EntityMob{
 	private LouseSpawnData louseData;
