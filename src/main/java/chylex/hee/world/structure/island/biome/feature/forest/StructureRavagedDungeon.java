@@ -1,8 +1,6 @@
 package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import chylex.hee.block.BlockList;
-import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.system.util.TimeMeasurement;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
@@ -11,6 +9,7 @@ import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.Dun
 import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElementList;
 import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElementType;
 import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.RavagedDungeonGenerator;
+import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.RavagedDungeonPlacer;
 
 public class StructureRavagedDungeon extends AbstractIslandStructure{
 	private static final byte dungW = 26, dungH = 26,
@@ -19,6 +18,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 							  hallHeight = 4, maxEntranceHeight = 10;
 
 	private int islandCenterX, islandCenterZ;
+	private final RavagedDungeonPlacer placer = new RavagedDungeonPlacer(hallHeight);
 	
 	@Override
 	protected boolean generate(Random rand){
@@ -92,76 +92,23 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 	 */
 	
 	private int generateEntrance(Random rand, DungeonElementList elements, DungeonElement entrance, int y){
-		int x = getElementX(entrance), z = getElementZ(entrance);
-		
-		int surfaceY = y-maxEntranceHeight-1;
-		while(++surfaceY <= y){
-			if (world.getBlock(x,surfaceY,z) == surface())break;
-		}
-		
-		for(int yy = surfaceY+5; yy >= y-maxEntranceHeight; yy--){
-			for(int xx = x-2; xx <= x+2; xx++){
-				for(int zz = z-2; zz <= z+2; zz++){
-					if (yy > surfaceY || (Math.abs(xx-x) <= 1 && Math.abs(zz-z) <= 1 && yy != y-maxEntranceHeight))world.setBlock(xx,yy,zz,Blocks.air);
-					else world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
-				}
-			}
-		}
-		
+		placer.generateEntrance(world,rand,getElementX(entrance),y,getElementZ(entrance),maxEntranceHeight,entrance);
 		generateConnections(elements,entrance,y-maxEntranceHeight);
-		
 		return y-maxEntranceHeight;
 	}
 	
 	private void generateDescendRoom(Random rand, DungeonElementList elements, DungeonElement descend, int y){
-		int x = getElementX(descend), z = getElementZ(descend);
-		
 		generateRoom(rand,elements,descend,y);
-		
-		for(int yy = y; yy >= y-hallHeight-2; yy--){
-			for(int xx = x-2; xx <= x+2; xx++){
-				for(int zz = z-2; zz <= z+2; zz++){
-					if (Math.abs(xx-x) <= 1 && Math.abs(zz-z) <= 1 && yy != y-hallHeight-2)world.setBlock(xx,yy,zz,Blocks.air);
-					else world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
-				}
-			}
-		}
+		placer.generateDescend(world,rand,getElementX(descend),y,getElementZ(descend),descend);
 	}
 	
 	private void generateHallway(Random rand, DungeonElementList elements, DungeonElement hallway, int y){
-		int x = getElementX(hallway), z = getElementZ(hallway);
-		
-		for(int yy = y; yy <= y+hallHeight+1; yy++){
-			for(int xx = x-scaleHalf; xx <= x+scaleHalf; xx++){
-				for(int zz = z-scaleHalf; zz <= z+scaleHalf; zz++){
-					if (yy == y || yy == y+hallHeight+1 || xx == x-scaleHalf || xx == x+scaleHalf || zz == z-scaleHalf || zz == z+scaleHalf){
-						world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
-					}
-					else world.setBlock(xx,yy,zz,Blocks.air);
-				}
-			}
-		}
-		
+		placer.generateHallway(world,rand,getElementX(hallway),y,getElementZ(hallway),hallway);
 		generateConnections(elements,hallway,y);
 	}
 	
 	private void generateRoom(Random rand, DungeonElementList elements, DungeonElement room, int y){
-		int x = getElementX(room), z = getElementZ(room);
-		int sz = scale+scaleHalf;
-		
-		for(int yy = y; yy <= y+hallHeight+1; yy++){
-			for(int xx = x-sz; xx <= x+sz; xx++){
-				for(int zz = z-sz; zz <= z+sz; zz++){
-					if (yy == y || yy == y+hallHeight+1 || xx == x-sz || xx == x+sz || zz == z-sz || zz == z+sz){
-						world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
-					}
-					else{
-						world.setBlock(xx,yy,zz,Blocks.air);
-					}
-				}
-			}
-		}
-		
+		placer.generateRoom(world,rand,getElementX(room),y,getElementZ(room),room);
 		generateConnections(elements,room,y);
 	}
 	
@@ -182,8 +129,6 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 						}
 					}
 				}
-				
-				world.setBlock(getElementX(element)+dir.addX,y+1,getElementZ(element)+dir.addY,Blocks.bedrock);
 			}
 		}
 	}
@@ -191,10 +136,6 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 	/*
 	 * OTHER STUFF
 	 */
-	
-	private int getBrickMeta(Random rand){
-		return rand.nextInt(8) != 0 ? 0 : rand.nextInt(7) == 0 ? BlockRavagedBrick.metaCracked : BlockRavagedBrick.metaDamaged1+rand.nextInt(1+BlockRavagedBrick.metaDamaged3-BlockRavagedBrick.metaDamaged1);
-	}
 	
 	private int getElementX(DungeonElement element){
 		return islandCenterX-dungHalfW*scale+element.x*scale+scaleHalf;

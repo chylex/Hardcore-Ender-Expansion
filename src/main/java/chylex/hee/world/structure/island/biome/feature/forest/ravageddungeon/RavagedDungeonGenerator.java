@@ -3,6 +3,7 @@ import gnu.trove.set.hash.TIntHashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElementType.RoomCombo;
 
 public class RavagedDungeonGenerator{
 	private static final Random rand = new Random();
@@ -36,6 +37,13 @@ public class RavagedDungeonGenerator{
 				
 				if (layer == 0)dung.createEntrance(rand.nextInt(width),rand.nextInt(height));
 				else dung.createDescendBottom(entranceX,entranceY);
+				
+				switch(layer){
+					case 0: RoomCombo.setRoomWeights(25,5,0,0); break;
+					case 1: RoomCombo.setRoomWeights(25,8,2,1); break;
+					case 2: RoomCombo.setRoomWeights(25,9,2,3); break;
+					default:
+				}
 				
 				DungeonElementList elements = dung.getElements();
 				

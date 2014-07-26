@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
 public class BlockRavagedBrick extends Block implements IBlockSubtypes{
-	public static byte metaNormal = 0, metaCracked = 1, metaDamaged1 = 2, metaDamaged2 = 3, metaDamaged3 = 4, metaAmount = 5;
+	public static byte metaNormal = 0, metaCracked = 1, metaDamaged1 = 2, metaDamaged2 = 3, metaDamaged3 = 4, metaDamaged4 = 5, metaAmount = 6;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
@@ -35,7 +35,7 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return meta >= metaDamaged1 && meta <= metaDamaged3 && (side == 0 || side == 1) ? iconArray[0] : iconArray[meta < metaAmount ? meta : 0];
+		return meta >= metaDamaged1 && meta <= metaDamaged4 && (side == 0 || side == 1) ? iconArray[0] : iconArray[meta < metaAmount ? meta : 0];
 	}
 	
 	@Override
@@ -47,5 +47,6 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 		iconArray[2] = iconRegister.registerIcon("hardcoreenderexpansion:ravaged_brick_damaged_1");
 		iconArray[3] = iconRegister.registerIcon("hardcoreenderexpansion:ravaged_brick_damaged_2");
 		iconArray[4] = iconRegister.registerIcon("hardcoreenderexpansion:ravaged_brick_damaged_3");
+		iconArray[5] = iconRegister.registerIcon("hardcoreenderexpansion:ravaged_brick_damaged_4");
 	}
 }

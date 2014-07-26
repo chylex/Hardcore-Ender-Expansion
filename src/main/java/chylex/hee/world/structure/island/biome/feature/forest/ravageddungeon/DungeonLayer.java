@@ -127,13 +127,19 @@ public final class DungeonLayer{
 	public int addRoom(DungeonDir dir, Random rand){
 		if (!canGenerateRoom(dir))return 0;
 		
+		int prevX = x, prevY = y;
+		
 		if (move(dir,2)){
 			addRoomAt(x,y);
+			elementList.getAt(x,y).connect(dir.reversed());
+			DungeonElement prevElement = elementList.getAt(prevX,prevY);
+			if (prevElement != null)prevElement.connect(dir);
 			
-			if (rand.nextInt(6) <= 1){
+			RoomCombo shape = DungeonElementType.RoomCombo.random(rand);
+			
+			if (shape != RoomCombo.SINGLE){
 				List<byte[]> rooms = new ArrayList<byte[]>(4);
 				byte origX = x, origY = y;
-				RoomCombo shape = DungeonElementType.RoomCombo.random(rand,0); // TODO layer
 				
 				switch(shape){
 					case LONG:
@@ -168,6 +174,8 @@ public final class DungeonLayer{
 						}
 						
 						break;
+						
+					default:
 				}
 				
 				for(byte[] loc:rooms)addRoomAt(loc[0],loc[1]);

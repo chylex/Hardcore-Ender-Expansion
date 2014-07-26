@@ -18,8 +18,9 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		return b;
 	}
 	
-	public boolean addAll(T[] obj){
-		
+	public boolean addAll(T[] objArray){
+		for(T obj:objArray)super.add(obj);
+		recalculateWeight();
 		return true;
 	}
 	
@@ -37,7 +38,7 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		return b;
 	}
 	
-	protected void recalculateWeight(){
+	public void recalculateWeight(){
 		totalWeight = 0;
 		for(T obj:this)totalWeight += obj.getWeight();
 	}

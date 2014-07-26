@@ -114,6 +114,7 @@ public class ItemBiomeCompass extends Item{
 		if (origChunkX == x2 && origChunkZ == z2 && Math.sqrt(MathUtil.square(x2*16+(featureSize>>1))+MathUtil.square(z2*16+(featureSize>>1))) >= minDistanceFromCenter && coordCheckRand.nextInt(7) <= 4){
 			int x = origChunkX*16, z = origChunkZ*16;
 			coordCheckRand.setSeed(((x/9)*238504L+(z/9)*10058432215L)^is.stackTagCompound.getLong("seed1"));
+			coordCheckRand.nextInt(25);
 			return IslandBiomeBase.pickRandomBiome(coordCheckRand).biomeID;
 		}
 		else return -1;

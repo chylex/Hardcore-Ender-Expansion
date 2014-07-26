@@ -47,6 +47,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.item.block.ItemBlockEndFlower;
 import chylex.hee.item.block.ItemBlockEnhancedTNT;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
+import chylex.hee.item.block.ItemBlockSlab;
 import chylex.hee.item.block.ItemBlockSoulCharm;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
 import chylex.hee.mechanics.MiscEvents;
@@ -154,6 +155,8 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerBlock(BlockList.enderman_head, "enderman_head_block");
 		GameRegistryUtil.registerBlock(BlockList.sphalerite, "sphalerite", ItemBlockWithSubtypes.class);
 		GameRegistryUtil.registerBlock(BlockList.ravaged_brick, "ravaged_brick", ItemBlockWithSubtypes.class);
+		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_slab, "ravaged_brick_slab", ItemBlockSlab.class);
+		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_stairs, "ravaged_brick_stairs");
 		GameRegistryUtil.registerBlock(BlockList.dungeon_puzzle, "dungeon_puzzle", ItemBlockWithSubtypes.class);
 		GameRegistryUtil.registerBlock(BlockList.cinder, "cinder");
 		GameRegistryUtil.registerBlock(BlockList.energy_cluster, "energy_cluster");

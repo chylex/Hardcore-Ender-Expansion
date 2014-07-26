@@ -16,7 +16,7 @@ import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	public static final BiomeContentVariation DEEP = new BiomeContentVariation(0,5);
-	public static final BiomeContentVariation RAVAGED = new BiomeContentVariation(3,3);
+	public static final BiomeContentVariation RAVAGED = new BiomeContentVariation(3,120); // TODO 3
 	public static final BiomeContentVariation RUINS = new BiomeContentVariation(4,2);
 	
 	public static final BiomeRandomDeviation TALL_TREES = new BiomeRandomDeviation(DEEP, RAVAGED);

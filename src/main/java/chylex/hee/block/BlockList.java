@@ -1,9 +1,19 @@
 package chylex.hee.block;
+import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
+import chylex.hee.item.block.ItemBlockSlab.IBlockSlab;
 import chylex.hee.system.creativetab.CreativeTabItemList;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public final class BlockList{
 	public static final CreativeTabItemList tabOrderedList = new CreativeTabItemList();
@@ -16,6 +26,8 @@ public final class BlockList{
 	public static Block obsidian_special_glow;
 	public static Block end_terrain;
 	public static Block ravaged_brick;
+	public static Block ravaged_brick_slab;
+	public static Block ravaged_brick_stairs;
 	public static Block dungeon_puzzle;
 	public static Block cinder;
 	
@@ -68,7 +80,7 @@ public final class BlockList{
 		.setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone)
 		.setBlockName("obsidianEnd").setBlockTextureName("obsidian");
 	
-		obsidian_stairs = new BlockObsidianStairs(Blocks.obsidian,0)
+		obsidian_stairs = new BlockBasicStairs(Blocks.obsidian,0)
 		.setHardness(25F).setResistance(1000F)
 		.setBlockName("obsidianStairs");
 	
@@ -160,6 +172,14 @@ public final class BlockList{
 		.setHardness(2.5F).setResistance(15F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrick");
 		
+		ravaged_brick_slab = new BlockBasicSlab(ravaged_brick)
+		.setHardness(1.25F).setResistance(6F).setStepSound(Block.soundTypePiston)
+		.setBlockName("ravagedBrickSlab").setBlockTextureName("hardcoreenderexpansion:ravaged_brick");
+		
+		ravaged_brick_stairs = new BlockBasicStairs(ravaged_brick,0)
+		.setHardness(1.75F).setResistance(9F).setStepSound(Block.soundTypePiston)
+		.setBlockName("ravagedBrickStairs");
+		
 		dungeon_puzzle = new BlockDungeonPuzzle()
 		.setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal)
 		.setBlockName("dungeonPuzzle");
@@ -198,7 +218,7 @@ public final class BlockList{
 			obsidian_end,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			essence_altar,decomposition_table,energy_extraction_table,
 			end_powder_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
-			sphalerite,end_terrain,spooky_log,spooky_leaves,ravaged_brick,dungeon_puzzle,cinder,
+			sphalerite,end_terrain,spooky_log,spooky_leaves,ravaged_brick,ravaged_brick_slab,ravaged_brick_stairs,dungeon_puzzle,cinder,
 			crossed_decoration,death_flower
 		);
 	}
@@ -208,6 +228,53 @@ public final class BlockList{
 	public static class BlockBasic extends Block{
 		public BlockBasic(Material material){
 			super(material);
+		}
+	}
+	
+	public static class BlockBasicStairs extends BlockStairs{
+		public BlockBasicStairs(Block sourceBlock, int sourceMetadata){
+			super(sourceBlock,sourceMetadata);
+		}
+	}
+	
+	public static class BlockBasicSlab extends BlockSlab implements IBlockSlab{
+		private final Block fullBlock;
+		
+		public BlockBasicSlab(Block fullBlock){
+			super(false,fullBlock.getMaterial());
+			this.fullBlock = fullBlock;
+		}
+
+		@Override
+		public String func_150002_b(int meta){
+			return getUnlocalizedName();
+		}
+
+		@Override
+		public Block getFullBlock(){
+			return fullBlock;
+		}
+		
+		@Override
+		public Item getItemDropped(int meta, Random rand, int fortune){
+			return Item.getItemFromBlock(this);
+		}
+		
+		@Override
+		protected ItemStack createStackedBlock(int meta){
+			return new ItemStack(Item.getItemFromBlock(this),1,0);
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public Item getItem(World world, int x, int y, int z){
+			return Item.getItemFromBlock(this);
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+	    public IIcon getIcon(int side, int meta){
+			return fullBlock.getIcon(side,0);
 		}
 	}
 }
