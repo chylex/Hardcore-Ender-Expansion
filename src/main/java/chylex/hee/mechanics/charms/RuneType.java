@@ -1,13 +1,13 @@
 package chylex.hee.mechanics.charms;
 
 public enum RuneType{
-	POWER(0,0xff0000), AGILITY(1,0xffff00), VIGOR(2,0x00ff00), DEFENSE(3,0x00ffff), MAGIC(4,0xff00ff), VOID(5,0x888888);
+	POWER(0,"power"), AGILITY(1,"agility"), VIGOR(2,"vigor"), DEFENSE(3,"defense"), MAGIC(4,"magic"), VOID(5,"void");
 	
 	public final byte damage;
-	public final int color;
+	public final String iconSuffix;
 	
-	RuneType(int damage, int color){
+	RuneType(int damage, String iconSuffix){
 		this.damage = (byte)damage;
-		this.color = color;
+		this.iconSuffix = iconSuffix;
 	}
 }

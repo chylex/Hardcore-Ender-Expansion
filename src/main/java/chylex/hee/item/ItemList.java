@@ -153,7 +153,7 @@ public final class ItemList{
 		
 		scorching_pickaxe = new ItemScorchingPickaxe()
 		.setMaxStackSize(1).setMaxDamage(399)
-		.setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpanison:scorching_pickaxe");
+		.setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe");
 		
 		enderman_relic = new ItemEndermanRelic()
 		.setMaxStackSize(1).setMaxDamage(222).setNoRepair()

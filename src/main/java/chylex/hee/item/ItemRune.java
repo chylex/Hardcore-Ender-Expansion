@@ -11,7 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemRune extends Item{
 	@SideOnly(Side.CLIENT)
-	private IIcon iconBack,iconFore;
+	private IIcon[] iconArray;
 	
 	public ItemRune(){
 		setHasSubtypes(true);
@@ -33,31 +33,18 @@ public class ItemRune extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int damage, int pass){
-        return pass == 0 ? iconBack : iconFore;
-    }
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack is, int pass){
-		if (pass == 0)return 16777215;
-		else{
-			RuneType[] types = RuneType.values();
-			int damage = is.getItemDamage();
-			return (damage >= 0 && damage < types.length ? types[damage].color : 0);
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses(){
-		return true;
+	public IIcon getIconFromDamage(int damage){
+		return damage < 0 || damage >= iconArray.length ? iconArray[0] : iconArray[damage];
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IIconRegister iconRegister){
-		iconBack = iconRegister.registerIcon(getIconString()+"_back");
-		iconFore = iconRegister.registerIcon(getIconString()+"_fore");
+		RuneType[] types = RuneType.values();
+		iconArray = new IIcon[RuneType.values().length];
+		
+		for(int a = 0; a < iconArray.length; a++){
+			iconArray[a] = iconRegister.registerIcon(iconString+"_"+types[a].iconSuffix);
+		}
 	}
 }
