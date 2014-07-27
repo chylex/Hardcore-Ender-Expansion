@@ -2,6 +2,7 @@ package chylex.hee.mechanics.charms;
 import static chylex.hee.mechanics.charms.RuneType.*;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.item.ItemSpectralWand;
 
 public enum CharmType{	
 	BASIC_POWER(15, 0, new CharmRecipe[]{
@@ -42,13 +43,13 @@ public enum CharmType{
 		new CharmRecipe(19).rune(POWER).rune(DEFENSE).rune(VOID).prop("reducedmgblock",0.20F),
 		new CharmRecipe(20).rune(POWER).rune(DEFENSE,2).rune(VOID).prop("reducedmgblock",0.32F),
 		new CharmRecipe(21).rune(POWER).rune(DEFENSE,3).rune(VOID).prop("reducedmgblock",0.45F)
-	}, ""),
+	}, "lit,-$perc,reducedmgblock$s$lang,damagetaken$s$lang,whenblocking"),
 	
 	BLOCKING_REFLECTION(1, 0, new CharmRecipe[]{
 		new CharmRecipe(22).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.10F),
 		new CharmRecipe(23).rune(POWER).rune(DEFENSE).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.32F).prop("blockreflectdmg",0.10F),
 		new CharmRecipe(24).rune(POWER).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.20F)
-	}, ""),
+	}, "perc,reducedmgblock$s$lang,chanceto$s$lang,reflect$s$perc,blockreflectdmg,$s$lang,damage$s$lang,whenblocking"),
 	
 	DIGESTIVE_RECOVER(3, 0, new CharmRecipe[]{
 		new CharmRecipe(25).rune(POWER).rune(VIGOR).rune(VOID).prop("healthperhunger",0.50F),
@@ -96,13 +97,13 @@ public enum CharmType{
 	FALLING_PROTECTION(10, 0, new CharmRecipe[]{
 		new CharmRecipe(49).rune(AGILITY,3).rune(DEFENSE).prop("fallblocks",3),
 		new CharmRecipe(50).rune(AGILITY,4).rune(DEFENSE).prop("fallblocks",6)
-	}, ""),
+	}, "lit,+$int,fallblocks$s$lang,blocks"),
 	
 	HASTE(1, 0, new CharmRecipe[]{
 		new CharmRecipe(51).rune(AGILITY,2).rune(VOID).prop("breakspd",1.10F),
 		new CharmRecipe(52).rune(AGILITY,3).rune(VOID).prop("breakspd",1.18F),
 		new CharmRecipe(53).rune(AGILITY,4).rune(VOID).prop("breakspd",1.25F)
-	}, ""),
+	}, "lit,+$perc-1,breakspd$s$lang,digspeed"),
 	
 	CRITICAL_STRIKE(14, 0, new CharmRecipe[]{
 		new CharmRecipe(54).rune(POWER,2).rune(AGILITY).prop("critchance",0.10F).prop("critdmg",1.50F),
@@ -111,7 +112,7 @@ public enum CharmType{
 		new CharmRecipe(57).rune(POWER,2).rune(AGILITY,2).prop("critchance",0.15F).prop("critdmg",1.50F),
 		new CharmRecipe(58).rune(POWER,2).rune(AGILITY,3).prop("critchance",0.22F).prop("critdmg",1.50F),
 		new CharmRecipe(59).rune(POWER,3).rune(AGILITY,3).prop("critchance",0.15F).prop("critdmg",2.00F)
-	}, ""),
+	}, "perc,critchance$s$lang,chanceto$s$lang,deal$s$perc,critdmg$s$lang,damage"),
 	
 	SECOND_DURABILITY(12, 0, new CharmRecipe[]{
 		new CharmRecipe(60).rune(VIGOR).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.28F).prop("recdurabilityamt",0.10F),
@@ -119,7 +120,7 @@ public enum CharmType{
 		new CharmRecipe(62).rune(VIGOR,3).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.22F).prop("recdurabilityamt",0.25F),
 		new CharmRecipe(63).rune(VIGOR).rune(MAGIC,2).rune(VOID).prop("recdurabilitychance",0.32F).prop("recdurabilityamt",0.16F),
 		new CharmRecipe(64).rune(VIGOR).rune(MAGIC,3).rune(VOID).prop("recdurabilitychance",0.44F).prop("recdurabilityamt",0.12F)
-	}, ""),
+	}, "perc,recdurabilitychance$s$lang,chanceto$s$lang,recover$s$perc,recdurabilityamt$s$lang,durability"),
 	
 	VOID_RESCUE(16, 0, new CharmRecipe[]{
 		new CharmRecipe(15).rune(DEFENSE).rune(VOID,3).prop("voidrescue",30),
@@ -174,9 +175,11 @@ public enum CharmType{
 							switch(args[0]){
 								case "lit": build.append(args[1]); break;
 								case "lang": build.append(StatCollector.translateToLocal("charm."+args[1])); break;
+								case "float": build.append(ItemSpectralWand.formatTwoPlaces.format(recipe.getProp(args[1]))); break;
 								case "perc": build.append(Math.round(100F*recipe.getProp(args[1]))).append('%'); break;
 								case "perc1-": build.append(Math.round(100F*(1F-recipe.getProp(args[1])))).append('%'); break;
 								case "perc-1": build.append(Math.round(100F*(recipe.getProp(args[1])-1F))).append('%'); break;
+								case "int": build.append(Math.round(recipe.getProp(args[1]))); break;
 							}
 						}
 						else if (part.equals("s"))build.append(' ');
