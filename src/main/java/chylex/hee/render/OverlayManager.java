@@ -56,8 +56,6 @@ public class OverlayManager{
 		Minecraft mc = Minecraft.getMinecraft();
 		if (mc.thePlayer == null)return;
 		
-		mc.thePlayer.capabilities.setFlySpeed(0.3F); // TODO remove
-		
 		ItemStack is = mc.thePlayer.inventory.getCurrentItem();
 		if (is != null && is.getItem() == ItemList.biome_compass && ItemBiomeCompass.currentBiome != -1){
 			Set<ChunkCoordinates> coords = ItemBiomeCompass.locations.get(ItemBiomeCompass.currentBiome);

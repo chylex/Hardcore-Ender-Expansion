@@ -13,12 +13,12 @@ public class RenderMobLouse extends RenderLiving{
 	private static final ResourceLocation texLouse = new ResourceLocation("textures/entity/enderman/enderman.png"); // TODO dynamic textures
 
 	public RenderMobLouse(){
-		super(new ModelLouse(),1.0F);
+		super(new ModelLouse(),1F);
 	}
 
 	@Override
 	protected void preRenderCallback(EntityLivingBase entityliving, float partialTickTime){
-		GL11.glScalef(0.5F,0.5F,0.5F);
+		GL11.glScalef(0.6F,0.6F,0.6F);
 	}
 
 	@Override

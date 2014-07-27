@@ -11,12 +11,12 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 public class LouseSpawnerLogic extends CustomSpawnerLogic{
 	public LouseSpawnerLogic(TileEntityCustomSpawner spawnerTile){ // TODO finish
 		super(spawnerTile);
-		this.minSpawnDelay = 65;
-		this.maxSpawnDelay = 115;
-		this.spawnRange = 5;
-		this.spawnCount = 2;
-		this.maxNearbyEntities = 6;
-		this.activatingRangeFromPlayer = 127;
+		this.minSpawnDelay = 30;
+		this.maxSpawnDelay = 220;
+		this.spawnRange = 3;
+		this.spawnCount = 3;
+		this.maxNearbyEntities = 7;
+		this.activatingRangeFromPlayer = 32;
 	}
 	
 	@Override
