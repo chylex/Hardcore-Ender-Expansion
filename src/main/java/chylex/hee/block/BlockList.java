@@ -28,6 +28,7 @@ public final class BlockList{
 	public static Block ravaged_brick;
 	public static Block ravaged_brick_slab;
 	public static Block ravaged_brick_stairs;
+	public static Block ravaged_brick_smooth;
 	public static Block dungeon_puzzle;
 	public static Block cinder;
 	
@@ -169,16 +170,20 @@ public final class BlockList{
 		.setBlockName("sphalerite").setBlockTextureName("hardcoreenderexpansion:sphalerite");
 		
 		ravaged_brick = new BlockRavagedBrick()
-		.setHardness(2.5F).setResistance(15F).setStepSound(Block.soundTypePiston)
+		.setHardness(3.5F).setResistance(25F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrick");
 		
 		ravaged_brick_slab = new BlockBasicSlab(ravaged_brick)
-		.setHardness(1.25F).setResistance(6F).setStepSound(Block.soundTypePiston)
+		.setHardness(1.75F).setResistance(12F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrickSlab").setBlockTextureName("hardcoreenderexpansion:ravaged_brick");
 		
 		ravaged_brick_stairs = new BlockBasicStairs(ravaged_brick,0)
-		.setHardness(1.75F).setResistance(9F).setStepSound(Block.soundTypePiston)
+		.setHardness(2.25F).setResistance(20F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrickStairs");
+		
+		ravaged_brick_smooth = new BlockBasic(Material.rock)
+		.setHardness(1F).setResistance(6F).setStepSound(Block.soundTypePiston)
+		.setBlockName("ravagedBrickSmooth").setBlockTextureName("hardcoreenderexpansion:ravaged_brick_smooth");
 		
 		dungeon_puzzle = new BlockDungeonPuzzle()
 		.setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal)
@@ -218,7 +223,8 @@ public final class BlockList{
 			obsidian_end,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			essence_altar,decomposition_table,energy_extraction_table,
 			end_powder_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
-			sphalerite,end_terrain,spooky_log,spooky_leaves,ravaged_brick,ravaged_brick_slab,ravaged_brick_stairs,dungeon_puzzle,cinder,
+			sphalerite,end_terrain,spooky_log,spooky_leaves,
+			ravaged_brick,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_smooth,dungeon_puzzle,cinder,
 			crossed_decoration,death_flower
 		);
 	}

@@ -27,6 +27,11 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 	}
 	
 	@Override
+	public int damageDropped(int meta){
+		return meta;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		for(int a = 0; a < metaAmount; a++)list.add(new ItemStack(item,1,a));

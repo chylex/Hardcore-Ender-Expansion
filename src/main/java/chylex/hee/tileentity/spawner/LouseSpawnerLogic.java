@@ -46,7 +46,7 @@ public class LouseSpawnerLogic extends CustomSpawnerLogic{
 
 	@Override
 	protected EntityLiving createMob(World world){
-		return new EntityMobLouse(world,new LouseSpawnData(0,world.rand));
+		return new EntityMobLouse(world,world == null ? null : new LouseSpawnData(0,world.rand));
 	}
 	
 	public static final class LouseSpawnData{

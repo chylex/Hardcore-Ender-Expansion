@@ -114,7 +114,7 @@ public class RavagedDungeonGenerator{
 				}
 				
 				List<DungeonElement> rooms = elements.getAll(DungeonElementType.ROOM);
-				if (rooms.size() < 9 || (layer < layers.length-1 && !hasSmallRoom) || (layer == layers.length-1 && !hasBlockRoom))continue;
+				if (rooms.size() < 7 || (layer < layers.length-1 && !hasSmallRoom) || (layer == layers.length-1 && !hasBlockRoom))continue;
 				
 				while(true){
 					DungeonElement room = rooms.get(rand.nextInt(rooms.size()));

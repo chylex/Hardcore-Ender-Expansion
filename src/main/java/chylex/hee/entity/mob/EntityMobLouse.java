@@ -7,6 +7,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData;
@@ -34,7 +35,7 @@ public class EntityMobLouse extends EntityMob{
 	private void loadAttributeValues(){
 		if (louseData == null){
 			louseData = new LouseSpawnData((byte)0,getRNG());
-			DragonUtil.warning("Louse spawn data is null!");
+			//DragonUtil.warning("Louse spawn data is null!");
 		}
 		
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12D+8D*louseData.attribute(EnumLouseAttribute.HEALTH));
@@ -50,7 +51,6 @@ public class EntityMobLouse extends EntityMob{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
-		
 	}
 	
 	@Override

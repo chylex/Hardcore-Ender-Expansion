@@ -8,7 +8,7 @@ public final class DungeonElement{
 	public DungeonElement(int x, int y, DungeonElementType type){
 		this.x = (byte)x;
 		this.y = (byte)y;
-		this.size = (byte)(type == DungeonElementType.ROOM || type == DungeonElementType.DESCEND ? 3 : 1);
+		this.size = (byte)(type == DungeonElementType.ROOM || type == DungeonElementType.DESCEND || type == DungeonElementType.END ? 3 : 1);
 		this.type = type;
 		this.connections = new boolean[4];
 	}

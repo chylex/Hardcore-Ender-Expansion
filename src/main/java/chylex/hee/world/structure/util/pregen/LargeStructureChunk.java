@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.system.util.DragonUtil;
@@ -95,7 +96,10 @@ public final class LargeStructureChunk{
 					
 					if (continueY && hasTileEntities && storedTileEntityClues.containsKey(y*256+x*16+z)){
 						String key = storedTileEntityClues.get(y*256+x*16+z);
-						storedTileEntities.get(key).onTileEntityRequested(key,structure.getBlockTileEntity(addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb),world.rand);
+						TileEntity tileEntity = structure.getBlockTileEntity(addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
+						
+						if (tileEntity == null)DragonUtil.severe("Tile entity with key %0% not found!",key);
+						else storedTileEntities.get(key).onTileEntityRequested(key,tileEntity,world.rand);
 					}
 				}
 				

@@ -43,12 +43,12 @@ public class WorldGenBlob extends WorldGenerator{
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (world.getBlock(x-8,y,z) == Blocks.end_stone ||
-			world.getBlock(x+8,y,z) == Blocks.end_stone ||
-			world.getBlock(x,y,z-8) == Blocks.end_stone ||
-			world.getBlock(x,y,z+8) == Blocks.end_stone ||
-			world.getBlock(x,y-8,z) == Blocks.end_stone ||
-			world.getBlock(x,y+8,z) == Blocks.end_stone)return false;
+		if (world.getBlock(x-8,y,z) != Blocks.air ||
+			world.getBlock(x+8,y,z) != Blocks.air ||
+			world.getBlock(x,y,z-8) != Blocks.air ||
+			world.getBlock(x,y,z+8) != Blocks.air ||
+			world.getBlock(x,y-8,z) != Blocks.air ||
+			world.getBlock(x,y+8,z) != Blocks.air)return false;
 
 		WorldGeneratorBlockList blocks = new WorldGeneratorBlockList(world);
 		float rad = rand.nextFloat()*0.8F+rand.nextFloat()*1.9F+1.95F;

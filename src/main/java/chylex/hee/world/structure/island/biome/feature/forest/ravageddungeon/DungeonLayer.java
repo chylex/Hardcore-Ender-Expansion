@@ -68,10 +68,16 @@ public final class DungeonLayer{
 		List<DungeonElement> endElements = new ArrayList<DungeonElement>();
 		
 		for(DungeonElement element:connected){
-			DungeonElement newElement = new DungeonElement(x,y,DungeonElementType.END);
-			endElements.add(element);
-			elementList.add(newElement);
+			elementList.remove(element);
+			
+			DungeonElement newElement = new DungeonElement(element.x,element.y,DungeonElementType.END);
 			elementArray[element.x][element.y] = DungeonElementType.END;
+			endElements.add(newElement);
+			elementList.add(newElement);
+			
+			for(DungeonDir dir:DungeonDir.values){
+				if (element.checkConnection(dir))newElement.connect(dir);
+			}
 		}
 		
 		for(DungeonElement endElement:endElements){

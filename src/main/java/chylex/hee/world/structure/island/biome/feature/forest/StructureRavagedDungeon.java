@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome.feature.forest;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.util.TimeMeasurement;
@@ -74,6 +75,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 			
 			if (a == 0)y = generateEntrance(rand,elements,elements.getAll(DungeonElementType.ENTRANCE).get(0),y);
 			if (a < gen.layers.length-1)generateDescendRoom(rand,elements,elements.getAll(DungeonElementType.DESCEND).get(0),y);
+			else if (a == gen.layers.length-1)generateEnd(rand,elements,elements.getAll(DungeonElementType.END),y);
 			if (a > 0)generateConnections(elements,elements.getAll(DungeonElementType.DESCENDBOTTOM).get(0),y);
 			
 			for(DungeonElement hallway:elements.getAll(DungeonElementType.HALLWAY))generateHallway(rand,elements,hallway,y);
@@ -110,6 +112,20 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 	private void generateRoom(Random rand, DungeonElementList elements, DungeonElement room, int y){
 		placer.generateRoom(world,rand,getElementX(room),y,getElementZ(room),room);
 		generateConnections(elements,room,y);
+	}
+	
+	private void generateEnd(Random rand, DungeonElementList elements, List<DungeonElement> end, int y){
+		if (end.size() != 4)throw new IllegalStateException("Ravaged Dungeon End does not consist of 4 rooms!");
+		
+		int[] x = new int[4], z = new int[4];
+		
+		for(int a = 0; a < 4; a++){
+			x[a] = getElementX(end.get(a));
+			z[a] = getElementZ(end.get(a));
+		}
+		
+		placer.generateEnd(world,rand,x,y,z,end);
+		for(DungeonElement endElement:end)generateConnections(elements,endElement,y);
 	}
 	
 	private void generateConnections(DungeonElementList elements, DungeonElement element, int y){
