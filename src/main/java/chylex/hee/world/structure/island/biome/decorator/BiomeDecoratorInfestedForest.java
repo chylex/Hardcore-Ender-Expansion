@@ -155,7 +155,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		genTree.setCanGenerateFace(false).setLooseSpaceCheck(false);
 		
 		for(int attempt = 0; attempt < 650; attempt++){
-			genTree.setTreeType(TreeType.values()[rand.nextInt(TreeType.values().length)]);
+			genTree.setTreeType(TreeType.values[rand.nextInt(TreeType.values.length)]);
 			generateStructure(genTree,getBiome());
 		}
 

@@ -71,7 +71,7 @@ final class CharmEvents{
 		if (e.side == Side.CLIENT){
 			if (e.phase == Phase.START){
 				// BASIC_AGILITY, EQUALITY
-				float spd = getPropMultiplied(e.player,"spd",DEFAULT_PLAYER_SPEED);
+				float spd = getPropMultiplied(e.player,"spd",DEFAULT_PLAYER_SPEED); // TODO attributes
 				if (spd > 0F)e.player.capabilities.setPlayerWalkSpeed(DEFAULT_PLAYER_SPEED+spd);
 			}
 		}

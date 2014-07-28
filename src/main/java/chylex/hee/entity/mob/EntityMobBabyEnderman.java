@@ -55,7 +55,7 @@ public class EntityMobBabyEnderman extends EntityMob{
 		setSize(0.5F,1.26F);
 		stepHeight = 1F;
 		
-		for(ItemPriorityLevel level:ItemPriorityLevel.values())itemPriorities.add(level);
+		for(ItemPriorityLevel level:ItemPriorityLevel.values)itemPriorities.add(level);
 		for(int a = 0,index1,index2,size = itemPriorities.size(); a < rand.nextInt(20); a++){
 			index1 = rand.nextInt(size);
 			index2 = rand.nextInt(size);
@@ -456,6 +456,8 @@ enum ItemPriorityLevel{
 			return true;
 		}
 	});
+	
+	static final ItemPriorityLevel[] values = values();
 	
 	private IItemSelector selector;
 	

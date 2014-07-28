@@ -20,15 +20,14 @@ public class ItemRune extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list){
-		for(RuneType runeType:RuneType.values())list.add(new ItemStack(item,1,runeType.damage));
+		for(RuneType runeType:RuneType.values)list.add(new ItemStack(item,1,runeType.damage));
 		
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		RuneType[] types = RuneType.values();
 		int damage = is.getItemDamage();
-		return "item.rune."+(damage >= 0 && damage < types.length ? types[damage].name().toLowerCase() : "invalid");
+		return "item.rune."+(damage >= 0 && damage < RuneType.values.length ? RuneType.values[damage].name().toLowerCase() : "invalid");
 	}
 	
 	@Override
@@ -40,11 +39,10 @@ public class ItemRune extends Item{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IIconRegister iconRegister){
-		RuneType[] types = RuneType.values();
-		iconArray = new IIcon[RuneType.values().length];
+		iconArray = new IIcon[RuneType.values.length];
 		
 		for(int a = 0; a < iconArray.length; a++){
-			iconArray[a] = iconRegister.registerIcon(iconString+"_"+types[a].iconSuffix);
+			iconArray[a] = iconRegister.registerIcon(iconString+"_"+RuneType.values[a].iconSuffix);
 		}
 	}
 }

@@ -9,6 +9,8 @@ public class StructureSpookyTree extends AbstractIslandStructure{
 	public static enum TreeType{
 		SIMPLE_PYRAMID(1), SIMPLE_BULGING(1), SIMPLE_SPHERICAL(2);
 		
+		public static final TreeType[] values = values();
+		
 		final byte rad;
 		
 		TreeType(int rad){
