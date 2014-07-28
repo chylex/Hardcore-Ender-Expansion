@@ -29,14 +29,22 @@ public class EntityMobLouse extends EntityMob{
 	}
 	
 	@Override
-	protected void applyEntityAttributes(){
-		super.applyEntityAttributes();
-		loadAttributeValues();
+	protected void entityInit(){
+		super.entityInit();
+		dataWatcher.addObject(16,"");
 	}
 	
-	private void loadAttributeValues(){
+	@Override
+	protected void applyEntityAttributes(){
+		super.applyEntityAttributes();
+		updateLouseData();
+	}
+	
+	private void updateLouseData(){
+		if (worldObj.isRemote)return;
+		
 		if (louseData == null){
-			louseData = new LouseSpawnData((byte)0,getRNG());
+			louseData = new LouseSpawnData((byte)rand.nextInt(LouseSpawnData.maxLevel),getRNG());
 			//DragonUtil.warning("Louse spawn data is null!");
 		}
 		
@@ -46,6 +54,8 @@ public class EntityMobLouse extends EntityMob{
 		
 		armorCapacity = (byte)MathUtil.square(louseData.attribute(EnumLouseAttribute.ARMOR));
 		if (armorCapacity > 0)armorCapacity *= 6;
+		
+		dataWatcher.updateObject(16,louseData.serializeToString());
 	}
 	
 	@Override
@@ -56,6 +66,8 @@ public class EntityMobLouse extends EntityMob{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
+		
+		if (worldObj.isRemote && louseData == null)louseData = new LouseSpawnData(dataWatcher.getWatchableObjectString(16));
 	}
 	
 	@Override
@@ -93,7 +105,7 @@ public class EntityMobLouse extends EntityMob{
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
 		louseData = new LouseSpawnData(nbt.getCompoundTag("louseData"));
-		loadAttributeValues();
+		updateLouseData();
 	}
 
 	@Override

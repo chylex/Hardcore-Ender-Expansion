@@ -36,7 +36,7 @@ public class RenderMobLouse extends RenderLiving{
 	private static final Random runeTexRand = new Random();
 
 	public RenderMobLouse(){
-		super(new ModelLouse(),0.65F);
+		super(new ModelLouse(),0.4F);
 	}
 	
 	private enum RuneColor{
@@ -74,6 +74,7 @@ public class RenderMobLouse extends RenderLiving{
 			
 			Set<EnumLouseAttribute> attributes = louseData.getAttributeSet();
 			Set<EnumLouseAbility> abilities = louseData.getAbilitySet();
+			//System.out.println(attributes.size()+", "+abilities.size());
 			
 			if (attributes.isEmpty() && abilities.isEmpty())return -1;
 			
@@ -94,15 +95,11 @@ public class RenderMobLouse extends RenderLiving{
 			}
 			
 			runeTexRand.setSeed(42);
-			for(EnumLouseAttribute attribute:attributes)runeTexRand.nextInt(attribute.ordinal());
-			for(EnumLouseAbility ability:abilities)runeTexRand.nextInt(ability.ordinal());
+			for(EnumLouseAttribute attribute:attributes)runeTexRand.nextInt(1+attribute.ordinal());
+			for(EnumLouseAbility ability:abilities)runeTexRand.nextInt(1+ability.ordinal());
 			
-			if (pass == 1){
-				
-			}
-			else{
-				
-			}
+			if (pass == 1)res = texLouseRuneBottom[runeTexRand.nextInt(texLouseRuneBottom.length)];
+			else res = texLouseRuneTop[runeTexRand.nextInt(texLouseRuneTop.length)];
 			
 			bindTexture(res);
 			GL11.glMatrixMode(GL11.GL_TEXTURE);
@@ -110,8 +107,9 @@ public class RenderMobLouse extends RenderLiving{
 			setRenderPassModel(mainModel);
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glEnable(GL11.GL_BLEND);
-			GL11.glColor4f(color.red,color.green,color.blue,1F);
 			GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
+			
+			GL11.glColor4f(color.red*0.9F,color.green*0.9F,color.blue*0.9F,1F); // TODO tweak color
 			
 			return 1;
 		}
