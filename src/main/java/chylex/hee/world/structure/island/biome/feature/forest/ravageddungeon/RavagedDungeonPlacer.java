@@ -12,6 +12,9 @@ import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
+import chylex.hee.tileentity.TileEntityCustomSpawner;
+import chylex.hee.tileentity.spawner.LouseSpawnerLogic;
+import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
@@ -21,9 +24,14 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	private static final byte radEntrance = 2, radHallway = 2, radRoom = 7;
 	
 	private final byte hallHeight;
+	private byte level;
 	
 	public RavagedDungeonPlacer(int hallHeight){
 		this.hallHeight = (byte)hallHeight;
+	}
+	
+	public void setDungeonLevel(int level){
+		this.level = (byte)level;
 	}
 	
 	/*
@@ -259,6 +267,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					
 					world.setBlock(x+rotX(off,0,-1),y+2,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab,8);
 					world.setBlock(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),BlockList.custom_spawner,2);
+					world.setTileEntityGenerator(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),"louseSpawner",this);
 					world.setBlock(x+rotX(off,0,-1),y+4,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab,0);
 				}
 				
@@ -274,6 +283,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					
 					if (world.getBlock(xx,yy,zz) == BlockList.ravaged_brick){
 						world.setBlock(xx,yy,zz,BlockList.custom_spawner,spawnerMeta);
+						if (spawnerMeta == 2)world.setTileEntityGenerator(xx,yy,zz,"louseSpawner",this);
 						++placed;
 					}
 				}
@@ -373,6 +383,10 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		}
 		else if (key.equals("hallwayDeadEndChest")){
 			// TODO rare
+		}
+		else if (key.equals("louseSpawner")){
+			LouseSpawnerLogic logic = (LouseSpawnerLogic)((TileEntityCustomSpawner)tile).getSpawnerLogic();
+			logic.setLouseSpawnData(new LouseSpawnData(level,rand));
 		}
 		else if (key.equals("flowerPot")){
 			TileEntityFlowerPot flowerPot = (TileEntityFlowerPot)tile;

@@ -2,6 +2,7 @@ package chylex.hee.recipes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
@@ -52,10 +53,24 @@ public final class RecipeList{
 			'I', Blocks.iron_block
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.biome_compass), // TODO review later
+			"PSP", "SCS", "PSP",
+			'P', ItemList.end_powder,
+			'S', ItemList.stardust,
+			'C', Items.compass
+		);
+		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.spectral_wand),
 			"  E", " S ", "E  ",
 			'E', ItemList.ectoplasm,
 			'S', Items.stick
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.charm_pouch),
+			"PLP", "LRL", "PLP",
+			'P', ItemList.end_powder,
+			'L', Items.leather,
+			'R', new ItemStack(ItemList.rune,1,OreDictionary.WILDCARD_VALUE)
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.spooky_log),

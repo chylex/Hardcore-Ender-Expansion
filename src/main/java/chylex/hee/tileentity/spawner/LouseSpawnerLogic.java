@@ -3,7 +3,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -13,14 +12,20 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class LouseSpawnerLogic extends CustomSpawnerLogic{
-	public LouseSpawnerLogic(TileEntityCustomSpawner spawnerTile){ // TODO finish
+	private LouseSpawnData louseData;
+	
+	public LouseSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		super(spawnerTile);
 		this.minSpawnDelay = 30;
-		this.maxSpawnDelay = 220;
+		this.maxSpawnDelay = 230;
 		this.spawnRange = 3;
 		this.spawnCount = 3;
-		this.maxNearbyEntities = 7;
-		this.activatingRangeFromPlayer = 32;
+		this.maxNearbyEntities = 5;
+		this.activatingRangeFromPlayer = 16;
+	}
+	
+	public void setLouseSpawnData(LouseSpawnData louseData){
+		this.louseData = louseData;
 	}
 	
 	@Override
@@ -32,13 +37,13 @@ public class LouseSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	protected boolean checkSpawnerConditions(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return getSpawnerWorld().getEntitiesWithinAABB(EntitySilverfish.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+6,sz+1).expand(40D,30D,40D)).size() > 35;
+		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobLouse.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(20D,20D,20D)).size() <= 20;
 	}
 
 	@Override
 	protected boolean canMobSpawn(EntityLiving entity){
-		for(int yy = 0; yy <= 6; yy++){
-			entity.setLocationAndAngles(entity.posX,getSpawnerY()+yy,entity.posZ,entity.rotationYaw,0F);
+		for(int yy = 0; yy <= 4; yy++){
+			entity.setLocationAndAngles(entity.posX,getSpawnerY()-2+yy,entity.posZ,entity.rotationYaw,0F);
 			
 			if (entity.worldObj.checkNoEntityCollision(entity.boundingBox) && entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty()){
 				return true;
@@ -47,10 +52,22 @@ public class LouseSpawnerLogic extends CustomSpawnerLogic{
 		
 		return false;
 	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt){
+		super.writeToNBT(nbt);
+		nbt.setTag("louseData",louseData.writeToNBT(new NBTTagCompound()));
+	}
+		
+	@Override
+	public void readFromNBT(NBTTagCompound nbt){
+		super.readFromNBT(nbt);
+		louseData = new LouseSpawnData(nbt.getCompoundTag("louseData"));
+	}
 
 	@Override
 	protected EntityLiving createMob(World world){
-		return new EntityMobLouse(world,world == null ? null : new LouseSpawnData(0,world.rand));
+		return new EntityMobLouse(world,louseData);
 	}
 	
 	public static final class LouseSpawnData{

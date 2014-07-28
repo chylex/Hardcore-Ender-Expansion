@@ -41,7 +41,7 @@ public class EntityMobLouse extends EntityMob{
 	}
 	
 	private void updateLouseData(){
-		if (worldObj.isRemote)return;
+		if (worldObj == null || worldObj.isRemote)return;
 		
 		if (louseData == null){
 			louseData = new LouseSpawnData((byte)rand.nextInt(LouseSpawnData.maxLevel),getRNG());

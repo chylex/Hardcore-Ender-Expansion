@@ -51,7 +51,7 @@ public class SilverfishSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	protected boolean checkSpawnerConditions(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return getSpawnerWorld().getEntitiesWithinAABB(EntitySilverfish.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+6,sz+1).expand(40D,30D,40D)).size() > 35;
+		return getSpawnerWorld().getEntitiesWithinAABB(EntitySilverfish.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+6,sz+1).expand(40D,30D,40D)).size() <= 35;
 	}
 
 	@Override

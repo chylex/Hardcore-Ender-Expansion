@@ -71,10 +71,10 @@ public class RenderMobLouse extends RenderLiving{
 	protected int shouldRenderPass(EntityLivingBase entity, int pass, float partialTickTime){
 		if (pass == 1 || pass == 2){
 			LouseSpawnData louseData = ((EntityMobLouse)entity).getSpawnData();
+			if (louseData == null)return -1;
 			
 			Set<EnumLouseAttribute> attributes = louseData.getAttributeSet();
 			Set<EnumLouseAbility> abilities = louseData.getAbilitySet();
-			//System.out.println(attributes.size()+", "+abilities.size());
 			
 			if (attributes.isEmpty() && abilities.isEmpty())return -1;
 			
