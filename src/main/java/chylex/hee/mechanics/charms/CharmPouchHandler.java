@@ -21,7 +21,8 @@ public final class CharmPouchHandler{
 	}
 	
 	public static void setActivePouch(EntityPlayer player, ItemStack is){
-		instance.activePouchIDs.put(player.getGameProfile().getId(),new CharmPouchInfo(is));
+		if (is == null)instance.activePouchIDs.remove(player.getGameProfile().getId());
+		else instance.activePouchIDs.put(player.getGameProfile().getId(),new CharmPouchInfo(is));
 		instance.refresh = true;
 	}
 	
@@ -38,7 +39,7 @@ public final class CharmPouchHandler{
 	
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent e){
-		if (e.phase != Phase.START || !refresh)return;
+		if (e.phase != Phase.END || !refresh)return;
 		
 		if (!isHandlerActive && !activePouchIDs.isEmpty()){
 			isHandlerActive = true;

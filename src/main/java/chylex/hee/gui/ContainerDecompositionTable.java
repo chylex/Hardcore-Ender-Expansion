@@ -73,10 +73,7 @@ public class ContainerDecompositionTable extends Container{
 			ItemStack is2 = slot.getStack();
 			is = is2.copy();
 
-			if (slotId == 1){
-				if (!mergeItemStack(is2,11,inventorySlots.size(),true))return null;
-			}
-			else if (slotId < 11){
+			if (slotId < 11){
 				if (!mergeItemStack(is2,11,inventorySlots.size(),true))return null;
 			}
 			else{

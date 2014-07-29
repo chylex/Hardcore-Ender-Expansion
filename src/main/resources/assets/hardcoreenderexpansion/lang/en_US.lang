@@ -144,6 +144,8 @@ container.enhancedBrewing=Enhanced Brewing Stand
 container.decompositionTable=Decomposition Table
 container.energyExtractionTable=Energy Extraction Table
 container.endPowderEnhancements=End Powder Enhancements
+container.charmPouch=Charm Pouch
+container.runeCrafting=Rune Crafting
 
 achievement.theMoreYouKnow=The more you know
 achievement.theMoreYouKnow.desc=Craft an Ender Compendium

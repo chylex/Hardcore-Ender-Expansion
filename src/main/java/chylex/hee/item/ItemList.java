@@ -138,9 +138,11 @@ public final class ItemList{
 		.setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch");
 		
 		rune = new ItemRune()
+		.setMaxStackSize(16)
 		.setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune");
 		
 		charm = new ItemCharm()
+		.setMaxStackSize(1)
 		.setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm");
 		
 		corporeal_mirage_orb = new ItemCorporealMirageOrb()

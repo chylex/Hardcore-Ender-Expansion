@@ -6,7 +6,7 @@ import chylex.hee.tileentity.TileEntityEnergyExtractionTable;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import cpw.mods.fml.common.network.IGuiHandler;
 
-public class GuiHandler implements IGuiHandler{
+public final class GuiHandler implements IGuiHandler{
 	public static GuiHandler instance = new GuiHandler();
 	
 	@Override
@@ -16,7 +16,9 @@ public class GuiHandler implements IGuiHandler{
 			case 2: return new ContainerDecompositionTable(player.inventory,(TileEntityDecompositionTable)world.getTileEntity(x,y,z));
 			case 3: return new ContainerEnergyExtractionTable(player.inventory,(TileEntityEnergyExtractionTable)world.getTileEntity(x,y,z));
 			case 4: return new ContainerEndPowderEnhancements(player.inventory);
+			case 5: return new ContainerCharmPouch(player);
 		}
+		
 		return null;
 	}
 
@@ -28,7 +30,11 @@ public class GuiHandler implements IGuiHandler{
 			case 2: return new GuiDecompositionTable(player.inventory,(TileEntityDecompositionTable)world.getTileEntity(x,y,z));
 			case 3: return new GuiEnergyExtractionTable(player.inventory,(TileEntityEnergyExtractionTable)world.getTileEntity(x,y,z));
 			case 4: return new GuiEndPowderEnhancements(player.inventory);
+			case 5: return new GuiCharmPouch(player);
 		}
+		
 		return null;
 	}
+	
+	private GuiHandler(){}
 }

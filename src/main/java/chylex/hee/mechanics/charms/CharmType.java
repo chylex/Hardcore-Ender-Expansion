@@ -35,7 +35,7 @@ public enum CharmType{ // TODO implement the rest
 		new CharmRecipe(14).rune(MAGIC,5).prop("exp",1.30F)
 	}, "lit,+$perc-1,exp$s$lang,experience"),
 	
-	EQUALITY(16, 0, new CharmRecipe[]{
+	EQUALITY(16, 9, new CharmRecipe[]{
 		new CharmRecipe(18).rune(POWER).rune(AGILITY).rune(VIGOR).rune(DEFENSE).rune(MAGIC).prop("dmg",1.08F).prop("spd",1.05F).prop("regenspd",0.94F).prop("reducedmg",0.03F).prop("exp",1.03F)
 	}, "lit,+$perc-1,dmg$s$lang,damage$nl$lit,+$perc-1,spd$s$lang,speed$nl$lit,+$perc1-,regenspd$s$lang,regen$nl$lit,-$perc,reducedmg$s$lang,damagetaken$nl$lit,+$perc-1,exp$s$lang,experience"),
 	
@@ -99,7 +99,7 @@ public enum CharmType{ // TODO implement the rest
 		new CharmRecipe(50).rune(AGILITY,4).rune(DEFENSE).prop("fallblocks",6)
 	}, "lit,+$int,fallblocks$s$lang,blocks"),
 	
-	HASTE(1, 0, new CharmRecipe[]{
+	HASTE(1, 8, new CharmRecipe[]{
 		new CharmRecipe(51).rune(AGILITY,2).rune(VOID).prop("breakspd",1.10F),
 		new CharmRecipe(52).rune(AGILITY,3).rune(VOID).prop("breakspd",1.18F),
 		new CharmRecipe(53).rune(AGILITY,4).rune(VOID).prop("breakspd",1.25F)
@@ -114,7 +114,7 @@ public enum CharmType{ // TODO implement the rest
 		new CharmRecipe(59).rune(POWER,3).rune(AGILITY,3).prop("critchance",0.15F).prop("critdmg",2.00F)
 	}, "perc,critchance$s$lang,chanceto$s$lang,deal$s$perc,critdmg$s$lang,damage"),
 	
-	SECOND_DURABILITY(12, 0, new CharmRecipe[]{
+	SECOND_DURABILITY(12, 8, new CharmRecipe[]{
 		new CharmRecipe(60).rune(VIGOR).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.28F).prop("recdurabilityamt",0.10F),
 		new CharmRecipe(61).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.25F).prop("recdurabilityamt",0.18F),
 		new CharmRecipe(62).rune(VIGOR,3).rune(MAGIC).rune(VOID).prop("recdurabilitychance",0.22F).prop("recdurabilityamt",0.25F),

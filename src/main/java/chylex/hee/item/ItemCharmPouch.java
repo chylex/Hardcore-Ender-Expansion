@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.charms.CharmPouchHandler;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import cpw.mods.fml.relauncher.Side;
@@ -23,8 +24,15 @@ public class ItemCharmPouch extends Item{
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		CharmPouchHandler.setActivePouch(player,is);
-		(is.stackTagCompound == null ? is.stackTagCompound = new NBTTagCompound() : is.stackTagCompound).setBoolean("isPouchActive",true);
+		if (world.isRemote)return is;
+		
+		if (player.isSneaking()){
+			CharmPouchInfo activePouch = CharmPouchHandler.getActivePouch(player);
+			CharmPouchHandler.setActivePouch(player,activePouch != null && activePouch.pouchID == getPouchID(is) ? null : is);
+			(is.stackTagCompound == null ? is.stackTagCompound = new NBTTagCompound() : is.stackTagCompound).setBoolean("isPouchActive",true);
+		}
+		else player.openGui(HardcoreEnderExpansion.instance,5,world,0,0,0);
+		
 		return is;
 	}
 	
@@ -61,7 +69,9 @@ public class ItemCharmPouch extends Item{
 		NBTTagCompound nbt = pouch.stackTagCompound != null ? pouch.stackTagCompound : (pouch.stackTagCompound = new NBTTagCompound());
 		
 		NBTTagList tagCharms = new NBTTagList();
-		for(ItemStack charm:charms)tagCharms.appendTag(charm.writeToNBT(new NBTTagCompound()));
+		for(ItemStack charm:charms){
+			if (charm != null)tagCharms.appendTag(charm.writeToNBT(new NBTTagCompound()));
+		}
 		
 		nbt.setTag("pouchCharms",tagCharms);
 	}

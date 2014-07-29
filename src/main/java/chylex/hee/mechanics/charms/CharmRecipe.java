@@ -19,8 +19,9 @@ public class CharmRecipe{
 	}
 	
 	public CharmRecipe rune(RuneType rune, int amount){
+		if (runes.containsKey(rune))runeAmount -= runes.remove(rune);
 		runes.put(rune,(byte)amount);
-		runeAmount = (byte)runes.size();
+		runeAmount += amount;
 		return this;
 	}
 	

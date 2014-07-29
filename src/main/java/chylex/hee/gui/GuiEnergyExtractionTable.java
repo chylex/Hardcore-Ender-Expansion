@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergyExtractionTable extends GuiContainer{
-	private static ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/energy_extraction_table.png");
+	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/energy_extraction_table.png");
 	
 	private TileEntityEnergyExtractionTable energyExtractionTable;
 	

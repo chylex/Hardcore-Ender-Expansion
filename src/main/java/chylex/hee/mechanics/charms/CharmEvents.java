@@ -31,7 +31,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.relauncher.Side;
 
-final class CharmEvents{
+public final class CharmEvents{
 	private static final float DEFAULT_PLAYER_SPEED = 0.1F;
 	
 	private static float[] getProp(EntityPlayer player, String prop){
