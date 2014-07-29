@@ -2,6 +2,7 @@ package chylex.hee.mechanics.charms;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import chylex.hee.item.ItemList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -57,7 +58,14 @@ public final class CharmPouchHandler{
 	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent e){
+		ItemStack[] mainInv = e.player.inventory.mainInventory;
 		
+		for(int a = 0; a < mainInv.length; a++){
+			if (mainInv[a] != null && mainInv[a].getItem() == ItemList.charm_pouch && mainInv[a].stackTagCompound != null && mainInv[a].stackTagCompound.getBoolean("isPouchActive")){
+				setActivePouch(e.player,mainInv[a]);
+				break;
+			}
+		}
 	}
 	
 	@SubscribeEvent

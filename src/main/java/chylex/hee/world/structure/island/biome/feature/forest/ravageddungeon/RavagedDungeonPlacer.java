@@ -1,5 +1,6 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -7,7 +8,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFlowerPot;
-import scala.actors.threadpool.Arrays;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.system.weight.ObjectWeightPair;
@@ -58,11 +58,18 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	 * DESCEND
 	 */
 	
+	private enum EnumDescendDesign{
+		STAIR_GOO_CORNERS
+	}
+	
 	public void generateDescend(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement descend){
+		Block coverBlock = rand.nextInt(3) == 0 ? Blocks.glass : Blocks.air;
+		
 		for(int yy = y; yy >= y-hallHeight-2; yy--){
 			for(int xx = x-radEntrance; xx <= x+radEntrance; xx++){
 				for(int zz = z-radEntrance; zz <= z+radEntrance; zz++){
-					if (Math.abs(xx-x) <= 1 && Math.abs(zz-z) <= radEntrance-1 && yy != y-hallHeight-2)world.setBlock(xx,yy,zz,Blocks.air);
+					if (yy == y)world.setBlock(xx,yy,zz,coverBlock);
+					else if (Math.abs(xx-x) <= 1 && Math.abs(zz-z) <= radEntrance-1 && yy != y-hallHeight-2)world.setBlock(xx,yy,zz,Blocks.air);
 					else world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
 				}
 			}

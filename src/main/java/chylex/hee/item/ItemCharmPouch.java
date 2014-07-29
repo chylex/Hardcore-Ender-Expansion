@@ -1,4 +1,5 @@
 package chylex.hee.item;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -7,14 +8,30 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import chylex.hee.mechanics.charms.CharmPouchHandler;
+import chylex.hee.mechanics.charms.CharmPouchInfo;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemCharmPouch extends Item{
-	// TODO change icon if ID matches
+public class ItemCharmPouch extends Item{	
+	@Override
+	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
+		if (!world.isRemote && is.stackTagCompound != null && is.stackTagCompound.getBoolean("isPouchActive") && entity instanceof EntityPlayer){
+			CharmPouchInfo pouchInfo = CharmPouchHandler.getActivePouch((EntityPlayer)entity);
+			if (pouchInfo == null || pouchInfo.pouchID != getPouchID(is))is.stackTagCompound.removeTag("isPouchActive");
+		}
+	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		CharmPouchHandler.setActivePouch(player,is);
+		(is.stackTagCompound == null ? is.stackTagCompound = new NBTTagCompound() : is.stackTagCompound).setBoolean("isPouchActive",true);
 		return is;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack is, int pass){
+		return is.stackTagCompound != null && is.stackTagCompound.getBoolean("isPouchActive");
 	}
 	
 	public static final long getPouchID(ItemStack is){

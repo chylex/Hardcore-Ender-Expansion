@@ -170,15 +170,15 @@ public final class BlockList{
 		.setBlockName("sphalerite").setBlockTextureName("hardcoreenderexpansion:sphalerite");
 		
 		ravaged_brick = new BlockRavagedBrick()
-		.setHardness(3.5F).setResistance(25F).setStepSound(Block.soundTypePiston)
+		.setHardness(3.5F).setResistance(28F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrick");
 		
 		ravaged_brick_slab = new BlockBasicSlab(ravaged_brick)
-		.setHardness(1.75F).setResistance(12F).setStepSound(Block.soundTypePiston)
+		.setHardness(1.75F).setResistance(14F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrickSlab").setBlockTextureName("hardcoreenderexpansion:ravaged_brick");
 		
 		ravaged_brick_stairs = new BlockBasicStairs(ravaged_brick,0)
-		.setHardness(2.25F).setResistance(20F).setStepSound(Block.soundTypePiston)
+		.setHardness(2.25F).setResistance(22F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrickStairs");
 		
 		ravaged_brick_smooth = new BlockBasic(Material.rock)

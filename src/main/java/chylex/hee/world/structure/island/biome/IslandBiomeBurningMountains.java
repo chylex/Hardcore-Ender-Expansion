@@ -26,6 +26,11 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 			new SpawnEntry(EntityMobFireGolem.class,14,10),
 			new SpawnEntry(EntityMobScorchingLens.class,10,6)
 		});
+		
+		getSpawnEntries(MINE).addAll(new SpawnEntry[]{ // TODO temporary
+			new SpawnEntry(EntityMobFireGolem.class,14,10),
+			new SpawnEntry(EntityMobScorchingLens.class,10,6)
+		});
 	}
 
 	@Override

@@ -638,7 +638,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		int plam = Math.min(5,(int)Math.floor(worldObj.playerEntities.size()*0.5F))+(ModCommonProxy.opMobs?2:0);
 		if (plam > 1)amount = Math.max(1F,amount/(plam/1.5F));
 		
-		amount = Math.min(amount,ModCommonProxy.opMobs?10F:13F);
+		amount = Math.min(amount,ModCommonProxy.opMobs ? 10F : 13F);
 		
 		DamageTakenEvent event = new DamageTakenEvent(source,amount);
 		currentAttack.onDamageTakenEvent(event);

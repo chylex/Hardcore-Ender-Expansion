@@ -197,6 +197,7 @@ final class CharmEvents{
 	public void onBlockBreak(BreakEvent e){
 		if (e.getPlayer() == null)return;
 		
+		// BASIC_MAGIC / EQUALITY
 		e.setExpToDrop(e.getExpToDrop()+(int)Math.ceil(getPropMultiplied(e.getPlayer(),"exp",e.getExpToDrop())));
 	}
 	

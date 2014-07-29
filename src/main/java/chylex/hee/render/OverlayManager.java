@@ -110,7 +110,7 @@ public class OverlayManager{
 		Minecraft mc = Minecraft.getMinecraft();
 		if (mc.thePlayer == null)return;
 		
-		if (e.type == ElementType.HELMET && mc.thePlayer.isInsideOfMaterial(BlockEnderGoo.enderGoo)){
+		if (e.type == ElementType.HELMET && mc.thePlayer.isInsideOfMaterial(BlockEnderGoo.enderGoo)){ // TODO fix?
 			int w = e.resolution.getScaledWidth(), h = e.resolution.getScaledHeight();
 
 			GL11.glDisable(GL11.GL_ALPHA_TEST);

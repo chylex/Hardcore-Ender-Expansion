@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCharm extends Item{
-	private static final byte iconsBackAmount = 17, iconsForeAmount = 1;
+	private static final byte iconsBackAmount = 17, iconsForeAmount = 8;
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArrayBack, iconArrayFore;
 	
@@ -55,7 +55,7 @@ public class ItemCharm extends Item{
 	
 	@Override
 	public int getRenderPasses(int metadata){
-        return 1;
+        return 2;
     }
 
 	@SideOnly(Side.CLIENT)

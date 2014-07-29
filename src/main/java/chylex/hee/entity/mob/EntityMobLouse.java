@@ -26,6 +26,7 @@ public class EntityMobLouse extends EntityMob{
 	public EntityMobLouse(World world, LouseSpawnData louseData){
 		this(world);
 		this.louseData = louseData;
+		updateLouseData();
 	}
 	
 	@Override
@@ -40,13 +41,8 @@ public class EntityMobLouse extends EntityMob{
 		updateLouseData();
 	}
 	
-	private void updateLouseData(){
-		if (worldObj == null || worldObj.isRemote)return;
-		
-		if (louseData == null){
-			louseData = new LouseSpawnData((byte)rand.nextInt(LouseSpawnData.maxLevel),getRNG());
-			//DragonUtil.warning("Louse spawn data is null!");
-		}
+	private void updateLouseData(){ // TODO AI
+		if (worldObj == null || worldObj.isRemote || louseData == null)return;
 		
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(15D+8D*louseData.attribute(EnumLouseAttribute.HEALTH));
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.7D+0.06D*louseData.attribute(EnumLouseAttribute.SPEED));
@@ -67,7 +63,16 @@ public class EntityMobLouse extends EntityMob{
 	public void onUpdate(){
 		super.onUpdate();
 		
-		if (worldObj.isRemote && louseData == null)louseData = new LouseSpawnData(dataWatcher.getWatchableObjectString(16));
+		if (louseData == null){
+			if (worldObj.isRemote){
+				String data = dataWatcher.getWatchableObjectString(16);
+				if (!data.isEmpty())louseData = new LouseSpawnData(data);
+			}
+			else{
+				louseData = new LouseSpawnData((byte)rand.nextInt(LouseSpawnData.maxLevel),getRNG());
+				updateLouseData();
+			}
+		}
 	}
 	
 	@Override
