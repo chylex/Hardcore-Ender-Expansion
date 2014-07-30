@@ -70,6 +70,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	);
 	
 	public void generateDescend(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement descend){
+		generateRoomLayout(world,rand,x,y,z);
+		
 		Block coverBlock = rand.nextInt(3) == 0 ? Blocks.glass : Blocks.air;
 		
 		for(int yy = y; yy >= y-hallHeight-2; yy--){
@@ -471,7 +473,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 10)
 	);
 	
-	public void generateRoom(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement room){
+	private void generateRoomLayout(LargeStructureWorld world, Random rand, int x, int y, int z){
 		for(int yy = y; yy <= y+hallHeight+1; yy++){
 			for(int xx = x-radRoom; xx <= x+radRoom; xx++){
 				for(int zz = z-radRoom; zz <= z+radRoom; zz++){
@@ -482,6 +484,10 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				}
 			}
 		}
+	}
+	
+	public void generateRoom(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement room){
+		generateRoomLayout(world,rand,x,y,z);
 		
 		boolean isStraight = (room.checkConnection(DungeonDir.UP) && room.checkConnection(DungeonDir.DOWN) && !room.checkConnection(DungeonDir.LEFT) && !room.checkConnection(DungeonDir.RIGHT)) ||
 				 			 (room.checkConnection(DungeonDir.LEFT) && room.checkConnection(DungeonDir.RIGHT) && !room.checkConnection(DungeonDir.UP) && !room.checkConnection(DungeonDir.DOWN));
@@ -575,7 +581,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					break;
 					
 				case SCATTERED_SPAWNERS_WITH_COAL:
-					for(int attempt = 0, attemptAmount = rand.nextInt(3)+4, xx, zz, spawnerMeta = rand.nextBoolean() ? 2 : 3; attempt < attemptAmount; attempt++){
+					for(int attempt = 0, attemptAmount = rand.nextInt(3)+4+level*2, xx, zz, spawnerMeta = rand.nextBoolean() ? 2 : 3; attempt < attemptAmount; attempt++){
 						xx = x+rand.nextInt(5)-rand.nextInt(5);
 						zz = z+rand.nextInt(5)-rand.nextInt(5);
 						
@@ -702,8 +708,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					
 				case RUINS:
 					for(int attempt = 0, attemptAmount = 28+rand.nextInt(12), xx, zz; attempt < attemptAmount; attempt++){
-						xx = x+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
-						zz = z+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
+						xx = x+rand.nextInt(radRoom)-rand.nextInt(radRoom);
+						zz = z+rand.nextInt(radRoom)-rand.nextInt(radRoom);
 						
 						if (!world.isAir(xx,y+1,zz))continue;
 						
@@ -735,13 +741,13 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					
 					DungeonDir dir = room.checkConnection(DungeonDir.UP) ? DungeonDir.UP : DungeonDir.LEFT;
 					
-					for(int a = 0; a < 3; a++){
-						world.setBlock(x+rotX(dir,6,0),y+2,z+rotZ(dir,6,0),BlockList.ravaged_brick_fence);
-						world.setBlock(x+rotX(dir,6,5),y+2,z+rotZ(dir,6,5),BlockList.ravaged_brick_fence);
-						world.setBlock(x+rotX(dir,6,-5),y+2,z+rotZ(dir,6,-5),BlockList.ravaged_brick_fence);
-						world.setBlock(x+rotX(dir,6,0),y+3,z+rotZ(dir,6,0),BlockList.ravaged_brick_glow);
-						world.setBlock(x+rotX(dir,6,5),y+3,z+rotZ(dir,6,5),BlockList.ravaged_brick_glow);
-						world.setBlock(x+rotX(dir,6,-5),y+3,z+rotZ(dir,6,-5),BlockList.ravaged_brick_glow);
+					int[] zValues = new int[]{ -5, 0, 5 };
+					
+					for(int a = 0; a < zValues.length; a++){
+						world.setBlock(x+rotX(dir,6,zValues[a]),y+2,z+rotZ(dir,6,zValues[a]),BlockList.ravaged_brick_fence);
+						world.setBlock(x+rotX(dir,6,zValues[a]),y+3,z+rotZ(dir,6,zValues[a]),BlockList.ravaged_brick_glow);
+						world.setBlock(x+rotX(dir,-6,zValues[a]),y+2,z+rotZ(dir,-6,zValues[a]),BlockList.ravaged_brick_fence);
+						world.setBlock(x+rotX(dir,-6,zValues[a]),y+3,z+rotZ(dir,-6,zValues[a]),BlockList.ravaged_brick_glow);
 					}
 					
 					break;
@@ -840,6 +846,31 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				}
 			}
 		}
+		
+		int topLeftAirX = minX-radRoom+1, topLeftAirZ = minZ-radRoom+1;
+		
+		int[] gooX = new int[]{ 2, 12, 22, 2, 12, 22, 2, 12, 22 }, gooZ = new int[]{ 2, 2, 2, 12, 12, 12, 22, 22, 22 };
+		
+		for(int a = 0; a < gooX.length; a++){
+			for(int px = 0; px < 2; px++){
+				for(int pz = 0; pz < 2; pz++){
+					world.setBlock(topLeftAirX+gooX[a]+1+px,y+hallHeight,topLeftAirZ+gooZ[a]+1+pz,BlockList.ender_goo);
+					world.setBlock(topLeftAirX+gooX[a]+1+px,y+hallHeight+1,topLeftAirZ+gooZ[a]+1+pz,BlockList.ravaged_brick_glow);
+				}
+			}
+			
+			for(int py = 0; py < 2; py++){
+				for(int px = 0; px < 4; px++){
+					world.setBlock(topLeftAirX+gooX[a]+px,y+1+(py*hallHeight-1),topLeftAirZ+gooZ[a],BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a]+px,y+1+(py*hallHeight-1),topLeftAirZ+gooZ[a]+3,BlockList.ravaged_brick,getBrickMeta(rand));
+				}
+				
+				for(int pz = 0; pz < 2; pz++){
+					world.setBlock(topLeftAirX+gooX[a],y+1+(py*hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a]+3,y+1+(py*hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,BlockList.ravaged_brick,getBrickMeta(rand));
+				}
+			}
+		}
 	}
 	
 	/*
@@ -879,7 +910,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	 */
 	
 	private static boolean canReplaceBlock(Block block){
-		return block == Blocks.end_stone || block == BlockList.end_terrain || block == Blocks.air;
+		return block == Blocks.end_stone || block == BlockList.end_terrain || block == BlockList.stardust_ore || block == BlockList.end_powder_ore || block == Blocks.air;
 	}
 	
 	private static int getBrickMeta(Random rand){

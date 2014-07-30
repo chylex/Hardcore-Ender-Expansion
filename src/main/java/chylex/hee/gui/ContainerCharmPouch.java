@@ -10,6 +10,8 @@ import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.item.ItemCharmPouch;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.charms.CharmPouchHandler;
+import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.CharmRecipe;
 import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.mechanics.charms.RuneType;
@@ -87,7 +89,11 @@ public class ContainerCharmPouch extends Container{
 
 		runeResultInv.setInventorySlotContents(0,null);
 		
-		ItemCharmPouch.setPouchCharms(player.getCurrentEquippedItem(),new ItemStack[]{ charmInv.getStackInSlot(0), charmInv.getStackInSlot(1), charmInv.getStackInSlot(2) });
+		ItemStack heldPouch = player.getCurrentEquippedItem();
+		ItemCharmPouch.setPouchCharms(heldPouch,new ItemStack[]{ charmInv.getStackInSlot(0), charmInv.getStackInSlot(1), charmInv.getStackInSlot(2) });
+		
+		CharmPouchInfo activePouch = CharmPouchHandler.getActivePouch(player);
+		if (activePouch != null && activePouch.pouchID == ItemCharmPouch.getPouchID(heldPouch))CharmPouchHandler.setActivePouch(player,heldPouch);
 	}
 	
 	@Override

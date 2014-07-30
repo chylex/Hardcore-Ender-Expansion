@@ -55,5 +55,9 @@ public final class MathUtil{
 		return Math.cos(Math.toRadians(dir))*len;
 	}
 	
+	public static boolean floatEquals(float val1, float val2){
+		return Math.abs(val1-val2) < 0.00001F;
+	}
+	
 	private MathUtil(){}
 }

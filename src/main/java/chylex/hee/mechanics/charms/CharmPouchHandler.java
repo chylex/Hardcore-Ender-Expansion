@@ -50,6 +50,7 @@ public final class CharmPouchHandler{
 		else if (isHandlerActive && activePouchIDs.isEmpty()){
 			isHandlerActive = false;
 
+			events.onDisabled();
 			MinecraftForge.EVENT_BUS.unregister(events);
 			FMLCommonHandler.instance().bus().unregister(events);
 		}

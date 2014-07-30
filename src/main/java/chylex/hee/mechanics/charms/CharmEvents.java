@@ -1,19 +1,25 @@
 package chylex.hee.mechanics.charms;
 import gnu.trove.list.array.TFloatArrayList;
-import gnu.trove.map.hash.TObjectIntHashMap;
+import gnu.trove.map.hash.TObjectByteHashMap;
+import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -25,6 +31,7 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -32,8 +39,6 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.relauncher.Side;
 
 public final class CharmEvents{
-	private static final float DEFAULT_PLAYER_SPEED = 0.1F;
-	
 	private static float[] getProp(EntityPlayer player, String prop){
 		CharmPouchInfo info = CharmPouchHandler.getActivePouch(player);
 		if (info == null)return ArrayUtils.EMPTY_FLOAT_ARRAY;
@@ -59,30 +64,59 @@ public final class CharmEvents{
 		return finalValue;
 	}
 	
-	private final TObjectIntHashMap<UUID> playerProperties = new TObjectIntHashMap<>();
+	private final TObjectByteHashMap<UUID> playerRegen = new TObjectByteHashMap<>();
+	private final TObjectFloatHashMap<UUID> playerSpeed = new TObjectFloatHashMap<>();
+	
+	private final AttributeModifier attrSpeed = new AttributeModifier(UUID.fromString("91AEAA56-376B-4498-935B-2F7F68070635"),"HeeCharmSpeed",0.3D,2);
 	
 	CharmEvents(){}
+	
+	public void onDisabled(){
+		if (!playerSpeed.isEmpty()){
+			for(Object o:MinecraftServer.getServer().getConfigurationManager().playerEntityList){
+				UUID id = ((EntityPlayerMP)o).getGameProfile().getId();
+				
+				if (playerSpeed.containsKey(id)){
+					IAttributeInstance attribute = ((EntityPlayerMP)o).getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
+					if (attribute != null)attribute.removeModifier(attrSpeed);
+				}
+			}
+		}
+		
+		playerRegen.clear();
+		playerSpeed.clear();
+	}
 	
 	/**
 	 * BASIC_AGILITY, BASIC_VIGOR, EQUALITY
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onPlayerTick(PlayerTickEvent e){
-		if (e.side == Side.CLIENT){
-			if (e.phase == Phase.START){
-				// BASIC_AGILITY, EQUALITY
-				float spd = getPropMultiplied(e.player,"spd",DEFAULT_PLAYER_SPEED); // TODO attributes
-				if (spd > 0F)e.player.capabilities.setPlayerWalkSpeed(DEFAULT_PLAYER_SPEED+spd);
-			}
-		}
-		else if (e.side == Side.SERVER){
-			if (e.phase == Phase.START){
-				// BASIC_VIGOR, EQUALITY
-				float regen = getPropMultiplied(e.player,"regenspd",40F);
+		if (e.side != Side.SERVER)return;
+		
+		if (e.phase == Phase.START){
+			// BASIC_AGILITY, EQUALITY
+			float spd = getPropSummed(e.player,"spd");
+			if (spd > 0F){
+				float prevSpd = playerSpeed.get(e.player.getGameProfile().getId());
 				
-				if (regen > 0F && playerProperties.adjustOrPutValue(e.player.getGameProfile().getId(),1,0) >= 40F-regen){
-					e.player.heal(1F);
+				if (MathUtil.floatEquals(prevSpd,playerSpeed.getNoEntryValue()) || !MathUtil.floatEquals(prevSpd,spd)){
+					IAttributeInstance attribute = e.player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
+					
+					if (attribute != null){
+						attribute.removeModifier(attrSpeed);
+						attribute.applyModifier(new AttributeModifier(attrSpeed.getID(),attrSpeed.getName()+spd,attrSpeed.getAmount()*spd,attrSpeed.getOperation()));
+					}
+					
+					playerSpeed.put(e.player.getGameProfile().getId(),spd);
 				}
+			}
+			
+			// BASIC_VIGOR, EQUALITY
+			float regen = getPropMultiplied(e.player,"regenspd",40F);
+			
+			if (regen > 0F && playerRegen.adjustOrPutValue(e.player.getGameProfile().getId(),(byte)1,(byte)0) >= 40F-regen){
+				e.player.heal(1F);
 			}
 		}
 	}
@@ -93,23 +127,21 @@ public final class CharmEvents{
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingHurt(LivingHurtEvent e){
-		if (!(e.entityLiving instanceof EntityPlayer))return;
-		
-		EntityPlayer targetPlayer = (EntityPlayer)e.entityLiving;
+		boolean isPlayer = e.entityLiving instanceof EntityPlayer;
 		
 		if (e.source.getSourceOfDamage() == null){
-			if (e.source == DamageSource.fall){
+			if (e.source == DamageSource.fall && isPlayer){
 				// FALLING_PROTECTION
-				e.ammount -= getPropSummed(targetPlayer,"fallblocks")*0.5F;
+				e.ammount -= getPropSummed((EntityPlayer)e.entityLiving,"fallblocks")*0.5F;
 				if (e.ammount <= 0.001F)e.ammount = 0F;
 			}
 		}
 		else{
 			if (e.source.getSourceOfDamage() instanceof EntityPlayer){
 				EntityPlayer sourcePlayer = (EntityPlayer)e.source.getSourceOfDamage();
-	
+				System.out.println("before "+e.ammount);
 				// BASIC_POWER / EQUALITY
-				e.ammount += getPropMultiplied(sourcePlayer,"dmg",e.ammount);
+				e.ammount += getPropMultiplied(sourcePlayer,"dmg",e.ammount);System.out.println("after "+e.ammount);
 	
 				// CRITICAL_STRIKE
 				float[] crit = getProp(sourcePlayer,"critchance");
@@ -145,26 +177,30 @@ public final class CharmEvents{
 					}
 				}
 			}
-				
-			// BASIC_DEFENSE / EQUALITY
-			e.ammount -= getPropMultiplied(targetPlayer,"reducedmg",e.ammount);
 			
-			if (targetPlayer.isBlocking()){
-				// BLOCKING
-				e.ammount -= getPropMultiplied(targetPlayer,"reducedmgblock",e.ammount);
+			if (isPlayer){
+				EntityPlayer targetPlayer = (EntityPlayer)e.entityLiving;
 				
-				// BLOCKING_REFLECTION
-				float[] reflect = getProp(targetPlayer,"reducedmgblock");
+				// BASIC_DEFENSE / EQUALITY
+				e.ammount -= getPropMultiplied(targetPlayer,"reducedmg",e.ammount);
 				
-				if (reflect.length > 0){
-					float[] reflectDmg = getProp(targetPlayer,"blockreflectdmg");
-					float reflected = 0F;
+				if (targetPlayer.isBlocking()){
+					// BLOCKING
+					e.ammount -= getPropMultiplied(targetPlayer,"reducedmgblock",e.ammount);
 					
-					for(int a = 0; a < reflect.length; a++){
-						if (e.entity.worldObj.rand.nextFloat() < reflect[a])reflected += e.ammount*reflectDmg[a];
+					// BLOCKING_REFLECTION
+					float[] reflect = getProp(targetPlayer,"reducedmgblock");
+					
+					if (reflect.length > 0){
+						float[] reflectDmg = getProp(targetPlayer,"blockreflectdmg");
+						float reflected = 0F;
+						
+						for(int a = 0; a < reflect.length; a++){
+							if (e.entity.worldObj.rand.nextFloat() < reflect[a])reflected += e.ammount*reflectDmg[a];
+						}
+						
+						e.source.getSourceOfDamage().attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),reflected);
 					}
-					
-					e.source.getSourceOfDamage().attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),reflected);
 				}
 			}
 		}

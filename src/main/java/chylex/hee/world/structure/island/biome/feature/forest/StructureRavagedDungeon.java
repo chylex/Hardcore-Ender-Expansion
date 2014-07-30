@@ -100,7 +100,6 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 	}
 	
 	private void generateDescendRoom(Random rand, DungeonElementList elements, DungeonElement descend, int y){
-		generateRoom(rand,elements,descend,y);
 		placer.generateDescend(world,rand,getElementX(descend),y,getElementZ(descend),descend);
 	}
 	
