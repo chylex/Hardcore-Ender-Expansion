@@ -10,9 +10,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData;
-import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData.EnumLouseAbility;
-import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
+import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
+import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
+import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 
 public class EntityMobLouse extends EntityMob{
 	private LouseSpawnData louseData;

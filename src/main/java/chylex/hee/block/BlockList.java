@@ -1,6 +1,7 @@
 package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
@@ -26,9 +27,11 @@ public final class BlockList{
 	public static Block obsidian_special_glow;
 	public static Block end_terrain;
 	public static Block ravaged_brick;
+	public static Block ravaged_brick_smooth;
+	public static Block ravaged_brick_glow;
 	public static Block ravaged_brick_slab;
 	public static Block ravaged_brick_stairs;
-	public static Block ravaged_brick_smooth;
+	public static Block ravaged_brick_fence;
 	public static Block dungeon_puzzle;
 	public static Block cinder;
 	
@@ -173,6 +176,14 @@ public final class BlockList{
 		.setHardness(3.5F).setResistance(28F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrick");
 		
+		ravaged_brick_smooth = new BlockRavagedBrickSmooth()
+		.setHardness(1F).setResistance(6F).setStepSound(Block.soundTypePiston)
+		.setBlockName("ravagedBrickSmooth").setBlockTextureName("hardcoreenderexpansion:ravaged_brick_smooth");
+		
+		ravaged_brick_glow = new BlockBasic(Material.rock)
+		.setHardness(1F).setResistance(6F).setLightLevel(1F).setStepSound(Block.soundTypePiston)
+		.setBlockName("ravagedBrickGlow").setBlockTextureName("hardcoreenderexpansion:ravaged_brick_glow");
+		
 		ravaged_brick_slab = new BlockBasicSlab(ravaged_brick)
 		.setHardness(1.75F).setResistance(14F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrickSlab").setBlockTextureName("hardcoreenderexpansion:ravaged_brick");
@@ -181,9 +192,9 @@ public final class BlockList{
 		.setHardness(2.25F).setResistance(22F).setStepSound(Block.soundTypePiston)
 		.setBlockName("ravagedBrickStairs");
 		
-		ravaged_brick_smooth = new BlockBasic(Material.rock)
-		.setHardness(1F).setResistance(6F).setStepSound(Block.soundTypePiston)
-		.setBlockName("ravagedBrickSmooth").setBlockTextureName("hardcoreenderexpansion:ravaged_brick_smooth");
+		ravaged_brick_fence = new BlockFence("hardcoreenderexpansion:ravaged_brick",Material.rock)
+		.setHardness(1.5F).setResistance(6F).setStepSound(Block.soundTypePiston)
+		.setBlockName("ravagedBrickFence");
 		
 		dungeon_puzzle = new BlockDungeonPuzzle()
 		.setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal)
@@ -224,7 +235,7 @@ public final class BlockList{
 			essence_altar,decomposition_table,energy_extraction_table,
 			end_powder_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
-			ravaged_brick,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_smooth,dungeon_puzzle,cinder,
+			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,dungeon_puzzle,cinder,
 			crossed_decoration,death_flower
 		);
 	}

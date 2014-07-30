@@ -4,8 +4,9 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import chylex.hee.tileentity.spawner.CustomSpawnerLogic;
-import chylex.hee.tileentity.spawner.LouseSpawnerLogic;
-import chylex.hee.tileentity.spawner.SilverfishSpawnerLogic;
+import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic;
+import chylex.hee.tileentity.spawner.SilverfishDungeonSpawnerLogic;
+import chylex.hee.tileentity.spawner.SilverfishRavagedSpawnerLogic;
 import chylex.hee.tileentity.spawner.TowerEndermanSpawnerLogic;
 
 public class TileEntityCustomSpawner extends TileEntity{
@@ -20,8 +21,9 @@ public class TileEntityCustomSpawner extends TileEntity{
 	private void createLogic(byte id){
 		switch(id){
 			case 0: logic = new TowerEndermanSpawnerLogic(this); break;
-			case 1: logic = new SilverfishSpawnerLogic(this); break;
-			case 2: logic = new LouseSpawnerLogic(this); break;
+			case 1: logic = new SilverfishDungeonSpawnerLogic(this); break;
+			case 2: logic = new LouseRavagedSpawnerLogic(this); break;
+			case 3: logic = new SilverfishRavagedSpawnerLogic(this); break;
 			default: throw new IllegalArgumentException("Unable to find spawner logic "+id+", this is not supposed to happen! Shutting down Minecraft to prevent more errors...");
 		}
 		this.logicId = id;

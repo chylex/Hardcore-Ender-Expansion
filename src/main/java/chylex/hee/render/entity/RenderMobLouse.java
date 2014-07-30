@@ -9,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.render.model.ModelLouse;
-import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData;
-import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData.EnumLouseAbility;
-import chylex.hee.tileentity.spawner.LouseSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
+import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
+import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
+import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

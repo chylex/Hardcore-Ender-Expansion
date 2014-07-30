@@ -155,9 +155,11 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerBlock(BlockList.enderman_head, "enderman_head_block");
 		GameRegistryUtil.registerBlock(BlockList.sphalerite, "sphalerite", ItemBlockWithSubtypes.class);
 		GameRegistryUtil.registerBlock(BlockList.ravaged_brick, "ravaged_brick", ItemBlockWithSubtypes.class);
+		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_smooth, "ravaged_brick_smooth");
+		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_glow, "ravaged_brick_glow");
 		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_slab, "ravaged_brick_slab", ItemBlockSlab.class);
 		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_stairs, "ravaged_brick_stairs");
-		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_smooth, "ravaged_brick_smooth");
+		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_fence, "ravaged_brick_fence");
 		GameRegistryUtil.registerBlock(BlockList.dungeon_puzzle, "dungeon_puzzle", ItemBlockWithSubtypes.class);
 		GameRegistryUtil.registerBlock(BlockList.cinder, "cinder");
 		GameRegistryUtil.registerBlock(BlockList.energy_cluster, "energy_cluster");

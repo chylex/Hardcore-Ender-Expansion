@@ -11,10 +11,10 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class LouseSpawnerLogic extends CustomSpawnerLogic{
+public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	private LouseSpawnData louseData;
 	
-	public LouseSpawnerLogic(TileEntityCustomSpawner spawnerTile){
+	public LouseRavagedSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		super(spawnerTile);
 		this.minSpawnDelay = 30;
 		this.maxSpawnDelay = 230;
@@ -42,8 +42,8 @@ public class LouseSpawnerLogic extends CustomSpawnerLogic{
 
 	@Override
 	protected boolean canMobSpawn(EntityLiving entity){
-		for(int yy = getSpawnerY(); yy > getSpawnerY()-5; yy--){
-			if (!entity.worldObj.isAirBlock((int)entity.posX,yy,(int)entity.posZ)){
+		for(int spawnerY = getSpawnerY(), yy = spawnerY; yy > spawnerY-5; yy--){
+			if (!entity.worldObj.isAirBlock((int)entity.posX,yy,(int)entity.posZ) || yy == spawnerY-4){
 				entity.setLocationAndAngles(entity.posX,yy+1,entity.posZ,entity.rotationYaw,0F);
 				
 				if (entity.worldObj.checkNoEntityCollision(entity.boundingBox) && entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty()){

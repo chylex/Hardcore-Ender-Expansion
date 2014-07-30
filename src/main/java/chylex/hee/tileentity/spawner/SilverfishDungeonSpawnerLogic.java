@@ -8,8 +8,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
-public class SilverfishSpawnerLogic extends CustomSpawnerLogic{
-	public SilverfishSpawnerLogic(TileEntityCustomSpawner spawnerTile){
+public class SilverfishDungeonSpawnerLogic extends CustomSpawnerLogic{
+	public SilverfishDungeonSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		super(spawnerTile);
 		this.minSpawnDelay = 65;
 		this.maxSpawnDelay = 115;

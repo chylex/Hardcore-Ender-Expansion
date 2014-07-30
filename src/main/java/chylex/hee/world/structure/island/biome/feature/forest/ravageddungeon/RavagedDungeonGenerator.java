@@ -102,7 +102,8 @@ public class RavagedDungeonGenerator{
 					hallway1 = elements.getRandom(DungeonElementType.HALLWAY,rand);
 					if (hallway1 == null)break;
 					
-					for(DungeonDir checkDir:DungeonDir.values){
+					for(int dirAttempt = 0; dirAttempt < 4; dirAttempt++){
+						DungeonDir checkDir = DungeonDir.values[rand.nextInt(DungeonDir.values.length)];
 						hallway2 = elements.getAt(hallway1.x+checkDir.addX,hallway1.y+checkDir.addY);
 						
 						if (hallway2 != null){
