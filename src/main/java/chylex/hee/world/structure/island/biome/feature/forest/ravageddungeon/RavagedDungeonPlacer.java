@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -457,15 +456,18 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	 */
 	
 	private enum EnumRoomDesign{
-		GOO_FOUNTAINS, CARPET_TARGET, SCATTERED_SPAWNERS_WITH_COAL, ENCASED_CUBICLE, TERRARIUM
+		GOO_FOUNTAINS, CARPET_TARGET, SCATTERED_SPAWNERS_WITH_COAL, GLOWING_ROOM, FOUR_SPAWNERS, ENCASED_CUBICLE, TERRARIUM, RUINS
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomDesign>> roomDesignList = new WeightedList<>(
-		ObjectWeightPair.make(EnumRoomDesign.GOO_FOUNTAINS, 100),
+		ObjectWeightPair.make(EnumRoomDesign.GOO_FOUNTAINS, 60),
+		ObjectWeightPair.make(EnumRoomDesign.RUINS, 60),
+		ObjectWeightPair.make(EnumRoomDesign.FOUR_SPAWNERS, 50),
 		ObjectWeightPair.make(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 35),
-		ObjectWeightPair.make(EnumRoomDesign.CARPET_TARGET, 20),
-		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 15),
-		ObjectWeightPair.make(EnumRoomDesign.ENCASED_CUBICLE, 10)
+		ObjectWeightPair.make(EnumRoomDesign.GLOWING_ROOM, 28),
+		ObjectWeightPair.make(EnumRoomDesign.CARPET_TARGET, 22),
+		ObjectWeightPair.make(EnumRoomDesign.ENCASED_CUBICLE, 15),
+		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 10)
 	);
 	
 	public void generateRoom(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement room){
@@ -479,6 +481,9 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				}
 			}
 		}
+		
+		boolean isStraight = (room.checkConnection(DungeonDir.UP) && room.checkConnection(DungeonDir.DOWN) && !room.checkConnection(DungeonDir.LEFT) && !room.checkConnection(DungeonDir.RIGHT)) ||
+				 			 (room.checkConnection(DungeonDir.LEFT) && room.checkConnection(DungeonDir.RIGHT) && !room.checkConnection(DungeonDir.UP) && !room.checkConnection(DungeonDir.DOWN));
 		
 		boolean hasGenerated = false;
 		
@@ -625,10 +630,124 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 							world.setBlock(x-6+12*a,y+1,z-3+6*b,Blocks.dirt,2);
 							world.setBlock(x-5+10*a,y+1,z-3+6*b,Blocks.dirt,2);
 							world.setBlock(x-4+8*a,y+1,z-3+6*b,Blocks.dirt,2);
+					
+							world.setBlock(x-6+12*a,y+1,z-2+4*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-5+10*a,y+1,z-2+4*b,BlockList.ravaged_brick);
+							world.setBlock(x-4+8*a,y+1,z-2+4*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-3+6*a,y+1,z-2+4*b,BlockList.ravaged_brick);
+							world.setBlock(x-3+6*a,y+1,z-3+6*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-2+4*a,y+1,z-3+6*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-2+4*a,y+1,z-4+8*b,BlockList.ravaged_brick);
+							world.setBlock(x-2+4*a,y+1,z-5+10*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-2+4*a,y+1,z-6+12*b,BlockList.ravaged_brick);
+							
+							for(int yy = y+2; yy <= y+hallHeight; yy++){
+								for(int c = 3; c <= 6; c++){
+									world.setBlock(x-c+2*c*a,yy,z-2+4*b,Blocks.stained_glass,14);
+									world.setBlock(x-2+4*a,yy,z-c+2*c*b,Blocks.stained_glass,14);
+								}
+							}
+							
+							int plants = 4+rand.nextInt(9);
+							
+							for(int plant = 0, xx, zz; plant < plants; plant++){
+								xx = x-6+9*a+rand.nextInt(4);
+								zz = z-6+9*b+rand.nextInt(4);
+								
+								if (world.getBlock(xx,y+1,zz) == Blocks.dirt){
+									Block plantBlock = Blocks.air;
+									int plantMeta = 0;
+									
+									switch(rand.nextInt(11)){
+										case 0:
+										case 1:
+											plantBlock = Blocks.sapling;
+											plantMeta = rand.nextBoolean() ? 2 : 0; // birch & oak sapling
+											break;
+											
+										case 2:
+											plantBlock = Blocks.yellow_flower; // dandelion
+											break;
+											
+										case 3:
+										case 4:
+											plantBlock = Blocks.tallgrass;
+											plantMeta = rand.nextBoolean() ? 1 : 2; // tall grass & fern
+											break;
+											
+										case 5:
+											plantBlock = rand.nextBoolean() ? Blocks.brown_mushroom : Blocks.redstone_block; // mushrooms are a little more rare
+											break;
+											
+										default: // 6,7,8,9,10
+											plantBlock = Blocks.red_flower;
+											plantMeta = rand.nextInt(5); // poppy, blue orchid, allium, azure bluet
+											if (plantMeta == 4)plantMeta = 8; // oxeye daisy
+											break;
+									}
+									
+									world.setBlock(xx,y+2,zz,plantBlock,plantMeta);
+								}
+							}
 						}
 					}
 					
-					// TODO
+					break;
+					
+				case RUINS:
+					for(int attempt = 0, attemptAmount = 28+rand.nextInt(12), xx, zz; attempt < attemptAmount; attempt++){
+						xx = x+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
+						zz = z+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
+						
+						if (!world.isAir(xx,y+1,zz))continue;
+						
+						int height = rand.nextInt(3);
+						for(int yy = y+1; yy <= y+1+height; yy++){
+							if (rand.nextInt(8) == 0)world.setBlock(xx,yy,zz,BlockList.custom_spawner,3);
+							else world.setBlock(xx,yy,zz,BlockList.ravaged_brick);
+						}
+						
+						if (rand.nextInt(3) == 0)world.setBlock(xx,y+1+height,zz,BlockList.ravaged_brick_slab);
+						else if (rand.nextInt(4) == 0)world.setBlock(xx,y+1+height,zz,BlockList.ravaged_brick_stairs,rand.nextInt(4));
+					}
+					
+					break;
+					
+				case FOUR_SPAWNERS:
+					if (!isStraight){
+						hasGenerated = false;
+						break;
+					}
+					
+					for(int a = 0; a < 2; a++){
+						for(int b = 0; b < 2; b++){
+							world.setBlock(x-2+4*a,y+1,z-2+4*b,BlockList.custom_spawner,2);
+							world.setTileEntityGenerator(x-2+4*a,y+1,z-2+4*b,"louseSpawner",this);
+							world.setBlock(x-2+4*a,y+2,z-2+4*b,BlockList.ravaged_brick_slab);
+						}
+					}
+					
+					DungeonDir dir = room.checkConnection(DungeonDir.UP) ? DungeonDir.UP : DungeonDir.LEFT;
+					
+					for(int a = 0; a < 3; a++){
+						world.setBlock(x+rotX(dir,6,0),y+2,z+rotZ(dir,6,0),BlockList.ravaged_brick_fence);
+						world.setBlock(x+rotX(dir,6,5),y+2,z+rotZ(dir,6,5),BlockList.ravaged_brick_fence);
+						world.setBlock(x+rotX(dir,6,-5),y+2,z+rotZ(dir,6,-5),BlockList.ravaged_brick_fence);
+						world.setBlock(x+rotX(dir,6,0),y+3,z+rotZ(dir,6,0),BlockList.ravaged_brick_glow);
+						world.setBlock(x+rotX(dir,6,5),y+3,z+rotZ(dir,6,5),BlockList.ravaged_brick_glow);
+						world.setBlock(x+rotX(dir,6,-5),y+3,z+rotZ(dir,6,-5),BlockList.ravaged_brick_glow);
+					}
+					
+					break;
+					
+				case GLOWING_ROOM:
+					int[] pillarX = new int[]{ -6, -2, 2, 6, -6, 6, -6, 6, -6, -2, 2, 6 }, pillarZ = new int[]{ -6, -6, -6, -6, -2, -2, 2, 2, 6, 6, 6, 6 };
+					
+					for(int a = 0; a < pillarX.length; a++){
+						for(int yy = y+1; yy <= y+hallHeight; yy++){
+							world.setBlock(x+pillarX[a],yy,z+pillarZ[a],BlockList.ravaged_brick_glow);
+						}
+					}
 					
 					break;
 					
@@ -674,6 +793,9 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		}
 		else if (key.equals("hallwayDeadEndChest")){
 			// TODO rare
+		}
+		else if (key.equals("encasedCubicleChest")){
+			// TODO
 		}
 		else if (key.equals("louseSpawner")){
 			LouseRavagedSpawnerLogic logic = (LouseRavagedSpawnerLogic)((TileEntityCustomSpawner)tile).getSpawnerLogic();
