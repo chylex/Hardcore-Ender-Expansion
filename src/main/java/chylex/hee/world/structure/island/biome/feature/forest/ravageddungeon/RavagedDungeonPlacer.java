@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFence;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -456,11 +457,15 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	 */
 	
 	private enum EnumRoomDesign{
-		GOO_FOUNTAINS
+		GOO_FOUNTAINS, CARPET_TARGET, SCATTERED_SPAWNERS_WITH_COAL, ENCASED_CUBICLE, TERRARIUM
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomDesign>> roomDesignList = new WeightedList<>(
-		ObjectWeightPair.make(EnumRoomDesign.GOO_FOUNTAINS, 100)
+		ObjectWeightPair.make(EnumRoomDesign.GOO_FOUNTAINS, 100),
+		ObjectWeightPair.make(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 35),
+		ObjectWeightPair.make(EnumRoomDesign.CARPET_TARGET, 20),
+		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 15),
+		ObjectWeightPair.make(EnumRoomDesign.ENCASED_CUBICLE, 10)
 	);
 	
 	public void generateRoom(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement room){
@@ -508,6 +513,122 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 						world.setBlock(x-3+6*a,y+1,z,BlockList.ravaged_brick_slab);
 						world.setBlock(x,y+1,z-3+6*a,BlockList.ravaged_brick_slab);
 					}
+					
+					break;
+					
+				case CARPET_TARGET:
+					int color;
+					
+					switch(rand.nextInt(4)){
+						case 0: color = 10; break; // purple
+						case 1: color = 14; break; // red
+						case 2: color = 15; break; // black
+						default: color = 0; break; // white
+					}
+					
+					for(int a = -6; a <= 6; a++){
+						world.setBlock(x+a,y+1,z-6,Blocks.carpet);
+						world.setBlock(x+a,y+1,z+6,Blocks.carpet);
+					}
+					
+					for(int a = -4; a <= 4; a++){
+						world.setBlock(x+a,y+1,z-4,Blocks.carpet);
+						world.setBlock(x+a,y+1,z+4,Blocks.carpet);
+					}
+					
+					for(int a = -2; a <= 2; a++){
+						world.setBlock(x+a,y+1,z-2,Blocks.carpet);
+						world.setBlock(x+a,y+1,z+2,Blocks.carpet);
+					}
+					
+					for(int a = -5; a <= 5; a++){
+						world.setBlock(x-6,y+1,z+a,Blocks.carpet);
+						world.setBlock(x+6,y+1,z+a,Blocks.carpet);
+					}
+					
+					for(int a = -3; a <= 3; a++){
+						world.setBlock(x-4,y+1,z+a,Blocks.carpet);
+						world.setBlock(x+4,y+1,z+a,Blocks.carpet);
+					}
+					
+					for(int a = -1; a <= 1; a++){
+						world.setBlock(x-2,y+1,z+a,Blocks.carpet);
+						world.setBlock(x+2,y+1,z+a,Blocks.carpet);
+					}
+					
+					for(DungeonDir dir:DungeonDir.values){
+						if (room.checkConnection(dir)){
+							for(int ax1 = -1; ax1 <= 1; ax1++){
+								for(int ax2 = 2; ax2 <= 6; ax2++){
+									world.setBlock(x+rotX(dir,ax1,ax2),y+1,z+rotZ(dir,ax1,ax2),Blocks.air);
+								}
+							}
+						}
+					}
+					
+					break;
+					
+				case SCATTERED_SPAWNERS_WITH_COAL:
+					for(int attempt = 0, attemptAmount = rand.nextInt(3)+4, xx, zz, spawnerMeta = rand.nextBoolean() ? 2 : 3; attempt < attemptAmount; attempt++){
+						xx = x+rand.nextInt(5)-rand.nextInt(5);
+						zz = z+rand.nextInt(5)-rand.nextInt(5);
+						
+						world.setBlock(xx,y+1,zz,BlockList.custom_spawner,spawnerMeta);
+						if (spawnerMeta == 2)world.setTileEntityGenerator(xx,y+1,zz,"louseSpawner",this);
+						world.setBlock(xx,y+2,zz,Blocks.coal_block);
+					}
+					
+					break;
+					
+				case ENCASED_CUBICLE:
+					for(int a = 0; a < 2; a++){
+						for(int b = 0; b < 2; b++){
+							world.setBlock(x-6+12*a,y+hallHeight,z-6+12*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-6+12*a,y+hallHeight-1,z-6+12*b,BlockList.ravaged_brick_slab,8);
+						}
+					}
+					
+					for(int yy = y+1; yy <= y+hallHeight; yy++){
+						for(int xx = x-2; xx <= x+2; xx++){
+							world.setBlock(xx,yy,z+2,BlockList.ravaged_brick,getBrickMeta(rand));
+							world.setBlock(xx,yy,z-2,BlockList.ravaged_brick,getBrickMeta(rand));
+						}
+
+						for(int zz = z-1; zz <= z+1; zz++){
+							world.setBlock(x+2,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
+							world.setBlock(x-2,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
+						}
+					}
+					
+					world.setBlock(x,y+1,z,Blocks.chest);
+					world.setTileEntityGenerator(x,y+1,z,"encasedCubicleChest",this);
+					
+					int[] spawnerX = new int[]{ -1, -1, -1, 0, 0, 1, 1, 1 }, spawnerZ = new int[]{ -1, 0, 1, -1, 1, -1, 0, 1 };
+					
+					for(int a = 0, spawnerMeta; a < spawnerX.length; a++){
+						spawnerMeta = rand.nextInt(3) == 0 ? 2 : 3;
+						world.setBlock(x+spawnerX[a],y+1,z+spawnerZ[a],BlockList.custom_spawner,spawnerMeta);
+						if (spawnerMeta == 2)world.setTileEntityGenerator(x+spawnerX[a],y+1,z+spawnerZ[a],"louseSpawner",this);
+					}
+					
+					break;
+					
+				case TERRARIUM:
+					for(int a = 0; a < 2; a++){
+						for(int b = 0; b < 2; b++){
+							for(int c = 6; c >= 2; c--){
+								world.setBlock(x-c+2*c*a,y+1,z-6+12*b,Blocks.dirt,2);
+								world.setBlock(x-c+2*c*a,y+1,z-5+10*b,Blocks.dirt,2);
+								world.setBlock(x-c+2*c*a,y+1,z-4+8*b,Blocks.dirt,2);
+							}
+							
+							world.setBlock(x-6+12*a,y+1,z-3+6*b,Blocks.dirt,2);
+							world.setBlock(x-5+10*a,y+1,z-3+6*b,Blocks.dirt,2);
+							world.setBlock(x-4+8*a,y+1,z-3+6*b,Blocks.dirt,2);
+						}
+					}
+					
+					// TODO
 					
 					break;
 					
