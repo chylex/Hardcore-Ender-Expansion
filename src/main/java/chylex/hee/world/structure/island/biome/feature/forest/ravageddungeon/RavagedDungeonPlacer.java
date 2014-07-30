@@ -456,16 +456,17 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	 */
 	
 	private enum EnumRoomDesign{
-		GOO_FOUNTAINS, CARPET_TARGET, SCATTERED_SPAWNERS_WITH_COAL, GLOWING_ROOM, FOUR_SPAWNERS, ENCASED_CUBICLE, TERRARIUM, RUINS
+		GOO_FOUNTAINS, BOWLS, CARPET_TARGET, SCATTERED_SPAWNERS_WITH_COAL, GLOWING_ROOM, FOUR_SPAWNERS, ENCASED_CUBICLE, TERRARIUM, RUINS
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomDesign>> roomDesignList = new WeightedList<>(
 		ObjectWeightPair.make(EnumRoomDesign.GOO_FOUNTAINS, 60),
 		ObjectWeightPair.make(EnumRoomDesign.RUINS, 60),
+		ObjectWeightPair.make(EnumRoomDesign.BOWLS, 55),
 		ObjectWeightPair.make(EnumRoomDesign.FOUR_SPAWNERS, 50),
-		ObjectWeightPair.make(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 35),
-		ObjectWeightPair.make(EnumRoomDesign.GLOWING_ROOM, 28),
-		ObjectWeightPair.make(EnumRoomDesign.CARPET_TARGET, 22),
+		ObjectWeightPair.make(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 42),
+		ObjectWeightPair.make(EnumRoomDesign.GLOWING_ROOM, 35),
+		ObjectWeightPair.make(EnumRoomDesign.CARPET_TARGET, 26),
 		ObjectWeightPair.make(EnumRoomDesign.ENCASED_CUBICLE, 15),
 		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 10)
 	);
@@ -586,6 +587,11 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					break;
 					
 				case ENCASED_CUBICLE:
+					if (level == 0){
+						hasGenerated = false;
+						break;
+					}
+					
 					for(int a = 0; a < 2; a++){
 						for(int b = 0; b < 2; b++){
 							world.setBlock(x-6+12*a,y+hallHeight,z-6+12*b,BlockList.ravaged_brick_glow);
@@ -703,7 +709,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 						
 						int height = rand.nextInt(3);
 						for(int yy = y+1; yy <= y+1+height; yy++){
-							if (rand.nextInt(8) == 0)world.setBlock(xx,yy,zz,BlockList.custom_spawner,3);
+							if (rand.nextInt(8-level) == 0)world.setBlock(xx,yy,zz,BlockList.custom_spawner,3);
 							else world.setBlock(xx,yy,zz,BlockList.ravaged_brick);
 						}
 						
@@ -746,6 +752,60 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					for(int a = 0; a < pillarX.length; a++){
 						for(int yy = y+1; yy <= y+hallHeight; yy++){
 							world.setBlock(x+pillarX[a],yy,z+pillarZ[a],BlockList.ravaged_brick_glow);
+						}
+					}
+					
+					if (rand.nextBoolean()){ // fences
+						for(int yy = y+1; yy <= y+hallHeight; yy++){
+							for(int xx = x-5; xx <= x+5; xx++){
+								if (world.isAir(xx,yy,z-6) && !world.isAir(xx,yy,z-7))world.setBlock(xx,yy,z-6,BlockList.ravaged_brick_fence);
+								if (world.isAir(xx,yy,z+6) && !world.isAir(xx,yy,z+7))world.setBlock(xx,yy,z+6,BlockList.ravaged_brick_fence);
+							}
+							
+							for(int zz = x-5; zz <= x+5; zz++){
+								if (world.isAir(x-6,yy,zz) && !world.isAir(x-7,yy,zz))world.setBlock(x-6,yy,zz,BlockList.ravaged_brick_fence);
+								if (world.isAir(x+6,yy,zz) && !world.isAir(x+7,yy,zz))world.setBlock(x+6,yy,zz,BlockList.ravaged_brick_fence);
+							}
+						}
+					}
+					
+					break;
+					
+				case BOWLS:
+					int bowlFill = rand.nextInt(4);
+					
+					for(int a = 0; a < 2; a++){
+						for(int b = 0; b < 2; b++){
+							world.setBlock(x-5+7*a,y+1,z-5+7*a,BlockList.ravaged_brick_glow);
+							world.setBlock(x-4+7*a,y+1,z-5+7*a,BlockList.ravaged_brick);
+							world.setBlock(x-3+7*a,y+1,z-5+7*a,BlockList.ravaged_brick);
+							world.setBlock(x-2+7*a,y+1,z-5+7*a,BlockList.ravaged_brick_glow);
+							world.setBlock(x-5+7*a,y+1,z-4+7*a,BlockList.ravaged_brick);
+							world.setBlock(x-5+7*a,y+1,z-3+7*a,BlockList.ravaged_brick);
+							world.setBlock(x-5+7*a,y+1,z-2+7*a,BlockList.ravaged_brick_glow);
+							world.setBlock(x-2+7*a,y+1,z-2+7*a,BlockList.ravaged_brick);
+							world.setBlock(x-2+7*a,y+1,z-2+7*a,BlockList.ravaged_brick);
+							world.setBlock(x-2+7*a,y+1,z-2+7*a,BlockList.ravaged_brick_glow);
+							world.setBlock(x-2+7*a,y+1,z-3+7*a,BlockList.ravaged_brick);
+							world.setBlock(x-2+7*a,y+1,z-4+7*a,BlockList.ravaged_brick);
+							
+							switch(bowlFill){
+								case 0:
+								case 1:
+								case 2:
+									world.setBlock(x-4+7*a,y+1,z-4+7*a,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
+									world.setBlock(x-3+7*a,y+1,z-4+7*a,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
+									world.setBlock(x-3+7*a,y+1,z-3+7*a,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
+									world.setBlock(x-4+7*a,y+1,z-3+7*a,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
+									break;
+									
+								case 3:
+									world.setBlock(x-4+7*a,y+1,z-4+7*a,(a^b) == 1 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 1 ? 3 : 0);
+									world.setBlock(x-3+7*a,y+1,z-4+7*a,(a^b) == 0 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 0 ? 3 : 0);
+									world.setBlock(x-3+7*a,y+1,z-3+7*a,(a^b) == 1 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 1 ? 3 : 0);
+									world.setBlock(x-4+7*a,y+1,z-3+7*a,(a^b) == 0 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 0 ? 3 : 0);
+									break;
+							}
 						}
 					}
 					
