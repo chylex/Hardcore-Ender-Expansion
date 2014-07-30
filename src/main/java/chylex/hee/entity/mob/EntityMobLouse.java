@@ -1,14 +1,19 @@
 package chylex.hee.entity.mob;
+import java.util.Iterator;
+import java.util.Set;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.charms.RuneType;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
@@ -16,7 +21,8 @@ import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.Enu
 
 public class EntityMobLouse extends EntityMob{
 	private LouseSpawnData louseData;
-	private byte armor,armorCapacity;
+	private float armor;
+	private byte armorCapacity,armorRegenTimer,teleportTimer;
 	
 	public EntityMobLouse(World world){
 		super(world);
@@ -41,7 +47,12 @@ public class EntityMobLouse extends EntityMob{
 		updateLouseData();
 	}
 	
-	private void updateLouseData(){ // TODO AI
+	@Override
+	protected boolean isAIEnabled(){
+		return false;
+	}
+	
+	private void updateLouseData(){
 		if (worldObj == null || worldObj.isRemote || louseData == null)return;
 		
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(15D+8D*louseData.attribute(EnumLouseAttribute.HEALTH));
@@ -73,6 +84,16 @@ public class EntityMobLouse extends EntityMob{
 				updateLouseData();
 			}
 		}
+		
+		if (armorCapacity > 0){
+			if (armorRegenTimer > 0)--armorRegenTimer;
+			else if (armor < armorCapacity){
+				if (++armor >= armorCapacity)armor = armorCapacity;
+				else armorRegenTimer = (byte)(10-2*louseData.attribute(EnumLouseAttribute.ARMOR));
+			}
+		}
+		
+		if (teleportTimer > 0)--teleportTimer;
 	}
 	
 	@Override
@@ -87,10 +108,13 @@ public class EntityMobLouse extends EntityMob{
 			int knockback = louseData.ability(EnumLouseAbility.KNOCKBACK);
 			
 			if (knockback > 0){
-				entity.addVelocity((-MathHelper.sin(rotationYaw*(float)Math.PI/180F)*knockback*0.5F),0.1D,(MathHelper.cos(rotationYaw*(float)Math.PI/180F)*knockback*0.5F));
+				entity.addVelocity((-MathHelper.sin(MathUtil.toRad(rotationYaw))*knockback*1.25F),0.1D,(MathHelper.cos(MathUtil.toRad(rotationYaw))*knockback*1.25F));
 				motionX *= 0.6D;
 				motionZ *= 0.6D;
 			}
+			
+			int magicDamage = louseData.ability(EnumLouseAbility.MAGICDMG);
+			if (magicDamage > 0)entity.attackEntityFrom(DamageSource.magic,4F+2F*(magicDamage-1));
 
 			if (entity instanceof EntityLivingBase)EnchantmentHelper.func_151384_a((EntityLivingBase)entity,this);
 			EnchantmentHelper.func_151385_b(this,entity);
@@ -98,6 +122,33 @@ public class EntityMobLouse extends EntityMob{
 			return true;
 		}
 		else return false;
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount){
+		int teleportLevel = louseData.attribute(EnumLouseAttribute.TELEPORT);
+		
+		if (teleportLevel > 0 && teleportTimer == 0){
+			teleport(teleportLevel);
+			return false;
+		}
+		
+		if (armor > 0F){
+			entityToAttack = source.getEntity();
+			playSound("random.anvil_land",0.5F,1.2F);
+			
+			if ((armor -= amount) <= 0F)armor = 0F;
+			armorRegenTimer = (byte)(100-louseData.attribute(EnumLouseAttribute.ARMOR)*15);
+			
+			return true;
+		}
+		
+		return super.attackEntityFrom(source,amount);
+	}
+	
+	private void teleport(int level){
+		teleportTimer = (byte)(80-level*10);
+		
 	}
 	
 	@Override
@@ -112,20 +163,39 @@ public class EntityMobLouse extends EntityMob{
 		louseData = new LouseSpawnData(nbt.getCompoundTag("louseData"));
 		updateLouseData();
 	}
-
+	
 	@Override
-	protected String getLivingSound(){
-		return "mob.silverfish.say";
+	protected void dropRareDrop(int looting){ // TODO recheck the parameter name?
+		int nearbyLice = worldObj.getEntitiesWithinAABB(EntityMobLouse.class,boundingBox.expand(4D,4D,4D)).size();
+		
+		if (rand.nextInt(1+(nearbyLice>>3)) == 0){
+			Set<EnumLouseAttribute> attributes = louseData.getAttributeSet();
+			Set<EnumLouseAbility> abilities = louseData.getAbilitySet();
+
+			if (!abilities.isEmpty() && rand.nextBoolean())entityDropItem(new ItemStack(ItemList.rune,1,RuneType.VOID.ordinal()),0F);
+			else if (!attributes.isEmpty()){
+				int n = rand.nextInt(attributes.size());
+				
+				for(Iterator<EnumLouseAttribute> iter = attributes.iterator(); iter.hasNext();){
+					EnumLouseAttribute attribute = iter.next();
+					
+					if (--n < 0){
+						entityDropItem(new ItemStack(ItemList.rune,1,attribute.ordinal()),0F);
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	@Override
 	protected String getHurtSound(){
-		return "mob.silverfish.hit";
+		return "mob.louse.hit";
 	}
 
 	@Override
 	protected String getDeathSound(){
-		return "mob.silverfish.kill";
+		return "mob.louse.hit";
 	}
 	
 	@Override

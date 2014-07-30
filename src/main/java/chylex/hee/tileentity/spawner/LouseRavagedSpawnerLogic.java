@@ -80,16 +80,16 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 			ATTACK, // increases damage dealt
 			SPEED, // increases speed per level
 			HEALTH, // increases health per level, lv1 adds regen, lv2 increases regen
-			ARMOR, // adds armor that absorbs damage, absorbing stops knockback, armor amount increases per level
-			TELEPORT; // allows teleportation with increasing distance per level
+			ARMOR, // adds armor that absorbs damage, absorbing stops knockback, armor amount & regen speed increases per level
+			TELEPORT; // allows teleportation with increasing distance & decreasing cooldown per level
 			
 			public static final EnumLouseAttribute[] values = values();
 		}
 		
 		public enum EnumLouseAbility{
 			KNOCKBACK, // increases knockback amount massively per level
-			MAGICDMG, // deals additional magic damage
-			HEAL; // when not attacked, it heals nearby mobs
+			MAGICDMG/*,*/ // deals additional magic damage, 2 hearts + 1 more per level
+			/*HEAL*/; // when not attacked, it heals nearby mobs TODO finish
 			
 			public static final EnumLouseAbility[] values = values();
 		}
