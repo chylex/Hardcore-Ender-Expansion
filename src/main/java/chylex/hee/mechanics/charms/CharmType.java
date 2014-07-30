@@ -1,10 +1,10 @@
 package chylex.hee.mechanics.charms;
 import static chylex.hee.mechanics.charms.RuneType.*;
+import java.text.DecimalFormat;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.tuple.Pair;
-import chylex.hee.item.ItemSpectralWand;
 
-public enum CharmType{ // TODO implement the rest
+public enum CharmType{ // TODO implement/fix the rest
 	BASIC_POWER(15, 0, new CharmRecipe[]{
 		new CharmRecipe(0).rune(POWER,3).prop("dmg",1.25F),
 		new CharmRecipe(1).rune(POWER,4).prop("dmg",1.45F),
@@ -49,13 +49,13 @@ public enum CharmType{ // TODO implement the rest
 		new CharmRecipe(22).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.10F),
 		new CharmRecipe(23).rune(POWER).rune(DEFENSE).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.32F).prop("blockreflectdmg",0.10F),
 		new CharmRecipe(24).rune(POWER).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.20F)
-	}, "perc,reducedmgblock$s$lang,chanceto$s$lang,reflect$s$perc,blockreflectdmg,$s$lang,damage$s$lang,whenblocking"),
+	}, "lit,-$perc,reducedmgblock$s$lang,damagetaken$s$lang,and$s$perc,blockreflectdmg$s$lang,reflected$s$lang,whenblocking"),
 	
 	DIGESTIVE_RECOVER(3, 5, new CharmRecipe[]{
 		new CharmRecipe(25).rune(POWER).rune(VIGOR).rune(VOID).prop("healthperhunger",0.50F),
 		new CharmRecipe(26).rune(POWER).rune(VIGOR,2).rune(VOID).prop("healthperhunger",1.00F),
 		new CharmRecipe(27).rune(POWER).rune(VIGOR,3).rune(VOID).prop("healthperhunger",2.00F)
-	}, ""),
+	}, "flopb,healthperhunger$s$lang,health$s$lang,per$s$lit,1$s$lang,hungerbar"),
 	
 	/*LIFE_STEAL(5, 0, new CharmRecipe[]{
 		new CharmRecipe(28).rune(POWER).rune(VIGOR).rune(MAGIC).rune(VOID).prop("stealhealth",2).prop("stealdealt",10),
@@ -86,8 +86,8 @@ public enum CharmType{ // TODO implement the rest
 		new CharmRecipe(44).rune(POWER).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",0.08F).prop("badefflvl",1).prop("badefftime",5),
 		new CharmRecipe(45).rune(POWER).rune(MAGIC).rune(VIGOR,2).rune(VOID).prop("badeffchance",0.09F).prop("badefflvl",2).prop("badefftime",5),
 		new CharmRecipe(46).rune(POWER).rune(MAGIC,2).rune(VIGOR).rune(VOID).prop("badeffchance",0.14F).prop("badefflvl",1).prop("badefftime",5),
-		new CharmRecipe(65).rune(POWER,2).rune(MAGIC).rune(VIGOR).rune(VOID).prop("baddeffchance",0.09F).prop("badefflvl",1).prop("badefftime",10)
-	}, ""),
+		new CharmRecipe(65).rune(POWER,2).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",0.09F).prop("badefflvl",1).prop("badefftime",10)
+	}, "$perc,badeffchance$s$lang,chanceto$s$lang,cause$s$lang,potionlevel$s$int,badefflvl$s$lang,effect$s$lang,for$s$int,badefftime$s$lang,seconds"),
 	
 	/*WITCHERY_DEFENSE(9, 0, new CharmRecipe[]{
 		new CharmRecipe(47).rune(MAGIC).rune(VIGOR).rune(VOID).rune(DEFENSE).prop("badeffreduce",10),
@@ -99,11 +99,11 @@ public enum CharmType{ // TODO implement the rest
 		new CharmRecipe(50).rune(AGILITY,4).rune(DEFENSE).prop("fallblocks",6)
 	}, "lit,+$int,fallblocks$s$lang,blocks"),
 	
-	HASTE(1, 8, new CharmRecipe[]{
+	/*HASTE(1, 8, new CharmRecipe[]{
 		new CharmRecipe(51).rune(AGILITY,2).rune(VOID).prop("breakspd",1.10F),
 		new CharmRecipe(52).rune(AGILITY,3).rune(VOID).prop("breakspd",1.18F),
 		new CharmRecipe(53).rune(AGILITY,4).rune(VOID).prop("breakspd",1.25F)
-	}, "lit,+$perc-1,breakspd$s$lang,digspeed"),
+	}, "lit,+$perc-1,breakspd$s$lang,digspeed"),*/
 	
 	CRITICAL_STRIKE(14, 4, new CharmRecipe[]{
 		new CharmRecipe(54).rune(POWER,2).rune(AGILITY).prop("critchance",0.10F).prop("critdmg",1.50F),
@@ -137,6 +137,9 @@ public enum CharmType{ // TODO implement the rest
 	}, "")*/;
 	
 	// last used id: 70
+
+	private static final DecimalFormat formatOnePlace = new DecimalFormat("0.0");
+	private static final DecimalFormat formatTwoPlaces = new DecimalFormat("0.00");
 	
 	public static Pair<CharmType,CharmRecipe> getFromDamage(int damage){
 		for(CharmType type:values()){
@@ -175,7 +178,8 @@ public enum CharmType{ // TODO implement the rest
 							switch(args[0]){
 								case "lit": build.append(args[1]); break;
 								case "lang": build.append(StatCollector.translateToLocal("charm."+args[1])); break;
-								case "float": build.append(ItemSpectralWand.formatTwoPlaces.format(recipe.getProp(args[1]))); break;
+								case "float": build.append(formatTwoPlaces.format(recipe.getProp(args[1]))); break;
+								case "flopb": float val = recipe.getProp(args[1]); build.append(val < 1F ? formatOnePlace.format(val) : Math.round(val)); break;
 								case "perc": build.append(Math.round(100F*recipe.getProp(args[1]))).append('%'); break;
 								case "perc1-": build.append(Math.round(100F*(1F-recipe.getProp(args[1])))).append('%'); break;
 								case "perc-1": build.append(Math.round(100F*(recipe.getProp(args[1])-1F))).append('%'); break;

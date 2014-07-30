@@ -1,11 +1,11 @@
 package chylex.hee.system;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.Random;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,12 +19,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public final class ReflectionPublicizer{
 	public static Field entityGhastTarget;
-	public static Field entityLivingExperienceValue;
 	public static Field entityLivingBaseRecentlyHit;
 	public static Field entityFire;
 	public static Field netHandlerPlayServerFloatingTicks;
 	public static Field[] netHandlerPlayServerLastPos;
 	public static Field renderGlobalMapSoundPositions;
+	
+	public static Method entityLivingBaseGetExperiencePoints;
 
 	public static void load(){
 		TimeMeasurement.start("ReflectionPublicizer");
@@ -38,26 +39,7 @@ public final class ReflectionPublicizer{
 			}
 		}
 
-		for(Field field:EntityLiving.class.getDeclaredFields()){
-			if ((field.getModifiers()&Modifier.PROTECTED) == Modifier.PROTECTED && field.getType().isPrimitive()){
-				field.setAccessible(true);
-				entityLivingExperienceValue = field;
-				DragonUtil.info("ReflectionPublicizer - entityLivingExperienceValue: "+field.getName());
-				break;
-			}
-		}
-
-		Field[] fields = EntityLivingBase.class.getDeclaredFields();
-		for(int a = 28; a < fields.length; a++){
-			if (EntityPlayer.class.isAssignableFrom(fields[a].getType())){
-				fields[a+1].setAccessible(true);
-				entityLivingBaseRecentlyHit = fields[a+1];
-				DragonUtil.info("ReflectionPublicizer - entityLivingBaseRecentlyHit: "+fields[a+1].getName());
-				break;
-			}
-		}
-
-		fields = Entity.class.getDeclaredFields();
+		Field[] fields = Entity.class.getDeclaredFields();
 		for(int a = 35; a < fields.length; a++){
 			if (Random.class.isAssignableFrom(fields[a].getType())){
 				fields[a+3].setAccessible(true);
@@ -78,9 +60,22 @@ public final class ReflectionPublicizer{
 				netHandlerPlayServerLastPos = new Field[]{
 					fields[a+1], fields[a+2], fields[a+3]
 				};
+				
 				for(Field field:netHandlerPlayServerLastPos)field.setAccessible(true);
 				DragonUtil.info("ReflectionPublicizer - netHandlerPlayServerLastPos: "+fields[a+1].getName()+", "+fields[a+2].getName()+", "+fields[a+3].getName());
 				break;
+			}
+		}
+		
+		for(Method method:EntityLivingBase.class.getDeclaredMethods()){
+			if ((method.getModifiers()&Modifier.PROTECTED) == Modifier.PROTECTED && method.getReturnType() == Integer.TYPE){
+				Class<?>[] params = method.getParameterTypes();
+				if (params.length == 1 && EntityPlayer.class.isAssignableFrom(params[0])){
+					method.setAccessible(true);
+					entityLivingBaseGetExperiencePoints = method;
+					DragonUtil.info("ReflectionPublicizer - entityLivingBaseGetExperiencePoints: "+method.getName());
+					break;
+				}
 			}
 		}
 
@@ -114,6 +109,15 @@ public final class ReflectionPublicizer{
 			field.set(o,newValue);
 		}catch(Exception e){
 			e.printStackTrace();
+		}
+	}
+	
+	public static Object invoke(Method method, Object o, Object...params){
+		try{
+			return method.invoke(o,params);
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

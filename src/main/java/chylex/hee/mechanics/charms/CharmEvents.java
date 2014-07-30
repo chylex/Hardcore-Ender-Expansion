@@ -58,16 +58,28 @@ public final class CharmEvents{
 		return finalValue;
 	}
 	
-	private static float getPropMultiplied(EntityPlayer player, String prop, float baseValue){
+	private static float getPropPercentIncrease(EntityPlayer player, String prop, float baseValue){
 		float finalValue = 0;
 		for(float val:getProp(player,prop))finalValue += (val*baseValue)-baseValue;
+		return finalValue;
+	}
+	
+	private static float getPropPercentDecrease(EntityPlayer player, String prop, float baseValue){
+		float finalValue = 0, tmp;
+		
+		for(float val:getProp(player,prop)){
+			tmp = baseValue*val;
+			finalValue += tmp;
+			baseValue -= tmp;
+		}
+		
 		return finalValue;
 	}
 	
 	private final TObjectByteHashMap<UUID> playerRegen = new TObjectByteHashMap<>();
 	private final TObjectFloatHashMap<UUID> playerSpeed = new TObjectFloatHashMap<>();
 	
-	private final AttributeModifier attrSpeed = new AttributeModifier(UUID.fromString("91AEAA56-376B-4498-935B-2F7F68070635"),"HeeCharmSpeed",0.3D,2);
+	private final AttributeModifier attrSpeed = new AttributeModifier(UUID.fromString("91AEAA56-376B-4498-935B-2F7F68070635"),"HeeCharmSpeed",0.15D,2);
 	
 	CharmEvents(){}
 	
@@ -97,26 +109,27 @@ public final class CharmEvents{
 		if (e.phase == Phase.START){
 			// BASIC_AGILITY, EQUALITY
 			float spd = getPropSummed(e.player,"spd");
-			if (spd > 0F){
-				float prevSpd = playerSpeed.get(e.player.getGameProfile().getId());
+			float prevSpd = playerSpeed.get(e.player.getGameProfile().getId());
+			
+			if (MathUtil.floatEquals(prevSpd,playerSpeed.getNoEntryValue()) || !MathUtil.floatEquals(prevSpd,spd)){
+				IAttributeInstance attribute = e.player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
 				
-				if (MathUtil.floatEquals(prevSpd,playerSpeed.getNoEntryValue()) || !MathUtil.floatEquals(prevSpd,spd)){
-					IAttributeInstance attribute = e.player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
-					
-					if (attribute != null){
-						attribute.removeModifier(attrSpeed);
-						attribute.applyModifier(new AttributeModifier(attrSpeed.getID(),attrSpeed.getName()+spd,attrSpeed.getAmount()*spd,attrSpeed.getOperation()));
-					}
-					
-					playerSpeed.put(e.player.getGameProfile().getId(),spd);
+				if (attribute != null){
+					attribute.removeModifier(attrSpeed);
+					attribute.applyModifier(new AttributeModifier(attrSpeed.getID(),attrSpeed.getName()+spd,attrSpeed.getAmount()*spd,attrSpeed.getOperation()));
 				}
+				
+				playerSpeed.put(e.player.getGameProfile().getId(),spd);
 			}
 			
 			// BASIC_VIGOR, EQUALITY
-			float regen = getPropMultiplied(e.player,"regenspd",40F);
-			
-			if (regen > 0F && playerRegen.adjustOrPutValue(e.player.getGameProfile().getId(),(byte)1,(byte)0) >= 40F-regen){
-				e.player.heal(1F);
+			if (e.player.shouldHeal() && e.player.getFoodStats().getFoodLevel() >= 18){
+				float regen = getPropPercentDecrease(e.player,"regenspd",100F);
+				
+				if (regen > 0F && playerRegen.adjustOrPutValue(e.player.getGameProfile().getId(),(byte)1,(byte)0) >= 100F-regen){
+					e.player.heal(1F);
+					playerRegen.put(e.player.getGameProfile().getId(),(byte)0);
+				}
 			}
 		}
 	}
@@ -139,9 +152,9 @@ public final class CharmEvents{
 		else{
 			if (e.source.getSourceOfDamage() instanceof EntityPlayer){
 				EntityPlayer sourcePlayer = (EntityPlayer)e.source.getSourceOfDamage();
-				System.out.println("before "+e.ammount);
+
 				// BASIC_POWER / EQUALITY
-				e.ammount += getPropMultiplied(sourcePlayer,"dmg",e.ammount);System.out.println("after "+e.ammount);
+				e.ammount += getPropPercentIncrease(sourcePlayer,"dmg",e.ammount);
 	
 				// CRITICAL_STRIKE
 				float[] crit = getProp(sourcePlayer,"critchance");
@@ -171,8 +184,8 @@ public final class CharmEvents{
 						if (e.entity.worldObj.rand.nextFloat() < badEff[a]){
 							Potion type = potionEffects.remove(e.entity.worldObj.rand.nextInt(potionEffects.size()));
 							
-							if (type == null)sourcePlayer.setFire((int)badEffTime[a]);
-							else sourcePlayer.addPotionEffect(new PotionEffect(type.id,20*(int)badEffTime[a],(int)badEffLvl[a]-1));
+							if (type == null)e.entity.setFire((int)badEffTime[a]);
+							else e.entityLiving.addPotionEffect(new PotionEffect(type.id,20*(int)badEffTime[a],(int)badEffLvl[a]-1));
 						}
 					}
 				}
@@ -182,23 +195,18 @@ public final class CharmEvents{
 				EntityPlayer targetPlayer = (EntityPlayer)e.entityLiving;
 				
 				// BASIC_DEFENSE / EQUALITY
-				e.ammount -= getPropMultiplied(targetPlayer,"reducedmg",e.ammount);
+				e.ammount -= getPropPercentDecrease(targetPlayer,"reducedmg",e.ammount);
 				
 				if (targetPlayer.isBlocking()){
 					// BLOCKING
-					e.ammount -= getPropMultiplied(targetPlayer,"reducedmgblock",e.ammount);
+					e.ammount -= getPropPercentDecrease(targetPlayer,"reducedmgblock",e.ammount);
 					
 					// BLOCKING_REFLECTION
-					float[] reflect = getProp(targetPlayer,"reducedmgblock");
+					float[] reflectDmg = getProp(targetPlayer,"blockreflectdmg");
 					
-					if (reflect.length > 0){
-						float[] reflectDmg = getProp(targetPlayer,"blockreflectdmg");
+					if (reflectDmg.length > 0){
 						float reflected = 0F;
-						
-						for(int a = 0; a < reflect.length; a++){
-							if (e.entity.worldObj.rand.nextFloat() < reflect[a])reflected += e.ammount*reflectDmg[a];
-						}
-						
+						for(int a = 0; a < reflectDmg.length; a++)reflected += e.ammount*reflectDmg[a];
 						e.source.getSourceOfDamage().attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),reflected);
 					}
 				}
@@ -215,8 +223,8 @@ public final class CharmEvents{
 		if (e.recentlyHit && e.source.getSourceOfDamage() instanceof EntityPlayer && e.entityLiving instanceof EntityLiving &&
 			!e.entityLiving.isChild() && e.entity.worldObj.getGameRules().getGameRuleBooleanValue("doMobLoot")){
 			// BASIC_MAGIC / EQUALITY
-			int xp = (int)ReflectionPublicizer.get(ReflectionPublicizer.entityLivingExperienceValue,e.entityLiving);
-			xp = (int)Math.ceil(getPropMultiplied((EntityPlayer)e.source.getSourceOfDamage(),"exp",xp));
+			int xp = (int)ReflectionPublicizer.invoke(ReflectionPublicizer.entityLivingBaseGetExperiencePoints,e.entityLiving,(EntityPlayer)e.source.getSourceOfDamage());
+			xp = (int)Math.ceil(getPropPercentIncrease((EntityPlayer)e.source.getSourceOfDamage(),"exp",xp));
 			
 			while(xp > 0){
 				int split = EntityXPOrb.getXPSplit(xp);
@@ -234,7 +242,7 @@ public final class CharmEvents{
 		if (e.getPlayer() == null)return;
 		
 		// BASIC_MAGIC / EQUALITY
-		e.setExpToDrop(e.getExpToDrop()+(int)Math.ceil(getPropMultiplied(e.getPlayer(),"exp",e.getExpToDrop())));
+		e.setExpToDrop(e.getExpToDrop()+(int)Math.ceil(getPropPercentIncrease(e.getPlayer(),"exp",e.getExpToDrop())));
 	}
 	
 	/**
@@ -256,7 +264,10 @@ public final class CharmEvents{
 					if (e.entity.worldObj.rand.nextFloat() < repair[a])toRepair += repairAmt[a];
 				}
 				
+				if (MathUtil.floatEquals(toRepair,0F))return;
+				
 				ItemStack newIS = e.original.copy();
+				newIS.stackSize = 1;
 				newIS.setItemDamage(newIS.getMaxDamage()-(int)Math.floor(newIS.getMaxDamage()*Math.min(1F,toRepair)));
 				
 				EntityItem newItem = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY+e.entityPlayer.getEyeHeight()-0.3D,e.entity.posZ,newIS);
@@ -289,19 +300,20 @@ public final class CharmEvents{
 		if (e.item.getItemUseAction() == EnumAction.eat && e.item.getItem() instanceof ItemFood){
 			int hungerRecovered = ((ItemFood)e.item.getItem()).func_150905_g(e.item);
 			
-			float healthRecovered = getPropMultiplied(e.entityPlayer,"healthperhunger",hungerRecovered);
+			float healthRecovered = getPropPercentIncrease(e.entityPlayer,"healthperhunger",hungerRecovered);
 			if (healthRecovered > 0F)e.entityPlayer.heal(healthRecovered);
 		}
 	}
 	
 	/**
 	 * HASTE
+	 * Doesn't work on server side, TODO fix
 	 */
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBreakSpeed(BreakSpeed e){
 		if (e.entity.worldObj.isRemote)return;
 		
 		// HASTE
-		e.newSpeed *= 1F+getPropMultiplied(e.entityPlayer,"breakspd",1F);
+		e.newSpeed *= 1F+getPropPercentIncrease(e.entityPlayer,"breakspd",e.originalSpeed);
 	}
 }
