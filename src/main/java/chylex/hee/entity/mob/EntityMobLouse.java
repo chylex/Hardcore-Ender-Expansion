@@ -225,7 +225,7 @@ public class EntityMobLouse extends EntityMob{
 	}
 	
 	@Override
-	protected void dropRareDrop(int looting){ // TODO recheck the parameter name?
+	protected void dropRareDrop(int lootingExtraLuck){
 		int nearbyLice = worldObj.getEntitiesWithinAABB(EntityMobLouse.class,boundingBox.expand(4D,4D,4D)).size();
 		
 		if (rand.nextInt(1+(nearbyLice>>3)) == 0){

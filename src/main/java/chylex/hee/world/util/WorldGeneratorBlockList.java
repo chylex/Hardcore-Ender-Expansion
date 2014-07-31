@@ -49,7 +49,6 @@ public class WorldGeneratorBlockList extends ArrayList<BlockLocation>{
 		try{
 			for(BlockLocation loc:this)world.setBlock(loc.x,loc.y,loc.z,block);
 		}catch(Exception e){
-			e.printStackTrace();
 			DragonUtil.warning("Ouch, WorldGeneratorBlockList's generation gone bad :(");
 			return false;
 		}

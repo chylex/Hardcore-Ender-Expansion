@@ -79,7 +79,6 @@ public class MiscEvents{
 				}
 			}
 		}
-		// TODO else if (e.entity.dimension == 1 && rand.nextInt(100) == 0)is = new ItemStack(ItemList.essence,1,EssenceType.SPECTRAL.getItemDamage());
 		
 		if (is != null){
 			EntityItem item = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,is);

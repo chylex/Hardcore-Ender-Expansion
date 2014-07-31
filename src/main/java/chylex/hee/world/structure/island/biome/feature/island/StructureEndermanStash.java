@@ -35,7 +35,7 @@ public class StructureEndermanStash extends AbstractIslandStructure{
 			
 			boolean canGenerate = true;
 			
-			for(int spaceCheck = 0,px,py,pz; spaceCheck < 12; spaceCheck++){
+			for(int spaceCheck = 0, px, py, pz; spaceCheck < 12; spaceCheck++){
 				px = xx+rand.nextInt(irad*2)-irad;
 				py = yy+rand.nextInt(10)-2;
 				pz = zz+rand.nextInt(irad*2)-irad;
@@ -63,7 +63,7 @@ public class StructureEndermanStash extends AbstractIslandStructure{
 			Block[][][] blocks = new Block[ibrad*2+1][bheight][ibrad*2+1];
 			
 			int blockAmount = (int)Math.ceil((Math.PI*brad*brad*bheight*bheight*(1.2F+rand.nextFloat()*0.3F))/2.6D);
-			for(int a = 0,indexX,indexZ; a < blockAmount; a++){
+			for(int a = 0, indexX, indexZ; a < blockAmount; a++){
 				indexX = Math.min(ibrad*2,Math.max((int)Math.floor(ibrad+((rand.nextGaussian()-0.5D)*(rand.nextGaussian()-0.5D))*brad*0.4D),0));
 				indexZ = Math.min(ibrad*2,Math.max((int)Math.floor(ibrad+((rand.nextGaussian()-0.5D)*(rand.nextGaussian()-0.5D))*brad*0.4D),0));
 				blocks[indexX][rand.nextInt(bheight)][indexZ] = blockList[rand.nextInt(blockList.length)];
@@ -72,7 +72,7 @@ public class StructureEndermanStash extends AbstractIslandStructure{
 			Block toPlace;
 			for(int px = 0,bx,by,bz; px < ibrad*2+1; px++){
 				for(int pz = 0; pz < ibrad*2+1; pz++){
-					for(int py = 0,pyReal = 0; py < bheight; py++){
+					for(int py = 0, pyReal = 0; py < bheight; py++){
 						bx = xx+1-ibrad+px;
 						by = yy+pyReal;
 						bz = zz+1-ibrad+pz;

@@ -12,15 +12,15 @@ import chylex.hee.world.util.BlockLocation;
 public class StructureLavaPool extends AbstractIslandStructure{
 	@Override
 	protected boolean generate(Random rand){
-		int x = getRandomXZ(rand,12), z = getRandomXZ(rand,12), y = 25+rand.nextInt(70);
+		int x = getRandomXZ(rand,12), z = getRandomXZ(rand,12), y = 25+rand.nextInt(50);
 		
-		while(world.isAir(x,--y,z));
+		while(world.isAir(x,--y,z) && y > 10);
 		if (world.getBlock(x,y,z) != surface())return false;
 		
 		Set<BlockLocation> lavaBlocks = new HashSet<BlockLocation>();
 		
-		for(int disc = 0, discAmount = 8+rand.nextInt(10); disc < discAmount; disc++){
-			double len = rand.nextDouble()*disc*0.75D, ang = rand.nextDouble()*Math.PI*2D, rad = 2D+rand.nextDouble()*2.5D,
+		for(int disc = 0, discAmount = 5+rand.nextInt(8); disc < discAmount; disc++){
+			double len = (0.5D+rand.nextDouble()*0.5D)*disc*0.75D, ang = rand.nextDouble()*Math.PI*2D, rad = 1.8D+rand.nextDouble()*3D,
 				   radSq = MathUtil.square(rad+0.5D), px, pz;
 			
 			px = x+Math.cos(ang)*len;
@@ -33,7 +33,7 @@ public class StructureLavaPool extends AbstractIslandStructure{
 					}
 				}
 			}
-		}
+		} // TODO optimize
 		
 		for(BlockLocation lava:lavaBlocks){
 			if (world.getBlock(lava.x,lava.y,lava.z) != surface() || world.isAir(lava.x,lava.y-1,lava.z) ||

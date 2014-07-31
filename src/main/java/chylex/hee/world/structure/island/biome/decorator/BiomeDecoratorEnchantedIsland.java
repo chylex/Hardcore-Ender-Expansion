@@ -1,10 +1,9 @@
 package chylex.hee.world.structure.island.biome.decorator;
-import net.minecraft.block.BlockFalling;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
-import chylex.hee.world.structure.island.biome.feature.island.StructureGooLake;
 import chylex.hee.world.structure.island.biome.feature.island.StructureEndermanStash;
+import chylex.hee.world.structure.island.biome.feature.island.StructureGooLake;
 
 public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	private static IslandBiomeBase getBiome(){
@@ -34,29 +33,29 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 						oz = cz*16+rand.nextInt(16),
 						oy = world.getHighestY(ox,oz);
 					
-					if (oy <= 0)return;
+					if (oy > 0){
+						boolean generateObsidian = true;
 					
-					for(int xx = ox-radius; xx <= ox+radius; ++xx){
-						for(int zz = oz-radius; zz <= oz+radius; ++zz){
-							if (MathUtil.square(xx-ox)+MathUtil.square(zz-oz) <= radius*radius+1){
-								if (Math.abs(world.getHighestY(xx,zz)-oy) > 2)return;
+						for(int xx = ox-radius; xx <= ox+radius && generateObsidian; ++xx){
+							for(int zz = oz-radius; zz <= oz+radius && generateObsidian; ++zz){
+								if (MathUtil.square(xx-ox)+MathUtil.square(zz-oz) <= radius*radius+1){
+									if (Math.abs(world.getHighestY(xx,zz)-oy) > 2)generateObsidian = false;
+								}
 							}
 						}
-					}
-					
-					BlockFalling.fallInstantly = true;
-					
-					for(int xx = ox-radius; xx <= ox+radius; ++xx){
-						for(int zz = oz-radius; zz <= oz+radius; ++zz){
-							for(int yy = world.getHighestY(xx,zz); yy < oy+height && yy < 128; ++yy){
-								if (MathUtil.square(xx-ox)+MathUtil.square(zz-oz) <= radius*radius+0.5D+rand.nextGaussian()*0.7D){
-									world.setBlock(xx,yy,zz,BlockList.obsidian_end,0,true);
+						
+						if (generateObsidian){
+							for(int xx = ox-radius; xx <= ox+radius; ++xx){
+								for(int zz = oz-radius; zz <= oz+radius; ++zz){
+									for(int yy = world.getHighestY(xx,zz)+1; yy < oy+height && yy < 128; ++yy){
+										if (MathUtil.square(xx-ox)+MathUtil.square(zz-oz) <= radius*radius+0.5D+rand.nextGaussian()*0.7D){
+											world.setBlock(xx,yy,zz,BlockList.obsidian_end,0,true);
+										}
+									}
 								}
 							}
 						}
 					}
-					
-					BlockFalling.fallInstantly = false;
 				}
 				
 				if (rand.nextInt(14) <= 3)generateStructure(stash,getBiome());

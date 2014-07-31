@@ -54,7 +54,7 @@ public final class LargeStructureWorld{
 	}
 	
 	public void setBlock(int blockX, int blockY, int blockZ, Block block, int metadata, boolean scheduleUpdate){
-		getChunk(blockX,blockZ).setBlock(xInChunk(blockX),blockY,zInChunk(blockZ),block,0,scheduleUpdate);
+		getChunk(blockX,blockZ).setBlock(xInChunk(blockX),blockY,zInChunk(blockZ),block,metadata,scheduleUpdate);
 	}
 	
 	public Block getBlock(int blockX, int blockY, int blockZ){

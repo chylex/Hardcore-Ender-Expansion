@@ -61,6 +61,7 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
 		if (bb.isVecInside(xx,yy,zz)){
 			world.setBlock(xx,yy,zz,block,metadata,3);
+			world.markBlockForUpdate(xx,yy,zz);
 			return true;
 		}
 		else return false;

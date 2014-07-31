@@ -109,33 +109,33 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 				}
 			}
 			
-			TimeMeasurement.finish("IslandGen - terrain");
-			TimeMeasurement.start("IslandGen - caves");
+			/*TimeMeasurement.finish("IslandGen - terrain");
+			TimeMeasurement.start("IslandGen - caves");*/
 			
 			CaveGenerator caveGen = new CaveGenerator(centerX,25,centerZ,halfSize,20,halfSize);
 			caveGen.setup(consistentRand,biome);
 			caveGen.generate(structure);
 			
-			TimeMeasurement.finish("IslandGen - caves");
-			TimeMeasurement.start("IslandGen - ores");
+			/*TimeMeasurement.finish("IslandGen - caves");
+			TimeMeasurement.start("IslandGen - ores");*/
 			
 			OreGenerator oreGen = new OreGenerator(8,0,8,size,55,size);
 			oreGen.setup(consistentRand,biome);
 			oreGen.generate(structure);
 			
-			TimeMeasurement.finish("IslandGen - ores");
-			TimeMeasurement.start("IslandGen - biome");
+			/*TimeMeasurement.finish("IslandGen - ores");
+			TimeMeasurement.start("IslandGen - biome");*/
 			
 			biome.decorateGen(structure,consistentRand,centerX,centerZ);
 			
-			TimeMeasurement.finish("IslandGen - biome");
+			//TimeMeasurement.finish("IslandGen - biome");
 			
 			structure.setBlock(104,8,104,BlockList.biome_core,biomeData.content.id,true);
 		
 			isSetup = true;
 		}
 
-		TimeMeasurement.start("IslandGen - chunks");
+		//TimeMeasurement.start("IslandGen - chunks");
 		
 		for(int chunkX = 0; chunkX < 13; chunkX++){
 			for(int chunkZ = 0; chunkZ < 13; chunkZ++){
@@ -143,7 +143,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 			}
 		}
 		
-		TimeMeasurement.finish("IslandGen - chunks");
+		//TimeMeasurement.finish("IslandGen - chunks");
 		
 		return true;
 	}

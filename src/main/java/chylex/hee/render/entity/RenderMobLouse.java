@@ -40,7 +40,7 @@ public class RenderMobLouse extends RenderLiving{
 	}
 	
 	private enum RuneColor{
-		RED(0.5469F,0F,0F), YELLOW(0.5469F,0.5469F,0F), GREEN(0F,0.5469F,0F), BLUE(0F,0.41F,0.5469F), PURPLE(0.3633F,0F,0.5469F), GRAY(0.5469F,0.5469F,0.5469F);
+		RED(0.4922F,0F,0F), YELLOW(0.4922F,0.4922F,0F), GREEN(0F,0.4922F,0F), BLUE(0F,0.369F,0.4922F), PURPLE(0.327F,0F,0.4922F), GRAY(0.4922F,0.4922F,0.4922F);
 		
 		public final float red, green, blue;
 		
@@ -109,7 +109,7 @@ public class RenderMobLouse extends RenderLiving{
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
 			
-			GL11.glColor4f(color.red*0.9F,color.green*0.9F,color.blue*0.9F,1F); // TODO tweak color
+			GL11.glColor4f(color.red,color.green,color.blue,1F);
 			
 			return 1;
 		}

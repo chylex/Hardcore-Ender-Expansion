@@ -7,24 +7,18 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelLouse extends ModelBase{ // TODO review model
+public class ModelLouse extends ModelBase{
 	private final ModelRenderer headMain,headFront,eyes;
 	private final ModelRenderer antR,antL,mandible;
 	private final ModelRenderer thx;
 	private final ModelRenderer legBase1,legBase2,legBase3;
 	private final ModelRenderer abMain,abSide,abBack;
-	private final ModelRenderer rFLeg1,rFLeg2,rFLeg3;
-	private final ModelRenderer rFLegClawOuter;//,rFLegClawInner;
-	private final ModelRenderer rBLeg1,rBLeg2,rBLeg3;
-	private final ModelRenderer rBLegClawOuter;//,rBLegClawInner;
-	private final ModelRenderer lBLeg1,lBLeg2,lBLeg3;
-	private final ModelRenderer lBLegClawOuter;//,lBLegClawInner;
-	private final ModelRenderer lFLeg1,lFLeg2,lFLeg3;
-	private final ModelRenderer lFLegClawOuter;//,lFLegClawInner;
-	private final ModelRenderer rMLeg2,rMLeg1,rMLeg3;
-	private final ModelRenderer rMLegClawOuter;//,rMLegClawInner;
-	private final ModelRenderer lMLeg1,lMLeg2,lMLeg3;
-	private final ModelRenderer lMLegClawOuter;//,lMLegClawInner;
+	private final ModelRenderer rFLeg1,rFLeg2,rFLeg3,rFLegClaw;
+	private final ModelRenderer rBLeg1,rBLeg2,rBLeg3,rBLegClaw;
+	private final ModelRenderer lBLeg1,lBLeg2,lBLeg3,lBLegClaw;
+	private final ModelRenderer lFLeg1,lFLeg2,lFLeg3,lFLegClaw;
+	private final ModelRenderer rMLeg2,rMLeg1,rMLeg3,rMLegClaw;
+	private final ModelRenderer lMLeg1,lMLeg2,lMLeg3,lMLegClaw;
 
 	public ModelLouse(){
 		textureWidth = 64;
@@ -103,13 +97,9 @@ public class ModelLouse extends ModelBase{ // TODO review model
 		rFLeg3.addBox(2F,-7.5F,-1F,6,2,2);
 		setRotation(rFLeg3,0F,0F,0F);
 		
-		rFLegClawOuter = new ModelRenderer(this,25,122);
-		rFLegClawOuter.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(rFLegClawOuter,0F,0F,0F);
-		
-		/*rFLegClawInner = new ModelRenderer(this,35,122);
-		rFLegClawInner.addBox(8F,-6F,-0.5F,2,1,1);
-		setRotation(rFLegClawInner,0F,0F,0F);*/
+		rFLegClaw = new ModelRenderer(this,25,122);
+		rFLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
+		setRotation(rFLegClaw,0F,0F,0F);
 		
 		rBLeg1 = new ModelRenderer(this,25,103);
 		rBLeg1.addBox(-1.033333F,-3F,-1F,2,4,2);
@@ -124,13 +114,9 @@ public class ModelLouse extends ModelBase{ // TODO review model
 		rBLeg3.addBox(2F,-7.5F,-1F,6,2,2);
 		setRotation(rBLeg3,0F,0F,0F);
 		
-		rBLegClawOuter = new ModelRenderer(this,25,122);
-		rBLegClawOuter.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(rBLegClawOuter,0F,0F,0F);
-		
-		/*rBLegClawInner = new ModelRenderer(this,35,122);
-		rBLegClawInner.addBox(8F,-6F,-0.5F,2,1,1);
-		setRotation(rBLegClawInner,0F,0F,0F);*/
+		rBLegClaw = new ModelRenderer(this,25,122);
+		rBLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
+		setRotation(rBLegClaw,0F,0F,0F);
 		
 		lBLeg1 = new ModelRenderer(this,25,103);
 		lBLeg1.addBox(-1.033333F,-3F,-1F,2,4,2);
@@ -145,13 +131,9 @@ public class ModelLouse extends ModelBase{ // TODO review model
 		lBLeg3.addBox(2F,-7.5F,-1F,6,2,2);
 		setRotation(lBLeg3,0F,0F,0F);
 		
-		lBLegClawOuter = new ModelRenderer(this,25,122);
-		lBLegClawOuter.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(lBLegClawOuter,0F,0F,0F);
-		
-		/*lBLegClawInner = new ModelRenderer(this,35,122);
-		lBLegClawInner.addBox(8F,-6F,-0.5F,2,1,1);
-		setRotation(lBLegClawInner,0F,0F,0F);*/
+		lBLegClaw = new ModelRenderer(this,25,122);
+		lBLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
+		setRotation(lBLegClaw,0F,0F,0F);
 		
 		lFLeg1 = new ModelRenderer(this,25,103);
 		lFLeg1.addBox(-1F,-3F,-1F,2,4,2);
@@ -166,13 +148,9 @@ public class ModelLouse extends ModelBase{ // TODO review model
 		lFLeg3.addBox(2F,-7.5F,-1F,6,2,2);
 		setRotation(lFLeg3,0F,0F,0F);
 		
-		lFLegClawOuter = new ModelRenderer(this,25,122);
-		lFLegClawOuter.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(lFLegClawOuter,0F,0F,0F);
-		
-		/*lFLegClawInner = new ModelRenderer(this,35,122);
-		lFLegClawInner.addBox(8F,-6F,-0.5F,2,1,1);
-		setRotation(lFLegClawInner,0F,0F,0F);*/
+		lFLegClaw = new ModelRenderer(this,25,122);
+		lFLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
+		setRotation(lFLegClaw,0F,0F,0F);
 		
 		rMLeg1 = new ModelRenderer(this,25,103);
 		rMLeg1.addBox(-1.033333F,-3F,-1F,2,4,2);
@@ -187,13 +165,9 @@ public class ModelLouse extends ModelBase{ // TODO review model
 		rMLeg3.addBox(2F,-7.5F,-1F,6,2,2);
 		setRotation(rMLeg3,0F,0F,0F);
 		
-		rMLegClawOuter = new ModelRenderer(this,25,122);
-		rMLegClawOuter.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(rMLegClawOuter,0F,0F,0F);
-		
-		/*rMLegClawInner = new ModelRenderer(this,35,122);
-		rMLegClawInner.addBox(8F,-6F,-0.5F,2,1,1);
-		setRotation(rMLegClawInner,0F,0F,0F);*/
+		rMLegClaw = new ModelRenderer(this,25,122);
+		rMLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
+		setRotation(rMLegClaw,0F,0F,0F);
 		
 		lMLeg1 = new ModelRenderer(this,25,103);
 		lMLeg1.addBox(-1F,-3F,-1F,2,4,2);
@@ -208,43 +182,33 @@ public class ModelLouse extends ModelBase{ // TODO review model
 		lMLeg3.addBox(2F,-7.5F,-1F,6,2,2);
 		setRotation(lMLeg3,0F,0F,0F);
 		
-		lMLegClawOuter = new ModelRenderer(this,25,122);
-		lMLegClawOuter.addBox(8F,-7.5F,-0.5F,3,1,1);
-		setRotation(lMLegClawOuter,0F,0F,0F);
+		lMLegClaw = new ModelRenderer(this,25,122);
+		lMLegClaw.addBox(8F,-7.5F,-0.5F,3,1,1);
+		setRotation(lMLegClaw,0F,0F,0F);
 		
-		/*lMLegClawInner = new ModelRenderer(this,35,122);
-		lMLegClawInner.addBox(8F,-6F,-0.5F,2,1,1);
-		setRotation(lMLegClawInner,0F,0F,0F);*/
-
 		rFLeg1.addChild(rFLeg2);
 		rFLeg1.addChild(rFLeg3);
-		rFLeg1.addChild(rFLegClawOuter);
-		//rFLeg1.addChild(rFLegClawInner);
+		rFLeg1.addChild(rFLegClaw);
 
 		rMLeg1.addChild(rMLeg2);
 		rMLeg1.addChild(rMLeg3);
-		rMLeg1.addChild(rMLegClawOuter);
-		//rMLeg1.addChild(rMLegClawInner);
+		rMLeg1.addChild(rMLegClaw);
 
 		rBLeg1.addChild(rBLeg2);
 		rBLeg1.addChild(rBLeg3);
-		rBLeg1.addChild(rBLegClawOuter);
-		//rBLeg1.addChild(rBLegClawInner);
+		rBLeg1.addChild(rBLegClaw);
 
 		lFLeg1.addChild(lFLeg2);
 		lFLeg1.addChild(lFLeg3);
-		lFLeg1.addChild(lFLegClawOuter);
-		//lFLeg1.addChild(lFLegClawInner);
+		lFLeg1.addChild(lFLegClaw);
 
 		lMLeg1.addChild(lMLeg2);
 		lMLeg1.addChild(lMLeg3);
-		lMLeg1.addChild(lMLegClawOuter);
-		//lMLeg1.addChild(lMLegClawInner);
+		lMLeg1.addChild(lMLegClaw);
 
 		lBLeg1.addChild(lBLeg2);
 		lBLeg1.addChild(lBLeg3);
-		lBLeg1.addChild(lBLegClawOuter);
-		//lBLeg1.addChild(lBLegClawInner);
+		lBLeg1.addChild(lBLegClaw);
 
 		headMain.addChild(headFront);
 		headMain.addChild(eyes);

@@ -10,9 +10,11 @@ public class StructureGooLake extends AbstractIslandStructure{
 	protected boolean generate(Random rand){
 		int x = getRandomXZ(rand,16),
 			z = getRandomXZ(rand,16),
-			y = world.getHighestY(x,z),
+			y = world.getHighestY(x,z)+1,
 			yOff = 0,
 			minY = y+3;
+		
+		if (y <= 1)return false;
 		
 		double rad = 2D+rand.nextDouble()*3D+rand.nextDouble()*3D,//(biome.hasRareVariation(RareVariationIsland.LARGE_LAKES)?8D:3D),
 			   hrad = rad*0.5D;
