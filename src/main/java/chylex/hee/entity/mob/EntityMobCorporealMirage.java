@@ -23,6 +23,7 @@ import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C27ParticleMirageHurt;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -130,7 +131,7 @@ public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwn
 		if (source == DamageSource.drown || source == DamageSource.fallingBlock||
 			source == DamageSource.inWall)return false;
 		
-		if (super.attackEntityFrom(source,amount == -1?1F:2F)){
+		if (super.attackEntityFrom(source,MathUtil.floatEquals(amount,-1F) ? 1F : 2F)){
 			PacketPipeline.sendToAllAround(this,64D,new C27ParticleMirageHurt(this));
 
 			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.CORPOREAL_MIRAGE_ORB.tryUnlockFragment(observer,0.15F);

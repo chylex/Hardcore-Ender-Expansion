@@ -47,8 +47,8 @@ public class BlockLaserBeam extends BlockContainer{
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		if (entity.isImmuneToFire())return;
+		entity.attackEntityFrom(DamageSource.magic,ModCommonProxy.opMobs ? 4F : 2F);
 		entity.setFire(1);
-		entity.attackEntityFrom(DamageSource.magic,ModCommonProxy.opMobs?4F:2F);
 	}
 
 	@Override

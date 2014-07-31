@@ -87,7 +87,7 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 		
 		public enum EnumLouseAbility{
 			KNOCKBACK, // increases knockback amount massively per level
-			MAGICDMG/*,*/ // deals additional magic damage, 2 hearts + 1 more per level
+			MAGICDMG/*,*/ // deals additional magic damage, 1 heart + 1 more per level
 			/*HEAL*/; // when not attacked, it heals nearby mobs TODO finish
 			
 			public static final EnumLouseAbility[] values = values();

@@ -14,6 +14,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.RuneType;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
@@ -55,14 +56,17 @@ public class EntityMobLouse extends EntityMob{
 	private void updateLouseData(){
 		if (worldObj == null || worldObj.isRemote || louseData == null)return;
 		
+		int attrHealth = louseData.attribute(EnumLouseAttribute.HEALTH);
 		int attrSpeed = louseData.attribute(EnumLouseAttribute.SPEED);
+		int attrArmor = louseData.attribute(EnumLouseAttribute.ARMOR);
 		
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12D+10D*louseData.attribute(EnumLouseAttribute.HEALTH));
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.68D+(attrSpeed > 0 ? 0.08D+0.05D*louseData.attribute(EnumLouseAttribute.SPEED) : 0D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(14D+(attrHealth > 0 ? 10D+8D*attrHealth : 0D));
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.7D+(attrSpeed > 0 ? 0.1D+0.07D*attrSpeed : 0D));
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(7D+3.5D*louseData.attribute(EnumLouseAttribute.ATTACK));
 		
-		armorCapacity = (byte)MathUtil.square(louseData.attribute(EnumLouseAttribute.ARMOR));
-		if (armorCapacity > 0)armorCapacity *= 5;
+		setHealth(getMaxHealth());
+		
+		if (attrArmor > 0)armor = armorCapacity = (byte)(8+MathUtil.square(attrArmor)+attrArmor*5);
 		
 		dataWatcher.updateObject(16,louseData.serializeToString());
 	}
@@ -84,10 +88,11 @@ public class EntityMobLouse extends EntityMob{
 			else{
 				louseData = new LouseSpawnData((byte)rand.nextInt(LouseSpawnData.maxLevel),getRNG());
 				updateLouseData();
+				DragonUtil.info(louseData.serializeToString());
 			}
 		}
 		
-		if (armorCapacity > 0){
+		if (armorCapacity > 0){			
 			if (armorRegenTimer > 0)--armorRegenTimer;
 			else if (armor < armorCapacity){
 				if (++armor >= armorCapacity)armor = armorCapacity;
@@ -116,7 +121,11 @@ public class EntityMobLouse extends EntityMob{
 			}
 			
 			int magicDamage = louseData.ability(EnumLouseAbility.MAGICDMG);
-			if (magicDamage > 0)entity.attackEntityFrom(DamageSource.magic,4F+2F*(magicDamage-1));
+			
+			if (magicDamage > 0){
+				entity.hurtResistantTime = 0;
+				entity.attackEntityFrom(DamageSource.magic,1F+2F*(magicDamage-1));
+			}
 
 			if (entity instanceof EntityLivingBase)EnchantmentHelper.func_151384_a((EntityLivingBase)entity,this);
 			EnchantmentHelper.func_151385_b(this,entity);
@@ -135,6 +144,8 @@ public class EntityMobLouse extends EntityMob{
 			return false;
 		}
 		
+		armorRegenTimer = (byte)(100-louseData.attribute(EnumLouseAttribute.ARMOR)*15);
+		
 		if (armor > 0F && hurtResistantTime == 0){
 			entityToAttack = source.getEntity();
 			playSound("random.anvil_land",0.5F,1.2F);
@@ -146,12 +157,20 @@ public class EntityMobLouse extends EntityMob{
 			return true;
 		}
 		
-		armorRegenTimer = (byte)(100-louseData.attribute(EnumLouseAttribute.ARMOR)*15);
-		
 		return super.attackEntityFrom(source,amount);
 	}
 	
-	private void teleport(int level){		
+	private void teleport(int level){
+		teleportTimer = (byte)(80-level*10);
+		
+		if (worldObj.isRemote){
+			for(int a = 0; a < 64; a++){
+				worldObj.spawnParticle("portal",posX+(rand.nextDouble()-rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
+			}
+
+			return;
+		}
+		
 		double oldPosX = posX;
         double oldPosY = posY;
         double oldPosZ = posZ;
@@ -161,24 +180,26 @@ public class EntityMobLouse extends EntityMob{
         
         for(int attempt = 0, ix, iy, iz; attempt < 32 && !hasTeleported; attempt++){
         	posX = oldPosX+rand.nextInt(maxDist)-rand.nextInt(maxDist);
+        	posY = oldPosY+1;
         	posZ = oldPosZ+rand.nextInt(maxDist)-rand.nextInt(maxDist);
         	
+        	if (MathUtil.distance(posX-oldPosX,posZ-oldPosZ) < 2D)continue;
+        	
         	ix = (int)Math.floor(posX);
-        	iy = (int)Math.floor(posY)+1;
+        	iy = (int)Math.floor(posY);
         	iz = (int)Math.floor(posZ);
         	
         	for(int py = 0; py < 3; py++){
         		if (worldObj.isAirBlock(ix,iy,iz) && !worldObj.isAirBlock(ix,iy-1,iz)){
+        			setPosition(posX,posY+0.1D,posZ);
         			hasTeleported = true;
         			break;
         		}
-        		else iy = (int)Math.floor(--posY)+1;
+        		else iy = (int)Math.floor(--posY);
         	}
         }
         
         if (!hasTeleported)return;
-
-		teleportTimer = (byte)(80-level*10);
         
 		for(int a = 0; a < 64; a++){
 			worldObj.spawnParticle("portal",oldPosX+(rand.nextDouble()-rand.nextDouble())*width,oldPosY+rand.nextDouble()*height,oldPosZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
