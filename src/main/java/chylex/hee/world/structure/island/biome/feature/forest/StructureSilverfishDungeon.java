@@ -22,7 +22,7 @@ import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 
 public class StructureSilverfishDungeon extends AbstractIslandStructure implements ITileEntityGenerator{
-	public static WeightedLootList lootDungeon = new WeightedLootList(
+	public static WeightedLootList lootDungeon = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(Items.paper).setAmount(1,11).setWeight(36),
 		new LootItemStack(Items.book).setAmount(1,8).setWeight(25),
 		new LootItemStack(Items.enchanted_book).setWeight(17),
@@ -43,7 +43,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 		new LootItemStack(Items.beef).setAmount(1,3).setWeight(3),
 		new LootItemStack(Items.sugar).setAmount(1,2).setWeight(3),
 		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(2)
-	).addItemPostProcessor(new IItemPostProcessor(){
+	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
 			if (is.getItemUseAction() == EnumAction.eat){

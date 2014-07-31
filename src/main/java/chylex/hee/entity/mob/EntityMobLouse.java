@@ -137,6 +137,8 @@ public class EntityMobLouse extends EntityMob{
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
+		if (louseData == null)return false;
+		
 		int teleportLevel = louseData.attribute(EnumLouseAttribute.TELEPORT);
 		
 		if (teleportLevel > 0 && teleportTimer == 0){

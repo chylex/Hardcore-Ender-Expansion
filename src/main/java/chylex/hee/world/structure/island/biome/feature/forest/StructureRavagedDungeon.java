@@ -123,9 +123,10 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 			x[a] = getElementX(end.get(a));
 			z[a] = getElementZ(end.get(a));
 		}
-		
-		placer.generateEnd(world,rand,x,y,z,end);
-		for(DungeonElement endElement:end)generateConnections(elements,endElement,y);
+
+		placer.generateEndLayout(world,rand,x,y,z,end);
+		for(DungeonElement endElement:end)generateConnections(elements,endElement,y); // generate connections first only in end room
+		placer.generateEndContent(world,rand,x,y,z,end);
 	}
 	
 	private void generateConnections(DungeonElementList elements, DungeonElement element, int y){

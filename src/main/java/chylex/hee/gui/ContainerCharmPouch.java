@@ -73,7 +73,7 @@ public class ContainerCharmPouch extends Container{
 			
 			if (runes.size() >= 3){
 				Pair<CharmType,CharmRecipe> charm = CharmType.findRecipe(runes.toArray(new RuneType[runes.size()]));
-				if (charm != null)runeResultInv.setInventorySlotContents(0,new ItemStack(ItemList.charm,1,charm.getRight().id));
+				if (charm.getRight() != null)runeResultInv.setInventorySlotContents(0,new ItemStack(ItemList.charm,1,charm.getRight().id));
 			}
 		}
 	}

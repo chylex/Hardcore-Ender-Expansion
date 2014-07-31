@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -25,6 +26,7 @@ import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
+import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
@@ -95,6 +97,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 
 	private static final Set<Class> unaffectedMobs = new HashSet<>(Arrays.asList(new Class[]{
 		EntityEnderman.class, EntityMobAngryEnderman.class, EntityMobBabyEnderman.class, EntityMobEnderGuardian.class,
+		EntitySilverfish.class, EntityMobLouse.class,
 		EntityMiniBossEnderEye.class, EntityBossEnderDemon.class, EntityBossDragon.class
 	}));
 	

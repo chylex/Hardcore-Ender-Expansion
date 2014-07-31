@@ -11,6 +11,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemMusicDisk;
+import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.world.loot.IItemPostProcessor;
@@ -39,7 +40,7 @@ final class RavagedDungeonLoot{
 		new LootItemStack(BlockList.ravaged_brick_glow).setAmount(1,3).setWeight(46),
 		new LootItemStack(Items.leather).setAmount(1,4).setWeight(44),
 		new LootItemStack(ItemList.stardust).setAmount(1,3).setWeight(20),
-		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(15),
+		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(8),
 		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(6)
 	});
 	
@@ -57,8 +58,8 @@ final class RavagedDungeonLoot{
 		new LootItemStack(Items.gold_ingot).setAmount(1,4).setWeight(32),
 		new LootItemStack(ItemList.stardust).setAmount(2,5).setWeight(25),
 		new LootItemStack(Items.enchanted_book).setWeight(22),
-		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(18),
 		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(11),
+		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(7),
 		new LootItemStack(ItemList.rune).setDamage(5).setWeight(5),
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
@@ -74,7 +75,7 @@ final class RavagedDungeonLoot{
 			}
 			else if (is.getItem() == Items.enchanted_book){
 				is.func_150996_a(Items.book); // OBFUSCATED set item
-				EnchantmentHelper.addRandomEnchantment(rand,is,13+rand.nextInt(7));
+				EnchantmentHelper.addRandomEnchantment(rand,is,15+rand.nextInt(10));
 			}
 			
 			return is;
@@ -82,14 +83,14 @@ final class RavagedDungeonLoot{
 	});
 	
 	public static final WeightedLootList lootRare = new WeightedLootList(new LootItemStack[]{
-		new LootItemStack(Items.iron_ingot).setAmount(1,9).setWeight(40),
-		new LootItemStack(Items.gold_ingot).setAmount(1,9).setWeight(40),
-		new LootItemStack(Items.diamond).setAmount(1,7).setWeight(30),
-		new LootItemStack(Items.dye).setAmount(1,6).setDamage(4).setWeight(35),
-		new LootItemStack(Items.emerald).setAmount(1,7).setWeight(30),
+		new LootItemStack(Items.iron_ingot).setAmount(3,9).setWeight(40),
+		new LootItemStack(Items.gold_ingot).setAmount(3,9).setWeight(40),
+		new LootItemStack(Items.diamond).setAmount(2,7).setWeight(30),
+		new LootItemStack(Items.dye).setAmount(2,6).setDamage(4).setWeight(35),
+		new LootItemStack(Items.emerald).setAmount(2,7).setWeight(30),
 		new LootItemStack(ItemList.enhanced_ender_pearl).setAmount(1,5).setWeight(24),
 		new LootItemStack(ItemList.instability_orb).setAmount(1,3).setWeight(12),
-		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(10),
+		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(9),
 		new LootItemStack(ItemList.rune).setDamage(5).setWeight(7),
 		new LootItemStack(ItemList.charm_pouch).setWeight(1)
 	}).addItemPostProcessor(new IItemPostProcessor(){
@@ -103,6 +104,27 @@ final class RavagedDungeonLoot{
 					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
 					if (availableTypes.isEmpty())break;
 				}
+			}
+			
+			return is;
+		}
+	});
+	
+	public static final WeightedLootList lootEnd = new WeightedLootList(new LootItemStack[]{
+			new LootItemStack(ItemList.end_powder).setAmount(5,25).setWeight(34),
+			new LootItemStack(Items.iron_ingot).setAmount(11,28).setWeight(27),
+			new LootItemStack(ItemList.stardust).setAmount(7,21).setWeight(26),
+			new LootItemStack(Items.diamond).setAmount(5,14).setWeight(25),
+			new LootItemStack(ItemList.rune).setAmount(1,2).setDamage(0,4).setWeight(24),
+			new LootItemStack(ItemList.rune).setDamage(5).setWeight(14),
+			new LootItemStack(ItemList.charm).setWeight(3)
+	}).addItemPostProcessor(new IItemPostProcessor(){
+		@Override
+		public ItemStack processItem(ItemStack is, Random rand){
+			if (is.getItem() == ItemList.charm){
+				CharmType[] types = CharmType.values();
+				CharmType type = types[rand.nextInt(types.length)];
+				is.setItemDamage(type.recipes[rand.nextInt(type.recipes.length)].id);
 			}
 			
 			return is;
