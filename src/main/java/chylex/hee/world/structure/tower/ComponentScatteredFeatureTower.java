@@ -7,6 +7,7 @@ import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -26,6 +27,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.knowledge.util.FragmentWeightLists;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
@@ -44,7 +46,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 	private static final Random spawnerRand = new Random();
 	private static final byte roomHeight = 6;
 	
-	public static WeightedLootList lootTower = new WeightedLootList(
+	public static final WeightedLootList lootTower = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(Blocks.web).setWeight(220),
 		new LootItemStack(ItemList.end_powder).setAmount(1,10).setWeight(212),
 		new LootItemStack(Items.gold_nugget).setAmount(1,12).setWeight(190),
@@ -74,6 +76,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		new LootItemStack(Items.water_bucket).setWeight(68),
 		new LootItemStack(Blocks.chest).setWeight(60),
 		new LootItemStack(Blocks.tnt).setAmount(1,8).setWeight(58),
+		new LootItemStack(BlockList.enhanced_tnt).setAmount(1,4).setWeight(49),
 		new LootItemStack(Blocks.grass).setAmount(1,6).setWeight(46),
 		new LootItemStack(Blocks.mycelium).setAmount(1,6).setWeight(45),
 		new LootItemStack(Items.cake).setWeight(37),
@@ -82,13 +85,21 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		new LootItemStack(ItemList.temple_caller).setWeight(14),
 		new LootItemStack(BlockList.essence_altar).setWeight(13),
 		new LootItemStack(Items.golden_apple).setDamage(1).setWeight(4)
-	).addItemPostProcessor(new IItemPostProcessor(){
+	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
 			if (is.getItem() == ItemList.enhanced_ender_pearl){
 				List<EnderPearlEnhancements> availableTypes = new ArrayList<>(Arrays.asList(EnderPearlEnhancements.values()));
 				
-				for(int a = 0; a < 1+Math.abs((int)Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
+				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
+					EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+					if (availableTypes.isEmpty())break;
+				}
+			}
+			else if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_tnt)){
+				List<TNTEnhancements> availableTypes = new ArrayList<>(Arrays.asList(TNTEnhancements.values()));
+				
+				for(int a = 0; a < 1+rand.nextInt(2)+Math.round(rand.nextDouble()*2D); a++){
 					EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
 					if (availableTypes.isEmpty())break;
 				}

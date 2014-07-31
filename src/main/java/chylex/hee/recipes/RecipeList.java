@@ -73,6 +73,21 @@ public final class RecipeList{
 			'R', new ItemStack(ItemList.rune,1,OreDictionary.WILDCARD_VALUE)
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_slab,6),
+			"XXX",
+			'X', new ItemStack(BlockList.ravaged_brick,1,OreDictionary.WILDCARD_VALUE)
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_stairs,4),
+			"  X", " XX", "XXX",
+			'X', new ItemStack(BlockList.ravaged_brick,1,OreDictionary.WILDCARD_VALUE)
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_fence,6),
+			"XXX", "XXX",
+			'X', new ItemStack(BlockList.ravaged_brick,1,OreDictionary.WILDCARD_VALUE)
+		);
+		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.spooky_log),
 			"XXX", "XXX", "XXX",
 			'X', ItemList.dry_splinter

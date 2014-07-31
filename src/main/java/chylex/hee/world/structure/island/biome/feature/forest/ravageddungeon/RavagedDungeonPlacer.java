@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityFlowerPot;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
@@ -880,13 +881,25 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	@Override
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
 		if (key.equals("hallwayEmbeddedChest")){
-			// TODO general loot
+			TileEntityChest chest = (TileEntityChest)tile;
+			
+			for(int attempt = 0, attemptAmount = 4+rand.nextInt(5)+rand.nextInt(4); attempt < attemptAmount; attempt++){
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),RavagedDungeonLoot.lootGeneral.generateIS(rand));
+			}
 		}
 		else if (key.equals("hallwayDeadEndChest")){
-			// TODO rare
+			TileEntityChest chest = (TileEntityChest)tile;
+			
+			for(int attempt = 0, attemptAmount = 5+rand.nextInt(7); attempt < attemptAmount; attempt++){
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),(rand.nextInt(3) == 0 ? RavagedDungeonLoot.lootRare : RavagedDungeonLoot.lootGeneral).generateIS(rand));
+			}
 		}
 		else if (key.equals("encasedCubicleChest")){
-			// TODO
+			TileEntityChest chest = (TileEntityChest)tile;
+			
+			for(int attempt = 0, attemptAmount = 10+rand.nextInt(10); attempt < attemptAmount; attempt++){
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),RavagedDungeonLoot.lootUncommon.generateIS(rand));
+			}
 		}
 		else if (key.equals("louseSpawner")){
 			LouseRavagedSpawnerLogic logic = (LouseRavagedSpawnerLogic)((TileEntityCustomSpawner)tile).getSpawnerLogic();
