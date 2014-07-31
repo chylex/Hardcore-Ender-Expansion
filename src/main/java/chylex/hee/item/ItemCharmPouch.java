@@ -1,4 +1,5 @@
 package chylex.hee.item;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -34,6 +35,12 @@ public class ItemCharmPouch extends Item{
 		else player.openGui(HardcoreEnderExpansion.instance,5,world,0,0,0);
 		
 		return is;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
+		textLines.add(is.stackTagCompound != null && is.stackTagCompound.getBoolean("isPouchActive") ? "Active" : "Inactive");
 	}
 	
 	@Override

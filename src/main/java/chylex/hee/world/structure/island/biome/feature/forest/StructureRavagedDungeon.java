@@ -2,6 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.TimeMeasurement;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
@@ -64,7 +65,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		}
 		
 		if (!gen.generate()){
-			System.out.println("Could not generate dungeon :(");
+			DragonUtil.severe("Could not generate Ravaged Dungeon :(");
 			return false;
 		}
 		TimeMeasurement.finish("RavagedDungeonGen");

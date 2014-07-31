@@ -203,13 +203,13 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		ObjectWeightPair.make(EnumHallwayDesign.NONE, 88),
 		ObjectWeightPair.make(EnumHallwayDesign.DEAD_END_CHEST, 45),
 		ObjectWeightPair.make(EnumHallwayDesign.DESTROYED_WALLS, 44),
+		ObjectWeightPair.make(EnumHallwayDesign.EMBEDDED_CHEST, 33),
 		ObjectWeightPair.make(EnumHallwayDesign.STAIR_PATTERN, 32),
-		ObjectWeightPair.make(EnumHallwayDesign.EMBEDDED_CHEST, 30),
 		ObjectWeightPair.make(EnumHallwayDesign.COBWEBS, 24),
 		ObjectWeightPair.make(EnumHallwayDesign.SPAWNERS_IN_WALLS, 24),
 		ObjectWeightPair.make(EnumHallwayDesign.FLOOR_CEILING_SLABS, 21),
 		ObjectWeightPair.make(EnumHallwayDesign.WALL_MOUNTED_SPAWNERS, 19),
-		ObjectWeightPair.make(EnumHallwayDesign.FLOWER_POT, 15),
+		ObjectWeightPair.make(EnumHallwayDesign.FLOWER_POT, 16),
 		ObjectWeightPair.make(EnumHallwayDesign.LAPIS_BLOCK, 4)
 	);
 	
@@ -409,7 +409,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 						if (spawnerMeta == 2)world.setTileEntityGenerator(xx,yy,zz,"louseSpawner",this);
 						++placed;
 					}
-				}
+				} // TODO add brick behind
 				
 				break;
 				
@@ -470,8 +470,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		ObjectWeightPair.make(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 42),
 		ObjectWeightPair.make(EnumRoomDesign.GLOWING_ROOM, 35),
 		ObjectWeightPair.make(EnumRoomDesign.CARPET_TARGET, 26),
-		ObjectWeightPair.make(EnumRoomDesign.ENCASED_CUBICLE, 15),
-		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 10)
+		ObjectWeightPair.make(EnumRoomDesign.ENCASED_CUBICLE, 18),
+		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 15)
 	);
 	
 	private void generateRoomLayout(LargeStructureWorld world, Random rand, int x, int y, int z){
@@ -649,10 +649,10 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 							world.setBlock(x-4+8*a,y+1,z-2+4*b,BlockList.ravaged_brick_glow);
 							world.setBlock(x-3+6*a,y+1,z-2+4*b,BlockList.ravaged_brick);
 							world.setBlock(x-3+6*a,y+1,z-3+6*b,BlockList.ravaged_brick_glow);
-							world.setBlock(x-2+4*a,y+1,z-3+6*b,BlockList.ravaged_brick_glow);
-							world.setBlock(x-2+4*a,y+1,z-4+8*b,BlockList.ravaged_brick);
-							world.setBlock(x-2+4*a,y+1,z-5+10*b,BlockList.ravaged_brick_glow);
-							world.setBlock(x-2+4*a,y+1,z-6+12*b,BlockList.ravaged_brick);
+							world.setBlock(x-2+4*a,y+1,z-3+6*b,BlockList.ravaged_brick);
+							world.setBlock(x-2+4*a,y+1,z-4+8*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-2+4*a,y+1,z-5+10*b,BlockList.ravaged_brick);
+							world.setBlock(x-2+4*a,y+1,z-6+12*b,BlockList.ravaged_brick_glow);
 							
 							for(int yy = y+2; yy <= y+hallHeight; yy++){
 								for(int c = 3; c <= 6; c++){
@@ -661,7 +661,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 								}
 							}
 							
-							int plants = 4+rand.nextInt(9);
+							int plants = 5+rand.nextInt(9);
 							
 							for(int plant = 0, xx, zz; plant < plants; plant++){
 								xx = x-6+9*a+rand.nextInt(4);
@@ -689,7 +689,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 											break;
 											
 										case 5:
-											plantBlock = rand.nextBoolean() ? Blocks.brown_mushroom : Blocks.redstone_block; // mushrooms are a little more rare
+											plantBlock = rand.nextBoolean() ? Blocks.brown_mushroom : Blocks.red_mushroom; // mushrooms are a little more rare
 											break;
 											
 										default: // 6,7,8,9,10
@@ -720,8 +720,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 							else world.setBlock(xx,yy,zz,BlockList.ravaged_brick);
 						}
 						
-						if (rand.nextInt(3) == 0)world.setBlock(xx,y+1+height,zz,BlockList.ravaged_brick_slab);
-						else if (rand.nextInt(4) == 0)world.setBlock(xx,y+1+height,zz,BlockList.ravaged_brick_stairs,rand.nextInt(4));
+						if (rand.nextInt(3) == 0)world.setBlock(xx,y+2+height,zz,BlockList.ravaged_brick_slab);
+						else if (rand.nextInt(4) == 0)world.setBlock(xx,y+2+height,zz,BlockList.ravaged_brick_stairs,rand.nextInt(4));
 					}
 					
 					break;
@@ -769,7 +769,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 								if (world.isAir(xx,yy,z+6) && !world.isAir(xx,yy,z+7))world.setBlock(xx,yy,z+6,BlockList.ravaged_brick_fence);
 							}
 							
-							for(int zz = x-5; zz <= x+5; zz++){
+							for(int zz = z-5; zz <= z+5; zz++){
 								if (world.isAir(x-6,yy,zz) && !world.isAir(x-7,yy,zz))world.setBlock(x-6,yy,zz,BlockList.ravaged_brick_fence);
 								if (world.isAir(x+6,yy,zz) && !world.isAir(x+7,yy,zz))world.setBlock(x+6,yy,zz,BlockList.ravaged_brick_fence);
 							}
@@ -783,34 +783,34 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					
 					for(int a = 0; a < 2; a++){
 						for(int b = 0; b < 2; b++){
-							world.setBlock(x-5+7*a,y+1,z-5+7*a,BlockList.ravaged_brick_glow);
-							world.setBlock(x-4+7*a,y+1,z-5+7*a,BlockList.ravaged_brick);
-							world.setBlock(x-3+7*a,y+1,z-5+7*a,BlockList.ravaged_brick);
-							world.setBlock(x-2+7*a,y+1,z-5+7*a,BlockList.ravaged_brick_glow);
-							world.setBlock(x-5+7*a,y+1,z-4+7*a,BlockList.ravaged_brick);
-							world.setBlock(x-5+7*a,y+1,z-3+7*a,BlockList.ravaged_brick);
-							world.setBlock(x-5+7*a,y+1,z-2+7*a,BlockList.ravaged_brick_glow);
-							world.setBlock(x-2+7*a,y+1,z-2+7*a,BlockList.ravaged_brick);
-							world.setBlock(x-2+7*a,y+1,z-2+7*a,BlockList.ravaged_brick);
-							world.setBlock(x-2+7*a,y+1,z-2+7*a,BlockList.ravaged_brick_glow);
-							world.setBlock(x-2+7*a,y+1,z-3+7*a,BlockList.ravaged_brick);
-							world.setBlock(x-2+7*a,y+1,z-4+7*a,BlockList.ravaged_brick);
+							world.setBlock(x-5+7*a,y+1,z-5+7*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-4+7*a,y+1,z-5+7*b,BlockList.ravaged_brick);
+							world.setBlock(x-3+7*a,y+1,z-5+7*b,BlockList.ravaged_brick);
+							world.setBlock(x-2+7*a,y+1,z-5+7*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-5+7*a,y+1,z-4+7*b,BlockList.ravaged_brick);
+							world.setBlock(x-5+7*a,y+1,z-3+7*b,BlockList.ravaged_brick);
+							world.setBlock(x-5+7*a,y+1,z-2+7*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-2+7*a,y+1,z-2+7*b,BlockList.ravaged_brick);
+							world.setBlock(x-3+7*a,y+1,z-2+7*b,BlockList.ravaged_brick);
+							world.setBlock(x-4+7*a,y+1,z-2+7*b,BlockList.ravaged_brick_glow);
+							world.setBlock(x-2+7*a,y+1,z-3+7*b,BlockList.ravaged_brick);
+							world.setBlock(x-2+7*a,y+1,z-4+7*b,BlockList.ravaged_brick);
 							
 							switch(bowlFill){
 								case 0:
 								case 1:
 								case 2:
-									world.setBlock(x-4+7*a,y+1,z-4+7*a,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
-									world.setBlock(x-3+7*a,y+1,z-4+7*a,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
-									world.setBlock(x-3+7*a,y+1,z-3+7*a,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
-									world.setBlock(x-4+7*a,y+1,z-3+7*a,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
+									world.setBlock(x-4+7*a,y+1,z-4+7*b,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
+									world.setBlock(x-3+7*a,y+1,z-4+7*b,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
+									world.setBlock(x-3+7*a,y+1,z-3+7*b,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
+									world.setBlock(x-4+7*a,y+1,z-3+7*b,bowlFill == 0 ? BlockList.ender_goo : bowlFill == 1 ? BlockList.ravaged_brick_slab : Blocks.obsidian);
 									break;
 									
 								case 3:
-									world.setBlock(x-4+7*a,y+1,z-4+7*a,(a^b) == 1 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 1 ? 3 : 0);
-									world.setBlock(x-3+7*a,y+1,z-4+7*a,(a^b) == 0 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 0 ? 3 : 0);
-									world.setBlock(x-3+7*a,y+1,z-3+7*a,(a^b) == 1 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 1 ? 3 : 0);
-									world.setBlock(x-4+7*a,y+1,z-3+7*a,(a^b) == 0 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 0 ? 3 : 0);
+									world.setBlock(x-4+7*a,y+1,z-4+7*b,(a^b) == 1 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 1 ? 3 : 0);
+									world.setBlock(x-3+7*a,y+1,z-4+7*b,(a^b) == 0 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 0 ? 3 : 0);
+									world.setBlock(x-3+7*a,y+1,z-3+7*b,(a^b) == 1 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 1 ? 3 : 0);
+									world.setBlock(x-4+7*a,y+1,z-3+7*b,(a^b) == 0 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 0 ? 3 : 0);
 									break;
 							}
 						}
@@ -862,13 +862,13 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			
 			for(int py = 0; py < 2; py++){
 				for(int px = 0; px < 4; px++){
-					world.setBlock(topLeftAirX+gooX[a]+px,y+1+(py*hallHeight-1),topLeftAirZ+gooZ[a],BlockList.ravaged_brick,getBrickMeta(rand));
-					world.setBlock(topLeftAirX+gooX[a]+px,y+1+(py*hallHeight-1),topLeftAirZ+gooZ[a]+3,BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a]+px,y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a],BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a]+px,y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a]+3,BlockList.ravaged_brick,getBrickMeta(rand));
 				}
 				
 				for(int pz = 0; pz < 2; pz++){
-					world.setBlock(topLeftAirX+gooX[a],y+1+(py*hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,BlockList.ravaged_brick,getBrickMeta(rand));
-					world.setBlock(topLeftAirX+gooX[a]+3,y+1+(py*hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a],y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a]+3,y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,BlockList.ravaged_brick,getBrickMeta(rand));
 				}
 			}
 		}
@@ -884,21 +884,21 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			TileEntityChest chest = (TileEntityChest)tile;
 			
 			for(int attempt = 0, attemptAmount = 4+rand.nextInt(5)+rand.nextInt(4); attempt < attemptAmount; attempt++){
-				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),RavagedDungeonLoot.lootGeneral.generateIS(rand));
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),(rand.nextInt(3) == 0 ? RavagedDungeonLoot.lootUncommon : RavagedDungeonLoot.lootGeneral).generateIS(rand));
 			}
 		}
 		else if (key.equals("hallwayDeadEndChest")){
 			TileEntityChest chest = (TileEntityChest)tile;
 			
-			for(int attempt = 0, attemptAmount = 5+rand.nextInt(7); attempt < attemptAmount; attempt++){
-				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),(rand.nextInt(3) == 0 ? RavagedDungeonLoot.lootRare : RavagedDungeonLoot.lootGeneral).generateIS(rand));
+			for(int attempt = 0, attemptAmount = 7+rand.nextInt(8); attempt < attemptAmount; attempt++){
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),(rand.nextInt(3) != 0 ? RavagedDungeonLoot.lootRare : RavagedDungeonLoot.lootGeneral).generateIS(rand));
 			}
 		}
 		else if (key.equals("encasedCubicleChest")){
 			TileEntityChest chest = (TileEntityChest)tile;
 			
 			for(int attempt = 0, attemptAmount = 10+rand.nextInt(10); attempt < attemptAmount; attempt++){
-				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),RavagedDungeonLoot.lootUncommon.generateIS(rand));
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),RavagedDungeonLoot.lootRare.generateIS(rand));
 			}
 		}
 		else if (key.equals("louseSpawner")){

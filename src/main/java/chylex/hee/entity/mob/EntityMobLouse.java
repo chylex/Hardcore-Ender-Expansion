@@ -26,7 +26,7 @@ public class EntityMobLouse extends EntityMob{
 	
 	public EntityMobLouse(World world){
 		super(world);
-		setSize(1F,0.4F);
+		setSize(1.1F,0.45F);
 	}
 	
 	public EntityMobLouse(World world, LouseSpawnData louseData){
@@ -55,12 +55,14 @@ public class EntityMobLouse extends EntityMob{
 	private void updateLouseData(){
 		if (worldObj == null || worldObj.isRemote || louseData == null)return;
 		
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(15D+8D*louseData.attribute(EnumLouseAttribute.HEALTH));
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.7D+0.06D*louseData.attribute(EnumLouseAttribute.SPEED));
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(3D+2.5D*louseData.attribute(EnumLouseAttribute.ATTACK));
+		int attrSpeed = louseData.attribute(EnumLouseAttribute.SPEED);
+		
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12D+10D*louseData.attribute(EnumLouseAttribute.HEALTH));
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.68D+(attrSpeed > 0 ? 0.08D+0.05D*louseData.attribute(EnumLouseAttribute.SPEED) : 0D));
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(7D+3.5D*louseData.attribute(EnumLouseAttribute.ATTACK));
 		
 		armorCapacity = (byte)MathUtil.square(louseData.attribute(EnumLouseAttribute.ARMOR));
-		if (armorCapacity > 0)armorCapacity *= 6;
+		if (armorCapacity > 0)armorCapacity *= 5;
 		
 		dataWatcher.updateObject(16,louseData.serializeToString());
 	}
@@ -133,22 +135,57 @@ public class EntityMobLouse extends EntityMob{
 			return false;
 		}
 		
-		if (armor > 0F){
+		if (armor > 0F && hurtResistantTime == 0){
 			entityToAttack = source.getEntity();
 			playSound("random.anvil_land",0.5F,1.2F);
 			
 			if ((armor -= amount) <= 0F)armor = 0F;
-			armorRegenTimer = (byte)(100-louseData.attribute(EnumLouseAttribute.ARMOR)*15);
+            hurtTime = maxHurtTime = 10;
+            hurtResistantTime = 10;
 			
 			return true;
 		}
 		
+		armorRegenTimer = (byte)(100-louseData.attribute(EnumLouseAttribute.ARMOR)*15);
+		
 		return super.attackEntityFrom(source,amount);
 	}
 	
-	private void teleport(int level){
+	private void teleport(int level){		
+		double oldPosX = posX;
+        double oldPosY = posY;
+        double oldPosZ = posZ;
+        int maxDist = 3+level;
+        
+        boolean hasTeleported = false;
+        
+        for(int attempt = 0, ix, iy, iz; attempt < 32 && !hasTeleported; attempt++){
+        	posX = oldPosX+rand.nextInt(maxDist)-rand.nextInt(maxDist);
+        	posZ = oldPosZ+rand.nextInt(maxDist)-rand.nextInt(maxDist);
+        	
+        	ix = (int)Math.floor(posX);
+        	iy = (int)Math.floor(posY)+1;
+        	iz = (int)Math.floor(posZ);
+        	
+        	for(int py = 0; py < 3; py++){
+        		if (worldObj.isAirBlock(ix,iy,iz) && !worldObj.isAirBlock(ix,iy-1,iz)){
+        			hasTeleported = true;
+        			break;
+        		}
+        		else iy = (int)Math.floor(--posY)+1;
+        	}
+        }
+        
+        if (!hasTeleported)return;
+
 		teleportTimer = (byte)(80-level*10);
-		
+        
+		for(int a = 0; a < 64; a++){
+			worldObj.spawnParticle("portal",oldPosX+(rand.nextDouble()-rand.nextDouble())*width,oldPosY+rand.nextDouble()*height,oldPosZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
+		}
+
+		worldObj.playSoundEffect(oldPosX,oldPosY,oldPosZ,"mob.endermen.portal",1F,1F);
+		playSound("mob.endermen.portal",1F,1F);
 	}
 	
 	@Override
@@ -190,12 +227,12 @@ public class EntityMobLouse extends EntityMob{
 
 	@Override
 	protected String getHurtSound(){
-		return "mob.louse.hit";
+		return "hardcoreenderexpansion:mob.louse.hit";
 	}
 
 	@Override
 	protected String getDeathSound(){
-		return "mob.louse.hit";
+		return "hardcoreenderexpansion:mob.louse.hit";
 	}
 	
 	@Override

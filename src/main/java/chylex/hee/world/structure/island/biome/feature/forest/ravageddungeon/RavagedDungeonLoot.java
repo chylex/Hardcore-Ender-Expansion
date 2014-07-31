@@ -33,14 +33,14 @@ final class RavagedDungeonLoot{
 	
 	public static final WeightedLootList lootGeneral = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(ItemList.end_powder).setAmount(1,5).setWeight(100),
-		new LootItemStack(Items.paper).setAmount(1,7).setWeight(65),
+		new LootItemStack(Items.paper).setAmount(1,7).setWeight(68),
 		new LootItemStack(BlockList.ravaged_brick).setAmount(1,5).setWeight(56),
 		new LootItemStack(BlockList.ravaged_brick).setAmount(1,4).setDamage(1,BlockRavagedBrick.metaAmount-1).setWeight(50),
 		new LootItemStack(BlockList.ravaged_brick_glow).setAmount(1,3).setWeight(46),
 		new LootItemStack(Items.leather).setAmount(1,4).setWeight(44),
 		new LootItemStack(ItemList.stardust).setAmount(1,3).setWeight(20),
 		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(15),
-		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(2)
+		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(6)
 	});
 	
 	public static final WeightedLootList lootUncommon = new WeightedLootList(new LootItemStack[]{
@@ -58,8 +58,8 @@ final class RavagedDungeonLoot{
 		new LootItemStack(ItemList.stardust).setAmount(2,5).setWeight(25),
 		new LootItemStack(Items.enchanted_book).setWeight(22),
 		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(18),
-		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(5),
-		new LootItemStack(ItemList.rune).setDamage(5).setWeight(2),
+		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(11),
+		new LootItemStack(ItemList.rune).setDamage(5).setWeight(5),
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
@@ -68,7 +68,7 @@ final class RavagedDungeonLoot{
 				int amount = 1+(int)Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*1.5D));
 				
 				for(int a = 0; a < amount; a++){
-					EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
 					if (availableTypes.isEmpty())break;
 				}
 			}
@@ -89,8 +89,8 @@ final class RavagedDungeonLoot{
 		new LootItemStack(Items.emerald).setAmount(1,7).setWeight(30),
 		new LootItemStack(ItemList.enhanced_ender_pearl).setAmount(1,5).setWeight(24),
 		new LootItemStack(ItemList.instability_orb).setAmount(1,3).setWeight(12),
-		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(5),
-		new LootItemStack(ItemList.rune).setDamage(5).setWeight(3),
+		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(10),
+		new LootItemStack(ItemList.rune).setDamage(5).setWeight(7),
 		new LootItemStack(ItemList.charm_pouch).setWeight(1)
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
@@ -100,7 +100,7 @@ final class RavagedDungeonLoot{
 				int amount = 1+(int)Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.25D));
 				
 				for(int a = 0; a < amount; a++){
-					EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
 					if (availableTypes.isEmpty())break;
 				}
 			}

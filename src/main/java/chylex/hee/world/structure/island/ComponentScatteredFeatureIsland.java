@@ -9,7 +9,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.block.BlockList;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.TimeMeasurement;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -34,10 +33,6 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 	
 	private IslandBiomeBase biome;
 	private IslandBiomeData biomeData;
-	
-	// TODO just for testing
-	private long totalGenLen = 0;
-	private int amt = 0;
 	
 	/**
 	 * Required for reflection.
@@ -114,26 +109,26 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 				}
 			}
 			
-			totalGenLen += TimeMeasurement.finish("IslandGen - terrain");
+			TimeMeasurement.finish("IslandGen - terrain");
 			TimeMeasurement.start("IslandGen - caves");
 			
 			CaveGenerator caveGen = new CaveGenerator(centerX,25,centerZ,halfSize,20,halfSize);
 			caveGen.setup(consistentRand,biome);
 			caveGen.generate(structure);
 			
-			totalGenLen += TimeMeasurement.finish("IslandGen - caves");
+			TimeMeasurement.finish("IslandGen - caves");
 			TimeMeasurement.start("IslandGen - ores");
 			
 			OreGenerator oreGen = new OreGenerator(8,0,8,size,55,size);
 			oreGen.setup(consistentRand,biome);
 			oreGen.generate(structure);
 			
-			totalGenLen += TimeMeasurement.finish("IslandGen - ores");
+			TimeMeasurement.finish("IslandGen - ores");
 			TimeMeasurement.start("IslandGen - biome");
 			
 			biome.decorateGen(structure,consistentRand,centerX,centerZ);
 			
-			totalGenLen += TimeMeasurement.finish("IslandGen - biome");
+			TimeMeasurement.finish("IslandGen - biome");
 			
 			structure.setBlock(104,8,104,BlockList.biome_core,biomeData.content.id,true);
 		
@@ -148,9 +143,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 			}
 		}
 		
-		totalGenLen += TimeMeasurement.finish("IslandGen - chunks",false);
-		
-		if (++amt == 225)DragonUtil.info("TOTAL TIME: "+totalGenLen+" ms");
+		TimeMeasurement.finish("IslandGen - chunks");
 		
 		return true;
 	}

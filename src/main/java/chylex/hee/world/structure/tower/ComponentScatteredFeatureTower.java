@@ -92,7 +92,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 				List<EnderPearlEnhancements> availableTypes = new ArrayList<>(Arrays.asList(EnderPearlEnhancements.values()));
 				
 				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
-					EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
 					if (availableTypes.isEmpty())break;
 				}
 			}
@@ -100,7 +100,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 				List<TNTEnhancements> availableTypes = new ArrayList<>(Arrays.asList(TNTEnhancements.values()));
 				
 				for(int a = 0; a < 1+rand.nextInt(2)+Math.round(rand.nextDouble()*2D); a++){
-					EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
 					if (availableTypes.isEmpty())break;
 				}
 			}

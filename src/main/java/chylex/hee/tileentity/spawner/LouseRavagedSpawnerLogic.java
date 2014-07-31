@@ -16,12 +16,12 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	
 	public LouseRavagedSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		super(spawnerTile);
-		this.minSpawnDelay = 30;
-		this.maxSpawnDelay = 230;
+		this.minSpawnDelay = 85;
+		this.maxSpawnDelay = 220;
 		this.spawnRange = 3;
-		this.spawnCount = 3;
+		this.spawnCount = 2;
 		this.maxNearbyEntities = 5;
-		this.activatingRangeFromPlayer = 16;
+		this.activatingRangeFromPlayer = 12;
 	}
 	
 	public void setLouseSpawnData(LouseSpawnData louseData){
@@ -31,13 +31,13 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(spawnRange*2D,0.5D,spawnRange*2D);
+		return AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(spawnRange*2D,2.5D,spawnRange*2D);
 	}
 
 	@Override
 	protected boolean checkSpawnerConditions(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobLouse.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(8D,10D,8D)).size() <= 10;
+		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobLouse.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(10D,10D,10D)).size() <= 9;
 	}
 
 	@Override
@@ -65,7 +65,6 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
 		louseData = new LouseSpawnData(nbt.getCompoundTag("louseData"));
-		System.out.println(louseData.serializeToString());
 	}
 
 	@Override
@@ -79,7 +78,7 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 		public enum EnumLouseAttribute{
 			ATTACK, // increases damage dealt
 			SPEED, // increases speed per level
-			HEALTH, // increases health per level, lv1 adds regen, lv2 increases regen
+			HEALTH, // increases health per level, TODO lv1 adds regen, lv2 increases regen
 			ARMOR, // adds armor that absorbs damage, absorbing stops knockback, armor amount & regen speed increases per level
 			TELEPORT; // allows teleportation with increasing distance & decreasing cooldown per level
 			

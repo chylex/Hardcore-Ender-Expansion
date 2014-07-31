@@ -148,7 +148,7 @@ public enum CharmType{ // TODO implement/fix the rest
 			}
 		}
 		
-		return null;
+		return Pair.of(null,null);
 	}
 	
 	public static Pair<CharmType,CharmRecipe> findRecipe(RuneType[] runes){
@@ -160,7 +160,7 @@ public enum CharmType{ // TODO implement/fix the rest
 			}
 		}
 		
-		return null;
+		return Pair.of(null,null);
 	}
 	
 	public static String getTooltip(int damage){

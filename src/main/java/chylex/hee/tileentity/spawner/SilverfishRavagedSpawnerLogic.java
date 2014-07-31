@@ -8,12 +8,12 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 public class SilverfishRavagedSpawnerLogic extends CustomSpawnerLogic{
 	public SilverfishRavagedSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		super(spawnerTile);
-		this.minSpawnDelay = 50;
-		this.maxSpawnDelay = 200;
+		this.minSpawnDelay = 120;
+		this.maxSpawnDelay = 220;
 		this.spawnRange = 4;
 		this.spawnCount = 2;
 		this.maxNearbyEntities = 5;
-		this.activatingRangeFromPlayer = 16;
+		this.activatingRangeFromPlayer = 12;
 	}
 	
 	@Override
@@ -25,7 +25,7 @@ public class SilverfishRavagedSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	protected boolean checkSpawnerConditions(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return getSpawnerWorld().getEntitiesWithinAABB(EntitySilverfish.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(8D,10D,8D)).size() <= 10;
+		return getSpawnerWorld().getEntitiesWithinAABB(EntitySilverfish.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(10D,10D,10D)).size() <= 10;
 	}
 
 	@Override
