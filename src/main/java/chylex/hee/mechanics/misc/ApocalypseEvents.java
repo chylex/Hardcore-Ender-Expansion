@@ -1,26 +1,9 @@
 package chylex.hee.mechanics.misc;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraftforge.common.DimensionManager;
 import chylex.hee.block.BlockList;
-import chylex.hee.entity.mob.EntityMobAngryEnderman;
-import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
-import chylex.hee.system.savedata.ApocalypseSavefile;
-import chylex.hee.system.savedata.WorldData;
-import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.weight.WeightedList;
-import chylex.hee.world.util.SpawnEntry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public final class ApocalypseEvents{
-	private static ApocalypseEvents instance;
+	/*private static ApocalypseEvents instance;
 	
 	private static final WeightedList<SpawnEntry> spawnList = new WeightedList<>(
 		new SpawnEntry(EntityEnderman.class,32,100),
@@ -53,7 +36,7 @@ public final class ApocalypseEvents{
 		if (e.phase != Phase.START || ++tickTimer<(isApocalypseRunning || save == null?15:2400))return;
 		tickTimer = 0;
 		
-		/*WorldServer world = DimensionManager.getWorld(0);
+		WorldServer world = DimensionManager.getWorld(0);
 		if (world == null){
 			DragonUtil.warning("EndermanpocalypseTicker world is null");
 			return;
@@ -145,7 +128,7 @@ public final class ApocalypseEvents{
 				world.getWorldInfo().setThundering(false);
 				save.setApocalypseStage(DISABLED);
 			}
-		}*/
+		}
 	}
 	
 	private void doRandomLightning(World world, int chanceRange, int chance){
@@ -160,7 +143,7 @@ public final class ApocalypseEvents{
 		
 		if (world.rand.nextInt(8) == 0)world.addWeatherEffect(new EntityLightningBolt(world,x,y,z));
 		else world.addWeatherEffect(new EntityWeatherLightningBoltSafe(world,x,y,z));
-	}
+	}*/
 	
 	public static boolean checkEndermanpocalypseStructure(World world, int x, int y, int z){
 		for(int xx = x-1; xx <= x+1; xx++){

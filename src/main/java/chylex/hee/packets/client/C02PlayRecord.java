@@ -8,12 +8,9 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.FilenameUtils;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.system.ReflectionPublicizer;
-import chylex.hee.system.sound.CustomMusicTicker;
-import chylex.hee.system.sound.MusicManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -58,14 +55,12 @@ public class C02PlayRecord extends AbstractClientPacket{
 			soundHandler.stopSound(currentSound);
 			mapSoundPositions.remove(coords);
 		}
-		
-		if (!MusicManager.checkTrackExists(FilenameUtils.removeExtension(recordData[1])))return;
 
-		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]);
-		ResourceLocation resource = new ResourceLocation("hee~record:"+recordData[1]);
+		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]); // TODO records in sounds.json
+		ResourceLocation resource = new ResourceLocation("hardcoreenderexpansion:"+recordData[1]);
 		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,x,y,z);
 		mapSoundPositions.put(coords,snd);
-		CustomMusicTicker.stopCurrentMusicAndSetTo(snd,true);
+		//CustomMusicTicker.stopCurrentMusicAndSetTo(snd,true);
 		mc.getSoundHandler().playSound(snd);
 	}
 }

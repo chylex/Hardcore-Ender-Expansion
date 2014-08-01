@@ -21,7 +21,6 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
-import chylex.hee.mechanics.misc.ApocalypseEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C18CustomWeather;
 import chylex.hee.proxy.ModCommonProxy;
@@ -228,7 +227,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 			}
 			
 			//new ApocalypseSavefile(WorldData.get(worldObj)).setApocalypseStage(ApocalypseSavefile.APOCALYPSE_BOSS_DEAD);
-			ApocalypseEvents.reloadCache();
+			// TODO ApocalypseEvents.reloadCache();
 			
 			dropItem(ItemList.enderman_relic,1);
 			setDead();
