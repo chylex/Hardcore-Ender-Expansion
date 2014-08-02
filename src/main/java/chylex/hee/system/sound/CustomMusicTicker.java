@@ -12,7 +12,24 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class CustomMusicTicker extends MusicTicker{
+public final class CustomMusicTicker extends MusicTicker{
+	private static final CustomMusicTicker instance = new CustomMusicTicker(Minecraft.getMinecraft());
+	
+	public static CustomMusicTicker getInstance(){
+		return instance;
+	}
+	
+	public static void stopMusicAndPlayJukebox(ISound music){
+		if (instance.currentMusic != null){
+			instance.mc.getSoundHandler().stopSound(instance.currentMusic);
+			instance.timeUntilNextMusic = 100;
+		}
+		
+		instance.currentMusic = music;
+		instance.mc.getSoundHandler().playSound(music);
+		instance.isJukebox = true;
+	}
+	
 	public static final MusicType HEE_END, HEE_END_DRAGON_CALM, HEE_END_DRAGON_ANGRY;
 	
 	static{
@@ -29,8 +46,9 @@ public class CustomMusicTicker extends MusicTicker{
 	private final Random rand;
 	private ISound currentMusic;
 	private int timeUntilNextMusic = 100;
+	private boolean isJukebox = false;
 	
-	public CustomMusicTicker(Minecraft mc){
+	private CustomMusicTicker(Minecraft mc){
 		super(mc);
 		this.mc = mc;
 		this.rand = new Random();
@@ -41,7 +59,7 @@ public class CustomMusicTicker extends MusicTicker{
 		MusicType type = getCurrentMusicType();
 
 		if (currentMusic != null){
-			if (!type.getMusicTickerLocation().equals(currentMusic.getPositionedSoundLocation())){
+			if (!type.getMusicTickerLocation().equals(currentMusic.getPositionedSoundLocation()) && !isJukebox){
 				mc.getSoundHandler().stopSound(currentMusic);
 				timeUntilNextMusic = MathHelper.getRandomIntegerInRange(rand,0,type.func_148634_b()/2);
 			}
@@ -56,6 +74,7 @@ public class CustomMusicTicker extends MusicTicker{
 			currentMusic = PositionedSoundRecord.func_147673_a(type.getMusicTickerLocation());
 			mc.getSoundHandler().playSound(currentMusic);
 			timeUntilNextMusic = Integer.MAX_VALUE;
+			isJukebox = false;
 		}
 	}
 	

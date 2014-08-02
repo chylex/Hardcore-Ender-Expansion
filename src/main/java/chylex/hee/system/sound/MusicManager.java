@@ -45,7 +45,7 @@ public final class MusicManager{
 							fields[a].setAccessible(true);
 	
 							try{
-								fields[a].set(mc,new CustomMusicTicker(mc));
+								fields[a].set(mc,CustomMusicTicker.getInstance());
 								DragonUtil.info("Succesfully replaced MusicTicker.");
 							}catch(Exception ex){
 								ex.printStackTrace();

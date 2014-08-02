@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.sound.CustomMusicTicker;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -56,11 +57,11 @@ public class C02PlayRecord extends AbstractClientPacket{
 			mapSoundPositions.remove(coords);
 		}
 
-		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]); // TODO records in sounds.json
+		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]);
 		ResourceLocation resource = new ResourceLocation("hardcoreenderexpansion:"+recordData[1]);
 		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,x,y,z);
 		mapSoundPositions.put(coords,snd);
-		//CustomMusicTicker.stopCurrentMusicAndSetTo(snd,true);
-		mc.getSoundHandler().playSound(snd);
+		
+		CustomMusicTicker.stopMusicAndPlayJukebox(snd);
 	}
 }

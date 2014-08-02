@@ -22,16 +22,16 @@ public class ItemMusicDisk extends ItemRecord{
 	private static final List<String[]> musicNames = new ArrayList<>();
 	
 	static{
-		musicNames.add(new String[]{ "Banjolic", "dragoncalm_qwertygiy_Banjolic.ogg" });
-		musicNames.add(new String[]{ "In The End", "dragoncalm_qwertygiy_InTheEnd.ogg" });
-		musicNames.add(new String[]{ "Asteroid", "dragoncalm_qwertygiy_Asteroid.ogg" });
-		musicNames.add(new String[]{ "Stewed", "dragoncalm_qwertygiy_Stewed.ogg" });
-		musicNames.add(new String[]{ "Beat The Dragon", "dragonangry_qwertygiy_BeatTheDragon.ogg" });
-		musicNames.add(new String[]{ "Granite", "dragonangry_qwertygiy_Granite.ogg" });
-		musicNames.add(new String[]{ "Remember This", "dragonangry_qwertygiy_RememberThis.ogg" });
-		musicNames.add(new String[]{ "Spyder", "dragonangry_qwertygiy_Spyder.ogg" });
-		musicNames.add(new String[]{ "Onion", "random_qwertygiy_Onion.ogg" });
-		musicNames.add(new String[]{ "Crying Soul", "random_qwertygiy_CryingSoul.ogg" });
+		musicNames.add(new String[]{ "Banjolic", "records.qwertygiy.banjolic" });
+		musicNames.add(new String[]{ "In The End", "records.qwertygiy.intheend" });
+		musicNames.add(new String[]{ "Asteroid", "records.qwertygiy.asteroid" });
+		musicNames.add(new String[]{ "Stewed", "records.qwertygiy.stewed" });
+		musicNames.add(new String[]{ "Beat The Dragon", "records.qwertygiy.beatthedragon" });
+		musicNames.add(new String[]{ "Granite", "records.qwertygiy.granite" });
+		musicNames.add(new String[]{ "Remember This", "records.qwertygiy.rememberthis" });
+		musicNames.add(new String[]{ "Spyder", "records.qwertygiy.spyder" });
+		musicNames.add(new String[]{ "Onion", "records.qwertygiy.onion" });
+		musicNames.add(new String[]{ "Crying Soul", "records.qwertygiy.cryingsoul" });
 	}
 	
 	public static int getRecordCount(){
