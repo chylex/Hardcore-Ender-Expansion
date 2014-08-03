@@ -142,7 +142,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 	}
 
 	@Override
-	public boolean addComponentParts(World world, Random rand, StructureBoundingBox bb){ // TODO lag
+	public boolean addComponentParts(World world, Random rand, StructureBoundingBox bb){
 		Random consistentRandom = new Random(((startX/14)*185226L+(startZ/14)*24071632895L)^world.getWorldInfo().getSeed());
 		
 		int centerX = sizeX/2, centerZ = sizeZ/2, islandY = 32+consistentRandom.nextInt(40), roomAmount = 4; // room amount maybe random?
@@ -180,8 +180,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		
 		// ROOM CONTENT
 		
-		for(int a = 0,ladderMeta,yy; a < roomAmount; a++){
-			
+		for(int a = 0, ladderMeta, yy; a < roomAmount; a++){
 			yy = islandY+roomHeight*a;
 			ladderMeta = getMetadataWithOffset(Blocks.ladder,a%2 == 0?2:3);
 			fillWithMetadataBlocks(world,bb,centerX,yy+1,centerZ-3+6*(a%2),centerX,yy+6,centerZ-3+6*(a%2),Blocks.ladder,ladderMeta,Blocks.ladder,ladderMeta,false);

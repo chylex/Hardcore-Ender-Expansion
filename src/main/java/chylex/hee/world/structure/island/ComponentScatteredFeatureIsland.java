@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.block.BlockList;
-import chylex.hee.system.util.TimeMeasurement;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
