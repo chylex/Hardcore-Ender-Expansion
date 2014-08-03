@@ -12,8 +12,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.IntHashMap;
-import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.TimeMeasurement;
+import chylex.hee.system.logging.Log;
+import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -28,13 +28,13 @@ public final class ReflectionPublicizer{
 	public static Method entityLivingBaseGetExperiencePoints;
 
 	public static void load(){
-		TimeMeasurement.start("ReflectionPublicizer");
+		Stopwatch.start("ReflectionPublicizer");
 
 		for(Field field:EntityGhast.class.getDeclaredFields()){
 			if (Entity.class.isAssignableFrom(field.getType())){
 				field.setAccessible(true);
 				entityGhastTarget = field;
-				DragonUtil.info("ReflectionPublicizer - entityGhastTarget: "+field.getName());
+				Log.debug("ReflectionPublicizer - entityGhastTarget: $0",field.getName());
 				break;
 			}
 		}
@@ -44,7 +44,7 @@ public final class ReflectionPublicizer{
 			if (Random.class.isAssignableFrom(fields[a].getType())){
 				fields[a+3].setAccessible(true);
 				entityFire = fields[a+3];
-				DragonUtil.info("ReflectionPublicizer - entityFire: "+fields[a+3].getName());
+				Log.debug("ReflectionPublicizer - entityFire: $0",fields[a+3].getName());
 				break;
 			}
 		}
@@ -54,7 +54,7 @@ public final class ReflectionPublicizer{
 			if (EntityPlayerMP.class.isAssignableFrom(fields[a].getType()) && netHandlerPlayServerFloatingTicks == null){
 				fields[a+2].setAccessible(true);
 				netHandlerPlayServerFloatingTicks = fields[a+2];
-				DragonUtil.info("ReflectionPublicizer - netHandlerPlayServerFloatingTicks: "+fields[a+2].getName());
+				Log.debug("ReflectionPublicizer - netHandlerPlayServerFloatingTicks: $0",fields[a+2].getName());
 			}
 			else if (IntHashMap.class.isAssignableFrom(fields[a].getType())){
 				netHandlerPlayServerLastPos = new Field[]{
@@ -62,7 +62,7 @@ public final class ReflectionPublicizer{
 				};
 				
 				for(Field field:netHandlerPlayServerLastPos)field.setAccessible(true);
-				DragonUtil.info("ReflectionPublicizer - netHandlerPlayServerLastPos: "+fields[a+1].getName()+", "+fields[a+2].getName()+", "+fields[a+3].getName());
+				Log.debug("ReflectionPublicizer - netHandlerPlayServerLastPos: $0, $1, $2",fields[a+1].getName(),fields[a+2].getName(),fields[a+3].getName());
 				break;
 			}
 		}
@@ -73,13 +73,13 @@ public final class ReflectionPublicizer{
 				if (params.length == 1 && EntityPlayer.class.isAssignableFrom(params[0])){
 					method.setAccessible(true);
 					entityLivingBaseGetExperiencePoints = method;
-					DragonUtil.info("ReflectionPublicizer - entityLivingBaseGetExperiencePoints: "+method.getName());
+					Log.debug("ReflectionPublicizer - entityLivingBaseGetExperiencePoints: $0",method.getName());
 					break;
 				}
 			}
 		}
 
-		TimeMeasurement.finish("ReflectionPublicizer");
+		Stopwatch.finish("ReflectionPublicizer");
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -89,7 +89,7 @@ public final class ReflectionPublicizer{
 			if (Map.class.isAssignableFrom(fields[a].getType())){
 				fields[a+1].setAccessible(true);
 				renderGlobalMapSoundPositions = fields[a+1];
-				DragonUtil.info("ReflectionPublicizer/client - renderGlobalMapSoundPositions: "+fields[a+1].getName());
+				Log.debug("ReflectionPublicizer/client - renderGlobalMapSoundPositions: $0",fields[a+1].getName());
 				break;
 			}
 		}

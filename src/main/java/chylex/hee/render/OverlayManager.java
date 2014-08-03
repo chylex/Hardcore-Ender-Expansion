@@ -25,7 +25,6 @@ import chylex.hee.item.ItemBiomeCompass;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.item.ItemSpectralWand;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -41,8 +40,8 @@ public class OverlayManager{
 	private final List<Notification> notifications = new ArrayList<>();
 	
 	public static void addNotification(String notification){
-		if (instance == null)DragonUtil.warning("OverlayManager instance is null!");
-		else instance.notifications.add(new Notification(notification));
+		if (instance == null)register();
+		instance.notifications.add(new Notification(notification));
 	}
 	
 	public static void register(){
@@ -58,51 +57,54 @@ public class OverlayManager{
 		
 		mc.thePlayer.capabilities.setFlySpeed(0.3F); // TODO remove
 		
-		ItemStack is = mc.thePlayer.inventory.getCurrentItem();
-		if (is != null && is.getItem() == ItemList.biome_compass && ItemBiomeCompass.currentBiome != -1){
-			Set<ChunkCoordinates> coords = ItemBiomeCompass.locations.get(ItemBiomeCompass.currentBiome);
+		if (mc.thePlayer.dimension == 1){
+			ItemStack is = mc.thePlayer.inventory.getCurrentItem();
 			
-			if (!coords.isEmpty()){
-				GL11.glDisable(GL11.GL_DEPTH_TEST);
-				GL11.glDepthMask(false);
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+			if (is != null && is.getItem() == ItemList.biome_compass && ItemBiomeCompass.currentBiome != -1){
+				Set<ChunkCoordinates> coords = ItemBiomeCompass.locations.get(ItemBiomeCompass.currentBiome);
 				
-				GL11.glPushMatrix();
-				mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
-				
-				for(ChunkCoordinates coord:coords){
-					double viewRot = 90F+Math.toDegrees(Math.atan2(mc.thePlayer.posX-coord.posX,mc.thePlayer.posZ-coord.posZ));
-					float dist = (float)MathUtil.distance(mc.thePlayer.posX-coord.posX,mc.thePlayer.posZ-coord.posZ);
-					
-					if (dist <= 40F)continue;
-					else if (dist < 120F)GL11.glColor4f(1F,1F,1F,0.5F*((dist-40F)/80F));
-					else GL11.glColor4f(1F,1F,1F,0.5F);
+				if (!coords.isEmpty()){
+					GL11.glDisable(GL11.GL_DEPTH_TEST);
+					GL11.glDepthMask(false);
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 					
 					GL11.glPushMatrix();
-					GL11.glRotated(viewRot,0F,1F,0F);
-					GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
-					GL11.glTranslated(5F+dist*0.05F,0F,0F);
-					GL11.glPushMatrix();
-
-					GL11.glTranslatef(0.5F,0.5F,0.5F);
-					GL11.glRotated(270F,0F,1F,0F);
-					GL11.glScalef(6F,6F,6F);
-					GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
+					mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
 					
-					IIcon icon = ItemList.special_effects.getIconFromDamage(ItemSpecialEffects.biomePointStart+ItemBiomeCompass.currentBiome);
-					ItemRenderer.renderItemIn2D(Tessellator.instance,icon.getMaxU(),icon.getMinV(),icon.getMinU(),icon.getMaxV(),icon.getIconWidth(),icon.getIconHeight(),0.0625F);
+					for(ChunkCoordinates coord:coords){
+						double viewRot = 90F+Math.toDegrees(Math.atan2(mc.thePlayer.posX-coord.posX,mc.thePlayer.posZ-coord.posZ));
+						float dist = (float)MathUtil.distance(mc.thePlayer.posX-coord.posX,mc.thePlayer.posZ-coord.posZ);
+						
+						if (dist <= 40F)continue;
+						else if (dist < 140F)GL11.glColor4f(1F,1F,1F,0.5F*((dist-40F)/100F));
+						else GL11.glColor4f(1F,1F,1F,0.5F);
+						
+						GL11.glPushMatrix();
+						GL11.glRotated(viewRot,0F,1F,0F);
+						GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
+						GL11.glTranslated(5F+dist*0.05F,0F,0F);
+						GL11.glPushMatrix();
+	
+						GL11.glTranslatef(0.5F,0.5F,0.5F);
+						GL11.glRotated(270F,0F,1F,0F);
+						GL11.glScalef(6F,6F,6F);
+						GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
+						
+						IIcon icon = ItemList.special_effects.getIconFromDamage(ItemSpecialEffects.biomePointStart+ItemBiomeCompass.currentBiome);
+						ItemRenderer.renderItemIn2D(Tessellator.instance,icon.getMaxU(),icon.getMinV(),icon.getMinU(),icon.getMaxV(),icon.getIconWidth(),icon.getIconHeight(),0.0625F);
+						
+						GL11.glPopMatrix();
+						GL11.glPopMatrix();
+					}
 					
 					GL11.glPopMatrix();
-					GL11.glPopMatrix();
+					
+					GL11.glDisable(GL11.GL_BLEND);
+					GL11.glDepthMask(true);
+					GL11.glEnable(GL11.GL_DEPTH_TEST);
+					GL11.glColor4f(1F,1F,1F,1F);
 				}
-				
-				GL11.glPopMatrix();
-				
-				GL11.glDisable(GL11.GL_BLEND);
-				GL11.glDepthMask(true);
-				GL11.glEnable(GL11.GL_DEPTH_TEST);
-				GL11.glColor4f(1F,1F,1F,1F);
 			}
 		}
 	}

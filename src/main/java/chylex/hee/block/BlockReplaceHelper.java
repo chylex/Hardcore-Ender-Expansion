@@ -9,14 +9,14 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ObjectIntIdentityMap;
 import net.minecraft.util.RegistryNamespaced;
 import net.minecraft.util.RegistrySimple;
-import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.TimeMeasurement;
+import chylex.hee.system.logging.Log;
+import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
 import cpw.mods.fml.common.registry.GameData;
 
 public class BlockReplaceHelper{
 	public static void replaceBlock(Block toReplace, Class<? extends Block> blockClass){
-		TimeMeasurement.start("BlockReplace");
+		Stopwatch.start("BlockReplace");
 		
 		Field modifiersField = null;
 		Class<?>[] classTest = new Class<?>[3];
@@ -33,7 +33,8 @@ public class BlockReplaceHelper{
 						String registryName = Block.blockRegistry.getNameForObject(block);
 						int id = Block.getIdFromBlock(block);
 						ItemBlock item = (ItemBlock)Item.getItemFromBlock(block);
-						DragonUtil.info("Replacing block - "+id+"/"+registryName);
+						
+						Log.debug("Replacing block - $0/$1",id,registryName);
 						
 						Block newBlock = blockClass.newInstance();
 						FMLControlledNamespacedRegistry<Block> registry = GameData.getBlockRegistry();
@@ -64,14 +65,14 @@ public class BlockReplaceHelper{
 			e.printStackTrace();
 		}
 		
-		TimeMeasurement.finish("BlockReplace");
+		Stopwatch.finish("BlockReplace");
 		
-		DragonUtil.info("Check field: "+classTest[0]);
-		DragonUtil.info("Check registry: "+classTest[1]);
-		DragonUtil.info("Check item: "+classTest[2]);
+		Log.debug("Check field: $0",classTest[0]);
+		Log.debug("Check registry: $0",classTest[1]);
+		Log.debug("Check item: $0",classTest[2]);
 		
 		if (classTest[0] != classTest[1] || classTest[0] != classTest[2] || classTest[0] == null){
-			throw new RuntimeException("Failed class test, replacing "+toReplace.getUnlocalizedName()+" failed!");
+			throw new RuntimeException("HardcoreEnderExpansion was unable to replace block "+toReplace.getUnlocalizedName()+"! Debug info to report: "+classTest[0]+","+classTest[1]+","+classTest[2]);
 		}
 	}
 }

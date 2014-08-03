@@ -10,7 +10,7 @@ import chylex.hee.mechanics.knowledge.data.renderer.IRegistrationRenderer;
 import chylex.hee.mechanics.knowledge.fragment.KnowledgeFragment;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C28KnowledgeRegistrationNotification;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 
 public class KnowledgeRegistration{
 	public static final HashMap<String,KnowledgeRegistration> lookup = new HashMap<>();
@@ -98,7 +98,7 @@ public class KnowledgeRegistration{
 	public UnlockResult tryUnlockFragment(EntityPlayer player, float chance, byte[] unlockableFragments){
 		if (player == null){
 			Thread.dumpStack();
-			DragonUtil.severe("Player is null when unlocking knowledge fragment!");
+			Log.error("Player is null when unlocking knowledge fragment!");
 			return UnlockResult.BAD_LUCK;
 		}
 		

@@ -6,9 +6,9 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.ServerSavefile;
 import chylex.hee.system.savedata.WorldData;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.WorldGenBlob;
 import chylex.hee.world.feature.WorldGenEndPowderOre;
@@ -79,7 +79,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 				}
 			}
 		}catch(Exception e){
-			DragonUtil.severe("End Powder Ore generation failed.");
+			Log.error("End Powder Ore generation failed.");
 		}
 
 		if (chunk_X == 0 && chunk_Z == 0){

@@ -54,19 +54,13 @@ public class DragonAttackManager{
 	}
 	
 	public boolean registerPassiveAttack(DragonPassiveAttackBase attack, int attackId){
-		if (getPassiveAttackById(attackId) != null){
-			DragonUtil.severe("Tried to register passive dragon attack with already registered attack ID %0%!",attackId);
-			return false;
-		}
+		if (getPassiveAttackById(attackId) != null)throw new IllegalArgumentException("Tried to register passive dragon attack with already registered attack ID "+attackId);
 		passiveAttackList.add(attack);
 		return true;
 	}
 	
 	public boolean registerSpecialAttack(DragonSpecialAttackBase attack, int attackId){
-		if (getSpecialAttackById(attackId) != null){
-			DragonUtil.severe("Tried to register special dragon attack with already registered attack ID %0%!",attackId);
-			return false;
-		}
+		if (getSpecialAttackById(attackId) != null)throw new IllegalArgumentException("Tried to register special dragon attack with already registered attack ID "+attackId);
 		specialAttackList.add(attack);
 		return true;
 	}
@@ -81,7 +75,7 @@ public class DragonAttackManager{
 		}
 		if (player == null)return false;
 		int diff = dragon.getWorldDifficulty(), rm;
-		player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs?9F:4F)+diff);
+		player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 9F : 4F)+diff);
 		
 		switch(diff){
 			case 3: rm = 34; break;
@@ -148,39 +142,30 @@ public class DragonAttackManager{
 		
 		Map<Byte,Double> effList = new TreeMap<>();
 		TByteArrayList notTried = new TByteArrayList();
-		//DragonUtil.info("Starting attack picking");
 		
 		for(DragonSpecialAttackBase attack:specialAttackList){
 			if (attack.disabled || !attack.canStart())continue;
-			//DragonUtil.info("Testing attack ID %0%",attack.id);
 			if (attack.previousEffectivness == 0D && attack.newEffectivness == 0D)notTried.add(attack.id);
-			//DragonUtil.info("Not tried yet - %0%",attack.previousEffectivness == 0D && attack.newEffectivness == 0D);
 			
 			double add = 0D;
 			if (attack.equals(lastAttack))add -= attack.effectivness*0.6D; // lower chance of retrying
 			if (attack.newEffectivness > attack.previousEffectivness)add += 0.5D*(attack.newEffectivness-attack.previousEffectivness); // if attack went better, increase chance
-			//DragonUtil.info("Effectivness: %0% (+ add %1%)",attack.effectivness,add);
 			effList.put(attack.id,attack.effectivness+add);
 		}
 		
-		//DragonUtil.info("effList size: %0%",effList.size());
-		//DragonUtil.info("notTried size: %0%",notTried.size());
 		if (effList.isEmpty())return null;
 		
 		if (notTried.size() > 1 || (notTried.size() == 1 && rand.nextBoolean())){
 			return getSpecialAttackById(notTried.get(rand.nextInt(notTried.size()))); // try a new attack
 		}
 		
-		//DragonUtil.info("Choosing attacks based on efficiency");
 		SortedSet<Entry<Byte,Double>> effSorted = DragonUtil.sortMapByValueDescending(effList);
-		//for(Entry<Byte,Double> entry:effSorted)DragonUtil.info("Attack %0%, efficiency %1%",entry.getKey(),entry.getValue());
 		int maxId = rand.nextInt(Math.min(healthPercentage < 30?3:4,effSorted.size()));
-		//DragonUtil.info("maxId is %0%",maxId);
+
 		for(Entry<Byte,Double> entry:effSorted){
 			if (maxId-- <= 0)return getSpecialAttackById(entry.getKey());
 		}
-		
-		//DragonUtil.info("Still no decision!");		
+			
 		return null;
 	}
 	

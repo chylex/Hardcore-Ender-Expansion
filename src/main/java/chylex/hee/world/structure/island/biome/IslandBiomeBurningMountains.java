@@ -20,7 +20,7 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 		super(biomeID,knowledgeRegistration);
 		
 		contentVariations.add(SCORCHING);
-		// contentVariations.add(MINE); // TODO postponed
+		contentVariations.add(MINE);
 		
 		getSpawnEntries(SCORCHING).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobFireGolem.class,14,10),

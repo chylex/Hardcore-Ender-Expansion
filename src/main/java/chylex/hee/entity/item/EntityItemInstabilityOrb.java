@@ -16,6 +16,7 @@ import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.mechanics.orb.WeightedItem;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C12InstabilityOrbTransformEffect;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 
 public class EntityItemInstabilityOrb extends EntityItem{
@@ -99,7 +100,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 				
 				PacketPipeline.sendToAllAround(this,64D,new C12InstabilityOrbTransformEffect(posX,posY,posZ,e.width,e.height));
 			}catch(Exception ex){
-				DragonUtil.severe("Error spawning entity %0% in EntityItemInstabilityOrb",cls.getSimpleName());
+				Log.throwable(ex,"Error spawning entity $0 in EntityItemInstabilityOrb",cls.getSimpleName());
 			}
 		}
 		else{

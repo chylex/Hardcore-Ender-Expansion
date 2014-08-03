@@ -24,7 +24,7 @@ import chylex.hee.mechanics.knowledge.fragment.EnhancementKnowledgeFragment;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C25GuiEnhancementsUpdateItems;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 
 public class ContainerEndPowderEnhancements extends Container{
 	private EntityPlayerMP owner;
@@ -186,7 +186,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		if (selectedSlot != slot){ // SELECT SLOT
 			List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(getSlot(0).getStack().getItem());
 			
-			if (slot < 0 || slot >= enhancements.size())DragonUtil.warning("Received S01 enhancement gui packet with invalid slot!");
+			if (slot < 0 || slot >= enhancements.size())Log.error("Received S01 enhancement gui packet with invalid slot - $0",slot);
 			else{
 				this.selectedEnhancement = enhancements.get(slot);
 				this.selectedSlot = slot;
@@ -197,7 +197,7 @@ public class ContainerEndPowderEnhancements extends Container{
 			List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
 			
 			if (slot < 0 || slot >= enhancements.size()){
-				DragonUtil.warning("Received S01 enhancement gui packet with invalid slot!");
+				Log.error("Received S01 enhancement gui packet with invalid slot - $0",slot);
 				return;
 			}
 			

@@ -26,7 +26,7 @@ import chylex.hee.packets.client.C00ParticleAltarSmoke;
 import chylex.hee.packets.client.C06ClearInventorySlot;
 import chylex.hee.packets.client.C16AltarRuneItemEffect;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -164,8 +164,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 		try{
 			actionHandler = essenceType.actionHandlerClass.getConstructor(TileEntityEssenceAltar.class).newInstance(this);
 		}catch(NoSuchMethodException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | SecurityException e){
-			e.printStackTrace();
-			DragonUtil.severe("Unable to create AltarActionHandler!");
+			Log.throwable(e,"Unable to create AltarActionHandler!");
 		}
 	}
 	

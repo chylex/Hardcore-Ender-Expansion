@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MusicTicker;
 import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.common.MinecraftForge;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,10 +46,9 @@ public final class MusicManager{
 	
 							try{
 								fields[a].set(mc,CustomMusicTicker.getInstance());
-								DragonUtil.info("Succesfully replaced MusicTicker.");
+								Log.debug("Successfully replaced MusicTicker.");
 							}catch(Exception ex){
-								ex.printStackTrace();
-								DragonUtil.severe("Error loading music system!");
+								Log.throwable(ex,"Could not replace MusicTicker, custom music will not be present.");
 								return;
 							}
 	

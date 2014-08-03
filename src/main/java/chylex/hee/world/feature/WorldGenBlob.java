@@ -9,7 +9,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.blobs.CavePopulator;
 import chylex.hee.world.feature.blobs.FlowerPopulator;
@@ -73,7 +73,7 @@ public class WorldGenBlob extends WorldGenerator{
 			try{
 				availablePopulators.remove(rand.nextInt(availablePopulators.size())).populate(size,minPos,maxPos,world,rand,x,y,z);
 			}catch(Exception e){
-				DragonUtil.warning("Endstone Blob populator failed");
+				Log.error("Endstone Blob populator failed");
 			}
 		}
 		

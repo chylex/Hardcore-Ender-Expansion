@@ -15,7 +15,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.render.texture.TextureBiomeCompass;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -85,7 +85,7 @@ public class ItemBiomeCompass extends Item{
 				lastSavedX = lastSavedZ = Integer.MAX_VALUE;
 			}
 		}
-		else DragonUtil.severe("Cannot cast iconRegister ("+iconRegister.getClass().getSimpleName()+") to Texture Map, Biome Compass will not be rendered correctly!");
+		else Log.error("Cannot cast iconRegister ($0) to Texture Map, Biome Compass will not be rendered correctly!",iconRegister.getClass().getSimpleName());
 	}
 	
 	// BIOME DETECTION

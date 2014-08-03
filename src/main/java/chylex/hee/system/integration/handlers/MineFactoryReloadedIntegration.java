@@ -2,7 +2,7 @@ package chylex.hee.system.integration.handlers;
 import java.lang.reflect.Method;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.system.integration.IIntegrationHandler;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 
 public class MineFactoryReloadedIntegration implements IIntegrationHandler{
 	@Override
@@ -16,8 +16,7 @@ public class MineFactoryReloadedIntegration implements IIntegrationHandler{
 			Method blacklist = Class.forName("powercrystals.minefactoryreloaded.MFRRegistry").getMethod("registerSafariNetBlacklist",Class.class);
 			blacklist.invoke(null,EntityMobBabyEnderman.class);
 		}catch(Throwable t){
-			t.printStackTrace();
-			DragonUtil.severe("Unable to integrate with MineFactoryReloaded!");
+			Log.throwable(t,"Unable to integrate with MineFactoryReloaded!");
 		}
 	}
 }

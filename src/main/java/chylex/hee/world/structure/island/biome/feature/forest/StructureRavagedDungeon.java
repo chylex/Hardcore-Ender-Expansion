@@ -2,8 +2,8 @@ package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.TimeMeasurement;
+import chylex.hee.system.logging.Log;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonDir;
@@ -34,7 +34,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		
 		if (y >= 80)return false;
 		
-		TimeMeasurement.start("RavagedDungeonGen");
+		Stopwatch.start("RavagedDungeonGen");
 		RavagedDungeonGenerator gen = new RavagedDungeonGenerator(dungW,dungH,3);
 
 		int xx, zz, yy, worldX, worldZ, th = hallHeight+1, layer, visibility;
@@ -65,11 +65,11 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		}
 		
 		if (!gen.generate()){
-			DragonUtil.severe("Could not generate Ravaged Dungeon :(");
+			Log.debug("Could not generate Ravaged Dungeon :(");
 			return false;
 		}
-		TimeMeasurement.finish("RavagedDungeonGen");
-		TimeMeasurement.start("RavagedDungeonPlace");
+		Stopwatch.finish("RavagedDungeonGen");
+		Stopwatch.start("RavagedDungeonPlace");
 		
 		for(int a = 0; a < gen.layers.length; a++){
 			DungeonElementList elements = gen.layers[a].getElements();
@@ -85,7 +85,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 			y -= hallHeight+2;
 		}
 		
-		TimeMeasurement.finish("RavagedDungeonPlace");
+		Stopwatch.finish("RavagedDungeonPlace");
 		
 		return true;
 	}

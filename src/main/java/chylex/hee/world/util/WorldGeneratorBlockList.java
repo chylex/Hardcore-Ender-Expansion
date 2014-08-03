@@ -2,7 +2,7 @@ package chylex.hee.world.util;
 import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 
 public class WorldGeneratorBlockList extends ArrayList<BlockLocation>{
 	private static final long serialVersionUID = -2395610713307276330L;
@@ -46,12 +46,14 @@ public class WorldGeneratorBlockList extends ArrayList<BlockLocation>{
 
 	public boolean generate(Block block){
 		if (size() == 0)return false;
+		
 		try{
 			for(BlockLocation loc:this)world.setBlock(loc.x,loc.y,loc.z,block);
 		}catch(Exception e){
-			DragonUtil.warning("Ouch, WorldGeneratorBlockList's generation gone bad :(");
+			Log.error("Ouch, WorldGeneratorBlockList's generation gone bad :(");
 			return false;
 		}
+		
 		return true;
 	}
 }

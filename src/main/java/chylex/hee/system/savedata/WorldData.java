@@ -8,7 +8,7 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 
 public class WorldData{
 	private static Map<String,WorldData> cache = new HashMap<>();
@@ -29,7 +29,7 @@ public class WorldData{
 		
 		File root = DimensionManager.getCurrentSaveRootDirectory();
 		if (root != null){
-			saveDirectory = new File(root,"hed");
+			saveDirectory = new File(root,"hed"); // TODO rename to hee
 			saveDirectory.mkdirs();
 		}
 	}
@@ -44,8 +44,7 @@ public class WorldData{
 			try{
 				return CompressedStreamTools.readCompressed(new FileInputStream(dataFile));
 			}catch(Exception e){
-				e.printStackTrace();
-				DragonUtil.severe("Error reading %0%!",filename);
+				Log.throwable(e,"Error reading WorldData file $0",filename);
 			}
 		}
 		return new NBTTagCompound();
@@ -57,8 +56,7 @@ public class WorldData{
 		try{
 			CompressedStreamTools.writeCompressed(nbt,new FileOutputStream(new File(saveDirectory,filename)));
 		}catch(Exception e){
-			e.printStackTrace();
-			DragonUtil.severe("Error writing %0%!",filename);
+			Log.throwable(e,"Error writing WorldData file $0",filename);
 		}
 	}
 	

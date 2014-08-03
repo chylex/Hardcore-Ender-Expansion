@@ -14,7 +14,7 @@ import chylex.hee.gui.GuiItemRenderHelper;
 import chylex.hee.gui.GuiKnowledgeBook;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -72,7 +72,7 @@ public class CraftingKnowledgeFragment extends KnowledgeFragment{
 			}
 		}
 		
-		DragonUtil.warning("Could not find ItemStack "+outputToFind.toString()+" while registering recipe from registry.");
+		Log.warn("Could not find ItemStack $0 when registering recipe from registry.",outputToFind.toString());
 		return this;
 	}
 

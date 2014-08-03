@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import chylex.hee.item.ItemTempleCaller;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.ServerSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
@@ -56,12 +57,13 @@ public final class TempleEvents{
 			else save.setPlayerIsInTemple(player.getCommandSenderName(),false);
 			return true;
 		}
-		return false;
+		else return false;
 	}
 	
 	private byte tickTimer = 0;
 	private World endWorld = null;
 	private byte counter = 0;
+	private byte giveUpCounter = 0;
 	private boolean failedDestroying = false;
 	
 	private TempleEvents(){}
@@ -94,14 +96,21 @@ public final class TempleEvents{
 	public void onServerTick(ServerTickEvent e){
 		if (e.phase != Phase.START || ++tickTimer < 12 || endWorld == null)return;
 		
+		if (giveUpCounter > 20){
+			if (++giveUpCounter > 120)giveUpCounter = 0;
+			return;
+		}
+		
 		if (++counter > 2){
 			File dim1 = new File(DimensionManager.getCurrentSaveRootDirectory(),"DIM1");
 			if (!dim1.exists()){
-				DragonUtil.severe("DIM1 not found!");
+				Log.error("DIM1 not found!");
 				endWorld = null;
 				counter = 0;
 				return;
 			}
+			
+			DimensionManager.unloadWorld(1);
 			
 			failedDestroying = false;
 			for(File file:dim1.listFiles())deleteFile(file);
@@ -119,12 +128,15 @@ public final class TempleEvents{
 				endWorld = null;
 				counter = 0;
 			}
-			else DragonUtil.severe("Error deleting DIM1!");
+			else{
+				Log.error("Error deleting DIM1!");
+				if (++giveUpCounter > 20)Log.error("Gave up deleting DIM1, will try later.");
+			}
 		}
 	}
 	
 	private boolean isPlayerInTemple(EntityPlayer player){
-		return player.posY >= ItemTempleCaller.templeY && player.posX >= ItemTempleCaller.templeX && player.posZ >= ItemTempleCaller.templeZ&&
+		return player.posY >= ItemTempleCaller.templeY && player.posX >= ItemTempleCaller.templeX && player.posZ >= ItemTempleCaller.templeZ &&
 			   player.posY <= ItemTempleCaller.templeY+7 && player.posX <= ItemTempleCaller.templeX+13 && player.posZ <= ItemTempleCaller.templeZ+19;
 	}
 	

@@ -16,7 +16,7 @@ import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.commons.lang3.ArrayUtils;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -46,7 +46,7 @@ public final class StardustDecomposition{
 			if (entry.contains("/")){
 				String[] sep = entry.split("/");
 				if (sep.length != 2){
-					DragonUtil.severe("Invalid entry in Decomposition Blacklist: %0%",entry);
+					Log.warn("Invalid entry in Decomposition Blacklist: $0",entry);
 					continue;
 				}
 				
@@ -59,7 +59,7 @@ public final class StardustDecomposition{
 					}
 					else dmgs = new short[]{ Short.parseShort(sep[1]) };
 				}catch(NumberFormatException e){
-					DragonUtil.severe("Invalid entry in Decomposition Blacklist, wrong damage values: %0%",entry);
+					Log.warn("Invalid entry in Decomposition Blacklist, wrong damage values: $0",entry);
 					continue;
 				}
 			}
@@ -68,7 +68,7 @@ public final class StardustDecomposition{
 			
 			String[] itemId = itemName.split(":");
 			if (itemId.length > 2){
-				DragonUtil.severe("Invalid entry in Decomposition Blacklist, wrong item identifier: %0%",entry);
+				Log.warn("Invalid entry in Decomposition Blacklist, wrong item identifier: $0",entry);
 				continue;
 			}
 			else if (itemId.length == 1)itemId = new String[]{ "minecraft",itemId[0] };
@@ -85,7 +85,7 @@ public final class StardustDecomposition{
 						Block block = GameData.getBlockRegistry().getRaw(key);
 						
 						if (block == null){
-							if (itemId[0].equals("minecraft") || Loader.isModLoaded(itemId[0]))DragonUtil.severe("Stumbled upon invalid entry in block registry while parsing Decomposition Blacklist, object not found: %0%",key);
+							if (itemId[0].equals("minecraft") || Loader.isModLoaded(itemId[0]))Log.warn("Stumbled upon invalid entry in block registry while parsing Decomposition Blacklist, object not found: $0",key);
 							continue;
 						}
 						
@@ -103,7 +103,7 @@ public final class StardustDecomposition{
 						Item item = GameData.getItemRegistry().getRaw(key);
 						
 						if (item == null){
-							if (itemId[0].equals("minecraft") || Loader.isModLoaded(itemId[0]))DragonUtil.severe("Stumbled upon invalid entry in item registry while parsing Decomposition Blacklist, object not found: %0%",key);
+							if (itemId[0].equals("minecraft") || Loader.isModLoaded(itemId[0]))Log.warn("Stumbled upon invalid entry in item registry while parsing Decomposition Blacklist, object not found: $0",key);
 							continue;
 						}
 						
@@ -119,7 +119,7 @@ public final class StardustDecomposition{
 					Block block = GameRegistry.findBlock(itemId[0],itemId[1]);
 					
 					if (block == null){
-						DragonUtil.severe("Invalid entry in Decomposition Blacklist, item not found: %0%",entry);
+						if (itemId[0].equals("minecraft") || Loader.isModLoaded(itemId[0]))Log.warn("Invalid entry in Decomposition Blacklist, item not found: $0",entry);
 						continue;
 					}
 					else item = Item.getItemFromBlock(block);
@@ -130,7 +130,7 @@ public final class StardustDecomposition{
 			}
 		}
 		
-		if (added > 0)DragonUtil.info("Added %0% items into Decomposition blacklist",added);
+		if (added > 0)Log.info("Added $0 items into Decomposition blacklist",added);
 	}
 	
 	public static boolean isBlacklisted(Item item, int damage){

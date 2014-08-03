@@ -14,7 +14,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.RuneType;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
@@ -88,7 +87,6 @@ public class EntityMobLouse extends EntityMob{
 			else{
 				louseData = new LouseSpawnData((byte)rand.nextInt(LouseSpawnData.maxLevel),getRNG());
 				updateLouseData();
-				DragonUtil.info(louseData.serializeToString());
 			}
 		}
 		

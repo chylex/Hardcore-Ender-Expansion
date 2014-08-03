@@ -1,5 +1,5 @@
 package chylex.hee.system.update;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -27,14 +27,14 @@ final class VersionEntry implements Comparable<VersionEntry>{
 		String tmp = modVersion;
 		String[] idSplit = versionIdentifier.split(" - ");
 		
-		if (idSplit.length != 2)DragonUtil.warning("Incorrect version identifier: "+versionIdentifier);
+		if (idSplit.length != 2)Log.error("Incorrect version identifier: $0",versionIdentifier);
 		else{
 			tmp = idSplit[1];
 			
 			try{
 				i = Byte.parseByte(idSplit[0]);
 			}catch(NumberFormatException e){
-				DragonUtil.warning("Incorrect version identifier: "+versionIdentifier);
+				Log.error("Incorrect version identifier: $0",versionIdentifier);
 			}
 		}
 		

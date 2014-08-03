@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import cpw.mods.fml.relauncher.FMLInjectionData;
@@ -41,7 +41,7 @@ class UpdateThread extends Thread{
 			int counter = -1;
 			boolean isInDev = true;
 			
-			DragonUtil.info("Detecting HEE updates...");
+			Log.debug("Detecting HEE updates...");
 			for(Entry<String,JsonElement> entry:root.getAsJsonObject().entrySet()){
 				versionList.add(new VersionEntry(entry.getKey(),entry.getValue().getAsJsonObject()));
 			}
@@ -49,7 +49,7 @@ class UpdateThread extends Thread{
 			Collections.sort(versionList);
 			
 			for(VersionEntry version:versionList){
-				DragonUtil.info("Reading update data: "+version.versionIdentifier);
+				Log.debug("Reading update data: $0",version.versionIdentifier);
 
 				if (newestVersion == null)newestVersion = version;
 				if (version.isSupportedByMC(mcVersion)){
@@ -64,10 +64,10 @@ class UpdateThread extends Thread{
 			}
 			
 			if (isInDev){
-				DragonUtil.info("In-dev version used, notifications disabled.");
+				Log.debug("In-dev version used, notifications disabled.");
 				return;
 			}
-			else DragonUtil.info("Done.");
+			else Log.debug("Done.");
 			
 			if (counter > 0){
 				StringBuilder message = new StringBuilder()
@@ -99,8 +99,7 @@ class UpdateThread extends Thread{
 				}
 			}
 		}catch(Exception e){
-			e.printStackTrace();
-			DragonUtil.severe("Error detecting updates!");
+			Log.throwable(e,"Error detecting updates!");
 		}
 	}
 }

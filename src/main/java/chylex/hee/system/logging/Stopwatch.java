@@ -1,9 +1,10 @@
-package chylex.hee.system.util;
+package chylex.hee.system.logging;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import chylex.hee.system.util.DragonUtil;
 
-public final class TimeMeasurement{
+public final class Stopwatch{
 	private static final Map<String,Long> timers = new HashMap<>();
 	
 	public static void start(String identifier){

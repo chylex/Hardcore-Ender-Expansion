@@ -7,7 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.logging.Log;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 
 public final class LargeStructureChunk{
@@ -36,7 +36,7 @@ public final class LargeStructureChunk{
 	
 	public void setBlock(int xInChunk, int yInChunk, int zInChunk, Block block, int metadata, boolean scheduleUpdate){
 		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
-			DragonUtil.warning("Placing block at invalid coordinates: %0%,%1%,%2%",xInChunk,yInChunk,zInChunk);
+			Log.debug("Placing block at invalid coordinates: $0,$1,$2",xInChunk,yInChunk,zInChunk);
 			return;
 		}
 		
@@ -52,7 +52,7 @@ public final class LargeStructureChunk{
 	
 	public Block getBlock(int xInChunk, int yInChunk, int zInChunk){
 		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
-			DragonUtil.warning("Getting block at invalid coordinates: %0%,%1%,%2%",xInChunk,yInChunk,zInChunk);
+			Log.debug("Getting block at invalid coordinates: $0,$1,$2",xInChunk,yInChunk,zInChunk);
 			return Blocks.air;
 		}
 		
@@ -62,7 +62,7 @@ public final class LargeStructureChunk{
 	
 	public int getMetadata(int xInChunk, int yInChunk, int zInChunk){
 		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
-			DragonUtil.warning("Getting block metadata at invalid coordinates: %0%,%1%,%2%",xInChunk,yInChunk,zInChunk);
+			Log.debug("Getting block metadata at invalid coordinates: $0,$1,$2",xInChunk,yInChunk,zInChunk);
 			return 0;
 		}
 		
@@ -102,7 +102,7 @@ public final class LargeStructureChunk{
 							String key = storedTileEntityClues.get(y*256+x*16+z);
 							TileEntity tileEntity = structure.getBlockTileEntityUnsafe(addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
 							
-							if (tileEntity == null)DragonUtil.severe("Tile entity with key %0% not found!",key);
+							if (tileEntity == null)Log.debug("Tile entity with key $0 not found at $1,$2,$3!",key,x,y,z);
 							else storedTileEntities.get(key).onTileEntityRequested(key,tileEntity,world.rand);
 						}
 					}

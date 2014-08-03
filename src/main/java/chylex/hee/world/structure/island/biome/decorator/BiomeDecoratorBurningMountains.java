@@ -5,6 +5,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureIgneousRockOre;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureLavaPool;
+import chylex.hee.world.structure.island.biome.feature.mountains.StructureMiningSpot;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureResourcePit;
 
 public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
@@ -15,6 +16,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	private final StructureIgneousRockOre genIgneousRockOre = new StructureIgneousRockOre();
 	private final StructureLavaPool genLavaPool = new StructureLavaPool();
 	private final StructureResourcePit genResourcePit = new StructureResourcePit();
+	private final StructureMiningSpot genMiningSpot = new StructureMiningSpot();
 	
 	/*
 	 * SCORCHING
@@ -22,7 +24,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	
 	public void genScorching(){
 		// IGNEOUS ROCK ORE
-		generateStructure(genIgneousRockOre.setAttemptAmount(120),getBiome());
+		generateStructure(genIgneousRockOre.setAttemptAmount(110),getBiome());
 		
 		// SINGLE LAVA BLOCKS
 		for(int a = 0; a < 6500; a++){
@@ -59,6 +61,11 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	
 	public void genMine(){
 		// IGNEOUS ROCK ORE
-		generateStructure(genIgneousRockOre.setAttemptAmount(160),getBiome());
+		generateStructure(genIgneousRockOre.setAttemptAmount(165),getBiome());
+		
+		// MINING SPOT
+		for(int attempt = 0, attemptAmount = 8+rand.nextInt(10); attempt < attemptAmount; attempt++){
+			if (generateStructure(genMiningSpot,getBiome()) && rand.nextBoolean())--attemptAmount;
+		}
 	}
 }
