@@ -8,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
@@ -23,7 +24,7 @@ import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 public class BlockDragonEggCustom extends BlockDragonEgg{
 	public BlockDragonEggCustom(){
 		super();
-		setHardness(1000F).setResistance(2000F).setStepSound(Block.soundTypeStone).setLightLevel(0.125F).setBlockName("dragonEgg").setBlockTextureName("dragon_egg");
+		setBlockUnbreakable().setResistance(2000F).setStepSound(Block.soundTypeStone).setLightLevel(0.125F).setBlockName("dragonEgg").setBlockTextureName("dragon_egg");
 	}
 	
 	@Override
@@ -85,7 +86,21 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		teleportNearby(world,x,y,z);
 	}
 	
-	// COPIED FROM BlockDragonEgg, tweaked (a lot)
+	@Override
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta){
+		teleportNearby(world,x,y,z);
+	}
+	
+	@Override
+	public Item getItemDropped(int meta, Random rand, int fortune){
+		return null;
+	}
+	
+	@Override
+	public int quantityDropped(Random rand){
+		return 0;
+	}
+	
 	private void teleportNearby(World world, int x, int y, int z){
 		if (world.getBlock(x,y,z) == this && !world.isRemote){
 			for(int attempt = 0,xx,yy,zz; attempt < 1000; ++attempt){
@@ -98,7 +113,6 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 					world.setBlockToAir(x,y,z);
 					
 					PacketPipeline.sendToAllAround(world.provider.dimensionId,x,y,z,76D,new C20ParticleDragonEggTeleportation(x,y,z,xx,yy,zz));
-					
 					for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,12D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.25F,new byte[]{ 16,17 });
 
 					return;
