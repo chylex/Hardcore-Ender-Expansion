@@ -21,6 +21,8 @@ public final class LargeStructureChunk{
 	private final Map<Integer,String> storedTileEntityClues = new HashMap<>();
 	private final Map<String,ITileEntityGenerator> storedTileEntities = new HashMap<>();
 	
+	private TIntHashSet alreadyGeneratedXZ = new TIntHashSet(256);
+	
 	public LargeStructureChunk(int x, int z, int ySize){
 		this.x = x;
 		this.z = z;
@@ -88,18 +90,21 @@ public final class LargeStructureChunk{
 		
 		for(int x = 0; x < 16; x++){
 			for(int z = 0; z < 16; z++){
-				for(int y = minBlockY; y <= maxBlockY && continueY; y++){
-					if ((block = getBlock(x,y,z)) == Blocks.air)continue;
-					
-					if (hasBlocksToUpdate && isBlockScheduledForUpdate(x,y,z))continueY = structure.placeBlockAndUpdate(block,getMetadata(x,y,z),addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
-					else continueY = structure.placeBlockWithoutUpdate(block,getMetadata(x,y,z),addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
-					
-					if (continueY && hasTileEntities && storedTileEntityClues.containsKey(y*256+x*16+z)){
-						String key = storedTileEntityClues.get(y*256+x*16+z);
-						TileEntity tileEntity = structure.getBlockTileEntity(addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
+				if (!alreadyGeneratedXZ.contains(x*16+z)){
+					for(int y = minBlockY; y <= maxBlockY && continueY; y++){
+						if (continueY && y == maxBlockY)alreadyGeneratedXZ.add(x*16+z);
+						if ((block = getBlock(x,y,z)) == Blocks.air)continue;
 						
-						if (tileEntity == null)DragonUtil.severe("Tile entity with key %0% not found!",key);
-						else storedTileEntities.get(key).onTileEntityRequested(key,tileEntity,world.rand);
+						if (hasBlocksToUpdate && isBlockScheduledForUpdate(x,y,z))continueY = structure.placeBlockAndUpdateUnsafe(block,getMetadata(x,y,z),addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
+						else continueY = structure.placeBlockUnsafe(block,getMetadata(x,y,z),addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
+						
+						if (continueY && hasTileEntities && storedTileEntityClues.containsKey(y*256+x*16+z)){
+							String key = storedTileEntityClues.get(y*256+x*16+z);
+							TileEntity tileEntity = structure.getBlockTileEntityUnsafe(addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
+							
+							if (tileEntity == null)DragonUtil.severe("Tile entity with key %0% not found!",key);
+							else storedTileEntities.get(key).onTileEntityRequested(key,tileEntity,world.rand);
+						}
 					}
 				}
 				

@@ -71,4 +71,47 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
 		return bb.isVecInside(xx,yy,zz) ? world.getTileEntity(xx,yy,zz) : null;
 	}
+	
+	/**
+	 * Unsafe version of placeBlockWithoutUpdate that checks for existing chunks instead of provided bounding box.
+	 * It seems to provide better results in special cases without causing issues.
+	 */
+	public final boolean placeBlockUnsafe(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
+		if (placeBlockWithoutUpdate(block,metadata,x,y,z,world,bb))return true;
+		
+		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
+		if (world.blockExists(xx,yy,zz)){
+			world.setBlock(xx,yy,zz,block,metadata,2);
+			return true;
+		}
+		else return false;
+	}
+	
+	/**
+	 * Unsafe version of placeBlockAndUpdate that checks for existing chunks instead of provided bounding box.
+	 * It seems to provide better results in special cases without causing issues.
+	 */
+	public final boolean placeBlockAndUpdateUnsafe(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
+		if (placeBlockAndUpdate(block,metadata,x,y,z,world,bb))return true;
+		
+		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
+		if (world.blockExists(xx,yy,zz)){
+			world.setBlock(xx,yy,zz,block,metadata,3);
+			world.markBlockForUpdate(xx,yy,zz);
+			return true;
+		}
+		else return false;
+	}
+	
+	/**
+	 * Unsafe version of placeBlockAndUpdate that checks for existing chunks instead of provided bounding box.
+	 * It seems to provide better results in special cases without causing issues.
+	 */
+	public final TileEntity getBlockTileEntityUnsafe(int x, int y, int z, World world, StructureBoundingBox bb){
+		TileEntity te = getBlockTileEntity(x,y,z,world,bb);
+		if (te != null)return te;
+		
+		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
+		return world.blockExists(xx,yy,zz) ? world.getTileEntity(xx,yy,zz) : null;
+	}
 }

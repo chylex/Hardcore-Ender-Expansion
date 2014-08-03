@@ -39,12 +39,12 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 	public ComponentScatteredFeatureIsland(){}
 	
 	protected ComponentScatteredFeatureIsland(Random rand, int x, int z){
-		super(rand,x,20,z,208,160,208);
+		super(rand,x,20,z,208,140,208);
 		this.startX = x;
 		this.startZ = z;
 		
 		coordBaseMode = 0;
-		boundingBox = new StructureBoundingBox(x,20,z,x+sizeX-1,160+sizeY-1,z+sizeZ-1);
+		boundingBox = new StructureBoundingBox(x,20,z,x+sizeX-1,140+sizeY-1,z+sizeZ-1);
 	}
 	
 	private Offsets getOffsets(int x, int y, int z, StructureBoundingBox bb){
@@ -56,7 +56,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 	public boolean addComponentParts(World world, Random rand, StructureBoundingBox bb){
 		int centerX = sizeX>>1, centerZ = sizeZ>>1;
 		
-		/*if (!isSetup){
+		if (!isSetup){
 			structure = new LargeStructureWorld(this);
 			
 			Random consistentRand = new Random(((startX/9)*238504L+(startZ/9)*10058432215L)^world.getWorldInfo().getSeed());
@@ -78,7 +78,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 			int chunkX, chunkZ, blockStartX, blockStartZ, xInChunk, zInChunk, xx, zz;
 			float yMp = 0.66F*biome.getIslandMassHeightMultiplier(); // limit height a bit
 			
-			TimeMeasurement.start("IslandGen - terrain");
+			//TimeMeasurement.start("IslandGen - terrain");
 			
 			for(chunkX = 0; chunkX < 13; chunkX++){
 				for(chunkZ = 0; chunkZ < 13; chunkZ++){
@@ -111,14 +111,14 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 			//TimeMeasurement.finish("IslandGen - terrain");
 			//TimeMeasurement.start("IslandGen - caves");
 			
-			CaveGenerator caveGen = new CaveGenerator(centerX,28,centerZ,halfSize,18,halfSize);
+			CaveGenerator caveGen = new CaveGenerator(centerX,28,centerZ,halfSize-8,18,halfSize-8);
 			caveGen.setup(consistentRand,biome);
 			caveGen.generate(structure);
 			
 			//TimeMeasurement.finish("IslandGen - caves");
 			//TimeMeasurement.start("IslandGen - ores");
 			
-			OreGenerator oreGen = new OreGenerator(8,0,8,size,55,size);
+			OreGenerator oreGen = new OreGenerator(8,0,8,size-8,55,size-8);
 			oreGen.setup(consistentRand,biome);
 			oreGen.generate(structure);
 			
@@ -132,25 +132,13 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 			structure.setBlock(104,8,104,BlockList.biome_core,biomeData.content.id,true);
 		
 			isSetup = true;
-		}*/
+		}
 
 		//TimeMeasurement.start("IslandGen - chunks");
 		
 		for(int chunkX = 0; chunkX < 13; chunkX++){
 			for(int chunkZ = 0; chunkZ < 13; chunkZ++){
-				//structure.getChunkFromChunkCoords(chunkX,chunkZ).generateInStructure(this,world,bb,0,islandBottomY,0);
-				
-				for(int a = 0; a < 16; a++){
-					for(int b = 0; b < 16; b++){
-						placeBlockAtCurrentPosition(world,Blocks.emerald_block,0,chunkX*16+a,islandBottomY-4,chunkZ*16+b,bb);
-					}
-				}
-			}
-		}
-		
-		for(int a = 0; a < 208; a++){
-			for(int b = 0; b < 208; b++){
-				placeBlockAtCurrentPosition(world,Blocks.lapis_block,0,a,islandBottomY-5,b,bb);
+				structure.getChunkFromChunkCoords(chunkX,chunkZ).generateInStructure(this,world,bb,8,islandBottomY,8);
 			}
 		}
 		

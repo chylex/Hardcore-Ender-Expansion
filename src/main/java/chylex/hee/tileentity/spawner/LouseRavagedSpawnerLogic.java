@@ -58,6 +58,7 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
+		if (louseData == null)louseData = new LouseSpawnData(0,getSpawnerWorld().rand);
 		nbt.setTag("louseData",louseData.writeToNBT(new NBTTagCompound()));
 	}
 		
