@@ -142,10 +142,10 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 	}
 
 	@Override
-	public boolean addComponentParts(World world, Random rand, StructureBoundingBox bb){
+	public boolean addComponentParts(World world, Random rand, StructureBoundingBox bb){ // TODO lag
 		Random consistentRandom = new Random(((startX/14)*185226L+(startZ/14)*24071632895L)^world.getWorldInfo().getSeed());
 		
-		int centerX = sizeX/2,centerZ = sizeZ/2,islandY = 32+consistentRandom.nextInt(40),roomAmount = 4; // room amount maybe random?
+		int centerX = sizeX/2, centerZ = sizeZ/2, islandY = 32+consistentRandom.nextInt(40), roomAmount = 4; // room amount maybe random?
 		
 		// ISLAND
 		
@@ -238,7 +238,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		placeBlockAtCurrentPosition(world,Blocks.ladder,getMetadataWithOffset(Blocks.ladder,roomAmount%2 == 0?3:2),centerX,topY,centerZ+(roomAmount%2 == 1?-3:3),bb);
 		placeBlockAndUpdate(BlockList.obsidian_special_glow,1,centerX,topY+1,centerZ+zOffset,world,bb);
 		
-		int xx = getXWithOffset(centerX,centerZ+zOffset),yy = getYWithOffset(topY+1),zz = getZWithOffset(centerX,centerZ+zOffset);
+		int xx = getXWithOffset(centerX,centerZ+zOffset), yy = getYWithOffset(topY+1), zz = getZWithOffset(centerX,centerZ+zOffset);
 		if (bb.isVecInside(xx,yy,zz)){
 			EntityMiniBossEnderEye eye = new EntityMiniBossEnderEye(world,xx+0.5D,yy+0.825D,zz+0.5D);
 			eye.setPositionAndRotation(eye.posX,eye.posY,eye.posZ,90*coordBaseMode,0);

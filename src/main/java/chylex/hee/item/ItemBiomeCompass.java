@@ -91,7 +91,7 @@ public class ItemBiomeCompass extends Item{
 	// BIOME DETECTION
 
 	private static final Random coordCheckRand = new Random(0L);
-	private static final int minSpacing = 16, maxSpacing = 25, minDistanceFromCenter = 1600, featureSize = 224;
+	private static final int minSpacing = 16, maxSpacing = 25, minDistanceFromCenter = 1600, featureSize = 208;
 	
 	@SideOnly(Side.CLIENT)
 	private static final byte checkBiome(int chunkX, int chunkZ, ItemStack is){

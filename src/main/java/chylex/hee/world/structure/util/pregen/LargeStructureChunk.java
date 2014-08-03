@@ -49,7 +49,7 @@ public final class LargeStructureChunk{
 	}
 	
 	public Block getBlock(int xInChunk, int yInChunk, int zInChunk){
-		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){Thread.dumpStack();
+		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
 			DragonUtil.warning("Getting block at invalid coordinates: %0%,%1%,%2%",xInChunk,yInChunk,zInChunk);
 			return Blocks.air;
 		}
