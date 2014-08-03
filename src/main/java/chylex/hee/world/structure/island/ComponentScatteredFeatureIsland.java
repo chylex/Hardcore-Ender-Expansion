@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
@@ -77,7 +78,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 			int chunkX, chunkZ, blockStartX, blockStartZ, xInChunk, zInChunk, xx, zz;
 			float yMp = 0.66F*biome.getIslandMassHeightMultiplier(); // limit height a bit
 			
-			//TimeMeasurement.start("IslandGen - terrain");
+			Stopwatch.time("IslandGen - terrain");
 			
 			for(chunkX = 0; chunkX < 13; chunkX++){
 				for(chunkZ = 0; chunkZ < 13; chunkZ++){
@@ -107,33 +108,33 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 				}
 			}
 			
-			//TimeMeasurement.finish("IslandGen - terrain");
-			//TimeMeasurement.start("IslandGen - caves");
+			Stopwatch.finish("IslandGen - terrain");
+			Stopwatch.time("IslandGen - caves");
 			
 			CaveGenerator caveGen = new CaveGenerator(centerX,28,centerZ,halfSize-8,18,halfSize-8);
 			caveGen.setup(consistentRand,biome);
 			caveGen.generate(structure);
 			
-			//TimeMeasurement.finish("IslandGen - caves");
-			//TimeMeasurement.start("IslandGen - ores");
+			Stopwatch.finish("IslandGen - caves");
+			Stopwatch.time("IslandGen - ores");
 			
 			OreGenerator oreGen = new OreGenerator(8,0,8,size-8,55,size-8);
 			oreGen.setup(consistentRand,biome);
 			oreGen.generate(structure);
 			
-			//TimeMeasurement.finish("IslandGen - ores");
-			//TimeMeasurement.start("IslandGen - biome");
+			Stopwatch.finish("IslandGen - ores");
+			Stopwatch.time("IslandGen - biome content "+biomeData.content.id);
 			
 			biome.decorateGen(structure,consistentRand,centerX,centerZ);
 			
-			//TimeMeasurement.finish("IslandGen - biome");
+			Stopwatch.finish("IslandGen - biome content "+biomeData.content.id);
 			
 			structure.setBlock(104,8,104,BlockList.biome_core,biomeData.content.id,true);
 		
 			isSetup = true;
 		}
 
-		//TimeMeasurement.start("IslandGen - chunks");
+		Stopwatch.timeAverage("IslandGen - chunks",169);
 		
 		for(int chunkX = 0; chunkX < 13; chunkX++){
 			for(int chunkZ = 0; chunkZ < 13; chunkZ++){
@@ -141,7 +142,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 			}
 		}
 		
-		//TimeMeasurement.finish("IslandGen - chunks");
+		Stopwatch.finish("IslandGen - chunks");
 		
 		return true;
 	}

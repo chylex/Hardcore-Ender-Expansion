@@ -34,7 +34,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		
 		if (y >= 80)return false;
 		
-		Stopwatch.start("RavagedDungeonGen");
+		Stopwatch.time("RavagedDungeonGen");
 		RavagedDungeonGenerator gen = new RavagedDungeonGenerator(dungW,dungH,3);
 
 		int xx, zz, yy, worldX, worldZ, th = hallHeight+1, layer, visibility;
@@ -69,7 +69,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 			return false;
 		}
 		Stopwatch.finish("RavagedDungeonGen");
-		Stopwatch.start("RavagedDungeonPlace");
+		Stopwatch.time("RavagedDungeonPlace");
 		
 		for(int a = 0; a < gen.layers.length; a++){
 			DungeonElementList elements = gen.layers[a].getElements();

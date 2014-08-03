@@ -16,7 +16,7 @@ import cpw.mods.fml.common.registry.GameData;
 
 public class BlockReplaceHelper{
 	public static void replaceBlock(Block toReplace, Class<? extends Block> blockClass){
-		Stopwatch.start("BlockReplace");
+		Stopwatch.time("BlockReplace");
 		
 		Field modifiersField = null;
 		Class<?>[] classTest = new Class<?>[3];

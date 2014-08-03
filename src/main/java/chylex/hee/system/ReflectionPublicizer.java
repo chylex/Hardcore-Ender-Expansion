@@ -28,7 +28,7 @@ public final class ReflectionPublicizer{
 	public static Method entityLivingBaseGetExperiencePoints;
 
 	public static void load(){
-		Stopwatch.start("ReflectionPublicizer");
+		Stopwatch.time("ReflectionPublicizer");
 
 		for(Field field:EntityGhast.class.getDeclaredFields()){
 			if (Entity.class.isAssignableFrom(field.getType())){
@@ -84,6 +84,8 @@ public final class ReflectionPublicizer{
 	
 	@SideOnly(Side.CLIENT)
 	public static void loadClient(){
+		Stopwatch.time("ReflectionPublicizerClient");
+		
 		Field[] fields = RenderGlobal.class.getDeclaredFields();
 		for(int a = 28; a < fields.length; a++){
 			if (Map.class.isAssignableFrom(fields[a].getType())){
@@ -93,6 +95,8 @@ public final class ReflectionPublicizer{
 				break;
 			}
 		}
+
+		Stopwatch.finish("ReflectionPublicizerClient");
 	}
 
 	public static Object get(Field field, Object o){
