@@ -1,6 +1,12 @@
 Hardcore Ender Expansion
 ========================
 
+## Translating
+
+DO NOT MODIFY THE LANGUAGE FILES, THEY WILL GET AUTOMATICALLY REPLACED BY THE TRANSLATION SYSTEM!
+
+Use http://hee-translate.chylex.com/ for translations instead.
+
 ## Source code and asset license
 
 This part will become relevant once the mod's source code is publicly visible.
