@@ -51,36 +51,42 @@ public enum CharmType{
 		new CharmRecipe(24).rune(POWER).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.20F)
 	}, new String[]{ "perc,reducedmgblock", "perc,blockreflectdmg" }),
 	
+	BLOCKING_REPULSION(1, 0, new CharmRecipe[]{
+		new CharmRecipe(71).rune(POWER).rune(DEFENSE).rune(VOID).rune(AGILITY).prop("reducedmgblock",0.20F).prop("blockrepulsepower",1),
+		new CharmRecipe(72).rune(POWER).rune(DEFENSE,2).rune(VOID).rune(AGILITY).prop("reducedmgblock",0.32F).prop("blockrepulsepower",1),
+		new CharmRecipe(73).rune(POWER).rune(DEFENSE).rune(VOID).rune(AGILITY,2).prop("reducedmgblock",0.20F).prop("blockrepulsepower",2),
+	}, new String[]{ "perc,reducedmgblock", "int,blockrepulsepower" }),
+	
 	DIGESTIVE_RECOVER(3, 5, new CharmRecipe[]{
 		new CharmRecipe(25).rune(POWER).rune(VIGOR).rune(VOID).prop("healthperhunger",0.50F),
 		new CharmRecipe(26).rune(POWER).rune(VIGOR,2).rune(VOID).prop("healthperhunger",1.00F),
 		new CharmRecipe(27).rune(POWER).rune(VIGOR,3).rune(VOID).prop("healthperhunger",2.00F)
 	}, new String[]{ "flopb,healthperhunger" }),
 	
-	/*LIFE_STEAL(5, 0, new CharmRecipe[]{
+	LIFE_STEAL(5, 0, new CharmRecipe[]{
 		new CharmRecipe(28).rune(POWER).rune(VIGOR).rune(MAGIC).rune(VOID).prop("stealhealth",2).prop("stealdealt",10),
 		new CharmRecipe(29).rune(POWER).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("stealhealth",4).prop("stealdealt",10),
 		new CharmRecipe(30).rune(POWER,2).rune(VIGOR,2).rune(VOID).prop("stealhealth",2).prop("stealdealt",8)
-	}, ""),
+	}, new String[]{ "int,stealhealth", "int,stealdealt" }),
 	
 	DAMAGE_REDIRECTION(14, 0, new CharmRecipe[]{
-		new CharmRecipe(31).rune(AGILITY).rune(DEFENSE).rune(MAGIC).prop("rediramt",15).prop("redirmobs",1),
-		new CharmRecipe(32).rune(AGILITY,2).rune(DEFENSE).rune(MAGIC).prop("rediramt",12).prop("redirmobs",2),
-		new CharmRecipe(33).rune(AGILITY,3).rune(DEFENSE).rune(MAGIC).prop("rediramt",14).prop("redirmobs",3),
-		new CharmRecipe(34).rune(AGILITY).rune(DEFENSE,2).rune(MAGIC).prop("rediramt",20).prop("redirmobs",1),
-		new CharmRecipe(35).rune(AGILITY,2).rune(DEFENSE,2).rune(MAGIC).prop("rediramt",18).prop("redirmobs",2),
-		new CharmRecipe(36).rune(AGILITY).rune(DEFENSE,3).rune(MAGIC).prop("rediramt",30).prop("redirmobs",1)
-	}, ""),*/
+		new CharmRecipe(31).rune(AGILITY).rune(DEFENSE).rune(MAGIC).prop("rediramt",0.15F).prop("redirmobs",1),
+		new CharmRecipe(32).rune(AGILITY,2).rune(DEFENSE).rune(MAGIC).prop("rediramt",0.12F).prop("redirmobs",2),
+		new CharmRecipe(33).rune(AGILITY,3).rune(DEFENSE).rune(MAGIC).prop("rediramt",0.14F).prop("redirmobs",3),
+		new CharmRecipe(34).rune(AGILITY).rune(DEFENSE,2).rune(MAGIC).prop("rediramt",0.20F).prop("redirmobs",1),
+		new CharmRecipe(35).rune(AGILITY,2).rune(DEFENSE,2).rune(MAGIC).prop("rediramt",0.18F).prop("redirmobs",2),
+		new CharmRecipe(36).rune(AGILITY).rune(DEFENSE,3).rune(MAGIC).prop("rediramt",0.30F).prop("redirmobs",1)
+	}, new String[]{ "perc,rediramt", "int,redirmobs" }),
 	
 	MAGIC_PENETRATION(13, 0, new CharmRecipe[]{
-		new CharmRecipe(37).rune(POWER,2).rune(MAGIC).prop("dmgtomagic",10),
-		new CharmRecipe(38).rune(POWER,3).rune(MAGIC).prop("dmgtomagic",15),
-		new CharmRecipe(39).rune(POWER,4).rune(MAGIC).prop("dmgtomagic",20),
-		new CharmRecipe(40).rune(POWER,3).rune(MAGIC,2).prop("dmgtomagic",25),
-		new CharmRecipe(41).rune(POWER).rune(MAGIC,2).prop("dmgtomagic",15),
-		new CharmRecipe(42).rune(POWER).rune(MAGIC,3).prop("dmgtomagic",25),
-		new CharmRecipe(43).rune(POWER).rune(MAGIC,4).prop("dmgtomagic",32)
-	}, new String[]{ }),
+		new CharmRecipe(37).rune(POWER,2).rune(MAGIC).prop("dmgtomagic",0.10F),
+		new CharmRecipe(38).rune(POWER,3).rune(MAGIC).prop("dmgtomagic",0.15F),
+		new CharmRecipe(39).rune(POWER,4).rune(MAGIC).prop("dmgtomagic",0.20F),
+		new CharmRecipe(40).rune(POWER,3).rune(MAGIC,2).prop("dmgtomagic",0.25F),
+		new CharmRecipe(41).rune(POWER).rune(MAGIC,2).prop("dmgtomagic",0.15F),
+		new CharmRecipe(42).rune(POWER).rune(MAGIC,3).prop("dmgtomagic",0.25F),
+		new CharmRecipe(43).rune(POWER).rune(MAGIC,4).prop("dmgtomagic",0.32F)
+	}, new String[]{ "perc,dmgtomagic" }),
 	
 	WITCHERY_HARM(14, 4, new CharmRecipe[]{
 		new CharmRecipe(44).rune(POWER).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",0.08F).prop("badefflvl",1).prop("badefftime",5),
@@ -93,6 +99,12 @@ public enum CharmType{
 		new CharmRecipe(47).rune(MAGIC).rune(VIGOR).rune(VOID).rune(DEFENSE).prop("badeffreduce",10),
 		new CharmRecipe(48).rune(MAGIC).rune(VIGOR).rune(VOID).rune(DEFENSE,2).prop("badeffreduce",15)
 	}, ""),*/
+	
+	MAGIC_DEFENSE(0, 0, new CharmRecipe[]{
+		new CharmRecipe(74).rune(DEFENSE).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.30F),
+		new CharmRecipe(75).rune(DEFENSE).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.50F),
+		new CharmRecipe(76).rune(DEFENSE).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.70F)
+	}, new String[]{ "perc,reducemagicdmg" }),
 	
 	FALLING_PROTECTION(10, 6, new CharmRecipe[]{
 		new CharmRecipe(49).rune(AGILITY,3).rune(DEFENSE).prop("fallblocks",3),
@@ -127,16 +139,16 @@ public enum CharmType{
 		new CharmRecipe(16).rune(DEFENSE,2).rune(VOID,3).prop("voidrescue",20)		
 	}, ""),*/
 	
-	/*SLAUGHTER_IMPACT(0, 0, new CharmRecipe[]{
+	SLAUGHTER_IMPACT(0, 0, new CharmRecipe[]{
 		new CharmRecipe(17).rune(POWER).rune(MAGIC).rune(VOID).prop("impactamt",0.60F).prop("impactrad",3F),
 		new CharmRecipe(66).rune(POWER,2).rune(MAGIC).rune(VOID).prop("impactamt",0.90F).prop("impactrad",3F),
 		new CharmRecipe(67).rune(POWER,3).rune(MAGIC).rune(VOID).prop("impactamt",1.40F).prop("impactrad",3F),
 		new CharmRecipe(68).rune(POWER).rune(MAGIC,2).rune(VOID).prop("impactamt",0.70F).prop("impactrad",4.5F),
 		new CharmRecipe(69).rune(POWER).rune(MAGIC,3).rune(VOID).prop("impactamt",0.70F).prop("impactrad",6F),
 		new CharmRecipe(70).rune(POWER,2).rune(MAGIC,2).rune(VOID).prop("impactamt",1.00F).prop("impactrad",4.5F)
-	}, "")*/;
+	}, new String[]{ "perc,impactamt", "floatnf,impactrad" });
 	
-	// last used id: 70
+	// last used id: 76
 
 	private static final DecimalFormat formatOnePlace = new DecimalFormat("0.0");
 	private static final DecimalFormat formatTwoPlaces = new DecimalFormat("0.00");
@@ -177,6 +189,7 @@ public enum CharmType{
 						
 						switch(args[0]){
 							case "float": replacement = formatTwoPlaces.format(recipe.getProp(args[1])); break;
+							case "floatnf": replacement = String.valueOf(recipe.getProp(args[1])); break;
 							case "flopb": float val = recipe.getProp(args[1]); replacement = val < 1F ? formatOnePlace.format(val) : String.valueOf(Math.round(val)); break;
 							case "perc": replacement = Math.round(100F*recipe.getProp(args[1]))+"%"; break;
 							case "perc1-": replacement = Math.round(100F*(1F-recipe.getProp(args[1])))+"%"; break;

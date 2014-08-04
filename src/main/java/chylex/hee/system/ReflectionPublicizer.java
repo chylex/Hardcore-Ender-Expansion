@@ -19,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public final class ReflectionPublicizer{
 	public static Field entityGhastTarget;
-	public static Field entityLivingBaseRecentlyHit;
+	public static Field entityLivingBaseLastDamage;
 	public static Field entityFire;
 	public static Field netHandlerPlayServerFloatingTicks;
 	public static Field[] netHandlerPlayServerLastPos;
@@ -46,6 +46,15 @@ public final class ReflectionPublicizer{
 				entityFire = fields[a+3];
 				Log.debug("ReflectionPublicizer - entityFire: $0",fields[a+3].getName());
 				break;
+			}
+		}
+		
+		fields = EntityLivingBase.class.getDeclaredFields();
+		for(int a = 35; a < fields.length-3; a++){
+			if (fields[a].getType() == int.class && fields[a+1].getType() == float.class && fields[a+2].getType() == boolean.class){
+				fields[a+1].setAccessible(true);
+				entityLivingBaseLastDamage = fields[a+1];
+				Log.debug("ReflectionPublicizer - entityLivingBaseLastDamage: $0",fields[a+1].getName());
 			}
 		}
 

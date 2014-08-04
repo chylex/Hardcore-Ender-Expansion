@@ -3,7 +3,6 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -101,15 +100,12 @@ public class EntityItemIgneousRock extends EntityItem{
 			}
 			
 			if (rand.nextInt(80-Math.min(32,is.stackSize/3)) == 0){
-				List<?> nearbyEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(3D,3D,3D));
-				if (!nearbyEntities.isEmpty()){
-					Object o = nearbyEntities.get(rand.nextInt(nearbyEntities.size()));
-					((Entity)o).setFire(1+rand.nextInt(4)+getEntityItem().stackSize/10);
-				}
+				List<EntityLivingBase> nearbyEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(3D,3D,3D));
+				if (!nearbyEntities.isEmpty())nearbyEntities.get(rand.nextInt(nearbyEntities.size())).setFire(1+rand.nextInt(4)+getEntityItem().stackSize/10);
 			}
 		}
 		
-		int ix = (int)Math.floor(posX),iy = (int)Math.floor(posY),iz = (int)Math.floor(posZ);
+		int ix = (int)Math.floor(posX), iy = (int)Math.floor(posY), iz = (int)Math.floor(posZ);
 		
 		if (rand.nextInt(6) == 0 && worldObj.getBlock(ix,iy,iz).getMaterial() == Material.water){
 			HardcoreEnderExpansion.fx.bubble(worldObj,posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0.6D,0D);		

@@ -116,10 +116,9 @@ public class EntityMobEnderGuardian extends EntityMob{
 				teleportTimer = 80;
 		
 				if (rand.nextInt(30) == 0){
-					List players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,3D,8D));
-					for(Object o:players){
-						EntityPlayer player = (EntityPlayer)o;
-
+					List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,3D,8D));
+					
+					for(EntityPlayer player:players){
 						for(int a = 0; a < player.inventory.getSizeInventory(); a++){
 							ItemStack is = player.inventory.getStackInSlot(a);
 							if (is != null && is.getItem() == ItemList.enderman_relic){

@@ -148,7 +148,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		if (spawnTimer > 0)return;
 
 		if (attackStage == STAGE_AFTERFLIGHT){
-			List players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(posX-5D,spawnY-10D,posZ-5D,posX+5D,spawnY+9D,posZ+5D));
+			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(posX-5D,spawnY-10D,posZ-5D,posX+5D,spawnY+9D,posZ+5D));
 
 			if (players.isEmpty() || damageTaken > 20F){
 				fireballAttackTimer = 60;
@@ -157,7 +157,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 
 			if (--fireballAttackTimer < 0){
 				fireballAttackTimer = (byte)(23-worldObj.difficultySetting.getDifficultyId()*2);
-				EntityPlayer target = (EntityPlayer)players.get(rand.nextInt(players.size()));
+				EntityPlayer target = players.get(rand.nextInt(players.size()));
 				worldObj.spawnEntityInWorld(new EntityProjectileGolemFireball(worldObj,this,posX,posY-0.2D,posZ,target.posX-posX,target.posY-posY,target.posZ-posZ));
 				
 				if (rand.nextBoolean() && rand.nextBoolean()){

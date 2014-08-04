@@ -63,9 +63,10 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 							paralyzed.copyLocationAndAnglesFrom(mob);
 							
 							if (mob.getLastAttacker() != owner && world.rand.nextInt(3) == 0){
-								List<?> otherEntities = world.getEntitiesWithinAABB(EntityLiving.class,paralyzed.boundingBox.expand(8D,4D,8D));
+								List<EntityLiving> otherEntities = world.getEntitiesWithinAABB(EntityLiving.class,paralyzed.boundingBox.expand(8D,4D,8D));
+								
 								if (!otherEntities.isEmpty()){
-									EntityLiving target = (EntityLiving)otherEntities.get(world.rand.nextInt(otherEntities.size()));
+									EntityLiving target = otherEntities.get(world.rand.nextInt(otherEntities.size()));
 									if (!paralyzed.canEntityBeSeen(target))target = null;
 									paralyzed.setTarget(target);
 								}

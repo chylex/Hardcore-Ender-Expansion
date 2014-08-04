@@ -29,9 +29,10 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 			newTargetTimer = 0;
 			
 			if (rand.nextInt(10) == 0){
-				List<?> nearby = worldObj.getEntitiesWithinAABB(EntityLiving.class,boundingBox.expand(8D,4D,8D));
+				List<EntityLiving> nearby = worldObj.getEntitiesWithinAABB(EntityLiving.class,boundingBox.expand(8D,4D,8D));
+				
 				if (!nearby.isEmpty()){
-					entityToAttack = (EntityLiving)nearby.get(rand.nextInt(nearby.size()));
+					entityToAttack = nearby.get(rand.nextInt(nearby.size()));
 					if (!canEntityBeSeen(entityToAttack))entityToAttack = null;
 					else{
 						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.3F,new byte[]{ 0,2 });

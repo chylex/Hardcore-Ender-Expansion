@@ -100,9 +100,10 @@ public class EntityMobBabyEnderman extends EntityMob{
 		if (!worldObj.isRemote){
 			if (target == null){
 				if (!hasIS && !isScared && rand.nextInt(550) == 0){ // set target
-					List list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,3D,6D));
+					List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,3D,6D));
+					
 					if (!list.isEmpty()){
-						target = (EntityPlayer)list.get(rand.nextInt(list.size()));
+						target = list.get(rand.nextInt(list.size()));
 						
 						ItemStack headArmor = target.getCurrentArmor(3);
 						if (headArmor != null && headArmor.getItem() == ItemList.enderman_head)target = null;
@@ -110,12 +111,12 @@ public class EntityMobBabyEnderman extends EntityMob{
 					}
 				}
 				else{ // find stuff on the ground
-					List list = worldObj.getEntitiesWithinAABB(EntityItem.class,boundingBox.expand(1D,0D,1D));
+					List<EntityItem> list = worldObj.getEntitiesWithinAABB(EntityItem.class,boundingBox.expand(1D,0D,1D));
 					
 					if (!list.isEmpty() && ++itemDecisionTimer > rand.nextInt(70)+15){
 						int carryingLevelIndex = itemPriorities.indexOf(carryingLevel);
 	
-						EntityItem item = (EntityItem)list.get(rand.nextInt(list.size()));
+						EntityItem item = list.get(rand.nextInt(list.size()));
 						ItemStack is = item.getEntityItem();
 						
 						for(ItemPriorityLevel level:itemPriorities){

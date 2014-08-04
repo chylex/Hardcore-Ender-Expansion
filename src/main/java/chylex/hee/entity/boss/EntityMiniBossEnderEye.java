@@ -111,9 +111,10 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					attackType = null;
 				}
 				else{
-					List<?> nearPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,4D,8D));
+					List<EntityPlayer> nearPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,4D,8D));
+					
 					if (!nearPlayers.isEmpty()){
-						target = (EntityPlayer)nearPlayers.get(0);
+						target = nearPlayers.get(0);
 						sleepTimer = 0;
 					}
 					
@@ -172,8 +173,8 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								double[] vec = DragonUtil.getNormalizedVector(player.posX-posX,player.posZ-posZ);
 								
 								boolean blocking = player.isBlocking();
-								vec[0] *= (blocking?1.4D:2.4D);
-								vec[1] *= (blocking?1.4D:2.4D);
+								vec[0] *= (blocking ? 1.4D : 2.4D);
+								vec[1] *= (blocking ? 1.4D : 2.4D);
 								
 								PacketPipeline.sendToPlayer(player,new C07AddPlayerVelocity(vec[0],0.34D,vec[1]));
 								
@@ -181,7 +182,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								player.motionY += 0.34D;
 								player.motionZ += vec[1];
 								
-								player.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs?6F:3F);
+								player.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs ? 6F : 3F);
 								
 								KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(player,0.2F,new byte[]{ 0,1,2,4 });
 							}

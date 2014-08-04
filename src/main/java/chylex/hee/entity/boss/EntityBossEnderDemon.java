@@ -131,12 +131,12 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 			
 			if (--obsidianSpawnTimer<-120){
 				obsidianSpawnTimer = (byte)(20+rand.nextInt(80));
-				List list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(128D,64D,128D));
+				List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(128D,64D,128D));
 				
 				if (!list.isEmpty()){
-					EntityPlayer player = (EntityPlayer)list.get(rand.nextInt(list.size()));
+					EntityPlayer player = list.get(rand.nextInt(list.size()));
 					
-					for(int attempt = 0,placed = 0,xx,yy,zz; attempt < 25 && placed < 12+worldObj.difficultySetting.getDifficultyId()*2; attempt++){
+					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 25 && placed < 12+worldObj.difficultySetting.getDifficultyId()*2; attempt++){
 						xx = (int)Math.floor(player.posX)+rand.nextInt(8)-4;
 						yy = (int)Math.floor(player.posY)+9+rand.nextInt(6);
 						zz = (int)Math.floor(player.posZ)+rand.nextInt(8)-4;

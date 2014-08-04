@@ -160,12 +160,10 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		}
 
 		World world = altar.getWorldObj();
-		List thrownItems = world.getEntitiesWithinAABB(EntityItem.class,itemBoundingBox);
+		List<EntityItem> thrownItems = world.getEntitiesWithinAABB(EntityItem.class,itemBoundingBox);
 		double targX,targY,targZ;
 		
-		for(Object o:thrownItems){
-			EntityItem item = (EntityItem)o;
-			
+		for(EntityItem item:thrownItems){
 			for(BlockLocation loc:pedestals){
 				targX = loc.x+0.5D;
 				targY = loc.y+1.15D;

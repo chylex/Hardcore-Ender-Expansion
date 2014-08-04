@@ -56,10 +56,10 @@ public class EntityMobVampiricBat extends EntityBat{
 	
 	@Override
 	protected void collideWithNearbyEntities(){
-		List<?> list = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(0.2D,0D,0.2D));
+		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(0.2D,0D,0.2D));
+		
 		if (list != null){
-			for(Object o:list){
-				Entity entity = (Entity)o;
+			for(Entity entity:list){
 				if (entity.canBePushed())collideWithEntity(entity);
 			}
 		}

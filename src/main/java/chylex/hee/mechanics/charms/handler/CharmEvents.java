@@ -4,9 +4,12 @@ import gnu.trove.map.hash.TObjectByteHashMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -22,18 +25,22 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
-import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.CharmRecipe;
 import chylex.hee.mechanics.charms.CharmType;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -138,7 +145,8 @@ public final class CharmEvents{
 	}
 	
 	/**
-	 * BASIC_POWER, BASIC_DEFENSE, EQUALITY, BLOCKING, BLOCKING_REFLECTION, CRITICAL_STRIKE, FALLING_PROTECTION, WITCHERY_HARM
+	 * BASIC_POWER, BASIC_DEFENSE, EQUALITY, BLOCKING, BLOCKING_REFLECTION, BLOCKING_REPULSION, CRITICAL_STRIKE, FALLING_PROTECTION, WITCHERY_HARM,
+	 * DAMAGE_REDIRECTION, MAGIC_PENETRATION, LIFE_STEAL
 	 * It is not called on client side, check not needed.
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -146,10 +154,17 @@ public final class CharmEvents{
 		boolean isPlayer = e.entityLiving instanceof EntityPlayer;
 		
 		if (e.source.getSourceOfDamage() == null){
-			if (e.source == DamageSource.fall && isPlayer){
-				// FALLING_PROTECTION
-				e.ammount -= getPropSummed((EntityPlayer)e.entityLiving,"fallblocks")*0.5F;
-				if (e.ammount <= 0.001F)e.ammount = 0F;
+			if (isPlayer){
+				EntityPlayer targetPlayer = (EntityPlayer)e.entity;
+				
+				if (e.source == DamageSource.fall){
+					// FALLING_PROTECTION
+					e.ammount -= getPropSummed(targetPlayer,"fallblocks")*0.5F;
+					if (e.ammount <= 0.001F)e.ammount = 0F;
+				}
+				else if (e.source == DamageSource.magic){
+					e.ammount -= getPropPercentDecrease(targetPlayer,"reducemagicdmg",e.ammount);
+				}
 			}
 		}
 		else{
@@ -192,6 +207,18 @@ public final class CharmEvents{
 						}
 					}
 				}
+				
+				// LIFE_STEAL
+				// TODO
+				
+				// MAGIC_PENETRATION
+				float magic = getPropPercentDecrease(sourcePlayer,"dmgtomagic",e.ammount);
+				
+				if (magic > 0.001F){
+					e.ammount -= magic;
+					e.entity.hurtResistantTime = 0;
+					e.entity.attackEntityFrom(DamageSource.magic,magic);
+				}
 			}
 			
 			if (isPlayer){
@@ -211,6 +238,76 @@ public final class CharmEvents{
 						float reflected = 0F;
 						for(int a = 0; a < reflectDmg.length; a++)reflected += e.ammount*reflectDmg[a];
 						e.source.getSourceOfDamage().attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),reflected);
+					}
+					
+					// BLOCKING REPULSION
+					float repulseAmt = getPropSummed(targetPlayer,"blockrepulsepower");
+					
+					if (repulseAmt > 0.001F){
+						float mp = 0.5F+0.8F*repulseAmt;
+						Entity source = e.source.getSourceOfDamage();
+						
+						double[] vec = DragonUtil.getNormalizedVector(source.posX-targetPlayer.posX,source.posZ-targetPlayer.posZ);
+						vec[0] *= mp;
+						vec[1] *= mp;
+						
+						if (source instanceof EntityPlayer){
+							PacketPipeline.sendToPlayer((EntityPlayer)source,new C07AddPlayerVelocity(vec[0],0.25D,vec[1]));
+							source.motionX += vec[0];
+							source.motionY += 0.25D;
+							source.motionZ += vec[1];
+						}
+						else source.addVelocity(vec[0],0.25D,vec[1]);
+					}
+				}
+				
+				// DAMAGE_REDIRECTION
+				float[] redirMobs = getProp(targetPlayer,"redirmobs");
+				
+				if (redirMobs.length > 0){
+					float[] redirAmt = getProp(targetPlayer,"rediramt");
+					List<EntityLivingBase> nearbyEntities = e.entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class,targetPlayer.boundingBox.expand(5D,2D,5D));
+					Iterator<EntityLivingBase> iter = nearbyEntities.iterator();
+					
+					for(int a = 0; a < redirMobs.length; a++){
+						for(int mob = 0; mob < Math.round(redirMobs[a]); mob++){
+							while(iter.hasNext()){
+								EntityLivingBase entity = iter.next();
+								if (entity == targetPlayer || entity == e.source.getSourceOfDamage())continue;
+								
+								entity.attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),redirAmt[a]*e.ammount);
+								e.ammount -= redirAmt[a];
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * SLAUGHTER_IMPACT
+	 * It is not called on client side, check not needed.
+	 */
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onLivingDeath(LivingDeathEvent e){
+		if (e.source.getSourceOfDamage() instanceof EntityPlayer){
+			EntityPlayer sourcePlayer = (EntityPlayer)e.source.getSourceOfDamage();
+			
+			// SLAUGHTER_IMPACT
+			float[] impactRad = getProp(sourcePlayer,"impactrad");
+			
+			if (impactRad.length > 0){
+				float[] impactAmt = getProp(sourcePlayer,"impactamt");
+				float lastDamage = (float)ReflectionPublicizer.get(ReflectionPublicizer.entityLivingBaseLastDamage,e.entityLiving);
+				
+				for(int a = 0; a < impactRad.length; a++){
+					List<EntityLivingBase> entities = e.entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class,e.entity.boundingBox.expand(impactRad[a],impactRad[a],impactRad[a]));
+					
+					for(EntityLivingBase entity:entities){
+						if (entity == sourcePlayer || entity == e.entity)continue;
+						if (entity.getDistanceToEntity(e.entity) <= impactRad[a])entity.attackEntityFrom(DamageSource.causePlayerDamage(sourcePlayer),impactAmt[a]*lastDamage);
 					}
 				}
 			}

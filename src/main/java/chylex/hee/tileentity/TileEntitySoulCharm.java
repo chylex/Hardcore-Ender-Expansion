@@ -40,14 +40,14 @@ public class TileEntitySoulCharm extends TileEntity{
 
 			byte range = getLevel(SoulCharmEnhancements.RANGE),eff = getLevel(SoulCharmEnhancements.EFFICIENCY);
 			
-			List<?> list = worldObj.getEntitiesWithinAABB(EntityLiving.class,AxisAlignedBB.getBoundingBox(
+			List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class,AxisAlignedBB.getBoundingBox(
 				xCoord+0.5D-12D-4D*range,yCoord+0.5D-3D-2D*range,zCoord+0.5D-12D-4D*range,
 				xCoord+0.5D+12D+4D*range,yCoord+0.5D+3D+2D*range,zCoord+0.5D+12D+4D*range)
 			);
 			if (list.isEmpty())return;
 
 			for(int a = 0,size = list.size(); a < 1+rand.nextInt(Math.max(1,eff*2+1)); a++){
-				EntityLiving e = (EntityLiving)list.get(rand.nextInt(size));
+				EntityLiving e = list.get(rand.nextInt(size));
 				if (e.getDistance(xCoord+0.5D,yCoord,zCoord+0.5D) < 8D)continue;
 				
 				if (Math.abs(e.getAIMoveSpeed()-0.1F) > 0.0001F && !(e instanceof EntityBat)){
@@ -77,14 +77,14 @@ public class TileEntitySoulCharm extends TileEntity{
 			
 			byte range = (byte)Math.min(3,getLevel(SoulCharmEnhancements.RANGE)),eff = getLevel(SoulCharmEnhancements.EFFICIENCY);
 			
-			List<?> list = worldObj.getEntitiesWithinAABB(EntityLiving.class,AxisAlignedBB.getBoundingBox(
+			List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class,AxisAlignedBB.getBoundingBox(
 				xCoord+0.5D-3D-1.85D*range,yCoord+0.5D-1D-range*0.75D,zCoord+0.5D-3D-1.85D*range,
 				xCoord+0.5D+3D+1.85D*range,yCoord+0.5D+1D+range*0.75D,zCoord+0.5D+3D+1.85D*range)
 			);
 			if (list.isEmpty())return;
 			
 			for(int a = 0,size = list.size(); a < 1+rand.nextInt((int)Math.max(1,eff*2.25D+1)); a++){
-				EntityLiving e = (EntityLiving)list.get(rand.nextInt(size));
+				EntityLiving e = list.get(rand.nextInt(size));
 				if (e.getDistance(xCoord+0.5D,yCoord,zCoord+0.5D) > 2D*(3.5D+1.85D*range))continue;
 				
 				e.attackEntityFrom(DamageSource.magic,2F+damage*2F);
@@ -102,14 +102,14 @@ public class TileEntitySoulCharm extends TileEntity{
 			
 			byte range = (byte)Math.min(3,getLevel(SoulCharmEnhancements.RANGE)),eff = getLevel(SoulCharmEnhancements.EFFICIENCY);
 			
-			List<?> list = worldObj.getEntitiesWithinAABB(EntityLiving.class,AxisAlignedBB.getBoundingBox(
+			List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class,AxisAlignedBB.getBoundingBox(
 				xCoord+0.5D-3D-1.85D*range,yCoord+0.5D-1D-range*0.75D,zCoord+0.5D-3D-1.85D*range,
 				xCoord+0.5D+3D+1.85D*range,yCoord+0.5D+1D+range*0.75D,zCoord+0.5D+3D+1.85D*range)
 			);
 			if (list.isEmpty())return;
 			
 			for(int a = 0,size = list.size(); a < 1+rand.nextInt((int)Math.max(1,eff*2.25D+1)); a++){
-				EntityLiving e = (EntityLiving)list.get(rand.nextInt(size));
+				EntityLiving e = list.get(rand.nextInt(size));
 				if (e.getDistance(xCoord+0.5D,yCoord,zCoord+0.5D) > 2D*(3.5D+1.85D*range))continue;
 				
 				e.setFire(2+fire*2);

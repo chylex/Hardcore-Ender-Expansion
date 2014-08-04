@@ -43,10 +43,10 @@ public class BlockEndFlower extends BlockFlower{
 			int meta = world.getBlockMetadata(x,y,z);
 			
 			if (meta > 3 && meta < 15){
-				List<?> nearbyEndermen = world.getEntitiesWithinAABB(EntityMobAngryEnderman.class,AxisAlignedBB.getBoundingBox(x-8D,y-2D,z-8D,x+8D,y+2D,z+8D));
+				List nearbyEndermen = world.getEntitiesWithinAABB(EntityMobAngryEnderman.class,AxisAlignedBB.getBoundingBox(x-8D,y-2D,z-8D,x+8D,y+2D,z+8D));
 				if (nearbyEndermen != null && nearbyEndermen.size() > meta)return;
 				
-				for(int attempt = 0,spawned = 0; attempt < 30 && spawned<(meta/3)+rand.nextInt(meta/2); attempt++){
+				for(int attempt = 0, spawned = 0; attempt < 30 && spawned<(meta/3)+rand.nextInt(meta/2); attempt++){
 					int px = x+rand.nextInt(8)-4,pz = z+rand.nextInt(8)-4,py;
 					for(int a = 0; a < yOffsets.length; a++){
 						py = y+yOffsets[a];

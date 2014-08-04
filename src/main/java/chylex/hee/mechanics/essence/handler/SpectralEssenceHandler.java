@@ -135,13 +135,11 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 			EntityItem[] altarItems = new EntityItem[4];
 			ItemStack[] altarItemStacks = new ItemStack[4];
 			World world = altar.getWorldObj();
-			List thrownItems = world.getEntitiesWithinAABB(EntityItem.class,itemBoundingBox);
+			List<EntityItem> thrownItems = world.getEntitiesWithinAABB(EntityItem.class,itemBoundingBox);
 			double targX,targY,targZ;
 			long itemHash = 0;
 			
-			for(Object o:thrownItems){
-				EntityItem item = (EntityItem)o;
-				
+			for(EntityItem item:thrownItems){
 				for(int a = 0; a < pedestalOffsetX.length; a++){
 					targX = altar.xCoord+0.5D+pedestalOffsetX[a];
 					targY = altar.yCoord+1.15D;

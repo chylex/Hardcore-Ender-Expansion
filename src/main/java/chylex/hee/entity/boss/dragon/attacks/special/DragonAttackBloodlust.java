@@ -67,7 +67,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 					EntityPlayer player = (EntityPlayer)oPlayer;
 					if (player.capabilities.isCreativeMode)continue;
 					
-					List<?> endermanList = dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(64D,96D,64D));
+					List<EntityEnderman> endermanList = dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(64D,96D,64D));
 					
 					if (endermanList.isEmpty()){
 						for(int a = 0; a < 2+rand.nextInt(3)+(dragon.getWorldDifficulty()>>1); a++){
@@ -89,10 +89,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 						EntityEnderman enderman;
 						
 						Map<EntityEnderman,Double> endermen = new HashMap<>();
-						for(Object o:endermanList){
-							enderman = (EntityEnderman)o;
-							endermen.put(enderman,enderman.getDistanceSqToEntity(player));
-						}
+						for(EntityEnderman e:endermanList)endermen.put(e,e.getDistanceSqToEntity(player));
 
 						for(Entry<EntityEnderman,Double> entry:DragonUtil.sortMapByValueAscending(endermen)){
 							enderman = entry.getKey();

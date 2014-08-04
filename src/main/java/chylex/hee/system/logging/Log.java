@@ -20,7 +20,7 @@ public final class Log{
 	}
 	
 	public static void debug(String message, Object...data){
-		if (showDebug)logger.debug(getMessage(message,data));
+		if (showDebug)logger.info(getMessage(message,data));
 	}
 	
 	public static void info(String message, Object...data){

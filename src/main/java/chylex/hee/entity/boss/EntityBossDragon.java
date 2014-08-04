@@ -490,13 +490,13 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		}
 
 		if (rand.nextInt(10) == 0){
-			List list = worldObj.getEntitiesWithinAABB(EntityEnderCrystal.class,boundingBox.expand(32F,32F,32F));
+			List<EntityEnderCrystal> list = worldObj.getEntitiesWithinAABB(EntityEnderCrystal.class,boundingBox.expand(32F,32F,32F));
 			EntityEnderCrystal closestCrystal = null;
 			double minDist = Double.MAX_VALUE;
-			Iterator iterator = list.iterator();
+			Iterator<EntityEnderCrystal> iterator = list.iterator();
 
 			while(iterator.hasNext()){
-				EntityEnderCrystal crystal = (EntityEnderCrystal)iterator.next();
+				EntityEnderCrystal crystal = iterator.next();
 				double currentDist = crystal.getDistanceSqToEntity(this);
 
 				if (currentDist < minDist){

@@ -13,11 +13,10 @@ import chylex.hee.system.util.MathUtil;
 
 public class ObservationUtil{
 	public static EntityPlayer getRandomObserver(Entity target, double maxDistance){
-		List closePlayers = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class,target.boundingBox.expand(maxDistance,maxDistance/2,maxDistance));
+		List<EntityPlayer> closePlayers = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class,target.boundingBox.expand(maxDistance,maxDistance/2,maxDistance));
 		Collections.shuffle(closePlayers);
 		
-		for(Object o:closePlayers){
-			EntityPlayer player = (EntityPlayer)o;
+		for(EntityPlayer player:closePlayers){
 			if (MathUtil.distance(player.posX-target.posX,player.posZ-target.posZ) <= maxDistance && (DragonUtil.canEntitySeePoint(player,target.posX,target.posY,target.posZ,1D) || player == target)){
 				return player;
 			}
@@ -29,10 +28,9 @@ public class ObservationUtil{
 	public static ArrayList<EntityPlayer> getAllObservers(Entity target, double maxDistance){
 		ArrayList<EntityPlayer> observers = new ArrayList<>();
 		
-		List closePlayers = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class,target.boundingBox.expand(maxDistance,maxDistance/2,maxDistance));
+		List<EntityPlayer> closePlayers = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class,target.boundingBox.expand(maxDistance,maxDistance/2,maxDistance));
 		
-		for(Object o:closePlayers){
-			EntityPlayer player = (EntityPlayer)o;
+		for(EntityPlayer player:closePlayers){
 			if (MathUtil.distance(player.posX-target.posX,player.posZ-target.posZ) <= maxDistance && canPlayerSeePoint(player,target.posX,target.posY+target.getEyeHeight(),target.posZ) && (DragonUtil.canEntitySeePoint(player,target.posX,target.posY,target.posZ,1D) || player == target)){
 				observers.add(player);
 			}
@@ -44,10 +42,9 @@ public class ObservationUtil{
 	public static ArrayList<EntityPlayer> getAllObservers(World world, double x, double y, double z, double maxDistance){
 		ArrayList<EntityPlayer> observers = new ArrayList<>();
 		
-		List closePlayers = world.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x-maxDistance,y-maxDistance/2,z-maxDistance,x+maxDistance,y+maxDistance/2,z+maxDistance));
+		List<EntityPlayer> closePlayers = world.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x-maxDistance,y-maxDistance/2,z-maxDistance,x+maxDistance,y+maxDistance/2,z+maxDistance));
 		
-		for(Object o:closePlayers){
-			EntityPlayer player = (EntityPlayer)o;
+		for(EntityPlayer player:closePlayers){
 			if (MathUtil.distance(player.posX-x,player.posZ-z) <= maxDistance && canPlayerSeePoint(player,x,y,z) && DragonUtil.canEntitySeePoint(player,x,y,z,1D)){
 				observers.add(player);
 			}

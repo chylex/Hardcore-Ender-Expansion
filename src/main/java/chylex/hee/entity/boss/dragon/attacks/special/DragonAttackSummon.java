@@ -63,14 +63,15 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 				summonTimer = 114-rageDiff*8;
 				if ((rageDiff > 2 && rand.nextInt(4) == 0) || (rageDiff > 1 && rand.nextInt(6) == 0))amount = 1;
 				
-				List<?> nearbyPlayers = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class,target.boundingBox.expand(48D,64D,48D));
+				List<EntityPlayer> nearbyPlayers = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class,target.boundingBox.expand(48D,64D,48D));
+				
 				for(int a = 0; a < amount+Math.floor(nearbyPlayers.size()/2); a++){
 					int x = rand.nextInt(30)-15+(int)target.posX,z = rand.nextInt(30)-15+(int)target.posZ;
 					int y = 1+DragonUtil.getTopBlock(dragon.worldObj,Blocks.end_stone,x,z);
 					
 					EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(dragon.worldObj);
 					buddy.setPosition(x,y,z);
-					buddy.setTarget((EntityPlayer)nearbyPlayers.get(rand.nextInt(nearbyPlayers.size())));
+					buddy.setTarget(nearbyPlayers.get(rand.nextInt(nearbyPlayers.size())));
 					
 					dragon.worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(dragon.worldObj,x,y,z));
 					dragon.worldObj.spawnEntityInWorld(buddy);
