@@ -13,8 +13,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import chylex.hee.entity.fx.handler.FXType;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C14ParticleSpookyTreeDecay;
+import chylex.hee.packets.client.C30Effect;
 import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,7 +34,7 @@ public class BlockSpookyLeaves extends BlockLeaves{
 	@Override
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
 		if (!world.isRemote){
-			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,32D,new C14ParticleSpookyTreeDecay(false,x,y,z));
+			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C30Effect(FXType.SPOOKY_LEAVES_DECAY,x,y,z));
 		}
 	}
 	

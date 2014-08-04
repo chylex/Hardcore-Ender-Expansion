@@ -16,10 +16,11 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.fx.handler.FXType;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C13IgneousRockTransformation;
+import chylex.hee.packets.client.C30Effect;
 
 public class EntityItemIgneousRock extends EntityItem{
 	private static final IdentityHashMap<Block,Block> blockTransformations = new IdentityHashMap<>();
@@ -92,7 +93,7 @@ public class EntityItemIgneousRock extends EntityItem{
 					else continue;
 					
 					if (block.getMaterial() != Material.air){
-						PacketPipeline.sendToAllAround(this,64D,new C13IgneousRockTransformation(pos[0],pos[1],pos[2]));
+						PacketPipeline.sendToAllAround(this,64D,new C30Effect(FXType.IGNEOUS_ROCK_MELT,pos[0]+0.5D,pos[1]+0.5D,pos[2]+0.5D));
 					}
 					
 					if (rand.nextInt(3) == 0)break;

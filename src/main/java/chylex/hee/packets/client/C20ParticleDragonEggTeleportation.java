@@ -40,8 +40,8 @@ public class C20ParticleDragonEggTeleportation extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		float x1 = startX+0.5F,y1 = startY+0.5F,z1 = startZ+0.5F,
-			  x2 = endX+0.5F,y2 = endY+0.5F,z2 = endZ+0.5F,
+		float x1 = startX+0.5F, y1 = startY+0.5F, z1 = startZ+0.5F,
+			  x2 = endX+0.5F, y2 = endY+0.5F, z2 = endZ+0.5F,
 			  len = (float)Math.sqrt(MathUtil.square(x2-x1)+MathUtil.square(y2-y1)+MathUtil.square(z2-z1));
 				
 		double dir = Math.atan2((z2-z1),(x2-x1)),cos = Math.cos(dir),sin = Math.sin(dir),

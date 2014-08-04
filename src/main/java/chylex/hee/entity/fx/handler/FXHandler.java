@@ -1,9 +1,12 @@
 package chylex.hee.entity.fx.handler;
 import java.util.Random;
-import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.system.util.MathUtil;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockSpookyLeaves;
+import chylex.hee.block.BlockSpookyLog;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -17,8 +20,31 @@ public final class FXHandler{
 				for(int a = 0; a < 15; a++)world.spawnParticle("largesmoke",x+randCenter(0.5D),y+0.6D+rand.nextDouble()*0.25D,z+randCenter(0.5D),0D,0.15D,0D);
 				break;
 				
-			case ENDERMAN_BLOODLUST_TRANSFORMATION:
-				for(int a = 0; a < 20; a++)world.spawnParticle("largesmoke",x+randCenter(0.3D),y+rand.nextDouble()*2.8D,z+randCenter(0.3D),0D,0D,0D);
+			case LASER_BEAM_DESTROY:
+				String[] particles = new String[]{ "largesmoke", "portal", "flame" };
+				
+				for(int a = 0; a < 10; a++){
+					for(String pt:particles)world.spawnParticle(pt,x+randCenter(0.5D),y+randCenter(0.5D),z+randCenter(0.5D),0D,0D,0D);
+				}
+				
+				break;
+				
+			case SPOOKY_LOG_DECAY:
+				((BlockSpookyLog)BlockList.spooky_log).addDestroyEffectsCustom(world,(int)x,(int)y,(int)z);
+				break;
+				
+			case SPOOKY_LEAVES_DECAY:
+				((BlockSpookyLeaves)BlockList.spooky_leaves).addDestroyEffectsCustom(world,(int)x,(int)y,(int)z);
+				break;
+				
+			case GEM_LINK:
+				for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.portalOrbiting(world,x+0.5D,y+0.38D+rand.nextDouble()*0.6D,z+0.5D,rand.nextDouble()*0.045D+0.015D);
+				world.playSound(x+0.5D,y+1D,z+0.5D,"hardcoreenderexpansion:environment.gem.link",1F,rand.nextFloat()*0.02F+0.64F,false);
+				break;
+				
+			case GEM_TELEPORT_TO:
+				for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.portalOrbiting(world,x,y+1.63D+rand.nextDouble()*0.6D,z,rand.nextDouble()*0.045D+0.015D);
+				world.playSound(x,y+1.63D,z,"mob.endermen.portal",1.2F,world.rand.nextFloat()*0.05F+0.85F,false);
 				break;
 				
 			case ENDER_PEARL_FREEZE:
@@ -34,23 +60,16 @@ public final class FXHandler{
 				world.playSound(x,y,z,"hardcoreenderexpansion:environment.random.freeze",1F,rand.nextFloat()*0.1F+0.9F,false);
 				break;
 				
-			case LASER_BEAM_DESTROY:
-				String[] particles = new String[]{ "largesmoke", "portal", "flame" };
-				
-				for(int a = 0; a < 10; a++){
-					for(String pt:particles)player.worldObj.spawnParticle(pt,x+randCenter(0.5D),y+randCenter(0.5D),z+randCenter(0.5D),0D,0D,0D);
-				}
-				
+			case IGNEOUS_ROCK_MELT:
+				for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.flame(player.worldObj,x+randCenter(1.25D),y+randCenter(1.25D),z+randCenter(1.25D),12+rand.nextInt(9));
 				break;
 				
-			case GEM_LINK:
-				for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.portalOrbiting(world,x+0.5D,y+0.38D+rand.nextDouble()*0.6D,z+0.5D,rand.nextDouble()*0.045D+0.015D);
-				world.playSound(x+0.5D,y+1D,z+0.5D,"hardcoreenderexpansion:environment.gem.link",1F,rand.nextFloat()*0.02F+0.64F,false);
+			case ENDERMAN_BLOODLUST_TRANSFORMATION:
+				for(int a = 0; a < 20; a++)world.spawnParticle("largesmoke",x+randCenter(0.3D),y+rand.nextDouble()*2.8D,z+randCenter(0.3D),0D,0D,0D);
 				break;
 				
-			case GEM_TELEPORT_TO:
-				for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.portalOrbiting(world,x,y+1.63D+rand.nextDouble()*0.6D,z,rand.nextDouble()*0.045D+0.015D);
-				world.playSound(x,y+1.63D,z,"mob.endermen.portal",1.2F,player.worldObj.rand.nextFloat()*0.05F+0.85F,false);
+			case ENDER_GUARDIAN_TELEPORT:
+				for(int a = 0; a < 80; a++)HardcoreEnderExpansion.fx.portalBig(world,x+randCenter(0.6D),y+rand.nextDouble()*3.2D,z+randCenter(0.6D),+randCenter(0.125D),rand.nextDouble()*0.2D-0.1D,+randCenter(0.125D));
 				break;
 				
 			default:
