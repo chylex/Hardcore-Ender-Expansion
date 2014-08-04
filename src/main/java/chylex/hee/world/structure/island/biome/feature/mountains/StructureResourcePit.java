@@ -1,5 +1,6 @@
 package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
@@ -53,7 +54,7 @@ public class StructureResourcePit extends AbstractIslandStructure{
 			for(int py = maxy; py > maxy-height-rand.nextInt(4); py--){
 				for(int px = -irad; px <= irad; px++){
 					for(int pz = -irad; pz <= irad; pz++){
-						if (holes[px+irad][pz+irad])world.setBlock(x+px,py,z+pz,py < maxy-height+3 ? Blocks.flowing_lava : Blocks.air,0,true);
+						if (holes[px+irad][pz+irad])world.setBlock(x+px,py,z+pz,py < maxy-height+3 ? Blocks.flowing_lava : Blocks.air,0,py < maxy-height+3);
 					}
 				}
 			}
@@ -64,7 +65,8 @@ public class StructureResourcePit extends AbstractIslandStructure{
 				pz = z+rand.nextInt(irad+1)-rand.nextInt(irad+1);
 				
 				if (world.getBlock(px,py,pz) == Blocks.end_stone && (world.isAir(px-1,py,pz) || world.isAir(px+1,py,pz) || world.isAir(px,py,pz-1) || world.isAir(px,py,pz+1))){
-					world.setBlock(px,py,pz,rand.nextInt(7) <= 3 ? BlockList.igneous_rock_ore : rand.nextInt(3) == 0 ? BlockList.instability_orb_ore : Blocks.flowing_lava);
+					if (rand.nextInt(9) <= 7)world.setBlock(px,py,pz,getOre(rand));
+					else world.setBlock(px,py,pz,Blocks.flowing_lava,0,true);
 					++placed;
 				}
 			}
@@ -73,5 +75,14 @@ public class StructureResourcePit extends AbstractIslandStructure{
 		}
 		
 		return false;
+	}
+	
+	private static Block getOre(Random rand){
+		int i = rand.nextInt(19);
+		
+		if (i < 5)return BlockList.igneous_rock_ore;
+		else if (i < 11)return BlockList.end_powder_ore;
+		else if (i < 15)return BlockList.instability_orb_ore;
+		else return BlockList.stardust_ore;
 	}
 }

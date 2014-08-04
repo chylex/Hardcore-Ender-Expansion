@@ -5,6 +5,8 @@ import net.minecraft.init.Blocks;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 
 public final class LargeStructureWorld{
+	private static final LargeStructureChunk emptyFallbackChunk = new LargeStructureChunk.Empty(0,0,128);
+	
 	private final LargeStructureChunk[][] chunks;
 	private LargeStructureChunk lastActiveChunk;
 	
@@ -29,11 +31,12 @@ public final class LargeStructureWorld{
 	}
 	
 	public LargeStructureChunk getChunkFromChunkCoords(int chunkX, int chunkZ){
-		return chunkX < 0 || chunkZ < 0 || chunkX >= chunks.length || chunkZ >= chunks[0].length ? null : chunks[chunkX][chunkZ];
+		return chunkX < 0 || chunkZ < 0 || chunkX >= chunks.length || chunkZ >= chunks[0].length ? emptyFallbackChunk : chunks[chunkX][chunkZ];
 	}
 	
 	private LargeStructureChunk getChunk(int blockX, int blockZ){
 		if (lastActiveChunk != null && (blockX>>4) == lastActiveChunk.x && (blockZ>>4) == lastActiveChunk.z)return lastActiveChunk;
+		if (blockX < 0 || blockZ < 0 || blockX >= chunks.length*16 || blockZ >= chunks[0].length*16)return emptyFallbackChunk;
 		return lastActiveChunk = chunks[blockX>>4][blockZ>>4];
 	}
 	

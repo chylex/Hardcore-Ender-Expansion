@@ -19,7 +19,7 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	protected IslandBiomeBurningMountains(int biomeID, KnowledgeRegistration knowledgeRegistration){
 		super(biomeID,knowledgeRegistration);
 		
-		contentVariations.add(SCORCHING);
+		//contentVariations.add(SCORCHING);
 		contentVariations.add(MINE);
 		
 		getSpawnEntries(SCORCHING).addAll(new SpawnEntry[]{
@@ -36,7 +36,7 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	
 	@Override
 	public float getIslandSurfaceHeightMultiplier(){
-		return data.content == SCORCHING ? 7F : 8F;
+		return data.content == SCORCHING ? 6.5F : 7.5F;
 	}
 	
 	@Override
@@ -46,12 +46,12 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	
 	@Override
 	public float getCaveAmountMultiplier(){
-		return data.content == MINE ? 2.2F : 1.75F;
+		return data.content == MINE ? 2F : 1.6F;
 	}
 	
 	@Override
 	public float getCaveBranchingChance(){
-		return data.content == MINE ? 0.05F : 0.04F;
+		return data.content == MINE ? 0.05F : 0.035F;
 	}
 	
 	@Override

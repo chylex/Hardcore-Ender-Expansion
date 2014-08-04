@@ -10,7 +10,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.system.logging.Log;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 
-public final class LargeStructureChunk{
+public class LargeStructureChunk{
 	public final int x,z;
 	private final int ySize;
 	private int minBlockY,maxBlockY;
@@ -111,5 +111,17 @@ public final class LargeStructureChunk{
 				continueY = true;
 			}
 		}
+	}
+	
+	public static class Empty extends LargeStructureChunk{
+		public Empty(int x, int z, int ySize){
+			super(x,z,ySize);
+		}
+		
+		@Override
+		public void setBlock(int xInChunk, int yInChunk, int zInChunk, Block block, int metadata, boolean scheduleUpdate){}
+		
+		@Override
+		public void addTileEntityGenerator(int xInChunk, int yInChunk, int zInChunk, String key, ITileEntityGenerator tileGen){}
 	}
 }

@@ -111,7 +111,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 			Stopwatch.finish("IslandGen - terrain");
 			Stopwatch.time("IslandGen - caves");
 			
-			CaveGenerator caveGen = new CaveGenerator(centerX,28,centerZ,halfSize-8,18,halfSize-8);
+			CaveGenerator caveGen = new CaveGenerator(centerX,28,centerZ,halfSize-8,24,halfSize-8);
 			caveGen.setup(consistentRand,biome);
 			caveGen.generate(structure);
 			

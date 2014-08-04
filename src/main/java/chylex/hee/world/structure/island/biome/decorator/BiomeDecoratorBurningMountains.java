@@ -3,6 +3,7 @@ import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
+import chylex.hee.world.structure.island.biome.feature.mountains.StructureCinderPatch;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureIgneousRockOre;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureLavaPool;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureMiningSpot;
@@ -14,6 +15,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	}
 	
 	private final StructureIgneousRockOre genIgneousRockOre = new StructureIgneousRockOre();
+	private final StructureCinderPatch genCinderPatch = new StructureCinderPatch();
 	private final StructureLavaPool genLavaPool = new StructureLavaPool();
 	private final StructureResourcePit genResourcePit = new StructureResourcePit();
 	private final StructureMiningSpot genMiningSpot = new StructureMiningSpot();
@@ -23,6 +25,9 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	 */
 	
 	public void genScorching(){
+		// CINDER
+		for(int a = 0; a < 72; a++)genCinderPatch.generateInWorld(world,rand,getBiome());
+		
 		// IGNEOUS ROCK ORE
 		generateStructure(genIgneousRockOre.setAttemptAmount(110),getBiome());
 		
@@ -60,12 +65,20 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	 */
 	
 	public void genMine(){
-		// IGNEOUS ROCK ORE
-		generateStructure(genIgneousRockOre.setAttemptAmount(165),getBiome());
+		// RESOURCE PIT
+		for(int attempt = 0, placed = 0, placedMax = 3+rand.nextInt(3+rand.nextInt(4)); attempt < 12 && placed < placedMax; attempt++){
+			if (generateStructure(genResourcePit,getBiome()))++placed;
+		}
 		
 		// MINING SPOT
-		for(int attempt = 0, attemptAmount = 8+rand.nextInt(10); attempt < attemptAmount; attempt++){
-			if (generateStructure(genMiningSpot,getBiome()) && rand.nextBoolean())--attemptAmount;
+		for(int attempt = 0, attemptAmount = 18+rand.nextInt(8), placed = 0; attempt < attemptAmount; attempt++){
+			if (generateStructure(genMiningSpot,getBiome())){
+				if (++placed > 8 && rand.nextInt(5) != 0)--attempt;
+				else if (rand.nextBoolean())--attemptAmount;
+			}
 		}
+		
+		// IGNEOUS ROCK ORE
+		generateStructure(genIgneousRockOre.setAttemptAmount(165),getBiome());
 	}
 }
