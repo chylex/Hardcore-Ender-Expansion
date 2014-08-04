@@ -29,7 +29,7 @@ public class ItemCharm extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		for(String line:CharmType.getTooltip(is.getItemDamage()).split("\n"))textLines.add(line);
+		for(String line:CharmType.getTooltip(is.getItemDamage()).split("\\\\n"))textLines.add(line);
 	}
 	
 	@Override
