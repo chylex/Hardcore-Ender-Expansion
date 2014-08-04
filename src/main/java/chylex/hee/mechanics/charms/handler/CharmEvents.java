@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.charms;
+package chylex.hee.mechanics.charms.handler;
 import gnu.trove.list.array.TFloatArrayList;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
@@ -25,11 +25,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.mechanics.charms.CharmPouchInfo;
+import chylex.hee.mechanics.charms.CharmRecipe;
+import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -39,7 +42,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import cpw.mods.fml.relauncher.Side;
 
 public final class CharmEvents{
-	private static float[] getProp(EntityPlayer player, String prop){
+	public static float[] getProp(EntityPlayer player, String prop){
 		CharmPouchInfo info = CharmPouchHandler.getActivePouch(player);
 		if (info == null)return ArrayUtils.EMPTY_FLOAT_ARRAY;
 		
@@ -52,19 +55,19 @@ public final class CharmEvents{
 		return values.toArray();
 	}
 	
-	private static float getPropSummed(EntityPlayer player, String prop){
+	public static float getPropSummed(EntityPlayer player, String prop){
 		float finalValue = 0;
 		for(float val:getProp(player,prop))finalValue += val;
 		return finalValue;
 	}
 	
-	private static float getPropPercentIncrease(EntityPlayer player, String prop, float baseValue){
+	public static float getPropPercentIncrease(EntityPlayer player, String prop, float baseValue){
 		float finalValue = 0;
 		for(float val:getProp(player,prop))finalValue += (val*baseValue)-baseValue;
 		return finalValue;
 	}
 	
-	private static float getPropPercentDecrease(EntityPlayer player, String prop, float baseValue){
+	public static float getPropPercentDecrease(EntityPlayer player, String prop, float baseValue){
 		float finalValue = 0, tmp;
 		
 		for(float val:getProp(player,prop)){
@@ -306,14 +309,11 @@ public final class CharmEvents{
 	}
 	
 	/**
-	 * HASTE
-	 * Doesn't work on server side, TODO fix
+	 * HASTE (SERVER)
 	 */
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBreakSpeed(BreakSpeed e){
-		if (e.entity.worldObj.isRemote)return;
-		
 		// HASTE
-		e.newSpeed *= 1F+getPropPercentIncrease(e.entityPlayer,"breakspd",e.originalSpeed);
+		if (!e.entity.worldObj.isRemote)e.newSpeed *= 1F+getPropPercentIncrease(e.entityPlayer,"breakspd",e.originalSpeed);
 	}
 }

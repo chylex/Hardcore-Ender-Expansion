@@ -51,7 +51,7 @@ import chylex.hee.item.block.ItemBlockSlab;
 import chylex.hee.item.block.ItemBlockSoulCharm;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
 import chylex.hee.mechanics.MiscEvents;
-import chylex.hee.mechanics.charms.CharmPouchHandler;
+import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.infestation.InfestationEvents;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
@@ -298,7 +298,6 @@ public class HardcoreEnderExpansion{
 		MinecraftForge.EVENT_BUS.register(new MiscEvents());
 		TempleEvents.register();
 		InfestationEvents.register();
-		//ApocalypseEvents.register();
 		CharmPouchHandler.register();
 		
 		proxy.registerSidedEvents();

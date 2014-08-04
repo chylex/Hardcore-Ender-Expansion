@@ -1,11 +1,12 @@
-package chylex.hee.mechanics.charms;
+package chylex.hee.mechanics.charms.handler;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import chylex.hee.item.ItemList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.charms.CharmPouchInfo;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;

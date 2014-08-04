@@ -10,11 +10,11 @@ import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.item.ItemCharmPouch;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.charms.CharmPouchHandler;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.CharmRecipe;
 import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.mechanics.charms.RuneType;
+import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 
 public class ContainerCharmPouch extends Container{
 	private final EntityPlayer player;

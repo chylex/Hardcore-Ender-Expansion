@@ -99,11 +99,11 @@ public enum CharmType{ // TODO implement/fix the rest
 		new CharmRecipe(50).rune(AGILITY,4).rune(DEFENSE).prop("fallblocks",6)
 	}, "lit,+$int,fallblocks$s$lang,blocks"),
 	
-	/*HASTE(1, 8, new CharmRecipe[]{
+	HASTE(1, 8, new CharmRecipe[]{
 		new CharmRecipe(51).rune(AGILITY,2).rune(VOID).prop("breakspd",1.10F),
 		new CharmRecipe(52).rune(AGILITY,3).rune(VOID).prop("breakspd",1.18F),
 		new CharmRecipe(53).rune(AGILITY,4).rune(VOID).prop("breakspd",1.25F)
-	}, "lit,+$perc-1,breakspd$s$lang,digspeed"),*/
+	}, "lit,+$perc-1,breakspd$s$lang,digspeed"),
 	
 	CRITICAL_STRIKE(14, 4, new CharmRecipe[]{
 		new CharmRecipe(54).rune(POWER,2).rune(AGILITY).prop("critchance",0.10F).prop("critdmg",1.50F),

@@ -42,6 +42,7 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.mechanics.knowledge.fragment.CraftingKnowledgeFragment;
 import chylex.hee.mechanics.knowledge.fragment.EnhancementKnowledgeFragment;
 import chylex.hee.mechanics.temple.TeleportParticleTickEvent;
@@ -165,6 +166,7 @@ public class ModClientProxy extends ModCommonProxy{
 		OverlayManager.register();
 		TeleportParticleTickEvent.register();
 		MusicManager.register();
+		CharmPouchHandlerClient.register();
 	}
 	
 	@Override
