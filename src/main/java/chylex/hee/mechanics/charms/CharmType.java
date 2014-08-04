@@ -146,9 +146,15 @@ public enum CharmType{
 		new CharmRecipe(68).rune(POWER).rune(MAGIC,2).rune(VOID).prop("impactamt",0.70F).prop("impactrad",4.5F),
 		new CharmRecipe(69).rune(POWER).rune(MAGIC,3).rune(VOID).prop("impactamt",0.70F).prop("impactrad",6F),
 		new CharmRecipe(70).rune(POWER,2).rune(MAGIC,2).rune(VOID).prop("impactamt",1.00F).prop("impactrad",4.5F)
-	}, new String[]{ "perc,impactamt", "floatnf,impactrad" });
+	}, new String[]{ "perc,impactamt", "floatnf,impactrad" }),
 	
-	// last used id: 76
+	LAST_RESORT(0, 0, new CharmRecipe[]{
+		new CharmRecipe(77).rune(DEFENSE).rune(AGILITY).rune(MAGIC).rune(VOID).prop("lastresortblocks",6).prop("lastresortcooldown",10),
+		new CharmRecipe(78).rune(DEFENSE).rune(AGILITY,2).rune(MAGIC).rune(VOID).prop("lastresortblocks",6).prop("lastresortcooldown",6),
+		new CharmRecipe(79).rune(DEFENSE).rune(AGILITY).rune(MAGIC,2).rune(VOID).prop("lastresortblocks",12).prop("lastresortcooldown",10),
+	}, new String[]{ "int,lastresortblocks", "int,lastresortcooldown" });
+	
+	// last used id: 79
 
 	private static final DecimalFormat formatOnePlace = new DecimalFormat("0.0");
 	private static final DecimalFormat formatTwoPlaces = new DecimalFormat("0.00");

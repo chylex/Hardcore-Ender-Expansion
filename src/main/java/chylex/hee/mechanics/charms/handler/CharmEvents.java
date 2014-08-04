@@ -88,6 +88,7 @@ public final class CharmEvents{
 	
 	private final TObjectByteHashMap<UUID> playerRegen = new TObjectByteHashMap<>();
 	private final TObjectFloatHashMap<UUID> playerSpeed = new TObjectFloatHashMap<>();
+	private final TObjectByteHashMap<UUID> playerLastResortCooldown = new TObjectByteHashMap<>();
 	
 	private final AttributeModifier attrSpeed = new AttributeModifier(UUID.fromString("91AEAA56-376B-4498-935B-2F7F68070635"),"HeeCharmSpeed",0.15D,2);
 	
@@ -107,6 +108,7 @@ public final class CharmEvents{
 		
 		playerRegen.clear();
 		playerSpeed.clear();
+		playerLastResortCooldown.clear();
 	}
 	
 	/**
@@ -117,9 +119,11 @@ public final class CharmEvents{
 		if (e.side != Side.SERVER)return;
 		
 		if (e.phase == Phase.START){
+			UUID playerID = e.player.getGameProfile().getId();
+			
 			// BASIC_AGILITY, EQUALITY
 			float spd = getPropSummed(e.player,"spd");
-			float prevSpd = playerSpeed.get(e.player.getGameProfile().getId());
+			float prevSpd = playerSpeed.get(playerID);
 			
 			if (MathUtil.floatEquals(prevSpd,playerSpeed.getNoEntryValue()) || !MathUtil.floatEquals(prevSpd,spd)){
 				IAttributeInstance attribute = e.player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
@@ -129,24 +133,28 @@ public final class CharmEvents{
 					attribute.applyModifier(new AttributeModifier(attrSpeed.getID(),attrSpeed.getName()+spd,attrSpeed.getAmount()*spd,attrSpeed.getOperation()));
 				}
 				
-				playerSpeed.put(e.player.getGameProfile().getId(),spd);
+				playerSpeed.put(playerID,spd);
 			}
 			
 			// BASIC_VIGOR, EQUALITY
 			if (e.player.shouldHeal() && e.player.getFoodStats().getFoodLevel() >= 18){
 				float regen = getPropPercentDecrease(e.player,"regenspd",100F);
 				
-				if (regen > 0F && playerRegen.adjustOrPutValue(e.player.getGameProfile().getId(),(byte)1,(byte)0) >= 100F-regen){
+				if (regen > 0F && playerRegen.adjustOrPutValue(playerID,(byte)1,(byte)0) >= 100F-regen){
 					e.player.heal(1F);
-					playerRegen.put(e.player.getGameProfile().getId(),(byte)0);
+					playerRegen.put(playerID,(byte)0);
 				}
+			}
+			
+			if (playerLastResortCooldown.containsKey(playerID)){
+				if (playerLastResortCooldown.adjustOrPutValue(playerID,(byte)-1,(byte)-100) <= -100)playerLastResortCooldown.remove(playerID);
 			}
 		}
 	}
 	
 	/**
 	 * BASIC_POWER, BASIC_DEFENSE, EQUALITY, BLOCKING, BLOCKING_REFLECTION, BLOCKING_REPULSION, CRITICAL_STRIKE, FALLING_PROTECTION, WITCHERY_HARM,
-	 * DAMAGE_REDIRECTION, MAGIC_PENETRATION, LIFE_STEAL
+	 * DAMAGE_REDIRECTION, MAGIC_PENETRATION, LIFE_STEAL, LAST_RESORT
 	 * It is not called on client side, check not needed.
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -287,11 +295,44 @@ public final class CharmEvents{
 	}
 	
 	/**
-	 * SLAUGHTER_IMPACT
+	 * SLAUGHTER_IMPACT, LAST_RESORT
 	 * It is not called on client side, check not needed.
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingDeath(LivingDeathEvent e){
+		if (e.entity instanceof EntityPlayer){
+			EntityPlayer targetPlayer = (EntityPlayer)e.entity;
+			
+			// LAST_RESORT
+			float[] lastResortCooldown = getProp(targetPlayer,"lastresortcooldown");
+			
+			if (lastResortCooldown.length > 0 && !playerLastResortCooldown.containsKey(targetPlayer.getGameProfile().getId())){
+				float[] lastResortDist = getProp(targetPlayer,"lastresortblocks");
+				int randIndex = targetPlayer.worldObj.rand.nextInt(lastResortCooldown.length);
+				
+				for(int attempt = 0, xx, yy, zz; attempt < 64; attempt++){
+					float ang = targetPlayer.worldObj.rand.nextFloat()*2F*(float)Math.PI;
+					
+					xx = (int)Math.floor(targetPlayer.posX+MathHelper.cos(ang)*lastResortDist[randIndex]);
+					zz = (int)Math.floor(targetPlayer.posZ+MathHelper.sin(ang)*lastResortDist[randIndex]);
+					yy = (int)Math.floor(targetPlayer.posY)-2;
+					
+					for(int yAttempt = 0; yAttempt <= 5; yAttempt++){
+						if (!targetPlayer.worldObj.isAirBlock(xx,yy-1,zz) && targetPlayer.worldObj.isAirBlock(xx,yy,zz) && targetPlayer.worldObj.isAirBlock(xx,yy+1,zz)){
+							targetPlayer.setPositionAndUpdate(xx+0.5D,yy+0.01D,zz+0.5D);
+							attempt = 65;
+							break;
+						}
+					}
+				}
+				
+				targetPlayer.setHealth(targetPlayer.prevHealth);
+				playerLastResortCooldown.put(targetPlayer.getGameProfile().getId(),(byte)(-100+lastResortCooldown[randIndex]*20));
+				e.setCanceled(true);
+				return;
+			}
+		}
+		
 		if (e.source.getSourceOfDamage() instanceof EntityPlayer){
 			EntityPlayer sourcePlayer = (EntityPlayer)e.source.getSourceOfDamage();
 			
