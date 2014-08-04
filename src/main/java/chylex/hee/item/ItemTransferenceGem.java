@@ -11,7 +11,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import chylex.hee.entity.fx.handler.FXType;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.gem.GemData;

@@ -1,4 +1,4 @@
-package chylex.hee.entity.fx.handler;
+package chylex.hee.entity.fx;
 import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.world.World;

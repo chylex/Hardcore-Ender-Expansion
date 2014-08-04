@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
-import chylex.hee.entity.fx.handler.FXType;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;

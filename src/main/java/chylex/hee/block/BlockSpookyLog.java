@@ -15,7 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import chylex.hee.entity.fx.handler.FXType;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobForestGhost;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;

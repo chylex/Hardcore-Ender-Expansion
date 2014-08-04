@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.entity.fx.handler.FXType;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;

@@ -1,4 +1,4 @@
-package chylex.hee.entity.fx.handler;
+package chylex.hee.entity.fx;
 
 public enum FXType{
 	ESSENCE_ALTAR_SMOKE,

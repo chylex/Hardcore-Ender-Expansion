@@ -9,7 +9,7 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
-import chylex.hee.entity.fx.handler.FXType;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;

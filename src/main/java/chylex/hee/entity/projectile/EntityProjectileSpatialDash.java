@@ -13,7 +13,7 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.entity.fx.handler.FXType;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleTransferenceGemTeleportFrom;
 import chylex.hee.packets.client.C30Effect;
