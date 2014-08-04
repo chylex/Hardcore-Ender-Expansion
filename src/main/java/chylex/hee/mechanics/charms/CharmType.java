@@ -51,7 +51,7 @@ public enum CharmType{
 		new CharmRecipe(24).rune(POWER).rune(POWER).rune(DEFENSE).rune(VOID).rune(MAGIC).prop("reducedmgblock",0.20F).prop("blockreflectdmg",0.20F)
 	}, new String[]{ "perc,reducedmgblock", "perc,blockreflectdmg" }),
 	
-	BLOCKING_REPULSION(1, 0, new CharmRecipe[]{
+	BLOCKING_REPULSION(2, 0, new CharmRecipe[]{
 		new CharmRecipe(71).rune(POWER).rune(DEFENSE).rune(VOID).rune(AGILITY).prop("reducedmgblock",0.20F).prop("blockrepulsepower",1),
 		new CharmRecipe(72).rune(POWER).rune(DEFENSE,2).rune(VOID).rune(AGILITY).prop("reducedmgblock",0.32F).prop("blockrepulsepower",1),
 		new CharmRecipe(73).rune(POWER).rune(DEFENSE).rune(VOID).rune(AGILITY,2).prop("reducedmgblock",0.20F).prop("blockrepulsepower",2),
@@ -64,12 +64,12 @@ public enum CharmType{
 	}, new String[]{ "flopb,healthperhunger" }),
 	
 	LIFE_STEAL(5, 0, new CharmRecipe[]{
-		new CharmRecipe(28).rune(POWER).rune(VIGOR).rune(MAGIC).rune(VOID).prop("stealhealth",2).prop("stealdealt",10),
-		new CharmRecipe(29).rune(POWER).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("stealhealth",4).prop("stealdealt",10),
-		new CharmRecipe(30).rune(POWER,2).rune(VIGOR,2).rune(VOID).prop("stealhealth",2).prop("stealdealt",8)
+		new CharmRecipe(28).rune(POWER).rune(VIGOR).rune(MAGIC).rune(VOID).prop("stealhealth",2).prop("stealdealt",16),
+		new CharmRecipe(29).rune(POWER).rune(VIGOR,2).rune(MAGIC).rune(VOID).prop("stealhealth",4).prop("stealdealt",16),
+		new CharmRecipe(30).rune(POWER,2).rune(VIGOR,2).rune(VOID).prop("stealhealth",2).prop("stealdealt",10)
 	}, new String[]{ "int,stealhealth", "int,stealdealt" }),
 	
-	DAMAGE_REDIRECTION(14, 0, new CharmRecipe[]{
+	DAMAGE_REDIRECTION(14, 3, new CharmRecipe[]{
 		new CharmRecipe(31).rune(AGILITY).rune(DEFENSE).rune(MAGIC).prop("rediramt",0.15F).prop("redirmobs",1),
 		new CharmRecipe(32).rune(AGILITY,2).rune(DEFENSE).rune(MAGIC).prop("rediramt",0.12F).prop("redirmobs",2),
 		new CharmRecipe(33).rune(AGILITY,3).rune(DEFENSE).rune(MAGIC).prop("rediramt",0.14F).prop("redirmobs",3),
@@ -95,12 +95,12 @@ public enum CharmType{
 		new CharmRecipe(65).rune(POWER,2).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",0.09F).prop("badefflvl",1).prop("badefftime",10)
 	}, new String[]{ "perc,badeffchance", "int,badefflvl", "int,badefftime" }),
 	
-	/*WITCHERY_DEFENSE(9, 0, new CharmRecipe[]{
+	/*WITCHERY_DEFENSE(9, 5, new CharmRecipe[]{
 		new CharmRecipe(47).rune(MAGIC).rune(VIGOR).rune(VOID).rune(DEFENSE).prop("badeffreduce",10),
 		new CharmRecipe(48).rune(MAGIC).rune(VIGOR).rune(VOID).rune(DEFENSE,2).prop("badeffreduce",15)
 	}, ""),*/
 	
-	MAGIC_DEFENSE(0, 0, new CharmRecipe[]{
+	MAGIC_DEFENSE(10, 5, new CharmRecipe[]{
 		new CharmRecipe(74).rune(DEFENSE).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.30F),
 		new CharmRecipe(75).rune(DEFENSE).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.50F),
 		new CharmRecipe(76).rune(DEFENSE).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.70F)
@@ -139,7 +139,7 @@ public enum CharmType{
 		new CharmRecipe(16).rune(DEFENSE,2).rune(VOID,3).prop("voidrescue",20)		
 	}, ""),*/
 	
-	SLAUGHTER_IMPACT(0, 0, new CharmRecipe[]{
+	SLAUGHTER_IMPACT(15, 4, new CharmRecipe[]{
 		new CharmRecipe(17).rune(POWER).rune(MAGIC).rune(VOID).prop("impactamt",0.60F).prop("impactrad",3F),
 		new CharmRecipe(66).rune(POWER,2).rune(MAGIC).rune(VOID).prop("impactamt",0.90F).prop("impactrad",3F),
 		new CharmRecipe(67).rune(POWER,3).rune(MAGIC).rune(VOID).prop("impactamt",1.40F).prop("impactrad",3F),
@@ -148,7 +148,7 @@ public enum CharmType{
 		new CharmRecipe(70).rune(POWER,2).rune(MAGIC,2).rune(VOID).prop("impactamt",1.00F).prop("impactrad",4.5F)
 	}, new String[]{ "perc,impactamt", "floatnf,impactrad" }),
 	
-	LAST_RESORT(0, 0, new CharmRecipe[]{
+	LAST_RESORT(9, 7, new CharmRecipe[]{
 		new CharmRecipe(77).rune(DEFENSE).rune(AGILITY).rune(MAGIC).rune(VOID).prop("lastresortblocks",6).prop("lastresortcooldown",10),
 		new CharmRecipe(78).rune(DEFENSE).rune(AGILITY,2).rune(MAGIC).rune(VOID).prop("lastresortblocks",6).prop("lastresortcooldown",6),
 		new CharmRecipe(79).rune(DEFENSE).rune(AGILITY).rune(MAGIC,2).rune(VOID).prop("lastresortblocks",12).prop("lastresortcooldown",10),
@@ -207,6 +207,8 @@ public enum CharmType{
 						tooltip = tooltip.replace("$"+arg,replacement);
 					}
 					
+					if (!type.canBeStacked())tooltip += "\\n\u00a78"+StatCollector.translateToLocal("item.charm.cannotstack");
+					
 					return tooltip;
 				}
 			}
@@ -225,5 +227,9 @@ public enum CharmType{
 		this.backIcon = (byte)backIcon;
 		this.foregroundIcon = (byte)foregroundIcon;
 		this.tooltipArgs = tooltipArgs;
+	}
+	
+	public boolean canBeStacked(){
+		return this != LIFE_STEAL && this != LAST_RESORT;
 	}
 }

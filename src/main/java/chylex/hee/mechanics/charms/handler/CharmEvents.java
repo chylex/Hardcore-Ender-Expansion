@@ -88,6 +88,7 @@ public final class CharmEvents{
 	
 	private final TObjectByteHashMap<UUID> playerRegen = new TObjectByteHashMap<>();
 	private final TObjectFloatHashMap<UUID> playerSpeed = new TObjectFloatHashMap<>();
+	private final TObjectFloatHashMap<UUID> playerStealDealtDamage = new TObjectFloatHashMap<>();
 	private final TObjectByteHashMap<UUID> playerLastResortCooldown = new TObjectByteHashMap<>();
 	
 	private final AttributeModifier attrSpeed = new AttributeModifier(UUID.fromString("91AEAA56-376B-4498-935B-2F7F68070635"),"HeeCharmSpeed",0.15D,2);
@@ -108,6 +109,7 @@ public final class CharmEvents{
 		
 		playerRegen.clear();
 		playerSpeed.clear();
+		playerStealDealtDamage.clear();
 		playerLastResortCooldown.clear();
 	}
 	
@@ -159,10 +161,10 @@ public final class CharmEvents{
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingHurt(LivingHurtEvent e){
-		boolean isPlayer = e.entityLiving instanceof EntityPlayer;
+		boolean isTargetPlayer = e.entityLiving instanceof EntityPlayer;
 		
 		if (e.source.getSourceOfDamage() == null){
-			if (isPlayer){
+			if (isTargetPlayer){
 				EntityPlayer targetPlayer = (EntityPlayer)e.entity;
 				
 				if (e.source == DamageSource.fall){
@@ -176,7 +178,9 @@ public final class CharmEvents{
 			}
 		}
 		else{
-			if (e.source.getSourceOfDamage() instanceof EntityPlayer){
+			boolean isSourcePlayer = e.source.getSourceOfDamage() instanceof EntityPlayer;
+			
+			if (isSourcePlayer){
 				EntityPlayer sourcePlayer = (EntityPlayer)e.source.getSourceOfDamage();
 
 				// BASIC_POWER / EQUALITY
@@ -216,9 +220,6 @@ public final class CharmEvents{
 					}
 				}
 				
-				// LIFE_STEAL
-				// TODO
-				
 				// MAGIC_PENETRATION
 				float magic = getPropPercentDecrease(sourcePlayer,"dmgtomagic",e.ammount);
 				
@@ -229,7 +230,7 @@ public final class CharmEvents{
 				}
 			}
 			
-			if (isPlayer){
+			if (isTargetPlayer){
 				EntityPlayer targetPlayer = (EntityPlayer)e.entityLiving;
 				
 				// BASIC_DEFENSE / EQUALITY
@@ -288,6 +289,23 @@ public final class CharmEvents{
 								break;
 							}
 						}
+					}
+				}
+			}
+			
+			if (isSourcePlayer){
+				EntityPlayer sourcePlayer = (EntityPlayer)e.source.getSourceOfDamage();
+				
+				// LIFE_STEAL
+				float[] stealHealth = getProp(sourcePlayer,"stealhealth");
+				
+				if (stealHealth.length > 0){
+					float[] stealDealt = getProp(sourcePlayer,"stealdealt");
+					int randIndex = sourcePlayer.worldObj.rand.nextInt(stealHealth.length);
+					
+					if (playerStealDealtDamage.adjustOrPutValue(sourcePlayer.getGameProfile().getId(),e.ammount,e.ammount) >= stealDealt[randIndex]){
+						sourcePlayer.heal(stealHealth[randIndex]);
+						playerStealDealtDamage.adjustValue(sourcePlayer.getGameProfile().getId(),-e.ammount);
 					}
 				}
 			}
