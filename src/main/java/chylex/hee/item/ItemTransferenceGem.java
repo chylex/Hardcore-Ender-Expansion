@@ -11,6 +11,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import chylex.hee.entity.fx.handler.FXType;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.gem.GemData;
@@ -19,8 +20,8 @@ import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.data.UnlockResult;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C10ParticleTransferenceGemLink;
 import chylex.hee.packets.client.C11ParticleTransferenceGemTeleportFrom;
+import chylex.hee.packets.client.C30Effect;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -44,7 +45,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 		
 		if (!world.isRemote && side == 1 && player.isSneaking()){
 			GemData.updateItemStack(is,player.dimension,x,y,z);
-			PacketPipeline.sendToAllAround(player.dimension,x,y,z,64D,new C10ParticleTransferenceGemLink(true,x,y,z));
+			PacketPipeline.sendToAllAround(player.dimension,x,y,z,64D,new C30Effect(FXType.GEM_LINK,x,y,z));
 			return true;
 		}
 		
@@ -87,7 +88,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 				e.extinguish();
 			}
 
-			PacketPipeline.sendToAllAround(entity.dimension,entity.posX,entity.posY,entity.posZ,64D,new C10ParticleTransferenceGemLink(false,(int)Math.floor(entity.posX),(int)Math.floor(entity.posY+1.25D),(int)Math.floor(entity.posZ)));
+			PacketPipeline.sendToAllAround(entity,64D,new C30Effect(FXType.GEM_TELEPORT_TO,entity));
 
 			if (!KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.15F).stopTrying &&
 				KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.1F,new byte[]{ 7 }) == UnlockResult.NOTHING_TO_UNLOCK){

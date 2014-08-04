@@ -9,10 +9,11 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
+import chylex.hee.entity.fx.handler.FXType;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C05ParticleBloodlustSmoke;
+import chylex.hee.packets.client.C30Effect;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -102,7 +103,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 							}
 							
 							enderman.setDead();
-							PacketPipeline.sendToAllAround(enderman,128D,new C05ParticleBloodlustSmoke(enderman));
+							PacketPipeline.sendToAllAround(enderman,64D,new C30Effect(FXType.ENDERMAN_BLOODLUST_TRANSFORMATION,enderman));
 							break;
 						}
 					}

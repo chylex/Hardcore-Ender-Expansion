@@ -37,7 +37,7 @@ public class C11ParticleTransferenceGemTeleportFrom extends AbstractClientPacket
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		float width = this.width*1.2F,hwidth = width*0.5F,height = this.height*0.9F;
+		float width = this.width*1.2F, hwidth = width*0.5F, height = this.height*0.9F;
 
 		for(int a = 0; a < 20; a++)player.worldObj.spawnParticle("largesmoke",x+rand.nextDouble()*width-hwidth,y+rand.nextDouble()*height,z+rand.nextDouble()*width-hwidth,0D,0.04D,0D);
 		player.worldObj.playSound(x+0.5D,y+1D,z+0.5D,"mob.endermen.portal",1.2F,player.worldObj.rand.nextFloat()*0.05F+0.85F,false);

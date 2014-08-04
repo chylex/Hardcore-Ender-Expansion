@@ -1,9 +1,5 @@
 package chylex.hee.entity.projectile;
 import java.util.List;
-import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C10ParticleTransferenceGemLink;
-import chylex.hee.packets.client.C11ParticleTransferenceGemTeleportFrom;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -16,6 +12,11 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.fx.handler.FXType;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C11ParticleTransferenceGemTeleportFrom;
+import chylex.hee.packets.client.C30Effect;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -160,7 +161,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					if (!found)player.setPositionAndUpdate(x+0.5D,y+0.01D,z+0.5D);
 					player.fallDistance = 0F;
 					
-					PacketPipeline.sendToAllAround(player,64D,new C10ParticleTransferenceGemLink(false,(int)Math.floor(player.posX),(int)Math.floor(player.posY+1.25D),(int)Math.floor(player.posZ)));
+					PacketPipeline.sendToAllAround(player,64D,new C30Effect(FXType.GEM_TELEPORT_TO,player));
 				}
 			}
 

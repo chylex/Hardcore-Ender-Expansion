@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
+import chylex.hee.entity.fx.handler.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.ItemUseCache;
@@ -22,9 +23,9 @@ import chylex.hee.mechanics.essence.SocketManager;
 import chylex.hee.mechanics.essence.handler.AltarActionHandler;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C00ParticleAltarSmoke;
 import chylex.hee.packets.client.C06ClearInventorySlot;
 import chylex.hee.packets.client.C16AltarRuneItemEffect;
+import chylex.hee.packets.client.C30Effect;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.logging.Log;
 import cpw.mods.fml.relauncher.Side;
@@ -226,7 +227,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 					runeItems[a] = availableItems.remove(worldObj.rand.nextInt(availableItems.size()));
 				}
 				
-				PacketPipeline.sendToAllAround(this,64D,new C00ParticleAltarSmoke(this));
+				PacketPipeline.sendToAllAround(this,64D,new C30Effect(FXType.ESSENCE_ALTAR_SMOKE,this));
 				
 				essenceType.getEssenceRegistration().tryUnlockFragment(player,1F);
 			}
