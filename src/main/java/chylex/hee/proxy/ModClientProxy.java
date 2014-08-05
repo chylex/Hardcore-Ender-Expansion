@@ -26,6 +26,7 @@ import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobFireGolem;
+import chylex.hee.entity.mob.EntityMobHauntedMiner;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
@@ -67,6 +68,7 @@ import chylex.hee.render.entity.RenderTexturedMob;
 import chylex.hee.render.model.ModelEnderGuardian;
 import chylex.hee.render.model.ModelEndermanHeadBiped;
 import chylex.hee.render.model.ModelFireGolem;
+import chylex.hee.render.model.ModelHauntedMiner;
 import chylex.hee.render.model.ModelScorchingLens;
 import chylex.hee.render.projectile.RenderProjectilePotionOfInstability;
 import chylex.hee.render.tileentity.RenderTileCustomSpawner;
@@ -131,6 +133,7 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobLouse.class, new RenderMobLouse());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobFireGolem.class, new RenderTexturedMob(new ModelFireGolem(), 0.3F, "fire_golem.png"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobScorchingLens.class, new RenderTexturedMob(new ModelScorchingLens(), 0.3F, "scorching_lens.png"));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobHauntedMiner.class, new RenderTexturedMob(new ModelHauntedMiner(), 0.5F, "haunted_miner.png"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobCorporealMirage.class, new RenderMobCorporealMirage());
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockEnderCrystal.class, new RenderEnderCrystal());

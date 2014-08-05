@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.RuneType;
@@ -264,6 +265,11 @@ public class EntityMobLouse extends EntityMob{
 	@Override
 	protected boolean isValidLightLevel(){
 		return true;
+	}
+	
+	@Override
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal("entity.louse.name");
 	}
 	
 	public LouseSpawnData getSpawnData(){

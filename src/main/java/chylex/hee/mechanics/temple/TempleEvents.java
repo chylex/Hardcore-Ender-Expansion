@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.temple;
 import java.io.File;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -112,10 +113,7 @@ public final class TempleEvents{
 			
 			DimensionManager.unloadWorld(1);
 			
-			failedDestroying = false;
-			for(File file:dim1.listFiles())deleteFile(file);
-			
-			if (!failedDestroying){
+			if (FileUtils.deleteQuietly(dim1)){
 				ServerSavefile save = BiomeDecoratorHardcoreEnd.getCache(endWorld);
 				save.setDestroyEnd(false);
 				save.setPreventTempleDestruction(false);
@@ -138,12 +136,5 @@ public final class TempleEvents{
 	private boolean isPlayerInTemple(EntityPlayer player){
 		return player.posY >= ItemTempleCaller.templeY && player.posX >= ItemTempleCaller.templeX && player.posZ >= ItemTempleCaller.templeZ &&
 			   player.posY <= ItemTempleCaller.templeY+7 && player.posX <= ItemTempleCaller.templeX+13 && player.posZ <= ItemTempleCaller.templeZ+19;
-	}
-	
-	private void deleteFile(File file){
-		if (file.isDirectory()){
-			for(File f:file.listFiles())deleteFile(f);
-		}
-		else if (!file.delete())failedDestroying = true;
 	}
 }

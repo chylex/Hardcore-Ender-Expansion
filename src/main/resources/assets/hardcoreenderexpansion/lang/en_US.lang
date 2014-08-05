@@ -153,6 +153,7 @@ entity.forestGhost.name=Ghost
 entity.fireGolem.name=Fire Golem
 entity.scorchingLens.name=Scorching Lens
 entity.louse.name=Louse
+entity.hauntedMiner.name=Haunted Miner
 
 namegenerator.middle=, the 
 

@@ -27,6 +27,7 @@ import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobForestGhost;
+import chylex.hee.entity.mob.EntityMobHauntedMiner;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
@@ -251,6 +252,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityMobLouse.class, "Louse", 34, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobFireGolem.class, "FireGolem", 14, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobScorchingLens.class, "ScorchedLens", 15, this, 256, 1, true);
+		EntityRegistry.registerModEntity(EntityMobHauntedMiner.class, "HauntedMiner", 35, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobCorporealMirage.class, "CorporealMirage", 29, this, 256, 1, true);
 
 		EntityRegistry.registerModEntity(EntityBlockFallingDragonEgg.class, "FallingDragonEgg", 25, this, 128, 1, true);
@@ -274,7 +276,7 @@ public class HardcoreEnderExpansion{
 
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltSafe.class, "LightningBoltSafe", 4, this, 512, 1, false);
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, this, 512, 1, false);
-		// last: 34
+		// last: 35
 
 		// TILE ENTITIES
 

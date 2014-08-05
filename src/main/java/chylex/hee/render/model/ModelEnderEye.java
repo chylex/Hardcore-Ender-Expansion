@@ -3,6 +3,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -60,8 +61,8 @@ public class ModelEnderEye extends ModelBase{
 	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
 		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
-		float yawRad = rotationYaw/(180F/(float)Math.PI),
-			  pitchRad = (-rotationPitch)/(180F/(float)Math.PI);
+		float yawRad = MathUtil.toRad(rotationYaw),
+			  pitchRad = -MathUtil.toRad(rotationPitch);
 		
 		EntityMiniBossEnderEye eye = (EntityMiniBossEnderEye)entity;
 		byte anim = eye.getAttackAnimationTime();
