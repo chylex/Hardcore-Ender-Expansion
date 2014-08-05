@@ -8,10 +8,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelEnderEye extends ModelBase{
-	ModelRenderer head;
-	ModelRenderer rightArm;
-	ModelRenderer leftArm;
-	private float wakeupAngle,animationAngle;
+	private ModelRenderer head;
+	private ModelRenderer rightArm;
+	private ModelRenderer leftArm;
+	private float wakeupAngle, animationAngle;
 
 	public ModelEnderEye(){
 		textureWidth = 128;

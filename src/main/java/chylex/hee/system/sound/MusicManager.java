@@ -24,41 +24,28 @@ public final class MusicManager{
 	
 	@SubscribeEvent
 	public void onSoundLoad(SoundLoadEvent e){
-		if (hasLoaded)return;
+		if (hasLoaded || !enableMusic)return;
 		
-		new Thread(new Runnable(){ // TODO ugh.... ewwww make it better
-			@Override
-			public void run(){
-				try{
-					Thread.sleep(4000L);
-				}catch(InterruptedException e){
-					e.printStackTrace();
-				}
-				
-				Minecraft mc = Minecraft.getMinecraft();
-				
-				synchronized(mc){
-					Field[] fields = Minecraft.class.getDeclaredFields();
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		try{
+			Field[] fields = Minecraft.class.getDeclaredFields();
 	
-					for(int a = 0; a < fields.length; a++){
-						if (MusicTicker.class.isAssignableFrom(fields[a].getType())){
-							fields[a].setAccessible(true);
+			for(int a = 0; a < fields.length; a++){
+				if (MusicTicker.class.isAssignableFrom(fields[a].getType())){
+					fields[a].setAccessible(true);
 	
-							try{
-								fields[a].set(mc,CustomMusicTicker.getInstance());
-								Log.debug("Successfully replaced MusicTicker.");
-							}catch(Exception ex){
-								Log.throwable(ex,"Could not replace MusicTicker, custom music will not be present.");
-								return;
-							}
-	
-							break;
-						}
+					if (fields[a].get(mc) != null){
+						fields[a].set(mc,CustomMusicTicker.getInstance());
+						hasLoaded = true;
+						Log.debug("Successfully replaced MusicTicker.");
 					}
+	
+					break;
 				}
 			}
-		}).start();
-		
-		hasLoaded = true;
+		}catch(SecurityException | IllegalArgumentException | IllegalAccessException ex){
+			Log.throwable(ex,"Could not replace MusicTicker, custom music will not be present.");
+		}
 	}
 }

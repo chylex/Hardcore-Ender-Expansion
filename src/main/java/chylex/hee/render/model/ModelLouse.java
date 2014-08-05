@@ -3,6 +3,7 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -239,7 +240,6 @@ public class ModelLouse extends ModelBase{
 		lFLeg1.render(unitPixel);
 		lMLeg1.render(unitPixel);
 		lBLeg1.render(unitPixel);
-
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z){
@@ -253,7 +253,7 @@ public class ModelLouse extends ModelBase{
 		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		float correction = 0.8726646F;
 		float legMovement = MathHelper.cos(limbSwing*2.5F)*0.9F*limbSwingAngle;
-		headMain.rotateAngleY = rotationYaw*0.0174533F;
+		headMain.rotateAngleY = MathUtil.toRad(rotationYaw);
 		rFLeg1.rotateAngleX = legMovement-correction;
 		rMLeg1.rotateAngleX = -legMovement;
 		rBLeg1.rotateAngleX = legMovement+correction;
