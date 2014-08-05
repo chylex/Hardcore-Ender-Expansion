@@ -43,6 +43,7 @@ public final class ItemList{
 	public static Item charm_pouch;
 	public static Item rune;
 	public static Item charm;
+	public static Item fire_shard;
 	public static Item scorching_pickaxe;
 	public static Item corporeal_mirage_orb;
 	public static Item spectral_wand;
@@ -145,6 +146,13 @@ public final class ItemList{
 		.setMaxStackSize(1)
 		.setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm");
 		
+		fire_shard = new Item()
+		.setUnlocalizedName("fireShard").setTextureName("hardcoreenderexpansion:fire_shard");
+		
+		scorching_pickaxe = new ItemScorchingPickaxe()
+		.setMaxStackSize(1).setMaxDamage(399)
+		.setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe");
+		
 		corporeal_mirage_orb = new ItemCorporealMirageOrb()
 		.setMaxStackSize(4)
 		.setUnlocalizedName("corporealMirageOrb").setTextureName("hardcoreenderexpansion:corporeal_mirage_orb");
@@ -152,10 +160,6 @@ public final class ItemList{
 		spectral_wand = new ItemSpectralWand()
 		.setMaxStackSize(1)
 		.setUnlocalizedName("spectralWand").setTextureName("hardcoreenderexpansion:spectral_wand");
-		
-		scorching_pickaxe = new ItemScorchingPickaxe()
-		.setMaxStackSize(1).setMaxDamage(399)
-		.setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe");
 		
 		enderman_relic = new ItemEndermanRelic()
 		.setMaxStackSize(1).setMaxDamage(222).setNoRepair()
@@ -185,7 +189,7 @@ public final class ItemList{
 		).addBlocks(
 			BlockList.soul_charm
 		).addItems(
-			spectral_wand,scorching_pickaxe,enderman_relic,
+			spectral_wand,fire_shard,scorching_pickaxe,enderman_relic,
 			enderman_head,bucket_ender_goo,music_disk,
 			ender_compendium,knowledge_fragment,
 			spawn_eggs

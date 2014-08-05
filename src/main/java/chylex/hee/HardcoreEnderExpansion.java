@@ -212,9 +212,10 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerItem(ItemList.charm_pouch, "charm_pouch");
 		GameRegistryUtil.registerItem(ItemList.rune, "rune");
 		GameRegistryUtil.registerItem(ItemList.charm, "charm");
+		GameRegistryUtil.registerItem(ItemList.fire_shard, "fire_shard");
+		GameRegistryUtil.registerItem(ItemList.scorching_pickaxe, "schorching_pickaxe");
 		GameRegistryUtil.registerItem(ItemList.corporeal_mirage_orb, "corporeal_mirage_orb");
 		GameRegistryUtil.registerItem(ItemList.spectral_wand, "spectral_wand");
-		GameRegistryUtil.registerItem(ItemList.scorching_pickaxe, "schorching_pickaxe");
 		GameRegistryUtil.registerItem(ItemList.enderman_relic, "enderman_relic_repaired");
 		GameRegistryUtil.registerItem(ItemList.enhanced_brewing_stand, "enhanced_brewing_stand");
 		GameRegistryUtil.registerItem(ItemList.music_disk, "music_disk");
