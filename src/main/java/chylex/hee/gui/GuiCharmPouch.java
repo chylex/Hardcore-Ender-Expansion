@@ -13,7 +13,7 @@ public class GuiCharmPouch extends GuiContainer{
 	
 	public GuiCharmPouch(EntityPlayer player){
 		super(new ContainerCharmPouch(player));
-		ySize = 176;
+		ySize = 181;
 	}
 	
 	@Override
