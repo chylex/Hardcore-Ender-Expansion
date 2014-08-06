@@ -2,6 +2,7 @@ package chylex.hee.world.structure.island.biome;
 import java.util.Random;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobFireGolem;
+import chylex.hee.entity.mob.EntityMobHauntedMiner;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
@@ -19,12 +20,16 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	protected IslandBiomeBurningMountains(int biomeID, KnowledgeRegistration knowledgeRegistration){
 		super(biomeID,knowledgeRegistration);
 		
-		//contentVariations.add(SCORCHING);
+		contentVariations.add(SCORCHING);
 		contentVariations.add(MINE);
 		
 		getSpawnEntries(SCORCHING).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobFireGolem.class,14,10),
 			new SpawnEntry(EntityMobScorchingLens.class,10,6)
+		});
+		
+		getSpawnEntries(MINE).addAll(new SpawnEntry[]{
+			new SpawnEntry(EntityMobHauntedMiner.class,20,10)
 		});
 	}
 

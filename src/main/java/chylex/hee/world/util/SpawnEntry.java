@@ -1,7 +1,7 @@
 package chylex.hee.world.util;
 import java.lang.reflect.InvocationTargetException;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.world.World;
 import chylex.hee.system.weight.IWeightProvider;
 
@@ -15,7 +15,7 @@ public class SpawnEntry implements IWeightProvider{
 		this.mobClass = mobClass;
 		this.maxAmount = (byte)maxAmount;
 		this.weight = (byte)weight;
-		this.isMob = EntityMob.class.isAssignableFrom(mobClass);
+		this.isMob = IMob.class.isAssignableFrom(mobClass);
 	}
 	
 	public Class<? extends EntityLiving> getMobClass(){

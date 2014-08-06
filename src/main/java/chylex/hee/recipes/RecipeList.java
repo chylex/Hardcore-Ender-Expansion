@@ -97,6 +97,12 @@ public final class RecipeList{
 			ItemList.dry_splinter, Blocks.deadbush, Blocks.sand
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.scorching_pickaxe),
+			"FFF", "FPF", "FFF",
+			'F', ItemList.fire_shard,
+			'P', Items.golden_pickaxe
+		);
+		
 		for(int a = 0; a < 14; a++){
 			GameRegistry.addShapelessRecipe(
 				new ItemStack(Items.dye,2,13),
