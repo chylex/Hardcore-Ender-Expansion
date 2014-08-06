@@ -37,6 +37,11 @@ public final class FXHandler{
 				((BlockSpookyLeaves)BlockList.spooky_leaves).addDestroyEffectsCustom(world,(int)x,(int)y,(int)z);
 				break;
 				
+			case DUNGEON_PUZZLE_BURN:
+				for(int a = 0; a < 6; a++)world.spawnParticle("flame",x+randCenter(0.3D),y+0.6D*rand.nextDouble(),z+randCenter(0.3D),0D,0.04D,0D);
+				world.playSoundEffect(x,y,z,"random.fizz",0.6F,2.6F+(rand.nextFloat()-rand.nextFloat())*0.8F);
+				break;
+				
 			case GEM_LINK:
 				for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.portalOrbiting(world,x+0.5D,y+0.38D+rand.nextDouble()*0.6D,z+0.5D,rand.nextDouble()*0.045D+0.015D);
 				world.playSound(x+0.5D,y+1D,z+0.5D,"hardcoreenderexpansion:environment.gem.link",1F,rand.nextFloat()*0.02F+0.64F,false);

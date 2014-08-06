@@ -40,7 +40,7 @@ public class C15ParticleFireGolemFlame extends AbstractClientPacket{
 		if (golem == null)return;
 		
 		Vec3 look = golem.getLookVec();
-		double xx = golem.posX+look.xCoord*0.8D,zz = golem.posZ+look.zCoord*0.8D;
+		double xx = golem.posX+look.xCoord*0.8D, zz = golem.posZ+look.zCoord*0.8D;
 		for(int a = 0; a < rand.nextInt(2+amount); a++)HardcoreEnderExpansion.fx.flame(world,xx,golem.posY+1D,zz,3);
 	}
 }

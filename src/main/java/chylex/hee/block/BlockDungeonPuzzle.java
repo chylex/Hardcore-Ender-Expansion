@@ -1,7 +1,6 @@
 package chylex.hee.block;
 import java.util.List;
 import java.util.Random;
-import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -12,10 +11,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C14ParticleIgneousRockFlame;
+import chylex.hee.packets.client.C20Effect;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -61,7 +62,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 					world.setBlockMetadataWithNotify(tx+offx[a],y,tz+offz[a],cmeta == metaUnlit?metaSpreadingLitN+a:metaSpreadingUnlitN+a,2);
 					world.scheduleBlockUpdate(tx+offx[a],y,tz+offz[a],this,8);
 					
-					PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D,64D,new C14ParticleIgneousRockFlame(tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D));
+					PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D));
 				}
 			}
 			else{
@@ -72,7 +73,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 				}
 			}
 
-			PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+0.5D,y+0.5D,tz+0.5D,64D,new C14ParticleIgneousRockFlame(tx+0.5D,y+0.5D,tz+0.5D));
+			PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+0.5D,y+0.5D,tz+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,tx+0.5D,y+0.5D,tz+0.5D));
 		}
 		
 		// update me
