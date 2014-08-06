@@ -22,7 +22,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C18CustomWeather;
+import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 
@@ -86,7 +86,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 
 				EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,xx,yy,zz,this,false);
 				worldObj.weatherEffects.add(bolt);
-				PacketPipeline.sendToAllAround(bolt,512D,new C18CustomWeather(bolt,(byte)0));
+				PacketPipeline.sendToAllAround(bolt,512D,new C05CustomWeather(bolt,(byte)0));
 				
 				if (++lightningCounter >= 6)lightningTarget = null;
 			}
@@ -118,7 +118,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 								
 								EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,ix+0.5D,iy,iz+0.5D,this,false);
 								worldObj.addWeatherEffect(bolt);
-								PacketPipeline.sendToAllAround(bolt,512D,new C18CustomWeather(bolt,(byte)0));
+								PacketPipeline.sendToAllAround(bolt,512D,new C05CustomWeather(bolt,(byte)0));
 								
 								for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.22F,new byte[]{ 0,1,2 });
 							
@@ -236,7 +236,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 		if (deathTime < 81 && deathTime%10 == 0){
 			EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,posX,posY,posZ,this,false);
 			worldObj.weatherEffects.add(bolt);
-			PacketPipeline.sendToAllAround(bolt,512D,new C18CustomWeather(bolt,(byte)0));
+			PacketPipeline.sendToAllAround(bolt,512D,new C05CustomWeather(bolt,(byte)0));
 			
 			
 			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D)){

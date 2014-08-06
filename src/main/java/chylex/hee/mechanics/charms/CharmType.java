@@ -88,7 +88,7 @@ public enum CharmType{
 		new CharmRecipe(43).rune(POWER).rune(MAGIC,4).prop("dmgtomagic",0.32F)
 	}, new String[]{ "perc,dmgtomagic" }),
 	
-	WITCHERY_HARM(14, 4, new CharmRecipe[]{
+	WITCHERY_HARM(12, 4, new CharmRecipe[]{
 		new CharmRecipe(44).rune(POWER).rune(MAGIC).rune(VIGOR).rune(VOID).prop("badeffchance",0.08F).prop("badefflvl",1).prop("badefftime",5),
 		new CharmRecipe(45).rune(POWER).rune(MAGIC).rune(VIGOR,2).rune(VOID).prop("badeffchance",0.09F).prop("badefflvl",2).prop("badefftime",5),
 		new CharmRecipe(46).rune(POWER).rune(MAGIC,2).rune(VIGOR).rune(VOID).prop("badeffchance",0.14F).prop("badefflvl",1).prop("badefftime",5),

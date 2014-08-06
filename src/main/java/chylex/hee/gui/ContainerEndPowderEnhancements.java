@@ -23,7 +23,7 @@ import chylex.hee.mechanics.enhancements.SlotList;
 import chylex.hee.mechanics.knowledge.fragment.EnhancementKnowledgeFragment;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
-import chylex.hee.packets.client.C25GuiEnhancementsUpdateItems;
+import chylex.hee.packets.client.C09GuiEnhancementsUpdateItems;
 import chylex.hee.system.logging.Log;
 
 public class ContainerEndPowderEnhancements extends Container{
@@ -250,7 +250,7 @@ public class ContainerEndPowderEnhancements extends Container{
 				if (getSlot(0).getStack() == null)onSubjectChanged();
 				
 				if (EnhancementFragmentUtil.unlockEnhancement(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),(Enum)selectedEnhancement,owner)){
-					PacketPipeline.sendToPlayer(owner,new C25GuiEnhancementsUpdateItems());
+					PacketPipeline.sendToPlayer(owner,new C09GuiEnhancementsUpdateItems());
 				}
 				
 			}
@@ -292,7 +292,7 @@ public class ContainerEndPowderEnhancements extends Container{
 				
 				if (rand.nextInt(ingredientsBroken > 0 ? 7 : 9) == 0){
 					EnhancementFragmentUtil.unlockEnhancement(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),(Enum)selectedEnhancement,owner);
-					PacketPipeline.sendToPlayer(owner,new C25GuiEnhancementsUpdateItems());
+					PacketPipeline.sendToPlayer(owner,new C09GuiEnhancementsUpdateItems());
 				}
 				
 				PacketPipeline.sendToPlayer(owner,new C08PlaySound((byte)9,owner.posX,owner.posY,owner.posZ,0.8F,1.2F));

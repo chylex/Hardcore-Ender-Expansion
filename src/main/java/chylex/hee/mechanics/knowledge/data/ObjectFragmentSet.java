@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.mechanics.knowledge.fragment.KnowledgeFragment;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C28KnowledgeRegistrationNotification;
+import chylex.hee.packets.client.C19KnowledgeRegistrationNotification;
 
 public class ObjectFragmentSet{
 	private final KnowledgeRegistration registration;
@@ -99,7 +99,7 @@ public class ObjectFragmentSet{
 		is.stackTagCompound.setTag("knowledgeLast",lastUnlock);
 		
 		if (player != null){
-			PacketPipeline.sendToPlayer(player,new C28KnowledgeRegistrationNotification(registration.identifier));
+			PacketPipeline.sendToPlayer(player,new C19KnowledgeRegistrationNotification(registration.identifier));
 		}
 	
 		return true;

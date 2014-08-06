@@ -27,7 +27,7 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C19ParticleFireFiendFlames;
+import chylex.hee.packets.client.C12ParticleFireFiendFlames;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 
@@ -238,7 +238,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			
 			if (attackStage == STAGE_CREATING || attackStage == STAGE_SHOOTING){
 				for(float[] offset:fireballOffsets){
-					PacketPipeline.sendToAllAround(this,96D,new C19ParticleFireFiendFlames(this,target,offset,Byte.valueOf((byte)((60-fireballAttackTimer)>>2))));
+					PacketPipeline.sendToAllAround(this,96D,new C12ParticleFireFiendFlames(this,target,offset,Byte.valueOf((byte)((60-fireballAttackTimer)>>2))));
 				}
 			}
 			

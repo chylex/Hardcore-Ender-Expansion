@@ -9,7 +9,7 @@ import chylex.hee.mechanics.knowledge.data.renderer.DummyRenderer;
 import chylex.hee.mechanics.knowledge.data.renderer.IRegistrationRenderer;
 import chylex.hee.mechanics.knowledge.fragment.KnowledgeFragment;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C28KnowledgeRegistrationNotification;
+import chylex.hee.packets.client.C19KnowledgeRegistrationNotification;
 import chylex.hee.system.logging.Log;
 
 public class KnowledgeRegistration{
@@ -126,7 +126,7 @@ public class KnowledgeRegistration{
 		if (compendiumSlot == -1)return UnlockResult.NO_COMPENDIUM;
 		
 		if (paperSlot == -1){
-			PacketPipeline.sendToPlayer(player,new C28KnowledgeRegistrationNotification(-1));
+			PacketPipeline.sendToPlayer(player,new C19KnowledgeRegistrationNotification(-1));
 			return UnlockResult.NO_PAPER;
 		}
 		

@@ -9,18 +9,18 @@ import chylex.hee.tileentity.TileEntityEnergyExtractionTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C29ParticleEnergyTransfer extends AbstractClientPacket{
+public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 	private double startX,startY,startZ;
 	private double targetX,targetY,targetZ;
 	private float red,green,blue;
 	
-	public C29ParticleEnergyTransfer(){}
+	public C10ParticleEnergyTransfer(){}
 	
-	public C29ParticleEnergyTransfer(TileEntityEnergyExtractionTable table, TileEntityEnergyCluster cluster){
+	public C10ParticleEnergyTransfer(TileEntityEnergyExtractionTable table, TileEntityEnergyCluster cluster){
 		this(table.xCoord+0.5D,table.yCoord+0.5D,table.zCoord+0.5D,cluster.xCoord+0.5D,cluster.yCoord+0.5D,cluster.zCoord+0.5D,cluster.getColor()[0],cluster.getColor()[1],cluster.getColor()[2]);
 	}
 	
-	public C29ParticleEnergyTransfer(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, float red, float green, float blue){
+	public C10ParticleEnergyTransfer(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, float red, float green, float blue){
 		this.startX = startX;
 		this.startY = startY;
 		this.startZ = startZ;

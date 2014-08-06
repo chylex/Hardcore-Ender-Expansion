@@ -6,13 +6,13 @@ import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C20ParticleDragonEggTeleportation extends AbstractClientPacket{
+public class C13ParticleDragonEggTeleportation extends AbstractClientPacket{
 	private int startX,startY,startZ;
 	private int endX,endY,endZ;
 	
-	public C20ParticleDragonEggTeleportation(){}
+	public C13ParticleDragonEggTeleportation(){}
 	
-	public C20ParticleDragonEggTeleportation(int startX, int startY, int startZ, int endX, int endY, int endZ){
+	public C13ParticleDragonEggTeleportation(int startX, int startY, int startZ, int endX, int endY, int endZ){
 		this.startX = startX;
 		this.startY = startY;
 		this.startZ = startZ;

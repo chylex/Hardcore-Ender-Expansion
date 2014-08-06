@@ -13,8 +13,11 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.RuneType;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
@@ -150,6 +153,7 @@ public class EntityMobLouse extends EntityMob{
 		if (armor > 0F && hurtResistantTime == 0){
 			entityToAttack = source.getEntity();
 			playSound("random.anvil_land",0.5F,1.2F);
+			PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.LOUSE_ARMOR_HIT,this));
 			
 			if ((armor -= amount) <= 0F)armor = 0F;
             hurtTime = maxHurtTime = 10;

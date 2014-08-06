@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C21ParticleIgneousRockFlame;
+import chylex.hee.packets.client.C14ParticleIgneousRockFlame;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -61,7 +61,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 					world.setBlockMetadataWithNotify(tx+offx[a],y,tz+offz[a],cmeta == metaUnlit?metaSpreadingLitN+a:metaSpreadingUnlitN+a,2);
 					world.scheduleBlockUpdate(tx+offx[a],y,tz+offz[a],this,8);
 					
-					PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D,64D,new C21ParticleIgneousRockFlame(tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D));
+					PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D,64D,new C14ParticleIgneousRockFlame(tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D));
 				}
 			}
 			else{
@@ -72,7 +72,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 				}
 			}
 
-			PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+0.5D,y+0.5D,tz+0.5D,64D,new C21ParticleIgneousRockFlame(tx+0.5D,y+0.5D,tz+0.5D));
+			PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+0.5D,y+0.5D,tz+0.5D,64D,new C14ParticleIgneousRockFlame(tx+0.5D,y+0.5D,tz+0.5D));
 		}
 		
 		// update me

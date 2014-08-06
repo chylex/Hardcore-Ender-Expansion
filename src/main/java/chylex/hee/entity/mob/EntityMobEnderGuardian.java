@@ -18,7 +18,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C30Effect;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 
@@ -90,7 +90,7 @@ public class EntityMobEnderGuardian extends EntityMob{
 							for(int iy = (int)Math.floor(entityToAttack.posY)-1; iy < entityToAttack.posY+3; iy++){
 								if (worldObj.isAirBlock(ix,iy,iz) && worldObj.isAirBlock(ix,iy+1,iz)){
 									playSound("mob.endermen.portal",1.5F,1.2F);
-									PacketPipeline.sendToAllAround(this,64D,new C30Effect(FXType.ENDER_GUARDIAN_TELEPORT,this));
+									PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.ENDER_GUARDIAN_TELEPORT,this));
 									
 									setPosition(xx,iy,zz);
 									faceEntity(entityToAttack,360F,360F);

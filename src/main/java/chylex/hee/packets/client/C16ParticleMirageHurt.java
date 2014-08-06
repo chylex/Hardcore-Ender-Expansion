@@ -8,12 +8,12 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C27ParticleMirageHurt extends AbstractClientPacket{
+public class C16ParticleMirageHurt extends AbstractClientPacket{
 	private int entityId;
 	
-	public C27ParticleMirageHurt(){}
+	public C16ParticleMirageHurt(){}
 	
-	public C27ParticleMirageHurt(EntityMobCorporealMirage mirage){
+	public C16ParticleMirageHurt(EntityMobCorporealMirage mirage){
 		this.entityId = mirage.getEntityId();
 	}
 	

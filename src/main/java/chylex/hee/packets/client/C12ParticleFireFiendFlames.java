@@ -11,14 +11,14 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C19ParticleFireFiendFlames extends AbstractClientPacket{
+public class C12ParticleFireFiendFlames extends AbstractClientPacket{
 	private int fiendEntityId,targetEntityId;
 	private float offsetX,offsetY,offsetZ;
 	private byte amount;
 	
-	public C19ParticleFireFiendFlames(){}
+	public C12ParticleFireFiendFlames(){}
 	
-	public C19ParticleFireFiendFlames(EntityMiniBossFireFiend fiend, EntityLivingBase target, float[] offsets, byte amount){
+	public C12ParticleFireFiendFlames(EntityMiniBossFireFiend fiend, EntityLivingBase target, float[] offsets, byte amount){
 		this.fiendEntityId = fiend.getEntityId();
 		this.targetEntityId = target.getEntityId();
 		this.offsetX = offsets[0];

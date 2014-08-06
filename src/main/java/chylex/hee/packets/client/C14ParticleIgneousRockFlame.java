@@ -5,12 +5,12 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C21ParticleIgneousRockFlame extends AbstractClientPacket{
+public class C14ParticleIgneousRockFlame extends AbstractClientPacket{
 	private double x,y,z;
 	
-	public C21ParticleIgneousRockFlame(){}
+	public C14ParticleIgneousRockFlame(){}
 	
-	public C21ParticleIgneousRockFlame(double x, double y, double z){
+	public C14ParticleIgneousRockFlame(double x, double y, double z){
 		this.x = x;
 		this.y = y;
 		this.z = z;

@@ -9,13 +9,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.mechanics.orb.WeightedItem;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C12InstabilityOrbTransformEffect;
+import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 
@@ -98,7 +99,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 				e.setPositionAndRotation(posX,posY,posZ,rand.nextFloat()*360F-180F,0F);
 				worldObj.spawnEntityInWorld(e);
 				
-				PacketPipeline.sendToAllAround(this,64D,new C12InstabilityOrbTransformEffect(posX,posY,posZ,e.width,e.height));
+				PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION,e));
 			}catch(Exception ex){
 				Log.throwable(ex,"Error spawning entity $0 in EntityItemInstabilityOrb",cls.getSimpleName());
 			}
@@ -113,7 +114,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			entityitem.delayBeforeCanPickup = 10;
 			worldObj.spawnEntityInWorld(entityitem);
 			
-			PacketPipeline.sendToAllAround(this,64D,new C12InstabilityOrbTransformEffect(posX,posY,posZ,0.25F,0.4F));
+			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION,posX,posY,posZ,0.25F,0.4F));
 		}
 		
 		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,16D))KnowledgeRegistrations.INSTABILITY_ORB.tryUnlockFragment(observer,0.35F);

@@ -26,7 +26,7 @@ import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C17ParticleAltarOrb;
+import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.weight.ObjectWeightPair;
@@ -150,7 +150,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			
 			for(BlockLocation loc:pedestals){
 				if (rand.nextInt(5) <= 1){
-					PacketPipeline.sendToAllAround(altar,64D,new C17ParticleAltarOrb(altar,loc.x+0.5D,altar.yCoord+0.5D,loc.z+0.5D));
+					PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,loc.x+0.5D,altar.yCoord+0.5D,loc.z+0.5D));
 				}
 			}
 		}
@@ -181,7 +181,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					updatePedestalItem(altarItem);
 					
 					if (rand.nextInt(5) == 0){
-						PacketPipeline.sendToAllAround(altar.getWorldObj().provider.dimensionId,targX,loc.y+0.5D,targZ,64D,new C17ParticleAltarOrb(targX,loc.y+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
+						PacketPipeline.sendToAllAround(altar.getWorldObj().provider.dimensionId,targX,loc.y+0.5D,targZ,64D,new C11ParticleAltarOrb(targX,loc.y+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
 					}
 				}
 			}

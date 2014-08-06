@@ -34,11 +34,13 @@ import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.CharmRecipe;
 import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
+import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -197,7 +199,10 @@ public final class CharmEvents{
 						if (e.entity.worldObj.rand.nextFloat() < crit[a])val += (critDmg[a]*e.ammount)-e.ammount;
 					}
 					
-					e.ammount += val;
+					if (val > 0F){
+						e.ammount += val;
+						PacketPipeline.sendToAllAround(e.entity,64,new C21EffectEntity(FXType.Entity.CHARM_CRITICAL,e.entity));System.out.println("crit");
+					}
 				}
 				
 				// WITCHERY_HARM
@@ -206,6 +211,7 @@ public final class CharmEvents{
 				if (badEff.length > 0){
 					float[] badEffLvl = getProp(sourcePlayer,"badefflvl");
 					float[] badEffTime = getProp(sourcePlayer,"badefftime");
+					boolean causedEffect = false;
 					List<Potion> potionEffects = new ArrayList<>(Arrays.asList(
 						Potion.weakness, Potion.moveSlowdown, Potion.blindness, Potion.poison, null // null = fire
 					));
@@ -216,8 +222,12 @@ public final class CharmEvents{
 							
 							if (type == null)e.entity.setFire((int)badEffTime[a]);
 							else e.entityLiving.addPotionEffect(new PotionEffect(type.id,20*(int)badEffTime[a],(int)badEffLvl[a]-1));
+							
+							causedEffect = true;
 						}
 					}
+					
+					if (causedEffect)PacketPipeline.sendToAllAround(e.entity,64,new C21EffectEntity(FXType.Entity.CHARM_WITCH,e.entity));
 				}
 				
 				// MAGIC_PENETRATION
@@ -240,6 +250,8 @@ public final class CharmEvents{
 					// BLOCKING
 					e.ammount -= getPropPercentDecrease(targetPlayer,"reducedmgblock",e.ammount);
 					
+					boolean showBlockingEffect = false;
+					
 					// BLOCKING_REFLECTION
 					float[] reflectDmg = getProp(targetPlayer,"blockreflectdmg");
 					
@@ -247,6 +259,7 @@ public final class CharmEvents{
 						float reflected = 0F;
 						for(int a = 0; a < reflectDmg.length; a++)reflected += e.ammount*reflectDmg[a];
 						e.source.getSourceOfDamage().attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),reflected);
+						showBlockingEffect = true;
 					}
 					
 					// BLOCKING REPULSION
@@ -267,7 +280,12 @@ public final class CharmEvents{
 							source.motionZ += vec[1];
 						}
 						else source.addVelocity(vec[0],0.25D,vec[1]);
+						
+						showBlockingEffect = true;
 					}
+					
+					// BLOCKING REFLECTION & BLOCKING REPULSION EFFECT
+					if (showBlockingEffect)PacketPipeline.sendToAllAround(e.entity,64,new C21EffectEntity(FXType.Entity.CHARM_BLOCK_EFFECT,e.entity));
 				}
 				
 				// DAMAGE_REDIRECTION

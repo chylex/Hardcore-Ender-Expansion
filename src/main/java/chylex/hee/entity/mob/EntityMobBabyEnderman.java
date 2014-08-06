@@ -39,7 +39,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C06ClearInventorySlot;
+import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.IItemSelector;
 
@@ -167,7 +167,7 @@ public class EntityMobBabyEnderman extends EntityMob{
 							
 							if (--target.inventory.mainInventory[slot].stackSize == 0){
 								target.inventory.mainInventory[slot] = null;
-								PacketPipeline.sendToPlayer(target,new C06ClearInventorySlot(slot));
+								PacketPipeline.sendToPlayer(target,new C00ClearInventorySlot(slot));
 							}
 							
 							for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.BABY_ENDERMAN.tryUnlockFragment(observer,0.5F);

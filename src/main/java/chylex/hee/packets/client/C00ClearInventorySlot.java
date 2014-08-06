@@ -5,12 +5,12 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C06ClearInventorySlot extends AbstractClientPacket{
+public class C00ClearInventorySlot extends AbstractClientPacket{
 	private byte slot;
 	
-	public C06ClearInventorySlot(){}
+	public C00ClearInventorySlot(){}
 	
-	public C06ClearInventorySlot(int slot){
+	public C00ClearInventorySlot(int slot){
 		this.slot = (byte)slot;
 	}
 	

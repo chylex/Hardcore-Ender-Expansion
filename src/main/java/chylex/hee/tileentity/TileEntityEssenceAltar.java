@@ -23,9 +23,9 @@ import chylex.hee.mechanics.essence.SocketManager;
 import chylex.hee.mechanics.essence.handler.AltarActionHandler;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C06ClearInventorySlot;
-import chylex.hee.packets.client.C16AltarRuneItemEffect;
-import chylex.hee.packets.client.C30Effect;
+import chylex.hee.packets.client.C00ClearInventorySlot;
+import chylex.hee.packets.client.C17AltarRuneItemEffect;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.logging.Log;
 import cpw.mods.fml.relauncher.Side;
@@ -193,7 +193,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 					player.inventory.mainInventory[player.inventory.currentItem] = is = invIs;
 					player.inventory.setInventorySlotContents(a,null);
 					
-					PacketPipeline.sendToPlayer(player,new C06ClearInventorySlot(a));
+					PacketPipeline.sendToPlayer(player,new C00ClearInventorySlot(a));
 					
 					found = true;
 					break;
@@ -227,7 +227,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 					runeItems[a] = availableItems.remove(worldObj.rand.nextInt(availableItems.size()));
 				}
 				
-				PacketPipeline.sendToAllAround(this,64D,new C30Effect(FXType.ESSENCE_ALTAR_SMOKE,this));
+				PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.ESSENCE_ALTAR_SMOKE,this));
 				
 				essenceType.getEssenceRegistration().tryUnlockFragment(player,1F);
 			}
@@ -239,7 +239,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 		}
 		else if (currentStage == STAGE_HASTYPE){
 			if (runeItems[runeItemIndex] != null && runeItems[runeItemIndex].selector.isValid(is)){
-				PacketPipeline.sendToAllAround(this,32D,new C16AltarRuneItemEffect(this,runeItems[runeItemIndex].indexInArray));
+				PacketPipeline.sendToAllAround(this,32D,new C17AltarRuneItemEffect(this,runeItems[runeItemIndex].indexInArray));
 				
 				essenceType.getAltarRegistration().tryUnlockFragment(player,0.14F);
 				

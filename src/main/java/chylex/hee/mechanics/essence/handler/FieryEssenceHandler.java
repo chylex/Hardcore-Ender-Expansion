@@ -13,7 +13,7 @@ import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C17ParticleAltarOrb;
+import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
 public class FieryEssenceHandler extends AltarActionHandler{
@@ -124,7 +124,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	}
 	
 	private void createOrbParticle(int targetX, int targetY, int targetZ){
-		PacketPipeline.sendToAllAround(altar,64D,new C17ParticleAltarOrb(altar,targetX+0.5D,targetY+0.5D,targetZ+0.5D));
+		PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,targetX+0.5D,targetY+0.5D,targetZ+0.5D));
 		
 		if (rand.nextInt(17) == 0){
 			for(EntityPlayer observer:ObservationUtil.getAllObservers(altar.getWorldObj(),altar.xCoord+0.5D,altar.yCoord+0.5D,altar.zCoord+0.5D,16D)){

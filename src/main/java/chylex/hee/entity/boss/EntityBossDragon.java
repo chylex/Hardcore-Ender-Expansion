@@ -55,7 +55,7 @@ import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C01ParticleEndPortalCreation;
-import chylex.hee.packets.client.C26SetPlayerVelocity;
+import chylex.hee.packets.client.C06SetPlayerVelocity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.commands.DebugBoard;
@@ -530,7 +530,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				event.collidedEntity.motionZ = event.velocityZ;
 				
 				if (entity instanceof EntityPlayer){
-					PacketPipeline.sendToPlayer((EntityPlayer)entity,new C26SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
+					PacketPipeline.sendToPlayer((EntityPlayer)entity,new C06SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
 					if (rand.nextInt(13) == 0){
 						for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,100D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.33F,new byte[]{ 0,2,5,6 });
 					}

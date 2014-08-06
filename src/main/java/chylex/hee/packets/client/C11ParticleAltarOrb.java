@@ -8,19 +8,19 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C17ParticleAltarOrb extends AbstractClientPacket{
+public class C11ParticleAltarOrb extends AbstractClientPacket{
 	private double startX,startY,startZ;
 	private double targetX,targetY,targetZ;
 	private byte essenceId,amount;
 	private float width,height;
 	
-	public C17ParticleAltarOrb(){}
+	public C11ParticleAltarOrb(){}
 	
-	public C17ParticleAltarOrb(TileEntityEssenceAltar altar, double targetX, double targetY, double targetZ){
+	public C11ParticleAltarOrb(TileEntityEssenceAltar altar, double targetX, double targetY, double targetZ){
 		this(altar,targetX,targetY,targetZ,(byte)1);
 	}
 	
-	public C17ParticleAltarOrb(TileEntityEssenceAltar altar, double targetX, double targetY, double targetZ, byte amount){
+	public C11ParticleAltarOrb(TileEntityEssenceAltar altar, double targetX, double targetY, double targetZ, byte amount){
 		this.startX = altar.xCoord+0.5D;
 		this.startY = altar.yCoord+0.5D;
 		this.startZ = altar.zCoord+0.5D;
@@ -31,7 +31,7 @@ public class C17ParticleAltarOrb extends AbstractClientPacket{
 		this.amount = amount;
 	}
 	
-	public C17ParticleAltarOrb(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, byte essenceId, byte amount){
+	public C11ParticleAltarOrb(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, byte essenceId, byte amount){
 		this.startX = startX;
 		this.startY = startX;
 		this.startZ = startX;
@@ -42,7 +42,7 @@ public class C17ParticleAltarOrb extends AbstractClientPacket{
 		this.amount = amount;
 	}
 	
-	public C17ParticleAltarOrb(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, byte essenceId, byte amount, float width, float height){
+	public C11ParticleAltarOrb(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, byte essenceId, byte amount, float width, float height){
 		this(startX,startY,startZ,targetX,targetY,targetZ,essenceId,amount);
 		this.width = width;
 		this.height = height;

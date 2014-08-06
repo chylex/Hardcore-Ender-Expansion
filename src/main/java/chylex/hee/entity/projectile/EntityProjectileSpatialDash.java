@@ -15,8 +15,8 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C11ParticleTransferenceGemTeleportFrom;
-import chylex.hee.packets.client.C30Effect;
+import chylex.hee.packets.client.C20Effect;
+import chylex.hee.packets.client.C21EffectEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -107,7 +107,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 			if (getThrower() != null && getThrower() instanceof EntityPlayerMP){
 				EntityPlayerMP player = (EntityPlayerMP)getThrower();
 				
-				PacketPipeline.sendToAllAround(player,64D,new C11ParticleTransferenceGemTeleportFrom(player));
+				PacketPipeline.sendToAllAround(player,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,player));
 
 				if (player.playerNetServerHandler.func_147362_b().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
 					if (player.isRiding())player.mountEntity((Entity)null);
@@ -161,7 +161,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					if (!found)player.setPositionAndUpdate(x+0.5D,y+0.01D,z+0.5D);
 					player.fallDistance = 0F;
 					
-					PacketPipeline.sendToAllAround(player,64D,new C30Effect(FXType.GEM_TELEPORT_TO,player));
+					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,player));
 				}
 			}
 

@@ -23,7 +23,7 @@ import chylex.hee.mechanics.knowledge.data.UnlockResult;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
-import chylex.hee.packets.client.C30Effect;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -122,7 +122,7 @@ public class BlockSpookyLog extends Block{
 
 		if (world.getBlock(x,y+1,z) == this){
 			dropBlockAsItemWithChance(world,x,y+1,z,world.getBlockMetadata(x,y+1,z),chance,fortune);
-			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C30Effect(FXType.SPOOKY_LOG_DECAY,x,y,z));
+			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,x,y,z));
 			world.setBlockToAir(x,y+1,z);
 		}
 	}

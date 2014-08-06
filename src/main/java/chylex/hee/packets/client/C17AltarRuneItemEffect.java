@@ -12,13 +12,13 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C16AltarRuneItemEffect extends AbstractClientPacket{
+public class C17AltarRuneItemEffect extends AbstractClientPacket{
 	private int x,y,z;
 	private byte essenceId,runeArrayIndex;
 	
-	public C16AltarRuneItemEffect(){}
+	public C17AltarRuneItemEffect(){}
 	
-	public C16AltarRuneItemEffect(TileEntityEssenceAltar altar, byte runeArrayIndex){
+	public C17AltarRuneItemEffect(TileEntityEssenceAltar altar, byte runeArrayIndex){
 		this.x = altar.xCoord;
 		this.y = altar.yCoord;
 		this.z = altar.zCoord;

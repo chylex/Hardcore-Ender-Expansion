@@ -5,12 +5,12 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C26SetPlayerVelocity extends AbstractClientPacket{
+public class C06SetPlayerVelocity extends AbstractClientPacket{
 	private double velX,velY,velZ;
 	
-	public C26SetPlayerVelocity(){}
+	public C06SetPlayerVelocity(){}
 	
-	public C26SetPlayerVelocity(double velocityX, double velocityY, double velocityZ){
+	public C06SetPlayerVelocity(double velocityX, double velocityY, double velocityZ){
 		this.velX = velocityX;
 		this.velY = velocityY;
 		this.velZ = velocityZ;

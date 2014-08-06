@@ -10,14 +10,14 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C18CustomWeather extends AbstractClientPacket{
+public class C05CustomWeather extends AbstractClientPacket{
 	private int entityId;
 	private double x,y,z;
 	private byte weatherType;
 	
-	public C18CustomWeather(){}
+	public C05CustomWeather(){}
 	
-	public C18CustomWeather(EntityWeatherEffect eff, byte weatherType){
+	public C05CustomWeather(EntityWeatherEffect eff, byte weatherType){
 		this.entityId = eff.getEntityId();
 		this.x = eff.posX;
 		this.y = eff.posY;

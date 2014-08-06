@@ -5,8 +5,8 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C23EnderDemonScreechEffect extends AbstractClientPacket{
-	public C23EnderDemonScreechEffect(){}
+public class C18EnderDemonScreechEffect extends AbstractClientPacket{
+	public C18EnderDemonScreechEffect(){}
 	
 	@Override
 	public void write(ByteBuf buffer){}

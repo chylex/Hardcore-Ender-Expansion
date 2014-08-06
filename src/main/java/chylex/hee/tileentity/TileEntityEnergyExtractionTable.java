@@ -13,7 +13,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C29ParticleEnergyTransfer;
+import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.util.ItemDamagePair;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -98,7 +98,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 							cluster.data.addEnergy(diff);
 							cluster.synchronize();
 							if ((energy -= diff) <= 0)leakIntoWorld = false;
-							PacketPipeline.sendToAllAround(this,64D,new C29ParticleEnergyTransfer(this,cluster));
+							PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,cluster));
 						}
 					}
 				}

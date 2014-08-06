@@ -16,7 +16,7 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C18CustomWeather;
+import chylex.hee.packets.client.C05CustomWeather;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -57,7 +57,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 							
 							EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(world,mob.posX,mob.posY,mob.posZ,null,false);
 							world.addWeatherEffect(bolt);
-							PacketPipeline.sendToAllAround(bolt,512D,new C18CustomWeather(bolt,(byte)0));
+							PacketPipeline.sendToAllAround(bolt,512D,new C05CustomWeather(bolt,(byte)0));
 							
 							EntityMobParalyzedEnderman paralyzed = new EntityMobParalyzedEnderman(world);
 							paralyzed.copyLocationAndAnglesFrom(mob);

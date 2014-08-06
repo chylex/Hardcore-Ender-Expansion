@@ -7,17 +7,17 @@ import chylex.hee.render.OverlayManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C28KnowledgeRegistrationNotification extends AbstractClientPacket{
+public class C19KnowledgeRegistrationNotification extends AbstractClientPacket{
 	private byte lengthOrStatus;
 	private String registration;
 	
-	public C28KnowledgeRegistrationNotification(){}
+	public C19KnowledgeRegistrationNotification(){}
 	
-	public C28KnowledgeRegistrationNotification(int status){
+	public C19KnowledgeRegistrationNotification(int status){
 		this.lengthOrStatus = (byte)status;
 	}
 	
-	public C28KnowledgeRegistrationNotification(String registration){
+	public C19KnowledgeRegistrationNotification(String registration){
 		this.lengthOrStatus = (byte)registration.length();
 		this.registration = registration;
 	}

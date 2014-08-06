@@ -6,8 +6,8 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C25GuiEnhancementsUpdateItems extends AbstractClientPacket{
-	public C25GuiEnhancementsUpdateItems(){}
+public class C09GuiEnhancementsUpdateItems extends AbstractClientPacket{
+	public C09GuiEnhancementsUpdateItems(){}
 	
 	@Override
 	public void write(ByteBuf buffer){}

@@ -20,8 +20,8 @@ import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.data.UnlockResult;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C11ParticleTransferenceGemTeleportFrom;
-import chylex.hee.packets.client.C30Effect;
+import chylex.hee.packets.client.C20Effect;
+import chylex.hee.packets.client.C21EffectEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -45,7 +45,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 		
 		if (!world.isRemote && side == 1 && player.isSneaking()){
 			GemData.updateItemStack(is,player.dimension,x,y,z);
-			PacketPipeline.sendToAllAround(player.dimension,x,y,z,64D,new C30Effect(FXType.GEM_LINK,x,y,z));
+			PacketPipeline.sendToAllAround(player.dimension,x,y,z,64D,new C20Effect(FXType.Basic.GEM_LINK,x,y,z));
 			return true;
 		}
 		
@@ -68,7 +68,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 			
 			boolean isLiving = entity instanceof EntityLivingBase;
 			
-			PacketPipeline.sendToAllAround(entity,64D,new C11ParticleTransferenceGemTeleportFrom(entity));
+			PacketPipeline.sendToAllAround(entity,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,entity));
 			
 			is.setItemDamage(itemDamage+1);
 			entity.fallDistance = 0F;
@@ -88,7 +88,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 				e.extinguish();
 			}
 
-			PacketPipeline.sendToAllAround(entity,64D,new C30Effect(FXType.GEM_TELEPORT_TO,entity));
+			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
 
 			if (!KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.15F).stopTrying &&
 				KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.1F,new byte[]{ 7 }) == UnlockResult.NOTHING_TO_UNLOCK){

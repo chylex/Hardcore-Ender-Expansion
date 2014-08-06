@@ -22,7 +22,7 @@ import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C30Effect;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.DragonUtil;
 import cpw.mods.fml.client.FMLClientHandler;
@@ -145,7 +145,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 						
 						if (!pearlTypes.contains(EnderPearlEnhancements.NO_FALL_DAMAGE))player.attackEntityFrom(DamageSource.fall,event.attackDamage);
 						
-						if (pearlTypes.contains(EnderPearlEnhancements.FREEZE))PacketPipeline.sendToAllAround(this,64D,new C30Effect(FXType.ENDER_PEARL_FREEZE,this));
+						if (pearlTypes.contains(EnderPearlEnhancements.FREEZE))PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.ENDER_PEARL_FREEZE,this));
 					}
 				}
 			}

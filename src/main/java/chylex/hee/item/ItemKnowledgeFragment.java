@@ -12,7 +12,7 @@ import chylex.hee.mechanics.knowledge.data.KnowledgeCategory;
 import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.mechanics.knowledge.util.FragmentWeightLists.FragmentWeightList;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C28KnowledgeRegistrationNotification;
+import chylex.hee.packets.client.C19KnowledgeRegistrationNotification;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -61,13 +61,13 @@ public class ItemKnowledgeFragment extends Item{
 				--is.stackSize;
 			}
 			else if (registration != null){
-				PacketPipeline.sendToPlayer(player,new C28KnowledgeRegistrationNotification(-3));
+				PacketPipeline.sendToPlayer(player,new C19KnowledgeRegistrationNotification(-3));
 			}
 			
 			return is;
 		}
 
-		PacketPipeline.sendToPlayer(player,new C28KnowledgeRegistrationNotification(-2));
+		PacketPipeline.sendToPlayer(player,new C19KnowledgeRegistrationNotification(-2));
 		return is;
 	}
 	
