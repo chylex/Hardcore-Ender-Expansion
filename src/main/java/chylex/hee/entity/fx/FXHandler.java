@@ -100,6 +100,12 @@ public final class FXHandler{
 				for(int a = 0; a < 10; a++)world.spawnParticle("magicCrit",x+randCenter(width),y+rand.nextDouble()*height*1.4D,z+randCenter(width),randCenter(0.2D),randCenter(0.2D),randCenter(0.2D));
 				break;
 				
+			case CHARM_LAST_RESORT:
+				for(int a = 0; a < 35; a++)world.spawnParticle("smoke",x+randCenter(width*1.25D),y+rand.nextDouble()*height,z+randCenter(width*1.25D),randCenter(0.1D),randCenter(0.1D),randCenter(0.1D));
+				for(int a = 0; a < 75; a++)HardcoreEnderExpansion.fx.portalBig(world,x+randCenter(width*1.25D),y+rand.nextDouble()*height,z+randCenter(width*1.25D),randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),0.72F+rand.nextFloat()*0.2F);
+				world.playSound(x,y+0.1D,z,"mob.endermen.portal",1.1F,1F+rand.nextFloat()*0.1F,false);
+				break;
+				
 			case GEM_TELEPORT_FROM:
 				for(int a = 0; a < 20; a++)world.spawnParticle("largesmoke",x+randCenter(width*1.2D),y+rand.nextDouble()*height*0.9D,z+randCenter(width*1.2D),0D,0.04D,0D);
 				world.playSound(x,y+1D,z,"mob.endermen.portal",1.2F,rand.nextFloat()*0.05F+0.85F,false);
@@ -117,9 +123,41 @@ public final class FXHandler{
 		double len = lineVec.lengthVector();
 		lineVec = lineVec.normalize();
 		
+		double addX, addY, addZ;
+		
 		switch(fx){
+			case CHARM_SLAUGHTER_IMPACT:
+			case CHARM_DAMAGE_REDIRECTION:
+				addX = lineVec.xCoord*0.5D;
+				addY = lineVec.yCoord*0.5D;
+				addZ = lineVec.zCoord*0.5D;
+				
+				float red = 0F, green = 0F, blue = 0F;
+				
+				if (fx == FXType.Line.CHARM_SLAUGHTER_IMPACT){
+					red = 1F;
+					green = 0.25F;
+					blue = 0.4F;
+				}
+				else if (fx == FXType.Line.CHARM_DAMAGE_REDIRECTION){
+					red = 0.3F;
+					green = 0.5F;
+					blue = 1F;
+				}
+
+				for(int a = 0; a < len*2D; a++){
+					for(int b = 0; b < 3; b++)HardcoreEnderExpansion.fx.magicCrit(world,x1+randCenter(0.4D),y1+0.2D+randCenter(0.4D),z1+randCenter(0.4D),randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),red,green,blue);
+					
+					x1 += addX;
+					y1 += addY;
+					z1 += addZ;
+				}
+				break;
+			
 			case DRAGON_EGG_TELEPORT:
-				double addX = lineVec.xCoord*0.25D, addY = lineVec.yCoord*0.25D, addZ = lineVec.zCoord*0.25D;
+				addX = lineVec.xCoord*0.25D;
+				addY = lineVec.yCoord*0.25D;
+				addZ = lineVec.zCoord*0.25D;
 				
 				for(int a = 0; a < 35; a++)world.spawnParticle("smoke",x1+randCenter(0.8D),y1+randCenter(0.8D),z1+randCenter(0.8D),randCenter(0.01D),randCenter(0.01D),randCenter(0.01D));
 				

@@ -20,8 +20,6 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C16ParticleMirageHurt;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -132,8 +130,6 @@ public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwn
 			source == DamageSource.inWall)return false;
 		
 		if (super.attackEntityFrom(source,MathUtil.floatEquals(amount,-1F) ? 1F : 2F)){
-			PacketPipeline.sendToAllAround(this,64D,new C16ParticleMirageHurt(this));
-
 			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.CORPOREAL_MIRAGE_ORB.tryUnlockFragment(observer,0.15F);
 			return true;
 		}
@@ -166,6 +162,7 @@ public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwn
 			hurtTime = maxHurtTime = 10;
 			attackedAtYaw = 0F;
 			playSound(getHurtSound(),getSoundVolume(),(rand.nextFloat()-rand.nextFloat())*0.2F+1F);
+			for(int a = 0; a < 10; a++)HardcoreEnderExpansion.fx.mirageHurt(this);
 			attackEntityFrom(DamageSource.generic,0F);
 		}
 		else if (type == 3){

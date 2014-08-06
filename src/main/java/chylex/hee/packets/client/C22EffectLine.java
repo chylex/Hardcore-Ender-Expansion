@@ -25,7 +25,7 @@ public class C22EffectLine extends AbstractClientPacket{
 	}
 	
 	public C22EffectLine(FXType.Line type, Entity entity1, Entity entity2){
-		this(type,entity1.posX,entity1.posY,entity1.posZ,entity2.posX,entity2.posY,entity2.posZ);
+		this(type,entity1.posX,entity1.posY+entity2.height*0.5F,entity1.posZ,entity2.posX,entity2.posY+entity2.height*0.5F,entity2.posZ);
 	}
 	
 	@Override

@@ -99,9 +99,9 @@ public class FXClientProxy extends FXCommonProxy{
 	}
 	
 	@Override
-	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float redMp, float greenMp, float blueMp){
+	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){
 		EntityCritFX fx = new EntityCritFX(world,x,y,z,motionX,motionY,motionZ);
-        fx.setRBGColorF(fx.getRedColorF()*redMp,fx.getGreenColorF()*greenMp,fx.getBlueColorF()*blueMp);
+        fx.setRBGColorF(red,green,blue);
         fx.nextTextureIndexX();
         spawn(fx);
 	}

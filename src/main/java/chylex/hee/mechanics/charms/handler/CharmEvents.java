@@ -39,8 +39,10 @@ import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.CharmRecipe;
 import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C06SetPlayerVelocity;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -151,6 +153,7 @@ public final class CharmEvents{
 			}
 			
 			if (playerLastResortCooldown.containsKey(playerID)){
+				System.out.println(playerLastResortCooldown.get(playerID));
 				if (playerLastResortCooldown.adjustOrPutValue(playerID,(byte)-1,(byte)-100) <= -100)playerLastResortCooldown.remove(playerID);
 			}
 		}
@@ -201,7 +204,7 @@ public final class CharmEvents{
 					
 					if (val > 0F){
 						e.ammount += val;
-						PacketPipeline.sendToAllAround(e.entity,64,new C21EffectEntity(FXType.Entity.CHARM_CRITICAL,e.entity));System.out.println("crit");
+						PacketPipeline.sendToAllAround(e.entity,64,new C21EffectEntity(FXType.Entity.CHARM_CRITICAL,e.entity));
 					}
 				}
 				
@@ -293,7 +296,7 @@ public final class CharmEvents{
 				
 				if (redirMobs.length > 0){
 					float[] redirAmt = getProp(targetPlayer,"rediramt");
-					List<EntityLivingBase> nearbyEntities = e.entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class,targetPlayer.boundingBox.expand(5D,2D,5D));
+					List<EntityLivingBase> nearbyEntities = e.entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class,targetPlayer.boundingBox.expand(6D,3D,6D));
 					Iterator<EntityLivingBase> iter = nearbyEntities.iterator();
 					
 					for(int a = 0; a < redirMobs.length; a++){
@@ -303,6 +306,7 @@ public final class CharmEvents{
 								if (entity == targetPlayer || entity == e.source.getSourceOfDamage())continue;
 								
 								entity.attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),redirAmt[a]*e.ammount);
+								PacketPipeline.sendToAllAround(targetPlayer,64D,new C22EffectLine(FXType.Line.CHARM_DAMAGE_REDIRECTION,entity,targetPlayer));
 								e.ammount -= redirAmt[a];
 								break;
 							}
@@ -346,24 +350,29 @@ public final class CharmEvents{
 				float[] lastResortDist = getProp(targetPlayer,"lastresortblocks");
 				int randIndex = targetPlayer.worldObj.rand.nextInt(lastResortCooldown.length);
 				
-				for(int attempt = 0, xx, yy, zz; attempt < 64; attempt++){
+				for(int attempt = 0, xx, yy, zz; attempt < 128; attempt++){
 					float ang = targetPlayer.worldObj.rand.nextFloat()*2F*(float)Math.PI;
 					
 					xx = (int)Math.floor(targetPlayer.posX+MathHelper.cos(ang)*lastResortDist[randIndex]);
 					zz = (int)Math.floor(targetPlayer.posZ+MathHelper.sin(ang)*lastResortDist[randIndex]);
 					yy = (int)Math.floor(targetPlayer.posY)-2;
 					
-					for(int yAttempt = 0; yAttempt <= 5; yAttempt++){
+					for(int yAttempt = 0; yAttempt <= 6; yAttempt++){
 						if (!targetPlayer.worldObj.isAirBlock(xx,yy-1,zz) && targetPlayer.worldObj.isAirBlock(xx,yy,zz) && targetPlayer.worldObj.isAirBlock(xx,yy+1,zz)){
+							PacketPipeline.sendToAllAround(targetPlayer,64D,new C21EffectEntity(FXType.Entity.CHARM_LAST_RESORT,targetPlayer));
 							targetPlayer.setPositionAndUpdate(xx+0.5D,yy+0.01D,zz+0.5D);
-							attempt = 65;
+							attempt = 129;
 							break;
 						}
 					}
 				}
 				
 				targetPlayer.setHealth(targetPlayer.prevHealth);
+				targetPlayer.motionX = targetPlayer.motionY = targetPlayer.motionZ = 0D;
 				playerLastResortCooldown.put(targetPlayer.getGameProfile().getId(),(byte)(-100+lastResortCooldown[randIndex]*20));
+				
+				PacketPipeline.sendToPlayer(targetPlayer,new C06SetPlayerVelocity(0D,0D,0D));
+				PacketPipeline.sendToAllAround(targetPlayer,64D,new C21EffectEntity(FXType.Entity.CHARM_LAST_RESORT,targetPlayer));
 				e.setCanceled(true);
 				return;
 			}
@@ -384,7 +393,10 @@ public final class CharmEvents{
 					
 					for(EntityLivingBase entity:entities){
 						if (entity == sourcePlayer || entity == e.entity)continue;
-						if (entity.getDistanceToEntity(e.entity) <= impactRad[a])entity.attackEntityFrom(DamageSource.causePlayerDamage(sourcePlayer),impactAmt[a]*lastDamage);
+						if (entity.getDistanceToEntity(e.entity) <= impactRad[a]){
+							entity.attackEntityFrom(DamageSource.generic,impactAmt[a]*lastDamage);
+							PacketPipeline.sendToAllAround(e.entity,64D,new C22EffectLine(FXType.Line.CHARM_SLAUGHTER_IMPACT,entity,e.entity));
+						}
 					}
 				}
 			}
