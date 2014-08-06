@@ -1,6 +1,7 @@
 package chylex.hee.entity.fx;
 import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
@@ -107,6 +108,30 @@ public final class FXHandler{
 			case ORB_TRANSFORMATION:
 				for(int a = 0; a < 18; a++)world.spawnParticle("largesmoke",x+randCenter(width),y+0.1D+rand.nextDouble()*height,z+randCenter(width),0D,0D,0D);
 				world.playSound(x,y,z,"hardcoreenderexpansion:block.random.transform",1.4F,1F+rand.nextFloat()*0.2F,false);
+				break;
+		}
+	}
+	
+	public static void handleLine(World world, EntityClientPlayerMP player, FXType.Line fx, double x1, double y1, double z1, double x2, double y2, double z2){
+		Vec3 lineVec = Vec3.createVectorHelper(x2-x1,y2-y1,z2-z1);
+		double len = lineVec.lengthVector();
+		lineVec = lineVec.normalize();
+		
+		switch(fx){
+			case DRAGON_EGG_TELEPORT:
+				double addX = lineVec.xCoord*0.25D, addY = lineVec.yCoord*0.25D, addZ = lineVec.zCoord*0.25D;
+				
+				for(int a = 0; a < 35; a++)world.spawnParticle("smoke",x1+randCenter(0.8D),y1+randCenter(0.8D),z1+randCenter(0.8D),randCenter(0.01D),randCenter(0.01D),randCenter(0.01D));
+				
+				for(int a = 0; a < len*4D; a++){
+					for(int b = 0; b < 4; b++)HardcoreEnderExpansion.fx.portalBig(world,x1,y1,z1,randCenter(0.01D),randCenter(0.01D),randCenter(0.01D),0.15F);
+					
+					x1 += addX;
+					y1 += addY;
+					z1 += addZ;
+				}
+				
+				world.playSound(x1,y1,z1,"mob.endermen.portal",1.2F,1F,false);
 				break;
 		}
 	}

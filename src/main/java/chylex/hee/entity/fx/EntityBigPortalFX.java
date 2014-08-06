@@ -13,6 +13,10 @@ public class EntityBigPortalFX extends EntityFX{
 	public EntityBigPortalFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ){
 		super(world,x,y,z,motionX,motionY,motionZ);
 		
+		this.motionX = motionX;
+		this.motionY = motionY;
+		this.motionZ = motionZ;
+		
 		particleRed = particleGreen = particleBlue = 1F*rand.nextFloat()*0.6F+0.4F;
 		particleGreen *= 0.3F;
 		particleRed *= 0.9F;

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityAuraFX;
 import net.minecraft.client.particle.EntityBreakingFX;
+import net.minecraft.client.particle.EntityCritFX;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityFlameFX;
@@ -88,8 +89,21 @@ public class FXClientProxy extends FXCommonProxy{
 	}
 	
 	@Override
+	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp){
+		spawn(new EntityBigPortalFX(world,x,y,z,motionX,motionY,motionZ,scaleMp));
+	}
+	
+	@Override
 	public void portalOrbiting(World world, double x, double y, double z, double motionY){
 		spawn(new EntityOrbitingPortalFX(world,x,y,z,motionY));
+	}
+	
+	@Override
+	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float redMp, float greenMp, float blueMp){
+		EntityCritFX fx = new EntityCritFX(world,x,y,z,motionX,motionY,motionZ);
+        fx.setRBGColorF(fx.getRedColorF()*redMp,fx.getGreenColorF()*greenMp,fx.getBlueColorF()*blueMp);
+        fx.nextTextureIndexX();
+        spawn(fx);
 	}
 	
 	/*
@@ -99,7 +113,7 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void corruptedEnergy(World world, int x, int y, int z){
 		Random rand = world.rand;
-		double motX = (rand.nextDouble()-rand.nextDouble())*0.05D, motY = (rand.nextDouble()-rand.nextDouble())*0.05D, motZ = (rand.nextDouble()-rand.nextDouble())*0.05D;
+		double motX = (rand.nextDouble()-rand.nextDouble())*0.2D, motY = (rand.nextDouble()-rand.nextDouble())*0.2D, motZ = (rand.nextDouble()-rand.nextDouble())*0.2D;
 		spawn(new EntityBigPortalFX(world,x+0.5D,y+0.5D,z+0.5D,motX,motY,motZ,rand.nextBoolean() ? 1F : 1.5F+rand.nextFloat()));
 	}
 	
@@ -192,11 +206,7 @@ public class FXClientProxy extends FXCommonProxy{
 	public void spatialDash(EntityProjectileSpatialDash spatialDash){
 		Random rand = spatialDash.worldObj.rand;
 		
-		spawn(new EntityBigPortalFX(spatialDash.worldObj,spatialDash.posX+(rand.nextDouble()-rand.nextDouble())*0.3D,spatialDash.posY+(rand.nextDouble()-rand.nextDouble())*0.3D,spatialDash.posZ+(rand.nextDouble()-rand.nextDouble())*0.3D,0D,0D,0D,0.1F){{
-			motionX *= 0.02D;
-			motionY *= 0.02D;
-			motionZ *= 0.02D;
-		}});
+		spawn(new EntityBigPortalFX(spatialDash.worldObj,spatialDash.posX+(rand.nextDouble()-rand.nextDouble())*0.3D,spatialDash.posY+(rand.nextDouble()-rand.nextDouble())*0.3D,spatialDash.posZ+(rand.nextDouble()-rand.nextDouble())*0.3D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,0.1F));
 		
 		for(int a = 0; a < 3; a++){
 			double motX = (rand.nextDouble()-rand.nextDouble())*0.0002D, motY = (rand.nextDouble()-rand.nextDouble())*0.0002D, motZ = (rand.nextDouble()-rand.nextDouble())*0.0002D;
@@ -207,7 +217,7 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void spatialDashExplode(EntityProjectileSpatialDash spatialDash){
 		Random rand = spatialDash.worldObj.rand;
-		spawn(new EntityBigPortalFX(spatialDash.worldObj,spatialDash.posX+(rand.nextDouble()-rand.nextDouble())*0.1D,spatialDash.posY+(rand.nextDouble()-rand.nextDouble())*0.1D,spatialDash.posZ+(rand.nextDouble()-rand.nextDouble())*0.1D,0D,-rand.nextDouble(),0D,1F));
+		spawn(new EntityBigPortalFX(spatialDash.worldObj,spatialDash.posX+(rand.nextDouble()-rand.nextDouble())*0.1D,spatialDash.posY+(rand.nextDouble()-rand.nextDouble())*0.1D,spatialDash.posZ+(rand.nextDouble()-rand.nextDouble())*0.1D,(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.3D,1F));
 	}
 	
 	@Override

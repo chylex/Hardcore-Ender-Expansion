@@ -116,7 +116,7 @@ public final class DragonUtil{
 	
 	public static double[] getNormalizedVector(double vecX, double vecZ){
 		double len = Math.sqrt(vecX*vecX+vecZ*vecZ);
-		return len == 0?new double[]{0,0}:new double[]{vecX/len,vecZ/len};
+		return len == 0 ? new double[]{ 0, 0 } : new double[]{ vecX/len, vecZ/len };
 	}
 
 	public static int getTopBlock(World worldObj, Block block, int x, int z, int starty){

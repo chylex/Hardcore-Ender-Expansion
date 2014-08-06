@@ -27,4 +27,12 @@ public final class FXType{
 		
 		public static FXType.Entity[] values = values();
 	}
+	
+	public enum Line{
+		DRAGON_EGG_TELEPORT,
+		CHARM_SLAUGHTER_IMPACT,
+		CHARM_DAMAGE_REDIRECTION;
+		
+		public static FXType.Line[] values = values();
+	}
 }

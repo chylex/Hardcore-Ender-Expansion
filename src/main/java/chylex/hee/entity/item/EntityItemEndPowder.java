@@ -40,7 +40,7 @@ public class EntityItemEndPowder extends EntityItem{
 			}
 			
 			if (emerald != null && string != null && ++progress > 8){
-				for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.portalBig(worldObj,posX,posY+0.5D,posZ,0D,0.2D+rand.nextDouble()*0.2D,0D);
+				for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.portalBig(worldObj,posX,posY+0.5D,posZ,(rand.nextDouble()-0.5D)*0.2D,0.15D+rand.nextDouble()*0.15D,(rand.nextDouble()-0.5D)*0.2D);
 				emerald.setDead();
 				string.setDead();
 				setDead();
