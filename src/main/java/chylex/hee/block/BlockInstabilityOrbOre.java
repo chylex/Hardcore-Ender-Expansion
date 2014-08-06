@@ -1,5 +1,6 @@
 package chylex.hee.block;
 import java.util.ArrayList;
+import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -10,6 +11,16 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 
 public class BlockInstabilityOrbOre extends BlockAbstractOre{
+	@Override
+	public int quantityDropped(Random rand){
+		return 0;
+	}
+	
+	@Override
+	public int quantityDroppedWithBonus(int fortune, Random rand){
+		return 0;
+	}
+	
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune){
 		ArrayList<ItemStack> ret = new ArrayList<>();

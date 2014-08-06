@@ -15,11 +15,13 @@ import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import com.google.common.collect.ImmutableSet;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemScorchingPickaxe extends Item{
-	private static final Pattern blockRegex = Pattern.compile("(?:^ore[A-Z].+$)|(?:.+_ore$)|(?:.+Ore$)");
+	private static final Pattern blockRegex = Pattern.compile("(?:^ore[A-Z].+$)|(?:^ore_.+$)|(?:.+_ore$)|(?:.+Ore$)");
 	private static final Map<Block,Boolean> cachedBlocks = new IdentityHashMap<>();
 	private static final Random cacheRand = new Random(0);
 	
@@ -31,12 +33,22 @@ public class ItemScorchingPickaxe extends Item{
 			return true;
 		}
 		
-		if (blockRegex.matcher(block.getUnlocalizedName().startsWith("tile.") ? block.getUnlocalizedName().substring(5) : "").find()){
+		UniqueIdentifier name = GameRegistry.findUniqueIdentifierFor(block);
+		if (name == null){
+			cachedBlocks.put(block,false);
+			return false;
+		}
+		
+		if (blockRegex.matcher(name.name).find()){
 			Item drop = block.getItemDropped(0,cacheRand,0);
 			
 			if (drop != null && !(drop instanceof ItemBlock)){
-				cachedBlocks.put(block,true);
-				return true;
+				int testAmt = 0;
+				for(int a = 0; a < 50; a++)testAmt += block.quantityDroppedWithBonus(10,cacheRand);
+				boolean isValid = testAmt > 50;
+				
+				cachedBlocks.put(block,isValid);
+				return isValid;
 			}
 		}
 		
@@ -90,7 +102,7 @@ public class ItemScorchingPickaxe extends Item{
 		ItemStack heldItem = e.harvester.getHeldItem();
 		if (heldItem == null || heldItem.getItem() != this)return;
 		
-		if (isBlockValid(e.block)){
+		if (isBlockValid(e.block) && !e.drops.isEmpty()){
 			e.dropChance = 1F;
 			
 			ItemStack drop = e.drops.get(0);

@@ -28,7 +28,8 @@ public abstract class BlockAbstractOre extends BlockOre{
 		else{
 			int fortune = EnchantmentHelper.getFortuneModifier(player);
 			ArrayList<ItemStack> items = getDrops(world,x,y,z,meta,fortune);
-			
+			ForgeEventFactory.fireBlockHarvesting(items,world,this,x,y,z,meta,fortune,1F,false,player);
+
 			onOreMined(player,items,x,y,z,meta,fortune);
 			for(ItemStack item:items)dropBlockAsItem(world,x,y,z,item);
 		}
