@@ -1,7 +1,7 @@
 package chylex.hee.system.logging;
 import java.util.HashMap;
 import java.util.Map;
-import scala.actors.threadpool.TimeUnit;
+import java.util.concurrent.TimeUnit;
 
 public final class Stopwatch{
 	private static final Map<String,StopwatchHandler> runningStopwatches = new HashMap<>();

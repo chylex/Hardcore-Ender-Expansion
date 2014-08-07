@@ -111,7 +111,7 @@ public final class TempleEvents{
 				return;
 			}
 			
-			DimensionManager.unloadWorld(1);
+			if (DimensionManager.getWorld(1) != null)DimensionManager.unloadWorld(1);
 			
 			if (FileUtils.deleteQuietly(dim1)){
 				ServerSavefile save = BiomeDecoratorHardcoreEnd.getCache(endWorld);

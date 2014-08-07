@@ -78,7 +78,12 @@ public class FXClientProxy extends FXCommonProxy{
 	
 	@Override
 	public void flame(World world, double x, double y, double z, final int maxAge){
-		spawn(new EntityFlameFX(world,x,y,z,0D,0D,0D){{
+		flame(world,x,y,z,0D,0D,0D,maxAge);
+	}
+	
+	@Override
+	public void flame(World world, double x, double y, double z, double motionX, double motionY, double motionZ, final int maxAge){
+		spawn(new EntityFlameFX(world,x,y,z,motionX,motionY,motionZ){{
 			particleMaxAge = maxAge;
 		}});
 	}

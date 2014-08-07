@@ -70,6 +70,7 @@ import chylex.hee.system.commands.HeeAdminCommand;
 import chylex.hee.system.commands.HeeDebugCommand;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.integration.ModIntegrationManager;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
@@ -112,6 +113,8 @@ public class HardcoreEnderExpansion{
 	
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent e){
+		Stopwatch.time("PreInitEvent");
+		
 		ReflectionPublicizer.load();
 		modVersion = e.getModMetadata().version;
 		configPath = e.getSuggestedConfigurationFile().getParentFile().getName();
@@ -305,10 +308,14 @@ public class HardcoreEnderExpansion{
 		
 		proxy.registerSidedEvents();
 		proxy.registerRenderers();
+		
+		Stopwatch.finish("PreInitEvent");
 	}
 	
 	@EventHandler
 	public void onInit(FMLInitializationEvent e){
+		Stopwatch.time("InitEvent");
+		
 		PacketPipeline.initializePipeline();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,GuiHandler.instance);
 		RecipeList.addRecipes();
@@ -317,12 +324,16 @@ public class HardcoreEnderExpansion{
 		OrbAcquirableItems.initialize();
 		OrbSpawnableMobs.initialize();
 		KnowledgeRegistrations.initialize();
+		
+		Stopwatch.finish("InitEvent");
 	}
 	
 	@EventHandler
 	public void onPostInit(FMLPostInitializationEvent e){
+		Stopwatch.time("PostInitEvent");
 		ModIntegrationManager.integrateMods();
 		DimensionOverride.postInit();
+		Stopwatch.finish("PostInitEvent");
 	}
 
 	@EventHandler

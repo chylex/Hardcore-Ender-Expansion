@@ -15,6 +15,7 @@ public class FXCommonProxy{
 	public void itemTarget(ItemStack is, World world, double startX, double startY, double startZ, double targetX, double targetY, double targetZ, float speedMultiplier){}
 	public void bubble(World world, double x, double y, double z, double motionX, double motionY, double motionZ){}
 	public void flame(World world, double x, double y, double z, int maxAge){}
+	public void flame(World world, double x, double y, double z, double motionX, double motionY, double motionZ, int maxAge){}
 	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ){}
 	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp){}
 	public void portalOrbiting(World world, double x, double y, double z, double motionY){}
