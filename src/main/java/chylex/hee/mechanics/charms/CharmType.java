@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.charms;
 import static chylex.hee.mechanics.charms.RuneType.*;
 import java.text.DecimalFormat;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -207,7 +208,7 @@ public enum CharmType{
 						tooltip = tooltip.replace("$"+arg,replacement);
 					}
 					
-					if (!type.canBeStacked())tooltip += "\\n\u00a78"+StatCollector.translateToLocal("item.charm.cannotstack");
+					if (!type.canBeStacked())tooltip += "\\n"+EnumChatFormatting.DARK_GRAY+StatCollector.translateToLocal("item.charm.cannotstack");
 					
 					return tooltip;
 				}

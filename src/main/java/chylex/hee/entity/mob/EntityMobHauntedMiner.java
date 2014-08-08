@@ -37,7 +37,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+		dataWatcher.addObject(16,Byte.valueOf(ATTACK_NONE));
 	}
 	
 	@Override
@@ -136,6 +136,11 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		if (worldObj.isRemote){
 			for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.2D,posY,posZ+(rand.nextDouble()-0.5D)*0.2D,0D,-0.05D,0D,8);
 			
+			byte attack = dataWatcher.getWatchableObjectByte(16);
+			
+			if (attack != ATTACK_NONE){
+				
+			}
 			// TODO eff worldObj.spawnParticle("mobSpell", this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height - (double)this.yOffset, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.9D, 0.6D, 0D);
 		}
 		else{

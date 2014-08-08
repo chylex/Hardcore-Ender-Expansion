@@ -55,8 +55,6 @@ public class OverlayManager{
 		Minecraft mc = Minecraft.getMinecraft();
 		if (mc.thePlayer == null)return;
 		
-		mc.thePlayer.capabilities.setFlySpeed(0.3F); // TODO remove
-		
 		if (mc.thePlayer.dimension == 1){
 			ItemStack is = mc.thePlayer.inventory.getCurrentItem();
 			
@@ -113,8 +111,8 @@ public class OverlayManager{
 	public void onPreRenderGameOverlay(RenderGameOverlayEvent.Pre e){
 		Minecraft mc = Minecraft.getMinecraft();
 		if (mc.thePlayer == null)return;
-		
-		if (e.type == ElementType.HELMET && mc.thePlayer.isInsideOfMaterial(BlockEnderGoo.enderGoo)){ // TODO fix?
+        
+		if (e.type == ElementType.HELMET && mc.thePlayer.isInsideOfMaterial(BlockEnderGoo.enderGoo)){
 			int w = e.resolution.getScaledWidth(), h = e.resolution.getScaledHeight();
 
 			GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -145,12 +143,6 @@ public class OverlayManager{
 		if (mc.thePlayer == null)return;
 		
 		if (e.type == ElementType.HOTBAR){
-			/*if (minion != null){
-				int col = (255<<24)|(255<<16)|(255<<8)|255;
-				mc.fontRenderer.drawString("Minion test",1,1,col);
-				minion.getMinionData().render();
-			}*/
-			
 			if (!notifications.isEmpty()){
 				FontRenderer font = mc.fontRenderer;
 				

@@ -132,11 +132,6 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	}
 	
 	@Override
-	public float getFilledPercentage(World world, int x, int y, int z){
-		return 1F-super.getFilledPercentage(world,x,y,z);
-	}
-	
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);

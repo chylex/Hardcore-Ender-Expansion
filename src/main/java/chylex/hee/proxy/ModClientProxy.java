@@ -175,5 +175,6 @@ public class ModClientProxy extends ModCommonProxy{
 	@Override
 	public void openGui(String type){
 		if (type.equals("itemviewer"))Minecraft.getMinecraft().displayGuiScreen(new GuiItemViewer());
+		else if (type.equals("speedup"))Minecraft.getMinecraft().thePlayer.capabilities.setFlySpeed(0.3F);
 	}
 }

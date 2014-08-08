@@ -81,7 +81,7 @@ public final class DragonUtil{
 		boolean[] isBlockedArr = new boolean[8];
 
 		for(int a = 0; a < 4; a++){
-			for(int b = 0; b < 2; b++){ // TODO check ray tracing with liquids
+			for(int b = 0; b < 2; b++){
 				MovingObjectPosition mop = entity.worldObj.rayTraceBlocks(Vec3.createVectorHelper(px,py+0.12F,pz),Vec3.createVectorHelper(x+rayX[a]*pointScale,y+(b == 0?-1D:1D)*pointScale,z+rayZ[a]*pointScale));
 				
 				if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){

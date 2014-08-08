@@ -39,7 +39,7 @@ public class HeeDebugCommand extends HeeCommand{
 		if (args.length == 0){
 			sendMessage(sender,
 				EnumChatFormatting.GREEN+"Available commands: "+EnumChatFormatting.RESET+
-				"setangry, settarget <username>, animspeed <speed>, attackeff, attack <id>, endattack, freeze, kill, startdebug, stopdebug, viewitems");
+				"setangry, settarget <username>, animspeed <speed>, attackeff, attack <id>, endattack, freeze, kill, startdebug, stopdebug, viewitems, speedup");
 			return;
 		}
 		else if (args[0].equalsIgnoreCase("setangry") && dragon != null){
@@ -104,6 +104,9 @@ public class HeeDebugCommand extends HeeCommand{
 		}
 		else if (args[0].equalsIgnoreCase("viewitems")){
 			HardcoreEnderExpansion.proxy.openGui("itemviewer");
+		}
+		else if (args[0].equalsIgnoreCase("speedup")){
+			HardcoreEnderExpansion.proxy.openGui("speedup");
 		}
 		else{
 			sendMessage(sender,"Unknown command.");
