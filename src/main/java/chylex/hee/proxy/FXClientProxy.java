@@ -8,6 +8,7 @@ import net.minecraft.client.particle.EntityCritFX;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityFlameFX;
+import net.minecraft.client.particle.EntitySpellParticleFX;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -108,6 +109,13 @@ public class FXClientProxy extends FXCommonProxy{
 		EntityCritFX fx = new EntityCritFX(world,x,y,z,motionX,motionY,motionZ);
         fx.setRBGColorF(red,green,blue);
         fx.nextTextureIndexX();
+        spawn(fx);
+	}
+	
+	@Override
+	public void spell(World world, double x, double y, double z, float red, float green, float blue){
+		EntitySpellParticleFX fx = new EntitySpellParticleFX(world,x,y,z,0D,0D,0D);
+        fx.setRBGColorF(red,green,blue);
         spawn(fx);
 	}
 	

@@ -1,11 +1,12 @@
 package chylex.hee.entity.mob;
 import java.util.List;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
@@ -33,6 +34,9 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	private boolean targetAngleDir;
 	private byte wanderResetTimer = -120, nextAttackTimer = ATTACK_TIMER, currentAttack = ATTACK_NONE, currentAttackTime;
 	
+	private int attackLavaCurrentX, attackLavaCurrentY, attackLavaCurrentZ;
+	private byte attackLavaCounter, attackLavaDone;
+	
 	public EntityMobHauntedMiner(World world){
 		super(world);
 		setSize(2.2F,1.7F);
@@ -55,7 +59,9 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	@Override
 	protected void updateEntityActionState(){
 		if (!worldObj.isRemote && worldObj.difficultySetting == EnumDifficulty.PEACEFUL)setDead();
+		
 		despawnEntity();
+		if (isDead)return;
 		
 		if (target == null){
 			if (--wanderResetTimer < -120 || rand.nextInt(300) == 0){
@@ -85,12 +91,20 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 				wanderResetTimer += rand.nextInt(30)+20;
 			}
 			
-			List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(32D,16D,32D));
-			
-			if (!entities.isEmpty()){
-				Entity temp = entities.get(rand.nextInt(entities.size()));
-				if (temp instanceof EntityPig)target = (EntityLivingBase)temp;
-			} // TODO
+			if (rand.nextInt(50) == 0){
+				List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(32D,16D,32D));
+				
+				if (!entities.isEmpty()){
+					Entity temp = entities.get(rand.nextInt(entities.size()));
+					
+					if (temp instanceof EntityPlayer){
+						// TODO
+					}
+					else if (temp instanceof EntityLivingBase && !(temp instanceof EntityEnderman)){
+						target = (EntityLivingBase)temp;
+					}
+				}
+			}
 		}
 		else{			
 			targetX = target.posX;
@@ -117,11 +131,72 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 							break;
 							
 						case ATTACK_LAVA:
+							if (currentAttackTime % 8 == 0){
+								currentAttackTime -= 8;
+								
+								if (attackLavaCounter == 0){
+									attackLavaCounter = 1;
+									
+									for(int attempt = 0, xx, yy, zz; attempt < 64; attempt++){
+										xx = (int)Math.floor(target.posX)+rand.nextInt(5)-rand.nextInt(5);
+										zz = (int)Math.floor(target.posZ)+rand.nextInt(5)-rand.nextInt(5);
+										yy = (int)Math.floor(target.posY)+4;
+										
+										for(int yAttempt = 0; yAttempt < 7; yAttempt++){
+											if (worldObj.isAirBlock(xx,yy,zz) && worldObj.getBlock(xx,yy-1,zz).isOpaqueCube()){
+												attackLavaCurrentX = xx;
+												attackLavaCurrentY = yy-2;
+												attackLavaCurrentZ = zz;
+												attempt = 65;
+												break;
+											}
+											else --yy;
+										}
+									}
+								}
+								else{
+									int xx, yy, zz;
+									
+									for(int px = -1; px <= 1; px++){
+										for(int pz = -1; pz <= 1; pz++){
+											if (px == 0 && pz == 0)continue;
+											xx = attackLavaCurrentX+px;
+											yy = attackLavaCurrentY-1+attackLavaCounter;
+											zz = attackLavaCurrentZ+pz;
+											
+											Block block = worldObj.getBlock(xx,yy,zz);
+											
+											if (block == Blocks.flowing_lava || block == Blocks.lava)continue;
+											else if (!MathUtil.floatEquals(block.getBlockHardness(worldObj,xx,yy,zz),-1F)){
+												worldObj.setBlock(xx,yy,zz,Blocks.air);
+												worldObj.playAuxSFX(2001,xx,yy,zz,Block.getIdFromBlock(block));
+											}
+										}
+									}
+
+									xx = attackLavaCurrentX;
+									yy = attackLavaCurrentY-1+attackLavaCounter;
+									zz = attackLavaCurrentZ;
+									
+									worldObj.setBlock(xx,yy,zz,Blocks.flowing_lava,0,3);
+									for(int a = 0; a < 5; a++)Blocks.flowing_lava.updateTick(worldObj,xx,yy,zz,rand);
+									
+									if (++attackLavaCounter == 6){
+										if (++attackLavaDone >= 4){
+											attackLavaDone = 0;
+											hasFinished = true;
+										}
+										
+										attackLavaCounter = 0;
+										attackLavaCurrentX = attackLavaCurrentY = attackLavaCurrentZ = 0;
+									}
+								}
+							}
 							
 							break;
 							
 						case ATTACK_BLAST_WAVE:
-							if (currentAttackTime == 25){
+							if (currentAttackTime == 30){
 								for(Object o:worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(12D,4D,12D).offset(0D,-2D,0D))){
 									Entity entity = (Entity)o;
 									
@@ -129,7 +204,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 									if (dist > 12D)continue;
 									
 									double[] vec = DragonUtil.getNormalizedVector(entity.posX-posX,entity.posZ-posZ);
-									double strength = 1.5D+(12D-dist)*0.25D;
+									double strength = 1.25D+(12D-dist)*0.22D;
 									vec[0] *= strength;
 									vec[1] *= strength;
 									
@@ -141,7 +216,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 									entity.motionZ += vec[1];
 								}
 								
-								for(int attempt = 0, xx, yy, zz; attempt < 128; attempt++){
+								for(int attempt = 0, xx, yy, zz; attempt < 90; attempt++){
 									xx = (int)Math.floor(posX)+rand.nextInt(20)-10;
 									zz = (int)Math.floor(posZ)+rand.nextInt(20)-10;
 									if (MathUtil.distance(xx-posX,zz-posZ) > 10D)continue;
@@ -172,21 +247,24 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 						dataWatcher.updateObject(16,Byte.valueOf((byte)0));
 					}
 				}
-				else if (--nextAttackTimer <= 0){System.out.println(MathUtil.distance(target.posX-posX,target.posZ-posZ));
+				else if (--nextAttackTimer <= 0){
 					currentAttack = (MathUtil.distance(target.posX-posX,target.posZ-posZ) < 7.5D && rand.nextInt(4) != 0) || rand.nextInt(5) == 0 ? ATTACK_BLAST_WAVE : (rand.nextInt(7) <= 4 ? ATTACK_PROJECTILES : ATTACK_LAVA);
 					dataWatcher.updateObject(16,Byte.valueOf(currentAttack));
 				}
 			}
 			
-			if (target.isDead || (currentAttack == ATTACK_NONE && getDistanceToEntity(target) > 40D))target = null;
+			if (target.isDead || (currentAttack == ATTACK_NONE && getDistanceToEntity(target) > 40D)){
+				target = null;
+				if (currentAttack != ATTACK_NONE)dataWatcher.updateObject(16,Byte.valueOf(currentAttack = ATTACK_NONE));
+			}
 		}
 		
-		double speed = 0.05D;
+		double speed = 0.075D;
 		
 		if (target != null){
 			double dist = getDistanceToEntity(target);
 			
-			if (dist > 13D)speed = currentAttack == ATTACK_NONE ? 0.2D : 0.05D;
+			if (dist > 13D)speed = currentAttack == ATTACK_NONE ? 0.2D : 0.06D;
 			else if (dist < 9D)speed = 0D;
 		}
 		
@@ -213,21 +291,16 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 				Vec3 look = getLookVec();
 				
 				look.rotateAroundY(MathUtil.toRad(36F));
-				worldObj.spawnParticle("mobSpell",posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0.9D,0.6D,0D);
+				HardcoreEnderExpansion.fx.spell(worldObj,posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0.9F,0.6F,0F);
 				look.rotateAroundY(MathUtil.toRad(-72F));
-				worldObj.spawnParticle("mobSpell",posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0.9D,0.6D,0D);
+				HardcoreEnderExpansion.fx.spell(worldObj,posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0.9F,0.6F,0F);
 				
 				++currentAttackTime;
 				
-				switch(attack){
-					case ATTACK_BLAST_WAVE:
-						if (currentAttackTime == 24){
-							for(int flame = 0; flame < 180; flame++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.2D,posY+height*0.5D,posZ+(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*2D,(rand.nextDouble()-0.5D)*2D,(rand.nextDouble()-0.5D)*2D,5+rand.nextInt(20));
-						}
-						
-						break;
-						
-					default:
+				if (attack == ATTACK_BLAST_WAVE){
+					if (currentAttackTime == 29){
+						for(int flame = 0; flame < 180; flame++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.2D,posY+height*0.5D,posZ+(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*2D,(rand.nextDouble()-0.5D)*2D,(rand.nextDouble()-0.5D)*2D,5+rand.nextInt(20));
+					}
 				}
 			}
 			else currentAttackTime = 0;

@@ -19,7 +19,8 @@ public class FXCommonProxy{
 	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ){}
 	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp){}
 	public void portalOrbiting(World world, double x, double y, double z, double motionY){}
-	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float redMp, float greenMp, float blueMp){}
+	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){}
+	public void spell(World world, double x, double y, double z, float red, float green, float blue){}
 	
 	// BLOCKS
 	public void corruptedEnergy(World world, int x, int y, int z){}
