@@ -14,6 +14,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
@@ -21,7 +22,6 @@ import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
-import chylex.hee.packets.client.C15ParticleFireGolemFlame;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 
@@ -39,24 +39,42 @@ public class EntityMobFireGolem extends EntityMob{
 	}
 	
 	@Override
+	protected void entityInit(){
+		super.entityInit();
+		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+	}
+	
+	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.55D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs?42D:24D);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs?4D:2D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 42D : 24D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs ? 4D : 2D);
 	}
 	
 	@Override
 	protected Entity findPlayerToAttack(){
 		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,28D);
-		return player != null && canEntityBeSeen(player)?player:null;
+		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
 
-		if (!worldObj.isRemote){
+		if (worldObj.isRemote){
+			byte flameParticleAmount = dataWatcher.getWatchableObjectByte(16);
+			
+			if (flameParticleAmount > 0){
+				rotationYaw = renderYawOffset = rotationYawHead;
+				Vec3 look = getLookVec();
+				double xx = posX+look.xCoord*0.62D, zz = posZ+look.zCoord*0.62D;
+				int amt = rand.nextInt(2+flameParticleAmount);
+				
+				for(int a = 0; a < amt; a++)HardcoreEnderExpansion.fx.flame(worldObj,xx+(rand.nextDouble()-0.5D)*0.2D,posY+0.8D+rand.nextDouble()*0.1D,zz+(rand.nextDouble()-0.5D)*0.2D,4);
+			}
+		}
+		else{
 			getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(cancelMovement);
 			
 			if (teleportCooldown > 0)--teleportCooldown;
@@ -69,10 +87,12 @@ public class EntityMobFireGolem extends EntityMob{
 				}
 				else if (rangedStatus >= 0){
 					getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(cancelMovement);
+					rotationYaw = rotationYawHead;
 					
-					PacketPipeline.sendToAllAround(this,64D,new C15ParticleFireGolemFlame(this,Byte.valueOf((byte)((int)Math.floor(70-rangedStatus)>>2))));
+					byte flameParticleAmountNew = (byte)((int)Math.floor(70-rangedStatus)>>2);
 					
-					if (++rangedStatus>(ModCommonProxy.opMobs?28:38)){
+					if (++rangedStatus > (ModCommonProxy.opMobs ? 28 : 38)){
+						flameParticleAmountNew = 0;
 						rangedStatus = -1;
 						Vec3 look = getLook(1F);
 						
@@ -85,6 +105,8 @@ public class EntityMobFireGolem extends EntityMob{
 						
 						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment(observer,0.09F,new byte[]{ 0,1,2,3 });
 					}
+					
+					if (dataWatcher.getWatchableObjectByte(16) != flameParticleAmountNew)dataWatcher.updateObject(16,Byte.valueOf(flameParticleAmountNew));
 				}
 			}
 		}
