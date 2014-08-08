@@ -15,6 +15,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.projectile.EntityProjectileMinerShot;
 import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
@@ -103,6 +104,15 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 					
 					switch(currentAttack){
 						case ATTACK_PROJECTILES:
+							if (currentAttackTime == 50){
+								Vec3 look = getLookVec();
+								
+								look.rotateAroundY(MathUtil.toRad(36F));
+								worldObj.spawnEntityInWorld(new EntityProjectileMinerShot(worldObj,this,posX+look.xCoord*1.5D,posY+0.7D,posZ+look.zCoord*1.5D,target));
+								look.rotateAroundY(MathUtil.toRad(-72F));
+								worldObj.spawnEntityInWorld(new EntityProjectileMinerShot(worldObj,this,posX+look.xCoord*1.5D,posY+0.7D,posZ+look.zCoord*1.5D,target));
+								hasFinished = true;
+							}
 							
 							break;
 							
@@ -123,6 +133,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 									vec[0] *= strength;
 									vec[1] *= strength;
 									
+									entity.attackEntityFrom(DamageSource.causeMobDamage(this),8F);
 									if (entity instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)entity,new C07AddPlayerVelocity(vec[0],0.4D,vec[1]));
 									
 									entity.motionX += vec[0];
@@ -162,8 +173,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 					}
 				}
 				else if (--nextAttackTimer <= 0){System.out.println(MathUtil.distance(target.posX-posX,target.posZ-posZ));
-					currentAttack = (MathUtil.distance(target.posX-posX,target.posZ-posZ) < 7D && rand.nextInt(4) != 0) || rand.nextInt(5) == 0 ? ATTACK_BLAST_WAVE : (rand.nextInt(5) <= 2 ? ATTACK_PROJECTILES : ATTACK_LAVA);
-					currentAttack = ATTACK_BLAST_WAVE;
+					currentAttack = (MathUtil.distance(target.posX-posX,target.posZ-posZ) < 7.5D && rand.nextInt(4) != 0) || rand.nextInt(5) == 0 ? ATTACK_BLAST_WAVE : (rand.nextInt(7) <= 4 ? ATTACK_PROJECTILES : ATTACK_LAVA);
 					dataWatcher.updateObject(16,Byte.valueOf(currentAttack));
 				}
 			}
@@ -176,8 +186,8 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		if (target != null){
 			double dist = getDistanceToEntity(target);
 			
-			if (dist > 10D)speed = currentAttack == ATTACK_NONE ? 0.2D : 0.05D;
-			else if (dist < 7.5D)speed = 0D;
+			if (dist > 13D)speed = currentAttack == ATTACK_NONE ? 0.2D : 0.05D;
+			else if (dist < 9D)speed = 0D;
 		}
 		
 		double[] xz = DragonUtil.getNormalizedVector(targetX-posX,targetZ-posZ);

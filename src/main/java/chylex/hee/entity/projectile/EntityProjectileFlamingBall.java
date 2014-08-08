@@ -14,8 +14,6 @@ import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.DragonUtil;
 
 public class EntityProjectileFlamingBall extends EntityFireball{
-	private byte life = 0;
-	
 	public EntityProjectileFlamingBall(World world){
 		super(world);
 		setSize(0.15F,0.15F);
@@ -33,10 +31,10 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 		
 		if (worldObj.isRemote){
 			HardcoreEnderExpansion.fx.flame(worldObj,posX,posY+0.4D,posZ,5);
-			if (life == 0 && rand.nextInt(4) <= 1)worldObj.playSound(posX,posY,posZ,"mob.ghast.fireball",0.8F,rand.nextFloat()*0.1F+1.2F,false);
+			if (ticksExisted == 1 && rand.nextInt(4) <= 1)worldObj.playSound(posX,posY,posZ,"mob.ghast.fireball",0.8F,rand.nextFloat()*0.1F+1.2F,false);
 		}
 		
-		if (++life > 35)setDead();
+		if (ticksExisted > 35)setDead();
 	}
 
 	@Override
@@ -48,7 +46,7 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 
 			boolean isLiving = mop.entityHit instanceof EntityLivingBase;
 			
-			if (isLiving && rand.nextInt(ModCommonProxy.opMobs?3:4) == 0){
+			if (isLiving && rand.nextInt(ModCommonProxy.opMobs ? 3 : 4) == 0){
 				double[] vec = DragonUtil.getNormalizedVector(shootingEntity.posX-mop.entityHit.posX,shootingEntity.posZ-mop.entityHit.posZ);
 				((EntityLivingBase)mop.entityHit).knockBack(shootingEntity,0.9F,vec[0]*0.15D*(0.85D+0.2D*rand.nextDouble()),vec[1]*0.15D*(0.85D+0.4D*rand.nextDouble()));
 			}
@@ -90,11 +88,6 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 	public boolean canBeCollidedWith(){
 		return false;
 	}
-
-	@Override
-	public boolean canBePushed(){
-		return false;
-	}
 	
 	@Override
 	public boolean isEntityInvulnerable(){
@@ -104,6 +97,6 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		life = 30;
+		ticksExisted = 30;
 	}
 }

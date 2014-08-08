@@ -39,6 +39,7 @@ import chylex.hee.entity.projectile.EntityProjectileDragonFreezeball;
 import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
 import chylex.hee.entity.projectile.EntityProjectileFlamingBall;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
+import chylex.hee.entity.projectile.EntityProjectileMinerShot;
 import chylex.hee.entity.projectile.EntityProjectilePotionOfInstability;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
@@ -241,10 +242,9 @@ public class HardcoreEnderExpansion{
 		EntityList.addMapping(EntityBlockEnderCrystal.class, "EnderCrystal", 200);
 		
 		EntityRegistry.registerModEntity(EntityBossDragon.class, "Dragon", 8, this, 320, 1, true);
-		
+		EntityRegistry.registerModEntity(EntityBossEnderDemon.class, "EnderDemon", 21, this, 512, 1, true);
 		EntityRegistry.registerModEntity(EntityMiniBossEnderEye.class, "EnderEye", 11, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMiniBossFireFiend.class, "FireFiend", 23, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityBossEnderDemon.class, "EnderDemon", 21, this, 512, 1, true);
 		EntityRegistry.registerModEntity(EntityMobAngryEnderman.class, "AngryEnderman", 1, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobBabyEnderman.class, "BabyEnderman", 16, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobParalyzedEnderman.class, "ParalyzedEnderman", 24, this, 256, 1, true);
@@ -273,13 +273,14 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityProjectileEnhancedEnderPearl.class, "ProjectileEnhancedEnderPearl", 5, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileFlamingBall.class, "ProjectileFlamingBall", 17, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileGolemFireball.class, "ProjectileGolemFireball", 18, this, 128, 1, true);
+		EntityRegistry.registerModEntity(EntityProjectileMinerShot.class, "ProjectileMinerShot", 36, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileCorporealMirageOrb.class, "ProjectileCorporealMirageOrb", 28, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectilePotionOfInstability.class, "ProjectilePotionOfInstability", 30, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileSpatialDash.class, "ProjectileSpatialDash", 32, this, 128, 1, true);
 
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltSafe.class, "LightningBoltSafe", 4, this, 512, 1, false);
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, this, 512, 1, false);
-		// last: 35
+		// last: 36
 
 		// TILE ENTITIES
 
