@@ -95,7 +95,7 @@ public class ModelHauntedMiner extends ModelBase{
 		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
 		float yawRad = MathUtil.toRad(rotationYaw),
-			  pitchRad = -MathUtil.toRad(rotationPitch);
+			  pitchRad = MathUtil.toRad(rotationPitch);
 
 		head.rotateAngleY = yawRad;
 		head.rotateAngleX = pitchRad;
