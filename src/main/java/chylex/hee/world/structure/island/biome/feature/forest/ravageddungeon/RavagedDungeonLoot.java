@@ -83,11 +83,11 @@ final class RavagedDungeonLoot{
 	});
 	
 	public static final WeightedLootList lootRare = new WeightedLootList(new LootItemStack[]{
-		new LootItemStack(Items.iron_ingot).setAmount(3,9).setWeight(40),
-		new LootItemStack(Items.gold_ingot).setAmount(3,9).setWeight(40),
-		new LootItemStack(Items.diamond).setAmount(2,7).setWeight(30),
+		new LootItemStack(Items.iron_ingot).setAmount(3,9).setWeight(42),
+		new LootItemStack(Items.gold_ingot).setAmount(3,9).setWeight(42),
 		new LootItemStack(Items.dye).setAmount(2,6).setDamage(4).setWeight(35),
-		new LootItemStack(Items.emerald).setAmount(2,7).setWeight(30),
+		new LootItemStack(Items.diamond).setAmount(2,7).setWeight(28),
+		new LootItemStack(Items.emerald).setAmount(2,7).setWeight(28),
 		new LootItemStack(ItemList.enhanced_ender_pearl).setAmount(1,5).setWeight(24),
 		new LootItemStack(ItemList.instability_orb).setAmount(1,3).setWeight(12),
 		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(9),

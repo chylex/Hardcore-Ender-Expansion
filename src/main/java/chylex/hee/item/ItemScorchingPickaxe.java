@@ -25,7 +25,7 @@ public class ItemScorchingPickaxe extends Item{
 	private static final Map<Block,Boolean> cachedBlocks = new IdentityHashMap<>();
 	private static final Random cacheRand = new Random(0);
 	
-	private static final boolean isBlockValid(Block block){
+	public static final boolean isBlockValid(Block block){
 		if (cachedBlocks.containsKey(block))return cachedBlocks.get(block).booleanValue();
 		
 		if (FurnaceRecipes.smelting().getSmeltingResult(new ItemStack(block)) != null){

@@ -8,7 +8,13 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
@@ -18,6 +24,7 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.projectile.EntityProjectileMinerShot;
 import chylex.hee.item.ItemList;
+import chylex.hee.item.ItemScorchingPickaxe;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.proxy.ModCommonProxy;
@@ -97,8 +104,23 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 				if (!entities.isEmpty()){
 					Entity temp = entities.get(rand.nextInt(entities.size()));
 					
-					if (temp instanceof EntityPlayer){
-						// TODO
+					if (temp instanceof EntityPlayer && rand.nextInt(10) == 0){
+						InventoryPlayer inv = ((EntityPlayer)temp).inventory;
+						int foundMiningStuff = 0;
+						
+						for(int a = 0; a < inv.mainInventory.length; a += rand.nextInt(3)+1){
+							ItemStack is = inv.mainInventory[a];
+							if (is == null)continue;
+							
+							Item item = is.getItem();
+							if (item == ItemList.scorching_pickaxe || item instanceof ItemPickaxe)foundMiningStuff += 4;
+							else if (item == Items.iron_ingot || item == Items.gold_ingot || item == Items.diamond || item == Items.redstone || (item == Items.dye && is.getItemDamage() == 4) ||
+									 item == Items.emerald || item == Items.coal || item == ItemList.end_powder || item == ItemList.igneous_rock || item == ItemList.instability_orb ||
+									 item == ItemList.stardust)foundMiningStuff += 1+(is.stackSize>>3);
+							else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(((ItemBlock)item).field_150939_a))foundMiningStuff += 1+(is.stackSize>>3);
+						}
+						
+						if (foundMiningStuff >= 13)target = (EntityPlayer)temp;
 					}
 					else if (temp instanceof EntityLivingBase && !(temp instanceof EntityEnderman)){
 						target = (EntityLivingBase)temp;
