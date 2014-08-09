@@ -8,15 +8,9 @@ public final class Log{
 	static final Logger logger = LogManager.getLogger("HardcoreEnderExpansion");
 	
 	public static final boolean showDebug;
-	public static final boolean showInfo;
-	public static final boolean showWarnings;
-	public static final boolean showErrors;
 	
 	static{
 		showDebug = ((Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment")).booleanValue();
-		showInfo = true;
-		showWarnings = true;
-		showErrors = true;
 	}
 	
 	public static void debug(String message, Object...data){
@@ -24,22 +18,20 @@ public final class Log{
 	}
 	
 	public static void info(String message, Object...data){
-		if (showInfo)logger.info(getMessage(message,data));
+		logger.info(getMessage(message,data));
 	}
 	
 	public static void warn(String message, Object...data){
-		if (showWarnings)logger.warn(getMessage(message,data));
+		logger.warn(getMessage(message,data));
 	}
 	
 	public static void error(String message, Object...data){
-		if (showErrors)logger.error(getMessage(message,data));
+		logger.error(getMessage(message,data));
 	}
 	
 	public static void throwable(Throwable throwable, String message, Object...data){
-		if (showErrors){
-			logger.catching(Level.ERROR,throwable);
-			logger.error(getMessage(message,data));
-		}
+		logger.catching(Level.ERROR,throwable);
+		logger.error(getMessage(message,data));
 	}
 	
 	private static String getMessage(String message, Object...data){

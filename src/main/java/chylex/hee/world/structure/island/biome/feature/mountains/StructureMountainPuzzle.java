@@ -5,7 +5,6 @@ import net.minecraft.util.Vec3;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.island.gen.CaveGenerator;
 
@@ -15,10 +14,8 @@ public class StructureMountainPuzzle extends AbstractIslandStructure{
 
 	@Override
 	protected boolean generate(Random rand){
-		int dungcsz = ComponentScatteredFeatureIsland.halfSize, dungchsz = dungcsz>>1;
-		
-		for(int attempt = 0,xx,yy,zz; attempt < 500; attempt++){
-			boolean canGenerate = true,foundAir = false;
+		for(int attempt = 0, xx, yy, zz; attempt < 500; attempt++){
+			boolean canGenerate = true, foundAir = false;
 			
 			xx = getRandomXZ(rand,32);
 			zz = getRandomXZ(rand,32);

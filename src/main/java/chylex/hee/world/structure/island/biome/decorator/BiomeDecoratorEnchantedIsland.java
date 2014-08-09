@@ -2,31 +2,34 @@ package chylex.hee.world.structure.island.biome.decorator;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
-import chylex.hee.world.structure.island.biome.feature.island.StructureEndermanStash;
+import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
 import chylex.hee.world.structure.island.biome.feature.island.StructureGooLake;
+import chylex.hee.world.structure.island.biome.feature.island.StructureObsidianRoad;
 
 public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
-	private static IslandBiomeBase getBiome(){
+	@Override
+	protected final IslandBiomeBase getBiome(){
 		return IslandBiomeBase.enchantedIsland;
 	}
+	
+	private final StructureGooLake genGooLake = new StructureGooLake();
+	private final StructureObsidianRoad genRoads = new StructureObsidianRoad();
 	
 	/*
 	 * HOMELAND
 	 */
 	
-	public void genHomeland(){ // TODO temp
-		StructureGooLake lake = new StructureGooLake();
-		
+	public void genHomeland(){
+		// GOO LAKES
 		for(int attempt = 0, placed = 0, amount = rand.nextInt(3)+5; attempt < 170 && placed < amount; attempt++){
-			if (generateStructure(lake,getBiome()))++placed;
+			if (generateStructure(genGooLake))++placed;
 		}
 		
-		StructureEndermanStash stash = new StructureEndermanStash();
-		
+		// OBSIDIAN PILES
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
 			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){	
 				if (rand.nextInt(5) <= 2){
-					int height = rand.nextInt(14)+(/*hasRareVariation(RareVariationIsland.TALL_PILLARS)?6+rand.nextInt(8):*/4);
+					int height = rand.nextInt(14)+(data.hasDeviation(IslandBiomeEnchantedIsland.TALL_PILES) ? 6+rand.nextInt(8) : 4);
 					int radius = rand.nextInt(2)+1;
 					
 					int ox = cx*16+rand.nextInt(16),
@@ -57,9 +60,12 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 						}
 					}
 				}
-				
-				if (rand.nextInt(14) <= 3)generateStructure(stash,getBiome());
 			}
+		}
+		
+		// OBSIDIAN ROADS
+		for(int attempt = 0, placed = 0, placedMax = 8+rand.nextInt(5); attempt < 36 && placed < placedMax; attempt++){
+			if (generateStructure(genRoads))++placed;
 		}
 	}
 }

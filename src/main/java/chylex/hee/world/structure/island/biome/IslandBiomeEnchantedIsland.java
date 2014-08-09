@@ -1,10 +1,12 @@
 package chylex.hee.world.structure.island.biome;
 import java.util.Random;
+import net.minecraft.entity.monster.EntityEnderman;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
+import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorEnchantedIsland;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
@@ -14,6 +16,8 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	public static final BiomeContentVariation HOMELAND = new BiomeContentVariation(2,6);
 	public static final BiomeContentVariation LABORATORY = new BiomeContentVariation(6,4);
 	
+	public static final BiomeRandomDeviation TALL_PILES = new BiomeRandomDeviation(HOMELAND);
+	
 	private final BiomeDecoratorEnchantedIsland decorator = new BiomeDecoratorEnchantedIsland();
 	
 	protected IslandBiomeEnchantedIsland(int biomeID, KnowledgeRegistration knowledgeRegistration){
@@ -21,8 +25,11 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		
 		contentVariations.add(HOMELAND);
 		
+		randomDeviations.add(TALL_PILES);
+		
 		getSpawnEntries(HOMELAND).addAll(new SpawnEntry[]{
-			new SpawnEntry(EntityMobEnderGuardian.class,9,30),
+			new SpawnEntry(EntityEnderman.class,30,38),
+			new SpawnEntry(EntityMobEnderGuardian.class,6,30),
 			new SpawnEntry(EntityMobBabyEnderman.class,16,20)
 		});
 	}

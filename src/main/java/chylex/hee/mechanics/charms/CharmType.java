@@ -79,7 +79,7 @@ public enum CharmType{
 		new CharmRecipe(36).rune(AGILITY).rune(DEFENSE,3).rune(MAGIC).prop("rediramt",0.30F).prop("redirmobs",1)
 	}, new String[]{ "perc,rediramt", "int,redirmobs" }),
 	
-	MAGIC_PENETRATION(13, 4, new CharmRecipe[]{
+	MAGIC_PENETRATION(13, 4, new CharmRecipe[]{ // TODO implement
 		new CharmRecipe(37).rune(POWER,2).rune(MAGIC).prop("dmgtomagic",0.10F),
 		new CharmRecipe(38).rune(POWER,3).rune(MAGIC).prop("dmgtomagic",0.15F),
 		new CharmRecipe(39).rune(POWER,4).rune(MAGIC).prop("dmgtomagic",0.20F),

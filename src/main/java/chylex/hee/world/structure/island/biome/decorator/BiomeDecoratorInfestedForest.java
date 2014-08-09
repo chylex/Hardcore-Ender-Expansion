@@ -13,12 +13,14 @@ import chylex.hee.world.structure.island.biome.feature.forest.StructureSpookyTre
 import chylex.hee.world.structure.island.biome.feature.forest.StructureSpookyTree.TreeType;
 
 public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
-	private static IslandBiomeBase getBiome(){
+	@Override
+	protected final IslandBiomeBase getBiome(){
 		return IslandBiomeBase.infestedForest;
 	}
 	
 	private final StructureSpookyTree genTree = new StructureSpookyTree();
 	private final StructureBush genBush = new StructureBush();
+	private final StructureRavagedDungeon genRavagedDungeon = new StructureRavagedDungeon();
 	private final StructureRuinPillar genRuinPillar = new StructureRuinPillar();
 	private final StructureRuinBuild genRuinBuild = new StructureRuinBuild();
 	
@@ -32,7 +34,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		
 		for(int attempt = 0, placed = 0; attempt < 10000 && placed < 2900; attempt++){
 			genTree.setTreeType(rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL);
-			if (generateStructure(genTree,getBiome()))++placed;
+			if (generateStructure(genTree))++placed;
 		}
 		
 		for(int a = 0; a < 169; a++){
@@ -81,7 +83,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	public void genRavaged(){
 		// RAVAGED DUNGEON
 		for(int attempt = 0; attempt < 20; attempt++){
-			if (generateStructure(new StructureRavagedDungeon(),getBiome()))break;
+			if (generateStructure(genRavagedDungeon))break;
 		}
 		
 		// TREES
@@ -89,7 +91,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		
 		for(int attempt = 0, placed = 0; attempt < 1600 && placed < 420; attempt++){
 			genTree.setTreeType(rand.nextInt(4) == 0 ? TreeType.SIMPLE_PYRAMID : rand.nextBoolean() ? TreeType.SIMPLE_BULGING : TreeType.SIMPLE_SPHERICAL);
-			if (generateStructure(genTree,getBiome()))++placed;
+			if (generateStructure(genTree))++placed;
 		}
 		
 		// PATCHES OF INFESTED GRASS, TALL GRASS AND FERNS
@@ -142,12 +144,12 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	
 	public void genRuins(){
 		// BUSHES
-		for(int attempt = 0; attempt < 280; attempt++)generateStructure(genBush,getBiome());
+		for(int attempt = 0; attempt < 280; attempt++)generateStructure(genBush);
 		
 		// RANDOM RUIN PILLARS
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
 			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){
-				for(int attempt = 0, amount = 14+rand.nextInt(7); attempt < amount; attempt++)generateStructure(genRuinPillar.setIsDeep(rand.nextInt(20) == 0),getBiome());
+				for(int attempt = 0, amount = 14+rand.nextInt(7); attempt < amount; attempt++)generateStructure(genRuinPillar.setIsDeep(rand.nextInt(20) == 0));
 			}
 		}
 
@@ -156,7 +158,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		
 		for(int attempt = 0; attempt < 650; attempt++){
 			genTree.setTreeType(TreeType.values[rand.nextInt(TreeType.values.length)]);
-			generateStructure(genTree,getBiome());
+			generateStructure(genTree);
 		}
 
 		// CLUSTERS OF RUIN PILLARS
@@ -190,7 +192,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 					if (world.getBlock(px,py,pz) == topBlock){
 						genRuinPillar.setIsDeep(rand.nextInt(6) == 0);
 						genRuinPillar.setForcedCoords(px,py+1,pz);
-						generateStructure(genRuinPillar,getBiome());
+						generateStructure(genRuinPillar);
 						break;
 					}
 				}
@@ -232,7 +234,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		// RUIN BUILDS
 		for(int attempt = 0; attempt < 42; attempt++){
 			genRuinBuild.setStructureType(RuinStructureType.WALL); // TODO
-			generateStructure(genRuinBuild,getBiome());
+			generateStructure(genRuinBuild);
 		}
 	}
 }

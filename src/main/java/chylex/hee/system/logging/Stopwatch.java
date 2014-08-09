@@ -7,11 +7,15 @@ public final class Stopwatch{
 	private static final Map<String,StopwatchHandler> runningStopwatches = new HashMap<>();
 	
 	public static void time(String identifier){
+		if (!Log.showDebug)return;
+		
 		if (!runningStopwatches.containsKey(identifier))runningStopwatches.put(identifier,new BasicTimer());
 		runningStopwatches.get(identifier).onStart();
 	}
 	
 	public static void timeThreshold(String identifier, long threshold){
+		if (!Log.showDebug)return;
+		
 		StopwatchHandler timer = runningStopwatches.get(identifier);
 		if (timer == null || !(timer instanceof ThresholdTimer))runningStopwatches.put(identifier,timer = new ThresholdTimer());
 
@@ -20,6 +24,8 @@ public final class Stopwatch{
 	}
 	
 	public static void timeAverage(String identifier, int count){
+		if (!Log.showDebug)return;
+		
 		StopwatchHandler timer = runningStopwatches.get(identifier);
 		if (timer == null || !(timer instanceof AveragingTimer))runningStopwatches.put(identifier,timer = new AveragingTimer());
 
