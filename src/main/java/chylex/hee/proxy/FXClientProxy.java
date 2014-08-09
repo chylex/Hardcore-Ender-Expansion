@@ -107,7 +107,7 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){
 		EntityCritFX fx = new EntityCritFX(world,x,y,z,motionX,motionY,motionZ);
-        fx.setRBGColorF(red,green,blue);
+		fx.setRBGColorF(red,green,blue);
         fx.nextTextureIndexX();
         spawn(fx);
 	}
@@ -115,8 +115,8 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void spell(World world, double x, double y, double z, float red, float green, float blue){
 		EntitySpellParticleFX fx = new EntitySpellParticleFX(world,x,y,z,0D,0D,0D);
-        fx.setRBGColorF(red,green,blue);
-        spawn(fx);
+		fx.setRBGColorF(red,green,blue);
+		spawn(fx);
 	}
 	
 	/*
