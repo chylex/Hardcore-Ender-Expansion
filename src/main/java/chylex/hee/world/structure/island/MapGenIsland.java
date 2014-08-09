@@ -5,7 +5,7 @@ import chylex.hee.world.structure.MapGenScatteredFeatureCustom;
 
 public class MapGenIsland extends MapGenScatteredFeatureCustom{
 	public MapGenIsland(){
-		super(16,25,1600,208);
+		super(13,28,1600,208);
 	}
 
 	@Override

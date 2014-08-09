@@ -1,15 +1,35 @@
 package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.weight.ObjectWeightPair;
+import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureMiningSpot extends AbstractIslandStructure{
+	private WeightedList<ObjectWeightPair<Block>> oreWeights;
 	private byte iterationsLeft;
+	
+	public void regenerateOreWeightList(Random rand){
+		oreWeights = new WeightedList<>(
+			ObjectWeightPair.make(Blocks.emerald_ore,8),
+			ObjectWeightPair.make(Blocks.lapis_ore,8),
+			ObjectWeightPair.make(Blocks.redstone_ore,11),
+			ObjectWeightPair.make(Blocks.diamond_ore,14),
+			ObjectWeightPair.make(Blocks.coal_ore,20),
+			ObjectWeightPair.make(Blocks.gold_ore,25),
+			ObjectWeightPair.make(Blocks.iron_ore,26)
+		);
+		
+		for(int a = 0; a < 1+rand.nextInt(2); a++)oreWeights.remove(rand.nextInt(oreWeights.size()));
+	}
 	
 	@Override
 	protected boolean generate(Random rand){
+		if (oreWeights == null)regenerateOreWeightList(rand);
+		
 		int x = getRandomXZ(rand,32), z = getRandomXZ(rand,32), y = 5+rand.nextInt(15+rand.nextInt(30));
 		if (world.getBlock(x,y,z) != Blocks.end_stone)return false;
 		
@@ -46,16 +66,7 @@ public class StructureMiningSpot extends AbstractIslandStructure{
 	}
 	
 	private void placeBlock(Random rand, int x, int y, int z, double distPercent){
-		if (rand.nextBoolean() && rand.nextBoolean() && rand.nextDouble() > distPercent-0.2D-rand.nextDouble()*0.25D){
-			int type = rand.nextInt(100);
-			
-			if (type < 8)world.setBlock(x,y,z,Blocks.emerald_ore);
-			else if (type < 16)world.setBlock(x,y,z,Blocks.lapis_ore);
-			else if (type < 30)world.setBlock(x,y,z,Blocks.diamond_ore);
-			else if (type < 55)world.setBlock(x,y,z,Blocks.gold_ore);
-			else if (type < 80)world.setBlock(x,y,z,Blocks.iron_ore);
-			else world.setBlock(x,y,z,Blocks.coal_ore);
-		}
+		if (rand.nextBoolean() && rand.nextBoolean() && rand.nextDouble() > distPercent-0.2D-rand.nextDouble()*0.25D)world.setBlock(x,y,z,oreWeights.getRandomItem(rand).getObject());
 		else if (rand.nextBoolean())world.setBlock(x,y,z,Blocks.stone);
 	}
 }

@@ -122,7 +122,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 						
 						if (foundMiningStuff >= 13)target = (EntityPlayer)temp;
 					}
-					else if (temp instanceof EntityLivingBase && !(temp instanceof EntityEnderman)){
+					else if (temp instanceof EntityLivingBase && !(temp instanceof EntityEnderman) && !temp.isImmuneToFire()){
 						target = (EntityLivingBase)temp;
 					}
 				}
