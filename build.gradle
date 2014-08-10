@@ -19,7 +19,7 @@ apply plugin: 'forge'
 
 version = ""
 group= "chylex.hee.HardcoreEnderExpansion" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "HardcoreEnderExpansion"
+archivesBaseName = "HardcoreEnderExpansion  MC-"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7

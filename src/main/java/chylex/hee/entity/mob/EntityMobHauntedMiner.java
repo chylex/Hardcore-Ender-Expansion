@@ -60,7 +60,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 80D : 55D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 90D : 65D);
 	}
 	
 	@Override
@@ -68,15 +68,15 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		if (!worldObj.isRemote && worldObj.difficultySetting == EnumDifficulty.PEACEFUL)setDead();
 		
 		despawnEntity();
-		if (isDead)return;
+		if (dead)return;
 		
 		if (target == null){
-			if (--wanderResetTimer < -120 || rand.nextInt(300) == 0){
+			if (--wanderResetTimer < -120 || rand.nextInt(300) == 0 || (motionX == 0D && motionZ == 0D && rand.nextInt(20) == 0)){
 				wanderResetTimer = 0;
 				
 				for(int attempt = 0, xx, yy, zz; attempt < 32; attempt++){
-					xx = (int)Math.floor(posX)+rand.nextInt(12)-rand.nextInt(12);
-					zz = (int)Math.floor(posZ)+rand.nextInt(12)-rand.nextInt(12);
+					xx = (int)Math.floor(posX)+rand.nextInt(14)-rand.nextInt(14);
+					zz = (int)Math.floor(posZ)+rand.nextInt(14)-rand.nextInt(14);
 					yy = (int)Math.floor(posY);
 					
 					if (worldObj.isAirBlock(xx,yy,zz)){
@@ -91,11 +91,11 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 					targetX = xx+rand.nextDouble();
 					targetY = yy+rand.nextDouble()*0.2D+3D;
 					targetZ = zz+rand.nextDouble();
-					wanderResetTimer += 120;
+					wanderResetTimer += 40;
 					break;
 				}
 				
-				wanderResetTimer += rand.nextInt(30)+20;
+				wanderResetTimer += rand.nextInt(40)+20;
 			}
 			
 			if (rand.nextInt(50) == 0){
@@ -104,23 +104,25 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 				if (!entities.isEmpty()){
 					Entity temp = entities.get(rand.nextInt(entities.size()));
 					
-					if (temp instanceof EntityPlayer && rand.nextInt(10) == 0){
-						InventoryPlayer inv = ((EntityPlayer)temp).inventory;
-						int foundMiningStuff = 0;
-						
-						for(int a = 0; a < inv.mainInventory.length; a += rand.nextInt(3)+1){
-							ItemStack is = inv.mainInventory[a];
-							if (is == null)continue;
+					if (temp instanceof EntityPlayer){
+						if (rand.nextInt(6) == 0){
+							InventoryPlayer inv = ((EntityPlayer)temp).inventory;
+							int foundMiningStuff = 0;
 							
-							Item item = is.getItem();
-							if (item == ItemList.scorching_pickaxe || item instanceof ItemPickaxe)foundMiningStuff += 4;
-							else if (item == Items.iron_ingot || item == Items.gold_ingot || item == Items.diamond || item == Items.redstone || (item == Items.dye && is.getItemDamage() == 4) ||
-									 item == Items.emerald || item == Items.coal || item == ItemList.end_powder || item == ItemList.igneous_rock || item == ItemList.instability_orb ||
-									 item == ItemList.stardust)foundMiningStuff += 1+(is.stackSize>>3);
-							else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(((ItemBlock)item).field_150939_a))foundMiningStuff += 1+(is.stackSize>>3);
+							for(int a = 0; a < inv.mainInventory.length; a += rand.nextInt(3)+1){
+								ItemStack is = inv.mainInventory[a];
+								if (is == null)continue;
+								
+								Item item = is.getItem();
+								if (item == ItemList.scorching_pickaxe || item instanceof ItemPickaxe)foundMiningStuff += 4;
+								else if (item == Items.iron_ingot || item == Items.gold_ingot || item == Items.diamond || item == Items.redstone || (item == Items.dye && is.getItemDamage() == 4) ||
+										 item == Items.emerald || item == Items.coal || item == ItemList.end_powder || item == ItemList.igneous_rock || item == ItemList.instability_orb ||
+										 item == ItemList.stardust)foundMiningStuff += 1+(is.stackSize>>3);
+								else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(((ItemBlock)item).field_150939_a))foundMiningStuff += 1+(is.stackSize>>3);
+							}
+							
+							if (foundMiningStuff >= 13+rand.nextInt(6))target = (EntityPlayer)temp;
 						}
-						
-						if (foundMiningStuff >= 13)target = (EntityPlayer)temp;
 					}
 					else if (temp instanceof EntityLivingBase && !(temp instanceof EntityEnderman) && !temp.isImmuneToFire()){
 						target = (EntityLivingBase)temp;
@@ -270,7 +272,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 					}
 				}
 				else if (--nextAttackTimer <= 0){
-					currentAttack = (MathUtil.distance(target.posX-posX,target.posZ-posZ) < 7.5D && rand.nextInt(4) != 0) || rand.nextInt(5) == 0 ? ATTACK_BLAST_WAVE : (rand.nextInt(7) <= 4 ? ATTACK_PROJECTILES : ATTACK_LAVA);
+					currentAttack = (MathUtil.distance(target.posX-posX,target.posZ-posZ) < 7.5D && rand.nextInt(4) != 0) || rand.nextInt(5) == 0 ? ATTACK_BLAST_WAVE : (rand.nextInt(4) != 0 ? ATTACK_PROJECTILES : ATTACK_LAVA);
 					dataWatcher.updateObject(16,Byte.valueOf(currentAttack));
 				}
 			}
@@ -295,8 +297,8 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		motionZ = xz[1]*speed;
 		if (Math.abs(targetY-posY) > 1D)motionY = (targetY-posY)*0.02D;
 		
-		if (target != null)renderYawOffset = rotationYaw = -MathUtil.toDeg((float)Math.atan2(targetX-posX,targetZ-posZ));
-		else renderYawOffset = rotationYaw = -MathUtil.toDeg((float)Math.atan2(motionX,motionZ));
+		if (MathUtil.distance(targetX-posX,targetZ-posZ) > 0.1D)renderYawOffset = rotationYaw = rotationYawHead = -MathUtil.toDeg((float)Math.atan2(targetX-posX,targetZ-posZ));
+		else motionX = motionZ = 0D;
 	}
 	
 	@Override
@@ -308,7 +310,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 			
 			byte attack = dataWatcher.getWatchableObjectByte(16);
 			
-			if (attack != ATTACK_NONE){
+			if (attack != ATTACK_NONE && !dead){
 				rotationYaw = renderYawOffset = rotationYawHead;
 				Vec3 look = getLookVec();
 				
@@ -327,12 +329,12 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 			}
 			else currentAttackTime = 0;
 		}
-		else{
+		else if (!dead){
 			List<Entity> nearEntities = worldObj.getEntitiesWithinAABBExcludingEntity(this,bottomBB.setBounds(posX-1.65D,posY-3,posZ-1.65D,posX+1.65D,posY,posZ+1.65D));
 			
 			for(Entity entity:nearEntities){
 				if (entity instanceof EntityMobHauntedMiner)continue;
-				entity.attackEntityFrom(DamageSource.causeMobDamage(this),2F);
+				entity.attackEntityFrom(DamageSource.causeMobDamage(this),3F);
 				entity.setFire(5);
 				entity.hurtResistantTime -= 2;
 			}
@@ -343,7 +345,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	
 	@Override
 	public void setRevengeTarget(EntityLivingBase newTarget){
-		if (target == null || newTarget.getDistanceSqToEntity(this) < target.getDistanceSqToEntity(this)){
+		if (target == null || (newTarget.getDistanceSqToEntity(this) < target.getDistanceSqToEntity(this) && !(newTarget instanceof EntityMobHauntedMiner))){
 			target = newTarget;
 			nextAttackTimer = ATTACK_TIMER;
 		}

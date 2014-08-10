@@ -463,15 +463,15 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomDesign>> roomDesignList = new WeightedList<>(
-		ObjectWeightPair.make(EnumRoomDesign.GOO_FOUNTAINS, 60),
-		ObjectWeightPair.make(EnumRoomDesign.RUINS, 60),
-		ObjectWeightPair.make(EnumRoomDesign.BOWLS, 55),
-		ObjectWeightPair.make(EnumRoomDesign.FOUR_SPAWNERS, 50),
-		ObjectWeightPair.make(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 42),
+		ObjectWeightPair.make(EnumRoomDesign.GOO_FOUNTAINS, 56),
+		ObjectWeightPair.make(EnumRoomDesign.RUINS, 56),
+		ObjectWeightPair.make(EnumRoomDesign.BOWLS, 54),
+		ObjectWeightPair.make(EnumRoomDesign.FOUR_SPAWNERS, 51),
+		ObjectWeightPair.make(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 44),
 		ObjectWeightPair.make(EnumRoomDesign.GLOWING_ROOM, 35),
 		ObjectWeightPair.make(EnumRoomDesign.CARPET_TARGET, 26),
-		ObjectWeightPair.make(EnumRoomDesign.ENCASED_CUBICLE, 18),
-		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 15)
+		ObjectWeightPair.make(EnumRoomDesign.ENCASED_CUBICLE, 20),
+		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 17)
 	);
 	
 	private void generateRoomLayout(LargeStructureWorld world, Random rand, int x, int y, int z){
@@ -708,7 +708,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					break;
 					
 				case RUINS:
-					for(int attempt = 0, attemptAmount = 28+rand.nextInt(12), xx, zz; attempt < attemptAmount; attempt++){
+					for(int attempt = 0, attemptAmount = 28+rand.nextInt(12), placedChests = 0, xx, zz; attempt < attemptAmount; attempt++){
 						xx = x+rand.nextInt(radRoom)-rand.nextInt(radRoom);
 						zz = z+rand.nextInt(radRoom)-rand.nextInt(radRoom);
 						
@@ -722,6 +722,11 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 						
 						if (rand.nextInt(3) == 0)world.setBlock(xx,y+2+height,zz,BlockList.ravaged_brick_slab);
 						else if (rand.nextInt(4) == 0)world.setBlock(xx,y+2+height,zz,BlockList.ravaged_brick_stairs,rand.nextInt(4));
+						else if (placedChests < 2 && height < 2 && rand.nextInt(4+placedChests*2) == 0){
+							world.setBlock(xx,y+2+height,zz,Blocks.chest);
+							world.setTileEntityGenerator(xx,y+2+height,zz,"ruinChest",this);
+							++placedChests;
+						}
 					}
 					
 					break;
@@ -945,6 +950,13 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			
 			for(int attempt = 0, attemptAmount = 7+rand.nextInt(8+level*2); attempt < attemptAmount; attempt++){
 				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),(rand.nextInt(3) != 0 ? RavagedDungeonLoot.lootRare : RavagedDungeonLoot.lootGeneral).generateIS(rand));
+			}
+		}
+		else if (key.equals("ruinChest")){
+			TileEntityChest chest = (TileEntityChest)tile;
+			
+			for(int attempt = 0, attemptAmount = 5+rand.nextInt(5+level*2); attempt < attemptAmount; attempt++){
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),RavagedDungeonLoot.lootGeneral.generateIS(rand));
 			}
 		}
 		else if (key.equals("encasedCubicleChest")){

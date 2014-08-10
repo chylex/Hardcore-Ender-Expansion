@@ -153,7 +153,6 @@ public final class CharmEvents{
 			}
 			
 			if (playerLastResortCooldown.containsKey(playerID)){
-				System.out.println(playerLastResortCooldown.get(playerID));
 				if (playerLastResortCooldown.adjustOrPutValue(playerID,(byte)-1,(byte)-100) <= -100)playerLastResortCooldown.remove(playerID);
 			}
 		}

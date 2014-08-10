@@ -80,7 +80,7 @@ public final class Stopwatch{
 		protected long startTime,totalTime;
 		
 		public void setCount(int count){
-			this.count = this.currentCounter = count;
+			if (count != this.count)this.count = this.currentCounter = count;
 		}
 		
 		@Override
