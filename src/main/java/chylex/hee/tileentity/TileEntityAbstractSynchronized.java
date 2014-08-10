@@ -25,13 +25,13 @@ public abstract class TileEntityAbstractSynchronized extends TileEntity{
 	}
 	
 	@Override
-	public void writeToNBT(NBTTagCompound nbt){
+	public final void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		writeTileToNBT(nbt);
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbt){
+	public final void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
 		readTileFromNBT(nbt);
 	}
