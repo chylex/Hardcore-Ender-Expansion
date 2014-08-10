@@ -21,7 +21,7 @@ public class LargeStructureChunk{
 	private final Map<Integer,String> storedTileEntityClues = new HashMap<>();
 	private final Map<String,ITileEntityGenerator> storedTileEntities = new HashMap<>();
 	
-	private TIntHashSet alreadyGeneratedXZ = new TIntHashSet(256);
+	private TIntHashSet alreadyGeneratedXZ = new TIntHashSet(256); // TODO save
 	
 	public LargeStructureChunk(int x, int z, int ySize){
 		this.x = x;

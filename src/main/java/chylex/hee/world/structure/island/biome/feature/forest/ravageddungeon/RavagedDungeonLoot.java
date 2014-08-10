@@ -40,8 +40,8 @@ final class RavagedDungeonLoot{
 		new LootItemStack(BlockList.ravaged_brick_glow).setAmount(1,3).setWeight(46),
 		new LootItemStack(Items.leather).setAmount(1,4).setWeight(44),
 		new LootItemStack(ItemList.stardust).setAmount(1,3).setWeight(20),
-		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(8),
-		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(6)
+		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(6),
+		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(5)
 	});
 	
 	public static final WeightedLootList lootUncommon = new WeightedLootList(new LootItemStack[]{
@@ -59,7 +59,7 @@ final class RavagedDungeonLoot{
 		new LootItemStack(ItemList.stardust).setAmount(2,5).setWeight(25),
 		new LootItemStack(Items.enchanted_book).setWeight(22),
 		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(11),
-		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(7),
+		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(6),
 		new LootItemStack(ItemList.rune).setDamage(5).setWeight(5),
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
@@ -111,12 +111,13 @@ final class RavagedDungeonLoot{
 	});
 	
 	public static final WeightedLootList lootEnd = new WeightedLootList(new LootItemStack[]{
-			new LootItemStack(ItemList.end_powder).setAmount(5,25).setWeight(34),
-			new LootItemStack(Items.iron_ingot).setAmount(11,28).setWeight(27),
-			new LootItemStack(ItemList.stardust).setAmount(7,21).setWeight(26),
-			new LootItemStack(Items.diamond).setAmount(5,14).setWeight(25),
-			new LootItemStack(ItemList.rune).setAmount(1,2).setDamage(0,4).setWeight(24),
-			new LootItemStack(ItemList.rune).setDamage(5).setWeight(14),
+			new LootItemStack(ItemList.end_powder).setAmount(4,16).setWeight(31),
+			new LootItemStack(Items.iron_ingot).setAmount(9,20).setWeight(27),
+			new LootItemStack(Items.gold_ingot).setAmount(8,17).setWeight(27),
+			new LootItemStack(Items.diamond).setAmount(5,12).setWeight(25),
+			new LootItemStack(ItemList.rune).setAmount(1,2).setDamage(0,4).setWeight(25),
+			new LootItemStack(ItemList.stardust).setAmount(6,21).setWeight(20),
+			new LootItemStack(ItemList.rune).setDamage(5).setWeight(12),
 			new LootItemStack(ItemList.charm).setWeight(3)
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override

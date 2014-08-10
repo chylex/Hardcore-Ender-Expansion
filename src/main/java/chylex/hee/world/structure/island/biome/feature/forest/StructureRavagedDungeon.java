@@ -57,7 +57,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 					if (world.getBlock(worldX,yy+th+1,worldZ+scaleHalf+1) != Blocks.end_stone)++visibility;
 					if (world.getBlock(worldX,yy+(hallHeight>>1),worldZ) != Blocks.end_stone)++visibility;
 					
-					if (visibility > 3)gen.blockLocation(layer,xx,zz);
+					if (visibility > 3 && rand.nextInt(4) != 0)gen.blockLocation(layer,xx,zz);
 					
 					yy -= hallHeight+2;
 				}
@@ -75,12 +75,16 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 			DungeonElementList elements = gen.layers[a].getElements();
 			
 			if (a == 0)y = generateEntrance(rand,elements,elements.getAll(DungeonElementType.ENTRANCE).get(0),y);
-			if (a < gen.layers.length-1)generateDescendRoom(rand,elements,elements.getAll(DungeonElementType.DESCEND).get(0),y);
-			else if (a == gen.layers.length-1)generateEnd(rand,elements,elements.getAll(DungeonElementType.END),y);
-			if (a > 0)generateConnections(elements,elements.getAll(DungeonElementType.DESCENDBOTTOM).get(0),y);
+			if (a == gen.layers.length-1)generateEnd(rand,elements,elements.getAll(DungeonElementType.END),y);
 			
-			for(DungeonElement hallway:elements.getAll(DungeonElementType.HALLWAY))generateHallway(rand,elements,hallway,y);
+			List<DungeonElement> hallways = elements.getAll(DungeonElementType.HALLWAY);
+			for(DungeonElement hallway:hallways)generateHallwayWithoutConnections(rand,elements,hallway,y);
+			for(DungeonElement hallway:hallways)generateConnections(elements,hallway,y);
+			
 			for(DungeonElement room:elements.getAll(DungeonElementType.ROOM))generateRoom(rand,elements,room,y);
+			
+			if (a < gen.layers.length-1)generateDescendRoom(rand,elements,elements.getAll(DungeonElementType.DESCEND).get(0),y);
+			if (a > 0)generateConnections(elements,elements.getAll(DungeonElementType.DESCENDBOTTOM).get(0),y);
 			
 			y -= hallHeight+2;
 		}
@@ -102,11 +106,11 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 	
 	private void generateDescendRoom(Random rand, DungeonElementList elements, DungeonElement descend, int y){
 		placer.generateDescend(world,rand,getElementX(descend),y,getElementZ(descend),descend);
+		generateConnections(elements,descend,y);
 	}
 	
-	private void generateHallway(Random rand, DungeonElementList elements, DungeonElement hallway, int y){
+	private void generateHallwayWithoutConnections(Random rand, DungeonElementList elements, DungeonElement hallway, int y){
 		placer.generateHallway(world,rand,getElementX(hallway),y,getElementZ(hallway),hallway);
-		generateConnections(elements,hallway,y);
 	}
 	
 	private void generateRoom(Random rand, DungeonElementList elements, DungeonElement room, int y){

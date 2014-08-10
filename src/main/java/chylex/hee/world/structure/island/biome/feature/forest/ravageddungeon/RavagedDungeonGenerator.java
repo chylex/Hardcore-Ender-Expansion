@@ -7,8 +7,9 @@ import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.Dun
 
 public class RavagedDungeonGenerator{
 	private static final Random rand = new Random();
+	
 	private final byte width, height;
-	private final List<TIntHashSet> blockedLocs = new ArrayList<>(5);
+	private final List<TIntHashSet> blockedLocs = new ArrayList<>(4);
 	public final DungeonLayer[] layers;
 	
 	public RavagedDungeonGenerator(int width, int height, int layers){

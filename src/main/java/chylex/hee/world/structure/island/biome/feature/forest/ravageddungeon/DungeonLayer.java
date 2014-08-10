@@ -98,6 +98,7 @@ public final class DungeonLayer{
 				elementArray[x][y] = DungeonElementType.HALLWAY;
 				elementList.add(new DungeonElement(x,y,DungeonElementType.HALLWAY).connect(dir.reversed()));
 				if (elementList.getAt(prevX,prevY) != null)elementList.getAt(prevX,prevY).connect(dir);
+				else System.out.println("prev hallway not found, "+prevX+","+prevY+" / "+x+","+y);
 				return true;
 			}
 			else move(dir.reversed(),amount);

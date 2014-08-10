@@ -5,10 +5,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.logging.Stopwatch;
 
 public class WorldGenEndPowderOre extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
+		Stopwatch.timeAverage("WorldGenEndPowderOre",64);
+		
 		int blockAmount = rand.nextInt(4)+4;
 		
 		float randomAngle = rand.nextFloat()*(float)Math.PI;
@@ -54,6 +57,8 @@ public class WorldGenEndPowderOre extends WorldGenerator{
 				}
 			}
 		}
+		
+		Stopwatch.finish("WorldGenEndPowderOre");
 		
 		return true;
 	}

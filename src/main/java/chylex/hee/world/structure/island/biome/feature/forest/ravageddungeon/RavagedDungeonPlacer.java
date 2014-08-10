@@ -957,7 +957,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		else if (key.equals("endRoomChest")){
 			TileEntityChest chest = (TileEntityChest)tile;
 			
-			for(int attempt = 0, attemptAmount = 3+rand.nextInt(3); attempt < attemptAmount; attempt++){
+			for(int attempt = 0, attemptAmount = 3+rand.nextInt(2+rand.nextInt(2)); attempt < attemptAmount; attempt++){
 				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),RavagedDungeonLoot.lootEnd.generateIS(rand));
 			}
 		}
@@ -983,7 +983,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	 */
 	
 	private static boolean canReplaceBlock(Block block){
-		return block == Blocks.end_stone || block == BlockList.end_terrain || block == BlockList.stardust_ore || block == BlockList.end_powder_ore || block == Blocks.air;
+		return block == Blocks.end_stone || block == BlockList.end_terrain || block == Blocks.air || block == BlockList.crossed_decoration || block == BlockList.stardust_ore || block == BlockList.end_powder_ore;
 	}
 	
 	private static int getBrickMeta(Random rand){
