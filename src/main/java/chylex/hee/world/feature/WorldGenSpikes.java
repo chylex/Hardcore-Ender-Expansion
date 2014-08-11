@@ -31,7 +31,7 @@ public class WorldGenSpikes extends WorldGenerator{
 				for(int xx = x-radius; xx <= x+radius; ++xx){
 					for(int zz = z-radius; zz <= z+radius; ++zz){
 						if (MathUtil.square(xx-x)+MathUtil.square(zz-z) <= radius*radius+1){
-							world.setBlock(xx,yy,zz,BlockList.obsidian_end,0,2);
+							world.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,2);
 						}
 					}
 				}

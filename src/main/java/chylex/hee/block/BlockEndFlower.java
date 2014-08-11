@@ -28,7 +28,7 @@ public class BlockEndFlower extends BlockFlower{
 	@SideOnly(Side.CLIENT)
 	private IIcon iconDeadFlower;
 	
-	protected BlockEndFlower(){
+	public BlockEndFlower(){
 		super(0);
 	}
 	

@@ -21,10 +21,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockSpookyLeaves extends BlockLeaves{
-	protected BlockSpookyLeaves(){
-		super();
-	}
-	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor){
 		world.scheduleBlockUpdate(x,y,z,this,world.rand.nextInt(20)+3);

@@ -142,7 +142,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 						zz = (int)Math.floor(player.posZ)+rand.nextInt(8)-4;
 						
 						if (worldObj.isAirBlock(xx,yy,zz) && worldObj.isAirBlock(xx,yy-1,zz)){
-							worldObj.setBlock(xx,yy,zz,BlockList.obsidian_end,0,3);
+							worldObj.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,3);
 							++placed;
 						}
 						

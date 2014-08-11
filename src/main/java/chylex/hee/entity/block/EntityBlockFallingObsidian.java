@@ -20,7 +20,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 	}
 	
 	public EntityBlockFallingObsidian(World world, double x, double y, double z){
-		super(world,x,y,z,BlockList.obsidian_end);
+		super(world,x,y,z,BlockList.obsidian_falling);
 	}
 
 	@Override
@@ -84,6 +84,6 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 	
 	@Override
 	public Block func_145805_f(){
-		return BlockList.obsidian_end;
+		return BlockList.obsidian_falling;
 	}
 }

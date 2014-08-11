@@ -24,7 +24,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		
 		// BLOCK ASPECTS
 		
-		registerObjectTag(block(BlockList.obsidian_end), meta(0), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
+		registerObjectTag(block(BlockList.obsidian_falling), meta(0), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
 		registerObjectTag(block(BlockList.obsidian_stairs), meta(0,1,2,3,4,5,6,7), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
 		registerObjectTag(block(BlockList.obsidian_special), meta(0,1,2,3,4,5,6), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
 		registerObjectTag(block(BlockList.obsidian_special_glow), meta(0,1,2,3,4,5,6), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.LIGHT,5).add(Aspect.EARTH,2));

@@ -88,7 +88,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 				for(int xx = ix-maxRad; xx <= ix+maxRad; xx++){
 					for(int zz = iz-maxRad; zz <= iz+maxRad; zz++){
 						for(int yy = terY; yy <= iy; yy++){
-							if (worldObj.getBlock(xx,yy,zz) == BlockList.obsidian_end){
+							if (worldObj.getBlock(xx,yy,zz) == BlockList.obsidian_falling){
 								worldObj.setBlockToAir(xx,yy,zz);
 								double[] vec = DragonUtil.getNormalizedVector(xx-ix,zz-iz);
 								EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,xx+0.5D,yy+0.1D,zz+0.5D);

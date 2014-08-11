@@ -8,7 +8,7 @@ import chylex.hee.mechanics.temple.TempleEvents;
 import chylex.hee.system.util.DragonUtil;
 
 public class BlockTempleEndPortal extends BlockEndPortal{
-	protected BlockTempleEndPortal(){
+	public BlockTempleEndPortal(){
 		super(Material.portal);
 	}
 

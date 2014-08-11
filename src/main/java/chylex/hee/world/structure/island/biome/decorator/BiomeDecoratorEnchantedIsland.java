@@ -52,7 +52,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 								for(int zz = oz-radius; zz <= oz+radius; ++zz){
 									for(int yy = world.getHighestY(xx,zz)+1; yy < oy+height && yy < 128; ++yy){
 										if (MathUtil.square(xx-ox)+MathUtil.square(zz-oz) <= radius*radius+0.5D+rand.nextGaussian()*0.7D){
-											world.setBlock(xx,yy,zz,BlockList.obsidian_end,0,true);
+											world.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,true);
 										}
 									}
 								}

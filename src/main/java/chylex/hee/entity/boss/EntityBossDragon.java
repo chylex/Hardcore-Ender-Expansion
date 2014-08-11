@@ -601,14 +601,14 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 					// CHANGE
 					Block block = worldObj.getBlock(xx,yy,zz);
 
-					if (angryStatus && block == BlockList.obsidian_end){
+					if (angryStatus && block == BlockList.obsidian_falling){
 						worldObj.setBlockToAir(xx,yy,zz);
 						EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,xx,yy,zz);
 						obsidian.motionY = -0.2;
 						worldObj.spawnEntityInWorld(obsidian);
 						spawnParticles = true;
 					}
-					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_end || (block == Blocks.iron_bars && worldObj.getBlock(xx,yy-1,zz) == BlockList.obsidian_end)))){
+					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && worldObj.getBlock(xx,yy-1,zz) == BlockList.obsidian_falling)))){
 						wasBlocked = true;
 					}
 					else if (Math.sqrt(Math.pow(xx-cx,2)+Math.pow(yy-cy,2)+Math.pow(zz-cz,2)) <= rad+0.3D*rand.nextGaussian()){

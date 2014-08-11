@@ -359,7 +359,7 @@ public final class KnowledgeRegistrations{
 		
 		FALLING_OBSIDIAN
 		.setPosition(-hdist,-dist)
-		.setRenderer(new ItemStackRenderer(BlockList.obsidian_end))
+		.setRenderer(new ItemStackRenderer(BlockList.obsidian_falling))
 		.setFragments(new KnowledgeFragment[]{
 			new TextKnowledgeFragment(0).setLocalizedText("It is affected by gravity, and will heavily damage any creature it hits."),
 			new TextKnowledgeFragment(1).setLocalizedText("Falling on a transparent block, such as torches or levers, will crush said block.").setUnlockRequirements(0),

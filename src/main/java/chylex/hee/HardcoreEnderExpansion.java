@@ -46,12 +46,6 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.GuiHandler;
 import chylex.hee.item.ItemList;
-import chylex.hee.item.block.ItemBlockEndFlower;
-import chylex.hee.item.block.ItemBlockEnhancedTNT;
-import chylex.hee.item.block.ItemBlockEssenceAltar;
-import chylex.hee.item.block.ItemBlockSlab;
-import chylex.hee.item.block.ItemBlockSoulCharm;
-import chylex.hee.item.block.ItemBlockWithSubtypes;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.infestation.InfestationEvents;
@@ -135,47 +129,9 @@ public class HardcoreEnderExpansion{
 		// BLOCKS
 		
 		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, BlockDragonEggCustom.class);
+		BlockList.registerBlocks();
 		
-		GameRegistryUtil.registerBlock(BlockList.obsidian_end, "obsidian_end");
-		GameRegistryUtil.registerBlock(BlockList.obsidian_stairs, "obsidian_stairs");
-		GameRegistryUtil.registerBlock(BlockList.obsidian_special, "obsidian_special", ItemBlockWithSubtypes.class);
-		GameRegistryUtil.registerBlock(BlockList.obsidian_special_glow, "obsidian_special_glow", ItemBlockWithSubtypes.class);
-		GameRegistryUtil.registerBlock(BlockList.essence_altar, "essence_altar", ItemBlockEssenceAltar.class);
-		GameRegistryUtil.registerBlock(BlockList.enhanced_brewing_stand, "enhanced_brewing_stand_block");
-		GameRegistryUtil.registerBlock(BlockList.enhanced_tnt, "enhanced_tnt", ItemBlockEnhancedTNT.class);
-		GameRegistryUtil.registerBlock(BlockList.decomposition_table, "decomposition_table");
-		GameRegistryUtil.registerBlock(BlockList.energy_extraction_table, "energy_extraction_table");
-		GameRegistryUtil.registerBlock(BlockList.end_powder_ore, "end_powder_ore");
-		GameRegistryUtil.registerBlock(BlockList.stardust_ore, "stardust_ore");
-		GameRegistryUtil.registerBlock(BlockList.igneous_rock_ore, "igneous_rock_ore");
-		GameRegistryUtil.registerBlock(BlockList.instability_orb_ore, "instability_orb_ore");
-		GameRegistryUtil.registerBlock(BlockList.ender_goo, "ender_goo");
-		GameRegistryUtil.registerBlock(BlockList.end_terrain, "end_stone_terrain", ItemBlockWithSubtypes.class);
-		GameRegistryUtil.registerBlock(BlockList.spooky_log, "spooky_log");
-		GameRegistryUtil.registerBlock(BlockList.spooky_leaves, "spooky_leaves");
-		GameRegistryUtil.registerBlock(BlockList.soul_charm, "soul_charm", ItemBlockSoulCharm.class);
-		GameRegistryUtil.registerBlock(BlockList.crossed_decoration, "crossed_decoration", ItemBlockWithSubtypes.class);
-		GameRegistryUtil.registerBlock(BlockList.death_flower, "death_flower", ItemBlockEndFlower.class);
-		GameRegistryUtil.registerBlock(BlockList.death_flower_pot, "death_flower_pot");
-		GameRegistryUtil.registerBlock(BlockList.enderman_head, "enderman_head_block");
-		GameRegistryUtil.registerBlock(BlockList.sphalerite, "sphalerite", ItemBlockWithSubtypes.class);
-		GameRegistryUtil.registerBlock(BlockList.ravaged_brick, "ravaged_brick", ItemBlockWithSubtypes.class);
-		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_smooth, "ravaged_brick_smooth");
-		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_glow, "ravaged_brick_glow");
-		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_slab, "ravaged_brick_slab", ItemBlockSlab.class);
-		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_stairs, "ravaged_brick_stairs");
-		GameRegistryUtil.registerBlock(BlockList.ravaged_brick_fence, "ravaged_brick_fence");
-		GameRegistryUtil.registerBlock(BlockList.dungeon_puzzle, "dungeon_puzzle", ItemBlockWithSubtypes.class);
-		GameRegistryUtil.registerBlock(BlockList.cinder, "cinder");
-		GameRegistryUtil.registerBlock(BlockList.energy_cluster, "energy_cluster");
-		GameRegistryUtil.registerBlock(BlockList.corrupted_energy_high, "corrupted_energy_high");
-		GameRegistryUtil.registerBlock(BlockList.corrupted_energy_low, "corrupted_energy_low");
-		GameRegistryUtil.registerBlock(BlockList.laser_beam, "laser_beam");
-		GameRegistryUtil.registerBlock(BlockList.custom_spawner, "custom_spawner");
-		GameRegistryUtil.registerBlock(BlockList.temple_end_portal, "temple_end_portal");
-		GameRegistryUtil.registerBlock(BlockList.biome_core, "biome_core");
-		
-		BlockList.obsidian_end.setHarvestLevel("pickaxe", 3);
+		BlockList.obsidian_falling.setHarvestLevel("pickaxe", 3);
 		BlockList.obsidian_stairs.setHarvestLevel("pickaxe", 3);
 		BlockList.obsidian_special.setHarvestLevel("pickaxe", 3);
 		BlockList.obsidian_special_glow.setHarvestLevel("pickaxe", 3);
@@ -194,40 +150,7 @@ public class HardcoreEnderExpansion{
 		
 		// ITEMS
 		
-		GameRegistryUtil.registerItem(ItemList.adventurers_diary, "adventurers_diary");
-		GameRegistryUtil.registerItem(ItemList.altar_nexus, "altar_nexus");
-		GameRegistryUtil.registerItem(ItemList.essence, "essence");
-		GameRegistryUtil.registerItem(ItemList.end_powder, "end_powder");
-		GameRegistryUtil.registerItem(ItemList.stardust, "stardust");
-		GameRegistryUtil.registerItem(ItemList.enhanced_ender_pearl, "enhanced_ender_pearl");
-		GameRegistryUtil.registerItem(ItemList.igneous_rock, "igneous_rock");
-		GameRegistryUtil.registerItem(ItemList.instability_orb, "instability_orb");
-		GameRegistryUtil.registerItem(ItemList.potion_of_instability, "potion_of_instability");
-		GameRegistryUtil.registerItem(ItemList.spatial_dash_gem, "spatial_dash_gem");
-		GameRegistryUtil.registerItem(ItemList.transference_gem, "transference_gem");
-		GameRegistryUtil.registerItem(ItemList.enderman_head, "enderman_head");
-		GameRegistryUtil.registerItem(ItemList.bucket_ender_goo, "bucket_ender_goo");
-		GameRegistryUtil.registerItem(ItemList.temple_caller, "temple_caller");
-		GameRegistryUtil.registerItem(ItemList.biome_compass, "biome_compass");
-		GameRegistryUtil.registerItem(ItemList.silverfish_blood, "silverfish_blood");
-		GameRegistryUtil.registerItem(ItemList.dry_splinter, "dry_splinter");
-		GameRegistryUtil.registerItem(ItemList.infestation_remedy, "infestation_remedy");
-		GameRegistryUtil.registerItem(ItemList.ghost_amulet, "ghost_amulet");
-		GameRegistryUtil.registerItem(ItemList.ectoplasm, "endoplasm");
-		GameRegistryUtil.registerItem(ItemList.charm_pouch, "charm_pouch");
-		GameRegistryUtil.registerItem(ItemList.rune, "rune");
-		GameRegistryUtil.registerItem(ItemList.charm, "charm");
-		GameRegistryUtil.registerItem(ItemList.fire_shard, "fire_shard");
-		GameRegistryUtil.registerItem(ItemList.scorching_pickaxe, "schorching_pickaxe");
-		GameRegistryUtil.registerItem(ItemList.corporeal_mirage_orb, "corporeal_mirage_orb");
-		GameRegistryUtil.registerItem(ItemList.spectral_wand, "spectral_wand");
-		GameRegistryUtil.registerItem(ItemList.enderman_relic, "enderman_relic_repaired");
-		GameRegistryUtil.registerItem(ItemList.enhanced_brewing_stand, "enhanced_brewing_stand");
-		GameRegistryUtil.registerItem(ItemList.music_disk, "music_disk");
-		GameRegistryUtil.registerItem(ItemList.ender_compendium, "ender_compendium");
-		GameRegistryUtil.registerItem(ItemList.knowledge_fragment, "knowledge_fragment");
-		GameRegistryUtil.registerItem(ItemList.spawn_eggs, "spawn_eggs");
-		GameRegistryUtil.registerItem(ItemList.special_effects, "item_special_effects");
+		ItemList.registerItems();
 		
 		MinecraftForge.EVENT_BUS.register(ItemList.enderman_head);
 		MinecraftForge.EVENT_BUS.register(ItemList.scorching_pickaxe);
