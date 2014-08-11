@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntity;
+import chylex.hee.system.logging.Stopwatch;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -46,6 +47,8 @@ public class PacketPipeline{
 	private PacketPipeline(){}
 	
 	private void load(){
+		Stopwatch.time("PacketPipeline");
+		
 		eventDrivenChannel = NetworkRegistry.INSTANCE.newEventDrivenChannel(channelName);
 		eventDrivenChannel.register(this);
 		
@@ -56,20 +59,19 @@ public class PacketPipeline{
 			
 			int id = -1;
 			
-			ClassPath path = ClassPath.from(PacketPipeline.class.getClassLoader());
-			
-			for(ClassInfo clsInfo:path.getTopLevelClasses("chylex.hee.packets.client")){
-				Class cls = clsInfo.load();
-				if (!cls.getName().endsWith("__"))registerPacket(++id,cls);
-			}
-			
-			for(ClassInfo clsInfo:path.getTopLevelClasses("chylex.hee.packets.server")){
-				Class cls = clsInfo.load();
-				if (!cls.getName().endsWith("__"))registerPacket(++id,cls);
+			for(ClassInfo clsInfo:ClassPath.from(PacketPipeline.class.getClassLoader()).getTopLevelClassesRecursive("chylex.hee.packets")){
+				String name = clsInfo.getName();
+				
+				if (name.startsWith("chylex.hee.packets.client.C") || name.startsWith("chylex.hee.packets.server.S")){
+					Class cls = clsInfo.load();
+					registerPacket(++id,cls);
+				}
 			}
 		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException | IOException e){
 			throw new RuntimeException("Unable to load the Packet system!",e);
 		}
+		
+		Stopwatch.finish("PacketPipeline");
 	}
 	
 	private void registerPacket(int id, Class<? extends AbstractPacket> cls){

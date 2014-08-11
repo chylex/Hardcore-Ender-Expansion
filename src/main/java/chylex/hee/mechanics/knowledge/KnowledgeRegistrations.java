@@ -35,6 +35,7 @@ import chylex.hee.mechanics.knowledge.fragment.CraftingKnowledgeFragment;
 import chylex.hee.mechanics.knowledge.fragment.IFragmentUnlockAction;
 import chylex.hee.mechanics.knowledge.fragment.KnowledgeFragment;
 import chylex.hee.mechanics.knowledge.fragment.TextKnowledgeFragment;
+import chylex.hee.system.logging.Stopwatch;
 
 public final class KnowledgeRegistrations{
 	private static final int dist = 28, hdist = dist/2;
@@ -119,6 +120,8 @@ public final class KnowledgeRegistrations{
 		MUSIC_DISCS = new KnowledgeRegistration(MISCELLANEOUS, "musicDiscs"); //
 	
 	public static void initialize(){
+		Stopwatch.time("KnowledgeRegistrations");
+		
 		HELP
 		.setFragments(new KnowledgeFragment[]{
 			new TextKnowledgeFragment(0).setLocalizedText("Ender Compendium is the source of knowledge about the End dimension."),
@@ -882,6 +885,8 @@ public final class KnowledgeRegistrations{
 		.setFragments(new KnowledgeFragment[]{
 			new TextKnowledgeFragment(0).setLocalizedText("Discs containing various music that plays in the End, found in various dungeons of the dimension.")
 		});
+
+		Stopwatch.finish("KnowledgeRegistrations");
 	}
 	
 	private KnowledgeRegistrations(){}

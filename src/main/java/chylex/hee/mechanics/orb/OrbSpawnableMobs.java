@@ -11,6 +11,7 @@ import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.util.SpawnEntry;
@@ -19,6 +20,8 @@ public final class OrbSpawnableMobs{
 	public static final Set<Class<?>> classList = new HashSet<>();
 	
 	public static void initialize(){
+		Stopwatch.time("OrbSpawnableMobs");
+		
 		for(BiomeGenBase biome:BiomeGenBase.getBiomeGenArray()){
 			if (biome == null)continue;
 			
@@ -40,6 +43,8 @@ public final class OrbSpawnableMobs{
 			EntityCaveSpider.class, EntityWitch.class, EntitySnowman.class,
 			EntityVillager.class, EntitySilverfish.class, EntityIronGolem.class
 		})classList.add(cls);
+
+		Stopwatch.finish("OrbSpawnableMobs");
 	}
 	
 	private OrbSpawnableMobs(){}

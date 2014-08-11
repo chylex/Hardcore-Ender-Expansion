@@ -3,11 +3,11 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import chylex.hee.packets.AbstractServerPacket;
 
-public class S__ extends AbstractServerPacket{
+public class __ extends AbstractServerPacket{
 	
-	public S__(){}
+	public __(){}
 	
-	public S__(Object o){
+	public __(Object o){
 		
 	}
 	

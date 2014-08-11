@@ -5,11 +5,11 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C__ extends AbstractClientPacket{
+public class __ extends AbstractClientPacket{
 	
-	public C__(){}
+	public __(){}
 	
-	public C__(Object o){
+	public __(Object o){
 		
 	}
 	

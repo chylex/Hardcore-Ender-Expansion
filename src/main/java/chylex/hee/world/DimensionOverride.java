@@ -34,6 +34,7 @@ public final class DimensionOverride{
 	}
 	
 	private static void overrideBiome(){
+		Stopwatch.time("DimensionOverride - Biome");
 		Field modifiersField = null;
 		
 		try{
@@ -53,10 +54,14 @@ public final class DimensionOverride{
 		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException e){
 			throw new RuntimeException("Could not override the End biome!",e);
 		}
+		
+		Stopwatch.finish("DimensionOverride - Biome");
 	}
 	
 	@SuppressWarnings("unchecked")
 	private static void overrideWorldGen(){
+		Stopwatch.time("DimensionOverride - WorldProvider");
+		
 		try{
 			Field f = DimensionManager.class.getDeclaredField("providers");
 			f.setAccessible(true); // let it throw NPE if the field isn't found
@@ -67,5 +72,7 @@ public final class DimensionOverride{
 		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException e){
 			throw new RuntimeException("Could not override the DimensionManager providers!",e);
 		}
+
+		Stopwatch.finish("DimensionOverride - WorldProvider");
 	}
 }
