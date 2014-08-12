@@ -1,4 +1,4 @@
-package chylex.hee.system.savedata;
+package chylex.hee.system.savedata.old;
 import gnu.trove.map.hash.TObjectShortHashMap;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;

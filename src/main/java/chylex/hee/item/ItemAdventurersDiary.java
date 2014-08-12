@@ -6,8 +6,8 @@ import net.minecraft.world.World;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C04OpenAdventurersDiary;
-import chylex.hee.system.savedata.LoreSavefile;
-import chylex.hee.system.savedata.WorldData;
+import chylex.hee.system.savedata.old.LoreSavefile;
+import chylex.hee.system.savedata.old.WorldData;
 
 public class ItemAdventurersDiary extends Item{
 	@Override

@@ -19,7 +19,7 @@ import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.savedata.ServerSavefile;
+import chylex.hee.system.savedata.old.ServerSavefile;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 
 public class BlockDragonEggCustom extends BlockDragonEgg{

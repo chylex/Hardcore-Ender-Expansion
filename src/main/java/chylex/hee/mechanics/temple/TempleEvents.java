@@ -15,7 +15,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.savedata.ServerSavefile;
+import chylex.hee.system.savedata.old.ServerSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import chylex.hee.world.feature.TempleGenerator;

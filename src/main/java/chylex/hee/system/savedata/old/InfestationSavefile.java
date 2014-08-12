@@ -1,4 +1,4 @@
-package chylex.hee.system.savedata;
+package chylex.hee.system.savedata.old;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class InfestationSavefile extends Savefile{

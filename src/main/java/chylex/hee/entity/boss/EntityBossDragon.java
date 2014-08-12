@@ -60,7 +60,7 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.commands.DebugBoard;
 import chylex.hee.system.commands.HeeDebugCommand;
-import chylex.hee.system.savedata.ServerSavefile;
+import chylex.hee.system.savedata.old.ServerSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
