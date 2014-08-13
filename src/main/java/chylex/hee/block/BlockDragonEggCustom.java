@@ -1,6 +1,7 @@
 package chylex.hee.block;
-import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDragonEgg;
 import net.minecraft.block.BlockFalling;
@@ -19,8 +20,8 @@ import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.savedata.old.ServerSavefile;
-import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 
 public class BlockDragonEggCustom extends BlockDragonEgg{
 	public BlockDragonEggCustom(){
@@ -36,13 +37,15 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
 		if (x == 9 && z == 6 && y == 249 && world.provider.dimensionId == 1 && !world.isRemote){
-			ServerSavefile save = BiomeDecoratorHardcoreEnd.getCache(world);
-			List<String> playersInTemple = save.getPlayersInTemple();
+			DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
+			Set<UUID> playersInTemple = save.getPlayersInTemple();
+			
 			if (!playersInTemple.isEmpty()){
 				save.setPreventTempleDestruction(true);
+				
 				for(Object o:world.playerEntities){
 					EntityPlayer player = (EntityPlayer)o;
-					if (playersInTemple.contains(player.getCommandSenderName()))player.addStat(AchievementManager.REBIRTH,1);
+					if (playersInTemple.contains(player.getGameProfile().getId()))player.addStat(AchievementManager.REBIRTH,1);
 				}
 				
 				world.spawnEntityInWorld(new EntityBlockTempleDragonEgg(world,x+0.5D,y+0.5D,z+0.5D));

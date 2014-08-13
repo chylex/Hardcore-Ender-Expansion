@@ -9,6 +9,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.temple.TeleportParticleTickEvent;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import chylex.hee.world.feature.TempleGenerator;
 import cpw.mods.fml.relauncher.Side;
@@ -42,7 +44,7 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 			return is;
 		}
 		
-		if (player.dimension != 1 || !player.inventory.hasItem(Item.getItemFromBlock(Blocks.dragon_egg)) || !BiomeDecoratorHardcoreEnd.getCache(world).isDragonDead())player.addChatMessage(new ChatComponentText("This is not the time to use that!"));
+		if (player.dimension != 1 || !player.inventory.hasItem(Item.getItemFromBlock(Blocks.dragon_egg)) || !WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())player.addChatMessage(new ChatComponentText("This is not the time to use that!"));
 		else if (player.posY < templeY){
 			if (!player.capabilities.isCreativeMode)--is.stackSize;
 			
@@ -50,7 +52,7 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 				new TempleGenerator(world).spawnTemple(templeX,templeY,templeZ);
 				player.setLocationAndAngles(templeX+1.5D,templeY+1,templeZ+6.5D,-90F,0F);
 				player.setPositionAndUpdate(templeX+1.5D,templeY+1,templeZ+6.5D);
-				BiomeDecoratorHardcoreEnd.getCache(world).setPlayerIsInTemple(player.getCommandSenderName(),true);
+				WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setPlayerIsInTemple(player,true);
 				
 				KnowledgeRegistrations.TEMPLE_CALLER.tryUnlockFragment(player,1F);
 			}

@@ -1,6 +1,8 @@
 package chylex.hee.world.structure;
 import java.util.Random;
 import net.minecraft.world.gen.structure.MapGenScatteredFeature;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 
@@ -31,7 +33,7 @@ public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeatur
 		int x2 = x/maxSpacing, z2 = z/maxSpacing;
 		
 		coordCheckRand.setSeed(x2*341873128712L+z2*132897987541L+worldObj.getWorldInfo().getSeed()+358041L);
-		coordCheckRand.nextInt(1+BiomeDecoratorHardcoreEnd.getCache(worldObj).getDragonDeathAmount());
+		coordCheckRand.nextInt(1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount());
 		
 		x2 *= maxSpacing;
 		z2 *= maxSpacing;

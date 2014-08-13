@@ -16,6 +16,8 @@ import net.minecraft.world.World;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.render.texture.TextureBiomeCompass;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -57,7 +59,7 @@ public class ItemBiomeCompass extends Item{
 			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
 			if (!is.stackTagCompound.hasKey("seed1")){
 				is.stackTagCompound.setLong("seed1",world.getSeed());
-				is.stackTagCompound.setShort("seed2",(short)(1+BiomeDecoratorHardcoreEnd.getCache(world).getDragonDeathAmount()));
+				is.stackTagCompound.setShort("seed2",(short)(1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount()));
 			}
 			
 			if (isHeld && world.rand.nextInt(70) == 0 && entity instanceof EntityPlayer){

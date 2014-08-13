@@ -65,6 +65,8 @@ public class LoreSavefile extends WorldSavefile{
 
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
+		unlockedPages.clear();
+		
 		for(Object o:nbt.func_150296_c()){
 			String key = (String)o;
 			unlockedPages.put(DragonUtil.convertNameToUUID(key),nbt.getByteArray(key));

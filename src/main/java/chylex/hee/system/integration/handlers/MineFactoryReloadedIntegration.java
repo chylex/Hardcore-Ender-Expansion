@@ -11,7 +11,7 @@ public class MineFactoryReloadedIntegration implements IIntegrationHandler{
 	}
 
 	@Override
-	public void integrate(){ // TODO test
+	public void integrate(){
 		try{
 			Method blacklist = Class.forName("powercrystals.minefactoryreloaded.MFRRegistry").getMethod("registerSafariNetBlacklist",Class.class);
 			blacklist.invoke(null,EntityMobBabyEnderman.class);

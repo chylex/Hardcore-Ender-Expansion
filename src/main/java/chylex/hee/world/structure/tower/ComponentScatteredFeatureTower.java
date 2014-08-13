@@ -29,6 +29,8 @@ import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.knowledge.util.FragmentWeightLists;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
@@ -749,7 +751,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 				Potion.damageBoost, /*Potion.invisibility, */Potion.moveSpeed, Potion.regeneration, Potion.resistance, Potion.fireResistance
 			}));
 			
-			spawnerRand.setSeed(minY*256L+x*341873128712L+z*132897987541L+world.getWorldInfo().getSeed()+BiomeDecoratorHardcoreEnd.getCache(world).getDragonDeathAmount());
+			spawnerRand.setSeed(minY*256L+x*341873128712L+z*132897987541L+world.getWorldInfo().getSeed()+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount());
 			
 			List<PotionEffect> effects = new ArrayList<>();
 			int amount = (int)Math.round(difficulty/2.7D)+spawnerRand.nextInt(1+(int)Math.ceil(difficulty/3D));

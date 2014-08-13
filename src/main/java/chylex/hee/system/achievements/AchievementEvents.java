@@ -10,6 +10,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.item.ItemList;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -29,12 +31,12 @@ public final class AchievementEvents{
 	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent e){
-		if (e.player.dimension == 1 && BiomeDecoratorHardcoreEnd.getCache(e.player.worldObj).isDragonDead())e.player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
+		if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
 	}
 	
 	@SubscribeEvent
 	public void onPlayerChangedDimension(PlayerChangedDimensionEvent e){
-		if (e.toDim == 1 && BiomeDecoratorHardcoreEnd.getCache(e.player.worldObj).isDragonDead())e.player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
+		if (e.toDim == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
 	}
 	
 	@SubscribeEvent

@@ -29,7 +29,7 @@ public class WorldData{
 		
 		File root = DimensionManager.getCurrentSaveRootDirectory();
 		if (root != null){
-			saveDirectory = new File(root,"hed"); // TODO rename to hee
+			saveDirectory = new File(root,"hee");
 			saveDirectory.mkdirs();
 		}
 	}

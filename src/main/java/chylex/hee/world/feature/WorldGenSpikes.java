@@ -6,6 +6,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 
@@ -72,7 +74,7 @@ public class WorldGenSpikes extends WorldGenerator{
 			world.spawnEntityInWorld(crystal);
 			world.setBlock(x,y+height,z,Blocks.bedrock,0,2);
 			
-			crystal.setCrystalKey(BiomeDecoratorHardcoreEnd.getCache(world).addCrystal(x,y+height,z));
+			crystal.setCrystalKey(WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).addCrystal(x,y+height,z));
 			
 			return true;
 		}

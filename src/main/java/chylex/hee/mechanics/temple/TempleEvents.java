@@ -1,7 +1,7 @@
 package chylex.hee.mechanics.temple;
 import java.io.File;
-import java.util.List;
-import org.apache.commons.io.FileUtils;
+import java.util.Set;
+import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -13,9 +13,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import org.apache.commons.io.FileUtils;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.savedata.old.ServerSavefile;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import chylex.hee.world.feature.TempleGenerator;
@@ -38,24 +40,22 @@ public final class TempleEvents{
 	public static void destroyWorld(World endWorld){
 		if (instance == null)throw new RuntimeException("EndDestroyTicker has not been registered!");
 		instance.endWorld = endWorld;
-		BiomeDecoratorHardcoreEnd.getCache(endWorld).setDestroyEnd(true);
+		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setDestroyEnd(true);
 	}
 	
 	/**
 	 * Returns true if player was in temple, not if the temple was destroyed
 	 */
 	public static boolean attemptDestroyTemple(EntityPlayer player){
-		ServerSavefile save = BiomeDecoratorHardcoreEnd.getCache(player.worldObj);
-		List<String> playersInTemple = save.getPlayersInTemple();
+		DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
+		Set<UUID> playersInTemple = save.getPlayersInTemple();
 		
-		if (playersInTemple.contains(player.getCommandSenderName())){
+		if (playersInTemple.contains(player.getGameProfile().getId())){
 			if (playersInTemple.size() == 1 && !save.shouldPreventTempleDestruction()){
 				save.resetPlayersInTemple();
-				for(WorldServer world:DimensionManager.getWorlds()){
-					if (world.provider.dimensionId == 1)new TempleGenerator(world).preloadAndClearArea(ItemTempleCaller.templeX,ItemTempleCaller.templeY,ItemTempleCaller.templeZ);
-				}
+				new TempleGenerator(DimensionManager.getWorld(1)).preloadAndClearArea(ItemTempleCaller.templeX,ItemTempleCaller.templeY,ItemTempleCaller.templeZ);
 			}
-			else save.setPlayerIsInTemple(player.getCommandSenderName(),false);
+			else save.setPlayerIsInTemple(player,false);
 			return true;
 		}
 		else return false;
@@ -114,14 +114,13 @@ public final class TempleEvents{
 			if (DimensionManager.getWorld(1) != null)DimensionManager.unloadWorld(1);
 			
 			if (FileUtils.deleteQuietly(dim1)){
-				ServerSavefile save = BiomeDecoratorHardcoreEnd.getCache(endWorld);
+				DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
 				save.setDestroyEnd(false);
 				save.setPreventTempleDestruction(false);
 				save.resetPlayersInTemple();
 				save.addDragonDeath();
 				save.setDragonDead(false);
 				save.resetCrystals();
-				save.save();
 				
 				endWorld = null;
 				counter = 0;

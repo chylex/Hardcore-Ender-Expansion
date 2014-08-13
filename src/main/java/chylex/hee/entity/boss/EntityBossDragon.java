@@ -60,7 +60,8 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.commands.DebugBoard;
 import chylex.hee.system.commands.HeeDebugCommand;
-import chylex.hee.system.savedata.old.ServerSavefile;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
@@ -156,7 +157,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D+Math.min(50,BiomeDecoratorHardcoreEnd.getCache(worldObj).getDragonDeathAmount()*8)+(ModCommonProxy.opMobs ? 80D : 0D)); // CHANGED LINE
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D+Math.min(50,WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount()*8)+(ModCommonProxy.opMobs ? 80D : 0D)); // CHANGED LINE
 	}
 
 	@Override
@@ -209,7 +210,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 			}
 			
 			if (spawnCooldown <= 4 && !angryStatus && ticksExisted%10 == 0){
-				ServerSavefile save = BiomeDecoratorHardcoreEnd.getCache(worldObj);
+				DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
 				if (save.countCrystals() <= 2+save.getDragonDeathAmount() || attacks.getHealthPercentage() < 80)setAngry(true);
 			}
 			
@@ -682,7 +683,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
  			if (deathTicks == 1){
  				PacketPipeline.sendToDimension(dimension,new C01ParticleEndPortalCreation(MathHelper.floor_double(posX),MathHelper.floor_double(posZ)));
  				achievements.onBattleFinished();
- 				BiomeDecoratorHardcoreEnd.getCache(worldObj).setDragonDead(true);
+ 				WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setDragonDead(true);
 				worldObj.playBroadcastSound(1018,(int)posX,(int)posY,(int)posZ,0);
  			}
  			else if (deathTicks == 20 || deathTicks == 140){ // double check

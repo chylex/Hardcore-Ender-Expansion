@@ -1,14 +1,13 @@
 package chylex.hee.world.biome;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeEndDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.savedata.old.ServerSavefile;
-import chylex.hee.system.savedata.old.WorldData;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.WorldGenBlob;
 import chylex.hee.world.feature.WorldGenEndPowderOre;
@@ -16,28 +15,17 @@ import chylex.hee.world.feature.WorldGenMeteoroid;
 import chylex.hee.world.feature.WorldGenSpikes;
 
 public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
-	private static ServerSavefile serverSaveCache;
-	
 	private final WorldGenBlob blobGen;
 	private final WorldGenMeteoroid meteoroidGen;
 	private final WorldGenEndPowderOre endPowderOreGen;
 	
 	public BiomeDecoratorHardcoreEnd(){
-		super();
-		
 		spikeGen = new WorldGenSpikes();
 		blobGen = new WorldGenBlob();
 		meteoroidGen = new WorldGenMeteoroid();
 		endPowderOreGen = new WorldGenEndPowderOre();
 	}
 	
-	public static ServerSavefile getCache(World world){
-		if (serverSaveCache == null || !serverSaveCache.isWorldEqual(world)){
-			serverSaveCache = new ServerSavefile(WorldData.get(world));
-		}
-		return serverSaveCache;
-	}
-
 	@Override
 	protected void genDecorations(BiomeGenBase biome){
 		if (currentWorld.provider.dimensionId != 1){
@@ -45,8 +33,9 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			return;
 		}
 		
-		randomGenerator.nextInt(1+getCache(currentWorld).getDragonDeathAmount()); // each time, the world is a little different
+		DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
 		
+		randomGenerator.nextInt(1+file.getDragonDeathAmount()); // each time, the world is a little different
 		generateOres();
 
 		double distFromCenter = Math.sqrt(MathUtil.square(chunk_X>>4)+MathUtil.square(chunk_Z>>4))*16D;
@@ -83,7 +72,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		}
 
 		if (chunk_X == 0 && chunk_Z == 0){
-			BiomeDecoratorHardcoreEnd.getCache(currentWorld).setDragonExists();
+			file.setDragonExists();
 			
 			EntityBossDragon dragon = new EntityBossDragon(currentWorld);
 			dragon.setLocationAndAngles(0D,128D,0D,randomGenerator.nextFloat()*360F,0F);

@@ -11,6 +11,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 
@@ -32,7 +34,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			setDead();
 
 			worldObj.createExplosion((Entity)null,posX,posY,posZ,6F,true);
-			if (worldObj.provider.dimensionId == 1)BiomeDecoratorHardcoreEnd.getCache(worldObj).destroyCrystal(crystalKey);
+			if (worldObj.provider.dimensionId == 1)WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).destroyCrystal(crystalKey);
 
 			/*
 			 * TNT
