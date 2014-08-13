@@ -55,10 +55,14 @@ public final class WorldDataHandler{
 			File root = DimensionManager.getCurrentSaveRootDirectory();
 			
 			if (root != null){
-				File oldSaveDir = new File(root,"hee");
-				worldSaveDir = new File(root,"hed");
+				File oldSaveDir = new File(root,"hed");
+				worldSaveDir = new File(root,"hee");
 				
-				if (oldSaveDir.exists() && !worldSaveDir.exists())oldSaveDir.renameTo(worldSaveDir);
+				if (oldSaveDir.exists()){
+					if (!worldSaveDir.exists())oldSaveDir.renameTo(worldSaveDir);
+					else oldSaveDir.delete();
+				}
+				
 				if (!worldSaveDir.exists())worldSaveDir.mkdirs();
 			}
 		}

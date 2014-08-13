@@ -38,6 +38,7 @@ public class LoreSavefile extends WorldSavefile{
 			updated[alreadyUnlocked.length] = list.get(0);
 			
 			unlockedPages.put(player.getGameProfile().getId(),updated);
+			setModified();
 			return list.get(0);
 		}
 		else return -1;
@@ -52,6 +53,7 @@ public class LoreSavefile extends WorldSavefile{
 		updated[alreadyUnlocked.length] = (byte)page;
 		
 		unlockedPages.put(player.getGameProfile().getId(),updated);
+		setModified();
 	}
 
 	@Override
