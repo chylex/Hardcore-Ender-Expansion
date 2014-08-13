@@ -64,7 +64,6 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 
 public class EntityBossDragon extends EntityLiving implements IBossDisplayData,IEntityMultiPart,IMob{
 	public double targetX;

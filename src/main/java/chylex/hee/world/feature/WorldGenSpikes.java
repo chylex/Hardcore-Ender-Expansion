@@ -9,7 +9,6 @@ import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 
 public class WorldGenSpikes extends WorldGenerator{
 	private static final Block surfaceID = Blocks.end_stone;

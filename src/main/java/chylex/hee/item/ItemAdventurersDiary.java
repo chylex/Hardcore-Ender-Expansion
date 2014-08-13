@@ -7,7 +7,6 @@ import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C04OpenAdventurersDiary;
 import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.old.WorldData;
 import chylex.hee.system.savedata.types.LoreSavefile;
 
 public class ItemAdventurersDiary extends Item{

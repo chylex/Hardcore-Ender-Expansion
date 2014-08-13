@@ -12,7 +12,6 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
-import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

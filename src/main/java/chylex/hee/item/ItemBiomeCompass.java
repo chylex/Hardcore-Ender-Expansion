@@ -19,7 +19,6 @@ import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

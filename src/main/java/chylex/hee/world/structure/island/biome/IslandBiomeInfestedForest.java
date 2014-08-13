@@ -5,8 +5,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
-import chylex.hee.mechanics.infestation.InfestationEvents;
 import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.InfestationSavefile;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorInfestedForest;
@@ -62,7 +63,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 				for(int testX = xx-1; testX <= xx+1 && !found; testX++){
 					for(int testZ = zz-1; testZ <= zz+1; testZ++){
 						if (world.getBlock(testX,testY,testZ) == getTopBlock() && world.getBlockMetadata(testX,testY,testZ) == getTopBlockMeta()){
-							InfestationEvents.getCache(world).increaseInfestationPower(player);
+							WorldDataHandler.<InfestationSavefile>get(InfestationSavefile.class).increaseInfestationPower(player);
 							found = true;
 							break;
 						}

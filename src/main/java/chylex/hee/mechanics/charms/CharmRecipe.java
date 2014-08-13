@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.charms;
+import gnu.trove.iterator.TObjectByteIterator;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.ArrayList;
@@ -40,9 +41,9 @@ public class CharmRecipe{
 		List<RuneType> runeList = new ArrayList<RuneType>();
 		for(RuneType rune:runes)runeList.add(rune);
 		
-		for(RuneType runeType:this.runes.keySet()){
-			for(int amt = 0, total = this.runes.get(runeType); amt < total; amt++){
-				if (!runeList.remove(runeType))return false;
+		for(TObjectByteIterator<RuneType> iter = this.runes.iterator(); iter.hasNext();){
+			for(int amt = 0, total = iter.value(); amt < total; amt++){
+				if (!runeList.remove(iter.key()))return false;
 			}
 		}
 		

@@ -1,5 +1,5 @@
 package chylex.hee.system.savedata.old;
-import gnu.trove.map.hash.TObjectShortHashMap;
+/*import gnu.trove.map.hash.TObjectShortHashMap;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -33,7 +33,7 @@ public class ApocalypseSavefile extends Savefile{
 	/**
 	 * Adds a biome to player's ritual list and returns true if all biomes are finished.
 	 */
-	public boolean addRitual(String username, byte biomeId){
+	/*public boolean addRitual(String username, byte biomeId){
 		NBTTagCompound rituals = nbt.getCompoundTag("rituals");
 		byte[] ritualArray = rituals.getByteArray(username);
 		if (!ArrayUtils.contains(ritualArray,biomeId))ArrayUtils.add(ritualArray,biomeId);
@@ -84,4 +84,4 @@ public class ApocalypseSavefile extends Savefile{
 			save();
 		}
 	}
-}
+}*/

@@ -35,7 +35,6 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.spawner.TowerEndermanSpawnerLogic;
-import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import chylex.hee.world.loot.IItemPostProcessor;
 import chylex.hee.world.loot.ItemUtil;
 import chylex.hee.world.loot.LootItemStack;

@@ -1,12 +1,12 @@
 package chylex.hee.system.savedata;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.logging.Stopwatch;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
@@ -22,6 +22,8 @@ public final class WorldDataHandler{
 	}
 	
 	public static <T> T get(Class<? extends WorldSavefile> cls){
+		Stopwatch.timeAverage("WorldDataHandler - get",128);
+		
 		WorldSavefile savefile = instance.cache.get(cls);
 		
 		if (savefile == null){
@@ -32,6 +34,8 @@ public final class WorldDataHandler{
 				throw new RuntimeException("Could not construct a new instance of WorldSavefile - "+cls.getName(),e);
 			}
 		}
+		
+		Stopwatch.finish("WorldDataHandler - get");
 		
 		return (T)savefile;
 	}

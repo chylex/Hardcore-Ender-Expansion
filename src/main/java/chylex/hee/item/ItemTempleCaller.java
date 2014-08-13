@@ -11,7 +11,6 @@ import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.temple.TeleportParticleTickEvent;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
-import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 import chylex.hee.world.feature.TempleGenerator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

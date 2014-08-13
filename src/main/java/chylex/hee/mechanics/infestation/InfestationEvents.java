@@ -4,8 +4,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import chylex.hee.system.savedata.old.InfestationSavefile;
-import chylex.hee.system.savedata.old.WorldData;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.InfestationSavefile;
 import chylex.hee.system.weight.WeightedList;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -15,7 +15,6 @@ import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public final class InfestationEvents{
 	private static InfestationEvents instance;
-	private static InfestationSavefile infestationSaveCache;
 	
 	public static void register(){
 		FMLCommonHandler.instance().bus().register(instance = new InfestationEvents());
@@ -44,11 +43,6 @@ public final class InfestationEvents{
 		return false;
 	}
 	
-	public static InfestationSavefile getCache(World world){
-		if (infestationSaveCache == null || !infestationSaveCache.isWorldEqual(world))infestationSaveCache = new InfestationSavefile(WorldData.get(world));
-		return infestationSaveCache;
-	}
-	
 	private short tickTimer;
 	
 	private InfestationEvents(){}
@@ -69,17 +63,17 @@ public final class InfestationEvents{
 		tickTimer = 0;
 		
 		World world = e.world;
-		InfestationSavefile save = getCache(world);
+		InfestationSavefile file = WorldDataHandler.get(InfestationSavefile.class);
 		
 		for(Object o:world.playerEntities){
 			if (world.rand.nextInt(3) == 0 || o == null)continue;
 			
 			EntityPlayer player = (EntityPlayer)o;
-			if (save.decreaseInfestationStartTimer(player) == 1){
-				int power = save.getInfestationPower(player);
+			if (file.decreaseInfestationStartTimer(player) == 1){
+				int power = file.getInfestationPower(player);
 				
 				if (power >= 1700-world.rand.nextInt(500)){
-					player.addChatMessage(new ChatComponentText("You start to feel a bit "+new String[]{ "funny","strange","weird","dizzy" }[world.rand.nextInt(3)]+"..."));
+					player.addChatMessage(new ChatComponentText("You start to feel a bit "+new String[]{ "funny","strange","weird","dizzy" }[world.rand.nextInt(4)]+"..."));
 					
 					int amount = 1;
 					if (power >= 2400+world.rand.nextInt(500))++amount;
@@ -100,10 +94,8 @@ public final class InfestationEvents{
 					}
 				}
 				
-				save.resetInfestation(player);
+				file.resetInfestation(player);
 			}
 		}
-		
-		save.save();
 	}
 }

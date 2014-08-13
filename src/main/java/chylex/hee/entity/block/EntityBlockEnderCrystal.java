@@ -14,7 +14,6 @@ import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.world.biome.BiomeDecoratorHardcoreEnd;
 
 public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 	public static final byte TNT = 0, BARS = 1, BLAST = 2;
