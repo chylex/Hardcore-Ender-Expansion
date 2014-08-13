@@ -80,7 +80,7 @@ public final class InfestationEvents{
 					if (power >= 3800+world.rand.nextInt(1000))++amount;
 					
 					for(int a = 0; a < Math.min(amount,1+world.rand.nextInt(1+amount)); a++){
-						player.addPotionEffect(basicEffects.getRandomItem(world.rand).createPotionEffect(power >= 2300?world.rand.nextInt(2):0,6000+(power-1000)+(world.rand.nextInt(power)>>2)));
+						player.addPotionEffect(basicEffects.getRandomItem(world.rand).createPotionEffect(power >= 2300 ? world.rand.nextInt(2) : 0,6000+(power-1000)+(world.rand.nextInt(power)>>2)));
 					}
 					
 					if (world.rand.nextInt(10000) < power-2500){
@@ -89,7 +89,7 @@ public final class InfestationEvents{
 						if (power >= 5600+world.rand.nextInt(1200))++amount;
 						
 						for(int a = 0; a < Math.min(amount,1+world.rand.nextInt(2+amount)); a++){
-							player.addPotionEffect(criticalEffects.getRandomItem(world.rand).createPotionEffect(power >= 4500?world.rand.nextInt(2):0,6000+(power-1000)+(world.rand.nextInt(power)>>2)));
+							player.addPotionEffect(criticalEffects.getRandomItem(world.rand).createPotionEffect(power >= 4500 ? world.rand.nextInt(2) : 0,6000+(power-1000)+(world.rand.nextInt(power)>>2)));
 						}
 					}
 				}
