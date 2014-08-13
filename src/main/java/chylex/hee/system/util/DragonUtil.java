@@ -4,11 +4,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
@@ -150,6 +152,11 @@ public final class DragonUtil{
 	
 	public static void createExplosion(World world, double x, double y, double z, float strength, boolean fire){
 		world.newExplosion(null,x,y,z,strength,fire,world.getGameRules().getGameRuleBooleanValue("mobGriefing"));
+	}
+	
+	public static UUID convertNameToUUID(String name){
+		if (name.length() == 32 && name.split("-").length == 5)return UUID.fromString(name);
+		else return UUID.fromString(PreYggdrasilConverter.func_152719_a(name));
 	}
 	
 	private DragonUtil(){}

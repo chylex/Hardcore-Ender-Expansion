@@ -66,6 +66,7 @@ import chylex.hee.system.commands.HeeDebugCommand;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
@@ -229,6 +230,7 @@ public class HardcoreEnderExpansion{
 		TempleEvents.register();
 		InfestationEvents.register();
 		CharmPouchHandler.register();
+		WorldDataHandler.register();
 		
 		proxy.registerSidedEvents();
 		proxy.registerRenderers();

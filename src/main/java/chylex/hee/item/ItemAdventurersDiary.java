@@ -6,8 +6,9 @@ import net.minecraft.world.World;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C04OpenAdventurersDiary;
-import chylex.hee.system.savedata.old.LoreSavefile;
+import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.old.WorldData;
+import chylex.hee.system.savedata.types.LoreSavefile;
 
 public class ItemAdventurersDiary extends Item{
 	@Override
@@ -15,7 +16,8 @@ public class ItemAdventurersDiary extends Item{
 		world.playSoundAtEntity(player,"hardcoreenderexpansion:player.random.pageflip",1.5F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.8F));
 
 		if (!world.isRemote){
-			LoreSavefile file = new LoreSavefile(WorldData.get(world));
+			LoreSavefile file = WorldDataHandler.get(LoreSavefile.class);
+			
 			if (is.getItemDamage() == 0){
 				int nextPage = file.unlockNextPage(player);
 				if (nextPage > 0)is.setItemDamage(nextPage);
