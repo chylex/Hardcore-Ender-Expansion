@@ -113,6 +113,7 @@ public class ItemScorchingPickaxe extends Item{
 			}
 			
 			e.drops.clear();
+			Random rand = e.world.rand;
 			
 			if (drop.getItem() instanceof ItemBlock){
 				ItemStack result = null;
@@ -124,9 +125,8 @@ public class ItemScorchingPickaxe extends Item{
 					result = smelted.copy();
 					
 					int fortune = 0;
-					for(int a = 0; a < 5; a++)fortune += 1+e.world.rand.nextInt(3+e.world.rand.nextInt(3));
-					fortune = 1+(int)Math.floor(fortune*((3D*e.world.rand.nextDouble()+e.world.rand.nextDouble()+0.2D)*Math.pow(FurnaceRecipes.smelting().func_151398_b(drop),1.8D)+(fortune*0.06D))/5.5D); // OBFUSCATED getExperience
-					
+					for(int a = 0; a < 5; a++)fortune += 1+rand.nextInt(3+rand.nextInt(3));
+					fortune = 1+(int)Math.floor(fortune*(0.35D*rand.nextDouble()*rand.nextDouble()*Math.pow(FurnaceRecipes.smelting().func_151398_b(result),2.6D)+(fortune*0.06D))/6.4D); // OBFUSCATED getExperience
 					result.stackSize = fortune;
 				}
 				
@@ -134,9 +134,9 @@ public class ItemScorchingPickaxe extends Item{
 			}
 			else{
 				int fortune = 0;
-				for(int a = 0; a < 4; a++)fortune += e.block.quantityDropped(e.blockMetadata,3+e.world.rand.nextInt(3)-e.world.rand.nextInt(2),e.world.rand);
-				for(int a = 0; a < 4; a++)fortune += e.block.quantityDropped(e.blockMetadata,0,e.world.rand);
-				fortune = 1+(int)Math.floor((fortune+e.block.getExpDrop(e.world,e.blockMetadata,0)/2D)*(e.world.rand.nextDouble()+(e.world.rand.nextDouble()*0.5D)+0.35D)/6D);
+				for(int a = 0; a < 4; a++)fortune += e.block.quantityDropped(e.blockMetadata,3+rand.nextInt(3)-rand.nextInt(2),rand);
+				for(int a = 0; a < 4; a++)fortune += e.block.quantityDropped(e.blockMetadata,0,rand);
+				fortune = 1+(int)Math.floor((fortune+e.block.getExpDrop(e.world,e.blockMetadata,0)/2D)*(rand.nextDouble()+(rand.nextDouble()*0.5D)+0.35D)/6D);
 				
 				drop.stackSize = fortune;
 				e.drops.add(drop);

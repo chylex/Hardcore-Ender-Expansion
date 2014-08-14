@@ -5,13 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import chylex.hee.system.logging.Log;
-import chylex.hee.system.logging.Stopwatch;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import chylex.hee.system.logging.Log;
+import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class WorldDataHandler{
@@ -29,8 +29,18 @@ public final class WorldDataHandler{
 		if (savefile == null){
 			try{
 				instance.cache.put(cls,savefile = cls.newInstance());
-				savefile.loadFromNBT(CompressedStreamTools.readCompressed(new FileInputStream(new File(instance.worldSaveDir,savefile.filename))));
-			}catch(InstantiationException | IllegalAccessException | IOException e){
+				
+				File file = new File(instance.worldSaveDir,savefile.filename);
+				
+				if (file.exists()){
+					try{
+						savefile.loadFromNBT(CompressedStreamTools.readCompressed(new FileInputStream(file)));
+					}catch(IOException ioe){
+						Log.throwable(ioe,"Could not load NBT file - $0",cls.getName());
+					}
+				}
+				else savefile.loadFromNBT(new NBTTagCompound());
+			}catch(InstantiationException | IllegalAccessException e){
 				throw new RuntimeException("Could not construct a new instance of WorldSavefile - "+cls.getName(),e);
 			}
 		}
