@@ -32,7 +32,7 @@ public final class OrbAcquirableItems{
 		for(Object o:FurnaceRecipes.smelting().getSmeltingList().entrySet()){
 			Entry<?,?> entry = (Entry<?,?>)o;
 			ItemStack result = (ItemStack)entry.getValue();
-			int weight = 30-(int)(7F*FurnaceRecipes.smelting().func_151398_b((ItemStack)entry.getValue())); // OBFUSCATED get experience amount
+			int weight = 30-(int)(7F*FurnaceRecipes.smelting().func_151398_b(result)); // OBFUSCATED get experience amount
 			
 			idList.add(new WeightedItem(((ItemStack)entry.getKey()).getItem(),0,weight));
 			idList.add(new WeightedItem(result.getItem(),0,weight));

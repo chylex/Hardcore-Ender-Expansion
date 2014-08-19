@@ -44,7 +44,7 @@ import chylex.hee.entity.projectile.EntityProjectilePotionOfInstability;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
-import chylex.hee.gui.GuiHandler;
+import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;

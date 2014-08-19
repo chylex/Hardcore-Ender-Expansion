@@ -1,6 +1,7 @@
-package chylex.hee.gui;
+package chylex.hee.gui.helpers;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -88,8 +89,9 @@ public class GuiItemRenderHelper{
 		
 		for(String s:strings)maxWidth = Math.max(maxWidth,fontRendererObj.getStringWidth(s));
 
-		if (xx+maxWidth > gui.getWidth())xx -= 28+maxWidth;
-		if (yy+height+6 > gui.getHeight())yy -= gui.getHeight()-height-6;
+		GuiScreen guiScreen = (GuiScreen)gui;
+		if (xx+maxWidth > guiScreen.width)xx -= 28+maxWidth;
+		if (yy+height+6 > guiScreen.height)yy -= guiScreen.height-height-6;
 
 		renderItem.zLevel = 300F;
 		gui.setZLevel(300F);
@@ -120,8 +122,6 @@ public class GuiItemRenderHelper{
 	}
 	
 	public static interface ITooltipRenderer{
-		int getWidth();
-		int getHeight();
 		void setZLevel(float newZLevel);
 		void callDrawGradientRect(int x1, int y1, int x2, int y2, int color1, int color2);
 	}

@@ -10,10 +10,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.system.logging.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import cpw.mods.fml.relauncher.FMLInjectionData;
 
 class UpdateThread extends Thread{
 	private final String modVersion;
@@ -21,7 +21,7 @@ class UpdateThread extends Thread{
 	
 	UpdateThread(String modVersion){
 		this.modVersion = modVersion;
-		this.mcVersion = (String)FMLInjectionData.data()[4];
+		this.mcVersion = MinecraftForge.MC_VERSION;
 		setPriority(MIN_PRIORITY);
 	}
 	

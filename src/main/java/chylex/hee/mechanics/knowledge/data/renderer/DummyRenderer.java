@@ -14,7 +14,7 @@ public final class DummyRenderer implements IRegistrationRenderer{
 	
 	@Override
 	public String getTooltip(){
-		return customTooltip == null?"DummyRenderer":customTooltip;
+		return customTooltip == null ? "DummyRenderer" : customTooltip;
 	}
 
 	@Override

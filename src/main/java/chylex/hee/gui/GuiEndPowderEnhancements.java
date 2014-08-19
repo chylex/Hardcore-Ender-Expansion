@@ -6,7 +6,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import chylex.hee.gui.GuiItemRenderHelper.ITooltipRenderer;
+import chylex.hee.gui.helpers.GuiItemRenderHelper;
+import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.SlotList;
 import chylex.hee.mechanics.enhancements.SlotList.SlotType;
@@ -134,16 +135,6 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 	
 	private boolean checkRect(int mouseX, int mouseY, int x, int y, int w, int h){
 		return mouseX >= x && mouseX <= x+w && mouseY >= y && mouseY <= y+h;
-	}
-
-	@Override
-	public int getWidth(){
-		return width;
-	}
-
-	@Override
-	public int getHeight(){
-		return height;
 	}
 
 	@Override

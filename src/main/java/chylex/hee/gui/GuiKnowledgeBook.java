@@ -21,7 +21,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import chylex.hee.gui.GuiItemRenderHelper.ITooltipRenderer;
+import chylex.hee.gui.helpers.GuiItemRenderHelper;
+import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.knowledge.data.KnowledgeCategory;
 import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
@@ -533,16 +534,6 @@ public class GuiKnowledgeBook extends GuiScreen implements ITooltipRenderer{
 	@Override
 	public boolean doesGuiPauseGame(){
 		return false;
-	}
-
-	@Override
-	public int getWidth(){
-		return width;
-	}
-
-	@Override
-	public int getHeight(){
-		return height;
 	}
 
 	@Override
