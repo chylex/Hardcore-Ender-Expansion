@@ -68,9 +68,9 @@ public final class GuiEndPortalRenderer{
 			GL11.glRotatef((layer*layer*4321+layer*9)*4F+180F,0F,0F,1F);
 			
 			GL11.glTranslatef(x*0.0025F*layerMp,y*0.0025F*layerMp,0F);
-			GL11.glTranslatef(0.5F,0.5F,0F);
+			GL11.glTranslatef(0.5F*div,0.5F,0F);
 			GL11.glScalef(4F*portalScale,4F*portalScale,1F);
-			GL11.glTranslatef(-0.5F,-0.5F,0F);
+			GL11.glTranslatef(-0.5F*div,-0.5F,0F);
 			
 			GL11.glScalef(div,1F,1F);
 			
