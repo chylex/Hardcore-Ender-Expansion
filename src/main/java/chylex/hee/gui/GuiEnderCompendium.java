@@ -12,9 +12,11 @@ import org.lwjgl.opengl.GL12;
 import chylex.hee.gui.helpers.AnimatedFloat;
 import chylex.hee.gui.helpers.AnimatedFloat.Easing;
 import chylex.hee.gui.helpers.GuiEndPortalRenderer;
+import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.mechanics.compendium.KnowledgeCategories;
 import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -45,17 +47,17 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		animationList.add(portalScale = new AnimatedFloat(Easing.LINEAR));
 		
 		int alphaDelay = 10;
-		for(KnowledgeCategories category:KnowledgeCategories.categoryList)categoryElements.add(new CategoryDisplayElement(category,alphaDelay += 3));
+		for(KnowledgeCategories category:KnowledgeCategories.categoryList)categoryElements.add(new CategoryDisplayElement(category,alphaDelay += 2));
 		
-		portalScale.startAnimation(2.5F,1F,0.8F);
+		portalScale.startAnimation(2.5F,1F,0.6F);
 	}
 	
 	@Override
 	public void initGui(){
 		this.portalRenderer = new GuiEndPortalRenderer(this,width-32,height-32,0);
 		
-		buttonList.add(new GuiButton(0,(width>>1)-100,height-48+20,98,20,I18n.format("gui.back")));
-		buttonList.add(new GuiButton(4,(width>>1)+2,height-48+20,98,20,I18n.format("gui.done")));
+		buttonList.add(new GuiButton(0,(width>>1)-110,height-48+21,98,20,I18n.format("gui.back")));
+		buttonList.add(new GuiButton(4,(width>>1)+12,height-48+21,98,20,I18n.format("gui.done")));
 	}
 	
 	@Override
@@ -94,14 +96,43 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glColor4f(1F,1F,1F,1F);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+		RenderHelper.disableStandardItemLighting();
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		mc.getTextureManager().bindTexture(texBack);
+		
+		int d = 24;
+		
+		for(int a = 0, amt = ((width-d*2)>>2)-1; a < amt; a++){
+			drawTexturedModalRect(d+8+4*a,d-16,50,0,4,24);
+			drawTexturedModalRect(d+8+4*a,height-d-8,50,25,4,24);
+		}
+		
+		for(int a = 0, amt = ((height-d*2)>>2)-1; a < amt; a++){
+			drawTexturedModalRect(d-16,d+8+4*a,206,0,24,4);
+			drawTexturedModalRect(width-d-8,d+8+4*a,232,0,24,4);
+		}
+		
+		drawTexturedModalRect(d-16,d-16,0,0,24,24);
+		drawTexturedModalRect(width-d-8,d-16,25,0,24,24);
+		drawTexturedModalRect(d-16,height-d-8,0,25,24,24);
+		drawTexturedModalRect(width-d-8,height-d-8,25,25,24,24);
+		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
 		for(CategoryDisplayElement element:categoryElements)element.render(this,(int)offsetX.value(),(int)offsetY.value(),partialTickTime);
+		
+		for(CategoryDisplayElement element:categoryElements){
+			if (element.isMouseOver(mouseX,mouseY,(int)offsetX.value(),(int)offsetY.value())){
+				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.category.getTooltip());
+			}
+		}
 		
 		prevMouseX = mouseX;
 		prevMouseY = mouseY;
 		
-		offsetX.set((width>>1)/*-(mouseX-(width>>1))*0.4F*/);
-		offsetY.set((height>>1)/*-(mouseY-(height>>1))*0.4F*/);
+		offsetX.set(width>>1);
+		offsetY.set(height>>1);
 	}
 	
 	@Override
@@ -153,7 +184,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private static class CategoryDisplayElement{
-		private final KnowledgeCategories category;
+		public final KnowledgeCategories category;
 		private final AnimatedFloat alpha = new AnimatedFloat(Easing.LINEAR);
 		private float prevAlpha;
 		private byte alphaStartDelay;
@@ -181,6 +212,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			GL11.glPopMatrix();
 			
 			GL11.glColor4f(1F,1F,1F,1F);
+		}
+		
+		public boolean isMouseOver(int mouseX, int mouseY, int offsetX, int offsetY){
+			int x = category.getX()+offsetX, y = category.getY()+offsetY;
+			return mouseX >= x+2 && mouseY >= y && mouseX <= x+42 && mouseY <= y+40 && MathUtil.floatEquals(alpha.value(),1F);
 		}
 	}
 }
