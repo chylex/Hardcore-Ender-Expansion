@@ -31,7 +31,7 @@ public final class GuiEndPortalRenderer{
 	public void draw(float x, float y, float portalScale){
 		int hw = gui.width>>1, hh = gui.height>>1;
 		
-		float hDivW = portalHeightHalf/portalWidthHalf;
+		float div = (float)portalWidthHalf/portalHeightHalf;
 
 		GL11.glDisable(GL11.GL_LIGHTING);
 		consistentRandom.setSeed(31100L);
@@ -69,9 +69,10 @@ public final class GuiEndPortalRenderer{
 			
 			GL11.glTranslatef(x*0.0025F*layerMp,y*0.0025F*layerMp,0F);
 			GL11.glTranslatef(0.5F,0.5F,0F);
-			GL11.glScalef(4F,4F,1F);
-			GL11.glScalef(portalScale,portalScale,1F);
+			GL11.glScalef(4F*portalScale,4F*portalScale,1F);
 			GL11.glTranslatef(-0.5F,-0.5F,0F);
+			
+			GL11.glScalef(div,1F,1F);
 			
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();

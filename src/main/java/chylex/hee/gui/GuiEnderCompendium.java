@@ -59,6 +59,27 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	@Override
+	protected void actionPerformed(GuiButton button){
+		if (!(button.enabled && button.visible))return;
+		
+		if (button.id == 4){
+			mc.displayGuiScreen((GuiScreen)null);
+			mc.setIngameFocus();
+		}
+	}
+	
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
+		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(0));
+		super.mouseClicked(mouseX,mouseY,buttonId);
+	}
+	
+	@Override
+	protected void keyTyped(char key, int keyCode){
+		if (keyCode == 1)actionPerformed((GuiButton)buttonList.get(0));
+	}
+	
+	@Override
 	public void updateScreen(){
 		prevOffsetX = offsetX.value();
 		prevOffsetY = offsetY.value();
@@ -71,12 +92,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private void renderScreen(int mouseX, int mouseY, float partialTickTime){
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glColor4f(1F,1F,1F,1F);
-		
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		for(CategoryDisplayElement element:categoryElements)element.render(this,(int)offsetX.value(),(int)offsetY.value(),partialTickTime);
-		GL11.glColor4f(1F,1F,1F,1F);
 		
 		prevMouseX = mouseX;
 		prevMouseY = mouseY;
