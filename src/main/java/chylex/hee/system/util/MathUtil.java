@@ -48,11 +48,11 @@ public final class MathUtil{
 	}
 
 	public static double lendirx(double len, double dir){
-		return Math.sin(Math.toRadians(dir))*len;
+		return Math.sin(MathUtil.toRad(dir))*len;
 	}
 
 	public static double lendiry(double len, double dir){
-		return Math.cos(Math.toRadians(dir))*len;
+		return Math.cos(MathUtil.toRad(dir))*len;
 	}
 	
 	public static boolean floatEquals(float val1, float val2){

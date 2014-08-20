@@ -39,6 +39,10 @@ public final class AnimatedFloat{
 		currentValue = easing.getValue(time,startValue,endValue-startValue);
 	}
 	
+	public void set(float newValue){
+		if (!isAnimating)currentValue = newValue;
+	}
+	
 	public float value(){
 		return currentValue;
 	}

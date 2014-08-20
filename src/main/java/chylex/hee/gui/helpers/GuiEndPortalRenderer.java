@@ -30,6 +30,8 @@ public final class GuiEndPortalRenderer{
 	
 	public void draw(float x, float y, float portalScale){
 		int hw = gui.width>>1, hh = gui.height>>1;
+		
+		float hDivW = portalHeightHalf/portalWidthHalf;
 
 		GL11.glDisable(GL11.GL_LIGHTING);
 		consistentRandom.setSeed(31100L);
@@ -59,13 +61,13 @@ public final class GuiEndPortalRenderer{
 			GL11.glPushMatrix();
 			GL11.glLoadIdentity();
 
-			GL11.glTranslatef(0F,layerMp*(Minecraft.getSystemTime()%300000L)/300000F,0F);
+			GL11.glTranslatef(0F,layerMp*(Minecraft.getSystemTime()%400000L)/400000F,0F);
 			GL11.glScalef(scale,scale,1F);
 			GL11.glScalef(1F+revLayer*0.15F,1F+revLayer*0.15F,1F);
 			GL11.glTranslatef(0.5F,0.5F,0F);
-			GL11.glRotatef((layer*layer*4321+layer*9)*4F,0F,0F,1F);
+			GL11.glRotatef((layer*layer*4321+layer*9)*4F+180F,0F,0F,1F);
 			
-			GL11.glTranslatef(x*0.015F*layerMp,y*0.015F*layerMp,0F);
+			GL11.glTranslatef(x*0.0025F*layerMp,y*0.0025F*layerMp,0F);
 			GL11.glTranslatef(0.5F,0.5F,0F);
 			GL11.glScalef(4F,4F,1F);
 			GL11.glScalef(portalScale,portalScale,1F);

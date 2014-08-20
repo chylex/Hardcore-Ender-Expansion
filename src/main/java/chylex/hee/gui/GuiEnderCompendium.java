@@ -1,41 +1,61 @@
 package chylex.hee.gui;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import chylex.hee.gui.helpers.AnimatedFloat;
 import chylex.hee.gui.helpers.AnimatedFloat.Easing;
 import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
+import chylex.hee.mechanics.compendium.KnowledgeCategories;
+import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
-	public static final int guiWidth = 256, guiHeight = 256, guiTopOffset = -14;
 	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226;
 	public static final int guiPageWidth = 126, guiPageHeight = 176, guiLeft = 18, guiTop = 20;
 	
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/knowledge_book.png");
-	private static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/knowledge_book_back.png");
+	private static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
 	
-	private final GuiEndPortalRenderer portalRenderer;
+	private static float ptt(float value, float prevValue, float partialTickTime){
+		return prevValue+(value-prevValue)*partialTickTime;
+	}
 	
+	private GuiEndPortalRenderer portalRenderer;
 	private List<AnimatedFloat> animationList = new ArrayList<>();
 	private AnimatedFloat offsetX, offsetY, portalScale;
 	private float prevOffsetX, prevOffsetY, prevPortalScale;
+	private int prevMouseX, prevMouseY;
+	
+	private List<CategoryDisplayElement> categoryElements = new ArrayList<CategoryDisplayElement>();
 	
 	public GuiEnderCompendium(){
-		this.portalRenderer = new GuiEndPortalRenderer(this,guiWidth,guiHeight,guiTopOffset);
-		
 		animationList.add(offsetX = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(portalScale = new AnimatedFloat(Easing.LINEAR));
 		
-		portalScale.startAnimation(1.5F,1F,2F);
+		int alphaDelay = 10;
+		for(KnowledgeCategories category:KnowledgeCategories.categoryList)categoryElements.add(new CategoryDisplayElement(category,alphaDelay += 3));
+		
+		portalScale.startAnimation(2.5F,1F,0.8F);
+	}
+	
+	@Override
+	public void initGui(){
+		this.portalRenderer = new GuiEndPortalRenderer(this,width-32,height-32,0);
+		
+		buttonList.add(new GuiButton(0,(width>>1)-100,height-48+20,98,20,I18n.format("gui.back")));
+		buttonList.add(new GuiButton(4,(width>>1)+2,height-48+20,98,20,I18n.format("gui.done")));
 	}
 	
 	@Override
@@ -45,10 +65,24 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		prevPortalScale = portalScale.value();
 		
 		for(AnimatedFloat animation:animationList)animation.update(0.05F);
+		for(CategoryDisplayElement element:categoryElements)element.update();
 	}
 
 	private void renderScreen(int mouseX, int mouseY, float partialTickTime){
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glColor4f(1F,1F,1F,1F);
 		
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
+		for(CategoryDisplayElement element:categoryElements)element.render(this,(int)offsetX.value(),(int)offsetY.value(),partialTickTime);
+		GL11.glColor4f(1F,1F,1F,1F);
+		
+		prevMouseX = mouseX;
+		prevMouseY = mouseY;
+		
+		offsetX.set((width>>1)/*-(mouseX-(width>>1))*0.4F*/);
+		offsetY.set((height>>1)/*-(mouseY-(height>>1))*0.4F*/);
 	}
 	
 	@Override
@@ -57,7 +91,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDepthFunc(GL11.GL_GEQUAL);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,0F,-200F);
-		portalRenderer.draw(prevOffsetX+(offsetX.value()-prevOffsetX)*partialTickTime+mouseX,prevOffsetY+(offsetY.value()-prevOffsetY)*partialTickTime+mouseY,prevPortalScale+(portalScale.value()-prevPortalScale)*partialTickTime);
+		portalRenderer.draw(ptt(offsetX.value(),prevOffsetX,partialTickTime),ptt(offsetY.value(),prevOffsetY,partialTickTime),ptt(portalScale.value(),prevPortalScale,partialTickTime));
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		renderScreen(mouseX,mouseY,partialTickTime);
@@ -81,5 +115,53 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	@Override
 	public void callDrawGradientRect(int x1, int y1, int x2, int y2, int color1, int color2){
 		drawGradientRect(x1,y1,x2,y2,color1,color2);
+	}
+	
+	private static class RegistrationDisplayElement{
+		private final IGuiItemStackRenderer element;
+		
+		public RegistrationDisplayElement(IGuiItemStackRenderer element){
+			this.element = element;
+		}
+		
+		public void render(GuiScreen gui, int offsetX, int offsetY, float partialTickTime){
+			RenderHelper.disableStandardItemLighting();
+			gui.mc.getTextureManager().bindTexture(texBack);
+			gui.drawTexturedModalRect(element.getX()-3+offsetX,element.getY()-3+offsetY,0,50,22,22);
+			RenderHelper.enableGUIStandardItemLighting();
+			renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),element.getItemStack(),element.getX()+offsetX,element.getY()+offsetY);
+		}
+	}
+	
+	private static class CategoryDisplayElement{
+		private final KnowledgeCategories category;
+		private final AnimatedFloat alpha = new AnimatedFloat(Easing.LINEAR);
+		private float prevAlpha;
+		private byte alphaStartDelay;
+		
+		public CategoryDisplayElement(KnowledgeCategories category, int alphaStartDelay){
+			this.category = category;
+			this.alphaStartDelay = (byte)alphaStartDelay;
+		}
+		
+		public void update(){
+			if (alphaStartDelay > 0 && --alphaStartDelay == 0)alpha.startAnimation(0F,1F,0.4F);
+			prevAlpha = alpha.value();
+			alpha.update(0.05F);
+		}
+
+		public void render(GuiScreen gui, int offsetX, int offsetY, float partialTickTime){
+			RenderHelper.disableStandardItemLighting();
+			GL11.glColor4f(1F,1F,1F,prevAlpha+(alpha.value()-prevAlpha)*partialTickTime);			
+			gui.mc.getTextureManager().bindTexture(texBack);
+			gui.drawTexturedModalRect(category.getX()+offsetX+2,category.getY()+offsetY,23,50,40,40);
+			
+			GL11.glPushMatrix();
+			GL11.glScalef(0.5F,0.5F,1F);
+			gui.drawTexturedModalRect(2*(category.getX()+offsetX+8),2*(category.getY()+offsetY+4),(category.id%4)*56,194-62*(category.id>>2),56,62);
+			GL11.glPopMatrix();
+			
+			GL11.glColor4f(1F,1F,1F,1F);
+		}
 	}
 }
