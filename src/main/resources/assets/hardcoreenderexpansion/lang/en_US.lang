@@ -165,6 +165,8 @@ container.endPowderEnhancements=End Powder Enhancements
 container.charmPouch=Charm Pouch
 container.runeCrafting=Rune Crafting
 
+key.openCompendium=Ender Compendium
+
 achievement.theMoreYouKnow=The more you know
 achievement.theMoreYouKnow.desc=Craft an Ender Compendium
 achievement.newAdventures=Time for new adventures!

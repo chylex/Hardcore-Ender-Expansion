@@ -35,14 +35,11 @@ public final class GuiEndPortalRenderer{
 		consistentRandom.setSeed(31100L);
 
 		for(int layer = 0; layer < 16; ++layer){
-			GL11.glPushMatrix();
-
-			float revLayer = (16-layer), scale = 0.09625F, colorMultiplier = 1F/(revLayer+1F);
+			float revLayer = (16-layer), scale = 0.09625F, colorMultiplier = 1F/(revLayer+1F), layerMp = 1F+(layer*0.4F);
 
 			if (layer == 0){
 				gui.mc.getTextureManager().bindTexture(texPortalSky);
 				colorMultiplier = 0.1F;
-				revLayer = 15F;
 				scale = 1.125F;
 				GL11.glEnable(GL11.GL_BLEND);
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -58,35 +55,22 @@ public final class GuiEndPortalRenderer{
 				}
 			}
 
-			// magic stuff
-			float magicScale = 100F*portalScale;
-			GL11.glTranslatef(0,revLayer*1000,0);
-			GL11.glRotatef(120F,1F,0F,1F);
-			GL11.glTranslatef(0F,5500F,0F);
-			GL11.glScalef(magicScale,magicScale,magicScale);
-			// end of magic stuff
-			GL11.glTexGeni(GL11.GL_S,GL11.GL_TEXTURE_GEN_MODE,GL11.GL_EYE_LINEAR);
-			GL11.glTexGeni(GL11.GL_T,GL11.GL_TEXTURE_GEN_MODE,GL11.GL_EYE_LINEAR);
-			GL11.glTexGeni(GL11.GL_R,GL11.GL_TEXTURE_GEN_MODE,GL11.GL_EYE_LINEAR);
-			GL11.glTexGeni(GL11.GL_Q,GL11.GL_TEXTURE_GEN_MODE,GL11.GL_EYE_LINEAR);
-			GL11.glTexGen(GL11.GL_S,GL11.GL_OBJECT_PLANE,insertIntoBufferAndFlip(1F,0F,0F,0F));
-			GL11.glTexGen(GL11.GL_T,GL11.GL_OBJECT_PLANE,insertIntoBufferAndFlip(0F,0F,1F,0F));
-			GL11.glTexGen(GL11.GL_R,GL11.GL_OBJECT_PLANE,insertIntoBufferAndFlip(0F,0F,0F,1F));
-			GL11.glTexGen(GL11.GL_Q,GL11.GL_EYE_PLANE,insertIntoBufferAndFlip(0F,1F,0F,0F));
-			GL11.glEnable(GL11.GL_TEXTURE_GEN_S);
-			GL11.glEnable(GL11.GL_TEXTURE_GEN_T);
-			GL11.glEnable(GL11.GL_TEXTURE_GEN_R);
-			GL11.glEnable(GL11.GL_TEXTURE_GEN_Q);
-			GL11.glPopMatrix();
 			GL11.glMatrixMode(GL11.GL_TEXTURE);
 			GL11.glPushMatrix();
 			GL11.glLoadIdentity();
-			GL11.glTranslatef(0F,(Minecraft.getSystemTime()%200000L)/200000F,0F);
-			GL11.glScalef(scale,scale,scale);
+
+			GL11.glTranslatef(0F,layerMp*(Minecraft.getSystemTime()%300000L)/300000F,0F);
+			GL11.glScalef(scale,scale,1F);
+			GL11.glScalef(1F+revLayer*0.15F,1F+revLayer*0.15F,1F);
 			GL11.glTranslatef(0.5F,0.5F,0F);
 			GL11.glRotatef((layer*layer*4321+layer*9)*4F,0F,0F,1F);
-			GL11.glTranslatef(-0.5F,-0.5F,0.0F);
-			GL11.glTranslatef(x*0.015F,y*0.015F,0F); // TRANSLATE
+			
+			GL11.glTranslatef(x*0.015F*layerMp,y*0.015F*layerMp,0F);
+			GL11.glTranslatef(0.5F,0.5F,0F);
+			GL11.glScalef(4F,4F,1F);
+			GL11.glScalef(portalScale,portalScale,1F);
+			GL11.glTranslatef(-0.5F,-0.5F,0F);
+			
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
 			
@@ -106,17 +90,6 @@ public final class GuiEndPortalRenderer{
 		}
 
 		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_TEXTURE_GEN_S);
-		GL11.glDisable(GL11.GL_TEXTURE_GEN_T);
-		GL11.glDisable(GL11.GL_TEXTURE_GEN_R);
-		GL11.glDisable(GL11.GL_TEXTURE_GEN_Q);
 		GL11.glEnable(GL11.GL_LIGHTING);
-	}
-	
-	private FloatBuffer insertIntoBufferAndFlip(float value1, float value2, float value3, float value4){
-		floatBuffer.clear();
-		floatBuffer.put(value1).put(value2).put(value3).put(value4);
-		floatBuffer.flip();
-		return floatBuffer;
 	}
 }

@@ -25,18 +25,25 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private final GuiEndPortalRenderer portalRenderer;
 	
 	private List<AnimatedFloat> animationList = new ArrayList<>();
-	private AnimatedFloat offsetX, offsetY;
-	private float prevOffsetX, prevOffsetY;
+	private AnimatedFloat offsetX, offsetY, portalScale;
+	private float prevOffsetX, prevOffsetY, prevPortalScale;
 	
 	public GuiEnderCompendium(){
 		this.portalRenderer = new GuiEndPortalRenderer(this,guiWidth,guiHeight,guiTopOffset);
 		
 		animationList.add(offsetX = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
+		animationList.add(portalScale = new AnimatedFloat(Easing.LINEAR));
+		
+		portalScale.startAnimation(1.5F,1F,2F);
 	}
 	
 	@Override
 	public void updateScreen(){
+		prevOffsetX = offsetX.value();
+		prevOffsetY = offsetY.value();
+		prevPortalScale = portalScale.value();
+		
 		for(AnimatedFloat animation:animationList)animation.update(0.05F);
 	}
 
@@ -50,7 +57,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDepthFunc(GL11.GL_GEQUAL);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,0F,-200F);
-		portalRenderer.draw(prevOffsetX+(offsetX.value()-prevOffsetX)*partialTickTime,prevOffsetY+(offsetY.value()-prevOffsetY)*partialTickTime,1F);
+		portalRenderer.draw(prevOffsetX+(offsetX.value()-prevOffsetX)*partialTickTime+mouseX,prevOffsetY+(offsetY.value()-prevOffsetY)*partialTickTime+mouseY,prevPortalScale+(portalScale.value()-prevPortalScale)*partialTickTime);
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		renderScreen(mouseX,mouseY,partialTickTime);
