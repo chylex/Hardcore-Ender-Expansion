@@ -14,7 +14,7 @@ import chylex.hee.gui.helpers.AnimatedFloat.Easing;
 import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
-import chylex.hee.mechanics.compendium.KnowledgeCategories;
+import chylex.hee.mechanics.compendium.content.KnowledgeCategories;
 import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -73,6 +73,15 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(0));
+		else if (buttonId == 0){
+			for(CategoryDisplayElement element:categoryElements){
+				if (element.isMouseOver(mouseX,mouseY,(int)offsetX.value(),(int)offsetY.value())){
+					
+					return;
+				}
+			}
+		}
+		
 		super.mouseClicked(mouseX,mouseY,buttonId);
 	}
 	

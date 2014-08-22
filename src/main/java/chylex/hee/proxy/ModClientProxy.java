@@ -45,7 +45,7 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
-import chylex.hee.mechanics.compendium.CompendiumKeyHandler;
+import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.knowledge.fragment.CraftingKnowledgeFragment;
 import chylex.hee.mechanics.knowledge.fragment.EnhancementKnowledgeFragment;
 import chylex.hee.mechanics.temple.TeleportParticleTickEvent;
@@ -170,7 +170,7 @@ public class ModClientProxy extends ModCommonProxy{
 		ReflectionPublicizer.loadClient();
 		
 		FMLCommonHandler.instance().bus().register(new UpdateNotificationManager());
-		CompendiumKeyHandler.register();
+		CompendiumEventsClient.register();
 		OverlayManager.register();
 		TeleportParticleTickEvent.register();
 		MusicManager.register();

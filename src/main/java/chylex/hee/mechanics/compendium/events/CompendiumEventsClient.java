@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium;
+package chylex.hee.mechanics.compendium.events;
 import chylex.hee.gui.GuiEnderCompendium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -7,16 +7,16 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 
-public final class CompendiumKeyHandler{
-	private static CompendiumKeyHandler instance;
+public final class CompendiumEventsClient{
+	private static CompendiumEventsClient instance;
 	
 	public static void register(){
-		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CompendiumKeyHandler());
+		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CompendiumEventsClient());
 	}
 	
 	private KeyBinding keyOpenCompendium;
 	
-	private CompendiumKeyHandler(){
+	private CompendiumEventsClient(){
 		keyOpenCompendium = new KeyBinding("key.openCompendium",25,"Hardcore Ender Expansion");
 		ClientRegistry.registerKeyBinding(keyOpenCompendium);
 		Minecraft.getMinecraft().gameSettings.loadOptions();

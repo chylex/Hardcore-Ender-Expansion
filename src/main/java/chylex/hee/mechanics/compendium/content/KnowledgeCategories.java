@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium;
+package chylex.hee.mechanics.compendium.content;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import chylex.hee.block.BlockList;
