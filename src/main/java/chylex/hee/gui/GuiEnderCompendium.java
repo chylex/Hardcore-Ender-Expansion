@@ -15,6 +15,7 @@ import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategories;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeCategory;
 import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -47,7 +48,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		animationList.add(portalScale = new AnimatedFloat(Easing.LINEAR));
 		
 		int alphaDelay = 10;
-		for(KnowledgeCategories category:KnowledgeCategories.categoryList)categoryElements.add(new CategoryDisplayElement(category,alphaDelay += 2));
+		for(KnowledgeCategory category:KnowledgeCategories.categoryList)categoryElements.add(new CategoryDisplayElement(category,alphaDelay += 2));
 		
 		portalScale.startAnimation(2.5F,1F,0.6F);
 	}
@@ -193,12 +194,12 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private static class CategoryDisplayElement{
-		public final KnowledgeCategories category;
+		public final KnowledgeCategory category;
 		private final AnimatedFloat alpha = new AnimatedFloat(Easing.LINEAR);
 		private float prevAlpha;
 		private byte alphaStartDelay;
 		
-		public CategoryDisplayElement(KnowledgeCategories category, int alphaStartDelay){
+		public CategoryDisplayElement(KnowledgeCategory category, int alphaStartDelay){
 			this.category = category;
 			this.alphaStartDelay = (byte)alphaStartDelay;
 		}
