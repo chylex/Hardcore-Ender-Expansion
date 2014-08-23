@@ -54,8 +54,15 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		return damage >= 0 && damage < eggTypes.length ? eggTypes[damage] : null;
 	}
 	
+	public static int getDamageForMob(Class<?> mobClass){
+		for(int damage = 0; damage < eggTypes.length; damage++){
+			if (eggTypes[damage].entityClass == mobClass)return damage;
+		}
+		
+		return -1;
+	}
+	
 	public ItemSpawnEggs(){
-		super();
 		setHasSubtypes(true);
 	}
 	

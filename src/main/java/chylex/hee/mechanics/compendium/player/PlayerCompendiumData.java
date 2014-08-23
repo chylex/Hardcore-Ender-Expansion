@@ -10,18 +10,28 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
+import chylex.hee.mechanics.compendium.content.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.compendium.player.PlayerDiscoveryList.IObjectSerializer;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class PlayerCompendiumData implements IExtendedEntityProperties{
 	private int pointAmount;
 	
-	private PlayerDiscoveryList<Block> discoveredBlocks = new PlayerDiscoveryList<>(new DiscoveryBlockSerializer());
+	private PlayerDiscoveryList<BlockMetaWrapper> discoveredBlocks = new PlayerDiscoveryList<>(new DiscoveryBlockSerializer());
 	private PlayerDiscoveryList<Item> discoveredItems = new PlayerDiscoveryList<>(new DiscoveryItemSerializer());
 	private PlayerDiscoveryList<Class<? extends EntityLivingBase>> discoveryMobs = new PlayerDiscoveryList<>(new DiscoveryMobSerializer());
 	
 	private TIntHashSet unlockedFragments = new TIntHashSet();
+	
+	public PlayerCompendiumData(){}
+	
+	@SideOnly(Side.CLIENT)
+	public PlayerCompendiumData(NBTTagCompound nbt){
+		loadNBTData(nbt);
+	}
 	
 	public int getPoints(){
 		return pointAmount;
@@ -31,16 +41,16 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		pointAmount = Math.max(0,pointAmount-amount);
 	}
 	
-	public boolean tryDiscoverBlock(Block block){
-		if (discoveredBlocks.addObject(block)){
+	public boolean tryDiscoverBlock(Block block, int metadata){
+		if (discoveredBlocks.addObject(new BlockMetaWrapper(block,metadata))){
 			// unlock discovery fragments
 			return true;
 		}
 		else return false;
 	}
 	
-	public boolean hasDiscoveredBlock(Block block){
-		return discoveredBlocks.hasDiscoveredObject(block);
+	public boolean hasDiscoveredBlock(Block block, int metadata){
+		return discoveredBlocks.hasDiscoveredObject(new BlockMetaWrapper(block,metadata));
 	}
 	
 	public boolean tryDiscoverItem(Item item){
@@ -90,17 +100,17 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	// SERIALIZERS
 	
-	private static class DiscoveryBlockSerializer implements IObjectSerializer<Block>{
+	private static class DiscoveryBlockSerializer implements IObjectSerializer<BlockMetaWrapper>{
 		@Override
-		public String serialize(Block object){
-			UniqueIdentifier identifier = GameRegistry.findUniqueIdentifierFor(object);
-			return identifier.modId+":"+identifier.name;
+		public String serialize(BlockMetaWrapper object){
+			UniqueIdentifier identifier = GameRegistry.findUniqueIdentifierFor(object.block);
+			return identifier.modId+":"+identifier.name+":"+object.metadata;
 		}
 
 		@Override
-		public Block deserialize(String data){
-			int colonIndex = data.indexOf(":");
-			return GameRegistry.findBlock(data.substring(0,colonIndex),data.substring(colonIndex+1));
+		public BlockMetaWrapper deserialize(String data){
+			int colonIndex = data.indexOf(":"), nextColonIndex = data.indexOf(":",colonIndex+1);
+			return new BlockMetaWrapper(GameRegistry.findBlock(data.substring(0,colonIndex),data.substring(colonIndex+1,nextColonIndex)),Integer.parseInt(data.substring(nextColonIndex+1)));
 		}
 	}
 	

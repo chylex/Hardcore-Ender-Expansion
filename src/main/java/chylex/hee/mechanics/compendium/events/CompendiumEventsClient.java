@@ -1,12 +1,17 @@
 package chylex.hee.mechanics.compendium.events;
-import chylex.hee.gui.GuiEnderCompendium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.ChatComponentText;
+import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public final class CompendiumEventsClient{
 	private static CompendiumEventsClient instance;
 	
@@ -14,7 +19,12 @@ public final class CompendiumEventsClient{
 		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CompendiumEventsClient());
 	}
 	
+	public static void loadClientData(PlayerCompendiumData data){
+		instance.data = data;
+	}
+	
 	private KeyBinding keyOpenCompendium;
+	private PlayerCompendiumData data;
 	
 	private CompendiumEventsClient(){
 		keyOpenCompendium = new KeyBinding("key.openCompendium",25,"Hardcore Ender Expansion");
@@ -27,7 +37,8 @@ public final class CompendiumEventsClient{
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		if (mc.inGameHasFocus && keyOpenCompendium.isPressed()){
-			mc.displayGuiScreen(new GuiEnderCompendium()); // TODO temp
+			if (data != null)mc.displayGuiScreen(new GuiEnderCompendium(data));
+			else mc.thePlayer.addChatMessage(new ChatComponentText("Error opening Ender Compendium, server did not provide required data. Relog, wait a few seconds, pray to your favourite deity and try again!"));
 		}
 	}
 }

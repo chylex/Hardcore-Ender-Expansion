@@ -15,7 +15,8 @@ import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategories;
-import chylex.hee.mechanics.compendium.content.fragments.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.content.type.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -34,6 +35,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		return prevValue+(value-prevValue)*partialTickTime;
 	}
 	
+	private final PlayerCompendiumData compendiumData;
+	
 	private GuiEndPortalRenderer portalRenderer;
 	private List<AnimatedFloat> animationList = new ArrayList<>();
 	private AnimatedFloat offsetX, offsetY, portalScale;
@@ -42,7 +45,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	private List<CategoryDisplayElement> categoryElements = new ArrayList<CategoryDisplayElement>();
 	
-	public GuiEnderCompendium(){
+	public GuiEnderCompendium(PlayerCompendiumData compendiumData){
+		this.compendiumData = compendiumData;
 		animationList.add(offsetX = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(portalScale = new AnimatedFloat(Easing.LINEAR));
@@ -127,6 +131,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		drawTexturedModalRect(width-d-8,d-16,25,0,24,24);
 		drawTexturedModalRect(d-16,height-d-8,0,25,24,24);
 		drawTexturedModalRect(width-d-8,height-d-8,25,25,24,24);
+		
+		String title = "Hardcore Ender Expansion - Ender Compendium";
+		fontRendererObj.drawString(title,(width>>1)-(fontRendererObj.getStringWidth(title)>>1),6,4210752);
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		

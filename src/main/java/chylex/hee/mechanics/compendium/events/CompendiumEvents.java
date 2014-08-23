@@ -5,8 +5,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public final class CompendiumEvents{
+	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~Compendium";
+	
 	private static CompendiumEvents instance;
 	
 	public static void register(){
@@ -17,7 +20,9 @@ public final class CompendiumEvents{
 		}
 	}
 	
-	public static final String playerPropertyIdentifier = "HardcoreEnderExpansion~Compendium";
+	public static PlayerCompendiumData getPlayerData(EntityPlayer player){
+		return (PlayerCompendiumData)player.getExtendedProperties(playerPropertyIdentifier);
+	}
 		
 	private CompendiumEvents(){}
 	
@@ -28,5 +33,10 @@ public final class CompendiumEvents{
 				throw new IllegalStateException("Could not register player Compendium properties, likely due to the properties already being registered by another mod!");
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerLogin(PlayerLoggedInEvent e){
+		// TODO send compendium packet
 	}
 }
