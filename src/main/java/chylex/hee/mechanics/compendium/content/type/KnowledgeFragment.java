@@ -1,17 +1,21 @@
 package chylex.hee.mechanics.compendium.content.type;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import java.util.Collection;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class KnowledgeFragment{
-	private static final Set<KnowledgeFragment> allFragments = new HashSet<>();
+	private static final TIntObjectMap<KnowledgeFragment> allFragments = new TIntObjectHashMap<>();
 	
-	public static final Set<KnowledgeFragment> getAllFragments(){
-		return Collections.unmodifiableSet(allFragments);
+	public static final Collection<KnowledgeFragment> getAllFragments(){
+		return allFragments.valueCollection();
+	}
+	
+	public static final KnowledgeFragment getById(int globalID){
+		return allFragments.get(globalID);
 	}
 	
 	public final int globalID;
@@ -21,7 +25,7 @@ public abstract class KnowledgeFragment{
 	
 	public KnowledgeFragment(int globalID){
 		this.globalID = globalID;
-		if (!allFragments.add(this))throw new IllegalArgumentException("Could not initialize Knowledge Fragments, global fragment ID "+globalID+" is already taken!");
+		if (allFragments.putIfAbsent(globalID,this) != null)throw new IllegalArgumentException("Could not initialize Knowledge Fragments, global fragment ID "+globalID+" is already taken!");
 	}
 	
 	public KnowledgeFragment setPrice(int price){

@@ -252,6 +252,7 @@ public class HardcoreEnderExpansion{
 		OrbAcquirableItems.initialize();
 		OrbSpawnableMobs.initialize();
 		KnowledgeRegistrations.initialize();
+		chylex.hee.mechanics.compendium.content.KnowledgeRegistrations.initialize();
 		
 		Stopwatch.finish("InitEvent");
 	}

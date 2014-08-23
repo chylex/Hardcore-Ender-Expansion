@@ -14,6 +14,11 @@ public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 	public ObjectBlock(Block block, int metadata){
 		this.wrapper = new BlockMetaWrapper(block,metadata);
 	}
+
+	@Override
+	public BlockMetaWrapper getUnderlyingObject(){
+		return wrapper;
+	}
 	
 	@Override
 	public ItemStack createItemStackToRender(){
@@ -21,8 +26,11 @@ public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 	}
 
 	@Override
-	public boolean areObjectsEqual(BlockMetaWrapper obj1, BlockMetaWrapper obj2){
-		return obj1.block == obj2.block && (obj1.metadata == obj2.metadata || obj1.metadata == -1 || obj2.metadata == -1);
+	public boolean checkEquality(Object o){
+		if (!(o instanceof BlockMetaWrapper))return false;
+		
+		BlockMetaWrapper bmw = (BlockMetaWrapper)o;
+		return bmw.block == wrapper.block && (bmw.metadata == wrapper.metadata || bmw.metadata == -1 || wrapper.metadata == -1);
 	}
 	
 	public static class BlockMetaWrapper{

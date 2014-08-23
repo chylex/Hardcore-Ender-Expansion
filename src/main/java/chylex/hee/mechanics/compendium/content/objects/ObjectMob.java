@@ -1,15 +1,20 @@
 package chylex.hee.mechanics.compendium.content.objects;
-import chylex.hee.item.ItemList;
-import chylex.hee.item.ItemSpawnEggs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import chylex.hee.item.ItemList;
+import chylex.hee.item.ItemSpawnEggs;
 
 public class ObjectMob implements IKnowledgeObjectInstance<Class<? extends EntityLivingBase>>{
 	private final Class<? extends EntityLivingBase> mobClass;
 	
 	public ObjectMob(Class<? extends EntityLivingBase> mobClass){
 		this.mobClass = mobClass;
+	}
+
+	@Override
+	public Class<? extends EntityLivingBase> getUnderlyingObject(){
+		return mobClass;
 	}
 	
 	@Override
@@ -19,7 +24,7 @@ public class ObjectMob implements IKnowledgeObjectInstance<Class<? extends Entit
 	}
 
 	@Override
-	public boolean areObjectsEqual(Class<? extends EntityLivingBase> obj1, Class<? extends EntityLivingBase> obj2){
-		return obj1 == obj2;
+	public boolean checkEquality(Object obj){
+		return obj == mobClass || obj.getClass() == mobClass;
 	}
 }

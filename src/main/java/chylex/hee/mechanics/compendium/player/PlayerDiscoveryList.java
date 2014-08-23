@@ -1,10 +1,11 @@
 package chylex.hee.mechanics.compendium.player;
 import java.util.HashSet;
 import java.util.Set;
+import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
-public class PlayerDiscoveryList<T>{
+public class PlayerDiscoveryList<P extends IKnowledgeObjectInstance<T>,T>{
 	private final IObjectSerializer<T> serializer;
 	private final Set<T> discoveredObjects = new HashSet<>();
 	
@@ -12,12 +13,12 @@ public class PlayerDiscoveryList<T>{
 		this.serializer = serializer;
 	}
 	
-	public boolean addObject(T object){
-		return discoveredObjects.add(object);
+	public boolean addObject(P object){
+		return discoveredObjects.add(object.getUnderlyingObject());
 	}
 	
-	public boolean hasDiscoveredObject(T object){
-		return discoveredObjects.contains(object);
+	public boolean hasDiscoveredObject(P object){
+		return discoveredObjects.contains(object.getUnderlyingObject());
 	}
 	
 	public NBTTagList saveToNBTList(){

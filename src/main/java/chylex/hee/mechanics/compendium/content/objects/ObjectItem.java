@@ -8,6 +8,11 @@ public class ObjectItem implements IKnowledgeObjectInstance<Item>{
 	public ObjectItem(Item item){
 		this.item = item;
 	}
+
+	@Override
+	public Item getUnderlyingObject(){
+		return item;
+	}
 	
 	@Override
 	public ItemStack createItemStackToRender(){
@@ -15,7 +20,7 @@ public class ObjectItem implements IKnowledgeObjectInstance<Item>{
 	}
 
 	@Override
-	public boolean areObjectsEqual(Item obj1, Item obj2){
-		return obj1 == obj2;
+	public boolean checkEquality(Object obj){
+		return obj == item;
 	}
 }
