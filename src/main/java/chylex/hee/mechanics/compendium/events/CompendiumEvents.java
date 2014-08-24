@@ -1,5 +1,7 @@
 package chylex.hee.mechanics.compendium.events;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C19CompendiumData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -37,6 +39,6 @@ public final class CompendiumEvents{
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent e){
-		// TODO send compendium packet
+		PacketPipeline.sendToPlayer(e.player,new C19CompendiumData(e.player));
 	}
 }

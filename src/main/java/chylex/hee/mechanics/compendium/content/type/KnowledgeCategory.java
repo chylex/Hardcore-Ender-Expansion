@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.compendium.content.type;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.common.collect.ImmutableList;
 import net.minecraft.item.ItemStack;
 import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
 
@@ -12,6 +13,7 @@ public class KnowledgeCategory implements IGuiItemStackRenderer{
 	private final String tooltip;
 	private final ItemStack showcaseItem;
 	private final List<KnowledgeObject> objectList = new ArrayList<>();
+	private ImmutableList<KnowledgeObject> objectListImmutable;
 	
 	public KnowledgeCategory(int id, int x, int y, String tooltip, ItemStack showcaseItem){
 		this.id = (byte)id;
@@ -23,6 +25,11 @@ public class KnowledgeCategory implements IGuiItemStackRenderer{
 	
 	public void addKnowledgeObjects(KnowledgeObject[] objects){
 		for(KnowledgeObject object:objects)objectList.add(object);
+		objectListImmutable = ImmutableList.copyOf(objectList);
+	}
+	
+	public ImmutableList<KnowledgeObject> getAllObjects(){
+		return objectListImmutable;
 	}
 
 	@Override

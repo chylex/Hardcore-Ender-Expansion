@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -14,10 +15,11 @@ import chylex.hee.gui.helpers.AnimatedFloat.Easing;
 import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
+import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategories;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
-import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,11 +27,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226;
-	public static final int guiPageWidth = 126, guiPageHeight = 176, guiLeft = 18, guiTop = 20;
+	public static final int guiPageWidth = 126, guiPageHeight = 176;
+	public static final int guiObjectTopY = 400;
 	
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/knowledge_book.png");
 	private static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
+	
+	private static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_fragment);
 	
 	private static float ptt(float value, float prevValue, float partialTickTime){
 		return prevValue+(value-prevValue)*partialTickTime;
@@ -43,7 +48,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private float prevOffsetX, prevOffsetY, prevPortalScale;
 	private int prevMouseX, prevMouseY;
 	
-	private List<CategoryDisplayElement> categoryElements = new ArrayList<CategoryDisplayElement>();
+	private List<CategoryDisplayElement> categoryElements = new ArrayList<>();
+	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
+	private boolean hasHighlightedCategory = false;
 	
 	public GuiEnderCompendium(PlayerCompendiumData compendiumData){
 		this.compendiumData = compendiumData;
@@ -59,17 +66,30 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	public void initGui(){
-		this.portalRenderer = new GuiEndPortalRenderer(this,width-32,height-32,0);
+		this.portalRenderer = new GuiEndPortalRenderer(this,width-48,height-48,0);
 		
 		buttonList.add(new GuiButton(0,(width>>1)-110,height-48+21,98,20,I18n.format("gui.back")));
 		buttonList.add(new GuiButton(4,(width>>1)+12,height-48+21,98,20,I18n.format("gui.done")));
+		
+		offsetX.set(width>>1);
+		offsetY.set(height>>1);
 	}
 	
 	@Override
 	protected void actionPerformed(GuiButton button){
 		if (!(button.enabled && button.visible))return;
 		
-		if (button.id == 4){
+		if (button.id == 0){
+			if (hasHighlightedCategory){
+				offsetY.startAnimation(offsetY.value(),height>>1);
+				hasHighlightedCategory = false;
+			}
+			else{
+				mc.displayGuiScreen((GuiScreen)null);
+				mc.setIngameFocus();
+			}
+		}
+		else if (button.id == 4){
 			mc.displayGuiScreen((GuiScreen)null);
 			mc.setIngameFocus();
 		}
@@ -81,7 +101,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		else if (buttonId == 0){
 			for(CategoryDisplayElement element:categoryElements){
 				if (element.isMouseOver(mouseX,mouseY,(int)offsetX.value(),(int)offsetY.value())){
-					
+					for(KnowledgeObject object:element.category.getAllObjects())objectElements.add(new ObjectDisplayElement(object));
+					offsetY.startAnimation(offsetY.value(),-guiObjectTopY);
+					hasHighlightedCategory = true;
 					return;
 				}
 			}
@@ -133,23 +155,50 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		drawTexturedModalRect(width-d-8,height-d-8,25,25,24,24);
 		
 		String title = "Hardcore Ender Expansion - Ender Compendium";
-		fontRendererObj.drawString(title,(width>>1)-(fontRendererObj.getStringWidth(title)>>1),6,4210752);
+		fontRendererObj.drawString(title,(width>>1)-(fontRendererObj.getStringWidth(title)>>1),14,4210752);
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
-		for(CategoryDisplayElement element:categoryElements)element.render(this,(int)offsetX.value(),(int)offsetY.value(),partialTickTime);
+		float offX = prevOffsetX+(offsetX.value()-prevOffsetX)*partialTickTime;
+		float offY = prevOffsetY+(offsetY.value()-prevOffsetY)*partialTickTime;
+		
+		GL11.glPushMatrix();
+		GL11.glTranslatef(offX,offY,0F);
+		for(CategoryDisplayElement element:categoryElements)element.render(this,0,0,partialTickTime);
+		GL11.glPopMatrix();
 		
 		for(CategoryDisplayElement element:categoryElements){
-			if (element.isMouseOver(mouseX,mouseY,(int)offsetX.value(),(int)offsetY.value())){
+			if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY)){
 				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.category.getTooltip());
 			}
 		}
 		
+		offX = prevOffsetX+(offsetX.value()-prevOffsetX)*partialTickTime-(width>>1)+32;
+		offY = prevOffsetY+(offsetY.value()-prevOffsetY)*partialTickTime+guiObjectTopY+32;
+
+		GL11.glPushMatrix();
+		GL11.glTranslatef(offX,offY,0F);
+		for(ObjectDisplayElement element:objectElements)element.render(this,0,0,partialTickTime);
+		GL11.glPopMatrix();
+		
+		for(ObjectDisplayElement element:objectElements){
+			if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY)){
+				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.object.getTooltip());
+			}
+		}
+
+		int tlx = (width>>1)-25, tly = 24;
+		GL11.glColor3f(1F,1F,1F);
+		mc.getTextureManager().bindTexture(texBack);
+		drawTexturedModalRect(tlx,tly,56,0,56,20);
+		
+		RenderHelper.enableGUIStandardItemLighting();
+		renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,tlx+3,tly+1);
+		String pointAmount = String.valueOf(compendiumData.getPoints());
+		fontRendererObj.drawString(pointAmount,tlx+52-fontRendererObj.getStringWidth(pointAmount),tly+6,4210752);
+		
 		prevMouseX = mouseX;
 		prevMouseY = mouseY;
-		
-		offsetX.set(width>>1);
-		offsetY.set(height>>1);
 	}
 	
 	@Override
@@ -158,7 +207,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDepthFunc(GL11.GL_GEQUAL);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,0F,-200F);
-		portalRenderer.draw(ptt(offsetX.value(),prevOffsetX,partialTickTime),ptt(offsetY.value(),prevOffsetY,partialTickTime),ptt(portalScale.value(),prevPortalScale,partialTickTime));
+		portalRenderer.draw(ptt(offsetX.value(),prevOffsetX,partialTickTime),-ptt(offsetY.value(),prevOffsetY,partialTickTime),ptt(portalScale.value(),prevPortalScale,partialTickTime));
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		renderScreen(mouseX,mouseY,partialTickTime);
@@ -184,19 +233,25 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		drawGradientRect(x1,y1,x2,y2,color1,color2);
 	}
 	
-	private static class RegistrationDisplayElement{
-		private final IGuiItemStackRenderer element;
+	private static class ObjectDisplayElement{
+		private final KnowledgeObject<?> object;
 		
-		public RegistrationDisplayElement(IGuiItemStackRenderer element){
-			this.element = element;
+		public ObjectDisplayElement(KnowledgeObject<?> object){
+			this.object = object;
 		}
 		
-		public void render(GuiScreen gui, int offsetX, int offsetY, float partialTickTime){
+		public void render(GuiScreen gui, float offsetX, float offsetY, float partialTickTime){
 			RenderHelper.disableStandardItemLighting();
 			gui.mc.getTextureManager().bindTexture(texBack);
-			gui.drawTexturedModalRect(element.getX()-3+offsetX,element.getY()-3+offsetY,0,50,22,22);
+			gui.drawTexturedModalRect((int)(object.getX()-3+offsetX),(int)(object.getY()-2+offsetY),0,50,22,22);
 			RenderHelper.enableGUIStandardItemLighting();
-			renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),element.getItemStack(),element.getX()+offsetX,element.getY()+offsetY);
+			renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),object.getItemStack(),(int)(object.getX()+offsetX),(int)(object.getY()+offsetY+1));
+			RenderHelper.disableStandardItemLighting();
+		}
+		
+		public boolean isMouseOver(int mouseX, int mouseY, int offsetX, int offsetY){
+			int x = object.getX()+offsetX, y = object.getY()+offsetY;
+			return mouseX >= x-2 && mouseY >= y-1 && mouseX <= x+18 && mouseY <= y+18;
 		}
 	}
 	
@@ -217,15 +272,15 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			alpha.update(0.05F);
 		}
 
-		public void render(GuiScreen gui, int offsetX, int offsetY, float partialTickTime){
+		public void render(GuiScreen gui, float offsetX, float offsetY, float partialTickTime){
 			RenderHelper.disableStandardItemLighting();
 			GL11.glColor4f(1F,1F,1F,prevAlpha+(alpha.value()-prevAlpha)*partialTickTime);			
 			gui.mc.getTextureManager().bindTexture(texBack);
-			gui.drawTexturedModalRect(category.getX()+offsetX+2,category.getY()+offsetY,23,50,40,40);
+			gui.drawTexturedModalRect((int)(category.getX()+offsetX+2),(int)(category.getY()+offsetY),23,50,40,40);
 			
 			GL11.glPushMatrix();
 			GL11.glScalef(0.5F,0.5F,1F);
-			gui.drawTexturedModalRect(2*(category.getX()+offsetX+8),2*(category.getY()+offsetY+4),(category.id%4)*56,194-62*(category.id>>2),56,62);
+			gui.drawTexturedModalRect((int)(2*(category.getX()+offsetX+8)),(int)(2*(category.getY()+offsetY+4)),(category.id%4)*56,194-62*(category.id>>2),56,62);
 			GL11.glPopMatrix();
 			
 			GL11.glColor4f(1F,1F,1F,1F);
