@@ -11,6 +11,7 @@ import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.mechanics.compendium.content.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.content.objects.ObjectBlock.BlockMetaWrapper;
+import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.content.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.content.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
@@ -81,6 +82,15 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		return discoveryMobs.hasDiscoveredObject(mob.getObject());
 	}
 	
+	public boolean hasDiscoveredObject(KnowledgeObject<IKnowledgeObjectInstance<?>> object){
+		IKnowledgeObjectInstance<?> obj = object.getObject();
+		
+		if (obj instanceof ObjectBlock)return discoveredBlocks.hasDiscoveredObject((ObjectBlock)obj);
+		else if (obj instanceof ObjectItem)return discoveredItems.hasDiscoveredObject((ObjectItem)obj);
+		else if (obj instanceof ObjectMob)return discoveryMobs.hasDiscoveredObject((ObjectMob)obj);
+		else return false;
+	}
+	
 	private void unlockDiscoveryFragments(KnowledgeObject<?> object){
 		for(KnowledgeFragment fragment:object.getFragments()){
 			if (fragment.isUnlockedOnDiscovery())unlockFragment(fragment);
@@ -89,6 +99,10 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	public void unlockFragment(KnowledgeFragment fragment){
 		unlockedFragments.add(fragment.globalID);
+	}
+	
+	public boolean hasUnlockedFragment(KnowledgeFragment fragment){
+		return unlockedFragments.contains(fragment.globalID);
 	}
 	
 	@Override

@@ -17,6 +17,7 @@ import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategories;
+import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeCategory;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
@@ -99,12 +100,23 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(0));
 		else if (buttonId == 0){
-			for(CategoryDisplayElement element:categoryElements){
-				if (element.isMouseOver(mouseX,mouseY,(int)offsetX.value(),(int)offsetY.value())){
-					for(KnowledgeObject object:element.category.getAllObjects())objectElements.add(new ObjectDisplayElement(object));
-					offsetY.startAnimation(offsetY.value(),-guiObjectTopY);
-					hasHighlightedCategory = true;
-					return;
+			if (!hasHighlightedCategory){
+				for(CategoryDisplayElement element:categoryElements){
+					if (element.isMouseOver(mouseX,mouseY,(int)offsetX.value(),(int)offsetY.value())){
+						for(KnowledgeObject object:element.category.getAllObjects())objectElements.add(new ObjectDisplayElement(object));
+						offsetY.startAnimation(offsetY.value(),-guiObjectTopY);
+						hasHighlightedCategory = true;
+						return;
+					}
+				}
+			}
+			else{
+				int offX = (int)offsetX.value()-(width>>1), offY = (int)offsetY.value()+guiObjectTopY;
+				
+				for(ObjectDisplayElement element:objectElements){
+					if (element.isMouseOver(mouseX,mouseY,offX,offY)){
+						
+					}
 				}
 			}
 		}
@@ -173,12 +185,12 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 		}
 		
-		offX = prevOffsetX+(offsetX.value()-prevOffsetX)*partialTickTime-(width>>1)+32;
-		offY = prevOffsetY+(offsetY.value()-prevOffsetY)*partialTickTime+guiObjectTopY+32;
+		offX = prevOffsetX+(offsetX.value()-prevOffsetX)*partialTickTime-(width>>1);
+		offY = prevOffsetY+(offsetY.value()-prevOffsetY)*partialTickTime+guiObjectTopY;
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef(offX,offY,0F);
-		for(ObjectDisplayElement element:objectElements)element.render(this,0,0,partialTickTime);
+		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumData,0,0,partialTickTime);
 		GL11.glPopMatrix();
 		
 		for(ObjectDisplayElement element:objectElements){
@@ -234,23 +246,23 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private static class ObjectDisplayElement{
-		private final KnowledgeObject<?> object;
+		private final KnowledgeObject<IKnowledgeObjectInstance<?>> object;
 		
-		public ObjectDisplayElement(KnowledgeObject<?> object){
+		public ObjectDisplayElement(KnowledgeObject<IKnowledgeObjectInstance<?>> object){
 			this.object = object;
 		}
 		
-		public void render(GuiScreen gui, float offsetX, float offsetY, float partialTickTime){
+		public void render(GuiScreen gui, PlayerCompendiumData compendiumData, float offsetX, float offsetY, float partialTickTime){
 			RenderHelper.disableStandardItemLighting();
 			gui.mc.getTextureManager().bindTexture(texBack);
-			gui.drawTexturedModalRect((int)(object.getX()-3+offsetX),(int)(object.getY()-2+offsetY),0,50,22,22);
+			gui.drawTexturedModalRect((int)(object.getX()+offsetX+29),(int)(object.getY()+offsetY+30),0,50,compendiumData.hasDiscoveredObject(object) ? 22 : 73,22);
 			RenderHelper.enableGUIStandardItemLighting();
-			renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),object.getItemStack(),(int)(object.getX()+offsetX),(int)(object.getY()+offsetY+1));
+			renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),object.getItemStack(),(int)(object.getX()+offsetX+32),(int)(object.getY()+offsetY+33));
 			RenderHelper.disableStandardItemLighting();
 		}
 		
 		public boolean isMouseOver(int mouseX, int mouseY, int offsetX, int offsetY){
-			int x = object.getX()+offsetX, y = object.getY()+offsetY;
+			int x = object.getX()+offsetX+32, y = object.getY()+offsetY+32;
 			return mouseX >= x-2 && mouseY >= y-1 && mouseX <= x+18 && mouseY <= y+18;
 		}
 	}
