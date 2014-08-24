@@ -42,6 +42,8 @@ public class CharmRecipe{
 		for(RuneType rune:runes)runeList.add(rune);
 		
 		for(TObjectByteIterator<RuneType> iter = this.runes.iterator(); iter.hasNext();){
+			iter.advance();
+			
 			for(int amt = 0, total = iter.value(); amt < total; amt++){
 				if (!runeList.remove(iter.key()))return false;
 			}
