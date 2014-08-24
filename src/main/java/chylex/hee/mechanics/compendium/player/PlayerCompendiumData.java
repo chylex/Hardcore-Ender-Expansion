@@ -13,6 +13,8 @@ import chylex.hee.mechanics.compendium.content.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.content.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.compendium.content.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.content.objects.ObjectMob;
+import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
 import chylex.hee.mechanics.compendium.player.PlayerDiscoveryList.IObjectSerializer;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
@@ -43,40 +45,50 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		pointAmount = Math.max(0,pointAmount-amount);
 	}
 	
-	public boolean tryDiscoverBlock(ObjectBlock block){
-		if (discoveredBlocks.addObject(block)){
-			// unlock discovery fragments
+	public boolean tryDiscoverBlock(KnowledgeObject<ObjectBlock> block){
+		if (discoveredBlocks.addObject(block.getObject())){
+			unlockDiscoveryFragments(block);
 			return true;
 		}
 		else return false;
 	}
 	
-	public boolean hasDiscoveredBlock(ObjectBlock block){
-		return discoveredBlocks.hasDiscoveredObject(block);
+	public boolean hasDiscoveredBlock(KnowledgeObject<ObjectBlock> block){
+		return discoveredBlocks.hasDiscoveredObject(block.getObject());
 	}
 	
-	public boolean tryDiscoverItem(ObjectItem item){
-		if (discoveredItems.addObject(item)){
-			// unlock discovery fragments
+	public boolean tryDiscoverItem(KnowledgeObject<ObjectItem> item){
+		if (discoveredItems.addObject(item.getObject())){
+			unlockDiscoveryFragments(item);
 			return true;
 		}
 		else return false;
 	}
 	
-	public boolean hasDiscoveredItem(ObjectItem item){
-		return discoveredItems.hasDiscoveredObject(item);
+	public boolean hasDiscoveredItem(KnowledgeObject<ObjectItem> item){
+		return discoveredItems.hasDiscoveredObject(item.getObject());
 	}
 	
-	public boolean tryDiscoverMob(ObjectMob mob){
-		if (discoveryMobs.addObject(mob)){
-			// unlock discovery fragments
+	public boolean tryDiscoverMob(KnowledgeObject<ObjectMob> mob){
+		if (discoveryMobs.addObject(mob.getObject())){
+			unlockDiscoveryFragments(mob);
 			return true;
 		}
 		else return false;
 	}
 	
-	public boolean hasDiscoveredMob(ObjectMob mob){
-		return discoveryMobs.hasDiscoveredObject(mob);
+	public boolean hasDiscoveredMob(KnowledgeObject<ObjectMob> mob){
+		return discoveryMobs.hasDiscoveredObject(mob.getObject());
+	}
+	
+	private void unlockDiscoveryFragments(KnowledgeObject<?> object){
+		for(KnowledgeFragment fragment:object.getFragments()){
+			if (fragment.isUnlockedOnDiscovery())unlockFragment(fragment);
+		}
+	}
+	
+	public void unlockFragment(KnowledgeFragment fragment){
+		unlockedFragments.add(fragment.globalID);
 	}
 	
 	@Override

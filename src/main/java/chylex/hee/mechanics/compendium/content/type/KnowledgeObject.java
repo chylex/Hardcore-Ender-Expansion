@@ -6,6 +6,7 @@ import java.util.Set;
 import net.minecraft.item.ItemStack;
 import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
+import com.google.common.collect.ImmutableSet;
 
 public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGuiItemStackRenderer{
 	private static final int iconSize = 30;
@@ -13,32 +14,33 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	
 	public static KnowledgeObject getObject(Object o){
 		for(KnowledgeObject knowledgeObject:allObjects){
-			if (knowledgeObject.object.checkEquality(o))return knowledgeObject;
+			if (knowledgeObject.theObject.checkEquality(o))return knowledgeObject;
 		}
 		
 		return null;
 	}
 	
-	private final T object;
+	private final T theObject;
 	private final ItemStack itemToRender;
 	private final String tooltip;
 	private final Set<KnowledgeFragment> fragmentSet = new LinkedHashSet<>();
+	private ImmutableSet<KnowledgeFragment> fragmentSetImmutable;
 	private int x, y, unlockPrice;
 	
-	public KnowledgeObject(T object){
-		this(object,object.createItemStackToRender());
+	public KnowledgeObject(T theObject){
+		this(theObject,theObject.createItemStackToRender());
 	}
 	
-	public KnowledgeObject(T object, ItemStack itemToRender){
-		this(object,itemToRender,itemToRender.getDisplayName());
+	public KnowledgeObject(T theObject, ItemStack itemToRender){
+		this(theObject,itemToRender,itemToRender.getDisplayName());
 	}
 	
-	public KnowledgeObject(T object, String tooltip){
-		this(object,object.createItemStackToRender(),tooltip);
+	public KnowledgeObject(T theObject, String tooltip){
+		this(theObject,theObject.createItemStackToRender(),tooltip);
 	}
 	
-	public KnowledgeObject(T object, ItemStack itemToRender, String tooltip){
-		this.object = object;
+	public KnowledgeObject(T theObject, ItemStack itemToRender, String tooltip){
+		this.theObject = theObject;
 		this.itemToRender = itemToRender;
 		this.tooltip = tooltip;
 		allObjects.add(this);
@@ -55,13 +57,22 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 		return this;
 	}
 	
-	public int getUnlockPrice(){
-		return unlockPrice;
-	}
-	
 	public KnowledgeObject setFragments(KnowledgeFragment[] fragments){
 		for(KnowledgeFragment fragment:fragments)this.fragmentSet.add(fragment);
+		fragmentSetImmutable = ImmutableSet.copyOf(fragmentSet);
 		return this;
+	}
+	
+	public Set<KnowledgeFragment> getFragments(){
+		return fragmentSetImmutable;
+	}
+	
+	public T getObject(){
+		return theObject;
+	}
+	
+	public int getUnlockPrice(){
+		return unlockPrice;
 	}
 	
 	@Override
