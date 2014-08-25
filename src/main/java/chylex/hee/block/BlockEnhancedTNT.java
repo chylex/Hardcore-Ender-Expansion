@@ -43,7 +43,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 		super.onBlockAdded(world,x,y,z);
 
 		if (world.isBlockIndirectlyGettingPowered(x,y,z)){
-			onBlockDestroyedByPlayer(world,x,y,z,1);
+			tryIgniteTNT(world,x,y,z,true,null);
 			world.setBlockToAir(x,y,z);
 		}
 	}
@@ -51,7 +51,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor){
 		if (world.isBlockIndirectlyGettingPowered(x,y,z)){
-			onBlockDestroyedByPlayer(world,x,y,z,1);
+			tryIgniteTNT(world,x,y,z,true,null);
 			world.setBlockToAir(x,y,z);
 		}
 	}

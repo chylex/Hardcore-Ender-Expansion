@@ -94,7 +94,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	}
 
 	private void explode(){
-		EnhancedTNTExplosion explosion = new EnhancedTNTExplosion(worldObj,this,posX,posY,posZ,tntEnhancements.contains(TNTEnhancements.EXTRA_POWER) ? 5F : 4F);
+		EnhancedTNTExplosion explosion = new EnhancedTNTExplosion(worldObj,this,posX,posY,posZ,tntEnhancements.contains(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F);
 		explosion.isFlaming = tntEnhancements.contains(TNTEnhancements.FIRE);
 		explosion.isSmoking = !tntEnhancements.contains(TNTEnhancements.NO_BLOCK_DAMAGE);
 		explosion.damageEntities = !tntEnhancements.contains(TNTEnhancements.NO_ENTITY_DAMAGE);

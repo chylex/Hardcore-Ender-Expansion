@@ -96,7 +96,7 @@ public final class ItemList{
 		register("infestation_remedy", infestation_remedy = new ItemInfestationRemedy().setUnlocalizedName("infestationRemedy").setTextureName("hardcoreenderexpansion:infestation_remedy"));
 		register("ghost_amulet", ghost_amulet = new Item().setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
 		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("endoplasm").setTextureName("hardcoreenderexpansion:endoplasm"));
-		register("charm_pouch", charm_pouch = new ItemCharmPouch().setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
+		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
 		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune"));
 		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
 		register("fire_shard", fire_shard = new Item().setUnlocalizedName("fireShard").setTextureName("hardcoreenderexpansion:fire_shard"));
