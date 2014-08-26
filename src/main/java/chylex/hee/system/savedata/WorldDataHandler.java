@@ -60,7 +60,7 @@ public final class WorldDataHandler{
 	public void onWorldLoad(WorldEvent.Load e){
 		if (e.world.isRemote)return;
 		
-		String id = e.world.getSaveHandler().getWorldDirectoryName()+e.world.getWorldInfo().getLastTimePlayed();
+		String id = e.world.getSaveHandler().getWorldDirectoryName()+e.world.getWorldInfo().getSeed();
 		
 		if (!worldIdentifier.equals(id)){
 			cache.clear();
