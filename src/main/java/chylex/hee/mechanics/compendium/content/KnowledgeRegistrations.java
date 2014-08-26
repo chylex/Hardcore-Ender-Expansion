@@ -20,7 +20,10 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.OVERWORLD.addKnowledgeObjects(new KnowledgeObject[]{
 			TEST_OBJECT.setPos(0,0).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(1000).setContents("Test fragment").setPrice(5)
+				new KnowledgeFragmentText(1000).setContents("Test fragment").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(1001).setContents("Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2").setPrice(10),
+				new KnowledgeFragmentText(1002).setContents("Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2").setPrice(100),
+				new KnowledgeFragmentText(1003).setContents("Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2").setPrice(400)
 			})
 		});
 	}

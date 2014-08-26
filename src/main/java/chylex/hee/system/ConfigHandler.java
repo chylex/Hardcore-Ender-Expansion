@@ -9,6 +9,7 @@ import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.sound.MusicManager;
 import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
@@ -76,6 +77,7 @@ public final class ConfigHandler{
 		BlockEnderGoo.shouldBattleWater = config.get("general","gooBattlesWater",true).getBoolean(true);
 		ItemTempleCaller.isEnabled = config.get("general","enableTempleCaller",true).getBoolean(true);
 		BiomeGenHardcoreEnd.overrideMobLists = config.get("general","overrideBiomeMobs",false).getBoolean(false);
+		Log.forceDebugEnabled = config.get("general","logDebuggingInfo",false).getBoolean(false);
 		
 		if (firstTimeGeneral){
 			ModCommonProxy.achievementStartId = hideAndReturn(config.get("general","achievementStartId",3500)).getInt(3500);

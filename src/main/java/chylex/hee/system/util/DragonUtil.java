@@ -1,4 +1,5 @@
 package chylex.hee.system.util;
+import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -119,6 +120,22 @@ public final class DragonUtil{
 	public static double[] getNormalizedVector(double vecX, double vecZ){
 		double len = Math.sqrt(vecX*vecX+vecZ*vecZ);
 		return len == 0 ? new double[]{ 0, 0 } : new double[]{ vecX/len, vecZ/len };
+	}
+
+	public static <T> T[] getNonNullValues(T[] array){
+		if (array.length == 0)return array;
+
+		int nonNull = 0, cnt = 0;
+		for(T t:array){
+			if (t != null)++nonNull;
+		}
+
+		T[] newArray = (T[])Array.newInstance(array.getClass().getComponentType(),nonNull);
+		for(T t:array){
+			if (t != null)newArray[cnt++] = t;
+		}
+
+		return newArray;
 	}
 
 	public static int getTopBlock(World worldObj, Block block, int x, int z, int starty){

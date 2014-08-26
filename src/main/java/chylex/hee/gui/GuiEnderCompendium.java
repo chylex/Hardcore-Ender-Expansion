@@ -1,9 +1,11 @@
 package chylex.hee.gui;
 import gnu.trove.map.hash.TByteObjectHashMap;
-import gnu.trove.stack.array.TByteArrayStack;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
@@ -33,7 +35,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
-	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiObjectTopY = 400;
+	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjectTopY = 400;
 	
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/knowledge_book.png");
@@ -56,10 +58,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
 	private boolean hasHighlightedCategory = false;
 	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> currentObject = null;
-	private TByteObjectHashMap<Set<KnowledgeFragment>> currentObjectPages = new TByteObjectHashMap<>(5);
+	private TByteObjectHashMap<Map<KnowledgeFragment,Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
 	
-	private byte pageIndexCurrent;
-	private TByteArrayStack pageIndexPrev = new TByteArrayStack(5);
+	private byte pageIndex;
 	private GuiButton[] pageArrows = new GuiButton[2];
 	
 	public GuiEnderCompendium(PlayerCompendiumData compendiumData){
@@ -81,9 +82,20 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		buttonList.add(new GuiButton(0,(width>>1)-120,height-48+21,98,20,I18n.format("gui.back")));
 		buttonList.add(new GuiButton(1,(width>>1)-10,height-48+21,20,20,"?"));
 		buttonList.add(new GuiButton(2,(width>>1)+22,height-48+21,98,20,I18n.format("gui.done")));
+		buttonList.add(pageArrows[0] = new GuiButtonPageArrow(3,0,((height+guiPageTexHeight)>>1)-32,false));
+		buttonList.add(pageArrows[1] = new GuiButtonPageArrow(4,0,((height+guiPageTexHeight)>>1)-32,true));
 		
-		offsetX.set(width>>1);
-		offsetY.set(height>>1);
+		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
+		
+		if (!hasHighlightedCategory){
+			offsetX.set(width>>1);
+			offsetY.set(height>>1);
+		}
+		else{
+			offsetX.set(width>>1);
+			offsetY.set(-guiObjectTopY);
+			
+		}
 	}
 	
 	@Override
@@ -91,7 +103,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (!(button.enabled && button.visible))return;
 		
 		if (button.id == 0){
-			if (hasHighlightedCategory){
+			if (currentObject != null)showObject(null);
+			else if (hasHighlightedCategory){
 				offsetY.startAnimation(offsetY.value(),height>>1);
 				hasHighlightedCategory = false;
 			}
@@ -105,6 +118,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			mc.displayGuiScreen((GuiScreen)null);
 			mc.setIngameFocus();
 		}
+		else if (button.id == 3)pageIndex = (byte)Math.max(0,pageIndex-1);
+		else if (button.id == 4)pageIndex = (byte)Math.min(currentObjectPages.size()-1,pageIndex+1);
 	}
 	
 	@Override
@@ -125,9 +140,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				int offX = (int)offsetX.value()-(width>>1), offY = (int)offsetY.value()+guiObjectTopY;
 				
 				for(ObjectDisplayElement element:objectElements){
-					if (element.isMouseOver(mouseX,mouseY,offX,offY)){
-						showObject(element.object);
-					}
+					if (element.isMouseOver(mouseX,mouseY,offX,offY))showObject(element.object);
 				}
 			}
 		}
@@ -151,11 +164,34 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private void showObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
-		if (currentObject != null){
-			
-		}
+		if (currentObject != null)currentObjectPages.clear();
 		
-		currentObject = object;
+		if ((currentObject = object) == null)return;
+		
+		byte page = 0;
+		int yy = 0, height = 0;
+		boolean isUnlocked = false;
+		Map<KnowledgeFragment,Boolean> pageMap = new HashMap<>();
+		Iterator<KnowledgeFragment> iter = currentObject.getFragments().iterator();
+		
+		while(true){
+			KnowledgeFragment fragment = iter.hasNext() ? iter.next() : null;
+			System.out.println(fragment);
+			
+			if (fragment == null || yy+(height = 10+fragment.getHeight(mc,isUnlocked = (object == KnowledgeRegistrations.HELP || compendiumData.hasUnlockedFragment(fragment)))) > guiPageHeight){
+				if (fragment != null)pageMap.put(fragment,isUnlocked);
+				currentObjectPages.put(page++,pageMap);
+				
+				if (fragment == null)break;
+				else{
+					pageMap = new HashMap<>();
+					yy = 0;
+				}
+			}
+			
+			pageMap.put(fragment,isUnlocked);
+			yy += height;
+		}
 	}
 	
 	@Override
@@ -171,6 +207,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glPopMatrix();
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		RenderHelper.disableStandardItemLighting();
 		super.drawScreen(mouseX,mouseY,partialTickTime);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
@@ -214,15 +251,13 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,tooltip);
 			}
 		}
-		
-		if (currentObject == KnowledgeRegistrations.HELP){
-			renderPaperBackground(width>>1,height>>1);
-		}
-		else if (currentObject != null){
-			renderPaperBackground((width>>1)+(width>>2),height>>1);
-		}
 
 		renderFragmentCount((width>>1)-25,24);
+		
+		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
+		
+		if (currentObject == KnowledgeRegistrations.HELP)renderPaper(width>>1,height>>1);
+		else if (currentObject != null)renderPaper((width>>1)+(width>>2)+4,height>>1);
 		
 		prevMouseX = mouseX;
 		prevMouseY = mouseY;
@@ -268,7 +303,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,4210752);
 	}
 	
-	private void renderPaperBackground(int x, int y){
+	private void renderPaper(int x, int y){
+		pageArrows[0].xPosition = x-(guiPageTexWidth*3/10)-10;
+		pageArrows[1].xPosition = x+(guiPageTexWidth*3/10)-10;
+		
 		GL11.glColor4f(1F,1F,1F,1F);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -276,6 +314,27 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		mc.getTextureManager().bindTexture(texPage);
 		drawTexturedModalRect(x-(guiPageTexWidth>>1),y-(guiPageTexHeight>>1),0,0,guiPageTexWidth,guiPageTexHeight);
+		
+		x = x-(guiPageTexWidth>>1)+guiPageLeft;
+		y = y-(guiPageTexHeight>>1)+guiPageTop;
+		
+		for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
+			entry.getKey().render(x,y,mc,entry.getValue());
+			int height = entry.getKey().getHeight(mc,entry.getValue());
+			
+			if (!entry.getValue() && entry.getKey().isBuyable()){
+				RenderHelper.enableGUIStandardItemLighting();
+				renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,x-guiPageLeft+(guiPageTexWidth>>1)-9,y+(height>>1)-8);
+				RenderHelper.disableStandardItemLighting();
+				fontRendererObj.drawString(String.valueOf(entry.getKey().getPrice()),x-guiPageLeft+(guiPageTexWidth>>1)+8,y+(height>>1)-3,255<<24|255<<16|255<<8|255);
+			}
+			
+			y += 10+height;
+		}
+		
+		for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
+		pageArrows[0].enabled = pageIndex > 0;
+		pageArrows[1].enabled = pageIndex < currentObjectPages.size()-2;
 		
 		GL11.glDisable(GL11.GL_BLEND);
 	}

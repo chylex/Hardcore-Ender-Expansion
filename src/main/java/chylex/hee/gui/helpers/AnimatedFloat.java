@@ -40,7 +40,12 @@ public final class AnimatedFloat{
 	}
 	
 	public void set(float newValue){
-		if (!isAnimating)currentValue = newValue;
+		if (isAnimating)isAnimating = false;
+		currentValue = newValue;
+	}
+	
+	public boolean isAnimating(){
+		return isAnimating;
 	}
 	
 	public float value(){

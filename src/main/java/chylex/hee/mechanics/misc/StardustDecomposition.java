@@ -1,5 +1,4 @@
 package chylex.hee.mechanics.misc;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IdentityHashMap;
@@ -17,6 +16,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.DragonUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -151,7 +151,7 @@ public final class StardustDecomposition{
 			if (output == null || output.getItem() != item || output.stackSize != is.stackSize || (!is.isItemStackDamageable() && output.getItemDamage() != is.getItemDamage()))continue;
 
 			if (o instanceof ShapedRecipes){
-				ingredients.add(getNonNullValues(((ShapedRecipes)o).recipeItems));
+				ingredients.add(DragonUtil.getNonNullValues(((ShapedRecipes)o).recipeItems));
 			}
 			else if (o instanceof ShapelessRecipes){
 				ShapelessRecipes shapeless = (ShapelessRecipes)o;
@@ -161,7 +161,7 @@ public final class StardustDecomposition{
 				ingredients.add(ing);
 			}
 			else{
-				Object[] objs = o instanceof ShapedOreRecipe ? getNonNullValues(((ShapedOreRecipe)o).getInput()) :
+				Object[] objs = o instanceof ShapedOreRecipe ? DragonUtil.getNonNullValues(((ShapedOreRecipe)o).getInput()) :
 								o instanceof ShapelessOreRecipe ? ((ShapelessOreRecipe)o).getInput().toArray() : null;
 				if (objs == null)continue;
 
@@ -198,22 +198,6 @@ public final class StardustDecomposition{
 		if (randRecipeIngredients.isEmpty())return null;
 		
 		return randRecipeIngredients;
-	}
-
-	private static <T> T[] getNonNullValues(T[] array){
-		if (array.length == 0)return array;
-
-		int nonNull = 0, cnt = 0;
-		for(T t:array){
-			if (t != null)++nonNull;
-		}
-
-		T[] newArray = (T[])Array.newInstance(array.getClass().getComponentType(),nonNull);
-		for(T t:array){
-			if (t != null)newArray[cnt++] = t;
-		}
-
-		return newArray;
 	}
 	
 	private StardustDecomposition(){}

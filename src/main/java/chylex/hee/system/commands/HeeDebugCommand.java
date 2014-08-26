@@ -3,6 +3,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -39,7 +40,7 @@ public class HeeDebugCommand extends HeeCommand{
 		if (args.length == 0){
 			sendMessage(sender,
 				EnumChatFormatting.GREEN+"Available commands: "+EnumChatFormatting.RESET+
-				"setangry, settarget <username>, animspeed <speed>, attackeff, attack <id>, endattack, freeze, kill, startdebug, stopdebug, viewitems, speedup");
+				"setangry, settarget <username>, animspeed <speed>, attackeff, attack <id>, endattack, freeze, kill, startdebug, stopdebug, viewitems, speedup, noweather");
 			return;
 		}
 		else if (args[0].equalsIgnoreCase("setangry") && dragon != null){
@@ -107,6 +108,15 @@ public class HeeDebugCommand extends HeeCommand{
 		}
 		else if (args[0].equalsIgnoreCase("speedup")){
 			HardcoreEnderExpansion.proxy.openGui("speedup");
+		}
+		else if (args[0].equalsIgnoreCase("noweather")){
+			for(WorldServer world:DimensionManager.getWorlds()){
+				WorldInfo info = world.getWorldInfo();
+				info.setRaining(false);
+				info.setThundering(false);
+				info.setRainTime(Integer.MAX_VALUE);
+				info.setThunderTime(Integer.MAX_VALUE);
+			}
 		}
 		else{
 			sendMessage(sender,"Unknown command.");

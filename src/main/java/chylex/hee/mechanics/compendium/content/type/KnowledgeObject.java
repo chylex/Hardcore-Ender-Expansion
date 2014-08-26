@@ -58,7 +58,7 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	}
 	
 	public KnowledgeObject setFragments(KnowledgeFragment[] fragments){
-		for(KnowledgeFragment fragment:fragments)this.fragmentSet.add(fragment);
+		for(KnowledgeFragment fragment:fragments)fragmentSet.add(fragment);
 		fragmentSetImmutable = ImmutableSet.copyOf(fragmentSet);
 		return this;
 	}

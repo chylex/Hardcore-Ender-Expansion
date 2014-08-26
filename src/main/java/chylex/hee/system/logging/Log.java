@@ -7,14 +7,19 @@ import org.apache.logging.log4j.Logger;
 public final class Log{
 	static final Logger logger = LogManager.getLogger("HardcoreEnderExpansion");
 	
-	public static final boolean showDebug;
+	public static boolean forceDebugEnabled;
+	private static boolean isDeobfEnvironment;
 	
 	static{
-		showDebug = ((Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment")).booleanValue();
+		isDeobfEnvironment = ((Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment")).booleanValue();
+	}
+	
+	public static boolean isDebugEnabled(){
+		return forceDebugEnabled || isDeobfEnvironment;
 	}
 	
 	public static void debug(String message, Object...data){
-		if (showDebug)logger.info(getMessage(message,data));
+		if (forceDebugEnabled || isDeobfEnvironment)logger.info(getMessage(message,data));
 	}
 	
 	public static void info(String message, Object...data){
