@@ -15,10 +15,6 @@ public class ItemSpecialEffects extends Item{
 	@SideOnly(Side.CLIENT)
 	private IIcon[] icons;
 	
-	public ItemSpecialEffects(){
-		super();
-	}
-	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage){

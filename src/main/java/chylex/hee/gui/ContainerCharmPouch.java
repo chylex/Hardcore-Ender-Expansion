@@ -115,6 +115,7 @@ public class ContainerCharmPouch extends Container{
 				else if (is2.getItem() == ItemList.rune){
 					if (!mergeItemStack(is2,3,8,false))return null;
 				}
+				else return null;
 			}
 
 			if (is2.stackSize == 0)slot.putStack(null);

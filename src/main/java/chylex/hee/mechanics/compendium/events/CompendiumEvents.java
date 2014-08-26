@@ -30,7 +30,7 @@ public final class CompendiumEvents{
 	
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing e){
-		if (!e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer){
+		if (e.entity.worldObj != null && !e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer){
 			if (!e.entity.registerExtendedProperties(playerPropertyIdentifier,new PlayerCompendiumData()).equals(playerPropertyIdentifier)){
 				throw new IllegalStateException("Could not register player Compendium properties, likely due to the properties already being registered by another mod!");
 			}
