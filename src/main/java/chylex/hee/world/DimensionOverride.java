@@ -30,23 +30,42 @@ public final class DimensionOverride{
 	}
 	
 	public static void postInit(){
+		Stopwatch.time("DimensionOverride - PostInit");
+		
+		if (!(BiomeGenBase.sky instanceof BiomeGenHardcoreEnd))throw new RuntimeException("End biome class mismatch, Hardcore Ender Expansion cannot proceed! Biome class: "+BiomeGenBase.sky.getClass().getName());
+		
+		try{
+			Field f = DimensionManager.class.getDeclaredField("providers");
+			f.setAccessible(true); // let it throw NPE if the field isn't found
+			
+			Class<?> cls = ((Hashtable<Integer,Class<? extends WorldProvider>>)f.get(null)).get(1);
+			if (cls != WorldProviderHardcoreEnd.class)throw new RuntimeException("End world provider class mismatch, Hardcore Ender Expansion cannot proceed! Provider class: "+cls.getName());
+		}catch(NullPointerException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e){
+			throw new RuntimeException("End world provider check failed!",e);
+		}
+		
 		((BiomeGenHardcoreEnd)BiomeGenBase.getBiome(9)).overrideMobLists();
+		
+		Stopwatch.finish("DimensionOverride - PostInit");
 	}
 	
 	private static void overrideBiome(){
 		Stopwatch.time("DimensionOverride - Biome");
-		Field modifiersField = null;
 		
 		try{
 			BiomeGenBase sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
 			BiomeGenBase.getBiomeGenArray()[9] = sky;
-			
-			modifiersField = Field.class.getDeclaredField("modifiers");
+
+			Field modifiersField = Field.class.getDeclaredField("modifiers");
 			modifiersField.setAccessible(true);
 			
 			for(Field field:BiomeGenBase.class.getDeclaredFields()){
-				if (BiomeGenEnd.class.isAssignableFrom(field.getType())){
-					modifiersField.setInt(field,modifiersField.getInt(field) & ~Modifier.FINAL);
+				if (!BiomeGenBase.class.isAssignableFrom(field.getType()))continue;
+				
+				field.setAccessible(true);
+				modifiersField.setInt(field,field.getModifiers() & ~Modifier.FINAL);
+				
+				if (field.get(null) instanceof BiomeGenEnd){
 					field.set(null,sky);
 					break;
 				}
@@ -62,16 +81,8 @@ public final class DimensionOverride{
 	private static void overrideWorldGen(){
 		Stopwatch.time("DimensionOverride - WorldProvider");
 		
-		try{
-			Field f = DimensionManager.class.getDeclaredField("providers");
-			f.setAccessible(true); // let it throw NPE if the field isn't found
-			
-			Hashtable<Integer,Class<? extends WorldProvider>> providers = (Hashtable<Integer,Class<? extends WorldProvider>>)f.get(null);
-			providers.put(1,WorldProviderHardcoreEnd.class);
-			f.set(null,providers);
-		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException e){
-			throw new RuntimeException("Could not override the DimensionManager providers!",e);
-		}
+		DimensionManager.unregisterProviderType(1);
+		DimensionManager.registerProviderType(1,WorldProviderHardcoreEnd.class,false);
 
 		Stopwatch.finish("DimensionOverride - WorldProvider");
 	}

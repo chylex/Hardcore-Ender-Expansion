@@ -18,11 +18,10 @@ public class BlockReplaceHelper{
 	public static void replaceBlock(Block toReplace, Class<? extends Block> blockClass){
 		Stopwatch.time("BlockReplace");
 		
-		Field modifiersField = null;
 		Class<?>[] classTest = new Class<?>[3];
 		
 		try{
-			modifiersField = Field.class.getDeclaredField("modifiers");
+			Field modifiersField = Field.class.getDeclaredField("modifiers");
 			modifiersField.setAccessible(true);
 			
 			for(Field blockField:Blocks.class.getDeclaredFields()){
@@ -47,12 +46,12 @@ public class BlockReplaceHelper{
 						((ObjectIntIdentityMap)map.get(registry)).func_148746_a(newBlock,id); // OBFUSCATED put object
 						
 						blockField.setAccessible(true);
-						modifiersField.setInt(blockField,modifiersField.getInt(blockField) & ~Modifier.FINAL);
+						modifiersField.setInt(blockField,blockField.getModifiers() & ~Modifier.FINAL);
 						blockField.set(null,newBlock);
 						
 						Field itemBlockField = ItemBlock.class.getDeclaredFields()[0];
 						itemBlockField.setAccessible(true);
-						modifiersField.setInt(itemBlockField,modifiersField.getInt(itemBlockField) & ~Modifier.FINAL);
+						modifiersField.setInt(itemBlockField,itemBlockField.getModifiers() & ~Modifier.FINAL);
 						itemBlockField.set(item,newBlock);
 						
 						classTest[0] = blockField.get(null).getClass();

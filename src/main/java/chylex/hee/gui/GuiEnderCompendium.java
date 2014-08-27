@@ -38,7 +38,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjectTopY = 400;
 	
 	public static final RenderItem renderItem = new RenderItem();
-	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/knowledge_book.png");
+	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	public static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
 	private static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_fragment);
 	
@@ -318,23 +318,45 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		x = x-(guiPageTexWidth>>1)+guiPageLeft;
 		y = y-(guiPageTexHeight>>1)+guiPageTop;
 		
-		for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
-			entry.getKey().render(x,y,mc,entry.getValue());
-			int height = entry.getKey().getHeight(mc,entry.getValue());
+		if (compendiumData.hasDiscoveredObject(currentObject)){
+			mc.getTextureManager().bindTexture(texPage);
+			drawTexturedModalRect(x-guiPageLeft+(guiPageTexWidth>>1)-27,y+(height>>1)-13,155,0,54,26);
 			
-			if (!entry.getValue() && entry.getKey().isBuyable()){
-				RenderHelper.enableGUIStandardItemLighting();
-				renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,x-guiPageLeft+(guiPageTexWidth>>1)-9,y+(height>>1)-8);
-				RenderHelper.disableStandardItemLighting();
-				fontRendererObj.drawString(String.valueOf(entry.getKey().getPrice()),x-guiPageLeft+(guiPageTexWidth>>1)+8,y+(height>>1)-3,255<<24|255<<16|255<<8|255);
+			RenderHelper.enableGUIStandardItemLighting();
+			renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,x-guiPageLeft+(guiPageTexWidth>>1)-22,y+(height>>1)-9);
+			RenderHelper.disableStandardItemLighting();
+			
+			String text = String.valueOf(currentObject.getUnlockPrice());
+			fontRendererObj.drawString(text,x-fontRendererObj.getStringWidth(text)-guiPageLeft+(guiPageTexWidth>>1)+20,y+(height>>1)-4,4210752);
+		}
+		else{
+			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
+				entry.getKey().render(x,y,mc,entry.getValue());
+				int height = entry.getKey().getHeight(mc,entry.getValue());
+				
+				if (!entry.getValue() && entry.getKey().isBuyable()){
+					GL11.glColor4f(1F,1F,1F,0.96F);
+					GL11.glEnable(GL11.GL_BLEND);
+					GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+					
+					mc.getTextureManager().bindTexture(texPage);
+					drawTexturedModalRect(x-guiPageLeft+(guiPageTexWidth>>1)-27,y+(height>>1)-13,155,0,54,26);
+					
+					RenderHelper.enableGUIStandardItemLighting();
+					renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,x-guiPageLeft+(guiPageTexWidth>>1)-22,y+(height>>1)-9);
+					RenderHelper.disableStandardItemLighting();
+					
+					String price = String.valueOf(entry.getKey().getPrice());
+					fontRendererObj.drawString(price,x-fontRendererObj.getStringWidth(price)-guiPageLeft+(guiPageTexWidth>>1)+20,y+(height>>1)-4,4210752);
+				}
+				
+				y += 10+height;
 			}
 			
-			y += 10+height;
+			for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
+			pageArrows[0].enabled = pageIndex > 0;
+			pageArrows[1].enabled = pageIndex < currentObjectPages.size()-2;
 		}
-		
-		for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
-		pageArrows[0].enabled = pageIndex > 0;
-		pageArrows[1].enabled = pageIndex < currentObjectPages.size()-2;
 		
 		GL11.glDisable(GL11.GL_BLEND);
 	}

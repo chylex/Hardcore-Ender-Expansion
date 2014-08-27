@@ -82,7 +82,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		return discoveryMobs.hasDiscoveredObject(mob.getObject());
 	}
 	
-	public boolean hasDiscoveredObject(KnowledgeObject<IKnowledgeObjectInstance<?>> object){
+	public boolean hasDiscoveredObject(KnowledgeObject<?> object){
 		IKnowledgeObjectInstance<?> obj = object.getObject();
 		
 		if (obj instanceof ObjectBlock)return discoveredBlocks.hasDiscoveredObject((ObjectBlock)obj);
