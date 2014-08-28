@@ -2,6 +2,7 @@ package chylex.hee.mechanics.compendium.content.type;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.Collection;
+import java.util.Collections;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import cpw.mods.fml.relauncher.Side;
@@ -11,7 +12,7 @@ public abstract class KnowledgeFragment{
 	private static final TIntObjectMap<KnowledgeFragment> allFragments = new TIntObjectHashMap<>();
 	
 	public static final Collection<KnowledgeFragment> getAllFragments(){
-		return allFragments.valueCollection();
+		return Collections.unmodifiableCollection(allFragments.valueCollection());
 	}
 	
 	public static final KnowledgeFragment getById(int globalID){

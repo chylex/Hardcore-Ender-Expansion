@@ -9,9 +9,9 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
+import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.content.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.content.objects.ObjectBlock.BlockMetaWrapper;
-import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.content.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.content.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
@@ -40,6 +40,10 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	public int getPoints(){
 		return pointAmount;
+	}
+	
+	public void givePoints(int amount){
+		pointAmount += amount;
 	}
 	
 	public void payPoints(int amount){
@@ -80,6 +84,15 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	public boolean hasDiscoveredMob(KnowledgeObject<ObjectMob> mob){
 		return discoveryMobs.hasDiscoveredObject(mob.getObject());
+	}
+	
+	public boolean tryDiscoverObject(KnowledgeObject<?> object){
+		IKnowledgeObjectInstance<?> obj = object.getObject();
+		
+		if (obj instanceof ObjectBlock)return tryDiscoverBlock((KnowledgeObject<ObjectBlock>)obj);
+		else if (obj instanceof ObjectItem)return tryDiscoverItem((KnowledgeObject<ObjectItem>)obj);
+		else if (obj instanceof ObjectMob)return tryDiscoverMob((KnowledgeObject<ObjectMob>)obj);
+		else return false;
 	}
 	
 	public boolean hasDiscoveredObject(KnowledgeObject<?> object){

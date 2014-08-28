@@ -51,7 +51,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			blobGen.generate(currentWorld,randomGenerator,chunk_X+randomGenerator.nextInt(10)+11,32+randomGenerator.nextInt(60),chunk_Z+randomGenerator.nextInt(10)+11);
 		}
 		
-		if (distFromCenter > 480D && randomGenerator.nextFloat()*randomGenerator.nextFloat() > 0.666F){
+		if (distFromCenter > 1280D && randomGenerator.nextFloat()*randomGenerator.nextFloat() > 0.666F && randomGenerator.nextFloat() < 0.1F+(distFromCenter/15000D)){
 			for(int a = 0; a < randomGenerator.nextInt(3); a++){
 				meteoroidGen.generate(currentWorld,randomGenerator,chunk_X+randomGenerator.nextInt(16)+8,8+randomGenerator.nextInt(112),chunk_Z+randomGenerator.nextInt(16)+8);
 			}
@@ -72,11 +72,10 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		}
 
 		if (chunk_X == 0 && chunk_Z == 0){
-			file.setDragonExists();
-			
 			EntityBossDragon dragon = new EntityBossDragon(currentWorld);
 			dragon.setLocationAndAngles(0D,128D,0D,randomGenerator.nextFloat()*360F,0F);
 			currentWorld.spawnEntityInWorld(dragon);
+			file.setDragonExists();
 		}
 	}
 

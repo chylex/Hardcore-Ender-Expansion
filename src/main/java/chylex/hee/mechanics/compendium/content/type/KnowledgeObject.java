@@ -6,18 +6,23 @@ import java.util.Set;
 import net.minecraft.item.ItemStack;
 import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGuiItemStackRenderer{
 	private static final int iconSize = 30;
-	private static final List<KnowledgeObject> allObjects = new ArrayList<>();
+	private static final List<KnowledgeObject<?>> allObjects = new ArrayList<>();
 	
-	public static KnowledgeObject getObject(Object o){
-		for(KnowledgeObject knowledgeObject:allObjects){
-			if (knowledgeObject.theObject.checkEquality(o))return knowledgeObject;
+	public static <T extends IKnowledgeObjectInstance<?>> KnowledgeObject<T> getObject(Object o){
+		for(KnowledgeObject<?> knowledgeObject:allObjects){
+			if (knowledgeObject.theObject.checkEquality(o))return (KnowledgeObject<T>)knowledgeObject;
 		}
 		
 		return null;
+	}
+	
+	public static ImmutableList<KnowledgeObject<?>> getAllObjects(){
+		return ImmutableList.copyOf(allObjects);
 	}
 	
 	private final T theObject;

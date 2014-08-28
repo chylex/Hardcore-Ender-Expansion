@@ -3,6 +3,7 @@ import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -94,7 +95,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		else{
 			offsetX.set(width>>1);
 			offsetY.set(-guiObjectTopY);
-			
 		}
 	}
 	
@@ -164,19 +164,21 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private void showObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
-		if (currentObject != null)currentObjectPages.clear();
+		if (currentObject != null){
+			currentObjectPages.clear();
+			pageIndex = 0;
+		}
 		
 		if ((currentObject = object) == null)return;
 		
 		byte page = 0;
 		int yy = 0, height = 0;
 		boolean isUnlocked = false;
-		Map<KnowledgeFragment,Boolean> pageMap = new HashMap<>();
+		Map<KnowledgeFragment,Boolean> pageMap = new LinkedHashMap<>();
 		Iterator<KnowledgeFragment> iter = currentObject.getFragments().iterator();
 		
 		while(true){
 			KnowledgeFragment fragment = iter.hasNext() ? iter.next() : null;
-			System.out.println(fragment);
 			
 			if (fragment == null || yy+(height = 10+fragment.getHeight(mc,isUnlocked = (object == KnowledgeRegistrations.HELP || compendiumData.hasUnlockedFragment(fragment)))) > guiPageHeight){
 				if (fragment != null)pageMap.put(fragment,isUnlocked);
@@ -186,6 +188,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				else{
 					pageMap = new HashMap<>();
 					yy = 0;
+					continue;
 				}
 			}
 			
@@ -354,8 +357,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 			
 			for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
-			pageArrows[0].enabled = pageIndex > 0;
-			pageArrows[1].enabled = pageIndex < currentObjectPages.size()-2;
+			pageArrows[0].visible = pageIndex > 0;
+			pageArrows[1].visible = pageIndex < currentObjectPages.size()-1;
 		}
 		
 		GL11.glDisable(GL11.GL_BLEND);
