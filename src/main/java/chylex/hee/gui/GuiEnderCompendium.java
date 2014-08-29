@@ -29,6 +29,7 @@ import chylex.hee.mechanics.compendium.content.type.KnowledgeCategory;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
+import chylex.hee.mechanics.compendium.render.BuyFragmentDisplayElement;
 import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
 import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import cpw.mods.fml.relauncher.Side;
@@ -41,7 +42,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	public static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
-	private static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_fragment);
+	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_fragment);
 	
 	private static float ptt(float value, float prevValue, float partialTickTime){
 		return prevValue+(value-prevValue)*partialTickTime;
@@ -57,10 +58,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	private List<CategoryDisplayElement> categoryElements = new ArrayList<>();
 	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
+	private List<BuyFragmentDisplayElement> buyFragmentElements = new ArrayList<>();
+	
 	private boolean hasHighlightedCategory = false;
 	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> currentObject = null;
 	private TByteObjectHashMap<Map<KnowledgeFragment,Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
-	
 	private byte pageIndex;
 	private GuiButton[] pageArrows = new GuiButton[2];
 	
@@ -140,7 +142,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				int offX = (int)offsetX.value()-(width>>1), offY = (int)offsetY.value()+guiObjectTopY;
 				
 				for(ObjectDisplayElement element:objectElements){
-					if (element.isMouseOver(mouseX,mouseY,offX,offY))showObject(element.object);
+					if (element.isMouseOver(mouseX,mouseY,offX,offY)){
+						showObject(element.object);
+						break;
+					}
 				}
 			}
 		}
@@ -195,6 +200,26 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			pageMap.put(fragment,isUnlocked);
 			yy += height;
 		}
+		
+		refreshBuyableElements();
+	}
+	
+	private void refreshBuyableElements(){
+		buyFragmentElements.clear();
+		if (currentObject == null)return;
+		
+		if (!compendiumData.hasDiscoveredObject(currentObject)){
+			buyFragmentElements.add(new BuyFragmentDisplayElement(null,(height>>1)-3));
+			return;
+		}
+		
+		int y = ((height-guiPageTexHeight)>>1)+guiPageTop, height;
+		
+		for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
+			height = entry.getKey().getHeight(mc,entry.getValue());
+			if (!entry.getValue() && entry.getKey().isBuyable())buyFragmentElements.add(new BuyFragmentDisplayElement(entry.getKey(),y+(height>>1)));
+			y += 10+height;
+		}
 	}
 	
 	@Override
@@ -232,9 +257,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
 		
-		for(CategoryDisplayElement element:categoryElements){
-			if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY)){
-				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.category.getTooltip());
+		if (currentObject == null){
+			for(CategoryDisplayElement element:categoryElements){
+				if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY)){
+					GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.category.getTooltip());
+				}
 			}
 		}
 		
@@ -318,48 +345,21 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		mc.getTextureManager().bindTexture(texPage);
 		drawTexturedModalRect(x-(guiPageTexWidth>>1),y-(guiPageTexHeight>>1),0,0,guiPageTexWidth,guiPageTexHeight);
 		
-		x = x-(guiPageTexWidth>>1)+guiPageLeft;
-		y = y-(guiPageTexHeight>>1)+guiPageTop;
-		
 		if (compendiumData.hasDiscoveredObject(currentObject)){
-			mc.getTextureManager().bindTexture(texPage);
-			drawTexturedModalRect(x-guiPageLeft+(guiPageTexWidth>>1)-27,y+(height>>1)-13,155,0,54,26);
+			x = x-(guiPageTexWidth>>1)+guiPageLeft;
+			y = y-(guiPageTexHeight>>1)+guiPageTop;
 			
-			RenderHelper.enableGUIStandardItemLighting();
-			renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,x-guiPageLeft+(guiPageTexWidth>>1)-22,y+(height>>1)-9);
-			RenderHelper.disableStandardItemLighting();
-			
-			String text = String.valueOf(currentObject.getUnlockPrice());
-			fontRendererObj.drawString(text,x-fontRendererObj.getStringWidth(text)-guiPageLeft+(guiPageTexWidth>>1)+20,y+(height>>1)-4,4210752);
-		}
-		else{
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
 				entry.getKey().render(x,y,mc,entry.getValue());
-				int height = entry.getKey().getHeight(mc,entry.getValue());
-				
-				if (!entry.getValue() && entry.getKey().isBuyable()){
-					GL11.glColor4f(1F,1F,1F,0.96F);
-					GL11.glEnable(GL11.GL_BLEND);
-					GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-					
-					mc.getTextureManager().bindTexture(texPage);
-					drawTexturedModalRect(x-guiPageLeft+(guiPageTexWidth>>1)-27,y+(height>>1)-13,155,0,54,26);
-					
-					RenderHelper.enableGUIStandardItemLighting();
-					renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,x-guiPageLeft+(guiPageTexWidth>>1)-22,y+(height>>1)-9);
-					RenderHelper.disableStandardItemLighting();
-					
-					String price = String.valueOf(entry.getKey().getPrice());
-					fontRendererObj.drawString(price,x-fontRendererObj.getStringWidth(price)-guiPageLeft+(guiPageTexWidth>>1)+20,y+(height>>1)-4,4210752);
-				}
-				
-				y += 10+height;
+				y += 10+entry.getKey().getHeight(mc,entry.getValue());
 			}
 			
 			for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
 			pageArrows[0].visible = pageIndex > 0;
 			pageArrows[1].visible = pageIndex < currentObjectPages.size()-1;
 		}
+		
+		for(BuyFragmentDisplayElement element:buyFragmentElements)element.render(this,x-guiPageLeft+(guiPageTexWidth>>1));
 		
 		GL11.glDisable(GL11.GL_BLEND);
 	}

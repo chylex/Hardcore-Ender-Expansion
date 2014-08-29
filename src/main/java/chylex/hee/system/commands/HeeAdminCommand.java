@@ -28,15 +28,18 @@ public class HeeAdminCommand extends HeeCommand{
 		String extra = "";
 		
 		if (args.length == 0){
-			sendMessage(sender,
-				EnumChatFormatting.GREEN+"Available commands:\n"+EnumChatFormatting.RESET+
+			for(String s:(
+				EnumChatFormatting.GREEN+"Available commands:\n"+
 				"/heeadmin dragon-attack-creative <true|false>\n"+
 				"/heeadmin dragon-set-angry\n"+
 				"/heeadmin dragon-set-attack <none|dive|fire|punch|bite|freeze|summon|bats>\n"+
 				"/heeadmin kill-bosses\n"+
 				"/heeadmin compendium-reset\n"+
 				"/heeadmin compendium-set-points <pts>\n"+
-				"/heeadmin compendium-unlock-all");
+				"/heeadmin compendium-unlock-all"
+				).split("\n")){
+				sendMessage(sender,s);
+			}
 			return;
 		}
 		else if (args[0].equalsIgnoreCase("dragon-attack-creative") && args.length >= 2){
@@ -111,7 +114,7 @@ public class HeeAdminCommand extends HeeCommand{
 		else if (args[0].equalsIgnoreCase("compendium-unlock-all") && player != null){
 			PlayerCompendiumData data = CompendiumEvents.getPlayerData(player);
 			
-			for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())data.tryDiscoverObject(object);
+			for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())data.tryDiscoverObject(object,false);
 			for(KnowledgeFragment fragment:KnowledgeFragment.getAllFragments())data.unlockFragment(fragment);
 			
 			PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));

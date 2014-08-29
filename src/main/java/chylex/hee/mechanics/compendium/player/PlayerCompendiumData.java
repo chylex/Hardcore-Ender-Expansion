@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.compendium.player;
+import org.apache.commons.lang3.StringUtils;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -50,9 +51,10 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		pointAmount = Math.max(0,pointAmount-amount);
 	}
 	
-	public boolean tryDiscoverBlock(KnowledgeObject<ObjectBlock> block){
+	public boolean tryDiscoverBlock(KnowledgeObject<ObjectBlock> block, boolean addReward){
 		if (discoveredBlocks.addObject(block.getObject())){
 			unlockDiscoveryFragments(block);
+			if (addReward)pointAmount += block.getDiscoveryReward();
 			return true;
 		}
 		else return false;
@@ -62,9 +64,10 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		return discoveredBlocks.hasDiscoveredObject(block.getObject());
 	}
 	
-	public boolean tryDiscoverItem(KnowledgeObject<ObjectItem> item){
+	public boolean tryDiscoverItem(KnowledgeObject<ObjectItem> item, boolean addReward){
 		if (discoveredItems.addObject(item.getObject())){
 			unlockDiscoveryFragments(item);
+			if (addReward)pointAmount += item.getDiscoveryReward();
 			return true;
 		}
 		else return false;
@@ -74,9 +77,10 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		return discoveredItems.hasDiscoveredObject(item.getObject());
 	}
 	
-	public boolean tryDiscoverMob(KnowledgeObject<ObjectMob> mob){
+	public boolean tryDiscoverMob(KnowledgeObject<ObjectMob> mob, boolean addReward){
 		if (discoveryMobs.addObject(mob.getObject())){
 			unlockDiscoveryFragments(mob);
+			if (addReward)pointAmount += mob.getDiscoveryReward();
 			return true;
 		}
 		else return false;
@@ -86,12 +90,12 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		return discoveryMobs.hasDiscoveredObject(mob.getObject());
 	}
 	
-	public boolean tryDiscoverObject(KnowledgeObject<?> object){
+	public boolean tryDiscoverObject(KnowledgeObject<?> object, boolean addReward){
 		IKnowledgeObjectInstance<?> obj = object.getObject();
 		
-		if (obj instanceof ObjectBlock)return tryDiscoverBlock((KnowledgeObject<ObjectBlock>)obj);
-		else if (obj instanceof ObjectItem)return tryDiscoverItem((KnowledgeObject<ObjectItem>)obj);
-		else if (obj instanceof ObjectMob)return tryDiscoverMob((KnowledgeObject<ObjectMob>)obj);
+		if (obj instanceof ObjectBlock)return tryDiscoverBlock((KnowledgeObject<ObjectBlock>)obj,addReward);
+		else if (obj instanceof ObjectItem)return tryDiscoverItem((KnowledgeObject<ObjectItem>)obj,addReward);
+		else if (obj instanceof ObjectMob)return tryDiscoverMob((KnowledgeObject<ObjectMob>)obj,addReward);
 		else return false;
 	}
 	
@@ -151,7 +155,10 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		@Override
 		public BlockMetaWrapper deserialize(String data){
 			int colonIndex = data.indexOf(":"), nextColonIndex = data.indexOf(":",colonIndex+1);
-			return new BlockMetaWrapper(GameRegistry.findBlock(data.substring(0,colonIndex),data.substring(colonIndex+1,nextColonIndex)),Integer.parseInt(data.substring(nextColonIndex+1)));
+			String meta = data.substring(nextColonIndex+1);
+			
+			if (!StringUtils.isNumeric(meta))return null;
+			else return new BlockMetaWrapper(GameRegistry.findBlock(data.substring(0,colonIndex),data.substring(colonIndex+1,nextColonIndex)),Integer.parseInt(meta));
 		}
 	}
 	

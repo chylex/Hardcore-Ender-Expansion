@@ -1,5 +1,4 @@
 package chylex.hee.mechanics.compendium.render;
-
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;

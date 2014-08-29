@@ -30,7 +30,7 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	private final String tooltip;
 	private final Set<KnowledgeFragment> fragmentSet = new LinkedHashSet<>();
 	private ImmutableSet<KnowledgeFragment> fragmentSetImmutable;
-	private int x, y, unlockPrice;
+	private int x, y, unlockPrice, reward;
 	
 	public KnowledgeObject(T theObject){
 		this(theObject,theObject.createItemStackToRender());
@@ -62,6 +62,11 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 		return this;
 	}
 	
+	public KnowledgeObject setDiscoveryReward(int reward){
+		this.reward = reward;
+		return this;
+	}
+	
 	public KnowledgeObject setFragments(KnowledgeFragment[] fragments){
 		for(KnowledgeFragment fragment:fragments)fragmentSet.add(fragment);
 		fragmentSetImmutable = ImmutableSet.copyOf(fragmentSet);
@@ -78,6 +83,10 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	
 	public int getUnlockPrice(){
 		return unlockPrice;
+	}
+	
+	public int getDiscoveryReward(){
+		return reward;
 	}
 	
 	@Override
