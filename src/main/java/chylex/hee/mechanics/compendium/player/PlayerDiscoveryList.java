@@ -2,6 +2,7 @@ package chylex.hee.mechanics.compendium.player;
 import java.util.HashSet;
 import java.util.Set;
 import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 
@@ -30,7 +31,15 @@ public class PlayerDiscoveryList<P extends IKnowledgeObjectInstance<T>,T>{
 	public void loadFromNBTList(NBTTagList list){
 		for(int a = 0, count = list.tagCount(); a < count; a++){
 			T object = serializer.deserialize(list.getStringTagAt(a));
-			if (object != null)discoveredObjects.add(object);
+			
+			if (object != null){
+				for(KnowledgeObject obj:KnowledgeObject.getAllObjects()){
+					if (obj.getObject().checkEquality(object)){
+						discoveredObjects.add((T)obj.getObject().getUnderlyingObject());
+						break;
+					}
+				}
+			}
 		}
 	}
 	

@@ -53,8 +53,11 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	public boolean tryDiscoverBlock(KnowledgeObject<ObjectBlock> block, boolean addReward){
 		if (discoveredBlocks.addObject(block.getObject())){
-			unlockDiscoveryFragments(block);
-			if (addReward)pointAmount += block.getDiscoveryReward();
+			if (addReward){
+				unlockDiscoveryFragments(block);
+				pointAmount += block.getDiscoveryReward();
+			}
+			
 			return true;
 		}
 		else return false;
@@ -66,8 +69,11 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	public boolean tryDiscoverItem(KnowledgeObject<ObjectItem> item, boolean addReward){
 		if (discoveredItems.addObject(item.getObject())){
-			unlockDiscoveryFragments(item);
-			if (addReward)pointAmount += item.getDiscoveryReward();
+			if (addReward){
+				unlockDiscoveryFragments(item);
+				pointAmount += item.getDiscoveryReward();
+			}
+			
 			return true;
 		}
 		else return false;
@@ -79,8 +85,11 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	public boolean tryDiscoverMob(KnowledgeObject<ObjectMob> mob, boolean addReward){
 		if (discoveryMobs.addObject(mob.getObject())){
-			unlockDiscoveryFragments(mob);
-			if (addReward)pointAmount += mob.getDiscoveryReward();
+			if (addReward){
+				unlockDiscoveryFragments(mob);
+				pointAmount += mob.getDiscoveryReward();
+			}
+			
 			return true;
 		}
 		else return false;
@@ -93,9 +102,9 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	public boolean tryDiscoverObject(KnowledgeObject<?> object, boolean addReward){
 		IKnowledgeObjectInstance<?> obj = object.getObject();
 		
-		if (obj instanceof ObjectBlock)return tryDiscoverBlock((KnowledgeObject<ObjectBlock>)obj,addReward);
-		else if (obj instanceof ObjectItem)return tryDiscoverItem((KnowledgeObject<ObjectItem>)obj,addReward);
-		else if (obj instanceof ObjectMob)return tryDiscoverMob((KnowledgeObject<ObjectMob>)obj,addReward);
+		if (obj instanceof ObjectBlock)return tryDiscoverBlock((KnowledgeObject<ObjectBlock>)object,addReward);
+		else if (obj instanceof ObjectItem)return tryDiscoverItem((KnowledgeObject<ObjectItem>)object,addReward);
+		else if (obj instanceof ObjectMob)return tryDiscoverMob((KnowledgeObject<ObjectMob>)object,addReward);
 		else return false;
 	}
 	
@@ -114,8 +123,8 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		}
 	}
 	
-	public void unlockFragment(KnowledgeFragment fragment){
-		unlockedFragments.add(fragment.globalID);
+	public boolean unlockFragment(KnowledgeFragment fragment){
+		return unlockedFragments.add(fragment.globalID);
 	}
 	
 	public boolean hasUnlockedFragment(KnowledgeFragment fragment){
@@ -127,20 +136,23 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	@Override
 	public void saveNBTData(NBTTagCompound nbt){
-		nbt.setInteger("kps",pointAmount);
-		nbt.setTag("fndBlocks",discoveredBlocks.saveToNBTList());
-		nbt.setTag("fndItems",discoveredItems.saveToNBTList());
-		nbt.setTag("fndMobs",discoveryMobs.saveToNBTList());
-		nbt.setTag("unlocked",new NBTTagIntArray(unlockedFragments.toArray()));
+		NBTTagCompound hee = new NBTTagCompound();
+		hee.setInteger("kps",pointAmount);
+		hee.setTag("fndBlocks",discoveredBlocks.saveToNBTList());
+		hee.setTag("fndItems",discoveredItems.saveToNBTList());
+		hee.setTag("fndMobs",discoveryMobs.saveToNBTList());
+		hee.setTag("unlocked",new NBTTagIntArray(unlockedFragments.toArray()));
+		nbt.setTag("HEE",hee);
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound nbt){
-		pointAmount = nbt.getInteger("kps");
-		discoveredBlocks.loadFromNBTList(nbt.getTagList("fndBlocks",NBT.TAG_STRING));
-		discoveredItems.loadFromNBTList(nbt.getTagList("fndItems",NBT.TAG_STRING));
-		discoveryMobs.loadFromNBTList(nbt.getTagList("fndMobs",NBT.TAG_STRING));
-		unlockedFragments.addAll(nbt.getIntArray("unlocked"));
+		NBTTagCompound hee = nbt.getCompoundTag("HEE");
+		pointAmount = hee.getInteger("kps");
+		discoveredBlocks.loadFromNBTList(hee.getTagList("fndBlocks",NBT.TAG_STRING));
+		discoveredItems.loadFromNBTList(hee.getTagList("fndItems",NBT.TAG_STRING));
+		discoveryMobs.loadFromNBTList(hee.getTagList("fndMobs",NBT.TAG_STRING));
+		unlockedFragments.addAll(hee.getIntArray("unlocked"));
 	}
 	
 	// SERIALIZERS
@@ -157,7 +169,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 			int colonIndex = data.indexOf(":"), nextColonIndex = data.indexOf(":",colonIndex+1);
 			String meta = data.substring(nextColonIndex+1);
 			
-			if (!StringUtils.isNumeric(meta))return null;
+			if (!StringUtils.isNumeric(meta) && !meta.equals("-1"))return null;
 			else return new BlockMetaWrapper(GameRegistry.findBlock(data.substring(0,colonIndex),data.substring(colonIndex+1,nextColonIndex)),Integer.parseInt(meta));
 		}
 	}

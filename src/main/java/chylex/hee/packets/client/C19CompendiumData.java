@@ -22,6 +22,10 @@ public class C19CompendiumData extends AbstractClientPacket{
 		data = CompendiumEvents.getPlayerData(player);
 	}
 	
+	public C19CompendiumData(PlayerCompendiumData compendiumData){
+		data = compendiumData;
+	}
+
 	@Override
 	public void write(ByteBuf buffer){
 		NBTTagCompound nbt = new NBTTagCompound();

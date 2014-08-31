@@ -21,6 +21,10 @@ public final class CompendiumEventsClient{
 	
 	public static void loadClientData(PlayerCompendiumData data){
 		instance.data = data;
+		
+		if (Minecraft.getMinecraft().currentScreen instanceof GuiEnderCompendium){
+			((GuiEnderCompendium)Minecraft.getMinecraft().currentScreen).updateCompendiumData(data);
+		}
 	}
 	
 	private KeyBinding keyOpenCompendium;

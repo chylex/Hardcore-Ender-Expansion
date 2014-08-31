@@ -1,7 +1,6 @@
 package chylex.hee.mechanics.compendium.content.type;
-import java.util.ArrayList;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import net.minecraft.item.ItemStack;
 import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
@@ -10,21 +9,27 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
 public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGuiItemStackRenderer{
+	private static int lastUsedID = 0;
 	private static final int iconSize = 30;
-	private static final List<KnowledgeObject<?>> allObjects = new ArrayList<>();
+	private static final TIntObjectHashMap<KnowledgeObject<?>> allObjects = new TIntObjectHashMap<>();
 	
 	public static <T extends IKnowledgeObjectInstance<?>> KnowledgeObject<T> getObject(Object o){
-		for(KnowledgeObject<?> knowledgeObject:allObjects){
+		for(KnowledgeObject<?> knowledgeObject:allObjects.valueCollection()){
 			if (knowledgeObject.theObject.checkEquality(o))return (KnowledgeObject<T>)knowledgeObject;
 		}
 		
 		return null;
 	}
 	
-	public static ImmutableList<KnowledgeObject<?>> getAllObjects(){
-		return ImmutableList.copyOf(allObjects);
+	public static <T extends IKnowledgeObjectInstance<?>> KnowledgeObject<T> getObjectById(int id){
+		return (KnowledgeObject<T>)allObjects.get(id);
 	}
 	
+	public static ImmutableList<KnowledgeObject<?>> getAllObjects(){
+		return ImmutableList.copyOf(allObjects.valueCollection());
+	}
+	
+	public final int globalID;
 	private final T theObject;
 	private final ItemStack itemToRender;
 	private final String tooltip;
@@ -48,7 +53,8 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 		this.theObject = theObject;
 		this.itemToRender = itemToRender;
 		this.tooltip = tooltip;
-		allObjects.add(this);
+		this.globalID = ++lastUsedID;
+		allObjects.put(globalID,this);
 	}
 	
 	public KnowledgeObject setPos(int x, int y){
@@ -107,5 +113,15 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	@Override
 	public String getTooltip(){
 		return tooltip;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		return o instanceof KnowledgeObject && ((KnowledgeObject)o).globalID == globalID;
+	}
+	
+	@Override
+	public int hashCode(){
+		return globalID;
 	}
 }

@@ -4,17 +4,31 @@ import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
 
-public class BuyFragmentDisplayElement{
-	public final KnowledgeFragment fragment;
+public class PurchaseDisplayElement{
+	public final Object object;
+	public final int price;
 	private final int y;
+	private final boolean canAfford;
 	
-	public BuyFragmentDisplayElement(KnowledgeFragment fragment, int y){
-		this.fragment = fragment;
+	public PurchaseDisplayElement(KnowledgeFragment fragment, int y, boolean canAfford){
+		this.object = fragment;
+		this.price = fragment.getPrice();
 		this.y = y;
+		this.canAfford = canAfford;
+	}
+	
+	public PurchaseDisplayElement(KnowledgeObject<?> object, int y, boolean canAfford){
+		this.object = object;
+		this.price = object.getUnlockPrice();
+		this.y = y;
+		this.canAfford = canAfford;
 	}
 	
 	public void render(GuiScreen gui, int pageCenterX){
+		pageCenterX += 3;
+		
 		GL11.glColor4f(1F,1F,1F,0.96F);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -26,11 +40,11 @@ public class BuyFragmentDisplayElement{
 		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),GuiEnderCompendium.knowledgeFragmentIS,pageCenterX-22,y-9);
 		RenderHelper.disableStandardItemLighting();
 		
-		String price = String.valueOf(fragment.getPrice());
+		String price = String.valueOf(this.price);
 		gui.mc.fontRenderer.drawString(price,pageCenterX-gui.mc.fontRenderer.getStringWidth(price)+20,y-4,4210752);
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int pageCenterX){
-		return mouseX >= pageCenterX-27 && mouseY >= y-13 && mouseX <= pageCenterX+27 && mouseY <= y+13;
+		return mouseX >= (pageCenterX+3)-27 && mouseY >= y-13 && mouseX <= (pageCenterX+3)+27 && mouseY <= y+13;
 	}
 }
