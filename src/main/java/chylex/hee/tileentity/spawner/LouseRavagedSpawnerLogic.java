@@ -8,8 +8,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	private LouseSpawnData louseData;
@@ -165,12 +163,10 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 			return abilities.contains(ability) ? (level+1) : 0;
 		}
 		
-		@SideOnly(Side.CLIENT)
 		public Set<EnumLouseAttribute> getAttributeSet(){
 			return attributes;
 		}
 		
-		@SideOnly(Side.CLIENT)
 		public Set<EnumLouseAbility> getAbilitySet(){
 			return abilities;
 		}
