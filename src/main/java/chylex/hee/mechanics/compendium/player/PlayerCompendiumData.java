@@ -18,6 +18,7 @@ import chylex.hee.mechanics.compendium.content.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
 import chylex.hee.mechanics.compendium.player.PlayerDiscoveryList.IObjectSerializer;
+import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import cpw.mods.fml.relauncher.Side;
@@ -136,6 +137,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	@Override
 	public void saveNBTData(NBTTagCompound nbt){
+		Stopwatch.time("PlayerCompendiumData - save");
 		NBTTagCompound hee = new NBTTagCompound();
 		hee.setInteger("kps",pointAmount);
 		hee.setTag("fndBlocks",discoveredBlocks.saveToNBTList());
@@ -143,16 +145,19 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		hee.setTag("fndMobs",discoveryMobs.saveToNBTList());
 		hee.setTag("unlocked",new NBTTagIntArray(unlockedFragments.toArray()));
 		nbt.setTag("HEE",hee);
+		Stopwatch.finish("PlayerCompendiumData - save");
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound nbt){
+		Stopwatch.time("PlayerCompendiumData - load");
 		NBTTagCompound hee = nbt.getCompoundTag("HEE");
 		pointAmount = hee.getInteger("kps");
 		discoveredBlocks.loadFromNBTList(hee.getTagList("fndBlocks",NBT.TAG_STRING));
 		discoveredItems.loadFromNBTList(hee.getTagList("fndItems",NBT.TAG_STRING));
 		discoveryMobs.loadFromNBTList(hee.getTagList("fndMobs",NBT.TAG_STRING));
 		unlockedFragments.addAll(hee.getIntArray("unlocked"));
+		Stopwatch.finish("PlayerCompendiumData - load");
 	}
 	
 	// SERIALIZERS
@@ -169,7 +174,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 			int colonIndex = data.indexOf(":"), nextColonIndex = data.indexOf(":",colonIndex+1);
 			String meta = data.substring(nextColonIndex+1);
 			
-			if (!StringUtils.isNumeric(meta) && !meta.equals("-1"))return null;
+			if (!meta.equals("-1") && !StringUtils.isNumeric(meta))return null;
 			else return new BlockMetaWrapper(GameRegistry.findBlock(data.substring(0,colonIndex),data.substring(colonIndex+1,nextColonIndex)),Integer.parseInt(meta));
 		}
 	}
