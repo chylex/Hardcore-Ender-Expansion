@@ -27,7 +27,7 @@ public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 
 	@Override
 	public boolean checkEquality(Object o){
-		if (!(o instanceof BlockMetaWrapper))return false;
+		if (o.getClass() != BlockMetaWrapper.class)return false;
 		
 		BlockMetaWrapper bmw = (BlockMetaWrapper)o;
 		return bmw.block == wrapper.block && (bmw.metadata == wrapper.metadata || bmw.metadata == -1 || wrapper.metadata == -1);

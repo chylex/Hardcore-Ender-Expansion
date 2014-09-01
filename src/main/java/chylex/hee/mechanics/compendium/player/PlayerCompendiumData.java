@@ -196,7 +196,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	private static class DiscoveryMobSerializer implements IObjectSerializer<Class<? extends EntityLivingBase>>{
 		@Override
 		public String serialize(Class<? extends EntityLivingBase> object){
-			return (String)EntityList.classToStringMapping.get(object.getClass());
+			return (String)EntityList.classToStringMapping.get(object);
 		}
 
 		@Override
