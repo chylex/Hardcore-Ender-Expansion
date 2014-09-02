@@ -11,7 +11,7 @@ import com.google.common.collect.ImmutableSet;
 public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGuiItemStackRenderer{
 	private static int lastUsedID = 0;
 	private static final int iconSize = 30;
-	private static final TIntObjectHashMap<KnowledgeObject<?>> allObjects = new TIntObjectHashMap<>();
+	private static final TIntObjectHashMap<KnowledgeObject<?>> allObjects = new TIntObjectHashMap<>(); // TODO add IKnowledgeObjectInstance -> Set<KnowledgeObject>
 	
 	public static <T extends IKnowledgeObjectInstance<?>> KnowledgeObject<T> getObject(Object o){
 		for(KnowledgeObject<?> knowledgeObject:allObjects.valueCollection()){

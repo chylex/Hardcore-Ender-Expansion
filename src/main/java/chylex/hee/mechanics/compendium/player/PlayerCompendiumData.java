@@ -19,6 +19,7 @@ import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
 import chylex.hee.mechanics.compendium.player.PlayerDiscoveryList.IObjectSerializer;
 import chylex.hee.system.logging.Stopwatch;
+import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import cpw.mods.fml.relauncher.Side;
@@ -52,54 +53,6 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		pointAmount = Math.max(0,pointAmount-amount);
 	}
 	
-	public boolean tryDiscoverBlock(KnowledgeObject<ObjectBlock> block, boolean addReward){
-		if (discoveredBlocks.addObject(block.getObject())){
-			if (addReward){
-				unlockDiscoveryFragments(block);
-				pointAmount += block.getDiscoveryReward();
-			}
-			
-			return true;
-		}
-		else return false;
-	}
-	
-	public boolean hasDiscoveredBlock(KnowledgeObject<ObjectBlock> block){
-		return discoveredBlocks.hasDiscoveredObject(block.getObject());
-	}
-	
-	public boolean tryDiscoverItem(KnowledgeObject<ObjectItem> item, boolean addReward){
-		if (discoveredItems.addObject(item.getObject())){
-			if (addReward){
-				unlockDiscoveryFragments(item);
-				pointAmount += item.getDiscoveryReward();
-			}
-			
-			return true;
-		}
-		else return false;
-	}
-	
-	public boolean hasDiscoveredItem(KnowledgeObject<ObjectItem> item){
-		return discoveredItems.hasDiscoveredObject(item.getObject());
-	}
-	
-	public boolean tryDiscoverMob(KnowledgeObject<ObjectMob> mob, boolean addReward){
-		if (discoveryMobs.addObject(mob.getObject())){
-			if (addReward){
-				unlockDiscoveryFragments(mob);
-				pointAmount += mob.getDiscoveryReward();
-			}
-			
-			return true;
-		}
-		else return false;
-	}
-	
-	public boolean hasDiscoveredMob(KnowledgeObject<ObjectMob> mob){
-		return discoveryMobs.hasDiscoveredObject(mob.getObject());
-	}
-	
 	public boolean tryDiscoverObject(KnowledgeObject<?> object, boolean addReward){
 		IKnowledgeObjectInstance<?> obj = object.getObject();
 		
@@ -118,6 +71,49 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		else return false;
 	}
 	
+	public boolean tryDiscoverBlock(KnowledgeObject<ObjectBlock> block, boolean addReward){
+		if (discoveredBlocks.addObject(block.getObject())){
+			onDiscover(block,addReward);
+			return true;
+		}
+		else return false;
+	}
+	
+	public boolean hasDiscoveredBlock(KnowledgeObject<ObjectBlock> block){
+		return discoveredBlocks.hasDiscoveredObject(block.getObject());
+	}
+	
+	public boolean tryDiscoverItem(KnowledgeObject<ObjectItem> item, boolean addReward){
+		if (discoveredItems.addObject(item.getObject())){
+			onDiscover(item,addReward);
+			return true;
+		}
+		else return false;
+	}
+	
+	public boolean hasDiscoveredItem(KnowledgeObject<ObjectItem> item){
+		return discoveredItems.hasDiscoveredObject(item.getObject());
+	}
+	
+	public boolean tryDiscoverMob(KnowledgeObject<ObjectMob> mob, boolean addReward){
+		if (discoveryMobs.addObject(mob.getObject())){
+			onDiscover(mob,addReward);
+			return true;
+		}
+		else return false;
+	}
+	
+	public boolean hasDiscoveredMob(KnowledgeObject<ObjectMob> mob){
+		return discoveryMobs.hasDiscoveredObject(mob.getObject());
+	}
+	
+	private void onDiscover(KnowledgeObject<?> object, boolean addReward){
+		if (addReward){
+			unlockDiscoveryFragments(object);
+			pointAmount += object.getDiscoveryReward();
+		}
+	}
+	
 	private void unlockDiscoveryFragments(KnowledgeObject<?> object){
 		for(KnowledgeFragment fragment:object.getFragments()){
 			if (fragment.isUnlockedOnDiscovery())unlockFragment(fragment);
@@ -125,11 +121,26 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	}
 	
 	public boolean unlockFragment(KnowledgeFragment fragment){
-		return unlockedFragments.add(fragment.globalID);
+		if (unlockedFragments.add(fragment.globalID)){
+			for(int cascade:fragment.getUnlockCascade())unlockFragment(KnowledgeFragment.getById(cascade));
+			return true;
+		}
+		else return false;
 	}
 	
 	public boolean hasUnlockedFragment(KnowledgeFragment fragment){
 		return unlockedFragments.contains(fragment.globalID);
+	}
+	
+	public FragmentPurchaseStatus canPurchaseFragment(KnowledgeFragment fragment){
+		if (!fragment.isBuyable())return FragmentPurchaseStatus.NOT_BUYABLE;
+		if (pointAmount < fragment.getPrice())return FragmentPurchaseStatus.NOT_ENOUGH_POINTS;
+		
+		for(int requirement:fragment.getUnlockRequirements()){
+			if (!unlockedFragments.contains(requirement))return FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED;
+		}
+		
+		return FragmentPurchaseStatus.CAN_PURCHASE;
 	}
 	
 	@Override
@@ -171,11 +182,11 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 
 		@Override
 		public BlockMetaWrapper deserialize(String data){
-			int colonIndex = data.indexOf(":"), nextColonIndex = data.indexOf(":",colonIndex+1);
-			String meta = data.substring(nextColonIndex+1);
+			int secondColonIndex = data.indexOf(":",data.indexOf(":")+1);
+			String meta = data.substring(secondColonIndex+1);
 			
 			if (!meta.equals("-1") && !StringUtils.isNumeric(meta))return null;
-			else return new BlockMetaWrapper(GameRegistry.findBlock(data.substring(0,colonIndex),data.substring(colonIndex+1,nextColonIndex)),Integer.parseInt(meta));
+			else return new BlockMetaWrapper(GameData.getBlockRegistry().getObject(data.substring(0,secondColonIndex)),Integer.parseInt(meta));
 		}
 	}
 	
@@ -188,8 +199,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 
 		@Override
 		public Item deserialize(String data){
-			int colonIndex = data.indexOf(":");
-			return GameRegistry.findItem(data.substring(0,colonIndex),data.substring(colonIndex+1));
+			return GameData.getItemRegistry().getObject(data);
 		}
 	}
 	
@@ -203,5 +213,11 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		public Class<? extends EntityLivingBase> deserialize(String data){
 			return (Class<? extends EntityLivingBase>)EntityList.stringToClassMapping.get(data);
 		}
+	}
+	
+	// ENUMS
+	
+	public enum FragmentPurchaseStatus{
+		CAN_PURCHASE, NOT_BUYABLE, NOT_ENOUGH_POINTS, REQUIREMENTS_UNFULFILLED
 	}
 }

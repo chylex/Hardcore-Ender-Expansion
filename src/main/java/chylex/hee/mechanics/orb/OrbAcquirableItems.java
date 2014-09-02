@@ -1,5 +1,6 @@
 package chylex.hee.mechanics.orb;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -22,6 +23,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.DragonUtil;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class OrbAcquirableItems{
 	public static final WeightedItemList idList = new WeightedItemList();
@@ -123,24 +125,35 @@ public final class OrbAcquirableItems{
 	}
 	
 	private static String toString(ItemStack is){
-		if (is.getItem() == null)return "ERROR";
-		else return is.toString();
+		if (is == null)return "<supernull, wtf>";
+		else if (is.getItem() == null)return "<null>";
+		else return "["+GameRegistry.findUniqueIdentifierFor(is.getItem()).modId+"]"+(is.stackSize > 9 ? is.toString().substring(3).replace('@','/') : is.toString().substring(2)).replace('@','/');
 	}
 	
 	private static String toString(List list){
-		try{
-			return list.toString();
-		}catch(Throwable t){
-			return "ERROR";
-		}
+		return toString(list.toArray());
 	}
 	
 	private static String toString(Object[] array){
-		try{
-			return ArrayUtils.toString(array);
-		}catch(Throwable t){
-			return "ERROR";
+		Object[] newArray = new Object[array.length];
+		
+		for(int a = 0; a < array.length; a++){
+			if (array[a] == null)newArray[a] = "<empty>";
+			else if (array[a] instanceof ItemStack)newArray[a] = toString((ItemStack)array[a]);
+			else if (array[a] instanceof Collection){
+				Collection collection = (Collection)array[a];
+				
+				if (collection.isEmpty())newArray[a] = "<collempty>";
+				else{
+					Object obj = collection.iterator().next();
+					if (obj instanceof ItemStack)newArray[a] = toString((ItemStack)obj)+"(ore)";
+					else newArray[a] = "<unknown>";
+				}
+			}
+			else newArray[a] = "<unknowncls "+array[a].getClass().getSimpleName()+">";
 		}
+		
+		return ArrayUtils.toString(newArray).replace(",",", ");
 	}
 	
 	private OrbAcquirableItems(){}

@@ -23,6 +23,7 @@ public abstract class KnowledgeFragment{
 	private int price = 10;
 	private boolean unlockOnDiscovery = false;
 	private int[] unlockRequirements = ArrayUtils.EMPTY_INT_ARRAY;
+	private int[] unlockCascade = ArrayUtils.EMPTY_INT_ARRAY;
 	
 	public KnowledgeFragment(int globalID){
 		this.globalID = globalID;
@@ -59,6 +60,19 @@ public abstract class KnowledgeFragment{
 	public KnowledgeFragment setUnlockRequirements(int...requirements){
 		this.unlockRequirements = requirements;
 		return this;
+	}
+	
+	public int[] getUnlockRequirements(){
+		return unlockRequirements;
+	}
+	
+	public KnowledgeFragment setUnlockCascade(int...cascade){
+		this.unlockCascade = cascade;
+		return this;
+	}
+	
+	public int[] getUnlockCascade(){
+		return unlockCascade;
 	}
 
 	@SideOnly(Side.CLIENT)
