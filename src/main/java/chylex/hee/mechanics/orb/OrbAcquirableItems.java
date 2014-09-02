@@ -28,12 +28,17 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public final class OrbAcquirableItems{
 	public static final WeightedItemList idList = new WeightedItemList();
 	
+	private static final String errorMessage = "Hardcore Ender Expansion has found a defective recipe and cannot proceed! Another mod is likely registering a recipe BEFORE registering blocks and items, which is considered a serious error! Please, remove other mods until this message stops appearing to find which mod causes the issue, and then report it to that mod's author. You can also enable logDebuggingInfo in config to pinpoint the exact issue better.";
+	
 	public static void initialize(){
 		Stopwatch.time("OrbAcquirableItems");
+		
+		boolean proceed = true;
 		
 		for(BiomeGenBase biome:BiomeGenBase.getBiomeGenArray()){
 			if (biome == null)continue;
 			else if (biome.biomeID >= 128)break;
+			
 			idList.add(new WeightedItem(biome.topBlock,0,34));
 			idList.add(new WeightedItem(biome.fillerBlock,0,34));
 		}
@@ -41,64 +46,78 @@ public final class OrbAcquirableItems{
 		for(Object o:FurnaceRecipes.smelting().getSmeltingList().entrySet()){
 			Entry<?,?> entry = (Entry<?,?>)o;
 			ItemStack result = (ItemStack)entry.getValue();
-			int weight = 30-(int)(7F*FurnaceRecipes.smelting().func_151398_b(result)); // OBFUSCATED get experience amount
+			if (Log.isDebugEnabled())Log.debug("Adding a furnace recipe: $0 <= $1",toString(result),toString((ItemStack)entry.getKey()));
 			
-			idList.add(new WeightedItem(((ItemStack)entry.getKey()).getItem(),0,weight));
-			idList.add(new WeightedItem(result.getItem(),0,weight));
+			try{
+				int weight = 30-(int)(7F*FurnaceRecipes.smelting().func_151398_b(result)); // OBFUSCATED get experience amount
+				idList.add(new WeightedItem(((ItemStack)entry.getKey()).getItem(),0,weight));
+				idList.add(new WeightedItem(result.getItem(),0,weight));
+			}catch(Throwable t){
+				if (Log.isDebugEnabled())Log.debug("Previous entry caused an exception!");
+				proceed = false;
+			}
 		}
+			
 		
 		for(Object o:CraftingManager.getInstance().getRecipeList()){
-			if (o instanceof ShapedRecipes){
-				ShapedRecipes shaped = (ShapedRecipes)o;
-				if (Log.isDebugEnabled())Log.debug("Adding a shaped recipe: $0 <= $1",toString(shaped.getRecipeOutput()),toString(shaped.recipeItems));
-				
-				addItemToList(shaped.getRecipeOutput(),21-shaped.recipeWidth*2-shaped.recipeHeight*2);
-				for(ItemStack is:shaped.recipeItems)addItemToList(is,23-shaped.recipeWidth*2-shaped.recipeHeight*2);
-			}
-			else if (o instanceof ShapelessRecipes){
-				ShapelessRecipes shapeless = (ShapelessRecipes)o;
-				if (Log.isDebugEnabled())Log.debug("Adding a shapeless recipe: $0 <= $1",toString(shapeless.getRecipeOutput()),toString(shapeless.recipeItems));
-				
-				addItemToList(shapeless.getRecipeOutput(),24-shapeless.getRecipeSize()*2);
-				for(Object item:shapeless.recipeItems)addItemToList((ItemStack)item,25-shapeless.getRecipeSize()*2);
-			}
-			else if (o instanceof ShapedOreRecipe){
-				ShapedOreRecipe shaped = (ShapedOreRecipe)o;
-				if (Log.isDebugEnabled())Log.debug("Adding a shaped ore recipe: $0 <= $1",toString(shaped.getRecipeOutput()),toString(shaped.getInput()));
-				
-				int amt = DragonUtil.getNonNullValues(shaped.getInput()).length;
-				
-				addItemToList(shaped.getRecipeOutput(),20-amt*2);
-				
-				for(Object obj:shaped.getInput()){
-					if (obj instanceof ItemStack)addItemToList((ItemStack)obj,19-amt*2);
-					else if (obj instanceof ArrayList){
-						ArrayList list = (ArrayList)obj;
-						int len = list.size();
-						
-						for(Object listObj:list)addItemToList((ItemStack)listObj,Math.max(2,19-amt*2-((len-1)*3)));
+			try{
+				if (o instanceof ShapedRecipes){
+					ShapedRecipes shaped = (ShapedRecipes)o;
+					if (Log.isDebugEnabled())Log.debug("Adding a shaped recipe: $0 <= $1",toString(shaped.getRecipeOutput()),toString(shaped.recipeItems));
+					
+					addItemToList(shaped.getRecipeOutput(),21-shaped.recipeWidth*2-shaped.recipeHeight*2);
+					for(ItemStack is:shaped.recipeItems)addItemToList(is,23-shaped.recipeWidth*2-shaped.recipeHeight*2);
+				}
+				else if (o instanceof ShapelessRecipes){
+					ShapelessRecipes shapeless = (ShapelessRecipes)o;
+					if (Log.isDebugEnabled())Log.debug("Adding a shapeless recipe: $0 <= $1",toString(shapeless.getRecipeOutput()),toString(shapeless.recipeItems));
+					
+					addItemToList(shapeless.getRecipeOutput(),24-shapeless.getRecipeSize()*2);
+					for(Object item:shapeless.recipeItems)addItemToList((ItemStack)item,25-shapeless.getRecipeSize()*2);
+				}
+				else if (o instanceof ShapedOreRecipe){
+					ShapedOreRecipe shaped = (ShapedOreRecipe)o;
+					if (Log.isDebugEnabled())Log.debug("Adding a shaped ore recipe: $0 <= $1",toString(shaped.getRecipeOutput()),toString(shaped.getInput()));
+					
+					int amt = DragonUtil.getNonNullValues(shaped.getInput()).length;
+					
+					addItemToList(shaped.getRecipeOutput(),20-amt*2);
+					
+					for(Object obj:shaped.getInput()){
+						if (obj instanceof ItemStack)addItemToList((ItemStack)obj,19-amt*2);
+						else if (obj instanceof ArrayList){
+							ArrayList list = (ArrayList)obj;
+							int len = list.size();
+							
+							for(Object listObj:list)addItemToList((ItemStack)listObj,Math.max(2,19-amt*2-((len-1)*3)));
+						}
 					}
 				}
-			}
-			else if (o instanceof ShapelessOreRecipe){
-				ShapelessOreRecipe shapeless = (ShapelessOreRecipe)o;
-				if (Log.isDebugEnabled())Log.debug("Adding a shapeless ore recipe: $0 <= $1",toString(shapeless.getRecipeOutput()),toString(shapeless.getInput()));
-				
-				int amt = shapeless.getInput().size();
-				
-				addItemToList(shapeless.getRecipeOutput(),23-amt*2);
-
-				for(Object obj:shapeless.getInput()){
-					if (obj instanceof ItemStack)addItemToList((ItemStack)obj,24-amt*2);
-					else if (obj instanceof ArrayList){
-						ArrayList list = (ArrayList)obj;
-						int len = list.size();
-						
-						for(Object listObj:list)addItemToList((ItemStack)listObj,Math.max(2,24-amt*2-((len-1)*3)));
+				else if (o instanceof ShapelessOreRecipe){
+					ShapelessOreRecipe shapeless = (ShapelessOreRecipe)o;
+					if (Log.isDebugEnabled())Log.debug("Adding a shapeless ore recipe: $0 <= $1",toString(shapeless.getRecipeOutput()),toString(shapeless.getInput()));
+					
+					int amt = shapeless.getInput().size();
+					
+					addItemToList(shapeless.getRecipeOutput(),23-amt*2);
+	
+					for(Object obj:shapeless.getInput()){
+						if (obj instanceof ItemStack)addItemToList((ItemStack)obj,24-amt*2);
+						else if (obj instanceof ArrayList){
+							ArrayList list = (ArrayList)obj;
+							int len = list.size();
+							
+							for(Object listObj:list)addItemToList((ItemStack)listObj,Math.max(2,24-amt*2-((len-1)*3)));
+						}
 					}
 				}
+			}catch(Throwable t){
+				if (Log.isDebugEnabled())Log.debug("Previous entry caused an exception!");
+				proceed = false;
 			}
 		}
+		
+		if (!proceed)throw new RuntimeException(errorMessage);
 		
 		/*
 		 * CLEANUP OF THINGS WE DON'T WANT
@@ -117,9 +136,17 @@ public final class OrbAcquirableItems{
 		Stopwatch.finish("OrbAcquirableItems");
 	}
 	
+	private static String getModID(ItemStack is){
+		try{
+			return GameRegistry.findUniqueIdentifierFor(is.getItem()).modId;
+		}catch(NullPointerException e){
+			return "<null>";
+		}
+	}
+	
 	private static void addItemToList(ItemStack is, int weight){
 		if (is == null || weight <= 0)return;
-		if (is.getItem() == null)throw new RuntimeException("Hardcore Ender Expansion has found a defective recipe and cannot proceed! Another mod is likely registering a recipe BEFORE registering blocks and items, which is considered a serious error! Please, remove other mods until this message stops appearing to find which mod causes the issue, and then report it to that mod's author. You can also enable logDebuggingInfo in config to pinpoint the exact issue better.");
+		if (is.getItem() == null)throw new RuntimeException(errorMessage);
 	
 		idList.add(new WeightedItem(is.getItem(),is.getItemDamage(),weight));
 	}
@@ -127,7 +154,7 @@ public final class OrbAcquirableItems{
 	private static String toString(ItemStack is){
 		if (is == null)return "<supernull, wtf>";
 		else if (is.getItem() == null)return "<null>";
-		else return "["+GameRegistry.findUniqueIdentifierFor(is.getItem()).modId+"]"+(is.stackSize > 9 ? is.toString().substring(3).replace('@','/') : is.toString().substring(2)).replace('@','/');
+		else return "["+getModID(is)+"]"+(is.stackSize > 9 ? is.toString().substring(3).replace('@','/') : is.toString().substring(2)).replace('@','/');
 	}
 	
 	private static String toString(List list){

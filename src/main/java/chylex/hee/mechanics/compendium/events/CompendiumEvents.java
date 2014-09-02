@@ -102,7 +102,7 @@ public final class CompendiumEvents{
 			Vec3 lookVec = player.getLook(8F);
 			
 			MovingObjectPosition mopBlock = player.worldObj.rayTraceBlocks(posVec,lookVec,true);
-			double distBlock = mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlock.blockX+0.5D-posVec.xCoord,mopBlock.blockY+0.5D-posVec.yCoord,mopBlock.blockZ+0.5D-posVec.zCoord) : 8D;
+			double distBlock = mopBlock != null && mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlock.blockX+0.5D-posVec.xCoord,mopBlock.blockY+0.5D-posVec.yCoord,mopBlock.blockZ+0.5D-posVec.zCoord) : 8D;
 			
 			double bbX = posVec.xCoord+lookVec.xCoord*0.5D, bbY = posVec.yCoord+lookVec.yCoord*0.5D, bbZ = posVec.zCoord+posVec.zCoord*0.5D;
 			List<Entity> list = player.worldObj.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.getBoundingBox(bbX-5D,bbY-5D,bbZ-5D,bbX+5D,bbY+5D,bbZ+5D));

@@ -249,8 +249,6 @@ public class HardcoreEnderExpansion{
 		RecipeList.addRecipes();
 		WorldLoot.registerWorldLoot();
 		
-		OrbAcquirableItems.initialize();
-		OrbSpawnableMobs.initialize();
 		KnowledgeRegistrations.initialize();
 		chylex.hee.mechanics.compendium.content.KnowledgeRegistrations.initialize();
 		
@@ -261,6 +259,8 @@ public class HardcoreEnderExpansion{
 	public void onPostInit(FMLPostInitializationEvent e){
 		Stopwatch.time("PostInitEvent");
 		
+		OrbAcquirableItems.initialize();
+		OrbSpawnableMobs.initialize();
 		ModIntegrationManager.integrateMods();
 		DimensionOverride.postInit();
 		
