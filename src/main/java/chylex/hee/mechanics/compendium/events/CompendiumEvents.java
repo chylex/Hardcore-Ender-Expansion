@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -21,6 +22,7 @@ import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -96,6 +98,8 @@ public final class CompendiumEvents{
 		EntityPlayer player = e.player;
 		
 		if (playerTickLimiter.adjustOrPutValue(player.getGameProfile().getId(),byteOne,byteOne) >= 7){
+			Stopwatch.timeAverage("CompendiumEvents - look tracing",10);
+			
 			playerTickLimiter.put(player.getGameProfile().getId(),byteZero);
 			
 			Vec3 posVec = Vec3.createVectorHelper(player.posX,player.boundingBox.minY+player.getEyeHeight()-(player.isSneaking() ? 0.08D : 0D),player.posZ);
@@ -106,7 +110,32 @@ public final class CompendiumEvents{
 			
 			double bbX = posVec.xCoord+lookVec.xCoord*0.5D, bbY = posVec.yCoord+lookVec.yCoord*0.5D, bbZ = posVec.zCoord+posVec.zCoord*0.5D;
 			List<Entity> list = player.worldObj.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.getBoundingBox(bbX-5D,bbY-5D,bbZ-5D,bbX+5D,bbY+5D,bbZ+5D));
-			// TODO random events
+			Entity tracedEntity = null;
+			double distEntity = Double.MAX_VALUE;
+			
+			for(Entity entity:list){
+				if (entity == player)continue;
+				
+				MovingObjectPosition mop = entity.boundingBox.expand(0.1D,0.1D,0.1D).calculateIntercept(posVec,lookVec);
+				double dist;
+				
+				if (mop != null && mop.typeOfHit == MovingObjectType.ENTITY && (dist = posVec.distanceTo(mop.hitVec)) < distEntity){
+					distEntity = dist;
+					tracedEntity = entity;
+				}
+			}
+			
+			if (distBlock < distEntity){
+				BlockMetaWrapper wrapper = new BlockMetaWrapper(player.worldObj.getBlock(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ),player.worldObj.getBlockMetadata(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ));
+				KnowledgeObject<ObjectBlock> obj = KnowledgeObject.getObject(wrapper);
+				if (obj != null)getPlayerData(player).tryDiscoverBlock(obj,true);
+			}
+			else if (tracedEntity != null){
+				if (tracedEntity instanceof EntityLiving)discoverMob(player,(EntityLiving)tracedEntity);
+				else if (tracedEntity instanceof EntityItem)discoverItemStack(player,((EntityItem)tracedEntity).getEntityItem());
+			}
+			
+			Stopwatch.finish("CompendiumEvents - look tracing");
 		}
 	}
 	
