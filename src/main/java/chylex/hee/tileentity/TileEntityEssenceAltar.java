@@ -21,7 +21,6 @@ import chylex.hee.mechanics.essence.ItemUseCache;
 import chylex.hee.mechanics.essence.RuneItem;
 import chylex.hee.mechanics.essence.SocketManager;
 import chylex.hee.mechanics.essence.handler.AltarActionHandler;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.packets.client.C17AltarRuneItemEffect;
@@ -228,20 +227,15 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 				}
 				
 				PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.ESSENCE_ALTAR_SMOKE,this));
-				
-				essenceType.getEssenceRegistration().tryUnlockFragment(player,1F);
 			}
 			else if (currentStage == STAGE_WORKING && is.getItemDamage() == essenceType.id-1){
 				essenceLevel += giveAmount;
-				KnowledgeRegistrations.BASIC_ESSENCE_ALTAR.tryUnlockFragment(player,0.002F*giveAmount);
 			}
 			else return;
 		}
 		else if (currentStage == STAGE_HASTYPE){
 			if (runeItems[runeItemIndex] != null && runeItems[runeItemIndex].selector.isValid(is)){
 				PacketPipeline.sendToAllAround(this,32D,new C17AltarRuneItemEffect(this,runeItems[runeItemIndex].indexInArray));
-				
-				essenceType.getAltarRegistration().tryUnlockFragment(player,0.14F);
 				
 				giveAmount = 1;
 				runeItems[runeItemIndex] = null;
@@ -282,8 +276,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 				sockets[socketId] = is.copy();
 				sockets[socketId].stackSize = 1;
 				if (!player.capabilities.isCreativeMode)--is.stackSize;
-				
-				KnowledgeRegistrations.BASIC_ESSENCE_ALTAR.tryUnlockFragment(player,0.25F,new byte[]{ 4,5,6 });
 			}
 		}
 		

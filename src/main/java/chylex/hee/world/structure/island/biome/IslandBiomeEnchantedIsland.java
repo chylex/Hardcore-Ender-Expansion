@@ -4,7 +4,6 @@ import net.minecraft.entity.monster.EntityEnderman;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorEnchantedIsland;
@@ -20,8 +19,8 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	
 	private final BiomeDecoratorEnchantedIsland decorator = new BiomeDecoratorEnchantedIsland();
 	
-	protected IslandBiomeEnchantedIsland(int biomeID, KnowledgeRegistration knowledgeRegistration){
-		super(biomeID,knowledgeRegistration);
+	protected IslandBiomeEnchantedIsland(int biomeID){
+		super(biomeID);
 		
 		contentVariations.add(HOMELAND);
 		

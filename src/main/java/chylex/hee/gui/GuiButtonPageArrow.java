@@ -18,7 +18,7 @@ class GuiButtonPageArrow extends GuiButton{
 	public void drawButton(Minecraft mc, int mouseX, int mouseY){
 		if (visible){
 			GL11.glColor4f(1F,1F,1F,1F);
-			mc.getTextureManager().bindTexture(GuiKnowledgeBook.texPage);
+			mc.getTextureManager().bindTexture(GuiEnderCompendium.texPage);
 			drawTexturedModalRect(xPosition,yPosition,mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition+width && mouseY < yPosition+height?23:0,231+(!isRightArrow?13:0),23,13);
 		}
 	}

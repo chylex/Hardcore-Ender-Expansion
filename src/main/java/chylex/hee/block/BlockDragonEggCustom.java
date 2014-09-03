@@ -15,8 +15,6 @@ import net.minecraft.world.World;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
 import chylex.hee.entity.block.EntityBlockTempleDragonEgg;
 import chylex.hee.entity.fx.FXType;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.achievements.AchievementManager;
@@ -25,7 +23,6 @@ import chylex.hee.system.savedata.types.DragonSavefile;
 
 public class BlockDragonEggCustom extends BlockDragonEgg{
 	public BlockDragonEggCustom(){
-		super();
 		setBlockUnbreakable().setResistance(2000F).setStepSound(Block.soundTypeStone).setLightLevel(0.125F).setBlockName("dragonEgg").setBlockTextureName("dragon_egg");
 	}
 	
@@ -117,8 +114,6 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 					world.setBlockToAir(x,y,z);
 					
 					PacketPipeline.sendToAllAround(world.provider.dimensionId,x,y,z,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,x+0.5D,y+0.5D,z+0.5D,xx+0.5D,yy+0.5D,zz+0.5D));
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,12D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.25F,new byte[]{ 16,17 });
-
 					return;
 				}
 			}

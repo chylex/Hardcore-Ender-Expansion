@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 
@@ -37,10 +36,5 @@ public class BlockInstabilityOrbOre extends BlockAbstractOre{
 	}
 
 	@Override
-	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){
-		if (KnowledgeRegistrations.INSTABILITY_ORB_ORE.tryUnlockFragment(player,0.12F).stopTrying)return;
-		if (KnowledgeRegistrations.INSTABILITY_ORB.tryUnlockFragment(player,0.07F,new byte[]{ 0,2 }).stopTrying)return;
-		if (player.worldObj.rand.nextInt(3) != 0)KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(player,0.1F,new byte[]{ 3 });
-		else KnowledgeRegistrations.ENERGY_EXTRACTION_TABLE.tryUnlockFragment(player,0.15F,new byte[]{ 6 });
-	}
+	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){}
 }

@@ -20,8 +20,6 @@ import chylex.hee.block.BlockList;
 import chylex.hee.entity.RandomNameGenerator;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
@@ -79,6 +77,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 			sleepTimer = 0;
 			motionX = motionY = motionZ = 0D;
 			
+			/*// TODO discovery of dungeon tower
 			if (rand.nextBoolean() && ticksExisted%80 == 0){
 				for(Object o:worldObj.playerEntities){
 					EntityPlayer player = (EntityPlayer)o;
@@ -96,7 +95,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 						KnowledgeRegistrations.DUNGEON_TOWER.tryUnlockFragment(player,0.3F);
 					}
 				}
-			}
+			}*/
 		}
 		else{
 			if (target == null){
@@ -183,8 +182,6 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								player.motionZ += vec[1];
 								
 								player.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs ? 6F : 3F);
-								
-								KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(player,0.2F,new byte[]{ 0,1,2,4 });
 							}
 							
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_POOF,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
@@ -208,7 +205,6 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								EntityPlayer player = (EntityPlayer)o;
 								player.addPotionEffect(effBlind);
 								player.addPotionEffect(effSlow);
-								KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(player,0.2F,new byte[]{ 0,1,2,4 });
 							}
 						}
 					}
@@ -252,8 +248,6 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 						else if (attackAnim == 102){
 							laserTopY = 0;
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_LASER_END,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
-							
-							for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(observer,0.2F,new byte[]{ 0,1,2,4 });
 						}
 					}
 					/*
@@ -302,9 +296,6 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 			}
 		}
 		
-		Entity damager = source.getEntity();
-		if (damager instanceof EntityPlayer)KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment((EntityPlayer)damager,0.04F,new byte[]{ 0,1,2,3 });
-		
 		if (amount < 7F)return true;
 		
 		amount = 7F+Math.min((amount-7F)*0.5F,5F);
@@ -343,11 +334,6 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		dropItem(Items.ender_eye,1);
 		dropItem(Item.getItemFromBlock(Blocks.obsidian),rand.nextInt(4+looting)+3);
 		dropItem(ItemList.spatial_dash_gem,1);
-		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D)){
-			if (KnowledgeRegistrations.ENDER_EYE.tryUnlockFragment(observer,0.7F,new byte[]{ 5 }).stopTrying)return;
-			KnowledgeRegistrations.SPATIAL_DASH_GEM.tryUnlockFragment(observer,0.42F,new byte[]{ 0,1 });
-		}
 	}
 	
 	@Override

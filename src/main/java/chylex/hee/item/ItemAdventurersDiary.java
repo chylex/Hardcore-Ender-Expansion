@@ -3,7 +3,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C04OpenAdventurersDiary;
 import chylex.hee.system.savedata.WorldDataHandler;
@@ -24,7 +23,6 @@ public class ItemAdventurersDiary extends Item{
 			else file.unlockPage(player,is.getItemDamage());
 			
 			PacketPipeline.sendToPlayer(player,new C04OpenAdventurersDiary(file.getUnlockedPages(player)));
-			KnowledgeRegistrations.ADVENTURERS_DIARY.tryUnlockFragment(player,1F);
 		}
 
 		return is;

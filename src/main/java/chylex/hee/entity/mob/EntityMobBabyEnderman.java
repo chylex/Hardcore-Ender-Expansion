@@ -36,8 +36,6 @@ import net.minecraftforge.common.util.Constants;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
@@ -140,8 +138,6 @@ public class EntityMobBabyEnderman extends EntityMob{
 									
 									setCarriedItemStack(is);
 									item.setDead();
-									
-									for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.BABY_ENDERMAN.tryUnlockFragment(observer,0.6F);
 								}
 								
 								break;
@@ -169,8 +165,6 @@ public class EntityMobBabyEnderman extends EntityMob{
 								target.inventory.mainInventory[slot] = null;
 								PacketPipeline.sendToPlayer(target,new C00ClearInventorySlot(slot));
 							}
-							
-							for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.BABY_ENDERMAN.tryUnlockFragment(observer,0.5F);
 							
 							break;
 						}
@@ -225,8 +219,6 @@ public class EntityMobBabyEnderman extends EntityMob{
 			}
 			
 			isFamilyChosen = isScared = true;
-			
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.BABY_ENDERMAN.tryUnlockFragment(observer,0.5F);
 		}
 		
 		entityToAttack = null;

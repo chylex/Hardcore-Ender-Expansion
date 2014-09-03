@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -29,19 +28,7 @@ public class BlockEndPowderOre extends BlockAbstractOre{
 	}
 
 	@Override
-	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){
-		if (KnowledgeRegistrations.END_POWDER_ORE.tryUnlockFragment(player,0.1F).stopTrying)return;
-		if (KnowledgeRegistrations.END_POWDER.tryUnlockFragment(player,0.1F).stopTrying)return;
-		
-		if (KnowledgeRegistrations.END_POWDER.hasSomeFragments(player)){
-			switch(player.worldObj.rand.nextInt(4)){
-				case 0: KnowledgeRegistrations.ENDER_PEARLS_ENH.tryUnlockFragment(player,0.05F); break;
-				case 1: KnowledgeRegistrations.TRANSFERENCE_GEM_ENH.tryUnlockFragment(player,0.05F); break;
-				case 2: KnowledgeRegistrations.TNT_ENH.tryUnlockFragment(player,0.05F); break;
-				case 3: KnowledgeRegistrations.SOUL_CHARM_ENH.tryUnlockFragment(player,0.05F); break;
-			}
-		}
-	}
+	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

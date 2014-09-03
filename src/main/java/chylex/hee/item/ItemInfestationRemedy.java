@@ -14,11 +14,6 @@ import net.minecraft.world.World;
 import chylex.hee.mechanics.infestation.InfestationEvents;
 
 public class ItemInfestationRemedy extends Item{
-	public ItemInfestationRemedy(){
-		super();
-		setMaxStackSize(1);
-	}
-
 	@Override
 	public int getMaxItemUseDuration(ItemStack is){
 		return 32;

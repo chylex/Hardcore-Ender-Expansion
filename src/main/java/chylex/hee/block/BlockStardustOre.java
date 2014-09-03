@@ -11,8 +11,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.data.UnlockResult;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -57,13 +55,7 @@ public class BlockStardustOre extends BlockAbstractOre{
 	}
 
 	@Override
-	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){
-		if (KnowledgeRegistrations.STARDUST_ORE.tryUnlockFragment(player,0.05F).stopTrying)return;
-		if (KnowledgeRegistrations.STARDUST.tryUnlockFragment(player,0.04F,new byte[]{ 0 }) == UnlockResult.NOTHING_TO_UNLOCK){
-			if (player.worldObj.rand.nextBoolean())KnowledgeRegistrations.DECOMPOSITION_TABLE.tryUnlockFragment(player,0.03F,new byte[]{ 0,1 });
-			else KnowledgeRegistrations.ENERGY_EXTRACTION_TABLE.tryUnlockFragment(player,0.03F,new byte[]{ 0,1 });
-		}
-	}
+	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

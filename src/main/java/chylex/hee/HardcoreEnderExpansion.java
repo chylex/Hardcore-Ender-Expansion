@@ -48,9 +48,9 @@ import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
+import chylex.hee.mechanics.compendium.content.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.infestation.InfestationEvents;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.mechanics.temple.TempleEvents;
@@ -250,7 +250,6 @@ public class HardcoreEnderExpansion{
 		WorldLoot.registerWorldLoot();
 		
 		KnowledgeRegistrations.initialize();
-		chylex.hee.mechanics.compendium.content.KnowledgeRegistrations.initialize();
 		
 		Stopwatch.finish("InitEvent");
 	}

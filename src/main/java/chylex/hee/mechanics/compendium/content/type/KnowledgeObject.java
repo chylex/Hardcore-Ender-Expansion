@@ -4,7 +4,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import net.minecraft.item.ItemStack;
 import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
+import chylex.hee.mechanics.compendium.util.IGuiItemStackRenderer;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 

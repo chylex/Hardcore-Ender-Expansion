@@ -13,8 +13,6 @@ import net.minecraft.world.World;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
 import cpw.mods.fml.relauncher.Side;
@@ -76,11 +74,6 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 							world.spawnEntityInWorld(paralyzed);
 							
 							is.damageItem(1,(EntityPlayer)owner);
-							
-							for(EntityPlayer observer:ObservationUtil.getAllObservers(owner,12D)){
-								if (KnowledgeRegistrations.ENDERMAN_RELIC.tryUnlockFragment(observer,0.6F).stopTrying)continue;
-								KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.3F,new byte[]{ 0 });
-							}
 							
 							break;
 						}

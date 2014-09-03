@@ -7,7 +7,6 @@ import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.AchievementList;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 
 class SlotBrewingStandPotion extends Slot{
 	public SlotBrewingStandPotion(IInventory inv, int id, int x, int z){
@@ -28,10 +27,7 @@ class SlotBrewingStandPotion extends Slot{
 	public void onPickupFromSlot(EntityPlayer player, ItemStack is){
 		if (is.getItem() instanceof ItemPotion && is.getItemDamage() > 0){
 			player.addStat(AchievementList.potion,1);
-			if (is.stackTagCompound != null && is.stackTagCompound.hasKey("hasPotionChanged")){
-				KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(player,0.36F,new byte[]{ 0,1,2 });
-				is.stackTagCompound.removeTag("hasPotionChanged");
-			}
+			if (is.stackTagCompound != null && is.stackTagCompound.hasKey("hasPotionChanged"))is.stackTagCompound.removeTag("hasPotionChanged");
 		}
 
 		super.onPickupFromSlot(player,is);

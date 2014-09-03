@@ -15,8 +15,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.proxy.ModCommonProxy;
@@ -64,8 +62,6 @@ public class EntityMobEnderGuardian extends EntityMob{
 						DragonUtil.createExplosion(this,entityToAttack.posX+(rand.nextDouble()-0.5D)*0.8D,entityToAttack.posY+0.1D,entityToAttack.posZ+(rand.nextDouble()-0.5D)*0.8D,1.1F+rand.nextFloat()*0.1F,false);
 						attackPhase = 1;
 						explosionTimer = 10;
-						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(entityToAttack,12D))KnowledgeRegistrations.ENDER_GUARDIAN.tryUnlockFragment(observer,0.6F,new byte[]{ 0,1,2 });
 					}
 					else if (explosionTimer == 8)playSound("mob.endermen.portal",3.8F,3.4F+rand.nextFloat()*0.2F);
 					
@@ -123,7 +119,6 @@ public class EntityMobEnderGuardian extends EntityMob{
 							ItemStack is = player.inventory.getStackInSlot(a);
 							if (is != null && is.getItem() == ItemList.enderman_relic){
 								entityToAttack = player;
-								KnowledgeRegistrations.ENDER_GUARDIAN.tryUnlockFragment(player,1F,new byte[]{ 1 });
 								break;
 							}
 						}
@@ -142,8 +137,6 @@ public class EntityMobEnderGuardian extends EntityMob{
 		
 		amount = 1+rand.nextInt(3+(looting>>1));
 		for(int a = 0; a < amount; a++)dropItem(Item.getItemFromBlock(Blocks.obsidian),1);
-		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.ENDER_GUARDIAN.tryUnlockFragment(observer,0.42F,new byte[]{ 3,4 });
 	}
 	
 	@Override

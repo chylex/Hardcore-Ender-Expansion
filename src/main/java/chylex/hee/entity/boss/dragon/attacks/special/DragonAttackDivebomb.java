@@ -7,8 +7,6 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.boss.dragon.managers.DragonAttackManager;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackDivebomb extends DragonSpecialAttackBase{
@@ -68,8 +66,6 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 				tick = 0;
 				phase = 1;
 				tmpTarget = null;
-				
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,1F,new byte[]{ 7,8 });
 			}
 		}
 		else if (phase == 1){

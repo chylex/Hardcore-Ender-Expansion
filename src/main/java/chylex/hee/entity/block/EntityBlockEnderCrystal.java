@@ -10,7 +10,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
@@ -100,14 +99,6 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 							}
 						}
 					}
-				}
-			}
-			
-			if (tar instanceof EntityPlayer){
-				EntityPlayer player = (EntityPlayer)tar;
-				
-				if (!KnowledgeRegistrations.DRAGON_LAIR.tryUnlockFragment(player,0.25F).stopTrying){
-					KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(player,0.16F,new byte[]{ 1,4 });
 				}
 			}
 		}

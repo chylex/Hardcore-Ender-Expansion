@@ -12,8 +12,6 @@ import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileFlamingBall;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityMobScorchingLens extends EntityMob{
@@ -49,10 +47,6 @@ public class EntityMobScorchingLens extends EntityMob{
 					worldObj,this,posX+look.xCoord,posY+look.yCoord+0.5D,posZ+look.zCoord,
 					entityToAttack.posX-posX,entityToAttack.posY-posY+rand.nextDouble()*0.4D,entityToAttack.posZ-posZ
 				));
-				
-				if (rand.nextInt(8) == 0){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.SCORCHING_LENS.tryUnlockFragment(observer,0.2F,new byte[]{ 0,1,2 });
-				}
 			}
 		}
 	}
@@ -75,8 +69,6 @@ public class EntityMobScorchingLens extends EntityMob{
 	protected void dropFewItems(boolean recentlyHit, int looting){
 		dropItem(ItemList.igneous_rock,rand.nextInt(2)+rand.nextInt(2));
 		if (recentlyHit)entityDropItem(new ItemStack(ItemList.essence,rand.nextInt(5+looting),EssenceType.FIERY.getItemDamage()),0F);
-		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.SCORCHING_LENS.tryUnlockFragment(observer,0.25F,new byte[]{ 3,4 });
 	}
 	
 	@Override

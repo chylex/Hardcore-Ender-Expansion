@@ -3,15 +3,12 @@ import java.util.Iterator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.mechanics.orb.WeightedItem;
@@ -54,20 +51,10 @@ public class EntityItemInstabilityOrb extends EntityItem{
 					EntityTNTPrimed tnt = (EntityTNTPrimed)o;
 					
 					if (tnt.fuse < 6 && getDistance(tnt.posX,tnt.posY,tnt.posZ)/4D <= 1D){ // 4 = strength of TNT
-						isTntNearby = true;
-						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,16D)){
-							KnowledgeRegistrations.INSTABILITY_ORB.tryUnlockFragment(observer,0.6F,new byte[]{ 5 });
-						}
-						
+						isTntNearby = true;						
 						break;
 					}
 				}
-			}
-			
-			if (ticksExisted%90 == 0){
-				EntityPlayer observer = ObservationUtil.getRandomObserver(this,16D);
-				if (observer != null)KnowledgeRegistrations.INSTABILITY_ORB.tryUnlockFragment(observer,0.12F);
 			}
 		}
 		else{
@@ -116,8 +103,6 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			
 			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION,posX,posY,posZ,0.25F,0.4F));
 		}
-		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,16D))KnowledgeRegistrations.INSTABILITY_ORB.tryUnlockFragment(observer,0.35F);
 		
 		setDead();
 	}

@@ -12,7 +12,6 @@ import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
 import cpw.mods.fml.relauncher.Side;
@@ -57,8 +56,6 @@ public class ItemMusicDisk extends ItemRecord{
 			((BlockJukebox)Blocks.jukebox).func_149926_b(world,x,y,z,is);
 			PacketPipeline.sendToDimension(world.provider.dimensionId,new C02PlayRecord(x,y,z,(byte)is.getItemDamage()));
 			--is.stackSize;
-			
-			KnowledgeRegistrations.MUSIC_DISCS.tryUnlockFragment(player,1F);
 			
 			return true;
 		}

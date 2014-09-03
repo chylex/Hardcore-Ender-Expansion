@@ -9,8 +9,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityMobVampiricBat extends EntityBat{
@@ -72,10 +70,7 @@ public class EntityMobVampiricBat extends EntityBat{
 		if (entity instanceof EntityPlayer){
 			if (!worldObj.isRemote){
 				EntityPlayer player = (EntityPlayer)entity;
-				player.attackEntityFrom(DamageSource.causeMobDamage(this),ModCommonProxy.opMobs?4F:2F);
-				
-				KnowledgeRegistrations.VAMPIRIC_BAT.tryUnlockFragment(player,0.65F);
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(player,10D))KnowledgeRegistrations.VAMPIRIC_BAT.tryUnlockFragment(observer,0.25F);
+				player.attackEntityFrom(DamageSource.causeMobDamage(this),ModCommonProxy.opMobs ? 4F : 2F);
 				
 				for(Object o:worldObj.loadedEntityList){
 					if (o instanceof EntityBossDragon){
@@ -98,15 +93,13 @@ public class EntityMobVampiricBat extends EntityBat{
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (!worldObj.isRemote){
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,10D))KnowledgeRegistrations.VAMPIRIC_BAT.tryUnlockFragment(observer,0.14F);
-			setDead();
-		}
+		if (!worldObj.isRemote)setDead();
 		
 		for(int a = 0; a < 6; a++){
 			worldObj.spawnParticle("largesmoke",posX,posY+0.4D,posZ,0D,0D,0D);
 			worldObj.spawnParticle("smoke",posX,posY+0.4D,posZ,0D,0D,0D);
 		}
+		
 		return true;
 	}
 	

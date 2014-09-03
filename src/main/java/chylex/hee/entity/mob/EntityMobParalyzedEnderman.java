@@ -7,8 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 
 public class EntityMobParalyzedEnderman extends EntityEnderman{
 	private byte newTargetTimer = 0;
@@ -34,9 +32,6 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 				if (!nearby.isEmpty()){
 					entityToAttack = nearby.get(rand.nextInt(nearby.size()));
 					if (!canEntityBeSeen(entityToAttack))entityToAttack = null;
-					else{
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.3F,new byte[]{ 0,2 });
-					}
 				}
 			}
 		}
@@ -52,8 +47,6 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 				worldObj.spawnEntityInWorld(enderman);
 				setDead();
 			}
-			
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,7D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.45F,new byte[]{ 0,3 });
 		}
 
 		super.onLivingUpdate();
@@ -62,8 +55,6 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
 		if (rand.nextInt(3) == 0)dropItem(getDropItem(),1);
-		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.PARALYZED_ENDERMAN.tryUnlockFragment(observer,0.18F,new byte[]{ 0,1 });
 	}
 	
 	@Override

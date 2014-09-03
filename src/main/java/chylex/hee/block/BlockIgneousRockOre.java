@@ -7,15 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockIgneousRockOre extends BlockAbstractOre{
-	public BlockIgneousRockOre(){
-		super();
-	}
-	
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fortune){
 		return ItemList.igneous_rock;
@@ -33,10 +28,7 @@ public class BlockIgneousRockOre extends BlockAbstractOre{
 	}
 
 	@Override
-	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){
-		if (KnowledgeRegistrations.IGNEOUS_ROCK_ORE.tryUnlockFragment(player,0.08F).stopTrying)return;
-		KnowledgeRegistrations.IGNEOUS_ROCK.tryUnlockFragment(player,0.06F,new byte[]{ 0,1,2 });
-	}
+	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

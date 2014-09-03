@@ -17,10 +17,9 @@ public final class ItemList{
 		items.put(itemIdentifier,item);
 	}
 	
-	// COMPENDIUM
+	// LORE
 	
 	public static Item adventurers_diary;
-	public static Item ender_compendium;
 	public static Item knowledge_fragment;
 	
 	// BASIC MATERIALS
@@ -73,7 +72,6 @@ public final class ItemList{
 	
 	public static void loadItems(){
 		register("adventurers_diary", adventurers_diary = new ItemAdventurersDiary().setMaxStackSize(1).setUnlocalizedName("lorePage").setTextureName("hardcoreenderexpansion:lore_page"));
-		register("ender_compendium", ender_compendium = new ItemEnderCompendium().setMaxStackSize(1).setUnlocalizedName("enderCompendium").setTextureName("hardcoreenderexpansion:ender_compendium"));
 		register("knowledge_fragment", knowledge_fragment = new ItemKnowledgeFragment().setMaxStackSize(1).setUnlocalizedName("knowledgeFragment").setTextureName("hardcoreenderexpansion:knowledge_fragment"));
 		
 		register("end_powder", end_powder = new ItemEndPowder().setUnlocalizedName("endPowder").setTextureName("hardcoreenderexpansion:end_powder"));
@@ -93,7 +91,7 @@ public final class ItemList{
 		
 		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood"));
 		register("dry_splinter", dry_splinter = new Item().setUnlocalizedName("drySplinter").setTextureName("hardcoreenderexpansion:dry_splinter"));
-		register("infestation_remedy", infestation_remedy = new ItemInfestationRemedy().setUnlocalizedName("infestationRemedy").setTextureName("hardcoreenderexpansion:infestation_remedy"));
+		register("infestation_remedy", infestation_remedy = new ItemInfestationRemedy().setMaxStackSize(1).setUnlocalizedName("infestationRemedy").setTextureName("hardcoreenderexpansion:infestation_remedy"));
 		register("ghost_amulet", ghost_amulet = new Item().setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
 		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("endoplasm").setTextureName("hardcoreenderexpansion:endoplasm"));
 		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
@@ -123,7 +121,7 @@ public final class ItemList{
 		).addItems(
 			spectral_wand,fire_shard,scorching_pickaxe,enderman_relic,
 			enderman_head,bucket_ender_goo,music_disk,
-			ender_compendium,knowledge_fragment,
+			knowledge_fragment,
 			spawn_eggs
 		);
 	}

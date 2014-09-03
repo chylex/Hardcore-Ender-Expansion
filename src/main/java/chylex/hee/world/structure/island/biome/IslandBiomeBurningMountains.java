@@ -4,7 +4,6 @@ import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobHauntedMiner;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
-import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorBurningMountains;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
@@ -17,8 +16,8 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	
 	private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
 	
-	protected IslandBiomeBurningMountains(int biomeID, KnowledgeRegistration knowledgeRegistration){
-		super(biomeID,knowledgeRegistration);
+	protected IslandBiomeBurningMountains(int biomeID){
+		super(biomeID);
 		
 		contentVariations.add(SCORCHING);
 		contentVariations.add(MINE);

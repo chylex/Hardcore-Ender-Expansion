@@ -16,8 +16,6 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 
@@ -123,10 +121,6 @@ public class EntityItemIgneousRock extends EntityItem{
 					setDead();
 				}
 			}
-		}
-		
-		if (!worldObj.isRemote && ticksExisted%65 == 0){
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,16D))KnowledgeRegistrations.IGNEOUS_ROCK.tryUnlockFragment(observer,0.15F);
 		}
 		
 		if (rand.nextInt(30) == 0){

@@ -1,10 +1,8 @@
 package chylex.hee.entity.boss.dragon.attacks.passive;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.managers.DragonShotManager.ShotType;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 
 public class DragonAttackFreezeball extends DragonPassiveAttackBase{
 	public DragonAttackFreezeball(EntityBossDragon dragon, int attackId){
@@ -20,7 +18,6 @@ public class DragonAttackFreezeball extends DragonPassiveAttackBase{
 				if (e != null && !dragon.worldObj.getEntitiesWithinAABB(EntityTNTPrimed.class,e.boundingBox.expand(8D,60D,8D)).isEmpty()){
 					dragon.trySetTarget(e);
 					dragon.initShot().setType(ShotType.FREEZEBALL).setTarget(e).setRandom().shoot();
-					if (e instanceof EntityPlayer)KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment((EntityPlayer)e,0.2F,new byte[]{ 0,2 });
 				}
 			}
 		}

@@ -1,15 +1,12 @@
 package chylex.hee.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockMobSpawner;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class BlockCustomSpawner extends BlockMobSpawner{
 	public BlockCustomSpawner(){
-		super();
 		disableStats();
 	}
 
@@ -26,14 +23,5 @@ public class BlockCustomSpawner extends BlockMobSpawner{
 		}
 		
 		super.breakBlock(world,x,y,z,oldBlock,oldMeta);
-	}
-	
-	@Override
-	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
-		super.harvestBlock(world,player,x,y,z,meta);
-		
-		if (meta == 0){
-			KnowledgeRegistrations.DUNGEON_TOWER.tryUnlockFragment(player,0.1F,new byte[]{ 0,1,2,3 });
-		}
 	}
 }

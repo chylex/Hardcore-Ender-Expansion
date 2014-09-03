@@ -19,8 +19,6 @@ import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.proxy.ModCommonProxy;
@@ -82,7 +80,6 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 					   zz = lightningTarget.posZ+(rand.nextDouble()-0.5D)*1.5D;
 				
 				lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs?7F:4F);
-				KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(lightningTarget,0.1F,new byte[]{ 3,4 });
 
 				EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,xx,yy,zz,this,false);
 				worldObj.weatherEffects.add(bolt);
@@ -119,9 +116,6 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 								EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,ix+0.5D,iy,iz+0.5D,this,false);
 								worldObj.addWeatherEffect(bolt);
 								PacketPipeline.sendToAllAround(bolt,512D,new C05CustomWeather(bolt,(byte)0));
-								
-								for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.22F,new byte[]{ 0,1,2 });
-							
 								break;
 							}
 						}
@@ -146,10 +140,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 							++placed;
 						}
 						
-						if (placed > 5 && rand.nextInt(15) <= 1){
-							for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.25F,new byte[]{ 0,1,2 });
-							break;
-						}
+						if (placed > 5 && rand.nextInt(15) <= 1)break;
 					}
 				}
 			}
@@ -204,10 +195,6 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 			if (source.getEntity() instanceof EntityPlayerMP)lastAttacker = (EntityPlayerMP)source.getEntity();
 			if (lightningTarget == null)lightningStartCounter -= (int)amount;
 			
-			if (rand.nextInt(5) == 0){
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D))KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.33F,new byte[]{ 0,1,2,3,4 });
-			}
-			
 			return true;
 		}
 		else return false;
@@ -237,12 +224,6 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 			EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,posX,posY,posZ,this,false);
 			worldObj.weatherEffects.add(bolt);
 			PacketPipeline.sendToAllAround(bolt,512D,new C05CustomWeather(bolt,(byte)0));
-			
-			
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,120D)){
-				if (KnowledgeRegistrations.ENDER_DEMON.tryUnlockFragment(observer,0.2F,new byte[]{ 5 }).stopTrying)continue;
-				KnowledgeRegistrations.ENDERMAN_RELIC.tryUnlockFragment(observer,0.13F,new byte[]{ 0,1,2,3,4,5 });
-			}
 		}
 	}
 	

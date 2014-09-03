@@ -18,8 +18,6 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
@@ -102,8 +100,6 @@ public class EntityMobFireGolem extends EntityMob{
 						);
 						
 						PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.SPAWN_FIREBALL,posX,posY,posZ,1.5F,0.85F+rand.nextFloat()*0.1F));
-						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment(observer,0.09F,new byte[]{ 0,1,2,3 });
 					}
 					
 					if (dataWatcher.getWatchableObjectByte(16) != flameParticleAmountNew)dataWatcher.updateObject(16,Byte.valueOf(flameParticleAmountNew));
@@ -151,10 +147,6 @@ public class EntityMobFireGolem extends EntityMob{
 					playSound("mob.endermen.portal",1.0F,1.1F);
 					return false;
 				}
-				
-				if (source.getEntity() instanceof EntityPlayer){
-					KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment((EntityPlayer)source.getEntity(),0.08F,new byte[]{ 0,1,2,3 });
-				}
 			}
 		}
 		
@@ -169,8 +161,6 @@ public class EntityMobFireGolem extends EntityMob{
 	protected void dropFewItems(boolean recentlyHit, int looting){
 		dropItem(Items.fire_charge,rand.nextInt(2));
 		if (recentlyHit)entityDropItem(new ItemStack(ItemList.essence,rand.nextInt(4+looting)+1,EssenceType.FIERY.getItemDamage()),0F);
-		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,6D))KnowledgeRegistrations.FIRE_GOLEM.tryUnlockFragment(observer,0.25F,new byte[]{ 4,5 });
 	}
 	
 	@Override

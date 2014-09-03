@@ -18,7 +18,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemKnowledgeFragment extends Item{
 	public ItemKnowledgeFragment(){
-		super();
 		setHasSubtypes(true);
 	}
 
@@ -26,7 +25,7 @@ public class ItemKnowledgeFragment extends Item{
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (world.isRemote)return is;
 		
-		for(int a = 0; a < player.inventory.mainInventory.length; a++){
+		/*for(int a = 0; a < player.inventory.mainInventory.length; a++){
 			ItemStack invIS = player.inventory.mainInventory[a];
 			if (invIS == null || invIS.getItem() != ItemList.ender_compendium)continue;
 			
@@ -67,25 +66,18 @@ public class ItemKnowledgeFragment extends Item{
 			return is;
 		}
 
-		PacketPipeline.sendToPlayer(player,new C03KnowledgeRegistrationNotification(-2));
+		PacketPipeline.sendToPlayer(player,new C03KnowledgeRegistrationNotification(-2));*/
 		return is;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		String registration = is.stackTagCompound != null ? is.stackTagCompound.getString("knowledgeRegistration") : null;
+		/*String registration = is.stackTagCompound != null ? is.stackTagCompound.getString("knowledgeRegistration") : null;
 		
 		if (registration != null){
 			KnowledgeRegistration reg = KnowledgeRegistration.lookup.get(registration);
 			if (reg != null)textLines.add(reg.getRenderer().getTooltip());
-		}
-	}
-	
-	public static ItemStack setRandomRegistration(ItemStack is, FragmentWeightList weightedList, Random rand){
-		NBTTagCompound tag = is.stackTagCompound == null?new NBTTagCompound():is.stackTagCompound;
-		tag.setString("knowledgeRegistration",weightedList.getRandomRegistration(rand).identifier);
-		is.stackTagCompound = tag;
-		return is;
+		}*/
 	}
 }

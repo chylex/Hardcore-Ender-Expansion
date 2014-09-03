@@ -7,8 +7,6 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.handler.AltarActionHandler;
 import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.mechanics.essence.handler.FieryEssenceHandler;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.system.util.IItemSelector;
 
 public enum EssenceType{
@@ -75,24 +73,6 @@ public enum EssenceType{
 	
 	public byte getItemDamage(){
 		return (byte)(id-1);
-	}
-	
-	public KnowledgeRegistration getAltarRegistration(){
-		switch(this){
-			case DRAGON: return KnowledgeRegistrations.DRAGON_ESSENCE_ALTAR;
-			case FIERY: return KnowledgeRegistrations.FIERY_ESSENCE_ALTAR;
-			case SPECTRAL: return KnowledgeRegistrations.SPECTRAL_ESSENCE_ALTAR;
-			default: return KnowledgeRegistrations.BASIC_ESSENCE_ALTAR;
-		}
-	}
-	
-	public KnowledgeRegistration getEssenceRegistration(){
-		switch(this){
-			case DRAGON: return KnowledgeRegistrations.DRAGON_ESSENCE;
-			case FIERY: return KnowledgeRegistrations.FIERY_ESSENCE;
-			case SPECTRAL: return KnowledgeRegistrations.SPECTRAL_ESSENCE;
-			default: return null;
-		}
 	}
 	
 	public static EssenceType getById(int id){

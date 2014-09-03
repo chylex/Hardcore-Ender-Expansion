@@ -13,8 +13,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -28,9 +26,9 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public abstract class IslandBiomeBase{
-	public static final IslandBiomeBase infestedForest = new IslandBiomeInfestedForest(0,KnowledgeRegistrations.INFESTED_FOREST_BIOME),
-										burningMountains = new IslandBiomeBurningMountains(1,KnowledgeRegistrations.BURNING_MOUNTAINS_BIOME),
-										enchantedIsland = new IslandBiomeEnchantedIsland(2,KnowledgeRegistrations.ENCHANTED_ISLAND_BIOME);
+	public static final IslandBiomeBase infestedForest = new IslandBiomeInfestedForest(0),
+										burningMountains = new IslandBiomeBurningMountains(1),
+										enchantedIsland = new IslandBiomeEnchantedIsland(2);
 	
 	public static final List<IslandBiomeBase> biomeList = new ArrayList<>(Arrays.asList(infestedForest,burningMountains,enchantedIsland));
 	
@@ -39,7 +37,6 @@ public abstract class IslandBiomeBase{
 	}
 	
 	public final byte biomeID;
-	private final KnowledgeRegistration knowledgeRegistration;
 	
 	private final TByteObjectHashMap<WeightedList<SpawnEntry>> spawnEntries;
 	protected final WeightedList<BiomeContentVariation> contentVariations;
@@ -47,10 +44,8 @@ public abstract class IslandBiomeBase{
 	
 	protected IslandBiomeData data;
 	
-	protected IslandBiomeBase(int biomeID, KnowledgeRegistration knowledgeRegistration){
+	protected IslandBiomeBase(int biomeID){
 		this.biomeID = (byte)biomeID;
-		this.knowledgeRegistration = knowledgeRegistration;
-		
 		this.spawnEntries = new TByteObjectHashMap<>();
 		this.contentVariations = new WeightedList<>();
 		this.randomDeviations = new ArrayList<>();
@@ -157,7 +152,8 @@ public abstract class IslandBiomeBase{
 			}
 		}
 		
-		if (world.rand.nextFloat() <= 0.063F){
+		// TODO biome discovery
+		/*if (world.rand.nextFloat() <= 0.063F){
 			for(Object o:world.playerEntities){
 				EntityPlayer player = (EntityPlayer)o;
 
@@ -170,7 +166,7 @@ public abstract class IslandBiomeBase{
 					}
 				}
 			}
-		}
+		}*/
 		
 		for(Object o:world.playerEntities){
 			EntityPlayer player = (EntityPlayer)o;

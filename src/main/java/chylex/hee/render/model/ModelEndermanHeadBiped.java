@@ -10,7 +10,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class ModelEndermanHeadBiped extends ModelBiped{
 	public ModelEndermanHeadBiped(){
-		super();
 		textureWidth = 64;
 		textureHeight = 32;
 		

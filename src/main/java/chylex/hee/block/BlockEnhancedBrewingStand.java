@@ -17,10 +17,6 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	@SideOnly(Side.CLIENT)
 	private IIcon theIcon;
 	
-	public BlockEnhancedBrewingStand(){
-		super();
-	}
-	
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta){
 		return new TileEntityEnhancedBrewingStand();

@@ -1,5 +1,5 @@
 package chylex.hee.mechanics.knowledge.util;
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import net.minecraft.entity.Entity;
@@ -57,4 +57,4 @@ public class ObservationUtil{
 		MovingObjectPosition mop = player.worldObj.rayTraceBlocks(Vec3.createVectorHelper(player.posX,player.posY+player.getEyeHeight(),player.posZ),Vec3.createVectorHelper(x,y,z));
 		return mop == null || (Math.abs(x-mop.blockX) < 1 && Math.abs(y-mop.blockY) < 1 && Math.abs(z-mop.blockZ) < 1);
 	}
-}
+}*/

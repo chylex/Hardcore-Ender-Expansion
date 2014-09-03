@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.render.texture.TextureBiomeCompass;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
@@ -59,10 +58,6 @@ public class ItemBiomeCompass extends Item{
 			if (!is.stackTagCompound.hasKey("seed1")){
 				is.stackTagCompound.setLong("seed1",world.getSeed());
 				is.stackTagCompound.setShort("seed2",(short)(1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount()));
-			}
-			
-			if (isHeld && world.rand.nextInt(70) == 0 && entity instanceof EntityPlayer){
-				KnowledgeRegistrations.BIOME_COMPASS.tryUnlockFragment((EntityPlayer)entity,1F,new byte[]{ 1 });
 			}
 		}
 	}

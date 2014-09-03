@@ -1,13 +1,10 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.boss.dragon.managers.DragonShotManager.ShotType;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.proxy.ModCommonProxy;
 
 public class DragonAttackStaynfire extends DragonSpecialAttackBase{
@@ -44,11 +41,7 @@ public class DragonAttackStaynfire extends DragonSpecialAttackBase{
 				if (tick > 29-(dragon.getWorldDifficulty()*2)-(ModCommonProxy.opMobs?5:0)){
 					tick = 0;
 					dragon.initShot().setType(ShotType.FIREBALL).setTarget(target).shoot();
-					if (shootTimer++>rand.nextInt(15)+26-damageTaken*2 || (shootTimer > 25 && rand.nextInt(5) == 0) || damageTaken > 13)ended = true;
-					
-					if (rand.nextBoolean() && rand.nextBoolean()){
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.16F,new byte[]{ 7,9 });
-					}
+					if (shootTimer++ > rand.nextInt(15)+26-damageTaken*2 || (shootTimer > 25 && rand.nextInt(5) == 0) || damageTaken > 13)ended = true;
 				}
 			
 				dragon.targetX = target.posX;

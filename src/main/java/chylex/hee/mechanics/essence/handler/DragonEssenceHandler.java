@@ -12,7 +12,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,8 +22,6 @@ import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.system.util.DragonUtil;
@@ -315,7 +312,6 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						
 						recipe.doTransaction(item);
 						item.hasChanged = true;
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(item,8D))KnowledgeRegistrations.DRAGON_ESSENCE_ALTAR.tryUnlockFragment(observer,0.3F);
 						break;
 					}
 					

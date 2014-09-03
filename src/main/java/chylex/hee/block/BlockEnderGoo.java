@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
@@ -28,8 +27,6 @@ import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -60,7 +57,6 @@ public class BlockEnderGoo extends BlockFluidClassic{
 		
 		if (shouldBattleWater){
 			int meta = world.getBlockMetadata(x,y,z);
-			boolean observed = false;
 			
 			for(int a = 0; a < 6; a++){
 				if (world.getBlock(x+xOff[a],y+yOff[a],z+zOff[a]).getMaterial() != Material.water)continue;
@@ -68,11 +64,6 @@ public class BlockEnderGoo extends BlockFluidClassic{
 				if ((rand.nextInt(Math.max(1,10-meta-(world.provider.dimensionId == 1?7:0)+(a == 2 || a == 3?2:0))) == 0)){
 					world.setBlock(x+xOff[a],y+yOff[a],z+zOff[a],this,Math.max(2,world.getBlockMetadata(x,y,z)),3);
 					if (rand.nextInt(6-meta) == 0)world.setBlockToAir(x,y,z);
-					
-					if (!observed){
-						observed = true;
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,16D))KnowledgeRegistrations.ENDER_GOO.tryUnlockFragment(observer,0.04F);
-					}
 				}
 				else if (world.provider.dimensionId != 1 && rand.nextInt(4) != 0){
 					world.setBlock(x,y,z,Blocks.flowing_water,2,3);
@@ -124,10 +115,6 @@ public class BlockEnderGoo extends BlockFluidClassic{
 			entity.motionX *= 0.25D;
 			entity.motionY *= 0.45D;
 			entity.motionZ *= 0.25D;
-			
-			if (e.ticksExisted%20 == 0){
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,6D))KnowledgeRegistrations.ENDER_GOO.tryUnlockFragment(observer,0.2F);
-			}
 		}
 	}
 	
@@ -143,8 +130,6 @@ public class BlockEnderGoo extends BlockFluidClassic{
 			e.world.setBlockToAir(e.target.blockX,e.target.blockY,e.target.blockZ);
 			e.result = new ItemStack(ItemList.bucket_ender_goo);
 			e.setResult(Result.ALLOW);
-			
-			KnowledgeRegistrations.ENDER_GOO.tryUnlockFragment(e.entityPlayer,0.08F);
 		}
 	}
 	

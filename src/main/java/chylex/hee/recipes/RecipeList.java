@@ -29,12 +29,6 @@ public final class RecipeList{
 			'X',ItemList.enderman_head
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(ItemList.ender_compendium),
-			"PPP", "PEP", "PPP",
-			'P',Items.paper,
-			'E',Items.ender_eye
-		);
-		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.decomposition_table),
 			"PBP", "SRS", "III",
 			'P', ItemList.end_powder,

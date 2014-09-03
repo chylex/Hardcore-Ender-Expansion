@@ -15,8 +15,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -54,12 +52,7 @@ public class BlockEndFlower extends BlockFlower{
 							EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(world);
 							enderman.setCanDespawn(false);
 							enderman.setPosition(px+rand.nextFloat(),py+0.01F,pz+rand.nextFloat());
-							world.spawnEntityInWorld(enderman);
-							
-							if (++spawned == 1){
-								for(EntityPlayer observer:ObservationUtil.getAllObservers(enderman,20D))KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(observer,0.7F,new byte[]{ 0,1,2,3,4,6,7 });
-							}
-							
+							world.spawnEntityInWorld(enderman);							
 							break;
 						}
 					}
@@ -109,8 +102,6 @@ public class BlockEndFlower extends BlockFlower{
 						}
 					}
 					
-					boolean spawned = false;
-					
 					for(int a = 0; a < 6; a++){
 						int xx = x+rand.nextInt(8)-4,zz = z+rand.nextInt(8)-4,yy;
 						for(int b = 0; b < yOffsets.length; b++){
@@ -119,13 +110,7 @@ public class BlockEndFlower extends BlockFlower{
 								EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(world);
 								enderman.setPosition(xx+rand.nextFloat(),yy+0.01F,zz+rand.nextFloat());
 								enderman.setCanDespawn(false);
-								world.spawnEntityInWorld(enderman);
-								
-								if (!spawned){
-									spawned = true;
-									for(EntityPlayer observer:ObservationUtil.getAllObservers(enderman,32D))KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(observer,1F,new byte[]{ 0,1,2,3,4,6,7 });
-								}
-								
+								world.spawnEntityInWorld(enderman);								
 								break;
 							}
 						}
@@ -157,12 +142,8 @@ public class BlockEndFlower extends BlockFlower{
 				if (!player.capabilities.isCreativeMode)--is.stackSize;
 				world.playAuxSFX(2005,x,y,z,0);
 			}
+			
 			for(int a = 0; a < 3; a++)world.spawnParticle("portal",x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),0D,0D,0D);
-			
-			KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(player,0.18F,new byte[]{ 0,1,2,3,4,6,7 });
-			EntityPlayer observer = ObservationUtil.getRandomObserver(player,6D);
-			if (observer != player)KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(observer,0.16F,new byte[]{ 0,1,2,3,4,6,7 });
-			
 			return true;
 		}
 		return false;

@@ -7,7 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.mechanics.temple.TeleportParticleTickEvent;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
@@ -52,8 +51,6 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 				player.setLocationAndAngles(templeX+1.5D,templeY+1,templeZ+6.5D,-90F,0F);
 				player.setPositionAndUpdate(templeX+1.5D,templeY+1,templeZ+6.5D);
 				WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setPlayerIsInTemple(player,true);
-				
-				KnowledgeRegistrations.TEMPLE_CALLER.tryUnlockFragment(player,1F);
 			}
 			else TeleportParticleTickEvent.startSmokeEffect();
 		}

@@ -1,11 +1,9 @@
 package chylex.hee.item;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemIgneousRock;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import cpw.mods.fml.common.IFuelHandler;
 
 public class ItemIgneousRock extends ItemAbstractCustomEntity implements IFuelHandler{
@@ -16,7 +14,6 @@ public class ItemIgneousRock extends ItemAbstractCustomEntity implements IFuelHa
 
 		if (is != null && is.getItem() == ItemList.igneous_rock){
 			entity.setFire((int)Math.ceil(mp*(world.rand.nextInt(4)+3+Math.max(1,is.stackSize/10))));
-			if (entity instanceof EntityPlayer)KnowledgeRegistrations.IGNEOUS_ROCK.tryUnlockFragment((EntityPlayer)entity,0.2F,new byte[]{ 0,1,2,3,4 });
 		}
 	}
 

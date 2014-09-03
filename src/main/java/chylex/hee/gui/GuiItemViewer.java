@@ -25,7 +25,6 @@ public class GuiItemViewer extends GuiScreen{
 	private int yStart;
 	
 	public GuiItemViewer(){
-		super();
 		mc = Minecraft.getMinecraft();
 		prevGuiScale = mc.gameSettings.guiScale;
 		mc.gameSettings.guiScale = 1;

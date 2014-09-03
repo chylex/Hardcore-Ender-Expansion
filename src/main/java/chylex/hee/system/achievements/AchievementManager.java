@@ -12,6 +12,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
+import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.proxy.ModCommonProxy;
 
 public final class AchievementManager{
@@ -44,7 +45,7 @@ public final class AchievementManager{
 		//THAT_WAS_CLOSE = addAchievement(52, "thatWasClose", 1, 4, ItemList.spatial_dash_gem, 0, DEAD_VISIONARY),
 		WHOLE_NEW_CULTURES = addAchievement(6, "wholeNewCultures", 4, 2, BlockList.end_terrain, 0, DEAD_VISIONARY), //
 		MAGIC_OF_DECOMPOSITION = addAchievement(7, "magicOfDecomposition", 2, 0, ItemList.stardust, 0, DEAD_VISIONARY), //
-		THE_MORE_YOU_KNOW = addAchievement(8, "theMoreYouKnow", -2, -1, ItemList.ender_compendium, 0, null),
+		THE_MORE_YOU_KNOW = addAchievement(8, "theMoreYouKnow", -2, -1, ItemList.special_effects, ItemSpecialEffects.achievementCompendiumIcon, null),
 		
 		CHALLENGE_HARD0DEATHS = addChallenge(0, "hard0Deaths", "hard"), //
 		CHALLENGE_BEDEXPLODE = addChallenge(1, "bedExplode", "mediumorhard"), //

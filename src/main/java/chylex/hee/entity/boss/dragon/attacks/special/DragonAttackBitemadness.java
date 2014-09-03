@@ -1,12 +1,10 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.CollisionEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 
 public class DragonAttackBitemadness extends DragonSpecialAttackBase{
 	private EntityLivingBase target;
@@ -28,8 +26,7 @@ public class DragonAttackBitemadness extends DragonSpecialAttackBase{
 		
 		if (target != null){
 			if (dragon.target != null && biteCooldown == 0){
-				biteCooldown = (byte)(dragon.attacks.biteClosePlayer()?6:3);
-				if (dragon.target instanceof EntityPlayer)KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment((EntityPlayer)dragon.target,0.14F,new byte[]{ 7,10 });
+				biteCooldown = (byte)(dragon.attacks.biteClosePlayer() ? 6 : 3);
 			}
 			if (biteCooldown > 0)--biteCooldown;
 		}

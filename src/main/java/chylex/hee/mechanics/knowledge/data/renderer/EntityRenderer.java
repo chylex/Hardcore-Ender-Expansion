@@ -1,5 +1,5 @@
 package chylex.hee.mechanics.knowledge.data.renderer;
-import net.minecraft.client.Minecraft;
+/*import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -102,4 +102,4 @@ public class EntityRenderer implements IRegistrationRenderer{
 	public static interface IEntityInitializer{
 		void spawnEntity(EntityLivingBase entity);
 	}
-}
+}*/

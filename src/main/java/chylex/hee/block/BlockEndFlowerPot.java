@@ -11,7 +11,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEndFlowerPot extends BlockFlowerPot{
 	public BlockEndFlowerPot(){
-		super();
 		setTickRandomly(true);
 	}
 	

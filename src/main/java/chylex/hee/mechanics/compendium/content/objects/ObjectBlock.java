@@ -41,5 +41,20 @@ public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 			this.block = block;
 			this.metadata = (byte)metadata;
 		}
+		
+		@Override
+		public boolean equals(Object o){
+			return o.getClass() == BlockMetaWrapper.class && ((BlockMetaWrapper)o).block == block;
+		}
+		
+		@Override
+		public int hashCode(){
+			return block.hashCode();
+		}
+		
+		@Override
+		public String toString(){
+			return block+"/"+metadata;
+		}
 	}
 }

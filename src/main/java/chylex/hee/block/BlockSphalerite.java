@@ -5,14 +5,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -22,12 +20,6 @@ public class BlockSphalerite extends Block implements IBlockSubtypes{
 	
 	public BlockSphalerite(){
 		super(Material.rock);
-	}
-	
-	@Override
-	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
-		super.harvestBlock(world,player,x,y,z,meta);
-		KnowledgeRegistrations.SPHALERITE.tryUnlockFragment(player,meta == 1 ? 0.2F : 0.04F);
 	}
 
 	@Override

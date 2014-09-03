@@ -4,9 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.mechanics.misc.EnergyClusterData;
 import chylex.hee.system.util.ColorUtil;
 
@@ -16,7 +13,6 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public final EnergyClusterData data;
 	private float[] colRgb;
 	public boolean shouldNotExplode = false;
-	private byte observationTimer = 0;
 	
 	public TileEntityEnergyCluster(){
 		data = new EnergyClusterData(rand);
@@ -25,20 +21,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 
 	@Override
 	public void updateEntity(){
-		if (!worldObj.isRemote){
-			data.update(this);
-			
-			if (++observationTimer > 120){
-				observationTimer = 0;
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,6D)){
-					if (rand.nextBoolean() && rand.nextBoolean())KnowledgeRegistrations.SPECTRAL_WAND.tryUnlockFragment(observer,0.3F,new byte[]{ 1,2 });
-					else{
-						boolean hasWand = observer.inventory.getCurrentItem() != null && observer.inventory.getCurrentItem().getItem() == ItemList.spectral_wand;
-						KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,hasWand ? 0.34F : 0.22F,new byte[]{ 0,1,2,5,6 });
-					}
-				}
-			}
-		}
+		if (!worldObj.isRemote)data.update(this);
 		else{
 			if (rand.nextInt(5) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
 		}

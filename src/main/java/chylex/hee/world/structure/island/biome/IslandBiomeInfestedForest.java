@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
-import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.InfestationSavefile;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
@@ -25,8 +24,8 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	
 	private final BiomeDecoratorInfestedForest decorator = new BiomeDecoratorInfestedForest();
 	
-	protected IslandBiomeInfestedForest(int biomeID, KnowledgeRegistration knowledgeRegistration){
-		super(biomeID,knowledgeRegistration);
+	protected IslandBiomeInfestedForest(int biomeID){
+		super(biomeID);
 
 		contentVariations.add(DEEP);
 		contentVariations.add(RAVAGED);

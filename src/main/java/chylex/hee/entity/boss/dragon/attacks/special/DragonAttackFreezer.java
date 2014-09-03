@@ -1,12 +1,9 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.boss.dragon.managers.DragonShotManager.ShotType;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 
 public class DragonAttackFreezer extends DragonSpecialAttackBase{
 	private EntityLivingBase target;
@@ -33,13 +30,12 @@ public class DragonAttackFreezer extends DragonSpecialAttackBase{
 		else if (phase == 1){
 			if (target == null)target = dragon.attacks.getWeakPlayer();
 			if (target != null){
-				if (shootTimer++>16){
+				if (shootTimer++ > 16){
 					dragon.initShot().setType(ShotType.FREEZEBALL).setTarget(target).shoot();
 					shootTimer = 0;
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.3F,new byte[]{ 7,12 });
 				}
-				double dist = target.getDistanceSqToEntity(dragon.dragonPartHead);
-				if (dist < 105D)phase = 2;
+				
+				if (target.getDistanceSqToEntity(dragon.dragonPartHead) < 105D)phase = 2;
 			}
 		}
 	}

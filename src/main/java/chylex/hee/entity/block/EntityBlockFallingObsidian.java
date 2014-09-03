@@ -4,15 +4,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.EntityFallingBlock;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 
 public class EntityBlockFallingObsidian extends EntityFallingBlock{
 	public EntityBlockFallingObsidian(World world){
@@ -52,10 +49,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 			motionY *= -0.5D;
 
 			if (field_145812_b > 5 && worldObj.getBlock(ix,iy,iz) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).isEmpty()){
-				if (worldObj.setBlock(ix,iy,iz,func_145805_f())){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,ix+0.5D,iy+0.5D,iz+0.5D,8D))KnowledgeRegistrations.FALLING_OBSIDIAN.tryUnlockFragment(observer,1F,new byte[]{ 0,1 });
-					setDead();
-				}
+				if (worldObj.setBlock(ix,iy,iz,func_145805_f()))setDead();
 			}
 		}
 		else if (!worldObj.isRemote && ((field_145812_b > 100 && (iy < 1 || iy > 256)) || field_145812_b > 600)){
@@ -69,15 +63,8 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 		int i = MathHelper.ceiling_float_int(distance-1F);
 
 		if (i > 0){
-			boolean hurt = false;
-			
 			for(Object o:worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox)){
 				((Entity)o).attackEntityFrom(DamageSource.fallingBlock,Math.min(MathHelper.floor_float(i*5F),60));
-				
-				if (!hurt){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers((Entity)o,8D))KnowledgeRegistrations.FALLING_OBSIDIAN.tryUnlockFragment(observer,1F,new byte[]{ 0,1 });
-					hurt = true;
-				}
 			}
 		}
 	}

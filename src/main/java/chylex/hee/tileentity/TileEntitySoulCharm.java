@@ -1,22 +1,17 @@
 package chylex.hee.tileentity;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.passive.EntityBat;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.enhancements.types.SoulCharmEnhancements;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.data.UnlockResult;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 
 public class TileEntitySoulCharm extends TileEntity{
 	private byte charmTimer = 0, damageTimer = 0, fireTimer = 0;
@@ -62,8 +57,6 @@ public class TileEntitySoulCharm extends TileEntity{
 					((EntityCreature)e).setPathToEntity(worldObj.getEntityPathToXYZ(e,(int)(xCoord+0.5D+(rand.nextFloat()-0.5F)*6D),yCoord,(int)(zCoord+0.5D+(rand.nextFloat()-0.5F)*6D),12.5F+4F*range,true,false,false,true));
 				}
 				else continue;
-				
-				triggerKnowledge(e);
 			}
 		}
 		
@@ -88,7 +81,6 @@ public class TileEntitySoulCharm extends TileEntity{
 				if (e.getDistance(xCoord+0.5D,yCoord,zCoord+0.5D) > 2D*(3.5D+1.85D*range))continue;
 				
 				e.attackEntityFrom(DamageSource.magic,2F+damage*2F);
-				triggerKnowledge(e);
 			}
 		}
 		
@@ -113,16 +105,6 @@ public class TileEntitySoulCharm extends TileEntity{
 				if (e.getDistance(xCoord+0.5D,yCoord,zCoord+0.5D) > 2D*(3.5D+1.85D*range))continue;
 				
 				e.setFire(2+fire*2);
-				triggerKnowledge(e);
-			}
-		}
-	}
-	
-	private void triggerKnowledge(Entity entity){
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,8D)){
-			if (KnowledgeRegistrations.SOUL_CHARM.tryUnlockFragment(observer,0.16F,new byte[]{ 0,1 }).stopTrying)continue;
-			if (KnowledgeRegistrations.SOUL_CHARM.tryUnlockFragment(observer,0.09F,new byte[]{ 2 }) == UnlockResult.NOTHING_TO_UNLOCK){
-				KnowledgeRegistrations.SOUL_CHARM_ENH.tryUnlockFragment(observer,1F);
 			}
 		}
 	}

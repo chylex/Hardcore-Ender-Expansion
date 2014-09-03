@@ -15,8 +15,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityMobAngryEnderman extends EntityMob{
@@ -197,13 +195,7 @@ public class EntityMobAngryEnderman extends EntityMob{
 		Item item = getDropItem();
 
 		if (item != null){
-			int amount = rand.nextInt(2+looting);
-
-			for(int a = 0; a < amount; ++a){
-				dropItem(item,1);
-			}
-			
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D))KnowledgeRegistrations.ANGRY_ENDERMAN.tryUnlockFragment(observer,0.06F);
+			for(int a = 0, amount = rand.nextInt(2+looting); a < amount; a++)dropItem(item,1); 
 		}
 	}
 
@@ -222,24 +214,8 @@ public class EntityMobAngryEnderman extends EntityMob{
 
 				return false;
 			}
-			else{
-				if (super.attackEntityFrom(source,damage)){
-					if (source.getEntity() instanceof EntityPlayer)KnowledgeRegistrations.ANGRY_ENDERMAN.tryUnlockFragment((EntityPlayer)source.getEntity(),0.04F);
-					return true;
-				}
-				
-				return false;
-			}
+			else return super.attackEntityFrom(source,damage);
 		}
-	}
-	
-	@Override
-	public boolean attackEntityAsMob(Entity target){
-		if (super.attackEntityAsMob(target)){
-			if (target instanceof EntityPlayer)KnowledgeRegistrations.ANGRY_ENDERMAN.tryUnlockFragment((EntityPlayer)target,0.06F);
-			return true;
-		}
-		return false;
 	}
 
 	public boolean isScreaming(){

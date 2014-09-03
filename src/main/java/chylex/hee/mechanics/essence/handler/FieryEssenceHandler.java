@@ -1,7 +1,6 @@
 package chylex.hee.mechanics.essence.handler;
 import static chylex.hee.mechanics.essence.SocketManager.*;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -10,9 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraft.tileentity.TileEntityFurnace;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
-import chylex.hee.block.BlockList;
-import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
@@ -112,12 +108,6 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	
 	private void createOrbParticle(int targetX, int targetY, int targetZ){
 		PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,targetX+0.5D,targetY+0.5D,targetZ+0.5D));
-		
-		if (rand.nextInt(17) == 0){
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(altar.getWorldObj(),altar.xCoord+0.5D,altar.yCoord+0.5D,altar.zCoord+0.5D,16D)){
-				EssenceType.FIERY.getAltarRegistration().tryUnlockFragment(observer,0.15F);
-			}
-		}
 	}
 	
 	@Override

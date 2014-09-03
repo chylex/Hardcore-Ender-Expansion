@@ -17,7 +17,6 @@ import chylex.hee.entity.projectile.EntityProjectilePotionOfInstability;
 import chylex.hee.mechanics.brewing.AbstractPotionData;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.brewing.TimedPotion;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -35,17 +34,10 @@ public class ItemPotionOfInstability extends Item{
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconBottleNormal,iconBottleSplash;
-	
-	public ItemPotionOfInstability(){
-		super();
-	}
 
 	@Override
 	public ItemStack onEaten(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote){
-			player.addPotionEffect(getRandomPotionEffect(world.rand));
-			KnowledgeRegistrations.INSTABILITY_POTION.tryUnlockFragment(player,0.45F);
-		}
+		if (!world.isRemote)player.addPotionEffect(getRandomPotionEffect(world.rand));
 
 		if (!player.capabilities.isCreativeMode){
 			if (--is.stackSize <= 0)return new ItemStack(Items.glass_bottle);

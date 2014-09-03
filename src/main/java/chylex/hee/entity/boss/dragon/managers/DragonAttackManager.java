@@ -16,7 +16,6 @@ import net.minecraft.util.DamageSource;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.passive.DragonPassiveAttackBase;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.weight.ObjectWeightPair;
@@ -92,8 +91,6 @@ public class DragonAttackManager{
 				player.addPotionEffect(new PotionEffect(Potion.confusion.id,160+20*(diff),0));
 			}
 		}
-		
-		KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(player,0.1F,new byte[]{ 0,3 });
 		
 		return true;
 	}

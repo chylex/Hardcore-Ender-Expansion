@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,8 +20,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.util.ForgeDirection;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -54,13 +51,6 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	protected boolean canPlaceBlockOn(Block block){
 		return block == Blocks.end_stone || block == BlockList.end_terrain || super.canPlaceBlockOn(block);
-	}
-	
-	@Override
-	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
-		super.harvestBlock(world,player,x,y,z,meta);
-		
-		if (meta == dataLilyFire)KnowledgeRegistrations.LILYFIRE.tryUnlockFragment(player,1F);
 	}
 	
 	@Override
@@ -98,12 +88,9 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		if (world.getBlockMetadata(x,y,z) == dataThornBush){
 			entity.attackEntityFrom(DamageSource.generic,1F);
-			if (world.rand.nextInt(80) == 0 && entity instanceof EntityLivingBase){
-				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id,30+world.rand.nextInt(40),1,true));
-			}
 			
-			if (world.rand.nextInt(66) == 0){
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,8D))KnowledgeRegistrations.INFESTED_FOREST_BIOME.tryUnlockFragment(observer,0.3F,new byte[]{ 1 });
+			if (world.rand.nextInt(80) == 0 && entity instanceof EntityLivingBase && !((EntityLivingBase)entity).isPotionActive(Potion.poison)){
+				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id,30+world.rand.nextInt(40),1,true));
 			}
 		}
 	}

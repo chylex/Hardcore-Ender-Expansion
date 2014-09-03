@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.knowledge.util;
+package chylex.hee.mechanics.compendium.util;
 import net.minecraft.item.ItemStack;
 
 public interface IGuiItemStackRenderer{

@@ -2,7 +2,6 @@ package chylex.hee.tileentity;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import java.util.Random;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -10,8 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.util.ItemDamagePair;
@@ -123,11 +120,6 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 									nbt.setByte("weakness",(byte)0);
 									nbt.setByte("regenBoost",(byte)0);
 									cluster.data.readFromNBT(nbt);
-									
-									for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,6D)){
-										if (KnowledgeRegistrations.ENERGY_EXTRACTION_TABLE.tryUnlockFragment(observer,0.75F).stopTrying)continue;
-										KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,0.4F);
-									}
 								}
 								
 								break;
@@ -145,10 +137,6 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 								worldObj.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+rand.nextInt(3),3);
 								++placed;
 							}
-						}
-						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,6D)){
-							KnowledgeRegistrations.ENERGY_EXTRACTION_TABLE.tryUnlockFragment(observer,0.2F);
 						}
 					}
 				}
@@ -173,10 +161,6 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 				containedEnergy += energy;
 				if ((items[0].stackSize -= 1) <= 0)items[0] = null;
 				if ((items[1].stackSize -= requiredStardust) <= 0)items[1] = null;
-				
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,6D)){
-					KnowledgeRegistrations.ENERGY_EXTRACTION_TABLE.tryUnlockFragment(observer,0.12F);
-				}
 				
 				markDirty();
 				resetExtraction();

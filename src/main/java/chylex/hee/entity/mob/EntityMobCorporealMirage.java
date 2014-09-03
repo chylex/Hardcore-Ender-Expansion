@@ -18,8 +18,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -84,8 +82,6 @@ public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwn
 						e.setAttackTarget(this);
 						e.attackEntityFrom(DamageSource.causeMobDamage(this),0F);
 						faceEntity(e,360F,360F);
-						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.CORPOREAL_MIRAGE_ORB.tryUnlockFragment(observer,0.1F);
 						break;
 					}
 				}
@@ -96,8 +92,6 @@ public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwn
 					if (target instanceof EntityPlayer && ((EntityPlayer)target).getCommandSenderName().equals(name)){
 						ReflectionPublicizer.set(ReflectionPublicizer.entityGhastTarget,e,this);
 						faceEntity(e,360F,360F);
-						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.CORPOREAL_MIRAGE_ORB.tryUnlockFragment(observer,0.1F);
 						break;
 					}
 				}
@@ -126,14 +120,8 @@ public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwn
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (source == DamageSource.drown || source == DamageSource.fallingBlock||
-			source == DamageSource.inWall)return false;
-		
-		if (super.attackEntityFrom(source,MathUtil.floatEquals(amount,-1F) ? 1F : 2F)){
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,12D))KnowledgeRegistrations.CORPOREAL_MIRAGE_ORB.tryUnlockFragment(observer,0.15F);
-			return true;
-		}
-		else return false;
+		if (source == DamageSource.drown || source == DamageSource.fallingBlock|| source == DamageSource.inWall)return false;
+		else return super.attackEntityFrom(source,MathUtil.floatEquals(amount,-1F) ? 1F : 2F);
 	}
 	
 	@Override

@@ -16,9 +16,6 @@ import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.gem.GemData;
 import chylex.hee.mechanics.gem.GemSideEffects;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.data.UnlockResult;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
@@ -78,7 +75,6 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 			float percBroken = itemDamage/(float)is.getMaxDamage();
 			if (percBroken > 0.66F && entity.worldObj.rand.nextFloat()*1.4F < percBroken){
 				GemSideEffects.performRandomEffect(entity,percBroken);
-				if (entity == player)KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment((EntityPlayer)entity,0.26F);
 			}
 			
 			if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.HEAL) && isLiving){
@@ -89,13 +85,6 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 			}
 
 			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
-
-			if (!KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.15F).stopTrying &&
-				KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(player,0.1F,new byte[]{ 7 }) == UnlockResult.NOTHING_TO_UNLOCK){
-				KnowledgeRegistrations.TRANSFERENCE_GEM_ENH.tryUnlockFragment(player,1F);
-			}
-			
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,10D))KnowledgeRegistrations.TRANSFERENCE_GEM.tryUnlockFragment(observer,0.13F);
 		}
 		
 		return is;

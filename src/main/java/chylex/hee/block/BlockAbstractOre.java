@@ -8,7 +8,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
-public abstract class BlockAbstractOre extends BlockOre{
+public abstract class BlockAbstractOre extends BlockOre{ // TODO redundant?
 	protected BlockAbstractOre(){}
 
 	@Override

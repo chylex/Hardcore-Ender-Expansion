@@ -10,8 +10,6 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEven
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackSummon extends DragonSpecialAttackBase{
@@ -59,7 +57,7 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 		}
 		else if (phase == 2){
 			if (summonTimer-- < 0){
-				int rageDiff = dragon.getWorldDifficulty(),amount = 0;
+				int rageDiff = dragon.getWorldDifficulty(), amount = 0;
 				summonTimer = 114-rageDiff*8;
 				if ((rageDiff > 2 && rand.nextInt(4) == 0) || (rageDiff > 1 && rand.nextInt(6) == 0))amount = 1;
 				
@@ -77,11 +75,7 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 					dragon.worldObj.spawnEntityInWorld(buddy);
 				}
 				
-				summoned++;
-				
-				if (rand.nextBoolean()){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,250D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.41F,new byte[]{ 7,13 });
-				}
+				++summoned;
 			}
 			if ((summoned > 4 && rand.nextInt(12)+6 < damageTaken) || summoned > 13)ended = true;
 		}

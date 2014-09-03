@@ -15,8 +15,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.mechanics.misc.EnergyClusterData;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -72,12 +70,6 @@ public class BlockEnergyCluster extends BlockContainer{
 		}
 		else return false;
 		
-		if (world.rand.nextInt(3) == 0){
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,6D)){
-				KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,0.37F,new byte[]{ 2,3,4 });
-			}
-		}
-		
 		tile.synchronize();
 		if (!world.isRemote && !player.capabilities.isCreativeMode)--is.stackSize;
 		
@@ -103,10 +95,6 @@ public class BlockEnergyCluster extends BlockContainer{
 					if (MathUtil.distance(xx-x,yy-y,zz-z) <= 5D && world.getBlock(xx,yy,zz).getMaterial() == Material.air)world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,newMeta,3);
 				}
 			}
-		}
-		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,8D)){
-			KnowledgeRegistrations.ENERGY_CLUSTER.tryUnlockFragment(observer,0.37F,new byte[]{ 0,1 });
 		}
 	}
 	

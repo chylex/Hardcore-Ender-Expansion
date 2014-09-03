@@ -11,7 +11,6 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEven
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.util.DragonUtil;
@@ -104,8 +103,6 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 							break;
 						}
 					}
-					
-					KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(player,0.32F,new byte[]{ 7,14 });
 				}
 			}
 		}

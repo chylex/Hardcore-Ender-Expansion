@@ -51,8 +51,6 @@ import chylex.hee.entity.boss.dragon.managers.DragonRewardManager;
 import chylex.hee.entity.boss.dragon.managers.DragonShotManager;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C01ParticleEndPortalCreation;
 import chylex.hee.packets.client.C06SetPlayerVelocity;
@@ -264,13 +262,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 						
 						worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj,x,y,z));
 						worldObj.spawnEntityInWorld(buddy);
-					}
-					
-					if (rand.nextInt(60) == 0){
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(this,250D)){
-							if (KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.36F,new byte[]{ 0,1,2,3 }).stopTrying)continue;
-							if (isAngry())KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.29F,new byte[]{ 4,5,6,7 });
-						}
 					}
 					
 					lastUpdate = System.currentTimeMillis();
@@ -529,12 +520,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				event.collidedEntity.motionY = event.velocityY;
 				event.collidedEntity.motionZ = event.velocityZ;
 				
-				if (entity instanceof EntityPlayer){
-					PacketPipeline.sendToPlayer((EntityPlayer)entity,new C06SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
-					if (rand.nextInt(13) == 0){
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(entity,100D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.33F,new byte[]{ 0,2,5,6 });
-					}
-				}
+				if (entity instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)entity,new C06SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
 			}
 			// END
 		}
@@ -707,13 +693,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
  			else if (deathTicks == 200)DragonUtil.spawnXP(this,4000);
  			
  			if (deathTicks > 40 && deathTicks < 140)rewards.spawnEssence(worldObj,(int)posX,(int)posZ);
- 			
- 			if (deathTicks > 20 && deathTicks < 110 && deathTicks%15 == 0){
- 				for(EntityPlayer observer:ObservationUtil.getAllObservers(this,250D)){
- 					if (KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.4F,new byte[]{ 15 }).stopTrying)continue;
- 					KnowledgeRegistrations.ALTAR_NEXUS.tryUnlockFragment(observer,0.7F,new byte[]{ 0,1 });
- 				}
- 			}
 		}
  		else if (deathTicks > 20){
  			int amount = 1+deathTicks/40,xx = DragonUtil.portalEffectX,zz = DragonUtil.portalEffectZ;

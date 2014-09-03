@@ -1,124 +1,6 @@
 package chylex.hee.mechanics.knowledge;
-import static chylex.hee.mechanics.knowledge.data.KnowledgeCategory.*;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.block.BlockList;
-import chylex.hee.entity.boss.EntityBossEnderDemon;
-import chylex.hee.entity.boss.EntityMiniBossEnderEye;
-import chylex.hee.entity.boss.EntityMiniBossFireFiend;
-import chylex.hee.entity.mob.EntityMobAngryEnderman;
-import chylex.hee.entity.mob.EntityMobBabyEnderman;
-import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.mob.EntityMobFireGolem;
-import chylex.hee.entity.mob.EntityMobInfestedBat;
-import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
-import chylex.hee.entity.mob.EntityMobScorchingLens;
-import chylex.hee.entity.mob.EntityMobVampiricBat;
-import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.enhancements.EnhancementFragmentUtil;
-import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
-import chylex.hee.mechanics.enhancements.types.SoulCharmEnhancements;
-import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
-import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
-import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
-import chylex.hee.mechanics.knowledge.data.renderer.EntityRenderer;
-import chylex.hee.mechanics.knowledge.data.renderer.EntityRenderer.IEntityInitializer;
-import chylex.hee.mechanics.knowledge.data.renderer.ItemStackRenderer;
-import chylex.hee.mechanics.knowledge.fragment.CraftingKnowledgeFragment;
-import chylex.hee.mechanics.knowledge.fragment.IFragmentUnlockAction;
-import chylex.hee.mechanics.knowledge.fragment.KnowledgeFragment;
-import chylex.hee.mechanics.knowledge.fragment.TextKnowledgeFragment;
-import chylex.hee.system.logging.Stopwatch;
-
+/*
 public final class KnowledgeRegistrations{
-	private static final int dist = 28, hdist = dist/2;
-	
-	public static final KnowledgeRegistration
-		HELP = new KnowledgeRegistration(null,null),
-		
-		ALTAR_NEXUS = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "altarNexus"), //
-		BASIC_ESSENCE_ALTAR = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "basicEssenceAltar"), //
-		DRAGON_ESSENCE = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "dragonEssence"), //
-		DRAGON_ESSENCE_ALTAR = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "dragonEssenceAltar"), //
-		FIERY_ESSENCE = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "fieryEssence"), //
-		FIERY_ESSENCE_ALTAR = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "fieryEssenceAltar"), //
-		SPECTRAL_ESSENCE = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "spectralEssence"),
-		SPECTRAL_ESSENCE_ALTAR = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "spectralEssenceAltar"),
-		DECOMPOSITION_TABLE = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "decompositionTable"), //
-		ENERGY_EXTRACTION_TABLE = new KnowledgeRegistration(ALTARS_AND_ESSENCES, "energyExtractionTable"), //
-		
-		ENDER_PEARLS_ENH = new KnowledgeRegistration(ENHANCEMENTS, "enderPearlsEnh"), //
-		TRANSFERENCE_GEM_ENH = new KnowledgeRegistration(ENHANCEMENTS, "transferenceGemEnh"), //
-		TNT_ENH = new KnowledgeRegistration(ENHANCEMENTS, "tntEnh"), //
-		SOUL_CHARM_ENH = new KnowledgeRegistration(ENHANCEMENTS, "soulCharmEnh"), //
-		ENHANCED_BREWING_STAND = new KnowledgeRegistration(ENHANCEMENTS, "enhancedBrewingStand"), //
-		INSTABILITY_POTION = new KnowledgeRegistration(ENHANCEMENTS, "instabilityPotion"), //
-		
-		BIOME_COMPASS = new KnowledgeRegistration(ENDER_DEXTERITY, "biomeCompass"), //
-		SPATIAL_DASH_GEM = new KnowledgeRegistration(ENDER_DEXTERITY, "spatialDashGem"), //
-		TRANSFERENCE_GEM = new KnowledgeRegistration(ENDER_DEXTERITY, "transferenceGem"),
-		TEMPLE_CALLER = new KnowledgeRegistration(ENDER_DEXTERITY, "templeCaller"), //
-		ENDERMAN_RELIC = new KnowledgeRegistration(ENDER_DEXTERITY, "endermanRelic"), // UPD removed all
-		ENERGY_CLUSTER = new KnowledgeRegistration(ENDER_DEXTERITY, "energyCluster"), //
-		
-		FALLING_OBSIDIAN = new KnowledgeRegistration(BLOCKS_AND_ORES, "fallingObsidian"), //
-		OBSIDIAN_VARIATIONS = new KnowledgeRegistration(BLOCKS_AND_ORES, "specialObsidian"), //
-		SPHALERITE = new KnowledgeRegistration(BLOCKS_AND_ORES, "sphalerite"), //
-		END_POWDER_ORE = new KnowledgeRegistration(BLOCKS_AND_ORES, "endPowderOre"), //
-		STARDUST_ORE = new KnowledgeRegistration(BLOCKS_AND_ORES, "stardustOre"), //
-		IGNEOUS_ROCK_ORE = new KnowledgeRegistration(BLOCKS_AND_ORES, "igneousRockOre"), //
-		INSTABILITY_ORB_ORE = new KnowledgeRegistration(BLOCKS_AND_ORES, "instabilityOrbOre"), //
-		END_POWDER = new KnowledgeRegistration(BLOCKS_AND_ORES, "endPowder"), //
-		STARDUST = new KnowledgeRegistration(BLOCKS_AND_ORES, "stardust"), //
-		IGNEOUS_ROCK = new KnowledgeRegistration(BLOCKS_AND_ORES, "igneousRock"), //
-		INSTABILITY_ORB = new KnowledgeRegistration(BLOCKS_AND_ORES, "instabilityOrb"), //
-		
-		ENDER_DRAGON = new KnowledgeRegistration(CREATURES, "enderDragon"), //
-		ENDER_EYE = new KnowledgeRegistration(CREATURES, "enderEye"), //
-		FIRE_FIEND = new KnowledgeRegistration(CREATURES, "fireFiend"), //
-		ENDER_DEMON = new KnowledgeRegistration(CREATURES, "enderDemon"), // UPD removed all
-		ANGRY_ENDERMAN = new KnowledgeRegistration(CREATURES, "angryEnderman"), //
-		BABY_ENDERMAN = new KnowledgeRegistration(CREATURES, "babyEnderman"), //
-		PARALYZED_ENDERMAN = new KnowledgeRegistration(CREATURES, "paralyzedEnderman"), //
-		ENDER_GUARDIAN = new KnowledgeRegistration(CREATURES, "enderGuardian"), //
-		VAMPIRIC_BAT = new KnowledgeRegistration(CREATURES, "vampiricBat"), //
-		INFESTED_BAT = new KnowledgeRegistration(CREATURES, "infestedBat"), //
-		FIRE_GOLEM = new KnowledgeRegistration(CREATURES, "fireGolem"), //
-		SCORCHING_LENS = new KnowledgeRegistration(CREATURES, "scorchingLens"), //
-		
-		SILVERFISH_BLOOD = new KnowledgeRegistration(ETHEREAL_COGNITION, "silverfishBlood"), //
-		DRY_SPLINTER = new KnowledgeRegistration(ETHEREAL_COGNITION, "drySplinter"), //
-		INFESTATION_REMEDY = new KnowledgeRegistration(ETHEREAL_COGNITION, "infestationRemedy"), //
-		SPOOKY_TREES = new KnowledgeRegistration(ETHEREAL_COGNITION, "spookyTrees"), //
-		GHOST_AMULET = new KnowledgeRegistration(ETHEREAL_COGNITION, "ghostAmulet"), //
-		ECTOPLASM = new KnowledgeRegistration(ETHEREAL_COGNITION, "endoplasm"), //
-		CORPOREAL_MIRAGE_ORB = new KnowledgeRegistration(ETHEREAL_COGNITION, "corporealMirageOrb"), //
-		SOUL_CHARM = new KnowledgeRegistration(ETHEREAL_COGNITION, "soulCharm"), //
-		SPECTRAL_WAND = new KnowledgeRegistration(ETHEREAL_COGNITION, "spectralWand"), //
-		
-		DRAGON_LAIR = new KnowledgeRegistration(ENVIRONMENT_STRUCTURES, "dragonLair"), //
-		ENDSTONE_BLOB = new KnowledgeRegistration(ENVIRONMENT_STRUCTURES, "endstoneBlob"), //
-		DUNGEON_TOWER = new KnowledgeRegistration(ENVIRONMENT_STRUCTURES, "dungeonTower"), //
-		METEOROID = new KnowledgeRegistration(ENVIRONMENT_STRUCTURES, "meteoroid"), //
-		INFESTED_FOREST_BIOME = new KnowledgeRegistration(ENVIRONMENT_STRUCTURES, "infestedForestBiome"), //
-		BURNING_MOUNTAINS_BIOME = new KnowledgeRegistration(ENVIRONMENT_STRUCTURES, "burningMountainsBiome"), //
-		ENCHANTED_ISLAND_BIOME = new KnowledgeRegistration(ENVIRONMENT_STRUCTURES, "enchantedIslandBiome"), //
-		
-		KNOWLEDGE_FRAGMENT = new KnowledgeRegistration(MISCELLANEOUS, "knowledgeFragment"), //
-		ADVENTURERS_DIARY = new KnowledgeRegistration(MISCELLANEOUS, "adventurersDiary"), //
-		ENDER_GOO = new KnowledgeRegistration(MISCELLANEOUS, "enderGoo"), //
-		DEATH_FLOWER = new KnowledgeRegistration(MISCELLANEOUS, "deathFlower"), //
-		LILYFIRE = new KnowledgeRegistration(MISCELLANEOUS, "lilyfire"), //
-		ENDERMAN_HEAD = new KnowledgeRegistration(MISCELLANEOUS, "endermanHead"), //
-		MUSIC_DISCS = new KnowledgeRegistration(MISCELLANEOUS, "musicDiscs"); //
-	
 	public static void initialize(){
 		Stopwatch.time("KnowledgeRegistrations");
 		
@@ -129,10 +11,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(2).setLocalizedText("After you gain a knowledge fragment, open the book to see it immediately."),
 			new TextKnowledgeFragment(3).setLocalizedText("Some fragments may not be fully researched at first, and another fragment will have to be unlocked to clarify it.")
 		});
-		
-		/*
-		 * ALTARS AND ESSENCES
-		 */
 		
 		ALTAR_NEXUS
 		.setPosition(0,dist*3-hdist)
@@ -230,10 +108,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(6).setLocalizedText("Leaking can be massively suppressed by placing Instability Orbs into the Table.").setUnlockRequirements(5)
 		});
 		
-		/*
-		 * ENHANCEMENTS
-		 */
-		
 		ENDER_PEARLS_ENH
 		.setPosition(-dist,-hdist)
 		.setRenderer(new ItemStackRenderer(Items.ender_pearl).setTooltip("Ender Pearl Enhancements"))
@@ -281,10 +155,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(0).setLocalizedText("Unstable potion, which will cause random effects when drank."),
 			new TextKnowledgeFragment(1).setLocalizedText("Splash potion will give everybody a different effect.").setUnlockRequirements(0)
 		});
-		
-		/*
-		 * ENDER DEXTERITY
-		 */
 		
 		BIOME_COMPASS
 		.setPosition(-dist-hdist,0)
@@ -341,7 +211,7 @@ public final class KnowledgeRegistrations{
 			new CraftingKnowledgeFragment(5).setRecipeFromRegistry(new ItemStack(ItemList.enderman_relic)).setUnlockRequirements(4),
 			new TextKnowledgeFragment(6).setLocalizedText("Repaired relic will drain all powers from Endermen, which attack the owner, turn them into Paralyzed Endermen, and damage the relic in the process.").setUnlockRequirements(5),
 			new TextKnowledgeFragment(7).setLocalizedText("The relic can be repaired using energy from Energy Clusters.").setUnlockRequirements(6)*/
-		});
+		/*});
 		
 		ENERGY_CLUSTER
 		.setPosition(0,0)
@@ -355,10 +225,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(5).setLocalizedText("New clusters can be created using Energy Extraction Table.").setUnlockRequirements(0),
 			new TextKnowledgeFragment(6).setLocalizedText("Spectral Wand can move the clusters, one at a time.").setUnlockRequirements(0)
 		});
-		
-		/*
-		 * BLOCKS AND ORES
-		 */
 		
 		FALLING_OBSIDIAN
 		.setPosition(-hdist,-dist)
@@ -485,10 +351,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(4).setLocalizedText("Inside an Energy Extraction Table, it stabilizes the stored Energy and prevents it from leaking into the world.")
 		});
 		
-		/*
-		 * CREATURES
-		 */
-		
 		ENDER_DRAGON
 		.setPosition(0,-dist*3+hdist)
 		.setRenderer(new EntityRenderer(EntityDragon.class,0.95F).setRotation(-127F).setTooltip("Ender Dragon"))
@@ -552,7 +414,7 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(3).setLocalizedText("When enough damage has been dealt, it will quickly strike purple lightning, which causes massive amount of damage to the demon if it hits ?????.").setReplacedBy(4).setUnlockRequirements(1,2),
 			new TextKnowledgeFragment(4).setLocalizedText("When enough damage has been dealt, it will quickly strike purple lightning, which causes massive amount of damage to the demon if it hits water.").setReplacementFor(3).setUnlockRequirements(3),
 			new TextKnowledgeFragment(5).setLocalizedText("Death is followed by lightning strikes, and the demon drops second piece of Shattered Enderman Relic.").setUnlockRequirements(4)*/
-		});
+		/*});
 		
 		ANGRY_ENDERMAN
 		.setPosition(-dist*3,dist*2)
@@ -642,10 +504,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(3).setLocalizedText("Drops ??? Igneous Rock and ??? Fiery Essence.").setReplacedBy(4),
 			new TextKnowledgeFragment(4).setLocalizedText("Drops 0-2 Igneous Rock and 1-2 Fiery Essence.").setReplacementFor(3).setUnlockRequirements(3)
 		});
-		
-		/*
-		 * ETHEREAL COGNITION
-		 */
 		
 		SILVERFISH_BLOOD
 		.setPosition(-dist*3,-dist)
@@ -738,10 +596,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(2).setLocalizedText("Releasing a captured Energy Cluster will weaken it and halve its energy.").setUnlockRequirements(1)
 		});
 		
-		/*
-		 * ENVIRONMENT STRUCTURES
-		 */
-		
 		DRAGON_LAIR
 		.setPosition(dist*2+hdist,0)
 		.setRenderer(new ItemStackRenderer(Blocks.dragon_egg).setTooltip("Dragon Lair"))
@@ -820,10 +674,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(4).setLocalizedText("Inside the terrain can be found Block Stashes, which are rectangular rooms with piles of blocks stolen by Endermen.").setUnlockRequirements(1,2)
 		});
 		
-		/*
-		 * MISCELLANEOUS
-		 */
-		
 		KNOWLEDGE_FRAGMENT
 		.setPosition(dist,-dist*2)
 		.setRenderer(new ItemStackRenderer(ItemList.knowledge_fragment))
@@ -890,4 +740,4 @@ public final class KnowledgeRegistrations{
 	}
 	
 	private KnowledgeRegistrations(){}
-}
+}*/

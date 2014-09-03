@@ -18,9 +18,6 @@ import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobForestGhost;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.data.UnlockResult;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C20Effect;
@@ -77,17 +74,6 @@ public class BlockSpookyLog extends Block{
 						
 						PacketPipeline.sendToPlayer(closest,new C08PlaySound(C08PlaySound.GHOST_DEATH,closest.posX,closest.posY,closest.posZ,1.8F,0.9F+world.rand.nextFloat()*0.3F));
 						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(closest,6D)){
-							if (KnowledgeRegistrations.GHOST_AMULET.tryUnlockFragment(observer,0.18F).stopTrying)continue;
-							if (KnowledgeRegistrations.ECTOPLASM.tryUnlockFragment(observer,0.1F).stopTrying)continue;
-							
-							switch(world.rand.nextInt(3)){
-								case 0: KnowledgeRegistrations.CORPOREAL_MIRAGE_ORB.tryUnlockFragment(observer,0.05F,new byte[]{ 0 }); break;
-								case 1: KnowledgeRegistrations.SOUL_CHARM.tryUnlockFragment(observer,0.07F,new byte[]{ 0,1 }); break;
-								case 2: KnowledgeRegistrations.SPECTRAL_WAND.tryUnlockFragment(observer,0.1F); break;
-							}
-						}
-						
 						foundAmulet = true;
 						break;
 					}
@@ -104,21 +90,7 @@ public class BlockSpookyLog extends Block{
 			}
 		}
 		
-		if (!world.isRemote && world.rand.nextInt(8) == 0){
-			dropBlockAsItem(world,x,y,z,new ItemStack(ItemList.dry_splinter));
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,14D)){
-				if (KnowledgeRegistrations.DRY_SPLINTER.tryUnlockFragment(observer,0.5F) == UnlockResult.NOTHING_TO_UNLOCK){
-					KnowledgeRegistrations.INFESTATION_REMEDY.tryUnlockFragment(observer,0.23F);
-				}
-			}
-		}
-		
-		if (!world.isRemote){
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(world,x+0.5D,y+0.5D,z+0.5D,14D)){
-				if (KnowledgeRegistrations.SPOOKY_TREES.tryUnlockFragment(observer,0.1F).stopTrying)continue;
-				KnowledgeRegistrations.GHOST_AMULET.tryUnlockFragment(observer,0.04F);
-			}
-		}
+		if (!world.isRemote && world.rand.nextInt(8) == 0)dropBlockAsItem(world,x,y,z,new ItemStack(ItemList.dry_splinter));
 
 		if (world.getBlock(x,y+1,z) == this){
 			dropBlockAsItemWithChance(world,x,y+1,z,world.getBlockMetadata(x,y+1,z),chance,fortune);

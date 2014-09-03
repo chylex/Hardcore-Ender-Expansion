@@ -1,13 +1,10 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.CollisionEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackPunch extends DragonSpecialAttackBase{
@@ -53,12 +50,9 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 				if (target != null){
 					if (tick > 20)speed = 4F;
 					
-					double dist = dragon.dragonPartHead.getDistanceSqToEntity(tempTarget);
-					if (dist < 35D){
+					if (dragon.dragonPartHead.getDistanceSqToEntity(tempTarget) < 35D){
 						target.attackEntityFrom(DamageSource.causeMobDamage(dragon),2+dragon.getWorldDifficulty());
 						ended = true;
-						
-						for(EntityPlayer observer:ObservationUtil.getAllObservers(dragon,100D))KnowledgeRegistrations.ENDER_DRAGON.tryUnlockFragment(observer,0.3F,new byte[]{ 7,11 });
 					}
 				}
 			}

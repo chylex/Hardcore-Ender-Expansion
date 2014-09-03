@@ -71,7 +71,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		else return false;
 	}
 	
-	public boolean tryDiscoverBlock(KnowledgeObject<ObjectBlock> block, boolean addReward){
+	public boolean tryDiscoverBlock(KnowledgeObject<ObjectBlock> block, boolean addReward){ System.out.println("discover block "+block.getObject().getUnderlyingObject());
 		if (discoveredBlocks.addObject(block.getObject())){
 			onDiscover(block,addReward);
 			return true;
@@ -83,7 +83,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		return discoveredBlocks.hasDiscoveredObject(block.getObject());
 	}
 	
-	public boolean tryDiscoverItem(KnowledgeObject<ObjectItem> item, boolean addReward){
+	public boolean tryDiscoverItem(KnowledgeObject<ObjectItem> item, boolean addReward){ System.out.println("discover item "+item.getObject().getUnderlyingObject());
 		if (discoveredItems.addObject(item.getObject())){
 			onDiscover(item,addReward);
 			return true;
@@ -95,7 +95,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		return discoveredItems.hasDiscoveredObject(item.getObject());
 	}
 	
-	public boolean tryDiscoverMob(KnowledgeObject<ObjectMob> mob, boolean addReward){
+	public boolean tryDiscoverMob(KnowledgeObject<ObjectMob> mob, boolean addReward){ System.out.println("discover mob "+mob.getObject().getUnderlyingObject().getSimpleName());
 		if (discoveryMobs.addObject(mob.getObject())){
 			onDiscover(mob,addReward);
 			return true;

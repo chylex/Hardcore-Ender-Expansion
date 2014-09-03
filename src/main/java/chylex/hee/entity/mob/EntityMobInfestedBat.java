@@ -1,11 +1,8 @@
 package chylex.hee.entity.mob;
 import net.minecraft.entity.passive.EntityBat;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 
 public class EntityMobInfestedBat extends EntityBat{
 	public EntityMobInfestedBat(World world){
@@ -16,15 +13,6 @@ public class EntityMobInfestedBat extends EntityBat{
 	protected void entityInit(){
 		super.entityInit();
 		dataWatcher.addObject(17,0.35F+rand.nextFloat()*0.35F);
-	}
-	
-	@Override
-	protected void dropFewItems(boolean recentlyHit, int looting){
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,8D)){
-			if (KnowledgeRegistrations.INFESTED_BAT.tryUnlockFragment(observer,0.3F,new byte[]{ 0,1 }).stopTrying)continue;
-			if (rand.nextInt(3) == 0)KnowledgeRegistrations.ENHANCED_BREWING_STAND.tryUnlockFragment(observer,0.3F,new byte[]{ 4 });
-			else KnowledgeRegistrations.INFESTATION_REMEDY.tryUnlockFragment(observer,0.4F);
-		}
 	}
 	
 	public float getScale(){

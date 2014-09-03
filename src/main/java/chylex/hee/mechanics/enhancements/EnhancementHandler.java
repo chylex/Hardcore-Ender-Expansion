@@ -17,8 +17,6 @@ import chylex.hee.mechanics.enhancements.SlotList.SlotType;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 
 public final class EnhancementHandler{
 	private static final IdentityHashMap<Item, EnhancementData> itemMap = new IdentityHashMap<>(8);
@@ -28,27 +26,27 @@ public final class EnhancementHandler{
 		
 		itemMap.put(
 			Items.ender_pearl,
-			new EnhancementData(EnderPearlEnhancements.class, KnowledgeRegistrations.ENDER_PEARLS_ENH, ItemList.enhanced_ender_pearl, p, i, p)
+			new EnhancementData(EnderPearlEnhancements.class, ItemList.enhanced_ender_pearl, p, i, p)
 		);
 		
 		itemMap.put(
 			ItemList.enhanced_ender_pearl,
-			new EnhancementData(EnderPearlEnhancements.class, KnowledgeRegistrations.ENDER_PEARLS_ENH, ItemList.enhanced_ender_pearl, p, i, p)
+			new EnhancementData(EnderPearlEnhancements.class, ItemList.enhanced_ender_pearl, p, i, p)
 		);
 		
 		itemMap.put(
 			ItemList.transference_gem,
-			new EnhancementData(TransferenceGemEnhancements.class, KnowledgeRegistrations.TRANSFERENCE_GEM_ENH, ItemList.transference_gem, p, p, p, i, p, p, p)
+			new EnhancementData(TransferenceGemEnhancements.class, ItemList.transference_gem, p, p, p, i, p, p, p)
 		);
 		
 		itemMap.put(
 			Item.getItemFromBlock(Blocks.tnt),
-			new EnhancementData(TNTEnhancements.class, KnowledgeRegistrations.TNT_ENH, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
+			new EnhancementData(TNTEnhancements.class, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
 		);
 		
 		itemMap.put(
 			Item.getItemFromBlock(BlockList.enhanced_tnt),
-			new EnhancementData(TNTEnhancements.class, KnowledgeRegistrations.TNT_ENH, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
+			new EnhancementData(TNTEnhancements.class, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
 		);
 		
 		//itemMap.put(Item.getItemFromBlock(BlockList.soul_charm), new EnhancementData(SoulCharmEnhancements.class));
@@ -64,10 +62,6 @@ public final class EnhancementHandler{
 	
 	public static SlotList getEnhancementSlotsForItem(Item item){
 		return canEnhanceItem(item) ? itemMap.get(item).slots : new SlotList();
-	}
-	
-	public static KnowledgeRegistration getEnhancementKnowledgeRegistrationForItem(Item item){
-		return canEnhanceItem(item) ? itemMap.get(item).knowledgeRegistration : null;
 	}
 	
 	public static List<Enum> getEnhancements(ItemStack is){

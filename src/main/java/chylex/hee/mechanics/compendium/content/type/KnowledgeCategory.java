@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.item.ItemStack;
-import chylex.hee.mechanics.knowledge.util.IGuiItemStackRenderer;
+import chylex.hee.mechanics.compendium.util.IGuiItemStackRenderer;
 
 public class KnowledgeCategory implements IGuiItemStackRenderer{
 	public static final byte iconSize = 44;

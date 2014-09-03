@@ -12,7 +12,6 @@ import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemKnowledgeFragment;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemMusicDisk;
-import chylex.hee.mechanics.knowledge.util.FragmentWeightLists;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.IItemPostProcessor;
 import chylex.hee.world.loot.ItemUtil;

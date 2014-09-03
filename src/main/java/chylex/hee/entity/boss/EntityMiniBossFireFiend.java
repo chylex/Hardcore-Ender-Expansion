@@ -24,8 +24,6 @@ import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C12ParticleFireFiendFlames;
 import chylex.hee.proxy.ModCommonProxy;
@@ -121,8 +119,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				spawnTimer = 0;
 				motionY += 0.4D;
 			}
-			
-			for(EntityPlayer observer:ObservationUtil.getAllObservers(this,20D))KnowledgeRegistrations.FIRE_FIEND.tryUnlockFragment(observer,1F,new byte[]{ 0,1 });
 		}
 	}
 	
@@ -159,10 +155,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				fireballAttackTimer = (byte)(23-worldObj.difficultySetting.getDifficultyId()*2);
 				EntityPlayer target = players.get(rand.nextInt(players.size()));
 				worldObj.spawnEntityInWorld(new EntityProjectileGolemFireball(worldObj,this,posX,posY-0.2D,posZ,target.posX-posX,target.posY-posY,target.posZ-posZ));
-				
-				if (rand.nextBoolean() && rand.nextBoolean()){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(this,60D))KnowledgeRegistrations.FIRE_FIEND.tryUnlockFragment(observer,0.67F,new byte[]{ 0,1,2 });
-				}
 			}
 
 			return;
@@ -206,10 +198,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			}
 			else if (attackStage == STAGE_CREATING){
 				if (--fireballAttackTimer < 0)attackStage = STAGE_SHOOTING;
-				
-				if (rand.nextInt(18) == 0){
-					for(EntityPlayer observer:ObservationUtil.getAllObservers(this,60D))KnowledgeRegistrations.FIRE_FIEND.tryUnlockFragment(observer,0.15F,new byte[]{ 0,1,2,3 });
-				}
 			}
 			else if (attackStage == STAGE_SHOOTING){
 				if (--fireballAttackTimer < 0){
@@ -219,10 +207,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 						
 						double ballX = target.posX+offset[0],ballY = target.posY+offset[1]+1.5D,ballZ = target.posZ+offset[2];
 						worldObj.spawnEntityInWorld(new EntityProjectileGolemFireball(worldObj,this,ballX,ballY,ballZ,target.posX-ballX,target.boundingBox.minY+target.height*0.5F-ballY,target.posZ-ballZ));
-						
-						if (rand.nextInt(10) == 0){
-							for(EntityPlayer observer:ObservationUtil.getAllObservers(this,60D))KnowledgeRegistrations.FIRE_FIEND.tryUnlockFragment(observer,0.3F,new byte[]{ 0,1,2,3,4 });
-						}
 						
 						iter.remove();
 						fireballAttackTimer = (byte)(10+rand.nextInt(10)-worldObj.difficultySetting.getDifficultyId()*2);
@@ -255,10 +239,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			e.setFire(2+rand.nextInt(3));
 			e.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs?9F:5F);
 			++damageInflicted;
-			
-			if (e instanceof EntityPlayer && rand.nextInt(15) == 0){
-				KnowledgeRegistrations.FIRE_FIEND.tryUnlockFragment((EntityPlayer)e,0.1F,new byte[]{ 0,1,2,3,4 });
-			}
 		}
 		
 		moveForward *= 0.6F;
@@ -289,8 +269,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
 		for(int a = 0; a < 60; a++)entityDropItem(new ItemStack(ItemList.essence,2,EssenceType.FIERY.getItemDamage()),rand.nextFloat()*height);
-		
-		for(EntityPlayer observer:ObservationUtil.getAllObservers(this,60D))KnowledgeRegistrations.FIRE_FIEND.tryUnlockFragment(observer,1F,new byte[]{ 5,6 });
 	}
 	
 	@Override

@@ -10,7 +10,7 @@ import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import chylex.hee.gui.GuiKnowledgeBook;
+import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
@@ -109,11 +109,11 @@ public class CraftingKnowledgeFragment extends KnowledgeFragment{
 						RenderHelper.disableStandardItemLighting();
 						GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 					}
-					else if (isUnlocked && GuiKnowledgeBook.mouseX > xx+1 && GuiKnowledgeBook.mouseX < xx+18 && GuiKnowledgeBook.mouseY >= yy+1 && GuiKnowledgeBook.mouseY <= yy+18){
+					else if (isUnlocked && GuiEnderCompendium.mouseX > xx+1 && GuiEnderCompendium.mouseX < xx+18 && GuiEnderCompendium.mouseY >= yy+1 && GuiEnderCompendium.mouseY <= yy+18){
 						StringBuilder build = new StringBuilder();
 						List<String> tooltip = is.getTooltip(mc.thePlayer,false);
 						for(String line:tooltip)build.append(line).append("\n");
-						GuiItemRenderHelper.drawTooltip((GuiKnowledgeBook)mc.currentScreen,mc.fontRenderer,GuiKnowledgeBook.mouseX,GuiKnowledgeBook.mouseY,build.toString());
+						GuiItemRenderHelper.drawTooltip((GuiEnderCompendium)mc.currentScreen,mc.fontRenderer,GuiEnderCompendium.mouseX,GuiEnderCompendium.mouseY,build.toString());
 					}
 				}
 	

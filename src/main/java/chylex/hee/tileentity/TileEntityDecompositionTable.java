@@ -3,12 +3,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.knowledge.KnowledgeRegistrations;
-import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.system.util.ItemDamagePair;
 import cpw.mods.fml.relauncher.Side;
@@ -61,10 +58,6 @@ public class TileEntityDecompositionTable extends TileEntityAbstractInventory im
 				
 				items[0] = null;
 				if ((items[1].stackSize -= requiredStardust) <= 0)items[1] = null;
-				
-				for(EntityPlayer observer:ObservationUtil.getAllObservers(worldObj,xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,6D)){
-					KnowledgeRegistrations.DECOMPOSITION_TABLE.tryUnlockFragment(observer,0.15F);
-				}
 
 				markDirty();
 				resetDecomposition();
