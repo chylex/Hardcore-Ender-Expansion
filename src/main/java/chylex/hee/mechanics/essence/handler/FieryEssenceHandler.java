@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraft.tileentity.TileEntityFurnace;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
+import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.knowledge.util.ObservationUtil;
 import chylex.hee.packets.PacketPipeline;
@@ -42,10 +43,11 @@ public class FieryEssenceHandler extends AltarActionHandler{
 			zz = altar.zCoord+rand.nextInt(range)-(range>>1);
 			
 			Block block = altar.getWorldObj().getBlock(xx,yy,zz);
+			TileEntity tile = altar.getWorldObj().getTileEntity(xx,yy,zz);
 			drained = false;
 			
-			if (block == Blocks.lit_furnace){
-				TileEntityFurnace furnace = (TileEntityFurnace)altar.getWorldObj().getTileEntity(xx,yy,zz);
+			if (block == Blocks.lit_furnace || tile instanceof TileEntityFurnace){
+				TileEntityFurnace furnace = (TileEntityFurnace)tile;
 				
 				if (furnace != null && furnace.isBurning() && canFurnaceSmelt(furnace)){
 					n = 1+Math.min(8,level>>6)+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST?(socketBoost>>2):0);
@@ -65,17 +67,6 @@ public class FieryEssenceHandler extends AltarActionHandler{
 					return;
 				}
 			}
-			/*else if (block == BlockList.infestation_cauldron && CauldronState.getByMeta(altar.getWorldObj().getBlockMetadata(xx,yy,zz)).isCooking&&
-					 altar.getWorldObj().getBlock(xx,yy-1,zz) == Blocks.fire && rand.nextInt(Math.max(5,30-level>>4)) == 0){
-				BlockList.infestation_cauldron.updateTick(altar.getWorldObj(),xx,yy,zz,rand);
-				
-				for(int drain = 0; drain < 32; drain++){
-					if (tryDrainEssence())break;
-				}
-				
-				createOrbParticle(xx,yy,zz);
-				return;
-			}*/
 			else if (block == Blocks.brewing_stand){
 				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorldObj().getTileEntity(xx,yy,zz);
 				
@@ -93,20 +84,16 @@ public class FieryEssenceHandler extends AltarActionHandler{
 					}
 				}
 			}
-			else{
-				TileEntity tile = altar.getWorldObj().getTileEntity(xx,yy,zz);
+			else if (tile instanceof IAcceptFieryEssence){
+				IAcceptFieryEssence acceptor = (IAcceptFieryEssence)tile;
+				n = acceptor.getBoostAmount(level);
 				
-				if (tile instanceof IAcceptFieryEssence){
-					IAcceptFieryEssence acceptor = (IAcceptFieryEssence)tile;
-					n = acceptor.getBoostAmount(level);
+				for(int b = 0; b < n; b++){
+					acceptor.boost();
 					
-					for(int b = 0; b < n; b++){
-						acceptor.boost();
-						
-						if (tryDrainEssence()){
-							drained = true;
-							if (--level <= 0)break;
-						}
+					if (tryDrainEssence()){
+						drained = true;
+						if (--level <= 0)break;
 					}
 				}
 			}
