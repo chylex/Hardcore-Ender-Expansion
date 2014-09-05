@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Mouse;
@@ -86,10 +85,9 @@ public class GuiItemViewer extends GuiScreen{
 		else if (wheel > 0)yStart = Math.max(0,yStart-12);
 		
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		RenderHelper.enableGUIStandardItemLighting();
-		
 		GL11.glScalef(8F,8F,8F);
-		for(int a = yStart,xx = 0,yy = 0; a < toRender.size(); a++){
+		
+		for(int a = yStart, xx = 0, yy = 0; a < toRender.size(); a++){
 			drawRect(2+xx*17,2+yy*17,1+(xx+1)*17,1+(yy+1)*17,(255<<24)|(180<<16)|(180<<8)|180);
 			GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(),toRender.get(a),2+xx*17,2+yy*17);
 			if (++xx == 12){
@@ -98,7 +96,6 @@ public class GuiItemViewer extends GuiScreen{
 			}
 		}
 		
-		RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 	}
 }

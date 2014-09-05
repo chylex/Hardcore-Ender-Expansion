@@ -1,5 +1,4 @@
 package chylex.hee.gui;
-import gnu.trove.set.hash.TShortHashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -16,15 +15,17 @@ import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.mechanics.enhancements.EnhancementFragmentUtil;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragmentEnhancement;
+import chylex.hee.mechanics.compendium.events.CompendiumEvents;
+import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.mechanics.enhancements.SlotList;
-import chylex.hee.mechanics.knowledge.fragment.EnhancementKnowledgeFragment;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C09GuiEnhancementsUpdateItems;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.DragonUtil;
 
 public class ContainerEndPowderEnhancements extends Container{
 	private EntityPlayerMP owner;
@@ -141,11 +142,12 @@ public class ContainerEndPowderEnhancements extends Container{
 			clientEnhancementTooltips[a] = "";
 		}
 		
-		TShortHashSet unlockedEnhancements = mainIS == null || HardcoreEnderExpansion.proxy.getClientSidePlayer() == null ? new TShortHashSet(1) : EnhancementFragmentUtil.getUnlockedEnhancements(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),HardcoreEnderExpansion.proxy.getClientSidePlayer());
+		EntityPlayer player = HardcoreEnderExpansion.proxy.getClientSidePlayer();
+		PlayerCompendiumData compendiumData = mainIS != null && player != null ? CompendiumEvents.getPlayerData(player) : null;
 		
 		for(int a = 0; a < (enhancements == null ? 0 : enhancements.size()); a++){
 			IEnhancementEnum enhancement = enhancements.get(a);
-			ItemStack is = unlockedEnhancements.contains((short)a) ? enhancement.getItemSelector().getRepresentativeItem() : new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
+			ItemStack is = compendiumData != null && compendiumData.hasUnlockedFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement)) ? enhancement.getItemSelector().getRepresentativeItem() : new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
 			clientEnhancementItems[a] = is;
 		}
 	}
@@ -249,7 +251,7 @@ public class ContainerEndPowderEnhancements extends Container{
 				
 				if (getSlot(0).getStack() == null)onSubjectChanged();
 				
-				if (EnhancementFragmentUtil.unlockEnhancement(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),(Enum)selectedEnhancement,owner)){
+				if (CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement))){
 					PacketPipeline.sendToPlayer(owner,new C09GuiEnhancementsUpdateItems());
 				}
 				
@@ -291,7 +293,7 @@ public class ContainerEndPowderEnhancements extends Container{
 				}
 				
 				if (rand.nextInt(ingredientsBroken > 0 ? 7 : 9) == 0){
-					EnhancementFragmentUtil.unlockEnhancement(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),(Enum)selectedEnhancement,owner);
+					CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement));
 					PacketPipeline.sendToPlayer(owner,new C09GuiEnhancementsUpdateItems());
 				}
 				
@@ -304,16 +306,19 @@ public class ContainerEndPowderEnhancements extends Container{
 		ItemStack mainIS = getSlot(0).getStack();
 		List<IEnhancementEnum> enhancements = mainIS == null ? null : EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
 		List<Enum> currentEnhancements = mainIS == null ? new ArrayList<Enum>(1) : EnhancementHandler.getEnhancements(mainIS);
-		TShortHashSet unlockedEnhancements = mainIS == null || HardcoreEnderExpansion.proxy.getClientSidePlayer() == null ? new TShortHashSet(1) : EnhancementFragmentUtil.getUnlockedEnhancements(EnhancementHandler.getEnhancementKnowledgeRegistrationForItem(mainIS.getItem()),HardcoreEnderExpansion.proxy.getClientSidePlayer());
+		
+		EntityPlayer player = HardcoreEnderExpansion.proxy.getClientSidePlayer();
+		PlayerCompendiumData compendiumData = mainIS != null && player != null ? CompendiumEvents.getPlayerData(player) : null;
+		
 		StringBuilder build = new StringBuilder();
 		
 		for(int a = 0; a < (enhancements == null ? 0 : enhancements.size()); a++){
 			IEnhancementEnum enhancement = enhancements.get(a);
 
 			clientEnhancementTooltips[a] = build.append(EnumChatFormatting.LIGHT_PURPLE)
-				.append(EnhancementKnowledgeFragment.stripColorCodes(enhancement.getName())).append("\n")
+				.append(DragonUtil.stripChatFormatting(enhancement.getName())).append("\n")
 				.append(EnumChatFormatting.GRAY).append(currentEnhancements.contains(enhancement) ? "Already enhanced" : (selectedSlot == a ? "Click to enhance" : "Click to select"))
-				.append(unlockedEnhancements.contains((short)a) ? "" : "\n\nUnlock Ender Compendium knowledge\nto see the ingredient.")
+				.append(compendiumData == null || compendiumData.hasUnlockedFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement)) ? "" : "\n\nUnlock Ender Compendium fragment\nto see the ingredient.")
 				.toString();
 			
 			clientEnhancementBlocked[a] = currentEnhancements.contains(enhancement);

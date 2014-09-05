@@ -28,7 +28,6 @@ import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
-import chylex.hee.mechanics.knowledge.util.FragmentWeightLists;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;

@@ -1,9 +1,7 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
 import chylex.hee.packets.AbstractClientPacket;
-import chylex.hee.render.OverlayManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -43,12 +41,13 @@ public class C03KnowledgeRegistrationNotification extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		if (lengthOrStatus > 0){
+		// TODO
+		/*if (lengthOrStatus > 0){
 			KnowledgeRegistration reg = KnowledgeRegistration.lookup.get(registration);
 			if (reg != null)OverlayManager.addNotification("Unlocked new knowledge about "+reg.getRenderer().getTooltip());
 		}
 		else if (lengthOrStatus == -1)OverlayManager.addNotification("Unlocked new knowledge, but there was nothing to write it on");
 		else if (lengthOrStatus == -2)OverlayManager.addNotification("Ender Compendium is required to read the fragment.");
-		else if (lengthOrStatus == -3)OverlayManager.addNotification("There is nothing you can learn from this fragment.");
+		else if (lengthOrStatus == -3)OverlayManager.addNotification("There is nothing you can learn from this fragment.");*/
 	}
 }

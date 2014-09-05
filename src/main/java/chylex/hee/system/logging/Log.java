@@ -1,5 +1,11 @@
 package chylex.hee.system.logging;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Properties;
 import net.minecraft.launchwrapper.Launch;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +18,20 @@ public final class Log{
 	
 	static{
 		isDeobfEnvironment = ((Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment")).booleanValue();
+		
+		if (isDeobfEnvironment && MinecraftServer.getServer() instanceof DedicatedServer){
+			File eula = new File("eula.txt");
+			FileOutputStream fos = null;
+
+			try{
+				fos = new FileOutputStream(eula);
+				Properties properties = new Properties();
+				properties.setProperty("eula","true");
+				properties.store(fos,"By changing the setting below to TRUE you are indicating your agreement to our EULA (https://account.mojang.com/documents/minecraft_eula).");
+			}catch(Exception exception){}finally{
+				IOUtils.closeQuietly(fos);
+			}
+		}
 	}
 	
 	public static boolean isDebugEnabled(){

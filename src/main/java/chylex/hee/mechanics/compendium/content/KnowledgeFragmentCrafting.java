@@ -1,13 +1,11 @@
 package chylex.hee.mechanics.compendium.content;
 import java.util.List;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.item.ItemList;
@@ -16,7 +14,7 @@ import chylex.hee.system.logging.Log;
 import com.google.common.base.Joiner;
 
 public class KnowledgeFragmentCrafting extends KnowledgeFragment{
-	private static final ItemStack lockedItem = new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
+	public static final ItemStack lockedItem = new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
 	
 	private ItemStack[] items;
 	
@@ -54,29 +52,19 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	@Override
 	public void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		GL11.glColor4f(1F,1F,1F,1F);
-		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragmentCrafting);
+		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
 		gui.drawTexturedModalRect(x,y,0,0,58,88);
 		
 		if (items == null)return;
 		
-		for(int cycle = 0; cycle < 2; cycle++){
+		for(int cycle = 0; cycle < (isUnlocked ? 2 : 1); cycle++){
 			for(int a = 0, xx = x, yy = y, cnt = 0; a < 10; a++){
 				ItemStack is = isUnlocked ? items[a] : lockedItem;
 				
 				if (is != null){
-					if (cycle == 0){
-						GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-						RenderHelper.enableGUIStandardItemLighting();
-						GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
-						RenderHelper.disableStandardItemLighting();
-						GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-					}
-					else if (isUnlocked && mouseX > xx+1 && mouseX < xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
-						StringBuilder build = new StringBuilder();
-						List<String> tooltip = is.getTooltip(gui.mc.thePlayer,false);
-						Joiner.on('\n').join(tooltip);
-						for(String line:tooltip)build.append(line).append("\n");
-						GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,build.toString());
+					if (cycle == 0)GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
+					else if (mouseX > xx+1 && mouseX < xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
+						GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(is.getTooltip(gui.mc.thePlayer,false)));
 					}
 				}
 	
@@ -87,6 +75,7 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 				}
 	
 				xx += 19;
+				
 				if (++cnt >= 3){
 					yy += 19;
 					xx -= 19*3;

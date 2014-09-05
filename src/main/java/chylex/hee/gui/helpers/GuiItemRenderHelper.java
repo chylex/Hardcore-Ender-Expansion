@@ -26,6 +26,7 @@ public class GuiItemRenderHelper{
 
 		Block block = (item instanceof ItemBlock ? Block.getBlockFromItem(item) : null);
 		if (is.getItemSpriteNumber() == 0 && block != null && RenderBlocks.renderItemIn3d(block.getRenderType())){
+			RenderHelper.enableGUIStandardItemLighting();
 			textureManager.bindTexture(TextureMap.locationBlocksTexture);
 			GL11.glPushMatrix();
 			GL11.glTranslatef((x-2),(y+3),-3.0F+renderItem.zLevel);
@@ -43,6 +44,7 @@ public class GuiItemRenderHelper{
 			renderBlocks.renderBlockAsItem(block,damage,1F);
 			renderBlocks.useInventoryTint = true;
 			GL11.glPopMatrix();
+			RenderHelper.disableStandardItemLighting();
 		}
 		else if (item.requiresMultipleRenderPasses()){
 			GL11.glDisable(GL11.GL_LIGHTING);

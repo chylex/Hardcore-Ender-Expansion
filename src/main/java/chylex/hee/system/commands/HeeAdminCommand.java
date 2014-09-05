@@ -115,7 +115,7 @@ public class HeeAdminCommand extends HeeCommand{
 			PlayerCompendiumData data = CompendiumEvents.getPlayerData(player);
 			
 			for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())data.tryDiscoverObject(object,false);
-			for(KnowledgeFragment fragment:KnowledgeFragment.getAllFragments())data.unlockFragment(fragment);
+			for(KnowledgeFragment fragment:KnowledgeFragment.getAllFragments())data.tryUnlockFragment(fragment);
 			
 			PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
 		}

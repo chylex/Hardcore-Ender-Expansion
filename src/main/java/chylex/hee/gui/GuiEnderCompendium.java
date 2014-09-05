@@ -44,7 +44,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	public static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
-	public static final ResourceLocation texFragmentCrafting = new ResourceLocation("hardcoreenderexpansion:textures/gui/fragment_crafting.png");
+	public static final ResourceLocation texFragments = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_fragments.png");
 	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_fragment);
 	
 	private static float ptt(float value, float prevValue, float partialTickTime){

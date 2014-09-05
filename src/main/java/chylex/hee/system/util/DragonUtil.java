@@ -3,6 +3,7 @@ import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import chylex.hee.entity.boss.EntityBossDragon;
 
 public final class DragonUtil{
 	public static int portalEffectX, portalEffectZ;
+	private static final Pattern regexChatFormatting = Pattern.compile("(?i)"+String.valueOf('\u00a7')+"[0-9A-FK-OR]");
 	
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAscending(Map<K,V> map){
 		SortedSet<Entry<K,V>> sorted = new TreeSet<>(
@@ -174,6 +176,10 @@ public final class DragonUtil{
 	public static UUID convertNameToUUID(String name){
 		if (name.length() == 32 && name.split("-").length == 5)return UUID.fromString(name);
 		else return UUID.fromString(PreYggdrasilConverter.func_152719_a(name));
+	}
+	
+	public static String stripChatFormatting(String str){
+		return regexChatFormatting.matcher(str).replaceAll("");
 	}
 	
 	private DragonUtil(){}

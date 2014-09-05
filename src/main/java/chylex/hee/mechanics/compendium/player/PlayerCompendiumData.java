@@ -116,20 +116,20 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	private void unlockDiscoveryFragments(KnowledgeObject<?> object){
 		for(KnowledgeFragment fragment:object.getFragments()){
-			if (fragment.isUnlockedOnDiscovery())unlockFragment(fragment);
+			if (fragment.isUnlockedOnDiscovery())tryUnlockFragment(fragment);
 		}
 	}
 	
-	public boolean unlockFragment(KnowledgeFragment fragment){
+	public boolean tryUnlockFragment(KnowledgeFragment fragment){
 		if (unlockedFragments.add(fragment.globalID)){
-			for(int cascade:fragment.getUnlockCascade())unlockFragment(KnowledgeFragment.getById(cascade));
+			for(int cascade:fragment.getUnlockCascade())tryUnlockFragment(KnowledgeFragment.getById(cascade));
 			return true;
 		}
 		else return false;
 	}
 	
 	public boolean hasUnlockedFragment(KnowledgeFragment fragment){
-		return unlockedFragments.contains(fragment.globalID);
+		return fragment != null && unlockedFragments.contains(fragment.globalID);
 	}
 	
 	public FragmentPurchaseStatus canPurchaseFragment(KnowledgeFragment fragment){

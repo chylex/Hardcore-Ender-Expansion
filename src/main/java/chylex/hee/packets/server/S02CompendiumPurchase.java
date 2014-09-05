@@ -43,7 +43,7 @@ public class S02CompendiumPurchase extends AbstractServerPacket{
 		
 		if (isFragment){
 			KnowledgeFragment fragment = KnowledgeFragment.getById(id);
-			if (fragment != null && compendiumData.getPoints() >= fragment.getPrice() && compendiumData.unlockFragment(fragment))points = fragment.getPrice();
+			if (fragment != null && compendiumData.getPoints() >= fragment.getPrice() && compendiumData.tryUnlockFragment(fragment))points = fragment.getPrice();
 		}
 		else{
 			KnowledgeObject<?> object = KnowledgeObject.getObjectById(id);
