@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.AnimatedFloat;
 import chylex.hee.gui.helpers.AnimatedFloat.Easing;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
 import chylex.hee.system.util.MathUtil;
 
 public class CategoryDisplayElement{

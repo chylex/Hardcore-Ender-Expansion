@@ -46,8 +46,6 @@ import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
-import chylex.hee.mechanics.knowledge.fragment.CraftingKnowledgeFragment;
-import chylex.hee.mechanics.knowledge.fragment.EnhancementKnowledgeFragment;
 import chylex.hee.mechanics.temple.TeleportParticleTickEvent;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
@@ -160,9 +158,6 @@ public class ModClientProxy extends ModCommonProxy{
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltSafe.class, new RenderLightningBolt());
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltDemon.class, new RenderWeatherLightningBoltPurple());
-		
-		CraftingKnowledgeFragment.initClient();
-		EnhancementKnowledgeFragment.initClient();
 	}
 	
 	@Override

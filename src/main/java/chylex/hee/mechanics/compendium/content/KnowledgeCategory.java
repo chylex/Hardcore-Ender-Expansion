@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.content.type;
+package chylex.hee.mechanics.compendium.content;
 import java.util.ArrayList;
 import java.util.List;
 import com.google.common.collect.ImmutableList;

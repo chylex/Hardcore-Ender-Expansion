@@ -3,8 +3,8 @@ import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 
 public class PlayerDiscoveryList<P extends IKnowledgeObjectInstance<T>,T>{
 	private final IObjectSerializer<T> serializer;

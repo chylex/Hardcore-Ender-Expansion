@@ -1,10 +1,10 @@
-package chylex.hee.mechanics.compendium.content;
+package chylex.hee.mechanics.compendium;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.compendium.content.objects.ObjectDummy;
-import chylex.hee.mechanics.compendium.content.objects.ObjectItem;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeFragmentText;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragmentText;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.ObjectDummy;
+import chylex.hee.mechanics.compendium.objects.ObjectItem;
 
 public final class KnowledgeRegistrations{
 	public static final KnowledgeObject<ObjectDummy>

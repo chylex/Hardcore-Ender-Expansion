@@ -1,8 +1,8 @@
 package chylex.hee.packets.server;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.packets.AbstractServerPacket;

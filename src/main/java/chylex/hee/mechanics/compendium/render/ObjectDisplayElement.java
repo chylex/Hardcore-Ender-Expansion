@@ -2,8 +2,8 @@ package chylex.hee.mechanics.compendium.render;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 
 public class ObjectDisplayElement{

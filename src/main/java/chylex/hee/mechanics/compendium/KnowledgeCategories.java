@@ -1,8 +1,8 @@
-package chylex.hee.mechanics.compendium.content;
+package chylex.hee.mechanics.compendium;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import chylex.hee.block.BlockList;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
 
 public class KnowledgeCategories{
 	public static KnowledgeCategory OVERWORLD, DRAGON_LAIR, ENDSTONE_BLOBS, DUNGEON_TOWER, METEOROIDS, BIOME_ISLAND_FOREST, BIOME_ISLAND_MOUNTAINS, BIOME_ISLAND_ENCHISLAND;

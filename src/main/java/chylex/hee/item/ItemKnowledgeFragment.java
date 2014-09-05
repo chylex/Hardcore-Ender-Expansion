@@ -1,18 +1,10 @@
 package chylex.hee.item;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.knowledge.data.KnowledgeCategory;
-import chylex.hee.mechanics.knowledge.data.KnowledgeRegistration;
-import chylex.hee.mechanics.knowledge.util.FragmentWeightLists.FragmentWeightList;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C03KnowledgeRegistrationNotification;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -79,5 +71,10 @@ public class ItemKnowledgeFragment extends Item{
 			KnowledgeRegistration reg = KnowledgeRegistration.lookup.get(registration);
 			if (reg != null)textLines.add(reg.getRenderer().getTooltip());
 		}*/
+	}
+	
+	public static ItemStack setRandomFragment(ItemStack is, Random rand){
+		// TODO
+		return is;
 	}
 }

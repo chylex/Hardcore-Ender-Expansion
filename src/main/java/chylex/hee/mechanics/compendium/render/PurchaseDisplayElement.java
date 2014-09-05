@@ -3,8 +3,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 
 public class PurchaseDisplayElement{
 	public final Object object;

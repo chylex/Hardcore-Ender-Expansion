@@ -1,5 +1,5 @@
 package chylex.hee.mechanics.enhancements;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.knowledge.fragment.EnhancementKnowledgeFragment;
 
 public final class EnhancementFragmentUtil{

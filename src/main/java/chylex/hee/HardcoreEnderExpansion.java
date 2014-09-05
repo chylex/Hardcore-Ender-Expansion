@@ -48,7 +48,7 @@ import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
-import chylex.hee.mechanics.compendium.content.KnowledgeRegistrations;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.infestation.InfestationEvents;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;

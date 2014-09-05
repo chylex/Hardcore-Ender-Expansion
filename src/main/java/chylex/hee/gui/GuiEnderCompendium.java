@@ -22,12 +22,12 @@ import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.compendium.content.KnowledgeCategories;
-import chylex.hee.mechanics.compendium.content.KnowledgeRegistrations;
-import chylex.hee.mechanics.compendium.content.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeCategory;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeFragment;
-import chylex.hee.mechanics.compendium.content.type.KnowledgeObject;
+import chylex.hee.mechanics.compendium.KnowledgeCategories;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
+import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
 import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
@@ -44,6 +44,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	public static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
+	public static final ResourceLocation texFragmentCrafting = new ResourceLocation("hardcoreenderexpansion:textures/gui/fragment_crafting.png");
 	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_fragment);
 	
 	private static float ptt(float value, float prevValue, float partialTickTime){
@@ -208,7 +209,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		while(true){
 			KnowledgeFragment fragment = iter.hasNext() ? iter.next() : null;
 			
-			if (fragment == null || yy+(height = 10+fragment.getHeight(mc,isUnlocked = (object == KnowledgeRegistrations.HELP || compendiumData.hasUnlockedFragment(fragment)))) > guiPageHeight){
+			if (fragment == null || yy+(height = 10+fragment.getHeight(this,isUnlocked = (object == KnowledgeRegistrations.HELP || compendiumData.hasUnlockedFragment(fragment)))) > guiPageHeight){
 				currentObjectPages.put(page++,pageMap);
 				
 				if (fragment == null)break;
@@ -229,7 +230,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			yy = ((this.height-guiPageTexHeight)>>1)+guiPageTop;
 			
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
-				height = entry.getKey().getHeight(mc,entry.getValue());
+				height = entry.getKey().getHeight(this,entry.getValue());
 				if (!entry.getValue() && entry.getKey().isBuyable())purchaseElements.add(new PurchaseDisplayElement(entry.getKey(),yy+(height>>1)+2,compendiumData.getPoints() >= entry.getKey().getPrice()));
 				yy += 10+height;
 			}
@@ -300,8 +301,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 		
-		if (currentObject == KnowledgeRegistrations.HELP)renderPaper(width>>1,height>>1);
-		else if (currentObject != null)renderPaper((width>>1)+(width>>2)+4,height>>1);
+		if (currentObject == KnowledgeRegistrations.HELP)renderPaper(width>>1,height>>1,mouseX,mouseY);
+		else if (currentObject != null)renderPaper((width>>1)+(width>>2)+4,height>>1,mouseX,mouseY);
 		
 		prevMouseX = mouseX;
 		prevMouseY = mouseY;
@@ -347,7 +348,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,4210752);
 	}
 	
-	private void renderPaper(int x, int y){
+	private void renderPaper(int x, int y, int mouseX, int mouseY){
 		pageArrows[0].xPosition = x-(guiPageTexWidth*3/10)-10;
 		pageArrows[1].xPosition = x+(guiPageTexWidth*3/10)-10;
 		
@@ -364,8 +365,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			y = y-(guiPageTexHeight>>1)+guiPageTop;
 			
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
-				entry.getKey().render(x,y,mc,entry.getValue());
-				y += 10+entry.getKey().getHeight(mc,entry.getValue());
+				entry.getKey().render(this,x,y,mouseX,mouseY,entry.getValue());
+				y += 10+entry.getKey().getHeight(this,entry.getValue());
 			}
 			
 			for(int a = 0; a < 2; a++)pageArrows[a].visible = true;

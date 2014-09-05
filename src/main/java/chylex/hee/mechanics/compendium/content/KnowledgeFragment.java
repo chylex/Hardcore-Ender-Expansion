@@ -1,10 +1,10 @@
-package chylex.hee.mechanics.compendium.content.type;
+package chylex.hee.mechanics.compendium.content;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.Collection;
 import java.util.Collections;
-import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.gui.GuiEnderCompendium;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -76,10 +76,10 @@ public abstract class KnowledgeFragment{
 	}
 
 	@SideOnly(Side.CLIENT)
-	public abstract int getHeight(Minecraft mc, boolean isUnlocked);
+	public abstract int getHeight(GuiEnderCompendium gui, boolean isUnlocked);
 	
 	@SideOnly(Side.CLIENT)
-	public abstract void render(int x, int y, Minecraft mc, boolean isUnlocked);
+	public abstract void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked);
 	
 	@Override
 	public final boolean equals(Object o){

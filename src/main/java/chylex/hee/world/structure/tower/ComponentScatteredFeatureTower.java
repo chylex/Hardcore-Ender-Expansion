@@ -106,7 +106,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 				}
 			}
 			else if (is.getItem() == ItemList.knowledge_fragment){
-				ItemKnowledgeFragment.setRandomRegistration(is,FragmentWeightLists.endTower,rand);
+				ItemKnowledgeFragment.setRandomFragment(is,rand);
 			}
 			else if (is.getItem() == Items.cake){
 				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"Why are there just pieces of cake");

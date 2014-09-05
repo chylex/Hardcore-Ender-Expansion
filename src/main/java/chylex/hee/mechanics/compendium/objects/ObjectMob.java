@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.content.objects;
+package chylex.hee.mechanics.compendium.objects;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
