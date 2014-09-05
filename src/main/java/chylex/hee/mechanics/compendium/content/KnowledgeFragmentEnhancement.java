@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.compendium.content;
 import java.util.HashSet;
 import java.util.Set;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
@@ -42,16 +43,20 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 	public void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		GL11.glColor4f(1F,1F,1F,1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
-		gui.drawTexturedModalRect(x,y,0,59,50,20);
+		//gui.drawTexturedModalRect(x,y,0,59,50,20);
 		
 		ItemStack is = isUnlocked ? enhancement.getItemSelector().getRepresentativeItem() : KnowledgeFragmentCrafting.lockedItem;
 		
 		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,x+1,y+1);
 		
+		RenderHelper.disableStandardItemLighting();
+		boolean origFont = gui.mc.fontRenderer.getUnicodeFlag();
+		gui.mc.fontRenderer.setUnicodeFlag(true);
+		gui.mc.fontRenderer.drawString(name,x+22,y+5,0<<24|130<<16|255,false);
+		gui.mc.fontRenderer.setUnicodeFlag(origFont);
+		
 		if (isUnlocked && mouseX > x && mouseX < x+17 && mouseY >= y && mouseY <= y+17){
 			GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(is.getTooltip(gui.mc.thePlayer,false)));
 		}
-		
-		gui.mc.fontRenderer.drawString(name,x+24,y+1,255<<24|130<<16|255,false);
 	}
 }

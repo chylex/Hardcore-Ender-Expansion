@@ -29,9 +29,9 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
-import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
 import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
 import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
+import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S02CompendiumPurchase;
 import cpw.mods.fml.relauncher.Side;
@@ -39,7 +39,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
-	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjectTopY = 400;
+	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjectTopY = 1000;
 	
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
@@ -114,7 +114,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (button.id == 0){
 			if (currentObject != null)showObject(null);
 			else if (hasHighlightedCategory){
-				offsetY.startAnimation(offsetY.value(),height>>1);
+				offsetY.startAnimation(offsetY.value(),height>>1,1.25F);
 				hasHighlightedCategory = false;
 			}
 			else{
@@ -139,7 +139,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				for(CategoryDisplayElement element:categoryElements){
 					if (element.isMouseOver(mouseX,mouseY,(int)offsetX.value(),(int)offsetY.value())){
 						for(KnowledgeObject object:element.category.getAllObjects())objectElements.add(new ObjectDisplayElement(object));
-						offsetY.startAnimation(offsetY.value(),-guiObjectTopY);
+						offsetY.startAnimation(offsetY.value(),-guiObjectTopY,1.25F);
 						hasHighlightedCategory = true;
 						return;
 					}
@@ -225,6 +225,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			yy += height;
 		}
 		
+		if (object == KnowledgeRegistrations.HELP)return;
+		
 		if (!compendiumData.hasDiscoveredObject(currentObject))purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumData.getPoints() >= currentObject.getUnlockPrice()));
 		else{
 			yy = ((this.height-guiPageTexHeight)>>1)+guiPageTop;
@@ -243,7 +245,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDepthFunc(GL11.GL_GEQUAL);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,0F,-200F);
-		portalRenderer.draw(ptt(offsetX.value(),prevOffsetX,partialTickTime),-ptt(offsetY.value(),prevOffsetY,partialTickTime),ptt(portalScale.value(),prevPortalScale,partialTickTime));
+		portalRenderer.draw(ptt(offsetX.value(),prevOffsetX,partialTickTime)*0.49F,-ptt(offsetY.value(),prevOffsetY,partialTickTime)*0.49F,ptt(portalScale.value(),prevPortalScale,partialTickTime));
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		renderScreen(mouseX,mouseY,partialTickTime);
@@ -297,9 +299,15 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 		}
 
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		
 		renderFragmentCount((width>>1)-25,24);
 		
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		if (currentObject == KnowledgeRegistrations.HELP)renderPaper(width>>1,height>>1,mouseX,mouseY);
 		else if (currentObject != null)renderPaper((width>>1)+(width>>2)+4,height>>1,mouseX,mouseY);
@@ -353,8 +361,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		pageArrows[1].xPosition = x+(guiPageTexWidth*3/10)-10;
 		
 		GL11.glColor4f(1F,1F,1F,1F);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.disableStandardItemLighting();
 		
 		mc.getTextureManager().bindTexture(texPage);
@@ -377,8 +383,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		}
 		
 		for(PurchaseDisplayElement element:purchaseElements)element.render(this,x);
-		
-		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
 	@Override

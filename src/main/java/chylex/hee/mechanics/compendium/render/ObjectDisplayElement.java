@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.compendium.render;
+import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import chylex.hee.gui.GuiEnderCompendium;
@@ -14,6 +15,8 @@ public class ObjectDisplayElement{
 	}
 	
 	public void render(GuiScreen gui, PlayerCompendiumData compendiumData, float offsetX, float offsetY){
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.disableStandardItemLighting();
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
 		gui.drawTexturedModalRect((int)(object.getX()+offsetX+29),(int)(object.getY()+offsetY+30),113,compendiumData.hasDiscoveredObject(object) ? 0 : 23,22,22);

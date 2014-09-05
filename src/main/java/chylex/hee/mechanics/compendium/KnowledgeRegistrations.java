@@ -1,10 +1,15 @@
 package chylex.hee.mechanics.compendium;
+import net.minecraft.item.ItemStack;
+import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragmentCrafting;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
+import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 
 public final class KnowledgeRegistrations{
 	public static final KnowledgeObject<ObjectDummy>
@@ -27,6 +32,11 @@ public final class KnowledgeRegistrations{
 		});
 		
 		KnowledgeCategories.OVERWORLD.addKnowledgeObjects(new KnowledgeObject[]{
+			ADVENTURERS_DIARY.setPos(0,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(50).setContents("Text fragment").setPrice(10),
+				new KnowledgeFragmentCrafting(51).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(10),
+				new KnowledgeFragmentEnhancement(52).setEnhancement(TNTEnhancements.EXTRA_POWER).setPrice(10),
+			})
 			/*TEST_OBJECT.setPos(0,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1000).setContents("Test fragment").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1001).setContents("Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2").setPrice(10),

@@ -53,7 +53,7 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	public void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		GL11.glColor4f(1F,1F,1F,1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
-		gui.drawTexturedModalRect(x,y,0,0,58,88);
+		gui.drawTexturedModalRect(x,y,0,0,88,58);
 		
 		if (items == null)return;
 		
