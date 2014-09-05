@@ -125,7 +125,7 @@ public final class CompendiumEvents{
 				}
 			}
 			
-			if (distBlock < distEntity){
+			if (distBlock < distEntity && mopBlock != null){
 				BlockMetaWrapper wrapper = new BlockMetaWrapper(player.worldObj.getBlock(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ),player.worldObj.getBlockMetadata(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ));
 				KnowledgeObject<ObjectBlock> obj = KnowledgeObject.getObject(wrapper);
 				if (obj != null)getPlayerData(player).tryDiscoverBlock(obj,true);

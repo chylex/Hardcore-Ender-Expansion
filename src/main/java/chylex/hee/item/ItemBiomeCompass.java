@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,7 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import chylex.hee.render.texture.TextureBiomeCompass;
-import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
@@ -72,16 +72,13 @@ public class ItemBiomeCompass extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister){
-		if (iconRegister instanceof TextureMap){
-			((TextureMap)iconRegister).setTextureEntry("hardcoreenderexpansion:biome_compass",new TextureBiomeCompass("compass"));
+		((TextureMap)iconRegister).setTextureEntry("hardcoreenderexpansion:biome_compass",(TextureAtlasSprite)(itemIcon = new TextureBiomeCompass("hardcoreenderexpansion:biome_compass")));
 
-			if (locations == null){
-				locations = new ArrayList<>(IslandBiomeBase.biomeList.size());
-				for(int a = 0; a < IslandBiomeBase.biomeList.size(); a++)locations.add(a,new HashSet<ChunkCoordinates>());
-				lastSavedX = lastSavedZ = Integer.MAX_VALUE;
-			}
+		if (locations == null){
+			locations = new ArrayList<>(IslandBiomeBase.biomeList.size());
+			for(int a = 0; a < IslandBiomeBase.biomeList.size(); a++)locations.add(a,new HashSet<ChunkCoordinates>());
+			lastSavedX = lastSavedZ = Integer.MAX_VALUE;
 		}
-		else Log.error("Cannot cast iconRegister ($0) to Texture Map, Biome Compass will not be rendered correctly!",iconRegister.getClass().getSimpleName());
 	}
 	
 	// BIOME DETECTION
