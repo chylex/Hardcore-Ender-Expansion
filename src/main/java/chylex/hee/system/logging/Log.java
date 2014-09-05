@@ -27,8 +27,9 @@ public final class Log{
 				fos = new FileOutputStream(eula);
 				Properties properties = new Properties();
 				properties.setProperty("eula","true");
-				properties.store(fos,"By changing the setting below to TRUE you are indicating your agreement to our EULA (https://account.mojang.com/documents/minecraft_eula).");
-			}catch(Exception exception){}finally{
+				properties.store(fos,"Screw your EULA, I don't want that stuff in my workspace.");
+			}catch(Exception e){}
+			finally{
 				IOUtils.closeQuietly(fos);
 			}
 		}
