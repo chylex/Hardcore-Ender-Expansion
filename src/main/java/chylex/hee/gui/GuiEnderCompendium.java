@@ -34,6 +34,7 @@ import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S02CompendiumPurchase;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -54,7 +55,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private PlayerCompendiumData compendiumData;
 	private GuiEndPortalRenderer portalRenderer;
 	private List<AnimatedFloat> animationList = new ArrayList<>();
-	private AnimatedFloat offsetX, offsetY, portalScale;
+	private AnimatedFloat offsetX, offsetY, portalScale, portalSpeed;
 	private float prevOffsetX, prevOffsetY, prevPortalScale;
 	private int prevMouseX, prevMouseY;
 	
@@ -73,11 +74,13 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		animationList.add(offsetX = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(portalScale = new AnimatedFloat(Easing.LINEAR));
+		animationList.add(portalSpeed = new AnimatedFloat(Easing.CUBIC));
 		
 		int alphaDelay = 10;
 		for(KnowledgeCategory category:KnowledgeCategories.categoryList)categoryElements.add(new CategoryDisplayElement(category,alphaDelay += 2));
 		
 		portalScale.startAnimation(2.5F,1F,0.6F);
+		portalSpeed.startAnimation(30F,15F,1.5F);
 	}
 	
 	public void updateCompendiumData(PlayerCompendiumData newData){
@@ -186,7 +189,15 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		prevOffsetX = offsetX.value();
 		prevOffsetY = offsetY.value();
 		prevPortalScale = portalScale.value();
+
+		if (!portalSpeed.isAnimating()){
+			if (currentObject != null){
+				if (MathUtil.floatEquals(portalSpeed.value(),15F))portalSpeed.startAnimation(15F,5F,0.5F);
+			}
+			else if (MathUtil.floatEquals(portalSpeed.value(),5F))portalSpeed.startAnimation(5F,15F,0.5F);
+		}
 		
+		portalRenderer.update((int)portalSpeed.value());
 		for(AnimatedFloat animation:animationList)animation.update(0.05F);
 		for(CategoryDisplayElement element:categoryElements)element.update();
 	}
@@ -245,7 +256,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDepthFunc(GL11.GL_GEQUAL);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,0F,-200F);
-		portalRenderer.draw(ptt(offsetX.value(),prevOffsetX,partialTickTime)*0.49F,-ptt(offsetY.value(),prevOffsetY,partialTickTime)*0.49F,ptt(portalScale.value(),prevPortalScale,partialTickTime));
+		portalRenderer.draw(ptt(offsetX.value(),prevOffsetX,partialTickTime)*0.49F,-ptt(offsetY.value(),prevOffsetY,partialTickTime)*0.49F,ptt(portalScale.value(),prevPortalScale,partialTickTime),partialTickTime);
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		renderScreen(mouseX,mouseY,partialTickTime);

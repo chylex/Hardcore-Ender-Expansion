@@ -1,7 +1,6 @@
 package chylex.hee.gui.helpers;
 import java.nio.FloatBuffer;
 import java.util.Random;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
@@ -20,15 +19,22 @@ public final class GuiEndPortalRenderer{
 	
 	private final GuiScreen gui;
 	private final int portalWidthHalf, portalHeightHalf, portalTopOffset;
+	private int portalTranslation,prevPortalTranslation;
 	
 	public GuiEndPortalRenderer(GuiScreen ownerGui, int portalWidth, int portalHeight, int portalTopOffset){
 		this.gui = ownerGui;
 		this.portalWidthHalf = portalWidth>>1;
 		this.portalHeightHalf = portalHeight>>1;
 		this.portalTopOffset = portalTopOffset;
+		this.prevPortalTranslation = this.portalTranslation = gui.mc.theWorld.rand.nextInt(10000);
 	}
 	
-	public void draw(float x, float y, float portalScale){
+	public void update(int speed){
+		prevPortalTranslation = portalTranslation;
+		portalTranslation += speed;
+	}
+	
+	public void draw(float x, float y, float portalScale, float partialTickTime){
 		int hw = gui.width>>1, hh = gui.height>>1;
 		
 		float div = (float)portalWidthHalf/portalHeightHalf;
@@ -61,7 +67,7 @@ public final class GuiEndPortalRenderer{
 			GL11.glPushMatrix();
 			GL11.glLoadIdentity();
 
-			GL11.glTranslatef(0F,layerMp*(Minecraft.getSystemTime()%400000L)/400000F,0F);
+			GL11.glTranslatef(0F,layerMp*(prevPortalTranslation+(portalTranslation-prevPortalTranslation)*partialTickTime)*0.00002F,0F);
 			GL11.glScalef(scale,scale,1F);
 			GL11.glScalef(1F+revLayer*0.15F,1F+revLayer*0.15F,1F);
 			GL11.glTranslatef(0.5F,0.5F,0F);
