@@ -7,12 +7,14 @@ import net.minecraftforge.common.config.Property;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.item.ItemTempleCaller;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragmentText;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.sound.MusicManager;
 import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
+import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -35,8 +37,8 @@ public final class ConfigHandler{
 		instance.loadGeneralConfig();
 	}
 	
-	public static List getGuiConfigElements(){
-		List elements = new ConfigElement(instance.config.getCategory("client")).getChildElements();
+	public static List<IConfigElement> getGuiConfigElements(){
+		List<IConfigElement> elements = new ConfigElement(instance.config.getCategory("client")).getChildElements();
 		elements.addAll(new ConfigElement(instance.config.getCategory("general")).getChildElements());		
 		return elements;
 	}
@@ -66,6 +68,7 @@ public final class ConfigHandler{
 	
 	@SideOnly(Side.CLIENT)
 	private void loadClientConfig(){
+		KnowledgeFragmentText.enableSmoothRendering = config.get("client","compendiumSmoothText",false).getBoolean(false);
 		MusicManager.enableMusic = config.get("client","enableMusic",true).getBoolean(true);
 		UpdateNotificationManager.enableNotifications = config.get("client","enableUpdateNotifications",true).getBoolean(true);
 		

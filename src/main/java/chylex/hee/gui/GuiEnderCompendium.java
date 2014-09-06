@@ -13,9 +13,11 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.gui.helpers.AnimatedFloat;
 import chylex.hee.gui.helpers.AnimatedFloat.Easing;
 import chylex.hee.gui.helpers.GuiEndPortalRenderer;
@@ -26,6 +28,7 @@ import chylex.hee.mechanics.compendium.KnowledgeCategories;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
@@ -34,7 +37,9 @@ import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S02CompendiumPurchase;
+import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -92,11 +97,12 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public void initGui(){
 		this.portalRenderer = new GuiEndPortalRenderer(this,width-48,height-48,0);
 		
-		buttonList.add(new GuiButton(0,(width>>1)-120,height-48+21,98,20,I18n.format("gui.back")));
-		buttonList.add(new GuiButton(1,(width>>1)-10,height-48+21,20,20,"?"));
-		buttonList.add(new GuiButton(2,(width>>1)+22,height-48+21,98,20,I18n.format("gui.done")));
+		buttonList.add(new GuiButton(0,(width>>1)-120,height-27,98,20,I18n.format("gui.back")));
+		buttonList.add(new GuiButton(1,(width>>1)-10,height-27,20,20,"?"));
+		buttonList.add(new GuiButton(2,(width>>1)+22,height-27,98,20,I18n.format("gui.done")));
 		buttonList.add(pageArrows[0] = new GuiButtonPageArrow(3,0,((height+guiPageTexHeight)>>1)-32,false));
 		buttonList.add(pageArrows[1] = new GuiButtonPageArrow(4,0,((height+guiPageTexHeight)>>1)-32,true));
+		buttonList.add(new GuiButton(5,width-60,height-27,20,20,""));
 		
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 		
@@ -132,6 +138,18 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		}
 		else if (button.id == 3)pageIndex = (byte)Math.max(0,pageIndex-1);
 		else if (button.id == 4)pageIndex = (byte)Math.min(currentObjectPages.size()-1,pageIndex+1);
+		else if (button.id == 5){
+			KnowledgeFragmentText.enableSmoothRendering = !KnowledgeFragmentText.enableSmoothRendering;
+			
+			for(IConfigElement element:ConfigHandler.getGuiConfigElements()){
+				if (element.getName().equals("compendiumSmoothText") && element.isProperty()){
+					element.set(KnowledgeFragmentText.enableSmoothRendering);
+					break;
+				}
+			}
+			
+			HardcoreEnderExpansion.proxy.loadConfiguration();
+		}
 	}
 	
 	@Override
@@ -265,6 +283,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		RenderHelper.disableStandardItemLighting();
 		super.drawScreen(mouseX,mouseY,partialTickTime);
+		renderScreenPost(mouseX,mouseY,partialTickTime);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
@@ -325,6 +344,16 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		prevMouseX = mouseX;
 		prevMouseY = mouseY;
+	}
+	
+	private void renderScreenPost(int mouseX, int mouseY, float partialTickTime){
+		mc.getTextureManager().bindTexture(texBack);
+		GuiButton button = (GuiButton)buttonList.get(5);
+		drawTexturedModalRect(button.xPosition,button.yPosition,KnowledgeFragmentText.enableSmoothRendering ? 56 : 77,29,20,20);
+		
+		if (mouseX >= button.xPosition && mouseX <= button.xPosition+button.width && mouseY > button.yPosition && mouseY < button.yPosition+button.height){
+			GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY-24,"Smooth text rendering\n"+EnumChatFormatting.GRAY+"Enable if you experience bad\n"+EnumChatFormatting.GRAY+"text scaling (experimental)");
+		}
 	}
 	
 	private void renderBackgroundGUI(){
