@@ -50,10 +50,7 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,x+1,y+1);
 		
 		RenderHelper.disableStandardItemLighting();
-		boolean origFont = gui.mc.fontRenderer.getUnicodeFlag();
-		gui.mc.fontRenderer.setUnicodeFlag(true);
-		gui.mc.fontRenderer.drawString(name,x+22,y+5,0<<24|130<<16|255,false);
-		gui.mc.fontRenderer.setUnicodeFlag(origFont);
+		KnowledgeFragmentText.renderString(name,x+22,y+5,130<<16|255,130<<16|255,gui);
 		
 		if (isUnlocked && mouseX > x && mouseX < x+17 && mouseY >= y && mouseY <= y+17){
 			GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(is.getTooltip(gui.mc.thePlayer,false)));
