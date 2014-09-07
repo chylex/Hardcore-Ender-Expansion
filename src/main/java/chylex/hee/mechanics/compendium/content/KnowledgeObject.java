@@ -34,7 +34,7 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	private final ItemStack itemToRender;
 	private final String tooltip;
 	private final Set<KnowledgeFragment> fragmentSet = new LinkedHashSet<>();
-	private ImmutableSet<KnowledgeFragment> fragmentSetImmutable;
+	private ImmutableSet<KnowledgeFragment> fragmentSetImmutable = ImmutableSet.of();
 	private int x, y, unlockPrice, reward;
 	
 	public KnowledgeObject(T theObject){

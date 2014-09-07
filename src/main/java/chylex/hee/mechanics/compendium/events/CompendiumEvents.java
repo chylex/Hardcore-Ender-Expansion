@@ -102,7 +102,7 @@ public final class CompendiumEvents{
 		EntityPlayer player = e.player;
 		
 		if (playerTickLimiter.adjustOrPutValue(player.getGameProfile().getId(),byteOne,byteOne) >= 7){
-			Stopwatch.timeAverage("CompendiumEvents - look tracing",15);
+			Stopwatch.timeAverage("CompendiumEvents - look tracing",25);
 			
 			playerTickLimiter.put(player.getGameProfile().getId(),byteZero);
 			
@@ -140,7 +140,7 @@ public final class CompendiumEvents{
 			}
 			
 			Stopwatch.finish("CompendiumEvents - look tracing");
-			Stopwatch.timeAverage("CompendiumEvents - inventory",15);
+			Stopwatch.timeAverage("CompendiumEvents - inventory",25);
 
 			for(ItemStack is:player.inventory.mainInventory){
 				if (is != null)discoverItemStack(player,is);

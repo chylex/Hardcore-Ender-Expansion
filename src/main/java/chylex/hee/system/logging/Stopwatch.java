@@ -1,10 +1,14 @@
 package chylex.hee.system.logging;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public final class Stopwatch{
 	private static final Map<String,StopwatchHandler> runningStopwatches = new HashMap<>();
+	private static final DecimalFormat numberFormat = new DecimalFormat("#.##",DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+	private static final double toMillis = 0.000001D;
 	
 	public static void time(String identifier){
 		if (!Log.isDebugEnabled())return;
@@ -57,7 +61,8 @@ public final class Stopwatch{
 		
 		@Override
 		public void onFinish(String identifier){
-			Log.debug("Stopwatch $0 finished in $1 ms.",identifier,TimeUnit.NANOSECONDS.toMillis(System.nanoTime()-startTime));
+			double time = (System.nanoTime()-startTime)*toMillis;
+			Log.debug("Stopwatch $0 finished in $2 ~ $1 ms.",identifier,Math.round(time),numberFormat.format(time));
 		}
 	}
 	
@@ -70,8 +75,8 @@ public final class Stopwatch{
 		
 		@Override
 		public void onFinish(String identifier){
-			long time = TimeUnit.NANOSECONDS.toMillis(System.nanoTime()-startTime);
-			if (time >= threshold)Log.debug("Stopwatch $0 finished above threshold in $1 ms.",identifier,time);
+			double time = (System.nanoTime()-startTime)*toMillis;
+			if (time >= threshold)Log.debug("Stopwatch $0 finished above threshold in $2 ~ $1 ms.",identifier,Math.round(time),numberFormat.format(time));
 		}
 	}
 	
@@ -90,10 +95,12 @@ public final class Stopwatch{
 		
 		@Override
 		public void onFinish(String identifier){
-			totalTime += TimeUnit.NANOSECONDS.toMillis(System.nanoTime()-startTime);
+			totalTime += System.nanoTime()-startTime;
 			
 			if (--currentCounter == 0 && count > 0){
-				Log.debug("Stopwatch $0 finished in averagely $1 ms.",identifier,totalTime/count);
+				double time = (totalTime*toMillis)/count;
+				Log.debug("Stopwatch $0 finished in averagely $2 ~ $1 ms.",identifier,Math.round(time),numberFormat.format(time));
+				
 				currentCounter = count;
 				totalTime = 0L;
 			}
