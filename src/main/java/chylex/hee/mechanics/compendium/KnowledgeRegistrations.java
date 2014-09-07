@@ -25,6 +25,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject.LinkedKnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
@@ -34,7 +35,7 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Stopwatch;
 
 public final class KnowledgeRegistrations{
-	public static final KnowledgeObject<?>
+	public static final KnowledgeObject<? extends IKnowledgeObjectInstance<?>>
 		HELP = new KnowledgeObject<>(new ObjectDummy()),
 		
 		// ===
