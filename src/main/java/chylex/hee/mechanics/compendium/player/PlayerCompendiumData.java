@@ -73,7 +73,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	public boolean tryDiscoverBlock(KnowledgeObject<ObjectBlock> block, boolean addReward){
 		if (discoveredBlocks.addObject(block.getObject())){
-			onDiscover(block,addReward);System.out.println("discover block "+block.getObject().getUnderlyingObject());
+			onDiscover(block,addReward);System.out.println("discover block "+block.getObject().getUnderlyingObject()); // TOOD remove all 3 debug things
 			return true;
 		}
 		else return false;
