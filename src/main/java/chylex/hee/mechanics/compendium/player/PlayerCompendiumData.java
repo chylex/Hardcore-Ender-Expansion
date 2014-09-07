@@ -14,6 +14,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
+import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
@@ -30,7 +31,8 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	private PlayerDiscoveryList<ObjectBlock,BlockMetaWrapper> discoveredBlocks = new PlayerDiscoveryList<>(new DiscoveryBlockSerializer());
 	private PlayerDiscoveryList<ObjectItem,Item> discoveredItems = new PlayerDiscoveryList<>(new DiscoveryItemSerializer());
-	private PlayerDiscoveryList<ObjectMob,Class<? extends EntityLivingBase>> discoveryMobs = new PlayerDiscoveryList<>(new DiscoveryMobSerializer());
+	private PlayerDiscoveryList<ObjectMob,Class<? extends EntityLivingBase>> discoveredMobs = new PlayerDiscoveryList<>(new DiscoveryMobSerializer());
+	private PlayerDiscoveryList<ObjectDummy,String> discoveredMisc = new PlayerDiscoveryList<>(new DiscoveryStringSerializer());
 	
 	private TIntHashSet unlockedFragments = new TIntHashSet();
 	
@@ -67,7 +69,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		
 		if (obj instanceof ObjectBlock)return discoveredBlocks.hasDiscoveredObject((ObjectBlock)obj);
 		else if (obj instanceof ObjectItem)return discoveredItems.hasDiscoveredObject((ObjectItem)obj);
-		else if (obj instanceof ObjectMob)return discoveryMobs.hasDiscoveredObject((ObjectMob)obj);
+		else if (obj instanceof ObjectMob)return discoveredMobs.hasDiscoveredObject((ObjectMob)obj);
 		else return false;
 	}
 	
@@ -96,7 +98,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	}
 	
 	public boolean tryDiscoverMob(KnowledgeObject<ObjectMob> mob, boolean addReward){
-		if (discoveryMobs.addObject(mob.getObject())){
+		if (discoveredMobs.addObject(mob.getObject())){
 			onDiscover(mob,addReward);System.out.println("discover mob "+mob.getObject().getUnderlyingObject().getSimpleName());
 			return true;
 		}
@@ -104,7 +106,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	}
 	
 	public boolean hasDiscoveredMob(KnowledgeObject<ObjectMob> mob){
-		return discoveryMobs.hasDiscoveredObject(mob.getObject());
+		return discoveredMobs.hasDiscoveredObject(mob.getObject());
 	}
 	
 	private void onDiscover(KnowledgeObject<?> object, boolean addReward){
@@ -153,7 +155,8 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		hee.setInteger("kps",pointAmount);
 		hee.setTag("fndBlocks",discoveredBlocks.saveToNBTList());
 		hee.setTag("fndItems",discoveredItems.saveToNBTList());
-		hee.setTag("fndMobs",discoveryMobs.saveToNBTList());
+		hee.setTag("fndMobs",discoveredMobs.saveToNBTList());
+		hee.setTag("fndMisc",discoveredMisc.saveToNBTList());
 		hee.setTag("unlocked",new NBTTagIntArray(unlockedFragments.toArray()));
 		nbt.setTag("HEE",hee);
 		Stopwatch.finish("PlayerCompendiumData - save");
@@ -166,7 +169,8 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		pointAmount = hee.getInteger("kps");
 		discoveredBlocks.loadFromNBTList(hee.getTagList("fndBlocks",NBT.TAG_STRING));
 		discoveredItems.loadFromNBTList(hee.getTagList("fndItems",NBT.TAG_STRING));
-		discoveryMobs.loadFromNBTList(hee.getTagList("fndMobs",NBT.TAG_STRING));
+		discoveredMobs.loadFromNBTList(hee.getTagList("fndMobs",NBT.TAG_STRING));
+		discoveredMisc.loadFromNBTList(hee.getTagList("fndMisc",NBT.TAG_STRING));
 		unlockedFragments.addAll(hee.getIntArray("unlocked"));
 		Stopwatch.finish("PlayerCompendiumData - load");
 	}
@@ -212,6 +216,18 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		@Override
 		public Class<? extends EntityLivingBase> deserialize(String data){
 			return (Class<? extends EntityLivingBase>)EntityList.stringToClassMapping.get(data);
+		}
+	}
+	
+	private static class DiscoveryStringSerializer implements IObjectSerializer<String>{
+		@Override
+		public String serialize(String object){
+			return object;
+		}
+
+		@Override
+		public String deserialize(String data){
+			return data;
 		}
 	}
 	

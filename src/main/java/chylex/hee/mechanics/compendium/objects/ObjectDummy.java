@@ -3,12 +3,16 @@ import net.minecraft.item.ItemStack;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 
-public class ObjectDummy implements IKnowledgeObjectInstance<Object>{
-	private static final Object dummy = new Object();
+public class ObjectDummy implements IKnowledgeObjectInstance<String>{
+	private final String identifier;
+	
+	public ObjectDummy(String identifier){
+		this.identifier = identifier;
+	}
 
 	@Override
-	public Object getUnderlyingObject(){
-		return dummy;
+	public String getUnderlyingObject(){
+		return identifier;
 	}
 	
 	@Override
@@ -18,6 +22,6 @@ public class ObjectDummy implements IKnowledgeObjectInstance<Object>{
 
 	@Override
 	public boolean checkEquality(Object o){
-		return o == dummy;
+		return identifier.equals(o);
 	}
 }

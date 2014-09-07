@@ -37,7 +37,7 @@ import chylex.hee.system.logging.Stopwatch;
 
 public final class KnowledgeRegistrations{
 	public static final KnowledgeObject<? extends IKnowledgeObjectInstance<?>>
-		HELP = new KnowledgeObject<>(new ObjectDummy()),
+		HELP = new KnowledgeObject<>(new ObjectDummy("HalpPlz")),
 		
 		// ===
 		
@@ -50,7 +50,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		DRAGON_LAIR = new KnowledgeObject<ObjectDummy>(new ObjectDummy(),new ItemStack(Blocks.dragon_egg),"Dragon Lair"),
+		DRAGON_LAIR = new KnowledgeObject<ObjectDummy>(new ObjectDummy("DragonLair"),new ItemStack(Blocks.dragon_egg),"Dragon Lair"),
 		END_STONE = create(Blocks.end_stone),
 		FALLING_OBSIDIAN = create(BlockList.obsidian_falling),
 		DRAGON_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.DRAGON.id),
@@ -68,7 +68,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		ENDSTONE_BLOB = new KnowledgeObject<ObjectDummy>(new ObjectDummy(),new ItemStack(Blocks.end_stone),"Endstone Blob"),
+		ENDSTONE_BLOB = new KnowledgeObject<ObjectDummy>(new ObjectDummy("EndstoneBlob"),new ItemStack(Blocks.end_stone),"Endstone Blob"),
 		IGNEOUS_ROCK_ORE = create(BlockList.igneous_rock_ore),
 		DEATH_FLOWER = create(BlockList.death_flower),
 		ENDER_GOO = create(ItemList.bucket_ender_goo),
@@ -76,7 +76,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		DUNGEON_TOWER = new KnowledgeObject<ObjectDummy>(new ObjectDummy(),new ItemStack(BlockList.obsidian_special,1),"Dungeon Tower"),
+		DUNGEON_TOWER = new KnowledgeObject<ObjectDummy>(new ObjectDummy("DungeonTower"),new ItemStack(BlockList.obsidian_special,1),"Dungeon Tower"),
 		OBSIDIAN_STAIRS = create(BlockList.obsidian_stairs),
 		OBSIDIAN_SMOOTH = create(BlockList.obsidian_special,0),
 		OBSIDIAN_CHISELED = create(BlockList.obsidian_special,1),
@@ -91,7 +91,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		METEOROID = new KnowledgeObject<ObjectDummy>(new ObjectDummy(),new ItemStack(BlockList.sphalerite),"Meteoroid"),
+		METEOROID = new KnowledgeObject<ObjectDummy>(new ObjectDummy("Meteoroid"),new ItemStack(BlockList.sphalerite),"Meteoroid"),
 		SPHALERITE = create(BlockList.sphalerite,0),
 		SPHALERITE_WITH_STARDUST = create(BlockList.sphalerite,1),
 		STARDUST = create(ItemList.stardust),
@@ -105,7 +105,7 @@ public final class KnowledgeRegistrations{
 		
 		// =>
 		
-		INFESTED_FOREST_BIOME = new KnowledgeObject<ObjectDummy>(new ObjectDummy(),new ItemStack(BlockList.end_terrain,1,0),"Infested Forest Biome"),
+		INFESTED_FOREST_BIOME = new KnowledgeObject<ObjectDummy>(new ObjectDummy("InfestedForest"),new ItemStack(BlockList.end_terrain,1,0),"Infested Forest Biome"),
 		INFESTED_END_STONE = create(BlockList.end_terrain,0),
 		INFESTED_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass),
 		INFESTED_TALL_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass),
@@ -132,7 +132,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		BURNING_MOUNTAINS_BIOME = new KnowledgeObject<ObjectDummy>(new ObjectDummy(),new ItemStack(BlockList.end_terrain,1,1),"Burning Mountains Biome"),
+		BURNING_MOUNTAINS_BIOME = new KnowledgeObject<ObjectDummy>(new ObjectDummy("BurningMountains"),new ItemStack(BlockList.end_terrain,1,1),"Burning Mountains Biome"),
 		BURNING_END_STONE = create(BlockList.end_terrain,1),
 		LILYFIRE = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire),
 		
@@ -150,7 +150,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		ENCHANTED_ISLAND_BIOME = new KnowledgeObject<ObjectDummy>(new ObjectDummy(),new ItemStack(BlockList.end_terrain,1,2),"Enchanted Island Biome"),
+		ENCHANTED_ISLAND_BIOME = new KnowledgeObject<ObjectDummy>(new ObjectDummy("EnchantedIsland"),new ItemStack(BlockList.end_terrain,1,2),"Enchanted Island Biome"),
 		ENCHANTED_END_STONE = create(BlockList.end_terrain,2),
 		
 		FALLING_OBSIDIAN_OINKED = new LinkedKnowledgeObject<>(FALLING_OBSIDIAN),
