@@ -117,11 +117,51 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	
 	@Override
 	public boolean equals(Object o){
-		return o instanceof KnowledgeObject && ((KnowledgeObject)o).globalID == globalID;
+		if (o instanceof KnowledgeObject){
+			KnowledgeObject obj = (KnowledgeObject)o;
+			return obj.globalID == globalID || obj.theObject == theObject;
+		}
+		else return false;
 	}
 	
 	@Override
 	public int hashCode(){
 		return globalID;
+	}
+	
+	public static final class LinkedKnowledgeObject<T extends IKnowledgeObjectInstance> extends KnowledgeObject<T>{
+		private final KnowledgeObject<T> linkedObject;
+		
+		public LinkedKnowledgeObject(KnowledgeObject<T> linkedObject){
+			this(linkedObject,linkedObject.getItemStack());
+		}
+		
+		public LinkedKnowledgeObject(KnowledgeObject<T> linkedObject, ItemStack itemToRender){
+			this(linkedObject,itemToRender,itemToRender.getDisplayName());
+		}
+		
+		public LinkedKnowledgeObject(KnowledgeObject<T> linkedObject, String tooltip){
+			this(linkedObject,linkedObject.getItemStack(),tooltip);
+		}
+		
+		public LinkedKnowledgeObject(KnowledgeObject<T> linkedObject, ItemStack itemToRender, String tooltip){
+			super(linkedObject.getObject(),itemToRender,tooltip);
+			this.linkedObject = linkedObject;
+		}
+		
+		@Override
+		public KnowledgeObject setUnlockPrice(int price){
+			throw new UnsupportedOperationException("Cannot modify unlock price in linked Knowledge Objects.");
+		}
+		
+		@Override
+		public KnowledgeObject setDiscoveryReward(int reward){
+			throw new UnsupportedOperationException("Cannot modify discovery reward in linked Knowledge Objects.");
+		}
+		
+		@Override
+		public KnowledgeObject setFragments(KnowledgeFragment[] fragments){
+			throw new UnsupportedOperationException("Cannot modify fragments in linked Knowledge Objects.");
+		}
 	}
 }

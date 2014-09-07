@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -16,9 +17,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
+import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
-import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
@@ -37,6 +38,7 @@ public final class CompendiumEvents{
 	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~Compendium";
 	private static final byte byteZero = 0;
 	private static final byte byteOne = 1;
+	private static BlockMetaWrapper bmwReuse = new BlockMetaWrapper(Blocks.air,0);
 	
 	private static CompendiumEvents instance;
 	
@@ -54,7 +56,9 @@ public final class CompendiumEvents{
 	
 	private static void discoverItemStack(EntityPlayer player, ItemStack is){
 		if (is.getItem() instanceof ItemBlock){
-			KnowledgeObject<ObjectBlock> obj = KnowledgeObject.getObject(new BlockMetaWrapper(((ItemBlock)is.getItem()).field_150939_a,is.getItemDamage()));
+			bmwReuse.block = ((ItemBlock)is.getItem()).field_150939_a;
+			bmwReuse.metadata = (byte)is.getItemDamage();
+			KnowledgeObject<ObjectBlock> obj = KnowledgeObject.getObject(bmwReuse);
 			if (obj != null)getPlayerData(player).tryDiscoverBlock(obj,true);
 		}
 		else{
@@ -98,7 +102,7 @@ public final class CompendiumEvents{
 		EntityPlayer player = e.player;
 		
 		if (playerTickLimiter.adjustOrPutValue(player.getGameProfile().getId(),byteOne,byteOne) >= 7){
-			Stopwatch.timeAverage("CompendiumEvents - look tracing",10);
+			Stopwatch.timeAverage("CompendiumEvents - look tracing",15);
 			
 			playerTickLimiter.put(player.getGameProfile().getId(),byteZero);
 			
@@ -136,6 +140,13 @@ public final class CompendiumEvents{
 			}
 			
 			Stopwatch.finish("CompendiumEvents - look tracing");
+			Stopwatch.timeAverage("CompendiumEvents - inventory",15);
+
+			for(ItemStack is:player.inventory.mainInventory){
+				if (is != null)discoverItemStack(player,is);
+			}
+			
+			Stopwatch.finish("CompendiumEvents - inventory");
 		}
 	}
 	

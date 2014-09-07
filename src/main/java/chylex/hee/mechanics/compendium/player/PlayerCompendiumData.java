@@ -182,7 +182,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 
 		@Override
 		public BlockMetaWrapper deserialize(String data){
-			int secondColonIndex = data.indexOf(":",data.indexOf(":")+1);
+			int secondColonIndex = data.lastIndexOf(":");
 			String meta = data.substring(secondColonIndex+1);
 			
 			if (!meta.equals("-1") && !StringUtils.isNumeric(meta))return null;

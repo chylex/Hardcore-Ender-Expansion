@@ -34,8 +34,8 @@ public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 	}
 	
 	public static class BlockMetaWrapper{
-		public final Block block;
-		public final byte metadata;
+		public Block block;
+		public byte metadata;
 		
 		public BlockMetaWrapper(Block block, int metadata){
 			this.block = block;
