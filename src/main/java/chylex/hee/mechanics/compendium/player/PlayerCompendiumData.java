@@ -29,12 +29,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class PlayerCompendiumData implements IExtendedEntityProperties{
 	private int pointAmount;
 	
-	private PlayerDiscoveryList<ObjectBlock,BlockMetaWrapper> discoveredBlocks = new PlayerDiscoveryList<>(new DiscoveryBlockSerializer());
-	private PlayerDiscoveryList<ObjectItem,Item> discoveredItems = new PlayerDiscoveryList<>(new DiscoveryItemSerializer());
-	private PlayerDiscoveryList<ObjectMob,Class<? extends EntityLivingBase>> discoveredMobs = new PlayerDiscoveryList<>(new DiscoveryMobSerializer());
-	private PlayerDiscoveryList<ObjectDummy,String> discoveredMisc = new PlayerDiscoveryList<>(new DiscoveryStringSerializer());
+	private final PlayerDiscoveryList<ObjectBlock,BlockMetaWrapper> discoveredBlocks = new PlayerDiscoveryList<>(new DiscoveryBlockSerializer());
+	private final PlayerDiscoveryList<ObjectItem,Item> discoveredItems = new PlayerDiscoveryList<>(new DiscoveryItemSerializer());
+	private final PlayerDiscoveryList<ObjectMob,Class<? extends EntityLivingBase>> discoveredMobs = new PlayerDiscoveryList<>(new DiscoveryMobSerializer());
+	private final PlayerDiscoveryList<ObjectDummy,String> discoveredMisc = new PlayerDiscoveryList<>(new DiscoveryStringSerializer());
 	
-	private TIntHashSet unlockedFragments = new TIntHashSet();
+	private final TIntHashSet unlockedFragments = new TIntHashSet();
 	
 	public PlayerCompendiumData(){}
 	

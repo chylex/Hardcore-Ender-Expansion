@@ -27,7 +27,7 @@ public final class CompendiumEventsClient{
 		}
 	}
 	
-	private KeyBinding keyOpenCompendium;
+	private final KeyBinding keyOpenCompendium;
 	private PlayerCompendiumData data;
 	
 	private CompendiumEventsClient(){

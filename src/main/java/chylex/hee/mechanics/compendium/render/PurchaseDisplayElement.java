@@ -41,7 +41,7 @@ public class PurchaseDisplayElement{
 		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),GuiEnderCompendium.knowledgeFragmentIS,pageCenterX-22,y-10);
 		RenderHelper.disableStandardItemLighting();
 		
-		String price = String.valueOf(this.price);
+		String price = String.valueOf(this.price); // TODO canAfford
 		gui.mc.fontRenderer.drawString(price,pageCenterX-gui.mc.fontRenderer.getStringWidth(price)+20,y-5,4210752);
 	}
 	

@@ -44,7 +44,7 @@ public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 		
 		@Override
 		public boolean equals(Object o){
-			return o.getClass() == BlockMetaWrapper.class && ((BlockMetaWrapper)o).block == block;
+			return o != null && o.getClass() == BlockMetaWrapper.class && ((BlockMetaWrapper)o).block == block;
 		}
 		
 		@Override

@@ -29,6 +29,8 @@ public class PlayerDiscoveryList<P extends IKnowledgeObjectInstance<T>,T>{
 	}
 	
 	public void loadFromNBTList(NBTTagList list){
+		discoveredObjects.clear();
+		
 		for(int a = 0, count = list.tagCount(); a < count; a++){
 			T object = serializer.deserialize(list.getStringTagAt(a));
 			if (object != null)discoveredObjects.add((T)KnowledgeObject.getObject(object).getObject().getUnderlyingObject());
@@ -36,7 +38,7 @@ public class PlayerDiscoveryList<P extends IKnowledgeObjectInstance<T>,T>{
 	}
 	
 	public interface IObjectSerializer<T>{
-		public String serialize(T object);
-		public T deserialize(String data);
+		String serialize(T object);
+		T deserialize(String data);
 	}
 }

@@ -5,7 +5,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
 
 public class KnowledgeCategories{
-	public static KnowledgeCategory OVERWORLD, DRAGON_LAIR, ENDSTONE_BLOBS, DUNGEON_TOWER, METEOROIDS, BIOME_ISLAND_FOREST, BIOME_ISLAND_MOUNTAINS, BIOME_ISLAND_ENCHISLAND;
+	public static final KnowledgeCategory OVERWORLD, DRAGON_LAIR, ENDSTONE_BLOBS, DUNGEON_TOWER, METEOROIDS, BIOME_ISLAND_FOREST, BIOME_ISLAND_MOUNTAINS, BIOME_ISLAND_ENCHISLAND;
 	
 	public static final KnowledgeCategory[] categoryList = new KnowledgeCategory[]{
 		OVERWORLD = new KnowledgeCategory(0, -2, 0, "Overworld", new ItemStack(Blocks.stonebrick)),

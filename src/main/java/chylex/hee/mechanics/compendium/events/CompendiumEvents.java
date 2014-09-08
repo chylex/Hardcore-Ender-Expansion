@@ -72,7 +72,7 @@ public final class CompendiumEvents{
 		if (obj != null)getPlayerData(player).tryDiscoverMob(obj,true);
 	}
 	
-	private TObjectByteHashMap<UUID> playerTickLimiter = new TObjectByteHashMap<>();
+	private final TObjectByteHashMap<UUID> playerTickLimiter = new TObjectByteHashMap<>();
 	
 	private CompendiumEvents(){}
 	

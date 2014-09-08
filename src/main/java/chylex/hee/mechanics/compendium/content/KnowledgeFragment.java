@@ -20,8 +20,8 @@ public abstract class KnowledgeFragment{
 	}
 	
 	public final int globalID;
-	private int price = 10;
-	private boolean unlockOnDiscovery = false;
+	private int price;
+	private boolean unlockOnDiscovery;
 	private int[] unlockRequirements = ArrayUtils.EMPTY_INT_ARRAY;
 	private int[] unlockCascade = ArrayUtils.EMPTY_INT_ARRAY;
 	
