@@ -21,8 +21,6 @@ import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium.content.KnowledgeFragmentCrafting;
-import chylex.hee.mechanics.compendium.content.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject.LinkedKnowledgeObject;
@@ -31,7 +29,6 @@ import chylex.hee.mechanics.compendium.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
-import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Stopwatch;
 
@@ -163,6 +160,25 @@ public final class KnowledgeRegistrations{
 	public static void initialize(){
 		Stopwatch.time("KnowledgeRegistrations");
 		
+		/*
+		 * Object price
+		 * ============
+		 *   5 | easily found objects without any feature mechanics
+		 *  10 | 
+		 * 
+		 * Fragment price
+		 * ==============
+		 *  1 | bulk data
+		 *  2 | unimportant or generic information
+		 *  5 | 
+		 *
+		 * Object discovery reward
+		 * =======================
+		 * Most objects should give enough points to unlock some/all fragments.
+		 * Uncommon and rare objects should give an additional bonus.
+		 * Purely visual objects should also give a bonus for discovery.
+		 */
+		
 		HELP.setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(0).setContents("Welcome to the Ender Compendium, the source of all knowledge about the End!"),
 			new KnowledgeFragmentText(1).setContents("The Compendium is divided into phases, clicking them reveals blocks, items and mobs you can find in that phase."),
@@ -174,18 +190,19 @@ public final class KnowledgeRegistrations{
 		});
 		
 		KnowledgeCategories.OVERWORLD.addKnowledgeObjects(new KnowledgeObject[]{
-			ADVENTURERS_DIARY.setPos(0,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(50).setContents("Text fragment").setPrice(10),
-				new KnowledgeFragmentCrafting(51).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(10),
-				new KnowledgeFragmentEnhancement(52).setEnhancement(TNTEnhancements.EXTRA_POWER).setPrice(10),
+			ADVENTURERS_DIARY.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(20).setContents("Short story of an adventurer, split across 16 pages.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(21).setContents("Opening a new diary page unlocks next page of the story, and locks the item to only open that page for other players.").setPrice(2).setUnlockOnDiscovery()
+			}),
+			
+			ENDERMAN_HEAD.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(40).setContents("Rare drop from Endermen.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(41).setContents("Drop chance is 1 in 40 (2.5%), Looting enchantment increases the chance.").setPrice(2)
+			}),
+			
+			MUSIC_DISKS.setPos(2,0).setUnlockPrice(5).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(60).setContents("Jukebox discs with various pieces of qwertygiy's music.").setPrice(2)
 			})
-			/*TEST_OBJECT.setPos(0,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(1000).setContents("Test fragment").setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(1001).setContents("Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2").setPrice(10),
-				new KnowledgeFragmentText(1002).setContents("Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2").setPrice(100),
-				new KnowledgeFragmentText(1003).setContents("Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2").setPrice(400),
-				new KnowledgeFragmentText(1004).setContents("Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2 Test fragment 2").setPrice(5000)
-			})*/
 		});
 		
 		Stopwatch.finish("KnowledgeRegistrations");
