@@ -4,35 +4,6 @@ public final class KnowledgeRegistrations{
 	public static void initialize(){
 		Stopwatch.time("KnowledgeRegistrations");
 		
-		HELP
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Ender Compendium is the source of knowledge about the End dimension."),
-			new TextKnowledgeFragment(1).setLocalizedText("Interaction with the world will unlock fragments of knowledge. These need to be written on paper."),
-			new TextKnowledgeFragment(2).setLocalizedText("After you gain a knowledge fragment, open the book to see it immediately."),
-			new TextKnowledgeFragment(3).setLocalizedText("Some fragments may not be fully researched at first, and another fragment will have to be unlocked to clarify it.")
-		});
-		
-		ALTAR_NEXUS
-		.setPosition(0,dist*3-hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.altar_nexus))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("The core component of each altar."),
-			new CraftingKnowledgeFragment(1).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setUnlockRequirements(0)
-		});
-		
-		BASIC_ESSENCE_ALTAR
-		.setPosition(0,dist*2-hdist)
-		.setRenderer(new ItemStackRenderer(BlockList.essence_altar))
-		.setFragments(new KnowledgeFragment[]{
-			new CraftingKnowledgeFragment(0).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)),
-			new TextKnowledgeFragment(1).setLocalizedText("Giving essence to the altar will start the transformation."),
-			new TextKnowledgeFragment(2).setLocalizedText("Each type of essence requires different catalysts, in form of blocks and items.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(3).setLocalizedText("Transformed altars can accept 32 of the essence at a time when standing, or 1 when sneaking.").setUnlockRequirements(2),
-			new TextKnowledgeFragment(4).setLocalizedText("Altars have 4 sockets for precious metals in the corners, the metals may add an effect or a boost, and at least one effect and one boost are required.").setUnlockRequirements(3),
-			new TextKnowledgeFragment(5).setLocalizedText("Redstone Block adds speed boost, Lapis Block increases range and Nether Quartz block lower the amount of essence used.").setUnlockRequirements(4),
-			new TextKnowledgeFragment(6).setLocalizedText("Iron Block gives boost of 1, Gold Block has 3, Diamond Block has 7 and Emerald Block has 10.").setUnlockRequirements(4)
-		});
-		
 		DRAGON_ESSENCE
 		.setPosition(-dist,dist-hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.essence,EssenceType.DRAGON.getItemDamage()))
@@ -681,13 +652,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(0).setLocalizedText("Pieces of knowledge scattered around the world.")
 		});
 		
-		ADVENTURERS_DIARY
-		.setPosition(-dist,-dist*2)
-		.setRenderer(new ItemStackRenderer(ItemList.adventurers_diary))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Story of an adventurer, who had fought the Ender Dragon before.")
-		});
-		
 		ENDER_GOO
 		.setPosition(-dist*2,0)
 		.setRenderer(new ItemStackRenderer(ItemList.bucket_ender_goo))
@@ -718,22 +682,6 @@ public final class KnowledgeRegistrations{
 		.setFragments(new KnowledgeFragment[]{
 			new TextKnowledgeFragment(0).setLocalizedText("Orange tulip, found on the surface of Burning Mountains biome."),
 			new CraftingKnowledgeFragment(1).setCustomRecipe(new ItemStack(Items.dye,2,14),new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire))
-		});
-		
-		ENDERMAN_HEAD
-		.setPosition(0,0)
-		.setRenderer(new ItemStackRenderer(ItemList.enderman_head))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("There is 1 in ?? chance an Enderman will drop the head.").setReplacedBy(1),
-			new TextKnowledgeFragment(1).setLocalizedText("There is 1 in 40 chance an Enderman will drop the head.").setReplacementFor(0).setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Looting enchantment increases the drop chance.").setUnlockRequirements(0)
-		});
-		
-		MUSIC_DISCS
-		.setPosition(dist*2,0)
-		.setRenderer(new ItemStackRenderer(ItemList.music_disk))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Discs containing various music that plays in the End, found in various dungeons of the dimension.")
 		});
 
 		Stopwatch.finish("KnowledgeRegistrations");

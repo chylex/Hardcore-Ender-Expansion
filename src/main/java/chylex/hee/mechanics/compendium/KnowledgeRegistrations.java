@@ -21,6 +21,7 @@ import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragmentCrafting;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject.LinkedKnowledgeObject;
@@ -30,6 +31,7 @@ import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 
 public final class KnowledgeRegistrations{
@@ -44,6 +46,7 @@ public final class KnowledgeRegistrations{
 		ALTAR_NEXUS = create(ItemList.altar_nexus),
 		BASIC_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.INVALID.id),
 		ENDERMAN = create(EntityEnderman.class),
+		SILVERFISH = create(EntitySilverfish.class),
 		
 		ESSENCE = create(ItemList.essence),
 		
@@ -117,7 +120,7 @@ public final class KnowledgeRegistrations{
 		GHOST_AMULET = create(ItemList.ghost_amulet),
 		ECTOPLASM = create(ItemList.ectoplasm),
 		INFESTED_BAT = create(EntityMobInfestedBat.class),
-		SILVERFISH = create(EntitySilverfish.class),
+		SILVERFISH_LINKED = link(SILVERFISH),
 		
 		RAVAGED_BRICKS = create(BlockList.ravaged_brick),
 		RAVAGED_BRICK_GLOWING = create(BlockList.ravaged_brick_glow),
@@ -164,19 +167,23 @@ public final class KnowledgeRegistrations{
 		 * Object price
 		 * ============
 		 *   5 | easily found objects without any feature mechanics
-		 *  10 | 
+		 *  10 | basic objects with mechanics
+		 *  20 | important objects with mechanics
 		 * 
 		 * Fragment price
 		 * ==============
-		 *  1 | bulk data
-		 *  2 | unimportant or generic information
-		 *  5 | 
+		 *   1 | bulk data
+		 *   2 | unimportant or generic information
+		 *   5 | basic information about important objects
+		 *   8 | key information
+		 *  10 | very important information
 		 *
 		 * Object discovery reward
 		 * =======================
 		 * Most objects should give enough points to unlock some/all fragments.
 		 * Uncommon and rare objects should give an additional bonus.
 		 * Purely visual objects should also give a bonus for discovery.
+		 * Objects which are made in a way they should be unlocked with points would only give small reward.
 		 */
 		
 		HELP.setFragments(new KnowledgeFragment[]{
@@ -197,15 +204,71 @@ public final class KnowledgeRegistrations{
 			
 			ENDERMAN_HEAD.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(40).setContents("Rare drop from Endermen.").setPrice(2).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(41).setContents("Drop chance is 1 in 40 (2.5%), Looting enchantment increases the chance.").setPrice(2)
+				new KnowledgeFragmentText(41).setContents("Drop chance is 1 in 40 (2.5%), Looting enchantment increases the chance.").setPrice(2).setUnlockRequirements(40)
 			}),
 			
 			MUSIC_DISKS.setPos(2,0).setUnlockPrice(5).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(60).setContents("Jukebox discs with various pieces of qwertygiy's music.").setPrice(2)
+			}),
+			
+			ALTAR_NEXUS.setPos(3,0).setUnlockPrice(10).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(80).setContents("Core component of the Basic Essence Altar.").setPrice(8),
+				new KnowledgeFragmentCrafting(81).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setUnlockRequirements(80),
+				new KnowledgeFragmentCrafting(82).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setUnlockCascade(100)
+			}),
+			
+			BASIC_ESSENCE_ALTAR.setPos(4,0).setNonBuyable().setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentCrafting(100).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setUnlockCascade(82),
+				new KnowledgeFragmentText(101).setContents("Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.").setUnlockOnDiscovery().setPrice(5).setUnlockRequirements(100),
+				new KnowledgeFragmentText(102).setContents("Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.").setPrice(2).setUnlockRequirements(101),
+				new KnowledgeFragmentText(103).setContents("Altars have 4 sockets for precious blocks in the corners. Some of the blocks give an effect and some boost used effects, one of each is required minimum.").setPrice(6).setUnlockRequirements(101),
+				new KnowledgeFragmentText(104).setContents("Redstone Block increases altar speed, Lapis Block improves range and Nether Quartz Block makes Essence usage lower.").setPrice(2).setUnlockRequirements(103),
+				new KnowledgeFragmentText(105).setContents("Iron Block has effect boost 1, Gold Block 3, Diamond Block 7 and Emerald Block 10.").setPrice(2).setUnlockRequirements(103)
+			}),
+			
+			ENDERMAN.setPos(5,0).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			SILVERFISH.setPos(6,0).setDiscoveryReward(25).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ESSENCE.setPos(7,0).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			// ===
+			
+			DRAGON_LAIR.setPos(0,0).setFragments(new KnowledgeFragment[]{
+				
 			})
 		});
 		
 		Stopwatch.finish("KnowledgeRegistrations");
+		
+		if (Log.isDebugEnabled()){
+			Stopwatch.time("KnowledgeRegistrations - Stats");
+			
+			int amtObjects = 0, amtFragments = 0, totalObjPrice = 0, totalFragPrice = 0, totalReward = 0;
+			
+			for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
+				++amtObjects;
+				for(KnowledgeFragment fragment:obj.getFragments())totalFragPrice += fragment.getPrice();
+				amtFragments += obj.getFragments().size();
+				totalObjPrice += obj.getUnlockPrice();
+				totalReward += obj.getDiscoveryReward();
+			}
+			
+			Log.debug("Knowledge Object amount: $0",amtObjects);
+			Log.debug("Knowledge Fragment amount: $0",amtFragments);
+			Log.debug("Total Object price: $0",totalObjPrice);
+			Log.debug("Total Fragment price: $0",totalFragPrice);
+			Log.debug("Total price: $0",totalObjPrice+totalFragPrice);
+			Log.debug("Total discovery reward: $0",totalReward);
+			
+			Stopwatch.finish("KnowledgeRegistrations - Stats");
+		}
 	}
 	
 	public static KnowledgeObject<ObjectBlock> create(Block block){

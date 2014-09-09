@@ -256,7 +256,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (object == KnowledgeRegistrations.HELP)return;
 		
-		if (!compendiumData.hasDiscoveredObject(currentObject))purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumData.getPoints() >= currentObject.getUnlockPrice()));
+		if (!compendiumData.hasDiscoveredObject(currentObject)){
+			if (currentObject.isBuyable())purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumData.getPoints() >= currentObject.getUnlockPrice()));
+		}
 		else{
 			yy = ((this.height-guiPageTexHeight)>>1)+guiPageTop;
 			
@@ -423,6 +425,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		}
 		
 		for(PurchaseDisplayElement element:purchaseElements)element.render(this,x);
+		
+		if (!currentObject.isBuyable()){
+			// TODO text
+		}
 	}
 	
 	@Override

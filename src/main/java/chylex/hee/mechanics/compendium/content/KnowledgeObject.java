@@ -68,6 +68,11 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 		return this;
 	}
 	
+	public KnowledgeObject setNonBuyable(){
+		this.unlockPrice = -1;
+		return this;
+	}
+	
 	public KnowledgeObject setDiscoveryReward(int reward){
 		this.reward = reward;
 		return this;
@@ -85,6 +90,10 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	
 	public T getObject(){
 		return theObject;
+	}
+	
+	public boolean isBuyable(){
+		return unlockPrice != -1;
 	}
 	
 	public int getUnlockPrice(){
