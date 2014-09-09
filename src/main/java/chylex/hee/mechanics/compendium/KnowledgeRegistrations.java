@@ -48,9 +48,11 @@ public final class KnowledgeRegistrations{
 		BASIC_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.INVALID.id),
 		ENDERMAN = create(EntityEnderman.class),
 		
+		ESSENCE = create(ItemList.essence),
+		
 		// ===
 		
-		DRAGON_LAIR = new KnowledgeObject<ObjectDummy>(new ObjectDummy("DragonLair"),new ItemStack(Blocks.dragon_egg),"Dragon Lair"),
+		DRAGON_LAIR = dummy("DragonLair",new ItemStack(Blocks.dragon_egg),"Dragon Lair"),
 		END_STONE = create(Blocks.end_stone),
 		FALLING_OBSIDIAN = create(BlockList.obsidian_falling),
 		DRAGON_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.DRAGON.id),
@@ -58,7 +60,7 @@ public final class KnowledgeRegistrations{
 		ENHANCED_BREWING_STAND = create(ItemList.enhanced_brewing_stand),
 		ENHANCED_TNT = create(BlockList.enhanced_tnt),
 		DRAGON_EGG = create(Blocks.dragon_egg),
-		DRAGON_ESSENCE = new KnowledgeObject<ObjectItem>(new ObjectItem(ItemList.essence),new ItemStack(ItemList.essence,EssenceType.FIERY.getItemDamage())),
+		DRAGON_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,EssenceType.DRAGON.getItemDamage()),"Dragon Essence"), // TODO localize
 		END_POWDER = create(ItemList.end_powder),
 		ENHANCED_ENDER_PEARL = create(ItemList.enhanced_ender_pearl),
 		TEMPLE_CALLER = create(ItemList.temple_caller),
@@ -68,7 +70,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		ENDSTONE_BLOB = new KnowledgeObject<ObjectDummy>(new ObjectDummy("EndstoneBlob"),new ItemStack(Blocks.end_stone),"Endstone Blob"),
+		ENDSTONE_BLOB = dummy("EndstoneBlob",new ItemStack(Blocks.end_stone),"Endstone Blob"),
 		IGNEOUS_ROCK_ORE = create(BlockList.igneous_rock_ore),
 		DEATH_FLOWER = create(BlockList.death_flower),
 		ENDER_GOO = create(ItemList.bucket_ender_goo),
@@ -76,7 +78,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		DUNGEON_TOWER = new KnowledgeObject<ObjectDummy>(new ObjectDummy("DungeonTower"),new ItemStack(BlockList.obsidian_special,1),"Dungeon Tower"),
+		DUNGEON_TOWER = dummy("DungeonTower",new ItemStack(BlockList.obsidian_special,1),"Dungeon Tower"),
 		OBSIDIAN_STAIRS = create(BlockList.obsidian_stairs),
 		OBSIDIAN_SMOOTH = create(BlockList.obsidian_special,0),
 		OBSIDIAN_CHISELED = create(BlockList.obsidian_special,1),
@@ -91,7 +93,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		METEOROID = new KnowledgeObject<ObjectDummy>(new ObjectDummy("Meteoroid"),new ItemStack(BlockList.sphalerite),"Meteoroid"),
+		METEOROID = dummy("Meteoroid",new ItemStack(BlockList.sphalerite),"Meteoroid"),
 		SPHALERITE = create(BlockList.sphalerite,0),
 		SPHALERITE_WITH_STARDUST = create(BlockList.sphalerite,1),
 		STARDUST = create(ItemList.stardust),
@@ -101,11 +103,11 @@ public final class KnowledgeRegistrations{
 		INSTABILITY_ORB_ORE = create(BlockList.instability_orb_ore),
 		STARDUST_ORE = create(BlockList.stardust_ore),
 		INSTABILITY_ORB = create(ItemList.instability_orb),
-		STARDUST_LINKED = new LinkedKnowledgeObject<>(STARDUST),
+		STARDUST_LINKED = link(STARDUST),
 		
 		// =>
 		
-		INFESTED_FOREST_BIOME = new KnowledgeObject<ObjectDummy>(new ObjectDummy("InfestedForest"),new ItemStack(BlockList.end_terrain,1,0),"Infested Forest Biome"),
+		INFESTED_FOREST_BIOME = dummy("InfestedForest",new ItemStack(BlockList.end_terrain,1,0),"Infested Forest Biome"),
 		INFESTED_END_STONE = create(BlockList.end_terrain,0),
 		INFESTED_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass),
 		INFESTED_TALL_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass),
@@ -132,15 +134,15 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		BURNING_MOUNTAINS_BIOME = new KnowledgeObject<ObjectDummy>(new ObjectDummy("BurningMountains"),new ItemStack(BlockList.end_terrain,1,1),"Burning Mountains Biome"),
+		BURNING_MOUNTAINS_BIOME = dummy("BurningMountains",new ItemStack(BlockList.end_terrain,1,1),"Burning Mountains Biome"),
 		BURNING_END_STONE = create(BlockList.end_terrain,1),
 		LILYFIRE = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire),
 		
-		IGNEOUS_ROCK_ORE_LINKED = new LinkedKnowledgeObject<>(IGNEOUS_ROCK_ORE),
-		IGNEOUS_ROCK_LINKED = new LinkedKnowledgeObject<>(IGNEOUS_ROCK),
+		IGNEOUS_ROCK_ORE_LINKED = link(IGNEOUS_ROCK_ORE),
+		IGNEOUS_ROCK_LINKED = link(IGNEOUS_ROCK),
 		CINDER = create(BlockList.cinder),
 		FIERY_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.FIERY.id),
-		FIERY_ESSENCE = new KnowledgeObject<ObjectItem>(new ObjectItem(ItemList.essence),new ItemStack(ItemList.essence,EssenceType.FIERY.getItemDamage())),
+		FIERY_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,EssenceType.FIERY.getItemDamage()),"Fiery Essence"), // TODO localize
 		FIRE_GOLEM = create(EntityMobFireGolem.class),
 		SCORCHING_LENS = create(EntityMobScorchingLens.class),
 		
@@ -150,11 +152,11 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		ENCHANTED_ISLAND_BIOME = new KnowledgeObject<ObjectDummy>(new ObjectDummy("EnchantedIsland"),new ItemStack(BlockList.end_terrain,1,2),"Enchanted Island Biome"),
+		ENCHANTED_ISLAND_BIOME = dummy("EnchantedIsland",new ItemStack(BlockList.end_terrain,1,2),"Enchanted Island Biome"),
 		ENCHANTED_END_STONE = create(BlockList.end_terrain,2),
 		
-		FALLING_OBSIDIAN_OINKED = new LinkedKnowledgeObject<>(FALLING_OBSIDIAN),
-		ENDERMAN_LINKED = new LinkedKnowledgeObject<>(ENDERMAN),
+		FALLING_OBSIDIAN_LINKED = link(FALLING_OBSIDIAN),
+		ENDERMAN_LINKED = link(ENDERMAN),
 		BABY_ENDERMAN = create(EntityMobBabyEnderman.class),
 		ENDER_GUARDIAN = create(EntityMobEnderGuardian.class);
 	
@@ -203,6 +205,18 @@ public final class KnowledgeRegistrations{
 	
 	public static KnowledgeObject<ObjectMob> create(Class<? extends EntityLiving> mobClass){
 		return new KnowledgeObject<ObjectMob>(new ObjectMob(mobClass));
+	}
+	
+	public static KnowledgeObject<ObjectDummy> dummy(String identifier, ItemStack itemToRender, String tooltip){
+		return new KnowledgeObject<ObjectDummy>(new ObjectDummy(identifier),itemToRender,tooltip);
+	}
+	
+	public static KnowledgeObject<? extends IKnowledgeObjectInstance<?>> link(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
+		return new LinkedKnowledgeObject<>(object);
+	}
+	
+	public static KnowledgeObject<? extends IKnowledgeObjectInstance<?>> link(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object, ItemStack itemToRender, String tooltip){
+		return new LinkedKnowledgeObject<>(object,itemToRender,tooltip);
 	}
 	
 	private KnowledgeRegistrations(){}

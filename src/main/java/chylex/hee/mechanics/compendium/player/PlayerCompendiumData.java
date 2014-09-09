@@ -48,7 +48,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	}
 	
 	public void givePoints(int amount){
-		pointAmount += amount;
+		pointAmount += Math.max(0,amount);
 	}
 	
 	public void payPoints(int amount){

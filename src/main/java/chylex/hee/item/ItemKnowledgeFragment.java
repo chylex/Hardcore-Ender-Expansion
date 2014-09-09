@@ -4,9 +4,16 @@ import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.events.CompendiumEvents;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import chylex.hee.packets.PacketPipeline;
+import com.google.common.collect.ImmutableList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import chylex.hee.packets.client.C19CompendiumData;
 
 public class ItemKnowledgeFragment extends Item{
 	public ItemKnowledgeFragment(){
@@ -15,66 +22,42 @@ public class ItemKnowledgeFragment extends Item{
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (world.isRemote)return is;
+		if (world.isRemote || is.stackTagCompound == null || !is.stackTagCompound.hasKey("hasPts"))return is;
 		
-		/*for(int a = 0; a < player.inventory.mainInventory.length; a++){
-			ItemStack invIS = player.inventory.mainInventory[a];
-			if (invIS == null || invIS.getItem() != ItemList.ender_compendium)continue;
-			
-			String registration = is.stackTagCompound != null?is.stackTagCompound.getString("knowledgeRegistration"):null;
-			boolean succeeded = false;
-			
-			if (registration == null){
-				List<KnowledgeRegistration> registrations = new ArrayList<>();
-				for(KnowledgeCategory cat:KnowledgeCategory.categories)registrations.addAll(cat.registrations);
-				
-				Collections.shuffle(registrations);
-				
-				for(KnowledgeRegistration reg:registrations){
-					if (reg.fragmentSet.unlockRandomFragment(player,invIS,null)){
-						succeeded = true;
-						break;
-					}
-				}
-			}
-			else{
-				KnowledgeRegistration reg = KnowledgeRegistration.lookup.get(registration);
-				
-				if (reg != null){
-					for(int attempt = 0; attempt < 20 && !succeeded; attempt++){
-						if (reg.fragmentSet.unlockRandomFragment(player,invIS,null))succeeded = true;
-					}
-				}
-			}
-			
-			if (succeeded){
-				world.playSoundAtEntity(player,"hardcoreenderexpansion:player.random.pageflip",1.5F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.8F));
-				--is.stackSize;
-			}
-			else if (registration != null){
-				PacketPipeline.sendToPlayer(player,new C03KnowledgeRegistrationNotification(-3));
-			}
-			
-			return is;
-		}
-
-		PacketPipeline.sendToPlayer(player,new C03KnowledgeRegistrationNotification(-2));*/
+		boolean hasPts = is.stackTagCompound.getBoolean("hasPts");
+		
+		if (hasPts)CompendiumEvents.getPlayerData(player).givePoints(is.stackTagCompound.getByte("pts"));
+		
+		PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
+		// TODO sound
+		
+		--is.stackSize;
 		return is;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		/*String registration = is.stackTagCompound != null ? is.stackTagCompound.getString("knowledgeRegistration") : null;
+		if (is.stackTagCompound == null)return;
 		
-		if (registration != null){
-			KnowledgeRegistration reg = KnowledgeRegistration.lookup.get(registration);
-			if (reg != null)textLines.add(reg.getRenderer().getTooltip());
-		}*/
+		boolean hasPts = is.stackTagCompound.getBoolean("hasPts");
+		textLines.add(hasPts ? is.stackTagCompound.getByte("pts")+" Knowledge Points" : "");
 	}
 	
 	public static ItemStack setRandomFragment(ItemStack is, Random rand){
-		// TODO
+		is.stackTagCompound = new NBTTagCompound();
+		
+		if (rand.nextInt(5) == 0 && false){ // random object
+			is.stackTagCompound.setBoolean("hasPts",false);
+			
+			ImmutableList<KnowledgeObject<? extends IKnowledgeObjectInstance>> list = KnowledgeObject.getAllObjects();
+			//is.stackTagCompound.setString("objectId",list.get(rand.nextInt(list.size())).getObject()); // TODO finish
+		}
+		else{ // points
+			is.stackTagCompound.setBoolean("hasPts",true);
+			is.stackTagCompound.setByte("pts",(byte)((rand.nextInt(5)*rand.nextInt(4)+rand.nextInt(3)+2)*5));
+		}
+		
 		return is;
 	}
 }
