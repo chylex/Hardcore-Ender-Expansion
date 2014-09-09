@@ -40,6 +40,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
+		STRONGHOLD = dummy("Stronghold",new ItemStack(Blocks.stonebrick),"Stronghold"),
 		ADVENTURERS_DIARY = create(ItemList.adventurers_diary),
 		ENDERMAN_HEAD = create(ItemList.enderman_head),
 		MUSIC_DISKS = create(ItemList.music_disk),
@@ -164,11 +165,18 @@ public final class KnowledgeRegistrations{
 		Stopwatch.time("KnowledgeRegistrations");
 		
 		/*
+		 * General information
+		 * ===================
+		 * Numbers below are not set in stone, they will vary a bit around that value but keep the meaning.
+		 * 
 		 * Object price
 		 * ============
-		 *   5 | easily found objects without any feature mechanics
-		 *  10 | basic objects with mechanics
-		 *  20 | important objects with mechanics
+		 *    5 | easily found objects without any feature mechanics
+		 *   10 | basic objects with mechanics
+		 *   20 | important objects with mechanics
+		 *   40 | phase objects (early)
+		 *   75 | phase objects (mid)
+		 *  100 | phase objects (late)
 		 * 
 		 * Fragment price
 		 * ==============
@@ -197,33 +205,37 @@ public final class KnowledgeRegistrations{
 		});
 		
 		KnowledgeCategories.OVERWORLD.addKnowledgeObjects(new KnowledgeObject[]{
+			STRONGHOLD.setPos(0,1).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
 			ADVENTURERS_DIARY.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(20).setContents("Short story of an adventurer, split across 16 pages.").setPrice(2).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(21).setContents("Opening a new diary page unlocks next page of the story, and locks the item to only open that page for other players.").setPrice(2).setUnlockOnDiscovery()
+				new KnowledgeFragmentText(10).setContents("Short story of an adventurer, split across 16 pages.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(11).setContents("Opening a new diary page unlocks next page of the story, and locks the item to only open that page for other players.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
 			ENDERMAN_HEAD.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(40).setContents("Rare drop from Endermen.").setPrice(2).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(41).setContents("Drop chance is 1 in 40 (2.5%), Looting enchantment increases the chance.").setPrice(2).setUnlockRequirements(40)
+				new KnowledgeFragmentText(20).setContents("Rare drop from Endermen.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(21).setContents("Drop chance is 1 in 40 (2.5%), Looting enchantment increases the chance.").setPrice(2).setUnlockRequirements(40)
 			}),
 			
 			MUSIC_DISKS.setPos(2,0).setUnlockPrice(5).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(60).setContents("Jukebox discs with various pieces of qwertygiy's music.").setPrice(2)
+				new KnowledgeFragmentText(30).setContents("Jukebox discs with various pieces of qwertygiy's music.").setPrice(2)
 			}),
 			
 			ALTAR_NEXUS.setPos(3,0).setUnlockPrice(10).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(80).setContents("Core component of the Basic Essence Altar.").setPrice(8),
-				new KnowledgeFragmentCrafting(81).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setUnlockRequirements(80),
-				new KnowledgeFragmentCrafting(82).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setUnlockCascade(100)
+				new KnowledgeFragmentText(40).setContents("Core component of the Basic Essence Altar.").setPrice(8),
+				new KnowledgeFragmentCrafting(41).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setUnlockRequirements(80),
+				new KnowledgeFragmentCrafting(42).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setUnlockCascade(100)
 			}),
 			
 			BASIC_ESSENCE_ALTAR.setPos(4,0).setNonBuyable().setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentCrafting(100).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setUnlockCascade(82),
-				new KnowledgeFragmentText(101).setContents("Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.").setUnlockOnDiscovery().setPrice(5).setUnlockRequirements(100),
-				new KnowledgeFragmentText(102).setContents("Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.").setPrice(2).setUnlockRequirements(101),
-				new KnowledgeFragmentText(103).setContents("Altars have 4 sockets for precious blocks in the corners. Some of the blocks give an effect and some boost used effects, one of each is required minimum.").setPrice(6).setUnlockRequirements(101),
-				new KnowledgeFragmentText(104).setContents("Redstone Block increases altar speed, Lapis Block improves range and Nether Quartz Block makes Essence usage lower.").setPrice(2).setUnlockRequirements(103),
-				new KnowledgeFragmentText(105).setContents("Iron Block has effect boost 1, Gold Block 3, Diamond Block 7 and Emerald Block 10.").setPrice(2).setUnlockRequirements(103)
+				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setUnlockCascade(82),
+				new KnowledgeFragmentText(51).setContents("Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.").setUnlockOnDiscovery().setPrice(5).setUnlockRequirements(100),
+				new KnowledgeFragmentText(52).setContents("Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.").setPrice(2).setUnlockRequirements(101),
+				new KnowledgeFragmentText(53).setContents("Altars have 4 sockets for precious blocks in the corners. Some of the blocks give an effect and some boost used effects, one of each is required minimum.").setPrice(6).setUnlockRequirements(101),
+				new KnowledgeFragmentText(54).setContents("Redstone Block increases altar speed, Lapis Block improves range and Nether Quartz Block makes Essence usage lower.").setPrice(2).setUnlockRequirements(103),
+				new KnowledgeFragmentText(55).setContents("Iron Block has effect boost 1, Gold Block 3, Diamond Block 7 and Emerald Block 10.").setPrice(2).setUnlockRequirements(103)
 			}),
 			
 			ENDERMAN.setPos(5,0).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
@@ -235,12 +247,14 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ESSENCE.setPos(7,0).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
-				
+				new KnowledgeFragmentText(80).setContents("Essence is used to unleash power of altars.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(81).setContents("Dragon Essence is gained by killing the Ender Dragon.").setPrice(2), // TODO cascade to Ender Dragon
+				new KnowledgeFragmentText(82).setContents("Fiery Essence is dropped by Fire Golem and Scorching Lens, which can be found in a variation of Burning Mountains.").setPrice(2) // TODO cascade to the mobs
 			}),
 			
 			// ===
 			
-			DRAGON_LAIR.setPos(0,0).setFragments(new KnowledgeFragment[]{
+			DRAGON_LAIR.setPos(0,0).setUnlockPrice(35).setFragments(new KnowledgeFragment[]{
 				
 			})
 		});
