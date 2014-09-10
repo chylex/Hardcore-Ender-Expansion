@@ -123,7 +123,8 @@ public final class KnowledgeRegistrations{
 		INFESTED_BAT = create(EntityMobInfestedBat.class),
 		SILVERFISH_LINKED = link(SILVERFISH),
 		
-		RAVAGED_BRICKS = create(BlockList.ravaged_brick),
+		RAVAGED_DUNGEON = dummy("RavagedDungeon",new ItemStack(BlockList.ravaged_brick),"Ravaged Dungeon"),
+		RAVAGED_BRICK = create(BlockList.ravaged_brick),
 		RAVAGED_BRICK_GLOWING = create(BlockList.ravaged_brick_glow),
 		RAVAGED_BRICK_STAIRS = create(BlockList.ravaged_brick_stairs),
 		RAVAGED_BRICK_SLAB = create(BlockList.ravaged_brick_slab),
@@ -172,8 +173,11 @@ public final class KnowledgeRegistrations{
 		 * Object price
 		 * ============
 		 *    5 | easily found objects without any feature mechanics
+		 *    8 | easily found objects with some mechanics
 		 *   10 | basic objects with mechanics
+		 *   15 | regular objects with mechanics
 		 *   20 | important objects with mechanics
+		 *   30 | major objects
 		 *   40 | phase objects (early)
 		 *   75 | phase objects (mid)
 		 *  100 | phase objects (late)
@@ -203,6 +207,14 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(5).setContents("Knowledge Fragments also exist as items found in dungeons and traded by villagers. Using them gives you points or unlocks random fragments."),
 			new KnowledgeFragmentText(6).setContents("You can use right mouse button instead of the Back button for easier use of the Compendium.")
 		});
+		
+		ESSENCE.setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
+			new KnowledgeFragmentText(80).setContents("Essence is used to unleash power of altars.").setPrice(2).setUnlockOnDiscovery(),
+			new KnowledgeFragmentText(81).setContents("Dragon Essence is gained by killing the Ender Dragon.").setPrice(2), // TODO cascade to Ender Dragon
+			new KnowledgeFragmentText(82).setContents("Fiery Essence is dropped by Fire Golem and Scorching Lens, which can be found in a variation of Burning Mountains.").setPrice(2) // TODO cascade to the mobs
+		});
+		
+		// ===
 		
 		KnowledgeCategories.OVERWORLD.addKnowledgeObjects(new KnowledgeObject[]{
 			STRONGHOLD.setPos(0,1).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
@@ -244,17 +256,243 @@ public final class KnowledgeRegistrations{
 			
 			SILVERFISH.setPos(6,0).setDiscoveryReward(25).setFragments(new KnowledgeFragment[]{
 				
+			})
+		});
+		
+		// ===
+		
+		KnowledgeCategories.DRAGON_LAIR.addKnowledgeObjects(new KnowledgeObject[]{
+			DRAGON_LAIR.setPos(0,0).setUnlockPrice(45).setFragments(new KnowledgeFragment[]{
+				
 			}),
 			
-			ESSENCE.setPos(7,0).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(80).setContents("Essence is used to unleash power of altars.").setPrice(2).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(81).setContents("Dragon Essence is gained by killing the Ender Dragon.").setPrice(2), // TODO cascade to Ender Dragon
-				new KnowledgeFragmentText(82).setContents("Fiery Essence is dropped by Fire Golem and Scorching Lens, which can be found in a variation of Burning Mountains.").setPrice(2) // TODO cascade to the mobs
+			END_STONE.setPos(1,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+				
 			}),
 			
-			// ===
+			FALLING_OBSIDIAN.setPos(2,0).setUnlockPrice(8).setFragments(new KnowledgeFragment[]{
+				
+			}),
 			
-			DRAGON_LAIR.setPos(0,0).setUnlockPrice(35).setFragments(new KnowledgeFragment[]{
+			DRAGON_ESSENCE_ALTAR.setPos(3,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			END_POWDER_ORE.setPos(4,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ENHANCED_BREWING_STAND.setPos(5,0).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ENHANCED_TNT.setPos(6,0).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			DRAGON_EGG.setPos(7,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			DRAGON_ESSENCE.setPos(8,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			END_POWDER.setPos(9,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ENHANCED_ENDER_PEARL.setPos(0,1).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			TEMPLE_CALLER.setPos(1,1).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ENDER_DRAGON.setPos(2,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ANGRY_ENDERMAN.setPos(3,1).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			VAMPIRE_BAT.setPos(4,1).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			})
+		});
+		
+		// ===
+		
+		KnowledgeCategories.ENDSTONE_BLOBS.addKnowledgeObjects(new KnowledgeObject[]{
+			ENDSTONE_BLOB.setPos(0,0).setUnlockPrice(40).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			IGNEOUS_ROCK_ORE.setPos(1,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			DEATH_FLOWER.setPos(2,0).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ENDER_GOO.setPos(3,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			IGNEOUS_ROCK.setPos(4,0).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
+				
+			})
+		});
+		
+		// ===
+		
+		KnowledgeCategories.DUNGEON_TOWER.addKnowledgeObjects(new KnowledgeObject[]{
+			DUNGEON_TOWER.setPos(0,0).setUnlockPrice(55).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			OBSIDIAN_STAIRS.setPos(1,0).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			OBSIDIAN_SMOOTH.setPos(2,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			OBSIDIAN_CHISELED.setPos(3,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			OBSIDIAN_PILLAR.setPos(4,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			OBSIDIAN_SMOOTH_GLOWING.setPos(5,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			OBSIDIAN_CHISELED_GLOWING.setPos(6,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			OBSIDIAN_PILLAR_GLOWING.setPos(7,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			SPATIAL_DASH_GEM.setPos(8,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			BIOME_COMPASS.setPos(9,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ENDER_EYE.setPos(0,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ANGRY_ENDERMAN_LINKED.setPos(0,2)
+		});
+		
+		// ===
+		
+		KnowledgeCategories.METEOROIDS.addKnowledgeObjects(new KnowledgeObject[]{
+			METEOROID.setPos(0,0).setUnlockPrice(40).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			SPHALERITE.setPos(1,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			SPHALERITE_WITH_STARDUST.setPos(2,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			STARDUST.setPos(3,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			})
+		});
+		
+		// ===
+		// TODO add into all islands
+		INSTABILITY_ORB_ORE.setPos(0,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
+			
+		});
+		
+		STARDUST_ORE.setPos(1,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
+			
+		});
+		
+		INSTABILITY_ORB.setPos(2,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
+			
+		});
+		
+		STARDUST_LINKED.setPos(3,0);
+		
+		// ===
+		
+		KnowledgeCategories.BIOME_ISLAND_FOREST.addKnowledgeObjects(new KnowledgeObject[]{
+			INFESTED_FOREST_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			INFESTED_END_STONE.setPos(1,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			INFESTED_GRASS.setPos(2,0).setUnlockPrice(2).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			INFESTED_TALL_GRASS.setPos(3,0).setUnlockPrice(2).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			INFESTED_FERN.setPos(4,0).setUnlockPrice(2).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			THORNY_BUSH.setPos(5,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			SPOOKY_TREES.setPos(6,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			SPOOKY_LEAVES.setPos(7,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			DRY_SPLINTER.setPos(8,0).setUnlockPrice(8).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			GHOST_AMULET.setPos(9,0).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ECTOPLASM.setPos(0,1).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			INFESTED_BAT.setPos(1,1).setUnlockPrice(8).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			SILVERFISH_LINKED.setPos(2,1),
+			
+			// =
+			
+			RAVAGED_DUNGEON.setPos(0,5).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			RAVAGED_BRICK.setPos(1,5).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
 				
 			})
 		});

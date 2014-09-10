@@ -4,13 +4,6 @@ public final class KnowledgeRegistrations{
 	public static void initialize(){
 		Stopwatch.time("KnowledgeRegistrations");
 		
-		DRAGON_ESSENCE
-		.setPosition(-dist,dist-hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.essence,EssenceType.DRAGON.getItemDamage()))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Large amounts of it are dropped by the Ender Dragon.")
-		});
-		
 		DRAGON_ESSENCE_ALTAR
 		.setPosition(-dist,-hdist)
 		.setRenderer(new ItemStackRenderer(BlockList.essence_altar,EssenceType.DRAGON.id))
@@ -38,20 +31,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(0).setLocalizedText("It turns Fiery Essence into heat, and distributes it into Furnaces, Brewing Stands etc."),
 			new TextKnowledgeFragment(1).setLocalizedText("Amount of Fiery Essence decides the speed of heat distribution, ??? of the essence will have highest speed.").setReplacedBy(2).setUnlockRequirements(0),
 			new TextKnowledgeFragment(2).setLocalizedText("Amount of Fiery Essence decides the speed of heat distribution, 512 of the essence will have highest speed.").setReplacementFor(1).setUnlockRequirements(1),
-		});
-		
-		SPECTRAL_ESSENCE
-		.setPosition(dist,dist-hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.essence,EssenceType.SPECTRAL.getItemDamage()))
-		.setFragments(new KnowledgeFragment[]{
-			
-		});
-
-		SPECTRAL_ESSENCE_ALTAR
-		.setPosition(dist,-hdist)
-		.setRenderer(new ItemStackRenderer(BlockList.essence_altar,EssenceType.SPECTRAL.id))
-		.setFragments(new KnowledgeFragment[]{
-				
 		});
 		
 		DECOMPOSITION_TABLE
