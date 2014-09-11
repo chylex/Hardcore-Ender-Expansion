@@ -25,7 +25,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject.LinkedKnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
-import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEssenceInfusion;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentItemConversion;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
@@ -286,41 +286,60 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(111).setContents("Infusion requires pedestals, which are up to 8 blocks of the same type placed close around the altar").setPrice(8).setUnlockRequirements(110),
 				new KnowledgeFragmentText(112).setContents("Using altar sockets to increase range allows up to 12 pedestals to be used.").setPrice(3).setUnlockRequirements(111),
 				new KnowledgeFragmentText(113).setContents("Tools, weapons and armor will quickly repair, and slowly improve enchantments and gain new enchantments.").setPrice(5).setUnlockRequirements(110),
-				new KnowledgeFragmentText(114).setContents("Some items will turn into different items when infused.").setPrice(4).setUnlockRequirements(110),
-				new KnowledgeFragmentEssenceInfusion(115).setItems(new ItemStack(Items.brewing_stand),new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(2).setUnlockRequirements(114),
-				new KnowledgeFragmentEssenceInfusion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setPrice(2).setUnlockRequirements(114)
+				new KnowledgeFragmentText(114).setContents("Some items will turn into different items when infused:").setPrice(4).setUnlockRequirements(110),
+				new KnowledgeFragmentItemConversion(115).setItems(new ItemStack(Items.brewing_stand),new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(2).setUnlockRequirements(114),
+				new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setPrice(2).setUnlockRequirements(114).setUnlockCascade(180)
 			}),
 			
-			END_POWDER_ORE.setPos(4,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				
+			END_POWDER_ORE.setPos(4,0).setUnlockPrice(20).setDiscoveryReward(18).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(120).setContents("Commonly found ore in the End.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(121).setContents("It spawns clusters spread out across a larger area than other ores.").setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(120),
+				new KnowledgeFragmentText(122).setContents("Mining with any pickaxe yields 1-3 End Powder and 2-4 experience.").setPrice(5).setUnlockRequirements(120),
+				new KnowledgeFragmentText(123).setContents("Fortune enchantment has an effect on the amount of End Powder dropped.").setPrice(3).setUnlockRequirements(122)
 			}),
 			
-			ENHANCED_BREWING_STAND.setPos(5,0).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
-				
+			ENHANCED_BREWING_STAND.setPos(5,0).setUnlockPrice(18).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(130).setContents("A Brewing Stand infused with Dragon Essence.").setPrice(5),
+				new KnowledgeFragmentText(131).setContents("The brewing speed depends on potion complexity, simple potions brew much faster than with regular Brewing Stand.").setPrice(2).setUnlockRequirements(130),
+				new KnowledgeFragmentText(132).setContents("Using Glowstone, Redstone and Gunpowder requires End Powder, but the potions can go over the limits of basic Brewing Stand.").setPrice(5).setUnlockRequirements(130).setUnlockCascade(166),
+				new KnowledgeFragmentText(133).setContents("It is required to brew special potions using Awkward Potion and an ingredient:").setPrice(4).setUnlockRequirements(130),
+				new KnowledgeFragmentItemConversion(134).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(133),
+				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(133)
 			}),
 			
 			ENHANCED_TNT.setPos(6,0).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
-				
+				// 140
 			}),
 			
-			DRAGON_EGG.setPos(7,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
+			DRAGON_EGG.setPos(7,0).setUnlockPrice(10).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(150).setContents("Dragon Egg is created on top of the End Portal after killing the Ender Dragon.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(151).setContents("It teleports into random directions when interacted with.").setPrice(2).setUnlockRequirements(150),
+				new KnowledgeFragmentText(152).setContents("The egg can only be picked up by sneaking and hitting it with any sword.").setPrice(5).setUnlockRequirements(150)
 			}),
 			
-			DRAGON_ESSENCE.setPos(8,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
-			}),
+			DRAGON_ESSENCE.setPos(8,0),
 			
-			END_POWDER.setPos(9,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				
+			END_POWDER.setPos(9,0).setUnlockPrice(20).setDiscoveryReward(22).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(160).setContents("Magical powder used to enhance items with special effects.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(161).setContents("Sneaking and using the End Powder opens enhancement screen.").setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(160),
+				new KnowledgeFragmentText(162).setContents("Placing a block or item into the top slot opens all possible enhancements.").setPrice(2).setUnlockRequirements(161),
+				new KnowledgeFragmentText(163).setContents("Enhancing requires a specific amount of End Powder and ingredients of one type.").setPrice(2).setUnlockRequirements(162),
+				new KnowledgeFragmentText(164).setContents("The ingredient is unlocked by trying. Using an incorrect ingredient may destroy random items in the interface, but may also reveal the correct ingredient.").setPrice(3).setUnlockRequirements(163),
+				new KnowledgeFragmentText(165).setContents("Different enhancements can be stacked together.").setPrice(3).setUnlockRequirements(162),
+				new KnowledgeFragmentText(166).setContents("End Powder applies enhancing effects to potions in Enhanced Brewing Stand.").setPrice(5).setUnlockRequirements(160).setUnlockCascade(132),
+				new KnowledgeFragmentText(167).setContents("Applying End Powder to Death Flower partially reverts the effect of decaying.").setPrice(3) // TODO cascade
 			}),
 			
 			ENHANCED_ENDER_PEARL.setPos(0,1).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
-				
+				// 170
 			}),
 			
-			TEMPLE_CALLER.setPos(1,1).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-				
+			TEMPLE_CALLER.setPos(1,1).setUnlockPrice(15).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(180).setContents("Temple Caller is an Eye of Ender infused with Dragon Essence.").setPrice(5).setUnlockCascade(116),
+				new KnowledgeFragmentText(181).setContents("It can rarely be found in Overworld dungeons, Stronghold and Dungeon Tower.").setPrice(2),
+				new KnowledgeFragmentText(182).setContents("Before using the Temple Caller, it has to be filled with Energy.").setPrice(7),
+				new KnowledgeFragmentText(183).setContents("Using it in the End with Dragon Egg in the inventory teleports the player to a temple.").setPrice(4).setUnlockRequirements(182),
+				new KnowledgeFragmentText(184).setContents("In the temple, there is a dark pedestal for the Dragon Egg. When the Egg is placed, it will use its power to destroy the End.").setPrice(4).setUnlockRequirements(183)
 			}),
 			
 			ENDER_DRAGON.setPos(2,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{

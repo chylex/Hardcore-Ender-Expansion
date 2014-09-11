@@ -7,14 +7,14 @@ import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import com.google.common.base.Joiner;
 
-public class KnowledgeFragmentEssenceInfusion extends KnowledgeFragment{
+public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 	private ItemStack itemFrom, itemTo;
 	
-	public KnowledgeFragmentEssenceInfusion(int globalID){
+	public KnowledgeFragmentItemConversion(int globalID){
 		super(globalID);
 	}
 	
-	public KnowledgeFragmentEssenceInfusion setItems(ItemStack itemFrom, ItemStack itemTo){
+	public KnowledgeFragmentItemConversion setItems(ItemStack itemFrom, ItemStack itemTo){
 		this.itemFrom = itemFrom;
 		this.itemTo = itemTo;
 		return this;

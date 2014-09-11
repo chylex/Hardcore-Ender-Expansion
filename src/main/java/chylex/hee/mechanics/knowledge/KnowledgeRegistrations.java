@@ -74,17 +74,6 @@ public final class KnowledgeRegistrations{
 			new CraftingKnowledgeFragment(7).setCustomRecipe(SoulCharmEnhancements.FIRE.setLevel(new ItemStack(BlockList.soul_charm),(byte)-1),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.FIRE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.FIRE.itemSelector.getRepresentativeItem(),new ItemStack(BlockList.soul_charm),SoulCharmEnhancements.FIRE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.FIRE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder)).setUnlockRequirements(0)
 		});
 		
-		ENHANCED_BREWING_STAND
-		.setPosition(-hdist,hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.enhanced_brewing_stand))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("It is a Brewing Stand infused with Dragon Essence."),
-			new TextKnowledgeFragment(1).setLocalizedText("Brewing simple potions is very fast, it becomes slower with higher complexity of the brewed potion.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Glowstone, Redstone and Gunpowder require End Powder, but they go over limits of regular Brewing Stand.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("Potion of Instability can be brewed from Awkward Potions by adding Instability Orb.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(4).setLocalizedText("Infestation Rememdy is brewed by brewing Silverfish Blood into an Awkward Potion.").setUnlockRequirements(0)
-		});
-		
 		INSTABILITY_POTION
 		.setPosition(hdist,hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.potion_of_instability,2))
@@ -180,18 +169,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(2).setLocalizedText("Sphalerite can contain Stardust, which can be identified by yellow marks on the rock.").setUnlockRequirements(0),
 			new TextKnowledgeFragment(3).setLocalizedText("This variety drops 1-3 Stardust, but no experience orbs.").setUnlockRequirements(2),
 			new TextKnowledgeFragment(4).setLocalizedText("Fortune enchantment makes the rock drop additional Stardust sometimes.").setUnlockRequirements(3)
-		});
-		
-		END_POWDER_ORE
-		.setPosition(-dist-hdist,hdist)
-		.setRenderer(new ItemStackRenderer(BlockList.end_powder_ore))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Commonly found everywhere in the End."),
-			new TextKnowledgeFragment(5).setLocalizedText("The clusters are spread out on large areas, but they are not very dense.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(1).setLocalizedText("Can be mined with any tier of Pickaxe."),
-			new TextKnowledgeFragment(2).setLocalizedText("Drops ??? End Powder, and 2-4 experience orbs.").setReplacedBy(3),
-			new TextKnowledgeFragment(3).setLocalizedText("Drops 1-3 End Powder, and 2-4 experience orbs.").setReplacementFor(2),
-			new TextKnowledgeFragment(4).setLocalizedText("Fortune enchantment slightly increases amount of received End Powder.").setUnlockRequirements(3)
 		});
 		
 		STARDUST_ORE
