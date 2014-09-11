@@ -20,7 +20,7 @@ public final class ItemList{
 	// LORE
 	
 	public static Item adventurers_diary;
-	public static Item knowledge_fragment;
+	public static Item knowledge_note;
 	
 	// BASIC MATERIALS
 	
@@ -72,7 +72,7 @@ public final class ItemList{
 	
 	public static void loadItems(){
 		register("adventurers_diary", adventurers_diary = new ItemAdventurersDiary().setMaxStackSize(1).setUnlocalizedName("lorePage").setTextureName("hardcoreenderexpansion:lore_page"));
-		register("knowledge_fragment", knowledge_fragment = new ItemKnowledgeFragment().setMaxStackSize(1).setUnlocalizedName("knowledgeFragment").setTextureName("hardcoreenderexpansion:knowledge_fragment"));
+		register("knowledge_note", knowledge_note = new ItemKnowledgeNote().setMaxStackSize(1).setUnlocalizedName("knowledgeNote").setTextureName("hardcoreenderexpansion:knowledge_fragment"));
 		
 		register("end_powder", end_powder = new ItemEndPowder().setUnlocalizedName("endPowder").setTextureName("hardcoreenderexpansion:end_powder"));
 		register("stardust", stardust = new Item().setUnlocalizedName("stardust").setTextureName("hardcoreenderexpansion:stardust"));
@@ -121,7 +121,7 @@ public final class ItemList{
 		).addItems(
 			spectral_wand,fire_shard,scorching_pickaxe,enderman_relic,
 			enderman_head,bucket_ender_goo,music_disk,
-			knowledge_fragment,
+			knowledge_note,
 			spawn_eggs
 		);
 	}

@@ -1,7 +1,8 @@
-package chylex.hee.mechanics.compendium.content;
+package chylex.hee.mechanics.compendium.content.fragments;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

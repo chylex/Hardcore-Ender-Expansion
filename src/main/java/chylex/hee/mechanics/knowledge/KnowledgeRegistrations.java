@@ -4,19 +4,6 @@ public final class KnowledgeRegistrations{
 	public static void initialize(){
 		Stopwatch.time("KnowledgeRegistrations");
 		
-		DRAGON_ESSENCE_ALTAR
-		.setPosition(-dist,-hdist)
-		.setRenderer(new ItemStackRenderer(BlockList.essence_altar,EssenceType.DRAGON.id))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("It infuses items with Dragon Essence."),
-			new TextKnowledgeFragment(1).setLocalizedText("Items must be thrown on pedestals, those are blocks of the same type placed close to the altar.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Up to ? pedestals can be used, adding metal with Range effect into a socket will increase that number to ??.").setReplacedBy(3).setUnlockRequirements(1),
-			new TextKnowledgeFragment(3).setLocalizedText("Up to 8 pedestals can be used, adding metal with Range effect into a socket will increase that number to 12.").setReplacementFor(2).setUnlockRequirements(1),
-			new TextKnowledgeFragment(4).setLocalizedText("The items will be infused with Dragon Essence, which will repair them, and occasionally add or improve enchantments.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(5).setLocalizedText("Brewing Stand infused with Dragon Essence becomes Enhanced Brewing Stand.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(6).setLocalizedText("Infusing Eye of Ender with Dragon Essence turns it into an empty Temple Caller.").setUnlockRequirements(1)
-		});
-				
 		FIERY_ESSENCE
 		.setPosition(0,dist-hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.essence,EssenceType.FIERY.getItemDamage()))
@@ -174,16 +161,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(4).setLocalizedText("Using End Powder will cure Weakened and Tired clusters, and improve regeneration speed and limit of Healthy clusters.").setUnlockRequirements(3),
 			new TextKnowledgeFragment(5).setLocalizedText("New clusters can be created using Energy Extraction Table.").setUnlockRequirements(0),
 			new TextKnowledgeFragment(6).setLocalizedText("Spectral Wand can move the clusters, one at a time.").setUnlockRequirements(0)
-		});
-		
-		FALLING_OBSIDIAN
-		.setPosition(-hdist,-dist)
-		.setRenderer(new ItemStackRenderer(BlockList.obsidian_falling))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("It is affected by gravity, and will heavily damage any creature it hits."),
-			new TextKnowledgeFragment(1).setLocalizedText("Falling on a transparent block, such as torches or levers, will crush said block.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("When broken, it will lose the ability to fall.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("It spawns on various places in the End.")
 		});
 		
 		OBSIDIAN_VARIATIONS

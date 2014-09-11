@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
-import chylex.hee.item.ItemKnowledgeFragment;
+import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
@@ -58,7 +58,7 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 		new LootItemStack(Items.iron_ingot).setAmount(1,13).setWeight(136),
 		new LootItemStack(ItemList.stardust).setAmount(3,11).setWeight(131),
 		new LootItemStack(Items.gold_ingot).setAmount(1,11).setWeight(125),
-		new LootItemStack(ItemList.knowledge_fragment).setWeight(122),
+		new LootItemStack(ItemList.knowledge_note).setWeight(122),
 		new LootItemStack(BlockList.obsidian_special).setAmount(1,9).setDamage(0,2).setWeight(121),
 		new LootItemStack(ItemList.adventurers_diary).setWeight(117),
 		new LootItemStack(Blocks.yellow_flower).setAmount(1,7).setWeight(116),
@@ -104,8 +104,8 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 					if (availableTypes.isEmpty())break;
 				}
 			}
-			else if (is.getItem() == ItemList.knowledge_fragment){
-				ItemKnowledgeFragment.setRandomFragment(is,rand);
+			else if (is.getItem() == ItemList.knowledge_note){
+				ItemKnowledgeNote.setRandomFragment(is,rand);
 			}
 			else if (is.getItem() == Items.cake){
 				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"Why are there just pieces of cake");

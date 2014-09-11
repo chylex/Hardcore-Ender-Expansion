@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.content;
+package chylex.hee.mechanics.compendium.content.fragments;
 import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -10,6 +10,7 @@ import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.system.logging.Log;
 import com.google.common.base.Joiner;
 
@@ -63,7 +64,7 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 				
 				if (is != null){
 					if (cycle == 0)GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
-					else if (mouseX > xx+1 && mouseX < xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
+					else if (mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
 						GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(is.getTooltip(gui.mc.thePlayer,false)));
 					}
 				}

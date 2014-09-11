@@ -9,7 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.block.BlockList;
-import chylex.hee.item.ItemKnowledgeFragment;
+import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.system.util.MathUtil;
@@ -32,7 +32,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 		new LootItemStack(Items.poisonous_potato).setAmount(1,4).setWeight(6),
 		new LootItemStack(Items.rotten_flesh).setAmount(1,5).setWeight(6),
 		new LootItemStack(Blocks.wool).setAmount(1,3).setDamage(0,15).setWeight(6),
-		new LootItemStack(ItemList.knowledge_fragment).setWeight(5),
+		new LootItemStack(ItemList.knowledge_note).setWeight(5),
 		new LootItemStack(Items.chicken).setAmount(1,3).setWeight(5),
 		new LootItemStack(Items.porkchop).setAmount(1,3).setWeight(4),
 		new LootItemStack(Items.leather_helmet).setWeight(4),
@@ -56,8 +56,8 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 				if (rand.nextInt(4) != 0)EnchantmentHelper.addRandomEnchantment(rand,is,16+rand.nextInt(5));
 				ItemUtil.setArmorColor(is,rand.nextInt(16777216));
 			}
-			else if (is.getItem() == ItemList.knowledge_fragment){
-				ItemKnowledgeFragment.setRandomFragment(is,rand);
+			else if (is.getItem() == ItemList.knowledge_note){
+				ItemKnowledgeNote.setRandomFragment(is,rand);
 			}
 			
 			return is;

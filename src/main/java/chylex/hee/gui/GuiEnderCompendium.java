@@ -28,8 +28,8 @@ import chylex.hee.mechanics.compendium.KnowledgeCategories;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium.content.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
@@ -51,7 +51,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	public static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
 	public static final ResourceLocation texFragments = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_fragments.png");
-	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_fragment);
+	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_note);
 	
 	private static float ptt(float value, float prevValue, float partialTickTime){
 		return prevValue+(value-prevValue)*partialTickTime;

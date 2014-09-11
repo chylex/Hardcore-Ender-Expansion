@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import chylex.hee.block.BlockCrossedDecoration;
@@ -21,10 +22,11 @@ import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium.content.KnowledgeFragmentCrafting;
-import chylex.hee.mechanics.compendium.content.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject.LinkedKnowledgeObject;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEssenceInfusion;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.objects.ObjectDummy;
@@ -186,6 +188,7 @@ public final class KnowledgeRegistrations{
 		 * ==============
 		 *   1 | bulk data
 		 *   2 | unimportant or generic information
+		 *   3 | semi-important or additional information
 		 *   5 | basic information about important objects
 		 *   8 | key information
 		 *  10 | very important information
@@ -204,7 +207,7 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(2).setContents("In order to reveal information about these objects, first you have to either discover them, or spend a specified amount of Knowledge Points."),
 			new KnowledgeFragmentText(3).setContents("Then you can spend your points on individual Knowledge Fragments."),
 			new KnowledgeFragmentText(4).setContents("Note that discovering objects also unlocks some of their fragments and gives you points, whereas buying the object does neither."),
-			new KnowledgeFragmentText(5).setContents("Knowledge Fragments also exist as items found in dungeons and traded by villagers. Using them gives you Knowledge Points."),
+			new KnowledgeFragmentText(5).setContents("Knowledge Notes are items found in dungeons and traded by villagers. Using them gives you Knowledge Points, but destroys the item in the process."),
 			new KnowledgeFragmentText(6).setContents("You can use right mouse button instead of the Back button for easier use of the Compendium.")
 		});
 		
@@ -251,11 +254,11 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ENDERMAN.setPos(5,0).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
-				
+				// 60
 			}),
 			
 			SILVERFISH.setPos(6,0).setDiscoveryReward(25).setFragments(new KnowledgeFragment[]{
-				
+				// 70
 			})
 		});
 		
@@ -263,19 +266,29 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.DRAGON_LAIR.addKnowledgeObjects(new KnowledgeObject[]{
 			DRAGON_LAIR.setPos(0,0).setUnlockPrice(45).setFragments(new KnowledgeFragment[]{
-				
+				// 80
 			}),
 			
 			END_STONE.setPos(1,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
-				
+				// 90
 			}),
 			
-			FALLING_OBSIDIAN.setPos(2,0).setUnlockPrice(8).setFragments(new KnowledgeFragment[]{
-				
+			FALLING_OBSIDIAN.setPos(2,0).setUnlockPrice(8).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(100).setContents("Special variation of Obsidian affected by gravity.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(101).setContents("It is primarily found in Dragon Lair and Enchanted Island Biome.").setPrice(2),
+				new KnowledgeFragmentText(102).setContents("Falling on a weak block, such as torches or flowers, crushes the block.").setPrice(2).setUnlockRequirements(100),
+				new KnowledgeFragmentText(103).setContents("Players and mobs hit by it are severely damaged, up to 30 hearts.").setPrice(2).setUnlockRequirements(100),
+				new KnowledgeFragmentText(104).setContents("When broken, it loses its ability to fall.").setPrice(2).setUnlockRequirements(100)
 			}),
 			
-			DRAGON_ESSENCE_ALTAR.setPos(3,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
-				
+			DRAGON_ESSENCE_ALTAR.setPos(3,0).setUnlockPrice(25).setDiscoveryReward(25).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(110).setContents("Dragon Essence Altar infuses blocks and items with Dragon Essence.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(111).setContents("Infusion requires pedestals, which are up to 8 blocks of the same type placed close around the altar").setPrice(8).setUnlockRequirements(110),
+				new KnowledgeFragmentText(112).setContents("Using altar sockets to increase range allows up to 12 pedestals to be used.").setPrice(3).setUnlockRequirements(111),
+				new KnowledgeFragmentText(113).setContents("Tools, weapons and armor will quickly repair, and slowly improve enchantments and gain new enchantments.").setPrice(5).setUnlockRequirements(110),
+				new KnowledgeFragmentText(114).setContents("Some items will turn into different items when infused.").setPrice(4).setUnlockRequirements(110),
+				new KnowledgeFragmentEssenceInfusion(115).setItems(new ItemStack(Items.brewing_stand),new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(2).setUnlockRequirements(114),
+				new KnowledgeFragmentEssenceInfusion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setPrice(2).setUnlockRequirements(114)
 			}),
 			
 			END_POWDER_ORE.setPos(4,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{

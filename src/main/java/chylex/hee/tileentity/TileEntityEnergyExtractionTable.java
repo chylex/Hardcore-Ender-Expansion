@@ -50,7 +50,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 		setItemEnergy(ItemList.end_powder, 14);
 		setItemEnergy(ItemList.silverfish_blood, 16);
 		setItemEnergy(ItemList.igneous_rock, 21);
-		setItemEnergy(ItemList.knowledge_fragment, 26);
+		setItemEnergy(ItemList.knowledge_note, 26);
 		setItemEnergy(Items.ender_pearl, 30);
 		setItemEnergy(ItemList.enhanced_ender_pearl, 32);
 		setItemEnergy(Items.ender_eye, 40);
