@@ -137,7 +137,7 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		BURNING_MOUNTAINS_BIOME = dummy("BurningMountains",new ItemStack(BlockList.end_terrain,1,1),"Burning Mountains Biome"),
-		BURNING_END_STONE = create(BlockList.end_terrain,1),
+		BURNED_END_STONE = create(BlockList.end_terrain,1),
 		LILYFIRE = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire),
 		
 		IGNEOUS_ROCK_ORE_LINKED = link(IGNEOUS_ROCK_ORE),
@@ -204,7 +204,7 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(2).setContents("In order to reveal information about these objects, first you have to either discover them, or spend a specified amount of Knowledge Points."),
 			new KnowledgeFragmentText(3).setContents("Then you can spend your points on individual Knowledge Fragments."),
 			new KnowledgeFragmentText(4).setContents("Note that discovering objects also unlocks some of their fragments and gives you points, whereas buying the object does neither."),
-			new KnowledgeFragmentText(5).setContents("Knowledge Fragments also exist as items found in dungeons and traded by villagers. Using them gives you points or unlocks random fragments."),
+			new KnowledgeFragmentText(5).setContents("Knowledge Fragments also exist as items found in dungeons and traded by villagers. Using them gives you Knowledge Points."),
 			new KnowledgeFragmentText(6).setContents("You can use right mouse button instead of the Back button for easier use of the Compendium.")
 		});
 		
@@ -418,7 +418,7 @@ public final class KnowledgeRegistrations{
 		});
 		
 		// ===
-		// TODO add into all islands
+		
 		INSTABILITY_ORB_ORE.setPos(0,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
 			
 		});
@@ -436,6 +436,8 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		KnowledgeCategories.BIOME_ISLAND_FOREST.addKnowledgeObjects(new KnowledgeObject[]{
+			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED,
+			
 			INFESTED_FOREST_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
 				
 			}),
@@ -459,6 +461,8 @@ public final class KnowledgeRegistrations{
 			THORNY_BUSH.setPos(5,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
 				
 			}),
+			
+			// =
 			
 			SPOOKY_TREES.setPos(6,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
 				
@@ -492,7 +496,117 @@ public final class KnowledgeRegistrations{
 				
 			}),
 			
-			RAVAGED_BRICK.setPos(1,5).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+			RAVAGED_BRICK.setPos(1,5).setUnlockPrice(2).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			RAVAGED_BRICK_GLOWING.setPos(2,5).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{ // TODO prices
+				
+			}),
+			
+			RAVAGED_BRICK_STAIRS.setPos(3,5).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			RAVAGED_BRICK_SLAB.setPos(4,5).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			RAVAGED_BRICK_FENCE.setPos(5,5).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			CHARM_POUCH.setPos(6,5).setUnlockPrice(30).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			RUNES.setPos(7,5).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			CHARMS.setPos(8,5).setUnlockPrice(35).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			LOUSE.setPos(9,5).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
+				
+			})
+		});
+		
+		KnowledgeCategories.BIOME_ISLAND_MOUNTAINS.addKnowledgeObjects(new KnowledgeObject[]{
+			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED,
+			
+			BURNING_MOUNTAINS_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			BURNED_END_STONE.setPos(1,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			LILYFIRE.setPos(2,0).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			// =
+			
+			IGNEOUS_ROCK_ORE_LINKED.setPos(3,0),
+			
+			IGNEOUS_ROCK_LINKED.setPos(4,0),
+			
+			CINDER.setPos(5,0).setUnlockPrice(5),
+			
+			FIERY_ESSENCE_ALTAR.setPos(6,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			FIERY_ESSENCE.setPos(7,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			FIRE_GOLEM.setPos(8,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			SCORCHING_LENS.setPos(9,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			// =
+			
+			FIRE_SHARD.setPos(0,1).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			SCORCHING_PICKAXE.setPos(1,1).setUnlockPrice(30).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			HAUNTED_MINER.setPos(2,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			})
+		});
+		
+		KnowledgeCategories.BIOME_ISLAND_ENCHISLAND.addKnowledgeObjects(new KnowledgeObject[]{
+			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED,
+			
+			ENCHANTED_ISLAND_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ENCHANTED_END_STONE.setPos(1,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			FALLING_OBSIDIAN_LINKED.setPos(2,0),
+			
+			ENDERMAN_LINKED.setPos(3,0),
+			
+			BABY_ENDERMAN.setPos(4,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			ENDER_GUARDIAN.setPos(5,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
 				
 			})
 		});
