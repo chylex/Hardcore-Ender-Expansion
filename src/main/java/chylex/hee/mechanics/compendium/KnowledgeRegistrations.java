@@ -320,7 +320,7 @@ public final class KnowledgeRegistrations{
 			DRAGON_ESSENCE.setPos(8,0),
 			
 			END_POWDER.setPos(9,0).setUnlockPrice(20).setDiscoveryReward(22).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(160).setContents("Magical powder used to enhance items with special effects.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(160).setContents("Magical powder used to enhance items with special effects.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(161).setContents("Sneaking and using the End Powder opens enhancement screen.").setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(160),
 				new KnowledgeFragmentText(162).setContents("Placing a block or item into the top slot opens all possible enhancements.").setPrice(2).setUnlockRequirements(161),
 				new KnowledgeFragmentText(163).setContents("Enhancing requires a specific amount of End Powder and ingredients of one type.").setPrice(2).setUnlockRequirements(162),
@@ -343,15 +343,15 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ENDER_DRAGON.setPos(2,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				
+				// 190
 			}),
 			
 			ANGRY_ENDERMAN.setPos(3,1).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
+				// 200
 			}),
 			
 			VAMPIRE_BAT.setPos(4,1).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
+				// 210
 			})
 		});
 		
@@ -359,23 +359,29 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.ENDSTONE_BLOBS.addKnowledgeObjects(new KnowledgeObject[]{
 			ENDSTONE_BLOB.setPos(0,0).setUnlockPrice(40).setFragments(new KnowledgeFragment[]{
-				
+				// 220
 			}),
 			
 			IGNEOUS_ROCK_ORE.setPos(1,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				
+				// 230
 			}),
 			
 			DEATH_FLOWER.setPos(2,0).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
-				
+				// 240
 			}),
 			
 			ENDER_GOO.setPos(3,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
+				new KnowledgeFragmentText(250).setContents("Thick goo found across the End dimension.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(251).setContents("The goo heavily limits movement of anything touching it, and it causes Poison, Weakness and Mining Fatigue as well.").setPrice(5).setUnlockRequirements(250),
+				new KnowledgeFragmentText(252).setContents("Creatures from the End are unaffected by its effects.").setPrice(2).setUnlockRequirements(251),
+				new KnowledgeFragmentText(253).setContents("It aggresively fights water, especially in the End.").setPrice(2).setUnlockRequirements(250)
 			}),
 			
 			IGNEOUS_ROCK.setPos(4,0).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
-				
+				new KnowledgeFragmentText(260).setContents("Extremely hot rock dropped by the Igneous Rock Ore.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(261).setContents("When held, it has a chance of setting the holder on fire. The effect is strengthened in the Nether and partially suppressed in the End.").setPrice(2).setUnlockRequirements(260),
+				new KnowledgeFragmentText(262).setContents("It is a very efficient fuel, roughly 3 times better than Blaze Rods.").setPrice(3).setUnlockRequirements(260)
+				// TODO
 			})
 		});
 		

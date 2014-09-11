@@ -115,16 +115,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(7).setLocalizedText("End Powder can enhance the gem with new effects.").setUnlockRequirements(2)
 		});
 		
-		TEMPLE_CALLER
-		.setPosition(dist+hdist,-hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.temple_caller))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Created using Dragon Essence Altar and Eye of Ender, rarely found in Dungeon Towers, and overworld dungeons."),
-			new TextKnowledgeFragment(1).setLocalizedText("It requires energy from Energy Clusters before it can be used.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Using it in the End with Dragon Egg in the inventory will create a temple.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(3).setLocalizedText("The Dragon Egg can be placed on the dark pedestal, and the temple will use its power to destroy the world and create a new End.").setUnlockRequirements(2)
-		});
-		
 		ENDERMAN_RELIC
 		.setPosition(dist,-dist-hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.enderman_relic))
@@ -576,23 +566,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(2).setLocalizedText("Endermen, Baby Endermen and Ender Guardians form the population of the island.").setUnlockRequirements(0),
 			new TextKnowledgeFragment(3).setLocalizedText("Each island has a chance of having one or more rare variations, which include much taller pillars and larger lakes.").setUnlockRequirements(1,2),
 			new TextKnowledgeFragment(4).setLocalizedText("Inside the terrain can be found Block Stashes, which are rectangular rooms with piles of blocks stolen by Endermen.").setUnlockRequirements(1,2)
-		});
-		
-		KNOWLEDGE_FRAGMENT
-		.setPosition(dist,-dist*2)
-		.setRenderer(new ItemStackRenderer(ItemList.knowledge_fragment))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Pieces of knowledge scattered around the world.")
-		});
-		
-		ENDER_GOO
-		.setPosition(-dist*2,0)
-		.setRenderer(new ItemStackRenderer(ItemList.bucket_ender_goo))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Thick goo found in Endstone Blobs and Enchanted Island biome."),
-			new TextKnowledgeFragment(1).setLocalizedText("Movement capabilities inside it are limited.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("It causes poison, weakness and mining fatigue to humans.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("The goo aggresively fights water in the End.").setUnlockRequirements(0)
 		});
 		
 		DEATH_FLOWER
