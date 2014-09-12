@@ -142,16 +142,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(6).setLocalizedText("Spectral Wand can move the clusters, one at a time.").setUnlockRequirements(0)
 		});
 		
-		IGNEOUS_ROCK_ORE
-		.setPosition(hdist,hdist)
-		.setRenderer(new ItemStackRenderer(BlockList.igneous_rock_ore))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Spawns rarely in Endstone Blobs, and commonly in Burning Mountains biome."),
-			new TextKnowledgeFragment(1).setLocalizedText("Needs to be broken with Iron Pickaxe or better."),
-			new TextKnowledgeFragment(2).setLocalizedText("Always drops one Igneous Rock, and ??? experience orbs.").setReplacedBy(3),
-			new TextKnowledgeFragment(3).setLocalizedText("Always drops one Igneous Rock, and 3-5 experience orbs.").setReplacementFor(2).setUnlockRequirements(2)
-		});
-		
 		INSTABILITY_ORB
 		.setPosition(dist+hdist,dist+hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.instability_orb))
@@ -257,29 +247,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(2).setLocalizedText("When attacking, it charges at the player and then teleports away and uses blast attack."),
 			new TextKnowledgeFragment(3).setLocalizedText("Drops ??? Ender Pearls, and ??? Obsidian.").setReplacedBy(4),
 			new TextKnowledgeFragment(4).setLocalizedText("Drops 0-1 Ender Pearls, and 1-3 Obsidian.").setReplacementFor(3).setUnlockRequirements(3),
-		});
-		
-		VAMPIRIC_BAT
-		.setPosition(-dist*2-hdist,dist*3+hdist)
-		.setRenderer(new EntityRenderer(EntityMobVampiricBat.class,2F))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Small bat spawned during the Bloodlust attack of the Ender Dragon."),
-			new TextKnowledgeFragment(1).setLocalizedText("It can be killed in a single hit."),
-			new TextKnowledgeFragment(2).setLocalizedText("When it gets close to the player, it will damage them, transfer the health to the dragon and die in the process.")
-		});
-		
-		INFESTED_BAT
-		.setPosition(-dist*2+hdist,dist*3+hdist)
-		.setRenderer(new EntityRenderer(EntityMobInfestedBat.class,0.32F).setYOffset(-1.2F).setEntityInitializer(new IEntityInitializer(){
-			@Override
-			public void spawnEntity(EntityLivingBase entity){
-				entity.getDataWatcher().updateObject(17,1F);
-				((EntityMobInfestedBat)entity).setIsBatHanging(false);
-			}
-		}))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Part of the fauna of Infested Forest biome."),
-			new TextKnowledgeFragment(1).setLocalizedText("The bats vary in sizes.")
 		});
 		
 		FIRE_GOLEM

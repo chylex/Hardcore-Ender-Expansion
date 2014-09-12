@@ -232,7 +232,7 @@ public final class KnowledgeRegistrations{
 			
 			ENDERMAN_HEAD.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(20).setContents("Rare drop from Endermen.").setPrice(2).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(21).setContents("Drop chance is 1 in 40 (2.5%), Looting enchantment increases the chance.").setPrice(2).setUnlockRequirements(40)
+				new KnowledgeFragmentText(21).setContents("Drop chance is 1 in 40 (2.5%), Looting enchantment increases the chance.").setPrice(2).setUnlockRequirements(20)
 			}),
 			
 			MUSIC_DISKS.setPos(2,0).setUnlockPrice(5).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
@@ -241,17 +241,17 @@ public final class KnowledgeRegistrations{
 			
 			ALTAR_NEXUS.setPos(3,0).setUnlockPrice(10).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(40).setContents("Core component of the Basic Essence Altar.").setPrice(8),
-				new KnowledgeFragmentCrafting(41).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setUnlockRequirements(80),
-				new KnowledgeFragmentCrafting(42).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setUnlockCascade(100)
+				new KnowledgeFragmentCrafting(41).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setPrice(5).setUnlockRequirements(40),
+				new KnowledgeFragmentCrafting(42).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(50)
 			}),
 			
 			BASIC_ESSENCE_ALTAR.setPos(4,0).setNonBuyable().setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setUnlockCascade(82),
-				new KnowledgeFragmentText(51).setContents("Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.").setUnlockOnDiscovery().setPrice(5).setUnlockRequirements(100),
-				new KnowledgeFragmentText(52).setContents("Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.").setPrice(2).setUnlockRequirements(101),
-				new KnowledgeFragmentText(53).setContents("Altars have 4 sockets for precious blocks in the corners. Some of the blocks give an effect and some boost used effects, one of each is required minimum.").setPrice(6).setUnlockRequirements(101),
-				new KnowledgeFragmentText(54).setContents("Redstone Block increases altar speed, Lapis Block improves range and Nether Quartz Block makes Essence usage lower.").setPrice(2).setUnlockRequirements(103),
-				new KnowledgeFragmentText(55).setContents("Iron Block has effect boost 1, Gold Block 3, Diamond Block 7 and Emerald Block 10.").setPrice(2).setUnlockRequirements(103)
+				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(42),
+				new KnowledgeFragmentText(51).setContents("Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.").setUnlockOnDiscovery().setPrice(5).setUnlockRequirements(50),
+				new KnowledgeFragmentText(52).setContents("Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.").setPrice(2).setUnlockRequirements(51),
+				new KnowledgeFragmentText(53).setContents("Altars have 4 sockets for precious blocks in the corners. Some of the blocks give an effect and some boost used effects, one of each is required minimum.").setPrice(6).setUnlockRequirements(51),
+				new KnowledgeFragmentText(54).setContents("Redstone Block increases altar speed, Lapis Block improves range and Nether Quartz Block makes Essence usage lower.").setPrice(2).setUnlockRequirements(53),
+				new KnowledgeFragmentText(55).setContents("Iron Block has effect boost 1, Gold Block 3, Diamond Block 7 and Emerald Block 10.").setPrice(2).setUnlockRequirements(53)
 			}),
 			
 			ENDERMAN.setPos(5,0).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
@@ -293,7 +293,7 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			END_POWDER_ORE.setPos(4,0).setUnlockPrice(20).setDiscoveryReward(18).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(120).setContents("Commonly found ore in the End.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(120).setContents("Commonly found ore in the End.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(121).setContents("It spawns clusters spread out across a larger area than other ores.").setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(120),
 				new KnowledgeFragmentText(122).setContents("Mining with any pickaxe yields 1-3 End Powder and 2-4 experience.").setPrice(5).setUnlockRequirements(120),
 				new KnowledgeFragmentText(123).setContents("Fortune enchantment has an effect on the amount of End Powder dropped.").setPrice(3).setUnlockRequirements(122)
@@ -366,8 +366,10 @@ public final class KnowledgeRegistrations{
 				// 220
 			}),
 			
-			IGNEOUS_ROCK_ORE.setPos(1,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				// 230
+			IGNEOUS_ROCK_ORE.setPos(1,0).setUnlockPrice(20).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(230).setContents("An ore rarely spawned in Endstone Blobs and commonly in Burning Moutains Biome.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(231).setContents("Iron Pickaxe or better can effectively mine the ore.").setPrice(2).setUnlockRequirements(230),
+				new KnowledgeFragmentText(232).setContents("Always drops just one Igneous Rock, and 3-5 experience orbs.").setPrice(4).setUnlockRequirements(230)
 			}),
 			
 			DEATH_FLOWER.setPos(2,0).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
@@ -497,23 +499,23 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			INFESTED_END_STONE.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(400).setContents("Variation of End Stone found in Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
+				new KnowledgeFragmentText(400).setContents("Variation of End Stone found in the Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
 			INFESTED_GRASS.setPos(2,0).setUnlockPrice(2).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(410).setContents("One of the plants commonly found in Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
+				new KnowledgeFragmentText(410).setContents("One of the plants commonly found in the Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
 			INFESTED_TALL_GRASS.setPos(3,0).setUnlockPrice(2).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(411).setContents("One of the plants commonly found in Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
+				new KnowledgeFragmentText(411).setContents("One of the plants commonly found in the Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
 			INFESTED_FERN.setPos(4,0).setUnlockPrice(2).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(412).setContents("One of the plants commonly found in Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
+				new KnowledgeFragmentText(412).setContents("One of the plants commonly found in the Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
 			THORNY_BUSH.setPos(5,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(420).setContents("Dark plant found in Infested Forest (Deep).").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(420).setContents("Dark plant found in the Infested Forest (Deep).").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(421).setContents("On contact, it causes short Poison effect.").setPrice(3).setUnlockRequirements(420)
 			}),
 			
@@ -528,7 +530,10 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			DRY_SPLINTER.setPos(8,0).setUnlockPrice(8).setFragments(new KnowledgeFragment[]{
-				// 450
+				new KnowledgeFragmentText(450).setContents("Crafting material dropped by Spooky Logs.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(451).setContents("Each log has 1 in 8 (12.5%) chance of dropping a Dry Splinter.").setPrice(3).setUnlockRequirements(450),
+				new KnowledgeFragmentCrafting(452).setRecipeFromRegistry(new ItemStack(BlockList.spooky_log)).setPrice(5).setUnlockRequirements(450),
+				new KnowledgeFragmentCrafting(453).setRecipeFromRegistry(new ItemStack(BlockList.spooky_leaves)).setPrice(5).setUnlockRequirements(450)
 			}),
 			
 			GHOST_AMULET.setPos(9,0).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
@@ -539,8 +544,8 @@ public final class KnowledgeRegistrations{
 				// 470
 			}),
 			
-			INFESTED_BAT.setPos(1,1).setUnlockPrice(8).setFragments(new KnowledgeFragment[]{
-				// 480
+			INFESTED_BAT.setPos(1,1).setUnlockPrice(8).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(480).setContents("Special type of bat that spawns in the Infested Forest Biome. Each bat varies in size.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
 			SILVERFISH_LINKED.setPos(2,1),
@@ -548,11 +553,11 @@ public final class KnowledgeRegistrations{
 			// =
 			
 			RAVAGED_DUNGEON.setPos(0,5).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
-				
+				// 490
 			}),
 			
 			RAVAGED_BRICK.setPos(1,5).setUnlockPrice(2).setFragments(new KnowledgeFragment[]{
-				
+				// 500
 			}),
 			
 			RAVAGED_BRICK_GLOWING.setPos(2,5).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{ // TODO prices
@@ -672,10 +677,14 @@ public final class KnowledgeRegistrations{
 			int amtObjects = 0, amtFragments = 0, totalObjPrice = 0, totalFragPrice = 0, totalReward = 0;
 			
 			for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
-				if (obj.getDiscoveryReward() == 0 || obj.getUnlockPrice() == 0)throw new IllegalStateException("Knowledge Object "+obj.globalID+" has illegal reward or unlock price.");
+				if (obj.getDiscoveryReward() == 0 || obj.getUnlockPrice() == 0)throw new IllegalStateException("Knowledge Object "+obj.globalID+"/"+obj.getTooltip()+" has illegal reward or unlock price.");
+				
+				for(KnowledgeFragment fragment:obj.getFragments()){
+					totalFragPrice += fragment.getPrice();
+					if (fragment.getPrice() == 0)throw new IllegalStateException("Knowledge Fragment "+fragment.globalID+" has illegal unlock price.");
+				}
 				
 				++amtObjects;
-				for(KnowledgeFragment fragment:obj.getFragments())totalFragPrice += fragment.getPrice();
 				amtFragments += obj.getFragments().size();
 				totalObjPrice += obj.getUnlockPrice();
 				totalReward += obj.getDiscoveryReward();
