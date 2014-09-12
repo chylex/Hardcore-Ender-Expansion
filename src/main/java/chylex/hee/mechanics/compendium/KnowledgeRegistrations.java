@@ -348,8 +348,7 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ANGRY_ENDERMAN.setPos(3,1).setUnlockPrice(10).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
-				// 200
-				new KnowledgeFragmentText(200).setContents("Started Enderman that will attack nearby playeres.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(200).setContents("Startled Enderman that will attack nearby playeres.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(201).setContents("They have less health and strength, but will not teleport away when damaged.").setPrice(3).setUnlockRequirements(200)
 			}),
 			
@@ -616,9 +615,7 @@ public final class KnowledgeRegistrations{
 				
 			}),
 			
-			FIERY_ESSENCE.setPos(7,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
-			}),
+			FIERY_ESSENCE.setPos(7,0),
 			
 			FIRE_GOLEM.setPos(8,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
 				
