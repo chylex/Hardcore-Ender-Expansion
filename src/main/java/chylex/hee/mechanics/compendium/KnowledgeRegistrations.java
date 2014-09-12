@@ -8,6 +8,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import chylex.hee.block.BlockCrossedDecoration;
+import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
@@ -110,7 +111,7 @@ public final class KnowledgeRegistrations{
 		
 		// =>
 		
-		INFESTED_FOREST_BIOME = dummy("InfestedForest",new ItemStack(BlockList.end_terrain,1,0),"Infested Forest Biome"),
+		INFESTED_FOREST_BIOME = dummy("InfestedForest",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaInfested),"Infested Forest Biome"),
 		INFESTED_END_STONE = create(BlockList.end_terrain,0),
 		INFESTED_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass),
 		INFESTED_TALL_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass),
@@ -138,7 +139,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		BURNING_MOUNTAINS_BIOME = dummy("BurningMountains",new ItemStack(BlockList.end_terrain,1,1),"Burning Mountains Biome"),
+		BURNING_MOUNTAINS_BIOME = dummy("BurningMountains",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaBurned),"Burning Mountains Biome"),
 		BURNED_END_STONE = create(BlockList.end_terrain,1),
 		LILYFIRE = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire),
 		
@@ -156,7 +157,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		ENCHANTED_ISLAND_BIOME = dummy("EnchantedIsland",new ItemStack(BlockList.end_terrain,1,2),"Enchanted Island Biome"),
+		ENCHANTED_ISLAND_BIOME = dummy("EnchantedIsland",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaEnchanted),"Enchanted Island Biome"),
 		ENCHANTED_END_STONE = create(BlockList.end_terrain,2),
 		
 		FALLING_OBSIDIAN_LINKED = link(FALLING_OBSIDIAN),
@@ -442,31 +443,37 @@ public final class KnowledgeRegistrations{
 				// 320
 			}),
 			
-			SPHALERITE.setPos(1,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
+			SPHALERITE.setPos(1,0).setUnlockPrice(10).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(330).setContents("Rock of medium toughness found in Meteoroids.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(331).setContents("Stone Pickaxe or better is required to mine it quickly.").setPrice(3).setUnlockOnDiscovery().setUnlockRequirements(330)
 			}),
 			
-			SPHALERITE_WITH_STARDUST.setPos(2,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
+			SPHALERITE_WITH_STARDUST.setPos(2,0).setUnlockPrice(10).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(340).setContents("Variation of Sphalerite, that has yellow marks on the surface.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(341).setContents("It drops 1-3 Stardust, but no experience unlike the ores.").setPrice(3).setUnlockRequirements(340),
+				new KnowledgeFragmentText(342).setContents("Fortune enchantment has a small effect on the drops.").setPrice(2).setUnlockRequirements(341)
 			}),
 			
-			STARDUST.setPos(3,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
+			STARDUST.setPos(3,0).setUnlockPrice(10).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(350).setContents("Dust dropped by Stardust Ore and Sphalerite with Stardust. It is used for crafting and as a decomposition catalyst in Tables.").setPrice(2).setUnlockOnDiscovery()
 			})
 		});
 		
 		// ===
 		
 		INSTABILITY_ORB_ORE.setPos(0,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-			
+			new KnowledgeFragmentText(360).setContents("Uncommon ore found in tiny clusters in all Biome Islands.").setPrice(5).setUnlockOnDiscovery(),
+			new KnowledgeFragmentText(361).setContents("It can be only mined with Diamond Pickaxe.").setPrice(2).setUnlockRequirements(360),
+			new KnowledgeFragmentText(362).setContents("The ore has a 40% chance of dropping Instability Orb.").setPrice(2).setUnlockRequirements(360),
+			new KnowledgeFragmentText(363).setContents("Each level of Fortune enchantment increases the drop chance by 4%.").setPrice(2).setUnlockRequirements(362)
 		});
 		
 		STARDUST_ORE.setPos(1,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-			
+			// 370
 		});
 		
 		INSTABILITY_ORB.setPos(2,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-			
+			// 380
 		});
 		
 		STARDUST_LINKED.setPos(3,0);
@@ -477,53 +484,54 @@ public final class KnowledgeRegistrations{
 			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED,
 			
 			INFESTED_FOREST_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
-				
+				// 390
 			}),
 			
-			INFESTED_END_STONE.setPos(1,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
-				
+			INFESTED_END_STONE.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(400).setContents("Variation of End Stone found in Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			INFESTED_GRASS.setPos(2,0).setUnlockPrice(2).setFragments(new KnowledgeFragment[]{
-				
+			INFESTED_GRASS.setPos(2,0).setUnlockPrice(2).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(410).setContents("One of the plants commonly found in Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			INFESTED_TALL_GRASS.setPos(3,0).setUnlockPrice(2).setFragments(new KnowledgeFragment[]{
-				
+			INFESTED_TALL_GRASS.setPos(3,0).setUnlockPrice(2).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(411).setContents("One of the plants commonly found in Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			INFESTED_FERN.setPos(4,0).setUnlockPrice(2).setFragments(new KnowledgeFragment[]{
-				
+			INFESTED_FERN.setPos(4,0).setUnlockPrice(2).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(412).setContents("One of the plants commonly found in Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
 			THORNY_BUSH.setPos(5,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
-				
+				new KnowledgeFragmentText(420).setContents("Dark plant found in Infested Forest (Deep).").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(421).setContents("On contact, it causes short Poison effect.").setPrice(3).setUnlockRequirements(420)
 			}),
 			
 			// =
 			
 			SPOOKY_TREES.setPos(6,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-				
+				// 430
 			}),
 			
 			SPOOKY_LEAVES.setPos(7,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				
+				// 440
 			}),
 			
 			DRY_SPLINTER.setPos(8,0).setUnlockPrice(8).setFragments(new KnowledgeFragment[]{
-				
+				// 450
 			}),
 			
 			GHOST_AMULET.setPos(9,0).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
-				
+				// 460
 			}),
 			
 			ECTOPLASM.setPos(0,1).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
-				
+				// 470
 			}),
 			
 			INFESTED_BAT.setPos(1,1).setUnlockPrice(8).setFragments(new KnowledgeFragment[]{
-				
+				// 480
 			}),
 			
 			SILVERFISH_LINKED.setPos(2,1),

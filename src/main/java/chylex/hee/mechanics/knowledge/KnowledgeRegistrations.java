@@ -142,17 +142,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(6).setLocalizedText("Spectral Wand can move the clusters, one at a time.").setUnlockRequirements(0)
 		});
 		
-		SPHALERITE
-		.setPosition(0,-dist*2)
-		.setRenderer(new ItemStackRenderer(BlockList.sphalerite))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Rock of medium toughness, found in Meteoroids."),
-			new TextKnowledgeFragment(1).setLocalizedText("It can be broken using Stone pickaxe or better.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Sphalerite can contain Stardust, which can be identified by yellow marks on the rock.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("This variety drops 1-3 Stardust, but no experience orbs.").setUnlockRequirements(2),
-			new TextKnowledgeFragment(4).setLocalizedText("Fortune enchantment makes the rock drop additional Stardust sometimes.").setUnlockRequirements(3)
-		});
-		
 		STARDUST_ORE
 		.setPosition(-hdist,hdist)
 		.setRenderer(new ItemStackRenderer(BlockList.stardust_ore))
@@ -174,18 +163,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(3).setLocalizedText("Always drops one Igneous Rock, and 3-5 experience orbs.").setReplacementFor(2).setUnlockRequirements(2)
 		});
 		
-		INSTABILITY_ORB_ORE
-		.setPosition(dist+hdist,hdist)
-		.setRenderer(new ItemStackRenderer(BlockList.instability_orb_ore))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Found in very small clusters in Biome Islands."),
-			new TextKnowledgeFragment(1).setLocalizedText("Can be mined only using Diamond Pickaxe."),
-			new TextKnowledgeFragment(2).setLocalizedText("There is a ??% chance that the ore will drop nothing when broken.").setReplacedBy(3),
-			new TextKnowledgeFragment(3).setLocalizedText("There is a 60% chance that the ore will drop nothing when broken.").setReplacementFor(2).setUnlockRequirements(2),
-			new TextKnowledgeFragment(4).setLocalizedText("Each level of Fortune decreases that chance by ?%").setReplacedBy(5).setUnlockRequirements(3),
-			new TextKnowledgeFragment(5).setLocalizedText("Each level of Fortune decreases that chance by 4%").setReplacementFor(4).setUnlockRequirements(4)
-		});
-		
 		END_POWDER
 		.setPosition(-dist-hdist,dist+hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.end_powder))
@@ -203,13 +180,6 @@ public final class KnowledgeRegistrations{
 					KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(player,1F,new byte[]{ 5 });
 				}
 			})
-		});
-		
-		STARDUST
-		.setPosition(-hdist,dist+hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.stardust))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("It is used as an ingredient for item decomposition in some of the Tables.")
 		});
 		
 		INSTABILITY_ORB
