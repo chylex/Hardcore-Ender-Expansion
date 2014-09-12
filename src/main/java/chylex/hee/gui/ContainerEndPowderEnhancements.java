@@ -15,7 +15,7 @@ import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.mechanics.compendium.content.KnowledgeFragmentEnhancement;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;

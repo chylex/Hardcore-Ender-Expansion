@@ -142,14 +142,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(6).setLocalizedText("Spectral Wand can move the clusters, one at a time.").setUnlockRequirements(0)
 		});
 		
-		OBSIDIAN_VARIATIONS
-		.setPosition(hdist,-dist)
-		.setRenderer(new ItemStackRenderer(BlockList.obsidian_special).setTooltip("Smooth, Chiseled and Pillar Obsidian"))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Special variations of Obsidian, which can only be found in naturally spawning structures."),
-			new TextKnowledgeFragment(1).setLocalizedText("Some of the blocks have the same luminescence as Glowstone.")
-		});
-		
 		SPHALERITE
 		.setPosition(0,-dist*2)
 		.setRenderer(new ItemStackRenderer(BlockList.sphalerite))
@@ -218,19 +210,6 @@ public final class KnowledgeRegistrations{
 		.setRenderer(new ItemStackRenderer(ItemList.stardust))
 		.setFragments(new KnowledgeFragment[]{
 			new TextKnowledgeFragment(0).setLocalizedText("It is used as an ingredient for item decomposition in some of the Tables.")
-		});
-		
-		IGNEOUS_ROCK
-		.setPosition(hdist,dist+hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.igneous_rock))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Very hot rock, it causes random burns when held."),
-			new TextKnowledgeFragment(1).setLocalizedText("With higher quantities of the rock, it becomes more aggressive.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("The Nether supports aggressivity of the rock, The End partially suppresses it.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("It is very efficient as a fuel, roughly ? times better than Blaze Rods.").setReplacedBy(4),
-			new TextKnowledgeFragment(4).setLocalizedText("It is very efficient as a fuel, roughly 3 times better than Blaze Rods.").setReplacementFor(3),
-			new TextKnowledgeFragment(5).setLocalizedText("When thrown on the ground, it spreads fire, causes nearby blocks to decay and slowly dissolves."),
-			new TextKnowledgeFragment(6).setLocalizedText("If there is TNT nearby the thrown rock, it may randomly explode.").setUnlockRequirements(5)
 		});
 		
 		INSTABILITY_ORB

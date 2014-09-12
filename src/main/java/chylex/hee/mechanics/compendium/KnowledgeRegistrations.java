@@ -370,18 +370,18 @@ public final class KnowledgeRegistrations{
 				// 240
 			}),
 			
-			ENDER_GOO.setPos(3,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+			ENDER_GOO.setPos(3,0).setUnlockPrice(10).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(250).setContents("Thick goo found across the End dimension.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(251).setContents("The goo heavily limits movement of anything touching it, and it causes Poison, Weakness and Mining Fatigue as well.").setPrice(5).setUnlockRequirements(250),
 				new KnowledgeFragmentText(252).setContents("Creatures from the End are unaffected by its effects.").setPrice(2).setUnlockRequirements(251),
 				new KnowledgeFragmentText(253).setContents("It aggresively fights water, especially in the End.").setPrice(2).setUnlockRequirements(250)
 			}),
 			
-			IGNEOUS_ROCK.setPos(4,0).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
+			IGNEOUS_ROCK.setPos(4,0).setUnlockPrice(12).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(260).setContents("Extremely hot rock dropped by the Igneous Rock Ore.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(261).setContents("When held, it has a chance of setting the holder on fire. The effect is strengthened in the Nether and partially suppressed in the End.").setPrice(2).setUnlockRequirements(260),
-				new KnowledgeFragmentText(262).setContents("It is a very efficient fuel, roughly 3 times better than Blaze Rods.").setPrice(3).setUnlockRequirements(260)
-				// TODO
+				new KnowledgeFragmentText(262).setContents("It is a very efficient fuel, roughly 3 times better than Blaze Rods.").setPrice(3).setUnlockRequirements(260),
+				new KnowledgeFragmentText(263).setContents("When thrown on the ground, it spreads fire, smelts blocks, burns creatures and causes TNT to instantly explode. The rock also quickly dissolves.").setPrice(3).setUnlockRequirements(260)
 			})
 		});
 		
@@ -389,47 +389,47 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.DUNGEON_TOWER.addKnowledgeObjects(new KnowledgeObject[]{
 			DUNGEON_TOWER.setPos(0,0).setUnlockPrice(55).setFragments(new KnowledgeFragment[]{
-				
+				// 270
 			}),
 			
-			OBSIDIAN_STAIRS.setPos(1,0).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
-				
+			OBSIDIAN_STAIRS.setPos(1,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(280).setContents("Very tough stairs made of Obsidian. Uncraftable.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_SMOOTH.setPos(2,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
-				
+			OBSIDIAN_SMOOTH.setPos(2,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(281).setContents("Obsidian with a smooth texture, it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_CHISELED.setPos(3,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
-				
+			OBSIDIAN_CHISELED.setPos(3,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(282).setContents("Obsidian with a chiseled texture, it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_PILLAR.setPos(4,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
-				
+			OBSIDIAN_PILLAR.setPos(4,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(283).setContents("Obsidian pillar, can be placed horizontally or vertically and it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_SMOOTH_GLOWING.setPos(5,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
-				
+			OBSIDIAN_SMOOTH_GLOWING.setPos(5,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(284).setContents("Glowing Obsidian with a smooth texture, it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_CHISELED_GLOWING.setPos(6,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
-				
+			OBSIDIAN_CHISELED_GLOWING.setPos(6,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(285).setContents("Glowing Obsidian with a chiseled texture, it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
 			OBSIDIAN_PILLAR_GLOWING.setPos(7,0).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{
-				
+				new KnowledgeFragmentText(286).setContents("Glowing Obsidian pillar, can be placed horizontally or vertically and it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
 			SPATIAL_DASH_GEM.setPos(8,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
-				
+				// 290
 			}),
 			
 			BIOME_COMPASS.setPos(9,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
-				
+				// 300
 			}),
 			
 			ENDER_EYE.setPos(0,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				
+				// 310
 			}),
 			
 			ANGRY_ENDERMAN_LINKED.setPos(0,2)
@@ -439,7 +439,7 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.METEOROIDS.addKnowledgeObjects(new KnowledgeObject[]{
 			METEOROID.setPos(0,0).setUnlockPrice(40).setFragments(new KnowledgeFragment[]{
-				
+				// 320
 			}),
 			
 			SPHALERITE.setPos(1,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
@@ -657,6 +657,8 @@ public final class KnowledgeRegistrations{
 			int amtObjects = 0, amtFragments = 0, totalObjPrice = 0, totalFragPrice = 0, totalReward = 0;
 			
 			for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
+				if (obj.getDiscoveryReward() == 0 || obj.getUnlockPrice() == 0)throw new IllegalStateException("Knowledge Object "+obj.globalID+" has illegal reward or unlock price.");
+				
 				++amtObjects;
 				for(KnowledgeFragment fragment:obj.getFragments())totalFragPrice += fragment.getPrice();
 				amtFragments += obj.getFragments().size();
