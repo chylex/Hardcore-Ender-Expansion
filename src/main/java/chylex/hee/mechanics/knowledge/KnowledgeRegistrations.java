@@ -142,17 +142,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(6).setLocalizedText("Spectral Wand can move the clusters, one at a time.").setUnlockRequirements(0)
 		});
 		
-		STARDUST_ORE
-		.setPosition(-hdist,hdist)
-		.setRenderer(new ItemStackRenderer(BlockList.stardust_ore))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Can spawn in Endstone Blobs, and Biome Islands."),
-			new TextKnowledgeFragment(2).setLocalizedText("Only breakable by using Diamond Pickaxe."),
-			new TextKnowledgeFragment(3).setLocalizedText("Drops 0-4 Stardust, and ??? experience orbs.").setReplacedBy(4),
-			new TextKnowledgeFragment(4).setLocalizedText("Drops 0-4 Stardust, and 6-9 experience orbs.").setReplacementFor(3),
-			new TextKnowledgeFragment(5).setLocalizedText("Fortune enchantment does not affect amount of dropped Stardust.").setUnlockRequirements(4)
-		});
-		
 		IGNEOUS_ROCK_ORE
 		.setPosition(hdist,hdist)
 		.setRenderer(new ItemStackRenderer(BlockList.igneous_rock_ore))
@@ -163,33 +152,10 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(3).setLocalizedText("Always drops one Igneous Rock, and 3-5 experience orbs.").setReplacementFor(2).setUnlockRequirements(2)
 		});
 		
-		END_POWDER
-		.setPosition(-dist-hdist,dist+hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.end_powder))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Magical powder, that can enhance certain blocks and items."),
-			new TextKnowledgeFragment(1).setLocalizedText("Right-clicking the powder while sneaking opens enhancement screen.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(4).setLocalizedText("Enhancing consumes a certain amount of End Powder and a specific ingredient, which is shown if it is unlocked in the compendium.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(5).setLocalizedText("Using wrong ingredient may cause random powder or ingredient loss, but may also unlock the correct ingredient.").setUnlockRequirements(4),
-			new TextKnowledgeFragment(6).setLocalizedText("Successful enhancements may randomly unlock new enhancement ingredients, those can also be acquired by trading or mining End Powder Ore.").setUnlockRequirements(4),
-			new TextKnowledgeFragment(7).setLocalizedText("Each enhancement can be added to an item only once, but different enhancements are stackable.").setUnlockRequirements(6),
-			new TextKnowledgeFragment(2).setLocalizedText("Useable in Enhanced Brewing Stands to increase brewing possibilities.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("Applying the powder to a Death Flower will slightly heal it.").setUnlockRequirements(0).setUnlockAction(new IFragmentUnlockAction(){
-				@Override
-				public void trigger(EntityPlayer player){
-					KnowledgeRegistrations.DEATH_FLOWER.tryUnlockFragment(player,1F,new byte[]{ 5 });
-				}
-			})
-		});
-		
 		INSTABILITY_ORB
 		.setPosition(dist+hdist,dist+hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.instability_orb))
 		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Unstable material, which slowly decomposes after being thrown on the ground."),
-			new TextKnowledgeFragment(1).setLocalizedText("After decomposing, it may turn into a random item, mob, or explode").setUnlockRequirements(0),
-			new TextKnowledgeFragment(5).setLocalizedText("When a TNT explodes near one or more decomposing orbs, they will not explode once the decomposition is complete.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(2).setLocalizedText("It can be brewed in an Enhanced Brewing Stand, and turn Awkward Potions into Potions of Instability."),
 			new CraftingKnowledgeFragment(3).setRecipeFromRegistry(new ItemStack(ItemList.corporeal_mirage_orb)),
 			new TextKnowledgeFragment(4).setLocalizedText("Inside an Energy Extraction Table, it stabilizes the stored Energy and prevents it from leaking into the world.")
 		});
@@ -258,15 +224,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(4).setLocalizedText("When enough damage has been dealt, it will quickly strike purple lightning, which causes massive amount of damage to the demon if it hits water.").setReplacementFor(3).setUnlockRequirements(3),
 			new TextKnowledgeFragment(5).setLocalizedText("Death is followed by lightning strikes, and the demon drops second piece of Shattered Enderman Relic.").setUnlockRequirements(4)*/
 		/*});
-		
-		ANGRY_ENDERMAN
-		.setPosition(-dist*3,dist*2)
-		.setRenderer(new EntityRenderer(EntityMobAngryEnderman.class))
-		.setBackgroundTextureIndex(1)
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Startled Enderman, that will attack nearby players."),
-			new TextKnowledgeFragment(1).setLocalizedText("They have slightly less health and are weaker than normal Endermen.")
-		});
 		
 		BABY_ENDERMAN
 		.setPosition(-dist,dist*2)

@@ -347,12 +347,16 @@ public final class KnowledgeRegistrations{
 				// 190
 			}),
 			
-			ANGRY_ENDERMAN.setPos(3,1).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
+			ANGRY_ENDERMAN.setPos(3,1).setUnlockPrice(10).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
 				// 200
+				new KnowledgeFragmentText(200).setContents("Started Enderman that will attack nearby playeres.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(201).setContents("They have less health and strength, but will not teleport away when damaged.").setPrice(3).setUnlockRequirements(200)
 			}),
 			
 			VAMPIRE_BAT.setPos(4,1).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				// 210
+				new KnowledgeFragmentText(210).setContents("Special bat summoned by one of the Ender Dragon attacks.").setPrice(4).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(211).setContents("They instantly die when damaged.").setPrice(2).setUnlockRequirements(210),
+				new KnowledgeFragmentText(212).setContents("The bats try to attack players. When they do, they damage the player, heal the Ender Dragon and die.").setPrice(3).setUnlockRequirements(210)
 			})
 		});
 		
@@ -461,19 +465,25 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		INSTABILITY_ORB_ORE.setPos(0,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
+		INSTABILITY_ORB_ORE.setPos(0,0).setUnlockPrice(15).setDiscoveryReward(14).setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(360).setContents("Uncommon ore found in tiny clusters in all Biome Islands.").setPrice(5).setUnlockOnDiscovery(),
-			new KnowledgeFragmentText(361).setContents("It can be only mined with Diamond Pickaxe.").setPrice(2).setUnlockRequirements(360),
+			new KnowledgeFragmentText(361).setContents("It can be only mined with Diamond Pickaxe or better.").setPrice(2).setUnlockRequirements(360),
 			new KnowledgeFragmentText(362).setContents("The ore has a 40% chance of dropping Instability Orb.").setPrice(2).setUnlockRequirements(360),
-			new KnowledgeFragmentText(363).setContents("Each level of Fortune enchantment increases the drop chance by 4%.").setPrice(2).setUnlockRequirements(362)
+			new KnowledgeFragmentText(363).setContents("Each level of Fortune enchantment increases the drop chance by 4%.").setPrice(3).setUnlockRequirements(362)
 		});
 		
-		STARDUST_ORE.setPos(1,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-			// 370
+		STARDUST_ORE.setPos(1,0).setUnlockPrice(15).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
+			new KnowledgeFragmentText(370).setContents("Ore found commonly in Biome Islands.").setPrice(5).setUnlockOnDiscovery(),
+			new KnowledgeFragmentText(371).setContents("Diamond Pickaxe or better is required to get any drops.").setPrice(2).setUnlockRequirements(370),
+			new KnowledgeFragmentText(372).setContents("One ore drops 0-4 Stardust and 6-9 experience orbs.").setPrice(2).setUnlockRequirements(371),
+			new KnowledgeFragmentText(373).setContents("Fortune enchantment does not affect the drops.").setPrice(3).setUnlockRequirements(372)
 		});
 		
 		INSTABILITY_ORB.setPos(2,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-			// 380
+			new KnowledgeFragmentText(380).setContents("Very unstable material dropped by Instability Orb Ore.").setPrice(5).setUnlockOnDiscovery(),
+			new KnowledgeFragmentText(381).setContents("It decomposes when thrown on the ground. When the process finishes, it can either explode, or turn into a random mob, block or item.").setPrice(5).setUnlockRequirements(380),
+			new KnowledgeFragmentText(382).setContents("When a TNT explodes near one or more decomposing orbs, they will not explode once the decomposition is complete.").setPrice(3).setUnlockRequirements(381),
+			new KnowledgeFragmentText(383).setContents("Brewing it in an Enhanced Brewing Stand creates Potion of Instability.").setPrice(3).setUnlockRequirements(380) // TODO cascade
 		});
 		
 		STARDUST_LINKED.setPos(3,0);

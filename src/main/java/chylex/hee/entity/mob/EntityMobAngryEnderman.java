@@ -45,9 +45,9 @@ public class EntityMobAngryEnderman extends EntityMob{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs?40D:32D); // maxHealth 40 => 32
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 40D : 32D); // maxHealth 40 => 32
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs?9D:5D); // attackDamage 7 => 5
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs ? 9D : 5D); // attackDamage 7 => 5
 	}
 
 	@Override
