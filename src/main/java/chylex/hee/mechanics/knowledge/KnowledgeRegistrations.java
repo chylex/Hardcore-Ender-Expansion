@@ -45,35 +45,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(6).setLocalizedText("Leaking can be massively suppressed by placing Instability Orbs into the Table.").setUnlockRequirements(5)
 		});
 		
-		ENDER_PEARLS_ENH
-		.setPosition(-dist,-hdist)
-		.setRenderer(new ItemStackRenderer(Items.ender_pearl).setTooltip("Ender Pearl Enhancements"))
-		.setFragments(EnhancementFragmentUtil.getEnhancementFragments(EnderPearlEnhancements.class));
-		
-		TRANSFERENCE_GEM_ENH
-		.setPosition(0,-hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.transference_gem).setTooltip("Transference Gem Enhancements"))
-		.setFragments(EnhancementFragmentUtil.getEnhancementFragments(TransferenceGemEnhancements.class));
-		
-		TNT_ENH
-		.setPosition(0,-dist-hdist)
-		.setRenderer(new ItemStackRenderer(Blocks.tnt).setTooltip("TNT Enhancements"))
-		.setFragments(EnhancementFragmentUtil.getEnhancementFragments(TNTEnhancements.class));
-		
-		SOUL_CHARM_ENH
-		.setPosition(dist,-hdist)
-		.setRenderer(new ItemStackRenderer(BlockList.soul_charm).setTooltip("Soul Charm Enhancements"))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Soul Charms can be enhanced by putting together several pieces of End Powder and another ingredients of one type."),
-			new TextKnowledgeFragment(1).setLocalizedText("Effects can be stacked together, and individual effects can be also levelled up ? times to make them more powerful.").setReplacedBy(2).setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Effects can be stacked together, and individual effects can be also levelled up 6 times to make them more powerful.").setReplacementFor(1).setUnlockRequirements(1),
-			new CraftingKnowledgeFragment(3).setCustomRecipe(SoulCharmEnhancements.SPEED.setLevel(new ItemStack(BlockList.soul_charm),(byte)-1),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.SPEED.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.SPEED.itemSelector.getRepresentativeItem(),new ItemStack(BlockList.soul_charm),SoulCharmEnhancements.SPEED.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.SPEED.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder)).setUnlockRequirements(0),
-			new CraftingKnowledgeFragment(4).setCustomRecipe(SoulCharmEnhancements.RANGE.setLevel(new ItemStack(BlockList.soul_charm),(byte)-1),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.RANGE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.RANGE.itemSelector.getRepresentativeItem(),new ItemStack(BlockList.soul_charm),SoulCharmEnhancements.RANGE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.RANGE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder)).setUnlockRequirements(0),
-			new CraftingKnowledgeFragment(5).setCustomRecipe(SoulCharmEnhancements.EFFICIENCY.setLevel(new ItemStack(BlockList.soul_charm),(byte)-1),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.EFFICIENCY.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.EFFICIENCY.itemSelector.getRepresentativeItem(),new ItemStack(BlockList.soul_charm),SoulCharmEnhancements.EFFICIENCY.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.EFFICIENCY.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder)).setUnlockRequirements(0),
-			new CraftingKnowledgeFragment(6).setCustomRecipe(SoulCharmEnhancements.DAMAGE.setLevel(new ItemStack(BlockList.soul_charm),(byte)-1),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.DAMAGE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.DAMAGE.itemSelector.getRepresentativeItem(),new ItemStack(BlockList.soul_charm),SoulCharmEnhancements.DAMAGE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.DAMAGE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder)).setUnlockRequirements(0),
-			new CraftingKnowledgeFragment(7).setCustomRecipe(SoulCharmEnhancements.FIRE.setLevel(new ItemStack(BlockList.soul_charm),(byte)-1),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.FIRE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.FIRE.itemSelector.getRepresentativeItem(),new ItemStack(BlockList.soul_charm),SoulCharmEnhancements.FIRE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder),SoulCharmEnhancements.FIRE.itemSelector.getRepresentativeItem(),new ItemStack(ItemList.end_powder)).setUnlockRequirements(0)
-		});
-		
 		INSTABILITY_POTION
 		.setPosition(hdist,hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.potion_of_instability,2))
@@ -453,14 +424,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(5).setLocalizedText("Partially decayed flower can be healed using End Powder."), // unlocks with End Powder fragment
 			new CraftingKnowledgeFragment(6).setCustomRecipe(new ItemStack(Items.dye,2,13),new ItemStack(BlockList.death_flower,1,0)),
 			new CraftingKnowledgeFragment(7).setCustomRecipe(new ItemStack(Items.dye,2,8),new ItemStack(BlockList.death_flower,1,15)).setUnlockRequirements(4)
-		});
-		
-		LILYFIRE
-		.setPosition(dist,dist*2)
-		.setRenderer(new ItemStackRenderer(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Orange tulip, found on the surface of Burning Mountains biome."),
-			new CraftingKnowledgeFragment(1).setCustomRecipe(new ItemStack(Items.dye,2,14),new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire))
 		});
 
 		Stopwatch.finish("KnowledgeRegistrations");

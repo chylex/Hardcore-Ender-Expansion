@@ -26,6 +26,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject.LinkedKnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentItemConversion;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
@@ -33,6 +34,8 @@ import chylex.hee.mechanics.compendium.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
+import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
@@ -308,8 +311,14 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(133)
 			}),
 			
-			ENHANCED_TNT.setPos(6,0).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
-				// 140
+			ENHANCED_TNT.setPos(6,0).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentEnhancement(140).setEnhancement(TNTEnhancements.NO_BLOCK_DAMAGE).setPrice(3),
+				new KnowledgeFragmentEnhancement(141).setEnhancement(TNTEnhancements.NO_ENTITY_DAMAGE).setPrice(3),
+				new KnowledgeFragmentEnhancement(142).setEnhancement(TNTEnhancements.EXTRA_POWER).setPrice(3),
+				new KnowledgeFragmentEnhancement(143).setEnhancement(TNTEnhancements.TRAP).setPrice(3),
+				new KnowledgeFragmentEnhancement(144).setEnhancement(TNTEnhancements.NOCLIP).setPrice(3),
+				new KnowledgeFragmentEnhancement(145).setEnhancement(TNTEnhancements.FIRE).setPrice(3),
+				new KnowledgeFragmentEnhancement(146).setEnhancement(TNTEnhancements.NO_FUSE).setPrice(3)
 			}),
 			
 			DRAGON_EGG.setPos(7,0).setUnlockPrice(10).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
@@ -331,8 +340,14 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(167).setContents("Applying End Powder to Death Flower partially reverts the effect of decaying.").setPrice(3) // TODO cascade
 			}),
 			
-			ENHANCED_ENDER_PEARL.setPos(0,1).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
-				// 170
+			ENHANCED_ENDER_PEARL.setPos(0,1).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentEnhancement(170).setEnhancement(EnderPearlEnhancements.NO_FALL_DAMAGE).setPrice(3),
+				new KnowledgeFragmentEnhancement(171).setEnhancement(EnderPearlEnhancements.NO_GRAVITY).setPrice(3),
+				new KnowledgeFragmentEnhancement(172).setEnhancement(EnderPearlEnhancements.INCREASED_RANGE).setPrice(3),
+				new KnowledgeFragmentEnhancement(173).setEnhancement(EnderPearlEnhancements.DOUBLE_SPEED).setPrice(3),
+				new KnowledgeFragmentEnhancement(174).setEnhancement(EnderPearlEnhancements.EXPLOSIVE).setPrice(3),
+				new KnowledgeFragmentEnhancement(175).setEnhancement(EnderPearlEnhancements.FREEZE).setPrice(3),
+				new KnowledgeFragmentEnhancement(176).setEnhancement(EnderPearlEnhancements.RIDING).setPrice(3)
 			}),
 			
 			TEMPLE_CALLER.setPos(1,1).setUnlockPrice(15).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
@@ -431,7 +446,9 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			BIOME_COMPASS.setPos(9,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
-				// 300
+				new KnowledgeFragmentText(300).setContents("Special compass that points at the nearest Biome Island.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(301).setContents("Holding it will show markers for all nearby islands in the dimension.").setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(300),
+				new KnowledgeFragmentText(302).setContents("Right-clicking switches between biomes.").setPrice(3).setUnlockRequirements(301)
 			}),
 			
 			ENDER_EYE.setPos(0,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
@@ -556,40 +573,47 @@ public final class KnowledgeRegistrations{
 				// 490
 			}),
 			
-			RAVAGED_BRICK.setPos(1,5).setUnlockPrice(2).setFragments(new KnowledgeFragment[]{
-				// 500
+			RAVAGED_BRICK.setPos(1,5).setUnlockPrice(2).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(500).setContents("Primary building block of the Ravaged Dungeon.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(501).setContents("Some of the bricks are cracked or damaged.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(502).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_stairs,4)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(513),
+				new KnowledgeFragmentCrafting(503).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_slab,6)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(515),
+				new KnowledgeFragmentCrafting(505).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence,6)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(517)
 			}),
 			
-			RAVAGED_BRICK_GLOWING.setPos(2,5).setUnlockPrice(1).setFragments(new KnowledgeFragment[]{ // TODO prices
-				
+			RAVAGED_BRICK_GLOWING.setPos(2,5).setUnlockPrice(2).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(510).setContents("Glowing variation of the Ravaged Brick. It has the same level as Glowstone. Uncraftable.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			RAVAGED_BRICK_STAIRS.setPos(3,5).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
-				
+			RAVAGED_BRICK_STAIRS.setPos(3,5).setUnlockPrice(2).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(512).setContents("Stairs made of Ravaged Brick, slightly weaker than the full block.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(513).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_stairs,4)).setPrice(2).setUnlockRequirements(512).setUnlockCascade(502)
 			}),
 			
-			RAVAGED_BRICK_SLAB.setPos(4,5).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
-				
+			RAVAGED_BRICK_SLAB.setPos(4,5).setUnlockPrice(2).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(514).setContents("Slab made of Ravaged Brick, weaker than the full block.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(515).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_slab,6)).setPrice(2).setUnlockRequirements(514).setUnlockCascade(503)
 			}),
 			
-			RAVAGED_BRICK_FENCE.setPos(5,5).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
-				
+			RAVAGED_BRICK_FENCE.setPos(5,5).setUnlockPrice(2).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(516).setContents("Fence made of Ravaged Brick, weaker than the full block.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(517).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence,6)).setPrice(2).setUnlockRequirements(516).setUnlockCascade(504)
 			}),
 			
 			CHARM_POUCH.setPos(6,5).setUnlockPrice(30).setFragments(new KnowledgeFragment[]{
-				
+				// 520
 			}),
 			
 			RUNES.setPos(7,5).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				
+				// 530
 			}),
 			
 			CHARMS.setPos(8,5).setUnlockPrice(35).setFragments(new KnowledgeFragment[]{
-				
+				// 540
 			}),
 			
 			LOUSE.setPos(9,5).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-				
+				// 550
 			})
 		});
 		
@@ -597,15 +621,16 @@ public final class KnowledgeRegistrations{
 			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED,
 			
 			BURNING_MOUNTAINS_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
-				
+				// 560
 			}),
 			
 			BURNED_END_STONE.setPos(1,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
-				
+				// 570
 			}),
 			
 			LILYFIRE.setPos(2,0).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
-				
+				new KnowledgeFragmentText(580).setContents("Orange tulip found in the Burning Mountains (Scorching).").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(581).setCustomRecipe(new ItemStack(Items.dye,2,14),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire) }).setPrice(3).setUnlockRequirements(580)
 			}),
 			
 			// =
@@ -614,7 +639,9 @@ public final class KnowledgeRegistrations{
 			
 			IGNEOUS_ROCK_LINKED.setPos(4,0),
 			
-			CINDER.setPos(5,0).setUnlockPrice(5),
+			CINDER.setPos(5,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+				
+			}),
 			
 			FIERY_ESSENCE_ALTAR.setPos(6,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
 				

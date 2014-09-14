@@ -3,11 +3,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.RecipeSorter;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.enhancements.types.SoulCharmEnhancements;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
@@ -123,9 +121,6 @@ public final class RecipeList{
 			new ItemStack(ItemList.corporeal_mirage_orb),
 			ItemList.instability_orb,ItemList.ectoplasm
 		);
-
-		RecipeSorter.register("hee:soul_charm_enhancements",SoulCharmEnhancementRecipe.class,RecipeSorter.Category.SHAPED,"after:minecraft:shapeless");
-		for(SoulCharmEnhancements enhancement:SoulCharmEnhancements.values())GameRegistry.addRecipe(new SoulCharmEnhancementRecipe(enhancement));
 	}
 	
 	private RecipeList(){}
