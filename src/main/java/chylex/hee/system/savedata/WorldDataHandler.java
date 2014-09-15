@@ -36,7 +36,7 @@ public final class WorldDataHandler{
 					try{
 						savefile.loadFromNBT(CompressedStreamTools.readCompressed(new FileInputStream(file)));
 					}catch(IOException ioe){
-						Log.throwable(ioe,"Could not load NBT file - $0",cls.getName());
+						Log.throwable(ioe,"Error reading NBT file - $0",cls.getName());
 					}
 				}
 				else savefile.loadFromNBT(new NBTTagCompound());

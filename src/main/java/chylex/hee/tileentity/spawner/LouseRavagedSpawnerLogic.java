@@ -142,7 +142,9 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 						int ordinal = Integer.parseInt(s);
 						if (ordinal >= 0 && ordinal < EnumLouseAbility.values.length)abilities.add(EnumLouseAbility.values[ordinal]);
 					}
-				}catch(NumberFormatException e){}
+				}catch(NumberFormatException e){
+					// TODO log error
+				}
 				
 				this.level = lvl;
 			}

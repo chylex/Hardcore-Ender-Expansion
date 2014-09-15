@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.util.ChatComponentText;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
@@ -176,5 +177,10 @@ public class ModClientProxy extends ModCommonProxy{
 	public void openGui(String type){
 		if (type.equals("itemviewer"))Minecraft.getMinecraft().displayGuiScreen(new GuiItemViewer());
 		else if (type.equals("speedup"))Minecraft.getMinecraft().thePlayer.capabilities.setFlySpeed(0.3F);
+	}
+	
+	@Override
+	public void reportLogException(String message){
+		if (Minecraft.getMinecraft().thePlayer != null)Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(message));
 	}
 }

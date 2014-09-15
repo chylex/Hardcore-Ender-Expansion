@@ -19,6 +19,7 @@ public class BlockReplaceHelper{
 		Stopwatch.time("BlockReplace");
 		
 		Class<?>[] classTest = new Class<?>[3];
+		Exception exception = null;
 		
 		try{
 			Field modifiersField = Field.class.getDeclaredField("modifiers");
@@ -61,7 +62,7 @@ public class BlockReplaceHelper{
 				}
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			exception = e;
 		}
 		
 		Stopwatch.finish("BlockReplace");
@@ -71,7 +72,7 @@ public class BlockReplaceHelper{
 		Log.debug("Check item: $0",classTest[2]);
 		
 		if (classTest[0] != classTest[1] || classTest[0] != classTest[2] || classTest[0] == null){
-			throw new RuntimeException("HardcoreEnderExpansion was unable to replace block "+toReplace.getUnlocalizedName()+"! Debug info to report: "+classTest[0]+","+classTest[1]+","+classTest[2]);
+			throw new RuntimeException("HardcoreEnderExpansion was unable to replace block "+toReplace.getUnlocalizedName()+"! Debug info to report: "+classTest[0]+","+classTest[1]+","+classTest[2],exception);
 		}
 	}
 }

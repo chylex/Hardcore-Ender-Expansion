@@ -35,6 +35,7 @@ public class GuiItemViewer extends GuiScreen{
 		
 		// Blocks
 		
+		// TODO use the list stuff
 		Field[] blockList = BlockList.class.getFields();
 		
 		for(int a = 0; a < blockList.length; a++){
