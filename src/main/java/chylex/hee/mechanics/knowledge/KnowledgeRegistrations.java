@@ -53,25 +53,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(1).setLocalizedText("Splash potion will give everybody a different effect.").setUnlockRequirements(0)
 		});
 		
-		BIOME_COMPASS
-		.setPosition(-dist-hdist,0)
-		.setRenderer(new ItemStackRenderer(ItemList.biome_compass))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Special compass found in Dungeon Towers."),
-			new TextKnowledgeFragment(1).setLocalizedText("It points to nearest Biome Island, holding it will also show markers of islands of chosen biome, which can be changed by right-clicking.").setUnlockRequirements(0)
-		});
-		
-		SPATIAL_DASH_GEM
-		.setPosition(dist+hdist,hdist)
-		.setRenderer(new ItemStackRenderer(ItemList.spatial_dash_gem))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Teleportation gem dropped by the Ender Eye."),
-			new TextKnowledgeFragment(1).setLocalizedText("Using it will create a magical beam, which teleports the owner to the block or mob it hits.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Unlike Ender Pearls, the gem's teleportation tries to always find ground nearby to teleport the player to.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(3).setLocalizedText("The beam's range is ?? blocks.").setReplacedBy(4).setUnlockRequirements(1),
-			new TextKnowledgeFragment(4).setLocalizedText("The beam's range is 75 blocks.").setReplacementFor(3).setUnlockRequirements(3)
-		});
-		
 		TRANSFERENCE_GEM
 		.setPosition(dist,dist+hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.transference_gem))
@@ -250,16 +231,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(0).setLocalizedText("There is a 1 in ?? chance a Silverfish will drop Silverfish Blood.").setReplacedBy(1),
 			new TextKnowledgeFragment(1).setLocalizedText("There is a 1 in 56 chance a Silverfish will drop Silverfish Blood.").setReplacementFor(0).setUnlockRequirements(0),
 			new TextKnowledgeFragment(2).setLocalizedText("However, if a Golden Sword is used to kill the Silverfish, chance of getting Silverfish Blood is 1 in 14.").setUnlockRequirements(1)
-		});
-		
-		DRY_SPLINTER
-		.setPosition(-dist*3,dist)
-		.setRenderer(new ItemStackRenderer(ItemList.dry_splinter))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Each of the Spooky Logs has a 1 in ? chance of dropping Dry Splinter.").setReplacedBy(1),
-			new TextKnowledgeFragment(1).setLocalizedText("Each of the Spooky Logs has a 1 in 8 chance of dropping Dry Splinter.").setReplacementFor(0).setUnlockRequirements(0),
-			new CraftingKnowledgeFragment(2).setRecipeFromRegistry(new ItemStack(BlockList.spooky_log)),
-			new CraftingKnowledgeFragment(3).setRecipeFromRegistry(new ItemStack(BlockList.spooky_leaves))
 		});
 		
 		INFESTATION_REMEDY
