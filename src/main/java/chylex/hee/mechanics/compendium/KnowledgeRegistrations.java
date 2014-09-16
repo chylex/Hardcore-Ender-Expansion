@@ -225,7 +225,7 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.OVERWORLD.addKnowledgeObjects(new KnowledgeObject[]{
 			STRONGHOLD.setPos(0,1).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
-				
+				// 710
 			}),
 			
 			ADVENTURERS_DIARY.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
@@ -648,6 +648,7 @@ public final class KnowledgeRegistrations{
 			
 			CHARM_POUCH.setPos(6,5).setUnlockPrice(30).setFragments(new KnowledgeFragment[]{
 				// 520
+				new KnowledgeFragmentText(520).setContents("Magical pouch that allows creating, holding and activating Charms.").setPrice(5).setUnlockOnDiscovery()
 			}),
 			
 			RUNES.setPos(7,5).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
@@ -715,11 +716,15 @@ public final class KnowledgeRegistrations{
 			// =
 			
 			FIRE_SHARD.setPos(0,1).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-				// 630
+				new KnowledgeFragmentText(630).setContents("Fire Shard is a crafting material dropped by Haunted Miners.").setPrice(5).setUnlockOnDiscovery(), // TODO cascade to haunted miner
+				new KnowledgeFragmentCrafting(631).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setPrice(8).setUnlockRequirements(630).setUnlockCascade(643)
 			}),
 			
 			SCORCHING_PICKAXE.setPos(1,1).setUnlockPrice(30).setFragments(new KnowledgeFragment[]{
-				// 640
+				new KnowledgeFragmentText(640).setContents("Special type of pickaxe that smelts blocks and applies fortune effect to ores.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(641).setContents("It only works on smeltable blocks and ores. Blocks that smelt into items are affected by fortune, including for example Iron Ore and Cactus.").setPrice(5).setUnlockRequirements(640),
+				new KnowledgeFragmentText(642).setContents("Compatible blocks are also mined much faster.").setPrice(3).setUnlockRequirements(641),
+				new KnowledgeFragmentCrafting(643).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setPrice(8).setUnlockRequirements(640).setUnlockCascade(631)
 			}),
 			
 			HAUNTED_MINER.setPos(2,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
@@ -758,7 +763,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 710
+		// next: 720
 		
 		Stopwatch.finish("KnowledgeRegistrations");
 		
