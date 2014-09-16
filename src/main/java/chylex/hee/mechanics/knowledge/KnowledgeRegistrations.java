@@ -14,31 +14,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(1).setLocalizedText("Splash potion will give everybody a different effect.").setUnlockRequirements(0)
 		});
 		
-		ENDER_DRAGON
-		.setPosition(0,-dist*3+hdist)
-		.setRenderer(new EntityRenderer(EntityDragon.class,0.95F).setRotation(-127F).setTooltip("Ender Dragon"))
-		.setBackgroundTextureIndex(3)
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Giant dragon boss, which protects the End."),
-			new TextKnowledgeFragment(1).setLocalizedText("It has 125 hearts, and regenerates if close to an Ender Crystal.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("The dragon can churn out fireballs and freezeballs, destroys blocks it flies through and causes massive knockback.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("Players close to the head of the dragon are bit, with a chance to become poisoned and confused.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(4).setLocalizedText("After enough Ender Crystals are broken, the dragon becomes angry.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(5).setLocalizedText("When angry, fireballs and biting attacks are more dangerous, and the dragon also does special attacks (on medium or hard difficulty immediately, on easy difficulty when below 60% health).").setUnlockRequirements(2,3,4),
-			new TextKnowledgeFragment(6).setLocalizedText("Spikes made of Falling Obsidian are also scattered, when the dragon flies through.").setUnlockRequirements(5),
-			new TextKnowledgeFragment(7).setLocalizedText("There are 7 special attacks...").setUnlockRequirements(5),
-			new TextKnowledgeFragment(8).setLocalizedText("Divebomb makes the dragon fly high up, and swoop down through the island.").setUnlockRequirements(7),
-			new TextKnowledgeFragment(9).setLocalizedText("Stay'n'fire starts with the dragon flying above a player, and then it rapidly churns out fireballs.").setUnlockRequirements(7),
-			new TextKnowledgeFragment(10).setLocalizedText("Bitemadness speeds up biting attack, and makes the dragon constantly use it on a player.").setUnlockRequirements(7),
-			new TextKnowledgeFragment(11).setLocalizedText("Punch quadruples speed of the dragon, and then targets a player.").setUnlockRequirements(7),
-			new TextKnowledgeFragment(12).setLocalizedText("Freeze is a short attack, where the dragon churns out freezeballs and start another special attack immediately.").setUnlockRequirements(7),
-			new TextKnowledgeFragment(13).setLocalizedText("Summon makes the dragon fly high up, and spawn Angry Endermen accompanied by lightning.").setUnlockRequirements(7),
-			new TextKnowledgeFragment(14).setLocalizedText("Bloodlust slows down and protects the dragon, whilst it turns Endermen into Vampire Bats.").setUnlockRequirements(7),
-			new TextKnowledgeFragment(15).setLocalizedText("When killed, the dragon floats into the sky, dropping experience and Dragon Essence.").setUnlockRequirements(1,6),
-			new TextKnowledgeFragment(16).setLocalizedText("End Portal is formed below the dragon, with Dragon Egg on top.").setUnlockRequirements(15),
-			new TextKnowledgeFragment(17).setLocalizedText("The egg can be picked up by sneaking, and hitting it with a sword.").setUnlockRequirements(17)
-		});
-		
 		DRAGON_LAIR
 		.setPosition(dist*2+hdist,0)
 		.setRenderer(new ItemStackRenderer(Blocks.dragon_egg).setTooltip("Dragon Lair"))

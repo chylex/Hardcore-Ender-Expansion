@@ -217,7 +217,7 @@ public final class KnowledgeRegistrations{
 		
 		ESSENCE.setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(80).setContents("Essence is used to unleash power of altars.").setPrice(2).setUnlockOnDiscovery(),
-			new KnowledgeFragmentText(81).setContents("Dragon Essence is gained by killing the Ender Dragon.").setPrice(2), // TODO cascade to Ender Dragon
+			new KnowledgeFragmentText(81).setContents("Dragon Essence is gained by killing the Ender Dragon.").setPrice(2).setUnlockCascade(704),
 			new KnowledgeFragmentText(82).setContents("Fiery Essence is dropped by Fire Golem and Scorching Lens, which can be found in a variation of Burning Mountains.").setPrice(2).setUnlockCascade(614,623) // TODO cascade to the mobs
 		});
 		
@@ -322,7 +322,7 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			DRAGON_EGG.setPos(7,0).setUnlockPrice(10).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(150).setContents("Dragon Egg is created on top of the End Portal after killing the Ender Dragon.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(150).setContents("Dragon Egg is created on top of the End Portal after killing the Ender Dragon.").setPrice(5).setUnlockOnDiscovery().setUnlockCascade(705),
 				new KnowledgeFragmentText(151).setContents("It teleports into random directions when interacted with.").setPrice(2).setUnlockRequirements(150),
 				new KnowledgeFragmentText(152).setContents("The egg can only be picked up by sneaking and hitting it with any sword.").setPrice(5).setUnlockRequirements(150)
 			}),
@@ -359,7 +359,22 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ENDER_DRAGON.setPos(2,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				// 190
+				new KnowledgeFragmentText(190).setContents("Ender Dragon is a giant boss with 125 hearts, that protects the End dimension.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(191).setContents("Nearby Ender Crystals regenerate the dragon's health.").setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(190), // TODO cascade to dragon lair
+				new KnowledgeFragmentText(192).setContents("Its passive attacks include churning out fireballs and freezeballs, biting that can cause bad status effects, massive knockback to creatures and destroying blocks.").setPrice(3).setUnlockRequirements(190),
+				new KnowledgeFragmentText(193).setContents("When enough of the Ender Crystals are destroyed, the dragon begins the angry stage.").setPrice(2).setUnlockRequirements(191),
+				new KnowledgeFragmentText(194).setContents("During the angry stage, passive attacks are more powerful, and the dragon also does special attacks (Easy difficulty or higher).").setPrice(3).setUnlockRequirements(192,193),
+				new KnowledgeFragmentText(195).setContents("The angry stage also gives the dragon ability to scatter Obsidian from the pillars when it flies through it.").setPrice(3).setUnlockRequirements(194),
+				new KnowledgeFragmentText(196).setContents("There are 7 special attacks:").setPrice(5).setUnlockRequirements(194),
+				new KnowledgeFragmentText(197).setContents("Divebomb makes the dragon fly up, and then swoop down through the island.").setPrice(2).setUnlockRequirements(196),
+				new KnowledgeFragmentText(198).setContents("Stay'n'fire begins with the dragon flying high above a player, and rapidly churning out fireballs at it.").setPrice(2).setUnlockRequirements(196),
+				new KnowledgeFragmentText(199).setContents("Bitemadness is a melee attack, during which the dragon targets a single player and repeatedly uses biting attack.").setPrice(2).setUnlockRequirements(196),
+				new KnowledgeFragmentText(700).setContents("Punch attack quadruples the dragon's flight speed, and then attack a player.").setPrice(2).setUnlockRequirements(196),
+				new KnowledgeFragmentText(701).setContents("Freeze is a short attack that starts with the dragon churning out a freezeball, and then quickly doing another special attack.").setPrice(2).setUnlockRequirements(196),
+				new KnowledgeFragmentText(702).setContents("Summon makes the dragon fly high up and spawn Angry Endermen accompanied by lightning.").setPrice(2).setUnlockRequirements(196),
+				new KnowledgeFragmentText(703).setContents("Bloodlust slows the dragon down, protects it from attack and turns nearby Endermen into Vampire Bats.").setPrice(2).setUnlockRequirements(196).setUnlockCascade(210),
+				new KnowledgeFragmentText(704).setContents("When killed, the dragon floats high up while disappearing, dropping large amount of experience and Dragon Essence.").setPrice(2).setUnlockRequirements(190).setUnlockCascade(81),
+				new KnowledgeFragmentText(705).setContents("End Portal is formed below the dragon, with a Dragon Egg on top.").setPrice(3).setUnlockRequirements(704).setUnlockCascade(150)
 			}),
 			
 			ANGRY_ENDERMAN.setPos(3,1).setUnlockPrice(10).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
@@ -368,7 +383,7 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			VAMPIRE_BAT.setPos(4,1).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(210).setContents("Special bat summoned by one of the Ender Dragon attacks.").setPrice(4).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(210).setContents("Special bat summoned by one of the Ender Dragon attacks.").setPrice(4).setUnlockOnDiscovery().setUnlockCascade(703),
 				new KnowledgeFragmentText(211).setContents("They instantly die when damaged.").setPrice(2).setUnlockRequirements(210),
 				new KnowledgeFragmentText(212).setContents("The bats try to attack players. When they do, they damage the player, heal the Ender Dragon and die.").setPrice(3).setUnlockRequirements(210)
 			})
@@ -742,6 +757,8 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(693).setContents("The guardian drops 0-1 Ender Pearls and 1-3 Obsidian blocks.").setPrice(3).setUnlockRequirements(690)
 			})
 		});
+		
+		// next: 710
 		
 		Stopwatch.finish("KnowledgeRegistrations");
 		
