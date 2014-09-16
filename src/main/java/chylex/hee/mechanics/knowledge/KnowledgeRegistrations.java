@@ -246,31 +246,10 @@ public final class KnowledgeRegistrations{
 			//new TextKnowledgeFragment(5).setLocalizedText("Leather Armor can be dyed with colored water inside the cauldron.").setUnlockRequirements(3)
 		});
 		
-		SPOOKY_TREES
-		.setPosition(0,0)
-		.setRenderer(new ItemStackRenderer(BlockList.spooky_log))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Each tree consists of Spooky Logs and Spooky Leaves."),
-			new TextKnowledgeFragment(1).setLocalizedText("Breaking a log will make other logs above break too, and the leaves will very quickly decay.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Some of the trees have faces on them, breaking them will have ??% chance of spawning a Forest Ghost.").setReplacedBy(3),
-			new TextKnowledgeFragment(3).setLocalizedText("Some of the trees have faces on them, breaking them will have 25% chance of spawning a Forest Ghost.").setReplacementFor(2).setUnlockRequirements(1)
-		});
-		
-		GHOST_AMULET
-		.setPosition(dist,0)
-		.setRenderer(new ItemStackRenderer(ItemList.ghost_amulet))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Can be found as uncommon loot in Silverfish Dungeons."),
-			new TextKnowledgeFragment(1).setLocalizedText("It will banish the Forest Ghost as soon as they spawn, and have ??% chance of turning it into Endoplasm.").setReplacedBy(2),
-			new TextKnowledgeFragment(2).setLocalizedText("It will banish the Forest Ghost as soon as they spawn, and have 60% chance of turning it into Endoplasm.").setReplacementFor(1).setUnlockRequirements(1)
-		});
-		
 		ECTOPLASM
 		.setPosition(dist*2,0)
 		.setRenderer(new ItemStackRenderer(ItemList.ectoplasm))
 		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Strange ethereal substance dropped by Forest Ghosts."),
-			new TextKnowledgeFragment(1).setLocalizedText("It gives spectral powers to certain items.").setUnlockRequirements(0),
 			new CraftingKnowledgeFragment(2).setRecipeFromRegistry(new ItemStack(ItemList.corporeal_mirage_orb)).setUnlockRequirements(1),
 			new CraftingKnowledgeFragment(3).setRecipeFromRegistry(new ItemStack(BlockList.soul_charm)).setUnlockRequirements(1)
 		});

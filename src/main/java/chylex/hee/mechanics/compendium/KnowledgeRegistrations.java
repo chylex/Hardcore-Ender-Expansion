@@ -121,7 +121,7 @@ public final class KnowledgeRegistrations{
 		INFESTED_FERN = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedFern),
 		THORNY_BUSH = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataThornBush),
 		
-		SPOOKY_TREES = create(BlockList.spooky_log),
+		SPOOKY_LOG = create(BlockList.spooky_log),
 		SPOOKY_LEAVES = create(BlockList.spooky_leaves),
 		DRY_SPLINTER = create(ItemList.dry_splinter),
 		GHOST_AMULET = create(ItemList.ghost_amulet),
@@ -536,35 +536,45 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(412).setContents("One of the plants commonly found in the Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			THORNY_BUSH.setPos(5,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+			THORNY_BUSH.setPos(5,0).setUnlockPrice(5).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(420).setContents("Dark plant found in the Infested Forest (Deep).").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(421).setContents("On contact, it causes short Poison effect.").setPrice(3).setUnlockRequirements(420)
 			}),
 			
 			// =
 			
-			SPOOKY_TREES.setPos(6,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(430).setContents("")
-				// 430
+			SPOOKY_LOG.setPos(6,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(430).setContents("Logs used for the trunk of Spooky Trees.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(431).setContents("Breaking one log also destroys all logs above.").setPrice(3).setUnlockRequirements(430),
+				new KnowledgeFragmentText(432).setContents("Each log has a 1 in 8 (12.5%) chance of dropping a Dry Splinter.").setPrice(3).setUnlockRequirements(430).setUnlockCascade(451),
+				new KnowledgeFragmentText(433).setContents("In the Deep variation of Infested Forest, some trees have faces.").setPrice(2).setUnlockRequirements(430),
+				new KnowledgeFragmentText(434).setContents("When nobody looks at a face, it will move around the tree or move to another nearby tree.").setPrice(3).setUnlockRequirements(433),
+				new KnowledgeFragmentText(435).setContents("If a log with a face is broken, it has a 1 in 4 (25%) chance of spawning a Forest Ghost.").setPrice(2).setUnlockRequirements(433),
+				new KnowledgeFragmentText(436).setContents("Ghost Amulet will stop the Forest Ghost from spawning, and the face will have a 3 in 5 (60%) chance to drop Ectoplasm.").setPrice(8).setUnlockRequirements(435).setUnlockCascade(461),
+				new KnowledgeFragmentCrafting(437).setRecipeFromRegistry(new ItemStack(BlockList.spooky_log)).setPrice(5).setUnlockRequirements(430).setUnlockCascade(452)
 			}),
 			
 			SPOOKY_LEAVES.setPos(7,0).setUnlockPrice(10).setFragments(new KnowledgeFragment[]{
-				// 440
+				new KnowledgeFragmentText(440).setContents("Spooky Leaves are foliage of the Spooky Trees.").setPrice(4).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(441).setContents("If not connected to a Spooky Log, they leaves very quickly decay.").setPrice(3).setUnlockRequirements(440),
+				new KnowledgeFragmentCrafting(442).setRecipeFromRegistry(new ItemStack(BlockList.spooky_leaves)).setPrice(5).setUnlockRequirements(440).setUnlockCascade(453)
 			}),
 			
 			DRY_SPLINTER.setPos(8,0).setUnlockPrice(8).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(450).setContents("Crafting material dropped by Spooky Logs.").setPrice(2).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(451).setContents("Each log has 1 in 8 (12.5%) chance of dropping a Dry Splinter.").setPrice(3).setUnlockRequirements(450),
-				new KnowledgeFragmentCrafting(452).setRecipeFromRegistry(new ItemStack(BlockList.spooky_log)).setPrice(5).setUnlockRequirements(450),
-				new KnowledgeFragmentCrafting(453).setRecipeFromRegistry(new ItemStack(BlockList.spooky_leaves)).setPrice(5).setUnlockRequirements(450)
+				new KnowledgeFragmentText(451).setContents("Each Spooky Log has 1 in 8 (12.5%) chance of dropping a Dry Splinter.").setPrice(3).setUnlockRequirements(450).setUnlockCascade(432),
+				new KnowledgeFragmentCrafting(452).setRecipeFromRegistry(new ItemStack(BlockList.spooky_log)).setPrice(5).setUnlockRequirements(450).setUnlockCascade(437),
+				new KnowledgeFragmentCrafting(453).setRecipeFromRegistry(new ItemStack(BlockList.spooky_leaves)).setPrice(5).setUnlockRequirements(450).setUnlockCascade(442)
 			}),
 			
 			GHOST_AMULET.setPos(9,0).setUnlockPrice(18).setFragments(new KnowledgeFragment[]{
-				// 460
+				new KnowledgeFragmentText(460).setContents("An amulet that banishes the Forest Ghost.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(461).setContents("When in the inventory, Forest Ghost will not spawn and the Spooky Log face will have 3 in 5 (60%) chance to drop Ectoplasm.").setPrice(8).setUnlockRequirements(460).setUnlockCascade(436),
+				new KnowledgeFragmentText(462).setContents("In order to create it, one piece of End Powder, Emerald and String all have to be thrown into Ender Goo.").setPrice(8).setUnlockRequirements(460)
 			}),
 			
 			ECTOPLASM.setPos(0,1).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
-				// 470
+				new KnowledgeFragmentText(470).setContents("Strange ethereal substance dropped by banished Forest Ghosts.").setPrice(5).setUnlockOnDiscovery()
 			}),
 			
 			INFESTED_BAT.setPos(1,1).setUnlockPrice(8).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
