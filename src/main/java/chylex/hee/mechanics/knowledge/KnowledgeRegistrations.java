@@ -39,19 +39,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(17).setLocalizedText("The egg can be picked up by sneaking, and hitting it with a sword.").setUnlockRequirements(17)
 		});
 		
-		ENDER_EYE
-		.setPosition(-dist*3,-dist+hdist)
-		.setRenderer(new EntityRenderer(EntityMiniBossEnderEye.class).setYOffset(6F).setTooltip("Ender Eye"))
-		.setBackgroundTextureIndex(2)
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Small, but very powerful mini-boss made of Obsidian, with ??? hearts.").setReplacedBy(1),
-			new TextKnowledgeFragment(1).setLocalizedText("Small, but very powerful mini-boss made of Obsidian, with 125 hearts.").setReplacementFor(0).setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Hitting it will wake it up, if there is nothing to attack, the Ender Eye will fall asleep and regenerate.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("It is very tough, so at least Iron Sword has to be used to deal damage.").setUnlockRequirements(2),
-			new TextKnowledgeFragment(4).setLocalizedText("The eye has 3 special attacks apart from melee, it can break blocks and cause massive knockback to everything around, it can cause nausea and blindness, or spawn purple beams which deal massive fire damage.").setUnlockRequirements(2),
-			new TextKnowledgeFragment(5).setLocalizedText("When killed, it drops 1 Spatial Dash Gem, 1 Eye of Ender, 3-6 Obsidian and 35 experience orbs.").setUnlockRequirements(3,4)
-		});
-		
 		DRAGON_LAIR
 		.setPosition(dist*2+hdist,0)
 		.setRenderer(new ItemStackRenderer(Blocks.dragon_egg).setTooltip("Dragon Lair"))

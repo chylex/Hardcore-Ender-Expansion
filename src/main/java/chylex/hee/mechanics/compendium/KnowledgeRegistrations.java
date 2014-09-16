@@ -448,7 +448,7 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			SPATIAL_DASH_GEM.setPos(8,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(290).setContents("Teleportation gem dropped by the Ender Eye.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(290).setContents("Teleportation gem dropped by the Ender Eye.").setPrice(5).setUnlockOnDiscovery().setUnlockCascade(319),
 				new KnowledgeFragmentText(291).setContents("Using it creates a beam, which teleports the player to a block of mob it hits.").setPrice(2).setUnlockRequirements(290),
 				new KnowledgeFragmentText(292).setContents("The beam can travel up to 75 blocks.").setPrice(3).setUnlockRequirements(291),
 				new KnowledgeFragmentText(293).setContents("Unlike Ender Pearls, the beam will try to find suitable area to teleport the player to, even if it hits the side or the bottom of block.").setPrice(2).setUnlockRequirements(291),
@@ -463,7 +463,16 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ENDER_EYE.setPos(0,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				// 310
+				new KnowledgeFragmentText(310).setContents("The Ender Eye is a small but very powerful and tough mini-boss with 125 hearts.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(311).setContents("Hitting it will wake it up. If there eye cannot see anybody to attack, it will fall asleep again and start regenerating.").setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(310),
+				new KnowledgeFragmentText(312).setContents("Waking it up will also cause it to destroy weak blocks around.").setPrice(3).setUnlockRequirements(311),
+				new KnowledgeFragmentText(313).setContents("It is made of Obsidian, so an Iron Sword or better is required to deal damage.").setPrice(2).setUnlockRequirements(310),
+				new KnowledgeFragmentText(314).setContents("The eye is resistant to fire, cactus, suffocation, magic and drowning damage.").setPrice(3).setUnlockRequirements(313),
+				new KnowledgeFragmentText(315).setContents("Attack routine consists of 3 randomly selected attacks:").setPrice(2).setUnlockRequirements(310),
+				new KnowledgeFragmentText(316).setContents("First attack is a blast wave, which destroys blocks and massively knocks all creatures around away.").setPrice(2).setUnlockRequirements(315),
+				new KnowledgeFragmentText(317).setContents("Second attack is a confusion attack, which deals short nausea and blindness effects to players.").setPrice(2).setUnlockRequirements(315),
+				new KnowledgeFragmentText(318).setContents("Third attack is a beam attack, during which several purple beams are created and then destroyed. The beams deal magic and fire damage, and additional damage when they get destroyed.").setPrice(2).setUnlockRequirements(315),
+				new KnowledgeFragmentText(319).setContents("When killed, it drops a Spatial Dash Gem, 1 Eye of Ender, 3-6 Obsidian and 35 experience.").setPrice(3).setUnlockRequirements(310).setUnlockCascade(290)
 			}),
 			
 			ANGRY_ENDERMAN_LINKED.setPos(0,2)

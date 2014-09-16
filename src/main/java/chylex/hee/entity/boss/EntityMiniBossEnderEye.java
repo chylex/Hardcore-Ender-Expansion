@@ -272,18 +272,20 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (isEntityInvulnerable() || source == DamageSource.inWall || source == DamageSource.cactus || source.isFireDamage()||
+		if (isEntityInvulnerable() || source == DamageSource.inWall || source == DamageSource.drown || source == DamageSource.cactus || source.isFireDamage()||
 			source.isMagicDamage() || source.isProjectile())return false; // you need manly strength to penetrate through the obsidian armor; min iron sword
 		
 		if (isAsleep()){
 			setIsAsleep(false);
+			
 			if (worldObj.difficultySetting.getDifficultyId() > 1 || ModCommonProxy.opMobs){
-				for(int a = 0,hits = 0,x,y,z; a < 400 && hits < 5+worldObj.difficultySetting.getDifficultyId()*10+(ModCommonProxy.opMobs?30:0); a++){
+				for(int a = 0, hits = 0, x, y, z; a < 400 && hits < 5+worldObj.difficultySetting.getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
 					x = rand.nextInt(14)-7+(int)Math.floor(posX);
 					y = rand.nextInt(8)-4+(int)Math.floor(posY);
 					z = rand.nextInt(14)-7+(int)Math.floor(posZ);
 					
 					Block block = worldObj.getBlock(x,y,z);
+					
 					if (block != Blocks.air){
 						float hardness = block.getBlockHardness(worldObj,x,y,z);
 						if (hardness != -1F && hardness <= 5F){					
