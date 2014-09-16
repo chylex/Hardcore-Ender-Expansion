@@ -52,17 +52,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(5).setLocalizedText("When killed, it drops 1 Spatial Dash Gem, 1 Eye of Ender, 3-6 Obsidian and 35 experience orbs.").setUnlockRequirements(3,4)
 		});
 		
-		BABY_ENDERMAN
-		.setPosition(-dist,dist*2)
-		.setBackgroundTextureIndex(1)
-		.setRenderer(new EntityRenderer(EntityMobBabyEnderman.class,1.35F))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("It spawns in Enchanted Island biome."),
-			new TextKnowledgeFragment(1).setLocalizedText("If attacked, it will call their parents that will teleport and defend the baby."),
-			new TextKnowledgeFragment(2).setLocalizedText("Occasionally, the baby will steal items from players, unless they are wearing an Enderman Head."),
-			new TextKnowledgeFragment(3).setLocalizedText("Each baby has different preferences, it is possible to get stolen item back by throwing another item at the baby, and it might take that instead.").setUnlockRequirements(2),
-		});
-		
 		DRAGON_LAIR
 		.setPosition(dist*2+hdist,0)
 		.setRenderer(new ItemStackRenderer(Blocks.dragon_egg).setTooltip("Dragon Lair"))
@@ -140,8 +129,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(3).setLocalizedText("Each island has a chance of having one or more rare variations, which include much taller pillars and larger lakes.").setUnlockRequirements(1,2),
 			new TextKnowledgeFragment(4).setLocalizedText("Inside the terrain can be found Block Stashes, which are rectangular rooms with piles of blocks stolen by Endermen.").setUnlockRequirements(1,2)
 		});
-		
-		
 		
 		
 		
@@ -261,18 +248,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(1).setLocalizedText("It drops less Ender Pearls, and has limited teleportation capabilities.").setUnlockRequirements(0),
 			new TextKnowledgeFragment(2).setLocalizedText("Occasionally, it will attack other creatures nearby.").setUnlockRequirements(0),
 			new TextKnowledgeFragment(3).setLocalizedText("After a certain time, paralyzation ends and it either turns into regular Enderman, or die.").setUnlockRequirements(0)
-		});
-		
-		ENDER_GUARDIAN
-		.setPosition(dist*3,dist*2)
-		.setBackgroundTextureIndex(1)
-		.setRenderer(new EntityRenderer(EntityMobEnderGuardian.class))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Big golem that spawns in Enchanted Island biome."),
-			new TextKnowledgeFragment(1).setLocalizedText("It protects the Enderman Relic, and attacks anyone who has it."),
-			new TextKnowledgeFragment(2).setLocalizedText("When attacking, it charges at the player and then teleports away and uses blast attack."),
-			new TextKnowledgeFragment(3).setLocalizedText("Drops ??? Ender Pearls, and ??? Obsidian.").setReplacedBy(4),
-			new TextKnowledgeFragment(4).setLocalizedText("Drops 0-1 Ender Pearls, and 1-3 Obsidian.").setReplacementFor(3).setUnlockRequirements(3),
 		});
 		
 		SILVERFISH_BLOOD

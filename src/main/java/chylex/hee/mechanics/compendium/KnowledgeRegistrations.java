@@ -719,11 +719,18 @@ public final class KnowledgeRegistrations{
 			ENDERMAN_LINKED.setPos(3,0),
 			
 			BABY_ENDERMAN.setPos(4,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				// 680
+				new KnowledgeFragmentText(680).setContents("Baby Enderman spawns in the Enchanted Island (Homeland).").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(681).setContents("If attacked, the parents will teleport and protect the baby.").setPrice(2).setUnlockRequirements(680),
+				new KnowledgeFragmentText(682).setContents("Sometimes, it may approach a player and steal random item from their inventory.").setPrice(2).setUnlockRequirements(680),
+				new KnowledgeFragmentText(683).setContents("The item is dropped on death. Each baby also has their own priorities and may exchange stolen item with another one on the ground.").setPrice(3).setUnlockRequirements(682),
+				new KnowledgeFragmentText(684).setContents("It will not steal from players who wear Enderman Head.").setPrice(3).setUnlockRequirements(682)
 			}),
 			
 			ENDER_GUARDIAN.setPos(5,0).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-				// 690
+				new KnowledgeFragmentText(690).setContents("Large golem-like creature that spawns in the Enchanted Island (Homeland).").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(691).setContents("It only attacks players when provoked.").setPrice(2).setUnlockRequirements(690),
+				new KnowledgeFragmentText(692).setContents("When attacking, it charges the player with melee attacks, and after a short while it teleports away and creates a blast under the player.").setPrice(5).setUnlockRequirements(690),
+				new KnowledgeFragmentText(693).setContents("The guardian drops 0-1 Ender Pearls and 1-3 Obsidian blocks.").setPrice(3).setUnlockRequirements(690)
 			})
 		});
 		
