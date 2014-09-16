@@ -156,13 +156,12 @@ public class BlockEndFlower extends BlockFlower{
 	
 	@Override
 	protected boolean canPlaceBlockOn(Block block){
-		return block == Blocks.end_stone || block == BlockList.end_terrain || super.canPlaceBlockOn(block);
+		return block == Blocks.end_stone || block == BlockList.end_terrain || block == Blocks.grass || block == Blocks.dirt;
 	}
 	
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z){
-		Block soil = world.getBlock(x,y-1,z);
-		return soil == Blocks.end_stone || soil == BlockList.end_terrain || soil == Blocks.grass || soil == Blocks.dirt;
+		return canPlaceBlockOn(world.getBlock(x,y-1,z));
 	}
 	
 	@Override

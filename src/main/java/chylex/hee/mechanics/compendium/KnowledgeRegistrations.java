@@ -218,7 +218,7 @@ public final class KnowledgeRegistrations{
 		ESSENCE.setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(80).setContents("Essence is used to unleash power of altars.").setPrice(2).setUnlockOnDiscovery(),
 			new KnowledgeFragmentText(81).setContents("Dragon Essence is gained by killing the Ender Dragon.").setPrice(2), // TODO cascade to Ender Dragon
-			new KnowledgeFragmentText(82).setContents("Fiery Essence is dropped by Fire Golem and Scorching Lens, which can be found in a variation of Burning Mountains.").setPrice(2) // TODO cascade to the mobs
+			new KnowledgeFragmentText(82).setContents("Fiery Essence is dropped by Fire Golem and Scorching Lens, which can be found in a variation of Burning Mountains.").setPrice(2).setUnlockCascade(614,623) // TODO cascade to the mobs
 		});
 		
 		// ===
@@ -388,7 +388,13 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			DEATH_FLOWER.setPos(2,0).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
-				// 240
+				new KnowledgeFragmentText(240).setContents("Purple flower found on top of Endstone Blobs. It can be planted on End Stone, Dirt, Grass or inside Flower Pots.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(241).setContents("Outside the End, the flower will slowly decay, even if in a Flower Pot.").setPrice(2).setUnlockRequirements(240),
+				new KnowledgeFragmentText(242).setContents("After some time of decaying, it starts to occasionally attract Angry Endermen.").setPrice(3).setUnlockRequirements(241),
+				new KnowledgeFragmentText(243).setContents("When the flower decays completely, it turns dark, propagates massive amount decay to nearby blocks and spawns an Energy Cluster.").setPrice(5).setUnlockRequirements(241),
+				new KnowledgeFragmentText(244).setContents("Partial decay can be healed a little using End Powder.").setPrice(3).setUnlockRequirements(241),
+				new KnowledgeFragmentCrafting(245).setCustomRecipe(new ItemStack(Items.dye,2,13),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,0) }).setUnlockRequirements(240),
+				new KnowledgeFragmentCrafting(246).setCustomRecipe(new ItemStack(Items.dye,2,8),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,15) }).setUnlockRequirements(243)
 			}),
 			
 			ENDER_GOO.setPos(3,0).setUnlockPrice(10).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
@@ -656,21 +662,30 @@ public final class KnowledgeRegistrations{
 			IGNEOUS_ROCK_LINKED.setPos(4,0),
 			
 			CINDER.setPos(5,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(590).setContents("")
 				// 590
 			}),
 			
-			FIERY_ESSENCE_ALTAR.setPos(6,0).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
-				// 600
+			FIERY_ESSENCE_ALTAR.setPos(6,0).setUnlockPrice(25).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(600).setContents("Fiery Essence Altar converts Fiery Essence into heat to speed up Furnaces, Brewing Stands and other devices.").setPrice(10).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(601).setContents("More Fiery Essence causes faster distribution of heat, having 512 Essence yields best speed.").setPrice(8).setUnlockRequirements(600)
 			}),
 			
 			FIERY_ESSENCE.setPos(7,0),
 			
 			FIRE_GOLEM.setPos(8,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				// 610
+				new KnowledgeFragmentText(610).setContents("Fiery creature that spawns in Burning Mountains (Scorching).").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(611).setContents("It has both a ranged attack and a melee attack.").setPrice(2).setUnlockRequirements(610),
+				new KnowledgeFragmentText(612).setContents("During the ranged attack, it creates fireballs which cause large fiery craters.").setPrice(3).setUnlockRequirements(611),
+				new KnowledgeFragmentText(613).setContents("When the golem is hit by an explosion, it ignores the damage and teleports. This ability has a short cooldown.").setPrice(3).setUnlockRequirements(611),
+				new KnowledgeFragmentText(614).setContents("The golem drops 0-1 Fire Charges and 1-3 Fiery Essence.").setPrice(3).setUnlockRequirements(610).setUnlockCascade(82)
 			}),
 			
 			SCORCHING_LENS.setPos(9,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				// 620
+				new KnowledgeFragmentText(620).setContents("Small biped with a large eye, that spawns in Burning Mountains (Scorching).").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(621).setContents("It attacks players in proximity by churning out fire from its eye.").setPrice(2).setUnlockRequirements(620),
+				new KnowledgeFragmentText(622).setContents("The fire deals damage, has a chance of knocking the attacked creature back and increases the length of fire status effect.").setPrice(3).setUnlockRequirements(621),
+				new KnowledgeFragmentText(623).setContents("It drops 0-2 Igneous Rock and 1-2 Fiery Essence.").setPrice(3).setUnlockRequirements(620).setUnlockCascade(82)
 			}),
 			
 			// =
