@@ -107,6 +107,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
+		BIOME_ISLANDS = dummy("BiomeIslands",new ItemStack(Blocks.end_stone),"Biome Islands"),
 		INSTABILITY_ORB_ORE = create(BlockList.instability_orb_ore),
 		STARDUST_ORE = create(BlockList.stardust_ore),
 		INSTABILITY_ORB = create(ItemList.instability_orb),
@@ -438,7 +439,7 @@ public final class KnowledgeRegistrations{
 		KnowledgeCategories.DUNGEON_TOWER.addKnowledgeObjects(new KnowledgeObject[]{
 			DUNGEON_TOWER.setPos(0,0).setUnlockPrice(55).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(270).setContents("A tall tower consisting of various types of Obsidian.").setPrice(5),
-				new KnowledgeFragmentText(271).setContents("They start spawning around 1800 blocks away from the Dragon Lair.").setPrice(3).setUnlockRequirements(270),
+				new KnowledgeFragmentText(271).setContents("They start spawning around 350 blocks away from the Dragon Lair.").setPrice(3).setUnlockRequirements(270),
 				new KnowledgeFragmentText(272).setContents("Each tower contains 3 content floors and 1 chest floor with loot, all are randomly picked and have random elements.").setPrice(2).setUnlockRequirements(270),
 				new KnowledgeFragmentText(273).setContents("Loot is also often found in Dispensers, Furnaces and Brewing Stands. There is a 1 in 100 (1%) chance of spawning an Enhanced Brewing Stand.").setPrice(3).setUnlockRequirements(272),
 				new KnowledgeFragmentText(274).setContents("Most floors have Angry Enderman spawners. Each spawner gives the Endermen potion effects that are more powerful the higher you get.").setPrice(5).setUnlockRequirements(272),
@@ -508,7 +509,7 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.METEOROIDS.addKnowledgeObjects(new KnowledgeObject[]{
 			METEOROID.setPos(0,0).setUnlockPrice(40).setFragments(new KnowledgeFragment[]{
-				// 320
+				new KnowledgeFragmentText(320).setContents("Tiny clump of Sphalerite which begins to spawn around 1300 blocks away from the Dragon Lair.").setPrice(5)
 			}),
 			
 			SPHALERITE.setPos(1,0).setUnlockPrice(10).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
@@ -550,15 +551,25 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(383).setContents("Brewing it in an Enhanced Brewing Stand creates Potion of Instability.").setPrice(3).setUnlockRequirements(380) // TODO cascade
 		});
 		
+		BIOME_ISLANDS.setPos(3,0).setFragments(new KnowledgeFragment[]{
+			new KnowledgeFragmentText(720).setContents("Biome Islands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the Dragon Lair.").setPrice(5),
+			new KnowledgeFragmentText(721).setContents("Each island has caves and ores, every biome modifies the amounts and rates as well as the overall shape of the terrain.").setPrice(2).setUnlockRequirements(720),
+			new KnowledgeFragmentText(722).setContents("Biomes can have multiple different variations with unique content.").setPrice(3).setUnlockRequirements(721),
+			new KnowledgeFragmentText(723).setContents("Instability Orb Ore and Stardust Ore only spawn in the islands.").setPrice(2).setUnlockRequirements(721)
+		});
+		
 		STARDUST_LINKED.setPos(3,0);
 		
 		// ===
 		
 		KnowledgeCategories.BIOME_ISLAND_FOREST.addKnowledgeObjects(new KnowledgeObject[]{
-			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED,
+			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED, BIOME_ISLANDS,
 			
 			INFESTED_FOREST_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
-				// 390
+				new KnowledgeFragmentText(390).setContents("Mostly flat biome with long caves and decent amount of ores.").setPrice(5),
+				new KnowledgeFragmentText(391).setContents("There are 2 variations of the biome - Deep and Ravaged.").setPrice(2).setUnlockRequirements(390),
+				new KnowledgeFragmentText(392).setContents("Both of these variations contain Silverfish, Infested Bats and occasionally Endermen.").setPrice(3).setUnlockRequirements(391),
+				new KnowledgeFragmentText(393).setContents("") // TODO
 			}),
 			
 			INFESTED_END_STONE.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
@@ -683,7 +694,7 @@ public final class KnowledgeRegistrations{
 		});
 		
 		KnowledgeCategories.BIOME_ISLAND_MOUNTAINS.addKnowledgeObjects(new KnowledgeObject[]{
-			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED,
+			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED, BIOME_ISLANDS,
 			
 			BURNING_MOUNTAINS_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
 				// 560
@@ -746,12 +757,14 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			HAUNTED_MINER.setPos(2,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				// 650
+				new KnowledgeFragmentText(650).setContents("Haunted Miner is a fiery flying mob that spawns in Burning Mountains (Mine).").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(651).setContents("They guard the mines, they sense and attack players who have too many mining related items in their inventory, such as pickaxes, ores, ingots or minerals.").setPrice(5).setUnlockRequirements(651),
+				new KnowledgeFragmentText(652)
 			})
 		});
 		
 		KnowledgeCategories.BIOME_ISLAND_ENCHISLAND.addKnowledgeObjects(new KnowledgeObject[]{
-			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED,
+			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED, BIOME_ISLANDS,
 			
 			ENCHANTED_ISLAND_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
 				// 660
@@ -781,7 +794,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 720
+		// next: 730
 		
 		Stopwatch.finish("KnowledgeRegistrations");
 		

@@ -16,14 +16,6 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(1).setLocalizedText("Splash potion will give everybody a different effect.").setUnlockRequirements(0)
 		});
 		
-		METEOROID
-		.setPosition(-hdist,0)
-		.setRenderer(new ItemStackRenderer(BlockList.sphalerite).setTooltip("Meteoroid"))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Tiny clump of Sphalerite which spawns far from the main island."),
-			new TextKnowledgeFragment(1).setLocalizedText("It will often contain Sphalerite with Stardust.").setUnlockRequirements(0)
-		});
-		
 		INFESTED_FOREST_BIOME
 		.setPosition(-dist*2-hdist,-dist)
 		.setRenderer(new ItemStackRenderer(BlockList.end_terrain,BlockEndstoneTerrain.metaInfested).setTooltip("Infested Forest Biome"))
