@@ -6,42 +6,14 @@ public final class KnowledgeRegistrations{
 		
 		
 		
+		
+		
 		INSTABILITY_POTION
 		.setPosition(hdist,hdist)
 		.setRenderer(new ItemStackRenderer(ItemList.potion_of_instability,2))
 		.setFragments(new KnowledgeFragment[]{
 			new TextKnowledgeFragment(0).setLocalizedText("Unstable potion, which will cause random effects when drank."),
 			new TextKnowledgeFragment(1).setLocalizedText("Splash potion will give everybody a different effect.").setUnlockRequirements(0)
-		});
-		
-		DRAGON_LAIR
-		.setPosition(dist*2+hdist,0)
-		.setRenderer(new ItemStackRenderer(Blocks.dragon_egg).setTooltip("Dragon Lair"))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Large island, which serves as a battle area for the Ender Dragon boss."),
-			new TextKnowledgeFragment(1).setLocalizedText("Several spikes of various sizes, made of Falling Obsidian, and with Ender Crystals on top, are scattered across the terrain.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Ender Crystals may have Iron Bars around, drop TNT and attract Endermen to the shooter, or create a powerful explosion that will scatter Falling Obsidian around.").setUnlockRequirements(1)
-		});
-		
-		ENDSTONE_BLOB
-		.setPosition(dist+hdist,0)
-		.setRenderer(new ItemStackRenderer(Blocks.end_stone).setTooltip("Endstone Blob"))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Small islands of varying shapes, sizes and features, made of End Stone."),
-			new TextKnowledgeFragment(1).setLocalizedText("Most common feature is a small cluster of End Powder Ore.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("They will also sometimes contain Obsidian, Death Flowers, small Ender Goo lakes, and rarely tiny clusters of Igneous Rock Ore.").setUnlockRequirements(0)
-		});
-		
-		DUNGEON_TOWER
-		.setPosition(hdist,0)
-		.setRenderer(new ItemStackRenderer(BlockList.obsidian_special,1).setTooltip("Dungeon Tower"))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("A tall tower, which spawns in the End, and is made of different variations of Obsidian."),
-			new TextKnowledgeFragment(1).setLocalizedText("Each tower has 3 regular floors which often contain Angry Enderman spawners, and 1 chest floor with various loot.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("The floors are randomly generated, and containers such as Dispensers or Furnaces will often have loot too.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(3).setLocalizedText("Angry Endermen in the tower have random potion effects, getting more dangerous as you get higher.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(4).setLocalizedText("Some floors contain Brewing Stands, and there is a 1 in 100 chance a Brewing Stand will spawn as Enhanced Brewing Stand.").setUnlockRequirements(2),
-			new TextKnowledgeFragment(5).setLocalizedText("On top of the tower lies the Ender Eye mini-boss.").setUnlockRequirements(3,4)
 		});
 		
 		METEOROID

@@ -270,7 +270,12 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.DRAGON_LAIR.addKnowledgeObjects(new KnowledgeObject[]{
 			DRAGON_LAIR.setPos(0,0).setUnlockPrice(45).setFragments(new KnowledgeFragment[]{
-				// 80
+				new KnowledgeFragmentText(80).setContents("Large island made of End Stone, protected by the Ender Dragon.").setPrice(5),
+				new KnowledgeFragmentText(81).setContents("Several Obsidian spikes with Ender Crystals are scattered across the island. The crystals heal the dragon and explode when destroyed.").setPrice(2).setUnlockRequirements(80).setUnlockCascade(191),
+				new KnowledgeFragmentText(82).setContents("There are 3 types of spikes:").setPrice(2).setUnlockRequirements(81),
+				new KnowledgeFragmentText(83).setContents("One type of crystal spawn 8 primed TNT blocks that explodes near the ground, and makes Endermen under it attack the player.").setPrice(2).setUnlockRequirements(82),
+				new KnowledgeFragmentText(84).setContents("Another type has Iron Bars on top around the crystal. This type is usually present on tall pillars.").setPrice(2).setUnlockRequirements(82),
+				new KnowledgeFragmentText(85).setContents("The third type causes a massive explosion when destroyed, and scatters the entire pillar around. This type is only selected for small pillars.").setPrice(2).setUnlockRequirements(82)
 			}),
 			
 			END_STONE.setPos(1,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
@@ -360,7 +365,7 @@ public final class KnowledgeRegistrations{
 			
 			ENDER_DRAGON.setPos(2,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(190).setContents("Ender Dragon is a giant boss with 125 hearts, that protects the End dimension.").setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(191).setContents("Nearby Ender Crystals regenerate the dragon's health.").setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(190), // TODO cascade to dragon lair
+				new KnowledgeFragmentText(191).setContents("Nearby Ender Crystals regenerate the dragon's health.").setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(190).setUnlockCascade(81),
 				new KnowledgeFragmentText(192).setContents("Its passive attacks include churning out fireballs and freezeballs, biting that can cause bad status effects, massive knockback to creatures and destroying blocks.").setPrice(3).setUnlockRequirements(190),
 				new KnowledgeFragmentText(193).setContents("When enough of the Ender Crystals are destroyed, the dragon begins the angry stage.").setPrice(2).setUnlockRequirements(191),
 				new KnowledgeFragmentText(194).setContents("During the angry stage, passive attacks are more powerful, and the dragon also does special attacks (Easy difficulty or higher).").setPrice(3).setUnlockRequirements(192,193),
@@ -393,7 +398,8 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.ENDSTONE_BLOBS.addKnowledgeObjects(new KnowledgeObject[]{
 			ENDSTONE_BLOB.setPos(0,0).setUnlockPrice(40).setFragments(new KnowledgeFragment[]{
-				// 220
+				new KnowledgeFragmentText(220).setContents("Small blobs of varying shapes, sizes and features, made of End Stone.").setPrice(5),
+				new KnowledgeFragmentText(221).setContents("They can contain End Powder Ore, Obsidian, small Ender Goo lakes, caves and rarely tiny clusters of Igneous Rock Ore.").setPrice(3).setUnlockRequirements(220)
 			}),
 			
 			IGNEOUS_ROCK_ORE.setPos(1,0).setUnlockPrice(20).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
@@ -431,7 +437,12 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.DUNGEON_TOWER.addKnowledgeObjects(new KnowledgeObject[]{
 			DUNGEON_TOWER.setPos(0,0).setUnlockPrice(55).setFragments(new KnowledgeFragment[]{
-				// 270
+				new KnowledgeFragmentText(270).setContents("A tall tower consisting of various types of Obsidian.").setPrice(5),
+				new KnowledgeFragmentText(271).setContents("They start spawning around 1800 blocks away from the Dragon Lair.").setPrice(3).setUnlockRequirements(270),
+				new KnowledgeFragmentText(272).setContents("Each tower contains 3 content floors and 1 chest floor with loot, all are randomly picked and have random elements.").setPrice(2).setUnlockRequirements(270),
+				new KnowledgeFragmentText(273).setContents("Loot is also often found in Dispensers, Furnaces and Brewing Stands. There is a 1 in 100 (1%) chance of spawning an Enhanced Brewing Stand.").setPrice(3).setUnlockRequirements(272),
+				new KnowledgeFragmentText(274).setContents("Most floors have Angry Enderman spawners. Each spawner gives the Endermen potion effects that are more powerful the higher you get.").setPrice(5).setUnlockRequirements(272),
+				new KnowledgeFragmentText(275).setContents("On top of the tower lies an Ender Eye.").setPrice(2).setUnlockRequirements(272)
 			}),
 			
 			OBSIDIAN_STAIRS.setPos(1,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
@@ -647,12 +658,16 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			CHARM_POUCH.setPos(6,5).setUnlockPrice(30).setFragments(new KnowledgeFragment[]{
-				// 520
-				new KnowledgeFragmentText(520).setContents("Magical pouch that allows creating, holding and activating Charms.").setPrice(5).setUnlockOnDiscovery()
+				new KnowledgeFragmentText(520).setContents("Magical pouch that allows creating, holding and activating Charms.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(521).setRecipeFromRegistry(new ItemStack(ItemList.charm_pouch)).setPrice(8).setUnlockRequirements(520).setUnlockCascade(533),
+				new KnowledgeFragmentText(522).setContents("Sneaking and using the pouch activates or deactives the Charms. Only one pouch can be active at a time.").setPrice(3).setUnlockRequirements(520)
 			}),
 			
 			RUNES.setPos(7,5).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
-				// 530
+				new KnowledgeFragmentText(530).setContents("Runes are used to create Charms, and craft Charm Pouch.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(531).setContents("There are 6 types of Runes - Power, Agility, Vigor, Defense, Magic and Void. The Void rune is less common than other types.").setPrice(3).setUnlockRequirements(530),
+				new KnowledgeFragmentText(532).setContents("It is required to explore the Ravaged Dungeon to get Runes. They are found in chests and rarely dropped by Lice.").setPrice(3).setUnlockRequirements(530),
+				new KnowledgeFragmentCrafting(533).setRecipeFromRegistry(new ItemStack(ItemList.charm_pouch)).setPrice(8).setUnlockRequirements(530).setUnlockCascade(521)
 			}),
 			
 			CHARMS.setPos(8,5).setUnlockPrice(35).setFragments(new KnowledgeFragment[]{
@@ -660,7 +675,10 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			LOUSE.setPos(9,5).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-				// 550
+				new KnowledgeFragmentText(550).setContents("An arthropod spawning in the Ravaged Dungeon.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(551).setContents("Lice have runic symbols on top, which modify their attributes or abilities.").setPrice(2).setUnlockRequirements(550),
+				new KnowledgeFragmentText(552).setContents("The runic symbols can have one or two different colors, each corresponds to a Rune. Killing them can drop either of the Runes.").setPrice(5).setUnlockRequirements(551),
+				new KnowledgeFragmentText(553).setContents("Basic Runes increase attributes, such as strength, speed or health. Void Rune (gray) gives the Louse one of special and extremely dangerous abilities.").setPrice(3).setUnlockRequirements(552)
 			})
 		});
 		
