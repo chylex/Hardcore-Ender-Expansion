@@ -1,6 +1,7 @@
 package chylex.hee.packets.client;
-import java.io.IOException;
 import io.netty.buffer.ByteBuf;
+import java.io.IOException;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -10,6 +11,7 @@ import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.packets.AbstractClientPacket;
+import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -58,6 +60,9 @@ public class C19CompendiumData extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		if (data != null)CompendiumEventsClient.loadClientData(data);
+		if (data != null){
+			CompendiumEventsClient.loadClientData(data);
+			if (!player.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))Minecraft.getMinecraft().guiAchievement.func_146255_b(AchievementManager.THE_MORE_YOU_KNOW);
+		}
 	}
 }

@@ -4,6 +4,9 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.server.S03OpenCompendium;
+import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -41,7 +44,10 @@ public final class CompendiumEventsClient{
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		if (mc.inGameHasFocus && keyOpenCompendium.isPressed()){
-			if (data != null)mc.displayGuiScreen(new GuiEnderCompendium(data));
+			if (data != null){
+				mc.displayGuiScreen(new GuiEnderCompendium(data));
+				if (mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))PacketPipeline.sendToServer(new S03OpenCompendium());
+			}
 			else mc.thePlayer.addChatMessage(new ChatComponentText("Error opening Ender Compendium, server did not provide required data. Relog, wait a few seconds, pray to your favourite deity and try again!"));
 		}
 	}
