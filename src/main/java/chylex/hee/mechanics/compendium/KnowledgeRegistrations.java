@@ -227,7 +227,7 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		KnowledgeCategories.OVERWORLD.addKnowledgeObjects(new KnowledgeObject[]{
-			STRONGHOLD.setPos(0,1).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+			STRONGHOLD.setPos(0,1).setUnlockPrice(5).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(710).setContents("Large, complex undeground structures found in the Overworld.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(711).setContents("It is possible to locate Strongholds by releasing Eyes of Ender into the air.").setPrice(2).setUnlockRequirements(710),
 				new KnowledgeFragmentText(712).setContents("They contain a variety of rooms, one of which is the End Portal room. The portal leads to the Dragon Lair, and needs to be activated using Eyes of Ender.").setPrice(2).setUnlockRequirements(710),
@@ -280,7 +280,7 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		KnowledgeCategories.DRAGON_LAIR.addKnowledgeObjects(new KnowledgeObject[]{
-			DRAGON_LAIR.setPos(0,0).setUnlockPrice(45).setFragments(new KnowledgeFragment[]{
+			DRAGON_LAIR.setPos(0,0).setUnlockPrice(45).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(80).setContents("Large island made of End Stone, protected by the Ender Dragon.").setPrice(5),
 				new KnowledgeFragmentText(81).setContents("Several Obsidian spikes with Ender Crystals are scattered across the island. The crystals heal the dragon and explode when destroyed.").setPrice(2).setUnlockRequirements(80).setUnlockCascade(191),
 				new KnowledgeFragmentText(82).setContents("There are 3 types of spikes:").setPrice(2).setUnlockRequirements(81),
@@ -408,7 +408,7 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		KnowledgeCategories.ENDSTONE_BLOBS.addKnowledgeObjects(new KnowledgeObject[]{
-			ENDSTONE_BLOB.setPos(0,0).setUnlockPrice(40).setFragments(new KnowledgeFragment[]{
+			ENDSTONE_BLOB.setPos(0,0).setUnlockPrice(40).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(220).setContents("Small blobs of varying shapes, sizes and features, made of End Stone.").setPrice(5),
 				new KnowledgeFragmentText(221).setContents("They can contain End Powder Ore, Obsidian, small Ender Goo lakes, caves and rarely tiny clusters of Igneous Rock Ore.").setPrice(3).setUnlockRequirements(220)
 			}),
@@ -447,7 +447,7 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		KnowledgeCategories.DUNGEON_TOWER.addKnowledgeObjects(new KnowledgeObject[]{
-			DUNGEON_TOWER.setPos(0,0).setUnlockPrice(55).setFragments(new KnowledgeFragment[]{
+			DUNGEON_TOWER.setPos(0,0).setUnlockPrice(55).setDiscoveryReward(25).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(270).setContents("A tall tower consisting of various types of Obsidian.").setPrice(5),
 				new KnowledgeFragmentText(271).setContents("They start spawning around 350 blocks away from the Dragon Lair.").setPrice(3).setUnlockRequirements(270),
 				new KnowledgeFragmentText(272).setContents("Each tower contains 3 content floors and 1 chest floor with loot, all are randomly picked and have random elements.").setPrice(2).setUnlockRequirements(270),
@@ -518,7 +518,7 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		KnowledgeCategories.METEOROIDS.addKnowledgeObjects(new KnowledgeObject[]{
-			METEOROID.setPos(0,0).setUnlockPrice(40).setFragments(new KnowledgeFragment[]{
+			METEOROID.setPos(0,0).setUnlockPrice(40).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(320).setContents("Tiny clump of Sphalerite which begins to spawn around 1300 blocks away from the Dragon Lair.").setPrice(5)
 			}),
 			
@@ -566,7 +566,7 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentItemConversion(741).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(740).setUnlockCascade(134,383)
 		});
 		
-		BIOME_ISLANDS.setPos(3,0).setUnlockPrice(40).setFragments(new KnowledgeFragment[]{
+		BIOME_ISLANDS.setPos(3,0).setUnlockPrice(40).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(720).setContents("Biome Islands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the Dragon Lair.").setPrice(5),
 			new KnowledgeFragmentText(721).setContents("Each island has caves and ores, every biome modifies the amounts and rates as well as the overall shape of the terrain.").setPrice(2).setUnlockRequirements(720),
 			new KnowledgeFragmentText(722).setContents("Biomes can have multiple different variations with unique content, and random deviations that modify properties of some features (such as very tall trees).").setPrice(3).setUnlockRequirements(721),
@@ -580,7 +580,7 @@ public final class KnowledgeRegistrations{
 		KnowledgeCategories.BIOME_ISLAND_FOREST.addKnowledgeObjects(new KnowledgeObject[]{
 			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, POTION_OF_INSTABILITY, STARDUST_LINKED, BIOME_ISLANDS,
 			
-			INFESTED_FOREST_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
+			INFESTED_FOREST_BIOME.setPos(0,0).setUnlockPrice(60).setDiscoveryReward(45).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(390).setContents("Mostly flat biome with occasional hills, long caves and decent amount of ores.").setPrice(5),
 				new KnowledgeFragmentText(391).setContents("There are 2 variations of the biome - Deep and Ravaged.").setPrice(2).setUnlockRequirements(390),
 				new KnowledgeFragmentText(392).setContents("Both of these variations contain Silverfish, Infested Bats and occasionally Endermen.").setPrice(3).setUnlockRequirements(391),
@@ -661,7 +661,7 @@ public final class KnowledgeRegistrations{
 			
 			// =
 			
-			RAVAGED_DUNGEON.setPos(0,5).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
+			RAVAGED_DUNGEON.setPos(0,5).setUnlockPrice(25).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(490).setContents("Huge dungeon built from Ravaged Bricks, found in Infested Forest (Ravaged).").setPrice(5),
 				new KnowledgeFragmentText(491).setContents("It is the only way of acquiring items required to create Charms.").setPrice(2).setUnlockRequirements(490),
 				new KnowledgeFragmentText(492).setContents("The dungeon consists of 3 floors. Each floor is a collection of randomly generated hallways and rooms spread across the entire island.").setPrice(2).setUnlockRequirements(491),
@@ -726,7 +726,7 @@ public final class KnowledgeRegistrations{
 		KnowledgeCategories.BIOME_ISLAND_MOUNTAINS.addKnowledgeObjects(new KnowledgeObject[]{
 			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, POTION_OF_INSTABILITY, STARDUST_LINKED, BIOME_ISLANDS,
 			
-			BURNING_MOUNTAINS_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
+			BURNING_MOUNTAINS_BIOME.setPos(0,0).setUnlockPrice(60).setDiscoveryReward(45).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(560).setContents("Fire-oriented biome with huge mountains and a large amount of caves and ores. Apart from default ores, this biome also has common Igneous Rock Ore.").setPrice(5),
 				new KnowledgeFragmentText(561).setContents("There are 2 variations of the biome - Scorching and Mine.").setPrice(2).setUnlockRequirements(560),
 				new KnowledgeFragmentText(562).setContents("Scorching variation has large blobs of Cinder, streams and pools of Lava and Lilyfires. This is the only place where Fire Golems and Scorching Lenses spawn.").setPrice(10).setUnlockRequirements(561),
@@ -737,7 +737,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(570).setContents("Variation of End Stone found in the Burning Mountains Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			LILYFIRE.setPos(2,0).setUnlockPrice(4).setFragments(new KnowledgeFragment[]{
+			LILYFIRE.setPos(2,0).setUnlockPrice(4).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(580).setContents("Orange tulip found in the Burning Mountains (Scorching).").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(581).setCustomRecipe(new ItemStack(Items.dye,2,14),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire) }).setPrice(3).setUnlockRequirements(580)
 			}),
@@ -759,7 +759,7 @@ public final class KnowledgeRegistrations{
 			
 			FIERY_ESSENCE.setPos(7,0),
 			
-			FIRE_GOLEM.setPos(8,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+			FIRE_GOLEM.setPos(8,0).setUnlockPrice(20).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(610).setContents("Fiery creature that spawns in Burning Mountains (Scorching).").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(611).setContents("It has both a ranged attack and a melee attack.").setPrice(2).setUnlockRequirements(610),
 				new KnowledgeFragmentText(612).setContents("During the ranged attack, it creates fireballs which cause large fiery craters.").setPrice(3).setUnlockRequirements(611),
@@ -767,7 +767,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(614).setContents("The golem drops 0-1 Fire Charges and 1-3 Fiery Essence.").setPrice(3).setUnlockRequirements(610).setUnlockCascade(82)
 			}),
 			
-			SCORCHING_LENS.setPos(9,0).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
+			SCORCHING_LENS.setPos(9,0).setUnlockPrice(20).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(620).setContents("Small biped with a large eye, that spawns in Burning Mountains (Scorching).").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(621).setContents("It attacks players in proximity by churning out fire from its eye.").setPrice(2).setUnlockRequirements(620),
 				new KnowledgeFragmentText(622).setContents("The fire deals damage, has a chance of knocking the attacked creature back and increases the length of fire status effect.").setPrice(3).setUnlockRequirements(621),
@@ -803,7 +803,7 @@ public final class KnowledgeRegistrations{
 		KnowledgeCategories.BIOME_ISLAND_ENCHISLAND.addKnowledgeObjects(new KnowledgeObject[]{
 			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, POTION_OF_INSTABILITY, STARDUST_LINKED, BIOME_ISLANDS,
 			
-			ENCHANTED_ISLAND_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
+			ENCHANTED_ISLAND_BIOME.setPos(0,0).setUnlockPrice(60).setDiscoveryReward(45).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(660).setContents("Very flat biome with small amount of caves.").setPrice(5),
 				new KnowledgeFragmentText(661).setContents("There is currently only one variation - Homeland.").setPrice(2).setUnlockRequirements(660),
 				new KnowledgeFragmentText(662).setContents("Homeland has lakes of Ender Goo, piles of Falling Obsidian and a strange Obsidian road-like structure. Endermen, Baby Endermen and Ender Guardians spawn there.").setPrice(10).setUnlockRequirements(661)
