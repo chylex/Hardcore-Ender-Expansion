@@ -219,7 +219,7 @@ public final class KnowledgeRegistrations{
 		ESSENCE.setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(80).setContents("Essence is used to unleash power of altars.").setPrice(2).setUnlockOnDiscovery(),
 			new KnowledgeFragmentText(81).setContents("Dragon Essence is gained by killing the Ender Dragon.").setPrice(2).setUnlockCascade(704),
-			new KnowledgeFragmentText(82).setContents("Fiery Essence is dropped by Fire Golem and Scorching Lens, which can be found in a variation of Burning Mountains.").setPrice(2).setUnlockCascade(614,623) // TODO cascade to the mobs
+			new KnowledgeFragmentText(82).setContents("Fiery Essence is dropped by Fire Golem and Scorching Lens, which can be found in a variation of Burning Mountains.").setPrice(2).setUnlockCascade(614,623)
 		});
 		
 		// ===
@@ -343,7 +343,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(164).setContents("The ingredient is unlocked by trying. Using an incorrect ingredient may destroy random items in the interface, but may also reveal the correct ingredient.").setPrice(3).setUnlockRequirements(163),
 				new KnowledgeFragmentText(165).setContents("Different enhancements can be stacked together.").setPrice(3).setUnlockRequirements(162),
 				new KnowledgeFragmentText(166).setContents("End Powder applies enhancing effects to potions in Enhanced Brewing Stand.").setPrice(5).setUnlockRequirements(160).setUnlockCascade(132),
-				new KnowledgeFragmentText(167).setContents("Applying End Powder to Death Flower partially reverts the effect of decaying.").setPrice(3) // TODO cascade
+				new KnowledgeFragmentText(167).setContents("Applying End Powder to Death Flower partially reverts the effect of decaying.").setPrice(3).setUnlockCascade(244)
 			}),
 			
 			ENHANCED_ENDER_PEARL.setPos(0,1).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
@@ -414,7 +414,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(241).setContents("Outside the End, the flower will slowly decay, even if in a Flower Pot.").setPrice(2).setUnlockRequirements(240),
 				new KnowledgeFragmentText(242).setContents("After some time of decaying, it starts to occasionally attract Angry Endermen.").setPrice(3).setUnlockRequirements(241),
 				new KnowledgeFragmentText(243).setContents("When the flower decays completely, it turns dark, propagates massive amount decay to nearby blocks and spawns an Energy Cluster.").setPrice(5).setUnlockRequirements(241),
-				new KnowledgeFragmentText(244).setContents("Partial decay can be healed a little using End Powder.").setPrice(3).setUnlockRequirements(241),
+				new KnowledgeFragmentText(244).setContents("Partial decay can be healed a little using End Powder.").setPrice(3).setUnlockRequirements(241).setUnlockCascade(167),
 				new KnowledgeFragmentCrafting(245).setCustomRecipe(new ItemStack(Items.dye,2,13),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,0) }).setUnlockRequirements(240),
 				new KnowledgeFragmentCrafting(246).setCustomRecipe(new ItemStack(Items.dye,2,8),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,15) }).setUnlockRequirements(243)
 			}),
@@ -554,7 +554,7 @@ public final class KnowledgeRegistrations{
 		BIOME_ISLANDS.setPos(3,0).setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(720).setContents("Biome Islands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the Dragon Lair.").setPrice(5),
 			new KnowledgeFragmentText(721).setContents("Each island has caves and ores, every biome modifies the amounts and rates as well as the overall shape of the terrain.").setPrice(2).setUnlockRequirements(720),
-			new KnowledgeFragmentText(722).setContents("Biomes can have multiple different variations with unique content.").setPrice(3).setUnlockRequirements(721),
+			new KnowledgeFragmentText(722).setContents("Biomes can have multiple different variations with unique content, and random deviations that modify properties of some features (such as very tall trees).").setPrice(3).setUnlockRequirements(721),
 			new KnowledgeFragmentText(723).setContents("Instability Orb Ore and Stardust Ore only spawn in the islands.").setPrice(2).setUnlockRequirements(721)
 		});
 		
@@ -569,7 +569,8 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(390).setContents("Mostly flat biome with long caves and decent amount of ores.").setPrice(5),
 				new KnowledgeFragmentText(391).setContents("There are 2 variations of the biome - Deep and Ravaged.").setPrice(2).setUnlockRequirements(390),
 				new KnowledgeFragmentText(392).setContents("Both of these variations contain Silverfish, Infested Bats and occasionally Endermen.").setPrice(3).setUnlockRequirements(391),
-				new KnowledgeFragmentText(393).setContents("") // TODO
+				new KnowledgeFragmentText(393).setContents("Deep variation is massively populated with Spooky Trees that can have faces on them. The ground has all types of infested plants, including Thorny Bushes.").setPrice(10).setUnlockRequirements(391),
+				new KnowledgeFragmentText(394).setContents("Ravaged variation has patches of infested plants and occasional Spooky Trees, but the most important feature is the Ravaged Dungeon which is an open gate to the Charms.").setPrice(3).setUnlockRequirements(391)
 			}),
 			
 			INFESTED_END_STONE.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
@@ -682,7 +683,9 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			CHARMS.setPos(8,5).setUnlockPrice(35).setFragments(new KnowledgeFragment[]{
-				// 540
+				new KnowledgeFragmentText(540).setContents("Charms are player enchantments, used and crafted in the Charm Pouch.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(541).setContents("Between 3 to 5 Runes are combined together to create a Charm. Many combinations create same Charms with different attributes.").setPrice(5).setUnlockRequirements(540)
+				// TODO list charms
 			}),
 			
 			LOUSE.setPos(9,5).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
@@ -745,7 +748,7 @@ public final class KnowledgeRegistrations{
 			// =
 			
 			FIRE_SHARD.setPos(0,1).setUnlockPrice(15).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(630).setContents("Fire Shard is a crafting material dropped by Haunted Miners.").setPrice(5).setUnlockOnDiscovery(), // TODO cascade to haunted miner
+				new KnowledgeFragmentText(630).setContents("Fire Shard is a crafting material dropped by Haunted Miners.").setPrice(5).setUnlockOnDiscovery().setUnlockCascade(657),
 				new KnowledgeFragmentCrafting(631).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setPrice(8).setUnlockRequirements(630).setUnlockCascade(643)
 			}),
 			
@@ -759,7 +762,12 @@ public final class KnowledgeRegistrations{
 			HAUNTED_MINER.setPos(2,1).setUnlockPrice(20).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(650).setContents("Haunted Miner is a fiery flying mob that spawns in Burning Mountains (Mine).").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(651).setContents("They guard the mines, they sense and attack players who have too many mining related items in their inventory, such as pickaxes, ores, ingots or minerals.").setPrice(5).setUnlockRequirements(651),
-				new KnowledgeFragmentText(652)
+				new KnowledgeFragmentText(652).setContents("They burn any creature that gets too close to it.").setPrice(3).setUnlockRequirements(650),
+				new KnowledgeFragmentText(653).setContents("The miners have 3 powerful spells:").setPrice(2).setUnlockRequirements(650),
+				new KnowledgeFragmentText(654).setContents("First one is a projectile attack. The miner shoots two rapid projectiles that deal massive amount of damage and set hit mobs on fire.").setPrice(2).setUnlockRequirements(653),
+				new KnowledgeFragmentText(655).setContents("Second attack is a blast wave, which blasts all living creatures away with higher strength the closer they are, causes damage to them and spawns fire all around.").setPrice(2).setUnlockRequirements(653),
+				new KnowledgeFragmentText(656).setContents("Third attack is a lava attack, during which the miner continuously creates lava pillars that come from the ground, destroying all blocks that touch the lava.").setPrice(2).setUnlockRequirements(653),
+				new KnowledgeFragmentText(657).setContents("When killed, they drop 0-2 Fire Shards and 10 experience.").setPrice(3).setUnlockRequirements(650).setUnlockCascade(630)
 			})
 		});
 		
