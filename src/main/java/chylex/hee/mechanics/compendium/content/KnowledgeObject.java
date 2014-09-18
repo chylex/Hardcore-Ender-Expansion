@@ -172,5 +172,25 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 		public KnowledgeObject setFragments(KnowledgeFragment[] fragments){
 			throw new UnsupportedOperationException("Cannot modify fragments in linked Knowledge Objects.");
 		}
+		
+		@Override
+		public boolean isBuyable(){
+			return linkedObject.isBuyable();
+		}
+		
+		@Override
+		public int getUnlockPrice(){
+			return linkedObject.getUnlockPrice();
+		}
+		
+		@Override
+		public int getDiscoveryReward(){
+			return linkedObject.getDiscoveryReward();
+		}
+		
+		@Override
+		public Set<KnowledgeFragment> getFragments(){
+			return linkedObject.getFragments();
+		}
 	}
 }

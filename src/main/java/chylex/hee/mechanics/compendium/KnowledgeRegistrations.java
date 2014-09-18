@@ -281,12 +281,12 @@ public final class KnowledgeRegistrations{
 		
 		KnowledgeCategories.DRAGON_LAIR.addKnowledgeObjects(new KnowledgeObject[]{
 			DRAGON_LAIR.setPos(0,0).setUnlockPrice(45).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(80).setContents("Large island made of End Stone, protected by the Ender Dragon.").setPrice(5),
-				new KnowledgeFragmentText(81).setContents("Several Obsidian spikes with Ender Crystals are scattered across the island. The crystals heal the dragon and explode when destroyed.").setPrice(2).setUnlockRequirements(80).setUnlockCascade(191),
-				new KnowledgeFragmentText(82).setContents("There are 3 types of spikes:").setPrice(2).setUnlockRequirements(81),
-				new KnowledgeFragmentText(83).setContents("One type of crystal spawn 8 primed TNT blocks that explodes near the ground, and makes Endermen under it attack the player.").setPrice(2).setUnlockRequirements(82),
-				new KnowledgeFragmentText(84).setContents("Another type has Iron Bars on top around the crystal. This type is usually present on tall pillars.").setPrice(2).setUnlockRequirements(82),
-				new KnowledgeFragmentText(85).setContents("The third type causes a massive explosion when destroyed, and scatters the entire pillar around. This type is only selected for small pillars.").setPrice(2).setUnlockRequirements(82)
+				new KnowledgeFragmentText(750).setContents("Large island made of End Stone, protected by the Ender Dragon.").setPrice(5),
+				new KnowledgeFragmentText(751).setContents("Several Obsidian spikes with Ender Crystals are scattered across the island. The crystals heal the dragon and explode when destroyed.").setPrice(2).setUnlockRequirements(750).setUnlockCascade(191),
+				new KnowledgeFragmentText(752).setContents("There are 3 types of spikes:").setPrice(2).setUnlockRequirements(751),
+				new KnowledgeFragmentText(753).setContents("One type of crystal spawn 8 primed TNT blocks that explodes near the ground, and makes Endermen under it attack the player.").setPrice(2).setUnlockRequirements(752),
+				new KnowledgeFragmentText(754).setContents("Another type has Iron Bars on top around the crystal. This type is usually present on tall pillars.").setPrice(2).setUnlockRequirements(752),
+				new KnowledgeFragmentText(755).setContents("The third type causes a massive explosion when destroyed, and scatters the entire pillar around. This type is only selected for small pillars.").setPrice(2).setUnlockRequirements(752)
 			}),
 			
 			END_STONE.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
@@ -376,7 +376,7 @@ public final class KnowledgeRegistrations{
 			
 			ENDER_DRAGON.setPos(2,1).setUnlockPrice(20).setDiscoveryReward(70).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(190).setContents("Ender Dragon is a giant boss with 125 hearts, that protects the End dimension.").setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(191).setContents("Nearby Ender Crystals regenerate the dragon's health.").setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(190).setUnlockCascade(81),
+				new KnowledgeFragmentText(191).setContents("Nearby Ender Crystals regenerate the dragon's health.").setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(190).setUnlockCascade(751),
 				new KnowledgeFragmentText(192).setContents("Its passive attacks include churning out fireballs and freezeballs, biting that can cause bad status effects, massive knockback to creatures and destroying blocks.").setPrice(3).setUnlockRequirements(190),
 				new KnowledgeFragmentText(193).setContents("When enough of the Ender Crystals are destroyed, the dragon begins the angry stage.").setPrice(2).setUnlockRequirements(191),
 				new KnowledgeFragmentText(194).setContents("During the angry stage, passive attacks are more powerful, and the dragon also does special attacks (Easy difficulty or higher).").setPrice(3).setUnlockRequirements(192,193),
@@ -748,7 +748,7 @@ public final class KnowledgeRegistrations{
 			
 			IGNEOUS_ROCK_LINKED.setPos(4,0),
 			
-			CINDER.setPos(5,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
+			CINDER.setPos(5,0).setUnlockPrice(5).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(590).setContents("Rock found in Burning Mountains (Scorching).").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
@@ -833,7 +833,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 750
+		// next: 760
 		
 		Stopwatch.finish("KnowledgeRegistrations");
 		
@@ -843,7 +843,8 @@ public final class KnowledgeRegistrations{
 			int amtObjects = 0, amtFragments = 0, totalObjPrice = 0, totalFragPrice = 0, totalReward = 0;
 			
 			for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
-				if (obj.getDiscoveryReward() == 0 || obj.getUnlockPrice() == 0)throw new IllegalStateException("Knowledge Object "+obj.globalID+"/"+obj.getTooltip()+" has illegal reward or unlock price.");
+				if (obj == HELP)continue;
+				else if (obj.getDiscoveryReward() == 0 || obj.getUnlockPrice() == 0)throw new IllegalStateException("Knowledge Object "+obj.globalID+"/"+obj.getTooltip()+" has illegal reward ("+obj.getDiscoveryReward()+") or unlock price ("+obj.getUnlockPrice()+").");
 				
 				for(KnowledgeFragment fragment:obj.getFragments()){
 					totalFragPrice += fragment.getPrice();
