@@ -16,28 +16,10 @@ public final class KnowledgeRegistrations{
 			new TextKnowledgeFragment(1).setLocalizedText("Splash potion will give everybody a different effect.").setUnlockRequirements(0)
 		});
 		
-		INFESTED_FOREST_BIOME
-		.setPosition(-dist*2-hdist,-dist)
-		.setRenderer(new ItemStackRenderer(BlockList.end_terrain,BlockEndstoneTerrain.metaInfested).setTooltip("Infested Forest Biome"))
-		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Mostly flat biome, with long caves, decorated densely with Spooky Trees, different types of infested grasses, ferns and bushes."),
-			new TextKnowledgeFragment(1).setLocalizedText("Thorny Bushes often spawn in patches of grass, they damage and randomly poison creatures on contact.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("It is populated with Infested Bats, Silverfish and occasionally Endermen spawn too.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("Each island has several Silverfish Dungeons, which are often hidden in terrain, and detectable by sound.").setUnlockRequirements(1,2),
-			new TextKnowledgeFragment(4).setLocalizedText("There is a chance the biome will have one or more of the rare variations, which include taller trees, larger amounts of Thorny Bushes, dungeons with more spawners and hills.").setUnlockRequirements(3),
-			new TextKnowledgeFragment(5).setLocalizedText("Infested terrain cause Infestation to humans, which gets worse the longer they stay in the biome, and kicks off some time after leaving the island.").setUnlockRequirements(1),
-			new TextKnowledgeFragment(6).setLocalizedText("Infestation might make the infected weak, slow or tired, in severe cases even blind, poisoned or cause nausea.").setUnlockRequirements(5),
-			new TextKnowledgeFragment(7).setLocalizedText("The only way of easing infestation is by creating Infestation Remedy.").setUnlockRequirements(6)
-		});
-		
 		BURNING_MOUNTAINS_BIOME
 		.setPosition(-dist*2,0)
 		.setRenderer(new ItemStackRenderer(BlockList.end_terrain,BlockEndstoneTerrain.metaBurned).setTooltip("Burning Mountains Biome"))
 		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Biome with huge mountains and altitude fluctuations, compensated with larger amount of ores and caves."),
-			new TextKnowledgeFragment(1).setLocalizedText("Surface is decorated with Lilyfires, and lava streams, caves are populated with clusters of Igneous Rock Ore.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Endermen are very rare to spawn on the surface, Fire Golems and Scorching Lenses spawn commonly.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("One or more rare variations have a chance to spawn, those include increased amount of caves and larger patches of Lilyfires.").setUnlockRequirements(1,2),
 			new TextKnowledgeFragment(4).setLocalizedText("Every island has one Dungeon Puzzle, usually close to the surface, and with a cave leading to it.").setUnlockRequirements(1,2),
 			new TextKnowledgeFragment(5).setLocalizedText("The Dungeon Puzzle contains puzzle blocks, which can be manipulated with by throwing Igneous Rock at them.").setUnlockRequirements(4),
 			new TextKnowledgeFragment(6).setLocalizedText("After solving the Dungeon Puzzle, a Fire Fiend miniboss is spawned.").setUnlockRequirements(5),
@@ -49,10 +31,6 @@ public final class KnowledgeRegistrations{
 		.setPosition(-dist*2-hdist,dist)
 		.setRenderer(new ItemStackRenderer(BlockList.end_terrain,BlockEndstoneTerrain.metaEnchanted).setTooltip("Enchanted Island Biome"))
 		.setFragments(new KnowledgeFragment[]{
-			new TextKnowledgeFragment(0).setLocalizedText("Very flat biome with small amount of caves."),
-			new TextKnowledgeFragment(1).setLocalizedText("Tall broken pillars of Falling Obsidian, and Ender Goo lakes populate the surface.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(2).setLocalizedText("Endermen, Baby Endermen and Ender Guardians form the population of the island.").setUnlockRequirements(0),
-			new TextKnowledgeFragment(3).setLocalizedText("Each island has a chance of having one or more rare variations, which include much taller pillars and larger lakes.").setUnlockRequirements(1,2),
 			new TextKnowledgeFragment(4).setLocalizedText("Inside the terrain can be found Block Stashes, which are rectangular rooms with piles of blocks stolen by Endermen.").setUnlockRequirements(1,2)
 		});
 		

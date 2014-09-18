@@ -111,6 +111,7 @@ public final class KnowledgeRegistrations{
 		INSTABILITY_ORB_ORE = create(BlockList.instability_orb_ore),
 		STARDUST_ORE = create(BlockList.stardust_ore),
 		INSTABILITY_ORB = create(ItemList.instability_orb),
+		POTION_OF_INSTABILITY = create(ItemList.potion_of_instability),
 		STARDUST_LINKED = link(STARDUST),
 		
 		// =>
@@ -127,6 +128,7 @@ public final class KnowledgeRegistrations{
 		DRY_SPLINTER = create(ItemList.dry_splinter),
 		GHOST_AMULET = create(ItemList.ghost_amulet),
 		ECTOPLASM = create(ItemList.ectoplasm),
+		INFESTATION_REMEDY = create(ItemList.infestation_remedy),
 		INFESTED_BAT = create(EntityMobInfestedBat.class),
 		SILVERFISH_LINKED = link(SILVERFISH),
 		
@@ -313,8 +315,8 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(131).setContents("The brewing speed depends on potion complexity, simple potions brew much faster than with regular Brewing Stand.").setPrice(2).setUnlockRequirements(130),
 				new KnowledgeFragmentText(132).setContents("Using Glowstone, Redstone and Gunpowder requires End Powder, but the potions can go over the limits of basic Brewing Stand.").setPrice(5).setUnlockRequirements(130).setUnlockCascade(166),
 				new KnowledgeFragmentText(133).setContents("It is required to brew special potions using Awkward Potion and an ingredient:").setPrice(4).setUnlockRequirements(130),
-				new KnowledgeFragmentItemConversion(134).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(133),
-				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(133)
+				new KnowledgeFragmentItemConversion(134).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(133).setUnlockCascade(383,741),
+				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(133).setUnlockCascade(731)
 			}),
 			
 			ENHANCED_TNT.setPos(6,0).setUnlockPrice(12).setFragments(new KnowledgeFragment[]{
@@ -548,7 +550,12 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(380).setContents("Very unstable material dropped by Instability Orb Ore.").setPrice(5).setUnlockOnDiscovery(),
 			new KnowledgeFragmentText(381).setContents("It decomposes when thrown on the ground. When the process finishes, it can either explode, or turn into a random mob, block or item.").setPrice(5).setUnlockRequirements(380),
 			new KnowledgeFragmentText(382).setContents("When a TNT explodes near one or more decomposing orbs, they will not explode once the decomposition is complete.").setPrice(3).setUnlockRequirements(381),
-			new KnowledgeFragmentText(383).setContents("Brewing it in an Enhanced Brewing Stand creates Potion of Instability.").setPrice(3).setUnlockRequirements(380) // TODO cascade
+			new KnowledgeFragmentText(383).setContents("Brewing it in an Enhanced Brewing Stand creates Potion of Instability.").setPrice(3).setUnlockRequirements(380).setUnlockCascade(134,741)
+		});
+		
+		POTION_OF_INSTABILITY.setPos(8,0).setFragments(new KnowledgeFragment[]{
+			new KnowledgeFragmentText(740).setContents("Special potion that causes a random effect. It has to be brewed in an Enhanced Brewing Stand, using Gunpowder on the brewed potion turns it into splash version.").setPrice(5).setUnlockOnDiscovery(),
+			new KnowledgeFragmentItemConversion(741).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(740).setUnlockCascade(134,383)
 		});
 		
 		BIOME_ISLANDS.setPos(3,0).setFragments(new KnowledgeFragment[]{
@@ -563,14 +570,17 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		KnowledgeCategories.BIOME_ISLAND_FOREST.addKnowledgeObjects(new KnowledgeObject[]{
-			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED, BIOME_ISLANDS,
+			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, POTION_OF_INSTABILITY, STARDUST_LINKED, BIOME_ISLANDS,
 			
 			INFESTED_FOREST_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(390).setContents("Mostly flat biome with long caves and decent amount of ores.").setPrice(5),
+				new KnowledgeFragmentText(390).setContents("Mostly flat biome with occasional hills, long caves and decent amount of ores.").setPrice(5),
 				new KnowledgeFragmentText(391).setContents("There are 2 variations of the biome - Deep and Ravaged.").setPrice(2).setUnlockRequirements(390),
 				new KnowledgeFragmentText(392).setContents("Both of these variations contain Silverfish, Infested Bats and occasionally Endermen.").setPrice(3).setUnlockRequirements(391),
 				new KnowledgeFragmentText(393).setContents("Deep variation is massively populated with Spooky Trees that can have faces on them. The ground has all types of infested plants, including Thorny Bushes.").setPrice(10).setUnlockRequirements(391),
-				new KnowledgeFragmentText(394).setContents("Ravaged variation has patches of infested plants and occasional Spooky Trees, but the most important feature is the Ravaged Dungeon which is an open gate to the Charms.").setPrice(3).setUnlockRequirements(391)
+				new KnowledgeFragmentText(394).setContents("Ravaged variation has patches of infested plants and occasional Spooky Trees, but the most important feature is the Ravaged Dungeon which is an open gate to the Charms.").setPrice(10).setUnlockRequirements(391),
+				// 395 reseved for third variation
+				new KnowledgeFragmentText(396).setContents("Staying in an Infested Forest for too long causes Infestation to build up. The effects of Infestation kick off some time after leaving the island. Those effects include Weakness, Slowness, Mining Fatigue, and if the Infestation builds up too much, it can even cause Poison, Blindness or Nausea.").setPrice(8).setUnlockRequirements(390),
+				new KnowledgeFragmentText(397).setContents("Infestation can only be partly cured using Infestation Remedy.").setPrice(2).setUnlockRequirements(396)
 			}),
 			
 			INFESTED_END_STONE.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
@@ -628,6 +638,11 @@ public final class KnowledgeRegistrations{
 			
 			ECTOPLASM.setPos(0,1).setUnlockPrice(25).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(470).setContents("Strange ethereal substance dropped by banished Forest Ghosts.").setPrice(5).setUnlockOnDiscovery()
+			}),
+			
+			INFESTATION_REMEDY.setPos(1,2).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(730).setContents("A potion that eases the effects of Infestation. It has to be brewed in Enhanced Brewing Stand.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentItemConversion(731).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(730).setUnlockCascade(135),
 			}),
 			
 			INFESTED_BAT.setPos(1,1).setUnlockPrice(8).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
@@ -697,10 +712,13 @@ public final class KnowledgeRegistrations{
 		});
 		
 		KnowledgeCategories.BIOME_ISLAND_MOUNTAINS.addKnowledgeObjects(new KnowledgeObject[]{
-			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED, BIOME_ISLANDS,
+			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, POTION_OF_INSTABILITY, STARDUST_LINKED, BIOME_ISLANDS,
 			
 			BURNING_MOUNTAINS_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
-				// 560
+				new KnowledgeFragmentText(560).setContents("Fire-oriented biome with huge mountains and a large amount of caves and ores. Apart from default ores, this biome also has common Igneous Rock Ore.").setPrice(5),
+				new KnowledgeFragmentText(561).setContents("There are 2 variations of the biome - Scorching and Mine.").setPrice(2).setUnlockRequirements(560),
+				new KnowledgeFragmentText(562).setContents("Scorching variation has large blobs of Cinder, streams and pools of Lava and Lilyfires. This is the only place where Fire Golems and Scorching Lenses spawn.").setPrice(10).setUnlockRequirements(561),
+				new KnowledgeFragmentText(563).setContents("Mine variation spawns Haunted Miners, which protect Resource Pits (holes with ores from the End and Lava) and long patches of Overworld ores. Not all Overworld ores are present in a single island, usually one or two random ores are missing.").setPrice(10).setUnlockRequirements(561)
 			}),
 			
 			BURNED_END_STONE.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
@@ -719,8 +737,7 @@ public final class KnowledgeRegistrations{
 			IGNEOUS_ROCK_LINKED.setPos(4,0),
 			
 			CINDER.setPos(5,0).setUnlockPrice(5).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(590).setContents("")
-				// 590
+				new KnowledgeFragmentText(590).setContents("Rock found in Burning Mountains (Scorching).").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
 			FIERY_ESSENCE_ALTAR.setPos(6,0).setUnlockPrice(25).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
@@ -772,10 +789,12 @@ public final class KnowledgeRegistrations{
 		});
 		
 		KnowledgeCategories.BIOME_ISLAND_ENCHISLAND.addKnowledgeObjects(new KnowledgeObject[]{
-			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, STARDUST_LINKED, BIOME_ISLANDS,
+			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, POTION_OF_INSTABILITY, STARDUST_LINKED, BIOME_ISLANDS,
 			
 			ENCHANTED_ISLAND_BIOME.setPos(0,0).setUnlockPrice(60).setFragments(new KnowledgeFragment[]{
-				// 660
+				new KnowledgeFragmentText(660).setContents("Very flat biome with small amount of caves.").setPrice(5),
+				new KnowledgeFragmentText(661).setContents("There is currently only one variation - Homeland.").setPrice(2).setUnlockRequirements(660),
+				new KnowledgeFragmentText(662).setContents("Homeland has lakes of Ender Goo, piles of Falling Obsidian and a strange Obsidian road-like structure. Endermen, Baby Endermen and Ender Guardians spawn there.").setPrice(10).setUnlockRequirements(661)
 			}),
 			
 			ENCHANTED_END_STONE.setPos(1,0).setUnlockPrice(5).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
@@ -802,7 +821,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 730
+		// next: 750
 		
 		Stopwatch.finish("KnowledgeRegistrations");
 		
