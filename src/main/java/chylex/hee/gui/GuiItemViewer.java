@@ -1,5 +1,4 @@
 package chylex.hee.gui;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -32,9 +31,7 @@ public class GuiItemViewer extends GuiScreen{
 	@Override
 	public void initGui(){
 		toRender.clear();
-		
-		// Blocks
-		
+
 		for(BlockData block:BlockList.getAllBlocks()){
 			Item item = Item.getItemFromBlock(block.block);
 			if (item == null)continue;
@@ -43,9 +40,7 @@ public class GuiItemViewer extends GuiScreen{
 			item.getSubItems(item,null,is);
 			for(Object o:is)toRender.add((ItemStack)o);
 		}
-		
-		// Items
-		
+
 		for(Item item:ItemList.getAllItems()){
 			List is = new ArrayList();
 			item.getSubItems(item,null,is);
@@ -72,6 +67,7 @@ public class GuiItemViewer extends GuiScreen{
 		for(int a = yStart, xx = 0, yy = 0; a < toRender.size(); a++){
 			drawRect(2+xx*17,2+yy*17,1+(xx+1)*17,1+(yy+1)*17,(255<<24)|(180<<16)|(180<<8)|180);
 			GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(),toRender.get(a),2+xx*17,2+yy*17);
+			
 			if (++xx == 12){
 				++yy;
 				xx = 0;

@@ -168,7 +168,7 @@ container.runeCrafting=Rune Crafting
 key.openCompendium=Ender Compendium
 
 achievement.theMoreYouKnow=The more you know
-achievement.theMoreYouKnow.desc=Craft an Ender Compendium
+achievement.theMoreYouKnow.desc=Press '%1$s' to open Ender Compendium
 achievement.newAdventures=Time for new adventures!
 achievement.newAdventures.desc=Welcome to Hardcore Ender Expansion!
 achievement.learningThePowers=Learning the powers

@@ -165,8 +165,12 @@ public final class CompendiumEvents{
 		if (is.getItem() instanceof ItemBlock){
 			bmwReuse.block = ((ItemBlock)is.getItem()).field_150939_a;
 			bmwReuse.metadata = (byte)is.getItemDamage();
-			getPlayerData(player).tryDiscoverBlock(KnowledgeObject.<ObjectBlock>getObject(bmwReuse),true);
+			KnowledgeObject<ObjectBlock> obj = KnowledgeObject.getObject(bmwReuse);
+			if (obj != null)observationReuse.setBlock(obj).discover(player);
 		}
-		else getPlayerData(player).tryDiscoverItem(KnowledgeObject.<ObjectItem>getObject(is.getItem()),true);
+		else{
+			KnowledgeObject<ObjectItem> obj = KnowledgeObject.getObject(is.getItem());
+			if (obj != null)observationReuse.setItem(obj).discover(player);
+		}
 	}
 }
