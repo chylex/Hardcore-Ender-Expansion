@@ -66,7 +66,7 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 					if (cycle == 0)GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2); // TODO check if the stack size is rendered
 					else if (mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
 						GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(is.getTooltip(gui.mc.thePlayer,false)));
-					}
+					} // TODO click to switch object
 				}
 	
 				if (a == 8){

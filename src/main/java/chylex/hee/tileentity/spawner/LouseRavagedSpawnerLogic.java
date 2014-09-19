@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.EntityMobLouse;
+import chylex.hee.system.logging.Log;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
@@ -143,7 +144,7 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 						if (ordinal >= 0 && ordinal < EnumLouseAbility.values.length)abilities.add(EnumLouseAbility.values[ordinal]);
 					}
 				}catch(NumberFormatException e){
-					// TODO log error
+					Log.throwable(e,"Invalid spawner data format: $0",serializedString);
 				}
 				
 				this.level = lvl;
