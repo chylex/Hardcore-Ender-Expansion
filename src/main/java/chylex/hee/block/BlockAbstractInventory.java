@@ -24,14 +24,14 @@ public abstract class BlockAbstractInventory extends BlockContainer{
 				ItemStack is = inv.getStackInSlot(a);
 				if (is == null)continue;
 
-				float offX = world.rand.nextFloat() * 0.8F + 0.1F;
-				float offY = world.rand.nextFloat() * 0.8F + 0.1F;
-				float offZ = world.rand.nextFloat() * 0.8F + 0.1F;
+				float offX = world.rand.nextFloat()*0.8F+0.1F;
+				float offY = world.rand.nextFloat()*0.8F+0.1F;
+				float offZ = world.rand.nextFloat()*0.8F+0.1F;
 
-				EntityItem entityItem = new EntityItem(world,x + offX,y + offY,z + offZ,is.copy());
-				entityItem.motionX = world.rand.nextGaussian() * 0.05F;
-				entityItem.motionY = world.rand.nextGaussian() * 0.05F + 0.2F;
-				entityItem.motionZ = world.rand.nextGaussian() * 0.05F;
+				EntityItem entityItem = new EntityItem(world,x+offX,y+offY,z+offZ,is.copy());
+				entityItem.motionX = world.rand.nextGaussian()*0.05F;
+				entityItem.motionY = world.rand.nextGaussian()*0.05F+0.2F;
+				entityItem.motionZ = world.rand.nextGaussian()*0.05F;
 				world.spawnEntityInWorld(entityItem);
 			}
 		}

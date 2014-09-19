@@ -1,4 +1,5 @@
 package chylex.hee.item;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,6 +16,14 @@ public final class ItemList{
 	
 	private static void register(String itemIdentifier, Item item){
 		items.put(itemIdentifier,item);
+	}
+	
+	public static Item getItem(String identifier){
+		return items.get(identifier);
+	}
+	
+	public static Collection<Item> getAllItems(){
+		return items.values();
 	}
 	
 	// LORE

@@ -57,7 +57,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 				ItemUtil.setArmorColor(is,rand.nextInt(16777216));
 			}
 			else if (is.getItem() == ItemList.knowledge_note){
-				ItemKnowledgeNote.setRandomFragment(is,rand);
+				ItemKnowledgeNote.setRandomNote(is,rand);
 			}
 			
 			return is;

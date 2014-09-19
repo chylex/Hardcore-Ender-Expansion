@@ -2,7 +2,6 @@ package chylex.hee.gui;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.Item;
@@ -11,6 +10,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockList.BlockData;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.item.ItemList;
 import cpw.mods.fml.relauncher.Side;
@@ -35,40 +35,21 @@ public class GuiItemViewer extends GuiScreen{
 		
 		// Blocks
 		
-		// TODO use the list stuff
-		Field[] blockList = BlockList.class.getFields();
-		
-		for(int a = 0; a < blockList.length; a++){
-			if (!Block.class.isAssignableFrom(blockList[a].getType()))continue;
+		for(BlockData block:BlockList.getAllBlocks()){
+			Item item = Item.getItemFromBlock(block.block);
+			if (item == null)continue;
 			
-			try{
-				Block block = (Block)blockList[a].get(null);
-				Item item = Item.getItemFromBlock(block);
-				if (item == null)continue;
-				
-				List is = new ArrayList();
-				item.getSubItems(item,null,is);
-				for(Object o:is)toRender.add((ItemStack)o);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			List is = new ArrayList();
+			item.getSubItems(item,null,is);
+			for(Object o:is)toRender.add((ItemStack)o);
 		}
 		
 		// Items
 		
-		Field[] itemList = ItemList.class.getFields();
-		
-		for(int a = 0; a < itemList.length; a++){
-			if (!Item.class.isAssignableFrom(itemList[a].getType()))continue;
-			
-			try{
-				Item item = (Item)itemList[a].get(null);
-				List is = new ArrayList();
-				item.getSubItems(item,null,is);
-				for(Object o:is)toRender.add((ItemStack)o);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+		for(Item item:ItemList.getAllItems()){
+			List is = new ArrayList();
+			item.getSubItems(item,null,is);
+			for(Object o:is)toRender.add((ItemStack)o);
 		}
 	}
 	

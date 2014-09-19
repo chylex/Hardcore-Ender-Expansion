@@ -19,11 +19,15 @@ public class ItemKnowledgeNote extends Item{
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (world.isRemote || is.stackTagCompound == null)return is;
+		if (is.stackTagCompound == null)return is;
+		
+		if (world.isRemote){
+			world.playSoundAtEntity(player,"hardcoreenderexpansion:player.random.pageflip",1.5F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.8F));
+			return is;
+		}
 		
 		CompendiumEvents.getPlayerData(player).givePoints(is.stackTagCompound.getByte("pts"));
 		PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
-		// TODO sound
 		
 		--is.stackSize;
 		return is;
@@ -36,7 +40,7 @@ public class ItemKnowledgeNote extends Item{
 		textLines.add(is.stackTagCompound.getByte("pts")+" Knowledge Points");
 	}
 	
-	public static ItemStack setRandomFragment(ItemStack is, Random rand){
+	public static ItemStack setRandomNote(ItemStack is, Random rand){
 		is.stackTagCompound = new NBTTagCompound();
 		is.stackTagCompound.setByte("pts",(byte)((rand.nextInt(5)*rand.nextInt(4)+rand.nextInt(3)+2)*5));
 		return is;

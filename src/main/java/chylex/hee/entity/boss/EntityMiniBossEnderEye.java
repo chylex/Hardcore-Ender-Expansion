@@ -76,26 +76,6 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 			
 			sleepTimer = 0;
 			motionX = motionY = motionZ = 0D;
-			
-			/*// TODO discovery of dungeon tower
-			if (rand.nextBoolean() && ticksExisted%80 == 0){
-				for(Object o:worldObj.playerEntities){
-					EntityPlayer player = (EntityPlayer)o;
-					double px = posX,pz = posZ;
-					
-					if (rotationYaw == 0)pz += 2;
-					else if (rotationYaw == 90)px -= 2;
-					else if (rotationYaw == 180)pz -= 2;
-					else if (rotationYaw == 270)px += 2;
-					
-					if (player.posX >= px-3.5D && player.posX <= px+3.5D &&
-						player.posZ >= pz-3.5D && player.posZ <= pz+3.5D &&
-						player.posY <= posY+5D && player.posY >= posY-26D &&
-						(Math.abs(player.lastTickPosX-player.posX) > 0.0001D || Math.abs(player.lastTickPosZ-player.posZ) > 0.0001D)){
-						KnowledgeRegistrations.DUNGEON_TOWER.tryUnlockFragment(player,0.3F);
-					}
-				}
-			}*/
 		}
 		else{
 			if (target == null){

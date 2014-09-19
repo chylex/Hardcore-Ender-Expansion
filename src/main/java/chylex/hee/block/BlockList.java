@@ -1,4 +1,5 @@
 package chylex.hee.block;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,6 +38,14 @@ public final class BlockList{
 	
 	private static void setItemClass(String blockIdentifier, Class<? extends ItemBlock> itemBlockClass){
 		blocks.get(blockIdentifier).itemBlockClass = itemBlockClass;
+	}
+	
+	public static Block getBlock(String identifier){
+		return blocks.get(identifier).block;
+	}
+	
+	public static Collection<BlockData> getAllBlocks(){
+		return blocks.values();
 	}
 	
 	// BUILDING BLOCKS
@@ -175,7 +184,7 @@ public final class BlockList{
 	
 	private BlockList(){} // static class
 	
-	private static final class BlockData{
+	public static final class BlockData{
 		public final Block block;
 		public Class<? extends ItemBlock> itemBlockClass = ItemBlock.class;
 		

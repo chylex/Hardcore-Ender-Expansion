@@ -152,22 +152,6 @@ public abstract class IslandBiomeBase{
 			}
 		}
 		
-		// TODO biome discovery
-		/*if (world.rand.nextFloat() <= 0.063F){
-			for(Object o:world.playerEntities){
-				EntityPlayer player = (EntityPlayer)o;
-
-				if (isPlayerMoving(player)){
-					for(int ix = (int)player.posX, iy = y+6, iz = (int)player.posZ; iy < y+60; iy++){
-						if (world.getBlock(ix,iy,iz) == getTopBlock() && world.getBlockMetadata(ix,iy,iz) == getTopBlockMeta()){
-							knowledgeRegistration.tryUnlockFragment(player,0.12F);
-							break;
-						}
-					}
-				}
-			}
-		}*/
-		
 		for(Object o:world.playerEntities){
 			EntityPlayer player = (EntityPlayer)o;
 

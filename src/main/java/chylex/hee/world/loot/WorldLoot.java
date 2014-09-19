@@ -59,7 +59,7 @@ public class WorldLoot implements IVillageTradeHandler{
 	@Override
 	public void manipulateTradesForVillager(EntityVillager villager, MerchantRecipeList recipeList, Random rand){
 		if (villager.getProfession() == 1){
-			if (rand.nextFloat() < 0.65F)recipeList.add(new MerchantRecipe(new ItemStack(Items.emerald,2+rand.nextInt(3)),ItemKnowledgeNote.setRandomFragment(new ItemStack(ItemList.knowledge_note),rand)));
+			if (rand.nextFloat() < 0.65F)recipeList.add(new MerchantRecipe(new ItemStack(Items.emerald,2+rand.nextInt(3)),ItemKnowledgeNote.setRandomNote(new ItemStack(ItemList.knowledge_note),rand)));
 			else if (rand.nextFloat() < 0.6F)recipeList.add(new MerchantRecipe(new ItemStack(Items.emerald,3+rand.nextInt(3),0),lorePage.copy()));
 			else if (rand.nextFloat() < 0.3F)recipeList.add(new MerchantRecipe(new ItemStack(Items.emerald,11+rand.nextInt(5),0),new ItemStack(BlockList.essence_altar)));
 		}

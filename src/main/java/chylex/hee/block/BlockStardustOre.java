@@ -1,11 +1,9 @@
 package chylex.hee.block;
-import java.util.ArrayList;
 import java.util.Random;
+import net.minecraft.block.BlockOre;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -14,7 +12,7 @@ import chylex.hee.item.ItemList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockStardustOre extends BlockAbstractOre{
+public class BlockStardustOre extends BlockOre{
 	private static final byte iconAmount = 16;
 	private static final byte[][] iconIndexes = new byte[6][16];
 	
@@ -54,9 +52,6 @@ public class BlockStardustOre extends BlockAbstractOre{
 		dropXpOnBlockBreak(world,x,y,z,MathHelper.getRandomIntegerInRange(world.rand,1,6));
 	}
 
-	@Override
-	protected void onOreMined(EntityPlayer player, ArrayList<ItemStack> drops, int x, int y, int z, int meta, int fortune){}
-	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side){

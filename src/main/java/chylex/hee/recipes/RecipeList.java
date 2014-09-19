@@ -45,7 +45,7 @@ public final class RecipeList{
 			'I', Blocks.iron_block
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(ItemList.biome_compass), // TODO review later
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.biome_compass),
 			"PSP", "SCS", "PSP",
 			'P', ItemList.end_powder,
 			'S', ItemList.stardust,
