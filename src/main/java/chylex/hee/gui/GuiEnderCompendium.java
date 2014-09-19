@@ -1,7 +1,6 @@
 package chylex.hee.gui;
 import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +31,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
+import chylex.hee.mechanics.compendium.player.PlayerCompendiumData.FragmentPurchaseStatus;
 import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
 import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
@@ -150,6 +150,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			
 			HardcoreEnderExpansion.proxy.loadConfiguration();
 		}
+		
+		if (button.id == 3 || button.id == 4)updatePurchaseElements();
 	}
 	
 	@Override
@@ -157,6 +159,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(0));
 		else if (buttonId == 0){
 			if (!hasHighlightedCategory){
+				objectElements.clear();
+				
 				for(CategoryDisplayElement element:categoryElements){
 					if (element.isMouseOver(mouseX,mouseY,(int)offsetX.value(),(int)offsetY.value())){
 						for(KnowledgeObject object:element.category.getAllObjects())objectElements.add(new ObjectDisplayElement(object));
@@ -168,7 +172,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 			else{
 				boolean stop = false;
-				int offX = (int)offsetX.value()-(width>>1), offY = (int)offsetY.value()+guiObjectTopY;
+				int offX = (int)offsetX.value()-(width>>1)+(width>>2), offY = (int)offsetY.value()+guiObjectTopY;
 				
 				for(ObjectDisplayElement element:objectElements){
 					if (element.isMouseOver(mouseX,mouseY,offX,offY)){
@@ -243,7 +247,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				
 				if (fragment == null)break;
 				else{
-					pageMap = new HashMap<>();
+					pageMap = new LinkedHashMap<>();
 					pageMap.put(fragment,isUnlocked);
 					yy = 0;
 					continue;
@@ -257,14 +261,20 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (object == KnowledgeRegistrations.HELP)return;
 		
 		if (!compendiumData.hasDiscoveredObject(currentObject)){
-			if (currentObject.isBuyable())purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumData.getPoints() >= currentObject.getUnlockPrice()));
+			if (currentObject.isBuyable())purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumData.getPoints() >= currentObject.getUnlockPrice() ? FragmentPurchaseStatus.CAN_PURCHASE : FragmentPurchaseStatus.NOT_ENOUGH_POINTS));
 		}
-		else{
-			yy = ((this.height-guiPageTexHeight)>>1)+guiPageTop;
+		else updatePurchaseElements();
+	}
+	
+	private void updatePurchaseElements(){
+		purchaseElements.clear();
+		
+		if (currentObject != null){
+			int yy = ((this.height-guiPageTexHeight)>>1)+guiPageTop, height;
 			
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
 				height = entry.getKey().getHeight(this,entry.getValue());
-				if (!entry.getValue() && entry.getKey().isBuyable())purchaseElements.add(new PurchaseDisplayElement(entry.getKey(),yy+(height>>1)+2,compendiumData.getPoints() >= entry.getKey().getPrice()));
+				if (!entry.getValue())purchaseElements.add(new PurchaseDisplayElement(entry.getKey(),yy+(height>>1)+2,compendiumData.canPurchaseFragment(entry.getKey())));
 				yy += 10+height;
 			}
 		}
@@ -314,7 +324,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 		}
 		
-		offX = ptt(offsetX.value(),prevOffsetX,partialTickTime)-(width>>1);
+		offX = ptt(offsetX.value(),prevOffsetX,partialTickTime)-(width>>1)+(width>>2);
 		offY = ptt(offsetY.value(),prevOffsetY,partialTickTime)+guiObjectTopY;
 
 		GL11.glPushMatrix();
@@ -325,9 +335,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		for(ObjectDisplayElement element:objectElements){
 			if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY)){
-				String tooltip = element.object.getTooltip();
-				//if (!compendiumData.hasDiscoveredObject(element.object))tooltip += "\n\nNot discovered yet.";
-				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,tooltip);
+				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.object.getTooltip());
 			}
 		}
 

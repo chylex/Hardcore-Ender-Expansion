@@ -32,6 +32,10 @@ public final class CompendiumEventsClient{
 		}
 	}
 	
+	public static int getCompendiumKeyCode(){
+		return instance.keyOpenCompendium.getKeyCode();
+	}
+	
 	private final KeyBinding keyOpenCompendium;
 	private PlayerCompendiumData data;
 	
@@ -50,10 +54,12 @@ public final class CompendiumEventsClient{
 				GuiEnderCompendium compendium = new GuiEnderCompendium(data);
 				mc.displayGuiScreen(compendium);
 				
-				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = CompendiumEvents.getObservation(mc.thePlayer).getObject();
-				if (obj != null)compendium.showObject(obj);
+				if (mc.thePlayer.isSneaking()){
+					KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = CompendiumEvents.getObservation(mc.thePlayer).getObject();
+					if (obj != null)compendium.showObject(obj);
+				}
 				
-				if (mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))PacketPipeline.sendToServer(new S03OpenCompendium());
+				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))PacketPipeline.sendToServer(new S03OpenCompendium());
 			}
 			else mc.thePlayer.addChatMessage(new ChatComponentText("Error opening Ender Compendium, server did not provide required data. Relog, wait a few seconds, pray to your favourite deity and try again!"));
 		}

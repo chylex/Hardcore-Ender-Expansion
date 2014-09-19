@@ -71,7 +71,7 @@ public final class KnowledgeRegistrations{
 		END_POWDER = create(ItemList.end_powder),
 		ENHANCED_ENDER_PEARL = create(ItemList.enhanced_ender_pearl),
 		TEMPLE_CALLER = create(ItemList.temple_caller),
-		ENDER_DRAGON = create(EntityBossDragon.class),
+		ENDER_DRAGON = new KnowledgeObject<ObjectMob>(new ObjectMob(EntityBossDragon.class),new ItemStack(Blocks.dragon_egg),"Ender Dragon"),
 		ANGRY_ENDERMAN = create(EntityMobAngryEnderman.class),
 		VAMPIRE_BAT = create(EntityMobVampiricBat.class),
 		
@@ -216,7 +216,7 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(4).setContents("Note that discovering objects also unlocks some of their fragments and gives you points, whereas buying the object does neither."),
 			new KnowledgeFragmentText(5).setContents("Knowledge Notes are items found in dungeons and traded by villagers. Using them gives you Knowledge Points, but destroys the item in the process."),
 			new KnowledgeFragmentText(6).setContents("You can use right mouse button instead of the Back button for easier use of the Compendium."),
-			new KnowledgeFragmentText(7).setContents("Opening the Compendium while looking at a block, item or a mob opens the appropriate object.")
+			new KnowledgeFragmentText(7).setContents("Opening the Compendium while sneaking and looking at a block, item or a mob opens the appropriate object.")
 		});
 		
 		ESSENCE.setNonBuyable().setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{

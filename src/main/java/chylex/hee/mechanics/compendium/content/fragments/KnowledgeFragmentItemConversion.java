@@ -32,7 +32,7 @@ public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 		gui.drawTexturedModalRect(x+20,y,0,59,22,20);
 		
 		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),isUnlocked ? itemFrom : KnowledgeFragmentCrafting.lockedItem,x+1,y+1);
-		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),isUnlocked ? itemTo : KnowledgeFragmentCrafting.lockedItem,x+24,y+1);
+		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),isUnlocked ? itemTo : KnowledgeFragmentCrafting.lockedItem,x+45,y+1);
 		
 		RenderHelper.disableStandardItemLighting();
 		
@@ -40,7 +40,7 @@ public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 			if (mouseX >= x && mouseX <= x+17){
 				GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(itemFrom.getTooltip(gui.mc.thePlayer,false)));
 			}
-			else if (mouseX >= x+23 && mouseX <= x+40){
+			else if (mouseX >= x+44 && mouseX <= x+61){
 				GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(itemTo.getTooltip(gui.mc.thePlayer,false)));
 			}
 		}

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -16,6 +15,7 @@ import net.minecraftforge.common.AchievementPage;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
+import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.proxy.ModCommonProxy;
 
 public final class AchievementManager{
@@ -46,7 +46,7 @@ public final class AchievementManager{
 			@Override
 			public String formatString(String str){
 				try{
-					return String.format(str,GameSettings.getKeyDisplayString(Minecraft.getMinecraft().gameSettings.keyBindInventory.getKeyCode()));
+					return String.format(str,GameSettings.getKeyDisplayString(CompendiumEventsClient.getCompendiumKeyCode()));
 				}catch(Exception e){
 					return "Error: "+e.getLocalizedMessage();
 				}
