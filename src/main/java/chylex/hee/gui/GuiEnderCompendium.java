@@ -220,7 +220,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		for(CategoryDisplayElement element:categoryElements)element.update();
 	}
 	
-	private void showObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
+	public void showObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
 		if (currentObject != null){
 			currentObjectPages.clear();
 			purchaseElements.clear();

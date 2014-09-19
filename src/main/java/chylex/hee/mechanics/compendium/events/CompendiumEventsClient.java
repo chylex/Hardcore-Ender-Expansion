@@ -3,6 +3,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
 import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03OpenCompendium;
@@ -45,7 +47,12 @@ public final class CompendiumEventsClient{
 		
 		if (mc.inGameHasFocus && keyOpenCompendium.isPressed()){
 			if (data != null){
-				mc.displayGuiScreen(new GuiEnderCompendium(data));
+				GuiEnderCompendium compendium = new GuiEnderCompendium(data);
+				mc.displayGuiScreen(compendium);
+				
+				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = CompendiumEvents.getObservation(mc.thePlayer).getObject();
+				if (obj != null)compendium.showObject(obj);
+				
 				if (mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))PacketPipeline.sendToServer(new S03OpenCompendium());
 			}
 			else mc.thePlayer.addChatMessage(new ChatComponentText("Error opening Ender Compendium, server did not provide required data. Relog, wait a few seconds, pray to your favourite deity and try again!"));

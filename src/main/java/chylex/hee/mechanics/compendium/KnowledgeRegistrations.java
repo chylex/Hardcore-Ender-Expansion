@@ -215,7 +215,8 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(3).setContents("Then you can spend your points on individual Knowledge Fragments."),
 			new KnowledgeFragmentText(4).setContents("Note that discovering objects also unlocks some of their fragments and gives you points, whereas buying the object does neither."),
 			new KnowledgeFragmentText(5).setContents("Knowledge Notes are items found in dungeons and traded by villagers. Using them gives you Knowledge Points, but destroys the item in the process."),
-			new KnowledgeFragmentText(6).setContents("You can use right mouse button instead of the Back button for easier use of the Compendium.")
+			new KnowledgeFragmentText(6).setContents("You can use right mouse button instead of the Back button for easier use of the Compendium."),
+			new KnowledgeFragmentText(7).setContents("Opening the Compendium while looking at a block, item or a mob opens the appropriate object.")
 		});
 		
 		ESSENCE.setNonBuyable().setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{

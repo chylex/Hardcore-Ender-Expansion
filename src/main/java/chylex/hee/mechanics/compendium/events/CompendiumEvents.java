@@ -21,6 +21,7 @@ import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
+import chylex.hee.mechanics.compendium.util.KnowledgeObservation;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Stopwatch;
@@ -38,7 +39,8 @@ public final class CompendiumEvents{
 	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~Compendium";
 	private static final byte byteZero = 0;
 	private static final byte byteOne = 1;
-	private static BlockMetaWrapper bmwReuse = new BlockMetaWrapper(Blocks.air,0);
+	private static final BlockMetaWrapper bmwReuse = new BlockMetaWrapper(Blocks.air,0);
+	private static final KnowledgeObservation observationReuse = new KnowledgeObservation();
 	
 	private static CompendiumEvents instance;
 	
@@ -54,22 +56,53 @@ public final class CompendiumEvents{
 		return (PlayerCompendiumData)player.getExtendedProperties(playerPropertyIdentifier);
 	}
 	
-	private static void discoverItemStack(EntityPlayer player, ItemStack is){
-		if (is.getItem() instanceof ItemBlock){
-			bmwReuse.block = ((ItemBlock)is.getItem()).field_150939_a;
-			bmwReuse.metadata = (byte)is.getItemDamage();
-			KnowledgeObject<ObjectBlock> obj = KnowledgeObject.getObject(bmwReuse);
-			if (obj != null)getPlayerData(player).tryDiscoverBlock(obj,true);
-		}
-		else{
-			KnowledgeObject<ObjectItem> obj = KnowledgeObject.getObject(is.getItem());
-			if (obj != null)getPlayerData(player).tryDiscoverItem(obj,true);
-		}
+	public static KnowledgeObject<ObjectBlock> getBlockObject(ItemStack is){
+		bmwReuse.block = ((ItemBlock)is.getItem()).field_150939_a;
+		bmwReuse.metadata = (byte)is.getItemDamage();
+		return KnowledgeObject.getObject(bmwReuse);
 	}
 	
-	private static void discoverMob(EntityPlayer player, EntityLiving mob){
-		KnowledgeObject<ObjectMob> obj = KnowledgeObject.getObject(mob);
-		if (obj != null)getPlayerData(player).tryDiscoverMob(obj,true);
+	public static KnowledgeObservation getObservation(EntityPlayer player){
+		observationReuse.setEmpty();
+		
+		Vec3 posVec = Vec3.createVectorHelper(player.posX,player.boundingBox.minY+player.getEyeHeight()-(player.isSneaking() ? 0.08D : 0D),player.posZ);
+		Vec3 lookVec = player.getLook(8F);
+		
+		MovingObjectPosition mopBlock = player.worldObj.rayTraceBlocks(posVec,lookVec,true);
+		double distBlock = mopBlock != null && mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlock.blockX+0.5D-posVec.xCoord,mopBlock.blockY+0.5D-posVec.yCoord,mopBlock.blockZ+0.5D-posVec.zCoord) : 8D;
+		
+		double bbX = posVec.xCoord+lookVec.xCoord*0.5D, bbY = posVec.yCoord+lookVec.yCoord*0.5D, bbZ = posVec.zCoord+posVec.zCoord*0.5D;
+		List<Entity> list = player.worldObj.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.getBoundingBox(bbX-5D,bbY-5D,bbZ-5D,bbX+5D,bbY+5D,bbZ+5D));
+		Entity tracedEntity = null;
+		double distEntity = Double.MAX_VALUE;
+		
+		for(Entity entity:list){
+			if (entity == player)continue;
+			
+			MovingObjectPosition mop = entity.boundingBox.expand(0.1D,0.1D,0.1D).calculateIntercept(posVec,lookVec);
+			double dist;
+			
+			if (mop != null && mop.typeOfHit == MovingObjectType.ENTITY && (dist = posVec.distanceTo(mop.hitVec)) < distEntity){
+				distEntity = dist;
+				tracedEntity = entity;
+			}
+		}
+		
+		if (distBlock < distEntity && mopBlock != null){
+			BlockMetaWrapper wrapper = new BlockMetaWrapper(player.worldObj.getBlock(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ),player.worldObj.getBlockMetadata(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ));
+			observationReuse.setBlock(KnowledgeObject.<ObjectBlock>getObject(wrapper));
+		}
+		else if (tracedEntity != null){
+			if (tracedEntity instanceof EntityLiving)observationReuse.setMob(KnowledgeObject.<ObjectMob>getObject((EntityLiving)tracedEntity));
+			else if (tracedEntity instanceof EntityItem){
+				ItemStack is = ((EntityItem)tracedEntity).getEntityItem();
+				
+				if (is.getItem() instanceof ItemBlock)observationReuse.setBlock(getBlockObject(is));
+				else observationReuse.setItem(KnowledgeObject.<ObjectItem>getObject(is.getItem()));
+			}
+		}
+		
+		return observationReuse;
 	}
 	
 	private final TObjectByteHashMap<UUID> playerTickLimiter = new TObjectByteHashMap<>();
@@ -105,39 +138,7 @@ public final class CompendiumEvents{
 			Stopwatch.timeAverage("CompendiumEvents - look tracing",25);
 			
 			playerTickLimiter.put(player.getGameProfile().getId(),byteZero);
-			
-			Vec3 posVec = Vec3.createVectorHelper(player.posX,player.boundingBox.minY+player.getEyeHeight()-(player.isSneaking() ? 0.08D : 0D),player.posZ);
-			Vec3 lookVec = player.getLook(8F);
-			
-			MovingObjectPosition mopBlock = player.worldObj.rayTraceBlocks(posVec,lookVec,true);
-			double distBlock = mopBlock != null && mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlock.blockX+0.5D-posVec.xCoord,mopBlock.blockY+0.5D-posVec.yCoord,mopBlock.blockZ+0.5D-posVec.zCoord) : 8D;
-			
-			double bbX = posVec.xCoord+lookVec.xCoord*0.5D, bbY = posVec.yCoord+lookVec.yCoord*0.5D, bbZ = posVec.zCoord+posVec.zCoord*0.5D;
-			List<Entity> list = player.worldObj.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.getBoundingBox(bbX-5D,bbY-5D,bbZ-5D,bbX+5D,bbY+5D,bbZ+5D));
-			Entity tracedEntity = null;
-			double distEntity = Double.MAX_VALUE;
-			
-			for(Entity entity:list){
-				if (entity == player)continue;
-				
-				MovingObjectPosition mop = entity.boundingBox.expand(0.1D,0.1D,0.1D).calculateIntercept(posVec,lookVec);
-				double dist;
-				
-				if (mop != null && mop.typeOfHit == MovingObjectType.ENTITY && (dist = posVec.distanceTo(mop.hitVec)) < distEntity){
-					distEntity = dist;
-					tracedEntity = entity;
-				}
-			}
-			
-			if (distBlock < distEntity && mopBlock != null){
-				BlockMetaWrapper wrapper = new BlockMetaWrapper(player.worldObj.getBlock(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ),player.worldObj.getBlockMetadata(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ));
-				KnowledgeObject<ObjectBlock> obj = KnowledgeObject.getObject(wrapper);
-				if (obj != null)getPlayerData(player).tryDiscoverBlock(obj,true);
-			}
-			else if (tracedEntity != null){
-				if (tracedEntity instanceof EntityLiving)discoverMob(player,(EntityLiving)tracedEntity);
-				else if (tracedEntity instanceof EntityItem)discoverItemStack(player,((EntityItem)tracedEntity).getEntityItem());
-			}
+			getObservation(player).discover(player);
 			
 			Stopwatch.finish("CompendiumEvents - look tracing");
 			Stopwatch.timeAverage("CompendiumEvents - inventory",25);
@@ -158,5 +159,14 @@ public final class CompendiumEvents{
 	@SubscribeEvent
 	public void onItemCrafted(ItemCraftedEvent e){
 		if (!e.player.worldObj.isRemote)discoverItemStack(e.player,e.crafting);
+	}
+	
+	private void discoverItemStack(EntityPlayer player, ItemStack is){
+		if (is.getItem() instanceof ItemBlock){
+			bmwReuse.block = ((ItemBlock)is.getItem()).field_150939_a;
+			bmwReuse.metadata = (byte)is.getItemDamage();
+			getPlayerData(player).tryDiscoverBlock(KnowledgeObject.<ObjectBlock>getObject(bmwReuse),true);
+		}
+		else getPlayerData(player).tryDiscoverItem(KnowledgeObject.<ObjectItem>getObject(is.getItem()),true);
 	}
 }
