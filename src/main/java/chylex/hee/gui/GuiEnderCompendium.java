@@ -389,7 +389,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		drawTexturedModalRect(width-d-8,height-d-8,25,25,24,24);
 		
 		String title = "Hardcore Ender Expansion - Ender Compendium";
-		fontRendererObj.drawString(title,(width>>1)-(fontRendererObj.getStringWidth(title)>>1),14,4210752);
+		fontRendererObj.drawString(title,(width>>1)-(fontRendererObj.getStringWidth(title)>>1),14,0x404040);
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
@@ -403,7 +403,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,x+3,y+1);
 		
 		String pointAmount = String.valueOf(compendiumData.getPoints());
-		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,4210752);
+		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,0x404040);
 	}
 	
 	private void renderPaper(int x, int y, int mouseX, int mouseY){

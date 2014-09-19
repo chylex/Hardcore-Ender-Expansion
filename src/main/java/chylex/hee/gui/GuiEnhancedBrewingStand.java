@@ -56,6 +56,6 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 		
 		fontRendererObj.drawStringWithShadow(
 			(brewingStand.getHoldingPowder() < powderReq ? EnumChatFormatting.YELLOW : EnumChatFormatting.WHITE)+String.valueOf(powderReq),
-		81,ySize-114,4210752);
+		81,ySize-114,0x404040);
 	}
 }

@@ -10,8 +10,8 @@ import com.google.common.collect.ImmutableSet;
 
 public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGuiItemStackRenderer{
 	private static int lastUsedID = 0;
-	private static final int iconSize = 30;
-	private static final TIntObjectHashMap<KnowledgeObject<?>> allObjects = new TIntObjectHashMap<>(); // TODO add IKnowledgeObjectInstance -> Set<KnowledgeObject>
+	private static final int iconSize = 28;
+	private static final TIntObjectHashMap<KnowledgeObject<?>> allObjects = new TIntObjectHashMap<>();
 	
 	public static <T extends IKnowledgeObjectInstance<?>> KnowledgeObject<T> getObject(Object o){
 		for(KnowledgeObject<?> knowledgeObject:allObjects.valueCollection()){
@@ -58,7 +58,7 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	}
 	
 	public KnowledgeObject setPos(int x, int y){
-		this.x = x*iconSize;
+		this.x = x*iconSize-(iconSize>>1);
 		this.y = y*iconSize;
 		return this;
 	}

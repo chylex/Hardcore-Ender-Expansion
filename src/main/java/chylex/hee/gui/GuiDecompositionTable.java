@@ -23,8 +23,8 @@ public class GuiDecompositionTable extends GuiContainer{
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		String s = decompositionTable.hasCustomInventoryName() ? decompositionTable.getInventoryName() : I18n.format(decompositionTable.getInventoryName());
-		fontRendererObj.drawString(s,xSize / 2 - fontRendererObj.getStringWidth(s) / 2,6,4210752);
-		fontRendererObj.drawString(I18n.format("container.inventory"),8,ySize - 96 + 2,4210752);
+		fontRendererObj.drawString(s,xSize / 2 - fontRendererObj.getStringWidth(s) / 2,6,0x404040);
+		fontRendererObj.drawString(I18n.format("container.inventory"),8,ySize - 96 + 2,0x404040);
 		
 		int stardustReq = decompositionTable.getRequiredStardust();
 		
@@ -33,7 +33,7 @@ public class GuiDecompositionTable extends GuiContainer{
 		
 		fontRendererObj.drawStringWithShadow(
 			(decompositionTable.getHoldingStardust() < stardustReq ? EnumChatFormatting.YELLOW : EnumChatFormatting.WHITE)+String.valueOf(stardustReq),
-		34,ySize-113,4210752);
+		34,ySize-113,0x404040);
 		
 		itemRender.zLevel = zLevel = 0F;
 		GL11.glEnable(GL11.GL_DEPTH_TEST);

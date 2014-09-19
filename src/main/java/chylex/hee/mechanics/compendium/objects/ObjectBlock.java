@@ -30,7 +30,7 @@ public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 		if (o.getClass() != BlockMetaWrapper.class)return false;
 		
 		BlockMetaWrapper bmw = (BlockMetaWrapper)o;
-		return bmw.block == wrapper.block && (bmw.metadata == wrapper.metadata || bmw.metadata == -1 || wrapper.metadata == -1);
+		return bmw.block == wrapper.block && (bmw.metadata == -1 || wrapper.metadata == -1 || bmw.metadata == wrapper.metadata);
 	}
 	
 	public static class BlockMetaWrapper{
