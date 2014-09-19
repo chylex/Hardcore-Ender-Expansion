@@ -14,9 +14,12 @@ public class ObjectDisplayElement{
 		this.object = object;
 	}
 	
-	public void render(GuiScreen gui, PlayerCompendiumData compendiumData, float offsetX, float offsetY){
+	public void render(GuiScreen gui, PlayerCompendiumData compendiumData, float offsetX, float offsetY, int screenWidth){
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(1F,1F,1F,1F);
+		boolean isCenter = object.getY() == -1; // TODO render in the middle (and check mouse too)
+		
 		RenderHelper.disableStandardItemLighting();
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
 		gui.drawTexturedModalRect((int)(object.getX()+offsetX+29),(int)(object.getY()+offsetY+30),113,compendiumData.hasDiscoveredObject(object) ? 0 : 23,22,22);
@@ -24,7 +27,7 @@ public class ObjectDisplayElement{
 		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),object.getItemStack(),(int)(object.getX()+offsetX+32),(int)(object.getY()+offsetY+33));
 	}
 	
-	public boolean isMouseOver(int mouseX, int mouseY, int offsetX, int offsetY){
+	public boolean isMouseOver(int mouseX, int mouseY, int offsetX, int offsetY, int screenWidth){
 		int x = object.getX()+offsetX+32, y = object.getY()+offsetY+32;
 		return mouseX >= x-2 && mouseY >= y-1 && mouseX <= x+18 && mouseY <= y+18;
 	}

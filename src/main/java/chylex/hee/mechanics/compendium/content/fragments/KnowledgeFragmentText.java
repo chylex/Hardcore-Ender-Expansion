@@ -26,7 +26,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	public int getHeight(GuiEnderCompendium gui, boolean isUnlocked){
 		boolean origFont = gui.mc.fontRenderer.getUnicodeFlag();
 		gui.mc.fontRenderer.setUnicodeFlag(true);
-		int h = gui.mc.fontRenderer.listFormattedStringToWidth(getString(true),GuiEnderCompendium.guiPageWidth-10).size()*gui.mc.fontRenderer.FONT_HEIGHT;
+		int h = gui.mc.fontRenderer.listFormattedStringToWidth(getString(isUnlocked),GuiEnderCompendium.guiPageWidth-10).size()*gui.mc.fontRenderer.FONT_HEIGHT;
 		gui.mc.fontRenderer.setUnicodeFlag(origFont);
 		return h;
 	}

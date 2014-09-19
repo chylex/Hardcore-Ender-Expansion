@@ -175,7 +175,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				int offX = (int)offsetX.value()-(width>>1)+(width>>2), offY = (int)offsetY.value()+guiObjectTopY;
 				
 				for(ObjectDisplayElement element:objectElements){
-					if (element.isMouseOver(mouseX,mouseY,offX,offY)){
+					if (element.isMouseOver(mouseX,mouseY,offX,offY,width)){
 						showObject(element.object);
 						stop = true;
 						break;
@@ -242,14 +242,14 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		while(true){
 			KnowledgeFragment fragment = iter.hasNext() ? iter.next() : null;
 			
-			if (fragment == null || yy+(height = 10+fragment.getHeight(this,isUnlocked = (object == KnowledgeRegistrations.HELP || compendiumData.hasUnlockedFragment(fragment)))) > guiPageHeight){
+			if (fragment == null || yy+(height = 8+fragment.getHeight(this,isUnlocked = (object == KnowledgeRegistrations.HELP || compendiumData.hasUnlockedFragment(fragment)))) > guiPageHeight){
 				currentObjectPages.put(page++,pageMap);
 				
 				if (fragment == null)break;
 				else{
 					pageMap = new LinkedHashMap<>();
 					pageMap.put(fragment,isUnlocked);
-					yy = 0;
+					yy = height;
 					continue;
 				}
 			}
@@ -275,7 +275,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
 				height = entry.getKey().getHeight(this,entry.getValue());
 				if (!entry.getValue())purchaseElements.add(new PurchaseDisplayElement(entry.getKey(),yy+(height>>1)+2,compendiumData.canPurchaseFragment(entry.getKey())));
-				yy += 10+height;
+				yy += 8+height;
 			}
 		}
 	}
@@ -329,12 +329,12 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef(offX,offY,0F);
-		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumData,0,0);
+		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumData,0,0,width);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
 		
 		for(ObjectDisplayElement element:objectElements){
-			if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY)){
+			if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY,width)){
 				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.object.getTooltip());
 			}
 		}
@@ -422,7 +422,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
 				entry.getKey().render(this,x,y,mouseX,mouseY,entry.getValue());
-				y += 10+entry.getKey().getHeight(this,entry.getValue());
+				y += 8+entry.getKey().getHeight(this,entry.getValue());
 			}
 			
 			for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
@@ -434,8 +434,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		for(PurchaseDisplayElement element:purchaseElements)element.render(this,x);
 		
-		if (!currentObject.isBuyable()){
-			// TODO text
+		if (!currentObject.isBuyable() && !compendiumData.hasDiscoveredObject(currentObject)){
+			RenderHelper.disableStandardItemLighting();
+			String msg = "Cannot buy this object";
+			mc.fontRenderer.drawString(msg,x-(mc.fontRenderer.getStringWidth(msg)>>1),y-7,0x404040);
 		}
 	}
 	

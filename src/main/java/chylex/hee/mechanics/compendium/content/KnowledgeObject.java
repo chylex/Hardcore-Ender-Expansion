@@ -63,6 +63,12 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 		return this;
 	}
 	
+	public KnowledgeObject setPosToCenter(){
+		this.x = 0;
+		this.y = -1;
+		return this;
+	}
+	
 	public KnowledgeObject setUnlockPrice(int price){
 		this.unlockPrice = price;
 		return this;

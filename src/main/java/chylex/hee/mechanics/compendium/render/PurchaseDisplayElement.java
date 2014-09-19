@@ -42,7 +42,7 @@ public class PurchaseDisplayElement{
 		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),GuiEnderCompendium.knowledgeFragmentIS,pageCenterX-22,y-10);
 		RenderHelper.disableStandardItemLighting();
 		
-		String price = status == FragmentPurchaseStatus.NOT_BUYABLE ? "~~~" : String.valueOf(this.price);
+		String price = status == FragmentPurchaseStatus.NOT_BUYABLE ? "---" : String.valueOf(this.price);
 		int color = status == FragmentPurchaseStatus.CAN_PURCHASE ? 0x404040 : status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED ? 0x888888 : status == FragmentPurchaseStatus.NOT_ENOUGH_POINTS ? 0xdd2020 : 0;
 		gui.mc.fontRenderer.drawString(price,pageCenterX-gui.mc.fontRenderer.getStringWidth(price)+20,y-5,color);
 	}
