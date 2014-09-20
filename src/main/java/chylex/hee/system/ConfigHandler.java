@@ -9,6 +9,7 @@ import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.misc.StardustDecomposition;
+import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.sound.MusicManager;
@@ -83,6 +84,7 @@ public final class ConfigHandler{
 		Log.forceDebugEnabled = config.get("general","logDebuggingInfo",false).getBoolean(false);
 		
 		if (firstTimeGeneral){
+			OrbAcquirableItems.overrideRemoveBrokenRecipes = hideAndReturn(config.get("general","overrideRemoveBrokenRecipe",false,"This will remove broken recipes that would normally crash the game and enable logging of them. ALWAYS REPORT THE ISSUE TO THE AUTHOR OF THE BROKEN MOD FIRST!")).getBoolean(false);
 			ModCommonProxy.achievementStartId = hideAndReturn(config.get("general","achievementStartId",3500)).getInt(3500);
 			StardustDecomposition.addFromString(hideAndReturn(config.get("general","decompositionBlacklist","")).getString());
 			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");
