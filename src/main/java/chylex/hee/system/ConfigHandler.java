@@ -84,7 +84,7 @@ public final class ConfigHandler{
 		Log.forceDebugEnabled = config.get("general","logDebuggingInfo",false).getBoolean(false);
 		
 		if (firstTimeGeneral){
-			OrbAcquirableItems.overrideRemoveBrokenRecipes = hideAndReturn(config.get("general","overrideRemoveBrokenRecipe",false,"This will remove broken recipes that would normally crash the game and enable logging of them. ALWAYS REPORT THE ISSUE TO THE AUTHOR OF THE BROKEN MOD FIRST!")).getBoolean(false);
+			OrbAcquirableItems.overrideRemoveBrokenRecipes = hideAndReturn(config.get("general","overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game and enable logging of them. ALWAYS REPORT THE ISSUE TO THE AUTHOR OF THE BROKEN MOD FIRST!")).getBoolean(false);
 			ModCommonProxy.achievementStartId = hideAndReturn(config.get("general","achievementStartId",3500)).getInt(3500);
 			StardustDecomposition.addFromString(hideAndReturn(config.get("general","decompositionBlacklist","")).getString());
 			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");
