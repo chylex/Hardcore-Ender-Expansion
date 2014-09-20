@@ -62,6 +62,14 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		return -1;
 	}
 	
+	public static String getMobName(Class<?> mobClass){
+		for(EggData eggData:eggTypes){
+			if (eggData.entityClass == mobClass)return StatCollector.translateToLocal("entity."+eggData.entityName+".name");
+		}
+		
+		return "Unknown Mob";
+	}
+	
 	public ItemSpawnEggs(){
 		setHasSubtypes(true);
 	}

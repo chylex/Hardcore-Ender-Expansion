@@ -175,7 +175,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				int offX = (int)offsetX.value()-(width>>1)+(width>>2), offY = (int)offsetY.value()+guiObjectTopY;
 				
 				for(ObjectDisplayElement element:objectElements){
-					if (element.isMouseOver(mouseX,mouseY,offX,offY,width)){
+					if (element.isMouseOver(mouseX,mouseY,offX,offY,width>>1)){
 						showObject(element.object);
 						stop = true;
 						break;
@@ -329,12 +329,12 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 
 		GL11.glPushMatrix();
 		GL11.glTranslatef(offX,offY,0F);
-		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumData,0,0,width);
+		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumData,0,0,(int)((width>>1)-offX));
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
 		
 		for(ObjectDisplayElement element:objectElements){
-			if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY,width)){
+			if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY,width>>1)){
 				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.object.getTooltip());
 			}
 		}
