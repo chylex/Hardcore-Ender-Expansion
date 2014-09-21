@@ -61,6 +61,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		if (obj instanceof ObjectBlock)return tryDiscoverBlock((KnowledgeObject<ObjectBlock>)object,addReward);
 		else if (obj instanceof ObjectItem)return tryDiscoverItem((KnowledgeObject<ObjectItem>)object,addReward);
 		else if (obj instanceof ObjectMob)return tryDiscoverMob((KnowledgeObject<ObjectMob>)object,addReward);
+		else if (obj instanceof ObjectDummy)return discoveredMisc.addObject(((KnowledgeObject<ObjectDummy>)object).getObject());
 		else return false;
 	}
 	
@@ -70,6 +71,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		if (obj instanceof ObjectBlock)return discoveredBlocks.hasDiscoveredObject((ObjectBlock)obj);
 		else if (obj instanceof ObjectItem)return discoveredItems.hasDiscoveredObject((ObjectItem)obj);
 		else if (obj instanceof ObjectMob)return discoveredMobs.hasDiscoveredObject((ObjectMob)obj);
+		else if (obj instanceof ObjectDummy)return discoveredMisc.hasDiscoveredObject((ObjectDummy)obj);
 		else return false;
 	}
 	

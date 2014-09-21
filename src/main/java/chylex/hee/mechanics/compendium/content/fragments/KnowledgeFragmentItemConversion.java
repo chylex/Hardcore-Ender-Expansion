@@ -6,6 +6,8 @@ import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import com.google.common.base.Joiner;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 	private ItemStack itemFrom, itemTo;
@@ -21,11 +23,13 @@ public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public int getHeight(GuiEnderCompendium gui, boolean isUnlocked){
 		return 20;
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		GL11.glColor4f(1F,1F,1F,1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);

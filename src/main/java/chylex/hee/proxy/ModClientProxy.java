@@ -7,8 +7,10 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderLightningBolt;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.util.ChatComponentText;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
@@ -79,6 +81,7 @@ import chylex.hee.render.tileentity.RenderTileLaserBeam;
 import chylex.hee.render.weather.RenderWeatherLightningBoltPurple;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.sound.MusicManager;
 import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
@@ -171,6 +174,17 @@ public class ModClientProxy extends ModCommonProxy{
 		TeleportParticleTickEvent.register();
 		MusicManager.register();
 		CharmPouchHandlerClient.register();
+		
+		AchievementManager.THE_MORE_YOU_KNOW.setStatStringFormatter(new IStatStringFormat(){
+			@Override
+			public String formatString(String str){
+				try{
+					return String.format(str,GameSettings.getKeyDisplayString(CompendiumEventsClient.getCompendiumKeyCode()));
+				}catch(Exception e){
+					return "Error: "+e.getLocalizedMessage();
+				}
+			}
+		});
 	}
 	
 	@Override

@@ -10,6 +10,8 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.base.Joiner;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentEnhancement extends KnowledgeFragment{ // TODO test enhancing unlock
 	private static final Set<KnowledgeFragmentEnhancement> enhancementFragments = new HashSet<>();
@@ -36,11 +38,13 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{ // TODO tes
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public int getHeight(GuiEnderCompendium gui, boolean isUnlocked){
 		return 20;
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		GL11.glColor4f(1F,1F,1F,1F);
 		

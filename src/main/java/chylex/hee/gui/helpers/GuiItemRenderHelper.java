@@ -79,6 +79,7 @@ public class GuiItemRenderHelper{
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
 		renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer,textureManager,is,x,y);
+		GL11.glDisable(GL11.GL_LIGHTING);
 	}
 	
 	public static void drawTooltip(ITooltipRenderer gui, FontRenderer fontRendererObj, int x, int y, String tooltip){

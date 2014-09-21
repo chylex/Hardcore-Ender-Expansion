@@ -13,6 +13,8 @@ import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.system.logging.Log;
 import com.google.common.base.Joiner;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	public static final ItemStack lockedItem = new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
@@ -46,11 +48,13 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public int getHeight(GuiEnderCompendium gui, boolean isUnlocked){
 		return 58;
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		GL11.glColor4f(1F,1F,1F,1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);

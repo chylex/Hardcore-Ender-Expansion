@@ -4,18 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.block.Block;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
-import net.minecraft.stats.IStatStringFormat;
 import net.minecraftforge.common.AchievementPage;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.proxy.ModCommonProxy;
 
 public final class AchievementManager{
@@ -41,17 +38,6 @@ public final class AchievementManager{
 	public static void register(){
 		AchievementPage.registerAchievementPage(new AchievementPage("HEE Achievements",achievements.toArray(new Achievement[achievements.size()])));
 		AchievementPage.registerAchievementPage(new AchievementPage("HEE Challenges",challenges.toArray(new Achievement[challenges.size()])));
-		
-		THE_MORE_YOU_KNOW.setStatStringFormatter(new IStatStringFormat(){
-			@Override
-			public String formatString(String str){
-				try{
-					return String.format(str,GameSettings.getKeyDisplayString(CompendiumEventsClient.getCompendiumKeyCode()));
-				}catch(Exception e){
-					return "Error: "+e.getLocalizedMessage();
-				}
-			}
-		});
 	}
 	
 	private static Achievement addAchievement(int id, String stringId, int x, int y, Block block, int metadata, Achievement parentAchievement){
