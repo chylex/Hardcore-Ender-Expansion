@@ -92,7 +92,7 @@ public class EntityMobFireGolem extends EntityMob{
 					if (++rangedStatus > (ModCommonProxy.opMobs ? 28 : 38)){
 						flameParticleAmountNew = 0;
 						rangedStatus = -1;
-						Vec3 look = getLook(1F);
+						Vec3 look = getLookVec();
 						
 						worldObj.spawnEntityInWorld(new EntityProjectileGolemFireball(
 							worldObj,this,posX+look.xCoord*0.8D,posY+1D,posZ+look.zCoord*0.8D,
@@ -127,13 +127,13 @@ public class EntityMobFireGolem extends EntityMob{
 		if (!worldObj.isRemote && source.isExplosion() && teleportCooldown == 0){
 			teleportCooldown = 45;
 
-			Vec3 look = getLook(3F);
+			Vec3 look = getLookVec();
 			double xx,yy,zz;
 			
 			for(int attempt = 0,ix,iy,iz; attempt < 300; attempt++){
-				xx = posX+look.xCoord+rand.nextDouble()*18D-9D;
+				xx = posX+look.xCoord*3F+rand.nextDouble()*18D-9D;
 				yy = posY+rand.nextDouble()*8D-4D;
-				zz = posZ+look.zCoord+rand.nextDouble()*18D-9D;
+				zz = posZ+look.zCoord*3F+rand.nextDouble()*18D-9D;
 				
 				if (Math.pow(xx-posX,2)+Math.pow(yy-posY,2)+Math.pow(zz-posZ,2) < 30)continue;
 				

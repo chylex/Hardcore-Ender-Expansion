@@ -675,7 +675,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(501).setContents("Some of the bricks are cracked or damaged.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(502).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_stairs,4)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(513),
 				new KnowledgeFragmentCrafting(503).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_slab,6)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(515),
-				new KnowledgeFragmentCrafting(505).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence,6)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(517)
+				new KnowledgeFragmentCrafting(504).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence,6)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(517)
 			}),
 			
 			RAVAGED_BRICK_GLOWING.setPos(8,13).setUnlockPrice(2).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
@@ -850,6 +850,14 @@ public final class KnowledgeRegistrations{
 				for(KnowledgeFragment fragment:obj.getFragments()){
 					totalFragPrice += fragment.getPrice();
 					if (fragment.getPrice() == 0)throw new IllegalStateException("Knowledge Fragment "+fragment.globalID+" has illegal unlock price.");
+					
+					for(int id:fragment.getUnlockRequirements()){
+						if (KnowledgeFragment.getById(id) == null)throw new IllegalStateException("Knowledge Fragment "+fragment.globalID+" has invalid unlock requirement ID "+id+".");
+					}
+
+					for(int id:fragment.getUnlockCascade()){
+						if (KnowledgeFragment.getById(id) == null)throw new IllegalStateException("Knowledge Fragment "+fragment.globalID+" has invalid unlock cascade ID "+id+".");
+					}
 				}
 				
 				++amtObjects;

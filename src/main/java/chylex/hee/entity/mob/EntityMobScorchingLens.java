@@ -41,10 +41,10 @@ public class EntityMobScorchingLens extends EntityMob{
 		if (!worldObj.isRemote && entityToAttack != null){
 			if (getDistanceSqToEntity(entityToAttack) > 180D)entityToAttack = null;
 			else if ((ticksExisted&1) == 1 && getHealth() > 0 && canEntityBeSeen(entityToAttack)){
-				Vec3 look = getLook(0.5F);
+				Vec3 look = getLookVec();
 				
 				worldObj.spawnEntityInWorld(new EntityProjectileFlamingBall(
-					worldObj,this,posX+look.xCoord,posY+look.yCoord+0.5D,posZ+look.zCoord,
+					worldObj,this,posX+look.xCoord*0.5F,posY+look.yCoord*0.5F+0.5D,posZ+look.zCoord*0.5F,
 					entityToAttack.posX-posX,entityToAttack.posY-posY+rand.nextDouble()*0.4D,entityToAttack.posZ-posZ
 				));
 			}

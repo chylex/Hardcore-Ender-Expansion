@@ -1,5 +1,6 @@
 package chylex.hee.gui.helpers;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -76,6 +77,8 @@ public class GuiItemRenderHelper{
 		}
 
 		GL11.glEnable(GL11.GL_CULL_FACE);
+		
+		renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer,textureManager,is,x,y);
 	}
 	
 	public static void drawTooltip(ITooltipRenderer gui, FontRenderer fontRendererObj, int x, int y, String tooltip){
