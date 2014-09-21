@@ -1,0 +1,121 @@
+{
+  "20 - 1.6.2": {
+    "modVersion": "1.6.2",
+    "mcVersions": [ "1.7.10" ],
+    "releaseDate": "10 Aug 2014"
+  },
+  
+  "19 - 1.6.2-PRERELEASE": {
+    "modVersion": "1.6.2-PRERELEASE",
+    "mcVersions": [ "1.7.10" ],
+    "releaseDate": "31 Jul 2014"
+  },
+  
+  "18 - 1.6.1": {
+    "modVersion": "1.6.1",
+    "mcVersions": [ "1.6.4", "1.7.2" ],
+    "releaseDate": "1 Jun 2014"
+  },
+  
+  "17 - 1.6": {
+    "modVersion": "1.6",
+    "mcVersions": [ "1.6.4", "1.7.2" ],
+    "releaseDate": "15 May 2014"
+  },
+  
+  "16 - 1.5a": {
+    "modVersion": "1.5a",
+    "mcVersions": [ "1.6.4", "1.7.2" ],
+    "releaseDate": "21 Apr 2014"
+  },
+  
+  "15 - 1.5": {
+    "modVersion": "1.5",
+    "mcVersions": [ "1.6.4", "1.7.2" ],
+    "releaseDate": "15 Apr 2014"
+  },
+  
+  "14 - 1.5-BETA": {
+    "modVersion": "1.5-BETA",
+    "mcVersions": [ "1.7.2" ],
+    "releaseDate": "18 Mar 2014"
+  },
+  
+  "13 - 1.4.3": {
+    "modVersion": "1.4.3",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "9 Mar 2014"
+  },
+  
+  "12 - 1.4.2": {
+    "modVersion": "1.4.2",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "2 Mar 2014"
+  },
+  
+  "11 - 1.4.1": {
+    "modVersion": "1.4.1",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "20 Feb 2014"
+  },
+  
+  "10 - 1.4": {
+    "modVersion": "1.4",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "18 Feb 2014"
+  },
+  
+  "9 - 1.3.3": {
+    "modVersion": "1.3.3",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "27 Jan 2014"
+  },
+  
+  "8 - 1.3.2": {
+    "modVersion": "1.3.2",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "19 Jan 2014"
+  },
+  
+  "7 - 1.3.1": {
+    "modVersion": "1.3.1",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "12 Jan 2014"
+  },
+  
+  "6 - 1.3": {
+    "modVersion": "1.3",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "30 Dec 2013"
+  },
+  
+  "5 - 1.2.2": {
+    "modVersion": "1.2.2",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "19 Dec 2013"
+  },
+  
+  "4 - 1.2.1": {
+    "modVersion": "1.2.1",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "5 Dec 2013"
+  },
+  
+  "3 - Pre-release 1.2": {
+    "modVersion": "1.2",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "28 Nov 2013"
+  },
+  
+  "2 - 1.1.2": {
+    "modVersion": "1.1.2",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "1 Nov 2013"
+  },
+  
+  "1 - 1.1.1": {
+    "modVersion": "1.1.1",
+    "mcVersions": [ "1.6.4" ],
+    "releaseDate": "29 Oct 2013"
+  }
+}
