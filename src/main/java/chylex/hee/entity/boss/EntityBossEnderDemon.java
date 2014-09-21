@@ -213,9 +213,6 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 				worldObj.spawnEntityInWorld(new EntityXPOrb(worldObj,posX,posY,posZ,xpSplit));
 			}
 			
-			//new ApocalypseSavefile(WorldData.get(worldObj)).setApocalypseStage(ApocalypseSavefile.APOCALYPSE_BOSS_DEAD);
-			// TODO ApocalypseEvents.reloadCache();
-			
 			dropItem(ItemList.enderman_relic,1);
 			setDead();
 		}

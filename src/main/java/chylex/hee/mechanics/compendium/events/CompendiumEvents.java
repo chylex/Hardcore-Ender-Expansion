@@ -9,12 +9,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
@@ -127,6 +129,13 @@ public final class CompendiumEvents{
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedOutEvent e){
 		playerTickLimiter.remove(e.player.getGameProfile().getId());
+	}
+	
+	@SubscribeEvent
+	public void onPlayerClone(PlayerEvent.Clone e){
+		NBTTagCompound tag = new NBTTagCompound();
+		getPlayerData(e.original).saveNBTData(tag);
+		getPlayerData(e.entityPlayer).loadNBTData(tag);
 	}
 	
 	@SubscribeEvent

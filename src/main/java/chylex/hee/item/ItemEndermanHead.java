@@ -56,7 +56,6 @@ public class ItemEndermanHead extends Item{
 		
 		if (side == 1 && ApocalypseEvents.checkEndermanpocalypseStructure(world,x,y,z)){
 			//int rotation = (int)((MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15)*360F/16F);
-			// TODO probably do something?
 			--is.stackSize;
 			return true;
 		}

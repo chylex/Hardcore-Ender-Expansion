@@ -80,7 +80,7 @@ public class DragonAchievementManager{
 	}
 
 	public void readFromNBT(NBTTagCompound tag){
-		battleTimer = tag.hasKey("__timer") ? tag.getInteger("___timer") : tag.getInteger("timer"); // TODO review later and remove legacy compatibility
+		battleTimer = tag.getInteger("___timer");
 		
 		for(Object o:tag.func_150296_c()){ // OBFUSCATED list tags?
 			String key = (String)o;

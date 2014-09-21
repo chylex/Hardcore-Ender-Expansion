@@ -11,7 +11,7 @@ import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.base.Joiner;
 
-public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
+public class KnowledgeFragmentEnhancement extends KnowledgeFragment{ // TODO test enhancing unlock
 	private static final Set<KnowledgeFragmentEnhancement> enhancementFragments = new HashSet<>();
 	
 	public static final KnowledgeFragmentEnhancement getEnhancementFragment(IEnhancementEnum enhancement){

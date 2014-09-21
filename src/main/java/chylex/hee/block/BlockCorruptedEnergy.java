@@ -95,7 +95,7 @@ public class BlockCorruptedEnergy extends Block{
 				living.prevHealth = living.getHealth();
 				living.setHealth(living.getHealth()-1F);
 				living.func_110142_aN().func_94547_a(DamageSource.magic,living.prevHealth,1F); // OBFUSCATED combat tracker, second method
-				living.hurtResistantTime = 10; // TODO test
+				living.hurtTime = 10; // change hurt time instead of hurtResistantTime
 				
 				if (living.getHealth() <= 0F)living.onDeath(DamageSource.magic);
 			}

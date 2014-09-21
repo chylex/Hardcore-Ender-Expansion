@@ -1,5 +1,5 @@
 package chylex.hee.system.integration;
-import chylex.hee.system.integration.handlers.DartCraftIntegration;
+import chylex.hee.system.integration.handlers.NotEnoughItemsIntegration;
 import chylex.hee.system.integration.handlers.MineFactoryReloadedIntegration;
 import chylex.hee.system.integration.handlers.ThaumcraftIntegration;
 import chylex.hee.system.logging.Log;
@@ -8,8 +8,8 @@ import cpw.mods.fml.common.Loader;
 public final class ModIntegrationManager{
 	public static final void integrateMods(){
 		Class[] handlerClasses = new Class[]{
+			NotEnoughItemsIntegration.class,
 			ThaumcraftIntegration.class,
-			DartCraftIntegration.class,
 			MineFactoryReloadedIntegration.class
 		};
 		

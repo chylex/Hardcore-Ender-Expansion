@@ -8,6 +8,7 @@ import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C03KnowledgeNotification;
+import chylex.hee.packets.client.C19CompendiumData;
 
 public final class KnowledgeObservation{
 	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object;
@@ -53,6 +54,9 @@ public final class KnowledgeObservation{
 			default: return;
 		}
 		
-		if (result)PacketPipeline.sendToPlayer(player,new C03KnowledgeNotification(object));
+		if (result){
+			PacketPipeline.sendToPlayer(player,new C03KnowledgeNotification(object));
+			PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
+		}
 	}
 }
