@@ -31,7 +31,7 @@ class UpdateThread extends Thread{
 			String line;
 			StringBuilder build = new StringBuilder();
 			
-			BufferedReader read = new BufferedReader(new InputStreamReader(new URL("https://dl.dropboxusercontent.com/u/17157118/update/hardcoreenderexpansion.txt").openStream()));
+			BufferedReader read = new BufferedReader(new InputStreamReader(new URL("https://raw.githubusercontent.com/chylex/Hardcore-Ender-Expansion/master/UpdateNotificationData.txt").openStream()));
 			while((line = read.readLine()) != null)build.append(line).append('\n');
 			read.close();
 			
