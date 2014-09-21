@@ -32,6 +32,12 @@ public final class CompendiumEventsClient{
 		}
 	}
 	
+	public static void openCompendium(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj){
+		GuiEnderCompendium compendium = new GuiEnderCompendium(instance.data);
+		Minecraft.getMinecraft().displayGuiScreen(compendium);
+		if (obj != null)compendium.showObject(obj);
+	}
+	
 	public static int getCompendiumKeyCode(){
 		return instance.keyOpenCompendium.getKeyCode();
 	}
@@ -51,14 +57,7 @@ public final class CompendiumEventsClient{
 		
 		if (mc.inGameHasFocus && keyOpenCompendium.isPressed()){
 			if (data != null){
-				GuiEnderCompendium compendium = new GuiEnderCompendium(data);
-				mc.displayGuiScreen(compendium);
-				
-				if (mc.thePlayer.isSneaking()){
-					KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = CompendiumEvents.getObservation(mc.thePlayer).getObject();
-					if (obj != null)compendium.showObject(obj);
-				}
-				
+				openCompendium(mc.thePlayer.isSneaking() ? CompendiumEvents.getObservation(mc.thePlayer).getObject() : null);
 				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))PacketPipeline.sendToServer(new S03OpenCompendium());
 			}
 			else mc.thePlayer.addChatMessage(new ChatComponentText("Error opening Ender Compendium, server did not provide required data. Relog, wait a few seconds, pray to your favourite deity and try again!"));

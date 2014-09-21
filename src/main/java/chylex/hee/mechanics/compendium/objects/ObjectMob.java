@@ -1,6 +1,6 @@
 package chylex.hee.mechanics.compendium.objects;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -8,15 +8,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpawnEggs;
 
-public class ObjectMob implements IKnowledgeObjectInstance<Class<? extends EntityLivingBase>>{
-	private final Class<? extends EntityLivingBase> mobClass;
+public class ObjectMob implements IKnowledgeObjectInstance<Class<? extends EntityLiving>>{
+	private final Class<? extends EntityLiving> mobClass;
 	
-	public ObjectMob(Class<? extends EntityLivingBase> mobClass){
+	public ObjectMob(Class<? extends EntityLiving> mobClass){
 		this.mobClass = mobClass;
 	}
 
 	@Override
-	public Class<? extends EntityLivingBase> getUnderlyingObject(){
+	public Class<? extends EntityLiving> getUnderlyingObject(){
 		return mobClass;
 	}
 	

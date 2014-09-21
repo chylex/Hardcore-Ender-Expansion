@@ -54,12 +54,16 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		return damage >= 0 && damage < eggTypes.length ? eggTypes[damage] : null;
 	}
 	
-	public static int getDamageForMob(Class<?> mobClass){
+	public static int getDamageForMob(Class<? extends EntityLiving> mobClass){
 		for(int damage = 0; damage < eggTypes.length; damage++){
 			if (eggTypes[damage].entityClass == mobClass)return damage;
 		}
 		
 		return -1;
+	}
+	
+	public static Class<? extends EntityLiving> getMobFromDamage(int damage){
+		return damage >= 0 && damage < eggTypes.length ? eggTypes[damage].entityClass : null;
 	}
 	
 	public static String getMobName(Class<?> mobClass){
@@ -141,9 +145,9 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	}
 
 	static class EggData{
-		private final String entityName;
-		private final Class<? extends EntityLiving> entityClass;
-		private final int primaryColor,secondaryColor;
+		final String entityName;
+		final Class<? extends EntityLiving> entityClass;
+		final int primaryColor,secondaryColor;
 		
 		EggData(String entityName, Class<? extends EntityLiving> entityClass, int[] rgbPrimaryColor, int[] rgbSecondaryColor){
 			this.entityName = entityName;

@@ -228,7 +228,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (currentObject != null){
 			currentObjectPages.clear();
 			purchaseElements.clear();
-			pageIndex = 0;
+			if (currentObject != object)pageIndex = 0;
 		}
 
 		if ((currentObject = object) == null)return;

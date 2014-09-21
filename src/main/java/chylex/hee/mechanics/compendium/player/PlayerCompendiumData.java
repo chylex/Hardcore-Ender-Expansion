@@ -1,23 +1,23 @@
 package chylex.hee.mechanics.compendium.player;
-import org.apache.commons.lang3.StringUtils;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
+import org.apache.commons.lang3.StringUtils;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
+import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
-import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.compendium.player.PlayerDiscoveryList.IObjectSerializer;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.registry.GameData;
@@ -31,7 +31,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	private final PlayerDiscoveryList<ObjectBlock,BlockMetaWrapper> discoveredBlocks = new PlayerDiscoveryList<>(new DiscoveryBlockSerializer());
 	private final PlayerDiscoveryList<ObjectItem,Item> discoveredItems = new PlayerDiscoveryList<>(new DiscoveryItemSerializer());
-	private final PlayerDiscoveryList<ObjectMob,Class<? extends EntityLivingBase>> discoveredMobs = new PlayerDiscoveryList<>(new DiscoveryMobSerializer());
+	private final PlayerDiscoveryList<ObjectMob,Class<? extends EntityLiving>> discoveredMobs = new PlayerDiscoveryList<>(new DiscoveryMobSerializer());
 	private final PlayerDiscoveryList<ObjectDummy,String> discoveredMisc = new PlayerDiscoveryList<>(new DiscoveryStringSerializer());
 	
 	private final TIntHashSet unlockedFragments = new TIntHashSet();
@@ -207,15 +207,15 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		}
 	}
 	
-	private static class DiscoveryMobSerializer implements IObjectSerializer<Class<? extends EntityLivingBase>>{
+	private static class DiscoveryMobSerializer implements IObjectSerializer<Class<? extends EntityLiving>>{
 		@Override
-		public String serialize(Class<? extends EntityLivingBase> object){
+		public String serialize(Class<? extends EntityLiving> object){
 			return (String)EntityList.classToStringMapping.get(object);
 		}
 
 		@Override
-		public Class<? extends EntityLivingBase> deserialize(String data){
-			return (Class<? extends EntityLivingBase>)EntityList.stringToClassMapping.get(data);
+		public Class<? extends EntityLiving> deserialize(String data){
+			return (Class<? extends EntityLiving>)EntityList.stringToClassMapping.get(data);
 		}
 	}
 	
