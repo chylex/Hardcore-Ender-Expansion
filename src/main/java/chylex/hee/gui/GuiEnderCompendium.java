@@ -14,6 +14,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.HardcoreEnderExpansion;
@@ -93,6 +94,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		showObject(currentObject);
 	}
 	
+	public void onMouseWheel(boolean up){
+		actionPerformed((GuiButton)buttonList.get(up ? 3 : 4));
+	}
+	
 	@Override
 	public void initGui(){
 		this.portalRenderer = new GuiEndPortalRenderer(this,width-48,height-48,0);
@@ -157,7 +162,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(0));
-		else if (buttonId == 0){
+		else if (buttonId == 0 && !offsetY.isAnimating()){
 			if (!hasHighlightedCategory){
 				objectElements.clear();
 				
@@ -351,6 +356,13 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (currentObject == KnowledgeRegistrations.HELP)renderPaper(width>>1,height>>1,mouseX,mouseY);
 		else if (currentObject != null)renderPaper((width>>1)+(width>>2)+4,height>>1,mouseX,mouseY);
+		
+		for(; !mc.gameSettings.touchscreen && Mouse.next(); mc.currentScreen.handleMouseInput()){
+			int wheel = Mouse.getEventDWheel();
+			
+			if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
+			else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
+		}
 		
 		prevMouseX = mouseX;
 		prevMouseY = mouseY;

@@ -173,6 +173,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		discoveredItems.loadFromNBTList(hee.getTagList("fndItems",NBT.TAG_STRING));
 		discoveredMobs.loadFromNBTList(hee.getTagList("fndMobs",NBT.TAG_STRING));
 		discoveredMisc.loadFromNBTList(hee.getTagList("fndMisc",NBT.TAG_STRING));
+		unlockedFragments.clear();
 		unlockedFragments.addAll(hee.getIntArray("unlocked"));
 		Stopwatch.finish("PlayerCompendiumData - load");
 	}

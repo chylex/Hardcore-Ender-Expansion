@@ -49,6 +49,7 @@ import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
+import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.temple.TeleportParticleTickEvent;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
@@ -104,6 +105,11 @@ public class ModClientProxy extends ModCommonProxy{
 	@Override
 	public EntityPlayer getClientSidePlayer(){
 		return Minecraft.getMinecraft().thePlayer;
+	}
+	
+	@Override
+	public PlayerCompendiumData getClientCompendiumData(){
+		return CompendiumEventsClient.getClientData();
 	}
 	
 	@Override

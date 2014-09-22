@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatComponentText;
+import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.system.ConfigHandler;
 
 public class ModCommonProxy{
@@ -16,6 +17,10 @@ public class ModCommonProxy{
 	}
 	
 	public EntityPlayer getClientSidePlayer(){
+		return null;
+	}
+	
+	public PlayerCompendiumData getClientCompendiumData(){
 		return null;
 	}
 	

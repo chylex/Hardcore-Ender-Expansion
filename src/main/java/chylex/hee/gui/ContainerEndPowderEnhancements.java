@@ -23,7 +23,7 @@ import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.mechanics.enhancements.SlotList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
-import chylex.hee.packets.client.C09GuiEnhancementsUpdateItems;
+import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 
@@ -142,8 +142,7 @@ public class ContainerEndPowderEnhancements extends Container{
 			clientEnhancementTooltips[a] = "";
 		}
 		
-		EntityPlayer player = HardcoreEnderExpansion.proxy.getClientSidePlayer();
-		PlayerCompendiumData compendiumData = mainIS != null && player != null ? CompendiumEvents.getPlayerData(player) : null;
+		PlayerCompendiumData compendiumData = mainIS != null ? HardcoreEnderExpansion.proxy.getClientCompendiumData() : null;
 		
 		for(int a = 0; a < (enhancements == null ? 0 : enhancements.size()); a++){
 			IEnhancementEnum enhancement = enhancements.get(a);
@@ -252,7 +251,7 @@ public class ContainerEndPowderEnhancements extends Container{
 				if (getSlot(0).getStack() == null)onSubjectChanged();
 				
 				if (CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement))){
-					PacketPipeline.sendToPlayer(owner,new C09GuiEnhancementsUpdateItems());
+					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
 				}
 				
 			}
@@ -292,9 +291,9 @@ public class ContainerEndPowderEnhancements extends Container{
 					}
 				}
 				
-				if (rand.nextInt(ingredientsBroken > 0 ? 7 : 9) == 0){
+				if (rand.nextInt(ingredientsBroken > 0 ? 4 : 6) == 0){
 					CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement));
-					PacketPipeline.sendToPlayer(owner,new C09GuiEnhancementsUpdateItems());
+					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
 				}
 				
 				PacketPipeline.sendToPlayer(owner,new C08PlaySound((byte)9,owner.posX,owner.posY,owner.posZ,0.8F,1.2F));
@@ -307,9 +306,6 @@ public class ContainerEndPowderEnhancements extends Container{
 		List<IEnhancementEnum> enhancements = mainIS == null ? null : EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
 		List<Enum> currentEnhancements = mainIS == null ? new ArrayList<Enum>(1) : EnhancementHandler.getEnhancements(mainIS);
 		
-		EntityPlayer player = HardcoreEnderExpansion.proxy.getClientSidePlayer();
-		PlayerCompendiumData compendiumData = mainIS != null && player != null ? CompendiumEvents.getPlayerData(player) : null;
-		
 		StringBuilder build = new StringBuilder();
 		
 		for(int a = 0; a < (enhancements == null ? 0 : enhancements.size()); a++){
@@ -318,7 +314,6 @@ public class ContainerEndPowderEnhancements extends Container{
 			clientEnhancementTooltips[a] = build.append(EnumChatFormatting.LIGHT_PURPLE)
 				.append(DragonUtil.stripChatFormatting(enhancement.getName())).append("\n")
 				.append(EnumChatFormatting.GRAY).append(currentEnhancements.contains(enhancement) ? "Already enhanced" : (selectedSlot == a ? "Click to enhance" : "Click to select"))
-				.append(compendiumData == null || compendiumData.hasUnlockedFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement)) ? "" : "\n\nUnlock Ender Compendium fragment\nto see the ingredient.")
 				.toString();
 			
 			clientEnhancementBlocked[a] = currentEnhancements.contains(enhancement);

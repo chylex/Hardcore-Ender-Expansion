@@ -2,6 +2,7 @@ package chylex.hee.mechanics.compendium.events;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
+import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
@@ -30,6 +31,14 @@ public final class CompendiumEventsClient{
 		if (Minecraft.getMinecraft().currentScreen instanceof GuiEnderCompendium){
 			((GuiEnderCompendium)Minecraft.getMinecraft().currentScreen).updateCompendiumData(data);
 		}
+		
+		if (Minecraft.getMinecraft().thePlayer.openContainer instanceof ContainerEndPowderEnhancements){
+			((ContainerEndPowderEnhancements)Minecraft.getMinecraft().thePlayer.openContainer).updateClientItems();
+		}
+	}
+	
+	public static PlayerCompendiumData getClientData(){
+		return instance.data;
 	}
 	
 	public static void openCompendium(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj){

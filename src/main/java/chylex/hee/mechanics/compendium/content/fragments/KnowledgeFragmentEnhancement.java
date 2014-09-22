@@ -13,7 +13,7 @@ import com.google.common.base.Joiner;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class KnowledgeFragmentEnhancement extends KnowledgeFragment{ // TODO test enhancing unlock
+public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 	private static final Set<KnowledgeFragmentEnhancement> enhancementFragments = new HashSet<>();
 	
 	public static final KnowledgeFragmentEnhancement getEnhancementFragment(IEnhancementEnum enhancement){
@@ -29,6 +29,7 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{ // TODO tes
 	
 	public KnowledgeFragmentEnhancement(int globalID){
 		super(globalID);
+		enhancementFragments.add(this);
 	}
 	
 	public KnowledgeFragmentEnhancement setEnhancement(IEnhancementEnum enhancement){
