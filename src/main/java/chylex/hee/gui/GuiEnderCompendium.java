@@ -125,7 +125,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	protected void actionPerformed(GuiButton button){
 		if (!(button.enabled && button.visible))return;
 		
-		if (button.id == 0){
+		if (button.id == 0 && !offsetY.isAnimating()){
 			if (currentObject != null)showObject(null);
 			else if (hasHighlightedCategory){
 				offsetY.startAnimation(offsetY.value(),height>>1,1.25F);
@@ -162,7 +162,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(0));
-		else if (buttonId == 0 && !offsetY.isAnimating()){
+		else if (buttonId == 0){
 			if (!hasHighlightedCategory){
 				objectElements.clear();
 				
