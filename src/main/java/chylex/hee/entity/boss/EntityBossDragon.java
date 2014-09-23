@@ -1,5 +1,4 @@
 package chylex.hee.entity.boss;
-import java.util.Iterator;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEndPortal;
@@ -22,7 +21,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockFallingObsidian;
@@ -63,11 +61,9 @@ import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityBossDragon extends EntityLiving implements IBossDisplayData,IEntityMultiPart,IMob{
-	public double targetX;
-	public double targetY;
-	public double targetZ;
-
+public class EntityBossDragon extends EntityLiving implements IBossDisplayData, IEntityMultiPart, IMob{
+	public static long lastUpdate;
+	
 	public double[][] ringBuffer = new double[64][3];
 	public int ringBufferIndex = -1;
 
@@ -80,24 +76,17 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	public EntityDragonPart dragonPartWing1;
 	public EntityDragonPart dragonPartWing2;
 
+	public EntityEnderCrystal healingEnderCrystal;
+
 	public float prevAnimTime;
 	public float animTime;
 
 	public boolean forceNewTarget;
-
 	public boolean slowed;
-	public Entity target; // CHANGED LINE
 	public int deathTicks;
-
-	public EntityEnderCrystal healingEnderCrystal;
-
-	// CHANGE
-	private static final byte DATA_ANGRY = 17;
-	private static final byte DATA_DIFFICULTY = 18;
-	private static final byte DATA_WINGSPEED = 19;
 	
-	public static long lastUpdate;
-
+	public Entity target;
+	public double targetX, targetY, targetZ;
 	public boolean angryStatus, doSpecialAttacks, forceAttackEnd, frozen;
 	public int spawnCooldown = 140, nextAttackTicks;
 	public double moveSpeedMp = 1D;
@@ -110,7 +99,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	
 	private final DragonPassiveAttackBase FIREBALL,FREEZEBALL,BITE;
 	private final DragonSpecialAttackBase DEFAULT,DIVEBOMB,STAYNFIRE,BITEMADNESS,PUNCH,FREEZER,WHIRLWIND,SUMMON,BLOODLUST;
-	// END
 
 	public EntityBossDragon(World world){
 		super(world);
@@ -128,7 +116,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		isImmuneToFire = true;
 		targetY = 100D;
 		ignoreFrustumCheck = true;
-		// CHANGE
 		renderDistanceWeight = 5D;
 		
 		attacks = new DragonAttackManager(this);
@@ -148,35 +135,30 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		WHIRLWIND = new DragonAttackWhirlwind(this,8).setDisabledPassiveAttacks(FIREBALL,FREEZEBALL,BITE).setDisabled();
 		SUMMON = new DragonAttackSummon(this,9).setDisabledPassiveAttacks(FIREBALL,FREEZEBALL,BITE);
 		BLOODLUST = new DragonAttackBloodlust(this,3).setDisabledPassiveAttacks(FIREBALL,FREEZEBALL,BITE);
-		// END
 	}
 
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D+Math.min(50,WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount()*8)+(ModCommonProxy.opMobs ? 80D : 0D)); // CHANGED LINE
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D+Math.min(50,WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount()*8)+(ModCommonProxy.opMobs ? 80D : 0D));
 	}
 
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		// CHANGE
-		dataWatcher.addObject(DATA_ANGRY,Byte.valueOf((byte)0));
-		dataWatcher.addObject(DATA_DIFFICULTY,Byte.valueOf((byte)2));
-		dataWatcher.addObject(DATA_WINGSPEED,1F);
-		// END
+		dataWatcher.addObject(17,Byte.valueOf((byte)0));
+		dataWatcher.addObject(18,Byte.valueOf((byte)2));
+		dataWatcher.addObject(19,1F);
 	}
 
 	/**
-	 * Returns a double[3] array with movement offsets, used to calculate
-	 * trailing tail/neck positions. [0] = yaw offset, [1] = y offset, [2] =
-	 * unused, always 0. Parameters: buffer index offset, partial ticks.
+	 * Returns a double[3] array with movement offsets, used to calculate trailing tail/neck positions.
+	 * [0] = yaw offset, [1] = y offset, [2] = unused, always 0.
+	 * Parameters: buffer index offset, partial ticks.
 	 */
 	public double[] getMovementOffsets(int offset, float partialTickTime){
-		if (getHealth() <= 0F){
-			partialTickTime = 0F;
-		}
-
+		if (getHealth() <= 0F)partialTickTime = 0F;
+		
 		partialTickTime = 1F-partialTickTime;
 		int minY = ringBufferIndex-offset*1&63;
 		int k = ringBufferIndex-offset*1-1&63;
@@ -193,7 +175,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 
 	@Override
 	public void onLivingUpdate(){
-		// CHANGE
 		if (currentAttack == null)currentAttack = DEFAULT;
 		angryStatus = isAngry();
 
@@ -268,7 +249,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				}
 			}
 		}
-		// END
 
 		if (worldObj.isRemote && MathHelper.cos(prevAnimTime*(float)Math.PI*2F) <= -0.3F && MathHelper.cos(animTime*(float)Math.PI*2F) >= -0.3F){
 			worldObj.playSound(posX,posY,posZ,"mob.enderdragon.wings",5F,0.8F+rand.nextFloat()*0.3F,false);
@@ -284,7 +264,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 			
 			float animAdvance = 0.2F/(MathHelper.sqrt_double(motionX*motionX+motionZ*motionZ)*10F+1F);
 			animAdvance *= (float)Math.pow(2D,motionY);
-			animAdvance *= getWingSpeed(); // CHANGED LINE
+			animAdvance *= getWingSpeed();
 
 			animTime += slowed ? animAdvance*0.5F : animAdvance;
 
@@ -333,11 +313,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 
 					targetY = target.boundingBox.minY+finalTargetY;
 				}
-				// CHANGE
 				else trySetTargetPosition(targetX+rand.nextGaussian()*2D,targetY,targetZ+rand.nextGaussian()*2D);
 
 				if ((target != null && target.isDead) || distFromTarget > 22500D)forceAttackEnd = forceNewTarget = true;
-				// END
 
 				if (forceNewTarget || distFromTarget < 100D || distFromTarget > 22500D || isCollidedHorizontally || isCollidedVertically){
 					setNewTarget();
@@ -352,21 +330,14 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				double d8 = 180D-Math.atan2(xDiff,zDiff)*180D/Math.PI;
 				double d9 = MathHelper.wrapAngleTo180_double(d8-rotationYaw);
 
-				if (d9 > 50D){
-					d9 = 50D;
-				}
-
-				if (d9<-50D){
-					d9 = -50D;
-				}
+				if (d9 > 50D)d9 = 50D;
+				if (d9 < -50D)d9 = -50D;
 
 				Vec3 targetDiffVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
 				Vec3 rotationVec = Vec3.createVectorHelper(MathHelper.sin(rotationYaw*(float)Math.PI/180F),motionY,(-MathHelper.cos(rotationYaw*(float)Math.PI/180F))).normalize();
+				
 				float f4 = (float)(rotationVec.dotProduct(targetDiffVec)+0.5D)/1.5F;
-
-				if (f4 < 0F){
-					f4 = 0F;
-				}
+				if (f4 < 0F)f4 = 0F;
 
 				randomYawVelocity *= 0.8F;
 				float f5 = MathHelper.sqrt_double(motionX*motionX+motionZ*motionZ)+1F;
@@ -381,7 +352,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				float f6 = (float)(2D/(d10+1D));
 				moveFlying(0F,-1F,0.06F*(f4*f6+(1F-f6)));
 				
-				// CHANGE
 				if (frozen)motionX = motionY = motionZ = 0D;
 				
 				MotionUpdateEvent event = new MotionUpdateEvent(motionX,motionY,motionZ);
@@ -390,15 +360,14 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				motionY = event.motionY;
 				motionZ = event.motionZ;
 
-				if (slowed)moveEntity(motionX*moveSpeedMp*0.8D, motionY*moveSpeedMp*0.8D, motionZ*moveSpeedMp*0.8D);
-				else moveEntity(motionX*moveSpeedMp, motionY*moveSpeedMp, motionZ*moveSpeedMp);
+				if (slowed)moveEntity(motionX*moveSpeedMp*0.8D,motionY*moveSpeedMp*0.8D,motionZ*moveSpeedMp*0.8D);
+				else moveEntity(motionX*moveSpeedMp,motionY*moveSpeedMp,motionZ*moveSpeedMp);
 
 				Vec3 normalizedMotion = Vec3.createVectorHelper(motionX,motionY,motionZ).normalize();
 				double motionMultiplier = 0.8D+0.15D*((normalizedMotion.dotProduct(rotationVec)+1D)/2D);
 				motionX *= motionMultiplier;
 				motionZ *= motionMultiplier;
 				motionY *= 0.91D;
-				// END
 			}
 
 			renderYawOffset = rotationYaw;
@@ -406,12 +375,13 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 			dragonPartTail1.width = dragonPartTail1.height = 2F;
 			dragonPartTail2.width = dragonPartTail2.height = 2F;
 			dragonPartTail3.width = dragonPartTail3.height = 2F;
-			dragonPartBody.height = 3F;
 			dragonPartBody.width = 5F;
-			dragonPartWing1.height = 2F;
+			dragonPartBody.height = 3F;
 			dragonPartWing1.width = 4F;
-			dragonPartWing2.height = 3F;
+			dragonPartWing1.height = 2F;
 			dragonPartWing2.width = 4F;
+			dragonPartWing2.height = 3F;
+			
 			float offsetAngle = (float)(getMovementOffsets(5,1F)[1]-getMovementOffsets(10,1F)[1])*10F/180F*(float)Math.PI;
 			float angleCos = MathHelper.cos(offsetAngle);
 			float angleSin = -MathHelper.sin(offsetAngle);
@@ -425,11 +395,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 			dragonPartWing2.onUpdate();
 			dragonPartWing2.setLocationAndAngles(posX-(yawCos*4.5F),posY+2D,posZ-(yawSin*4.5F),0F,0F);
 
-			// CHANGED (DELETED) STUFF
 			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing1.boundingBox.expand(3.5D,2D,3.5D).offset(0D,-2D,0D)));
 			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing2.boundingBox.expand(3.5D,2D,3.5D).offset(0D,-2D,0D)));
 			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartHead.boundingBox.expand(0.7D,1D,0.7D)));
-			// END
 
 			double[] adouble = getMovementOffsets(5,1F);
 			double[] adouble1 = getMovementOffsets(0,1F);
@@ -439,12 +407,10 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 			dragonPartHead.setLocationAndAngles(posX+(moveX*5.5F*angleCos),posY+(adouble1[1]-adouble[1])+(angleSin*5.5F),posZ-(moveZ*5.5F*angleCos),0F,0F);
 
 			for(int part = 0; part < 3; ++part){
-				EntityDragonPart tailPart = dragonPartTail1;
-				if (part == 1)tailPart = dragonPartTail2;
-				if (part == 2)tailPart = dragonPartTail3;
-
+				EntityDragonPart tailPart = part == 0 ? dragonPartTail1 : part == 1 ? dragonPartTail2 : dragonPartTail3;
+				
 				double[] adouble2 = getMovementOffsets(12+part*2,1F);
-				float f14 = MathUtil.toRad(rotationYaw)+MathUtil.toRad(simplifyAngle(adouble2[0]-adouble[0]));
+				float f14 = MathUtil.toRad(rotationYaw)+MathUtil.toRad((float)MathHelper.wrapAngleTo180_double(adouble2[0]-adouble[0]));
 				float f15 = MathHelper.sin(f14);
 				float f16 = MathHelper.cos(f14);
 				float f17 = 1.5F;
@@ -455,12 +421,11 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 
 			if (!worldObj.isRemote){
 				slowed = destroyBlocksInAABB(dragonPartHead.boundingBox)|destroyBlocksInAABB(dragonPartBody.boundingBox);
-				// CHANGE
 				attacks.updatePassiveAttacks(currentAttack);
+				
 				if (currentAttack.equals(DIVEBOMB)){
 					slowed |= destroyBlocksInAABB(dragonPartWing1.boundingBox)|destroyBlocksInAABB(dragonPartWing2.boundingBox)|destroyBlocksInAABB(dragonPartBody.boundingBox.expand(1D,1D,1D));
 				}
-				// END
 			}
 		}
 	}
@@ -469,29 +434,24 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		if (healingEnderCrystal != null){
 			if (healingEnderCrystal.isDead){
 				if (!worldObj.isRemote){
-					attackEntityFromPart(dragonPartHead,DamageSource.setExplosionSource((Explosion)null),10F);
-					if (target == null)trySetTarget(attacks.getRandomPlayer()); // CHANGED LINE
+					attackEntityFromPart(dragonPartHead,DamageSource.setExplosionSource(null),10F);
+					if (target == null)trySetTarget(attacks.getRandomPlayer());
 				}
 
 				healingEnderCrystal = null;
 			}
-			else if (ticksExisted%10 == 0 && getHealth() < getMaxHealth()){
-				setHealth(getHealth()+1F);
-			}
+			else if (ticksExisted%10 == 0 && getHealth() < getMaxHealth())setHealth(getHealth()+1F);
 		}
 
 		if (rand.nextInt(10) == 0){
-			List<EntityEnderCrystal> list = worldObj.getEntitiesWithinAABB(EntityEnderCrystal.class,boundingBox.expand(32F,32F,32F));
+			float dist = 30F+4F*worldObj.difficultySetting.getDifficultyId()+(ModCommonProxy.opMobs ? 8F : 0F);
+			List<EntityEnderCrystal> crystals = worldObj.getEntitiesWithinAABB(EntityEnderCrystal.class,boundingBox.expand(dist,dist,dist));
+			double closestDist = Double.MAX_VALUE, currentDist;
 			EntityEnderCrystal closestCrystal = null;
-			double minDist = Double.MAX_VALUE;
-			Iterator<EntityEnderCrystal> iterator = list.iterator();
-
-			while(iterator.hasNext()){
-				EntityEnderCrystal crystal = iterator.next();
-				double currentDist = crystal.getDistanceSqToEntity(this);
-
-				if (currentDist < minDist){
-					minDist = currentDist;
+			
+			for(EntityEnderCrystal crystal:crystals){
+				if ((currentDist = crystal.getDistanceSqToEntity(this)) < closestDist){
+					closestDist = currentDist;
 					closestCrystal = crystal;
 				}
 			}
@@ -500,18 +460,13 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		}
 	}
 
-	/**
-	 * Pushes all entities inside the list away from the enderdragon.
-	 */
 	private void collideWithEntities(List list){
-		double bodyCenterX = (dragonPartBody.boundingBox.minX+dragonPartBody.boundingBox.maxX)/2D;
-		double bodyCenterZ = (dragonPartBody.boundingBox.minZ+dragonPartBody.boundingBox.maxZ)/2D;
-		Iterator iterator = list.iterator();
-
-		while(iterator.hasNext()){
-			Entity entity = (Entity)iterator.next();
-
-			// CHANGE
+		double bodyCenterX = (dragonPartBody.boundingBox.minX+dragonPartBody.boundingBox.maxX)*0.5D;
+		double bodyCenterZ = (dragonPartBody.boundingBox.minZ+dragonPartBody.boundingBox.maxZ)*0.5D;
+		
+		for(Object o:list){
+			Entity entity = (Entity)o;
+			
 			if (entity instanceof EntityLivingBase || entity instanceof EntityBlockFallingObsidian){
 				double[] vec = DragonUtil.getNormalizedVector(entity.posX-bodyCenterX,entity.posZ-bodyCenterZ);
 				CollisionEvent event = new CollisionEvent(entity,vec[0]*2D,0.2D,vec[1]*2D);
@@ -522,16 +477,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 				
 				if (entity instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)entity,new C06SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
 			}
-			// END
 		}
 	}
-
-	// CHANGED (DELETED) FUNCTION attackEntitiesInList
 
 	private void setNewTarget(){
 		forceNewTarget = false;
 
-		// CHANGE
 		if (rand.nextBoolean())trySetTarget(attacks.getWeakPlayer());
 		else{
 			double newTargetX,newTargetY,newTargetZ;
@@ -547,19 +498,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 
 			trySetTargetPosition(newTargetX,newTargetY,newTargetZ);
 		}
-		// END
-	}
-
-	/**
-	 * Simplifies the value of a number by adding/subtracting 180 to the point
-	 * that the number is between -180 and 180.
-	 */
-	private float simplifyAngle(double angle){
-		return (float)MathHelper.wrapAngleTo180_double(angle);
 	}
 
 	private boolean destroyBlocksInAABB(AxisAlignedBB aabb){
-		// CHANGE
 		if (!worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))return false;
 
 		int minX = MathHelper.floor_double(aabb.minX);
@@ -579,12 +520,10 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 			cy = (int)((aabb.maxY-aabb.minY)*0.5D+aabb.minY),
 			cz = (int)((aabb.maxZ-aabb.minZ)*0.5D+aabb.minZ);
 		double rad = 2.8D+Math.min((aabb.maxX-aabb.minX)/2D,(aabb.maxZ-aabb.minZ)/2D);
- 		// END
 
 		for(int xx = minX; xx <= maxX; ++xx){
 			for(int yy = minY; yy <= maxY; ++yy){
 				for(int zz = minZ; zz <= maxZ; ++zz){
-					// CHANGE
 					Block block = worldObj.getBlock(xx,yy,zz);
 
 					if (angryStatus && block == BlockList.obsidian_falling){
@@ -600,7 +539,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 					else if (Math.sqrt(Math.pow(xx-cx,2)+Math.pow(yy-cy,2)+Math.pow(zz-cz,2)) <= rad+0.3D*rand.nextGaussian()){
 						spawnParticles = worldObj.setBlockToAir(xx,yy,zz) || spawnParticles;
 					}
-					// END
 				}
 			}
 		}
@@ -617,11 +555,10 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float amount){
-		// CHANGE
 		if (source.isExplosion() && source.getEntity() == this)return false;
 		
 		if (dragonPart != dragonPartHead)amount = amount/3+1;
-		int plam = Math.min(5,(int)Math.floor(worldObj.playerEntities.size()*0.5F))+(ModCommonProxy.opMobs?2:0);
+		int plam = Math.min(5,(int)Math.floor(worldObj.playerEntities.size()*0.5F))+(ModCommonProxy.opMobs ? 2 : 0);
 		if (plam > 1)amount = Math.max(1F,amount/(plam/1.5F));
 		
 		amount = Math.min(amount,ModCommonProxy.opMobs ? 10F : 13F);
@@ -633,24 +570,18 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		
 		boolean shouldChangeTarget = (target != null && getDistanceSqToEntity(target) > 600D);
 		if (shouldChangeTarget)trySetTarget(null);
-		// END
 
 		float yaw = rotationYaw*(float)Math.PI/180F;
 		float yawSin = MathHelper.sin(yaw);
 		float yawCos = MathHelper.cos(yaw);
-		// CHANGE
+		
 		if (shouldChangeTarget){
 			trySetTargetPosition(posX+(yawSin*5F)+((rand.nextFloat()-0.5F)*2F),
 								 posY+(rand.nextFloat()*3F)+1D,
 								 posZ-(yawCos*5F)+((rand.nextFloat()-0.5F)*2F));
 		}
-		//target = null;
-		// END
 
-		if (source.getEntity() instanceof EntityPlayer || source.isExplosion()){
-			super.attackEntityFrom(source,amount); // CHANGED LINE
-		}
-
+		if (source.getEntity() instanceof EntityPlayer || source.isExplosion())super.attackEntityFrom(source,amount); 
 		return true;
 	}
 
@@ -663,7 +594,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	protected void onDeathUpdate(){
 		++deathTicks;
 		
-		// CHANGE
  		if (!worldObj.isRemote){
  			if (deathTicks == 1){
  				PacketPipeline.sendToDimension(dimension,new C01ParticleEndPortalCreation(MathHelper.floor_double(posX),MathHelper.floor_double(posZ)));
@@ -695,24 +625,24 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
  			if (deathTicks > 40 && deathTicks < 140)rewards.spawnEssence(worldObj,(int)posX,(int)posZ);
 		}
  		else if (deathTicks > 20){
- 			int amount = 1+deathTicks/40,xx = DragonUtil.portalEffectX,zz = DragonUtil.portalEffectZ;
- 			byte b0 = 64,b1 = 4;
+ 			int amount = 1+deathTicks/40, xx = DragonUtil.portalEffectX, zz = DragonUtil.portalEffectZ;
+ 			byte bottomY = 64, portalSize = 4;
 
- 			for(int iy = b0-1; iy <= b0+32; ++iy){
- 				for(int ix = xx-b1; ix <= xx+b1; ++ix){
- 					for(int iz = zz-b1; iz <= zz+b1; ++iz){
+ 			for(int iy = bottomY-1; iy <= bottomY+32; ++iy){
+ 				for(int ix = xx-portalSize; ix <= xx+portalSize; ++ix){
+ 					for(int iz = zz-portalSize; iz <= zz+portalSize; ++iz){
  						double len = MathUtil.square(ix-xx)+MathUtil.square(iz-zz);
  						
- 						if (len <= (b1-0.5D)*(b1-0.5D)){
- 							if ((iy < b0 && len <= ((b1-1)-0.5D)*((b1-1)-0.5D)) || iy > b0)continue;
+ 						if (len <= (portalSize-0.5D)*(portalSize-0.5D)){
+ 							if ((iy < bottomY && len <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)) || iy > bottomY)continue;
  							for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",ix+rand.nextDouble(),iy+rand.nextDouble()-0.5D,iz+rand.nextDouble(),0D,0D,0D);
  						}
  					}
  				}
  			}
  			
- 			for(int minX = 2; minX<5; minX++){
- 				for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",xx+rand.nextDouble(),b0+a+rand.nextDouble()-0.5D,zz+rand.nextDouble(),0D,0D,0D);
+ 			for(int minX = 2; minX < 5; minX++){
+ 				for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",xx+rand.nextDouble(),bottomY+a+rand.nextDouble()-0.5D,zz+rand.nextDouble(),0D,0D,0D);
  			}
  		}
 
@@ -720,14 +650,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 			worldObj.spawnParticle("hugeexplosion",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
 		}
 
-		int xp,tmpSplit;
- 		// END
 
 		moveEntity(0D,0.1D,0D);
 		renderYawOffset = rotationYaw += 20F;
 
 		if (deathTicks == 200 && !worldObj.isRemote){
-			xp = 2000;
+			int xp = 2000, tmpSplit;
 
 			while(xp > 0){
 				tmpSplit = EntityXPOrb.getXPSplit(xp);
@@ -741,50 +669,42 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	}
 
 	private void createEnderPortal(int x, int z){
-		byte b0 = 64;
 		BlockEndPortal.field_149948_a = true;
-		byte portalSize = 4;
+		byte portalSize = 4, bottomY = 64;
 
-		for(int yy = b0-1; yy <= b0+32; ++yy){
+		for(int yy = bottomY-1; yy <= bottomY+32; ++yy){
 			for(int xx = x-portalSize; xx <= x+portalSize; ++xx){
 				for(int zz = z-portalSize; zz <= z+portalSize; ++zz){
 					double dist = MathUtil.square(xx-x)+MathUtil.square(zz-z);
 
 					if (dist <= (portalSize-0.5D)*(portalSize-0.5D)){
-						if (yy < b0){
+						if (yy < bottomY){
 							if (dist <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)){
 								worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
 							}
 						}
-						else if (yy > b0){
-							worldObj.setBlockToAir(xx,yy,zz);
-						}
-						else if (dist>((portalSize-1)-0.5D)*((portalSize-1)-0.5D)){
-							worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
-						}
-						else{
-							worldObj.setBlock(xx,yy,zz,Blocks.end_portal);
-						}
+						else if (yy > bottomY)worldObj.setBlockToAir(xx,yy,zz);
+						else if (dist > ((portalSize-1)-0.5D)*((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
+						else worldObj.setBlock(xx,yy,zz,Blocks.end_portal);
 					}
 				}
 			}
 		}
 
-		worldObj.setBlock(x,b0+0,z,Blocks.bedrock);
-		worldObj.setBlock(x,b0+1,z,Blocks.bedrock);
-		worldObj.setBlock(x,b0+2,z,Blocks.bedrock);
-		worldObj.setBlock(x-1,b0+2,z,Blocks.torch);
-		worldObj.setBlock(x+1,b0+2,z,Blocks.torch);
-		worldObj.setBlock(x,b0+2,z-1,Blocks.torch);
-		worldObj.setBlock(x,b0+2,z+1,Blocks.torch);
-		worldObj.setBlock(x,b0+3,z,Blocks.bedrock);
-		worldObj.setBlock(x,b0+4,z,Blocks.dragon_egg);
+		worldObj.setBlock(x,bottomY,z,Blocks.bedrock);
+		worldObj.setBlock(x,bottomY+1,z,Blocks.bedrock);
+		worldObj.setBlock(x,bottomY+2,z,Blocks.bedrock);
+		worldObj.setBlock(x-1,bottomY+2,z,Blocks.torch);
+		worldObj.setBlock(x+1,bottomY+2,z,Blocks.torch);
+		worldObj.setBlock(x,bottomY+2,z-1,Blocks.torch);
+		worldObj.setBlock(x,bottomY+2,z+1,Blocks.torch);
+		worldObj.setBlock(x,bottomY+3,z,Blocks.bedrock);
+		worldObj.setBlock(x,bottomY+4,z,Blocks.dragon_egg);
 		BlockEndPortal.field_149948_a = false;
 		
-		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,b0+4,z); // CHANGED LINE
+		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,bottomY+4,z);
 	}
 	
-	// CHANGE
 	public void trySetTarget(Entity entity){
 		if (entity != null && entity.isDead && (DragonAttackManager.nocreative && entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode))return;
 		forceNewTarget = false;
@@ -861,31 +781,31 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
+		 
 		setAngry(nbt.getBoolean("angry"));
 		nextAttackTicks = nbt.getShort("nat");
 		deathTicks = nbt.getShort("dth");
+		spawnCooldown = nbt.hasKey("nat") ? 50 : 140;
 		
 		attacks.readFromNBT(nbt.getCompoundTag("att"));
 		rewards.readFromNBT(nbt.getCompoundTag("rwr"));
 		achievements.readFromNBT(nbt.getCompoundTag("acv"));
-
-		spawnCooldown = 60;
 	}
 
 	public void setAngry(boolean angry){
-		dataWatcher.updateObject(DATA_ANGRY,Byte.valueOf(angry ? (byte)1 : (byte)0));
+		dataWatcher.updateObject(17,Byte.valueOf(angry ? (byte)1 : (byte)0));
 	}
 
 	public boolean isAngry(){
-		return (dataWatcher.getWatchableObjectByte(DATA_ANGRY)&1) != 0;
+		return (dataWatcher.getWatchableObjectByte(17)&1) != 0;
 	}
 
 	public void setDifficulty(int diff){
-		dataWatcher.updateObject(DATA_DIFFICULTY,(byte)diff);
+		dataWatcher.updateObject(18,(byte)diff);
 	}
 
 	public int getDifficulty(){
-		return dataWatcher.getWatchableObjectByte(DATA_DIFFICULTY);
+		return dataWatcher.getWatchableObjectByte(18);
 	}
 
 	public int getWorldDifficulty(){
@@ -893,13 +813,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 	}
 
 	public void setWingSpeed(float wingSpeed){
-		dataWatcher.updateObject(DATA_WINGSPEED,wingSpeed);
+		dataWatcher.updateObject(19,wingSpeed);
 	}
 
 	public float getWingSpeed(){
-		return dataWatcher.getWatchableObjectFloat(DATA_WINGSPEED);
+		return dataWatcher.getWatchableObjectFloat(19);
 	}
-	// END
 
 	@Override
 	protected void despawnEntity(){}
@@ -931,6 +850,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 
 	@Override
 	protected float getSoundVolume(){
-		return angryStatus ? 6.5F : 5F; // CHANGED LINE
+		return angryStatus ? 6.5F : 5F;
 	}
 }

@@ -207,7 +207,7 @@ public class EntityMobAngryEnderman extends EntityMob{
 		else{
 			setScreaming(true);
 			
-			if (source instanceof EntityDamageSourceIndirect && entityToAttack == null){ // CHANGED LINE
+			if (source instanceof EntityDamageSourceIndirect && entityToAttack == null){
 				for(int attempt = 0; attempt < 64; ++attempt){
 					if (teleportRandomly())return true;
 				}
