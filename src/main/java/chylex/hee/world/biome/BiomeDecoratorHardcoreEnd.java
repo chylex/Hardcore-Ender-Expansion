@@ -44,8 +44,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		double distFromCenter = Math.sqrt(MathUtil.square(chunk_X>>4)+MathUtil.square(chunk_Z>>4))*16D;
 		
 		if (distFromCenter < 120D && randomGenerator.nextInt(5) == 0){
-			int xx = chunk_X+randomGenerator.nextInt(16)+8;
-			int zz = chunk_Z+randomGenerator.nextInt(16)+8;
+			int xx = randX(), zz = randZ();
 			spikeGen.generate(currentWorld,randomGenerator,xx,currentWorld.getTopSolidOrLiquidBlock(xx,zz),zz);
 		}
 		
@@ -62,7 +61,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.timeAverage("WorldGenMeteoroid",64);
 			
 			for(int attempt = 0; attempt < randomGenerator.nextInt(3); attempt++){
-				meteoroidGen.generate(currentWorld,randomGenerator,chunk_X+randomGenerator.nextInt(16)+8,8+randomGenerator.nextInt(112),chunk_Z+randomGenerator.nextInt(16)+8);
+				meteoroidGen.generate(currentWorld,randomGenerator,randX(),8+randomGenerator.nextInt(112),randZ());
 			}
 
 			Stopwatch.finish("WorldGenMeteoroid");
@@ -72,18 +71,19 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.timeAverage("WorldGenEndiumOre",64);
 			
 			for(int attempt = 0; attempt < 180; attempt++){
-				endiumOreGen.generate(currentWorld,randomGenerator,chunk_X+randomGenerator.nextInt(16)+8,10+randomGenerator.nextInt(100),chunk_Z+randomGenerator.nextInt(16)+8);
+				endiumOreGen.generate(currentWorld,randomGenerator,randX(),10+randomGenerator.nextInt(100),randZ());
 			}
 			
 			Stopwatch.finish("WorldGenEndiumOre");
 		}
 		
+		
 		Stopwatch.timeAverage("WorldGenEndPowderOre",64);
 		
 		for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 22 && placed < 4+randomGenerator.nextInt(5); attempt++){
-			xx = chunk_X+randomGenerator.nextInt(16)+8;
+			xx = randX();
 			yy = 35+randomGenerator.nextInt(92);
-			zz = chunk_Z+randomGenerator.nextInt(16)+8;
+			zz = randZ();
 			
 			if (currentWorld.getBlock(xx,yy,zz) == Blocks.end_stone && endPowderOreGen.generate(currentWorld,randomGenerator,xx,yy,zz)){
 				++placed;
@@ -104,5 +104,13 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	protected void generateOres(){
 		MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(currentWorld,randomGenerator,chunk_X,chunk_Z));
 		MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(currentWorld,randomGenerator,chunk_X,chunk_Z));
+	}
+	
+	private int randX(){
+		return chunk_X+randomGenerator.nextInt(16)+8;
+	}
+	
+	private int randZ(){
+		return chunk_Z+randomGenerator.nextInt(16)+8;
 	}
 }

@@ -103,6 +103,10 @@ public class EntityMobLouse extends EntityMob{
 		}
 		
 		if (teleportTimer > 0)--teleportTimer;
+		
+		if (entityToAttack != null && entityToAttack.posY > posY+0.5D && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) <= 1D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
+			jump();
+		}
 	}
 	
 	@Override

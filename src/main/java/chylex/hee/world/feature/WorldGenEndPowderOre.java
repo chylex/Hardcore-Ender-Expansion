@@ -5,7 +5,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
-import chylex.hee.system.logging.Stopwatch;
 
 public class WorldGenEndPowderOre extends WorldGenerator{
 	@Override

@@ -10,11 +10,11 @@ import chylex.hee.block.BlockList;
 public class WorldGenMeteoroid extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		int xx,yy,zz;
+		int xx, yy, zz;
 		
-		for(xx = x-1; xx <= x+1; xx++){
-			for(zz = z-1; zz <= z+1; zz++){
-				for(yy = y-1; yy <= y+1; yy++){
+		for(xx = x-2; xx <= x+2; xx++){
+			for(zz = z-2; zz <= z+2; zz++){
+				for(yy = y-2; yy <= y+2; yy++){
 					if (!canPlaceAt(world,xx,yy,zz))return false;
 				}
 			}
@@ -24,7 +24,7 @@ public class WorldGenMeteoroid extends WorldGenerator{
 		yy = y;
 		zz = z;
 		
-		world.setBlock(xx,yy,zz,BlockList.sphalerite,0,2);
+		world.setBlock(xx,yy,zz,BlockList.sphalerite,1,2);
 		
 		int iteration, attempt, extraIterations = rand.nextInt(15);
 		for(iteration = 0; iteration < 8+extraIterations+rand.nextInt(9); iteration++){
