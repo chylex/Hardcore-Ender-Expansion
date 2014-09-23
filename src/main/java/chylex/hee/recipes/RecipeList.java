@@ -2,6 +2,7 @@ package chylex.hee.recipes;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
@@ -10,6 +11,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
 	public static void addRecipes(){
+		
+		// SHAPED
+		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
 			"DED",
 			'D',Items.diamond, 'E',Items.ender_eye
@@ -19,12 +23,6 @@ public final class RecipeList{
 			"LLL", "BNB", "OOO",
 			'B',Blocks.bookshelf, 'L',Items.leather,
 			'O',Blocks.obsidian, 'N',ItemList.altar_nexus
-		);
-		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.soul_charm),
-			"EEE", "EXE", "EEE",
-			'E',ItemList.ectoplasm,
-			'X',ItemList.enderman_head
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.decomposition_table),
@@ -50,6 +48,17 @@ public final class RecipeList{
 			'P', ItemList.end_powder,
 			'S', ItemList.stardust,
 			'C', Items.compass
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.soul_charm),
+			"EEE", "EXE", "EEE",
+			'E', ItemList.ectoplasm,
+			'X', ItemList.enderman_head
+		);
+		
+		GameRegistry.addShapelessRecipe(
+			new ItemStack(ItemList.corporeal_mirage_orb),
+			ItemList.instability_orb,ItemList.ectoplasm
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.spectral_wand),
@@ -84,7 +93,7 @@ public final class RecipeList{
 			"XXX", "XXX", "XXX",
 			'X', ItemList.dry_splinter
 		);
-		
+
 		GameRegistry.addShapelessRecipe(new ItemStack(BlockList.spooky_leaves),
 			ItemList.dry_splinter, Blocks.deadbush, Blocks.sand
 		);
@@ -93,6 +102,15 @@ public final class RecipeList{
 			"FFF", "FPF", "FFF",
 			'F', ItemList.fire_shard,
 			'P', Items.golden_pickaxe
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.endium_block),
+			"XXX", "XXX", "XXX",
+			'X', ItemList.endium_ingot
+		);
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.endium_ingot,9),
+			BlockList.endium_block
 		);
 		
 		for(int a = 0; a < 14; a++){
@@ -117,10 +135,9 @@ public final class RecipeList{
 			ItemList.enhanced_ender_pearl,Items.blaze_powder
 		);
 		
-		GameRegistry.addShapelessRecipe(
-			new ItemStack(ItemList.corporeal_mirage_orb),
-			ItemList.instability_orb,ItemList.ectoplasm
-		);
+		// SMELTING
+		
+		FurnaceRecipes.smelting().func_151393_a(BlockList.endium_ore,new ItemStack(ItemList.endium_ingot),0.9F);
 	}
 	
 	private RecipeList(){}

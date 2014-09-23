@@ -223,12 +223,12 @@ public class EntityMobAngryEnderman extends EntityMob{
 	}
 
 	public void setScreaming(boolean isScreaming){
-		dataWatcher.updateObject(18,Byte.valueOf((byte)(isScreaming?1:0)));
+		dataWatcher.updateObject(18,Byte.valueOf((byte)(isScreaming ? 1 : 0)));
 	}
 	
 	@Override
 	protected boolean isValidLightLevel(){
-		return worldObj.provider.dimensionId == 1?true:super.isValidLightLevel();
+		return worldObj.provider.dimensionId == 1 ? true : super.isValidLightLevel();
 	}
 	
 	public void setCanDespawn(boolean canDespawn){

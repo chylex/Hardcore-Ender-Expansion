@@ -5,9 +5,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCompressed;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -67,6 +69,7 @@ public final class BlockList{
 	// ORES
 	
 	public static Block end_powder_ore;
+	public static Block endium_ore;
 	public static Block stardust_ore;
 	public static Block igneous_rock_ore;
 	public static Block instability_orb_ore;
@@ -82,6 +85,7 @@ public final class BlockList{
 	
 	// OPAQUE BLOCKS
 	
+	public static Block endium_block;
 	public static Block spooky_log;
 	public static Block spooky_leaves;
 	
@@ -124,6 +128,8 @@ public final class BlockList{
 		register("cinder", cinder = new BlockBasic(Material.rock).setHardness(1F).setResistance(10F).setStepSound(Block.soundTypeStone).setBlockName("cinder").setBlockTextureName("hardcoreenderexpansion:cinder"));
 		
 		register("end_powder_ore", end_powder_ore = new BlockEndPowderOre().setHardness(3F).setResistance(12F).setStepSound(Block.soundTypeStone).setBlockName("endPowderOre").setBlockTextureName("hardcoreenderexpansion:end_powder_ore"));
+		register("endium_ore", endium_ore = new BlockEndiumOre().setHardness(18F).setResistance(100F).setStepSound(Block.soundTypeStone).setBlockName("endiumOre").setBlockTextureName("hardcoreenderexpansion:endium_ore"));
+		register("endium_block", endium_block = new BlockCompressed(MapColor.pinkColor).setHardness(14F).setResistance(800F).setStepSound(Block.soundTypeMetal).setBlockName("endiumBlock").setBlockTextureName("hardcoreenderexpansion:endium_block"));
 		register("stardust_ore", stardust_ore = new BlockStardustOre().setHardness(7F).setResistance(4F).setStepSound(Block.soundTypeStone).setBlockName("stardustOre").setBlockTextureName("hardcoreenderexpansion:stardust_ore"));
 		register("igneous_rock_ore", igneous_rock_ore = new BlockIgneousRockOre().setHardness(2F).setResistance(5F).setStepSound(Block.soundTypeStone).setBlockName("igneousRockOre").setBlockTextureName("hardcoreenderexpansion:igneous_rock_ore"));
 		register("instability_orb_ore", instability_orb_ore = new BlockInstabilityOrbOre().setHardness(5.5F).setResistance(3F).setStepSound(Block.soundTypeStone).setBlockName("instabilityOrbOre").setBlockTextureName("hardcoreenderexpansion:instability_orb_ore"));

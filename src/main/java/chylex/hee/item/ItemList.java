@@ -34,6 +34,7 @@ public final class ItemList{
 	// BASIC MATERIALS
 	
 	public static Item end_powder;
+	public static Item endium_ingot;
 	public static Item stardust;
 	public static Item igneous_rock;
 	public static Item instability_orb;
@@ -84,6 +85,7 @@ public final class ItemList{
 		register("knowledge_note", knowledge_note = new ItemKnowledgeNote().setMaxStackSize(1).setUnlocalizedName("knowledgeNote").setTextureName("hardcoreenderexpansion:knowledge_fragment"));
 		
 		register("end_powder", end_powder = new ItemEndPowder().setUnlocalizedName("endPowder").setTextureName("hardcoreenderexpansion:end_powder"));
+		register("endium_ingot", endium_ingot = new Item().setUnlocalizedName("endiumIngot").setTextureName("hardcoreenderexpansion:endium_ingot"));
 		register("stardust", stardust = new Item().setUnlocalizedName("stardust").setTextureName("hardcoreenderexpansion:stardust"));
 		register("igneous_rock", igneous_rock = new ItemIgneousRock().setUnlocalizedName("igneousRock").setTextureName("hardcoreenderexpansion:igneous_rock"));
 		register("instability_orb", instability_orb = new ItemInstabilityOrb().setUnlocalizedName("instabilityOrb").setTextureName("hardcoreenderexpansion:instability_orb"));
