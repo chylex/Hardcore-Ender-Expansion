@@ -780,6 +780,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData,I
 		worldObj.setBlock(x,b0+3,z,Blocks.bedrock);
 		worldObj.setBlock(x,b0+4,z,Blocks.dragon_egg);
 		BlockEndPortal.field_149948_a = false;
+		
+		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,b0+4,z); // CHANGED LINE
 	}
 	
 	// CHANGE

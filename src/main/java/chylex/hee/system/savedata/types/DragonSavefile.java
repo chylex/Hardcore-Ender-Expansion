@@ -18,6 +18,7 @@ import chylex.hee.system.util.DragonUtil;
 public class DragonSavefile extends WorldSavefile{
 	private Map<String,ChunkCoordinates> crystals = new HashMap<>();
 	private Set<UUID> templePlayers = new HashSet<>();
+	private ChunkCoordinates portalEggLocation = new ChunkCoordinates(0,100,0);
 	private boolean isDragonDead;
 	private boolean hasDragonTicked;
 	private int dragonDeathCount;
@@ -109,6 +110,10 @@ public class DragonSavefile extends WorldSavefile{
 	public boolean shouldDestroyEnd(){
 		return shouldDestroyEnd;
 	}
+	
+	public ChunkCoordinates getPortalEggLocation(){
+		return portalEggLocation;
+	}
 
 	@Override
 	protected void onSave(NBTTagCompound nbt){
@@ -117,6 +122,7 @@ public class DragonSavefile extends WorldSavefile{
 		nbt.setBoolean("dragonTicked",hasDragonTicked);
 		nbt.setBoolean("noTempleDestruct",preventTempleDestruction);
 		nbt.setBoolean("destroyEnd",shouldDestroyEnd);
+		nbt.setIntArray("portalCoords",new int[]{ portalEggLocation.posX, portalEggLocation.posY, portalEggLocation.posZ });
 		
 		NBTTagCompound tagCrystals = new NBTTagCompound();
 		for(Entry<String,ChunkCoordinates> entry:crystals.entrySet()){
@@ -137,6 +143,9 @@ public class DragonSavefile extends WorldSavefile{
 		hasDragonTicked = nbt.getBoolean("dragonTicked");
 		preventTempleDestruction = nbt.getBoolean("noTempleDestruct");
 		shouldDestroyEnd = nbt.getBoolean("destroyEnd");
+		
+		int[] portalCoords = nbt.getIntArray("portalCoords");
+		if (portalCoords.length == 3)portalEggLocation.set(portalCoords[0],portalCoords[1],portalCoords[2]);
 		
 		NBTTagCompound tagCrystals = nbt.getCompoundTag("crystals");
 		for(Object o:tagCrystals.func_150296_c()){

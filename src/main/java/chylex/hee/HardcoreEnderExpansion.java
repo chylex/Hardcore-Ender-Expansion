@@ -18,6 +18,7 @@ import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.item.EntityItemAltar;
+import chylex.hee.entity.item.EntityItemDragonEgg;
 import chylex.hee.entity.item.EntityItemEndPowder;
 import chylex.hee.entity.item.EntityItemIgneousRock;
 import chylex.hee.entity.item.EntityItemInstabilityOrb;
@@ -46,6 +47,7 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.item.ItemList;
+import chylex.hee.item.block.ItemBlockDragonEgg;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
@@ -130,7 +132,7 @@ public class HardcoreEnderExpansion{
 		
 		// BLOCKS
 		
-		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, BlockDragonEggCustom.class);
+		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, BlockDragonEggCustom.class, ItemBlockDragonEgg.class);
 		BlockList.registerBlocks();
 		
 		BlockList.obsidian_falling.setHarvestLevel("pickaxe", 3);
@@ -191,7 +193,8 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityItemIgneousRock.class, "ItemIgneousRock", 9, this, 64, 1, true);
 		EntityRegistry.registerModEntity(EntityItemInstabilityOrb.class, "ItemInstabilityOrb", 6, this, 64, 1, true);
 		EntityRegistry.registerModEntity(EntityItemAltar.class, "ItemAltar", 19, this, 128, 1, false);
-		EntityRegistry.registerModEntity(EntityItemEndPowder.class, "ItemEndPowder", 27, this, 64 ,1, true);
+		EntityRegistry.registerModEntity(EntityItemEndPowder.class, "ItemEndPowder", 27, this, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityItemDragonEgg.class, "ItemDragonEgg", 37, this, 64, 1, true);
 		
 		EntityRegistry.registerModEntity(EntityProjectileDragonFireball.class, "ProjectileDragonFireball", 2, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileDragonFreezeball.class, "ProjectileDragonFreezeball", 3, this, 128, 1, true);
@@ -205,7 +208,7 @@ public class HardcoreEnderExpansion{
 
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltSafe.class, "LightningBoltSafe", 4, this, 512, 1, false);
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, this, 512, 1, false);
-		// last: 36
+		// last: 37
 
 		// TILE ENTITIES
 
