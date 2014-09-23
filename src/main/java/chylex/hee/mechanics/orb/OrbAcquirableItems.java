@@ -28,7 +28,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public final class OrbAcquirableItems{
 	public static boolean overrideRemoveBrokenRecipes = false;
 	public static final WeightedItemList idList = new WeightedItemList();
-	private static final String errorMessage = "Hardcore Ender Expansion has found a defective recipe and cannot proceed! Another mod is likely registering a recipe BEFORE registering blocks and items, which is considered a serious error! Please, remove other mods until this message stops appearing to find which mod causes the issue, and then report it to that mod's author. You can also enable logDebuggingInfo in config to pinpoint the exact issue better.";
+	private static final String errorMessage = "Hardcore Ender Expansion has found a defective recipe and cannot proceed! Another mod is likely registering a recipe BEFORE registering blocks and items, which is considered a serious error that may cause you to lose your items or your world when crafting. Please, remove other mods until this message stops appearing to find which mod causes the issue, and then report it to that mod's author. You can enable logDebuggingInfo in config to get complete list of recipes in the game, search for 'Previous entry caused an exception!' and report the broken recipes.";
 	
 	public static void initialize(){
 		Stopwatch.time("OrbAcquirableItems");

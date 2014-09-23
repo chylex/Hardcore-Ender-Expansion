@@ -11,9 +11,11 @@ import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.system.integration.IIntegrationHandler;
+import codechicken.nei.LayoutManager;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.guihook.IContainerInputHandler;
+import codechicken.nei.recipe.GuiRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
@@ -65,7 +67,8 @@ public class NotEnoughItemsIntegration implements IIntegrationHandler{
 			@Override
 			public boolean mouseClicked(GuiContainer gui, int mouseX, int mouseY, int button){
 				if (button == 0 || button == 1){
-					return handleItemStack(GuiContainerManager.getStackMouseOver(gui));
+					if (gui instanceof GuiRecipe)return handleItemStack(GuiContainerManager.getStackMouseOver(gui));
+					else return handleItemStack(LayoutManager.itemPanel.getStackMouseOver(mouseX,mouseY));
 				}
 				else return false;
 			}
