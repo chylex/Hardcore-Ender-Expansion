@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.util.MathUtil;
 
 public class WorldGenMeteoroid extends WorldGenerator{
 	@Override
@@ -20,37 +21,33 @@ public class WorldGenMeteoroid extends WorldGenerator{
 			}
 		}
 		
-		xx = x;
-		yy = y;
-		zz = z;
+		world.setBlock(x,y,z,BlockList.sphalerite,1,2);
 		
-		world.setBlock(xx,yy,zz,BlockList.sphalerite,1,2);
+		double dx, dy, dz, angH, angHCos, angHSin, angVCos, rad = 3.5D+rand.nextDouble()*3.2D;
+		float fillFactor = 0.4F+rand.nextFloat()*0.35F, stardustChance = 0.12F+rand.nextFloat()*rand.nextFloat()*0.15F;
 		
-		int iteration, attempt, extraIterations = rand.nextInt(15);
-		for(iteration = 0; iteration < 8+extraIterations+rand.nextInt(9); iteration++){
-			for(attempt = 0; attempt < rand.nextInt(12); attempt++){
-				xx += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
-				yy += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
-				zz += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
-				
-				if (canPlaceAt(world,xx,yy,zz) && checkBoundaries(x,y,z,xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.sphalerite,0,2);
-			}
+		for(int attempt = 0, maxAttempts = 20+(int)(rad+rad*rad*6), block, lineBlocks = (int)Math.ceil(rad/0.7D); attempt < maxAttempts; attempt++){
+			dx = x+0.5D;
+			dy = y+0.5D;
+			dz = z+0.5D;
+			angH = rand.nextDouble()*Math.PI*2D;
+			angHCos = Math.cos(angH)*0.7D;
+			angHSin = Math.sin(angH)*0.7D;
+			angVCos = Math.cos(rand.nextDouble()*Math.PI*2D)*0.7D;
 			
-			if (rand.nextBoolean()){
-				for(attempt = 0; attempt < 1+rand.nextInt(3); attempt++){
-					xx += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
-					yy += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
-					zz += rand.nextInt(3) == 0 ? rand.nextInt(3)-1 : 0;
-					
-					if (canPlaceAt(world,xx,yy,zz) && checkBoundaries(x,y,z,xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.sphalerite,1,2);
+			for(block = 0; block < lineBlocks; block++){
+				if (rand.nextFloat() >= fillFactor)continue;
+				
+				xx = (int)(dx += angHCos);
+				yy = (int)(dy += angVCos);
+				zz = (int)(dz += angHSin);
+				
+				if (canPlaceAt(world,xx,yy,zz) && MathUtil.distance(dx-x,dy-y,dz-z) <= rad){
+					world.setBlock(xx,yy,zz,BlockList.sphalerite,rand.nextFloat() < stardustChance ? 1 : 0,2);
 				}
 			}
-			
-			xx = x+(2*rand.nextInt(2))-1;
-			yy = y+(2*rand.nextInt(2))-1;
-			zz = z+(2*rand.nextInt(2))-1;
 		}
-		
+
 		return true;
 	}
 	
