@@ -5,12 +5,13 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.system.logging.Log;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.WorldGenBlob;
 import chylex.hee.world.feature.WorldGenEndPowderOre;
+import chylex.hee.world.feature.WorldGenEndiumOre;
 import chylex.hee.world.feature.WorldGenMeteoroid;
 import chylex.hee.world.feature.WorldGenSpikes;
 
@@ -18,12 +19,14 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	private final WorldGenBlob blobGen;
 	private final WorldGenMeteoroid meteoroidGen;
 	private final WorldGenEndPowderOre endPowderOreGen;
+	private final WorldGenEndiumOre endiumOreGen;
 	
 	public BiomeDecoratorHardcoreEnd(){
 		spikeGen = new WorldGenSpikes();
 		blobGen = new WorldGenBlob();
 		meteoroidGen = new WorldGenMeteoroid();
 		endPowderOreGen = new WorldGenEndPowderOre();
+		endiumOreGen = new WorldGenEndiumOre();
 	}
 	
 	@Override
@@ -47,29 +50,47 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		}
 		
 		if (distFromCenter > 102D && Math.abs(randomGenerator.nextGaussian()) < 0.285D){
+			Stopwatch.timeAverage("WorldGenBlob",64);
+			
 			blobGen.prepare(chunk_X+8,chunk_Z+8);
 			blobGen.generate(currentWorld,randomGenerator,chunk_X+randomGenerator.nextInt(10)+11,32+randomGenerator.nextInt(60),chunk_Z+randomGenerator.nextInt(10)+11);
+			
+			Stopwatch.finish("WorldGenBlob");
 		}
 		
 		if (distFromCenter > 1280D && randomGenerator.nextFloat()*randomGenerator.nextFloat() > 0.666F && randomGenerator.nextFloat() < 0.1F+(distFromCenter/15000D)){
-			for(int a = 0; a < randomGenerator.nextInt(3); a++){
+			Stopwatch.timeAverage("WorldGenMeteoroid",64);
+			
+			for(int attempt = 0; attempt < randomGenerator.nextInt(3); attempt++){
 				meteoroidGen.generate(currentWorld,randomGenerator,chunk_X+randomGenerator.nextInt(16)+8,8+randomGenerator.nextInt(112),chunk_Z+randomGenerator.nextInt(16)+8);
+			}
+
+			Stopwatch.finish("WorldGenMeteoroid");
+		}
+		
+		if (distFromCenter > 500D && randomGenerator.nextInt(1+randomGenerator.nextInt(2)+(int)Math.floor(Math.max((25500D-distFromCenter)/1700D,0))) == 0){
+			Stopwatch.timeAverage("WorldGenEndiumOre",64);
+			
+			for(int attempt = 0; attempt < 180; attempt++){
+				endiumOreGen.generate(currentWorld,randomGenerator,chunk_X+randomGenerator.nextInt(16)+8,10+randomGenerator.nextInt(100),chunk_Z+randomGenerator.nextInt(16)+8);
+			}
+			
+			Stopwatch.finish("WorldGenEndiumOre");
+		}
+		
+		Stopwatch.timeAverage("WorldGenEndPowderOre",64);
+		
+		for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 22 && placed < 4+randomGenerator.nextInt(5); attempt++){
+			xx = chunk_X+randomGenerator.nextInt(16)+8;
+			yy = 35+randomGenerator.nextInt(92);
+			zz = chunk_Z+randomGenerator.nextInt(16)+8;
+			
+			if (currentWorld.getBlock(xx,yy,zz) == Blocks.end_stone && endPowderOreGen.generate(currentWorld,randomGenerator,xx,yy,zz)){
+				++placed;
 			}
 		}
 		
-		try{
-			for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 22 && placed < 4+randomGenerator.nextInt(5); attempt++){
-				xx = chunk_X+randomGenerator.nextInt(16);
-				yy = 35+randomGenerator.nextInt(92);
-				zz = chunk_Z+randomGenerator.nextInt(16);
-				
-				if (currentWorld.getBlock(xx,yy,zz) == Blocks.end_stone && endPowderOreGen.generate(currentWorld,randomGenerator,xx,yy,zz)){
-					++placed;
-				}
-			}
-		}catch(Exception e){
-			Log.error("End Powder Ore generation failed.");
-		}
+		Stopwatch.finish("WorldGenEndPowderOre");
 
 		if (chunk_X == 0 && chunk_Z == 0){
 			EntityBossDragon dragon = new EntityBossDragon(currentWorld);

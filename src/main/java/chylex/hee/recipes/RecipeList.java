@@ -26,28 +26,29 @@ public final class RecipeList{
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.decomposition_table),
-			"PBP", "SRS", "III",
+			"PBP", "SRS", "INI",
 			'P', ItemList.end_powder,
 			'B', Blocks.iron_bars,
 			'S', Blocks.stone,
 			'R', ItemList.igneous_rock,
+			'N', BlockList.endium_block,
 			'I', Blocks.iron_block
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.energy_extraction_table),
-			"PBP", "SES", "III",
+			"PBP", "SES", "INI",
 			'P', ItemList.end_powder,
 			'B', Blocks.iron_bars,
 			'S', Blocks.stone,
 			'E', ItemList.ectoplasm,
+			'N', BlockList.endium_block,
 			'I', Blocks.iron_block
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.biome_compass),
-			"PSP", "SCS", "PSP",
-			'P', ItemList.end_powder,
-			'S', ItemList.stardust,
-			'C', Items.compass
+			" N ", "NSN", " N ",
+			'N', ItemList.endium_ingot,
+			'S', ItemList.stardust
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.soul_charm),

@@ -10,22 +10,20 @@ import chylex.hee.system.logging.Stopwatch;
 public class WorldGenEndPowderOre extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		Stopwatch.timeAverage("WorldGenEndPowderOre",64);
-		
 		int blockAmount = rand.nextInt(4)+4;
 		
 		float randomAngle = rand.nextFloat()*(float)Math.PI;
-		double d0 = ((x+4)+MathHelper.sin(randomAngle)*blockAmount);
-		double d1 = ((x+4)-MathHelper.sin(randomAngle)*blockAmount);
-		double d2 = ((z+4)+MathHelper.cos(randomAngle)*blockAmount);
-		double d3 = ((z+4)-MathHelper.cos(randomAngle)*blockAmount);
-		double d4 = (y+rand.nextInt(8)-4);
-		double d5 = (y+rand.nextInt(8)-4);
+		double genStartX = (x+MathHelper.sin(randomAngle)*blockAmount);
+		double genEndX = (x-MathHelper.sin(randomAngle)*blockAmount);
+		double genStartZ = (z+MathHelper.cos(randomAngle)*blockAmount);
+		double genEndZ = (z-MathHelper.cos(randomAngle)*blockAmount);
+		double genStartY = (y+rand.nextInt(8)-4);
+		double genEndY = (y+rand.nextInt(8)-4);
 
 		for(int a = 0, placed = 0; a <= blockAmount; ++a){
-			double centerX = d0+(d1-d0)*a/blockAmount;
-			double centerY = d4+(d5-d4)*a/blockAmount;
-			double centerZ = d2+(d3-d2)*a/blockAmount;
+			double centerX = genStartX+(genEndX-genStartX)*a/blockAmount;
+			double centerY = genStartY+(genEndY-genStartY)*a/blockAmount;
+			double centerZ = genStartZ+(genEndZ-genStartZ)*a/blockAmount;
 			double maxDist = rand.nextDouble()*blockAmount/2D;
 			double area = (MathHelper.sin(a*(float)Math.PI/blockAmount)+1F)*maxDist+1D;
 			
@@ -57,8 +55,6 @@ public class WorldGenEndPowderOre extends WorldGenerator{
 				}
 			}
 		}
-		
-		Stopwatch.finish("WorldGenEndPowderOre");
 		
 		return true;
 	}

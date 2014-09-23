@@ -10,7 +10,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.blobs.CavePopulator;
 import chylex.hee.world.feature.blobs.FlowerPopulator;
@@ -50,8 +49,6 @@ public class WorldGenBlob extends WorldGenerator{
 			world.getBlock(x,y,z+8) != Blocks.air ||
 			world.getBlock(x,y-8,z) != Blocks.air ||
 			world.getBlock(x,y+8,z) != Blocks.air)return false;
-		
-		Stopwatch.timeAverage("WorldGenBlob",64);
 
 		WorldGeneratorBlockList blocks = new WorldGeneratorBlockList(world);
 		float rad = rand.nextFloat()*0.8F+rand.nextFloat()*1.9F+1.95F;
@@ -92,8 +89,6 @@ public class WorldGenBlob extends WorldGenerator{
 				}
 			}
 		}
-		
-		Stopwatch.finish("WorldGenBlob");
 		
 		return true;
 	}

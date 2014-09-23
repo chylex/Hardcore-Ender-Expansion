@@ -1,18 +1,15 @@
 package chylex.hee.world.feature;
 import java.util.Random;
-import chylex.hee.block.BlockList;
-import chylex.hee.system.logging.Stopwatch;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import chylex.hee.block.BlockList;
 
 public class WorldGenMeteoroid extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		Stopwatch.timeAverage("WorldGenMeteoroid",64);
-		
 		int xx,yy,zz;
 		
 		for(xx = x-1; xx <= x+1; xx++){
@@ -53,8 +50,6 @@ public class WorldGenMeteoroid extends WorldGenerator{
 			yy = y+(2*rand.nextInt(2))-1;
 			zz = z+(2*rand.nextInt(2))-1;
 		}
-
-		Stopwatch.finish("WorldGenMeteoroid");
 		
 		return true;
 	}
