@@ -11,7 +11,6 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.stats.IStatStringFormat;
-import net.minecraft.util.ChatComponentText;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
@@ -84,14 +83,12 @@ import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.sound.MusicManager;
-import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ModClientProxy extends ModCommonProxy{
 	public static final ModelEndermanHeadBiped endermanHeadModelBiped = new ModelEndermanHeadBiped();
@@ -174,7 +171,6 @@ public class ModClientProxy extends ModCommonProxy{
 	public void registerSidedEvents(){
 		ReflectionPublicizer.loadClient();
 		
-		FMLCommonHandler.instance().bus().register(new UpdateNotificationManager());
 		CompendiumEventsClient.register();
 		OverlayManager.register();
 		TeleportParticleTickEvent.register();
@@ -197,10 +193,5 @@ public class ModClientProxy extends ModCommonProxy{
 	public void openGui(String type){
 		if (type.equals("itemviewer"))Minecraft.getMinecraft().displayGuiScreen(new GuiItemViewer());
 		else if (type.equals("speedup"))Minecraft.getMinecraft().thePlayer.capabilities.setFlySpeed(0.3F);
-	}
-	
-	@Override
-	public void reportLogException(String message){
-		if (Minecraft.getMinecraft().thePlayer != null)Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(message));
 	}
 }

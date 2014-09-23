@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.logging.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -84,7 +83,7 @@ class UpdateThread extends Thread{
 				message.append("\n\n ").append(EnumChatFormatting.GRAY).append("http://tinyurl.com/hc-ender-expansion");
 				
 				for(String s:message.toString().split("\n")){
-					Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(s));
+					HardcoreEnderExpansion.notifications.report(s);
 				}
 			}
 			else if (newestVersion != newestVersionForCurrentMC){
@@ -95,10 +94,11 @@ class UpdateThread extends Thread{
 					.append(".");
 				
 				for(String s:message.toString().split("\n")){
-					Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(s));
+					HardcoreEnderExpansion.notifications.report(s);
 				}
 			}
 		}catch(Exception e){
+			// TODO dont report in case connection is out or something
 			Log.throwable(e,"Error detecting updates!");
 		}
 	}

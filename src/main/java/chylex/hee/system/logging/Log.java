@@ -1,6 +1,8 @@
 package chylex.hee.system.logging;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.launchwrapper.Launch;
@@ -17,6 +19,7 @@ public final class Log{
 	
 	public static boolean forceDebugEnabled;
 	private static boolean isDeobfEnvironment;
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 	private static long lastLogReport = -1;
 	
 	static{
@@ -62,7 +65,7 @@ public final class Log{
 		logger.catching(Level.ERROR,throwable);
 		logger.error(getMessage(message,data));
 		
-		if (lastLogReport == -1 || TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-lastLogReport) >= 10)HardcoreEnderExpansion.proxy.reportLogException("[Hardcore Ender Expansion] "+message+" Check the log for stack trace to report.");
+		if (lastLogReport == -1 || TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-lastLogReport) >= 10)HardcoreEnderExpansion.notifications.report("["+dateFormat.format(Calendar.getInstance().getTime())+"] "+message+" Check the log for stack trace to report.");
 		lastLogReport = System.nanoTime();
 	}
 	

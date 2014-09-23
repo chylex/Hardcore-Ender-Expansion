@@ -59,6 +59,7 @@ import chylex.hee.mechanics.temple.TempleEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.FXCommonProxy;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.proxy.NotificationCommonProxy;
 import chylex.hee.recipes.RecipeList;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.ReflectionPublicizer;
@@ -70,6 +71,7 @@ import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
@@ -83,6 +85,7 @@ import chylex.hee.tileentity.TileEntityLaserBeam;
 import chylex.hee.tileentity.TileEntitySoulCharm;
 import chylex.hee.world.DimensionOverride;
 import chylex.hee.world.loot.WorldLoot;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -106,6 +109,9 @@ public class HardcoreEnderExpansion{
 	
 	@SidedProxy(clientSide = "chylex.hee.proxy.FXClientProxy", serverSide = "chylex.hee.proxy.FXCommonProxy")
 	public static FXCommonProxy fx;
+	
+	@SidedProxy(clientSide = "chylex.hee.proxy.NotificationCommonProxy", serverSide = "chylex.hee.proxy.NotificationClientProxy")
+	public static NotificationCommonProxy notifications;
 	
 	public static String modVersion;
 	public static String configPath;
@@ -231,6 +237,7 @@ public class HardcoreEnderExpansion{
 		// FORGE AND FML
 		
 		MinecraftForge.EVENT_BUS.register(new MiscEvents());
+		FMLCommonHandler.instance().bus().register(new UpdateNotificationManager());
 		CompendiumEvents.register();
 		TempleEvents.register();
 		InfestationEvents.register();
@@ -239,6 +246,7 @@ public class HardcoreEnderExpansion{
 		
 		proxy.registerSidedEvents();
 		proxy.registerRenderers();
+		notifications.register();
 		
 		Stopwatch.finish("PreInitEvent");
 	}
