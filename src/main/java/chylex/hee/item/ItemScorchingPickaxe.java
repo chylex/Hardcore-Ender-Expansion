@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
+import chylex.hee.block.BlockList;
 import com.google.common.collect.ImmutableSet;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -71,12 +72,13 @@ public class ItemScorchingPickaxe extends Item{
 	@Override
 	public float getDigSpeed(ItemStack stack, Block block, int meta){
 		if (isBlockValid(block))return 8F;
+		else if (block == BlockList.ravaged_brick)return 16F;
 		else return super.getDigSpeed(stack,block,meta);
 	}
 	
 	@Override
 	public boolean canHarvestBlock(Block block, ItemStack is){
-		return isBlockValid(block);
+		return isBlockValid(block) || block == BlockList.ravaged_brick;
 	}
 
 	@Override

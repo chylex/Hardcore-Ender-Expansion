@@ -23,6 +23,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		super(biomeID);
 		
 		contentVariations.add(HOMELAND);
+		contentVariations.add(LABORATORY);
 		
 		randomDeviations.add(TALL_PILES);
 		
@@ -36,6 +37,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	@Override
 	protected void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ){
 		if (data.content == HOMELAND)decorator.genHomeland();
+		else if (data.content == LABORATORY)decorator.genLaboratory();
 	}
 	
 	@Override

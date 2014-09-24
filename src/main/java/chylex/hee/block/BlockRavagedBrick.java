@@ -1,15 +1,18 @@
 package chylex.hee.block;
 import java.util.List;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
+import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 	public static byte metaNormal = 0, metaCracked = 1, metaDamaged1 = 2, metaDamaged2 = 3, metaDamaged3 = 4, metaDamaged4 = 5, metaAmount = 6;
@@ -29,6 +32,19 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 	@Override
 	public int damageDropped(int meta){
 		return meta;
+	}
+	
+	@Override
+	public float getBlockHardness(World world, int x, int y, int z){
+		List<TileEntity> list = world.loadedTileEntityList;
+		
+		for(TileEntity tile:list){
+			if (tile.blockType == BlockList.biome_core){
+				if (MathUtil.distance(x-tile.xCoord,z-tile.zCoord) < 260)return blockHardness*5F;
+			}
+		}
+		
+		return blockHardness;
 	}
 	
 	@Override

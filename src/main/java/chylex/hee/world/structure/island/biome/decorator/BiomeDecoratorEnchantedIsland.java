@@ -68,4 +68,12 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 			if (generateStructure(genRoads))++placed;
 		}
 	}
+	
+	/*
+	 * LABORATORY
+	 */
+	
+	public void genLaboratory(){
+		
+	}
 }
