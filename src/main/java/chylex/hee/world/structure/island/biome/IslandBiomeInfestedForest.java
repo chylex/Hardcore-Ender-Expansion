@@ -29,7 +29,6 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 
 		contentVariations.add(DEEP);
 		contentVariations.add(RAVAGED);
-		// TODO contentVariations.add(RUINS);
 		
 		randomDeviations.add(TALL_TREES);
 		randomDeviations.add(MORE_THORNY_BUSHES);

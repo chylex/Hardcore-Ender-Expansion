@@ -2,6 +2,7 @@ package chylex.hee.system.update;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -103,8 +104,9 @@ class UpdateThread extends Thread{
 				
 				for(String s:message.toString().split("\n"))HardcoreEnderExpansion.notifications.report(s);
 			}
-		}catch(Exception e){
-			// TODO dont report in case connection is out or something
+		}
+		catch(UnknownHostException e){}
+		catch(Exception e){
 			Log.throwable(e,"Error detecting updates!");
 		}
 	}

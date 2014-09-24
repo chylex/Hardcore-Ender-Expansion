@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -21,7 +22,7 @@ public class LargeStructureChunk{
 	private final Map<Integer,String> storedTileEntityClues = new HashMap<>();
 	private final Map<String,ITileEntityGenerator> storedTileEntities = new HashMap<>();
 	
-	private TIntHashSet alreadyGeneratedXZ = new TIntHashSet(256); // TODO save
+	private TIntHashSet alreadyGeneratedXZ = new TIntHashSet(256);
 	
 	public LargeStructureChunk(int x, int z, int ySize){
 		this.x = x;
@@ -111,6 +112,17 @@ public class LargeStructureChunk{
 				continueY = true;
 			}
 		}
+	}
+	
+	public NBTTagCompound saveToNBT(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setIntArray("genXZ",alreadyGeneratedXZ.toArray());
+		return nbt;
+	}
+	
+	public void loadFromNBT(NBTTagCompound nbt){
+		alreadyGeneratedXZ.clear();
+		alreadyGeneratedXZ.addAll(nbt.getIntArray("genXZ"));
 	}
 	
 	public static class Empty extends LargeStructureChunk{

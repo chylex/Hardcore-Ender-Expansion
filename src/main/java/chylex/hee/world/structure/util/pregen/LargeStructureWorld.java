@@ -2,6 +2,7 @@ package chylex.hee.world.structure.util.pregen;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 
 public final class LargeStructureWorld{
@@ -85,5 +86,25 @@ public final class LargeStructureWorld{
 	
 	public void setTileEntityGenerator(int blockX, int blockY, int blockZ, String key, ITileEntityGenerator tileGen){
 		getChunk(blockX,blockZ).addTileEntityGenerator(xInChunk(blockX),blockY,zInChunk(blockZ),key,tileGen);
+	}
+	
+	public NBTTagCompound saveToNBT(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		
+		for(int x = 0; x < chunks.length; x++){
+			for(int z = 0; z < chunks[x].length; z++){
+				nbt.setTag(x+"-"+z,chunks[x][z].saveToNBT());
+			}
+		}
+		
+		return nbt;
+	}
+	
+	public void loadFromNBT(NBTTagCompound nbt){
+		for(int x = 0; x < chunks.length; x++){
+			for(int z = 0; z < chunks[x].length; z++){
+				chunks[x][z].loadFromNBT(nbt.getCompoundTag(x+"-"+z));
+			}
+		}
 	}
 }

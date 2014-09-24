@@ -126,7 +126,7 @@ public final class CharmEvents{
 		
 		if (e.phase == Phase.START){
 			// <IDLE CHECK>
-			CharmPouchInfo info = CharmPouchHandler.getActivePouch(e.player); // TODO test
+			CharmPouchInfo info = CharmPouchHandler.getActivePouch(e.player);
 			if (info.isIdle())CharmPouchHandler.setActivePouch(e.player,null);
 			
 			UUID playerID = e.player.getGameProfile().getId();

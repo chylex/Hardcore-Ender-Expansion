@@ -57,8 +57,6 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 		int centerX = sizeX>>1, centerZ = sizeZ>>1;
 		
 		if (!isSetup){
-			structure = new LargeStructureWorld(this);
-			
 			Random consistentRand = new Random(((startX/9)*238504L+(startZ/9)*10058432215L)^world.getWorldInfo().getSeed());
 			islandBottomY = 6+consistentRand.nextInt(25);
 			biome = IslandBiomeBase.pickRandomBiome(consistentRand);
@@ -279,6 +277,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 		nbt.setInteger("startX",startX);
 		nbt.setInteger("startZ",startZ);
 		nbt.setByte("bottomY",(byte)islandBottomY);
+		nbt.setTag("structure",structure.saveToNBT());
 	}
 
 	@Override
@@ -287,5 +286,7 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 		startX = nbt.getInteger("startX");
 		startZ = nbt.getInteger("startZ");
 		islandBottomY = nbt.getByte("bottomY");
+		
+		(structure = new LargeStructureWorld(this)).loadFromNBT(nbt.getCompoundTag("structure"));
 	}
 }
