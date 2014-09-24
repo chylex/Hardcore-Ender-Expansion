@@ -22,6 +22,7 @@ public class ItemCharmPouch extends Item{
 			if (world.isRemote)CharmPouchHandlerClient.onActivePouchUpdate((EntityPlayer)entity,is);
 			else{
 				CharmPouchInfo pouchInfo = CharmPouchHandler.getActivePouch((EntityPlayer)entity);
+				
 				if (pouchInfo == null || pouchInfo.pouchID != getPouchID(is))is.stackTagCompound.removeTag("isPouchActive");
 				else pouchInfo.update();
 			}

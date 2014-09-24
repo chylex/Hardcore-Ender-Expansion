@@ -10,6 +10,7 @@ final class VersionEntry implements Comparable<VersionEntry>{
 	public final String modVersion;
 	public final String[] mcVersions;
 	public final String releaseDate;
+	public final int buildId;
 	private final Byte orderId;
 	
 	VersionEntry(String versionIdentifier, JsonObject node){
@@ -21,6 +22,7 @@ final class VersionEntry implements Comparable<VersionEntry>{
 		int a = -1;
 		for(JsonElement mcVersionNode:array)mcVersions[++a] = mcVersionNode.getAsString();
 		
+		buildId = node.has("buildId") ? node.get("buildId").getAsInt() : 0;
 		releaseDate = node.get("releaseDate").getAsString();
 		
 		byte i = 0;

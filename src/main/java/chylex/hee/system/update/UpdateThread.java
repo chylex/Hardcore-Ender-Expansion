@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
+import scala.tools.nsc.settings.MutableSettings.EnableSettings;
 import net.minecraft.command.CommandBase;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
@@ -36,8 +37,8 @@ class UpdateThread extends Thread{
 			
 			JsonElement root = new JsonParser().parse(build.toString());
 			List<VersionEntry> versionList = new ArrayList<>();
-			VersionEntry newestVersion = null,newestVersionForCurrentMC = null;
-			int counter = -1;
+			VersionEntry newestVersion = null, newestVersionForCurrentMC = null;
+			int counter = -1, buildId = 0;
 			boolean isInDev = true;
 			
 			Log.debug("Detecting HEE updates...");
@@ -51,6 +52,7 @@ class UpdateThread extends Thread{
 				Log.debug("Reading update data: $0",version.versionIdentifier);
 
 				if (newestVersion == null)newestVersion = version;
+				
 				if (version.isSupportedByMC(mcVersion)){
 					if (newestVersionForCurrentMC == null)newestVersionForCurrentMC = version;
 					++counter;
@@ -58,6 +60,7 @@ class UpdateThread extends Thread{
 				
 				if (version.modVersion.equals(modVersion)){
 					isInDev = false;
+					buildId = version.buildId;
 					break;
 				}
 			}
@@ -68,7 +71,15 @@ class UpdateThread extends Thread{
 			}
 			else Log.debug("Done.");
 			
-			if (counter > 0){
+			if (buildId != HardcoreEnderExpansion.buildId){
+				StringBuilder message = new StringBuilder()
+					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
+					.append("\n Caution, you are using a broken build that can cause critical crashes! Please, redownload the mod, or update it if there is an update available.")
+					.append("\n\n ").append(EnumChatFormatting.GRAY).append("http://tinyurl.com/hc-ender-expansion");
+				
+				for(String s:message.toString().split("\n"))HardcoreEnderExpansion.notifications.report(s);
+			}
+			else if (counter > 0 && UpdateNotificationManager.enableNotifications){
 				StringBuilder message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
 					.append("\n Found a new version ").append(EnumChatFormatting.GREEN).append(newestVersionForCurrentMC.modVersionName).append(EnumChatFormatting.RESET)
@@ -82,20 +93,16 @@ class UpdateThread extends Thread{
 				
 				message.append("\n\n ").append(EnumChatFormatting.GRAY).append("http://tinyurl.com/hc-ender-expansion");
 				
-				for(String s:message.toString().split("\n")){
-					HardcoreEnderExpansion.notifications.report(s);
-				}
+				for(String s:message.toString().split("\n"))HardcoreEnderExpansion.notifications.report(s);
 			}
-			else if (newestVersion != newestVersionForCurrentMC){
+			else if (newestVersion != newestVersionForCurrentMC && UpdateNotificationManager.enableNotifications){
 				StringBuilder message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
 					.append("\n Found a new version ").append(EnumChatFormatting.GREEN).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)
 					.append(" for Minecraft ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append(", released ").append(newestVersion.releaseDate)
 					.append(".");
 				
-				for(String s:message.toString().split("\n")){
-					HardcoreEnderExpansion.notifications.report(s);
-				}
+				for(String s:message.toString().split("\n"))HardcoreEnderExpansion.notifications.report(s);
 			}
 		}catch(Exception e){
 			// TODO dont report in case connection is out or something
