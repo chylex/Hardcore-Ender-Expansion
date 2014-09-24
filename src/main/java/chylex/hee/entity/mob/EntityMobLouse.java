@@ -1,8 +1,10 @@
 package chylex.hee.entity.mob;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -26,7 +28,7 @@ import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.Enu
 public class EntityMobLouse extends EntityMob{
 	private LouseSpawnData louseData;
 	private float armor;
-	private byte armorCapacity,armorRegenTimer,teleportTimer;
+	private byte armorCapacity,armorRegenTimer,regenTimer,healTimer,teleportTimer;
 	
 	public EntityMobLouse(World world){
 		super(world);
@@ -71,6 +73,12 @@ public class EntityMobLouse extends EntityMob{
 		
 		if (attrArmor > 0)armor = armorCapacity = (byte)(8+MathUtil.square(attrArmor)+attrArmor*5);
 		
+		if (attrHealth > 1 && getHealth() < getMaxHealth() && ++regenTimer >= 32-8*attrHealth){
+			setHealth(getHealth()+1);
+			regenTimer = 0;
+			// TODO green particle effect
+		}
+		
 		dataWatcher.updateObject(16,louseData.serializeToString());
 	}
 	
@@ -103,6 +111,24 @@ public class EntityMobLouse extends EntityMob{
 		}
 		
 		if (teleportTimer > 0)--teleportTimer;
+		
+		int healAbility = louseData.ability(EnumLouseAbility.HEAL);
+		
+		if (healAbility > 0 && --healTimer <= 0){
+			healTimer = 25;
+			List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class,boundingBox.expand(5D,1D,5D));
+			
+			if (!list.isEmpty()){
+				for(int attempt = 0, amt = list.size(); attempt < 15; attempt++){
+					EntityLiving entity = list.get(rand.nextInt(amt));
+					
+					if (entity.getHealth() < entity.getMaxHealth()){
+						entity.setHealth(entity.getHealth()+1+2*healAbility);
+						break;
+					}
+				}
+			}
+		}
 		
 		if (entityToAttack != null && entityToAttack.posY > posY+0.5D && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) <= 1D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
 			jump();
@@ -152,6 +178,7 @@ public class EntityMobLouse extends EntityMob{
 			return false;
 		}
 		
+		healTimer = 45;
 		armorRegenTimer = (byte)(100-louseData.attribute(EnumLouseAttribute.ARMOR)*15);
 		
 		if (armor > 0F && hurtResistantTime == 0){
