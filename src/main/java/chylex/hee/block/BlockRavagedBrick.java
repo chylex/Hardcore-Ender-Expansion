@@ -36,6 +36,8 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 	
 	@Override
 	public float getBlockHardness(World world, int x, int y, int z){
+		if (world.provider.dimensionId != 1)return blockHardness;
+		
 		List<TileEntity> list = world.loadedTileEntityList;
 		
 		for(TileEntity tile:list){
