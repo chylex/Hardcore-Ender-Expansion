@@ -125,6 +125,10 @@ public final class CharmEvents{
 		if (e.side != Side.SERVER)return;
 		
 		if (e.phase == Phase.START){
+			// <IDLE CHECK>
+			CharmPouchInfo info = CharmPouchHandler.getActivePouch(e.player); // TODO test
+			if (info.isIdle())CharmPouchHandler.setActivePouch(e.player,null);
+			
 			UUID playerID = e.player.getGameProfile().getId();
 			
 			// BASIC_AGILITY, EQUALITY

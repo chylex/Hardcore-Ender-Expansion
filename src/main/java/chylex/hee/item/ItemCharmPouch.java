@@ -23,6 +23,7 @@ public class ItemCharmPouch extends Item{
 			else{
 				CharmPouchInfo pouchInfo = CharmPouchHandler.getActivePouch((EntityPlayer)entity);
 				if (pouchInfo == null || pouchInfo.pouchID != getPouchID(is))is.stackTagCompound.removeTag("isPouchActive");
+				else pouchInfo.update();
 			}
 		}
 	}
