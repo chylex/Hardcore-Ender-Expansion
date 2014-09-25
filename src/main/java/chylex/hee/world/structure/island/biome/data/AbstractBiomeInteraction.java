@@ -1,4 +1,6 @@
 package chylex.hee.world.structure.island.biome.data;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -7,6 +9,7 @@ import chylex.hee.system.logging.Log;
 import chylex.hee.system.weight.IWeightProvider;
 
 public abstract class AbstractBiomeInteraction{
+	String identifier;
 	protected EntityTechnicalBiomeInteraction entity;
 	protected World world;
 	protected Random rand;
@@ -28,22 +31,42 @@ public abstract class AbstractBiomeInteraction{
 	public abstract void saveToNBT(NBTTagCompound nbt);
 	public abstract void loadFromNBT(NBTTagCompound nbt);
 	
+	public String getIdentifier(){
+		return identifier;
+	}
+	
 	public static final class BiomeInteraction implements IWeightProvider{
+		private static final Map<String,BiomeInteraction> idLookup = new HashMap<>();
+		
+		public static AbstractBiomeInteraction createByIdentifier(String identifier){
+			BiomeInteraction interaction = idLookup.get(identifier);
+			return interaction == null ? null : interaction.create();
+		}
+		
+		private final String identifier;
 		private final Class<? extends AbstractBiomeInteraction> interactionClass;
 		private final int weight;
 		
-		public BiomeInteraction(Class<? extends AbstractBiomeInteraction> interactionClass, int weight){
+		public BiomeInteraction(String identifier, Class<? extends AbstractBiomeInteraction> interactionClass, int weight){
+			this.identifier = identifier;
 			this.interactionClass = interactionClass;
 			this.weight = weight;
+			idLookup.put(identifier,this);
 		}
 		
 		public AbstractBiomeInteraction create(){
 			try{
-				return interactionClass.newInstance();
+				AbstractBiomeInteraction interaction = interactionClass.newInstance();
+				interaction.identifier = identifier;
+				return interaction;
 			}catch(InstantiationException|IllegalAccessException e){
 				Log.throwable(e,"Could not create Biome Island Interaction ($0).",interactionClass.getSimpleName());
 				return null;
 			}
+		}
+		
+		public String getIdentifier(){
+			return identifier;
 		}
 		
 		@Override

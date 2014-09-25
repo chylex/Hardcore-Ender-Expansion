@@ -41,7 +41,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 		});
 		
 		getInteractions(DEEP).addAll(new BiomeInteraction[]{
-			new BiomeInteraction(InteractionCollapsingTrees.class,10)
+			new BiomeInteraction("IF_Deep_CollapsingTrees",InteractionCollapsingTrees.class,10)
 		});
 	}
 	

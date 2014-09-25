@@ -218,7 +218,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltSafe.class, "LightningBoltSafe", 4, this, 512, 1, false);
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, this, 512, 1, false);
 		
-		EntityRegistry.registerModEntity(EntityTechnicalBiomeInteraction.class, "TechnicalBiomeInteraction", 38, this, 0, 0, false);
+		EntityRegistry.registerModEntity(EntityTechnicalBiomeInteraction.class, "TechnicalBiomeInteraction", 38, this, 0, Integer.MAX_VALUE, false);
 		// last: 38
 
 		// TILE ENTITIES

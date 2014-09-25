@@ -1,12 +1,13 @@
 package chylex.hee.world.structure.island.biome.interaction;
+import java.util.List;
+import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import chylex.hee.block.BlockList;
-import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C20Effect;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 
@@ -19,10 +20,23 @@ public final class BiomeInteractionsInfestedForest{
 		public void init(){
 			treesLeft = (byte)(1+rand.nextInt(3+rand.nextInt(4+rand.nextInt(5))));
 			
-			for(int attempt = 0; attempt < 32; attempt++){
-				x = centerX+rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize;
-				z = centerZ+rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize;
+			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(centerX-ComponentIsland.halfSize,10,centerZ-ComponentIsland.halfSize,centerX+ComponentIsland.halfSize,120,centerZ+ComponentIsland.halfSize));
+			
+			if (players.isEmpty()){
+				entity.setDead();
+				return;
+			}
+			
+			byte dist = (byte)(8+rand.nextInt(10+rand.nextInt(15))); // 8-31 blocks
+			
+			for(int attempt = 0, amt = players.size(); attempt < 32; attempt++){
+				EntityPlayer player = players.get(rand.nextInt(amt));
+				x = (int)player.posX+rand.nextInt(2*dist)-dist;
+				z = (int)player.posZ+rand.nextInt(2*dist)-dist;
 				y = world.getHeightValue(x,z);
+				
+				if (world.getClosestPlayer(x+0.5D,y-8,z+0.5D,24D) == null)continue;
+				
 				boolean foundLog = false;
 				
 				for(int yy = y; yy > y-10; yy--){
@@ -46,10 +60,10 @@ public final class BiomeInteractionsInfestedForest{
 			            world.spawnEntityInWorld(item);
 					}
 					
-					PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,x,y,z));
+					world.playAuxSFX(2001,x,y,z,Block.getIdFromBlock(BlockList.spooky_log));
 					world.setBlockToAir(x,y,z);
 					++y;
-					timer = 4;
+					timer = 3;
 				}
 				else if (--treesLeft <= 0){
 					entity.setDead();
@@ -57,8 +71,8 @@ public final class BiomeInteractionsInfestedForest{
 				}
 				else{
 					for(int attempt = 0, xx, yy, zz; attempt < 64; attempt++){
-						xx = x+rand.nextInt(14)-7;
-						zz = z+rand.nextInt(14)-7;
+						xx = x+rand.nextInt(10)-5;
+						zz = z+rand.nextInt(10)-5;
 						yy = world.getHeightValue(xx,zz);
 						boolean foundLog = false;
 						

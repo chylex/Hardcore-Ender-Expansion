@@ -36,9 +36,13 @@ public class EntityItemDragonEgg extends EntityItem{
 	@Override
 	public void setDead(){
 		if (overrideDeath){
-			ChunkCoordinates coords = WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation();
-			DimensionManager.getWorld(1).setBlock(coords.posX,coords.posY,coords.posZ,Blocks.dragon_egg);
-			// TODO particle effect
+			DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
+			
+			if (file.isDragonDead()){
+				ChunkCoordinates coords = file.getPortalEggLocation();
+				DimensionManager.getWorld(1).setBlock(coords.posX,coords.posY,coords.posZ,Blocks.dragon_egg);
+				// TODO particle effect
+			}
 		}
 		
 		super.setDead();

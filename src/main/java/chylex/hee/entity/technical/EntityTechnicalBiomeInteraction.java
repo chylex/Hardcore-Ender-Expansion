@@ -1,44 +1,54 @@
 package chylex.hee.entity.technical;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
+import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class EntityTechnicalBiomeInteraction extends Entity{
-	private final AbstractBiomeInteraction interaction;
+	private AbstractBiomeInteraction interaction;
 	
 	public EntityTechnicalBiomeInteraction(World world){
 		super(world);
-		this.interaction = null;
 	}
 	
 	public EntityTechnicalBiomeInteraction(World world, double x, double y, double z, AbstractBiomeInteraction interaction){
 		super(world);
 		setPosition(x,y,z);
 		this.interaction = interaction;
+		this.interaction.init(this);
+		this.interaction.init();
 	}
 
 	@Override
-	protected void entityInit(){
-		if (interaction != null)interaction.init(this);
-	}
+	protected void entityInit(){}
 	
 	@Override
 	public void onUpdate(){
-		if (interaction != null)interaction.update();
+		if (!worldObj.isRemote)interaction.update();
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){
-		if (interaction != null){
+		if (!worldObj.isRemote){
 			NBTTagCompound tag = new NBTTagCompound();
 			interaction.saveToNBT(tag);
 			nbt.setTag("interactionData",tag);
+			nbt.setString("interactionId",interaction.getIdentifier());
 		}
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt){
-		if (interaction != null)interaction.loadFromNBT(nbt.getCompoundTag("interactionData"));
+		if (!worldObj.isRemote){
+			interaction = BiomeInteraction.createByIdentifier(nbt.getString("interactionId"));
+			
+			if (interaction != null){
+				interaction.init(this);
+				interaction.init();
+				interaction.loadFromNBT(nbt.getCompoundTag("interactionData"));
+			}
+			else setDead();
+		}
 	}
 }

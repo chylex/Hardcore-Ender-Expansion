@@ -52,10 +52,12 @@ public class InfestationSavefile extends WorldSavefile{
 	@Override
 	protected void onSave(NBTTagCompound nbt){
 		for(TObjectIntIterator<UUID> iter = infestationPower.iterator(); iter.hasNext();){
+			iter.advance();
 			nbt.setInteger(iter.key()+"_pow",iter.value());
 		}
 		
 		for(TObjectByteIterator<UUID> iter = infestationTimer.iterator(); iter.hasNext();){
+			iter.advance();
 			nbt.setByte(iter.key()+"_tim",iter.value());
 		}
 	}

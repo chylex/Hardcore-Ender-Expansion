@@ -12,9 +12,14 @@ public final class LargeStructureWorld{
 	private LargeStructureChunk lastActiveChunk;
 	
 	public LargeStructureWorld(ComponentScatteredFeatureCustom structure){
+		if (structure == null){
+			chunks = new LargeStructureChunk[0][0];
+			return;
+		}
+		
 		chunks = new LargeStructureChunk[structure.getSizeX()>>4][structure.getSizeZ()>>4];
 		
-		int chunkXSize = chunks.length, chunkZSize = chunks[0].length;
+		int chunkXSize = structure.getSizeX()>>4, chunkZSize = structure.getSizeZ()>>4;
 		
 		for(int z = 0; z < chunkZSize; z++){
 			for(int x = 0; x < chunkXSize; x++){

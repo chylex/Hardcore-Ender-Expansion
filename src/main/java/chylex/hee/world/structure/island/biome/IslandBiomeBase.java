@@ -165,8 +165,17 @@ public abstract class IslandBiomeBase{
 			}
 		}
 		
-		if (world.rand.nextFloat() < getInteractionChance(contentVariations.get(meta)) && interactions.containsKey((byte)meta) && world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.getBoundingBox(x-1,y-1,z-1,x+2,y+2,z+2)).isEmpty()){
-			AbstractBiomeInteraction interaction = interactions.get((byte)meta).getRandomItem(world.rand).create();
+		BiomeContentVariation variation = null;
+		
+		for(BiomeContentVariation contentVariation:contentVariations){
+			if (contentVariation.id == meta){
+				variation = contentVariation;
+				break;
+			}
+		}
+		
+		if (variation != null && world.rand.nextFloat() < getInteractionChance(variation) && interactions.containsKey(variation.id) && world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.getBoundingBox(x-1,y-1,z-1,x+2,y+2,z+2)).isEmpty()){
+			AbstractBiomeInteraction interaction = interactions.get(variation.id).getRandomItem(world.rand).create();
 			if (interaction != null)world.spawnEntityInWorld(new EntityTechnicalBiomeInteraction(world,x+0.5D,y+0.5D,z+0.5D,interaction));
 		}
 		

@@ -22,7 +22,7 @@ public final class WorldDataHandler{
 	}
 	
 	public static <T> T get(Class<? extends WorldSavefile> cls){
-		Stopwatch.timeAverage("WorldDataHandler - get",128);
+		Stopwatch.timeAverage("WorldDataHandler - get",4096);
 		
 		WorldSavefile savefile = instance.cache.get(cls);
 		

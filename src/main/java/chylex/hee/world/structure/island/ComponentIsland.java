@@ -21,7 +21,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 	
 	private boolean isSetup = false;
 	
-	private LargeStructureWorld structure;
+	private final LargeStructureWorld structure;
 	private IslandBiomeBase biome;
 	private IslandBiomeData biomeData;
 	
@@ -30,7 +30,9 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 	/**
 	 * Required for reflection.
 	 */
-	public ComponentIsland(){}
+	public ComponentIsland(){
+		structure = new LargeStructureWorld(null);
+	}
 	
 	protected ComponentIsland(Random rand, int x, int z){
 		super(rand,x,20,z,208,140,208);
@@ -39,6 +41,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 		
 		coordBaseMode = 0;
 		boundingBox = new StructureBoundingBox(x,20,z,x+sizeX-1,140+sizeY-1,z+sizeZ-1);
+		structure = new LargeStructureWorld(this);
 	}
 	
 	private Offsets getOffsets(int x, int y, int z, StructureBoundingBox bb){
@@ -150,7 +153,6 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 		startX = nbt.getInteger("startX");
 		startZ = nbt.getInteger("startZ");
 		islandBottomY = nbt.getByte("bottomY");
-		
-		(structure = new LargeStructureWorld(this)).loadFromNBT(nbt.getCompoundTag("structure"));
+		structure.loadFromNBT(nbt.getCompoundTag("structure"));
 	}
 }
