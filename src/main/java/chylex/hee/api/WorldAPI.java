@@ -6,7 +6,7 @@ import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
 import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
 import chylex.hee.world.structure.island.biome.feature.forest.StructureSilverfishDungeon;
-import chylex.hee.world.structure.tower.ComponentScatteredFeatureTower;
+import chylex.hee.world.structure.tower.ComponentTower;
 import chylex.hee.world.util.SpawnEntry;
 
 /**
@@ -43,8 +43,8 @@ public final class WorldAPI extends AbstractAPI{
 	 */
 	public LootList getLootList(LootType loot){
 		switch(loot){
-			case DungeonTowerRegular: return new LootList(ComponentScatteredFeatureTower.lootTower);
-			case DungeonTowerFuel: return new LootList(ComponentScatteredFeatureTower.lootFuel);
+			case DungeonTowerRegular: return new LootList(ComponentTower.lootTower);
+			case DungeonTowerFuel: return new LootList(ComponentTower.lootFuel);
 			case SilverfishDungeon: return new LootList(StructureSilverfishDungeon.lootDungeon);
 			default: return null;
 		}

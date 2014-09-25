@@ -12,7 +12,7 @@ public class StructureTower extends StructureStart{
 	@SuppressWarnings("unchecked")
 	public StructureTower(World world, Random rand, int x, int z){
 		super(x,z);
-		components.add(new ComponentScatteredFeatureTower(rand,x*16,z*16));
+		components.add(new ComponentTower(rand,x*16,z*16));
 		updateBoundingBox();
 	}
 }

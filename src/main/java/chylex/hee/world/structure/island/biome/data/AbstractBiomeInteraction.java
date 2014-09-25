@@ -1,18 +1,29 @@
 package chylex.hee.world.structure.island.biome.data;
+import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.weight.IWeightProvider;
 
 public abstract class AbstractBiomeInteraction{
 	protected EntityTechnicalBiomeInteraction entity;
+	protected World world;
+	protected Random rand;
+	protected int centerX, centerY, centerZ;
 	
 	public AbstractBiomeInteraction(){}
 	
-	public void init(EntityTechnicalBiomeInteraction entity){
+	public final void init(EntityTechnicalBiomeInteraction entity){
 		this.entity = entity;
+		this.world = entity.worldObj;
+		this.rand = entity.worldObj.rand;
+		this.centerX = (int)Math.floor(entity.posX);
+		this.centerY = (int)Math.floor(entity.posY);
+		this.centerZ = (int)Math.floor(entity.posZ);
 	}
 	
+	public abstract void init();
 	public abstract void update();
 	public abstract void saveToNBT(NBTTagCompound nbt);
 	public abstract void loadFromNBT(NBTTagCompound nbt);

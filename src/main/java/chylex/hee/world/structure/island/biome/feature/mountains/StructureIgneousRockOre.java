@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
-import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
+import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureIgneousRockOre extends AbstractIslandStructure{
@@ -15,9 +15,9 @@ public class StructureIgneousRockOre extends AbstractIslandStructure{
 	
 	@Override
 	protected boolean generate(Random rand){
-		int minX = 20, maxX = ComponentScatteredFeatureIsland.size-20,
+		int minX = 20, maxX = ComponentIsland.size-20,
 			minY = 20, maxY = 60,
-			minZ = 20, maxZ = ComponentScatteredFeatureIsland.size-20,
+			minZ = 20, maxZ = ComponentIsland.size-20,
 			amount, px, py, pz;
 
 		for(int a = 0; a < attempts; a++){

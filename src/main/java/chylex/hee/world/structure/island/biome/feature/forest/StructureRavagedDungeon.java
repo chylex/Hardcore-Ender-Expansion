@@ -4,7 +4,7 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
+import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonDir;
 import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElement;
@@ -24,8 +24,8 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 	
 	@Override
 	protected boolean generate(Random rand){
-		islandCenterX = ComponentScatteredFeatureIsland.halfSize;
-		islandCenterZ = ComponentScatteredFeatureIsland.halfSize;
+		islandCenterX = ComponentIsland.halfSize;
+		islandCenterZ = ComponentIsland.halfSize;
 		int y = 25;
 		
 		while(++y < 80){

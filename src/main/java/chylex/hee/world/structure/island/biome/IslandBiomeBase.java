@@ -19,9 +19,9 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.weight.WeightedList;
-import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
-import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
+import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
+import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
@@ -43,18 +43,18 @@ public abstract class IslandBiomeBase{
 	public final byte biomeID;
 	
 	private final TByteObjectHashMap<WeightedList<SpawnEntry>> spawnEntries;
+	protected final TByteObjectHashMap<WeightedList<BiomeInteraction>> interactions;
 	protected final WeightedList<BiomeContentVariation> contentVariations;
 	protected final List<BiomeRandomDeviation> randomDeviations;
-	private WeightedList<BiomeInteraction> interactions;
 	
 	protected IslandBiomeData data;
 	
 	protected IslandBiomeBase(int biomeID){
 		this.biomeID = (byte)biomeID;
 		this.spawnEntries = new TByteObjectHashMap<>();
+		this.interactions = new TByteObjectHashMap<>();
 		this.contentVariations = new WeightedList<>();
 		this.randomDeviations = new ArrayList<>();
-		this.interactions = new WeightedList<>();
 	}
 	
 	public Collection<WeightedList<SpawnEntry>> getAllSpawnEntries(){
@@ -64,6 +64,11 @@ public abstract class IslandBiomeBase{
 	public WeightedList<SpawnEntry> getSpawnEntries(BiomeContentVariation contentVariation){
 		spawnEntries.putIfAbsent(contentVariation.id,new WeightedList<SpawnEntry>());
 		return spawnEntries.get(contentVariation.id);
+	}
+	
+	public WeightedList<BiomeInteraction> getInteractions(BiomeContentVariation contentVariation){
+		interactions.putIfAbsent(contentVariation.id,new WeightedList<BiomeInteraction>());
+		return interactions.get(contentVariation.id);
 	}
 	
 	public final IslandBiomeData generateData(Random rand){
@@ -114,7 +119,7 @@ public abstract class IslandBiomeBase{
 		if (world.playerEntities.isEmpty())return;
 		
 		if (world.rand.nextInt(3) == 0){
-			int halfsz = ComponentScatteredFeatureIsland.halfSize, playerCheck = halfsz*2;
+			int halfsz = ComponentIsland.halfSize, playerCheck = halfsz*2;
 			
 			SpawnEntry entry = spawnEntries.containsKey((byte)meta) ? spawnEntries.get((byte)meta).getRandomItem(world.rand) : null;
 			if (entry == null)return;
@@ -160,8 +165,8 @@ public abstract class IslandBiomeBase{
 			}
 		}
 		
-		if (world.rand.nextFloat() < getInteractionChance() && !interactions.isEmpty() && world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.getBoundingBox(x-1,y-1,z-1,x+2,y+2,z+2)).isEmpty()){
-			AbstractBiomeInteraction interaction = interactions.getRandomItem(world.rand).create();
+		if (world.rand.nextFloat() < getInteractionChance(contentVariations.get(meta)) && interactions.containsKey((byte)meta) && world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.getBoundingBox(x-1,y-1,z-1,x+2,y+2,z+2)).isEmpty()){
+			AbstractBiomeInteraction interaction = interactions.get((byte)meta).getRandomItem(world.rand).create();
 			if (interaction != null)world.spawnEntityInWorld(new EntityTechnicalBiomeInteraction(world,x+0.5D,y+0.5D,z+0.5D,interaction));
 		}
 		
@@ -210,8 +215,8 @@ public abstract class IslandBiomeBase{
 		return 1F;
 	}
 	
-	public float getInteractionChance(){
-		return 0.01F; // 1/100 = every 25 seconds
+	public float getInteractionChance(BiomeContentVariation variation){
+		return 0F;
 	}
 	
 	protected abstract IslandBiomeDecorator getDecorator();

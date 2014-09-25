@@ -7,10 +7,12 @@ import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.InfestationSavefile;
+import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorInfestedForest;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
+import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionsInfestedForest.InteractionCollapsingTrees;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
@@ -36,6 +38,10 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 		getSpawnEntries(DEEP).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntitySilverfish.class,35,35),
 			new SpawnEntry(EntityMobInfestedBat.class,8,10)
+		});
+		
+		getInteractions(DEEP).addAll(new BiomeInteraction[]{
+			new BiomeInteraction(InteractionCollapsingTrees.class,10)
 		});
 	}
 	
@@ -99,6 +105,11 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	@Override
 	public float getOreAmountMultiplier(){
 		return data.content == RAVAGED ? 0.6F : 1F;
+	}
+	
+	@Override
+	public float getInteractionChance(BiomeContentVariation variation){
+		return variation == DEEP ? 0.01136F : 0F; // 0.01136 = 1/88 = every 22 seconds
 	}
 
 	@Override

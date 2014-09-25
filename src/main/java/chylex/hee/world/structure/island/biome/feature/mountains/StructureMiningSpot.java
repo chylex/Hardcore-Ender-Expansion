@@ -5,7 +5,7 @@ import net.minecraft.init.Blocks;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
-import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
+import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureMiningSpot extends AbstractIslandStructure{
@@ -41,7 +41,7 @@ public class StructureMiningSpot extends AbstractIslandStructure{
 	}
 	
 	private void generateBlob(Random rand, int x, int y, int z, double rad, int recursionLevel){
-		if (x <= rad || z <= rad || x >= ComponentScatteredFeatureIsland.size-rad || z >= ComponentScatteredFeatureIsland.size-rad)return;
+		if (x <= rad || z <= rad || x >= ComponentIsland.size-rad || z >= ComponentIsland.size-rad)return;
 		if (--iterationsLeft == 0 || (recursionLevel > 0 && rand.nextInt(30-recursionLevel*2) == 0) || recursionLevel > 12)return;
 		
 		int xx, yy, zz;

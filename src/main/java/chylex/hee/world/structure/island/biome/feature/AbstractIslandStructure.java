@@ -1,7 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature;
 import java.util.Random;
 import net.minecraft.block.Block;
-import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
+import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
@@ -21,7 +21,7 @@ public abstract class AbstractIslandStructure{
 	// helper methods
 	
 	protected final int getRandomXZ(Random rand, int distFromEdges){
-		return rand.nextInt(ComponentScatteredFeatureIsland.size-distFromEdges*2)+distFromEdges;
+		return rand.nextInt(ComponentIsland.size-distFromEdges*2)+distFromEdges;
 	}
 	
 	protected final Block surface(){

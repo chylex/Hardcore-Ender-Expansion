@@ -16,7 +16,7 @@ import chylex.hee.world.structure.island.gen.TerrainGenerator;
 import chylex.hee.world.structure.util.Offsets;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
-public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCustom{
+public class ComponentIsland extends ComponentScatteredFeatureCustom{
 	public static final int size = 208, halfSize = size>>1;
 	
 	private boolean isSetup = false;
@@ -30,9 +30,9 @@ public class ComponentScatteredFeatureIsland extends ComponentScatteredFeatureCu
 	/**
 	 * Required for reflection.
 	 */
-	public ComponentScatteredFeatureIsland(){}
+	public ComponentIsland(){}
 	
-	protected ComponentScatteredFeatureIsland(Random rand, int x, int z){
+	protected ComponentIsland(Random rand, int x, int z){
 		super(rand,x,20,z,208,140,208);
 		this.startX = x;
 		this.startZ = z;

@@ -42,7 +42,7 @@ import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.Offsets;
 
-public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCustom{
+public class ComponentTower extends ComponentScatteredFeatureCustom{
 	private static final Random spawnerRand = new Random();
 	private static final byte roomHeight = 6;
 	
@@ -133,9 +133,9 @@ public class ComponentScatteredFeatureTower extends ComponentScatteredFeatureCus
 	/**
 	 * Required for reflection.
 	 */
-	public ComponentScatteredFeatureTower(){}
+	public ComponentTower(){}
 	
-	protected ComponentScatteredFeatureTower(Random rand, int x, int z){
+	protected ComponentTower(Random rand, int x, int z){
 		super(rand,x,32,z,32,140,32);
 		startX = x;
 		startZ = z;

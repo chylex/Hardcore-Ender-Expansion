@@ -9,9 +9,9 @@ import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
-import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
+import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.StructureIsland;
-import chylex.hee.world.structure.tower.ComponentScatteredFeatureTower;
+import chylex.hee.world.structure.tower.ComponentTower;
 import chylex.hee.world.structure.tower.StructureTower;
 
 public final class DimensionOverride{
@@ -22,9 +22,9 @@ public final class DimensionOverride{
 		overrideWorldGen();
 		
 		MapGenStructureIO.registerStructure(StructureTower.class,"hardcoreenderdragon_EndTower");
-		MapGenStructureIO.func_143031_a(ComponentScatteredFeatureTower.class,"hardcoreenderdragon_EndTowerC"); // OBFUSCATED register structure component
+		MapGenStructureIO.func_143031_a(ComponentTower.class,"hardcoreenderdragon_EndTowerC"); // OBFUSCATED register structure component
 		MapGenStructureIO.registerStructure(StructureIsland.class,"hardcoreenderdragon_EndIsland");
-		MapGenStructureIO.func_143031_a(ComponentScatteredFeatureIsland.class,"hardcoreenderdragon_EndIslandC");
+		MapGenStructureIO.func_143031_a(ComponentIsland.class,"hardcoreenderdragon_EndIslandC");
 		
 		Stopwatch.finish("DimensionOverride");
 	}
