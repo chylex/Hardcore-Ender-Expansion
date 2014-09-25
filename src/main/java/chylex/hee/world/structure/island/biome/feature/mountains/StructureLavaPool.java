@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Set;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
+import net.minecraft.util.MathHelper;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.util.BlockLocation;
@@ -20,11 +21,11 @@ public class StructureLavaPool extends AbstractIslandStructure{
 		Set<BlockLocation> lavaBlocks = new HashSet<BlockLocation>();
 		
 		for(int disc = 0, discAmount = 5+rand.nextInt(8); disc < discAmount; disc++){
-			double len = (0.5D+rand.nextDouble()*0.5D)*disc*0.75D, ang = rand.nextDouble()*Math.PI*2D, rad = 1.8D+rand.nextDouble()*3D,
-				   radSq = MathUtil.square(rad+0.5D), px, pz;
+			double len = (0.5D+rand.nextDouble()*0.5D)*disc*0.75D, rad = 1.8D+rand.nextDouble()*3D, radSq = MathUtil.square(rad+0.5D), px, pz;
+			float ang = rand.nextFloat()*(float)Math.PI*2F;
 			
-			px = x+Math.cos(ang)*len;
-			pz = z+Math.cos(ang)*len;
+			px = x+MathHelper.cos(ang)*len;
+			pz = z+MathHelper.sin(ang)*len;
 			
 			for(int ix = (int)(px-rad)-1; ix <= (int)(px+rad)+1; ix++){
 				for(int iz = (int)(pz-rad)-1; iz <= (int)(pz+rad)+1; iz++){
@@ -33,7 +34,7 @@ public class StructureLavaPool extends AbstractIslandStructure{
 					}
 				}
 			}
-		} // TODO optimize
+		}
 		
 		for(BlockLocation lava:lavaBlocks){
 			if (world.getBlock(lava.x,lava.y,lava.z) != surface() || world.isAir(lava.x,lava.y-1,lava.z) ||

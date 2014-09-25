@@ -126,7 +126,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 			
 			world.setBlock(x,lowestY,z,BlockList.custom_spawner,1);
 			
-			if (/*biome.hasRareVariation(RareVariationForest.SPECIAL_DUNGEONS) &&*/ rand.nextInt(5) <= 1){ // TODO
+			if (rand.nextInt(5) <= 1){
 				for(int nextSpawnerAttempt = 0,spawnerX,spawnerY,spawnerZ; nextSpawnerAttempt < 10; nextSpawnerAttempt++){
 					spawnerX = x+rand.nextInt(10)-5;
 					spawnerY = y+rand.nextInt(7)-5;
@@ -174,7 +174,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
 		if (key.equals("silverfishDungeonChest") && tile instanceof TileEntityChest){
 			TileEntityChest chest = (TileEntityChest)tile;
-			for(int a = 0; a < 7+rand.nextInt(4)+rand.nextInt(6)+(/*biome.hasRareVariation(RareVariationForest.SPECIAL_DUNGEONS)?3+rand.nextInt(4):*/0); a++){ // TODO
+			for(int a = 0; a < 7+rand.nextInt(4)+rand.nextInt(6); a++){
 				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootDungeon.generateIS(rand));
 			}
 		}

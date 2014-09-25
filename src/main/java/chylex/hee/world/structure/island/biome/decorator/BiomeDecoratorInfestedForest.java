@@ -233,7 +233,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		
 		// RUIN BUILDS
 		for(int attempt = 0; attempt < 42; attempt++){
-			genRuinBuild.setStructureType(RuinStructureType.WALL); // TODO
+			genRuinBuild.setStructureType(RuinStructureType.WALL);
 			generateStructure(genRuinBuild);
 		}
 	}

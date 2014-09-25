@@ -24,6 +24,7 @@ import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
+import chylex.hee.system.logging.Stopwatch;
 
 public abstract class IslandBiomeBase{
 	public static final IslandBiomeBase infestedForest = new IslandBiomeInfestedForest(0),
@@ -88,7 +89,9 @@ public abstract class IslandBiomeBase{
 	
 	public final void decorateGen(LargeStructureWorld world, Random rand, int centerX, int centerZ){
 		getDecorator().begin(world,rand,centerX,centerZ,data);
+		Stopwatch.time("IslandBiomeBase - "+data.content);
 		decorate(world,rand,centerX,centerZ);
+		Stopwatch.finish("IslandBiomeBase - "+data.content);
 		getDecorator().end();
 	}
 	
