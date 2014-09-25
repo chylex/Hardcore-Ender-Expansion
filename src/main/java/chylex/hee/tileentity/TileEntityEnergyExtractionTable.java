@@ -176,6 +176,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 		
 		if (items[0] != null){
 			byte energy = getItemEnergy(items[0]);
+			
 			if (energy > 0){
 				requiredStardust = (byte)(1+(energy>>5)+(energy>>3));
 				timeStep = (short)Math.max(1,20-Math.sqrt(2*energy));
