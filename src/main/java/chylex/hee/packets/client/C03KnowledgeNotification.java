@@ -32,6 +32,7 @@ public class C03KnowledgeNotification extends AbstractClientPacket{
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
 		OverlayManager.addNotification("Unlocked new Knowledge Object: "+KnowledgeObject.getObjectById(objectID).getTooltip());
+		player.worldObj.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.pageflip",0.25F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.6F),false);
 		if (!player.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))Minecraft.getMinecraft().guiAchievement.func_146255_b(AchievementManager.THE_MORE_YOU_KNOW);
 	}
 }

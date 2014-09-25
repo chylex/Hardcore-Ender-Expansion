@@ -109,7 +109,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	
 	@Override
 	public float getInteractionChance(BiomeContentVariation variation){
-		return variation == DEEP ? 0.01136F : 0F; // 0.01136 = 1/88 = every 22 seconds
+		return variation == DEEP ? 0.00625F : 0F; // 0.01136 = 1/160 = every 40 seconds
 	}
 
 	@Override
