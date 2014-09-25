@@ -1,6 +1,12 @@
 package chylex.hee.world.structure.island.biome.interaction;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.fx.FXType;
+import chylex.hee.item.ItemList;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 
@@ -34,6 +40,13 @@ public final class BiomeInteractionsInfestedForest{
 		public void update(){
 			if (--timer < 0){
 				if (world.getBlock(x,y,z) == BlockList.spooky_log){
+					if (rand.nextInt(8) == 0 && world.getGameRules().getGameRuleBooleanValue("doTileDrops")){
+						EntityItem item = new EntityItem(world,x+rand.nextFloat()*0.7F+0.15F,y+rand.nextFloat()*0.7F+0.15F,z+rand.nextFloat()*0.7F+0.15F,new ItemStack(ItemList.dry_splinter));
+						item.delayBeforeCanPickup = 10;
+			            world.spawnEntityInWorld(item);
+					}
+					
+					PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,x,y,z));
 					world.setBlockToAir(x,y,z);
 					++y;
 					timer = 4;
