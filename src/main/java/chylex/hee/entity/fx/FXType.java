@@ -24,7 +24,8 @@ public final class FXType{
 		CHARM_BLOCK_EFFECT,
 		CHARM_LAST_RESORT,
 		GEM_TELEPORT_FROM,
-		ORB_TRANSFORMATION;
+		ORB_TRANSFORMATION,
+		LOUSE_REGEN;
 		
 		public static FXType.Entity[] values = values();
 	}
@@ -32,7 +33,8 @@ public final class FXType{
 	public enum Line{
 		DRAGON_EGG_TELEPORT,
 		CHARM_SLAUGHTER_IMPACT,
-		CHARM_DAMAGE_REDIRECTION;
+		CHARM_DAMAGE_REDIRECTION,
+		LOUSE_HEAL_ENTITY;
 		
 		public static FXType.Line[] values = values();
 	}

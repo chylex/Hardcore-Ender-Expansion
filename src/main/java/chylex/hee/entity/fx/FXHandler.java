@@ -115,6 +115,10 @@ public final class FXHandler{
 				for(int a = 0; a < 18; a++)world.spawnParticle("largesmoke",x+randCenter(width),y+0.1D+rand.nextDouble()*height,z+randCenter(width),0D,0D,0D);
 				world.playSound(x,y,z,"hardcoreenderexpansion:block.random.transform",1.4F,1F+rand.nextFloat()*0.2F,false);
 				break;
+				
+			case LOUSE_REGEN:
+				for(int a = 0; a < 6; a++)HardcoreEnderExpansion.fx.aura(world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),0F,0.7F,0F,14+rand.nextInt(10));
+				break;
 		}
 	}
 	
@@ -152,6 +156,7 @@ public final class FXHandler{
 					y1 += addY;
 					z1 += addZ;
 				}
+				
 				break;
 			
 			case DRAGON_EGG_TELEPORT:
@@ -170,6 +175,20 @@ public final class FXHandler{
 				}
 				
 				world.playSound(x1,y1,z1,"mob.endermen.portal",1.2F,1F,false);
+				break;
+				
+			case LOUSE_HEAL_ENTITY:
+				addX = lineVec.xCoord*0.125D;
+				addY = lineVec.yCoord*0.125D;
+				addZ = lineVec.zCoord*0.125D;
+				
+				for(int a = 0; a < len*8D; a++){
+					HardcoreEnderExpansion.fx.aura(world,x1+randCenter(0.1D),y1+randCenter(0.1D),z1+randCenter(0.1D),0F,0.7F,0F,20+rand.nextInt(20));
+					x1 += addX;
+					y1 += addY;
+					z1 += addZ;
+				}
+				
 				break;
 		}
 	}

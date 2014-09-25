@@ -119,6 +119,16 @@ public class FXClientProxy extends FXCommonProxy{
 		spawn(fx);
 	}
 	
+	@Override
+	public void aura(World world, double x, double y, double z, final float red, final float green, final float blue, final int maxAge){
+		spawn(new EntityAuraFX(world,x,y,z,0D,0D,0D){{
+			particleMaxAge = maxAge;
+			particleRed = red;
+			particleGreen = green;
+			particleBlue = blue;
+		}});
+	}
+	
 	/*
 	 * BLOCKS
 	 */

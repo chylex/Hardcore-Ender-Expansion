@@ -21,6 +21,7 @@ public class FXCommonProxy{
 	public void portalOrbiting(World world, double x, double y, double z, double motionY){}
 	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){}
 	public void spell(World world, double x, double y, double z, float red, float green, float blue){}
+	public void aura(World world, double x, double y, double z, float red, float green, float blue, int maxAge){}
 	
 	// BLOCKS
 	public void corruptedEnergy(World world, int x, int y, int z){}

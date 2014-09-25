@@ -11,15 +11,19 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.RuneType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
@@ -28,7 +32,7 @@ import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.Enu
 public class EntityMobLouse extends EntityMob{
 	private LouseSpawnData louseData;
 	private float armor;
-	private byte armorCapacity,armorRegenTimer,regenTimer,healTimer,teleportTimer;
+	private byte armorCapacity,armorRegenTimer,regenLevel,regenTimer,healAbility,healTimer,teleportTimer;
 	
 	public EntityMobLouse(World world){
 		super(world);
@@ -73,11 +77,8 @@ public class EntityMobLouse extends EntityMob{
 		
 		if (attrArmor > 0)armor = armorCapacity = (byte)(8+MathUtil.square(attrArmor)+attrArmor*5);
 		
-		if (attrHealth > 1 && getHealth() < getMaxHealth() && ++regenTimer >= 32-8*attrHealth){
-			setHealth(getHealth()+1);
-			regenTimer = 0;
-			// TODO green particle effect
-		}
+		healAbility = (byte)louseData.ability(EnumLouseAbility.HEAL);
+		regenLevel = (byte)attrHealth;
 		
 		dataWatcher.updateObject(16,louseData.serializeToString());
 	}
@@ -112,7 +113,11 @@ public class EntityMobLouse extends EntityMob{
 		
 		if (teleportTimer > 0)--teleportTimer;
 		
-		int healAbility = louseData.ability(EnumLouseAbility.HEAL);
+		if (regenLevel > 1 && getHealth() < getMaxHealth() && ++regenTimer >= 32-8*regenLevel && !isDead){
+			setHealth(getHealth()+1);
+			regenTimer = 0;
+			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.LOUSE_REGEN,this));
+		}
 		
 		if (healAbility > 0 && --healTimer <= 0){
 			healTimer = 25;
@@ -122,15 +127,16 @@ public class EntityMobLouse extends EntityMob{
 				for(int attempt = 0, amt = list.size(); attempt < 15; attempt++){
 					EntityLiving entity = list.get(rand.nextInt(amt));
 					
-					if (entity.getHealth() < entity.getMaxHealth()){
+					if (entity.getHealth() < entity.getMaxHealth() && !entity.isDead){
 						entity.setHealth(entity.getHealth()+1+2*healAbility);
+						PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.LOUSE_HEAL_ENTITY,this,entity));
 						break;
 					}
 				}
 			}
 		}
 		
-		if (entityToAttack != null && entityToAttack.posY > posY+0.5D && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) <= 1D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
+		if (entityToAttack != null && entityToAttack.posY > posY+0.95D && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) <= 3D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
 			jump();
 		}
 	}
@@ -243,6 +249,15 @@ public class EntityMobLouse extends EntityMob{
 
 		worldObj.playSoundEffect(oldPosX,oldPosY,oldPosZ,"mob.endermen.portal",1F,1F);
 		playSound("mob.endermen.portal",1F,1F);
+	}
+	
+	@Override
+	protected void jump(){
+		motionY = 0.5D;
+		if (isPotionActive(Potion.jump))motionY += ((getActivePotionEffect(Potion.jump).getAmplifier()+1)*0.1F);
+
+		isAirBorne = true;
+		ForgeHooks.onLivingJump(this);
 	}
 	
 	@Override
