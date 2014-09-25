@@ -119,7 +119,7 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 			}
 			
 			for(EnumLouseAbility ability:EnumLouseAbility.values){
-				if (tag.hasKey("attr-"+ability.name()))abilities.add(ability);
+				if (tag.hasKey("abil-"+ability.name()))abilities.add(ability);
 			}
 		}
 		
