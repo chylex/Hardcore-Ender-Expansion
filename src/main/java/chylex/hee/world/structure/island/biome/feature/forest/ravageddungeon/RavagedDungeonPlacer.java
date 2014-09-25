@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -286,7 +287,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				off = hallway.checkConnection(DungeonDir.UP) || hallway.checkConnection(DungeonDir.DOWN) ? DungeonDir.LEFT : DungeonDir.UP;
 				if (rand.nextBoolean())off = off.reversed();
 				
-				isLR = off == DungeonDir.LEFT || off == DungeonDir.RIGHT; // TODO metadata is a pile of ass, just die already
+				isLR = off == DungeonDir.LEFT || off == DungeonDir.RIGHT;
 				
 				offFacing = dirToFacing(off);
 				
@@ -442,7 +443,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					
 					world.setBlock(x+rotX(off,0,-1),y+2,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab,8);
 					world.setBlock(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),Blocks.flower_pot);
-					world.setTileEntityGenerator(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),"flowerPot",this); // TODO add support for custom flowers
+					world.setTileEntityGenerator(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),"flowerPot",this);
 				}
 				
 				break;
@@ -978,14 +979,20 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			logic.setLouseSpawnData(new LouseSpawnData(level,rand));
 		}
 		else if (key.equals("flowerPot")){
-			TileEntityFlowerPot flowerPot = (TileEntityFlowerPot)tile;
 			ItemStack is = RavagedDungeonLoot.flowerPotItems[rand.nextInt(RavagedDungeonLoot.flowerPotItems.length)].copy();
 			
-			flowerPot.func_145964_a(is.getItem(),is.getItemDamage());
-			flowerPot.markDirty();
-
-			if (!flowerPot.getWorldObj().setBlockMetadataWithNotify(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord,is.getItemDamage(),2)){
-				flowerPot.getWorldObj().markBlockForUpdate(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord);
+			if (is.getItem() == Item.getItemFromBlock(BlockList.death_flower)){
+				tile.getWorldObj().setBlock(tile.xCoord,tile.yCoord,tile.zCoord,BlockList.death_flower_pot,is.getItemDamage(),3);
+			}
+			else{
+				TileEntityFlowerPot flowerPot = (TileEntityFlowerPot)tile;
+				
+				flowerPot.func_145964_a(is.getItem(),is.getItemDamage());
+				flowerPot.markDirty();
+	
+				if (!flowerPot.getWorldObj().setBlockMetadataWithNotify(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord,is.getItemDamage(),2)){
+					flowerPot.getWorldObj().markBlockForUpdate(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord);
+				}
 			}
 		}
 	}

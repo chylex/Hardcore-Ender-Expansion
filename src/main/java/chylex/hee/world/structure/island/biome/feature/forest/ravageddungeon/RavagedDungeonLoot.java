@@ -29,7 +29,9 @@ final class RavagedDungeonLoot{
 		new ItemStack(Blocks.red_flower,1,3), // azure bluet
 		new ItemStack(Blocks.red_flower,1,8), // oxeye daisy
 		new ItemStack(Blocks.tallgrass,1,2), // fern
-		new ItemStack(Blocks.deadbush) // dead bush
+		new ItemStack(Blocks.deadbush), // dead bush,
+		new ItemStack(BlockList.death_flower,1,0), // death flower
+		new ItemStack(BlockList.death_flower,1,15) // decayed death flower
 	};
 	
 	public static final WeightedLootList lootGeneral = new WeightedLootList(new LootItemStack[]{

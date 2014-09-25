@@ -13,18 +13,21 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.island.ComponentScatteredFeatureIsland;
+import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
+import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
-import chylex.hee.system.logging.Stopwatch;
 
 public abstract class IslandBiomeBase{
 	public static final IslandBiomeBase infestedForest = new IslandBiomeInfestedForest(0),
@@ -42,6 +45,7 @@ public abstract class IslandBiomeBase{
 	private final TByteObjectHashMap<WeightedList<SpawnEntry>> spawnEntries;
 	protected final WeightedList<BiomeContentVariation> contentVariations;
 	protected final List<BiomeRandomDeviation> randomDeviations;
+	private WeightedList<BiomeInteraction> interactions;
 	
 	protected IslandBiomeData data;
 	
@@ -50,6 +54,7 @@ public abstract class IslandBiomeBase{
 		this.spawnEntries = new TByteObjectHashMap<>();
 		this.contentVariations = new WeightedList<>();
 		this.randomDeviations = new ArrayList<>();
+		this.interactions = new WeightedList<>();
 	}
 	
 	public Collection<WeightedList<SpawnEntry>> getAllSpawnEntries(){
@@ -155,6 +160,11 @@ public abstract class IslandBiomeBase{
 			}
 		}
 		
+		if (world.rand.nextFloat() < getInteractionChance() && !interactions.isEmpty() && world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.getBoundingBox(x-1,y-1,z-1,x+2,y+2,z+2)).isEmpty()){
+			AbstractBiomeInteraction interaction = interactions.getRandomItem(world.rand).create();
+			if (interaction != null)world.spawnEntityInWorld(new EntityTechnicalBiomeInteraction(world,x+0.5D,y+0.5D,z+0.5D,interaction));
+		}
+		
 		for(Object o:world.playerEntities){
 			EntityPlayer player = (EntityPlayer)o;
 
@@ -198,6 +208,10 @@ public abstract class IslandBiomeBase{
 	
 	public float getOreAmountMultiplier(){
 		return 1F;
+	}
+	
+	public float getInteractionChance(){
+		return 0.01F; // 1/100 = every 25 seconds
 	}
 	
 	protected abstract IslandBiomeDecorator getDecorator();
