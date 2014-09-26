@@ -27,6 +27,10 @@ public class EntityTechnicalBiomeInteraction extends Entity{
 	public void onUpdate(){
 		if (!worldObj.isRemote)interaction.update();
 	}
+	
+	public Class<? extends AbstractBiomeInteraction> getInteractionType(){
+		return interaction != null ? interaction.getClass() : null;
+	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){

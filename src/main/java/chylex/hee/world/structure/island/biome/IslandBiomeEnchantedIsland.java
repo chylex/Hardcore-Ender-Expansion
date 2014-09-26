@@ -4,6 +4,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
+import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorEnchantedIsland;
@@ -28,9 +29,14 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		randomDeviations.add(TALL_PILES);
 		
 		getSpawnEntries(HOMELAND).addAll(new SpawnEntry[]{
-			new SpawnEntry(EntityEnderman.class,30,38),
-			new SpawnEntry(EntityMobEnderGuardian.class,6,30),
+			new SpawnEntry(EntityEnderman.class,28,38),
+			new SpawnEntry(EntityMobHomelandEnderman.class,40,26),
 			new SpawnEntry(EntityMobBabyEnderman.class,16,20)
+		});
+		
+		getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
+			new SpawnEntry(EntityEnderman.class,10,10),
+			new SpawnEntry(EntityMobEnderGuardian.class,15,7)
 		});
 	}
 

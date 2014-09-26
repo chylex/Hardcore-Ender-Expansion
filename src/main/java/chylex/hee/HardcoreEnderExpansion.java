@@ -29,6 +29,7 @@ import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobForestGhost;
 import chylex.hee.entity.mob.EntityMobHauntedMiner;
+import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
@@ -184,6 +185,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityMobAngryEnderman.class, "AngryEnderman", 1, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobBabyEnderman.class, "BabyEnderman", 16, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobParalyzedEnderman.class, "ParalyzedEnderman", 24, this, 256, 1, true);
+		EntityRegistry.registerModEntity(EntityMobHomelandEnderman.class, "HomelandEnderman", 39, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobEnderGuardian.class, "EnderGuardian", 22, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobVampiricBat.class, "VampireBat", 10, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobInfestedBat.class, "InfestedBat", 12, this, 128, 1, true);
@@ -219,7 +221,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, this, 512, 1, false);
 		
 		EntityRegistry.registerModEntity(EntityTechnicalBiomeInteraction.class, "TechnicalBiomeInteraction", 38, this, 0, Integer.MAX_VALUE, false);
-		// last: 38
+		// last: 39
 
 		// TILE ENTITIES
 

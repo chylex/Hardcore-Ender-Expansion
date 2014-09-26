@@ -5,10 +5,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
-import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 
 public final class BiomeInteractionsInfestedForest{
@@ -20,7 +18,7 @@ public final class BiomeInteractionsInfestedForest{
 		public void init(){
 			treesLeft = (byte)(1+rand.nextInt(3+rand.nextInt(4+rand.nextInt(5))));
 			
-			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(centerX-ComponentIsland.halfSize,10,centerZ-ComponentIsland.halfSize,centerX+ComponentIsland.halfSize,120,centerZ+ComponentIsland.halfSize));
+			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,getIslandBoundingBox());
 			
 			if (players.isEmpty()){
 				entity.setDead();

@@ -3,10 +3,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.weight.IWeightProvider;
+import chylex.hee.world.structure.island.ComponentIsland;
 
 public abstract class AbstractBiomeInteraction{
 	String identifier;
@@ -33,6 +35,10 @@ public abstract class AbstractBiomeInteraction{
 	
 	public String getIdentifier(){
 		return identifier;
+	}
+	
+	protected final AxisAlignedBB getIslandBoundingBox(){
+		return AxisAlignedBB.getBoundingBox(centerX-ComponentIsland.halfSize,10,centerZ-ComponentIsland.halfSize,centerX+ComponentIsland.halfSize,120,centerZ+ComponentIsland.halfSize);
 	}
 	
 	public static final class BiomeInteraction implements IWeightProvider{
