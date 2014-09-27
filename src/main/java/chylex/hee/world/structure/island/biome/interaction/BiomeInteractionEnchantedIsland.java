@@ -6,6 +6,8 @@ import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 
 public class BiomeInteractionEnchantedIsland{
 	public static class InteractionOvertake extends AbstractBiomeInteraction{
+		public long groupId;
+		
 		@Override
 		public void init(){
 			List<EntityMobHomelandEnderman> endermen = world.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,getIslandBoundingBox());

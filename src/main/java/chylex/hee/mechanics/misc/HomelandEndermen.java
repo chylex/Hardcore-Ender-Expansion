@@ -26,15 +26,21 @@ public final class HomelandEndermen{
 	}
 	
 	public static boolean isOvertakeHappening(EntityMobHomelandEnderman source){
+		return getOvertakeGroup(source) != -1;
+	}
+	
+	public static long getOvertakeGroup(EntityMobHomelandEnderman source){
 		List<EntityTechnicalBiomeInteraction> list = source.worldObj.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,source.boundingBox.expand(260D,128D,260D));
 		
 		if (!list.isEmpty()){
 			for(EntityTechnicalBiomeInteraction entity:list){
-				if (entity.getInteractionType() == BiomeInteractionEnchantedIsland.InteractionOvertake.class && entity.ticksExisted > 2)return true;
+				if (entity.getInteractionType() == BiomeInteractionEnchantedIsland.InteractionOvertake.class && entity.ticksExisted > 2){
+					return ((BiomeInteractionEnchantedIsland.InteractionOvertake)entity.getInteraction()).groupId;
+				}
 			}
 		}
 		
-		return false;
+		return -1;
 	}
 	
 	public static List<EntityMobHomelandEnderman> getByHomelandRole(EntityMobHomelandEnderman source, HomelandRole role){

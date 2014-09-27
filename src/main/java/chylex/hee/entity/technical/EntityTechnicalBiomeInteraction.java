@@ -29,6 +29,10 @@ public class EntityTechnicalBiomeInteraction extends Entity{
 		if (!worldObj.isRemote)interaction.update();
 	}
 	
+	public AbstractBiomeInteraction getInteraction(){
+		return interaction;
+	}
+	
 	public Class<? extends AbstractBiomeInteraction> getInteractionType(){
 		return interaction != null ? interaction.getClass() : null;
 	}
