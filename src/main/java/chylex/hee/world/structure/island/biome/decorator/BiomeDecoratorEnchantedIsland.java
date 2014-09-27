@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.decorator;
 import java.util.List;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
-import chylex.hee.entity.mob.EntityMobHomelandEnderman.HomelandRole;
+import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -104,6 +104,8 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 				endermanList.remove(rand.nextInt(size--)).setHomelandRole(HomelandRole.ISLAND_LEADERS);
 			}
 		}
+		
+		// TODO group leaders
 	}
 	
 	/*

@@ -35,13 +35,14 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.Constants;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.IItemSelector;
 
-public class EntityMobBabyEnderman extends EntityMob{
+public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer{
 	private EntityPlayer target;
 	private final List<ItemPriorityLevel> itemPriorities = new ArrayList<>();
 	private ItemPriorityLevel carryingLevel = ItemPriorityLevel.RANDOM;
@@ -319,6 +320,21 @@ public class EntityMobBabyEnderman extends EntityMob{
 		// other
 		isFamilyChosen = nbt.getBoolean("isFamilyChosen");
 		isScared = nbt.getBoolean("isScared");
+	}
+
+	@Override
+	public boolean isScreaming(){
+		return false;
+	}
+
+	@Override
+	public boolean isCarrying(){
+		return isCarryingItemStack();
+	}
+	
+	@Override
+	public ItemStack getCarrying(){
+		return getCarriedItemStack();
 	}
 	
 	@Override

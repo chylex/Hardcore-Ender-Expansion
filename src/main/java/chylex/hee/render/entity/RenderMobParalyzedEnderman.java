@@ -17,7 +17,6 @@ public class RenderMobParalyzedEnderman extends RenderEnderman{
 
 		bindTexture(texEndermanEyes);
 		GL11.glEnable(GL11.GL_BLEND);
-		//GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
 		GL11.glDisable(GL11.GL_LIGHTING);
 

@@ -8,6 +8,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -15,9 +16,10 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.proxy.ModCommonProxy;
 
-public class EntityMobAngryEnderman extends EntityMob{
+public class EntityMobAngryEnderman extends EntityMob implements IEndermanRenderer{
 	private static final UUID aggroSpeedBoostID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
 	private static final AttributeModifier aggroSpeedBoost = new AttributeModifier(aggroSpeedBoostID,"Attacking speed boost",7.4D,0).setSaved(false); // 6.2 -> 7.4
 	
@@ -218,6 +220,7 @@ public class EntityMobAngryEnderman extends EntityMob{
 		}
 	}
 
+	@Override
 	public boolean isScreaming(){
 		return dataWatcher.getWatchableObjectByte(18) > 0;
 	}
@@ -250,6 +253,16 @@ public class EntityMobAngryEnderman extends EntityMob{
 	@Override
 	protected void despawnEntity(){
 		if (dataWatcher.getWatchableObjectByte(19) == 0)super.despawnEntity();
+	}
+
+	@Override
+	public boolean isCarrying(){
+		return false;
+	}
+	
+	@Override
+	public ItemStack getCarrying(){
+		return null;
 	}
 	
 	@Override

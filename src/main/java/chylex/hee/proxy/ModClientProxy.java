@@ -1,7 +1,6 @@
 package chylex.hee.proxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBat;
-import net.minecraft.client.renderer.entity.RenderEnderman;
 import net.minecraft.client.renderer.entity.RenderFallingBlock;
 import net.minecraft.client.renderer.entity.RenderFireball;
 import net.minecraft.client.renderer.entity.RenderLightningBolt;
@@ -63,6 +62,7 @@ import chylex.hee.render.entity.RenderMiniBossFireFiend;
 import chylex.hee.render.entity.RenderMobAngryEnderman;
 import chylex.hee.render.entity.RenderMobBabyEnderman;
 import chylex.hee.render.entity.RenderMobCorporealMirage;
+import chylex.hee.render.entity.RenderMobHomelandEnderman;
 import chylex.hee.render.entity.RenderMobInfestedBat;
 import chylex.hee.render.entity.RenderMobLouse;
 import chylex.hee.render.entity.RenderMobParalyzedEnderman;
@@ -134,7 +134,7 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobAngryEnderman.class, new RenderMobAngryEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobBabyEnderman.class, new RenderMobBabyEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobParalyzedEnderman.class, new RenderMobParalyzedEnderman());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobHomelandEnderman.class, new RenderEnderman());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobHomelandEnderman.class, new RenderMobHomelandEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderGuardian.class, new RenderTexturedMob(new ModelEnderGuardian(), 0.3F, "ender_guardian.png"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobVampiricBat.class, new RenderTexturedMob(new ModelBat(), 0.25F, "bat_vampiric.png", 0.35F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobInfestedBat.class, new RenderMobInfestedBat());
