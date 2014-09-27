@@ -7,6 +7,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.HomelandEndermen;
@@ -23,6 +25,13 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		setSize(0.6F,2.9F);
         stepHeight = 1.0F;
 	}
+	
+	@Override
+	protected void entityInit(){
+        super.entityInit();
+        dataWatcher.addObject(16,Byte.valueOf((byte)0));
+        dataWatcher.addObjectByDataType(17,5);
+    }
 	
 	@Override
 	protected void applyEntityAttributes(){
@@ -71,12 +80,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		
 		return super.findPlayerToAttack();
 	}
-	
-	/*@Override
-	protected boolean teleportTo(double x, double y, double z){
-		if (isOvertakeHappening())return false;
-		else return super.teleportTo(x,y,z);
-	}*/
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
@@ -93,9 +96,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		byte homelandRoleId = nbt.getByte("homelandRole");
 		homelandRole = homelandRoleId >= 0 && homelandRoleId < HomelandRole.values.length ? HomelandRole.values[homelandRoleId] : null;
 		
-		groupId = nbt.getLong("groupId");
-		
-		if (groupId != -1){
+		if ((groupId = nbt.getLong("groupId")) != -1){
 			byte groupRoleId = nbt.getByte("groupRole");
 			overtakeGroupRole = groupRoleId >= 0 && groupRoleId < OvertakeGroupRole.values.length ? OvertakeGroupRole.values[groupRoleId] : null;
 		}
@@ -104,8 +105,134 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	@Override
+	protected void despawnEntity(){}
+	
+	// LOGIC HANDLING
+	
+	private boolean canTeleport(){
+		return !HomelandEndermen.isOvertakeHappening(this);
+	}
+	
+	// GETTERS AND SETTERS
+	
+	public void setHomelandRole(HomelandRole role){
+		this.homelandRole = role;
+		updateAttributes();
+	}
+	
+	public HomelandRole getHomelandRole(){
+		return homelandRole;
+	}
+	
+	public long setNewGroupLeader(){
+		this.overtakeGroupRole = OvertakeGroupRole.LEADER;
+		return this.groupId = UUID.randomUUID().getLeastSignificantBits();
+	}
+	
+	public void setGroupMember(long groupId, OvertakeGroupRole role){
+		
+	}
+	
+	public OvertakeGroupRole getGroupRole(){
+		return overtakeGroupRole;
+	}
+	
+	public boolean isInSameGroup(EntityMobHomelandEnderman enderman){
+		return groupId == enderman.groupId;
+	}
+	
+	public void setCarrying(ItemStack is){
+		dataWatcher.updateObject(17,is);
+	}
+
+	@Override
+	public boolean isCarrying(){
+		return getCarrying() != null;
+	}
+	
+	@Override
+	public ItemStack getCarrying(){
+		return dataWatcher.getWatchableObjectItemStack(17);
+	}
+	
+	public void setScreaming(boolean isScreaming){
+		dataWatcher.updateObject(16,Byte.valueOf((byte)(isScreaming ? 1 : 0)));
+	}
+
+	@Override
+	public boolean isScreaming(){
+		return dataWatcher.getWatchableObjectByte(16) == 1;
+	}
+	
+	// ENDERMAN METHODS
+	
+	protected boolean teleportRandomly(){
+		return teleportTo(posX+(rand.nextDouble()-0.5D)*64D,posY+(rand.nextInt(64)-32),posZ+(rand.nextDouble()-0.5D)*64D);
+	}
+
+	protected boolean teleportToEntity(Entity entity){
+		Vec3 vec = Vec3.createVectorHelper(posX-entity.posX,boundingBox.minY+(height/2F)-entity.posY+entity.getEyeHeight(),posZ-entity.posZ).normalize();
+		double newX = posX+(rand.nextDouble()-0.5D)*8D-vec.xCoord*16D;
+		double newY = posY+(rand.nextInt(16)-8)-vec.yCoord*16D;
+		double newZ = posZ+(rand.nextDouble()-0.5D)*8D-vec.zCoord*16D;
+		return this.teleportTo(newX,newY,newZ);
+	}
+
+	protected boolean teleportTo(double x, double y, double z){
+		if (!canTeleport())return false;
+		
+		double oldX = posX, oldY = posY, oldZ = posZ;
+		posX = x;
+		posY = y;
+		posZ = y;
+		
+		boolean hasTeleported = false;
+		int ix = MathHelper.floor_double(posX), iy = MathHelper.floor_double(posY), iz = MathHelper.floor_double(posZ);
+
+		if (worldObj.blockExists(ix,iy,iz)){
+			boolean foundTopBlock = false;
+
+			while(!foundTopBlock && iy > 0){
+				if (worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement())foundTopBlock = true;
+				else{
+					--posY;
+					--iy;
+				}
+			}
+
+			if (foundTopBlock){
+				setPosition(posX,posY,posZ);
+
+				if (worldObj.getCollidingBoundingBoxes(this,boundingBox).isEmpty() && !worldObj.isAnyLiquid(boundingBox)){
+					hasTeleported = true;
+				}
+			}
+		}
+
+		if (!hasTeleported){
+			setPosition(oldX,oldY,oldZ);
+			return false;
+		}
+		else{
+			for(int a = 0, particleAmt = 128; a < particleAmt; a++){
+				double linePosition = a/(particleAmt-1D);
+				double particleX = oldX+(posX-oldX)*linePosition+(rand.nextDouble()-0.5D)*width*2D;
+				double particleY = oldY+(posY-oldY)*linePosition+rand.nextDouble()*height;
+				double particleZ = oldZ+(posZ-oldZ)*linePosition+(rand.nextDouble()-0.5D)*width*2D;
+				worldObj.spawnParticle("portal",particleX,particleY,particleZ,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
+			}
+
+			worldObj.playSoundEffect(oldX,oldY,oldZ,"mob.endermen.portal",1F,1F);
+			playSound("mob.endermen.portal",1F,1F);
+			return true;
+		}
+	}
+	
+	// OVERRIDDEN METHODS
+	
+	@Override
 	protected String getLivingSound(){
-		return this.isScreaming() ? "mob.endermen.scream" : "mob.endermen.idle";
+		return isScreaming() ? "mob.endermen.scream" : "mob.endermen.idle";
 	}
 
 	@Override
@@ -125,51 +252,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		Item item = this.getDropItem();
-
+		Item item = getDropItem();
+		
 		if (item != null){
-			int j = rand.nextInt(2+looting);
-			for(int k = 0; k<j; ++k)dropItem(item,1);
+			for(int a = 0, total = rand.nextInt(2+looting); a < total; a++)dropItem(item,1);
 		}
-	}
-
-	@Override
-	public boolean isCarrying(){
-		return false;
-	}
-	
-	@Override
-	public ItemStack getCarrying(){
-		return null;
-	}
-
-	@Override
-	public boolean isScreaming(){
-		return false;
-	}
-	
-	@Override
-	protected void despawnEntity(){}
-	
-	public void setHomelandRole(HomelandRole role){
-		this.homelandRole = role;
-		updateAttributes();
-	}
-	
-	public HomelandRole getHomelandRole(){
-		return homelandRole;
-	}
-	
-	public void setNewGroupLeader(){
-		this.groupId = UUID.randomUUID().getLeastSignificantBits();
-		this.overtakeGroupRole = OvertakeGroupRole.LEADER;
-	}
-	
-	public OvertakeGroupRole getGroupRole(){
-		return overtakeGroupRole;
-	}
-	
-	public boolean isInSameGroup(EntityMobHomelandEnderman enderman){
-		return groupId == enderman.groupId;
 	}
 }

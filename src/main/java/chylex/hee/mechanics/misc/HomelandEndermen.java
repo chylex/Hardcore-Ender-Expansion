@@ -1,7 +1,7 @@
 package chylex.hee.mechanics.misc;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland;
@@ -15,6 +15,14 @@ public final class HomelandEndermen{
 	public enum OvertakeGroupRole{
 		LEADER, CHAOSMAKER, FIGHTER, TELEPORTER;
 		public static final OvertakeGroupRole[] values = values();
+		
+		public static OvertakeGroupRole getRandomMember(Random rand){
+			int r = rand.nextInt(10);
+			
+			if (r < 5)return FIGHTER;
+			else if (r < 8)return CHAOSMAKER;
+			else return TELEPORTER;
+		}
 	}
 	
 	public static boolean isOvertakeHappening(EntityMobHomelandEnderman source){

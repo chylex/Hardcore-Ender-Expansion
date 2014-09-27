@@ -3,6 +3,7 @@ import java.util.List;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
+import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -105,7 +106,13 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 			}
 		}
 		
-		// TODO group leaders
+		for(int groupLeader = 0; groupLeader < rand.nextInt(3+rand.nextInt(3)*rand.nextInt(2)) && size > 0; groupLeader++){
+			long groupId = endermanList.remove(rand.nextInt(size--)).setNewGroupLeader();
+			
+			for(int state = rand.nextBoolean() ? rand.nextInt(1+rand.nextInt(4+rand.nextInt(8))) : 0; state > 0 && size > 0; state--){
+				endermanList.remove(rand.nextInt(size--)).setGroupMember(groupId,OvertakeGroupRole.getRandomMember(rand));
+			}
+		}
 	}
 	
 	/*
