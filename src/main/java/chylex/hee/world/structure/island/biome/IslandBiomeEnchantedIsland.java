@@ -1,10 +1,10 @@
 package chylex.hee.world.structure.island.biome;
 import java.util.Random;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorEnchantedIsland;
@@ -29,9 +29,8 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		randomDeviations.add(TALL_PILES);
 		
 		getSpawnEntries(HOMELAND).addAll(new SpawnEntry[]{
-			new SpawnEntry(EntityEnderman.class,28,38),
-			new SpawnEntry(EntityMobHomelandEnderman.class,40,26),
-			new SpawnEntry(EntityMobBabyEnderman.class,16,20)
+			new SpawnEntry(EntityEnderman.class,22,38),
+			new SpawnEntry(EntityMobBabyEnderman.class,14,20)
 		});
 		
 		getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
@@ -44,6 +43,15 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	protected void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ){
 		if (data.content == HOMELAND)decorator.genHomeland();
 		else if (data.content == LABORATORY)decorator.genLaboratory();
+	}
+	
+	@Override
+	public void updateCore(World world, int x, int y, int z, int meta){
+		super.updateCore(world,x,y,z,meta);
+		
+		if (meta == HOMELAND.id){
+			// TODO spawn overworld explorers occasionally
+		}
 	}
 	
 	@Override

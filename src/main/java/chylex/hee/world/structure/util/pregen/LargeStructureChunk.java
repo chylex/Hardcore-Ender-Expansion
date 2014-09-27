@@ -1,11 +1,15 @@
 package chylex.hee.world.structure.util.pregen;
 import gnu.trove.set.hash.TIntHashSet;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.system.logging.Log;
@@ -21,6 +25,7 @@ public class LargeStructureChunk{
 	private final TIntHashSet scheduledForUpdate = new TIntHashSet();
 	private final Map<Integer,String> storedTileEntityClues = new HashMap<>();
 	private final Map<String,ITileEntityGenerator> storedTileEntities = new HashMap<>();
+	private final Map<ChunkCoordIntPair,Entity> storedEntities = new HashMap<>();
 	
 	private TIntHashSet alreadyGeneratedXZ = new TIntHashSet(256);
 	
@@ -75,6 +80,14 @@ public class LargeStructureChunk{
 		storedTileEntities.put(key,tileGen);
 	}
 	
+	public void addEntity(Entity entity, int xInChunk, int zInChunk){
+		storedEntities.put(new ChunkCoordIntPair(xInChunk,zInChunk),entity);
+	}
+	
+	public Collection<Entity> getAllEntities(){
+		return storedEntities.values();
+	}
+	
 	public boolean isBlockScheduledForUpdate(int xInChunk, int yInChunk, int zInChunk){
 		return scheduledForUpdate.contains(yInChunk*256+xInChunk*16+zInChunk);
 	}
@@ -93,7 +106,17 @@ public class LargeStructureChunk{
 			for(int z = 0; z < 16; z++){
 				if (!alreadyGeneratedXZ.contains(x*16+z)){
 					for(int y = minBlockY; y <= maxBlockY && continueY; y++){
-						if (continueY && y == maxBlockY)alreadyGeneratedXZ.add(x*16+z);
+						if (continueY && y == maxBlockY){
+							alreadyGeneratedXZ.add(x*16+z);
+							
+							for(Entry<ChunkCoordIntPair,Entity> entry:storedEntities.entrySet()){
+								if (entry.getKey().chunkXPos == x && entry.getKey().chunkZPos == z){
+									entry.getValue().setWorld(world);
+									world.spawnEntityInWorld(entry.getValue());
+								}
+							}
+						}
+						
 						if ((block = getBlock(x,y,z)) == Blocks.air)continue;
 						
 						if (hasBlocksToUpdate && isBlockScheduledForUpdate(x,y,z))continueY = structure.placeBlockAndUpdateUnsafe(block,getMetadata(x,y,z),addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);

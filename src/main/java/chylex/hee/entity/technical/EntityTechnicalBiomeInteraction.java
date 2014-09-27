@@ -25,6 +25,7 @@ public class EntityTechnicalBiomeInteraction extends Entity{
 	
 	@Override
 	public void onUpdate(){
+		++ticksExisted;
 		if (!worldObj.isRemote)interaction.update();
 	}
 	

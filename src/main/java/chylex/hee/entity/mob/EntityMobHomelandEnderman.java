@@ -1,7 +1,9 @@
 package chylex.hee.entity.mob;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -15,6 +17,31 @@ public class EntityMobHomelandEnderman extends EntityEnderman{
 	
 	public EntityMobHomelandEnderman(World world){
 		super(world);
+	}
+	
+	@Override
+	protected void applyEntityAttributes(){
+		super.applyEntityAttributes();
+		updateAttributes();
+	}
+	
+	private void updateAttributes(){
+		if (homelandRole == null)return;
+		
+		switch(homelandRole){
+			case ISLAND_LEADERS:
+				getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(70D);
+				getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12D);
+				break;
+				
+			case GUARD:
+				getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(15D);
+				break;
+				
+			case BUSINESSMAN:
+				getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D);
+				break;
+		}
 	}
 	
 	@Override
@@ -45,10 +72,7 @@ public class EntityMobHomelandEnderman extends EntityEnderman{
 		super.writeEntityToNBT(nbt);
 		nbt.setByte("homelandRole",(byte)homelandRole.ordinal());
 		nbt.setLong("groupId",groupId);
-		
-		if (groupId != -1){
-			nbt.setByte("groupRole",(byte)overtakeGroupRole.ordinal());
-		}
+		if (groupId != -1)nbt.setByte("groupRole",(byte)overtakeGroupRole.ordinal());
 	}
 
 	@Override
@@ -71,12 +95,22 @@ public class EntityMobHomelandEnderman extends EntityEnderman{
 	@Override
 	protected void despawnEntity(){}
 	
+	public void setHomelandRole(HomelandRole role){
+		this.homelandRole = role;
+		updateAttributes();
+	}
+	
+	public void setNewGroupLeader(){
+		this.groupId = UUID.randomUUID().getLeastSignificantBits();
+		this.overtakeGroupRole = OvertakeGroupRole.LEADER;
+	}
+	
 	private boolean isOvertakeHappening(){
 		List<EntityTechnicalBiomeInteraction> list = worldObj.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,boundingBox.expand(260D,128D,260D));
 		
 		if (!list.isEmpty()){
 			for(EntityTechnicalBiomeInteraction entity:list){
-				if (entity.getInteractionType() == BiomeInteractionEnchantedIsland.InteractionOvertake.class)return true;
+				if (entity.getInteractionType() == BiomeInteractionEnchantedIsland.InteractionOvertake.class && entity.ticksExisted > 2)return true;
 			}
 		}
 		
@@ -94,7 +128,7 @@ public class EntityMobHomelandEnderman extends EntityEnderman{
 		return filtered;
 	}
 
-	private List<EntityMobHomelandEnderman> getByGroupRope(OvertakeGroupRole role){
+	private List<EntityMobHomelandEnderman> getByGroupRole(OvertakeGroupRole role){
 		List<EntityMobHomelandEnderman> all = worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,boundingBox.expand(260D,128D,260D));
 		List<EntityMobHomelandEnderman> filtered = new ArrayList<>();
 		
@@ -105,12 +139,12 @@ public class EntityMobHomelandEnderman extends EntityEnderman{
 		return filtered;
 	}
 	
-	enum HomelandRole{
-		WORKER, ISLAND_LEADER, COLLECTOR, OVERWORLD_EXPLORER, BUSINESSMAN;
+	public enum HomelandRole{
+		WORKER, ISLAND_LEADERS, GUARD, COLLECTOR, OVERWORLD_EXPLORER, BUSINESSMAN;
 		static final HomelandRole[] values = values();
 	}
 	
-	enum OvertakeGroupRole{
+	public enum OvertakeGroupRole{
 		LEADER, CHAOSMAKER, FIGHTER, TELEPORTER;
 		static final OvertakeGroupRole[] values = values();
 	}
