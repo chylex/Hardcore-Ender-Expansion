@@ -1,6 +1,7 @@
 package chylex.hee.item;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,20 +17,23 @@ public class ItemKnowledgeNote extends Item{
 	public ItemKnowledgeNote(){
 		setHasSubtypes(true);
 	}
+	
+	@Override
+	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
+		if (!world.isRemote && is.stackTagCompound == null)setRandomNote(is,world.rand);
+	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (is.stackTagCompound == null)return is;
+		world.playSoundAtEntity(player,"hardcoreenderexpansion:player.random.pageflip",1.5F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.8F));
 		
-		if (world.isRemote){
-			world.playSoundAtEntity(player,"hardcoreenderexpansion:player.random.pageflip",1.5F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.8F));
-			return is;
+		if (!world.isRemote && is.stackTagCompound != null){
+			CompendiumEvents.getPlayerData(player).givePoints(is.stackTagCompound.getByte("pts"));
+			PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
+			
+			--is.stackSize;
 		}
 		
-		CompendiumEvents.getPlayerData(player).givePoints(is.stackTagCompound.getByte("pts"));
-		PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
-		
-		--is.stackSize;
 		return is;
 	}
 	
