@@ -9,6 +9,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -68,14 +70,37 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	public void onLivingUpdate(){
-		super.onLivingUpdate();
-		
 		if (worldObj.isRemote){
 			refreshRoles();
+			for(int a = 0; a<2; a++)worldObj.spawnParticle("portal",posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2.0D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2.0D);
+			// TODO other colors based on role
 		}
 		else{
-			// TODO AI
+			if (isWet())attackEntityFrom(DamageSource.drown,1F);
+			
+			if (isWet() || isBurning()){
+				setTarget(null);
+				setScreaming(false);
+			}
+			
+			long overtakeGroup = HomelandEndermen.getOvertakeGroup(this);
+			
+			if (overtakeGroup == -1){
+				// calm
+			}
+			else if (overtakeGroup == groupId){
+				// overtakers
+			}
+			else{
+				// different group, might join overtakers or be against them
+			}
 		}
+		
+		isJumping = false;
+
+		if (entityToAttack != null)faceEntity(entityToAttack,100F,100F);
+		
+		super.onLivingUpdate();
 	}
 	
 	@Override
@@ -98,6 +123,27 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		
 		return null;
 	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount){
+		if (isEntityInvulnerable())return false;
+		
+		if (source.getEntity() instanceof EntityPlayer || source.getEntity() instanceof EntityMobHomelandEnderman){
+			setTarget(source.getEntity());
+			setScreaming(true);
+		}
+		else if (source instanceof EntityDamageSourceIndirect){
+			for(int attempt = 0; attempt < 64; attempt++){
+				if (teleportRandomly()){
+					setTarget(null);
+					setScreaming(false);
+					return true;
+				}
+			}
+		}
+		
+		return super.attackEntityFrom(source,amount);
+	}
 
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
@@ -105,6 +151,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		nbt.setByte("homelandRole",(byte)homelandRole.ordinal());
 		nbt.setLong("groupId",groupId);
 		if (groupId != -1)nbt.setByte("groupRole",(byte)overtakeGroupRole.ordinal());
+		
+		ItemStack carrying = getCarrying();
+		if (carrying != null)nbt.setTag("carrying",carrying.writeToNBT(new NBTTagCompound()));
 	}
 
 	@Override
@@ -118,6 +167,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			byte groupRoleId = nbt.getByte("groupRole");
 			overtakeGroupRole = groupRoleId >= 0 && groupRoleId < OvertakeGroupRole.values.length ? OvertakeGroupRole.values[groupRoleId] : null;
 		}
+		
+		if (nbt.hasKey("carrying"))setCarrying(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("carrying")));
 		
 		if (homelandRole == null || (groupId != -1 && overtakeGroupRole == null))setDead();
 		else if (!worldObj.isRemote)refreshRoles();
