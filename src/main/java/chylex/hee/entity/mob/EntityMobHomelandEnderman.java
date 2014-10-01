@@ -14,6 +14,8 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
@@ -72,8 +74,15 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	public void onLivingUpdate(){
 		if (worldObj.isRemote){
 			refreshRoles();
-			for(int a = 0; a<2; a++)worldObj.spawnParticle("portal",posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2.0D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2.0D);
-			// TODO other colors based on role
+			for(int a = 0; a < 2; a++)worldObj.spawnParticle("portal",posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D);
+			
+			if (homelandRole != null){
+				HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,homelandRole.getRed(),homelandRole.getGreen(),homelandRole.getBlue());
+			}
+			
+			if (overtakeGroupRole != null && rand.nextBoolean()){
+				HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,0.3F,0.3F,0.3F);
+			}
 		}
 		else{
 			if (isWet())attackEntityFrom(DamageSource.drown,1F);
@@ -370,5 +379,54 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (item != null){
 			for(int a = 0, total = rand.nextInt(2+looting); a < total; a++)dropItem(item,1);
 		}
+	}
+	
+	// NO DESPAWN ON PEACEFUL, MOSTLY COPIED FROM onUpdate WITH UNIMPORTANT BITS REMOVED
+	
+	@Override
+	public void onUpdate(){
+		if (ForgeHooks.onLivingUpdate(this))return;
+		onEntityUpdate();
+		
+		if (!worldObj.isRemote){
+			if (ticksExisted%20 == 0)func_110142_aN().func_94549_h();
+		}
+
+		onLivingUpdate();
+		
+		double xDiff = posX-prevPosX, zDiff = posZ-prevPosZ;
+		float distanceMoved = (float)(xDiff*xDiff+zDiff*zDiff);
+		float yawOffset = renderYawOffset;
+		float f2 = 0F, f3 = 0F;
+		field_70768_au = field_110154_aX;
+
+		if (distanceMoved > 0.0025F){
+			f3 = 1F;
+			f2 = (float)Math.sqrt(distanceMoved)*3F;
+			yawOffset = (float)Math.atan2(zDiff,xDiff)*180F/(float)Math.PI-90F;
+		}
+		
+		if (swingProgress > 0F)yawOffset = rotationYaw;
+		if (!onGround)f3 = 0F;
+
+		field_110154_aX += (f3-field_110154_aX)*0.3F;
+		worldObj.theProfiler.startSection("headTurn");
+		f2 = func_110146_f(yawOffset,f2);
+		worldObj.theProfiler.endSection();
+		worldObj.theProfiler.startSection("rangeChecks");
+
+		while(rotationYaw-prevRotationYaw < -180F)prevRotationYaw -= 360F;
+		while(rotationYaw-prevRotationYaw >= 180F)prevRotationYaw += 360F;
+		while(renderYawOffset-prevRenderYawOffset < -180F)prevRenderYawOffset -= 360F;
+		while(renderYawOffset-prevRenderYawOffset >= 180F)prevRenderYawOffset += 360F;
+		while(rotationPitch-prevRotationPitch < -180F)prevRotationPitch -= 360F;
+		while(rotationPitch-prevRotationPitch >= 180F)prevRotationPitch += 360F;
+		while(rotationYawHead-prevRotationYawHead < -180F)prevRotationYawHead -= 360F;
+		while(rotationYawHead-prevRotationYawHead >= 180F)prevRotationYawHead += 360F;
+
+		worldObj.theProfiler.endSection();
+		field_70764_aw += f2;
+		
+		if (!worldObj.isRemote)updateLeashedState();
 	}
 }

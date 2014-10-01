@@ -8,6 +8,7 @@ import net.minecraft.client.particle.EntityCritFX;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityFlameFX;
+import net.minecraft.client.particle.EntityPortalFX;
 import net.minecraft.client.particle.EntitySpellParticleFX;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -102,6 +103,15 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void portalOrbiting(World world, double x, double y, double z, double motionY){
 		spawn(new EntityOrbitingPortalFX(world,x,y,z,motionY));
+	}
+	
+	@Override
+	public void portalColor(World world, double x, double y, double z, double motionX, double motionY, double motionZ, final float red, final float green, final float blue){
+		spawn(new EntityPortalFX(world,x,y,z,motionX,motionY,motionZ){{
+			particleRed = red;
+			particleGreen = green;
+			particleBlue = blue;
+		}});
 	}
 	
 	@Override

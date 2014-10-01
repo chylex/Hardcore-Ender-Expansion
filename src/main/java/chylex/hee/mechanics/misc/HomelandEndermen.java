@@ -4,12 +4,34 @@ import java.util.List;
 import java.util.Random;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
+import chylex.hee.system.util.ColorUtil;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland;
 
 public final class HomelandEndermen{
 	public enum HomelandRole{
-		WORKER, ISLAND_LEADERS, GUARD, COLLECTOR, OVERWORLD_EXPLORER, BUSINESSMAN;
+		WORKER(227), ISLAND_LEADERS(58), GUARD(0), COLLECTOR(176), OVERWORLD_EXPLORER(141), BUSINESSMAN(335);
 		public static final HomelandRole[] values = values();
+		
+		private final float red, green, blue;
+		
+		HomelandRole(int hue){
+			float[] col = ColorUtil.hsvToRgb(hue/359F,0.78F,0.78F);
+			red = col[0];
+			green = col[1];
+			blue = col[2];
+		}
+		
+		public float getRed(){
+			return red;
+		}
+		
+		public float getGreen(){
+			return green;
+		}
+		
+		public float getBlue(){
+			return blue;
+		}
 	}
 	
 	public enum OvertakeGroupRole{
