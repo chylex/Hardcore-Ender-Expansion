@@ -67,11 +67,11 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.finish("WorldGenMeteoroid");
 		}
 		
-		if (distFromCenter > 500D && randomGenerator.nextInt(1+randomGenerator.nextInt(2)+(int)Math.floor(Math.max((25500D-distFromCenter)/1700D,0))) == 0){
+		if (distFromCenter > 500D && randomGenerator.nextInt(1+randomGenerator.nextInt(2)+(int)Math.floor(Math.max((25500D-distFromCenter)/1300D,0))) <= randomGenerator.nextInt(3)){
 			Stopwatch.timeAverage("WorldGenEndiumOre",64);
 			
-			for(int attempt = 0; attempt < 180; attempt++){
-				endiumOreGen.generate(currentWorld,randomGenerator,randX(),10+randomGenerator.nextInt(100),randZ());
+			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+Math.min(9,(int)Math.floor((distFromCenter-1700D)/2200D))); attempt < 180; attempt++){
+				if (endiumOreGen.generate(currentWorld,randomGenerator,randX(),10+randomGenerator.nextInt(100),randZ()) && --max <= 0)break;
 			}
 			
 			Stopwatch.finish("WorldGenEndiumOre");

@@ -33,7 +33,7 @@ public class ItemSpecialEffects extends Item{
 		for(int a = 10; a < 18; a++)icons[a] = iconRegister.registerIcon("hardcoreenderexpansion:altar_glyph_"+(c++));
 		icons[18] = iconRegister.registerIcon("hardcoreenderexpansion:question_mark");
 		icons[19] = iconRegister.registerIcon("hardcoreenderexpansion:achievement_lore_pages");
-		for(int a = 20; a < biomePointEnd; a++)icons[a] = iconRegister.registerIcon("hardcoreenderexpansion:biome_"+(a-20));
+		for(int a = 20; a <= biomePointEnd; a++)icons[a] = iconRegister.registerIcon("hardcoreenderexpansion:biome_"+(a-20));
 		icons[23] = iconRegister.registerIcon("hardcoreenderexpansion:ender_compendium");
 		itemIcon = icons[0];
 	}
