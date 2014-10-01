@@ -105,7 +105,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 				}
 			}
 			else if (is.getItem() == ItemList.knowledge_note){
-				ItemKnowledgeNote.setRandomNote(is,rand);
+				ItemKnowledgeNote.setRandomNote(is,rand,5);
 			}
 			else if (is.getItem() == Items.cake){
 				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"Why are there just pieces of cake");

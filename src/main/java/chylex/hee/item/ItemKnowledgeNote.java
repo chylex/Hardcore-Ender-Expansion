@@ -20,7 +20,7 @@ public class ItemKnowledgeNote extends Item{
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (!world.isRemote && is.stackTagCompound == null)setRandomNote(is,world.rand);
+		if (!world.isRemote && is.stackTagCompound == null)setRandomNote(is,world.rand,5);
 	}
 
 	@Override
@@ -30,7 +30,6 @@ public class ItemKnowledgeNote extends Item{
 		if (!world.isRemote && is.stackTagCompound != null){
 			CompendiumEvents.getPlayerData(player).givePoints(is.stackTagCompound.getByte("pts"));
 			PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
-			
 			--is.stackSize;
 		}
 		
@@ -44,9 +43,9 @@ public class ItemKnowledgeNote extends Item{
 		textLines.add(is.stackTagCompound.getByte("pts")+" Knowledge Points");
 	}
 	
-	public static ItemStack setRandomNote(ItemStack is, Random rand){
+	public static ItemStack setRandomNote(ItemStack is, Random rand, int multiplier){
 		is.stackTagCompound = new NBTTagCompound();
-		is.stackTagCompound.setByte("pts",(byte)((rand.nextInt(5)*rand.nextInt(4)+rand.nextInt(3)+2)*5));
+		is.stackTagCompound.setByte("pts",(byte)((rand.nextInt(5)*rand.nextInt(4)+rand.nextInt(3)+2)*multiplier));
 		return is;
 	}
 }

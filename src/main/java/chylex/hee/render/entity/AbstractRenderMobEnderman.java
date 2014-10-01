@@ -40,7 +40,7 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 			z += rand.nextGaussian()*spazzAmount;
 		}
 
-		super.doRender((Entity)entity,x,y,z,yaw,partialTickTime);
+		super.doRender((EntityLiving)entity,x,y,z,yaw,partialTickTime);
 	}
 
 	protected int renderEyes(IEndermanRenderer enderman, int pass, float partialTickTime){

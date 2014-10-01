@@ -175,7 +175,8 @@ public final class BlockList{
 		tabOrderedList.addBlocks(
 			obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			essence_altar,decomposition_table,energy_extraction_table,
-			end_powder_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
+			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
+			endium_block,
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,dungeon_puzzle,cinder,
 			crossed_decoration,death_flower

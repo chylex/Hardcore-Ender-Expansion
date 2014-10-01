@@ -10,9 +10,10 @@ public class WorldGenEndiumOre extends WorldGenerator{
 	public boolean generate(World world, Random rand, int x, int y, int z){		
 		if (world.getBlock(x,y,z) != Blocks.end_stone)return false;
 		
-		for(int check = 0, xx = x, yy = y, zz = z; check < 20; check++){
-			if (world.isAirBlock(x-1,y,z) || world.isAirBlock(x+1,y,z) || world.isAirBlock(x,y,z-1) || world.isAirBlock(x,y,z+1)){
+		for(int check = 0, xx = x, yy = y, zz = z; check < 25; check++){
+			if (world.isAirBlock(x-1,y,z) || world.isAirBlock(x+1,y,z) || world.isAirBlock(x,y,z-1) || world.isAirBlock(x,y,z+1) || (check > 15 && rand.nextInt(3) == 0)){
 				world.setBlock(xx,yy,zz,BlockList.endium_ore);
+				System.out.println("place at "+xx+","+yy+","+zz);
 				return true;
 			}
 			

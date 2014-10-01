@@ -175,6 +175,12 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	@Override
+	public void setWorld(World world){
+		super.setWorld(world);
+		refreshRoles();
+	}
+	
+	@Override
 	protected void despawnEntity(){}
 	
 	// LOGIC HANDLING
@@ -192,7 +198,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	// GETTERS, SETTERS AND DATA WATCHER
 	
-	private void refreshRoles(){
+	public void refreshRoles(){
+		if (worldObj == null)return;
+		
 		if (!worldObj.isRemote){
 			int data = (homelandRole.ordinal() & 0b1111) << 4;
 			if (overtakeGroupRole != null)data |= ((overtakeGroupRole.ordinal()+1) & 0b1111);

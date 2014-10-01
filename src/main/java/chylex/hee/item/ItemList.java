@@ -123,7 +123,7 @@ public final class ItemList{
 		
 		tabOrderedList.addItems(
 			adventurers_diary,altar_nexus,essence,enhanced_brewing_stand,
-			end_powder,stardust,igneous_rock,instability_orb,potion_of_instability,
+			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			biome_compass,spatial_dash_gem,transference_gem,temple_caller,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,charm,
 			ghost_amulet,ectoplasm,corporeal_mirage_orb

@@ -6,15 +6,13 @@ import net.minecraft.util.WeightedRandomChestContent;
 import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
 
-public class WeightedRandomKnowledgeFragment extends WeightedRandomChestContent{
-	public WeightedRandomKnowledgeFragment(int weight){
+public class WeightedRandomKnowledgeNote extends WeightedRandomChestContent{
+	public WeightedRandomKnowledgeNote(int weight){
 		super(new ItemStack(ItemList.knowledge_note),1,1,weight);
 	}
 	
 	@Override
 	protected ItemStack[] generateChestContent(Random rand, IInventory inv){
-		ItemStack is = new ItemStack(ItemList.knowledge_note);
-		ItemKnowledgeNote.setRandomNote(is,rand);
-		return new ItemStack[]{ is };
+		return new ItemStack[]{ ItemKnowledgeNote.setRandomNote(new ItemStack(ItemList.knowledge_note),rand,4) };
 	}
 }
