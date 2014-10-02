@@ -72,7 +72,6 @@ public abstract class DragonSpecialAttackBase{
 		previousEffectivness = newEffectivness;
 		newEffectivness = calculateTempEffectivness();
 		effectivness = calculateFinalEffectivness();
-		//System.out.println("effectivness for "+id+": "+previousEffectivness+" / "+newEffectivness+" / "+effectivness);
 	}
 	
 	public boolean canStart(){

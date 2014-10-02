@@ -82,7 +82,7 @@ public class LargeStructureChunk{
 	}
 	
 	public void addEntity(Entity entity, int xInChunk, int zInChunk){
-		storedEntities.put(new ChunkCoordIntPair(xInChunk,zInChunk),entity);System.out.println("adding entity -> "+storedEntities.entrySet());
+		storedEntities.put(new ChunkCoordIntPair(xInChunk,zInChunk),entity);
 	}
 	
 	public Collection<Entity> getAllEntities(){
@@ -122,7 +122,6 @@ public class LargeStructureChunk{
 									
 									entity.setWorld(world);
 									entity.setPosition(structure.getXWithOffset(ix,iz)+fx,structure.getYWithOffset(iy)+fy+0.01D,structure.getZWithOffset(ix,iz)+fz);
-									System.out.println("setting pos to "+entity.posX+", "+entity.posY+", "+entity.posZ);
 									
 									world.spawnEntityInWorld(entity);
 									iter.remove();

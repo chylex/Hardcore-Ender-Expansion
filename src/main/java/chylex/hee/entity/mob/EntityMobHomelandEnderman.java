@@ -192,7 +192,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	@Override
 	public void setWorld(World world){
 		super.setWorld(world);
-		refreshRoles();System.out.println("I exist!");
+		refreshRoles();
 	}
 	
 	@Override
