@@ -44,7 +44,7 @@ public class WorldGenEndPowderOre extends WorldGenerator{
 							for(int zz = minZ; zz <= maxZ; ++zz){
 								double d14 = (zz+0.5D-centerZ)/(area/2D);
 
-								if (world.getBlock(xx,yy,zz) == Blocks.end_stone && d12*d12+d13*d13+d14*d14 < 1D && rand.nextInt(6) == 0){
+								if (d12*d12+d13*d13+d14*d14 < 1D && world.getBlock(xx,yy,zz) == Blocks.end_stone && rand.nextInt(6) == 0){
 									world.setBlock(xx,yy,zz,BlockList.end_powder_ore,0,2);
 									if (++placed > blockAmount-rand.nextInt(3)+rand.nextInt(4))return true;
 								}

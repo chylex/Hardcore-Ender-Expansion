@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.weight.WeightedList;
@@ -99,9 +98,7 @@ public abstract class IslandBiomeBase{
 	
 	public final void decorateGen(LargeStructureWorld world, Random rand, int centerX, int centerZ){
 		getDecorator().begin(world,rand,centerX,centerZ,data);
-		Stopwatch.time("IslandBiomeBase - "+data.content);
 		decorate(world,rand,centerX,centerZ);
-		Stopwatch.finish("IslandBiomeBase - "+data.content);
 		getDecorator().end();
 	}
 	

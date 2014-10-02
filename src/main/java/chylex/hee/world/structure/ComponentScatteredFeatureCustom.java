@@ -114,4 +114,19 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
 		return world.blockExists(xx,yy,zz) ? world.getTileEntity(xx,yy,zz) : null;
 	}
+	
+	@Override
+	public int getXWithOffset(int x, int z){
+		return super.getXWithOffset(x,z);
+	}
+	
+	@Override
+	public int getYWithOffset(int y){
+		return super.getYWithOffset(y);
+	}
+	
+	@Override
+	public int getZWithOffset(int x, int z){
+		return super.getZWithOffset(x,z);
+	}
 }

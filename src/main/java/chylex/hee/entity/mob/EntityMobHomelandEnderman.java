@@ -74,14 +74,20 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	public void onLivingUpdate(){
 		if (worldObj.isRemote){
 			refreshRoles();
-			for(int a = 0; a < 2; a++)worldObj.spawnParticle("portal",posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D);
 			
-			if (homelandRole != null){
-				HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,homelandRole.getRed(),homelandRole.getGreen(),homelandRole.getBlue());
-			}
+			int chance = 1+(int)Math.floor(HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this)/12F);
 			
-			if (overtakeGroupRole != null && rand.nextBoolean()){
-				HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,0.3F,0.3F,0.3F);
+			if (rand.nextInt(chance) == 0){
+				float colFactor = rand.nextFloat()*0.6F+0.4F;
+				HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,colFactor*0.9F,colFactor*0.3F,colFactor);
+				
+				if (homelandRole != null && rand.nextInt(3) == 0){
+					HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,homelandRole.getRed(),homelandRole.getGreen(),homelandRole.getBlue());
+				}
+				
+				if (overtakeGroupRole != null && rand.nextInt(8) == 0){
+					HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,0.3F,0.3F,0.3F);
+				}
 			}
 		}
 		else{
@@ -186,7 +192,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	@Override
 	public void setWorld(World world){
 		super.setWorld(world);
-		refreshRoles();
+		refreshRoles();System.out.println("I exist!");
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package chylex.hee.world.structure.util.pregen;
 import gnu.trove.set.hash.TIntHashSet;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import net.minecraft.block.Block;
@@ -81,7 +82,7 @@ public class LargeStructureChunk{
 	}
 	
 	public void addEntity(Entity entity, int xInChunk, int zInChunk){
-		storedEntities.put(new ChunkCoordIntPair(xInChunk,zInChunk),entity);
+		storedEntities.put(new ChunkCoordIntPair(xInChunk,zInChunk),entity);System.out.println("adding entity -> "+storedEntities.entrySet());
 	}
 	
 	public Collection<Entity> getAllEntities(){
@@ -109,10 +110,22 @@ public class LargeStructureChunk{
 						if (continueY && y == maxBlockY){
 							alreadyGeneratedXZ.add(x*16+z);
 							
-							for(Entry<ChunkCoordIntPair,Entity> entry:storedEntities.entrySet()){
+							for(Iterator<Entry<ChunkCoordIntPair,Entity>> iter = storedEntities.entrySet().iterator(); iter.hasNext();){
+								Entry<ChunkCoordIntPair,Entity> entry = iter.next();
+								
 								if (entry.getKey().chunkXPos == x && entry.getKey().chunkZPos == z){
-									entry.getValue().setWorld(world);
-									world.spawnEntityInWorld(entry.getValue());
+									Entity entity = entry.getValue();
+									
+									int ix = (int)Math.floor(entity.posX), iy = (int)Math.floor(entity.posY), iz = (int)Math.floor(entity.posZ);
+									double fx = entity.posX-ix, fy = entity.posY-iy, fz = entity.posZ-iz;
+									ix += addX; iy += addY; iz += addZ;
+									
+									entity.setWorld(world);
+									entity.setPosition(structure.getXWithOffset(ix,iz)+fx,structure.getYWithOffset(iy)+fy+0.01D,structure.getZWithOffset(ix,iz)+fz);
+									System.out.println("setting pos to "+entity.posX+", "+entity.posY+", "+entity.posZ);
+									
+									world.spawnEntityInWorld(entity);
+									iter.remove();
 								}
 							}
 						}

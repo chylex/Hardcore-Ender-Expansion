@@ -11,7 +11,7 @@ public class WorldGenEndiumOre extends WorldGenerator{
 		if (world.getBlock(x,y,z) != Blocks.end_stone)return false;
 		
 		for(int check = 0, xx = x, yy = y, zz = z; check < 25; check++){
-			if (world.isAirBlock(x-1,y,z) || world.isAirBlock(x+1,y,z) || world.isAirBlock(x,y,z-1) || world.isAirBlock(x,y,z+1) || (check > 15 && rand.nextInt(3) == 0)){
+			if (world.getBlock(xx,yy,zz) == Blocks.end_stone && (world.isAirBlock(x-1,y,z) || world.isAirBlock(x+1,y,z) || world.isAirBlock(x,y,z-1) || world.isAirBlock(x,y,z+1) || (check > 15 && rand.nextInt(3) == 0))){
 				world.setBlock(xx,yy,zz,BlockList.endium_ore);
 				return true;
 			}

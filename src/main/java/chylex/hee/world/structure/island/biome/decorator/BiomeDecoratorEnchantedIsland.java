@@ -91,6 +91,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 				yy = world.getHighestY(xx,zz);
 				
 				if (world.getBlock(xx,yy,zz) == topBlock){
+					enderman.setPosition(xx,yy+1,zz);
 					world.addEntity(enderman);
 					break;
 				}
