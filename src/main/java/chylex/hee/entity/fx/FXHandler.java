@@ -43,6 +43,15 @@ public final class FXHandler{
 				world.playSoundEffect(x,y,z,"random.fizz",0.6F,2.6F+(rand.nextFloat()-rand.nextFloat())*0.8F);
 				break;
 				
+			case DRAGON_EGG_RESET:
+				for(int a = 0; a < 40; a++){
+					world.spawnParticle("smoke",x+randCenter(0.8D),y+randCenter(0.8D),z+randCenter(0.8D),randCenter(0.01D),randCenter(0.01D),randCenter(0.01D));
+					world.spawnParticle("portal",x+randCenter(0.8D),y+randCenter(0.8D)-0.5D,z+randCenter(0.8D),randCenter(2D),randCenter(2D),randCenter(2D));
+				}
+				
+				world.playSound(x,y,z,"mob.endermen.portal",1.2F,world.rand.nextFloat()*0.05F+0.85F,false);
+				break;
+				
 			case GEM_LINK:
 				for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.portalOrbiting(world,x+0.5D,y+0.38D+rand.nextDouble()*0.6D,z+0.5D,rand.nextDouble()*0.045D+0.015D);
 				world.playSound(x+0.5D,y+1D,z+0.5D,"hardcoreenderexpansion:environment.gem.link",1F,rand.nextFloat()*0.02F+0.64F,false);

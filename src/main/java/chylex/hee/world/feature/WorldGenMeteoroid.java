@@ -42,7 +42,7 @@ public class WorldGenMeteoroid extends WorldGenerator{
 				yy = (int)(dy += angVCos);
 				zz = (int)(dz += angHSin);
 				
-				if (canPlaceAt(world,xx,yy,zz) && MathUtil.distance(dx-x,dy-y,dz-z) <= rad){
+				if (canPlaceAt(world,xx,yy,zz) && MathUtil.distance(dx-xx,dy-yy,dz-zz) <= rad){
 					world.setBlock(xx,yy,zz,BlockList.sphalerite,rand.nextFloat() < stardustChance ? 1 : 0,2);
 				}
 			}
