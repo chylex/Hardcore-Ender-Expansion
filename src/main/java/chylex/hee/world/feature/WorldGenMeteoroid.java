@@ -23,26 +23,25 @@ public class WorldGenMeteoroid extends WorldGenerator{
 		
 		world.setBlock(x,y,z,BlockList.sphalerite,1,2);
 		
-		double dx, dy, dz, angH, angHCos, angHSin, angVCos, rad = 3.5D+rand.nextDouble()*3.2D;
-		float fillFactor = 0.4F+rand.nextFloat()*0.35F, stardustChance = 0.12F+rand.nextFloat()*rand.nextFloat()*0.15F;
+		double dx, dy, dz, addX, addY, addZ, rad = 3.6D+rand.nextDouble()*2.8D;
+		float fillFactor = 0.2F+rand.nextFloat()*0.35F, stardustChance = 0.12F+rand.nextFloat()*rand.nextFloat()*0.15F;
 		
-		for(int attempt = 0, maxAttempts = 20+(int)(rad+rad*rad*6), block, lineBlocks = (int)Math.ceil(rad/0.7D); attempt < maxAttempts; attempt++){
+		for(int attempt = 0, maxAttempts = 20+(int)(rad+rad*rad*5), block, lineBlocks = (int)Math.ceil(rad/0.9D); attempt < maxAttempts; attempt++){
 			dx = x+0.5D;
 			dy = y+0.5D;
 			dz = z+0.5D;
-			angH = rand.nextDouble()*Math.PI*2D;
-			angHCos = Math.cos(angH)*0.7D;
-			angHSin = Math.sin(angH)*0.7D;
-			angVCos = Math.cos(rand.nextDouble()*Math.PI*2D)*0.7D;
+			addX = (rand.nextDouble()-rand.nextDouble())*0.9D;
+			addY = (rand.nextDouble()-rand.nextDouble())*0.9D;
+			addZ = (rand.nextDouble()-rand.nextDouble())*0.9D;
 			
 			for(block = 0; block < lineBlocks; block++){
 				if (rand.nextFloat() >= fillFactor)continue;
 				
-				xx = (int)(dx += angHCos);
-				yy = (int)(dy += angVCos);
-				zz = (int)(dz += angHSin);
+				xx = (int)(dx += (addX *= rand.nextDouble()*0.2D+0.8D));
+				yy = (int)(dy += (addY *= rand.nextDouble()*0.2D+0.8D));
+				zz = (int)(dz += (addZ *= rand.nextDouble()*0.2D+0.8D));
 				
-				if (canPlaceAt(world,xx,yy,zz) && MathUtil.distance(dx-xx,dy-yy,dz-zz) <= rad){
+				if (canPlaceAt(world,xx,yy,zz) && MathUtil.distance(xx-x,yy-y,zz-z) <= rad){
 					world.setBlock(xx,yy,zz,BlockList.sphalerite,rand.nextFloat() < stardustChance ? 1 : 0,2);
 				}
 			}

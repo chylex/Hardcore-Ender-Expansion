@@ -140,7 +140,7 @@ public class BlockSpookyLog extends Block{
 						
 						if (!hasFace && !isBlockSeen(world,xx,y,zz)){
 							world.setBlockMetadataWithNotify(xx,y,zz,world.getBlockMetadata(x,y,z),3);
-							world.setBlockMetadataWithNotify(x,y,z,0,3);
+							world.setBlockMetadataWithNotify(x,y,z,0,3); // TODO make sound
 							break;
 						}
 					}
