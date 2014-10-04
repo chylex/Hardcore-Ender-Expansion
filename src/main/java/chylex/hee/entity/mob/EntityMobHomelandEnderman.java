@@ -1,4 +1,5 @@
 package chylex.hee.entity.mob;
+import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,13 +19,19 @@ import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.HomelandEndermen;
+import chylex.hee.mechanics.misc.HomelandEndermen.EndermanTask;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
+import chylex.hee.system.logging.Log;
 
 public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer{
 	private HomelandRole homelandRole;
 	private long groupId = -1;
 	private OvertakeGroupRole overtakeGroupRole;
+	
+	private EndermanTask currentTask;
+	private int currentTaskTimer;
+	private Object currentTaskData;
 	
 	private byte stareTimer;
 	
@@ -82,10 +89,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,colFactor*0.9F,colFactor*0.3F,colFactor);
 				
 				if (homelandRole != null && rand.nextInt(3) == 0){
-					HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,homelandRole.getRed(),homelandRole.getGreen(),homelandRole.getBlue());
+					HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,homelandRole.red,homelandRole.green,homelandRole.blue);
 				}
 				
-				if (overtakeGroupRole != null && rand.nextInt(8) == 0){
+				if (overtakeGroupRole != null && rand.nextInt(7) == 0){
 					HardcoreEnderExpansion.fx.portalColor(worldObj,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*width,(rand.nextDouble()-0.5D)*2D,-rand.nextDouble(),(rand.nextDouble()-0.5D)*2D,0.3F,0.3F,0.3F);
 				}
 			}
@@ -100,14 +107,80 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			
 			long overtakeGroup = HomelandEndermen.getOvertakeGroup(this);
 			
-			if (overtakeGroup == -1){
-				// calm
+			if (overtakeGroup == -1){ // calm situation
+				if (currentTask != EndermanTask.NONE){ // has a task
+					--currentTaskTimer;
+					
+					if (currentTask == EndermanTask.LISTEN_TO_RECRUITER || currentTask == EndermanTask.RECRUIT_TO_GROUP){
+						moveForward = 0F;
+						moveStrafing = 0F;
+						
+						if (currentTaskTimer == 0 && currentTask == EndermanTask.RECRUIT_TO_GROUP){
+							int chance = 50, reportChance = 10;
+							EntityMobHomelandEnderman target = (EntityMobHomelandEnderman)currentTaskData;
+							
+							switch(target.homelandRole){
+								case WORKER: chance = 30; break;
+								case GUARD: chance = 15; reportChance = 35; break;
+								case INTELLIGENCE: chance = 80; reportChance = 25; break;
+								case BUSINESSMAN: chance = 40; reportChance = 18; break;
+							}
+							
+							if (rand.nextInt(100) < chance){
+								target.setGroupMember(groupId,OvertakeGroupRole.getRandomMember(rand));
+								System.out.println("Recruiting successful!");
+							}
+							else if (rand.nextInt(100) < reportChance){
+								List<EntityMobHomelandEnderman> guards = HomelandEndermen.getByHomelandRole(this,HomelandRole.GUARD);
+								System.out.println("Guards alerted!");
+								
+								for(int a = 0, amt = Math.max(3,(int)Math.round(guards.size()*0.3D)); a < amt; a++){
+									EntityMobHomelandEnderman guard = guards.get(rand.nextInt(guards.size()));
+									guard.setTarget(this);
+									guard.setScreaming(true);
+								}
+							}
+							
+							for(int attempt = 0; attempt < 50; attempt++){
+								if (teleportRandomly())break;
+							}
+						}
+					}
+					
+					if (currentTaskTimer <= 0){
+						currentTask = EndermanTask.NONE;
+						currentTaskData = null;
+					}
+				}
+				else{
+					if (groupId != -1 && rand.nextInt(200) == 0){
+						List<EntityMobHomelandEnderman> total = HomelandEndermen.getAll(this);
+						int groupAmt = HomelandEndermen.getInSameGroup(this).size();
+						int totalAmt = total.size();
+						
+						if (totalAmt > 8 && (rand.nextInt(5) <= 2 || groupAmt < (totalAmt>>2)+rand.nextInt(totalAmt>>3)-rand.nextInt(4))){
+							for(int attempt = 0; attempt < 5; attempt++){
+								EntityMobHomelandEnderman enderman = total.get(rand.nextInt(totalAmt));
+								
+								if (enderman == this || enderman.groupId != -1 || !enderman.onGround || enderman.homelandRole == HomelandRole.ISLAND_LEADERS || enderman.getDistanceToEntity(this) > 80D)continue;
+								if (groupAmt > 3 && ((enderman.homelandRole == HomelandRole.GUARD || enderman.homelandRole == HomelandRole.WORKER) && rand.nextInt(5) != 0))continue;
+								
+								currentTask = EndermanTask.RECRUIT_TO_GROUP;
+								currentTaskData = enderman;
+								teleportTo(enderman.posX+(rand.nextDouble()-0.5D)*2D,enderman.posY,enderman.posZ+(rand.nextDouble()-0.5D)*2D);
+								enderman.currentTask = EndermanTask.LISTEN_TO_RECRUITER;
+								enderman.currentTaskTimer = currentTaskTimer = 20+rand.nextInt(60);
+								System.out.println("Trying to recruit at "+posX+","+posY+","+posZ);
+							}
+						}
+					}
+				}
 			}
-			else if (overtakeGroup == groupId){
-				// overtakers
+			else if (overtakeGroup == groupId){ // overtaking group
+				
 			}
-			else{
-				// different group, might join overtakers or be against them
+			else{ // different group - join them or be against them
+				
 			}
 		}
 		
@@ -220,6 +293,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			int data = (homelandRole.ordinal() & 0b1111) << 4;
 			if (overtakeGroupRole != null)data |= ((overtakeGroupRole.ordinal()+1) & 0b1111);
 			dataWatcher.updateObject(18,Byte.valueOf((byte)data));
+			setCustomNameTag(homelandRole.name()+" / "+(overtakeGroupRole == null ? "null" : overtakeGroupRole.name()));
 		}
 		else{
 			byte data = dataWatcher.getWatchableObjectByte(18);
@@ -239,6 +313,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	public long setNewGroupLeader(){
+		if (homelandRole == HomelandRole.ISLAND_LEADERS)return -1L;
 		this.overtakeGroupRole = OvertakeGroupRole.LEADER;
 		return this.groupId = UUID.randomUUID().getLeastSignificantBits();
 	}
@@ -284,6 +359,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	private boolean teleportRandomly(){
 		return teleportTo(posX+(rand.nextDouble()-0.5D)*64D,posY+(rand.nextInt(64)-32),posZ+(rand.nextDouble()-0.5D)*64D);
+	}
+	
+	private boolean teleportRandomly(double maxDist){
+		return teleportTo(posX+(rand.nextDouble()-0.5D)*maxDist,posY+(rand.nextInt((int)maxDist)-maxDist*0.5D),posZ+(rand.nextDouble()-0.5D)*maxDist);
 	}
 
 	private boolean teleportToEntity(Entity entity){

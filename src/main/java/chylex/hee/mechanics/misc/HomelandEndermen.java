@@ -9,28 +9,16 @@ import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEncha
 
 public final class HomelandEndermen{
 	public enum HomelandRole{
-		WORKER(227), ISLAND_LEADERS(58), GUARD(0), COLLECTOR(176), OVERWORLD_EXPLORER(141), BUSINESSMAN(335);
+		WORKER(227), ISLAND_LEADERS(58), GUARD(0), COLLECTOR(176), OVERWORLD_EXPLORER(141), BUSINESSMAN(335), INTELLIGENCE(295);
 		public static final HomelandRole[] values = values();
 		
-		private final float red, green, blue;
+		public final float red, green, blue;
 		
 		HomelandRole(int hue){
 			float[] col = ColorUtil.hsvToRgb(hue/359F,0.78F,0.78F);
 			red = col[0];
 			green = col[1];
 			blue = col[2];
-		}
-		
-		public float getRed(){
-			return red;
-		}
-		
-		public float getGreen(){
-			return green;
-		}
-		
-		public float getBlue(){
-			return blue;
 		}
 	}
 	
@@ -45,6 +33,10 @@ public final class HomelandEndermen{
 			else if (r < 8)return CHAOSMAKER;
 			else return TELEPORTER;
 		}
+	}
+	
+	public enum EndermanTask{
+		NONE, RECRUIT_TO_GROUP, LISTEN_TO_RECRUITER
 	}
 	
 	public static boolean isOvertakeHappening(EntityMobHomelandEnderman source){
@@ -65,8 +57,13 @@ public final class HomelandEndermen{
 		return -1;
 	}
 	
-	public static List<EntityMobHomelandEnderman> getByHomelandRole(EntityMobHomelandEnderman source, HomelandRole role){
+	public static List<EntityMobHomelandEnderman> getAll(EntityMobHomelandEnderman source){
 		List<EntityMobHomelandEnderman> all = source.worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,source.boundingBox.expand(260D,128D,260D));
+		return all;
+	}
+	
+	public static List<EntityMobHomelandEnderman> getByHomelandRole(EntityMobHomelandEnderman source, HomelandRole role){
+		List<EntityMobHomelandEnderman> all = getAll(source);
 		List<EntityMobHomelandEnderman> filtered = new ArrayList<>();
 		
 		for(EntityMobHomelandEnderman enderman:all){
@@ -75,9 +72,20 @@ public final class HomelandEndermen{
 		
 		return filtered;
 	}
+	
+	public static List<EntityMobHomelandEnderman> getInSameGroup(EntityMobHomelandEnderman source){
+		List<EntityMobHomelandEnderman> all = getAll(source);
+		List<EntityMobHomelandEnderman> filtered = new ArrayList<>();
+		
+		for(EntityMobHomelandEnderman enderman:all){
+			if (enderman.isInSameGroup(source))filtered.add(enderman);
+		}
+		
+		return filtered;
+	}
 
 	public static List<EntityMobHomelandEnderman> getByGroupRole(EntityMobHomelandEnderman source, OvertakeGroupRole role){
-		List<EntityMobHomelandEnderman> all = source.worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,source.boundingBox.expand(260D,128D,260D));
+		List<EntityMobHomelandEnderman> all = getAll(source);
 		List<EntityMobHomelandEnderman> filtered = new ArrayList<>();
 		
 		for(EntityMobHomelandEnderman enderman:all){

@@ -74,14 +74,15 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// HOMELAND ENDERMEN
-		for(int spawnAttempt = 0, spawnedTotal = 35+rand.nextInt(20)+rand.nextInt(12); spawnAttempt < spawnedTotal; spawnAttempt++){
+		for(int spawnAttempt = 0, spawnedTotal = 42+rand.nextInt(24)+rand.nextInt(12); spawnAttempt < spawnedTotal; spawnAttempt++){
 			EntityMobHomelandEnderman enderman = new EntityMobHomelandEnderman(null);
 			HomelandRole role = HomelandRole.WORKER;
 			
-			if (rand.nextInt(8) == 0)role = HomelandRole.OVERWORLD_EXPLORER;
+			if (rand.nextInt(7) == 0)role = HomelandRole.OVERWORLD_EXPLORER;
 			else if (rand.nextInt(6) == 0)role = HomelandRole.BUSINESSMAN;
-			else if (rand.nextInt(5) == 0)role = HomelandRole.COLLECTOR;
-			else if (rand.nextInt(4) == 0)role = HomelandRole.GUARD;
+			else if (rand.nextInt(4) == 0)role = HomelandRole.COLLECTOR;
+			else if (rand.nextInt(4) == 0)role = HomelandRole.INTELLIGENCE;
+			else if (rand.nextInt(3) == 0)role = HomelandRole.GUARD;
 			
 			enderman.setHomelandRole(role);
 			
@@ -107,8 +108,9 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 			}
 		}
 		
-		for(int groupLeader = 0; groupLeader < rand.nextInt(3+rand.nextInt(3)*rand.nextInt(2)) && size > 0; groupLeader++){
+		for(int groupLeaders = rand.nextInt(3+rand.nextInt(3)*rand.nextInt(2)); groupLeaders > 0 && size > 0; groupLeaders--){
 			long groupId = endermanList.remove(rand.nextInt(size--)).setNewGroupLeader();
+			if (groupId == -1)continue;
 			
 			for(int state = rand.nextBoolean() ? rand.nextInt(1+rand.nextInt(4+rand.nextInt(8))) : 0; state > 0 && size > 0; state--){
 				endermanList.remove(rand.nextInt(size--)).setGroupMember(groupId,OvertakeGroupRole.getRandomMember(rand));
