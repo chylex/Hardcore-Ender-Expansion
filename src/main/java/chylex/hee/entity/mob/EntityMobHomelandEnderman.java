@@ -1,5 +1,4 @@
 package chylex.hee.entity.mob;
-import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
@@ -15,6 +14,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.HardcoreEnderExpansion;
@@ -24,6 +24,7 @@ import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.EndermanTask;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer{
 	private HomelandRole homelandRole;
@@ -111,9 +112,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				
 				for(int attempt = 0; attempt < 500; attempt++){
 					if (teleportRandomly(92D)){
-						currentTask = EndermanTask.NONE;
-						currentTaskTimer = 0;
-						currentTaskData = null;
+						resetTask();
 						break;
 					}
 				}
@@ -163,11 +162,13 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					else if (currentTask == EndermanTask.STROLL){
 						if (currentTaskTimer == 0 && rand.nextInt(5) == 0)currentTaskTimer = 10+rand.nextInt(60);
 					}
-					
-					if (currentTaskTimer <= 0){
-						currentTask = EndermanTask.NONE;
-						currentTaskData = null;
+					else if (currentTask == EndermanTask.WALK){
+						ChunkPosition pos = (ChunkPosition)currentTaskData;
+						
+						if (MathUtil.distance(posX-pos.chunkPosX,posY-pos.chunkPosY,posZ-pos.chunkPosZ) < 3D)resetTask();
 					}
+					
+					if (currentTaskTimer <= 0)resetTask();
 				}
 				else if (entityToAttack == null){
 					if (groupId != -1 && rand.nextInt(200) == 0){
@@ -192,22 +193,48 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 						}
 					}
 					
-					if (currentTask == EndermanTask.NONE){
+					if (currentTask == EndermanTask.NONE && rand.nextInt(80) == 0){
 						switch(homelandRole){
 							case ISLAND_LEADERS:
 								Vec3 look = getLookVec();
 								int pathX = (int)(posX+look.xCoord*8D+(rand.nextDouble()-0.5D)*4D), pathZ = (int)(posZ+look.zCoord*8D+(rand.nextDouble()-0.5D)*4D);
-								int y = worldObj.getTopSolidOrLiquidBlock(pathX,pathZ);
+								int pathY = worldObj.getTopSolidOrLiquidBlock(pathX,pathZ);
 								
-								if (worldObj.getBlock(pathX,y,pathZ) == BlockList.end_terrain){
-									setPathToEntity(worldObj.getEntityPathToXYZ(this,pathX,y,pathZ,10F,true,false,false,true));
+								if (worldObj.getBlock(pathX,pathY,pathZ) == BlockList.end_terrain){
+									setPathToEntity(worldObj.getEntityPathToXYZ(this,pathX,pathY+1,pathZ,30F,true,false,false,true));
 									currentTask = EndermanTask.STROLL;
 									currentTaskTimer = 30+rand.nextInt(50);
 								}
 								
+								System.out.println("leader strolling to "+pathX+","+pathY+","+pathZ);
 								break;
 								
 							case BUSINESSMAN:
+								if (rand.nextInt(5) == 0){
+									
+								}
+								else if (rand.nextInt(3) == 0){
+									int walkToX, walkToY, walkToZ;
+									
+									for(int attempt = 0; attempt < 10; attempt++){
+										walkToX = (int)posX+rand.nextInt(250)-125;
+										walkToZ = (int)posZ+rand.nextInt(250)-125;
+										walkToY = worldObj.getTopSolidOrLiquidBlock(walkToX,walkToZ);
+										
+										if (worldObj.getBlock(walkToX,walkToY,walkToZ) == BlockList.end_terrain){
+											setPathToEntity(worldObj.getEntityPathToXYZ(this,walkToX,walkToY+1,walkToZ,100F,true,false,false,true));
+											currentTask = EndermanTask.WALK;
+											currentTaskTimer = 200+rand.nextInt(100);
+											currentTaskData = new ChunkPosition(walkToX,walkToY,walkToZ);
+											System.out.println("businessman walking to "+walkToX+","+walkToY+","+walkToZ);
+											break;
+										}
+									}
+								}
+								
+								break;
+								
+							case WORKER:
 								
 								break;
 						}
@@ -309,12 +336,13 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	@Override
 	public void setTarget(Entity target){
 		super.setTarget(target);
-		
-		if (entityToAttack != null){
-			currentTask = EndermanTask.NONE;
-			currentTaskTimer = 0;
-			currentTaskData = null;
-		}
+		if (entityToAttack != null)resetTask();
+	}
+	
+	private void resetTask(){
+		currentTask = EndermanTask.NONE;
+		currentTaskTimer = 0;
+		currentTaskData = null;
 	}
 	
 	@Override
