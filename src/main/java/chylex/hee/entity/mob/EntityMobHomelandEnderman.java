@@ -1,4 +1,5 @@
 package chylex.hee.entity.mob;
+import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
@@ -17,12 +18,12 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.EndermanTask;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
-import chylex.hee.system.logging.Log;
 
 public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer{
 	private HomelandRole homelandRole;
@@ -33,7 +34,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	private int currentTaskTimer;
 	private Object currentTaskData;
 	
-	private byte stareTimer;
+	private byte stareTimer, fallTimer;
 	
 	public EntityMobHomelandEnderman(World world){
 		super(world);
@@ -105,6 +106,19 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				setScreaming(false);
 			}
 			
+			if (!onGround && ++fallTimer > 11+rand.nextInt(10)){
+				fallTimer = 0;
+				
+				for(int attempt = 0; attempt < 500; attempt++){
+					if (teleportRandomly(92D)){
+						currentTask = EndermanTask.NONE;
+						currentTaskTimer = 0;
+						currentTaskData = null;
+						break;
+					}
+				}
+			}
+			
 			long overtakeGroup = HomelandEndermen.getOvertakeGroup(this);
 			
 			if (overtakeGroup == -1){ // calm situation
@@ -146,13 +160,16 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 							}
 						}
 					}
+					else if (currentTask == EndermanTask.STROLL){
+						if (currentTaskTimer == 0 && rand.nextInt(5) == 0)currentTaskTimer = 10+rand.nextInt(60);
+					}
 					
 					if (currentTaskTimer <= 0){
 						currentTask = EndermanTask.NONE;
 						currentTaskData = null;
 					}
 				}
-				else{
+				else if (entityToAttack == null){
 					if (groupId != -1 && rand.nextInt(200) == 0){
 						List<EntityMobHomelandEnderman> total = HomelandEndermen.getAll(this);
 						int groupAmt = HomelandEndermen.getInSameGroup(this).size();
@@ -172,6 +189,27 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								enderman.currentTaskTimer = currentTaskTimer = 20+rand.nextInt(60);
 								System.out.println("Trying to recruit at "+posX+","+posY+","+posZ);
 							}
+						}
+					}
+					
+					if (currentTask == EndermanTask.NONE){
+						switch(homelandRole){
+							case ISLAND_LEADERS:
+								Vec3 look = getLookVec();
+								int pathX = (int)(posX+look.xCoord*8D+(rand.nextDouble()-0.5D)*4D), pathZ = (int)(posZ+look.zCoord*8D+(rand.nextDouble()-0.5D)*4D);
+								int y = worldObj.getTopSolidOrLiquidBlock(pathX,pathZ);
+								
+								if (worldObj.getBlock(pathX,y,pathZ) == BlockList.end_terrain){
+									setPathToEntity(worldObj.getEntityPathToXYZ(this,pathX,y,pathZ,10F,true,false,false,true));
+									currentTask = EndermanTask.STROLL;
+									currentTaskTimer = 30+rand.nextInt(50);
+								}
+								
+								break;
+								
+							case BUSINESSMAN:
+								
+								break;
 						}
 					}
 				}
@@ -266,6 +304,17 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	public void setWorld(World world){
 		super.setWorld(world);
 		refreshRoles();
+	}
+	
+	@Override
+	public void setTarget(Entity target){
+		super.setTarget(target);
+		
+		if (entityToAttack != null){
+			currentTask = EndermanTask.NONE;
+			currentTaskTimer = 0;
+			currentTaskData = null;
+		}
 	}
 	
 	@Override
