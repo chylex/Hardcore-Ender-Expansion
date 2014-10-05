@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,18 +25,11 @@ public final class Log{
 		isDeobfEnvironment = ((Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment")).booleanValue();
 		
 		if (isDeobfEnvironment && MinecraftServer.getServer() instanceof DedicatedServer){
-			File eula = new File("eula.txt");
-			FileOutputStream fos = null;
-
-			try{
-				fos = new FileOutputStream(eula);
+			try(FileOutputStream fos = new FileOutputStream(new File("eula.txt"))){
 				Properties properties = new Properties();
 				properties.setProperty("eula","true");
 				properties.store(fos,"Screw your EULA, I don't want that stuff in my workspace.");
 			}catch(Exception e){}
-			finally{
-				IOUtils.closeQuietly(fos);
-			}
 		}
 	}
 	

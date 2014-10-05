@@ -125,8 +125,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					--currentTaskTimer;
 					
 					if (currentTask == EndermanTask.LISTEN_TO_RECRUITER || currentTask == EndermanTask.RECRUIT_TO_GROUP){
-						moveForward = 0F;
-						moveStrafing = 0F;
+						moveForward = moveStrafing = 0F;
 						
 						if (currentTaskTimer == 0 && currentTask == EndermanTask.RECRUIT_TO_GROUP){
 							int chance = 50, reportChance = 10;
@@ -166,6 +165,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 						ChunkPosition pos = (ChunkPosition)currentTaskData;
 						
 						if (MathUtil.distance(posX-pos.chunkPosX,posY-pos.chunkPosY,posZ-pos.chunkPosZ) < 3D)resetTask();
+					}
+					else if (currentTask == EndermanTask.COMMUNICATE){
+						moveForward = moveStrafing = 0F;
 					}
 					
 					if (currentTaskTimer <= 0)resetTask();
@@ -211,7 +213,17 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								
 							case BUSINESSMAN:
 								if (rand.nextInt(5) == 0){
+									List<EntityMobHomelandEnderman> businessmen = HomelandEndermen.getByHomelandRole(this,HomelandRole.BUSINESSMAN);
 									
+									if (!businessmen.isEmpty()){
+										EntityMobHomelandEnderman enderman = businessmen.get(rand.nextInt(businessmen.size()));
+										
+										if (enderman.currentTask == EndermanTask.NONE){
+											currentTask = enderman.currentTask = EndermanTask.COMMUNICATE;
+											currentTaskTimer = enderman.currentTaskTimer = 30+rand.nextInt(50+rand.nextInt(80));
+											System.out.println("businessman communicating at "+posX+","+posY+","+posZ);
+										}
+									}
 								}
 								else if (rand.nextInt(3) == 0){
 									int walkToX, walkToY, walkToZ;
@@ -235,6 +247,19 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								break;
 								
 							case WORKER:
+								if (rand.nextInt(270) == 0 && worldObj.getBlock((int)Math.floor(posX),(int)Math.floor(posY)+1,(int)Math.floor(posZ)) != BlockList.ender_goo){
+									for(int attempt = 0, tpX, tpY, tpZ; attempt < 50; attempt++){
+										tpX = (int)posX+rand.nextInt(70)-35;
+										tpZ = (int)posZ+rand.nextInt(70)-35;
+										tpY = worldObj.getTopSolidOrLiquidBlock(tpX,tpZ);
+										
+										if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.ender_goo){
+											teleportTo(tpX+(rand.nextDouble()-0.5D)*0.3D,tpY+1D,tpZ+(rand.nextDouble()-0.5D)*0.3D,true);
+											System.out.println("worked tp'd to "+tpX+","+tpY+","+tpZ);
+											break;
+										}
+									}
+								}
 								
 								break;
 						}
@@ -449,8 +474,12 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		double newZ = posZ+(rand.nextDouble()-0.5D)*8D-vec.zCoord*16D;
 		return this.teleportTo(newX,newY,newZ);
 	}
-
+	
 	private boolean teleportTo(double x, double y, double z){
+		return teleportTo(x,y,z,false);
+	}
+
+	private boolean teleportTo(double x, double y, double z, boolean ignoreChecks){
 		if (!canTeleport())return false;
 		
 		double oldX = posX, oldY = posY, oldZ = posZ;
@@ -475,7 +504,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			if (foundTopBlock){
 				setPosition(posX,posY,posZ);
 
-				if (worldObj.getCollidingBoundingBoxes(this,boundingBox).isEmpty() && !worldObj.isAnyLiquid(boundingBox)){
+				if ((worldObj.getCollidingBoundingBoxes(this,boundingBox).isEmpty() && !worldObj.isAnyLiquid(boundingBox)) || ignoreChecks){
 					hasTeleported = true;
 				}
 			}
