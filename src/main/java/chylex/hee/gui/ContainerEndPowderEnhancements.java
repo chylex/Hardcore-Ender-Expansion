@@ -296,7 +296,7 @@ public class ContainerEndPowderEnhancements extends Container{
 					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
 				}
 				
-				PacketPipeline.sendToPlayer(owner,new C08PlaySound((byte)9,owner.posX,owner.posY,owner.posZ,0.8F,1.2F));
+				PacketPipeline.sendToPlayer(owner,new C08PlaySound(C08PlaySound.RANDOM_BREAK,owner.posX,owner.posY,owner.posZ,0.8F,1.2F));
 			}
 		}
 	}

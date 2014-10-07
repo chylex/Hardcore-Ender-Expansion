@@ -14,7 +14,8 @@ public class C08PlaySound extends AbstractClientPacket{
 							 GHOST_SPAWN = 5,
 							 SPAWN_FIREBALL = 6,
 							 GHOST_DEATH = 7,
-							 STARDUST_TRANSFORMATION = 8;
+							 STARDUST_TRANSFORMATION = 8,
+							 RANDOM_BREAK = 9;
 	
 	private byte soundId;
 	private double x,y,z;
