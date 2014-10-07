@@ -1,4 +1,5 @@
 package chylex.hee.entity.mob;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
@@ -379,6 +380,31 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (source.getEntity() instanceof EntityPlayer || source.getEntity() instanceof EntityMobHomelandEnderman){
 			setTarget(source.getEntity());
 			setScreaming(true);
+			
+			float guardPerc = 0F, guardDist = 0F;
+			
+			switch(homelandRole){
+				case ISLAND_LEADERS: guardPerc = 0.9F; guardDist = 260F; break;
+				case GUARD: guardPerc = 0.5F; guardDist = 100F; break;
+				case WORKER: guardPerc = rand.nextFloat()*0.2F; guardDist = 30F; break;
+				case BUSINESSMAN:
+				case INTELLIGENCE: guardPerc = 0.1F+rand.nextFloat()*0.15F; guardDist = 60F; break;
+				case COLLECTOR:
+				case OVERWORLD_EXPLORER: guardPerc = 0.2F+rand.nextFloat()*0.1F; guardDist = 80F; break;
+				default:
+			}
+			
+			List<EntityMobHomelandEnderman> list = worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,boundingBox.expand(guardDist,128D,guardDist));
+			
+			for(Iterator<EntityMobHomelandEnderman> iter = list.iterator(); iter.hasNext();){
+				if (iter.next().homelandRole != HomelandRole.GUARD)iter.remove();
+			}
+			
+			for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt; a++){
+				EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
+				guard.setTarget(this);
+				guard.setScreaming(true);
+			}
 		}
 		else if (source instanceof EntityDamageSourceIndirect){
 			for(int attempt = 0; attempt < 64; attempt++){
