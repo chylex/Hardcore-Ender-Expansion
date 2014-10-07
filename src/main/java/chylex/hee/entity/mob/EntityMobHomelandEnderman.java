@@ -76,6 +76,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			case BUSINESSMAN:
 				getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D);
 				break;
+				
+			default:
 		}
 	}
 	
@@ -136,6 +138,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								case GUARD: chance = 15; reportChance = 35; break;
 								case INTELLIGENCE: chance = 80; reportChance = 25; break;
 								case BUSINESSMAN: chance = 40; reportChance = 18; break;
+								default:
 							}
 							
 							if (rand.nextInt(100) < chance){
@@ -262,6 +265,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								}
 								
 								break;
+								
+							default:
 						}
 					}
 				}

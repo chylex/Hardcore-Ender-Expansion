@@ -111,7 +111,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 			
 			OreGenerator oreGen = new OreGenerator(8,0,8,size-8,55,size-8);
 			oreGen.setup(consistentRand,biome);
-			oreGen.generate(structure);
+			oreGen.generate(structure,consistentRand);
 			
 			Stopwatch.finish("IslandGen - ores");
 			Stopwatch.time("IslandGen - biome content "+biomeData.content.id);
