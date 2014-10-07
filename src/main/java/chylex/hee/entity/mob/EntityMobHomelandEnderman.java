@@ -25,6 +25,7 @@ import chylex.hee.mechanics.misc.HomelandEndermen.EndermanTask;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.structure.island.biome.feature.island.StructureEndermanStash;
 
 public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer{
 	private HomelandRole homelandRole;
@@ -122,8 +123,36 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			
 			long overtakeGroup = HomelandEndermen.getOvertakeGroup(this);
 			
+			if (currentTask == EndermanTask.WAIT){
+				moveForward = moveStrafing = 0F;
+				fallDistance = 0F;
+				posY = 10000D;
+				
+				if (--currentTaskTimer == 0){
+					int tpX, tpY, tpZ;
+					
+					for(int attempt = 0; attempt < 100; attempt++){
+						tpX = (int)Math.floor(posX)+rand.nextInt(40)-20;
+						tpZ = (int)Math.floor(posZ)+rand.nextInt(40)-20;
+						tpY = worldObj.getTopSolidOrLiquidBlock(tpX,tpZ);
+						
+						if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.end_terrain){
+							teleportTo(tpX+0.3D+rand.nextDouble()*0.4D,tpY+1D,tpZ+0.3D+rand.nextDouble()*0.4D);
+							
+							if (homelandRole == HomelandRole.COLLECTOR && rand.nextInt(4) != 0){
+								setCarrying(new ItemStack(StructureEndermanStash.getRandomBlock(rand)));
+							}
+							
+							break;
+						}
+					}
+					
+					resetTask();
+				}
+			}
+			
 			if (overtakeGroup == -1){ // calm situation
-				if (currentTask != EndermanTask.NONE){ // has a task
+				if (currentTask != EndermanTask.NONE && currentTask != EndermanTask.WAIT){ // has a task
 					--currentTaskTimer;
 					
 					if (currentTask == EndermanTask.LISTEN_TO_RECRUITER || currentTask == EndermanTask.RECRUIT_TO_GROUP){
@@ -257,7 +286,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										tpY = worldObj.getTopSolidOrLiquidBlock(tpX,tpZ);
 										
 										if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.ender_goo){
-											teleportTo(tpX+(rand.nextDouble()-0.5D)*0.3D,tpY+1D,tpZ+(rand.nextDouble()-0.5D)*0.3D,true);
+											teleportTo(tpX+0.5D+(rand.nextDouble()-0.5D)*0.3D,tpY+1D,tpZ+0.5D+(rand.nextDouble()-0.5D)*0.3D,true);
 											System.out.println("worked tp'd to "+tpX+","+tpY+","+tpZ);
 											break;
 										}
@@ -267,15 +296,36 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								break;
 								
 							case COLLECTOR:
-								if (rand.nextInt(50) == 0){
-									
+								if (rand.nextInt(50) == 0 && (!isCarrying() || rand.nextInt(4) == 0)){
+									currentTask = EndermanTask.WAIT;
+									currentTaskTimer = 150+rand.nextInt(600+rand.nextInt(1800));
+									setCarrying(null);
+									teleportTo(posX,10000D,posZ,true);
+									System.out.println("collector teleporting");
 								}
 								
 								break;
 								
 							case OVERWORLD_EXPLORER:
 								if (rand.nextInt(200) == 0){
-									teleportTo(posX,10000,posZ,true);
+									currentTask = EndermanTask.WAIT;
+									currentTaskTimer = 500+rand.nextInt(800)+rand.nextInt(1000)*(1+rand.nextInt(4));
+									
+									List<EntityMobHomelandEnderman> explorers = HomelandEndermen.getByHomelandRole(this,HomelandRole.OVERWORLD_EXPLORER);
+									
+									for(int a = 0; a < 1+rand.nextInt(7) && !explorers.isEmpty(); a++){
+										if (rand.nextInt(3) == 0)break;
+										
+										EntityMobHomelandEnderman enderman = explorers.remove(rand.nextInt(explorers.size()));
+										if (enderman == this)continue;
+											
+										enderman.currentTask = EndermanTask.WAIT;
+										enderman.currentTaskTimer = currentTaskTimer+rand.nextInt(500);
+										enderman.teleportTo(enderman.posX,10000D,enderman.posZ,true);
+										System.out.println("overworld explorer teleporting [multi]");
+									}
+									
+									teleportTo(posX,10000D,posZ,true);
 									System.out.println("overworld explorer teleporting");
 								}
 								
@@ -350,6 +400,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		nbt.setLong("groupId",groupId);
 		if (groupId != -1)nbt.setByte("groupRole",(byte)overtakeGroupRole.ordinal());
 		
+		if (currentTask == EndermanTask.WAIT)nbt.setInteger("wait",currentTaskTimer);
+		
 		ItemStack carrying = getCarrying();
 		if (carrying != null)nbt.setTag("carrying",carrying.writeToNBT(new NBTTagCompound()));
 	}
@@ -364,6 +416,11 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if ((groupId = nbt.getLong("groupId")) != -1){
 			byte groupRoleId = nbt.getByte("groupRole");
 			overtakeGroupRole = groupRoleId >= 0 && groupRoleId < OvertakeGroupRole.values.length ? OvertakeGroupRole.values[groupRoleId] : null;
+		}
+		
+		if (nbt.hasKey("wait")){
+			currentTask = EndermanTask.WAIT;
+			currentTaskTimer = nbt.getInteger("wait");
 		}
 		
 		if (nbt.hasKey("carrying"))setCarrying(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("carrying")));

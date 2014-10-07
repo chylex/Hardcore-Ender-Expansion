@@ -23,6 +23,10 @@ public class StructureEndermanStash extends AbstractIslandStructure{
 		blockList = blocks.toArray(new Block[blocks.size()]);
 	}
 	
+	public static Block getRandomBlock(Random rand){
+		return blockList[rand.nextInt(blockList.length)];
+	}
+	
 	@Override
 	protected boolean generate(Random rand){
 		for(int xx = getRandomXZ(rand,12), zz = getRandomXZ(rand,12), yy, attempt = 0; attempt < 10; attempt++){
