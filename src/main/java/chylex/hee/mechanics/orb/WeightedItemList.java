@@ -6,8 +6,9 @@ public class WeightedItemList extends WeightedList<WeightedItem>{
 	
 	@Override
 	public boolean add(WeightedItem obj){
-		for(int a = 0; a < size(); a++){
+		for(int a = 0, size = size(); a < size; a++){
 			WeightedItem item = get(a);
+			
 			if (item.getItem() == obj.getItem()){
 				remove(a);
 				

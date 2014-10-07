@@ -12,6 +12,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -28,7 +29,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public final class OrbAcquirableItems{
 	public static boolean overrideRemoveBrokenRecipes = false;
 	public static final WeightedItemList idList = new WeightedItemList();
-	private static final String errorMessage = "A defective recipe has crashed Hardcore Ender Expansion! Another mod is likely registering a recipe BEFORE registering blocks and items, which is considered a serious error that may cause you to lose your items or your world when crafting. Please, remove other mods until this message stops appearing to find which mod causes the issue, and then report it to that mod's author. You can enable logDebuggingInfo in config to get complete list of recipes in the game, search for 'Previous entry caused an exception!' and report the broken recipes.";
+	private static final String errorMessage = "A defective recipe has crashed the game! Another mod is creating recipes with non-existent blocks or items, which is a serious error that will cause item or even world loss when crafting these recipes. Corrupted recipes have been saved in the log with tag [HEE-ORB], please try to find which mod they belong to and report them to the respective modder. Then enable the 'overrideRemoveBrokenRecipes' option in Hardcore Ender Expansion and the game will start.";
 	
 	public static void initialize(){
 		Stopwatch.time("OrbAcquirableItems");
@@ -43,44 +44,38 @@ public final class OrbAcquirableItems{
 			idList.add(new WeightedItem(biome.fillerBlock,0,34));
 		}
 		
+		Throwable lastThrowable = null;
+		
 		for(Iterator<Entry<ItemStack,ItemStack>> iter = FurnaceRecipes.smelting().getSmeltingList().entrySet().iterator(); iter.hasNext();){
 			Entry<ItemStack,ItemStack> entry = iter.next();
 			
 			try{
-				if (Log.isDebugEnabled())Log.debug("Adding a furnace recipe: $0 <= $1",toString(entry.getValue()),toString(entry.getKey()));
-				
 				int weight = 30-(int)(7F*FurnaceRecipes.smelting().func_151398_b(entry.getValue())); // OBFUSCATED get experience amount
 				idList.add(new WeightedItem(entry.getKey().getItem(),0,weight));
 				idList.add(new WeightedItem(entry.getValue().getItem(),0,weight));
 			}catch(Throwable t){
-				if (Log.isDebugEnabled() || overrideRemoveBrokenRecipes)Log.debug("Previous entry caused an exception!");
+				Log.error("[HEE-ORB] Corrupted furnace recipe: $0 <= $1",toString(entry.getValue()),toString(entry.getKey()));
 				if (overrideRemoveBrokenRecipes)iter.remove();
+				lastThrowable = t;
 				proceed = false;
 			}
 		}
 			
-		for(Iterator<Object> iter = CraftingManager.getInstance().getRecipeList().iterator(); iter.hasNext();){
-			Object o = iter.next();
+		for(Iterator<IRecipe> iter = CraftingManager.getInstance().getRecipeList().iterator(); iter.hasNext();){
+			IRecipe recipe = iter.next();
 			
 			try{
-				if (o instanceof ShapedRecipes){
-					ShapedRecipes shaped = (ShapedRecipes)o;
-					if (Log.isDebugEnabled())Log.debug("Adding a shaped recipe: $0 <= $1",toString(shaped.getRecipeOutput()),toString(shaped.recipeItems));
-					
+				if (recipe instanceof ShapedRecipes){
+					ShapedRecipes shaped = (ShapedRecipes)recipe;
 					addItemToList(shaped.getRecipeOutput(),21-shaped.recipeWidth*2-shaped.recipeHeight*2);
 					for(ItemStack is:shaped.recipeItems)addItemToList(is,23-shaped.recipeWidth*2-shaped.recipeHeight*2);
 				}
-				else if (o instanceof ShapelessRecipes){
-					ShapelessRecipes shapeless = (ShapelessRecipes)o;
-					if (Log.isDebugEnabled())Log.debug("Adding a shapeless recipe: $0 <= $1",toString(shapeless.getRecipeOutput()),toString(shapeless.recipeItems));
-					
-					addItemToList(shapeless.getRecipeOutput(),24-shapeless.getRecipeSize()*2);
-					for(Object item:shapeless.recipeItems)addItemToList((ItemStack)item,25-shapeless.getRecipeSize()*2);
+				else if (recipe instanceof ShapelessRecipes){
+					addItemToList(recipe.getRecipeOutput(),24-recipe.getRecipeSize()*2);
+					for(Object item:((ShapelessRecipes)recipe).recipeItems)addItemToList((ItemStack)item,25-recipe.getRecipeSize()*2);
 				}
-				else if (o instanceof ShapedOreRecipe){
-					ShapedOreRecipe shaped = (ShapedOreRecipe)o;
-					if (Log.isDebugEnabled())Log.debug("Adding a shaped ore recipe: $0 <= $1",toString(shaped.getRecipeOutput()),toString(shaped.getInput()));
-					
+				else if (recipe instanceof ShapedOreRecipe){
+					ShapedOreRecipe shaped = (ShapedOreRecipe)recipe;					
 					int amt = DragonUtil.getNonNullValues(shaped.getInput()).length;
 					
 					addItemToList(shaped.getRecipeOutput(),20-amt*2);
@@ -95,15 +90,12 @@ public final class OrbAcquirableItems{
 						}
 					}
 				}
-				else if (o instanceof ShapelessOreRecipe){
-					ShapelessOreRecipe shapeless = (ShapelessOreRecipe)o;
-					if (Log.isDebugEnabled())Log.debug("Adding a shapeless ore recipe: $0 <= $1",toString(shapeless.getRecipeOutput()),toString(shapeless.getInput()));
+				else if (recipe instanceof ShapelessOreRecipe){					
+					int amt = recipe.getRecipeSize();
 					
-					int amt = shapeless.getInput().size();
-					
-					addItemToList(shapeless.getRecipeOutput(),23-amt*2);
+					addItemToList(recipe.getRecipeOutput(),23-amt*2);
 	
-					for(Object obj:shapeless.getInput()){
+					for(Object obj:((ShapelessOreRecipe)recipe).getInput()){
 						if (obj instanceof ItemStack)addItemToList((ItemStack)obj,24-amt*2);
 						else if (obj instanceof ArrayList){
 							ArrayList list = (ArrayList)obj;
@@ -114,13 +106,18 @@ public final class OrbAcquirableItems{
 					}
 				}
 			}catch(Throwable t){
-				if (Log.isDebugEnabled() || overrideRemoveBrokenRecipes)Log.debug("Previous entry caused an exception!");
+				if (recipe instanceof ShapedRecipes)Log.error("[HEE-ORB] Corrupted shaped recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedRecipes)recipe).recipeItems));
+				else if (recipe instanceof ShapelessRecipes)Log.error("[HEE-ORB] Corrupted shapeless recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessRecipes)recipe).recipeItems));
+				else if (recipe instanceof ShapedOreRecipe)Log.error("[HEE-ORB] Corrupted shaped ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedOreRecipe)recipe).getInput()));
+				else if (recipe instanceof ShapelessOreRecipe)Log.error("[HEE-ORB] Corrupted shapeless ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessOreRecipe)recipe).getInput()));
+				
 				if (overrideRemoveBrokenRecipes)iter.remove();
+				lastThrowable = t;
 				proceed = false;
 			}
 		}
 		
-		if (!proceed && !overrideRemoveBrokenRecipes)throw new RuntimeException(errorMessage);
+		if (!proceed && !overrideRemoveBrokenRecipes)throw new RuntimeException(errorMessage,lastThrowable);
 		
 		/*
 		 * CLEANUP OF THINGS WE DON'T WANT

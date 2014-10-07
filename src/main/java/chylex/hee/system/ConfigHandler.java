@@ -83,7 +83,7 @@ public final class ConfigHandler{
 		Log.forceDebugEnabled = config.get("general","logDebuggingInfo",false).getBoolean(false);
 		
 		if (firstTimeGeneral){
-			OrbAcquirableItems.overrideRemoveBrokenRecipes = hideAndReturn(config.get("general","overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game and enable logging of them. ALWAYS REPORT THE ISSUE TO THE AUTHOR OF THE BROKEN MOD FIRST!")).getBoolean(false);
+			OrbAcquirableItems.overrideRemoveBrokenRecipes = hideAndReturn(config.get("general","overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!")).getBoolean(false);
 			UpdateNotificationManager.enableNotifications = hideAndReturn(config.get("general","enableUpdateNotifications",true)).getBoolean(true);
 			UpdateNotificationManager.enableBuildCheck = hideAndReturn(config.get("general","enableBuildCheck",true,"It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify as many people about it as possible.")).getBoolean(true);
 			ModCommonProxy.achievementStartId = hideAndReturn(config.get("general","achievementStartId",3500)).getInt(3500);

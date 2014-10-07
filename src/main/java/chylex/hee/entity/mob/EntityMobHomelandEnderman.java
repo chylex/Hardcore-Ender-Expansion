@@ -266,6 +266,21 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								
 								break;
 								
+							case COLLECTOR:
+								if (rand.nextInt(50) == 0){
+									
+								}
+								
+								break;
+								
+							case OVERWORLD_EXPLORER:
+								if (rand.nextInt(200) == 0){
+									teleportTo(posX,10000,posZ,true);
+									System.out.println("overworld explorer teleporting");
+								}
+								
+								break;
+								
 							default:
 						}
 					}
@@ -496,7 +511,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		int ix = MathHelper.floor_double(posX), iy = MathHelper.floor_double(posY), iz = MathHelper.floor_double(posZ);
 
 		if (worldObj.blockExists(ix,iy,iz)){
-			boolean foundTopBlock = false;
+			boolean foundTopBlock = ignoreChecks;
 
 			while(!foundTopBlock && iy > 0){
 				if (worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement())foundTopBlock = true;

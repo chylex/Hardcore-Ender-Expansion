@@ -1,8 +1,8 @@
 package chylex.hee.mechanics.orb;
-import gnu.trove.set.hash.TShortHashSet;
 import java.util.Arrays;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.weight.IWeightProvider;
 
 public class WeightedItem implements IWeightProvider{
@@ -25,10 +25,7 @@ public class WeightedItem implements IWeightProvider{
 	}
 	
 	public void combineDamageValues(WeightedItem otherItem){
-		TShortHashSet newDamageValues = new TShortHashSet();
-		newDamageValues.addAll(possibleDamageValues);
-		newDamageValues.addAll(otherItem.possibleDamageValues);
-		possibleDamageValues = newDamageValues.toArray();
+		possibleDamageValues = ArrayUtils.addAll(possibleDamageValues,otherItem.possibleDamageValues);
 	}
 	
 	public short[] getDamageValues(){
@@ -46,8 +43,7 @@ public class WeightedItem implements IWeightProvider{
 	
 	@Override
 	public boolean equals(Object o){
-		if (o instanceof WeightedItem)return ((WeightedItem)o).item == item;
-		return false;
+		return o instanceof WeightedItem && ((WeightedItem)o).item == item;
 	}
 	
 	@Override
