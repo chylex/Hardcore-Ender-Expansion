@@ -13,7 +13,7 @@ public final class UpdateNotificationManager{
 		if (enableNotifications || enableBuildCheck){
 			long time = System.currentTimeMillis();
 			
-			if (lastNotificationTime == -1 || time-lastNotificationTime > 1200000){
+			if (lastNotificationTime == -1 || time-lastNotificationTime > 14400000){
 				lastNotificationTime = time;
 				new UpdateThread(HardcoreEnderExpansion.modVersion).start();
 			}

@@ -56,7 +56,7 @@ public final class ConfigHandler{
 		this.config.load();
 		
 		config.moveProperty("general","enableMusic","client");
-		config.moveProperty("general","enableUpdateNotifications","client");
+		config.moveProperty("client","enableUpdateNotifications","general");
 		config.getCategory("general").remove("achievementIdStart");
 	}
 	
@@ -85,7 +85,7 @@ public final class ConfigHandler{
 		if (firstTimeGeneral){
 			OrbAcquirableItems.overrideRemoveBrokenRecipes = hideAndReturn(config.get("general","overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!")).getBoolean(false);
 			UpdateNotificationManager.enableNotifications = hideAndReturn(config.get("general","enableUpdateNotifications",true)).getBoolean(true);
-			UpdateNotificationManager.enableBuildCheck = hideAndReturn(config.get("general","enableBuildCheck",true,"It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify as many people about it as possible.")).getBoolean(true);
+			UpdateNotificationManager.enableBuildCheck = hideAndReturn(config.get("general","enableBuildCheck",true,"It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.")).getBoolean(true);
 			ModCommonProxy.achievementStartId = hideAndReturn(config.get("general","achievementStartId",3500)).getInt(3500);
 			StardustDecomposition.addFromString(hideAndReturn(config.get("general","decompositionBlacklist","")).getString());
 			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");

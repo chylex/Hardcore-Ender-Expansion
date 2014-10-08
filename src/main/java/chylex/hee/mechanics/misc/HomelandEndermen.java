@@ -29,7 +29,7 @@ public final class HomelandEndermen{
 		public static OvertakeGroupRole getRandomMember(Random rand){
 			int r = rand.nextInt(10);
 			
-			if (r < 5)return FIGHTER;
+			if (r < 6)return FIGHTER;
 			else if (r < 8)return CHAOSMAKER;
 			else return TELEPORTER;
 		}

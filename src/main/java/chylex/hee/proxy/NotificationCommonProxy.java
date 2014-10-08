@@ -27,8 +27,13 @@ public class NotificationCommonProxy{
 		tryDeliverNotifications();
 	}
 	
+	public final void report(String message, boolean noPrefix){
+		notifications.add((noPrefix ? "" : prefix)+message);
+		tryDeliverNotifications();
+	}
+	
 	protected final void deliverNotificationsToPlayer(EntityPlayer player){
-		for(String notification:notifications)player.addChatMessage(new ChatComponentText(prefix+notification));
+		for(String notification:notifications)player.addChatMessage(new ChatComponentText(notification));
 	}
 	
 	protected final void clearNotifications(){
