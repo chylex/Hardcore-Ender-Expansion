@@ -16,8 +16,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 class UpdateThread extends Thread{
-	//private static final String url = "https://raw.githubusercontent.com/chylex/Hardcore-Ender-Expansion/master/UpdateNotificationDataV2.txt";
-	private static final String url = "https://dl.dropboxusercontent.com/u/17157118/update/hee-test.txt";
+	private static final String url = "https://raw.githubusercontent.com/chylex/Hardcore-Ender-Expansion/master/UpdateNotificationDataV2.txt";
+	//private static final String url = "https://dl.dropboxusercontent.com/u/17157118/update/hee-test.txt";
 	
 	private final String modVersion;
 	private final String mcVersion;

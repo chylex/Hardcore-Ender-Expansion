@@ -78,6 +78,17 @@
             "ghost/death2"
         ]
     },
+    "mob.ghost.move": {
+        "category": "ambient",
+        "sounds": [
+            "ghost/move1",
+            "ghost/move2",
+            "ghost/move3",
+            "ghost/move4",
+            "ghost/move5",
+            "ghost/move6"
+        ]
+    },
     "mob.firegolem.hurt": {
         "category": "hostile",
         "sounds": [

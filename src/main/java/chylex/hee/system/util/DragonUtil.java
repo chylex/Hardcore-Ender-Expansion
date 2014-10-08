@@ -62,12 +62,14 @@ public final class DragonUtil{
 			   pz = entity.posZ,
 			   ry = -entity.rotationYaw,
 			   rp = -entity.rotationPitch;
+		
 		int t1x,t1z,t2x,t2z,t3y,t4y;
 		
 		if (!fromCenter){
 			px -= MathUtil.lendirx(1.5D,ry);
 			pz -= MathUtil.lendiry(1.5D,ry);
 		}
+		
 		t1x = (int)(px+MathUtil.lendirx(600,ry-66));
 		t1z = (int)(pz+MathUtil.lendiry(600,ry-66));
 		t2x = (int)(px+MathUtil.lendirx(600,ry+66));

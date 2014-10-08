@@ -103,7 +103,7 @@ public class BlockSpookyLog extends Block{
 	public void updateTick(World world, int x, int y, int z, Random rand){
 		if (world.isRemote || world.getBlockMetadata(x,y,z) == 0)return;
 		
-		if (!isBlockSeen(world,x,y,z) && (rand.nextBoolean() || rand.nextBoolean())){
+		if (rand.nextInt(4) != 0 && !isBlockSeen(world,x,y,z)){
 			int w = rand.nextInt(5); // 0,1 = rotate, 2 = move up or down, 3,4 = move tree
 			
 			if (w == 0 || w == 1)world.setBlockMetadataWithNotify(x,y,z,rand.nextInt(4)+1,3);
@@ -115,7 +115,7 @@ public class BlockSpookyLog extends Block{
 				}
 			}
 			else{
-				for(int attempt = 0,xx,zz; attempt < 50; attempt++){
+				for(int attempt = 0, xx, zz; attempt < 50; attempt++){
 					xx = x+rand.nextInt(30)-15;
 					zz = z+rand.nextInt(30)-15;
 					
@@ -140,7 +140,8 @@ public class BlockSpookyLog extends Block{
 						
 						if (!hasFace && !isBlockSeen(world,xx,y,zz)){
 							world.setBlockMetadataWithNotify(xx,y,zz,world.getBlockMetadata(x,y,z),3);
-							world.setBlockMetadataWithNotify(x,y,z,0,3); // TODO make sound
+							world.setBlockMetadataWithNotify(x,y,z,0,3);
+							if (rand.nextInt(5) == 0)PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C08PlaySound(C08PlaySound.GHOST_MOVE,x+0.5D,y+0.5D,z+0.5D,1.2F+rand.nextFloat()*0.4F,0.6F+rand.nextFloat()*0.5F));
 							break;
 						}
 					}
@@ -154,7 +155,10 @@ public class BlockSpookyLog extends Block{
 	
 	private boolean isBlockSeen(World world, int x, int y, int z){
 		for(Object o:world.playerEntities){
-			if (DragonUtil.canEntitySeePoint((EntityLivingBase)o,x,y,z,0.5D))return true;
+			EntityLivingBase entity = (EntityLivingBase)o;
+			
+			if (Math.abs(entity.posX-x) > 250 || Math.abs(entity.posZ-z) > 250)continue;
+			if (DragonUtil.canEntitySeePoint(entity,x,y,z,0.5D))return true;
 		}
 		
 		return false;
@@ -187,6 +191,7 @@ public class BlockSpookyLog extends Block{
 			int x = target.blockX,y = target.blockY,z = target.blockZ;
 			effectRenderer.addEffect(new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0).applyColourMultiplier(x,y,z).multiplyVelocity(0.3F+world.rand.nextFloat()*0.6F).multipleParticleScaleBy(0.2F+world.rand.nextFloat()*2F));
 		}
+		
 		return false;
 	}
 
@@ -196,6 +201,7 @@ public class BlockSpookyLog extends Block{
 		for(int a = 0; a < 90; a++){
 			effectRenderer.addEffect(new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat()*1.5F,z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0).applyColourMultiplier(x,y,z).multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
 		}
+		
 		return false;
 	}
 	
@@ -205,6 +211,7 @@ public class BlockSpookyLog extends Block{
 		for(int a = 0; a < 30; a++){
 			eff.addEffect(new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat()*1.5F,z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0).applyColourMultiplier(x,y,z).multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
 		}
+		
 		return false;
 	}
 

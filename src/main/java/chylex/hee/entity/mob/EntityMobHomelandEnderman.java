@@ -26,6 +26,7 @@ import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.EndermanTask;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.island.StructureEndermanStash;
 
@@ -342,76 +343,78 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				}
 			}
 			
-			if (overtakeGroup == groupId){ // overtaking group
-				if (currentTask == EndermanTask.NONE){
-					switch(overtakeGroupRole){
-						case TELEPORTER:
-							if (rand.nextInt(8) == 0)teleportRandomly(12D);
-							break;
-							
-						case CHAOSMAKER:
-							if (isCarrying() && getCarrying().getItem() == Item.getItemFromBlock(Blocks.tnt)){
-								if (rand.nextInt(50) == 0){
-									for(int attempt = 0, xx, yy, zz; attempt < 30; attempt++){
-										xx = (int)Math.floor(posX)+rand.nextInt(6)-3;
-										yy = (int)Math.floor(posY)+rand.nextInt(3)-1;
-										zz = (int)Math.floor(posZ)+rand.nextInt(6)-3;
-										
-										if (worldObj.getBlock(xx,yy,zz) == BlockList.end_terrain && worldObj.isAirBlock(xx,yy+1,zz)){
-											worldObj.spawnEntityInWorld(new EntityTNTPrimed(worldObj,xx+0.5D,yy+1.5D,zz+0.5D,this));
-											setCarrying(null);
-											break;
+			if (overtakeGroup != -1){
+				if (overtakeGroup == groupId){ // overtaking group
+					if (currentTask == EndermanTask.NONE){
+						switch(overtakeGroupRole){
+							case TELEPORTER:
+								if (rand.nextInt(8) == 0)teleportRandomly(12D);
+								break;
+								
+							case CHAOSMAKER:
+								if (isCarrying() && getCarrying().getItem() == Item.getItemFromBlock(Blocks.tnt)){
+									if (rand.nextInt(50) == 0){
+										for(int attempt = 0, xx, yy, zz; attempt < 30; attempt++){
+											xx = (int)Math.floor(posX)+rand.nextInt(6)-3;
+											yy = (int)Math.floor(posY)+rand.nextInt(3)-1;
+											zz = (int)Math.floor(posZ)+rand.nextInt(6)-3;
+											
+											if (worldObj.getBlock(xx,yy,zz) == BlockList.end_terrain && worldObj.isAirBlock(xx,yy+1,zz)){
+												worldObj.spawnEntityInWorld(new EntityTNTPrimed(worldObj,xx+0.5D,yy+1.5D,zz+0.5D,this));
+												setCarrying(null);
+												break;
+											}
 										}
 									}
 								}
-							}
-							else{
-								currentTask = EndermanTask.GET_TNT;
-								currentTaskTimer = 30+rand.nextInt(80);
-								setPosition(posX,10000D,posZ);
-							}
-							
-							break;
-							
-						case LEADER:
-						case FIGHTER:
-							if (!(entityToAttack instanceof EntityMobHomelandEnderman)){
-								EntityMobHomelandEnderman target = null;
-								
-								if (overtakeGroupRole == OvertakeGroupRole.LEADER || rand.nextInt(4) == 0){
-									List<EntityMobHomelandEnderman> list = HomelandEndermen.getByHomelandRole(this,HomelandRole.ISLAND_LEADERS);
-									if (!list.isEmpty())target = list.get(rand.nextInt(list.size()));
+								else{
+									currentTask = EndermanTask.GET_TNT;
+									currentTaskTimer = 30+rand.nextInt(80);
+									setPosition(posX,10000D,posZ);
 								}
 								
-								if (target == null){
-									List<EntityMobHomelandEnderman> other = HomelandEndermen.getAll(this);
+								break;
+								
+							case LEADER:
+							case FIGHTER:
+								if (!(entityToAttack instanceof EntityMobHomelandEnderman)){
+									EntityMobHomelandEnderman target = null;
 									
-									for(int attempt = 0, size = other.size(); attempt < 10; attempt++){
-										EntityMobHomelandEnderman potentialTarget = other.get(rand.nextInt(size));
-										if (potentialTarget == this || potentialTarget.isInSameGroup(this))continue;
-										
-										HomelandRole role = potentialTarget.homelandRole;
-										if (role == HomelandRole.GUARD && rand.nextInt(3) != 0)target = potentialTarget;
-										else if (role != HomelandRole.WORKER || rand.nextInt(5) <= 1)target = potentialTarget;
-										
-										break;
+									if (overtakeGroupRole == OvertakeGroupRole.LEADER || rand.nextInt(4) == 0){
+										List<EntityMobHomelandEnderman> list = HomelandEndermen.getByHomelandRole(this,HomelandRole.ISLAND_LEADERS);
+										if (!list.isEmpty())target = list.get(rand.nextInt(list.size()));
 									}
+									
+									if (target == null){
+										List<EntityMobHomelandEnderman> other = HomelandEndermen.getAll(this);
+										
+										for(int attempt = 0, size = other.size(); attempt < 10; attempt++){
+											EntityMobHomelandEnderman potentialTarget = other.get(rand.nextInt(size));
+											if (potentialTarget == this || potentialTarget.isInSameGroup(this))continue;
+											
+											HomelandRole role = potentialTarget.homelandRole;
+											if (role == HomelandRole.GUARD && rand.nextInt(3) != 0)target = potentialTarget;
+											else if (role != HomelandRole.WORKER || rand.nextInt(5) <= 1)target = potentialTarget;
+											
+											break;
+										}
+									}
+									
+									setAttackTarget(target);
 								}
 								
-								setAttackTarget(target);
-							}
-							
-							break;
-							
-						default:
+								break;
+								
+							default:
+						}
 					}
+					
+					if (!worldObj.getEntitiesWithinAABB(EntityTNTPrimed.class,boundingBox.expand(5D,3D,5D)).isEmpty())teleportRandomly();
 				}
-				
-				if (!worldObj.getEntitiesWithinAABB(EntityTNTPrimed.class,boundingBox.expand(5D,3D,5D)).isEmpty())teleportRandomly();
-			}
-			else if (groupId != -1){ // different group - join them or be against them
-				if (rand.nextInt(3) == 0)setGroupMember(overtakeGroup,OvertakeGroupRole.getRandomMember(rand));
-				else setGroupMember(-1,null);
+				else if (groupId != -1){ // different group - join them or be against them
+					if (rand.nextInt(3) == 0)setGroupMember(overtakeGroup,OvertakeGroupRole.getRandomMember(rand));
+					else setGroupMember(-1,null);
+				}
 			}
 		}
 		
@@ -514,6 +517,11 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			overtakeGroupRole = groupRoleId >= 0 && groupRoleId < OvertakeGroupRole.values.length ? OvertakeGroupRole.values[groupRoleId] : null;
 		}
 		
+		if (groupId != -1 && overtakeGroupRole == null){
+			Log.warn("Homeland Enderman overtake group role is null, resetting group membership.");
+			groupId = -1;
+		}
+		
 		if (nbt.hasKey("wait")){
 			currentTask = EndermanTask.WAIT;
 			currentTaskTimer = nbt.getInteger("wait");
@@ -573,7 +581,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		else{
 			byte data = dataWatcher.getWatchableObjectByte(18);
 			homelandRole = HomelandRole.values[(data >> 4) & 0b1111];
-			if ((data & 0b1111) > 0)overtakeGroupRole = OvertakeGroupRole.values[data & 0b1111];
+			if ((data & 0b1111) > 0)overtakeGroupRole = OvertakeGroupRole.values[(data & 0b1111)-1];
 		}
 	}
 	

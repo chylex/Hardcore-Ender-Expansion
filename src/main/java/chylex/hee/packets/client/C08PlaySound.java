@@ -15,7 +15,9 @@ public class C08PlaySound extends AbstractClientPacket{
 							 SPAWN_FIREBALL = 6,
 							 GHOST_DEATH = 7,
 							 STARDUST_TRANSFORMATION = 8,
-							 RANDOM_BREAK = 9;
+							 RANDOM_BREAK = 9,
+							 EXP_ORB = 10,
+							 GHOST_MOVE = 11;
 	
 	private byte soundId;
 	private double x,y,z;
@@ -62,6 +64,8 @@ public class C08PlaySound extends AbstractClientPacket{
 		else if (soundId == 7)effectStr = "hardcoreenderexpansion:mob.ghost.death";
 		else if (soundId == 8)effectStr = "hardcoreenderexpansion:block.random.transform";
 		else if (soundId == 9)effectStr = "random.break";
+		else if (soundId == 10)effectStr = "random.orb";
+		else if (soundId == 11)effectStr = "hardcoreenderexpansion:mob.ghost.move";
 
 		if (effectStr != null)player.worldObj.playSound(x,y,z,effectStr,volume,pitch,false);
 	}
