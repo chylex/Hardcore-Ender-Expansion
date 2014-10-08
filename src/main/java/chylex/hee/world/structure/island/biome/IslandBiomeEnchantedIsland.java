@@ -77,6 +77,11 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	public float getOreAmountMultiplier(){
 		return 1.25F;
 	}
+	
+	@Override
+	public float getInteractionChance(BiomeContentVariation variation){
+		return variation == HOMELAND ? 0.01F : 0F; // 0.01 = 1/100 = every 25 seconds
+	}
 
 	@Override
 	protected IslandBiomeDecorator getDecorator(){

@@ -36,7 +36,7 @@ public final class HomelandEndermen{
 	}
 	
 	public enum EndermanTask{
-		NONE, RECRUIT_TO_GROUP, LISTEN_TO_RECRUITER, STROLL, WALK, COMMUNICATE, WAIT
+		NONE, RECRUIT_TO_GROUP, LISTEN_TO_RECRUITER, STROLL, WALK, COMMUNICATE, WAIT, GET_TNT
 	}
 	
 	public static boolean isOvertakeHappening(EntityMobHomelandEnderman source){

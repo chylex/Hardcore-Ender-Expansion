@@ -254,6 +254,7 @@ public class ContainerEndPowderEnhancements extends Container{
 					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
 				}
 				
+				PacketPipeline.sendToPlayer(owner,new C08PlaySound(C08PlaySound.STARDUST_TRANSFORMATION,owner.posX,owner.posY,owner.posZ,1F,1F));
 			}
 			else if (owner != null){ // TRY BREAK SOME POWDER AND INGREDIENTS
 				for(int a = 0; a < slots.amountPowder; a++){
