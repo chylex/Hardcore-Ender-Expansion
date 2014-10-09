@@ -67,7 +67,7 @@ public final class KnowledgeRegistrations{
 		ENHANCED_BREWING_STAND = create(ItemList.enhanced_brewing_stand),
 		ENHANCED_TNT = create(BlockList.enhanced_tnt),
 		DRAGON_EGG = create(Blocks.dragon_egg),
-		DRAGON_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,EssenceType.DRAGON.getItemDamage()),"Dragon Essence"), // TODO localize
+		DRAGON_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,EssenceType.DRAGON.getItemDamage()),"Essence"),
 		END_POWDER = create(ItemList.end_powder),
 		ENHANCED_ENDER_PEARL = create(ItemList.enhanced_ender_pearl),
 		TEMPLE_CALLER = create(ItemList.temple_caller),
@@ -156,7 +156,7 @@ public final class KnowledgeRegistrations{
 		
 		CINDER = create(BlockList.cinder),
 		FIERY_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.FIERY.id),
-		FIERY_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,1,EssenceType.FIERY.getItemDamage()),"Fiery Essence"),
+		FIERY_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,1,EssenceType.FIERY.getItemDamage()),"Essence"),
 		FIRE_GOLEM = create(EntityMobFireGolem.class),
 		SCORCHING_LENS = create(EntityMobScorchingLens.class),
 		
