@@ -13,6 +13,7 @@ import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.system.integration.IIntegrationHandler;
 import codechicken.nei.LayoutManager;
 import codechicken.nei.NEIClientConfig;
+import codechicken.nei.NEIClientUtils;
 import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.guihook.IContainerInputHandler;
 import codechicken.nei.recipe.GuiRecipe;
@@ -33,7 +34,7 @@ public class NotEnoughItemsIntegration implements IIntegrationHandler{
 		
 		GuiContainerManager.inputHandlers.addFirst(new IContainerInputHandler(){
 			private boolean handleItemStack(ItemStack is){
-				if (is == null)return false;
+				if (is == null || NEIClientUtils.shiftKey())return false;
 				
 				UniqueIdentifier uniqueId = null;
 				
@@ -49,8 +50,10 @@ public class NotEnoughItemsIntegration implements IIntegrationHandler{
 					else if (is.getItem() instanceof ItemBlock)obj = CompendiumEvents.getBlockObject(is);
 					else obj = KnowledgeObject.<ObjectItem>getObject(is.getItem());
 					
-					CompendiumEventsClient.openCompendium(obj);
-					return true;
+					if (obj != null){
+						CompendiumEventsClient.openCompendium(obj);
+						return true;
+					}
 				}
 				
 				return false;
