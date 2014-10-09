@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome.decorator;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.List;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
@@ -74,6 +75,8 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// HOMELAND ENDERMEN
+		TObjectIntHashMap<HomelandRole> map = new TObjectIntHashMap<>();
+		
 		for(int spawnAttempt = 0, spawnedTotal = 42+rand.nextInt(24)+rand.nextInt(12); spawnAttempt < spawnedTotal; spawnAttempt++){
 			EntityMobHomelandEnderman enderman = new EntityMobHomelandEnderman(null);
 			HomelandRole role = HomelandRole.WORKER;
@@ -85,6 +88,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 			else if (rand.nextInt(3) == 0)role = HomelandRole.GUARD;
 			
 			enderman.setHomelandRole(role);
+			map.adjustOrPutValue(role,1,1);
 			
 			for(int posAttempt = 0, xx, yy, zz; posAttempt < 20; posAttempt++){
 				xx = rand.nextInt(ComponentIsland.size-40)+20;
@@ -98,6 +102,9 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 				}
 			}
 		}
+		
+		for(HomelandRole role:map.keySet())System.out.println("GEN "+role.name()+": "+map.get(role));
+		// TODO debug
 		
 		List<EntityMobHomelandEnderman> endermanList = world.getAllEntities(EntityMobHomelandEnderman.class);
 		int size = endermanList.size();

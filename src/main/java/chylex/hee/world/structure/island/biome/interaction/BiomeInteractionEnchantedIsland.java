@@ -23,6 +23,9 @@ public class BiomeInteractionEnchantedIsland{
 					
 					if (rand.nextInt(666) < MathUtil.square(sameGroup.size())){
 						groupId = subject.getGroupId();
+						
+						System.out.println("STARTING OVERTAKE WITH "+sameGroup.size()+" MEMBERS");
+						for(EntityMobHomelandEnderman e:sameGroup)System.out.println(e.getGroupRole());
 						break;
 					}
 				}

@@ -29,6 +29,10 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 		endermanModel = (ModelEnderman)super.mainModel;
 		setRenderPassModel(endermanModel);
 	}
+	
+	protected final void superDoRender(IEndermanRenderer entity, double x, double y, double z, float yaw, float partialTickTime){
+		super.doRender((EntityLiving)entity,x,y,z,yaw,partialTickTime);
+	}
 
 	public void renderEnderman(IEndermanRenderer entity, double x, double y, double z, float yaw, float partialTickTime){
 		endermanModel.isCarrying = false;
@@ -40,7 +44,7 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 			z += rand.nextGaussian()*spazzAmount;
 		}
 
-		super.doRender((EntityLiving)entity,x,y,z,yaw,partialTickTime);
+		superDoRender(entity,x,y,z,yaw,partialTickTime);
 	}
 
 	protected int renderEyes(IEndermanRenderer enderman, int pass, float partialTickTime){

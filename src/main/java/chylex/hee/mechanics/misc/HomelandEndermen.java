@@ -9,7 +9,7 @@ import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEncha
 
 public final class HomelandEndermen{
 	public enum HomelandRole{
-		WORKER(227), ISLAND_LEADERS(58), GUARD(0), COLLECTOR(176), OVERWORLD_EXPLORER(141), BUSINESSMAN(335), INTELLIGENCE(295);
+		WORKER(227), ISLAND_LEADERS(58), GUARD(0), COLLECTOR(176), OVERWORLD_EXPLORER(141), BUSINESSMAN(335), INTELLIGENCE(275);
 		public static final HomelandRole[] values = values();
 		
 		public final float red, green, blue;
