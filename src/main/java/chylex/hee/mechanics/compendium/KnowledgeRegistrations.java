@@ -93,7 +93,11 @@ public final class KnowledgeRegistrations{
 		OBSIDIAN_SMOOTH_GLOWING = create(BlockList.obsidian_special_glow,0),
 		OBSIDIAN_CHISELED_GLOWING = create(BlockList.obsidian_special_glow,1),
 		OBSIDIAN_PILLAR_GLOWING = create(BlockList.obsidian_special_glow,2),
+		ENDIUM_ORE = create(BlockList.endium_ore),
+		ENDIUM_BLOCK = create(BlockList.endium_block),
 		SPATIAL_DASH_GEM = create(ItemList.spatial_dash_gem),
+		ENDIUM_INGOT = create(ItemList.endium_ingot),
+		BIOME_COMPASS = create(ItemList.biome_compass),
 		ENDER_EYE = create(EntityMiniBossEnderEye.class),
 		ANGRY_ENDERMAN_LINKED = new LinkedKnowledgeObject<>(ANGRY_ENDERMAN),
 		
@@ -103,7 +107,6 @@ public final class KnowledgeRegistrations{
 		SPHALERITE = create(BlockList.sphalerite,0),
 		SPHALERITE_WITH_STARDUST = create(BlockList.sphalerite,1),
 		STARDUST = create(ItemList.stardust),
-		BIOME_COMPASS = create(ItemList.biome_compass),
 		
 		// ===
 		
@@ -294,7 +297,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(90).setContents("End Stone is the primary building material of the End. It is highly resistant to explosions.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			FALLING_OBSIDIAN.setPos(0,0).setUnlockPrice(8).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
+			FALLING_OBSIDIAN.setPos(0,0).setUnlockPrice(8).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(100).setContents("Special variation of Obsidian affected by gravity.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(101).setContents("It is primarily found in Dragon Lair and Enchanted Island Biome.").setPrice(2),
 				new KnowledgeFragmentText(102).setContents("Falling on a weak block, such as torches or flowers, crushes the block.").setPrice(2).setUnlockRequirements(100),
@@ -341,7 +344,8 @@ public final class KnowledgeRegistrations{
 			DRAGON_EGG.setPos(-4,8).setUnlockPrice(10).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(150).setContents("Dragon Egg is created on top of the End Portal after killing the Ender Dragon.").setPrice(5).setUnlockOnDiscovery().setUnlockCascade(705),
 				new KnowledgeFragmentText(151).setContents("It teleports into random directions when interacted with.").setPrice(2).setUnlockRequirements(150),
-				new KnowledgeFragmentText(152).setContents("The egg can only be picked up by sneaking and hitting it with any sword.").setPrice(5).setUnlockRequirements(150)
+				new KnowledgeFragmentText(152).setContents("The egg can only be picked up by sneaking and hitting it with any sword.").setPrice(5).setUnlockRequirements(150),
+				new KnowledgeFragmentText(153).setContents("When destroyed, it teleports back to the End.").setPrice(3).setUnlockRequirements(150)
 			}),
 			
 			DRAGON_ESSENCE.setPos(-2,8),
@@ -399,7 +403,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(201).setContents("They have less health and strength, but will not teleport away when damaged.").setPrice(3).setUnlockRequirements(200)
 			}),
 			
-			VAMPIRE_BAT.setPos(-2,5).setUnlockPrice(10).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+			VAMPIRE_BAT.setPos(-2,5).setUnlockPrice(10).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(210).setContents("Special bat summoned by one of the Ender Dragon attacks.").setPrice(4).setUnlockOnDiscovery().setUnlockCascade(703),
 				new KnowledgeFragmentText(211).setContents("They instantly die when damaged.").setPrice(2).setUnlockRequirements(210),
 				new KnowledgeFragmentText(212).setContents("The bats try to attack players. When they do, they damage the player, heal the Ender Dragon and die.").setPrice(3).setUnlockRequirements(210)
@@ -485,12 +489,35 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(286).setContents("Glowing Obsidian pillar, can be placed horizontally or vertically and it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
+			ENDIUM_ORE.setPos(0,8).setUnlockPrice(30).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(760).setContents("Rare ore that starts to appear near Dungeon Towers, and gets more common the further you travel.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(761).setContents("The block drops the ore, it can be then smelted into Endium Ingot.").setPrice(8).setUnlockOnDiscovery().setUnlockRequirements(760)
+			}),
+			
+			ENDIUM_BLOCK.setPos(-2,8).setUnlockPrice(5).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(770).setContents("Block made of Endium Ingots.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(771).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(770).setUnlockCascade(781)
+			}),
+			
 			SPATIAL_DASH_GEM.setPos(3,7).setUnlockPrice(25).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(290).setContents("Teleportation gem dropped by the Ender Eye.").setPrice(5).setUnlockOnDiscovery().setUnlockCascade(319),
 				new KnowledgeFragmentText(291).setContents("Using it creates a beam, which teleports the player to a block of mob it hits.").setPrice(2).setUnlockRequirements(290),
 				new KnowledgeFragmentText(292).setContents("The beam can travel up to 75 blocks.").setPrice(3).setUnlockRequirements(291),
 				new KnowledgeFragmentText(293).setContents("Unlike Ender Pearls, the beam will try to find suitable area to teleport the player to, even if it hits the side or the bottom of block.").setPrice(2).setUnlockRequirements(291),
 				new KnowledgeFragmentText(294).setContents("If no suitable area is found, the player may be teleported into nearby blocks and start suffocating.").setPrice(2).setUnlockRequirements(293)
+			}),
+			
+			ENDIUM_INGOT.setPos(2,8).setUnlockPrice(25).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(780).setContents("Shiny blue metal made by smelting Endium Ore.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(781).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(780).setUnlockCascade(771),
+				new KnowledgeFragmentCrafting(782).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setPrice(8).setUnlockRequirements(780).setUnlockCascade(303)
+			}), // TODO tweak pos
+			
+			BIOME_COMPASS.setPos(4,8).setUnlockPrice(25).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(300).setContents("Special compass that points at the nearest Biome Island.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(301).setContents("Holding it will show markers for all nearby islands in the dimension.").setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(300),
+				new KnowledgeFragmentText(302).setContents("Right-clicking switches between biomes.").setPrice(3).setUnlockRequirements(301),
+				new KnowledgeFragmentCrafting(303).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setPrice(8).setUnlockRequirements(300).setUnlockCascade(782)
 			}),
 			
 			ENDER_EYE.setPos(0,7).setUnlockPrice(20).setDiscoveryReward(40).setFragments(new KnowledgeFragment[]{
@@ -529,13 +556,6 @@ public final class KnowledgeRegistrations{
 			
 			STARDUST.setPos(1,5).setUnlockPrice(10).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(350).setContents("Dust dropped by Stardust Ore and Sphalerite with Stardust. It is used for crafting and as a decomposition catalyst in Tables.").setPrice(2).setUnlockOnDiscovery()
-			}),
-			
-			BIOME_COMPASS.setPos(3,7).setUnlockPrice(25).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(300).setContents("Special compass that points at the nearest Biome Island.").setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(301).setContents("Holding it will show markers for all nearby islands in the dimension.").setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(300),
-				new KnowledgeFragmentText(302).setContents("Right-clicking switches between biomes.").setPrice(3).setUnlockRequirements(301),
-				new KnowledgeFragmentCrafting(303).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setPrice(8).setUnlockRequirements(300)
 			})
 		});
 		
@@ -562,7 +582,7 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(383).setContents("Brewing it in an Enhanced Brewing Stand creates Potion of Instability.").setPrice(3).setUnlockRequirements(380).setUnlockCascade(134,741)
 		});
 		
-		POTION_OF_INSTABILITY.setPos(7,1).setUnlockPrice(10).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+		POTION_OF_INSTABILITY.setPos(7,1).setUnlockPrice(10).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(740).setContents("Special potion that causes a random effect. It has to be brewed in an Enhanced Brewing Stand, using Gunpowder on the brewed potion turns it into splash version.").setPrice(5).setUnlockOnDiscovery(),
 			new KnowledgeFragmentItemConversion(741).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(740).setUnlockCascade(134,383)
 		});
@@ -618,7 +638,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentItemConversion(731).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(730).setUnlockCascade(135),
 			}),
 			
-			INFESTED_BAT.setPos(-3,5).setUnlockPrice(8).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+			INFESTED_BAT.setPos(-3,5).setUnlockPrice(8).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(480).setContents("Special type of bat that spawns in the Infested Forest Biome. Each bat varies in size.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
@@ -673,6 +693,7 @@ public final class KnowledgeRegistrations{
 			RAVAGED_BRICK.setPos(6,13).setUnlockPrice(2).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(500).setContents("Primary building block of the Ravaged Dungeon.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(501).setContents("Some of the bricks are cracked or damaged.").setPrice(2).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(505).setContents("Brick hardness depends on amount of spawners in the dungeon.").setPrice(3).setUnlockRequirements(500),
 				new KnowledgeFragmentCrafting(502).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_stairs,4)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(513),
 				new KnowledgeFragmentCrafting(503).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_slab,6)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(515),
 				new KnowledgeFragmentCrafting(504).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence,6)).setPrice(2).setUnlockRequirements(500).setUnlockCascade(517)
@@ -834,7 +855,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 760
+		// next: 790
 		
 		Stopwatch.finish("KnowledgeRegistrations");
 		
