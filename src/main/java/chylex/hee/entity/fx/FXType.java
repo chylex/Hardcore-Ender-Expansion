@@ -35,7 +35,8 @@ public final class FXType{
 		DRAGON_EGG_TELEPORT,
 		CHARM_SLAUGHTER_IMPACT,
 		CHARM_DAMAGE_REDIRECTION,
-		LOUSE_HEAL_ENTITY;
+		LOUSE_HEAL_ENTITY,
+		ENDERMAN_TELEPORT;
 		
 		public static FXType.Line[] values = values();
 	}

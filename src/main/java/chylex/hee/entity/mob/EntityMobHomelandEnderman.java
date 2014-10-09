@@ -21,11 +21,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.EndermanTask;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.island.StructureEndermanStash;
@@ -39,7 +42,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	private int currentTaskTimer;
 	private Object currentTaskData;
 	
-	private byte stareTimer, fallTimer, randomTpTimer, attackTpTimer;
+	private byte stareTimer, fallTimer, randomTpTimer, attackTpTimer, screamTimer;
 	
 	public EntityMobHomelandEnderman(World world){
 		super(world);
@@ -118,7 +121,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				
 				for(int attempt = 0; attempt < 500; attempt++){
 					if (teleportRandomly(92D)){
-						resetTask();
+						resetTask();System.out.println("falling");
 						break;
 					}
 				}
@@ -157,11 +160,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				}
 			}
 			
-			if (currentTask == EndermanTask.NONE && entityToAttack == null && ++randomTpTimer > 50+rand.nextInt(70)){
-				if (rand.nextInt(5) == 0)teleportRandomly();
-				randomTpTimer -= 60+rand.nextInt(40);
-			}
-			
 			if (overtakeGroup == -1){ // calm situation
 				if (currentTask != EndermanTask.NONE && currentTask != EndermanTask.WAIT){ // has a task
 					--currentTaskTimer;
@@ -183,31 +181,49 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 							
 							if (rand.nextInt(100) < chance){
 								target.setGroupMember(groupId,OvertakeGroupRole.getRandomMember(rand));
+								
+								for(int attempt = 0; attempt < 50; attempt++){
+									if (teleportRandomly())break;
+								}
+								
 								System.out.println("Recruiting successful!");
 							}
 							else if (rand.nextInt(100) < reportChance){
+								boolean escaped = false;
+								double oldX = posX, oldY = posY, oldZ = posZ;
+								
+								if (rand.nextInt(5) != 0){
+									for(int attempt = 0; attempt < 20; attempt++){
+										if (teleportRandomly()){
+											escaped = true;
+											break;
+										}
+									}
+								}
+								
 								List<EntityMobHomelandEnderman> guards = HomelandEndermen.getByHomelandRole(this,HomelandRole.GUARD);
 								System.out.println("Guards alerted!");
 								
 								for(int a = 0, amt = Math.max(3,(int)Math.round(guards.size()*0.3D)); a < amt; a++){
 									EntityMobHomelandEnderman guard = guards.get(rand.nextInt(guards.size()));
-									guard.setTarget(this);
 									guard.setScreaming(true);
+									
+									if (!escaped)guard.setTarget(this);
+									else if (rand.nextBoolean())guard.teleportTo(oldX+4D*(rand.nextDouble()-0.5D),oldY+2D+rand.nextDouble()*4D,oldZ+4D*(rand.nextDouble()-0.5D));
 								}
-							}
-							
-							for(int attempt = 0; attempt < 50; attempt++){
-								if (teleportRandomly())break;
 							}
 						}
 					}
 					else if (currentTask == EndermanTask.STROLL){
-						if (currentTaskTimer == 10 && rand.nextInt(3) != 0){
+						if (currentTaskTimer > 0 && currentTaskTimer < 20 && rand.nextInt(3) == 0){
 							Vec3 obj = (Vec3)currentTaskData;
 							
-							if (obj.distanceTo(Vec3.createVectorHelper(posX,posY,posZ)) <= 1.2D || rand.nextInt(4) == 0){
+							if (obj.distanceTo(Vec3.createVectorHelper(posX,posY,posZ)) <= 0.5D || rand.nextInt(10) == 0){
 								for(int attempt = 0; attempt < 30; attempt++){
-									if (teleportRandomly(48D))break;
+									if (teleportRandomly(48D)){
+										currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
+										break;
+									}
 								}
 							}
 						}
@@ -265,22 +281,27 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					if (currentTask == EndermanTask.NONE && rand.nextInt(80) == 0){
 						switch(homelandRole){
 							case ISLAND_LEADERS:
-								Vec3 look = getLookVec();
-								
-								for(int attempt = 0, pathX, pathY, pathZ; attempt < 12; attempt++){
-									if (attempt > 8)look = Vec3.createVectorHelper(rand.nextDouble()-0.5D,0D,rand.nextDouble()-0.5D).normalize();
+								if (rand.nextInt(10) == 0){
+									teleportRandomly();
+								}
+								else{
+									Vec3 look = getLookVec();
 									
-									pathX = (int)(posX+look.xCoord*12D+(rand.nextDouble()-0.5D)*4D);
-									pathZ = (int)(posZ+look.zCoord*12D+(rand.nextDouble()-0.5D)*4D);
-									pathY = worldObj.getTopSolidOrLiquidBlock(pathX,pathZ)-1;
-									
-									if (worldObj.getBlock(pathX,pathY,pathZ) == BlockList.end_terrain){
-										setPathToEntity(worldObj.getEntityPathToXYZ(this,pathX,pathY+1,pathZ,30F,true,false,false,true));
-										currentTask = EndermanTask.STROLL;
-										currentTaskTimer = 45+rand.nextInt(70);
-										currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
-										System.out.println("leader strolling to "+pathX+","+pathY+","+pathZ);
-										break;
+									for(int attempt = 0, pathX, pathY, pathZ; attempt < 12; attempt++){
+										if (attempt > 8 || rand.nextInt(6) == 0)look = Vec3.createVectorHelper(rand.nextDouble()-0.5D,0D,rand.nextDouble()-0.5D).normalize();
+										
+										pathX = (int)(posX+look.xCoord*16D+(rand.nextDouble()-0.5D)*5D);
+										pathZ = (int)(posZ+look.zCoord*16D+(rand.nextDouble()-0.5D)*5D);
+										pathY = worldObj.getTopSolidOrLiquidBlock(pathX,pathZ)-1;
+										
+										if (worldObj.getBlock(pathX,pathY,pathZ) == BlockList.end_terrain && MathUtil.distance(posX-pathX,posY-pathY,posZ-pathZ) > 5D){
+											setPathToEntity(worldObj.getEntityPathToXYZ(this,pathX,pathY+1,pathZ,30F,true,false,false,true));
+											currentTask = EndermanTask.STROLL;
+											currentTaskTimer = 45+rand.nextInt(70);
+											currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
+											System.out.println("leader strolling to "+pathX+","+pathY+","+pathZ);
+											break;
+										}
 									}
 								}
 								
@@ -454,19 +475,32 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				}
 			}
 			
-			
 			if (entityToAttack != null){
 				++attackTpTimer;
 				
 				if (((attackTpTimer > 50+rand.nextInt(30) && rand.nextInt(20) == 0) || attackTpTimer > 120) && entityToAttack.getDistanceSqToEntity(this) < 16D){
-					teleportRandomly();
+					teleportRandomly(16D);
 					attackTpTimer = -80;
 				}
 				else if (entityToAttack.getDistanceSqToEntity(this) > 256D && attackTpTimer > 30 && teleportToEntity(entityToAttack)){
 					attackTpTimer = -80;
 				}
 			}
-			else attackTpTimer = -80;
+			else{
+				attackTpTimer = -80;
+				
+				if (currentTask == EndermanTask.NONE && entityToAttack == null && ++randomTpTimer > 50+rand.nextInt(70)){
+					if (rand.nextInt(18) == 0){
+						for(int attempt = 0; attempt < 5; attempt++){
+							if (teleportRandomly(16D))break;
+						}
+					}
+					
+					randomTpTimer -= 80+rand.nextInt(40);
+				}
+				
+				if (screamTimer > 0 && --screamTimer == 0 && isScreaming())setScreaming(false);
+			}
 		}
 		
 		isJumping = false;
@@ -478,12 +512,12 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		if (!shouldActHostile() && teleportRandomly())return null;
-		
 		EntityPlayer closestPlayer = worldObj.getClosestPlayerToEntity(this,64D);
 		
 		if (closestPlayer != null){
 			if (isPlayerStaringIntoEyes(closestPlayer)){
+				if (!shouldActHostile() && teleportRandomly())return null;
+				
 				if (stareTimer == 0)worldObj.playSoundEffect(closestPlayer.posX,closestPlayer.posY,closestPlayer.posZ,"mob.endermen.stare",1F,1F);
 				else if (stareTimer++ == 5){
 					stareTimer = 0;
@@ -524,7 +558,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				if (iter.next().homelandRole != HomelandRole.GUARD)iter.remove();
 			}
 			
-			for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt; a++){
+			for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt && !list.isEmpty(); a++){
 				EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
 				guard.setTarget(this);
 				guard.setScreaming(true);
@@ -687,6 +721,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	public void setScreaming(boolean isScreaming){
 		dataWatcher.updateObject(16,Byte.valueOf((byte)(isScreaming ? 1 : 0)));
+		screamTimer = isScreaming ? (byte)(60+rand.nextInt(50)) : 0;
 	}
 
 	@Override
@@ -701,7 +736,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	private boolean teleportRandomly(double maxDist){
-		return teleportTo(posX+(rand.nextDouble()-0.5D)*maxDist,posY+(rand.nextInt((int)maxDist)-maxDist*0.5D),posZ+(rand.nextDouble()-0.5D)*maxDist);
+		return teleportTo(posX+(rand.nextDouble()-0.5D)*2D*maxDist,posY+(rand.nextInt((int)maxDist)-maxDist*0.5D),posZ+(rand.nextDouble()-0.5D)*2D*maxDist);
 	}
 
 	private boolean teleportToEntity(Entity entity){
@@ -722,7 +757,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		double oldX = posX, oldY = posY, oldZ = posZ;
 		posX = x;
 		posY = y;
-		posZ = y;
+		posZ = z;
 		
 		boolean hasTeleported = false;
 		int ix = MathHelper.floor_double(posX), iy = MathHelper.floor_double(posY), iz = MathHelper.floor_double(posZ);
@@ -752,16 +787,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			return false;
 		}
 		else{
-			for(int a = 0, particleAmt = 128; a < particleAmt; a++){
-				double linePosition = a/(particleAmt-1D);
-				double particleX = oldX+(posX-oldX)*linePosition+(rand.nextDouble()-0.5D)*width*2D;
-				double particleY = oldY+(posY-oldY)*linePosition+rand.nextDouble()*height;
-				double particleZ = oldZ+(posZ-oldZ)*linePosition+(rand.nextDouble()-0.5D)*width*2D;
-				worldObj.spawnParticle("portal",particleX,particleY,particleZ,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
-			}
-
-			worldObj.playSoundEffect(oldX,oldY,oldZ,"mob.endermen.portal",1F,1F);
-			playSound("mob.endermen.portal",1F,1F);
+			if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,oldX,oldY,oldZ,posX,posY,posZ));
 			return true;
 		}
 	}

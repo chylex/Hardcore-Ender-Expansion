@@ -199,6 +199,19 @@ public final class FXHandler{
 				}
 				
 				break;
+				
+			case ENDERMAN_TELEPORT:
+				for(int a = 0, particleAmt = 128; a < particleAmt; a++){
+					double linePosition = a/(particleAmt-1D);
+					double particleX = x1+(x2-x1)*linePosition+(rand.nextDouble()-0.5D)*1.2D;
+					double particleY = y1+(y2-y1)*linePosition+rand.nextDouble()*2.9D;
+					double particleZ = z1+(z2-z1)*linePosition+(rand.nextDouble()-0.5D)*1.2D;
+					world.spawnParticle("portal",particleX,particleY,particleZ,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
+				}
+				
+				world.playSound(x1,y1,z1,"mob.endermen.portal",1F,1F,false);
+				world.playSound(x2,y2,z2,"mob.endermen.portal",1F,1F,false);
+				break;
 		}
 	}
 	
