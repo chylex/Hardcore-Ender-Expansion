@@ -171,9 +171,15 @@ public final class BlockList{
 		setItemClass("ravaged_brick", ItemBlockWithSubtypes.class);
 		setItemClass("ravaged_brick_slab", ItemBlockSlab.class);
 		setItemClass("dungeon_puzzle", ItemBlockWithSubtypes.class);
+	}
+	
+	public static void registerBlocks(){
+		for(Entry<String,BlockData> entry:BlockList.blocks.entrySet()){
+			GameRegistryUtil.registerBlock(entry.getValue().block,entry.getKey(),entry.getValue().itemBlockClass);
+		}
 		
 		tabOrderedList.addBlocks(
-			obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
+			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			essence_altar,decomposition_table,energy_extraction_table,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,
@@ -181,12 +187,6 @@ public final class BlockList{
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,dungeon_puzzle,cinder,
 			crossed_decoration,death_flower
 		);
-	}
-	
-	public static void registerBlocks(){
-		for(Entry<String,BlockData> entry:BlockList.blocks.entrySet()){
-			GameRegistryUtil.registerBlock(entry.getValue().block,entry.getKey(),entry.getValue().itemBlockClass);
-		}
 	}
 	
 	private BlockList(){} // static class

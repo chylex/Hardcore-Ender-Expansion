@@ -120,6 +120,12 @@ public final class ItemList{
 		
 		register("spawn_eggs", spawn_eggs = new ItemSpawnEggs().setUnlocalizedName("monsterPlacer").setTextureName("spawn_egg"));
 		register("item_special_effects", special_effects = new ItemSpecialEffects().setUnlocalizedName("itemNumber"));
+	}
+	
+	public static void registerItems(){
+		for(Entry<String,Item> entry:ItemList.items.entrySet()){
+			GameRegistryUtil.registerItem(entry.getValue(),entry.getKey());
+		}
 		
 		tabOrderedList.addItems(
 			adventurers_diary,altar_nexus,essence,enhanced_brewing_stand,
@@ -135,12 +141,6 @@ public final class ItemList{
 			knowledge_note,
 			spawn_eggs
 		);
-	}
-	
-	public static void registerItems(){
-		for(Entry<String,Item> entry:ItemList.items.entrySet()){
-			GameRegistryUtil.registerItem(entry.getValue(),entry.getKey());
-		}
 	}
 	
 	private ItemList(){} // static class
