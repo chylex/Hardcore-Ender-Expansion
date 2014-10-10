@@ -120,6 +120,7 @@ public class LargeStructureChunk{
 									double fx = entity.posX-ix, fy = entity.posY-iy, fz = entity.posZ-iz;
 									ix += addX; iy += addY; iz += addZ;
 									
+									entity.dimension = world.provider.dimensionId;
 									entity.setWorld(world);
 									entity.setPosition(structure.getXWithOffset(ix,iz)+fx,structure.getYWithOffset(iy)+fy+0.01D,structure.getZWithOffset(ix,iz)+fz);
 									

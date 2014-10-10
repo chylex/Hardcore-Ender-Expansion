@@ -7,6 +7,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -42,7 +43,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	private int currentTaskTimer;
 	private Object currentTaskData;
 	
-	private byte stareTimer, fallTimer, randomTpTimer, attackTpTimer, screamTimer;
+	private byte stareTimer, fallTimer, randomTpTimer, attackTpTimer, screamTimer, recruitCooldown;
 	
 	public EntityMobHomelandEnderman(World world){
 		super(world);
@@ -93,7 +94,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (worldObj.isRemote){
 			refreshRoles();
 			
-			int chance = 1+(int)Math.floor(HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this)/12F);
+			int chance = 1+(int)Math.floor(HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this)/20F);
 			
 			if (rand.nextInt(chance) == 0){
 				float colFactor = rand.nextFloat()*0.6F+0.4F;
@@ -109,6 +110,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			}
 		}
 		else if (isEntityAlive()){
+			setCustomNameTag(homelandRole.name()+" / "+(overtakeGroupRole == null ? "null" : overtakeGroupRole.name())+" / "+currentTask+" -- "+currentTaskTimer+" / "+entityToAttack);
+			
 			if (isWet())attackEntityFrom(DamageSource.drown,1F);
 			
 			if (isWet() || isBurning()){
@@ -116,12 +119,12 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				setScreaming(false);
 			}
 			
-			if (!onGround && ++fallTimer > 11+rand.nextInt(10)){
+			if (!onGround && ++fallTimer > 17+rand.nextInt(15)){
 				fallTimer = 0;
 				
 				for(int attempt = 0; attempt < 500; attempt++){
-					if (teleportRandomly(92D)){
-						resetTask();System.out.println("falling");
+					if (teleportRandomly(48D)){
+						resetTask();System.out.println("falling "+homelandRole);
 						break;
 					}
 				}
@@ -132,6 +135,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			if (currentTask == EndermanTask.WAIT || currentTask == EndermanTask.GET_TNT){
 				moveForward = moveStrafing = 0F;
 				fallDistance = 0F;
+				fallTimer = 0;
 				posY = 10000D;
 				
 				if (--currentTaskTimer == 0){
@@ -165,7 +169,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					--currentTaskTimer;
 					
 					if (currentTask == EndermanTask.LISTEN_TO_RECRUITER || currentTask == EndermanTask.RECRUIT_TO_GROUP){
-						moveForward = moveStrafing = 0F;System.out.println("STOP2 "+currentTaskTimer);
+						moveForward = moveStrafing = 0F;
 						
 						if (currentTaskTimer == 0 && currentTask == EndermanTask.RECRUIT_TO_GROUP){
 							int chance = 50, reportChance = 10;
@@ -209,19 +213,23 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									guard.setScreaming(true);
 									
 									if (!escaped)guard.setTarget(this);
-									else if (rand.nextBoolean())guard.teleportTo(oldX+4D*(rand.nextDouble()-0.5D),oldY+2D+rand.nextDouble()*4D,oldZ+4D*(rand.nextDouble()-0.5D));
+									else if (rand.nextInt(4) != 0)guard.teleportTo(oldX+4D*(rand.nextDouble()-0.5D),oldY+2D+rand.nextDouble()*4D,oldZ+4D*(rand.nextDouble()-0.5D));
 								}
 							}
+							
+							recruitCooldown = 120;
 						}
 					}
 					else if (currentTask == EndermanTask.STROLL){
 						if (currentTaskTimer > 0 && currentTaskTimer < 20 && rand.nextInt(3) == 0){
 							Vec3 obj = (Vec3)currentTaskData;
 							
-							if (obj.distanceTo(Vec3.createVectorHelper(posX,posY,posZ)) <= 0.5D || rand.nextInt(10) == 0){
+							if ((obj.distanceTo(Vec3.createVectorHelper(posX,posY,posZ)) <= 0.5D || rand.nextInt(10) == 0) && randomTpTimer > 30){
+								double d = obj.distanceTo(Vec3.createVectorHelper(posX,posY,posZ));
 								for(int attempt = 0; attempt < 30; attempt++){
-									if (teleportRandomly(48D)){
+									if (teleportRandomly(48D)){System.out.println("leader teleported "+d);
 										currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
+										randomTpTimer -= 40+rand.nextInt(30);
 										break;
 									}
 								}
@@ -245,7 +253,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					if (currentTaskTimer <= 0)resetTask();
 				}
 				else if (entityToAttack == null){ // no task, not attacking
-					if (groupId != -1 && rand.nextInt(400) == 0){
+					if (groupId != -1 && rand.nextInt(400) == 0 && (recruitCooldown < -120 || --recruitCooldown < -120)){
 						List<EntityMobHomelandEnderman> total = HomelandEndermen.getAll(this);
 						int groupAmt = HomelandEndermen.getInSameGroup(this).size();
 						int totalAmt = total.size();
@@ -297,7 +305,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										if (worldObj.getBlock(pathX,pathY,pathZ) == BlockList.end_terrain && MathUtil.distance(posX-pathX,posY-pathY,posZ-pathZ) > 5D){
 											setPathToEntity(worldObj.getEntityPathToXYZ(this,pathX,pathY+1,pathZ,30F,true,false,false,true));
 											currentTask = EndermanTask.STROLL;
-											currentTaskTimer = 45+rand.nextInt(70);
+											currentTaskTimer = 65+rand.nextInt(60);
 											currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
 											System.out.println("leader strolling to "+pathX+","+pathY+","+pathZ);
 											break;
@@ -492,7 +500,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				if (currentTask == EndermanTask.NONE && entityToAttack == null && ++randomTpTimer > 50+rand.nextInt(70)){
 					if (rand.nextInt(18) == 0){
 						for(int attempt = 0; attempt < 5; attempt++){
-							if (teleportRandomly(16D))break;
+							if (teleportRandomly(10D))break;
 						}
 					}
 					
@@ -512,20 +520,25 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		EntityPlayer closestPlayer = worldObj.getClosestPlayerToEntity(this,64D);
+		if (worldObj.isRemote)return null;
 		
-		if (closestPlayer != null){
-			if (isPlayerStaringIntoEyes(closestPlayer)){
-				if (!shouldActHostile() && teleportRandomly())return null;
-				
-				if (stareTimer == 0)worldObj.playSoundEffect(closestPlayer.posX,closestPlayer.posY,closestPlayer.posZ,"mob.endermen.stare",1F,1F);
-				else if (stareTimer++ == 5){
-					stareTimer = 0;
-					setScreaming(true);
-					return closestPlayer;
+		List<EntityPlayerMP> players = worldObj.playerEntities;
+		
+		for(EntityPlayerMP player:players){
+			if (player.theItemInWorldManager.getGameType().isSurvivalOrAdventure() && getDistanceSqToEntity(player) <= 4096D){
+				if (isPlayerStaringIntoEyes(player)){
+					if (!shouldActHostile() && teleportRandomly())return null;
+					
+					if (stareTimer == 0)worldObj.playSoundEffect(posX,posY,posZ,"mob.endermen.stare",1F,1F);
+					else if (stareTimer++ == 5){
+						stareTimer = 0;
+						setScreaming(true);
+						setTarget(player);
+						return null;
+					}
 				}
+				else stareTimer = 0;
 			}
-			else stareTimer = 0;
 		}
 		
 		return null;
@@ -585,6 +598,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (groupId != -1)nbt.setByte("groupRole",(byte)overtakeGroupRole.ordinal());
 		
 		if (currentTask == EndermanTask.WAIT)nbt.setInteger("wait",currentTaskTimer);
+		else if (currentTask == EndermanTask.GET_TNT)nbt.setInteger("gettnt",currentTaskTimer);
 		
 		ItemStack carrying = getCarrying();
 		if (carrying != null)nbt.setTag("carrying",carrying.writeToNBT(new NBTTagCompound()));
@@ -610,6 +624,12 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (nbt.hasKey("wait")){
 			currentTask = EndermanTask.WAIT;
 			currentTaskTimer = nbt.getInteger("wait");
+			posY = 10000D;
+		}
+		else if (nbt.hasKey("gettnt")){
+			currentTask = EndermanTask.GET_TNT;
+			currentTaskTimer = nbt.getInteger("gettnt");
+			posY = 10000D;
 		}
 		
 		if (nbt.hasKey("carrying"))setCarrying(ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("carrying")));
@@ -627,7 +647,11 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	@Override
 	public void setTarget(Entity target){
 		super.setTarget(target);
-		if (entityToAttack != null)resetTask();
+		
+		if (entityToAttack != null){
+			resetTask();
+			setPathToEntity(worldObj.getPathEntityToEntity(this,entityToAttack,16F,true,false,false,true));
+		}
 	}
 	
 	private void resetTask(){
@@ -650,7 +674,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (homelandRole == HomelandRole.ISLAND_LEADERS || (groupId != -1 && rand.nextInt(5) != 0) || HomelandEndermen.isOvertakeHappening(this)){
 			return false;
 		}
-		else return rand.nextInt(4) != 0;
+		else return rand.nextInt(3) != 0;
 	}
 	
 	// GETTERS, SETTERS AND DATA WATCHER
@@ -662,7 +686,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			int data = (homelandRole.ordinal() & 0b1111) << 4;
 			if (overtakeGroupRole != null)data |= ((overtakeGroupRole.ordinal()+1) & 0b1111);
 			dataWatcher.updateObject(18,Byte.valueOf((byte)data));
-			setCustomNameTag(homelandRole.name()+" / "+(overtakeGroupRole == null ? "null" : overtakeGroupRole.name()));
 		}
 		else{
 			byte data = dataWatcher.getWatchableObjectByte(18);

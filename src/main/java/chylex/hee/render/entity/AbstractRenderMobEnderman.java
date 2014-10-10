@@ -35,7 +35,7 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 	}
 
 	public void renderEnderman(IEndermanRenderer entity, double x, double y, double z, float yaw, float partialTickTime){
-		endermanModel.isCarrying = false;
+		endermanModel.isCarrying = entity.isCarrying();
 		endermanModel.isAttacking = entity.isScreaming();
 
 		if (entity.isScreaming()){
