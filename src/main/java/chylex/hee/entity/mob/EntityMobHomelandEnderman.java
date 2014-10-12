@@ -20,6 +20,7 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.HardcoreEnderExpansion;
@@ -512,7 +513,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				++attackTpTimer;
 				
 				if (((attackTpTimer > 50+rand.nextInt(30) && rand.nextInt(20) == 0) || attackTpTimer > 120) && entityToAttack.getDistanceSqToEntity(this) < 16D){
-					teleportRandomly(16D);
+					teleportRandomly(8D);
 					attackTpTimer = -80;
 				}
 				else if (entityToAttack.getDistanceSqToEntity(this) > 256D && attackTpTimer > 30 && teleportToEntity(entityToAttack)){
@@ -560,10 +561,11 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		for(EntityPlayerMP player:players){
 			if (player.theItemInWorldManager.getGameType().isSurvivalOrAdventure() && getDistanceSqToEntity(player) <= 4096D){
 				if (isPlayerStaringIntoEyes(player)){
-					if (!shouldActHostile() && teleportRandomly())return null;
+					if (!shouldActHostile(player) && teleportRandomly(10D))return null;
 					
 					if (stareTimer == 0)worldObj.playSoundEffect(posX,posY,posZ,"mob.endermen.stare",1F,1F);
-					else if (stareTimer++ == 5){
+					
+					if (stareTimer++ == 5){
 						stareTimer = 0;
 						setScreaming(true);
 						setTarget(player);
@@ -582,32 +584,36 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (isEntityInvulnerable())return false;
 		
 		if (source.getEntity() instanceof EntityPlayer || source.getEntity() instanceof EntityMobHomelandEnderman){
+			boolean callGuards = entityToAttack == null || rand.nextInt(4) == 0;
+			
 			setTarget(source.getEntity());
 			setScreaming(true);
 			
-			float guardPerc = 0F, guardDist = 0F;
-			
-			switch(homelandRole){
-				case ISLAND_LEADERS: guardPerc = 0.9F; guardDist = 260F; break;
-				case GUARD: guardPerc = 0.5F; guardDist = 100F; break;
-				case WORKER: guardPerc = rand.nextFloat()*0.2F; guardDist = 30F; break;
-				case BUSINESSMAN:
-				case INTELLIGENCE: guardPerc = 0.1F+rand.nextFloat()*0.15F; guardDist = 60F; break;
-				case COLLECTOR:
-				case OVERWORLD_EXPLORER: guardPerc = 0.2F+rand.nextFloat()*0.1F; guardDist = 80F; break;
-				default:
-			}
-			
-			List<EntityMobHomelandEnderman> list = worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,boundingBox.expand(guardDist,128D,guardDist));
-			
-			for(Iterator<EntityMobHomelandEnderman> iter = list.iterator(); iter.hasNext();){
-				if (iter.next().homelandRole != HomelandRole.GUARD)iter.remove();
-			}
-			
-			for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt && !list.isEmpty(); a++){
-				EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
-				guard.setTarget(source.getEntity());
-				guard.setScreaming(true);
+			if (callGuards){
+				float guardPerc = 0F, guardDist = 0F;
+				
+				switch(homelandRole){
+					case ISLAND_LEADERS: guardPerc = 0.9F; guardDist = 260F; break;
+					case GUARD: guardPerc = 0.5F; guardDist = 100F; break;
+					case WORKER: guardPerc = rand.nextFloat()*0.2F; guardDist = 30F; break;
+					case BUSINESSMAN:
+					case INTELLIGENCE: guardPerc = 0.1F+rand.nextFloat()*0.15F; guardDist = 60F; break;
+					case COLLECTOR:
+					case OVERWORLD_EXPLORER: guardPerc = 0.2F+rand.nextFloat()*0.1F; guardDist = 80F; break;
+					default:
+				}
+				
+				List<EntityMobHomelandEnderman> list = worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,boundingBox.expand(guardDist,128D,guardDist));
+				
+				for(Iterator<EntityMobHomelandEnderman> iter = list.iterator(); iter.hasNext();){
+					if (iter.next().homelandRole != HomelandRole.GUARD)iter.remove();
+				}
+				
+				for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt && !list.isEmpty(); a++){
+					EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
+					guard.setTarget(source.getEntity());
+					guard.setScreaming(true);
+				}
 			}
 		}
 		else if (source instanceof EntityDamageSourceIndirect){
@@ -681,6 +687,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	public void setTarget(Entity target){
+		if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL && target instanceof EntityPlayer)return;
+		
 		super.setTarget(target);
 		
 		if (entityToAttack != null){
@@ -707,10 +715,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		else return true;
 	}
 	
-	private boolean shouldActHostile(){
-		if (homelandRole == HomelandRole.ISLAND_LEADERS || (groupId != -1 && rand.nextInt(5) != 0) || HomelandEndermen.isOvertakeHappening(this)){
-			return false;
-		}
+	private boolean shouldActHostile(Entity entity){
+		if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL && entity instanceof EntityPlayer)return false;
+		else if (homelandRole == HomelandRole.ISLAND_LEADERS || (groupId != -1 && rand.nextInt(5) != 0) || HomelandEndermen.isOvertakeHappening(this))return false;
 		else return rand.nextInt(3) != 0;
 	}
 	
