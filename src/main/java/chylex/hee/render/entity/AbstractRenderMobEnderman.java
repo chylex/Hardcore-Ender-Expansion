@@ -56,7 +56,7 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 		GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
 		GL11.glDisable(GL11.GL_LIGHTING);
 
-		GL11.glDepthMask(!enderman.isInvisible());
+		GL11.glDepthMask(!((Entity)enderman).isInvisible());
 
 		char c = 61680;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,c%65536,c/65536);

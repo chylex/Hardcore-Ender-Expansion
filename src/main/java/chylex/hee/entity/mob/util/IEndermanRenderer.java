@@ -5,5 +5,4 @@ public interface IEndermanRenderer{
 	boolean isCarrying();
 	ItemStack getCarrying();
 	boolean isScreaming();
-	boolean isInvisible();
 }
