@@ -12,7 +12,7 @@ public class CreativeTabItemList{
 	
 	public CreativeTabItemList addBlocks(Block...blocks){
 		for(Block block:blocks){
-			this.blocks.add(block); // TODO change to item
+			this.blocks.add(block);
 			block.setCreativeTab(ModCreativeTab.tab);
 		}
 		

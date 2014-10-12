@@ -4,10 +4,12 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
+import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorEnchantedIsland;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
+import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland.InteractionOvertake;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
@@ -36,6 +38,10 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 			new SpawnEntry(EntityEnderman.class,10,10),
 			new SpawnEntry(EntityMobEnderGuardian.class,15,7)
 		});*/
+		
+		getInteractions(HOMELAND).addAll(new BiomeInteraction[]{
+			new BiomeInteraction("EI_Homeland_Overtake",InteractionOvertake.class,10)
+		});
 	}
 
 	@Override
@@ -80,7 +86,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	
 	@Override
 	public float getInteractionChance(BiomeContentVariation variation){
-		return variation == HOMELAND ? 0.01F : 0F; // 0.01 = 1/100 = every 25 seconds
+		return variation == HOMELAND ? 0.005F : 0F; // 0.005 = 1/200 = every 50 seconds
 	}
 
 	@Override

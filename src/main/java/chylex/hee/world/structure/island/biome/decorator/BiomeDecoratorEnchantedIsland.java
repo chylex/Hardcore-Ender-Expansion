@@ -103,9 +103,6 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 			}
 		}
 		
-		for(HomelandRole role:map.keySet())System.out.println("GEN "+role.name()+": "+map.get(role));
-		// TODO debug
-		
 		List<EntityMobHomelandEnderman> endermanList = world.getAllEntities(EntityMobHomelandEnderman.class);
 		int size = endermanList.size();
 		

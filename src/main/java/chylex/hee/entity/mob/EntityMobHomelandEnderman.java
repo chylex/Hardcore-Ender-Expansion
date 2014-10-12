@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,6 +37,9 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.island.StructureEndermanStash;
 
 public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer{
+	private static final UUID attackingSpeedBoostModifierUUID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
+    private static final AttributeModifier attackingSpeedBoostModifier = (new AttributeModifier(attackingSpeedBoostModifierUUID,"Attacking speed boost",6.2D,0)).setSaved(false);
+    
 	private HomelandRole homelandRole;
 	private long groupId = -1;
 	private OvertakeGroupRole overtakeGroupRole;
@@ -42,6 +47,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	private EndermanTask currentTask = EndermanTask.NONE;
 	private int currentTaskTimer;
 	private Object currentTaskData;
+	
+	private Entity lastEntityToAttack;
 	
 	private byte stareTimer, fallTimer, randomTpTimer, attackTpTimer, screamTimer, recruitCooldown;
 	
@@ -73,8 +80,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		
 		switch(homelandRole){
 			case ISLAND_LEADERS:
+				boolean maxHealth = MathUtil.floatEquals(getHealth(),getMaxHealth());
 				getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(70D);
 				getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12D);
+				if (maxHealth)setHealth(getMaxHealth());
 				break;
 				
 			case GUARD:
@@ -82,7 +91,15 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				break;
 				
 			case BUSINESSMAN:
-				getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D);
+				getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.65D);
+				break;
+				
+			case WORKER:
+				getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.45D);
+				// fall through
+				
+			case INTELLIGENCE:
+				getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5D);
 				break;
 				
 			default:
@@ -91,6 +108,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	public void onLivingUpdate(){
+		entityAge = 0; // 5 seconds and mobs stop moving, this is fucking stupid
+		
 		if (worldObj.isRemote){
 			refreshRoles();
 			
@@ -110,7 +129,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			}
 		}
 		else if (isEntityAlive()){
-			setCustomNameTag(homelandRole.name()+" / "+(overtakeGroupRole == null ? "null" : overtakeGroupRole.name())+" / "+currentTask+" -- "+currentTaskTimer+" / "+entityToAttack);
+			setCustomNameTag(homelandRole.name()+" / "+(overtakeGroupRole == null ? "null" : overtakeGroupRole.name())+" / "+currentTask+" -- "+currentTaskTimer+" / "+(hasPath() ? "haspath" : "nopath"));
+			// TODO remove
 			
 			if (isWet())attackEntityFrom(DamageSource.drown,1F);
 			
@@ -289,7 +309,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					if (currentTask == EndermanTask.NONE && rand.nextInt(80) == 0){
 						switch(homelandRole){
 							case ISLAND_LEADERS:
-								if (rand.nextInt(10) == 0){
+								if (rand.nextInt(13) == 0){
 									teleportRandomly();
 								}
 								else{
@@ -323,9 +343,14 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										EntityMobHomelandEnderman enderman = businessmen.get(rand.nextInt(businessmen.size()));
 										
 										if (enderman.currentTask == EndermanTask.NONE){
-											currentTask = enderman.currentTask = EndermanTask.COMMUNICATE;
-											currentTaskTimer = enderman.currentTaskTimer = 30+rand.nextInt(50+rand.nextInt(80));
-											System.out.println("businessman communicating at "+posX+","+posY+","+posZ);
+											for(int tpAttempt = 0; tpAttempt < 20; tpAttempt++){
+												if (teleportTo(enderman.posX+(rand.nextDouble()-0.5D)*2D,enderman.posY,enderman.posZ+(rand.nextDouble()-0.5D)*2D)){
+													currentTask = enderman.currentTask = EndermanTask.COMMUNICATE;
+													currentTaskTimer = enderman.currentTaskTimer = 30+rand.nextInt(50+rand.nextInt(80));
+													System.out.println("businessman communicating at "+posX+","+posY+","+posZ);
+													break;
+												}
+											}
 										}
 									}
 								}
@@ -497,17 +522,25 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			else{
 				attackTpTimer = -80;
 				
-				if (currentTask == EndermanTask.NONE && entityToAttack == null && ++randomTpTimer > 50+rand.nextInt(70)){
-					if (rand.nextInt(18) == 0){
+				if (currentTask == EndermanTask.NONE && entityToAttack == null && ++randomTpTimer > 70+rand.nextInt(50)){
+					if (rand.nextInt(19) == 0){
 						for(int attempt = 0; attempt < 5; attempt++){
 							if (teleportRandomly(10D))break;
 						}
 					}
 					
-					randomTpTimer -= 80+rand.nextInt(40);
+					randomTpTimer -= 110+rand.nextInt(40);
 				}
 				
 				if (screamTimer > 0 && --screamTimer == 0 && isScreaming())setScreaming(false);
+			}
+			
+			if (lastEntityToAttack != entityToAttack){
+				IAttributeInstance attribute = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+				attribute.removeModifier(attackingSpeedBoostModifier);
+				if (entityToAttack != null)attribute.applyModifier(attackingSpeedBoostModifier);
+				
+				lastEntityToAttack = entityToAttack;
 			}
 		}
 		
@@ -573,7 +606,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			
 			for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt && !list.isEmpty(); a++){
 				EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
-				guard.setTarget(this);
+				guard.setTarget(source.getEntity());
 				guard.setScreaming(true);
 			}
 		}
@@ -636,6 +669,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		
 		if (homelandRole == null || (groupId != -1 && overtakeGroupRole == null))setDead();
 		else if (!worldObj.isRemote)refreshRoles();
+		
+		updateAttributes();
 	}
 	
 	@Override
@@ -652,6 +687,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			resetTask();
 			setPathToEntity(worldObj.getPathEntityToEntity(this,entityToAttack,16F,true,false,false,true));
 		}
+		
+		System.out.println("attacking "+target);
 	}
 	
 	private void resetTask(){
@@ -767,7 +804,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		double newX = posX+(rand.nextDouble()-0.5D)*8D-vec.xCoord*16D;
 		double newY = posY+(rand.nextInt(16)-8)-vec.yCoord*16D;
 		double newZ = posZ+(rand.nextDouble()-0.5D)*8D-vec.zCoord*16D;
-		return this.teleportTo(newX,newY,newZ);
+		return teleportTo(newX,newY,newZ);
 	}
 	
 	private boolean teleportTo(double x, double y, double z){
@@ -821,7 +858,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (is != null && is.getItem() == Item.getItemFromBlock(Blocks.pumpkin))return false;
 		else{
 			Vec3 playerLook = player.getLook(1F).normalize();
-			Vec3 eyeVecDiff = Vec3.createVectorHelper(posX-player.posX,boundingBox.minY+(height/2F)-(player.posY+player.getEyeHeight()),posZ-player.posZ);
+			Vec3 eyeVecDiff = Vec3.createVectorHelper(posX-player.posX,boundingBox.minY+(height*0.5F)-(player.posY+player.getEyeHeight()),posZ-player.posZ);
 			double eyeVecLen = eyeVecDiff.lengthVector();
 			return playerLook.dotProduct(eyeVecDiff.normalize()) > 1D-0.025D/eyeVecLen && player.canEntityBeSeen(this);
 		}
