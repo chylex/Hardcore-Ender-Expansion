@@ -130,9 +130,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			}
 		}
 		else if (isEntityAlive()){
-			setCustomNameTag(homelandRole.name()+" / "+(overtakeGroupRole == null ? "null" : overtakeGroupRole.name())+" / "+currentTask+" -- "+currentTaskTimer+" / "+(hasPath() ? "haspath" : "nopath"));
-			// TODO remove
-			
 			if (isWet())attackEntityFrom(DamageSource.drown,1F);
 			
 			if (isWet() || isBurning()){
@@ -211,7 +208,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									if (teleportRandomly())break;
 								}
 								
-								System.out.println("Recruiting successful!");
+								//System.out.println("recruiting successful!");
 							}
 							else if (rand.nextInt(100) < reportChance){
 								boolean escaped = false;
@@ -227,7 +224,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								}
 								
 								List<EntityMobHomelandEnderman> guards = HomelandEndermen.getByHomelandRole(this,HomelandRole.GUARD);
-								System.out.println("Guards alerted!");
+								//System.out.println("guards alerted!");
 								
 								for(int a = 0, amt = Math.max(3,(int)Math.round(guards.size()*0.3D)); a < amt; a++){
 									EntityMobHomelandEnderman guard = guards.get(rand.nextInt(guards.size()));
@@ -246,9 +243,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 							Vec3 obj = (Vec3)currentTaskData;
 							
 							if ((obj.distanceTo(Vec3.createVectorHelper(posX,posY,posZ)) <= 0.5D || rand.nextInt(10) == 0) && randomTpTimer > 30){
-								double d = obj.distanceTo(Vec3.createVectorHelper(posX,posY,posZ));
 								for(int attempt = 0; attempt < 30; attempt++){
-									if (teleportRandomly(48D)){System.out.println("leader teleported "+d);
+									if (teleportRandomly(48D)){
 										currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
 										randomTpTimer -= 40+rand.nextInt(30);
 										break;
@@ -259,7 +255,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 						
 						if (currentTaskTimer == 0 && rand.nextInt(5) == 0){
 							currentTaskTimer = 10+rand.nextInt(60);
-							System.out.println("leader waiting...");
+							//System.out.println("leader waiting...");
 						}
 					}
 					else if (currentTask == EndermanTask.WALK){
@@ -301,7 +297,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								currentTaskData = enderman;
 								enderman.currentTask = EndermanTask.LISTEN_TO_RECRUITER;
 								enderman.currentTaskTimer = currentTaskTimer = 20+rand.nextInt(60);
-								System.out.println("trying to recruit at "+posX+","+posY+","+posZ);
+								//System.out.println("trying to recruit at "+posX+","+posY+","+posZ);
 								break;
 							}
 						}
@@ -328,7 +324,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 											currentTask = EndermanTask.STROLL;
 											currentTaskTimer = 65+rand.nextInt(60);
 											currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
-											System.out.println("leader strolling to "+pathX+","+pathY+","+pathZ);
+											//System.out.println("leader strolling to "+pathX+","+pathY+","+pathZ);
 											break;
 										}
 									}
@@ -348,7 +344,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 												if (teleportTo(enderman.posX+(rand.nextDouble()-0.5D)*2D,enderman.posY,enderman.posZ+(rand.nextDouble()-0.5D)*2D)){
 													currentTask = enderman.currentTask = EndermanTask.COMMUNICATE;
 													currentTaskTimer = enderman.currentTaskTimer = 30+rand.nextInt(50+rand.nextInt(80));
-													System.out.println("businessman communicating at "+posX+","+posY+","+posZ);
+													//System.out.println("businessman communicating at "+posX+","+posY+","+posZ);
 													break;
 												}
 											}
@@ -368,7 +364,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 											currentTask = EndermanTask.WALK;
 											currentTaskTimer = 200+rand.nextInt(100);
 											currentTaskData = new ChunkPosition(walkToX,walkToY,walkToZ);
-											System.out.println("businessman walking to "+walkToX+","+walkToY+","+walkToZ);
+											//System.out.println("businessman walking to "+walkToX+","+walkToY+","+walkToZ);
 											break;
 										}
 									}
@@ -385,7 +381,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										
 										if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.ender_goo){
 											teleportTo(tpX+0.5D+(rand.nextDouble()-0.5D)*0.3D,tpY+1D,tpZ+0.5D+(rand.nextDouble()-0.5D)*0.3D,true);
-											System.out.println("worked tp'd to "+tpX+","+tpY+","+tpZ);
+											//System.out.println("worker tp'd to "+tpX+","+tpY+","+tpZ);
 											break;
 										}
 									}
@@ -399,7 +395,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									currentTaskTimer = 150+rand.nextInt(600+rand.nextInt(1800));
 									setCarrying(null);
 									teleportTo(posX,10000D,posZ,true);
-									System.out.println("collector teleporting");
+									//System.out.println("collector teleporting");
 								}
 								
 								break;
@@ -420,11 +416,11 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										enderman.currentTask = EndermanTask.WAIT;
 										enderman.currentTaskTimer = currentTaskTimer+rand.nextInt(500);
 										enderman.teleportTo(enderman.posX,10000D,enderman.posZ,true);
-										System.out.println("overworld explorer teleporting [multi]");
+										//System.out.println("overworld explorer teleporting [multi]");
 									}
 									
 									teleportTo(posX,10000D,posZ,true);
-									System.out.println("overworld explorer teleporting");
+									//System.out.println("overworld explorer teleporting");
 								}
 								
 								break;
@@ -733,7 +729,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			setPathToEntity(worldObj.getPathEntityToEntity(this,entityToAttack,16F,true,false,false,true));
 		}
 		
-		System.out.println("attacking "+target);
+		//System.out.println("attacking "+target);
 	}
 	
 	private void resetTask(){
