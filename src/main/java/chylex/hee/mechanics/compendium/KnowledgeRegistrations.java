@@ -489,12 +489,12 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(286).setContents("Glowing Obsidian pillar, can be placed horizontally or vertically and it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			ENDIUM_ORE.setPos(0,8).setUnlockPrice(30).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
+			ENDIUM_ORE.setPos(-2,12).setUnlockPrice(30).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(760).setContents("Rare ore that starts to appear near Dungeon Towers, and gets more common the further you travel.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(761).setContents("The block drops the ore, it can be then smelted into Endium Ingot.").setPrice(8).setUnlockOnDiscovery().setUnlockRequirements(760)
 			}),
 			
-			ENDIUM_BLOCK.setPos(-2,8).setUnlockPrice(5).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
+			ENDIUM_BLOCK.setPos(2,11).setUnlockPrice(5).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(770).setContents("Block made of Endium Ingots.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(771).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(770).setUnlockCascade(781)
 			}),
@@ -507,13 +507,13 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(294).setContents("If no suitable area is found, the player may be teleported into nearby blocks and start suffocating.").setPrice(2).setUnlockRequirements(293)
 			}),
 			
-			ENDIUM_INGOT.setPos(2,8).setUnlockPrice(25).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
+			ENDIUM_INGOT.setPos(0,12).setUnlockPrice(25).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(780).setContents("Shiny blue metal made by smelting Endium Ore.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(781).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(780).setUnlockCascade(771),
 				new KnowledgeFragmentCrafting(782).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setPrice(8).setUnlockRequirements(780).setUnlockCascade(303)
-			}), // TODO tweak pos
+			}),
 			
-			BIOME_COMPASS.setPos(4,8).setUnlockPrice(25).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+			BIOME_COMPASS.setPos(2,13).setUnlockPrice(25).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(300).setContents("Special compass that points at the nearest Biome Island.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(301).setContents("Holding it will show markers for all nearby islands in the dimension.").setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(300),
 				new KnowledgeFragmentText(302).setContents("Right-clicking switches between biomes.").setPrice(3).setUnlockRequirements(301),
@@ -543,18 +543,18 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(320).setContents("Tiny clump of Sphalerite which begins to spawn around 1300 blocks away from the Dragon Lair.").setPrice(5)
 			}),
 			
-			SPHALERITE.setPos(-3,1).setUnlockPrice(10).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
+			SPHALERITE.setPos(-2,1).setUnlockPrice(10).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(330).setContents("Rock of medium toughness found in Meteoroids.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(331).setContents("Stone Pickaxe or better is required to mine it quickly.").setPrice(3).setUnlockOnDiscovery().setUnlockRequirements(330)
 			}),
 			
-			SPHALERITE_WITH_STARDUST.setPos(-1,3).setUnlockPrice(10).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+			SPHALERITE_WITH_STARDUST.setPos(0,3).setUnlockPrice(10).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(340).setContents("Variation of Sphalerite, that has yellow marks on the surface.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(341).setContents("It drops 1-3 Stardust, but no experience unlike the ores.").setPrice(3).setUnlockRequirements(340),
 				new KnowledgeFragmentText(342).setContents("Fortune enchantment has a small effect on the drops.").setPrice(2).setUnlockRequirements(341)
 			}),
 			
-			STARDUST.setPos(1,5).setUnlockPrice(10).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
+			STARDUST.setPos(2,5).setUnlockPrice(10).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(350).setContents("Dust dropped by Stardust Ore and Sphalerite with Stardust. It is used for crafting and as a decomposition catalyst in Tables.").setPrice(2).setUnlockOnDiscovery()
 			})
 		});
