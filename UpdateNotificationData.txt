@@ -1,4 +1,10 @@
 {
+  "22 - 1.6.4": {
+    "modVersion": "1.6.4",
+    "mcVersions": [ "1.7.10" ],
+    "releaseDate": "12 Oct 2014"
+  },
+  
   "21 - 1.6.3": {
     "modVersion": "1.6.3",
     "mcVersions": [ "1.7.10" ],
