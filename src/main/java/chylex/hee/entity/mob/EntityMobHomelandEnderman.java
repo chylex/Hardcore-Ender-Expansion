@@ -567,7 +567,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		List<EntityPlayerMP> players = worldObj.playerEntities;
 		
 		for(EntityPlayerMP player:players){
-			if (player.theItemInWorldManager.getGameType().isSurvivalOrAdventure() && getDistanceSqToEntity(player) <= 4096D){
+			if (!player.capabilities.disableDamage && getDistanceSqToEntity(player) <= 4096D){
 				if (isPlayerStaringIntoEyes(player)){
 					if (!shouldActHostile(player) && teleportRandomly(10D))return null;
 					
