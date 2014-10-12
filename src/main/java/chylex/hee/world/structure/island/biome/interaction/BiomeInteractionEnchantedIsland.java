@@ -14,7 +14,7 @@ public class BiomeInteractionEnchantedIsland{
 		@Override
 		public void init(){
 			List<EntityMobHomelandEnderman> endermen = world.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,getIslandBoundingBox());
-			System.out.println("spawned overtake thing");
+			//System.out.println("spawned overtake thing");
 			
 			for(int attempt = 0; attempt < 3 && !endermen.isEmpty(); attempt++){
 				EntityMobHomelandEnderman subject = endermen.remove(rand.nextInt(endermen.size()));
@@ -26,8 +26,8 @@ public class BiomeInteractionEnchantedIsland{
 					if (rand.nextInt(666) < MathUtil.square(sameGroup.size()) && rand.nextInt(3) == 0){
 						groupId = subject.getGroupId();
 						
-						System.out.println("STARTING OVERTAKE WITH "+sameGroup.size()+" MEMBERS");
-						for(EntityMobHomelandEnderman e:sameGroup)System.out.println(e.getGroupRole());
+						//System.out.println("STARTING OVERTAKE WITH "+sameGroup.size()+" MEMBERS");
+						//for(EntityMobHomelandEnderman e:sameGroup)System.out.println(e.getGroupRole());
 						break;
 					}
 				}
