@@ -145,7 +145,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				
 				for(int attempt = 0; attempt < 500; attempt++){
 					if (teleportRandomly(48D)){
-						resetTask();System.out.println("falling "+homelandRole);
+						resetTask();
 						break;
 					}
 				}
@@ -492,7 +492,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										}
 									}
 									
-									setAttackTarget(target);
+									setTarget(target);
 								}
 								
 								break;
@@ -506,6 +506,18 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				else if (groupId != -1){ // different group - join them or be against them
 					if (rand.nextInt(3) == 0)setGroupMember(overtakeGroup,OvertakeGroupRole.getRandomMember(rand));
 					else setGroupMember(-1,null);
+				}
+				else if (entityToAttack == null && ((homelandRole == HomelandRole.GUARD && rand.nextInt(30) == 0) || rand.nextInt(200) == 0)){
+					List<EntityMobHomelandEnderman> all = HomelandEndermen.getAll(this);
+					
+					for(int attempt = 0; attempt < 4 && !all.isEmpty(); attempt++){
+						EntityMobHomelandEnderman enderman = all.remove(rand.nextInt(all.size()));
+						
+						if (enderman.groupId == overtakeGroup){
+							setTarget(enderman);
+							break;
+						}
+					}
 				}
 			}
 			
@@ -583,6 +595,29 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (isEntityInvulnerable())return false;
 		
+		if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL && source.getEntity() instanceof EntityPlayer){
+			if (super.attackEntityFrom(DamageSource.generic,amount)){
+				double diffX = source.getEntity().posX-posX, diffZ = source.getEntity().posZ-posZ;
+
+				while(diffX*diffX+diffZ*diffZ < 1E-4D){
+					diffX = (Math.random()-Math.random())*0.01D;
+					diffZ = (Math.random()-Math.random())*0.01D;
+				}
+
+				attackedAtYaw = (float)(Math.atan2(diffZ,diffX)*180D/Math.PI)-rotationYaw;
+				knockBack(source.getEntity(),amount,diffX,diffZ);
+				
+				if (homelandRole == HomelandRole.ISLAND_LEADERS || homelandRole == HomelandRole.GUARD || rand.nextInt(3) == 0){
+					for(int attempt = 0; attempt < 10; attempt++){
+						if (teleportRandomly())break;
+					}
+				}
+				
+				return true;
+			}
+			else return false;
+		}
+		
 		if (source.getEntity() instanceof EntityPlayer || source.getEntity() instanceof EntityMobHomelandEnderman){
 			boolean callGuards = entityToAttack == null || rand.nextInt(4) == 0;
 			
@@ -593,8 +628,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				float guardPerc = 0F, guardDist = 0F;
 				
 				switch(homelandRole){
-					case ISLAND_LEADERS: guardPerc = 0.9F; guardDist = 260F; break;
-					case GUARD: guardPerc = 0.5F; guardDist = 100F; break;
+					case ISLAND_LEADERS: guardPerc = 0.95F; guardDist = 260F; break;
+					case GUARD: guardPerc = 0.4F; guardDist = 100F; break;
 					case WORKER: guardPerc = rand.nextFloat()*0.2F; guardDist = 30F; break;
 					case BUSINESSMAN:
 					case INTELLIGENCE: guardPerc = 0.1F+rand.nextFloat()*0.15F; guardDist = 60F; break;
@@ -602,6 +637,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					case OVERWORLD_EXPLORER: guardPerc = 0.2F+rand.nextFloat()*0.1F; guardDist = 80F; break;
 					default:
 				}
+				
+				guardPerc *= 0.7F+rand.nextFloat()*0.3F;
 				
 				List<EntityMobHomelandEnderman> list = worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,boundingBox.expand(guardDist,128D,guardDist));
 				

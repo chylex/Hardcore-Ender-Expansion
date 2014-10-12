@@ -77,7 +77,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		// HOMELAND ENDERMEN
 		TObjectIntHashMap<HomelandRole> map = new TObjectIntHashMap<>();
 		
-		for(int spawnAttempt = 0, spawnedTotal = 42+rand.nextInt(24)+rand.nextInt(12); spawnAttempt < spawnedTotal; spawnAttempt++){
+		for(int spawnAttempt = 0, spawnedTotal = 52+rand.nextInt(28)+rand.nextInt(16); spawnAttempt < spawnedTotal; spawnAttempt++){
 			EntityMobHomelandEnderman enderman = new EntityMobHomelandEnderman(null);
 			HomelandRole role = HomelandRole.WORKER;
 			
@@ -90,7 +90,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 			enderman.setHomelandRole(role);
 			map.adjustOrPutValue(role,1,1);
 			
-			for(int posAttempt = 0, xx, yy, zz; posAttempt < 20; posAttempt++){
+			for(int posAttempt = 0, xx, yy, zz; posAttempt < 30; posAttempt++){
 				xx = rand.nextInt(ComponentIsland.size-40)+20;
 				zz = rand.nextInt(ComponentIsland.size-40)+20;
 				yy = world.getHighestY(xx,zz);
