@@ -52,10 +52,16 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	public int getHeight(GuiEnderCompendium gui, boolean isUnlocked){
 		return 58;
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId){
+		return false;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
+	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		GL11.glColor4f(1F,1F,1F,1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
 		gui.drawTexturedModalRect(x,y,0,0,88,58);

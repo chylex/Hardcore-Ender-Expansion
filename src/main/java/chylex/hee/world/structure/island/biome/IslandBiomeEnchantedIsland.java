@@ -4,6 +4,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
+import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
@@ -25,7 +26,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		super(biomeID);
 		
 		contentVariations.add(HOMELAND);
-		//contentVariations.add(LABORATORY);
+		contentVariations.add(LABORATORY);
 		
 		randomDeviations.add(TALL_PILES);
 		
@@ -34,10 +35,10 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 			new SpawnEntry(EntityMobBabyEnderman.class,14,20)
 		});
 		
-		/*getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
+		getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityEnderman.class,10,10),
 			new SpawnEntry(EntityMobEnderGuardian.class,15,7)
-		});*/
+		});
 		
 		getInteractions(HOMELAND).addAll(new BiomeInteraction[]{
 			new BiomeInteraction("EI_Homeland_Overtake",InteractionOvertake.class,10)

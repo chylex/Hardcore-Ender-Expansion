@@ -43,10 +43,16 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 	public int getHeight(GuiEnderCompendium gui, boolean isUnlocked){
 		return 20;
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId){
+		return false;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
+	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		GL11.glColor4f(1F,1F,1F,1F);
 		
 		ItemStack is = isUnlocked ? enhancement.getItemSelector().getRepresentativeItem() : KnowledgeFragmentCrafting.lockedItem;

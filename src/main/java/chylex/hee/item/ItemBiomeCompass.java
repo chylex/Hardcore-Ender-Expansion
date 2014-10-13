@@ -34,13 +34,12 @@ public class ItemBiomeCompass extends Item{
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
 		if (world.isRemote){
 			if (is.stackTagCompound != null && entity instanceof EntityPlayer){
+				currentBiome = is.stackTagCompound.getByte("curBiome");
+				
 				if (lastSavedX == Integer.MAX_VALUE && lastSavedZ == Integer.MAX_VALUE){
-					int x,z;
-					
-					for(x = entity.chunkCoordX-96; x <= entity.chunkCoordX+96; x++){
+					for(int x = entity.chunkCoordX-96, z; x <= entity.chunkCoordX+96; x++){
 						for(z = entity.chunkCoordZ-96; z <= entity.chunkCoordZ+96; z++){
 							byte biome = checkBiome(x,z,is);
-							
 							if (biome != -1)locations.get(biome).add(new ChunkCoordinates(x*16+(featureSize>>1),0,z*16+(featureSize>>1)));
 						}
 					}
@@ -64,8 +63,12 @@ public class ItemBiomeCompass extends Item{
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote)return is;
-		if (++currentBiome >= IslandBiomeBase.biomeList.size())currentBiome = 0;
+		if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+		
+		byte biome = is.stackTagCompound.getByte("curBiome");
+		if (++biome >= IslandBiomeBase.biomeList.size())biome = 0;
+		is.stackTagCompound.setByte("curBiome",biome);
+		
 		return is;
 	}
 	

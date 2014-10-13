@@ -433,7 +433,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			y = y-(guiPageTexHeight>>1)+guiPageTop;
 			
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
-				entry.getKey().render(this,x,y,mouseX,mouseY,entry.getValue());
+				entry.getKey().onRender(this,x,y,mouseX,mouseY,entry.getValue());
 				y += 8+entry.getKey().getHeight(this,entry.getValue());
 			}
 			

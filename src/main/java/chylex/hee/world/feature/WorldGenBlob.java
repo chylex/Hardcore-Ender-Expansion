@@ -117,7 +117,7 @@ public class WorldGenBlob extends WorldGenerator{
 		
 		if (iteration < 4 && random.nextInt(9-iteration*2) > 1){
 			for(int a = 0; a < random.nextInt(3-(iteration>>1))+1; a++){
-				float a1 = random.nextFloat()*twoPI,a2 = random.nextFloat()*twoPI;
+				float a1 = random.nextFloat()*twoPI, a2 = random.nextFloat()*twoPI;
 				float len = (rad*0.4F)+(random.nextFloat()*0.65F*rad);
 				createBlob(blocks,random,
 						   (int)Math.floor(x+MathHelper.cos(a1)*len),

@@ -26,14 +26,20 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	public int getHeight(GuiEnderCompendium gui, boolean isUnlocked){
 		boolean origFont = gui.mc.fontRenderer.getUnicodeFlag();
 		gui.mc.fontRenderer.setUnicodeFlag(true);
-		int h = gui.mc.fontRenderer.listFormattedStringToWidth(getString(isUnlocked),GuiEnderCompendium.guiPageWidth-10).size()*gui.mc.fontRenderer.FONT_HEIGHT;
+		int h = gui.mc.fontRenderer.listFormattedStringToWidth(getString(true),GuiEnderCompendium.guiPageWidth-10).size()*gui.mc.fontRenderer.FONT_HEIGHT;
 		gui.mc.fontRenderer.setUnicodeFlag(origFont);
 		return h;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId){
+		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
+	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		renderString(getString(isUnlocked),x+1,y,GuiEnderCompendium.guiPageWidth-10,gui);
 	}
 	

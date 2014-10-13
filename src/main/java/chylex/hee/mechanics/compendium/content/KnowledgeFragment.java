@@ -79,7 +79,10 @@ public abstract class KnowledgeFragment{
 	public abstract int getHeight(GuiEnderCompendium gui, boolean isUnlocked);
 	
 	@SideOnly(Side.CLIENT)
-	public abstract void render(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked);
+	public abstract boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId);
+	
+	@SideOnly(Side.CLIENT)
+	public abstract void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked);
 	
 	@Override
 	public final boolean equals(Object o){
