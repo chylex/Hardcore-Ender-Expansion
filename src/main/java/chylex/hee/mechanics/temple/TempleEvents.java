@@ -130,7 +130,7 @@ public final class TempleEvents{
 		}
 	}
 	
-	private boolean isPlayerInTemple(EntityPlayer player){
+	public static boolean isPlayerInTemple(EntityPlayer player){
 		return player.posY >= ItemTempleCaller.templeY && player.posX >= ItemTempleCaller.templeX && player.posZ >= ItemTempleCaller.templeZ &&
 			   player.posY <= ItemTempleCaller.templeY+7 && player.posX <= ItemTempleCaller.templeX+13 && player.posZ <= ItemTempleCaller.templeZ+19;
 	}

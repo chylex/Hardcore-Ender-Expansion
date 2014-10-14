@@ -48,7 +48,6 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
-import chylex.hee.mechanics.temple.TeleportParticleTickEvent;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
 import chylex.hee.render.block.RenderBlockCrossedDecoration;
@@ -173,7 +172,6 @@ public class ModClientProxy extends ModCommonProxy{
 		OverlayManager.register();
 		FXEvents.register();
 		CompendiumEventsClient.register();
-		TeleportParticleTickEvent.register();
 		MusicManager.register();
 		CharmPouchHandlerClient.register();
 		

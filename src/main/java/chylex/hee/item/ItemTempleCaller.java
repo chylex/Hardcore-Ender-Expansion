@@ -7,7 +7,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.temple.TeleportParticleTickEvent;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C09SimpleEvent;
+import chylex.hee.packets.client.C09SimpleEvent.EventType;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.world.feature.TempleGenerator;
@@ -46,13 +48,12 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 		else if (player.posY < templeY){
 			if (!player.capabilities.isCreativeMode)--is.stackSize;
 			
-			if (!world.isRemote){
-				new TempleGenerator(world).spawnTemple(templeX,templeY,templeZ);
-				player.setLocationAndAngles(templeX+1.5D,templeY+1,templeZ+6.5D,-90F,0F);
-				player.setPositionAndUpdate(templeX+1.5D,templeY+1,templeZ+6.5D);
-				WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setPlayerIsInTemple(player,true);
-			}
-			else TeleportParticleTickEvent.startSmokeEffect();
+			new TempleGenerator(world).spawnTemple(templeX,templeY,templeZ);
+			player.setLocationAndAngles(templeX+1.5D,templeY+1,templeZ+6.5D,-90F,0F);
+			player.setPositionAndUpdate(templeX+1.5D,templeY+1,templeZ+6.5D);
+			WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setPlayerIsInTemple(player,true);
+			
+			PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.BEGIN_TEMPLE_SMOKE));
 		}
 
 		return is;
