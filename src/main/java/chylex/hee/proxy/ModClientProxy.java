@@ -19,6 +19,7 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
+import chylex.hee.entity.fx.FXEvents;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobCorporealMirage;
@@ -168,9 +169,10 @@ public class ModClientProxy extends ModCommonProxy{
 	@Override
 	public void registerSidedEvents(){
 		ReflectionPublicizer.loadClient();
-		
-		CompendiumEventsClient.register();
+
 		OverlayManager.register();
+		FXEvents.register();
+		CompendiumEventsClient.register();
 		TeleportParticleTickEvent.register();
 		MusicManager.register();
 		CharmPouchHandlerClient.register();
