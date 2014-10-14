@@ -147,13 +147,13 @@ public final class BlockList{
 		register("ender_goo", ender_goo = new BlockEnderGoo().setHardness(150F).setLightOpacity(2).setBlockName("enderGoo").setBlockTextureName("hardcoreenderexpansion:endergoo_flow"));
 		register("crossed_decoration", crossed_decoration = new BlockCrossedDecoration().setHardness(0F).setStepSound(Block.soundTypeGrass).setCreativeTab(null).setBlockName("crossedDecoration"));
 		register("enderman_head_block", enderman_head = new BlockEndermanHead().setHardness(1F).setStepSound(Block.soundTypeStone).setBlockName("endermanHead").setBlockTextureName("hardcoreenderexpansion:enderman_head"));
-		register("death_flower", death_flower = new BlockEndFlower().setHardness(0F).setResistance(4F).setStepSound(Block.soundTypeGrass).setCreativeTab(null).setBlockName("endFlower").setBlockTextureName("hardcoreenderexpansion:end_flower"));
+		register("death_flower", death_flower = new BlockDeathFlower().setHardness(0F).setResistance(4F).setStepSound(Block.soundTypeGrass).setCreativeTab(null).setBlockName("endFlower").setBlockTextureName("hardcoreenderexpansion:end_flower"));
 		register("energy_cluster", energy_cluster = new BlockEnergyCluster().setHardness(0.7F).setResistance(0.2F).setStepSound(BlockEnergyCluster.soundTypeEnergyCluster).setBlockName("energyCluster").setBlockTextureName("hardcoreenderexpansion:energy_cluster"));
 		register("corrupted_energy_high", corrupted_energy_high = new BlockCorruptedEnergy(true).setBlockUnbreakable().setResistance(6000000F));
 		register("corrupted_energy_low", corrupted_energy_low = new BlockCorruptedEnergy(false).setBlockUnbreakable().setResistance(6000000F));
 		register("soul_charm", soul_charm = new BlockSoulCharm().setHardness(-1F).setResistance(6000000F).setBlockName("soulCharm").setBlockTextureName("hardcoreenderexpansion:empty"));
 		
-		register("death_flower_pot", death_flower_pot = new BlockEndFlowerPot().setHardness(0F).setStepSound(Block.soundTypeStone).setBlockName("flowerPot").setBlockTextureName("flower_pot"));
+		register("death_flower_pot", death_flower_pot = new BlockDeathFlowerPot().setHardness(0F).setStepSound(Block.soundTypeStone).setBlockName("flowerPot").setBlockTextureName("flower_pot"));
 		register("laser_beam", laser_beam = new BlockLaserBeam().setBlockUnbreakable().setLightLevel(1F).setResistance(6000000F).setBlockName("laserBeam").setBlockTextureName("hardcoreenderexpansion:laser_beam"));
 		register("custom_spawner", custom_spawner = new BlockCustomSpawner().setHardness(5F).setStepSound(Block.soundTypeMetal).setBlockName("mobSpawner").setBlockTextureName("mob_spawner"));
 		register("temple_end_portal", temple_end_portal = new BlockTempleEndPortal().setHardness(-1F).setResistance(6000000F).setBlockName("templeEndPortal"));

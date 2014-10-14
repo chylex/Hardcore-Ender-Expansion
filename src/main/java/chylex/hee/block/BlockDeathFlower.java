@@ -13,12 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.item.ItemList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockEndFlower extends BlockFlower{
+public class BlockDeathFlower extends BlockFlower{
 	private static int[] yOffsets = new int[]{
 		0,1,2,3,-2,-1
 	};
@@ -26,7 +27,7 @@ public class BlockEndFlower extends BlockFlower{
 	@SideOnly(Side.CLIENT)
 	private IIcon iconDeadFlower;
 	
-	public BlockEndFlower(){
+	public BlockDeathFlower(){
 		super(0);
 	}
 	
@@ -162,6 +163,18 @@ public class BlockEndFlower extends BlockFlower{
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z){
 		return canPlaceBlockOn(world.getBlock(x,y-1,z));
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+		int meta = world.getBlockMetadata(x,y,z);
+		
+		if (meta > 0 && meta < 15 && (rand.nextInt(50) < meta*Math.sqrt(meta) || rand.nextInt(18-meta) == 0)){
+			double speedMp = 0.003D*meta;
+			float colMp = 1.1F-rand.nextFloat()*0.2F-meta*meta*0.003F;
+			HardcoreEnderExpansion.fx.portalBig(world,x+0.2D+rand.nextDouble()*0.6D,y+0.2D+rand.nextDouble()*0.6D,z+0.2D+rand.nextDouble()*0.6D,(rand.nextDouble()-0.5D)*speedMp,(rand.nextDouble()-0.5D)*speedMp,(rand.nextDouble()-0.5D)*speedMp,0.2F+rand.nextFloat()*0.1F,0.72F*colMp,0.24F*colMp,0.8F*colMp);
+		}
 	}
 	
 	@Override

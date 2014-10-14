@@ -18,6 +18,7 @@ public class FXCommonProxy{
 	public void flame(World world, double x, double y, double z, double motionX, double motionY, double motionZ, int maxAge){}
 	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ){}
 	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp){}
+	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp, float red, float green, float blue){}
 	public void portalOrbiting(World world, double x, double y, double z, double motionY){}
 	public void portalColor(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){}
 	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){}

@@ -9,14 +9,14 @@ import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockEndFlowerPot extends BlockFlowerPot{
-	public BlockEndFlowerPot(){
+public class BlockDeathFlowerPot extends BlockFlowerPot{
+	public BlockDeathFlowerPot(){
 		setTickRandomly(true);
 	}
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		((BlockEndFlower)BlockList.death_flower).updateFlowerLogic(world,x,y,z,rand);
+		((BlockDeathFlower)BlockList.death_flower).updateFlowerLogic(world,x,y,z,rand);
 	}
 	
 	@Override
@@ -33,6 +33,12 @@ public class BlockEndFlowerPot extends BlockFlowerPot{
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
 		super.dropBlockAsItemWithChance(world,x,y,z,0,chance,fortune);
 		dropBlockAsItem(world,x,y,z,new ItemStack(BlockList.death_flower,1,meta));
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+		BlockList.death_flower.randomDisplayTick(world,x,y,z,rand);
 	}
 
 	@Override

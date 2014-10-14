@@ -101,6 +101,15 @@ public class FXClientProxy extends FXCommonProxy{
 	}
 	
 	@Override
+	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp, final float red, final float green, final float blue){
+		spawn(new EntityBigPortalFX(world,x,y,z,motionX,motionY,motionZ,scaleMp){{
+			particleRed = red;
+			particleGreen = green;
+			particleBlue = blue;
+		}});
+	}
+	
+	@Override
 	public void portalOrbiting(World world, double x, double y, double z, double motionY){
 		spawn(new EntityOrbitingPortalFX(world,x,y,z,motionY));
 	}
