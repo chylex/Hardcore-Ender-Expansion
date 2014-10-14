@@ -9,6 +9,7 @@ import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntityPortalFX;
+import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.particle.EntitySpellParticleFX;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -29,6 +30,7 @@ import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.system.logging.Log;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public class FXClientProxy extends FXCommonProxy{
@@ -39,6 +41,14 @@ public class FXClientProxy extends FXCommonProxy{
 	/*
 	 * GENERIC
 	 */
+	
+	@Override
+	public void omnipresent(String particleName, World world, double x, double y, double z, double motionX, double motionY, double motionZ){
+		switch(particleName){
+			case "largesmoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,2.5F)); break;
+			default: Log.debug("Particle $0 not found!",particleName);
+		}
+	}
 	
 	@Override
 	public void item(ItemStack is, World world, double x, double y, double z, double motionX, double motionY, double motionZ){

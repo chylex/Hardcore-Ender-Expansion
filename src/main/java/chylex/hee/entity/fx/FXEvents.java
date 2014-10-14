@@ -9,6 +9,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemScorchingPickaxe;
+import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.temple.TempleEvents;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -50,7 +51,11 @@ public class FXEvents{
 			if (player == null)templeSmokeEnable = false;
 			else{
 				Random rand = player.getRNG();
-				for(int a = 0; a < 40; a++)player.worldObj.spawnParticle("largesmoke",player.posX+rand.nextDouble()-0.5D,player.posY,player.posZ+rand.nextDouble()-0.5D,0D,0D,0D);
+				
+				for(int a = 0; a < 30; a++){
+					player.worldObj.spawnParticle("largesmoke",player.posX+rand.nextDouble()-0.5D,player.posY,player.posZ+rand.nextDouble()-0.5D,0D,0D,0D);
+					HardcoreEnderExpansion.fx.omnipresent("largesmoke",player.worldObj,ItemTempleCaller.templeX+1.5D+rand.nextDouble()-0.5D,ItemTempleCaller.templeY+2.5D,ItemTempleCaller.templeZ+6.5D+rand.nextDouble()-0.5D,0D,0D,0D);
+				}
 				
 				if (TempleEvents.isPlayerInTemple(player)){
 					player.rotationYaw = -90;

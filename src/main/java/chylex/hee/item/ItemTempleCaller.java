@@ -48,12 +48,12 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 		else if (player.posY < templeY){
 			if (!player.capabilities.isCreativeMode)--is.stackSize;
 			
+			PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.BEGIN_TEMPLE_SMOKE));
 			new TempleGenerator(world).spawnTemple(templeX,templeY,templeZ);
 			player.setLocationAndAngles(templeX+1.5D,templeY+1,templeZ+6.5D,-90F,0F);
 			player.setPositionAndUpdate(templeX+1.5D,templeY+1,templeZ+6.5D);
 			WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setPlayerIsInTemple(player,true);
 			
-			PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.BEGIN_TEMPLE_SMOKE));
 		}
 
 		return is;
