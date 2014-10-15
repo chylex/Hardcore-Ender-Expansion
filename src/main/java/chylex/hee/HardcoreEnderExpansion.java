@@ -45,12 +45,14 @@ import chylex.hee.entity.projectile.EntityProjectileMinerShot;
 import chylex.hee.entity.projectile.EntityProjectilePotionOfInstability;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
+import chylex.hee.entity.technical.EntityTechnicalVoidChest;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.block.ItemBlockDragonEgg;
 import chylex.hee.mechanics.MiscEvents;
+import chylex.hee.mechanics.PlayerDataHandler;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
@@ -58,6 +60,7 @@ import chylex.hee.mechanics.infestation.InfestationEvents;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.mechanics.temple.TempleEvents;
+import chylex.hee.mechanics.voidchest.VoidChestEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.FXCommonProxy;
 import chylex.hee.proxy.ModCommonProxy;
@@ -85,6 +88,7 @@ import chylex.hee.tileentity.TileEntityEnhancedTNT;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 import chylex.hee.tileentity.TileEntitySoulCharm;
+import chylex.hee.tileentity.TileEntityVoidChest;
 import chylex.hee.world.DimensionOverride;
 import chylex.hee.world.loot.WorldLoot;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -221,7 +225,8 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, this, 512, 1, false);
 		
 		EntityRegistry.registerModEntity(EntityTechnicalBiomeInteraction.class, "TechnicalBiomeInteraction", 38, this, 0, Integer.MAX_VALUE, false);
-		// last: 39
+		EntityRegistry.registerModEntity(EntityTechnicalVoidChest.class, "TechnicalVoidChest", 40, this, 0, 1, false);
+		// last: 40
 
 		// TILE ENTITIES
 
@@ -235,6 +240,7 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyExtractionTable.class, "EnergyExtractionTable");
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyCluster.class, "EnergyCluster");
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
+		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
 		
 		// ACHIEVEMENTS
 		
@@ -245,11 +251,13 @@ public class HardcoreEnderExpansion{
 		
 		MinecraftForge.EVENT_BUS.register(new MiscEvents());
 		FMLCommonHandler.instance().bus().register(new UpdateNotificationManager());
+		PlayerDataHandler.register();
 		CompendiumEvents.register();
-		TempleEvents.register();
-		InfestationEvents.register();
 		CharmPouchHandler.register();
 		WorldDataHandler.register();
+		VoidChestEvents.register();
+		TempleEvents.register();
+		InfestationEvents.register();
 		
 		proxy.registerSidedEvents();
 		proxy.registerRenderers();

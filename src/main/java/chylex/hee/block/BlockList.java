@@ -80,6 +80,7 @@ public final class BlockList{
 	public static Block essence_altar;
 	public static Block enhanced_brewing_stand;
 	public static Block enhanced_tnt;
+	public static Block void_chest;
 	public static Block decomposition_table;
 	public static Block energy_extraction_table;
 	
@@ -138,6 +139,7 @@ public final class BlockList{
 		register("essence_altar", essence_altar = new BlockEssenceAltar().setHardness(8F).setResistance(20F).setLightOpacity(0).setLightLevel(0.4F).setStepSound(Block.soundTypeMetal).setBlockName("essenceAltar").setBlockTextureName("hardcoreenderexpansion:essence_altar"));
 		register("enhanced_brewing_stand_block", enhanced_brewing_stand = new BlockEnhancedBrewingStand().setHardness(0.65F).setLightLevel(0.125F).setBlockName("brewingStand").setBlockTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
 		register("enhanced_tnt", enhanced_tnt = new BlockEnhancedTNT().setHardness(0F).setStepSound(Block.soundTypeGrass).setBlockName("tnt").setBlockTextureName("tnt"));
+		register("void_chest", void_chest = new BlockVoidChest().setHardness(5F).setResistance(140F).setStepSound(Block.soundTypePiston).setBlockName("voidChest"));
 		register("decomposition_table", decomposition_table = new BlockDecompositionTable().setHardness(4F).setResistance(2000F).setBlockName("decompositionTable"));
 		register("energy_extraction_table", energy_extraction_table = new BlockEnergyExtractionTable().setHardness(4F).setResistance(2000F).setBlockName("energyExtractionTable"));
 		

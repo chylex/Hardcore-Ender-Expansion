@@ -14,7 +14,7 @@ public class RenderTileLaserBeam extends TileEntitySpecialRenderer{
 	private static final ResourceLocation beam = new ResourceLocation("hardcoreenderexpansion:textures/blocks/laser_beam.png");
 
 	@Override
-	public void renderTileEntityAt(TileEntity tileentity, double x, double y, double z, float partialTickTime){
+	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime){
 		Tessellator tessellator = Tessellator.instance;
 		bindTexture(beam);
 		
@@ -26,7 +26,7 @@ public class RenderTileLaserBeam extends TileEntitySpecialRenderer{
 		GL11.glDepthMask(true);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
 		
-		float beamAngle = ((TileEntityLaserBeam)tileentity).getBeamAngle();
+		float beamAngle = ((TileEntityLaserBeam)tile).getBeamAngle();
 		float f3 = -beamAngle*0.2F-MathHelper.floor_float(-beamAngle*0.1F);
 		byte b0 = 1;
 		double d3 = beamAngle*025D*(1D-(b0&1)*2.5D);

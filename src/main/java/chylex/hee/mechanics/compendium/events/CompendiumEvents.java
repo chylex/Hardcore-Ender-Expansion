@@ -9,14 +9,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import chylex.hee.mechanics.PlayerDataHandler;
+import chylex.hee.mechanics.PlayerDataHandler.IExtendedPropertyInitializer;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
@@ -28,7 +27,6 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
@@ -37,7 +35,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
-public final class CompendiumEvents{
+public final class CompendiumEvents implements IExtendedPropertyInitializer<PlayerCompendiumData>{
 	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~Compendium";
 	private static final byte byteZero = 0;
 	private static final byte byteOne = 1;
@@ -50,7 +48,7 @@ public final class CompendiumEvents{
 		if (instance == null){
 			instance = new CompendiumEvents();
 			MinecraftForge.EVENT_BUS.register(instance);
-			FMLCommonHandler.instance().bus().register(instance);
+			PlayerDataHandler.registerProperty(playerPropertyIdentifier,instance);
 		}
 	}
 	
@@ -111,14 +109,10 @@ public final class CompendiumEvents{
 	private final TObjectByteHashMap<UUID> playerTickLimiter = new TObjectByteHashMap<>();
 	
 	private CompendiumEvents(){}
-	
-	@SubscribeEvent
-	public void onEntityConstructing(EntityEvent.EntityConstructing e){
-		if (e.entity.worldObj != null && !e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer){
-			if (!e.entity.registerExtendedProperties(playerPropertyIdentifier,new PlayerCompendiumData()).equals(playerPropertyIdentifier)){
-				throw new IllegalStateException("Could not register player Compendium properties, likely due to the properties already being registered by another mod!");
-			}
-		}
+
+	@Override
+	public PlayerCompendiumData createNew(Entity entity){
+		return new PlayerCompendiumData();
 	}
 	
 	@SubscribeEvent
@@ -129,13 +123,6 @@ public final class CompendiumEvents{
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedOutEvent e){
 		playerTickLimiter.remove(e.player.getGameProfile().getId());
-	}
-	
-	@SubscribeEvent
-	public void onPlayerClone(PlayerEvent.Clone e){
-		NBTTagCompound tag = new NBTTagCompound();
-		getPlayerData(e.original).saveNBTData(tag);
-		getPlayerData(e.entityPlayer).loadNBTData(tag);
 	}
 	
 	@SubscribeEvent

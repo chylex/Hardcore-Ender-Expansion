@@ -51,6 +51,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 				for(Object o:world.loadedEntityList){
 					if (o instanceof EntityProjectileEnhancedEnderPearl){
 						EntityProjectileEnhancedEnderPearl pearl = (EntityProjectileEnhancedEnderPearl)o;
+						
 						if (pearl.ride != null && pearl.ride.getCommandSenderName().equals(player.getCommandSenderName())){
 							pearl.ride = null;
 							if (!pearl.pearlTypes.contains(EnderPearlEnhancements.NO_FALL_DAMAGE))player.attackEntityFrom(DamageSource.fall,5F);
@@ -129,6 +130,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 
 				if (player.playerNetServerHandler.func_147362_b().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
 					EnderTeleportEvent event = new EnderTeleportEvent(player,posX,posY,posZ,5F);
+					
 					if (!MinecraftForge.EVENT_BUS.post(event)){
 						if (pearlTypes.contains(EnderPearlEnhancements.EXPLOSIVE))DragonUtil.createExplosion(this,posX,posY,posZ,2.7F,true);
 						if (pearlTypes.contains(EnderPearlEnhancements.FREEZE)){

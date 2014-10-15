@@ -41,6 +41,7 @@ import chylex.hee.entity.projectile.EntityProjectileMinerShot;
 import chylex.hee.entity.projectile.EntityProjectilePotionOfInstability;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
+import chylex.hee.entity.technical.EntityTechnicalVoidChest;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.GuiItemViewer;
@@ -77,6 +78,7 @@ import chylex.hee.render.tileentity.RenderTileCustomSpawner;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
 import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.render.tileentity.RenderTileLaserBeam;
+import chylex.hee.render.tileentity.RenderTileVoidChest;
 import chylex.hee.render.weather.RenderWeatherLightningBoltPurple;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.ReflectionPublicizer;
@@ -86,6 +88,7 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityLaserBeam;
+import chylex.hee.tileentity.TileEntityVoidChest;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
@@ -124,6 +127,7 @@ public class ModClientProxy extends ModCommonProxy{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndermanHead.class, new RenderTileEndermanHead());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCustomSpawner.class, new RenderTileCustomSpawner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserBeam.class, new RenderTileLaserBeam());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new RenderTileVoidChest());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon());
@@ -163,6 +167,7 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltDemon.class, new RenderWeatherLightningBoltPurple());
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalBiomeInteraction.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalVoidChest.class, new RenderNothing());
 	}
 	
 	@Override
