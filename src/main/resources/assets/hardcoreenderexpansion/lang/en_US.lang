@@ -150,6 +150,7 @@ entity.enderDemon.name=Ender Demon
 entity.angryEnderman.name=Angry Enderman
 entity.babyEnderman.name=Baby Enderman
 entity.brainlessEnderman.name=Paralyzed Enderman
+entity.homelandEnderman.name=Homeland Enderman
 entity.enderGuardian.name=Ender Guardian
 entity.vampireBat.name=Vampire Bat
 entity.infestedBat.name=Infested Bat

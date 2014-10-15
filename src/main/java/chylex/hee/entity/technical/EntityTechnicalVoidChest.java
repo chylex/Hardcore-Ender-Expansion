@@ -32,7 +32,7 @@ public class EntityTechnicalVoidChest extends Entity{
 	public void onUpdate(){
 		if (worldObj.isRemote)return;
 		
-		if (player == null || player.isDead || !player.playerNetServerHandler.func_147362_b().isChannelOpen())setDead();
+		if (items == null || items.isEmpty() || player == null || player.isDead || !player.playerNetServerHandler.func_147362_b().isChannelOpen())setDead();
 		else{
 			for(Iterator<EntityItem> iter = items.iterator(); iter.hasNext();){
 				EntityItem entity = iter.next();
@@ -46,7 +46,7 @@ public class EntityTechnicalVoidChest extends Entity{
 			}
 		}
 		
-		if (++ticksExisted > 150)setDead();
+		if (++ticksExisted > 1200)setDead();
 	}
 
 	@Override

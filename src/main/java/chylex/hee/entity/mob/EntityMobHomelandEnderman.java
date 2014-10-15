@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.EnumDifficulty;
@@ -50,6 +51,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	private Object currentTaskData;
 	
 	private Entity lastEntityToAttack;
+	private Boolean prevTeleportAttempt;
 	
 	private byte stareTimer, fallTimer, randomTpTimer, attackTpTimer, screamTimer, recruitCooldown;
 	
@@ -147,6 +149,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					}
 				}
 			}
+			
+			prevTeleportAttempt = null;
 			
 			long overtakeGroup = HomelandEndermen.getOvertakeGroup(this);
 			
@@ -739,12 +743,17 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	@Override
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal("entity.homelandEnderman.name");
+	}
+	
+	@Override
 	protected void despawnEntity(){}
 	
 	// LOGIC HANDLING
 	
 	private boolean canTeleport(){
-		if (HomelandEndermen.isOvertakeHappening(this))return HomelandEndermen.getOvertakeGroup(this) == groupId || rand.nextInt(100) == 0;
+		if (HomelandEndermen.isOvertakeHappening(this))return HomelandEndermen.getOvertakeGroup(this) == groupId || rand.nextInt(100) > 30+rand.nextInt(50)+12*HomelandEndermen.getByGroupRole(this,OvertakeGroupRole.TELEPORTER).size();
 		else return true;
 	}
 	
@@ -852,7 +861,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 
 	private boolean teleportTo(double x, double y, double z, boolean ignoreChecks){
-		if (!canTeleport())return false;
+		if (prevTeleportAttempt != null)return prevTeleportAttempt.booleanValue();
+		else if (!(prevTeleportAttempt = Boolean.valueOf(canTeleport())))return false;
 		
 		double oldX = posX, oldY = posY, oldZ = posZ;
 		posX = x;

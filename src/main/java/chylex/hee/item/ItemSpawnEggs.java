@@ -24,6 +24,7 @@ import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobHauntedMiner;
+import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
@@ -46,7 +47,8 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		/*  9 */ new EggData("enderDemon", EntityBossEnderDemon.class, new int[]{ 22,22,22 }, new int[]{ 86,21,111 }),
 		/* 10 */ new EggData("brainlessEnderman", EntityMobParalyzedEnderman.class, new int[]{ 22,22,22 }, new int[]{ 190,190,190 }),
 		/* 11 */ new EggData("louse", EntityMobLouse.class, new int[]{ 45,45,45 }, new int[]{ 80,0,140 }),
-		/* 12 */ new EggData("hauntedMiner", EntityMobHauntedMiner.class, new int[]{ 48,23,23 }, new int[]{ 170,72,37 })
+		/* 12 */ new EggData("hauntedMiner", EntityMobHauntedMiner.class, new int[]{ 48,23,23 }, new int[]{ 170,72,37 }),
+		/* 13 */ new EggData("homelandEnderman", EntityMobHomelandEnderman.class, new int[]{ 22,22,22 }, new int[]{ 199,194,44 })
 	};
 	
 	private static EggData getEggData(ItemStack is){

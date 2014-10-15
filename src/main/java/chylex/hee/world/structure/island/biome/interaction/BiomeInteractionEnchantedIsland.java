@@ -1,8 +1,11 @@
 package chylex.hee.world.structure.island.biome.interaction;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen;
+import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 
@@ -23,7 +26,10 @@ public class BiomeInteractionEnchantedIsland{
 					List<EntityMobHomelandEnderman> sameGroup = HomelandEndermen.getInSameGroup(subject);
 					if (sameGroup.size() < 5)continue;
 					
-					if (rand.nextInt(666) < MathUtil.square(sameGroup.size()) && rand.nextInt(3) == 0){
+					List<OvertakeGroupRole> roles = new ArrayList<>(Arrays.asList(OvertakeGroupRole.values));
+					for(EntityMobHomelandEnderman enderman:sameGroup)roles.remove(enderman.getGroupRole());
+					
+					if (roles.isEmpty() && rand.nextInt(666) < MathUtil.square(sameGroup.size()) && rand.nextInt(3) == 0){
 						groupId = subject.getGroupId();
 						
 						//System.out.println("STARTING OVERTAKE WITH "+sameGroup.size()+" MEMBERS");
