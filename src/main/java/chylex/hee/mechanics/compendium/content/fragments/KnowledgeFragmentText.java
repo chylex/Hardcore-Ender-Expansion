@@ -33,7 +33,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId){
+	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
 		return false;
 	}
 

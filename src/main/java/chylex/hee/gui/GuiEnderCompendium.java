@@ -176,30 +176,36 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				}
 			}
 			else{
-				boolean stop = false;
 				int offX = (int)offsetX.value()-(width>>1)+(width>>2), offY = (int)offsetY.value()+guiObjectTopY;
 				
 				for(ObjectDisplayElement element:objectElements){
 					if (element.isMouseOver(mouseX,mouseY,offX,offY,width>>1)){
 						showObject(element.object);
-						stop = true;
-						break;
+						return;
 					}
 				}
 				
-				if (!stop){
-					for(PurchaseDisplayElement element:purchaseElements){
-						if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4) && compendiumData.getPoints() >= element.price){
-							Object obj = element.object;
-							
-							if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
-							else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
-							else continue;
-							
-							break;
-						}
+				for(PurchaseDisplayElement element:purchaseElements){
+					if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4) && compendiumData.getPoints() >= element.price){
+						Object obj = element.object;
+						
+						if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
+						else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
+						else continue;
+						
+						return;
 					}
 				}
+			}
+		}
+		
+		if (currentObject != null){
+			int x = (width>>1)+(width>>2)+4-(guiPageTexWidth>>1)+guiPageLeft;
+			int y = (height>>1)-(guiPageTexHeight>>1)+guiPageTop;
+			
+			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
+				if (entry.getKey().onClick(this,x,y,mouseX,mouseY,buttonId,entry.getValue()))return;
+				y += 8+entry.getKey().getHeight(this,entry.getValue());
 			}
 		}
 		

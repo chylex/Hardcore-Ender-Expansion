@@ -11,6 +11,9 @@ import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.system.logging.Log;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.relauncher.Side;
@@ -55,7 +58,33 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId){
+	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
+		if (items == null || !isUnlocked || buttonId != 0)return false;
+		
+		for(int a = 0, xx = x, yy = y, cnt = 0; a < 10; a++){
+			if (items[a] != null && mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
+				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = KnowledgeUtils.tryGetFromItemStack(items[a]);
+				if (obj == null)return false;
+				
+				gui.showObject(obj);
+				return true;
+			}
+
+			if (a == 8){
+				xx = x+94;
+				yy = y+19;
+				continue;
+			}
+
+			xx += 19;
+			
+			if (++cnt >= 3){
+				yy += 19;
+				xx -= 19*3;
+				cnt = 0;
+			}
+		}
+		
 		return false;
 	}
 
@@ -75,8 +104,8 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 				if (is != null){
 					if (cycle == 0)GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
 					else if (mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
-						GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(is.getTooltip(gui.mc.thePlayer,false)));
-					} // TODO click to switch object
+						GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(is,gui.mc.thePlayer)));
+					}
 				}
 	
 				if (a == 8){

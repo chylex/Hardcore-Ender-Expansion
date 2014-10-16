@@ -1,8 +1,11 @@
 package chylex.hee.mechanics.compendium.util;
+import java.util.List;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpawnEggs;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -35,6 +38,12 @@ public final class KnowledgeUtils{
 		}
 		
 		return null;
+	}
+	
+	public static List<String> getCompendiumTooltip(ItemStack is, EntityPlayer player){
+		List<String> tooltip = is.getTooltip(player,false);
+		if (KnowledgeUtils.tryGetFromItemStack(is) != null)tooltip.add(EnumChatFormatting.DARK_PURPLE+"Click to open Compendium entry");
+		return tooltip;
 	}
 	
 	private KnowledgeUtils(){}

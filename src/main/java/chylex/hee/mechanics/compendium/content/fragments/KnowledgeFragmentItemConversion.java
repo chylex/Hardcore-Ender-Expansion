@@ -5,6 +5,9 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -30,7 +33,19 @@ public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId){
+	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
+		if (isUnlocked && buttonId == 0 && mouseY >= y && mouseY <= y+17){
+			KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = null;
+			
+			if (mouseX >= x && mouseX <= x+17)obj = KnowledgeUtils.tryGetFromItemStack(itemFrom);
+			else if (mouseX >= x+44 && mouseX <= x+61)obj = KnowledgeUtils.tryGetFromItemStack(itemTo);
+			
+			if (obj != null){
+				gui.showObject(obj);
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
@@ -48,10 +63,10 @@ public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 		
 		if (isUnlocked && mouseY >= y && mouseY <= y+17){
 			if (mouseX >= x && mouseX <= x+17){
-				GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(itemFrom.getTooltip(gui.mc.thePlayer,false)));
+				GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(itemFrom,gui.mc.thePlayer)));
 			}
 			else if (mouseX >= x+44 && mouseX <= x+61){
-				GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(itemTo.getTooltip(gui.mc.thePlayer,false)));
+				GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(itemTo,gui.mc.thePlayer)));
 			}
 		}
 	}

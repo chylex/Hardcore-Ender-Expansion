@@ -7,6 +7,9 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.base.Joiner;
@@ -46,7 +49,15 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId){
+	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
+		if (isUnlocked && buttonId == 0 && mouseX >= x && mouseX <= x+17 && mouseY >= y && mouseY <= y+17){
+			KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = KnowledgeUtils.tryGetFromItemStack(enhancement.getItemSelector().getRepresentativeItem());
+			if (obj == null)return false;
+			
+			gui.showObject(obj);
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -63,7 +74,7 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 		KnowledgeFragmentText.renderString(name,x+22,y+5,130<<16|255,130<<16|255,gui);
 		
 		if (isUnlocked && mouseX >= x && mouseX <= x+17 && mouseY >= y && mouseY <= y+17){
-			GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(is.getTooltip(gui.mc.thePlayer,false)));
+			GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(is,gui.mc.thePlayer)));
 		}
 	}
 }
