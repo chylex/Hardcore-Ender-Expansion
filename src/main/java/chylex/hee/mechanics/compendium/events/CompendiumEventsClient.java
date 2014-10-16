@@ -1,12 +1,18 @@
 package chylex.hee.mechanics.compendium.events;
+import java.util.List;
+import org.lwjgl.input.Mouse;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.ChatComponentText;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
+import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03OpenCompendium;
 import chylex.hee.system.achievements.AchievementManager;
@@ -64,9 +70,31 @@ public final class CompendiumEventsClient{
 	public void onKeyInput(KeyInputEvent e){
 		Minecraft mc = Minecraft.getMinecraft();
 		
-		if (mc.inGameHasFocus && keyOpenCompendium.isPressed()){
+		if (keyOpenCompendium.isPressed() && (mc.inGameHasFocus || mc.currentScreen instanceof GuiContainer)){
 			if (data != null){
-				openCompendium(mc.thePlayer.isSneaking() ? CompendiumEvents.getObservation(mc.thePlayer).getObject() : null);
+				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = null;
+				
+				if (mc.inGameHasFocus)obj = mc.thePlayer.isSneaking() ? CompendiumEvents.getObservation(mc.thePlayer).getObject() : null;
+				else{
+					GuiContainer container = (GuiContainer)mc.currentScreen;
+					List<Slot> slots = container.inventorySlots.inventorySlots;
+					ScaledResolution res = new ScaledResolution(mc,mc.displayWidth,mc.displayHeight);
+					
+					int mouseX = Mouse.getX()*res.getScaledWidth()/mc.displayWidth,
+						mouseY = res.getScaledHeight()-Mouse.getY()*res.getScaledHeight()/mc.displayHeight-1;
+					
+					for(Slot slot:slots){
+						if (slot.getHasStack() && slot.func_111238_b() &&
+							mouseX >= slot.xDisplayPosition-1 && mouseX <= slot.xDisplayPosition+16 &&
+							mouseY >= slot.yDisplayPosition-1 && mouseY <= slot.yDisplayPosition+16){
+							obj = KnowledgeUtils.tryGetFromItemStack(slot.getStack());
+							break;
+						}
+					}
+				}
+				
+				openCompendium(obj);
+				
 				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))PacketPipeline.sendToServer(new S03OpenCompendium());
 			}
 			else mc.thePlayer.addChatMessage(new ChatComponentText("Error opening Ender Compendium, server did not provide required data. Relog, wait a few seconds, pray to your favourite deity and try again!"));

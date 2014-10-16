@@ -235,6 +235,16 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			purchaseElements.clear();
 			if (currentObject != object)pageIndex = 0;
 		}
+		else if (!hasHighlightedCategory && object != null){
+			for(KnowledgeCategory category:KnowledgeCategories.categoryList){
+				if (category.getAllObjects().contains(object)){
+					for(KnowledgeObject obj:category.getAllObjects())objectElements.add(new ObjectDisplayElement(obj));
+					offsetY.set(-guiObjectTopY);
+					hasHighlightedCategory = true;
+					break;
+				}
+			}
+		}
 
 		if ((currentObject = object) == null)return;
 		
