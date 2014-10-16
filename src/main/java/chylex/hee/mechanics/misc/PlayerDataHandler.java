@@ -1,4 +1,4 @@
-package chylex.hee.mechanics;
+package chylex.hee.mechanics.misc;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;

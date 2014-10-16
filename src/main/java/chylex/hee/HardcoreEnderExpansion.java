@@ -52,11 +52,12 @@ import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.block.ItemBlockDragonEgg;
 import chylex.hee.mechanics.MiscEvents;
-import chylex.hee.mechanics.PlayerDataHandler;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
+import chylex.hee.mechanics.energy.EnergyEvents;
 import chylex.hee.mechanics.infestation.InfestationEvents;
+import chylex.hee.mechanics.misc.PlayerDataHandler;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.mechanics.temple.TempleEvents;
@@ -256,6 +257,7 @@ public class HardcoreEnderExpansion{
 		CharmPouchHandler.register();
 		WorldDataHandler.register();
 		VoidChestEvents.register();
+		EnergyEvents.register();
 		TempleEvents.register();
 		InfestationEvents.register();
 		

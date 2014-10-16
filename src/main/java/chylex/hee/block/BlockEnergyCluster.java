@@ -15,7 +15,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.misc.EnergyClusterData;
+import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;

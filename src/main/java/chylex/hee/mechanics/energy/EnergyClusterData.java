@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.misc;
+package chylex.hee.mechanics.energy;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.tileentity.TileEntityEnergyCluster;

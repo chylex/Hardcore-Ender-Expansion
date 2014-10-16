@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.mechanics.misc.EnergyClusterData;
+import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.system.util.ColorUtil;
 
 public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{

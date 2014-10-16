@@ -2,7 +2,7 @@ package chylex.hee.entity.fx;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
-import chylex.hee.mechanics.misc.EnergyClusterData;
+import chylex.hee.mechanics.energy.EnergyClusterData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

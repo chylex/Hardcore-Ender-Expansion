@@ -7,8 +7,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
-import chylex.hee.mechanics.PlayerDataHandler;
-import chylex.hee.mechanics.PlayerDataHandler.IExtendedPropertyInitializer;
+import chylex.hee.mechanics.misc.PlayerDataHandler;
+import chylex.hee.mechanics.misc.PlayerDataHandler.IExtendedPropertyInitializer;
 
 public class PlayerVoidChest implements IExtendedEntityProperties{
 	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~VoidChest";
