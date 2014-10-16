@@ -69,7 +69,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 			if (all.size() > 15+world.rand.nextInt(50))return;
 			
 			for(EntityMobHomelandEnderman enderman:all){
-				if (enderman.getHomelandRole() == HomelandRole.ISLAND_LEADERS){
+				if (enderman.getHomelandRole() == HomelandRole.ISLAND_LEADERS && enderman.attackedRecentlyTimer == 0){
 					List<EntityMobBabyEnderman> babies = world.getEntitiesWithinAABB(EntityMobBabyEnderman.class,aabb);
 					
 					if (!babies.isEmpty()){

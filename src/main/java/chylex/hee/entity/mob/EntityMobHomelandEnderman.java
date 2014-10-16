@@ -54,6 +54,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	private Boolean prevTeleportAttempt;
 	
 	private byte stareTimer, fallTimer, randomTpTimer, attackTpTimer, screamTimer, recruitCooldown;
+	public byte attackedRecentlyTimer;
 	
 	public EntityMobHomelandEnderman(World world){
 		super(world);
@@ -151,6 +152,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			}
 			
 			prevTeleportAttempt = null;
+			
+			if (attackedRecentlyTimer > 0)attackedRecentlyTimer -= rand.nextInt(2);
 			
 			long overtakeGroup = HomelandEndermen.getOvertakeGroup(this);
 			
@@ -594,6 +597,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (isEntityInvulnerable())return false;
+		
+		attackedRecentlyTimer = 120;
 		
 		if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL && source.getEntity() instanceof EntityPlayer){
 			if (super.attackEntityFrom(DamageSource.generic,amount)){
