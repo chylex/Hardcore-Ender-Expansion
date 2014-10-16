@@ -1,10 +1,17 @@
 package chylex.hee.world.structure.island.biome;
+import java.util.List;
 import java.util.Random;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
+import chylex.hee.entity.mob.EntityMobHomelandEnderman;
+import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
+import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
@@ -55,8 +62,33 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	public void updateCore(World world, int x, int y, int z, int meta){
 		super.updateCore(world,x,y,z,meta);
 		
-		if (meta == HOMELAND.id){
-			// TODO spawn overworld explorers occasionally
+		if (meta == HOMELAND.id && world.rand.nextInt(40) == 0 && world.difficultySetting != EnumDifficulty.PEACEFUL){
+			AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x-ComponentIsland.halfSize,10,z-ComponentIsland.halfSize,x+ComponentIsland.halfSize,128,z+ComponentIsland.halfSize);
+			
+			List<EntityMobHomelandEnderman> all = world.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,aabb);
+			if (all.size() > 15+world.rand.nextInt(50))return;
+			
+			for(EntityMobHomelandEnderman enderman:all){
+				if (enderman.getHomelandRole() == HomelandRole.ISLAND_LEADERS){
+					List<EntityMobBabyEnderman> babies = world.getEntitiesWithinAABB(EntityMobBabyEnderman.class,aabb);
+					
+					if (!babies.isEmpty()){
+						EntityMobBabyEnderman chosenOne = babies.get(world.rand.nextInt(babies.size()));
+						chosenOne.setDead();
+						
+						if (chosenOne.isCarrying())world.spawnEntityInWorld(new EntityItem(world,chosenOne.posX,chosenOne.posY,chosenOne.posZ,chosenOne.getCarrying()));
+						
+						EntityMobHomelandEnderman grown = new EntityMobHomelandEnderman(world);
+						grown.copyLocationAndAnglesFrom(chosenOne);
+						grown.setHomelandRole(HomelandRole.getRandomRole(world.rand));
+						world.spawnEntityInWorld(grown);
+						
+						// TODO particles
+					}
+					
+					break;
+				}
+			}
 		}
 	}
 	

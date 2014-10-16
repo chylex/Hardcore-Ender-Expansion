@@ -12,6 +12,18 @@ public final class HomelandEndermen{
 		WORKER(227), ISLAND_LEADERS(58), GUARD(0), COLLECTOR(176), OVERWORLD_EXPLORER(141), BUSINESSMAN(335), INTELLIGENCE(275);
 		public static final HomelandRole[] values = values();
 		
+		public static HomelandRole getRandomRole(Random rand){
+			HomelandRole role = HomelandRole.WORKER;
+			
+			if (rand.nextInt(10) == 0)role = HomelandRole.OVERWORLD_EXPLORER;
+			else if (rand.nextInt(7) == 0)role = HomelandRole.BUSINESSMAN;
+			else if (rand.nextInt(6) == 0)role = HomelandRole.COLLECTOR;
+			else if (rand.nextInt(5) == 0)role = HomelandRole.INTELLIGENCE;
+			else if (rand.nextInt(7) <= 2)role = HomelandRole.GUARD;
+			
+			return role;
+		}
+		
 		public final float red, green, blue;
 		
 		HomelandRole(int hue){

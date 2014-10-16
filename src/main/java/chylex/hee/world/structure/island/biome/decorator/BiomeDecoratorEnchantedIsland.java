@@ -79,14 +79,8 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		
 		for(int spawnAttempt = 0, spawnedTotal = 52+rand.nextInt(28)+rand.nextInt(16); spawnAttempt < spawnedTotal; spawnAttempt++){
 			EntityMobHomelandEnderman enderman = new EntityMobHomelandEnderman(null);
-			HomelandRole role = HomelandRole.WORKER;
 			
-			if (rand.nextInt(10) == 0)role = HomelandRole.OVERWORLD_EXPLORER;
-			else if (rand.nextInt(7) == 0)role = HomelandRole.BUSINESSMAN;
-			else if (rand.nextInt(6) == 0)role = HomelandRole.COLLECTOR;
-			else if (rand.nextInt(5) == 0)role = HomelandRole.INTELLIGENCE;
-			else if (rand.nextInt(7) <= 2)role = HomelandRole.GUARD;
-			
+			HomelandRole role = HomelandRole.getRandomRole(rand);
 			enderman.setHomelandRole(role);
 			map.adjustOrPutValue(role,1,1);
 			

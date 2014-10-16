@@ -94,7 +94,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 			faceEntity(entityToAttack,100F,100F);
 		}
 		
-		boolean hasIS = isCarryingItemStack();
+		boolean hasIS = isCarrying();
 		
 		if (!worldObj.isRemote){
 			if (target == null){
@@ -122,7 +122,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 							if (level.isValid(is)){
 								if (itemPriorities.indexOf(level) < carryingLevelIndex){
 									if (hasIS){
-										EntityItem newItem = new EntityItem(worldObj,posX,posY,posZ,getCarriedItemStack());
+										EntityItem newItem = new EntityItem(worldObj,posX,posY,posZ,getCarrying());
 										float power = 0.3F, yawRadians = (float)Math.toRadians(rotationYaw), randomAngle = rand.nextFloat()*(float)Math.PI*2F;
 										
 										newItem.motionX = (-MathHelper.sin(yawRadians)*MathHelper.cos(yawRadians)*power);
@@ -249,7 +249,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		if (isCarryingItemStack())entityDropItem(getCarriedItemStack(),0F);
+		if (isCarrying())entityDropItem(getCarrying(),0F);
 	}
 	
 	@Override
@@ -259,7 +259,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	protected void despawnEntity(){
-		if (!isCarryingItemStack())super.despawnEntity();
+		if (!isCarrying())super.despawnEntity();
 	}
 	
 	public void setCarriedItemStack(ItemStack is){
@@ -273,15 +273,6 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		}
 	}
 	
-	public ItemStack getCarriedItemStack(){
-		return dataWatcher.getWatchableObjectItemStack(16);
-	}
-	
-	public boolean isCarryingItemStack(){
-		ItemStack is = getCarriedItemStack();
-		return is != null && is.getItem() != Item.getItemFromBlock(Blocks.bedrock);
-	}
-	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
@@ -292,7 +283,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		nbt.setTag("priorities",tagPriorities);
 		
 		// carried item
-		ItemStack is = getCarriedItemStack();
+		ItemStack is = getCarrying();
 		if (is != null)nbt.setTag("carrying",is.writeToNBT(new NBTTagCompound()));
 		
 		// other
@@ -329,12 +320,13 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 
 	@Override
 	public boolean isCarrying(){
-		return isCarryingItemStack();
+		ItemStack is = getCarrying();
+		return is != null && is.getItem() != Item.getItemFromBlock(Blocks.bedrock);
 	}
 	
 	@Override
 	public ItemStack getCarrying(){
-		return getCarriedItemStack();
+		return dataWatcher.getWatchableObjectItemStack(16);
 	}
 	
 	@Override
