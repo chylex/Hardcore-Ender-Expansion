@@ -34,7 +34,9 @@ public final class WorldDataHandler{
 				
 				if (file.exists()){
 					try{
+						Stopwatch.time("WorldDataHandler - load "+savefile.filename);
 						savefile.loadFromNBT(CompressedStreamTools.readCompressed(new FileInputStream(file)));
+						Stopwatch.finish("WorldDataHandler - load "+savefile.filename);
 					}catch(IOException ioe){
 						Log.throwable(ioe,"Error reading NBT file - $0",cls.getName());
 					}
@@ -91,7 +93,9 @@ public final class WorldDataHandler{
 				savefile.saveToNBT(nbt);
 				
 				try{
+					Stopwatch.time("WorldDataHandler - save "+savefile.filename);
 					CompressedStreamTools.writeCompressed(nbt,new FileOutputStream(new File(worldSaveDir,savefile.filename)));
+					Stopwatch.finish("WorldDataHandler - save "+savefile.filename);
 				}catch(Exception ex){
 					Log.throwable(ex,"Error writing WorldData file $0",savefile.getClass());
 				}
