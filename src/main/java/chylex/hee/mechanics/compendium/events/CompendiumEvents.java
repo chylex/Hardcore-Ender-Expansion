@@ -27,6 +27,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
@@ -48,6 +49,7 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 		if (instance == null){
 			instance = new CompendiumEvents();
 			MinecraftForge.EVENT_BUS.register(instance);
+			FMLCommonHandler.instance().bus().register(instance);
 			PlayerDataHandler.registerProperty(playerPropertyIdentifier,instance);
 		}
 	}
@@ -65,7 +67,7 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 	public static KnowledgeObservation getObservation(EntityPlayer player){
 		observationReuse.setEmpty();
 		
-		Vec3 posVec = Vec3.createVectorHelper(player.posX,player.boundingBox.minY+player.getEyeHeight()-(player.isSneaking() ? 0.08D : 0D),player.posZ);
+		Vec3 posVec = Vec3.createVectorHelper(player.posX,(player.worldObj.isRemote ? 1.5D : 0D)+player.boundingBox.minY+player.getEyeHeight()-(player.isSneaking() ? 0.08D : 0D),player.posZ);
 		Vec3 lookVec = player.getLookVec();
 		
 		MovingObjectPosition mopBlock = player.worldObj.rayTraceBlocks(posVec.addVector(0D,0D,0D),posVec.addVector(lookVec.xCoord*10D,lookVec.yCoord*10D,lookVec.zCoord*10D),true);

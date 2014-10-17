@@ -1,12 +1,13 @@
 package chylex.hee.mechanics.compendium.events;
 import java.util.List;
-import org.lwjgl.input.Mouse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ChatComponentText;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -19,7 +20,8 @@ import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -67,10 +69,12 @@ public final class CompendiumEventsClient{
 	}
 	
 	@SubscribeEvent
-	public void onKeyInput(KeyInputEvent e){
+	public void onClientTick(ClientTickEvent e){
+		if (e.phase != Phase.START)return;
+		
 		Minecraft mc = Minecraft.getMinecraft();
 		
-		if (keyOpenCompendium.isPressed() && (mc.inGameHasFocus || mc.currentScreen instanceof GuiContainer)){
+		if ((keyOpenCompendium.isPressed() || Keyboard.getEventKeyState() && Keyboard.getEventKey() == keyOpenCompendium.getKeyCode()) && (mc.inGameHasFocus || mc.currentScreen instanceof GuiContainer)){
 			if (data != null){
 				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = null;
 				
@@ -82,6 +86,9 @@ public final class CompendiumEventsClient{
 					
 					int mouseX = Mouse.getX()*res.getScaledWidth()/mc.displayWidth,
 						mouseY = res.getScaledHeight()-Mouse.getY()*res.getScaledHeight()/mc.displayHeight-1;
+					
+					mouseX -= (container.width-176)/2;
+					mouseY -= (container.height-166)/2;
 					
 					for(Slot slot:slots){
 						if (slot.getHasStack() && slot.func_111238_b() &&

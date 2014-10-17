@@ -42,7 +42,11 @@ public final class KnowledgeUtils{
 	
 	public static List<String> getCompendiumTooltip(ItemStack is, EntityPlayer player){
 		List<String> tooltip = is.getTooltip(player,false);
-		if (KnowledgeUtils.tryGetFromItemStack(is) != null)tooltip.add(EnumChatFormatting.DARK_PURPLE+"Click to open Compendium entry");
+		
+		if (KnowledgeUtils.tryGetFromItemStack(is) != null){
+			tooltip.add(EnumChatFormatting.DARK_PURPLE+"Click to switch");
+		}
+		
 		return tooltip;
 	}
 	

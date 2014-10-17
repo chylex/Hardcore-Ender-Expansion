@@ -63,7 +63,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private List<AnimatedFloat> animationList = new ArrayList<>();
 	private AnimatedFloat offsetX, offsetY, portalScale, portalSpeed;
 	private float prevOffsetX, prevOffsetY, prevPortalScale;
-	private int prevMouseX, prevMouseY;
+	private int prevMouseX, prevMouseY, prevMouseWheel;
 	
 	private List<CategoryDisplayElement> categoryElements = new ArrayList<>();
 	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
@@ -233,6 +233,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		portalRenderer.update((int)portalSpeed.value());
 		for(AnimatedFloat animation:animationList)animation.update(0.05F);
 		for(CategoryDisplayElement element:categoryElements)element.update();
+		
+		int wheel = Mouse.getDWheel();
+		
+		if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
+		else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
 	}
 	
 	public void showObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
@@ -246,6 +251,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				if (category.getAllObjects().contains(object)){
 					for(KnowledgeObject obj:category.getAllObjects())objectElements.add(new ObjectDisplayElement(obj));
 					offsetY.set(-guiObjectTopY);
+					portalScale.finish();
+					portalSpeed.finish();
 					hasHighlightedCategory = true;
 					break;
 				}
@@ -372,13 +379,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (currentObject == KnowledgeRegistrations.HELP)renderPaper(width>>1,height>>1,mouseX,mouseY);
 		else if (currentObject != null)renderPaper((width>>1)+(width>>2)+4,height>>1,mouseX,mouseY);
-		
-		for(; !mc.gameSettings.touchscreen && Mouse.next(); mc.currentScreen.handleMouseInput()){
-			int wheel = Mouse.getEventDWheel();
-			
-			if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
-			else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
-		}
 		
 		prevMouseX = mouseX;
 		prevMouseY = mouseY;
