@@ -7,8 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.voidchest.InventoryVoidChest;
-import chylex.hee.mechanics.voidchest.PlayerVoidChest;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.tileentity.TileEntityVoidChest;
 
 public class BlockVoidChest extends BlockContainer{
@@ -53,14 +52,10 @@ public class BlockVoidChest extends BlockContainer{
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		if (world.isRemote || world.getBlock(x,y+1,z).isNormalCube())return true;
+		if (!world.isRemote && !world.getBlock(x,y+1,z).isNormalCube() && world.getTileEntity(x,y,z) instanceof TileEntityVoidChest){
+			player.openGui(HardcoreEnderExpansion.instance,6,world,x,y,z);
+		}
 		
-		TileEntityVoidChest tile = (TileEntityVoidChest)world.getTileEntity(x,y,z);
-		if (tile == null)return true;
-		
-		InventoryVoidChest inventory = PlayerVoidChest.getInventory(player);
-		inventory.setChest(tile);
-		player.displayGUIChest(inventory);
 		return true;
 	}
 }

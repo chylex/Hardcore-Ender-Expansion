@@ -28,7 +28,7 @@ public class PlayerDataHandler{
 
 	@SubscribeEvent
 	public void onEntityConstructing(EntityEvent.EntityConstructing e){
-		if (e.entity.worldObj != null && !e.entity.worldObj.isRemote && e.entity instanceof EntityPlayer){
+		if (e.entity.worldObj != null && e.entity instanceof EntityPlayer){
 			for(Entry<String,IExtendedPropertyInitializer<?>> entry:registrations.entrySet()){
 				if (!e.entity.registerExtendedProperties(entry.getKey(),entry.getValue().createNew(e.entity)).equals(entry.getKey())){
 					throw new IllegalStateException("Could not register extended player properties, likely due to the properties already being registered by another mod!");

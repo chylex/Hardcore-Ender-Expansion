@@ -2,6 +2,7 @@ package chylex.hee.mechanics.voidchest;
 import java.util.Iterator;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import chylex.hee.entity.technical.EntityTechnicalVoidChest;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -9,6 +10,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class VoidChestEvents{
 	public static void register(){
+		MinecraftForge.EVENT_BUS.register(new VoidChestEvents());
 		PlayerVoidChest.register();
 	}
 	

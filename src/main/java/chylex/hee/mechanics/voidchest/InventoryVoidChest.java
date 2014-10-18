@@ -8,11 +8,12 @@ public class InventoryVoidChest extends InventoryBasic{
 	private TileEntityVoidChest chest;
 
 	public InventoryVoidChest(){
-		super("container.voidchest",false,27);
+		super("container.voidChest",false,27);
 	}
 	
-	public void setChest(TileEntityVoidChest chest){
+	public InventoryVoidChest setChest(TileEntityVoidChest chest){
 		this.chest = chest;
+		return this;
 	}
 	
 	public void putItemRandomly(ItemStack is){
