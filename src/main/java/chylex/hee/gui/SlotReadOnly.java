@@ -9,12 +9,13 @@ class SlotReadOnly extends Slot{
 	}
 	
 	public SlotReadOnly(Slot originalSlot){
-		super(originalSlot.inventory,originalSlot.slotNumber,originalSlot.xDisplayPosition,originalSlot.yDisplayPosition);
+		super(originalSlot.inventory,originalSlot.getSlotIndex(),originalSlot.xDisplayPosition,originalSlot.yDisplayPosition);
+		this.slotNumber = originalSlot.slotNumber;
 	}
 	
 	@Override
 	public boolean isItemValid(ItemStack is){
-		return false; // TODO blocks use
+		return false;
 	}
 	
 	@Override

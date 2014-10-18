@@ -20,11 +20,32 @@ public class InventoryVoidChest extends InventoryBasic{
 	public void putItemRandomly(ItemStack is, Random rand){
 		int size = getSizeInventory();
 		
-		for(int a = 0; a < size; a++){
-			ItemStack slotIS = getStackInSlot(a);
-			if (slotIS == null)continue;
+		if (is.isStackable()){
+			boolean markDirty = false;
 			
-			// TODO find mergeable stacks
+			for(int a = 0; a < size; a++){
+				ItemStack slotIS = getStackInSlot(a);
+				
+				if (slotIS == null || slotIS.getItem() != is.getItem() || (slotIS.getItemDamage() != is.getItemDamage() && !slotIS.getHasSubtypes()) ||
+					!ItemStack.areItemStackTagsEqual(slotIS,is) || is.getMaxStackSize() != slotIS.getMaxStackSize())continue;
+				
+				int combined = slotIS.stackSize+is.stackSize, max = is.getMaxStackSize();
+				
+				if (combined <= max){
+					slotIS.stackSize = combined;
+					is.stackSize = 0;
+					markDirty();
+					return;
+				}
+				else if (slotIS.stackSize < max){
+					is.stackSize -= max-slotIS.stackSize;
+					slotIS.stackSize = max;
+					markDirty = true;
+				}
+			}
+			
+			if (markDirty)markDirty();
+			if (is.stackSize == 0)return;
 		}
 		
 		for(int attempt = 0; attempt < 3; attempt++){
