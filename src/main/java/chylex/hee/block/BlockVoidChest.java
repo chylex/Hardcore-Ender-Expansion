@@ -1,8 +1,10 @@
 package chylex.hee.block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -57,5 +59,10 @@ public class BlockVoidChest extends BlockContainer{
 		}
 		
 		return true;
+	}
+	
+	@Override
+	public void registerBlockIcons(IIconRegister iconRegister){
+		blockIcon = Blocks.obsidian.getBlockTextureFromSide(0);
 	}
 }

@@ -14,7 +14,7 @@ class SlotReadOnly extends Slot{
 	
 	@Override
 	public boolean isItemValid(ItemStack is){
-		return false;
+		return false; // TODO blocks use
 	}
 	
 	@Override

@@ -39,7 +39,7 @@ public class EntityTechnicalVoidChest extends Entity{
 				
 				if (entity.isDead)iter.remove();
 				else if (entity.posY <= -32D){
-					PlayerVoidChest.getInventory(player).putItemRandomly(entity.getEntityItem());
+					PlayerVoidChest.getInventory(player).putItemRandomly(entity.getEntityItem(),rand);
 					entity.setDead();
 					iter.remove();
 				}

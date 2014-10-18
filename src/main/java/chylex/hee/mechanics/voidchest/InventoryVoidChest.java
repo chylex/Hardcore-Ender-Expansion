@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.voidchest;
+import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
@@ -16,9 +17,18 @@ public class InventoryVoidChest extends InventoryBasic{
 		return this;
 	}
 	
-	public void putItemRandomly(ItemStack is){
+	public void putItemRandomly(ItemStack is, Random rand){
+		int size = getSizeInventory();
+		
+		for(int a = 0; a < size; a++){
+			ItemStack slotIS = getStackInSlot(a);
+			if (slotIS == null)continue;
+			
+			// TODO find mergeable stacks
+		}
+		
 		for(int attempt = 0; attempt < 3; attempt++){
-			int slot = chest.getWorldObj().rand.nextInt(getSizeInventory());
+			int slot = rand.nextInt(size);
 			
 			if (getStackInSlot(slot) == null){
 				setInventorySlotContents(slot,is);
