@@ -52,6 +52,10 @@ public final class WorldDataHandler{
 		return (T)savefile;
 	}
 	
+	public static void forceSave(){
+		instance.saveModified();
+	}
+	
 	private final Map<Class<? extends WorldSavefile>,WorldSavefile> cache = new IdentityHashMap<>();
 	private File worldSaveDir;
 	private String worldIdentifier = "";
@@ -87,6 +91,12 @@ public final class WorldDataHandler{
 	
 	@SubscribeEvent
 	public void onWorldSave(WorldEvent.Save e){
+		saveModified();
+	}
+	
+	private void saveModified(){
+		if (worldSaveDir == null)return;
+		
 		for(WorldSavefile savefile:cache.values()){
 			if (savefile.wasModified()){
 				NBTTagCompound nbt = new NBTTagCompound();

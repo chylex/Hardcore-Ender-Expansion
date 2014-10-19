@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
+import chylex.hee.mechanics.temple.TempleEvents;
 import chylex.hee.system.savedata.WorldSavefile;
 import chylex.hee.system.util.DragonUtil;
 
@@ -142,7 +143,7 @@ public class DragonSavefile extends WorldSavefile{
 		isDragonDead = nbt.getBoolean("dragonDead");
 		hasDragonTicked = nbt.getBoolean("dragonTicked");
 		preventTempleDestruction = nbt.getBoolean("noTempleDestruct");
-		shouldDestroyEnd = nbt.getBoolean("destroyEnd");
+		if ((shouldDestroyEnd = nbt.getBoolean("destroyEnd")) == true)TempleEvents.destroyWorld();
 		
 		int[] portalCoords = nbt.getIntArray("portalCoords");
 		if (portalCoords.length == 3)portalEggLocation.set(portalCoords[0],portalCoords[1],portalCoords[2]);

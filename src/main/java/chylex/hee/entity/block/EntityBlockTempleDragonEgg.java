@@ -77,14 +77,14 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 					worldObj.createExplosion(this,xx,ItemTempleCaller.templeY+rand.nextFloat()*8D,zz,1.5F+(float)((deltaY-4F)*0.5F),true);
 				}
 				
-				if (deltaY>6D){
+				if (deltaY > 6D){
 					for(Object o:new ArrayList<Object>(worldObj.playerEntities)){
 						EntityPlayerMP player = (EntityPlayerMP)o;
 						if (player.ridingEntity != null)player.mountEntity(null);
 						DragonUtil.teleportToOverworld(player);
 					}
 					
-					TempleEvents.destroyWorld(worldObj);
+					TempleEvents.destroyWorld();
 				}
 			}
 		}
