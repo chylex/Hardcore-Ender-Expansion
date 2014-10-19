@@ -11,12 +11,14 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	private static final Random rand = new Random();
 
 	public final EnergyClusterData data;
-	private float[] colRgb;
+	private byte[] colRgb;
 	public boolean shouldNotExplode = false;
 	
 	public TileEntityEnergyCluster(){
 		data = new EnergyClusterData(rand);
-		colRgb = ColorUtil.hsvToRgb(rand.nextFloat(),0.5F,0.65F);
+		
+		float[] rgb = ColorUtil.hsvToRgb(rand.nextFloat(),0.5F,0.65F);
+		colRgb = new byte[]{ (byte)(Math.floor(rgb[0])-128), (byte)(Math.floor(rgb[1])-128), (byte)(Math.floor(rgb[2])-128) };
 	}
 
 	@Override
@@ -31,8 +33,9 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	
 	public void onAbsorbed(EntityPlayer player, ItemStack is){
 		if (!worldObj.isRemote)return;
+		
 		for(int a = 0; a < 26; a++){
-			HardcoreEnderExpansion.fx.energyClusterMoving(worldObj,xCoord+0.5D+rand(0.1D),yCoord+0.5D+rand(0.1D),zCoord+0.5D+rand(0.1D),rand(0.5D),rand(0.25D),rand(0.5D),colRgb[0],colRgb[1],colRgb[2]);
+			HardcoreEnderExpansion.fx.energyClusterMoving(worldObj,xCoord+0.5D+rand(0.1D),yCoord+0.5D+rand(0.1D),zCoord+0.5D+rand(0.1D),rand(0.5D),rand(0.25D),rand(0.5D),getColor(0),getColor(1),getColor(2));
 		}
 	}
 	
@@ -51,22 +54,24 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		else return false;
 	}
 	
-	public float[] getColor(){
-		return colRgb;
+	public float getColor(int index){
+		return (colRgb[index]+128F)/255F;
+	}
+	
+	public byte getColorRaw(int index){
+		return colRgb[index];
 	}
 	
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
-		nbt.setFloat("colRed",colRgb[0]);
-		nbt.setFloat("colGreen",colRgb[1]);
-		nbt.setFloat("colBlue",colRgb[2]);
+		nbt.setByteArray("col",colRgb);
 		data.writeToNBT(nbt);
 		return nbt;
 	}
 
 	@Override
 	public void readTileFromNBT(NBTTagCompound nbt){
-		colRgb = new float[]{ nbt.getFloat("colRed"), nbt.getFloat("colGreen"), nbt.getFloat("colBlue") };
+		colRgb = nbt.getByteArray("col");
 		data.readFromNBT(nbt);
 	}
 }

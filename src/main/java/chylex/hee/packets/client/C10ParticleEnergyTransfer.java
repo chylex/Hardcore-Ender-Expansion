@@ -12,15 +12,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 	private double startX,startY,startZ;
 	private double targetX,targetY,targetZ;
-	private float red,green,blue;
+	private byte red,green,blue;
 	
 	public C10ParticleEnergyTransfer(){}
 	
 	public C10ParticleEnergyTransfer(TileEntityEnergyExtractionTable table, TileEntityEnergyCluster cluster){
-		this(table.xCoord+0.5D,table.yCoord+0.5D,table.zCoord+0.5D,cluster.xCoord+0.5D,cluster.yCoord+0.5D,cluster.zCoord+0.5D,cluster.getColor()[0],cluster.getColor()[1],cluster.getColor()[2]);
+		this(table.xCoord+0.5D,table.yCoord+0.5D,table.zCoord+0.5D,cluster.xCoord+0.5D,cluster.yCoord+0.5D,cluster.zCoord+0.5D,cluster.getColorRaw(0),cluster.getColorRaw(1),cluster.getColorRaw(2));
 	}
 	
-	public C10ParticleEnergyTransfer(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, float red, float green, float blue){
+	public C10ParticleEnergyTransfer(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, byte red, byte green, byte blue){
 		this.startX = startX;
 		this.startY = startY;
 		this.startZ = startZ;
@@ -36,7 +36,7 @@ public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 	public void write(ByteBuf buffer){
 		buffer.writeDouble(startX).writeDouble(startY).writeDouble(startZ);
 		buffer.writeDouble(targetX).writeDouble(targetY).writeDouble(targetZ);
-		buffer.writeFloat(red).writeFloat(green).writeFloat(blue);
+		buffer.writeByte(red).writeByte(green).writeByte(blue);
 	}
 
 	@Override
@@ -47,9 +47,9 @@ public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 		targetX = buffer.readDouble();
 		targetY = buffer.readDouble();
 		targetZ = buffer.readDouble();
-		red = buffer.readFloat();
-		green = buffer.readFloat();
-		blue = buffer.readFloat();
+		red = buffer.readByte();
+		green = buffer.readByte();
+		blue = buffer.readByte();
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 		vec = vec.normalize();
 		
 		for(int a = 0; a < steps; a++){
-			for(int b = 0; b < 3; b++)HardcoreEnderExpansion.fx.energyClusterMoving(player.worldObj,startX+rand(0.05D),startY+rand(0.05D),startZ+rand(0.05D),rand(0.02D),rand(0.02D),rand(0.02D),red,green,blue);
+			for(int b = 0; b < 3; b++)HardcoreEnderExpansion.fx.energyClusterMoving(player.worldObj,startX+rand(0.05D),startY+rand(0.05D),startZ+rand(0.05D),rand(0.02D),rand(0.02D),rand(0.02D),(red+128F)/255F,(green+128F)/255F,(blue+128F)/255F);
 			startX += vec.xCoord*0.2D;
 			startY += vec.yCoord*0.2D;
 			startZ += vec.zCoord*0.2D;

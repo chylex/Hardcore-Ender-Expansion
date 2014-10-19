@@ -115,8 +115,8 @@ public final class DragonUtil{
 		float angleDifference = 180F-Math.abs(Math.abs(sourceAngle-targetAngle)-180F);
 		if (angleDifference <= amount)return targetAngle;
 		
-		float d = sourceAngle < 180F?sourceAngle+180F:sourceAngle-180F;
-		sourceAngle += amount*((targetAngle > d && targetAngle < sourceAngle) || (sourceAngle < 180F && (targetAngle > d || targetAngle < sourceAngle))?-1:1);
+		float d = sourceAngle < 180F ? sourceAngle+180F : sourceAngle-180F;
+		sourceAngle += amount*((targetAngle > d && targetAngle < sourceAngle) || (sourceAngle < 180F && (targetAngle > d || targetAngle < sourceAngle)) ? -1 : 1);
 		
 		return sourceAngle;
 	}
