@@ -10,7 +10,7 @@ import chylex.hee.item.ItemList;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
-	public static void addRecipes(){
+	public static void addRecipes(){ // TODO void chest
 		
 		// SHAPED
 		

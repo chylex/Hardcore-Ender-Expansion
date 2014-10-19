@@ -6,16 +6,21 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDragonEgg;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
 import chylex.hee.entity.block.EntityBlockTempleDragonEgg;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.savedata.WorldDataHandler;
@@ -102,21 +107,42 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		return 0;
 	}
 	
-	private void teleportNearby(World world, int x, int y, int z){
-		if (world.getBlock(x,y,z) == this && !world.isRemote){
+	public static boolean teleportNearby(World world, int x, int y, int z){
+		if (world.getBlock(x,y,z) == Blocks.dragon_egg && !world.isRemote){
 			for(int attempt = 0,xx,yy,zz; attempt < 1000; ++attempt){
 				xx = x+world.rand.nextInt(16)-world.rand.nextInt(16);
 				yy = y+world.rand.nextInt(8)-world.rand.nextInt(8);
 				zz = z+world.rand.nextInt(16)-world.rand.nextInt(16);
 
 				if (world.getBlock(xx,yy,zz).getMaterial() == Material.air){
-					world.setBlock(xx,yy,zz,this,world.getBlockMetadata(x,y,z),2);
+					world.setBlock(xx,yy,zz,Blocks.dragon_egg,world.getBlockMetadata(x,y,z),2);
 					world.setBlockToAir(x,y,z);
 					
 					PacketPipeline.sendToAllAround(world.provider.dimensionId,x,y,z,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,x+0.5D,y+0.5D,z+0.5D,xx+0.5D,yy+0.5D,zz+0.5D));
-					return;
+					return true;
 				}
 			}
 		}
+		
+		return false;
+	}
+	
+	public static boolean teleportEntityToPortal(Entity eggEntity){
+		DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
+		
+		if (file.isDragonDead()){
+			ChunkCoordinates coords = file.getPortalEggLocation();
+			World endWorld = MinecraftServer.getServer().worldServerForDimension(1);
+			
+			if (endWorld == null)HardcoreEnderExpansion.notifications.report("Could not teleport Dragon Egg to the End, world is null.");
+			else if (endWorld.getBlock(coords.posX,coords.posY,coords.posZ) != Blocks.dragon_egg){
+				endWorld.setBlock(coords.posX,coords.posY,coords.posZ,Blocks.dragon_egg);
+				PacketPipeline.sendToAllAround(eggEntity,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,eggEntity));
+				PacketPipeline.sendToAllAround(endWorld.provider.dimensionId,coords.posX+0.5D,coords.posY+0.5D,coords.posZ+0.5D,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,coords.posX+0.5D,coords.posY+0.5D,coords.posZ+0.5D));
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
