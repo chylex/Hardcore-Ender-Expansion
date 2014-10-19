@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.Random;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,8 +25,11 @@ public final class ReflectionPublicizer{
 	public static Field entityFire;
 	public static Field netHandlerPlayServerFloatingTicks;
 	public static Field[] netHandlerPlayServerLastPos;
-	public static Field renderGlobalMapSoundPositions;
 	public static Field chunkProviderEndRandom;
+	
+	public static Field renderGlobalMapSoundPositions;
+	public static Field guiContainerXSize;
+	public static Field guiContainerYSize;
 	
 	public static Method entityLivingBaseGetExperiencePoints;
 
@@ -111,6 +115,18 @@ public final class ReflectionPublicizer{
 				fields[a+1].setAccessible(true);
 				renderGlobalMapSoundPositions = fields[a+1];
 				Log.debug("ReflectionPublicizer/client - renderGlobalMapSoundPositions: $0",fields[a+1].getName());
+				break;
+			}
+		}
+		
+		fields = GuiContainer.class.getDeclaredFields();
+		for(int a = 0; a < fields.length-2; a++){
+			if (fields[a].getType() == int.class && fields[a+1].getType() == int.class){
+				fields[a].setAccessible(true);
+				fields[a+1].setAccessible(true);
+				guiContainerXSize = fields[a];
+				guiContainerYSize = fields[a+1];
+				Log.debug("ReflectionPublicizer/client - guiContainerXYSize: $0, $1",fields[a].getName(),fields[a+1].getName());
 				break;
 			}
 		}

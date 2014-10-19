@@ -16,6 +16,7 @@ import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03OpenCompendium;
+import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -87,8 +88,8 @@ public final class CompendiumEventsClient{
 					int mouseX = Mouse.getX()*res.getScaledWidth()/mc.displayWidth,
 						mouseY = res.getScaledHeight()-Mouse.getY()*res.getScaledHeight()/mc.displayHeight-1;
 					
-					mouseX -= (container.width-176)/2;
-					mouseY -= (container.height-166)/2;
+					mouseX -= (container.width-(int)ReflectionPublicizer.get(ReflectionPublicizer.guiContainerXSize,container))/2;
+					mouseY -= (container.height-(int)ReflectionPublicizer.get(ReflectionPublicizer.guiContainerYSize,container))/2;
 					
 					for(Slot slot:slots){
 						if (slot.getHasStack() && slot.func_111238_b() &&
@@ -98,6 +99,8 @@ public final class CompendiumEventsClient{
 							break;
 						}
 					}
+					
+					if (obj == null)return;
 				}
 				
 				openCompendium(obj);

@@ -150,7 +150,7 @@ public final class TempleEvents{
 				setStage(DestroyStage.SILENT);
 				Log.debug("Successfully deleted!");
 			}
-			else if (++giveUpCounter > 20){
+			else if (++giveUpCounter > 10){
 				Log.reportedError("Gave up deleting DIM1, please "+(HardcoreEnderExpansion.proxy.getClass() == ModCommonProxy.class ? "restart the server" : "reload the world")+" to try again, or delete 'DIM1' manually if the deletion keeps failing.");
 				setStage(DestroyStage.SILENT);
 				giveUpCounter = 0;
