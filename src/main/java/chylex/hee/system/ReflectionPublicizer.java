@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.IntHashMap;
+import net.minecraft.world.gen.ChunkProviderEnd;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.relauncher.Side;
@@ -24,6 +25,7 @@ public final class ReflectionPublicizer{
 	public static Field netHandlerPlayServerFloatingTicks;
 	public static Field[] netHandlerPlayServerLastPos;
 	public static Field renderGlobalMapSoundPositions;
+	public static Field chunkProviderEndRandom;
 	
 	public static Method entityLivingBaseGetExperiencePoints;
 
@@ -72,6 +74,14 @@ public final class ReflectionPublicizer{
 				
 				for(Field field:netHandlerPlayServerLastPos)field.setAccessible(true);
 				Log.debug("ReflectionPublicizer - netHandlerPlayServerLastPos: $0, $1, $2",fields[a+1].getName(),fields[a+2].getName(),fields[a+3].getName());
+				break;
+			}
+		}
+		
+		for(Field field:ChunkProviderEnd.class.getDeclaredFields()){
+			if (Random.class.isAssignableFrom(field.getType())){
+				field.setAccessible(true);
+				chunkProviderEndRandom = field;
 				break;
 			}
 		}

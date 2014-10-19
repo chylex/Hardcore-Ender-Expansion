@@ -1,4 +1,5 @@
 package chylex.hee.world;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.world.ChunkPosition;
@@ -9,19 +10,30 @@ import net.minecraft.world.gen.ChunkProviderEnd;
 import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.world.structure.island.MapGenIsland;
 import chylex.hee.world.structure.tower.MapGenTower;
 
 public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	private final World world;
-	private final MapGenScatteredFeature islandGen,towerGen;
+	private final Random randCopy;
+	private final MapGenScatteredFeature islandGen, towerGen;
 	
 	public ChunkProviderHardcoreEnd(World world, long seed){
 		super(world,seed);
 		this.world = world;
+		this.randCopy = (Random)ReflectionPublicizer.get(ReflectionPublicizer.chunkProviderEndRandom,this);
 		
 		islandGen = new MapGenIsland();
 		towerGen = new MapGenTower();
+	}
+	
+	@Override
+	public void func_147420_a(int x, int z, Block[] blocks, BiomeGenBase[] biomes){
+		randCopy.nextInt(1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount());
+		super.func_147420_a(x,z,blocks,biomes);
 	}
 
 	@Override
