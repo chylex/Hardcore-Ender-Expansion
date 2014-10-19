@@ -187,7 +187,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		if (selectedSlot != slot){ // SELECT SLOT
 			List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(getSlot(0).getStack().getItem());
 			
-			if (slot < 0 || slot >= enhancements.size())Log.error("Received S01 enhancement gui packet with invalid slot - $0",slot);
+			if (slot < 0 || slot >= enhancements.size())Log.reportedError("Received S01 enhancement gui packet with invalid slot - $0",slot);
 			else{
 				this.selectedEnhancement = enhancements.get(slot);
 				this.selectedSlot = slot;
@@ -198,7 +198,7 @@ public class ContainerEndPowderEnhancements extends Container{
 			List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
 			
 			if (slot < 0 || slot >= enhancements.size()){
-				Log.error("Received S01 enhancement gui packet with invalid slot - $0",slot);
+				Log.reportedError("Received S01 enhancement gui packet with invalid slot - $0",slot);
 				return;
 			}
 			

@@ -53,6 +53,11 @@ public final class Log{
 		logger.error(getMessage(message,data));
 	}
 	
+	public static void reportedError(String message, Object...data){
+		logger.error(getMessage(message,data));
+		HardcoreEnderExpansion.notifications.report("["+dateFormat.format(Calendar.getInstance().getTime())+"] "+message+" Check the log for stack trace to report.");
+	}
+	
 	public static void throwable(Throwable throwable, String message, Object...data){
 		logger.catching(Level.ERROR,throwable);
 		logger.error(getMessage(message,data));

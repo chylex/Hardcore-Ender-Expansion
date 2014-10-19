@@ -23,7 +23,7 @@ public class NotificationCommonProxy{
 	}
 	
 	public final void report(String message){
-		notifications.add(message);
+		notifications.add(prefix+message);
 		tryDeliverNotifications();
 	}
 	

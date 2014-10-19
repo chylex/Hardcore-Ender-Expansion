@@ -102,8 +102,9 @@ public final class TempleEvents{
 		
 		if (++counter > 2){
 			File dim1 = new File(DimensionManager.getCurrentSaveRootDirectory(),"DIM1");
+			
 			if (!dim1.exists()){
-				Log.error("DIM1 not found!");
+				Log.reportedError("DIM1 not found!");
 				endWorld = null;
 				counter = 0;
 				return;
@@ -111,7 +112,17 @@ public final class TempleEvents{
 			
 			if (DimensionManager.getWorld(1) != null)DimensionManager.unloadWorld(1);
 			
-			if (FileUtils.deleteQuietly(dim1)){
+			boolean successful = true;
+			
+			try{
+				FileUtils.cleanDirectory(dim1);
+				dim1.delete();
+			}catch(Exception ex){
+				successful = false;
+				Log.throwable(ex,"Error deleting DIM1!");
+			}
+			
+			if (successful){
 				DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
 				save.setDestroyEnd(false);
 				save.setPreventTempleDestruction(false);
@@ -125,7 +136,7 @@ public final class TempleEvents{
 			}
 			else{
 				Log.error("Error deleting DIM1!");
-				if (++giveUpCounter > 20)Log.error("Gave up deleting DIM1, will try later.");
+				if (++giveUpCounter > 20)Log.reportedError("Gave up deleting DIM1, will try later.");
 			}
 		}
 	}
