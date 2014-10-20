@@ -1,23 +1,23 @@
 package chylex.hee.tileentity;
-import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.system.util.ColorUtil;
 
 public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
-	private static final Random rand = new Random();
-
-	public final EnergyClusterData data;
+	public EnergyClusterData data;
 	private byte[] colRgb;
 	public boolean shouldNotExplode = false;
 	
-	public TileEntityEnergyCluster(){
-		data = new EnergyClusterData(rand);
+	public TileEntityEnergyCluster(){}
+	
+	public TileEntityEnergyCluster(World world){
+		data = new EnergyClusterData(world.rand);
 		
-		float[] rgb = ColorUtil.hsvToRgb(rand.nextFloat(),0.5F,0.65F);
+		float[] rgb = ColorUtil.hsvToRgb(world.rand.nextFloat(),0.5F,0.65F);
 		colRgb = new byte[]{ (byte)(Math.floor(rgb[0])-128), (byte)(Math.floor(rgb[1])-128), (byte)(Math.floor(rgb[2])-128) };
 	}
 
@@ -25,7 +25,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public void updateEntity(){
 		if (!worldObj.isRemote)data.update(this);
 		else{
-			if (rand.nextInt(5) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
+			if (worldObj.rand.nextInt(5) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
 		}
 		
 		shouldNotExplode = false;
@@ -43,7 +43,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	 * Helper method that returns random number between -1 and 1 multiplied by number provided.
 	 */
 	private double rand(double mp){
-		return (rand.nextDouble()-rand.nextDouble())*mp;
+		return (worldObj.rand.nextDouble()-worldObj.rand.nextDouble())*mp;
 	}
 	
 	public boolean tryDecreaseClusterSize(){
