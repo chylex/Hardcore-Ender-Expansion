@@ -1,5 +1,6 @@
 package chylex.hee.system.util;
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,6 +22,10 @@ import chylex.hee.entity.boss.EntityBossDragon;
 
 public final class DragonUtil{
 	public static int portalEffectX, portalEffectZ;
+
+	public static final DecimalFormat formatOnePlace = new DecimalFormat("0.0");
+	public static final DecimalFormat formatTwoPlaces = new DecimalFormat("0.00");
+	
 	private static final Pattern regexChatFormatting = Pattern.compile("(?i)"+String.valueOf('\u00a7')+"[0-9A-FK-OR]");
 	
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAscending(Map<K,V> map){

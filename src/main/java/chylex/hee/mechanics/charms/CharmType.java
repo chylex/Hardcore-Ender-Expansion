@@ -1,9 +1,9 @@
 package chylex.hee.mechanics.charms;
 import static chylex.hee.mechanics.charms.RuneType.*;
-import java.text.DecimalFormat;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.system.util.DragonUtil;
 
 public enum CharmType{
 	BASIC_POWER(15, 0, new CharmRecipe[]{
@@ -156,9 +156,6 @@ public enum CharmType{
 	}, new String[]{ "int,lastresortblocks", "int,lastresortcooldown" });
 	
 	// last used id: 79
-
-	private static final DecimalFormat formatOnePlace = new DecimalFormat("0.0");
-	private static final DecimalFormat formatTwoPlaces = new DecimalFormat("0.00");
 	
 	public static Pair<CharmType,CharmRecipe> getFromDamage(int damage){
 		for(CharmType type:values()){
@@ -195,9 +192,9 @@ public enum CharmType{
 						String replacement;
 						
 						switch(args[0]){
-							case "float": replacement = formatTwoPlaces.format(recipe.getProp(args[1])); break;
+							case "float": replacement = DragonUtil.formatTwoPlaces.format(recipe.getProp(args[1])); break;
 							case "floatnf": replacement = String.valueOf(recipe.getProp(args[1])); break;
-							case "flopb": float val = recipe.getProp(args[1]); replacement = val < 1F ? formatOnePlace.format(val) : String.valueOf(Math.round(val)); break;
+							case "flopb": float val = recipe.getProp(args[1]); replacement = val < 1F ? DragonUtil.formatOnePlace.format(val) : String.valueOf(Math.round(val)); break;
 							case "perc": replacement = Math.round(100F*recipe.getProp(args[1]))+"%"; break;
 							case "perc1-": replacement = Math.round(100F*(1F-recipe.getProp(args[1])))+"%"; break;
 							case "perc-1": replacement = Math.round(100F*(recipe.getProp(args[1])-1F))+"%"; break;

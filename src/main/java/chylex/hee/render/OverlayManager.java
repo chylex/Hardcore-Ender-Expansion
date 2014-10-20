@@ -9,6 +9,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.IIcon;
@@ -24,7 +25,8 @@ import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemBiomeCompass;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.item.ItemSpectralWand;
+import chylex.hee.mechanics.energy.EnergyClusterHealth;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -187,15 +189,12 @@ public class OverlayManager{
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 				GL11.glColor4f(1F,1F,1F,1F);
 				
-				drawStringCentered(font,"ENERGY CLUSTER",x,y-40,255,255,255);
-				drawStringCentered(font,"HOLDING "+ItemSpectralWand.formatTwoPlaces.format(clusterLookedAt.data.getEnergyAmount()*0.01F)+" ENERGY",x,y-30,220,220,220);
-				drawStringCentered(font,"REGENERATING UP TO "+ItemSpectralWand.formatTwoPlaces.format(clusterLookedAt.data.getMaxRegenerativeEnergyAmount()*0.01F),x,y-20,220,220,220);
-				int weaknessLvl = clusterLookedAt.data.getWeaknessLevel();
-				if (weaknessLvl > 70)drawStringCentered(font,"SEVERELY WEAKENED",x,y-10,255,84,84);
-				else if (weaknessLvl > 35)drawStringCentered(font,"MODERATELY WEAKENED",x,y-10,255,122,84);
-				else if (weaknessLvl > 0)drawStringCentered(font,"LIGHTLY WEAKENED",x,y-10,255,196,84);
-				else if (clusterLookedAt.data.getBoost() == 0)drawStringCentered(font,"TIRED",x,y-10,164,240,64);
-				else drawStringCentered(font,"HEALTHY",x,y-10,84,255,84);
+				drawStringCentered(font,I18n.format("energy.overlay.title"),x,y-40,255,255,255);
+				drawStringCentered(font,I18n.format("energy.overlay.holding").replace("$",DragonUtil.formatTwoPlaces.format(clusterLookedAt.data.getEnergyLevel())),x,y-30,220,220,220);
+				drawStringCentered(font,I18n.format("energy.overlay.regen").replace("$",DragonUtil.formatTwoPlaces.format(clusterLookedAt.data.getMaxEnergyLevel())),x,y-20,220,220,220);
+
+				EnergyClusterHealth health = clusterLookedAt.data.getHealthStatus();
+				drawStringCentered(font,I18n.format(health.translationText),x,y-10,health.color);
 
 				GL11.glDisable(GL11.GL_BLEND);
 				clusterLookedAt = null;
@@ -205,6 +204,10 @@ public class OverlayManager{
 	
 	private void drawStringCentered(FontRenderer font, String text, int x, int y, int red, int green, int blue){
 		font.drawStringWithShadow(text,x-(font.getStringWidth(text)>>1),y-(font.FONT_HEIGHT>>1),220<<24|red<<16|green<<8|blue);
+	}
+	
+	private void drawStringCentered(FontRenderer font, String text, int x, int y, int color){
+		font.drawStringWithShadow(text,x-(font.getStringWidth(text)>>1),y-(font.FONT_HEIGHT>>1),color);
 	}
 	
 	@SubscribeEvent

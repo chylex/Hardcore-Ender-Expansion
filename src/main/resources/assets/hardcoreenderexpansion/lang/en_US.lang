@@ -161,6 +161,14 @@ entity.scorchingLens.name=Scorching Lens
 entity.louse.name=Louse
 entity.hauntedMiner.name=Haunted Miner
 
+energy.overlay.title=ENERGY CLUSTER
+energy.overlay.holding=HOLDING $ ENERGY
+energy.overlay.regen=REGENERATING UP TO $
+energy.status.healthy=HEALTHY
+energy.status.weakened=WEAKENED
+energy.status.tired=TIRED
+energy.status.unstable=UNSTABLE
+
 namegenerator.middle=, the 
 
 container.enhancedBrewing=Enhanced Brewing Stand

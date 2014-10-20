@@ -1,5 +1,4 @@
 package chylex.hee.item;
-import java.text.DecimalFormat;
 import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,13 +7,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSpectralWand extends Item{
-	public static final DecimalFormat formatTwoPlaces = new DecimalFormat("0.00");
-	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cluster")){
@@ -30,6 +28,7 @@ public class ItemSpectralWand extends Item{
 			
 			world.setBlock(x,y,z,BlockList.energy_cluster);
 			TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
+			
 			if (tile != null){
 				tile.readTileFromNBT(is.stackTagCompound.getCompoundTag("cluster"));
 				tile.data.weaken();
@@ -63,7 +62,7 @@ public class ItemSpectralWand extends Item{
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		if (is.stackTagCompound == null || !is.stackTagCompound.hasKey("cluster"))return;
-		textLines.add("Holding cluster with "+formatTwoPlaces.format(is.stackTagCompound.getCompoundTag("cluster").getShort("energyAmt")*0.01F)+" Energy");
+		textLines.add("Holding cluster with "+DragonUtil.formatTwoPlaces.format(is.stackTagCompound.getCompoundTag("cluster").getShort("energyAmt")*0.01F)+" Energy");
 	}
 	
 	@Override

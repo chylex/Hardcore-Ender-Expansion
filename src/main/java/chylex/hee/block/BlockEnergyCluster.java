@@ -5,17 +5,14 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
-import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -23,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEnergyCluster extends BlockContainer{
-	public static final SoundType soundTypeEnergyCluster = new SoundType("stone",5F,1.6F){
+	public static final SoundType soundTypeEnergyCluster = new SoundType("holycrapthisisloud",5F,1.6F){
 		@Override
 		public String getStepResourcePath(){
 			return "dig.glass";
@@ -50,7 +47,7 @@ public class BlockEnergyCluster extends BlockContainer{
 		return new TileEntityEnergyCluster(world);
 	}
 	
-	@Override
+	/*@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
 		ItemStack is = player.inventory.getCurrentItem();
 		if (is == null || is.getItem() != ItemList.end_powder)return false;
@@ -76,31 +73,20 @@ public class BlockEnergyCluster extends BlockContainer{
 		for(int a = 0; a < 3; a++)world.spawnParticle("portal",x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),0D,0D,0D);
 
 		return true;
-	}
+	}*/
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta){
-		int newMeta = 3;
-		
 		TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
-		if (tile != null)newMeta = Math.min(15,3+tile.data.getEnergyAmount()/120);
 		if (tile == null || tile.shouldNotExplode)return;
 		
 		super.breakBlock(world,x,y,z,block,meta);
-		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(newMeta-3)*0.225F,true);
-		
-		for(int xx = x-4; xx <= x+4; xx++){
-			for(int zz = z-4; zz <= z+4; zz++){
-				for(int yy = y-4; yy <= y+4; yy++){
-					if (MathUtil.distance(xx-x,yy-y,zz-z) <= 5D && world.getBlock(xx,yy,zz).getMaterial() == Material.air)world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,newMeta,3);
-				}
-			}
-		}
+		destroyCluster(tile);
 	}
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityArrow)world.setBlockToAir(x,y,z);
+		if (entity instanceof EntityArrow || entity instanceof EntityThrowable)world.setBlockToAir(x,y,z);
 	}
 	
 	@Override
@@ -145,5 +131,21 @@ public class BlockEnergyCluster extends BlockContainer{
 	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
 		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyClusterFX(world,x+0.5D,y+0.5D,z+0.5D,0D,0D,0D,0D,0D,0D));
 		return true;
+	}
+	
+	public static void destroyCluster(TileEntityEnergyCluster tile){
+		World world = tile.getWorldObj();
+		int x = tile.xCoord, y = tile.yCoord, z = tile.zCoord;
+		int energyMeta = Math.min(15,3+(int)(tile.data.getEnergyLevel()*0.8F));
+		
+		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true);
+		
+		for(int xx = x-4; xx <= x+4; xx++){
+			for(int zz = z-4; zz <= z+4; zz++){
+				for(int yy = y-4; yy <= y+4; yy++){ // TODO larger dist for larger clusters
+					if (MathUtil.distance(xx-x,yy-y,zz-z) <= 5D && world.getBlock(xx,yy,zz).getMaterial() == Material.air)world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
+				}
+			}
+		}
 	}
 }

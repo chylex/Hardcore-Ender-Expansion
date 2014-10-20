@@ -7,7 +7,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import chylex.hee.item.ItemSpectralWand;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.tileentity.TileEntityEnergyExtractionTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -42,7 +42,7 @@ public class GuiEnergyExtractionTable extends GuiContainer{
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		
 		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1;
-		if (mouseX >= guiX+95 && mouseY >= guiY+26 && mouseX <= guiX+95+17 && mouseY <= guiY+26+50)drawTooltip(mouseX-guiX,mouseY-guiY,ItemSpectralWand.formatTwoPlaces.format(energyExtractionTable.getContainedEnergy()*0.01F)+" energy contained");
+		if (mouseX >= guiX+95 && mouseY >= guiY+26 && mouseX <= guiX+95+17 && mouseY <= guiY+26+50)drawTooltip(mouseX-guiX,mouseY-guiY,DragonUtil.formatTwoPlaces.format(energyExtractionTable.getContainedEnergy()*0.01F)+" energy contained");
 	}
 
 	@Override
