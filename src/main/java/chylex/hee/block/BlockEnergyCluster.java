@@ -140,10 +140,12 @@ public class BlockEnergyCluster extends BlockContainer{
 		
 		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true);
 		
+		// TODO return some to environment
+		
 		for(int xx = x-4; xx <= x+4; xx++){
 			for(int zz = z-4; zz <= z+4; zz++){
 				for(int yy = y-4; yy <= y+4; yy++){ // TODO larger dist for larger clusters
-					if (MathUtil.distance(xx-x,yy-y,zz-z) <= 5D && world.getBlock(xx,yy,zz).getMaterial() == Material.air)world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
+					if (MathUtil.distance(xx-x,yy-y,zz-z) <= 5D && world.isAirBlock(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
 				}
 			}
 		}

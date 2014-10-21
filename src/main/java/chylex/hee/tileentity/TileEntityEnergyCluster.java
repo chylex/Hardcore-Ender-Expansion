@@ -60,14 +60,6 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		}
 	}
 	
-	/*public boolean tryDecreaseClusterSize(){
-		if (data.removeEnergyUnit()){
-			synchronize();
-			return true;
-		}
-		else return false;
-	}*/
-	
 	public float getColor(int index){
 		return (colRgb[index]+128F)/255F;
 	}

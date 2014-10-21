@@ -55,6 +55,14 @@ public class EnergyChunkData{
 		return MathUtil.floatEquals(regen,amount) ? 0F : amount-regen;
 	}
 	
+	public boolean drainEnergy(float amount){
+		return false;
+	}
+	
+	public float getEnergyLevel(){
+		return energyLevel;
+	}
+	
 	@Override
 	public boolean equals(Object obj){
 		if (obj instanceof EnergyChunkData){
