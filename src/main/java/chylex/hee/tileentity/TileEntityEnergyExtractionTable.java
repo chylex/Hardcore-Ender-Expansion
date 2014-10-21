@@ -89,7 +89,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 						TileEntityEnergyCluster cluster = (TileEntityEnergyCluster)worldObj.getTileEntity(xx,yy,zz);
 						if (cluster == null)continue;
 						
-						int diff = Math.min(cluster.data.getMaxRegenerativeEnergyAmount()-cluster.data.getEnergyAmount(),releasedEnergy);
+						float diff = Math.min(cluster.data.getMaxEnergyLevel()-cluster.data.getEnergyLevel(),releasedEnergy);
 						
 						if (diff > 0){
 							cluster.data.addEnergy(diff);

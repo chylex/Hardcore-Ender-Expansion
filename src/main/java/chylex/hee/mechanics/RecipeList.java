@@ -1,4 +1,4 @@
-package chylex.hee.recipes;
+package chylex.hee.mechanics;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -60,12 +60,6 @@ public final class RecipeList{
 		GameRegistry.addShapelessRecipe(
 			new ItemStack(ItemList.corporeal_mirage_orb),
 			ItemList.instability_orb,ItemList.ectoplasm
-		);
-		
-		GameRegistry.addShapedRecipe(new ItemStack(ItemList.spectral_wand),
-			"  E", " S ", "E  ",
-			'E', ItemList.ectoplasm,
-			'S', Items.stick
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.charm_pouch),

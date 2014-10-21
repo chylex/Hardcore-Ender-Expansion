@@ -84,7 +84,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		
 		registerObjectTag(new ItemStack(ItemList.transference_gem, 1, OreDictionary.WILDCARD_VALUE), new AspectList().add(Aspect.CRYSTAL,4).add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,2).add(Aspect.TRAVEL,6));
 		registerObjectTag(new ItemStack(ItemList.temple_caller, 1, OreDictionary.WILDCARD_VALUE), new AspectList().add(Aspect.ELDRITCH,6).add(Aspect.MAGIC,5).add(Aspect.MIND,2).add(Aspect.LIGHT,2).add(Aspect.TRAVEL,4));
-		registerObjectTag(new ItemStack(ItemList.enderman_relic, 1, OreDictionary.WILDCARD_VALUE), new AspectList().add(Aspect.DARKNESS,6).add(Aspect.ELDRITCH,3).add(Aspect.SENSES,2).add(Aspect.TAINT,3));
 		
 		registerObjectTag(item(ItemList.silverfish_blood), meta(0), new AspectList().add(Aspect.BEAST,1).add(Aspect.SOUL,1));
 		registerObjectTag(item(ItemList.dry_splinter), meta(0), new AspectList().add(Aspect.TREE,1));

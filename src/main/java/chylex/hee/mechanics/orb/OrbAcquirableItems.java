@@ -20,7 +20,6 @@ import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.commons.lang3.ArrayUtils;
-import chylex.hee.item.ItemList;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.DragonUtil;
@@ -123,10 +122,12 @@ public final class OrbAcquirableItems{
 		 * CLEANUP OF THINGS WE DON'T WANT
 		 */
 		
+		Item fire = Item.getItemFromBlock(Blocks.fire);
+		
 		for(Iterator<WeightedItem> iter = idList.iterator(); iter.hasNext();){
 			Item item = iter.next().getItem();
 			
-			if (item == ItemList.enderman_relic || item == Item.getItemFromBlock(Blocks.fire))iter.remove();
+			if (item == fire)iter.remove();
 			else if (item instanceof ItemBlock){
 				Block block = Block.getBlockFromItem(item);
 				if (block instanceof IFluidBlock || block instanceof BlockLiquid)iter.remove();

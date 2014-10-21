@@ -64,8 +64,7 @@ public final class ItemList{
 	public static Item fire_shard;
 	public static Item scorching_pickaxe;
 	public static Item corporeal_mirage_orb;
-	public static Item spectral_wand;
-	public static Item enderman_relic;
+	public static Item energy_wand;
 	
 	// WORLD
 	
@@ -111,8 +110,7 @@ public final class ItemList{
 		register("fire_shard", fire_shard = new Item().setUnlocalizedName("fireShard").setTextureName("hardcoreenderexpansion:fire_shard"));
 		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe"));
 		register("corporeal_mirage_orb", corporeal_mirage_orb = new ItemCorporealMirageOrb().setMaxStackSize(4).setUnlocalizedName("corporealMirageOrb").setTextureName("hardcoreenderexpansion:corporeal_mirage_orb"));
-		register("spectral_wand", spectral_wand = new ItemSpectralWand().setMaxStackSize(1).setUnlocalizedName("spectralWand").setTextureName("hardcoreenderexpansion:spectral_wand"));
-		register("enderman_relic_repaired", enderman_relic = new ItemEndermanRelic().setMaxStackSize(1).setMaxDamage(222).setNoRepair().setUnlocalizedName("endermanRelicRepaired").setTextureName("hardcoreenderexpansion:enderman_relic_repaired"));
+		register("energy_wand", energy_wand = new ItemEnergyWand().setMaxStackSize(1).setUnlocalizedName("energyWand").setTextureName("hardcoreenderexpansion:energy_wand"));
 		
 		register("enderman_head", enderman_head = new ItemEndermanHead().setUnlocalizedName("endermanHead").setTextureName("hardcoreenderexpansion:enderman_head"));
 		register("bucket_ender_goo", bucket_ender_goo = new ItemBucket(BlockList.ender_goo).setUnlocalizedName("bucketEnderGoo").setTextureName("hardcoreenderexpansion:bucket_ender_goo"));
@@ -136,7 +134,7 @@ public final class ItemList{
 		).addBlocks(
 			BlockList.soul_charm
 		).addItems(
-			spectral_wand,fire_shard,scorching_pickaxe,enderman_relic,
+			fire_shard,scorching_pickaxe,energy_wand,
 			enderman_head,bucket_ender_goo,music_disk,
 			knowledge_note,
 			spawn_eggs

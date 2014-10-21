@@ -23,14 +23,6 @@ public final class EnergyClusterData{
 			return true;
 		}
 		else return false;
-	}
-	
-	public int getEnergyAmount(){
-		return energyAmount;
-	}
-	
-	public int getMaxEnergyAmount(){
-		return weaknessLevel > 0 ? (maxEnergyAmount>>1) : maxEnergyAmount;
 	}*/
 	
 	public EnergyClusterHealth getHealthStatus(){
@@ -43,6 +35,26 @@ public final class EnergyClusterData{
 	
 	public float getMaxEnergyLevel(){
 		return maxEnergyLevel;
+	}
+	
+	public boolean drainEnergyUnit(){
+		return drainEnergyUnits(1);
+	}
+	
+	public boolean drainEnergyUnits(int units){
+		if (energyLevel >= 1F){
+			energyLevel -= 1F;
+			return true;
+		}
+		else return false;
+	}
+	
+	public void healCluster(){
+		if (healthStatus.ordinal() > 0)healthStatus = EnergyClusterHealth.values[healthStatus.ordinal()-1];
+	}
+	
+	public void weakenCluster(){
+		if (healthStatus.ordinal() < EnergyClusterHealth.values.length)healthStatus = EnergyClusterHealth.values[healthStatus.ordinal()+1];
 	}
 	
 	public void writeToNBT(NBTTagCompound nbt){

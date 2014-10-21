@@ -1,5 +1,6 @@
 package chylex.hee.item;
 import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,7 +13,7 @@ import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemSpectralWand extends Item{
+public class ItemEnergyWand extends Item{
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cluster")){
@@ -31,7 +32,7 @@ public class ItemSpectralWand extends Item{
 			
 			if (tile != null){
 				tile.readTileFromNBT(is.stackTagCompound.getCompoundTag("cluster"));
-				tile.data.weaken();
+				if (world.rand.nextInt(100) < tile.data.getHealthStatus().chanceToWeaken)tile.data.weakenCluster();
 				tile.synchronize();
 			}
 			
@@ -46,8 +47,12 @@ public class ItemSpectralWand extends Item{
 				tile.onAbsorbed(player,is);
 				
 				if (!world.isRemote){
+					NBTTagCompound tag = tile.writeTileToNBT(new NBTTagCompound());
+					tag.setIntArray("loc",ArrayUtils.EMPTY_INT_ARRAY);
+					
 					if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-					is.stackTagCompound.setTag("cluster",tile.writeTileToNBT(new NBTTagCompound()));
+					is.stackTagCompound.setTag("cluster",tag);
+					
 					world.setBlockToAir(x,y,z);
 				}
 			}

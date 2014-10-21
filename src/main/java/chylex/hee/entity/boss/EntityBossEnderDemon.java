@@ -18,7 +18,6 @@ import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
-import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.proxy.ModCommonProxy;
@@ -213,7 +212,6 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 				worldObj.spawnEntityInWorld(new EntityXPOrb(worldObj,posX,posY,posZ,xpSplit));
 			}
 			
-			dropItem(ItemList.enderman_relic,1);
 			setDead();
 		}
 		
@@ -229,6 +227,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	
 	@Override
 	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data){
+		setDead();
 		motionY = 7D;
 		return super.onSpawnWithEgg(data);
 	}

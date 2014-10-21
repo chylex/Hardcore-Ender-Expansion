@@ -3,6 +3,7 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterData;
+import chylex.hee.mechanics.energy.EnergyClusterHealth;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -20,9 +21,15 @@ public class EntityEnergyClusterFX extends EntitySoulCharmFX{
 	public EntityEnergyClusterFX(World world, double x, double y, double z, double red, double green, double blue, EnergyClusterData data){
 		this(world,x,y,z,red,green,blue);
 		
-		int energyAmt = data.getEnergyAmount();
-		particleScale = 0.05F+rand.nextFloat()*0.14F+0.025F*(energyAmt*0.01F);
-		if ((energyAmt < 100 || data.getWeaknessLevel() > 0) && rand.nextBoolean())particleRed = particleGreen = particleBlue = 0.75F;
+		float energyAmt = data.getEnergyLevel();
+		particleScale = 0.05F+rand.nextFloat()*0.14F+0.025F*energyAmt;
+		
+		if (rand.nextInt(5)+1 < data.getHealthStatus().ordinal()){
+			float mp = 1F-0.2F*((float)data.getHealthStatus().ordinal()/EnergyClusterHealth.values.length);
+			particleRed *= mp;
+			particleGreen *= mp;
+			particleBlue *= mp;
+		}
 	}
 	
 	public EntityEnergyClusterFX(World world, double x, double y, double z, double red, double green, double blue, double motionX, double motionY, double motionZ){

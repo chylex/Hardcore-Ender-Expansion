@@ -408,7 +408,7 @@ enum ItemPriorityLevel{
 	ENDER(new IItemSelector(){
 		@Override public boolean isValid(ItemStack is){
 			Item item = is.getItem();
-			return item == Items.ender_pearl || item == Items.ender_eye || item == ItemList.end_powder || item == ItemList.enderman_relic ||
+			return item == Items.ender_pearl || item == Items.ender_eye || item == ItemList.end_powder ||
 				   item == ItemList.transference_gem || item == ItemList.spatial_dash_gem;
 		}
 	}),

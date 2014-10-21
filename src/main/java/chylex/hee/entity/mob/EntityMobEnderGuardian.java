@@ -1,5 +1,4 @@
 package chylex.hee.entity.mob;
-import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -9,12 +8,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
-import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.proxy.ModCommonProxy;
@@ -111,7 +108,7 @@ public class EntityMobEnderGuardian extends EntityMob{
 				explosionTimer = 10;
 				teleportTimer = 80;
 		
-				if (rand.nextInt(30) == 0){
+				/*if (rand.nextInt(30) == 0){
 					List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,3D,8D));
 					
 					for(EntityPlayer player:players){
@@ -125,7 +122,7 @@ public class EntityMobEnderGuardian extends EntityMob{
 
 						if (entityToAttack != null)break;
 					}
-				}
+				}*/
 			}
 		}
 	}

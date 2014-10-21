@@ -15,7 +15,7 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 		if (world.getBlock(x,y,z) == BlockList.energy_cluster && canAcceptEnergy(is)){
 			TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
 
-			if (tile != null && tile.tryDecreaseClusterSize()){
+			if (tile != null && tile.data.drainEnergyUnit()){
 				tile.onAbsorbed(player,is);
 				if (!world.isRemote)onEnergyAccepted(is);
 			}
