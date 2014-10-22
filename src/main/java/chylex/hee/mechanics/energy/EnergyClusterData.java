@@ -11,7 +11,7 @@ import chylex.hee.tileentity.TileEntityEnergyCluster;
 public final class EnergyClusterData{
 	private EnergyClusterHealth healthStatus;
 	private float energyLevel, maxEnergyLevel;
-	private byte regenTimer;
+	private byte regenTimer, drainTimer;
 	
 	public EnergyClusterData(){}
 	
@@ -50,8 +50,22 @@ public final class EnergyClusterData{
 		}
 		
 		if (healthStatus.regenTimer != -1 && ++regenTimer > healthStatus.regenTimer){
-			// TODO drain from environment
+			energyLevel += Math.min((float)Math.sqrt(maxEnergyLevel)*0.12F,maxEnergyLevel-energyLevel);
 			regenTimer = 0;
+		}
+		
+		if (world.provider.dimensionId == 1 && rand.nextInt(healthStatus.ordinal()+1) == 0 && ++drainTimer > 10+rand.nextInt(70)){
+			drainTimer = 0;
+			
+			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(cluster.xCoord,cluster.zCoord);
+			float envLevel = environment.getEnergyLevel();
+			
+			if (envLevel > 0){
+				float drain = Math.min(maxEnergyLevel-energyLevel,Math.min(envLevel*0.1F,maxEnergyLevel*0.2F));
+				drain = drain*0.75F+rand.nextFloat()*0.25F*drain;
+				drain = environment.drainEnergy(drain);
+				energyLevel += drain;
+			}
 		}
 	}
 	
@@ -95,6 +109,8 @@ public final class EnergyClusterData{
 		nbt.setByte("status",(byte)healthStatus.ordinal());
 		nbt.setFloat("lvl",energyLevel);
 		nbt.setFloat("max",maxEnergyLevel);
+		nbt.setByte("regen",regenTimer);
+		nbt.setByte("drain",drainTimer);
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt){
@@ -103,5 +119,7 @@ public final class EnergyClusterData{
 		
 		energyLevel = nbt.getFloat("lvl");
 		maxEnergyLevel = nbt.getFloat("max");
+		regenTimer = nbt.getByte("regen");
+		drainTimer = nbt.getByte("drain");
 	}
 }

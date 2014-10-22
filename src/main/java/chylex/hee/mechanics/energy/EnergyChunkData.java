@@ -55,8 +55,16 @@ public class EnergyChunkData{
 		return MathUtil.floatEquals(regen,amount) ? 0F : amount-regen;
 	}
 	
-	public boolean drainEnergy(float amount){
-		return false;
+	public float drainEnergy(float amount){
+		if (energyLevel-amount >= 0F){
+			energyLevel -= amount;
+			return 0F;
+		}
+		else{
+			float diff = amount-energyLevel;
+			energyLevel = 0F;
+			return diff;
+		}
 	}
 	
 	public float getEnergyLevel(){
