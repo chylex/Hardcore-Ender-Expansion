@@ -85,6 +85,18 @@ public final class EnergyClusterData{
 		this.energyLevel = newLevel;
 	}
 	
+	public float drainEnergy(float amount){
+		if (energyLevel >= amount){
+			energyLevel -= amount;
+			return 0F;
+		}
+		else{
+			float diff = amount-energyLevel;
+			energyLevel = 0;
+			return diff;
+		}
+	}
+	
 	public boolean drainEnergyUnit(){
 		return drainEnergyUnits(1);
 	}

@@ -26,6 +26,7 @@ import chylex.hee.item.block.ItemBlockSlab.IBlockSlab;
 import chylex.hee.item.block.ItemBlockSoulCharm;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
 import chylex.hee.system.creativetab.CreativeTabItemList;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -108,6 +109,7 @@ public final class BlockList{
 	public static Block custom_spawner;
 	public static Block temple_end_portal;
 	public static Block biome_core;
+	public static Block special_effects;
 	
 	// LOAD
 	
@@ -160,6 +162,7 @@ public final class BlockList{
 		register("custom_spawner", custom_spawner = new BlockCustomSpawner().setHardness(5F).setStepSound(Block.soundTypeMetal).setBlockName("mobSpawner").setBlockTextureName("mob_spawner"));
 		register("temple_end_portal", temple_end_portal = new BlockTempleEndPortal().setHardness(-1F).setResistance(6000000F).setBlockName("templeEndPortal"));
 		register("biome_core", biome_core = new BlockBiomeIslandCore().setBlockUnbreakable().setStepSound(Block.soundTypeStone).setBlockName("biomeIslandCore").setBlockTextureName("bedrock"));
+		register("block_special_effects", special_effects = new BlockSpecialEffects());
 		
 		setItemClass("obsidian_special", ItemBlockWithSubtypes.class);
 		setItemClass("obsidian_special_glow", ItemBlockWithSubtypes.class);
@@ -173,6 +176,7 @@ public final class BlockList{
 		setItemClass("ravaged_brick", ItemBlockWithSubtypes.class);
 		setItemClass("ravaged_brick_slab", ItemBlockSlab.class);
 		setItemClass("dungeon_puzzle", ItemBlockWithSubtypes.class);
+		setItemClass("block_special_effects", ItemBlockWithSubtypes.class);
 	}
 	
 	public static void registerBlocks(){
@@ -189,6 +193,8 @@ public final class BlockList{
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,dungeon_puzzle,cinder,
 			crossed_decoration,death_flower
 		);
+		
+		if (Log.isDeobfEnvironment)tabOrderedList.addBlocks(special_effects);
 	}
 	
 	private BlockList(){} // static class

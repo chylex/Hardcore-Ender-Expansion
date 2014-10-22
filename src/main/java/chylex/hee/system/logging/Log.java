@@ -16,8 +16,8 @@ import chylex.hee.HardcoreEnderExpansion;
 public final class Log{
 	static final Logger logger = LogManager.getLogger("HardcoreEnderExpansion");
 	
+	public static final boolean isDeobfEnvironment;
 	public static boolean forceDebugEnabled;
-	private static boolean isDeobfEnvironment;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 	private static long lastLogReport = -1;
 	
