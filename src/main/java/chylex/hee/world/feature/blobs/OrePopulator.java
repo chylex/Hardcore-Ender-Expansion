@@ -3,7 +3,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import chylex.hee.world.feature.WorldGenBlob;
+import chylex.hee.world.feature.WorldGenBlobOld;
 
 public class OrePopulator extends Populator{
 	private Block oreBlock;
@@ -60,7 +60,7 @@ public class OrePopulator extends Populator{
 
 									if (d12*d12+d13*d13+d14*d14 >= 1D)continue;
 									
-									if (getBlock(world,xx,yy,zz) == WorldGenBlob.filler){
+									if (getBlock(world,xx,yy,zz) == WorldGenBlobOld.filler){
 										world.setBlock(xx,yy,zz,oreBlock,0,2);
 										succeeded = true;
 									}

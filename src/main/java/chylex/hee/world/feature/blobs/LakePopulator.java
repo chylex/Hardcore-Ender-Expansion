@@ -3,7 +3,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import chylex.hee.world.feature.WorldGenBlob;
+import chylex.hee.world.feature.WorldGenBlobOld;
 
 public class LakePopulator extends Populator{
 	private Block liquid;
@@ -21,7 +21,7 @@ public class LakePopulator extends Populator{
 			boolean found = false;
 			
 			for(; py > minPos[1]; py--){
-				if (getBlock(world,px,py,pz) == WorldGenBlob.filler){
+				if (getBlock(world,px,py,pz) == WorldGenBlobOld.filler){
 					found = true;
 					break;
 				}

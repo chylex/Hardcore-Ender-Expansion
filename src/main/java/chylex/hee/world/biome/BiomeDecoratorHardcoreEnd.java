@@ -9,21 +9,21 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.feature.WorldGenBlob;
+import chylex.hee.world.feature.WorldGenBlobOld;
 import chylex.hee.world.feature.WorldGenEndPowderOre;
 import chylex.hee.world.feature.WorldGenEndiumOre;
 import chylex.hee.world.feature.WorldGenMeteoroid;
 import chylex.hee.world.feature.WorldGenSpikes;
 
 public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
-	private final WorldGenBlob blobGen;
+	private final WorldGenBlobOld blobGen;
 	private final WorldGenMeteoroid meteoroidGen;
 	private final WorldGenEndPowderOre endPowderOreGen;
 	private final WorldGenEndiumOre endiumOreGen;
 	
 	public BiomeDecoratorHardcoreEnd(){
 		spikeGen = new WorldGenSpikes();
-		blobGen = new WorldGenBlob();
+		blobGen = new WorldGenBlobOld();
 		meteoroidGen = new WorldGenMeteoroid();
 		endPowderOreGen = new WorldGenEndPowderOre();
 		endiumOreGen = new WorldGenEndiumOre();

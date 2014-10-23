@@ -2,7 +2,7 @@ package chylex.hee.world.feature.blobs;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import chylex.hee.world.feature.WorldGenBlob;
+import chylex.hee.world.feature.WorldGenBlobOld;
 
 public class ObsidianSpikePopulator extends Populator{
 	@Override
@@ -25,7 +25,7 @@ public class ObsidianSpikePopulator extends Populator{
 				--justInCase;
 				if (!isInRange(ix,iy,iz))continue;
 				
-				if (getBlock(world,ix,iy,iz) == WorldGenBlob.filler){
+				if (getBlock(world,ix,iy,iz) == WorldGenBlobOld.filler){
 					world.setBlock(ix,iy,iz,Blocks.obsidian);
 				}
 				xx += xadd;

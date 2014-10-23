@@ -17,9 +17,9 @@ import chylex.hee.system.logging.Log;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 
 public class LargeStructureChunk{
-	public final int x,z;
+	public final int x, z;
 	private final int ySize;
-	private int minBlockY,maxBlockY;
+	private int minBlockY, maxBlockY;
 	
 	private final Block[] storedBlocks;
 	private final byte[] storedMetadata;

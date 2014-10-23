@@ -2,7 +2,7 @@ package chylex.hee.world.feature.blobs;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
-import chylex.hee.world.feature.WorldGenBlob;
+import chylex.hee.world.feature.WorldGenBlobOld;
 
 public class FlowerPopulator extends Populator{
 	private Block flower;
@@ -20,7 +20,7 @@ public class FlowerPopulator extends Populator{
 			boolean can = false;
 			
 			for(yy = maxPos[1]; yy > minPos[1]; yy--){
-				if (getBlock(world,xx,yy,zz) == WorldGenBlob.filler){
+				if (getBlock(world,xx,yy,zz) == WorldGenBlobOld.filler){
 					can = true;
 					break;				
 				}
