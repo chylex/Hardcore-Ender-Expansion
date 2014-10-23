@@ -5,11 +5,12 @@ import java.util.Random;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
+import chylex.hee.world.util.IRandomAmount;
 
 public final class BlobPattern{
 	private final WeightedList<ObjectWeightPair<BlobGenerator>> generators = new WeightedList<>();
 	private final WeightedList<ObjectWeightPair<BlobPopulator>> populators = new WeightedList<>();
-	private IPopulatorAmountProvider populatorAmountProvider;
+	private IRandomAmount populatorAmount;
 	
 	public BlobPattern(){}
 	
@@ -23,22 +24,18 @@ public final class BlobPattern{
 		return this;
 	}
 	
-	public BlobPattern setPopulatorAmountProvider(IPopulatorAmountProvider provider){
-		this.populatorAmountProvider = provider;
+	public BlobPattern setPopulatorAmountProvider(IRandomAmount populatorAmount){
+		this.populatorAmount = populatorAmount;
 		return this;
 	}
 	
 	public Pair<BlobGenerator,List<BlobPopulator>> generatePattern(Random rand){
 		List<BlobPopulator> chosenPopulators = new ArrayList<>();
 		
-		for(int a = 0, amount = populatorAmountProvider.getPopulatorAmount(rand,populators.size()); a < amount; a++){
+		for(int a = 0, amount = populatorAmount.generate(rand,populators.size()); a < amount; a++){
 			chosenPopulators.add(populators.getRandomItem(rand).getObject());
 		}
 		
 		return Pair.of(generators.getRandomItem(rand).getObject(),chosenPopulators);
-	}
-	
-	public static interface IPopulatorAmountProvider{
-		int getPopulatorAmount(Random rand, int totalAmount);
 	}
 }

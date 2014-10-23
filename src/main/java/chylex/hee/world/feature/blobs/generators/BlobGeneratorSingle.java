@@ -4,11 +4,12 @@ import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 
 public class BlobGeneratorSingle extends BlobGenerator{
-	private final double minRad, maxRad;
+	private double minRad, maxRad;
 	
-	public BlobGeneratorSingle(double minRad, double maxRad){
+	public BlobGeneratorSingle rad(double minRad, double maxRad){
 		this.minRad = minRad;
 		this.maxRad = maxRad;
+		return this;
 	}
 	
 	@Override
