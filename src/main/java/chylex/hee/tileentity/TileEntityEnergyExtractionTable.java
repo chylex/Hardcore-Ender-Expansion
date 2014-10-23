@@ -70,7 +70,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 	
 	@Override
 	public void updateEntity(){
-		if (worldObj.isRemote)return;
+		if (worldObj.isRemote || true)return;
 		
 		if (--leakTimer < 0){
 			int orbs = items[2] == null || items[2].getItem() != ItemList.instability_orb ? 0 : items[2].stackSize;
@@ -92,7 +92,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 						float diff = Math.min(cluster.data.getMaxEnergyLevel()-cluster.data.getEnergyLevel(),releasedEnergy);
 						
 						if (diff > 0){
-							cluster.data.addEnergy(diff);
+							//cluster.data.addEnergy(diff);
 							cluster.synchronize();
 							if ((energy -= diff) <= 0)leakIntoWorld = false;
 							PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,cluster));

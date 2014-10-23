@@ -28,12 +28,13 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 
 	@Override
 	public void updateEntity(){
+		if (shouldBeDestroyedSilently){
+			shouldNotExplode = true;
+			worldObj.setBlockToAir(xCoord,yCoord,zCoord);
+			return;
+		}
+		
 		if (!worldObj.isRemote){
-			if (shouldBeDestroyedSilently){
-				shouldNotExplode = true;
-				worldObj.setBlockToAir(xCoord,yCoord,zCoord);
-			}
-			
 			if (cachedCoords.length == 0){
 				data.generate(worldObj.rand,xCoord,zCoord);
 				cachedCoords = new int[]{ xCoord, yCoord, zCoord };
@@ -78,10 +79,11 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 
 	@Override
 	public void readTileFromNBT(NBTTagCompound nbt){
-		if (!nbt.hasKey("col"))shouldBeDestroyedSilently = true;
 		colRgb = nbt.getByteArray("col");
 		cachedCoords = nbt.getIntArray("loc");
 		data.readFromNBT(nbt);
+		
+		if (colRgb.length == 0)shouldBeDestroyedSilently = true;
 	}
 	
 	/**

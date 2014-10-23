@@ -1,7 +1,10 @@
 package chylex.hee.block;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
@@ -28,6 +31,11 @@ public class BlockSpecialEffects extends Block implements IBlockSubtypes{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		return "specialEffects."+is.getItemDamage();
+	}
+	
+	@Override
+	public void getSubBlocks(Item item, CreativeTabs tab, List list){
+		for(int a = 0; a < textures.length; a++)list.add(new ItemStack(item,1,a));
 	}
 	
 	@Override
