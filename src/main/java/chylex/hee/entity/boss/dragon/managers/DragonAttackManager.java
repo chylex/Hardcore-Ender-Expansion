@@ -120,7 +120,7 @@ public class DragonAttackManager{
 			EntityPlayer p = (EntityPlayer)o;
 			if ((nocreative && p.capabilities.isCreativeMode) || p.isDead)continue;
 			
-			players.add(new ObjectWeightPair<EntityPlayer>(p,5+((int)p.getHealth()>>1)+(p.getTotalArmorValue()>>2)));
+			players.add(ObjectWeightPair.of(p,5+((int)p.getHealth()>>1)+(p.getTotalArmorValue()>>2)));
 		}
 
 		return players.getRandomItem(rand).getObject();

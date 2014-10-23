@@ -65,10 +65,10 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumDescendDesign>> descendDesignList = new WeightedList<>(
-		ObjectWeightPair.make(EnumDescendDesign.PILLARS_WITH_SPAWNER, 50),
-		ObjectWeightPair.make(EnumDescendDesign.FENCE_LIGHTS, 42),
-		ObjectWeightPair.make(EnumDescendDesign.GOO_CORNERS, 35),
-		ObjectWeightPair.make(EnumDescendDesign.CORNER_LIGHTS, 25)
+		ObjectWeightPair.of(EnumDescendDesign.PILLARS_WITH_SPAWNER, 50),
+		ObjectWeightPair.of(EnumDescendDesign.FENCE_LIGHTS, 42),
+		ObjectWeightPair.of(EnumDescendDesign.GOO_CORNERS, 35),
+		ObjectWeightPair.of(EnumDescendDesign.CORNER_LIGHTS, 25)
 	);
 	
 	public void generateDescend(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement descend){
@@ -201,17 +201,17 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumHallwayDesign>> hallwayDesignList = new WeightedList<>(
-		ObjectWeightPair.make(EnumHallwayDesign.NONE, 88),
-		ObjectWeightPair.make(EnumHallwayDesign.DEAD_END_CHEST, 45),
-		ObjectWeightPair.make(EnumHallwayDesign.DESTROYED_WALLS, 44),
-		ObjectWeightPair.make(EnumHallwayDesign.EMBEDDED_CHEST, 33),
-		ObjectWeightPair.make(EnumHallwayDesign.STAIR_PATTERN, 32),
-		ObjectWeightPair.make(EnumHallwayDesign.COBWEBS, 24),
-		ObjectWeightPair.make(EnumHallwayDesign.SPAWNERS_IN_WALLS, 24),
-		ObjectWeightPair.make(EnumHallwayDesign.FLOOR_CEILING_SLABS, 21),
-		ObjectWeightPair.make(EnumHallwayDesign.WALL_MOUNTED_SPAWNERS, 19),
-		ObjectWeightPair.make(EnumHallwayDesign.FLOWER_POT, 16),
-		ObjectWeightPair.make(EnumHallwayDesign.LAPIS_BLOCK, 4)
+		ObjectWeightPair.of(EnumHallwayDesign.NONE, 88),
+		ObjectWeightPair.of(EnumHallwayDesign.DEAD_END_CHEST, 45),
+		ObjectWeightPair.of(EnumHallwayDesign.DESTROYED_WALLS, 44),
+		ObjectWeightPair.of(EnumHallwayDesign.EMBEDDED_CHEST, 33),
+		ObjectWeightPair.of(EnumHallwayDesign.STAIR_PATTERN, 32),
+		ObjectWeightPair.of(EnumHallwayDesign.COBWEBS, 24),
+		ObjectWeightPair.of(EnumHallwayDesign.SPAWNERS_IN_WALLS, 24),
+		ObjectWeightPair.of(EnumHallwayDesign.FLOOR_CEILING_SLABS, 21),
+		ObjectWeightPair.of(EnumHallwayDesign.WALL_MOUNTED_SPAWNERS, 19),
+		ObjectWeightPair.of(EnumHallwayDesign.FLOWER_POT, 16),
+		ObjectWeightPair.of(EnumHallwayDesign.LAPIS_BLOCK, 4)
 	);
 	
 	public void generateHallway(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement hallway){
@@ -464,15 +464,15 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomDesign>> roomDesignList = new WeightedList<>(
-		ObjectWeightPair.make(EnumRoomDesign.GOO_FOUNTAINS, 56),
-		ObjectWeightPair.make(EnumRoomDesign.RUINS, 56),
-		ObjectWeightPair.make(EnumRoomDesign.BOWLS, 54),
-		ObjectWeightPair.make(EnumRoomDesign.FOUR_SPAWNERS, 51),
-		ObjectWeightPair.make(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 44),
-		ObjectWeightPair.make(EnumRoomDesign.GLOWING_ROOM, 35),
-		ObjectWeightPair.make(EnumRoomDesign.CARPET_TARGET, 26),
-		ObjectWeightPair.make(EnumRoomDesign.ENCASED_CUBICLE, 20),
-		ObjectWeightPair.make(EnumRoomDesign.TERRARIUM, 17)
+		ObjectWeightPair.of(EnumRoomDesign.GOO_FOUNTAINS, 56),
+		ObjectWeightPair.of(EnumRoomDesign.RUINS, 56),
+		ObjectWeightPair.of(EnumRoomDesign.BOWLS, 54),
+		ObjectWeightPair.of(EnumRoomDesign.FOUR_SPAWNERS, 51),
+		ObjectWeightPair.of(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 44),
+		ObjectWeightPair.of(EnumRoomDesign.GLOWING_ROOM, 35),
+		ObjectWeightPair.of(EnumRoomDesign.CARPET_TARGET, 26),
+		ObjectWeightPair.of(EnumRoomDesign.ENCASED_CUBICLE, 20),
+		ObjectWeightPair.of(EnumRoomDesign.TERRARIUM, 17)
 	);
 	
 	private void generateRoomLayout(LargeStructureWorld world, Random rand, int x, int y, int z){

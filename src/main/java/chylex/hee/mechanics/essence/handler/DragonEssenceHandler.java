@@ -270,7 +270,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 							Enchantment e = Enchantment.enchantmentsList[enchants.getCompoundTagAt(a).getShort("id")];
 							if (e == null)continue;
 							
-							list.add(new ObjectWeightPair<Enchantment>(e,e.getWeight()));
+							list.add(ObjectWeightPair.of(e,e.getWeight()));
 						}
 						
 						Enchantment chosenEnchantment = list.getRandomItem(rand).getObject();

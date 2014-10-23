@@ -38,6 +38,10 @@ public final class MathUtil{
 		return Math.sqrt(xDiff*xDiff+yDiff*yDiff+zDiff*zDiff);
 	}
 	
+	public static double distanceSquared(double xDiff, double yDiff, double zDiff){
+		return xDiff*xDiff+yDiff*yDiff+zDiff*zDiff;
+	}
+	
 	public static boolean triangle(int xx, int yy, int x1, int y1, int x2, int y2, int x3, int y3){
 		int a0, a1, a2, a3;
 		a0 = Math.abs((x2-x1)*(y3-y1)-(x3-x1)*(y2-y1));

@@ -14,13 +14,13 @@ public class StructureMiningSpot extends AbstractIslandStructure{
 	
 	public void regenerateOreWeightList(Random rand){
 		oreWeights = new WeightedList<>(
-			ObjectWeightPair.make(Blocks.emerald_ore,8),
-			ObjectWeightPair.make(Blocks.lapis_ore,8),
-			ObjectWeightPair.make(Blocks.redstone_ore,11),
-			ObjectWeightPair.make(Blocks.diamond_ore,14),
-			ObjectWeightPair.make(Blocks.coal_ore,20),
-			ObjectWeightPair.make(Blocks.gold_ore,25),
-			ObjectWeightPair.make(Blocks.iron_ore,26)
+			ObjectWeightPair.of(Blocks.emerald_ore,8),
+			ObjectWeightPair.of(Blocks.lapis_ore,8),
+			ObjectWeightPair.of(Blocks.redstone_ore,11),
+			ObjectWeightPair.of(Blocks.diamond_ore,14),
+			ObjectWeightPair.of(Blocks.coal_ore,20),
+			ObjectWeightPair.of(Blocks.gold_ore,25),
+			ObjectWeightPair.of(Blocks.iron_ore,26)
 		);
 		
 		for(int a = 0; a < 1+rand.nextInt(2); a++)oreWeights.remove(rand.nextInt(oreWeights.size()));

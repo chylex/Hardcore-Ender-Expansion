@@ -11,12 +11,12 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.feature.blobs.CavePopulator;
-import chylex.hee.world.feature.blobs.FlowerPopulator;
-import chylex.hee.world.feature.blobs.LakePopulator;
-import chylex.hee.world.feature.blobs.ObsidianSpikePopulator;
-import chylex.hee.world.feature.blobs.OrePopulator;
-import chylex.hee.world.feature.blobs.Populator;
+import chylex.hee.world.feature.blobs.old.CavePopulator;
+import chylex.hee.world.feature.blobs.old.FlowerPopulator;
+import chylex.hee.world.feature.blobs.old.LakePopulator;
+import chylex.hee.world.feature.blobs.old.ObsidianSpikePopulator;
+import chylex.hee.world.feature.blobs.old.OrePopulator;
+import chylex.hee.world.feature.blobs.old.Populator;
 import chylex.hee.world.util.BlockLocation;
 import chylex.hee.world.util.WorldGeneratorBlockList;
 

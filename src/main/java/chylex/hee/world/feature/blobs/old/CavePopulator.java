@@ -1,4 +1,4 @@
-package chylex.hee.world.feature.blobs;
+package chylex.hee.world.feature.blobs.old;
 import java.util.Random;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
