@@ -51,9 +51,10 @@ public class NotEnoughItemsIntegration implements IIntegrationHandler{
 			public boolean mouseClicked(GuiContainer gui, int mouseX, int mouseY, int button){
 				if (button == 0 || button == 1){
 					if (gui instanceof GuiRecipe)return handleItemStack(GuiContainerManager.getStackMouseOver(gui));
-					else return handleItemStack(LayoutManager.itemPanel.getStackMouseOver(mouseX,mouseY));
+					else if (LayoutManager.itemPanel != null)return handleItemStack(LayoutManager.itemPanel.getStackMouseOver(mouseX,mouseY));
 				}
-				else return false;
+				
+				return false;
 			}
 			
 			@Override
