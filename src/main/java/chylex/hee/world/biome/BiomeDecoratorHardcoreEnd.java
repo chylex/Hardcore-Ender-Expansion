@@ -70,7 +70,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		if (distFromCenter > 500D && randomGenerator.nextInt(1+randomGenerator.nextInt(3)+(int)Math.floor(Math.max((11500D-distFromCenter)/1000D,0))) <= randomGenerator.nextInt(4)){
 			Stopwatch.timeAverage("WorldGenEndiumOre",64);
 			
-			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+Math.min(9,(int)Math.floor((Math.max(0,distFromCenter-1700D))/2100D))); attempt < 440; attempt++){
+			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+randomGenerator.nextInt(1+Math.min(10,(int)Math.floor((Math.max(0,distFromCenter-1700D))/2300D)))); attempt < 440; attempt++){
 				if (endiumOreGen.generate(currentWorld,randomGenerator,randX(),10+randomGenerator.nextInt(100),randZ()) && --max <= 0)break;
 			}
 			
