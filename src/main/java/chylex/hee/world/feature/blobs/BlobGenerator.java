@@ -20,11 +20,11 @@ public abstract class BlobGenerator implements IWeightProvider{
 	
 	public abstract void generate(DecoratorFeatureGenerator gen, Random rand);
 	
-	protected final void genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad){
+	public static final void genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad){
 		genBlob(gen,x,y,z,rad,Blocks.end_stone);
 	}
 	
-	protected final void genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad, Block block){
+	public static final void genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad, Block block){
 		double radSq = MathUtil.square(rad+0.5D);
 		int size = (int)Math.ceil(rad), ix = (int)Math.floor(x), iy = (int)Math.floor(y), iz = (int)Math.floor(z);
 		

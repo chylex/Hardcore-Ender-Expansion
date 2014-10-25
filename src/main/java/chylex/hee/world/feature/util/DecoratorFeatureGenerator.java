@@ -1,10 +1,13 @@
 package chylex.hee.world.feature.util;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import chylex.hee.system.logging.Log;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import chylex.hee.system.logging.Log;
+import chylex.hee.world.util.BlockLocation;
 
 public final class DecoratorFeatureGenerator{
 	private final TIntObjectHashMap<GeneratedBlock> blocks = new TIntObjectHashMap<>();
@@ -37,6 +40,12 @@ public final class DecoratorFeatureGenerator{
 	public int getMetadata(int x, int y, int z){
 		GeneratedBlock block = blocks.get(1024*(y+128)+32*(x+16)+z+16);
 		return block == null ? 0 : block.metadata;
+	}
+	
+	public List<BlockLocation> getUsedLocations(){
+		List<BlockLocation> locs = new ArrayList<>();
+		for(GeneratedBlock block:blocks.valueCollection())locs.add(new BlockLocation(block.x,block.y,block.z));
+		return locs;
 	}
 	
 	/**
