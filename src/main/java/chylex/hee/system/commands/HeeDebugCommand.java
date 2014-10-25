@@ -1,13 +1,16 @@
 package chylex.hee.system.commands;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
+import chylex.hee.world.feature.WorldGenBlob;
 
 public class HeeDebugCommand extends HeeCommand{
 	public static float overrideWingSpeed = 1F;
@@ -118,21 +121,26 @@ public class HeeDebugCommand extends HeeCommand{
 				info.setThunderTime(Integer.MAX_VALUE);
 			}
 		}
+		else if (args[0].equalsIgnoreCase(".tmp")){ // TODO remove
+			World world = Minecraft.getMinecraft().theWorld;
+			EntityPlayer plr = Minecraft.getMinecraft().thePlayer;
+			new WorldGenBlob().generate(world,world.rand,(int)plr.posX+10,(int)plr.posY,(int)plr.posZ);
+		}
 		else{
 			sendMessage(sender,"Unknown command.");
 			return;
 		}
+		
 		sendMessage(sender,"Request processed.");
 	}
 	
 	public static final EntityBossDragon getDragon(){
-		for(WorldServer world:DimensionManager.getWorlds()){
-			if (world.provider.dimensionId == 1){
-				for(Object o:world.loadedEntityList){
-					if (o instanceof EntityBossDragon)return (EntityBossDragon)o;
-				}
-			}
+		WorldServer world = DimensionManager.getWorld(1);
+		
+		for(Object o:world.loadedEntityList){
+			if (o instanceof EntityBossDragon)return (EntityBossDragon)o;
 		}
+		
 		return null;
 	}
 }

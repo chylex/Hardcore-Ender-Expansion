@@ -15,7 +15,7 @@ public class WorldGenBlob extends WorldGenerator{
 	private enum BlobType{
 		COMMON, UNCOMMON, RARE;
 		
-		BlobPattern[] patterns;
+		WeightedList<BlobPattern> patterns = new WeightedList<>();
 	}
 	
 	private static final WeightedList<ObjectWeightPair<BlobType>> types = new WeightedList<>();
@@ -25,21 +25,39 @@ public class WorldGenBlob extends WorldGenerator{
 		types.add(ObjectWeightPair.of(BlobType.UNCOMMON,4));
 		types.add(ObjectWeightPair.of(BlobType.RARE,1));
 		
-		BlobType.COMMON.patterns = new BlobPattern[]{
+		BlobType.COMMON.patterns.addAll(new BlobPattern[]{
 			
-		};
+		});
 	}
 	
 	private DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		BlobPattern[] patterns = types.getRandomItem(rand).getObject().patterns;
-		Pair<BlobGenerator,List<BlobPopulator>> pattern = patterns[rand.nextInt(patterns.length)].generatePattern(rand);
+		if (true){
+			BlobType.COMMON.patterns.clear();
+			
+			BlobType.COMMON.patterns.addAll(new BlobPattern[]{
+				new BlobPattern(10).addGenerators(new BlobGenerator[]{
+					
+				})
+			});
+			
+			Pair<BlobGenerator,List<BlobPopulator>> pattern = BlobType.COMMON.patterns.getRandomItem(rand).generatePattern(rand);
+			
+			pattern.getLeft().generate(gen,rand);
+			for(BlobPopulator populator:pattern.getRight())populator.generate(gen,rand);
+			
+			gen.generate(world,rand,x,y,z);
+			return true;
+		}
+
+		Pair<BlobGenerator,List<BlobPopulator>> pattern = types.getRandomItem(rand).getObject().patterns.getRandomItem(rand).generatePattern(rand);
 		
 		pattern.getLeft().generate(gen,rand);
 		for(BlobPopulator populator:pattern.getRight())populator.generate(gen,rand);
 		
-		return false;
+		gen.generate(world,rand,x,y,z);
+		return true;
 	}
 }

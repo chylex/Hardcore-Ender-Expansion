@@ -15,12 +15,12 @@ public final class DecoratorFeatureGenerator{
 	}
 	
 	public void setBlock(int x, int y, int z, Block block, int metadata){
-		if (x < -16 || x > 16 || z < -16 || z > 16 || y < 0 || y > 255){
+		if (x < -16 || x > 16 || z < -16 || z > 16 || y < -128 || y > 127){
 			Log.debug("Placing block at invalid coordinates: $0,$1,$2",x,y,z);
 			return;
 		}
 		
-		blocks.put(256*y+32*x+z,new GeneratedBlock(block,metadata,x,y,z));
+		blocks.put(1024*(y+128)+32*(x+16)+z+16,new GeneratedBlock(block,metadata,x,y,z));
 		
 		if (x < minX)minX = x;
 		else if (x > maxX)maxX = x;
@@ -30,19 +30,19 @@ public final class DecoratorFeatureGenerator{
 	}
 	
 	public Block getBlock(int x, int y, int z){
-		GeneratedBlock block = blocks.get(256*y+32*(x+16)+z+16);
+		GeneratedBlock block = blocks.get(1024*(y+128)+32*(x+16)+z+16);
 		return block == null ? Blocks.air : block.block;
 	}
 	
 	public int getMetadata(int x, int y, int z){
-		GeneratedBlock block = blocks.get(256*y+32*(x+16)+z+16);
+		GeneratedBlock block = blocks.get(1024*(y+128)+32*(x+16)+z+16);
 		return block == null ? 0 : block.metadata;
 	}
 	
 	/**
 	 * Generate in the center of 4 chunk group, in decorator it is chunkX+16, chunkZ+16
 	 */
-	public void generate(World world, Random rand, int centerX, int centerZ){
+	public void generate(World world, Random rand, int centerX, int centerY, int centerZ){
 		if (blocks.isEmpty())return;
 		
 		int sizeX = maxX-minX+1, sizeZ = maxZ-minZ+1;
@@ -51,7 +51,7 @@ public final class DecoratorFeatureGenerator{
 		if (randX > 0)centerX += rand.nextInt(randX*2)-randX;
 		if (randZ > 0)centerZ += rand.nextInt(randZ*2)-randZ;
 		
-		for(GeneratedBlock block:blocks.valueCollection())world.setBlock(centerX+block.x,block.y+128,centerZ+block.z,block.block,block.metadata,3);
+		for(GeneratedBlock block:blocks.valueCollection())world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
 	}
 	
 	private static final class GeneratedBlock{
@@ -63,7 +63,7 @@ public final class DecoratorFeatureGenerator{
 			this.block = block;
 			this.metadata = (byte)metadata;
 			this.x = (byte)x;
-			this.y = (byte)(y-128);
+			this.y = (byte)y;
 			this.z = (byte)z;
 		}
 	}

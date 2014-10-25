@@ -6,6 +6,10 @@ import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 public class BlobGeneratorSingle extends BlobGenerator{
 	private double minRad, maxRad;
 	
+	public BlobGeneratorSingle(int weight){
+		super(weight);
+	}
+	
 	public BlobGeneratorSingle rad(double minRad, double maxRad){
 		this.minRad = minRad;
 		this.maxRad = maxRad;
