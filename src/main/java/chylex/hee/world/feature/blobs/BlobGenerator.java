@@ -20,11 +20,18 @@ public abstract class BlobGenerator implements IWeightProvider{
 	
 	public abstract void generate(DecoratorFeatureGenerator gen, Random rand);
 	
-	public static final void genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad){
-		genBlob(gen,x,y,z,rad,Blocks.end_stone);
+	/**
+	 * Returns true if at least one block has changed.
+	 */
+	public static final boolean genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad){
+		return genBlob(gen,x,y,z,rad,Blocks.end_stone);
 	}
 	
-	public static final void genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad, Block block){
+	/**
+	 * Returns true if at least one block has changed.
+	 */
+	public static final boolean genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad, Block block){
+		boolean generatedSomething = false;
 		double radSq = MathUtil.square(rad+0.5D);
 		int size = (int)Math.ceil(rad), ix = (int)Math.floor(x), iy = (int)Math.floor(y), iz = (int)Math.floor(z);
 		
@@ -32,10 +39,12 @@ public abstract class BlobGenerator implements IWeightProvider{
 			for(int yy = iy-size; yy <= iy+size; yy++){
 				for(int zz = iz-size; zz <= iz+size; zz++){
 					if (MathUtil.distanceSquared(xx-x,yy-y,zz-z) <= radSq){
-						gen.setBlock(xx,yy,zz,block);
+						if (gen.getBlock(xx,yy,zz) != block && gen.setBlock(xx,yy,zz,block))generatedSomething = true;
 					}
 				}
 			}
 		}
+		
+		return generatedSomething;
 	}
 }

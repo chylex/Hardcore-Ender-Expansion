@@ -6,30 +6,27 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import chylex.hee.system.logging.Log;
 import chylex.hee.world.util.BlockLocation;
 
 public final class DecoratorFeatureGenerator{
 	private final TIntObjectHashMap<GeneratedBlock> blocks = new TIntObjectHashMap<>();
 	private int minX, minZ, maxX, maxZ;
 	
-	public void setBlock(int x, int y, int z, Block block){
-		setBlock(x,y,z,block,0);
+	public boolean setBlock(int x, int y, int z, Block block){
+		return setBlock(x,y,z,block,0);
 	}
 	
-	public void setBlock(int x, int y, int z, Block block, int metadata){
-		if (x < -16 || x > 16 || z < -16 || z > 16 || y < -128 || y > 127){
-			Log.debug("Placing block at invalid coordinates: $0,$1,$2",x,y,z);
-			return;
-		}
-		
-		blocks.put(1024*(y+128)+32*(x+16)+z+16,new GeneratedBlock(block,metadata,x,y,z));
+	public boolean setBlock(int x, int y, int z, Block block, int metadata){
+		if (x < -16 || x > 16 || z < -16 || z > 16 || y < -128 || y > 127)return false;
 		
 		if (x < minX)minX = x;
 		else if (x > maxX)maxX = x;
 		
 		if (z < minZ)minZ = z;
 		else if (z > maxZ)maxZ = z;
+		
+		blocks.put(1024*(y+128)+32*(x+16)+z+16,new GeneratedBlock(block,metadata,x,y,z));
+		return true;
 	}
 	
 	public Block getBlock(int x, int y, int z){

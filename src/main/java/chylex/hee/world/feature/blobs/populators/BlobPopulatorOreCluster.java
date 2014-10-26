@@ -10,7 +10,7 @@ import chylex.hee.world.util.IRandomAmount;
 public class BlobPopulatorOreCluster extends BlobPopulator{
 	private Block ore;
 	private IRandomAmount blockAmountGen;
-	private int minAttempts, maxAttempts, minBlockAmount, maxBlockAmount;
+	private byte minAttempts, maxAttempts, minBlockAmount, maxBlockAmount;
 	
 	public BlobPopulatorOreCluster(int weight){
 		super(weight);
@@ -22,15 +22,15 @@ public class BlobPopulatorOreCluster extends BlobPopulator{
 	}
 	
 	public BlobPopulatorOreCluster attempts(int minAttempts, int maxAttempts){
-		this.minAttempts = minAttempts;
-		this.maxAttempts = maxAttempts;
+		this.minAttempts = (byte)minAttempts;
+		this.maxAttempts = (byte)maxAttempts;
 		return this;
 	}
 	
 	public BlobPopulatorOreCluster blockAmount(IRandomAmount blockAmountGen, int minBlockAmount, int maxBlockAmount){
 		this.blockAmountGen = blockAmountGen;
-		this.minBlockAmount = minBlockAmount;
-		this.maxBlockAmount = maxBlockAmount;
+		this.minBlockAmount = (byte)minBlockAmount;
+		this.maxBlockAmount = (byte)maxBlockAmount;
 		return this;
 	}
 

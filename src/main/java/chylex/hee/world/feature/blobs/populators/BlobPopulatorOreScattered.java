@@ -11,7 +11,7 @@ import chylex.hee.world.util.IRandomAmount;
 public class BlobPopulatorOreScattered extends BlobPopulator{
 	private Block ore;
 	private IRandomAmount blockAmountGen;
-	private int minAttempts, maxAttempts, minBlockAmount, maxBlockAmount;
+	private byte minAttempts, maxAttempts, minBlockAmount, maxBlockAmount;
 	private boolean knownBlockLocations;
 	
 	public BlobPopulatorOreScattered(int weight){
@@ -24,15 +24,15 @@ public class BlobPopulatorOreScattered extends BlobPopulator{
 	}
 	
 	public BlobPopulatorOreScattered attempts(int minAttempts, int maxAttempts){
-		this.minAttempts = minAttempts;
-		this.maxAttempts = maxAttempts;
+		this.minAttempts = (byte)minAttempts;
+		this.maxAttempts = (byte)maxAttempts;
 		return this;
 	}
 	
 	public BlobPopulatorOreScattered blockAmount(IRandomAmount blockAmountGen, int minBlockAmount, int maxBlockAmount){
 		this.blockAmountGen = blockAmountGen;
-		this.minBlockAmount = minBlockAmount;
-		this.maxBlockAmount = maxBlockAmount;
+		this.minBlockAmount = (byte)minBlockAmount;
+		this.maxBlockAmount = (byte)maxBlockAmount;
 		return this;
 	}
 	

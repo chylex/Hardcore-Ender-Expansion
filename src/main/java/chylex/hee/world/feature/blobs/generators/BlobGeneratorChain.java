@@ -7,7 +7,7 @@ import chylex.hee.world.util.IRandomAmount;
 
 public class BlobGeneratorChain extends BlobGenerator{
 	private IRandomAmount amountGen;
-	private int minAmount, maxAmount;
+	private byte minAmount, maxAmount;
 	private double minRad, maxRad, minChainDistMp, maxChainDistMp;
 	
 	public BlobGeneratorChain(int weight){
@@ -16,8 +16,8 @@ public class BlobGeneratorChain extends BlobGenerator{
 	
 	public BlobGeneratorChain amount(IRandomAmount amountGen, int minAmount, int maxAmount){
 		this.amountGen = amountGen;
-		this.minAmount = minAmount;
-		this.maxAmount = maxAmount;
+		this.minAmount = (byte)minAmount;
+		this.maxAmount = (byte)maxAmount;
 		return this;
 	}
 	
