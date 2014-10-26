@@ -21,26 +21,6 @@ import chylex.hee.world.util.BlockLocation;
 import chylex.hee.world.util.WorldGeneratorBlockList;
 
 public class WorldGenBlobOld extends WorldGenerator{
-	public static final Block filler = Blocks.end_stone;
-	
-	private static final List<Populator> populators = new ArrayList<>(Arrays.asList(new Populator[]{
-		new CavePopulator(),
-		new ObsidianSpikePopulator(),
-		new LakePopulator(BlockList.ender_goo),
-		new OrePopulator(BlockList.end_powder_ore,13,3),
-		new OrePopulator(BlockList.end_powder_ore,9,2),
-		new OrePopulator(BlockList.igneous_rock_ore,8,5),
-		new FlowerPopulator(BlockList.death_flower)
-	}));
-	
-	private int genCenterX, genCenterZ;
-	private boolean canGenerate;
-	
-	public void prepare(int genCenterX, int genCenterZ){
-		this.genCenterX = genCenterX;
-		this.genCenterZ = genCenterZ;
-	}
-	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
 		if (world.getBlock(x-8,y,z) != Blocks.air ||
@@ -50,45 +30,11 @@ public class WorldGenBlobOld extends WorldGenerator{
 			world.getBlock(x,y-8,z) != Blocks.air ||
 			world.getBlock(x,y+8,z) != Blocks.air)return false;
 
-		WorldGeneratorBlockList blocks = new WorldGeneratorBlockList(world);
 		float rad = rand.nextFloat()*0.8F+rand.nextFloat()*1.9F+1.95F;
 		
 		canGenerate = true;
 		createBlob(blocks,rand,x,y,z,rad,0);
 		if (!canGenerate)return false;
-		
-		int[][] data = blocks.getData();
-		int[] size = data[0], minPos = data[1], maxPos = data[2];
-		
-		if (size[0] > 16 || size[2] > 16)return false;
-		if (!blocks.generate(filler))return false;
-		
-		List<Populator> availablePopulators = new ArrayList<>(populators);
-		float n = 1;
-		for(int a = 0; a < 3; a++)n += Math.min(2.2F,Math.abs(0.9F*rand.nextGaussian()));
-		
-		for(int a = 0; a < Math.floor(n); a++){
-			if (availablePopulators.isEmpty())break;
-			
-			try{
-				availablePopulators.remove(rand.nextInt(availablePopulators.size())).populate(size,minPos,maxPos,world,rand,x,y,z);
-			}catch(Exception e){
-				Log.error("Endstone Blob populator failed");
-			}
-		}
-		
-		if (rand.nextInt(availablePopulators.contains(populators.get(0)) ? 18 : 5) == 0){
-			for(int attempt = 0, xx, yy, zz; attempt < 4; attempt++){
-				xx = x+(int)((rand.nextDouble()-rand.nextDouble())*rand.nextDouble()*4D*attempt);
-				yy = y+(int)((rand.nextDouble()-rand.nextDouble())*rand.nextDouble()*4D*attempt);
-				zz = z+(int)((rand.nextDouble()-rand.nextDouble())*rand.nextDouble()*4D*attempt);
-				
-				if (world.isAirBlock(xx,yy,zz)){
-					world.setBlock(xx,yy,zz,BlockList.energy_cluster);
-					break;
-				}
-			}
-		}
 		
 		return true;
 	}

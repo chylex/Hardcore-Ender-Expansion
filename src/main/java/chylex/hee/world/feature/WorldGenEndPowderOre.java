@@ -12,17 +12,17 @@ public class WorldGenEndPowderOre extends WorldGenerator{
 		int blockAmount = rand.nextInt(4)+4;
 		
 		float randomAngle = rand.nextFloat()*(float)Math.PI;
-		double genStartX = (x+MathHelper.sin(randomAngle)*blockAmount);
-		double genEndX = (x-MathHelper.sin(randomAngle)*blockAmount);
-		double genStartZ = (z+MathHelper.cos(randomAngle)*blockAmount);
-		double genEndZ = (z-MathHelper.cos(randomAngle)*blockAmount);
-		double genStartY = (y+rand.nextInt(8)-4);
-		double genEndY = (y+rand.nextInt(8)-4);
+		double genX1 = (x+MathHelper.sin(randomAngle)*blockAmount);
+		double genX2 = (x-MathHelper.sin(randomAngle)*blockAmount);
+		double genZ1 = (z+MathHelper.cos(randomAngle)*blockAmount);
+		double genZ2 = (z-MathHelper.cos(randomAngle)*blockAmount);
+		double genY1 = (y+rand.nextInt(8)-4);
+		double genY2 = (y+rand.nextInt(8)-4);
 
 		for(int a = 0, placed = 0; a <= blockAmount; ++a){
-			double centerX = genStartX+(genEndX-genStartX)*a/blockAmount;
-			double centerY = genStartY+(genEndY-genStartY)*a/blockAmount;
-			double centerZ = genStartZ+(genEndZ-genStartZ)*a/blockAmount;
+			double centerX = genX1+(genX2-genX1)*a/blockAmount;
+			double centerY = genY1+(genY2-genY1)*a/blockAmount;
+			double centerZ = genZ1+(genZ2-genZ1)*a/blockAmount;
 			double maxDist = rand.nextDouble()*blockAmount/2D;
 			double area = (MathHelper.sin(a*(float)Math.PI/blockAmount)+1F)*maxDist+1D;
 			

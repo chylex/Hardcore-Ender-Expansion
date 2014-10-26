@@ -9,21 +9,21 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.feature.WorldGenBlobOld;
+import chylex.hee.world.feature.WorldGenBlob;
 import chylex.hee.world.feature.WorldGenEndPowderOre;
 import chylex.hee.world.feature.WorldGenEndiumOre;
 import chylex.hee.world.feature.WorldGenMeteoroid;
 import chylex.hee.world.feature.WorldGenSpikes;
 
 public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
-	private final WorldGenBlobOld blobGen;
+	private final WorldGenBlob blobGen;
 	private final WorldGenMeteoroid meteoroidGen;
 	private final WorldGenEndPowderOre endPowderOreGen;
 	private final WorldGenEndiumOre endiumOreGen;
 	
 	public BiomeDecoratorHardcoreEnd(){
 		spikeGen = new WorldGenSpikes();
-		blobGen = new WorldGenBlobOld();
+		blobGen = new WorldGenBlob();
 		meteoroidGen = new WorldGenMeteoroid();
 		endPowderOreGen = new WorldGenEndPowderOre();
 		endiumOreGen = new WorldGenEndiumOre();
@@ -50,10 +50,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		if (distFromCenter > 102D && Math.abs(randomGenerator.nextGaussian()) < 0.285D){
 			Stopwatch.timeAverage("WorldGenBlob",64);
-			
-			blobGen.prepare(chunk_X+8,chunk_Z+8);
-			blobGen.generate(currentWorld,randomGenerator,chunk_X+randomGenerator.nextInt(10)+11,32+randomGenerator.nextInt(60),chunk_Z+randomGenerator.nextInt(10)+11);
-			
+			blobGen.generate(currentWorld,randomGenerator,chunk_X+8,32+randomGenerator.nextInt(60),chunk_Z+8);
 			Stopwatch.finish("WorldGenBlob");
 		}
 		
