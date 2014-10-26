@@ -1,44 +1,11 @@
 package chylex.hee.world.feature;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import chylex.hee.block.BlockList;
-import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.feature.blobs.old.CavePopulator;
-import chylex.hee.world.feature.blobs.old.FlowerPopulator;
-import chylex.hee.world.feature.blobs.old.LakePopulator;
-import chylex.hee.world.feature.blobs.old.ObsidianSpikePopulator;
-import chylex.hee.world.feature.blobs.old.OrePopulator;
-import chylex.hee.world.feature.blobs.old.Populator;
 import chylex.hee.world.util.BlockLocation;
-import chylex.hee.world.util.WorldGeneratorBlockList;
 
 public class WorldGenBlobOld extends WorldGenerator{
-	@Override
-	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (world.getBlock(x-8,y,z) != Blocks.air ||
-			world.getBlock(x+8,y,z) != Blocks.air ||
-			world.getBlock(x,y,z-8) != Blocks.air ||
-			world.getBlock(x,y,z+8) != Blocks.air ||
-			world.getBlock(x,y-8,z) != Blocks.air ||
-			world.getBlock(x,y+8,z) != Blocks.air)return false;
-
-		float rad = rand.nextFloat()*0.8F+rand.nextFloat()*1.9F+1.95F;
-		
-		canGenerate = true;
-		createBlob(blocks,rand,x,y,z,rad,0);
-		if (!canGenerate)return false;
-		
-		return true;
-	}
-	
 	private static final float twoPI = (float)(Math.PI*2D);
 	
 	private void createBlob(WorldGeneratorBlockList blocks, Random random, int x, int y, int z, float rad, int iteration){

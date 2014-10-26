@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.UUID;
@@ -129,6 +130,10 @@ public final class DragonUtil{
 	public static double[] getNormalizedVector(double vecX, double vecZ){
 		double len = Math.sqrt(vecX*vecX+vecZ*vecZ);
 		return len == 0 ? new double[]{ 0, 0 } : new double[]{ vecX/len, vecZ/len };
+	}
+	
+	public static Vec3 getRandomVector(Random rand){
+		return Vec3.createVectorHelper(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
 	}
 
 	public static <T> T[] getNonNullValues(T[] array){

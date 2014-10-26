@@ -1,6 +1,7 @@
 package chylex.hee.world.feature.blobs.populators;
 import java.util.Random;
 import net.minecraft.util.Vec3;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
@@ -98,7 +99,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 			if (BlobGenerator.genBlob(gen,x,y,z,rad))generatedSomething = true;
 			
 			if (a == 0 || rand.nextInt(10) == 0){
-				dirChangeVec = Vec3.createVectorHelper(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
+				dirChangeVec = DragonUtil.getRandomVector(rand);
 				dirChangeMp = rand.nextDouble();
 			}
 			
@@ -111,7 +112,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 			z += dirVec.zCoord;
 			
 			if (rand.nextDouble() < tmpRecursionChance){
-				Vec3 newVec;
+				Vec3 newVec = dirVec.crossProduct(DragonUtil.getRandomVector(rand));
 				
 				if (genCave(gen,rand,x,y,z,rad*(minRecursionRadMp+rand.nextDouble()*(maxRecursionRadMp-minRecursionRadMp)),newVec)){
 					--tmpCavesLeft;

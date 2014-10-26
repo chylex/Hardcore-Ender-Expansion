@@ -1,6 +1,7 @@
 package chylex.hee.world.feature.blobs.generators;
 import java.util.Random;
 import net.minecraft.util.Vec3;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.IRandomAmount;
@@ -55,7 +56,7 @@ public class BlobGeneratorFromCenter extends BlobGenerator{
 		double rad = minRad+rand.nextDouble()*(maxRad-minRad), firstDist = 0D;
 		
 		for(int a = 0, amt = amountGen.generate(rand,minAmount,maxAmount); a < amt; a++){
-			Vec3 vec = a == 0 ? Vec3.createVectorHelper(0D,0D,0D) : Vec3.createVectorHelper(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
+			Vec3 vec = a == 0 ? Vec3.createVectorHelper(0D,0D,0D) : DragonUtil.getRandomVector(rand);
 			double dist = a == 0 ? 0D : minDist+rand.nextDouble()*(maxDist-minDist);
 			
 			if (limitDist){
