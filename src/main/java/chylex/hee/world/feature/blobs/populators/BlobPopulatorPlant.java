@@ -11,7 +11,7 @@ import chylex.hee.world.util.IRandomAmount;
 public class BlobPopulatorPlant extends BlobPopulator{
 	private Block plant;
 	private IRandomAmount amountGen;
-	private int minAttempts, maxAttempts, minPlantAmount, maxPlantAmount;
+	private byte minAttempts, maxAttempts, minPlantAmount, maxPlantAmount;
 	private boolean knownBlockLocations;
 	
 	public BlobPopulatorPlant(int weight){
