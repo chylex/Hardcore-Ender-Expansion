@@ -38,7 +38,7 @@ public class BlobGeneratorChain extends BlobGenerator{
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		double prevRad = 0D;
 		
-		for(int a = 0, amt = amountGen.generate(rand,minAmount,maxAmount); a < amt; a++){
+		for(int a = 0, amount = amountGen.generate(rand,minAmount,maxAmount); a < amount; a++){
 			double rad = minRad+rand.nextDouble()*(maxRad-minRad);
 			
 			Vec3 vec = a == 0 ? Vec3.createVectorHelper(0D,0D,0D) : DragonUtil.getRandomVector(rand);

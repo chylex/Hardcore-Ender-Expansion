@@ -11,6 +11,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 	private IRandomAmount fullAmountGen, totalAmountGen;
 	private byte minFullCaveAmount, maxFullCaveAmount, minTotalCaveAmountLimit, maxTotalCaveAmountLimit, maxRecursion;
 	private double minRad, maxRad, minRecursionChance, maxRecursionChance, minRecursionRadMp, maxRecursionRadMp;
+	private boolean recursionChanceCached = false;
 	
 	private int tmpCavesLeft;
 	private double tmpRecursionChance;
@@ -55,6 +56,14 @@ public class BlobPopulatorCave extends BlobPopulator{
 	public BlobPopulatorCave recursionRadMp(double minRadMp, double maxRadMp){
 		this.minRecursionRadMp = minRadMp;
 		this.maxRecursionRadMp = maxRadMp;
+		return this;
+	}
+	
+	/**
+	 * Recursion chance is generated only once.
+	 */
+	public BlobPopulatorCave cacheRecursionChance(){
+		this.recursionChanceCached = true;
 		return this;
 	}
 
@@ -110,6 +119,8 @@ public class BlobPopulatorCave extends BlobPopulator{
 			x += dirVec.xCoord;
 			y += dirVec.yCoord;
 			z += dirVec.zCoord;
+			
+			if (!recursionChanceCached && a > 0)tmpRecursionChance = minRecursionChance+rand.nextDouble()*(maxRecursionChance-minRecursionChance);
 			
 			if (rand.nextDouble() < tmpRecursionChance){
 				Vec3 newVec = dirVec.crossProduct(DragonUtil.getRandomVector(rand));
