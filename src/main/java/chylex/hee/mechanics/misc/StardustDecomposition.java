@@ -195,9 +195,8 @@ public final class StardustDecomposition{
 			if (ingredient.getItem().hasContainerItem(ingredient))iter.remove();
 			if (isBlacklisted(ingredient.getItem(),ingredient.getItemDamage()))iter.remove();
 		}
-		if (randRecipeIngredients.isEmpty())return null;
 		
-		return randRecipeIngredients;
+		return randRecipeIngredients.isEmpty() ? null : randRecipeIngredients;
 	}
 	
 	private StardustDecomposition(){}
