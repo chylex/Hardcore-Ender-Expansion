@@ -1,28 +1,21 @@
 package chylex.hee.entity.mob;
-import java.util.UUID;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.entity.fx.FXType;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C20Effect;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityMobEnderGuardian extends EntityMob{
-	private static final UUID cancelMovementModifierUUID = UUID.fromString("7107DE5E-7CE8-4030-940E-514C1F160890");
-	private static final AttributeModifier cancelMovement = new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2).setSaved(false);
-	
-	private byte attackPhase, explosionTimer = 10, teleportTimer = 80;
-	
 	public EntityMobEnderGuardian(World world){
 		super(world);
 		setSize(1.5F,3.2F);
@@ -31,100 +24,40 @@ public class EntityMobEnderGuardian extends EntityMob{
 	@Override
 	protected Entity findPlayerToAttack(){
 		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,3D);
-		return player != null && canEntityBeSeen(player)?player:null;
+		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 	
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(ModCommonProxy.opMobs?1.1D:0.98D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs?100D:80D);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs?13D:8D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(ModCommonProxy.opMobs ? 1.2D : 1.1D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 100D : 80D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs ? 13D : 8D);
 	}
 	
 	@Override
-	public void onLivingUpdate(){
-		super.onLivingUpdate();
-		
-		if (!worldObj.isRemote && !isDead){
-			getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(cancelMovement);
-			
-			if (entityToAttack != null){
-				if (attackPhase == 0){
-					if (getDistanceToEntity(entityToAttack) < 6D){
-						attackPhase = 1;
-						teleportTimer += 5;
-					}
-					else if (--explosionTimer < 0){
-						DragonUtil.createExplosion(this,entityToAttack.posX+(rand.nextDouble()-0.5D)*0.8D,entityToAttack.posY+0.1D,entityToAttack.posZ+(rand.nextDouble()-0.5D)*0.8D,1.1F+rand.nextFloat()*0.1F,false);
-						attackPhase = 1;
-						explosionTimer = 10;
-					}
-					else if (explosionTimer == 8)playSound("mob.endermen.portal",3.8F,3.4F+rand.nextFloat()*0.2F);
-					
-					getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(cancelMovement);
-				}
-				else if (attackPhase == 1){
-					if ((teleportTimer -= rand.nextInt(3)) < 0){
-						teleportTimer = 50;
-						
-						double xx,zz,ang,len;
-						
-						for(int attempt = 0,ix,iz; attempt < 300; attempt++){
-							ang = rand.nextDouble()*Math.PI*2D;
-							len = 9D+rand.nextDouble()*6D;
-							
-							xx = entityToAttack.posX+Math.cos(ang)*len;
-							zz = entityToAttack.posZ+Math.sin(ang)*len;
-							
-							ix = (int)Math.floor(xx);
-							iz = (int)Math.floor(zz);
-							
-							for(int iy = (int)Math.floor(entityToAttack.posY)-1; iy < entityToAttack.posY+3; iy++){
-								if (worldObj.isAirBlock(ix,iy,iz) && worldObj.isAirBlock(ix,iy+1,iz)){
-									playSound("mob.endermen.portal",1.5F,1.2F);
-									PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.ENDER_GUARDIAN_TELEPORT,this));
-									
-									setPosition(xx,iy,zz);
-									faceEntity(entityToAttack,360F,360F);
-									
-									attackPhase = 0;
-									teleportTimer = 90;
-									attempt = 999;
-									break;
-								}
-							}
-						}
-					}
-					else{
-						double dist = getDistanceToEntity(entityToAttack);
-						if (dist > 4D)setMoveForward((float)getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
-						else entityToAttack.attackEntityFrom(DamageSource.causeMobDamage(this),(float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue());
-					}
-				}
-			}
-			else{
-				attackPhase = 0;
-				explosionTimer = 10;
-				teleportTimer = 80;
-		
-				/*if (rand.nextInt(30) == 0){
-					List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,3D,8D));
-					
-					for(EntityPlayer player:players){
-						for(int a = 0; a < player.inventory.getSizeInventory(); a++){
-							ItemStack is = player.inventory.getStackInSlot(a);
-							if (is != null && is.getItem() == ItemList.enderman_relic){
-								entityToAttack = player;
-								break;
-							}
-						}
+	public boolean attackEntityAsMob(Entity entity){
+		float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 
-						if (entityToAttack != null)break;
-					}
-				}*/
-			}
-		}
+        if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),damage)){
+			entity.addVelocity(-MathHelper.sin(MathUtil.toRad(rotationYaw))*3D,0.3D,MathHelper.cos(MathUtil.toRad(rotationYaw))*3D);
+			motionX *= 0.8D;
+			motionZ *= 0.8D;
+
+            EnchantmentHelper.func_151385_b(this,entity);
+        	return true;
+        }
+        else return false;
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float damage){
+		if (source == DamageSource.fallingBlock || source == DamageSource.anvil)damage *= 0.8F;
+		else if (source.isProjectile())damage *= 0.5F;
+		else if (source.isFireDamage() || source == DamageSource.drown)damage *= 0.2F;
+		else if (source == DamageSource.cactus)damage = 0F;
+		
+		return damage < 0.1F ? false : super.attackEntityFrom(source,damage);
 	}
 	
 	@Override
@@ -138,7 +71,7 @@ public class EntityMobEnderGuardian extends EntityMob{
 	
 	@Override
 	public void addVelocity(double xVelocity, double yVelocity, double zVelocity){
-		double mp = rand.nextInt(5) == 0?0D:0.8D+rand.nextDouble()*0.2D;
+		double mp = rand.nextInt(5) == 0 ? 0D : 0.3D+rand.nextDouble()*0.2D;
 		super.addVelocity(xVelocity*mp,yVelocity*mp,zVelocity*mp);
 	}
 	
