@@ -11,7 +11,7 @@ import chylex.hee.world.util.IRandomAmount;
 public class BlobPopulatorOreScattered extends BlobPopulator{
 	private Block ore;
 	private IRandomAmount blockAmountGen;
-	private byte minAttempts, maxAttempts, minBlockAmount, maxBlockAmount;
+	private byte minAttempts, maxAttempts, minBlockAmount, maxBlockAmount, visiblePlacementAttempts;
 	private boolean knownBlockLocations;
 	
 	public BlobPopulatorOreScattered(int weight){
@@ -33,6 +33,14 @@ public class BlobPopulatorOreScattered extends BlobPopulator{
 		this.blockAmountGen = blockAmountGen;
 		this.minBlockAmount = (byte)minBlockAmount;
 		this.maxBlockAmount = (byte)maxBlockAmount;
+		return this;
+	}
+	
+	/**
+	 * Amount of attempts per block to find a spot adjacent to air. After the attempts run out, it will choose the first location found.
+	 */
+	public BlobPopulatorOreScattered visiblePlacementAttempts(int visiblePlacementAttempts){
+		this.visiblePlacementAttempts = (byte)visiblePlacementAttempts;
 		return this;
 	}
 	
@@ -66,9 +74,34 @@ public class BlobPopulatorOreScattered extends BlobPopulator{
 			}
 			
 			if (gen.getBlock(x,y,z) == Blocks.end_stone){
+				if (visiblePlacementAttempts > 0){
+					int origX = x, origY = y, origZ = z;
+					
+					for(int airAttempt = 0; airAttempt <= visiblePlacementAttempts; airAttempt++){
+						if (gen.getBlock(x,y,z) == Blocks.end_stone && isAirAdjacent(gen,x,y,z))break;
+						
+						if (airAttempt == visiblePlacementAttempts){
+							x = origX;
+							y = origY;
+							z = origZ;
+							break;
+						}
+						
+						x += rand.nextInt(6)-3;
+						y += rand.nextInt(6)-3;
+						z += rand.nextInt(6)-3;
+					}
+				}
+				
 				gen.setBlock(x,y,z,ore);
 				--blocks;
 			}
 		}
+	}
+	
+	private boolean isAirAdjacent(DecoratorFeatureGenerator gen, int x, int y, int z){
+		return gen.getBlock(x-1,y,z) == Blocks.air || gen.getBlock(x+1,y,z) == Blocks.air ||
+			   gen.getBlock(x,y-1,z) == Blocks.air || gen.getBlock(x,y+1,z) == Blocks.air ||
+			   gen.getBlock(x,y,z-1) == Blocks.air || gen.getBlock(x,y,z+1) == Blocks.air;
 	}
 }
