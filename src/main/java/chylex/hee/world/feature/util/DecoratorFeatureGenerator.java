@@ -10,7 +10,7 @@ import chylex.hee.world.util.BlockLocation;
 
 public final class DecoratorFeatureGenerator{
 	private final TIntObjectHashMap<GeneratedBlock> blocks = new TIntObjectHashMap<>();
-	private int minX, minZ, maxX, maxZ;
+	private int minX, maxX, minZ, maxZ, bottomY, topY;
 	
 	public boolean setBlock(int x, int y, int z, Block block){
 		return setBlock(x,y,z,block,0);
@@ -25,6 +25,9 @@ public final class DecoratorFeatureGenerator{
 		if (z < minZ)minZ = z;
 		else if (z > maxZ)maxZ = z;
 		
+		if (y > topY)topY = y;
+		else if (y < bottomY)bottomY = y;
+		
 		blocks.put(1024*(y+128)+32*(x+16)+z+16,new GeneratedBlock(block,metadata,x,y,z));
 		return true;
 	}
@@ -37,6 +40,16 @@ public final class DecoratorFeatureGenerator{
 	public int getMetadata(int x, int y, int z){
 		GeneratedBlock block = blocks.get(1024*(y+128)+32*(x+16)+z+16);
 		return block == null ? 0 : block.metadata;
+	}
+	
+	public int getTopBlockY(int x, int z){
+		int y = topY;
+		
+		while(y >= bottomY){
+			if (getBlock(x,y--,z) != Blocks.air)return y;
+		}
+		
+		return -1;
 	}
 	
 	public List<BlockLocation> getUsedLocations(){
