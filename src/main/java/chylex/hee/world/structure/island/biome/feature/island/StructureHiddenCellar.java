@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockPurplething;
+import chylex.hee.system.logging.Log;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.util.BlockLocation;
 
@@ -115,10 +116,10 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 		List<BlockLocation> connections = new ArrayList<>();
 		
 		for(BlockLocation loc:patternBlocks){
-			int x = loc.x, y = loc.y, z = loc.z, addX = 0, addY = 0, addZ = 0, iterations = 10+rand.nextInt(50+rand.nextInt(80));
+			int x = loc.x, y = loc.y, z = loc.z, addX = 0, addY = 0, addZ = 0, iterations = 6+rand.nextInt(30+rand.nextInt(60));
 			boolean wall = true;
 			
-			if (world.getBlock(x,y-1,z) != BlockList.purplething || world.getBlock(x,y+1,z) != BlockList.purplething){
+			if (!isWall(x,y,z)){
 				if (rand.nextBoolean())addX = rand.nextInt(2)*2-1;
 				else addZ = rand.nextInt(2)*2-1;
 				
@@ -135,8 +136,62 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 			
 			world.setBlock(x,y,z,BlockList.purplething,BlockPurplething.getEndMeta(world,addX,addY,addZ,wall));
 			
-			for(int iteration = 0; iteration < iterations; iteration++){
-				// TODO lines and end
+			for(int iteration = 0; iteration <= iterations; iteration++){
+				if (iteration == iterations){
+					world.setBlock(x,y,z,BlockList.purplething,BlockPurplething.getEndMeta(world,addX,addY,addZ,wall));
+					break;
+				}
+				
+				x += addX;
+				y += addY;
+				z += addZ;
+				
+				if (isCorner(x,y,z)){
+					if (isWall(x,y,z)){
+						if (addX != 0){
+							addZ = world.getBlock(x,y,z-1) == BlockList.purplething ? -1 : 1;
+							addX = 0;
+						}
+						else if (addZ != 0){
+							addX = world.getBlock(x-1,y,z) == BlockList.purplething ? -1 : 1;
+							addZ = 0;
+						}
+					}
+					else{
+						addY = world.getBlock(x,y-1,z) == BlockList.purplething ? -1 : 1;
+						addX = addZ = 0;
+					}
+				}
+				else if (rand.nextInt(10) == 0){
+					int newAddX = 0, newAddY = 0, newAddZ = 0;
+					
+					if (!isWall(x,y,z)){
+						if (rand.nextBoolean())newAddX = rand.nextBoolean() ? -1 : 1;
+						else newAddZ = rand.nextBoolean() ? -1 : 1;
+					}
+					else if (world.getBlock(x-1,y,z) != BlockList.purplething || world.getBlock(x+1,y,z) != BlockList.purplething){
+						if (rand.nextBoolean())newAddY = rand.nextInt(2)*2-1;
+						else newAddZ = rand.nextInt(2)*2-1;
+					}
+					else if (world.getBlock(x,y,z-1) != BlockList.purplething || world.getBlock(x,y,z+1) != BlockList.purplething){
+						if (rand.nextBoolean())newAddX = rand.nextInt(2)*2-1;
+						else newAddY = rand.nextInt(2)*2-1;
+					}
+					
+					if (!isCorner(x+newAddX,y+newAddY,z+newAddZ)){
+						addX = newAddX;
+						addY = newAddY;
+						addZ = newAddZ;
+					}
+				}
+				
+				if (world.getBlock(x,y,z) == BlockList.purplething){
+					if (iteration < iterations)connections.add(loc);
+				}
+				else{
+					Log.debug("Hidden Cellar pattern generation got out of room bounds ($0, $1, $2).",addX,addY,addZ);
+					break;
+				}
 			}
 		}
 		
@@ -152,6 +207,10 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 		
 		return !((l == BlockList.purplething && r == l && u == l && d == l && b != l && t != l) ||
 				(t == BlockList.purplething && b == t && ((l == t && r == t) ^ (u == t && d == t))));
+	}
+	
+	private boolean isWall(int x, int y, int z){
+		return !(world.getBlock(x,y-1,z) != BlockList.purplething || world.getBlock(x,y+1,z) != BlockList.purplething);
 	}
 	
 	private final class RoomInfo{
