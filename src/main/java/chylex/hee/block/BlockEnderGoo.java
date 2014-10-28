@@ -19,12 +19,7 @@ import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.EntityBossEnderDemon;
-import chylex.hee.entity.boss.EntityMiniBossEnderEye;
-import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.mob.EntityMobLouse;
-import chylex.hee.entity.mob.util.IEndermanRenderer;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.item.ItemList;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -90,15 +85,13 @@ public class BlockEnderGoo extends BlockFluidClassic{
 									  miningFatigue = new PotionEffect(Potion.digSlowdown.id,5,1,false),
 									  poison = new PotionEffect(Potion.poison.id,100,2,false);
 
-	private static final Set<Class> unaffectedMobs = new HashSet<>(Arrays.asList(new Class[]{
-		EntityEnderman.class, EntityMobEnderGuardian.class,
-		EntitySilverfish.class, EntityMobLouse.class,
-		EntityMiniBossEnderEye.class, EntityBossEnderDemon.class, EntityBossDragon.class
+	private static final Set<Class> ignoreMobsHardcoded = new HashSet<>(Arrays.asList(new Class[]{
+		EntityEnderman.class, EntitySilverfish.class
 	}));
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityLivingBase && !(entity instanceof IEndermanRenderer) && !unaffectedMobs.contains(entity.getClass())){
+		if (entity instanceof EntityLivingBase && !(entity instanceof IIgnoreEnderGoo) && !ignoreMobsHardcoded.contains(entity.getClass())){
 			EntityLivingBase e = (EntityLivingBase)entity;
 			e.addPotionEffect(weakness);
 			e.addPotionEffect(miningFatigue);

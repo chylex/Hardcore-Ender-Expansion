@@ -7,11 +7,12 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.proxy.ModCommonProxy;
 
-public class EntityMobVampiricBat extends EntityBat{
+public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	public Entity target;
 	
 	public EntityMobVampiricBat(World world){

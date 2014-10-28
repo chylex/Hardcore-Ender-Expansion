@@ -22,6 +22,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockFallingObsidian;
 import chylex.hee.entity.boss.dragon.attacks.passive.DragonAttackBite;
@@ -61,7 +62,7 @@ import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityBossDragon extends EntityLiving implements IBossDisplayData, IEntityMultiPart, IMob{
+public class EntityBossDragon extends EntityLiving implements IBossDisplayData, IEntityMultiPart, IMob, IIgnoreEnderGoo{
 	public static long lastUpdate;
 	
 	public double[][] ringBuffer = new double[64][3];

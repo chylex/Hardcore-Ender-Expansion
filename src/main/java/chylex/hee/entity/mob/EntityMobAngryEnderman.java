@@ -16,10 +16,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.proxy.ModCommonProxy;
 
-public class EntityMobAngryEnderman extends EntityMob implements IEndermanRenderer{
+public class EntityMobAngryEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
 	private static final UUID aggroSpeedBoostID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
 	private static final AttributeModifier aggroSpeedBoost = new AttributeModifier(aggroSpeedBoostID,"Attacking speed boost",7.4D,0).setSaved(false); // 6.2 -> 7.4
 	

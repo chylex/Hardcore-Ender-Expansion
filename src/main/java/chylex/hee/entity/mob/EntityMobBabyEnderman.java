@@ -33,6 +33,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.Constants;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
@@ -42,7 +43,7 @@ import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.IItemSelector;
 
-public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer{
+public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
 	private EntityPlayer target;
 	private final List<ItemPriorityLevel> itemPriorities = new ArrayList<>();
 	private ItemPriorityLevel carryingLevel = ItemPriorityLevel.RANDOM;

@@ -19,6 +19,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.RandomNameGenerator;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
@@ -29,7 +30,7 @@ import chylex.hee.packets.client.C12ParticleFireFiendFlames;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 
-public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData{
+public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
 	private static final byte STAGE_AFTERFLIGHT = -1, STAGE_REFRESHING = 0, STAGE_CREATING = 1, STAGE_SHOOTING = 2, STAGE_TOUCHING = 3;
 	
 	private EntityLivingBase target;

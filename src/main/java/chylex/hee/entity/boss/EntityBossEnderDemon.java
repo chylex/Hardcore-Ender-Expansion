@@ -14,6 +14,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
@@ -23,7 +24,7 @@ import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 
-public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayData{
+public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
 	private static final PotionEffect endermanStrength = new PotionEffect(Potion.damageBoost.id,600,2,true);
 	
 	private byte healthRegenTimer = 10, lightningStartCounter = 30, lightningCounter,

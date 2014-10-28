@@ -17,6 +17,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.RuneType;
@@ -29,7 +30,7 @@ import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 
-public class EntityMobLouse extends EntityMob{
+public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	private LouseSpawnData louseData;
 	private float armor;
 	private byte armorCapacity,armorRegenTimer,regenLevel,regenTimer,healAbility,healTimer,teleportTimer;

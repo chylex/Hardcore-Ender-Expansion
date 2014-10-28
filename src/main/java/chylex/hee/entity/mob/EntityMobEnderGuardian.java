@@ -1,7 +1,6 @@
 package chylex.hee.entity.mob;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,10 +11,11 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityMobEnderGuardian extends EntityMob{
+public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo{
 	public EntityMobEnderGuardian(World world){
 		super(world);
 		setSize(1.5F,3.2F);

@@ -25,6 +25,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
@@ -38,7 +39,7 @@ import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.island.StructureEndermanStash;
 
-public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer{
+public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
 	private static final UUID attackingSpeedBoostModifierUUID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
     private static final AttributeModifier attackingSpeedBoostModifier = (new AttributeModifier(attackingSpeedBoostModifierUUID,"Attacking speed boost",6.2D,0)).setSaved(false);
     

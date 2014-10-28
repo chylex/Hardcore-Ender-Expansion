@@ -16,6 +16,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.RandomNameGenerator;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
@@ -29,7 +30,7 @@ import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 
-public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplayData{
+public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
 	private byte sleepTimer, healTimer, attackTimer;
 	private short laserTopY;
 	private AttackType attackType, lastAttackType;
