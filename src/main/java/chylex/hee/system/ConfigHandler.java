@@ -49,6 +49,7 @@ public final class ConfigHandler{
 	}
 
 	private final Configuration config;
+	private String currentCategory;
 	private boolean firstTimeGeneral = true;
 	
 	private ConfigHandler(Configuration config){
@@ -69,35 +70,60 @@ public final class ConfigHandler{
 	
 	@SideOnly(Side.CLIENT)
 	private void loadClientConfig(){
-		KnowledgeFragmentText.enableSmoothRendering = config.get("client","compendiumSmoothText",false).getBoolean(false);
-		MusicManager.enableMusic = config.get("client","enableMusic",true).getBoolean(true);
+		currentCategory = "client";
+		
+		KnowledgeFragmentText.enableSmoothRendering = getBoolValue("compendiumSmoothText",false);
+		MusicManager.enableMusic = getBool("enableMusic",true).setRequiresMcRestart(true).getBoolean();
 		
 		if (config.hasChanged())config.save();
 	}
 	
 	private void loadGeneralConfig(){
-		ModCommonProxy.opMobs = config.get("general","overpoweredMobs",false).getBoolean(false);
-		BlockEnderGoo.shouldBattleWater = config.get("general","gooBattlesWater",true).getBoolean(true);
-		ItemTempleCaller.isEnabled = config.get("general","enableTempleCaller",true).getBoolean(true);
-		BiomeGenHardcoreEnd.overrideMobLists = config.get("general","overrideBiomeMobs",false).getBoolean(false);
-		Log.forceDebugEnabled = config.get("general","logDebuggingInfo",false).getBoolean(false);
+		currentCategory = "general";
+		
+		ModCommonProxy.opMobs = getBoolValue("overpoweredMobs",false);
+		BlockEnderGoo.shouldBattleWater = getBoolValue("gooBattlesWater",true);
+		ItemTempleCaller.isEnabled = getBoolValue("enableTempleCaller",true);
+		BiomeGenHardcoreEnd.overrideMobLists = getBool("overrideBiomeMobs",false,"Prevents other mods from changing mobs that spawn in the End.").setRequiresMcRestart(true).getBoolean();
+		BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier",1F,"Multiplies spawn weight of Endermen for each overworld biome.").setRequiresMcRestart(true).getDouble();
+		Log.forceDebugEnabled = getBool("logDebuggingInfo",false).getBoolean();
 		
 		if (firstTimeGeneral){
-			OrbAcquirableItems.overrideRemoveBrokenRecipes = hideAndReturn(config.get("general","overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!")).getBoolean(false);
-			UpdateNotificationManager.enableNotifications = hideAndReturn(config.get("general","enableUpdateNotifications",true)).getBoolean(true);
-			UpdateNotificationManager.enableBuildCheck = hideAndReturn(config.get("general","enableBuildCheck",true,"It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.")).getBoolean(true);
-			ModCommonProxy.achievementStartId = hideAndReturn(config.get("general","achievementStartId",3500)).getInt(3500);
-			StardustDecomposition.addFromString(hideAndReturn(config.get("general","decompositionBlacklist","")).getString());
+			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();
+			UpdateNotificationManager.enableNotifications = getBool("enableUpdateNotifications",true).setShowInGui(false).getBoolean();
+			UpdateNotificationManager.enableBuildCheck = getBool("enableBuildCheck",true,"It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.").setShowInGui(false).getBoolean();
+			ModCommonProxy.achievementStartId = getInt("achievementStartId",3500).setShowInGui(false).getInt();
+			StardustDecomposition.addFromString(getString("decompositionBlacklist","","Blacklist of items that should not be decomposable or decomposed into. Visit http://hardcore-ender-expansion.wikia.com/wiki/Configuration for syntax and examples.").setRequiresMcRestart(true).getString());
 			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");
-			
 			firstTimeGeneral = false;
 		}
 		
 		if (config.hasChanged())config.save();
 	}
 	
-	private Property hideAndReturn(Property prop){
-		prop.setShowInGui(false);
-		return prop;
+	// utility methods
+	
+	private boolean getBoolValue(String key, boolean defaultValue){
+		return config.get(currentCategory,key,defaultValue).getBoolean();
+	}
+	
+	private Property getBool(String key, boolean defaultValue){
+		return config.get(currentCategory,key,defaultValue);
+	}
+	
+	private Property getBool(String key, boolean defaultValue, String comment){
+		return config.get(currentCategory,key,defaultValue,comment);
+	}
+	
+	private Property getInt(String key, int defaultValue){
+		return config.get(currentCategory,key,defaultValue);
+	}
+	
+	private Property getDecimal(String key, float defaultValue, String comment){
+		return config.get(currentCategory,key,defaultValue,comment);
+	}
+	
+	private Property getString(String key, String defaultValue, String comment){
+		return config.get(currentCategory,key,defaultValue,comment);
 	}
 }

@@ -77,7 +77,6 @@ public final class DimensionOverride{
 		Stopwatch.finish("DimensionOverride - Biome");
 	}
 	
-	@SuppressWarnings("unchecked")
 	private static void overrideWorldGen(){
 		Stopwatch.time("DimensionOverride - WorldProvider");
 		
