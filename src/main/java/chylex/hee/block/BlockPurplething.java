@@ -7,8 +7,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -49,13 +49,13 @@ public class BlockPurplething extends Block implements IBlockSubtypes{
 		iconArray = new IIcon[16];
 		iconArray[0] = iconRegister.registerIcon(textureName);
 		
-		String tex = textureName+"_";
+		String tex = textureName+"_"; // 0    1     2     3     4     5     6     7     8     9     10     11     12     13   14
 		String[] names = new String[]{ "h", "v", "hl", "hr", "vb", "vt", "tl", "tr", "bl", "br", "trb", "trl", "tbl", "rbl", "x" };
 		
 		for(int a = 1; a < 16; a++)iconArray[a] = iconRegister.registerIcon(tex+names[a-1]);
 	}
 	
-	public static int getMeta(World world, int x, int y, int z){
+	public static int getConnectionMeta(LargeStructureWorld world, int x, int y, int z){
 		boolean l = false, r = false, t = false, b = false;
 		
 		if (world.getBlock(x,y-1,z) != BlockList.purplething || world.getBlock(x,y+1,z) != BlockList.purplething){ // xz plane
@@ -91,7 +91,21 @@ public class BlockPurplething extends Block implements IBlockSubtypes{
 		else return 0;
 	}
 	
-	public static boolean isConnectable(World world, int x, int y, int z){
-		return world.getBlockMetadata(x,y,z) != 0 && world.getBlock(x,y,z) == BlockList.purplething;
+	public static int getEndMeta(LargeStructureWorld world, int addX, int addY, int addZ, boolean wall){
+		if (wall){
+			if (addY == 0)return addX == 1 || addZ == 1 ? 3 : 4;
+			else return addY == -1 ? 5 : 6;
+			
+		}
+		else{
+			if (addX != 0)return addX == -1 ? 3 : 4;
+			else if (addZ != 0)return addZ == 1 ? 5 : 6;
+		}
+		
+		return 0;
+	}
+	
+	public static boolean isConnectable(LargeStructureWorld world, int x, int y, int z){
+		return world.getMetadata(x,y,z) != 0 && world.getBlock(x,y,z) == BlockList.purplething;
 	}
 }

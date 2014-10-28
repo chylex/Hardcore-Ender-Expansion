@@ -2,9 +2,11 @@ package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockPurplething;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.util.BlockLocation;
 
@@ -57,8 +59,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				genHall(room.x+room.halfWidth*offX-offZ,room.z+room.halfWidth*offZ-offX,newRoom.x-hWidth*offX+offZ,newRoom.z-hWidth*offZ+offX,y,height,rand);
 			}
 			
-			// TODO pattern generation
-			
+			genPatterns(rand);
 			return true;
 		}
 		
@@ -108,6 +109,49 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				}
 			}
 		}
+	}
+	
+	private void genPatterns(Random rand){
+		List<BlockLocation> connections = new ArrayList<>();
+		
+		for(BlockLocation loc:patternBlocks){
+			int x = loc.x, y = loc.y, z = loc.z, addX = 0, addY = 0, addZ = 0, iterations = 10+rand.nextInt(50+rand.nextInt(80));
+			boolean wall = true;
+			
+			if (world.getBlock(x,y-1,z) != BlockList.purplething || world.getBlock(x,y+1,z) != BlockList.purplething){
+				if (rand.nextBoolean())addX = rand.nextInt(2)*2-1;
+				else addZ = rand.nextInt(2)*2-1;
+				
+				wall = false;
+			}
+			else if (world.getBlock(x-1,y,z) != BlockList.purplething || world.getBlock(x+1,y,z) != BlockList.purplething){
+				if (rand.nextBoolean())addY = rand.nextInt(2)*2-1;
+				else addZ = rand.nextInt(2)*2-1;
+			}
+			else if (world.getBlock(x,y,z-1) != BlockList.purplething || world.getBlock(x,y,z+1) != BlockList.purplething){
+				if (rand.nextBoolean())addX = rand.nextInt(2)*2-1;
+				else addY = rand.nextInt(2)*2-1;
+			}
+			
+			world.setBlock(x,y,z,BlockList.purplething,BlockPurplething.getEndMeta(world,addX,addY,addZ,wall));
+			
+			for(int iteration = 0; iteration < iterations; iteration++){
+				// TODO lines and end
+			}
+		}
+		
+		for(BlockLocation loc:connections){
+			world.setBlock(loc.x,loc.y,loc.z,BlockList.purplething,BlockPurplething.getConnectionMeta(world,loc.x,loc.y,loc.z));
+		}
+	}
+	
+	private boolean isCorner(int x, int y, int z){
+		Block l = world.getBlock(x-1,y,z), r = world.getBlock(x+1,y,z),
+			  u = world.getBlock(x,y,z-1), d = world.getBlock(x,y,z+1),
+			  b = world.getBlock(x,y-1,z), t = world.getBlock(x,y+1,z);
+		
+		return !((l == BlockList.purplething && r == l && u == l && d == l && b != l && t != l) ||
+				(t == BlockList.purplething && b == t && ((l == t && r == t) ^ (u == t && d == t))));
 	}
 	
 	private final class RoomInfo{
