@@ -66,7 +66,7 @@ public final class BlockList{
 	public static Block ravaged_brick_fence;
 	public static Block dungeon_puzzle;
 	public static Block cinder;
-	public static Block purplething; // TODO temporary
+	public static Block persegrit;
 	
 	// ORES
 	
@@ -130,7 +130,7 @@ public final class BlockList{
 		register("ravaged_brick_fence", ravaged_brick_fence = new BlockFence("hardcoreenderexpansion:ravaged_brick",Material.rock).setHardness(1.5F).setResistance(6F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrickFence"));
 		register("dungeon_puzzle", dungeon_puzzle = new BlockDungeonPuzzle().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal).setBlockName("dungeonPuzzle"));
 		register("cinder", cinder = new BlockBasic(Material.rock).setHardness(1F).setResistance(10F).setStepSound(Block.soundTypeStone).setBlockName("cinder").setBlockTextureName("hardcoreenderexpansion:cinder"));
-		register("purplething", purplething = new BlockPurplething().setHardness(4F).setResistance(0.2F).setStepSound(Block.soundTypeCloth).setBlockName("purplething").setBlockTextureName("hardcoreenderexpansion:purplething"));
+		register("persegrit", persegrit = new BlockPersegrit().setHardness(4F).setResistance(0.2F).setStepSound(Block.soundTypeGravel).setBlockName("persegrit").setBlockTextureName("hardcoreenderexpansion:persegrit"));
 		
 		register("end_powder_ore", end_powder_ore = new BlockEndPowderOre().setHardness(3F).setResistance(12F).setStepSound(Block.soundTypeStone).setBlockName("endPowderOre").setBlockTextureName("hardcoreenderexpansion:end_powder_ore"));
 		register("endium_ore", endium_ore = new BlockEndiumOre().setHardness(18F).setResistance(100F).setStepSound(Block.soundTypeStone).setBlockName("endiumOre").setBlockTextureName("hardcoreenderexpansion:endium_ore"));
@@ -179,7 +179,7 @@ public final class BlockList{
 		setItemClass("ravaged_brick_slab", ItemBlockSlab.class);
 		setItemClass("dungeon_puzzle", ItemBlockWithSubtypes.class);
 		setItemClass("block_special_effects", ItemBlockWithSubtypes.class);
-		setItemClass("purplething", ItemBlockWithSubtypes.class);
+		setItemClass("persegrit", ItemBlockWithSubtypes.class);
 	}
 	
 	public static void registerBlocks(){
@@ -194,7 +194,7 @@ public final class BlockList{
 			endium_block,
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,
-			dungeon_puzzle,cinder,purplething,
+			dungeon_puzzle,cinder,persegrit,
 			crossed_decoration,death_flower
 		);
 		

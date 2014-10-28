@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
-import chylex.hee.block.BlockPurplething;
+import chylex.hee.block.BlockPersegrit;
 import chylex.hee.system.logging.Log;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.util.BlockLocation;
@@ -87,7 +87,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 			for(int zz = z1; zz <= z2; zz++){
 				for(int yy = bottomY; yy <= bottomY+height; yy++){
 					boolean edge = xx == x1 || xx == x2 || zz == z1 || zz == z2 || yy == bottomY || yy == bottomY+height;
-					world.setBlock(xx,yy,zz,edge ? BlockList.purplething : Blocks.air);
+					world.setBlock(xx,yy,zz,edge ? BlockList.persegrit : Blocks.air);
 					
 					if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(xx,yy,zz));
 				}
@@ -104,7 +104,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 			for(int zz = z1; zz <= z2; zz++){
 				for(int yy = bottomY; yy <= bottomY+height; yy++){
 					boolean edge = xx == x1 || xx == x2 || zz == z1 || zz == z2 || yy == bottomY || yy == bottomY+height;
-					if (!edge || world.getBlock(xx,yy,zz) == Blocks.end_stone)world.setBlock(xx,yy,zz,edge ? BlockList.purplething : Blocks.air);
+					if (!edge || world.getBlock(xx,yy,zz) == Blocks.end_stone)world.setBlock(xx,yy,zz,edge ? BlockList.persegrit : Blocks.air);
 					
 					if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(xx,yy,zz));
 				}
@@ -125,20 +125,20 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				
 				wall = false;
 			}
-			else if (world.getBlock(x-1,y,z) != BlockList.purplething || world.getBlock(x+1,y,z) != BlockList.purplething){
+			else if (world.getBlock(x-1,y,z) != BlockList.persegrit || world.getBlock(x+1,y,z) != BlockList.persegrit){
 				if (rand.nextBoolean())addY = rand.nextInt(2)*2-1;
 				else addZ = rand.nextInt(2)*2-1;
 			}
-			else if (world.getBlock(x,y,z-1) != BlockList.purplething || world.getBlock(x,y,z+1) != BlockList.purplething){
+			else if (world.getBlock(x,y,z-1) != BlockList.persegrit || world.getBlock(x,y,z+1) != BlockList.persegrit){
 				if (rand.nextBoolean())addX = rand.nextInt(2)*2-1;
 				else addY = rand.nextInt(2)*2-1;
 			}
 			
-			world.setBlock(x,y,z,BlockList.purplething,BlockPurplething.getEndMeta(world,addX,addY,addZ,wall));
+			world.setBlock(x,y,z,BlockList.persegrit,BlockPersegrit.getEndMeta(world,addX,addY,addZ,wall));
 			
 			for(int iteration = 0; iteration <= iterations; iteration++){
 				if (iteration == iterations){
-					world.setBlock(x,y,z,BlockList.purplething,BlockPurplething.getEndMeta(world,addX,addY,addZ,wall));
+					world.setBlock(x,y,z,BlockList.persegrit,BlockPersegrit.getEndMeta(world,addX,addY,addZ,wall));
 					break;
 				}
 				
@@ -149,16 +149,16 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				if (isCorner(x,y,z)){
 					if (isWall(x,y,z)){
 						if (addX != 0){
-							addZ = world.getBlock(x,y,z-1) == BlockList.purplething ? -1 : 1;
+							addZ = world.getBlock(x,y,z-1) == BlockList.persegrit ? -1 : 1;
 							addX = 0;
 						}
 						else if (addZ != 0){
-							addX = world.getBlock(x-1,y,z) == BlockList.purplething ? -1 : 1;
+							addX = world.getBlock(x-1,y,z) == BlockList.persegrit ? -1 : 1;
 							addZ = 0;
 						}
 					}
 					else{
-						addY = world.getBlock(x,y-1,z) == BlockList.purplething ? -1 : 1;
+						addY = world.getBlock(x,y-1,z) == BlockList.persegrit ? -1 : 1;
 						addX = addZ = 0;
 					}
 				}
@@ -169,11 +169,11 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 						if (rand.nextBoolean())newAddX = rand.nextBoolean() ? -1 : 1;
 						else newAddZ = rand.nextBoolean() ? -1 : 1;
 					}
-					else if (world.getBlock(x-1,y,z) != BlockList.purplething || world.getBlock(x+1,y,z) != BlockList.purplething){
+					else if (world.getBlock(x-1,y,z) != BlockList.persegrit || world.getBlock(x+1,y,z) != BlockList.persegrit){
 						if (rand.nextBoolean())newAddY = rand.nextInt(2)*2-1;
 						else newAddZ = rand.nextInt(2)*2-1;
 					}
-					else if (world.getBlock(x,y,z-1) != BlockList.purplething || world.getBlock(x,y,z+1) != BlockList.purplething){
+					else if (world.getBlock(x,y,z-1) != BlockList.persegrit || world.getBlock(x,y,z+1) != BlockList.persegrit){
 						if (rand.nextBoolean())newAddX = rand.nextInt(2)*2-1;
 						else newAddY = rand.nextInt(2)*2-1;
 					}
@@ -185,7 +185,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 					}
 				}
 				
-				if (world.getBlock(x,y,z) == BlockList.purplething){
+				if (world.getBlock(x,y,z) == BlockList.persegrit){
 					if (iteration < iterations)connections.add(loc);
 				}
 				else{
@@ -196,7 +196,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 		}
 		
 		for(BlockLocation loc:connections){
-			world.setBlock(loc.x,loc.y,loc.z,BlockList.purplething,BlockPurplething.getConnectionMeta(world,loc.x,loc.y,loc.z));
+			world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit,BlockPersegrit.getConnectionMeta(world,loc.x,loc.y,loc.z));
 		}
 	}
 	
@@ -205,12 +205,12 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 			  u = world.getBlock(x,y,z-1), d = world.getBlock(x,y,z+1),
 			  b = world.getBlock(x,y-1,z), t = world.getBlock(x,y+1,z);
 		
-		return !((l == BlockList.purplething && r == l && u == l && d == l && b != l && t != l) ||
-				(t == BlockList.purplething && b == t && ((l == t && r == t) ^ (u == t && d == t))));
+		return !((l == BlockList.persegrit && r == l && u == l && d == l && b != l && t != l) ||
+				(t == BlockList.persegrit && b == t && ((l == t && r == t) ^ (u == t && d == t))));
 	}
 	
 	private boolean isWall(int x, int y, int z){
-		return !(world.getBlock(x,y-1,z) != BlockList.purplething || world.getBlock(x,y+1,z) != BlockList.purplething);
+		return !(world.getBlock(x,y-1,z) != BlockList.persegrit || world.getBlock(x,y+1,z) != BlockList.persegrit);
 	}
 	
 	private final class RoomInfo{

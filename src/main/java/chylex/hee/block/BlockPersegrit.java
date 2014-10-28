@@ -12,11 +12,11 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockPurplething extends Block implements IBlockSubtypes{
+public class BlockPersegrit extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
 	
-	public BlockPurplething(){
+	public BlockPersegrit(){
 		super(Material.cloth);
 	}
 	
@@ -58,19 +58,19 @@ public class BlockPurplething extends Block implements IBlockSubtypes{
 	public static int getConnectionMeta(LargeStructureWorld world, int x, int y, int z){
 		boolean l = false, r = false, t = false, b = false;
 		
-		if (world.getBlock(x,y-1,z) != BlockList.purplething || world.getBlock(x,y+1,z) != BlockList.purplething){ // xz plane
+		if (world.getBlock(x,y-1,z) != BlockList.persegrit || world.getBlock(x,y+1,z) != BlockList.persegrit){ // xz plane
 			l = isConnectable(world,x-1,y,z);
 			r = isConnectable(world,x+1,y,z);
 			t = isConnectable(world,x,y,z-1);
 			b = isConnectable(world,x,y,z+1);
 		}
-		else if (world.getBlock(x-1,y,z) != BlockList.purplething || world.getBlock(x+1,y,z) != BlockList.purplething){ // yz plane
+		else if (world.getBlock(x-1,y,z) != BlockList.persegrit || world.getBlock(x+1,y,z) != BlockList.persegrit){ // yz plane
 			l = isConnectable(world,x,y,z+1);
 			r = isConnectable(world,x,y,z-1);
 			t = isConnectable(world,x,y+1,z);
 			b = isConnectable(world,x,y-1,z);
 		}
-		else if (world.getBlock(x,y,z-1) != BlockList.purplething || world.getBlock(x,y,z+1) != BlockList.purplething){ // xy plane
+		else if (world.getBlock(x,y,z-1) != BlockList.persegrit || world.getBlock(x,y,z+1) != BlockList.persegrit){ // xy plane
 			l = isConnectable(world,x+1,y,z);
 			r = isConnectable(world,x-1,y,z);
 			t = isConnectable(world,x,y+1,z);
@@ -106,6 +106,6 @@ public class BlockPurplething extends Block implements IBlockSubtypes{
 	}
 	
 	public static boolean isConnectable(LargeStructureWorld world, int x, int y, int z){
-		return world.getMetadata(x,y,z) != 0 && world.getBlock(x,y,z) == BlockList.purplething;
+		return world.getMetadata(x,y,z) != 0 && world.getBlock(x,y,z) == BlockList.persegrit;
 	}
 }
