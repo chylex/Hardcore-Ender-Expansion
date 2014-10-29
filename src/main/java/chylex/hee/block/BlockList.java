@@ -102,6 +102,7 @@ public final class BlockList{
 	public static Block corrupted_energy_high;
 	public static Block corrupted_energy_low;
 	public static Block soul_charm;
+	public static Block laboratory_glass;
 	
 	// TECHNICAL
 	
@@ -134,7 +135,6 @@ public final class BlockList{
 		
 		register("end_powder_ore", end_powder_ore = new BlockEndPowderOre().setHardness(3F).setResistance(12F).setStepSound(Block.soundTypeStone).setBlockName("endPowderOre").setBlockTextureName("hardcoreenderexpansion:end_powder_ore"));
 		register("endium_ore", endium_ore = new BlockEndiumOre().setHardness(18F).setResistance(100F).setStepSound(Block.soundTypeStone).setBlockName("endiumOre").setBlockTextureName("hardcoreenderexpansion:endium_ore"));
-		register("endium_block", endium_block = new BlockCompressed(MapColor.pinkColor).setHardness(14F).setResistance(800F).setStepSound(Block.soundTypeMetal).setBlockName("endiumBlock").setBlockTextureName("hardcoreenderexpansion:endium_block"));
 		register("stardust_ore", stardust_ore = new BlockStardustOre().setHardness(7F).setResistance(4F).setStepSound(Block.soundTypeStone).setBlockName("stardustOre").setBlockTextureName("hardcoreenderexpansion:stardust_ore"));
 		register("igneous_rock_ore", igneous_rock_ore = new BlockIgneousRockOre().setHardness(2F).setResistance(5F).setStepSound(Block.soundTypeStone).setBlockName("igneousRockOre").setBlockTextureName("hardcoreenderexpansion:igneous_rock_ore"));
 		register("instability_orb_ore", instability_orb_ore = new BlockInstabilityOrbOre().setHardness(5.5F).setResistance(3F).setStepSound(Block.soundTypeStone).setBlockName("instabilityOrbOre").setBlockTextureName("hardcoreenderexpansion:instability_orb_ore"));
@@ -147,6 +147,7 @@ public final class BlockList{
 		register("decomposition_table", decomposition_table = new BlockDecompositionTable().setHardness(4F).setResistance(2000F).setBlockName("decompositionTable"));
 		register("energy_extraction_table", energy_extraction_table = new BlockEnergyExtractionTable().setHardness(4F).setResistance(2000F).setBlockName("energyExtractionTable"));
 		
+		register("endium_block", endium_block = new BlockCompressed(MapColor.pinkColor).setHardness(14F).setResistance(800F).setStepSound(Block.soundTypeMetal).setBlockName("endiumBlock").setBlockTextureName("hardcoreenderexpansion:endium_block"));
 		register("spooky_log", spooky_log = new BlockSpookyLog().setHardness(0.7F).setStepSound(Block.soundTypeWood).setBlockName("spookyLog"));
 		register("spooky_leaves", spooky_leaves = new BlockSpookyLeaves().setHardness(0.1F).setStepSound(Block.soundTypeGrass).setBlockName("spookyLeaves").setBlockTextureName("hardcoreenderexpansion:spooky_leaves"));
 		
@@ -158,6 +159,7 @@ public final class BlockList{
 		register("corrupted_energy_high", corrupted_energy_high = new BlockCorruptedEnergy(true).setBlockUnbreakable().setResistance(6000000F));
 		register("corrupted_energy_low", corrupted_energy_low = new BlockCorruptedEnergy(false).setBlockUnbreakable().setResistance(6000000F));
 		register("soul_charm", soul_charm = new BlockSoulCharm().setHardness(-1F).setResistance(6000000F).setBlockName("soulCharm").setBlockTextureName("hardcoreenderexpansion:empty"));
+		register("laboratory_glass", laboratory_glass = new BlockLaboratoryGlass().setHardness(5F).setResistance(50F).setLightOpacity(5).setBlockName("laboratoryGlass").setBlockTextureName("hardcoreenderexpansion:laboratory_glass"));
 		
 		register("death_flower_pot", death_flower_pot = new BlockDeathFlowerPot().setHardness(0F).setStepSound(Block.soundTypeStone).setBlockName("flowerPot").setBlockTextureName("flower_pot"));
 		register("laser_beam", laser_beam = new BlockLaserBeam().setBlockUnbreakable().setLightLevel(1F).setResistance(6000000F).setBlockName("laserBeam").setBlockTextureName("hardcoreenderexpansion:laser_beam"));
@@ -194,7 +196,7 @@ public final class BlockList{
 			endium_block,
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,
-			dungeon_puzzle,cinder,persegrit,
+			dungeon_puzzle,cinder,persegrit,laboratory_glass,
 			crossed_decoration,death_flower
 		);
 		
