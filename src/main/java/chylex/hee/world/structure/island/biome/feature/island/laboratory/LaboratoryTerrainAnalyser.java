@@ -10,12 +10,12 @@ public final class LaboratoryTerrainAnalyser{
 	}
 	
 	public LaboratoryTerrainMap generateBestMap(Random rand, int scoreThreshold){
-		LaboratoryTerrainMap bestMap = new LaboratoryTerrainMap(world,0,0);
+		LaboratoryTerrainMap bestMap = new LaboratoryTerrainMap(world,rand,0,0);
 		if (bestMap.getScore() >= scoreThreshold)return bestMap;
 		
 		for(int x = 0; x < 16; x += 2){
 			for(int z = 0; z < 16; z += 2){
-				LaboratoryTerrainMap map = new LaboratoryTerrainMap(world,x,z);
+				LaboratoryTerrainMap map = new LaboratoryTerrainMap(world,rand,x,z);
 				if (map.getScore() > bestMap.getScore() && (bestMap = map).getScore() >= scoreThreshold)return bestMap;
 			}
 		}

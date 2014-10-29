@@ -1,13 +1,13 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 
+
 public final class LaboratoryTerrainNode{
 	private LaboratoryElement largestElement = LaboratoryElement.NONE;
 	private int mostFrequentY;
 	private boolean unusable;
+	private boolean[] connections = new boolean[4];
 	
-	LaboratoryTerrainNode(){
-		
-	}
+	LaboratoryTerrainNode(){}
 	
 	public LaboratoryTerrainNode setUnusable(){
 		this.unusable = true;
@@ -34,5 +34,14 @@ public final class LaboratoryTerrainNode{
 	
 	public int getMostFrequentY(){
 		return mostFrequentY;
+	}
+	
+	public LaboratoryTerrainNode setConnectionAvailable(int direction, boolean available){
+		connections[direction] = available;
+		return this;
+	}
+	
+	public boolean hasNoAvailableConnections(){
+		return !connections[0] && !connections[1] && !connections[2] && !connections[3];
 	}
 }

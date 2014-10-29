@@ -1,24 +1,91 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import gnu.trove.map.hash.TByteByteHashMap;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public class LaboratoryTerrainMap{
 	private static final byte blockSize = 14, blockSizeHalf = blockSize>>1;
 	private static final byte blocksFromCenter = (byte)Math.floor(0.5F*ComponentIsland.size/blockSize);
+	private static final byte blocksAcross = (byte)(blocksFromCenter*2+1);
 	
 	private final LargeStructureWorld world;
-	private LaboratoryTerrainNode[][] nodes = new LaboratoryTerrainNode[blocksFromCenter*2+1][blocksFromCenter*2+1];
+	private final LaboratoryTerrainNode[][] nodes = new LaboratoryTerrainNode[blocksAcross][blocksAcross];
+	private int startNodeX = -1, startNodeZ = -1, score;
 	
-	LaboratoryTerrainMap(LargeStructureWorld world, int startX, int startZ){
+	LaboratoryTerrainMap(LargeStructureWorld world, Random rand, int startX, int startZ){
 		this.world = world;
 		
 		startX &= 0b1111;
 		startZ &= 0b1111;
 		
+		// generate nodes
+		
 		for(int x = -blocksFromCenter; x <= blocksFromCenter; x++){
 			for(int z = -blocksFromCenter; z <= blocksFromCenter; z++){
 				nodes[x+blocksFromCenter][z+blocksFromCenter] = generateNode(x*blockSize+startX,z*blockSize+startZ);
+			}
+		}
+		
+		// find start node
+		
+		for(int attempt = 0, indexX, indexZ; attempt < 20; attempt++){
+			LaboratoryTerrainNode node = nodes[indexX = blocksFromCenter+rand.nextInt(8)-4][indexZ = blocksFromCenter+rand.nextInt(8)-4];
+			
+			if (!node.isUnusable()){
+				startNodeX = indexX;
+				startNodeZ = indexZ;
+				break;
+			}
+		}
+		
+		if (startNodeX == -1 || startNodeZ == -1){
+			score = -1;
+			return;
+		}
+		
+		// find all pathfindable indexes
+		
+		Set<NodeIndex> checkedIndexes = new HashSet<>();
+		Set<NodeIndex> validIndexes = new HashSet<>();
+		List<NodeIndex> toAdd = new ArrayList<>(32);
+		
+		checkedIndexes.add(new NodeIndex(startNodeX,startNodeZ));
+		
+		do{
+			toAdd.clear();
+			
+			for(NodeIndex index:checkedIndexes){
+				if (!nodes[index.x][index.z].isUnusable())validIndexes.add(index);
+				
+				if (index.x > 0 && !nodes[index.x-1][index.z].isUnusable())toAdd.add(new NodeIndex(index.x-1,index.z));
+				if (index.z > 0 && !nodes[index.x][index.z-1].isUnusable())toAdd.add(new NodeIndex(index.x,index.z-1));
+				if (index.x < blocksAcross-1 && !nodes[index.x+1][index.z].isUnusable())toAdd.add(new NodeIndex(index.x+1,index.z));
+				if (index.z < blocksAcross-1 && !nodes[index.x][index.z+1].isUnusable())toAdd.add(new NodeIndex(index.x,index.z+1));
+			}
+			
+			toAdd.removeAll(validIndexes);
+			checkedIndexes.addAll(toAdd);
+		}while(!toAdd.isEmpty());
+		
+		for(int x = 0; x < blocksAcross; x++){
+			for(int z = 0; z < blocksAcross; z++){
+				if (!validIndexes.contains(new NodeIndex(x,z)))nodes[x][z].setUnusable();
+			}
+		}
+		
+		// calculate connections and score
+		// TODO connections
+		
+		int tmpScore = 0;
+		
+		for(int x = 0; x < blocksAcross; x++){
+			for(int z = 0; z < blocksAcross; z++){
+				if (nodes[x][z].isUnusable())continue;
 			}
 		}
 	}
@@ -59,12 +126,34 @@ public class LaboratoryTerrainMap{
 			}
 		}
 		
-		
-		
+		node.setMostFrequentY(mostFrequentY);
 		return node;
 	}
 	
 	public int getScore(){
-		return 0; // TODO
+		return score;
+	}
+	
+	private final class NodeIndex{
+		final byte x, z;
+		
+		NodeIndex(int x, int z){
+			this.x = (byte)x;
+			this.z = (byte)z;
+		}
+		
+		@Override
+		public int hashCode(){
+			return x*131+z;
+		}
+		
+		@Override
+		public boolean equals(Object o){
+			if (o != null && o.getClass() == NodeIndex.class){
+				NodeIndex index = (NodeIndex)o;
+				return x == index.x && z == index.z;
+			}
+			else return false;
+		}
 	}
 }
