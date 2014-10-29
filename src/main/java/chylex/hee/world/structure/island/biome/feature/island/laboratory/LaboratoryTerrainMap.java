@@ -9,13 +9,14 @@ import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public class LaboratoryTerrainMap{
-	private static final byte blockSize = 14, blockSizeHalf = blockSize>>1;
+	private static final byte blockSize = 8, blockSizeHalf = blockSize>>1;
 	private static final byte blocksFromCenter = (byte)Math.floor(0.5F*ComponentIsland.size/blockSize);
 	private static final byte blocksAcross = (byte)(blocksFromCenter*2+1);
 	
 	private final LargeStructureWorld world;
 	private final LaboratoryTerrainNode[][] nodes = new LaboratoryTerrainNode[blocksAcross][blocksAcross];
-	private int startNodeX = -1, startNodeZ = -1, score;
+	private final int score;
+	private int startNodeX = -1, startNodeZ = -1;
 	
 	LaboratoryTerrainMap(LargeStructureWorld world, Random rand, int startX, int startZ){
 		this.world = world;
@@ -30,6 +31,8 @@ public class LaboratoryTerrainMap{
 				nodes[x+blocksFromCenter][z+blocksFromCenter] = generateNode(x*blockSize+startX,z*blockSize+startZ);
 			}
 		}
+		
+		Set<NodeIndex> validIndexes = new HashSet<>();
 		
 		// find start node
 		
@@ -48,10 +51,24 @@ public class LaboratoryTerrainMap{
 			return;
 		}
 		
+		// find connectable nodes
+		
+		for(int a = 0; a < blocksAcross; a++){
+			for(int b = 0; b < blocksAcross; b++){
+				LaboratoryTerrainNode node = nodes[a][b];
+				
+				if (a > 0)node.tryConnect(nodes[a-1][b],0);
+				if (b > 0)node.tryConnect(nodes[a][b-1],1);
+				if (a < blocksAcross-1)node.tryConnect(nodes[a+1][b],2);
+				if (b < blocksAcross-1)node.tryConnect(nodes[a][b+1],3);
+				
+				if (node.hasNoAvailableConnections())node.setUnusable();
+			}
+		}
+		
 		// find all pathfindable indexes
 		
 		Set<NodeIndex> checkedIndexes = new HashSet<>();
-		Set<NodeIndex> validIndexes = new HashSet<>();
 		List<NodeIndex> toAdd = new ArrayList<>(32);
 		
 		checkedIndexes.add(new NodeIndex(startNodeX,startNodeZ));
@@ -72,22 +89,29 @@ public class LaboratoryTerrainMap{
 			checkedIndexes.addAll(toAdd);
 		}while(!toAdd.isEmpty());
 		
-		for(int x = 0; x < blocksAcross; x++){
-			for(int z = 0; z < blocksAcross; z++){
-				if (!validIndexes.contains(new NodeIndex(x,z)))nodes[x][z].setUnusable();
+		for(int a = 0; a < blocksAcross; a++){
+			for(int b = 0; b < blocksAcross; b++){
+				LaboratoryTerrainNode node = nodes[a][b];
+				
+				if (!validIndexes.contains(new NodeIndex(a,b)))node.setUnusable();
+				if (a > 0 && node.checkConnection(0) && nodes[a-1][b].isUnusable())node.setConnectionAvailable(0,false);
+				if (b > 0 && node.checkConnection(1) && nodes[a][b-1].isUnusable())node.setConnectionAvailable(1,false);
+				if (a < blocksAcross-1 && node.checkConnection(2) && nodes[a+1][b].isUnusable())node.setConnectionAvailable(2,false);
+				if (b < blocksAcross-1 && node.checkConnection(3) && nodes[a][b+1].isUnusable())node.setConnectionAvailable(3,false);
 			}
 		}
 		
-		// calculate connections and score
-		// TODO connections
+		// calculate score
 		
 		int tmpScore = 0;
 		
-		for(int x = 0; x < blocksAcross; x++){
-			for(int z = 0; z < blocksAcross; z++){
-				if (nodes[x][z].isUnusable())continue;
+		for(int a = 0; a < blocksAcross; a++){
+			for(int b = 0; b < blocksAcross; b++){
+				tmpScore += nodes[a][b].getConnectionAmount();
 			}
 		}
+		
+		score = tmpScore;
 	}
 	
 	private LaboratoryTerrainNode generateNode(int blockX, int blockZ){
@@ -125,6 +149,9 @@ public class LaboratoryTerrainMap{
 				mostFrequentY = y+128;
 			}
 		}
+		
+		if ((float)mostFrequentYAmount/(blockSize*blockSize) < 0.4D)return node.setUnusable();
+		if (maxY-mostFrequentY > 3)return node.setUnusable();
 		
 		node.setMostFrequentY(mostFrequentY);
 		return node;
