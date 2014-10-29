@@ -36,6 +36,8 @@ public class WorldGenBlob extends WorldGenerator{
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
+		if (true)return true;
+		
 		if (Log.isDeobfEnvironment){ // TODO remove debug
 			BlobType.COMMON.patterns.clear();
 			
