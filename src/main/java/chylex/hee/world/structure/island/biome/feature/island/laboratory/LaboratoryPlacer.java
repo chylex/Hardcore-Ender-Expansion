@@ -5,7 +5,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public class LaboratoryPlacer{
-	public static final byte hallStairsLength = 3;
+	public static final byte hallStairsLength = 4;
 	
 	public void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y){
 		if (x1 == x2){
@@ -20,6 +20,9 @@ public class LaboratoryPlacer{
 					world.setBlock(x1+2,y+py,z,py == 2 && z != z1 && z != z2 ? BlockList.laboratory_glass : Blocks.obsidian);
 				}
 			}
+			
+			--x1;
+			++x2;
 		}
 		else if (z1 == z2){
 			for(int x = Math.min(x1,x2), xMax = Math.max(x1,x2); x <= xMax; x++){
@@ -33,16 +36,83 @@ public class LaboratoryPlacer{
 					world.setBlock(x,y+py,z1+2,py == 2 && x != x1 && x != x2 ? BlockList.laboratory_glass : Blocks.obsidian);
 				}
 			}
+			
+			--z1;
+			++z1;
 		}
 		else throw new IllegalArgumentException("Hall coords need to be equal on one axis!");
+		
+		for(int x = Math.min(x1,x2), xMax = Math.max(x1,x2); x <= xMax; x++){
+			for(int z = Math.min(z1,z2), zMax = Math.max(z1,z2); z <= zMax; z++){
+				for(int py = -1; py > -5; py--){
+					if (world.isAir(x,y+py,z) && !world.isAir(x,y+py+1,z)){
+						world.setBlock(x,y+py,z,Blocks.obsidian);
+					}
+					else break;
+				}
+			}
+		}
 	}
 	
-	public void generateHallStairs(LargeStructureWorld world, Random rand, int x, int z, int xAdd, int zAdd, int y1, int y2){
+	public void generateHallStairs(LargeStructureWorld world, Random rand, int x, int y, int z, int xAdd, int yAdd, int zAdd){
+		int x1 = x, x2 = x, z1 = z, z2 = z;
+		
 		if (xAdd != 0){
+			for(int a = 0; a <= hallStairsLength; a++){
+				for(int py = 0; py < 5; py++){
+					for(int b = 0; b < 2; b++){
+						world.setBlock(x,y+py,z-5+b*10,(py == 3 && a < 3) || (py == 2 && a > 2) ? BlockList.laboratory_glass : Blocks.obsidian);
+					}
+					
+					for(int b = 0; b < 3; b++){
+						if (a == 0)world.setBlock(x,y+py,z-1+b,BlockList.obsidian_stairs,xAdd == 1 ? 0 : 1); // TODO whatever the correct metadata is
+						else world.setBlock(x,y+py,z-1+b,py == 0 ? BlockList.obsidian_special : py == 4 ? Blocks.obsidian : Blocks.air);
+					}
+					
+					if (a == 0 && py == 4)continue;
+					else if (a == 1)y += yAdd;
+				}
+				
+				x += xAdd;
+			}
 			
+			z1 -= 2;
+			z2 += 2;
+			x2 += xAdd*hallStairsLength;
 		}
 		else if (zAdd != 0){
+			for(int a = 0; a <= hallStairsLength; a++){
+				for(int py = 0; py < 5; py++){
+					for(int b = 0; b < 2; b++){
+						world.setBlock(x-5+b*10,y+py,z,(py == 3 && a < 3) || (py == 2 && a > 2) ? BlockList.laboratory_glass : Blocks.obsidian);
+					}
+					
+					for(int b = 0; b < 3; b++){
+						if (a == 0)world.setBlock(x-1+b,y+py,z,BlockList.obsidian_stairs,zAdd == 1 ? 2 : 3); // TODO whatever the correct metadata is
+						else world.setBlock(x-1+b,y+py,z,py == 0 ? BlockList.obsidian_special : py == 4 ? Blocks.obsidian : Blocks.air);
+					}
+					
+					if (a == 0 && py == 4)continue;
+					else if (a == 1)y += yAdd;
+				}
+				
+				z += zAdd;
+			}
 			
+			x1 -= 2;
+			x2 += 2;
+			z2 += zAdd*hallStairsLength;
+		}
+		
+		for(int xx = Math.min(x1,x2), xMax = Math.max(x1,x2); xx <= xMax; xx++){
+			for(int zz = Math.min(z1,z2), zMax = Math.max(z1,z2); zz <= zMax; zz++){
+				for(int py = -1; py > -5; py--){
+					if (world.isAir(xx,y+py,zz) && !world.isAir(xx,y+py+1,zz)){
+						world.setBlock(xx,y+py,zz,Blocks.obsidian);
+					}
+					else break;
+				}
+			}
 		}
 	}
 	
