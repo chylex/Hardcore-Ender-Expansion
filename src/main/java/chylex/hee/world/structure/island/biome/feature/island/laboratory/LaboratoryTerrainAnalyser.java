@@ -13,8 +13,8 @@ public final class LaboratoryTerrainAnalyser{
 		LaboratoryTerrainMap bestMap = new LaboratoryTerrainMap(world,rand,0,0);
 		if (bestMap.getScore() >= scoreThreshold)return bestMap;
 		
-		for(int x = 0; x < 16; x += 2){
-			for(int z = 0; z < 16; z += 2){
+		for(int x = 0; x < 16; x += 4){
+			for(int z = 0; z < 16; z += 4){
 				LaboratoryTerrainMap map = new LaboratoryTerrainMap(world,rand,x,z);
 				if (map.getScore() > bestMap.getScore() && (bestMap = map).getScore() >= scoreThreshold)return bestMap;
 			}

@@ -42,6 +42,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	
 	public void generateEntrance(LargeStructureWorld world, Random rand, int x, int y, int z, int maxEntranceHeight, DungeonElement entrance){
 		int surfaceY = y-maxEntranceHeight-1;
+		
 		while(++surfaceY <= y){
 			if (world.getBlock(x,surfaceY,z) == IslandBiomeBase.getTopBlock())break;
 		}

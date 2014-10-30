@@ -151,10 +151,9 @@ public class LaboratoryTerrainMap{
 		}
 		
 		if ((float)mostFrequentYAmount/(blockSize*blockSize) < 0.4D)return node.setUnusable();
-		if (maxY-mostFrequentY > 3)return node.setUnusable();
+		if (maxY-mostFrequentY > 2)return node.setUnusable();
 		
-		node.setMostFrequentY(mostFrequentY);
-		return node;
+		return node.setMostFrequentY(mostFrequentY);
 	}
 	
 	public int getScore(){

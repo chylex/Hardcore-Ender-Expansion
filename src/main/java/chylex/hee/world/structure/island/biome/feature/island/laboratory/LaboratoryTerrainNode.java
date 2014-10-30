@@ -36,12 +36,24 @@ public final class LaboratoryTerrainNode{
 		return mostFrequentY;
 	}
 	
+	public void tryConnect(LaboratoryTerrainNode node, int direction){
+		if (!node.unusable && Math.abs(mostFrequentY-node.mostFrequentY) < 4)connections[direction] = true;
+	}
+	
 	public LaboratoryTerrainNode setConnectionAvailable(int direction, boolean available){
 		connections[direction] = available;
 		return this;
 	}
 	
+	public boolean checkConnection(int direction){
+		return connections[direction];
+	}
+	
 	public boolean hasNoAvailableConnections(){
 		return !connections[0] && !connections[1] && !connections[2] && !connections[3];
+	}
+	
+	public int getConnectionAmount(){
+		return (connections[0] ? 1 : 0)+(connections[1] ? 1 : 0)+(connections[2] ? 1 : 0)+(connections[3] ? 1 : 0);
 	}
 }
