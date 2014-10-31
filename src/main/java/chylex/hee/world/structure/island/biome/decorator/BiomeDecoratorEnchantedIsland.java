@@ -10,7 +10,9 @@ import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
 import chylex.hee.world.structure.island.biome.feature.island.StructureGooLake;
+import chylex.hee.world.structure.island.biome.feature.island.StructureHiddenCellar;
 import chylex.hee.world.structure.island.biome.feature.island.StructureObsidianRoad;
+import chylex.hee.world.structure.island.biome.feature.island.StructureHiddenCellar.EnchantedIslandVariation;
 
 public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	@Override
@@ -20,12 +22,20 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	
 	private final StructureGooLake genGooLake = new StructureGooLake();
 	private final StructureObsidianRoad genRoads = new StructureObsidianRoad();
+	private final StructureHiddenCellar genCellar = new StructureHiddenCellar();
 	
 	/*
 	 * HOMELAND
 	 */
 	
 	public void genHomeland(){
+		// HIDDEN CELLAR
+		genCellar.setVariation(EnchantedIslandVariation.HOMELAND);
+		
+		for(int attempt = 0, placed = 0; attempt < 20 && placed < 4; attempt++){
+			if (genCellar.generateInWorld(world,rand,getBiome()))++placed;
+		}
+		
 		// GOO LAKES
 		for(int attempt = 0, placed = 0, amount = rand.nextInt(3)+5; attempt < 170 && placed < amount; attempt++){
 			if (generateStructure(genGooLake))++placed;
@@ -121,6 +131,11 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	 */
 	
 	public void genLaboratory(){
+		// HIDDEN CELLAR
+		genCellar.setVariation(EnchantedIslandVariation.LABORATORY);
 		
+		for(int attempt = 0, placed = 0; attempt < 20 && placed < 4; attempt++){
+			if (genCellar.generateInWorld(world,rand,getBiome()))++placed;
+		}
 	}
 }

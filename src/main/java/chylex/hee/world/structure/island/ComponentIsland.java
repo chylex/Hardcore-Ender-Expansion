@@ -34,7 +34,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 		structure = new LargeStructureWorld(null);
 	}
 	
-	protected ComponentIsland(Random rand, int x, int z){
+	public ComponentIsland(Random rand, int x, int z){
 		super(rand,x,20,z,208,140,208);
 		this.startX = x;
 		this.startZ = z;

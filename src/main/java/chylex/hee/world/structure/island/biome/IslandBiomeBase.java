@@ -36,6 +36,7 @@ public abstract class IslandBiomeBase{
 	public static final List<IslandBiomeBase> biomeList = new ArrayList<>(Arrays.asList(infestedForest,burningMountains,enchantedIsland));
 	
 	public static final IslandBiomeBase pickRandomBiome(Random rand){
+		if (true)return enchantedIsland;
 		return biomeList.get(rand.nextInt(3));
 	}
 	

@@ -19,23 +19,25 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 		HOMELAND, LABORATORY
 	}
 	
-	private final EnchantedIslandVariation variation;
+	private EnchantedIslandVariation variation;
 	private final List<BlockLocation> patternBlocks = new ArrayList<>();
 	
-	public StructureHiddenCellar(EnchantedIslandVariation variation){
+	public void setVariation(EnchantedIslandVariation variation){
 		this.variation = variation;
 	}
 	
 	@Override
 	protected boolean generate(Random rand){
-		int height = 3+rand.nextInt(4);
+		patternBlocks.clear();
+		
+		int height = 4+rand.nextInt(4);
 		
 		for(int attempt = 0, x, y, z; attempt < 50; attempt++){
 			x = getRandomXZ(rand,32);
 			y = 10+rand.nextInt(30);
 			z = getRandomXZ(rand,32);
 			
-			RoomInfo info = genRoom(x,z,2+rand.nextInt(4),y,height,rand);
+			RoomInfo info = genRoom(x,z,3+rand.nextInt(6),y,height,rand);
 			if (info == null)continue;
 			
 			List<RoomInfo> rooms = new ArrayList<RoomInfo>();
@@ -48,16 +50,17 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				offX = Direction.offsetX[side];
 				offZ = Direction.offsetZ[side];
 				
-				hWidth = 2+rand.nextInt(4);
+				hWidth = 3+rand.nextInt(6);
 				dist = room.halfWidth+hWidth+2+rand.nextInt(7);
 				
 				RoomInfo newRoom = genRoom(room.x+offX*dist,room.z+offZ*dist,hWidth,y,height,rand);
 				if (newRoom == null)continue;
 				
 				room.canUseSide[side] = false;
+				newRoom.canUseSide[Direction.rotateOpposite[side]] = false;
 				rooms.add(newRoom);
 				
-				genHall(room.x+room.halfWidth*offX-offZ,room.z+room.halfWidth*offZ-offX,newRoom.x-hWidth*offX+offZ,newRoom.z-hWidth*offZ+offX,y,height,rand);
+				genHall(room.x+(room.halfWidth-1)*offX-offZ*2,room.z+(room.halfWidth-1)*offZ-offX*2,newRoom.x-(hWidth-1)*offX+offZ*2,newRoom.z-(hWidth-1)*offZ+offX*2,y,height,rand);
 			}
 			
 			genPatterns(rand);
@@ -71,9 +74,11 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 	 * Walls count to the width of the room. Height has to be divisible by 2.
 	 */
 	private RoomInfo genRoom(int x, int z, int halfWidth, int bottomY, int height, Random rand){
+		if (halfWidth == 3)halfWidth = 2; // too small, turn it into a "hall"
+		
 		int halfHeight = height>>1;
 
-		if (world.getBlock(x,bottomY+halfHeight,z) != Blocks.end_stone)return null;
+		if (world.getBlock(x,bottomY+halfHeight*2+2,z) != Blocks.end_stone)return null;
 		
 		for(int horCheck = 0; horCheck < 8; horCheck++){
 			for(int yCheck = -1; yCheck <= 1; yCheck++){
@@ -88,8 +93,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				for(int yy = bottomY; yy <= bottomY+height; yy++){
 					boolean edge = xx == x1 || xx == x2 || zz == z1 || zz == z2 || yy == bottomY || yy == bottomY+height;
 					world.setBlock(xx,yy,zz,edge ? BlockList.persegrit : Blocks.air);
-					
-					if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(xx,yy,zz));
+					if (edge && rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(xx,yy,zz));
 				}
 			}
 		}
@@ -100,13 +104,15 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 	}
 	
 	private void genHall(int x1, int z1, int x2, int z2, int bottomY, int height, Random rand){
-		for(int xx = x1; xx <= x2; xx++){
-			for(int zz = z1; zz <= z2; zz++){
+		for(int xx = Math.min(x1,x2), xMax = Math.max(x1,x2); xx <= xMax; xx++){
+			for(int zz = Math.min(z1,z2), zMax = Math.max(z1,z2); zz <= zMax; zz++){
 				for(int yy = bottomY; yy <= bottomY+height; yy++){
 					boolean edge = xx == x1 || xx == x2 || zz == z1 || zz == z2 || yy == bottomY || yy == bottomY+height;
-					if (!edge || world.getBlock(xx,yy,zz) == Blocks.end_stone)world.setBlock(xx,yy,zz,edge ? BlockList.persegrit : Blocks.air);
 					
-					if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(xx,yy,zz));
+					if (!edge || world.getBlock(xx,yy,zz) != Blocks.air){
+						world.setBlock(xx,yy,zz,edge ? BlockList.persegrit : Blocks.air);
+						if (edge && rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(xx,yy,zz));
+					}
 				}
 			}
 		}
@@ -189,7 +195,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 					if (iteration < iterations)connections.add(loc);
 				}
 				else{
-					Log.debug("Hidden Cellar pattern generation got out of room bounds ($0, $1, $2).",addX,addY,addZ);
+					// TODO Log.debug("Hidden Cellar pattern generation got out of room bounds ($0, $1, $2).",addX,addY,addZ);
 					break;
 				}
 			}

@@ -47,7 +47,8 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 			data.update(this);
 		}
 		else{
-			if (worldObj.rand.nextInt(5) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
+			// TODO fix
+			//if (worldObj.rand.nextInt(5) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
 		}
 		
 		shouldNotExplode = false;

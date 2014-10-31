@@ -5,12 +5,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.world.feature.WorldGenBlob;
+import chylex.hee.world.structure.island.ComponentIsland;
 
 public class HeeDebugCommand extends HeeCommand{
 	public static float overrideWingSpeed = 1F;
@@ -124,7 +126,10 @@ public class HeeDebugCommand extends HeeCommand{
 		else if (args[0].equalsIgnoreCase(".tmp")){ // TODO remove
 			World world = Minecraft.getMinecraft().theWorld;
 			EntityPlayer plr = Minecraft.getMinecraft().thePlayer;
-			new WorldGenBlob().generate(world,world.rand,(int)plr.posX+10,(int)plr.posY,(int)plr.posZ);
+			//new WorldGenBlob().generate(world,world.rand,(int)plr.posX+10,(int)plr.posY,(int)plr.posZ);
+			
+			ComponentIsland island = new ComponentIsland(world.rand,(int)plr.posX-104,(int)plr.posZ-104);
+			island.addComponentParts(world,world.rand,new StructureBoundingBox(-999999,0,-999999,999999,128,999999));
 		}
 		else{
 			sendMessage(sender,"Unknown command.");
