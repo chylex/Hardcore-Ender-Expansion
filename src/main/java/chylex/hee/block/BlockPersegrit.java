@@ -1,5 +1,6 @@
 package chylex.hee.block;
 import java.util.List;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -49,13 +50,13 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 		iconArray = new IIcon[16];
 		iconArray[0] = iconRegister.registerIcon(textureName);
 		
-		String tex = textureName+"_"; // 0    1     2     3     4     5     6     7     8     9     10     11     12     13   14
+		String tex = textureName+"_"; // 1    2     3     4     5     6     7     8     9    10     11     12     13     14   15
 		String[] names = new String[]{ "h", "v", "hl", "hr", "vb", "vt", "tl", "tr", "bl", "br", "trb", "trl", "tbl", "rbl", "x" };
 		
 		for(int a = 1; a < 16; a++)iconArray[a] = iconRegister.registerIcon(tex+names[a-1]);
 	}
 	
-	public static int getConnectionMeta(LargeStructureWorld world, int x, int y, int z){
+	public static int getConnectionMeta(LargeStructureWorld world, Random rand, int x, int y, int z){
 		boolean l = false, r = false, t = false, b = false;
 		
 		if (world.getBlock(x,y-1,z) != BlockList.persegrit || world.getBlock(x,y+1,z) != BlockList.persegrit){ // xz plane
@@ -65,8 +66,8 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 			b = isConnectable(world,x,y,z+1);
 		}
 		else if (world.getBlock(x-1,y,z) != BlockList.persegrit || world.getBlock(x+1,y,z) != BlockList.persegrit){ // yz plane
-			l = isConnectable(world,x,y,z+1);
-			r = isConnectable(world,x,y,z-1);
+			l = isConnectable(world,x,y,z-1);
+			r = isConnectable(world,x,y,z+1);
 			t = isConnectable(world,x,y+1,z);
 			b = isConnectable(world,x,y-1,z);
 		}
@@ -75,6 +76,18 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 			r = isConnectable(world,x-1,y,z);
 			t = isConnectable(world,x,y+1,z);
 			b = isConnectable(world,x,y-1,z);
+		}
+		
+		if (rand.nextBoolean()){
+			boolean oldL = l;
+			l = r;
+			r = oldL;
+		}
+		
+		if (rand.nextBoolean()){
+			boolean oldT = t;
+			t = b;
+			b = oldT;
 		}
 		
 		if (l && r && t && b)return 15;
@@ -106,6 +119,15 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 	}
 	
 	public static boolean isConnectable(LargeStructureWorld world, int x, int y, int z){
-		return world.getMetadata(x,y,z) != 0 && world.getBlock(x,y,z) == BlockList.persegrit;
+		if (world.getBlock(x,y,z) == BlockList.persegrit){
+			int meta = world.getMetadata(x,y,z);
+			
+			if (meta == 0)return false;
+			else if (meta >= 3 && meta <= 6){
+				return false;
+			}
+			else return true;
+		}
+		else return false;
 	}
 }

@@ -51,6 +51,8 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				offZ = Direction.offsetZ[side];
 				
 				hWidth = 3+rand.nextInt(6);
+				if (hWidth == 3)hWidth = 2;
+				
 				dist = room.halfWidth+hWidth+2+rand.nextInt(7);
 				
 				RoomInfo newRoom = genRoom(room.x+offX*dist,room.z+offZ*dist,hWidth,y,height,rand);
@@ -140,11 +142,11 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				else addY = rand.nextInt(2)*2-1;
 			}
 			
-			world.setBlock(x,y,z,BlockList.persegrit,BlockPersegrit.getEndMeta(world,addX,addY,addZ,wall));
+			//world.setBlock(x,y,z,BlockList.persegrit,BlockPersegrit.getEndMeta(world,addX,addY,addZ,wall));
 			
 			for(int iteration = 0; iteration <= iterations; iteration++){
 				if (iteration == iterations){
-					world.setBlock(x,y,z,BlockList.persegrit,BlockPersegrit.getEndMeta(world,addX,addY,addZ,wall));
+					//world.setBlock(x,y,z,BlockList.persegrit,BlockPersegrit.getEndMeta(world,addX,addY,addZ,wall));
 					break;
 				}
 				
@@ -168,7 +170,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 						addX = addZ = 0;
 					}
 				}
-				else if (rand.nextInt(10) == 0){
+				else if (rand.nextInt(12) == 0){
 					int newAddX = 0, newAddY = 0, newAddZ = 0;
 					
 					if (!isWall(x,y,z)){
@@ -192,7 +194,10 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				}
 				
 				if (world.getBlock(x,y,z) == BlockList.persegrit){
-					if (iteration < iterations)connections.add(loc);
+					if (iteration < iterations){
+						world.setBlock(x,y,z,BlockList.persegrit,15);
+						connections.add(new BlockLocation(x,y,z));
+					}
 				}
 				else{
 					// TODO Log.debug("Hidden Cellar pattern generation got out of room bounds ($0, $1, $2).",addX,addY,addZ);
@@ -202,7 +207,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 		}
 		
 		for(BlockLocation loc:connections){
-			world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit,BlockPersegrit.getConnectionMeta(world,loc.x,loc.y,loc.z));
+			world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit,BlockPersegrit.getConnectionMeta(world,rand,loc.x,loc.y,loc.z));
 		}
 	}
 	
