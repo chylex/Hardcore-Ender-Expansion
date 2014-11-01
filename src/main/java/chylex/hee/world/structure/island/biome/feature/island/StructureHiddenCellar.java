@@ -151,12 +151,13 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	}
 	
 	private enum EnumRoomContent{
-		NONE, CONNECTING_LINES, PERSEGRIT_CUBE, LOTS_OF_CHESTS, FLOATING_CUBES
+		NONE, CONNECTING_LINES, SPIKES, PERSEGRIT_CUBE, LOTS_OF_CHESTS, FLOATING_CUBES
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomContent>> roomContentList = new WeightedList<>(
 		ObjectWeightPair.of(EnumRoomContent.NONE, 100),
 		ObjectWeightPair.of(EnumRoomContent.CONNECTING_LINES, 10),
+		ObjectWeightPair.of(EnumRoomContent.SPIKES, 10),
 		ObjectWeightPair.of(EnumRoomContent.PERSEGRIT_CUBE, 8),
 		ObjectWeightPair.of(EnumRoomContent.LOTS_OF_CHESTS, 7),
 		ObjectWeightPair.of(EnumRoomContent.FLOATING_CUBES, 5)
@@ -167,7 +168,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		
 		if (halfWidth == 2)return;
 		
-		EnumRoomContent type = roomContentList.getRandomItem(rand).getObject(); type = EnumRoomContent.FLOATING_CUBES;
+		EnumRoomContent type = roomContentList.getRandomItem(rand).getObject();
 		
 		switch(type){
 			case CONNECTING_LINES:
@@ -225,6 +226,29 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				for(BlockLocation loc:toPersegrit){
 					world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit);
 					if (rand.nextInt(60) == 0)patternBlocks.add(loc);
+				}
+				
+				break;
+				
+			case SPIKES:
+				for(int spikes = 2+halfWidth+rand.nextInt(4+3*halfWidth), xx, yy, zz, width = halfWidth*2-2, addY, spikeHeight; spikes >= 0; spikes--){
+					xx = x+rand.nextInt(width)-(width>>1);
+					yy = bottomY+(rand.nextBoolean() ? 1 : height-1);
+					zz = z+rand.nextInt(width)-(width>>1);
+					
+					if (world.isAir(xx,yy,zz)){
+						addY = yy == bottomY+1 ? 1 : -1;
+						
+						for(spikeHeight = 1+rand.nextInt(height-3); spikeHeight >= 0; spikeHeight--){
+							if ((xx == x-(halfWidth-1) || world.isAir(xx-1,yy+addY,zz)) && (xx == x-(halfWidth+1) || world.isAir(xx+1,yy+addY,zz)) &&
+								(zz == z-(halfWidth-1) || world.isAir(xx,yy+addY,zz-1)) && (zz == z-(halfWidth-1) || world.isAir(xx,yy+addY,zz+1)) &&
+								world.isAir(xx,yy+addY,zz)){
+								world.setBlock(xx,yy,zz,BlockList.persegrit);
+								yy += addY;
+							}
+							else break;
+						}
+					}
 				}
 				
 				break;
