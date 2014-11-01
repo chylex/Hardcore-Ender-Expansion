@@ -5,9 +5,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import cpw.mods.fml.relauncher.Side;
@@ -19,6 +21,11 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 	
 	public BlockPersegrit(){
 		super(Material.cloth);
+	}
+	
+	@Override
+	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z){
+		return false;
 	}
 	
 	@Override

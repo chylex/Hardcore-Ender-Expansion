@@ -11,7 +11,6 @@ import net.minecraftforge.common.DimensionManager;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
-import chylex.hee.world.feature.WorldGenBlob;
 import chylex.hee.world.structure.island.ComponentIsland;
 
 public class HeeDebugCommand extends HeeCommand{

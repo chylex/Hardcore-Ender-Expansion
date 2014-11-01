@@ -4,18 +4,64 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockPersegrit;
-import chylex.hee.system.weight.IWeightProvider;
+import chylex.hee.item.ItemKnowledgeNote;
+import chylex.hee.item.ItemList;
 import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
+import chylex.hee.world.loot.IItemPostProcessor;
+import chylex.hee.world.loot.LootItemStack;
+import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
+import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.world.util.BlockLocation;
 
-public class StructureHiddenCellar extends AbstractIslandStructure{
+public class StructureHiddenCellar extends AbstractIslandStructure implements ITileEntityGenerator{
 	private static final byte[] horCheckX = new byte[]{ -1, 0, 1, -1, 1, -1, 0, 1 },
 								horCheckZ = new byte[]{ -1, -1, -1, 0, 0, 1, 1, 1 };
+	
+	private static final Block[] endermanSolidBlocks = new Block[]{
+		Blocks.grass, Blocks.dirt, Blocks.sand, Blocks.gravel, Blocks.tnt, Blocks.clay, Blocks.pumpkin, Blocks.melon_block, Blocks.mycelium
+	};
+	
+	private static final WeightedLootList normalChest = new WeightedLootList(new LootItemStack[]{
+		new LootItemStack(Items.ender_pearl).setAmount(2,6).setWeight(20),
+		new LootItemStack(ItemList.end_powder).setAmount(3,8).setWeight(20),
+		new LootItemStack(ItemList.stardust).setAmount(4,10).setWeight(17),
+		new LootItemStack(Blocks.grass).setAmount(1,2).setWeight(10),
+		new LootItemStack(Blocks.mycelium).setAmount(1,2).setWeight(10),
+		new LootItemStack(ItemList.knowledge_note).setWeight(8),
+		new LootItemStack(Blocks.dirt).setAmount(1,4).setWeight(4),
+		new LootItemStack(Blocks.sand).setAmount(1,4).setWeight(4),
+		new LootItemStack(Blocks.gravel).setAmount(1,4).setWeight(4),
+		new LootItemStack(Blocks.clay).setAmount(1,4).setWeight(4)
+	}).addItemPostProcessor(new IItemPostProcessor(){
+		@Override
+		public ItemStack processItem(ItemStack is, Random rand){
+			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,4);
+			return is;
+		}
+	});
+	
+	private static final WeightedLootList rareChest = new WeightedLootList(new LootItemStack[]{
+		new LootItemStack(ItemList.enhanced_ender_pearl).setAmount(3,9).setWeight(20),
+		new LootItemStack(ItemList.knowledge_note).setWeight(7),
+		new LootItemStack(Items.ender_pearl).setAmount(3,9).setWeight(5),
+		new LootItemStack(ItemList.temple_caller).setWeight(5)
+		// TODO add stuff to create energy draining items (like Transference Gem)
+	}).addItemPostProcessor(new IItemPostProcessor(){
+		@Override
+		public ItemStack processItem(ItemStack is, Random rand){
+			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
+			return is;
+		}
+	});
 	
 	public enum EnchantedIslandVariation{
 		HOMELAND, LABORATORY
@@ -108,7 +154,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomContent>> roomContentList = new WeightedList<>(
-		ObjectWeightPair.of(EnumRoomContent.NONE, 100),
+		//ObjectWeightPair.of(EnumRoomContent.NONE, 100),
 		ObjectWeightPair.of(EnumRoomContent.CONNECTING_LINES, 10),
 		ObjectWeightPair.of(EnumRoomContent.LOTS_OF_CHESTS, 8),
 		ObjectWeightPair.of(EnumRoomContent.PERSEGRIT_CUBE, 6),
@@ -171,14 +217,101 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				break;
 				
 			case PERSEGRIT_CUBE:
+				int cubeHalfWidth = Math.max(1,halfWidth-2-rand.nextInt(2));
+				
+				for(int yy = bottomY+1; yy <= bottomY+height-1; yy++){
+					for(int a = -cubeHalfWidth; a <= cubeHalfWidth; a++){
+						world.setBlock(x+a,yy,z-cubeHalfWidth,BlockList.persegrit);
+						world.setBlock(x+a,yy,z+cubeHalfWidth,BlockList.persegrit);
+						world.setBlock(x-cubeHalfWidth,yy,z+a,BlockList.persegrit);
+						world.setBlock(x+cubeHalfWidth,yy,z+a,BlockList.persegrit);
+					}
+				}
 				
 				break;
 				
 			case LOTS_OF_CHESTS:
+				for(int chests = 15+rand.nextInt(10+3*halfWidth)+5*halfWidth, xx, yy, zz, width = halfWidth*2-2, attempt, yTest, dir, normal, trapped; chests >= 0; chests--){
+					for(attempt = 0; attempt < 4; attempt++){
+						xx = x+rand.nextInt(width)-rand.nextInt(width);
+						zz = z+rand.nextInt(width)-rand.nextInt(width);
+						yy = bottomY+1;
+						
+						if (!world.isAir(xx,yy,zz)){
+							for(yTest = 0; yTest < height-3; yTest++){
+								if (world.isAir(xx,++yy,zz))break;
+							}
+							
+							if (!world.isAir(xx,yy,zz))continue;
+						}
+						
+						normal = 0;
+						trapped = 0;
+						
+						for(dir = 0; dir < 4; dir++){
+							Block block = world.getBlock(xx+Direction.offsetX[dir],yy,zz+Direction.offsetZ[dir]);
+							
+							if (block == Blocks.chest)++normal;
+							else if (block == Blocks.trapped_chest)++trapped;
+						}
+						
+						if (normal == 0 && trapped == 0)world.setBlock(xx,yy,zz,rand.nextBoolean() ? Blocks.chest : Blocks.trapped_chest);
+						else if (normal == 1 && trapped == 0)world.setBlock(xx,yy,zz,Blocks.trapped_chest);
+						else if (normal == 0 && trapped == 1)world.setBlock(xx,yy,zz,Blocks.chest);
+						else continue;
+						
+						if (rand.nextInt(10) == 0){
+							if (rand.nextInt(6) == 0)world.setTileEntityGenerator(xx,yy,zz,"CellarChestRare",this);
+							else world.setTileEntityGenerator(xx,yy,zz,"CellarChestNormal",this);
+						}
+						
+						break;
+					}
+				}
 				
 				break;
 				
 			case FLOATING_CUBES:
+				for(int cubes = 5+rand.nextInt(10), size, attempt, xx, yy, zz, px, py, pz, xzSpace, ySpace; cubes >= 0; cubes--){
+					Block randBlock = endermanSolidBlocks[rand.nextInt(endermanSolidBlocks.length)];
+					size = 2+rand.nextInt(3+rand.nextInt(2));
+					
+					if ((xzSpace = halfWidth*2-1-size) < 1)continue;
+					if ((ySpace = height-1-size) < 1)continue;
+					
+					for(attempt = 0; attempt < 20; attempt++){
+						xx = x-halfWidth+1+rand.nextInt(xzSpace);
+						yy = bottomY+1+rand.nextInt(ySpace);
+						zz = z-halfWidth+1+rand.nextInt(xzSpace);
+						
+						boolean canGenerate = true;
+						
+						for(px = xx-1; px <= xx+size+1; px++){
+							for(py = yy-1; py <= yy+size+1; py++){
+								for(pz = zz-1; zz <= zz+size+1; pz++){
+									if (world.getBlock(px,py,pz) != BlockList.persegrit){
+										canGenerate = false;
+										px += 99;
+										py += 99;
+										pz += 99;
+									}
+								}
+							}
+						}
+						
+						if (canGenerate){
+							for(px = xx; px <= xx+size; px++){
+								for(py = yy; py <= yy+size; py++){
+									for(pz = zz; zz <= zz+size; pz++){
+										world.setBlock(px,py,pz,randBlock);
+									}
+								}
+							}
+							
+							break;
+						}
+					}
+				}
 				
 				break;
 		}
@@ -310,6 +443,24 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 			}
 			
 			return -1; // should never happen
+		}
+	}
+
+	@Override
+	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
+		if (key.equals("CellarChestNormal")){
+			TileEntityChest chest = (TileEntityChest)tile;
+			
+			for(int amount = 0; amount < 1+rand.nextInt(4+rand.nextInt(3)); amount++){
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),normalChest.generateIS(rand));
+			}
+		}
+		else if (key.equals("CellarChestRare")){
+			TileEntityChest chest = (TileEntityChest)tile;
+			
+			for(int amount = 0; amount < 3+rand.nextInt(6); amount++){
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),rareChest.generateIS(rand));
+			}
 		}
 	}
 }
