@@ -8,6 +8,7 @@ import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockPersegrit;
 import chylex.hee.system.weight.IWeightProvider;
+import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.util.BlockLocation;
@@ -102,27 +103,85 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 		return new RoomInfo(x,z,halfWidth);
 	}
 	
-	private enum RoomContent implements IWeightProvider{
-		NONE(50);
-		
-		static final WeightedList<RoomContent> weights = new WeightedList<>(values());
-		private final int weight;
-		
-		private RoomContent(int weight){
-			this.weight = weight;
-		}
-		
-		@Override
-		public int getWeight(){
-			return weight;
-		}
+	private enum EnumRoomContent{
+		NONE, CONNECTING_LINES, PERSEGRIT_CUBE, LOTS_OF_CHESTS, FLOATING_CUBES
 	}
 	
+	private static final WeightedList<ObjectWeightPair<EnumRoomContent>> roomContentList = new WeightedList<>(
+		ObjectWeightPair.of(EnumRoomContent.NONE, 100),
+		ObjectWeightPair.of(EnumRoomContent.CONNECTING_LINES, 10),
+		ObjectWeightPair.of(EnumRoomContent.LOTS_OF_CHESTS, 8),
+		ObjectWeightPair.of(EnumRoomContent.PERSEGRIT_CUBE, 6),
+		ObjectWeightPair.of(EnumRoomContent.FLOATING_CUBES, 6)
+	);
+	
 	private void genRoomContent(int x, int z, int halfWidth, int bottomY, int height, Random rand){
-		RoomContent type = RoomContent.weights.getRandomItem(rand);
-		if (type == RoomContent.NONE)return;
+		EnumRoomContent type = roomContentList.getRandomItem(rand).getObject();
+		if (type == EnumRoomContent.NONE)return;
 		
-		// TODO
+		switch(type){
+			case CONNECTING_LINES:
+				for(int lines = 3+((halfWidth*(height-2))>>1)+rand.nextInt(6+halfWidth*2+height), width = halfWidth*2-2, dir, xx, yy, zz, addX = 0, addY = 0, addZ = 0, a, b; lines >= 0; lines--){
+					dir = rand.nextInt(3);
+					
+					if (dir == 0)addX = rand.nextBoolean() ? -1 : 1;
+					else if (dir == 1)addZ = rand.nextBoolean() ? -1 : 1;
+					else addY = rand.nextBoolean() ? -1 : 1;
+					
+					for(a = 0; a < 10; a++){
+						xx = x+rand.nextInt(width)-rand.nextInt(width);
+						yy = bottomY+1+rand.nextInt(height-1);
+						zz = z+rand.nextInt(width)-rand.nextInt(width);
+						
+						if (world.getBlock(xx-1,yy,zz) == BlockList.persegrit || world.getBlock(xx+1,yy,zz) == BlockList.persegrit ||
+							world.getBlock(xx,yy-1,zz) == BlockList.persegrit || world.getBlock(xx,yy+1,zz) == BlockList.persegrit ||
+							world.getBlock(xx,yy,zz-1) == BlockList.persegrit || world.getBlock(xx,yy,zz+1) == BlockList.persegrit ||
+							world.getBlock(xx,yy,zz) == BlockList.persegrit)continue;
+						
+						boolean found = false;
+						
+						for(b = 0; b <= width+2; b++){
+							if (world.getBlock(xx -= addX,yy -= addY,zz -= addZ) == BlockList.persegrit){
+								if (Math.abs(xx-x) <= halfWidth && Math.abs(zz-z) <= halfWidth)found = true;
+								break;
+							}
+						}
+						
+						if (!found)continue;
+						found = false;
+						
+						for(b = 0; b <= width+2; b++){
+							if (world.getBlock(xx += addX,yy += addY,zz += addZ) == BlockList.persegrit){
+								if (Math.abs(xx-x) <= halfWidth && Math.abs(zz-z) <= halfWidth)found = true;
+								break;
+							}
+						}
+						
+						if (!found)continue;
+						
+						for(b = 0; b <= width+2; b++){
+							if (world.getBlock(xx -= addX,yy -= addY,zz -= addZ) == BlockList.persegrit)break;
+							world.setBlock(xx,yy,zz,BlockList.persegrit);
+						}
+						
+						break;
+					}
+				}
+				
+				break;
+				
+			case PERSEGRIT_CUBE:
+				
+				break;
+				
+			case LOTS_OF_CHESTS:
+				
+				break;
+				
+			case FLOATING_CUBES:
+				
+				break;
+		}
 	}
 	
 	private void genHall(int x1, int z1, int x2, int z2, int bottomY, int height, Random rand){

@@ -1,12 +1,15 @@
 package chylex.hee.entity.mob;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -37,9 +40,21 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.island.biome.feature.island.StructureEndermanStash;
 
 public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
+	private static Block[] endermanBlockList;
+	
+	static{
+		List<Block> blocks = new ArrayList<>();
+		
+		for(Object o:Block.blockRegistry.getKeys()){
+			Block block = Block.getBlockFromName((String)o);
+			if (EntityEnderman.getCarriable(block))blocks.add(block);
+		}
+		
+		endermanBlockList = blocks.toArray(new Block[blocks.size()]);
+	}
+
 	private static final UUID attackingSpeedBoostModifierUUID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
     private static final AttributeModifier attackingSpeedBoostModifier = (new AttributeModifier(attackingSpeedBoostModifierUUID,"Attacking speed boost",6.2D,0)).setSaved(false);
     
@@ -179,7 +194,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								setCarrying(new ItemStack(Blocks.tnt));
 							}
 							else if (homelandRole == HomelandRole.COLLECTOR && rand.nextInt(4) != 0){
-								setCarrying(new ItemStack(StructureEndermanStash.getRandomBlock(rand)));
+								setCarrying(new ItemStack(endermanBlockList[rand.nextInt(endermanBlockList.length)]));
 							}
 							
 							break;
