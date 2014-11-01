@@ -84,7 +84,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 		
 		for(int horCheck = 0; horCheck < 8; horCheck++){
 			for(int yCheck = -1; yCheck <= 1; yCheck++){
-				if (world.getBlock(x+horCheckX[horCheck]*halfWidth,bottomY+halfHeight+yCheck*halfHeight,z+horCheckZ[horCheck]*halfWidth) != Blocks.end_stone)return null;
+				if (world.getBlock(x+horCheckX[horCheck]*halfWidth,bottomY+halfHeight+yCheck*(halfHeight+1),z+horCheckZ[horCheck]*halfWidth) != Blocks.end_stone)return null;
 			}
 		}
 		
@@ -134,40 +134,31 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				wall = false;
 			}
 			else if (world.getBlock(x-1,y,z) != BlockList.persegrit || world.getBlock(x+1,y,z) != BlockList.persegrit){
-				if (rand.nextBoolean())addY = rand.nextInt(2)*2-1;
+				if (rand.nextInt(3) != 0)addY = rand.nextInt(2)*2-1;
 				else addZ = rand.nextInt(2)*2-1;
 			}
 			else if (world.getBlock(x,y,z-1) != BlockList.persegrit || world.getBlock(x,y,z+1) != BlockList.persegrit){
-				if (rand.nextBoolean())addX = rand.nextInt(2)*2-1;
-				else addY = rand.nextInt(2)*2-1;
+				if (rand.nextInt(3) != 0)addY = rand.nextInt(2)*2-1;
+				else addX = rand.nextInt(2)*2-1;
 			}
 			
-			//world.setBlock(x,y,z,BlockList.persegrit,BlockPersegrit.getEndMeta(world,addX,addY,addZ,wall));
-			
 			for(int iteration = 0; iteration <= iterations; iteration++){
-				if (iteration == iterations){
-					//world.setBlock(x,y,z,BlockList.persegrit,BlockPersegrit.getEndMeta(world,addX,addY,addZ,wall));
-					break;
-				}
-				
 				x += addX;
 				y += addY;
 				z += addZ;
 				
 				if (isCorner(x,y,z)){
-					if (isWall(x,y,z)){
-						if (addX != 0){
-							addZ = world.getBlock(x,y,z-1) == BlockList.persegrit ? -1 : 1;
-							addX = 0;
-						}
-						else if (addZ != 0){
-							addX = world.getBlock(x-1,y,z) == BlockList.persegrit ? -1 : 1;
-							addZ = 0;
-						}
-					}
-					else{
+					/*if (addY == 0 && (world.getBlock(x,y-1,z) == BlockList.persegrit || world.getBlock(x,y+1,z) == BlockList.persegrit)){
 						addY = world.getBlock(x,y-1,z) == BlockList.persegrit ? -1 : 1;
 						addX = addZ = 0;
+					}
+					else */if (addX != 0){
+						addZ = world.getBlock(x,y,z-1) == BlockList.persegrit ? -1 : 1;
+						addX = 0;
+					}
+					else if (addZ != 0){
+						addX = world.getBlock(x-1,y,z) == BlockList.persegrit ? -1 : 1;
+						addZ = 0;
 					}
 				}
 				else if (rand.nextInt(12) == 0){
@@ -194,13 +185,11 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				}
 				
 				if (world.getBlock(x,y,z) == BlockList.persegrit){
-					if (iteration < iterations){
-						world.setBlock(x,y,z,BlockList.persegrit,15);
-						connections.add(new BlockLocation(x,y,z));
-					}
+					world.setBlock(x,y,z,BlockList.persegrit,15);
+					connections.add(new BlockLocation(x,y,z));
 				}
 				else{
-					// TODO Log.debug("Hidden Cellar pattern generation got out of room bounds ($0, $1, $2).",addX,addY,addZ);
+					Log.debug("Hidden Cellar pattern generation got out of room bounds ($0, $1, $2), iteration $3.",addX,addY,addZ,iteration);
 					break;
 				}
 			}
@@ -212,16 +201,18 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 	}
 	
 	private boolean isCorner(int x, int y, int z){
+		Block pg = BlockList.persegrit;
+		
 		Block l = world.getBlock(x-1,y,z), r = world.getBlock(x+1,y,z),
 			  u = world.getBlock(x,y,z-1), d = world.getBlock(x,y,z+1),
 			  b = world.getBlock(x,y-1,z), t = world.getBlock(x,y+1,z);
 		
-		return !((l == BlockList.persegrit && r == l && u == l && d == l && b != l && t != l) ||
-				(t == BlockList.persegrit && b == t && ((l == t && r == t) ^ (u == t && d == t))));
+		return (((l == pg && r == pg) || (u == pg && d == pg)) && ((b == pg && t != pg) || (b != pg && t == pg))) ||
+				(t == pg && b == pg && ((l == pg && r != pg) || (u == pg && d != pg) || (l != pg && r == pg) || (u != pg && d == pg)));
 	}
 	
 	private boolean isWall(int x, int y, int z){
-		return !(world.getBlock(x,y-1,z) != BlockList.persegrit || world.getBlock(x,y+1,z) != BlockList.persegrit);
+		return world.getBlock(x,y-1,z) == BlockList.persegrit || world.getBlock(x,y+1,z) == BlockList.persegrit;
 	}
 	
 	private final class RoomInfo{
