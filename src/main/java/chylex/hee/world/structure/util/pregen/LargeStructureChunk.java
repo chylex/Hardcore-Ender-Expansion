@@ -43,6 +43,7 @@ public class LargeStructureChunk{
 	
 	public void setBlock(int xInChunk, int yInChunk, int zInChunk, Block block, int metadata, boolean scheduleUpdate){
 		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
+			if (Log.isDebugEnabled())Thread.dumpStack();
 			Log.debug("Placing block at invalid coordinates: $0,$1,$2",xInChunk,yInChunk,zInChunk);
 			return;
 		}
@@ -59,6 +60,7 @@ public class LargeStructureChunk{
 	
 	public Block getBlock(int xInChunk, int yInChunk, int zInChunk){
 		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
+			if (Log.isDebugEnabled())Thread.dumpStack();
 			Log.debug("Getting block at invalid coordinates: $0,$1,$2",xInChunk,yInChunk,zInChunk);
 			return Blocks.air;
 		}
@@ -69,6 +71,7 @@ public class LargeStructureChunk{
 	
 	public int getMetadata(int xInChunk, int yInChunk, int zInChunk){
 		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
+			if (Log.isDebugEnabled())Thread.dumpStack();
 			Log.debug("Getting block metadata at invalid coordinates: $0,$1,$2",xInChunk,yInChunk,zInChunk);
 			return 0;
 		}

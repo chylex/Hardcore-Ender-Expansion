@@ -113,7 +113,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				genHall(room.x+(room.halfWidth-1)*offX-offZ*2,room.z+(room.halfWidth-1)*offZ-offX*2,newRoom.x-(hWidth-1)*offX+offZ*2,newRoom.z-(hWidth-1)*offZ+offX*2,y,height,rand);
 			}
 			
+			for(RoomInfo room:rooms)genRoomContent(room,y,height,rand);
 			genPatterns(rand);
+			
 			return true;
 		}
 		
@@ -145,7 +147,6 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 			}
 		}
 		
-		if (halfWidth != 2)genRoomContent(x,z,halfWidth,bottomY,height,rand);
 		return new RoomInfo(x,z,halfWidth);
 	}
 	
@@ -154,35 +155,41 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomContent>> roomContentList = new WeightedList<>(
-		//ObjectWeightPair.of(EnumRoomContent.NONE, 100),
+		ObjectWeightPair.of(EnumRoomContent.NONE, 100),
 		ObjectWeightPair.of(EnumRoomContent.CONNECTING_LINES, 10),
-		ObjectWeightPair.of(EnumRoomContent.LOTS_OF_CHESTS, 8),
-		ObjectWeightPair.of(EnumRoomContent.PERSEGRIT_CUBE, 6),
-		ObjectWeightPair.of(EnumRoomContent.FLOATING_CUBES, 6)
+		ObjectWeightPair.of(EnumRoomContent.PERSEGRIT_CUBE, 8),
+		ObjectWeightPair.of(EnumRoomContent.LOTS_OF_CHESTS, 7),
+		ObjectWeightPair.of(EnumRoomContent.FLOATING_CUBES, 5)
 	);
 	
-	private void genRoomContent(int x, int z, int halfWidth, int bottomY, int height, Random rand){
-		EnumRoomContent type = roomContentList.getRandomItem(rand).getObject();
-		if (type == EnumRoomContent.NONE)return;
+	private void genRoomContent(RoomInfo room, int bottomY, int height, Random rand){
+		int x = room.x, z = room.z, halfWidth = room.halfWidth;
+		
+		if (halfWidth == 2)return;
+		
+		EnumRoomContent type = roomContentList.getRandomItem(rand).getObject(); type = EnumRoomContent.FLOATING_CUBES;
 		
 		switch(type){
 			case CONNECTING_LINES:
+				List<BlockLocation> toPersegrit = new ArrayList<BlockLocation>();
+				
 				for(int lines = 3+((halfWidth*(height-2))>>1)+rand.nextInt(6+halfWidth*2+height), width = halfWidth*2-2, dir, xx, yy, zz, addX = 0, addY = 0, addZ = 0, a, b; lines >= 0; lines--){
-					dir = rand.nextInt(3);
+					dir = rand.nextInt(4);
+					addX = addY = addZ = 0;
 					
 					if (dir == 0)addX = rand.nextBoolean() ? -1 : 1;
 					else if (dir == 1)addZ = rand.nextBoolean() ? -1 : 1;
 					else addY = rand.nextBoolean() ? -1 : 1;
 					
 					for(a = 0; a < 10; a++){
-						xx = x+rand.nextInt(width)-rand.nextInt(width);
+						xx = x+rand.nextInt(width)-(width>>1);
 						yy = bottomY+1+rand.nextInt(height-1);
-						zz = z+rand.nextInt(width)-rand.nextInt(width);
+						zz = z+rand.nextInt(width)-(width>>1);
 						
-						if (world.getBlock(xx-1,yy,zz) == BlockList.persegrit || world.getBlock(xx+1,yy,zz) == BlockList.persegrit ||
-							world.getBlock(xx,yy-1,zz) == BlockList.persegrit || world.getBlock(xx,yy+1,zz) == BlockList.persegrit ||
-							world.getBlock(xx,yy,zz-1) == BlockList.persegrit || world.getBlock(xx,yy,zz+1) == BlockList.persegrit ||
-							world.getBlock(xx,yy,zz) == BlockList.persegrit)continue;
+						if (world.getBlock(xx-1,yy,zz) == Blocks.bedrock || world.getBlock(xx+1,yy,zz) == Blocks.bedrock ||
+							world.getBlock(xx,yy-1,zz) == Blocks.bedrock || world.getBlock(xx,yy+1,zz) == Blocks.bedrock ||
+							world.getBlock(xx,yy,zz-1) == Blocks.bedrock || world.getBlock(xx,yy,zz+1) == Blocks.bedrock ||
+							!world.isAir(xx,yy,zz))continue;
 						
 						boolean found = false;
 						
@@ -207,34 +214,47 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 						
 						for(b = 0; b <= width+2; b++){
 							if (world.getBlock(xx -= addX,yy -= addY,zz -= addZ) == BlockList.persegrit)break;
-							world.setBlock(xx,yy,zz,BlockList.persegrit);
+							world.setBlock(xx,yy,zz,Blocks.bedrock);
+							toPersegrit.add(new BlockLocation(xx,yy,zz));
 						}
 						
 						break;
 					}
 				}
 				
+				for(BlockLocation loc:toPersegrit){
+					world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit);
+					if (rand.nextInt(60) == 0)patternBlocks.add(loc);
+				}
+				
 				break;
 				
 			case PERSEGRIT_CUBE:
-				int cubeHalfWidth = Math.max(1,halfWidth-2-rand.nextInt(2));
+				int cubeHalfWidth = Math.max(1,halfWidth-3-rand.nextInt(2));
 				
 				for(int yy = bottomY+1; yy <= bottomY+height-1; yy++){
 					for(int a = -cubeHalfWidth; a <= cubeHalfWidth; a++){
 						world.setBlock(x+a,yy,z-cubeHalfWidth,BlockList.persegrit);
+						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(x+a,yy,z-cubeHalfWidth));
+						
 						world.setBlock(x+a,yy,z+cubeHalfWidth,BlockList.persegrit);
+						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(x+a,yy,z+cubeHalfWidth));
+						
 						world.setBlock(x-cubeHalfWidth,yy,z+a,BlockList.persegrit);
+						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(x-cubeHalfWidth,yy,z+a));
+						
 						world.setBlock(x+cubeHalfWidth,yy,z+a,BlockList.persegrit);
+						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(x+cubeHalfWidth,yy,z+a));
 					}
 				}
 				
 				break;
 				
 			case LOTS_OF_CHESTS:
-				for(int chests = 15+rand.nextInt(10+3*halfWidth)+5*halfWidth, xx, yy, zz, width = halfWidth*2-2, attempt, yTest, dir, normal, trapped; chests >= 0; chests--){
+				for(int chests = 10+rand.nextInt(8+3*halfWidth)+4*halfWidth, xx, yy, zz, width = halfWidth*2-2, attempt, yTest, dir, normal, trapped; chests >= 0; chests--){
 					for(attempt = 0; attempt < 4; attempt++){
-						xx = x+rand.nextInt(width)-rand.nextInt(width);
-						zz = z+rand.nextInt(width)-rand.nextInt(width);
+						xx = x+rand.nextInt(width)-(width>>1);
+						zz = z+rand.nextInt(width)-(width>>1);
 						yy = bottomY+1;
 						
 						if (!world.isAir(xx,yy,zz)){
@@ -255,9 +275,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 							else if (block == Blocks.trapped_chest)++trapped;
 						}
 						
-						if (normal == 0 && trapped == 0)world.setBlock(xx,yy,zz,rand.nextBoolean() ? Blocks.chest : Blocks.trapped_chest);
-						else if (normal == 1 && trapped == 0)world.setBlock(xx,yy,zz,Blocks.trapped_chest);
-						else if (normal == 0 && trapped == 1)world.setBlock(xx,yy,zz,Blocks.chest);
+						if (normal == 0 && trapped == 0)world.setBlock(xx,yy,zz,rand.nextBoolean() ? Blocks.chest : Blocks.trapped_chest,rand.nextInt(4));
+						else if (normal == 1 && trapped == 0)world.setBlock(xx,yy,zz,Blocks.trapped_chest,rand.nextInt(4));
+						else if (normal == 0 && trapped == 1)world.setBlock(xx,yy,zz,Blocks.chest,rand.nextInt(4));
 						else continue;
 						
 						if (rand.nextInt(10) == 0){
@@ -274,10 +294,10 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 			case FLOATING_CUBES:
 				for(int cubes = 5+rand.nextInt(10), size, attempt, xx, yy, zz, px, py, pz, xzSpace, ySpace; cubes >= 0; cubes--){
 					Block randBlock = endermanSolidBlocks[rand.nextInt(endermanSolidBlocks.length)];
-					size = 2+rand.nextInt(3+rand.nextInt(2));
+					size = 1+rand.nextInt(3+rand.nextInt(2));
 					
-					if ((xzSpace = halfWidth*2-1-size) < 1)continue;
-					if ((ySpace = height-1-size) < 1)continue;
+					if ((xzSpace = halfWidth*2-size) < 1)continue;
+					if ((ySpace = height-size) < 1)continue;
 					
 					for(attempt = 0; attempt < 20; attempt++){
 						xx = x-halfWidth+1+rand.nextInt(xzSpace);
@@ -286,10 +306,12 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 						
 						boolean canGenerate = true;
 						
-						for(px = xx-1; px <= xx+size+1; px++){
-							for(py = yy-1; py <= yy+size+1; py++){
-								for(pz = zz-1; zz <= zz+size+1; pz++){
-									if (world.getBlock(px,py,pz) != BlockList.persegrit){
+						for(px = xx-1; px <= xx+size; px++){
+							for(py = yy-1; py <= yy+size; py++){
+								for(pz = zz-1; pz <= zz+size; pz++){
+									Block block = world.getBlock(px,py,pz);
+									
+									if (block != Blocks.air && block !=  BlockList.persegrit){
 										canGenerate = false;
 										px += 99;
 										py += 99;
@@ -300,9 +322,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 						}
 						
 						if (canGenerate){
-							for(px = xx; px <= xx+size; px++){
-								for(py = yy; py <= yy+size; py++){
-									for(pz = zz; zz <= zz+size; pz++){
+							for(px = xx; px < xx+size; px++){
+								for(py = yy; py < yy+size; py++){
+									for(pz = zz; pz < zz+size; pz++){
 										world.setBlock(px,py,pz,randBlock);
 									}
 								}
