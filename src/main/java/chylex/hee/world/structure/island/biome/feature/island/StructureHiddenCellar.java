@@ -7,7 +7,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockPersegrit;
-import chylex.hee.system.logging.Log;
+import chylex.hee.system.weight.IWeightProvider;
+import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.util.BlockLocation;
 
@@ -71,10 +72,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 		
 		return false;
 	}
-	
-	/**
-	 * Walls count to the width of the room. Height has to be divisible by 2.
-	 */
+
 	private RoomInfo genRoom(int x, int z, int halfWidth, int bottomY, int height, Random rand){
 		if (halfWidth == 3)halfWidth = 2; // too small, turn it into a "hall"
 		
@@ -100,9 +98,31 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 			}
 		}
 		
-		// TODO room content
-		
+		if (halfWidth != 2)genRoomContent(x,z,halfWidth,bottomY,height,rand);
 		return new RoomInfo(x,z,halfWidth);
+	}
+	
+	private enum RoomContent implements IWeightProvider{
+		NONE(50);
+		
+		static final WeightedList<RoomContent> weights = new WeightedList<>(values());
+		private final int weight;
+		
+		private RoomContent(int weight){
+			this.weight = weight;
+		}
+		
+		@Override
+		public int getWeight(){
+			return weight;
+		}
+	}
+	
+	private void genRoomContent(int x, int z, int halfWidth, int bottomY, int height, Random rand){
+		RoomContent type = RoomContent.weights.getRandomItem(rand);
+		if (type == RoomContent.NONE)return;
+		
+		// TODO
 	}
 	
 	private void genHall(int x1, int z1, int x2, int z2, int bottomY, int height, Random rand){
@@ -148,11 +168,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 				z += addZ;
 				
 				if (isCorner(x,y,z)){
-					/*if (addY == 0 && (world.getBlock(x,y-1,z) == BlockList.persegrit || world.getBlock(x,y+1,z) == BlockList.persegrit)){
-						addY = world.getBlock(x,y-1,z) == BlockList.persegrit ? -1 : 1;
-						addX = addZ = 0;
-					}
-					else */if (addX != 0){
+					if (addX != 0){
 						addZ = world.getBlock(x,y,z-1) == BlockList.persegrit ? -1 : 1;
 						addX = 0;
 					}
@@ -188,10 +204,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure{
 					world.setBlock(x,y,z,BlockList.persegrit,15);
 					connections.add(new BlockLocation(x,y,z));
 				}
-				else{
-					Log.debug("Hidden Cellar pattern generation got out of room bounds ($0, $1, $2), iteration $3.",addX,addY,addZ,iteration);
-					break;
-				}
+				else break;
 			}
 		}
 		
