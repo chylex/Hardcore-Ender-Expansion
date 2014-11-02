@@ -14,6 +14,7 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -476,7 +477,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				event.collidedEntity.motionY = event.velocityY;
 				event.collidedEntity.motionZ = event.velocityZ;
 				
-				if (entity instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)entity,new C06SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
+				if (entity instanceof EntityPlayerMP)PacketPipeline.sendToPlayer((EntityPlayerMP)entity,new C06SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
 			}
 		}
 	}

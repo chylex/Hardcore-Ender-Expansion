@@ -1,6 +1,8 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import chylex.hee.block.BlockList;
 import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,7 +19,36 @@ public class C08PlaySound extends AbstractClientPacket{
 							 STARDUST_TRANSFORMATION = 8,
 							 RANDOM_BREAK = 9,
 							 EXP_ORB = 10,
-							 GHOST_MOVE = 11;
+							 GHOST_MOVE = 11,
+							 PERSEGRIT_FOOTSTEPS = 12,
+							 CHEST_OPEN = 13,
+							 CHEST_CLOSE = 14,
+							 GRASS_BREAK = 15,
+							 GRAVEL_BREAK = 16,
+							 SAND_BREAK = 17,
+							 WOOD_BREAK = 18;
+	
+	private static final String[] soundNames = new String[]{
+		/*  0 */ "hardcoreenderexpansion:mob.endereye.attack.poof",
+		/*  1 */ "hardcoreenderexpansion:mob.endereye.attack.confusion",
+		/*  2 */ "hardcoreenderexpansion:mob.endereye.attack.laseradd",
+		/*  3 */ "hardcoreenderexpansion:mob.endereye.attack.laserend",
+		/*  4 */ "dig.glass",
+		/*  5 */ "hardcoreenderexpansion:mob.ghost.spawn",
+		/*  6 */ "mob.ghast.fireball",
+		/*  7 */ "hardcoreenderexpansion:mob.ghost.death",
+		/*  8 */ "hardcoreenderexpansion:block.random.transform",
+		/*  9 */ "random.break",
+		/* 10 */ "random.orb",
+		/* 11 */ "hardcoreenderexpansion:mob.ghost.move",
+		/* 12 */ BlockList.persegrit.stepSound.getStepResourcePath(),
+		/* 13 */ "random.chestopen",
+		/* 14 */ "random.chestclosed",
+		/* 15 */ Block.soundTypeGrass.getBreakSound(),
+		/* 16 */ Block.soundTypeGravel.getBreakSound(),
+		/* 17 */ Block.soundTypeSand.getBreakSound(),
+		/* 18 */ Block.soundTypeWood.getBreakSound()
+	};
 	
 	private byte soundId;
 	private double x,y,z;
@@ -52,21 +83,6 @@ public class C08PlaySound extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		String effectStr = null;
-
-		if (soundId == 0)effectStr = "hardcoreenderexpansion:mob.endereye.attack.poof";
-		else if (soundId == 1)effectStr = "hardcoreenderexpansion:mob.endereye.attack.confusion";
-		else if (soundId == 2)effectStr = "hardcoreenderexpansion:mob.endereye.attack.laseradd";
-		else if (soundId == 3)effectStr = "hardcoreenderexpansion:mob.endereye.attack.laserend";
-		else if (soundId == 4)effectStr = "dig.glass";
-		else if (soundId == 5)effectStr = "hardcoreenderexpansion:mob.ghost.spawn";
-		else if (soundId == 6)effectStr = "mob.ghast.fireball";
-		else if (soundId == 7)effectStr = "hardcoreenderexpansion:mob.ghost.death";
-		else if (soundId == 8)effectStr = "hardcoreenderexpansion:block.random.transform";
-		else if (soundId == 9)effectStr = "random.break";
-		else if (soundId == 10)effectStr = "random.orb";
-		else if (soundId == 11)effectStr = "hardcoreenderexpansion:mob.ghost.move";
-
-		if (effectStr != null)player.worldObj.playSound(x,y,z,effectStr,volume,pitch,false);
+		if (soundId >= 0 && soundId < soundNames.length)player.worldObj.playSound(x,y,z,soundNames[soundId],volume,pitch,false);
 	}
 }
