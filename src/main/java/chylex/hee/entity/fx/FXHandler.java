@@ -83,10 +83,6 @@ public final class FXHandler{
 				for(int a = 0; a < 20; a++)world.spawnParticle("largesmoke",x+randCenter(0.3D),y+rand.nextDouble()*2.8D,z+randCenter(0.3D),0D,0D,0D);
 				break;
 				
-			case ENDER_GUARDIAN_TELEPORT:
-				for(int a = 0; a < 80; a++)HardcoreEnderExpansion.fx.portalBig(world,x+randCenter(0.6D),y+rand.nextDouble()*3.2D,z+randCenter(0.6D),+randCenter(0.125D),rand.nextDouble()*0.2D-0.1D,+randCenter(0.125D));
-				break;
-				
 			case LOUSE_ARMOR_HIT:
 				for(int a = 0; a < 10; a++)world.spawnParticle("magicCrit",x+randCenter(0.4D),y+rand.nextDouble()*0.45D,z+randCenter(0.4D),randCenter(0.2D),randCenter(0.2D),randCenter(0.2D));
 				break;

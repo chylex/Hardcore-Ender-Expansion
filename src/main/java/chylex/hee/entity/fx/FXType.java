@@ -13,8 +13,8 @@ public final class FXType{
 		ENDER_PEARL_FREEZE,
 		IGNEOUS_ROCK_MELT,
 		ENDERMAN_BLOODLUST_TRANSFORMATION,
-		ENDER_GUARDIAN_TELEPORT,
-		LOUSE_ARMOR_HIT;
+		LOUSE_ARMOR_HIT,
+		HOMELAND_ENDERMAN_TP_OVERWORLD;
 		
 		public static FXType.Basic[] values = values();
 	}
@@ -26,7 +26,8 @@ public final class FXType{
 		CHARM_LAST_RESORT,
 		GEM_TELEPORT_FROM,
 		ORB_TRANSFORMATION,
-		LOUSE_REGEN;
+		LOUSE_REGEN,
+		HOMELAND_ENDERMAN_RECRUIT;
 		
 		public static FXType.Entity[] values = values();
 	}
@@ -36,7 +37,8 @@ public final class FXType{
 		CHARM_SLAUGHTER_IMPACT,
 		CHARM_DAMAGE_REDIRECTION,
 		LOUSE_HEAL_ENTITY,
-		ENDERMAN_TELEPORT;
+		ENDERMAN_TELEPORT,
+		HOMELAND_ENDERMAN_GUARD_CALL;
 		
 		public static FXType.Line[] values = values();
 	}
