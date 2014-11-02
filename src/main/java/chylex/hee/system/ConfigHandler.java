@@ -86,7 +86,7 @@ public final class ConfigHandler{
 		ItemTempleCaller.isEnabled = getBoolValue("enableTempleCaller",true);
 		BiomeGenHardcoreEnd.overrideMobLists = getBool("overrideBiomeMobs",false,"Prevents other mods from changing mobs that spawn in the End.").setRequiresMcRestart(true).getBoolean();
 		BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier",1F,"Multiplies spawn weight of Endermen for each overworld biome.").setRequiresMcRestart(true).getDouble();
-		Log.forceDebugEnabled = getBool("logDebuggingInfo",false).getBoolean();
+		Log.forceDebugEnabled = getBool("logDebuggingInfo",false,"Only use for debugging, enabling debug logging will have severe impact on game performance!").getBoolean();
 		
 		if (firstTimeGeneral){
 			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();

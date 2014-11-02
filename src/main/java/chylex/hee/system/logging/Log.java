@@ -20,6 +20,7 @@ public final class Log{
 	public static boolean forceDebugEnabled;
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 	private static long lastLogReport = -1;
+	private static byte obfEnvironmentWarning = 0;
 	
 	static{
 		isDeobfEnvironment = ((Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment")).booleanValue();
@@ -39,6 +40,11 @@ public final class Log{
 	
 	public static void debug(String message, Object...data){
 		if (forceDebugEnabled || isDeobfEnvironment)logger.info(getMessage(message,data));
+		
+		if (forceDebugEnabled && !isDeobfEnvironment && ++obfEnvironmentWarning >= 30){
+			logger.info(getMessage("Detected obfuscated environment, don't forget to disable logging debug info after you are done debugging!"));
+			obfEnvironmentWarning = 0;
+		}
 	}
 	
 	public static void info(String message, Object...data){
