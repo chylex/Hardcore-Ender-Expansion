@@ -67,7 +67,9 @@ public class BiomeInteractionEnchantedIsland{
 		
 		@Override
 		public void init(){
-			if (world.playerEntities.isEmpty()){
+			List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,getIslandBoundingBox());
+			
+			if (players.isEmpty()){
 				entity.setDead();
 				return;
 			}
@@ -81,8 +83,7 @@ public class BiomeInteractionEnchantedIsland{
 					return;
 				}
 				
-				target = (EntityPlayer)world.playerEntities.get(rand.nextInt(world.playerEntities.size()));
-				if (target.isDead)continue;
+				if ((target = players.get(rand.nextInt(players.size()))).isDead)continue;
 				
 				for(EntityTechnicalBiomeInteraction interaction:interactions){
 					if (interaction != entity && interaction.getInteractionType() == InteractionCellarSounds.class && ((InteractionCellarSounds)interaction.getInteraction()).target == target){
