@@ -51,6 +51,8 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	
 	private static final WeightedLootList rareChest = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(ItemList.enhanced_ender_pearl).setAmount(3,9).setWeight(20),
+		new LootItemStack(ItemList.end_powder).setAmount(5,12).setWeight(12),
+		new LootItemStack(Items.diamond).setAmount(2,5).setWeight(10),
 		new LootItemStack(ItemList.knowledge_note).setWeight(7),
 		new LootItemStack(Items.ender_pearl).setAmount(3,9).setWeight(5),
 		new LootItemStack(ItemList.temple_caller).setWeight(5)

@@ -604,13 +604,17 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				worldObj.playBroadcastSound(1018,(int)posX,(int)posY,(int)posZ,0);
  			}
  			else if (deathTicks == 20 || deathTicks == 140){ // double check
- 				for(Object o:worldObj.loadedEntityList){
- 					if (o instanceof EntityEnderman)((EntityEnderman)o).setTarget(null);
- 					else if (o instanceof EntityMobAngryEnderman)((EntityMobAngryEnderman)o).setHealth(0F);
+ 				List<Entity> entities = worldObj.loadedEntityList;
+ 				
+ 				for(Entity entity:entities){
+ 					if (MathUtil.distance(entity.posX,entity.posZ) > 180D)continue;
+ 					
+ 					if (entity instanceof EntityEnderman)((EntityEnderman)entity).setTarget(null);
+ 					else if (entity instanceof EntityMobAngryEnderman)((EntityMobAngryEnderman)entity).setHealth(0F);
  				}
  			}
  			else if (deathTicks > 4 && deathTicks < 70 && deathTicks%4 == 0){
- 				for(int a = 0,xx,yy,zz; a < 250; a++){
+ 				for(int a = 0, xx, yy, zz; a < 250; a++){
  					xx = (int)Math.floor(posX)+rand.nextInt(50)-25;
  					zz = (int)Math.floor(posZ)+rand.nextInt(50)-25;
  					yy = DragonUtil.getTopBlock(worldObj,Blocks.end_stone,xx,zz,65);
@@ -651,7 +655,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		if (deathTicks >= 180 && deathTicks <= 200){
 			worldObj.spawnParticle("hugeexplosion",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
 		}
-
 
 		moveEntity(0D,0.1D,0D);
 		renderYawOffset = rotationYaw += 20F;
