@@ -79,9 +79,10 @@ public class BiomeInteractionEnchantedIsland{
 		
 		private EntityPlayer target;
 		private Procedure procedure;
-		private byte lastSoundId;
+		private byte lastSoundId, cellarCheckTimer;
 		private int timer, waitTimer;
 		private float soundAngle, soundDist;
+		private boolean isActive = true;
 		
 		@Override
 		public void init(){
@@ -115,7 +116,7 @@ public class BiomeInteractionEnchantedIsland{
 			
 			procedure = Procedure.values[rand.nextInt(Procedure.values.length)];
 			
-			soundDist = 35F+rand.nextFloat()*5F;
+			soundDist = 36F+rand.nextFloat()*5F;
 			soundAngle = (float)(rand.nextDouble()*Math.PI*2D);
 		}
 
@@ -133,33 +134,40 @@ public class BiomeInteractionEnchantedIsland{
 			
 			if (waitTimer > 0)--waitTimer;
 			
-			if (soundDist > 50D)entity.setDead();
+			if (soundDist > 60D)entity.setDead();
 			if (soundDist > 30D)return;
 			
-			boolean foundBottom = false, foundTop = false;
-			int tx = (int)target.posX, tz = (int)target.posZ, minPersegritY = (int)target.posY, maxPersegritY = minPersegritY+1;
-			
-			for(int a = 0; a < 8; a++){
-				if (!foundBottom){
-					if (world.getBlock(tx,minPersegritY,tz) != BlockList.persegrit)--minPersegritY;
-					else foundBottom = true;
+			if (++cellarCheckTimer > 10){
+				boolean foundBottom = false, foundTop = false;
+				int tx = (int)target.posX, tz = (int)target.posZ, minPersegritY = (int)target.posY, maxPersegritY = minPersegritY+1;
+				
+				for(int a = 0; a < 8; a++){
+					if (!foundBottom){
+						if (world.getBlock(tx,minPersegritY,tz) != BlockList.persegrit)--minPersegritY;
+						else foundBottom = true;
+					}
+					
+					if (!foundTop){
+						if (world.getBlock(tx,maxPersegritY,tz) != BlockList.persegrit)++maxPersegritY;
+						else foundTop = true;
+					}
+					
+					if (foundBottom && foundTop)break;
 				}
 				
-				if (!foundTop){
-					if (world.getBlock(tx,maxPersegritY,tz) != BlockList.persegrit)++maxPersegritY;
-					else foundTop = true;
+				if (foundBottom && foundTop){
+					if (soundDist > 5D)soundDist -= 0.08D+rand.nextDouble()*0.02D;
+					isActive = true;
+				}
+				else{
+					soundDist += 0.3D;
+					isActive = false;
 				}
 				
-				if (foundBottom && foundTop)break;
+				System.out.println("new dist "+soundDist);
 			}
 			
-			if (foundBottom && foundTop){
-				// in cellar
-			}
-			else{
-				// increase dist
-				return;
-			}
+			if (!isActive)return;
 			
 			if (--timer < 0){
 				switch(procedure){
@@ -197,6 +205,7 @@ public class BiomeInteractionEnchantedIsland{
 		}
 		
 		private void play(byte soundId, float volume, float pitch){
+			System.out.println("played sound");
 			PacketPipeline.sendToPlayer(target,new C08PlaySound(soundId,target.posX+MathHelper.cos(soundAngle)*soundDist,target.posY,target.posZ+MathHelper.sin(soundAngle)*soundDist,volume,pitch));
 		}
 
