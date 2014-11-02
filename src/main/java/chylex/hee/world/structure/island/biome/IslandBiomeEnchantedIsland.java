@@ -18,6 +18,7 @@ import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorEnchantedIsland;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
+import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland.InteractionCellarSounds;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland.InteractionOvertake;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
@@ -50,7 +51,12 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		});
 		
 		getInteractions(HOMELAND).addAll(new BiomeInteraction[]{
-			new BiomeInteraction("EI_Homeland_Overtake",InteractionOvertake.class,10)
+			new BiomeInteraction("EI_Homeland_Overtake",InteractionOvertake.class,50,1),
+			new BiomeInteraction("EI_Homeland_CellarSounds",InteractionCellarSounds.class,10,20)
+		});
+		
+		getInteractions(LABORATORY).addAll(new BiomeInteraction[]{
+			new BiomeInteraction("EI_Laboratory_CellarSounds",InteractionCellarSounds.class,10,20)
 		});
 	}
 
@@ -117,11 +123,6 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	@Override
 	public float getOreAmountMultiplier(){
 		return 1.25F;
-	}
-	
-	@Override
-	public float getInteractionChance(BiomeContentVariation variation){
-		return variation == HOMELAND ? 0.005F : 0F; // 0.005 = 1/200 = every 50 seconds
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
-public class LaboratoryPlacer{
+public class LaboratoryElementPlacer{
 	public static final byte hallStairsLength = 4;
 	
 	public void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y){
@@ -56,6 +56,16 @@ public class LaboratoryPlacer{
 	
 	public void generateHallStairs(LargeStructureWorld world, Random rand, int x, int y, int z, int xAdd, int yAdd, int zAdd){
 		int x1 = x, x2 = x, z1 = z, z2 = z;
+		
+		if (yAdd == 1){
+			x += xAdd*hallStairsLength;
+			x1 = x2 = x;
+			xAdd *= -1;
+			z += zAdd*hallStairsLength;
+			z1 = z2 = z;
+			zAdd *= -1;
+			yAdd = -1;
+		}
 		
 		if (xAdd != 0){
 			for(int a = 0; a <= hallStairsLength; a++){

@@ -2,8 +2,10 @@ package chylex.hee.world.structure.island.biome.interaction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
+import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
 import chylex.hee.system.util.MathUtil;
@@ -58,5 +60,53 @@ public class BiomeInteractionEnchantedIsland{
 			groupId = nbt.getLong("group");
 			overtakeTimer = nbt.getShort("timer");
 		}
+	}
+	
+	public static class InteractionCellarSounds extends AbstractBiomeInteraction{
+		private EntityPlayer target;
+		
+		@Override
+		public void init(){
+			if (world.playerEntities.isEmpty()){
+				entity.setDead();
+				return;
+			}
+			
+			List<EntityTechnicalBiomeInteraction> interactions = world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,entity.boundingBox.expand(1D,1D,1D));
+			
+			for(int attempt = 0; attempt <= 10; attempt++){
+				if (attempt == 10){
+					target = null;
+					entity.setDead();
+					return;
+				}
+				
+				target = (EntityPlayer)world.playerEntities.get(rand.nextInt(world.playerEntities.size()));
+				if (target.isDead)continue;
+				
+				for(EntityTechnicalBiomeInteraction interaction:interactions){
+					if (interaction != entity && interaction.getInteractionType() == InteractionCellarSounds.class && ((InteractionCellarSounds)interaction.getInteraction()).target == target){
+						target = null;
+						break;
+					}
+				}
+				
+				if (target != null)break;
+			}
+		}
+
+		@Override
+		public void update(){
+			if (target == null || target.isDead){
+				entity.setDead();
+				return;
+			}
+		}
+
+		@Override
+		public void saveToNBT(NBTTagCompound nbt){}
+
+		@Override
+		public void loadFromNBT(NBTTagCompound nbt){}
 	}
 }

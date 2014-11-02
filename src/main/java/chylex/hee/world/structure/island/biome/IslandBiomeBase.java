@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.util.CustomArrayList;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.weight.WeightedList;
@@ -43,7 +44,7 @@ public abstract class IslandBiomeBase{
 	public final byte biomeID;
 	
 	private final TByteObjectHashMap<WeightedList<SpawnEntry>> spawnEntries;
-	protected final TByteObjectHashMap<WeightedList<BiomeInteraction>> interactions;
+	protected final TByteObjectHashMap<CustomArrayList<BiomeInteraction>> interactions;
 	protected final WeightedList<BiomeContentVariation> contentVariations;
 	protected final List<BiomeRandomDeviation> randomDeviations;
 	
@@ -66,8 +67,8 @@ public abstract class IslandBiomeBase{
 		return spawnEntries.get(contentVariation.id);
 	}
 	
-	public WeightedList<BiomeInteraction> getInteractions(BiomeContentVariation contentVariation){
-		interactions.putIfAbsent(contentVariation.id,new WeightedList<BiomeInteraction>());
+	public CustomArrayList<BiomeInteraction> getInteractions(BiomeContentVariation contentVariation){
+		interactions.putIfAbsent(contentVariation.id,new CustomArrayList<BiomeInteraction>());
 		return interactions.get(contentVariation.id);
 	}
 	
@@ -172,9 +173,22 @@ public abstract class IslandBiomeBase{
 			}
 		}
 		
-		if (variation != null && world.rand.nextFloat() < getInteractionChance(variation) && interactions.containsKey(variation.id) && world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.getBoundingBox(x-1,y-1,z-1,x+2,y+2,z+2)).isEmpty()){
-			AbstractBiomeInteraction interaction = interactions.get(variation.id).getRandomItem(world.rand).create();
-			if (interaction != null)world.spawnEntityInWorld(new EntityTechnicalBiomeInteraction(world,x+0.5D,y+0.5D,z+0.5D,interaction));
+		if (variation != null && interactions.containsKey(variation.id) && world.rand.nextInt(5) == 0){
+			for(BiomeInteraction interaction:interactions.get(variation.id)){
+				if (world.rand.nextInt(interaction.getRNG()) == 0){
+					List<EntityTechnicalBiomeInteraction> list = world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.getBoundingBox(x-1,y-1,z-1,x+2,y+2,z+2));
+					byte instances = 0;
+					
+					for(EntityTechnicalBiomeInteraction interactionEntity:list){
+						if (interactionEntity.getInteraction().getIdentifier().equals(interaction.getIdentifier()))++instances;
+					}
+					
+					if (instances < interaction.getMaxInstances()){
+						AbstractBiomeInteraction interactionInstance = interaction.create();
+						if (interactionInstance != null)world.spawnEntityInWorld(new EntityTechnicalBiomeInteraction(world,x+0.5D,y+0.5D,z+0.5D,interactionInstance));
+					}
+				}
+			}
 		}
 		
 		for(Object o:world.playerEntities){
@@ -220,10 +234,6 @@ public abstract class IslandBiomeBase{
 	
 	public float getOreAmountMultiplier(){
 		return 1F;
-	}
-	
-	public float getInteractionChance(BiomeContentVariation variation){
-		return 0F;
 	}
 	
 	protected abstract IslandBiomeDecorator getDecorator();

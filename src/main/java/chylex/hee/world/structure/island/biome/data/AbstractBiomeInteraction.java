@@ -7,7 +7,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.weight.IWeightProvider;
 import chylex.hee.world.structure.island.ComponentIsland;
 
 public abstract class AbstractBiomeInteraction{
@@ -41,7 +40,7 @@ public abstract class AbstractBiomeInteraction{
 		return AxisAlignedBB.getBoundingBox(centerX-ComponentIsland.halfSize,10,centerZ-ComponentIsland.halfSize,centerX+ComponentIsland.halfSize,120,centerZ+ComponentIsland.halfSize);
 	}
 	
-	public static final class BiomeInteraction implements IWeightProvider{
+	public static final class BiomeInteraction{
 		private static final Map<String,BiomeInteraction> idLookup = new HashMap<>();
 		
 		public static AbstractBiomeInteraction createByIdentifier(String identifier){
@@ -51,12 +50,14 @@ public abstract class AbstractBiomeInteraction{
 		
 		private final String identifier;
 		private final Class<? extends AbstractBiomeInteraction> interactionClass;
-		private final int weight;
+		private final int rngSource;
+		private final byte maxInstances;
 		
-		public BiomeInteraction(String identifier, Class<? extends AbstractBiomeInteraction> interactionClass, int weight){
+		public BiomeInteraction(String identifier, Class<? extends AbstractBiomeInteraction> interactionClass, int rngSource, int maxInstances){
 			this.identifier = identifier;
 			this.interactionClass = interactionClass;
-			this.weight = weight;
+			this.rngSource = rngSource;
+			this.maxInstances = (byte)(maxInstances > 127 ? 127 : maxInstances);
 			idLookup.put(identifier,this);
 		}
 		
@@ -75,9 +76,12 @@ public abstract class AbstractBiomeInteraction{
 			return identifier;
 		}
 		
-		@Override
-		public int getWeight(){
-			return weight;
+		public int getRNG(){
+			return rngSource;
+		}
+		
+		public int getMaxInstances(){
+			return maxInstances;
 		}
 	}
 }

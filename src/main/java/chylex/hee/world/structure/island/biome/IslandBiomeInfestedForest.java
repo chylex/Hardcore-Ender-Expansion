@@ -44,7 +44,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 		});
 		
 		getInteractions(DEEP).addAll(new BiomeInteraction[]{
-			new BiomeInteraction("IF_Deep_CollapsingTrees",InteractionCollapsingTrees.class,10)
+			new BiomeInteraction("IF_Deep_CollapsingTrees",InteractionCollapsingTrees.class,40,2)
 		});
 	}
 	
@@ -124,11 +124,6 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	@Override
 	public float getOreAmountMultiplier(){
 		return data.content == RAVAGED ? 0.6F : 1F;
-	}
-	
-	@Override
-	public float getInteractionChance(BiomeContentVariation variation){
-		return variation == DEEP ? 0.00625F : 0F; // 0.01136 = 1/160 = every 40 seconds
 	}
 
 	@Override

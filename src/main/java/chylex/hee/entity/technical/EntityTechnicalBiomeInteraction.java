@@ -54,7 +54,6 @@ public class EntityTechnicalBiomeInteraction extends Entity{
 			
 			if (interaction != null){
 				interaction.init(this);
-				interaction.init();
 				interaction.loadFromNBT(nbt.getCompoundTag("interactionData"));
 			}
 			else setDead();

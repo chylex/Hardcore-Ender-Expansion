@@ -32,7 +32,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		// HIDDEN CELLAR
 		genCellar.setVariation(EnchantedIslandVariation.HOMELAND);
 		
-		for(int attempt = 0, placed = 0; attempt < 20 && placed < 4; attempt++){
+		for(int attempt = 0, placed = 0; attempt < 20 && placed < 4+rand.nextInt(3); attempt++){
 			if (genCellar.generateInWorld(world,rand,getBiome()))++placed;
 		}
 		
@@ -134,7 +134,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		// HIDDEN CELLAR
 		genCellar.setVariation(EnchantedIslandVariation.LABORATORY);
 		
-		for(int attempt = 0, placed = 0; attempt < 20 && placed < 4; attempt++){
+		for(int attempt = 0, placed = 0; attempt < 20 && placed < 4+rand.nextInt(3); attempt++){
 			if (genCellar.generateInWorld(world,rand,getBiome()))++placed;
 		}
 	}
