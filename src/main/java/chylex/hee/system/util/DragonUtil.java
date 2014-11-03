@@ -20,6 +20,7 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.system.logging.Stopwatch;
 
 public final class DragonUtil{
 	public static int portalEffectX, portalEffectZ;
@@ -63,6 +64,8 @@ public final class DragonUtil{
 	}
 	
 	public static boolean canEntitySeePoint(EntityLivingBase entity, double x, double y, double z, double pointScale, boolean fromCenter){
+		Stopwatch.timeAverage("DragonUtil - canEntitySeePoint",800);
+		
 		double px = entity.posX,
 			   py = entity.posY,
 			   pz = entity.posZ,
@@ -110,6 +113,8 @@ public final class DragonUtil{
 		
 		boolean isBlocked = isBlockedArr[0] && isBlockedArr[1] && isBlockedArr[2] && isBlockedArr[3] && isBlockedArr[4] && isBlockedArr[5] && isBlockedArr[6] && isBlockedArr[7];
 
+		Stopwatch.finish("DragonUtil - canEntitySeePoint");
+		
 		if (isBlocked)return false;
 		else return (isXZInYaw && isYInPitch);
 	}

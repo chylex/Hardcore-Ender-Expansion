@@ -41,11 +41,6 @@ public class BlockSpookyLog extends Block{
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor){
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
-	}
-
-	@Override
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
 		super.dropBlockAsItemWithChance(world,x,y,z,meta,chance,fortune);
 		
@@ -103,15 +98,23 @@ public class BlockSpookyLog extends Block{
 	public void updateTick(World world, int x, int y, int z, Random rand){
 		if (world.isRemote || world.getBlockMetadata(x,y,z) == 0)return;
 		
-		if (rand.nextInt(4) != 0 && !isBlockSeen(world,x,y,z)){
+		if (rand.nextInt(4) == 0 && !isBlockSeen(world,x,y,z)){
 			int w = rand.nextInt(5); // 0,1 = rotate, 2 = move up or down, 3,4 = move tree
+			boolean moved = false;
 			
-			if (w == 0 || w == 1)world.setBlockMetadataWithNotify(x,y,z,rand.nextInt(4)+1,3);
+			if (w == 0 || w == 1){
+				world.setBlockMetadataWithNotify(x,y,z,rand.nextInt(4)+1,3);
+				world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+				moved = true;
+			}
 			else if (w == 2){
 				int dir = rand.nextInt(2)*2-1;
+				
 				if (world.getBlock(x,y+dir,z) == this){
 					world.setBlockMetadataWithNotify(x,y+dir,z,world.getBlockMetadata(x,y,z),3);
 					world.setBlockMetadataWithNotify(x,y,z,0,3);
+					world.scheduleBlockUpdate(x,y+dir,z,this,tickRate(world));
+					moved = true;
 				}
 			}
 			else{
@@ -141,11 +144,16 @@ public class BlockSpookyLog extends Block{
 						if (!hasFace && !isBlockSeen(world,xx,y,zz)){
 							world.setBlockMetadataWithNotify(xx,y,zz,world.getBlockMetadata(x,y,z),3);
 							world.setBlockMetadataWithNotify(x,y,z,0,3);
-							if (rand.nextInt(5) == 0)PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C08PlaySound(C08PlaySound.GHOST_MOVE,x+0.5D,y+0.5D,z+0.5D,1.2F+rand.nextFloat()*0.4F,0.6F+rand.nextFloat()*0.5F));
-							break;
+							world.scheduleBlockUpdate(xx,y,zz,this,tickRate(world));
+							moved = true;
 						}
 					}
 				}
+			}
+			
+			if (moved){
+				if (rand.nextInt(32) == 0)PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C08PlaySound(C08PlaySound.GHOST_MOVE,x+0.5D,y+0.5D,z+0.5D,1.2F+rand.nextFloat()*0.4F,0.6F+rand.nextFloat()*0.5F));
+				return;
 			}
 			
 			world.scheduleBlockUpdate(x,y,z,this,tickRate(world));

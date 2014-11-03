@@ -48,7 +48,7 @@ public final class MathUtil{
 		a1 = Math.abs((x1-xx)*(y2-yy)-(x2-xx)*(y1-yy));
 		a2 = Math.abs((x2-xx)*(y3-yy)-(x3-xx)*(y2-yy));
 		a3 = Math.abs((x3-xx)*(y1-yy)-(x1-xx)*(y3-yy));
-		return (Math.abs(a1+a2+a3-a0) <= 1/256);
+		return (Math.abs(a1+a2+a3-a0) <= 1D/256D);
 	}
 
 	public static double lendirx(double len, double dir){

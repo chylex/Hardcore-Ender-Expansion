@@ -29,7 +29,7 @@ public class EnergyEvents{
 	public void onWorldTick(WorldTickEvent e){
 		if (e.phase != Phase.START || e.world.provider.dimensionId != 1 || e.world.isRemote || ++updateTimer <= 4)return;
 		
-		Stopwatch.timeAverage("EnergyEvents - WorldTick",20);
+		Stopwatch.timeAverage("EnergyEvents - WorldTick",80);
 		
 		List<Chunk> chunks = ((ChunkProviderServer)e.world.getChunkProvider()).loadedChunks;
 		Set<EnergyChunkData> usedData = new HashSet<>();
