@@ -13,8 +13,6 @@ public final class EnergyClusterData{
 	private float energyLevel, maxEnergyLevel;
 	private byte regenTimer, drainTimer;
 	
-	public EnergyClusterData(){}
-	
 	public void generate(Random rand, int blockX, int blockZ){
 		int chunkX = blockX>>4, chunkZ = blockZ>>4;
 		EnergySavefile file = WorldDataHandler.get(EnergySavefile.class);

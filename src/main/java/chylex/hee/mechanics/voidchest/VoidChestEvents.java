@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class VoidChestEvents{
+public final class VoidChestEvents{
 	public static void register(){
 		MinecraftForge.EVENT_BUS.register(new VoidChestEvents());
 		PlayerVoidChest.register();

@@ -14,7 +14,7 @@ import chylex.hee.world.util.BlockLocation;
 
 public final class DecoratorFeatureGenerator{
 	private final TIntObjectHashMap<GeneratedBlock> blocks = new TIntObjectHashMap<>();
-	private Map<BlockLocation,ITileEntityGenerator> tileEntities = new HashMap<>();
+	private final Map<BlockLocation,ITileEntityGenerator> tileEntities = new HashMap<>();
 	private int minX, maxX, minZ, maxZ, bottomY, topY;
 	
 	public boolean setBlock(int x, int y, int z, Block block){

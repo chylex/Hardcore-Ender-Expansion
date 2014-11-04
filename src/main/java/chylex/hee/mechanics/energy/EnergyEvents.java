@@ -17,7 +17,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
-public class EnergyEvents{
+public final class EnergyEvents{
 	private static final EnergyEvents instance = new EnergyEvents();
 	
 	public static void register(){

@@ -42,7 +42,7 @@ public final class TempleEvents{
 	}
 	
 	public static void destroyWorld(){
-		if (instance == null)throw new RuntimeException("EndDestroyTicker has not been registered!");
+		if (instance == null)throw new RuntimeException("TempleEvents class has not been registered!");
 		
 		if (instance.stage == DestroyStage.SILENT){
 			instance.setStage(DestroyStage.KICK);

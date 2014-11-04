@@ -85,4 +85,6 @@ public final class DimensionOverride{
 
 		Stopwatch.finish("DimensionOverride - WorldProvider");
 	}
+	
+	private DimensionOverride(){}
 }

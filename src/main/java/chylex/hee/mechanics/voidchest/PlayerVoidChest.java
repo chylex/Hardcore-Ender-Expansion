@@ -26,7 +26,7 @@ public class PlayerVoidChest implements IExtendedEntityProperties{
 		return ((PlayerVoidChest)player.getExtendedProperties(playerPropertyIdentifier)).inventory;
 	}
 	
-	private InventoryVoidChest inventory = new InventoryVoidChest();
+	private final InventoryVoidChest inventory = new InventoryVoidChest();
 	
 	@Override
 	public void init(Entity entity, World world){}

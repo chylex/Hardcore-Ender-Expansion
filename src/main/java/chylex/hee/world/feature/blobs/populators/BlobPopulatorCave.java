@@ -90,15 +90,15 @@ public class BlobPopulatorCave extends BlobPopulator{
 		if (side >= 2)z = rand.nextInt(32)-16;
 		else z = side == 0 ? 16 : -16;
 
-		if (genCave(gen,rand,x,y,z,rad,Vec3.createVectorHelper(-x,-y,-z).normalize())){
+		if (genCave(gen,rand,x,y,z,rad,Vec3.createVectorHelper(-x,-y,-z).normalize(),1)){
 			--tmpCavesLeft;
 			return true;
 		}
 		else return false;
 	}
 	
-	private boolean genCave(DecoratorFeatureGenerator gen, Random rand, double x, double y, double z, double rad, Vec3 dirVec){
-		if (tmpCavesLeft < 0)return false;
+	private boolean genCave(DecoratorFeatureGenerator gen, Random rand, double x, double y, double z, double rad, Vec3 dirVec, int recursionLevel){
+		if (tmpCavesLeft < 0 || recursionLevel > maxRecursion)return false;
 		
 		boolean generatedSomething = false;
 		Vec3 dirChangeVec = null;
@@ -125,7 +125,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 			if (rand.nextDouble() < tmpRecursionChance){
 				Vec3 newVec = dirVec.crossProduct(DragonUtil.getRandomVector(rand));
 				
-				if (genCave(gen,rand,x,y,z,rad*(minRecursionRadMp+rand.nextDouble()*(maxRecursionRadMp-minRecursionRadMp)),newVec)){
+				if (genCave(gen,rand,x,y,z,rad*(minRecursionRadMp+rand.nextDouble()*(maxRecursionRadMp-minRecursionRadMp)),newVec,recursionLevel+1)){
 					--tmpCavesLeft;
 				}
 			}

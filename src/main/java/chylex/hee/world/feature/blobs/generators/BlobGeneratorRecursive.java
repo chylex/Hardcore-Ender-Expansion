@@ -10,7 +10,7 @@ public class BlobGeneratorRecursive extends BlobGenerator{
 	private IRandomAmount baseAmountGen, totalAmountGen, recursionAmountGen;
 	private byte minAmount, maxAmount, minTotalAmountLimit, maxTotalAmountLimit, minRecursionAmount, maxRecursionAmount, maxRecursion;
 	private double minRad, maxRad, minRecursionChance, maxRecursionChance, recursionChanceMp, minBlobDistMp, maxBlobDistMp;
-	private boolean recursionChanceCached = false;
+	private boolean recursionChanceCached;
 	
 	private int tmpBlobsLeft;
 	private double tmpRecursionChance;

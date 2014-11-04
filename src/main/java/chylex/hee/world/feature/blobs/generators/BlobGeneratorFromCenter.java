@@ -61,7 +61,7 @@ public class BlobGeneratorFromCenter extends BlobGenerator{
 			
 			if (limitDist){
 				if (a == 0)firstDist = dist;
-				else dist *= (firstDist/maxDist);
+				else dist *= firstDist/maxDist;
 			}
 			
 			genBlob(gen,vec.xCoord*dist,vec.yCoord*dist,vec.zCoord*dist,rad);
