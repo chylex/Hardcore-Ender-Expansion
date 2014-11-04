@@ -19,7 +19,9 @@ public class EnergySavefile extends WorldSavefile{
 		super("energy.nbt");
 	}
 	
-	public EnergyChunkData getFromChunkCoords(int chunkX, int chunkZ){
+	public EnergyChunkData getFromChunkCoords(int chunkX, int chunkZ, boolean setModified){
+		if (setModified)setModified();
+		
 		if (chunkX < 0)chunkX -= sectionSize-1;
 		if (chunkZ < 0)chunkZ -= sectionSize-1;
 		
@@ -32,8 +34,8 @@ public class EnergySavefile extends WorldSavefile{
 		return data;
 	}
 	
-	public EnergyChunkData getFromBlockCoords(int blockX, int blockZ){
-		return getFromChunkCoords(blockX>>4,blockZ>>4);
+	public EnergyChunkData getFromBlockCoords(int blockX, int blockZ, boolean setModified){
+		return getFromChunkCoords(blockX>>4,blockZ>>4,setModified);
 	}
 
 	@Override

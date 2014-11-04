@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class EnergyChunkData{
 	public static final float minSignificantEnergy = 0.0001F;
+	public static final float energyDrainUnit = 0.05F;
 	
 	private int x, z;
 	private float energyLevel, maxEnergyLevel, regenLimiter;
@@ -53,6 +54,14 @@ public class EnergyChunkData{
 		regenTimer = 10; // 2 seconds
 		
 		return MathUtil.floatEquals(regen,amount) ? 0F : amount-regen;
+	}
+	
+	public boolean drainEnergyUnit(){
+		if (energyLevel >= energyDrainUnit){
+			drainEnergy(energyDrainUnit);
+			return true;
+		}
+		else return false;
 	}
 	
 	public float drainEnergy(float amount){

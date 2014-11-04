@@ -51,7 +51,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		return (world.isRemote || player.isSneaking())?is:tryTeleportEntity(is,player,player);
+		return (world.isRemote || player.isSneaking()) ? is : tryTeleportEntity(is,player,player);
 	}
 	
 	public ItemStack tryTeleportEntity(ItemStack is, EntityPlayer player, Entity entity){

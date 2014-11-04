@@ -19,8 +19,8 @@ public final class EnergyClusterData{
 		int chunkX = blockX>>4, chunkZ = blockZ>>4;
 		EnergySavefile file = WorldDataHandler.get(EnergySavefile.class);
 		
-		float average = file.getFromChunkCoords(chunkX,chunkZ).getEnergyLevel();
-		for(int a = 0; a < 4; a++)average += file.getFromChunkCoords(chunkX+Direction.offsetX[a]*EnergySavefile.sectionSize,chunkZ+Direction.offsetZ[a]*EnergySavefile.sectionSize).getEnergyLevel();
+		float average = file.getFromChunkCoords(chunkX,chunkZ,false).getEnergyLevel();
+		for(int a = 0; a < 4; a++)average += file.getFromChunkCoords(chunkX+Direction.offsetX[a]*EnergySavefile.sectionSize,chunkZ+Direction.offsetZ[a]*EnergySavefile.sectionSize,false).getEnergyLevel();
 		
 		average *= 0.2F;
 		
@@ -57,7 +57,7 @@ public final class EnergyClusterData{
 		if (world.provider.dimensionId == 1 && rand.nextInt(healthStatus.ordinal()+1) == 0 && ++drainTimer > 10+rand.nextInt(70)){
 			drainTimer = 0;
 			
-			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(cluster.xCoord,cluster.zCoord);
+			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(cluster.xCoord,cluster.zCoord,true);
 			float envLevel = environment.getEnergyLevel();
 			
 			if (envLevel > 0){

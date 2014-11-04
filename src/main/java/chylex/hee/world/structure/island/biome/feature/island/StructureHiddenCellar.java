@@ -362,6 +362,8 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				}
 				
 				break;
+				
+			default:
 		}
 	}
 	

@@ -46,7 +46,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 			float regenLeft = Math.min(getAbsorbAmountPerTick(),maxEnergyLevel-energyLevel), total = regenLeft;
 			
 			if (getWorldObj().provider.dimensionId == 1){
-				regenLeft = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(xCoord,zCoord).drainEnergy(regenLeft);
+				regenLeft = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(xCoord,zCoord,true).drainEnergy(regenLeft);
 			}
 			
 			if (regenLeft > 0F){
