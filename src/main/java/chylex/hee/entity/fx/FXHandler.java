@@ -7,6 +7,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockSpookyLeaves;
 import chylex.hee.block.BlockSpookyLog;
+import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -87,6 +88,13 @@ public final class FXHandler{
 				for(int a = 0; a < 10; a++)world.spawnParticle("magicCrit",x+randCenter(0.4D),y+rand.nextDouble()*0.45D,z+randCenter(0.4D),randCenter(0.2D),randCenter(0.2D),randCenter(0.2D));
 				break;
 				
+			case HOMELAND_ENDERMAN_TP_OVERWORLD:
+				for(int a = 30+rand.nextInt(20); a >= 0; a--){
+					HardcoreEnderExpansion.fx.omnipresent("portal",world,x+randCenter(1D),y+rand.nextDouble()*96D,z+randCenter(1D),randCenter(0.1D),randCenter(0.05D),randCenter(0.1D));
+				}
+				
+				break;
+				
 			default:
 		}
 	}
@@ -123,6 +131,11 @@ public final class FXHandler{
 				
 			case LOUSE_REGEN:
 				for(int a = 0; a < 6; a++)HardcoreEnderExpansion.fx.aura(world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),0F,0.7F,0F,14+rand.nextInt(10));
+				break;
+				
+			case HOMELAND_ENDERMAN_RECRUIT:
+				for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.omnipresent("smoke",world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.05D),randCenter(0.05D),randCenter(0.05D));
+				for(int a = 0; a < 8; a++)HardcoreEnderExpansion.fx.omnipresent("largesmoke",world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.05D),randCenter(0.05D),randCenter(0.05D));
 				break;
 		}
 	}
@@ -208,10 +221,26 @@ public final class FXHandler{
 				world.playSound(x1,y1,z1,"mob.endermen.portal",1F,1F,false);
 				world.playSound(x2,y2,z2,"mob.endermen.portal",1F,1F,false);
 				break;
+				
+			case HOMELAND_ENDERMAN_GUARD_CALL:
+				addX = lineVec.xCoord*0.25D;
+				addY = lineVec.yCoord*0.25D;
+				addZ = lineVec.zCoord*0.25D;
+				
+				HomelandRole role = HomelandRole.GUARD;
+				
+				for(int a = 0; a < len*4D; a++){
+					HardcoreEnderExpansion.fx.portalColor(world,x1+randCenter(0.25D),y1+randCenter(0.25D),z1+randCenter(0.25D),randCenter(1D),-rand.nextDouble(),randCenter(1D),role.red,role.green,role.blue);
+					x1 += addX;
+					y1 += addY;
+					z1 += addZ;
+				}
+				
+				break;
 		}
 	}
 	
 	private static double randCenter(double mp){
-		return (rand.nextDouble()-rand.nextDouble())*mp;
+		return (rand.nextDouble()-0.5D)*2D*mp;
 	}
 }

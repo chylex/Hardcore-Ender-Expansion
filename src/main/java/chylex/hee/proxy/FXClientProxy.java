@@ -45,7 +45,9 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void omnipresent(String particleName, World world, double x, double y, double z, double motionX, double motionY, double motionZ){
 		switch(particleName){
+			case "smoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ)); break;
 			case "largesmoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,2.5F)); break;
+			case "portal": spawn(new EntityPortalFX(world,x,y,z,motionX,motionY,motionZ)); break;
 			default: Log.debug("Particle $0 not found!",particleName);
 		}
 	}

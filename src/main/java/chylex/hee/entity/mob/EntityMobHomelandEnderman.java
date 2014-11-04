@@ -37,6 +37,8 @@ import chylex.hee.mechanics.misc.HomelandEndermen.EndermanTask;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
 import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C20Effect;
+import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
@@ -189,6 +191,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 						
 						if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.end_terrain){
 							teleportTo(tpX+0.3D+rand.nextDouble()*0.4D,tpY+1D,tpZ+0.3D+rand.nextDouble()*0.4D,true);
+							PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 							
 							if (overtakeGroupRole == OvertakeGroupRole.CHAOSMAKER){
 								setCarrying(new ItemStack(Blocks.tnt));
@@ -227,6 +230,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 							if (rand.nextInt(100) < chance){
 								target.setGroupMember(groupId,OvertakeGroupRole.getRandomMember(rand));
 								
+								PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.HOMELAND_ENDERMAN_RECRUIT,this));
+								PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.HOMELAND_ENDERMAN_RECRUIT,target));
+								
 								for(int attempt = 0; attempt < 50; attempt++){
 									if (teleportRandomly())break;
 								}
@@ -252,6 +258,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								for(int a = 0, amt = Math.max(3,(int)Math.round(guards.size()*0.3D)); a < amt; a++){
 									EntityMobHomelandEnderman guard = guards.get(rand.nextInt(guards.size()));
 									guard.setScreaming(true);
+									
+									PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,target,guard));
 									
 									if (!escaped)guard.setTarget(this);
 									else if (rand.nextInt(4) != 0)guard.teleportTo(oldX+4D*(rand.nextDouble()-0.5D),oldY+2D+rand.nextDouble()*4D,oldZ+4D*(rand.nextDouble()-0.5D));
@@ -418,6 +426,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									currentTaskTimer = 150+rand.nextInt(600+rand.nextInt(1800));
 									setCarrying(null);
 									teleportTo(posX,10000D,posZ,true);
+									PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 									//System.out.println("collector teleporting");
 								}
 								
@@ -439,10 +448,12 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										enderman.currentTask = EndermanTask.WAIT;
 										enderman.currentTaskTimer = currentTaskTimer+rand.nextInt(500);
 										enderman.teleportTo(enderman.posX,10000D,enderman.posZ,true);
+										PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,enderman));
 										//System.out.println("overworld explorer teleporting [multi]");
 									}
 									
 									teleportTo(posX,10000D,posZ,true);
+									PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 									//System.out.println("overworld explorer teleporting");
 								}
 								
@@ -482,6 +493,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									currentTask = EndermanTask.GET_TNT;
 									currentTaskTimer = 30+rand.nextInt(80);
 									setPosition(posX,10000D,posZ);
+									PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 								}
 								
 								break;
@@ -671,6 +683,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
 					guard.setTarget(source.getEntity());
 					guard.setScreaming(true);
+					PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,this,guard));
 				}
 			}
 		}
