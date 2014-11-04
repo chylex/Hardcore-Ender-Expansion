@@ -40,6 +40,7 @@ public class HeeAdminCommand extends HeeCommand{
 				).split("\n")){
 				sendMessage(sender,s);
 			}
+			
 			return;
 		}
 		else if (args[0].equalsIgnoreCase("dragon-attack-creative") && args.length >= 2){

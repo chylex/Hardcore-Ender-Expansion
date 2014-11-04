@@ -1,15 +1,20 @@
 package chylex.hee.world.feature.util;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.world.util.BlockLocation;
 
 public final class DecoratorFeatureGenerator{
 	private final TIntObjectHashMap<GeneratedBlock> blocks = new TIntObjectHashMap<>();
+	private Map<BlockLocation,ITileEntityGenerator> tileEntities = new HashMap<>();
 	private int minX, maxX, minZ, maxZ, bottomY, topY;
 	
 	public boolean setBlock(int x, int y, int z, Block block){
@@ -29,6 +34,13 @@ public final class DecoratorFeatureGenerator{
 		else if (y < bottomY)bottomY = y;
 		
 		blocks.put(1024*(y+128)+32*(x+16)+z+16,new GeneratedBlock(block,metadata,x,y,z));
+		return true;
+	}
+	
+	public boolean setTileEntity(int x, int y, int z, ITileEntityGenerator tileGen){
+		if (x < -16 || x > 16 || z < -16 || z > 16 || y < -128 || y > 127)return false;
+		
+		tileEntities.put(new BlockLocation(x,y,z),tileGen);
 		return true;
 	}
 	
@@ -71,6 +83,11 @@ public final class DecoratorFeatureGenerator{
 		if (randZ > 0)centerZ += rand.nextInt(randZ*2)-randZ;
 		
 		for(GeneratedBlock block:blocks.valueCollection())world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
+		
+		for(Entry<BlockLocation,ITileEntityGenerator> entry:tileEntities.entrySet()){
+			BlockLocation loc = entry.getKey();
+			entry.getValue().onTileEntityRequested("",world.getTileEntity(loc.x,loc.y,loc.z),rand);
+		}
 	}
 	
 	private static final class GeneratedBlock{

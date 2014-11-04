@@ -92,6 +92,7 @@ import chylex.hee.tileentity.TileEntitySoulCharm;
 import chylex.hee.tileentity.TileEntityVoidChest;
 import chylex.hee.world.DimensionOverride;
 import chylex.hee.world.loot.WorldLoot;
+import chylex.hee.world.util.IRandomAmount;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.Mod;
@@ -293,6 +294,7 @@ public class HardcoreEnderExpansion{
 		DimensionOverride.postInit();
 		
 		Stopwatch.finish("PostInitEvent");
+		IRandomAmount.$debugTest.run();
 	}
 
 	@EventHandler

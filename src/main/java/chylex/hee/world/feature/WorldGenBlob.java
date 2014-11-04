@@ -12,6 +12,7 @@ import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+import chylex.hee.world.util.IRandomAmount;
 
 public class WorldGenBlob extends WorldGenerator{
 	private enum BlobType{
@@ -36,15 +37,15 @@ public class WorldGenBlob extends WorldGenerator{
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (true)return true;
-		
 		if (Log.isDeobfEnvironment){ // TODO remove debug
 			BlobType.COMMON.patterns.clear();
 			
 			BlobType.COMMON.patterns.addAll(new BlobPattern[]{
 				new BlobPattern(10).addGenerators(new BlobGenerator[]{
 					
-				})
+				}).addPopulators(new BlobPopulator[]{
+					
+				}).setPopulatorAmountProvider(IRandomAmount.linear,1,5)
 			});
 			
 			Pair<BlobGenerator,List<BlobPopulator>> pattern = BlobType.COMMON.patterns.getRandomItem(rand).generatePattern(rand);
