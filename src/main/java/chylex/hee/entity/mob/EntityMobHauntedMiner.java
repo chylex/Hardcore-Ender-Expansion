@@ -241,8 +241,8 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								}
 								
 								for(int attempt = 0, xx, yy, zz; attempt < 90; attempt++){
-									xx = (int)Math.floor(posX)+rand.nextInt(20)-10;
-									zz = (int)Math.floor(posZ)+rand.nextInt(20)-10;
+									xx = (int)Math.floor(posX)+rand.nextInt(21)-10;
+									zz = (int)Math.floor(posZ)+rand.nextInt(21)-10;
 									if (MathUtil.distance(xx-posX,zz-posZ) > 10D)continue;
 									
 									yy = (int)Math.floor(posY)-1;

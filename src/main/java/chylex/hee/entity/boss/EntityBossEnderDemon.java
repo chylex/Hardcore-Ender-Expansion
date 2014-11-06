@@ -131,9 +131,9 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 					EntityPlayer player = list.get(rand.nextInt(list.size()));
 					
 					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 25 && placed < 12+worldObj.difficultySetting.getDifficultyId()*2; attempt++){
-						xx = (int)Math.floor(player.posX)+rand.nextInt(8)-4;
+						xx = (int)Math.floor(player.posX)+rand.nextInt(9)-4;
 						yy = (int)Math.floor(player.posY)+9+rand.nextInt(6);
-						zz = (int)Math.floor(player.posZ)+rand.nextInt(8)-4;
+						zz = (int)Math.floor(player.posZ)+rand.nextInt(9)-4;
 						
 						if (worldObj.isAirBlock(xx,yy,zz) && worldObj.isAirBlock(xx,yy-1,zz)){
 							worldObj.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,3);

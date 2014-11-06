@@ -16,9 +16,9 @@ public class WorldGenEndiumOre extends WorldGenerator{
 				return true;
 			}
 			
-			xx = x+rand.nextInt(8)-4;
-			yy = y+rand.nextInt(8)-4;
-			zz = z+rand.nextInt(8)-4;
+			xx = x+rand.nextInt(9)-4;
+			yy = y+rand.nextInt(9)-4;
+			zz = z+rand.nextInt(9)-4;
 		}
 		
 		return false;

@@ -81,13 +81,13 @@ public class BlobPopulatorCave extends BlobPopulator{
 		int side = rand.nextInt(6);
 		float x = 0F, y = 0F, z = 0F;
 		
-		if (side <= 3)x = rand.nextInt(32)-16;
+		if (side <= 3)x = rand.nextInt(33)-16;
 		else x = side == 4 ? 16 : -16;
 		
-		if (side <= 1 || side >= 4)y = rand.nextInt(32)-16;
+		if (side <= 1 || side >= 4)y = rand.nextInt(33)-16;
 		else y = side == 2 ? 16 : -16;
 		
-		if (side >= 2)z = rand.nextInt(32)-16;
+		if (side >= 2)z = rand.nextInt(33)-16;
 		else z = side == 0 ? 16 : -16;
 
 		if (genCave(gen,rand,x,y,z,rad,Vec3.createVectorHelper(-x,-y,-z).normalize(),1)){

@@ -64,7 +64,7 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 				List<EntityPlayer> nearbyPlayers = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class,target.boundingBox.expand(48D,64D,48D));
 				
 				for(int a = 0; a < amount+Math.floor(nearbyPlayers.size()/2); a++){
-					int x = rand.nextInt(30)-15+(int)target.posX,z = rand.nextInt(30)-15+(int)target.posZ;
+					int x = rand.nextInt(31)-15+(int)target.posX,z = rand.nextInt(31)-15+(int)target.posZ;
 					int y = 1+DragonUtil.getTopBlock(dragon.worldObj,Blocks.end_stone,x,z);
 					
 					EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(dragon.worldObj);

@@ -45,8 +45,8 @@ public class BlockDeathFlower extends BlockFlower{
 				List nearbyEndermen = world.getEntitiesWithinAABB(EntityMobAngryEnderman.class,AxisAlignedBB.getBoundingBox(x-8D,y-2D,z-8D,x+8D,y+2D,z+8D));
 				if (nearbyEndermen != null && nearbyEndermen.size() > meta)return;
 				
-				for(int attempt = 0, spawned = 0; attempt < 30 && spawned<(meta/3)+rand.nextInt(meta/2); attempt++){
-					int px = x+rand.nextInt(8)-4,pz = z+rand.nextInt(8)-4,py;
+				for(int attempt = 0, spawned = 0; attempt < 30 && spawned < (meta/3)+rand.nextInt(meta/2); attempt++){
+					int px = x+rand.nextInt(9)-4, pz = z+rand.nextInt(9)-4,py;
 					for(int a = 0; a < yOffsets.length; a++){
 						py = y+yOffsets[a];
 						if (!world.getBlock(px,py,pz).isOpaqueCube()){
@@ -93,9 +93,9 @@ public class BlockDeathFlower extends BlockFlower{
 					}
 					
 					for(int attempt = 0, xx, yy, zz; attempt < 400; attempt++){
-						xx = x+rand.nextInt(16)-8;
-						yy = y+rand.nextInt(16)-8;
-						zz = z+rand.nextInt(16)-8;
+						xx = x+rand.nextInt(17)-8;
+						yy = y+rand.nextInt(17)-8;
+						zz = z+rand.nextInt(17)-8;
 						
 						if (world.isAirBlock(xx,yy,zz)){
 							world.setBlock(xx,yy,zz,BlockList.energy_cluster);
@@ -104,7 +104,7 @@ public class BlockDeathFlower extends BlockFlower{
 					}
 					
 					for(int a = 0; a < 6; a++){
-						int xx = x+rand.nextInt(8)-4,zz = z+rand.nextInt(8)-4,yy;
+						int xx = x+rand.nextInt(9)-4,zz = z+rand.nextInt(9)-4,yy;
 						for(int b = 0; b < yOffsets.length; b++){
 							yy = y+yOffsets[b];
 							if (!world.getBlock(xx,yy,zz).isOpaqueCube()){

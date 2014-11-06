@@ -119,8 +119,8 @@ public class BlockSpookyLog extends Block{
 			}
 			else{
 				for(int attempt = 0, xx, zz; attempt < 50; attempt++){
-					xx = x+rand.nextInt(30)-15;
-					zz = z+rand.nextInt(30)-15;
+					xx = x+rand.nextInt(31)-15;
+					zz = z+rand.nextInt(31)-15;
 					
 					if (world.getBlock(xx,y,zz) == this){
 						boolean hasFace = false;

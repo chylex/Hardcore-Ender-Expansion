@@ -30,9 +30,9 @@ public class BlobPopulatorLake extends BlobPopulator{
 		int irad = (int)Math.ceil(rad);
 		
 		for(int attempt = 0, x, y, z; attempt < 30; attempt++){
-			x = rand.nextInt(32)-16;
-			y = rand.nextInt(32)-16;
-			z = rand.nextInt(32)-16;
+			x = rand.nextInt(33)-16;
+			y = rand.nextInt(33)-16;
+			z = rand.nextInt(33)-16;
 			
 			if (gen.getBlock(x,y,z) == Blocks.end_stone && gen.getBlock(x,y+1,z) == Blocks.air){
 				for(int xx = x-irad; xx <= x+irad; xx++){

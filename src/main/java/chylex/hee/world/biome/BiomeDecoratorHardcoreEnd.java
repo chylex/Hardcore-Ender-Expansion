@@ -44,24 +44,26 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		double distFromCenter = Math.sqrt(MathUtil.square(chunk_X>>4)+MathUtil.square(chunk_Z>>4))*16D;
 		
 		if (distFromCenter < 120D && randomGenerator.nextInt(5) == 0){
+			Stopwatch.timeAverage("WorldGenObsidianSpike",4);
 			int xx = randX(), zz = randZ();
 			spikeGen.generate(currentWorld,randomGenerator,xx,currentWorld.getTopSolidOrLiquidBlock(xx,zz),zz);
+			Stopwatch.finish("WorldGenObsidianSpike");
 		}
 		
 		if (distFromCenter > 102D && Math.abs(randomGenerator.nextGaussian()) < 0.285D){
 			Stopwatch.timeAverage("WorldGenBlob",64);
-			blobGen.generate(currentWorld,randomGenerator,chunk_X+8,32+randomGenerator.nextInt(60),chunk_Z+8);
+			blobGen.generate(currentWorld,randomGenerator,chunk_X+16,32+randomGenerator.nextInt(60),chunk_Z+16);
 			Stopwatch.finish("WorldGenBlob");
 		}
 		
-		if (distFromCenter > 1280D && randomGenerator.nextFloat()*randomGenerator.nextFloat() > 0.666F && randomGenerator.nextFloat() < 0.1F+(distFromCenter/15000D)){
-			Stopwatch.timeAverage("WorldGenMeteoroid",64);
+		if (distFromCenter > 320D && randomGenerator.nextDouble()*randomGenerator.nextDouble() > 0.8D){
+			Stopwatch.timeAverage("WorldGenEnergyCluster",64);
 			
-			for(int attempt = 0; attempt < randomGenerator.nextInt(3); attempt++){
-				meteoroidGen.generate(currentWorld,randomGenerator,randX(),8+randomGenerator.nextInt(112),randZ());
+			for(int a = 0; a < randomGenerator.nextInt(2+randomGenerator.nextInt(2+randomGenerator.nextInt(2))); a++){
+				clusterGen.generate(currentWorld,randomGenerator,chunk_X+8,0,chunk_Z+8);
 			}
-
-			Stopwatch.finish("WorldGenMeteoroid");
+			
+			Stopwatch.finish("WorldGenEnergyCluster");
 		}
 		
 		if (distFromCenter > 500D && randomGenerator.nextInt(1+randomGenerator.nextInt(3)+(int)Math.floor(Math.max((11500D-distFromCenter)/1000D,0))) <= randomGenerator.nextInt(4)){
@@ -72,6 +74,16 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			}
 			
 			Stopwatch.finish("WorldGenEndiumOre");
+		}
+		
+		if (distFromCenter > 1280D && randomGenerator.nextFloat()*randomGenerator.nextFloat() > 0.666F && randomGenerator.nextFloat() < 0.1F+(distFromCenter/15000D)){
+			Stopwatch.timeAverage("WorldGenMeteoroid",64);
+			
+			for(int attempt = 0; attempt < randomGenerator.nextInt(3); attempt++){
+				meteoroidGen.generate(currentWorld,randomGenerator,randX(),8+randomGenerator.nextInt(112),randZ());
+			}
+
+			Stopwatch.finish("WorldGenMeteoroid");
 		}
 		
 		Stopwatch.timeAverage("WorldGenEndPowderOre",64);

@@ -69,8 +69,8 @@ public final class BiomeInteractionsInfestedForest{
 				}
 				else{
 					for(int attempt = 0, xx, yy, zz; attempt < 64; attempt++){
-						xx = x+rand.nextInt(10)-5;
-						zz = z+rand.nextInt(10)-5;
+						xx = x+rand.nextInt(11)-5;
+						zz = z+rand.nextInt(11)-5;
 						yy = world.getHeightValue(xx,zz);
 						boolean foundLog = false;
 						

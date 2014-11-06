@@ -345,8 +345,8 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 			}
 			
 			for(int a = 0,xx,zz; a < 6+rand.nextInt(10); a++){
-				xx = x+rand.nextInt(6)-3;
-				zz = z+rand.nextInt(6)-3;
+				xx = x+rand.nextInt(7)-3;
+				zz = z+rand.nextInt(7)-3;
 				if (getBlockAtCurrentPosition(world,xx,y,zz,bb).getMaterial() == Material.air && getBlockAtCurrentPosition(world,xx,y-1,zz,bb).isNormalCube(world,xx,y-1,zz)){
 					placeBlockAtCurrentPosition(world,Blocks.redstone_wire,0,xx,y,zz,bb);
 				}
@@ -441,8 +441,8 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 			fillWithBlocks(world,bb,x,y+5,z+1*sign,x,y+4,z+2*sign,Blocks.iron_bars,Blocks.iron_bars,false);*/
 			
 			for(int a = 0,xx,zz; a < 5+rand.nextInt(8); a++){
-				xx = rand.nextInt(6)-3;
-				zz = rand.nextInt(6)-3;
+				xx = rand.nextInt(7)-3;
+				zz = rand.nextInt(7)-3;
 				if (getBlockAtCurrentPosition(world,xx,y,zz,bb).getMaterial() == Material.air && getBlockAtCurrentPosition(world,xx,y-1,zz,bb).isNormalCube(world,xx,y-1,zz)){
 					placeBlockAtCurrentPosition(world,Blocks.redstone_wire,0,xx,y,zz,bb);
 				}
@@ -500,8 +500,9 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 			placeBlockAtCurrentPosition(world,BlockList.obsidian_stairs,getMetadataWithOffset(Blocks.stone_stairs,Facing.SOUTH_POSZ.getStairs()),x+2,y+3,z-1,bb);
 			
 			for(int attempt = 0,placed = 0,xx,zz; attempt < 8 && placed < rand.nextInt(4); attempt++){
-				xx = x+rand.nextInt(6)-3;
-				zz = z+rand.nextInt(6)-3;
+				xx = x+rand.nextInt(7)-3;
+				zz = z+rand.nextInt(7)-3;
+				
 				if (getBlockAtCurrentPosition(world,xx,y,zz,bb).getMaterial() == Material.air){
 					spawnEndermanSpawner(world,rand,bb,xx,y,zz,1,32+y);
 					++placed;

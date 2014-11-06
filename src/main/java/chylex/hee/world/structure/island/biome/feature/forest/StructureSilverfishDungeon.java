@@ -113,9 +113,9 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 			}
 			
 			for(int a = 0, attempts = 70+(int)(rand.nextDouble()*rand.nextDouble()*75D); a < attempts; a++){
-				int ix = x+rand.nextInt(10)-5,
+				int ix = x+rand.nextInt(11)-5,
 					iy = y+1-rand.nextInt(5),
-					iz = z+rand.nextInt(10)-5;
+					iz = z+rand.nextInt(11)-5;
 				
 				if (world.getBlock(ix,iy,iz) == Blocks.end_stone && world.isAir(ix,iy+1,iz)){
 					world.setBlock(ix,iy,iz,Blocks.stonebrick,rand.nextInt(3));
@@ -128,9 +128,9 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 			
 			if (rand.nextInt(5) <= 1){
 				for(int nextSpawnerAttempt = 0,spawnerX,spawnerY,spawnerZ; nextSpawnerAttempt < 10; nextSpawnerAttempt++){
-					spawnerX = x+rand.nextInt(10)-5;
+					spawnerX = x+rand.nextInt(11)-5;
 					spawnerY = y+rand.nextInt(7)-5;
-					spawnerZ = z+rand.nextInt(10)-5;
+					spawnerZ = z+rand.nextInt(11)-5;
 					
 					if (world.isAir(spawnerX,spawnerY,spawnerZ) && world.isAir(spawnerX,spawnerY+1,spawnerZ) && !world.isAir(spawnerX,spawnerY-1,spawnerZ)){
 						world.setBlock(spawnerX,spawnerY,spawnerZ,BlockList.custom_spawner,1);
@@ -145,9 +145,9 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 			int chestX = 0,chestY = 0,chestZ = 0;
 			
 			for(int chestAttempt = 0; chestAttempt < 40; chestAttempt++){
-				chestX = x+rand.nextInt(10)-5;
+				chestX = x+rand.nextInt(11)-5;
 				chestY = y+rand.nextInt(5)-3;
-				chestZ = z+rand.nextInt(10)-5;
+				chestZ = z+rand.nextInt(11)-5;
 				
 				if (world.isAir(chestX,chestY,chestZ) && world.isAir(chestX,chestY+1,chestZ) && !world.isAir(chestX,chestY-1,chestZ)){
 					placedChest = true;

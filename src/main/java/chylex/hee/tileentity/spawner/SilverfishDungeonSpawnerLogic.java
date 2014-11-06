@@ -26,9 +26,9 @@ public class SilverfishDungeonSpawnerLogic extends CustomSpawnerLogic{
 		Random rand = world.rand;
 
 		for(int attempt = 0,found = 0,targ = 4+rand.nextInt(4),xx,yy,zz; attempt < 400 && found < targ; attempt++){
-			xx = getSpawnerX()+rand.nextInt(10)-5;
+			xx = getSpawnerX()+rand.nextInt(11)-5;
 			yy = getSpawnerY()+1-rand.nextInt(5);
-			zz = getSpawnerZ()+rand.nextInt(10)-5;
+			zz = getSpawnerZ()+rand.nextInt(11)-5;
 			
 			if (world.getBlock(xx,yy,zz) == Blocks.stonebrick){
 				world.setBlockToAir(xx,yy,zz);

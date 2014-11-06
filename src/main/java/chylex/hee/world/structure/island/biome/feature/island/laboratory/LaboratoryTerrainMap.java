@@ -37,7 +37,7 @@ public class LaboratoryTerrainMap{
 		// find start node
 		
 		for(int attempt = 0, indexX, indexZ; attempt < 20; attempt++){
-			LaboratoryTerrainNode node = nodes[indexX = blocksFromCenter+rand.nextInt(8)-4][indexZ = blocksFromCenter+rand.nextInt(8)-4];
+			LaboratoryTerrainNode node = nodes[indexX = blocksFromCenter+rand.nextInt(9)-4][indexZ = blocksFromCenter+rand.nextInt(9)-4];
 			
 			if (!node.isUnusable()){
 				startNodeX = indexX;

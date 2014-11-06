@@ -45,9 +45,9 @@ public class StructureMountainPuzzle extends AbstractIslandStructure{
 			
 			float airX = 0,airY = 0,airZ = 0;
 			for(int airAttempt = 0; airAttempt < 60; airAttempt++){
-				airX = xx+rand.nextInt(30)-15;
+				airX = xx+rand.nextInt(31)-15;
 				airY = yy+rand.nextInt(8)-2;
-				airZ = zz+rand.nextInt(30)-15;
+				airZ = zz+rand.nextInt(31)-15;
 				
 				if (MathUtil.distance(airX-xx,airZ-zz) < 10D)continue;
 				if (world.isAir((int)Math.floor(airX),(int)Math.floor(airY),(int)Math.floor(airZ))){
