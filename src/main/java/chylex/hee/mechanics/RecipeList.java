@@ -10,19 +10,29 @@ import chylex.hee.item.ItemList;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
-	public static void addRecipes(){ // TODO void chest
+	public static void addRecipes(){
 		
 		// SHAPED
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
 			"DED",
-			'D',Items.diamond, 'E',Items.ender_eye
+			'D', Items.diamond,
+			'E', Items.ender_eye
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.essence_altar),
 			"LLL", "BNB", "OOO",
-			'B',Blocks.bookshelf, 'L',Items.leather,
-			'O',Blocks.obsidian, 'N',ItemList.altar_nexus
+			'B', Blocks.bookshelf,
+			'L', Items.leather,
+			'O', Blocks.obsidian,
+			'N', ItemList.altar_nexus
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.void_chest),
+			"PPP", "ECE", "PPP",
+			'C', Blocks.ender_chest,
+			'E', BlockList.endium_block,
+			'P', ItemList.end_powder
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.decomposition_table),

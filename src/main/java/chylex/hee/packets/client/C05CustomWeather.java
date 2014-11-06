@@ -53,6 +53,6 @@ public class C05CustomWeather extends AbstractClientPacket{
 		e.serverPosZ = (int)(z*32D);
 		e.rotationYaw = e.rotationPitch = 0F;
 		e.setEntityId(entityId);
-		world.addWeatherEffect(e); // TODO not showing up?
+		world.addWeatherEffect(e);
 	}
 }

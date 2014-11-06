@@ -850,7 +850,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(684).setContents("It will not steal from players who wear Enderman Head.").setPrice(3).setUnlockRequirements(682)
 			}),
 			
-			ENDER_GUARDIAN.setPos(1,8).setUnlockPrice(15).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+			ENDER_GUARDIAN.setNonBuyable().setPos(1,8).setUnlockPrice(15).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{ // TODO unblock
 				new KnowledgeFragmentText(690).setContents("Large golem-like creature that spawns in the Enchanted Island (Laboratory).").setPrice(5).setUnlockOnDiscovery(), // TODO lab
 				new KnowledgeFragmentText(691).setContents("It only attacks players when provoked.").setPrice(2).setUnlockRequirements(690),
 				new KnowledgeFragmentText(692).setContents("When attacking, it charges the player with melee attacks, and after a short while it teleports away and creates a blast under the player.").setPrice(5).setUnlockRequirements(690),

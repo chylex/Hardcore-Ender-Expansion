@@ -117,7 +117,7 @@ public class HeeDebugCommand extends HeeCommand{
 		}
 		else if (args[0].equalsIgnoreCase("test") && args.length == 2){
 			try{
-				((Runnable)Class.forName(args[1]).getField("$debugTest").get(null)).run();
+				((Runnable)Class.forName("chylex.hee."+args[1]).getField("$debugTest").get(null)).run();
 				sendMessage(sender,"Test done.");
 			}catch(Throwable t){
 				sendMessage(sender,"Test not found.");
