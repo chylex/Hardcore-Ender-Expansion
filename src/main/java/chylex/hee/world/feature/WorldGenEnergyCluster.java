@@ -1,5 +1,6 @@
 package chylex.hee.world.feature;
 import java.util.Random;
+import chylex.hee.block.BlockList;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -19,6 +20,11 @@ public class WorldGenEnergyCluster extends WorldGenerator{
 						foundBlock = true;
 						break;
 					}
+				}
+				
+				if (foundBlock || rand.nextInt(88) == 0){
+					world.setBlock(xx,yy,zz,BlockList.energy_cluster);
+					return true;
 				}
 			}
 		}
