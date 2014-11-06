@@ -9,11 +9,11 @@ import cpw.mods.fml.common.IFuelHandler;
 public class ItemIgneousRock extends ItemAbstractCustomEntity implements IFuelHandler{
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (world.isRemote || !isHeld || entity.isInWater() || world.rand.nextInt(20) != 0)return;
+		if (world.isRemote || !isHeld || entity.isInWater() || itemRand.nextInt(20) != 0)return;
 		float mp = world.provider.dimensionId == 1 ? 0.2F : world.provider.dimensionId == -1 ? 3F : 1F;
 
 		if (is != null && is.getItem() == ItemList.igneous_rock){
-			entity.setFire((int)Math.ceil(mp*(world.rand.nextInt(4)+3+Math.max(1,is.stackSize/10))));
+			entity.setFire((int)Math.ceil(mp*(itemRand.nextInt(4)+3+Math.max(1,is.stackSize/10))));
 		}
 	}
 

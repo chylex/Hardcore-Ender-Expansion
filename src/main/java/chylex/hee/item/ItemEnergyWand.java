@@ -40,7 +40,7 @@ public class ItemEnergyWand extends Item{
 					
 					if (dist > 8D){
 						tile.data.setEnergyLevel(tile.data.getEnergyLevel()*(1F-0.5F*Math.min(1F,(float)dist/256F)));
-						if (world.rand.nextInt(100) < tile.data.getHealthStatus().chanceToWeaken)tile.data.weakenCluster();
+						if (itemRand.nextInt(100) < tile.data.getHealthStatus().chanceToWeaken)tile.data.weakenCluster();
 					}
 					
 					tile.synchronize();

@@ -170,7 +170,7 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 			
 			if (e == null)return null;
 			
-			e.setLocationAndAngles(x,y,z,MathHelper.wrapAngleTo180_float(world.rand.nextFloat()*360F),0F);
+			e.setLocationAndAngles(x,y,z,MathHelper.wrapAngleTo180_float(itemRand.nextFloat()*360F),0F);
 			e.rotationYawHead = e.rotationYaw;
 			e.renderYawOffset = e.rotationYaw;
 			e.onSpawnWithEgg((IEntityLivingData)null);

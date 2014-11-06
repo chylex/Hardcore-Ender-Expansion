@@ -37,7 +37,7 @@ public class ItemPotionOfInstability extends Item{
 
 	@Override
 	public ItemStack onEaten(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote)player.addPotionEffect(getRandomPotionEffect(world.rand));
+		if (!world.isRemote)player.addPotionEffect(getRandomPotionEffect(itemRand));
 
 		if (!player.capabilities.isCreativeMode){
 			if (--is.stackSize <= 0)return new ItemStack(Items.glass_bottle);

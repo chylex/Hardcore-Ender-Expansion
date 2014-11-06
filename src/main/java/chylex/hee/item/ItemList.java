@@ -96,7 +96,7 @@ public final class ItemList{
 		register("potion_of_instability", potion_of_instability = new ItemPotionOfInstability().setMaxStackSize(1).setTextureName("hardcoreenderexpansion:potion_of_instability"));
 		register("biome_compass", biome_compass = new ItemBiomeCompass().setMaxStackSize(1).setUnlocalizedName("biomeCompass"));
 		register("spatial_dash_gem", spatial_dash_gem = new ItemSpatialDashGem().setMaxStackSize(1).setMaxDamage(300).setNoRepair().setUnlocalizedName("spatialDashGem").setTextureName("hardcoreenderexpansion:spatial_dash_gem"));
-		register("transference_gem", transference_gem = new ItemTransferenceGem().setMaxStackSize(1).setMaxDamage(108).setNoRepair().setUnlocalizedName("transferenceGem").setTextureName("hardcoreenderexpansion:transference_gem"));
+		register("transference_gem", transference_gem = new ItemTransferenceGem().setMaxStackSize(1).setMaxDamage(204).setNoRepair().setUnlocalizedName("transferenceGem").setTextureName("hardcoreenderexpansion:transference_gem"));
 		register("temple_caller", temple_caller = new ItemTempleCaller().setMaxStackSize(1).setMaxDamage(50).setNoRepair().setUnlocalizedName("templeCaller").setTextureName("hardcoreenderexpansion:temple_caller"));
 		
 		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood"));

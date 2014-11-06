@@ -14,12 +14,17 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	protected void onEnergyAccepted(ItemStack is){
 		is.setItemDamage(is.getItemDamage()-3);
 	}
+
+	@Override
+	protected int getEnergyPerUse(ItemStack is){
+		return 1;
+	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (is.getItemDamage() < getMaxDamage()){
 			if (!world.isRemote){
-				is.setItemDamage(is.getItemDamage()+1);
+				is.setItemDamage(is.getItemDamage()+getEnergyPerUse(is));
 				world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player));
 			}
 			else world.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.spatialdash",0.8F,0.9F,false);

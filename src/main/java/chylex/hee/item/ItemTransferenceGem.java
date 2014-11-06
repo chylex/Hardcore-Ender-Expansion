@@ -33,7 +33,12 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 
 	@Override
 	protected void onEnergyAccepted(ItemStack is){
-		is.setItemDamage(is.getItemDamage()-3);
+		is.setItemDamage(is.getItemDamage()-2);
+	}
+	
+	@Override
+	protected int getEnergyPerUse(ItemStack is){
+		return 2;
 	}
 	
 	@Override
@@ -67,7 +72,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 			
 			PacketPipeline.sendToAllAround(entity,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,entity));
 			
-			is.setItemDamage(itemDamage+1);
+			is.setItemDamage(itemDamage+getEnergyPerUse(is));
 			entity.fallDistance = 0F;
 			if (isLiving)((EntityLivingBase)entity).setPositionAndUpdate(gemData.getX()+0.5D,gemData.getY()+1.001D,gemData.getZ()+0.5D);
 			entity.setLocationAndAngles(gemData.getX()+0.5D,gemData.getY()+1.001D,gemData.getZ()+0.5D,entity.rotationYaw,entity.rotationPitch);

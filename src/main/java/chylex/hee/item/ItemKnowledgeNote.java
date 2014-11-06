@@ -20,7 +20,7 @@ public class ItemKnowledgeNote extends Item{
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (!world.isRemote && is.stackTagCompound == null)setRandomNote(is,world.rand,5);
+		if (!world.isRemote && is.stackTagCompound == null)setRandomNote(is,itemRand,5);
 	}
 
 	@Override

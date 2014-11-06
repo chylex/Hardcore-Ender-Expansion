@@ -40,7 +40,7 @@ public class ItemInfestationRemedy extends Item{
 		for(Object o:player.getActivePotionEffects()){
 			PotionEffect eff = (PotionEffect)o;
 			if (eff.getIsAmbient() && InfestationEvents.isValidPotionEffect(eff.getPotionID())){
-				int dur = eff.getDuration()-3000+world.rand.nextInt(600);
+				int dur = eff.getDuration()-3000+itemRand.nextInt(600);
 				
 				if (dur <= 0)toRemove.add(eff.getPotionID());
 				else newDurations.put(eff,dur);
