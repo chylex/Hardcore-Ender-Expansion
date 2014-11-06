@@ -12,6 +12,7 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.WorldGenBlob;
 import chylex.hee.world.feature.WorldGenEndPowderOre;
 import chylex.hee.world.feature.WorldGenEndiumOre;
+import chylex.hee.world.feature.WorldGenEnergyCluster;
 import chylex.hee.world.feature.WorldGenMeteoroid;
 import chylex.hee.world.feature.WorldGenObsidianSpike;
 
@@ -20,6 +21,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	private final WorldGenMeteoroid meteoroidGen;
 	private final WorldGenEndPowderOre endPowderOreGen;
 	private final WorldGenEndiumOre endiumOreGen;
+	private final WorldGenEnergyCluster clusterGen;
 	
 	public BiomeDecoratorHardcoreEnd(){
 		spikeGen = new WorldGenObsidianSpike();
@@ -27,6 +29,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		meteoroidGen = new WorldGenMeteoroid();
 		endPowderOreGen = new WorldGenEndPowderOre();
 		endiumOreGen = new WorldGenEndiumOre();
+		clusterGen = new WorldGenEnergyCluster();
 	}
 	
 	@Override
@@ -36,9 +39,6 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			return;
 		}
 		
-		DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
-		
-		randomGenerator.nextInt(1+file.getDragonDeathAmount()); // each time, the world is a little different
 		generateOres();
 
 		double distFromCenter = Math.sqrt(MathUtil.square(chunk_X>>4)+MathUtil.square(chunk_Z>>4))*16D;
@@ -92,7 +92,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			EntityBossDragon dragon = new EntityBossDragon(currentWorld);
 			dragon.setLocationAndAngles(0D,128D,0D,randomGenerator.nextFloat()*360F,0F);
 			currentWorld.spawnEntityInWorld(dragon);
-			file.setDragonExists();
+			WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setDragonExists();
 		}
 	}
 

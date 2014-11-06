@@ -11,8 +11,6 @@ import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import chylex.hee.system.ReflectionPublicizer;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.world.structure.island.MapGenIsland;
 import chylex.hee.world.structure.tower.MapGenTower;
 
@@ -29,12 +27,6 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 		islandGen = new MapGenIsland();
 		towerGen = new MapGenTower();
 	}
-	
-	@Override
-	public void func_147420_a(int x, int z, Block[] blocks, BiomeGenBase[] biomes){
-		randCopy.nextInt(1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount());
-		super.func_147420_a(x,z,blocks,biomes);
-	}
 
 	@Override
 	public void replaceBiomeBlocks(int x, int z, Block[] blocks, BiomeGenBase[] biomes, byte[] metadata){
@@ -49,17 +41,17 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	@Override
 	public void populate(IChunkProvider chunkProvider, int x, int z){
 		BlockFalling.fallInstantly = true;
-		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Pre(chunkProvider,world,world.rand,x,z,false));
+		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Pre(chunkProvider,world,randCopy,x,z,false));
 		
 		if (world.provider.dimensionId == 1){
-			islandGen.generateStructuresInChunk(world,world.rand,x,z);
-			towerGen.generateStructuresInChunk(world,world.rand,x,z);
+			islandGen.generateStructuresInChunk(world,randCopy,x,z);
+			towerGen.generateStructuresInChunk(world,randCopy,x,z);
 		}
 
 		int realX = x*16, realZ = z*16;
-		world.getBiomeGenForCoords(realX+16,realZ+16).decorate(world,world.rand,realX,realZ);
+		world.getBiomeGenForCoords(realX+16,realZ+16).decorate(world,randCopy,realX,realZ);
 
-		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(chunkProvider,world,world.rand,x,z,false));
+		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(chunkProvider,world,randCopy,x,z,false));
 		BlockFalling.fallInstantly = false;
 	}
 	
