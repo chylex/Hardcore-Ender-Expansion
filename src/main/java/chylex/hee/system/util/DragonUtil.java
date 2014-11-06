@@ -3,6 +3,7 @@ import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import java.util.Random;
@@ -39,7 +40,8 @@ public final class DragonUtil{
 				}
 			}
 		);
-		sorted.addAll(map.entrySet());
+		
+		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry(entry));
 		return sorted;
 	}
 
@@ -52,7 +54,8 @@ public final class DragonUtil{
 				}
 			}
 		);
-		sorted.addAll(map.entrySet());
+		
+		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry(entry));
 		return sorted;
 	}
 	

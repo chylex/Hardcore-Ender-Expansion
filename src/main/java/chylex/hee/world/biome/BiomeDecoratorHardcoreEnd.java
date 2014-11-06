@@ -13,7 +13,7 @@ import chylex.hee.world.feature.WorldGenBlob;
 import chylex.hee.world.feature.WorldGenEndPowderOre;
 import chylex.hee.world.feature.WorldGenEndiumOre;
 import chylex.hee.world.feature.WorldGenMeteoroid;
-import chylex.hee.world.feature.WorldGenSpikes;
+import chylex.hee.world.feature.WorldGenObsidianSpike;
 
 public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	private final WorldGenBlob blobGen;
@@ -22,7 +22,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	private final WorldGenEndiumOre endiumOreGen;
 	
 	public BiomeDecoratorHardcoreEnd(){
-		spikeGen = new WorldGenSpikes();
+		spikeGen = new WorldGenObsidianSpike();
 		blobGen = new WorldGenBlob();
 		meteoroidGen = new WorldGenMeteoroid();
 		endPowderOreGen = new WorldGenEndPowderOre();

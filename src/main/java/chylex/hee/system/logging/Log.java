@@ -1,13 +1,13 @@
 package chylex.hee.system.logging;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,7 @@ public final class Log{
 	
 	public static final boolean isDeobfEnvironment;
 	public static boolean forceDebugEnabled;
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+	private static FastDateFormat dateFormat = FastDateFormat.getInstance("HH:mm:ss");
 	private static long lastLogReport = -1;
 	private static byte obfEnvironmentWarning = 0;
 	

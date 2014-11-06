@@ -1,6 +1,5 @@
 package chylex.hee.world.feature;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -10,17 +9,15 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
 
-public class WorldGenSpikes extends WorldGenerator{
-	private static final Block surfaceID = Blocks.end_stone;
-	
+public class WorldGenObsidianSpike extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (world.isAirBlock(x,y,z) && world.getBlock(x,y-1,z) == surfaceID){
+		if (world.isAirBlock(x,y,z) && world.getBlock(x,y-1,z) == Blocks.end_stone){
 			int radius = rand.nextInt(4)+1;
 
 			for(int xx = x-radius; xx <= x+radius; ++xx){
 				for(int zz = z-radius; zz <= z+radius; ++zz){
-					if (MathUtil.square(xx-x)+MathUtil.square(zz-z) <= radius*radius+1 && world.getBlock(xx,y-1,zz) != surfaceID){
+					if (MathUtil.square(xx-x)+MathUtil.square(zz-z) <= radius*radius+1 && world.getBlock(xx,y-1,zz) != Blocks.end_stone){
 						return false;
 					}
 				}
@@ -39,6 +36,7 @@ public class WorldGenSpikes extends WorldGenerator{
 			}
 			
 			boolean bars = height > 20 && rand.nextInt(5) <= 1;
+			
 			if (bars){
 				for(int xx = x-radius; xx <= x+radius; ++xx){
 					for(int zz = z-radius; zz <= z+radius; ++zz){
@@ -65,8 +63,8 @@ public class WorldGenSpikes extends WorldGenerator{
 			crystal.setLocationAndAngles(x+0.5D,y+height,z+0.5D,rand.nextFloat()*360F,0F);
 
 			crystal.setCrystalType(
-				bars?EntityBlockEnderCrystal.BARS:
-				(rand.nextInt(4) != 0 && height*radius*radius*Math.PI<320D)?EntityBlockEnderCrystal.BLAST:
+				bars ? EntityBlockEnderCrystal.BARS :
+				(rand.nextInt(4) != 0 && height*radius*radius*Math.PI < 320D) ? EntityBlockEnderCrystal.BLAST :
 				EntityBlockEnderCrystal.TNT
 			);
 			

@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import chylex.hee.render.texture.TextureBiomeCompass;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
@@ -77,11 +78,11 @@ public class ItemBiomeCompass extends Item{
 	public void registerIcons(IIconRegister iconRegister){
 		((TextureMap)iconRegister).setTextureEntry("hardcoreenderexpansion:biome_compass",(TextureAtlasSprite)(itemIcon = new TextureBiomeCompass("hardcoreenderexpansion:biome_compass")));
 
-		if (locations == null){
-			locations = new ArrayList<>(IslandBiomeBase.biomeList.size());
-			for(int a = 0; a < IslandBiomeBase.biomeList.size(); a++)locations.add(a,new HashSet<ChunkCoordinates>());
-			lastSavedX = lastSavedZ = Integer.MAX_VALUE;
-		}
+		locations = new ArrayList<>(IslandBiomeBase.biomeList.size());
+		for(int a = 0; a < IslandBiomeBase.biomeList.size(); a++)locations.add(a,new HashSet<ChunkCoordinates>());
+		lastSavedX = lastSavedZ = Integer.MAX_VALUE;
+		
+		Log.info("!!!!!!! IBC REGISTER");
 	}
 	
 	// BIOME DETECTION

@@ -72,10 +72,11 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 			
 			PacketPipeline.sendToAllAround(entity,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,entity));
 			
-			is.setItemDamage(itemDamage+getEnergyPerUse(is));
-			entity.fallDistance = 0F;
+			is.damageItem(getEnergyPerUse(is),player);
+			
 			if (isLiving)((EntityLivingBase)entity).setPositionAndUpdate(gemData.getX()+0.5D,gemData.getY()+1.001D,gemData.getZ()+0.5D);
 			entity.setLocationAndAngles(gemData.getX()+0.5D,gemData.getY()+1.001D,gemData.getZ()+0.5D,entity.rotationYaw,entity.rotationPitch);
+			entity.fallDistance = 0F;
 			
 			float percBroken = itemDamage/(float)is.getMaxDamage();
 			if (percBroken > 0.66F && entity.worldObj.rand.nextFloat()*1.4F < percBroken){

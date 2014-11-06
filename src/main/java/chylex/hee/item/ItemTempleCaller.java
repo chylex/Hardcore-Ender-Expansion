@@ -29,6 +29,11 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 	protected void onEnergyAccepted(ItemStack is){
 		is.setItemDamage(is.getItemDamage()+1);
 	}
+	
+	@Override
+	protected int getEnergyPerUse(ItemStack is){
+		return is.getMaxDamage();
+	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){

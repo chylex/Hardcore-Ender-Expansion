@@ -30,6 +30,11 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
+	protected int getEnergyPerUse(ItemStack is){
+		return 1;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack is){
 		return EnumRarity.uncommon;
@@ -73,7 +78,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 							world.removeEntity(mob);
 							world.spawnEntityInWorld(paralyzed);
 							
-							is.damageItem(1,(EntityPlayer)owner);
+							is.damageItem(getEnergyPerUse(is),(EntityPlayer)owner);
 							
 							break;
 						}

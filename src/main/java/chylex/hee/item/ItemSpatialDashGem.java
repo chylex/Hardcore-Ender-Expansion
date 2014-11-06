@@ -24,7 +24,7 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (is.getItemDamage() < getMaxDamage()){
 			if (!world.isRemote){
-				is.setItemDamage(is.getItemDamage()+getEnergyPerUse(is));
+				is.damageItem(getEnergyPerUse(is),player);
 				world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player));
 			}
 			else world.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.spatialdash",0.8F,0.9F,false);
