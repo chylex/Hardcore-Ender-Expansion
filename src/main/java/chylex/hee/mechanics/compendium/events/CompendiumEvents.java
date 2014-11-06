@@ -152,12 +152,12 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 	
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent e){
-		if (!e.player.worldObj.isRemote)discoverItemStack(e.player,e.pickedUp.getEntityItem());
+		if (e.player != null && !e.player.worldObj.isRemote)discoverItemStack(e.player,e.pickedUp.getEntityItem());
 	}
 	
 	@SubscribeEvent
 	public void onItemCrafted(ItemCraftedEvent e){
-		if (!e.player.worldObj.isRemote)discoverItemStack(e.player,e.crafting);
+		if (e.player != null && !e.player.worldObj.isRemote)discoverItemStack(e.player,e.crafting);
 	}
 	
 	private void discoverItemStack(EntityPlayer player, ItemStack is){
