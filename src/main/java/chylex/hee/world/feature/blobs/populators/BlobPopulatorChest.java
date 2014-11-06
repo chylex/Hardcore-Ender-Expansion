@@ -1,4 +1,4 @@
-package chylex.hee.world.feature;
+package chylex.hee.world.feature.blobs.populators;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
