@@ -1,18 +1,19 @@
 package chylex.hee.system.commands;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
+import chylex.hee.packets.PacketPipeline;
 import chylex.hee.system.logging.Log;
-import chylex.hee.world.structure.island.ComponentIsland;
+import chylex.hee.system.logging.Stopwatch;
+import com.google.common.reflect.ClassPath;
+import com.google.common.reflect.ClassPath.ClassInfo;
 
 public class HeeDebugCommand extends HeeCommand{
 	public static float overrideWingSpeed = 1F;
@@ -115,21 +116,26 @@ public class HeeDebugCommand extends HeeCommand{
 				info.setThunderTime(Integer.MAX_VALUE);
 			}
 		}
-		else if (args[0].equalsIgnoreCase("test") && args.length == 2){
+		else if (args[0].equalsIgnoreCase("test") && args.length == 2 && sender instanceof EntityPlayer){
 			try{
-				((Runnable)Class.forName("chylex.hee."+args[1]).getField("$debugTest").get(null)).run();
-				sendMessage(sender,"Test done.");
+				Stopwatch.time("HeeDebugCommand - test");
+				
+				ClassPath path = ClassPath.from(PacketPipeline.class.getClassLoader());
+				
+				for(ClassInfo clsInfo:path.getAllClasses()){
+					if (clsInfo.getSimpleName().equals(args[1]) && clsInfo.getPackageName().startsWith("chylex.hee")){	
+						HeeTest test = (HeeTest)clsInfo.getClass().getField("$debugTest").get(null);
+						test.player = (EntityPlayer)sender;
+						test.world = test.player.worldObj;
+						test.run();
+						break;
+					}
+				}
+				
+				Stopwatch.finish("HeeDebugCommand - test");
 			}catch(Throwable t){
 				sendMessage(sender,"Test not found.");
 			}
-		}
-		else if (args[0].equalsIgnoreCase(".tmp")){ // TODO remove
-			World world = Minecraft.getMinecraft().theWorld;
-			EntityPlayer plr = Minecraft.getMinecraft().thePlayer;
-			//new WorldGenBlob().generate(world,world.rand,(int)plr.posX+10,(int)plr.posY,(int)plr.posZ);
-			
-			ComponentIsland island = new ComponentIsland(world.rand,(int)plr.posX-104,(int)plr.posZ-104);
-			island.addComponentParts(world,world.rand,new StructureBoundingBox(-999999,0,-999999,999999,128,999999));
 		}
 		else{
 			sendMessage(sender,"Unknown command.");
@@ -147,5 +153,12 @@ public class HeeDebugCommand extends HeeCommand{
 		}
 		
 		return null;
+	}
+	
+	public static abstract class HeeTest{
+		protected World world;
+		protected EntityPlayer player;
+		
+		public abstract void run();
 	}
 }

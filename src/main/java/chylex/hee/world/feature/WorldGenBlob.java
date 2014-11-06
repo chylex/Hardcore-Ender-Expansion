@@ -5,6 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
@@ -72,4 +73,11 @@ public class WorldGenBlob extends WorldGenerator{
 		gen.generate(world,rand,x,y,z);
 		return true;
 	}
+	
+	public static final HeeTest $debugTest = new HeeTest(){
+		@Override
+		public void run(){
+			new WorldGenBlob().generate(world,world.rand,(int)player.posX+10,(int)player.posY,(int)player.posZ);
+		}
+	};
 }

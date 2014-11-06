@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -155,4 +156,11 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 		islandBottomY = nbt.getByte("bottomY");
 		structure.loadFromNBT(nbt.getCompoundTag("structure"));
 	}
+	
+	public static final HeeTest $debugTest = new HeeTest(){
+		@Override
+		public void run(){
+			new ComponentIsland(world.rand,(int)player.posX-104,(int)player.posZ-104).addComponentParts(world,world.rand,new StructureBoundingBox(-999999,0,-999999,999999,128,999999));
+		}
+	};
 }
