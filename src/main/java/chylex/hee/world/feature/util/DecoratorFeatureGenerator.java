@@ -15,14 +15,17 @@ import chylex.hee.world.util.BlockLocation;
 public final class DecoratorFeatureGenerator{
 	private final TIntObjectHashMap<GeneratedBlock> blocks = new TIntObjectHashMap<>();
 	private final Map<BlockLocation,ITileEntityGenerator> tileEntities = new HashMap<>();
-	private int minX, maxX, minZ, maxZ, bottomY, topY;
+	private int minX, maxX, minZ, maxZ, bottomY, topY, outOfBoundsCounter;
 	
 	public boolean setBlock(int x, int y, int z, Block block){
 		return setBlock(x,y,z,block,0);
 	}
 	
 	public boolean setBlock(int x, int y, int z, Block block, int metadata){
-		if (x < -16 || x > 16 || z < -16 || z > 16 || y < -128 || y > 127)return false;
+		if (x < -16 || x > 16 || z < -16 || z > 16 || y < -128 || y > 127){
+			++outOfBoundsCounter;
+			return false;
+		}
 		
 		if (x < minX)minX = x;
 		else if (x > maxX)maxX = x;
@@ -44,6 +47,10 @@ public final class DecoratorFeatureGenerator{
 		return true;
 	}
 	
+	public void runPass(IDecoratorGenPass pass){
+		pass.run(this,getUsedLocations());
+	}
+	
 	public Block getBlock(int x, int y, int z){
 		GeneratedBlock block = blocks.get(1024*(y+128)+32*(x+16)+z+16);
 		return block == null ? Blocks.air : block.block;
@@ -62,6 +69,10 @@ public final class DecoratorFeatureGenerator{
 		}
 		
 		return -1;
+	}
+	
+	public int getOutOfBoundsCounter(){
+		return outOfBoundsCounter;
 	}
 	
 	public List<BlockLocation> getUsedLocations(){
@@ -113,5 +124,9 @@ public final class DecoratorFeatureGenerator{
 			this.y = (byte)y;
 			this.z = (byte)z;
 		}
+	}
+	
+	public static interface IDecoratorGenPass{
+		public void run(DecoratorFeatureGenerator gen, List<BlockLocation> blocks);
 	}
 }

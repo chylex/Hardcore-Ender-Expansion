@@ -10,10 +10,6 @@ import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.BlockLocation;
 
 public abstract class BlobGenerator implements IWeightProvider{
-	private static final byte[] airOffX = new byte[]{ -1, 1, 0, 0, 0, 0 },
-								airOffY = new byte[]{ 0, 0, 0, 0, -1, 1 },
-								airOffZ = new byte[]{ 0, 0, -1, 1, 0, 0 };
-	
 	private final int weight;
 	
 	public BlobGenerator(int weight){
@@ -53,18 +49,6 @@ public abstract class BlobGenerator implements IWeightProvider{
 						}
 					}
 				}
-			}
-		}
-		
-		if (generatedSomething && block != Blocks.air){
-			for(BlockLocation loc:locs){
-				int adjacentAir = 0;
-				
-				for(int a = 0; a < 6; a++){
-					if (gen.getBlock(loc.x+airOffX[a],loc.y+airOffY[a],loc.z+airOffZ[a]) != block)++adjacentAir;
-				}
-				
-				if (adjacentAir >= 4)gen.setBlock(loc.x,loc.y,loc.z,Blocks.air);
 			}
 		}
 		

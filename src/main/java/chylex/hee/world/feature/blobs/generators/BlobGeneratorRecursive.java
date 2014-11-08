@@ -88,15 +88,16 @@ public class BlobGeneratorRecursive extends BlobGenerator{
 	}
 	
 	private void genNewBlob(DecoratorFeatureGenerator gen, Random rand, double x, double y, double z, double rad, int recursionLevel){
-		if (tmpBlobsLeft < 0 || recursionLevel >= maxRecursion)return;
+		if (tmpBlobsLeft < 0 || recursionLevel >= maxRecursion)return; System.out.println("recLvl "+recursionLevel);
 		
 		genBlob(gen,x,y,z,rad);
 		--tmpBlobsLeft;
 		
-		if (rand.nextDouble() < tmpRecursionChance*(1F-recursionChanceMp*recursionLevel)){
+		if (rand.nextDouble() < tmpRecursionChance*(Math.pow(recursionChanceMp,recursionLevel))){
 			for(int a = 0, amount = recursionAmountGen.generate(rand,minRecursionAmount,maxRecursionAmount); a < amount; a++){
 				Vec3 dir = DragonUtil.getRandomVector(rand);
-				genNewBlob(gen,rand,x,y,z,rad*(minBlobDistMp+rand.nextDouble()*(maxBlobDistMp-minBlobDistMp)),recursionLevel+1);
+				double dist = rad*(minBlobDistMp+rand.nextDouble()*(maxBlobDistMp-minBlobDistMp));
+				genNewBlob(gen,rand,x+dir.xCoord*dist,y+dir.yCoord*dist,z+dir.zCoord*dist,minRad+rand.nextDouble()*(maxRad-minRad),recursionLevel+1);
 			}
 		}
 		
