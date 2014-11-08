@@ -40,15 +40,14 @@ public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGene
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		List<BlockLocation> locs = gen.getUsedLocations();
-		if (locs.isEmpty())return;
 		
-		for(int attempt = 0; attempt < 100; attempt++){
-			BlockLocation loc = locs.get(rand.nextInt(locs.size()));
+		while(!locs.isEmpty()){
+			BlockLocation loc = locs.remove(rand.nextInt(locs.size()));
 			
 			if (gen.getBlock(loc.x,loc.y,loc.z) == Blocks.end_stone && gen.getBlock(loc.x,loc.y+1,loc.z) == Blocks.air && gen.getBlock(loc.x,loc.y+2,loc.z) == Blocks.air){
-				if (onlyInside && gen.getTopBlockY(loc.x,loc.z) > loc.y+2)continue;
+				if (onlyInside && gen.getTopBlockY(loc.x,loc.z) < loc.y+2)continue;
 				
-				gen.setBlock(loc.x,loc.y+1,loc.z,Blocks.chest);
+				gen.setBlock(loc.x,loc.y+1,loc.z,Blocks.chest,rand.nextInt(4));
 				gen.setTileEntity(loc.x,loc.y+1,loc.z,this);
 				break;
 			}

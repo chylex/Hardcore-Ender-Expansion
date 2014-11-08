@@ -1,5 +1,6 @@
 package chylex.hee.system.weight;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Random;
 
 public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
@@ -22,6 +23,13 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		for(T obj:objArray)super.add(obj);
 		recalculateWeight();
 		return true;
+	}
+	
+	@Override
+	public boolean addAll(Collection<? extends T> collection){
+		boolean b = super.addAll(collection);
+		recalculateWeight();
+		return b;
 	}
 	
 	@Override

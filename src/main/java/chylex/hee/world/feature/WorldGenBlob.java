@@ -5,16 +5,20 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import org.apache.commons.lang3.tuple.Pair;
-import chylex.hee.block.BlockList;
+import chylex.hee.item.ItemList;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorPlant;
+import chylex.hee.world.feature.blobs.populators.BlobPopulatorChest;
+import chylex.hee.world.feature.blobs.populators.BlobPopulatorHollower;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+import chylex.hee.world.loot.LootItemStack;
+import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.util.IRandomAmount;
 
 public class WorldGenBlob extends WorldGenerator{
@@ -61,19 +65,29 @@ public class WorldGenBlob extends WorldGenerator{
 		public void run(){
 			WeightedList<BlobPattern> patterns = new WeightedList<>(new BlobPattern[]{
 				new BlobPattern(10).addGenerators(new BlobGenerator[]{
-					new BlobGeneratorSingle(1).rad(7.4D,7.4D)
+					new BlobGeneratorSingle(1).rad(3D,3D)
 				}).addPopulators(new BlobPopulator[]{
-					new BlobPopulatorPlant(1).block(BlockList.death_flower).blockAmount(IRandomAmount.exact,50,50).attempts(90,90).knownBlockLocations()
-				}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
+					new BlobPopulatorHollower(1),
+					new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{ new LootItemStack(ItemList.end_powder).setWeight(1) }),IRandomAmount.preferSmaller,3,12).onlyInside()
+				}).setPopulatorAmountProvider(IRandomAmount.exact,2,2)
 			});
+			
 			
 			DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 			Pair<BlobGenerator,List<BlobPopulator>> pattern = patterns.getRandomItem(world.rand).generatePattern(world.rand);
 			
+			Stopwatch.time("WorldGenBlob - test blob generator");
 			pattern.getLeft().generate(gen,world.rand);
-			for(BlobPopulator populator:pattern.getRight())populator.generate(gen,world.rand);
+			Stopwatch.finish("WorldGenBlob - test blob generator");
 			
+			Stopwatch.time("WorldGenBlob - test pattern generator");
+			for(BlobPopulator populator:pattern.getRight())populator.generate(gen,world.rand);
+			Stopwatch.finish("WorldGenBlob - test pattern generator");
+			
+			Stopwatch.time("WorldGenBlob - test generate");
 			gen.generate(world,world.rand,(int)player.posX+10,(int)player.posY-5,(int)player.posZ);
+			Stopwatch.finish("WorldGenBlob - test generate");
+			
 		}
 	};
 }

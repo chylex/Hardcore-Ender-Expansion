@@ -1,5 +1,7 @@
 package chylex.hee.world.feature.blobs;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang3.tuple.Pair;
@@ -13,6 +15,13 @@ public final class BlobPattern implements IWeightProvider{
 	private final WeightedList<BlobPopulator> populators = new WeightedList<>();
 	private IRandomAmount populatorAmountGen;
 	private int minPopulatorAmount, maxPopulatorAmount;
+	
+	private final Comparator<BlobPopulator> populatorSorter = new Comparator<BlobPopulator>(){
+		@Override
+		public int compare(BlobPopulator pop1, BlobPopulator pop2){
+			return populators.indexOf(pop1) < populators.indexOf(pop2) ? -1 : 1; // never equal
+		}
+	};
 	
 	public BlobPattern(int weight){
 		this.weight = weight;
@@ -39,9 +48,16 @@ public final class BlobPattern implements IWeightProvider{
 		List<BlobPopulator> chosenPopulators = new ArrayList<>();
 		
 		if (populatorAmountGen != null && !populators.isEmpty()){
-			for(int a = 0, amount = populatorAmountGen.generate(rand,minPopulatorAmount,maxPopulatorAmount); a < amount; a++){
-				chosenPopulators.add(populators.getRandomItem(rand));
+			WeightedList<BlobPopulator> blobPopulators = new WeightedList<>();
+			blobPopulators.addAll(populators);
+			
+			for(int a = 0, amount = populatorAmountGen.generate(rand,minPopulatorAmount,maxPopulatorAmount); a < amount && !blobPopulators.isEmpty(); a++){
+				BlobPopulator populator = blobPopulators.getRandomItem(rand);
+				chosenPopulators.add(populator);
+				blobPopulators.remove(populator);
 			}
+			
+			Collections.sort(chosenPopulators,populatorSorter);
 		}
 		
 		return Pair.of(generators.getRandomItem(rand),chosenPopulators);

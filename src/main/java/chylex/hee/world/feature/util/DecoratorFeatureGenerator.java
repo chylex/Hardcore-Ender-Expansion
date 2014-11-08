@@ -66,7 +66,11 @@ public final class DecoratorFeatureGenerator{
 	
 	public List<BlockLocation> getUsedLocations(){
 		List<BlockLocation> locs = new ArrayList<>();
-		for(GeneratedBlock block:blocks.valueCollection())locs.add(new BlockLocation(block.x,block.y,block.z));
+		
+		for(GeneratedBlock block:blocks.valueCollection()){
+			if (block.block != Blocks.air)locs.add(new BlockLocation(block.x,block.y,block.z));
+		}
+		
 		return locs;
 	}
 	
@@ -82,11 +86,18 @@ public final class DecoratorFeatureGenerator{
 		if (randX > 0)centerX += rand.nextInt(randX*2)-randX;
 		if (randZ > 0)centerZ += rand.nextInt(randZ*2)-randZ;
 		
-		for(GeneratedBlock block:blocks.valueCollection())world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
+		List<GeneratedBlock> delayed = new ArrayList<>();
+		
+		for(GeneratedBlock block:blocks.valueCollection()){
+			if (!block.block.canBlockStay(world,centerX+block.x,centerY+block.y,centerZ+block.z))delayed.add(block);
+			else world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
+		}
+		
+		for(GeneratedBlock block:delayed)world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
 		
 		for(Entry<BlockLocation,ITileEntityGenerator> entry:tileEntities.entrySet()){
 			BlockLocation loc = entry.getKey();
-			entry.getValue().onTileEntityRequested("",world.getTileEntity(loc.x,loc.y,loc.z),rand);
+			entry.getValue().onTileEntityRequested("",world.getTileEntity(centerX+loc.x,centerY+loc.y,centerZ+loc.z),rand);
 		}
 	}
 	
