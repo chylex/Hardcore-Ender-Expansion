@@ -13,6 +13,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -140,7 +142,7 @@ public class BlockEnergyCluster extends BlockContainer{
 		
 		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true);
 		
-		// TODO return some to environment
+		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(x,z,true).addEnergy(tile.data.getEnergyLevel()*0.2F);
 		
 		for(int xx = x-4; xx <= x+4; xx++){
 			for(int zz = z-4; zz <= z+4; zz++){

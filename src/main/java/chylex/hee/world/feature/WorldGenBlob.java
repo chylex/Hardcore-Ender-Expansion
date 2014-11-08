@@ -6,7 +6,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
-import chylex.hee.system.logging.Log;
 import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.feature.blobs.BlobGenerator;
@@ -34,36 +33,16 @@ public class WorldGenBlob extends WorldGenerator{
 		});
 	}
 	
-	private DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
-	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (Log.isDeobfEnvironment){ // TODO remove debug
-			BlobType.COMMON.patterns.clear();
-			
-			BlobType.COMMON.patterns.addAll(new BlobPattern[]{
-				new BlobPattern(10).addGenerators(new BlobGenerator[]{
-					
-				}).addPopulators(new BlobPopulator[]{
-					
-				}).setPopulatorAmountProvider(IRandomAmount.linear,1,5)
-			});
-			
-			Pair<BlobGenerator,List<BlobPopulator>> pattern = BlobType.COMMON.patterns.getRandomItem(rand).generatePattern(rand);
-			
-			pattern.getLeft().generate(gen,rand);
-			for(BlobPopulator populator:pattern.getRight())populator.generate(gen,rand);
-			
-			gen.generate(world,rand,x,y,z);
-			return true;
-		}
-		
 		if (world.getBlock(x-8,y,z) != Blocks.air ||
 			world.getBlock(x+8,y,z) != Blocks.air ||
 			world.getBlock(x,y,z-8) != Blocks.air ||
 			world.getBlock(x,y,z+8) != Blocks.air ||
 			world.getBlock(x,y-8,z) != Blocks.air ||
 			world.getBlock(x,y+8,z) != Blocks.air)return false;
+		
+		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 
 		Pair<BlobGenerator,List<BlobPopulator>> pattern = types.getRandomItem(rand).getObject().patterns.getRandomItem(rand).generatePattern(rand);
 		
@@ -77,7 +56,21 @@ public class WorldGenBlob extends WorldGenerator{
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(){
-			new WorldGenBlob().generate(world,world.rand,(int)player.posX+10,(int)player.posY,(int)player.posZ);
+			WeightedList<BlobPattern> patterns = new WeightedList<>(new BlobPattern[]{
+				new BlobPattern(10).addGenerators(new BlobGenerator[]{
+					
+				}).addPopulators(new BlobPopulator[]{
+					
+				}).setPopulatorAmountProvider(IRandomAmount.linear,1,5)
+			});
+			
+			DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
+			Pair<BlobGenerator,List<BlobPopulator>> pattern = patterns.getRandomItem(world.rand).generatePattern(world.rand);
+			
+			pattern.getLeft().generate(gen,world.rand);
+			for(BlobPopulator populator:pattern.getRight())populator.generate(gen,world.rand);
+			
+			gen.generate(world,world.rand,(int)player.posX+10,(int)player.posY,(int)player.posZ);
 		}
 	};
 }

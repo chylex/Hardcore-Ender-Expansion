@@ -7,11 +7,14 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobEndermage;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
@@ -91,7 +94,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 						grown.setHomelandRole(HomelandRole.getRandomRole(world.rand));
 						world.spawnEntityInWorld(grown);
 						
-						// TODO particles
+						PacketPipeline.sendToAllAround(grown,64D,new C21EffectEntity(FXType.Entity.BABY_ENDERMAN_GROW,grown));
 					}
 					
 					break;

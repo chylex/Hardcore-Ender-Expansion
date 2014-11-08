@@ -39,7 +39,7 @@ public final class EnergyEvents{
 			EnergyChunkData data = file.getFromChunkCoords(chunk.xPosition,chunk.zPosition,true);
 			if (usedData.contains(data))continue;
 			
-			data.onUpdate(e.world.rand);
+			data.onUpdate(e.world,e.world.rand);
 			
 			for(int a = 0; a < 4; a++){
 				data.onAdjacentInteract(e.world.rand,file.getFromChunkCoords(chunk.xPosition+Direction.offsetX[a]*EnergySavefile.sectionSize,chunk.zPosition+Direction.offsetZ[a]*EnergySavefile.sectionSize,true));
@@ -59,12 +59,7 @@ public final class EnergyEvents{
 		float energy = MobEnergy.getEnergy(e.entityLiving);
 		if (MathUtil.floatEquals(energy,-1F))return;
 		
-		EnergyChunkData data = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords((int)Math.floor(e.entity.posX),(int)Math.floor(e.entity.posZ),true);
-		energy = data.tryRegenerate(energy);
-		
-		if (energy > EnergyChunkData.minSignificantEnergy){
-			// TODO leak corrupted energy
-		}
+		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords((int)Math.floor(e.entity.posX),(int)Math.floor(e.entity.posZ),true).addEnergy(energy);
 	}
 	
 	private byte updateTimer;

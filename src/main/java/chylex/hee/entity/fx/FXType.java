@@ -27,7 +27,8 @@ public final class FXType{
 		GEM_TELEPORT_FROM,
 		ORB_TRANSFORMATION,
 		LOUSE_REGEN,
-		HOMELAND_ENDERMAN_RECRUIT;
+		HOMELAND_ENDERMAN_RECRUIT,
+		BABY_ENDERMAN_GROW;
 		
 		public static FXType.Entity[] values = values();
 	}
