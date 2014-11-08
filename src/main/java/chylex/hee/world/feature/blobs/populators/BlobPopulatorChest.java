@@ -13,7 +13,7 @@ import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGenerator{
 	private WeightedLootList lootList;
-	private IRandomAmount amountGen;
+	private IRandomAmount amountGen = IRandomAmount.exact;
 	private int minAmount, maxAmount;
 	private boolean onlyInside;
 	

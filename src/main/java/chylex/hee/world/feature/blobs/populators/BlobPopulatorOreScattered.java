@@ -10,7 +10,7 @@ import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorOreScattered extends BlobPopulator{
 	private Block ore;
-	private IRandomAmount blockAmountGen;
+	private IRandomAmount blockAmountGen = IRandomAmount.exact;
 	private byte minAttempts, maxAttempts, minBlockAmount, maxBlockAmount, visiblePlacementAttempts;
 	private boolean knownBlockLocations;
 	

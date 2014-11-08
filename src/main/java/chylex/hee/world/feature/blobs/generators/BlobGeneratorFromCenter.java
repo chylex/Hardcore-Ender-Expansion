@@ -7,7 +7,7 @@ import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobGeneratorFromCenter extends BlobGenerator{
-	private IRandomAmount amountGen;
+	private IRandomAmount amountGen = IRandomAmount.exact;
 	private byte minAmount, maxAmount;
 	private double minRad, maxRad, minDist, maxDist;
 	private boolean unifiedSize, limitDist;
@@ -66,7 +66,7 @@ public class BlobGeneratorFromCenter extends BlobGenerator{
 			
 			genBlob(gen,vec.xCoord*dist,vec.yCoord*dist,vec.zCoord*dist,rad);
 			
-			if (a < amt-1 && !unifiedSize)rad = minRad+rand.nextDouble()*(maxRad-minRad);
+			if (a <= amt-1 && !unifiedSize)rad = minRad+rand.nextDouble()*(maxRad-minRad);
 		}
 	}
 }

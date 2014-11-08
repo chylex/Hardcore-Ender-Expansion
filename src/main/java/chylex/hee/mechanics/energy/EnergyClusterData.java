@@ -9,7 +9,7 @@ import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public final class EnergyClusterData{
-	private EnergyClusterHealth healthStatus;
+	private EnergyClusterHealth healthStatus = EnergyClusterHealth.HEALTHY;
 	private float energyLevel, maxEnergyLevel;
 	private byte regenTimer, drainTimer;
 	

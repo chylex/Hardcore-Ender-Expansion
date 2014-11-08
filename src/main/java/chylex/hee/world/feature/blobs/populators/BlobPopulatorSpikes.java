@@ -10,7 +10,7 @@ import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorSpikes extends BlobPopulator{
 	private Block block;
-	private IRandomAmount amountGen;
+	private IRandomAmount amountGen = IRandomAmount.exact;
 	private byte minAmount, maxAmount, maxOffsetFromCenter;
 	
 	public BlobPopulatorSpikes(int weight){

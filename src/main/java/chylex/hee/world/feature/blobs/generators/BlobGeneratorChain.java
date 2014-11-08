@@ -7,7 +7,7 @@ import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobGeneratorChain extends BlobGenerator{
-	private IRandomAmount amountGen;
+	private IRandomAmount amountGen = IRandomAmount.exact;
 	private byte minAmount, maxAmount;
 	private double minRad, maxRad, minChainDistMp, maxChainDistMp;
 	

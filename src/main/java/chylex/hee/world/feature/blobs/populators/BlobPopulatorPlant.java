@@ -10,7 +10,7 @@ import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorPlant extends BlobPopulator{
 	private Block plant;
-	private IRandomAmount amountGen;
+	private IRandomAmount amountGen = IRandomAmount.exact;
 	private byte minAttempts, maxAttempts, minPlantAmount, maxPlantAmount;
 	private boolean knownBlockLocations;
 	
@@ -65,8 +65,8 @@ public class BlobPopulatorPlant extends BlobPopulator{
 				z = rand.nextInt(32)-16;
 			}
 			
-			if (gen.getBlock(x,y,z) == Blocks.air && gen.getBlock(x,y-1,z) == Blocks.end_stone){
-				gen.setBlock(x,y,z,plant);
+			if (gen.getBlock(x,y+1,z) == Blocks.air && gen.getBlock(x,y,z) == Blocks.end_stone){
+				gen.setBlock(x,y+1,z,plant);
 				--blocks;
 			}
 		}

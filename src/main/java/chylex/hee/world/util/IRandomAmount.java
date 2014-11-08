@@ -8,6 +8,13 @@ public interface IRandomAmount{
 	
 	public static final IRandomAmount
 	
+	exact = new IRandomAmount(){
+		@Override
+		public int generate(Random rand, int minAmount, int maxAmount){
+			return minAmount;
+		}
+	},
+	
 	linear = new IRandomAmount(){
 		@Override
 		public int generate(Random rand, int minAmount, int maxAmount){

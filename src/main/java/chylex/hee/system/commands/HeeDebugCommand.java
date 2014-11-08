@@ -9,7 +9,6 @@ import net.minecraftforge.common.DimensionManager;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
-import chylex.hee.packets.PacketPipeline;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import com.google.common.reflect.ClassPath;
@@ -120,22 +119,37 @@ public class HeeDebugCommand extends HeeCommand{
 			try{
 				Stopwatch.time("HeeDebugCommand - test");
 				
-				ClassPath path = ClassPath.from(PacketPipeline.class.getClassLoader());
+				boolean found = false;
+				ClassPath path = ClassPath.from(HeeDebugCommand.class.getClassLoader());
 				
 				for(ClassInfo clsInfo:path.getAllClasses()){
 					if (clsInfo.getSimpleName().equals(args[1]) && clsInfo.getPackageName().startsWith("chylex.hee")){	
-						HeeTest test = (HeeTest)clsInfo.getClass().getField("$debugTest").get(null);
+						HeeTest test = (HeeTest)clsInfo.load().getField("$debugTest").get(null);
 						test.player = (EntityPlayer)sender;
 						test.world = test.player.worldObj;
-						test.run();
+						
+						try{
+							test.run();
+						sendMessage(sender,"Test completed.");
+						}
+						catch(Throwable t){
+							t.printStackTrace();
+							sendMessage(sender,"Test failed.");
+						}
+						
+						found = true;
 						break;
 					}
 				}
+				
+				if (!found)sendMessage(sender,"Test not found.");
 				
 				Stopwatch.finish("HeeDebugCommand - test");
 			}catch(Throwable t){
 				sendMessage(sender,"Test not found.");
 			}
+			
+			return;
 		}
 		else{
 			sendMessage(sender,"Unknown command.");

@@ -1,5 +1,8 @@
 package chylex.hee.world.feature.blobs.populators;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.feature.blobs.BlobGenerator;
@@ -8,7 +11,7 @@ import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorCave extends BlobPopulator{
-	private IRandomAmount fullAmountGen, totalAmountGen;
+	private IRandomAmount fullAmountGen = IRandomAmount.exact, totalAmountGen = IRandomAmount.exact;
 	private byte minFullCaveAmount, maxFullCaveAmount, minTotalCaveAmountLimit, maxTotalCaveAmountLimit, maxRecursion;
 	private double minRad, maxRad, minRecursionChance, maxRecursionChance, minRecursionRadMp, maxRecursionRadMp;
 	private boolean recursionChanceCached = false;
@@ -72,7 +75,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 		tmpCavesLeft = totalAmountGen.generate(rand,minTotalCaveAmountLimit,maxTotalCaveAmountLimit);
 		tmpRecursionChance = minRecursionChance+rand.nextDouble()*(maxRecursionChance-minRecursionChance);
 		
-		for(int amount = fullAmountGen.generate(rand,minFullCaveAmount,maxFullCaveAmount), attempt = 0, generated = 0; attempt < amount*3 && generated < amount; attempt++){
+		for(int amount = fullAmountGen.generate(rand,minFullCaveAmount,maxFullCaveAmount), attempt = 0, generated = 0; attempt < amount*5 && generated < amount; attempt++){
 			if (genFullCave(gen,rand,minRad+rand.nextDouble()*(maxRad-minRad)))++generated;
 		}
 	}
@@ -81,16 +84,16 @@ public class BlobPopulatorCave extends BlobPopulator{
 		int side = rand.nextInt(6);
 		float x = 0F, y = 0F, z = 0F;
 		
-		if (side <= 3)x = rand.nextInt(33)-16;
-		else x = side == 4 ? 16 : -16;
+		if (side <= 3)x = rand.nextInt(32)-16;
+		else x = side == 4 ? 15 : -16;
 		
-		if (side <= 1 || side >= 4)y = rand.nextInt(33)-16;
-		else y = side == 2 ? 16 : -16;
+		if (side <= 1 || side >= 4)y = rand.nextInt(32)-16;
+		else y = side == 2 ? 15 : -16;
 		
-		if (side >= 2)z = rand.nextInt(33)-16;
-		else z = side == 0 ? 16 : -16;
-
-		if (genCave(gen,rand,x,y,z,rad,Vec3.createVectorHelper(-x,-y,-z).normalize(),1)){
+		if (side >= 2)z = rand.nextInt(32)-16;
+		else z = side == 0 ? 15 : -16;
+		
+		if (genCave(gen,rand,x,y,z,rad,Vec3.createVectorHelper(-x,-y,-z).normalize(),0)){
 			--tmpCavesLeft;
 			return true;
 		}
@@ -104,8 +107,10 @@ public class BlobPopulatorCave extends BlobPopulator{
 		Vec3 dirChangeVec = null;
 		double dirChangeMp = 0D;
 		
+		List<double[]> recursionLocs = new ArrayList<>();
+		
 		for(int a = 0; a < 50; a++){
-			if (BlobGenerator.genBlob(gen,x,y,z,rad))generatedSomething = true;
+			if (BlobGenerator.genBlob(gen,x,y,z,rad,Blocks.air))generatedSomething = true;
 			
 			if (a == 0 || rand.nextInt(10) == 0){
 				dirChangeVec = DragonUtil.getRandomVector(rand);
@@ -120,10 +125,13 @@ public class BlobPopulatorCave extends BlobPopulator{
 			y += dirVec.yCoord;
 			z += dirVec.zCoord;
 			
-			if (!recursionChanceCached && a > 0)tmpRecursionChance = minRecursionChance+rand.nextDouble()*(maxRecursionChance-minRecursionChance);
-			
-			if (rand.nextDouble() < tmpRecursionChance){
-				Vec3 newVec = dirVec.crossProduct(DragonUtil.getRandomVector(rand));
+			if (!recursionChanceCached && a > 0)tmpRecursionChance = (minRecursionChance+rand.nextDouble()*(maxRecursionChance-minRecursionChance))/(recursionLevel+1);
+			if (rand.nextDouble() < tmpRecursionChance)recursionLocs.add(new double[]{ x, y, z });
+		}
+		
+		if (generatedSomething){
+			for(double[] loc:recursionLocs){
+				Vec3 newVec = dirVec.crossProduct(DragonUtil.getRandomVector(rand)).normalize();
 				
 				if (genCave(gen,rand,x,y,z,rad*(minRecursionRadMp+rand.nextDouble()*(maxRecursionRadMp-minRecursionRadMp)),newVec,recursionLevel+1)){
 					--tmpCavesLeft;

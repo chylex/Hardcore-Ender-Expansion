@@ -7,7 +7,7 @@ import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobGeneratorRecursive extends BlobGenerator{
-	private IRandomAmount baseAmountGen, totalAmountGen, recursionAmountGen;
+	private IRandomAmount baseAmountGen = IRandomAmount.exact, totalAmountGen = IRandomAmount.exact, recursionAmountGen = IRandomAmount.exact;
 	private byte minAmount, maxAmount, minTotalAmountLimit, maxTotalAmountLimit, minRecursionAmount, maxRecursionAmount, maxRecursion;
 	private double minRad, maxRad, minRecursionChance, maxRecursionChance, recursionChanceMp, minBlobDistMp, maxBlobDistMp;
 	private boolean recursionChanceCached;
