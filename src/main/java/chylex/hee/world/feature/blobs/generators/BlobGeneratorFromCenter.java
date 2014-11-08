@@ -60,7 +60,7 @@ public class BlobGeneratorFromCenter extends BlobGenerator{
 			double dist = a == 0 ? 0D : minDist+rand.nextDouble()*(maxDist-minDist);
 			
 			if (limitDist){
-				if (a == 0)firstDist = dist;
+				if (a == 0)firstDist = rad;
 				else dist *= firstDist/maxDist;
 			}
 			

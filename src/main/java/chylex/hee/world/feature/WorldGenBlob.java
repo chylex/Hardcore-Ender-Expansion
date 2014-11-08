@@ -5,7 +5,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import org.apache.commons.lang3.tuple.Pair;
-import chylex.hee.item.ItemList;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.weight.ObjectWeightPair;
@@ -14,11 +13,8 @@ import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorChest;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorHollower;
+import chylex.hee.world.feature.blobs.populators.BlobPopulatorCave;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.world.loot.LootItemStack;
-import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.util.IRandomAmount;
 
 public class WorldGenBlob extends WorldGenerator{
@@ -65,11 +61,10 @@ public class WorldGenBlob extends WorldGenerator{
 		public void run(){
 			WeightedList<BlobPattern> patterns = new WeightedList<>(new BlobPattern[]{
 				new BlobPattern(10).addGenerators(new BlobGenerator[]{
-					new BlobGeneratorSingle(1).rad(3D,3D)
+					new BlobGeneratorSingle(1).rad(8D,8D)
 				}).addPopulators(new BlobPopulator[]{
-					new BlobPopulatorHollower(1),
-					new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{ new LootItemStack(ItemList.end_powder).setWeight(1) }),IRandomAmount.preferSmaller,3,12).onlyInside()
-				}).setPopulatorAmountProvider(IRandomAmount.exact,2,2)
+					new BlobPopulatorCave(1).fullCaveAmount(IRandomAmount.exact,3,3).totalCaveAmount(IRandomAmount.exact,3,3).rad(2D,3D)
+				}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
 			});
 			
 			

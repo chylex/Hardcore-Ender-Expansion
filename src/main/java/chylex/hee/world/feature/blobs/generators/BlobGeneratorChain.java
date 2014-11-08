@@ -37,6 +37,7 @@ public class BlobGeneratorChain extends BlobGenerator{
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		double prevRad = 0D;
+		double x = 0D, y = 0D, z = 0D;
 		
 		for(int a = 0, amount = amountGen.generate(rand,minAmount,maxAmount); a < amount; a++){
 			double rad = minRad+rand.nextDouble()*(maxRad-minRad);
@@ -44,7 +45,8 @@ public class BlobGeneratorChain extends BlobGenerator{
 			Vec3 vec = a == 0 ? Vec3.createVectorHelper(0D,0D,0D) : DragonUtil.getRandomVector(rand);
 			double dist = a == 0 ? 0D : prevRad*(minChainDistMp+rand.nextDouble()*(maxChainDistMp-minChainDistMp));
 			
-			genBlob(gen,vec.xCoord*dist,vec.yCoord*dist,vec.zCoord*dist,rad);
+			genBlob(gen,x += vec.xCoord*dist,y += vec.yCoord*dist,z += vec.zCoord*dist,rad);
+			prevRad = rad;
 		}
 	}
 }
