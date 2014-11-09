@@ -12,7 +12,6 @@ import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
 import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.blobs.generators.BlobGeneratorRecursive;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator.IDecoratorGenPass;
@@ -34,7 +33,12 @@ public class WorldGenBlob extends WorldGenerator{
 		types.add(ObjectWeightPair.of(BlobType.RARE,1));
 		
 		BlobType.COMMON.patterns.addAll(new BlobPattern[]{
-			
+			new BlobPattern(1).addGenerators(new BlobGenerator[]{
+				new BlobGeneratorSingle(5).rad(2D,5D),
+				new BlobGeneratorSingle(3).rad(4D,10D)
+			}).addPopulators(new BlobPopulator[]{
+				
+			})
 		});
 	}
 	
@@ -83,7 +87,7 @@ public class WorldGenBlob extends WorldGenerator{
 		public void run(){
 			WeightedList<BlobPattern> patterns = new WeightedList<>(new BlobPattern[]{
 				new BlobPattern(10).addGenerators(new BlobGenerator[]{
-					new BlobGeneratorSingle(5).rad(2D,80D)
+					new BlobGeneratorSingle(3).rad(4D,10D)
 				}).addPopulators(new BlobPopulator[]{
 					
 				}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
