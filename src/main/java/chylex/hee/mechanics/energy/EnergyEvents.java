@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.energy;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ public final class EnergyEvents{
 		
 		Stopwatch.timeAverage("EnergyEvents - WorldTick",80);
 		
-		List<Chunk> chunks = ((ChunkProviderServer)e.world.getChunkProvider()).loadedChunks;
+		List<Chunk> chunks = new ArrayList<>(((ChunkProviderServer)e.world.getChunkProvider()).loadedChunks);
 		Set<EnergyChunkData> usedData = new HashSet<>();
 		EnergySavefile file = WorldDataHandler.get(EnergySavefile.class);
 		

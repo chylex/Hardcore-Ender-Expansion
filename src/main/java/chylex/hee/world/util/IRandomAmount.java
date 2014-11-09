@@ -1,6 +1,7 @@
 package chylex.hee.world.util;
 import gnu.trove.map.hash.TIntIntHashMap;
 import java.util.Random;
+import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Log;
 
 public interface IRandomAmount{
@@ -43,7 +44,7 @@ public interface IRandomAmount{
 		}
 	};
 	
-	public static final Runnable $debugTest = new Runnable(){
+	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(){
 			Random rand = new Random();

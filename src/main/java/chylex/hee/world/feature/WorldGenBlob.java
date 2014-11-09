@@ -12,6 +12,8 @@ import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
 import chylex.hee.world.feature.blobs.BlobPopulator;
+import chylex.hee.world.feature.blobs.generators.BlobGeneratorChain;
+import chylex.hee.world.feature.blobs.generators.BlobGeneratorFromCenter;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator.IDecoratorGenPass;
@@ -29,13 +31,18 @@ public class WorldGenBlob extends WorldGenerator{
 	
 	static{
 		types.add(ObjectWeightPair.of(BlobType.COMMON,20));
-		types.add(ObjectWeightPair.of(BlobType.UNCOMMON,4));
-		types.add(ObjectWeightPair.of(BlobType.RARE,1));
+		//types.add(ObjectWeightPair.of(BlobType.UNCOMMON,4));
+		//types.add(ObjectWeightPair.of(BlobType.RARE,1));
+		// TODO
 		
 		BlobType.COMMON.patterns.addAll(new BlobPattern[]{
 			new BlobPattern(1).addGenerators(new BlobGenerator[]{
-				new BlobGeneratorSingle(5).rad(2D,5D),
-				new BlobGeneratorSingle(3).rad(4D,10D)
+				new BlobGeneratorFromCenter(10).amount(IRandomAmount.preferSmaller,2,6).rad(2.5D,4.5D).dist(3.5D,6D),
+				new BlobGeneratorSingle(10).rad(2D,5D),
+				new BlobGeneratorFromCenter(7).amount(IRandomAmount.aroundCenter,2,8).rad(2.2D,5D).dist(6D,6D).limitDist().unifySize(),
+				new BlobGeneratorSingle(4).rad(4D,10D),
+				new BlobGeneratorFromCenter(3).amount(IRandomAmount.linear,4,10).rad(2.4D,3D).dist(2D,6D),
+				new BlobGeneratorChain(3).amount(IRandomAmount.linear,3,6).rad(2.5D,4D).distMp(1.5D,2.5D)
 			}).addPopulators(new BlobPopulator[]{
 				
 			})
@@ -87,7 +94,7 @@ public class WorldGenBlob extends WorldGenerator{
 		public void run(){
 			WeightedList<BlobPattern> patterns = new WeightedList<>(new BlobPattern[]{
 				new BlobPattern(10).addGenerators(new BlobGenerator[]{
-					new BlobGeneratorSingle(3).rad(4D,10D)
+					new BlobGeneratorChain(1).amount(IRandomAmount.linear,3,6).rad(2.5D,4D).distMp(1.5D,2.5D)
 				}).addPopulators(new BlobPopulator[]{
 					
 				}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)

@@ -49,7 +49,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 		}
 
 		int realX = x*16, realZ = z*16;
-		world.getBiomeGenForCoords(realX+16,realZ+16).decorate(world,randCopy,realX,realZ);
+		/*world.getBiomeGenForCoords(realX+16,realZ+16)*/BiomeGenBase.sky.decorate(world,randCopy,realX,realZ);
 
 		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(chunkProvider,world,randCopy,x,z,false));
 		BlockFalling.fallInstantly = false;
