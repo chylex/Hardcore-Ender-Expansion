@@ -1,6 +1,4 @@
 package chylex.hee.mechanics.compendium;
-import org.apache.commons.lang3.ArrayUtils;
-import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -9,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockList;
@@ -42,6 +41,7 @@ import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
+import cpw.mods.fml.common.Loader;
 
 public final class KnowledgeRegistrations{
 	public static final KnowledgeObject<? extends IKnowledgeObjectInstance<?>>
@@ -98,6 +98,7 @@ public final class KnowledgeRegistrations{
 		OBSIDIAN_PILLAR_GLOWING = create(BlockList.obsidian_special_glow,2),
 		ENDIUM_ORE = create(BlockList.endium_ore),
 		ENDIUM_BLOCK = create(BlockList.endium_block),
+		VOID_CHEST = create(BlockList.void_chest),
 		SPATIAL_DASH_GEM = create(ItemList.spatial_dash_gem),
 		ENDIUM_INGOT = create(ItemList.endium_ingot),
 		BIOME_COMPASS = create(ItemList.biome_compass),
@@ -173,6 +174,7 @@ public final class KnowledgeRegistrations{
 		ENCHANTED_END_STONE = create(BlockList.end_terrain,2),
 		
 		FALLING_OBSIDIAN_LINKED = link(FALLING_OBSIDIAN),
+		PERSEGRIT = create(BlockList.persegrit),
 		ENDERMAN_LINKED = link(ENDERMAN),
 		BABY_ENDERMAN = create(EntityMobBabyEnderman.class),
 		ENDER_GUARDIAN = create(EntityMobEnderGuardian.class),
@@ -507,7 +509,14 @@ public final class KnowledgeRegistrations{
 			
 			ENDIUM_BLOCK.setPos(2,11).setUnlockPrice(5).setDiscoveryReward(5).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(770).setContents("Block made of Endium Ingots.").setPrice(2).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(771).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(770).setUnlockCascade(781)
+				new KnowledgeFragmentCrafting(771).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(770).setUnlockCascade(781),
+				new KnowledgeFragmentCrafting(772).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setPrice(8).setUnlockRequirements(770).setUnlockCascade(801)
+			}),
+			
+			VOID_CHEST.setPos(4,11).setUnlockPrice(12).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(800).setContents("A chest that stores items you own that fell into the void.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(801).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setPrice(8).setUnlockRequirements(800).setUnlockCascade(772),
+				new KnowledgeFragmentText(802).setContents("If there are too many items inside, there will be a higher chance of new items replacing them.").setPrice(3).setUnlockRequirements(800)
 			}),
 			
 			SPATIAL_DASH_GEM.setPos(3,7).setUnlockPrice(25).setDiscoveryReward(15).setFragments(new KnowledgeFragment[]{
@@ -839,16 +848,23 @@ public final class KnowledgeRegistrations{
 			ENCHANTED_ISLAND_BIOME.setPosToCenter().setUnlockPrice(60).setDiscoveryReward(45).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(660).setContents("Very flat biome with small amount of caves.").setPrice(5),
 				new KnowledgeFragmentText(661).setContents("There is currently only one variation - Homeland.").setPrice(2).setUnlockRequirements(660),
-				new KnowledgeFragmentText(662).setContents("Homeland has lakes of Ender Goo, piles of Falling Obsidian and a strange Obsidian road-like structure. Endermen, Baby Endermen and Ender Guardians spawn there.").setPrice(10).setUnlockRequirements(661)
+				new KnowledgeFragmentText(662).setContents("Homeland has lakes of Ender Goo, piles of Falling Obsidian and a strange Obsidian road-like structure. Endermen, Baby Endermen and Ender Guardians spawn there.").setPrice(10).setUnlockRequirements(661),
+				new KnowledgeFragmentText(665).setContents("All variations have Hidden Cellar, a haunted underground dungeon.").setPrice(5).setUnlockRequirements(661).setUnlockCascade(810)
 			}),
 			
 			ENCHANTED_END_STONE.setPos(0,4).setUnlockPrice(5).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(670).setContents("Variation of End Stone found in the Enchanted Island Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			FALLING_OBSIDIAN_LINKED.setPos(3,5),
+			FALLING_OBSIDIAN_LINKED.setPos(-3,5),
 			
-			ENDERMAN_LINKED.setPos(-3,5),
+			PERSEGRIT.setPos(3,5).setUnlockPrice(5).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(810).setContents("A purple block that forms the floor, walls and ceiling of Hidden Cellar.").setPrice(5).setUnlockOnDiscovery().setUnlockCascade(665),
+				new KnowledgeFragmentText(811).setContents("Shovels are efficient tools for breaking, but you can still get the block if you mine using other tools or your hand.").setPrice(3).setUnlockRequirements(810),
+				new KnowledgeFragmentText(812).setContents("Some blocks in the Hidden Cellar have ornaments.").setPrice(1).setUnlockRequirements(810)
+			}),
+			
+			ENDERMAN_LINKED.setPos(1,8),
 			
 			BABY_ENDERMAN.setPos(-1,8).setUnlockPrice(20).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(680).setContents("Baby Enderman spawns in the Enchanted Island (Homeland).").setPrice(5).setUnlockOnDiscovery(),
@@ -858,7 +874,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(684).setContents("It will not steal from players who wear Enderman Head.").setPrice(3).setUnlockRequirements(682)
 			}),
 			
-			ENDER_GUARDIAN.setNonBuyable().setPos(1,8).setUnlockPrice(15).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{ // TODO unblock
+			ENDER_GUARDIAN.setNonBuyable().setPos(4,8).setUnlockPrice(15).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{ // TODO update and unblock
 				new KnowledgeFragmentText(690).setContents("Large golem-like creature that spawns in the Enchanted Island (Laboratory).").setPrice(5).setUnlockOnDiscovery(), // TODO lab
 				new KnowledgeFragmentText(691).setContents("It only attacks players when provoked.").setPrice(2).setUnlockRequirements(690),
 				new KnowledgeFragmentText(692).setContents("When attacking, it charges the player with melee attacks, and after a short while it teleports away and creates a blast under the player.").setPrice(5).setUnlockRequirements(690),
@@ -873,7 +889,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 800
+		// next: 820
 		
 		Stopwatch.finish("KnowledgeRegistrations");
 		

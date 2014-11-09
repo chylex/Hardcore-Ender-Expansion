@@ -20,6 +20,18 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 		ySize = 191;
 		brewingStand = tile;
 	}
+	
+	@Override
+	protected void drawGuiContainerForegroundLayer(int x, int y){
+		super.drawGuiContainerForegroundLayer(x,y);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        
+		int powderReq = brewingStand.getRequiredPowder();
+		
+		fontRendererObj.drawStringWithShadow(
+			(brewingStand.getHoldingPowder() < powderReq ? EnumChatFormatting.YELLOW : EnumChatFormatting.WHITE)+String.valueOf(powderReq),
+		81,ySize-114,0x404040);
+	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float renderPartialTicks, int x, int y){
@@ -46,16 +58,5 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 
 			if (texPos > 0)drawTexturedModalRect(guiX+66,guiY+14+29-texPos,185,29-texPos,12,texPos);
 		}
-	}
-	
-	@Override
-	protected void drawGuiContainerForegroundLayer(int x, int y){
-		super.drawGuiContainerForegroundLayer(x,y);
-		
-		int powderReq = brewingStand.getRequiredPowder();
-		
-		fontRendererObj.drawStringWithShadow(
-			(brewingStand.getHoldingPowder() < powderReq ? EnumChatFormatting.YELLOW : EnumChatFormatting.WHITE)+String.valueOf(powderReq),
-		81,ySize-114,0x404040);
 	}
 }

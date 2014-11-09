@@ -55,14 +55,16 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 
 		byte potionCount = 0;
 		requiredPowder = 0;
+		
 		for(int a = 0; a < 3; a++){
 			if (slotItems[a] == null)continue;
 			++potionCount;
 			
-			if (!PotionTypes.canBeApplied(slotItems[3].getItem(),slotItems[a]))return false;
+			if (!PotionTypes.canBeApplied(slotItems[3],slotItems[a]))return false;
 			requiredPowder += PotionTypes.getRequiredPowder(slotItems[3].getItem(),slotItems[a]);
 		}
-		requiredPowder = (short)Math.min(requiredPowder*(potionCount == 2?0.835f:potionCount == 3?0.7f:1f),69);
+		
+		requiredPowder = (short)Math.min(requiredPowder*(potionCount == 2 ? 0.835F : potionCount == 3 ? 0.7F : 1F),69);
 
 		if (potionCount == 0)return false;
 		return requiredPowder == 0 || (slotItems[4] != null && slotItems[4].stackSize >= requiredPowder);
@@ -74,7 +76,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		for(int a = 0; a < 3; a++){
 			if (slotItems[a] == null)continue;
 			
-			slotItems[a] = PotionTypes.applyIngredientUnsafe(slotItems[3].getItem(),slotItems[a]);
+			slotItems[a] = PotionTypes.applyIngredientUnsafe(slotItems[3],slotItems[a]);
 			
 			if (slotItems[a].stackTagCompound == null)slotItems[a].stackTagCompound = new NBTTagCompound();
 			slotItems[a].stackTagCompound.setBoolean("hasPotionChanged",true);

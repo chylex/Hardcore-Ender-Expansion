@@ -24,8 +24,8 @@ public class GuiItemRenderHelper{
 		Item item = is.getItem();
 		int damage = is.getItemDamage();
 		Object object = is.getIconIndex();
-
-		Block block = (item instanceof ItemBlock ? Block.getBlockFromItem(item) : null);
+		Block block = item instanceof ItemBlock ? Block.getBlockFromItem(item) : null;
+		
 		if (is.getItemSpriteNumber() == 0 && block != null && RenderBlocks.renderItemIn3d(block.getRenderType())){
 			RenderHelper.enableGUIStandardItemLighting();
 			textureManager.bindTexture(TextureMap.locationBlocksTexture);

@@ -13,6 +13,7 @@ import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorRecursive;
+import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator.IDecoratorGenPass;
 import chylex.hee.world.util.BlockLocation;
@@ -71,6 +72,8 @@ public class WorldGenBlob extends WorldGenerator{
 		gen.runPass(genSmootherPass);
 		for(BlobPopulator populator:pattern.getRight())populator.generate(gen,rand);
 		
+		if (gen.getOutOfBoundsCounter() > 6)return false;
+		
 		gen.generate(world,rand,x,y,z);
 		return true;
 	}
@@ -80,7 +83,7 @@ public class WorldGenBlob extends WorldGenerator{
 		public void run(){
 			WeightedList<BlobPattern> patterns = new WeightedList<>(new BlobPattern[]{
 				new BlobPattern(10).addGenerators(new BlobGenerator[]{
-					new BlobGeneratorRecursive(1).baseAmount(IRandomAmount.exact,1,1).totalAmount(IRandomAmount.exact,10,10).recursionAmount(IRandomAmount.linear,2,5).rad(3D,5D).distMp(1.5D,2D).recursionChance(1D,1D,0.95D,4)
+					new BlobGeneratorSingle(5).rad(2D,80D)
 				}).addPopulators(new BlobPopulator[]{
 					
 				}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
@@ -104,7 +107,6 @@ public class WorldGenBlob extends WorldGenerator{
 			Stopwatch.time("WorldGenBlob - test generate");
 			gen.generate(world,world.rand,(int)player.posX+10,(int)player.posY-5,(int)player.posZ);
 			Stopwatch.finish("WorldGenBlob - test generate");
-			
 		}
 	};
 }

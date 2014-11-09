@@ -22,7 +22,7 @@ public final class DecoratorFeatureGenerator{
 	}
 	
 	public boolean setBlock(int x, int y, int z, Block block, int metadata){
-		if (x < -16 || x > 16 || z < -16 || z > 16 || y < -128 || y > 127){
+		if (x < -16 || x > 15 || z < -16 || z > 15 || y < -64 || y > 63){
 			++outOfBoundsCounter;
 			return false;
 		}
@@ -41,7 +41,7 @@ public final class DecoratorFeatureGenerator{
 	}
 	
 	public boolean setTileEntity(int x, int y, int z, ITileEntityGenerator tileGen){
-		if (x < -16 || x > 16 || z < -16 || z > 16 || y < -128 || y > 127)return false;
+		if (x < -16 || x > 15 || z < -16 || z > 15 || y < -64 || y > 63)return false;
 		
 		tileEntities.put(new BlockLocation(x,y,z),tileGen);
 		return true;
@@ -104,11 +104,15 @@ public final class DecoratorFeatureGenerator{
 			else world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
 		}
 		
-		for(GeneratedBlock block:delayed)world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
+		if (!delayed.isEmpty()){
+			for(GeneratedBlock block:delayed)world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
+		}
 		
-		for(Entry<BlockLocation,ITileEntityGenerator> entry:tileEntities.entrySet()){
-			BlockLocation loc = entry.getKey();
-			entry.getValue().onTileEntityRequested("",world.getTileEntity(centerX+loc.x,centerY+loc.y,centerZ+loc.z),rand);
+		if (!tileEntities.isEmpty()){
+			for(Entry<BlockLocation,ITileEntityGenerator> entry:tileEntities.entrySet()){
+				BlockLocation loc = entry.getKey();
+				entry.getValue().onTileEntityRequested("",world.getTileEntity(centerX+loc.x,centerY+loc.y,centerZ+loc.z),rand);
+			}
 		}
 	}
 	

@@ -24,6 +24,6 @@ public class ItemDamagePair{
 	
 	@Override
 	public int hashCode(){
-		return item.hashCode() * 131 + damage;
+		return item.hashCode()*131+damage;
 	}
 }

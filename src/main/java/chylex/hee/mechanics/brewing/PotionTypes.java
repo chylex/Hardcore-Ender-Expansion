@@ -107,23 +107,26 @@ public class PotionTypes{
 		return 0;
 	}
 	
-	public static boolean canBeApplied(Item ingredient, ItemStack is){
-		byte[] indexes = getItemIndexes(is);
+	public static boolean canBeApplied(ItemStack ingredient, ItemStack is){
+		byte[] indexes = getItemIndexes(ingredient);
+		
 		if (indexes.length == 0){
+			Item ingredientItem = ingredient.getItem();
+			
 			if (is.getItemDamage() <= 16){
-				if ((ingredient == ItemList.instability_orb || ingredient == ItemList.silverfish_blood) ||
-					(ingredient == Items.gunpowder && is.getItem() == ItemList.potion_of_instability))return is.getItemDamage() == 0;
+				if ((ingredientItem == ItemList.instability_orb || ingredientItem == ItemList.silverfish_blood) ||
+					(ingredientItem == Items.gunpowder && is.getItem() == ItemList.potion_of_instability))return is.getItemDamage() == 0;
 				else return false;
 			}
 			
-			if (ingredient == Items.gunpowder){
+			if (ingredientItem == Items.gunpowder){
 				return !ItemPotion.isSplash(is.getItemDamage());
 			}
-			else if (ingredient == Items.glowstone_dust){
+			else if (ingredientItem == Items.glowstone_dust){
 				AbstractPotionData data = getPotionData(is);
 				return data != null && data.canIncreaseLevel(is);
 			}
-			else if (ingredient == Items.redstone){
+			else if (ingredientItem == Items.redstone){
 				AbstractPotionData data = getPotionData(is);
 				return data instanceof TimedPotion && ((TimedPotion)data).canIncreaseDuration(is);
 			}
@@ -138,27 +141,31 @@ public class PotionTypes{
 		return false;
 	}
 	
-	public static ItemStack applyIngredientUnsafe(Item ingredient, ItemStack is){
-		if (ingredient == ItemList.instability_orb)return new ItemStack(ItemList.potion_of_instability);
-		else if (ingredient == ItemList.silverfish_blood)return new ItemStack(ItemList.infestation_remedy);
-		else if (ingredient == Items.gunpowder && is.getItem() == ItemList.potion_of_instability)return new ItemStack(ItemList.potion_of_instability,1,1);
+	public static ItemStack applyIngredientUnsafe(ItemStack ingredient, ItemStack is){
+		Item ingredientItem = ingredient.getItem();
 		
-		byte[] indexes = getItemIndexes(is);
+		if (ingredientItem == ItemList.instability_orb)return new ItemStack(ItemList.potion_of_instability);
+		else if (ingredientItem == ItemList.silverfish_blood)return new ItemStack(ItemList.infestation_remedy);
+		else if (ingredientItem == Items.gunpowder && is.getItem() == ItemList.potion_of_instability)return new ItemStack(ItemList.potion_of_instability,1,1);
+		
+		byte[] indexes = getItemIndexes(ingredient);
+		
 		if (indexes.length == 0){
 			PotionEffect eff = getEffectIfValid(is);
 			if (eff == null)return is;
 			
-			if (ingredient == Items.gunpowder){
+			if (ingredientItem == Items.gunpowder){
 				setCustomPotionEffect(is,eff); // make sure splash doesn't change duration
 				is.setItemDamage(is.getItemDamage()|16384);
 				return is;
 			}
 			
 			PotionEffect newEffect = null;
-			if (ingredient == Items.glowstone_dust){
+			
+			if (ingredientItem == Items.glowstone_dust){
 				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration(),eff.getAmplifier()+1,eff.getIsAmbient());
 			}
-			else if (ingredient == Items.redstone){
+			else if (ingredientItem == Items.redstone){
 				AbstractPotionData data = getPotionData(is);
 				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration()+((TimedPotion)data).getDurationStep(),eff.getAmplifier(),eff.getIsAmbient());
 			}
@@ -179,6 +186,7 @@ public class PotionTypes{
 					PotionEffect curEffect = getEffectIfValid(is);
 					if (curEffect != null)setCustomPotionEffect(is,new PotionEffect(curEffect.getPotionID(),prevEffect.getDuration(),prevEffect.getAmplifier(),prevEffect.getIsAmbient()));
 				}
+				
 				break;
 			}
 		}

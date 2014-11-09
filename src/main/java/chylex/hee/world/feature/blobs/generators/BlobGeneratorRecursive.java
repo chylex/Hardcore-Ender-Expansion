@@ -88,7 +88,7 @@ public class BlobGeneratorRecursive extends BlobGenerator{
 	}
 	
 	private void genNewBlob(DecoratorFeatureGenerator gen, Random rand, double x, double y, double z, double rad, int recursionLevel){
-		if (tmpBlobsLeft < 0 || recursionLevel >= maxRecursion)return; System.out.println("recLvl "+recursionLevel);
+		if (tmpBlobsLeft < 0 || recursionLevel >= maxRecursion)return;
 		
 		genBlob(gen,x,y,z,rad);
 		--tmpBlobsLeft;
