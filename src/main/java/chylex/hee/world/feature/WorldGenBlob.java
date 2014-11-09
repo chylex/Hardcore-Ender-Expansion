@@ -44,26 +44,25 @@ public class WorldGenBlob extends WorldGenerator{
 		
 		@Override
 		public void run(DecoratorFeatureGenerator gen, List<BlockLocation> blocks){
-			for(BlockLocation loc:gen.getUsedLocations()){
-				int adjacentAir = 0;
-				
-				for(int a = 0; a < 6; a++){
-					if (gen.getBlock(loc.x+airOffX[a],loc.y+airOffY[a],loc.z+airOffZ[a]) == Blocks.air)++adjacentAir;
+			for(BlockLocation loc:blocks){
+				for(int a = 0, adjacentAir = 0; a < 6; a++){
+					if (gen.getBlock(loc.x+airOffX[a],loc.y+airOffY[a],loc.z+airOffZ[a]) == Blocks.air && ++adjacentAir >= 4){
+						gen.setBlock(loc.x,loc.y,loc.z,Blocks.air);
+						break;
+					}
 				}
-				
-				if (adjacentAir >= 4)gen.setBlock(loc.x,loc.y,loc.z,Blocks.air);
 			}
 		}
 	};
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (world.getBlock(x-8,y,z) != Blocks.air ||
-			world.getBlock(x+8,y,z) != Blocks.air ||
-			world.getBlock(x,y,z-8) != Blocks.air ||
-			world.getBlock(x,y,z+8) != Blocks.air ||
-			world.getBlock(x,y-8,z) != Blocks.air ||
-			world.getBlock(x,y+8,z) != Blocks.air)return false;
+		if (world.getBlock(x-7,y,z) != Blocks.air ||
+			world.getBlock(x+7,y,z) != Blocks.air ||
+			world.getBlock(x,y,z-7) != Blocks.air ||
+			world.getBlock(x,y,z+7) != Blocks.air ||
+			world.getBlock(x,y-7,z) != Blocks.air ||
+			world.getBlock(x,y+7,z) != Blocks.air)return false;
 		
 		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 		Pair<BlobGenerator,List<BlobPopulator>> pattern = types.getRandomItem(rand).getObject().patterns.getRandomItem(rand).generatePattern(rand);
@@ -86,7 +85,6 @@ public class WorldGenBlob extends WorldGenerator{
 					
 				}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
 			});
-			
 			
 			DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 			Pair<BlobGenerator,List<BlobPopulator>> pattern = patterns.getRandomItem(world.rand).generatePattern(world.rand);

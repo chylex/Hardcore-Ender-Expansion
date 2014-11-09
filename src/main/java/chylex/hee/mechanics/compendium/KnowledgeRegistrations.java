@@ -1,4 +1,6 @@
 package chylex.hee.mechanics.compendium;
+import org.apache.commons.lang3.ArrayUtils;
+import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -213,7 +215,7 @@ public final class KnowledgeRegistrations{
 		 * Objects which are made in a way they should be unlocked with points would only give small reward.
 		 */
 		
-		HELP.setFragments(new KnowledgeFragment[]{
+		KnowledgeFragment[] helpFragments = new KnowledgeFragment[]{
 			new KnowledgeFragmentText(0).setContents("Welcome to the Ender Compendium, the source of all knowledge about the End!"),
 			new KnowledgeFragmentText(1).setContents("The Compendium is divided into phases, clicking them reveals blocks, items and mobs you can find in that phase."),
 			new KnowledgeFragmentText(2).setContents("In order to reveal information about these objects, first you have to either discover them, or spend a specified amount of Knowledge Points."),
@@ -223,7 +225,13 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(6).setContents("You can use right mouse button instead of the Back button, and mouse wheel to list through pages."),
 			new KnowledgeFragmentText(7).setContents("Opening the Compendium while sneaking and looking at a block, item or a mob opens the appropriate object."),
 			new KnowledgeFragmentText(8).setContents("The same happens when you press the Compendium key while hovering over and item in a GUI.")
-		});
+		};
+		
+		if (Loader.isModLoaded("NotEnoughItems")){
+			ArrayUtils.add(helpFragments,new KnowledgeFragmentText(9).setContents("This behavior works with Not Enough Items too, but you can bypass it by holding CTRL."));
+		}
+		
+		HELP.setFragments(helpFragments);
 		
 		ESSENCE.setNonBuyable().setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(80).setContents("Essence is used to unleash power of altars.").setPrice(2).setUnlockOnDiscovery(),
