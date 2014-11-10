@@ -411,7 +411,12 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										tpY = worldObj.getTopSolidOrLiquidBlock(tpX,tpZ)-1;
 										
 										if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.ender_goo){
-											teleportTo(tpX+0.5D+(rand.nextDouble()-0.5D)*0.3D,tpY+1D,tpZ+0.5D+(rand.nextDouble()-0.5D)*0.3D,true);
+											tpX += 0.5D+(rand.nextDouble()-0.5D)*0.3D;
+											tpY += 1D;
+											tpZ += 0.5D+(rand.nextDouble()-0.5D)*0.3D;
+											
+											PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,tpX,tpY,tpZ));
+											teleportTo(tpX,tpY,tpZ,true);
 											//System.out.println("worker tp'd to "+tpX+","+tpY+","+tpZ);
 											break;
 										}
@@ -421,19 +426,19 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								break;
 								
 							case COLLECTOR:
-								if (rand.nextInt(50) == 0 && (!isCarrying() || rand.nextInt(4) == 0)){
+								if (rand.nextInt(30) == 0 && (!isCarrying() || rand.nextInt(4) == 0)){
+									PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 									currentTask = EndermanTask.WAIT;
 									currentTaskTimer = 150+rand.nextInt(600+rand.nextInt(1800));
 									setCarrying(null);
 									teleportTo(posX,10000D,posZ,true);
-									PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 									//System.out.println("collector teleporting");
 								}
 								
 								break;
 								
 							case OVERWORLD_EXPLORER:
-								if (rand.nextInt(200) == 0){
+								if (rand.nextInt(140) == 0){
 									currentTask = EndermanTask.WAIT;
 									currentTaskTimer = 500+rand.nextInt(800)+rand.nextInt(1000)*(1+rand.nextInt(4));
 									
@@ -445,15 +450,15 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										EntityMobHomelandEnderman enderman = explorers.remove(rand.nextInt(explorers.size()));
 										if (enderman == this)continue;
 										
+										PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,enderman));
 										enderman.currentTask = EndermanTask.WAIT;
 										enderman.currentTaskTimer = currentTaskTimer+rand.nextInt(500);
 										enderman.teleportTo(enderman.posX,10000D,enderman.posZ,true);
-										PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,enderman));
 										//System.out.println("overworld explorer teleporting [multi]");
 									}
 									
-									teleportTo(posX,10000D,posZ,true);
 									PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
+									teleportTo(posX,10000D,posZ,true);
 									//System.out.println("overworld explorer teleporting");
 								}
 								
@@ -490,10 +495,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									}
 								}
 								else{
+									PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 									currentTask = EndermanTask.GET_TNT;
 									currentTaskTimer = 30+rand.nextInt(80);
 									setPosition(posX,10000D,posZ);
-									PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 								}
 								
 								break;
@@ -628,6 +633,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		
 		attackedRecentlyTimer = 120;
 		
+		if (worldObj.isRemote)return super.attackEntityFrom(source,amount);
+		
 		if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL && source.getEntity() instanceof EntityPlayer){
 			if (super.attackEntityFrom(DamageSource.generic,amount)){
 				double diffX = source.getEntity().posX-posX, diffZ = source.getEntity().posZ-posZ;
@@ -681,6 +688,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				
 				for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt && !list.isEmpty(); a++){
 					EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
+					guard.teleportToEntity(source.getEntity());
 					guard.setTarget(source.getEntity());
 					guard.setScreaming(true);
 					PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,this,guard));
@@ -906,7 +914,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		boolean hasTeleported = false;
 		int ix = MathHelper.floor_double(posX), iy = MathHelper.floor_double(posY), iz = MathHelper.floor_double(posZ);
 
-		if (worldObj.blockExists(ix,iy,iz)){
+		if (worldObj.blockExists(ix,iy,iz) || ignoreChecks){
 			boolean foundTopBlock = ignoreChecks;
 
 			while(!foundTopBlock && iy > 0){
@@ -931,7 +939,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			return false;
 		}
 		else{
-			if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,oldX,oldY,oldZ,posX,posY,posZ));
+			if (!worldObj.isRemote && !ignoreChecks)PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,oldX,oldY,oldZ,posX,posY,posZ));
 			return true;
 		}
 	}

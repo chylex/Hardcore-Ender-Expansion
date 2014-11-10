@@ -89,10 +89,15 @@ public final class FXHandler{
 				break;
 				
 			case HOMELAND_ENDERMAN_TP_OVERWORLD:
-				for(int a = 30+rand.nextInt(20); a > 0; a--){
-					HardcoreEnderExpansion.fx.omnipresent("portal",world,x+randCenter(1D),y+rand.nextDouble()*96D,z+randCenter(1D),randCenter(0.1D),randCenter(0.05D),randCenter(0.1D));
+				for(int a = 0; a < 50; a++){
+					HardcoreEnderExpansion.fx.omnipresent("portal",world,x+randCenter(1D),y+rand.nextDouble()*2.9,z+randCenter(1D),randCenter(0.1D),randCenter(0.05D),randCenter(0.1D));
 				}
 				
+				for(int a = 120+rand.nextInt(30); a > 0; a--){
+					HardcoreEnderExpansion.fx.omnipresent("portal",world,x+randCenter(1D),y+rand.nextDouble()*rand.nextDouble()*60D,z+randCenter(1D),randCenter(0.1D),randCenter(0.05D),randCenter(0.1D));
+				}
+				
+				world.playSound(x,y+1D,z,"mob.endermen.portal",1F,1F,false);
 				break;
 				
 			default:
@@ -239,7 +244,7 @@ public final class FXHandler{
 				HomelandRole role = HomelandRole.GUARD;
 				
 				for(int a = 0; a < len*4D; a++){
-					HardcoreEnderExpansion.fx.portalColor(world,x1+randCenter(0.25D),y1+randCenter(0.25D),z1+randCenter(0.25D),randCenter(1D),-rand.nextDouble(),randCenter(1D),role.red,role.green,role.blue);
+					if (rand.nextBoolean())HardcoreEnderExpansion.fx.portalColor(world,x1+randCenter(0.25D),y1+randCenter(0.25D),z1+randCenter(0.25D),randCenter(1D),-rand.nextDouble(),randCenter(1D),role.red,role.green,role.blue);
 					x1 += addX;
 					y1 += addY;
 					z1 += addZ;

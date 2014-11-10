@@ -9,8 +9,6 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
-import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.mob.EntityMobEndermage;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.packets.PacketPipeline;
@@ -38,7 +36,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		super(biomeID);
 		
 		contentVariations.add(HOMELAND);
-		contentVariations.add(LABORATORY);
+		//contentVariations.add(LABORATORY); // TODO finally finish this
 		
 		randomDeviations.add(TALL_PILES);
 		
@@ -47,20 +45,20 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 			new SpawnEntry(EntityMobBabyEnderman.class,14,20)
 		});
 		
-		getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
+		/*getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobEndermage.class,6,15),
 			new SpawnEntry(EntityEnderman.class,12,10),
 			new SpawnEntry(EntityMobEnderGuardian.class,20,7)
-		});
+		});*/
 		
 		getInteractions(HOMELAND).addAll(new BiomeInteraction[]{
 			new BiomeInteraction("EI_Homeland_Overtake",InteractionOvertake.class,50,1),
 			new BiomeInteraction("EI_Homeland_CellarSounds",InteractionCellarSounds.class,10,20)
 		});
 		
-		getInteractions(LABORATORY).addAll(new BiomeInteraction[]{
+		/*getInteractions(LABORATORY).addAll(new BiomeInteraction[]{
 			new BiomeInteraction("EI_Laboratory_CellarSounds",InteractionCellarSounds.class,10,20)
-		});
+		});*/
 	}
 
 	@Override
