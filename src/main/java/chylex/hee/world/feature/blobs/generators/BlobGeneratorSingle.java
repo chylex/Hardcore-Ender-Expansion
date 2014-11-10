@@ -4,7 +4,7 @@ import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 
 public class BlobGeneratorSingle extends BlobGenerator{
-	private double minRad, maxRad;
+	protected double minRad, maxRad;
 	
 	public BlobGeneratorSingle(int weight){
 		super(weight);

@@ -93,7 +93,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 			List<RoomInfo> rooms = new ArrayList<RoomInfo>();
 			rooms.add(info);
 			
-			for(int roomAttemptsLeft = 70+rand.nextInt(110), roomsLeft = 5+rand.nextInt(16), side, dist, hWidth, offX, offZ; roomAttemptsLeft >= 0 && roomsLeft > 0; roomAttemptsLeft--){
+			for(int roomAttemptsLeft = 70+rand.nextInt(110), roomsLeft = 5+rand.nextInt(16), side, dist, hWidth, offX, offZ; roomAttemptsLeft > 0 && roomsLeft > 0; roomAttemptsLeft--){
 				RoomInfo room = rooms.get(rand.nextInt(rooms.size()));
 				if ((side = room.getUseableSide(rand)) == -1)continue;
 				
@@ -176,7 +176,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 			case CONNECTING_LINES:
 				List<BlockLocation> toPersegrit = new ArrayList<BlockLocation>();
 				
-				for(int lines = 3+((halfWidth*(height-2))>>1)+rand.nextInt(6+halfWidth*2+height), width = halfWidth*2-2, dir, xx, yy, zz, addX = 0, addY = 0, addZ = 0, a, b; lines >= 0; lines--){
+				for(int lines = 3+((halfWidth*(height-2))>>1)+rand.nextInt(6+halfWidth*2+height), width = halfWidth*2-2, dir, xx, yy, zz, addX = 0, addY = 0, addZ = 0, a, b; lines > 0; lines--){
 					dir = rand.nextInt(4);
 					addX = addY = addZ = 0;
 					
@@ -233,7 +233,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				break;
 				
 			case SPIKES:
-				for(int spikes = 2+halfWidth+rand.nextInt(4+3*halfWidth), xx, yy, zz, width = halfWidth*2-2, addY, spikeHeight; spikes >= 0; spikes--){
+				for(int spikes = 2+halfWidth+rand.nextInt(4+3*halfWidth), xx, yy, zz, width = halfWidth*2-2, addY, spikeHeight; spikes > 0; spikes--){
 					xx = x+rand.nextInt(width)-(width>>1);
 					yy = bottomY+(rand.nextBoolean() ? 1 : height-1);
 					zz = z+rand.nextInt(width)-(width>>1);
@@ -241,7 +241,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 					if (world.isAir(xx,yy,zz)){
 						addY = yy == bottomY+1 ? 1 : -1;
 						
-						for(spikeHeight = 1+rand.nextInt(height-3); spikeHeight >= 0; spikeHeight--){
+						for(spikeHeight = 1+rand.nextInt(height-3); spikeHeight > 0; spikeHeight--){
 							if ((xx == x-(halfWidth-1) || world.isAir(xx-1,yy+addY,zz)) && (xx == x-(halfWidth+1) || world.isAir(xx+1,yy+addY,zz)) &&
 								(zz == z-(halfWidth-1) || world.isAir(xx,yy+addY,zz-1)) && (zz == z-(halfWidth-1) || world.isAir(xx,yy+addY,zz+1)) &&
 								world.isAir(xx,yy+addY,zz)){
@@ -277,7 +277,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				break;
 				
 			case LOTS_OF_CHESTS:
-				for(int chests = 10+rand.nextInt(8+3*halfWidth)+4*halfWidth, xx, yy, zz, width = halfWidth*2-2, attempt, yTest, dir, normal, trapped; chests >= 0; chests--){
+				for(int chests = 10+rand.nextInt(8+3*halfWidth)+4*halfWidth, xx, yy, zz, width = halfWidth*2-2, attempt, yTest, dir, normal, trapped; chests > 0; chests--){
 					for(attempt = 0; attempt < 4; attempt++){
 						xx = x+rand.nextInt(width)-(width>>1);
 						zz = z+rand.nextInt(width)-(width>>1);
@@ -318,7 +318,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				break;
 				
 			case FLOATING_CUBES:
-				for(int cubes = 5+rand.nextInt(10), size, attempt, xx, yy, zz, px, py, pz, xzSpace, ySpace; cubes >= 0; cubes--){
+				for(int cubes = 5+rand.nextInt(10), size, attempt, xx, yy, zz, px, py, pz, xzSpace, ySpace; cubes > 0; cubes--){
 					Block randBlock = endermanSolidBlocks[rand.nextInt(endermanSolidBlocks.length)];
 					size = 1+rand.nextInt(3+rand.nextInt(2));
 					

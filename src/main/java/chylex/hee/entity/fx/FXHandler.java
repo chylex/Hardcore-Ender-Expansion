@@ -89,7 +89,7 @@ public final class FXHandler{
 				break;
 				
 			case HOMELAND_ENDERMAN_TP_OVERWORLD:
-				for(int a = 30+rand.nextInt(20); a >= 0; a--){
+				for(int a = 30+rand.nextInt(20); a > 0; a--){
 					HardcoreEnderExpansion.fx.omnipresent("portal",world,x+randCenter(1D),y+rand.nextDouble()*96D,z+randCenter(1D),randCenter(0.1D),randCenter(0.05D),randCenter(0.1D));
 				}
 				
