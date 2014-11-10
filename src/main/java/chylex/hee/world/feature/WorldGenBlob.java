@@ -20,6 +20,7 @@ import chylex.hee.world.feature.blobs.BlobPattern;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorChain;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorFromCenter;
+import chylex.hee.world.feature.blobs.generators.BlobGeneratorRecursive;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingleCut;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorCave;
@@ -50,8 +51,8 @@ public class WorldGenBlob extends WorldGenerator{
 	private static final WeightedList<ObjectWeightPair<BlobType>> types = new WeightedList<>();
 	
 	static{
-		types.add(ObjectWeightPair.of(BlobType.COMMON,20));
-		types.add(ObjectWeightPair.of(BlobType.UNCOMMON,4));
+		types.add(ObjectWeightPair.of(BlobType.COMMON,42));
+		types.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
 		//types.add(ObjectWeightPair.of(BlobType.RARE,1));
 		// TODO
 		
@@ -59,22 +60,23 @@ public class WorldGenBlob extends WorldGenerator{
 			// basic random pattern
 			new BlobPattern(1).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorFromCenter(10).amount(IRandomAmount.preferSmaller,2,6).rad(2.5D,4.5D).dist(3.5D,6D),
-				new BlobGeneratorSingle(10).rad(2D,5D),
+				new BlobGeneratorSingle(9).rad(2D,5D),
+				new BlobGeneratorRecursive(8).baseAmount(IRandomAmount.linear,1,3).totalAmount(IRandomAmount.preferSmaller,4,8).recursionAmount(IRandomAmount.preferSmaller,0,5).recursionChance(0.1D,0.5D,0.8D,4).rad(2.8D,6D).distMp(0.5D,1.1D).cacheRecursionChance(),
 				new BlobGeneratorFromCenter(7).amount(IRandomAmount.aroundCenter,2,8).rad(2.2D,5D).dist(6D,6D).limitDist().unifySize(),
 				new BlobGeneratorSingle(4).rad(4D,10D),
 				new BlobGeneratorFromCenter(3).amount(IRandomAmount.linear,4,10).rad(2.4D,3D).dist(2D,6D),
 				new BlobGeneratorChain(3).amount(IRandomAmount.linear,3,6).rad(2.5D,4D).distMp(1.5D,2.5D)
 			}).addPopulators(new BlobPopulator[]{
-				new BlobPopulatorCave(3).rad(2D,2.8D).totalCaveAmount(IRandomAmount.linear,2,6).fullCaveAmount(IRandomAmount.preferSmaller,1,3).recursionChance(0.2D,0.8D,3).recursionRadMp(0.7D,0.9D).cacheRecursionChance(),
-				new BlobPopulatorOreCluster(3).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.linear,4,7).iterationAmount(IRandomAmount.preferSmaller,1,4),
-				new BlobPopulatorSpikes(3).block(Blocks.obsidian).amount(IRandomAmount.aroundCenter,2,10).maxOffset(16),
-				new BlobPopulatorPlant(2).block(BlockList.death_flower).blockAmount(IRandomAmount.linear,3,7).attempts(20,35).knownBlockLocations(),
-				new BlobPopulatorOreScattered(2).block(BlockList.igneous_rock_ore).blockAmount(IRandomAmount.preferSmaller,1,4).attempts(5,10).visiblePlacementAttempts(10).knownBlockLocations(),
+				new BlobPopulatorCave(4).rad(2D,2.8D).totalCaveAmount(IRandomAmount.linear,2,6).fullCaveAmount(IRandomAmount.preferSmaller,1,3).recursionChance(0.2D,0.8D,3).recursionRadMp(0.7D,0.9D).cacheRecursionChance(),
+				new BlobPopulatorSpikes(4).block(Blocks.obsidian).amount(IRandomAmount.aroundCenter,2,10).maxOffset(16),
 				new BlobPopulatorLiquidFall(2).block(BlockList.ender_goo).amount(IRandomAmount.preferSmaller,1,4).attempts(50,80),
+				new BlobPopulatorLake(2).block(BlockList.ender_goo).rad(1.8D,3D),
+				new BlobPopulatorOreCluster(4).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.linear,4,7).iterationAmount(IRandomAmount.preferSmaller,1,4),
+				new BlobPopulatorOreScattered(3).block(BlockList.igneous_rock_ore).blockAmount(IRandomAmount.preferSmaller,1,4).attempts(5,10).visiblePlacementAttempts(10).knownBlockLocations(),
 				new BlobPopulatorOreScattered(1).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.aroundCenter,3,8).attempts(8,15).visiblePlacementAttempts(5),
-				new BlobPopulatorLake(1).block(BlockList.ender_goo).rad(1.8D,3D),
-				new BlobPopulatorCover(1).block(Blocks.obsidian).replaceTopBlock()
-			}).setPopulatorAmountProvider(IRandomAmount.preferSmaller,1,8)
+				new BlobPopulatorCover(1).block(Blocks.obsidian).replaceTopBlock(),
+				new BlobPopulatorPlant(3).block(BlockList.death_flower).blockAmount(IRandomAmount.linear,3,7).attempts(20,35).knownBlockLocations()
+			}).setPopulatorAmountProvider(IRandomAmount.preferSmaller,1,7)
 		});
 		
 		BlobType.UNCOMMON.patterns.addAll(new BlobPattern[]{
@@ -86,8 +88,18 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobPopulatorOreScattered(1).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.linear,10,20).attempts(40,40).visiblePlacementAttempts(15).knownBlockLocations()
 			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1),
 			
+			// blob with a cut off part
+			new BlobPattern(6).addGenerators(new BlobGenerator[]{
+				new BlobGeneratorSingleCut(1).cutRadMp(0.2D,0.6D).cutDistMp(0.6D,0.8D).rad(3.5D,6D)
+			}),
+			
+			// caterpillar
+			new BlobPattern(4).addGenerators(new BlobGenerator[]{
+				new BlobGeneratorChain(1).amount(IRandomAmount.aroundCenter,4,9).rad(2.7D,3.6D).distMp(0.9D,1.1D).unifySize()
+			}),
+			
 			// hollow goo covered blob with a chest inside
-			new BlobPattern(5).addGenerators(new BlobGenerator[]{
+			new BlobPattern(2).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(1).rad(5D,7.5D)
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorHollower(1),
@@ -108,16 +120,6 @@ public class WorldGenBlob extends WorldGenerator{
 				}),IRandomAmount.preferSmaller,3,10).onlyInside(),
 				new BlobPopulatorCover(1).block(BlockList.ender_goo)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),
-			
-			// caterpillar
-			new BlobPattern(4).addGenerators(new BlobGenerator[]{
-				new BlobGeneratorChain(1).amount(IRandomAmount.aroundCenter,4,9).rad(2.7D,3.6D).distMp(0.9D,1.1D).unifySize()
-			}),
-			
-			// blob with a cut off part
-			new BlobPattern(2).addGenerators(new BlobGenerator[]{
-				new BlobGeneratorSingleCut(1).cutRadMp(0.2D,0.6D).cutDistMp(0.6D,0.8D).rad(3.5D,6D)
-			}),
 			
 			// explosions from center
 			new BlobPattern(2).addGenerators(new BlobGenerator[]{

@@ -113,8 +113,9 @@ public class ModelEnderGuardian extends ModelBase{
 	}
 	
 	@Override
-	public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float partialTickTime){float limbSwing1 = MathHelper.cos(limbSwing*0.6662F),
-		limbSwing2 = MathHelper.cos(limbSwing*0.6662F+(float)Math.PI);
+	public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float partialTickTime){
+		float limbSwing1 = MathHelper.cos(limbSwing*0.6662F),
+			  limbSwing2 = MathHelper.cos(limbSwing*0.6662F+(float)Math.PI);
 		
 		rightArm.rotateAngleX = limbSwing2*limbSwingAngle;
 		leftArm.rotateAngleX = limbSwing1*limbSwingAngle;

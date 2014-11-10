@@ -24,8 +24,8 @@ public class BlobPopulatorCover extends BlobPopulator{
 
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
-		for(int x = -16; x <= 16; x++){
-			for(int z = -16; z <= 16; z++){
+		for(int x = -16; x < 16; x++){
+			for(int z = -16; z < 16; z++){
 				int y = gen.getTopBlockY(x,z);
 				if (y != -1)gen.setBlock(x,replaceTopBlock ? y+1 : y+2,z,cover);
 			}

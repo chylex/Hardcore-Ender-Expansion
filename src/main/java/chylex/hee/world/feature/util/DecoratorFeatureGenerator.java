@@ -92,7 +92,7 @@ public final class DecoratorFeatureGenerator{
 		if (blocks.isEmpty())return;
 		
 		int sizeX = maxX-minX+1, sizeZ = maxZ-minZ+1;
-		int randX = (32-sizeX)>>1, randZ = (32-sizeZ)>>1;
+		int randX = (16-sizeX)>>1, randZ = (16-sizeZ)>>1;
 		
 		if (randX > 0)centerX += rand.nextInt(randX*2)-randX;
 		if (randZ > 0)centerZ += rand.nextInt(randZ*2)-randZ;
