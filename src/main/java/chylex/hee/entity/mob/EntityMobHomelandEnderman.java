@@ -261,7 +261,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									
 									PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,target,guard));
 									
-									if (!escaped)guard.setTarget(this);
+									if (!escaped){
+										guard.teleportToEntity(this);
+										guard.setTarget(this);
+									}
 									else if (rand.nextInt(4) != 0)guard.teleportTo(oldX+4D*(rand.nextDouble()-0.5D),oldY+2D+rand.nextDouble()*4D,oldZ+4D*(rand.nextDouble()-0.5D));
 								}
 							}
@@ -301,7 +304,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					if (currentTaskTimer <= 0)resetTask();
 				}
 				else if (entityToAttack == null){ // no task, not attacking
-					if (groupId != -1 && rand.nextInt(400) == 0 && (recruitCooldown < -120 || --recruitCooldown < -120)){
+					if (groupId != -1 && rand.nextInt(4) == 0 && (recruitCooldown < -120 || --recruitCooldown < -120)){
 						List<EntityMobHomelandEnderman> total = HomelandEndermen.getAll(this);
 						int groupAmt = HomelandEndermen.getInSameGroup(this).size();
 						int totalAmt = total.size();
