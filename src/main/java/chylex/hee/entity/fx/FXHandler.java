@@ -142,6 +142,10 @@ public final class FXHandler{
 				for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.omnipresent("smoke",world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.05D),randCenter(0.05D),randCenter(0.05D));
 				for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.omnipresent("portal",world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.1D),randCenter(0.1D),randCenter(0.1D));
 				break;
+				
+			case ENDER_GUARDIAN_DASH:
+				for(int a = 0; a < 50; a++)HardcoreEnderExpansion.fx.portalBig(world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.3D),randCenter(0.3D),randCenter(0.3D),0.5F+rand.nextFloat()*0.4F);
+				break;
 		}
 	}
 	

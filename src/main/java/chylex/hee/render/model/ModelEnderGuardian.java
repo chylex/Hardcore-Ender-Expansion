@@ -2,17 +2,19 @@ package chylex.hee.render.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
+import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelEnderGuardian extends ModelBase{
-	private final ModelRenderer rightHorn,leftHorn;
-	private final ModelRenderer head,bodyTop,bodyBottom;
-	private final ModelRenderer rightArm,leftArm;
-	private final ModelRenderer rightLeg,leftLeg;
+	private final ModelRenderer rightHorn, leftHorn;
+	private final ModelRenderer head, bodyTop, bodyBottom;
+	private final ModelRenderer rightArm, leftArm;
+	private final ModelRenderer rightLeg, leftLeg;
 
 	public ModelEnderGuardian(){
 		textureWidth = 128;
@@ -106,32 +108,43 @@ public class ModelEnderGuardian extends ModelBase{
 
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
-		
 		rightHorn.rotateAngleY = leftHorn.rotateAngleY = head.rotateAngleY = MathUtil.toRad(rotationYaw);
 		rightHorn.rotateAngleX = leftHorn.rotateAngleX = head.rotateAngleX = MathUtil.toRad(rotationPitch);
+	}
+	
+	@Override
+	public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float partialTickTime){float limbSwing1 = MathHelper.cos(limbSwing*0.6662F),
+		limbSwing2 = MathHelper.cos(limbSwing*0.6662F+(float)Math.PI);
 		
-		float limbSwing1 = MathHelper.cos(limbSwing*0.6662F),
-			  limbSwing2 = MathHelper.cos(limbSwing*0.6662F+(float)Math.PI);
-
-		rightArm.rotateAngleX = limbSwing2*2F*limbSwingAngle*0.5F;
-		leftArm.rotateAngleX = limbSwing1*2F*limbSwingAngle*0.5F;
+		rightArm.rotateAngleX = limbSwing2*limbSwingAngle;
+		leftArm.rotateAngleX = limbSwing1*limbSwingAngle;
 		rightLeg.rotateAngleX = limbSwing1*1.4F*limbSwingAngle;
 		leftLeg.rotateAngleX = limbSwing2*1.4F*limbSwingAngle;
-
+		
 		rightArm.rotateAngleX = (float)(rightArm.rotateAngleX*0.5D);
 		leftArm.rotateAngleX = (float)(leftArm.rotateAngleX*0.5D);
 		rightLeg.rotateAngleX = (float)(rightLeg.rotateAngleX*0.5D);
 		leftLeg.rotateAngleX = (float)(leftLeg.rotateAngleX*0.5D);
 		
-		float animLimit = 0.3F;
+		float animLimit = 0.5F;
 		if (rightArm.rotateAngleX > animLimit)rightArm.rotateAngleX = animLimit;
 		if (leftArm.rotateAngleX > animLimit)leftArm.rotateAngleX = animLimit;
-		if (rightArm.rotateAngleX<-animLimit)rightArm.rotateAngleX = -animLimit;
-		if (leftArm.rotateAngleX<-animLimit)leftArm.rotateAngleX = -animLimit;
+		if (rightArm.rotateAngleX < -animLimit)rightArm.rotateAngleX = -animLimit;
+		if (leftArm.rotateAngleX < -animLimit)leftArm.rotateAngleX = -animLimit;
 		if (rightLeg.rotateAngleX > animLimit)rightLeg.rotateAngleX = animLimit;
 		if (leftLeg.rotateAngleX > animLimit)leftLeg.rotateAngleX = animLimit;
-		if (rightLeg.rotateAngleX<-animLimit)rightLeg.rotateAngleX = -animLimit;
-		if (leftLeg.rotateAngleX<-animLimit)leftLeg.rotateAngleX = -animLimit;
+		if (rightLeg.rotateAngleX < -animLimit)rightLeg.rotateAngleX = -animLimit;
+		if (leftLeg.rotateAngleX < -animLimit)leftLeg.rotateAngleX = -animLimit;
+		
+		int attack = ((EntityMobEnderGuardian)entity).getAttackTimerClient();
+		
+		if (attack > 0){
+			rightArm.rotateAngleX = (-2F+1.5F*adjustAnimation(attack-partialTickTime,8F))*0.5F;
+			leftArm.rotateAngleX = (-2F+1.5F*adjustAnimation(attack-partialTickTime,8F))*0.5F;
+		}
+	}
+	
+	private float adjustAnimation(float value, float maxValue){
+		return (Math.abs(value%maxValue-maxValue*0.5F)-maxValue*0.25F)/(maxValue*0.25F);
 	}
 }

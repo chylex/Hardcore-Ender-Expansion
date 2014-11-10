@@ -28,7 +28,8 @@ public final class FXType{
 		ORB_TRANSFORMATION,
 		LOUSE_REGEN,
 		HOMELAND_ENDERMAN_RECRUIT,
-		BABY_ENDERMAN_GROW;
+		BABY_ENDERMAN_GROW,
+		ENDER_GUARDIAN_DASH;
 		
 		public static FXType.Entity[] values = values();
 	}
