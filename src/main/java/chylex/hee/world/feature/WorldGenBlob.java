@@ -2,10 +2,15 @@ package chylex.hee.world.feature;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.block.BlockList;
+import chylex.hee.item.ItemKnowledgeNote;
+import chylex.hee.item.ItemList;
+import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.weight.ObjectWeightPair;
@@ -29,6 +34,9 @@ import chylex.hee.world.feature.blobs.populators.BlobPopulatorPlant;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorSpikes;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator.IDecoratorGenPass;
+import chylex.hee.world.loot.IItemPostProcessor;
+import chylex.hee.world.loot.LootItemStack;
+import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.util.BlockLocation;
 import chylex.hee.world.util.IRandomAmount;
 
@@ -43,7 +51,7 @@ public class WorldGenBlob extends WorldGenerator{
 	
 	static{
 		types.add(ObjectWeightPair.of(BlobType.COMMON,20));
-		//types.add(ObjectWeightPair.of(BlobType.UNCOMMON,4));
+		types.add(ObjectWeightPair.of(BlobType.UNCOMMON,4));
 		//types.add(ObjectWeightPair.of(BlobType.RARE,1));
 		// TODO
 		
@@ -83,7 +91,21 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobGeneratorSingle(1).rad(5D,7.5D)
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorHollower(1),
-				new BlobPopulatorChest(1).onlyInside(), // TODO
+				new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
+					new LootItemStack(ItemList.end_powder).setAmount(1,5).setWeight(15),
+					new LootItemStack(ItemList.knowledge_note).setWeight(10),
+					new LootItemStack(Items.ender_pearl).setAmount(1,4).setWeight(9),
+					new LootItemStack(Items.bucket).setWeight(7),
+					new LootItemStack(ItemList.bucket_ender_goo).setWeight(5),
+					new LootItemStack(ItemList.adventurers_diary).setWeight(5),
+					new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(5),
+					new LootItemStack(Items.ender_eye).setWeight(4)
+				}).addItemPostProcessor(new IItemPostProcessor(){
+					@Override
+					public ItemStack processItem(ItemStack is, Random rand){
+						return is.getItem() == ItemList.knowledge_note ? ItemKnowledgeNote.setRandomNote(is,rand,3) : is;
+					}
+				}),IRandomAmount.preferSmaller,3,10).onlyInside(),
 				new BlobPopulatorCover(1).block(BlockList.ender_goo)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),
 			
