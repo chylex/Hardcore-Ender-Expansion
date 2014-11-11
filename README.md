@@ -45,8 +45,15 @@ The terms say that you cannot redistribute the mod or modifications of the mod. 
 
 This project also contains an issue tracker for the mod, which you should use for ideas, questions and bug reports.
 
-Always provide as much information and details as possible. If you're reporting a bug or a crash, always **provide logs** and conditions under which the bug or crash happened!
+Always provide as much information and details as possible. If you're reporting a bug or a crash, always **provide logs** (both crash and client/server log) and conditions under which the bug or crash happened!
 
-Resolved issues will have a resolution in square brackets. Resolutions may be *[DONE]*, *[FIXED]*, *[ACKNOWLEDGED]*, *[ANSWERED]*, *[INVALID]*, *[WILL NOT FIX]* or *[NOT A BUG]*. There may also be a version of HEE in the resolution, for example *[FIXED 1.6]*.
+Resolved issues will have a resolution in square brackets, optionally with HEE version.
+
+* **[DONE]** Feature, enhancement or tweak finished.
+* **[FIXED]** Resolved bug, crash or incompatibility.
+* **[INVALID]** Not enough information to replicate the issue, or the issue is not caused by HEE.
+* **[INTENDED]** Described behavior is intended and correct.
+* **[ANSWERED]** Question has been answered.
+* **[ACKNOWLEDGED]** Idea has been read and might be used at some point.
 
 Visit the issue tracker here: https://github.com/chylex/Hardcore-Ender-Expansion/issues
