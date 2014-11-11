@@ -49,11 +49,12 @@ Always provide as much information and details as possible. If you're reporting 
 
 Resolved issues will have a resolution in square brackets, optionally with HEE version.
 
-* **[DONE]** Feature, enhancement or tweak finished.
-* **[FIXED]** Resolved bug, crash or incompatibility.
+* **[DONE]** Finished feature, enhancement or tweak.
+* **[FIXED]** Resolved bug or crash.
 * **[INVALID]** Not enough information to replicate the issue, or the issue is not caused by HEE.
 * **[INTENDED]** Described behavior is intended and correct.
-* **[ANSWERED]** Question has been answered.
-* **[ACKNOWLEDGED]** Idea has been read and might be used at some point.
+* **[CANCELED]** Canceled feature, enhancement or tweak.
+* **[ANSWERED]** Question answered.
+* **[ACKNOWLEDGED]** Feedback read and acknowledged.
 
 Visit the issue tracker here: https://github.com/chylex/Hardcore-Ender-Expansion/issues
