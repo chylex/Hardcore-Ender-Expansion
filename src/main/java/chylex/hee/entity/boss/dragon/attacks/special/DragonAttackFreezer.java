@@ -23,6 +23,7 @@ public class DragonAttackFreezer extends DragonSpecialAttackBase{
 	@Override
 	public void update(){
 		super.update();
+		
 		if (phase == 0){
 			target = null;
 			if (tick > 100)phase = 1;

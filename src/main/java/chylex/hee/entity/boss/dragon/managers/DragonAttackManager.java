@@ -96,7 +96,7 @@ public class DragonAttackManager{
 	}
 	
 	public EntityPlayer getRandomPlayer(){
-		if (DragonAttackManager.nocreative){
+		if (nocreative){
 			List<EntityPlayer> list = new ArrayList<>();
 			for(Object o:dragon.worldObj.playerEntities){
 				EntityPlayer p = (EntityPlayer)o;
@@ -110,16 +110,14 @@ public class DragonAttackManager{
 	}
 	
 	public EntityPlayer getWeakPlayer(){
-		List<?> list = dragon.worldObj.playerEntities;
+		List<EntityPlayer> list = dragon.worldObj.playerEntities;
 		if (list.isEmpty())return null;
 		else if (list.size() == 1)return getRandomPlayer();
 		
 		WeightedList<ObjectWeightPair<EntityPlayer>> players = new WeightedList<>();
 		
-		for(Object o:list){
-			EntityPlayer p = (EntityPlayer)o;
+		for(EntityPlayer p:list){
 			if ((nocreative && p.capabilities.isCreativeMode) || p.isDead)continue;
-			
 			players.add(ObjectWeightPair.of(p,5+((int)p.getHealth()>>1)+(p.getTotalArmorValue()>>2)));
 		}
 

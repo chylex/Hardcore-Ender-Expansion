@@ -17,9 +17,9 @@ public class EntityProjectileDragonFireball extends EntityFireball{
 
 	public EntityProjectileDragonFireball(World world, EntityLiving shooter, double xDiff, double yDiff, double zDiff, float speedMp, boolean random, float power){
 		super(world,shooter,xDiff,yDiff,zDiff);
-		xDiff += rand.nextGaussian()*(random?0.8D:0.2D);
-		yDiff += rand.nextGaussian()*(random?0.8D:0.2D);
-		zDiff += rand.nextGaussian()*(random?0.8D:0.2D);
+		xDiff += rand.nextGaussian()*(random ? 0.8D : 0.2D);
+		yDiff += rand.nextGaussian()*(random ? 0.8D : 0.2D);
+		zDiff += rand.nextGaussian()*(random ? 0.8D : 0.2D);
 		double dist = MathHelper.sqrt_double(xDiff*xDiff+yDiff*yDiff+zDiff*zDiff);
 		accelerationX = (xDiff/dist)*0.21D*speedMp;
 		accelerationY = (yDiff/dist)*0.21D*speedMp;
@@ -30,7 +30,7 @@ public class EntityProjectileDragonFireball extends EntityFireball{
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
-		if (ticksExisted > 100 && Math.abs(motionX) < 0.5D && Math.abs(motionY) < 0.5D && Math.abs(motionZ) < 0.5D)onImpact(null);
+		if (ticksExisted > 100 && Math.abs(motionX) < 0.01D && Math.abs(motionY) < 0.01D && Math.abs(motionZ) < 0.01D)onImpact(null);
 	}
 
 	@Override

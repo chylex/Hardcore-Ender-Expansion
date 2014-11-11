@@ -18,7 +18,7 @@ public class DragonShotManager{
 	
 	public DragonShotManager(EntityBossDragon dragon){
 		this.dragon = dragon;
-		x = y = z = 0d;
+		x = y = z = 0;
 		random = false;
 		type = ShotType.NONE;
 	}
@@ -52,8 +52,8 @@ public class DragonShotManager{
 		double zDiff = z-dragon.posZ;
 		
 		EntityFireball e = null;
-		if (type == ShotType.FIREBALL)e = new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yTarget,zDiff,dragon.angryStatus?1.5F:1F,random,(dragon.angryStatus?2.8F:2.5F)+(ModCommonProxy.opMobs?0.8F:0F));
-		else if (type == ShotType.FREEZEBALL)e = new EntityProjectileDragonFreezeball(dragon.worldObj,dragon,xDiff,yTarget,zDiff,dragon.angryStatus?1.5F:1F,random);
+		if (type == ShotType.FIREBALL)e = new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yTarget,zDiff,dragon.angryStatus ? 1.5F : 1F,random,(dragon.angryStatus ? 2.8F : 2.5F)+(ModCommonProxy.opMobs?0.8F:0F));
+		else if (type == ShotType.FREEZEBALL)e = new EntityProjectileDragonFreezeball(dragon.worldObj,dragon,xDiff,yTarget,zDiff,dragon.angryStatus ? 1.5F : 1F,random);
 		else return;
 		
 		e.posX = dragon.dragonPartHead.posX;

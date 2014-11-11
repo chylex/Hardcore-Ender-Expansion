@@ -44,7 +44,7 @@ public class HeeAdminCommand extends HeeCommand{
 			return;
 		}
 		else if (args[0].equalsIgnoreCase("dragon-attack-creative") && args.length >= 2){
-			DragonAttackManager.nocreative = args[1].equalsIgnoreCase("true");
+			DragonAttackManager.nocreative = !args[1].equalsIgnoreCase("true");
 		}
 		else if (args[0].equalsIgnoreCase("dragon-set-angry")){
 			EntityBossDragon dragon = HeeDebugCommand.getDragon();
@@ -63,6 +63,7 @@ public class HeeAdminCommand extends HeeCommand{
 			
 			DragonSpecialAttackBase att = null;
 			String[] ids = new String[]{ "none","","","bats","fire","bite","punch","freeze","","summon","dive" };
+			
 			for(int a = 0; a < ids.length; a++){
 				if (args[1].equalsIgnoreCase(ids[a])){
 					att = dragon.attacks.getSpecialAttackById(a);
