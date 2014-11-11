@@ -100,8 +100,8 @@ public final class EnergyClusterData{
 	}
 	
 	public boolean drainEnergyUnits(int units){
-		if (energyLevel >= 1F){
-			energyLevel -= 1F;
+		if (energyLevel >= EnergyChunkData.energyDrainUnit*units){
+			energyLevel -= EnergyChunkData.energyDrainUnit*units;
 			return true;
 		}
 		else return false;

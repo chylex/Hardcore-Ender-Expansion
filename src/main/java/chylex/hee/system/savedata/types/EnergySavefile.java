@@ -37,6 +37,11 @@ public class EnergySavefile extends WorldSavefile{
 	public EnergyChunkData getFromBlockCoords(int blockX, int blockZ, boolean setModified){
 		return getFromChunkCoords(blockX>>4,blockZ>>4,setModified);
 	}
+	
+	public void reset(){
+		chunkMap.clear();
+		setModified();
+	}
 
 	@Override
 	protected void onSave(NBTTagCompound nbt){

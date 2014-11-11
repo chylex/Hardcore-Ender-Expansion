@@ -23,6 +23,7 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.feature.TempleGenerator;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -146,6 +147,7 @@ public final class TempleEvents{
 				save.addDragonDeath();
 				save.setDragonDead(false);
 				save.resetCrystals();
+				WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).reset();
 				WorldDataHandler.forceSave();
 				setStage(DestroyStage.SILENT);
 				Log.debug("Successfully deleted!");

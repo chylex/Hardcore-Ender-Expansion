@@ -41,6 +41,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 			if (cachedCoords.length == 0){
 				data.generate(worldObj.rand,xCoord,zCoord);
 				cachedCoords = new int[]{ xCoord, yCoord, zCoord };
+				synchronize();
 			}
 			else if (cachedCoords[0] != xCoord || cachedCoords[1] != yCoord || cachedCoords[2] != zCoord){
 				BlockEnergyCluster.destroyCluster(this);

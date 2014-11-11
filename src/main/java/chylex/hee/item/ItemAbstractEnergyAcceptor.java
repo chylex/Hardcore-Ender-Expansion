@@ -23,29 +23,39 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 		
 		if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
 		
-		if (is.stackTagCompound.getBoolean("engDrain") && entity instanceof EntityPlayer){
-			EntityPlayer player = (EntityPlayer)entity;
+		if (is.stackTagCompound.hasKey("engDrain") && entity instanceof EntityPlayer){
+			byte wait = is.stackTagCompound.getByte("engWait");
 			
-			int[] loc = is.stackTagCompound.getIntArray("engDrain");
-			TileEntity tile = world.getTileEntity(loc[0],loc[1],loc[2]);
-			
-			if (tile instanceof TileEntityEnergyCluster && !(Math.abs(player.lastTickPosX-player.posX) > 0.0001D || Math.abs(player.lastTickPosZ-player.posZ) > 0.0001D)){
-				TileEntityEnergyCluster cluster = (TileEntityEnergyCluster)tile;
+			if (wait > 0)is.stackTagCompound.setByte("engWait",(byte)(wait-1));
+			else{
+				EntityPlayer player = (EntityPlayer)entity;
 				
-				if (cluster.data.drainEnergyUnit()){
-					cluster.onAbsorbed(player,is);
-					if (!world.isRemote)onEnergyAccepted(is);
+				int[] loc = is.stackTagCompound.getIntArray("engDrain");
+				TileEntity tile = world.getTileEntity(loc[0],loc[1],loc[2]);
+				
+				if (tile instanceof TileEntityEnergyCluster && !(Math.abs(player.lastTickPosX-player.posX) > 0.0001D || Math.abs(player.lastTickPosZ-player.posZ) > 0.0001D)){
+					TileEntityEnergyCluster cluster = (TileEntityEnergyCluster)tile;
+					
+					if (cluster.data.drainEnergyUnit()){
+						cluster.onAbsorbed(player,is);
+						if (!world.isRemote)onEnergyAccepted(is);
+					}
+					else is.stackTagCompound.removeTag("engDrain");
 				}
 				else is.stackTagCompound.removeTag("engDrain");
+				
+				is.stackTagCompound.setByte("engWait",(byte)4);
 			}
-			else is.stackTagCompound.removeTag("engDrain");
 		}
 		
-		if (world.provider.dimensionId == 1){ 
+		if (world.provider.dimensionId == 1){
 			byte timer = is.stackTagCompound.getByte("engRgnTim");
 			
-			if (++timer > 7)is.stackTagCompound.setByte("engRgnTim",timer);
-			else return;
+			if (++timer <= 14){
+				is.stackTagCompound.setByte("engRgnTim",timer);
+				return;
+			}
+			else is.stackTagCompound.setByte("engRgnTim",(byte)0);
 			
 			EnergyChunkData chunk = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords((int)entity.posX,(int)entity.posZ,true);
 			if (chunk.drainEnergyUnit())onEnergyAccepted(is);

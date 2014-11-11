@@ -6,7 +6,7 @@ public enum EnergyClusterHealth implements IWeightProvider{
 	HEALTHY(0x54ff54, 10, 8, 90, "energy.status.healthy"),
 	WEAKENED(0xffc454, 7, 22, 40, "energy.status.weakened"),
 	TIRED(0xff7a54, 3, 38, 10, "energy.status.tired"),
-	UNSTABLE(0xff5454, 100, -1, 0, "energy.status.unstable");
+	UNSTABLE(0xff5454, 1, -1, 0, "energy.status.unstable");
 	
 	public static final EnergyClusterHealth[] values = values();
 	public static final WeightedList<EnergyClusterHealth> spawnWeightedList = new WeightedList<>(values);
