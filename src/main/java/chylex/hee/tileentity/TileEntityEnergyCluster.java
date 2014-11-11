@@ -6,7 +6,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnergyCluster;
+import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.energy.EnergyClusterData;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.util.ColorUtil;
 
 public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
@@ -59,6 +62,11 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		for(int a = 0; a < 26; a++){
 			HardcoreEnderExpansion.fx.energyClusterMoving(worldObj,xCoord+0.5D+rand(0.1D),yCoord+0.5D+rand(0.1D),zCoord+0.5D+rand(0.1D),rand(0.5D),rand(0.25D),rand(0.5D),getColor(0),getColor(1),getColor(2));
 		}
+	}
+	
+	public float drainEnergy(float amount, TileEntityAbstractEnergyInventory tile){
+		if (data.getEnergyLevel() >= EnergyChunkData.minSignificantEnergy)PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
+		return data.drainEnergy(amount);
 	}
 	
 	public float getColor(int index){
