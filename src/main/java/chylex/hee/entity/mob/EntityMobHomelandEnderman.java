@@ -304,7 +304,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					if (currentTaskTimer <= 0)resetTask();
 				}
 				else if (entityToAttack == null){ // no task, not attacking
-					if (groupId != -1 && rand.nextInt(4) == 0 && (recruitCooldown < -120 || --recruitCooldown < -120)){
+					if (groupId != -1 && rand.nextInt(400) == 0 && (recruitCooldown < -120 || --recruitCooldown < -120)){
 						List<EntityMobHomelandEnderman> total = HomelandEndermen.getAll(this);
 						int groupAmt = HomelandEndermen.getInSameGroup(this).size();
 						int totalAmt = total.size();
