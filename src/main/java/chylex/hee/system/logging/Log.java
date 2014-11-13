@@ -42,7 +42,7 @@ public final class Log{
 		if (forceDebugEnabled || isDeobfEnvironment)logger.info(getMessage(message,data));
 		
 		if (forceDebugEnabled && !isDeobfEnvironment && ++obfEnvironmentWarning >= 30){
-			logger.info(getMessage("Detected obfuscated environment, don't forget to disable logging debug info after you are done debugging!"));
+			logger.warn(getMessage("Detected obfuscated environment, don't forget to disable logging debug info after you are done debugging!"));
 			obfEnvironmentWarning = 0;
 		}
 	}

@@ -1,5 +1,6 @@
 package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -13,6 +14,8 @@ import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockPersegrit;
 import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.loot.IItemPostProcessor;
@@ -61,6 +64,15 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
 			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
+			else if (is.getItem() == ItemList.enhanced_ender_pearl){
+				List<EnderPearlEnhancements> availableTypes = new ArrayList<>(Arrays.asList(EnderPearlEnhancements.values()));
+				
+				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*3.2D)); a++){
+					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+					if (availableTypes.isEmpty())break;
+				}
+			}
+			
 			return is;
 		}
 	});

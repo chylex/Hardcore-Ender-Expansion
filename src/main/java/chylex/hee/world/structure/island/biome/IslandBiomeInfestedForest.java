@@ -4,12 +4,9 @@ import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
-import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.InfestationSavefile;
-import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
@@ -77,22 +74,6 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 					}
 				}
 			}
-		}
-		
-		if (meta == DEEP.id){
-			Stopwatch.timeAverage("IslandBiomeInfestedForest - CoreSpooky",50);
-			
-			for(int attempt = 0, xx, yy, zz; attempt < 1200; attempt++){
-				xx = x+world.rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize;
-				yy = y+18+world.rand.nextInt(20);
-				zz = z+world.rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize;
-				
-				if (world.getBlock(xx,yy,zz) == BlockList.spooky_log && world.getBlockMetadata(xx,yy,zz) > 0){
-					BlockList.spooky_log.updateTick(world,xx,yy,zz,world.rand);
-				}
-			}
-			
-			Stopwatch.finish("IslandBiomeInfestedForest - CoreSpooky");
 		}
 	}
 	

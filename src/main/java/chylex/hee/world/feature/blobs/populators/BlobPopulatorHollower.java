@@ -15,6 +15,8 @@ public class BlobPopulatorHollower extends BlobPopulator{
 	public BlobPopulatorHollower(int weight){
 		super(weight);
 	}
+	
+	// TODO blob filled with goo?
 
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){

@@ -157,7 +157,7 @@ public class BiomeInteractionEnchantedIsland{
 				}
 				
 				if (foundBottom && foundTop){
-					if (soundDist > 6D)soundDist -= 0.03D+rand.nextDouble()*0.01D;
+					if (soundDist > 6D)soundDist -= 0.012D+rand.nextDouble()*0.01D;
 					else if (rand.nextInt(100) == 0)soundDist += rand.nextDouble()*5D;
 					isActive = true;
 				}
