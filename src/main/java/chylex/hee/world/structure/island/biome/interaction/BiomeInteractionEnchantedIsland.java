@@ -82,7 +82,7 @@ public class BiomeInteractionEnchantedIsland{
 		private byte lastSoundId, cellarCheckTimer;
 		private int timer, waitTimer;
 		private float soundAngle, soundDist;
-		private boolean isActive = true;
+		private boolean soundAngleSign, isActive = true;
 		
 		@Override
 		public void init(){
@@ -116,8 +116,9 @@ public class BiomeInteractionEnchantedIsland{
 			
 			procedure = Procedure.values[rand.nextInt(Procedure.values.length)];
 			
-			soundDist = 36F+rand.nextFloat()*5F;
+			soundDist = 21F+rand.nextFloat()*5F;
 			soundAngle = (float)(rand.nextDouble()*Math.PI*2D);
+			soundAngleSign = rand.nextBoolean();
 		}
 
 		@Override
@@ -128,14 +129,14 @@ public class BiomeInteractionEnchantedIsland{
 			}
 			
 			if (rand.nextInt(10) == 0){
-				soundAngle += (rand.nextBoolean() ? -1 : 1)*(0.5D+rand.nextDouble()*0.5D)*MathUtil.toRad(4D);
-				System.out.println("new angle: "+soundAngle);
+				soundAngle += (soundAngleSign ? -1 : 1)*(0.8D+rand.nextDouble()*0.5D)*MathUtil.toRad(40D);
+				if (rand.nextInt(80) == 0)soundAngleSign = !soundAngleSign;
 			}
 			
-			if (waitTimer > 0)--waitTimer;
+			if (rand.nextInt(200) == 0)procedure = Procedure.values[rand.nextInt(Procedure.values.length)];
 			
-			if (soundDist > 60D)entity.setDead();
-			if (soundDist > 30D)return;
+			if (waitTimer > 0)--waitTimer;
+			if (soundDist > 40D)entity.setDead();
 			
 			if (++cellarCheckTimer > 10){
 				boolean foundBottom = false, foundTop = false;
@@ -156,15 +157,14 @@ public class BiomeInteractionEnchantedIsland{
 				}
 				
 				if (foundBottom && foundTop){
-					if (soundDist > 5D)soundDist -= 0.08D+rand.nextDouble()*0.02D;
+					if (soundDist > 6D)soundDist -= 0.03D+rand.nextDouble()*0.01D;
+					else if (rand.nextInt(100) == 0)soundDist += rand.nextDouble()*5D;
 					isActive = true;
 				}
 				else{
-					soundDist += 0.3D;
+					soundDist += 0.08D;
 					isActive = false;
 				}
-				
-				System.out.println("new dist "+soundDist);
 			}
 			
 			if (!isActive)return;
@@ -172,7 +172,7 @@ public class BiomeInteractionEnchantedIsland{
 			if (--timer < 0){
 				switch(procedure){
 					case FOOTSTEPS:
-						timer = 5+rand.nextInt(3);
+						timer = 7+rand.nextInt(3);
 						play(C08PlaySound.PERSEGRIT_FOOTSTEPS,BlockList.persegrit.stepSound.getVolume()*0.15F,BlockList.persegrit.stepSound.getPitch()*1F);
 						break;
 						
@@ -180,19 +180,19 @@ public class BiomeInteractionEnchantedIsland{
 						timer = 7+rand.nextInt(8+rand.nextInt(15));
 						if (lastSoundId == 0 || rand.nextInt(8) == 0)lastSoundId = (byte)(1+rand.nextInt(BreakEffects.values.length));
 						
-						play((byte)(C08PlaySound.GRASS_BREAK-1+lastSoundId),1F,BlockList.persegrit.stepSound.getPitch()*0.8F);
+						play((byte)(C08PlaySound.GRASS_BREAK-1+lastSoundId),lastSoundId == BreakEffects.WOOD.ordinal()+1 ? 0.5F : 0.25F,BlockList.persegrit.stepSound.getPitch()*0.8F);
 						break;
 						
 					case CHEST_OPENING:
 						if (lastSoundId == 0){
-							timer = 12+rand.nextInt(10+rand.nextInt(30));
+							timer = 12+rand.nextInt(10+rand.nextInt(50))+rand.nextInt(15);
 							lastSoundId = 1;
-							play(C08PlaySound.CHEST_OPEN,0.5F,0.9F+rand.nextFloat()*0.1F);
+							play(C08PlaySound.CHEST_OPEN,0.12F,0.9F+rand.nextFloat()*0.1F);
 						}
 						else{
-							timer = 3+rand.nextInt(4);
+							timer = 4+rand.nextInt(10+rand.nextInt(70))+rand.nextInt(25);
 							lastSoundId = 0;
-							play(C08PlaySound.CHEST_CLOSE,0.5F,0.9F+rand.nextFloat()*0.1F);
+							play(C08PlaySound.CHEST_CLOSE,0.1F,0.9F+rand.nextFloat()*0.1F);
 						}
 						
 						break;
@@ -205,7 +205,6 @@ public class BiomeInteractionEnchantedIsland{
 		}
 		
 		private void play(byte soundId, float volume, float pitch){
-			System.out.println("played sound");
 			PacketPipeline.sendToPlayer(target,new C08PlaySound(soundId,target.posX+MathHelper.cos(soundAngle)*soundDist,target.posY,target.posZ+MathHelper.sin(soundAngle)*soundDist,volume,pitch));
 		}
 

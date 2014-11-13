@@ -157,7 +157,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomContent>> roomContentList = new WeightedList<>(
-		ObjectWeightPair.of(EnumRoomContent.NONE, 100),
+		ObjectWeightPair.of(EnumRoomContent.NONE, 80),
 		ObjectWeightPair.of(EnumRoomContent.CONNECTING_LINES, 10),
 		ObjectWeightPair.of(EnumRoomContent.SPIKES, 10),
 		ObjectWeightPair.of(EnumRoomContent.PERSEGRIT_CUBE, 8),

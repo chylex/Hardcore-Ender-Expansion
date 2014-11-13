@@ -921,7 +921,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			boolean foundTopBlock = ignoreChecks;
 
 			while(!foundTopBlock && iy > 0){
-				if (worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement())foundTopBlock = true;
+				if (worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement() && worldObj.getBlock(ix,iy-1,iz) != BlockList.persegrit)foundTopBlock = true;
 				else{
 					--posY;
 					--iy;
