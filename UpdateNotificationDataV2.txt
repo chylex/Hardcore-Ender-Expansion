@@ -4,6 +4,7 @@
   "23 - 1.6.5": {
     "modVersion": "1.6.5",
     "mcVersions": [ "1.7.10" ],
+    "buildId": 1311140,
     "releaseDate": "13 Nov 2014"
   },
   
