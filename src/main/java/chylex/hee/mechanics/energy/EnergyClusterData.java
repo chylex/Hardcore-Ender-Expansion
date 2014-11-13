@@ -87,7 +87,7 @@ public final class EnergyClusterData{
 	}
 	
 	public float drainEnergy(float amount){
-		regenTimer = -8;
+		regenTimer = -18;
 		
 		if (energyLevel >= amount){
 			energyLevel -= amount;
@@ -107,7 +107,7 @@ public final class EnergyClusterData{
 	public boolean drainEnergyUnits(int units){
 		if (energyLevel >= EnergyChunkData.energyDrainUnit*units){
 			energyLevel -= EnergyChunkData.energyDrainUnit*units;
-			regenTimer = -8;
+			regenTimer = -18;
 			return true;
 		}
 		else return false;

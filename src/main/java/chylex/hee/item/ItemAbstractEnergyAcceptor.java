@@ -12,6 +12,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public abstract class ItemAbstractEnergyAcceptor extends Item{
@@ -26,19 +27,23 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 		if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
 		
 		if (is.stackTagCompound.hasKey("engDrain") && entity instanceof EntityPlayer){
+			boolean stop = false;
+			int[] loc = is.stackTagCompound.getIntArray("engDrain");
 			byte wait = is.stackTagCompound.getByte("engWait");
 			
-			if (wait > 0)is.stackTagCompound.setByte("engWait",(byte)(wait-1));
+			if (!world.isRemote && Math.abs(is.stackTagCompound.getFloat("engDist")-MathUtil.distance(loc[0]+0.5D-entity.posX,loc[1]+0.5D-entity.posY,loc[2]+0.5D-entity.posZ)) > 0.05D)stop = true;
+			else if (wait > 0)is.stackTagCompound.setByte("engWait",(byte)(wait-1));
 			else{
 				EntityPlayer player = (EntityPlayer)entity;
 				
-				int[] loc = is.stackTagCompound.getIntArray("engDrain");
 				TileEntity tile = world.getTileEntity(loc[0],loc[1],loc[2]);
 				
-				if (tile instanceof TileEntityEnergyCluster && !(Math.abs(player.lastTickPosX-player.posX) > 0.0001D || Math.abs(player.lastTickPosZ-player.posZ) > 0.0001D)){
+				if (tile instanceof TileEntityEnergyCluster){
 					TileEntityEnergyCluster cluster = (TileEntityEnergyCluster)tile;
 					
 					if (cluster.data.drainEnergyUnit()){
+						cluster.synchronize();
+						
 						if (!world.isRemote)onEnergyAccepted(is);
 						else{
 							Random rand = world.rand;
@@ -48,11 +53,17 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 							}
 						}
 					}
-					else is.stackTagCompound.removeTag("engDrain");
+					else stop = true;
 				}
-				else is.stackTagCompound.removeTag("engDrain");
+				else stop = true;
 				
-				is.stackTagCompound.setByte("engWait",(byte)4);
+				if (!stop)is.stackTagCompound.setByte("engWait",(byte)4);
+			}
+			
+			if (stop){
+				is.stackTagCompound.removeTag("engDrain");
+				is.stackTagCompound.removeTag("engWait");
+				is.stackTagCompound.removeTag("engDist");
 			}
 		}
 		
@@ -75,8 +86,15 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 		if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
 		
 		if (world.getBlock(x,y,z) == BlockList.energy_cluster && canAcceptEnergy(is)){
-			if (is.stackTagCompound.hasKey("engDrain"))is.stackTagCompound.removeTag("engDrain");
-			else if (world.getTileEntity(x,y,z) instanceof TileEntityEnergyCluster)is.stackTagCompound.setIntArray("engDrain",new int[]{ x, y, z });
+			if (is.stackTagCompound.hasKey("engDrain")){
+				is.stackTagCompound.removeTag("engDrain");
+				is.stackTagCompound.removeTag("engWait");
+				is.stackTagCompound.removeTag("engDist");
+			}
+			else if (world.getTileEntity(x,y,z) instanceof TileEntityEnergyCluster){
+				is.stackTagCompound.setIntArray("engDrain",new int[]{ x, y, z });
+				is.stackTagCompound.setFloat("engDist",(float)MathUtil.distance(x+0.5D-player.posX,y+0.5D-player.posY,z+0.5D-player.posZ));
+			}
 			
 			return true;
 		}

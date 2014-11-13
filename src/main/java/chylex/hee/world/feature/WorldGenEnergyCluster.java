@@ -7,7 +7,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public class WorldGenEnergyCluster extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		for(int attempt = 0, xx, yy, zz; attempt < 30; attempt++){
+		for(int attempt = 0, xx, yy, zz; attempt < 50; attempt++){
 			xx = x+4+rand.nextInt(8);
 			yy = 10+rand.nextInt(108);
 			zz = z+4+rand.nextInt(8);
