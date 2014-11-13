@@ -120,7 +120,7 @@ public class HardcoreEnderExpansion{
 	@SidedProxy(clientSide = "chylex.hee.proxy.NotificationClientProxy", serverSide = "chylex.hee.proxy.NotificationCommonProxy")
 	public static NotificationCommonProxy notifications;
 	
-	public static final int buildId = 12_10_14_0;
+	public static final int buildId = 13_11_14_0;
 	
 	public static String modVersion;
 	public static String configPath;
