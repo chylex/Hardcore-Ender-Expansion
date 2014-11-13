@@ -1,9 +1,7 @@
 package chylex.hee.tileentity;
-import org.apache.commons.lang3.ArrayUtils;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnergyCluster;
 import chylex.hee.mechanics.energy.EnergyChunkData;
@@ -26,7 +24,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public TileEntityEnergyCluster(World world){
 		this();
 		float[] rgb = ColorUtil.hsvToRgb(world.rand.nextFloat(),0.5F,0.65F);
-		colRgb = new byte[]{ (byte)(Math.floor(rgb[0])-128), (byte)(Math.floor(rgb[1])-128), (byte)(Math.floor(rgb[2])-128) };
+		colRgb = new byte[]{ (byte)(Math.floor(rgb[0]*256F)-128), (byte)(Math.floor(rgb[1]*256F)-128), (byte)(Math.floor(rgb[2]*256F)-128) };
 	}
 
 	@Override
@@ -55,14 +53,6 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		}
 		
 		shouldNotExplode = false;
-	}
-	
-	public void onAbsorbed(EntityPlayer player, ItemStack is){
-		if (!worldObj.isRemote)return;
-		
-		for(int a = 0; a < 26; a++){
-			HardcoreEnderExpansion.fx.energyClusterMoving(worldObj,xCoord+0.5D+rand(0.1D),yCoord+0.5D+rand(0.1D),zCoord+0.5D+rand(0.1D),rand(0.5D),rand(0.25D),rand(0.5D),getColor(0),getColor(1),getColor(2));
-		}
 	}
 	
 	public float drainEnergy(float amount, TileEntityAbstractEnergyInventory tile){

@@ -54,7 +54,6 @@ public class ItemEnergyWand extends Item{
 				
 				if (tile != null){
 					tile.shouldNotExplode = true;
-					tile.onAbsorbed(player,is);
 					
 					if (!world.isRemote){
 						NBTTagCompound tag = tile.writeTileToNBT(new NBTTagCompound());

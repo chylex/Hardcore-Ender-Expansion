@@ -31,24 +31,26 @@ public final class EnergyClusterData{
 		World world = cluster.getWorldObj();
 		Random rand = world.rand;
 		
-		if (energyLevel > 0.1F && energyLevel/maxEnergyLevel > 0.75F+rand.nextFloat()*0.5F && rand.nextInt(5) == 0){
-			float leak = energyLevel*(0.05F+rand.nextFloat()*rand.nextFloat()*0.1F);
+		if (energyLevel > 0.1F && energyLevel/maxEnergyLevel > 0.85F+rand.nextFloat()*2.5F && rand.nextInt(75) == 0){
+			float leak = energyLevel*(0.05F+rand.nextFloat()*rand.nextFloat()*0.15F);
 			energyLevel -= leak;
+			cluster.synchronize();
 			
 			for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 8 && placed < 4; attempt++){
-				xx = cluster.xCoord+rand.nextInt(5)-2;
-				yy = cluster.yCoord+rand.nextInt(5)-2;
-				zz = cluster.zCoord+rand.nextInt(5)-2;
+				xx = cluster.xCoord+rand.nextInt(7)-3;
+				yy = cluster.yCoord+rand.nextInt(7)-3;
+				zz = cluster.zCoord+rand.nextInt(7)-3;
 				
 				if (world.isAirBlock(xx,yy,zz)){
-					world.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+(int)Math.floor(leak*5F),3);
+					world.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+(int)Math.floor(leak*4.5F),3);
 					++placed;
 				}
 			}
 		}
 		
 		if (healthStatus.regenTimer != -1 && ++regenTimer > healthStatus.regenTimer){
-			energyLevel += Math.min((float)Math.sqrt(maxEnergyLevel)*0.12F,maxEnergyLevel-energyLevel);
+			energyLevel += Math.min((float)Math.sqrt(maxEnergyLevel)*0.012F,maxEnergyLevel-energyLevel);
+			cluster.synchronize();
 			regenTimer = 0;
 		}
 		
@@ -58,11 +60,12 @@ public final class EnergyClusterData{
 			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(cluster.xCoord,cluster.zCoord,true);
 			float envLevel = environment.getEnergyLevel();
 			
-			if (envLevel > 0){
+			if (envLevel > EnergyChunkData.minSignificantEnergy && maxEnergyLevel < energyLevel){
 				float drain = Math.min(maxEnergyLevel-energyLevel,Math.min(envLevel*0.1F,maxEnergyLevel*0.2F));
 				drain = drain*0.75F+rand.nextFloat()*0.25F*drain;
 				drain = environment.drainEnergy(drain);
 				energyLevel += drain;
+				cluster.synchronize();
 			}
 		}
 	}
@@ -84,6 +87,8 @@ public final class EnergyClusterData{
 	}
 	
 	public float drainEnergy(float amount){
+		regenTimer = -8;
+		
 		if (energyLevel >= amount){
 			energyLevel -= amount;
 			return 0F;
@@ -102,6 +107,7 @@ public final class EnergyClusterData{
 	public boolean drainEnergyUnits(int units){
 		if (energyLevel >= EnergyChunkData.energyDrainUnit*units){
 			energyLevel -= EnergyChunkData.energyDrainUnit*units;
+			regenTimer = -8;
 			return true;
 		}
 		else return false;

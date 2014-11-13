@@ -7,7 +7,7 @@ import chylex.hee.system.util.MathUtil;
 
 public class EnergyChunkData{
 	public static final float minSignificantEnergy = 0.0001F;
-	public static final float energyDrainUnit = 0.05F;
+	public static final float energyDrainUnit = 0.08F;
 	
 	private int x, z;
 	private float energyLevel, maxEnergyLevel;
@@ -44,7 +44,7 @@ public class EnergyChunkData{
 	}
 	
 	public void onAdjacentInteract(Random rand, EnergyChunkData data){
-		if (data.energyLevel < energyLevel && data.energyLevel < data.maxEnergyLevel && Math.abs(data.energyLevel-energyLevel) > 0.4F+rand.nextFloat()*2.5F){
+		if (rand.nextInt(30) == 0 && data.energyLevel < energyLevel && data.energyLevel < data.maxEnergyLevel && Math.abs(data.energyLevel-energyLevel) > 0.4F+rand.nextFloat()*2.5F){
 			float amt = Math.min(energyLevel,Math.min(data.maxEnergyLevel-data.energyLevel,Math.max(0.01F,Math.min(0.2F,Math.abs(data.energyLevel-energyLevel)*0.02F*(0.8F+rand.nextFloat()*0.2F)))));
 			
 			if (amt > minSignificantEnergy){

@@ -144,18 +144,15 @@ public final class LoreTexts{
 		is.setTagInfo("author",new NBTTagString("The Adventurer :P"));
 		is.setTagInfo("title",new NBTTagString("The Adventurer's Diary"));
 		is.setTagInfo("pages",pages);
-
-		Minecraft mc = Minecraft.getMinecraft();
-		mc.displayGuiScreen(new GuiDiaryBook(player,is));
-
-		if (mc.currentScreen instanceof GuiDiaryBook){
-			GuiDiaryBook bookGui = (GuiDiaryBook)mc.currentScreen;
-			int n = 0;
-			for(byte b:unlockedPages)n = Math.max(b-1,n);
-			
-			bookGui.currPage = n;
-			bookGui.updateButtons();
-		}
+		
+		GuiDiaryBook bookGui = new GuiDiaryBook(player,is);
+		Minecraft.getMinecraft().displayGuiScreen(bookGui);
+		
+		int n = 0;
+		for(byte b:unlockedPages)n = Math.max(b-1,n);
+		
+		bookGui.currPage = n;
+		bookGui.updateButtons();
 	}
 	
 	private LoreTexts(){}

@@ -1,4 +1,5 @@
 package chylex.hee.item;
+import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -6,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.system.savedata.WorldDataHandler;
@@ -37,8 +39,14 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 					TileEntityEnergyCluster cluster = (TileEntityEnergyCluster)tile;
 					
 					if (cluster.data.drainEnergyUnit()){
-						cluster.onAbsorbed(player,is);
 						if (!world.isRemote)onEnergyAccepted(is);
+						else{
+							Random rand = world.rand;
+							
+							for(int a = 0; a < 26; a++){
+								HardcoreEnderExpansion.fx.energyClusterMoving(world,cluster.xCoord+0.5D+(rand.nextFloat()-0.5D)*0.2D,cluster.yCoord+0.5D+(rand.nextFloat()-0.5D)*0.2D,cluster.zCoord+0.5D+(rand.nextFloat()-0.5D)*0.2D,(rand.nextFloat()-0.5D)*0.4D,(rand.nextFloat()-0.5D)*0.4D,(rand.nextFloat()-0.5D)*0.4D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2));
+							}
+						}
 					}
 					else is.stackTagCompound.removeTag("engDrain");
 				}
@@ -51,7 +59,7 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 		if (world.provider.dimensionId == 1){
 			byte timer = is.stackTagCompound.getByte("engRgnTim");
 			
-			if (++timer <= 14){
+			if (++timer <= 30){
 				is.stackTagCompound.setByte("engRgnTim",timer);
 				return;
 			}
