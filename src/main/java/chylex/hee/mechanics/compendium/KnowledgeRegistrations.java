@@ -885,7 +885,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(790).setContents("Special type of Enderman that spawns in the Enchanted Island (Homeland).").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(791).setContents("Each Enderman has their role in the Homeland, which is identified by differently colored particles. Those decide their attributes and behavior.").setPrice(3).setUnlockRequirements(790),
 				new KnowledgeFragmentText(792).setContents("Some may form groups, those have occasional gray particles.").setPrice(3).setUnlockRequirements(791),
-				new KnowledgeFragmentText(793).setContents("Attacking Endermen with certain roles will make them call the guards.").setPrice(3).setUnlockRequirements(791)
+				new KnowledgeFragmentText(793).setContents("Attacking Endermen that have certain roles will make them call the guards.").setPrice(3).setUnlockRequirements(791)
 			})
 		});
 		
