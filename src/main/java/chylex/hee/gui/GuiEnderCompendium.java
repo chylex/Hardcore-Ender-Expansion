@@ -144,11 +144,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		else if (button.id == 3)pageIndex = (byte)Math.max(0,pageIndex-1);
 		else if (button.id == 4)pageIndex = (byte)Math.min(currentObjectPages.size()-1,pageIndex+1);
 		else if (button.id == 5){
-			KnowledgeFragmentText.enableSmoothRendering = !KnowledgeFragmentText.enableSmoothRendering;
+			if (++KnowledgeFragmentText.smoothRenderingType > 2)KnowledgeFragmentText.smoothRenderingType = 0;
 			
 			for(IConfigElement element:ConfigHandler.getGuiConfigElements()){
 				if (element.getName().equals("compendiumSmoothText") && element.isProperty()){
-					element.set(KnowledgeFragmentText.enableSmoothRendering);
+					element.set(KnowledgeFragmentText.smoothRenderingType);
 					break;
 				}
 			}
@@ -387,10 +387,18 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private void renderScreenPost(int mouseX, int mouseY, float partialTickTime){
 		mc.getTextureManager().bindTexture(texBack);
 		GuiButton button = (GuiButton)buttonList.get(5);
-		drawTexturedModalRect(button.xPosition,button.yPosition,KnowledgeFragmentText.enableSmoothRendering ? 56 : 77,29,20,20);
+		drawTexturedModalRect(button.xPosition,button.yPosition,KnowledgeFragmentText.smoothRenderingType > 0 ? 56 : 77,29,20,20);
 		
 		if (mouseX >= button.xPosition && mouseX <= button.xPosition+button.width && mouseY > button.yPosition && mouseY < button.yPosition+button.height){
-			GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY-24,"Smooth text rendering\n"+EnumChatFormatting.GRAY+"Enable if you experience bad\n"+EnumChatFormatting.GRAY+"text scaling (experimental)");
+			StringBuilder build = new StringBuilder(110);
+			build.append("Smooth text rendering\n");
+			build.append(EnumChatFormatting.GRAY);
+			build.append("Enable if you experience bad\n");
+			build.append(EnumChatFormatting.GRAY);
+			build.append("text scaling (experimental)\n");
+			build.append(EnumChatFormatting.DARK_GREEN);
+			build.append("Type: ").append(KnowledgeFragmentText.smoothRenderingType == 0 ? "Off" : String.valueOf(KnowledgeFragmentText.smoothRenderingType));
+			GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY-24,build.toString());
 		}
 	}
 	

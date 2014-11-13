@@ -4,6 +4,7 @@ import java.util.List;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.common.config.Property.Type;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.item.ItemTempleCaller;
@@ -59,6 +60,8 @@ public final class ConfigHandler{
 		config.moveProperty("general","enableMusic","client");
 		config.moveProperty("client","enableUpdateNotifications","general");
 		config.getCategory("general").remove("achievementIdStart");
+		
+		if (config.get("client","compendiumSmoothText",0).getType() == Type.BOOLEAN)config.getCategory("client").remove("compendiumSmoothText");
 	}
 	
 	@SubscribeEvent
@@ -72,7 +75,7 @@ public final class ConfigHandler{
 	private void loadClientConfig(){
 		currentCategory = "client";
 		
-		KnowledgeFragmentText.enableSmoothRendering = getBoolValue("compendiumSmoothText",false);
+		KnowledgeFragmentText.smoothRenderingType = (byte)getInt("compendiumSmoothText",0).getInt();
 		MusicManager.enableMusic = getBool("enableMusic",true).setRequiresMcRestart(true).getBoolean();
 		
 		if (config.hasChanged())config.save();

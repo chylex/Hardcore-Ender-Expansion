@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentText extends KnowledgeFragment{
-	public static boolean enableSmoothRendering = false;
+	public static byte smoothRenderingType = 0;
 	
 	private String content;
 	
@@ -63,16 +63,16 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 		boolean origFont = gui.mc.fontRenderer.getUnicodeFlag();
 		gui.mc.fontRenderer.setUnicodeFlag(true);
 		
-		if (enableSmoothRendering){
+		if (smoothRenderingType > 0){
 			gui.mc.fontRenderer.drawSplitString(str,x,y,maxWidth,smoothColor);
 			
-			GL11.glTranslatef(-0.25F,0F,0F);
+			GL11.glTranslatef(-0.2F,0F,0F);
 			gui.mc.fontRenderer.drawSplitString(str,x,y,maxWidth,smoothColor);
-			GL11.glTranslatef(0.25F,0F,0F);
+			GL11.glTranslatef(0.2F,0F,0F);
 			
-			GL11.glTranslatef(0F,-0.25F,0F);
+			GL11.glTranslatef(0F,smoothRenderingType == 1 ? -0.2F : 0.2F,0F);
 			gui.mc.fontRenderer.drawSplitString(str,x,y,maxWidth,smoothColor);
-			GL11.glTranslatef(0F,0.25F,0F);
+			GL11.glTranslatef(0F,smoothRenderingType == 1 ? 0.2F : -0.2F,0F);
 		}
 		else gui.mc.fontRenderer.drawSplitString(str,x,y,maxWidth,normalColor);
 		
