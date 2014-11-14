@@ -31,7 +31,7 @@ public class NotEnoughItemsIntegration implements IIntegrationHandler{
 				
 				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = KnowledgeUtils.tryGetFromItemStack(is);
 				
-				if (obj != null){
+				if (obj != null && CompendiumEventsClient.canOpenCompendium()){
 					CompendiumEventsClient.openCompendium(obj);
 					return true;
 				}

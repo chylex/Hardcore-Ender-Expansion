@@ -50,6 +50,14 @@ public final class CompendiumEventsClient{
 		return instance.data;
 	}
 	
+	public static boolean canOpenCompendium(){
+		if (instance.data == null){
+			Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText("Error opening Ender Compendium, server did not provide required data. Relog, wait a few seconds, pray to your favourite deity and try again!"));
+			return false;
+		}
+		else return true;
+	}
+	
 	public static void openCompendium(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj){
 		GuiEnderCompendium compendium = new GuiEnderCompendium(instance.data);
 		Minecraft.getMinecraft().displayGuiScreen(compendium);
@@ -76,7 +84,7 @@ public final class CompendiumEventsClient{
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		if ((keyOpenCompendium.isPressed() || Keyboard.getEventKeyState() && Keyboard.getEventKey() == keyOpenCompendium.getKeyCode()) && (mc.inGameHasFocus || mc.currentScreen instanceof GuiContainer)){
-			if (data != null){
+			if (canOpenCompendium()){
 				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = null;
 				
 				if (mc.inGameHasFocus)obj = mc.thePlayer.isSneaking() ? CompendiumEvents.getObservation(mc.thePlayer).getObject() : null;
@@ -106,8 +114,7 @@ public final class CompendiumEventsClient{
 				openCompendium(obj);
 				
 				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))PacketPipeline.sendToServer(new S03OpenCompendium());
-			}
-			else mc.thePlayer.addChatMessage(new ChatComponentText("Error opening Ender Compendium, server did not provide required data. Relog, wait a few seconds, pray to your favourite deity and try again!"));
+			} 
 		}
 	}
 }
