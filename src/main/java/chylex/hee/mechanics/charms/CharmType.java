@@ -103,8 +103,8 @@ public enum CharmType{
 	
 	MAGIC_DEFENSE(10, 3, new CharmRecipe[]{
 		new CharmRecipe(74).rune(DEFENSE).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.30F),
-		new CharmRecipe(75).rune(DEFENSE).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.50F),
-		new CharmRecipe(76).rune(DEFENSE).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.70F)
+		new CharmRecipe(75).rune(DEFENSE,2).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.50F),
+		new CharmRecipe(76).rune(DEFENSE,3).rune(MAGIC).rune(VOID).prop("reducemagicdmg",0.70F)
 	}, new String[]{ "perc,reducemagicdmg" }),
 	
 	FALLING_PROTECTION(10, 6, new CharmRecipe[]{
