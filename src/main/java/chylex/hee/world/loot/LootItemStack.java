@@ -27,13 +27,13 @@ public class LootItemStack implements IWeightProvider{
 	}
 	
 	public LootItemStack setDamage(int min, int max){
-		this.minDamage = (short)Math.max(1,min);
-		this.maxDamage = (short)Math.max(1,max);
+		this.minDamage = (short)Math.max(0,min);
+		this.maxDamage = (short)Math.max(0,max);
 		return this;
 	}
 	
 	public LootItemStack setDamage(int damage){
-		this.minDamage = this.maxDamage = (short)damage;
+		this.minDamage = this.maxDamage = (short)Math.max(0,damage);
 		return this;
 	}
 	
