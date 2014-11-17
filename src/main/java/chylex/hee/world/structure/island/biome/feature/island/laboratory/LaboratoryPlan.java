@@ -3,12 +3,13 @@ import gnu.trove.map.hash.TByteByteHashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import chylex.hee.system.util.MathUtil;
+import net.minecraft.util.Direction;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public final class LaboratoryPlan{
 	private final List<LaboratoryElement> elements = new ArrayList<>();
+	private final List<LaboratoryElement> roomElements = new ArrayList<>();
 	private int score;
 	
 	public boolean generate(LargeStructureWorld world, Random rand){
@@ -19,18 +20,40 @@ public final class LaboratoryPlan{
 		for(int locAttempt = 0; locAttempt < 42; locAttempt++){
 			x = (rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize)*3/4;
 			z = (rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize)*3/4;
-			LaboratoryElement element = trySpawnElement(world,LaboratoryElementType.SMALL_ROOM,x,z);
+			LaboratoryElement element = trySpawnElement(world,LaboratoryElementType.SMALL_ROOM,x,z,0);
 			if (element == null)continue;
 			
 			elements.add(element);
+			roomElements.add(element);
 			break;
 		}
 		
 		if (elements.isEmpty())return false;
 		
-		while(true){
-			LaboratoryElement element = elements.get(rand.nextInt(elements.size()));
+		int attempts = 100, dir;
+		
+		while(--attempts >= 0){
+			LaboratoryElement room = roomElements.get(rand.nextInt(roomElements.size()));
+			if (room.connected[dir = rand.nextInt(4)])continue;
 			
+			int xx = room.x+room.type.halfSizeX+1, startY = room.y, prevY = room.y, zz = room.z+room.type.halfSizeZ+1, dist = 0;
+			boolean hasGenerated = false;
+			
+			
+			while(true){
+				++dist;
+				LaboratoryElement hall = trySpawnElement(world,dir == 0 || dir == 2 ? LaboratoryElementType.HALL_Z : LaboratoryElementType.HALL_X,xx,zz,dir);
+				if (hall == null || Math.abs(hall.y-prevY) > 2 || Math.abs(hall.y-startY) > 4)break;
+			}
+			
+			if (dist > 3){
+				
+			}
+			
+			if (hasGenerated)attempts = Math.min(100,attempts+10);
+			
+			if (roomElements.size() > 17+rand.nextInt(8))break;
+			else if (roomElements.size() > 8+rand.nextInt(5))attempts -= 15;
 		}
 		
 		return true;
@@ -40,14 +63,14 @@ public final class LaboratoryPlan{
 		return score;
 	}
 	
-	private static LaboratoryElement trySpawnElement(LargeStructureWorld world, LaboratoryElementType type, int x, int z){
-		if (type.halfSize < 1)return null;
+	private static LaboratoryElement trySpawnElement(LargeStructureWorld world, LaboratoryElementType type, int x, int z, int dir){
+		if (type.halfSizeX == -1 || type.halfSizeZ == -1)return null;
 		
 		TByteByteHashMap map = new TByteByteHashMap();
 		int minY = -1, maxY = -1;
 		
-		for(int xx = x-type.halfSize, zz, yy; xx <= x+type.halfSize; xx++){
-			for(zz = z-type.halfSize; zz <= z+type.halfSize; zz++){
+		for(int xx = x-type.halfSizeX*Direction.offsetX[dir], zz, yy; xx <= x+type.halfSizeX*Direction.offsetX[dir]; xx++){
+			for(zz = z-type.halfSizeZ*Direction.offsetZ[dir]; zz <= z+type.halfSizeZ*Direction.offsetZ[dir]; zz++){
 				if ((yy = world.getHighestY(xx,zz)) == 0)return null;
 				
 				if (minY == -1)minY = maxY = yy;
@@ -70,7 +93,7 @@ public final class LaboratoryPlan{
 		}
 		
 		if (maxY-mostFrequentY > 3)return null;
-		if (mostFrequentYAmount/MathUtil.square(type.halfSize*2+1) < 0.25F)return null;
+		if (mostFrequentYAmount/((type.halfSizeX*2+1)*(type.halfSizeZ*2+1)) < 0.25F)return null;
 		
 		return new LaboratoryElement(type,x,mostFrequentY,z);
 	}

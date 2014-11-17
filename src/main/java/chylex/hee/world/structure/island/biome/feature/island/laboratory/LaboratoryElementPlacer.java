@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.island.laboratoryold;
+package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
