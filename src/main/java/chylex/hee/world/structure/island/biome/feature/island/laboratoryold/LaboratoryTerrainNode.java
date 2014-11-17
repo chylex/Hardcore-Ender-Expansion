@@ -1,8 +1,9 @@
-package chylex.hee.world.structure.island.biome.feature.island.laboratory;
+package chylex.hee.world.structure.island.biome.feature.island.laboratoryold;
 
+import chylex.hee.world.structure.island.biome.feature.island.laboratory.LaboratoryElementType;
 
 public final class LaboratoryTerrainNode{
-	private LaboratoryElement largestElement = LaboratoryElement.NONE;
+	private LaboratoryElementType largestElement = LaboratoryElementType.NONE;
 	private int mostFrequentY;
 	private boolean unusable;
 	private boolean[] connections = new boolean[4];
@@ -18,12 +19,12 @@ public final class LaboratoryTerrainNode{
 		return unusable;
 	}
 	
-	public LaboratoryTerrainNode setLargestElement(LaboratoryElement element){
+	public LaboratoryTerrainNode setLargestElement(LaboratoryElementType element){
 		this.largestElement = element;
 		return this;
 	}
 	
-	public LaboratoryElement getLargestElement(){
+	public LaboratoryElementType getLargestElement(){
 		return largestElement;
 	}
 	

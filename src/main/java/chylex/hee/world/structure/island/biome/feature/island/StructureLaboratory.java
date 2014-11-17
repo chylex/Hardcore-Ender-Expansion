@@ -1,8 +1,8 @@
 package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.Random;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
-import chylex.hee.world.structure.island.biome.feature.island.laboratory.LaboratoryTerrainAnalyser;
-import chylex.hee.world.structure.island.biome.feature.island.laboratory.LaboratoryTerrainMap;
+import chylex.hee.world.structure.island.biome.feature.island.laboratoryold.LaboratoryTerrainAnalyser;
+import chylex.hee.world.structure.island.biome.feature.island.laboratoryold.LaboratoryTerrainMap;
 
 public class StructureLaboratory extends AbstractIslandStructure{
 	@Override

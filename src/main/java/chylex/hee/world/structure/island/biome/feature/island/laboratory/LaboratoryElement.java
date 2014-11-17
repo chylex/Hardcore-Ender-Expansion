@@ -1,11 +1,13 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 
-public enum LaboratoryElement{
-	NONE(-1), PATH(5), SMALL_ROOM(9), LARGE_ROOM(11);
+public final class LaboratoryElement{
+	public final LaboratoryElementType type;
+	public final int x, y, z;
 	
-	public final byte size;
-	
-	LaboratoryElement(int size){
-		this.size = (byte)size;
+	public LaboratoryElement(LaboratoryElementType type, int x, int y, int z){
+		this.type = type;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 }

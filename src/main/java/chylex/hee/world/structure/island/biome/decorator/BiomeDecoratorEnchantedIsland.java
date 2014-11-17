@@ -137,5 +137,8 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		for(int attempt = 0, placed = 0; attempt < 20 && placed < 4+rand.nextInt(3); attempt++){
 			if (genCellar.generateInWorld(world,rand,getBiome()))++placed;
 		}
+		
+		// LABORATORY
+		
 	}
 }
