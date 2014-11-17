@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -785,6 +786,13 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		currentTask = EndermanTask.NONE;
 		currentTaskTimer = 0;
 		currentTaskData = null;
+	}
+	
+	@Override
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data){
+		setHomelandRole(HomelandRole.getRandomRole(rand));
+		refreshRoles();
+		return data;
 	}
 	
 	@Override
