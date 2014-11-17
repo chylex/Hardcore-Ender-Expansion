@@ -37,6 +37,6 @@ public final class CharmEventsClient{
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBreakSpeed(BreakSpeed e){
 		// HASTE
-		if (e.entity.worldObj.isRemote)e.newSpeed *= 1F+getPropPercentIncrease("breakspd",e.originalSpeed);
+		if (e.entity.worldObj.isRemote)e.newSpeed += getPropPercentIncrease("breakspd",e.originalSpeed);
 	}
 }

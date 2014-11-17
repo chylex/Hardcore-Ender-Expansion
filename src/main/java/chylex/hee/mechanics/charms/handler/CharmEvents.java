@@ -416,7 +416,7 @@ public final class CharmEvents{
 			!e.entityLiving.isChild() && e.entity.worldObj.getGameRules().getGameRuleBooleanValue("doMobLoot")){
 			// BASIC_MAGIC / EQUALITY
 			int xp = (int)ReflectionPublicizer.invoke(ReflectionPublicizer.entityLivingBaseGetExperiencePoints,e.entityLiving,(EntityPlayer)e.source.getSourceOfDamage());
-			xp = (int)Math.ceil(getPropPercentIncrease((EntityPlayer)e.source.getSourceOfDamage(),"exp",xp));
+			xp = (int)Math.ceil(getPropPercentIncrease((EntityPlayer)e.source.getSourceOfDamage(),"exp",xp)); // extra xp only
 			
 			while(xp > 0){
 				int split = EntityXPOrb.getXPSplit(xp);
@@ -503,6 +503,6 @@ public final class CharmEvents{
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onBreakSpeed(BreakSpeed e){
 		// HASTE
-		if (!e.entity.worldObj.isRemote)e.newSpeed *= 1F+getPropPercentIncrease(e.entityPlayer,"breakspd",e.originalSpeed);
+		if (!e.entity.worldObj.isRemote)e.newSpeed += getPropPercentIncrease(e.entityPlayer,"breakspd",e.originalSpeed);
 	}
 }
