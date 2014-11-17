@@ -39,11 +39,9 @@ public final class LaboratoryPlan{
 			int xx = room.x+room.type.halfSizeX+1, startY = room.y, prevY = room.y, zz = room.z+room.type.halfSizeZ+1, dist = 0;
 			boolean hasGenerated = false;
 			
-			
-			while(true){
-				++dist;
+			while(++dist < 32){
 				LaboratoryElement hall = trySpawnElement(world,dir == 0 || dir == 2 ? LaboratoryElementType.HALL_Z : LaboratoryElementType.HALL_X,xx,zz,dir);
-				if (hall == null || Math.abs(hall.y-prevY) > 2 || Math.abs(hall.y-startY) > 4)break;
+				if (hall == null || Math.abs(hall.y-prevY) > 2 || Math.abs(hall.y-startY) > 4 || !isEmptyFor(hall))break;
 			}
 			
 			if (dist > 3){
@@ -61,6 +59,17 @@ public final class LaboratoryPlan{
 	
 	public int getScore(){
 		return score;
+	}
+	
+	private boolean isEmptyFor(LaboratoryElement testElement){
+		int addDist = Math.max(testElement.type.halfSizeX,testElement.type.halfSizeZ)*2+3, max;
+		
+		for(LaboratoryElement element:elements){
+			max = Math.max(element.type.halfSizeX,element.type.halfSizeZ)*2+addDist;
+			if (Math.abs(element.x-testElement.x) <= max && Math.abs(element.z-testElement.z) <= max)return false;
+		}
+		
+		return true;
 	}
 	
 	private static LaboratoryElement trySpawnElement(LargeStructureWorld world, LaboratoryElementType type, int x, int z, int dir){
