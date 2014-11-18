@@ -24,6 +24,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	private final StructureGooLake genGooLake = new StructureGooLake();
 	private final StructureObsidianRoad genRoads = new StructureObsidianRoad();
 	private final StructureHiddenCellar genCellar = new StructureHiddenCellar();
+	private final StructureLaboratory genLaboratory = new StructureLaboratory();
 	
 	/*
 	 * HOMELAND
@@ -140,6 +141,6 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// LABORATORY
-		new StructureLaboratory().generateInWorld(world,rand,getBiome()); // TODO separate
+		genLaboratory.generateInWorld(world,rand,getBiome());
 	}
 }

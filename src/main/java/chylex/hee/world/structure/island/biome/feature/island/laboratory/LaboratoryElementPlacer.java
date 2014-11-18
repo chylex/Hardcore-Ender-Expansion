@@ -136,8 +136,8 @@ public class LaboratoryElementPlacer{
 			}
 			
 			for(int pz = 0; pz < 2; pz++){
-				world.setBlock(x-2+a,y,z-3+pz*2,BlockList.obsidian_special);
-				world.setBlock(x-2+a,y+4,z-3+pz*2,Blocks.obsidian);
+				world.setBlock(x-2+a,y,z-3+pz*6,BlockList.obsidian_special);
+				world.setBlock(x-2+a,y+4,z-3+pz*6,Blocks.obsidian);
 			}
 		}
 		
@@ -152,8 +152,8 @@ public class LaboratoryElementPlacer{
 			
 			for(int a = 0; a < 5; a++){
 				for(int b = 0; b < 2; b++){
-					world.setBlock(x-3+b*6,y+py,z-2+a,py == 1 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
-					world.setBlock(x-2+a,y+py,z-3+b*6,py == 1 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x-3+b*6,y+py,z-2+a,py == 2 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x-2+a,y+py,z-3+b*6,py == 2 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
 				}
 			}
 		}
@@ -171,8 +171,8 @@ public class LaboratoryElementPlacer{
 				
 				if (px > 0 && px < 6 && pz > 0 && pz < 6){
 					for(int py = 1; py < 4; py++){
-						if (world.getBlock(x-4+px,y+py,z-4+pz) == Blocks.obsidian){
-							world.setBlock(x-4+px,y+py,z-4+pz,Blocks.air);
+						if (world.getBlock(x-3+px,y+py,z-3+pz) != Blocks.obsidian){
+							world.setBlock(x-3+px,y+py,z-3+pz,Blocks.air);
 						}
 					}
 				}
@@ -204,8 +204,8 @@ public class LaboratoryElementPlacer{
 		for(int py = 0; py < 4; py++){
 			for(int a = 0; a < 5; a++){
 				for(int b = 0; b < 2; b++){
-					world.setBlock(x-5+10*b,y+py,z-2+a,py == 1 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
-					world.setBlock(x-2+a,y+py,z-5+10*b,py == 1 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x-5+10*b,y+py,z-2+a,py == 2 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x-2+a,y+py,z-5+10*b,py == 2 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
 				}
 			}
 			
@@ -228,9 +228,9 @@ public class LaboratoryElementPlacer{
 					else break;
 				}
 				
-				if (px > 0 && px < 6 && pz > 0 && pz < 6){
+				if (px > 0 && px < 9 && pz > 0 && pz < 9){
 					for(int py = 1; py < 4; py++){
-						if (world.getBlock(x-4+px,y+py,z-4+pz) == Blocks.obsidian){
+						if (world.getBlock(x-4+px,y+py,z-4+pz) != Blocks.obsidian){
 							world.setBlock(x-4+px,y+py,z-4+pz,Blocks.air);
 						}
 					}

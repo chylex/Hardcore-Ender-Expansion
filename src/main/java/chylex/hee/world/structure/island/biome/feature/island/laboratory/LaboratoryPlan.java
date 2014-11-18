@@ -14,6 +14,7 @@ public final class LaboratoryPlan{
 	private int score;
 	
 	public boolean generate(LargeStructureWorld world, Random rand){
+		roomElements.clear();
 		elements.clear();
 		
 		int x, z;
@@ -29,7 +30,7 @@ public final class LaboratoryPlan{
 			break;
 		}
 		
-		if (elements.isEmpty())return false;
+		if (roomElements.isEmpty())return false;
 		
 		int attempts = 100, dir;
 		
@@ -82,7 +83,7 @@ public final class LaboratoryPlan{
 			return false;
 		}
 		
-		score = elements.size()+roomElements.size()*8;
+		score = elements.size()+roomElements.size()*12;
 		return true;
 	}
 	
@@ -145,9 +146,7 @@ public final class LaboratoryPlan{
 			}
 		}
 		
-		System.out.println(map);
-		System.out.println(maxY+" ... "+mostFrequentY+" - "+mostFrequentYAmount+" / "+(((type.halfSizeX*2+1)*(type.halfSizeZ*2+1)))+" ... "+((float)mostFrequentYAmount/((type.halfSizeX*2+1)*(type.halfSizeZ*2+1))));
-		if (maxY-mostFrequentY > 3)return null;
+		if (maxY-mostFrequentY > 2)return null;
 		if ((float)mostFrequentYAmount/((type.halfSizeX*2+1)*(type.halfSizeZ*2+1)) < 0.25F)return null;
 		
 		return new LaboratoryElement(type,x,mostFrequentY,z);

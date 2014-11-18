@@ -39,6 +39,8 @@ public class BlobPopulatorLiquidFall extends BlobPopulator{
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		List<BlockLocation> blocks = gen.getUsedLocations();
+		if (blocks.isEmpty())return;
+		
 		int amount = amountGen.generate(rand,minAmount,maxAmount);
 		
 		for(int attempts = minAttempts+rand.nextInt(maxAttempts-minAttempts+1), xx, yy, zz; attempts > 0 && amount > 0; attempts--){
