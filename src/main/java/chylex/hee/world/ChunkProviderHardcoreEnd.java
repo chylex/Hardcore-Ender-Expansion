@@ -11,6 +11,7 @@ import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.MapGenIsland;
 import chylex.hee.world.structure.tower.MapGenTower;
 
@@ -48,8 +49,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 			towerGen.generateStructuresInChunk(world,randCopy,x,z);
 		}
 
-		int realX = x*16, realZ = z*16;
-		/*world.getBiomeGenForCoords(realX+16,realZ+16)*/BiomeGenBase.sky.decorate(world,randCopy,realX,realZ);
+		((BiomeGenHardcoreEnd)BiomeGenBase.sky).decorate(world,randCopy,x*16,z*16);
 
 		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(chunkProvider,world,randCopy,x,z,false));
 		BlockFalling.fallInstantly = false;

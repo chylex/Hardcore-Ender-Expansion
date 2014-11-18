@@ -74,6 +74,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 			int chunkX, chunkZ, blockStartX, blockStartZ, xInChunk, zInChunk, xx, zz;
 			float yMp = 0.66F*biome.getIslandMassHeightMultiplier(); // limit height a bit
 			
+			Stopwatch.time("IslandGen - total");
 			Stopwatch.time("IslandGen - terrain");
 			
 			TerrainGenerator terrainGen = new TerrainGenerator(consistentRand,biome);
@@ -128,6 +129,8 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 			Stopwatch.finish("IslandGen - biome content "+biomeData.content.id);
 			
 			structure.setBlock(104,8,104,BlockList.biome_core,biomeData.content.id,true);
+			
+			Stopwatch.finish("IslandGen - total");
 		
 			isSetup = true;
 		}
