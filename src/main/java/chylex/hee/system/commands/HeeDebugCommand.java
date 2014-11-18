@@ -1,5 +1,4 @@
 package chylex.hee.system.commands;
-import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
@@ -7,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.DimensionManager;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
@@ -41,6 +41,7 @@ public class HeeDebugCommand extends HeeCommand{
 				"/heedebug viewitems\n"+
 				"/heedebug speedup\n"+
 				"/heedebug noweather\n"+
+				"/heedebug stopwatch\n"+
 				"/heedebug test <testid>"
 				).split("\n")){
 				sendMessage(sender,s);
@@ -115,6 +116,9 @@ public class HeeDebugCommand extends HeeCommand{
 				info.setRainTime(Integer.MAX_VALUE);
 				info.setThunderTime(Integer.MAX_VALUE);
 			}
+		}
+		else if (args[0].equalsIgnoreCase("stopwatch")){
+			// TODO
 		}
 		else if (args[0].equalsIgnoreCase("test") && args.length >= 2 && sender instanceof EntityPlayer){
 			try{

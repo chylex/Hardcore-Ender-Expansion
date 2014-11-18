@@ -18,7 +18,7 @@ public final class LaboratoryPlan{
 		
 		int x, z;
 		
-		for(int locAttempt = 0; locAttempt < 42; locAttempt++){
+		for(int locAttempt = 0; locAttempt < 420; locAttempt++){
 			x = (rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize)*3/4;
 			z = (rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize)*3/4;
 			LaboratoryElement element = trySpawnElement(world,LaboratoryElementType.SMALL_ROOM,x,z,0);
@@ -102,6 +102,8 @@ public final class LaboratoryPlan{
 		int addDist = Math.max(testElement.type.halfSizeX,testElement.type.halfSizeZ)*2+3, max;
 		
 		for(LaboratoryElement element:elements){
+			if (element == null)continue;
+			
 			max = Math.max(element.type.halfSizeX,element.type.halfSizeZ)*2+addDist;
 			if (Math.abs(element.x-testElement.x) <= max && Math.abs(element.z-testElement.z) <= max)return false;
 		}
@@ -115,12 +117,17 @@ public final class LaboratoryPlan{
 		TByteByteHashMap map = new TByteByteHashMap();
 		int minY = -1, maxY = -1;
 		
-		for(int xx = x-type.halfSizeX*Direction.offsetX[dir], zz, yy; xx <= x+type.halfSizeX*Direction.offsetX[dir]; xx++){
-			for(zz = z-type.halfSizeZ*Direction.offsetZ[dir]; zz <= z+type.halfSizeZ*Direction.offsetZ[dir]; zz++){
+		for(int xx = x-type.halfSizeX, zz, yy; xx <= x+type.halfSizeX; xx++){
+			for(zz = z-type.halfSizeZ; zz <= z+type.halfSizeZ; zz++){
 				if ((yy = world.getHighestY(xx,zz)) == 0)return null;
 				
 				if (minY == -1)minY = maxY = yy;
-				else map.adjustOrPutValue((byte)(yy-128),(byte)1,(byte)1);
+				else{
+					if (yy < minY)minY = yy;
+					if (yy > maxY)maxY = yy;
+				}
+				
+				map.adjustOrPutValue((byte)(yy-128),(byte)1,(byte)1);
 			}
 		}
 		
@@ -138,8 +145,10 @@ public final class LaboratoryPlan{
 			}
 		}
 		
+		System.out.println(map);
+		System.out.println(maxY+" ... "+mostFrequentY+" - "+mostFrequentYAmount+" / "+(((type.halfSizeX*2+1)*(type.halfSizeZ*2+1)))+" ... "+((float)mostFrequentYAmount/((type.halfSizeX*2+1)*(type.halfSizeZ*2+1))));
 		if (maxY-mostFrequentY > 3)return null;
-		if (mostFrequentYAmount/((type.halfSizeX*2+1)*(type.halfSizeZ*2+1)) < 0.25F)return null;
+		if ((float)mostFrequentYAmount/((type.halfSizeX*2+1)*(type.halfSizeZ*2+1)) < 0.25F)return null;
 		
 		return new LaboratoryElement(type,x,mostFrequentY,z);
 	}

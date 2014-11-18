@@ -11,8 +11,9 @@ import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
 import chylex.hee.world.structure.island.biome.feature.island.StructureGooLake;
 import chylex.hee.world.structure.island.biome.feature.island.StructureHiddenCellar;
-import chylex.hee.world.structure.island.biome.feature.island.StructureObsidianRoad;
 import chylex.hee.world.structure.island.biome.feature.island.StructureHiddenCellar.EnchantedIslandVariation;
+import chylex.hee.world.structure.island.biome.feature.island.StructureLaboratory;
+import chylex.hee.world.structure.island.biome.feature.island.StructureObsidianRoad;
 
 public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	@Override
@@ -139,6 +140,6 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// LABORATORY
-		
+		new StructureLaboratory().generateInWorld(world,rand,getBiome()); // TODO separate
 	}
 }

@@ -176,6 +176,8 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 					
 					try{
 						Field fieldVariations = IslandBiomeBase.class.getDeclaredField("contentVariations");
+						fieldVariations.setAccessible(true);
+						
 						Object prevVariations = fieldVariations.get(biome);
 						BiomeContentVariation variationInst = null;
 						

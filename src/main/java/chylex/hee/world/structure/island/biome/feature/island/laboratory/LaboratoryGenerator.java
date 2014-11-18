@@ -30,10 +30,10 @@ public final class LaboratoryGenerator{
 				if (room.connected[dir]){
 					room.connected[dir] = false;
 					
-					fromX = xx = room.x+Direction.offsetX[dir]*(room.type.halfSizeX+1);
-					fromZ = zz = room.z+Direction.offsetZ[dir]*(room.type.halfSizeZ+1);
 					offX = Direction.offsetX[dir];
 					offZ = Direction.offsetZ[dir];
+					fromX = xx = room.x+offX*(room.type.halfSizeX+1);
+					fromZ = zz = room.z+offZ*(room.type.halfSizeZ+1);
 					yy = room.y;
 					dist = 1;
 					
@@ -63,10 +63,15 @@ public final class LaboratoryGenerator{
 						++dist;
 					}
 					
-					while(true){
+					dist += room.type.halfSizeX*offX+room.type.halfSizeZ*offZ;
+					
+					while(--dist >= 0){
 						LaboratoryElement ele = getAt(xx,zz);
 						
-						if (ele.type.isRoom())ele.connected[Direction.rotateOpposite[dir]] = false;
+						if (ele != null && ele.type.isRoom()){
+							ele.connected[Direction.rotateOpposite[dir]] = false;
+							break;
+						}
 						else{						
 							xx += offX;
 							zz += offZ;
