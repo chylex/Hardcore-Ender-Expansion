@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
+import java.util.Arrays;
 
 public final class LaboratoryElement{
 	public final LaboratoryElementType type;
@@ -10,5 +11,10 @@ public final class LaboratoryElement{
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+	
+	@Override
+	public String toString(){
+		return type.name()+" ("+x+","+y+","+z+") ["+Arrays.toString(connected)+"]";
 	}
 }

@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.util.Direction;
+import chylex.hee.system.logging.Log;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public final class LaboratoryPlan{
-	private final List<LaboratoryElement> elements = new ArrayList<>();
-	private final List<LaboratoryElement> roomElements = new ArrayList<>();
+	final List<LaboratoryElement> elements = new ArrayList<>();
+	final List<LaboratoryElement> roomElements = new ArrayList<>();
 	private int score;
 	
 	public boolean generate(LargeStructureWorld world, Random rand){
@@ -33,35 +34,71 @@ public final class LaboratoryPlan{
 		int attempts = 100, dir;
 		
 		while(--attempts >= 0){
+			if (roomElements.size() > 17+rand.nextInt(8))break;
+			else if (roomElements.size() > 8+rand.nextInt(5))attempts -= 15;
+			
 			LaboratoryElement room = roomElements.get(rand.nextInt(roomElements.size()));
 			if (room.connected[dir = rand.nextInt(4)])continue;
 			
 			int xx = room.x+room.type.halfSizeX+1, startY = room.y, prevY = room.y, zz = room.z+room.type.halfSizeZ+1, dist = 0;
-			boolean hasGenerated = false;
 			
 			while(++dist < 32){
 				LaboratoryElement hall = trySpawnElement(world,dir == 0 || dir == 2 ? LaboratoryElementType.HALL_Z : LaboratoryElementType.HALL_X,xx,zz,dir);
-				if (hall == null || Math.abs(hall.y-prevY) > 2 || Math.abs(hall.y-startY) > 4 || !isEmptyFor(hall))break;
+				if (hall == null || Math.abs(hall.y-prevY) > 2 || Math.abs(hall.y-startY) > 4 || !hasSpaceFor(hall))break;
 			}
 			
-			if (dist > 3){
+			if (dist <= 7)continue;
+			
+			boolean hasGenerated = false;
+			
+			for(int placeAttempt = 0; placeAttempt < dist+5; placeAttempt++){
+				LaboratoryElementType type = rand.nextInt(4) == 0 ? LaboratoryElementType.LARGE_ROOM : LaboratoryElementType.SMALL_ROOM;
+				LaboratoryElement newRoom = trySpawnElement(world,type,xx+dist*Direction.offsetX[dir],zz+dist*Direction.offsetZ[dir],dir);
 				
+				if (newRoom != null && Math.abs(newRoom.y-startY) <= 4){
+					room.connected[dir] = true;
+					newRoom.connected[Direction.rotateOpposite[dir]] = true;
+					elements.add(newRoom);
+					roomElements.add(newRoom);
+					
+					hasGenerated = true;
+					dist -= Math.abs(Direction.offsetX[dir]*(newRoom.type.halfSizeX+1)+Direction.offsetZ[dir]*(newRoom.type.halfSizeZ+1));
+					
+					for(int path = 0; path < dist; path++){
+						xx += Direction.offsetX[dir];
+						zz += Direction.offsetZ[dir];
+						elements.add(trySpawnElement(world,dir == 0 || dir == 2 ? LaboratoryElementType.HALL_Z : LaboratoryElementType.HALL_X,xx,zz,dir));
+					}
+					
+					break;
+				}
 			}
 			
 			if (hasGenerated)attempts = Math.min(100,attempts+10);
-			
-			if (roomElements.size() > 17+rand.nextInt(8))break;
-			else if (roomElements.size() > 8+rand.nextInt(5))attempts -= 15;
 		}
 		
+		if (elements.contains(null)){
+			Log.error("Found null in LaboratoryPlan element list: $0",elements.toString());
+			return false;
+		}
+		
+		score = elements.size()+roomElements.size()*8;
 		return true;
+	}
+	
+	public LaboratoryPlan copy(){
+		LaboratoryPlan copy = new LaboratoryPlan();
+		copy.elements.addAll(elements);
+		copy.roomElements.addAll(roomElements);
+		copy.score = score;
+		return copy;
 	}
 	
 	public int getScore(){
 		return score;
 	}
 	
-	private boolean isEmptyFor(LaboratoryElement testElement){
+	private boolean hasSpaceFor(LaboratoryElement testElement){
 		int addDist = Math.max(testElement.type.halfSizeX,testElement.type.halfSizeZ)*2+3, max;
 		
 		for(LaboratoryElement element:elements){
