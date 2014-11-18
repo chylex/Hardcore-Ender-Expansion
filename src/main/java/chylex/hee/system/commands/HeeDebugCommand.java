@@ -1,4 +1,5 @@
 package chylex.hee.system.commands;
+import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
@@ -115,7 +116,7 @@ public class HeeDebugCommand extends HeeCommand{
 				info.setThunderTime(Integer.MAX_VALUE);
 			}
 		}
-		else if (args[0].equalsIgnoreCase("test") && args.length == 2 && sender instanceof EntityPlayer){
+		else if (args[0].equalsIgnoreCase("test") && args.length >= 2 && sender instanceof EntityPlayer){
 			try{
 				Stopwatch.time("HeeDebugCommand - test");
 				
@@ -129,8 +130,8 @@ public class HeeDebugCommand extends HeeCommand{
 						test.world = test.player.worldObj;
 						
 						try{
-							test.run();
-						sendMessage(sender,"Test completed.");
+							test.run(ArrayUtils.subarray(args,2,args.length));
+							sendMessage(sender,"Test completed.");
 						}
 						catch(Throwable t){
 							t.printStackTrace();
@@ -173,6 +174,6 @@ public class HeeDebugCommand extends HeeCommand{
 		protected World world;
 		protected EntityPlayer player;
 		
-		public abstract void run();
+		public abstract void run(String...args);
 	}
 }

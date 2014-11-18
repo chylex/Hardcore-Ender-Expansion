@@ -46,7 +46,7 @@ public interface IRandomAmount{
 	
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
-		public void run(){
+		public void run(String...args){
 			Random rand = new Random();
 			int index = 0;
 			

@@ -1,4 +1,7 @@
 package chylex.hee.world.structure.island;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -8,14 +11,17 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
+import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
 import chylex.hee.world.structure.island.gen.CaveGenerator;
 import chylex.hee.world.structure.island.gen.OreGenerator;
 import chylex.hee.world.structure.island.gen.TerrainGenerator;
 import chylex.hee.world.structure.util.Offsets;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
+import com.google.common.primitives.Ints;
 
 public class ComponentIsland extends ComponentScatteredFeatureCustom{
 	public static final int size = 208, halfSize = size>>1;
@@ -159,8 +165,47 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 	
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
-		public void run(){
-			new ComponentIsland(world.rand,(int)player.posX-104,(int)player.posZ-104).addComponentParts(world,world.rand,new StructureBoundingBox(-999999,0,-999999,999999,128,999999));
+		public void run(String...args){
+			int variation = args.length == 0 ? -1 : Ints.tryParse(args[0]);
+			
+			for(IslandBiomeBase biome:IslandBiomeBase.biomeList){
+				if (biome.isValidMetadata(variation)){
+					List<IslandBiomeBase> prevBiomes = new ArrayList<>(IslandBiomeBase.biomeList);
+					IslandBiomeBase.biomeList.clear();
+					IslandBiomeBase.biomeList.add(biome);
+					
+					try{
+						Field fieldVariations = IslandBiomeBase.class.getDeclaredField("contentVariations");
+						Object prevVariations = fieldVariations.get(biome);
+						BiomeContentVariation variationInst = null;
+						
+						for(BiomeContentVariation var:(WeightedList<BiomeContentVariation>)prevVariations){
+							if (var.id == variation){
+								variationInst = var;
+								break;
+							}
+						}
+						
+						if (variationInst != null){
+							fieldVariations.set(biome,new WeightedList<BiomeContentVariation>(variationInst));
+							generate();
+							fieldVariations.set(biome,prevVariations);
+							variation = -2;
+						}
+					}catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e){
+						e.printStackTrace();
+					}
+					
+					IslandBiomeBase.biomeList.clear();
+					IslandBiomeBase.biomeList.addAll(prevBiomes);
+				}
+			}
+			
+			if (variation == -1)generate();
+		}
+		
+		private void generate(){
+			new ComponentIsland(world.rand,(int)player.posX-104,(int)player.posZ-104).addComponentParts(world,world.rand,new StructureBoundingBox(-9999999,0,-9999999,9999999,128,9999999));
 		}
 	};
 }

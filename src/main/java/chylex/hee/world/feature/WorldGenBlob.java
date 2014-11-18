@@ -173,7 +173,7 @@ public class WorldGenBlob extends WorldGenerator{
 	
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
-		public void run(){
+		public void run(String...args){
 			WeightedList<BlobPattern> patterns = new WeightedList<>(new BlobPattern[]{
 				new BlobPattern(1).addGenerators(new BlobGenerator[]{
 					new BlobGeneratorSingleCut(1).cutRadMp(0.6D,0.8D).cutDistMp(0.8D,1.6D).rad(3D,7D)
