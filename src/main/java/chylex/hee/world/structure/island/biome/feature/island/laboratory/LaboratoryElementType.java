@@ -13,4 +13,12 @@ public enum LaboratoryElementType{
 		this.halfSizeX = (byte)halfSizeX;
 		this.halfSizeZ = (byte)halfSizeZ;
 	}
+	
+	public boolean isRoom(){
+		return this == SMALL_ROOM || this == LARGE_ROOM;
+	}
+	
+	public boolean isHall(){
+		return this == HALL_X || this == HALL_Z;
+	}
 }

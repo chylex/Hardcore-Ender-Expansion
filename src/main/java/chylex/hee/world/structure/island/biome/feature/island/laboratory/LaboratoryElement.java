@@ -4,6 +4,7 @@ import java.util.Arrays;
 public final class LaboratoryElement{
 	public final LaboratoryElementType type;
 	public final int x, y, z;
+	/** Room elements only, will be set to false during generation. */
 	public final boolean[] connected = new boolean[4];
 	
 	public LaboratoryElement(LaboratoryElementType type, int x, int y, int z){

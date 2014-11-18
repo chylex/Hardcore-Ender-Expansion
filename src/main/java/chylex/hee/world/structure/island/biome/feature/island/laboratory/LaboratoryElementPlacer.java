@@ -7,7 +7,7 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 public class LaboratoryElementPlacer{
 	public static final byte hallStairsLength = 4;
 	
-	public void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y){
+	public static void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y){
 		if (x1 == x2){
 			for(int z = Math.min(z1,z2), zMax = Math.max(z1,z2); z <= zMax; z++){
 				for(int a = 0; a < 3; a++){
@@ -54,7 +54,7 @@ public class LaboratoryElementPlacer{
 		}
 	}
 	
-	public void generateHallStairs(LargeStructureWorld world, Random rand, int x, int y, int z, int xAdd, int yAdd, int zAdd){
+	public static void generateHallStairs(LargeStructureWorld world, Random rand, int x, int y, int z, int xAdd, int yAdd, int zAdd){
 		int x1 = x, x2 = x, z1 = z, z2 = z;
 		
 		if (yAdd == 1){
@@ -126,7 +126,7 @@ public class LaboratoryElementPlacer{
 		}
 	}
 	
-	public void generateSmallRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
+	public static void generateSmallRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
 		// floor and ceiling
 		
 		for(int a = 0; a < 5; a++){
@@ -180,7 +180,7 @@ public class LaboratoryElementPlacer{
 		}
 	}
 	
-	public void generateLargeRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
+	public static void generateLargeRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
 		// floor and ceiling
 		
 		for(int px = 0; px < 8; px++){
