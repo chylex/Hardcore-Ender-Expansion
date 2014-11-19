@@ -39,9 +39,12 @@ public final class ItemList{
 	public static Item igneous_rock;
 	public static Item instability_orb;
 	
-	// COMPLEX MATERIALS
+	// CRAFTING MATERIALS
 	
 	public static Item altar_nexus;
+	
+	// COMPLEX MATERIALS
+	
 	public static Item essence;
 	public static Item enhanced_brewing_stand;
 	public static Item enhanced_ender_pearl;
@@ -90,6 +93,7 @@ public final class ItemList{
 		register("instability_orb", instability_orb = new ItemInstabilityOrb().setUnlocalizedName("instabilityOrb").setTextureName("hardcoreenderexpansion:instability_orb"));
 		
 		register("altar_nexus", altar_nexus = new Item().setUnlocalizedName("altarNexus").setTextureName("hardcoreenderexpansion:altar_nexus"));
+		
 		register("essence", essence = new ItemEssence().setUnlocalizedName("essence"));
 		register("enhanced_brewing_stand", enhanced_brewing_stand = new ItemReed(BlockList.enhanced_brewing_stand).setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
 		register("enhanced_ender_pearl", enhanced_ender_pearl = new ItemEnhancedEnderPearl().setCreativeTab(null).setUnlocalizedName("enderPearl").setTextureName("ender_pearl"));

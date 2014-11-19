@@ -17,7 +17,6 @@ import com.google.gson.JsonParser;
 
 class UpdateThread extends Thread{
 	private static final String url = "https://raw.githubusercontent.com/chylex/Hardcore-Ender-Expansion/master/UpdateNotificationDataV2.txt";
-	//private static final String url = "https://dl.dropboxusercontent.com/u/17157118/update/hee-test.txt";
 	
 	private final String modVersion;
 	private final String mcVersion;
@@ -26,6 +25,7 @@ class UpdateThread extends Thread{
 		this.modVersion = modVersion;
 		this.mcVersion = MinecraftForge.MC_VERSION;
 		setPriority(MIN_PRIORITY);
+		setDaemon(true);
 	}
 	
 	@Override
@@ -47,6 +47,7 @@ class UpdateThread extends Thread{
 			String downloadURL = "http://tinyurl.com/hc-ender-expansion";
 			
 			Log.debug("Detecting HEE updates...");
+			
 			for(Entry<String,JsonElement> entry:root.getAsJsonObject().entrySet()){
 				if (entry.getKey().charAt(0) == '~'){
 					switch(entry.getKey().substring(1)){
