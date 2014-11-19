@@ -68,15 +68,14 @@ public class OreGenerator{
 	}
 	
 	private void generateOreCluster(List<OreLocationList> locList, Random rand, int amount){
-		int xx = rand.nextInt(maxX-minX+1)+minX,yy = rand.nextInt(maxY-minY+1)+minY,zz = rand.nextInt(maxZ-minZ+1)+minZ;
+		int xx = rand.nextInt(maxX-minX+1)+minX, yy = rand.nextInt(maxY-minY+1)+minY, zz = rand.nextInt(maxZ-minZ+1)+minZ;
 		double sqrtAmount = Math.sqrt(amount*1.75D);
 		
 		OreLocationList list = new OreLocationList(amount);
 		
 		if (yy < minY+14)yy = rand.nextInt(maxY-minY+1)+minY; // try again!
 		
-		int n = amount*attemptMp;
-		for(int a = 0; a < n; ++a){
+		for(int a = 0, n = amount*attemptMp; a < n; ++a){
 			list.blockList.add(new BlockLocation(
 				xx+(int)(MathHelper.cos((float)(rand.nextDouble()*2D*Math.PI))*sqrtAmount*rand.nextDouble()),
 				yy+(int)(MathHelper.cos((float)(rand.nextDouble()*2D*Math.PI))*sqrtAmount*rand.nextDouble()),

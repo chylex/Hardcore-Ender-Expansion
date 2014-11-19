@@ -40,6 +40,8 @@ public final class Stopwatch{
 	}
 	
 	public static void finish(String identifier){
+		if (!Log.isDebugEnabled() || !isEnabled)return;
+		
 		StopwatchHandler handler = runningStopwatches.get(identifier);
 		if (handler != null)handler.onFinish(identifier);
 	}

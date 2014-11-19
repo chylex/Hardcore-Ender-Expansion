@@ -41,31 +41,32 @@ public final class LaboratoryPlan{
 			LaboratoryElement room = roomElements.get(rand.nextInt(roomElements.size()));
 			if (room.connected[dir = rand.nextInt(4)])continue;
 			
-			int xx = room.x+room.type.halfSizeX+1, startY = room.y, prevY = room.y, zz = room.z+room.type.halfSizeZ+1, dist = 0;
+			int xx = room.x+(room.type.halfSizeX)*Direction.offsetX[dir], zz = room.z+(room.type.halfSizeZ)*Direction.offsetZ[dir], startY = room.y, prevY = room.y, dist = 0;
 			
 			while(++dist < 32){
-				LaboratoryElement hall = trySpawnElement(world,dir == 0 || dir == 2 ? LaboratoryElementType.HALL_Z : LaboratoryElementType.HALL_X,xx,zz,dir);
-				if (hall == null || Math.abs(hall.y-prevY) > 2 || Math.abs(hall.y-startY) > 4 || !hasSpaceFor(hall))break;
+				LaboratoryElement hall = trySpawnElement(world,dir == 0 || dir == 2 ? LaboratoryElementType.HALL_Z : LaboratoryElementType.HALL_X,xx+Direction.offsetX[dir]*dist,zz+Direction.offsetZ[dir]*dist,dir);
+				if (hall == null || Math.abs(hall.y-prevY) > 2 || Math.abs(hall.y-startY) > 4 || !hasSpaceFor(hall,room))break;
 			}
 			
 			if (dist <= 7)continue;
 			
 			boolean hasGenerated = false;
 			
-			for(int placeAttempt = 0; placeAttempt < dist+5; placeAttempt++){
+			for(int placeAttempt = 0, tmpDist; placeAttempt < dist+5; placeAttempt++){
+				tmpDist = (dist-5)+rand.nextInt(dist-6);
 				LaboratoryElementType type = rand.nextInt(4) == 0 ? LaboratoryElementType.LARGE_ROOM : LaboratoryElementType.SMALL_ROOM;
-				LaboratoryElement newRoom = trySpawnElement(world,type,xx+dist*Direction.offsetX[dir],zz+dist*Direction.offsetZ[dir],dir);
+				LaboratoryElement newRoom = trySpawnElement(world,type,xx+tmpDist*Direction.offsetX[dir],zz+tmpDist*Direction.offsetZ[dir],dir);
 				
-				if (newRoom != null && Math.abs(newRoom.y-startY) <= 4){
+				if (newRoom != null && Math.abs(newRoom.y-startY) <= 4 && hasSpaceFor(newRoom,null)){
 					room.connected[dir] = true;
 					newRoom.connected[Direction.rotateOpposite[dir]] = true;
 					elements.add(newRoom);
 					roomElements.add(newRoom);
 					
 					hasGenerated = true;
-					dist -= Math.abs(Direction.offsetX[dir]*(newRoom.type.halfSizeX+1)+Direction.offsetZ[dir]*(newRoom.type.halfSizeZ+1));
+					tmpDist -= Math.abs(Direction.offsetX[dir]*(newRoom.type.halfSizeX+1)+Direction.offsetZ[dir]*(newRoom.type.halfSizeZ+1));
 					
-					for(int path = 0; path < dist; path++){
+					for(int path = 0; path < tmpDist; path++){
 						xx += Direction.offsetX[dir];
 						zz += Direction.offsetZ[dir];
 						elements.add(trySpawnElement(world,dir == 0 || dir == 2 ? LaboratoryElementType.HALL_Z : LaboratoryElementType.HALL_X,xx,zz,dir));
@@ -99,14 +100,10 @@ public final class LaboratoryPlan{
 		return score;
 	}
 	
-	private boolean hasSpaceFor(LaboratoryElement testElement){
-		int addDist = Math.max(testElement.type.halfSizeX,testElement.type.halfSizeZ)*2+3, max;
-		
+	private boolean hasSpaceFor(LaboratoryElement testElement, LaboratoryElement exception){
 		for(LaboratoryElement element:elements){
-			if (element == null)continue;
-			
-			max = Math.max(element.type.halfSizeX,element.type.halfSizeZ)*2+addDist;
-			if (Math.abs(element.x-testElement.x) <= max && Math.abs(element.z-testElement.z) <= max)return false;
+			if (element == null || element == exception)continue;
+			if (Math.abs(element.x-testElement.x) <= element.type.halfSizeX+testElement.type.halfSizeX+1 && Math.abs(element.z-testElement.z) <= element.type.halfSizeZ+testElement.type.halfSizeZ+1)return false;
 		}
 		
 		return true;
@@ -146,7 +143,7 @@ public final class LaboratoryPlan{
 			}
 		}
 		
-		if (maxY-mostFrequentY > 2)return null;
+		if (maxY-mostFrequentY > 3 || mostFrequentY-minY > 2)return null;
 		if ((float)mostFrequentYAmount/((type.halfSizeX*2+1)*(type.halfSizeZ*2+1)) < 0.25F)return null;
 		
 		return new LaboratoryElement(type,x,mostFrequentY,z);

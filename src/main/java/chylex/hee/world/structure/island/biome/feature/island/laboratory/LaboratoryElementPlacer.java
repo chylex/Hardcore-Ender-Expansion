@@ -55,6 +55,8 @@ public class LaboratoryElementPlacer{
 	}
 	
 	public static void generateHallStairs(LargeStructureWorld world, Random rand, int x, int y, int z, int xAdd, int yAdd, int zAdd){
+		if (true)return; // TODO
+		
 		int x1 = x, x2 = x, z1 = z, z2 = z;
 		
 		if (yAdd == 1){

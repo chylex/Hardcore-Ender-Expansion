@@ -87,7 +87,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			
 			for(KnowledgeObject obj:category.getAllObjects()){
 				if (!obj.isCategoryObject()){
-					objectElements.add(new ObjectDisplayElement(obj,0));
+					objectElements.add(new ObjectDisplayElement(obj,y));
 					if (obj.getY() > maxY)maxY = obj.getY();
 				}
 			}
