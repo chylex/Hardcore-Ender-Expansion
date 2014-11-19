@@ -12,6 +12,10 @@ public class AltarItemRecipe{
 		this(new ItemStack(source,1,0),new ItemStack(result,1,0),cost);
 	}
 	
+	public AltarItemRecipe(Item source, int sourceMeta, Item result, int resultMeta, int cost){
+		this(new ItemStack(source,1,sourceMeta),new ItemStack(result,1,resultMeta),cost);
+	}
+	
 	public AltarItemRecipe(ItemStack source, ItemStack result, int cost){
 		this.source = source.copy();
 		this.result = result.copy();

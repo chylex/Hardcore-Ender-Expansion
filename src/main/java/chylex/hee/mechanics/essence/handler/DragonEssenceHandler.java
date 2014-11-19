@@ -32,38 +32,8 @@ import chylex.hee.world.util.BlockLocation;
 public class DragonEssenceHandler extends AltarActionHandler{
 	public static final List<AltarItemRecipe> recipes = new ArrayList<>(Arrays.asList(new AltarItemRecipe[]{
 		new AltarItemRecipe(Items.brewing_stand, ItemList.enhanced_brewing_stand, 20),
-		new AltarItemRecipe(Items.ender_eye, ItemList.temple_caller, 50)/*,
-		
-		new AltarSpawnEggRecipe(Items.rotten_flesh, EntityZombie.class, 5),
-		new AltarSpawnEggRecipe(Items.arrow, EntitySkeleton.class, 6),
-		new AltarSpawnEggRecipe(Items.bone, EntitySkeleton.class, 6),
-		new AltarSpawnEggRecipe(Items.string, EntitySpider.class, 5),
-		new AltarSpawnEggRecipe(Items.ender_pearl, EntityEnderman.class, 4),
-		new AltarSpawnEggRecipe(Items.slime_ball, EntitySlime.class, 6),
-		new AltarSpawnEggRecipe(Items.potionitem, EntityWitch.class, 8),
-		new AltarSpawnEggRecipe(Items.nether_wart, EntityWitch.class, 8),
-		
-		new AltarSpawnEggRecipe(Items.ghast_tear, EntityGhast.class, 10),
-		new AltarSpawnEggRecipe(Items.blaze_rod, EntityBlaze.class, 8),
-		new AltarSpawnEggRecipe(Items.gold_nugget, EntityPigZombie.class, 9),
-		new AltarSpawnEggRecipe(Items.magma_cream, EntityMagmaCube.class, 6),
-
-		new AltarSpawnEggRecipe(Items.porkchop, EntityPig.class, 1),
-		new AltarSpawnEggRecipe(Items.beef, EntityCow.class, 2),
-		new AltarSpawnEggRecipe(Items.leather, EntityCow.class, 2),
-		new AltarSpawnEggRecipe(Items.chicken, EntityChicken.class, 2),
-		new AltarSpawnEggRecipe(Items.feather, EntityChicken.class, 2),
-		new AltarSpawnEggRecipe(Item.getItemFromBlock(Blocks.wool), EntitySheep.class, 3),
-		new AltarSpawnEggRecipe(Items.fish, EntityOcelot.class, 3),
-		new AltarSpawnEggRecipe(Items.carrot, EntityHorse.class, 8),
-		new AltarSpawnEggRecipe(Items.sugar, EntityHorse.class, 8),
-		new AltarSpawnEggRecipe(Items.wheat, EntityHorse.class, 8),
-		new AltarSpawnEggRecipe(Item.getItemFromBlock(Blocks.red_mushroom), EntityMooshroom.class, 6),
-		new AltarSpawnEggRecipe(Item.getItemFromBlock(Blocks.brown_mushroom), EntityMooshroom.class, 6),
-		new AltarSpawnEggRecipe(Items.mushroom_stew, EntityMooshroom.class, 6),
-		new AltarSpawnEggRecipe(Items.dye, EntitySquid.class, 2),
-		
-		new AltarSpawnEggRecipe(Items.emerald, EntityVillager.class, 10)*/
+		new AltarItemRecipe(Items.ender_eye, ItemList.temple_caller, 50),
+		new AltarItemRecipe(ItemList.ghost_amulet, 0, ItemList.ghost_amulet, 1, 8)
 	}));
 	
 	private AxisAlignedBB itemBoundingBox;
