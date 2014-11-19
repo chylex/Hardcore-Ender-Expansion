@@ -142,9 +142,11 @@ public class ContainerEndPowderEnhancements extends Container{
 			clientEnhancementTooltips[a] = "";
 		}
 		
+		if (enhancements == null)return;
+		
 		PlayerCompendiumData compendiumData = mainIS != null ? HardcoreEnderExpansion.proxy.getClientCompendiumData() : null;
 		
-		for(int a = 0; a < (enhancements == null ? 0 : enhancements.size()); a++){
+		for(int a = 0; a < enhancements.size(); a++){
 			IEnhancementEnum enhancement = enhancements.get(a);
 			ItemStack is = compendiumData != null && compendiumData.hasUnlockedFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement)) ? enhancement.getItemSelector().getRepresentativeItem() : new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
 			clientEnhancementItems[a] = is;
@@ -304,12 +306,14 @@ public class ContainerEndPowderEnhancements extends Container{
 	
 	public void onEnhancementSlotChangeClient(int selectedSlot){
 		ItemStack mainIS = getSlot(0).getStack();
-		List<IEnhancementEnum> enhancements = mainIS == null ? null : EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
-		List<Enum> currentEnhancements = mainIS == null ? new ArrayList<Enum>(1) : EnhancementHandler.getEnhancements(mainIS);
+		if (mainIS == null)return;
+		
+		List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
+		List<Enum> currentEnhancements = EnhancementHandler.getEnhancements(mainIS);
 		
 		StringBuilder build = new StringBuilder();
 		
-		for(int a = 0; a < (enhancements == null ? 0 : enhancements.size()); a++){
+		for(int a = 0; a < enhancements.size(); a++){
 			IEnhancementEnum enhancement = enhancements.get(a);
 
 			clientEnhancementTooltips[a] = build.append(EnumChatFormatting.LIGHT_PURPLE)

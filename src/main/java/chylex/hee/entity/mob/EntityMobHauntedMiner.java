@@ -37,8 +37,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	
 	private AxisAlignedBB bottomBB = AxisAlignedBB.getBoundingBox(0D,0D,0D,0D,0D,0D);
 	private EntityLivingBase target;
-	private double targetX, targetY, targetZ, targetAngleAdd;
-	private boolean targetAngleDir;
+	private double targetX, targetY, targetZ;
 	private byte wanderResetTimer = -120, nextAttackTimer = ATTACK_TIMER, currentAttack = ATTACK_NONE, currentAttackTime;
 	
 	private int attackLavaCurrentX, attackLavaCurrentY, attackLavaCurrentZ;

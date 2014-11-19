@@ -8,7 +8,7 @@ import chylex.hee.mechanics.compendium.util.IGuiItemStackRenderer;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 
-public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGuiItemStackRenderer{
+public class KnowledgeObject<T extends IKnowledgeObjectInstance<?>> implements IGuiItemStackRenderer{
 	private static int lastUsedID = 0;
 	private static final int iconDist = 12;
 	private static final TIntObjectHashMap<KnowledgeObject<?>> allObjects = new TIntObjectHashMap<>();
@@ -63,9 +63,9 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 		return this;
 	}
 	
-	public KnowledgeObject setPosToCenter(){
-		this.x = 0;
-		this.y = -1;
+	public KnowledgeObject setCategoryObject(KnowledgeCategory category){
+		this.x = Integer.MIN_VALUE;
+		category.setCategoryObject(this);
 		return this;
 	}
 	
@@ -96,6 +96,10 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance> implements IGui
 	
 	public T getObject(){
 		return theObject;
+	}
+	
+	public boolean isCategoryObject(){
+		return x == Integer.MIN_VALUE;
 	}
 	
 	public boolean isBuyable(){

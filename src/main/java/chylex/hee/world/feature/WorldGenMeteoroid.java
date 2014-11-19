@@ -54,8 +54,4 @@ public class WorldGenMeteoroid extends WorldGenerator{
 		Block block = world.getBlock(x,y,z);
 		return block.getMaterial() == Material.air || block == Blocks.end_stone;
 	}
-	
-	private boolean checkBoundaries(int xCenter, int yCenter, int zCenter, int x, int y, int z){
-		return Math.abs(x-xCenter) <= 7 && Math.abs(y-yCenter) <= 7 && Math.abs(z-zCenter) <= 7;
-	}
 }

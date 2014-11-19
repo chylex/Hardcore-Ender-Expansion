@@ -9,19 +9,19 @@ import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 
 public class ObjectDisplayElement{
 	public final KnowledgeObject<IKnowledgeObjectInstance<?>> object;
+	private final int y;
 	
-	public ObjectDisplayElement(KnowledgeObject<IKnowledgeObjectInstance<?>> object){
+	public ObjectDisplayElement(KnowledgeObject<IKnowledgeObjectInstance<?>> object, int y){
 		this.object = object;
+		this.y = y;
 	}
 	
-	public void render(GuiScreen gui, PlayerCompendiumData compendiumData, float offsetX, float offsetY, int screenCenter){
+	public void render(GuiScreen gui, PlayerCompendiumData compendiumData){
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1F,1F,1F,1F);
 		
-		boolean isCenter = object.getY() == -1;
-		int x = (int)(isCenter ? screenCenter-8 : object.getX()+offsetX);
-		int y = (int)(isCenter ? 63 : 63+object.getY()+offsetY);
+		int x = GuiEnderCompendium.guiObjLeft+object.getX(), y = this.y+object.getY();
 		
 		RenderHelper.disableStandardItemLighting();
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
@@ -30,10 +30,8 @@ public class ObjectDisplayElement{
 		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),object.getItemStack(),x+3,y+3);
 	}
 	
-	public boolean isMouseOver(int mouseX, int mouseY, int offsetX, int offsetY, int screenCenter){
-		boolean isCenter = object.getY() == -1;
-		int x = isCenter ? screenCenter-8 : object.getX()+offsetX;
-		int y = isCenter ? 63 : 63+object.getY()+offsetY;
+	public boolean isMouseOver(int mouseX, int mouseY, int offsetY){
+		int x = GuiEnderCompendium.guiObjLeft+object.getX(), y = this.y+object.getY()+offsetY;
 		return mouseX >= x-2 && mouseY >= y-1 && mouseX <= x+18 && mouseY <= y+18;
 	}
 }

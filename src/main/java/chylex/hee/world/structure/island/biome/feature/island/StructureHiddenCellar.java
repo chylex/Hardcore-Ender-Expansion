@@ -399,13 +399,10 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		
 		for(BlockLocation loc:patternBlocks){
 			int x = loc.x, y = loc.y, z = loc.z, addX = 0, addY = 0, addZ = 0, iterations = 6+rand.nextInt(30+rand.nextInt(60));
-			boolean wall = true;
 			
 			if (!isWall(x,y,z)){
 				if (rand.nextBoolean())addX = rand.nextInt(2)*2-1;
 				else addZ = rand.nextInt(2)*2-1;
-				
-				wall = false;
 			}
 			else if (world.getBlock(x-1,y,z) != BlockList.persegrit || world.getBlock(x+1,y,z) != BlockList.persegrit){
 				if (rand.nextInt(3) != 0)addY = rand.nextInt(2)*2-1;

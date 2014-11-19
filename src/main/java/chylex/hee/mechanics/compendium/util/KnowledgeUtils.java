@@ -26,8 +26,6 @@ public final class KnowledgeUtils{
 		catch(Exception e){} // protection against idiots who can't register their shit properly
 		
 		if (uniqueId != null && uniqueId.modId.equalsIgnoreCase("hardcoreenderexpansion")){
-			KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = null;
-			
 			if (is.getItem() == ItemList.spawn_eggs){
 				Class<? extends EntityLiving> entity = ItemSpawnEggs.getMobFromDamage(is.getItemDamage());
 				if (entity == null)entity = (Class<? extends EntityLiving>)EntityList.IDtoClassMapping.get(is.getItemDamage());

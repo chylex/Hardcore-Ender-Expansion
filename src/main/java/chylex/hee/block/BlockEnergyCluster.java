@@ -13,6 +13,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.DragonUtil;
@@ -49,7 +50,7 @@ public class BlockEnergyCluster extends BlockContainer{
 		return new TileEntityEnergyCluster(world);
 	}
 	
-	/*@Override
+	/*@Override // TODO
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
 		ItemStack is = player.inventory.getCurrentItem();
 		if (is == null || is.getItem() != ItemList.end_powder)return false;
@@ -136,20 +137,27 @@ public class BlockEnergyCluster extends BlockContainer{
 	}
 	
 	public static void destroyCluster(TileEntityEnergyCluster tile){
+		Stopwatch.time("BlockEnergyCluster - destroyCluster");
+		
 		World world = tile.getWorldObj();
 		int x = tile.xCoord, y = tile.yCoord, z = tile.zCoord;
 		int energyMeta = Math.min(15,3+(int)(tile.data.getEnergyLevel()*0.8F));
+		
+		double dist = 4.4D+energyMeta*0.1D;
+		int idist = (int)Math.ceil(dist);
 		
 		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true);
 		
 		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(x,z,true).addEnergy(tile.data.getEnergyLevel()*0.2F);
 		
-		for(int xx = x-4; xx <= x+4; xx++){
-			for(int zz = z-4; zz <= z+4; zz++){
-				for(int yy = y-4; yy <= y+4; yy++){ // TODO larger dist for larger clusters
-					if (MathUtil.distance(xx-x,yy-y,zz-z) <= 5D && world.isAirBlock(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
+		for(int xx = x-idist; xx <= x+idist; xx++){
+			for(int zz = z-idist; zz <= z+idist; zz++){
+				for(int yy = y-idist; yy <= y+idist; yy++){ // TODO larger dist for larger clusters
+					if (MathUtil.distance(xx-x,yy-y,zz-z) <= dist && world.isAirBlock(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
 				}
 			}
 		}
+		
+		Stopwatch.finish("BlockEnergyCluster - destroyCluster");
 	}
 }

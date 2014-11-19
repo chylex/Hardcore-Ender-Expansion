@@ -75,11 +75,6 @@ public class RenderBlockCrossedDecoration implements ISimpleBlockRenderingHandle
 		Tessellator tessellator = Tessellator.instance;
 		IIcon icon = renderer.getBlockIconFromSideAndMetadata(block,0,meta);
 
-		long offsetSeed = (long)(x*3129871)^(long)z*116129781L^(long)y;
-		offsetSeed = offsetSeed*offsetSeed*42317861L+offsetSeed*11L;
-		double xOffset = (((offsetSeed>>16&15L)/15F)-0.5D)*0.1D;
-		double zOffset = (((offsetSeed>>20&15L)/15F)-0.5D)*0.1D;
-
 		double iconU1 = icon.getMinU();
 		double iconV1 = icon.getMinV();
 		double iconU2 = icon.getMaxU();

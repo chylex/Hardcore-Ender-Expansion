@@ -122,15 +122,6 @@ public class RenderMobLouse extends RenderLiving{
 
 		return -1;
 	}
-	
-	private void setupOverlayTex(){
-		GL11.glMatrixMode(GL11.GL_TEXTURE);
-		GL11.glLoadIdentity();
-		setRenderPassModel(mainModel);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
-	}
 
 	@Override
 	protected int inheritRenderPass(EntityLivingBase entity, int pass, float partialTickTime){

@@ -18,13 +18,13 @@ import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
 
 public enum EnderPearlEnhancements implements IEnhancementEnum{
-	NO_FALL_DAMAGE(0, "No fall damage", new SimpleItemSelector(Blocks.wool)),
-	NO_GRAVITY(1, "No gravity", new SimpleItemSelector(Items.feather)),
-	INCREASED_RANGE(2, "Increased range", new SimpleItemSelector(Items.string)),
-	DOUBLE_SPEED(3, "Double speed", new SimpleItemSelector(Items.gold_nugget)),
-	EXPLOSIVE(4, "Explosive", new SimpleItemSelector(Items.gunpowder)),
-	FREEZE(5, "Freeze", new SimpleItemSelector(Items.snowball)),
-	RIDING(6, "Riding", new SimpleItemSelector(Items.lead));
+	NO_FALL_DAMAGE("No fall damage", new SimpleItemSelector(Blocks.wool)),
+	NO_GRAVITY("No gravity", new SimpleItemSelector(Items.feather)),
+	INCREASED_RANGE("Increased range", new SimpleItemSelector(Items.string)),
+	DOUBLE_SPEED("Double speed", new SimpleItemSelector(Items.gold_nugget)),
+	EXPLOSIVE("Explosive", new SimpleItemSelector(Items.gunpowder)),
+	FREEZE("Freeze", new SimpleItemSelector(Items.snowball)),
+	RIDING("Riding", new SimpleItemSelector(Items.lead));
 	
 	public static List<EnderPearlEnhancements> getOldEnhancements(ItemStack is){
 		List<EnderPearlEnhancements> list = new ArrayList<>();
@@ -49,13 +49,11 @@ public enum EnderPearlEnhancements implements IEnhancementEnum{
 		return list;
 	}
 	
-	private short id;
 	private final String name;
 	private String oldLore;
 	private IRepresentativeItemSelector itemSelector;
 	
-	private EnderPearlEnhancements(int id, String lore, IRepresentativeItemSelector itemSelector){
-		this.id = (short)id;
+	private EnderPearlEnhancements(String lore, IRepresentativeItemSelector itemSelector){
 		this.oldLore = EnumChatFormatting.RESET.toString()+EnumChatFormatting.RED.toString()+lore;
 		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.RED);
 		this.itemSelector = itemSelector;

@@ -1,8 +1,6 @@
 package chylex.hee.gui.helpers;
-import java.nio.FloatBuffer;
 import java.util.Random;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -14,8 +12,6 @@ public final class GuiEndPortalRenderer{
 	private static final ResourceLocation texPortalSky = new ResourceLocation("textures/environment/end_sky.png");
 	private static final ResourceLocation texPortal = new ResourceLocation("textures/entity/end_portal.png");
 	private static final Random consistentRandom = new Random(31100L);
-	
-	private final FloatBuffer floatBuffer = GLAllocation.createDirectFloatBuffer(16);
 	
 	private final GuiScreen gui;
 	private final int portalWidthHalf, portalHeightHalf, portalTopOffset;

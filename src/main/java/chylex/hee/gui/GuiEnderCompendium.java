@@ -46,7 +46,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
-	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjectTopY = 1000;
+	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjLeft = 18;
 	
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
@@ -61,15 +61,14 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private PlayerCompendiumData compendiumData;
 	private GuiEndPortalRenderer portalRenderer;
 	private List<AnimatedFloat> animationList = new ArrayList<>();
-	private AnimatedFloat offsetX, offsetY, portalScale, portalSpeed;
-	private float prevOffsetX, prevOffsetY, prevPortalScale;
-	private int prevMouseX, prevMouseY, prevMouseWheel;
+	private AnimatedFloat offsetY, portalSpeed;
+	private float prevOffsetY;
+	private int prevMouseX;
 	
 	private List<CategoryDisplayElement> categoryElements = new ArrayList<>();
 	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
 	private List<PurchaseDisplayElement> purchaseElements = new ArrayList<>();
 	
-	private boolean hasHighlightedCategory = false;
 	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> currentObject = null;
 	private TByteObjectHashMap<Map<KnowledgeFragment,Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
 	private byte pageIndex;
@@ -77,25 +76,31 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	public GuiEnderCompendium(PlayerCompendiumData compendiumData){
 		this.compendiumData = compendiumData;
-		animationList.add(offsetX = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
-		animationList.add(portalScale = new AnimatedFloat(Easing.LINEAR));
 		animationList.add(portalSpeed = new AnimatedFloat(Easing.CUBIC));
 		
-		int alphaDelay = 10;
-		for(KnowledgeCategory category:KnowledgeCategories.categoryList)categoryElements.add(new CategoryDisplayElement(category,alphaDelay += 2));
+		int y = 0, maxY = 0;
 		
-		portalScale.startAnimation(2.5F,1F,0.6F);
+		for(KnowledgeCategory category:KnowledgeCategories.categoryList){
+			categoryElements.add(new CategoryDisplayElement(category,y));
+			y += 40;
+			
+			for(KnowledgeObject obj:category.getAllObjects()){
+				if (!obj.isCategoryObject()){
+					objectElements.add(new ObjectDisplayElement(obj,0));
+					if (obj.getY() > maxY)maxY = obj.getY();
+				}
+			}
+			
+			y += maxY+80;
+		}
+		
 		portalSpeed.startAnimation(30F,15F,1.5F);
 	}
 	
 	public void updateCompendiumData(PlayerCompendiumData newData){
 		this.compendiumData = newData;
 		showObject(currentObject);
-	}
-	
-	public void onMouseWheel(boolean up){
-		actionPerformed((GuiButton)buttonList.get(up ? 3 : 4));
 	}
 	
 	@Override
@@ -111,14 +116,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 		
-		if (!hasHighlightedCategory){
-			offsetX.set(width>>1);
-			offsetY.set(height>>1);
-		}
-		else{
-			offsetX.set(width>>1);
-			offsetY.set(-guiObjectTopY);
-		}
+		offsetY.set(0);
 	}
 	
 	@Override
@@ -127,10 +125,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (button.id == 0 && !offsetY.isAnimating()){
 			if (currentObject != null)showObject(null);
-			else if (hasHighlightedCategory){
-				offsetY.startAnimation(offsetY.value(),height>>1,1.25F);
-				hasHighlightedCategory = false;
-			}
 			else{
 				mc.displayGuiScreen((GuiScreen)null);
 				mc.setIngameFocus();
@@ -163,38 +157,31 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(0));
 		else if (buttonId == 0){
-			if (!hasHighlightedCategory){
-				objectElements.clear();
-				
-				for(CategoryDisplayElement element:categoryElements){
-					if (element.isMouseOver(mouseX,mouseY,(int)offsetX.value(),(int)offsetY.value())){
-						for(KnowledgeObject object:element.category.getAllObjects())objectElements.add(new ObjectDisplayElement(object));
-						offsetY.startAnimation(offsetY.value(),-guiObjectTopY,1.25F);
-						hasHighlightedCategory = true;
-						return;
-					}
+			int offY = (int)offsetY.value();
+			
+			for(CategoryDisplayElement element:categoryElements){
+				if (element.isMouseOver(mouseX,mouseY,offY)){
+					showObject(element.category.getCategoryObject());
+					return;
 				}
 			}
-			else{
-				int offX = (int)offsetX.value()-(width>>1)+(width>>2), offY = (int)offsetY.value()+guiObjectTopY;
-				
-				for(ObjectDisplayElement element:objectElements){
-					if (element.isMouseOver(mouseX,mouseY,offX,offY,width>>1)){
-						showObject(element.object);
-						return;
-					}
+			
+			for(ObjectDisplayElement element:objectElements){
+				if (element.isMouseOver(mouseX,mouseY,offY)){
+					showObject(element.object);
+					return;
 				}
-				
-				for(PurchaseDisplayElement element:purchaseElements){
-					if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4) && compendiumData.getPoints() >= element.price){
-						Object obj = element.object;
-						
-						if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
-						else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
-						else continue;
-						
-						return;
-					}
+			}
+			
+			for(PurchaseDisplayElement element:purchaseElements){
+				if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4) && compendiumData.getPoints() >= element.price){
+					Object obj = element.object;
+					
+					if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
+					else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
+					else continue;
+					
+					return;
 				}
 			}
 		}
@@ -219,9 +206,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	public void updateScreen(){
-		prevOffsetX = offsetX.value();
 		prevOffsetY = offsetY.value();
-		prevPortalScale = portalScale.value();
 
 		if (!portalSpeed.isAnimating()){
 			if (currentObject != null){
@@ -232,12 +217,16 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		portalRenderer.update((int)portalSpeed.value());
 		for(AnimatedFloat animation:animationList)animation.update(0.05F);
-		for(CategoryDisplayElement element:categoryElements)element.update();
 		
 		int wheel = Mouse.getDWheel();
 		
-		if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
-		else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
+		if (wheel != 0){
+			if (prevMouseX >= width>>1){
+				if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
+				else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
+			}
+			else offsetY.set(offsetY.value()+(wheel > 0 ? -50 : 50));
+		}
 	}
 	
 	public void showObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
@@ -245,18 +234,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			currentObjectPages.clear();
 			purchaseElements.clear();
 			if (currentObject != object)pageIndex = 0;
-		}
-		else if (!hasHighlightedCategory && object != null){
-			for(KnowledgeCategory category:KnowledgeCategories.categoryList){
-				if (category.getAllObjects().contains(object)){
-					for(KnowledgeObject obj:category.getAllObjects())objectElements.add(new ObjectDisplayElement(obj));
-					offsetY.set(-guiObjectTopY);
-					portalScale.finish();
-					portalSpeed.finish();
-					hasHighlightedCategory = true;
-					break;
-				}
-			}
 		}
 
 		if ((currentObject = object) == null)return;
@@ -314,7 +291,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDepthFunc(GL11.GL_GEQUAL);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,0F,-200F);
-		portalRenderer.draw(ptt(offsetX.value(),prevOffsetX,partialTickTime)*0.49F,-ptt(offsetY.value(),prevOffsetY,partialTickTime)*0.49F,ptt(portalScale.value(),prevPortalScale,partialTickTime),partialTickTime);
+		portalRenderer.draw(0,-ptt(offsetY.value(),prevOffsetY,partialTickTime)*0.49F,1F,partialTickTime);
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		renderScreen(mouseX,mouseY,partialTickTime);
@@ -335,34 +312,24 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 
 		renderBackgroundGUI();
 		
-		float offX = ptt(offsetX.value(),prevOffsetX,partialTickTime);
 		float offY = ptt(offsetY.value(),prevOffsetY,partialTickTime);
 		
 		GL11.glPushMatrix();
-		GL11.glTranslatef(offX,offY,0F);
-		for(CategoryDisplayElement element:categoryElements)element.render(this,0,0,partialTickTime);
+		GL11.glTranslatef(0F,offY,0F);
+		// TODO do not render if outside screen
+		for(CategoryDisplayElement element:categoryElements)element.render(this);
+		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumData);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
 		
-		if (currentObject == null){
-			for(CategoryDisplayElement element:categoryElements){
-				if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY)){
-					GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.category.getTooltip());
-				}
+		for(CategoryDisplayElement element:categoryElements){
+			if (element.isMouseOver(mouseX,mouseY,(int)offY)){
+				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.category.getTooltip());
 			}
 		}
 		
-		offX = ptt(offsetX.value(),prevOffsetX,partialTickTime)-(width>>1)+(width>>2);
-		offY = ptt(offsetY.value(),prevOffsetY,partialTickTime)+guiObjectTopY;
-
-		GL11.glPushMatrix();
-		GL11.glTranslatef(offX,offY,0F);
-		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumData,0,0,(int)((width>>1)-offX));
-		RenderHelper.disableStandardItemLighting();
-		GL11.glPopMatrix();
-		
 		for(ObjectDisplayElement element:objectElements){
-			if (element.isMouseOver(mouseX,mouseY,(int)offX,(int)offY,width>>1)){
+			if (element.isMouseOver(mouseX,mouseY,(int)offY)){
 				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.object.getTooltip());
 			}
 		}
@@ -381,7 +348,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		else if (currentObject != null)renderPaper((width>>1)+(width>>2)+4,height>>1,mouseX,mouseY);
 		
 		prevMouseX = mouseX;
-		prevMouseY = mouseY;
 	}
 	
 	private void renderScreenPost(int mouseX, int mouseY, float partialTickTime){

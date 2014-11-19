@@ -84,11 +84,4 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		
 		if (colRgb.length == 0)shouldBeDestroyedSilently = true;
 	}
-	
-	/**
-	 * Helper method that returns random number between -1 and 1 multiplied by number provided.
-	 */
-	private double rand(double mp){
-		return (worldObj.rand.nextDouble()-worldObj.rand.nextDouble())*mp;
-	}
 }

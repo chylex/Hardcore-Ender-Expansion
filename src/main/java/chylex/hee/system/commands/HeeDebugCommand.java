@@ -118,7 +118,7 @@ public class HeeDebugCommand extends HeeCommand{
 			}
 		}
 		else if (args[0].equalsIgnoreCase("stopwatch")){
-			// TODO
+			Stopwatch.isEnabled = !Stopwatch.isEnabled;
 		}
 		else if (args[0].equalsIgnoreCase("test") && args.length >= 2 && sender instanceof EntityPlayer){
 			try{

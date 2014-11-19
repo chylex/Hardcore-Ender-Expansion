@@ -5,8 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
 public class CreativeTabItemList{
-	private static final long serialVersionUID = 5208744974365759432L;
-	
 	private final List<Block> blocks = new ArrayList<>();
 	private final List<Item> items = new ArrayList<>();
 	

@@ -88,7 +88,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 				
 				PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION,e));
 			}catch(Exception ex){
-				Log.throwable(ex,"Error spawning entity $0 in EntityItemInstabilityOrb",cls.getSimpleName());
+				Log.throwable(ex,"Error spawning entity $0 in EntityItemInstabilityOrb",cls == null ? "<null>" : cls.getSimpleName());
 			}
 		}
 		else{

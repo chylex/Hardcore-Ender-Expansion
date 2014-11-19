@@ -47,11 +47,10 @@ public class BlobPopulatorPlant extends BlobPopulator{
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		int blocks = amountGen.generate(rand,minPlantAmount,maxPlantAmount);
-		List<BlockLocation> locs = null;
+		List<BlockLocation> locs = knownBlockLocations ? gen.getUsedLocations() : null;
 		
 		for(int attempt = 0, attempts = minAttempts+rand.nextInt(maxAttempts-minAttempts+1), x, y, z; attempt < attempts && blocks > 0; attempt++){
 			if (knownBlockLocations){
-				if (attempt == 0)locs = gen.getUsedLocations();
 				if (locs.isEmpty())return;
 				
 				BlockLocation loc = locs.get(rand.nextInt(locs.size()));

@@ -75,7 +75,7 @@ public class LaboratoryElementPlacer{
 					}
 					
 					for(int b = 0; b < 3; b++){
-						if (a == 0)world.setBlock(x,y+py,z-1+b,BlockList.obsidian_stairs,xAdd == 1 ? 0 : 1); // TODO whatever the correct metadata is
+						if (a == 0 && py == 1)world.setBlock(x,y+py,z-1+b,BlockList.obsidian_stairs,xAdd == 1 ? 0 : 1); // TODO whatever the correct metadata is
 						else world.setBlock(x,y+py,z-1+b,py == 0 ? BlockList.obsidian_special : py == 4 ? Blocks.obsidian : Blocks.air);
 					}
 					
@@ -98,7 +98,7 @@ public class LaboratoryElementPlacer{
 					}
 					
 					for(int b = 0; b < 3; b++){
-						if (a == 0)world.setBlock(x-1+b,y+py,z,BlockList.obsidian_stairs,zAdd == 1 ? 2 : 3); // TODO whatever the correct metadata is
+						if (a == 0 && py == 1)world.setBlock(x-1+b,y+py,z,BlockList.obsidian_stairs,zAdd == 1 ? 2 : 3); // TODO whatever the correct metadata is
 						else world.setBlock(x-1+b,y+py,z,py == 0 ? BlockList.obsidian_special : py == 4 ? Blocks.obsidian : Blocks.air);
 					}
 					

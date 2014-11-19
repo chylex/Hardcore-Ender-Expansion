@@ -19,7 +19,6 @@ import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
 import chylex.hee.world.structure.island.gen.CaveGenerator;
 import chylex.hee.world.structure.island.gen.OreGenerator;
 import chylex.hee.world.structure.island.gen.TerrainGenerator;
-import chylex.hee.world.structure.util.Offsets;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import com.google.common.primitives.Ints;
 
@@ -50,11 +49,6 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 		boundingBox = new StructureBoundingBox(x,20,z,x+sizeX-1,140+sizeY-1,z+sizeZ-1);
 		structure = new LargeStructureWorld(this);
 	}
-	
-	private Offsets getOffsets(int x, int y, int z, StructureBoundingBox bb){
-		int xx = getXWithOffset(x,z), yy = getYWithOffset(y), zz = getZWithOffset(x,z);
-		return new Offsets(xx,yy,zz,bb.isVecInside(xx,yy,zz));
-	}
 
 	@Override
 	public boolean addComponentParts(World world, Random rand, StructureBoundingBox bb){
@@ -74,8 +68,8 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 			int chunkX, chunkZ, blockStartX, blockStartZ, xInChunk, zInChunk, xx, zz;
 			float yMp = 0.66F*biome.getIslandMassHeightMultiplier(); // limit height a bit
 			
-			Stopwatch.time("IslandGen - total");
-			Stopwatch.time("IslandGen - terrain");
+			Stopwatch.time("ComponentIsland - total");
+			Stopwatch.time("ComponentIsland - terrain");
 			
 			TerrainGenerator terrainGen = new TerrainGenerator(consistentRand,biome);
 			
@@ -107,35 +101,35 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 				}
 			}
 			
-			Stopwatch.finish("IslandGen - terrain");
-			Stopwatch.time("IslandGen - caves");
+			Stopwatch.finish("ComponentIsland - terrain");
+			Stopwatch.time("ComponentIsland - caves");
 			
 			CaveGenerator caveGen = new CaveGenerator(centerX,28,centerZ,halfSize-8,24,halfSize-8);
 			caveGen.setup(consistentRand,biome);
 			caveGen.generate(structure);
 			
-			Stopwatch.finish("IslandGen - caves");
-			Stopwatch.time("IslandGen - ores");
+			Stopwatch.finish("ComponentIsland - caves");
+			Stopwatch.time("ComponentIsland - ores");
 			
 			OreGenerator oreGen = new OreGenerator(8,0,8,size-8,55,size-8);
 			oreGen.setup(consistentRand,biome);
 			oreGen.generate(structure,consistentRand);
 			
-			Stopwatch.finish("IslandGen - ores");
-			Stopwatch.time("IslandGen - biome content "+biomeData.content.id);
+			Stopwatch.finish("ComponentIsland - ores");
+			Stopwatch.time("ComponentIsland - biome content "+biomeData.content.id);
 			
 			biome.decorateGen(structure,consistentRand,centerX,centerZ);
 			
-			Stopwatch.finish("IslandGen - biome content "+biomeData.content.id);
+			Stopwatch.finish("ComponentIsland - biome content "+biomeData.content.id);
 			
 			structure.setBlock(104,8,104,BlockList.biome_core,biomeData.content.id,true);
 			
-			Stopwatch.finish("IslandGen - total");
+			Stopwatch.finish("ComponentIsland - total");
 		
 			isSetup = true;
 		}
 
-		Stopwatch.timeAverage("IslandGen - chunks",169);
+		Stopwatch.timeAverage("ComponentIsland - chunks",169);
 		
 		for(int chunkX = 0; chunkX < 13; chunkX++){
 			for(int chunkZ = 0; chunkZ < 13; chunkZ++){
@@ -143,7 +137,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 			}
 		}
 		
-		Stopwatch.finish("IslandGen - chunks");
+		Stopwatch.finish("ComponentIsland - chunks");
 		
 		return true;
 	}

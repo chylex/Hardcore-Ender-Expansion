@@ -34,8 +34,6 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 			if (!world.isRemote && Math.abs(is.stackTagCompound.getFloat("engDist")-MathUtil.distance(loc[0]+0.5D-entity.posX,loc[1]+0.5D-entity.posY,loc[2]+0.5D-entity.posZ)) > 0.05D)stop = true;
 			else if (wait > 0)is.stackTagCompound.setByte("engWait",(byte)(wait-1));
 			else{
-				EntityPlayer player = (EntityPlayer)entity;
-				
 				TileEntity tile = world.getTileEntity(loc[0],loc[1],loc[2]);
 				
 				if (tile instanceof TileEntityEnergyCluster){
