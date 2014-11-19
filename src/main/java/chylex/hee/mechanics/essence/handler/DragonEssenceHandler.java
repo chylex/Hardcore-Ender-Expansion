@@ -9,8 +9,6 @@ import java.util.SortedSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentData;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -190,10 +188,6 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		return block.getMaterial() == Material.air?false:block.getCollisionBoundingBoxFromPool(altar.getWorldObj(),x,y,z) != null;
 	}
 	
-	private static final byte[] newEnchantChances = new byte[]{
-		100, 45, 18, 5, 0
-	};
-	
 	private void updatePedestalItem(EntityItemAltar item){
 		byte socketEffects = getSocketEffects(altar),socketBoost = getSocketBoost(altar);
 		
@@ -222,11 +216,11 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		}
 		
 		/*
-		 * ENCHANTING
+		 * ENCHANTMENT UPGRADES
 		 */
 		
 		else if ((is.isItemEnchantable() || is.isItemEnchanted()) && is.getItem() != Items.book && is.getItem() != Items.enchanted_book){
-			for(int b = 0; b < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST?1+Math.floor(socketBoost*0.4D):0); b++){
+			for(int b = 0; b < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST ? 1+Math.floor(socketBoost*0.4D) : 0); b++){
 				if (updateItemCounter(is,"HEE_enchant",1) < 400-is.getItem().getItemEnchantability()*4)return;
 				updateItemCounter(is,"HEE_enchant",0);
 				
@@ -234,63 +228,32 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				if (enchants == null)enchants = new NBTTagList();
 				
 				for(int attempt = 0; attempt < 3; attempt++){
-					if (rand.nextInt(100) < newEnchantChances[Math.min(4,enchants.tagCount())]){ // NEW ENCHANT
-						List enchList = EnchantmentHelper.buildEnchantmentList(rand,is,29);
-						if (enchList == null)return; // shouldn't happen!
+					WeightedList<ObjectWeightPair<Enchantment>> list = new WeightedList<>();
+					
+					for(int a = 0; a < enchants.tagCount(); a++){
+						Enchantment e = Enchantment.enchantmentsList[enchants.getCompoundTagAt(a).getShort("id")];
+						if (e == null)continue;
 						
-						for(Object o:enchList){
-							EnchantmentData ench = (EnchantmentData)o;
-							int cost = getEnchantmentCost(ench.enchantmentobj,1);
-							if ((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST)cost = (int)Math.max(cost>>2,cost*(1F-socketBoost/42F));
-							
-							if (!hasEnchantment(enchants,ench.enchantmentobj) && altar.getEssenceLevel() >= cost){
-								boolean incompatible = false;
-								for(int a = 0; a < enchants.tagCount(); a++){
-									Enchantment testEnchantment = Enchantment.enchantmentsList[enchants.getCompoundTagAt(a).getShort("id")];
-									if (testEnchantment != null && !ench.enchantmentobj.canApplyTogether(testEnchantment)){
-										incompatible = true;
-										break;
-									}
-								}
-								if (incompatible)continue;
-								
-								is.addEnchantment(ench.enchantmentobj,1);
-								altar.drainEssence(cost);
-								item.hasChanged = true;
-								
-								attempt = 999;
-								break;
-							}
-						}
+						list.add(ObjectWeightPair.of(e,e.getWeight()));
 					}
-					else{ // UPGRADE ENCHANT
-						WeightedList<ObjectWeightPair<Enchantment>> list = new WeightedList<>();
+					
+					Enchantment chosenEnchantment = list.getRandomItem(rand).getObject();
+					for(int a = 0; a < enchants.tagCount(); a++){
+						NBTTagCompound tag = enchants.getCompoundTagAt(a);
+						if (tag.getShort("id") != chosenEnchantment.effectId)continue;
 						
-						for(int a = 0; a < enchants.tagCount(); a++){
-							Enchantment e = Enchantment.enchantmentsList[enchants.getCompoundTagAt(a).getShort("id")];
-							if (e == null)continue;
-							
-							list.add(ObjectWeightPair.of(e,e.getWeight()));
-						}
+						int level = tag.getShort("lvl"),cost = getEnchantmentCost(chosenEnchantment,level+1);
+						if ((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST)cost = (int)Math.max(cost>>2,cost*(1F-socketBoost/42F));
+						if (level >= chosenEnchantment.getMaxLevel() || altar.getEssenceLevel() < cost)continue;
 						
-						Enchantment chosenEnchantment = list.getRandomItem(rand).getObject();
-						for(int a = 0; a < enchants.tagCount(); a++){
-							NBTTagCompound tag = enchants.getCompoundTagAt(a);
-							if (tag.getShort("id") != chosenEnchantment.effectId)continue;
-							
-							int level = tag.getShort("lvl"),cost = getEnchantmentCost(chosenEnchantment,level+1);
-							if ((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST)cost = (int)Math.max(cost>>2,cost*(1F-socketBoost/42F));
-							if (level >= chosenEnchantment.getMaxLevel() || altar.getEssenceLevel() < cost)continue;
-							
-							altar.drainEssence(cost);
-							tag.setShort("lvl",(short)(level+1));
-							if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-							is.stackTagCompound.setTag("ench",enchants);
+						altar.drainEssence(cost);
+						tag.setShort("lvl",(short)(level+1));
+						if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+						is.stackTagCompound.setTag("ench",enchants);
 
-							item.hasChanged = true;
-							attempt = 999;
-							break;
-						}
+						item.hasChanged = true;
+						attempt = 999;
+						break;
 					}
 				}
 			}
@@ -308,8 +271,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 							altar.drainEssence(1);
 							continue;
 						}
-						updateItemCounter(is,"HEE_transform",0);
 						
+						updateItemCounter(is,"HEE_transform",0);
 						recipe.doTransaction(item);
 						item.hasChanged = true;
 						break;
@@ -319,13 +282,6 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				}
 			}
 		}
-	}
-	
-	private boolean hasEnchantment(NBTTagList enchantmentList, Enchantment ench){
-		for(int a = 0; a < enchantmentList.tagCount(); a++){
-			if (enchantmentList.getCompoundTagAt(a).getShort("id") == ench.effectId)return true;
-		}
-		return false;
 	}
 	
 	private int getEnchantmentCost(Enchantment ench, int level){
