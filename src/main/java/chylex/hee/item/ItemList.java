@@ -106,7 +106,7 @@ public final class ItemList{
 		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood"));
 		register("dry_splinter", dry_splinter = new Item().setUnlocalizedName("drySplinter").setTextureName("hardcoreenderexpansion:dry_splinter"));
 		register("infestation_remedy", infestation_remedy = new ItemInfestationRemedy().setMaxStackSize(1).setUnlocalizedName("infestationRemedy").setTextureName("hardcoreenderexpansion:infestation_remedy"));
-		register("ghost_amulet", ghost_amulet = new Item().setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
+		register("ghost_amulet", ghost_amulet = new ItemGhostAmulet().setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
 		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("endoplasm").setTextureName("hardcoreenderexpansion:endoplasm"));
 		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
 		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune"));

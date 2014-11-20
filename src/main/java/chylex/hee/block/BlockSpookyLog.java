@@ -64,7 +64,7 @@ public class BlockSpookyLog extends Block{
 				for(int a = 0; a < closest.inventory.getSizeInventory(); a++){
 					if ((is = closest.inventory.getStackInSlot(a)) == null)continue;
 					
-					if (is.getItem() == ItemList.ghost_amulet){
+					if (is.getItem() == ItemList.ghost_amulet && is.getItemDamage() == 1){
 						if (world.rand.nextInt(5) <= 1)dropBlockAsItem(world,x,y,z,new ItemStack(ItemList.ectoplasm));
 						
 						PacketPipeline.sendToPlayer(closest,new C08PlaySound(C08PlaySound.GHOST_DEATH,closest.posX,closest.posY,closest.posZ,1.8F,0.9F+world.rand.nextFloat()*0.3F));
