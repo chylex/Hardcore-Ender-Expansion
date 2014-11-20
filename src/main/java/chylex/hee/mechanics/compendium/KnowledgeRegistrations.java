@@ -236,6 +236,8 @@ public final class KnowledgeRegistrations{
 		
 		HELP.setFragments(helpFragments);
 		
+		// TODO make some fragments that are cascaded only unlockable from one side
+		
 		ESSENCE.setNonBuyable().setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(80).setContents("Essence is used to unleash power of altars.").setPrice(2).setUnlockOnDiscovery(),
 			new KnowledgeFragmentText(81).setContents("Dragon Essence is gained by killing the Ender Dragon.").setPrice(2).setUnlockCascade(704),
