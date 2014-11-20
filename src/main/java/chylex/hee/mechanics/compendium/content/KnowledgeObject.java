@@ -148,7 +148,7 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance<?>> implements I
 		return globalID;
 	}
 	
-	public static final class LinkedKnowledgeObject<T extends IKnowledgeObjectInstance> extends KnowledgeObject<T>{
+	public static final class LinkedKnowledgeObject<T extends IKnowledgeObjectInstance<?>> extends KnowledgeObject<T>{
 		private final KnowledgeObject<T> linkedObject;
 		
 		public LinkedKnowledgeObject(KnowledgeObject<T> linkedObject){
