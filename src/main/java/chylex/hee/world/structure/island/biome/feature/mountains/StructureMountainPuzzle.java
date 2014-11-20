@@ -19,7 +19,7 @@ public class StructureMountainPuzzle extends AbstractIslandStructure{
 			
 			xx = getRandomXZ(rand,32);
 			zz = getRandomXZ(rand,32);
-			yy = world.getHighestY(xx,zz);
+			if ((yy = world.getHighestY(xx,zz)) == 0)continue;
 			
 			for(int a = 0; a < 4; a++){
 				int topY = world.getHighestY(xx+dungCheckX[a],zz+dungCheckZ[a]);
@@ -34,6 +34,8 @@ public class StructureMountainPuzzle extends AbstractIslandStructure{
 			if (!canGenerate)continue;
 			
 			yy -= 8-rand.nextInt(20)-(attempt > 140 ? rand.nextInt(20) : 0);
+			if (yy < 0)continue;
+			
 			for(int a = 0; a < 4; a++){
 				if (world.isAir(xx+dungCheckX[a],yy-1,zz+dungCheckZ[a]) || world.isAir(xx+dungCheckX[a],yy+6,zz+dungCheckZ[a])){
 					canGenerate = false;

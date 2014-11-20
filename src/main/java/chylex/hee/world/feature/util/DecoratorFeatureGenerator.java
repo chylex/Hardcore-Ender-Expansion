@@ -9,6 +9,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import chylex.hee.system.logging.Log;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.world.util.BlockLocation;
 
@@ -99,20 +100,24 @@ public final class DecoratorFeatureGenerator{
 		
 		List<GeneratedBlock> delayed = new ArrayList<>();
 		
-		for(GeneratedBlock block:blocks.valueCollection()){
-			if (!block.block.canBlockStay(world,centerX+block.x,centerY+block.y,centerZ+block.z))delayed.add(block);
-			else world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
-		}
-		
-		if (!delayed.isEmpty()){
-			for(GeneratedBlock block:delayed)world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
-		}
-		
-		if (!tileEntities.isEmpty()){
-			for(Entry<BlockLocation,ITileEntityGenerator> entry:tileEntities.entrySet()){
-				BlockLocation loc = entry.getKey();
-				entry.getValue().onTileEntityRequested("",world.getTileEntity(centerX+loc.x,centerY+loc.y,centerZ+loc.z),rand);
+		try{
+			for(GeneratedBlock block:blocks.valueCollection()){
+				if (!block.block.canBlockStay(world,centerX+block.x,centerY+block.y,centerZ+block.z))delayed.add(block);
+				else world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
 			}
+			
+			if (!delayed.isEmpty()){
+				for(GeneratedBlock block:delayed)world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
+			}
+			
+			if (!tileEntities.isEmpty()){
+				for(Entry<BlockLocation,ITileEntityGenerator> entry:tileEntities.entrySet()){
+					BlockLocation loc = entry.getKey();
+					entry.getValue().onTileEntityRequested("",world.getTileEntity(centerX+loc.x,centerY+loc.y,centerZ+loc.z),rand);
+				}
+			}
+		}catch(RuntimeException e){
+			Log.debug("DecoratorFeatureGenerator failed ($0,$1 - $2,$3)",centerX,centerZ,sizeX,sizeZ);
 		}
 	}
 	

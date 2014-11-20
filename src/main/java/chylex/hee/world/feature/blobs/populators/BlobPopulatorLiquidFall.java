@@ -43,7 +43,7 @@ public class BlobPopulatorLiquidFall extends BlobPopulator{
 		
 		int amount = amountGen.generate(rand,minAmount,maxAmount);
 		
-		for(int attempts = minAttempts+rand.nextInt(maxAttempts-minAttempts+1), xx, yy, zz; attempts > 0 && amount > 0; attempts--){
+		for(int attempts = minAttempts+rand.nextInt(maxAttempts-minAttempts+1), xx, yy, zz; attempts > 0 && amount > 0 && !blocks.isEmpty(); attempts--){
 			BlockLocation loc = blocks.remove(rand.nextInt(blocks.size()));
 			if (gen.getBlock(loc.x,loc.y,loc.z) != Blocks.end_stone || gen.getBlock(loc.x,loc.y-1,loc.z) != Blocks.end_stone)continue;
 			
