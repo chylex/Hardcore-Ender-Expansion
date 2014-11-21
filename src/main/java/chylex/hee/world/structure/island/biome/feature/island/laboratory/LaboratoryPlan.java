@@ -54,8 +54,13 @@ public final class LaboratoryPlan{
 			
 			for(int placeAttempt = 0, tmpDist; placeAttempt < dist+5; placeAttempt++){
 				tmpDist = (dist-5)+rand.nextInt(dist-6);
-				LaboratoryElementType type = rand.nextInt(4) == 0 ? LaboratoryElementType.LARGE_ROOM : LaboratoryElementType.SMALL_ROOM;
+				LaboratoryElementType type = rand.nextInt(2) == 0 ? LaboratoryElementType.LARGE_ROOM : LaboratoryElementType.SMALL_ROOM;
 				LaboratoryElement newRoom = trySpawnElement(world,type,xx+tmpDist*Direction.offsetX[dir],zz+tmpDist*Direction.offsetZ[dir],dir);
+				
+				if (newRoom == null && type == LaboratoryElementType.LARGE_ROOM){
+					type = LaboratoryElementType.SMALL_ROOM;
+					newRoom = trySpawnElement(world,type,xx+tmpDist*Direction.offsetX[dir],zz+tmpDist*Direction.offsetZ[dir],dir);
+				}
 				
 				if (newRoom != null && Math.abs(newRoom.y-startY) <= 4 && hasSpaceFor(newRoom,null)){
 					room.connected[dir] = true;

@@ -9,6 +9,7 @@ public class LaboratoryElementPlacer{
 	
 	public static void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y){
 		if (x1 == x2){
+			if (true)return;
 			for(int z = Math.min(z1,z2), zMax = Math.max(z1,z2); z <= zMax; z++){
 				for(int a = 0; a < 3; a++){
 					world.setBlock(x1-1+a,y,z,BlockList.obsidian_special);
@@ -128,7 +129,7 @@ public class LaboratoryElementPlacer{
 		}
 	}
 	
-	public static void generateSmallRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
+	public static void generateSmallRoom(LargeStructureWorld world, Random rand, int x, int y, int z){ y-=2;
 		// floor and ceiling
 		
 		for(int a = 0; a < 5; a++){
@@ -154,39 +155,39 @@ public class LaboratoryElementPlacer{
 			
 			for(int a = 0; a < 5; a++){
 				for(int b = 0; b < 2; b++){
-					world.setBlock(x-3+b*6,y+py,z-2+a,py == 2 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
-					world.setBlock(x-2+a,y+py,z-3+b*6,py == 2 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x-4+b*8,y+py,z-2+a,py == 2 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x-2+a,y+py,z-4+b*8,py == 2 && a >= 1 && a <= 3 ? BlockList.laboratory_glass : Blocks.obsidian);
 				}
 			}
 		}
 		
 		// fill in the bottom with obsidian and inside with air
 		
-		for(int px = 0; px < 7; px++){
-			for(int pz = 0; pz < 7; pz++){
+		for(int px = 0; px < 9; px++){
+			for(int pz = 0; pz < 9; pz++){
 				for(int py = -1; py > -5; py--){
 					if (world.isAir(x-4+px,y+py,z-4+pz) && !world.isAir(x-4+px,y+py+1,z-4+pz)){
 						world.setBlock(x-4+px,y+py,z-4+pz,Blocks.obsidian);
 					}
 					else break;
 				}
-				
-				if (px > 0 && px < 6 && pz > 0 && pz < 6){
-					for(int py = 1; py < 4; py++){
-						if (world.getBlock(x-3+px,y+py,z-3+pz) != Blocks.obsidian){
-							world.setBlock(x-3+px,y+py,z-3+pz,Blocks.air);
-						}
-					}
+			}
+		}
+		
+		for(int py = 1; py < 4; py++){
+			for(int px = 0; px < 7; px++){
+				for(int pz = 0; pz < 7; pz++){
+					if (world.getBlock(x-3+px,y+py,z-3+pz) != Blocks.obsidian)world.setBlock(x-3+px,y+py,z-3+pz,Blocks.air);
 				}
 			}
 		}
 	}
 	
-	public static void generateLargeRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
+	public static void generateLargeRoom(LargeStructureWorld world, Random rand, int x, int y, int z){y-=2;
 		// floor and ceiling
 		
-		for(int px = 0; px < 8; px++){
-			for(int pz = 0; pz < 8; pz++){
+		for(int px = 0; px < 7; px++){
+			for(int pz = 0; pz < 7; pz++){
 				world.setBlock(x-3+pz,y,z-3+px,BlockList.obsidian_special);
 				world.setBlock(x-3+pz,y+4,z-3+px,Blocks.obsidian);
 			}
@@ -221,21 +222,28 @@ public class LaboratoryElementPlacer{
 		
 		// fill in the bottom with obsidian and inside with air
 		
-		for(int px = 0; px < 10; px++){
-			for(int pz = 0; pz < 10; pz++){
+		for(int px = 0; px < 11; px++){
+			for(int pz = 0; pz < 11; pz++){
 				for(int py = -1; py > -5; py--){
 					if (world.isAir(x-5+px,y+py,z-5+pz) && !world.isAir(x-5+px,y+py+1,z-5+pz)){
 						world.setBlock(x-5+px,y+py,z-5+pz,Blocks.obsidian);
 					}
 					else break;
 				}
-				
-				if (px > 0 && px < 9 && pz > 0 && pz < 9){
-					for(int py = 1; py < 4; py++){
-						if (world.getBlock(x-4+px,y+py,z-4+pz) != Blocks.obsidian){
-							world.setBlock(x-4+px,y+py,z-4+pz,Blocks.air);
-						}
-					}
+			}
+		}
+		
+		for(int py = 1; py < 4; py++){
+			for(int px = 0; px < 7; px++){
+				for(int pz = 0; pz < 7; pz++){
+					if (world.getBlock(x-3+px,y+py,z-3+pz) != Blocks.obsidian)world.setBlock(x-3+px,y+py,z-3+pz,Blocks.air);
+				}
+			}
+			
+			for(int a = 0; a < 5; a++){
+				for(int b = 0; b < 2; b++){
+					if (world.getBlock(x-2+a,y+py,z-4+b*8) != Blocks.obsidian)world.setBlock(x-2+a,y+py,z-4+b*8,Blocks.air);
+					if (world.getBlock(x-4+b*8,y+py,z-2+a) != Blocks.obsidian)world.setBlock(x-4+b*8,y+py,z-2+a,Blocks.air);
 				}
 			}
 		}
