@@ -124,7 +124,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 		
 		offsetY.set(0);
-		System.out.println(currentObject); // TODO
 	}
 	
 	@Override
@@ -257,6 +256,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 			else offsetY.set(offsetY.value()+(wheel > 0 ? 80 : -80));
 		}
+		
+		if (offsetY.value() > 0)offsetY.set(0F);
+		else if (offsetY.value() < -totalHeight+height-32)offsetY.set(-totalHeight+height-32);
 	}
 	
 	public void showObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
@@ -299,6 +301,21 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			if (currentObject.isBuyable())purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumData.getPoints() >= currentObject.getUnlockPrice() ? FragmentPurchaseStatus.CAN_PURCHASE : FragmentPurchaseStatus.NOT_ENOUGH_POINTS));
 		}
 		else updatePurchaseElements();
+	}
+	
+	public void moveToCurrentObject(boolean animate){
+		if (currentObject == null)return;
+		
+		for(ObjectDisplayElement element:objectElements){
+			if (element.object == currentObject){
+				int newY = -(element.y+element.object.getY()-(height>>1)+11);
+				
+				if (animate)offsetY.startAnimation(offsetY.value(),newY,0.5F);
+				else offsetY.set(newY);
+				
+				break;
+			}
+		}
 	}
 	
 	private void updatePurchaseElements(){

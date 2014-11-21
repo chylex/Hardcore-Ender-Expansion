@@ -479,31 +479,31 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(275).setContents("On top of the tower lies an Ender Eye.").setPrice(2).setUnlockRequirements(272)
 			}),
 			
-			OBSIDIAN_STAIRS.setPos(3,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+			OBSIDIAN_STAIRS.setPos(3,4).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(280).setContents("Very tough stairs made of Obsidian. Uncraftable.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_SMOOTH.setPos(1,2).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+			OBSIDIAN_SMOOTH.setPos(1,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(281).setContents("Obsidian with a smooth texture, it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_CHISELED.setPos(3,2).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+			OBSIDIAN_CHISELED.setPos(3,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(282).setContents("Obsidian with a chiseled texture, it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_PILLAR.setPos(5,2).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+			OBSIDIAN_PILLAR.setPos(5,0).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(283).setContents("Obsidian pillar, can be placed horizontally or vertically and it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_SMOOTH_GLOWING.setPos(1,4).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+			OBSIDIAN_SMOOTH_GLOWING.setPos(1,2).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(284).setContents("Glowing Obsidian with a smooth texture, it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_CHISELED_GLOWING.setPos(3,4).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+			OBSIDIAN_CHISELED_GLOWING.setPos(3,2).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(285).setContents("Glowing Obsidian with a chiseled texture, it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			OBSIDIAN_PILLAR_GLOWING.setPos(5,4).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
+			OBSIDIAN_PILLAR_GLOWING.setPos(5,2).setUnlockPrice(1).setDiscoveryReward(3).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(286).setContents("Glowing Obsidian pillar, can be placed horizontally or vertically and it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			

@@ -61,7 +61,11 @@ public final class CompendiumEventsClient{
 	public static void openCompendium(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj){
 		GuiEnderCompendium compendium = new GuiEnderCompendium(instance.data);
 		Minecraft.getMinecraft().displayGuiScreen(compendium);
-		if (obj != null)compendium.showObject(obj);
+		
+		if (obj != null){
+			compendium.showObject(obj);
+			compendium.moveToCurrentObject(false);
+		}
 	}
 	
 	public static int getCompendiumKeyCode(){

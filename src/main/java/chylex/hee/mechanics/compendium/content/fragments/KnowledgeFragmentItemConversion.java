@@ -42,6 +42,7 @@ public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 			
 			if (obj != null){
 				gui.showObject(obj);
+				gui.moveToCurrentObject(true);
 				return true;
 			}
 		}

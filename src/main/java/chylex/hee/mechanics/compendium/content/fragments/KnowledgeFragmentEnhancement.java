@@ -55,6 +55,7 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 			if (obj == null)return false;
 			
 			gui.showObject(obj);
+			gui.moveToCurrentObject(true);
 			return true;
 		}
 		
