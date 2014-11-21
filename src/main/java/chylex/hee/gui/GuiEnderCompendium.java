@@ -65,6 +65,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private float prevOffsetY;
 	private int prevMouseX;
 	
+	private boolean hasClickedButton = false;
+	private int dragMouseY = Integer.MIN_VALUE;
+	
 	private List<CategoryDisplayElement> categoryElements = new ArrayList<>();
 	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
 	private List<PurchaseDisplayElement> purchaseElements = new ArrayList<>();
@@ -121,6 +124,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	protected void actionPerformed(GuiButton button){
+		hasClickedButton = true;
+		
 		if (!(button.enabled && button.visible))return;
 		
 		if (button.id == 0 && !offsetY.isAnimating()){
@@ -196,7 +201,24 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 		}
 		
+		hasClickedButton = false;
 		super.mouseClicked(mouseX,mouseY,buttonId);
+		
+		if (hasClickedButton)hasClickedButton = false;
+		else dragMouseY = mouseY;
+	}
+	
+	@Override
+	protected void mouseMovedOrUp(int mouseX, int mouseY, int event){
+		if (dragMouseY != Integer.MIN_VALUE){
+			if (event == 0)dragMouseY = Integer.MIN_VALUE;
+			else if (event == -1){
+				offsetY.set(offsetY.value()+(mouseY-dragMouseY));
+				dragMouseY = mouseY;
+			}
+		}
+		
+		super.mouseMovedOrUp(mouseX,mouseY,event);
 	}
 	
 	@Override

@@ -115,14 +115,14 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		BIOME_ISLANDS = dummy("BiomeIslands",new ItemStack(Blocks.end_stone),"Biome Islands"),
+		BIOME_ISLANDS = dummy("BiomeIslands",new ItemStack(BlockList.special_effects,1,1),"Biome Islands"),
 		INSTABILITY_ORB_ORE = create(BlockList.instability_orb_ore),
 		STARDUST_ORE = create(BlockList.stardust_ore),
 		INSTABILITY_ORB = create(ItemList.instability_orb),
 		POTION_OF_INSTABILITY = create(ItemList.potion_of_instability),
 		STARDUST_LINKED = link(STARDUST),
 		
-		// =>
+		// ===
 		
 		INFESTED_FOREST_BIOME = dummy("InfestedForest",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaInfested),"Infested Forest Biome"),
 		INFESTED_END_STONE = create(BlockList.end_terrain,0),
@@ -584,46 +584,46 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		INSTABILITY_ORB_ORE.setPos(3,1).setUnlockPrice(15).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
-			new KnowledgeFragmentText(360).setContents("Uncommon ore found in tiny clusters in all Biome Islands.").setPrice(5).setUnlockOnDiscovery(),
-			new KnowledgeFragmentText(361).setContents("It can be only mined with Diamond Pickaxe or better.").setPrice(2).setUnlockRequirements(360),
-			new KnowledgeFragmentText(362).setContents("The ore has a 40% chance of dropping Instability Orb.").setPrice(2).setUnlockRequirements(360),
-			new KnowledgeFragmentText(363).setContents("Each level of Fortune enchantment increases the drop chance by 4%.").setPrice(3).setUnlockRequirements(362)
+		KnowledgeCategories.BIOME_ISLANDS.addKnowledgeObjects(new KnowledgeObject[]{	
+			BIOME_ISLANDS.setCategoryObject(KnowledgeCategories.BIOME_ISLANDS).setUnlockPrice(40).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(720).setContents("Biome Islands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the Dragon Lair.").setPrice(5),
+				new KnowledgeFragmentText(721).setContents("Each island has caves and ores, every biome modifies the amounts and rates as well as the overall shape of the terrain.").setPrice(2).setUnlockRequirements(720),
+				new KnowledgeFragmentText(722).setContents("Biomes can have multiple different variations with unique content, and random deviations that modify properties of some features (such as very tall trees).").setPrice(3).setUnlockRequirements(721),
+				new KnowledgeFragmentText(723).setContents("Instability Orb Ore and Stardust Ore only spawn in the islands.").setPrice(2).setUnlockRequirements(721)
+			}),
+			
+			INSTABILITY_ORB_ORE.setPos(3,1).setUnlockPrice(15).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(360).setContents("Uncommon ore found in tiny clusters in all Biome Islands.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(361).setContents("It can be only mined with Diamond Pickaxe or better.").setPrice(2).setUnlockRequirements(360),
+				new KnowledgeFragmentText(362).setContents("The ore has a 40% chance of dropping Instability Orb.").setPrice(2).setUnlockRequirements(360),
+				new KnowledgeFragmentText(363).setContents("Each level of Fortune enchantment increases the drop chance by 4%.").setPrice(3).setUnlockRequirements(362)
+			}),
+			
+			STARDUST_ORE.setPos(-3,1).setUnlockPrice(15).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(370).setContents("Ore found commonly in Biome Islands.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(371).setContents("Diamond Pickaxe or better is required to get any drops.").setPrice(2).setUnlockRequirements(370),
+				new KnowledgeFragmentText(372).setContents("One ore drops 0-4 Stardust and 6-9 experience orbs.").setPrice(2).setUnlockRequirements(371),
+				new KnowledgeFragmentText(373).setContents("Fortune enchantment does not affect the drops.").setPrice(3).setUnlockRequirements(372)
+			}),
+			
+			INSTABILITY_ORB.setPos(5,1).setUnlockPrice(15).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(380).setContents("Very unstable material dropped by Instability Orb Ore.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(381).setContents("It decomposes when thrown on the ground. When the process finishes, it can either explode, or turn into a random mob, block or item.").setPrice(5).setUnlockRequirements(380),
+				new KnowledgeFragmentText(382).setContents("When a TNT explodes near one or more decomposing orbs, they will not explode once the decomposition is complete.").setPrice(3).setUnlockRequirements(381),
+				new KnowledgeFragmentText(383).setContents("Brewing it in an Enhanced Brewing Stand creates Potion of Instability.").setPrice(3).setUnlockRequirements(380).setUnlockCascade(134,741)
+			}),
+			
+			POTION_OF_INSTABILITY.setPos(7,1).setUnlockPrice(10).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(740).setContents("Special potion that causes a random effect. It has to be brewed in an Enhanced Brewing Stand, using Gunpowder on the brewed potion turns it into splash version.").setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentItemConversion(741).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(740).setUnlockCascade(134,383)
+			}),
+			
+			STARDUST_LINKED.setPos(-5,1)
 		});
-		
-		STARDUST_ORE.setPos(-3,1).setUnlockPrice(15).setDiscoveryReward(10).setFragments(new KnowledgeFragment[]{
-			new KnowledgeFragmentText(370).setContents("Ore found commonly in Biome Islands.").setPrice(5).setUnlockOnDiscovery(),
-			new KnowledgeFragmentText(371).setContents("Diamond Pickaxe or better is required to get any drops.").setPrice(2).setUnlockRequirements(370),
-			new KnowledgeFragmentText(372).setContents("One ore drops 0-4 Stardust and 6-9 experience orbs.").setPrice(2).setUnlockRequirements(371),
-			new KnowledgeFragmentText(373).setContents("Fortune enchantment does not affect the drops.").setPrice(3).setUnlockRequirements(372)
-		});
-		
-		INSTABILITY_ORB.setPos(5,1).setUnlockPrice(15).setDiscoveryReward(12).setFragments(new KnowledgeFragment[]{
-			new KnowledgeFragmentText(380).setContents("Very unstable material dropped by Instability Orb Ore.").setPrice(5).setUnlockOnDiscovery(),
-			new KnowledgeFragmentText(381).setContents("It decomposes when thrown on the ground. When the process finishes, it can either explode, or turn into a random mob, block or item.").setPrice(5).setUnlockRequirements(380),
-			new KnowledgeFragmentText(382).setContents("When a TNT explodes near one or more decomposing orbs, they will not explode once the decomposition is complete.").setPrice(3).setUnlockRequirements(381),
-			new KnowledgeFragmentText(383).setContents("Brewing it in an Enhanced Brewing Stand creates Potion of Instability.").setPrice(3).setUnlockRequirements(380).setUnlockCascade(134,741)
-		});
-		
-		POTION_OF_INSTABILITY.setPos(7,1).setUnlockPrice(10).setDiscoveryReward(8).setFragments(new KnowledgeFragment[]{
-			new KnowledgeFragmentText(740).setContents("Special potion that causes a random effect. It has to be brewed in an Enhanced Brewing Stand, using Gunpowder on the brewed potion turns it into splash version.").setPrice(5).setUnlockOnDiscovery(),
-			new KnowledgeFragmentItemConversion(741).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(740).setUnlockCascade(134,383)
-		});
-		
-		BIOME_ISLANDS.setPos(0,0).setUnlockPrice(40).setDiscoveryReward(20).setFragments(new KnowledgeFragment[]{
-			new KnowledgeFragmentText(720).setContents("Biome Islands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the Dragon Lair.").setPrice(5),
-			new KnowledgeFragmentText(721).setContents("Each island has caves and ores, every biome modifies the amounts and rates as well as the overall shape of the terrain.").setPrice(2).setUnlockRequirements(720),
-			new KnowledgeFragmentText(722).setContents("Biomes can have multiple different variations with unique content, and random deviations that modify properties of some features (such as very tall trees).").setPrice(3).setUnlockRequirements(721),
-			new KnowledgeFragmentText(723).setContents("Instability Orb Ore and Stardust Ore only spawn in the islands.").setPrice(2).setUnlockRequirements(721)
-		});
-		
-		STARDUST_LINKED.setPos(-5,1);
 		
 		// ===
 		
 		KnowledgeCategories.BIOME_ISLAND_FOREST.addKnowledgeObjects(new KnowledgeObject[]{
-			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, POTION_OF_INSTABILITY, STARDUST_LINKED, BIOME_ISLANDS,
-			
 			INFESTED_FOREST_BIOME.setCategoryObject(KnowledgeCategories.BIOME_ISLAND_FOREST).setUnlockPrice(60).setDiscoveryReward(45).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(390).setContents("Mostly flat biome with occasional hills, long caves and decent amount of ores.").setPrice(5),
 				new KnowledgeFragmentText(391).setContents("There are 2 variations of the biome - Deep and Ravaged.").setPrice(2).setUnlockRequirements(390),
@@ -769,8 +769,6 @@ public final class KnowledgeRegistrations{
 		});
 		
 		KnowledgeCategories.BIOME_ISLAND_MOUNTAINS.addKnowledgeObjects(new KnowledgeObject[]{
-			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, POTION_OF_INSTABILITY, STARDUST_LINKED, BIOME_ISLANDS,
-			
 			BURNING_MOUNTAINS_BIOME.setCategoryObject(KnowledgeCategories.BIOME_ISLAND_MOUNTAINS).setUnlockPrice(60).setDiscoveryReward(45).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(560).setContents("Fire-oriented biome with huge mountains and a large amount of caves and ores. Apart from default ores, this biome also has common Igneous Rock Ore.").setPrice(5),
 				new KnowledgeFragmentText(561).setContents("There are 2 variations of the biome - Scorching and Mine.").setPrice(2).setUnlockRequirements(560),
@@ -846,8 +844,6 @@ public final class KnowledgeRegistrations{
 		});
 		
 		KnowledgeCategories.BIOME_ISLAND_ENCHISLAND.addKnowledgeObjects(new KnowledgeObject[]{
-			INSTABILITY_ORB_ORE, STARDUST_ORE, INSTABILITY_ORB, POTION_OF_INSTABILITY, STARDUST_LINKED, BIOME_ISLANDS,
-			
 			ENCHANTED_ISLAND_BIOME.setCategoryObject(KnowledgeCategories.BIOME_ISLAND_ENCHISLAND).setUnlockPrice(60).setDiscoveryReward(45).setFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(660).setContents("Very flat biome with small amount of caves.").setPrice(5),
 				new KnowledgeFragmentText(661).setContents("There is currently only one variation - Homeland.").setPrice(2).setUnlockRequirements(660),

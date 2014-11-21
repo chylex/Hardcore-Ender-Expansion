@@ -15,7 +15,7 @@ public class KnowledgeCategory{
 	private ImmutableList<KnowledgeObject> objectListImmutable;
 	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> categoryObject;
 	
-	public KnowledgeCategory(int id, int x, int y, String tooltip, ItemStack showcaseItem){
+	public KnowledgeCategory(int id, String tooltip, ItemStack showcaseItem){
 		this.id = (byte)id;
 		this.tooltip = tooltip;
 		this.showcaseItem = showcaseItem;

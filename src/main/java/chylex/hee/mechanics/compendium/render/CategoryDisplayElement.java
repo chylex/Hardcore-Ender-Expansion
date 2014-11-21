@@ -22,8 +22,9 @@ public class CategoryDisplayElement{
 		gui.drawTexturedModalRect(GuiEnderCompendium.guiObjLeft,y,216,5,40,40);
 		
 		GL11.glPushMatrix();
-		GL11.glScalef(0.5F,0.5F,1F);
-		gui.drawTexturedModalRect(2*GuiEnderCompendium.guiObjLeft,2*(y+4),(category.id%4)*56,194-62*(category.id>>2),56,62);
+		GL11.glScalef(2F,2F,1F);
+		RenderHelper.enableGUIStandardItemLighting();
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),category.getItemStack(),GuiEnderCompendium.guiObjLeft>>1,(y+4)>>1);
 		GL11.glPopMatrix();
 	}
 	

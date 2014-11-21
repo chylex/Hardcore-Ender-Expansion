@@ -12,6 +12,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockSpecialEffects extends Block implements IBlockSubtypes{
+	public static final byte metaBiomeIslandIcon = 0;
+	public static final byte metaTestOffset = 1;
+	
 	private static final String[] textures = new String[]{
 		"_1", "_2", "_3", "_4"
 	};
@@ -25,7 +28,8 @@ public class BlockSpecialEffects extends Block implements IBlockSubtypes{
 	
 	@Override
 	public IIcon getIcon(int side, int meta){
-		return iconArray[Math.min(Math.max(0,meta),iconArray.length-1)];
+		if (meta == metaBiomeIslandIcon)return BlockList.end_terrain.getIcon(side,side>>1); 
+		return iconArray[Math.min(Math.max(0,meta-metaTestOffset),iconArray.length-1)];
 	}
 
 	@Override
@@ -35,7 +39,7 @@ public class BlockSpecialEffects extends Block implements IBlockSubtypes{
 	
 	@Override
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < textures.length; a++)list.add(new ItemStack(item,1,a));
+		for(int a = 0; a < textures.length; a++)list.add(new ItemStack(item,1,a+metaTestOffset));
 	}
 	
 	@Override
