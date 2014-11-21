@@ -58,7 +58,8 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance<?>> implements I
 	}
 	
 	public KnowledgeObject setPos(int x, int y){
-		this.x = x*iconDist-(iconDist>>1);
+		if (x < 0 || y < 0)throw new IllegalArgumentException("Invalid KnowledgeObject position, x and y have to be >= 0 ("+x+","+y+")");
+		this.x = x*iconDist;
 		this.y = y*iconDist;
 		return this;
 	}

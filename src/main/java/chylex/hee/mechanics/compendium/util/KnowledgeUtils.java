@@ -42,7 +42,7 @@ public final class KnowledgeUtils{
 		List<String> tooltip = is.getTooltip(player,false);
 		
 		if (KnowledgeUtils.tryGetFromItemStack(is) != null){
-			tooltip.add(EnumChatFormatting.DARK_PURPLE+"Click to switch");
+			tooltip.add(EnumChatFormatting.DARK_PURPLE+"Click to view");
 		}
 		
 		return tooltip;

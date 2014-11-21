@@ -46,7 +46,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
-	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjLeft = 18;
+	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjLeft = 132;
 	
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
@@ -85,8 +85,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		int y = 0, maxY = 0;
 		
 		for(KnowledgeCategory category:KnowledgeCategories.categoryList){
+			y += 32;
 			categoryElements.add(new CategoryDisplayElement(category,y));
-			y += 40;
+			y += 44;
 			
 			for(KnowledgeObject obj:category.getAllObjects()){
 				if (!obj.isCategoryObject()){
@@ -95,7 +96,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				}
 			}
 			
-			y += maxY+80;
+			y += maxY+30;
 		}
 		
 		portalSpeed.startAnimation(30F,15F,1.5F);
@@ -210,15 +211,18 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	protected void mouseMovedOrUp(int mouseX, int mouseY, int event){
-		if (dragMouseY != Integer.MIN_VALUE){
-			if (event == 0)dragMouseY = Integer.MIN_VALUE;
-			else if (event == -1){
-				offsetY.set(offsetY.value()+(mouseY-dragMouseY));
-				dragMouseY = mouseY;
-			}
+		if (dragMouseY != Integer.MIN_VALUE && event == 0)dragMouseY = Integer.MIN_VALUE;
+		super.mouseMovedOrUp(mouseX,mouseY,event);
+	}
+	
+	@Override
+	protected void mouseClickMove(int mouseX, int mouseY, int lastButton, long timeSinceClick){
+		if (dragMouseY != Integer.MIN_VALUE && lastButton == 0){
+			offsetY.startAnimation(offsetY.value(),offsetY.value()+(mouseY-dragMouseY)*6,0F); // TODO fix negative mouse acceleration
+			dragMouseY = mouseY;
 		}
 		
-		super.mouseMovedOrUp(mouseX,mouseY,event);
+		super.mouseClickMove(mouseX,mouseY,lastButton,timeSinceClick);
 	}
 	
 	@Override
@@ -247,7 +251,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
 				else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
 			}
-			else offsetY.set(offsetY.value()+(wheel > 0 ? -50 : 50));
+			else offsetY.set(offsetY.value()+(wheel > 0 ? 80 : -80));
 		}
 	}
 	

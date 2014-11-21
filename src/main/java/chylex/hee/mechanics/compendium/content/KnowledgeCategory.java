@@ -8,15 +8,13 @@ import com.google.common.collect.ImmutableList;
 public class KnowledgeCategory{
 	public static final byte iconSize = 44;
 	
-	public final byte id;
 	private final String tooltip;
 	private final ItemStack showcaseItem;
 	private final List<KnowledgeObject> objectList = new ArrayList<>();
 	private ImmutableList<KnowledgeObject> objectListImmutable;
 	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> categoryObject;
 	
-	public KnowledgeCategory(int id, String tooltip, ItemStack showcaseItem){
-		this.id = (byte)id;
+	public KnowledgeCategory(String tooltip, ItemStack showcaseItem){
 		this.tooltip = tooltip;
 		this.showcaseItem = showcaseItem;
 	}

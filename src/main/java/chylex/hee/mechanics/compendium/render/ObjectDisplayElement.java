@@ -1,13 +1,25 @@
 package chylex.hee.mechanics.compendium.render;
-import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
+import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 
 public class ObjectDisplayElement{
+	private enum BackgroundTile{
+		PLAIN(113,0), DISABLED(113,23), CHECKERED(136,0), BRIGHT(136,23), GOLD(159,0);
+		
+		final byte x, y;
+		
+		BackgroundTile(int x, int y){
+			this.x = (byte)x;
+			this.y = (byte)y;
+		}
+	}
+	
 	public final KnowledgeObject<IKnowledgeObjectInstance<?>> object;
 	private final int y;
 	
@@ -23,9 +35,24 @@ public class ObjectDisplayElement{
 		
 		int x = GuiEnderCompendium.guiObjLeft+object.getX(), y = this.y+object.getY();
 		
+		BackgroundTile tile = BackgroundTile.DISABLED;
+		
+		if (compendiumData.hasDiscoveredObject(object)){
+			boolean hasAll = true;
+			
+			for(KnowledgeFragment fragment:object.getFragments()){
+				if (!compendiumData.hasUnlockedFragment(fragment)){
+					hasAll = false;
+					break;
+				}
+			}
+			
+			tile = hasAll ? BackgroundTile.GOLD : BackgroundTile.PLAIN;
+		}
+		
 		RenderHelper.disableStandardItemLighting();
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
-		gui.drawTexturedModalRect(x,y,113,compendiumData.hasDiscoveredObject(object) ? 0 : 23,22,22);
+		gui.drawTexturedModalRect(x,y,tile.x,tile.y,22,22);
 		RenderHelper.enableGUIStandardItemLighting();
 		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),object.getItemStack(),x+3,y+3);
 	}
