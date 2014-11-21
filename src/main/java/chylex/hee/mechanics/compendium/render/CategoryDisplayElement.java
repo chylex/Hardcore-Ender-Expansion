@@ -14,7 +14,9 @@ public class CategoryDisplayElement{
 		this.y = y;
 	}
 
-	public void render(GuiScreen gui){
+	public void render(GuiScreen gui, int yLowerBound, int yUpperBound){
+		if (y < yLowerBound || y > yUpperBound)return;
+		
 		GL11.glColor4f(1F,1F,1F,1F);
 		
 		RenderHelper.disableStandardItemLighting();

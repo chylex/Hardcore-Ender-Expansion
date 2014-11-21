@@ -28,12 +28,13 @@ public class ObjectDisplayElement{
 		this.y = y;
 	}
 	
-	public void render(GuiScreen gui, PlayerCompendiumData compendiumData){
+	public void render(GuiScreen gui, PlayerCompendiumData compendiumData, int yLowerBound, int yUpperBound){
+		int x = GuiEnderCompendium.guiObjLeft+object.getX(), y = this.y+object.getY();
+		if (y < yLowerBound || y > yUpperBound)return;
+		
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1F,1F,1F,1F);
-		
-		int x = GuiEnderCompendium.guiObjLeft+object.getX(), y = this.y+object.getY();
 		
 		BackgroundTile tile = BackgroundTile.DISABLED;
 		
@@ -59,6 +60,6 @@ public class ObjectDisplayElement{
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int offsetY){
 		int x = GuiEnderCompendium.guiObjLeft+object.getX(), y = this.y+object.getY()+offsetY;
-		return mouseX >= x-2 && mouseY >= y-1 && mouseX <= x+18 && mouseY <= y+18;
+		return mouseX >= x && mouseY >= y && mouseX <= x+20 && mouseY <= y+20;
 	}
 }

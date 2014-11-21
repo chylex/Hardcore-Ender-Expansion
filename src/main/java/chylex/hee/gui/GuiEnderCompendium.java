@@ -360,12 +360,12 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		renderBackgroundGUI();
 		
 		float offY = ptt(offsetY.value(),prevOffsetY,partialTickTime);
+		int yLowerBound = -(int)offY, yUpperBound = -(int)offY+height;
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,offY,0F);
-		// TODO do not render if outside screen
-		for(CategoryDisplayElement element:categoryElements)element.render(this);
-		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumData);
+		for(CategoryDisplayElement element:categoryElements)element.render(this,yLowerBound,yUpperBound);
+		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumData,yLowerBound,yUpperBound);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
 		
