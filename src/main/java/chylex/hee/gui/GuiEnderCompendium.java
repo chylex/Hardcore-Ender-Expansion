@@ -46,7 +46,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
-	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjLeft = 132;
+	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjLeft = 32;
 	
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
@@ -63,7 +63,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private List<AnimatedFloat> animationList = new ArrayList<>();
 	private AnimatedFloat offsetY, portalSpeed;
 	private float prevOffsetY;
-	private int prevMouseX;
+	private int prevMouseX, totalHeight;
 	
 	private boolean hasClickedButton = false;
 	private int dragMouseY = Integer.MIN_VALUE;
@@ -97,7 +97,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 			
 			y += maxY+30;
+			maxY = 0;
 		}
+		
+		this.totalHeight = y;
 		
 		portalSpeed.startAnimation(30F,15F,1.5F);
 	}

@@ -68,8 +68,15 @@ public final class CompendiumEventsClient{
 		return instance.keyOpenCompendium.getKeyCode();
 	}
 	
+	public static void onObjectDiscovered(int objectID){
+		instance.newlyDiscoveredId = (short)objectID;
+		instance.newlyDiscoveredTime = System.nanoTime();
+	}
+	
 	private final KeyBinding keyOpenCompendium;
 	private PlayerCompendiumData data;
+	private short newlyDiscoveredId = -1;
+	private long newlyDiscoveredTime = 0L;
 	
 	private CompendiumEventsClient(){
 		keyOpenCompendium = new KeyBinding("key.openCompendium",25,"Hardcore Ender Expansion");
@@ -87,7 +94,14 @@ public final class CompendiumEventsClient{
 			if (canOpenCompendium()){
 				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = null;
 				
-				if (mc.inGameHasFocus)obj = mc.thePlayer.isSneaking() ? CompendiumEvents.getObservation(mc.thePlayer).getObject() : null;
+				if (mc.inGameHasFocus){
+					if (newlyDiscoveredTime != 0L && System.nanoTime()-newlyDiscoveredTime <= 5000000000L){
+						obj = KnowledgeObject.getObjectById(newlyDiscoveredId);
+						newlyDiscoveredId = -1;
+						newlyDiscoveredTime = 0L;
+					}
+					else obj = CompendiumEvents.getObservation(mc.thePlayer).getObject();
+				}
 				else{
 					GuiContainer container = (GuiContainer)mc.currentScreen;
 					List<Slot> slots = container.inventorySlots.inventorySlots;
