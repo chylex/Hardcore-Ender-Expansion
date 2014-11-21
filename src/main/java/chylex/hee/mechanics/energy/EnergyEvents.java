@@ -37,13 +37,13 @@ public final class EnergyEvents{
 		EnergySavefile file = WorldDataHandler.get(EnergySavefile.class);
 		
 		for(Chunk chunk:chunks){
-			EnergyChunkData data = file.getFromChunkCoords(chunk.xPosition,chunk.zPosition,true);
+			EnergyChunkData data = file.getFromChunkCoords(e.world,chunk.xPosition,chunk.zPosition,true);
 			if (usedData.contains(data))continue;
 			
 			data.onUpdate(e.world,e.world.rand);
 			
 			for(int a = 0; a < 4; a++){
-				data.onAdjacentInteract(e.world.rand,file.getFromChunkCoords(chunk.xPosition+Direction.offsetX[a]*EnergySavefile.sectionSize,chunk.zPosition+Direction.offsetZ[a]*EnergySavefile.sectionSize,true));
+				data.onAdjacentInteract(e.world.rand,file.getFromChunkCoords(e.world,chunk.xPosition+Direction.offsetX[a]*EnergySavefile.sectionSize,chunk.zPosition+Direction.offsetZ[a]*EnergySavefile.sectionSize,true));
 			}
 			
 			usedData.add(data);
@@ -60,7 +60,7 @@ public final class EnergyEvents{
 		float energy = MobEnergy.getEnergy(e.entityLiving);
 		if (MathUtil.floatEquals(energy,-1F))return;
 		
-		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords((int)Math.floor(e.entity.posX),(int)Math.floor(e.entity.posZ),true).addEnergy(energy);
+		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(e.entity.worldObj,(int)Math.floor(e.entity.posX),(int)Math.floor(e.entity.posZ),true).addEnergy(energy);
 	}
 	
 	private byte updateTimer;

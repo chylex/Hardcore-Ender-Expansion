@@ -37,7 +37,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		
 		if (!worldObj.isRemote){
 			if (cachedCoords.length == 0){
-				data.generate(worldObj.rand,xCoord,zCoord);
+				data.generate(worldObj,xCoord,zCoord);
 				cachedCoords = new int[]{ xCoord, yCoord, zCoord };
 				synchronize();
 			}

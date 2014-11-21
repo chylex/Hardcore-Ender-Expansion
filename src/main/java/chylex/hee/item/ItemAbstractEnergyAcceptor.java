@@ -68,13 +68,13 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 		if (world.provider.dimensionId == 1){
 			byte timer = is.stackTagCompound.getByte("engRgnTim");
 			
-			if (++timer <= 30){
+			if (++timer <= 42+world.rand.nextInt(20)){
 				is.stackTagCompound.setByte("engRgnTim",timer);
 				return;
 			}
 			else is.stackTagCompound.setByte("engRgnTim",(byte)0);
 			
-			EnergyChunkData chunk = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords((int)entity.posX,(int)entity.posZ,true);
+			EnergyChunkData chunk = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,(int)entity.posX,(int)entity.posZ,true);
 			if (chunk.drainEnergyUnit())onEnergyAccepted(is);
 		}
 	}

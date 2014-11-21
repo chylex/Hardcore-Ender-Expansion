@@ -148,11 +148,11 @@ public class BlockEnergyCluster extends BlockContainer{
 		
 		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true);
 		
-		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(x,z,true).addEnergy(tile.data.getEnergyLevel()*0.2F);
+		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,x,z,true).addEnergy(tile.data.getEnergyLevel()*0.2F);
 		
 		for(int xx = x-idist; xx <= x+idist; xx++){
 			for(int zz = z-idist; zz <= z+idist; zz++){
-				for(int yy = y-idist; yy <= y+idist; yy++){ // TODO larger dist for larger clusters
+				for(int yy = y-idist; yy <= y+idist; yy++){
 					if (MathUtil.distance(xx-x,yy-y,zz-z) <= dist && world.isAirBlock(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
 				}
 			}

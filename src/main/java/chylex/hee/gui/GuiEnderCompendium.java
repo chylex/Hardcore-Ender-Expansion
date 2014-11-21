@@ -124,6 +124,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 		
 		offsetY.set(0);
+		System.out.println(currentObject); // TODO
 	}
 	
 	@Override

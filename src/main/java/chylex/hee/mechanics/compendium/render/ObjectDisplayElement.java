@@ -21,7 +21,7 @@ public class ObjectDisplayElement{
 	}
 	
 	public final KnowledgeObject<IKnowledgeObjectInstance<?>> object;
-	private final int y;
+	public final int y;
 	
 	public ObjectDisplayElement(KnowledgeObject<IKnowledgeObjectInstance<?>> object, int y){
 		this.object = object;

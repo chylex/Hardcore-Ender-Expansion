@@ -13,18 +13,18 @@ public final class EnergyClusterData{
 	private float energyLevel, maxEnergyLevel;
 	private byte regenTimer, drainTimer;
 	
-	public void generate(Random rand, int blockX, int blockZ){
+	public void generate(World world, int blockX, int blockZ){
 		int chunkX = blockX>>4, chunkZ = blockZ>>4;
 		EnergySavefile file = WorldDataHandler.get(EnergySavefile.class);
 		
-		float average = file.getFromChunkCoords(chunkX,chunkZ,false).getEnergyLevel();
-		for(int a = 0; a < 4; a++)average += file.getFromChunkCoords(chunkX+Direction.offsetX[a]*EnergySavefile.sectionSize,chunkZ+Direction.offsetZ[a]*EnergySavefile.sectionSize,false).getEnergyLevel();
+		float average = file.getFromChunkCoords(world,chunkX,chunkZ,false).getEnergyLevel();
+		for(int a = 0; a < 4; a++)average += file.getFromChunkCoords(world,chunkX+Direction.offsetX[a]*EnergySavefile.sectionSize,chunkZ+Direction.offsetZ[a]*EnergySavefile.sectionSize,false).getEnergyLevel();
 		
 		average *= 0.2F;
 		
-		maxEnergyLevel = (0.25F+rand.nextFloat())*average;
-		energyLevel = (0.1F+rand.nextFloat()*0.9F)*maxEnergyLevel;
-		healthStatus = EnergyClusterHealth.spawnWeightedList.getRandomItem(rand);
+		maxEnergyLevel = (0.25F+world.rand.nextFloat())*average;
+		energyLevel = (0.1F+world.rand.nextFloat()*0.9F)*maxEnergyLevel;
+		healthStatus = EnergyClusterHealth.spawnWeightedList.getRandomItem(world.rand);
 	}
 	
 	public void update(TileEntityEnergyCluster cluster){
@@ -57,7 +57,7 @@ public final class EnergyClusterData{
 		if (world.provider.dimensionId == 1 && rand.nextInt(healthStatus.ordinal()+1) == 0 && ++drainTimer > 10+rand.nextInt(70)){
 			drainTimer = 0;
 			
-			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(cluster.xCoord,cluster.zCoord,true);
+			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,cluster.xCoord,cluster.zCoord,true);
 			float envLevel = environment.getEnergyLevel();
 			
 			if (envLevel > EnergyChunkData.minSignificantEnergy && maxEnergyLevel < energyLevel){

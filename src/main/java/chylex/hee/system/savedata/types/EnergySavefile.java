@@ -5,13 +5,16 @@ import java.util.Map.Entry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.ChunkCoordIntPair;
-import net.minecraftforge.common.DimensionManager;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.mechanics.energy.EnergyChunkData;
+import chylex.hee.mechanics.energy.EnergyChunkDataOverworld;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldSavefile;
 
 public class EnergySavefile extends WorldSavefile{
-	public static byte sectionSize = 3;
+	private static final EnergyChunkDataOverworld chunkDataOverworld = new EnergyChunkDataOverworld();
+	public static byte sectionSize = 4;
 	
 	private Map<ChunkCoordIntPair,EnergyChunkData> chunkMap = new HashMap<>();
 	
@@ -19,7 +22,9 @@ public class EnergySavefile extends WorldSavefile{
 		super("energy.nbt");
 	}
 	
-	public EnergyChunkData getFromChunkCoords(int chunkX, int chunkZ, boolean setModified){
+	public EnergyChunkData getFromChunkCoords(World world, int chunkX, int chunkZ, boolean setModified){
+		if (world.provider.dimensionId != 1)return chunkDataOverworld;
+		
 		if (setModified)setModified();
 		
 		if (chunkX < 0)chunkX -= sectionSize-1;
@@ -30,12 +35,12 @@ public class EnergySavefile extends WorldSavefile{
 		EnergyChunkData data = chunkMap.get(coords);
 		if (data != null)return data;
 
-		chunkMap.put(coords,data = new EnergyChunkData(chunkX,chunkZ,DimensionManager.getWorld(1).rand));
+		chunkMap.put(coords,data = new EnergyChunkData(chunkX,chunkZ,world.rand));
 		return data;
 	}
 	
-	public EnergyChunkData getFromBlockCoords(int blockX, int blockZ, boolean setModified){
-		return getFromChunkCoords(blockX>>4,blockZ>>4,setModified);
+	public EnergyChunkData getFromBlockCoords(World world, int blockX, int blockZ, boolean setModified){
+		return getFromChunkCoords(world,blockX>>4,blockZ>>4,setModified);
 	}
 	
 	public void reset(){
@@ -55,10 +60,16 @@ public class EnergySavefile extends WorldSavefile{
 		}
 		
 		nbt.setTag("sections",list);
+		nbt.setByte("size",sectionSize);
 	}
 
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
+		if (nbt.getByte("size") != sectionSize){
+			Log.warn("Could not load Energy savefile - expected section size of "+sectionSize+", got "+nbt.getByte("size")+" (might be intentional).");
+			return;
+		}
+		
 		NBTTagList list = nbt.getTagList("sections",NBT.TAG_COMPOUND);
 		
 		for(int a = 0, count = list.tagCount(); a < count; a++){

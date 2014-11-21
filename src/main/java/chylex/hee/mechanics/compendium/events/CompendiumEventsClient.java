@@ -95,7 +95,7 @@ public final class CompendiumEventsClient{
 				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = null;
 				
 				if (mc.inGameHasFocus){
-					if (newlyDiscoveredTime != 0L && System.nanoTime()-newlyDiscoveredTime <= 5000000000L){
+					if (newlyDiscoveredTime != 0L && System.nanoTime()-newlyDiscoveredTime <= 7000000000L){
 						obj = KnowledgeObject.getObjectById(newlyDiscoveredId);
 						newlyDiscoveredId = -1;
 						newlyDiscoveredTime = 0L;
