@@ -1,5 +1,6 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
@@ -7,47 +8,89 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 public class LaboratoryElementPlacer{
 	public static final byte hallStairsLength = 4;
 	
+	public static void generateRoomEntrance(LargeStructureWorld world, Random rand, int x, int y, int z, boolean isX){
+		int x1 = x, x2 = x, z1 = z, z2 = z;
+		
+		if (isX){
+			--z1;
+			++z2;
+		}
+		else{
+			--x1;
+			++x2;
+		}
+		
+		for(x = Math.min(x1,x2); x <= Math.max(x1,x2); x++){
+			for(z = Math.min(z1,z2); z <= Math.max(z1,z2); z++){
+				for(int py = 0; py < 6; py++){ // TODO
+					world.setBlock(x,y+py,z,py == 0 ? BlockList.obsidian_special : py == 4 ? Blocks.obsidian : py == 5 ? Blocks.emerald_block : Blocks.air);
+				}
+			}
+		}
+	}
+	
 	public static void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y){
-		if (true)return;
+		boolean isX = z1 == z2;
 		
 		if (x1 == x2){
-			for(int zMin = Math.min(z1,z2)-1, zMax = Math.max(z1,z2)+1, z = zMin; z <= zMax; z++){
+			for(int zMin = Math.min(z1,z2), zMax = Math.max(z1,z2), z = zMin; z <= zMax; z++){
 				for(int a = 0; a < 3; a++){
 					world.setBlock(x1-1+a,y,z,BlockList.obsidian_special);
 					world.setBlock(x1-1+a,y+4,z,Blocks.obsidian);
 				}
 				
 				for(int py = 0; py < 4; py++){
-					world.setBlock(x1-2,y+py,z,py == 2 && z != zMin && z != zMax ? BlockList.laboratory_glass : Blocks.obsidian);
-					world.setBlock(x1+2,y+py,z,py == 2 && z != zMin && z != zMax ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x1-2,y+py,z,py == 2 ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x1+2,y+py,z,py == 2 ? BlockList.laboratory_glass : Blocks.obsidian);
 				}
 			}
+			
+			--x1;
+			++x2;
 		}
 		else if (z1 == z2){
-			for(int xMin = Math.min(x1,x2)-1, xMax = Math.max(x1,x2)+1, x = xMin; x <= xMax; x++){
+			for(int xMin = Math.min(x1,x2), xMax = Math.max(x1,x2), x = xMin; x <= xMax; x++){
 				for(int a = 0; a < 3; a++){
 					world.setBlock(x,y,z1-1+a,BlockList.obsidian_special);
 					world.setBlock(x,y+4,z1-1+a,Blocks.obsidian);
 				}
 				
 				for(int py = 0; py < 4; py++){
-					world.setBlock(x,y+py,z1-2,py == 2 && x != xMin && x != xMax ? BlockList.laboratory_glass : Blocks.obsidian);
-					world.setBlock(x,y+py,z1+2,py == 2 && x != xMin && x != xMax ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x,y+py,z1-2,py == 2 ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x,y+py,z1+2,py == 2 ? BlockList.laboratory_glass : Blocks.obsidian);
 				}
 			}
+			
+			--z1;
+			++z2;
 		}
 		else throw new IllegalArgumentException("Hall coords need to be equal on one axis!");
 		
-		for(int x = Math.min(x1,x2)-1, xMax = Math.max(x1,x2)+1; x <= xMax; x++){
-			for(int z = Math.min(z1,z2)-1, zMax = Math.max(z1,z2)+1; z <= zMax; z++){
+		// fill in the bottom with obsidian and inside with air
+		
+		for(int x = Math.min(x1,x2), xMax = Math.max(x1,x2); x <= xMax; x++){
+			for(int z = Math.min(z1,z2), zMax = Math.max(z1,z2); z <= zMax; z++){
+				for(int py = 1; py < 4; py++)world.setBlock(x,y+py,z,Blocks.air);
+			}
+		}
+		
+		if (isX){
+			--z1;
+			++z2;
+		}
+		else{
+			--x1;
+			++x2;
+		}
+		
+		for(int x = Math.min(x1,x2), xMax = Math.max(x1,x2); x <= xMax; x++){
+			for(int z = Math.min(z1,z2), zMax = Math.max(z1,z2); z <= zMax; z++){
 				for(int py = -1; py > -5; py--){
-					if (world.isAir(x,y+py,z) && world.getBlock(x,y+py+1,z) == Blocks.obsidian){
+					if (world.isAir(x,y+py,z) && isValidFloor(world.getBlock(x,y+py+1,z))){
 						world.setBlock(x,y+py,z,Blocks.obsidian);
 					}
 					else break;
 				}
-				
-				for(int py = 1; py < 4; py++)world.setBlock(x,y+py,z,Blocks.air);
 			}
 		}
 	}
@@ -70,8 +113,10 @@ public class LaboratoryElementPlacer{
 		if (xAdd != 0){
 			for(int a = 0; a <= hallStairsLength; a++){
 				for(int py = 0; py <= 5; py++){
-					for(int b = 0; b < 2; b++){
-						world.setBlock(x,y+py,z-2+b*4,(py == 3 && a <= 2) || (py == 2 && a >= 2) ? BlockList.laboratory_glass : Blocks.obsidian);
+					if (py < 5){
+						for(int b = 0; b < 2; b++){
+							world.setBlock(x,y+py,z-2+b*4,(py == 3 && a <= 2) || (py == 2 && a >= 2) ? BlockList.laboratory_glass : Blocks.obsidian);
+						}
 					}
 					
 					for(int b = 0; b < 3; b++){
@@ -92,8 +137,10 @@ public class LaboratoryElementPlacer{
 		else if (zAdd != 0){
 			for(int a = 0; a <= hallStairsLength; a++){
 				for(int py = 0; py <= 5; py++){
-					for(int b = 0; b < 2; b++){
-						world.setBlock(x-2+b*4,y+py,z,(py == 3 && a <= 2) || (py == 2 && a >= 2) ? BlockList.laboratory_glass : Blocks.obsidian);
+					if (py < 5){
+						for(int b = 0; b < 2; b++){
+							world.setBlock(x-2+b*4,y+py,z,(py == 3 && a <= 2) || (py == 2 && a >= 2) ? BlockList.laboratory_glass : Blocks.obsidian);
+						}
 					}
 					
 					for(int b = 0; b < 3; b++){
@@ -115,7 +162,7 @@ public class LaboratoryElementPlacer{
 		for(int xx = Math.min(x1,x2), xMax = Math.max(x1,x2); xx <= xMax; xx++){
 			for(int zz = Math.min(z1,z2), zMax = Math.max(z1,z2); zz <= zMax; zz++){
 				for(int py = -1; py > -5; py--){
-					if (world.isAir(xx,y+py,zz) && !world.isAir(xx,y+py+1,zz)){
+					if (world.isAir(xx,y+py,zz) && isValidFloor(world.getBlock(xx,y+py+1,zz))){
 						world.setBlock(xx,y+py,zz,Blocks.obsidian);
 					}
 					else break;
@@ -161,7 +208,7 @@ public class LaboratoryElementPlacer{
 		for(int px = 0; px < 9; px++){
 			for(int pz = 0; pz < 9; pz++){
 				for(int py = -1; py > -5; py--){
-					if (world.isAir(x-4+px,y+py,z-4+pz) && world.getBlock(x-4+px,y+py+1,z-4+pz) == Blocks.obsidian){
+					if (world.isAir(x-4+px,y+py,z-4+pz) && isValidFloor(world.getBlock(x-4+px,y+py+1,z-4+pz))){
 						world.setBlock(x-4+px,y+py,z-4+pz,Blocks.obsidian);
 					}
 					else break;
@@ -220,7 +267,7 @@ public class LaboratoryElementPlacer{
 		for(int px = 0; px < 11; px++){
 			for(int pz = 0; pz < 11; pz++){
 				for(int py = -1; py > -5; py--){
-					if (world.isAir(x-5+px,y+py,z-5+pz) && world.getBlock(x-5+px,y+py+1,z-5+pz) == Blocks.obsidian){
+					if (world.isAir(x-5+px,y+py,z-5+pz) && isValidFloor(world.getBlock(x-5+px,y+py+1,z-5+pz))){
 						world.setBlock(x-5+px,y+py,z-5+pz,Blocks.obsidian);
 					}
 					else break;
@@ -242,5 +289,9 @@ public class LaboratoryElementPlacer{
 				}
 			}
 		}
+	}
+	
+	private static boolean isValidFloor(Block block){
+		return block == Blocks.obsidian || block == BlockList.obsidian_special;
 	}
 }

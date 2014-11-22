@@ -43,7 +43,7 @@ public final class LaboratoryPlan{
 			
 			int xx = room.x+(room.type.halfSizeX)*Direction.offsetX[dir], zz = room.z+(room.type.halfSizeZ)*Direction.offsetZ[dir], startY = room.y, prevY = room.y, dist = 0;
 			
-			while(++dist < 32){
+			while(++dist < 25){
 				LaboratoryElement hall = trySpawnElement(world,dir == 0 || dir == 2 ? LaboratoryElementType.HALL_Z : LaboratoryElementType.HALL_X,xx+Direction.offsetX[dir]*dist,zz+Direction.offsetZ[dir]*dist,dir);
 				if (hall == null || Math.abs(hall.y-prevY) > 2 || Math.abs(hall.y-startY) > 4 || !hasSpaceFor(hall,room))break;
 			}
@@ -53,7 +53,7 @@ public final class LaboratoryPlan{
 			boolean hasGenerated = false;
 			
 			for(int placeAttempt = 0, tmpDist; placeAttempt < dist+5; placeAttempt++){
-				tmpDist = (dist-5)+rand.nextInt(dist-6);
+				tmpDist = (dist-5)+(int)(rand.nextInt(dist-6)*(0.4F+rand.nextFloat()*0.6F));
 				LaboratoryElementType type = rand.nextInt(2) == 0 ? LaboratoryElementType.LARGE_ROOM : LaboratoryElementType.SMALL_ROOM;
 				LaboratoryElement newRoom = trySpawnElement(world,type,xx+tmpDist*Direction.offsetX[dir],zz+tmpDist*Direction.offsetZ[dir],dir);
 				

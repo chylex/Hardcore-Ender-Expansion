@@ -21,6 +21,7 @@ public final class LaboratoryGenerator{
 	
 	public void generateInWorld(LargeStructureWorld world, Random rand){
 		int xx, yy, zz, offX, offZ, fromX, fromZ, dir, dist;
+		boolean prevStairs = false;
 		
 		for(LaboratoryElement room:roomElements){
 			if (room.type == LaboratoryElementType.SMALL_ROOM)LaboratoryElementPlacer.generateSmallRoom(world,rand,room.x,room.y,room.z);
@@ -37,30 +38,42 @@ public final class LaboratoryGenerator{
 					yy = room.y;
 					dist = 1;
 					
+					LaboratoryElementPlacer.generateRoomEntrance(world,rand,fromX-offX,yy,fromZ-offZ,offX != 0);
+					
 					while(true){
+						xx += offX;
+						zz += offZ;
+						++dist;
+						
 						LaboratoryElement hall = getAt(xx,zz);
 						
 						if (hall == null || !hall.type.isHall()){
 							LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx,zz,yy);
+							LaboratoryElementPlacer.generateRoomEntrance(world,rand,xx,yy,zz,offX != 0);
 							break;
 						}
 						else if (hall.y != yy){
 							LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx,zz,yy);
 							
-							if (dist <= LaboratoryElementPlacer.hallStairsLength){
+							if (prevStairs){
+								xx -= offX*LaboratoryElementPlacer.hallStairsLength;
+								zz -= offZ*LaboratoryElementPlacer.hallStairsLength;
+							}
+							
+							/*if (dist <= LaboratoryElementPlacer.hallStairsLength){
 								xx -= offX*(LaboratoryElementPlacer.hallStairsLength>>1);
 								zz -= offZ*(LaboratoryElementPlacer.hallStairsLength>>1);
-							}
+							}*/
 							
 							LaboratoryElementPlacer.generateHallStairs(world,rand,xx,yy,zz,offX,hall.y-yy,offZ);
 							fromX = xx += offX*LaboratoryElementPlacer.hallStairsLength;
 							fromZ = zz += offZ*LaboratoryElementPlacer.hallStairsLength;
 							yy = hall.y;
+							prevStairs = true;
+							continue;
 						}
 						
-						xx += offX;
-						zz += offZ;
-						++dist;
+						prevStairs = false;
 					}
 					
 					dist += room.type.halfSizeX*offX+room.type.halfSizeZ*offZ;
