@@ -29,27 +29,10 @@ public class LaboratoryElementPlacer{
 		}
 	}
 	
-	public static void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y){
-		boolean isX = z1 == z2;
-		
-		if (x1 == x2){
-			for(int zMin = Math.min(z1,z2), zMax = Math.max(z1,z2), z = zMin; z <= zMax; z++){
-				for(int a = 0; a < 3; a++){
-					world.setBlock(x1-1+a,y,z,BlockList.obsidian_special);
-					world.setBlock(x1-1+a,y+4,z,Blocks.obsidian);
-				}
-				
-				for(int py = 0; py < 4; py++){
-					world.setBlock(x1-2,y+py,z,py == 2 ? BlockList.laboratory_glass : Blocks.obsidian);
-					world.setBlock(x1+2,y+py,z,py == 2 ? BlockList.laboratory_glass : Blocks.obsidian);
-				}
-			}
-			
-			--x1;
-			++x2;
-		}
-		else if (z1 == z2){
+	public static void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y, boolean isX){ y += 10; // TODO
+		if (isX){
 			for(int xMin = Math.min(x1,x2), xMax = Math.max(x1,x2), x = xMin; x <= xMax; x++){
+				if (x == xMin)world.setBlock(x,y+6,z1,Blocks.diamond_block); // TODO
 				for(int a = 0; a < 3; a++){
 					world.setBlock(x,y,z1-1+a,BlockList.obsidian_special);
 					world.setBlock(x,y+4,z1-1+a,Blocks.obsidian);
@@ -64,7 +47,23 @@ public class LaboratoryElementPlacer{
 			--z1;
 			++z2;
 		}
-		else throw new IllegalArgumentException("Hall coords need to be equal on one axis!");
+		else{
+			for(int zMin = Math.min(z1,z2), zMax = Math.max(z1,z2), z = zMin; z <= zMax; z++){
+				if (z == zMin)world.setBlock(x1,y+6,z,Blocks.diamond_block); // TODO
+				for(int a = 0; a < 3; a++){
+					world.setBlock(x1-1+a,y,z,BlockList.obsidian_special);
+					world.setBlock(x1-1+a,y+4,z,Blocks.obsidian);
+				}
+				
+				for(int py = 0; py < 4; py++){
+					world.setBlock(x1-2,y+py,z,py == 2 ? BlockList.laboratory_glass : Blocks.obsidian);
+					world.setBlock(x1+2,y+py,z,py == 2 ? BlockList.laboratory_glass : Blocks.obsidian);
+				}
+			}
+			
+			--x1;
+			++x2;
+		}
 		
 		// fill in the bottom with obsidian and inside with air
 		
@@ -95,7 +94,7 @@ public class LaboratoryElementPlacer{
 		}
 	}
 	
-	public static void generateHallStairs(LargeStructureWorld world, Random rand, int x, int y, int z, int xAdd, int yAdd, int zAdd){
+	public static void generateHallStairs(LargeStructureWorld world, Random rand, int x, int y, int z, int xAdd, int yAdd, int zAdd){ y += 20; // TODO
 		int x1 = x, x2 = x, z1 = z, z2 = z;
 		
 		if (yAdd == 1){
@@ -109,6 +108,8 @@ public class LaboratoryElementPlacer{
 		}
 		
 		y += yAdd;
+		
+		world.setBlock(x,y+7,z,Blocks.lapis_block); // TODO
 		
 		if (xAdd != 0){
 			for(int a = 0; a <= hallStairsLength; a++){

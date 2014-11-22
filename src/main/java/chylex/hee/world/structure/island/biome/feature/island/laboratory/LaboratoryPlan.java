@@ -45,7 +45,7 @@ public final class LaboratoryPlan{
 			
 			while(++dist < 25){
 				LaboratoryElement hall = trySpawnElement(world,dir == 0 || dir == 2 ? LaboratoryElementType.HALL_Z : LaboratoryElementType.HALL_X,xx+Direction.offsetX[dir]*dist,zz+Direction.offsetZ[dir]*dist,dir);
-				if (hall == null || Math.abs(hall.y-prevY) > 2 || Math.abs(hall.y-startY) > 4 || !hasSpaceFor(hall,room))break;
+				if (hall == null || Math.abs(hall.y-prevY) > 1 || Math.abs(hall.y-startY) > 3 || !hasSpaceFor(hall,room))break;
 			}
 			
 			if (dist <= 7)continue;

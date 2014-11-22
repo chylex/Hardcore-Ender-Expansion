@@ -2,6 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.Direction;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
@@ -26,7 +27,9 @@ public final class LaboratoryGenerator{
 		for(LaboratoryElement room:roomElements){
 			if (room.type == LaboratoryElementType.SMALL_ROOM)LaboratoryElementPlacer.generateSmallRoom(world,rand,room.x,room.y,room.z);
 			else LaboratoryElementPlacer.generateLargeRoom(world,rand,room.x,room.y,room.z);
-			
+		}
+		
+		for(LaboratoryElement room:roomElements){
 			for(dir = 0; dir < 4; dir++){
 				if (room.connected[dir]){
 					room.connected[dir] = false;
@@ -48,35 +51,67 @@ public final class LaboratoryGenerator{
 						LaboratoryElement hall = getAt(xx,zz);
 						
 						if (hall == null || !hall.type.isHall()){
-							LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx,zz,yy);
+							LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx-offX,zz-offZ,yy,offX != 0);
 							LaboratoryElementPlacer.generateRoomEntrance(world,rand,xx,yy,zz,offX != 0);
 							break;
 						}
 						else if (hall.y != yy){
-							LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx,zz,yy);
-							
 							if (prevStairs){
-								xx -= offX*LaboratoryElementPlacer.hallStairsLength;
-								zz -= offZ*LaboratoryElementPlacer.hallStairsLength;
+								world.setBlock(xx,hall.y+40,zz,Blocks.redstone_ore); // TODO
+								fromX -= offX*(LaboratoryElementPlacer.hallStairsLength-1);
+								fromZ -= offZ*(LaboratoryElementPlacer.hallStairsLength-1);
+								xx -= offX*(LaboratoryElementPlacer.hallStairsLength-1);
+								zz -= offZ*(LaboratoryElementPlacer.hallStairsLength-1);
+								world.setBlock(xx,hall.y+40,zz,Blocks.redstone_block); // TODO
 							}
 							
-							/*if (dist <= LaboratoryElementPlacer.hallStairsLength){
-								xx -= offX*(LaboratoryElementPlacer.hallStairsLength>>1);
-								zz -= offZ*(LaboratoryElementPlacer.hallStairsLength>>1);
-							}*/
-							
-							LaboratoryElementPlacer.generateHallStairs(world,rand,xx,yy,zz,offX,hall.y-yy,offZ);
-							fromX = xx += offX*LaboratoryElementPlacer.hallStairsLength;
-							fromZ = zz += offZ*LaboratoryElementPlacer.hallStairsLength;
-							yy = hall.y;
 							prevStairs = true;
+							
+							int distFromStart = dist-1, freeSpace = LaboratoryElementPlacer.hallStairsLength+1;
+							
+							for(int test = 0, tx = xx, tz = zz; test <= LaboratoryElementPlacer.hallStairsLength+1; test++){
+								tx += offX;
+								tz += offZ;
+								
+								LaboratoryElement element = getAt(tx,tz);
+								
+								if (element == null || !element.type.isHall()){
+									freeSpace = test;
+									break;
+								}
+							}
+							
+							if (freeSpace < LaboratoryElementPlacer.hallStairsLength+1){
+								if (distFromStart-freeSpace > 0){
+									distFromStart -= freeSpace;
+									world.setBlock(xx,hall.y+21,zz,Blocks.iron_ore); // TODO
+									xx -= offX*distFromStart;
+									zz -= offZ*distFromStart;
+									world.setBlock(xx,hall.y+21,zz,Blocks.iron_block); // TODO
+								}
+								else{
+									world.setBlock(xx,hall.y+22,zz,Blocks.gold_ore); // TODO
+									LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx,zz,hall.y,offX != 0);
+									fromX = xx += offX*(LaboratoryElementPlacer.hallStairsLength+1);
+									fromZ = zz += offZ*(LaboratoryElementPlacer.hallStairsLength+1);
+									world.setBlock(xx,hall.y+22,zz,Blocks.gold_block); // TODO
+									yy = hall.y;
+									continue;
+								}
+							}
+							
+							LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx-offX,zz-offZ,yy,offX != 0);
+							LaboratoryElementPlacer.generateHallStairs(world,rand,xx,yy,zz,offX,hall.y-yy,offZ);
+							fromX = xx += offX*(LaboratoryElementPlacer.hallStairsLength+1);
+							fromZ = zz += offZ*(LaboratoryElementPlacer.hallStairsLength+1);
+							yy = hall.y;
 							continue;
 						}
-						
+
 						prevStairs = false;
 					}
 					
-					dist += room.type.halfSizeX*offX+room.type.halfSizeZ*offZ;
+					dist += room.type.halfSizeX*offX+room.type.halfSizeZ*offZ-1;
 					
 					while(--dist >= 0){
 						LaboratoryElement ele = getAt(xx,zz);
