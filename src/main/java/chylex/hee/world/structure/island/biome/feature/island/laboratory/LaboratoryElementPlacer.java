@@ -6,7 +6,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public class LaboratoryElementPlacer{
-	public static final byte hallStairsLength = 4;
+	public static final byte hallStairsLength = 0;
 	
 	public static void generateRoomEntrance(LargeStructureWorld world, Random rand, int x, int y, int z, boolean isX){
 		int x1 = x, x2 = x, z1 = z, z2 = z;
@@ -22,17 +22,16 @@ public class LaboratoryElementPlacer{
 		
 		for(x = Math.min(x1,x2); x <= Math.max(x1,x2); x++){
 			for(z = Math.min(z1,z2); z <= Math.max(z1,z2); z++){
-				for(int py = 0; py < 6; py++){ // TODO
-					world.setBlock(x,y+py,z,py == 0 ? BlockList.obsidian_special : py == 4 ? Blocks.obsidian : py == 5 ? Blocks.emerald_block : Blocks.air);
+				for(int py = 0; py < 5; py++){
+					world.setBlock(x,y+py,z,py == 0 ? BlockList.obsidian_special : py == 4 ? Blocks.obsidian : Blocks.air);
 				}
 			}
 		}
 	}
 	
-	public static void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y, boolean isX){ y += 10; // TODO
+	public static void generateHall(LargeStructureWorld world, Random rand, int x1, int z1, int x2, int z2, int y, boolean isX){
 		if (isX){
 			for(int xMin = Math.min(x1,x2), xMax = Math.max(x1,x2), x = xMin; x <= xMax; x++){
-				if (x == xMin)world.setBlock(x,y+6,z1,Blocks.diamond_block); // TODO
 				for(int a = 0; a < 3; a++){
 					world.setBlock(x,y,z1-1+a,BlockList.obsidian_special);
 					world.setBlock(x,y+4,z1-1+a,Blocks.obsidian);
@@ -49,7 +48,6 @@ public class LaboratoryElementPlacer{
 		}
 		else{
 			for(int zMin = Math.min(z1,z2), zMax = Math.max(z1,z2), z = zMin; z <= zMax; z++){
-				if (z == zMin)world.setBlock(x1,y+6,z,Blocks.diamond_block); // TODO
 				for(int a = 0; a < 3; a++){
 					world.setBlock(x1-1+a,y,z,BlockList.obsidian_special);
 					world.setBlock(x1-1+a,y+4,z,Blocks.obsidian);
@@ -94,70 +92,102 @@ public class LaboratoryElementPlacer{
 		}
 	}
 	
-	public static void generateHallStairs(LargeStructureWorld world, Random rand, int x, int y, int z, int xAdd, int yAdd, int zAdd){ y += 20; // TODO
+	public static void generateHallStairs(LargeStructureWorld world, Random rand, int x, int y, int z, int xAdd, int yAdd, int zAdd){
 		int x1 = x, x2 = x, z1 = z, z2 = z;
 		
-		if (yAdd == 1){
-			x += xAdd*hallStairsLength;
-			x1 = x2 = x;
+		if (yAdd == -1)--y;
+		else{
 			xAdd *= -1;
-			z += zAdd*hallStairsLength;
-			z1 = z2 = z;
 			zAdd *= -1;
-			yAdd = 0;
 		}
-		
-		y += yAdd;
 		
 		world.setBlock(x,y+7,z,Blocks.lapis_block); // TODO
 		
 		if (xAdd != 0){
-			for(int a = 0; a <= hallStairsLength; a++){
-				for(int py = 0; py <= 5; py++){
-					if (py < 5){
-						for(int b = 0; b < 2; b++){
-							world.setBlock(x,y+py,z-2+b*4,(py == 3 && a <= 2) || (py == 2 && a >= 2) ? BlockList.laboratory_glass : Blocks.obsidian);
-						}
+			for(int py = 0; py <= 5; py++){
+				if (py < 5){
+					for(int b = 0; b < 2; b++){
+						world.setBlock(x,y+py,z-2+b*4,Blocks.obsidian);
 					}
-					
-					for(int b = 0; b < 3; b++){
-						if (a == 0 && py == 1)world.setBlock(x,y+py,z-1+b,BlockList.obsidian_stairs,xAdd == 1 ? 1 : 0);
-						else world.setBlock(x,y+py,z-1+b,py == 0 ? BlockList.obsidian_special : ((a == hallStairsLength && py == 4) || py == 5) ? Blocks.obsidian : Blocks.air);
-					}
-					
-					if (a == 0 && py == 4)continue;
 				}
 				
-				x += xAdd;
+				for(int b = 0; b < 3; b++){
+					if (py == 1)world.setBlock(x,y+py,z-1+b,BlockList.obsidian_stairs,xAdd == 1 ? 1 : 0);
+					else world.setBlock(x,y+py,z-1+b,py == 0 ? BlockList.obsidian_special : py == 5 ? Blocks.obsidian : Blocks.air);
+				}
 			}
 			
+			int space = 0;
+			
+			for(; space < 3; space++){
+				if (world.isAir(x+(space+1)*xAdd,y+2,z-2))break;
+			}
+			
+			if (space == 1 || space == 2){
+				for(int side = 0; side < 2; side++){
+					world.setBlock(x+xAdd,y+2,z-2+side*4,Blocks.obsidian);
+					world.setBlock(x+xAdd,y+4,z-2+side*4,Blocks.obsidian);
+				}
+			}
+			else if (space == 3){
+				for(int side = 0; side < 2; side++){
+					world.setBlock(x+xAdd,y+3,z-2+side*4,BlockList.laboratory_glass);
+					world.setBlock(x+2*xAdd,y+3,z-2+side*4,BlockList.laboratory_glass);
+				}
+			}
+			
+			for(int b = 0; b < space; b++){
+				for(int a = 0; a < 3; a++){
+					world.setBlock(x+xAdd*space,y+4,z-1+a,Blocks.air);
+					world.setBlock(x+xAdd*space,y+5,z-1+a,Blocks.obsidian);
+				}
+			}
+
 			z1 -= 2;
 			z2 += 2;
-			x2 += xAdd*hallStairsLength;
 		}
 		else if (zAdd != 0){
-			for(int a = 0; a <= hallStairsLength; a++){
-				for(int py = 0; py <= 5; py++){
-					if (py < 5){
-						for(int b = 0; b < 2; b++){
-							world.setBlock(x-2+b*4,y+py,z,(py == 3 && a <= 2) || (py == 2 && a >= 2) ? BlockList.laboratory_glass : Blocks.obsidian);
-						}
+			for(int py = 0; py <= 5; py++){
+				if (py < 5){
+					for(int b = 0; b < 2; b++){
+						world.setBlock(x-2+b*4,y+py,z,Blocks.obsidian);
 					}
-					
-					for(int b = 0; b < 3; b++){
-						if (a == 0 && py == 1)world.setBlock(x-1+b,y+py,z,BlockList.obsidian_stairs,zAdd == 1 ? 3 : 2);
-						else world.setBlock(x-1+b,y+py,z,py == 0 ? BlockList.obsidian_special : ((a == hallStairsLength && py == 4) || py == 5) ? Blocks.obsidian : Blocks.air);
-					}
-					
-					if (a == 0 && py == 4)continue;
 				}
 				
-				z += zAdd;
+				for(int b = 0; b < 3; b++){
+					if (py == 1)world.setBlock(x-1+b,y+py,z,BlockList.obsidian_stairs,zAdd == 1 ? 3 : 2);
+					else world.setBlock(x-1+b,y+py,z,py == 0 ? BlockList.obsidian_special : py == 5 ? Blocks.obsidian : Blocks.air);
+				}
+			}
+			
+			int space = 0;
+			
+			for(; space < 3; space++){
+				if (world.isAir(x-2,y+2,z+(space+1)*zAdd))break;
+			}
+			
+			if (space == 1 || space == 2){
+				for(int side = 0; side < 2; side++){
+					world.setBlock(x-2+side*4,y+2,z+zAdd,Blocks.obsidian);
+					world.setBlock(x-2+side*4,y+4,z+zAdd,Blocks.obsidian);
+				}
+			}
+			else if (space == 3){
+				for(int side = 0; side < 2; side++){
+					world.setBlock(x-2+side*4,y+3,z+zAdd,BlockList.laboratory_glass);
+					world.setBlock(x-2+side*4,y+3,z+2*zAdd,BlockList.laboratory_glass);
+				}
+			}
+			
+			for(int b = 0; b < space; b++){
+				for(int a = 0; a < 3; a++){
+					world.setBlock(x-1+a,y+4,z+zAdd*space,Blocks.air);
+					world.setBlock(x-1+a,y+5,z+zAdd*space,Blocks.obsidian);
+				}
 			}
 			
 			x1 -= 2;
 			x2 += 2;
-			z2 += zAdd*hallStairsLength;
 		}
 		
 		for(int xx = Math.min(x1,x2), xMax = Math.max(x1,x2); xx <= xMax; xx++){
