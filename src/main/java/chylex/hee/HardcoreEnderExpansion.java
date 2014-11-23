@@ -162,6 +162,8 @@ public class HardcoreEnderExpansion{
 		BlockList.cinder.setHarvestLevel("pickaxe", 2);
 		BlockList.spooky_log.setHarvestLevel("axe", 0);
 		BlockList.persegrit.setHarvestLevel("shovel", 0);
+		BlockList.laboratory_obsidian.setHarvestLevel("pickaxe", 2);
+		BlockList.laboratory_floor.setHarvestLevel("pickaxe", 2);
 		Blocks.fire.setFireInfo(BlockList.spooky_log, 10, 10);
 		Blocks.fire.setFireInfo(BlockList.spooky_leaves, 40, 30);
 		

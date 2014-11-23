@@ -6,7 +6,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public class LaboratoryElementPlacer{
-	public static final Block blockLab = Blocks.obsidian;
+	public static final Block blockLab = BlockList.laboratory_obsidian;
 	public static final Block blockFloor = BlockList.laboratory_floor;
 	
 	public static void generateRoomEntrance(LargeStructureWorld world, Random rand, int x, int y, int z, boolean isX){
