@@ -1,6 +1,8 @@
 package chylex.hee.world.structure.island.biome.decorator;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.List;
+import net.minecraft.util.MathHelper;
+import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
@@ -142,5 +144,52 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		
 		// LABORATORY
 		genLaboratory.generateInWorld(world,rand,getBiome());
+		
+		// VIOLET MOSS
+		for(int amount = 30+rand.nextInt(6)+rand.nextInt(8), attempt, yAttempt, xx, yy, zz, tmpY, clumps, placeAttempt, px, py, pz, placed = 0; amount > 0; amount--){
+			for(attempt = 0; attempt < 6; attempt++){
+				xx = rand.nextInt(ComponentIsland.size-30)+15;
+				zz = rand.nextInt(ComponentIsland.size-30)+15;
+				if ((yy = world.getHighestY(xx,zz)) == 0 || world.getBlock(xx,yy,zz) != BlockList.end_terrain)continue;
+				
+				for(yAttempt = 0; yAttempt < 7; yAttempt++){
+					tmpY = yy-rand.nextInt(20);
+					
+					if (world.getBlock(xx,tmpY,zz) == BlockList.end_terrain && world.isAir(xx,tmpY+1,zz)){
+						yy = tmpY;
+						break;
+					}
+				}
+				
+				for(clumps = 4+rand.nextInt(15); clumps >= 0; clumps--){
+					placed = 0;
+					
+					for(placeAttempt = 0; placeAttempt < 12+rand.nextInt(30); placeAttempt++){
+						px = xx+(int)Math.floor(25F*(rand.nextFloat()-0.5F)*rand.nextFloat());
+						pz = zz+(int)Math.floor(25F*(rand.nextFloat()-0.5F)*rand.nextFloat());
+						py = yy+rand.nextInt(4);
+						
+						for(yAttempt = 0; yAttempt < 5; yAttempt++){
+							if (world.getBlock(px,py-1,pz) == BlockList.end_terrain && world.isAir(px,py,pz)){
+								world.setBlock(px,py,pz,BlockList.crossed_decoration,rand.nextInt(4) == 0 ? BlockCrossedDecoration.dataVioletMossTall : rand.nextInt(3) == 0 ? BlockCrossedDecoration.dataVioletMossModerate : BlockCrossedDecoration.dataVioletMossShort);
+								++placed;
+								break;
+							}
+							else if (--py <= 0)break;
+						}
+					}
+					
+					if (rand.nextInt(20) == 0 || placed == 0)break;
+					
+					float ang = (float)(rand.nextFloat()*2F*Math.PI), dist = 8+rand.nextFloat()*10F;
+					
+					xx += (int)MathHelper.cos(ang)*dist;
+					zz += (int)MathHelper.sin(ang)*dist;
+					yy += rand.nextInt(3)-rand.nextInt(3);
+				}
+				
+				break;
+			}
+		}
 	}
 }

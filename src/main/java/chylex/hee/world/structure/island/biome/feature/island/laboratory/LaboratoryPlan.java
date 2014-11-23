@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.util.Direction;
-import chylex.hee.system.logging.Log;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
@@ -85,10 +84,7 @@ public final class LaboratoryPlan{
 			if (hasGenerated)attempts = Math.min(100,attempts+10);
 		}
 		
-		if (elements.contains(null)){
-			Log.error("Found null in LaboratoryPlan element list: $0",elements.toString());
-			return false;
-		}
+		if (elements.contains(null))return false;
 		
 		score = elements.size()+roomElements.size()*12;
 		return true;
