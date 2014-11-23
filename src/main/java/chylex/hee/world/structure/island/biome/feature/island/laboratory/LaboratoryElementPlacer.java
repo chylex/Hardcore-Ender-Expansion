@@ -101,8 +101,6 @@ public class LaboratoryElementPlacer{
 			zAdd *= -1;
 		}
 		
-		world.setBlock(x,y+7,z,Blocks.lapis_block); // TODO
-		
 		if (xAdd != 0){
 			for(int py = 0; py <= 5; py++){
 				if (py < 5){
@@ -124,22 +122,22 @@ public class LaboratoryElementPlacer{
 			}
 			
 			if (space == 1 || space == 2){
-				for(int side = 0; side < 2; side++){
-					world.setBlock(x+xAdd,y+2,z-2+side*4,Blocks.obsidian);
-					world.setBlock(x+xAdd,y+4,z-2+side*4,Blocks.obsidian);
-				}
+				for(int side = 0; side < 2; side++)world.setBlock(x+xAdd,y+2,z-2+side*4,Blocks.obsidian);
 			}
 			else if (space == 3){
 				for(int side = 0; side < 2; side++){
+					world.setBlock(x+xAdd,y+4,z-2+side*4,Blocks.obsidian);
+					world.setBlock(x,y+3,z-2+side*4,BlockList.laboratory_glass);
 					world.setBlock(x+xAdd,y+3,z-2+side*4,BlockList.laboratory_glass);
-					world.setBlock(x+2*xAdd,y+3,z-2+side*4,BlockList.laboratory_glass);
 				}
 			}
 			
-			for(int b = 0; b < space; b++){
+			for(int b = 0; b <= Math.min(space,2); b++){
+				for(int side = 0; side < 2; side++)world.setBlock(x+xAdd*b,y+4,z-2+side*4,Blocks.obsidian);
+				
 				for(int a = 0; a < 3; a++){
-					world.setBlock(x+xAdd*space,y+4,z-1+a,Blocks.air);
-					world.setBlock(x+xAdd*space,y+5,z-1+a,Blocks.obsidian);
+					world.setBlock(x+xAdd*b,y+4,z-1+a,Blocks.air);
+					world.setBlock(x+xAdd*b,y+5,z-1+a,Blocks.obsidian);
 				}
 			}
 
@@ -167,22 +165,22 @@ public class LaboratoryElementPlacer{
 			}
 			
 			if (space == 1 || space == 2){
-				for(int side = 0; side < 2; side++){
-					world.setBlock(x-2+side*4,y+2,z+zAdd,Blocks.obsidian);
-					world.setBlock(x-2+side*4,y+4,z+zAdd,Blocks.obsidian);
-				}
+				for(int side = 0; side < 2; side++)world.setBlock(x-2+side*4,y+2,z+zAdd,Blocks.obsidian);
 			}
 			else if (space == 3){
 				for(int side = 0; side < 2; side++){
+					world.setBlock(x-2+side*4,y+4,z+zAdd,Blocks.obsidian);
+					world.setBlock(x-2+side*4,y+3,z,BlockList.laboratory_glass);
 					world.setBlock(x-2+side*4,y+3,z+zAdd,BlockList.laboratory_glass);
-					world.setBlock(x-2+side*4,y+3,z+2*zAdd,BlockList.laboratory_glass);
 				}
 			}
 			
-			for(int b = 0; b < space; b++){
+			for(int b = 0; b <= Math.min(space,2); b++){
+				for(int side = 0; side < 2; side++)world.setBlock(x-2+side*4,y+4,z+zAdd*b,Blocks.obsidian);
+				
 				for(int a = 0; a < 3; a++){
-					world.setBlock(x-1+a,y+4,z+zAdd*space,Blocks.air);
-					world.setBlock(x-1+a,y+5,z+zAdd*space,Blocks.obsidian);
+					world.setBlock(x-1+a,y+4,z+zAdd*b,Blocks.air);
+					world.setBlock(x-1+a,y+5,z+zAdd*b,Blocks.obsidian);
 				}
 			}
 			
