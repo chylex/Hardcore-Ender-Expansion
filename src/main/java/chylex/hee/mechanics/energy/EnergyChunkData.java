@@ -7,7 +7,7 @@ import chylex.hee.system.util.MathUtil;
 
 public class EnergyChunkData{
 	public static final float minSignificantEnergy = 0.0001F;
-	public static final float energyDrainUnit = 0.08F;
+	public static final float energyDrainUnit = 0.12F;
 	
 	private int x, z;
 	private float energyLevel, maxEnergyLevel;

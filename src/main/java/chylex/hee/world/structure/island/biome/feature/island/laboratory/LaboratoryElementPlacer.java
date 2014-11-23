@@ -253,6 +253,10 @@ public class LaboratoryElementPlacer{
 				}
 			}
 		}
+		
+		// populate
+		
+		LaboratoryContent.populateSmallRoom(world,rand,x,y,z);
 	}
 	
 	public static void generateLargeRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
@@ -319,6 +323,10 @@ public class LaboratoryElementPlacer{
 				}
 			}
 		}
+		
+		// populate
+		
+		LaboratoryContent.populateLargeRoom(world,rand,x,y,z);
 	}
 	
 	private static boolean isValidFloor(Block block){

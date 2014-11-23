@@ -16,6 +16,7 @@ public final class LaboratoryPlan{
 	public boolean generate(LargeStructureWorld world, Random rand){
 		roomElements.clear();
 		elements.clear();
+		score = 0;
 		
 		int x, z;
 		

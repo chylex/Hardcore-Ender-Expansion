@@ -11,9 +11,8 @@ public class StructureLaboratory extends AbstractIslandStructure{
 		int score = -1, attempts = 0;
 		
 		do{
-			plan.generate(world,rand);
-			if (bestPlan == null || plan.getScore() > bestPlan.getScore())bestPlan = plan.copy();
-		}while(++attempts < 200 && bestPlan.getScore() < 600);
+			if (plan.generate(world,rand) && (bestPlan == null || plan.getScore() > bestPlan.getScore()))bestPlan = plan.copy();
+		}while(++attempts < 400 && bestPlan.getScore() < 600);
 		
 		System.out.println("SCORE "+bestPlan.getScore());
 		
