@@ -84,8 +84,8 @@ public final class LaboratoryGenerator{
 						else if (hall.y != yy){
 							LaboratoryElementPlacer.generateHall(world,rand,fromX,fromZ,xx-offX,zz-offZ,yy,offX != 0);
 							stairs.add(new int[]{ xx, yy, zz, hall.y-yy, dir });
-							fromX = xx += offX*(LaboratoryElementPlacer.hallStairsLength+1);
-							fromZ = zz += offZ*(LaboratoryElementPlacer.hallStairsLength+1);
+							fromX = xx += offX;
+							fromZ = zz += offZ;
 							yy = hall.y;
 							continue;
 						}

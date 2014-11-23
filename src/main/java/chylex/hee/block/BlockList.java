@@ -67,6 +67,8 @@ public final class BlockList{
 	public static Block dungeon_puzzle;
 	public static Block cinder;
 	public static Block persegrit;
+	public static Block laboratory_floor;
+	public static Block laboratory_stairs;
 	
 	// ORES
 	
@@ -132,6 +134,8 @@ public final class BlockList{
 		register("dungeon_puzzle", dungeon_puzzle = new BlockDungeonPuzzle().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal).setBlockName("dungeonPuzzle"));
 		register("cinder", cinder = new BlockBasic(Material.rock).setHardness(1F).setResistance(10F).setStepSound(Block.soundTypeStone).setBlockName("cinder").setBlockTextureName("hardcoreenderexpansion:cinder"));
 		register("persegrit", persegrit = new BlockPersegrit().setHardness(4F).setResistance(0.2F).setStepSound(Block.soundTypeGravel).setBlockName("persegrit").setBlockTextureName("hardcoreenderexpansion:persegrit"));
+		register("laboratory_floor", laboratory_floor = new BlockBasic(Material.rock).setHardness(30F).setResistance(100F).setBlockName("laboratoryFloor").setBlockTextureName("hardcoreenderexpansion:laboratory_floor"));
+		register("laboratory_stairs", laboratory_stairs = new BlockBasicStairs(laboratory_floor,0).setHardness(20F).setResistance(80F).setBlockName("laboratoryStairs"));
 		
 		register("end_powder_ore", end_powder_ore = new BlockEndPowderOre().setHardness(3F).setResistance(12F).setStepSound(Block.soundTypeStone).setBlockName("endPowderOre").setBlockTextureName("hardcoreenderexpansion:end_powder_ore"));
 		register("endium_ore", endium_ore = new BlockEndiumOre().setHardness(18F).setResistance(100F).setStepSound(Block.soundTypeStone).setBlockName("endiumOre").setBlockTextureName("hardcoreenderexpansion:endium_ore"));
@@ -196,7 +200,7 @@ public final class BlockList{
 			endium_block,
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,
-			dungeon_puzzle,cinder,persegrit,laboratory_glass,
+			dungeon_puzzle,cinder,persegrit,laboratory_floor,laboratory_glass,
 			crossed_decoration,death_flower
 		);
 		

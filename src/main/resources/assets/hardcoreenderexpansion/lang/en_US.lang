@@ -54,6 +54,8 @@ tile.dungeonPuzzle.wallLit.name=Dungeon Puzzle (Lit Wall)
 tile.energyCluster.name=Energy Cluster
 tile.cinder.name=Cinder
 tile.persegrit.name=Persegrit
+tile.laboratoryFloor.name=Laboratory Floor
+tile.laboratoryStairs.name=Laboratory Stairs
 tile.laboratoryGlass.name=Laboratory Glass
 
 item.essence.dragon.name=Dragon Essence
