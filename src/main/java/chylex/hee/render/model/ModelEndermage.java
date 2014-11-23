@@ -102,14 +102,14 @@ public class ModelEndermage extends ModelBase{
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
 		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
-		
-	    crown.render(unitPixel);
+
+		crown.render(unitPixel);
 		head.render(unitPixel);
-	    body.render(unitPixel);
-	    rightArm.render(unitPixel);
-	    leftArm.render(unitPixel);
-	    rightLeg.render(unitPixel);
-	    leftLeg.render(unitPixel);
+		body.render(unitPixel);
+		rightArm.render(unitPixel);
+		leftArm.render(unitPixel);
+		rightLeg.render(unitPixel);
+		leftLeg.render(unitPixel);
 	}
 	
 	@Override

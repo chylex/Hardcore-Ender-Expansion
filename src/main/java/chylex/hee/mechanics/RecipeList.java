@@ -45,7 +45,7 @@ public final class RecipeList{
 			'I', Blocks.iron_block
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.energy_extraction_table),
+		/*GameRegistry.addShapedRecipe(new ItemStack(BlockList.energy_extraction_table),
 			"PBP", "SES", "INI",
 			'P', ItemList.end_powder,
 			'B', Blocks.iron_bars,
@@ -53,7 +53,7 @@ public final class RecipeList{
 			'E', ItemList.ectoplasm,
 			'N', BlockList.endium_block,
 			'I', Blocks.iron_block
-		);
+		);*/ // TODO
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.biome_compass),
 			" N ", "NSN", " N ",
