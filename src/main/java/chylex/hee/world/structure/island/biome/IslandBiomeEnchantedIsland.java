@@ -10,6 +10,7 @@ import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
+import chylex.hee.entity.mob.EntityMobEndermage;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.packets.PacketPipeline;
@@ -47,7 +48,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		});
 		
 		getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
-			// TODO new SpawnEntry(EntityMobEndermage.class,6,15),
+			new SpawnEntry(EntityMobEndermage.class,6,15),
 			new SpawnEntry(EntityEnderman.class,12,10),
 			new SpawnEntry(EntityMobEnderGuardian.class,20,7)
 		});
