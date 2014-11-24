@@ -79,6 +79,45 @@ public final class RecipeList{
 			'R', new ItemStack(ItemList.rune,1,OreDictionary.WILDCARD_VALUE)
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.obsidian_rod),
+			" F", "F ",
+			'F', ItemList.obsidian_fragment
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(Blocks.obsidian),
+			"FFF", "FFF", "FFF",
+			'F', ItemList.obsidian_fragment
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_stairs),
+			"  F", " FF", "FFF",
+			'F', ItemList.obsidian_fragment
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_special,1,0),
+			"FFF", "FQF", "FFF",
+			'F', ItemList.obsidian_fragment,
+			'Q', new ItemStack(Blocks.quartz_block,1,0)
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_special,1,1),
+			"FFF", "FQF", "FFF",
+			'F', ItemList.obsidian_fragment,
+			'Q', new ItemStack(Blocks.quartz_block,1,1)
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.obsidian_special,1,2),
+			"FFF", "FQF", "FFF",
+			'F', ItemList.obsidian_fragment,
+			'Q', new ItemStack(Blocks.quartz_block,1,2)
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.energy_wand),
+			"  C", " R ", "R  ",
+			'C', ItemList.energy_wand_core,
+			'R', ItemList.obsidian_rod
+		);
+		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ravaged_brick_slab,6),
 			"XXX",
 			'X', new ItemStack(BlockList.ravaged_brick,1,OreDictionary.WILDCARD_VALUE)

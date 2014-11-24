@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemGhostAmulet extends Item{
 	@SideOnly(Side.CLIENT)
-	private IIcon iconImpure, iconPure; // TODO impure icon
+	private IIcon iconImpure, iconPure;
 	
 	public ItemGhostAmulet(){
 		setHasSubtypes(true);

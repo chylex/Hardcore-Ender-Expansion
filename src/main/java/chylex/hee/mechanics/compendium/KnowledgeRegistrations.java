@@ -878,8 +878,8 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(690).setContents("Large golem-like creature that spawns in the Enchanted Island (Laboratory).").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(691).setContents("It attacks players when provoked (attacking or getting too close).").setPrice(2).setUnlockRequirements(690),
 				new KnowledgeFragmentText(692).setContents("When attacking, it dashes towards the player every few seconds, causing massive knockback.").setPrice(5).setUnlockRequirements(690),
-				new KnowledgeFragmentText(694).setContents("Damage caused by fire, projectiles and falling blocks is reduced, cactuses don't hurt the Guardian at all.").setPrice(3).setUnlockRequirements(690),
-				new KnowledgeFragmentText(693).setContents("The guardian drops 0-1 Ender Pearls and 1-3 Obsidian blocks.").setPrice(3).setUnlockRequirements(690)
+				new KnowledgeFragmentText(694).setContents("Damage caused by fire, projectiles and falling blocks is reduced, cactuses don't hurt the Guardian at all. Knockback is reduced, sometimes ignored completely.").setPrice(3).setUnlockRequirements(690),
+				new KnowledgeFragmentText(693).setContents("The guardian drops 0-1 Ender Pearls, 1-3 Obsidian blocks and 0-3 Obsidian Fragments.").setPrice(3).setUnlockRequirements(690)
 			}),
 			
 			HOMELAND_ENDERMAN.setPos(2,6).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{

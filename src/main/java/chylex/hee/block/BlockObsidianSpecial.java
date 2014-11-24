@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)
-	private IIcon iconSmooth,iconPillar,iconPillarTop,iconChiseled,iconChiseledTop;
+	private IIcon iconSmooth, iconPillar, iconPillarTop, iconChiseled, iconChiseledTop;
 	
 	/*
 	 * Metadata
@@ -40,7 +40,7 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
 		if (meta == 1 || meta == 6)return side == 1 ? iconChiseledTop : iconChiseled;
-		else if (meta >= 2 && meta <= 4)return (meta == 2 && (side == 0 || side == 1)) || (meta == 3 && (side == 4 || side == 5)) || (meta == 4 && (side == 2 || side == 3))?iconPillarTop:iconPillar;
+		else if (meta >= 2 && meta <= 4)return (meta == 2 && (side == 0 || side == 1)) || (meta == 3 && (side == 4 || side == 5)) || (meta == 4 && (side == 2 || side == 3)) ? iconPillarTop : iconPillar;
 		return iconSmooth;
 	}
 	

@@ -42,6 +42,8 @@ public final class ItemList{
 	// CRAFTING MATERIALS
 	
 	public static Item altar_nexus;
+	public static Item obsidian_fragment;
+	public static Item obsidian_rod;
 	public static Item energy_wand_core;
 	
 	// COMPLEX MATERIALS
@@ -94,6 +96,8 @@ public final class ItemList{
 		register("instability_orb", instability_orb = new ItemInstabilityOrb().setUnlocalizedName("instabilityOrb").setTextureName("hardcoreenderexpansion:instability_orb"));
 		
 		register("altar_nexus", altar_nexus = new Item().setUnlocalizedName("altarNexus").setTextureName("hardcoreenderexpansion:altar_nexus"));
+		register("obsidian_fragment", obsidian_fragment = new Item().setUnlocalizedName("obsidianFragment").setTextureName("hardcoreenderexpansion:obsidian_fragment"));
+		register("obsidian_rod", obsidian_rod = new Item().setUnlocalizedName("obsidianRod").setTextureName("hardcoreenderexpansion:obsidian_rod"));
 		register("energy_wand_core", energy_wand_core = new Item().setUnlocalizedName("energyWandCore").setTextureName("hardcoreenderexpansion:energy_wand_core"));
 		
 		register("essence", essence = new ItemEssence().setUnlocalizedName("essence"));
@@ -140,7 +144,7 @@ public final class ItemList{
 		).addBlocks(
 			BlockList.soul_charm
 		).addItems(
-			fire_shard,scorching_pickaxe,energy_wand_core,energy_wand,
+			fire_shard,scorching_pickaxe,obsidian_fragment,obsidian_rod,energy_wand_core,energy_wand,
 			enderman_head,bucket_ender_goo,music_disk,
 			knowledge_note,
 			spawn_eggs

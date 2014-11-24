@@ -15,6 +15,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy;
@@ -118,6 +119,11 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 		
 		amount = 1+rand.nextInt(3+(looting>>1));
 		for(int a = 0; a < amount; a++)dropItem(Item.getItemFromBlock(Blocks.obsidian),1);
+		
+		if (recentlyHit){
+			amount = rand.nextInt(4-rand.nextInt(3)+(looting>>1));
+			for(int a = 0; a < amount; a++)dropItem(ItemList.obsidian_fragment,1);
+		}
 	}
 	
 	@Override
