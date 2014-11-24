@@ -89,11 +89,10 @@ public class ContainerCharmPouch extends Container{
 
 		runeResultInv.setInventorySlotContents(0,null);
 		
-		ItemStack heldPouch = player.getCurrentEquippedItem();
-		ItemCharmPouch.setPouchCharms(heldPouch,new ItemStack[]{ charmInv.getStackInSlot(0), charmInv.getStackInSlot(1), charmInv.getStackInSlot(2) });
+		ItemCharmPouch.setPouchCharms(pouch,new ItemStack[]{ charmInv.getStackInSlot(0), charmInv.getStackInSlot(1), charmInv.getStackInSlot(2) });
 		
 		CharmPouchInfo activePouch = CharmPouchHandler.getActivePouch(player);
-		if (activePouch != null && activePouch.pouchID == ItemCharmPouch.getPouchID(heldPouch))CharmPouchHandler.setActivePouch(player,heldPouch);
+		if (activePouch != null && activePouch.pouchID == ItemCharmPouch.getPouchID(pouch))CharmPouchHandler.setActivePouch(player,player.getHeldItem() == null ? null : pouch);
 	}
 	
 	@Override

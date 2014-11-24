@@ -3,7 +3,9 @@ import gnu.trove.iterator.TObjectByteIterator;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CharmRecipe{
 	public final byte id;
@@ -50,5 +52,11 @@ public class CharmRecipe{
 		}
 		
 		return runeList.isEmpty();
+	}
+	
+	public Map<RuneType,Byte> getRunes(){
+		Map<RuneType,Byte> runes = new HashMap<>();
+		for(RuneType type:this.runes.keySet())runes.put(type,this.runes.get(type));
+		return runes;
 	}
 }

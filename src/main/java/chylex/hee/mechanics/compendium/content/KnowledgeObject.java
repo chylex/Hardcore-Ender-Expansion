@@ -85,7 +85,7 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance<?>> implements I
 		return this;
 	}
 	
-	public KnowledgeObject setFragments(KnowledgeFragment[] fragments){
+	public KnowledgeObject addFragments(KnowledgeFragment[] fragments){
 		for(KnowledgeFragment fragment:fragments)fragmentSet.add(fragment);
 		fragmentSetImmutable = ImmutableSet.copyOf(fragmentSet);
 		return this;
@@ -180,7 +180,7 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance<?>> implements I
 		}
 		
 		@Override
-		public KnowledgeObject setFragments(KnowledgeFragment[] fragments){
+		public KnowledgeObject addFragments(KnowledgeFragment[] fragments){
 			throw new UnsupportedOperationException("Cannot modify fragments in linked Knowledge Objects.");
 		}
 		
