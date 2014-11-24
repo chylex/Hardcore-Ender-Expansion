@@ -112,6 +112,12 @@ public final class RecipeList{
 			'Q', new ItemStack(Blocks.quartz_block,1,2)
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.energy_wand_core),
+			" G ", "GEG", " G ",
+			'G', Items.gold_ingot,
+			'E', BlockList.endium_block
+		);
+		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.energy_wand),
 			"  C", " R ", "R  ",
 			'C', ItemList.energy_wand_core,
