@@ -55,8 +55,6 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 		
 		ItemStack mainIS = container.getSlot(0).getStack();
 		if (mainIS == null)selectedEnhancementSlot = -1;
-		
-		String selectedTooltip = null;
 
 		for(int a = 0, x, y; a < container.enhancementSlotX.length; a++){
 			x = container.enhancementSlotX[a];
@@ -78,11 +76,11 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 
 			if (checkRect(mouseX-guiLeft,mouseY-guiTop,x,y,17,17)){
 				if (!container.clientEnhancementBlocked[a])drawRectangle(x,y,x+16,y+16,-2130706433);
-				selectedTooltip = container.clientEnhancementTooltips[a];
+				GuiItemRenderHelper.setupTooltip(mouseX-guiLeft,mouseY-guiTop,container.clientEnhancementTooltips[a]);
 			}
 		}
 		
-		if (selectedTooltip != null)GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX-guiLeft,mouseY-guiTop,selectedTooltip);
+		GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
 		
 	}
 

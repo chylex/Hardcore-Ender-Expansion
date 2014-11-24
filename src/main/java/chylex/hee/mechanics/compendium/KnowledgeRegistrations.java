@@ -7,7 +7,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockList;
@@ -25,7 +24,6 @@ import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -150,8 +148,8 @@ public final class KnowledgeRegistrations{
 		RAVAGED_BRICK_SLAB = create(BlockList.ravaged_brick_slab),
 		RAVAGED_BRICK_FENCE = create(BlockList.ravaged_brick_fence),
 		CHARM_POUCH = create(ItemList.charm_pouch),
-		RUNES = create(ItemList.rune),
-		CHARMS = create(ItemList.charm),
+		RUNES = create(ItemList.rune,"Runes"),
+		CHARMS = create(ItemList.charm,"Charms"),
 		LOUSE = create(EntityMobLouse.class),
 		
 		// ===
@@ -950,6 +948,10 @@ public final class KnowledgeRegistrations{
 	
 	public static KnowledgeObject<ObjectItem> create(Item item){
 		return new KnowledgeObject<ObjectItem>(new ObjectItem(item));
+	}
+	
+	public static KnowledgeObject<ObjectItem> create(Item item, String tooltip){
+		return new KnowledgeObject<ObjectItem>(new ObjectItem(item),tooltip);
 	}
 	
 	public static KnowledgeObject<ObjectMob> create(Class<? extends EntityLiving> mobClass){

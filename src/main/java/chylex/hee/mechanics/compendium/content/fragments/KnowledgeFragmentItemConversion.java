@@ -64,10 +64,10 @@ public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 		
 		if (isUnlocked && mouseY >= y && mouseY <= y+17){
 			if (mouseX >= x && mouseX <= x+17){
-				GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(itemFrom,gui.mc.thePlayer)));
+				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(itemFrom,gui.mc.thePlayer)));
 			}
 			else if (mouseX >= x+44 && mouseX <= x+61){
-				GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(itemTo,gui.mc.thePlayer)));
+				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(itemTo,gui.mc.thePlayer)));
 			}
 		}
 	}

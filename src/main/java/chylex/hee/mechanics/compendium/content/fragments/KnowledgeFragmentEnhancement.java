@@ -75,7 +75,7 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 		KnowledgeFragmentText.renderString(name,x+22,y+5,130<<16|255,130<<16|255,gui);
 		
 		if (isUnlocked && mouseX >= x && mouseX <= x+17 && mouseY >= y && mouseY <= y+17){
-			GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(is,gui.mc.thePlayer)));
+			GuiItemRenderHelper.setupTooltip(mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(is,gui.mc.thePlayer)));
 		}
 	}
 }

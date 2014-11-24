@@ -5,6 +5,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.mechanics.charms.RuneType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,7 +28,7 @@ public class ItemRune extends Item{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		int damage = is.getItemDamage();
-		return "item.rune."+(damage >= 0 && damage < RuneType.values.length ? RuneType.values[damage].name().toLowerCase() : "invalid");
+		return "item.rune."+(damage >= 0 && damage < RuneType.values.length ? RuneType.values[damage].name().toLowerCase() : damage == OreDictionary.WILDCARD_VALUE ? "any" : "invalid");
 	}
 	
 	@Override

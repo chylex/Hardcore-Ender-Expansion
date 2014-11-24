@@ -82,16 +82,25 @@ public class GuiItemRenderHelper{
 		GL11.glDisable(GL11.GL_LIGHTING);
 	}
 	
-	public static void drawTooltip(ITooltipRenderer gui, FontRenderer fontRendererObj, int x, int y, String tooltip){
-		if (tooltip == null)return;
-		String[] strings = tooltip.split("\n");
+	private static int tooltipX, tooltipY;
+	private static String tooltipString;
+	
+	public static void setupTooltip(int x, int y, String tooltip){
+		tooltipX = x;
+		tooltipY = y;
+		tooltipString = tooltip;
+	}
+	
+	public static void drawTooltip(ITooltipRenderer gui, FontRenderer fontRendererObj){
+		if (tooltipString == null)return;
+		String[] strings = tooltipString.split("\n");
 		
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		
-		int maxWidth = 0, xx = x+12, yy = y-12, height = strings.length > 1 ? 10+(strings.length-1)*10 : 8;
+		int maxWidth = 0, xx = tooltipX+12, yy = tooltipY-12, height = strings.length > 1 ? 10+(strings.length-1)*10 : 8;
 		
 		for(String s:strings)maxWidth = Math.max(maxWidth,fontRendererObj.getStringWidth(s));
 
@@ -117,7 +126,7 @@ public class GuiItemRenderHelper{
 
 		for(int a = 0; a < strings.length; ++a){
 			fontRendererObj.drawStringWithShadow(strings[a],xx,yy,-1);
-			yy += a == 0?12:10;
+			yy += a == 0 ? 12 : 10;
 		}
 
 		renderItem.zLevel = 0F;
@@ -125,6 +134,8 @@ public class GuiItemRenderHelper{
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		
+		tooltipString = null;
 	}
 	
 	public static interface ITooltipRenderer{

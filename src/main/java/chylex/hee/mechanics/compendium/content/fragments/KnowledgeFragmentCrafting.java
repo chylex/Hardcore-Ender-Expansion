@@ -98,30 +98,29 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 		
 		if (items == null)return;
 		
-		for(int cycle = 0; cycle < (isUnlocked ? 2 : 1); cycle++){
-			for(int a = 0, xx = x, yy = y, cnt = 0; a < 10; a++){
-				ItemStack is = isUnlocked ? items[a] : lockedItem;
+		for(int a = 0, xx = x, yy = y, cnt = 0; a < 10; a++){
+			ItemStack is = isUnlocked ? items[a] : lockedItem;
+			
+			if (is != null){
+				GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
 				
-				if (is != null){
-					if (cycle == 0)GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
-					else if (mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
-						GuiItemRenderHelper.drawTooltip(gui,gui.mc.fontRenderer,mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(is,gui.mc.thePlayer)));
-					}
+				if (isUnlocked && mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
+					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(is,gui.mc.thePlayer)));
 				}
-	
-				if (a == 8){
-					xx = x+94;
-					yy = y+19;
-					continue;
-				}
-	
-				xx += 19;
-				
-				if (++cnt >= 3){
-					yy += 19;
-					xx -= 19*3;
-					cnt = 0;
-				}
+			}
+
+			if (a == 8){
+				xx = x+94;
+				yy = y+19;
+				continue;
+			}
+
+			xx += 19;
+			
+			if (++cnt >= 3){
+				yy += 19;
+				xx -= 19*3;
+				cnt = 0;
 			}
 		}
 	}

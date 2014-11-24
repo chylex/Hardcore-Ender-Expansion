@@ -90,6 +90,7 @@ item.scorchingPickaxe.name=Scorching Pickaxe
 item.fireShard.name=Fire Shard
 item.energyWand.name=Energy Wand
 item.charmPouch.name=Charm Pouch
+item.rune.any.name=Rune (Any)
 item.rune.power.name=Rune of Power
 item.rune.agility.name=Rune of Agility
 item.rune.vigor.name=Rune of Vigor

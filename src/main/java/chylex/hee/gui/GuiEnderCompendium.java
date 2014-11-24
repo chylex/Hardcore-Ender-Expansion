@@ -371,13 +371,13 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		for(CategoryDisplayElement element:categoryElements){
 			if (element.isMouseOver(mouseX,mouseY,(int)offY)){
-				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.category.getTooltip());
+				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.category.getTooltip());
 			}
 		}
 		
 		for(ObjectDisplayElement element:objectElements){
 			if (element.isMouseOver(mouseX,mouseY,(int)offY)){
-				GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY,element.object.getTooltip());
+				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.object.getTooltip());
 			}
 		}
 
@@ -411,8 +411,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			build.append("text scaling (experimental)\n");
 			build.append(EnumChatFormatting.DARK_GREEN);
 			build.append("Type: ").append(KnowledgeFragmentText.smoothRenderingType == 0 ? "Off" : String.valueOf(KnowledgeFragmentText.smoothRenderingType));
-			GuiItemRenderHelper.drawTooltip(this,fontRendererObj,mouseX,mouseY-24,build.toString());
+			GuiItemRenderHelper.setupTooltip(mouseX,mouseY-24,build.toString());
 		}
+		
+		GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
 	}
 	
 	private void renderBackgroundGUI(){
