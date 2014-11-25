@@ -59,7 +59,7 @@ public final class KnowledgeUtils{
 		
 		for(CharmType type:CharmType.values()){
 			for(CharmRecipe recipe:type.recipes){
-				fragments.add(new KnowledgeFragmentCharm(startID+(a++)).setRecipe(recipe).setPrice(1).setUnlockRequirements(requiredFragment));
+				fragments.add(new KnowledgeFragmentCharm(startID+(a++)).setRecipe(recipe).setPrice(2).setUnlockRequirements(requiredFragment));
 			}
 		}
 		
