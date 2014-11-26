@@ -937,6 +937,10 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(692).setContents("When attacking, it dashes towards the player every few seconds, causing massive knockback.").setPrice(7).setUnlockRequirements(690),
 				new KnowledgeFragmentText(694).setContents("Damage caused by fire, projectiles and falling blocks is reduced, cactuses don't hurt the Guardian at all. Knockback is reduced, sometimes ignored completely.").setPrice(5).setUnlockRequirements(690),
 				new KnowledgeFragmentText(693).setContents("The guardian drops 0-1 Ender Pearls, 1-3 Obsidian blocks and 0-3 Obsidian Fragments.").setPrice(5).setUnlockRequirements(690)
+			}),
+			
+			ENDERMAGE.setPos(0,12).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+				
 			})
 		});
 		
