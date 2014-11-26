@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.compendium;
+import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -340,7 +341,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(104).setContents("When broken, it loses its ability to fall.").setPrice(2).setUnlockRequirements(100)
 			}),
 			
-			DRAGON_ESSENCE_ALTAR.setPos(3,10).setUnlockPrice(25).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
+			DRAGON_ESSENCE_ALTAR.setPos(3,10).setUnlockPrice(25).setDiscoveryReward(22).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(110).setContents("Dragon Essence Altar infuses blocks and items with Dragon Essence.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(111).setContents("Infusion requires pedestals, which are up to 8 blocks of the same type placed close around the altar").setPrice(8).setUnlockRequirements(110),
 				new KnowledgeFragmentText(112).setContents("Using altar sockets to increase range allows up to 12 pedestals to be used.").setPrice(3).setUnlockRequirements(111),
@@ -350,7 +351,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setPrice(2).setUnlockRequirements(114).setUnlockCascade(180)
 			}),
 			
-			END_POWDER_ORE.setPos(6,0).setUnlockPrice(20).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			END_POWDER_ORE.setPos(6,0).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(120).setContents("Commonly found ore in the End.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(121).setContents("It spawns clusters spread out across a larger area than other ores.").setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(120),
 				new KnowledgeFragmentText(122).setContents("Mining with any pickaxe yields 1-3 End Powder and 2-4 experience.").setPrice(5).setUnlockRequirements(120),
@@ -376,7 +377,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentEnhancement(146).setEnhancement(TNTEnhancements.NO_FUSE).setPrice(3)
 			}),
 			
-			DRAGON_EGG.setPos(1,8).setUnlockPrice(10).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			DRAGON_EGG.setPos(1,8).setUnlockPrice(12).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(150).setContents("Dragon Egg is created on top of the End Portal after killing the Ender Dragon.").setPrice(5).setUnlockOnDiscovery().setUnlockCascade(705),
 				new KnowledgeFragmentText(151).setContents("It teleports into random directions when interacted with.").setPrice(2).setUnlockRequirements(150),
 				new KnowledgeFragmentText(152).setContents("The egg can be picked up by sneaking and hitting it with any sword.").setPrice(8).setUnlockRequirements(150),
@@ -385,7 +386,7 @@ public final class KnowledgeRegistrations{
 			
 			DRAGON_ESSENCE.setPos(3,8),
 			
-			END_POWDER.setPos(6,2).setUnlockPrice(16).setDiscoveryReward(22).addFragments(new KnowledgeFragment[]{
+			END_POWDER.setPos(6,2).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(160).setContents("Magical powder used to enhance items with special effects.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(161).setContents("Sneaking and using the End Powder opens enhancement screen.").setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(160),
 				new KnowledgeFragmentText(162).setContents("Placing a block or item into the top slot opens all possible enhancements.").setPrice(2).setUnlockRequirements(161),
@@ -406,7 +407,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentEnhancement(176).setEnhancement(EnderPearlEnhancements.RIDING).setPrice(3)
 			}),
 			
-			TEMPLE_CALLER.setPos(2,12).setUnlockPrice(15).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			TEMPLE_CALLER.setPos(2,12).setUnlockPrice(18).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(180).setContents("Temple Caller is an Eye of Ender infused with Dragon Essence.").setPrice(5).setUnlockCascade(116),
 				new KnowledgeFragmentText(181).setContents("It can rarely be found in Overworld dungeons, Stronghold and Dungeon Tower.").setPrice(2),
 				new KnowledgeFragmentText(182).setContents("Before using the Temple Caller, it has to be filled with Energy.").setPrice(8),
@@ -433,12 +434,12 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(705).setContents("End Portal is formed below the dragon, with a Dragon Egg on top.").setPrice(2).setUnlockRequirements(704).setUnlockCascade(150)
 			}),
 			
-			ANGRY_ENDERMAN.setPos(0,5).setUnlockPrice(10).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			ANGRY_ENDERMAN.setPos(0,5).setUnlockPrice(8).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(200).setContents("Startled Enderman that will attack nearby playeres.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(201).setContents("They have less health and strength, but will not teleport away when damaged.").setPrice(3).setUnlockRequirements(200)
 			}),
 			
-			VAMPIRE_BAT.setPos(2,5).setUnlockPrice(10).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			VAMPIRE_BAT.setPos(2,5).setUnlockPrice(8).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(210).setContents("Special bat summoned by one of the Ender Dragon attacks.").setPrice(5).setUnlockOnDiscovery().setUnlockCascade(703),
 				new KnowledgeFragmentText(211).setContents("They instantly die when damaged.").setPrice(2).setUnlockRequirements(210),
 				new KnowledgeFragmentText(212).setContents("The bats try to attack players. When they do, they damage the player, heal the Ender Dragon and die.").setPrice(3).setUnlockRequirements(210)
@@ -450,16 +451,16 @@ public final class KnowledgeRegistrations{
 		KnowledgeCategories.ENDSTONE_BLOBS.addKnowledgeObjects(new KnowledgeObject[]{
 			ENDSTONE_BLOB.setCategoryObject(KnowledgeCategories.ENDSTONE_BLOBS).setUnlockPrice(40).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(220).setContents("Small blobs of varying shapes, sizes and features, made of End Stone.").setPrice(5),
-				new KnowledgeFragmentText(221).setContents("They can contain End Powder Ore, Obsidian, small Ender Goo lakes, caves and rarely tiny clusters of Igneous Rock Ore.").setPrice(3).setUnlockRequirements(220)
+				new KnowledgeFragmentText(221).setContents("They can contain End Powder Ore, Obsidian, small Ender Goo lakes and falls, caves and rarely some Igneous Rock Ore.").setPrice(3).setUnlockRequirements(220) // TODO update with new gen
 			}),
 			
-			IGNEOUS_ROCK_ORE.setPos(0,0).setUnlockPrice(20).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			IGNEOUS_ROCK_ORE.setPos(0,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(230).setContents("An ore rarely spawned in Endstone Blobs and commonly in Burning Moutains Biome.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(231).setContents("Iron Pickaxe or better can effectively mine the ore.").setPrice(2).setUnlockRequirements(230),
 				new KnowledgeFragmentText(232).setContents("Always drops just one Igneous Rock, and 3-5 experience orbs.").setPrice(3).setUnlockRequirements(230)
 			}),
 			
-			DEATH_FLOWER.setPos(3,0).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			DEATH_FLOWER.setPos(3,0).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(240).setContents("Purple flower found on top of Endstone Blobs. It can be planted on End Stone, Dirt, Grass or inside Flower Pots.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(241).setContents("Outside the End, the flower will slowly decay, even if in a Flower Pot.").setPrice(2).setUnlockRequirements(240),
 				new KnowledgeFragmentText(242).setContents("After some time of decaying, it starts to occasionally attract Angry Endermen.").setPrice(3).setUnlockRequirements(241),
@@ -469,14 +470,14 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentCrafting(246).setCustomRecipe(new ItemStack(Items.dye,2,8),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,15) }).setPrice(2).setUnlockRequirements(243)
 			}),
 			
-			ENDER_GOO.setPos(6,0).setUnlockPrice(10).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			ENDER_GOO.setPos(6,0).setUnlockPrice(8).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(250).setContents("Thick goo found across the End dimension.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(251).setContents("The goo heavily limits movement of anything touching it, and it causes Poison, Weakness and Mining Fatigue as well.").setPrice(5).setUnlockRequirements(250),
 				new KnowledgeFragmentText(252).setContents("Creatures from the End are unaffected by its effects.").setPrice(2).setUnlockRequirements(251),
 				new KnowledgeFragmentText(253).setContents("It aggresively fights water, especially in the End.").setPrice(3).setUnlockRequirements(250)
 			}),
 			
-			IGNEOUS_ROCK.setPos(0,2).setUnlockPrice(8).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			IGNEOUS_ROCK.setPos(0,2).setUnlockPrice(18).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(260).setContents("Extremely hot rock dropped by the Igneous Rock Ore.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(261).setContents("When held, it has a chance of setting the holder on fire. The effect is strengthened in the Nether and partially suppressed in the End.").setPrice(2).setUnlockRequirements(260),
 				new KnowledgeFragmentText(262).setContents("It is a very efficient fuel, roughly 3 times better than Blaze Rods.").setPrice(3).setUnlockRequirements(260),
@@ -524,7 +525,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(286).setContents("Glowing Obsidian pillar, can be placed horizontally or vertically and it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
-			ENDIUM_ORE.setPos(0,12).setUnlockPrice(30).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			ENDIUM_ORE.setPos(0,12).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(760).setContents("Rare ore that starts to appear near Dungeon Towers, and gets more common the further you travel.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(761).setContents("The block drops the ore, it can be then smelted into Endium Ingot.").setPrice(8).setUnlockOnDiscovery().setUnlockRequirements(760)
 			}),
@@ -535,7 +536,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentCrafting(772).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setPrice(8).setUnlockRequirements(770).setUnlockCascade(801)
 			}),
 			
-			VOID_CHEST.setPos(6,11).setUnlockPrice(12).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			VOID_CHEST.setPos(6,11).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(800).setContents("A chest that stores items you own that fell into the void.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(801).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setPrice(8).setUnlockRequirements(800).setUnlockCascade(772),
 				new KnowledgeFragmentText(802).setContents("If there are too many items inside, there will be a higher chance of new items replacing them.").setPrice(3).setUnlockRequirements(800)
@@ -549,7 +550,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(294).setContents("If no suitable area is found, the player may be teleported into nearby blocks and start suffocating.").setPrice(2).setUnlockRequirements(293)
 			}),
 			
-			ENDIUM_INGOT.setPos(2,12).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			ENDIUM_INGOT.setPos(2,12).setUnlockPrice(30).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(780).setContents("Shiny blue metal made by smelting Endium Ore.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(781).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(780).setUnlockCascade(771),
 				new KnowledgeFragmentCrafting(782).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setPrice(8).setUnlockRequirements(780).setUnlockCascade(303)
@@ -585,18 +586,18 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(320).setContents("Tiny clump of Sphalerite which begins to spawn around 1300 blocks away from the Dragon Lair.").setPrice(7)
 			}),
 			
-			SPHALERITE.setPos(0,0).setUnlockPrice(10).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			SPHALERITE.setPos(0,0).setUnlockPrice(12).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(330).setContents("Rock of medium toughness found in Meteoroids.").setPrice(4).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(331).setContents("Stone Pickaxe or better is required to mine it quickly.").setPrice(4).setUnlockOnDiscovery().setUnlockRequirements(330)
 			}),
 			
-			SPHALERITE_WITH_STARDUST.setPos(2,2).setUnlockPrice(10).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			SPHALERITE_WITH_STARDUST.setPos(2,2).setUnlockPrice(12).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(340).setContents("Variation of Sphalerite, that has yellow marks on the surface.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(341).setContents("It drops 1-3 Stardust, but no experience unlike the ores.").setPrice(5).setUnlockRequirements(340),
 				new KnowledgeFragmentText(342).setContents("Fortune enchantment has a small effect on the drops.").setPrice(4).setUnlockRequirements(341)
 			}),
 			
-			STARDUST.setPos(4,4).setUnlockPrice(10).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			STARDUST.setPos(4,4).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(350).setContents("Dust dropped by Stardust Ore and Sphalerite with Stardust. It is used for crafting and as a decomposition catalyst in Tables.").setPrice(4).setUnlockOnDiscovery()
 			})
 		});
@@ -604,7 +605,7 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		KnowledgeCategories.BIOME_ISLANDS.addKnowledgeObjects(new KnowledgeObject[]{	
-			BIOME_ISLANDS.setCategoryObject(KnowledgeCategories.BIOME_ISLANDS).setUnlockPrice(40).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			BIOME_ISLANDS.setCategoryObject(KnowledgeCategories.BIOME_ISLANDS).setUnlockPrice(50).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(720).setContents("Biome Islands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the Dragon Lair.").setPrice(7),
 				new KnowledgeFragmentText(721).setContents("Each island has caves and ores, every biome modifies the amounts and rates as well as the overall shape of the terrain.").setPrice(4).setUnlockRequirements(720),
 				new KnowledgeFragmentText(722).setContents("Biomes can have multiple different variations with unique content, and random deviations that modify properties of some features (such as very tall trees).").setPrice(4).setUnlockRequirements(721),
@@ -625,14 +626,14 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(373).setContents("Fortune enchantment does not affect the drops.").setPrice(5).setUnlockRequirements(372)
 			}),
 			
-			INSTABILITY_ORB.setPos(2,3).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			INSTABILITY_ORB.setPos(2,3).setUnlockPrice(20).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(380).setContents("Very unstable material dropped by Instability Orb Ore.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(381).setContents("It decomposes when thrown on the ground. When the process finishes, it can either explode, or turn into a random mob, block or item.").setPrice(7).setUnlockRequirements(380),
 				new KnowledgeFragmentText(382).setContents("When a TNT explodes near one or more decomposing orbs, they will not explode once the decomposition is complete.").setPrice(5).setUnlockRequirements(381),
 				new KnowledgeFragmentText(383).setContents("Brewing it in an Enhanced Brewing Stand creates Potion of Instability.").setPrice(3).setUnlockRequirements(380).setUnlockCascade(134,741)
 			}),
 			
-			POTION_OF_INSTABILITY.setPos(4,3).setUnlockPrice(10).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			POTION_OF_INSTABILITY.setPos(4,3).setUnlockPrice(15).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(740).setContents("Special potion that causes a random effect. It has to be brewed in an Enhanced Brewing Stand, using Gunpowder on the brewed potion turns it into splash version.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentItemConversion(741).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(740).setUnlockCascade(134,383)
 			}),
@@ -654,7 +655,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(397).setContents("Infestation can only be partly cured using Infestation Remedy.").setPrice(5).setUnlockRequirements(396)
 			}),
 			
-			INFESTED_END_STONE.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			INFESTED_END_STONE.setPos(0,0).setUnlockPrice(7).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(400).setContents("Variation of End Stone found in the Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
@@ -670,7 +671,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(412).setContents("One of the plants commonly found in the Infested Forest Biome.").setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			INFESTATION_REMEDY.setPos(4,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			INFESTATION_REMEDY.setPos(4,2).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(730).setContents("A potion that eases the effects of Infestation. It has to be brewed in Enhanced Brewing Stand.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentItemConversion(731).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(730).setUnlockCascade(135),
 			}),
@@ -683,12 +684,12 @@ public final class KnowledgeRegistrations{
 			
 			// =
 			
-			THORNY_BUSH.setPos(0,7).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			THORNY_BUSH.setPos(0,7).setUnlockPrice(8).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(420).setContents("Dark plant found in the Infested Forest (Deep).").setPrice(4).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(421).setContents("On contact, it causes short Poison effect.").setPrice(4).setUnlockRequirements(420)
 			}),
 			
-			SPOOKY_LOG.setPos(2,8).setUnlockPrice(15).setDiscoveryReward(22).addFragments(new KnowledgeFragment[]{
+			SPOOKY_LOG.setPos(2,8).setUnlockPrice(25).setDiscoveryReward(22).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(430).setContents("Logs used for the trunk of Spooky Trees.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(431).setContents("Breaking one log also destroys all logs above.").setPrice(4).setUnlockRequirements(430),
 				new KnowledgeFragmentText(432).setContents("Each log has a 1 in 8 (12.5%) chance of dropping a Dry Splinter.").setPrice(7).setUnlockRequirements(430).setUnlockCascade(451),
@@ -699,32 +700,32 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentCrafting(437).setRecipeFromRegistry(new ItemStack(BlockList.spooky_log)).setPrice(5).setUnlockRequirements(430).setUnlockCascade(452)
 			}),
 			
-			SPOOKY_LEAVES.setPos(2,6).setUnlockPrice(10).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			SPOOKY_LEAVES.setPos(2,6).setUnlockPrice(12).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(440).setContents("Spooky Leaves are foliage of the Spooky Trees.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(441).setContents("If not connected to a Spooky Log, they leaves very quickly decay.").setPrice(4).setUnlockRequirements(440),
 				new KnowledgeFragmentCrafting(442).setRecipeFromRegistry(new ItemStack(BlockList.spooky_leaves)).setPrice(5).setUnlockRequirements(440).setUnlockCascade(453)
 			}),
 			
-			DRY_SPLINTER.setPos(4,7).setUnlockPrice(8).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			DRY_SPLINTER.setPos(4,7).setUnlockPrice(15).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(450).setContents("Crafting material dropped by Spooky Logs.").setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(451).setContents("Each Spooky Log has 1 in 8 (12.5%) chance of dropping a Dry Splinter.").setPrice(3).setUnlockRequirements(450).setUnlockCascade(432),
 				new KnowledgeFragmentCrafting(452).setRecipeFromRegistry(new ItemStack(BlockList.spooky_log)).setPrice(5).setUnlockRequirements(450).setUnlockCascade(437),
 				new KnowledgeFragmentCrafting(453).setRecipeFromRegistry(new ItemStack(BlockList.spooky_leaves)).setPrice(5).setUnlockRequirements(450).setUnlockCascade(442)
 			}),
 			
-			GHOST_AMULET.setPos(7,7).setUnlockPrice(18).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			GHOST_AMULET.setPos(7,7).setUnlockPrice(24).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(460).setContents("An amulet that banishes the Forest Ghost.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(461).setContents("When in the inventory, Forest Ghost will not spawn and the Spooky Log face will have 3 in 5 (60%) chance to drop Ectoplasm.").setPrice(10).setUnlockRequirements(460).setUnlockCascade(436),
 				new KnowledgeFragmentText(462).setContents("In order to create it, one piece of End Powder, Emerald and String all have to be thrown into Ender Goo.").setPrice(10).setUnlockRequirements(460)
 			}),
 			
-			ECTOPLASM.setPos(9,7).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			ECTOPLASM.setPos(9,7).setUnlockPrice(35).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(470).setContents("Strange ethereal substance dropped by banished Forest Ghosts.").setPrice(7).setUnlockOnDiscovery()
 			}),
 			
 			// =
 			
-			RAVAGED_DUNGEON.setPos(4,12).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			RAVAGED_DUNGEON.setPos(4,12).setUnlockPrice(30).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(490).setContents("Huge dungeon built from Ravaged Bricks, found in Infested Forest (Ravaged).").setPrice(7),
 				new KnowledgeFragmentText(491).setContents("It is the only way of acquiring items required to create Charms.").setPrice(5).setUnlockRequirements(490),
 				new KnowledgeFragmentText(492).setContents("The dungeon consists of 3 floors. Each floor is a collection of randomly generated hallways and rooms spread across the entire island.").setPrice(4).setUnlockRequirements(491),
@@ -732,7 +733,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(494).setContents("Hallways and rooms have random designs, some of which contain loot chests and Silverfish and Louse spawners.").setPrice(4).setUnlockRequirements(492)
 			}),
 			
-			RAVAGED_BRICK.setPos(4,14).setUnlockPrice(2).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			RAVAGED_BRICK.setPos(4,14).setUnlockPrice(10).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(500).setContents("Primary building block of the Ravaged Dungeon.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(501).setContents("Some of the bricks are cracked or damaged.").setPrice(4).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(505).setContents("Brick hardness depends on amount of spawners in the dungeon.").setPrice(7).setUnlockRequirements(500),
@@ -760,20 +761,20 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentCrafting(517).setRecipeFromRegistry(new ItemStack(BlockList.ravaged_brick_fence,6)).setPrice(4).setUnlockRequirements(516).setUnlockCascade(504)
 			}),
 			
-			CHARM_POUCH.setPos(7,17).setUnlockPrice(30).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			CHARM_POUCH.setPos(7,17).setUnlockPrice(40).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(520).setContents("Magical pouch that allows creating, holding and activating Charms.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(521).setRecipeFromRegistry(new ItemStack(ItemList.charm_pouch)).setPrice(10).setUnlockRequirements(520).setUnlockCascade(533),
 				new KnowledgeFragmentText(522).setContents("Sneaking and using the pouch activates or deactives the Charms. Only one pouch can be active at a time.").setPrice(5).setUnlockRequirements(520)
 			}),
 			
-			RUNES.setPos(3,17).setUnlockPrice(20).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			RUNES.setPos(3,17).setUnlockPrice(25).setDiscoveryReward(18).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(530).setContents("Runes are used to create Charms, and craft Charm Pouch.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(531).setContents("There are 6 types of Runes - Power, Agility, Vigor, Defense, Magic and Void. The Void rune is less common than other types.").setPrice(5).setUnlockRequirements(530),
 				new KnowledgeFragmentText(532).setContents("It is required to explore the Ravaged Dungeon to get Runes. They are found in chests and rarely dropped by Lice.").setPrice(5).setUnlockRequirements(530),
 				new KnowledgeFragmentCrafting(533).setRecipeFromRegistry(new ItemStack(ItemList.charm_pouch)).setPrice(10).setUnlockRequirements(530).setUnlockCascade(521)
 			}),
 			
-			CHARMS.setPos(5,17).setUnlockPrice(35).setDiscoveryReward(28).addFragments(new KnowledgeFragment[]{
+			CHARMS.setPos(5,17).setUnlockPrice(35).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(540).setContents("Charms are player enchantments, used and crafted in the Charm Pouch.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(541).setContents("Between 3 to 5 Runes are combined together to create a Charm. Many combinations create same Charms with different attributes.").setPrice(7).setUnlockRequirements(540)
 			}).addFragments(KnowledgeUtils.createCharmFragments(1000,541)),
@@ -837,19 +838,19 @@ public final class KnowledgeRegistrations{
 			
 			// =
 			
-			FIRE_SHARD.setPos(2,11).setUnlockPrice(15).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			FIRE_SHARD.setPos(2,11).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(630).setContents("Fire Shard is a crafting material dropped by Haunted Miners.").setPrice(7).setUnlockOnDiscovery().setUnlockCascade(657),
 				new KnowledgeFragmentCrafting(631).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setPrice(10).setUnlockRequirements(630).setUnlockCascade(643)
 			}),
 			
-			SCORCHING_PICKAXE.setPos(4,11).setUnlockPrice(30).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			SCORCHING_PICKAXE.setPos(4,11).setUnlockPrice(40).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(640).setContents("Special type of pickaxe that smelts blocks and applies fortune effect to ores.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(641).setContents("It only works on smeltable blocks and ores. Blocks that smelt into items are affected by fortune, including for example Iron Ore and Cactus.").setPrice(7).setUnlockRequirements(640),
 				new KnowledgeFragmentText(642).setContents("Compatible blocks are also mined much faster.").setPrice(5).setUnlockRequirements(641),
 				new KnowledgeFragmentCrafting(643).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setPrice(10).setUnlockRequirements(640).setUnlockCascade(631)
 			}),
 			
-			HAUNTED_MINER.setPos(0,11).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			HAUNTED_MINER.setPos(0,11).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(650).setContents("Haunted Miner is a fiery flying mob that spawns in Burning Mountains (Mine).").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(651).setContents("They guard the mines, they sense and attack players who have too many mining related items in their inventory, such as pickaxes, ores, ingots or minerals.").setPrice(7).setUnlockRequirements(651),
 				new KnowledgeFragmentText(652).setContents("They burn any creature that gets too close to it.").setPrice(4).setUnlockRequirements(650),
@@ -876,7 +877,7 @@ public final class KnowledgeRegistrations{
 			
 			FALLING_OBSIDIAN_LINKED.setPos(2,0),
 			
-			PERSEGRIT.setPos(4,0).setUnlockPrice(5).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			PERSEGRIT.setPos(4,0).setUnlockPrice(7).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(810).setContents("A purple block that forms the floor, walls and ceiling of Hidden Cellar.").setPrice(5).setUnlockOnDiscovery().setUnlockCascade(665),
 				new KnowledgeFragmentText(811).setContents("Shovels are efficient tools for breaking, but you can still get the block if you mine using other tools or your hand.").setPrice(5).setUnlockRequirements(810),
 				new KnowledgeFragmentText(812).setContents("Some blocks in the Hidden Cellar have ornaments.").setPrice(2).setUnlockRequirements(810)
@@ -886,7 +887,7 @@ public final class KnowledgeRegistrations{
 			
 			// =
 			
-			BABY_ENDERMAN.setPos(0,6).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			BABY_ENDERMAN.setPos(0,6).setUnlockPrice(25).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(680).setContents("Baby Enderman spawns in the Enchanted Island (Homeland).").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(681).setContents("If attacked, the parents will teleport and protect the baby.").setPrice(4).setUnlockRequirements(680),
 				new KnowledgeFragmentText(682).setContents("Sometimes, it may approach a player and steal random item from their inventory.").setPrice(4).setUnlockRequirements(680),
@@ -894,16 +895,16 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(684).setContents("It will not steal from players who wear Enderman Head.").setPrice(5).setUnlockRequirements(682)
 			}),
 			
-			HOMELAND_ENDERMAN.setPos(2,6).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			HOMELAND_ENDERMAN.setPos(2,6).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(790).setContents("Special type of Enderman that spawns in the Enchanted Island (Homeland).").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(791).setContents("Each Enderman has their role in the Homeland, which is identified by differently colored particles. Those decide their attributes and behavior.").setPrice(5).setUnlockRequirements(790),
-				new KnowledgeFragmentText(792).setContents("Some may form groups, those have occasional gray particles.").setPrice(5).setUnlockRequirements(791),
+				new KnowledgeFragmentText(792).setContents("Some may form groups, those occasionally emit gray particles.").setPrice(5).setUnlockRequirements(791),
 				new KnowledgeFragmentText(793).setContents("Attacking Endermen that have certain roles will make them call the guards.").setPrice(5).setUnlockRequirements(791)
 			}),
 			
 			// =
 			
-			OBSIDIAN_FRAGMENT.setPos(2,10).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_FRAGMENT.setPos(2,10).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(820).setContents("Fragment of Obsidian dropped by Ender Guardians.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(821).setRecipeFromRegistry(new ItemStack(ItemList.obsidian_rod)).setPrice(5).setUnlockRequirements(820).setUnlockCascade(831),
 				new KnowledgeFragmentCrafting(822).setRecipeFromRegistry(new ItemStack(Blocks.obsidian)).setPrice(5).setUnlockRequirements(820),
@@ -912,25 +913,25 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentCrafting(825).setRecipeFromRegistry(new ItemStack(BlockList.obsidian_special,1,2)).setPrice(4).setUnlockRequirements(822),
 			}),
 			
-			OBSIDIAN_ROD.setPos(4,10).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			OBSIDIAN_ROD.setPos(4,10).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(830).setContents("Rod made of Obsidian Fragments.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(831).setRecipeFromRegistry(new ItemStack(ItemList.obsidian_rod)).setPrice(5).setUnlockRequirements(830).setUnlockCascade(821),
 				new KnowledgeFragmentCrafting(832).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(830).setUnlockCascade(841,851)
 			}),
 			
-			ENERGY_WAND_CORE.setPos(6,10).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			ENERGY_WAND_CORE.setPos(6,10).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(840).setContents("Core of the Energy Wand").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(841).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(840).setUnlockCascade(832,851)
 			}),
 			
-			ENERGY_WAND.setPos(8,10).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			ENERGY_WAND.setPos(8,10).setUnlockPrice(35).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(850).setContents("Wand used to store and move Energy Clusters.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(851).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(850).setUnlockCascade(832,841),
 				new KnowledgeFragmentText(852).setContents("Sneak and right-click on a Cluster to store it in the wand, or on a block to release stored Cluster.").setPrice(7).setUnlockRequirements(850),
 				new KnowledgeFragmentText(853).setContents("The further you move the Cluster, the higher chance it has to weaken and lose some Energy.").setPrice(5).setUnlockRequirements(852)
 			}),
 			
-			ENDER_GUARDIAN.setPos(0,10).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			ENDER_GUARDIAN.setPos(0,10).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(690).setContents("Large golem-like creature that spawns in the Enchanted Island (Laboratory).").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(691).setContents("It attacks players when provoked (attacking or getting too close).").setPrice(5).setUnlockRequirements(690),
 				new KnowledgeFragmentText(692).setContents("When attacking, it dashes towards the player every few seconds, causing massive knockback.").setPrice(7).setUnlockRequirements(690),
@@ -951,15 +952,19 @@ public final class KnowledgeRegistrations{
 				if (category.getCategoryObject() == null)throw new IllegalStateException("Knowledge Category "+category.getTooltip()+" has null category object!");
 			}
 			
-			int amtObjects = 0, amtFragments = 0, totalObjPrice = 0, totalFragPrice = 0, totalReward = 0;
+			int amtObjects = 0, amtFragments = 0, totalObjPrice = 0, totalFragPrice = 0, totalFragPriceExcCascaded = 0, totalFragPriceExcDiscovery = 0, totalReward = 0;
+			TIntHashSet cascaded = new TIntHashSet();
 			
 			for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
 				if (obj == HELP)continue;
 				else if (obj.getDiscoveryReward() == 0 || obj.getUnlockPrice() == 0)throw new IllegalStateException("Knowledge Object "+obj.globalID+"/"+obj.getTooltip()+" has illegal reward ("+obj.getDiscoveryReward()+") or unlock price ("+obj.getUnlockPrice()+").");
 				
 				for(KnowledgeFragment fragment:obj.getFragments()){
-					totalFragPrice += fragment.getPrice();
 					if (fragment.getPrice() == 0)throw new IllegalStateException("Knowledge Fragment "+fragment.globalID+" has illegal unlock price.");
+					
+					totalFragPrice += fragment.getPrice();
+					if (!fragment.isUnlockedOnDiscovery())totalFragPriceExcDiscovery += fragment.getPrice();
+					if (!cascaded.contains(fragment.globalID))totalFragPriceExcCascaded += fragment.getPrice();
 					
 					for(int id:fragment.getUnlockRequirements()){
 						if (KnowledgeFragment.getById(id) == null)throw new IllegalStateException("Knowledge Fragment "+fragment.globalID+" has invalid unlock requirement ID "+id+".");
@@ -967,6 +972,7 @@ public final class KnowledgeRegistrations{
 
 					for(int id:fragment.getUnlockCascade()){
 						if (KnowledgeFragment.getById(id) == null)throw new IllegalStateException("Knowledge Fragment "+fragment.globalID+" has invalid unlock cascade ID "+id+".");
+						cascaded.add(id);
 					}
 				}
 				
@@ -980,6 +986,9 @@ public final class KnowledgeRegistrations{
 			Log.debug("Knowledge Fragment amount: $0",amtFragments);
 			Log.debug("Total Object price: $0",totalObjPrice);
 			Log.debug("Total Fragment price: $0",totalFragPrice);
+			Log.debug("Total Fragment price, excluding cascaded: $0",totalFragPriceExcCascaded);
+			Log.debug("Total Fragment price, excluding discovery: $0",totalFragPriceExcDiscovery);
+			Log.debug("Total Fragment price, excluding all: $0",totalFragPriceExcCascaded-(totalFragPrice-totalFragPriceExcDiscovery));
 			Log.debug("Total price: $0",totalObjPrice+totalFragPrice);
 			Log.debug("Total discovery reward: $0",totalReward);
 			
