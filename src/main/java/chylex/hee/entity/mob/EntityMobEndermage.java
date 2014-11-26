@@ -11,6 +11,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.entity.mob.ai.EntityAIRangedEnergyAttack;
 
 public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IRangedAttackMob{
 	public EntityMobEndermage(World world){
@@ -19,8 +20,9 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 		stepHeight = 1F;
 		
 		tasks.addTask(1,new EntityAISwimming(this));
-		tasks.addTask(5,new EntityAIWander(this,1D));
-		tasks.addTask(6,new EntityAIWatchClosest(this,EntityPlayer.class,8F));
+		tasks.addTask(4,new EntityAIRangedEnergyAttack(this,1D));
+		tasks.addTask(5,new EntityAIWander(this,0.8D));
+		tasks.addTask(6,new EntityAIWatchClosest(this,EntityPlayer.class,4F));
 		tasks.addTask(6,new EntityAILookIdle(this));
 		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
 	}

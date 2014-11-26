@@ -27,6 +27,7 @@ import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.entity.item.EntityItemIgneousRock;
 import chylex.hee.entity.item.EntityItemInstabilityOrb;
 import chylex.hee.entity.mob.EntityMobCorporealMirage;
+import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
@@ -285,5 +286,12 @@ public class FXClientProxy extends FXCommonProxy{
 		Random rand = mirage.worldObj.rand;
 		double realY = mirage.posY+MathHelper.cos((float)mirage.angle)*0.15D;
 		spawn(new EntitySoulCharmFX(mirage.worldObj,mirage.posX+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.8D,realY-0.1D+rand.nextDouble()*mirage.height*1.1D,mirage.posZ+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.8D,rand.nextFloat()*0.05D));
+	}
+	
+	@Override
+	public void corruptedEnergy(EntityProjectileCorruptedEnergy energy){
+		Random rand = energy.worldObj.rand;
+		double motX = (rand.nextDouble()-rand.nextDouble())*0.2D, motY = (rand.nextDouble()-rand.nextDouble())*0.2D, motZ = (rand.nextDouble()-rand.nextDouble())*0.2D;
+		spawn(new EntityBigPortalFX(energy.worldObj,energy.posX+(rand.nextDouble()-0.5D)*0.4D,energy.posY+(rand.nextDouble()-0.5D)*0.4D,energy.posZ+(rand.nextDouble()-0.5D)*0.4D,motX,motY,motZ,rand.nextBoolean() ? 1F : 1.5F+rand.nextFloat()));
 	}
 }

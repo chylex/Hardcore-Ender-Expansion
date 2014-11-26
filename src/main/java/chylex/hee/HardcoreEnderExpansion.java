@@ -37,6 +37,7 @@ import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.entity.projectile.EntityProjectileCorporealMirageOrb;
+import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileDragonFireball;
 import chylex.hee.entity.projectile.EntityProjectileDragonFreezeball;
 import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
@@ -226,13 +227,14 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityProjectileCorporealMirageOrb.class, "ProjectileCorporealMirageOrb", 28, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectilePotionOfInstability.class, "ProjectilePotionOfInstability", 30, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileSpatialDash.class, "ProjectileSpatialDash", 32, this, 128, 1, true);
+		EntityRegistry.registerModEntity(EntityProjectileCorruptedEnergy.class, "ProjectileCorruptedEnergy", 42, this, 128, 1, true);
 
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltSafe.class, "LightningBoltSafe", 4, this, 512, 1, false);
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, this, 512, 1, false);
 		
 		EntityRegistry.registerModEntity(EntityTechnicalBiomeInteraction.class, "TechnicalBiomeInteraction", 38, this, 0, Integer.MAX_VALUE, false);
 		EntityRegistry.registerModEntity(EntityTechnicalVoidChest.class, "TechnicalVoidChest", 40, this, 0, 1, false);
-		// last: 41
+		// last: 42
 
 		// TILE ENTITIES
 
