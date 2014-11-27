@@ -21,7 +21,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 		
 		tasks.addTask(1,new EntityAISwimming(this));
 		tasks.addTask(4,new EntityAIRangedEnergyAttack(this,1D));
-		tasks.addTask(5,new EntityAIWander(this,0.8D));
+		tasks.addTask(5,new EntityAIWander(this,0.7D));
 		tasks.addTask(6,new EntityAIWatchClosest(this,EntityPlayer.class,4F));
 		tasks.addTask(6,new EntityAILookIdle(this));
 		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
@@ -36,7 +36,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.24D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12D);
 	}
 	

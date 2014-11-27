@@ -169,6 +169,7 @@ entity.fireGolem.name=Fire Golem
 entity.scorchingLens.name=Scorching Lens
 entity.louse.name=Louse
 entity.hauntedMiner.name=Haunted Miner
+entity.endermage.name=Endermage
 
 energy.overlay.title=ENERGY CLUSTER
 energy.overlay.holding=HOLDING $ ENERGY

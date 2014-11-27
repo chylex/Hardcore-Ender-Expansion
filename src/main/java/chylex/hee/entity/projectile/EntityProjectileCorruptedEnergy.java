@@ -20,16 +20,16 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 		setPosition(x,y,z);
 		
 		Vec3 motionVec = Vec3.createVectorHelper(target.posX-x,target.posY+target.height*0.5F-y,target.posZ-z).normalize();
-		motionX = motionVec.xCoord*0.3D+rand.nextGaussian()*0.004D;
-		motionY = motionVec.yCoord*0.3D+rand.nextGaussian()*0.004D;
-		motionZ = motionVec.zCoord*0.3D+rand.nextGaussian()*0.004D;
+		motionX = motionVec.xCoord*0.3D+rand.nextGaussian()*0.01D;
+		motionY = motionVec.yCoord*0.3D+rand.nextGaussian()*0.01D;
+		motionZ = motionVec.zCoord*0.3D+rand.nextGaussian()*0.01D;
 		
 		accelerationX = accelerationY = accelerationZ = 0D;
 	}
 	
 	@Override
 	public void onUpdate(){
-		for(int update = 0; update < 5; update++){
+		for(int update = 0; update < 3; update++){
 			super.onUpdate();
 			if (worldObj.isRemote)HardcoreEnderExpansion.fx.corruptedEnergy(this);
 		}
@@ -37,7 +37,7 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 		if (worldObj.isRemote)return;
 		
 		if (ticksExisted % 3 == 0){
-			for(Object o:worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1D,1D,1D))){
+			for(Object o:worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.offset(0D,0.5D,0D).expand(1D,1D,1D))){
 				Entity e = (Entity)o;
 				
 				if (e.hurtResistantTime == 0){

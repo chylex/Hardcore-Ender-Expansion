@@ -43,21 +43,21 @@ public class EntityAIRangedEnergyAttack extends EntityAIBase{
 	public void updateTask(){
 		double dist = entity.getDistanceSqToEntity(target);
 		
-		if (dist > 400D){
+		if (dist > 700D){
 			entity.getNavigator().clearPathEntity();
 			return;
 		}
 		
-		if (dist > 64D)entity.getNavigator().tryMoveToEntityLiving(target,moveSpeed);
+		if (dist > 96D)entity.getNavigator().tryMoveToEntityLiving(target,moveSpeed);
 		
 		entity.getLookHelper().setLookPositionWithEntity(target,25F,25F);
 		
 		if (entity.getEntitySenses().canSee(target)){
-			if (attackShots == 0){
+			if (attackShots > 0){
 				if (++attackShotTimer > (ModCommonProxy.opMobs ? 4 : 5)){
 					shootProjectile();
 					attackShotTimer = 0;
-					if (++attackShots > 4+entity.worldObj.rand.nextInt(4))attackCooldown = attackShots = 0;
+					if (++attackShots > 3+entity.worldObj.rand.nextInt(4))attackCooldown = attackShots = 0;
 				}
 			}
 			else if (++attackCooldown > 80-entity.worldObj.difficultySetting.getDifficultyId()*5-(ModCommonProxy.opMobs ? 15 : 0))attackShots = 1;
@@ -66,10 +66,10 @@ public class EntityAIRangedEnergyAttack extends EntityAIBase{
 	}
 	
 	private void shootProjectile(){
-		double x, y, z; // TODO shoot from the wand (check)
-		x = entity.posX+MathHelper.cos(MathUtil.toRad(entity.rotationYaw+20F))*0.5F;
-		y = entity.posY+2.4F;
-		z = entity.posZ+MathHelper.sin(MathUtil.toRad(entity.rotationYaw+20F))*0.5F;
+		double x, y, z;
+		x = entity.posX+MathHelper.cos(MathUtil.toRad(entity.rotationYaw-20F))*0.5F;
+		y = entity.posY+2F;
+		z = entity.posZ+MathHelper.sin(MathUtil.toRad(entity.rotationYaw-20F))*0.5F;
 		entity.worldObj.spawnEntityInWorld(new EntityProjectileCorruptedEnergy(entity.worldObj,entity,x,y,z,target));
 	}
 }

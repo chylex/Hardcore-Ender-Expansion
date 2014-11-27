@@ -292,6 +292,6 @@ public class FXClientProxy extends FXCommonProxy{
 	public void corruptedEnergy(EntityProjectileCorruptedEnergy energy){
 		Random rand = energy.worldObj.rand;
 		double motX = (rand.nextDouble()-rand.nextDouble())*0.2D, motY = (rand.nextDouble()-rand.nextDouble())*0.2D, motZ = (rand.nextDouble()-rand.nextDouble())*0.2D;
-		spawn(new EntityBigPortalFX(energy.worldObj,energy.posX+(rand.nextDouble()-0.5D)*0.4D,energy.posY+(rand.nextDouble()-0.5D)*0.4D,energy.posZ+(rand.nextDouble()-0.5D)*0.4D,motX,motY,motZ,rand.nextBoolean() ? 1F : 1.5F+rand.nextFloat()));
+		spawn(new EntityBigPortalFX(energy.worldObj,energy.posX+(rand.nextDouble()-0.5D)*0.2D,energy.posY+0.5D+(rand.nextDouble()-0.5D)*0.2D,energy.posZ+(rand.nextDouble()-0.5D)*0.2D,motX,motY,motZ,rand.nextBoolean() ? 0.3F : 0.4F+rand.nextFloat()*0.4F));
 	}
 }

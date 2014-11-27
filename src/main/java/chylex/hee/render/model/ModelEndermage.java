@@ -133,17 +133,17 @@ public class ModelEndermage extends ModelBase{
 		leftArm.rotateAngleX = (MathHelper.cos(limbSwing*0.6662F)*2F*limbSwingAngle*0.5F-MathHelper.sin(entityTickTime*0.067F)*0.05F)*0.5F;
 		rightArm.rotateAngleX = (MathHelper.cos(limbSwing*0.6662F+(float)Math.PI)*limbSwingAngle+MathHelper.sin(entityTickTime*0.067F)*0.05F)*0.5F;
 		
-		if (leftArm.rotateAngleX > 0.4F)leftArm.rotateAngleX = 0.4F;
-		else if (leftArm.rotateAngleX < -0.4F)leftArm.rotateAngleX = -0.4F;
+		if (leftArm.rotateAngleX > 0.2F)leftArm.rotateAngleX = 0.2F;
+		else if (leftArm.rotateAngleX < -0.2F)leftArm.rotateAngleX = -0.2F;
 		
-		if (rightArm.rotateAngleX > 0.4F)rightArm.rotateAngleX = 0.4F;
-		else if (rightArm.rotateAngleX < -0.4F)rightArm.rotateAngleX = -0.4F;
+		if (rightArm.rotateAngleX > 0.2F)rightArm.rotateAngleX = 0.2F;
+		else if (rightArm.rotateAngleX < -0.2F)rightArm.rotateAngleX = -0.2F;
 		
-		if (leftLeg.rotateAngleX > 0.4F)leftLeg.rotateAngleX = 0.4F;
-		else if (leftLeg.rotateAngleX < -0.4F)leftLeg.rotateAngleX = -0.4F;
+		if (leftLeg.rotateAngleX > 0.2F)leftLeg.rotateAngleX = 0.2F;
+		else if (leftLeg.rotateAngleX < -0.2F)leftLeg.rotateAngleX = -0.2F;
 		
-		if (rightLeg.rotateAngleX > 0.4F)rightLeg.rotateAngleX = 0.4F;
-		else if (rightLeg.rotateAngleX < -0.4F)rightLeg.rotateAngleX = -0.4F;
+		if (rightLeg.rotateAngleX > 0.2F)rightLeg.rotateAngleX = 0.2F;
+		else if (rightLeg.rotateAngleX < -0.2F)rightLeg.rotateAngleX = -0.2F;
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z){

@@ -50,6 +50,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	public void entityInit(){
 		super.entityInit();
 		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+		dataWatcher.addObject(17,Byte.valueOf((byte)0));
 	}
 
 	@Override
@@ -84,9 +85,10 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 			motionY *= -0.5D;
 		}
 
-		if (fuse-- <= 0){
+		if (fuse-- == 5)dataWatcher.updateObject(17,Byte.valueOf((byte)1));
+		else if (fuse <= 0){
 			setDead();
-			if (!worldObj.isRemote)explode();
+			explode();
 		}
 		else worldObj.spawnParticle("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
 		
@@ -100,6 +102,12 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		explosion.damageEntities = !tntEnhancements.contains(TNTEnhancements.NO_ENTITY_DAMAGE);
 		explosion.doExplosionA();
 		explosion.doExplosionB(true);
+	}
+	
+	@Override
+	public void setDead(){
+		super.setDead();
+		if (worldObj.isRemote && dataWatcher.getWatchableObjectByte(17) == 1)explode();
 	}
 	
 	@Override

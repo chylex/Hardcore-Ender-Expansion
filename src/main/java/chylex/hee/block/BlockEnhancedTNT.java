@@ -62,7 +62,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 	}
 
 	@Override
-	public void onBlockDestroyedByExplosion(World world, int x, int y, int z, Explosion explosion){
+	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
 		if (!world.isRemote){
 			TileEntityEnhancedTNT tile = (TileEntityEnhancedTNT)world.getTileEntity(x,y,z);
 			
@@ -72,7 +72,9 @@ public class BlockEnhancedTNT extends BlockContainer{
 				world.spawnEntityInWorld(tnt);
 			}
 		}
-	}
+		
+		super.onBlockExploded(world,x,y,z,explosion);
+    }
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest){
