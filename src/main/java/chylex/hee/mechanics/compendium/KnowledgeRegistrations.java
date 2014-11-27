@@ -940,7 +940,7 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ENDERMAGE.setPos(0,12).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
-				
+				// TODO
 			})
 		});
 		

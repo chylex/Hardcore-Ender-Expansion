@@ -1,9 +1,11 @@
 package chylex.hee.entity.mob.ai;
-import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
-import chylex.hee.proxy.ModCommonProxy;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.util.MathHelper;
+import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
+import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityAIRangedEnergyAttack extends EntityAIBase{
 	private final EntityLiving entity;
@@ -64,10 +66,10 @@ public class EntityAIRangedEnergyAttack extends EntityAIBase{
 	}
 	
 	private void shootProjectile(){
-		double x, y, z; // TODO shoot from the wand
-		x = entity.posX;
-		y = entity.posY;
-		z = entity.posZ;
+		double x, y, z; // TODO shoot from the wand (check)
+		x = entity.posX+MathHelper.cos(MathUtil.toRad(entity.rotationYaw+20F))*0.5F;
+		y = entity.posY+2.4F;
+		z = entity.posZ+MathHelper.sin(MathUtil.toRad(entity.rotationYaw+20F))*0.5F;
 		entity.worldObj.spawnEntityInWorld(new EntityProjectileCorruptedEnergy(entity.worldObj,entity,x,y,z,target));
 	}
 }
