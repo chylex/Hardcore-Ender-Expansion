@@ -45,6 +45,8 @@ import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
+	public static boolean ignoreUpdateEvent = false;
+	
 	private static Block[] endermanBlockList;
 	
 	static{
@@ -1002,7 +1004,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	public void onUpdate(){
-		if (ForgeHooks.onLivingUpdate(this))return;
+		if (!ignoreUpdateEvent && ForgeHooks.onLivingUpdate(this))return;
 		onEntityUpdate();
 		
 		if (!worldObj.isRemote){

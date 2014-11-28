@@ -1,4 +1,5 @@
 package chylex.hee.system.integration;
+import chylex.hee.system.integration.handlers.ArsMagicaFixIntegration;
 import chylex.hee.system.integration.handlers.NotEnoughItemsIntegration;
 import chylex.hee.system.integration.handlers.MineFactoryReloadedIntegration;
 import chylex.hee.system.integration.handlers.ThaumcraftIntegration;
@@ -10,7 +11,8 @@ public final class ModIntegrationManager{
 		Class[] handlerClasses = new Class[]{
 			NotEnoughItemsIntegration.class,
 			ThaumcraftIntegration.class,
-			MineFactoryReloadedIntegration.class
+			MineFactoryReloadedIntegration.class,
+			ArsMagicaFixIntegration.class
 		};
 		
 		for(Class<? extends IIntegrationHandler> cls:handlerClasses){
