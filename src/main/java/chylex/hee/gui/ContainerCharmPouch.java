@@ -18,20 +18,18 @@ import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 
 public class ContainerCharmPouch extends Container{
 	private final EntityPlayer player;
-	private final ItemStack pouch;
 	private final IInventory charmInv = new InventoryBasic("container.charmPouch",false,3);
 	private final IInventory runeInv = new InventoryBasic("container.runeCrafting",false,5);
 	private final IInventory runeResultInv = new InventoryBasic("container.runeCrafting",false,1);
+	private final long pouchID;
 	
 	public ContainerCharmPouch(EntityPlayer player){
 		this.player = player;
-		pouch = player.getCurrentEquippedItem();
+		this.pouchID = ItemCharmPouch.getPouchID(player.getHeldItem());
 		
-		for(int a = 0; a < 3; a++){
-			addSlotToContainer(new SlotBasicItem(charmInv,a,39,20+a*20,ItemList.charm,1));
-		}
+		for(int a = 0; a < 3; a++)addSlotToContainer(new SlotCharmPouchItem(charmInv,this,a,39,20+a*20));
 		
-		ItemStack[] charms = ItemCharmPouch.getPouchCharms(pouch);
+		ItemStack[] charms = ItemCharmPouch.getPouchCharms(player.getHeldItem());
 		for(int a = 0; a < Math.min(charmInv.getSizeInventory(),charms.length); a++)charmInv.setInventorySlotContents(a,charms[a]);
 		
 		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,0,122,18,ItemList.rune,16));
@@ -49,10 +47,19 @@ public class ContainerCharmPouch extends Container{
 		for(int a = 0; a < 9; a++)addSlotToContainer(new Slot(player.inventory,a,8+a*18,157));
 	}
 	
+	private boolean isHoldingPouch(){
+		ItemStack is = player.getHeldItem();
+		return is != null && is.getItem() == ItemList.charm_pouch;
+	}
+	
+	public void saveCharmPouch(){
+		if (!player.worldObj.isRemote && isHoldingPouch())ItemCharmPouch.setPouchCharms(player.getHeldItem(),new ItemStack[]{ charmInv.getStackInSlot(0), charmInv.getStackInSlot(1), charmInv.getStackInSlot(2) });
+	}
+	
 	@Override
 	public void detectAndSendChanges(){
 		super.detectAndSendChanges();
-		if (!player.worldObj.isRemote && !ItemStack.areItemStacksEqual(player.getCurrentEquippedItem(),pouch))player.closeScreen();
+		if (!player.worldObj.isRemote && !isHoldingPouch())player.closeScreen();
 	}
 	
 	@Override
@@ -89,10 +96,8 @@ public class ContainerCharmPouch extends Container{
 
 		runeResultInv.setInventorySlotContents(0,null);
 		
-		ItemCharmPouch.setPouchCharms(pouch,new ItemStack[]{ charmInv.getStackInSlot(0), charmInv.getStackInSlot(1), charmInv.getStackInSlot(2) });
-		
 		CharmPouchInfo activePouch = CharmPouchHandler.getActivePouch(player);
-		if (activePouch != null && activePouch.pouchID == ItemCharmPouch.getPouchID(pouch))CharmPouchHandler.setActivePouch(player,player.getHeldItem() == null ? null : pouch);
+		if (activePouch != null && activePouch.pouchID == pouchID)CharmPouchHandler.setActivePouch(player,player.getHeldItem());
 	}
 	
 	@Override

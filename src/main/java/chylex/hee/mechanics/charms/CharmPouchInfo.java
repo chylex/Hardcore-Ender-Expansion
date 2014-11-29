@@ -14,7 +14,11 @@ public final class CharmPouchInfo{
 	
 	public CharmPouchInfo(ItemStack is){
 		pouchID = ItemCharmPouch.getPouchID(is);
-		for(ItemStack charmStack:ItemCharmPouch.getPouchCharms(is))charms.add(CharmType.getFromDamage(charmStack.getItemDamage()));
+		
+		for(ItemStack charmStack:ItemCharmPouch.getPouchCharms(is)){
+			if (charmStack != null)charms.add(CharmType.getFromDamage(charmStack.getItemDamage()));
+		}
+		
 		lastUpdateTime = System.nanoTime();
 	}
 	

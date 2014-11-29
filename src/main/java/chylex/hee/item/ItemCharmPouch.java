@@ -72,7 +72,12 @@ public class ItemCharmPouch extends Item{
 		NBTTagList tagCharms = nbt.getTagList("pouchCharms",Constants.NBT.TAG_COMPOUND);
 		
 		ItemStack[] items = new ItemStack[tagCharms.tagCount()];
-		for(int a = 0; a < tagCharms.tagCount(); a++)items[a] = ItemStack.loadItemStackFromNBT(tagCharms.getCompoundTagAt(a));
+		
+		for(int a = 0; a < tagCharms.tagCount(); a++){
+			NBTTagCompound tag = tagCharms.getCompoundTagAt(a);
+			items[a] = tag.getBoolean("null") ? null : ItemStack.loadItemStackFromNBT(tag);
+		}
+		
 		return items;
 	}
 	
@@ -80,10 +85,15 @@ public class ItemCharmPouch extends Item{
 		if (pouch.getItem() != ItemList.charm_pouch)return;
 		
 		NBTTagCompound nbt = pouch.stackTagCompound != null ? pouch.stackTagCompound : (pouch.stackTagCompound = new NBTTagCompound());
-		
 		NBTTagList tagCharms = new NBTTagList();
+		
 		for(ItemStack charm:charms){
-			if (charm != null)tagCharms.appendTag(charm.writeToNBT(new NBTTagCompound()));
+			if (charm == null){
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setBoolean("null",true);
+				tagCharms.appendTag(tag);
+			}
+			else tagCharms.appendTag(charm.writeToNBT(new NBTTagCompound()));
 		}
 		
 		nbt.setTag("pouchCharms",tagCharms);
