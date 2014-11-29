@@ -41,15 +41,7 @@ public class EntityAIRangedEnergyAttack extends EntityAIBase{
 	
 	@Override
 	public void updateTask(){
-		double dist = entity.getDistanceSqToEntity(target);
-		
-		if (dist > 700D){
-			entity.getNavigator().clearPathEntity();
-			return;
-		}
-		
-		if (dist > 96D)entity.getNavigator().tryMoveToEntityLiving(target,moveSpeed);
-		
+		entity.getNavigator().tryMoveToEntityLiving(target,entity.getDistanceSqToEntity(target) > 64D ? moveSpeed : moveSpeed*0.5D);
 		entity.getLookHelper().setLookPositionWithEntity(target,25F,25F);
 		
 		if (entity.getEntitySenses().canSee(target)){
@@ -60,16 +52,19 @@ public class EntityAIRangedEnergyAttack extends EntityAIBase{
 					if (++attackShots > 3+entity.worldObj.rand.nextInt(4))attackCooldown = attackShots = 0;
 				}
 			}
-			else if (++attackCooldown > 80-entity.worldObj.difficultySetting.getDifficultyId()*5-(ModCommonProxy.opMobs ? 15 : 0))attackShots = 1;
+			else if (++attackCooldown > 100-entity.worldObj.difficultySetting.getDifficultyId()*7-(ModCommonProxy.opMobs ? 15 : 0))attackShots = 1;
 		}
 		else attackCooldown = attackShotTimer = attackShots = 0;
 	}
 	
 	private void shootProjectile(){
-		double x, y, z;
-		x = entity.posX+MathHelper.cos(MathUtil.toRad(entity.rotationYaw-20F))*0.5F;
+		float ang = MathUtil.toRad(entity.renderYawOffset), cos = MathHelper.cos(ang), sin = MathHelper.sin(ang);
+		double offX = -0.5D, offZ = 0.5D, x, y, z;
+		
+		x = entity.posX+cos*offX-sin*offZ;
 		y = entity.posY+2F;
-		z = entity.posZ+MathHelper.sin(MathUtil.toRad(entity.rotationYaw-20F))*0.5F;
+		z = entity.posZ+sin*offX+cos*offZ;
+		
 		entity.worldObj.spawnEntityInWorld(new EntityProjectileCorruptedEnergy(entity.worldObj,entity,x,y,z,target));
 	}
 }

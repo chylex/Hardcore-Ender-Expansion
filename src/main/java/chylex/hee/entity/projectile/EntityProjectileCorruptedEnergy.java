@@ -7,6 +7,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.mob.EntityMobEnderGuardian;
+import chylex.hee.entity.mob.EntityMobEndermage;
 
 public class EntityProjectileCorruptedEnergy extends EntityFireball{
 	public EntityProjectileCorruptedEnergy(World world){
@@ -19,10 +21,11 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 		setSize(0.25F,0.25F);
 		setPosition(x,y,z);
 		
+		double speed = 0.21D+rand.nextDouble()*0.05D;
 		Vec3 motionVec = Vec3.createVectorHelper(target.posX-x,target.posY+target.height*0.5F-y,target.posZ-z).normalize();
-		motionX = motionVec.xCoord*0.3D+rand.nextGaussian()*0.01D;
-		motionY = motionVec.yCoord*0.3D+rand.nextGaussian()*0.01D;
-		motionZ = motionVec.zCoord*0.3D+rand.nextGaussian()*0.01D;
+		motionX = motionVec.xCoord*speed+rand.nextGaussian()*0.01D;
+		motionY = motionVec.yCoord*speed+rand.nextGaussian()*0.01D;
+		motionZ = motionVec.zCoord*speed+rand.nextGaussian()*0.01D;
 		
 		accelerationX = accelerationY = accelerationZ = 0D;
 	}
@@ -40,11 +43,11 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 			for(Object o:worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.offset(0D,0.5D,0D).expand(1D,1D,1D))){
 				Entity e = (Entity)o;
 				
-				if (e.hurtResistantTime == 0){
-					e.attackEntityFrom(DamageSource.magic,2.5F);
+				if (e.hurtResistantTime == 0 && e.getClass() != EntityMobEndermage.class && e.getClass() != EntityMobEnderGuardian.class){
+					e.attackEntityFrom(DamageSource.magic,2F);
 					e.hurtResistantTime = 0;
-					e.attackEntityFrom(shootingEntity == null ? DamageSource.generic : DamageSource.causeMobDamage(shootingEntity),5F);
-					e.hurtResistantTime = 8;
+					e.attackEntityFrom(shootingEntity == null ? DamageSource.generic : DamageSource.causeMobDamage(shootingEntity),12F);
+					e.hurtResistantTime = 5;
 				}
 			}
 		}

@@ -38,6 +38,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.24D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12D);
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(25D);
 	}
 	
 	@Override
@@ -47,4 +48,9 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase entity, float amount){}
+	
+	@Override
+	public String getCommandSenderName(){
+		return "entity.endermage.name";
+	}
 }
