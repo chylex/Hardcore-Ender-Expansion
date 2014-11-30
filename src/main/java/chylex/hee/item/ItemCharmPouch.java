@@ -1,6 +1,7 @@
 package chylex.hee.item;
 import java.util.List;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,8 +24,12 @@ public class ItemCharmPouch extends Item{
 			else{
 				CharmPouchInfo pouchInfo = CharmPouchHandler.getActivePouch((EntityPlayer)entity);
 				
-				if (pouchInfo == null || pouchInfo.pouchID != getPouchID(is))is.stackTagCompound.removeTag("isPouchActive");
-				else pouchInfo.update();
+				if (pouchInfo == null){
+					CharmPouchHandler.setActivePouch((EntityPlayer)entity,is);
+					CharmPouchHandler.getActivePouch((EntityPlayer)entity).update(world);
+				}
+				else if (pouchInfo.pouchID != getPouchID(is))is.stackTagCompound.setBoolean("isPouchActive",false);
+				else pouchInfo.update(world);
 			}
 		}
 	}
@@ -35,13 +40,25 @@ public class ItemCharmPouch extends Item{
 		
 		if (player.isSneaking()){
 			CharmPouchInfo activePouch = CharmPouchHandler.getActivePouch(player);
-			CharmPouchHandler.setActivePouch(player,activePouch != null && activePouch.pouchID == getPouchID(is) ? null : is);
-			(is.stackTagCompound == null ? is.stackTagCompound = new NBTTagCompound() : is.stackTagCompound).setBoolean("isPouchActive",true);
+			boolean deactivate = activePouch != null && activePouch.pouchID == getPouchID(is);
+			
+			CharmPouchHandler.setActivePouch(player,deactivate ? null : is);
+			(is.stackTagCompound == null ? is.stackTagCompound = new NBTTagCompound() : is.stackTagCompound).setBoolean("isPouchActive",!deactivate);
+			if (!deactivate)CharmPouchHandler.getActivePouch(player).update(world);
 		}
 		else player.openGui(HardcoreEnderExpansion.instance,5,world,0,0,0);
 		
 		return is;
 	}
+	
+	@Override
+	public boolean onEntityItemUpdate(EntityItem entity){
+		ItemStack is = entity.getEntityItem();
+		if (is == null || is.stackTagCompound == null)return false;
+		
+		if (is.stackTagCompound.getBoolean("isPouchActive"))is.stackTagCompound.setBoolean("isPouchActive",false);
+        return false;
+    }
 	
 	@Override
 	@SideOnly(Side.CLIENT)

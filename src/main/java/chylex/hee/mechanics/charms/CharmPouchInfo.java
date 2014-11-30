@@ -2,15 +2,14 @@ package chylex.hee.mechanics.charms;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.item.ItemCharmPouch;
 
 public final class CharmPouchInfo{
-	private static final long maxIdleTime = 1000000000;
-	
 	public final long pouchID;
 	public final List<Pair<CharmType,CharmRecipe>> charms = new ArrayList<Pair<CharmType,CharmRecipe>>(5);
-	private long lastUpdateTime;
+	private long prevUpdateTime;
 	
 	public CharmPouchInfo(ItemStack is){
 		pouchID = ItemCharmPouch.getPouchID(is);
@@ -18,16 +17,14 @@ public final class CharmPouchInfo{
 		for(ItemStack charmStack:ItemCharmPouch.getPouchCharms(is)){
 			if (charmStack != null)charms.add(CharmType.getFromDamage(charmStack.getItemDamage()));
 		}
-		
-		lastUpdateTime = System.nanoTime();
 	}
 	
-	public void update(){
-		lastUpdateTime = System.nanoTime();
+	public void update(World world){
+		this.prevUpdateTime = world.getTotalWorldTime();
 	}
 	
-	public boolean isIdle(){
-		return System.nanoTime()-lastUpdateTime > maxIdleTime; 
+	public boolean isIdle(World world){
+		return world.getTotalWorldTime()-prevUpdateTime > 4;
 	}
 	
 	@Override

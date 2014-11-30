@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.charms.handler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,7 +22,7 @@ public final class CharmPouchHandlerClient{
 			instance.refresh = true;
 		}
 		
-		instance.setInactiveTimer = 5;
+		instance.prevUpdateTime = player.worldObj.getTotalWorldTime();
 	}
 	
 	public static CharmPouchInfo getActivePouch(){
@@ -31,7 +32,7 @@ public final class CharmPouchHandlerClient{
 	private final CharmEventsClient eventsClient = new CharmEventsClient();
 	private ItemStack activePouch;
 	private CharmPouchInfo activePouchInfo;
-	private byte setInactiveTimer;
+	private long prevUpdateTime;
 	private boolean prevHadPouch;
 	private boolean refresh;
 	
@@ -41,12 +42,16 @@ public final class CharmPouchHandlerClient{
 	public void onClientTick(ClientTickEvent e){
 		if (e.phase != Phase.END)return;
 		
-		if (setInactiveTimer > 0){
-			if (--setInactiveTimer == 0){
-				activePouch = null;
-				activePouchInfo = null;
-				refresh = true;
-			}
+		if (Minecraft.getMinecraft().theWorld == null){
+			activePouch = null;
+			activePouchInfo = null;
+			refresh = true;
+		}
+		
+		if (activePouch != null && Minecraft.getMinecraft().theWorld.getTotalWorldTime()-prevUpdateTime > 4){
+			activePouch = null;
+			activePouchInfo = null;
+			refresh = true;
 		}
 		
 		if (refresh){

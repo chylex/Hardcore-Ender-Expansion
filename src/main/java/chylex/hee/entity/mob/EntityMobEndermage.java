@@ -53,4 +53,6 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	public String getCommandSenderName(){
 		return "entity.endermage.name";
 	}
+	
+	// TODO add some drop maybe?
 }
