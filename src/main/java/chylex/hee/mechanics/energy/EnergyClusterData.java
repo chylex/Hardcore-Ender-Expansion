@@ -14,15 +14,17 @@ public final class EnergyClusterData{
 	private byte regenTimer, drainTimer;
 	
 	public void generate(World world, int blockX, int blockZ){
-		int chunkX = blockX>>4, chunkZ = blockZ>>4;
-		EnergySavefile file = WorldDataHandler.get(EnergySavefile.class);
+		if (world.provider.dimensionId == 1){
+			int chunkX = blockX>>4, chunkZ = blockZ>>4;
+			EnergySavefile file = WorldDataHandler.get(EnergySavefile.class);
+			
+			float average = file.getFromChunkCoords(world,chunkX,chunkZ,false).getEnergyLevel();
+			for(int a = 0; a < 4; a++)average += file.getFromChunkCoords(world,chunkX+Direction.offsetX[a]*EnergySavefile.sectionSize,chunkZ+Direction.offsetZ[a]*EnergySavefile.sectionSize,false).getEnergyLevel();
+			
+			maxEnergyLevel = (0.25F+world.rand.nextFloat())*average*0.2F;
+		}
+		else maxEnergyLevel = (0.25F+world.rand.nextFloat())*5F;
 		
-		float average = file.getFromChunkCoords(world,chunkX,chunkZ,false).getEnergyLevel();
-		for(int a = 0; a < 4; a++)average += file.getFromChunkCoords(world,chunkX+Direction.offsetX[a]*EnergySavefile.sectionSize,chunkZ+Direction.offsetZ[a]*EnergySavefile.sectionSize,false).getEnergyLevel();
-		
-		average *= 0.2F;
-		
-		maxEnergyLevel = (0.25F+world.rand.nextFloat())*average;
 		energyLevel = (0.1F+world.rand.nextFloat()*0.9F)*maxEnergyLevel;
 		healthStatus = EnergyClusterHealth.spawnWeightedList.getRandomItem(world.rand);
 	}

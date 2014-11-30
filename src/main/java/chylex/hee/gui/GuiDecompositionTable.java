@@ -49,5 +49,7 @@ public class GuiDecompositionTable extends GuiContainer{
 		
 		int bar = decompositionTable.getScaledProgressTime(24);
 		if (bar > -1)drawTexturedModalRect(guiX+57,guiY+34,176,0,bar+1,16);
+		
+		if (decompositionTable.hasInsufficientEnergy())drawTexturedModalRect(guiX+19,guiY+37,176,18,10,11);
 	}
 }

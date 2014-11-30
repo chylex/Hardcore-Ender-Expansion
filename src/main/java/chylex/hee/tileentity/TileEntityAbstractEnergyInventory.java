@@ -29,8 +29,14 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 	protected abstract boolean isWorking();
 	protected abstract void onWork();
 	
+	public final boolean hasInsufficientEnergy(){
+		return isWorking() && !MathUtil.floatEquals(energyLeft,0F); // TODO sync client
+	}
+	
 	@Override
-	public void updateEntity(){
+	public final void updateEntity(){
+		if (worldObj.isRemote)return;
+		
 		if (isWorking()){
 			draining = true;
 			if (MathUtil.floatEquals(energyLeft,0F))onWork();
@@ -42,7 +48,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 			
 			float drain = MathUtil.floatEquals(energyLeft,0F) ? getDrainAmount() : energyLeft;
 			
-			if (getWorldObj().provider.dimensionId == 1){
+			if (worldObj.provider.dimensionId == 1){
 				float newDrain = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).drainEnergy(drain);
 				if (!MathUtil.floatEquals(newDrain,drain))PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,xCoord+0.5D,yCoord+68D,zCoord+0.5D,(byte)80,(byte)80,(byte)80));
 				drain = newDrain;
@@ -50,15 +56,17 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 			
 			if (drain > EnergyChunkData.minSignificantEnergy){
 				List<TileEntityEnergyCluster> clusters = new ArrayList<>();
-				int chunkX = xCoord>>4, chunkZ = zCoord>>4;
+				int chunkX = xCoord>>4, chunkZ = zCoord>>4, cx, cz;
 				
 				for(int a = 0; a < 9; a++){
-					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromBlockCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).chunkTileEntityMap;
+					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).chunkTileEntityMap;
+					cx = chunkX*16+chunkOffX[a]*16;
+					cz = chunkZ*16+chunkOffZ[a]*16;
 					
 					for(Entry<ChunkPosition,TileEntity> entry:tiles.entrySet()){
 						ChunkPosition pos = entry.getKey();
 						
-						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(pos.chunkPosX-xCoord,pos.chunkPosY-yCoord,pos.chunkPosZ-zCoord) <= 16D){
+						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.chunkPosX-xCoord,pos.chunkPosY-yCoord,cz+pos.chunkPosZ-zCoord) <= 16D){
 							clusters.add((TileEntityEnergyCluster)entry.getValue());
 						}
 					}
@@ -74,7 +82,9 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 			}
 			
 			drainTimer = getDrainTimer();
+			
 			if (drain > EnergyChunkData.minSignificantEnergy)energyLeft = drain;
+			else energyLeft = 0F;
 			
 			Stopwatch.finish("TileEntityAbstractEnergyInventory - drain");
 		}

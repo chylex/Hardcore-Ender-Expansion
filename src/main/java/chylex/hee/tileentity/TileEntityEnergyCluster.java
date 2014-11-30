@@ -9,6 +9,7 @@ import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.util.ColorUtil;
+import chylex.hee.system.util.MathUtil;
 
 public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public final EnergyClusterData data;
@@ -57,7 +58,10 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	
 	public float drainEnergy(float amount, TileEntityAbstractEnergyInventory tile){
 		if (data.getEnergyLevel() >= EnergyChunkData.minSignificantEnergy)PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
-		return data.drainEnergy(amount);
+		
+		float left = data.drainEnergy(amount);
+		if (!MathUtil.floatEquals(left,amount))synchronize();
+		return left;
 	}
 	
 	public float getColor(int index){
