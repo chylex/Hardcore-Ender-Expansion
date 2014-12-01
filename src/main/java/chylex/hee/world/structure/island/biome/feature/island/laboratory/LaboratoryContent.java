@@ -9,7 +9,7 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public final class LaboratoryContent{
 	private enum SmallRoom{
-		EMPTY, CLUSTER, ENDER_CHEST, FLOWER_POTS, LOOT_CHESTS
+		EMPTY, CLUSTER, ENDER_CHEST, FLOWER_POTS
 	}
 	
 	private static final WeightedList<ObjectWeightPair<SmallRoom>> smallRoomList = new WeightedList<>(
@@ -72,12 +72,13 @@ public final class LaboratoryContent{
 	}
 	
 	private enum LargeRoom{
-		EMPTY, ENCASED_ENDIUM
+		EMPTY, ENCASED_ENDIUM, LOOT_CHESTS
 	}
 	
 	private static final WeightedList<ObjectWeightPair<LargeRoom>> largeRoomList = new WeightedList<>(
 		ObjectWeightPair.of(LargeRoom.EMPTY, 50),
-		ObjectWeightPair.of(LargeRoom.ENCASED_ENDIUM, 30)
+		ObjectWeightPair.of(LargeRoom.ENCASED_ENDIUM, 30),
+		ObjectWeightPair.of(LargeRoom.LOOT_CHESTS, 25)
 	);
 	
 	public static void populateLargeRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
@@ -96,6 +97,12 @@ public final class LaboratoryContent{
 				}
 				
 				break;
+				
+			case LOOT_CHESTS:
+				
+				break;
+				
+			default:
 		}
 	}
 	
