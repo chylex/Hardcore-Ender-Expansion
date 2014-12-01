@@ -7,9 +7,9 @@ import chylex.hee.system.weight.ObjectWeightPair;
 import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
-public final class LaboratoryContent{ // TODO
+public final class LaboratoryContent{
 	private enum SmallRoom{
-		EMPTY, CLUSTER, ENDER_CHEST, FLOWER_POTS
+		EMPTY, CLUSTER, ENDER_CHEST, FLOWER_POTS, LOOT_CHESTS
 	}
 	
 	private static final WeightedList<ObjectWeightPair<SmallRoom>> smallRoomList = new WeightedList<>(
