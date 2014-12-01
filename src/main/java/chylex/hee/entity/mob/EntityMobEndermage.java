@@ -54,5 +54,8 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 		return "entity.endermage.name";
 	}
 	
-	// TODO add some drop maybe?
+	@Override
+	protected void dropFewItems(boolean recentlyHit, int looting){
+		
+	}
 }

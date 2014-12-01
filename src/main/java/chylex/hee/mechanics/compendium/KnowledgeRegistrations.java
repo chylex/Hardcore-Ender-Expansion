@@ -867,7 +867,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(660).setContents("Very flat biome with small amount of caves.").setPrice(5),
 				new KnowledgeFragmentText(661).setContents("There are currently two variations - Homeland and Laboratory.").setPrice(4).setUnlockRequirements(660),
 				new KnowledgeFragmentText(662).setContents("Homeland has lakes of Ender Goo, piles of Falling Obsidian and a strange Obsidian road-like structure. Endermen, Baby Endermen and Ender Guardians spawn there.").setPrice(15).setUnlockRequirements(661),
-				// TODO lab
+				new KnowledgeFragmentText(663).setContents("Laboratory has a single large structure made of special blocks. Endermages and Ender Guardians spawn in the variation.").setPrice(15).setUnlockRequirements(661),
 				new KnowledgeFragmentText(665).setContents("All variations have Hidden Cellar, a haunted underground dungeon.").setPrice(7).setUnlockRequirements(661).setUnlockCascade(810)
 			}),
 			
@@ -940,11 +940,14 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ENDERMAGE.setPos(0,12).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
-				// TODO
+				new KnowledgeFragmentText(860).setContents("Mage that lives in the Enchanted Island (Laboratory).").setPrice(7).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(861).setContents("It only attacks players when attacked.").setPrice(5).setUnlockRequirements(860),
+				new KnowledgeFragmentText(862).setContents("During its attack, it shoots several consecutive projectiles of Corrupted Energy, which go through blocks and severely damage anything that is too close.").setPrice(7).setUnlockRequirements(860),
+				new KnowledgeFragmentText(863).setContents("").setPrice(5).setUnlockRequirements(860) // TODO drop
 			})
 		});
 		
-		// next: 860
+		// next: 870
 		// taken: 1000-1299
 		
 		Stopwatch.finish("KnowledgeRegistrations");

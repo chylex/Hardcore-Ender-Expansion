@@ -138,7 +138,7 @@ public class HardcoreEnderExpansion{
 		// CONFIGURATION LOAD
 
 		ConfigHandler.register(e.getSuggestedConfigurationFile());
-		ModCreativeTab.registerTab();
+		ModCreativeTab.registerTabs();
 		BlockList.loadBlocks();
 		ItemList.loadItems();
 		proxy.loadConfiguration();

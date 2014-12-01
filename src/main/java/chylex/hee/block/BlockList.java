@@ -25,14 +25,13 @@ import chylex.hee.item.block.ItemBlockSlab;
 import chylex.hee.item.block.ItemBlockSlab.IBlockSlab;
 import chylex.hee.item.block.ItemBlockSoulCharm;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
-import chylex.hee.system.creativetab.CreativeTabItemList;
+import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public final class BlockList{
-	public static final CreativeTabItemList tabOrderedList = new CreativeTabItemList();
 	private static final Map<String,BlockData> blocks = new HashMap<>();
 	
 	private static void register(String blockIdentifier, Block block){
@@ -195,7 +194,7 @@ public final class BlockList{
 			GameRegistryUtil.registerBlock(entry.getValue().block,entry.getKey(),entry.getValue().itemBlockClass);
 		}
 		
-		tabOrderedList.addBlocks(
+		ModCreativeTab.tabMain.list.addBlocks(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			essence_altar,void_chest,decomposition_table,energy_extraction_table,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
@@ -206,7 +205,7 @@ public final class BlockList{
 			crossed_decoration,death_flower
 		);
 		
-		if (Log.isDeobfEnvironment)tabOrderedList.addBlocks(special_effects);
+		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.addBlocks(special_effects);
 	}
 	
 	private BlockList(){} // static class

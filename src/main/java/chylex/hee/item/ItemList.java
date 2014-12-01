@@ -7,11 +7,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemReed;
 import chylex.hee.block.BlockList;
-import chylex.hee.system.creativetab.CreativeTabItemList;
+import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.util.GameRegistryUtil;
 
 public final class ItemList{
-	public static final CreativeTabItemList tabOrderedList = new CreativeTabItemList();
 	private static final Map<String,Item> items = new HashMap<>();
 	
 	private static void register(String itemIdentifier, Item item){
@@ -42,13 +41,18 @@ public final class ItemList{
 	// CRAFTING MATERIALS
 	
 	public static Item altar_nexus;
+	public static Item essence;
+	public static Item silverfish_blood;
+	public static Item dry_splinter;
+	public static Item ectoplasm;
+	public static Item rune;
+	public static Item fire_shard;
 	public static Item obsidian_fragment;
 	public static Item obsidian_rod;
 	public static Item energy_wand_core;
 	
-	// COMPLEX MATERIALS
+	// FUNCTIONAL ITEMS
 	
-	public static Item essence;
 	public static Item enhanced_brewing_stand;
 	public static Item enhanced_ender_pearl;
 	public static Item potion_of_instability;
@@ -56,20 +60,12 @@ public final class ItemList{
 	public static Item spatial_dash_gem;
 	public static Item transference_gem;
 	public static Item temple_caller;
-	
-	// BIOME ITEMS
-	
-	public static Item silverfish_blood;
-	public static Item dry_splinter;
 	public static Item infestation_remedy;
 	public static Item ghost_amulet;
-	public static Item ectoplasm;
-	public static Item charm_pouch;
-	public static Item rune;
-	public static Item charm;
-	public static Item fire_shard;
-	public static Item scorching_pickaxe;
 	public static Item corporeal_mirage_orb;
+	public static Item charm_pouch;
+	public static Item charm;
+	public static Item scorching_pickaxe;
 	public static Item energy_wand;
 	
 	// WORLD
@@ -96,11 +92,16 @@ public final class ItemList{
 		register("instability_orb", instability_orb = new ItemInstabilityOrb().setUnlocalizedName("instabilityOrb").setTextureName("hardcoreenderexpansion:instability_orb"));
 		
 		register("altar_nexus", altar_nexus = new Item().setUnlocalizedName("altarNexus").setTextureName("hardcoreenderexpansion:altar_nexus"));
+		register("essence", essence = new ItemEssence().setUnlocalizedName("essence"));
+		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood"));
+		register("dry_splinter", dry_splinter = new Item().setUnlocalizedName("drySplinter").setTextureName("hardcoreenderexpansion:dry_splinter"));
+		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("endoplasm").setTextureName("hardcoreenderexpansion:endoplasm"));
+		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune"));
+		register("fire_shard", fire_shard = new Item().setUnlocalizedName("fireShard").setTextureName("hardcoreenderexpansion:fire_shard"));
 		register("obsidian_fragment", obsidian_fragment = new Item().setUnlocalizedName("obsidianFragment").setTextureName("hardcoreenderexpansion:obsidian_fragment"));
 		register("obsidian_rod", obsidian_rod = new Item().setUnlocalizedName("obsidianRod").setTextureName("hardcoreenderexpansion:obsidian_rod"));
 		register("energy_wand_core", energy_wand_core = new Item().setUnlocalizedName("energyWandCore").setTextureName("hardcoreenderexpansion:energy_wand_core"));
 		
-		register("essence", essence = new ItemEssence().setUnlocalizedName("essence"));
 		register("enhanced_brewing_stand", enhanced_brewing_stand = new ItemReed(BlockList.enhanced_brewing_stand).setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
 		register("enhanced_ender_pearl", enhanced_ender_pearl = new ItemEnhancedEnderPearl().setCreativeTab(null).setUnlocalizedName("enderPearl").setTextureName("ender_pearl"));
 		register("potion_of_instability", potion_of_instability = new ItemPotionOfInstability().setMaxStackSize(1).setTextureName("hardcoreenderexpansion:potion_of_instability"));
@@ -108,18 +109,12 @@ public final class ItemList{
 		register("spatial_dash_gem", spatial_dash_gem = new ItemSpatialDashGem().setMaxStackSize(1).setMaxDamage(300).setNoRepair().setUnlocalizedName("spatialDashGem").setTextureName("hardcoreenderexpansion:spatial_dash_gem"));
 		register("transference_gem", transference_gem = new ItemTransferenceGem().setMaxStackSize(1).setMaxDamage(204).setNoRepair().setUnlocalizedName("transferenceGem").setTextureName("hardcoreenderexpansion:transference_gem"));
 		register("temple_caller", temple_caller = new ItemTempleCaller().setMaxStackSize(1).setMaxDamage(50).setNoRepair().setUnlocalizedName("templeCaller").setTextureName("hardcoreenderexpansion:temple_caller"));
-		
-		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood"));
-		register("dry_splinter", dry_splinter = new Item().setUnlocalizedName("drySplinter").setTextureName("hardcoreenderexpansion:dry_splinter"));
 		register("infestation_remedy", infestation_remedy = new ItemInfestationRemedy().setMaxStackSize(1).setUnlocalizedName("infestationRemedy").setTextureName("hardcoreenderexpansion:infestation_remedy"));
 		register("ghost_amulet", ghost_amulet = new ItemGhostAmulet().setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
-		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("endoplasm").setTextureName("hardcoreenderexpansion:endoplasm"));
-		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
-		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune"));
-		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
-		register("fire_shard", fire_shard = new Item().setUnlocalizedName("fireShard").setTextureName("hardcoreenderexpansion:fire_shard"));
-		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe"));
 		register("corporeal_mirage_orb", corporeal_mirage_orb = new ItemCorporealMirageOrb().setMaxStackSize(4).setUnlocalizedName("corporealMirageOrb").setTextureName("hardcoreenderexpansion:corporeal_mirage_orb"));
+		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
+		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
+		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe"));
 		register("energy_wand", energy_wand = new ItemEnergyWand().setMaxStackSize(1).setUnlocalizedName("energyWand").setTextureName("hardcoreenderexpansion:energy_wand"));
 		
 		register("enderman_head", enderman_head = new ItemEndermanHead().setUnlocalizedName("endermanHead").setTextureName("hardcoreenderexpansion:enderman_head"));
@@ -135,11 +130,11 @@ public final class ItemList{
 			GameRegistryUtil.registerItem(entry.getValue(),entry.getKey());
 		}
 		
-		tabOrderedList.addItems(
+		ModCreativeTab.tabMain.list.addItems(
 			adventurers_diary,altar_nexus,essence,enhanced_brewing_stand,
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			biome_compass,spatial_dash_gem,transference_gem,temple_caller,
-			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,charm,
+			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
 			ghost_amulet,ectoplasm,corporeal_mirage_orb
 		).addBlocks(
 			BlockList.soul_charm
@@ -148,6 +143,10 @@ public final class ItemList{
 			enderman_head,bucket_ender_goo,music_disk,
 			knowledge_note,
 			spawn_eggs
+		);
+		
+		ModCreativeTab.tabCharms.list.addItems(
+			charm
 		);
 	}
 	

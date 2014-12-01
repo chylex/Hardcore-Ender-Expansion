@@ -11,7 +11,7 @@ public class CreativeTabItemList{
 	public CreativeTabItemList addBlocks(Block...blocks){
 		for(Block block:blocks){
 			this.blocks.add(block);
-			block.setCreativeTab(ModCreativeTab.tab);
+			block.setCreativeTab(ModCreativeTab.tabMain);
 		}
 		
 		return this;
@@ -24,7 +24,7 @@ public class CreativeTabItemList{
 	public CreativeTabItemList addItems(Item...items){
 		for(Item item:items){
 			this.items.add(item);
-			item.setCreativeTab(ModCreativeTab.tab);
+			item.setCreativeTab(ModCreativeTab.tabMain);
 		}
 		
 		return this;
