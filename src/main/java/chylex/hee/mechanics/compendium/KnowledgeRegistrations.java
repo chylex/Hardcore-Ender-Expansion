@@ -187,6 +187,7 @@ public final class KnowledgeRegistrations{
 		ENDER_GUARDIAN = create(EntityMobEnderGuardian.class),
 		OBSIDIAN_FRAGMENT = create(ItemList.obsidian_fragment),
 		OBSIDIAN_ROD = create(ItemList.obsidian_rod),
+		AURICION = create(ItemList.auricion),
 		ENERGY_WAND_CORE = create(ItemList.energy_wand_core),
 		ENERGY_WAND = create(ItemList.energy_wand),
 		ENDERMAGE = create(EntityMobEndermage.class);
@@ -916,17 +917,23 @@ public final class KnowledgeRegistrations{
 			OBSIDIAN_ROD.setPos(4,10).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(830).setContents("Rod made of Obsidian Fragments.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(831).setRecipeFromRegistry(new ItemStack(ItemList.obsidian_rod)).setPrice(5).setUnlockRequirements(830).setUnlockCascade(821),
-				new KnowledgeFragmentCrafting(832).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(830).setUnlockCascade(841,851)
+				new KnowledgeFragmentCrafting(832).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(830).setUnlockCascade(842,851)
 			}),
 			
-			ENERGY_WAND_CORE.setPos(6,10).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			AURICION.setPos(12,10).setUnlockPrice(7).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(870).setContents("Golden token used for crafting.").setPrice(7).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(871).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand_core)).setPrice(7).setUnlockRequirements(870).setUnlockCascade(841)
+			}),
+			
+			ENERGY_WAND_CORE.setPos(10,10).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(840).setContents("Core of the Energy Wand").setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(841).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(840).setUnlockCascade(832,851)
+				new KnowledgeFragmentCrafting(841).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand_core)).setPrice(7).setUnlockRequirements(840).setUnlockCascade(871),
+				new KnowledgeFragmentCrafting(842).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(840).setUnlockCascade(832,851)
 			}),
 			
-			ENERGY_WAND.setPos(8,10).setUnlockPrice(35).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			ENERGY_WAND.setPos(7,10).setUnlockPrice(35).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(850).setContents("Wand used to store and move Energy Clusters.").setPrice(7).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(851).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(850).setUnlockCascade(832,841),
+				new KnowledgeFragmentCrafting(851).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(850).setUnlockCascade(832,842),
 				new KnowledgeFragmentText(852).setContents("Sneak and right-click on a Cluster to store it in the wand, or on a block to release stored Cluster.").setPrice(7).setUnlockRequirements(850),
 				new KnowledgeFragmentText(853).setContents("The further you move the Cluster, the higher chance it has to weaken and lose some Energy.").setPrice(5).setUnlockRequirements(852)
 			}),
@@ -939,15 +946,16 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(693).setContents("The guardian drops 0-1 Ender Pearls, 1-3 Obsidian blocks and 0-3 Obsidian Fragments.").setPrice(5).setUnlockRequirements(690)
 			}),
 			
-			ENDERMAGE.setPos(0,12).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			ENDERMAGE.setPos(14,10).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(860).setContents("Mage that lives in the Enchanted Island (Laboratory).").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(861).setContents("It only attacks players when attacked.").setPrice(5).setUnlockRequirements(860),
 				new KnowledgeFragmentText(862).setContents("During its attack, it shoots several consecutive projectiles of Corrupted Energy, which go through blocks and severely damage anything that is too close.").setPrice(7).setUnlockRequirements(860),
-				new KnowledgeFragmentText(863).setContents("").setPrice(5).setUnlockRequirements(860) // TODO drop
+				new KnowledgeFragmentText(863).setContents("When killed by a player, it has a small chance to drop Auricion.").setPrice(5).setUnlockRequirements(860),
+				new KnowledgeFragmentText(864).setContents("Any level of Looting increases the chance to get the drop.").setPrice(4).setUnlockRequirements(863)
 			})
 		});
 		
-		// next: 870
+		// next: 880
 		// taken: 1000-1299
 		
 		Stopwatch.finish("KnowledgeRegistrations");

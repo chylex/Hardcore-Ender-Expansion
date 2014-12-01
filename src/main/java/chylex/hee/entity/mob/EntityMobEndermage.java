@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.ai.EntityAIRangedEnergyAttack;
+import chylex.hee.item.ItemList;
 
 public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IRangedAttackMob{
 	public EntityMobEndermage(World world){
@@ -56,6 +57,6 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		
+		if (recentlyHit && (rand.nextInt(3) == 0 || looting > 0) && rand.nextBoolean())dropItem(ItemList.auricion,1);
 	}
 }

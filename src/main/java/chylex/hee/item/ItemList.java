@@ -49,6 +49,7 @@ public final class ItemList{
 	public static Item fire_shard;
 	public static Item obsidian_fragment;
 	public static Item obsidian_rod;
+	public static Item auricion;
 	public static Item energy_wand_core;
 	
 	// FUNCTIONAL ITEMS
@@ -100,6 +101,7 @@ public final class ItemList{
 		register("fire_shard", fire_shard = new Item().setUnlocalizedName("fireShard").setTextureName("hardcoreenderexpansion:fire_shard"));
 		register("obsidian_fragment", obsidian_fragment = new Item().setUnlocalizedName("obsidianFragment").setTextureName("hardcoreenderexpansion:obsidian_fragment"));
 		register("obsidian_rod", obsidian_rod = new Item().setUnlocalizedName("obsidianRod").setTextureName("hardcoreenderexpansion:obsidian_rod"));
+		register("auricion", auricion = new Item().setUnlocalizedName("auricion").setTextureName("hardcoreenderexpansion:auricion"));
 		register("energy_wand_core", energy_wand_core = new Item().setUnlocalizedName("energyWandCore").setTextureName("hardcoreenderexpansion:energy_wand_core"));
 		
 		register("enhanced_brewing_stand", enhanced_brewing_stand = new ItemReed(BlockList.enhanced_brewing_stand).setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
@@ -139,7 +141,7 @@ public final class ItemList{
 		).addBlocks(
 			BlockList.soul_charm
 		).addItems(
-			fire_shard,scorching_pickaxe,obsidian_fragment,obsidian_rod,energy_wand_core,energy_wand,
+			fire_shard,scorching_pickaxe,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_wand,
 			enderman_head,bucket_ender_goo,music_disk,
 			knowledge_note,
 			spawn_eggs

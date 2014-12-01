@@ -113,8 +113,8 @@ public final class RecipeList{
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.energy_wand_core),
-			" G ", "GEG", " G ",
-			'G', Items.gold_ingot,
+			" A ", "AEA", " A ",
+			'A', ItemList.auricion,
 			'E', BlockList.endium_block
 		);
 		
