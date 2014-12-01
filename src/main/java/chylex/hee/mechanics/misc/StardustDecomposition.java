@@ -12,6 +12,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.commons.lang3.ArrayUtils;
@@ -192,7 +193,7 @@ public final class StardustDecomposition{
 		for(Iterator<ItemStack> iter = randRecipeIngredients.iterator(); iter.hasNext();){
 			ItemStack ingredient = iter.next();
 			if (ingredient == null)return null;
-			if (ingredient.getItem().hasContainerItem(ingredient))iter.remove();
+			if (ingredient.getItemDamage() == OreDictionary.WILDCARD_VALUE || ingredient.getItem().hasContainerItem(ingredient))iter.remove();
 			if (isBlacklisted(ingredient.getItem(),ingredient.getItemDamage()))iter.remove();
 		}
 		
