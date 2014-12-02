@@ -28,8 +28,8 @@ public class EnergyChunkData{
 	
 	public void onUpdate(World world, Random rand){
 		if ((regenTimer == 0 || --regenTimer == 0) && energyLevel < maxEnergyLevel){
-			if ((energyLevel += Math.sqrt(maxEnergyLevel)*0.004F) > maxEnergyLevel)energyLevel = maxEnergyLevel;
-			regenTimer = (byte)(8+rand.nextInt(12+rand.nextInt(6))+(int)Math.floor((16F*energyLevel/maxEnergyLevel)+maxEnergyLevel*0.2F));
+			if ((energyLevel += Math.min(0.025F,Math.sqrt(maxEnergyLevel)*0.007F)) > maxEnergyLevel)energyLevel = maxEnergyLevel;
+			regenTimer = (byte)(9+rand.nextInt(12+rand.nextInt(6))+(int)Math.floor((16F*energyLevel/maxEnergyLevel)+maxEnergyLevel*0.2F));
 		}
 		
 		if ((energyLevel > maxEnergyLevel || (energyLevel > maxEnergyLevel*0.8F && rand.nextInt(10) == 0)) && (releaseTimer == 0 || --releaseTimer == 0)){
@@ -44,7 +44,7 @@ public class EnergyChunkData{
 	}
 	
 	public void onAdjacentInteract(Random rand, EnergyChunkData data){
-		if (rand.nextInt(30) == 0 && data.energyLevel < energyLevel && data.energyLevel < data.maxEnergyLevel && Math.abs(data.energyLevel-energyLevel) > 0.4F+rand.nextFloat()*2.5F){
+		if (rand.nextInt(42) == 0 && data.energyLevel < energyLevel && data.energyLevel < data.maxEnergyLevel && Math.abs(data.energyLevel-energyLevel) > 0.4F+rand.nextFloat()*2.5F){
 			float amt = Math.min(energyLevel,Math.min(data.maxEnergyLevel-data.energyLevel,Math.max(0.01F,Math.min(0.2F,Math.abs(data.energyLevel-energyLevel)*0.02F*(0.8F+rand.nextFloat()*0.2F)))));
 			
 			if (amt > minSignificantEnergy){
