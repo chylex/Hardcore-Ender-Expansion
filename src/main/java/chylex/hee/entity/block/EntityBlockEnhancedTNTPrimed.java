@@ -51,10 +51,13 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		super.entityInit();
 		dataWatcher.addObject(16,Byte.valueOf((byte)0));
 		dataWatcher.addObject(17,Byte.valueOf((byte)0));
+		dataWatcher.addObject(18,"");
 	}
 
 	@Override
 	public void onUpdate(){
+		if (!worldObj.isRemote && ticksExisted == 1)dataWatcher.updateObject(18,EnhancementEnumHelper.serialize(tntEnhancements));
+		
 		if (worldObj.isRemote && !noClip && dataWatcher.getWatchableObjectByte(16) == 1){
 			noClip = true;
 			fuse = 40;
@@ -85,17 +88,18 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 			motionY *= -0.5D;
 		}
 
-		if (fuse-- == 5)dataWatcher.updateObject(17,Byte.valueOf((byte)1));
-		else if (fuse <= 0){
+		if (fuse-- == 5 || (fuse == 0 && tntEnhancements.contains(TNTEnhancements.NO_FUSE)))dataWatcher.updateObject(17,Byte.valueOf((byte)1));
+		
+		if (fuse <= 0){
 			setDead();
-			explode();
+			if (!worldObj.isRemote)explode();
 		}
 		else worldObj.spawnParticle("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
 		
 		setPosition(posX,posY,posZ);
 	}
 
-	private void explode(){
+	private void explode(){		
 		EnhancedTNTExplosion explosion = new EnhancedTNTExplosion(worldObj,this,posX,posY,posZ,tntEnhancements.contains(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F);
 		explosion.isFlaming = tntEnhancements.contains(TNTEnhancements.FIRE);
 		explosion.isSmoking = !tntEnhancements.contains(TNTEnhancements.NO_BLOCK_DAMAGE);
@@ -107,7 +111,11 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	@Override
 	public void setDead(){
 		super.setDead();
-		if (worldObj.isRemote && dataWatcher.getWatchableObjectByte(17) == 1)explode();
+		
+		if (!isDead && worldObj.isRemote && dataWatcher.getWatchableObjectByte(17) == 1){
+			tntEnhancements = EnhancementEnumHelper.deserialize(dataWatcher.getWatchableObjectString(18),TNTEnhancements.class);
+			explode();
+		}
 	}
 	
 	@Override
