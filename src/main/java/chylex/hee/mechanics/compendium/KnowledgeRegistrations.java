@@ -950,12 +950,13 @@ public final class KnowledgeRegistrations{
 			
 			AURICION.setPos(12,10).setUnlockPrice(7).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(870).setContents("Golden token used for crafting.").setPrice(7).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(871).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand_core)).setPrice(7).setUnlockRequirements(870).setUnlockCascade(841)
+				new KnowledgeFragmentText(871).setContents("It can be found in Laboratory loot chests, and is also uncommonly dropped by Endermages.").setPrice(5).setUnlockRequirements(870),
+				new KnowledgeFragmentCrafting(872).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand_core)).setPrice(7).setUnlockRequirements(870).setUnlockCascade(841)
 			}),
 			
 			ENERGY_WAND_CORE.setPos(10,10).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(840).setContents("Core of the Energy Wand").setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(841).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand_core)).setPrice(7).setUnlockRequirements(840).setUnlockCascade(871),
+				new KnowledgeFragmentCrafting(841).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand_core)).setPrice(7).setUnlockRequirements(840).setUnlockCascade(872),
 				new KnowledgeFragmentCrafting(842).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(840).setUnlockCascade(832,851)
 			}),
 			
