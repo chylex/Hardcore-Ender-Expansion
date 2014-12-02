@@ -76,10 +76,14 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		motionY *= 0.98D;
 		motionZ *= 0.98D;
 		
-		if (noClip){
+		if (!worldObj.isRemote && noClip){ // TODO redstone torch blocks it?
 			Block block = worldObj.getBlock((int)Math.floor(posX),(int)Math.floor(posY),(int)Math.floor(posZ));
-			if (!wentIntoWall && block.getMaterial() != Material.air)wentIntoWall = true;
-			else if (wentIntoWall && block.getMaterial() == Material.air)fuse = 1;
+			
+			if (!wentIntoWall && block.isOpaqueCube())wentIntoWall = true;
+			else if (wentIntoWall && block.getMaterial() == Material.air){
+				fuse = 1;
+				dataWatcher.updateObject(17,Byte.valueOf((byte)1));
+			}
 		}
 
 		if (onGround && !noClip){
