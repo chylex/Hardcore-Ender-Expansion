@@ -50,7 +50,9 @@ public final class EnergyClusterData{
 			}
 		}
 		
-		if (healthStatus.regenTimer != -1 && ++regenTimer > healthStatus.regenTimer){
+		float regenTimMp = energyLevel < maxEnergyLevel*0.5F ? 1F+(1F-(energyLevel/(maxEnergyLevel*0.5F)))*2F : 1F;
+		
+		if (healthStatus.regenTimer != -1 && ++regenTimer > Math.min((int)(healthStatus.regenTimer*regenTimMp),125)){
 			energyLevel += Math.min((float)Math.sqrt(maxEnergyLevel)*0.012F,maxEnergyLevel-energyLevel);
 			cluster.synchronize();
 			regenTimer = 0;
@@ -89,8 +91,6 @@ public final class EnergyClusterData{
 	}
 	
 	public float drainEnergy(float amount){
-		regenTimer = -18;
-		
 		if (energyLevel >= amount){
 			energyLevel -= amount;
 			return 0F;

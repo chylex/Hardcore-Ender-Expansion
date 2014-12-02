@@ -26,7 +26,7 @@ public class TileEntityDecompositionTable extends TileEntityAbstractEnergyInvent
 	
 	@Override
 	protected float getDrainAmount(){
-		return EnergyChunkData.energyDrainUnit*2F;
+		return EnergyChunkData.energyDrainUnit;
 	}
 	
 	@Override

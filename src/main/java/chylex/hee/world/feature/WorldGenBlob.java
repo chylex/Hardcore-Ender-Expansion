@@ -104,7 +104,7 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobGeneratorSingle(1).rad(3.8D,7D)
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorFiller(1).block(BlockList.ender_goo),
-				new BlobPopulatorLiquidFall(1).block(BlockList.ender_goo).amount(IRandomAmount.linear,14,22).attempts(12,30)
+				new BlobPopulatorLiquidFall(1).block(BlockList.ender_goo).amount(IRandomAmount.linear,14,22).attempts(22,36)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,2,2),
 			
 			// hollow goo covered blob with a chest inside

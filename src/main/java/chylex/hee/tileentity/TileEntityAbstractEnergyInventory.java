@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkPosition;
 import chylex.hee.mechanics.energy.EnergyChunkData;
@@ -23,7 +26,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 								chunkOffZ = new byte[]{ -1, 0, 1, -1, 0, 1, -1, 0, 1 };
 	
 	private byte drainTimer;
-	private float energyLeft;
+	private float energyLeft = -1F;
 	private boolean draining;
 	
 	private boolean hasInsufficientEnergy;
@@ -48,21 +51,24 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 					worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
 				}
 			}
-			else if (!hasInsufficientEnergy){
+			else if (!hasInsufficientEnergy && !MathUtil.floatEquals(energyLeft,-1F)){
 				hasInsufficientEnergy = true;
 				worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
 			}
 		}
-		else draining = false;
+		else{
+			draining = hasInsufficientEnergy = false;
+			energyLeft = -1F;
+		}
 		
 		if (draining && (drainTimer == 0 || --drainTimer == 0)){
 			Stopwatch.timeAverage("TileEntityAbstractEnergyInventory - drain",30);
 			
-			float drain = MathUtil.floatEquals(energyLeft,0F) ? getDrainAmount() : energyLeft;
+			float drain = energyLeft <= 0F ? getDrainAmount() : energyLeft;
 			
 			if (worldObj.provider.dimensionId == 1){
 				float newDrain = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).drainEnergy(drain);
-				if (!MathUtil.floatEquals(newDrain,drain))PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,xCoord+0.5D,yCoord+68D,zCoord+0.5D,(byte)80,(byte)80,(byte)80));
+				if (!MathUtil.floatEquals(newDrain,drain))PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,xCoord+0.5D,yCoord+96D,zCoord+0.5D,(byte)80,(byte)80,(byte)80));
 				drain = newDrain;
 			}
 			
@@ -95,11 +101,24 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 			
 			drainTimer = getDrainTimer();
 			
-			if (drain > EnergyChunkData.minSignificantEnergy)energyLeft = drain;
-			else energyLeft = 0F;
+			if (drain < EnergyChunkData.minSignificantEnergy)energyLeft = 0F;
+			else energyLeft = drain;
 			
 			Stopwatch.finish("TileEntityAbstractEnergyInventory - drain");
 		}
+	}
+	
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setBoolean("engInsuf",hasInsufficientEnergy);
+		return new S35PacketUpdateTileEntity(xCoord,yCoord,zCoord,0,nbt);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet){
+		hasInsufficientEnergy = packet.func_148857_g().getBoolean("engInsuf"); // OBFUSCATED get tag data
+		worldObj.markBlockRangeForRenderUpdate(xCoord,yCoord,zCoord,xCoord,yCoord,zCoord);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -111,8 +130,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		nbt.setByte("drainTim",drainTimer);
-		if (!MathUtil.floatEquals(energyLeft,0F))nbt.setFloat("engLeft",energyLeft);
-		nbt.setBoolean("engInsuf",hasInsufficientEnergy);
+		nbt.setFloat("engLeft",energyLeft);
 	}
 
 	@Override
@@ -120,6 +138,5 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 		super.readFromNBT(nbt);
 		drainTimer = nbt.getByte("drainTim");
 		energyLeft = nbt.getFloat("engLeft");
-		hasInsufficientEnergy = nbt.getBoolean("engInsuf");
 	}
 }

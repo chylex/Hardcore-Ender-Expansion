@@ -9,6 +9,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.ai.EntityAIRangedEnergyAttack;
@@ -52,7 +53,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	
 	@Override
 	public String getCommandSenderName(){
-		return "entity.endermage.name";
+		return StatCollector.translateToLocal("entity.endermage.name");
 	}
 	
 	@Override
