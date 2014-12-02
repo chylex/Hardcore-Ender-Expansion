@@ -100,6 +100,7 @@ public final class KnowledgeRegistrations{
 		OBSIDIAN_SMOOTH_GLOWING = create(BlockList.obsidian_special_glow,0),
 		OBSIDIAN_CHISELED_GLOWING = create(BlockList.obsidian_special_glow,1),
 		OBSIDIAN_PILLAR_GLOWING = create(BlockList.obsidian_special_glow,2),
+		ENERGY = create(BlockList.energy_cluster,"Energy"),
 		ENDIUM_ORE = create(BlockList.endium_ore),
 		ENDIUM_BLOCK = create(BlockList.endium_block),
 		VOID_CHEST = create(BlockList.void_chest),
@@ -124,6 +125,7 @@ public final class KnowledgeRegistrations{
 		INSTABILITY_ORB = create(ItemList.instability_orb),
 		POTION_OF_INSTABILITY = create(ItemList.potion_of_instability),
 		STARDUST_LINKED = link(STARDUST),
+		DECOMPOSITION_TABLE = create(BlockList.decomposition_table),
 		
 		// ===
 		
@@ -529,6 +531,19 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(286).setContents("Glowing Obsidian pillar, can be placed horizontally or vertically and it is easier to break. Uncraftable.").setPrice(1).setUnlockOnDiscovery()
 			}),
 			
+			ENERGY.setPos(3,16).setUnlockPrice(35).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(890).setContents("Energy is a form of power for various items and blocks.").setPrice(8),
+				new KnowledgeFragmentText(891).setContents("It is omnipresent in the End dimension, and in Energy Clusters that begin to spawn near Dungeon Towers.").setPrice(5).setUnlockRequirements(890),
+				new KnowledgeFragmentText(892).setContents("Both forms slowly regenerate Energy up to a certain point. Too much Energy causes random leaks of Corrupted Energy.").setPrice(5).setUnlockRequirements(891),
+				new KnowledgeFragmentText(893).setContents("Corrupted Energy is also created by breaking a Cluster, accompanied by a fiery explosion.").setPrice(4).setUnlockRequirements(892),
+				new KnowledgeFragmentText(894).setContents("Getting in contact with Corrupted Energy causes massive amount of damage that penetrates armor.").setPrice(8).setUnlockRequirements(893),
+				new KnowledgeFragmentText(895).setContents("Energy in the End moves to areas with lower levels of Energy to stay in balance.").setPrice(4).setUnlockRequirements(891),
+				new KnowledgeFragmentText(896).setContents("Energy Clusters have different health levels, which affect the regeneration (or leaking) speed.").setPrice(5).setUnlockRequirements(892),
+				new KnowledgeFragmentText(897).setContents("Clusters can be moved using Energy Wand. Moving them too far or across dimensions can have negative effect on their health").setPrice(4).setUnlockRequirements(896),
+				new KnowledgeFragmentText(898).setContents("Blocks that use Energy will take it from Clusters up to 16 blocks away, and from the environment if placed in the End.").setPrice(5).setUnlockRequirements(891),
+				new KnowledgeFragmentText(899).setContents("Items that use Energy automatically refill in the End, or can be used on a Cluster to start and stop draining the Energy.").setPrice(5).setUnlockRequirements(891),
+			}),
+			
 			ENDIUM_ORE.setPos(0,12).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(760).setContents("Rare ore that starts to appear near Dungeon Towers, and gets more common the further you travel.").setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(761).setContents("The block drops the ore, it can be then smelted into Endium Ingot.").setPrice(8).setUnlockOnDiscovery().setUnlockRequirements(760)
@@ -603,6 +618,15 @@ public final class KnowledgeRegistrations{
 			
 			STARDUST.setPos(4,4).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(350).setContents("Dust dropped by Stardust Ore and Sphalerite with Stardust. It is used for crafting and as a decomposition catalyst in Tables.").setPrice(4).setUnlockOnDiscovery()
+			}),
+			
+			DECOMPOSITION_TABLE.setPos(4,7).setUnlockPrice(15).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(880).setContents("A table that decomposes items into their crafting ingredients.").setPrice(7).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(881).setRecipeFromRegistry(new ItemStack(BlockList.decomposition_table)).setPrice(10).setUnlockRequirements(880),
+				new KnowledgeFragmentText(882).setContents("It requires Stardust and Energy to run, price increases with complexity of the recipe.").setPrice(4).setUnlockRequirements(880),
+				new KnowledgeFragmentText(883).setContents("Not all ingredients are returned, but up to 84% of them are retrievable.").setPrice(5).setUnlockRequirements(880),
+				new KnowledgeFragmentText(884).setContents("Damaged items yield less ingredients than fully repaired ones.").setPrice(4).setUnlockRequirements(883),
+				new KnowledgeFragmentText(885).setContents("If multiple recipes exist, one is chosen randomly.").setPrice(4).setUnlockRequirements(882)
 			})
 		});
 		
@@ -959,7 +983,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 880
+		// next: 900
 		// taken: 1000-1299
 		
 		Stopwatch.finish("KnowledgeRegistrations");
@@ -1017,6 +1041,10 @@ public final class KnowledgeRegistrations{
 	
 	public static KnowledgeObject<ObjectBlock> create(Block block){
 		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(block));
+	}
+	
+	public static KnowledgeObject<ObjectBlock> create(Block block, String tooltip){
+		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(block),tooltip);
 	}
 	
 	public static KnowledgeObject<ObjectBlock> create(Block block, int metadata){
