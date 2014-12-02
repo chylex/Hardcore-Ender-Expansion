@@ -349,7 +349,8 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(113).setContents("Tools, weapons and armor will quickly repair, and slowly improve enchantments and gain new enchantments.").setPrice(5).setUnlockRequirements(110),
 				new KnowledgeFragmentText(114).setContents("Some items will turn into different items when infused:").setPrice(2).setUnlockRequirements(110),
 				new KnowledgeFragmentItemConversion(115).setItems(new ItemStack(Items.brewing_stand),new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(2).setUnlockRequirements(114),
-				new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setPrice(2).setUnlockRequirements(114).setUnlockCascade(180)
+				new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setPrice(2).setUnlockRequirements(114).setUnlockCascade(180),
+				new KnowledgeFragmentItemConversion(117).setItems(new ItemStack(ItemList.ghost_amulet),new ItemStack(ItemList.ghost_amulet,1,1)).setPrice(7).setUnlockRequirements(114).setUnlockCascade(463)
 			}),
 			
 			END_POWDER_ORE.setPos(6,0).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
@@ -452,7 +453,9 @@ public final class KnowledgeRegistrations{
 		KnowledgeCategories.ENDSTONE_BLOBS.addKnowledgeObjects(new KnowledgeObject[]{
 			ENDSTONE_BLOB.setCategoryObject(KnowledgeCategories.ENDSTONE_BLOBS).setUnlockPrice(40).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(220).setContents("Small blobs of varying shapes, sizes and features, made of End Stone.").setPrice(5),
-				new KnowledgeFragmentText(221).setContents("They can contain End Powder Ore, Obsidian, small Ender Goo lakes and falls, caves and rarely some Igneous Rock Ore.").setPrice(3).setUnlockRequirements(220) // TODO update with new gen
+				new KnowledgeFragmentText(221).setContents("There are two major types of blobs, Common and Uncommon.").setPrice(3).setUnlockRequirements(220), // TODO rare
+				new KnowledgeFragmentText(222).setContents("Common blobs are the most random. They can have a variety of shapes, and 1 to 7 populators that include caves, Obsidian spikes and cover, Ender Goo lakes and falls, End Powder and Igneous Rock ores and Death Flower.").setPrice(5).setUnlockRequirements(221),
+				new KnowledgeFragmentText(223).setContents("Uncommon blobs have predetermined shapes and populators, such as one tiny blob with large amount of End Powder, goo covered one with a chest inside, caterpillar shaped one and several more.").setPrice(5).setUnlockRequirements(221)
 			}),
 			
 			IGNEOUS_ROCK_ORE.setPos(0,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
@@ -717,7 +720,8 @@ public final class KnowledgeRegistrations{
 			GHOST_AMULET.setPos(7,7).setUnlockPrice(24).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(460).setContents("An amulet that banishes the Forest Ghost.").setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(461).setContents("When in the inventory, Forest Ghost will not spawn and the Spooky Log face will have 3 in 5 (60%) chance to drop Ectoplasm.").setPrice(10).setUnlockRequirements(460).setUnlockCascade(436),
-				new KnowledgeFragmentText(462).setContents("In order to create it, one piece of End Powder, Emerald and String all have to be thrown into Ender Goo.").setPrice(10).setUnlockRequirements(460)
+				new KnowledgeFragmentText(462).setContents("In order to create it, one piece of End Powder, Emerald and String all have to be thrown into Ender Goo.").setPrice(10).setUnlockRequirements(460),
+				new KnowledgeFragmentText(463).setContents("Then it has to be purified in Dragon Essence Altar.").setPrice(7).setUnlockRequirements(462).setUnlockCascade(117)
 			}),
 			
 			ECTOPLASM.setPos(9,7).setUnlockPrice(35).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{

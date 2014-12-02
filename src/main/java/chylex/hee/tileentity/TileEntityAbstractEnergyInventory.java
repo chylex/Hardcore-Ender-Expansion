@@ -15,6 +15,8 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstractInventory{
 	private static final byte[] chunkOffX = new byte[]{ -1, -1, -1, 0, 0, 0, 1, 1, 1 },
@@ -24,14 +26,12 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 	private float energyLeft;
 	private boolean draining;
 	
+	private boolean hasInsufficientEnergy;
+	
 	protected abstract byte getDrainTimer();
 	protected abstract float getDrainAmount();
 	protected abstract boolean isWorking();
 	protected abstract void onWork();
-	
-	public final boolean hasInsufficientEnergy(){
-		return isWorking() && !MathUtil.floatEquals(energyLeft,0F); // TODO sync client
-	}
 	
 	@Override
 	public final void updateEntity(){
@@ -39,7 +39,19 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 		
 		if (isWorking()){
 			draining = true;
-			if (MathUtil.floatEquals(energyLeft,0F))onWork();
+			
+			if (MathUtil.floatEquals(energyLeft,0F)){
+				onWork();
+				
+				if (hasInsufficientEnergy){
+					hasInsufficientEnergy = false;
+					worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+				}
+			}
+			else if (!hasInsufficientEnergy){
+				hasInsufficientEnergy = true;
+				worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+			}
 		}
 		else draining = false;
 		
@@ -90,11 +102,17 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
+	public final boolean hasInsufficientEnergy(){
+		return hasInsufficientEnergy;
+	}
+	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		nbt.setByte("drainTim",drainTimer);
 		if (!MathUtil.floatEquals(energyLeft,0F))nbt.setFloat("engLeft",energyLeft);
+		nbt.setBoolean("engInsuf",hasInsufficientEnergy);
 	}
 
 	@Override
@@ -102,5 +120,6 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 		super.readFromNBT(nbt);
 		drainTimer = nbt.getByte("drainTim");
 		energyLeft = nbt.getFloat("engLeft");
+		hasInsufficientEnergy = nbt.getBoolean("engInsuf");
 	}
 }
