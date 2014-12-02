@@ -411,7 +411,17 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 						if (spawnerMeta == 2)world.setTileEntityGenerator(xx,yy,zz,"louseSpawner",this);
 						++placed;
 					}
-				} // TODO add brick behind
+				}
+				
+				for(DungeonDir dir:DungeonDir.values){
+					if (!hallway.checkConnection(dir)){
+						for(int a = -1; a <= 1; a++){
+							for(int yy = y+1; yy <= y+hallHeight; yy++){
+								if (canReplaceBlock(world.getBlock(x+rotX(dir,a,3),yy,z+rotZ(dir,a,3))))world.setBlock(x+rotX(dir,a,3),yy,z+rotZ(dir,a,3),BlockList.ravaged_brick,getBrickMeta(rand));
+							}	
+						} // TODO test
+					}
+				}
 				
 				break;
 				
