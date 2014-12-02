@@ -154,6 +154,11 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			}
 		}
 		else if (isEntityAlive()){
+			if (homelandRole == null){
+				setDead();
+				return;
+			}
+			
 			if (isWet())attackEntityFrom(DamageSource.drown,1F);
 			
 			if (isWet() || isBurning()){
