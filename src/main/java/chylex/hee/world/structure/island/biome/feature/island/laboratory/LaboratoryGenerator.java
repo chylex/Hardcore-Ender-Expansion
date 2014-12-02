@@ -111,6 +111,11 @@ public final class LaboratoryGenerator{
 			}
 		}
 		
+		for(LaboratoryElement room:roomElements){
+			if (room.type == LaboratoryElementType.SMALL_ROOM)LaboratoryContent.populateSmallRoom(world,rand,room.x,room.y,room.z);
+			else LaboratoryContent.populateLargeRoom(world,rand,room.x,room.y,room.z);
+		}
+		
 		for(int[] array:stairs)LaboratoryElementPlacer.generateHallStairs(world,rand,array[0],array[1],array[2],Direction.offsetX[array[4]],array[3],Direction.offsetZ[array[4]]);
 	}
 	

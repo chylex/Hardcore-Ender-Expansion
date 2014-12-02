@@ -24,12 +24,12 @@ public final class LaboratoryContent{
 	}
 	
 	private static final WeightedList<ObjectWeightPair<SmallRoom>> smallRoomList = new WeightedList<>(
-		ObjectWeightPair.of(SmallRoom.EMPTY, 50),
-		ObjectWeightPair.of(SmallRoom.FLOOR_DESIGN, 22),
-		ObjectWeightPair.of(SmallRoom.FLOWER_POTS, 18),
-		ObjectWeightPair.of(SmallRoom.LOOT_CHEST, 17),
+		ObjectWeightPair.of(SmallRoom.LOOT_CHEST, 18),
+		ObjectWeightPair.of(SmallRoom.FLOOR_DESIGN, 16),
 		ObjectWeightPair.of(SmallRoom.CLUSTER, 15),
-		ObjectWeightPair.of(SmallRoom.ENDER_CHEST, 8)
+		ObjectWeightPair.of(SmallRoom.FLOWER_POTS, 14),
+		ObjectWeightPair.of(SmallRoom.EMPTY, 11),
+		ObjectWeightPair.of(SmallRoom.ENDER_CHEST, 9)
 	);
 	
 	public static void populateSmallRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
@@ -150,9 +150,9 @@ public final class LaboratoryContent{
 	}
 	
 	private static final WeightedList<ObjectWeightPair<LargeRoom>> largeRoomList = new WeightedList<>(
-		ObjectWeightPair.of(LargeRoom.EMPTY, 50),
-		ObjectWeightPair.of(LargeRoom.ENCASED_ENDIUM, 30),
+		ObjectWeightPair.of(LargeRoom.ENCASED_ENDIUM, 25),
 		ObjectWeightPair.of(LargeRoom.LOOT_CHESTS, 25),
+		ObjectWeightPair.of(LargeRoom.EMPTY, 18),
 		ObjectWeightPair.of(LargeRoom.SPHALERITE_IRON_BLOCK, 15)
 	);
 	
@@ -184,14 +184,14 @@ public final class LaboratoryContent{
 							public void onTileEntityRequested(String key, TileEntity tile, Random rand){
 								TileEntityChest chest = (TileEntityChest)tile;
 								
-								for(int a = 0; a < 2+rand.nextInt(6+rand.nextInt(3)); a++){
+								for(int a = 0; a < 3+rand.nextInt(6+rand.nextInt(3)); a++){
 									chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),largeChestLoot.generateIS(rand));
 								}
 							}
 						});
 						
 						for(int a = 0; a < 3; a++){
-							world.setBlock(x+Direction.offsetX[dir]*4+Direction.offsetZ[dir]*(a-1),y+2,z+Direction.offsetZ[dir]*4+Direction.offsetX[dir]*(a-1),BlockList.laboratory_obsidian);
+							world.setBlock(x+Direction.offsetX[dir]*5+Direction.offsetZ[dir]*(a-1),y+2,z+Direction.offsetZ[dir]*5+Direction.offsetX[dir]*(a-1),BlockList.laboratory_obsidian);
 						}
 						
 						++placed;
@@ -204,7 +204,9 @@ public final class LaboratoryContent{
 				break;
 				
 			case SPHALERITE_IRON_BLOCK:
+				world.setBlock(x,y+1,z,BlockList.laboratory_obsidian);
 				world.setBlock(x,y+2,z,Blocks.iron_block);
+				world.setBlock(x,y+3,z,BlockList.laboratory_obsidian);
 				
 				for(int a = 0; a < 4; a++){
 					world.setBlock(x+Direction.offsetX[a],y+1,z+Direction.offsetZ[a],BlockList.sphalerite);
@@ -235,7 +237,7 @@ public final class LaboratoryContent{
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,5);
+			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,4);
 			return is;
 		}
 	});
@@ -244,14 +246,14 @@ public final class LaboratoryContent{
 		new LootItemStack(ItemList.end_powder).setAmount(3,7).setWeight(25),
 		new LootItemStack(ItemList.obsidian_fragment).setAmount(1,4).setWeight(22),
 		new LootItemStack(ItemList.endium_ingot).setAmount(1,2).setWeight(17),
-		new LootItemStack(ItemList.auricion).setAmount(1,2).setWeight(13),
+		new LootItemStack(ItemList.auricion).setAmount(1,2).setWeight(15),
 		new LootItemStack(ItemList.knowledge_note).setWeight(10),
 		new LootItemStack(Items.iron_ingot).setAmount(2,5).setWeight(8),
 		new LootItemStack(Items.gold_ingot).setAmount(2,4).setWeight(7)
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,7);
+			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
 			return is;
 		}
 	});

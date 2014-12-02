@@ -45,7 +45,7 @@ public class ItemKnowledgeNote extends Item{
 	
 	public static ItemStack setRandomNote(ItemStack is, Random rand, int multiplier){
 		is.stackTagCompound = new NBTTagCompound();
-		is.stackTagCompound.setByte("pts",(byte)((rand.nextInt(5)*rand.nextInt(4)+rand.nextInt(3)+2)*multiplier));
+		is.stackTagCompound.setByte("pts",(byte)((rand.nextInt(4)*rand.nextInt(4)+rand.nextInt(3)+2)*multiplier));
 		return is;
 	}
 }

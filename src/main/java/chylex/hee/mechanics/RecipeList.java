@@ -113,7 +113,7 @@ public final class RecipeList{
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.energy_wand_core),
-			" A ", "AEA", " A ",
+			"AAA", "AEA", "AAA",
 			'A', ItemList.auricion,
 			'E', BlockList.endium_block
 		);
