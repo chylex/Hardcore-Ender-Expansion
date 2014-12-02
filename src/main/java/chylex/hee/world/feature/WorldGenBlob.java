@@ -26,7 +26,7 @@ import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingleCut;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorCave;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorChest;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorCover;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorHollower;
+import chylex.hee.world.feature.blobs.populators.BlobPopulatorFiller;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorLake;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorLiquidFall;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorOreCluster;
@@ -70,7 +70,7 @@ public class WorldGenBlob extends WorldGenerator{
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorCave(4).rad(2D,2.8D).totalCaveAmount(IRandomAmount.linear,2,6).fullCaveAmount(IRandomAmount.preferSmaller,1,3).recursionChance(0.2D,0.8D,3).recursionRadMp(0.7D,0.9D).cacheRecursionChance(),
 				new BlobPopulatorSpikes(4).block(Blocks.obsidian).amount(IRandomAmount.aroundCenter,2,10).maxOffset(16),
-				new BlobPopulatorLiquidFall(2).block(BlockList.ender_goo).amount(IRandomAmount.preferSmaller,1,4).attempts(50,80),
+				new BlobPopulatorLiquidFall(2).block(BlockList.ender_goo).amount(IRandomAmount.preferSmaller,1,4).attempts(50,80).requireBlockBelow(),
 				new BlobPopulatorLake(2).block(BlockList.ender_goo).rad(1.8D,3D),
 				new BlobPopulatorOreCluster(4).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.linear,4,7).iterationAmount(IRandomAmount.preferSmaller,1,4),
 				new BlobPopulatorOreScattered(3).block(BlockList.igneous_rock_ore).blockAmount(IRandomAmount.preferSmaller,1,4).attempts(5,10).visiblePlacementAttempts(10).knownBlockLocations(),
@@ -99,11 +99,19 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobGeneratorChain(1).amount(IRandomAmount.aroundCenter,4,9).rad(2.7D,3.6D).distMp(0.9D,1.1D).unifySize()
 			}),
 			
+			// ender goo filled blob
+			new BlobPattern(3).addGenerators(new BlobGenerator[]{
+				new BlobGeneratorSingle(1).rad(3.8D,7D)
+			}).addPopulators(new BlobPopulator[]{
+				new BlobPopulatorFiller(1).block(BlockList.ender_goo),
+				new BlobPopulatorLiquidFall(1).block(BlockList.ender_goo).amount(IRandomAmount.linear,14,22).attempts(12,30)
+			}),
+			
 			// hollow goo covered blob with a chest inside
 			new BlobPattern(2).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(1).rad(5D,7.5D)
 			}).addPopulators(new BlobPopulator[]{
-				new BlobPopulatorHollower(1),
+				new BlobPopulatorFiller(1).block(Blocks.air),
 				new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
 					new LootItemStack(ItemList.end_powder).setAmount(1,5).setWeight(15),
 					new LootItemStack(ItemList.knowledge_note).setWeight(10),

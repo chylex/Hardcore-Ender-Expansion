@@ -13,6 +13,7 @@ public class BlobPopulatorLiquidFall extends BlobPopulator{
 	private Block liquid;
 	private IRandomAmount amountGen;
 	private byte minAmount, maxAmount, minAttempts, maxAttempts;
+	private boolean requireBlockBelow;
 	
 	public BlobPopulatorLiquidFall(int weight){
 		super(weight);
@@ -33,6 +34,11 @@ public class BlobPopulatorLiquidFall extends BlobPopulator{
 	public BlobPopulatorLiquidFall attempts(int minAttempts, int maxAttempts){
 		this.minAttempts = (byte)minAttempts;
 		this.maxAttempts = (byte)maxAttempts;
+		return this;
+	}
+	
+	public BlobPopulatorLiquidFall requireBlockBelow(){
+		this.requireBlockBelow = true;
 		return this;
 	}
 
@@ -65,6 +71,11 @@ public class BlobPopulatorLiquidFall extends BlobPopulator{
 			yy = loc.y;
 			zz = loc.z+Direction.offsetZ[airDir];
 			Block block;
+			
+			if (!requireBlockBelow){
+				gen.setBlock(loc.x,loc.y,loc.z,liquid);
+				continue;
+			}
 			
 			while(--yy >= -16){
 				if ((block = gen.getBlock(xx,yy,zz)) == Blocks.end_stone){
