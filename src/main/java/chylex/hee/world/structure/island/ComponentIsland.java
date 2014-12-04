@@ -31,7 +31,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 	private IslandBiomeBase biome;
 	private IslandBiomeData biomeData;
 	
-	private int startX,startZ,islandBottomY;
+	private int startX, startZ, islandBottomY;
 	
 	/**
 	 * Required for reflection.
