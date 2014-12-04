@@ -2,6 +2,7 @@ package chylex.hee.mechanics.compendium.content;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.util.IGuiItemStackRenderer;
@@ -132,7 +133,7 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance<?>> implements I
 
 	@Override
 	public String getTooltip(){
-		return tooltip;
+		return I18n.format(tooltip);
 	}
 	
 	@Override

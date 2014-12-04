@@ -20,7 +20,7 @@ public final class ModIntegrationManager{
 				IIntegrationHandler handler = cls.newInstance();
 				if (Loader.isModLoaded(handler.getModId()))handler.integrate();
 			}catch(Throwable e){
-				Log.throwable(e,"Unable to integrate with mod %0",cls.getSimpleName());
+				Log.throwable(e,"Unable to integrate with mod $0.",cls.getSimpleName());
 			}
 		}
 	}

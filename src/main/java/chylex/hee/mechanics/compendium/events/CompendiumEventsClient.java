@@ -16,7 +16,6 @@ import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03OpenCompendium;
-import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;

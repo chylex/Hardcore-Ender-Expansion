@@ -10,7 +10,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.DragonUtil;
 
 public class EntityProjectileFlamingBall extends EntityFireball{

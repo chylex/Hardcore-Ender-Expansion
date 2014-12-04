@@ -10,7 +10,6 @@ import net.minecraft.world.gen.ChunkProviderEnd;
 import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
-import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.MapGenIsland;
 import chylex.hee.world.structure.tower.MapGenTower;

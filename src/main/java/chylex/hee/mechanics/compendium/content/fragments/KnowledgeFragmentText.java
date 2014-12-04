@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.compendium.content.fragments;
+import net.minecraft.client.resources.I18n;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
@@ -9,17 +10,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class KnowledgeFragmentText extends KnowledgeFragment{
 	public static byte smoothRenderingType = 0;
 	
-	private String content;
-	
 	public KnowledgeFragmentText(int globalID){
 		super(globalID);
 	}
-
-	public KnowledgeFragmentText setContents(String text){
-		this.content = text;
-		return this;
-	}
-
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -44,6 +37,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	}
 	
 	protected String getString(boolean isUnlocked){
+		String content = I18n.format("ec.reg."+globalID);
 		return isUnlocked ? content : StringUtils.repeat('?',content.length());
 	}
 	
