@@ -87,10 +87,10 @@ public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwn
 				}
 				else if (o instanceof EntityGhast){
 					EntityGhast e = (EntityGhast)o;
-					Entity target = (Entity)ReflectionPublicizer.get(ReflectionPublicizer.entityGhastTarget,e);
+					Entity target = e.targetedEntity;
 					
 					if (target instanceof EntityPlayer && ((EntityPlayer)target).getCommandSenderName().equals(name)){
-						ReflectionPublicizer.set(ReflectionPublicizer.entityGhastTarget,e,this);
+						e.targetedEntity = this;
 						faceEntity(e,360F,360F);
 						break;
 					}

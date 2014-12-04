@@ -49,7 +49,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 
 		SoundHandler soundHandler = mc.getSoundHandler();
 		ChunkCoordinates coords = new ChunkCoordinates(x,y,z);
-		Map mapSoundPositions = (Map)ReflectionPublicizer.get(ReflectionPublicizer.renderGlobalMapSoundPositions,mc.renderGlobal);
+		Map mapSoundPositions = mc.renderGlobal.mapSoundPositions;
 		ISound currentSound = (ISound)mapSoundPositions.get(coords);
 
 		if (currentSound != null){

@@ -114,8 +114,8 @@ public final class CompendiumEventsClient{
 					int mouseX = Mouse.getX()*res.getScaledWidth()/mc.displayWidth,
 						mouseY = res.getScaledHeight()-Mouse.getY()*res.getScaledHeight()/mc.displayHeight-1;
 					
-					mouseX -= (container.width-(int)ReflectionPublicizer.get(ReflectionPublicizer.guiContainerXSize,container))/2;
-					mouseY -= (container.height-(int)ReflectionPublicizer.get(ReflectionPublicizer.guiContainerYSize,container))/2;
+					mouseX -= (container.width-container.xSize)/2;
+					mouseY -= (container.height-container.ySize)/2;
 					
 					for(Slot slot:slots){
 						if (slot.getHasStack() && slot.func_111238_b() &&

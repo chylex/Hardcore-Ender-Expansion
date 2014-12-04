@@ -23,7 +23,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	public ChunkProviderHardcoreEnd(World world, long seed){
 		super(world,seed);
 		this.world = world;
-		this.randCopy = (Random)ReflectionPublicizer.get(ReflectionPublicizer.chunkProviderEndRandom,this);
+		this.randCopy = endRNG;
 		
 		islandGen = new MapGenIsland();
 		towerGen = new MapGenTower();

@@ -53,7 +53,7 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 			
 			mop.entityHit.attackEntityFrom(DamageSource.onFire,3F);
 			if (isLiving)mop.entityHit.attackEntityFrom(DamageSource.causeMobDamage(shootingEntity),ModCommonProxy.opMobs ? 8F : 5F);
-			ReflectionPublicizer.set(ReflectionPublicizer.entityFire,mop.entityHit,(Integer)ReflectionPublicizer.get(ReflectionPublicizer.entityFire,mop.entityHit)+3+EnchantmentProtection.getFireTimeForEntity(mop.entityHit,25));
+			mop.entityHit.fire += 3+EnchantmentProtection.getFireTimeForEntity(mop.entityHit,25);
 		}
 		else if (rand.nextInt(3) == 0){
 			switch(mop.sideHit){

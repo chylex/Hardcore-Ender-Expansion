@@ -107,10 +107,10 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 		ride.lastTickPosY = ride.prevPosY = ride.posY = posY+ride.height+yOffset;
 		ride.lastTickPosZ = ride.prevPosZ = ride.posZ = posZ;
 		NetHandlerPlayServer serverHandler = ((EntityPlayerMP)ride).playerNetServerHandler;
-		ReflectionPublicizer.set(ReflectionPublicizer.netHandlerPlayServerFloatingTicks,serverHandler,0);
-		ReflectionPublicizer.set(ReflectionPublicizer.netHandlerPlayServerLastPos[0],serverHandler,ride.posX);
-		ReflectionPublicizer.set(ReflectionPublicizer.netHandlerPlayServerLastPos[1],serverHandler,ride.posY);
-		ReflectionPublicizer.set(ReflectionPublicizer.netHandlerPlayServerLastPos[2],serverHandler,ride.posZ);
+		serverHandler.floatingTickCount = 0;
+		serverHandler.lastPosX = ride.posX;
+		serverHandler.lastPosY = ride.posY;
+		serverHandler.lastPosZ = ride.posZ;
 	}
 	
 	@Override

@@ -88,7 +88,6 @@ import chylex.hee.render.tileentity.RenderTileLaserBeam;
 import chylex.hee.render.tileentity.RenderTileVoidChest;
 import chylex.hee.render.weather.RenderWeatherLightningBoltPurple;
 import chylex.hee.system.ConfigHandler;
-import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.sound.MusicManager;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
@@ -183,8 +182,6 @@ public class ModClientProxy extends ModCommonProxy{
 	
 	@Override
 	public void registerSidedEvents(){
-		ReflectionPublicizer.loadClient();
-
 		OverlayManager.register();
 		FXEvents.register();
 		CompendiumEventsClient.register();
