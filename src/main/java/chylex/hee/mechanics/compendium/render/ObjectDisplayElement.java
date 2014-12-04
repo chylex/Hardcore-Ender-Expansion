@@ -55,7 +55,7 @@ public class ObjectDisplayElement{
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
 		gui.drawTexturedModalRect(x,y,tile.x,tile.y,22,22);
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),object.getItemStack(),x+3,y+3);
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),object.getItemStack(),x+3,y+3,true);
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int offsetY){

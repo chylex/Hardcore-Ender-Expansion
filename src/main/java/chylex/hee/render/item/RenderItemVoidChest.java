@@ -21,7 +21,7 @@ public class RenderItemVoidChest implements IItemRenderer{
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack item, Object...data){
-		GL11.glRotatef(90.0F,0.0F,1.0F,0.0F);
+		GL11.glRotatef(90F,0F,1F,0F);
 		GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
 		TileEntityRendererDispatcher.instance.renderTileEntityAt(chestRenderer,0D,0D,0D,0F);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
