@@ -1,8 +1,9 @@
 package chylex.hee.world.structure.tower;
 import java.util.Random;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.gen.structure.StructureStart;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.WorldGenSavefile;
+import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
 import chylex.hee.world.structure.MapGenScatteredFeatureCustom;
 
 public class MapGenTower extends MapGenScatteredFeatureCustom{
@@ -12,8 +13,7 @@ public class MapGenTower extends MapGenScatteredFeatureCustom{
 
 	@Override
 	protected boolean canStructureSpawn(int x, int z, Random rand){
-		ChunkPosition island = worldObj.getChunkProvider().func_147416_a(worldObj,"hardcoreenderdragon_Island",x*16,50,z*16); // OBFUSCATED get nearby structure
-		return island == null || MathUtil.distance(x*16-island.chunkPosX,z*16-island.chunkPosZ) > 170;
+		return !WorldDataHandler.<WorldGenSavefile>get(WorldGenSavefile.class).isAreaBlocked(x>>4,z>>4,WorldGenElement.DUNGEON_TOWER);
 	}
 
 	@Override

@@ -30,6 +30,8 @@ import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.savedata.types.WorldGenSavefile;
+import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
@@ -139,6 +141,8 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		super(rand,x,32,z,32,140,32);
 		startX = x;
 		startZ = z;
+		
+		WorldDataHandler.<WorldGenSavefile>get(WorldGenSavefile.class).addElementAt(startX>>4,startZ>>4,WorldGenElement.DUNGEON_TOWER);
 	}
 
 	@Override

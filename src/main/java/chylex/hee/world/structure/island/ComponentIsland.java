@@ -11,6 +11,9 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.WorldGenSavefile;
+import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
 import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -48,6 +51,8 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 		coordBaseMode = 0;
 		boundingBox = new StructureBoundingBox(x,20,z,x+sizeX-1,140+sizeY-1,z+sizeZ-1);
 		structure = new LargeStructureWorld(this);
+		
+		WorldDataHandler.<WorldGenSavefile>get(WorldGenSavefile.class).addElementAt(startX>>4,startZ>>4,WorldGenElement.BIOME_ISLAND);
 	}
 
 	@Override
