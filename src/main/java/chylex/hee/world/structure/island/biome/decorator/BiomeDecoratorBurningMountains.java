@@ -32,7 +32,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		for(int a = 0; a < 72; a++)generateStructure(genCinderPatch);
 		
 		// DUNGEON PUZZLE
-		// generateStructure(genMountainPuzzle); // TODO
+		generateStructure(genMountainPuzzle);
 		
 		// IGNEOUS ROCK ORE
 		generateStructure(genIgneousRockOre.setAttemptAmount(110));
