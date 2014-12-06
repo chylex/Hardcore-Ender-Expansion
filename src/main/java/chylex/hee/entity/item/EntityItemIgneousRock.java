@@ -16,6 +16,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 
@@ -112,12 +113,11 @@ public class EntityItemIgneousRock extends EntityItem{
 		if (worldObj.getBlock(ix,iy-1,iz) == BlockList.dungeon_puzzle){
 			int meta = worldObj.getBlockMetadata(ix,iy-1,iz);
 			
-			if (meta != BlockDungeonPuzzle.metaWall){
+			if (BlockDungeonPuzzle.canTrigger(meta)){
 				for(int a = 0; a < 4; a++)HardcoreEnderExpansion.fx.igneousRockBreak(this);
 				
 				if (!worldObj.isRemote && onGround){
-					worldObj.setBlockMetadataWithNotify(ix,iy-1,iz,(meta == BlockDungeonPuzzle.metaUnlit?BlockDungeonPuzzle.metaSpreadingLitN:BlockDungeonPuzzle.metaSpreadingUnlitN)+thrownDirection,2);
-					worldObj.scheduleBlockUpdate(ix,iy-1,iz,BlockList.dungeon_puzzle,8);
+					worldObj.spawnEntityInWorld(new EntityTechnicalPuzzleChain(worldObj,ix,iy-1,iz,thrownDirection));
 					setDead();
 				}
 			}

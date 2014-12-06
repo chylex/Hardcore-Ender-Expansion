@@ -8,12 +8,14 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
@@ -22,13 +24,36 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	private static final Material dungeonPuzzle = new MaterialDungeonPuzzle();
+	public static final byte dungeonSize = 9;
 	
-	public static final byte metaUnlit = 0, metaLit = 1, metaWall = 2, metaWallRock = 11, metaWallLit = 12,
-							 metaSpreadingLitN = 3, metaSpreadingLitS = 4,
-							 metaSpreadingLitE = 5, metaSpreadingLitW = 6,
-							 metaSpreadingUnlitN = 7, metaSpreadingUnlitS = 8,
-							 metaSpreadingUnlitE = 9, metaSpreadingUnlitW = 10,
-							 dungeonSize = 9;
+	public static final byte metaTriggerUnlit = 0, metaTriggerLit = 1, metaChainedUnlit = 2, metaChainedLit = 3,
+							 metaDistributorChainUnlit = 4, metaDistributorChainLit = 5,
+							 metaDistributorSquareUnlit = 6, metaDistributorSquareLit = 7,
+							 metaWall = 13, metaRock = 14, metaCeiling = 15;
+	
+	public static final byte[] icons = new byte[]{ 2, 3, 4, 5, 6, 7, 8, 9, 3, 3, 3, 3, 3, 3, 1, 3 };
+	
+	public static final String[] names = new String[]{
+		"trigger.unlit", "trigger.lit", "chained.unlit", "chained.lit", "distr.chain.unlit", "distr.chain.lit", "distr.square.unlit", "distr.square.lit",
+		null, null, null, null, null, null, "wall", "rock", "ceiling"
+	};
+	
+	public static final boolean canTrigger(int meta){
+		return meta == metaTriggerUnlit || meta == metaTriggerLit;
+	}
+	
+	public static final int toggleState(int meta){
+		if (meta == metaWall || meta == metaRock || meta == metaCeiling)return meta;
+		else return (meta&1) == 0 ? meta+1 : meta-1;
+	}
+	
+	public static final boolean isLit(int meta){
+		return (meta&1) != 0;
+	}
+	
+	public static final int getUnlit(int meta){
+		return (meta&1) != 0 ? meta-1 : meta;
+	}
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
@@ -37,85 +62,77 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 		super(dungeonPuzzle);
 	}
 	
-	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
-		int meta = world.getBlockMetadata(x,y,z);
-		byte[] offset = meta == metaSpreadingLitN || meta == metaSpreadingUnlitN ? new byte[]{ 0, -1 } :
-					    meta == metaSpreadingLitS || meta == metaSpreadingUnlitS ? new byte[]{ 0, 1 } :
-					    meta == metaSpreadingLitE || meta == metaSpreadingUnlitE ? new byte[]{ 1, 0 } :
-					    meta == metaSpreadingLitW || meta == metaSpreadingUnlitW ? new byte[]{ -1, 0 } :
-					    ArrayUtils.EMPTY_BYTE_ARRAY;
-		if (offset.length == 0)return;
+	/**
+	 * Update chain from the entity, return false to stop the chain.
+	 */
+	public boolean updateChain(World world, int x, int y, int z, byte chainDir){
+		int meta = world.getBlockMetadata(x,y,z), toggled = toggleState(meta);
 		
-		// update nearby
-		
-		int tx = x+offset[0],tz = z+offset[1];
-		int targMeta = world.getBlockMetadata(tx,y,tz);
-		
-		if (world.getBlock(tx,y,tz) == this){
-			if (targMeta == metaWall){
-				byte[] offx = new byte[]{ 0, 0, 1, -1 },offz = new byte[]{ -1, 1, 0, 0 };
-				
-				for(int a = 0,cmeta; a < 4; a++){
-					if (world.getBlock(tx+offx[a],y,tz+offz[a]) != this)continue;
-					if ((cmeta = world.getBlockMetadata(tx+offx[a],y,tz+offz[a])) > metaLit)continue;
-					world.setBlockMetadataWithNotify(tx+offx[a],y,tz+offz[a],cmeta == metaUnlit?metaSpreadingLitN+a:metaSpreadingUnlitN+a,2);
-					world.scheduleBlockUpdate(tx+offx[a],y,tz+offz[a],this,8);
+		if (meta != toggled){
+			world.setBlockMetadataWithNotify(x,y,z,toggled,3);
+			
+			int unlit = getUnlit(meta);
+			
+			if (unlit == metaDistributorChainUnlit){
+				for(int dir = 0, distrMeta, distrToggled, tx, tz; dir < 4; dir++){
+					if (dir == Direction.rotateOpposite[chainDir])continue;
 					
-					PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,tx+offx[a]+0.5D,y+0.5D,tz+offz[a]+0.5D));
+					if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+(tx = Direction.offsetX[dir]),y,z+(tz = Direction.offsetZ[dir])))) != distrMeta){
+						PacketPipeline.sendToAllAround(world.provider.dimensionId,x+tx+0.5D,y+0.5D,z+tz+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+tx+0.5D,y+0.5D,z+tz+0.5D));
+						world.setBlockMetadataWithNotify(x+tx,y,z+tz,distrToggled,3);
+						world.spawnEntityInWorld(new EntityTechnicalPuzzleChain(world,x+tx,y,z+tz,dir));
+					}
 				}
 			}
-			else{
-				int finalMeta = targMeta == metaUnlit?(meta >= metaSpreadingUnlitN?meta-4:meta):targMeta == metaLit?(meta >= metaSpreadingUnlitN?meta:meta+4):-1;
-				if (finalMeta != -1){
-					world.setBlockMetadataWithNotify(tx,y,tz,finalMeta,2);
-					world.scheduleBlockUpdate(tx,y,tz,this,8);
+			else if (unlit == metaDistributorSquareUnlit){
+				for(int xx = -1, zz, distrMeta, distrToggled; xx <= 1; xx++){
+					for(zz = -1; zz <= 1; zz++){
+						if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+xx,y,z+zz))) != distrMeta && !(xx+x == x+Direction.offsetX[chainDir] && zz+z == z+Direction.offsetZ[chainDir])){
+							PacketPipeline.sendToAllAround(world.provider.dimensionId,x+xx+0.5D,y+0.5D,z+zz+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+xx+0.5D,y+0.5D,z+zz+0.5D));
+							world.setBlockMetadataWithNotify(x+xx,y,z+zz,distrToggled,3);
+						}
+					}
 				}
 			}
-
-			PacketPipeline.sendToAllAround(world.provider.dimensionId,tx+0.5D,y+0.5D,tz+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,tx+0.5D,y+0.5D,tz+0.5D));
+			else return true;
 		}
 		
-		// update me
-		
-		world.setBlockMetadataWithNotify(x,y,z,meta >= metaSpreadingUnlitN ? metaUnlit : metaLit,2);
-		
-		// test puzzle finished
-		
-		int startX,startZ,cnt = 0;
-		boolean isFinished = true;
-		
-		for(startX = x; true; --startX){
-			if (world.getBlock(startX,y,z) != this)break;
-		}
-		for(startZ = z; true; --startZ){
-			if (world.getBlock(x,y,startZ) != this)break;
-		}
-		++startX;
-		++startZ;
-		
-		for(int xx = startX,testmeta; xx < startX+dungeonSize; xx++){
-			for(int zz = startZ; zz < startZ+dungeonSize; zz++){
-				if (world.getBlock(xx,y,zz) != this)continue;
-				
-				++cnt;
-				testmeta = world.getBlockMetadata(xx,y,zz);
-				
-				if (testmeta != metaLit && testmeta != metaWall && testmeta != metaWallRock){
-					isFinished = false;
-					xx += dungeonSize;
-					break;
+		if (world.getEntitiesWithinAABB(EntityTechnicalPuzzleChain.class,AxisAlignedBB.getBoundingBox(x+0.5D-dungeonSize,y,z+0.5D-dungeonSize,x+0.5D+dungeonSize,y+1D,z+0.5D+dungeonSize)).isEmpty()){
+			int startX = x+1, startZ = z+1, cnt = 0;
+			boolean isFinished = true;
+			
+			while(world.getBlock(--startX,y,z) != this);
+			while(world.getBlock(x,y,--startZ) != this);
+			
+			++startX;
+			++startZ;
+			
+			for(int xx = startX; xx < startX+dungeonSize; xx++){
+				for(int zz = startZ; zz < startZ+dungeonSize; zz++){
+					if (world.getBlock(xx,y,zz) != this)continue;
+					
+					++cnt;
+					
+					if (!isLit(toggleState(world.getBlockMetadata(xx,y,zz)))){
+						isFinished = false;
+						xx += dungeonSize;
+						break;
+					}
 				}
+			}
+			
+			int cx = startX+((dungeonSize-1)>>1), cz = startZ+((dungeonSize-1)>>1);
+			
+			if (isFinished && cnt > 32 && world.getEntitiesWithinAABB(EntityMiniBossFireFiend.class,AxisAlignedBB.getBoundingBox(cx-4,y-8,cz-4,cx+4,y,cz+4)).isEmpty()){
+				HardcoreEnderExpansion.notifications.report("solved");
+				// TODO
+				/*EntityMiniBossFireFiend fireFiend = new EntityMiniBossFireFiend(world);
+				fireFiend.setLocationAndAngles(cx+0.5D,y-4D,cz+0.5D,world.rand.nextFloat()*360F,0F);
+				world.spawnEntityInWorld(fireFiend);*/
 			}
 		}
 		
-		int cx = startX+((dungeonSize-1)>>1),cz = startZ+((dungeonSize-1)>>1);
-		
-		if (isFinished && cnt > 32 && world.getEntitiesWithinAABB(EntityMiniBossFireFiend.class,AxisAlignedBB.getBoundingBox(cx-4,y-8,cz-4,cx+4,y,cz+4)).isEmpty()){
-			EntityMiniBossFireFiend fireFiend = new EntityMiniBossFireFiend(world);
-			fireFiend.setLocationAndAngles(cx+0.5D,y-4D,cz+0.5D,rand.nextFloat()*360F,0F);
-			world.spawnEntityInWorld(fireFiend);
-		}
+		return false;
 	}
 	
 	@Override
@@ -127,51 +144,46 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	protected ItemStack createStackedBlock(int meta){
 		return null;
 	}
-	
+
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
-		int meta = world.getBlockMetadata(x,y,z);
-		if (meta >= metaSpreadingLitN && meta <= metaSpreadingLitW)meta = metaLit;
-		else if (meta >= metaSpreadingUnlitN && meta <= metaSpreadingUnlitW)meta = metaUnlit;
-		
-		return new ItemStack(this,1,meta);
+		return new ItemStack(this,1,world.getBlockMetadata(x,y,z));
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		switch(is.getItemDamage()){
-			case BlockDungeonPuzzle.metaUnlit: return "tile.dungeonPuzzle.unlit";
-			case BlockDungeonPuzzle.metaLit: return "tile.dungeonPuzzle.lit";
-			case BlockDungeonPuzzle.metaWall: return "tile.dungeonPuzzle.wall";
-			case BlockDungeonPuzzle.metaWallRock: return "tile.dungeonPuzzle.wallRock";
-			case BlockDungeonPuzzle.metaWallLit: return "tile.dungeonPuzzle.wallLit";
-			default: return "";
-		}
+		String name = names[Math.max(0,Math.min(names.length-1,is.getItemDamage()))];
+		return name == null ? "" : "tile.dungeonPuzzle."+name;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return meta == metaLit || meta == metaWallLit || (meta >= metaSpreadingLitN && meta <= metaSpreadingLitW)?iconArray[1]:meta == metaWall?iconArray[2]:meta == metaWallRock?iconArray[3]:iconArray[0];
+		return meta >= 0 && meta < icons.length ? iconArray[icons[meta]] : iconArray[3];
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		list.add(new ItemStack(item,1,metaUnlit));
-		list.add(new ItemStack(item,1,metaLit));
-		list.add(new ItemStack(item,1,metaWall));
-		list.add(new ItemStack(item,1,metaWallRock));
-		list.add(new ItemStack(item,1,metaWallLit));
+		for(byte meta:new byte[]{
+			metaWall, metaRock, metaCeiling, metaTriggerUnlit, metaTriggerLit, metaChainedUnlit, metaChainedLit,
+			metaDistributorChainUnlit, metaDistributorChainLit, metaDistributorSquareUnlit, metaDistributorSquareLit,
+		})list.add(new ItemStack(item,1,meta));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[4];
-		iconArray[0] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_unlit");
-		iconArray[1] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_lit");
-		iconArray[2] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_wall");
-		iconArray[3] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_wall_rock");
+		iconArray = new IIcon[10];
+		iconArray[0] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_wall");
+		iconArray[1] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_wall_rock");
+		iconArray[2] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_trigger_unlit");
+		iconArray[3] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_trigger_lit");
+		iconArray[4] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_chained_unlit");
+		iconArray[5] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_chained_lit");
+		iconArray[6] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_spread_unlit");
+		iconArray[7] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_spread_lit");
+		iconArray[8] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_square_unlit");
+		iconArray[9] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_square_lit");
 	}
 }

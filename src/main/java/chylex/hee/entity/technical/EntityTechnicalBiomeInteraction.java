@@ -1,9 +1,9 @@
 package chylex.hee.entity.technical;
-import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
-import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
+import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 
 public class EntityTechnicalBiomeInteraction extends Entity{
 	private AbstractBiomeInteraction interaction;
@@ -25,7 +25,6 @@ public class EntityTechnicalBiomeInteraction extends Entity{
 	
 	@Override
 	public void onUpdate(){
-		++ticksExisted;
 		if (!worldObj.isRemote)interaction.update();
 	}
 	

@@ -76,7 +76,7 @@ public class WorldGenSavefile extends WorldSavefile{
 		WorldGenElement[] vals = WorldGenElement.values();
 		
 		for(int a = 0; a < vals.length; a++){
-			NBTTagList list = nbt.getTagList(String.valueOf(a),NBT.TAG_LONG);
+			NBTTagList list = nbt.getTagList(String.valueOf(a),NBT.TAG_DOUBLE);
 			
 			for(int index = 0; index < list.tagCount(); index++){
 				elements.put(Double.doubleToLongBits(list.func_150309_d(index)),vals[a]);
