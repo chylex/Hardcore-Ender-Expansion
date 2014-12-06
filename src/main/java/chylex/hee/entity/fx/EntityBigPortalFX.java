@@ -21,7 +21,7 @@ public class EntityBigPortalFX extends EntityFX{
 		particleGreen *= 0.3F;
 		particleRed *= 0.9F;
 		particleMaxAge = (int)(Math.random()*10D)+40;
-		noClip = false;
+		noClip = true;
 		setParticleTextureIndex((int)(Math.random()*8D));
 		
 		particleScale = portalParticleScale = 2.75F+rand.nextFloat()*0.4F;
