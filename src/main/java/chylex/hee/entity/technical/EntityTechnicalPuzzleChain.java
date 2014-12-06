@@ -18,7 +18,7 @@ public class EntityTechnicalPuzzleChain extends Entity{
 	
 	public EntityTechnicalPuzzleChain(World world, int x, int y, int z, int dir){
 		super(world);
-		setPosition(x+0.5D,y+0.5D,z+0.5D);
+		setPosition(x+0.5D-Direction.offsetX[dir],y+0.5D,z+0.5D-Direction.offsetZ[dir]);
 		this.dir = (byte)dir;
 	}
 
@@ -29,9 +29,8 @@ public class EntityTechnicalPuzzleChain extends Entity{
 	public void onUpdate(){
 		if (worldObj.isRemote)return;
 		
-		if (ticksExisted%8 == 0){
-			posX += Direction.offsetX[dir];
-			posZ += Direction.offsetZ[dir];
+		if (ticksExisted%8 == 1){
+			setPosition(posX+Direction.offsetX[dir],posY,posZ+Direction.offsetZ[dir]);
 			
 			int x = (int)Math.floor(posX), y = (int)Math.floor(posY), z = (int)Math.floor(posZ);
 			

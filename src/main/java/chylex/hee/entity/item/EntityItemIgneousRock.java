@@ -48,10 +48,7 @@ public class EntityItemIgneousRock extends EntityItem{
 		super(world,x,y,z,is);
 		
 		EntityPlayer thrower = world.getClosestPlayer(x,y-1.62D,z,1D);
-		if (thrower != null){
-			int dir = MathHelper.floor_double((thrower.rotationYaw*4F/360F)+0.5D)&3;
-			thrownDirection = (byte)(dir == 2?0:dir == 1?3:dir == 0?1:2);
-		}
+		if (thrower != null)thrownDirection = (byte)(MathHelper.floor_double((thrower.rotationYaw*4F/360F)+0.5D)&3);
 	}
 
 	@Override

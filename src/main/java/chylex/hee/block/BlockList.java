@@ -185,7 +185,6 @@ public final class BlockList{
 		setItemClass("ravaged_brick", ItemBlockWithSubtypes.class);
 		setItemClass("ravaged_brick_slab", ItemBlockSlab.class);
 		setItemClass("dungeon_puzzle", ItemBlockWithSubtypes.class);
-		setItemClass("dungeon_puzzle_technical", ItemBlockWithSubtypes.class);
 		setItemClass("block_special_effects", ItemBlockWithSubtypes.class);
 		setItemClass("persegrit", ItemBlockWithSubtypes.class);
 	}
