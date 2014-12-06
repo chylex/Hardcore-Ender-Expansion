@@ -189,7 +189,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		 * ENCHANTMENT UPGRADES
 		 */
 		
-		else if ((is.isItemEnchantable() || is.isItemEnchanted()) && is.getItem() != Items.book && is.getItem() != Items.enchanted_book){
+		else if (is.isItemEnchanted() && is.getItem() != Items.book && is.getItem() != Items.enchanted_book){
 			for(int b = 0; b < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST ? 1+Math.floor(socketBoost*0.4D) : 0); b++){
 				if (updateItemCounter(is,"HEE_enchant",1) < 400-is.getItem().getItemEnchantability()*4)return;
 				updateItemCounter(is,"HEE_enchant",0);
