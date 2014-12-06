@@ -195,7 +195,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				updateItemCounter(is,"HEE_enchant",0);
 				
 				NBTTagList enchants = is.getEnchantmentTagList();
-				if (enchants == null)enchants = new NBTTagList();
+				if (enchants == null || enchants.tagCount() == 0)return;
 				
 				for(int attempt = 0; attempt < 3; attempt++){
 					WeightedList<ObjectWeightPair<Enchantment>> list = new WeightedList<>();
@@ -208,6 +208,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					}
 					
 					Enchantment chosenEnchantment = list.getRandomItem(rand).getObject();
+					
 					for(int a = 0; a < enchants.tagCount(); a++){
 						NBTTagCompound tag = enchants.getCompoundTagAt(a);
 						if (tag.getShort("id") != chosenEnchantment.effectId)continue;
