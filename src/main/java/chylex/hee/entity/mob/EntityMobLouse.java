@@ -264,13 +264,13 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setTag("louseData",louseData.writeToNBT(new NBTTagCompound()));
+		if (louseData != null)nbt.setTag("louseData",louseData.writeToNBT(new NBTTagCompound()));
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		louseData = new LouseSpawnData(nbt.getCompoundTag("louseData"));
+		if (nbt.hasKey("louseData"))louseData = new LouseSpawnData(nbt.getCompoundTag("louseData"));
 		updateLouseData();
 	}
 	
