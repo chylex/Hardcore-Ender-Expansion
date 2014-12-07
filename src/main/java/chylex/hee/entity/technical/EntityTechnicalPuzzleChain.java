@@ -40,7 +40,10 @@ public class EntityTechnicalPuzzleChain extends Entity{
 				}
 				else setDead();
 			}
-			else setDead();
+			else{
+				((BlockDungeonPuzzle)BlockList.dungeon_puzzle).checkWinConditions(worldObj,x-Direction.offsetX[dir],y,z-Direction.offsetZ[dir]);
+				setDead();
+			}
 		}
 	}
 

@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -12,12 +13,12 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -77,7 +78,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 				for(int dir = 0, distrMeta, distrToggled, tx, tz; dir < 4; dir++){
 					if (dir == Direction.rotateOpposite[chainDir])continue;
 					
-					if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+(tx = Direction.offsetX[dir]),y,z+(tz = Direction.offsetZ[dir])))) != distrMeta){
+					if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+(tx = Direction.offsetX[dir]),y,z+(tz = Direction.offsetZ[dir])))) != distrMeta && world.getBlock(x+tx,y,z+tz) == BlockList.dungeon_puzzle){
 						world.spawnEntityInWorld(new EntityTechnicalPuzzleChain(world,x+tx,y,z+tz,dir));
 					}
 				}
@@ -85,7 +86,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			else if (unlit == metaDistributorSquareUnlit){
 				for(int xx = -1, zz, distrMeta, distrToggled; xx <= 1; xx++){
 					for(zz = -1; zz <= 1; zz++){
-						if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+xx,y,z+zz))) != distrMeta && !(xx == 0 && zz == 0)){
+						if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+xx,y,z+zz))) != distrMeta && !(xx == 0 && zz == 0) && world.getBlock(x+xx,y,z+zz) == BlockList.dungeon_puzzle){
 							PacketPipeline.sendToAllAround(world.provider.dimensionId,x+xx+0.5D,y+0.5D,z+zz+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+xx+0.5D,y+0.5D,z+zz+0.5D));
 							world.setBlockMetadataWithNotify(x+xx,y,z+zz,distrToggled,3);
 						}
@@ -97,46 +98,81 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+0.5D,y+0.5D,z+0.5D));
 		}
 		
+		checkWinConditions(world,x,y,z);
+		return false;
+	}
+	
+	public void checkWinConditions(World world, int x, int y, int z){
 		if (world.getEntitiesWithinAABB(EntityTechnicalPuzzleChain.class,AxisAlignedBB.getBoundingBox(x+0.5D-maxDungeonSize,y,z+0.5D-maxDungeonSize,x+0.5D+maxDungeonSize,y+1D,z+0.5D+maxDungeonSize)).size() == 1){
-			int startX = x+1, startZ = z+1, endX = x-1, endZ = z-1, cnt = 0;
+			int minX = x, minZ = z, maxX = x, maxZ = z, cnt = 0;
 			boolean isFinished = true;
 			
-			while(world.getBlock(--startX,y,z) == this);
-			while(world.getBlock(x,y,--startZ) == this);
-			while(world.getBlock(++endX,y,z) == this); // TODO fix
-			while(world.getBlock(x,y,++endZ) == this);
+			Stopwatch.time("BlockDungeonPuzzle - win detection - coords");
 			
-			++startX;
-			++startZ;
-			--endX;
-			--endZ;
+			while(world.getBlock(--minX,y,z) == this);
+			while(world.getBlock(x,y,--minZ) == this);
+			while(world.getBlock(++maxX,y,z) == this);
+			while(world.getBlock(x,y,++maxZ) == this);
 			
-			for(int xx = startX; xx <= endX; xx++){
-				for(int zz = startZ; zz <= endZ; zz++){
+			++minX;
+			++minZ;
+			--maxX;
+			--maxZ;
+			
+			for(int px = minX, pz = z; px <= maxX; px++){
+				while(world.getBlock(px,y,--pz) == this)world.setBlock(px,y+5,pz,Blocks.brick_block);
+				if (pz+1 < minZ)minZ = pz+1;
+				
+				pz = z;
+				
+				while(world.getBlock(px,y,++pz) == this)world.setBlock(px,y+6,pz,Blocks.brick_block);
+				if (pz-1 > maxZ)maxZ = pz-1;
+			}
+			
+			for(int pz = minZ, px = x; pz <= maxZ; pz++){
+				while(world.getBlock(--px,y,pz) == this)world.setBlock(px,y+7,pz,Blocks.brick_block);
+				if (px+1 < minX)minX = px+1;
+				
+				px = x;
+				
+				while(world.getBlock(++px,y,pz) == this)world.setBlock(px,y+8,pz,Blocks.brick_block);
+				if (px-1 > maxX)maxX = px-1;
+			}
+
+			++minX;
+			++minZ;
+			--maxX;
+			--maxZ;
+			
+			Stopwatch.finish("BlockDungeonPuzzle - win detection - coords");
+			Stopwatch.time("BlockDungeonPuzzle - win detection - conditions");
+			
+			for(int xx = minX; xx <= maxX; xx++){
+				for(int zz = minZ; zz <= maxZ; zz++){
 					if (world.getBlock(xx,y,zz) != this)continue;
 					
 					++cnt;
 					
-					if (!isLit(toggleState(world.getBlockMetadata(xx,y,zz)))){
+					if (isLit(toggleState(world.getBlockMetadata(xx,y,zz)))){
 						isFinished = false;
-						xx = endX+1;
+						xx = maxX+1;
 						break;
 					}
 				}
 			}
 			
-			int cx = startX+((dungeonSize-1)>>1), cz = startZ+((dungeonSize-1)>>1);
+			Stopwatch.finish("BlockDungeonPuzzle - win detection - conditions");
 			
-			if (isFinished && cnt > 32){
-				HardcoreEnderExpansion.notifications.report("solved");
+			int cx = minX+((maxX-minX+1)>>1), cz = minZ+((maxZ-minZ+1)>>1);
+			
+			if (isFinished && cnt > (maxX-minX+1)*(maxZ-minZ+1)*0.9D){
+				
 				// TODO
 				/*EntityMiniBossFireFiend fireFiend = new EntityMiniBossFireFiend(world);
 				fireFiend.setLocationAndAngles(cx+0.5D,y-4D,cz+0.5D,world.rand.nextFloat()*360F,0F);
 				world.spawnEntityInWorld(fireFiend);*/
 			}
 		}
-		
-		return false;
 	}
 	
 	@Override
