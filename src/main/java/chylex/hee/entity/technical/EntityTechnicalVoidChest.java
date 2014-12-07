@@ -3,12 +3,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import chylex.hee.mechanics.voidchest.PlayerVoidChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import chylex.hee.mechanics.voidchest.PlayerVoidChest;
 
 public class EntityTechnicalVoidChest extends Entity{
 	private EntityPlayerMP player;

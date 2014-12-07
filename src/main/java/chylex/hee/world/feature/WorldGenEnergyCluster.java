@@ -1,8 +1,8 @@
 package chylex.hee.world.feature;
 import java.util.Random;
-import chylex.hee.block.BlockList;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import chylex.hee.block.BlockList;
 
 public class WorldGenEnergyCluster extends WorldGenerator{
 	@Override

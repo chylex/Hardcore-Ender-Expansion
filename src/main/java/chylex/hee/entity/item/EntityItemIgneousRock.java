@@ -19,6 +19,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityItemIgneousRock extends EntityItem{
 	private static final IdentityHashMap<Block,Block> blockTransformations = new IdentityHashMap<>();
@@ -67,8 +68,8 @@ public class EntityItemIgneousRock extends EntityItem{
 			
 			if (rand.nextInt(64-Math.min(32,is.stackSize/2)) == 0){
 				for(int attempt = 0; attempt < 4+(is.stackSize/8); attempt++){
-					int[] pos = new int[]{ (int)Math.floor(posX),(int)Math.floor(posY),(int)Math.floor(posZ) };
-					for(int a = 0; a < pos.length; a++)pos[a] += (int)Math.floor((rand.nextDouble()-0.5D)*4D);
+					int[] pos = new int[]{ MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ) };
+					for(int a = 0; a < pos.length; a++)pos[a] += MathUtil.floor((rand.nextDouble()-0.5D)*4D);
 					
 					Block block = worldObj.getBlock(pos[0],pos[1],pos[2]);
 					Block target = blockTransformations.get(block);
@@ -101,7 +102,7 @@ public class EntityItemIgneousRock extends EntityItem{
 			}
 		}
 		
-		int ix = (int)Math.floor(posX), iy = (int)Math.floor(posY), iz = (int)Math.floor(posZ);
+		int ix = MathUtil.floor(posX), iy = MathUtil.floor(posY), iz = MathUtil.floor(posZ);
 		
 		if (rand.nextInt(6) == 0 && worldObj.getBlock(ix,iy,iz).getMaterial() == Material.water){
 			HardcoreEnderExpansion.fx.bubble(worldObj,posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0.6D,0D);		

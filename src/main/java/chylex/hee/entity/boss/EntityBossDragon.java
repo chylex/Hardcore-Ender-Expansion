@@ -215,7 +215,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				else if (currentAttack.hasEnded() || forceAttackEnd){
 					forceAttackEnd = false;
 					currentAttack.end();
-					nextAttackTicks = (int)Math.ceil(currentAttack.getNextAttackTimer()*(0.5D+attacks.getHealthPercentage()/200D));
+					nextAttackTicks = MathUtil.ceil(currentAttack.getNextAttackTimer()*(0.5D+attacks.getHealthPercentage()/200D));
 					(currentAttack = DEFAULT).init();
 				}
 			}
@@ -560,7 +560,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		if (source.isExplosion() && source.getEntity() == this)return false;
 		
 		if (dragonPart != dragonPartHead)amount = amount/3+1;
-		int plam = Math.min(5,(int)Math.floor(worldObj.playerEntities.size()*0.5F))+(ModCommonProxy.opMobs ? 2 : 0);
+		int plam = Math.min(5,MathUtil.floor(worldObj.playerEntities.size()*0.5F))+(ModCommonProxy.opMobs ? 2 : 0);
 		if (plam > 1)amount = Math.max(1F,amount/(plam/1.5F));
 		
 		amount = Math.min(amount,ModCommonProxy.opMobs ? 10F : 13F);
@@ -615,8 +615,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  			}
  			else if (deathTicks > 4 && deathTicks < 70 && deathTicks%4 == 0){
  				for(int a = 0, xx, yy, zz; a < 250; a++){
- 					xx = (int)Math.floor(posX)+rand.nextInt(51)-25;
- 					zz = (int)Math.floor(posZ)+rand.nextInt(51)-25;
+ 					xx = MathUtil.floor(posX)+rand.nextInt(51)-25;
+ 					zz = MathUtil.floor(posZ)+rand.nextInt(51)-25;
  					yy = DragonUtil.getTopBlock(worldObj,Blocks.end_stone,xx,zz,65);
  					
  					if (yy > 40 && worldObj.getBlock(xx,yy,zz) == Blocks.fire)worldObj.setBlockToAir(xx,yy,zz);

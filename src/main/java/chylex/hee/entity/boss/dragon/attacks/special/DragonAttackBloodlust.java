@@ -77,7 +77,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 								pX = player.posX+Math.cos(rad)*len;
 								pZ = player.posZ+Math.sin(rad)*len;
 								
-								if (dragon.worldObj.isAirBlock((int)Math.floor(pX),(int)Math.floor(pY),(int)Math.floor(pZ)))break;
+								if (dragon.worldObj.isAirBlock(MathUtil.floor(pX),MathUtil.floor(pY),MathUtil.floor(pZ)))break;
 								--len;
 							}
 							

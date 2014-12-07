@@ -5,6 +5,7 @@ import java.util.Set;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.BlockLocation;
@@ -75,7 +76,7 @@ public class CaveGenerator{
 			y += vec.yCoord;
 			z += vec.zCoord;
 			
-			if (!createAirBlob(rand,(int)Math.floor(x),(int)Math.floor(y),(int)Math.floor(z),rad))break;
+			if (!createAirBlob(rand,MathUtil.floor(x),MathUtil.floor(y),MathUtil.floor(z),rad))break;
 			
 			if (rand.nextFloat() < branchingChance){
 				generateNode(rand,x,y,z,rad-rand.nextFloat()*0.15F,branchingChance*0.75F,Vec3.createVectorHelper(vec.xCoord+0.8F*(rand.nextDouble()-0.5D),vec.yCoord+0.4F*(rand.nextDouble()-0.5D),vec.zCoord+0.8F*(rand.nextDouble()-0.5D)),iteration+1);
@@ -87,7 +88,7 @@ public class CaveGenerator{
 		rad += rand.nextFloat()*0.2F;
 		if (rand.nextInt(30) == 0)rad *= 1.5F;
 		boolean onePlaced = false;
-		int intrad = (int)Math.ceil(rad);
+		int intrad = MathUtil.ceil(rad);
 
 		for(int xx = x-intrad; xx <= x+intrad; xx++){
 			for(int yy = y-intrad; yy <= y+intrad; yy++){

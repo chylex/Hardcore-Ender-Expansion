@@ -2,7 +2,6 @@ package thaumcraft.api.research;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import net.minecraft.util.ResourceLocation;
 
 public class ResearchCategoryList {

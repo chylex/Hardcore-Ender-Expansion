@@ -1,8 +1,8 @@
 package chylex.hee.world;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.DragonSavefile;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.chunk.IChunkProvider;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.DragonSavefile;
 
 public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	@Override

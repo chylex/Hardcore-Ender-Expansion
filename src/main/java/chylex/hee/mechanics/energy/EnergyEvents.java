@@ -60,7 +60,7 @@ public final class EnergyEvents{
 		float energy = MobEnergy.getEnergy(e.entityLiving);
 		if (MathUtil.floatEquals(energy,-1F))return;
 		
-		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(e.entity.worldObj,(int)Math.floor(e.entity.posX),(int)Math.floor(e.entity.posZ),true).addEnergy(energy);
+		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(e.entity.worldObj,MathUtil.floor(e.entity.posX),MathUtil.floor(e.entity.posZ),true).addEnergy(energy);
 	}
 	
 	private byte updateTimer;

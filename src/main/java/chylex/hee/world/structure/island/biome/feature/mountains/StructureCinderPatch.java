@@ -25,11 +25,11 @@ public class StructureCinderPatch extends AbstractIslandStructure{
 	private void generateBlob(Random rand, double x, double y, double z, double rad){
 		int xx, yy, zz;
 
-		for(xx = (int)Math.floor(x-rad)-1; xx <= x+rad+1; xx++){
-			for(yy = (int)Math.floor(y-rad)-1; yy <= y+rad+1; yy++){
+		for(xx = MathUtil.floor(x-rad)-1; xx <= x+rad+1; xx++){
+			for(yy = MathUtil.floor(y-rad)-1; yy <= y+rad+1; yy++){
 				if (yy <= 0)continue;
 				
-				for(zz = (int)Math.floor(z-rad)-1; zz <= z+rad+1; zz++){
+				for(zz = MathUtil.floor(z-rad)-1; zz <= z+rad+1; zz++){
 					if (MathUtil.distance(xx-x,yy-y,zz-z) <= rad-rand.nextDouble()){
 						Block block = world.getBlock(xx,yy,zz);
 						if (block == Blocks.end_stone || block == BlockList.end_terrain)world.setBlock(xx,yy,zz,BlockList.cinder);

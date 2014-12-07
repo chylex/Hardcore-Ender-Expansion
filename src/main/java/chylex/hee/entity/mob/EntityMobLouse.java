@@ -228,9 +228,9 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
         	
         	if (MathUtil.distance(posX-oldPosX,posZ-oldPosZ) < 2D)continue;
         	
-        	ix = (int)Math.floor(posX);
-        	iy = (int)Math.floor(posY);
-        	iz = (int)Math.floor(posZ);
+        	ix = MathUtil.floor(posX);
+        	iy = MathUtil.floor(posY);
+        	iz = MathUtil.floor(posZ);
         	
         	for(int py = 0; py < 3; py++){
         		if (worldObj.isAirBlock(ix,iy,iz) && !worldObj.isAirBlock(ix,iy-1,iz)){
@@ -238,7 +238,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
         			hasTeleported = true;
         			break;
         		}
-        		else iy = (int)Math.floor(--posY);
+        		else iy = MathUtil.floor(--posY);
         	}
         }
         

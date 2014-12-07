@@ -12,6 +12,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.util.ItemDamagePair;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -223,12 +224,12 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 	@SideOnly(Side.CLIENT)
 	public int getScaledProgressTime(int scale){
 		if (time == 0 && timeStep == 0)return -1;
-		return (int)Math.ceil(time*(double)scale/1000D);
+		return MathUtil.ceil(time*(double)scale/1000D);
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public int getScaledContainedEnergy(int scale){
-		return (int)Math.ceil(containedEnergy*scale/500F);
+		return MathUtil.ceil(containedEnergy*scale/500F);
 	}
 	
 	@Override

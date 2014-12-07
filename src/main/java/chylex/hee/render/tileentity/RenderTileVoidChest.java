@@ -1,11 +1,11 @@
 package chylex.hee.render.tileentity;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import chylex.hee.tileentity.TileEntityVoidChest;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import chylex.hee.tileentity.TileEntityVoidChest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

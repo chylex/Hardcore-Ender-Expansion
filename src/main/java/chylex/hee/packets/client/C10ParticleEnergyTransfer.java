@@ -5,6 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.packets.AbstractClientPacket;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -67,7 +68,7 @@ public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
 		Vec3 vec = Vec3.createVectorHelper(targetX-startX,targetY-startY,targetZ-startZ);
-		int steps = (int)Math.floor(vec.lengthVector()*(1F/spacing));
+		int steps = MathUtil.floor(vec.lengthVector()*(1F/spacing));
 		vec = vec.normalize();
 		
 		for(int a = 0; a < steps; a++){

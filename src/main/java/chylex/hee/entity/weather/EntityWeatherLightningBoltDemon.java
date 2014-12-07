@@ -7,6 +7,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityWeatherLightningBoltDemon extends EntityLightningBolt{
 	private int lightningState;
@@ -26,7 +27,7 @@ public class EntityWeatherLightningBoltDemon extends EntityLightningBolt{
 		isSafe = shouldMakeFire^true;
 
 		if (!world.isRemote){
-			int ix = (int)Math.floor(x),iy = (int)Math.floor(y),iz = (int)Math.floor(z);
+			int ix = MathUtil.floor(x),iy = MathUtil.floor(y),iz = MathUtil.floor(z);
 			
 			if (caster != null){
 				for(int testX = ix-1; testX <= ix+1; testX++){

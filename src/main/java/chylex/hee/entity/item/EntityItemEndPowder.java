@@ -1,11 +1,11 @@
 package chylex.hee.entity.item;
-import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.item.ItemList;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.item.ItemList;
 
 public class EntityItemEndPowder extends EntityItem{
 	private byte checkTimer = 0;

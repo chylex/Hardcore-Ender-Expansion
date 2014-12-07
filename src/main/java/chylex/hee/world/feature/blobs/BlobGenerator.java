@@ -36,7 +36,7 @@ public abstract class BlobGenerator implements IWeightProvider{
 	public static final boolean genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad, Block block){
 		boolean generatedSomething = false;
 		double radSq = MathUtil.square(rad+0.5D);
-		int size = (int)Math.ceil(rad), ix = (int)Math.floor(x), iy = (int)Math.floor(y), iz = (int)Math.floor(z);
+		int size = MathUtil.ceil(rad), ix = MathUtil.floor(x), iy = MathUtil.floor(y), iz = MathUtil.floor(z);
 		List<BlockLocation> locs = new ArrayList<BlockLocation>();
 		
 		for(int xx = ix-size; xx <= ix+size; xx++){

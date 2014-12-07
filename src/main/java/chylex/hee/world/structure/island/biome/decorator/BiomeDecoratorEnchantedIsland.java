@@ -165,8 +165,8 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 					placed = 0;
 					
 					for(placeAttempt = 0; placeAttempt < 12+rand.nextInt(30); placeAttempt++){
-						px = xx+(int)Math.floor(25F*(rand.nextFloat()-0.5F)*rand.nextFloat());
-						pz = zz+(int)Math.floor(25F*(rand.nextFloat()-0.5F)*rand.nextFloat());
+						px = xx+MathUtil.floor(25F*(rand.nextFloat()-0.5F)*rand.nextFloat());
+						pz = zz+MathUtil.floor(25F*(rand.nextFloat()-0.5F)*rand.nextFloat());
 						py = yy+rand.nextInt(4);
 						
 						for(yAttempt = 0; yAttempt < 5; yAttempt++){

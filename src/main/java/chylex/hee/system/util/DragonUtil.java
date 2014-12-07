@@ -1,15 +1,15 @@
 package chylex.hee.system.util;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
-import java.util.regex.Pattern;
 import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

@@ -1,7 +1,7 @@
 package chylex.hee.entity.fx.behavior;
-import chylex.hee.system.util.MathUtil;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.util.Vec3;
+import chylex.hee.system.util.MathUtil;
 
 public class ParticleBehaviorMoveTo implements IParticleBehavior{
 	private final Vec3 motionVec;

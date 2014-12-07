@@ -17,6 +17,7 @@ import chylex.hee.entity.projectile.EntityProjectilePotionOfInstability;
 import chylex.hee.mechanics.brewing.AbstractPotionData;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.brewing.TimedPotion;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -27,7 +28,7 @@ public class ItemPotionOfInstability extends Item{
 			
 			if (potion instanceof TimedPotion){
 				TimedPotion timed = (TimedPotion)potion;
-				return new PotionEffect(timed.getPotionType().id,(int)(rand.nextInt((int)Math.ceil(timed.getMaxDuration()*0.8D))+timed.getMaxDuration()*0.2D),rand.nextInt(timed.getMaxLevel()));
+				return new PotionEffect(timed.getPotionType().id,(int)(rand.nextInt(MathUtil.ceil(timed.getMaxDuration()*0.8D))+timed.getMaxDuration()*0.2D),rand.nextInt(timed.getMaxLevel()));
 			}
 		}
 	}

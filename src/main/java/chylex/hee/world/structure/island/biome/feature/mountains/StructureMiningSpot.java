@@ -47,11 +47,11 @@ public class StructureMiningSpot extends AbstractIslandStructure{
 		int xx, yy, zz;
 		double dist;
 		
-		for(xx = (int)Math.floor(x-rad)-1; xx <= x+rad+1; xx++){
-			for(yy = (int)Math.floor(y-rad)-1; yy <= y+rad+1; yy++){
+		for(xx = MathUtil.floor(x-rad)-1; xx <= x+rad+1; xx++){
+			for(yy = MathUtil.floor(y-rad)-1; yy <= y+rad+1; yy++){
 				if (yy <= 0)continue;
 				
-				for(zz = (int)Math.floor(z-rad)-1; zz <= z+rad+1; zz++){
+				for(zz = MathUtil.floor(z-rad)-1; zz <= z+rad+1; zz++){
 					dist = MathUtil.distance(xx-x,yy-y,zz-z);
 					
 					if (world.getBlock(xx,yy,zz) == Blocks.end_stone && rand.nextInt(4) == 0 && dist <= rad-rand.nextDouble()*0.5D){

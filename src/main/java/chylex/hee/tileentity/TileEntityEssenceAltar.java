@@ -27,6 +27,7 @@ import chylex.hee.packets.client.C17AltarRuneItemEffect;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -286,7 +287,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 		if (essenceType == EssenceType.INVALID)essenceType = EssenceType.DRAGON; // compatibility
 		if (currentStage == STAGE_HASTYPE)worldObj.spawnEntityInWorld(createItem(this,new ItemStack(ItemList.essence,1,essenceType.getItemDamage())));
 		
-		int essence16 = (int)Math.floor(essenceLevel/16F);
+		int essence16 = MathUtil.floor(essenceLevel/16F);
 		ItemStack is16 = new ItemStack(ItemList.essence,16,essenceType.getItemDamage());
 		
 		for(int a = 0; a < essence16; a++)worldObj.spawnEntityInWorld(createItem(this,is16.copy()));

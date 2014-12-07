@@ -20,8 +20,8 @@ public class StructureGooLake extends AbstractIslandStructure{
 			   hrad = rad*0.5D;
 		boolean canGenerate = true;
 		
-		for(int testX = (int)Math.floor(x-rad); testX <= x+rad; testX++){
-			for(int testZ = (int)Math.floor(z-rad); testZ <= z+rad; testZ++){
+		for(int testX = MathUtil.floor(x-rad); testX <= x+rad; testX++){
+			for(int testZ = MathUtil.floor(z-rad); testZ <= z+rad; testZ++){
 				boolean found = false;
 				
 				for(int testY = y+2; testY >= y-2; testY--){
@@ -55,8 +55,8 @@ public class StructureGooLake extends AbstractIslandStructure{
 					yOff = -1;
 				}
 				
-				for(int px = (int)Math.floor(cx-r); px <= cx+r; px++){
-					for(int pz = (int)Math.floor(cz-r); pz <= cz+r; pz++){
+				for(int px = MathUtil.floor(cx-r); px <= cx+r; px++){
+					for(int pz = MathUtil.floor(cz-r); pz <= cz+r; pz++){
 						if (MathUtil.distance(px-cx,pz-cz) < r-0.3D+rand.nextDouble()*0.7D){
 							for(int py = minY+yOff; py < y+2; py++){
 								if (py <= minY)world.setBlock(px,py,pz,BlockList.ender_goo);

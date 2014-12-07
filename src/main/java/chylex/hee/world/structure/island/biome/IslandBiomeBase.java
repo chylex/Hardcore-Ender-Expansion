@@ -75,7 +75,7 @@ public abstract class IslandBiomeBase{
 		BiomeContentVariation contentVariation = contentVariations.getRandomItem(rand);
 		
 		List<BiomeRandomDeviation> deviations = new ArrayList<>();
-		int deviationAmt = Math.max(0,Math.min(randomDeviations.size(),(int)Math.floor((rand.nextGaussian()+0.35D)*randomDeviations.size()*(0.5D+0.5D*rand.nextDouble()))));
+		int deviationAmt = Math.max(0,Math.min(randomDeviations.size(),MathUtil.floor((rand.nextGaussian()+0.35D)*randomDeviations.size()*(0.5D+0.5D*rand.nextDouble()))));
 		
 		if (deviationAmt > 0){
 			List<BiomeRandomDeviation> availableDeviations = new ArrayList<>(randomDeviations);
@@ -140,11 +140,11 @@ public abstract class IslandBiomeBase{
 					double posX = player.posX+Math.cos(ang)*len, posZ = player.posZ+Math.sin(ang)*len;
 					
 					for(int yAttempt = 0; yAttempt < 28; yAttempt++){
-						e.setLocationAndAngles(posX,(int)Math.floor(player.posY+(world.rand.nextDouble()-0.65D)*(yAttempt+4)*3D)+0.01D,posZ,world.rand.nextFloat()*360F,0F);
+						e.setLocationAndAngles(posX,MathUtil.floor(player.posY+(world.rand.nextDouble()-0.65D)*(yAttempt+4)*3D)+0.01D,posZ,world.rand.nextFloat()*360F,0F);
 						if (hasEntitySpace(world,e))break;
 					}
 					
-					int xx = (int)Math.floor(e.posX), zz = (int)Math.floor(e.posZ);
+					int xx = MathUtil.floor(e.posX), zz = MathUtil.floor(e.posZ);
 					boolean hasBlockBelow = false;
 					
 					for(int yy = (int)e.posY-1; yy > e.posY-4D; yy--){

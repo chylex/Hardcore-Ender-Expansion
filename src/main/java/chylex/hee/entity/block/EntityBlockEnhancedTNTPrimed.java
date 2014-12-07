@@ -21,6 +21,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -77,7 +78,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		motionZ *= 0.98D;
 		
 		if (!worldObj.isRemote && noClip){ // TODO redstone torch blocks it?
-			Block block = worldObj.getBlock((int)Math.floor(posX),(int)Math.floor(posY),(int)Math.floor(posZ));
+			Block block = worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ));
 			
 			if (!wentIntoWall && block.isOpaqueCube())wentIntoWall = true;
 			else if (wentIntoWall && block.getMaterial() == Material.air){

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Vec3;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.IRandomAmount;
@@ -56,7 +57,7 @@ public class BlobPopulatorSpikes extends BlobPopulator{
 		z -= dirVec.zCoord*16;
 		
 		for(int unit = 0, ix, iy, iz; unit < 32; unit++){
-			if (gen.getBlock(ix = (int)Math.floor(x),iy = (int)Math.floor(y),iz = (int)Math.floor(z)) == Blocks.end_stone){
+			if (gen.getBlock(ix = MathUtil.floor(x),iy = MathUtil.floor(y),iz = MathUtil.floor(z)) == Blocks.end_stone){
 				gen.setBlock(ix,iy,iz,block);
 				placedSomething = true;
 			}

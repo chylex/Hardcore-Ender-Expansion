@@ -3,7 +3,6 @@ package thaumcraft.api.wands;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
-
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;

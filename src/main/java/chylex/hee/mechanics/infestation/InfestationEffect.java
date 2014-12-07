@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.infestation;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.weight.IWeightProvider;
 
 class InfestationEffect implements IWeightProvider{
@@ -15,7 +16,7 @@ class InfestationEffect implements IWeightProvider{
 	}
 	
 	PotionEffect createPotionEffect(int amplifier, int durationTicks){
-		PotionEffect eff = new PotionEffect(potionEffectId,(int)Math.ceil(durationTicks*durationMp),amplifier,true);
+		PotionEffect eff = new PotionEffect(potionEffectId,MathUtil.ceil(durationTicks*durationMp),amplifier,true);
 		setCurativeItems(eff);
 		return eff;
 	}

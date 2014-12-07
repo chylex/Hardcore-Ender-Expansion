@@ -13,6 +13,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 	public static final byte TNT = 0, BARS = 1, BLAST = 2;
@@ -41,7 +42,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			
 			if (crystalType == TNT){
 				if (tar instanceof EntityPlayer){
-					int limiter = 4+worldObj.difficultySetting.getDifficultyId(),topblock = DragonUtil.getTopBlock(worldObj,Blocks.end_stone,(int)Math.floor(posX),(int)Math.floor(posZ));
+					int limiter = 4+worldObj.difficultySetting.getDifficultyId(),topblock = DragonUtil.getTopBlock(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ));
 					for(Object em:worldObj.getEntitiesWithinAABB(EntityEnderman.class,AxisAlignedBB.getBoundingBox(posX-10D,topblock-5D,posZ-10D,posX+10D,topblock+5D,posZ+10D))){
 						EntityEnderman enderman = (EntityEnderman)em;
 						if (enderman.getDistance(posX,topblock,posZ) < 20D){
@@ -68,7 +69,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 					
 					tnt = new EntityTNTPrimed(worldObj,posX+0.5F,posY+1F,posZ+0.5F,null);
 					tnt.addVelocity(tx,1F,tz);
-					tnt.fuse = (int)(58+(posY-DragonUtil.getTopBlock(worldObj,Blocks.end_stone,(int)Math.floor(posX),(int)Math.floor(posZ)))/2);
+					tnt.fuse = (int)(58+(posY-DragonUtil.getTopBlock(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ)))/2);
 					worldObj.spawnEntityInWorld(tnt);
 					worldObj.playSoundAtEntity(tnt,"random.fuse",1F,1F);
 				}
@@ -78,9 +79,9 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			 */
 			else if (crystalType == BLAST){
 				int maxRad = 4,
-					ix = (int)Math.floor(posX),
-					iy = (int)Math.floor(posY),
-					iz = (int)Math.floor(posZ),
+					ix = MathUtil.floor(posX),
+					iy = MathUtil.floor(posY),
+					iz = MathUtil.floor(posZ),
 					terY = DragonUtil.getTopBlock(worldObj,Blocks.end_stone,ix,iz);
 				
 				worldObj.setBlockToAir(ix,iy-1,iz);

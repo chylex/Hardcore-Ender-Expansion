@@ -11,6 +11,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -27,7 +28,7 @@ public class BlockSphalerite extends Block implements IBlockSubtypes{
 		if (meta == 1){
 			ArrayList<ItemStack> items = new ArrayList<>();
 			items.add(new ItemStack(BlockList.sphalerite,1,0));
-			items.add(new ItemStack(ItemList.stardust,1+world.rand.nextInt(3+(int)Math.ceil(fortune*0.49D)),0));
+			items.add(new ItemStack(ItemList.stardust,1+world.rand.nextInt(3+MathUtil.ceil(fortune*0.49D)),0));
 			return items;
 		}
 		else return super.getDrops(world,x,y,z,meta,fortune);

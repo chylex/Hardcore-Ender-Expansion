@@ -17,6 +17,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -120,9 +121,9 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 						z = mop.blockZ;
 					}
 					else if (mop.typeOfHit == MovingObjectType.ENTITY){
-						x = (int)Math.floor(posX);
-						y = (int)Math.floor(posY);
-						z = (int)Math.floor(posZ);
+						x = MathUtil.floor(posX);
+						y = MathUtil.floor(posY);
+						z = MathUtil.floor(posZ);
 					}
 					else{
 						setDead();

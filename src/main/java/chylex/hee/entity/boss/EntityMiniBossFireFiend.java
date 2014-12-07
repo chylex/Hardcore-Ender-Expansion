@@ -29,6 +29,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C12ParticleFireFiendFlames;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
 	private static final byte STAGE_AFTERFLIGHT = -1, STAGE_REFRESHING = 0, STAGE_CREATING = 1, STAGE_SHOOTING = 2, STAGE_TOUCHING = 3;
@@ -82,14 +83,14 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			
 			--spawnTimer;
 			
-			int iy = (int)Math.floor(posY);
+			int iy = MathUtil.floor(posY);
 			if (spawnTimer == 20){
 				breakBlocksAround(2,iy,iy+2);
 				breakBlocksAround(1,iy+3,iy+4);
 			}
 			else if (spawnTimer == 6){
 				breakBlocksAround(2,iy+3,iy+4);
-				spawnY = (int)Math.floor(posY);
+				spawnY = MathUtil.floor(posY);
 			}
 			
 			if (spawnTimer <= 7){
@@ -99,13 +100,13 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		}
 		else if (spawnTimer == 1){
 			motionY += 0.05D;
-			int iy = (int)Math.floor(posY);
+			int iy = MathUtil.floor(posY);
 			breakBlocksAround(1,iy+3,iy+3);
 			
 			boolean hasSpace = true;
-			for(int xx = (int)Math.floor(posX)-1; xx <= Math.floor(posX+1); xx++){
-				for(int zz = (int)Math.floor(posZ)-1; zz <= Math.floor(posZ+1); zz++){
-					for(int yy = (int)Math.floor(posY)+1; yy <= (int)Math.floor(posY+9); yy++){
+			for(int xx = MathUtil.floor(posX)-1; xx <= Math.floor(posX+1); xx++){
+				for(int zz = MathUtil.floor(posZ)-1; zz <= Math.floor(posZ+1); zz++){
+					for(int yy = MathUtil.floor(posY)+1; yy <= MathUtil.floor(posY+9); yy++){
 						if (!worldObj.isAirBlock(xx,yy,zz)){
 							hasSpace = false;
 							xx += 3;
@@ -127,8 +128,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		Block block;
 		int xx, yy, zz, meta;
 		
-		for(xx = (int)Math.floor(posX)-rad; xx <= Math.floor(posX+rad); xx++){
-			for(zz = (int)Math.floor(posZ)-rad; zz <= Math.floor(posZ+rad); zz++){
+		for(xx = MathUtil.floor(posX)-rad; xx <= Math.floor(posX+rad); xx++){
+			for(zz = MathUtil.floor(posZ)-rad; zz <= Math.floor(posZ+rad); zz++){
 				for(yy = minY; yy <= maxY; yy++){
 					if ((block = worldObj.getBlock(xx,yy,zz)).getMaterial() == Material.air)continue;
 					
@@ -177,7 +178,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			
 			double targetYDiff = posY-(target.posY+target.height*0.5D+(attackStage == STAGE_TOUCHING?0D:5D));
 			for(int a = 1; a < 6; a++){
-				if (!worldObj.isAirBlock((int)Math.floor(posX),(int)Math.floor(posY)-a,(int)Math.floor(posZ))){
+				if (!worldObj.isAirBlock(MathUtil.floor(posX),MathUtil.floor(posY)-a,MathUtil.floor(posZ))){
 					targetYDiff = -1.5D;
 					break;
 				}

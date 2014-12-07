@@ -29,7 +29,7 @@ public class EnergyChunkData{
 	public void onUpdate(World world, Random rand){
 		if ((regenTimer == 0 || --regenTimer == 0) && energyLevel < maxEnergyLevel){
 			if ((energyLevel += Math.min(0.025F,Math.sqrt(maxEnergyLevel)*0.007F)) > maxEnergyLevel)energyLevel = maxEnergyLevel;
-			regenTimer = (byte)(9+rand.nextInt(12+rand.nextInt(6))+(int)Math.floor((16F*energyLevel/maxEnergyLevel)+maxEnergyLevel*0.2F));
+			regenTimer = (byte)(9+rand.nextInt(12+rand.nextInt(6))+MathUtil.floor((16F*energyLevel/maxEnergyLevel)+maxEnergyLevel*0.2F));
 		}
 		
 		if ((energyLevel > maxEnergyLevel || (energyLevel > maxEnergyLevel*0.8F && rand.nextInt(10) == 0)) && (releaseTimer == 0 || --releaseTimer == 0)){
@@ -39,7 +39,7 @@ public class EnergyChunkData{
 			energyLevel -= release;
 			releaseTimer = (byte)(4+rand.nextInt(7));
 			
-			world.setBlock(x+rand.nextInt(16),8+rand.nextInt(116),z+rand.nextInt(16),BlockList.corrupted_energy_low,Math.min(Math.max(2,(int)Math.floor(1F+release*12F)),8),3);
+			world.setBlock(x+rand.nextInt(16),8+rand.nextInt(116),z+rand.nextInt(16),BlockList.corrupted_energy_low,Math.min(Math.max(2,MathUtil.floor(1F+release*12F)),8),3);
 		}
 	}
 	

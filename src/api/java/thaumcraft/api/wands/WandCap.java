@@ -2,7 +2,6 @@ package thaumcraft.api.wands;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.aspects.Aspect;

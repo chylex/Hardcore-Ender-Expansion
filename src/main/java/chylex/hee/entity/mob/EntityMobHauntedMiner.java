@@ -74,9 +74,9 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 				wanderResetTimer = 0;
 				
 				for(int attempt = 0, xx, yy, zz; attempt < 32; attempt++){
-					xx = (int)Math.floor(posX)+rand.nextInt(14)-rand.nextInt(14);
-					zz = (int)Math.floor(posZ)+rand.nextInt(14)-rand.nextInt(14);
-					yy = (int)Math.floor(posY);
+					xx = MathUtil.floor(posX)+rand.nextInt(14)-rand.nextInt(14);
+					zz = MathUtil.floor(posZ)+rand.nextInt(14)-rand.nextInt(14);
+					yy = MathUtil.floor(posY);
 					
 					if (worldObj.isAirBlock(xx,yy,zz)){
 						while(worldObj.isAirBlock(xx,--yy,zz) && Math.abs(posY-yy) < 10);
@@ -161,9 +161,9 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 									attackLavaCounter = 1;
 									
 									for(int attempt = 0, xx, yy, zz; attempt < 64; attempt++){
-										xx = (int)Math.floor(target.posX)+rand.nextInt(5)-rand.nextInt(5);
-										zz = (int)Math.floor(target.posZ)+rand.nextInt(5)-rand.nextInt(5);
-										yy = (int)Math.floor(target.posY)+4;
+										xx = MathUtil.floor(target.posX)+rand.nextInt(5)-rand.nextInt(5);
+										zz = MathUtil.floor(target.posZ)+rand.nextInt(5)-rand.nextInt(5);
+										yy = MathUtil.floor(target.posY)+4;
 										
 										for(int yAttempt = 0; yAttempt < 7; yAttempt++){
 											if (worldObj.isAirBlock(xx,yy,zz) && worldObj.getBlock(xx,yy-1,zz).isOpaqueCube()){
@@ -240,11 +240,11 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								}
 								
 								for(int attempt = 0, xx, yy, zz; attempt < 90; attempt++){
-									xx = (int)Math.floor(posX)+rand.nextInt(21)-10;
-									zz = (int)Math.floor(posZ)+rand.nextInt(21)-10;
+									xx = MathUtil.floor(posX)+rand.nextInt(21)-10;
+									zz = MathUtil.floor(posZ)+rand.nextInt(21)-10;
 									if (MathUtil.distance(xx-posX,zz-posZ) > 10D)continue;
 									
-									yy = (int)Math.floor(posY)-1;
+									yy = MathUtil.floor(posY)-1;
 									
 									for(int yAttempt = 0; yAttempt < 4; yAttempt++){
 										if (worldObj.isAirBlock(xx,yy,zz) && !worldObj.isAirBlock(xx,yy-1,zz)){

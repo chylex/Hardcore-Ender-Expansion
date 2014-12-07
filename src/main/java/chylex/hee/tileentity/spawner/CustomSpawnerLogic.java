@@ -1,6 +1,4 @@
 package chylex.hee.tileentity.spawner;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
@@ -8,6 +6,8 @@ import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	protected TileEntityCustomSpawner spawnerTile;

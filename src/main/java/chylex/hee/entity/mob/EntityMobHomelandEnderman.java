@@ -138,7 +138,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (worldObj.isRemote){
 			refreshRoles();
 			
-			int chance = 1+(int)Math.floor(HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this)/20F);
+			int chance = 1+MathUtil.floor(HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this)/20F);
 			
 			if (rand.nextInt(chance) == 0){
 				float colFactor = rand.nextFloat()*0.6F+0.4F;
@@ -193,8 +193,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					int tpX, tpY, tpZ;
 					
 					for(int attempt = 0; attempt < 100; attempt++){
-						tpX = (int)Math.floor(posX)+rand.nextInt(41)-20;
-						tpZ = (int)Math.floor(posZ)+rand.nextInt(41)-20;
+						tpX = MathUtil.floor(posX)+rand.nextInt(41)-20;
+						tpZ = MathUtil.floor(posZ)+rand.nextInt(41)-20;
 						tpY = worldObj.getTopSolidOrLiquidBlock(tpX,tpZ)-1;
 						
 						if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.end_terrain){
@@ -415,7 +415,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								break;
 								
 							case WORKER:
-								if (rand.nextInt(270) == 0 && worldObj.getBlock((int)Math.floor(posX),(int)Math.floor(posY)+1,(int)Math.floor(posZ)) != BlockList.ender_goo){
+								if (rand.nextInt(270) == 0 && worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY)+1,MathUtil.floor(posZ)) != BlockList.ender_goo){
 									for(int attempt = 0, tpX, tpY, tpZ; attempt < 50; attempt++){
 										tpX = (int)posX+rand.nextInt(71)-35;
 										tpZ = (int)posZ+rand.nextInt(71)-35;
@@ -493,9 +493,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								if (isCarrying() && getCarrying().getItem() == Item.getItemFromBlock(Blocks.tnt)){
 									if (rand.nextInt(50) == 0){
 										for(int attempt = 0, xx, yy, zz; attempt < 30; attempt++){
-											xx = (int)Math.floor(posX)+rand.nextInt(7)-3;
-											yy = (int)Math.floor(posY)+rand.nextInt(3)-1;
-											zz = (int)Math.floor(posZ)+rand.nextInt(7)-3;
+											xx = MathUtil.floor(posX)+rand.nextInt(7)-3;
+											yy = MathUtil.floor(posY)+rand.nextInt(3)-1;
+											zz = MathUtil.floor(posZ)+rand.nextInt(7)-3;
 											
 											if (worldObj.getBlock(xx,yy,zz) == BlockList.end_terrain && worldObj.isAirBlock(xx,yy+1,zz)){
 												worldObj.spawnEntityInWorld(new EntityTNTPrimed(worldObj,xx+0.5D,yy+1.5D,zz+0.5D,this));

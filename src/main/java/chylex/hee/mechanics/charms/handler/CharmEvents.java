@@ -356,9 +356,9 @@ public final class CharmEvents{
 				for(int attempt = 0, xx, yy, zz; attempt < 128; attempt++){
 					float ang = targetPlayer.worldObj.rand.nextFloat()*2F*(float)Math.PI;
 					
-					xx = (int)Math.floor(targetPlayer.posX+MathHelper.cos(ang)*lastResortDist[randIndex]);
-					zz = (int)Math.floor(targetPlayer.posZ+MathHelper.sin(ang)*lastResortDist[randIndex]);
-					yy = (int)Math.floor(targetPlayer.posY)-2;
+					xx = MathUtil.floor(targetPlayer.posX+MathHelper.cos(ang)*lastResortDist[randIndex]);
+					zz = MathUtil.floor(targetPlayer.posZ+MathHelper.sin(ang)*lastResortDist[randIndex]);
+					yy = MathUtil.floor(targetPlayer.posY)-2;
 					
 					for(int yAttempt = 0; yAttempt <= 6; yAttempt++){
 						if (!targetPlayer.worldObj.isAirBlock(xx,yy-1,zz) && targetPlayer.worldObj.isAirBlock(xx,yy,zz) && targetPlayer.worldObj.isAirBlock(xx,yy+1,zz)){
@@ -416,7 +416,7 @@ public final class CharmEvents{
 			!e.entityLiving.isChild() && e.entity.worldObj.getGameRules().getGameRuleBooleanValue("doMobLoot")){
 			// BASIC_MAGIC / EQUALITY
 			int xp = (int)ReflectionPublicizer.invoke(ReflectionPublicizer.entityLivingBaseGetExperiencePoints,e.entityLiving,(EntityPlayer)e.source.getSourceOfDamage());
-			xp = (int)Math.ceil(getPropPercentIncrease((EntityPlayer)e.source.getSourceOfDamage(),"exp",xp)); // extra xp only
+			xp = MathUtil.ceil(getPropPercentIncrease((EntityPlayer)e.source.getSourceOfDamage(),"exp",xp)); // extra xp only
 			
 			while(xp > 0){
 				int split = EntityXPOrb.getXPSplit(xp);
@@ -434,7 +434,7 @@ public final class CharmEvents{
 		if (e.getPlayer() == null)return;
 		
 		// BASIC_MAGIC / EQUALITY
-		e.setExpToDrop(e.getExpToDrop()+(int)Math.ceil(getPropPercentIncrease(e.getPlayer(),"exp",e.getExpToDrop())));
+		e.setExpToDrop(e.getExpToDrop()+MathUtil.ceil(getPropPercentIncrease(e.getPlayer(),"exp",e.getExpToDrop())));
 	}
 	
 	/**
@@ -460,7 +460,7 @@ public final class CharmEvents{
 				
 				ItemStack newIS = e.original.copy();
 				newIS.stackSize = 1;
-				newIS.setItemDamage(newIS.getMaxDamage()-(int)Math.floor(newIS.getMaxDamage()*Math.min(1F,toRepair)));
+				newIS.setItemDamage(newIS.getMaxDamage()-MathUtil.floor(newIS.getMaxDamage()*Math.min(1F,toRepair)));
 				
 				EntityItem newItem = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY+e.entityPlayer.getEyeHeight()-0.3D,e.entity.posZ,newIS);
 				newItem.delayBeforeCanPickup = 40;

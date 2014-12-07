@@ -4,10 +4,10 @@ import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureCinderPatch;
+import chylex.hee.world.structure.island.biome.feature.mountains.StructureDungeonPuzzle;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureIgneousRockOre;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureLavaPool;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureMiningSpot;
-import chylex.hee.world.structure.island.biome.feature.mountains.StructureDungeonPuzzle;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureResourcePit;
 
 public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{

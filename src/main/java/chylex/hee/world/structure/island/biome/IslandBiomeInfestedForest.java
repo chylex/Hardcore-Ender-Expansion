@@ -7,6 +7,7 @@ import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.InfestationSavefile;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
@@ -60,7 +61,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 			if (world.rand.nextInt(5) <= 2)continue;
 			
 			EntityPlayer player = (EntityPlayer)o;
-			int xx = (int)Math.floor(player.posX), yy = (int)Math.floor(player.posY), zz = (int)Math.floor(player.posZ);
+			int xx = MathUtil.floor(player.posX), yy = MathUtil.floor(player.posY), zz = MathUtil.floor(player.posZ);
 			boolean found = false;
 			
 			for(int testY = yy-2; testY <= yy+1 && !found; testY++){

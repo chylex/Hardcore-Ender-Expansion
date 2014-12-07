@@ -1,7 +1,6 @@
 package thaumcraft.api.crafting;
 
 import java.util.ArrayList;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import thaumcraft.api.ThaumcraftApiHelper;

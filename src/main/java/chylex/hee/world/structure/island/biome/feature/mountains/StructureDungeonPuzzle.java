@@ -57,7 +57,7 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 				airZ = zz+rand.nextInt(31)-15;
 				
 				if (MathUtil.distance(airX-xx,airZ-zz) < 10D)continue;
-				if (world.isAir((int)Math.floor(airX),(int)Math.floor(airY),(int)Math.floor(airZ))){
+				if (world.isAir(MathUtil.floor(airX),MathUtil.floor(airY),MathUtil.floor(airZ))){
 					foundAir = true;
 					break;
 				}
@@ -85,11 +85,11 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 			
 			while(true){
 				float rad = rand.nextFloat()*0.3F+1.9F;
-				intrad = (int)Math.ceil(rad);
+				intrad = MathUtil.ceil(rad);
 				
-				for(int px = (int)Math.floor(airX-intrad); px <= airX+intrad; px++){
-					for(int py = (int)Math.floor(airY-intrad); py <= airY+intrad; py++){
-						for(int pz = (int)Math.floor(airZ-intrad); pz <= airZ+intrad; pz++){
+				for(int px = MathUtil.floor(airX-intrad); px <= airX+intrad; px++){
+					for(int py = MathUtil.floor(airY-intrad); py <= airY+intrad; py++){
+						for(int pz = MathUtil.floor(airZ-intrad); pz <= airZ+intrad; pz++){
 							if (CaveGenerator.getDistance((int)(px-airX),(int)(py-airY),(int)(pz-airZ)) < rad+rand.nextFloat()*0.35F){
 								if (world.getBlock(px,py,pz) == BlockList.dungeon_puzzle)++brokenDungBlocks;
 								world.setBlock(px,py,pz,Blocks.air);

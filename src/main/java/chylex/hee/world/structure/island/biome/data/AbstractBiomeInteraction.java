@@ -7,6 +7,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.ComponentIsland;
 
 public abstract class AbstractBiomeInteraction{
@@ -22,9 +23,9 @@ public abstract class AbstractBiomeInteraction{
 		this.entity = entity;
 		this.world = entity.worldObj;
 		this.rand = entity.worldObj.rand;
-		this.centerX = (int)Math.floor(entity.posX);
-		this.centerY = (int)Math.floor(entity.posY);
-		this.centerZ = (int)Math.floor(entity.posZ);
+		this.centerX = MathUtil.floor(entity.posX);
+		this.centerY = MathUtil.floor(entity.posY);
+		this.centerZ = MathUtil.floor(entity.posZ);
 	}
 	
 	public abstract void init();

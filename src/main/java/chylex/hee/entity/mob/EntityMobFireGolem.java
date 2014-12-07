@@ -87,7 +87,7 @@ public class EntityMobFireGolem extends EntityMob{
 					getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(cancelMovement);
 					rotationYaw = rotationYawHead;
 					
-					byte flameParticleAmountNew = (byte)((int)Math.floor(70-rangedStatus)>>2);
+					byte flameParticleAmountNew = (byte)(MathUtil.floor(70-rangedStatus)>>2);
 					
 					if (++rangedStatus > (ModCommonProxy.opMobs ? 28 : 38)){
 						flameParticleAmountNew = 0;
@@ -137,9 +137,9 @@ public class EntityMobFireGolem extends EntityMob{
 				
 				if (Math.pow(xx-posX,2)+Math.pow(yy-posY,2)+Math.pow(zz-posZ,2) < 30)continue;
 				
-				ix = (int)Math.floor(xx);
-				iy = (int)Math.floor(yy);
-				iz = (int)Math.floor(zz);
+				ix = MathUtil.floor(xx);
+				iy = MathUtil.floor(yy);
+				iz = MathUtil.floor(zz);
 				
 				if (!worldObj.isAirBlock(ix,iy-1,iz) && worldObj.isAirBlock(ix,iy,iz) && worldObj.isAirBlock(ix,iy+1,iz)){
 					setPosition(xx,yy,zz);

@@ -199,7 +199,7 @@ public class BiomeInteractionEnchantedIsland{
 				}
 				
 				if (--waitTimer < -8-rand.nextInt(12)){
-					waitTimer = 10+(int)Math.floor(15F*soundDist*(0.3F+rand.nextFloat()*0.6F));
+					waitTimer = 10+MathUtil.floor(15F*soundDist*(0.3F+rand.nextFloat()*0.6F));
 				}
 			}
 		}

@@ -9,6 +9,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.system.util.ItemDamagePair;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -144,7 +145,7 @@ public class TileEntityDecompositionTable extends TileEntityAbstractEnergyInvent
 	@SideOnly(Side.CLIENT)
 	public int getScaledProgressTime(int scale){
 		if (time == 0 && timeStep == 0)return -1;
-		return (int)Math.ceil(time*(double)scale/1000D);
+		return MathUtil.ceil(time*(double)scale/1000D);
 	}
 
 	@Override

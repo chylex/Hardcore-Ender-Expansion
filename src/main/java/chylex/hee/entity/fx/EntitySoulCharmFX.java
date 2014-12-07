@@ -63,7 +63,7 @@ public class EntitySoulCharmFX extends EntityFX{
 		
 		if (--breakCheckTimer < 0){
 			breakCheckTimer = 10;
-			if (worldObj.getBlock((int)Math.floor(posX),(int)Math.floor(posY),(int)Math.floor(posZ)) != getTargetBlock())age = (byte)(maxAge-18);
+			if (worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ)) != getTargetBlock())age = (byte)(maxAge-18);
 		}
 		
 		if (rand.nextInt(3) == 0)posX += rand.nextDouble()*0.02D-0.01D;

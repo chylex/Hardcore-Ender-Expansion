@@ -52,7 +52,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		if (--updatePedestalTimer <= 0){
 			updatePedestalTimer = 20;
 			
-			int maxPedestals = Math.min(12,8+((getSocketEffects(altar)&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE ? (int)Math.ceil(4F*getSocketBoost(altar)/26F) : 0));
+			int maxPedestals = Math.min(12,8+((getSocketEffects(altar)&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE ? MathUtil.ceil(4F*getSocketBoost(altar)/26F) : 0));
 			int range = maxPedestals > 8 ? 4 : 3;
 			long currentHash = 0L;
 			
@@ -178,7 +178,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					if (updateItemCounter(is,"HEE_repair",1) < 18)continue;
 					updateItemCounter(is,"HEE_repair",0);
 					
-					int amount = Math.min(is.getItemDamage(),Math.max(1,(int)Math.floor(Math.sqrt(is.getMaxDamage())*0.65D)));
+					int amount = Math.min(is.getItemDamage(),Math.max(1,MathUtil.floor(Math.sqrt(is.getMaxDamage())*0.65D)));
 					is.setItemDamage(is.getItemDamage()-amount);
 					item.hasChanged = true;
 				}
@@ -256,7 +256,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	}
 	
 	private int getEnchantmentCost(Enchantment ench, int level){
-		return (int)Math.floor(Math.max(1F,1F+(1.7F*level*((float)level/ench.getMaxLevel()))+(10-ench.getWeight())*0.2F));
+		return MathUtil.floor(Math.max(1F,1F+(1.7F*level*((float)level/ench.getMaxLevel()))+(10-ench.getWeight())*0.2F));
 	}
 	
 	/**

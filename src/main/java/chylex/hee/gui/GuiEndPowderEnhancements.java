@@ -13,6 +13,7 @@ import chylex.hee.mechanics.enhancements.SlotList;
 import chylex.hee.mechanics.enhancements.SlotList.SlotType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S01GuiEnhancementsClick;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -101,7 +102,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			int enhAmount = EnhancementHandler.getEnhancementsForItem(container.containerInv.getStackInSlot(0).getItem()).size();
 			
 			for(int a = 0, w = 18*enhAmount, x; a < enhAmount; a++){
-				x = (int)Math.floor(88-w*0.5F+18*a);
+				x = MathUtil.floor(88-w*0.5F+18*a);
 				drawTexturedModalRect(guiX+x,guiY+36,176,0,18,18);
 				container.enhancementSlotX[a] = x+1;
 			}
@@ -114,7 +115,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 					SlotType type = iter.next();
 					if (type != SlotType.POWDER && type != SlotType.INGREDIENT)throw new IllegalArgumentException("Invalid slot type "+type);
 	
-					x = (int)Math.floor(88-w*0.5F+18*(index++));
+					x = MathUtil.floor(88-w*0.5F+18*(index++));
 					drawTexturedModalRect(guiX+x,guiY+56,176,type == SlotType.POWDER ? 18 : 0,18,18);
 					(type == SlotType.POWDER ? container.powderSlots : container.ingredientSlots)[type == SlotType.POWDER ? indexPowder++ : indexIngredient++].xDisplayPosition = x+1;
 				}

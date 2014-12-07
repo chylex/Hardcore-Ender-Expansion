@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.commands.DebugBoard;
+import chylex.hee.system.util.MathUtil;
 
 public class DragonRewardManager{
 	private static byte[] difficultyHandicap = new byte[]{ 7,20,70,100 };
@@ -33,7 +34,7 @@ public class DragonRewardManager{
 	public void addHandicap(float v, boolean playerAffect){
 		if (playerAffect)extraHandicap += v/Math.max(1F,dragon.worldObj.playerEntities.size()/1.5F);
 		else extraHandicap += v;
-		DebugBoard.updateValue("Rwrd_Handicap",(int)Math.floor(extraHandicap));
+		DebugBoard.updateValue("Rwrd_Handicap",MathUtil.floor(extraHandicap));
 	}
 	
 	public float getExtraHandicap(){
@@ -41,7 +42,7 @@ public class DragonRewardManager{
 	}
 	
 	private int getEssencePerTick(){
-		return 1+(int)Math.floor(getFinalDifficulty()/6F);
+		return 1+MathUtil.floor(getFinalDifficulty()/6F);
 	}
 	
 	public void updateManager(){
@@ -73,7 +74,7 @@ public class DragonRewardManager{
 	}
 	
 	public int getFinalDifficultyRaw(){
-		return getFinalDifficulty()+(int)Math.ceil(extraHandicap);
+		return getFinalDifficulty()+MathUtil.ceil(extraHandicap);
 	}
 	
 	public int getFinalDifficulty(){
@@ -83,7 +84,7 @@ public class DragonRewardManager{
 		if (total == 0)return finalDifficulty = 0;
 		
 		for(byte a = 0; a < difficultyHandicap.length; a++){
-			finalDiff += (int)Math.floor(difficultyHandicap[a]*((float)difficultyTimer[a]/(float)total));
+			finalDiff += MathUtil.floor(difficultyHandicap[a]*((float)difficultyTimer[a]/(float)total));
 		}
 		finalDifficulty = finalDiff -= Math.ceil(extraHandicap);
 		DebugBoard.updateValue("Rwrd_FinalDiff",finalDifficulty);

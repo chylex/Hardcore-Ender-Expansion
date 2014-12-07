@@ -137,7 +137,7 @@ public final class ApocalypseEvents{
 		EntityPlayer randPlayer = (EntityPlayer)world.playerEntities.get(world.rand.nextInt(world.playerEntities.size()));
 		double x = randPlayer.posX+world.rand.nextGaussian()*70D,
 			   z = randPlayer.posZ+world.rand.nextGaussian()*70D,
-			   y = world.getPrecipitationHeight((int)Math.floor(x),(int)Math.floor(z));
+			   y = world.getPrecipitationHeight(MathUtil.floor(x),MathUtil.floor(z));
 		
 		if (world.rand.nextInt(5) != 0 && MathUtil.distance(x-randPlayer.posX,z-randPlayer.posZ) < 40D)return;
 		

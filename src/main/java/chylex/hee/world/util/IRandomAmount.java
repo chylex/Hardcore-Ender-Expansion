@@ -3,6 +3,7 @@ import gnu.trove.map.hash.TIntIntHashMap;
 import java.util.Random;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.MathUtil;
 
 public interface IRandomAmount{
 	int generate(Random rand, int minAmount, int maxAmount);
@@ -26,7 +27,7 @@ public interface IRandomAmount{
 	preferSmaller = new IRandomAmount(){
 		@Override
 		public int generate(Random rand, int minAmount, int maxAmount){
-			return minAmount+(int)Math.floor(rand.nextDouble()*rand.nextDouble()*(1+maxAmount-minAmount));
+			return minAmount+MathUtil.floor(rand.nextDouble()*rand.nextDouble()*(1+maxAmount-minAmount));
 		}
 	},
 	

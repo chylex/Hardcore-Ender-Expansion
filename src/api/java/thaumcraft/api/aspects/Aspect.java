@@ -3,10 +3,8 @@ package thaumcraft.api.aspects;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-
 import org.apache.commons.lang3.text.WordUtils;
 
 public class Aspect {

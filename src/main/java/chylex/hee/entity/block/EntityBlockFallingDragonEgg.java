@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockDragonEggCustom;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 	public EntityBlockFallingDragonEgg(World world){
@@ -69,7 +70,7 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 	}
 
 	private void die(){
-		if (!worldObj.isRemote && !BlockDragonEggCustom.teleportNearby(worldObj,(int)Math.floor(posX),(int)Math.floor(posY),(int)Math.floor(posZ))){
+		if (!worldObj.isRemote && !BlockDragonEggCustom.teleportNearby(worldObj,MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ))){
 			BlockDragonEggCustom.teleportEntityToPortal(this);
 		}
 		

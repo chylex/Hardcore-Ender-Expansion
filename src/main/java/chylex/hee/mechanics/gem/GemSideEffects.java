@@ -8,6 +8,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.storage.WorldInfo;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.weight.IWeightProvider;
 import chylex.hee.system.weight.WeightedList;
 
@@ -43,23 +44,23 @@ public enum GemSideEffects implements IWeightProvider{
 			case DEFLECTION:
 				double ang = rand.nextDouble()*2D*Math.PI,len = rand.nextDouble()*72D*percBroken*percBroken;
 				double x = entity.posX+Math.cos(ang)*len,z = entity.posZ+Math.sin(ang)*len;
-				entity.setLocationAndAngles(x+0.5D,entity.worldObj.getTopSolidOrLiquidBlock((int)Math.floor(x),(int)Math.floor(z))+1D,z+0.5D,entity.rotationYaw,entity.rotationPitch);
+				entity.setLocationAndAngles(x+0.5D,entity.worldObj.getTopSolidOrLiquidBlock(MathUtil.floor(x),MathUtil.floor(z))+1D,z+0.5D,entity.rotationYaw,entity.rotationPitch);
 				break;
 				
 			case SLOWNESS:
-				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,(int)Math.ceil(280f*percBroken),1,true));
+				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,MathUtil.ceil(280f*percBroken),1,true));
 				break;
 				
 			case NAUSEA:
-				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.confusion.id,(int)Math.ceil(340f*percBroken),0,true));
+				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.confusion.id,MathUtil.ceil(340f*percBroken),0,true));
 				break;
 				
 			case WEAKNESS:
-				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.weakness.id,(int)Math.ceil(320f*percBroken),1,true));
+				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.weakness.id,MathUtil.ceil(320f*percBroken),1,true));
 				break;
 				
 			case HUNGER:
-				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.hunger.id,(int)Math.ceil(265f*percBroken),0,true));
+				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.hunger.id,MathUtil.ceil(265f*percBroken),0,true));
 				break;
 				
 			case ENDERMEN:

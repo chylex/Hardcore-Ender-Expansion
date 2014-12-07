@@ -28,7 +28,7 @@ public class BlobPopulatorLake extends BlobPopulator{
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		double rad = minRadius+rand.nextDouble()*(maxRadius-minRadius);
-		int irad = (int)Math.ceil(rad);
+		int irad = MathUtil.ceil(rad);
 		
 		for(int attempt = 0, x, y, z; attempt < 30; attempt++){ // TODO fix
 			x = rand.nextInt(32)-16;

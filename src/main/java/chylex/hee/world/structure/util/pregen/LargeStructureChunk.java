@@ -14,6 +14,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 
 public class LargeStructureChunk{
@@ -119,7 +120,7 @@ public class LargeStructureChunk{
 								if (entry.getKey().chunkXPos == x && entry.getKey().chunkZPos == z){
 									Entity entity = entry.getValue();
 									
-									int ix = (int)Math.floor(entity.posX), iy = (int)Math.floor(entity.posY), iz = (int)Math.floor(entity.posZ);
+									int ix = MathUtil.floor(entity.posX), iy = MathUtil.floor(entity.posY), iz = MathUtil.floor(entity.posZ);
 									double fx = entity.posX-ix, fy = entity.posY-iy, fz = entity.posZ-iz;
 									ix += addX; iy += addY; iz += addZ;
 									

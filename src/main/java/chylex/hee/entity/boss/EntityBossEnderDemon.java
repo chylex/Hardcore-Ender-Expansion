@@ -23,6 +23,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
 	private static final PotionEffect endermanStrength = new PotionEffect(Potion.damageBoost.id,600,2,true);
@@ -100,9 +101,9 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 					for(attempt = 0; attempt < 40; attempt++){
 						double ang = rand.nextDouble()*Math.PI*2D,len = 3.5D+rand.nextDouble()*2D;
 						
-						ix = (int)Math.floor(player.posX+Math.cos(ang)*len);
-						iz = (int)Math.floor(player.posZ+Math.sin(ang)*len);
-						for(iy = (int)Math.floor(player.posY)-2; iy < player.posY+3; iy++){
+						ix = MathUtil.floor(player.posX+Math.cos(ang)*len);
+						iz = MathUtil.floor(player.posZ+Math.sin(ang)*len);
+						for(iy = MathUtil.floor(player.posY)-2; iy < player.posY+3; iy++){
 							if (worldObj.isAirBlock(ix,iy,iz) && worldObj.isAirBlock(ix,iy+1,iz) && worldObj.isAirBlock(ix,iy+2,iz)){
 								for(int a = 0; a<(ModCommonProxy.opMobs?4:3); a++){
 									EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(worldObj,ix+rand.nextDouble(),iy,iz+rand.nextDouble());
@@ -131,9 +132,9 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 					EntityPlayer player = list.get(rand.nextInt(list.size()));
 					
 					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 25 && placed < 12+worldObj.difficultySetting.getDifficultyId()*2; attempt++){
-						xx = (int)Math.floor(player.posX)+rand.nextInt(9)-4;
-						yy = (int)Math.floor(player.posY)+9+rand.nextInt(6);
-						zz = (int)Math.floor(player.posZ)+rand.nextInt(9)-4;
+						xx = MathUtil.floor(player.posX)+rand.nextInt(9)-4;
+						yy = MathUtil.floor(player.posY)+9+rand.nextInt(6);
+						zz = MathUtil.floor(player.posZ)+rand.nextInt(9)-4;
 						
 						if (worldObj.isAirBlock(xx,yy,zz) && worldObj.isAirBlock(xx,yy-1,zz)){
 							worldObj.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,3);
@@ -149,7 +150,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 		if (worldObj.isRemote)return;
 		
 		boolean hasBlockBelow = false;
-		for(int ix = (int)Math.floor(posX),iz = (int)Math.floor(posZ),yy = (int)Math.floor(posY); yy > posY-22; yy--){
+		for(int ix = MathUtil.floor(posX),iz = MathUtil.floor(posZ),yy = MathUtil.floor(posY); yy > posY-22; yy--){
 			if (!worldObj.isAirBlock(ix,yy,iz)){
 				hasBlockBelow = true;
 				break;

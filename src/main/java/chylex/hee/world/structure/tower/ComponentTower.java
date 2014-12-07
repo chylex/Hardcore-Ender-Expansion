@@ -154,7 +154,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		// ISLAND
 		
 		float rad = rand.nextFloat()*3.5F+9F;
-		int ceilRad = (int)Math.ceil(rad);
+		int ceilRad = MathUtil.ceil(rad);
 		
 		for(int a = centerX-ceilRad; a <= centerX+ceilRad; a++){
 			for(int b = centerX-ceilRad; b <= centerX+ceilRad; b++){
@@ -757,11 +757,11 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 			spawnerRand.setSeed(minY*256L+x*341873128712L+z*132897987541L+world.getWorldInfo().getSeed()+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount());
 			
 			List<PotionEffect> effects = new ArrayList<>();
-			int amount = (int)Math.round(difficulty/2.7D)+spawnerRand.nextInt(1+(int)Math.ceil(difficulty/3D));
+			int amount = (int)Math.round(difficulty/2.7D)+spawnerRand.nextInt(1+MathUtil.ceil(difficulty/3D));
 			
 			for(int a = 0; a < amount; a++){
 				Potion potion = availablePotions.get(spawnerRand.nextInt(availablePotions.size()));
-				effects.add(new PotionEffect(potion.id,12000,Math.min(3,(int)Math.floor(difficulty/4.4D+spawnerRand.nextDouble()*(difficulty/3.8D)))));
+				effects.add(new PotionEffect(potion.id,12000,Math.min(3,MathUtil.floor(difficulty/4.4D+spawnerRand.nextDouble()*(difficulty/3.8D)))));
 				
 				availablePotions.remove(potion);
 				if (availablePotions.isEmpty())break;

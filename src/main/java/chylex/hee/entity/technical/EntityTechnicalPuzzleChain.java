@@ -8,6 +8,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityTechnicalPuzzleChain extends Entity{
 	private byte dir;
@@ -32,7 +33,7 @@ public class EntityTechnicalPuzzleChain extends Entity{
 		if (ticksExisted%8 == 1){
 			setPosition(posX+Direction.offsetX[dir],posY,posZ+Direction.offsetZ[dir]);
 			
-			int x = (int)Math.floor(posX), y = (int)Math.floor(posY), z = (int)Math.floor(posZ);
+			int x = MathUtil.floor(posX), y = MathUtil.floor(posY), z = MathUtil.floor(posZ);
 			
 			if (worldObj.getBlock(x,y,z) == BlockList.dungeon_puzzle){
 				if (((BlockDungeonPuzzle)BlockList.dungeon_puzzle).updateChain(worldObj,x,y,z,dir)){

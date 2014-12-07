@@ -1,8 +1,8 @@
 package chylex.hee.gui.core;
 import java.util.Set;
-import chylex.hee.gui.GuiModConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import chylex.hee.gui.GuiModConfig;
 import cpw.mods.fml.client.IModGuiFactory;
 
 public final class ModGuiFactory implements IModGuiFactory{

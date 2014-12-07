@@ -2,7 +2,6 @@ package thaumcraft.api.crafting;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

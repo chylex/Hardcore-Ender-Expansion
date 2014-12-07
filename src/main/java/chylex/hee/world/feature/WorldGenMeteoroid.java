@@ -26,7 +26,7 @@ public class WorldGenMeteoroid extends WorldGenerator{
 		double dx, dy, dz, addX, addY, addZ, rad = 3.6D+rand.nextDouble()*2.8D;
 		float fillFactor = 0.2F+rand.nextFloat()*0.35F, stardustChance = 0.12F+rand.nextFloat()*rand.nextFloat()*0.15F;
 		
-		for(int attempt = 0, maxAttempts = 20+(int)(rad+rad*rad*5), block, lineBlocks = (int)Math.ceil(rad/0.9D); attempt < maxAttempts; attempt++){
+		for(int attempt = 0, maxAttempts = 20+(int)(rad+rad*rad*5), block, lineBlocks = MathUtil.ceil(rad/0.9D); attempt < maxAttempts; attempt++){
 			dx = x+0.5D;
 			dy = y+0.5D;
 			dz = z+0.5D;

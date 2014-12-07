@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
 public class FieryEssenceHandler extends AltarActionHandler{
@@ -28,7 +29,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 		
 		byte socketEffects = getSocketEffects(altar),socketBoost = getSocketBoost(altar);
 		
-		int range = 12+((socketEffects&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE?(int)Math.floor(Math.sqrt(socketBoost*3D))*2:0);
+		int range = 12+((socketEffects&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE?MathUtil.floor(Math.sqrt(socketBoost*3D))*2:0);
 		n += (range-12)*2;
 		
 		if ((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST)n += socketBoost*3;
@@ -97,7 +98,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	}
 	
 	private boolean tryDrainEssence(){
-		if (++essenceUsageCounter > 60+((getSocketEffects(altar)&EFFECT_LOWER_COST) == EFFECT_LOWER_COST ? 3+(int)Math.floor(getSocketBoost(altar)*0.7D) : 0)){
+		if (++essenceUsageCounter > 60+((getSocketEffects(altar)&EFFECT_LOWER_COST) == EFFECT_LOWER_COST ? 3+MathUtil.floor(getSocketBoost(altar)*0.7D) : 0)){
 			essenceUsageCounter = 0;
 			altar.drainEssence(1);
 			return true;

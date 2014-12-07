@@ -1,10 +1,10 @@
 package chylex.hee.world.structure.island.gen;
 import java.util.Random;
-import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.gen.NoiseGeneratorOctaves;
+import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 
 public class TerrainGenerator{
 	private final IslandBiomeBase biome;

@@ -4,6 +4,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemIgneousRock;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.IFuelHandler;
 
 public class ItemIgneousRock extends ItemAbstractCustomEntity implements IFuelHandler{
@@ -13,7 +14,7 @@ public class ItemIgneousRock extends ItemAbstractCustomEntity implements IFuelHa
 		float mp = world.provider.dimensionId == 1 ? 0.2F : world.provider.dimensionId == -1 ? 3F : 1F;
 
 		if (is != null && is.getItem() == ItemList.igneous_rock){
-			entity.setFire((int)Math.ceil(mp*(itemRand.nextInt(4)+3+Math.max(1,is.stackSize/10))));
+			entity.setFire(MathUtil.ceil(mp*(itemRand.nextInt(4)+3+Math.max(1,is.stackSize/10))));
 		}
 	}
 

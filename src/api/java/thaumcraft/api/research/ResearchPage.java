@@ -1,7 +1,6 @@
 package thaumcraft.api.research;
 
 import java.util.List;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;

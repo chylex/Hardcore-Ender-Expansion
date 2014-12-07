@@ -1,6 +1,6 @@
 package chylex.hee.api;
-import chylex.hee.mechanics.misc.StardustDecomposition;
 import net.minecraft.item.Item;
+import chylex.hee.mechanics.misc.StardustDecomposition;
 
 /**
  * API for Stardust and Decomposition Table (uncrafting).

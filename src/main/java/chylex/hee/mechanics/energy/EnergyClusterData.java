@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public final class EnergyClusterData{
@@ -44,7 +45,7 @@ public final class EnergyClusterData{
 				zz = cluster.zCoord+rand.nextInt(7)-3;
 				
 				if (world.isAirBlock(xx,yy,zz)){
-					world.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+(int)Math.floor(leak*4.5F),3);
+					world.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+MathUtil.floor(leak*4.5F),3);
 					++placed;
 				}
 			}

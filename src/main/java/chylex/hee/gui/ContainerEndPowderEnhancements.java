@@ -26,6 +26,7 @@ import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 
 public class ContainerEndPowderEnhancements extends Container{
 	private EntityPlayerMP owner;
@@ -272,11 +273,11 @@ public class ContainerEndPowderEnhancements extends Container{
 				
 				if (slots.amountPowder > 2){
 					float add = (rand.nextFloat()+rand.nextFloat())*0.49F*(slots.amountPowder-1);
-					powderBroken += rand.nextBoolean() ? (int)Math.floor(add) : (int)Math.ceil(add);
+					powderBroken += rand.nextBoolean() ? MathUtil.floor(add) : MathUtil.ceil(add);
 				}
 				
 				if (rand.nextInt(5) == 0 && powderBroken < slots.amountPowder){
-					ingredientsBroken = slots.amountIngredient == 1 ? 1 : 1+Math.min(slots.amountIngredient-1,(int)Math.floor((rand.nextFloat()+0.25F)*(slots.amountIngredient-1)));
+					ingredientsBroken = slots.amountIngredient == 1 ? 1 : 1+Math.min(slots.amountIngredient-1,MathUtil.floor((rand.nextFloat()+0.25F)*(slots.amountIngredient-1)));
 				}
 				
 				int index;

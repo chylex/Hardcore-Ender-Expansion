@@ -144,7 +144,7 @@ public class BlockEnergyCluster extends BlockContainer{
 		int energyMeta = Math.min(15,3+(int)(tile.data.getEnergyLevel()*0.8F));
 		
 		double dist = 4.4D+energyMeta*0.1D;
-		int idist = (int)Math.ceil(dist);
+		int idist = MathUtil.ceil(dist);
 		
 		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true);
 		

@@ -1,11 +1,11 @@
 package chylex.hee.entity.projectile;
-import chylex.hee.system.util.DragonUtil;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import chylex.hee.system.util.DragonUtil;
 
 public class EntityProjectileDragonFireball extends EntityFireball{
 	public float power = 2.5F;

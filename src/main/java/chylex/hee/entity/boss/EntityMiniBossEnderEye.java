@@ -135,9 +135,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 						if (attackAnim == 34){
 							if (worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){
 								for(int a = 0,hits = 0,x,y,z; a < 200 && hits < 16+worldObj.difficultySetting.getDifficultyId(); a++){
-									x = rand.nextInt(15)-7+(int)Math.floor(posX);
-									y = rand.nextInt(8)-4+(int)Math.floor(posY);
-									z = rand.nextInt(15)-7+(int)Math.floor(posZ);
+									x = rand.nextInt(15)-7+MathUtil.floor(posX);
+									y = rand.nextInt(8)-4+MathUtil.floor(posY);
+									z = rand.nextInt(15)-7+MathUtil.floor(posZ);
 									
 									Block block = worldObj.getBlock(x,y,z);
 									if (block.getMaterial() != Material.air && block.getBlockHardness(worldObj,x,y,z) != -1F){
@@ -194,11 +194,11 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					 */
 					else if (attackType == AttackType.LaserBeams){
 						if (attackAnim > 35 && attackAnim < 99 && attackAnim%7 == 0){
-							int myY = (int)Math.floor(posY), attempt, x, y, z, minY;
+							int myY = MathUtil.floor(posY), attempt, x, y, z, minY;
 							
 							for(attempt = 0; attempt < 12; attempt++){
-								x = (int)Math.floor(posX)+rand.nextInt(17)-8;
-								z = (int)Math.floor(posZ)+rand.nextInt(17)-8;
+								x = MathUtil.floor(posX)+rand.nextInt(17)-8;
+								z = MathUtil.floor(posZ)+rand.nextInt(17)-8;
 								
 								if (worldObj.getBlock(x,myY,z) != Blocks.air)continue;
 								
@@ -261,9 +261,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 			
 			if (worldObj.difficultySetting.getDifficultyId() > 1 || ModCommonProxy.opMobs){
 				for(int a = 0, hits = 0, x, y, z; a < 400 && hits < 5+worldObj.difficultySetting.getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
-					x = rand.nextInt(15)-7+(int)Math.floor(posX);
-					y = rand.nextInt(8)-4+(int)Math.floor(posY);
-					z = rand.nextInt(15)-7+(int)Math.floor(posZ);
+					x = rand.nextInt(15)-7+MathUtil.floor(posX);
+					y = rand.nextInt(8)-4+MathUtil.floor(posY);
+					z = rand.nextInt(15)-7+MathUtil.floor(posZ);
 					
 					Block block = worldObj.getBlock(x,y,z);
 					

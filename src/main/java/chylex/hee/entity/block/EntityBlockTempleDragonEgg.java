@@ -9,6 +9,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.temple.TempleEvents;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	public EntityBlockTempleDragonEgg(World world){
@@ -32,7 +33,7 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 		prevPosZ = posZ;
 		
 		if (++field_145812_b == 1 && !worldObj.isRemote){
-			int xx = (int)Math.floor(posX), yy = (int)Math.floor(posY), zz = (int)Math.floor(posZ);
+			int xx = MathUtil.floor(posX), yy = MathUtil.floor(posY), zz = MathUtil.floor(posZ);
 			if (worldObj.getBlock(xx,yy,zz) != func_145805_f()){ // OBFUSCATED get block
 				setDead();
 				return;
