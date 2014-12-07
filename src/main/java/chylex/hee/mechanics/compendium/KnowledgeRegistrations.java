@@ -538,6 +538,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(893).setPrice(4).setUnlockRequirements(892),
 				new KnowledgeFragmentText(894).setPrice(8).setUnlockRequirements(893),
 				new KnowledgeFragmentText(895).setPrice(4).setUnlockRequirements(891),
+				new KnowledgeFragmentText(289).setPrice(5).setUnlockRequirements(892),
 				new KnowledgeFragmentText(896).setPrice(5).setUnlockRequirements(892),
 				new KnowledgeFragmentText(897).setPrice(4).setUnlockRequirements(896),
 				new KnowledgeFragmentText(898).setPrice(5).setUnlockRequirements(891),

@@ -19,7 +19,7 @@ final class MobEnergy{
 		energy.put(EntityMobBabyEnderman.class, 0.05F);
 		energy.put(EntityMobEndermage.class, 0.15F);
 		energy.put(EntityMiniBossEnderEye.class, 0.35F);
-		energy.put(EntityBossDragon.class, 8F);
+		energy.put(EntityBossDragon.class, 2F);
 	}
 	
 	public static float getEnergy(EntityLivingBase entity){

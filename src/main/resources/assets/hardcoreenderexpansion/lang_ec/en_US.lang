@@ -187,6 +187,7 @@ ec.reg.892=Both forms slowly regenerate Energy up to a certain point. Too much E
 ec.reg.893=Corrupted Energy is also created by breaking a Cluster, accompanied by a fiery explosion.
 ec.reg.894=Getting in contact with Corrupted Energy causes massive amount of damage that penetrates armor.
 ec.reg.895=Energy in the End moves to areas with lower levels of Energy to stay in balance.
+ec.reg.289=Killing certain mobs in the End releases small amounts of Energy to the environment.
 ec.reg.896=Energy Clusters have different health levels, which affect the regeneration (or leaking) speed.
 ec.reg.897=Clusters can be moved using Energy Wand. Moving them too far or across dimensions can have negative effect on their health
 ec.reg.898=Blocks that use Energy will take it from Clusters up to 16 blocks away, and from the environment if placed in the End.

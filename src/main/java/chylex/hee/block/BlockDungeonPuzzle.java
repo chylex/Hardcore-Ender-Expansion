@@ -23,7 +23,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	private static final Material dungeonPuzzle = new MaterialDungeonPuzzle();
-	public static final byte dungeonSize = 9;
+	
+	public static final byte maxDungeonSize = 13;
 	
 	public static final byte metaTriggerUnlit = 0, metaTriggerLit = 1, metaChainedUnlit = 2, metaChainedLit = 3,
 							 metaDistributorSpreadUnlit = 4, metaDistributorSpreadLit = 5,
@@ -96,25 +97,29 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+0.5D,y+0.5D,z+0.5D));
 		}
 		
-		if (world.getEntitiesWithinAABB(EntityTechnicalPuzzleChain.class,AxisAlignedBB.getBoundingBox(x+0.5D-dungeonSize,y,z+0.5D-dungeonSize,x+0.5D+dungeonSize,y+1D,z+0.5D+dungeonSize)).size() == 1){
-			int startX = x+1, startZ = z+1, cnt = 0;
+		if (world.getEntitiesWithinAABB(EntityTechnicalPuzzleChain.class,AxisAlignedBB.getBoundingBox(x+0.5D-maxDungeonSize,y,z+0.5D-maxDungeonSize,x+0.5D+maxDungeonSize,y+1D,z+0.5D+maxDungeonSize)).size() == 1){
+			int startX = x+1, startZ = z+1, endX = x-1, endZ = z-1, cnt = 0;
 			boolean isFinished = true;
 			
 			while(world.getBlock(--startX,y,z) == this);
 			while(world.getBlock(x,y,--startZ) == this);
+			while(world.getBlock(++endX,y,z) == this); // TODO fix
+			while(world.getBlock(x,y,++endZ) == this);
 			
 			++startX;
 			++startZ;
+			--endX;
+			--endZ;
 			
-			for(int xx = startX; xx < startX+dungeonSize; xx++){
-				for(int zz = startZ; zz < startZ+dungeonSize; zz++){
+			for(int xx = startX; xx <= endX; xx++){
+				for(int zz = startZ; zz <= endZ; zz++){
 					if (world.getBlock(xx,y,zz) != this)continue;
 					
 					++cnt;
 					
 					if (!isLit(toggleState(world.getBlockMetadata(xx,y,zz)))){
 						isFinished = false;
-						xx += dungeonSize;
+						xx = endX+1;
 						break;
 					}
 				}
