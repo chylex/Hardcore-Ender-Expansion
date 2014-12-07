@@ -22,6 +22,10 @@ public final class MathUtil{
 		return rad*D_R2D;
 	}
 	
+	public static int square(int n){
+		return n*n;
+	}
+	
 	public static float square(float n){
 		return n*n;
 	}

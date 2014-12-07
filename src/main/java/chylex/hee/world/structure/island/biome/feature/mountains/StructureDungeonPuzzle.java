@@ -1,6 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Vec3;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
@@ -132,12 +133,68 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 			
 			// generate distributors
 			
+			for(int amt = 2+rand.nextInt(3+rand.nextInt(xSize*zSize > 90 ? 5 : 3)), distrAttempt = amt*2, posX, posZ, meta, type; distrAttempt > 0 && amt > 0; distrAttempt--){
+				posX = xx+rand.nextInt(distX*2+1)-distX;
+				posZ = zz+rand.nextInt(distZ*2+1)-distZ;
+				meta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,posZ));
+				type = rand.nextInt(2); // 0 = spread, 1 = square
+				
+				if (meta == BlockDungeonPuzzle.metaTriggerUnlit || (meta == BlockDungeonPuzzle.metaChainedUnlit && rand.nextInt(5) > 2)){
+					if (type == 0){
+						int nextX = Integer.MIN_VALUE, nextZ = Integer.MIN_VALUE;
+						
+						for(int px = xx-distX+1; px <= xx+distX-1; px++){
+							if (px != posX && BlockDungeonPuzzle.getUnlit(world.getMetadata(px,yy,posZ)) == BlockDungeonPuzzle.metaDistributorSpreadUnlit){
+								nextX = px;
+								break;
+							}
+						}
+						
+						for(int pz = zz-distZ+1; pz <= zz+distZ-1; pz++){
+							if (pz != posZ && BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,zz)) == BlockDungeonPuzzle.metaDistributorSpreadUnlit){
+								nextZ = pz;
+								break;
+							}
+						}
+						
+						if (nextX != Integer.MIN_VALUE && nextZ != Integer.MIN_VALUE && BlockDungeonPuzzle.getUnlit(world.getMetadata(nextX,yy,nextZ)) == BlockDungeonPuzzle.metaDistributorSpreadUnlit){
+							continue;
+						}
+					}
+					
+					world.setBlock(posX,yy,posZ,BlockList.dungeon_puzzle,pickBlock(type == 0 ? BlockDungeonPuzzle.metaDistributorSpreadUnlit : BlockDungeonPuzzle.metaDistributorSquareUnlit,rand));
+				}
+			}
+			
 			// generate additional non-triggerable blocks
+			
+			for(int amt = 1+rand.nextInt(6+(rand.nextInt(xSize*2+zSize*2)>>3))+(MathUtil.square(xSize)>>4)+(MathUtil.square(zSize)>>4), chainAttempt = amt*3, posX, posZ, meta; chainAttempt > 0 && amt > 0; chainAttempt--){
+				posX = xx+rand.nextInt(distX*2+1)-distX;
+				posZ = zz+rand.nextInt(distZ*2+1)-distZ;
+				
+				if ((meta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,posZ))) == BlockDungeonPuzzle.metaTriggerUnlit){
+					boolean canSpawn = true;
+					
+					for(int dir = 0, adjacentNonTrig = 0, adjMeta; dir < 4; dir++){
+						adjMeta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX+Direction.offsetX[dir],yy,posZ+Direction.offsetZ[dir]));
+						
+						if ((adjMeta == BlockDungeonPuzzle.metaChainedUnlit && ++adjacentNonTrig > 1) || adjMeta != BlockDungeonPuzzle.metaTriggerUnlit){
+							canSpawn = false;
+							break;
+						}
+					}
+					
+					if (!canSpawn)continue;
+					
+					--amt;
+					if (rand.nextInt(3) == 0)--amt;
+				}
+			}
 			
 			// generate entrance cave
 			
 			Vec3 caveVec = Vec3.createVectorHelper(xx-airX,yy-airY,zz-airZ).normalize();
-			int iterLimiter = 0,intrad,add = 1+rand.nextInt(4),brokenDungBlocks = 0;
+			int iterLimiter = 0, intrad, add = 1+rand.nextInt(4), brokenDungBlocks = 0;
 			yy += add;
 			
 			while(true){
@@ -158,7 +215,7 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 				airX += caveVec.xCoord*0.6D;
 				airY += caveVec.yCoord*0.6D;
 				airZ += caveVec.zCoord*0.6D;
-				if (Math.sqrt(MathUtil.square(xx-airX)+MathUtil.square(yy-airY)+MathUtil.square(zz-airZ)) < 4.8D || brokenDungBlocks > 4 || ++iterLimiter > 30)break;
+				if (MathUtil.distance(xx-airX,yy-airY,zz-airZ) < 4.8D || brokenDungBlocks > 4 || ++iterLimiter > 30)break;
 			}
 			
 			yy -= add;
