@@ -15,6 +15,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
+import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
@@ -30,13 +31,13 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	public static final byte metaTriggerUnlit = 0, metaTriggerLit = 1, metaChainedUnlit = 2, metaChainedLit = 3,
 							 metaDistributorSpreadUnlit = 4, metaDistributorSpreadLit = 5,
 							 metaDistributorSquareUnlit = 6, metaDistributorSquareLit = 7,
-							 metaWall = 13, metaRock = 14, metaCeiling = 15;
+							 metaDisabled = 12, metaWall = 13, metaRock = 14, metaCeiling = 15;
 	
-	public static final byte[] icons = new byte[]{ 2, 3, 4, 5, 6, 7, 8, 9, 3, 3, 3, 3, 3, 0, 1, 3 };
+	public static final byte[] icons = new byte[]{ 2, 3, 4, 5, 6, 7, 8, 9, 3, 3, 3, 3, 10, 0, 1, 3 };
 	
 	public static final String[] names = new String[]{
 		"trigger.unlit", "trigger.lit", "chained.unlit", "chained.lit", "distr.spread.unlit", "distr.spread.lit", "distr.square.unlit", "distr.square.lit",
-		null, null, null, null, null, "wall", "rock", "ceiling"
+		null, null, null, null, "disabled", "wall", "rock", "ceiling"
 	};
 	
 	public static final boolean canTrigger(int meta){
@@ -44,7 +45,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	}
 	
 	public static final int toggleState(int meta){
-		if (meta == metaWall || meta == metaRock || meta == metaCeiling)return meta;
+		if (meta == metaWall || meta == metaRock || meta == metaCeiling || meta == metaDisabled)return meta;
 		else return (meta&1) == 0 ? meta+1 : meta-1;
 	}
 	
@@ -163,15 +164,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			
 			Stopwatch.finish("BlockDungeonPuzzle - win detection - conditions");
 			
-			int cx = minX+((maxX-minX+1)>>1), cz = minZ+((maxZ-minZ+1)>>1);
-			
-			if (isFinished && cnt > (maxX-minX+1)*(maxZ-minZ+1)*0.9D){
-				
-				// TODO
-				/*EntityMiniBossFireFiend fireFiend = new EntityMiniBossFireFiend(world);
-				fireFiend.setLocationAndAngles(cx+0.5D,y-4D,cz+0.5D,world.rand.nextFloat()*360F,0F);
-				world.spawnEntityInWorld(fireFiend);*/
-			}
+			if (isFinished && cnt > (maxX-minX+1)*(maxZ-minZ+1)*0.9D)world.spawnEntityInWorld(new EntityTechnicalPuzzleSolved(world,minX+((maxX-minX+1)>>1),y,minZ+((maxZ-minZ+1)>>1)));
 		}
 	}
 	
@@ -206,7 +199,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		for(byte meta:new byte[]{
-			metaWall, metaRock, metaCeiling, metaTriggerUnlit, metaTriggerLit, metaChainedUnlit, metaChainedLit,
+			metaWall, metaRock, metaCeiling, metaDisabled, metaTriggerUnlit, metaTriggerLit, metaChainedUnlit, metaChainedLit,
 			metaDistributorSpreadUnlit, metaDistributorSpreadLit, metaDistributorSquareUnlit, metaDistributorSquareLit,
 		})list.add(new ItemStack(item,1,meta));
 	}
@@ -214,7 +207,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[10];
+		iconArray = new IIcon[11];
 		iconArray[0] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_wall");
 		iconArray[1] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_wall_rock");
 		iconArray[2] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_trigger_unlit");
@@ -225,5 +218,6 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 		iconArray[7] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_spread_lit");
 		iconArray[8] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_square_unlit");
 		iconArray[9] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_square_lit");
+		iconArray[10] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_disabled");
 	}
 }

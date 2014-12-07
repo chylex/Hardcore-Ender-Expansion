@@ -49,6 +49,7 @@ tile.ravagedBrickFence.name=Ravaged Brick Fence
 tile.dungeonPuzzle.wall.name=Dungeon Puzzle (Wall)
 tile.dungeonPuzzle.rock.name=Dungeon Puzzle (Rock)
 tile.dungeonPuzzle.ceiling.name=Dungeon Puzzle (Ceiling)
+tile.dungeonPuzzle.disabled.name=Dungeon Puzzle (Disabled)
 tile.dungeonPuzzle.trigger.unlit.name=Dungeon Puzzle (Triggerable - Unlit)
 tile.dungeonPuzzle.trigger.lit.name=Dungeon Puzzle (Triggerable - Lit)
 tile.dungeonPuzzle.chained.unlit.name=Dungeon Puzzle (Non-triggerable - Unlit)
