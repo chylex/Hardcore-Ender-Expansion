@@ -7,7 +7,7 @@ import chylex.hee.world.structure.island.biome.feature.mountains.StructureCinder
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureIgneousRockOre;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureLavaPool;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureMiningSpot;
-import chylex.hee.world.structure.island.biome.feature.mountains.StructureMountainPuzzle;
+import chylex.hee.world.structure.island.biome.feature.mountains.StructureDungeonPuzzle;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureResourcePit;
 
 public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
@@ -18,7 +18,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	
 	private final StructureIgneousRockOre genIgneousRockOre = new StructureIgneousRockOre();
 	private final StructureCinderPatch genCinderPatch = new StructureCinderPatch();
-	private final StructureMountainPuzzle genMountainPuzzle = new StructureMountainPuzzle();
+	private final StructureDungeonPuzzle genMountainPuzzle = new StructureDungeonPuzzle();
 	private final StructureLavaPool genLavaPool = new StructureLavaPool();
 	private final StructureResourcePit genResourcePit = new StructureResourcePit();
 	private final StructureMiningSpot genMiningSpot = new StructureMiningSpot();

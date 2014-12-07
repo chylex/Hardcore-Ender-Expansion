@@ -59,6 +59,22 @@ public final class MathUtil{
 		return Math.cos(MathUtil.toRad(dir))*len;
 	}
 	
+	public static int floor(double n){
+		return (int)Math.floor(n);
+	}
+	
+	public static int floor(float n){
+		return (int)Math.floor(n);
+	}
+	
+	public static int ceil(double n){
+		return (int)Math.ceil(n);
+	}
+	
+	public static int ceil(float n){
+		return (int)Math.ceil(n);
+	}
+	
 	public static boolean floatEquals(float val1, float val2){
 		return Math.abs(val1-val2) < 0.00001F;
 	}

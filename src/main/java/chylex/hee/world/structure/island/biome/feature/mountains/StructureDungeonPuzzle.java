@@ -8,12 +8,17 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.island.gen.CaveGenerator;
 
-public class StructureMountainPuzzle extends AbstractIslandStructure{
-	private static final byte[] dungCheckX = new byte[]{ -4, -4, 4, 4 },
-								dungCheckZ = new byte[]{ -4, 4, -4, 4 };
+public class StructureDungeonPuzzle extends AbstractIslandStructure{
+	private static final byte[] checkX = new byte[]{ -1, -1, 1, 1 },
+								checkZ = new byte[]{ -1, 1, -1, 1 };
 
 	@Override
 	protected boolean generate(Random rand){
+		int xSize = BlockDungeonPuzzle.minDungeonSize+2*rand.nextInt(1+((BlockDungeonPuzzle.maxDungeonSize-BlockDungeonPuzzle.minDungeonSize)>>1)),
+			zSize = BlockDungeonPuzzle.minDungeonSize+2*rand.nextInt(1+((BlockDungeonPuzzle.maxDungeonSize-BlockDungeonPuzzle.minDungeonSize)>>1)),
+			checkMpX = 1+(xSize>>1),
+			checkMpZ = 1+(zSize>>1);
+		
 		for(int attempt = 0, xx, yy, zz; attempt < 500; attempt++){
 			boolean canGenerate = true, foundAir = false;
 			
@@ -21,8 +26,9 @@ public class StructureMountainPuzzle extends AbstractIslandStructure{
 			zz = getRandomXZ(rand,32);
 			if ((yy = world.getHighestY(xx,zz)) == 0)continue;
 			
-			for(int a = 0; a < 4; a++){
-				int topY = world.getHighestY(xx+dungCheckX[a],zz+dungCheckZ[a]);
+			for(int a = 0, topY; a < 4; a++){
+				topY = world.getHighestY(xx+checkX[a]*checkMpX,zz+checkZ[a]*checkMpZ);
+				
 				if (Math.abs(topY-yy) > 5){
 					canGenerate = false;
 					break;
@@ -32,12 +38,10 @@ public class StructureMountainPuzzle extends AbstractIslandStructure{
 			}
 			
 			if (!canGenerate)continue;
-			
-			yy -= 8-rand.nextInt(20)-(attempt > 140 ? rand.nextInt(20) : 0);
-			if (yy < 0)continue;
+			if ((yy -= 8-rand.nextInt(20)-(attempt > 140 ? rand.nextInt(20) : 0)) < 0)continue;
 			
 			for(int a = 0; a < 4; a++){
-				if (world.isAir(xx+dungCheckX[a],yy-1,zz+dungCheckZ[a]) || world.isAir(xx+dungCheckX[a],yy+6,zz+dungCheckZ[a])){
+				if (world.isAir(xx+checkX[a]*checkMpX,yy-1,zz+checkZ[a]*checkMpZ) || world.isAir(xx+checkX[a]*checkMpX,yy+6,zz+checkZ[a]*checkMpZ)){
 					canGenerate = false;
 					break;
 				}
@@ -45,7 +49,8 @@ public class StructureMountainPuzzle extends AbstractIslandStructure{
 			
 			if (!canGenerate)continue;
 			
-			float airX = 0,airY = 0,airZ = 0;
+			float airX = 0, airY = 0, airZ = 0;
+			
 			for(int airAttempt = 0; airAttempt < 60; airAttempt++){
 				airX = xx+rand.nextInt(31)-15;
 				airY = yy+rand.nextInt(8)-2;

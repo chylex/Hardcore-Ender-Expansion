@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	private static final Material dungeonPuzzle = new MaterialDungeonPuzzle();
 	
-	public static final byte maxDungeonSize = 13;
+	public static final byte minDungeonSize = 7, maxDungeonSize = 13;
 	
 	public static final byte metaTriggerUnlit = 0, metaTriggerLit = 1, metaChainedUnlit = 2, metaChainedLit = 3,
 							 metaDistributorSpreadUnlit = 4, metaDistributorSpreadLit = 5,
