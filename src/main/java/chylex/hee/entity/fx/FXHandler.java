@@ -224,11 +224,15 @@ public final class FXHandler{
 				break;
 				
 			case ENDERMAN_TELEPORT:
-				for(int a = 0, particleAmt = 128; a < particleAmt; a++){
+			case DUNGEON_PUZZLE_TELEPORT:
+				double mp = fx == FXType.Line.DUNGEON_PUZZLE_TELEPORT ? 1.6D : 1.2D;
+				double height = fx == FXType.Line.DUNGEON_PUZZLE_TELEPORT ? 1.62D: 2.9D;
+				
+				for(int a = 0, particleAmt = fx == FXType.Line.DUNGEON_PUZZLE_TELEPORT ? 256 : 128; a < particleAmt; a++){
 					double linePosition = a/(particleAmt-1D);
-					double particleX = x1+(x2-x1)*linePosition+(rand.nextDouble()-0.5D)*1.2D;
-					double particleY = y1+(y2-y1)*linePosition+rand.nextDouble()*2.9D;
-					double particleZ = z1+(z2-z1)*linePosition+(rand.nextDouble()-0.5D)*1.2D;
+					double particleX = x1+(x2-x1)*linePosition+(rand.nextDouble()-0.5D)*mp;
+					double particleY = y1+(y2-y1)*linePosition+rand.nextDouble()*height;
+					double particleZ = z1+(z2-z1)*linePosition+(rand.nextDouble()-0.5D)*mp;
 					world.spawnParticle("portal",particleX,particleY,particleZ,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
 				}
 				

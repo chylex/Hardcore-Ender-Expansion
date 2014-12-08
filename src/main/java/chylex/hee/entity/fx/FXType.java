@@ -40,6 +40,7 @@ public final class FXType{
 		CHARM_DAMAGE_REDIRECTION,
 		LOUSE_HEAL_ENTITY,
 		ENDERMAN_TELEPORT,
+		DUNGEON_PUZZLE_TELEPORT,
 		HOMELAND_ENDERMAN_GUARD_CALL;
 		
 		public static FXType.Line[] values = values();

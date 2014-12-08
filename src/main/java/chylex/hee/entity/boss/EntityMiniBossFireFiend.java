@@ -61,7 +61,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs?300D:200D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 300D : 200D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.8D);
 	}
 	

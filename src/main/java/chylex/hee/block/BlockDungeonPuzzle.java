@@ -5,8 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,9 +12,9 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
@@ -24,7 +22,6 @@ import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -174,38 +171,26 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	}
 	
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z){
-		super.onBlockAdded(world,x,y,z);
-		if (world.getBlockMetadata(x,y,z) == metaDisabled)world.spawnParticle("flame",x+world.rand.nextDouble(),y+1.15D,z+world.rand.nextDouble(),(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D);
+	public int getLightValue(IBlockAccess world, int x, int y, int z){
+		return world.getBlockMetadata(x,y,z) == metaPortal ? 15 : super.getLightValue(world,x,y,z);
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (world.getBlockMetadata(x,y,z) == metaPortal && entity instanceof EntityPlayer){
-			for(Object o:world.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x-(maxDungeonSize>>1),y,z-(maxDungeonSize>>1),x+(maxDungeonSize>>1),y+3D,z+(maxDungeonSize>>1)))){
-				EntityPlayer player = (EntityPlayer)o;
-				int ix = MathUtil.floor(player.posX), iz = MathUtil.floor(player.posZ);
-				
-				if (world.getBlock(ix,y,iz) == this){
-					if (player.isRiding())player.mountEntity((Entity)null);
-					player.setPositionAndUpdate(ix+0.5D,world.getTopSolidOrLiquidBlock(ix,iz),iz+0.5D);
-					player.fallDistance = 0F;
-				}
-			}
-			
-			EntityMiniBossFireFiend fiend = new EntityMiniBossFireFiend(world);
-			fiend.setLocationAndAngles(x+0.5D+(world.rand.nextDouble()-0.5D)*18D,world.getTopSolidOrLiquidBlock(x,z)+10,z+0.5D+(world.rand.nextDouble()-0.5D)*18D,world.rand.nextFloat()*360F,0F);
-			world.spawnEntityInWorld(fiend);
-			
-			world.setBlockMetadataWithNotify(x,y,z,metaDisabled,3);
+	public boolean onBlockEventReceived(World world, int x, int y, int z, int eventID, int eventData){
+		if (eventID == 69){
+			for(int a = 0; a < (eventData == 0 ? 3 : 25); a++)world.spawnParticle("flame",x+world.rand.nextDouble(),y+(eventData == 0 ? 1.15D : 1D+world.rand.nextDouble()*2D),z+world.rand.nextDouble(),(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D);
+			world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,"random.fizz",0.5F,2.6F+(world.rand.nextFloat()-world.rand.nextFloat())*0.8F);
+			return true;
 		}
+		else return false;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		if (world.getBlockMetadata(x,y,z) == metaPortal){
-			for(int a = 0; a < 3; a++)HardcoreEnderExpansion.fx.portalColor(world,x+(rand.nextDouble()-0.5D)*0.05D,y+1D+rand.nextDouble()*4D,z+(rand.nextDouble()-0.5D)*0.05D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.2D,212,113,13);
+			for(int a = 0; a < 18; a++)HardcoreEnderExpansion.fx.portalColor(world,x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,0.6289F,0.3359F,0.0391F);
+			HardcoreEnderExpansion.fx.portalColor(world,x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,1F,1F,1F);
 		}
 	}
 	
@@ -221,7 +206,9 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z){
-		return new ItemStack(this,1,world.getBlockMetadata(x,y,z));
+		int meta = world.getBlockMetadata(x,y,z);
+		if (meta == metaPortal)meta = metaDisabled;
+		return new ItemStack(this,1,meta);
 	}
 	
 	@Override
