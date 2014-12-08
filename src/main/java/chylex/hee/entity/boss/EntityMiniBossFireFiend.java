@@ -1,21 +1,14 @@
 package chylex.hee.entity.boss;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.IBossDisplayData;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -32,14 +25,13 @@ import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
-	private static final byte STAGE_AFTERFLIGHT = -1, STAGE_REFRESHING = 0, STAGE_CREATING = 1, STAGE_SHOOTING = 2, STAGE_TOUCHING = 3;
+	private static final byte STAGE_REFRESHING = 0, STAGE_CREATING = 1, STAGE_SHOOTING = 2, STAGE_TOUCHING = 3;
 	
 	private EntityLivingBase target;
-	private byte attackStage = STAGE_AFTERFLIGHT, fireballAttackTimer, touchAttemptTimer;
+	private byte attackStage = STAGE_REFRESHING, fireballAttackTimer, touchAttemptTimer;
 	private Set<float[]> fireballOffsets = new HashSet<>();
-	private int spawnY;
   
-	public byte spawnTimer = 80, damageInflicted;
+	public byte damageInflicted;
 	public float wingAnimation, wingAnimationStep, damageTaken;
 	
 	public EntityMiniBossFireFiend(World world){
@@ -66,102 +58,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	}
 	
 	@Override
-	public void onLivingUpdate(){
-		super.onLivingUpdate();
-		
-		if (worldObj.isRemote){
-			if (spawnTimer > 22 && --spawnTimer%4 == 0 && rand.nextInt(5) <= 1){
-				worldObj.playSound(posX,posY,posZ,"dig.stone",17F-spawnTimer*0.1F,0.9F+rand.nextFloat()*0.15F,false);
-			}
-			worldObj.spawnParticle("flame",posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height,posZ+(rand.nextDouble()-0.5D)*width,0D,0D,0D);
-			return;
-		}
-		
-		if (spawnTimer > 1){
-			motionX = motionY = motionZ = 0D;
-			noClip = true;
-			
-			--spawnTimer;
-			
-			int iy = MathUtil.floor(posY);
-			if (spawnTimer == 20){
-				breakBlocksAround(2,iy,iy+2);
-				breakBlocksAround(1,iy+3,iy+4);
-			}
-			else if (spawnTimer == 6){
-				breakBlocksAround(2,iy+3,iy+4);
-				spawnY = MathUtil.floor(posY);
-			}
-			
-			if (spawnTimer <= 7){
-				noClip = false;
-				motionY += 0.1D;
-			}
-		}
-		else if (spawnTimer == 1){
-			motionY += 0.05D;
-			int iy = MathUtil.floor(posY);
-			breakBlocksAround(1,iy+3,iy+3);
-			
-			boolean hasSpace = true;
-			for(int xx = MathUtil.floor(posX)-1; xx <= Math.floor(posX+1); xx++){
-				for(int zz = MathUtil.floor(posZ)-1; zz <= Math.floor(posZ+1); zz++){
-					for(int yy = MathUtil.floor(posY)+1; yy <= MathUtil.floor(posY+9); yy++){
-						if (!worldObj.isAirBlock(xx,yy,zz)){
-							hasSpace = false;
-							xx += 3;
-							zz += 3;
-							break;
-						}
-					}
-				}
-			}
-			
-			if (hasSpace){
-				spawnTimer = 0;
-				motionY += 0.4D;
-			}
-		}
-	}
-	
-	private void breakBlocksAround(int rad, int minY, int maxY){
-		Block block;
-		int xx, yy, zz, meta;
-		
-		for(xx = MathUtil.floor(posX)-rad; xx <= Math.floor(posX+rad); xx++){
-			for(zz = MathUtil.floor(posZ)-rad; zz <= Math.floor(posZ+rad); zz++){
-				for(yy = minY; yy <= maxY; yy++){
-					if ((block = worldObj.getBlock(xx,yy,zz)).getMaterial() == Material.air)continue;
-					
-					if (block.getItemDropped(meta = worldObj.getBlockMetadata(xx,yy,zz),rand,0) != Item.getItemFromBlock(Blocks.air))block.dropBlockAsItem(worldObj,xx,yy,zz,meta,0);
-					worldObj.setBlockToAir(xx,yy,zz);
-					worldObj.playAuxSFX(2001,xx,yy,zz,Block.getIdFromBlock(block));
-				}
-			}
-		}
-	}
-	
-	@Override
-	protected void updateEntityActionState(){
-		if (spawnTimer > 0)return;
-
-		if (attackStage == STAGE_AFTERFLIGHT){
-			List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(posX-5D,spawnY-10D,posZ-5D,posX+5D,spawnY+9D,posZ+5D));
-
-			if (players.isEmpty() || damageTaken > 20F){
-				fireballAttackTimer = 60;
-				attackStage = STAGE_REFRESHING;
-			}
-
-			if (--fireballAttackTimer < 0){
-				fireballAttackTimer = (byte)(23-worldObj.difficultySetting.getDifficultyId()*2);
-				EntityPlayer target = players.get(rand.nextInt(players.size()));
-				worldObj.spawnEntityInWorld(new EntityProjectileGolemFireball(worldObj,this,posX,posY-0.2D,posZ,target.posX-posX,target.posY-posY,target.posZ-posZ));
-			}
-
-			return;
-		}
-		
+	protected void updateEntityActionState(){		
 		if (target == null || target.isDead){
 			target = worldObj.getClosestPlayerToEntity(this,128D);
 		}
@@ -176,13 +73,15 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			rotationPitch = DragonUtil.rotateSmoothly(rotationPitch,(float)(-(Math.atan2(diffY,distance)*180D/Math.PI)),8F);
 			if (distance > 11D || (attackStage == STAGE_TOUCHING && distance > 2D))setMoveForward((float)getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()*(attackStage == STAGE_TOUCHING?3F:1F));
 			
-			double targetYDiff = posY-(target.posY+target.height*0.5D+(attackStage == STAGE_TOUCHING?0D:5D));
+			double targetYDiff = posY-(target.posY+target.height*0.5D+(attackStage == STAGE_TOUCHING ? 0D : 5D));
+			
 			for(int a = 1; a < 6; a++){
 				if (!worldObj.isAirBlock(MathUtil.floor(posX),MathUtil.floor(posY)-a,MathUtil.floor(posZ))){
 					targetYDiff = -1.5D;
 					break;
 				}
 			}
+			
 			if (Math.abs(targetYDiff) > 1D)motionY -= Math.abs(targetYDiff)*0.0045D*Math.signum(targetYDiff);
 
 			if (attackStage == STAGE_REFRESHING){
@@ -229,7 +128,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			}
 			
 			if (attackStage == STAGE_TOUCHING){
-				if (damageInflicted > 15+worldObj.difficultySetting.getDifficultyId()*3 || --touchAttemptTimer<-20){
+				if (damageInflicted > 15+worldObj.difficultySetting.getDifficultyId()*3 || --touchAttemptTimer < -20){
 					attackStage = STAGE_REFRESHING;
 				}
 			}
@@ -239,7 +138,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			if (o == this)continue;
 			EntityLivingBase e = (EntityLivingBase)o;
 			e.setFire(2+rand.nextInt(3));
-			e.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs?9F:5F);
+			e.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs ? 9F : 5F);
 			++damageInflicted;
 		}
 		
@@ -255,7 +154,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (spawnTimer > 0)return false;
 		if (source.isFireDamage() || source.isExplosion())amount *= 0.1F;
 		damageTaken += amount;
 		
@@ -279,11 +177,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		motionX *= 0.4D;
 		motionY *= 0.4D;
 		motionZ *= 0.4D;
-	}
-	
-	@Override
-	public boolean canBePushed(){
-		return spawnTimer == 0 && super.canBePushed();
 	}
 	
 	@Override
@@ -319,8 +212,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setByte("spawnTimer",spawnTimer);
-		nbt.setInteger("spawnY",spawnY);
 		nbt.setByte("attackStage",attackStage);
 		nbt.setFloat("damageTaken",damageTaken);
 	}
@@ -328,15 +219,13 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		spawnTimer = nbt.getByte("spawnTimer");
-		spawnY = nbt.getInteger("spawnY");
 		attackStage = (byte)Math.min(STAGE_REFRESHING,nbt.getByte("attackStage"));
 		damageTaken = nbt.getFloat("damageTaken");
 	}
 	
 	@Override
 	public String getCommandSenderName(){
-		return hasCustomNameTag()?getCustomNameTag():StatCollector.translateToLocal("entity.fireFiend.name");
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal("entity.fireFiend.name");
 	}
 	
 	@Override

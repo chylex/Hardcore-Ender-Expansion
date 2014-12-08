@@ -22,16 +22,13 @@ public class RenderMiniBossFireFiend extends RenderLiving{
 	
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
-		GL11.glScalef(1.5f,1.5f,1.5f);
+		GL11.glScalef(1.5F,1.5F,1.5F);
 	}
 	
 	@Override
 	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
-		EntityMiniBossFireFiend fiend = (EntityMiniBossFireFiend)entity;
-		if (fiend.spawnTimer < 25){
-			BossStatus.setBossStatus(fiend,true);
-			BossType.update(BossType.FIRE_FIEND);
-		}
+		BossStatus.setBossStatus((EntityMiniBossFireFiend)entity,true);
+		BossType.update(BossType.FIRE_FIEND);
 		super.doRender(entity,x,y,z,yaw,partialTickTime);
 	}
 
