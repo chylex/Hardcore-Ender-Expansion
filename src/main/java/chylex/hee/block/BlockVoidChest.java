@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityVoidChest;
 
 public class BlockVoidChest extends BlockContainer{
@@ -35,7 +36,7 @@ public class BlockVoidChest extends BlockContainer{
 
 	@Override
 	public int getRenderType(){
-		return 22;
+		return ModCommonProxy.renderIdVoidChest;
 	}
 
 	@Override
