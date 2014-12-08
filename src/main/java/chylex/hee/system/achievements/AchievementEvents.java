@@ -3,11 +3,13 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import chylex.hee.block.BlockList;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.savedata.WorldDataHandler;
@@ -15,7 +17,9 @@ import chylex.hee.system.savedata.types.DragonSavefile;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
@@ -40,9 +44,17 @@ public final class AchievementEvents{
 	
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent e){
-		if (e.player.worldObj.isRemote)return;
-		
 		if (e.pickedUp.getEntityItem().getItem() == ItemList.stardust)e.player.addStat(AchievementManager.MAGIC_OF_DECOMPOSITION,1);
+	}
+	
+	@SubscribeEvent
+	public void onItemCrafted(ItemCraftedEvent e){
+		if (e.crafting.getItem() == Item.getItemFromBlock(BlockList.void_chest))e.player.addStat(AchievementManager.AFRAID_NO_MORE,1);
+	}
+	
+	@SubscribeEvent
+	public void onItemSmelted(ItemSmeltedEvent e){
+		if (e.smelting.getItem() == ItemList.endium_ingot)e.player.addStat(AchievementManager.THE_NEXT_STEP,1);
 	}
 	
 	@SubscribeEvent

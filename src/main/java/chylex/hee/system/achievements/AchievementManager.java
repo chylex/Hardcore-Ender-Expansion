@@ -27,8 +27,10 @@ public final class AchievementManager{
 		TRAVELING_101 = addAchievement(2, "traveling101", 0, 1, ItemList.end_powder, 0, TIME_FOR_NEW_ADVENTURES),
 		SUPER_SHINY = addAchievement(51, "superShiny", -3, 1, ItemList.enhanced_ender_pearl, 0, TRAVELING_101),
 		DEAD_VISIONARY = addAchievement(4, "deadVisionary", 2, 2, Items.ender_eye, 0, TRAVELING_101),
-		WHOLE_NEW_CULTURES = addAchievement(6, "wholeNewCultures", 4, 2, BlockList.end_terrain, 0, DEAD_VISIONARY),
-		MAGIC_OF_DECOMPOSITION = addAchievement(7, "magicOfDecomposition", 2, 0, ItemList.stardust, 0, DEAD_VISIONARY),
+		THE_NEXT_STEP = addAchievement(9, "theNextStep", 5, 2, ItemList.endium_ingot, 0, DEAD_VISIONARY),
+		WHOLE_NEW_CULTURES = addAchievement(6, "wholeNewCultures", 7, 2, BlockList.end_terrain, 0, THE_NEXT_STEP),
+		AFRAID_NO_MORE = addAchievement(10, "afraidNoMore", 3, 0, BlockList.void_chest, 0, THE_NEXT_STEP),
+		MAGIC_OF_DECOMPOSITION = addAchievement(7, "magicOfDecomposition", 5, 4, ItemList.stardust, 0, THE_NEXT_STEP),
 		THE_MORE_YOU_KNOW = addAchievement(8, "theMoreYouKnow", -2, -1, ItemList.special_effects, ItemSpecialEffects.achievementCompendiumIcon, null),
 		
 		CHALLENGE_HARD0DEATHS = addChallenge(0, "hard0Deaths", "hard"),

@@ -4,6 +4,8 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.Achievement;
+import net.minecraft.stats.AchievementList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
@@ -36,7 +38,8 @@ public class HeeAdminCommand extends HeeCommand{
 				"/heeadmin kill-bosses\n"+
 				"/heeadmin compendium-reset\n"+
 				"/heeadmin compendium-set-points <pts>\n"+
-				"/heeadmin compendium-unlock-all"
+				"/heeadmin compendium-unlock-all\n"+
+				"/heeadmin achievement-unlock <id>"
 				).split("\n")){
 				sendMessage(sender,s);
 			}
@@ -120,6 +123,19 @@ public class HeeAdminCommand extends HeeCommand{
 			for(KnowledgeFragment fragment:KnowledgeFragment.getAllFragments())data.tryUnlockFragment(fragment);
 			
 			PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
+		}
+		else if (args[0].equalsIgnoreCase("achievement-unlock") && player != null && args.length == 2){
+			for(Object o:AchievementList.achievementList){
+				Achievement achievement = (Achievement)o;
+				
+				if (achievement.statId.equals(args[1])){
+					player.addStat(achievement,1);
+					return;
+				}
+			}
+			
+			sendMessage(sender,"Achievement not found.");
+			return;
 		}
 		else{
 			sendMessage(sender,"Unknown command or wrong parameters.");

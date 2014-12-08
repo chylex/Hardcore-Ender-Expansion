@@ -217,8 +217,12 @@ achievement.thatWasClose=That was close!
 achievement.thatWasClose.desc=Save yourself from falling into the void
 achievement.wholeNewCultures=Whole new cultures!
 achievement.wholeNewCultures.desc=Visit a Biome Island
-achievement.magicOfDecomposition=The magic of decomposition
+achievement.magicOfDecomposition=Magic of decomposition
 achievement.magicOfDecomposition.desc=Acquire some Stardust
+achievement.theNextStep=The next step
+achievement.theNextStep.desc=Get Endium
+achievement.afraidNoMore=Afraid no more!
+achievement.afraidNoMore.desc=Craft a Void Chest to get back items lost in the void
 
 challenge.hard0Deaths=Hardcore Player
 challenge.hard0Deaths.desc=Kill the dragon without dying
