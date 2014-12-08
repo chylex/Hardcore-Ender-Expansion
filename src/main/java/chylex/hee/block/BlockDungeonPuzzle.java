@@ -5,6 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,6 +15,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
@@ -20,6 +24,7 @@ import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,9 +36,9 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	public static final byte metaTriggerUnlit = 0, metaTriggerLit = 1, metaChainedUnlit = 2, metaChainedLit = 3,
 							 metaDistributorSpreadUnlit = 4, metaDistributorSpreadLit = 5,
 							 metaDistributorSquareUnlit = 6, metaDistributorSquareLit = 7,
-							 metaDisabled = 12, metaWall = 13, metaRock = 14, metaCeiling = 15;
+							 metaPortal = 11, metaDisabled = 12, metaWall = 13, metaRock = 14, metaCeiling = 15;
 	
-	public static final byte[] icons = new byte[]{ 2, 3, 4, 5, 6, 7, 8, 9, 3, 3, 3, 3, 10, 0, 1, 3 };
+	public static final byte[] icons = new byte[]{ 2, 3, 4, 5, 6, 7, 8, 9, 3, 3, 3, 10, 10, 0, 1, 3 };
 	
 	public static final String[] names = new String[]{
 		"trigger.unlit", "trigger.lit", "chained.unlit", "chained.lit", "distr.spread.unlit", "distr.spread.lit", "distr.square.unlit", "distr.square.lit",
@@ -45,7 +50,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	}
 	
 	public static final int toggleState(int meta){
-		if (meta == metaWall || meta == metaRock || meta == metaCeiling || meta == metaDisabled)return meta;
+		if (meta == metaWall || meta == metaRock || meta == metaCeiling || meta == metaDisabled || meta == metaPortal)return meta;
 		else return (meta&1) == 0 ? meta+1 : meta-1;
 	}
 	
@@ -164,7 +169,43 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			
 			Stopwatch.finish("BlockDungeonPuzzle - win detection - conditions");
 			
-			if (isFinished && cnt > (maxX-minX+1)*(maxZ-minZ+1)*0.9D)world.spawnEntityInWorld(new EntityTechnicalPuzzleSolved(world,minX+((maxX-minX+1)>>1),y,minZ+((maxZ-minZ+1)>>1)));
+			if (isFinished && cnt > (maxX-minX+1)*(maxZ-minZ+1)*0.9D)world.spawnEntityInWorld(new EntityTechnicalPuzzleSolved(world,minX+((maxX-minX+1)>>1),y,minZ+((maxZ-minZ+1)>>1),minX,minZ,maxX,maxZ));
+		}
+	}
+	
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z){
+		super.onBlockAdded(world,x,y,z);
+		if (world.getBlockMetadata(x,y,z) == metaDisabled)world.spawnParticle("flame",x+world.rand.nextDouble(),y+1.15D,z+world.rand.nextDouble(),(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D);
+	}
+	
+	@Override
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
+		if (world.getBlockMetadata(x,y,z) == metaPortal && entity instanceof EntityPlayer){
+			for(Object o:world.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x-(maxDungeonSize>>1),y,z-(maxDungeonSize>>1),x+(maxDungeonSize>>1),y+3D,z+(maxDungeonSize>>1)))){
+				EntityPlayer player = (EntityPlayer)o;
+				int ix = MathUtil.floor(player.posX), iz = MathUtil.floor(player.posZ);
+				
+				if (world.getBlock(ix,y,iz) == this){
+					if (player.isRiding())player.mountEntity((Entity)null);
+					player.setPositionAndUpdate(ix+0.5D,world.getTopSolidOrLiquidBlock(ix,iz),iz+0.5D);
+					player.fallDistance = 0F;
+				}
+			}
+			
+			EntityMiniBossFireFiend fiend = new EntityMiniBossFireFiend(world);
+			fiend.setLocationAndAngles(x+0.5D+(world.rand.nextDouble()-0.5D)*18D,world.getTopSolidOrLiquidBlock(x,z)+10,z+0.5D+(world.rand.nextDouble()-0.5D)*18D,world.rand.nextFloat()*360F,0F);
+			world.spawnEntityInWorld(fiend);
+			
+			world.setBlockMetadataWithNotify(x,y,z,metaDisabled,3);
+		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+		if (world.getBlockMetadata(x,y,z) == metaPortal){
+			for(int a = 0; a < 3; a++)HardcoreEnderExpansion.fx.portalColor(world,x+(rand.nextDouble()-0.5D)*0.05D,y+1D+rand.nextDouble()*4D,z+(rand.nextDouble()-0.5D)*0.05D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.2D,212,113,13);
 		}
 	}
 	
