@@ -19,7 +19,7 @@ public final class DimensionOverride{
 		
 		overrideBiome();
 		overrideWorldGen();
-		
+
 		MapGenStructureIO.registerStructure(StructureTower.class,"hardcoreenderdragon_EndTower");
 		MapGenStructureIO.func_143031_a(ComponentTower.class,"hardcoreenderdragon_EndTowerC"); // OBFUSCATED register structure component
 		MapGenStructureIO.registerStructure(StructureIsland.class,"hardcoreenderdragon_EndIsland");

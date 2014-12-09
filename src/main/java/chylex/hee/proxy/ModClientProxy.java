@@ -92,6 +92,7 @@ import chylex.hee.render.tileentity.RenderTileVoidChest;
 import chylex.hee.render.weather.RenderWeatherLightningBoltPurple;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.sound.MusicManager;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
@@ -122,6 +123,8 @@ public class ModClientProxy extends ModCommonProxy{
 	
 	@Override
 	public void registerRenderers(){
+		Stopwatch.time("ModClientProxy - renderers");
+		
 		renderIdObsidianSpecial = RenderingRegistry.getNextAvailableRenderId();
 		renderIdFlowerPot = RenderingRegistry.getNextAvailableRenderId();
 		renderIdSpookyLeaves = RenderingRegistry.getNextAvailableRenderId();
@@ -185,10 +188,14 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalVoidChest.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleChain.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleSolved.class, new RenderNothing());
+
+		Stopwatch.finish("ModClientProxy - renderers");
 	}
 	
 	@Override
 	public void registerSidedEvents(){
+		Stopwatch.time("ModClientProxy - events");
+		
 		OverlayManager.register();
 		FXEvents.register();
 		CompendiumEventsClient.register();
@@ -205,6 +212,8 @@ public class ModClientProxy extends ModCommonProxy{
 				}
 			}
 		});
+		
+		Stopwatch.finish("ModClientProxy - events");
 	}
 	
 	@Override

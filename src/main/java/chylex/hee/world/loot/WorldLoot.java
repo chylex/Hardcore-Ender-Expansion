@@ -10,6 +10,7 @@ import net.minecraft.village.MerchantRecipeList;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
+import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 
@@ -17,6 +18,8 @@ public class WorldLoot implements IVillageTradeHandler{
 	private static final ItemStack lorePage = new ItemStack(ItemList.adventurers_diary);
 	
 	public static void registerWorldLoot(){
+		Stopwatch.time("WorldLoot - register");
+		
 		// ADVENTURER'S DIARY
 		WeightedRandomChestContent item = new WeightedRandomChestContent(lorePage,1,1,5);
 		getInfo(STRONGHOLD_LIBRARY).addItem(new WeightedRandomChestContent(lorePage,1,1,8));
@@ -51,6 +54,8 @@ public class WorldLoot implements IVillageTradeHandler{
 		
 		// MISC
 		VillagerRegistry.instance().registerVillageTradeHandler(1,new WorldLoot());
+
+		Stopwatch.finish("WorldLoot - register");
 	}
 	
 	private WorldLoot(){}

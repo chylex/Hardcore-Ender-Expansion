@@ -85,8 +85,8 @@ public final class Stopwatch{
 	}
 	
 	private static class AveragingTimer extends StopwatchHandler{
-		protected int count,currentCounter;
-		protected long startTime,totalTime;
+		protected int count, currentCounter;
+		protected long startTime, totalTime;
 		
 		public void setCount(int count){
 			if (count != this.count)this.count = this.currentCounter = count;

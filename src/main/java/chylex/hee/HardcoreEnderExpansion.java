@@ -131,7 +131,7 @@ public class HardcoreEnderExpansion{
 	public static String modVersion;
 	public static String configPath;
 	public static File sourceFile;
-	
+
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent e){
 		Stopwatch.time("PreInitEvent");
@@ -191,6 +191,8 @@ public class HardcoreEnderExpansion{
 		
 		// ENTITIES
 		
+		Stopwatch.time("PreInitEvent - entities");
+		
 		EntityList.stringToClassMapping.remove("EnderCrystal");
 		EntityList.IDtoClassMapping.remove(Integer.valueOf(200));
 		EntityList.addMapping(EntityBlockEnderCrystal.class, "EnderCrystal", 200);
@@ -244,8 +246,12 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleChain.class, "TechnicalPuzzleChain", 43, this, 0, Integer.MAX_VALUE, false);
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, this, 0, Integer.MAX_VALUE, false);
 		// last: 44
+		
+		Stopwatch.finish("PreInitEvent - entities");
 
 		// TILE ENTITIES
+		
+		Stopwatch.time("PreInitEvent - tile entities");
 
 		GameRegistryUtil.registerTileEntity(TileEntityEssenceAltar.class, "EssenceAltar");
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedBrewingStand.class, "EnhancedBrewingStand");
@@ -259,12 +265,16 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
 		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
 		
+		Stopwatch.finish("PreInitEvent - tile entities");
+		
 		// ACHIEVEMENTS
 		
 		AchievementManager.register();
 		AchievementEvents.register();
 		
 		// FORGE AND FML
+
+		Stopwatch.time("PreInitEvent - events");
 		
 		MinecraftForge.EVENT_BUS.register(new MiscEvents());
 		FMLCommonHandler.instance().bus().register(new UpdateNotificationManager());
@@ -277,8 +287,10 @@ public class HardcoreEnderExpansion{
 		TempleEvents.register();
 		InfestationEvents.register();
 		
+		Stopwatch.finish("PreInitEvent - events");
+		
 		proxy.registerSidedEvents();
-		proxy.registerRenderers();
+		proxy.registerRenderers();		
 		notifications.register();
 		
 		Stopwatch.finish("PreInitEvent");
@@ -292,7 +304,6 @@ public class HardcoreEnderExpansion{
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,GuiHandler.instance);
 		RecipeList.addRecipes();
 		WorldLoot.registerWorldLoot();
-		
 		KnowledgeRegistrations.initialize();
 		
 		Stopwatch.finish("InitEvent");

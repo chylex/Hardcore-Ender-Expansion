@@ -7,10 +7,12 @@ import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
+import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
 	public static void addRecipes(){
+		Stopwatch.time("RecipeList - addRecipes");
 		
 		// SHAPED
 		
@@ -188,6 +190,8 @@ public final class RecipeList{
 		// SMELTING
 		
 		FurnaceRecipes.smelting().func_151393_a(BlockList.endium_ore,new ItemStack(ItemList.endium_ingot),0.9F);
+		
+		Stopwatch.finish("RecipeList - addRecipes");
 	}
 	
 	private RecipeList(){}
