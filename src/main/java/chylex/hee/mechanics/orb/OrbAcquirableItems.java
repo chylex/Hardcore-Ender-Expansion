@@ -71,7 +71,7 @@ public final class OrbAcquirableItems{
 				}
 				else if (recipe instanceof ShapelessRecipes){
 					addItemToList(recipe.getRecipeOutput(),24-recipe.getRecipeSize()*2);
-					for(Object item:((ShapelessRecipes)recipe).recipeItems)addItemToList((ItemStack)item,25-recipe.getRecipeSize()*2);
+					for(ItemStack item:(List<ItemStack>)((ShapelessRecipes)recipe).recipeItems)addItemToList(item,25-recipe.getRecipeSize()*2);
 				}
 				else if (recipe instanceof ShapedOreRecipe){
 					ShapedOreRecipe shaped = (ShapedOreRecipe)recipe;					
@@ -85,7 +85,7 @@ public final class OrbAcquirableItems{
 							ArrayList list = (ArrayList)obj;
 							int len = list.size();
 							
-							for(Object listObj:list)addItemToList((ItemStack)listObj,Math.max(2,19-amt*2-((len-1)*3)));
+							for(ItemStack listObj:(ArrayList<ItemStack>)list)addItemToList(listObj,Math.max(2,19-amt*2-((len-1)*3)));
 						}
 					}
 				}
@@ -100,7 +100,7 @@ public final class OrbAcquirableItems{
 							ArrayList list = (ArrayList)obj;
 							int len = list.size();
 							
-							for(Object listObj:list)addItemToList((ItemStack)listObj,Math.max(2,24-amt*2-((len-1)*3)));
+							for(ItemStack listObj:(ArrayList<ItemStack>)list)addItemToList(listObj,Math.max(2,24-amt*2-((len-1)*3)));
 						}
 					}
 				}

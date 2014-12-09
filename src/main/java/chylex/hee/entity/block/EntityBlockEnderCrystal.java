@@ -1,4 +1,5 @@
 package chylex.hee.entity.block;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -43,21 +44,21 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			if (crystalType == TNT){
 				if (tar instanceof EntityPlayer){
 					int limiter = 4+worldObj.difficultySetting.getDifficultyId(),topblock = DragonUtil.getTopBlock(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ));
-					for(Object em:worldObj.getEntitiesWithinAABB(EntityEnderman.class,AxisAlignedBB.getBoundingBox(posX-10D,topblock-5D,posZ-10D,posX+10D,topblock+5D,posZ+10D))){
-						EntityEnderman enderman = (EntityEnderman)em;
+					
+					for(EntityEnderman enderman:(List<EntityEnderman>)worldObj.getEntitiesWithinAABB(EntityEnderman.class,AxisAlignedBB.getBoundingBox(posX-10D,topblock-5D,posZ-10D,posX+10D,topblock+5D,posZ+10D))){
 						if (enderman.getDistance(posX,topblock,posZ) < 20D){
 							enderman.setTarget(tar);
-							limiter--;
+							if (--limiter <= 0)break;
 						}
-						if (limiter <= 0)break;
 					}
 				}
 				
-				float tx,tz,v;
+				float tx, tz, v;
 				EntityTNTPrimed tnt;
 				for(int a = 0; a < 8; a++){
-					v = 0.15F+(rand.nextFloat()/8);
+					v = 0.15F+(rand.nextFloat()/8F);
 					tx = tz = 0F;
+					
 					switch(a){
 						case 0:case 1:case 2: tx = v; break;
 						case 5:case 6:case 7: tx = -v; break;

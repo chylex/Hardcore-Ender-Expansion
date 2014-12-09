@@ -1,4 +1,5 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -40,8 +41,7 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 				EntityPlayer closest = null;
 				double dist = Double.MAX_VALUE,d;
 				
-				for(Object o:dragon.worldObj.playerEntities){
-					EntityPlayer player = (EntityPlayer)o;
+				for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
 					if (player.isDead || (DragonAttackManager.nocreative && player.capabilities.isCreativeMode))continue;
 					
 					if ((d = MathUtil.distance(player.posX-dragon.posX,player.posZ-dragon.posZ)) < dist){

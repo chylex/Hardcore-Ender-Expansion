@@ -1,4 +1,5 @@
 package chylex.hee.system.commands;
+import java.util.List;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
@@ -61,13 +62,15 @@ public class HeeDebugCommand extends HeeCommand{
 			}
 			
 			boolean found = false;
-			for(Object o:dragon.worldObj.playerEntities){
-				if (((EntityPlayer)o).getCommandSenderName().equalsIgnoreCase(args[1])){
-					dragon.trySetTarget((EntityPlayer)o);
+			
+			for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
+				if (player.getCommandSenderName().equalsIgnoreCase(args[1])){
+					dragon.trySetTarget(player);
 					found = true;
 					break;
 				}
 			}
+			
 			if (!found){
 				sendMessage(sender,"No such player.");
 				return;

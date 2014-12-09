@@ -1,4 +1,5 @@
 package chylex.hee.entity.block;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -63,8 +64,8 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 		int i = MathHelper.ceiling_float_int(distance-1F);
 
 		if (i > 0){
-			for(Object o:worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox)){
-				((Entity)o).attackEntityFrom(DamageSource.fallingBlock,Math.min(MathHelper.floor_float(i*5F),60));
+			for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox)){
+				entity.attackEntityFrom(DamageSource.fallingBlock,Math.min(MathHelper.floor_float(i*5F),60));
 			}
 		}
 	}

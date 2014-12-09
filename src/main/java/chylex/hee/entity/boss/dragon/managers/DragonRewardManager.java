@@ -49,9 +49,9 @@ public class DragonRewardManager{
 		byte diff = (byte)dragon.worldObj.difficultySetting.getDifficultyId();
 
 		if ((deadPlayerCheck = deadPlayerCheck^true) == true){
-			for(Object o:dragon.worldObj.playerEntities){
-				EntityPlayer p = (EntityPlayer)o;
+			for(EntityPlayer p:(List<EntityPlayer>)dragon.worldObj.playerEntities){
 				boolean wasDead = deadPlayers.contains(p.getCommandSenderName());
+				
 				if (p.isDead && !wasDead){
 					float v;
 					switch(diff){

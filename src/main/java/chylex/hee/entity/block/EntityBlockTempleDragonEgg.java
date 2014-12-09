@@ -79,8 +79,7 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 				}
 				
 				if (deltaY > 6D){
-					for(Object o:new ArrayList<Object>(worldObj.playerEntities)){
-						EntityPlayerMP player = (EntityPlayerMP)o;
+					for(EntityPlayerMP player:new ArrayList<EntityPlayerMP>(worldObj.playerEntities)){
 						if (player.ridingEntity != null)player.mountEntity(null);
 						DragonUtil.teleportToOverworld(player);
 					}

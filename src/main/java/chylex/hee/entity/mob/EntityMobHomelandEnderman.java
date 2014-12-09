@@ -2,6 +2,7 @@ package chylex.hee.entity.mob;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -52,8 +53,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	static{
 		List<Block> blocks = new ArrayList<>();
 		
-		for(Object o:Block.blockRegistry.getKeys()){
-			Block block = Block.getBlockFromName((String)o);
+		for(String blockName:(Set<String>)Block.blockRegistry.getKeys()){
+			Block block = Block.getBlockFromName(blockName);
 			if (EntityEnderman.getCarriable(block))blocks.add(block);
 		}
 		

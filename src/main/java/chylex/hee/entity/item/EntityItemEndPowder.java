@@ -1,4 +1,5 @@
 package chylex.hee.entity.item;
+import java.util.List;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -28,10 +29,9 @@ public class EntityItemEndPowder extends EntityItem{
 			
 			EntityItem emerald = null, string = null;
 			
-			for(Object o:worldObj.getEntitiesWithinAABB(EntityItem.class,boundingBox.expand(1.8D,1.8D,1.8D))){
-				if (o == this)continue;
+			for(EntityItem entity:(List<EntityItem>)worldObj.getEntitiesWithinAABB(EntityItem.class,boundingBox.expand(1.8D,1.8D,1.8D))){
+				if (entity == this)continue;
 				
-				EntityItem entity = (EntityItem)o;
 				ItemStack is = entity.getEntityItem();
 				Item item = is.getItem();
 				

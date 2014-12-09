@@ -1,5 +1,6 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import gnu.trove.map.hash.TObjectIntHashMap;
+import java.util.List;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -55,24 +56,24 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		
 		if (!dragon.angryStatus){
 			if (!stealthInProgress && ++seesCheck > 20 && dragon.target == null){
-				for(Object o:dragon.worldObj.playerEntities){
-					EntityPlayer p = (EntityPlayer)o;
-					int cur = seesDragon.get(p.getCommandSenderName());
-					cur = (cur == seesDragon.getNoEntryValue() || getVision(dragon,p) ? 0 : cur+1);
+				for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
+					int cur = seesDragon.get(player.getCommandSenderName());
+					cur = (cur == seesDragon.getNoEntryValue() || getVision(dragon,player) ? 0 : cur+1);
 
 					if (cur > 4+(dragon.getWorldDifficulty() <= 1?1:0)){
-						overrideTarget = p;
+						overrideTarget = player;
 						isOverriding = stealthInProgress = true;
 						seesDragon.clear();
 						break;
 					}
 					
-					seesDragon.put(p.getCommandSenderName(),cur);
+					seesDragon.put(player.getCommandSenderName(),cur);
 				}
+				
 				seesCheck = 0;
 			}
 			else if (stealthInProgress && overrideTarget != null && seesCheck%3 == 0 && dragon.dragonPartHead.getDistanceSqToEntity(overrideTarget) < 27D){
-				dragon.attacks.biteClosePlayer();
+				dragon.attacks.biteClosePlayers();
 				isOverriding = stealthInProgress = false;
 				overrideTarget = null;
 				dragon.rewards.addHandicap(0.3F,false);

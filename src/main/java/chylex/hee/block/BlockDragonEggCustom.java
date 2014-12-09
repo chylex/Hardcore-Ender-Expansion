@@ -1,4 +1,5 @@
 package chylex.hee.block;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
@@ -45,8 +46,7 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 			if (!playersInTemple.isEmpty()){
 				save.setPreventTempleDestruction(true);
 				
-				for(Object o:world.playerEntities){
-					EntityPlayer player = (EntityPlayer)o;
+				for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
 					if (playersInTemple.contains(player.getGameProfile().getId()))player.addStat(AchievementManager.REBIRTH,1);
 				}
 				

@@ -1,4 +1,5 @@
 package chylex.hee.block;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -6,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -48,10 +48,9 @@ public class BlockSpookyLog extends Block{
 			EntityPlayer closest = null;
 			double curDist = 8D;
 			
-			for(Object o:world.playerEntities){
-				EntityPlayer player = (EntityPlayer)o;
-				
+			for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
 				double dist = MathUtil.distance(player.posX-x,player.posZ-z);
+				
 				if (dist < curDist){
 					dist = curDist;
 					closest = player;
@@ -61,6 +60,7 @@ public class BlockSpookyLog extends Block{
 			if (closest != null){
 				boolean foundAmulet = false;
 				ItemStack is;
+				
 				for(int a = 0; a < closest.inventory.getSizeInventory(); a++){
 					if ((is = closest.inventory.getStackInSlot(a)) == null)continue;
 					
@@ -162,9 +162,7 @@ public class BlockSpookyLog extends Block{
 	}
 	
 	private boolean isBlockSeen(World world, int x, int y, int z){
-		for(Object o:world.playerEntities){
-			EntityLivingBase entity = (EntityLivingBase)o;
-			
+		for(EntityPlayer entity:(List<EntityPlayer>)world.playerEntities){
 			if (Math.abs(entity.posX-x) > 250 || Math.abs(entity.posZ-z) > 250)continue;
 			if (DragonUtil.canEntitySeePoint(entity,x,y,z,0.5D))return true;
 		}

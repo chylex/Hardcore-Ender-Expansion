@@ -3,6 +3,7 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.savedata.WorldSavefile;
@@ -65,16 +66,13 @@ public class ApocalypseSavefile extends WorldSavefile{
 	protected void onLoad(NBTTagCompound nbt){
 		NBTTagCompound ritualTag = nbt.getCompoundTag("rituals");
 		
-		for(Object o:ritualTag.func_150296_c()){
-			String key = (String)o;
+		for(String key:(Set<String>)ritualTag.func_150296_c()){
 			rituals.put(key,ritualTag.getByteArray(key));
 		}
 		
-		
 		NBTTagCompound timeTag = nbt.getCompoundTag("times");
 		
-		for(Object o:ritualTag.func_150296_c()){
-			String key = (String)o;
+		for(String key:(Set<String>)timeTag.func_150296_c()){
 			times.put(key,timeTag.getShort(key));
 		}
 	}

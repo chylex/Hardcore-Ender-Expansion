@@ -1,4 +1,5 @@
 package chylex.hee.entity.projectile;
+import java.util.List;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -36,8 +37,8 @@ public class EntityProjectileDragonFreezeball extends EntityFireball{
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote){
 			PotionEffect effect = new PotionEffect(2,ModCommonProxy.opMobs ? 200 : 140,2);
-			for(Object o:worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(5D,5D,5D))){
-				EntityLivingBase e = (EntityLivingBase)o;
+			
+			for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(5D,5D,5D))){
 				if (e.getDistanceSqToEntity(this) < 5D)e.addPotionEffect(effect);
 			}
 			

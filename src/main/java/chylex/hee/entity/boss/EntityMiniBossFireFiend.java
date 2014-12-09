@@ -1,6 +1,7 @@
 package chylex.hee.entity.boss;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
@@ -134,11 +135,12 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			}
 		}
 		
-		for(Object o:worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(0.6D,1.65D,0.6D))){
-			if (o == this)continue;
-			EntityLivingBase e = (EntityLivingBase)o;
-			e.setFire(2+rand.nextInt(3));
+		for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(0.6D,1.65D,0.6D))){
+			if (e == this || e.isImmuneToFire())continue;
+			e.setFire(2+rand.nextInt(4));
+			e.hurtResistantTime = 0;
 			e.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs ? 9F : 5F);
+			e.hurtResistantTime = 7;
 			++damageInflicted;
 		}
 		
@@ -146,8 +148,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		wingAnimationStep = 1F;
 		if (Math.abs(moveForward) > 0.01D)wingAnimationStep += 1F;
-		if (motionY>0.001D)wingAnimationStep += 1.5F;
-		else if (motionY<0.001D)wingAnimationStep -= 0.75F;
+		if (motionY > 0.001D)wingAnimationStep += 1.5F;
+		else if (motionY < 0.001D)wingAnimationStep -= 0.75F;
 		
 		wingAnimation += wingAnimationStep*0.01F;
 	}
@@ -168,7 +170,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		for(int a = 0; a < 60; a++)entityDropItem(new ItemStack(ItemList.essence,2,EssenceType.FIERY.getItemDamage()),rand.nextFloat()*height);
+		for(int a = 0; a < 80; a++)entityDropItem(new ItemStack(ItemList.essence,3,EssenceType.FIERY.getItemDamage()),rand.nextFloat()*height);
 	}
 	
 	@Override

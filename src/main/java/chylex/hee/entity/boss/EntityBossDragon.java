@@ -462,13 +462,11 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 	}
 
-	private void collideWithEntities(List list){
+	private void collideWithEntities(List<? extends Entity> list){
 		double bodyCenterX = (dragonPartBody.boundingBox.minX+dragonPartBody.boundingBox.maxX)*0.5D;
 		double bodyCenterZ = (dragonPartBody.boundingBox.minZ+dragonPartBody.boundingBox.maxZ)*0.5D;
 		
-		for(Object o:list){
-			Entity entity = (Entity)o;
-			
+		for(Entity entity:list){
 			if (entity instanceof EntityLivingBase || entity instanceof EntityBlockFallingObsidian){
 				double[] vec = DragonUtil.getNormalizedVector(entity.posX-bodyCenterX,entity.posZ-bodyCenterZ);
 				CollisionEvent event = new CollisionEvent(entity,vec[0]*2D,0.2D,vec[1]*2D);
@@ -624,7 +622,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  			}
  			else if (deathTicks > 150 && deathTicks%5 == 0)DragonUtil.spawnXP(this,550+(250*(rewards.getFinalDifficulty()>>2)));
  			else if (deathTicks == 191){
- 				for(Object o:worldObj.playerEntities)((EntityPlayer)o).addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
+ 				for(EntityPlayer player:(List<EntityPlayer>)worldObj.playerEntities)player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
  			}
  			else if (deathTicks == 200)DragonUtil.spawnXP(this,4000);
  			

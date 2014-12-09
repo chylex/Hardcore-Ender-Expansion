@@ -149,13 +149,14 @@ public class DragonSavefile extends WorldSavefile{
 		if (portalCoords.length == 3)portalEggLocation.set(portalCoords[0],portalCoords[1],portalCoords[2]);
 		
 		NBTTagCompound tagCrystals = nbt.getCompoundTag("crystals");
-		for(Object o:tagCrystals.func_150296_c()){
-			String key = (String)o;
+		
+		for(String key:(Set<String>)tagCrystals.func_150296_c()){
 			int[] coords = tagCrystals.getIntArray(key);
 			if (coords.length == 3)crystals.put(key,new ChunkCoordinates(coords[0],coords[1],coords[2]));
 		}
 		
 		NBTTagList tagTemplePlayers = nbt.getTagList("templePlayers",NBT.TAG_STRING);
+		
 		for(int a = 0; a < tagTemplePlayers.tagCount(); a++){
 			templePlayers.add(DragonUtil.convertNameToUUID(tagTemplePlayers.getStringTagAt(a)));
 		}

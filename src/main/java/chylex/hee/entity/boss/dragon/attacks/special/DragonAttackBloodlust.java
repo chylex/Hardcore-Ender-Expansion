@@ -17,7 +17,7 @@ import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackBloodlust extends DragonSpecialAttackBase{
-	private int targetX,targetZ;
+	private int targetX, targetZ;
 	private float moveSpeed;
 	private byte timer,counter;
 	
@@ -31,8 +31,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 		timer = (byte)(80+(counter = (byte)(targetX = targetZ = 0)));
 		moveSpeed = 1F;
 		
-		for(Object o:dragon.worldObj.playerEntities){
-			EntityPlayer player = (EntityPlayer)o;
+		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
 			targetX += player.posX;
 			targetZ += player.posZ;
 		}
@@ -46,7 +45,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	@Override
 	public void update(){
 		super.update();
-		dragon.targetY = 85;
+		dragon.targetY = 90;
 		
 		if (phase == 0){
 			dragon.targetX = targetX;
@@ -62,8 +61,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 				++counter;
 				timer = (byte)(25+rand.nextInt(30)+7*(4-dragon.getWorldDifficulty())-2*Math.min(5,dragon.worldObj.playerEntities.size()));
 
-				for(Object oPlayer:dragon.worldObj.playerEntities){
-					EntityPlayer player = (EntityPlayer)oPlayer;
+				for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
 					if (player.capabilities.isCreativeMode)continue;
 					
 					List<EntityEnderman> endermanList = dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(64D,96D,64D));

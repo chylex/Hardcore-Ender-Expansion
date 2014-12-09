@@ -3,6 +3,7 @@ import gnu.trove.iterator.TObjectByteIterator;
 import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
+import java.util.Set;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -64,9 +65,7 @@ public class InfestationSavefile extends WorldSavefile{
 
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
-		for(Object o:nbt.func_150296_c()){
-			String key = (String)o;
-			
+		for(String key:(Set<String>)nbt.func_150296_c()){
 			if (key.endsWith("_pow")){
 				infestationPower.put(DragonUtil.convertNameToUUID(key.substring(0,key.length()-4)),nbt.getInteger(key));
 			}

@@ -220,9 +220,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 							
 						case ATTACK_BLAST_WAVE:
 							if (currentAttackTime == 30){
-								for(Object o:worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(12D,4D,12D).offset(0D,-2D,0D))){
-									Entity entity = (Entity)o;
-									
+								for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(12D,4D,12D).offset(0D,-2D,0D))){
 									double dist = MathUtil.distance(entity.posX-posX,entity.posZ-posZ);
 									if (dist > 12D)continue;
 									

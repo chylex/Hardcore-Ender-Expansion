@@ -26,10 +26,10 @@ public final class OrbSpawnableMobs{
 			if (biome == null)continue;
 			
 			for(EnumCreatureType creatureType:EnumCreatureType.values()){
-				List<?> spawnEntries = biome.getSpawnableList(creatureType);
+				List<SpawnListEntry> spawnEntries = biome.getSpawnableList(creatureType);
 				if (spawnEntries == null)continue;
 				
-				for(Object o:spawnEntries)classList.add(((SpawnListEntry)o).entityClass);
+				for(SpawnListEntry entry:spawnEntries)classList.add(entry.entityClass);
 			}
 		}
 		

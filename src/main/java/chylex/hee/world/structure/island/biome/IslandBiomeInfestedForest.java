@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,10 +58,9 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	public void updateCore(World world, int x, int y, int z, int meta){
 		super.updateCore(world,x,y,z,meta);
 		
-		for(Object o:world.playerEntities){
+		for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
 			if (world.rand.nextInt(5) <= 2)continue;
 			
-			EntityPlayer player = (EntityPlayer)o;
 			int xx = MathUtil.floor(player.posX), yy = MathUtil.floor(player.posY), zz = MathUtil.floor(player.posZ);
 			boolean found = false;
 			

@@ -1,4 +1,5 @@
 package chylex.hee.entity.mob;
+import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -90,8 +91,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 				teleportDelay = 0;
 
 				if (rand.nextInt(30) == 0){
-					for(Object o:worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,4D,6D))){
-						EntityPlayer player = (EntityPlayer)o;
+					for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,4D,6D))){
 						if (!player.capabilities.isCreativeMode){
 							entityToAttack = player;
 							break;

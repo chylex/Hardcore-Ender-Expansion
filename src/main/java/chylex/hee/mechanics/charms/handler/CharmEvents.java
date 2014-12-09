@@ -101,11 +101,11 @@ public final class CharmEvents{
 	
 	public void onDisabled(){
 		if (!playerSpeed.isEmpty()){
-			for(Object o:MinecraftServer.getServer().getConfigurationManager().playerEntityList){
-				UUID id = ((EntityPlayerMP)o).getGameProfile().getId();
+			for(EntityPlayerMP player:(List<EntityPlayerMP>)MinecraftServer.getServer().getConfigurationManager().playerEntityList){
+				UUID id = player.getGameProfile().getId();
 				
 				if (playerSpeed.containsKey(id)){
-					IAttributeInstance attribute = ((EntityPlayerMP)o).getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
+					IAttributeInstance attribute = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
 					if (attribute != null)attribute.removeModifier(attrSpeed);
 				}
 			}

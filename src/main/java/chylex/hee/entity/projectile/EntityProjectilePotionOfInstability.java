@@ -1,4 +1,5 @@
 package chylex.hee.entity.projectile;
+import java.util.List;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.item.ItemStack;
@@ -20,13 +21,12 @@ public class EntityProjectilePotionOfInstability extends EntityPotion{
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote){
-			for(Object o:worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(4D,2D,4D))){
-				EntityLivingBase entity = (EntityLivingBase)o;
+			for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(4D,2D,4D))){
 				double dist = getDistanceSqToEntity(entity);
 
 				if (dist < 16D){
 					PotionEffect eff = ItemPotionOfInstability.getRandomPotionEffect(rand);
-					int dur = (int)(((entity == mop.entityHit?1D:(1D-Math.sqrt(dist)/4D)))*eff.getDuration()+0.5D);
+					int dur = (int)(((entity == mop.entityHit ? 1D : (1D-Math.sqrt(dist)/4D)))*eff.getDuration()+0.5D);
 					
 					if (dur > 20)entity.addPotionEffect(new PotionEffect(eff.getPotionID(),dur,eff.getAmplifier(),eff.getIsAmbient()));
 				}

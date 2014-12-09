@@ -1,6 +1,7 @@
 package chylex.hee.item;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.set.hash.TIntHashSet;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -37,8 +38,7 @@ public class ItemInfestationRemedy extends Item{
 		TIntHashSet toRemove = new TIntHashSet(5);
 		Map<PotionEffect,Integer> newDurations = new HashMap<>();
 		
-		for(Object o:player.getActivePotionEffects()){
-			PotionEffect eff = (PotionEffect)o;
+		for(PotionEffect eff:(Collection<PotionEffect>)player.getActivePotionEffects()){
 			if (eff.getIsAmbient() && InfestationEvents.isValidPotionEffect(eff.getPotionID())){
 				int dur = eff.getDuration()-3000+itemRand.nextInt(600);
 				

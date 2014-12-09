@@ -51,11 +51,10 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 				
 				if (owner instanceof EntityPlayer){
 					Class<?> cls;
-					for(Object o:world.getEntitiesWithinAABB(EntityMob.class,owner.boundingBox.expand(2.75D,1.5D,2.75D))){
-						cls = o.getClass();
+					for(EntityMob mob:(List<EntityMob>)world.getEntitiesWithinAABB(EntityMob.class,owner.boundingBox.expand(2.75D,1.5D,2.75D))){
+						cls = mob.getClass();
 						
 						if (cls == EntityEnderman.class || cls == EntityMobAngryEnderman.class){
-							EntityMob mob = (EntityMob)o;
 							if (mob.getEntityToAttack() != owner)continue;
 							
 							EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(world,mob.posX,mob.posY,mob.posZ,null,false);

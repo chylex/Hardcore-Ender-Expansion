@@ -1,4 +1,5 @@
 package chylex.hee.system.commands;
+import java.util.List;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -125,9 +126,7 @@ public class HeeAdminCommand extends HeeCommand{
 			PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
 		}
 		else if (args[0].equalsIgnoreCase("achievement-unlock") && player != null && args.length == 2){
-			for(Object o:AchievementList.achievementList){
-				Achievement achievement = (Achievement)o;
-				
+			for(Achievement achievement:(List<Achievement>)AchievementList.achievementList){
 				if (achievement.statId.equals(args[1])){
 					player.addStat(achievement,1);
 					return;

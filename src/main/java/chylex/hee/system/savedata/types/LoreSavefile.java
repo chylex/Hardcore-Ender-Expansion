@@ -3,6 +3,7 @@ import gnu.trove.list.array.TByteArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -66,10 +67,6 @@ public class LoreSavefile extends WorldSavefile{
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
 		unlockedPages.clear();
-		
-		for(Object o:nbt.func_150296_c()){
-			String key = (String)o;
-			unlockedPages.put(DragonUtil.convertNameToUUID(key),nbt.getByteArray(key));
-		}
+		for(String key:(Set<String>)nbt.func_150296_c())unlockedPages.put(DragonUtil.convertNameToUUID(key),nbt.getByteArray(key));
 	}
 }

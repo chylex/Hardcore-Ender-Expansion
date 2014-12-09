@@ -5,6 +5,7 @@ import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -79,9 +80,7 @@ public final class StardustDecomposition{
 				
 				// SEARCH ALL BLOCKS WITH SPECIFIED ID
 				
-				for(Object o:GameData.getBlockRegistry().getKeys()){
-					String key = (String)o;
-					
+				for(String key:(Set<String>)GameData.getBlockRegistry().getKeys()){
 					if (key.startsWith(identifier)){
 						Block block = GameData.getBlockRegistry().getRaw(key);
 						
@@ -97,9 +96,7 @@ public final class StardustDecomposition{
 				
 				// SEARCH ALL ITEMS WITH SPECIFIED ID
 				
-				for(Object o:GameData.getItemRegistry().getKeys()){
-					String key = (String)o;
-					
+				for(String key:(Set<String>)GameData.getItemRegistry().getKeys()){
 					if (key.startsWith(identifier)){
 						Item item = GameData.getItemRegistry().getRaw(key);
 						
@@ -146,24 +143,23 @@ public final class StardustDecomposition{
 		
 		List<ItemStack[]> ingredients = new ArrayList<>();
 
-		for(Object o:CraftingManager.getInstance().getRecipeList()){
-			IRecipe recipe = (IRecipe)o;
+		for(IRecipe recipe:(List<IRecipe>)CraftingManager.getInstance().getRecipeList()){
 			ItemStack output = recipe.getRecipeOutput();
 			if (output == null || output.getItem() != item || output.stackSize != is.stackSize || (!is.isItemStackDamageable() && output.getItemDamage() != is.getItemDamage()))continue;
 
-			if (o instanceof ShapedRecipes){
-				ingredients.add(DragonUtil.getNonNullValues(((ShapedRecipes)o).recipeItems));
+			if (recipe instanceof ShapedRecipes){
+				ingredients.add(DragonUtil.getNonNullValues(((ShapedRecipes)recipe).recipeItems));
 			}
-			else if (o instanceof ShapelessRecipes){
-				ShapelessRecipes shapeless = (ShapelessRecipes)o;
+			else if (recipe instanceof ShapelessRecipes){
+				ShapelessRecipes shapeless = (ShapelessRecipes)recipe;
 
 				ItemStack[] ing = new ItemStack[shapeless.recipeItems.size()];
 				for(int a = 0; a < ing.length; a++)ing[a] = (ItemStack)shapeless.recipeItems.get(a);
 				ingredients.add(ing);
 			}
 			else{
-				Object[] objs = o instanceof ShapedOreRecipe ? DragonUtil.getNonNullValues(((ShapedOreRecipe)o).getInput()) :
-								o instanceof ShapelessOreRecipe ? ((ShapelessOreRecipe)o).getInput().toArray() : null;
+				Object[] objs = recipe instanceof ShapedOreRecipe ? DragonUtil.getNonNullValues(((ShapedOreRecipe)recipe).getInput()) :
+								recipe instanceof ShapelessOreRecipe ? ((ShapelessOreRecipe)recipe).getInput().toArray() : null;
 				if (objs == null)continue;
 
 				ItemStack[] ing = new ItemStack[objs.length];

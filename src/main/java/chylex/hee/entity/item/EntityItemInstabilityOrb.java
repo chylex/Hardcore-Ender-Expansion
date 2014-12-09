@@ -1,5 +1,6 @@
 package chylex.hee.entity.item;
 import java.util.Iterator;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -8,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
@@ -45,12 +47,11 @@ public class EntityItemInstabilityOrb extends EntityItem{
 		
 		if (!worldObj.isRemote){
 			age += 1+rand.nextInt(2+rand.nextInt(4))*rand.nextInt(3);
+			
 			if (age >= 666)detonate();
-			else if (!isTntNearby && (ticksExisted&3) == 1){
-				for(Object o:worldObj.getEntitiesWithinAABB(EntityTNTPrimed.class,boundingBox.expand(4D,4D,4D))){
-					EntityTNTPrimed tnt = (EntityTNTPrimed)o;
-					
-					if (tnt.fuse < 6 && getDistance(tnt.posX,tnt.posY,tnt.posZ)/4D <= 1D){ // 4 = strength of TNT
+			else if (!isTntNearby){
+				for(EntityTNTPrimed tnt:(List<EntityTNTPrimed>)worldObj.getEntitiesWithinAABB(EntityTNTPrimed.class,boundingBox.expand(5.2D,5.2D,5.2D))){
+					if (tnt.fuse < 3 && getDistance(tnt.posX,tnt.posY,tnt.posZ)/(tnt instanceof EntityBlockEnhancedTNTPrimed ? 5.2D : 4D) <= 1D){ // 4 = strength of TNT
 						isTntNearby = true;						
 						break;
 					}

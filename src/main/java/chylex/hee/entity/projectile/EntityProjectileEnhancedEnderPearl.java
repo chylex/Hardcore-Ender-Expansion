@@ -133,8 +133,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 					if (!MinecraftForge.EVENT_BUS.post(event)){
 						if (pearlTypes.contains(EnderPearlEnhancements.EXPLOSIVE))DragonUtil.createExplosion(this,posX,posY,posZ,2.7F,true);
 						if (pearlTypes.contains(EnderPearlEnhancements.FREEZE)){
-							for(Object o:worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(5D,3D,5D))){
-								EntityLivingBase entity = (EntityLivingBase)o;
+							for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(5D,3D,5D))){
 								double dist = entity.getDistanceSqToEntity(this);
 								if (dist <= 5D)entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,80+(int)(10D*(6D-dist)),3,true));
 							}

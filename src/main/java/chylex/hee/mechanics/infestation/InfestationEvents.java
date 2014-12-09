@@ -1,4 +1,6 @@
 package chylex.hee.mechanics.infestation;
+import java.util.Collection;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -49,8 +51,7 @@ public final class InfestationEvents{
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent e){
-		for(Object o:e.player.getActivePotionEffects()){
-			PotionEffect eff = (PotionEffect)o;
+		for(PotionEffect eff:(Collection<PotionEffect>)e.player.getActivePotionEffects()){
 			if (eff.getIsAmbient() && isValidPotionEffect(eff.getPotionID())){
 				InfestationEffect.setCurativeItems(eff);
 			}
@@ -65,10 +66,9 @@ public final class InfestationEvents{
 		World world = e.world;
 		InfestationSavefile file = WorldDataHandler.get(InfestationSavefile.class);
 		
-		for(Object o:world.playerEntities){
-			if (world.rand.nextInt(3) == 0 || o == null)continue;
+		for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
+			if (world.rand.nextInt(3) == 0)continue;
 			
-			EntityPlayer player = (EntityPlayer)o;
 			if (file.decreaseInfestationStartTimer(player) == 1){
 				int power = file.getInfestationPower(player);
 				

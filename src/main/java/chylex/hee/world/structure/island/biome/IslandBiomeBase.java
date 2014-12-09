@@ -190,9 +190,7 @@ public abstract class IslandBiomeBase{
 			}
 		}
 		
-		for(Object o:world.playerEntities){
-			EntityPlayer player = (EntityPlayer)o;
-
+		for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
 			if (isPlayerMoving(player)){
 				int ix = (int)player.posX, iy = (int)player.posY-1, iz = (int)player.posZ;
 				

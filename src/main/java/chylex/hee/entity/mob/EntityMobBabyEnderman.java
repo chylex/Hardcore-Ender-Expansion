@@ -202,11 +202,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		boolean flag = super.attackEntityFrom(source,damage);
 
 		if (flag && !isFamilyChosen && !worldObj.isRemote && source.damageType.equals("player")){
-			List<EntityEnderman> endermanList = new ArrayList<>();
-			for(Object o:worldObj.getEntitiesWithinAABB(EntityEnderman.class,boundingBox.expand(32D,32D,32D))){
-				endermanList.add((EntityEnderman)o);
-			}
-			
+			List<EntityEnderman> endermanList = worldObj.getEntitiesWithinAABB(EntityEnderman.class,boundingBox.expand(32D,32D,32D));			
 			Collections.sort(endermanList,new DistanceComparator(this));
 			
 			int familySize = Math.min(endermanList.size(),2+rand.nextInt(3)+rand.nextInt(2));

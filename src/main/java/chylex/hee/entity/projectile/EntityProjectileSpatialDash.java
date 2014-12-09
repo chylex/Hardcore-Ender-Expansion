@@ -65,13 +65,11 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 
 		if (!worldObj.isRemote){
 			Entity finalEntity = null;
-			List collisionList = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.addCoord(motionX,motionY,motionZ).expand(1D,1D,1D));
+			List<Entity> collisionList = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.addCoord(motionX,motionY,motionZ).expand(1D,1D,1D));
 			double minDist = Double.MAX_VALUE, dist;
 			EntityLivingBase thrower = getThrower();
 
-			for(Object o:collisionList){
-				Entity e = (Entity)o;
-
+			for(Entity e:collisionList){
 				if (e.canBeCollidedWith() && (e != thrower || ticks >= 5)){
 					AxisAlignedBB aabb = e.boundingBox.expand(0.3F,0.3F,0.3F);
 					MovingObjectPosition mopTest = aabb.calculateIntercept(vecPos,hitVec);

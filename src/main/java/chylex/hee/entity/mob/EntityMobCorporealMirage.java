@@ -66,11 +66,11 @@ public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwn
 		if (worldObj.isRemote)return;
 		
 		if (--checkTimer < 0){
-			List<?> entities = worldObj.selectEntitiesWithinAABB(EntityLiving.class,boundingBox.expand(20D,8D,20D),IMob.mobSelector);
+			List<EntityLiving> entities = worldObj.selectEntitiesWithinAABB(EntityLiving.class,boundingBox.expand(20D,8D,20D),IMob.mobSelector);
 			Collections.shuffle(entities,rand);
 			String name = getCustomNameTag();
 			
-			for(Object o:entities){
+			for(EntityLiving o:entities){
 				if (o instanceof EntityMob){
 					EntityMob e = (EntityMob)o;
 					if (!e.canEntityBeSeen(this))continue;

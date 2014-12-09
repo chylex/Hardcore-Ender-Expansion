@@ -35,15 +35,15 @@ public class GuiItemViewer extends GuiScreen{
 			Item item = Item.getItemFromBlock(block.block);
 			if (item == null)continue;
 			
-			List is = new ArrayList();
+			List<ItemStack> is = new ArrayList<>();
 			item.getSubItems(item,null,is);
-			for(Object o:is)toRender.add((ItemStack)o);
+			toRender.addAll(is);
 		}
 
 		for(Item item:ItemList.getAllItems()){
-			List is = new ArrayList();
+			List<ItemStack> is = new ArrayList<>();
 			item.getSubItems(item,null,is);
-			for(Object o:is)toRender.add((ItemStack)o);
+			toRender.addAll(is);
 		}
 	}
 	

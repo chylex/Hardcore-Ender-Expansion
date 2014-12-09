@@ -1,4 +1,5 @@
 package chylex.hee.entity.projectile;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -40,9 +41,7 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 		if (worldObj.isRemote)return;
 		
 		if (ticksExisted % 3 == 0){
-			for(Object o:worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.offset(0D,0.5D,0D).expand(1D,1D,1D))){
-				Entity e = (Entity)o;
-				
+			for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.offset(0D,0.5D,0D).expand(1D,1D,1D))){
 				if (e.hurtResistantTime == 0 && e.getClass() != EntityMobEndermage.class && e.getClass() != EntityMobEnderGuardian.class){
 					e.attackEntityFrom(DamageSource.magic,2F);
 					e.hurtResistantTime = 0;

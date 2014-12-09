@@ -64,35 +64,29 @@ public class DragonAttackManager{
 		return true;
 	}
 	
-	public boolean biteClosePlayer(){
-		EntityPlayer player = null;
-		for(Object e:dragon.worldObj.getEntitiesWithinAABBExcludingEntity(dragon,dragon.dragonPartHead.boundingBox.expand(2.8D,2.4D,2.8D))){
-			if (e instanceof EntityPlayer){
-				player = (EntityPlayer)e;
-				break;
+	public boolean biteClosePlayers(){
+		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,dragon.dragonPartHead.boundingBox.expand(2.8D,2.4D,2.8D))){
+			int diff = dragon.getWorldDifficulty(), rm;
+			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 9F : 4F)+diff);
+			
+			switch(diff){
+				case 3: rm = 34; break;
+				case 2: rm = 22; break;
+				case 1: rm = 15; break;
+				default: rm = 10;
 			}
-		}
-		if (player == null)return false;
-		int diff = dragon.getWorldDifficulty(), rm;
-		player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 9F : 4F)+diff);
-		
-		switch(diff){
-			case 3: rm = 34; break;
-			case 2: rm = 22; break;
-			case 1: rm = 15; break;
-			default: rm = 10;
-		}
-		
-		if (rand.nextInt(100) < rm){
-			player.addPotionEffect(new PotionEffect(Potion.poison.id,180+25*(diff),0));
-			dragon.rewards.addHandicap(0.1F,false);
-			if (rand.nextInt(100) < 35+diff*12){
-				player.addPotionEffect(new PotionEffect(Potion.blindness.id,200+18*(diff),0));
-				player.addPotionEffect(new PotionEffect(Potion.confusion.id,160+20*(diff),0));
+			
+			if (rand.nextInt(100) < rm){
+				player.addPotionEffect(new PotionEffect(Potion.poison.id,180+25*(diff),0));
+				dragon.rewards.addHandicap(0.1F,false);
+				if (rand.nextInt(100) < 35+diff*12){
+					player.addPotionEffect(new PotionEffect(Potion.blindness.id,200+18*(diff),0));
+					player.addPotionEffect(new PotionEffect(Potion.confusion.id,160+20*(diff),0));
+				}
 			}
 		}
 		
-		return true;
+		return false;
 	}
 	
 	public EntityPlayer getRandomPlayer(){

@@ -1,7 +1,9 @@
 package chylex.hee.entity.boss.dragon.managers;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,8 +26,7 @@ public class DragonAchievementManager{
 			playerCheck = 0;
 			++battleTimer;
 			
-			for(Object o:dragon.worldObj.playerEntities){
-				EntityPlayer player = (EntityPlayer)o;
+			for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
 				if (player.capabilities.isCreativeMode)continue;
 				AchievementData data = getData(player.getCommandSenderName());
 				++data.participationCounter;
@@ -56,8 +57,8 @@ public class DragonAchievementManager{
 			if ((float)entry.getValue().participationCounter/(float)battleTimer < 0.75F)continue;
 			
 			EntityPlayer player = null;
-			for(Object o:dragon.worldObj.playerEntities){
-				EntityPlayer tmpPlayer = (EntityPlayer)o;
+			
+			for(EntityPlayer tmpPlayer:(List<EntityPlayer>)dragon.worldObj.playerEntities){
 				if (tmpPlayer.getCommandSenderName().equals(entry.getKey())){
 					player = tmpPlayer;
 					break;
@@ -82,8 +83,7 @@ public class DragonAchievementManager{
 	public void readFromNBT(NBTTagCompound tag){
 		battleTimer = tag.getInteger("___timer");
 		
-		for(Object o:tag.func_150296_c()){ // OBFUSCATED list tags?
-			String key = (String)o;
+		for(String key:(Set<String>)tag.func_150296_c()){ // OBFUSCATED list tags?
 			NBTBase b = tag.getTag(key);
 			
 			if (b instanceof NBTTagCompound){

@@ -94,8 +94,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 				endermanSpawnTimer = (byte)(125-rand.nextInt(40));
 				if (obsidianSpawnTimer<-105)obsidianSpawnTimer += 20;
 				
-				for(Object o:worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(128D,64D,128D))){
-					EntityPlayer player = (EntityPlayer)o;
+				for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(128D,64D,128D))){
 					int attempt, ix, iy, iz;
 					
 					for(attempt = 0; attempt < 40; attempt++){

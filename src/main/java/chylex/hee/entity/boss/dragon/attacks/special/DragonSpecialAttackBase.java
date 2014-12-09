@@ -1,5 +1,6 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import gnu.trove.map.hash.TObjectFloatHashMap;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -79,18 +80,15 @@ public abstract class DragonSpecialAttackBase{
 	}
 	
 	protected void updatePlayerHealth(){
-		for(Object o:dragon.worldObj.playerEntities){
-			if (o instanceof EntityPlayer){
-				EntityPlayer player = (EntityPlayer)o;
-				String username = player.getCommandSenderName();
-				
-				if (lastPlayerHealth.containsKey(username)){
-					float last = lastPlayerHealth.get(username);
-					if (player.getHealth() < last)damageDealt += (last-player.getHealth());
-				}
-				
-				lastPlayerHealth.put(username,player.getHealth());
+		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
+			String username = player.getCommandSenderName();
+			
+			if (lastPlayerHealth.containsKey(username)){
+				float last = lastPlayerHealth.get(username);
+				if (player.getHealth() < last)damageDealt += (last-player.getHealth());
 			}
+			
+			lastPlayerHealth.put(username,player.getHealth());
 		}
 	}
 	
