@@ -8,6 +8,7 @@ import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemReed;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.creativetab.ModCreativeTab;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
 
 public final class ItemList{
@@ -128,9 +129,13 @@ public final class ItemList{
 	}
 	
 	public static void registerItems(){
+		Stopwatch.time("ItemList - register");
+		
 		for(Entry<String,Item> entry:ItemList.items.entrySet()){
 			GameRegistryUtil.registerItem(entry.getValue(),entry.getKey());
 		}
+		
+		Stopwatch.finish("ItemList - register");
 		
 		ModCreativeTab.tabMain.list.addItems(
 			adventurers_diary,altar_nexus,essence,enhanced_brewing_stand,

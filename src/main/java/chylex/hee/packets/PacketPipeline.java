@@ -4,17 +4,22 @@ import gnu.trove.map.hash.TObjectByteHashMap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntity;
+import org.apache.commons.io.FilenameUtils;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.logging.Stopwatch;
-import com.google.common.reflect.ClassPath;
-import com.google.common.reflect.ClassPath.ClassInfo;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLEventChannel;
@@ -59,15 +64,35 @@ public class PacketPipeline{
 			
 			int id = -1;
 			
-			for(ClassInfo clsInfo:ClassPath.from(PacketPipeline.class.getClassLoader()).getTopLevelClassesRecursive("chylex.hee.packets")){
-				String name = clsInfo.getName();
+			File sourceFile = HardcoreEnderExpansion.sourceFile;
+			
+			if (sourceFile.isDirectory()){
+				File root = Paths.get(sourceFile.getPath(),"chylex","hee","packets").toFile();
 				
-				if (name.startsWith("chylex.hee.packets.client.C") || name.startsWith("chylex.hee.packets.server.S")){
-					Class cls = clsInfo.load();
-					registerPacket(++id,cls);
+				for(String name:new File(root,"client").list()){
+					if (name.startsWith("C"))registerPacket(++id,(Class<? extends AbstractPacket>)Class.forName("chylex.hee.packets.client."+FilenameUtils.removeExtension(name)));
+				}
+				
+				for(String name:new File(root,"server").list()){
+					if (name.startsWith("S"))registerPacket(++id,(Class<? extends AbstractPacket>)Class.forName("chylex.hee.packets.server."+FilenameUtils.removeExtension(name)));
 				}
 			}
-		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException | IOException e){
+			else{
+				try(ZipFile zip = new ZipFile(sourceFile)){
+					for(ZipEntry entry:Collections.list(zip.entries())){
+						String name = entry.getName();
+						
+						if (name.startsWith("chylex/hee/packets/")){
+							if (name.startsWith("chylex/hee/packets/client/C") || name.startsWith("chylex/hee/packets/client/S")){
+								registerPacket(++id,(Class<? extends AbstractPacket>)Class.forName(FilenameUtils.removeExtension(name.replace('/','.'))));
+							}
+						}
+					}
+				}catch(IOException e){
+					throw e;
+				}
+			}
+		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException | IOException | ClassNotFoundException e){
 			throw new RuntimeException("Unable to load the Packet system!",e);
 		}
 		

@@ -4,10 +4,13 @@ import chylex.hee.system.integration.handlers.MineFactoryReloadedIntegration;
 import chylex.hee.system.integration.handlers.NotEnoughItemsIntegration;
 import chylex.hee.system.integration.handlers.ThaumcraftIntegration;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.Loader;
 
 public final class ModIntegrationManager{
 	public static final void integrateMods(){
+		Stopwatch.time("ModIntegrationManager - integrateMods");
+		
 		Class[] handlerClasses = new Class[]{
 			NotEnoughItemsIntegration.class,
 			ThaumcraftIntegration.class,
@@ -23,5 +26,7 @@ public final class ModIntegrationManager{
 				Log.throwable(e,"Unable to integrate with mod $0.",cls.getSimpleName());
 			}
 		}
+		
+		Stopwatch.finish("ModIntegrationManager - integrateMods");
 	}
 }

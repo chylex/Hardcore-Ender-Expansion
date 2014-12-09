@@ -27,6 +27,7 @@ import chylex.hee.item.block.ItemBlockSoulCharm;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -190,9 +191,13 @@ public final class BlockList{
 	}
 	
 	public static void registerBlocks(){
+		Stopwatch.time("BlockList - register");
+		
 		for(Entry<String,BlockData> entry:BlockList.blocks.entrySet()){
 			GameRegistryUtil.registerBlock(entry.getValue().block,entry.getKey(),entry.getValue().itemBlockClass);
 		}
+		
+		Stopwatch.finish("BlockList - register");
 		
 		ModCreativeTab.tabMain.list.addBlocks(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,

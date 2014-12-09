@@ -1,4 +1,5 @@
 package chylex.hee;
+import java.io.File;
 import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -129,6 +130,7 @@ public class HardcoreEnderExpansion{
 	
 	public static String modVersion;
 	public static String configPath;
+	public static File sourceFile;
 	
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent e){
@@ -137,6 +139,7 @@ public class HardcoreEnderExpansion{
 		ReflectionPublicizer.load();
 		modVersion = e.getModMetadata().version;
 		configPath = e.getSuggestedConfigurationFile().getParentFile().getName();
+		sourceFile = e.getSourceFile();
 		
 		// CONFIGURATION LOAD
 
@@ -148,12 +151,12 @@ public class HardcoreEnderExpansion{
 		
 		// BASIC SETUP
 
-		CompendiumTranslations.load(e.getSourceFile());
+		CompendiumTranslations.load();
 		DimensionOverride.setup();
 		
 		// BLOCKS
 		
-		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, BlockDragonEggCustom.class, ItemBlockDragonEgg.class);
+		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom(), ItemBlockDragonEgg.class);
 		BlockList.registerBlocks();
 		
 		BlockList.obsidian_falling.setHarvestLevel("pickaxe", 3);

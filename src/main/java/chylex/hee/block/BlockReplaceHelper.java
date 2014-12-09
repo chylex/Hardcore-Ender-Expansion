@@ -1,30 +1,23 @@
 package chylex.hee.block;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ObjectIntIdentityMap;
-import net.minecraft.util.RegistryNamespaced;
-import net.minecraft.util.RegistrySimple;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.Unfinalizer;
 import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
 import cpw.mods.fml.common.registry.GameData;
 
 public class BlockReplaceHelper{
-	public static void replaceBlock(Block toReplace, Class<? extends Block> blockClass, Class<? extends ItemBlock> itemBlockClass){
+	public static void replaceBlock(Block toReplace, Block replacement, Class<? extends ItemBlock> itemBlockClass){
 		Stopwatch.time("BlockReplace");
 		
 		Class<?>[] classTest = new Class<?>[4];
 		Exception exception = null;
 		
 		try{
-			Field modifiersField = Field.class.getDeclaredField("modifiers");
-			modifiersField.setAccessible(true);
-			
 			for(Field blockField:Blocks.class.getDeclaredFields()){
 				if (Block.class.isAssignableFrom(blockField.getType())){
 					Block block = (Block)blockField.get(null);
@@ -35,29 +28,23 @@ public class BlockReplaceHelper{
 						
 						Log.debug("Replacing block - $0/$1",id,registryName);
 						
-						Block newBlock = blockClass.newInstance();
 						FMLControlledNamespacedRegistry<Block> registryBlocks = GameData.getBlockRegistry();
-						Field map1 = RegistrySimple.class.getDeclaredFields()[1];
-						map1.setAccessible(true);
-						((Map)map1.get(registryBlocks)).put(registryName,newBlock);
-						
-						Field map2 = RegistryNamespaced.class.getDeclaredFields()[0];
-						map2.setAccessible(true);
-						((ObjectIntIdentityMap)map2.get(registryBlocks)).func_148746_a(newBlock,id); // OBFUSCATED put object
+						registryBlocks.registryObjects.put(registryName,replacement);
+						registryBlocks.underlyingIntegerMap.func_148746_a(replacement,id); // OBFUSCATED put object
 						
 						blockField.setAccessible(true);
-						modifiersField.setInt(blockField,blockField.getModifiers() & ~Modifier.FINAL);
-						blockField.set(null,newBlock);
+						Unfinalizer.unfinalizeField(blockField);
+						blockField.set(null,replacement);
 						
-						ItemBlock itemBlock = itemBlockClass.getConstructor(Block.class).newInstance(newBlock);
+						ItemBlock itemBlock = itemBlockClass.getConstructor(Block.class).newInstance(replacement);
 						FMLControlledNamespacedRegistry<Item> registryItems = GameData.getItemRegistry();
-						((Map)map1.get(registryItems)).put(registryName,itemBlock);
-						((ObjectIntIdentityMap)map2.get(registryItems)).func_148746_a(itemBlock,id); // OBFUSCATED put object
+						registryItems.registryObjects.put(registryName,itemBlock);
+						registryItems.underlyingIntegerMap.func_148746_a(itemBlock,id); // OBFUSCATED put object
 						
 						classTest[0] = blockField.get(null).getClass();
 						classTest[1] = Block.blockRegistry.getObjectById(id).getClass();
-						classTest[2] = ((ItemBlock)Item.getItemFromBlock(newBlock)).field_150939_a.getClass();
-						classTest[3] = Item.getItemFromBlock(newBlock).getClass();
+						classTest[2] = ((ItemBlock)Item.getItemFromBlock(replacement)).field_150939_a.getClass();
+						classTest[3] = Item.getItemFromBlock(replacement).getClass();
 					}
 				}
 			}

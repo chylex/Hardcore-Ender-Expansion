@@ -135,7 +135,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			}
 		}
 		
-		for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(0.6D,1.65D,0.6D))){
+		for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(0.8D,1.65D,0.8D))){
 			if (e == this || e.isImmuneToFire())continue;
 			e.setFire(2+rand.nextInt(4));
 			e.hurtResistantTime = 0;

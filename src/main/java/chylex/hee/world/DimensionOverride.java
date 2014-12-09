@@ -1,13 +1,12 @@
 package chylex.hee.world;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.Hashtable;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenEnd;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.Unfinalizer;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.StructureIsland;
@@ -55,17 +54,14 @@ public final class DimensionOverride{
 		try{
 			BiomeGenBase sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
 			BiomeGenBase.getBiomeGenArray()[9] = sky;
-
-			Field modifiersField = Field.class.getDeclaredField("modifiers");
-			modifiersField.setAccessible(true);
 			
 			for(Field field:BiomeGenBase.class.getDeclaredFields()){
 				if (!BiomeGenBase.class.isAssignableFrom(field.getType()))continue;
 				
 				field.setAccessible(true);
-				modifiersField.setInt(field,field.getModifiers() & ~Modifier.FINAL);
+				Unfinalizer.unfinalizeField(field);
 				
-				if (field.get(null) instanceof BiomeGenEnd){
+				if (((BiomeGenBase)field.get(null)).biomeID == 9){
 					field.set(null,sky);
 					break;
 				}
