@@ -12,11 +12,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.RandomNameGenerator;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 
@@ -24,7 +28,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	private static final byte ATTACK_NONE = 0, ATTACK_FIREBALLS = 1, ATTACK_FLAMES = 2;
 	
 	private boolean isAngry;
-	private byte nextAttackTimer, currentAttack = ATTACK_NONE, prevAttack = ATTACK_NONE;
+	private byte timer, currentAttack = ATTACK_NONE, prevAttack = ATTACK_NONE;
 	public float wingAnimation, wingAnimationStep;
 	
 	public EntityMiniBossFireFiend(World world){
@@ -52,16 +56,22 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	}
 	
 	@Override
+	public void onLivingUpdate(){
+		super.onLivingUpdate();
+		
+		if (worldObj.isRemote){
+			byte attack = dataWatcher.getWatchableObjectByte(16);
+			
+			if (attack == ATTACK_FLAMES){
+				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,8);
+			}
+		}
+	}
+	
+	@Override
 	protected void updateEntityActionState(){
 		EntityPlayer closest = worldObj.getClosestPlayerToEntity(this,164D);
 		if (closest == null)return;
-		
-		List<EntityPlayer> allNearby = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(164D,164D,164D));
-		
-		for(Iterator<EntityPlayer> iter = allNearby.iterator(); iter.hasNext();){
-			EntityPlayer player = iter.next();
-			if (player.getDistanceToEntity(this) > 164D || player.isDead)iter.remove();
-		}
 		
 		double targetYDiff = posY-(closest.posY+9D);
 		
@@ -75,14 +85,15 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		if (Math.abs(targetYDiff) > 1D)motionY -= Math.abs(targetYDiff)*0.0045D*Math.signum(targetYDiff);
 		
 		if (currentAttack == ATTACK_NONE){
-			if (++nextAttackTimer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){
+			if (++timer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){
 				if (isAngry && rand.nextInt(5) == 0){
 					// TODO call golems
-					nextAttackTimer >>= 1;
+					timer >>= 1;
 				}
 				else{
 					currentAttack = rand.nextInt(3) == 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES;
 					if (currentAttack == ATTACK_FLAMES && prevAttack == ATTACK_FLAMES)currentAttack = ATTACK_FIREBALLS;
+					timer = 0;
 				}
 			}
 		}
@@ -90,7 +101,18 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			
 		}
 		else if (currentAttack == ATTACK_FLAMES){
-			
+			if (++timer > (isAngry ? 18 : 26)){
+				int fireLength = 3+(worldObj.difficultySetting.getDifficultyId()>>1);
+				
+				for(EntityPlayer player:getNearbyPlayers()){
+					player.setFire(fireLength);
+					player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 12F : 8F,worldObj.difficultySetting));
+					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.FIRE_FIEND_FLAME_ATTACK,player));
+				}
+				
+				timer = 0;
+				currentAttack = ATTACK_NONE;
+			}
 		}
 		
 		if (prevAttack != currentAttack){
@@ -100,80 +122,56 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		//
 		
-		/*if (target == null || target.isDead){
-			target = worldObj.getClosestPlayerToEntity(this,128D);
+		/*
+		if (attackStage == STAGE_REFRESHING){
+			if (--fireballAttackTimer < 0){
+				fireballOffsets.clear();
+				
+				for(int a = 0; a < 5+rand.nextInt(4); a++){
+					double ang = rand.nextDouble()*Math.PI*2D,len = rand.nextDouble()*2.5D+5D;
+					fireballOffsets.add(new float[]{ (float)(Math.cos(ang)*len), rand.nextFloat()*2.5F+4F, (float)(Math.sin(ang)*len) });
+				}
+				
+				attackStage = STAGE_CREATING;
+				fireballAttackTimer = 60;
+			}
 		}
-		else{
-			double diffX = posX-target.posX;
-			double diffY = posY-(target.posY+target.height*0.5D);
-			double diffZ = posZ-target.posZ;
-			
-			double distance = Math.sqrt(diffX*diffX+diffZ*diffZ);
-			
-			rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,(float)(Math.atan2(diffZ,diffX)*180D/Math.PI)-270F,6F);
-			rotationPitch = DragonUtil.rotateSmoothly(rotationPitch,(float)(-(Math.atan2(diffY,distance)*180D/Math.PI)),8F);
-			if (distance > 11D || (attackStage == STAGE_TOUCHING && distance > 2D))setMoveForward((float)getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()*(attackStage == STAGE_TOUCHING?3F:1F));
-			
-			double targetYDiff = posY-(target.posY+target.height*0.5D+(attackStage == STAGE_TOUCHING ? 0D : 5D));
-			
-			for(int a = 1; a < 6; a++){
-				if (!worldObj.isAirBlock(MathUtil.floor(posX),MathUtil.floor(posY)-a,MathUtil.floor(posZ))){
-					targetYDiff = -1.5D;
-					break;
-				}
-			}
-			
-			if (Math.abs(targetYDiff) > 1D)motionY -= Math.abs(targetYDiff)*0.0045D*Math.signum(targetYDiff);
-
-			if (attackStage == STAGE_REFRESHING){
-				if (--fireballAttackTimer < 0){
-					fireballOffsets.clear();
+		else if (attackStage == STAGE_CREATING){
+			if (--fireballAttackTimer < 0)attackStage = STAGE_SHOOTING;
+		}
+		else if (attackStage == STAGE_SHOOTING){
+			if (--fireballAttackTimer < 0){
+				Iterator < float[]> iter = fireballOffsets.iterator();
+				if (iter.hasNext()){
+					float[] offset = iter.next();
 					
-					for(int a = 0; a < 5+rand.nextInt(4); a++){
-						double ang = rand.nextDouble()*Math.PI*2D,len = rand.nextDouble()*2.5D+5D;
-						fireballOffsets.add(new float[]{ (float)(Math.cos(ang)*len), rand.nextFloat()*2.5F+4F, (float)(Math.sin(ang)*len) });
-					}
+					double ballX = target.posX+offset[0],ballY = target.posY+offset[1]+1.5D,ballZ = target.posZ+offset[2];
+					worldObj.spawnEntityInWorld(new EntityProjectileGolemFireball(worldObj,this,ballX,ballY,ballZ,target.posX-ballX,target.boundingBox.minY+target.height*0.5F-ballY,target.posZ-ballZ));
 					
-					attackStage = STAGE_CREATING;
-					fireballAttackTimer = 60;
+					iter.remove();
+					fireballAttackTimer = (byte)(10+rand.nextInt(10)-worldObj.difficultySetting.getDifficultyId()*2);
+				}
+				else{
+					attackStage = rand.nextInt(5) <= 1?STAGE_TOUCHING:STAGE_REFRESHING;
+					damageInflicted = 0;
+					touchAttemptTimer = 120;
+					fireballAttackTimer = (byte)(80+rand.nextInt(25)-worldObj.difficultySetting.getDifficultyId()*5-Math.min(50,damageTaken*0.3F)-(ModCommonProxy.opMobs?20:0));								
 				}
 			}
-			else if (attackStage == STAGE_CREATING){
-				if (--fireballAttackTimer < 0)attackStage = STAGE_SHOOTING;
+		}
+		
+		if (attackStage == STAGE_CREATING || attackStage == STAGE_SHOOTING){
+			for(float[] offset:fireballOffsets){
+				PacketPipeline.sendToAllAround(this,96D,new C12ParticleFireFiendFlames(this,target,offset,Byte.valueOf((byte)((60-fireballAttackTimer)>>2))));
 			}
-			else if (attackStage == STAGE_SHOOTING){
-				if (--fireballAttackTimer < 0){
-					Iterator < float[]> iter = fireballOffsets.iterator();
-					if (iter.hasNext()){
-						float[] offset = iter.next();
-						
-						double ballX = target.posX+offset[0],ballY = target.posY+offset[1]+1.5D,ballZ = target.posZ+offset[2];
-						worldObj.spawnEntityInWorld(new EntityProjectileGolemFireball(worldObj,this,ballX,ballY,ballZ,target.posX-ballX,target.boundingBox.minY+target.height*0.5F-ballY,target.posZ-ballZ));
-						
-						iter.remove();
-						fireballAttackTimer = (byte)(10+rand.nextInt(10)-worldObj.difficultySetting.getDifficultyId()*2);
-					}
-					else{
-						attackStage = rand.nextInt(5) <= 1?STAGE_TOUCHING:STAGE_REFRESHING;
-						damageInflicted = 0;
-						touchAttemptTimer = 120;
-						fireballAttackTimer = (byte)(80+rand.nextInt(25)-worldObj.difficultySetting.getDifficultyId()*5-Math.min(50,damageTaken*0.3F)-(ModCommonProxy.opMobs?20:0));								
-					}
-				}
+		}
+		
+		if (attackStage == STAGE_TOUCHING){
+			if (damageInflicted > 15+worldObj.difficultySetting.getDifficultyId()*3 || --touchAttemptTimer < -20){
+				attackStage = STAGE_REFRESHING;
 			}
-			
-			if (attackStage == STAGE_CREATING || attackStage == STAGE_SHOOTING){
-				for(float[] offset:fireballOffsets){
-					PacketPipeline.sendToAllAround(this,96D,new C12ParticleFireFiendFlames(this,target,offset,Byte.valueOf((byte)((60-fireballAttackTimer)>>2))));
-				}
-			}
-			
-			if (attackStage == STAGE_TOUCHING){
-				if (damageInflicted > 15+worldObj.difficultySetting.getDifficultyId()*3 || --touchAttemptTimer < -20){
-					attackStage = STAGE_REFRESHING;
-				}
-			}
-		}*/
+		}
+		*/
 		
 		//
 		
@@ -193,6 +191,17 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		else if (motionY < 0.001D)wingAnimationStep -= 0.75F;
 		
 		wingAnimation += wingAnimationStep*0.01F;
+	}
+	
+	private List<EntityPlayer> getNearbyPlayers(){
+		List<EntityPlayer> allNearby = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(164D,164D,164D));
+		
+		for(Iterator<EntityPlayer> iter = allNearby.iterator(); iter.hasNext();){
+			EntityPlayer player = iter.next();
+			if (player.getDistanceToEntity(this) > 164D || player.isDead)iter.remove();
+		}
+		
+		return allNearby;
 	}
 	
 	@Override

@@ -80,7 +80,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 					   yy = lightningTarget.posY,
 					   zz = lightningTarget.posZ+(rand.nextDouble()-0.5D)*1.5D;
 				
-				lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs?7F:4F);
+				lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
 
 				EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,xx,yy,zz,this,false);
 				worldObj.weatherEffects.add(bolt);

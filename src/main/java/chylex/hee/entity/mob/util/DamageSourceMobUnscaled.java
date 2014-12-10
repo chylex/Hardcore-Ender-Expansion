@@ -1,6 +1,7 @@
 package chylex.hee.entity.mob.util;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.world.EnumDifficulty;
 
 public class DamageSourceMobUnscaled extends EntityDamageSource{
 	public DamageSourceMobUnscaled(Entity entity){
@@ -12,9 +13,9 @@ public class DamageSourceMobUnscaled extends EntityDamageSource{
 		return false;
 	}
 	
-	public static float getScaledDamage(float damage, int difficulty){
-		return difficulty == 0?damage/2F+1F:
-			   difficulty == 2?damage*3F/2F:
-			   difficulty == 3?damage*4F/2F:damage;
+	public static float getDamage(float damage, EnumDifficulty difficulty){
+		return difficulty == EnumDifficulty.PEACEFUL ? damage/2F+1F :
+			   difficulty == EnumDifficulty.NORMAL ? damage*3F/2F :
+			   difficulty == EnumDifficulty.HARD ? damage*2F : damage;
 	}
 }

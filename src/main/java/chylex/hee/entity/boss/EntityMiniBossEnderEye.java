@@ -161,7 +161,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								player.motionY += 0.34D;
 								player.motionZ += vec[1];
 								
-								player.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs ? 6F : 3F);
+								player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
 							}
 							
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_POOF,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
@@ -240,7 +240,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					if (Math.abs(yD) >= 0.8D)motionY -= Math.abs(yD)*0.005D*Math.signum(yD);
 					
 					if (distance >= 3D)setMoveForward((float)getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
-					else if (Math.abs(yD) < 1D)target.attackEntityFrom(new DamageSourceMobUnscaled(this),3F+worldObj.difficultySetting.getDifficultyId()+(ModCommonProxy.opMobs?3F:0F));
+					else if (Math.abs(yD) < 1D)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 6F : 3F,worldObj.difficultySetting));
 					
 					if (target.isDead)target = null;
 				}
