@@ -100,6 +100,10 @@ public final class FXHandler{
 				world.playSound(x,y+1D,z,"mob.endermen.portal",1F,1F,false);
 				break;
 				
+			case FIRE_FIEND_FLAME_ATTACK:
+				
+				break;
+				
 			default:
 		}
 	}

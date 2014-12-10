@@ -1,13 +1,12 @@
 package chylex.hee.entity.boss;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -16,24 +15,17 @@ import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.RandomNameGenerator;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
-import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C12ParticleFireFiendFlames;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
-	private static final byte STAGE_REFRESHING = 0, STAGE_CREATING = 1, STAGE_SHOOTING = 2, STAGE_TOUCHING = 3;
+	private static final byte ATTACK_NONE = 0, ATTACK_FIREBALLS = 1, ATTACK_FLAMES = 2;
 	
-	private EntityLivingBase target;
-	private byte attackStage = STAGE_REFRESHING, fireballAttackTimer, touchAttemptTimer;
-	private Set<float[]> fireballOffsets = new HashSet<>();
-  
-	public byte damageInflicted;
-	public float wingAnimation, wingAnimationStep, damageTaken;
+	private boolean isAngry;
+	private byte nextAttackTimer, currentAttack = ATTACK_NONE, prevAttack = ATTACK_NONE;
+	public float wingAnimation, wingAnimationStep;
 	
 	public EntityMiniBossFireFiend(World world){
 		super(world);
@@ -49,6 +41,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	protected void entityInit(){
 		super.entityInit();
+		dataWatcher.addObject(16,Byte.valueOf((byte)0));
 	}
 	
 	@Override
@@ -59,8 +52,55 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	}
 	
 	@Override
-	protected void updateEntityActionState(){		
-		if (target == null || target.isDead){
+	protected void updateEntityActionState(){
+		EntityPlayer closest = worldObj.getClosestPlayerToEntity(this,164D);
+		if (closest == null)return;
+		
+		List<EntityPlayer> allNearby = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(164D,164D,164D));
+		
+		for(Iterator<EntityPlayer> iter = allNearby.iterator(); iter.hasNext();){
+			EntityPlayer player = iter.next();
+			if (player.getDistanceToEntity(this) > 164D || player.isDead)iter.remove();
+		}
+		
+		double targetYDiff = posY-(closest.posY+9D);
+		
+		for(int a = 1; a <= 7; a += 2){
+			if (!worldObj.isAirBlock(MathUtil.floor(posX),MathUtil.floor(posY)-a,MathUtil.floor(posZ))){
+				targetYDiff = -1.5D;
+				break;
+			}
+		}
+		
+		if (Math.abs(targetYDiff) > 1D)motionY -= Math.abs(targetYDiff)*0.0045D*Math.signum(targetYDiff);
+		
+		if (currentAttack == ATTACK_NONE){
+			if (++nextAttackTimer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){
+				if (isAngry && rand.nextInt(5) == 0){
+					// TODO call golems
+					nextAttackTimer >>= 1;
+				}
+				else{
+					currentAttack = rand.nextInt(3) == 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES;
+					if (currentAttack == ATTACK_FLAMES && prevAttack == ATTACK_FLAMES)currentAttack = ATTACK_FIREBALLS;
+				}
+			}
+		}
+		else if (currentAttack == ATTACK_FIREBALLS){
+			
+		}
+		else if (currentAttack == ATTACK_FLAMES){
+			
+		}
+		
+		if (prevAttack != currentAttack){
+			dataWatcher.updateObject(16,currentAttack);
+			prevAttack = currentAttack;
+		}
+		
+		//
+		
+		/*if (target == null || target.isDead){
 			target = worldObj.getClosestPlayerToEntity(this,128D);
 		}
 		else{
@@ -133,7 +173,9 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 					attackStage = STAGE_REFRESHING;
 				}
 			}
-		}
+		}*/
+		
+		//
 		
 		for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(0.8D,1.65D,0.8D))){
 			if (e == this || e.isImmuneToFire())continue;
@@ -141,7 +183,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			e.hurtResistantTime = 0;
 			e.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs ? 9F : 5F);
 			e.hurtResistantTime = 7;
-			++damageInflicted;
 		}
 		
 		moveForward *= 0.6F;
@@ -157,15 +198,14 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (source.isFireDamage() || source.isExplosion())amount *= 0.1F;
-		damageTaken += amount;
-		
-		if (attackStage == STAGE_REFRESHING && source.getEntity() instanceof EntityLivingBase){
-			this.target = (EntityLivingBase)source.getEntity();
-		}
-		
-		if (attackStage == STAGE_TOUCHING)amount *= 0.5F;
-		
+		if (isAngry)amount *= 0.75F;
 		return super.attackEntityFrom(source,Math.min(15,amount));
+	}
+	
+	@Override
+	public void setHealth(float newHealth){
+		super.setHealth(newHealth);
+		if (getHealth() <= getMaxHealth()*0.4F)isAngry = true;
 	}
 	
 	@Override
@@ -179,11 +219,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		motionX *= 0.4D;
 		motionY *= 0.4D;
 		motionZ *= 0.4D;
-	}
-	
-	@Override
-	protected void collideWithEntity(Entity entity){
-		if (canBePushed())entity.applyEntityCollision(this);
 	}
 	
 	@Override
@@ -214,15 +249,13 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setByte("attackStage",attackStage);
-		nbt.setFloat("damageTaken",damageTaken);
+		nbt.setBoolean("isAngry",isAngry);
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		attackStage = (byte)Math.min(STAGE_REFRESHING,nbt.getByte("attackStage"));
-		damageTaken = nbt.getFloat("damageTaken");
+		isAngry = nbt.getBoolean("isAngry");
 	}
 	
 	@Override
