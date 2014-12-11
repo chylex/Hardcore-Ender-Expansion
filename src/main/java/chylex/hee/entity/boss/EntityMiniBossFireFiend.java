@@ -30,6 +30,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	private boolean isAngry;
 	private byte timer, currentAttack = ATTACK_NONE, prevAttack = ATTACK_NONE;
 	public float wingAnimation, wingAnimationStep;
+	public byte fireballAmount, fireballsLeft, fireballRotation, prevFireballRotation;
 	
 	public EntityMiniBossFireFiend(World world){
 		super(world);
@@ -46,6 +47,9 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	protected void entityInit(){
 		super.entityInit();
 		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+		dataWatcher.addObject(17,Byte.valueOf((byte)0));
+		dataWatcher.addObject(18,Byte.valueOf((byte)0));
+		dataWatcher.addObject(19,Byte.valueOf((byte)0));
 	}
 	
 	@Override
@@ -62,8 +66,22 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		if (worldObj.isRemote){
 			byte attack = dataWatcher.getWatchableObjectByte(16);
 			
-			if (attack == ATTACK_FLAMES){
+			if (attack == ATTACK_FIREBALLS){
+				byte data = dataWatcher.getWatchableObjectByte(18);
+				
+				fireballAmount = (byte)(((data&1) == 1) ? 8 : 6);
+				fireballRotation = (byte)(data>>1);
+				
+				if (++timer == 1)prevFireballRotation = fireballRotation;
+				else fireballsLeft = dataWatcher.getWatchableObjectByte(19);
+			}
+			else if (attack == ATTACK_FLAMES){
 				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,8);
+			}
+			else timer = 0;
+			
+			if (dataWatcher.getWatchableObjectByte(17) == 1){
+				// TODO angry particles
 			}
 		}
 	}
@@ -86,11 +104,14 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		if (currentAttack == ATTACK_NONE){
 			if (++timer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){
+				boolean hasCalledGolems = false;
+				
 				if (isAngry && rand.nextInt(5) == 0){
 					// TODO call golems
 					timer >>= 1;
 				}
-				else{
+				
+				if (!hasCalledGolems){
 					currentAttack = rand.nextInt(3) == 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES;
 					if (currentAttack == ATTACK_FLAMES && prevAttack == ATTACK_FLAMES)currentAttack = ATTACK_FIREBALLS;
 					timer = 0;
@@ -98,7 +119,26 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			}
 		}
 		else if (currentAttack == ATTACK_FIREBALLS){
+			if (++timer == 1){
+				fireballAmount = fireballsLeft = (byte)(ModCommonProxy.opMobs ? 8 : 6);
+				fireballRotation = 0;
+			}
+			else if (++fireballRotation >= 60)fireballRotation = 0;
 			
+			dataWatcher.updateObject(18,(byte)(fireballRotation*2+(fireballAmount == 8 ? 1 : 0)));
+			
+			int speed = isAngry ? 8 : 12;
+			
+			if (timer > speed && (timer-speed)%speed == 0){
+				dataWatcher.updateObject(19,--fireballsLeft);
+				
+				// TODO spawn fireball
+				
+				if (fireballsLeft == 0){
+					currentAttack = ATTACK_NONE;
+					timer = 0;
+				}
+			}
 		}
 		else if (currentAttack == ATTACK_FLAMES){
 			if (++timer > (isAngry ? 18 : 26)){
@@ -214,7 +254,11 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	public void setHealth(float newHealth){
 		super.setHealth(newHealth);
-		if (getHealth() <= getMaxHealth()*0.4F)isAngry = true;
+		
+		if (getHealth() <= getMaxHealth()*0.4F){
+			isAngry = true;
+			dataWatcher.updateObject(17,Byte.valueOf((byte)1));
+		}
 	}
 	
 	@Override
@@ -264,7 +308,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		isAngry = nbt.getBoolean("isAngry");
+		if ((isAngry = nbt.getBoolean("isAngry")) == true)dataWatcher.updateObject(17,Byte.valueOf((byte)1));
 	}
 	
 	@Override
