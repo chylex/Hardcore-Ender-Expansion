@@ -181,19 +181,21 @@ public final class StardustDecomposition{
 				if (!failed)ingredients.add(ing);
 			}
 		}
-
-		if (ingredients.isEmpty())return null;
-
-		List<ItemStack> randRecipeIngredients = new ArrayList<>(Arrays.asList(ingredients.get(rand.nextInt(ingredients.size()))));
 		
-		for(Iterator<ItemStack> iter = randRecipeIngredients.iterator(); iter.hasNext();){
-			ItemStack ingredient = iter.next();
-			if (ingredient == null)return null;
-			if (ingredient.getItemDamage() == OreDictionary.WILDCARD_VALUE || ingredient.getItem().hasContainerItem(ingredient))iter.remove();
-			if (isBlacklisted(ingredient.getItem(),ingredient.getItemDamage()))iter.remove();
+		while(!ingredients.isEmpty()){
+			List<ItemStack> randRecipeIngredients = new ArrayList<>(Arrays.asList(ingredients.remove(rand.nextInt(ingredients.size()))));
+
+			for(Iterator<ItemStack> iter = randRecipeIngredients.iterator(); iter.hasNext();){
+				ItemStack ingredient = iter.next();
+				if (ingredient == null)return null;
+				if (ingredient.getItemDamage() == OreDictionary.WILDCARD_VALUE || ingredient.getItem().hasContainerItem(ingredient))iter.remove();
+				if (isBlacklisted(ingredient.getItem(),ingredient.getItemDamage()))iter.remove();
+			}
+			
+			if (!randRecipeIngredients.isEmpty())return randRecipeIngredients;
 		}
 		
-		return randRecipeIngredients.isEmpty() ? null : randRecipeIngredients;
+		return null;
 	}
 	
 	private StardustDecomposition(){}
