@@ -17,6 +17,7 @@ import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.RandomNameGenerator;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
+import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.PacketPipeline;
@@ -30,7 +31,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	private boolean isAngry;
 	private byte timer, currentAttack = ATTACK_NONE, prevAttack = ATTACK_NONE;
 	public float wingAnimation, wingAnimationStep;
-	public byte fireballAmount, fireballsLeft, fireballRotation, prevFireballRotation;
 	
 	public EntityMiniBossFireFiend(World world){
 		super(world);
@@ -48,8 +48,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		super.entityInit();
 		dataWatcher.addObject(16,Byte.valueOf((byte)0));
 		dataWatcher.addObject(17,Byte.valueOf((byte)0));
-		dataWatcher.addObject(18,Byte.valueOf((byte)0));
-		dataWatcher.addObject(19,Byte.valueOf((byte)0));
 	}
 	
 	@Override
@@ -67,13 +65,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			byte attack = dataWatcher.getWatchableObjectByte(16);
 			
 			if (attack == ATTACK_FIREBALLS){
-				byte data = dataWatcher.getWatchableObjectByte(18);
 				
-				fireballAmount = (byte)(((data&1) == 1) ? 8 : 6);
-				fireballRotation = (byte)(data>>1);
-				
-				if (++timer == 1)prevFireballRotation = fireballRotation;
-				else fireballsLeft = dataWatcher.getWatchableObjectByte(19);
 			}
 			else if (attack == ATTACK_FLAMES){
 				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,8);
@@ -119,25 +111,15 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			}
 		}
 		else if (currentAttack == ATTACK_FIREBALLS){
+			int amt = ModCommonProxy.opMobs ? 8 : 6, speed = isAngry ? 8 : 12;
+			
 			if (++timer == 1){
-				fireballAmount = fireballsLeft = (byte)(ModCommonProxy.opMobs ? 8 : 6);
-				fireballRotation = 0;
+				double ang = 360D/(amt+1);
+				for(int a = 0; a < amt; a++)worldObj.spawnEntityInWorld(new EntityProjectileFiendFireball(worldObj,this,posX,posY,posZ,a*ang,speed*(a+1)));
 			}
-			else if (++fireballRotation >= 60)fireballRotation = 0;
-			
-			dataWatcher.updateObject(18,(byte)(fireballRotation*2+(fireballAmount == 8 ? 1 : 0)));
-			
-			int speed = isAngry ? 8 : 12;
-			
-			if (timer > speed && (timer-speed)%speed == 0){
-				dataWatcher.updateObject(19,--fireballsLeft);
-				
-				// TODO spawn fireball
-				
-				if (fireballsLeft == 0){
-					currentAttack = ATTACK_NONE;
-					timer = 0;
-				}
+			else if (timer >= amt*speed){
+				currentAttack = ATTACK_NONE;
+				timer = 0;
 			}
 		}
 		else if (currentAttack == ATTACK_FLAMES){

@@ -42,6 +42,7 @@ import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileDragonFireball;
 import chylex.hee.entity.projectile.EntityProjectileDragonFreezeball;
 import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
+import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
 import chylex.hee.entity.projectile.EntityProjectileFlamingBall;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
 import chylex.hee.entity.projectile.EntityProjectileMinerShot;
@@ -237,6 +238,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityProjectilePotionOfInstability.class, "ProjectilePotionOfInstability", 30, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileSpatialDash.class, "ProjectileSpatialDash", 32, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileCorruptedEnergy.class, "ProjectileCorruptedEnergy", 42, this, 128, 1, true);
+		EntityRegistry.registerModEntity(EntityProjectileFiendFireball.class, "ProjectileFiendFireball", 45, this, 128, 1, true);
 
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltSafe.class, "LightningBoltSafe", 4, this, 512, 1, false);
 		EntityRegistry.registerModEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, this, 512, 1, false);
@@ -245,7 +247,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityTechnicalVoidChest.class, "TechnicalVoidChest", 40, this, 0, 1, false);
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleChain.class, "TechnicalPuzzleChain", 43, this, 0, Integer.MAX_VALUE, false);
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, this, 0, Integer.MAX_VALUE, false);
-		// last: 44
+		// last: 45
 		
 		Stopwatch.finish("PreInitEvent - entities");
 

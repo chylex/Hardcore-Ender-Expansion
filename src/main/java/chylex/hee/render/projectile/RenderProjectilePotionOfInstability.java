@@ -37,16 +37,16 @@ public class RenderProjectilePotionOfInstability extends Render{
 		return TextureMap.locationItemsTexture;
 	}
 
-	private void renderIcon(Tessellator tessellator, IIcon icon){
+	private static void renderIcon(Tessellator tessellator, IIcon icon){
 		float minU = icon.getMinU(),maxU = icon.getMaxU(),
 			  minV = icon.getMinV(),maxV = icon.getMaxV();
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0F,1F,0F);
-		tessellator.addVertexWithUV((-0.5F),(-0.25F),0D,minU,maxV);
-		tessellator.addVertexWithUV((1F-0.5F),(-0.25F),0D,maxU,maxV);
-		tessellator.addVertexWithUV((1F-0.5F),(1F-0.25F),0D,maxU,minV);
-		tessellator.addVertexWithUV((-0.5F),(1F-0.25F),0D,minU,minV);
+		tessellator.addVertexWithUV(-0.5F,-0.25F,0D,minU,maxV);
+		tessellator.addVertexWithUV(0.5F,-0.25F,0D,maxU,maxV);
+		tessellator.addVertexWithUV(0.5F,0.75F,0D,maxU,minV);
+		tessellator.addVertexWithUV(-0.5F,0.75F,0D,minU,minV);
 		tessellator.draw();
 	}
 }
