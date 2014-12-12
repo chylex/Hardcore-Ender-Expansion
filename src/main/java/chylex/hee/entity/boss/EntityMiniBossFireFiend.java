@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
@@ -27,6 +28,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
@@ -35,7 +37,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	private boolean isAngry;
 	private byte timer, currentAttack = ATTACK_NONE, prevAttack = ATTACK_NONE;
 	public float wingAnimation, wingAnimationStep;
-	private final List<EntityProjectileFiendFireball> controlledFireballs = new ArrayList<>(10);
+	private final List<EntityProjectileFiendFireball> controlledFireballs = new ArrayList<>(8);
+	private final Vec3 motionVec = Vec3.createVectorHelper(0D,0D,0D);
 	
 	public EntityMiniBossFireFiend(World world){
 		super(world);
@@ -98,7 +101,21 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		if (Math.abs(targetYDiff) > 1D)motionY -= Math.abs(targetYDiff)*0.0045D*Math.signum(targetYDiff);
 		
-		// TODO movement
+		if (ticksExisted == 1 || (ticksExisted%7 == 0 && rand.nextInt(3) == 0)){
+			if (getDistanceToEntity(closest) < 72D){
+				double[] vec = DragonUtil.getNormalizedVector(rand.nextDouble(),rand.nextDouble());
+				motionVec.xCoord = vec[0];
+				motionVec.zCoord = vec[1];
+			}
+			else{
+				double[] vec = DragonUtil.getNormalizedVector(closest.posX-posX,closest.posZ-posZ);
+				motionVec.xCoord = vec[0]*2D;
+				motionVec.zCoord = vec[1]*2D;
+			}
+		}
+		
+		motionX = (motionVec.xCoord+motionX)*0.5D;
+		motionZ = (motionVec.zCoord+motionZ)*0.5D;
 		
 		if (currentAttack == ATTACK_NONE){
 			if (++timer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){

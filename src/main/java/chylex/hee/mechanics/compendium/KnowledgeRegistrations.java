@@ -14,6 +14,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockSpecialEffects;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
+import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
@@ -145,7 +146,7 @@ public final class KnowledgeRegistrations{
 		ECTOPLASM = create(ItemList.ectoplasm),
 		INFESTATION_REMEDY = create(ItemList.infestation_remedy),
 		
-		RAVAGED_DUNGEON = dummy("RavagedDungeon",new ItemStack(BlockList.ravaged_brick),"Ravaged Dungeon"),
+		RAVAGED_DUNGEON = dummy("RavagedDungeon",new ItemStack(BlockList.ravaged_brick),"ec.title.ravagedDungeon"),
 		RAVAGED_BRICK = create(BlockList.ravaged_brick),
 		RAVAGED_BRICK_GLOWING = create(BlockList.ravaged_brick_glow),
 		RAVAGED_BRICK_STAIRS = create(BlockList.ravaged_brick_stairs),
@@ -165,10 +166,12 @@ public final class KnowledgeRegistrations{
 		IGNEOUS_ROCK_LINKED = link(IGNEOUS_ROCK),
 		
 		CINDER = create(BlockList.cinder),
+		DUNGEON_PUZZLE = create(BlockList.dungeon_puzzle,"ec.title.dungeonPuzzle"),
 		FIERY_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.FIERY.id),
 		FIERY_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,1,EssenceType.FIERY.getItemDamage()),"ec.title.essence"),
 		FIRE_GOLEM = create(EntityMobFireGolem.class),
 		SCORCHING_LENS = create(EntityMobScorchingLens.class),
+		FIRE_FIEND = create(EntityMiniBossFireFiend.class),
 		
 		FIRE_SHARD = create(ItemList.fire_shard),
 		SCORCHING_PICKAXE = create(ItemList.scorching_pickaxe),
@@ -844,12 +847,19 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(590).setPrice(5).setUnlockOnDiscovery()
 			}),
 			
-			FIERY_ESSENCE_ALTAR.setPos(6,7).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			DUNGEON_PUZZLE.setPos(10,7).setUnlockPrice(15).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(900).setPrice(10).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(901).setPrice(7).setUnlockRequirements(900),
+				new KnowledgeFragmentText(902).setPrice(7).setUnlockRequirements(901),
+				new KnowledgeFragmentText(903).setPrice(10).setUnlockRequirements(901)
+			}),
+			
+			FIERY_ESSENCE_ALTAR.setPos(5,9).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(600).setPrice(10).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(601).setPrice(8).setUnlockRequirements(600)
 			}),
 			
-			FIERY_ESSENCE.setPos(4,7),
+			FIERY_ESSENCE.setPos(5,7),
 			
 			FIRE_GOLEM.setPos(2,6).setUnlockPrice(20).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(610).setPrice(7).setUnlockOnDiscovery(),
@@ -866,21 +876,32 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(623).setPrice(5).setUnlockRequirements(620).setUnlockCascade(82)
 			}),
 			
+			FIRE_FIEND.setPos(8,7).setUnlockPrice(30).setDiscoveryReward(18).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(910).setPrice(10).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(911).setPrice(5).setUnlockRequirements(910),
+				new KnowledgeFragmentText(912).setPrice(4).setUnlockRequirements(910),
+				new KnowledgeFragmentText(913).setPrice(5).setUnlockRequirements(912),
+				new KnowledgeFragmentText(914).setPrice(5).setUnlockRequirements(912),
+				new KnowledgeFragmentText(915).setPrice(7).setUnlockRequirements(912),
+				new KnowledgeFragmentText(916).setPrice(7).setUnlockRequirements(915),
+				new KnowledgeFragmentText(917).setPrice(5).setUnlockRequirements(910)
+			}),
+			
 			// =
 			
-			FIRE_SHARD.setPos(2,11).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			FIRE_SHARD.setPos(2,13).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(630).setPrice(7).setUnlockOnDiscovery().setUnlockCascade(657),
 				new KnowledgeFragmentCrafting(631).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setPrice(10).setUnlockRequirements(630).setUnlockCascade(643)
 			}),
 			
-			SCORCHING_PICKAXE.setPos(4,11).setUnlockPrice(40).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			SCORCHING_PICKAXE.setPos(4,13).setUnlockPrice(40).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(640).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(641).setPrice(7).setUnlockRequirements(640),
 				new KnowledgeFragmentText(642).setPrice(5).setUnlockRequirements(641),
 				new KnowledgeFragmentCrafting(643).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setPrice(10).setUnlockRequirements(640).setUnlockCascade(631)
 			}),
 			
-			HAUNTED_MINER.setPos(0,11).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			HAUNTED_MINER.setPos(0,13).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(650).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(651).setPrice(7).setUnlockRequirements(651),
 				new KnowledgeFragmentText(652).setPrice(4).setUnlockRequirements(650),
@@ -985,7 +1006,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 900
+		// next: 920
 		// taken: 1000-1299
 		
 		Stopwatch.finish("KnowledgeRegistrations");
