@@ -46,6 +46,7 @@ public final class ItemList{
 	public static Item silverfish_blood;
 	public static Item dry_splinter;
 	public static Item ectoplasm;
+	public static Item spectral_tear;
 	public static Item rune;
 	public static Item fire_shard;
 	public static Item obsidian_fragment;
@@ -97,7 +98,8 @@ public final class ItemList{
 		register("essence", essence = new ItemEssence().setUnlocalizedName("essence"));
 		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood"));
 		register("dry_splinter", dry_splinter = new Item().setUnlocalizedName("drySplinter").setTextureName("hardcoreenderexpansion:dry_splinter"));
-		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("endoplasm").setTextureName("hardcoreenderexpansion:endoplasm"));
+		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("ectoplasm").setTextureName("hardcoreenderexpansion:ectoplasm"));
+		register("spectral_tear", spectral_tear = new Item().setUnlocalizedName("spectralTear").setTextureName("hardcoreenderexpansion:spectral_tear"));
 		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune"));
 		register("fire_shard", fire_shard = new Item().setUnlocalizedName("fireShard").setTextureName("hardcoreenderexpansion:fire_shard"));
 		register("obsidian_fragment", obsidian_fragment = new Item().setUnlocalizedName("obsidianFragment").setTextureName("hardcoreenderexpansion:obsidian_fragment"));
@@ -142,7 +144,7 @@ public final class ItemList{
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			biome_compass,spatial_dash_gem,transference_gem,temple_caller,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
-			ghost_amulet,ectoplasm,corporeal_mirage_orb
+			ghost_amulet,ectoplasm,spectral_tear,corporeal_mirage_orb
 		).addBlocks(
 			BlockList.soul_charm
 		).addItems(

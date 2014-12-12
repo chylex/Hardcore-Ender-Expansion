@@ -63,6 +63,12 @@ public final class RecipeList{
 			'S', ItemList.stardust
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.spectral_tear),
+			" E ", "ETE", " E ",
+			'E', ItemList.ectoplasm,
+			'T', Items.ghast_tear
+		);
+		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.soul_charm),
 			"EEE", "EXE", "EEE",
 			'E', ItemList.ectoplasm,
