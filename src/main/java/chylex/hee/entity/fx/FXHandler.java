@@ -260,6 +260,20 @@ public final class FXHandler{
 				}
 				
 				break;
+				
+			case FIRE_FIEND_GOLEM_CALL:
+				addX = lineVec.xCoord*0.5D;
+				addY = lineVec.yCoord*0.5D;
+				addZ = lineVec.zCoord*0.5D;
+				
+				for(int a = 0; a < len*2D; a++){
+					if (rand.nextBoolean())HardcoreEnderExpansion.fx.flame(world,x1+randCenter(0.1D),y1+randCenter(0.1D),z1+randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),12);
+					x1 += addX;
+					y1 += addY;
+					z1 += addZ;
+				}
+				
+				break;
 		}
 	}
 	

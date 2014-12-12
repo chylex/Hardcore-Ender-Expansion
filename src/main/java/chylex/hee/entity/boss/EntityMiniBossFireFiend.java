@@ -1,4 +1,5 @@
 package chylex.hee.entity.boss;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import net.minecraft.entity.Entity;
@@ -11,17 +12,20 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.RandomNameGenerator;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 
@@ -31,6 +35,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	private boolean isAngry;
 	private byte timer, currentAttack = ATTACK_NONE, prevAttack = ATTACK_NONE;
 	public float wingAnimation, wingAnimationStep;
+	private final List<EntityProjectileFiendFireball> controlledFireballs = new ArrayList<>(10);
 	
 	public EntityMiniBossFireFiend(World world){
 		super(world);
@@ -64,16 +69,15 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		if (worldObj.isRemote){
 			byte attack = dataWatcher.getWatchableObjectByte(16);
 			
-			if (attack == ATTACK_FIREBALLS){
-				
-			}
-			else if (attack == ATTACK_FLAMES){
+			if (attack == ATTACK_FLAMES){
 				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,8);
 			}
 			else timer = 0;
 			
-			if (dataWatcher.getWatchableObjectByte(17) == 1){
-				// TODO angry particles
+			if (!isAngry && dataWatcher.getWatchableObjectByte(17) == 1)isAngry = true;
+			
+			if (isAngry){
+				for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,12);
 			}
 		}
 	}
@@ -94,12 +98,28 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		if (Math.abs(targetYDiff) > 1D)motionY -= Math.abs(targetYDiff)*0.0045D*Math.signum(targetYDiff);
 		
+		// TODO movement
+		
 		if (currentAttack == ATTACK_NONE){
 			if (++timer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){
 				boolean hasCalledGolems = false;
 				
-				if (isAngry && rand.nextInt(5) == 0){
-					// TODO call golems
+				if (isAngry && worldObj.difficultySetting != EnumDifficulty.PEACEFUL && rand.nextInt(5) == 0){
+					for(EntityPlayer player:getNearbyPlayers()){
+						List<EntityMobFireGolem> golems = worldObj.getEntitiesWithinAABB(EntityMobFireGolem.class,player.boundingBox.expand(16D,16D,16D));
+						if (golems.isEmpty())continue;
+						
+						for(int attempt = 0, called = ModCommonProxy.opMobs ? 3 : 2; attempt < 3 && !golems.isEmpty() && called > 0; attempt++){
+							EntityMobFireGolem golem = golems.remove(rand.nextInt(golems.size()));
+							
+							if (player.getDistanceToEntity(golem) <= 16D){
+								golem.setTarget(player);
+								PacketPipeline.sendToAllAround(this,128D,new C22EffectLine(FXType.Line.FIRE_FIEND_GOLEM_CALL,this,golem));
+								called -= rand.nextInt(2)+1;
+							}
+						}
+					}
+					
 					timer >>= 1;
 				}
 				
@@ -115,11 +135,24 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			
 			if (++timer == 1){
 				double ang = 360D/(amt+1);
-				for(int a = 0; a < amt; a++)worldObj.spawnEntityInWorld(new EntityProjectileFiendFireball(worldObj,this,posX,posY,posZ,a*ang,speed*(a+1)));
+				
+				for(int a = 0; a < amt; a++){
+					controlledFireballs.add(new EntityProjectileFiendFireball(worldObj,this,posX,posY,posZ,a*ang,speed*(a+1)));
+					worldObj.spawnEntityInWorld(controlledFireballs.get(a));
+				}
 			}
 			else if (timer >= amt*speed){
 				currentAttack = ATTACK_NONE;
 				timer = 0;
+				controlledFireballs.clear();
+			}else{
+				for(EntityProjectileFiendFireball fireball:controlledFireballs){
+					if (fireball.timer > 1)fireball.updateCenter(this);
+					else if (fireball.timer == 1){
+						List<EntityPlayer> players = getNearbyPlayers();
+						fireball.shootAt(players.isEmpty() ? null : players.get(rand.nextInt(players.size())));
+					}
+				}
 			}
 		}
 		else if (currentAttack == ATTACK_FLAMES){
@@ -141,61 +174,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			dataWatcher.updateObject(16,currentAttack);
 			prevAttack = currentAttack;
 		}
-		
-		//
-		
-		/*
-		if (attackStage == STAGE_REFRESHING){
-			if (--fireballAttackTimer < 0){
-				fireballOffsets.clear();
-				
-				for(int a = 0; a < 5+rand.nextInt(4); a++){
-					double ang = rand.nextDouble()*Math.PI*2D,len = rand.nextDouble()*2.5D+5D;
-					fireballOffsets.add(new float[]{ (float)(Math.cos(ang)*len), rand.nextFloat()*2.5F+4F, (float)(Math.sin(ang)*len) });
-				}
-				
-				attackStage = STAGE_CREATING;
-				fireballAttackTimer = 60;
-			}
-		}
-		else if (attackStage == STAGE_CREATING){
-			if (--fireballAttackTimer < 0)attackStage = STAGE_SHOOTING;
-		}
-		else if (attackStage == STAGE_SHOOTING){
-			if (--fireballAttackTimer < 0){
-				Iterator < float[]> iter = fireballOffsets.iterator();
-				if (iter.hasNext()){
-					float[] offset = iter.next();
-					
-					double ballX = target.posX+offset[0],ballY = target.posY+offset[1]+1.5D,ballZ = target.posZ+offset[2];
-					worldObj.spawnEntityInWorld(new EntityProjectileGolemFireball(worldObj,this,ballX,ballY,ballZ,target.posX-ballX,target.boundingBox.minY+target.height*0.5F-ballY,target.posZ-ballZ));
-					
-					iter.remove();
-					fireballAttackTimer = (byte)(10+rand.nextInt(10)-worldObj.difficultySetting.getDifficultyId()*2);
-				}
-				else{
-					attackStage = rand.nextInt(5) <= 1?STAGE_TOUCHING:STAGE_REFRESHING;
-					damageInflicted = 0;
-					touchAttemptTimer = 120;
-					fireballAttackTimer = (byte)(80+rand.nextInt(25)-worldObj.difficultySetting.getDifficultyId()*5-Math.min(50,damageTaken*0.3F)-(ModCommonProxy.opMobs?20:0));								
-				}
-			}
-		}
-		
-		if (attackStage == STAGE_CREATING || attackStage == STAGE_SHOOTING){
-			for(float[] offset:fireballOffsets){
-				PacketPipeline.sendToAllAround(this,96D,new C12ParticleFireFiendFlames(this,target,offset,Byte.valueOf((byte)((60-fireballAttackTimer)>>2))));
-			}
-		}
-		
-		if (attackStage == STAGE_TOUCHING){
-			if (damageInflicted > 15+worldObj.difficultySetting.getDifficultyId()*3 || --touchAttemptTimer < -20){
-				attackStage = STAGE_REFRESHING;
-			}
-		}
-		*/
-		
-		//
 		
 		for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(0.8D,1.65D,0.8D))){
 			if (e == this || e.isImmuneToFire())continue;

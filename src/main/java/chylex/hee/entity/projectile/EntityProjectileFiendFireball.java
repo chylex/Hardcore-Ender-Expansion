@@ -2,11 +2,13 @@ package chylex.hee.entity.projectile;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball.FieryExplosion;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
@@ -14,7 +16,7 @@ import chylex.hee.system.util.MathUtil;
 public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	private double centerX, centerZ;
 	private float ang;
-	private byte timer;
+	public byte timer;
 	
 	public EntityProjectileFiendFireball(World world){
 		super(world);
@@ -31,28 +33,35 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		this.timer = (byte)timer;
 	}
 	
+	public void updateCenter(EntityMiniBossFireFiend fiend){
+		this.centerX = fiend.posX;
+		this.centerZ = fiend.posZ;
+	}
+	
+	public void shootAt(EntityPlayer player){
+		worldObj.playAuxSFXAtEntity(null,1008,(int)posX,(int)posY,(int)posZ,0);
+		
+		if (player == null)setDead();
+		else{
+			double diffX = player.posX-posX, diffY = player.posY-posY, diffZ = player.posZ-posZ;
+			
+			diffX += rand.nextGaussian()*0.1D;
+			diffY += rand.nextGaussian()*0.1D;
+			diffZ += rand.nextGaussian()*0.1D;
+			
+			double dist = MathUtil.distance(diffX,diffY,diffZ);
+			accelerationX = diffX/dist*0.1D;
+			accelerationY = diffY/dist*0.1D;
+			accelerationZ = diffZ/dist*0.1D;
+		}
+	}
+	
 	@Override
 	public void onUpdate(){
 		if (!worldObj.isRemote && timer > 0 && --timer > 0){
 			onEntityUpdate();
 			setPosition(centerX+MathHelper.cos(ang)*1.5D,posY,centerZ+MathHelper.sin(ang)*1.5D);
-			
-			if (timer == 0){
-				if (worldObj.playerEntities.isEmpty())setDead();
-				else{
-					EntityPlayer target = (EntityPlayer)worldObj.playerEntities.get(rand.nextInt(worldObj.playerEntities.size()));
-					double diffX = target.posX-posX, diffY = target.posY-posY, diffZ = target.posZ-posZ;
-					
-					diffX += rand.nextGaussian()*0.1D;
-					diffY += rand.nextGaussian()*0.1D;
-					diffZ += rand.nextGaussian()*0.1D;
-					
-					double dist = MathUtil.distance(diffX,diffY,diffZ);
-					accelerationX = diffX/dist*0.1D;
-					accelerationY = diffY/dist*0.1D;
-					accelerationZ = diffZ/dist*0.1D;
-				}
-			}
+			ang += 0.0698F;
 		}
 		else super.onUpdate();
 	}
@@ -73,5 +82,11 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	@Override
 	public boolean isBurning(){
 		return false;
+	}
+	
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt){
+		super.readEntityFromNBT(nbt);
+		setDead();
 	}
 }

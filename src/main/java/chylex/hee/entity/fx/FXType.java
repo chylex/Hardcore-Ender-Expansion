@@ -42,7 +42,8 @@ public final class FXType{
 		LOUSE_HEAL_ENTITY,
 		ENDERMAN_TELEPORT,
 		DUNGEON_PUZZLE_TELEPORT,
-		HOMELAND_ENDERMAN_GUARD_CALL;
+		HOMELAND_ENDERMAN_GUARD_CALL,
+		FIRE_FIEND_GOLEM_CALL;
 		
 		public static FXType.Line[] values = values();
 	}
