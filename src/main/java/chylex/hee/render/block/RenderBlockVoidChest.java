@@ -22,10 +22,6 @@ public class RenderBlockVoidChest implements ISimpleBlockRenderingHandler{
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer){
-		GL11.glRotatef(90F,0F,1F,0F);
-		GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
-		TileEntityRendererDispatcher.instance.renderTileEntityAt(chestRenderer,x,y,z,0F);
-		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		return true;
 	}
 

@@ -146,7 +146,7 @@ public final class ItemList{
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			biome_compass,spatial_dash_gem,transference_gem,temple_caller,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
-			ghost_amulet,ectoplasm,spectral_tear,corporeal_mirage_orb
+			ghost_amulet,ectoplasm,spectral_tear,living_matter,corporeal_mirage_orb
 		).addBlocks(
 			BlockList.soul_charm
 		).addItems(

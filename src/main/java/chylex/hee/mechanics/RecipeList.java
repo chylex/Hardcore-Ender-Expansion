@@ -69,6 +69,14 @@ public final class RecipeList{
 			'T', Items.ghast_tear
 		);
 		
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.living_matter),
+			ItemList.silverfish_blood,
+			Items.bone,
+			Items.spider_eye,
+			ItemList.spectral_tear,
+			ItemList.instability_orb
+		);
+		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.soul_charm),
 			"EEE", "EXE", "EEE",
 			'E', ItemList.ectoplasm,
