@@ -7,8 +7,8 @@ import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenEnd;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
+import net.minecraftforge.common.BiomeManager.BiomeType;
 import chylex.hee.system.util.MathUtil;
-import com.google.common.collect.Iterables;
 
 public final class BiomeGenHardcoreEnd extends BiomeGenEnd{
 	public static boolean overrideMobLists;
@@ -33,13 +33,15 @@ public final class BiomeGenHardcoreEnd extends BiomeGenEnd{
 		}
 		
 		if (!MathUtil.floatEquals(overworldEndermanMultiplier,1F)){
-			for(BiomeEntry entry:Iterables.concat(BiomeManager.desertBiomes,BiomeManager.warmBiomes,BiomeManager.coolBiomes,BiomeManager.icyBiomes)){
-				List<SpawnListEntry> spawnList = entry.biome.getSpawnableList(EnumCreatureType.monster);
-				
-				for(SpawnListEntry spawnEntry:spawnList){
-					if (spawnEntry.entityClass == EntityEnderman.class){
-						spawnEntry.itemWeight = Math.round(spawnEntry.itemWeight*overworldEndermanMultiplier);
-						break;
+			for(BiomeType type:BiomeManager.BiomeType.values()){
+				for(BiomeEntry entry:BiomeManager.getBiomes(type)){
+					List<SpawnListEntry> spawnList = entry.biome.getSpawnableList(EnumCreatureType.monster);
+					
+					for(SpawnListEntry spawnEntry:spawnList){
+						if (spawnEntry.entityClass == EntityEnderman.class){
+							spawnEntry.itemWeight = Math.round(spawnEntry.itemWeight*overworldEndermanMultiplier);
+							break;
+						}
 					}
 				}
 			}
