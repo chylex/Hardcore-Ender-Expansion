@@ -47,6 +47,7 @@ public final class ItemList{
 	public static Item dry_splinter;
 	public static Item ectoplasm;
 	public static Item spectral_tear;
+	public static Item living_matter;
 	public static Item rune;
 	public static Item fire_shard;
 	public static Item obsidian_fragment;
@@ -100,6 +101,7 @@ public final class ItemList{
 		register("dry_splinter", dry_splinter = new Item().setUnlocalizedName("drySplinter").setTextureName("hardcoreenderexpansion:dry_splinter"));
 		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("ectoplasm").setTextureName("hardcoreenderexpansion:ectoplasm"));
 		register("spectral_tear", spectral_tear = new Item().setUnlocalizedName("spectralTear").setTextureName("hardcoreenderexpansion:spectral_tear"));
+		register("living_matter", living_matter = new Item().setUnlocalizedName("livingMatter").setTextureName("hardcoreenderexpansion:living_matter"));
 		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune"));
 		register("fire_shard", fire_shard = new Item().setUnlocalizedName("fireShard").setTextureName("hardcoreenderexpansion:fire_shard"));
 		register("obsidian_fragment", obsidian_fragment = new Item().setUnlocalizedName("obsidianFragment").setTextureName("hardcoreenderexpansion:obsidian_fragment"));
