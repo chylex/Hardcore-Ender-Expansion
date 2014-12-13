@@ -159,6 +159,8 @@ item.charm.lastresort.name=Charm of Last Resort
 item.charm.lastresort.tooltip=Teleports $0 blocks away from finishing hit with cooldown of $1 seconds
 item.charm.cannotstack=This charm will not stack effects with other charms of this type!
 
+item.curse.teleporation=Curse of Teleportation
+
 entity.dragon.derpy.name=Derpy Overgrown Reptile
 entity.dragon.baby.name=Baby Ender Dragon
 entity.dragon.angry.name=Angry Ender Dragon
