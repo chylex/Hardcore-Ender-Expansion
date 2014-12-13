@@ -49,6 +49,7 @@ import chylex.hee.entity.projectile.EntityProjectileMinerShot;
 import chylex.hee.entity.projectile.EntityProjectilePotionOfInstability;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
+import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
 import chylex.hee.entity.technical.EntityTechnicalVoidChest;
@@ -66,9 +67,9 @@ import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.energy.EnergyEvents;
 import chylex.hee.mechanics.infestation.InfestationEvents;
 import chylex.hee.mechanics.misc.PlayerDataHandler;
+import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
-import chylex.hee.mechanics.temple.TempleEvents;
 import chylex.hee.mechanics.voidchest.VoidChestEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.FXCommonProxy;
@@ -247,6 +248,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityTechnicalVoidChest.class, "TechnicalVoidChest", 40, this, 0, 1, false);
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleChain.class, "TechnicalPuzzleChain", 43, this, 0, Integer.MAX_VALUE, false);
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, this, 0, Integer.MAX_VALUE, false);
+		EntityRegistry.registerModEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, this, 64, 1, false);
 		// last: 45
 		
 		Stopwatch.finish("PreInitEvent - entities");

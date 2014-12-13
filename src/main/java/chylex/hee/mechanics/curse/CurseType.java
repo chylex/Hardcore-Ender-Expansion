@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.curse;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -15,9 +16,8 @@ public enum CurseType{
 	DEATH(6),
 	DECAY(7),
 	VAMPIRE(8),
-	DARKNESS(9),
-	REBOUND(10),
-	LOSS(11);
+	REBOUND(9),
+	LOSS(10);
 	
 	static{
 		TELEPORTATION
@@ -25,10 +25,49 @@ public enum CurseType{
 		.setUses(EnumCurseUse.BLOCK,22,34).setUses(EnumCurseUse.ENTITY,7,12).setUses(EnumCurseUse.PLAYER,3,6);
 		
 		CONFUSION
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
 		.setUses(EnumCurseUse.BLOCK,11,15).setUses(EnumCurseUse.ENTITY,6,10);
+		
+		TRANQUILITY
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
+		.setUses(EnumCurseUse.BLOCK,35*20,48*20).setUses(EnumCurseUse.ENTITY,150*20,210*20);
+		
+		SLOWNESS
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
+		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8);
+		
+		WEAKNESS
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
+		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8);
+		
+		BLINDNESS
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
+		.setUses(EnumCurseUse.BLOCK,30,39).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,3,5);
+		
+		DEATH
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
+		.setUses(EnumCurseUse.BLOCK,28,36).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,6,9);
+		
+		DECAY
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
+		.setUses(EnumCurseUse.BLOCK,18,25).setUses(EnumCurseUse.ENTITY,14,19).setUses(EnumCurseUse.PLAYER,9,14);
+		
+		VAMPIRE
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
+		.setUses(EnumCurseUse.BLOCK,15,22).setUses(EnumCurseUse.ENTITY,8,13).setUses(EnumCurseUse.PLAYER,6,9);
+		
+		REBOUND
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
+		.setUses(EnumCurseUse.BLOCK,20,26).setUses(EnumCurseUse.ENTITY,15,22).setUses(EnumCurseUse.PLAYER,12,16);
+		
+		LOSS
+		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
+		.setUses(EnumCurseUse.BLOCK,14,19).setUses(EnumCurseUse.ENTITY,10,12).setUses(EnumCurseUse.PLAYER,8,11);
 	}
 	
 	public static CurseType getFromDamage(int damage){
+		damage = damage&0b11111111;
+		
 		for(CurseType type:values()){
 			if (damage == type.damage)return type;
 		}
@@ -78,6 +117,10 @@ public enum CurseType{
 		}
 		
 		return this;
+	}
+	
+	public ItemStack getRecipeItem(int index){
+		return items[index];
 	}
 	
 	public int getUses(EnumCurseUse useType, Random rand){

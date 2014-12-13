@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.temple;
+package chylex.hee.mechanics.misc;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

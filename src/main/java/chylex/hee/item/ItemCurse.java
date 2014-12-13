@@ -6,8 +6,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.curse.CurseType;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCurse extends Item{
 	public ItemCurse(){
@@ -32,6 +36,7 @@ public class ItemCurse extends Item{
 
 		if (is.stackSize == 0)return false;
 		else{
+			
 			// TODO
 			return true;
 		}
@@ -51,8 +56,9 @@ public class ItemCurse extends Item{
 	}
 	
 	@Override
+    @SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		
+		if ((is.getItemDamage()&0b100000000) != 0)textLines.add(EnumChatFormatting.YELLOW+StatCollector.translateToLocal("item.curse.eternal"));
 	}
 	
 	@Override

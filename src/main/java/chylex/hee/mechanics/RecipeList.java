@@ -7,6 +7,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -77,7 +78,26 @@ public final class RecipeList{
 			ItemList.instability_orb
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.soul_charm),
+		for(CurseType curse:CurseType.values()){
+			GameRegistry.addShapedRecipe(new ItemStack(ItemList.curse,8,curse.damage),
+				"PAP", "BLC", "PDP",
+				'P', ItemList.end_powder,
+				'L', ItemList.living_matter,
+				'A', curse.getRecipeItem(0),
+				'B', curse.getRecipeItem(1),
+				'C', curse.getRecipeItem(2),
+				'D', curse.getRecipeItem(3)
+			);
+			
+			GameRegistry.addShapelessRecipe(
+				new ItemStack(ItemList.curse,1,curse.damage|0b100000000),
+				new ItemStack(ItemList.curse,1,curse.damage),
+				ItemList.stardust
+			);
+		}
+		
+		// TODO
+		/*GameRegistry.addShapedRecipe(new ItemStack(BlockList.soul_charm),
 			"EEE", "EXE", "EEE",
 			'E', ItemList.ectoplasm,
 			'X', ItemList.enderman_head
@@ -86,7 +106,7 @@ public final class RecipeList{
 		GameRegistry.addShapelessRecipe(
 			new ItemStack(ItemList.corporeal_mirage_orb),
 			ItemList.instability_orb,ItemList.ectoplasm
-		);
+		);*/
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.charm_pouch),
 			"PLP", "LRL", "PLP",

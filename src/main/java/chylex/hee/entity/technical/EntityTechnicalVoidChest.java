@@ -3,14 +3,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.voidchest.PlayerVoidChest;
 
-public class EntityTechnicalVoidChest extends Entity{
+public class EntityTechnicalVoidChest extends EntityTechnicalBase{
 	private EntityPlayerMP player;
 	private List<EntityItem> items = new ArrayList<>();
 	

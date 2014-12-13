@@ -12,7 +12,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
-import chylex.hee.mechanics.temple.TempleEvents;
+import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.savedata.WorldSavefile;
 import chylex.hee.system.util.DragonUtil;
 

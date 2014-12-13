@@ -1,7 +1,6 @@
 package chylex.hee.entity.technical;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
@@ -15,7 +14,7 @@ import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.util.BlockLocation;
 
-public class EntityTechnicalPuzzleSolved extends Entity{
+public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 	private int minX, minZ, maxX, maxZ;
 	private final List<BlockLocation> locs = new ArrayList<>();
 	private byte appearTimer;

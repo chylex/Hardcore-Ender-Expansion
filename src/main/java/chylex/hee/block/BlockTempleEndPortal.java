@@ -4,7 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.temple.TempleEvents;
+import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.util.DragonUtil;
 
 public class BlockTempleEndPortal extends BlockEndPortal{

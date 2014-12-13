@@ -1,11 +1,10 @@
 package chylex.hee.entity.technical;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 
-public class EntityTechnicalBiomeInteraction extends Entity{
+public class EntityTechnicalBiomeInteraction extends EntityTechnicalBase{
 	private AbstractBiomeInteraction interaction;
 	
 	public EntityTechnicalBiomeInteraction(World world){

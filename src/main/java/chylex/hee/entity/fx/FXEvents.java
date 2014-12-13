@@ -10,7 +10,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemScorchingPickaxe;
 import chylex.hee.item.ItemTempleCaller;
-import chylex.hee.mechanics.temple.TempleEvents;
+import chylex.hee.mechanics.misc.TempleEvents;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;

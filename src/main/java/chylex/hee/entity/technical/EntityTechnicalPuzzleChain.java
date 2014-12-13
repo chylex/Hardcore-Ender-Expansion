@@ -1,5 +1,4 @@
 package chylex.hee.entity.technical;
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
@@ -10,7 +9,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityTechnicalPuzzleChain extends Entity{
+public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 	private byte dir;
 	
 	public EntityTechnicalPuzzleChain(World world){
