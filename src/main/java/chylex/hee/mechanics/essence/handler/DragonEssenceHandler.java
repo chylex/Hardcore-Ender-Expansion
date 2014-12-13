@@ -22,10 +22,10 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
+import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.weight.ObjectWeightPair;
-import chylex.hee.system.weight.WeightedList;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.world.util.BlockLocation;
 

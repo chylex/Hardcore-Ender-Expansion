@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.render.model.ModelEnderEye;
-import chylex.hee.system.sound.BossType;
+import chylex.hee.sound.BossType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

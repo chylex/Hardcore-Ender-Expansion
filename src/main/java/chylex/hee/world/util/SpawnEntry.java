@@ -3,7 +3,7 @@ import java.lang.reflect.InvocationTargetException;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.world.World;
-import chylex.hee.system.weight.IWeightProvider;
+import chylex.hee.system.collections.weight.IWeightProvider;
 
 public class SpawnEntry implements IWeightProvider{
 	private final Class<? extends EntityLiving> mobClass;

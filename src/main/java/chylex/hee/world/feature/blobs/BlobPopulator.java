@@ -1,6 +1,6 @@
 package chylex.hee.world.feature.blobs;
 import java.util.Random;
-import chylex.hee.system.weight.IWeightProvider;
+import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 
 public abstract class BlobPopulator implements IWeightProvider{

@@ -1,6 +1,6 @@
 package chylex.hee.world.structure.island.biome.data;
 import gnu.trove.set.hash.TByteHashSet;
-import chylex.hee.system.weight.IWeightProvider;
+import chylex.hee.system.collections.weight.IWeightProvider;
 
 public final class BiomeContentVariation implements IWeightProvider{
 	private static final TByteHashSet usedIDs = new TByteHashSet(16);

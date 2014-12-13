@@ -3,7 +3,7 @@ import java.util.Arrays;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import org.apache.commons.lang3.ArrayUtils;
-import chylex.hee.system.weight.IWeightProvider;
+import chylex.hee.system.collections.weight.IWeightProvider;
 
 public class WeightedItem implements IWeightProvider{
 	private Item item;

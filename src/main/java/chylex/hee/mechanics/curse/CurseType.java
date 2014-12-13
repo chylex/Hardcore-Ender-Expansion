@@ -1,5 +1,4 @@
 package chylex.hee.mechanics.curse;
-
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
@@ -7,11 +6,26 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public enum CurseType{
-	TELEPORTATION(0);
+	TELEPORTATION(0),
+	CONFUSION(1),
+	TRANQUILITY(2),
+	SLOWNESS(3),
+	WEAKNESS(4),
+	BLINDNESS(5),
+	DEATH(6),
+	DECAY(7),
+	VAMPIRE(8),
+	DARKNESS(9),
+	REBOUND(10),
+	LOSS(11);
 	
 	static{
 		TELEPORTATION
-		.setRecipe(Items.ender_pearl,Items.ender_pearl,Items.ender_pearl,Items.ender_pearl);
+		.setRecipe(Items.ender_pearl,Items.ender_pearl,Items.ender_pearl,Items.ender_pearl)
+		.setUses(EnumCurseUse.BLOCK,22,34).setUses(EnumCurseUse.ENTITY,7,12).setUses(EnumCurseUse.PLAYER,3,6);
+		
+		CONFUSION
+		.setUses(EnumCurseUse.BLOCK,11,15).setUses(EnumCurseUse.ENTITY,6,10);
 	}
 	
 	public static CurseType getFromDamage(int damage){

@@ -8,9 +8,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.storage.WorldInfo;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
+import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.weight.IWeightProvider;
-import chylex.hee.system.weight.WeightedList;
 
 public enum GemSideEffects implements IWeightProvider{
 	DEFLECTION(10), SLOWNESS(10), NAUSEA(8), WEAKNESS(6), HUNGER(5, 0.72F), ENDERMEN(3, 0.78F), ITEMDROP(2, 0.82F), STORM(1, 0.88F);

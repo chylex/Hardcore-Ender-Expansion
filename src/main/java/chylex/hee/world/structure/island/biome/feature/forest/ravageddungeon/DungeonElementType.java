@@ -1,7 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import java.util.Random;
-import chylex.hee.system.weight.IWeightProvider;
-import chylex.hee.system.weight.WeightedList;
+import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.IWeightProvider;
 
 public enum DungeonElementType{
 	EMPTY('#'), ENTRANCE('E'), HALLWAY(' '), ROOM('+'), DESCEND('V'), DESCENDBOTTOM('T'), END('X');

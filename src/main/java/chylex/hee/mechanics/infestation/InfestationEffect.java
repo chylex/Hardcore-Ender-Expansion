@@ -1,8 +1,8 @@
 package chylex.hee.mechanics.infestation;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.weight.IWeightProvider;
 
 class InfestationEffect implements IWeightProvider{
 	private final byte potionEffectId;

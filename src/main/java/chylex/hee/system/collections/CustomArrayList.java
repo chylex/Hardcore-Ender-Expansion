@@ -1,4 +1,4 @@
-package chylex.hee.system.util;
+package chylex.hee.system.collections;
 import java.util.ArrayList;
 
 public class CustomArrayList<T> extends ArrayList<T>{

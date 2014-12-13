@@ -1,4 +1,5 @@
-package chylex.hee.system.weight;
+package chylex.hee.system.collections.weight;
+
 
 public class ObjectWeightPair<T> implements IWeightProvider{
 	public static <T> ObjectWeightPair<T> of(T obj, int weight){

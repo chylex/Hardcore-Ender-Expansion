@@ -1,4 +1,4 @@
-package chylex.hee.system.sound;
+package chylex.hee.sound;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.common.MinecraftForge;

@@ -2,9 +2,9 @@ package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.weight.ObjectWeightPair;
-import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 

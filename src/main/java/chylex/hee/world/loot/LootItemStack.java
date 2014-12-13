@@ -3,7 +3,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import chylex.hee.system.weight.IWeightProvider;
+import chylex.hee.system.collections.weight.IWeightProvider;
 
 /**
  * Item stack randomizer.

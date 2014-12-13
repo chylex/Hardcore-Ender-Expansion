@@ -1,4 +1,4 @@
-package chylex.hee.system.sound;
+package chylex.hee.sound;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;

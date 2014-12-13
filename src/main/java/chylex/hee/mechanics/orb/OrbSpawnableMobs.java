@@ -11,8 +11,8 @@ import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
+import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.weight.WeightedList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.util.SpawnEntry;
 

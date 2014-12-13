@@ -5,8 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang3.tuple.Pair;
-import chylex.hee.system.weight.IWeightProvider;
-import chylex.hee.system.weight.WeightedList;
+import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.util.IRandomAmount;
 
 public final class BlobPattern implements IWeightProvider{

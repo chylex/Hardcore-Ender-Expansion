@@ -10,7 +10,7 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.ResourceLocation;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.packets.AbstractClientPacket;
-import chylex.hee.system.sound.CustomMusicTicker;
+import chylex.hee.sound.CustomMusicTicker;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

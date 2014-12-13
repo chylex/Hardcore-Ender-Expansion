@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.weight.IWeightProvider;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.BlockLocation;
 

@@ -1,7 +1,8 @@
-package chylex.hee.system.weight;
+package chylex.hee.system.collections;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
+import chylex.hee.system.collections.weight.IWeightProvider;
 
 public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 	private static final long serialVersionUID = -382485527777212023L;

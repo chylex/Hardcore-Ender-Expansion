@@ -1,5 +1,5 @@
 package chylex.hee.mechanics.orb;
-import chylex.hee.system.weight.WeightedList;
+import chylex.hee.system.collections.WeightedList;
 
 public class WeightedItemList extends WeightedList<WeightedItem>{
 	private static final long serialVersionUID = -5274470224046379374L;

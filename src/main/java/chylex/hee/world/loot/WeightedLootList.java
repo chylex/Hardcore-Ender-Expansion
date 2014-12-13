@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.item.ItemStack;
-import chylex.hee.system.weight.WeightedList;
+import chylex.hee.system.collections.WeightedList;
 
 public class WeightedLootList extends WeightedList<LootItemStack>{
 	private static final long serialVersionUID = -491398574791344180L;

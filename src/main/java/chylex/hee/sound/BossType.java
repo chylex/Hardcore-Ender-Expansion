@@ -1,4 +1,4 @@
-package chylex.hee.system.sound;
+package chylex.hee.sound;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

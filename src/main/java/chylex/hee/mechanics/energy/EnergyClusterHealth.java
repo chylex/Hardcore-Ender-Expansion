@@ -1,6 +1,6 @@
 package chylex.hee.mechanics.energy;
-import chylex.hee.system.weight.IWeightProvider;
-import chylex.hee.system.weight.WeightedList;
+import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.IWeightProvider;
 
 public enum EnergyClusterHealth implements IWeightProvider{
 	HEALTHY(0x54ff54, 10, 15, 90, "energy.status.healthy"),

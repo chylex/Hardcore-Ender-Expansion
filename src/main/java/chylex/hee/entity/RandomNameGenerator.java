@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.Random;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.StatCollector;
-import chylex.hee.system.weight.IWeightProvider;
-import chylex.hee.system.weight.WeightedList;
+import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.IWeightProvider;
 
 public class RandomNameGenerator{
 	private static final WeightedList<Char> samohlasky = new WeightedList<>(
