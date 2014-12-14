@@ -12,6 +12,7 @@ import chylex.hee.tileentity.spawner.TowerEndermanSpawnerLogic;
 public class TileEntityCustomSpawner extends TileEntity{
 	private byte logicId;
 	private CustomSpawnerLogic logic;
+	private int actualX, actualY = -1, actualZ;
 
 	public TileEntityCustomSpawner setLogicId(int id){
 		createLogic((byte)id);
@@ -26,12 +27,19 @@ public class TileEntityCustomSpawner extends TileEntity{
 			case 3: logic = new SilverfishRavagedSpawnerLogic(this); break;
 			default: throw new IllegalArgumentException("Unable to find spawner logic "+id+", this is not supposed to happen! Shutting down Minecraft to prevent more errors...");
 		}
+		
 		this.logicId = id;
 	}
 	
 	@Override
 	public void updateEntity(){
-		logic.updateSpawner();
+		if (actualY == -1){
+			actualX = xCoord;
+			actualY = yCoord;
+			actualZ = zCoord;
+		}
+		else if (xCoord == actualX && yCoord == actualY && zCoord == actualZ)logic.updateSpawner();
+		
 		super.updateEntity();
 	}
 
@@ -40,18 +48,20 @@ public class TileEntityCustomSpawner extends TileEntity{
 		NBTTagCompound tag = new NBTTagCompound();
 		writeToNBT(tag);
 		tag.removeTag("SpawnPotentials");
+		tag.removeTag("actualPos");
 		return new S35PacketUpdateTileEntity(xCoord,yCoord,zCoord,1,tag);
 	}
 
 	@Override
 	public boolean receiveClientEvent(int eventNb, int arg){
-		return logic.setDelayToMin(eventNb)?true:super.receiveClientEvent(eventNb,arg);
+		return logic.setDelayToMin(eventNb) || super.receiveClientEvent(eventNb,arg);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		nbt.setByte("logicId",logicId);
+		nbt.setIntArray("actualPos",new int[]{ actualX, actualY, actualZ });
 		logic.writeToNBT(nbt);
 	}
 	
@@ -59,6 +69,15 @@ public class TileEntityCustomSpawner extends TileEntity{
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
 		createLogic(nbt.getByte("logicId"));
+		
+		int[] actualPos = nbt.getIntArray("actualPos");
+		
+		if (actualPos.length == 3){
+			actualX = actualPos[0];
+			actualY = actualPos[1];
+			actualZ = actualPos[2];
+		}
+		
 		logic.readFromNBT(nbt);
 	}
 
