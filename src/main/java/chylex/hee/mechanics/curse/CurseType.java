@@ -1,11 +1,16 @@
 package chylex.hee.mechanics.curse;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 
 public enum CurseType{
 	TELEPORTATION(0, new ICurseHandler(){
@@ -22,31 +27,57 @@ public enum CurseType{
 	
 	TRANQUILITY(2, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			return false;
+			if (entity instanceof EntityCreature){
+				EntityCreature creature = (EntityCreature)entity;
+				if (creature.getEntityToAttack() != null)creature.setTarget(null);
+				if (creature.getAttackTarget() != null)creature.setAttackTarget(null);
+			}
+			else if (entity instanceof EntityGhast)((EntityGhast)entity).targetedEntity = null;
+			return true;
 		}
 	}),
 	
 	SLOWNESS(3, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			return false;
+			PotionEffect eff = entity.getActivePotionEffect(Potion.moveSlowdown);
+			
+			if (eff == null || eff.getAmplifier() < 1){
+				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),100,1,true));
+				return true;
+			}
+			else return false;
 		}
 	}),
 	
 	WEAKNESS(4, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			return false;
+			PotionEffect eff = entity.getActivePotionEffect(Potion.weakness);
+			
+			if (eff == null || eff.getAmplifier() < 1){
+				entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),100,1,true));
+				return true;
+			}
+			else return false;
 		}
 	}),
 	
 	BLINDNESS(5, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			return false;
+			if (entity.getActivePotionEffect(Potion.blindness) == null){
+				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),100,0,true));
+				return true;
+			}
+			else return false;
 		}
 	}),
 	
 	DEATH(6, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			return false;
+			if (entity.hurtTime == 0){
+				entity.attackEntityFrom(DamageSource.magic,1.5F);
+				return true;
+			}
+			else return false;
 		}
 	}),
 	
