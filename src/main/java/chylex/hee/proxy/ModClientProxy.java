@@ -47,6 +47,7 @@ import chylex.hee.entity.projectile.EntityProjectileMinerShot;
 import chylex.hee.entity.projectile.EntityProjectilePotionOfInstability;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
+import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
 import chylex.hee.entity.technical.EntityTechnicalVoidChest;
@@ -190,6 +191,7 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalVoidChest.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleChain.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleSolved.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalCurseBlock.class, new RenderNothing());
 
 		Stopwatch.finish("ModClientProxy - renderers");
 	}

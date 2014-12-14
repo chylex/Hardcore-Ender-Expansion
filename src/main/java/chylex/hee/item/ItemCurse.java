@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.mechanics.curse.CurseType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -36,8 +37,10 @@ public class ItemCurse extends Item{
 
 		if (is.stackSize == 0)return false;
 		else{
+			CurseType type = CurseType.getFromDamage(is.getItemDamage());
+			if (type == null)return false;
 			
-			// TODO
+			world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,x,y,z,player,type,CurseType.isEternal(is.getItemDamage())));
 			return true;
 		}
 	}
@@ -58,7 +61,7 @@ public class ItemCurse extends Item{
 	@Override
     @SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		if ((is.getItemDamage()&0b100000000) != 0)textLines.add(EnumChatFormatting.YELLOW+StatCollector.translateToLocal("item.curse.eternal"));
+		if (CurseType.isEternal(is.getItemDamage()))textLines.add(EnumChatFormatting.YELLOW+StatCollector.translateToLocal("item.curse.eternal"));
 	}
 	
 	@Override

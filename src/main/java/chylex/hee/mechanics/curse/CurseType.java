@@ -1,23 +1,78 @@
 package chylex.hee.mechanics.curse;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public enum CurseType{
-	TELEPORTATION(0),
-	CONFUSION(1),
-	TRANQUILITY(2),
-	SLOWNESS(3),
-	WEAKNESS(4),
-	BLINDNESS(5),
-	DEATH(6),
-	DECAY(7),
-	VAMPIRE(8),
-	REBOUND(9),
-	LOSS(10);
+	TELEPORTATION(0, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	CONFUSION(1, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	TRANQUILITY(2, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	SLOWNESS(3, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	WEAKNESS(4, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	BLINDNESS(5, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	DEATH(6, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	DECAY(7, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	VAMPIRE(8, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	REBOUND(9, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	}),
+	
+	LOSS(10, new ICurseHandler(){
+		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			return false;
+		}
+	});
 	
 	static{
 		TELEPORTATION
@@ -75,12 +130,18 @@ public enum CurseType{
 		return null;
 	}
 	
+	public static boolean isEternal(int damage){
+		return (damage&0b100000000) != 0;
+	}
+	
 	public final byte damage;
+	public final ICurseHandler handler;
 	private ItemStack[] items = new ItemStack[4];
 	private byte usesBlockMin, usesBlockMax, usesEntityMin, usesEntityMax, usesPlayerMin, usesPlayerMax;
 	
-	CurseType(int damage){
+	CurseType(int damage, ICurseHandler handler){
 		this.damage = (byte)damage;
+		this.handler = handler;
 	}
 	
 	private CurseType setRecipe(Object o1, Object o2, Object o3, Object o4){
