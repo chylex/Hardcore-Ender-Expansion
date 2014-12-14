@@ -1,16 +1,21 @@
 package chylex.hee.mechanics.curse;
+import gnu.trove.list.array.TIntArrayList;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import chylex.hee.system.util.MathUtil;
 
 public enum CurseType{
 	TELEPORTATION(0, new ICurseHandler(){
@@ -101,6 +106,61 @@ public enum CurseType{
 	
 	LOSS(10, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			Random rand = entity.getRNG();
+			NBTTagCompound nbt = entity.getEntityData();
+			byte timer = nbt.getByte("HEE_C10_t");
+			
+			if (timer == 0)timer = (byte)(61+rand.nextInt(60));
+			else if (--timer == 1){
+				if (entity instanceof EntityPlayer){
+					EntityPlayer player = (EntityPlayer)entity;
+
+					TIntArrayList indexes = new TIntArrayList();
+					for(int a = -4; a < player.inventory.getSizeInventory(); a++)indexes.add(a);
+					
+					while(!indexes.isEmpty()){
+						int index = indexes.get(rand.nextInt(indexes.size()));
+						indexes.remove(index);
+						
+						ItemStack is = index < 0 ? player.inventory.armorInventory[4+index] : player.inventory.mainInventory[index];
+						if (is == null)continue;
+						
+						player.func_146097_a(is,false,true);
+						
+						if (index < 0)player.inventory.armorInventory[4+index] = null;
+						else player.inventory.mainInventory[index] = null;
+					}
+				}
+				else if (entity instanceof EntityLiving){
+					EntityLiving living = (EntityLiving)entity;
+					ItemStack[] equipment = living.getLastActiveItems();
+					
+					TIntArrayList indexes = new TIntArrayList();
+					for(int a = 0; a < equipment.length; a++)indexes.add(a);
+					
+					while(!indexes.isEmpty()){
+						int index = indexes.get(rand.nextInt(indexes.size()));
+						indexes.remove(index);
+						if (equipment[index] == null || MathUtil.floatEquals(living.equipmentDropChances[index],0F))continue;
+						
+						ItemStack is = equipment[index];
+						
+						if (living.equipmentDropChances[index] <= 1F && is.isItemStackDamageable()){
+							int maxDmg = Math.max(is.getMaxDamage()-25,1), dmg = is.getMaxDamage()-rand.nextInt(rand.nextInt(maxDmg)+1);
+							if (dmg > maxDmg)dmg = maxDmg;
+							is.setItemDamage(Math.max(dmg,1));
+						}
+						
+						living.entityDropItem(is,0F);
+						living.setCurrentItemOrArmor(index,null);
+					}
+				}
+				
+				nbt.setByte("HEE_C10_t",timer);
+				return true;
+			}
+			
+			nbt.setByte("HEE_C10_t",timer);
 			return false;
 		}
 	});
