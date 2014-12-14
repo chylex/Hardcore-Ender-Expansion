@@ -30,6 +30,7 @@ import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -159,6 +160,13 @@ public class FXClientProxy extends FXCommonProxy{
 			particleGreen = green;
 			particleBlue = blue;
 		}});
+	}
+	
+	@Override
+	public void curse(World world, double x, double y, double z, CurseType type){
+		Random rand = world.rand;
+		int color = rand.nextInt(5) <= 2 ? type.getColor(0) : type.getColor(1);
+		portalBig(world,x,y,z,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.2D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.2D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.2D,0.05F+rand.nextFloat()*0.1F,((color>>16)&255)/255F,((color>>8)&255)/255F,(color&255)/255F);
 	}
 	
 	/*

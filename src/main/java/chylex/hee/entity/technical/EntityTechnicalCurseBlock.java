@@ -4,6 +4,7 @@ import java.util.UUID;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
@@ -28,14 +29,22 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 	}
 
 	@Override
-	protected void entityInit(){}
+	protected void entityInit(){
+		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+	}
 	
 	@Override
 	public void onUpdate(){
 		if (worldObj.isRemote){
-			// TODO particles
+			if (curseType == null)curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16));
+			
+			if (curseType != null){
+				for(int a = 0; a < 2+rand.nextInt(6); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*3D,posY,posZ+(rand.nextDouble()-0.5D)*3D,curseType);
+			}
+			
 			return;
 		}
+		else if (ticksExisted == 1)dataWatcher.updateObject(16,curseType.damage);
 		
 		for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.5D,0.1D,1.5D))){
 			if (entity.getPersistentID().equals(owner))continue;

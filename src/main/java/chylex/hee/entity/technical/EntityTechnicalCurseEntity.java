@@ -33,14 +33,22 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 	}
 
 	@Override
-	protected void entityInit(){}
+	protected void entityInit(){
+		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+	}
 	
 	@Override
 	public void onUpdate(){
 		if (worldObj.isRemote){
+			if (curseType == null)curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16));
+			
+			if (curseType != null){
+				for(int a = 0; a < 2+rand.nextInt(6); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*width*2D,posY+rand.nextDouble()*height,posZ+(rand.nextDouble()-0.5D)*width*2D,curseType);
+			}
 			
 			return;
 		}
+		else if (ticksExisted == 1)dataWatcher.updateObject(16,curseType.damage);
 		
 		if (target != null){
 			if (target.dimension != dimension){

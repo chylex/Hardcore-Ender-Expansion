@@ -7,6 +7,7 @@ import chylex.hee.entity.item.EntityItemInstabilityOrb;
 import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
+import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
@@ -26,6 +27,7 @@ public class FXCommonProxy{
 	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){}
 	public void spell(World world, double x, double y, double z, float red, float green, float blue){}
 	public void aura(World world, double x, double y, double z, float red, float green, float blue, int maxAge){}
+	public void curse(World world, double x, double y, double z, CurseType type){}
 	
 	// BLOCKS
 	public void corruptedEnergy(World world, int x, int y, int z){}
