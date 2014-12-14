@@ -25,7 +25,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 		this.owner = owner.getPersistentID();
 		this.curseType = type;
 		this.eternal = eternal;
-		this.usesLeft = (byte)type.getUses(EnumCurseUse.BLOCK,rand);
+		this.usesLeft = (byte)(eternal ? -1 : type.getUses(EnumCurseUse.BLOCK,rand));
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 		
 		for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.5D,0.1D,1.5D))){
 			if (entity.getPersistentID().equals(owner))continue;
-			else if (curseType.handler.tickEntity(entity,this) && --usesLeft <= 0){
+			else if (curseType.handler.tickEntity(entity,this) && (usesLeft != -1 && --usesLeft <= 0)){
 				setDead();
 				break;
 			}
