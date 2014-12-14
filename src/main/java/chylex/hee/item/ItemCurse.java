@@ -52,7 +52,7 @@ public class ItemCurse extends Item{
 			CurseType type = CurseType.getFromDamage(is.getItemDamage());
 			if (type == null)return is;
 			
-			world.spawnEntityInWorld(new EntityProjectileCurse(world,player,type,CurseType.isEternal(is.getItemDamage())));
+			world.spawnEntityInWorld(new EntityProjectileCurse(world,player,is,type,CurseType.isEternal(is.getItemDamage())));
 		}
 		
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
