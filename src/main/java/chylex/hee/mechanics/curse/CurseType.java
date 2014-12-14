@@ -18,12 +18,60 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
+import chylex.hee.entity.fx.FXType;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.util.MathUtil;
 
 public enum CurseType{
 	TELEPORTATION(0, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			return false;
+			NBTTagCompound nbt = entity.getEntityData();
+			byte timer = nbt.getByte("HEE_C0_t");
+			boolean hasTeleported = false;
+			
+			if (timer == 0){
+				Random rand = entity.getRNG();
+				timer = (byte)(20+rand.nextInt(60));
+				
+				double prevX = entity.posX, prevY = entity.posY, prevZ = entity.posZ, tpX, tpY, tpZ;
+				
+				for(int attempt = 0; attempt < 200; attempt++){
+					tpX = prevX+(rand.nextDouble()-0.5D)*64D;
+					tpY = prevY+rand.nextInt(64)-32;
+					tpZ = prevZ+(rand.nextDouble()-0.5D)*64D;
+					
+					int ix = MathHelper.floor_double(tpX), iy = MathHelper.floor_double(tpY), iz = MathHelper.floor_double(tpZ);
+
+					if (entity.worldObj.blockExists(ix,iy,iz)){
+						boolean foundTopBlock = false;
+
+						while(!foundTopBlock && iy > 0){
+							if (entity.worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement())foundTopBlock = true;
+							else{
+								--tpY;
+								--iy;
+							}
+						}
+
+						if (foundTopBlock){
+							entity.setPosition(tpX,tpY,tpZ);
+
+							if ((entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty() && !entity.worldObj.isAnyLiquid(entity.boundingBox))){
+								hasTeleported = true;
+							}
+						}
+					}
+
+					if (!hasTeleported)entity.setPosition(prevX,prevY,prevZ);
+					else if (!entity.worldObj.isRemote)PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,prevX,prevY,prevZ,tpX,tpY,tpZ));
+				}
+			}
+			else --timer;
+			
+			nbt.setByte("HEE_C0_t",timer);
+			return hasTeleported;
 		}
 	}),
 	
@@ -220,7 +268,14 @@ public enum CurseType{
 	
 	REBOUND(9, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			return false;
+			NBTTagCompound nbt = entity.getEntityData();
+			nbt.setLong("HEE_C9_l",entity.worldObj.getTotalWorldTime());
+			
+			if (nbt.getBoolean("HEE_C9_a")){
+				nbt.removeTag("HEE_C9_a");
+				return true;
+			}
+			else return false;
 		}
 	}),
 	
