@@ -1,7 +1,10 @@
 package chylex.hee.mechanics.curse;
 import gnu.trove.list.array.TIntArrayList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,7 +29,53 @@ public enum CurseType{
 	
 	CONFUSION(1, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			return false;
+			NBTTagCompound nbt = entity.getEntityData();
+			byte cooldown = nbt.getByte("HEE_C1_c");
+			if (cooldown > 0)--cooldown;
+			
+			if (entity instanceof EntityCreature){
+				EntityCreature creature = (EntityCreature)entity;
+				
+				Entity target = creature.getEntityToAttack();
+				if (target == null)target = creature.getAttackTarget();
+				
+				if (target == null || target instanceof EntityPlayer){
+					EntityLiving newTarget = getMob(creature,16D);
+					
+					if (newTarget != null){
+						cooldown = 60;
+						creature.setTarget(newTarget);
+						creature.setAttackTarget(newTarget);
+					}
+				}
+			}
+			else if (entity instanceof EntityGhast){
+				EntityGhast ghast = (EntityGhast)entity;
+				
+				if (ghast.targetedEntity == null || ghast.targetedEntity instanceof EntityPlayer){
+					EntityLiving newTarget = getMob(ghast,64D);
+					
+					if (newTarget != null){
+						cooldown = 60;
+						ghast.targetedEntity = newTarget;
+					}
+				}
+			}
+			else return true;
+			
+			nbt.setByte("HEE_C1_c",cooldown);
+			return cooldown == 60;
+		}
+		
+		private EntityLiving getMob(EntityLiving me, double dist){
+			List<EntityLiving> mobs = new ArrayList<>();
+			
+			for(EntityLiving entity:(List<EntityLiving>)me.worldObj.getEntitiesWithinAABB(EntityLiving.class,me.boundingBox.expand(dist,dist/2,dist))){
+				if (entity == me || me.getDistanceToEntity(entity) > dist)continue;
+				mobs.add(entity);
+			}
+			
+			return mobs.isEmpty() ? null : mobs.get(me.getRNG().nextInt(mobs.size()));
 		}
 	}),
 	
@@ -38,6 +87,7 @@ public enum CurseType{
 				if (creature.getAttackTarget() != null)creature.setAttackTarget(null);
 			}
 			else if (entity instanceof EntityGhast)((EntityGhast)entity).targetedEntity = null;
+			
 			return true;
 		}
 	}),

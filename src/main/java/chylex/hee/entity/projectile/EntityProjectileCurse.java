@@ -5,6 +5,7 @@ import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
@@ -26,8 +27,13 @@ public class EntityProjectileCurse extends EntityPotion{
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote){
-			for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(4D,2D,4D))){
-				if (getDistanceSqToEntity(entity) < 16D)worldObj.spawnEntityInWorld(new EntityTechnicalCurseEntity(worldObj,entity,curseType,eternal));
+			if (mop.typeOfHit == MovingObjectType.ENTITY){
+				for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(4D,2D,4D))){
+					if (getDistanceSqToEntity(entity) < 16D)worldObj.spawnEntityInWorld(new EntityTechnicalCurseEntity(worldObj,entity,curseType,eternal));
+				}
+			}
+			else if (mop.typeOfHit == MovingObjectType.BLOCK){
+				// TODO
 			}
 
 			// TODO
