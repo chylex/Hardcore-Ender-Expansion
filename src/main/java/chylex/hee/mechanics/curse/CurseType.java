@@ -22,6 +22,7 @@ import net.minecraft.util.MathHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
 
 public enum CurseType{
@@ -346,31 +347,38 @@ public enum CurseType{
 	static{
 		TELEPORTATION
 		.setRecipe(Items.ender_pearl,Items.ender_pearl,Items.ender_pearl,Items.ender_pearl)
-		.setUses(EnumCurseUse.BLOCK,22,34).setUses(EnumCurseUse.ENTITY,7,12).setUses(EnumCurseUse.PLAYER,3,6);
+		.setUses(EnumCurseUse.BLOCK,22,34).setUses(EnumCurseUse.ENTITY,7,12).setUses(EnumCurseUse.PLAYER,3,6)
+		.setColor1h(290).setColor2h(270);
 		
 		CONFUSION
 		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
-		.setUses(EnumCurseUse.BLOCK,11,15).setUses(EnumCurseUse.ENTITY,6,10);
+		.setUses(EnumCurseUse.BLOCK,11,15).setUses(EnumCurseUse.ENTITY,6,10)
+		.setColor1h(180).setColor2h(0);
 		
 		TRANQUILITY
 		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
-		.setUses(EnumCurseUse.BLOCK,35*20,48*20).setUses(EnumCurseUse.ENTITY,150*20,210*20);
+		.setUses(EnumCurseUse.BLOCK,35*20,48*20).setUses(EnumCurseUse.ENTITY,150*20,210*20)
+		.setColor1h(180).setColor2h(210);
 		
 		SLOWNESS
 		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
-		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8);
+		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8)
+		.setColor1g(40).setColor2h(35);
 		
 		WEAKNESS
 		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
-		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8);
+		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8)
+		.setColor1g(40).setColor2h(0);
 		
 		BLINDNESS
 		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
-		.setUses(EnumCurseUse.BLOCK,30,39).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,3,5);
+		.setUses(EnumCurseUse.BLOCK,30,39).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,3,5)
+		.setColor1g(40).setColor2h(150);
 		
 		DEATH
 		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
-		.setUses(EnumCurseUse.BLOCK,28,36).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,6,9);
+		.setUses(EnumCurseUse.BLOCK,28,36).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,6,9)
+		.setColor1g(30).setColor2g(47);
 		
 		DECAY
 		.setRecipe(Blocks.air,Blocks.air,Blocks.air,Blocks.air)
@@ -407,6 +415,7 @@ public enum CurseType{
 	public final ICurseHandler handler;
 	private ItemStack[] items = new ItemStack[4];
 	private byte usesBlockMin, usesBlockMax, usesEntityMin, usesEntityMax, usesPlayerMin, usesPlayerMax;
+	private int color1, color2;
 	
 	CurseType(int damage, ICurseHandler handler){
 		this.damage = (byte)damage;
@@ -423,6 +432,34 @@ public enum CurseType{
 			else throw new IllegalArgumentException("Invalid recipe object, accepting only Block, Item and ItemStack, got "+array[a].getClass());
 		}
 		
+		return this;
+	}
+	
+	private CurseType setColor1h(int hue){
+		return setColor1(hue,75,65);
+	}
+	
+	private CurseType setColor1g(int value){
+		return setColor1(0,0,value);
+	}
+	
+	private CurseType setColor1(int hue, int saturation, int value){
+		float[] rgb = ColorUtil.hsvToRgb(hue/360F,saturation/100F,value/100F);
+		this.color1 = (MathUtil.floor(rgb[0]*256)<<16)|(MathUtil.floor(rgb[1]*256)<<8)|MathUtil.floor(rgb[2]*256);
+		return this;
+	}
+	
+	private CurseType setColor2h(int hue){
+		return setColor2(hue,75,65);
+	}
+	
+	private CurseType setColor2g(int value){
+		return setColor2(0,0,value);
+	}
+	
+	private CurseType setColor2(int hue, int saturation, int value){
+		float[] rgb = ColorUtil.hsvToRgb(hue/360F,saturation/100F,value/100F);
+		this.color2 = (MathUtil.floor(rgb[0]*256)<<16)|(MathUtil.floor(rgb[1]*256)<<8)|MathUtil.floor(rgb[2]*256);
 		return this;
 	}
 	
@@ -447,6 +484,10 @@ public enum CurseType{
 		}
 		
 		return this;
+	}
+	
+	public int getColor(int pass){
+		return pass == 0 ? color1 : pass == 1 ? color2 : 16777215;
 	}
 	
 	public ItemStack getRecipeItem(int index){

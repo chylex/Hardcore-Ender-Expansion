@@ -13,6 +13,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCharm extends Item{
 	private static final byte iconsBackAmount = 17, iconsForeAmount = 13;
+	
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArrayBack, iconArrayFore;
 	
