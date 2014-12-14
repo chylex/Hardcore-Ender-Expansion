@@ -88,13 +88,83 @@ public enum CurseType{
 	
 	DECAY(7, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			Random rand = entity.getRNG();
+			NBTTagCompound nbt = entity.getEntityData();
+			byte timer = nbt.getByte("HEE_C7_t");
+			
+			if (timer == 0)timer = (byte)(21+rand.nextInt(20));
+			else if (--timer == 1){
+				if (entity instanceof EntityPlayer){
+					EntityPlayer player = (EntityPlayer)entity;
+
+					TIntArrayList indexes = new TIntArrayList();
+					for(int a = -4; a < player.inventory.getSizeInventory(); a++)indexes.add(a);
+					
+					while(!indexes.isEmpty()){
+						int index = indexes.get(rand.nextInt(indexes.size()));
+						indexes.remove(index);
+						
+						ItemStack is = index < 0 ? player.inventory.armorInventory[4+index] : player.inventory.mainInventory[index];
+						if (is == null || !is.isItemStackDamageable())continue;
+						
+						is.setItemDamage(is.getItemDamage()+1+rand.nextInt(2));
+						
+						if (is.getItemDamage() >= is.getMaxDamage()){
+							player.renderBrokenItemStack(is);
+							
+							if (index < 0)player.inventory.armorInventory[4+index] = null;
+							else player.inventory.mainInventory[index] = null;
+						}
+						
+						break;
+					}
+				}
+				else if (entity instanceof EntityLiving){
+					EntityLiving living = (EntityLiving)entity;
+					ItemStack[] equipment = living.getLastActiveItems();
+					
+					TIntArrayList indexes = new TIntArrayList();
+					for(int a = 0; a < equipment.length; a++)indexes.add(a);
+					
+					while(!indexes.isEmpty()){
+						int index = indexes.get(rand.nextInt(indexes.size()));
+						indexes.remove(index);
+						
+						if (equipment[index] == null)continue;
+						else if (equipment[index].isItemStackDamageable()){
+							equipment[index].setItemDamage(equipment[index].getItemDamageForDisplay()+1+rand.nextInt(2));
+
+							if (equipment[index].getItemDamageForDisplay() >= equipment[index].getMaxDamage()){
+								entity.renderBrokenItemStack(equipment[index]);
+								((EntityLiving)entity).setCurrentItemOrArmor(index,null);
+							}
+
+							break;
+						}
+					}
+				}
+				
+				nbt.setByte("HEE_C7_t",--timer);
+				return true;
+			}
+			
+			nbt.setByte("HEE_C7_t",timer);
 			return false;
 		}
 	}),
 	
 	VAMPIRE(8, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			return false;
+			if (entity.ticksExisted%20 == 0){
+				if (entity.worldObj.isDaytime() && entity.getBrightness(1F) > 0.5F && entity.worldObj.canBlockSeeTheSky(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ))){
+					entity.hurtResistantTime = 0;
+					entity.attackEntityFrom(DamageSource.onFire,1F);
+					entity.setFire(8);
+				}
+				
+				return true;
+			}
+			else return false;
 		}
 	}),
 	
@@ -129,6 +199,8 @@ public enum CurseType{
 						
 						if (index < 0)player.inventory.armorInventory[4+index] = null;
 						else player.inventory.mainInventory[index] = null;
+						
+						break;
 					}
 				}
 				else if (entity instanceof EntityLiving){
@@ -153,10 +225,11 @@ public enum CurseType{
 						
 						living.entityDropItem(is,0F);
 						living.setCurrentItemOrArmor(index,null);
+						break;
 					}
 				}
 				
-				nbt.setByte("HEE_C10_t",timer);
+				nbt.setByte("HEE_C10_t",--timer);
 				return true;
 			}
 			

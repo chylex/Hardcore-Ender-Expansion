@@ -66,6 +66,7 @@ import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.compendium.CompendiumTranslations;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
+import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.energy.EnergyEvents;
 import chylex.hee.mechanics.infestation.InfestationEvents;
 import chylex.hee.mechanics.misc.PlayerDataHandler;
@@ -294,6 +295,7 @@ public class HardcoreEnderExpansion{
 		EnergyEvents.register();
 		TempleEvents.register();
 		InfestationEvents.register();
+		CurseEvents.register();
 		
 		Stopwatch.finish("PreInitEvent - events");
 		
