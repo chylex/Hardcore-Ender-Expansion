@@ -38,6 +38,7 @@ import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.entity.projectile.EntityProjectileCorporealMirageOrb;
 import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
+import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.projectile.EntityProjectileDragonFireball;
 import chylex.hee.entity.projectile.EntityProjectileDragonFreezeball;
 import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
@@ -86,6 +87,7 @@ import chylex.hee.render.model.ModelEndermanHeadBiped;
 import chylex.hee.render.model.ModelFireGolem;
 import chylex.hee.render.model.ModelHauntedMiner;
 import chylex.hee.render.model.ModelScorchingLens;
+import chylex.hee.render.projectile.RenderProjectileCurse;
 import chylex.hee.render.projectile.RenderProjectilePotionOfInstability;
 import chylex.hee.render.tileentity.RenderTileCustomSpawner;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
@@ -184,6 +186,7 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileSpatialDash.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCorruptedEnergy.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileFiendFireball.class, new RenderFireball(0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCurse.class, new RenderProjectileCurse());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltSafe.class, new RenderLightningBolt());
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltDemon.class, new RenderWeatherLightningBoltPurple());

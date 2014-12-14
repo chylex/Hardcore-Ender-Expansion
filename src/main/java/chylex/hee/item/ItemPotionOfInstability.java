@@ -80,7 +80,7 @@ public class ItemPotionOfInstability extends Item{
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack is){
-		return is.getItemDamage() != 1?StatCollector.translateToLocal("item.potionOfInstability.name"):StatCollector.translateToLocal("item.potionOfInstability.splash.name");
+		return is.getItemDamage() != 1 ? StatCollector.translateToLocal("item.potionOfInstability.name") : StatCollector.translateToLocal("item.potionOfInstability.splash.name");
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class ItemPotionOfInstability extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamageForRenderPass(int damage, int pass){
-		return pass == 0?itemIcon:damage == 1?iconBottleSplash:iconBottleNormal;
+		return pass == 0 ? itemIcon : damage == 1 ? iconBottleSplash : iconBottleNormal;
 	}
 	
 	@Override

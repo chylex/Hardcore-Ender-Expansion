@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.mechanics.curse.CurseType;
 import cpw.mods.fml.relauncher.Side;
@@ -47,7 +48,13 @@ public class ItemCurse extends Item{
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote); // TODO
+		if (!world.isRemote){
+			CurseType type = CurseType.getFromDamage(is.getItemDamage());
+			if (type == null)return is;
+			
+			world.spawnEntityInWorld(new EntityProjectileCurse(world,player,type,CurseType.isEternal(is.getItemDamage())));
+		}
+		
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		return is;
 	}
