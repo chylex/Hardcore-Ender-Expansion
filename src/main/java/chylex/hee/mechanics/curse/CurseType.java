@@ -10,7 +10,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -19,7 +18,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.util.ColorUtil;
@@ -351,52 +352,52 @@ public enum CurseType{
 		.setColor1h(290).setColor2h(270);
 		
 		CONFUSION
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(Items.flint,new ItemStack(Items.dye,1,0),ItemList.instability_orb,Items.blaze_powder)
 		.setUses(EnumCurseUse.BLOCK,11,15).setUses(EnumCurseUse.ENTITY,6,10)
 		.setColor1h(180).setColor2h(0);
 		
 		TRANQUILITY
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(Items.flint,new ItemStack(Items.dye,1,0),Items.string,Items.leather)
 		.setUses(EnumCurseUse.BLOCK,35*20,48*20).setUses(EnumCurseUse.ENTITY,150*20,210*20)
 		.setColor1h(180).setColor2h(210);
 		
 		SLOWNESS
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(Items.sugar,Items.sugar,Items.fermented_spider_eye,Items.fermented_spider_eye)
 		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8)
 		.setColor1g(50).setColor2h(35);
 		
 		WEAKNESS
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(Items.blaze_powder,Items.blaze_powder,Items.fermented_spider_eye,Items.fermented_spider_eye)
 		.setUses(EnumCurseUse.BLOCK,35,42).setUses(EnumCurseUse.ENTITY,16,21).setUses(EnumCurseUse.PLAYER,5,8)
 		.setColor1g(50).setColor2h(0);
 		
 		BLINDNESS
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(Items.flint,Items.fermented_spider_eye,new ItemStack(Items.dye,1,0),new ItemStack(Items.dye,1,0))
 		.setUses(EnumCurseUse.BLOCK,30,39).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,3,5)
 		.setColor1g(50).setColor2h(150);
 		
 		DEATH
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(Items.blaze_rod,ItemList.ectoplasm,ItemList.silverfish_blood,Items.bone)
 		.setUses(EnumCurseUse.BLOCK,28,36).setUses(EnumCurseUse.ENTITY,12,16).setUses(EnumCurseUse.PLAYER,6,9)
 		.setColor1g(40).setColor2g(57);
 		
 		DECAY
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(ItemList.stardust,ItemList.stardust,Items.iron_ingot,ItemList.instability_orb)
 		.setUses(EnumCurseUse.BLOCK,18,25).setUses(EnumCurseUse.ENTITY,14,19).setUses(EnumCurseUse.PLAYER,9,14)
 		.setColor1h(46).setColor2g(52);
 		
 		VAMPIRE
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(new ItemStack(Items.glowstone_dust,1,OreDictionary.WILDCARD_VALUE),Items.quartz,ItemList.igneous_rock,ItemList.silverfish_blood)
 		.setUses(EnumCurseUse.BLOCK,15,22).setUses(EnumCurseUse.ENTITY,8,13).setUses(EnumCurseUse.PLAYER,6,9)
 		.setColor1h(55).setColor2h(9);
 		
 		REBOUND
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(Items.ender_eye,Items.gold_nugget,Items.flint,Items.gold_nugget)
 		.setUses(EnumCurseUse.BLOCK,20,26).setUses(EnumCurseUse.ENTITY,15,22).setUses(EnumCurseUse.PLAYER,12,16)
 		.setColor1h(0).setColor2h(200);
 		
 		LOSS
-		.setRecipe(Blocks.bedrock,Blocks.bedrock,Blocks.bedrock,Blocks.bedrock)
+		.setRecipe(ItemList.instability_orb,Items.book,Items.redstone,Items.emerald)
 		.setUses(EnumCurseUse.BLOCK,14,19).setUses(EnumCurseUse.ENTITY,10,12).setUses(EnumCurseUse.PLAYER,8,11)
 		.setColor1h(300).setColor2g(50);
 	}
