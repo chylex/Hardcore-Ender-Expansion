@@ -2,7 +2,6 @@ package chylex.hee.entity.technical;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.curse.CurseType;
@@ -19,10 +18,10 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 		super(world);
 	}
 	
-	public EntityTechnicalCurseBlock(World world, int x, int y, int z, EntityPlayer owner, CurseType type, boolean eternal){
+	public EntityTechnicalCurseBlock(World world, int x, int y, int z, UUID ownerID, CurseType type, boolean eternal){
 		super(world);
 		setPosition(x+0.5D,y,z+0.5D);
-		this.owner = owner.getPersistentID();
+		this.owner = ownerID;
 		this.curseType = type;
 		this.eternal = eternal;
 		this.usesLeft = (byte)(eternal ? -1 : type.getUses(EnumCurseUse.BLOCK,rand));
