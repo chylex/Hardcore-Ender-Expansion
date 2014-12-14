@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 abstract class RenderProjectileBase extends Render{
-	protected abstract void render();
+	protected abstract void render(Entity entity);
 	
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float rotationYaw, float partialTickTime){
@@ -25,7 +25,7 @@ abstract class RenderProjectileBase extends Render{
 		GL11.glRotatef(-renderManager.playerViewX,1F,0F,0F);
 		
 		bindEntityTexture(entity);
-		render();
+		render(entity);
 		
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		GL11.glPopMatrix();

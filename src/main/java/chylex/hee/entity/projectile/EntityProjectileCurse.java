@@ -24,6 +24,10 @@ public class EntityProjectileCurse extends EntityPotion{
 		this.eternal = eternal;
 	}
 	
+	public CurseType getType(){
+		return curseType;
+	}
+	
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote){

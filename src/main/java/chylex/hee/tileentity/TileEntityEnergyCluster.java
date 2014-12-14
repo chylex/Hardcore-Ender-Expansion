@@ -25,7 +25,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public TileEntityEnergyCluster(World world){
 		this();
 		float[] rgb = ColorUtil.hsvToRgb(world.rand.nextFloat(),0.5F,0.65F);
-		colRgb = new byte[]{ (byte)(Math.floor(rgb[0]*256F)-128), (byte)(Math.floor(rgb[1]*256F)-128), (byte)(Math.floor(rgb[2]*256F)-128) };
+		colRgb = new byte[]{ (byte)(Math.floor(rgb[0]*255F)-128), (byte)(Math.floor(rgb[1]*255F)-128), (byte)(Math.floor(rgb[2]*255F)-128) };
 	}
 
 	@Override
