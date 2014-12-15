@@ -360,7 +360,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		renderBackgroundGUI();
 		
 		float offY = ptt(offsetY.value(),prevOffsetY,partialTickTime);
-		int yLowerBound = -(int)offY, yUpperBound = -(int)offY+height;
+		int yLowerBound = -(int)offY-32, yUpperBound = -(int)offY+height;
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,offY,0F);

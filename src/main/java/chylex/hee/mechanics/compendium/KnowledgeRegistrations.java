@@ -144,6 +144,9 @@ public final class KnowledgeRegistrations{
 		DRY_SPLINTER = create(ItemList.dry_splinter),
 		GHOST_AMULET = create(ItemList.ghost_amulet),
 		ECTOPLASM = create(ItemList.ectoplasm),
+		SPECTRAL_TEAR = create(ItemList.spectral_tear),
+		LIVING_MATTER = create(ItemList.living_matter),
+		CURSE = create(ItemList.curse,"ec.title.curses"),
 		INFESTATION_REMEDY = create(ItemList.infestation_remedy),
 		
 		RAVAGED_DUNGEON = dummy("RavagedDungeon",new ItemStack(BlockList.ravaged_brick),"ec.title.ravagedDungeon"),
@@ -754,6 +757,18 @@ public final class KnowledgeRegistrations{
 			
 			ECTOPLASM.setPos(9,7).setUnlockPrice(35).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(470).setPrice(7).setUnlockOnDiscovery()
+			}),
+			
+			SPECTRAL_TEAR.setPos(9,9).setUnlockPrice(10).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
+				 // TODO
+			}),
+			
+			LIVING_MATTER.setPos(11,9).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+				
+			}),
+			
+			CURSE.setPos(13,9).setUnlockPrice(40).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+				
 			}),
 			
 			// =
