@@ -57,7 +57,7 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 				double dist = HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this);
 				if (dist > 32D)return;
 				
-				for(int a = 0; a < rand.nextInt(dist > 16D ? 2 : 3); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*targetWidth*2D,posY+rand.nextDouble()*targetHeight,posZ+(rand.nextDouble()-0.5D)*targetWidth*2D,curseType);
+				if (rand.nextInt(dist > 16D ? 3 : 2) == 0)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*targetWidth*1.5D,posY+rand.nextDouble()*targetHeight,posZ+(rand.nextDouble()-0.5D)*targetWidth*1.5D,curseType);
 			}
 			
 			return;

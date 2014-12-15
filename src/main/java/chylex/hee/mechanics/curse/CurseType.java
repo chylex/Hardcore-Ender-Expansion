@@ -67,7 +67,10 @@ public enum CurseType{
 					}
 
 					if (!hasTeleported)entity.setPosition(prevX,prevY,prevZ);
-					else if (!entity.worldObj.isRemote)PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,prevX,prevY,prevZ,tpX,tpY,tpZ));
+					else{
+						if (!entity.worldObj.isRemote)PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,prevX,prevY,prevZ,tpX,tpY,tpZ));
+						break;
+					}
 				}
 			}
 			else --timer;
@@ -146,8 +149,8 @@ public enum CurseType{
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			PotionEffect eff = entity.getActivePotionEffect(Potion.moveSlowdown);
 			
-			if (eff == null || eff.getAmplifier() < 1){
-				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),100,1,true));
+			if (eff == null || eff.getAmplifier() < 1 || eff.getDuration() < 25){
+				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true));
 				return true;
 			}
 			else return false;
@@ -158,8 +161,8 @@ public enum CurseType{
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			PotionEffect eff = entity.getActivePotionEffect(Potion.weakness);
 			
-			if (eff == null || eff.getAmplifier() < 1){
-				entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),100,1,true));
+			if (eff == null || eff.getAmplifier() < 1 || eff.getDuration() < 25){
+				entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true));
 				return true;
 			}
 			else return false;
@@ -168,8 +171,10 @@ public enum CurseType{
 	
 	BLINDNESS(5, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			if (entity.getActivePotionEffect(Potion.blindness) == null){
-				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),100,0,true));
+			PotionEffect eff = entity.getActivePotionEffect(Potion.blindness);
+			
+			if (eff == null || eff.getDuration() < 25){
+				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,0,true));
 				return true;
 			}
 			else return false;
@@ -207,11 +212,10 @@ public enum CurseType{
 						ItemStack is = index < 0 ? player.inventory.armorInventory[4+index] : player.inventory.mainInventory[index];
 						if (is == null || !is.isItemStackDamageable())continue;
 						
-						is.setItemDamage(is.getItemDamage()+1+rand.nextInt(2));
+						is.setItemDamage(is.getItemDamage()+1+rand.nextInt(3));
+						player.renderBrokenItemStack(is);
 						
 						if (is.getItemDamage() >= is.getMaxDamage()){
-							player.renderBrokenItemStack(is);
-							
 							if (index < 0)player.inventory.armorInventory[4+index] = null;
 							else player.inventory.mainInventory[index] = null;
 						}
@@ -232,10 +236,10 @@ public enum CurseType{
 						
 						if (equipment[index] == null)continue;
 						else if (equipment[index].isItemStackDamageable()){
-							equipment[index].setItemDamage(equipment[index].getItemDamageForDisplay()+1+rand.nextInt(2));
+							equipment[index].setItemDamage(equipment[index].getItemDamageForDisplay()+1+rand.nextInt(3));
+							living.renderBrokenItemStack(equipment[index]);
 
 							if (equipment[index].getItemDamageForDisplay() >= equipment[index].getMaxDamage()){
-								entity.renderBrokenItemStack(equipment[index]);
 								((EntityLiving)entity).setCurrentItemOrArmor(index,null);
 							}
 
@@ -441,7 +445,7 @@ public enum CurseType{
 	}
 	
 	private CurseType setColor1h(int hue){
-		return setColor1(hue,75,80);
+		return setColor1(hue,75,90);
 	}
 	
 	private CurseType setColor1g(int value){
@@ -455,7 +459,7 @@ public enum CurseType{
 	}
 	
 	private CurseType setColor2h(int hue){
-		return setColor2(hue,75,80);
+		return setColor2(hue,75,90);
 	}
 	
 	private CurseType setColor2g(int value){

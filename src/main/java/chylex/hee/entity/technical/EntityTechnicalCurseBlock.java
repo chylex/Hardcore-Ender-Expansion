@@ -3,18 +3,25 @@ import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements ICurseCaller{
 	private UUID owner;
+	private int ownerEntityID = -1;
 	private CurseType curseType;
 	private boolean eternal;
 	private byte usesLeft;
+	
+	@SideOnly(Side.CLIENT)
+	private byte disappearTimer;
 	
 	public EntityTechnicalCurseBlock(World world){
 		super(world);
@@ -32,6 +39,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 	@Override
 	protected void entityInit(){
 		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+		dataWatcher.addObject(17,-1);
 	}
 	
 	@Override
@@ -40,15 +48,42 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 			if (curseType == null)curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16)-1);
 			
 			if (curseType != null){
-				double dist = HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this);
+				EntityPlayer client = HardcoreEnderExpansion.proxy.getClientSidePlayer();
+				
+				double dist = client.getDistanceToEntity(this);
 				if (dist > 32D)return;
 				
-				for(int a = 0; a < 1+rand.nextInt(dist > 16D ? 2 : 3); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*3D,posY,posZ+(rand.nextDouble()-0.5D)*3D,curseType);
+				if (ownerEntityID == -1)ownerEntityID = dataWatcher.getWatchableObjectInt(17);
+				
+				boolean forceRenderFX = client.getEntityId() == ownerEntityID;
+				
+				if (!forceRenderFX){
+					for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.75D,0.1D,1.75D))){
+						if (entity == client){
+							disappearTimer = 120;
+							break;
+						}
+					}
+				}
+				
+				if (forceRenderFX || (disappearTimer > 0 && --disappearTimer > 0)){
+					for(int a = 0; a < 1+rand.nextInt(dist > 16D ? 2 : 3); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*3D,posY,posZ+(rand.nextDouble()-0.5D)*3D,curseType);
+				}
 			}
 			
 			return;
 		}
 		else if (ticksExisted == 1)dataWatcher.updateObject(16,(byte)(curseType.damage+1));
+		
+		if (ownerEntityID == -1){
+			for(EntityPlayer player:(List<EntityPlayer>)worldObj.playerEntities){
+				if (player.getPersistentID().equals(owner)){
+					dataWatcher.updateObject(17,ownerEntityID = player.getEntityId());
+					break;
+				}
+			}
+		}
+		else if (ticksExisted%10 == 0 && worldObj.getEntityByID(ownerEntityID) == null)ownerEntityID = -1;
 		
 		for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.5D,0.1D,1.5D))){
 			if (entity.getPersistentID().equals(owner) || entity instanceof IBossDisplayData)continue;
