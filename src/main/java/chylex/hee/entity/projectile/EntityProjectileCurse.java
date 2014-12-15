@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
@@ -30,7 +31,26 @@ public class EntityProjectileCurse extends EntityThrowable{
 	}
 	
 	public CurseType getType(){
-		return curseType;
+		return curseType == null ? (curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16)-1)) : curseType;
+	}
+	
+	@Override
+	protected void entityInit(){
+		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+	}
+	
+	@Override
+	public void onUpdate(){
+		super.onUpdate();
+		
+		if (worldObj.isRemote){
+			getType();
+			
+			if (curseType != null){
+				for(int a = 0; a < 1+rand.nextInt(2); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*0.15D,posY+(rand.nextDouble()-0.5D)*0.15D,posZ+(rand.nextDouble()-0.5D)*0.15D,curseType);
+			}
+		}
+		else if (ticksExisted == 1)dataWatcher.updateObject(16,(byte)(curseType.damage+1));
 	}
 	
 	@Override
@@ -46,8 +66,10 @@ public class EntityProjectileCurse extends EntityThrowable{
 				worldObj.spawnEntityInWorld(new EntityTechnicalCurseBlock(worldObj,mop.blockX,yy,mop.blockZ,throwerID,curseType,eternal));
 			}
 
-			// TODO
 			setDead();
+		}
+		else{
+			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*1.5D,posY+(rand.nextDouble()-0.5D)*1.5D,posZ+(rand.nextDouble()-0.5D)*1.5D,curseType);
 		}
 	}
 	

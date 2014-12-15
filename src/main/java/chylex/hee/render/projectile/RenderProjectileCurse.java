@@ -14,6 +14,7 @@ public class RenderProjectileCurse extends RenderProjectileBase{
 	protected void render(Entity entity){
 		EntityProjectileCurse curse = (EntityProjectileCurse)entity;
 		CurseType type = curse.getType();
+		if (type == null)return;
 		
 		int col = type.getColor(0);
 		GL11.glColor3f(((col>>16)&255)/255F,((col>>8)&255)/255F,(col&255)/255F);

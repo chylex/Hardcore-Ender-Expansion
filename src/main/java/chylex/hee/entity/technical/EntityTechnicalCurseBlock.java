@@ -40,7 +40,10 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 			if (curseType == null)curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16)-1);
 			
 			if (curseType != null){
-				for(int a = 0; a < 1+rand.nextInt(4); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*3D,posY,posZ+(rand.nextDouble()-0.5D)*3D,curseType);
+				double dist = HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this);
+				if (dist > 32D)return;
+				
+				for(int a = 0; a < 1+rand.nextInt(dist > 16D ? 2 : 3); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*3D,posY,posZ+(rand.nextDouble()-0.5D)*3D,curseType);
 			}
 			
 			return;

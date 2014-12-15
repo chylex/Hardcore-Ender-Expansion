@@ -10,6 +10,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements ICurseCaller{
 	private CurseType curseType;
@@ -17,6 +18,7 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 	private byte usesLeft;
 	private UUID targetID;
 	private EntityLivingBase target;
+	private float targetWidth, targetHeight;
 	
 	public EntityTechnicalCurseEntity(World world){
 		super(world);
@@ -35,15 +37,27 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 	@Override
 	protected void entityInit(){
 		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+		dataWatcher.addObject(17,0F);
+		dataWatcher.addObject(18,0F);
 	}
 	
 	@Override
 	public void onUpdate(){
 		if (worldObj.isRemote){
-			if (curseType == null)curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16)-1);
+			if (curseType == null){
+				curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16)-1);
+				
+				if (curseType != null){
+					targetWidth = dataWatcher.getWatchableObjectFloat(17);
+					targetHeight = dataWatcher.getWatchableObjectFloat(18);
+				}
+			}
 			
 			if (curseType != null){
-				for(int a = 0; a < 1+rand.nextInt(4); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*width*2D,posY+rand.nextDouble()*height,posZ+(rand.nextDouble()-0.5D)*width*2D,curseType);
+				double dist = HardcoreEnderExpansion.proxy.getClientSidePlayer().getDistanceToEntity(this);
+				if (dist > 32D)return;
+				
+				for(int a = 0; a < rand.nextInt(dist > 16D ? 2 : 3); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*targetWidth*2D,posY+rand.nextDouble()*targetHeight,posZ+(rand.nextDouble()-0.5D)*targetWidth*2D,curseType);
 			}
 			
 			return;
@@ -51,15 +65,17 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 		else if (ticksExisted == 1)dataWatcher.updateObject(16,(byte)(curseType.damage+1));
 		
 		if (target != null){
+			if (MathUtil.floatEquals(targetWidth,0F)){
+				dataWatcher.updateObject(17,targetWidth = target.width);
+				dataWatcher.updateObject(18,targetHeight = target.height);
+			}
+			
 			if (target.dimension != dimension){
 				setPosition(target.posX,target.posY,target.posZ);
 				travelToDimension(target.dimension);
 				return;
 			}
-			else if (target.isDead){
-				HardcoreEnderExpansion.notifications.report("Deleted curse entity"); // TODO debug
-				setDead();
-			}
+			else if (target.isDead)setDead();
 			
 			setPosition(target.posX,target.posY,target.posZ);
 			if (curseType.handler.tickEntity(target,this) && (usesLeft != -1 && --usesLeft <= 0))setDead();
@@ -72,10 +88,7 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 				}
 			}
 		}
-		else{
-			HardcoreEnderExpansion.notifications.report("Deleted curse entity"); // TODO debug
-			setDead();
-		}
+		else setDead();
 	}
 
 	@Override

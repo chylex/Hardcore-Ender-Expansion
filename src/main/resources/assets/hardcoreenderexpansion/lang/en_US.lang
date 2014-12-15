@@ -160,7 +160,7 @@ item.charm.lastresort.tooltip=Teleports $0 blocks away from finishing hit with c
 item.charm.cannotstack=This charm will not stack effects with other charms of this type!
 
 item.curse.eternal=Eternal
-item.curse.teleporation.name=Curse of Teleportation
+item.curse.teleportation.name=Curse of Teleportation
 item.curse.confusion.name=Curse of Confusion
 item.curse.tranquility.name=Curse of Tranquility
 item.curse.slowness.name=Curse of Slowness
