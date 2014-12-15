@@ -68,7 +68,7 @@ public class EntityProjectileCurse extends EntityThrowable{
 
 			setDead();
 		}
-		else{
+		else if (curseType != null){
 			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*1.5D,posY+(rand.nextDouble()-0.5D)*1.5D,posZ+(rand.nextDouble()-0.5D)*1.5D,curseType);
 		}
 	}

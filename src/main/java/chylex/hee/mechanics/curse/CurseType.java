@@ -8,6 +8,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -78,6 +80,11 @@ public enum CurseType{
 			nbt.setByte("HEE_C0_t",timer);
 			return hasTeleported;
 		}
+		
+		@Override
+		public void end(EntityLivingBase entity, ICurseCaller caller){
+			entity.getEntityData().removeTag("HEE_C0_t");
+		}
 	}),
 	
 	CONFUSION(1, new ICurseHandler(){
@@ -130,10 +137,18 @@ public enum CurseType{
 			
 			return mobs.isEmpty() ? null : mobs.get(me.getRNG().nextInt(mobs.size()));
 		}
+		
+		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
+			entity.getEntityData().removeTag("HEE_C1_t");
+		}
 	}),
 	
 	TRANQUILITY(2, new ICurseHandler(){
+		private AttributeModifier noNavigation = new AttributeModifier("HEE NoNavigationCurse",-1D,2);
+		
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			if (caller.getEntity().ticksExisted == 1)entity.getEntityAttribute(SharedMonsterAttributes.followRange).applyModifier(noNavigation);
+			
 			if (entity instanceof EntityCreature){
 				EntityCreature creature = (EntityCreature)entity;
 				if (creature.getEntityToAttack() != null)creature.setTarget(null);
@@ -141,7 +156,11 @@ public enum CurseType{
 			}
 			else if (entity instanceof EntityGhast)((EntityGhast)entity).targetedEntity = null;
 			
-			return true;
+			return entity.ticksExisted%20 == 0;
+		}
+		
+		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
+			entity.getEntityAttribute(SharedMonsterAttributes.followRange).removeModifier(noNavigation);
 		}
 	}),
 	
@@ -155,6 +174,10 @@ public enum CurseType{
 			}
 			else return false;
 		}
+		
+		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
+			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true));
+		}
 	}),
 	
 	WEAKNESS(4, new ICurseHandler(){
@@ -166,6 +189,10 @@ public enum CurseType{
 				return true;
 			}
 			else return false;
+		}
+		
+		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
+			entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true));
 		}
 	}),
 	
@@ -179,6 +206,10 @@ public enum CurseType{
 			}
 			else return false;
 		}
+		
+		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
+			entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,1,true));
+		}
 	}),
 	
 	DEATH(6, new ICurseHandler(){
@@ -189,6 +220,9 @@ public enum CurseType{
 			}
 			else return false;
 		}
+		
+		@Override
+		public void end(EntityLivingBase entity, ICurseCaller caller){}
 	}),
 	
 	DECAY(7, new ICurseHandler(){
@@ -255,6 +289,10 @@ public enum CurseType{
 			nbt.setByte("HEE_C7_t",timer);
 			return false;
 		}
+		
+		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
+			entity.getEntityData().removeTag("HEE_C7_t");
+		}
 	}),
 	
 	VAMPIRE(8, new ICurseHandler(){
@@ -270,6 +308,9 @@ public enum CurseType{
 			}
 			else return false;
 		}
+		
+		@Override
+		public void end(EntityLivingBase entity, ICurseCaller caller){}
 	}),
 	
 	REBOUND(9, new ICurseHandler(){
@@ -282,6 +323,10 @@ public enum CurseType{
 				return true;
 			}
 			else return false;
+		}
+		
+		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
+			entity.getEntityData().removeTag("HEE_C9_l");
 		}
 	}),
 	
@@ -347,6 +392,10 @@ public enum CurseType{
 			nbt.setByte("HEE_C10_t",timer);
 			return false;
 		}
+		
+		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
+			entity.getEntityData().removeTag("HEE_C10_t");
+		}
 	});
 	
 	static{
@@ -362,7 +411,7 @@ public enum CurseType{
 		
 		TRANQUILITY
 		.setRecipe(Items.flint,new ItemStack(Items.dye,1,0),Items.string,Items.leather)
-		.setUses(EnumCurseUse.BLOCK,35*20,48*20).setUses(EnumCurseUse.ENTITY,150*20,210*20)
+		.setUses(EnumCurseUse.BLOCK,34>>1,48>>1).setUses(EnumCurseUse.ENTITY,150>>1,210>>1)
 		.setColor1h(180).setColor2h(210);
 		
 		SLOWNESS

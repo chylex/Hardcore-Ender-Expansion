@@ -78,7 +78,11 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 			else if (target.isDead)setDead();
 			
 			setPosition(target.posX,target.posY,target.posZ);
-			if (curseType.handler.tickEntity(target,this) && (usesLeft != -1 && --usesLeft <= 0))setDead();
+			
+			if (curseType.handler.tickEntity(target,this) && (usesLeft != -1 && --usesLeft <= 0)){
+				curseType.handler.end(target,this);
+				setDead();
+			}
 		}
 		else if (ticksExisted < 20){
 			for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox)){
@@ -89,6 +93,11 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 			}
 		}
 		else setDead();
+	}
+	
+	@Override
+	public Entity getEntity(){
+		return this;
 	}
 
 	@Override
