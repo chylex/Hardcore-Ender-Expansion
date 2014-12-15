@@ -166,7 +166,7 @@ public class FXClientProxy extends FXCommonProxy{
 	public void curse(World world, double x, double y, double z, CurseType type){
 		Random rand = world.rand;
 		int color = rand.nextInt(5) <= 2 ? type.getColor(0) : type.getColor(1);
-		portalBig(world,x,y,z,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.2D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.2D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.2D,0.05F+rand.nextFloat()*0.1F,((color>>16)&255)/255F,((color>>8)&255)/255F,(color&255)/255F);
+		portalBig(world,x,y,z,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.04D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.04D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.04D,0.15F+rand.nextFloat()*0.1F,((color>>16)&255)/255F,((color>>8)&255)/255F,(color&255)/255F);
 	}
 	
 	/*

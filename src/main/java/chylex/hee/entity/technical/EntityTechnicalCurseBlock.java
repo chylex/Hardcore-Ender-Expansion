@@ -2,6 +2,7 @@ package chylex.hee.entity.technical;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
@@ -36,18 +37,18 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 	@Override
 	public void onUpdate(){
 		if (worldObj.isRemote){
-			if (curseType == null)curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16));
+			if (curseType == null)curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16)-1);
 			
 			if (curseType != null){
-				for(int a = 0; a < 2+rand.nextInt(6); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*3D,posY,posZ+(rand.nextDouble()-0.5D)*3D,curseType);
+				for(int a = 0; a < 1+rand.nextInt(4); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*3D,posY,posZ+(rand.nextDouble()-0.5D)*3D,curseType);
 			}
 			
 			return;
 		}
-		else if (ticksExisted == 1)dataWatcher.updateObject(16,curseType.damage);
+		else if (ticksExisted == 1)dataWatcher.updateObject(16,(byte)(curseType.damage+1));
 		
 		for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.5D,0.1D,1.5D))){
-			if (entity.getPersistentID().equals(owner))continue;
+			if (entity.getPersistentID().equals(owner) || entity instanceof IBossDisplayData)continue;
 			else if (curseType.handler.tickEntity(entity,this) && (usesLeft != -1 && --usesLeft <= 0)){
 				setDead();
 				break;

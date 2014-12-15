@@ -160,7 +160,17 @@ item.charm.lastresort.tooltip=Teleports $0 blocks away from finishing hit with c
 item.charm.cannotstack=This charm will not stack effects with other charms of this type!
 
 item.curse.eternal=Eternal
-item.curse.teleporation=Curse of Teleportation
+item.curse.teleporation.name=Curse of Teleportation
+item.curse.confusion.name=Curse of Confusion
+item.curse.tranquility.name=Curse of Tranquility
+item.curse.slowness.name=Curse of Slowness
+item.curse.weakness.name=Curse of Weakness
+item.curse.blindness.name=Curse of Blindness
+item.curse.death.name=Curse of Death
+item.curse.decay.name=Curse of Decay
+item.curse.vampire.name=Curse of Vampire
+item.curse.rebound.name=Curse of Rebound
+item.curse.loss.name=Curse of Loss
 
 entity.dragon.derpy.name=Derpy Overgrown Reptile
 entity.dragon.baby.name=Baby Ender Dragon

@@ -198,7 +198,7 @@ public enum CurseType{
 					EntityPlayer player = (EntityPlayer)entity;
 
 					TIntArrayList indexes = new TIntArrayList();
-					for(int a = -4; a < player.inventory.getSizeInventory(); a++)indexes.add(a);
+					for(int a = -4; a < player.inventory.mainInventory.length; a++)indexes.add(a);
 					
 					while(!indexes.isEmpty()){
 						int index = indexes.get(rand.nextInt(indexes.size()));
@@ -293,7 +293,7 @@ public enum CurseType{
 					EntityPlayer player = (EntityPlayer)entity;
 
 					TIntArrayList indexes = new TIntArrayList();
-					for(int a = -4; a < player.inventory.getSizeInventory(); a++)indexes.add(a);
+					for(int a = -4; a < player.inventory.mainInventory.length; a++)indexes.add(a);
 					
 					while(!indexes.isEmpty()){
 						int index = indexes.get(rand.nextInt(indexes.size()));
