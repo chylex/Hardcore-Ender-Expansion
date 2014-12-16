@@ -1,4 +1,5 @@
 package chylex.hee.entity.technical;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
@@ -20,6 +21,8 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 	private CurseType curseType;
 	private boolean eternal;
 	private byte usesLeft;
+	
+	private final List<EntityLivingBase> prevAffectedEntities = new ArrayList<>();
 	
 	@SideOnly(Side.CLIENT)
 	private byte disappearTimer;
@@ -86,14 +89,27 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 		}
 		else if (ticksExisted%10 == 0 && worldObj.getEntityByID(ownerEntityID) == null)ownerEntityID = -1;
 		
+		List<EntityLivingBase> newAffectedEntities = new ArrayList<>();
+		
 		for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.5D,0.1D,1.5D))){
 			if (entity.getPersistentID().equals(owner) || entity instanceof IBossDisplayData)continue;
-			else if (curseType.handler.tickEntity(entity,this) && (usesLeft != -1 && --usesLeft <= 0)){
-				curseType.handler.end(entity,this);
-				setDead();
-				break;
+			else{
+				newAffectedEntities.add(entity);
+				
+				if (curseType.handler.tickEntity(entity,this) && (usesLeft != -1 && --usesLeft <= 0)){
+					curseType.handler.end(entity,this);
+					setDead();
+					break;
+				}
 			}
 		}
+		
+		for(EntityLivingBase prevAffected:prevAffectedEntities){
+			if (!newAffectedEntities.contains(prevAffected))curseType.handler.end(prevAffected,this);
+		}
+		
+		prevAffectedEntities.clear();
+		prevAffectedEntities.addAll(newAffectedEntities);
 	}
 	
 	@Override

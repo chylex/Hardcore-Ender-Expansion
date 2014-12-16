@@ -131,6 +131,12 @@
             "random/mirage"
         ]
     },
+    "mob.random.curse": {
+        "category": "neutral",
+        "sounds": [
+            "random/curse"
+        ]
+    },
     "block.random.transform": {
         "category": "block",
         "sounds": [

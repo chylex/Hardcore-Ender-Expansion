@@ -147,7 +147,9 @@ public enum CurseType{
 		private AttributeModifier noNavigation = new AttributeModifier("HEE NoNavigationCurse",-1D,2);
 		
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
-			if (caller.getEntity().ticksExisted == 1)entity.getEntityAttribute(SharedMonsterAttributes.followRange).applyModifier(noNavigation);
+			if (entity.getEntityAttribute(SharedMonsterAttributes.followRange).getModifier(noNavigation.getID()) == null){
+				entity.getEntityAttribute(SharedMonsterAttributes.followRange).applyModifier(noNavigation);
+			}
 			
 			if (entity instanceof EntityCreature){
 				EntityCreature creature = (EntityCreature)entity;
@@ -411,7 +413,7 @@ public enum CurseType{
 		
 		TRANQUILITY
 		.setRecipe(Items.flint,new ItemStack(Items.dye,1,0),Items.string,Items.leather)
-		.setUses(EnumCurseUse.BLOCK,34>>1,48>>1).setUses(EnumCurseUse.ENTITY,150>>1,210>>1)
+		.setUses(EnumCurseUse.BLOCK,68>>1,96>>1).setUses(EnumCurseUse.ENTITY,150>>1,210>>1)
 		.setColor1h(180).setColor2h(210);
 		
 		SLOWNESS

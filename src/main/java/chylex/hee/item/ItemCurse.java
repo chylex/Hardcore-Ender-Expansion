@@ -3,6 +3,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -11,8 +12,10 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
+import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -47,19 +50,32 @@ public class ItemCurse extends Item{
 			if (type == null)return false;
 			
 			if (!world.isRemote)world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,x,y,z,player.getPersistentID(),type,CurseType.isEternal(is.getItemDamage())));
+			else world.playSound(x+0.5D,y,z+0.5D,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
+			
 			return true;
 		}
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote){
-			CurseType type = CurseType.getFromDamage(is.getItemDamage());
-			if (type == null)return is;
-			
-			world.spawnEntityInWorld(new EntityProjectileCurse(world,player,type,CurseType.isEternal(is.getItemDamage())));
+    public boolean itemInteractionForEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity){
+		CurseType type = CurseType.getFromDamage(is.getItemDamage());
+		if (type == null)return false;
+		
+		if (!player.worldObj.isRemote)player.worldObj.spawnEntityInWorld(new EntityTechnicalCurseEntity(player.worldObj,entity,type,CurseType.isEternal(is.getItemDamage())));
+		else{
+			player.worldObj.playSound(entity.posX,entity.posY,entity.posZ,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
+			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(player.worldObj,entity.posX+(itemRand.nextDouble()-0.5D)*1.5D,entity.posY+(itemRand.nextDouble()-0.5D)*1.5D,entity.posZ+(itemRand.nextDouble()-0.5D)*1.5D,type);
 		}
 		
+		return true;
+	}
+	
+	@Override
+	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
+		CurseType type = CurseType.getFromDamage(is.getItemDamage());
+		if (type == null)return is;
+			
+		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileCurse(world,player,type,CurseType.isEternal(is.getItemDamage())));
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		return is;
 	}
