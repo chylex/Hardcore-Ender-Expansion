@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.brewing.AbstractPotionData;
 import chylex.hee.mechanics.brewing.PotionTypes;
@@ -37,11 +36,6 @@ public class ItemPotionOfInstability extends ItemAbstractPotion{
 		PotionEffect eff = ItemPotionOfInstability.getRandomPotionEffect(entity.worldObj.rand);
 		int dur = (int)(((dist == Double.MAX_VALUE ? 1D : (1D-Math.sqrt(dist)/4D)))*eff.getDuration()+0.5D);
 		if (dur > 20)entity.addPotionEffect(new PotionEffect(eff.getPotionID(),dur,eff.getAmplifier(),eff.getIsAmbient()));
-	}
-	
-	@Override
-	public String getItemStackDisplayName(ItemStack is){
-		return is.getItemDamage() != 1 ? StatCollector.translateToLocal("item.potionOfInstability.name") : StatCollector.translateToLocal("item.potionOfInstability.splash.name");
 	}
 
 	@Override

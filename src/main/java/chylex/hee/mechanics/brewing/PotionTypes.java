@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.item.ItemAbstractPotion;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
 
@@ -40,6 +41,7 @@ public class PotionTypes{
 		/* 16 */ new TimedPotion(Potion.confusion,8251,8253,1,6,48,6)
 	));
 	
+	private static final Map<Item,Item> customPotions = new HashMap<>();
 	private static final Map<ItemDamagePair,byte[]> itemToIndex = new HashMap<>();
 	
 	private static void mapItemToIndex(Item item, int...indexes){
@@ -62,6 +64,10 @@ public class PotionTypes{
 	}
 	
 	static{
+		customPotions.put(ItemList.instability_orb,ItemList.potion_of_instability);
+		customPotions.put(ItemList.ectoplasm,ItemList.potion_of_purity);
+		customPotions.put(ItemList.silverfish_blood,ItemList.infestation_remedy);
+		
 		mapItemToIndex(Items.nether_wart,0);
 		mapItemToIndex(Items.speckled_melon,1);
 		mapItemToIndex(Items.sugar,3);
@@ -91,7 +97,7 @@ public class PotionTypes{
 	
 	public static int getRequiredPowder(Item ingredient, ItemStack is){
 		if (is.getItemDamage() <= 16){
-			if (is.getItemDamage() == 0 && (ingredient == ItemList.instability_orb || ingredient == ItemList.silverfish_blood))return 8;
+			if (is.getItemDamage() == 0 && customPotions.containsKey(ingredient))return 8;
 			else return 0;
 		}
 		
@@ -114,8 +120,7 @@ public class PotionTypes{
 			Item ingredientItem = ingredient.getItem();
 			
 			if (is.getItemDamage() <= 16){
-				if ((ingredientItem == ItemList.instability_orb || ingredientItem == ItemList.silverfish_blood) ||
-					(ingredientItem == Items.gunpowder && is.getItem() == ItemList.potion_of_instability))return is.getItemDamage() == 0;
+				if (customPotions.containsKey(ingredientItem) || (ingredientItem == Items.gunpowder && customPotions.get(ingredientItem) instanceof ItemAbstractPotion))return is.getItemDamage() == 0;
 				else return false;
 			}
 			
@@ -144,9 +149,10 @@ public class PotionTypes{
 	public static ItemStack applyIngredientUnsafe(ItemStack ingredient, ItemStack is){
 		Item ingredientItem = ingredient.getItem();
 		
-		if (ingredientItem == ItemList.instability_orb)return new ItemStack(ItemList.potion_of_instability);
-		else if (ingredientItem == ItemList.silverfish_blood)return new ItemStack(ItemList.infestation_remedy);
-		else if (ingredientItem == Items.gunpowder && is.getItem() == ItemList.potion_of_instability)return new ItemStack(ItemList.potion_of_instability,1,1);
+		if (customPotions.containsKey(ingredientItem) || (ingredientItem == Items.gunpowder && customPotions.get(is.getItem()) instanceof ItemAbstractPotion)){
+			if (ingredientItem == Items.gunpowder)return new ItemStack(customPotions.get(is.getItem()),1,1);
+			else return new ItemStack(customPotions.get(ingredientItem));
+		}
 		
 		byte[] indexes = getItemIndexes(ingredient);
 		

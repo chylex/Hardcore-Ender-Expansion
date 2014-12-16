@@ -113,6 +113,14 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 	}
 	
 	@Override
+	public void onPurify(){
+		if (curseType != null){
+			for(EntityLivingBase prevAffected:prevAffectedEntities)curseType.handler.end(prevAffected,this);
+			prevAffectedEntities.clear();
+		}
+	}
+	
+	@Override
 	public Entity getEntity(){
 		return this;
 	}

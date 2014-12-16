@@ -95,6 +95,15 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 		else setDead();
 	}
 	
+	public boolean compareTarget(EntityLivingBase entity){
+		return entity == target;
+	}
+	
+	@Override
+	public void onPurify(){
+		if (curseType != null && target != null)curseType.handler.end(target,this);
+	}
+	
 	@Override
 	public Entity getEntity(){
 		return this;

@@ -113,7 +113,7 @@ public final class ItemList{
 		
 		register("enhanced_brewing_stand", enhanced_brewing_stand = new ItemReed(BlockList.enhanced_brewing_stand).setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
 		register("enhanced_ender_pearl", enhanced_ender_pearl = new ItemEnhancedEnderPearl().setCreativeTab(null).setUnlocalizedName("enderPearl").setTextureName("ender_pearl"));
-		register("potion_of_instability", potion_of_instability = new ItemPotionOfInstability().setMaxStackSize(1).setTextureName("hardcoreenderexpansion:potion_of_instability"));
+		register("potion_of_instability", potion_of_instability = new ItemPotionOfInstability().setUnlocalizedName("potionOfInstability").setTextureName("hardcoreenderexpansion:potion_of_instability"));
 		register("biome_compass", biome_compass = new ItemBiomeCompass().setMaxStackSize(1).setUnlocalizedName("biomeCompass"));
 		register("spatial_dash_gem", spatial_dash_gem = new ItemSpatialDashGem().setMaxStackSize(1).setMaxDamage(300).setNoRepair().setUnlocalizedName("spatialDashGem").setTextureName("hardcoreenderexpansion:spatial_dash_gem"));
 		register("transference_gem", transference_gem = new ItemTransferenceGem().setMaxStackSize(1).setMaxDamage(204).setNoRepair().setUnlocalizedName("transferenceGem").setTextureName("hardcoreenderexpansion:transference_gem"));
@@ -124,6 +124,7 @@ public final class ItemList{
 		register("corporeal_mirage_orb", corporeal_mirage_orb = new ItemCorporealMirageOrb().setMaxStackSize(4).setUnlocalizedName("corporealMirageOrb").setTextureName("hardcoreenderexpansion:corporeal_mirage_orb"));
 		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
 		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
+		register("potion_of_purity", potion_of_purity = new ItemPotionOfPurity().setUnlocalizedName("potionOfPurity").setTextureName("hardcoreenderexpansion:potion_of_purity"));
 		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe"));
 		register("energy_wand", energy_wand = new ItemEnergyWand().setMaxStackSize(1).setUnlocalizedName("energyWand").setTextureName("hardcoreenderexpansion:energy_wand"));
 		
@@ -149,7 +150,7 @@ public final class ItemList{
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			biome_compass,spatial_dash_gem,transference_gem,temple_caller,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
-			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,corporeal_mirage_orb
+			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,corporeal_mirage_orb
 		).addBlocks(
 			BlockList.soul_charm
 		).addItems(
