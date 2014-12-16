@@ -70,6 +70,7 @@ public final class ItemList{
 	public static Item corporeal_mirage_orb;
 	public static Item charm_pouch;
 	public static Item charm;
+	public static Item potion_of_purity;
 	public static Item scorching_pickaxe;
 	public static Item energy_wand;
 	
