@@ -63,7 +63,6 @@ import chylex.hee.item.block.ItemBlockDragonEgg;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
-import chylex.hee.mechanics.compendium.CompendiumTranslations;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.curse.CurseEvents;
@@ -154,9 +153,8 @@ public class HardcoreEnderExpansion{
 		ItemList.loadItems();
 		proxy.loadConfiguration();
 		
-		// BASIC SETUP
+		// DIMENSION
 
-		CompendiumTranslations.load();
 		DimensionOverride.setup();
 		
 		// BLOCKS

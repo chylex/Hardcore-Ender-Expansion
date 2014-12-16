@@ -67,6 +67,7 @@ public class EnergySavefile extends WorldSavefile{
 	protected void onLoad(NBTTagCompound nbt){
 		if (nbt.getByte("size") != sectionSize){
 			Log.warn("Could not load Energy savefile - expected section size of "+sectionSize+", got "+nbt.getByte("size")+" (might be intentional).");
+			setModified();
 			return;
 		}
 		
