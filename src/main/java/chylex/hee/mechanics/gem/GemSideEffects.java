@@ -42,8 +42,8 @@ public enum GemSideEffects implements IWeightProvider{
 		
 		switch(list.getRandomItem(rand)){
 			case DEFLECTION:
-				double ang = rand.nextDouble()*2D*Math.PI,len = rand.nextDouble()*72D*percBroken*percBroken;
-				double x = entity.posX+Math.cos(ang)*len,z = entity.posZ+Math.sin(ang)*len;
+				double ang = rand.nextDouble()*2D*Math.PI, len = rand.nextDouble()*72D*percBroken*percBroken;
+				double x = entity.posX+Math.cos(ang)*len, z = entity.posZ+Math.sin(ang)*len;
 				entity.setLocationAndAngles(x+0.5D,entity.worldObj.getTopSolidOrLiquidBlock(MathUtil.floor(x),MathUtil.floor(z))+1D,z+0.5D,entity.rotationYaw,entity.rotationPitch);
 				break;
 				
@@ -71,7 +71,7 @@ public enum GemSideEffects implements IWeightProvider{
 				if (!(entity instanceof EntityPlayer))break;
 				EntityPlayer player = (EntityPlayer)entity;
 				
-				for(int a = 0,slot; a < 10+rand.nextInt(12); a++){
+				for(int a = 0, slot; a < 10+rand.nextInt(12); a++){
 					slot = rand.nextInt(player.inventory.getSizeInventory());
 					ItemStack is = player.inventory.getStackInSlot(slot);
 					if (is != null){

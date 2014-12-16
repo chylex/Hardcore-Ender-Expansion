@@ -14,10 +14,12 @@ import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCharm;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
+import chylex.hee.mechanics.curse.CurseType;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
@@ -61,6 +63,17 @@ public final class KnowledgeUtils{
 			for(CharmRecipe recipe:type.recipes){
 				fragments.add(new KnowledgeFragmentCharm(startID+(a++)).setRecipe(recipe).setPrice(2).setUnlockRequirements(requiredFragment));
 			}
+		}
+		
+		return fragments.toArray(new KnowledgeFragment[fragments.size()]);
+	}
+	
+	public static KnowledgeFragment[] createCurseFragments(int startID, int requiredFragment){
+		List<KnowledgeFragment> fragments = new ArrayList<>();
+		int a = 0;
+		
+		for(CurseType type:CurseType.values()){
+			fragments.add(new KnowledgeFragmentCrafting(startID+(a++)).setRecipeFromRegistry(new ItemStack(ItemList.curse,8,type.damage)).setPrice(3).setUnlockRequirements(requiredFragment));
 		}
 		
 		return fragments.toArray(new KnowledgeFragment[fragments.size()]);

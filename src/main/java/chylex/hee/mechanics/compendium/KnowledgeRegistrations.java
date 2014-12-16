@@ -756,20 +756,29 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ECTOPLASM.setPos(9,7).setUnlockPrice(35).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(470).setPrice(7).setUnlockOnDiscovery()
+				new KnowledgeFragmentText(470).setPrice(7).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(471).setRecipeFromRegistry(new ItemStack(ItemList.spectral_tear)).setPrice(7).setUnlockRequirements(470).setUnlockCascade(921)
 			}),
 			
 			SPECTRAL_TEAR.setPos(9,9).setUnlockPrice(10).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
-				 // TODO
+				 new KnowledgeFragmentText(920).setPrice(5).setUnlockOnDiscovery(),
+				 new KnowledgeFragmentCrafting(921).setRecipeFromRegistry(new ItemStack(ItemList.spectral_tear)).setPrice(7).setUnlockRequirements(920).setUnlockCascade(471),
+				 new KnowledgeFragmentCrafting(922).setRecipeFromRegistry(new ItemStack(ItemList.living_matter)).setPrice(10).setUnlockRequirements(920).setUnlockCascade(931)
 			}),
 			
 			LIVING_MATTER.setPos(11,9).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
-				
+				new KnowledgeFragmentText(930).setPrice(7).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(931).setRecipeFromRegistry(new ItemStack(ItemList.living_matter)).setPrice(10).setUnlockRequirements(930).setUnlockCascade(922)
 			}),
 			
 			CURSE.setPos(13,9).setUnlockPrice(40).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
-				
-			}),
+				new KnowledgeFragmentText(940).setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(941).setPrice(7).setUnlockRequirements(940),
+				new KnowledgeFragmentText(942).setPrice(5).setUnlockRequirements(941),
+				new KnowledgeFragmentText(943).setPrice(5).setUnlockRequirements(941),
+				new KnowledgeFragmentText(944).setPrice(4).setUnlockRequirements(943),
+				new KnowledgeFragmentText(945).setPrice(7).setUnlockRequirements(941)
+			}).addFragments(KnowledgeUtils.createCurseFragments(1300,941)),
 			
 			// =
 			
@@ -1021,8 +1030,9 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 920
+		// next: 950
 		// taken: 1000-1299
+		// taken: 1300-1399
 		
 		Stopwatch.finish("KnowledgeRegistrations");
 		

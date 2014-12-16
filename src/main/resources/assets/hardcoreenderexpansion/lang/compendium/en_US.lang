@@ -309,6 +309,17 @@ ec.reg.463=Then it has to be purified in Dragon Essence Altar.
 
 ec.reg.470=Strange ethereal substance dropped by banished Forest Ghosts.
 
+ec.reg.920=One of the components to create Living Matter.
+
+ec.reg.930=Microorganisms used to craft Curses.
+
+ec.reg.940=A Curse is a magical powder that attaches itself to an area of blocks, a mob, or a player, crafted using Living Matter, End Powder and specific ingredients.
+ec.reg.941=It can be either placed right on a block or an entity, or thrown. If it gets thrown into a group of entities, it will have a chance to hit more of then at the same time.
+ec.reg.942=Curses eventually disappear, but they can be made eternal by crafting them with Stardust. Eternal Curses will stay forever on blocks and mobs, and longer than normal Curses on players.
+ec.reg.943=Curses placed on blocks are only visible to the player who casted it, and for a short duration to players affected by it.
+ec.reg.944=Getting very close to a Curse makes it visible without having it affect you, but it requires extreme carefulness.
+ec.reg.945=It is possible to remove Curses by using ???, and see all Curses on blocks using ???.
+
 ec.reg.490=Huge dungeon built from Ravaged Bricks, found in Infested Forest (Ravaged).
 ec.reg.491=It is the only way of acquiring items required to create Charms.
 ec.reg.492=The dungeon consists of 3 floors. Each floor is a collection of randomly generated hallways and rooms spread across the entire island.
