@@ -35,6 +35,10 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		this.centerZ = z;
 		this.ang = (float)MathUtil.toRad(ang);
 		this.timer = (byte)timer;
+		
+		dataWatcher.updateObject(16,this.timer);
+		dataWatcher.updateObject(17,this.ang);
+		dataWatcher.updateObject(18,fiendId);
 	}
 	
 	@Override
@@ -72,16 +76,17 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	public void onUpdate(){
 		if (ticksExisted == 1){
 			if (!worldObj.isRemote){
-				dataWatcher.updateObject(16,timer);
-				dataWatcher.updateObject(17,ang);
-				dataWatcher.updateObject(18,fiendId);
+				
 			}
 			else{
 				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.3D,posY+(rand.nextDouble()-0.5D)*0.3D,posZ+(rand.nextDouble()-0.5D)*0.3D,7+rand.nextInt(6));
-				timer = dataWatcher.getWatchableObjectByte(16);
-				ang = dataWatcher.getWatchableObjectFloat(17);
-				fiendId = dataWatcher.getWatchableObjectInt(18);
 			}
+		}
+		
+		if (worldObj.isRemote && fiendId == 0){
+			timer = dataWatcher.getWatchableObjectByte(16);
+			ang = dataWatcher.getWatchableObjectFloat(17);
+			fiendId = dataWatcher.getWatchableObjectInt(18);
 		}
 		
 		if (timer > 0 && --timer > 0){
