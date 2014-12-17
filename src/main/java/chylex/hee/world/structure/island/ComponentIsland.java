@@ -170,7 +170,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 		public void run(String...args){
 			int variation = args.length == 0 ? -1 : Ints.tryParse(args[0]);
 			
-			for(IslandBiomeBase biome:IslandBiomeBase.biomeList){
+			for(IslandBiomeBase biome:new ArrayList<IslandBiomeBase>(IslandBiomeBase.biomeList)){
 				if (biome.isValidMetadata(variation)){
 					List<IslandBiomeBase> prevBiomes = new ArrayList<>(IslandBiomeBase.biomeList);
 					IslandBiomeBase.biomeList.clear();

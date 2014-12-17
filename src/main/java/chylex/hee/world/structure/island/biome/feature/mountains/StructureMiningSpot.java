@@ -30,19 +30,19 @@ public class StructureMiningSpot extends AbstractIslandStructure{
 	protected boolean generate(Random rand){
 		if (oreWeights == null)regenerateOreWeightList(rand);
 		
-		int x = getRandomXZ(rand,32), z = getRandomXZ(rand,32), y = 5+rand.nextInt(15+rand.nextInt(30));
+		int x = getRandomXZ(rand,32), z = getRandomXZ(rand,32), y = 15-rand.nextInt(2)*rand.nextInt(14)+rand.nextInt(15+rand.nextInt(35));
 		if (world.getBlock(x,y,z) != Blocks.end_stone)return false;
 		
-		double rad = 1.5D+rand.nextDouble()*0.5D;
-		iterationsLeft = (byte)(60+rand.nextInt(50));
+		double rad = 1.6D+rand.nextDouble()*0.7D;
+		iterationsLeft = (byte)(70+rand.nextInt(110));
 		
 		generateBlob(rand,x,y,z,rad,0);
 		return true;
 	}
 	
 	private void generateBlob(Random rand, int x, int y, int z, double rad, int recursionLevel){
-		if (x <= rad || z <= rad || x >= ComponentIsland.size-rad || z >= ComponentIsland.size-rad)return;
-		if (--iterationsLeft == 0 || (recursionLevel > 0 && rand.nextInt(30-recursionLevel*2) == 0) || recursionLevel > 12)return;
+		if (x <= rad || z <= rad || x >= ComponentIsland.size-rad || z >= ComponentIsland.size-rad || y <= rad)return;
+		if (iterationsLeft == 0 || --iterationsLeft == 0 || recursionLevel > 35 || (recursionLevel > 12 && rand.nextInt(60-Math.min(recursionLevel*2,50)) == 0))return;
 		
 		int xx, yy, zz;
 		double dist;
@@ -54,14 +54,14 @@ public class StructureMiningSpot extends AbstractIslandStructure{
 				for(zz = MathUtil.floor(z-rad)-1; zz <= z+rad+1; zz++){
 					dist = MathUtil.distance(xx-x,yy-y,zz-z);
 					
-					if (world.getBlock(xx,yy,zz) == Blocks.end_stone && rand.nextInt(4) == 0 && dist <= rad-rand.nextDouble()*0.5D){
+					if (world.getBlock(xx,yy,zz) == Blocks.end_stone && rand.nextInt(7) <= 1 && dist <= rad-rand.nextDouble()*0.3D){
 						placeBlock(rand,xx,yy,zz,dist/rad);
 					}
 				}
 			}
 		}
-		if (true)return; // TODO
-		if (rand.nextInt(20) == 0)generateBlob(rand,x+rand.nextInt(3)-rand.nextInt(3),y+rand.nextInt(3)-rand.nextInt(3),z+rand.nextInt(3)-rand.nextInt(3),rad,recursionLevel+1);
+		
+		if (rand.nextInt(6+recursionLevel*3) == 0)generateBlob(rand,x+rand.nextInt(3)-rand.nextInt(3),y+rand.nextInt(3)-rand.nextInt(3),z+rand.nextInt(3)-rand.nextInt(3),rad,recursionLevel+1);
 		generateBlob(rand,x+rand.nextInt(3)-rand.nextInt(3),y+rand.nextInt(3)-rand.nextInt(3),z+rand.nextInt(3)-rand.nextInt(3),rad,recursionLevel);
 	}
 	

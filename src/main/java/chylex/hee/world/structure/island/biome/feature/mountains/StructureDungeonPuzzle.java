@@ -70,19 +70,27 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 			
 			if (!foundAir)continue;
 			
-			// generate walls
+			// generate walls and air inside
 			
 			for(int posY = yy; posY < yy+5; posY++){
 				boolean genRock = posY > yy && posY < yy+4;
 				
 				for(int posX = xx-distX; posX <= xx+distX; posX++){
-					world.setBlock(posX,posY,zz-distZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(28) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
-					world.setBlock(posX,posY,zz+distZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(28) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
+					world.setBlock(posX,posY,zz-distZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(24) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
+					world.setBlock(posX,posY,zz+distZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(24) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
 				}
 				
 				for(int posZ = zz-distZ; posZ <= zz+distZ; posZ++){
-					world.setBlock(xx-distX,posY,posZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(28) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
-					world.setBlock(xx+distX,posY,posZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(28) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
+					world.setBlock(xx-distX,posY,posZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(24) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
+					world.setBlock(xx+distX,posY,posZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(24) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
+				}
+				
+				if (posY > yy && posY < yy+4){
+					for(int posX = xx-distX+1, meta; posX <= xx+distX-1; posX++){
+						for(int posZ = zz-distZ+1; posZ <= zz+distZ-1; posZ++){
+							world.setBlock(posX,posY,posZ,Blocks.air);
+						}
+					}
 				}
 			}
 			

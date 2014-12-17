@@ -80,9 +80,9 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		// MINING SPOT
 		genMiningSpot.regenerateOreWeightList(rand);
 		
-		for(int attempt = 0, attemptAmount = 18+rand.nextInt(8), placed = 0; attempt < attemptAmount; attempt++){
+		for(int attempt = 0, attemptAmount = 90+rand.nextInt(20), placed = 0; attempt < attemptAmount; attempt++){
 			if (generateStructure(genMiningSpot)){
-				if (++placed > 8 && rand.nextInt(5) != 0)--attempt;
+				if (++placed < 50 && rand.nextInt(5) != 0)--attempt;
 				else if (rand.nextBoolean())--attemptAmount;
 			}
 		}
