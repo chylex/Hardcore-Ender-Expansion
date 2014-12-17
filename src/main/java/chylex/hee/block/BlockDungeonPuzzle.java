@@ -6,7 +6,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
@@ -124,22 +123,22 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			--maxZ;
 			
 			for(int px = minX, pz = z; px <= maxX; px++){
-				while(world.getBlock(px,y,--pz) == this)world.setBlock(px,y+5,pz,Blocks.brick_block);
+				while(world.getBlock(px,y,--pz) == this);
 				if (pz+1 < minZ)minZ = pz+1;
 				
 				pz = z;
 				
-				while(world.getBlock(px,y,++pz) == this)world.setBlock(px,y+6,pz,Blocks.brick_block);
+				while(world.getBlock(px,y,++pz) == this);
 				if (pz-1 > maxZ)maxZ = pz-1;
 			}
 			
 			for(int pz = minZ, px = x; pz <= maxZ; pz++){
-				while(world.getBlock(--px,y,pz) == this)world.setBlock(px,y+7,pz,Blocks.brick_block);
+				while(world.getBlock(--px,y,pz) == this);
 				if (px+1 < minX)minX = px+1;
 				
 				px = x;
 				
-				while(world.getBlock(++px,y,pz) == this)world.setBlock(px,y+8,pz,Blocks.brick_block);
+				while(world.getBlock(++px,y,pz) == this);
 				if (px-1 > maxX)maxX = px-1;
 			}
 

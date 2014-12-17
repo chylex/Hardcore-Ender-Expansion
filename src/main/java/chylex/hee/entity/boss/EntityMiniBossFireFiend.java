@@ -104,13 +104,13 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		if (ticksExisted == 1 || (ticksExisted%7 == 0 && rand.nextInt(3) == 0)){
 			if (getDistanceToEntity(closest) < 72D){
 				double[] vec = DragonUtil.getNormalizedVector(rand.nextDouble(),rand.nextDouble());
-				motionVec.xCoord = vec[0];
-				motionVec.zCoord = vec[1];
+				motionVec.xCoord = vec[0]*0.2D;
+				motionVec.zCoord = vec[1]*0.2D;
 			}
 			else{
-				double[] vec = DragonUtil.getNormalizedVector(closest.posX-posX,closest.posZ-posZ);
-				motionVec.xCoord = vec[0]*2D;
-				motionVec.zCoord = vec[1]*2D;
+				double[] vec = DragonUtil.getNormalizedVector(posX-closest.posX,posZ-closest.posZ);
+				motionVec.xCoord = vec[0]*0.1D;
+				motionVec.zCoord = vec[1]*0.1D;
 			}
 		}
 		

@@ -16,8 +16,12 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 	@Override
 	protected boolean generate(Random rand){
 		int xSize = BlockDungeonPuzzle.minDungeonSize+2*rand.nextInt(1+((BlockDungeonPuzzle.maxDungeonSize-BlockDungeonPuzzle.minDungeonSize)>>1)),
-			zSize = BlockDungeonPuzzle.minDungeonSize+2*rand.nextInt(1+((BlockDungeonPuzzle.maxDungeonSize-BlockDungeonPuzzle.minDungeonSize)>>1)),
-			checkMpX = 1+(xSize>>1), checkMpZ = 1+(zSize>>1),
+			zSize = BlockDungeonPuzzle.minDungeonSize+2*rand.nextInt(1+((BlockDungeonPuzzle.maxDungeonSize-BlockDungeonPuzzle.minDungeonSize)>>1));
+		
+		if (xSize == BlockDungeonPuzzle.minDungeonSize)xSize = BlockDungeonPuzzle.minDungeonSize+2*rand.nextInt(1+((BlockDungeonPuzzle.maxDungeonSize-BlockDungeonPuzzle.minDungeonSize)>>1));
+		if (zSize == BlockDungeonPuzzle.minDungeonSize)zSize = BlockDungeonPuzzle.minDungeonSize+2*rand.nextInt(1+((BlockDungeonPuzzle.maxDungeonSize-BlockDungeonPuzzle.minDungeonSize)>>1));
+		
+		int	checkMpX = 1+(xSize>>1), checkMpZ = 1+(zSize>>1),
 			distX = xSize>>1, distZ = zSize>>1;
 		
 		for(int attempt = 0, xx, yy, zz; attempt < 500; attempt++){
@@ -141,7 +145,7 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 			
 			// generate distributors
 			
-			for(int amt = 2+rand.nextInt(3+rand.nextInt(xSize*zSize > 90 ? 5 : 3)), distrAttempt = amt*2, posX, posZ, meta, type; distrAttempt > 0 && amt > 0; distrAttempt--){
+			for(int amt = 3+rand.nextInt(4+rand.nextInt(xSize*zSize > 90 ? 5 : 3)), distrAttempt = amt*3, posX, posZ, meta, type; distrAttempt > 0 && amt > 0; distrAttempt--){
 				posX = xx+rand.nextInt(distX*2+1)-distX;
 				posZ = zz+rand.nextInt(distZ*2+1)-distZ;
 				meta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,posZ));
