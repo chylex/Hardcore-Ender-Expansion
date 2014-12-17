@@ -66,7 +66,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		if (!worldObj.isRemote && timer > 0 && --timer > 0){
 			onEntityUpdate();
 			setPosition(centerX+MathHelper.cos(ang)*1.5D,posY,centerZ+MathHelper.sin(ang)*1.5D);
-			ang += 0.0698F;
+			ang += 0.25F;
 		}
 		else super.onUpdate();
 	}
@@ -86,7 +86,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	
 	@Override
 	public boolean isBurning(){
-		return false;
+		return true;
 	}
 	
 	@Override

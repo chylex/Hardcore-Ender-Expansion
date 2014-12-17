@@ -42,7 +42,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	
 	public EntityMiniBossFireFiend(World world){
 		super(world);
-		setSize(3F,2.6F);
+		setSize(2.7F,2.7F);
 		experienceValue = 40;
 		scoreValue = 50;
 		isImmuneToFire = true;
@@ -82,6 +82,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			if (isAngry){
 				for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,12);
 			}
+			
+			renderYawOffset = rotationYaw;
 		}
 	}
 	
@@ -89,6 +91,9 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	protected void updateEntityActionState(){
 		EntityPlayer closest = worldObj.getClosestPlayerToEntity(this,164D);
 		if (closest == null)return;
+		
+		rotationYaw = MathUtil.toDeg((float)Math.atan2(posZ-closest.posZ,posX-closest.posX))+90F;
+		rotationPitch = MathUtil.toDeg(-(float)Math.atan2(posY-(closest.posY+closest.getEyeHeight()),MathUtil.distance(posX-closest.posX,posZ-closest.posZ)));
 		
 		double targetYDiff = posY-(closest.posY+9D);
 		
@@ -101,21 +106,23 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		if (Math.abs(targetYDiff) > 1D)motionY -= Math.abs(targetYDiff)*0.0045D*Math.signum(targetYDiff);
 		
-		if (ticksExisted == 1 || (ticksExisted%7 == 0 && rand.nextInt(3) == 0)){
-			if (getDistanceToEntity(closest) < 72D){
+		if (ticksExisted == 1 || (ticksExisted%7 == 0 && rand.nextInt(3) == 0) || (rand.nextInt(5) == 0 && getDistanceToEntity(closest) > 36D)){
+			if (getDistanceToEntity(closest) < 32D){
 				double[] vec = DragonUtil.getNormalizedVector(rand.nextDouble(),rand.nextDouble());
-				motionVec.xCoord = vec[0]*0.2D;
-				motionVec.zCoord = vec[1]*0.2D;
+				motionVec.xCoord = vec[0]*0.25D;
+				motionVec.zCoord = vec[1]*0.25D;
 			}
 			else{
-				double[] vec = DragonUtil.getNormalizedVector(posX-closest.posX,posZ-closest.posZ);
-				motionVec.xCoord = vec[0]*0.1D;
-				motionVec.zCoord = vec[1]*0.1D;
+				double[] vec = DragonUtil.getNormalizedVector(closest.posX-posX,closest.posZ-posZ);
+				motionVec.xCoord = vec[0]*0.5D;
+				motionVec.zCoord = vec[1]*0.5D;
 			}
 		}
 		
-		motionX = (motionVec.xCoord+motionX)*0.5D;
-		motionZ = (motionVec.zCoord+motionZ)*0.5D;
+		motionX = motionVec.xCoord*0.1D+motionX*0.9D;//(motionVec.xCoord*0.1+motionX)*0.5D;
+		motionZ = motionVec.zCoord*0.1D+motionZ*0.9D;//(motionVec.zCoord+motionZ)*0.5D;
+		
+		motionX = motionY = motionZ = 0D; // TODO
 		
 		if (currentAttack == ATTACK_NONE){
 			if (++timer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){
@@ -141,7 +148,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				}
 				
 				if (!hasCalledGolems){
-					currentAttack = rand.nextInt(3) == 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES;
+					currentAttack = rand.nextInt(3) != 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES;
 					if (currentAttack == ATTACK_FLAMES && prevAttack == ATTACK_FLAMES)currentAttack = ATTACK_FIREBALLS;
 					timer = 0;
 				}
@@ -154,15 +161,15 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				double ang = 360D/(amt+1);
 				
 				for(int a = 0; a < amt; a++){
-					controlledFireballs.add(new EntityProjectileFiendFireball(worldObj,this,posX,posY,posZ,a*ang,speed*(a+1)));
+					controlledFireballs.add(new EntityProjectileFiendFireball(worldObj,this,posX,posY+height*0.5F,posZ,a*ang,speed*(a+1)));
 					worldObj.spawnEntityInWorld(controlledFireballs.get(a));
 				}
 			}
-			else if (timer >= amt*speed){
+			else if (timer >= (amt+2)*speed){
 				currentAttack = ATTACK_NONE;
 				timer = 0;
 				controlledFireballs.clear();
-			}else{
+			}else if (timer >= 2*speed){
 				for(EntityProjectileFiendFireball fireball:controlledFireballs){
 					if (fireball.timer > 1)fireball.updateCenter(this);
 					else if (fireball.timer == 1){
