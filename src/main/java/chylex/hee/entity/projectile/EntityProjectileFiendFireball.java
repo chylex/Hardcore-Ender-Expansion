@@ -63,10 +63,10 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 			for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.3D,posY+(rand.nextDouble()-0.5D)*0.3D,posZ+(rand.nextDouble()-0.5D)*0.3D,7+rand.nextInt(6));
 		}
 		
-		if (!worldObj.isRemote && timer > 0 && --timer > 0){
+		if (!worldObj.isRemote && timer > 0/* && --timer > 0*/){
 			onEntityUpdate();
-			setPosition(centerX+MathHelper.cos(ang)*1.5D,posY,centerZ+MathHelper.sin(ang)*1.5D);
-			ang += 0.25F;
+			setPosition(centerX+MathHelper.cos(ang)*2.5D,posY,centerZ+MathHelper.sin(ang)*2.5D);
+			ang += 0.22F;System.out.println(getEntityId()+" -- ang "+ang);
 		}
 		else super.onUpdate();
 	}

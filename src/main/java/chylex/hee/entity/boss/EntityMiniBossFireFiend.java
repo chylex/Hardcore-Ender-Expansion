@@ -93,7 +93,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		if (closest == null)return;
 		
 		rotationYaw = MathUtil.toDeg((float)Math.atan2(posZ-closest.posZ,posX-closest.posX))+90F;
-		rotationPitch = MathUtil.toDeg(-(float)Math.atan2(posY-(closest.posY+closest.getEyeHeight()),MathUtil.distance(posX-closest.posX,posZ-closest.posZ)));
+		rotationPitch = MathUtil.toDeg((float)Math.atan2(posY-(closest.posY+closest.getEyeHeight()),MathUtil.distance(posX-closest.posX,posZ-closest.posZ)));
 		
 		double targetYDiff = posY-(closest.posY+9D);
 		
@@ -148,8 +148,11 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				}
 				
 				if (!hasCalledGolems){
-					currentAttack = rand.nextInt(3) != 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES;
+					currentAttack = rand.nextInt(3) != 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES; currentAttack = ATTACK_FIREBALLS;
 					if (currentAttack == ATTACK_FLAMES && prevAttack == ATTACK_FLAMES)currentAttack = ATTACK_FIREBALLS;
+					dataWatcher.updateObject(16,currentAttack);
+					prevAttack = currentAttack;
+					currentAttack = ATTACK_NONE; // TODO
 					timer = 0;
 				}
 			}
@@ -158,7 +161,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			int amt = ModCommonProxy.opMobs ? 8 : 6, speed = isAngry ? 8 : 12;
 			
 			if (++timer == 1){
-				double ang = 360D/(amt+1);
+				double ang = 360D/amt;
 				
 				for(int a = 0; a < amt; a++){
 					controlledFireballs.add(new EntityProjectileFiendFireball(worldObj,this,posX,posY+height*0.5F,posZ,a*ang,speed*(a+1)));
@@ -166,7 +169,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				}
 			}
 			else if (timer >= (amt+2)*speed){
-				currentAttack = ATTACK_NONE;
+				dataWatcher.updateObject(16,currentAttack = ATTACK_NONE);
 				timer = 0;
 				controlledFireballs.clear();
 			}else if (timer >= 2*speed){
@@ -190,13 +193,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				}
 				
 				timer = 0;
-				currentAttack = ATTACK_NONE;
+				dataWatcher.updateObject(16,currentAttack = ATTACK_NONE);
 			}
-		}
-		
-		if (prevAttack != currentAttack){
-			dataWatcher.updateObject(16,currentAttack);
-			prevAttack = currentAttack;
 		}
 		
 		for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(0.8D,1.65D,0.8D))){
