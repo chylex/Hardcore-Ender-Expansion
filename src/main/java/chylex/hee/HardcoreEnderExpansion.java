@@ -252,6 +252,8 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, this, 0, Integer.MAX_VALUE, false);
 		EntityRegistry.registerModEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, this, 64, 1, false);
 		EntityRegistry.registerModEntity(EntityTechnicalCurseEntity.class, "TechnicalCurseEntity", 47, this, 64, 1, false);
+		
+		EntityRegistry.instance().lookupModSpawn(EntityProjectileFiendFireball.class,false).setCustomSpawning(null,false);
 		// last: 48
 		
 		Stopwatch.finish("PreInitEvent - entities");

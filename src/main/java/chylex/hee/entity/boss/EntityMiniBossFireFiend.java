@@ -152,7 +152,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 					if (currentAttack == ATTACK_FLAMES && prevAttack == ATTACK_FLAMES)currentAttack = ATTACK_FIREBALLS;
 					dataWatcher.updateObject(16,currentAttack);
 					prevAttack = currentAttack;
-					currentAttack = ATTACK_NONE; // TODO
 					timer = 0;
 				}
 			}
