@@ -83,6 +83,14 @@ public class PotionTypes{
 		mapItemToIndex(Item.feather,15);*/
 	}
 	
+	public static boolean isSpecialIngredient(Item item){
+		return customPotions.containsKey(item);
+	}
+	
+	public static boolean isPotionItem(Item item){
+		return item instanceof ItemPotion || item == Items.glass_bottle || customPotions.containsValue(item);
+	}
+	
 	public static PotionEffect getEffectIfValid(ItemStack is){
 		List list = Items.potionitem.getEffects(is);
 		return list == null || list.size() != 1 ? null : (PotionEffect)list.get(0);
@@ -97,7 +105,8 @@ public class PotionTypes{
 	
 	public static int getRequiredPowder(Item ingredient, ItemStack is){
 		if (is.getItemDamage() <= 16){
-			if (is.getItemDamage() == 0 && customPotions.containsKey(ingredient))return 8;
+			if (is.getItemDamage() == 16 && customPotions.containsKey(ingredient))return 8;
+			else if (ingredient == Items.gunpowder)return 3;
 			else return 0;
 		}
 		
@@ -120,7 +129,8 @@ public class PotionTypes{
 			Item ingredientItem = ingredient.getItem();
 			
 			if (is.getItemDamage() <= 16){
-				if (customPotions.containsKey(ingredientItem) || (ingredientItem == Items.gunpowder && customPotions.get(ingredientItem) instanceof ItemAbstractPotion))return is.getItemDamage() == 0;
+				if (isSpecialIngredient(ingredientItem))return is.getItemDamage() == 16;
+				else if (ingredientItem == Items.gunpowder && is.getItem() instanceof ItemAbstractPotion)return is.getItemDamage() == 0;
 				else return false;
 			}
 			
@@ -149,8 +159,8 @@ public class PotionTypes{
 	public static ItemStack applyIngredientUnsafe(ItemStack ingredient, ItemStack is){
 		Item ingredientItem = ingredient.getItem();
 		
-		if (customPotions.containsKey(ingredientItem) || (ingredientItem == Items.gunpowder && customPotions.get(is.getItem()) instanceof ItemAbstractPotion)){
-			if (ingredientItem == Items.gunpowder)return new ItemStack(customPotions.get(is.getItem()),1,1);
+		if (isSpecialIngredient(ingredientItem) || (ingredientItem == Items.gunpowder && is.getItem() instanceof ItemAbstractPotion)){
+			if (ingredientItem == Items.gunpowder)return new ItemStack(is.getItem(),1,1);
 			else return new ItemStack(customPotions.get(ingredientItem));
 		}
 		

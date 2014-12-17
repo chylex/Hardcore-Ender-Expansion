@@ -147,6 +147,7 @@ public final class KnowledgeRegistrations{
 		SPECTRAL_TEAR = create(ItemList.spectral_tear),
 		LIVING_MATTER = create(ItemList.living_matter),
 		CURSE = create(ItemList.curse,"ec.title.curses"),
+		POTION_OF_PURITY = create(ItemList.potion_of_purity),
 		INFESTATION_REMEDY = create(ItemList.infestation_remedy),
 		
 		RAVAGED_DUNGEON = dummy("RavagedDungeon",new ItemStack(BlockList.ravaged_brick),"ec.title.ravagedDungeon"),
@@ -374,7 +375,8 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(132).setPrice(5).setUnlockRequirements(130).setUnlockCascade(166),
 				new KnowledgeFragmentText(133).setPrice(2).setUnlockRequirements(130),
 				new KnowledgeFragmentItemConversion(134).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setPrice(2).setUnlockRequirements(133).setUnlockCascade(383,741),
-				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(133).setUnlockCascade(731)
+				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setPrice(2).setUnlockRequirements(133).setUnlockCascade(731),
+				new KnowledgeFragmentItemConversion(136).setItems(new ItemStack(ItemList.ectoplasm),new ItemStack(ItemList.potion_of_purity)).setPrice(5).setUnlockRequirements(133).setUnlockCascade(951)
 			}),
 			
 			ENHANCED_TNT.setPos(7,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
@@ -780,6 +782,11 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(945).setPrice(7).setUnlockRequirements(941)
 			}).addFragments(KnowledgeUtils.createCurseFragments(1300,941)),
 			
+			POTION_OF_PURITY.setPos(13,7).setUnlockPrice(15).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(950).setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(951).setPrice(5).setUnlockRequirements(950).setUnlockCascade(136)
+			}),
+			
 			// =
 			
 			RAVAGED_DUNGEON.setPos(4,12).setUnlockPrice(30).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
@@ -1030,7 +1037,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 950
+		// next: 960
 		// taken: 1000-1299
 		// taken: 1300-1399
 		

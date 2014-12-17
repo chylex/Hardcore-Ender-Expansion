@@ -318,7 +318,10 @@ ec.reg.941=It can be either placed right on a block or an entity, or thrown. If 
 ec.reg.942=Curses eventually disappear, but they can be made eternal by crafting them with Stardust. Eternal Curses will stay forever on blocks and mobs, and longer than normal Curses on players.
 ec.reg.943=Curses placed on blocks are only visible to the player who casted it, and for a short duration to players affected by it.
 ec.reg.944=Getting very close to a Curse makes it visible without having it affect you, but it requires extreme carefulness.
-ec.reg.945=It is possible to remove Curses by using ???, and see all Curses on blocks using ???.
+ec.reg.945=It is possible to remove Curses by using Potion of Purity.
+
+ec.reg.950=Potion of Purity is a drinkable or throwable potion that removes Curses.
+ec.reg.951=It is brewed using Ectoplasm on an Awkward Potion in the Enhanced Brewing Stand.
 
 ec.reg.490=Huge dungeon built from Ravaged Bricks, found in Infested Forest (Ravaged).
 ec.reg.491=It is the only way of acquiring items required to create Charms.

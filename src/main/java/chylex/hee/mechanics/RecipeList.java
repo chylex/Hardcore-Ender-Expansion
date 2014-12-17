@@ -80,7 +80,7 @@ public final class RecipeList{
 		
 		for(CurseType curse:CurseType.values()){
 			GameRegistry.addShapedRecipe(new ItemStack(ItemList.curse,8,curse.damage),
-				"PAP", "BLC", "PDP",
+				"PAP", "DLB", "PCP",
 				'P', ItemList.end_powder,
 				'L', ItemList.living_matter,
 				'A', curse.getRecipeItem(0),

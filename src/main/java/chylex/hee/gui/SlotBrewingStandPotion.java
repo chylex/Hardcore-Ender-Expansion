@@ -1,12 +1,11 @@
 package chylex.hee.gui;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.AchievementList;
-import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.brewing.PotionTypes;
 
 class SlotBrewingStandPotion extends Slot{
 	public SlotBrewingStandPotion(IInventory inv, int id, int x, int z){
@@ -34,6 +33,6 @@ class SlotBrewingStandPotion extends Slot{
 	}
 
 	public static boolean canHoldPotion(ItemStack is){
-		return is != null && (is.getItem() instanceof ItemPotion || is.getItem() == Items.glass_bottle || is.getItem() == ItemList.potion_of_instability);
+		return is != null && PotionTypes.isPotionItem(is.getItem());
 	}
 }

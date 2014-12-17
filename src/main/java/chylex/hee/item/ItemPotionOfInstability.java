@@ -1,6 +1,7 @@
 package chylex.hee.item;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -32,10 +33,12 @@ public class ItemPotionOfInstability extends ItemAbstractPotion{
 	}
 	
 	@Override
-	public void applyEffectThrown(EntityLivingBase entity, double dist){
+	public void applyEffectThrown(Entity entity, double dist){
+		if (!(entity instanceof EntityLivingBase))return;
+		
 		PotionEffect eff = ItemPotionOfInstability.getRandomPotionEffect(entity.worldObj.rand);
 		int dur = (int)(((dist == Double.MAX_VALUE ? 1D : (1D-Math.sqrt(dist)/4D)))*eff.getDuration()+0.5D);
-		if (dur > 20)entity.addPotionEffect(new PotionEffect(eff.getPotionID(),dur,eff.getAmplifier(),eff.getIsAmbient()));
+		if (dur > 20)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(eff.getPotionID(),dur,eff.getAmplifier(),eff.getIsAmbient()));
 	}
 
 	@Override

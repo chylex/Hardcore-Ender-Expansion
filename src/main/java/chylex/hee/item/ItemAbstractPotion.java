@@ -2,7 +2,7 @@ package chylex.hee.item;
 import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -24,7 +24,7 @@ public abstract class ItemAbstractPotion extends Item{
 	}
 	
 	public abstract void applyEffectDrunk(ItemStack is, World world, EntityPlayer player);
-	public abstract void applyEffectThrown(EntityLivingBase entity, double dist);
+	public abstract void applyEffectThrown(Entity entity, double dist);
 
 	@Override
 	public final ItemStack onEaten(ItemStack is, World world, EntityPlayer player){
@@ -65,7 +65,7 @@ public abstract class ItemAbstractPotion extends Item{
 	
 	@Override
 	public final String getItemStackDisplayName(ItemStack is){
-		return is.getItemDamage() != 1 ? StatCollector.translateToLocal("item."+getUnlocalizedName()+".name") : StatCollector.translateToLocal("item."+getUnlocalizedName()+".splash.name");
+		return is.getItemDamage() != 1 ? StatCollector.translateToLocal(getUnlocalizedName()+".name") : StatCollector.translateToLocal(getUnlocalizedName()+".splash.name");
 	}
 
 	@Override

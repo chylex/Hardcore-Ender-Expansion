@@ -1,6 +1,7 @@
 package chylex.hee.system.commands;
 import java.util.List;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,6 +18,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
+import chylex.hee.mechanics.curse.ICurseCaller;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 
@@ -40,7 +42,8 @@ public class HeeAdminCommand extends HeeCommand{
 				"/heeadmin compendium-reset\n"+
 				"/heeadmin compendium-set-points <pts>\n"+
 				"/heeadmin compendium-unlock-all\n"+
-				"/heeadmin achievement-unlock <id>"
+				"/heeadmin achievement-unlock <id>\n"+
+				"/heeadmin purify-all-curses"
 				).split("\n")){
 				sendMessage(sender,s);
 			}
@@ -135,6 +138,14 @@ public class HeeAdminCommand extends HeeCommand{
 			
 			sendMessage(sender,"Achievement not found.");
 			return;
+		}
+		else if (args[0].equalsIgnoreCase("purify-all-curses") && player != null){
+			for(Entity entity:(List<Entity>)player.worldObj.loadedEntityList){
+				if (entity instanceof ICurseCaller){
+					entity.setDead();
+					((ICurseCaller)entity).onPurify();
+				}
+			}
 		}
 		else{
 			sendMessage(sender,"Unknown command or wrong parameters.");

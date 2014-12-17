@@ -1,5 +1,6 @@
 package chylex.hee.entity.projectile;
 import java.util.List;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.init.Items;
@@ -23,7 +24,7 @@ public class EntityProjectilePotion extends EntityPotion{
 	}
 	
 	public Item getPotionItem(){
-		if (potionItem == null){
+		if (potionItem == null || potionItem == Items.potionitem){
 			if ((potionItem = Item.getItemById(dataWatcher.getWatchableObjectShort(16))) == null)potionItem = Items.potionitem;
 		}
 		
@@ -44,7 +45,7 @@ public class EntityProjectilePotion extends EntityPotion{
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote && potionItem instanceof ItemAbstractPotion){
-			for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(4D,2D,4D))){
+			for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABB(Entity.class,boundingBox.expand(4D,2D,4D))){
 				double dist = getDistanceSqToEntity(entity);
 				if (dist < 16D)((ItemAbstractPotion)potionItem).applyEffectThrown(entity,mop.entityHit == entity ? Double.MAX_VALUE : dist);
 			}

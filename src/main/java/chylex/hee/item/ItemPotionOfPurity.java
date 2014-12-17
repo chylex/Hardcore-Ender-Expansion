@@ -1,6 +1,6 @@
 package chylex.hee.item;
 import java.util.List;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -19,7 +19,7 @@ public class ItemPotionOfPurity extends ItemAbstractPotion{
 	}
 
 	@Override
-	public void applyEffectThrown(EntityLivingBase entity, double dist){
+	public void applyEffectThrown(Entity entity, double dist){
 		if (entity instanceof ICurseCaller){
 			entity.setDead();
 			((ICurseCaller)entity).onPurify();
