@@ -40,7 +40,7 @@ public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeatur
 		x2 += coordCheckRand.nextInt(maxSpacing-minSpacing);
 		z2 += coordCheckRand.nextInt(maxSpacing-minSpacing);
 
-		return origChunkX == x2 && origChunkZ == z2 && Math.sqrt(MathUtil.square(x2*16+(featureSize>>1))+MathUtil.square(z2*16+(featureSize>>1))) >= minDistanceFromCenter && canStructureSpawn(x,z,coordCheckRand);
+		return origChunkX == x2 && origChunkZ == z2 && Math.sqrt(MathUtil.square(x2*16L+(featureSize>>1))+MathUtil.square(z2*16L+(featureSize>>1))) >= minDistanceFromCenter && canStructureSpawn(x2,z2,coordCheckRand);
 	}
 	
 	@Override

@@ -27,7 +27,7 @@ public class WorldGenSavefile extends WorldSavefile{
 	}
 	
 	public void addElementAt(int chunkX, int chunkZ, WorldGenElement element){
-		elements.put(getFromChunkPos(chunkX,chunkZ),element);System.out.println("adding "+getFromChunkPos(chunkX,chunkZ));
+		elements.put(getFromChunkPos(chunkX,chunkZ),element);
 		setModified();
 	}
 	
