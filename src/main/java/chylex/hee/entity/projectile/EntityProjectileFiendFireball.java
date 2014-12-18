@@ -106,7 +106,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	
 	@Override
 	public boolean isBurning(){
-		return false;
+		return true;
 	}
 	
 	@Override
