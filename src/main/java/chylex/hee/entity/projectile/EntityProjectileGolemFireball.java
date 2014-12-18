@@ -1,6 +1,5 @@
 package chylex.hee.entity.projectile;
 import java.util.Iterator;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityLargeFireball;
@@ -52,10 +51,7 @@ public class EntityProjectileGolemFireball extends EntityLargeFireball{
 			
 			for(Iterator<ChunkPosition> iter = affectedBlockPositions.iterator(); iter.hasNext();){
 				ChunkPosition pos = iter.next();
-				
-				if (world.getBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ).getMaterial() == Material.air &&
-					world.getBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ).func_149730_j() && // OBFUSCATED is block opaque
-					world.rand.nextInt(5) == 0)world.setBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ,Blocks.fire);
+				if (world.isAirBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ) && world.rand.nextInt(9) == 0)world.setBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ,Blocks.fire);
 			}
 		}
 	}

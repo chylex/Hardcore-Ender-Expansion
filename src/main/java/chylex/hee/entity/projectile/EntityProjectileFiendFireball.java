@@ -16,6 +16,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball.FieryExplosion;
 import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C12FiendFireballExplosion;
 import chylex.hee.packets.client.C69FiendFuckball;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
@@ -164,9 +165,12 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		if (mop.entityHit instanceof EntityMiniBossFireFiend || mop.entityHit instanceof EntityProjectileFiendFireball)return;
 		if (mop.entityHit != null)mop.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this,shootingEntity),ModCommonProxy.opMobs ? 12F : 7F);
 		
-		Explosion explosion = new FieryExplosion(worldObj,shootingEntity,posX,posY,posZ,ModCommonProxy.opMobs ? 3.4F : 2.8F);
-		explosion.doExplosionA();
-		explosion.doExplosionB(true);
+		if (!worldObj.isRemote){
+			Explosion explosion = new FieryExplosion(worldObj,shootingEntity,worldObj.isRemote ? actualPosX : posX,posY,worldObj.isRemote ? actualPosZ : posZ,ModCommonProxy.opMobs ? 3.4F : 2.8F);
+			explosion.doExplosionA();
+			explosion.doExplosionB(true);
+			PacketPipeline.sendToAllAround(this,128D,new C12FiendFireballExplosion(this));
+		}
 		
 		setDead();
 	}
