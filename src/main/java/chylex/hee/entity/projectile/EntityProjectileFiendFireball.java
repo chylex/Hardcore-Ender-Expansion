@@ -72,11 +72,11 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	
 	@Override
 	public void onUpdate(){
-		if (ticksExisted == 1 && worldObj.isRemote){
-			for(int a = 0; a < 10; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.3D,posY+(rand.nextDouble()-0.5D)*0.3D,posZ+(rand.nextDouble()-0.5D)*0.3D,7+rand.nextInt(6));
+		if ((ticksExisted == 2 || ticksExisted == 3) && worldObj.isRemote){
+			for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,actualPosX+(rand.nextDouble()-0.5D)*0.3D,posY+(rand.nextDouble()-0.5D)*0.3D,actualPosZ+(rand.nextDouble()-0.5D)*0.3D,7+rand.nextInt(6));
 		}
 		
-		if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,128D,new C69FiendFuckball(this,timer > 0 ? centerX+MathHelper.cos(ang)*2.5D : posX,timer > 0 ? centerZ+MathHelper.sin(ang)*2.5D : posZ));
+		if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,128D,new C69FiendFuckball(this,posX,posZ));
 		
 		if (!worldObj.isRemote && timer > 0 && --timer > 0){
 			onEntityUpdate();
@@ -110,7 +110,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 				MovingObjectPosition tmp = aabb.calculateIntercept(vecPos,vecPosNext);
 				
 				if (tmp != null){
-					double dist = vecPos.distanceTo(mop.hitVec);
+					double dist = vecPos.distanceTo(tmp.hitVec);
 					
 					if (dist < minDist){
 						minDist = dist;
@@ -152,11 +152,18 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		worldObj.spawnParticle("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
 		setPosition(posX,posY,posZ);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int eger){
+		super.setPositionAndRotation2(actualPosX,y,actualPosZ,rotationYaw,rotationPitch,eger);
+	}
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
+		if (mop.entityHit instanceof EntityMiniBossFireFiend || mop.entityHit instanceof EntityProjectileFiendFireball)return;
 		if (mop.entityHit != null)mop.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this,shootingEntity),ModCommonProxy.opMobs ? 12F : 7F);
-
+		
 		Explosion explosion = new FieryExplosion(worldObj,shootingEntity,posX,posY,posZ,ModCommonProxy.opMobs ? 3.4F : 2.8F);
 		explosion.doExplosionA();
 		explosion.doExplosionB(true);

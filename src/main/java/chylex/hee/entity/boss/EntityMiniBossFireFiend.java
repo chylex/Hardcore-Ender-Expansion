@@ -163,7 +163,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				double ang = 360D/amt;
 				
 				for(int a = 0; a < amt; a++){
-					controlledFireballs.add(new EntityProjectileFiendFireball(worldObj,this,posX,posY+height*0.5F,posZ,a*ang,speed*(a+2)));
+					controlledFireballs.add(new EntityProjectileFiendFireball(worldObj,this,posX,posY+height*0.5F,posZ,-a*ang,speed*(a+2)));
 					worldObj.spawnEntityInWorld(controlledFireballs.get(a));
 				}
 			}
