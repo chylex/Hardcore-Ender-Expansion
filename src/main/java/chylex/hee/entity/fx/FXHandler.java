@@ -102,7 +102,7 @@ public final class FXHandler{
 				
 			case FIRE_FIEND_FLAME_ATTACK:
 				for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.flame(world,x+randCenter(0.9D),y+rand.nextDouble()*1.8D,z+randCenter(0.9D),10);
-				world.playSoundEffect(x,y,z,"random.fizz",0.8F,2.6F+(rand.nextFloat()-rand.nextFloat())*0.8F);
+				world.playSound(x,y,z,"random.fizz",2F,2.2F+(rand.nextFloat()-rand.nextFloat())*0.8F,true);
 				break;
 				
 			default:

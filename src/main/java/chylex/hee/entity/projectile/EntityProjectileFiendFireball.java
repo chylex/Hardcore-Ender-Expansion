@@ -73,8 +73,8 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	
 	@Override
 	public void onUpdate(){
-		if ((ticksExisted == 2 || ticksExisted == 3) && worldObj.isRemote){
-			for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,actualPosX+(rand.nextDouble()-0.5D)*0.3D,posY+(rand.nextDouble()-0.5D)*0.3D,actualPosZ+(rand.nextDouble()-0.5D)*0.3D,7+rand.nextInt(6));
+		if (ticksExisted == 3 && worldObj.isRemote){
+			for(int a = 0; a < 3; a++)HardcoreEnderExpansion.fx.flame(worldObj,actualPosX+(rand.nextDouble()-0.5D)*0.1D,posY+(rand.nextDouble()-0.5D)*0.1D,actualPosZ+(rand.nextDouble()-0.5D)*0.1D,4+rand.nextInt(6));
 		}
 		
 		if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,128D,new C69FiendFuckball(this,posX,posZ));

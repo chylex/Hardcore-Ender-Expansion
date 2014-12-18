@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
@@ -36,9 +37,13 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	
 	private boolean isAngry;
 	private byte timer, currentAttack = ATTACK_NONE, prevAttack = ATTACK_NONE;
-	public float wingAnimation, wingAnimationStep;
 	private final List<EntityProjectileFiendFireball> controlledFireballs = new ArrayList<>(8);
+	
+	private float targetAngle;
+	private boolean targetAngleChangeDir;
+	private byte targetAngleTimer;
 	private final Vec3 motionVec = Vec3.createVectorHelper(0D,0D,0D);
+	public float wingAnimation, wingAnimationStep;
 	
 	public EntityMiniBossFireFiend(World world){
 		super(world);
@@ -106,25 +111,21 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		if (Math.abs(targetYDiff) > 1D)motionY -= Math.abs(targetYDiff)*0.0045D*Math.signum(targetYDiff);
 		
-		if (ticksExisted == 1 || (ticksExisted%7 == 0 && rand.nextInt(3) == 0) || (rand.nextInt(5) == 0 && getDistanceToEntity(closest) > 36D)){
-			if (getDistanceToEntity(closest) < 32D){
-				double[] vec = DragonUtil.getNormalizedVector(rand.nextDouble(),rand.nextDouble());
-				motionVec.xCoord = vec[0]*0.25D;
-				motionVec.zCoord = vec[1]*0.25D;
-			}
-			else{
-				double[] vec = DragonUtil.getNormalizedVector(closest.posX-posX,closest.posZ-posZ);
-				motionVec.xCoord = vec[0]*0.5D;
-				motionVec.zCoord = vec[1]*0.5D;
-			}
+		if (ticksExisted == 1)targetAngleChangeDir = rand.nextBoolean();
+		else if (rand.nextInt(195) == 0 || (targetAngleTimer > 122 || (targetAngleTimer += rand.nextInt(2)) > 122)){
+			targetAngleChangeDir = !targetAngleChangeDir;
+			targetAngleTimer = 0;
 		}
 		
-		motionX = motionVec.xCoord*0.1D+motionX*0.9D;//(motionVec.xCoord*0.1+motionX)*0.5D;
-		motionZ = motionVec.zCoord*0.1D+motionZ*0.9D;//(motionVec.zCoord+motionZ)*0.5D;
+		targetAngle += (targetAngleChangeDir ? 1 : -1)*0.13F;
+		double[] vec = DragonUtil.getNormalizedVector((closest.posX+MathHelper.cos(targetAngle)*60D)-posX+(rand.nextDouble()-0.5D)*4D,(closest.posZ+MathHelper.sin(targetAngle)*60D)-posZ+(rand.nextDouble()-0.5D)*4D);
+		motionVec.xCoord = vec[0]*0.5D;
+		motionVec.zCoord = vec[1]*0.5D;
 		
-		motionX = motionY = motionZ = 0D; // TODO
+		motionX = motionVec.xCoord*0.1D+motionX*0.9D;
+		motionZ = motionVec.zCoord*0.1D+motionZ*0.9D;
 		
-		if (currentAttack == ATTACK_NONE){ if (timer < 50)timer = 50; // TODO
+		if (currentAttack == ATTACK_NONE){
 			if (++timer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){
 				boolean hasCalledGolems = false;
 				
@@ -148,7 +149,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				}
 				
 				if (!hasCalledGolems){
-					currentAttack = rand.nextInt(3) != 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES; currentAttack = ATTACK_FIREBALLS;
+					currentAttack = rand.nextInt(3) != 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES;
 					if (currentAttack == ATTACK_FLAMES && prevAttack == ATTACK_FLAMES)currentAttack = ATTACK_FIREBALLS;
 					dataWatcher.updateObject(16,currentAttack);
 					prevAttack = currentAttack;
