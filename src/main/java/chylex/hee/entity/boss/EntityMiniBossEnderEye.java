@@ -62,7 +62,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs?350D:250D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 350D : 250D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.8D);
 		
 	}

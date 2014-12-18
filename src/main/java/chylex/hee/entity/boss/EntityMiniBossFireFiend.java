@@ -66,7 +66,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 300D : 200D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 380D : 300D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.8D);
 	}
 	
@@ -117,8 +117,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			targetAngleTimer = 0;
 		}
 		
-		targetAngle += (targetAngleChangeDir ? 1 : -1)*0.13F;
-		double[] vec = DragonUtil.getNormalizedVector((closest.posX+MathHelper.cos(targetAngle)*60D)-posX+(rand.nextDouble()-0.5D)*4D,(closest.posZ+MathHelper.sin(targetAngle)*60D)-posZ+(rand.nextDouble()-0.5D)*4D);
+		targetAngle += (targetAngleChangeDir ? 1 : -1)*0.02F;
+		double[] vec = DragonUtil.getNormalizedVector((closest.posX+MathHelper.cos(targetAngle)*40D)-posX+(rand.nextDouble()-0.5D)*4D,(closest.posZ+MathHelper.sin(targetAngle)*40D)-posZ+(rand.nextDouble()-0.5D)*4D);
 		motionVec.xCoord = vec[0]*0.5D;
 		motionVec.zCoord = vec[1]*0.5D;
 		
