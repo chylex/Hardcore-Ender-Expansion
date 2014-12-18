@@ -1,5 +1,4 @@
 package chylex.hee.entity.projectile;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
@@ -12,14 +11,21 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball.FieryExplosion;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C69FiendFuckball;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	private int fiendId;
 	private double centerX, centerZ;
 	private float ang;
 	public byte timer;
+	
+	@SideOnly(Side.CLIENT)
+	public double actualPosX, actualPosZ, prevActualPosX, prevActualPosZ;
 	
 	public EntityProjectileFiendFireball(World world){
 		super(world);
@@ -35,18 +41,6 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		this.centerZ = z;
 		this.ang = (float)MathUtil.toRad(ang);
 		this.timer = (byte)timer;
-		
-		dataWatcher.updateObject(16,this.timer);
-		dataWatcher.updateObject(17,this.ang);
-		dataWatcher.updateObject(18,fiendId);
-	}
-	
-	@Override
-	protected void entityInit(){
-		super.entityInit();
-		dataWatcher.addObject(16,Byte.valueOf((byte)0));
-		dataWatcher.addObject(17,0F);
-		dataWatcher.addObject(18,0);
 	}
 	
 	public void updateCenter(EntityMiniBossFireFiend fiend){
@@ -74,36 +68,27 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	
 	@Override
 	public void onUpdate(){
-		if (ticksExisted == 1){
-			if (!worldObj.isRemote){
-				
-			}
-			else{
-				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.3D,posY+(rand.nextDouble()-0.5D)*0.3D,posZ+(rand.nextDouble()-0.5D)*0.3D,7+rand.nextInt(6));
-			}
+		if (ticksExisted == 1 && worldObj.isRemote){
+			for(int a = 0; a < 10; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.3D,posY+(rand.nextDouble()-0.5D)*0.3D,posZ+(rand.nextDouble()-0.5D)*0.3D,7+rand.nextInt(6));
 		}
 		
-		if (worldObj.isRemote && fiendId == 0){
-			timer = dataWatcher.getWatchableObjectByte(16);
-			ang = dataWatcher.getWatchableObjectFloat(17);
-			fiendId = dataWatcher.getWatchableObjectInt(18);
-		}
+		if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,128D,new C69FiendFuckball(this,timer > 0 ? centerX+MathHelper.cos(ang)*2.5D : posX,timer > 0 ? centerZ+MathHelper.sin(ang)*2.5D : posZ));
 		
-		if (timer > 0 && --timer > 0){
-			if (worldObj.isRemote){
-				Entity fiend = worldObj.getEntityByID(fiendId);
-				
-				if (fiend != null){
-					centerX = fiend.posX;
-					centerZ = fiend.posZ;
-				}
-			}
-			
+		if (!worldObj.isRemote && timer > 0 && --timer > 0){
 			onEntityUpdate();
 			setPosition(centerX+MathHelper.cos(ang)*2.5D,posY,centerZ+MathHelper.sin(ang)*2.5D);
 			ang += 0.22F;
 		}
+		else if (worldObj.isRemote){
+			onEntityUpdate();
+			simulateClientUpdate();
+			if (worldObj.isRemote)setPosition(actualPosX,posY,actualPosZ);
+		}
 		else super.onUpdate();
+	}
+	
+	private void simulateClientUpdate(){
+		// TODO
 	}
 
 	@Override
@@ -121,7 +106,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	
 	@Override
 	public boolean isBurning(){
-		return true;
+		return false;
 	}
 	
 	@Override

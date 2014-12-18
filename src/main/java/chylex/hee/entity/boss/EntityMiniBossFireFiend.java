@@ -124,7 +124,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		motionX = motionY = motionZ = 0D; // TODO
 		
-		if (currentAttack == ATTACK_NONE){
+		if (currentAttack == ATTACK_NONE){ if (timer < 50)timer = 50; // TODO
 			if (++timer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){
 				boolean hasCalledGolems = false;
 				
@@ -158,12 +158,12 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		}
 		else if (currentAttack == ATTACK_FIREBALLS){
 			int amt = ModCommonProxy.opMobs ? 8 : 6, speed = isAngry ? 8 : 12;
-			
+
 			if (++timer == 1){
 				double ang = 360D/amt;
 				
 				for(int a = 0; a < amt; a++){
-					controlledFireballs.add(new EntityProjectileFiendFireball(worldObj,this,posX,posY+height*0.5F,posZ,a*ang,speed*(a+1)));
+					controlledFireballs.add(new EntityProjectileFiendFireball(worldObj,this,posX,posY+height*0.5F,posZ,a*ang,speed*(a+2)));
 					worldObj.spawnEntityInWorld(controlledFireballs.get(a));
 				}
 			}
@@ -171,7 +171,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				dataWatcher.updateObject(16,currentAttack = ATTACK_NONE);
 				timer = 0;
 				controlledFireballs.clear();
-			}else if (timer >= 2*speed){
+			}else if (timer >= 2){
 				for(EntityProjectileFiendFireball fireball:controlledFireballs){
 					if (fireball.timer > 1)fireball.updateCenter(this);
 					else if (fireball.timer == 1){
