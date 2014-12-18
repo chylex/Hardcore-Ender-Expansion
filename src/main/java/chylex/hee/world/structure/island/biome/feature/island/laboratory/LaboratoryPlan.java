@@ -12,7 +12,7 @@ public final class LaboratoryPlan{
 	final List<LaboratoryElement> roomElements = new ArrayList<>();
 	private int score;
 	
-	public boolean generate(LargeStructureWorld world, Random rand){
+	public boolean generate(LargeStructureWorld world, Random rand){ // TODO optimize
 		roomElements.clear();
 		elements.clear();
 		score = 0;
