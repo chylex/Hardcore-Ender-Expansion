@@ -1,11 +1,15 @@
 package chylex.hee.entity.projectile;
+import java.util.List;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
@@ -82,26 +86,82 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		else if (worldObj.isRemote){
 			onEntityUpdate();
 			simulateClientUpdate();
-			if (worldObj.isRemote)setPosition(actualPosX,posY,actualPosZ);
 		}
 		else super.onUpdate();
 	}
 	
 	private void simulateClientUpdate(){
-		// TODO
+		posX = actualPosX;
+		posZ = actualPosZ;
+		Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
+		Vec3 vecPosNext = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+		MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos,vecPosNext);
+		vecPos = Vec3.createVectorHelper(posX,posY,posZ);
+		vecPosNext = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+
+		if (mop != null)vecPosNext = Vec3.createVectorHelper(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
+
+		Entity closest = null;
+		double minDist = Double.MAX_VALUE;
+		
+		for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.addCoord(motionX,motionY,motionZ).expand(1D,1D,1D))){
+			if (entity.canBeCollidedWith()){
+				AxisAlignedBB aabb = entity.boundingBox.expand(0.3F,0.3F,0.3F);
+				MovingObjectPosition tmp = aabb.calculateIntercept(vecPos,vecPosNext);
+				
+				if (tmp != null){
+					double dist = vecPos.distanceTo(mop.hitVec);
+					
+					if (dist < minDist){
+						minDist = dist;
+						closest = entity;
+					}
+				}
+			}
+		}
+
+		if (closest != null)mop = new MovingObjectPosition(closest);
+		if (mop != null)onImpact(mop);
+
+		posX += motionX;
+		posY += motionY;
+		posZ += motionZ;
+		rotationYaw = (float)(MathUtil.toDeg(Math.atan2(motionZ,motionX)))+90F;
+		rotationPitch = (float)MathUtil.toDeg(Math.atan2(MathUtil.distance(motionX,motionZ),motionY))-90F;
+
+		while(rotationPitch-prevRotationPitch < -180F)prevRotationPitch -= 360F;
+		while(rotationPitch-prevRotationPitch >= 180F)prevRotationPitch += 360F;
+		while(rotationYaw-prevRotationYaw < -180F)prevRotationYaw -= 360F;
+		while(rotationYaw-prevRotationYaw >= 180F)prevRotationYaw += 360F;
+
+		rotationPitch = prevRotationPitch+(rotationPitch-prevRotationPitch)*0.2F;
+		rotationYaw = prevRotationYaw+(rotationYaw-prevRotationYaw)*0.2F;
+		float motFactor = getMotionFactor();
+
+		if (isInWater()){
+			for(int a = 0; a < 4; ++a)worldObj.spawnParticle("bubble",posX-motionX*0.25F,posY-motionY*0.25F,posZ-motionZ*0.25F,motionX,motionY,motionZ);
+			motFactor = 0.8F;
+		}
+
+		motionX += accelerationX;
+		motionY += accelerationY;
+		motionZ += accelerationZ;
+		motionX *= motFactor;
+		motionY *= motFactor;
+		motionZ *= motFactor;
+		worldObj.spawnParticle("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
+		setPosition(posX,posY,posZ);
 	}
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
-		if (!worldObj.isRemote){
-			if (mop.entityHit != null)mop.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this,shootingEntity),ModCommonProxy.opMobs ? 12F : 7F);
+		if (mop.entityHit != null)mop.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this,shootingEntity),ModCommonProxy.opMobs ? 12F : 7F);
 
-			Explosion explosion = new FieryExplosion(worldObj,shootingEntity,posX,posY,posZ,ModCommonProxy.opMobs ? 3.4F : 2.8F);
-			explosion.doExplosionA();
-			explosion.doExplosionB(true);
-			
-			setDead();
-		}
+		Explosion explosion = new FieryExplosion(worldObj,shootingEntity,posX,posY,posZ,ModCommonProxy.opMobs ? 3.4F : 2.8F);
+		explosion.doExplosionA();
+		explosion.doExplosionB(true);
+		
+		setDead();
 	}
 	
 	@Override
