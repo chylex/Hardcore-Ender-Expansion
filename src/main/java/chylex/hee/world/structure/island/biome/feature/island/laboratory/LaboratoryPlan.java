@@ -20,8 +20,8 @@ public final class LaboratoryPlan{
 		int x, z;
 		
 		for(int locAttempt = 0; locAttempt < 420; locAttempt++){
-			x = (rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize)*3/4;
-			z = (rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize)*3/4;
+			x = (rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize);
+			z = (rand.nextInt(ComponentIsland.size)-ComponentIsland.halfSize);
 			LaboratoryElement element = trySpawnElement(world,LaboratoryElementType.SMALL_ROOM,x,z,0);
 			if (element == null)continue;
 			

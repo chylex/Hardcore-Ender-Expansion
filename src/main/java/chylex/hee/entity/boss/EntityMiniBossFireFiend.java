@@ -126,7 +126,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		motionZ = motionVec.zCoord*0.1D+motionZ*0.9D;
 		
 		if (currentAttack == ATTACK_NONE){
-			if (++timer > 110-worldObj.difficultySetting.getDifficultyId()*8-(isAngry ? 20 : 0)-(ModCommonProxy.opMobs ? 15 : 0)){
+			if (++timer > 125-worldObj.difficultySetting.getDifficultyId()*7-(isAngry ? 18 : 0)-(ModCommonProxy.opMobs ? 12 : 0)){
 				boolean hasCalledGolems = false;
 				
 				if (isAngry && worldObj.difficultySetting != EnumDifficulty.PEACEFUL && rand.nextInt(5) == 0){
