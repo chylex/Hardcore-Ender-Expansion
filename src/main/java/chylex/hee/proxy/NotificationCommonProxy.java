@@ -27,7 +27,7 @@ public class NotificationCommonProxy{
 		tryDeliverNotifications();
 	}
 	
-	public final void report(String message, boolean noPrefix){
+	public final synchronized void report(String message, boolean noPrefix){
 		notifications.add((noPrefix ? "" : prefix)+message);
 		tryDeliverNotifications();
 	}

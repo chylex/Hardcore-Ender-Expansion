@@ -8,8 +8,10 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import net.minecraft.client.Minecraft;
@@ -65,16 +67,17 @@ public class PacketPipeline{
 			int id = -1;
 			
 			File sourceFile = HardcoreEnderExpansion.sourceFile;
+			List<String> classes = new ArrayList<>();
 			
 			if (sourceFile.isDirectory()){
 				File root = Paths.get(sourceFile.getPath(),"chylex","hee","packets").toFile();
 				
 				for(String name:new File(root,"client").list()){
-					if (name.startsWith("C"))registerPacket(++id,(Class<? extends AbstractPacket>)Class.forName("chylex.hee.packets.client."+FilenameUtils.removeExtension(name)));
+					if (name.startsWith("C"))classes.add("chylex.hee.packets.client."+FilenameUtils.removeExtension(name));
 				}
 				
 				for(String name:new File(root,"server").list()){
-					if (name.startsWith("S"))registerPacket(++id,(Class<? extends AbstractPacket>)Class.forName("chylex.hee.packets.server."+FilenameUtils.removeExtension(name)));
+					if (name.startsWith("S"))classes.add("chylex.hee.packets.server."+FilenameUtils.removeExtension(name));
 				}
 			}
 			else{
@@ -83,8 +86,8 @@ public class PacketPipeline{
 						String name = entry.getName();
 						
 						if (name.startsWith("chylex/hee/packets/")){
-							if (name.startsWith("chylex/hee/packets/client/C") || name.startsWith("chylex/hee/packets/client/S")){
-								registerPacket(++id,(Class<? extends AbstractPacket>)Class.forName(FilenameUtils.removeExtension(name.replace('/','.'))));
+							if (name.startsWith("chylex/hee/packets/client/C") || name.startsWith("chylex/hee/packets/server/S")){
+								classes.add(FilenameUtils.removeExtension(name.replace('/','.')));
 							}
 						}
 					}
@@ -92,6 +95,10 @@ public class PacketPipeline{
 					throw e;
 				}
 			}
+			
+			Collections.sort(classes);
+			
+			for(String cls:classes)registerPacket(++id,(Class<? extends AbstractPacket>)Class.forName(cls));
 		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException | IOException | ClassNotFoundException e){
 			throw new RuntimeException("Unable to load the Packet system!",e);
 		}
