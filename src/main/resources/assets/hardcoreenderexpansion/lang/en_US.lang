@@ -1,4 +1,5 @@
 # DO NOT MODIFY THIS FILE!
+tile.baconStone.name=Bacon Stone
 tile.obsidianEnd.name=Falling Obsidian
 tile.obsidianStairs.name=Obsidian Stairs
 tile.obsidianSpecial.smooth.name=Smooth Obsidian
@@ -9,12 +10,14 @@ tile.obsidianSpecialGlowing.chiseled.name=Chiseled Glowing Obsidian
 tile.obsidianSpecialGlowing.pillar.name=Glowing Obsidian Pillar
 tile.essenceAltar.basic.name=Basic Essence Altar
 tile.essenceAltar.dragon.name=Dragon Essence Altar
+tile.essenceAltar.dragon.bacon.name=Bacon Essence Altar
 tile.essenceAltar.fiery.name=Fiery Essence Altar
 tile.essenceAltar.spectral.name=Spectral Essence Altar
 tile.voidChest.name=Void Chest
 tile.decompositionTable.name=Decomposition Table
 tile.energyExtractionTable.name=Energy Extraction Table
 tile.endPowderOre.name=End Powder Ore
+tile.endPowderOre.bacon.name=Bacon Powder Ore
 tile.endiumOre.name=Endium Ore
 tile.stardustOre.name=Stardust Ore
 tile.igneousRockOre.name=Igneous Rock Ore
@@ -67,11 +70,14 @@ tile.laboratoryStairs.name=Laboratory Stairs
 tile.laboratoryGlass.name=Laboratory Glass
 
 item.essence.dragon.name=Dragon Essence
+item.essence.dragon.bacon.name=Bacon Essence
 item.essence.fiery.name=Fiery Essence
 item.essence.spectral.name=Spectral Essence
 item.lorePage.name=Adventurer's Diary
 item.altarNexus.name=Altar Nexus
+item.altarNexus.bacon.name=Bacon Nexus
 item.endPowder.name=End Powder
+item.endPowder.bacon.name=Bacon Powder
 item.endiumIngot.name=Endium Ingot
 item.stardust.name=Stardust
 item.igneousRock.name=Igneous Rock
@@ -83,6 +89,7 @@ item.potionOfPurity.splash.name=Splash Potion of Purity
 item.spatialDashGem.name=Spatial Dash Gem
 item.transferenceGem.name=Transference Gem
 item.templeCaller.name=Temple Caller
+item.templeCaller.bacon.name=Bacon Caller
 item.biomeCompass.name=Biome Compass
 item.silverfishBlood.name=Silverfish Blood
 item.drySplinter.name=Dry Splinter
@@ -174,11 +181,8 @@ item.curse.vampire.name=Curse of Vampire
 item.curse.rebound.name=Curse of Rebound
 item.curse.loss.name=Curse of Loss
 
-entity.dragon.derpy.name=Derpy Overgrown Reptile
-entity.dragon.baby.name=Baby Ender Dragon
-entity.dragon.angry.name=Angry Ender Dragon
-entity.dragon.doom.name=Your Doom
-
+entity.dragon.name=Ender Dragon
+entity.dragon.bacon.name=Ender Bacon
 entity.enderEye.name=Ender Eye
 entity.fireFiend.name=Fire Fiend
 entity.enderDemon.name=Ender Demon

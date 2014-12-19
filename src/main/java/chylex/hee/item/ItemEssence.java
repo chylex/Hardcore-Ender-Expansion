@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -32,7 +33,8 @@ public class ItemEssence extends Item{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		EssenceType essenceType = EssenceType.getById(is.getItemDamage()+1);
-		return "item.essence."+(essenceType == null?"invalid":essenceType.essenceNameLowercase);
+		if (ModCommonProxy.hardcoreEnderbacon && essenceType == EssenceType.DRAGON)return "item.essence.dragon.bacon";
+		return "item.essence."+(essenceType == null ? "invalid" : essenceType.essenceNameLowercase);
 	}
 	
 	@Override

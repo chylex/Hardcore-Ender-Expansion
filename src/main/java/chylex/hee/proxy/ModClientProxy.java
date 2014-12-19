@@ -1,4 +1,5 @@
 package chylex.hee.proxy;
+import java.util.Calendar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBat;
 import net.minecraft.client.renderer.entity.RenderFallingBlock;
@@ -60,6 +61,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
+import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
 import chylex.hee.render.block.RenderBlockCrossedDecoration;
@@ -200,6 +202,8 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalCurseEntity.class, new RenderNothing());
 
 		Stopwatch.finish("ModClientProxy - renderers");
+		
+		Baconizer.load();
 	}
 	
 	@Override
@@ -230,5 +234,18 @@ public class ModClientProxy extends ModCommonProxy{
 	public void openGui(String type){
 		if (type.equals("itemviewer"))Minecraft.getMinecraft().displayGuiScreen(new GuiItemViewer());
 		else if (type.equals("speedup"))Minecraft.getMinecraft().thePlayer.capabilities.setFlySpeed(0.3F);
+	}
+	
+	/**
+	 * Mode 0: enable on April Fools
+	 * Mode 1: always enabled
+	 * Mode 2: never enabled
+	 */
+	public static void loadEnderbacon(int mode){
+		if (mode == 1)hardcoreEnderbacon = true;
+		else if (mode == 0){
+			Calendar cal = Calendar.getInstance();
+			hardcoreEnderbacon = cal.get(Calendar.MONTH) == 4 && cal.get(Calendar.DAY_OF_MONTH) == 1;
+		}
 	}
 }

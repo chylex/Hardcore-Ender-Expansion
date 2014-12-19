@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemReed;
 import chylex.hee.block.BlockList;
+import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
@@ -91,13 +92,13 @@ public final class ItemList{
 		register("adventurers_diary", adventurers_diary = new ItemAdventurersDiary().setMaxStackSize(1).setUnlocalizedName("lorePage").setTextureName("hardcoreenderexpansion:lore_page"));
 		register("knowledge_note", knowledge_note = new ItemKnowledgeNote().setMaxStackSize(1).setUnlocalizedName("knowledgeNote").setTextureName("hardcoreenderexpansion:knowledge_fragment"));
 		
-		register("end_powder", end_powder = new ItemEndPowder().setUnlocalizedName("endPowder").setTextureName("hardcoreenderexpansion:end_powder"));
+		register("end_powder", end_powder = new ItemEndPowder().setUnlocalizedName(Baconizer.unlocalizedName("endPowder")).setTextureName("hardcoreenderexpansion:end_powder"));
 		register("endium_ingot", endium_ingot = new Item().setUnlocalizedName("endiumIngot").setTextureName("hardcoreenderexpansion:endium_ingot"));
 		register("stardust", stardust = new Item().setUnlocalizedName("stardust").setTextureName("hardcoreenderexpansion:stardust"));
 		register("igneous_rock", igneous_rock = new ItemIgneousRock().setUnlocalizedName("igneousRock").setTextureName("hardcoreenderexpansion:igneous_rock"));
 		register("instability_orb", instability_orb = new ItemInstabilityOrb().setUnlocalizedName("instabilityOrb").setTextureName("hardcoreenderexpansion:instability_orb"));
 		
-		register("altar_nexus", altar_nexus = new Item().setUnlocalizedName("altarNexus").setTextureName("hardcoreenderexpansion:altar_nexus"));
+		register("altar_nexus", altar_nexus = new Item().setUnlocalizedName(Baconizer.unlocalizedName("altarNexus")).setTextureName("hardcoreenderexpansion:altar_nexus"));
 		register("essence", essence = new ItemEssence().setUnlocalizedName("essence"));
 		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood"));
 		register("dry_splinter", dry_splinter = new Item().setUnlocalizedName("drySplinter").setTextureName("hardcoreenderexpansion:dry_splinter"));
@@ -117,7 +118,7 @@ public final class ItemList{
 		register("biome_compass", biome_compass = new ItemBiomeCompass().setMaxStackSize(1).setUnlocalizedName("biomeCompass"));
 		register("spatial_dash_gem", spatial_dash_gem = new ItemSpatialDashGem().setMaxStackSize(1).setMaxDamage(300).setNoRepair().setUnlocalizedName("spatialDashGem").setTextureName("hardcoreenderexpansion:spatial_dash_gem"));
 		register("transference_gem", transference_gem = new ItemTransferenceGem().setMaxStackSize(1).setMaxDamage(204).setNoRepair().setUnlocalizedName("transferenceGem").setTextureName("hardcoreenderexpansion:transference_gem"));
-		register("temple_caller", temple_caller = new ItemTempleCaller().setMaxStackSize(1).setMaxDamage(50).setNoRepair().setUnlocalizedName("templeCaller").setTextureName("hardcoreenderexpansion:temple_caller"));
+		register("temple_caller", temple_caller = new ItemTempleCaller().setMaxStackSize(1).setMaxDamage(50).setNoRepair().setUnlocalizedName(Baconizer.unlocalizedName("templeCaller")).setTextureName("hardcoreenderexpansion:temple_caller"));
 		register("infestation_remedy", infestation_remedy = new ItemInfestationRemedy().setMaxStackSize(1).setUnlocalizedName("infestationRemedy").setTextureName("hardcoreenderexpansion:infestation_remedy"));
 		register("ghost_amulet", ghost_amulet = new ItemGhostAmulet().setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
 		register("curse", curse = new ItemCurse().setMaxStackSize(32).setUnlocalizedName("curse").setTextureName("hardcoreenderexpansion:curse"));

@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.render.model.ModelEnderDragon;
 import chylex.hee.sound.BossType;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,10 +32,8 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	protected void rotateDragonBody(EntityBossDragon dragon, float entityTickTime, float yawOffset, float partialTickTime){
-		float f3 = (float)dragon.getMovementOffsets(7,partialTickTime)[0];
-		float f4 = (float)(dragon.getMovementOffsets(5,partialTickTime)[1]-dragon.getMovementOffsets(10,partialTickTime)[1]);
-		GL11.glRotatef(-f3,0F,1F,0F);
-		GL11.glRotatef(f4*10F,1F,0F,0F);
+		GL11.glRotatef(-(float)dragon.getMovementOffsets(7,partialTickTime)[0],0F,1F,0F);
+		GL11.glRotatef(10F*((float)(dragon.getMovementOffsets(5,partialTickTime)[1]-dragon.getMovementOffsets(10,partialTickTime)[1])),1F,0F,0F);
 		GL11.glTranslatef(0F,0F,1F);
 
 		if (dragon.deathTime > 0){
@@ -46,7 +45,7 @@ public class RenderBossDragon extends RenderLiving{
 		if (dragon.deathTicks > 0){
 			GL11.glDepthFunc(GL11.GL_LEQUAL);
 			GL11.glEnable(GL11.GL_ALPHA_TEST);
-			GL11.glAlphaFunc(GL11.GL_GREATER,dragon.deathTicks/200F);
+			GL11.glAlphaFunc(GL11.GL_GREATER,dragon.deathTicks*0.005F);
 			bindTexture(texDeathExplosions);
 			mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 			GL11.glAlphaFunc(GL11.GL_GREATER,0.1F);
@@ -62,7 +61,7 @@ public class RenderBossDragon extends RenderLiving{
 			GL11.glEnable(GL11.GL_BLEND);
 			GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 			GL11.glColor4f(1F,0F,0F,0.5F);
-			this.mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+			mainModel.render(dragon,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 			GL11.glEnable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_BLEND);
 			GL11.glDepthFunc(GL11.GL_LEQUAL);
@@ -71,30 +70,30 @@ public class RenderBossDragon extends RenderLiving{
 
 	public void renderDragon(EntityBossDragon dragon, double x, double y, double z, float yaw, float partialTickTime){
 		BossStatus.setBossStatus(dragon,false);
-		BossStatus.bossName = I18n.format(dragon.getEntityNameForStatus());
+		BossStatus.bossName = I18n.format(dragon.getCommandSenderName());
 		BossType.update(dragon.isAngry() ? BossType.DRAGON_ANGRY : BossType.DRAGON_CALM);
 		super.doRender(dragon,x,y,z,yaw,partialTickTime);
 
 		if (dragon.healingEnderCrystal != null){
 			float animRot = dragon.healingEnderCrystal.innerRotation+partialTickTime;
-			float f3 = MathHelper.sin(animRot*0.2F)/2F+0.5F;
-			f3 = (f3*f3+f3)*0.2F;
+			float yCorrection = MathHelper.sin(animRot*0.2F)*0.5F+0.5F;
+			yCorrection = (yCorrection*yCorrection+yCorrection)*0.2F;
 			float diffX = (float)(dragon.healingEnderCrystal.posX-dragon.posX-(dragon.prevPosX-dragon.posX)*(1F-partialTickTime));
-			float diffY = (float)(f3+dragon.healingEnderCrystal.posY-1D-dragon.posY-(dragon.prevPosY-dragon.posY)*(1F-partialTickTime));
+			float diffY = (float)(yCorrection+dragon.healingEnderCrystal.posY-1D-dragon.posY-(dragon.prevPosY-dragon.posY)*(1F-partialTickTime));
 			float diffZ = (float)(dragon.healingEnderCrystal.posZ-dragon.posZ-(dragon.prevPosZ-dragon.posZ)*(1F-partialTickTime));
 			float distXZ = MathHelper.sqrt_float(diffX*diffX+diffZ*diffZ);
 			float distXYZ = MathHelper.sqrt_float(diffX*diffX+diffY*diffY+diffZ*diffZ);
 			GL11.glPushMatrix();
 			GL11.glTranslatef((float)x,(float)y+2F,(float)z);
-			GL11.glRotatef((float)(-Math.atan2(diffZ,diffX))*180F/(float)Math.PI-90F,0F,1F,0F);
-			GL11.glRotatef((float)(-Math.atan2(distXZ,diffY))*180F/(float)Math.PI-90F,1F,0F,0F);
+			GL11.glRotatef(MathUtil.toDeg((float)-Math.atan2(diffZ,diffX))-90F,0F,1F,0F);
+			GL11.glRotatef(MathUtil.toDeg((float)-Math.atan2(distXZ,diffY))-90F,1F,0F,0F);
 			Tessellator tessellator = Tessellator.instance;
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			bindTexture(texCrystalBeam);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
-			float animTime = 0F-(dragon.ticksExisted+partialTickTime)*0.01F;
-			float textureV = MathHelper.sqrt_float(diffX*diffX+diffY*diffY+diffZ*diffZ)/32F-(dragon.ticksExisted+partialTickTime)*0.01F;
+			float animTime = -(dragon.ticksExisted+partialTickTime)*0.01F;
+			float textureV = MathHelper.sqrt_float(diffX*diffX+diffY*diffY+diffZ*diffZ)*0.03125F-(dragon.ticksExisted+partialTickTime)*0.01F;
 			tessellator.startDrawing(5);
 			byte sideAmount = 8;
 
@@ -103,7 +102,7 @@ public class RenderBossDragon extends RenderLiving{
 				float f12 = MathHelper.cos((i%sideAmount)*(float)Math.PI*2F/sideAmount)*0.75F;
 				float f13 = (i%sideAmount)/sideAmount;
 				tessellator.setColorOpaque_I(0);
-				tessellator.addVertexWithUV((f11*0.2F),(f12*0.2F),0D,f13,textureV);
+				tessellator.addVertexWithUV(f11*0.2F,f12*0.2F,0D,f13,textureV);
 				tessellator.setColorOpaque_I(16777215);
 				tessellator.addVertexWithUV(f11,f12,distXYZ,f13,animTime);
 			}
@@ -122,10 +121,8 @@ public class RenderBossDragon extends RenderLiving{
 		if (dragon.deathTicks > 0){
 			Tessellator tessellator = Tessellator.instance;
 			RenderHelper.disableStandardItemLighting();
-			float animPerc = (dragon.deathTicks+partialTickTime)/200F;
-			float fade = 0F;
-
-			if (animPerc > 0.8F)fade = (animPerc-0.8F)/0.2F;
+			float animPerc = (dragon.deathTicks+partialTickTime)*0.005F;
+			float fade = animPerc > 0.8F ? (animPerc-0.8F)*5F : 0F;
 
 			Random random = new Random(432L);
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -151,10 +148,10 @@ public class RenderBossDragon extends RenderLiving{
 				tessellator.setColorRGBA_I(16777215,(int)(255F*(1F-fade)));
 				tessellator.addVertex(0D,0D,0D);
 				tessellator.setColorRGBA_I(16711935,0);
-				tessellator.addVertex(-0.866D*xzRot,yRot,(-0.5F*xzRot));
-				tessellator.addVertex(0.866D*xzRot,yRot,(-0.5F*xzRot));
+				tessellator.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
+				tessellator.addVertex(0.866D*xzRot,yRot,-0.5F*xzRot);
 				tessellator.addVertex(0D,yRot,xzRot);
-				tessellator.addVertex(-0.866D*xzRot,yRot,(-0.5F*xzRot));
+				tessellator.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
 				tessellator.draw();
 			}
 

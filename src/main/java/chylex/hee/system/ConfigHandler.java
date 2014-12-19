@@ -11,6 +11,7 @@ import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
+import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.sound.MusicManager;
 import chylex.hee.system.logging.Log;
@@ -77,6 +78,7 @@ public final class ConfigHandler{
 		
 		KnowledgeFragmentText.smoothRenderingType = (byte)getInt("compendiumSmoothText",0).getInt();
 		MusicManager.enableMusic = getBool("enableMusic",true).setRequiresMcRestart(true).getBoolean();
+		ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbacon",0).setShowInGui(false).getInt());
 		
 		if (config.hasChanged())config.save();
 	}

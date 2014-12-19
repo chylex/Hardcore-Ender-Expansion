@@ -5,6 +5,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
 public class ItemBlockEssenceAltar extends ItemBlock{
@@ -22,7 +23,8 @@ public class ItemBlockEssenceAltar extends ItemBlock{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		EssenceType essenceType = EssenceType.getById(is.getItemDamage());
-		return "tile.essenceAltar."+(essenceType == null?EssenceType.INVALID:essenceType).essenceNameLowercase;
+		if (ModCommonProxy.hardcoreEnderbacon && essenceType == EssenceType.DRAGON)return "tile.essenceAltar.dragon.bacon";
+		return "tile.essenceAltar."+(essenceType == null ? EssenceType.INVALID : essenceType).essenceNameLowercase;
 	}
 	
 	@Override

@@ -745,28 +745,10 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public DragonShotManager initShot(){
 		return new DragonShotManager(this);
 	}
-
-	public String getEntityNameForStatus(){
-		if (angryStatus){
-			switch(getDifficulty()){
-				case 3: return "entity.dragon.doom.name";
-				case 2: return "entity.dragon.angry.name";
-				case 1: return "entity.dragon.baby.name";
-				default: return "entity.dragon.derpy.name";
-			}
-		}
-		else{
-			switch(getDifficulty()){
-				case 1: return "entity.dragon.baby.name";
-				case 0: return "entity.dragon.derpy.name";
-				default: return "entity.EnderDragon.name";
-			}
-		}
-	}
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.EnderDragon.name");
+		return StatCollector.translateToLocal(ModCommonProxy.hardcoreEnderbacon ? "entity.dragon.bacon.name" : "entity.dragon.name");
 	}
 
 	@Override

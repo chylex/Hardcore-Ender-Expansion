@@ -8,7 +8,7 @@ public abstract class AbstractClientPacket extends AbstractPacket{
 	@Override
 	public void handle(Side side, EntityPlayer player){
 		if (side == Side.CLIENT)handle((EntityClientPlayerMP)player);
-		else throw new UnsupportedOperationException("Tried to handle client packet on server side!");
+		else throw new UnsupportedOperationException("Tried to handle client packet on server side! Packet class: "+getClass().getSimpleName());
 	}
 	
 	@SideOnly(Side.CLIENT)
