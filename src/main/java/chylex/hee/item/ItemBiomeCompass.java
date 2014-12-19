@@ -59,6 +59,10 @@ public class ItemBiomeCompass extends Item{
 				is.stackTagCompound.setLong("seed1",world.getSeed());
 				is.stackTagCompound.setShort("seed2",(short)(1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount()));
 			}
+			else if (isHeld && entity.dimension == 1 && entity.ticksExisted%100 == 0){
+				int seed2 = 1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount();
+				if (seed2 != is.stackTagCompound.getShort("seed2"))is.stackTagCompound.setShort("seed2",(short)seed2);
+			}
 		}
 	}
 	
