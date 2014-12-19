@@ -138,7 +138,7 @@ public final class LoreTexts{
 		NBTTagList pages = new NBTTagList();
 		
 		for(int a = 0; a < LoreTexts.pageAmount; a++){
-			pages.appendTag(new NBTTagString(ArrayUtils.contains(unlockedPages,(byte)(a+1))?LoreTexts.getPage(a):EnumChatFormatting.GRAY+"This page is missing."));
+			pages.appendTag(new NBTTagString(ArrayUtils.contains(unlockedPages,(byte)(a+1)) ? Baconizer.sentence(LoreTexts.getPage(a)) : EnumChatFormatting.GRAY+"This page is missing."));
 		}
 		
 		is.setTagInfo("author",new NBTTagString("The Adventurer :P"));

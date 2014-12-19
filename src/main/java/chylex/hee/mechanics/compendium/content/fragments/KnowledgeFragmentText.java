@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.misc.Baconizer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -56,6 +57,8 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	public static void renderString(String str, int x, int y, int maxWidth, int normalColor, int smoothColor, GuiEnderCompendium gui){
 		boolean origFont = gui.mc.fontRenderer.getUnicodeFlag();
 		gui.mc.fontRenderer.setUnicodeFlag(true);
+		
+		str = Baconizer.sentence(str);
 		
 		if (smoothRenderingType > 0){
 			gui.mc.fontRenderer.drawSplitString(str,x,y,maxWidth,smoothColor);

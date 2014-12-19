@@ -41,6 +41,7 @@ tile.crossedDecoration.violetMoss.tall.name=Tall Violet Moss
 tile.crossedDecoration.violetMoss.moderate.name=Moderate Violet Moss
 tile.crossedDecoration.violetMoss.short.name=Short Violet Moss
 tile.endermanHead.name=Enderman Head
+tile.endermanHead.bacon.name=Baconman Head
 tile.sphalerite.name=Sphalerite
 tile.sphalerite.stardust.name=Sphalerite with Stardust
 tile.ravagedBrick.name=Ravaged Brick
@@ -265,3 +266,5 @@ challenge.noEnderman.desc=Don't kill a single enderman during the battle
 challenge.title=Challenge:
 challenge.difficulty.hard=Hard difficulty
 challenge.difficulty.mediumorhard=Normal / Hard difficulty
+
+baconizer.bacon=bacon

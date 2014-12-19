@@ -1,4 +1,5 @@
 package chylex.hee.system.commands;
+import chylex.hee.mechanics.misc.Baconizer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
@@ -26,6 +27,6 @@ abstract class HeeCommand extends CommandBase{
 	}
 	
 	protected final void sendMessage(ICommandSender receiver, String message){
-		receiver.addChatMessage(new ChatComponentText(message));
+		receiver.addChatMessage(new ChatComponentText(Baconizer.sentence(message)));
 	}
 }
