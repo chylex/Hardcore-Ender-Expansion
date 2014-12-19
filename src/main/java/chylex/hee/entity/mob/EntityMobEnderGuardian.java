@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy;
@@ -139,6 +140,6 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.enderGuardian.name");
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.enderGuardian.name"));
 	}
 }

@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
+import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 
@@ -120,6 +121,6 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.vampireBat.name");
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.vampireBat.name"));
 	}
 }

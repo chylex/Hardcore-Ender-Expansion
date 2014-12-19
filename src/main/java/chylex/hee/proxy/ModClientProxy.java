@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.stats.IStatStringFormat;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.MinecraftForgeClient;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
@@ -219,6 +220,8 @@ public class ModClientProxy extends ModCommonProxy{
 		AchievementManager.THE_MORE_YOU_KNOW.setStatStringFormatter(new IStatStringFormat(){
 			@Override
 			public String formatString(String str){
+				if (hardcoreEnderbacon)str = StatCollector.translateToLocal("achievement.theMoreYouKnow.desc.bacon");
+				
 				try{
 					return String.format(str,GameSettings.getKeyDisplayString(CompendiumEventsClient.getCompendiumKeyCode()));
 				}catch(Exception e){

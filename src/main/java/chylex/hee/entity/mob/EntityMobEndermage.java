@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.ai.EntityAIRangedEnergyAttack;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.misc.Baconizer;
 
 public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IRangedAttackMob{
 	public EntityMobEndermage(World world){
@@ -53,7 +54,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.endermage.name");
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.endermage.name"));
 	}
 	
 	@Override

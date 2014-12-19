@@ -17,5 +17,9 @@ public final class Baconizer{
 		return ModCommonProxy.hardcoreEnderbacon ? name+"_bacon" : name;
 	}
 	
+	public static String mobName(String name){
+		return ModCommonProxy.hardcoreEnderbacon ? name.substring(0,name.length()-4)+"bacon.name" : name;
+	}
+	
 	private Baconizer(){}
 }

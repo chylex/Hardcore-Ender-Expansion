@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import chylex.hee.item.ItemList;
+import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -26,7 +27,9 @@ public class ModCreativeTab extends CreativeTabs{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getTranslatedTabLabel(){
-		return type == 0 ? "Hardcore Ender Expansion" : "Hardcore Ender Expansion - Charms";
+		return ModCommonProxy.hardcoreEnderbacon ?
+			   (type == 0 ? "Hardcore Bacon Expansion" : "Hardcore Bacon Expansion - Charms") :
+			   (type == 0 ? "Hardcore Ender Expansion" : "Hardcore Ender Expansion - Charms");
 	}
 
 	@Override

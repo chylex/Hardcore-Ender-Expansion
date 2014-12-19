@@ -38,6 +38,7 @@ import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
@@ -328,7 +329,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.babyEnderman.name");
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.babyEnderman.name"));
 	}
 }
 

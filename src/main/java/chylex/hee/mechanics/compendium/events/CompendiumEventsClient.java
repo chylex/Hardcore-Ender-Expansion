@@ -16,6 +16,7 @@ import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03OpenCompendium;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -82,7 +83,7 @@ public final class CompendiumEventsClient{
 	private long newlyDiscoveredTime = 0L;
 	
 	private CompendiumEventsClient(){
-		keyOpenCompendium = new KeyBinding("key.openCompendium",25,"Hardcore Ender Expansion");
+		keyOpenCompendium = new KeyBinding(ModCommonProxy.hardcoreEnderbacon ? "key.openCompendium.bacon" : "key.openCompendium",25,"Hardcore Ender Expansion");
 		ClientRegistry.registerKeyBinding(keyOpenCompendium);
 		Minecraft.getMinecraft().gameSettings.loadOptions();
 	}

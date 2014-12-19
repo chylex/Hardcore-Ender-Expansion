@@ -1,4 +1,5 @@
 package chylex.hee.entity.mob;
+import chylex.hee.mechanics.misc.Baconizer;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
@@ -40,6 +41,6 @@ public class EntityMobInfestedBat extends EntityBat{
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.infestedBat.name");
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.infestedBat.name"));
 	}
 }

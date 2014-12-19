@@ -19,6 +19,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
+import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityMobAngryEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
@@ -268,6 +269,6 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.angryEnderman.name");
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.angryEnderman.name"));
 	}
 }

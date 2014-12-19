@@ -34,6 +34,7 @@ import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
+import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.EndermanTask;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
@@ -805,7 +806,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.homelandEnderman.name");
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.homelandEnderman.name"));
 	}
 	
 	@Override

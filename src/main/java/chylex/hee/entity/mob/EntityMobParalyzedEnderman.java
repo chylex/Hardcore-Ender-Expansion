@@ -1,5 +1,6 @@
 package chylex.hee.entity.mob;
 import java.util.List;
+import chylex.hee.mechanics.misc.Baconizer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -77,6 +78,6 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.brainlessEnderman.name");
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.brainlessEnderman.name"));
 	}
 }
