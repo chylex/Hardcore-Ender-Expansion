@@ -76,9 +76,9 @@ public final class ConfigHandler{
 	private void loadClientConfig(){
 		currentCategory = "client";
 		
-		KnowledgeFragmentText.smoothRenderingType = (byte)getInt("compendiumSmoothText",0).getInt();
-		MusicManager.enableMusic = getBool("enableMusic",true).setRequiresMcRestart(true).getBoolean();
-		ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbacon",0,"0 = enabled on April Fools, 1 = always enabled, 2 = never enabled").setShowInGui(false).getInt());
+		KnowledgeFragmentText.smoothRenderingType = (byte)getInt("compendiumSmoothText",0,"Special text rendering mode for Ender Compendium, smooths out aliasing in Large GUI scale.").getInt();
+		MusicManager.enableMusic = getBool("enableMusic",true,"Custom music playing in the End dimension.").setRequiresMcRestart(true).getBoolean();
+		ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbacon",0,"0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
 		
 		if (config.hasChanged())config.save();
 	}
@@ -86,18 +86,18 @@ public final class ConfigHandler{
 	private void loadGeneralConfig(){
 		currentCategory = "general";
 		
-		ModCommonProxy.opMobs = getBoolValue("overpoweredMobs",false);
-		BlockEnderGoo.shouldBattleWater = getBoolValue("gooBattlesWater",true);
-		ItemTempleCaller.isEnabled = getBoolValue("enableTempleCaller",true);
+		ModCommonProxy.opMobs = getBoolValue("overpoweredMobs",false,"Additional abilities and increased attributes of mobs in the End, useful for modpacks with powerful weapons and armor.");
+		BlockEnderGoo.shouldBattleWater = getBoolValue("gooBattlesWater",true,"Ender Goo interacts with Water by battling it, this might cause lag from block updates.");
+		ItemTempleCaller.isEnabled = getBoolValue("enableTempleCaller",true,"Mechanic that allows players to reset the End, may not be desirable on servers.");
 		BiomeGenHardcoreEnd.overrideMobLists = getBool("overrideBiomeMobs",false,"Prevents other mods from changing mobs that spawn in the End.").setRequiresMcRestart(true).getBoolean();
 		BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier",1F,"Multiplies spawn weight of Endermen for each overworld biome.").setRequiresMcRestart(true).getDouble();
 		Log.forceDebugEnabled = getBool("logDebuggingInfo",false,"Only use for debugging, enabling debug logging will have severe impact on game performance!").getBoolean();
 		
 		if (firstTimeGeneral){
 			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();
-			UpdateNotificationManager.enableNotifications = getBool("enableUpdateNotifications",true).setShowInGui(false).getBoolean();
+			UpdateNotificationManager.enableNotifications = getBool("enableUpdateNotifications",true,"Notifies users about new updates. It does not slow the game down.").setShowInGui(false).getBoolean();
 			UpdateNotificationManager.enableBuildCheck = getBool("enableBuildCheck",true,"It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.").setShowInGui(false).getBoolean();
-			ModCommonProxy.achievementStartId = getInt("achievementStartId",3500).setShowInGui(false).getInt();
+			ModCommonProxy.achievementStartId = getInt("achievementStartId",3500,"Starting ID of achievements, only change this if there is a conflict.").setShowInGui(false).getInt();
 			StardustDecomposition.addFromString(getString("decompositionBlacklist","","Blacklist of items that should not be decomposable or decomposed into. Visit http://hardcore-ender-expansion.wikia.com/wiki/Configuration for syntax and examples.").setRequiresMcRestart(true).getString());
 			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");
 			firstTimeGeneral = false;
@@ -108,20 +108,12 @@ public final class ConfigHandler{
 	
 	// utility methods
 	
-	private boolean getBoolValue(String key, boolean defaultValue){
-		return config.get(currentCategory,key,defaultValue).getBoolean();
-	}
-	
-	private Property getBool(String key, boolean defaultValue){
-		return config.get(currentCategory,key,defaultValue);
+	private boolean getBoolValue(String key, boolean defaultValue, String comment){
+		return config.get(currentCategory,key,defaultValue,comment).getBoolean();
 	}
 	
 	private Property getBool(String key, boolean defaultValue, String comment){
 		return config.get(currentCategory,key,defaultValue,comment);
-	}
-	
-	private Property getInt(String key, int defaultValue){
-		return config.get(currentCategory,key,defaultValue);
 	}
 	
 	private Property getInt(String key, int defaultValue, String comment){
