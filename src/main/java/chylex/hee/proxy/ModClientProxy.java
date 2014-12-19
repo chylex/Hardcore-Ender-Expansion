@@ -248,7 +248,7 @@ public class ModClientProxy extends ModCommonProxy{
 		if (mode == 1)hardcoreEnderbacon = true;
 		else if (mode == 0){
 			Calendar cal = Calendar.getInstance();
-			hardcoreEnderbacon = cal.get(Calendar.MONTH) == 4 && cal.get(Calendar.DAY_OF_MONTH) == 1;
+			hardcoreEnderbacon = cal.get(Calendar.MONTH) == 3 && cal.get(Calendar.DAY_OF_MONTH) == 1;
 		}
 	}
 }

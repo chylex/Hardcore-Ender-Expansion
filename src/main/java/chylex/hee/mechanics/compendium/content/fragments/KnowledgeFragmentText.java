@@ -39,7 +39,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	
 	protected String getString(boolean isUnlocked){
 		String content = I18n.format("ec.reg."+globalID);
-		return isUnlocked ? content : StringUtils.repeat('?',content.length());
+		return isUnlocked ? Baconizer.sentence(content) : StringUtils.repeat('?',content.length());
 	}
 	
 	public static void renderString(String str, int x, int y, GuiEnderCompendium gui){
@@ -57,8 +57,6 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	public static void renderString(String str, int x, int y, int maxWidth, int normalColor, int smoothColor, GuiEnderCompendium gui){
 		boolean origFont = gui.mc.fontRenderer.getUnicodeFlag();
 		gui.mc.fontRenderer.setUnicodeFlag(true);
-		
-		str = Baconizer.sentence(str);
 		
 		if (smoothRenderingType > 0){
 			gui.mc.fontRenderer.drawSplitString(str,x,y,maxWidth,smoothColor);

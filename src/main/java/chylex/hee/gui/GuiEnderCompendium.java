@@ -38,6 +38,7 @@ import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S02CompendiumPurchase;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.client.config.IConfigElement;
@@ -439,7 +440,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		drawTexturedModalRect(d-16,height-d-8,0,25,24,24);
 		drawTexturedModalRect(width-d-8,height-d-8,25,25,24,24);
 		
-		String title = "Hardcore Ender Expansion - Ender Compendium";
+		String title = ModCommonProxy.hardcoreEnderbacon ? "Hardcore Bacon Expansion - Ender Compendium" : "Hardcore Ender Expansion - Ender Compendium";
 		fontRendererObj.drawString(title,(width>>1)-(fontRendererObj.getStringWidth(title)>>1),14,0x404040);
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);

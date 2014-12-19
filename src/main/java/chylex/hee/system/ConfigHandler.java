@@ -78,7 +78,7 @@ public final class ConfigHandler{
 		
 		KnowledgeFragmentText.smoothRenderingType = (byte)getInt("compendiumSmoothText",0).getInt();
 		MusicManager.enableMusic = getBool("enableMusic",true).setRequiresMcRestart(true).getBoolean();
-		ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbacon",0).setShowInGui(false).getInt());
+		ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbacon",0,"0 = enabled on April Fools, 1 = always enabled, 2 = never enabled").setShowInGui(false).getInt());
 		
 		if (config.hasChanged())config.save();
 	}
@@ -122,6 +122,10 @@ public final class ConfigHandler{
 	
 	private Property getInt(String key, int defaultValue){
 		return config.get(currentCategory,key,defaultValue);
+	}
+	
+	private Property getInt(String key, int defaultValue, String comment){
+		return config.get(currentCategory,key,defaultValue,comment);
 	}
 	
 	private Property getDecimal(String key, float defaultValue, String comment){

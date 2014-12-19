@@ -5,7 +5,9 @@ import net.minecraft.util.StatCollector;
 import chylex.hee.proxy.ModCommonProxy;
 
 public final class Baconizer{
-	private static final Pattern lcword = Pattern.compile("\b([a-z]+)\b"), ucword = Pattern.compile("\b([A-Z][a-z]+)\b");
+	private static final Pattern lcword = Pattern.compile("\\b([a-z]+?)\\b",Pattern.MULTILINE),
+								 fcword = Pattern.compile("\\b([A-Z][a-z]+?)\\b",Pattern.MULTILINE),
+								 ucword = Pattern.compile("\\b([A-Z]+?)\\b",Pattern.MULTILINE);
 	
 	public static void load(){
 		if (!ModCommonProxy.hardcoreEnderbacon)return;
@@ -28,9 +30,10 @@ public final class Baconizer{
 	public static String sentence(String text){
 		if (!ModCommonProxy.hardcoreEnderbacon)return text;
 		
-		String lc = StatCollector.translateToLocal("baconizer.bacon"), uc = Character.toUpperCase(lc.charAt(0))+lc.substring(1);
+		String lc = StatCollector.translateToLocal("baconizer.bacon"), fc = Character.toUpperCase(lc.charAt(0))+lc.substring(1), uc = lc.toUpperCase();
 		
 		text = lcword.matcher(text).replaceAll(lc);
+		text = fcword.matcher(text).replaceAll(fc);
 		text = ucword.matcher(text).replaceAll(uc);
 		return text;
 	}
