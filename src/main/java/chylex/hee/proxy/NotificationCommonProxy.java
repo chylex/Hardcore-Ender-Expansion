@@ -11,7 +11,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class NotificationCommonProxy{
 	protected static final String prefix = "[HEE] ";
-	protected List<String> notifications = new ArrayList<>();
+	protected List<String> notifications = new ArrayList<>(); // TODO thread safety
 	
 	public final void register(){
 		FMLCommonHandler.instance().bus().register(this);
@@ -27,7 +27,7 @@ public class NotificationCommonProxy{
 		tryDeliverNotifications();
 	}
 	
-	public final synchronized void report(String message, boolean noPrefix){
+	public final void report(String message, boolean noPrefix){
 		notifications.add((noPrefix ? "" : prefix)+message);
 		tryDeliverNotifications();
 	}
