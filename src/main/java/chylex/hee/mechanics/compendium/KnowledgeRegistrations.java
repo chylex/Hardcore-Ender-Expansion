@@ -2,7 +2,6 @@ package chylex.hee.mechanics.compendium;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -19,6 +18,7 @@ import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobEndermage;
+import chylex.hee.entity.mob.EntityMobEnderman;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobHauntedMiner;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
@@ -60,7 +60,7 @@ public final class KnowledgeRegistrations{
 		MUSIC_DISKS = create(ItemList.music_disk),
 		ALTAR_NEXUS = create(ItemList.altar_nexus),
 		BASIC_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.INVALID.id),
-		ENDERMAN = create(EntityEnderman.class),
+		ENDERMAN = create(EntityMobEnderman.class),
 		SILVERFISH = create(EntitySilverfish.class),
 		
 		ESSENCE = create(ItemList.essence),

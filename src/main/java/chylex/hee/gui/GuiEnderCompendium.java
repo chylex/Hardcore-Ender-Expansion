@@ -148,11 +148,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		else if (button.id == 3)pageIndex = (byte)Math.max(0,pageIndex-1);
 		else if (button.id == 4)pageIndex = (byte)Math.min(currentObjectPages.size()-1,pageIndex+1);
 		else if (button.id == 5){
-			if (++KnowledgeFragmentText.smoothRenderingType > 2)KnowledgeFragmentText.smoothRenderingType = 0;
+			if (++KnowledgeFragmentText.smoothRenderingMode > 2)KnowledgeFragmentText.smoothRenderingMode = 0;
 			
 			for(IConfigElement element:ConfigHandler.getGuiConfigElements()){
 				if (element.getName().equals("compendiumSmoothText") && element.isProperty()){
-					element.set(KnowledgeFragmentText.smoothRenderingType);
+					element.set(KnowledgeFragmentText.smoothRenderingMode);
 					break;
 				}
 			}
@@ -401,7 +401,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private void renderScreenPost(int mouseX, int mouseY, float partialTickTime){
 		mc.getTextureManager().bindTexture(texBack);
 		GuiButton button = (GuiButton)buttonList.get(5);
-		drawTexturedModalRect(button.xPosition,button.yPosition,KnowledgeFragmentText.smoothRenderingType > 0 ? 56 : 77,29,20,20);
+		drawTexturedModalRect(button.xPosition,button.yPosition,KnowledgeFragmentText.smoothRenderingMode > 0 ? 56 : 77,29,20,20);
 		
 		if (mouseX >= button.xPosition && mouseX <= button.xPosition+button.width && mouseY > button.yPosition && mouseY < button.yPosition+button.height){
 			StringBuilder build = new StringBuilder(110);
@@ -411,7 +411,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			build.append(EnumChatFormatting.GRAY);
 			build.append("text scaling (experimental)\n");
 			build.append(EnumChatFormatting.DARK_GREEN);
-			build.append("Type: ").append(KnowledgeFragmentText.smoothRenderingType == 0 ? "Off" : String.valueOf(KnowledgeFragmentText.smoothRenderingType));
+			build.append("Mode: ").append(KnowledgeFragmentText.smoothRenderingMode == 0 ? "Off" : String.valueOf(KnowledgeFragmentText.smoothRenderingMode));
 			GuiItemRenderHelper.setupTooltip(mouseX,mouseY-24,build.toString());
 		}
 		
@@ -440,7 +440,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		drawTexturedModalRect(d-16,height-d-8,0,25,24,24);
 		drawTexturedModalRect(width-d-8,height-d-8,25,25,24,24);
 		
-		String title = ModCommonProxy.hardcoreEnderbacon ? "Hardcore Bacon Expansion - Ender Compendium" : "Hardcore Ender Expansion - Ender Compendium";
+		String title = ModCommonProxy.hardcoreEnderbacon ? "Hardcore Bacon Expansion - Bacon Compendium" : "Hardcore Ender Expansion - Ender Compendium";
 		fontRendererObj.drawString(title,(width>>1)-(fontRendererObj.getStringWidth(title)>>1),14,0x404040);
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);

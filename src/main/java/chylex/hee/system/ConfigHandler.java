@@ -76,7 +76,7 @@ public final class ConfigHandler{
 	private void loadClientConfig(){
 		currentCategory = "client";
 		
-		KnowledgeFragmentText.smoothRenderingType = (byte)getInt("compendiumSmoothText",0,"Special text rendering mode for Ender Compendium, smooths out aliasing in Large GUI scale.").getInt();
+		KnowledgeFragmentText.smoothRenderingMode = (byte)getInt("compendiumSmoothText",0,"Special text rendering mode for Ender Compendium, smooths out aliasing in Large GUI scale.").getInt();
 		MusicManager.enableMusic = getBool("enableMusic",true,"Custom music playing in the End dimension.").setRequiresMcRestart(true).getBoolean();
 		ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbacon",0,"0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
 		

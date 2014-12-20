@@ -53,12 +53,27 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	public void attackEntityWithRangedAttack(EntityLivingBase entity, float amount){}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.endermage.name"));
+	protected void dropFewItems(boolean recentlyHit, int looting){
+		if (recentlyHit && (rand.nextInt(3) == 0 || looting > 0) && rand.nextBoolean())dropItem(ItemList.auricion,1);
 	}
 	
 	@Override
-	protected void dropFewItems(boolean recentlyHit, int looting){
-		if (recentlyHit && (rand.nextInt(3) == 0 || looting > 0) && rand.nextBoolean())dropItem(ItemList.auricion,1);
+	protected String getLivingSound(){
+		return Baconizer.soundNormal(super.getLivingSound());
+	}
+	
+	@Override
+	protected String getHurtSound(){
+		return Baconizer.soundNormal(super.getHurtSound());
+	}
+	
+	@Override
+	protected String getDeathSound(){
+		return Baconizer.soundDeath(super.getDeathSound());
+	}
+	
+	@Override
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.endermage.name"));
 	}
 }

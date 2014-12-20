@@ -57,7 +57,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		stepHeight = 1F;
 		
 		for(ItemPriorityLevel level:ItemPriorityLevel.values)itemPriorities.add(level);
-		for(int a = 0,index1,index2,size = itemPriorities.size(); a < rand.nextInt(20); a++){
+		for(int a = 0, index1, index2, size = itemPriorities.size(); a < rand.nextInt(20); a++){
 			index1 = rand.nextInt(size);
 			index2 = rand.nextInt(size);
 			
@@ -227,17 +227,17 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	protected String getLivingSound(){
-		return "mob.endermen.idle";
+		return Baconizer.soundNormal("mob.endermen.idle");
 	}
 
 	@Override
 	protected String getHurtSound(){
-		return "mob.endermen.hit";
+		return Baconizer.soundNormal("mob.endermen.hit");
 	}
 
 	@Override
 	protected String getDeathSound(){
-		return "mob.endermen.death";
+		return Baconizer.soundDeath("mob.endermen.death");
 	}
 	
 	@Override

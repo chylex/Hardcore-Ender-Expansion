@@ -176,17 +176,17 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 
 	@Override
 	protected String getLivingSound(){
-		return isScreaming()?"mob.endermen.scream":"mob.endermen.idle";
+		return Baconizer.soundNormal(isScreaming() ? "mob.endermen.scream" : "mob.endermen.idle");
 	}
 
 	@Override
 	protected String getHurtSound(){
-		return "mob.endermen.hit";
+		return Baconizer.soundNormal("mob.endermen.hit");
 	}
 
 	@Override
 	protected String getDeathSound(){
-		return "mob.endermen.death";
+		return Baconizer.soundDeath("mob.endermen.death");
 	}
 
 	@Override

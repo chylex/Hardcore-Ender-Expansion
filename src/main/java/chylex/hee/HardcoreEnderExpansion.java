@@ -28,6 +28,7 @@ import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobEndermage;
+import chylex.hee.entity.mob.EntityMobEnderman;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobForestGhost;
 import chylex.hee.entity.mob.EntityMobHauntedMiner;
@@ -195,6 +196,10 @@ public class HardcoreEnderExpansion{
 		// ENTITIES
 		
 		Stopwatch.time("PreInitEvent - entities");
+		
+		EntityList.stringToClassMapping.remove("Enderman");
+		EntityList.IDtoClassMapping.remove(Integer.valueOf(58));
+		EntityList.addMapping(EntityMobEnderman.class, "Enderman", 58);
 		
 		EntityList.stringToClassMapping.remove("EnderCrystal");
 		EntityList.IDtoClassMapping.remove(Integer.valueOf(200));

@@ -51,6 +51,7 @@ import chylex.hee.entity.boss.dragon.managers.DragonRewardManager;
 import chylex.hee.entity.boss.dragon.managers.DragonShotManager;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
+import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C01ParticleEndPortalCreation;
 import chylex.hee.packets.client.C06SetPlayerVelocity;
@@ -748,7 +749,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(ModCommonProxy.hardcoreEnderbacon ? "entity.dragon.bacon.name" : "entity.dragon.name");
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.dragon.name"));
 	}
 
 	@Override
@@ -830,7 +831,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 	@Override
 	protected String getHurtSound(){
-		return "mob.enderdragon.hit";
+		return Baconizer.soundNormal("mob.enderdragon.hit");
 	}
 
 	@Override

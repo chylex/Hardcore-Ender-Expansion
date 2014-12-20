@@ -77,6 +77,21 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 	}
 	
 	@Override
+	protected String getLivingSound(){
+		return Baconizer.soundNormal(super.getLivingSound());
+	}
+	
+	@Override
+	protected String getHurtSound(){
+		return Baconizer.soundNormal(super.getHurtSound());
+	}
+	
+	@Override
+	protected String getDeathSound(){
+		return Baconizer.soundDeath(super.getDeathSound());
+	}
+	
+	@Override
 	public String getCommandSenderName(){
 		return StatCollector.translateToLocal(Baconizer.mobName("entity.brainlessEnderman.name"));
 	}
