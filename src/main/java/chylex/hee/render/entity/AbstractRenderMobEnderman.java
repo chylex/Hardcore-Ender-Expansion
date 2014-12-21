@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL12;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.render.model.ModelBaconmanHead;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,6 +31,10 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 		super(new ModelEnderman(),0.5F);
 		endermanModel = (ModelEnderman)super.mainModel;
 		setRenderPassModel(endermanModel);
+		
+		if (ModCommonProxy.hardcoreEnderbacon){
+			endermanModel.bipedHead = new ModelBaconmanHead(endermanModel,0,0);
+		}
 	}
 	
 	protected final void superDoRender(IEndermanRenderer entity, double x, double y, double z, float yaw, float partialTickTime){

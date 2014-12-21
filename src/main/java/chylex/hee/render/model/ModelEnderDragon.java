@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -42,19 +43,22 @@ public class ModelEnderDragon extends ModelBase{
 		
 		float f1 = -16F;
 		head = new ModelRenderer(this,"head");
-		head.addBox("upperlip",-6F,-1F,-8F+f1,12,5,16);
 		head.addBox("upperhead",-8F,-8F,6F+f1,16,16,16);
-		head.mirror = true;
-		head.addBox("scale",-5F,-12F,12F+f1,2,4,6);
-		head.addBox("nostril",-5F,-3F,-6F+f1,2,2,4);
-		head.mirror = false;
-		head.addBox("scale",3F,-12F,12F+f1,2,4,6);
-		head.addBox("nostril",3F,-3F,-6F+f1,2,2,4);
+		
+		if (!ModCommonProxy.hardcoreEnderbacon){
+			head.addBox("upperlip",-6F,-1F,-8F+f1,12,5,16);
+			head.mirror = true;
+			head.addBox("scale",-5F,-12F,12F+f1,2,4,6);
+			head.addBox("nostril",-5F,-3F,-6F+f1,2,2,4);
+			head.mirror = false;
+			head.addBox("scale",3F,-12F,12F+f1,2,4,6);
+			head.addBox("nostril",3F,-3F,-6F+f1,2,2,4);
+		}
 		
 		jaw = new ModelRenderer(this,"jaw");
 		jaw.setRotationPoint(0F,4F,8F+f1);
 		jaw.addBox("jaw",-6F,0F,-16F,12,4,16);
-		head.addChild(jaw);
+		if (!ModCommonProxy.hardcoreEnderbacon)head.addChild(jaw);
 		
 		neck = new ModelRenderer(this,"neck");
 		neck.addBox("box",-5F,-5F,-5F,10,10,10);
