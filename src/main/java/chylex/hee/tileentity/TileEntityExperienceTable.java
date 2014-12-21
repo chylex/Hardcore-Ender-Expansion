@@ -1,25 +1,18 @@
 package chylex.hee.tileentity;
 import net.minecraft.item.ItemStack;
 
-public class TileEntityExperienceTable extends TileEntityAbstractEnergyInventory{
+public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	@Override
-	protected byte getDrainTimer(){
+	public void invalidateInventory(){}
+
+	@Override
+	protected void onWorkFinished(){}
+	
+	@Override
+	public int getHoldingStardust(){
 		return 0;
 	}
-
-	@Override
-	protected float getDrainAmount(){
-		return 0;
-	}
-
-	@Override
-	protected boolean isWorking(){
-		return false;
-	}
-
-	@Override
-	protected void onWork(){}
-
+	
 	@Override
 	public int getSizeInventory(){
 		return 0;
@@ -29,7 +22,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractEnergyInventory
 	public boolean isItemValidForSlot(int slot, ItemStack is){
 		return false;
 	}
-	
+
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side){
 		return null;
