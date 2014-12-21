@@ -5,6 +5,7 @@ import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
+import chylex.hee.mechanics.misc.Baconizer;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -20,6 +21,6 @@ public class RenderMobInfestedBat extends RenderBat{
 	
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
-		return tex;
+		return Baconizer.mobTexture(this,tex);
 	}
 }

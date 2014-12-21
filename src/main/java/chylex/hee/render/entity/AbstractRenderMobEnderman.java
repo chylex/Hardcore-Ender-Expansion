@@ -13,6 +13,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
+import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -48,7 +50,7 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 	}
 
 	protected int renderEyes(IEndermanRenderer enderman, int pass, float partialTickTime){
-		if (pass != 0)return -1;
+		if (pass != 0 || ModCommonProxy.hardcoreEnderbacon)return -1;
 
 		bindTexture(texEndermanEyes);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -104,7 +106,7 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
-		return texEndermanBody;
+		return Baconizer.mobTexture(this,texEndermanBody);
 	}
 
 	@Override

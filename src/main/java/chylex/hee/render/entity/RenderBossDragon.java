@@ -13,6 +13,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.model.ModelEnderDragon;
 import chylex.hee.sound.BossType;
 import chylex.hee.system.util.MathUtil;
@@ -169,7 +171,7 @@ public class RenderBossDragon extends RenderLiving{
 
 	protected int renderGlow(EntityBossDragon dragon, int pass, float partialTickTime){
 		if (pass == 1)GL11.glDepthFunc(GL11.GL_LEQUAL);
-		if (pass != 0)return -1;
+		if (pass != 0 || ModCommonProxy.hardcoreEnderbacon)return -1;
 		else{
 			bindTexture(texDragonEyes);
 			GL11.glEnable(GL11.GL_BLEND);
@@ -217,7 +219,7 @@ public class RenderBossDragon extends RenderLiving{
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
-		return texDragon;
+		return Baconizer.mobTexture(this,texDragon);
 	}
 
 	@Override

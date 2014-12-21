@@ -30,6 +30,7 @@ import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobEndermage;
+import chylex.hee.entity.mob.EntityMobEnderman;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobHauntedMiner;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
@@ -78,6 +79,7 @@ import chylex.hee.render.entity.RenderMiniBossFireFiend;
 import chylex.hee.render.entity.RenderMobAngryEnderman;
 import chylex.hee.render.entity.RenderMobBabyEnderman;
 import chylex.hee.render.entity.RenderMobCorporealMirage;
+import chylex.hee.render.entity.RenderMobEnderman;
 import chylex.hee.render.entity.RenderMobHomelandEnderman;
 import chylex.hee.render.entity.RenderMobInfestedBat;
 import chylex.hee.render.entity.RenderMobLouse;
@@ -160,6 +162,7 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossEnderEye.class, new RenderMiniBossEnderEye());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossFireFiend.class, new RenderMiniBossFireFiend());
 		
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderman.class, new RenderMobEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobAngryEnderman.class, new RenderMobAngryEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobBabyEnderman.class, new RenderMobBabyEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobParalyzedEnderman.class, new RenderMobParalyzedEnderman());

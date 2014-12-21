@@ -38,7 +38,7 @@ public final class DimensionOverride{
 			f.setAccessible(true); // let it throw NPE if the field isn't found
 			
 			Class<?> cls = ((Hashtable<Integer,Class<? extends WorldProvider>>)f.get(null)).get(1);
-			if (cls != WorldProviderHardcoreEnd.class)throw new RuntimeException("End world provider class mismatch, Hardcore Ender Expansion cannot proceed! Provider class: "+cls.getName());
+			if (cls != WorldProviderHardcoreEnd.class)throw new RuntimeException("End world provider class mismatch, Hardcore Ender Expansion cannot proceed! Provider class: "+(cls == null ? "<null>" : cls.getName()));
 		}catch(NullPointerException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e){
 			throw new RuntimeException("End world provider check failed!",e);
 		}

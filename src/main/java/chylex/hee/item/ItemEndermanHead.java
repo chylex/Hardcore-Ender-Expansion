@@ -89,6 +89,6 @@ public class ItemEndermanHead extends Item{
 		ModClientProxy.endermanHeadModelBiped.isRiding = e.entityPlayer.isRiding();
 		
 		GL11.glColor3f(1F,1F,1F);
-		e.result = e.stack.isItemEnchanted()?15:1;
+		e.result = e.stack.isItemEnchanted() ? 15 : 1;
 	}
 }
