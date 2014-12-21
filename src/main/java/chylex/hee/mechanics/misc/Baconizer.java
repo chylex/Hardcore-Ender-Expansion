@@ -1,11 +1,16 @@
 package chylex.hee.mechanics.misc;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Pattern;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.util.ChatComponentStyle;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import chylex.hee.block.BlockList;
@@ -104,6 +109,34 @@ public final class Baconizer{
 		text = fcword.matcher(text).replaceAll(fc);
 		text = ucword.matcher(text).replaceAll(uc);
 		return text;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void runBaconCommand(){
+		ChatComponentStyle text = null;
+		
+		if (!ModCommonProxy.hardcoreEnderbacon)text = new ChatComponentTranslation("commands.generic.notFound");
+		else text = new ChatComponentText(getBaconJoke(Minecraft.getMinecraft().theWorld.rand));
+		
+		Minecraft.getMinecraft().thePlayer.addChatMessage(text);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private static String getBaconJoke(Random rand){
+		switch(rand.nextInt(11)){
+			case 0: return "Why did the pig go into the kitchen? He felt like bacon.";
+			case 1: return "What do you get when you cross a pig and a cactus? A Porkupine.";
+			case 2: return "How do pigs write top secret messages? With invisible oink.";
+			case 3: return "What do you call a pig that does karate? Porkchop!";
+			case 4: return "What do you get when you cross a pig and a dinosaur? Jurassic pork.";
+			case 5: return "What did the bacon say to a burger patty? Don't worry, I got you covered!";
+			case 6: return "What did one slice of bacon say to the other slice? Nice fat!";
+			case 7: return "How did the pig get to the hospital? In a hambulance.";
+			case 8: return "What do pigs drive? Pigup trucks.";
+			case 9: return "Where do pigs go for warm weather? The tropigs.";
+			case 10: return "What do you call a pig that took a plane? Swine flu.";
+			default: return "";
+		}
 	}
 	
 	private Baconizer(){}

@@ -14,7 +14,7 @@ public class ModelBaconmanHead extends ModelRenderer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void render(float partialTickTime){
-		rotationPointY = -13.25F;
+		rotationPointY = -14F;
 		super.render(partialTickTime);
 	}
 }

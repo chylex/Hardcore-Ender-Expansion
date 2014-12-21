@@ -84,6 +84,7 @@ import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.achievements.AchievementEvents;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.commands.HeeAdminCommand;
+import chylex.hee.system.commands.HeeBaconCommand;
 import chylex.hee.system.commands.HeeDebugCommand;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.integration.ModIntegrationManager;
@@ -339,6 +340,7 @@ public class HardcoreEnderExpansion{
 	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent e){
 		e.registerServerCommand(new HeeAdminCommand());
+		e.registerServerCommand(new HeeBaconCommand());
 		e.registerServerCommand(new HeeDebugCommand());
 	}
 }
