@@ -88,6 +88,7 @@ public final class BlockList{
 	public static Block void_chest;
 	public static Block decomposition_table;
 	public static Block energy_extraction_table;
+	public static Block experience_table;
 	
 	// OPAQUE BLOCKS
 	
@@ -150,8 +151,9 @@ public final class BlockList{
 		register("enhanced_brewing_stand_block", enhanced_brewing_stand = new BlockEnhancedBrewingStand().setHardness(0.65F).setLightLevel(0.125F).setBlockName("brewingStand").setBlockTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
 		register("enhanced_tnt", enhanced_tnt = new BlockEnhancedTNT().setHardness(0F).setStepSound(Block.soundTypeGrass).setBlockName("tnt").setBlockTextureName("tnt"));
 		register("void_chest", void_chest = new BlockVoidChest().setHardness(5F).setResistance(140F).setStepSound(Block.soundTypePiston).setBlockName("voidChest"));
-		register("decomposition_table", decomposition_table = new BlockDecompositionTable().setHardness(4F).setResistance(2000F).setBlockName("decompositionTable"));
-		register("energy_extraction_table", energy_extraction_table = new BlockEnergyExtractionTable().setHardness(4F).setResistance(2000F).setBlockName("energyExtractionTable"));
+		register("decomposition_table", decomposition_table = new BlockDecompositionTable().setBlockName("decompositionTable").setBlockTextureName("decomposition_table"));
+		register("energy_extraction_table", energy_extraction_table = new BlockEnergyExtractionTable().setBlockName("energyExtractionTable").setBlockTextureName("energy_extraction_table"));
+		register("experience_table", experience_table = new BlockExperienceTable().setBlockName("experienceTable").setBlockTextureName("experience_table"));
 		
 		register("endium_block", endium_block = new BlockCompressed(MapColor.pinkColor).setHardness(14F).setResistance(800F).setStepSound(Block.soundTypeMetal).setBlockName("endiumBlock").setBlockTextureName("hardcoreenderexpansion:endium_block"));
 		register("spooky_log", spooky_log = new BlockSpookyLog().setHardness(0.7F).setStepSound(Block.soundTypeWood).setBlockName("spookyLog"));

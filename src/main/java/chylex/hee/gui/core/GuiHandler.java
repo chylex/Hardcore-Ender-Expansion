@@ -46,6 +46,7 @@ public final class GuiHandler implements IGuiHandler{
 			case 4: return new GuiEndPowderEnhancements(player.inventory);
 			case 5: return new GuiCharmPouch(player);
 			case 6: return new GuiVoidChest(player.inventory,PlayerVoidChest.getInventory(player).setChest((TileEntityVoidChest)world.getTileEntity(x,y,z)));
+			// TODO exp table 7
 		}
 		
 		return null;

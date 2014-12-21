@@ -82,6 +82,7 @@ public final class ItemList{
 	
 	// TECHNICAL
 	
+	public static Item exp_bottle;
 	public static Item spawn_eggs;
 	public static Item special_effects;
 	
@@ -132,6 +133,7 @@ public final class ItemList{
 		register("bucket_ender_goo", bucket_ender_goo = new ItemBucket(BlockList.ender_goo).setUnlocalizedName("bucketEnderGoo").setTextureName("hardcoreenderexpansion:bucket_ender_goo"));
 		register("music_disk", music_disk = new ItemMusicDisk().setUnlocalizedName("record").setTextureName("hardcoreenderexpansion:music_disk"));
 		
+		register("exp_bottle_consistent", exp_bottle = new ItemExpBottleConsistent().setUnlocalizedName("expBottle").setTextureName("experience_bottle"));
 		register("spawn_eggs", spawn_eggs = new ItemSpawnEggs().setUnlocalizedName("monsterPlacer").setTextureName("spawn_egg"));
 		register("item_special_effects", special_effects = new ItemSpecialEffects().setUnlocalizedName("itemNumber"));
 	}
@@ -156,7 +158,7 @@ public final class ItemList{
 		).addItems(
 			fire_shard,scorching_pickaxe,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_wand,
 			enderman_head,bucket_ender_goo,music_disk,
-			knowledge_note,
+			knowledge_note,exp_bottle,
 			spawn_eggs
 		);
 		

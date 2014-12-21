@@ -1,16 +1,16 @@
 package chylex.hee.block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import chylex.hee.tileentity.TileEntityDecompositionTable;
+import chylex.hee.tileentity.TileEntityExperienceTable;
 
-public class BlockDecompositionTable extends BlockAbstractTable{
+public class BlockExperienceTable extends BlockAbstractTable{
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta){
-		return new TileEntityDecompositionTable();
+		return new TileEntityExperienceTable();
 	}
 	
 	@Override
 	protected int getGuiID(){
-		return 2;
+		return 7;
 	}
 }
