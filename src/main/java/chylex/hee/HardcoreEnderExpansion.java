@@ -88,6 +88,7 @@ import chylex.hee.system.commands.HeeBaconCommand;
 import chylex.hee.system.commands.HeeDebugCommand;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.integration.ModIntegrationManager;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.update.UpdateNotificationManager;
@@ -103,6 +104,7 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 import chylex.hee.tileentity.TileEntitySoulCharm;
+import chylex.hee.tileentity.TileEntityTransportBeacon;
 import chylex.hee.tileentity.TileEntityVoidChest;
 import chylex.hee.world.DimensionOverride;
 import chylex.hee.world.loot.WorldLoot;
@@ -148,6 +150,7 @@ public class HardcoreEnderExpansion{
 		modVersion = e.getModMetadata().version;
 		configPath = e.getSuggestedConfigurationFile().getParentFile().getName();
 		sourceFile = e.getSourceFile();
+		Log.initializeDebug();
 		
 		// CONFIGURATION LOAD
 
@@ -281,6 +284,7 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyCluster.class, "EnergyCluster");
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
 		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
+		GameRegistryUtil.registerTileEntity(TileEntityTransportBeacon.class, "TransportBeacon");
 		
 		Stopwatch.finish("PreInitEvent - tile entities");
 		

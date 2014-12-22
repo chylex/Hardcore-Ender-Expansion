@@ -11,6 +11,7 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.Display;
 import chylex.hee.HardcoreEnderExpansion;
 
 public final class Log{
@@ -31,6 +32,12 @@ public final class Log{
 				properties.setProperty("eula","true");
 				properties.store(fos,"Screw your EULA, I don't want that stuff in my workspace.");
 			}catch(Exception e){}
+		}
+	}
+	
+	public static void initializeDebug(){
+		if (forceDebugEnabled || isDeobfEnvironment){
+			Display.setTitle(new StringBuilder().append(Display.getTitle()).append(" - HardcoreEnderExpansion - ").append(isDeobfEnvironment ? "dev" : "debug").append(' ').append(HardcoreEnderExpansion.modVersion).toString());
 		}
 	}
 	
