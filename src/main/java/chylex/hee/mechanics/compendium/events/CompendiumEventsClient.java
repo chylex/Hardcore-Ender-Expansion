@@ -3,11 +3,13 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ChatComponentText;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -32,6 +34,15 @@ public final class CompendiumEventsClient{
 	
 	public static void register(){
 		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CompendiumEventsClient());
+	}
+	
+	public static void verifyKeyBindings(){
+		for(KeyBinding kb:Minecraft.getMinecraft().gameSettings.keyBindings){
+			if (kb != instance.keyOpenCompendium && kb.getKeyCode() == instance.keyOpenCompendium.getKeyCode()){
+				HardcoreEnderExpansion.notifications.report("Ender Compendium key conflicts with "+I18n.format(kb.getKeyDescription())+", please fix the issue in Controls options.");
+				break;
+			}
+		}
 	}
 	
 	public static void loadClientData(PlayerCompendiumData data){
