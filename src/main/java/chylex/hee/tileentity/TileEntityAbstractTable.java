@@ -10,8 +10,12 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	
 	protected short time, timeStep;
 	protected byte requiredStardust;
+	private boolean postLoadInvalidate;
 	
-	protected abstract void onWorkFinished();
+	/**
+	 * Return true to reset time and required stardust.
+	 */
+	protected abstract boolean onWorkFinished();
 	public abstract int getHoldingStardust();
 	
 	@Override
@@ -31,7 +35,28 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 
 	@Override
 	protected final void onWork(){
-		if ((time += timeStep) >= totalTime)onWorkFinished();
+		if ((time += timeStep) >= totalTime){
+			if (onWorkFinished()){
+				resetTable();
+				markDirty();
+				invalidateInventory();
+			}
+			else time = totalTime;
+		}
+	}
+	
+	@Override
+	public void updateEntity(){
+		super.updateEntity();
+		
+		if (worldObj != null && !worldObj.isRemote && postLoadInvalidate){
+			postLoadInvalidate = false;
+			invalidateInventory();
+		}
+	}
+	
+	protected final void resetTable(){
+		time = timeStep = requiredStardust = 0;
 	}
 	
 	public final int getTime(){
@@ -61,6 +86,6 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);		
-		invalidateInventory();
+		postLoadInvalidate = true;
 	}
 }

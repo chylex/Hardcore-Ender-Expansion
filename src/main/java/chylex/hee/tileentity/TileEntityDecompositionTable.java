@@ -6,6 +6,7 @@ import java.util.Set;
 import net.minecraft.item.ItemStack;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.misc.StardustDecomposition;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemDamagePair;
 
 public class TileEntityDecompositionTable extends TileEntityAbstractTable{
@@ -16,7 +17,8 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 	@Override
 	public void invalidateInventory(){
 		if (worldObj != null && worldObj.isRemote)return;
-		resetDecomposition();
+		chosenIngredients.clear();
+		resetTable();
 		
 		if (items[0] != null && worldObj != null){
 			List<ItemStack> recipeIngredients = StardustDecomposition.getRandomRecipeIngredientsFor(items[0],worldObj.rand);
@@ -45,7 +47,7 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 	}
 	
 	@Override
-	protected void onWorkFinished(){
+	protected boolean onWorkFinished(){
 		ItemStack[] itemsCopy = new ItemStack[9];
 		for(int slot = 2; slot < items.length; slot++)itemsCopy[slot-2] = items[slot] == null ? null : items[slot].copy();
 		
@@ -54,23 +56,20 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 			
 			for(int slot = 0; slot < itemsCopy.length; slot++){
 				if (itemsCopy[slot] == null)itemsCopy[slot] = ingredient.copy();
-				else if (canAddOneTo(itemsCopy[slot],ingredient))++itemsCopy[slot].stackSize;
+				else if (DragonUtil.canAddOneItemTo(itemsCopy[slot],ingredient))++itemsCopy[slot].stackSize;
 				else continue;
 				
 				canAdd = true;
 				break;
 			}
 			
-			if (!canAdd){
-				time = 1000;
-				return;
-			}
+			if (!canAdd)return false;
 		}
 		
 		for(ItemStack ingredient:chosenIngredients){
 			for(int slot = 2; slot < items.length; slot++){
 				if (items[slot] == null)items[slot] = ingredient.copy();
-				else if (canAddOneTo(items[slot],ingredient))++items[slot].stackSize;
+				else if (DragonUtil.canAddOneItemTo(items[slot],ingredient))++items[slot].stackSize;
 				else continue;
 				break;
 			}
@@ -79,21 +78,8 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 		items[0] = null;
 		if ((items[1].stackSize -= requiredStardust) <= 0)items[1] = null;
 
-		markDirty();
-		resetDecomposition();
-	}
-	
-	private boolean canAddOneTo(ItemStack is, ItemStack itemToAdd){
-		return is.isStackable() && is.getItem() == itemToAdd.getItem() &&
-			   (!is.getHasSubtypes() || is.getItemDamage() == itemToAdd.getItemDamage()) &&
-			   ItemStack.areItemStackTagsEqual(is,itemToAdd) &&
-			   is.stackSize+1 <= is.getMaxStackSize();
-	}
-	
-	private void resetDecomposition(){
-		if (worldObj != null && worldObj.isRemote)return;
-		time = timeStep = requiredStardust = 0;
 		chosenIngredients.clear();
+		return true;
 	}
 	
 	@Override
@@ -109,7 +95,7 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack is){
 		super.setInventorySlotContents(slot,is);
-		if (slot == 0)invalidateInventory();
+		// TODO if (slot == 0)invalidateInventory();
 	}
 
 	@Override

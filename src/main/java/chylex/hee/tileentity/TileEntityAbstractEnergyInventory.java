@@ -37,7 +37,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 	protected abstract void onWork();
 	
 	@Override
-	public final void updateEntity(){
+	public void updateEntity(){
 		if (worldObj.isRemote)return;
 		
 		if (isWorking()){

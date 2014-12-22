@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
@@ -200,6 +201,13 @@ public final class DragonUtil{
 	
 	public static String stripChatFormatting(String str){
 		return regexChatFormatting.matcher(str).replaceAll("");
+	}
+	
+	public static boolean canAddOneItemTo(ItemStack is, ItemStack itemToAdd){
+		return is.isStackable() && is.getItem() == itemToAdd.getItem() &&
+			   (!is.getHasSubtypes() || is.getItemDamage() == itemToAdd.getItemDamage()) &&
+			   ItemStack.areItemStackTagsEqual(is,itemToAdd) &&
+			   is.stackSize+1 <= is.getMaxStackSize();
 	}
 	
 	private DragonUtil(){}

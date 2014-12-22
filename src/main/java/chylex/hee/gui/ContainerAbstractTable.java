@@ -15,12 +15,16 @@ public abstract class ContainerAbstractTable extends Container{
 	public ContainerAbstractTable(InventoryPlayer inv, TileEntityAbstractTable table){
 		this.table = table;
 		
+		registerSlots(table);
+		
 		for(int i = 0; i < 3; ++i){
 			for(int j = 0; j < 9; ++j)addSlotToContainer(new Slot(inv,j+i*9+9,8+j*18,84+i*18));
 		}
 
 		for(int i = 0; i < 9; ++i)addSlotToContainer(new Slot(inv,i,8+i*18,142));
 	}
+	
+	protected abstract void registerSlots(TileEntityAbstractTable table);
 	
 	@Override
 	public void addCraftingToCrafters(ICrafting crafter){

@@ -4,17 +4,21 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import chylex.hee.item.ItemList;
+import chylex.hee.tileentity.TileEntityAbstractTable;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
 
 public class ContainerDecompositionTable extends ContainerAbstractTable{
 	public ContainerDecompositionTable(InventoryPlayer inv, TileEntityDecompositionTable tile){
 		super(inv,tile);
-		
-		addSlotToContainer(new SlotTableSubject(tile,0,34,17));
-		addSlotToContainer(new SlotBasicItem(tile,1,34,53,ItemList.stardust));
+	}
+	
+	@Override
+	protected void registerSlots(TileEntityAbstractTable table){
+		addSlotToContainer(new SlotTableSubject(table,0,34,17));
+		addSlotToContainer(new SlotBasicItem(table,1,34,53,ItemList.stardust));
 		
 		for(int i = 0; i < 3; ++i){
-			for(int j = 0; j < 3; ++j)addSlotToContainer(new Slot(tile,2+i*3+j,90+j*18,17+i*18));
+			for(int j = 0; j < 3; ++j)addSlotToContainer(new Slot(table,2+i*3+j,90+j*18,17+i*18));
 		}
 	}
 	

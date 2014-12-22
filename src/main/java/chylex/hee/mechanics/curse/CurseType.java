@@ -21,6 +21,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.oredict.OreDictionary;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
@@ -69,7 +70,7 @@ public enum CurseType{
 					}
 
 					if (!hasTeleported)entity.setPosition(prevX,prevY,prevZ);
-					else{
+					else{HardcoreEnderExpansion.notifications.report("fuckpig"); // TODO
 						if (!entity.worldObj.isRemote)PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,prevX,prevY,prevZ,tpX,tpY,tpZ));
 						break;
 					}

@@ -3,7 +3,7 @@ import net.minecraft.inventory.Slot;
 import chylex.hee.tileentity.IInventoryInvalidateable;
 
 class SlotTableSubject extends Slot{
-	private IInventoryInvalidateable inv;
+	private final IInventoryInvalidateable inv;
 	
 	public SlotTableSubject(IInventoryInvalidateable inv, int id, int x, int z){
 		super(inv,id,x,z);
