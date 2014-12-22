@@ -239,15 +239,6 @@ public class ModClientProxy extends ModCommonProxy{
 	}
 	
 	@Override
-	public void postInit(){
-		Stopwatch.time("ModClientProxy - postinit");
-		
-		CompendiumEventsClient.verifyKeyBindings();
-		
-		Stopwatch.finish("ModClientProxy - postinit");
-	}
-	
-	@Override
 	public void openGui(String type){
 		if (type.equals("itemviewer"))Minecraft.getMinecraft().displayGuiScreen(new GuiItemViewer());
 		else if (type.equals("speedup"))Minecraft.getMinecraft().thePlayer.capabilities.setFlySpeed(0.3F);

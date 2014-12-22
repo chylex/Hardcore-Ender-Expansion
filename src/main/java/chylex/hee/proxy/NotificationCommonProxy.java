@@ -1,5 +1,6 @@
 package chylex.hee.proxy;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -11,7 +12,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class NotificationCommonProxy{
 	protected static final String prefix = "[HEE] ";
-	protected List<String> notifications = new ArrayList<>(); // TODO thread safety
+	protected List<String> notifications = Collections.synchronizedList(new ArrayList<String>());
 	
 	public final void register(){
 		FMLCommonHandler.instance().bus().register(this);

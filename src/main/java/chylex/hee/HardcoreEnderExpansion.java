@@ -100,6 +100,7 @@ import chylex.hee.tileentity.TileEntityEnergyExtractionTable;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
+import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 import chylex.hee.tileentity.TileEntitySoulCharm;
 import chylex.hee.tileentity.TileEntityVoidChest;
@@ -275,6 +276,7 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerTileEntity(TileEntityCustomSpawner.class, "EndermanSpawner");
 		GameRegistryUtil.registerTileEntity(TileEntitySoulCharm.class, "SoulCharm");
 		GameRegistryUtil.registerTileEntity(TileEntityDecompositionTable.class, "DecompositionTable");
+		GameRegistryUtil.registerTileEntity(TileEntityExperienceTable.class, "ExperienceTable");
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyExtractionTable.class, "EnergyExtractionTable");
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyCluster.class, "EnergyCluster");
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");

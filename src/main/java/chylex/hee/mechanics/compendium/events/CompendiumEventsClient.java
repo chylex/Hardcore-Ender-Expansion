@@ -20,9 +20,11 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03OpenCompendium;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.relauncher.Side;
@@ -34,15 +36,6 @@ public final class CompendiumEventsClient{
 	
 	public static void register(){
 		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CompendiumEventsClient());
-	}
-	
-	public static void verifyKeyBindings(){
-		for(KeyBinding kb:Minecraft.getMinecraft().gameSettings.keyBindings){
-			if (kb != instance.keyOpenCompendium && kb.getKeyCode() == instance.keyOpenCompendium.getKeyCode()){
-				HardcoreEnderExpansion.notifications.report("Ender Compendium key conflicts with "+I18n.format(kb.getKeyDescription())+", please fix the issue in Controls options.");
-				break;
-			}
-		}
 	}
 	
 	public static void loadClientData(PlayerCompendiumData data){
@@ -97,6 +90,20 @@ public final class CompendiumEventsClient{
 		keyOpenCompendium = new KeyBinding(ModCommonProxy.hardcoreEnderbacon ? "key.openCompendium.bacon" : "key.openCompendium",25,"Hardcore Ender Expansion");
 		ClientRegistry.registerKeyBinding(keyOpenCompendium);
 		Minecraft.getMinecraft().gameSettings.loadOptions();
+	}
+	
+	@SubscribeEvent
+	public void onPlayerLogin(PlayerLoggedInEvent e){
+		Stopwatch.time("CompendiumEventsClient - key conflict check");
+		
+		for(KeyBinding kb:Minecraft.getMinecraft().gameSettings.keyBindings){
+			if (kb != instance.keyOpenCompendium && kb.getKeyCode() == instance.keyOpenCompendium.getKeyCode()){
+				HardcoreEnderExpansion.notifications.report("Ender Compendium key conflicts with "+I18n.format(kb.getKeyDescription())+", please fix the issue in Controls menu.");
+				break;
+			}
+		}
+
+		Stopwatch.finish("CompendiumEventsClient - key conflict check");
 	}
 	
 	@SubscribeEvent

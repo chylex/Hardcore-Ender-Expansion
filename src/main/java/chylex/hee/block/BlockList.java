@@ -203,7 +203,7 @@ public final class BlockList{
 		
 		ModCreativeTab.tabMain.list.addBlocks(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
-			essence_altar,void_chest,decomposition_table,energy_extraction_table,
+			essence_altar,void_chest,decomposition_table,experience_table,energy_extraction_table,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,
 			sphalerite,end_terrain,spooky_log,spooky_leaves,

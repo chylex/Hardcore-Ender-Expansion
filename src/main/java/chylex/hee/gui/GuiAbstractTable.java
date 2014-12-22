@@ -18,8 +18,8 @@ public abstract class GuiAbstractTable extends GuiContainer{
 		this.table = table;
 	}
 	
-	protected abstract int getEnergyBarX();
-	protected abstract int getEnergyBarY();
+	protected abstract int getProgressBarX();
+	protected abstract int getProgressBarY();
 	protected abstract int getEnergyIconX();
 	protected abstract int getEnergyIconY();
 	protected abstract int getStardustTextX();
@@ -50,7 +50,7 @@ public abstract class GuiAbstractTable extends GuiContainer{
 		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
 		
 		int bar = table.getScaledProgressTime(24);
-		if (bar > -1)drawTexturedModalRect(guiX+getEnergyBarX(),guiY+getEnergyBarY(),176,0,bar+1,16);
+		if (bar > -1)drawTexturedModalRect(guiX+getProgressBarX(),guiY+getProgressBarY(),176,0,bar+1,16);
 		
 		if (table.hasInsufficientEnergy())drawTexturedModalRect(guiX+getEnergyIconX(),guiY+getEnergyIconY(),176,18,10,11);
 	}

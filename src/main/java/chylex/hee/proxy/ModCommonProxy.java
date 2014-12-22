@@ -22,7 +22,6 @@ public class ModCommonProxy{
 	
 	public void registerRenderers(){}
 	public void registerSidedEvents(){}
-	public void postInit(){}
 	public void openGui(String type){}
 }
 

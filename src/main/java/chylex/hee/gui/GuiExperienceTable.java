@@ -1,21 +1,21 @@
 package chylex.hee.gui;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import chylex.hee.tileentity.TileEntityDecompositionTable;
+import chylex.hee.tileentity.TileEntityExperienceTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiDecompositionTable extends GuiAbstractTable{
-	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/decomposition_table.png");
+public class GuiExperienceTable extends GuiAbstractTable{
+	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/experience_table.png");
 
-	public GuiDecompositionTable(InventoryPlayer inv, TileEntityDecompositionTable tile){
-		super(new ContainerDecompositionTable(inv,tile),tile);
+	public GuiExperienceTable(InventoryPlayer inv, TileEntityExperienceTable tile){
+		super(new ContainerExperienceTable(inv,tile),tile);
 	}
 	
 	@Override
 	protected int getProgressBarX(){
-		return 57;
+		return 75;
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class GuiDecompositionTable extends GuiAbstractTable{
 
 	@Override
 	protected int getEnergyIconX(){
-		return 19;
+		return 37;
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class GuiDecompositionTable extends GuiAbstractTable{
 
 	@Override
 	protected int getStardustTextX(){
-		return 34;
+		return 52;
 	}
 
 	@Override
