@@ -6,14 +6,38 @@ import net.minecraft.util.AxisAlignedBB;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.energy.EnergyChunkData;
+import chylex.hee.proxy.ModCommonProxy.MessageType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory{
+	private boolean hasEnergy, noTampering;
+	private int actualX, actualY = -1, actualZ;
 	private float beamAngle;
 	
 	@Override
 	public void updateEntity(){
+		if (!worldObj.isRemote){
+			if (actualY == -1){
+				actualX = xCoord;
+				actualY = yCoord;
+				actualZ = zCoord;
+			}
+			
+			if (xCoord == actualX && yCoord == actualY && zCoord == actualZ && worldObj.provider.dimensionId == 1){
+				if (!noTampering){
+					noTampering = true;
+					worldObj.addBlockEvent(xCoord,yCoord,zCoord,blockType,0,1);
+				}
+			}
+			else if (noTampering){
+				noTampering = false;
+				worldObj.addBlockEvent(xCoord,yCoord,zCoord,blockType,0,0);
+			}
+		}
+		
+		super.updateEntity();
+		
 		if (worldObj.isRemote){
 			beamAngle += 1.5F;
 			
@@ -25,11 +49,16 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 		}
 	}
 	
-	/**
-	 * Returns true if there was no tampering detected and the beacon can be used.
-	 */
-	public boolean checkIntegrity(){
-		return true; // TODO
+	public boolean teleportPlayer(){
+		return false; // TODO
+	}
+	
+	@Override
+	public boolean receiveClientEvent(int eventId, int eventData){
+		if (eventId == 0)noTampering = eventData == 1;
+		else if (eventId == 1)hasEnergy = eventData == 1;
+		HardcoreEnderExpansion.proxy.sendMessage(MessageType.TRANSPORT_BEACON_GUI,(hasEnergy ? 0b1 : 0)|(noTampering ? 0b10 : 0));
+		return true;
 	}
 	
 	@Override
@@ -44,24 +73,46 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 
 	@Override
 	protected boolean isWorking(){
-		return false;
+		return !hasEnergy;
 	}
 
 	@Override
-	protected void onWork(){}
+	protected void onWork(){
+		hasEnergy = true;
+		worldObj.addBlockEvent(xCoord,yCoord,zCoord,blockType,1,1);
+	}
 
 	public float getBeamAngle(){
 		return beamAngle;
 	}
 	
+	public boolean hasEnergyClient(){
+		return hasEnergy;
+	}
+	
+	public boolean hasNotBeenTampered(){
+		return noTampering;
+	}
+	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
+		nbt.setBoolean("hasEng",hasEnergy);
+		nbt.setIntArray("actualPos",new int[]{ actualX, actualY, actualZ });
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
+		hasEnergy = nbt.getBoolean("hasEng");
+		
+		int[] actualPos = nbt.getIntArray("actualPos");
+		
+		if (actualPos.length == 3){
+			actualX = actualPos[0];
+			actualY = actualPos[1];
+			actualZ = actualPos[2];
+		}
 	}
 	
 	@Override

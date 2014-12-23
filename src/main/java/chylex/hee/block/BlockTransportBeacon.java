@@ -33,9 +33,10 @@ public class BlockTransportBeacon extends BlockContainer{
 		if (world.isRemote)player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
 		else{
 			PlayerTransportBeacons data = PlayerTransportBeacons.getInstance(player);
-			data.addBeacon(x,z);
+			if (!((TileEntityTransportBeacon)world.getTileEntity(x,y,z)).hasNotBeenTampered())data.addBeacon(x,z);
 			PacketPipeline.sendToPlayer(player,new C13TransportBeaconLocs(data.getOffsets(x,z)));
 		}
+		
 		return true;
 	}
 

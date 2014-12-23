@@ -6,17 +6,20 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.gui.helpers.GuiItemRenderHelper;
+import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons.LocationXZ;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiTransportBeacon extends GuiScreen{
+public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/transport_beacon.png");
 	private static final int size = 176;
 	
 	private final int centerX, centerZ;
 	private int selectedX, selectedZ;
+	private byte status;
 	private Set<LocationXZ> locs = new HashSet<>();
 	
 	private GuiButton buttonTravel;
@@ -29,6 +32,13 @@ public class GuiTransportBeacon extends GuiScreen{
 	public void loadOffsets(Set<LocationXZ> offsets){
 		locs.clear();
 		for(LocationXZ offset:offsets)locs.add(new LocationXZ(centerX+offset.x,centerZ+offset.z));
+	}
+	
+	public void updateStatus(boolean hasEnergy, boolean hasNotBeenTampered){
+		status = 0;
+		if (hasEnergy)status |= 0b1;
+		if (hasNotBeenTampered)status |= 0b10;
+		buttonTravel.enabled = (status&0b11) != 0;
 	}
 	
 	@Override
@@ -75,6 +85,17 @@ public class GuiTransportBeacon extends GuiScreen{
 		
 		super.drawScreen(x,y,renderPartialTicks);
 		
+		if (buttonTravel.getHoverState(true) == 2){
+			if ((status&0b10) == 0){
+				GuiItemRenderHelper.setupTooltip(x,y,"Tampering detected");
+				GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
+			}
+			else if ((status&0b1) == 0){
+				GuiItemRenderHelper.setupTooltip(x,y,"Out of Energy");
+				GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
+			}
+		}
+		
 		String s = I18n.format("container.transportBeacon");
 		fontRendererObj.drawString(s,(width>>1)-(fontRendererObj.getStringWidth(s)>>1),(height>>1)-82,0x404040);
 	}
@@ -82,5 +103,15 @@ public class GuiTransportBeacon extends GuiScreen{
 	@Override
 	public boolean doesGuiPauseGame(){
 		return false;
+	}
+
+	@Override
+	public void setZLevel(float newZLevel){
+		zLevel = newZLevel;
+	}
+
+	@Override
+	public void callDrawGradientRect(int x1, int y1, int x2, int y2, int color1, int color2){
+		drawGradientRect(x1,y1,x2,y2,color1,color2);
 	}
 }

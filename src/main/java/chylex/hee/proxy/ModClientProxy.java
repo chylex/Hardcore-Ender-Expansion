@@ -1,6 +1,7 @@
 package chylex.hee.proxy;
 import java.util.Calendar;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBat;
 import net.minecraft.client.renderer.entity.RenderFallingBlock;
 import net.minecraft.client.renderer.entity.RenderFireball;
@@ -60,6 +61,7 @@ import chylex.hee.entity.technical.EntityTechnicalVoidChest;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.GuiItemViewer;
+import chylex.hee.gui.GuiTransportBeacon;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
@@ -248,6 +250,16 @@ public class ModClientProxy extends ModCommonProxy{
 	public void openGui(String type){
 		if (type.equals("itemviewer"))Minecraft.getMinecraft().displayGuiScreen(new GuiItemViewer());
 		else if (type.equals("speedup"))Minecraft.getMinecraft().thePlayer.capabilities.setFlySpeed(0.3F);
+	}
+	
+	@Override
+	public void sendMessage(MessageType msgType, int data){
+		switch(msgType){
+			case TRANSPORT_BEACON_GUI:
+				GuiScreen gui = Minecraft.getMinecraft().currentScreen;
+				if (gui instanceof GuiTransportBeacon)((GuiTransportBeacon)gui).updateStatus((data&0b1) != 0,(data&0b10) != 0);
+				break;
+		}
 	}
 	
 	/**

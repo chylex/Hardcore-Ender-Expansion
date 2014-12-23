@@ -35,6 +35,10 @@ public class PlayerTransportBeacons implements IExtendedEntityProperties{
 		return locations.add(new LocationXZ(x,z));
 	}
 	
+	public boolean checkBeacon(int x, int z, int fromX, int fromZ){
+		return locations.contains(new LocationXZ(x,z)) && MathUtil.distance(fromX-x,fromZ-z) <= 1024D;
+	}
+	
 	public Set<LocationXZ> getOffsets(int x, int z){
 		LocationXZ center = new LocationXZ(x,z);
 		Set<LocationXZ> near = new HashSet<>();
