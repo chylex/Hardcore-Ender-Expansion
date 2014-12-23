@@ -9,8 +9,6 @@ import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.proxy.ModCommonProxy.MessageType;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.EnergySavefile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,12 +29,12 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 			if (xCoord == actualX && yCoord == actualY && zCoord == actualZ && worldObj.provider.dimensionId == 1){
 				if (!noTampering){
 					noTampering = true;
-					worldObj.addBlockEvent(xCoord,yCoord,zCoord,blockType,0,1);
+					worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.transport_beacon,0,1);
 				}
 			}
 			else if (noTampering){
 				noTampering = false;
-				worldObj.addBlockEvent(xCoord,yCoord,zCoord,blockType,0,0);
+				worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.transport_beacon,0,0);
 			}
 		}
 		
@@ -63,6 +61,7 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 				player.setPositionAndUpdate(x+0.5D,y+1D,z+0.5D);
 				player.fallDistance = 0F;
 				hasEnergy = false;
+				worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.transport_beacon,1,0);
 				return true;
 			}
 		}
@@ -73,9 +72,7 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 	
 	@Override
 	public boolean receiveClientEvent(int eventId, int eventData){
-		if (eventId == 0)noTampering = eventData == 1;
-		else if (eventId == 1)hasEnergy = eventData == 1;
-		HardcoreEnderExpansion.proxy.sendMessage(MessageType.TRANSPORT_BEACON_GUI,(hasEnergy ? 0b1 : 0)|(noTampering ? 0b10 : 0));
+		HardcoreEnderExpansion.proxy.sendMessage(MessageType.TRANSPORT_BEACON_GUI,new int[]{ xCoord, yCoord, zCoord, eventId, eventData });
 		return true;
 	}
 	
@@ -96,8 +93,8 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 
 	@Override
 	protected void onWork(){
-		hasEnergy = true;System.out.println("on work "+WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).getEnergyLevel());
-		worldObj.addBlockEvent(xCoord,yCoord,zCoord,blockType,1,1);
+		hasEnergy = true;
+		worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.transport_beacon,1,1);
 	}
 
 	public float getBeamAngle(){

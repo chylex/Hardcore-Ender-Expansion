@@ -23,7 +23,7 @@ public class ModCommonProxy{
 	public void registerRenderers(){}
 	public void registerSidedEvents(){}
 	public void openGui(String type){}
-	public void sendMessage(MessageType msgType, int data){}
+	public void sendMessage(MessageType msgType, int[] data){}
 	
 	public static enum MessageType{
 		TRANSPORT_BEACON_GUI

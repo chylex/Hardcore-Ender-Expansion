@@ -47,7 +47,7 @@ public class C13TransportBeaconData extends AbstractClientPacket{
 		
 		if (gui instanceof GuiTransportBeacon){
 			((GuiTransportBeacon)gui).loadOffsets(offsets);
-			((GuiTransportBeacon)gui).updateStatus(hasEnergy,noTampering);
+			((GuiTransportBeacon)gui).setStatus(hasEnergy,noTampering);
 		}
 	}
 }

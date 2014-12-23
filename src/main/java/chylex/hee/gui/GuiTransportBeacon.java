@@ -19,7 +19,7 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/transport_beacon.png");
 	private static final int size = 176;
 	
-	private final int centerX, centerY, centerZ;
+	public final int centerX, centerY, centerZ;
 	private int selectedX, selectedZ;
 	private byte status;
 	private Set<LocationXZ> locs = new HashSet<>();
@@ -37,10 +37,23 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 		for(LocationXZ offset:offsets)locs.add(new LocationXZ(centerX+offset.x,centerZ+offset.z));
 	}
 	
-	public void updateStatus(boolean hasEnergy, boolean noTampering){
+	public void setStatus(boolean hasEnergy, boolean noTampering){
 		status = 0;
 		if (hasEnergy)status |= 0b1;
 		if (noTampering)status |= 0b10;
+		updateTravelButton();
+	}
+	
+	public void updateStatusEvent(int eventId, boolean value){
+		if (eventId == 1){
+			status &= ~0b1;
+			if (value)status |= 0b1;
+		}
+		else if (eventId == 0){
+			status &= ~0b10;
+			if (value)status |= 0b10;
+		}
+		
 		updateTravelButton();
 	}
 	
@@ -52,7 +65,7 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private void updateTravelButton(){
-		buttonTravel.enabled = (status&0b11) != 0 && !(centerX == selectedX && centerZ == selectedZ);
+		buttonTravel.enabled = (status&0b11) == 0b11 && !(centerX == selectedX && centerZ == selectedZ);
 	}
 	
 	@Override

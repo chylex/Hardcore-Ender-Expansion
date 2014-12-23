@@ -253,11 +253,16 @@ public class ModClientProxy extends ModCommonProxy{
 	}
 	
 	@Override
-	public void sendMessage(MessageType msgType, int data){
+	public void sendMessage(MessageType msgType, int[] data){
 		switch(msgType){
 			case TRANSPORT_BEACON_GUI:
 				GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-				if (gui instanceof GuiTransportBeacon)((GuiTransportBeacon)gui).updateStatus((data&0b1) != 0,(data&0b10) != 0);
+				
+				if (gui instanceof GuiTransportBeacon && data.length == 5){
+					GuiTransportBeacon beacon = (GuiTransportBeacon)gui;
+					if (beacon.centerX == data[0] && beacon.centerY == data[1] && beacon.centerZ == data[2])beacon.updateStatusEvent(data[3],data[4] == 1);
+				}
+				
 				break;
 		}
 	}
