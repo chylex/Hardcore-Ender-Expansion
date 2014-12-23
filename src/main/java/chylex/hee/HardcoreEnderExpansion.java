@@ -71,6 +71,7 @@ import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.energy.EnergyEvents;
 import chylex.hee.mechanics.infestation.InfestationEvents;
 import chylex.hee.mechanics.misc.PlayerDataHandler;
+import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
@@ -308,6 +309,7 @@ public class HardcoreEnderExpansion{
 		TempleEvents.register();
 		InfestationEvents.register();
 		CurseEvents.register();
+		PlayerTransportBeacons.register();
 		
 		Stopwatch.finish("PreInitEvent - events");
 		

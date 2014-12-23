@@ -241,6 +241,8 @@ container.experienceTable=Experience Table
 container.endPowderEnhancements=End Powder Enhancements
 container.charmPouch=Charm Pouch
 container.runeCrafting=Rune Crafting
+container.transportBeacon=Transport Beacon
+container.button.travel=Travel
 
 key.openCompendium=Ender Compendium
 key.openCompendium.bacon=Bacon Compendium

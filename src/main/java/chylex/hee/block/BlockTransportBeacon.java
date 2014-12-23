@@ -6,6 +6,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.mechanics.misc.PlayerTransportBeacons;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C13TransportBeaconLocs;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
 import cpw.mods.fml.relauncher.Side;
@@ -26,7 +30,13 @@ public class BlockTransportBeacon extends BlockContainer{
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		return false;
+		if (world.isRemote)player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
+		else{
+			PlayerTransportBeacons data = PlayerTransportBeacons.getInstance(player);
+			data.addBeacon(x,z);
+			PacketPipeline.sendToPlayer(player,new C13TransportBeaconLocs(data.getOffsets(x,z)));
+		}
+		return true;
 	}
 
 	@Override

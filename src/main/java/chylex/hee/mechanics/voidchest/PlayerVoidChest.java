@@ -43,12 +43,12 @@ public class PlayerVoidChest implements IExtendedEntityProperties{
 			tagItems.appendTag(tag);
 		}
 		
-		nbt.setTag("items",tagItems);
+		nbt.setTag("HEE_VC_items",tagItems);
 	}
 
 	@Override
 	public void loadNBTData(NBTTagCompound nbt){
-		NBTTagList tagItems = nbt.getTagList("items",NBT.TAG_COMPOUND);
+		NBTTagList tagItems = nbt.hasKey("items") ? nbt.getTagList("items",NBT.TAG_COMPOUND) : nbt.getTagList("HEE_VC_items",NBT.TAG_COMPOUND);
 		
 		for(int a = 0, count = tagItems.tagCount(); a < count; a++){
 			NBTTagCompound tag = tagItems.getCompoundTagAt(a);

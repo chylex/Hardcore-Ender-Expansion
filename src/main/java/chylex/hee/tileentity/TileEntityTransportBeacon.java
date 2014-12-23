@@ -25,6 +25,13 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 		}
 	}
 	
+	/**
+	 * Returns true if there was no tampering detected and the beacon can be used.
+	 */
+	public boolean checkIntegrity(){
+		return true; // TODO
+	}
+	
 	@Override
 	protected byte getDrainTimer(){
 		return 1;
