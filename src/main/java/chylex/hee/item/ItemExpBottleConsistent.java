@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemExpBottleConsistent extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is){
+	public boolean hasEffect(ItemStack is, int pass){
 		return true;
 	}
 

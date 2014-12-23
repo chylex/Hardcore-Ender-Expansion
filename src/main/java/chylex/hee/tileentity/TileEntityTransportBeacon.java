@@ -5,8 +5,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
+import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.proxy.ModCommonProxy.MessageType;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.EnergySavefile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -49,8 +53,22 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 		}
 	}
 	
-	public boolean teleportPlayer(){
-		return false; // TODO
+	public boolean teleportPlayer(EntityPlayer player, int x, int z, PlayerTransportBeacons data){
+		if (!hasEnergy || !noTampering)return false;
+		
+		for(int y = 1; y < player.worldObj.getActualHeight(); y++){
+			if (player.worldObj.getBlock(x,y,z) == BlockList.transport_beacon){
+				// TODO particles
+				if (player.isRiding())player.mountEntity(null);
+				player.setPositionAndUpdate(x+0.5D,y+1D,z+0.5D);
+				player.fallDistance = 0F;
+				hasEnergy = false;
+				return true;
+			}
+		}
+		
+		data.removeBeacon(x,z); // beacon is fake or removed
+		return false;
 	}
 	
 	@Override
@@ -68,7 +86,7 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 
 	@Override
 	protected float getDrainAmount(){
-		return EnergyChunkData.energyDrainUnit*5F;
+		return EnergyChunkData.energyDrainUnit*4F;
 	}
 
 	@Override
@@ -78,7 +96,7 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 
 	@Override
 	protected void onWork(){
-		hasEnergy = true;
+		hasEnergy = true;System.out.println("on work "+WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).getEnergyLevel());
 		worldObj.addBlockEvent(xCoord,yCoord,zCoord,blockType,1,1);
 	}
 
@@ -86,7 +104,7 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 		return beamAngle;
 	}
 	
-	public boolean hasEnergyClient(){
+	public boolean hasEnergy(){
 		return hasEnergy;
 	}
 	

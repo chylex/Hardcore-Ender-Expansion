@@ -11,23 +11,30 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C13TransportBeaconLocs extends AbstractClientPacket{
+public class C13TransportBeaconData extends AbstractClientPacket{
 	private Set<LocationXZ> offsets;
+	private boolean hasEnergy, noTampering;
 	
-	public C13TransportBeaconLocs(){}
+	public C13TransportBeaconData(){}
 	
-	public C13TransportBeaconLocs(Set<LocationXZ> offsets){
+	public C13TransportBeaconData(Set<LocationXZ> offsets, boolean hasEnergy, boolean noTampering){
 		this.offsets = offsets;
+		this.hasEnergy = hasEnergy;
+		this.noTampering = noTampering;
 	}
 	
 	@Override
 	public void write(ByteBuf buffer){
+		buffer.writeBoolean(hasEnergy).writeBoolean(noTampering);
 		buffer.writeShort(offsets.size());
 		for(LocationXZ offset:offsets)buffer.writeShort(offset.x).writeShort(offset.z);
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
+		hasEnergy = buffer.readBoolean();
+		noTampering = buffer.readBoolean();
+		
 		int amt = buffer.readShort();
 		offsets = new HashSet<>();
 		for(int a = 0; a < amt; a++)offsets.add(new LocationXZ(buffer.readShort(),buffer.readShort()));
@@ -37,6 +44,10 @@ public class C13TransportBeaconLocs extends AbstractClientPacket{
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
 		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-		if (gui instanceof GuiTransportBeacon)((GuiTransportBeacon)gui).loadOffsets(offsets);
+		
+		if (gui instanceof GuiTransportBeacon){
+			((GuiTransportBeacon)gui).loadOffsets(offsets);
+			((GuiTransportBeacon)gui).updateStatus(hasEnergy,noTampering);
+		}
 	}
 }

@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C13TransportBeaconLocs;
+import chylex.hee.packets.client.C13TransportBeaconData;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
 import cpw.mods.fml.relauncher.Side;
@@ -33,8 +33,10 @@ public class BlockTransportBeacon extends BlockContainer{
 		if (world.isRemote)player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
 		else{
 			PlayerTransportBeacons data = PlayerTransportBeacons.getInstance(player);
-			if (!((TileEntityTransportBeacon)world.getTileEntity(x,y,z)).hasNotBeenTampered())data.addBeacon(x,z);
-			PacketPipeline.sendToPlayer(player,new C13TransportBeaconLocs(data.getOffsets(x,z)));
+			TileEntityTransportBeacon tile = (TileEntityTransportBeacon)world.getTileEntity(x,y,z);
+			
+			if (tile.hasNotBeenTampered())data.addBeacon(x,z);
+			PacketPipeline.sendToPlayer(player,new C13TransportBeaconData(data.getOffsets(x,z),tile.hasEnergy(),tile.hasNotBeenTampered()));
 		}
 		
 		return true;

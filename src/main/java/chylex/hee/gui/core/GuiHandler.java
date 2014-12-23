@@ -52,7 +52,7 @@ public final class GuiHandler implements IGuiHandler{
 			case 5: return new GuiCharmPouch(player);
 			case 6: return new GuiVoidChest(player.inventory,PlayerVoidChest.getInventory(player).setChest((TileEntityVoidChest)world.getTileEntity(x,y,z)));
 			case 7: return new GuiExperienceTable(player.inventory,(TileEntityExperienceTable)world.getTileEntity(x,y,z));
-			case 8: return new GuiTransportBeacon(x,z);
+			case 8: return new GuiTransportBeacon(x,y,z);
 		}
 		
 		return null;
