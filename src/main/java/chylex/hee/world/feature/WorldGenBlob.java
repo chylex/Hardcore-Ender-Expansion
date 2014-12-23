@@ -33,6 +33,7 @@ import chylex.hee.world.feature.blobs.populators.BlobPopulatorOreCluster;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorOreScattered;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorPlant;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorSpikes;
+import chylex.hee.world.feature.blobs.populators.BlobPopulatorTransportBeacon;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator.IDecoratorGenPass;
 import chylex.hee.world.loot.IItemPostProcessor;
@@ -53,8 +54,7 @@ public class WorldGenBlob extends WorldGenerator{
 	static{
 		types.add(ObjectWeightPair.of(BlobType.COMMON,42));
 		types.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
-		//types.add(ObjectWeightPair.of(BlobType.RARE,1));
-		// TODO
+		types.add(ObjectWeightPair.of(BlobType.RARE,1));
 		
 		BlobType.COMMON.patterns.addAll(new BlobPattern[]{
 			// basic random pattern
@@ -135,6 +135,15 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobGeneratorFromCenter(1).amount(IRandomAmount.linear,1,5).rad(2.6D,4.5D).dist(3.2D,5.5D)
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorSpikes(1).block(Blocks.air).amount(IRandomAmount.linear,25,42)
+			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
+		});
+		
+		BlobType.RARE.patterns.addAll(new BlobPattern[]{
+			// transport beacon
+			new BlobPattern(1).addGenerators(new BlobGenerator[]{
+				new BlobGeneratorSingle(5).rad(2.5D,5.2D) // TODO add more types of generators
+			}).addPopulators(new BlobPopulator[]{
+				new BlobPopulatorTransportBeacon(1)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
 		});
 	}

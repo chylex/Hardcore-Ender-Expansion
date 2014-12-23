@@ -4,6 +4,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.tileentity.TileEntityTransportBeacon;
 
 public class BlockTransportBeacon extends BlockContainer{
 	public BlockTransportBeacon(){
@@ -12,7 +14,7 @@ public class BlockTransportBeacon extends BlockContainer{
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta){
-		return null;
+		return new TileEntityTransportBeacon();
 	}
 	
 	@Override
@@ -32,6 +34,6 @@ public class BlockTransportBeacon extends BlockContainer{
 
 	@Override
 	public int getRenderType(){
-		return 34;
+		return ModCommonProxy.renderIdTransportBeacon;
 	}
 }

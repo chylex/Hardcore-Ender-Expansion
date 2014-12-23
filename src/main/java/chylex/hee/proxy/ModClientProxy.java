@@ -72,6 +72,7 @@ import chylex.hee.render.block.RenderBlockEndFlowerPot;
 import chylex.hee.render.block.RenderBlockEnhancedTNTPrimed;
 import chylex.hee.render.block.RenderBlockObsidianSpecial;
 import chylex.hee.render.block.RenderBlockSpookyLeaves;
+import chylex.hee.render.block.RenderBlockTransportBeacon;
 import chylex.hee.render.block.RenderBlockVoidChest;
 import chylex.hee.render.entity.RenderBossDragon;
 import chylex.hee.render.entity.RenderBossEnderDemon;
@@ -100,6 +101,7 @@ import chylex.hee.render.tileentity.RenderTileCustomSpawner;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
 import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.render.tileentity.RenderTileLaserBeam;
+import chylex.hee.render.tileentity.RenderTileTransportBeacon;
 import chylex.hee.render.tileentity.RenderTileVoidChest;
 import chylex.hee.render.weather.RenderWeatherLightningBoltPurple;
 import chylex.hee.sound.MusicManager;
@@ -110,6 +112,7 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityLaserBeam;
+import chylex.hee.tileentity.TileEntityTransportBeacon;
 import chylex.hee.tileentity.TileEntityVoidChest;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -142,20 +145,23 @@ public class ModClientProxy extends ModCommonProxy{
 		renderIdSpookyLeaves = RenderingRegistry.getNextAvailableRenderId();
 		renderIdCrossedDecoration = RenderingRegistry.getNextAvailableRenderId();
 		renderIdVoidChest = RenderingRegistry.getNextAvailableRenderId();
+		renderIdTransportBeacon = RenderingRegistry.getNextAvailableRenderId();
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockObsidianSpecial());
 		RenderingRegistry.registerBlockHandler(new RenderBlockEndFlowerPot());
 		RenderingRegistry.registerBlockHandler(new RenderBlockSpookyLeaves());
 		RenderingRegistry.registerBlockHandler(new RenderBlockCrossedDecoration());
 		RenderingRegistry.registerBlockHandler(new RenderBlockVoidChest());
+		RenderingRegistry.registerBlockHandler(new RenderBlockTransportBeacon());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEssenceAltar.class, new RenderTileEssenceAltar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndermanHead.class, new RenderTileEndermanHead());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCustomSpawner.class, new RenderTileCustomSpawner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserBeam.class, new RenderTileLaserBeam());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new RenderTileVoidChest());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransportBeacon.class, new RenderTileTransportBeacon());
 		
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest),new RenderItemVoidChest());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon());
