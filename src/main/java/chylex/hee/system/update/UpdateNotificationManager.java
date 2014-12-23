@@ -1,11 +1,21 @@
 package chylex.hee.system.update;
 import chylex.hee.HardcoreEnderExpansion;
+import com.google.common.base.Joiner;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public final class UpdateNotificationManager{
 	public static boolean enableNotifications = true;
 	public static boolean enableBuildCheck = true;
+	
+	public static String mcVersions = "?";
+	public static String releaseDate = "?";
+	
+	public static synchronized void refreshUpdateData(VersionEntry version){
+		mcVersions = Joiner.on(", ").join(version.mcVersions);
+		releaseDate = version.releaseDate;
+	}
+	
 	private long lastNotificationTime = -1;
 	
 	@SubscribeEvent

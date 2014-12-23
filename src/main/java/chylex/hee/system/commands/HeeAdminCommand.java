@@ -11,6 +11,7 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.entity.boss.dragon.managers.DragonAttackManager;
@@ -21,6 +22,8 @@ import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.curse.ICurseCaller;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
+import chylex.hee.system.logging.Log;
+import chylex.hee.system.update.UpdateNotificationManager;
 
 public class HeeAdminCommand extends HeeCommand{
 	public HeeAdminCommand(){
@@ -35,6 +38,7 @@ public class HeeAdminCommand extends HeeCommand{
 		if (args.length == 0){
 			for(String s:(
 				EnumChatFormatting.GREEN+"Available commands:\n"+
+				"/heeadmin version\n"+
 				"/heeadmin dragon-attack-creative <true|false>\n"+
 				"/heeadmin dragon-set-angry\n"+
 				"/heeadmin dragon-set-attack <none|dive|fire|punch|bite|freeze|summon|bats>\n"+
@@ -47,6 +51,19 @@ public class HeeAdminCommand extends HeeCommand{
 				).split("\n")){
 				sendMessage(sender,s);
 			}
+			
+			return;
+		}
+		else if (args[0].equalsIgnoreCase("version")){
+			sendMessage(sender,EnumChatFormatting.DARK_PURPLE+"Hardcore Ender Expansion");
+			sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+"Version: "+EnumChatFormatting.RESET+HardcoreEnderExpansion.modVersion+"/"+HardcoreEnderExpansion.buildId);
+			sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+"Mod file: "+EnumChatFormatting.RESET+(Log.isDeobfEnvironment ? "<deobf>" : HardcoreEnderExpansion.sourceFile.getName()));
+			
+			if (UpdateNotificationManager.enableNotifications || UpdateNotificationManager.enableBuildCheck){
+				sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+"Available for: "+EnumChatFormatting.RESET+UpdateNotificationManager.mcVersions);
+				sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+"Release date: "+EnumChatFormatting.RESET+UpdateNotificationManager.releaseDate);
+			}
+			else sendMessage(sender,EnumChatFormatting.GRAY+"Update information unavailable, notifications are disabled.");
 			
 			return;
 		}
