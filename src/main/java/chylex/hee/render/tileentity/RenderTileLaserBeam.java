@@ -28,12 +28,11 @@ public class RenderTileLaserBeam extends TileEntitySpecialRenderer{
 		
 		float beamAngle = ((TileEntityLaserBeam)tile).getBeamAngle();
 		float f3 = -beamAngle*0.2F-MathHelper.floor_float(-beamAngle*0.1F);
-		byte b0 = 1;
-		double d3 = beamAngle*025D*(1D-(b0&1)*2.5D);
+		double d3 = -beamAngle*2.925D;
 		
 		tessellator.startDrawingQuads();
 		tessellator.setColorRGBA(255,255,255,32);
-		double beamSize = b0*0.1D;
+		double beamSize = 0.1D;
 		double d5 = 0.5D+Math.cos(d3+2.3562D)*beamSize;
 		double d6 = 0.5D+Math.sin(d3+2.3562D)*beamSize;
 		double d7 = 0.5D+Math.cos(d3+(Math.PI/4D))*beamSize;

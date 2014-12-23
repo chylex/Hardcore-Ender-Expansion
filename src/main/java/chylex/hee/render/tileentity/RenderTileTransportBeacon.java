@@ -5,7 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import chylex.hee.tileentity.TileEntityLaserBeam;
+import chylex.hee.tileentity.TileEntityTransportBeacon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -26,14 +26,13 @@ public class RenderTileTransportBeacon extends TileEntitySpecialRenderer{
 		GL11.glDepthMask(true);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE);
 		
-		float beamAngle = ((TileEntityLaserBeam)tile).getBeamAngle();
+		float beamAngle = ((TileEntityTransportBeacon)tile).getBeamAngle();
 		float f3 = -beamAngle*0.2F-MathHelper.floor_float(-beamAngle*0.1F);
-		byte b0 = 1;
-		double d3 = beamAngle*025D*(1D-(b0&1)*2.5D); // TODO wtf 025 (check other class too)
+		double d3 = -beamAngle*0.1D;
 		
 		tessellator.startDrawingQuads();
 		tessellator.setColorRGBA(255,255,255,32);
-		double beamSize = b0*0.1D;
+		double beamSize = 0.2D;
 		double d5 = 0.5D+Math.cos(d3+2.3562D)*beamSize;
 		double d6 = 0.5D+Math.sin(d3+2.3562D)*beamSize;
 		double d7 = 0.5D+Math.cos(d3+(Math.PI/4D))*beamSize;

@@ -45,7 +45,8 @@ public final class Baconizer{
 			BlockList.endium_ore,
 			BlockList.endium_block,
 			BlockList.enderman_head,
-			BlockList.death_flower
+			BlockList.death_flower,
+			BlockList.transport_beacon
 		});
 		
 		baconizeItems(new Item[]{

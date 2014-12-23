@@ -1,13 +1,20 @@
 package chylex.hee.block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockTransportBeacon extends BlockContainer{
+	@SideOnly(Side.CLIENT)
+	public IIcon iconOutside;
+	
 	public BlockTransportBeacon(){
 		super(Material.glass);
 	}
@@ -31,9 +38,21 @@ public class BlockTransportBeacon extends BlockContainer{
 	public boolean renderAsNormalBlock(){
 		return false;
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderBlockPass(){
+		return 1;
+	}
 
 	@Override
 	public int getRenderType(){
 		return ModCommonProxy.renderIdTransportBeacon;
+	}
+	
+	@Override
+	public void registerBlockIcons(IIconRegister iconRegister){
+		super.registerBlockIcons(iconRegister);
+		iconOutside = iconRegister.registerIcon(textureName+"_outside");
 	}
 }
