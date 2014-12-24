@@ -50,34 +50,6 @@ public class BlockEnergyCluster extends BlockContainer{
 		return new TileEntityEnergyCluster(world);
 	}
 	
-	/*@Override // TODO
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		ItemStack is = player.inventory.getCurrentItem();
-		if (is == null || is.getItem() != ItemList.end_powder)return false;
-		
-		TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
-		if (tile == null)return false;
-
-		if (tile.data.getWeaknessLevel() > 0){
-			if (!world.isRemote){
-				tile.data.healWeakness(4+world.rand.nextInt(5)-world.rand.nextInt(2));
-				if (tile.data.getWeaknessLevel() == 0)world.playAuxSFX(2005,x,y,z,0);
-			}
-		}
-		else if (tile.data.getBoost() < EnergyClusterData.MAX_BOOST){
-			if (tile.data.getBoost() == 0)world.playAuxSFX(2005,x,y,z,0);
-			tile.data.boost();
-		}
-		else return false;
-		
-		tile.synchronize();
-		if (!world.isRemote && !player.capabilities.isCreativeMode)--is.stackSize;
-		
-		for(int a = 0; a < 3; a++)world.spawnParticle("portal",x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),0D,0D,0D);
-
-		return true;
-	}*/
-
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta){
 		TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
