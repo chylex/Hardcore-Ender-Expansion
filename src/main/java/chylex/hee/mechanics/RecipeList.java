@@ -48,6 +48,16 @@ public final class RecipeList{
 			'I', Blocks.iron_block
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.experience_table),
+			"PBP", "SGS", "INI",
+			'P', ItemList.end_powder,
+			'B', Blocks.iron_bars,
+			'S', Blocks.stone,
+			'G', Items.glass_bottle,
+			'N', BlockList.endium_block,
+			'I', Blocks.iron_block
+		);
+		
 		/*GameRegistry.addShapedRecipe(new ItemStack(BlockList.energy_extraction_table),
 			"PBP", "SES", "INI",
 			'P', ItemList.end_powder,
@@ -95,18 +105,6 @@ public final class RecipeList{
 				ItemList.stardust
 			);
 		}
-		
-		// TODO
-		/*GameRegistry.addShapedRecipe(new ItemStack(BlockList.soul_charm),
-			"EEE", "EXE", "EEE",
-			'E', ItemList.ectoplasm,
-			'X', ItemList.enderman_head
-		);
-		
-		GameRegistry.addShapelessRecipe(
-			new ItemStack(ItemList.corporeal_mirage_orb),
-			ItemList.instability_orb,ItemList.ectoplasm
-		);*/
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.charm_pouch),
 			"PLP", "LRL", "PLP",
