@@ -39,34 +39,34 @@ public final class RecipeList{
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.decomposition_table),
-			"PBP", "SRS", "INI",
+			"PBP", "SCS", "INI",
 			'P', ItemList.end_powder,
 			'B', Blocks.iron_bars,
 			'S', Blocks.stone,
-			'R', ItemList.igneous_rock,
+			'C', ItemList.igneous_rock,
 			'N', BlockList.endium_block,
 			'I', Blocks.iron_block
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.experience_table),
-			"PBP", "SGS", "INI",
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.accumulation_table),
+			"PBP", "SCS", "INI",
 			'P', ItemList.end_powder,
 			'B', Blocks.iron_bars,
 			'S', Blocks.stone,
-			'G', Items.glass_bottle,
+			'C', ItemList.energy_wand_core,
 			'N', BlockList.endium_block,
 			'I', Blocks.iron_block
 		);
 		
-		/*GameRegistry.addShapedRecipe(new ItemStack(BlockList.energy_extraction_table),
-			"PBP", "SES", "INI",
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.energy_extraction_table),
+			"PBP", "SCS", "INI",
 			'P', ItemList.end_powder,
 			'B', Blocks.iron_bars,
 			'S', Blocks.stone,
-			'E', ItemList.ectoplasm,
+			'C', ItemList.auricion,
 			'N', BlockList.endium_block,
 			'I', Blocks.iron_block
-		);*/ // TODO
+		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.biome_compass),
 			" N ", "NSN", " N ",
