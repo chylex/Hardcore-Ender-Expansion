@@ -246,7 +246,7 @@ container.transportBeacon=Transport Beacon
 container.transportBeacon.bacon=Transport Bacon
 container.transportBeacon.error.dimension=Incorrect dimension
 container.transportBeacon.error.tamper=Tampering detected
-container.transportBeacon.error.nodesination=No destination selected
+container.transportBeacon.error.nodestination=No destination selected
 container.transportBeacon.error.noenergy=Out of Energy
 container.button.travel=Travel
 

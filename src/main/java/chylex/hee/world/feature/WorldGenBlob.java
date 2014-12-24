@@ -52,8 +52,8 @@ public class WorldGenBlob extends WorldGenerator{
 	private static final WeightedList<ObjectWeightPair<BlobType>> types = new WeightedList<>();
 	
 	static{
-		types.add(ObjectWeightPair.of(BlobType.COMMON,42));
-		types.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
+		types.add(ObjectWeightPair.of(BlobType.COMMON,42*3)); // TODO remove *3 when there are 3 types of rare blobs
+		types.add(ObjectWeightPair.of(BlobType.UNCOMMON,7*3));
 		types.add(ObjectWeightPair.of(BlobType.RARE,1));
 		
 		BlobType.COMMON.patterns.addAll(new BlobPattern[]{

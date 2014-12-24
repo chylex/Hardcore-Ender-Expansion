@@ -76,7 +76,7 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private boolean checkMouseOver(LocationXZ loc, int x, int y){
-		int posX = (width>>1)-1+((loc.x-centerX)>>3), posY = (height>>1)-9+((loc.z-centerZ)>>3);
+		int posX = (width>>1)-1+((loc.x-centerX)>>4), posY = (height>>1)-9+((loc.z-centerZ)>>4);
 		return Math.abs(x-posX) <= 1 && Math.abs(y-posY) <= 1;
 	}
 	
@@ -124,7 +124,7 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 				hoverZ = loc.z;
 			}
 			
-			drawTexturedModalRect((width>>1)-1+((loc.x-centerX)>>3),(height>>1)-9+((loc.z-centerZ)>>3),size,0,2,2);
+			drawTexturedModalRect((width>>1)-1+((loc.x-centerX)>>4),(height>>1)-9+((loc.z-centerZ)>>4),size,0,2,2);
 			if (changedColor)GL11.glColor4f(1F,1F,1F,1F);
 		}
 		
@@ -142,18 +142,11 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 		fontRendererObj.drawString(locs,(width>>1)+(size>>1)-fontRendererObj.getStringWidth(locs)-6,(height>>1)+52,0x404040);
 		
 		if (!buttonTravel.enabled && x >= buttonTravel.xPosition && y >= buttonTravel.yPosition && x < buttonTravel.xPosition+buttonTravel.getButtonWidth() && y < buttonTravel.yPosition+buttonTravel.func_154310_c()){
-			if ((status&0b10) == 0){
-				GuiItemRenderHelper.setupTooltip(x,y,I18n.format(mc.theWorld.provider.dimensionId == 1 ? "container.transportBeacon.error.tamper" : "container.transportBeacon.error.dimension"));
-				GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
-			}
-			else if (selectedX == centerX && selectedZ == centerZ){
-				GuiItemRenderHelper.setupTooltip(x,y,I18n.format("container.transportBeacon.error.nodestination"));
-				GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
-			}
-			else if ((status&0b1) == 0){
-				GuiItemRenderHelper.setupTooltip(x,y,I18n.format("container.transportBeacon.error.noenergy"));
-				GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
-			}
+			if ((status&0b10) == 0)GuiItemRenderHelper.setupTooltip(x,y,I18n.format(mc.theWorld.provider.dimensionId == 1 ? "container.transportBeacon.error.tamper" : "container.transportBeacon.error.dimension"));
+			else if (selectedX == centerX && selectedZ == centerZ)GuiItemRenderHelper.setupTooltip(x,y,I18n.format("container.transportBeacon.error.nodestination"));
+			else if ((status&0b1) == 0)GuiItemRenderHelper.setupTooltip(x,y,I18n.format("container.transportBeacon.error.noenergy"));
+			
+			GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
 		}
 	}
 	

@@ -44,22 +44,22 @@ public class RenderTileTransportBeacon extends TileEntitySpecialRenderer{
 		double d16 = (-1F+f3);
 		double d17 = (0.5D/beamSize)+d16;
 		
-		tessellator.addVertexWithUV(x+d5,y+256D,z+d6,1D,d17);
+		tessellator.addVertexWithUV(x+d5,y+192D,z+d6,1D,d17);
 		tessellator.addVertexWithUV(x+d5,y,z+d6,1D,d16);
 		tessellator.addVertexWithUV(x+d7,y,z+d8,0D,d16);
-		tessellator.addVertexWithUV(x+d7,y+256D,z+d8,0D,d17);
-		tessellator.addVertexWithUV(x+d11,y+256D,z+d12,1D,d17);
+		tessellator.addVertexWithUV(x+d7,y+192D,z+d8,0D,d17);
+		tessellator.addVertexWithUV(x+d11,y+192D,z+d12,1D,d17);
 		tessellator.addVertexWithUV(x+d11,y,z+d12,1D,d16);
 		tessellator.addVertexWithUV(x+d9,y,z+d10,0D,d16);
-		tessellator.addVertexWithUV(x+d9,y+256D,z+d10,0D,d17);
-		tessellator.addVertexWithUV(x+d7,y+256D,z+d8,1D,d17);
+		tessellator.addVertexWithUV(x+d9,y+192D,z+d10,0D,d17);
+		tessellator.addVertexWithUV(x+d7,y+192D,z+d8,1D,d17);
 		tessellator.addVertexWithUV(x+d7,y,z+d8,1D,d16);
 		tessellator.addVertexWithUV(x+d11,y,z+d12,0D,d16);
-		tessellator.addVertexWithUV(x+d11,y+256D,z+d12,0D,d17);
-		tessellator.addVertexWithUV(x+d9,y+256D,z+d10,1D,d17);
+		tessellator.addVertexWithUV(x+d11,y+192D,z+d12,0D,d17);
+		tessellator.addVertexWithUV(x+d9,y+192D,z+d10,1D,d17);
 		tessellator.addVertexWithUV(x+d9,y,z+d10,1D,d16);
 		tessellator.addVertexWithUV(x+d5,y,z+d6,0D,d16);
-		tessellator.addVertexWithUV(x+d5,y+256D,z+d6,0D,d17);
+		tessellator.addVertexWithUV(x+d5,y+192D,z+d6,0D,d17);
 		tessellator.draw();
 		
 		GL11.glEnable(GL11.GL_BLEND);
