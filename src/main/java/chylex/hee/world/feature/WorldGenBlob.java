@@ -141,7 +141,12 @@ public class WorldGenBlob extends WorldGenerator{
 		BlobType.RARE.patterns.addAll(new BlobPattern[]{
 			// transport beacon
 			new BlobPattern(1).addGenerators(new BlobGenerator[]{
-				new BlobGeneratorSingle(5).rad(2.5D,5.2D) // TODO add more types of generators
+				new BlobGeneratorFromCenter(10).amount(IRandomAmount.preferSmaller,3,6).rad(2.7D,4.5D).dist(3.2D,5D),
+				new BlobGeneratorRecursive(8).baseAmount(IRandomAmount.linear,1,3).totalAmount(IRandomAmount.preferSmaller,4,8).recursionAmount(IRandomAmount.preferSmaller,1,3).recursionChance(0.2D,0.45D,0.7D,3).rad(2.5D,4D).distMp(0.9D,1.5D),
+				new BlobGeneratorRecursive(5).baseAmount(IRandomAmount.linear,2,4).totalAmount(IRandomAmount.preferSmaller,5,10).recursionAmount(IRandomAmount.preferSmaller,1,4).recursionChance(0.1D,0.4D,0.7D,4).rad(2.5D,4D).distMp(1D,1.4D).cacheRecursionChance(),
+				new BlobGeneratorSingle(4).rad(2.5D,5.2D),
+				new BlobGeneratorChain(4).amount(IRandomAmount.linear,2,5).rad(3D,4D).distMp(1.75D,2.5D),
+				new BlobGeneratorFromCenter(3).amount(IRandomAmount.preferSmaller,3,6).rad(2.7D,4.5D).dist(3.2D,5D).unifySize()
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorTransportBeacon(1)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)

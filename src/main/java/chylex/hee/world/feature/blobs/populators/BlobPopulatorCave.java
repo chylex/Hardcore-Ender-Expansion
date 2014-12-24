@@ -134,7 +134,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 				Vec3 newVec = dirVec.crossProduct(DragonUtil.getRandomVector(rand)).normalize();
 				
 				if (genCave(gen,rand,loc[0],loc[1],loc[2],rad*(minRecursionRadMp+rand.nextDouble()*(maxRecursionRadMp-minRecursionRadMp)),newVec,recursionLevel+1)){
-					--tmpCavesLeft; // TODO test loc fix
+					--tmpCavesLeft; // TODO test if the loc fix worked
 				}
 			}
 		}

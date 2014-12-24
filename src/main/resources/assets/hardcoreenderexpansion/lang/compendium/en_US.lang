@@ -138,9 +138,10 @@ ec.reg.211=They instantly die when damaged.
 ec.reg.212=The bats try to attack players. When they do, they damage the player, heal the Ender Dragon and die.
 
 ec.reg.220=Small blobs of varying shapes, sizes and features, made of End Stone.
-ec.reg.221=There are two major types of blobs, Common and Uncommon.
+ec.reg.221=There are three types of blobs, Common, Uncommon and Rare.
 ec.reg.222=Common blobs are the most random. They can have a variety of shapes, and 1 to 7 populators that include caves, Obsidian spikes and cover, Ender Goo lakes and falls, End Powder and Igneous Rock ores and Death Flower.
 ec.reg.223=Uncommon blobs have predetermined shapes and populators, such as one tiny blob with large amount of End Powder, goo covered one with a chest inside, caterpillar shaped one and several more.
+ec.reg.224=Rare blobs have precious resources and utilities and are usually very distinguishable from other types. Currently they only spawn Transport Beacons.
 
 ec.reg.230=An ore rarely spawned in Endstone Blobs and commonly in Burning Moutains Biome.
 ec.reg.231=Iron Pickaxe or better can effectively mine the ore.

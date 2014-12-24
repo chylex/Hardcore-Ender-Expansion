@@ -463,9 +463,10 @@ public final class KnowledgeRegistrations{
 		KnowledgeCategories.ENDSTONE_BLOBS.addKnowledgeObjects(new KnowledgeObject[]{
 			ENDSTONE_BLOB.setCategoryObject(KnowledgeCategories.ENDSTONE_BLOBS).setUnlockPrice(40).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(220).setPrice(5),
-				new KnowledgeFragmentText(221).setPrice(3).setUnlockRequirements(220), // TODO rare
+				new KnowledgeFragmentText(221).setPrice(3).setUnlockRequirements(220),
 				new KnowledgeFragmentText(222).setPrice(5).setUnlockRequirements(221),
-				new KnowledgeFragmentText(223).setPrice(5).setUnlockRequirements(221)
+				new KnowledgeFragmentText(223).setPrice(5).setUnlockRequirements(221),
+				new KnowledgeFragmentText(224).setPrice(5).setUnlockRequirements(221)
 			}),
 			
 			IGNEOUS_ROCK_ORE.setPos(0,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
