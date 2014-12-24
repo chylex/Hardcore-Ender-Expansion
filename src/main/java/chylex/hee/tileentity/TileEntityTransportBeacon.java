@@ -6,8 +6,11 @@ import net.minecraft.util.AxisAlignedBB;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy.MessageType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -56,10 +59,13 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 		
 		for(int y = 1; y < player.worldObj.getActualHeight(); y++){
 			if (player.worldObj.getBlock(x,y,z) == BlockList.transport_beacon){
-				// TODO particles
 				if (player.isRiding())player.mountEntity(null);
-				player.setPositionAndUpdate(x+0.5D,y+1D,z+0.5D);
 				player.fallDistance = 0F;
+				
+				PacketPipeline.sendToAllAround(player,64D,new C21EffectEntity(FXType.Entity.SIMPLE_TELEPORT,player));
+				player.setPositionAndUpdate(x+0.5D,y+1D,z+0.5D);
+				PacketPipeline.sendToAllAround(player,64D,new C21EffectEntity(FXType.Entity.SIMPLE_TELEPORT,player));
+				
 				hasEnergy = false;
 				worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.transport_beacon,1,0);
 				return true;

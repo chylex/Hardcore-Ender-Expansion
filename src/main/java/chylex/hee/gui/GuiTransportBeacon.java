@@ -11,6 +11,7 @@ import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons.LocationXZ;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S04TransportBeaconTravel;
+import chylex.hee.proxy.ModCommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -129,7 +130,7 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 		
 		super.drawScreen(x,y,renderPartialTicks);
 		
-		String s = I18n.format("container.transportBeacon");
+		String s = I18n.format(ModCommonProxy.hardcoreEnderbacon ? "container.transportBeacon.bacon" : "container.transportBeacon");
 		fontRendererObj.drawString(s,(width>>1)-(fontRendererObj.getStringWidth(s)>>1),(height>>1)-82,0x404040);
 		
 		String locs = null;
@@ -142,15 +143,15 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 		
 		if (!buttonTravel.enabled && x >= buttonTravel.xPosition && y >= buttonTravel.yPosition && x < buttonTravel.xPosition+buttonTravel.getButtonWidth() && y < buttonTravel.yPosition+buttonTravel.func_154310_c()){
 			if ((status&0b10) == 0){
-				GuiItemRenderHelper.setupTooltip(x,y,"Tampering detected");
+				GuiItemRenderHelper.setupTooltip(x,y,I18n.format(mc.theWorld.provider.dimensionId == 1 ? "container.transportBeacon.error.tamper" : "container.transportBeacon.error.dimension"));
 				GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
 			}
 			else if (selectedX == centerX && selectedZ == centerZ){
-				GuiItemRenderHelper.setupTooltip(x,y,"No destination selected");
+				GuiItemRenderHelper.setupTooltip(x,y,I18n.format("container.transportBeacon.error.nodestination"));
 				GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
 			}
 			else if ((status&0b1) == 0){
-				GuiItemRenderHelper.setupTooltip(x,y,"Out of Energy");
+				GuiItemRenderHelper.setupTooltip(x,y,I18n.format("container.transportBeacon.error.noenergy"));
 				GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
 			}
 		}

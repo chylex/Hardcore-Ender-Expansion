@@ -30,7 +30,8 @@ public final class FXType{
 		LOUSE_REGEN,
 		HOMELAND_ENDERMAN_RECRUIT,
 		BABY_ENDERMAN_GROW,
-		ENDER_GUARDIAN_DASH;
+		ENDER_GUARDIAN_DASH,
+		SIMPLE_TELEPORT;
 		
 		public static FXType.Entity[] values = values();
 	}

@@ -156,6 +156,11 @@ public final class FXHandler{
 			case ENDER_GUARDIAN_DASH:
 				for(int a = 0; a < 50; a++)HardcoreEnderExpansion.fx.portalBig(world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.3D),randCenter(0.3D),randCenter(0.3D),0.5F+rand.nextFloat()*0.4F);
 				break;
+				
+			case SIMPLE_TELEPORT:
+				for(int a = 0; a < 30; a++)HardcoreEnderExpansion.fx.omnipresent("portal",world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.15D),randCenter(0.15D),randCenter(0.15D));
+				world.playSound(x,y,z,"mob.endermen.portal",1F,1F,false);
+				break;
 		}
 	}
 	

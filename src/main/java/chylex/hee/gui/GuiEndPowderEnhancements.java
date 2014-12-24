@@ -13,6 +13,7 @@ import chylex.hee.mechanics.enhancements.SlotList;
 import chylex.hee.mechanics.enhancements.SlotList.SlotType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S01GuiEnhancementsClick;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -50,7 +51,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		String s = I18n.format("container.endPowderEnhancements");
+		String s = I18n.format(ModCommonProxy.hardcoreEnderbacon ? "container.endPowderEnhancements.bacon" : "container.endPowderEnhancements");
 		fontRendererObj.drawString(s,xSize/2-fontRendererObj.getStringWidth(s)/2,6,0x404040);
 		fontRendererObj.drawString(I18n.format("container.inventory"),8,ySize-96+2,0x404040);
 		

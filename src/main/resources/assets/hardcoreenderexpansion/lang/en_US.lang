@@ -239,9 +239,15 @@ container.decompositionTable=Decomposition Table
 container.energyExtractionTable=Energy Extraction Table
 container.experienceTable=Experience Table
 container.endPowderEnhancements=End Powder Enhancements
+container.endPowderEnhancements.bacon=Bacon Powder Enhancements
 container.charmPouch=Charm Pouch
 container.runeCrafting=Rune Crafting
 container.transportBeacon=Transport Beacon
+container.transportBeacon.bacon=Transport Bacon
+container.transportBeacon.error.dimension=Incorrect dimension
+container.transportBeacon.error.tamper=Tampering detected
+container.transportBeacon.error.nodesination=No destination selected
+container.transportBeacon.error.noenergy=Out of Energy
 container.button.travel=Travel
 
 key.openCompendium=Ender Compendium
