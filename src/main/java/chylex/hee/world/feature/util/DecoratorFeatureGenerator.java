@@ -63,13 +63,13 @@ public final class DecoratorFeatureGenerator{
 	}
 	
 	public int getTopBlockY(int x, int z){
-		int y = topY;
+		int y = topY+1;
 		
 		while(y >= bottomY){
-			if (getBlock(x,y--,z) != Blocks.air)return y;
+			if (getBlock(x,--y,z) != Blocks.air)return y;
 		}
 		
-		return -1;
+		return Integer.MIN_VALUE;
 	}
 	
 	public int getOutOfBoundsCounter(){

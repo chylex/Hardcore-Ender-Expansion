@@ -27,17 +27,15 @@ public class BlobPopulatorLake extends BlobPopulator{
 
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
-		double rad = minRadius+rand.nextDouble()*(maxRadius-minRadius);
-		int irad = MathUtil.ceil(rad);
-		
-		for(int attempt = 0, x, y, z; attempt < 30; attempt++){ // TODO fix
+		for(int attempt = 0, placed = 0, x, y, z; attempt < 90 && placed < 4; attempt++){
 			x = rand.nextInt(32)-16;
-			y = rand.nextInt(32)-16;
 			z = rand.nextInt(32)-16;
-			
-			while(gen.getBlock(x,y,z) != Blocks.end_stone && y > -16)--y;
+			if ((y = gen.getTopBlockY(x,z)) == Integer.MIN_VALUE)continue;
 			
 			if (gen.getBlock(x,y,z) == Blocks.end_stone && gen.getBlock(x,y+1,z) == Blocks.air){
+				double rad = minRadius+rand.nextDouble()*(maxRadius-minRadius);
+				int irad = MathUtil.ceil(rad);
+				
 				for(int xx = x-irad; xx <= x+irad; xx++){
 					for(int zz = z-irad; zz <= z+irad; zz++){
 						if (gen.getBlock(xx,y,zz) == Blocks.end_stone && gen.getBlock(xx,y+1,zz) == Blocks.air &&
@@ -49,7 +47,7 @@ public class BlobPopulatorLake extends BlobPopulator{
 					}
 				}
 				
-				//break;
+				++placed;
 			}
 		}
 	}

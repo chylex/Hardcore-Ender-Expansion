@@ -71,7 +71,7 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobPopulatorCave(4).rad(2.2D,2.8D).totalCaveAmount(IRandomAmount.linear,2,5).fullCaveAmount(IRandomAmount.preferSmaller,1,3).recursionChance(0.2D,0.8D,3).recursionRadMp(0.7D,0.9D).cacheRecursionChance(),
 				new BlobPopulatorSpikes(4).block(Blocks.obsidian).amount(IRandomAmount.aroundCenter,2,10).maxOffset(16),
 				new BlobPopulatorLiquidFall(2).block(BlockList.ender_goo).amount(IRandomAmount.preferSmaller,1,4).attempts(50,80).requireBlockBelow(),
-				new BlobPopulatorLake(2).block(BlockList.ender_goo).rad(1.8D,3D),
+				new BlobPopulatorLake(2).block(BlockList.ender_goo).rad(2D,3.5D),
 				new BlobPopulatorOreCluster(4).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.linear,4,7).iterationAmount(IRandomAmount.preferSmaller,1,4),
 				new BlobPopulatorOreScattered(3).block(BlockList.igneous_rock_ore).blockAmount(IRandomAmount.preferSmaller,1,4).attempts(5,10).visiblePlacementAttempts(10).knownBlockLocations(),
 				new BlobPopulatorOreScattered(1).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.aroundCenter,3,8).attempts(8,15).visiblePlacementAttempts(5),
@@ -207,7 +207,7 @@ public class WorldGenBlob extends WorldGenerator{
 					new BlobGeneratorFromCenter(3).amount(IRandomAmount.linear,4,10).rad(2.4D,3D).dist(2D,6D),
 					new BlobGeneratorChain(3).amount(IRandomAmount.linear,3,6).rad(2.5D,4D).distMp(1.5D,2.5D)
 				}).addPopulators(new BlobPopulator[]{
-					new BlobPopulatorLake(2).block(BlockList.ender_goo).rad(1.8D,3D),
+					new BlobPopulatorLake(2).block(BlockList.ender_goo).rad(2D,3.5D)
 				}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
 			});
 			
