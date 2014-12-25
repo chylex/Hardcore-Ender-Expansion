@@ -29,12 +29,12 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 
 	@Override
-	protected final boolean isWorking(){
+	protected boolean isWorking(){
 		return requiredStardust > 0 && getHoldingStardust() >= requiredStardust;
 	}
 
 	@Override
-	protected final void onWork(){
+	protected void onWork(){
 		if ((time += timeStep) >= totalTime){
 			if (onWorkFinished()){
 				resetTable();

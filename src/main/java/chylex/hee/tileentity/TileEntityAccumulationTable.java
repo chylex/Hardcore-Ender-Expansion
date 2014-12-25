@@ -1,15 +1,25 @@
 package chylex.hee.tileentity;
 import net.minecraft.item.ItemStack;
-import chylex.hee.item.ItemList;
+import chylex.hee.item.ItemAbstractEnergyAcceptor;
+import chylex.hee.mechanics.energy.EnergyChunkData;
 
 public class TileEntityAccumulationTable extends TileEntityAbstractTable{
-	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1 }, slotsBottom = new int[]{ 2 };
+	private static final int[] slotsAll = new int[]{ 0 };
+	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*50F;
+	
+	private float storedEnergy;
 	
 	@Override
-	public void invalidateInventory(){
-		if (worldObj != null && worldObj.isRemote)return;
-		resetTable();
-		
+	public void invalidateInventory(){}
+	
+	@Override
+	protected boolean isWorking(){
+		return storedEnergy < maxStoredEnergy;
+	}
+	
+	@Override
+	protected void onWork(){
+		storedEnergy += getDrainAmount();
 	}
 
 	@Override
@@ -19,22 +29,22 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	
 	@Override
 	public int getHoldingStardust(){
-		return items[1] == null ? 0 : items[1].stackSize;
+		return 0;
 	}
 	
 	@Override
 	public int getSizeInventory(){
-		return 3;
+		return 1;
 	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack is){
-		return slot == 1 ? is.getItem() == ItemList.stardust : slot == 0;
+		return slot == 0 && is.getItem() instanceof ItemAbstractEnergyAcceptor;
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side){
-		return side == 0 ? slotsBottom : side == 1 ? slotsTop : slotsSides;
+		return slotsAll;
 	}
 
 	@Override

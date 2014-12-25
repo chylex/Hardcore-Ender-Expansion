@@ -94,6 +94,7 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.system.util.GameRegistryUtil;
+import chylex.hee.tileentity.TileEntityAccumulationTable;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
 import chylex.hee.tileentity.TileEntityEndermanHead;
@@ -281,6 +282,7 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerTileEntity(TileEntitySoulCharm.class, "SoulCharm");
 		GameRegistryUtil.registerTileEntity(TileEntityDecompositionTable.class, "DecompositionTable");
 		GameRegistryUtil.registerTileEntity(TileEntityExperienceTable.class, "ExperienceTable");
+		GameRegistryUtil.registerTileEntity(TileEntityAccumulationTable.class, "AccumulationTable");
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyExtractionTable.class, "EnergyExtractionTable");
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyCluster.class, "EnergyCluster");
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
