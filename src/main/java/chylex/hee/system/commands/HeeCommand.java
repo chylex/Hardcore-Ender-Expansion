@@ -1,8 +1,8 @@
 package chylex.hee.system.commands;
-import chylex.hee.mechanics.misc.Baconizer;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import chylex.hee.mechanics.misc.Baconizer;
 
 abstract class HeeCommand extends CommandBase{
 	private final String cmdName;

@@ -15,7 +15,7 @@ public final class GuiEndPortalRenderer{
 	
 	private final GuiScreen gui;
 	private final int portalWidthHalf, portalHeightHalf, portalTopOffset;
-	private int portalTranslation,prevPortalTranslation;
+	private int portalTranslation, prevPortalTranslation;
 	
 	public GuiEndPortalRenderer(GuiScreen ownerGui, int portalWidth, int portalHeight, int portalTopOffset){
 		this.gui = ownerGui;

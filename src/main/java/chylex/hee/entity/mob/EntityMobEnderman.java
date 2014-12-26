@@ -1,9 +1,9 @@
 package chylex.hee.entity.mob;
-import chylex.hee.mechanics.misc.Baconizer;
-import chylex.hee.proxy.ModCommonProxy;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityMobEnderman extends EntityEnderman{
 	public EntityMobEnderman(World world){

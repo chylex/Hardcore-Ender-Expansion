@@ -1,9 +1,9 @@
 package chylex.hee.entity.mob;
-import chylex.hee.mechanics.misc.Baconizer;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.mechanics.misc.Baconizer;
 
 public class EntityMobInfestedBat extends EntityBat{
 	public EntityMobInfestedBat(World world){

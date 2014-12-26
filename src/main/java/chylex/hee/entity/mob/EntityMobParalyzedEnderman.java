@@ -1,6 +1,5 @@
 package chylex.hee.entity.mob;
 import java.util.List;
-import chylex.hee.mechanics.misc.Baconizer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -8,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.mechanics.misc.Baconizer;
 
 public class EntityMobParalyzedEnderman extends EntityEnderman{
 	private byte newTargetTimer = 0;
