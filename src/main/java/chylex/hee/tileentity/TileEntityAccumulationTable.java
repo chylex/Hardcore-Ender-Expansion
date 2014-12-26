@@ -13,6 +13,11 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	public void invalidateInventory(){}
 	
 	@Override
+	public float getMaxStoredEnergy(){
+		return maxStoredEnergy;
+	}
+	
+	@Override
 	protected boolean isWorking(){
 		return storedEnergy < maxStoredEnergy;
 	}

@@ -50,8 +50,8 @@ public abstract class ContainerAbstractTable extends Container{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int value){
-		if (id == 0)table.setRequiredStardust(value);
-		else if (id == 1)table.setTime(value);
+		if (id == 0)table.setRequiredStardustClient(value);
+		else if (id == 1)table.setTimeClient(value);
 	}
 	
 	@Override

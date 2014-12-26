@@ -6,14 +6,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiDecompositionTable extends GuiAbstractTable{
-	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/decomposition_table.png");
+public class GuiAccumulationTable extends GuiAbstractTable{
+	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/accumulation_table.png");
 
-	public GuiDecompositionTable(InventoryPlayer inv, TileEntityDecompositionTable tile){
+	public GuiAccumulationTable(InventoryPlayer inv, TileEntityDecompositionTable tile){
 		super(new ContainerDecompositionTable(inv,tile),tile);
-		setupProgressBar(57,34);
-		setupEnergyIcon(19,37);
-		setupStardustText(34,53);
+		setupEnergyStorage(96,27);
 	}
 
 	@Override

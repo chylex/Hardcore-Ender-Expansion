@@ -9,6 +9,7 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	protected static final int totalTime = 1000;
 	
 	protected short time, timeStep;
+	protected float storedEnergy;
 	protected byte requiredStardust;
 	private boolean postLoadInvalidate;
 	
@@ -16,7 +17,14 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	 * Return true to reset time and required stardust.
 	 */
 	protected abstract boolean onWorkFinished();
-	public abstract int getHoldingStardust();
+	
+	public int getHoldingStardust(){
+		return 0;
+	}
+	
+	public float getMaxStoredEnergy(){
+		return 0F;
+	}
 	
 	@Override
 	protected final byte getDrainTimer(){
@@ -68,19 +76,30 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public final void setTime(int time){
-		this.time = (short)time;
+	public final void setRequiredStardustClient(int requiredStardust){
+		this.requiredStardust = (byte)requiredStardust;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public final void setRequiredStardust(int requiredStardust){
-		this.requiredStardust = (byte)requiredStardust;
+	public final void setTimeClient(int time){
+		this.time = (short)time;
 	}
 
 	@SideOnly(Side.CLIENT)
-	public final int getScaledProgressTime(int scale){
+	public final int getScaledTimeClient(int scale){
 		if (time == 0 && timeStep == 0)return -1;
 		return MathUtil.ceil(time*(double)scale/totalTime);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public final void setStoredEnergyClient(float energy){
+		this.storedEnergy = energy;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public final int getScaledStoredEnergyClient(int scale){
+		float maxEnergy = getMaxStoredEnergy();
+		return MathUtil.floatEquals(maxEnergy,0F) ? -1 : MathUtil.ceil(storedEnergy*(double)scale/maxEnergy);
 	}
 
 	@Override

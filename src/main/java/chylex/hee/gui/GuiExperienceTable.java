@@ -11,36 +11,9 @@ public class GuiExperienceTable extends GuiAbstractTable{
 
 	public GuiExperienceTable(InventoryPlayer inv, TileEntityExperienceTable tile){
 		super(new ContainerExperienceTable(inv,tile),tile);
-	}
-	
-	@Override
-	protected int getProgressBarX(){
-		return 75;
-	}
-
-	@Override
-	protected int getProgressBarY(){
-		return 34;
-	}
-
-	@Override
-	protected int getEnergyIconX(){
-		return 37;
-	}
-
-	@Override
-	protected int getEnergyIconY(){
-		return 37;
-	}
-
-	@Override
-	protected int getStardustTextX(){
-		return 52;
-	}
-
-	@Override
-	protected int getStardustTextY(){
-		return 53;
+		setupProgressBar(75,34);
+		setupEnergyIcon(37,37);
+		setupStardustText(52,53);
 	}
 
 	@Override
