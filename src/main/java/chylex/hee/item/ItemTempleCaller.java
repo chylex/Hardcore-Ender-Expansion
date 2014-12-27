@@ -21,17 +21,17 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 	public static int templeX, templeZ = 0, templeY = 246;
 	
 	@Override
-	protected boolean canAcceptEnergy(ItemStack is){
+	public boolean canAcceptEnergy(ItemStack is){
 		return is.getItemDamage() < getMaxDamage();
 	}
 
 	@Override
-	protected void onEnergyAccepted(ItemStack is){
+	public void onEnergyAccepted(ItemStack is){
 		is.setItemDamage(is.getItemDamage()+1);
 	}
 	
 	@Override
-	protected int getEnergyPerUse(ItemStack is){
+	public int getEnergyPerUse(ItemStack is){
 		return is.getMaxDamage();
 	}
 

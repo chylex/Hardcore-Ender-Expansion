@@ -7,10 +7,25 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	private static final int[] slotsAll = new int[]{ 0 };
 	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*50F;
 	
-	private float storedEnergy;
+	private byte cooldown;
 	
 	@Override
 	public void invalidateInventory(){}
+	
+	@Override
+	public void updateEntity(){
+		super.updateEntity();
+		
+		if (!worldObj.isRemote && (cooldown == 0 || --cooldown == 0) && items[0] != null && storedEnergy >= EnergyChunkData.energyDrainUnit && items[0].getItem() instanceof ItemAbstractEnergyAcceptor){
+			ItemAbstractEnergyAcceptor item = (ItemAbstractEnergyAcceptor)items[0].getItem();
+			
+			if (item.canAcceptEnergy(items[0])){
+				if ((storedEnergy -= EnergyChunkData.energyDrainUnit) < EnergyChunkData.minSignificantEnergy)storedEnergy = 0F;
+				item.onEnergyAccepted(items[0]);
+				cooldown = 4;
+			}
+		}
+	}
 	
 	@Override
 	public float getMaxStoredEnergy(){

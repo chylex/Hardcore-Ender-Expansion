@@ -16,9 +16,9 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public abstract class ItemAbstractEnergyAcceptor extends Item{
-	protected abstract boolean canAcceptEnergy(ItemStack is);
-	protected abstract void onEnergyAccepted(ItemStack is);
-	protected abstract int getEnergyPerUse(ItemStack is);
+	public abstract boolean canAcceptEnergy(ItemStack is);
+	public abstract void onEnergyAccepted(ItemStack is);
+	public abstract int getEnergyPerUse(ItemStack is);
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){

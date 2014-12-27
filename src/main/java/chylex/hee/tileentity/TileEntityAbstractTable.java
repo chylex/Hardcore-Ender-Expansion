@@ -75,6 +75,10 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 		return requiredStardust;
 	}
 	
+	public final float getStoredEnergy(){
+		return storedEnergy;
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public final void setRequiredStardustClient(int requiredStardust){
 		this.requiredStardust = (byte)requiredStardust;

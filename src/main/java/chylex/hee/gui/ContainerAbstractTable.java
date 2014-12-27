@@ -4,6 +4,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -11,6 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class ContainerAbstractTable extends Container{
 	private final TileEntityAbstractTable table;
 	private int prevReqStardust, prevTime;
+	private float prevStoredEnergy;
 	
 	public ContainerAbstractTable(InventoryPlayer inv, TileEntityAbstractTable table){
 		this.table = table;
@@ -31,6 +33,7 @@ public abstract class ContainerAbstractTable extends Container{
 		super.addCraftingToCrafters(crafter);
 		crafter.sendProgressBarUpdate(this,0,table.getRequiredStardust());
 		crafter.sendProgressBarUpdate(this,1,table.getTime());
+		crafter.sendProgressBarUpdate(this,2,Float.floatToIntBits(table.getStoredEnergy()));
 	}
 
 	@Override
@@ -41,10 +44,12 @@ public abstract class ContainerAbstractTable extends Container{
 			ICrafting crafter = (ICrafting)crafters.get(i);
 			if (prevReqStardust != table.getRequiredStardust())crafter.sendProgressBarUpdate(this,0,table.getRequiredStardust());
 			if (prevTime != table.getTime())crafter.sendProgressBarUpdate(this,1,table.getTime());
+			if (!MathUtil.floatEquals(prevStoredEnergy,table.getStoredEnergy()))crafter.sendProgressBarUpdate(this,2,Float.floatToIntBits(table.getStoredEnergy()));
 		}
 
 		prevReqStardust = table.getRequiredStardust();
 		prevTime = table.getTime();
+		prevStoredEnergy = table.getStoredEnergy();
 	}
 
 	@Override
@@ -52,6 +57,7 @@ public abstract class ContainerAbstractTable extends Container{
 	public void updateProgressBar(int id, int value){
 		if (id == 0)table.setRequiredStardustClient(value);
 		else if (id == 1)table.setTimeClient(value);
+		else if (id == 2)table.setStoredEnergyClient(Float.intBitsToFloat(value));
 	}
 	
 	@Override

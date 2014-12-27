@@ -6,17 +6,17 @@ import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 
 public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	@Override
-	protected boolean canAcceptEnergy(ItemStack is){
+	public boolean canAcceptEnergy(ItemStack is){
 		return is.getItemDamage() > 0;
 	}
 
 	@Override
-	protected void onEnergyAccepted(ItemStack is){
+	public void onEnergyAccepted(ItemStack is){
 		is.setItemDamage(is.getItemDamage()-3);
 	}
 
 	@Override
-	protected int getEnergyPerUse(ItemStack is){
+	public int getEnergyPerUse(ItemStack is){
 		return 1;
 	}
 	

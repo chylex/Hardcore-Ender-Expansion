@@ -15,6 +15,7 @@ import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
 import chylex.hee.world.feature.blobs.BlobPopulator;
@@ -49,12 +50,16 @@ public class WorldGenBlob extends WorldGenerator{
 		WeightedList<BlobPattern> patterns = new WeightedList<>();
 	}
 	
-	private static final WeightedList<ObjectWeightPair<BlobType>> types = new WeightedList<>();
+	private static final WeightedList<ObjectWeightPair<BlobType>> typesClose = new WeightedList<>(),
+																  typesFar = new WeightedList<>();
 	
 	static{
-		types.add(ObjectWeightPair.of(BlobType.COMMON,42*3)); // TODO remove *3 when there are 3 types of rare blobs
-		types.add(ObjectWeightPair.of(BlobType.UNCOMMON,7*3));
-		types.add(ObjectWeightPair.of(BlobType.RARE,1));
+		typesClose.add(ObjectWeightPair.of(BlobType.COMMON,50));
+		typesClose.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
+		
+		typesFar.add(ObjectWeightPair.of(BlobType.COMMON,42));
+		typesFar.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
+		typesFar.add(ObjectWeightPair.of(BlobType.RARE,1));
 		
 		BlobType.COMMON.patterns.addAll(new BlobPattern[]{
 			// basic random pattern
@@ -149,7 +154,17 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobGeneratorFromCenter(3).amount(IRandomAmount.preferSmaller,3,6).rad(2.7D,4.5D).dist(3.2D,5D).unifySize()
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorTransportBeacon(1)
-			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
+			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1),
+			
+			// TODO
+			new BlobPattern(1).addGenerators(new BlobGenerator[]{
+				new BlobGeneratorSingle(1).rad(0D,0D),
+			}),
+			
+			// TODO
+			new BlobPattern(1).addGenerators(new BlobGenerator[]{
+				new BlobGeneratorSingle(1).rad(0D,0D),
+			})
 		});
 	}
 	
@@ -171,6 +186,14 @@ public class WorldGenBlob extends WorldGenerator{
 		}
 	};
 	
+	private BlobType getBlobType(Random rand, int x, int z){
+		double dist = MathUtil.distance(x,z);
+		
+		if (dist < 180D)return BlobType.COMMON;
+		else if (dist < 300D)return typesClose.getRandomItem(rand).getObject();
+		else return typesFar.getRandomItem(rand).getObject();
+	}
+	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
 		if (world.getBlock(x-7,y,z) != Blocks.air ||
@@ -181,7 +204,7 @@ public class WorldGenBlob extends WorldGenerator{
 			world.getBlock(x,y+7,z) != Blocks.air)return false;
 		
 		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
-		Pair<BlobGenerator,List<BlobPopulator>> pattern = types.getRandomItem(rand).getObject().patterns.getRandomItem(rand).generatePattern(rand);
+		Pair<BlobGenerator,List<BlobPopulator>> pattern = getBlobType(rand,x,z).patterns.getRandomItem(rand).generatePattern(rand);
 		
 		pattern.getLeft().generate(gen,rand);
 		gen.runPass(genSmootherPass);
