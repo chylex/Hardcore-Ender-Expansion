@@ -28,6 +28,11 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	}
 	
 	@Override
+	public float getMaxStoredEnergy(){
+		return maxStoredEnergy;
+	}
+	
+	@Override
 	protected byte getDrainTimer(){
 		return 5;
 	}
@@ -35,11 +40,6 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	@Override
 	protected float getDrainAmount(){
 		return EnergyChunkData.energyDrainUnit;
-	}
-	
-	@Override
-	public float getMaxStoredEnergy(){
-		return maxStoredEnergy;
 	}
 	
 	@Override

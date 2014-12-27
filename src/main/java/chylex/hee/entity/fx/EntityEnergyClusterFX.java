@@ -11,7 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityEnergyClusterFX extends EntitySoulCharmFX{
 	private EntityEnergyClusterFX(World world, double x, double y, double z, double red, double green, double blue){
 		super(world,x,y,z,0D,0D,0D);
-		motionX = motionY = motionZ = particleAlpha = 0;motionX = 0.0001;
+		motionX = motionY = motionZ = particleAlpha = 0;
 
 		particleRed = (float)red;
 		particleGreen = (float)green;

@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -107,12 +108,13 @@ public class EntitySoulCharmFX extends EntityFX{
 	@Override
 	public void renderParticle(Tessellator tessellator, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
 		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
-		float left = indexX/4F, right = left+0.25F,
-			  top = indexY/4F, bottom = top+0.25F,
-			  x = (float)(prevPosX+(posX-prevPosX)*partialTickTime-interpPosX),
-			  y = (float)(prevPosY+(posY-prevPosY)*partialTickTime-interpPosY),
-			  z = (float)(prevPosZ+(posZ-prevPosZ)*partialTickTime-interpPosZ);
+		float left = indexX*0.25F, right = left+0.25F,
+			  top = indexY*0.25F, bottom = top+0.25F,
+			  x = (float)(prevPosX+(posX-prevPosX)*partialTickTime-interpPosX+(player.prevPosX-player.posX)),
+			  y = (float)(prevPosY+(posY-prevPosY)*partialTickTime-interpPosY+(player.prevPosY-player.posY)),
+			  z = (float)(prevPosZ+(posZ-prevPosZ)*partialTickTime-interpPosZ+(player.prevPosZ-player.posZ));
 		
 		GL11.glPushMatrix();
 		GL11.glDepthMask(false);
