@@ -47,7 +47,7 @@ public class RandomNameGenerator{
 		StringBuilder build = new StringBuilder();
 		boolean useVowel = rand.nextInt(3) == 0;
 		
-		for(int a = 0; a < length; ++a){
+		for(int a = 0; a < length; a++){
 			if (useVowel){
 				char c = vowels.getRandomItem(rand).character;
 				build.append(a == 0 ? Character.toUpperCase(c) : c);

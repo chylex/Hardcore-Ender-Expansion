@@ -4,6 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.stats.StatBase;
+import net.minecraft.stats.StatList;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.Unfinalizer;
@@ -41,6 +43,14 @@ public class BlockReplaceHelper{
 						registryItems.registryObjects.put(registryName,itemBlock);
 						registryItems.underlyingIntegerMap.func_148746_a(itemBlock,id); // OBFUSCATED put object
 						
+						int itemID = Item.getIdFromItem(itemBlock);
+						StatBase stat = StatList.mineBlockStatArray[itemID];
+						StatList.allStats.remove(stat);
+						StatList.objectMineStats.remove(stat);
+						StatList.generalStats.remove(stat);
+						StatList.objectBreakStats[itemID] = StatList.objectUseStats[itemID] = null;
+						StatList.objectCraftStats[itemID] = StatList.mineBlockStatArray[itemID] = null;
+						
 						classTest[0] = blockField.get(null).getClass();
 						classTest[1] = Block.blockRegistry.getObjectById(id).getClass();
 						classTest[2] = ((ItemBlock)Item.getItemFromBlock(replacement)).field_150939_a.getClass();
@@ -55,7 +65,7 @@ public class BlockReplaceHelper{
 		Stopwatch.finish("BlockReplace");
 		
 		Log.debug("Check field: $0",classTest[0]);
-		Log.debug("Check registry: $0",classTest[1]);
+		Log.debug("Check block registry: $0",classTest[1]);
 		Log.debug("Check item: $0",classTest[2]);
 		Log.debug("Check itemblock: $0",classTest[3]);
 		
