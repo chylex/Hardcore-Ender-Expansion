@@ -188,8 +188,9 @@ public final class StardustDecomposition{
 			for(Iterator<ItemStack> iter = randRecipeIngredients.iterator(); iter.hasNext();){
 				ItemStack ingredient = iter.next();
 				if (ingredient == null)return null;
-				if (ingredient.getItemDamage() == OreDictionary.WILDCARD_VALUE || ingredient.getItem().hasContainerItem(ingredient))iter.remove();
-				if (isBlacklisted(ingredient.getItem(),ingredient.getItemDamage()))iter.remove();
+				if (ingredient.getItem().hasContainerItem(ingredient))iter.remove();
+				else if (isBlacklisted(ingredient.getItem(),ingredient.getItemDamage()))iter.remove();
+				else if (ingredient.getItemDamage() == OreDictionary.WILDCARD_VALUE)ingredient.setItemDamage(0);
 			}
 			
 			if (!randRecipeIngredients.isEmpty())return randRecipeIngredients;

@@ -34,7 +34,7 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 				for(int a = 0; a < amt; a++){
 					(ingredient = recipeIngredients.remove(worldObj.rand.nextInt(recipeIngredients.size())).copy()).stackSize = 1;
 					chosenIngredients.add(ingredient);
-				} // TODO ingredient derp? check nbt
+				}
 				
 				float stardust = originalAmt * 0.6F;
 				if (items[0].stackSize == 1)stardust *= 1.2F;
@@ -90,12 +90,6 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 	@Override
 	public int getSizeInventory(){
 		return 11;
-	}
-
-	@Override
-	public void setInventorySlotContents(int slot, ItemStack is){
-		super.setInventorySlotContents(slot,is);
-		// TODO if (slot == 0)invalidateInventory();
 	}
 
 	@Override
