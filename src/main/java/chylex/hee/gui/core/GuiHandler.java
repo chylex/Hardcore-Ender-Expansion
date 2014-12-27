@@ -1,6 +1,7 @@
 package chylex.hee.gui.core;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import chylex.hee.gui.ContainerAccumulationTable;
 import chylex.hee.gui.ContainerCharmPouch;
 import chylex.hee.gui.ContainerDecompositionTable;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
@@ -8,6 +9,7 @@ import chylex.hee.gui.ContainerEnergyExtractionTable;
 import chylex.hee.gui.ContainerEnhancedBrewingStand;
 import chylex.hee.gui.ContainerExperienceTable;
 import chylex.hee.gui.ContainerVoidChest;
+import chylex.hee.gui.GuiAccumulationTable;
 import chylex.hee.gui.GuiCharmPouch;
 import chylex.hee.gui.GuiDecompositionTable;
 import chylex.hee.gui.GuiEndPowderEnhancements;
@@ -17,6 +19,7 @@ import chylex.hee.gui.GuiExperienceTable;
 import chylex.hee.gui.GuiTransportBeacon;
 import chylex.hee.gui.GuiVoidChest;
 import chylex.hee.mechanics.voidchest.PlayerVoidChest;
+import chylex.hee.tileentity.TileEntityAccumulationTable;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
 import chylex.hee.tileentity.TileEntityEnergyExtractionTable;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
@@ -37,6 +40,7 @@ public final class GuiHandler implements IGuiHandler{
 			case 5: return new ContainerCharmPouch(player);
 			case 6: return new ContainerVoidChest(player.inventory,PlayerVoidChest.getInventory(player).setChest((TileEntityVoidChest)world.getTileEntity(x,y,z)));
 			case 7: return new ContainerExperienceTable(player.inventory,(TileEntityExperienceTable)world.getTileEntity(x,y,z));
+			case 9: return new ContainerAccumulationTable(player.inventory,(TileEntityAccumulationTable)world.getTileEntity(x,y,z));
 		}
 		
 		return null;
@@ -53,6 +57,7 @@ public final class GuiHandler implements IGuiHandler{
 			case 6: return new GuiVoidChest(player.inventory,PlayerVoidChest.getInventory(player).setChest((TileEntityVoidChest)world.getTileEntity(x,y,z)));
 			case 7: return new GuiExperienceTable(player.inventory,(TileEntityExperienceTable)world.getTileEntity(x,y,z));
 			case 8: return new GuiTransportBeacon(x,y,z);
+			case 9: return new GuiAccumulationTable(player.inventory,(TileEntityAccumulationTable)world.getTileEntity(x,y,z));
 		}
 		
 		return null;

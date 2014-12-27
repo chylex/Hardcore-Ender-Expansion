@@ -14,7 +14,7 @@ public class ContainerAccumulationTable extends ContainerAbstractTable{
 	
 	@Override
 	protected void registerSlots(TileEntityAbstractTable table){
-		addSlotToContainer(new SlotEnergyAcceptor(table,0,34,17));
+		addSlotToContainer(new SlotEnergyAcceptor(table,0,109,35));
 	}
 	
 	@Override

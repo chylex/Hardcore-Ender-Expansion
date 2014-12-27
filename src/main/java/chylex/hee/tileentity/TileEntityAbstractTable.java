@@ -27,12 +27,12 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	@Override
-	protected final byte getDrainTimer(){
+	protected byte getDrainTimer(){
 		return 15;
 	}
 	
 	@Override
-	protected final float getDrainAmount(){
+	protected float getDrainAmount(){
 		return time < totalTime ? EnergyChunkData.energyDrainUnit : 0F;
 	}
 
@@ -105,10 +105,17 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 		float maxEnergy = getMaxStoredEnergy();
 		return MathUtil.floatEquals(maxEnergy,0F) ? -1 : MathUtil.ceil(storedEnergy*(double)scale/maxEnergy);
 	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt){
+		super.writeToNBT(nbt);
+		if (!MathUtil.floatEquals(storedEnergy,0F))nbt.setFloat("storedEng",storedEnergy);
+	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
-		super.readFromNBT(nbt);		
+		super.readFromNBT(nbt);
+		if (nbt.hasKey("storedEng"))storedEnergy = nbt.getFloat("storedEng");
 		postLoadInvalidate = true;
 	}
 }
