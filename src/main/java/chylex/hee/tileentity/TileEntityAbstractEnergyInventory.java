@@ -22,8 +22,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstractInventory{
-	private static final byte[] chunkOffX = new byte[]{ -1, -1, -1, 0, 0, 0, 1, 1, 1 },
-								chunkOffZ = new byte[]{ -1, 0, 1, -1, 0, 1, -1, 0, 1 };
+	protected static final byte[] chunkOffX = new byte[]{ -1, -1, -1, 0, 0, 0, 1, 1, 1 },
+								  chunkOffZ = new byte[]{ -1, 0, 1, -1, 0, 1, -1, 0, 1 };
 	
 	private byte drainTimer;
 	private float energyLeft = -1F;
@@ -94,7 +94,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 					Collections.shuffle(clusters);
 					
 					for(Iterator<TileEntityEnergyCluster> iter = clusters.iterator(); iter.hasNext();){
-						if ((drain = iter.next().drainEnergy(drain,this)) <= EnergyChunkData.minSignificantEnergy)break;
+						if ((drain = iter.next().drainEnergy(drain,this)) < EnergyChunkData.minSignificantEnergy)break;
 					}
 				}
 			}

@@ -63,7 +63,7 @@ public final class RecipeList{
 			'P', ItemList.end_powder,
 			'B', Blocks.iron_bars,
 			'S', Blocks.stone,
-			'C', ItemList.auricion,
+			'C', ItemList.living_matter,
 			'N', BlockList.endium_block,
 			'I', Blocks.iron_block
 		);

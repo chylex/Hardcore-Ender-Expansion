@@ -1,24 +1,32 @@
 package chylex.hee.tileentity;
 import gnu.trove.map.hash.TObjectFloatHashMap;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.ChunkPosition;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C10ParticleEnergyTransfer;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.ItemDamagePair;
+import chylex.hee.system.util.MathUtil;
 
 public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1, 2 };
-	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*10F;
 	private static final TObjectFloatHashMap<ItemDamagePair> energyValues = new TObjectFloatHashMap<>();
+	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*10F;
 	
 	private static void setItemEnergy(Block block, float energyMp){
 		energyValues.put(new ItemDamagePair(Item.getItemFromBlock(block),-1),energyMp*EnergyChunkData.energyDrainUnit);
@@ -36,24 +44,39 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 		return 0;
 	}
 	
-	static{ // TODO
-		setItemEnergy(Blocks.end_stone, 6);
-		setItemEnergy(BlockList.end_terrain, 8);
-		setItemEnergy(ItemList.stardust, 11);
-		setItemEnergy(ItemList.end_powder, 14);
-		setItemEnergy(ItemList.silverfish_blood, 16);
-		setItemEnergy(ItemList.igneous_rock, 21);
-		setItemEnergy(ItemList.knowledge_note, 26);
-		setItemEnergy(Items.ender_pearl, 30);
-		setItemEnergy(ItemList.enhanced_ender_pearl, 32);
-		setItemEnergy(Items.ender_eye, 40);
-		setItemEnergy(BlockList.spooky_log, 43);
-		setItemEnergy(BlockList.spooky_leaves, 43);
-		setItemEnergy(ItemList.instability_orb, 57);
-		setItemEnergy(ItemList.temple_caller, 66);
-		setItemEnergy(Blocks.ender_chest, 75);
-		setItemEnergy(ItemList.transference_gem, 85);
-		setItemEnergy(ItemList.ectoplasm, 112);
+	static{
+		setItemEnergy(Blocks.end_stone, 0.40F);
+		setItemEnergy(BlockList.end_terrain, 0.50F);
+		setItemEnergy(ItemList.adventurers_diary, 0.50F);
+		setItemEnergy(BlockList.persegrit, 0.55F);
+		setItemEnergy(ItemList.silverfish_blood, 0.65F);
+		setItemEnergy(ItemList.stardust, 0.75F);
+		setItemEnergy(ItemList.end_powder, 0.80F);
+		setItemEnergy(ItemList.igneous_rock, 0.90F);
+		setItemEnergy(ItemList.endium_ingot, 1.10F);
+		setItemEnergy(ItemList.knowledge_note, 1.20F);
+		setItemEnergy(Items.ender_pearl, 1.50F);
+		setItemEnergy(ItemList.enhanced_ender_pearl, 1.65F);
+		setItemEnergy(BlockList.enhanced_brewing_stand, 1.65F);
+		setItemEnergy(BlockList.enhanced_tnt, 1.65F);
+		setItemEnergy(Items.ender_eye, 1.95F);
+		setItemEnergy(ItemList.instability_orb, 2.60F);
+		setItemEnergy(BlockList.spooky_log, 3.10F);
+		setItemEnergy(BlockList.spooky_leaves, 3.10F);
+		setItemEnergy(ItemList.rune, 3.25F);
+		setItemEnergy(ItemList.auricion, 3.40F);
+		setItemEnergy(Blocks.ender_chest, 3.75F);
+		setItemEnergy(ItemList.temple_caller, 4.00F);
+		setItemEnergy(ItemList.ectoplasm, 4.20F);
+		setItemEnergy(ItemList.spectral_tear, 4.20F);
+		setItemEnergy(BlockList.void_chest, 4.30F);
+		setItemEnergy(ItemList.charm, 4.80F);
+		setItemEnergy(ItemList.spatial_dash_gem, 5.50F);
+		setItemEnergy(ItemList.energy_wand_core, 6.20F);
+		setItemEnergy(ItemList.energy_wand, 6.40F);
+		setItemEnergy(ItemList.transference_gem, 7.80F);
+		setItemEnergy(BlockList.endium_block, 10.10F);
+		setItemEnergy(ItemList.living_matter, 10.50F);
 	}
 
 	private byte leakTimer = 100;
@@ -65,86 +88,51 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 		if (!worldObj.isRemote && leakTimer < 0 || (leakTimer -= (items[2] == null || items[2].getItem() != ItemList.instability_orb ? 0 : 16-items[2].stackSize)) < 0){
 			leakTimer = 100;
 			
-			if (storedEnergy > EnergyChunkData.minSignificantEnergy){
+			if (storedEnergy >= EnergyChunkData.minSignificantEnergy){
+				float release = EnergyChunkData.energyDrainUnit*0.5F+(float)Math.sqrt(storedEnergy)*0.1F;
 				
-			}
-		}
-		if (worldObj.isRemote || true)return;
-		
-		if (--leakTimer < 0){
-			int orbs = items[2] == null || items[2].getItem() != ItemList.instability_orb ? 0 : items[2].stackSize;
-			
-			if (containedEnergy > 0 && (orbs == 0 || (orbs > 0 && worldObj.rand.nextInt(3) == 0 && worldObj.rand.nextInt(68) > orbs+worldObj.rand.nextInt(10)))){
-				Random rand = worldObj.rand;
-				boolean leakIntoWorld = true;
-				int releasedEnergy = Math.min(containedEnergy,5+rand.nextInt(15));
+				List<TileEntityEnergyCluster> clusters = new ArrayList<>();
+				int chunkX = xCoord>>4, chunkZ = zCoord>>4, cx, cz;
 				
-				for(int attempt = 0, xx, yy, zz, energy = releasedEnergy; attempt < 2500 && energy > 0; attempt++){
-					xx = xCoord+rand.nextInt(17)-8;
-					yy = yCoord+rand.nextInt(17)-8;
-					zz = zCoord+rand.nextInt(17)-8;
+				for(int a = 0; a < 9; a++){
+					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).chunkTileEntityMap;
+					cx = chunkX*16+chunkOffX[a]*16;
+					cz = chunkZ*16+chunkOffZ[a]*16;
 					
-					if (worldObj.getBlock(xx,yy,zz) == BlockList.energy_cluster){
-						TileEntityEnergyCluster cluster = (TileEntityEnergyCluster)worldObj.getTileEntity(xx,yy,zz);
-						if (cluster == null)continue;
+					for(Entry<ChunkPosition,TileEntity> entry:tiles.entrySet()){
+						ChunkPosition pos = entry.getKey();
 						
-						float diff = Math.min(cluster.data.getMaxEnergyLevel()-cluster.data.getEnergyLevel(),releasedEnergy);
-						
-						if (diff > 0){
-							//cluster.data.addEnergy(diff);
-							cluster.synchronize();
-							if ((energy -= diff) <= 0)leakIntoWorld = false;
-							PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,cluster));
+						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.chunkPosX-xCoord,pos.chunkPosY-yCoord,cz+pos.chunkPosZ-zCoord) <= 16D){
+							clusters.add((TileEntityEnergyCluster)entry.getValue());
 						}
 					}
 				}
 				
-				if (leakIntoWorld && rand.nextBoolean() && rand.nextBoolean()){
-					if (containedEnergy > 360+rand.nextInt(200) && rand.nextInt(3) == 0){
-						for(int attempt = 0, xx, yy, zz, dist; attempt < 40; attempt++){
-							dist = 2+(attempt>>3);
-							xx = xCoord+rand.nextInt(dist*2+1)-dist;
-							yy = yCoord+rand.nextInt(dist*2+1)-dist;
-							zz = zCoord+rand.nextInt(dist*2+1)-dist;
-							
-							if (worldObj.isAirBlock(xx,yy,zz)){
-								worldObj.setBlock(xx,yy,zz,BlockList.energy_cluster);
-								TileEntityEnergyCluster cluster = (TileEntityEnergyCluster)worldObj.getTileEntity(xx,yy,zz);
-								
-								if (cluster == null)worldObj.setBlockToAir(xx,yy,zz);
-								else{
-									NBTTagCompound nbt = new NBTTagCompound();
-									cluster.data.writeToNBT(nbt);
-									nbt.setInteger("energyAmt",releasedEnergy);
-									nbt.setByte("weakness",(byte)0);
-									nbt.setByte("regenBoost",(byte)0);
-									cluster.data.readFromNBT(nbt);
-								}
-								
-								break;
-							}
-						}
-					}
-					else if (rand.nextInt(7) == 0){
-						for(int attempt = 0, placed = 0, xx, yy, zz, dist; attempt < 40 && placed < 4; attempt++){
-							dist = 3+(attempt>>3);
-							xx = xCoord+rand.nextInt(dist*2+1)-dist;
-							yy = yCoord+rand.nextInt(dist*2+1)-dist;
-							zz = zCoord+rand.nextInt(dist*2+1)-dist;
-							
-							if (worldObj.isAirBlock(xx,yy,zz)){
-								worldObj.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+rand.nextInt(3),3);
-								++placed;
-							}
-						}
+				if (!clusters.isEmpty()){
+					Collections.shuffle(clusters);
+					
+					for(Iterator<TileEntityEnergyCluster> iter = clusters.iterator(); iter.hasNext();){
+						if ((release = iter.next().addEnergy(release,this)) < EnergyChunkData.minSignificantEnergy)break;
 					}
 				}
 				
-				containedEnergy -= releasedEnergy;
-				markDirty();
+				if (release >= EnergyChunkData.minSignificantEnergy && worldObj.provider.dimensionId == 1){
+					release = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).addEnergy(release);
+				}
+				
+				if (release >= EnergyChunkData.minSignificantEnergy){
+					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 8 && placed < 4; attempt++){
+						xx = xCoord+worldObj.rand.nextInt(7)-3;
+						yy = yCoord+worldObj.rand.nextInt(7)-3;
+						zz = zCoord+worldObj.rand.nextInt(7)-3;
+						
+						if (worldObj.isAirBlock(xx,yy,zz)){
+							worldObj.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+MathUtil.floor(release*4.5F),3);
+							++placed;
+						}
+					}
+				}
 			}
-			
-			leakTimer = (byte)(15+(orbs>>1)+(orbs>>2));
 		}
 	}
 	

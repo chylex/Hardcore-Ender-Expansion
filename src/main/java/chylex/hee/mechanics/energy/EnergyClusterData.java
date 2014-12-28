@@ -91,6 +91,18 @@ public final class EnergyClusterData{
 		this.energyLevel = newLevel;
 	}
 	
+	public float addEnergy(float amount){
+		if (energyLevel+amount <= maxEnergyLevel){
+			energyLevel += amount;
+			return 0F;
+		}
+		else{
+			amount -= maxEnergyLevel-energyLevel;
+			energyLevel = maxEnergyLevel;
+			return amount;
+		}
+	}
+	
 	public float drainEnergy(float amount){
 		if (energyLevel >= amount){
 			energyLevel -= amount;

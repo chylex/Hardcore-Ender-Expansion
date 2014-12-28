@@ -56,6 +56,14 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		shouldNotExplode = false;
 	}
 	
+	public float addEnergy(float amount, TileEntityAbstractEnergyInventory tile){
+		if (data.getEnergyLevel() < data.getMaxEnergyLevel())PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
+		
+		float left = data.addEnergy(amount);
+		if (!MathUtil.floatEquals(left,amount))synchronize();
+		return left;
+	}
+	
 	public float drainEnergy(float amount, TileEntityAbstractEnergyInventory tile){
 		if (data.getEnergyLevel() >= EnergyChunkData.minSignificantEnergy)PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
 		

@@ -54,9 +54,15 @@ public class EnergyChunkData{
 		}
 	}
 	
-	public void addEnergy(float amount){
-		if (energyLevel+amount <= maxEnergyLevel*2)energyLevel += amount;
-		else energyLevel = maxEnergyLevel*2;
+	public float addEnergy(float amount){
+		if (energyLevel+amount <= maxEnergyLevel*2){
+			energyLevel += amount;
+			return 0F;
+		}
+		else{
+			energyLevel = maxEnergyLevel*2;
+			return energyLevel-amount;
+		}
 	}
 	
 	public boolean drainEnergyUnit(){
