@@ -37,7 +37,7 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 
 	@Override
-	protected boolean isWorking(){
+	public boolean isWorking(){
 		return requiredStardust > 0 && getHoldingStardust() >= requiredStardust;
 	}
 

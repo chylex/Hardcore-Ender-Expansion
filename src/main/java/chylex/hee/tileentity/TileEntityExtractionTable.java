@@ -1,5 +1,5 @@
 package chylex.hee.tileentity;
-import gnu.trove.map.hash.TObjectByteHashMap;
+import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -7,36 +7,28 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.util.ItemDamagePair;
-import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory implements IInventoryInvalidateable{
-	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1,2 }, slotsBottom = new int[]{};
-	private static final TObjectByteHashMap<ItemDamagePair> energyValues = new TObjectByteHashMap<>();
+public class TileEntityExtractionTable extends TileEntityAbstractTable{
+	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1, 2 };
+	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*10F;
+	private static final TObjectFloatHashMap<ItemDamagePair> energyValues = new TObjectFloatHashMap<>();
 	
-	private static void setItemEnergy(Block block, int energy){
-		energyValues.put(new ItemDamagePair(Item.getItemFromBlock(block),-1),(byte)energy);
+	private static void setItemEnergy(Block block, float energyMp){
+		energyValues.put(new ItemDamagePair(Item.getItemFromBlock(block),-1),energyMp*EnergyChunkData.energyDrainUnit);
 	}
 	
-	private static void setItemEnergy(Block block, int metadata, int energy){
-		energyValues.put(new ItemDamagePair(Item.getItemFromBlock(block),metadata),(byte)energy);
+	private static void setItemEnergy(Item item, float energyMp){
+		energyValues.put(new ItemDamagePair(item,-1),energyMp*EnergyChunkData.energyDrainUnit);
 	}
 	
-	private static void setItemEnergy(Item item, int energy){
-		energyValues.put(new ItemDamagePair(item,-1),(byte)energy);
-	}
-	
-	private static void setItemEnergy(Item item, int damage, int energy){
-		energyValues.put(new ItemDamagePair(item,damage),(byte)energy);
-	}
-	
-	private static byte getItemEnergy(ItemStack is){
+	private static float getItemEnergy(ItemStack is){
 		for(ItemDamagePair idp:energyValues.keySet()){
 			if (idp.check(is))return energyValues.get(idp);
 		}
@@ -44,7 +36,7 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 		return 0;
 	}
 	
-	static{
+	static{ // TODO
 		setItemEnergy(Blocks.end_stone, 6);
 		setItemEnergy(BlockList.end_terrain, 8);
 		setItemEnergy(ItemList.stardust, 11);
@@ -64,13 +56,19 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 		setItemEnergy(ItemList.ectoplasm, 112);
 	}
 
-	private short time, timeStep;
-	private byte requiredStardust;
-	private int containedEnergy;
 	private byte leakTimer = 100;
 	
 	@Override
 	public void updateEntity(){
+		super.updateEntity();
+		
+		if (!worldObj.isRemote && leakTimer < 0 || (leakTimer -= (items[2] == null || items[2].getItem() != ItemList.instability_orb ? 0 : 16-items[2].stackSize)) < 0){
+			leakTimer = 100;
+			
+			if (storedEnergy > EnergyChunkData.minSignificantEnergy){
+				
+			}
+		}
 		if (worldObj.isRemote || true)return;
 		
 		if (--leakTimer < 0){
@@ -148,101 +146,54 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 			
 			leakTimer = (byte)(15+(orbs>>1)+(orbs>>2));
 		}
-		
-		if (requiredStardust > 0){
-			if (items[1] == null || items[1].getItem() != ItemList.stardust || items[1].stackSize < requiredStardust)return;
-			
-			if ((time += timeStep) >= 1000){
-				int energy = getItemEnergy(items[0]);
-				if (containedEnergy+energy > 500){
-					time = 1000;
-					return;
-				}
-				
-				containedEnergy += energy;
-				if ((items[0].stackSize -= 1) <= 0)items[0] = null;
-				if ((items[1].stackSize -= requiredStardust) <= 0)items[1] = null;
-				
-				markDirty();
-				resetExtraction();
-				invalidateInventory();
-			}
-		}
 	}
 	
 	@Override
 	public void invalidateInventory(){
 		if (worldObj != null && worldObj.isRemote)return;
-		resetExtraction();
+		resetTable();
 		
 		if (items[0] != null){
-			byte energy = getItemEnergy(items[0]);
+			float energy = getItemEnergy(items[0]);
 			
-			if (energy > 0){
-				requiredStardust = (byte)(1+(energy>>5)+(energy>>3));
-				timeStep = (short)Math.max(1,20-Math.sqrt(2*energy));
+			if (energy > 0F){
+				requiredStardust = (byte)(1+Math.sqrt(energy/EnergyChunkData.energyDrainUnit));
+				timeStep = (short)Math.max(1,20-(requiredStardust>>2));
 			}
 		}
 	}
-	
-	private void resetExtraction(){
-		if (worldObj != null && worldObj.isRemote)return;
-		time = timeStep = requiredStardust = 0;
+
+	@Override
+	protected boolean onWorkFinished(){
+		float energy = getItemEnergy(items[0]);
+		if (storedEnergy+energy <= maxStoredEnergy)return false;
+		
+		storedEnergy += energy;
+		if ((items[0].stackSize -= 1) <= 0)items[0] = null;
+		if ((items[1].stackSize -= requiredStardust) <= 0)items[1] = null;
+		
+		return true;
 	}
 	
-	public int getTime(){
-		return time;
+	@Override
+	public float getMaxStoredEnergy(){
+		return maxStoredEnergy;
 	}
 	
+	@Override
 	public int getHoldingStardust(){
 		return items[1] == null ? 0 : items[1].stackSize;
-	}
-	
-	public int getRequiredStardust(){
-		return requiredStardust;
-	}
-	
-	public int getContainedEnergy(){
-		return containedEnergy;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void setTime(int time){
-		this.time = (short)time;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void setRequiredStardust(int requiredStardust){
-		this.requiredStardust = (byte)requiredStardust;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void setContainedEnergy(int containedEnergy){
-		this.containedEnergy = (short)containedEnergy;
-	}
-
-	@SideOnly(Side.CLIENT)
-	public int getScaledProgressTime(int scale){
-		if (time == 0 && timeStep == 0)return -1;
-		return MathUtil.ceil(time*(double)scale/1000D);
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public int getScaledContainedEnergy(int scale){
-		return MathUtil.ceil(containedEnergy*scale/500F);
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		nbt.setInteger("energy",containedEnergy);
 		nbt.setByte("leakTimer",leakTimer);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
-		containedEnergy = nbt.getInteger("energy");
 		leakTimer = nbt.getByte("leakTimer");
 		invalidateInventory();
 	}
@@ -253,23 +204,17 @@ public class TileEntityEnergyExtractionTable extends TileEntityAbstractInventory
 	}
 
 	@Override
-	public void setInventorySlotContents(int slot, ItemStack is){
-		super.setInventorySlotContents(slot,is);
-		if (slot == 0)invalidateInventory();
-	}
-
-	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack is){
 		return slot == 1 ? is.getItem() == ItemList.stardust : slot == 2 ? is.getItem() == ItemList.instability_orb : true;
 	}
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side){
-		return side == 0 ? slotsBottom : side == 1 ? slotsTop : slotsSides;
+		return side == 0 ? ArrayUtils.EMPTY_INT_ARRAY : side == 1 ? slotsTop : slotsSides;
 	}
 
 	@Override
 	protected String getContainerDefaultName(){
-		return "container.energyExtractionTable";
+		return "container.extractionTable";
 	}
 }

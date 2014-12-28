@@ -2,9 +2,12 @@ package chylex.hee.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.tileentity.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -23,6 +26,22 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 	@Override
 	public final boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
 		player.openGui(HardcoreEnderExpansion.instance,getGuiID(),world,x,y,z);
+		return true;
+	}
+	
+	@Override
+	public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int direction){
+		TileEntity tile = world.getTileEntity(x,y,z);
+		return tile == null || ((TileEntityAbstractTable)tile).isWorking() ? 0 : 15;
+	}
+	
+	@Override
+	public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int direction){
+		return isProvidingWeakPower(world,x,y,z,direction);
+	}
+	
+	@Override
+	public boolean canProvidePower(){
 		return true;
 	}
 

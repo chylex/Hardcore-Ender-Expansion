@@ -58,7 +58,7 @@ public final class RecipeList{
 			'I', Blocks.iron_block
 		);
 		
-		GameRegistry.addShapedRecipe(new ItemStack(BlockList.energy_extraction_table),
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.extraction_table),
 			"PBP", "SCS", "INI",
 			'P', ItemList.end_powder,
 			'B', Blocks.iron_bars,

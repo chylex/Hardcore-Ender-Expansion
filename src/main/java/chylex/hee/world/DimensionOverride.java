@@ -6,7 +6,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.util.Unfinalizer;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.StructureIsland;
@@ -51,24 +50,8 @@ public final class DimensionOverride{
 	private static void overrideBiome(){
 		Stopwatch.time("DimensionOverride - Biome");
 		
-		try{
-			BiomeGenBase sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
-			BiomeGenBase.getBiomeGenArray()[9] = sky;
-			
-			for(Field field:BiomeGenBase.class.getDeclaredFields()){
-				if (!BiomeGenBase.class.isAssignableFrom(field.getType()))continue;
-				
-				field.setAccessible(true);
-				Unfinalizer.unfinalizeField(field);
-				
-				if (((BiomeGenBase)field.get(null)).biomeID == 9){
-					field.set(null,sky);
-					break;
-				}
-			}
-		}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException e){
-			throw new RuntimeException("Could not override the End biome!",e);
-		}
+		BiomeGenBase.sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
+		BiomeGenBase.getBiomeGenArray()[9] = BiomeGenBase.sky;
 		
 		Stopwatch.finish("DimensionOverride - Biome");
 	}

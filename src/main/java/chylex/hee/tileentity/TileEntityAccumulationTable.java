@@ -43,7 +43,7 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	}
 	
 	@Override
-	protected boolean isWorking(){
+	public boolean isWorking(){
 		return storedEnergy < maxStoredEnergy;
 	}
 	
