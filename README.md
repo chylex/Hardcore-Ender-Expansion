@@ -9,19 +9,17 @@ Use http://hee-translate.chylex.com/ for translations instead.
 
 ## Source code and asset license
 
-This part will become relevant once the mod's source code is publicly visible.
-
-The project is under the All Rights Reserved license, which means that redistribution is still forbidden. However, I hate licenses so here are some general rules, and some specific cases for what you may want to do with the source.
+The project is under the All Rights Reserved license, which means that redistribution is forbidden. However, I do not want to be as restrictive, so here are some general rules, and some specific cases for what you may want to do with the source.
 
 1. Feel free to fork the project on GitHub. The repository must be publicly visible.
 2. You are allowed to study the source code and learn from it, but don't just copy large portions of it into your project.
-3. Mod's terms of use apply, thus you cannot redistribute any part of the mod or claim it as your own. Forking is the only exception to source & asset redistribution.
+3. Official terms of use apply, thus you cannot redistribute any part of the mod or claim it as your own. Forking is the only exception to source & asset redistribution.
 
 ### I want to use part of the mod in my own project
 
-If you find a handy method or even an entire class (such as BlockReplaceHelper), I don't mind if you use it in your project (don't copy everything you see though, that's not how you learn to mod). Giving credit is appreciated, but not required.
+This rule only applies to the source code, assets are copyrighted and belong to their respective owners (music to qwertygiy, all other assets to me), and cannot be used in other projects without the owner's permission!
 
-Don't forget that you can only use the source code, *not* any of the assets.
+If you find a handy method or even an entire class (such as BlockReplaceHelper), I don't mind if you use it in your project (don't copy everything you see though, that's not how you learn to mod). Giving credit is only required if your project has publicly visible source, in that case use javadoc and link back to the original source.
 
 ### I want to modify something in HEE
 
