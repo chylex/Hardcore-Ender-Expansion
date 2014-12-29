@@ -11,8 +11,11 @@ public class EnergyChunkDataOverworld extends EnergyChunkData{
 	public void onUpdate(World world, Random rand){}
 	@Override
 	public void onAdjacentInteract(Random rand, EnergyChunkData data){}
+	
 	@Override
-	public void addEnergy(float amount){}
+	public float addEnergy(float amount){
+		return amount;
+	}
 	
 	@Override
 	public boolean drainEnergyUnit(){

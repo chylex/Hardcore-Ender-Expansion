@@ -67,10 +67,11 @@ public final class ItemList{
 	public static Item infestation_remedy;
 	public static Item ghost_amulet;
 	public static Item curse;
+	public static Item potion_of_purity;
+	public static Item curse_amulet;
 	public static Item corporeal_mirage_orb;
 	public static Item charm_pouch;
 	public static Item charm;
-	public static Item potion_of_purity;
 	public static Item scorching_pickaxe;
 	public static Item energy_wand;
 	
@@ -120,12 +121,13 @@ public final class ItemList{
 		register("transference_gem", transference_gem = new ItemTransferenceGem().setMaxStackSize(1).setMaxDamage(204).setNoRepair().setUnlocalizedName("transferenceGem").setTextureName("hardcoreenderexpansion:transference_gem"));
 		register("temple_caller", temple_caller = new ItemTempleCaller().setMaxStackSize(1).setMaxDamage(50).setNoRepair().setUnlocalizedName("templeCaller").setTextureName("hardcoreenderexpansion:temple_caller"));
 		register("infestation_remedy", infestation_remedy = new ItemInfestationRemedy().setMaxStackSize(1).setUnlocalizedName("infestationRemedy").setTextureName("hardcoreenderexpansion:infestation_remedy"));
-		register("ghost_amulet", ghost_amulet = new ItemGhostAmulet().setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
+		register("ghost_amulet", ghost_amulet = new ItemGhostAmulet().setMaxStackSize(1).setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
 		register("curse", curse = new ItemCurse().setMaxStackSize(32).setUnlocalizedName("curse").setTextureName("hardcoreenderexpansion:curse"));
+		register("potion_of_purity", potion_of_purity = new ItemPotionOfPurity().setUnlocalizedName("potionOfPurity").setTextureName("hardcoreenderexpansion:potion_of_purity"));
+		register("curse_amulet", curse = new Item().setMaxStackSize(1).setUnlocalizedName("curseAmulet").setTextureName("hardcoreenderexpansion:curse_amulet"));
 		register("corporeal_mirage_orb", corporeal_mirage_orb = new ItemCorporealMirageOrb().setMaxStackSize(4).setUnlocalizedName("corporealMirageOrb").setTextureName("hardcoreenderexpansion:corporeal_mirage_orb"));
 		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
 		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
-		register("potion_of_purity", potion_of_purity = new ItemPotionOfPurity().setUnlocalizedName("potionOfPurity").setTextureName("hardcoreenderexpansion:potion_of_purity"));
 		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe"));
 		register("energy_wand", energy_wand = new ItemEnergyWand().setMaxStackSize(1).setUnlocalizedName("energyWand").setTextureName("hardcoreenderexpansion:energy_wand"));
 		
@@ -152,10 +154,7 @@ public final class ItemList{
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			biome_compass,spatial_dash_gem,transference_gem,temple_caller,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
-			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,corporeal_mirage_orb
-		).addBlocks(
-			BlockList.soul_charm
-		).addItems(
+			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,curse_amulet,
 			fire_shard,scorching_pickaxe,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_wand,
 			enderman_head,bucket_ender_goo,music_disk,
 			knowledge_note,exp_bottle,

@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
@@ -59,7 +60,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 				
 				if (ownerEntityID == -1)ownerEntityID = dataWatcher.getWatchableObjectInt(17);
 				
-				boolean forceRenderFX = client.getEntityId() == ownerEntityID;
+				boolean forceRenderFX = client.getEntityId() == ownerEntityID || (client.getHeldItem() != null && client.getHeldItem().getItem() == ItemList.curse_amulet);
 				
 				if (!forceRenderFX){
 					for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.75D,0.1D,1.75D))){
@@ -79,15 +80,17 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 		}
 		else if (ticksExisted == 1)dataWatcher.updateObject(16,(byte)(curseType.damage+1));
 		
-		if (ownerEntityID == -1){
-			for(EntityPlayer player:(List<EntityPlayer>)worldObj.playerEntities){
-				if (player.getPersistentID().equals(owner)){
-					dataWatcher.updateObject(17,ownerEntityID = player.getEntityId());
-					break;
+		if (ticksExisted%20 == 1){
+			if (ownerEntityID == -1){
+				for(EntityPlayer player:(List<EntityPlayer>)worldObj.playerEntities){
+					if (player.getPersistentID().equals(owner)){
+						dataWatcher.updateObject(17,ownerEntityID = player.getEntityId());
+						break;
+					}
 				}
 			}
+			else if (worldObj.getEntityByID(ownerEntityID) == null)ownerEntityID = -1;
 		}
-		else if (ticksExisted%10 == 0 && worldObj.getEntityByID(ownerEntityID) == null)ownerEntityID = -1;
 		
 		List<EntityLivingBase> newAffectedEntities = new ArrayList<>();
 		
