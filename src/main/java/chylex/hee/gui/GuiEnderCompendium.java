@@ -184,7 +184,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 			
 			for(PurchaseDisplayElement element:purchaseElements){
-				if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4) && compendiumData.getPoints() >= element.price){
+				if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4) && element.canBePurchased() && compendiumData.getPoints() >= element.price){
 					Object obj = element.object;
 					
 					if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
@@ -484,7 +484,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			x = x+(guiPageTexWidth>>1)-guiPageLeft;
 		}
 		
-		for(PurchaseDisplayElement element:purchaseElements)element.render(this,x);
+		for(PurchaseDisplayElement element:purchaseElements)element.render(this,mouseX,mouseY,x);
 		
 		if (!currentObject.isBuyable() && !compendiumData.hasDiscoveredObject(currentObject)){
 			RenderHelper.disableStandardItemLighting();

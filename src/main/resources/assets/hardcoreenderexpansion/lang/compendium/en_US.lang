@@ -15,6 +15,9 @@ ec.title.ravagedDungeon=Ravaged Dungeon
 ec.title.curses=Curses
 ec.title.dungeonPuzzle=Dungeon Puzzle
 
+ec.help.nonbuyable=The fragment has to be purchased elsewhere
+ec.help.requirements=Another fragment must be bought first
+
 ec.reg.0=Welcome to the Ender Compendium, the source of all knowledge about the End!
 ec.reg.1=The Compendium is divided into phases, each contains blocks, items and mobs you can find in that phase.
 ec.reg.2=In order to reveal information about these objects, you have to either discover them or pay extra Knowledge Points to unlock them.

@@ -137,6 +137,7 @@ public class BlockDeathFlower extends BlockFlower{
 		if (is == null || is.getItem() != ItemList.end_powder)return false;
 		
 		int meta = world.getBlockMetadata(x,y,z);
+		
 		if (meta > 0 && meta < 15){
 			if (!world.isRemote){
 				world.setBlockMetadataWithNotify(x,y,z,meta-1,2);
@@ -145,9 +146,9 @@ public class BlockDeathFlower extends BlockFlower{
 			}
 			
 			for(int a = 0; a < 3; a++)world.spawnParticle("portal",x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),0D,0D,0D);
-			return true;
 		}
-		return false;
+		
+		return true;
 	}
 	
 	@Override

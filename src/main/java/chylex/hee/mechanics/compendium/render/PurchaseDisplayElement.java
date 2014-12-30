@@ -1,8 +1,10 @@
 package chylex.hee.mechanics.compendium.render;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData.FragmentPurchaseStatus;
@@ -10,7 +12,7 @@ import chylex.hee.mechanics.compendium.player.PlayerCompendiumData.FragmentPurch
 public class PurchaseDisplayElement{
 	public final Object object;
 	public final int price;
-	public final FragmentPurchaseStatus status;
+	private final FragmentPurchaseStatus status;
 	private final int y;
 	
 	public PurchaseDisplayElement(KnowledgeFragment fragment, int y, FragmentPurchaseStatus status){
@@ -27,7 +29,7 @@ public class PurchaseDisplayElement{
 		this.status = status;
 	}
 	
-	public void render(GuiScreen gui, int pageCenterX){
+	public void render(GuiScreen gui, int mouseX, int mouseY, int pageCenterX){
 		pageCenterX += 3;
 		
 		GL11.glColor4f(1F,1F,1F,0.96F);
@@ -43,16 +45,27 @@ public class PurchaseDisplayElement{
 		RenderHelper.disableStandardItemLighting();
 		
 		String price = status == FragmentPurchaseStatus.NOT_BUYABLE ? "---" : String.valueOf(this.price);
-		int color = status == FragmentPurchaseStatus.CAN_PURCHASE ? 0x404040 : status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED ? 0x888888 : status == FragmentPurchaseStatus.NOT_ENOUGH_POINTS ? 0xdd2020 : 0;
+		int color = status == FragmentPurchaseStatus.CAN_PURCHASE ? 0x404040 :
+					(status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED || status == FragmentPurchaseStatus.NOT_BUYABLE) ? 0x888888 :
+					status == FragmentPurchaseStatus.NOT_ENOUGH_POINTS ? 0xdd2020 : 0;
 		gui.mc.fontRenderer.drawString(price,pageCenterX-gui.mc.fontRenderer.getStringWidth(price)+20,y-5,color);
 		
 		if (object.getClass() == KnowledgeObject.class){
 			String name = ((KnowledgeObject)object).getTooltip();
 			gui.mc.fontRenderer.drawString(name,pageCenterX-(gui.mc.fontRenderer.getStringWidth(name)>>1),y-25,0x404040);
 		}
+		else if (isMouseOver(mouseX,mouseY,pageCenterX-3)){
+			String tooltip = status == FragmentPurchaseStatus.NOT_BUYABLE ? "ec.help.nonbuyable" :
+							 status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED ? "ec.help.requirements" : null;
+			if (tooltip != null)GuiItemRenderHelper.setupTooltip(mouseX,mouseY,I18n.format(tooltip));
+		}
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int pageCenterX){
-		return mouseX >= (pageCenterX+3)-27 && mouseY >= y-14 && mouseX <= (pageCenterX+3)+27 && mouseY <= y+12 && status == FragmentPurchaseStatus.CAN_PURCHASE;
+		return mouseX >= (pageCenterX+3)-27 && mouseY >= y-14 && mouseX <= (pageCenterX+3)+27 && mouseY <= y+12;
+	}
+	
+	public boolean canBePurchased(){
+		return status == FragmentPurchaseStatus.CAN_PURCHASE;
 	}
 }
