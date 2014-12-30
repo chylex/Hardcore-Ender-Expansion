@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.stats.IStatStringFormat;
+import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.MinecraftForgeClient;
 import chylex.hee.block.BlockList;
@@ -100,6 +101,7 @@ import chylex.hee.render.projectile.RenderProjectileCurse;
 import chylex.hee.render.projectile.RenderProjectileFiendFireball;
 import chylex.hee.render.projectile.RenderProjectilePotion;
 import chylex.hee.render.tileentity.RenderTileCustomSpawner;
+import chylex.hee.render.tileentity.RenderTileEndPortalFixed;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
 import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.render.tileentity.RenderTileLaserBeam;
@@ -162,6 +164,7 @@ public class ModClientProxy extends ModCommonProxy{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserBeam.class, new RenderTileLaserBeam());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new RenderTileVoidChest());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransportBeacon.class, new RenderTileTransportBeacon());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndPortal.class, new RenderTileEndPortalFixed());
 		
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
 

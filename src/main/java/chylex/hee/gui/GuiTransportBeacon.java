@@ -62,7 +62,7 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 	public void initGui(){
 		buttonList.add(buttonTravel = new GuiButton(1,(width>>1)-82,(height>>1)+61,80,20,I18n.format("container.button.travel")));
 		buttonList.add(new GuiButton(2,(width>>1)+2,(height>>1)+61,80,20,I18n.format("gui.cancel")));
-		buttonTravel.enabled = false;
+		updateTravelButton();
 	}
 	
 	private void updateTravelButton(){
