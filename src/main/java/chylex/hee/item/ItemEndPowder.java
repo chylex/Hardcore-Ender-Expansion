@@ -9,7 +9,7 @@ import chylex.hee.entity.item.EntityItemEndPowder;
 public class ItemEndPowder extends ItemAbstractCustomEntity{
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (player.isSneaking())player.openGui(HardcoreEnderExpansion.instance,4,world,0,0,0);
+		player.openGui(HardcoreEnderExpansion.instance,4,world,0,0,0);
 		return is;
 	}
 	
