@@ -56,24 +56,23 @@ public class EntityItemEndPowder extends EntityItem{
 				
 				if (ingredients.isEmpty()){
 					if (++progress > 8){
+						progress = 0;
 						for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.portalBig(worldObj,posX,posY+0.5D,posZ,(rand.nextDouble()-0.5D)*0.2D,0.15D+rand.nextDouble()*0.15D,(rand.nextDouble()-0.5D)*0.2D);
 						
-						ItemStack is = getEntityItem();
-						if (--is.stackSize == 0)setDead();
-						else setEntityItemStack(is);
-						
-						for(EntityItem ingredient:foundIngredients){
-							if (--(is = ingredient.getEntityItem()).stackSize == 0)ingredient.setDead();
-							else ingredient.setEntityItemStack(is);
-						}
-						
 						if (!worldObj.isRemote){
+							ItemStack is = getEntityItem();
+							if (--is.stackSize == 0)setDead();
+							else setEntityItemStack(is);
+							
+							for(EntityItem ingredient:foundIngredients){
+								if (--(is = ingredient.getEntityItem()).stackSize == 0)ingredient.setDead();
+								else ingredient.setEntityItemStack(is);System.out.println(is);
+							}
+							
 							EntityItem amulet = new EntityItem(worldObj,posX,posY,posZ,entry.getValue());
 							amulet.addVelocity((rand.nextDouble()-rand.nextDouble())*0.1D,0.45D,(rand.nextDouble()-rand.nextDouble())*0.1D);
 							worldObj.spawnEntityInWorld(amulet);
 						}
-						
-						if (!isDead)progress = 0;
 					}
 					
 					break;

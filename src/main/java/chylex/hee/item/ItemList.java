@@ -124,7 +124,7 @@ public final class ItemList{
 		register("ghost_amulet", ghost_amulet = new ItemGhostAmulet().setMaxStackSize(1).setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
 		register("curse", curse = new ItemCurse().setMaxStackSize(32).setUnlocalizedName("curse").setTextureName("hardcoreenderexpansion:curse"));
 		register("potion_of_purity", potion_of_purity = new ItemPotionOfPurity().setUnlocalizedName("potionOfPurity").setTextureName("hardcoreenderexpansion:potion_of_purity"));
-		register("curse_amulet", curse = new Item().setMaxStackSize(1).setUnlocalizedName("curseAmulet").setTextureName("hardcoreenderexpansion:curse_amulet"));
+		register("curse_amulet", curse_amulet = new Item().setMaxStackSize(1).setUnlocalizedName("curseAmulet").setTextureName("hardcoreenderexpansion:curse_amulet"));
 		register("corporeal_mirage_orb", corporeal_mirage_orb = new ItemCorporealMirageOrb().setMaxStackSize(4).setUnlocalizedName("corporealMirageOrb").setTextureName("hardcoreenderexpansion:corporeal_mirage_orb"));
 		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
 		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
