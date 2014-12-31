@@ -26,7 +26,19 @@ public class C08PlaySound extends AbstractClientPacket{
 							 GRASS_BREAK = 15,
 							 GRAVEL_BREAK = 16,
 							 SAND_BREAK = 17,
-							 WOOD_BREAK = 18;
+							 WOOD_BREAK = 18,
+							 PIG_HURT = 19,
+							 PIG_DIE = 20,
+							 COW_HURT = 21,
+							 COW_DIE = 22,
+							 SHEEP_HURT = 23,
+							 SHEEP_DIE = 24,
+							 CHICKEN_HURT = 25,
+							 CHICKEN_DIE = 26,
+							 ZOMBIE_HURT = 27,
+							 ZOMBIE_DIE = 28,
+							 SKELETON_HURT = 29,
+							 SKELETON_DIE = 30;
 	
 	private static final String[] soundNames = new String[]{
 		/*  0 */ "hardcoreenderexpansion:mob.endereye.attack.poof",
@@ -47,12 +59,24 @@ public class C08PlaySound extends AbstractClientPacket{
 		/* 15 */ Block.soundTypeGrass.getBreakSound(),
 		/* 16 */ Block.soundTypeGravel.getBreakSound(),
 		/* 17 */ Block.soundTypeSand.getBreakSound(),
-		/* 18 */ Block.soundTypeWood.getBreakSound()
+		/* 18 */ Block.soundTypeWood.getBreakSound(),
+		/* 19 */ "mob.pig.say",
+		/* 20 */ "mob.pig.death",
+		/* 21 */ "mob.cow.hurt",
+		/* 22 */ "mob.cow.hurt",
+		/* 23 */ "mob.sheep.say",
+		/* 24 */ "mob.sheep.say",
+		/* 25 */ "mob.chicken.hurt",
+		/* 26 */ "mob.chicken.hurt",
+		/* 27 */ "mob.zombie.hurt",
+		/* 28 */ "mob.zombie.death",
+		/* 29 */ "mob.skeleton.hurt",
+		/* 30 */ "mob.skeleton.death"
 	};
 	
 	private byte soundId;
-	private double x,y,z;
-	private float volume,pitch;
+	private double x, y, z;
+	private float volume, pitch;
 	
 	public C08PlaySound(){}
 	

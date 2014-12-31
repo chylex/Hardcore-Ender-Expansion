@@ -64,13 +64,18 @@ public class BiomeInteractionEnchantedIsland{
 	
 	public static class InteractionCellarSounds extends AbstractBiomeInteraction{
 		private enum Procedure{
-			FOOTSTEPS, BLOCK_BREAKING, CHEST_OPENING;
+			FOOTSTEPS, BLOCK_BREAKING, CHEST_OPENING, MOB_KILLING;
 			static final Procedure[] values = values();
 		}
 		
 		private enum BreakEffects{
 			GRASS, GRAVEL, SAND, WOOD;
 			static final BreakEffects[] values = values();
+		}
+		
+		private enum MobEffects{
+			PIG, COW, SHEEP, CHICKEN, ZOMBIE, SKELETON;
+			static final MobEffects[] values = values();
 		}
 		
 		private EntityPlayer target;
@@ -191,6 +196,12 @@ public class BiomeInteractionEnchantedIsland{
 							play(C08PlaySound.CHEST_CLOSE,0.1F,0.9F+rand.nextFloat()*0.1F);
 						}
 						
+						break;
+						
+					case MOB_KILLING:
+						if (lastSoundId == 0)lastSoundId = (byte)(1+rand.nextInt(MobEffects.values.length));
+						timer = 10+rand.nextInt(4+rand.nextInt(7)*rand.nextInt(2));
+						play((byte)(C08PlaySound.PIG_HURT+2*(lastSoundId-1)+(rand.nextInt(6) == 0 ? 1 : 0)),lastSoundId == MobEffects.COW.ordinal()+1 ? 0.4F : 1F,1F+(rand.nextFloat()-rand.nextFloat())*0.2F);
 						break;
 				}
 				
