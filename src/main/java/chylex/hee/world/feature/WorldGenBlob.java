@@ -156,10 +156,16 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobPopulatorTransportBeacon(1)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1),
 			
-			// TODO
+			// blob filled with ores
 			new BlobPattern(1).addGenerators(new BlobGenerator[]{
-				new BlobGeneratorSingle(1).rad(0D,0D),
-			}),
+				new BlobGeneratorSingle(1).rad(2.9D,4.9D),
+				new BlobGeneratorChain(1).amount(IRandomAmount.aroundCenter,2,5).rad(2.4D,2.8D).distMp(1D,2D),
+				new BlobGeneratorFromCenter(1).amount(IRandomAmount.aroundCenter,3,6).rad(2.4D,3.1D).dist(1.1D,1.5D).limitDist()
+			}).addPopulators(new BlobPopulator[]{
+				new BlobPopulatorOreScattered(1).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.aroundCenter,18,32).attempts(37,46).knownBlockLocations(),
+				new BlobPopulatorOreScattered(1).block(BlockList.igneous_rock_ore).blockAmount(IRandomAmount.aroundCenter,13,23).attempts(24,31).knownBlockLocations(),
+				new BlobPopulatorOreScattered(1).block(BlockList.endium_ore).blockAmount(IRandomAmount.preferSmaller,4,10).attempts(8,13).visiblePlacementAttempts(3).knownBlockLocations()
+			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),
 			
 			// TODO
 			new BlobPattern(1).addGenerators(new BlobGenerator[]{

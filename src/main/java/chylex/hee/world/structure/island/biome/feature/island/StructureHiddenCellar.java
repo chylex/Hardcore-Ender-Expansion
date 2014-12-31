@@ -59,7 +59,6 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		new LootItemStack(ItemList.knowledge_note).setWeight(7),
 		new LootItemStack(Items.ender_pearl).setAmount(3,9).setWeight(5),
 		new LootItemStack(ItemList.temple_caller).setWeight(5)
-		// TODO add stuff to create energy draining items (like Transference Gem)
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
