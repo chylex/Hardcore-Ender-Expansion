@@ -8,8 +8,6 @@ import chylex.hee.mechanics.misc.StardustDecomposition;
 public final class DecompositionAPI extends AbstractAPI{
 	DecompositionAPI(){}
 	
-	//public static void addDecompositionRecipe(Item item, 
-	
 	/**
 	 * Blacklists an item and all of its damage values in the Decomposition Table.
 	 * @param item Item to be banned. To ban a block, use {@link net.minecraft.item.Item#getItemFromBlock(net.minecraft.block.Block) getItemFromBlock(Block)} to convert it.

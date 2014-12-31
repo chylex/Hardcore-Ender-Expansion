@@ -246,8 +246,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								for(int attempt = 0; attempt < 50; attempt++){
 									if (teleportRandomly())break;
 								}
-								
-								//System.out.println("recruiting successful!");
 							}
 							else if (rand.nextInt(100) < reportChance){
 								boolean escaped = false;
@@ -263,7 +261,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								}
 								
 								List<EntityMobHomelandEnderman> guards = HomelandEndermen.getByHomelandRole(this,HomelandRole.GUARD);
-								//System.out.println("guards alerted!");
 								
 								for(int a = 0, amt = Math.max(3,(int)Math.round(guards.size()*0.3D)); a < amt; a++){
 									EntityMobHomelandEnderman guard = guards.get(rand.nextInt(guards.size()));
@@ -299,7 +296,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 						
 						if (currentTaskTimer == 0 && rand.nextInt(5) == 0){
 							currentTaskTimer = 10+rand.nextInt(60);
-							//System.out.println("leader waiting...");
 						}
 					}
 					else if (currentTask == EndermanTask.WALK){
@@ -341,7 +337,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								currentTaskData = enderman;
 								enderman.currentTask = EndermanTask.LISTEN_TO_RECRUITER;
 								enderman.currentTaskTimer = currentTaskTimer = 20+rand.nextInt(60);
-								//System.out.println("trying to recruit at "+posX+","+posY+","+posZ);
 								break;
 							}
 						}
@@ -368,7 +363,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 											currentTask = EndermanTask.STROLL;
 											currentTaskTimer = 65+rand.nextInt(60);
 											currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
-											//System.out.println("leader strolling to "+pathX+","+pathY+","+pathZ);
 											break;
 										}
 									}
@@ -388,7 +382,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 												if (teleportTo(enderman.posX+(rand.nextDouble()-0.5D)*2D,enderman.posY,enderman.posZ+(rand.nextDouble()-0.5D)*2D)){
 													currentTask = enderman.currentTask = EndermanTask.COMMUNICATE;
 													currentTaskTimer = enderman.currentTaskTimer = 30+rand.nextInt(50+rand.nextInt(80));
-													//System.out.println("businessman communicating at "+posX+","+posY+","+posZ);
 													break;
 												}
 											}
@@ -408,7 +401,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 											currentTask = EndermanTask.WALK;
 											currentTaskTimer = 200+rand.nextInt(100);
 											currentTaskData = new ChunkPosition(walkToX,walkToY,walkToZ);
-											//System.out.println("businessman walking to "+walkToX+","+walkToY+","+walkToZ);
 											break;
 										}
 									}
@@ -430,7 +422,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 											
 											PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,tpX,tpY,tpZ));
 											teleportTo(tpX,tpY,tpZ,true);
-											//System.out.println("worker tp'd to "+tpX+","+tpY+","+tpZ);
 											break;
 										}
 									}
@@ -445,7 +436,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									currentTaskTimer = 150+rand.nextInt(600+rand.nextInt(1800));
 									setCarrying(null);
 									teleportTo(posX,10000D,posZ,true);
-									//System.out.println("collector teleporting");
 								}
 								
 								break;
@@ -467,12 +457,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										enderman.currentTask = EndermanTask.WAIT;
 										enderman.currentTaskTimer = currentTaskTimer+rand.nextInt(500);
 										enderman.teleportTo(enderman.posX,10000D,enderman.posZ,true);
-										//System.out.println("overworld explorer teleporting [multi]");
 									}
 									
 									PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 									teleportTo(posX,10000D,posZ,true);
-									//System.out.println("overworld explorer teleporting");
 								}
 								
 								break;
@@ -787,8 +775,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			resetTask();
 			setPathToEntity(worldObj.getPathEntityToEntity(this,entityToAttack,16F,true,false,false,true));
 		}
-		
-		//System.out.println("attacking "+target);
 	}
 	
 	private void resetTask(){

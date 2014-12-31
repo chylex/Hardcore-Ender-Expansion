@@ -66,7 +66,7 @@ public class EntityItemEndPowder extends EntityItem{
 							
 							for(EntityItem ingredient:foundIngredients){
 								if (--(is = ingredient.getEntityItem()).stackSize == 0)ingredient.setDead();
-								else ingredient.setEntityItemStack(is);System.out.println(is);
+								else ingredient.setEntityItemStack(is);
 							}
 							
 							EntityItem amulet = new EntityItem(worldObj,posX,posY,posZ,entry.getValue());

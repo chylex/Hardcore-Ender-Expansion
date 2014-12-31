@@ -196,7 +196,7 @@ public class WorldGenBlob extends WorldGenerator{
 		double dist = MathUtil.distance(x,z);
 		
 		if (dist < 180D)return BlobType.COMMON;
-		else if (dist < 300D)return typesClose.getRandomItem(rand).getObject();
+		else if (dist < 340D)return typesClose.getRandomItem(rand).getObject();
 		else return typesFar.getRandomItem(rand).getObject();
 	}
 	
