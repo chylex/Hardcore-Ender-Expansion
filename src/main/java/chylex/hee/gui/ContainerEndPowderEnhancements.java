@@ -41,7 +41,7 @@ public class ContainerEndPowderEnhancements extends Container{
 	public final boolean[] clientEnhancementBlocked = new boolean[7];
 	public final int[] enhancementSlotX = new int[7];
 	private IEnhancementEnum selectedEnhancement;
-	private int selectedSlot;
+	private int selectedSlot, prevSelectedSlot = -1;
 	
 	public ContainerEndPowderEnhancements(InventoryPlayer inv){
 		containerInv = new InventoryBasic("",false,2+ingredientSlots.length+powderSlots.length);
@@ -307,7 +307,13 @@ public class ContainerEndPowderEnhancements extends Container{
 	
 	public void onEnhancementSlotChangeClient(int selectedSlot){
 		ItemStack mainIS = getSlot(0).getStack();
-		if (mainIS == null)return;
+		
+		if (mainIS == null){
+			prevSelectedSlot = -1;
+			return;
+		}
+		else if (selectedSlot == -1)selectedSlot = prevSelectedSlot;
+		else prevSelectedSlot = selectedSlot;
 		
 		List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
 		List<Enum> currentEnhancements = EnhancementHandler.getEnhancements(mainIS);

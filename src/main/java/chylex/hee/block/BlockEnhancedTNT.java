@@ -41,11 +41,13 @@ public class BlockEnhancedTNT extends BlockContainer{
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
 		super.onBlockAdded(world,x,y,z);
-
-		if (world.isBlockIndirectlyGettingPowered(x,y,z)){
-			tryIgniteTNT(world,x,y,z,true,null);
-			world.setBlockToAir(x,y,z);
-		}
+		if (world.isBlockIndirectlyGettingPowered(x,y,z))world.scheduleBlockUpdate(x,y,z,this,1);
+	}
+	
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random rand){
+		tryIgniteTNT(world,x,y,z,true,null);
+		world.setBlockToAir(x,y,z);
 	}
 
 	@Override
