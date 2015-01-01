@@ -139,6 +139,7 @@ public final class KnowledgeRegistrations{
 		INFESTED_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass),
 		INFESTED_TALL_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass),
 		INFESTED_FERN = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedFern),
+		INFESTATION_REMEDY = create(ItemList.infestation_remedy),
 		INFESTED_BAT = create(EntityMobInfestedBat.class),
 		SILVERFISH_LINKED = link(SILVERFISH),
 		
@@ -152,7 +153,7 @@ public final class KnowledgeRegistrations{
 		LIVING_MATTER = create(ItemList.living_matter),
 		CURSE = create(ItemList.curse,"ec.title.curses"),
 		POTION_OF_PURITY = create(ItemList.potion_of_purity),
-		INFESTATION_REMEDY = create(ItemList.infestation_remedy),
+		CURSE_AMULET = create(ItemList.curse_amulet),
 		
 		RAVAGED_DUNGEON = dummy("RavagedDungeon",new ItemStack(BlockList.ravaged_brick),"ec.title.ravagedDungeon"),
 		RAVAGED_BRICK = create(BlockList.ravaged_brick),
@@ -819,6 +820,11 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(951).setPrice(5).setUnlockRequirements(950).setUnlockCascade(136)
 			}),
 			
+			CURSE_AMULET.setPos(15,7).setUnlockPrice(10).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(1400).setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(1401).setPrice(4).setUnlockRequirements(1400)
+			}),
+			
 			// =
 			
 			RAVAGED_DUNGEON.setPos(4,12).setUnlockPrice(30).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
@@ -1069,7 +1075,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 1400
+		// next: 1410
 		// taken: 1000-1299
 		// taken: 1300-1399
 		

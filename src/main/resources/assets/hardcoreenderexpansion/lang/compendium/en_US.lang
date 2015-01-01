@@ -102,7 +102,7 @@ ec.reg.152=The egg can be picked up by sneaking and hitting it with any sword.
 ec.reg.153=When destroyed, it teleports back to the End.
 
 ec.reg.160=Magical powder used to enhance items with special effects.
-ec.reg.161=Sneaking and using the End Powder opens enhancement screen.
+ec.reg.161=Using the End Powder opens enhancement screen.
 ec.reg.162=Placing a block or item into the top slot opens all possible enhancements.
 ec.reg.163=Enhancing requires a specific amount of End Powder and ingredients of one type.
 ec.reg.164=The ingredient is unlocked by trying. Using an incorrect ingredient may destroy random items in the interface, but may also reveal the correct ingredient.
@@ -344,6 +344,9 @@ ec.reg.945=It is possible to remove Curses by using Potion of Purity.
 
 ec.reg.950=Potion of Purity is a drinkable or throwable potion that removes Curses.
 ec.reg.951=It is brewed using Ectoplasm on an Awkward Potion in the Enhanced Brewing Stand.
+
+ec.reg.1400=Curse Amulet reveals all nearby Curses placed on blocks when held.
+ec.reg.1401=It is created by throwing End Powder, Gold Ingot, Ectoplasm and String into Ender Goo.
 
 ec.reg.490=Huge dungeon built from Ravaged Bricks, found in Infested Forest (Ravaged).
 ec.reg.491=It is the only way of acquiring items required to create Charms.
