@@ -20,10 +20,10 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		return b;
 	}
 	
-	public boolean addAll(T[] objArray){
+	public WeightedList<T> addAll(T[] objArray){
 		for(T obj:objArray)super.add(obj);
 		recalculateWeight();
-		return true;
+		return this;
 	}
 	
 	@Override

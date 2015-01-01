@@ -203,6 +203,14 @@ public final class DragonUtil{
 		return regexChatFormatting.matcher(str).replaceAll("");
 	}
 	
+	public static int tryParse(String str, int def){
+		try{
+			return Integer.parseInt(str);
+		}catch(NumberFormatException e){
+			return def;
+		}
+	}
+	
 	public static boolean canAddOneItemTo(ItemStack is, ItemStack itemToAdd){
 		return is.isStackable() && is.getItem() == itemToAdd.getItem() &&
 			   (!is.getHasSubtypes() || is.getItemDamage() == itemToAdd.getItemDamage()) &&

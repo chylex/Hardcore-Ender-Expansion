@@ -14,6 +14,12 @@ public class WeightedLootList extends WeightedList<LootItemStack>{
 		for(LootItemStack item:items)add(item);
 	}
 	
+	@Override
+	public WeightedLootList addAll(LootItemStack[] objArray){
+		super.addAll(objArray);
+		return this;
+	}
+	
 	public WeightedLootList addItemPostProcessor(IItemPostProcessor itemPostProcessor){
 		itemPostProcessors.add(itemPostProcessor);
 		return this;
@@ -26,5 +32,15 @@ public class WeightedLootList extends WeightedList<LootItemStack>{
 		ItemStack finalIS = is.getIS(rand);
 		for(IItemPostProcessor postProcessor:itemPostProcessors)finalIS = postProcessor.processItem(finalIS,rand);
 		return finalIS;
+	}
+	
+	/**
+	 * Creates a shallow copy of the loot list.
+	 */
+	public WeightedLootList copy(){
+		WeightedLootList copy = new WeightedLootList();
+		copy.addAll(this);
+		copy.itemPostProcessors.addAll(itemPostProcessors);
+		return copy;
 	}
 }

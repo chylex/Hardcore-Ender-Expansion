@@ -18,6 +18,7 @@ import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.loot.IItemPostProcessor;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
@@ -26,6 +27,10 @@ import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.world.util.BlockLocation;
 
 public class StructureHiddenCellar extends AbstractIslandStructure implements ITileEntityGenerator{
+	public enum EnchantedIslandVariation{
+		HOMELAND, LABORATORY
+	}
+	
 	private static final byte[] horCheckX = new byte[]{ -1, 0, 1, -1, 1, -1, 0, 1 },
 								horCheckZ = new byte[]{ -1, -1, -1, 0, 0, 1, 1, 1 };
 	
@@ -52,6 +57,16 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}
 	});
 	
+	private static final WeightedLootList[] normalChestVariation = new WeightedLootList[]{
+		normalChest.copy().addAll(new LootItemStack[]{
+			
+		}),
+		
+		normalChest.copy().addAll(new LootItemStack[]{
+			
+		})
+	};
+	
 	private static final WeightedLootList rareChest = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(ItemList.enhanced_ender_pearl).setAmount(3,9).setWeight(20),
 		new LootItemStack(ItemList.end_powder).setAmount(5,12).setWeight(12),
@@ -76,9 +91,15 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}
 	});
 	
-	public enum EnchantedIslandVariation{
-		HOMELAND, LABORATORY
-	}
+	private static final WeightedLootList[] rareChestVariation = new WeightedLootList[]{
+		rareChest.copy().addAll(new LootItemStack[]{
+			
+		}),
+		
+		rareChest.copy().addAll(new LootItemStack[]{
+			
+		})
+	};
 	
 	private EnchantedIslandVariation variation;
 	private final List<BlockLocation> patternBlocks = new ArrayList<>();
@@ -506,18 +527,20 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 
 	@Override
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
-		if (key.equals("CellarChestNormal")){
+		if (key.startsWith("CellarChestNormal|")){
+			WeightedLootList loot = normalChestVariation[DragonUtil.tryParse(key.split("\\|")[1],0)];
 			TileEntityChest chest = (TileEntityChest)tile;
 			
 			for(int amount = 0; amount < 1+rand.nextInt(4+rand.nextInt(3)); amount++){
-				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),normalChest.generateIS(rand));
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),loot.generateIS(rand));
 			}
 		}
-		else if (key.equals("CellarChestRare")){
+		else if (key.startsWith("CellarChestRare|")){
+			WeightedLootList loot = rareChestVariation[DragonUtil.tryParse(key.split("\\|")[1],0)];
 			TileEntityChest chest = (TileEntityChest)tile;
 			
 			for(int amount = 0; amount < 3+rand.nextInt(6); amount++){
-				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),rareChest.generateIS(rand));
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),loot.generateIS(rand));
 			}
 		}
 	}
