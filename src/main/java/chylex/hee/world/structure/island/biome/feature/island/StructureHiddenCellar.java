@@ -339,8 +339,8 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 						else continue;
 						
 						if (rand.nextInt(10) == 0){
-							if (rand.nextInt(6) == 0)world.setTileEntityGenerator(xx,yy,zz,"CellarChestRare",this);
-							else world.setTileEntityGenerator(xx,yy,zz,"CellarChestNormal",this);
+							if (rand.nextInt(6) == 0)world.setTileEntityGenerator(xx,yy,zz,"CellarChestRare|"+variation.ordinal(),this);
+							else world.setTileEntityGenerator(xx,yy,zz,"CellarChestNormal|"+variation.ordinal(),this);
 						}
 						
 						break;
