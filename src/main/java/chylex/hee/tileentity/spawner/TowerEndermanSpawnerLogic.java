@@ -41,13 +41,6 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	}
 	
 	@Override
-	protected void resetTimer(){
-		World world = spawnerTile.getWorldObj();
-		spawnDelay = minSpawnDelay+world.rand.nextInt(maxSpawnDelay-minSpawnDelay)+(world.provider.dimensionId == 1 ? 0 : 120+world.rand.nextInt(80));
-		func_98267_a(1);
-	}
-	
-	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
 		return AxisAlignedBB.getBoundingBox(getSpawnerX(),minY,getSpawnerZ(),getSpawnerX()+1,maxY,getSpawnerZ()+1).expand(spawnRange*2D,0.5D,spawnRange*2D);
 	}

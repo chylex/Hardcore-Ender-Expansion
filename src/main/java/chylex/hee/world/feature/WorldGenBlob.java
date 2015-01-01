@@ -27,6 +27,7 @@ import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingleCut;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorCave;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorChest;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorCover;
+import chylex.hee.world.feature.blobs.populators.BlobPopulatorEndermanSpawner;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorFiller;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorLake;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorLiquidFall;
@@ -167,10 +168,28 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobPopulatorOreScattered(1).block(BlockList.endium_ore).blockAmount(IRandomAmount.preferSmaller,4,10).attempts(8,13).visiblePlacementAttempts(3).knownBlockLocations()
 			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),
 			
-			// TODO
+			// large blob with a spawner
 			new BlobPattern(1).addGenerators(new BlobGenerator[]{
-				new BlobGeneratorSingle(1).rad(0D,0D),
-			})
+				new BlobGeneratorSingle(1).rad(6D,7.7D),
+			}).addPopulators(new BlobPopulator[]{
+				new BlobPopulatorEndermanSpawner(1).blockAmount(IRandomAmount.aroundCenter,3,6).attempts(8,13).visiblePlacementAttempts(8).knownBlockLocations(),
+				new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
+					new LootItemStack(ItemList.end_powder).setAmount(3,9).setWeight(10),
+					new LootItemStack(ItemList.stardust).setAmount(3,7).setWeight(9),
+					new LootItemStack(Items.ender_pearl).setAmount(2,5).setWeight(7),
+					new LootItemStack(BlockList.obsidian_special).setAmount(3,10).setDamage(0,2).setWeight(6),
+					new LootItemStack(ItemList.endium_ingot).setAmount(1,3).setWeight(5),
+					new LootItemStack(Items.iron_ingot).setAmount(1,5).setWeight(5),
+					new LootItemStack(Items.redstone).setAmount(2,6).setWeight(4),
+					new LootItemStack(Items.gold_ingot).setAmount(1,5).setWeight(4),
+					new LootItemStack(ItemList.igneous_rock).setAmount(1,2).setWeight(4),
+					new LootItemStack(BlockList.obsidian_special_glow).setAmount(3,10).setDamage(0,2).setWeight(3),
+					new LootItemStack(Items.diamond).setAmount(1,3).setWeight(3),
+					new LootItemStack(Items.quartz).setAmount(2,7).setWeight(3),
+					new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(3),
+					new LootItemStack(Items.gold_nugget).setAmount(2,8).setWeight(2)
+				}),IRandomAmount.preferSmaller,6,10)
+			}).setPopulatorAmountProvider(IRandomAmount.exact,2,2)
 		});
 	}
 	

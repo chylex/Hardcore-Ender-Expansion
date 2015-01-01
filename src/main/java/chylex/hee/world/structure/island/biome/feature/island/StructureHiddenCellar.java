@@ -19,6 +19,7 @@ import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.IItemPostProcessor;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
@@ -63,7 +64,8 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}),
 		
 		normalChest.copy().addAll(new LootItemStack[]{
-			
+			new LootItemStack(ItemList.obsidian_fragment).setAmount(1,3).setWeight(9),
+			new LootItemStack(ItemList.auricion).setAmount(1,2).setWeight(6)
 		})
 	};
 	
@@ -185,7 +187,8 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	}
 	
 	private enum EnumRoomContent{
-		NONE, CONNECTING_LINES, SPIKES, PERSEGRIT_CUBE, LOTS_OF_CHESTS, FLOATING_CUBES
+		NONE, CONNECTING_LINES, SPIKES, PERSEGRIT_CUBE, LOTS_OF_CHESTS, FLOATING_CUBES, CHAOTIC_PERSEGRIT,
+		CHEST_PILLARS
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomContent>> roomContentList = new WeightedList<>(
@@ -194,7 +197,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		ObjectWeightPair.of(EnumRoomContent.SPIKES, 10),
 		ObjectWeightPair.of(EnumRoomContent.PERSEGRIT_CUBE, 8),
 		ObjectWeightPair.of(EnumRoomContent.LOTS_OF_CHESTS, 7),
-		ObjectWeightPair.of(EnumRoomContent.FLOATING_CUBES, 5)
+		ObjectWeightPair.of(EnumRoomContent.FLOATING_CUBES, 5),
+		ObjectWeightPair.of(EnumRoomContent.CHEST_PILLARS, 4),
+		ObjectWeightPair.of(EnumRoomContent.CHAOTIC_PERSEGRIT, 3)
 	);
 	
 	private void genRoomContent(RoomInfo room, int bottomY, int height, Random rand){
@@ -391,6 +396,29 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 							break;
 						}
 					}
+				}
+				
+				break;
+			
+			case CHEST_PILLARS:
+				for(int amount = 2+room.halfWidth*(room.halfWidth-2)+rand.nextInt(5+room.halfWidth*3), width = halfWidth*2-2, xx, yy, zz; amount > 0; amount--){
+					xx = x-halfWidth+1+rand.nextInt(halfWidth*2-2);
+					zz = z-halfWidth+1+rand.nextInt(halfWidth*2-2);
+					yy = bottomY+2+rand.nextInt(height-3);
+					
+					if (world.isAir(xx-1,bottomY+1,zz) && world.isAir(xx+1,bottomY+1,zz) &&
+						world.isAir(xx,bottomY+1,zz-1) && world.isAir(xx,bottomY+1,zz+1)){
+						world.setBlock(xx,yy,zz,Blocks.chest);
+						if (rand.nextInt(3) != 0)world.setTileEntityGenerator(xx,yy,zz,(rand.nextInt(4) == 0 ? "CellarChestRare" : "CellarChestNormal")+"|"+variation.ordinal(),this);
+						for(--yy; yy >= bottomY+1; yy--)world.setBlock(xx,yy,zz,BlockList.persegrit);
+					}
+				}
+				
+				break;
+				
+			case CHAOTIC_PERSEGRIT:
+				for(int amount = MathUtil.ceil(Math.sqrt(room.halfWidth*room.halfWidth*(height-2))*(0.7D+rand.nextDouble()*0.4D)), width = halfWidth*2-2; amount > 0; amount--){
+					world.setBlock(x+rand.nextInt(width)-(width>>1),bottomY+1+rand.nextInt(height-1),z+rand.nextInt(width)-(width>>1),BlockList.persegrit);
 				}
 				
 				break;

@@ -76,12 +76,12 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 
 		World world = getSpawnerWorld();
 		
-		if (getSpawnerWorld().isRemote){
-			double particleX = getSpawnerX()+getSpawnerWorld().rand.nextFloat();
-			double particleY = getSpawnerY()+getSpawnerWorld().rand.nextFloat();
-			double particleZ = getSpawnerZ()+getSpawnerWorld().rand.nextFloat();
-			getSpawnerWorld().spawnParticle("smoke",particleX,particleY,particleZ,0D,0D,0D);
-			getSpawnerWorld().spawnParticle("flame",particleX,particleY,particleZ,0D,0D,0D);
+		if (world.isRemote){
+			double particleX = getSpawnerX()+world.rand.nextFloat();
+			double particleY = getSpawnerY()+world.rand.nextFloat();
+			double particleZ = getSpawnerZ()+world.rand.nextFloat();
+			world.spawnParticle("smoke",particleX,particleY,particleZ,0D,0D,0D);
+			world.spawnParticle("flame",particleX,particleY,particleZ,0D,0D,0D);
 
 			if (spawnDelay > 0)--spawnDelay;
 
