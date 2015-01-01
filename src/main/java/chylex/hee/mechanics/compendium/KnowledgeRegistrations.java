@@ -1076,8 +1076,7 @@ public final class KnowledgeRegistrations{
 		});
 		
 		// next: 1410
-		// taken: 1000-1299
-		// taken: 1300-1399
+		// taken: 1000-1399
 		
 		Stopwatch.finish("KnowledgeRegistrations");
 		

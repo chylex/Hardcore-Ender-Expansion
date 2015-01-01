@@ -116,7 +116,11 @@ public final class OrbAcquirableItems{
 			}
 		}
 		
-		if (!proceed && !overrideRemoveBrokenRecipes)throw new RuntimeException(errorMessage,lastThrowable);
+		if (!proceed && !overrideRemoveBrokenRecipes){
+			RuntimeException e = new RuntimeException(errorMessage);
+			e.setStackTrace(lastThrowable.getStackTrace());
+			throw e;
+		}
 		
 		/*
 		 * CLEANUP OF THINGS WE DON'T WANT
