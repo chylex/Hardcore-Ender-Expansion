@@ -251,7 +251,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		int wheel = Mouse.getDWheel();
 		
 		if (wheel != 0){
-			if (prevMouseX >= width>>1){
+			if (currentObject != null && prevMouseX >= width>>1){
 				if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
 				else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
 			}

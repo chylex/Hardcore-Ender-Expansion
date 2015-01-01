@@ -90,6 +90,7 @@ public final class KnowledgeRegistrations{
 		DEATH_FLOWER = create(BlockList.death_flower),
 		ENDER_GOO = create(ItemList.bucket_ender_goo),
 		IGNEOUS_ROCK = create(ItemList.igneous_rock),
+		TRANSPORT_BEACON = create(BlockList.transport_beacon),
 		
 		// ===
 		
@@ -127,6 +128,9 @@ public final class KnowledgeRegistrations{
 		POTION_OF_INSTABILITY = create(ItemList.potion_of_instability),
 		STARDUST_LINKED = link(STARDUST),
 		DECOMPOSITION_TABLE = create(BlockList.decomposition_table),
+		EXPERIENCE_TABLE = create(BlockList.experience_table),
+		ACCUMULATION_TABLE = create(BlockList.accumulation_table),
+		EXTRACTION_TABLE = create(BlockList.extraction_table),
 		
 		// ===
 		
@@ -495,6 +499,13 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(261).setPrice(2).setUnlockRequirements(260),
 				new KnowledgeFragmentText(262).setPrice(3).setUnlockRequirements(260),
 				new KnowledgeFragmentText(263).setPrice(3).setUnlockRequirements(260)
+			}),
+			
+			TRANSPORT_BEACON.setPos(8,0).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(960).setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(961).setPrice(5).setUnlockRequirements(960),
+				new KnowledgeFragmentText(962).setPrice(5).setUnlockRequirements(960),
+				new KnowledgeFragmentText(963).setPrice(3).setUnlockRequirements(960),
 			})
 		});
 		
@@ -628,13 +639,35 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(350).setPrice(4).setUnlockOnDiscovery()
 			}),
 			
-			DECOMPOSITION_TABLE.setPos(4,7).setUnlockPrice(15).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
+			DECOMPOSITION_TABLE.setPos(5,7).setUnlockPrice(12).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(880).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(881).setRecipeFromRegistry(new ItemStack(BlockList.decomposition_table)).setPrice(10).setUnlockRequirements(880),
 				new KnowledgeFragmentText(882).setPrice(4).setUnlockRequirements(880),
 				new KnowledgeFragmentText(883).setPrice(5).setUnlockRequirements(880),
 				new KnowledgeFragmentText(884).setPrice(4).setUnlockRequirements(883),
 				new KnowledgeFragmentText(885).setPrice(4).setUnlockRequirements(882)
+			}),
+			
+			EXPERIENCE_TABLE.setPos(7,7).setUnlockPrice(12).setDiscoveryReward(6).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(970).setPrice(7).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(971).setRecipeFromRegistry(new ItemStack(BlockList.experience_table)).setPrice(10).setUnlockRequirements(970),
+				new KnowledgeFragmentText(972).setPrice(4).setUnlockRequirements(970),
+				new KnowledgeFragmentText(973).setPrice(4).setUnlockRequirements(970)
+			}),
+			
+			ACCUMULATION_TABLE.setPos(5,9).setUnlockPrice(18).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(980).setPrice(7).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(981).setRecipeFromRegistry(new ItemStack(BlockList.accumulation_table)).setPrice(10).setUnlockRequirements(980),
+				new KnowledgeFragmentText(982).setPrice(4).setUnlockRequirements(980)
+			}),
+			
+			EXTRACTION_TABLE.setPos(7,9).setUnlockPrice(18).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(990).setPrice(7).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(991).setRecipeFromRegistry(new ItemStack(BlockList.extraction_table)).setPrice(10).setUnlockRequirements(980),
+				new KnowledgeFragmentText(992).setPrice(5).setUnlockRequirements(990),
+				new KnowledgeFragmentText(993).setPrice(5).setUnlockRequirements(990),
+				new KnowledgeFragmentText(994).setPrice(4).setUnlockRequirements(993),
+				new KnowledgeFragmentText(995).setPrice(4).setUnlockRequirements(990)
 			})
 		});
 		
@@ -1036,7 +1069,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 960
+		// next: 1400
 		// taken: 1000-1299
 		// taken: 1300-1399
 		
