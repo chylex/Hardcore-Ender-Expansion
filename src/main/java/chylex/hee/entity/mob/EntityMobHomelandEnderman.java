@@ -59,7 +59,14 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			if (EntityEnderman.getCarriable(block))blocks.add(block);
 		}
 		
-		endermanBlockList = blocks.toArray(new Block[blocks.size()]);
+		if (blocks.isEmpty()){
+			endermanBlockList = new Block[]{
+				Blocks.grass, Blocks.dirt, Blocks.sand, Blocks.gravel, Blocks.yellow_flower,
+				Blocks.red_flower, Blocks.brown_mushroom, Blocks.red_mushroom, Blocks.tnt,
+				Blocks.cactus, Blocks.clay, Blocks.pumpkin, Blocks.melon_block, Blocks.mycelium
+			};
+		}
+		else endermanBlockList = blocks.toArray(new Block[blocks.size()]);
 	}
 
 	private static final UUID attackingSpeedBoostModifierUUID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
