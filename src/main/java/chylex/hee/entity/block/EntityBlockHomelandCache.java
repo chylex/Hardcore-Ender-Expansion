@@ -7,14 +7,29 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityBlockHomelandCache extends Entity{
+	public float rotation, prevRotation;
+	
 	public EntityBlockHomelandCache(World world){
 		super(world);
 		setSize(1F,1F);
 		preventEntitySpawning = true;
+		rotation = prevRotation = rand.nextFloat()*2F*(float)Math.PI;
 	}
 
 	@Override
 	protected void entityInit(){}
+	
+	@Override
+	public void onUpdate(){
+		prevPosX = posX;
+		prevPosY = posY;
+		prevPosZ = posZ;
+		
+		if (worldObj.isRemote){
+			prevRotation = rotation;
+			rotation += 4F;
+		}
+	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt){}
