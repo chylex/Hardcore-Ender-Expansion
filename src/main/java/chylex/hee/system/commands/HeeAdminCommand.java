@@ -12,6 +12,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.block.EntityBlockEnderCrystal;
+import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.entity.boss.dragon.managers.DragonAttackManager;
@@ -43,6 +45,7 @@ public class HeeAdminCommand extends HeeCommand{
 				"/heeadmin dragon-set-angry\n"+
 				"/heeadmin dragon-set-attack <none|dive|fire|punch|bite|freeze|summon|bats>\n"+
 				"/heeadmin kill-bosses\n"+
+				"/heeadmin spawn-entity <endercrystal|homelandcache>\n"+
 				"/heeadmin compendium-reset\n"+
 				"/heeadmin compendium-set-points <pts>\n"+
 				"/heeadmin compendium-unlock-all\n"+
@@ -116,6 +119,22 @@ public class HeeAdminCommand extends HeeCommand{
 			}
 			
 			extra = " "+counter+" entit"+(counter == 1?"y":"ies")+" killed.";
+		}
+		else if (args[0].equalsIgnoreCase("spawn-entity") && args.length >= 2 && player != null){
+			Entity e = null;
+			
+			switch(args[1]){
+				case "endercrystal": e = new EntityBlockEnderCrystal(player.worldObj); break;
+				case "homelandcache": e = new EntityBlockHomelandCache(player.worldObj); break;
+			}
+			
+			if (e == null)sendMessage(sender,"Unknown entity.");
+			else{
+				e.setPosition(player.posX,player.posY,player.posZ);
+				player.worldObj.spawnEntityInWorld(e);
+			}
+			
+			return;
 		}
 		else if (args[0].equalsIgnoreCase("compendium-reset") && player != null){
 			PlayerCompendiumData data = CompendiumEvents.getPlayerData(player);

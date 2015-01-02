@@ -13,6 +13,7 @@ import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
 import chylex.hee.entity.block.EntityBlockFallingObsidian;
+import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.block.EntityBlockTempleDragonEgg;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
@@ -236,6 +237,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityBlockFallingObsidian.class, "FallingObsidian", 26, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityBlockTempleDragonEgg.class, "TempleEgg", 7, this, 420, 1, true);
 		EntityRegistry.registerModEntity(EntityBlockEnhancedTNTPrimed.class, "EnhancedTNT", 31, this, 128, 1, true);
+		EntityRegistry.registerModEntity(EntityBlockHomelandCache.class, "BlockHomelandCache", 50, this, 256, 1, true);
 
 		EntityRegistry.registerModEntity(EntityItemIgneousRock.class, "ItemIgneousRock", 9, this, 64, 1, true);
 		EntityRegistry.registerModEntity(EntityItemInstabilityOrb.class, "ItemInstabilityOrb", 6, this, 64, 1, true);
@@ -266,7 +268,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, this, 0, Integer.MAX_VALUE, false);
 		EntityRegistry.registerModEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, this, 64, 1, false);
 		EntityRegistry.registerModEntity(EntityTechnicalCurseEntity.class, "TechnicalCurseEntity", 47, this, 64, 1, false);
-		// last: 49
+		// last: 50
 		
 		Stopwatch.finish("PreInitEvent - entities");
 
