@@ -184,7 +184,7 @@ public final class RecipeList{
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.scorching_pickaxe),
 			"FFF", "FPF", "FFF",
-			'F', ItemList.fire_shard,
+			'F', ItemList.infernium,
 			'P', Items.golden_pickaxe
 		);
 		

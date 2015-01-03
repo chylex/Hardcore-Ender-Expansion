@@ -421,7 +421,7 @@ ec.reg.915=When the mini-boss gets down to 40% health, it will get into the next
 ec.reg.916=During that stage, the Fiend's attacks are much quicker, it takes less damage and occasionally it will also make nearby Fire Golems attack players.
 ec.reg.917=On death, it drops 40 experience and 240 Fiery Essence.
 
-ec.reg.630=Fire Shard is a crafting material dropped by Haunted Miners.
+ec.reg.630=Infernium is a crafting material dropped by Haunted Miners.
 
 ec.reg.640=Special type of pickaxe that smelts blocks and applies fortune effect to ores.
 ec.reg.641=It only works on smeltable blocks and ores. Blocks that smelt into items are affected by fortune, including for example Iron Ore and Cactus.

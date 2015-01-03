@@ -49,7 +49,8 @@ public final class ItemList{
 	public static Item spectral_tear;
 	public static Item living_matter;
 	public static Item rune;
-	public static Item fire_shard;
+	public static Item infernium;
+	public static Item arcane_shard;
 	public static Item obsidian_fragment;
 	public static Item obsidian_rod;
 	public static Item auricion;
@@ -107,7 +108,8 @@ public final class ItemList{
 		register("spectral_tear", spectral_tear = new Item().setUnlocalizedName("spectralTear").setTextureName("hardcoreenderexpansion:spectral_tear"));
 		register("living_matter", living_matter = new Item().setUnlocalizedName("livingMatter").setTextureName("hardcoreenderexpansion:living_matter"));
 		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune").setTextureName("hardcoreenderexpansion:rune"));
-		register("fire_shard", fire_shard = new Item().setUnlocalizedName("fireShard").setTextureName("hardcoreenderexpansion:fire_shard"));
+		register("fire_shard", infernium = new Item().setUnlocalizedName("infernium").setTextureName("hardcoreenderexpansion:infernium"));
+		register("arcane_shard", arcane_shard = new Item().setUnlocalizedName("arcaneShard").setTextureName("hardcoreenderexpansion:arcane_shard"));
 		register("obsidian_fragment", obsidian_fragment = new Item().setUnlocalizedName("obsidianFragment").setTextureName("hardcoreenderexpansion:obsidian_fragment"));
 		register("obsidian_rod", obsidian_rod = new Item().setUnlocalizedName("obsidianRod").setTextureName("hardcoreenderexpansion:obsidian_rod"));
 		register("auricion", auricion = new Item().setUnlocalizedName("auricion").setTextureName("hardcoreenderexpansion:auricion"));
@@ -155,7 +157,7 @@ public final class ItemList{
 			biome_compass,spatial_dash_gem,transference_gem,temple_caller,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
 			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,curse_amulet,
-			fire_shard,scorching_pickaxe,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_wand,
+			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_wand,
 			enderman_head,bucket_ender_goo,music_disk,
 			knowledge_note,exp_bottle,
 			spawn_eggs

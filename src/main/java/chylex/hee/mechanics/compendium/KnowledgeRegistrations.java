@@ -182,7 +182,7 @@ public final class KnowledgeRegistrations{
 		SCORCHING_LENS = create(EntityMobScorchingLens.class),
 		FIRE_FIEND = create(EntityMiniBossFireFiend.class),
 		
-		FIRE_SHARD = create(ItemList.fire_shard),
+		INFERNIUM = create(ItemList.infernium),
 		SCORCHING_PICKAXE = create(ItemList.scorching_pickaxe),
 		HAUNTED_MINER = create(EntityMobHauntedMiner.class),
 		
@@ -958,7 +958,7 @@ public final class KnowledgeRegistrations{
 			
 			// =
 			
-			FIRE_SHARD.setPos(2,13).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
+			INFERNIUM.setPos(2,13).setUnlockPrice(15).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(630).setPrice(7).setUnlockOnDiscovery().setUnlockCascade(657),
 				new KnowledgeFragmentCrafting(631).setRecipeFromRegistry(new ItemStack(ItemList.scorching_pickaxe)).setNonBuyable().setUnlockRequirements(630).setUnlockCascade(643)
 			}),
