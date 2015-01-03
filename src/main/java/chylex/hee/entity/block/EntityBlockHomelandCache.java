@@ -1,11 +1,19 @@
 package chylex.hee.entity.block;
+import java.util.Iterator;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
 import cpw.mods.fml.relauncher.Side;
@@ -92,6 +100,55 @@ public class EntityBlockHomelandCache extends Entity{
 					EntityItem item = new EntityItem(worldObj,posX+(rand.nextDouble()-0.5D)*0.75D,posY+0.2D+rand.nextDouble()*0.6D,posZ+(rand.nextDouble()-0.5D)*0.75D,loot.generateIS(rand));
 					item.delayBeforeCanPickup = 10;
 					worldObj.spawnEntityInWorld(item);
+				}
+				
+				if (!(source.getSourceOfDamage() instanceof EntityPlayer))return true;
+				
+				int amt = 3+worldObj.difficultySetting.getDifficultyId();
+				EntityPlayer target = (EntityPlayer)source.getSourceOfDamage();
+				
+				for(EntityMobHomelandEnderman enderman:(List<EntityMobHomelandEnderman>)worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,boundingBox.expand(12D,5D,12D))){
+					boolean call = false;
+					
+					switch(enderman.getHomelandRole()){
+						case GUARD:
+							--amt;
+							enderman.teleportToEntity(target);
+							enderman.setTarget(target);
+							enderman.setScreaming(true);
+							break;
+							
+						case ISLAND_LEADERS:
+						case INTELLIGENCE:
+							call = true; break;
+						
+						case BUSINESSMAN:
+						case OVERWORLD_EXPLORER:
+						case COLLECTOR:
+							call = rand.nextInt(3) == 0; break;
+							
+						case WORKER:
+							call = rand.nextInt(7) == 0; break;
+					}
+					
+					if (call){
+						List<EntityMobHomelandEnderman> list = worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,enderman.boundingBox.expand(96D,128D,96D));
+						
+						for(Iterator<EntityMobHomelandEnderman> iter = list.iterator(); iter.hasNext();){
+							if (iter.next().getHomelandRole() != HomelandRole.GUARD)iter.remove();
+						}
+						
+						for(int a = 2+rand.nextInt(2); a > 0 && !list.isEmpty(); a--){
+							EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
+							guard.teleportToEntity(source.getSourceOfDamage());
+							guard.setTarget(source.getSourceOfDamage());
+							guard.setScreaming(true);
+							PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,enderman,guard));
+							if (--amt <= 0)break;
+						}
+					}
+					
+					if (amt <= 0)break;
 				}
 			}
 		}

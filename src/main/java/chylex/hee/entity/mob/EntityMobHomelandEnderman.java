@@ -666,10 +666,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			else return false;
 		}
 		
-		if (source.getEntity() instanceof EntityPlayer || source.getEntity() instanceof EntityMobHomelandEnderman){
+		if (source.getSourceOfDamage() instanceof EntityPlayer || source.getSourceOfDamage() instanceof EntityMobHomelandEnderman){
 			boolean callGuards = entityToAttack == null || rand.nextInt(4) == 0;
 			
-			setTarget(source.getEntity());
+			setTarget(source.getSourceOfDamage());
 			setScreaming(true);
 			
 			if (callGuards){
@@ -696,8 +696,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				
 				for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt && !list.isEmpty(); a++){
 					EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
-					guard.teleportToEntity(source.getEntity());
-					guard.setTarget(source.getEntity());
+					guard.teleportToEntity(source.getSourceOfDamage());
+					guard.setTarget(source.getSourceOfDamage());
 					guard.setScreaming(true);
 					PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,this,guard));
 				}
@@ -895,15 +895,15 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	// ENDERMAN METHODS
 	
-	private boolean teleportRandomly(){
+	public boolean teleportRandomly(){
 		return teleportTo(posX+(rand.nextDouble()-0.5D)*64D,posY+(rand.nextInt(64)-32),posZ+(rand.nextDouble()-0.5D)*64D);
 	}
 	
-	private boolean teleportRandomly(double maxDist){
+	public boolean teleportRandomly(double maxDist){
 		return teleportTo(posX+(rand.nextDouble()-0.5D)*2D*maxDist,posY+(rand.nextInt((int)maxDist)-maxDist*0.5D),posZ+(rand.nextDouble()-0.5D)*2D*maxDist);
 	}
 
-	private boolean teleportToEntity(Entity entity){
+	public boolean teleportToEntity(Entity entity){
 		Vec3 vec = Vec3.createVectorHelper(posX-entity.posX,boundingBox.minY+(height/2F)-entity.posY+entity.getEyeHeight(),posZ-entity.posZ).normalize();
 		double newX = posX+(rand.nextDouble()-0.5D)*8D-vec.xCoord*16D;
 		double newY = posY+(rand.nextInt(16)-8)-vec.yCoord*16D;
@@ -911,7 +911,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		return teleportTo(newX,newY,newZ);
 	}
 	
-	private boolean teleportTo(double x, double y, double z){
+	public boolean teleportTo(double x, double y, double z){
 		return teleportTo(x,y,z,false);
 	}
 
