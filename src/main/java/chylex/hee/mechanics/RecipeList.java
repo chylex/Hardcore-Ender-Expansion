@@ -102,7 +102,8 @@ public final class RecipeList{
 			GameRegistry.addShapelessRecipe(
 				new ItemStack(ItemList.curse,1,curse.damage|0b100000000),
 				new ItemStack(ItemList.curse,1,curse.damage),
-				ItemList.stardust
+				ItemList.stardust,
+				ItemList.arcane_shard
 			);
 		}
 		
@@ -186,6 +187,26 @@ public final class RecipeList{
 			"FFF", "FPF", "FFF",
 			'F', ItemList.infernium,
 			'P', Items.golden_pickaxe
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.blank_gem),
+			"AAA", "AEA", "AAA",
+			'A', ItemList.arcane_shard,
+			'E', BlockList.endium_block
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.spatial_dash_gem),
+			"APA", "PGP", "APA",
+			'A', ItemList.arcane_shard,
+			'P', Items.ender_pearl,
+			'G', ItemList.blank_gem
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.transference_gem),
+			"AEA", "EGE", "AEA",
+			'A', ItemList.arcane_shard,
+			'E', ItemList.ectoplasm,
+			'G', ItemList.spatial_dash_gem
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.endium_block),

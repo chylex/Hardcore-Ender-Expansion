@@ -96,6 +96,7 @@ item.potionOfInstability.name=Potion of Instability
 item.potionOfInstability.splash.name=Splash Potion of Instability
 item.potionOfPurity.name=Potion of Purity
 item.potionOfPurity.splash.name=Splash Potion of Purity
+item.blankGem.name=Blank Gem
 item.spatialDashGem.name=Spatial Dash Gem
 item.transferenceGem.name=Transference Gem
 item.templeCaller.name=Temple Caller

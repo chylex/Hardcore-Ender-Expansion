@@ -20,7 +20,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
@@ -442,7 +441,7 @@ public enum CurseType{
 		.setColor1h(46).setColor2g(52);
 		
 		VAMPIRE
-		.setRecipe(new ItemStack(Items.glowstone_dust,1,OreDictionary.WILDCARD_VALUE),Items.quartz,ItemList.igneous_rock,ItemList.silverfish_blood)
+		.setRecipe(Items.glowstone_dust,Items.quartz,ItemList.igneous_rock,ItemList.silverfish_blood)
 		.setUses(EnumCurseUse.BLOCK,15,22).setUses(EnumCurseUse.ENTITY,8,13).setUses(EnumCurseUse.PLAYER,6,9)
 		.setColor1h(55).setColor2h(9);
 		
