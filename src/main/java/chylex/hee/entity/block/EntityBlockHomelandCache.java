@@ -11,7 +11,7 @@ public class EntityBlockHomelandCache extends Entity{
 	
 	public EntityBlockHomelandCache(World world){
 		super(world);
-		setSize(1F,1F);
+		setSize(0.75F,1.05F);
 		preventEntitySpawning = true;
 		rotation = prevRotation = rand.nextFloat()*2F*(float)Math.PI;
 	}
@@ -46,10 +46,10 @@ public class EntityBlockHomelandCache extends Entity{
 			
 			if (worldObj.isRemote){
 				worldObj.playSound(posX,posY,posZ,"dig.glass",1F,rand.nextFloat()*0.1F+0.92F,false);
-				for(int a = 0; a < 20; a++)worldObj.spawnParticle("largesmoke",posX+(rand.nextDouble()-0.5D)*1.5D,posY+(rand.nextDouble()-0.5D)*1.5D,posZ+(rand.nextDouble()-0.5D)*1.5D,0D,0D,0D);
+				for(int a = 0; a < 20; a++)worldObj.spawnParticle("largesmoke",posX+(rand.nextDouble()-0.5D)*0.8D,posY+0.05D+rand.nextDouble()*1D,posZ+(rand.nextDouble()-0.5D)*0.8D,0D,0D,0D);
 			}
 			else{
-				// TODO drops
+				// TODO drops and call guards
 			}
 		}
 		
