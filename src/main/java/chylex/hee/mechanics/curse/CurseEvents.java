@@ -1,14 +1,21 @@
 package chylex.hee.mechanics.curse;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import chylex.hee.item.ItemList;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class CurseEvents{
 	public static void register(){
 		MinecraftForge.EVENT_BUS.register(new CurseEvents());
+	}
+	
+	public static boolean hasAmulet(EntityLivingBase entity){
+		ItemStack is = entity.getHeldItem();
+		return is != null && is.getItem() == ItemList.curse_amulet;
 	}
 	
 	@SubscribeEvent

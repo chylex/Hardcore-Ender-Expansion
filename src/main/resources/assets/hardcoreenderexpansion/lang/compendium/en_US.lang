@@ -345,7 +345,7 @@ ec.reg.945=It is possible to remove Curses by using Potion of Purity.
 ec.reg.950=Potion of Purity is a drinkable or throwable potion that removes Curses.
 ec.reg.951=It is brewed using Ectoplasm on an Awkward Potion in the Enhanced Brewing Stand.
 
-ec.reg.1400=Curse Amulet reveals all nearby Curses placed on blocks when held.
+ec.reg.1400=Curse Amulet reveals all nearby Curses placed on blocks and depletes Curses quicker when held.
 ec.reg.1401=It is created by throwing End Powder, Gold Ingot, Ectoplasm and String into Ender Goo.
 
 ec.reg.490=Huge dungeon built from Ravaged Bricks, found in Infested Forest (Ravaged).

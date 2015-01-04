@@ -10,6 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
@@ -99,7 +100,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 			else{
 				newAffectedEntities.add(entity);
 				
-				if (curseType.handler.tickEntity(entity,this) && (usesLeft != -1 && --usesLeft <= 0)){
+				if (curseType.handler.tickEntity(entity,this) && usesLeft != -1 && (--usesLeft <= 0 || (CurseEvents.hasAmulet(entity) && --usesLeft <= 0))){
 					curseType.handler.end(entity,this);
 					setDead();
 					break;

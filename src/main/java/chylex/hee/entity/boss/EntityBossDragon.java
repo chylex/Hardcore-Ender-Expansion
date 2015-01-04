@@ -310,7 +310,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					targetZ = target.posZ;
 					double finalTargetY = 0.4D+Math.sqrt(Math.pow(targetX-posX,2)+Math.pow(targetZ-posZ,2))/80D-1D;
 
-					if (finalTargetY>10D){
+					if (finalTargetY > 10D){
 						finalTargetY = 10D;
 					}
 

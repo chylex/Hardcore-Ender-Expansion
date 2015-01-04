@@ -180,7 +180,7 @@ public final class CharmEvents{
 					e.ammount -= getPropSummed(targetPlayer,"fallblocks")*0.5F;
 					if (e.ammount <= 0.001F)e.ammount = 0F;
 				}
-				else if (e.source == DamageSource.magic){
+				else if (e.source.isMagicDamage()){
 					e.ammount -= getPropPercentDecrease(targetPlayer,"reducemagicdmg",e.ammount);
 				}
 			}

@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
@@ -79,7 +80,7 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 			
 			setPosition(target.posX,target.posY,target.posZ);
 			
-			if (curseType.handler.tickEntity(target,this) && (usesLeft != -1 && --usesLeft <= 0)){
+			if (curseType.handler.tickEntity(target,this) && usesLeft != -1 && (--usesLeft <= 0 || (CurseEvents.hasAmulet(target) && --usesLeft <= 0))){
 				curseType.handler.end(target,this);
 				setDead();
 			}
