@@ -44,7 +44,8 @@ public final class Log{
 	public static boolean isDebugEnabled(){
 		return forceDebugEnabled || isDeobfEnvironment;
 	}
-	
+
+	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void debug(String message, Object...data){
 		if (forceDebugEnabled || isDeobfEnvironment)logger.info(getMessage(message,data));
 		
@@ -53,24 +54,29 @@ public final class Log{
 			obfEnvironmentWarning = 0;
 		}
 	}
-	
+
+	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void info(String message, Object...data){
 		logger.info(getMessage(message,data));
 	}
-	
+
+	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void warn(String message, Object...data){
 		logger.warn(getMessage(message,data));
 	}
-	
+
+	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void error(String message, Object...data){
 		logger.error(getMessage(message,data));
 	}
-	
+
+	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void reportedError(String message, Object...data){
 		logger.error(getMessage(message,data));
 		HardcoreEnderExpansion.notifications.report("["+dateFormat.format(Calendar.getInstance().getTime())+"] "+message+" Check the log for stack trace to report.");
 	}
-	
+
+	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void throwable(Throwable throwable, String message, Object...data){
 		logger.catching(Level.ERROR,throwable);
 		logger.error(getMessage(message,data));

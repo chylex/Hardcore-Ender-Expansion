@@ -1,6 +1,7 @@
 package chylex.hee.tileentity.spawner;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.AxisAlignedBB;
@@ -153,5 +154,16 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	public final Entity func_98281_h(){
 		if (entityCache == null)entityCache = func_98265_a(createMob(null)); // OBFUSCATED spawn entity
 		return entityCache;
+	}
+	
+	public static final class BrokenSpawnerLogic extends CustomSpawnerLogic{
+		public BrokenSpawnerLogic(TileEntityCustomSpawner spawnerTile){
+			super(spawnerTile);
+		}
+
+		@Override
+		protected EntityLiving createMob(World world){
+			return new EntityEnderman(world);
+		}
 	}
 }
