@@ -13,7 +13,7 @@ class SlotCharmPouchRune extends SlotBasicItem{
 	
 	@Override
 	public void onSlotChanged(){
-        super.onSlotChanged();
-        pouchContainer.onCraftMatrixChanged(inventory);
-    }
+		super.onSlotChanged();
+		pouchContainer.onCraftMatrixChanged(inventory);
+	}
 }

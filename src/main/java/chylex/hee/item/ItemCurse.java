@@ -57,7 +57,7 @@ public class ItemCurse extends Item{
 	}
 	
 	@Override
-    public boolean itemInteractionForEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity){
+	public boolean itemInteractionForEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity){
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
 		if (type == null)return false;
 		
@@ -87,7 +87,7 @@ public class ItemCurse extends Item{
 	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		if (CurseType.isEternal(is.getItemDamage()))textLines.add(EnumChatFormatting.YELLOW+StatCollector.translateToLocal("item.curse.eternal"));
 	}
@@ -109,9 +109,9 @@ public class ItemCurse extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int damage, int pass){
-        return pass == 0 ? icon1 : icon2;
-    }
+	public IIcon getIconFromDamageForRenderPass(int damage, int pass){
+		return pass == 0 ? icon1 : icon2;
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -121,8 +121,8 @@ public class ItemCurse extends Item{
 	
 	@Override
 	public int getRenderPasses(int metadata){
-        return 2;
-    }
+		return 2;
+	}
 	
 	@Override
 	public void registerIcons(IIconRegister iconRegister){

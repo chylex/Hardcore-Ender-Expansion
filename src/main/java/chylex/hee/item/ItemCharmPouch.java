@@ -57,8 +57,8 @@ public class ItemCharmPouch extends Item{
 		if (is == null || is.stackTagCompound == null)return false;
 		
 		if (is.stackTagCompound.getBoolean("isPouchActive"))is.stackTagCompound.setBoolean("isPouchActive",false);
-        return false;
-    }
+		return false;
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

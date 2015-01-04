@@ -43,10 +43,10 @@ public class ItemCharm extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int damage, int pass){
+	public IIcon getIconFromDamageForRenderPass(int damage, int pass){
 		CharmType type = CharmType.getFromDamage(damage).getLeft();
-        return pass == 0 ? iconArrayBack[type == null ? 0 : type.backIcon] : iconArrayFore[type == null ? 0 : type.foregroundIcon];
-    }
+		return pass == 0 ? iconArrayBack[type == null ? 0 : type.backIcon] : iconArrayFore[type == null ? 0 : type.foregroundIcon];
+	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -56,8 +56,8 @@ public class ItemCharm extends Item{
 	
 	@Override
 	public int getRenderPasses(int metadata){
-        return 2;
-    }
+		return 2;
+	}
 
 	@SideOnly(Side.CLIENT)
 	@Override

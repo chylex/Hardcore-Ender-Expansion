@@ -11,17 +11,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiVoidChest extends GuiContainer{
 	private static final ResourceLocation texChest = new ResourceLocation("textures/gui/container/generic_54.png");
 	
-    private final IInventory invPlayer;
-    private final IInventory invVoidChest;
-    private final byte inventoryHeight;
-    
+	private final IInventory invPlayer;
+	private final IInventory invVoidChest;
+	private final byte inventoryHeight;
+	
 	public GuiVoidChest(IInventory inventory, IInventory chest){
 		super(new ContainerVoidChest(inventory,chest));
 		this.invPlayer = inventory;
-        this.invVoidChest = chest;
-        allowUserInput = false;
-        inventoryHeight = (byte)(chest.getSizeInventory()*2);
-        ySize = 114+inventoryHeight;
+		this.invVoidChest = chest;
+		allowUserInput = false;
+		inventoryHeight = (byte)(chest.getSizeInventory()*2);
+		ySize = 114+inventoryHeight;
 	}
 	
 	@Override

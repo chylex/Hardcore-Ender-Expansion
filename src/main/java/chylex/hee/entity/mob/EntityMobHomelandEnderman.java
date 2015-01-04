@@ -70,8 +70,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 
 	private static final UUID attackingSpeedBoostModifierUUID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
-    private static final AttributeModifier attackingSpeedBoostModifier = (new AttributeModifier(attackingSpeedBoostModifierUUID,"Attacking speed boost",6.2D,0)).setSaved(false);
-    
+	private static final AttributeModifier attackingSpeedBoostModifier = (new AttributeModifier(attackingSpeedBoostModifierUUID,"Attacking speed boost",6.2D,0)).setSaved(false);
+	
 	private HomelandRole homelandRole;
 	private long groupId = -1;
 	private OvertakeGroupRole overtakeGroupRole;
@@ -89,23 +89,23 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	public EntityMobHomelandEnderman(World world){
 		super(world);
 		setSize(0.6F,2.9F);
-        stepHeight = 1.0F;
+		stepHeight = 1.0F;
 	}
 	
 	@Override
 	protected void entityInit(){
-        super.entityInit();
-        dataWatcher.addObject(16,Byte.valueOf((byte)0));
-        dataWatcher.addObjectByDataType(17,5);
-        dataWatcher.addObject(18,Byte.valueOf((byte)0));
-    }
+		super.entityInit();
+		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+		dataWatcher.addObjectByDataType(17,5);
+		dataWatcher.addObject(18,Byte.valueOf((byte)0));
+	}
 	
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(40D);
-        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
-        getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(7D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(7D);
 		updateAttributes();
 	}
 	

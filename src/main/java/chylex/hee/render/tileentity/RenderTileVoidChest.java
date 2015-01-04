@@ -12,8 +12,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderTileVoidChest extends TileEntitySpecialRenderer{
 	private static final ResourceLocation texture = new ResourceLocation("hardcoreenderexpansion:textures/entity/tile/void_chest.png");
-    private final ModelChest model = new ModelChest();
-    
+	private final ModelChest model = new ModelChest();
+	
 	@Override
 	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime){
 		int meta = tile.hasWorldObj() ?	meta = tile.getBlockMetadata() : 0;

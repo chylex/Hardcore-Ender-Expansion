@@ -59,8 +59,8 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 	
 	@Override
 	protected float getMotionFactor(){
-        return 1F;
-    }
+		return 1F;
+	}
 	
 	@Override
 	public boolean isBurning(){

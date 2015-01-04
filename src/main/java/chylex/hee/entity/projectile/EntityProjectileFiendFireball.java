@@ -156,7 +156,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int eger){
+	public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int eger){
 		super.setPositionAndRotation2(actualPosX,y,actualPosZ,rotationYaw,rotationPitch,eger);
 	}
 

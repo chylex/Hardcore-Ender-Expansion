@@ -278,7 +278,7 @@ public final class BlockList{
 		
 		@Override
 		@SideOnly(Side.CLIENT)
-	    public IIcon getIcon(int side, int meta){
+		public IIcon getIcon(int side, int meta){
 			return fullBlock.getIcon(side,0);
 		}
 	}

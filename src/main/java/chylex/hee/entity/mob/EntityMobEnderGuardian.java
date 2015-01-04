@@ -79,7 +79,7 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 		
 		float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 
-        if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),damage)){
+		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),damage)){
 			entity.addVelocity(-MathHelper.sin(MathUtil.toRad(rotationYaw))*1.7D,0.2D,MathHelper.cos(MathUtil.toRad(rotationYaw))*1.7D);
 			motionX *= 0.8D;
 			motionZ *= 0.8D;
@@ -90,10 +90,10 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 				dashCooldown = 71;
 			}
 
-            EnchantmentHelper.func_151385_b(this,entity);
-        	return true;
-        }
-        else return false;
+			EnchantmentHelper.func_151385_b(this,entity);
+			return true;
+		}
+		else return false;
 	}
 	
 	@Override

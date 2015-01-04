@@ -6,8 +6,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
 public class ContainerVoidChest extends ContainerChest{
-    private int chestSlots;
-    
+	private int chestSlots;
+	
 	public ContainerVoidChest(IInventory inventory, IInventory chest){
 		super(inventory,chest);
 		

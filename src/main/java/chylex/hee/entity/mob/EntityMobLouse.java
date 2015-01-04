@@ -194,8 +194,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 			PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.LOUSE_ARMOR_HIT,this));
 			
 			if ((armor -= amount) <= 0F)armor = 0F;
-            hurtTime = maxHurtTime = 10;
-            hurtResistantTime = 10;
+			hurtTime = maxHurtTime = 10;
+			hurtResistantTime = 10;
 			
 			return true;
 		}
@@ -215,35 +215,35 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		}
 		
 		double oldPosX = posX;
-        double oldPosY = posY;
-        double oldPosZ = posZ;
-        int maxDist = 3+level;
-        
-        boolean hasTeleported = false;
-        
-        for(int attempt = 0, ix, iy, iz; attempt < 32 && !hasTeleported; attempt++){
-        	posX = oldPosX+rand.nextInt(maxDist)-rand.nextInt(maxDist);
-        	posY = oldPosY+1;
-        	posZ = oldPosZ+rand.nextInt(maxDist)-rand.nextInt(maxDist);
-        	
-        	if (MathUtil.distance(posX-oldPosX,posZ-oldPosZ) < 2D)continue;
-        	
-        	ix = MathUtil.floor(posX);
-        	iy = MathUtil.floor(posY);
-        	iz = MathUtil.floor(posZ);
-        	
-        	for(int py = 0; py < 3; py++){
-        		if (worldObj.isAirBlock(ix,iy,iz) && !worldObj.isAirBlock(ix,iy-1,iz)){
-        			setPosition(posX,posY+0.1D,posZ);
-        			hasTeleported = true;
-        			break;
-        		}
-        		else iy = MathUtil.floor(--posY);
-        	}
-        }
-        
-        if (!hasTeleported)return;
-        
+		double oldPosY = posY;
+		double oldPosZ = posZ;
+		int maxDist = 3+level;
+		
+		boolean hasTeleported = false;
+		
+		for(int attempt = 0, ix, iy, iz; attempt < 32 && !hasTeleported; attempt++){
+			posX = oldPosX+rand.nextInt(maxDist)-rand.nextInt(maxDist);
+			posY = oldPosY+1;
+			posZ = oldPosZ+rand.nextInt(maxDist)-rand.nextInt(maxDist);
+			
+			if (MathUtil.distance(posX-oldPosX,posZ-oldPosZ) < 2D)continue;
+			
+			ix = MathUtil.floor(posX);
+			iy = MathUtil.floor(posY);
+			iz = MathUtil.floor(posZ);
+			
+			for(int py = 0; py < 3; py++){
+				if (worldObj.isAirBlock(ix,iy,iz) && !worldObj.isAirBlock(ix,iy-1,iz)){
+					setPosition(posX,posY+0.1D,posZ);
+					hasTeleported = true;
+					break;
+				}
+				else iy = MathUtil.floor(--posY);
+			}
+		}
+		
+		if (!hasTeleported)return;
+		
 		for(int a = 0; a < 64; a++){
 			worldObj.spawnParticle("portal",oldPosX+(rand.nextDouble()-rand.nextDouble())*width,oldPosY+rand.nextDouble()*height,oldPosZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
 		}

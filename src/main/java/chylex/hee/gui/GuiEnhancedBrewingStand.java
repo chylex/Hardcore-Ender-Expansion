@@ -24,8 +24,8 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int y){
 		super.drawGuiContainerForegroundLayer(x,y);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		
 		int powderReq = brewingStand.getRequiredPowder();
 		
 		fontRendererObj.drawStringWithShadow(

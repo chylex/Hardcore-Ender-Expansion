@@ -346,7 +346,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 			target = newTarget;
 			nextAttackTimer = ATTACK_TIMER;
 		}
-    }
+	}
 	
 	@Override
 	public void knockBack(Entity entity, float damage, double xPower, double zPower){}

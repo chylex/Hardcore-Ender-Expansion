@@ -23,7 +23,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	protected byte activatingRangeFromPlayer = 16;
 	
 	public double renderRotation;
-    public double renderRotationPrev;
+	public double renderRotationPrev;
 
 	protected CustomSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		this.spawnerTile = spawnerTile;

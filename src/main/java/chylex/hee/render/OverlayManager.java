@@ -113,7 +113,7 @@ public class OverlayManager{
 	public void onPreRenderGameOverlay(RenderGameOverlayEvent.Pre e){
 		Minecraft mc = Minecraft.getMinecraft();
 		if (mc.thePlayer == null)return;
-        
+		
 		if (e.type == ElementType.HELMET && mc.thePlayer.isInsideOfMaterial(BlockEnderGoo.enderGoo)){
 			int w = e.resolution.getScaledWidth(), h = e.resolution.getScaledHeight();
 

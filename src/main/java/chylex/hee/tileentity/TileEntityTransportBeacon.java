@@ -138,15 +138,15 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox(){
+	public AxisAlignedBB getRenderBoundingBox(){
 		return INFINITE_EXTENT_AABB;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public double getMaxRenderDistanceSquared(){
-        return 16384D;
-    }
+	public double getMaxRenderDistanceSquared(){
+		return 16384D;
+	}
 	
 	@Override
 	public int[] getAccessibleSlotsFromSide(int side){

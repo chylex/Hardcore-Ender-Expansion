@@ -45,8 +45,8 @@ public class BlockLaboratoryGlass extends BlockBreakable{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister){
-        blockIcon = iconRegister.registerIcon(textureName);
-        iconOutline = iconRegister.registerIcon(textureName+"_outline");
-    }
+	public void registerBlockIcons(IIconRegister iconRegister){
+		blockIcon = iconRegister.registerIcon(textureName);
+		iconOutline = iconRegister.registerIcon(textureName+"_outline");
+	}
 }

@@ -76,7 +76,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 		}
 		
 		super.onBlockExploded(world,x,y,z,explosion);
-    }
+	}
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest){

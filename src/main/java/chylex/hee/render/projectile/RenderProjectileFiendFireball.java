@@ -26,8 +26,8 @@ public class RenderProjectileFiendFireball extends Render{
 		EntityProjectileFiendFireball fireball = (EntityProjectileFiendFireball)entity;
 		
 		GL11.glPushMatrix();
-        bindEntityTexture(entity);
-        GL11.glTranslated(getX(fireball,partialTickTime),y,getZ(fireball,partialTickTime));
+		bindEntityTexture(entity);
+		GL11.glTranslated(getX(fireball,partialTickTime),y,getZ(fireball,partialTickTime));
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		GL11.glScalef(scale,scale,scale);
 		
