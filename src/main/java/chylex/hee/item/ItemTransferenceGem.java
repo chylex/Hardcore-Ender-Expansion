@@ -128,8 +128,8 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 		return iconArray[getIcon(is)];
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister){
 		iconArray = new IIcon[3];
 		for(int a = 0; a < iconArray.length; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:transference_gem_"+(a+1));

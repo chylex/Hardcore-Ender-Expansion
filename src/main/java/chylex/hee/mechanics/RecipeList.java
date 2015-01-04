@@ -48,6 +48,16 @@ public final class RecipeList{
 			'I', Blocks.iron_block
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.experience_table),
+			"PBP", "SCS", "INI",
+			'P', ItemList.end_powder,
+			'B', Blocks.iron_bars,
+			'S', Blocks.stone,
+			'C', Items.glass_bottle,
+			'N', BlockList.endium_block,
+			'I', Blocks.iron_block
+		);
+		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.accumulation_table),
 			"PBP", "SCS", "INI",
 			'P', ItemList.end_powder,

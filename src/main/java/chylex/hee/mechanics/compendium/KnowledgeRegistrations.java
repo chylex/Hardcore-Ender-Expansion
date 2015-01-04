@@ -1096,6 +1096,7 @@ public final class KnowledgeRegistrations{
 				
 				for(KnowledgeFragment fragment:obj.getFragments()){
 					if (fragment.getPrice() == 0)throw new IllegalStateException("Knowledge Fragment "+fragment.globalID+" has illegal unlock price.");
+					else if (!fragment.isBuyable())continue;
 					
 					totalFragPrice += fragment.getPrice();
 					if (!fragment.isUnlockedOnDiscovery())totalFragPriceExcDiscovery += fragment.getPrice();
@@ -1124,7 +1125,7 @@ public final class KnowledgeRegistrations{
 			Log.debug("Total Fragment price, excluding cascaded: $0",totalFragPriceExcCascaded);
 			Log.debug("Total Fragment price, excluding discovery: $0",totalFragPriceExcDiscovery);
 			Log.debug("Total Fragment price, excluding all: $0",totalFragPriceExcCascaded-(totalFragPrice-totalFragPriceExcDiscovery));
-			Log.debug("Total price: $0",totalObjPrice+totalFragPrice);
+			Log.debug("Total real price: $0",totalObjPrice+totalFragPriceExcCascaded-(totalFragPrice-totalFragPriceExcDiscovery));
 			Log.debug("Total discovery reward: $0",totalReward);
 			
 			Stopwatch.finish("KnowledgeRegistrations - Stats");
