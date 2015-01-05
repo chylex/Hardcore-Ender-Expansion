@@ -47,7 +47,7 @@ public class ItemBiomeCompass extends Item{
 					lastSavedX = entity.chunkCoordX;
 					lastSavedZ = entity.chunkCoordZ;
 				}
-				else if (MathUtil.square(entity.chunkCoordX-lastSavedX) + MathUtil.square(entity.chunkCoordZ-lastSavedZ) > 250F){
+				else if (MathUtil.square(entity.chunkCoordX-lastSavedX)+MathUtil.square(entity.chunkCoordZ-lastSavedZ) > 250F){
 					lastSavedX = lastSavedZ = Integer.MAX_VALUE;
 				}
 			}

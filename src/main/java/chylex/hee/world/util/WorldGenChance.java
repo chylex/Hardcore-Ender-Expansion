@@ -1,4 +1,5 @@
 package chylex.hee.world.util;
+import java.util.Random;
 
 public final class WorldGenChance{
 	public static final WorldGenChance2
@@ -34,6 +35,10 @@ public final class WorldGenChance{
 				return dist < startDist || dist > endDist ? 0D : dist < middleDist ? linear2Incr.calculate(dist,startDist,middleDist) : linear2Decr.calculate(dist,middleDist,endDist);
 			}
 		};
+	
+	public static boolean checkChance(double chance, Random rand){
+		return chance == 0D ? false : chance == 1D ? true : rand.nextDouble() < chance;
+	}
 	
 	private WorldGenChance(){}
 	

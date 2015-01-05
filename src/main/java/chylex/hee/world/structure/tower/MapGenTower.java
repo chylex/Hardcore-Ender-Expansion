@@ -11,6 +11,7 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.MapGenScatteredFeatureCustom;
 import chylex.hee.world.structure.island.util.IslandSpawnChecker;
 import chylex.hee.world.util.BlockLocation;
+import chylex.hee.world.util.WorldGenChance;
 
 public class MapGenTower extends MapGenScatteredFeatureCustom{
 	public MapGenTower(){
@@ -18,8 +19,8 @@ public class MapGenTower extends MapGenScatteredFeatureCustom{
 	}
 
 	@Override
-	protected boolean canStructureSpawn(int x, int z, Random rand){
-		if (rand.nextInt(3) != 0)return false;
+	protected boolean canStructureSpawn(int x, int z, double dist, Random rand){
+		if (rand.nextInt(3) != 0 || (dist > 750D && !WorldGenChance.checkChance(0.5D+0.5D*WorldGenChance.cubic2Decr.calculate(dist,750D,3800D),rand)))return false;
 		
 		long seed1 = worldObj.getWorldInfo().getSeed();
 		int seed2 = 1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount();

@@ -21,7 +21,7 @@ public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeatur
 		this.featureSize = featureSize;
 	}
 	
-	protected abstract boolean canStructureSpawn(int x, int z, Random rand);
+	protected abstract boolean canStructureSpawn(int x, int z, double dist, Random rand);
 	protected abstract String getStructureName();
 	
 	@Override
@@ -42,7 +42,11 @@ public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeatur
 		x2 += coordCheckRand.nextInt(maxSpacing-minSpacing);
 		z2 += coordCheckRand.nextInt(maxSpacing-minSpacing);
 
-		return origChunkX == x2 && origChunkZ == z2 && Math.sqrt(MathUtil.square(x2*16L+(featureSize>>1))+MathUtil.square(z2*16L+(featureSize>>1))) >= minDistanceFromCenter && canStructureSpawn(x2,z2,coordCheckRand);
+		if (origChunkX == x2 && origChunkZ == z2){
+			double dist = Math.sqrt(MathUtil.square(x2*16L+(featureSize>>1))+MathUtil.square(z2*16L+(featureSize>>1)));
+			return dist >= minDistanceFromCenter && canStructureSpawn(x2,z2,dist,coordCheckRand);
+		}
+		else return false;
 	}
 	
 	@Override

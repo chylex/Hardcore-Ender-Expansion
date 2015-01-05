@@ -30,7 +30,8 @@ import chylex.hee.world.util.WorldGenChance;
  *  a- => constant - generation starts happening at a point
  *  a-b => single - generation happens once in that range
  *  	=> linear & cubic - generation chance moves inside the range
- *  					  - the chance equals 0 on the left side, and then moves from 0-1 (increasing) or 1-0 (decreasing)
+ *  					  - the chance always equals 0 on the left side, and then moves from 0-1 (increasing) or 1-0 (decreasing)
+ *  a/b-c => linear & cubic - generation chance moves inside the b-c range, but the element starts spawning sooner
  *  a-b-c => linear & cubic - generation chance moves from 0-1 and then from 1-0
  * 
  *  - chance can be also modified to stop worldgen elements from disappearing completely
@@ -41,11 +42,11 @@ import chylex.hee.world.util.WorldGenChance;
  * End Powder Ore | constant | 0-              |
  * Endstone Blob  | constant | 100-            | some types spawn a bit further
  * Energy Cluster | cubic+   | 320-6400        | x != 0 => x*0.7+0.2
- * Dungeon Tower  | linear-  | 350-3800        | x != 0 => 350 => x*0.5+0.5
+ * Dungeon Tower  | cubic-   | 350/750-3800    | x != 0 => x*0.5+0.5
  * Endium Ore     | cubic+   | 500-12000       | x != 0 => x*0.9
  * Endium Ore (2) | linear+  | 1700-21000      | max amount of blocks spawned
  * Meteoroid      | linear+- | 1280-2700-15000 |
- * Biome Island   | linear+  | 1600-4000       |
+ * Biome Island   | linear+  | 1600-4000       | x != 0 => x*0.35+0.65
  */
 
 public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
@@ -155,6 +156,6 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	}
 	
 	private boolean checkChance(double chance){
-		return chance == 0D ? false : chance == 1D ? true : randomGenerator.nextDouble() < chance;
+		return WorldGenChance.checkChance(chance,randomGenerator);
 	}
 }

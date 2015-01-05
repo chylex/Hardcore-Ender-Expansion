@@ -2,6 +2,7 @@ package chylex.hee.world.structure.island.util;
 import java.util.Random;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
+import chylex.hee.world.util.WorldGenChance;
 
 public final class IslandSpawnChecker{
 	private static final Random coordCheckRand = new Random(0L);
@@ -27,7 +28,11 @@ public final class IslandSpawnChecker{
 		x2 += coordCheckRand.nextInt(maxSpacing-minSpacing);
 		z2 += coordCheckRand.nextInt(maxSpacing-minSpacing);
 
-		if (origChunkX == x2 && origChunkZ == z2 && Math.sqrt(MathUtil.square(x2*16L+(featureSize>>1))+MathUtil.square(z2*16L+(featureSize>>1))) >= minDistanceFromCenter && coordCheckRand.nextInt(7) <= 4){
+		if (origChunkX != x2 || origChunkZ != z2)return -1;
+		
+		double dist = Math.sqrt(MathUtil.square(x2*16L+(featureSize>>1))+MathUtil.square(z2*16L+(featureSize>>1)));
+		
+		if (dist >= minDistanceFromCenter && coordCheckRand.nextInt(7) <= 4 && WorldGenChance.checkChance(0.65D+0.35D*WorldGenChance.linear2Incr.calculate(dist,1600D,4000D),coordCheckRand)){
 			int x = origChunkX*16, z = origChunkZ*16;
 			coordCheckRand.setSeed(((x/9)*238504L+(z/9)*10058432215L)^seed1);
 			coordCheckRand.nextInt(25);
