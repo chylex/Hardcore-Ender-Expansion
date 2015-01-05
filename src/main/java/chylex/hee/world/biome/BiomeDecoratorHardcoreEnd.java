@@ -75,7 +75,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		generateOres();
 
-		double distFromCenter = Math.sqrt(MathUtil.square(chunk_X>>4)+MathUtil.square(chunk_Z>>4))*16D;
+		double distFromCenter = MathUtil.distance(chunk_X>>4,chunk_Z>>4)*16D;
 		
 		if (distFromCenter < 120D && randomGenerator.nextInt(5) == 0){
 			Stopwatch.timeAverage("WorldGenObsidianSpike",4);
