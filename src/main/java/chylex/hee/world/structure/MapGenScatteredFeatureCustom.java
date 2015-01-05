@@ -1,6 +1,8 @@
 package chylex.hee.world.structure;
 import java.util.Random;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.gen.structure.MapGenScatteredFeature;
+import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
@@ -47,4 +49,40 @@ public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeatur
 	public final String func_143025_a(){ // OBFUSCATED get structure name
 		return getStructureName();
 	}
+	
+	public static final HeeTest $debugTest = new HeeTest(){
+		@Override
+		public void run(String...args){
+			int minSpacing = 8, maxSpacing = 15;
+			
+			int deathAmt = WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount();
+			int px = MathUtil.floor(player.posX), py = MathUtil.floor(player.posY), pz = MathUtil.floor(player.posZ);
+			Random rand = new Random();
+			
+			for(int x = -48; x <= 48; x++){
+				for(int z = -48; z <= 48; z++){
+					int xx = x, zz = z;
+					int origChunkX = xx, origChunkZ = zz;
+
+					if (xx < 0)xx -= maxSpacing-1;
+					if (zz < 0)zz -= maxSpacing-1;
+
+					int x2 = xx/maxSpacing, z2 = zz/maxSpacing;
+					
+					rand.setSeed(x2*341873128712L+z2*132897987541L+world.getWorldInfo().getSeed()+358041L);
+					rand.nextInt(1+deathAmt);
+					
+					x2 *= maxSpacing;
+					z2 *= maxSpacing;
+					
+					world.setBlock(px+x2,py-1,pz+z2,Blocks.emerald_block);
+					
+					x2 += rand.nextInt(maxSpacing-minSpacing);
+					z2 += rand.nextInt(maxSpacing-minSpacing);
+					
+					if (origChunkX == x2 && origChunkZ == z2 && rand.nextInt(3) == 0)world.setBlock(px+x,py-1,pz+z,Blocks.brick_block);
+				}
+			}
+		}
+	};
 }

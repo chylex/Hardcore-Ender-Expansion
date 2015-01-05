@@ -14,11 +14,13 @@ import chylex.hee.world.util.BlockLocation;
 
 public class MapGenTower extends MapGenScatteredFeatureCustom{
 	public MapGenTower(){
-		super(10,24,350,32);
+		super(8,15,350,32);
 	}
 
 	@Override
 	protected boolean canStructureSpawn(int x, int z, Random rand){
+		if (rand.nextInt(3) != 0)return false;
+		
 		long seed1 = worldObj.getWorldInfo().getSeed();
 		int seed2 = 1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount();
 

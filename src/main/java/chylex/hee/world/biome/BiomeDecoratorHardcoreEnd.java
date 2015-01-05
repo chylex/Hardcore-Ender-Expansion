@@ -15,6 +15,7 @@ import chylex.hee.world.feature.WorldGenEndiumOre;
 import chylex.hee.world.feature.WorldGenEnergyCluster;
 import chylex.hee.world.feature.WorldGenMeteoroid;
 import chylex.hee.world.feature.WorldGenObsidianSpike;
+import chylex.hee.world.util.WorldGenChance;
 
 /*
  * WorldGen layer specifications
@@ -32,15 +33,19 @@ import chylex.hee.world.feature.WorldGenObsidianSpike;
  *  					  - the chance equals 0 on the left side, and then moves from 0-1 (increasing) or 1-0 (decreasing)
  *  a-b-c => linear & cubic - generation chance moves from 0-1 and then from 1-0
  * 
+ *  - chance can be also modified to stop worldgen elements from disappearing completely
+ * 
  * Element list
  * ============
- * Dragon Lair    | single   | 0-120
- * Endstone Blob  | constant | 100-
- * Energy Cluster | cubic+   | 320-6400
- * Dungeon Tower  | linear-  | 350-3800
- * Endium Ore     | cubic+   | 500-12000
- * Meteoroid      | linear+- | 1280-2700-15000
- * Biome Island   | linear+  | 1600-4000
+ * Dragon Lair    | single   | 0-120           |
+ * End Powder Ore | constant | 0-              |
+ * Endstone Blob  | constant | 100-            | some types spawn a bit further
+ * Energy Cluster | cubic+   | 320-6400        | x != 0 => x*0.7+0.2
+ * Dungeon Tower  | linear-  | 350-3800        | x != 0 => 350 => x*0.5+0.5
+ * Endium Ore     | cubic+   | 500-12000       | x != 0 => x*0.9
+ * Endium Ore (2) | linear+  | 1700-21000      | max amount of blocks spawned
+ * Meteoroid      | linear+- | 1280-2700-15000 |
+ * Biome Island   | linear+  | 1600-4000       |
  */
 
 public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
@@ -83,7 +88,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.finish("WorldGenBlob");
 		}
 		
-		if (distFromCenter > 320D && randomGenerator.nextDouble()*randomGenerator.nextDouble() > 0.8D){
+		if (distFromCenter > 320D && checkChance(0.2D+0.7D*WorldGenChance.cubic2Incr.calculate(distFromCenter,320D,6400D))){
 			Stopwatch.timeAverage("WorldGenEnergyCluster",64);
 			
 			for(int a = 0; a < randomGenerator.nextInt(2+randomGenerator.nextInt(2+randomGenerator.nextInt(2))); a++){
@@ -93,17 +98,17 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.finish("WorldGenEnergyCluster");
 		}
 		
-		if (distFromCenter > 500D && randomGenerator.nextInt(1+randomGenerator.nextInt(3)+MathUtil.floor(Math.max((11500D-distFromCenter)/1000D,0))) <= randomGenerator.nextInt(4)){
+		if (distFromCenter > 500D && checkChance(0.9D*WorldGenChance.cubic2Incr.calculate(distFromCenter,500D,12000D))){
 			Stopwatch.timeAverage("WorldGenEndiumOre",64);
 			
-			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+randomGenerator.nextInt(1+Math.min(10,MathUtil.floor((Math.max(0,distFromCenter-1700D))/2300D)))); attempt < 440; attempt++){
+			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+randomGenerator.nextInt(1+MathUtil.floor(9D*WorldGenChance.linear2Incr.calculate(distFromCenter,1700D,21000D)))); attempt < 440; attempt++){
 				if (endiumOreGen.generate(currentWorld,randomGenerator,randX(),10+randomGenerator.nextInt(100),randZ()) && --max <= 0)break;
 			}
 			
 			Stopwatch.finish("WorldGenEndiumOre");
 		}
 		
-		if (distFromCenter > 1280D && randomGenerator.nextFloat()*randomGenerator.nextFloat() > 0.666F && randomGenerator.nextFloat() < 0.1F+(distFromCenter/15000D)){
+		if (distFromCenter > 1280D && checkChance(WorldGenChance.linear3IncrDecr.calculate(distFromCenter,1280D,2700D,15000D)) && randomGenerator.nextFloat()*randomGenerator.nextFloat() > 0.666F){
 			Stopwatch.timeAverage("WorldGenMeteoroid",64);
 			
 			for(int attempt = 0; attempt < randomGenerator.nextInt(3); attempt++){
@@ -147,5 +152,9 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	
 	private int randZ(){
 		return chunk_Z+randomGenerator.nextInt(16)+8;
+	}
+	
+	private boolean checkChance(double chance){
+		return chance == 0D ? false : chance == 1D ? true : randomGenerator.nextDouble() < chance;
 	}
 }
