@@ -100,11 +100,11 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
-import chylex.hee.tileentity.TileEntityExtractionTable;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityExperienceTable;
+import chylex.hee.tileentity.TileEntityExtractionTable;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 import chylex.hee.tileentity.TileEntitySoulCharm;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
@@ -162,10 +162,6 @@ public class HardcoreEnderExpansion{
 		BlockList.loadBlocks();
 		ItemList.loadItems();
 		proxy.loadConfiguration();
-		
-		// DIMENSION
-
-		DimensionOverride.setup();
 		
 		// BLOCKS
 		
@@ -292,6 +288,10 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerTileEntity(TileEntityTransportBeacon.class, "TransportBeacon");
 		
 		Stopwatch.finish("PreInitEvent - tile entities");
+		
+		// DIMENSION
+
+		DimensionOverride.setup();
 		
 		// ACHIEVEMENTS
 		

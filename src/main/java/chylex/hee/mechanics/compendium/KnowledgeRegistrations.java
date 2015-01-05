@@ -58,6 +58,7 @@ public final class KnowledgeRegistrations{
 		ADVENTURERS_DIARY = create(ItemList.adventurers_diary),
 		ENDERMAN_HEAD = create(ItemList.enderman_head),
 		MUSIC_DISKS = create(ItemList.music_disk),
+		END_PORTAL = create(Blocks.end_portal_frame,"ec.title.portal"),
 		ALTAR_NEXUS = create(ItemList.altar_nexus),
 		BASIC_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.INVALID.id),
 		ENDERMAN = create(EntityMobEnderman.class),
@@ -301,13 +302,20 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(30).setPrice(2)
 			}),
 			
-			ALTAR_NEXUS.setPos(1,3).setUnlockPrice(10).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			END_PORTAL.setPos(0,6).setNonBuyable().setDiscoveryReward(28).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(1410).setNonBuyable().setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(1411).setNonBuyable().setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(1412).setNonBuyable().setUnlockOnDiscovery(),
+				new KnowledgeFragmentText(1413).setNonBuyable().setUnlockOnDiscovery()
+			}),
+			
+			ALTAR_NEXUS.setPos(1,9).setUnlockPrice(10).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(40).setPrice(8),
 				new KnowledgeFragmentCrafting(41).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setPrice(5).setUnlockRequirements(40),
 				new KnowledgeFragmentCrafting(42).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(50)
 			}),
 			
-			BASIC_ESSENCE_ALTAR.setPos(3,3).setNonBuyable().setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			BASIC_ESSENCE_ALTAR.setPos(3,9).setNonBuyable().setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(42),
 				new KnowledgeFragmentText(51).setUnlockOnDiscovery().setPrice(5).setUnlockRequirements(50),
 				new KnowledgeFragmentText(52).setPrice(2).setUnlockRequirements(51),
@@ -316,14 +324,14 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(55).setPrice(2).setUnlockRequirements(53)
 			}),
 			
-			ENDERMAN.setPos(1,6).setUnlockPrice(5).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
+			ENDERMAN.setPos(1,3).setUnlockPrice(5).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(60).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(61).setPrice(2).setUnlockRequirements(60),
 				new KnowledgeFragmentText(62).setPrice(2).setUnlockRequirements(60),
 				new KnowledgeFragmentText(63).setPrice(3).setUnlockRequirements(60)
 			}),
 			
-			SILVERFISH.setPos(3,6).setUnlockPrice(5).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			SILVERFISH.setPos(3,3).setUnlockPrice(5).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(70).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(71).setPrice(2).setUnlockRequirements(70),
 				new KnowledgeFragmentText(72).setPrice(3).setUnlockRequirements(71)
@@ -1075,7 +1083,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 1410
+		// next: 1420
 		// taken: 1000-1399
 		
 		Stopwatch.finish("KnowledgeRegistrations");

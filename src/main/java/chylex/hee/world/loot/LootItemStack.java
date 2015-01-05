@@ -16,6 +16,7 @@ public class LootItemStack implements IWeightProvider{
 
 	public LootItemStack(Block block){
 		this.item = Item.getItemFromBlock(block);
+		if (item == null)throw new IllegalArgumentException("Invalid LootItemStack block, no item found: "+block);
 	}
 	
 	public LootItemStack(Item item){

@@ -41,11 +41,11 @@ import chylex.hee.world.util.WorldGenChance;
  * Dragon Lair        | single   | 0-120           |
  * End Powder Ore     | constant | 0-              |
  * Endstone Blob      | constant | 100-            | some types spawn a bit further
- * Energy Cluster     | cubic+   | 320-6400        | x != 0 => x*0.58+0.22
+ * Energy Cluster     | cubic+   | 320-6400        | x != 0 => x*0.45+0.22
  * Energy Cluster (2) | linear+  | 320-6400        | x != 0 => x*0.9+0.1 ... chance to continue spawning
- * Dungeon Tower      | cubic-   | 350/750-3800    | x != 0 => x*0.75+0.25
- * Endium Ore         | cubic+   | 500-12000       | x != 0 => x*0.65+0.25
- * Endium Ore (2)     | linear+  | 1700-21000      | max amount of blocks spawned
+ * Dungeon Tower      | cubic-   | 350/900-3800    | x != 0 => x*0.75+0.25
+ * Endium Ore         | cubic+   | 500-12000       | x != 0 => x*0.64+0.28
+ * Endium Ore (2)     | linear+  | 1500-21000      | max amount of blocks spawned
  * Meteoroid          | linear+- | 1280-2700-15000 |
  * Biome Island       | linear+  | 1600-4000       | x != 0 => x*0.35+0.65
  */
@@ -90,7 +90,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.finish("WorldGenBlob");
 		}
 		
-		if (distFromCenter > 320D && checkChance(0.22D+0.58D*WorldGenChance.cubic2Incr.calculate(distFromCenter,320D,6400D)) && randomGenerator.nextDouble()*randomGenerator.nextDouble() > 0.6D){
+		if (distFromCenter > 320D && checkChance(0.22D+0.45D*WorldGenChance.cubic2Incr.calculate(distFromCenter,320D,6400D)) && randomGenerator.nextDouble()*randomGenerator.nextDouble() > 0.6D){
 			Stopwatch.timeAverage("WorldGenEnergyCluster",64);
 			
 			for(int a = 0; a < randomGenerator.nextInt(4); a++){
@@ -101,10 +101,10 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.finish("WorldGenEnergyCluster");
 		}
 		
-		if (distFromCenter > 500D && checkChance(0.25D+0.65D*WorldGenChance.cubic2Incr.calculate(distFromCenter,500D,12000D))){
+		if (distFromCenter > 500D && checkChance(0.28D+0.64D*WorldGenChance.cubic2Incr.calculate(distFromCenter,500D,12000D))){
 			Stopwatch.timeAverage("WorldGenEndiumOre",64);
 			
-			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+randomGenerator.nextInt(2+MathUtil.floor(9D*WorldGenChance.linear2Incr.calculate(distFromCenter,1700D,21000D)))); attempt < 440; attempt++){
+			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+randomGenerator.nextInt(2+MathUtil.ceil(9D*WorldGenChance.linear2Incr.calculate(distFromCenter,1500D,21000D)))); attempt < 440; attempt++){
 				if (endiumOreGen.generate(currentWorld,randomGenerator,randX(),10+randomGenerator.nextInt(100),randZ()) && --max <= 0)break;
 			}
 			
