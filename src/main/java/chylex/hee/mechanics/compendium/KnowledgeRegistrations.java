@@ -302,7 +302,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(30).setPrice(2)
 			}),
 			
-			END_PORTAL.setPos(0,6).setNonBuyable().setDiscoveryReward(28).addFragments(new KnowledgeFragment[]{
+			END_PORTAL.setPos(2,6).setNonBuyable().setDiscoveryReward(28).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(1410).setNonBuyable().setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1411).setNonBuyable().setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(1412).setNonBuyable().setUnlockOnDiscovery(),

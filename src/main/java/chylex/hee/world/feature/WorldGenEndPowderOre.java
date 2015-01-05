@@ -23,7 +23,7 @@ public class WorldGenEndPowderOre extends WorldGenerator{
 			double centerX = genX1+(genX2-genX1)*a/blockAmount;
 			double centerY = genY1+(genY2-genY1)*a/blockAmount;
 			double centerZ = genZ1+(genZ2-genZ1)*a/blockAmount;
-			double maxDist = rand.nextDouble()*blockAmount/2D;
+			double maxDist = (rand.nextDouble()*blockAmount/2D)-1D;
 			double area = (MathHelper.sin(a*(float)Math.PI/blockAmount)+1F)*maxDist+1D;
 			
 			int minX = MathHelper.floor_double(centerX-area/2D);
