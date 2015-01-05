@@ -16,6 +16,33 @@ import chylex.hee.world.feature.WorldGenEnergyCluster;
 import chylex.hee.world.feature.WorldGenMeteoroid;
 import chylex.hee.world.feature.WorldGenObsidianSpike;
 
+/*
+ * WorldGen layer specifications
+ * =============================
+ *  - single = happens once in a range
+ *  - constant = same chance for all ranges
+ *  - linear+/- = chance increases/decreases linearly in a range
+ *  - cubic+/- = chance increases/decreases using cubic easing function in a range
+ *  
+ * Chance ranges
+ * =============
+ *  a- => constant - generation starts happening at a point
+ *  a-b => single - generation happens once in that range
+ *  	=> linear & cubic - generation chance moves inside the range
+ *  					  - the chance equals 0 on the left side, and then moves from 0-1 (increasing) or 1-0 (decreasing)
+ *  a-b-c => linear & cubic - generation chance moves from 0-1 and then from 1-0
+ * 
+ * Element list
+ * ============
+ * Dragon Lair    | single   | 0-120
+ * Endstone Blob  | constant | 100-
+ * Energy Cluster | cubic+   | 320-6400
+ * Dungeon Tower  | linear-  | 350-3800
+ * Endium Ore     | cubic+   | 500-12000
+ * Meteoroid      | linear+- | 1280-2700-15000
+ * Biome Island   | linear+  | 1600-4000
+ */
+
 public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	private final WorldGenBlob blobGen;
 	private final WorldGenMeteoroid meteoroidGen;
