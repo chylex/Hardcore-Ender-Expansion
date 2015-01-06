@@ -132,16 +132,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		attacks.registerSpecial(new DragonAttackPunch(this,6).setDisabledPassiveAttacks(ATTACK_FIREBALL));
 		attacks.registerSpecial(new DragonAttackSummon(this,9).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
 		attacks.registerSpecial(new DragonAttackBloodlust(this,3).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
-		
-		/*DEFAULT = new DragonAttackDefault(this,0);
-		DIVEBOMB = new DragonAttackDivebomb(this,10).setDisabledPassiveAttacks(FIREBALL);
-		STAYNFIRE = new DragonAttackStaynfire(this,4).setDisabledPassiveAttacks(FIREBALL,BITE);
-		BITEMADNESS = new DragonAttackBitemadness(this,5).setDisabledPassiveAttacks(BITE);
-		PUNCH = new DragonAttackPunch(this,6).setDisabledPassiveAttacks(FIREBALL);
-		FREEZER = new DragonAttackFreezer(this,7).setDisabledPassiveAttacks(FIREBALL);
-		WHIRLWIND = new DragonAttackWhirlwind(this,8).setDisabledPassiveAttacks(FIREBALL,FREEZEBALL,BITE).setDisabled();
-		SUMMON = new DragonAttackSummon(this,9).setDisabledPassiveAttacks(FIREBALL,FREEZEBALL,BITE);
-		BLOODLUST = new DragonAttackBloodlust(this,3).setDisabledPassiveAttacks(FIREBALL,FREEZEBALL,BITE);*/
 	}
 
 	@Override
