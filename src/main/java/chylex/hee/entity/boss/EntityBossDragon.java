@@ -427,6 +427,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		
 		for(Entity entity:list){
 			if (entity instanceof EntityLivingBase || entity instanceof EntityBlockFallingObsidian){
+				while(entity.ridingEntity != null)entity = entity.ridingEntity;
+				
 				double[] vec = DragonUtil.getNormalizedVector(entity.posX-bodyCenterX,entity.posZ-bodyCenterZ);
 				CollisionEvent event = new CollisionEvent(entity,vec[0]*2D,0.2D,vec[1]*2D);
 				currentAttack.onCollisionEvent(event);
