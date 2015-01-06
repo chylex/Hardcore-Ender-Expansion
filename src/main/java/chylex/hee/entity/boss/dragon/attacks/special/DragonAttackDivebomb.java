@@ -1,5 +1,4 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
-import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -7,7 +6,6 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.CollisionEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
-import chylex.hee.entity.boss.dragon.managers.DragonAttackManager;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackDivebomb extends DragonSpecialAttackBase{
@@ -41,10 +39,9 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 				EntityPlayer closest = null;
 				double dist = Double.MAX_VALUE,d;
 				
-				for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
-					if (player.isDead || (DragonAttackManager.nocreative && player.capabilities.isCreativeMode))continue;
-					
-					if ((d = MathUtil.distance(player.posX-dragon.posX,player.posZ-dragon.posZ)) < dist){
+				for(EntityPlayer player:dragon.attacks.getViablePlayers()){
+					if (player.isDead)continue;
+					else if ((d = MathUtil.distance(player.posX-dragon.posX,player.posZ-dragon.posZ)) < dist){
 						dist = d;
 						closest = player;
 					}

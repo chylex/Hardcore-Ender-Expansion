@@ -42,6 +42,7 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEven
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.boss.dragon.managers.DragonAchievementManager;
 import chylex.hee.entity.boss.dragon.managers.DragonAttackManager;
+import chylex.hee.entity.boss.dragon.managers.DragonDebugManager;
 import chylex.hee.entity.boss.dragon.managers.DragonRewardManager;
 import chylex.hee.entity.boss.dragon.managers.DragonShotManager;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
@@ -54,6 +55,7 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.commands.DebugBoard;
 import chylex.hee.system.commands.HeeDebugCommand;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.DragonUtil;
@@ -90,10 +92,10 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public int spawnCooldown = 140, nextAttackTicks;
 	public double moveSpeedMp = 1D;
 
-	public DragonAttackManager attacks;
-	public DragonShotManager shots;
-	public DragonRewardManager rewards;
-	public DragonAchievementManager achievements;
+	public final DragonAttackManager attacks;
+	public final DragonShotManager shots;
+	public final DragonRewardManager rewards;
+	public final DragonAchievementManager achievements;
 	
 	private final DragonSpecialAttackBase defaultAttack;
 	private DragonSpecialAttackBase lastAttack, currentAttack;
@@ -172,14 +174,13 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				if (save.countCrystals() <= 2+save.getDragonDeathAmount() || attacks.getHealthPercentage() <= 80)setAngry(true);
 			}
 			
-			if (spawnCooldown > 1)DebugBoard.updateValue("SpawnCooldown",--spawnCooldown);
-			DebugBoard.updateValue("HasTarget",target == null ? 0 : 1);
-			DebugBoard.updateValue("NextAttackTicks",nextAttackTicks);
-
+			if (spawnCooldown > 1)--spawnCooldown;
+			
 			currentAttack.update();
 			
 			if (angryStatus){
 				DebugBoard.updateValue("AttackId",currentAttack.id);
+				
 				if (currentAttack.equals(defaultAttack)){
 					if (nextAttackTicks-- <= 0 && target == null){
 						lastAttack = currentAttack;
@@ -225,6 +226,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					lastUpdate = worldObj.getTotalWorldTime();
 				}
 			}
+			
+			if (Log.isDebugEnabled())DragonDebugManager.updateBoard(this);
 		}
 
 		if (worldObj.isRemote && MathHelper.cos(prevAnimTime*(float)Math.PI*2F) <= -0.3F && MathHelper.cos(animTime*(float)Math.PI*2F) >= -0.3F){
@@ -280,13 +283,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				if (target != null){
 					targetX = target.posX;
 					targetZ = target.posZ;
-					double finalTargetY = 0.4D+Math.sqrt(Math.pow(targetX-posX,2)+Math.pow(targetZ-posZ,2))/80D-1D;
-
-					if (finalTargetY > 10D){
-						finalTargetY = 10D;
-					}
-
-					targetY = target.boundingBox.minY+finalTargetY;
+					targetY = target.boundingBox.minY+Math.min(0.4D+Math.sqrt(Math.pow(targetX-posX,2)+Math.pow(targetZ-posZ,2))/80D-1D,10D);
 				}
 				else trySetTargetPosition(targetX+rand.nextGaussian()*2D,targetY,targetZ+rand.nextGaussian()*2D);
 
@@ -376,12 +373,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 			double[] adouble = getMovementOffsets(5,1F);
 			double[] adouble1 = getMovementOffsets(0,1F);
-			float moveX = MathHelper.sin(rotationYaw*(float)Math.PI/180F-randomYawVelocity*0.01F);
-			float moveZ = MathHelper.cos(rotationYaw*(float)Math.PI/180F-randomYawVelocity*0.01F);
+			float moveX = MathHelper.sin(MathUtil.toRad(rotationYaw)-randomYawVelocity*0.01F);
+			float moveZ = MathHelper.cos(MathUtil.toRad(rotationYaw)-randomYawVelocity*0.01F);
 			dragonPartHead.onUpdate();
 			dragonPartHead.setLocationAndAngles(posX+(moveX*5.5F*angleCos),posY+(adouble1[1]-adouble[1])+(angleSin*5.5F),posZ-(moveZ*5.5F*angleCos),0F,0F);
 
-			for(int part = 0; part < 3; ++part){
+			for(int part = 0; part < 3; part++){
 				EntityDragonPart tailPart = part == 0 ? dragonPartTail1 : part == 1 ? dragonPartTail2 : dragonPartTail3;
 				
 				double[] adouble2 = getMovementOffsets(12+part*2,1F);
@@ -514,7 +511,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && worldObj.getBlock(xx,yy-1,zz) == BlockList.obsidian_falling)))){
 						wasBlocked = true;
 					}
-					else if (Math.sqrt(Math.pow(xx-cx,2)+Math.pow(yy-cy,2)+Math.pow(zz-cz,2)) <= rad+0.3D*rand.nextGaussian()){
+					else if (MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+0.3D*rand.nextGaussian()){
 						spawnParticles = worldObj.setBlockToAir(xx,yy,zz) || spawnParticles;
 					}
 				}
@@ -682,7 +679,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	}
 	
 	public void trySetTarget(Entity entity){
-		if (entity != null && entity.isDead && (DragonAttackManager.nocreative && entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.isCreativeMode))return;
+		if (entity != null && (entity.isDead || (entity instanceof EntityPlayer && !attacks.getViablePlayers().contains(entity))))return;
 		forceNewTarget = false;
 		
 		TargetSetEvent event = new TargetSetEvent(target,entity);

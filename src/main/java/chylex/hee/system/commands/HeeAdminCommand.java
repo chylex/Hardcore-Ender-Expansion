@@ -16,7 +16,6 @@ import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
-import chylex.hee.entity.boss.dragon.managers.DragonAttackManager;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
@@ -41,7 +40,6 @@ public class HeeAdminCommand extends HeeCommand{
 			for(String s:(
 				EnumChatFormatting.GREEN+"Available commands:\n"+
 				"/heeadmin version\n"+
-				"/heeadmin dragon-attack-creative <true|false>\n"+
 				"/heeadmin dragon-set-angry\n"+
 				"/heeadmin dragon-set-attack <none|dive|fire|punch|bite|freeze|summon|bats>\n"+
 				"/heeadmin kill-bosses\n"+
@@ -69,9 +67,6 @@ public class HeeAdminCommand extends HeeCommand{
 			else sendMessage(sender,EnumChatFormatting.GRAY+"Update information unavailable, notifications are disabled.");
 			
 			return;
-		}
-		else if (args[0].equalsIgnoreCase("dragon-attack-creative") && args.length >= 2){
-			DragonAttackManager.nocreative = !args[1].equalsIgnoreCase("true");
 		}
 		else if (args[0].equalsIgnoreCase("dragon-set-angry")){
 			EntityBossDragon dragon = HeeDebugCommand.getDragon();

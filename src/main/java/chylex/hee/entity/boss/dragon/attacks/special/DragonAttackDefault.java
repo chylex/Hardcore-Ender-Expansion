@@ -39,7 +39,6 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 			byte healthPerc = (byte)dragon.attacks.getHealthPercentage();
 			int iangry = Math.min(140,(dragon.angryStatus?40:15)+getDifficulty()*4+dragon.worldObj.playerEntities.size()*14+(50-(healthPerc>>1)));
 			DebugBoard.updateValue("TargetChance",250-iangry);
-			DebugBoard.updateValue("HealthPerc",healthPerc);
 			
 			if (rand.nextInt(250-iangry) == 0 || (nextTargetTimer = Math.max(0,nextTargetTimer-1)) <= 0){
 				nextTargetTimer = rand.nextInt(1+(healthPerc>>1))+healthPerc+120+(dragon.angryStatus?0:50)-getDifficulty()*8-Math.min(5,dragon.worldObj.playerEntities.size())*5;
