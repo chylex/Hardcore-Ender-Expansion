@@ -90,7 +90,7 @@ public class DragonAttackManager{
 	}
 	
 	public List<EntityPlayer> getViablePlayers(){
-		List<EntityPlayer> players = dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(-140D,-32D,-140D,140D,512D,140D));
+		List<EntityPlayer> players = dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(-160D,-32D,-160D,160D,512D,160D));
 		
 		if (players.size() > 1){
 			for(Iterator<EntityPlayer> iter = players.iterator(); iter.hasNext();){

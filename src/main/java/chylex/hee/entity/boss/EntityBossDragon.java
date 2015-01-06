@@ -265,10 +265,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				}
 			}
 			else{
-				double xDiff = targetX-posX,
-					   yDiff = targetY-posY,
-					   zDiff = targetZ-posZ;
-				double distFromTarget = xDiff*xDiff+yDiff*yDiff+zDiff*zDiff;
+				double xDiff = targetX-posX, yDiff = targetY-posY, zDiff = targetZ-posZ;
+				double distFromTargetSq = xDiff*xDiff+yDiff*yDiff+zDiff*zDiff;
 
 				if (target != null){
 					targetX = target.posX;
@@ -277,9 +275,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				}
 				else trySetTargetPosition(targetX+rand.nextGaussian()*2D,targetY,targetZ+rand.nextGaussian()*2D);
 
-				if ((target != null && target.isDead) || distFromTarget > 22500D)forceAttackEnd = forceNewTarget = true;
+				if ((target != null && target.isDead) || distFromTargetSq > 22500D)forceAttackEnd = forceNewTarget = true;
 
-				if (forceNewTarget || distFromTarget < 100D || distFromTarget > 22500D || isCollidedHorizontally || isCollidedVertically){
+				if (forceNewTarget || distFromTargetSq < 100D || distFromTargetSq > 22500D || isCollidedHorizontally || isCollidedVertically){
 					setNewTarget();
 				}
 
@@ -289,29 +287,24 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 				motionY += yDiff*0.1D;
 				rotationYaw = MathHelper.wrapAngleTo180_float(rotationYaw);
-				double d8 = 180D-Math.atan2(xDiff,zDiff)*180D/Math.PI;
+				double d8 = 180D-MathUtil.toDeg(Math.atan2(xDiff,zDiff));
 				double d9 = MathHelper.wrapAngleTo180_double(d8-rotationYaw);
 
 				if (d9 > 50D)d9 = 50D;
 				if (d9 < -50D)d9 = -50D;
 
 				Vec3 targetDiffVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
-				Vec3 rotationVec = Vec3.createVectorHelper(MathHelper.sin(rotationYaw*(float)Math.PI/180F),motionY,(-MathHelper.cos(rotationYaw*(float)Math.PI/180F))).normalize();
+				Vec3 rotationVec = Vec3.createVectorHelper(MathHelper.sin(MathUtil.toRad(rotationYaw)),motionY,(-MathHelper.cos(MathUtil.toRad(rotationYaw)))).normalize();
 				
-				float f4 = (float)(rotationVec.dotProduct(targetDiffVec)+0.5D)/1.5F;
-				if (f4 < 0F)f4 = 0F;
+				float f4 = Math.max((float)(rotationVec.dotProduct(targetDiffVec)+0.5D)/1.5F,0F);
 
 				randomYawVelocity *= 0.8F;
-				float f5 = MathHelper.sqrt_double(motionX*motionX+motionZ*motionZ)+1F;
-				double d10 = Math.sqrt(motionX*motionX+motionZ*motionZ)+1D;
+				float speed = MathHelper.sqrt_double(motionX*motionX+motionZ*motionZ)+1F;
+				double speedLimited = Math.min(Math.sqrt(motionX*motionX+motionZ*motionZ)+1D,40D);
 
-				if (d10 > 40D){
-					d10 = 40D;
-				}
-
-				randomYawVelocity = (float)(randomYawVelocity+d9*(0.7D/d10/f5));
+				randomYawVelocity = (float)(randomYawVelocity+d9*(0.7D/speedLimited/speed));
 				rotationYaw += randomYawVelocity*0.1F;
-				float f6 = (float)(2D/(d10+1D));
+				float f6 = (float)(2D/(speedLimited+1D));
 				moveFlying(0F,-1F,0.06F*(f4*f6+(1F-f6)));
 				
 				if (frozen)motionX = motionY = motionZ = 0D;
@@ -337,47 +330,44 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			dragonPartTail1.width = dragonPartTail1.height = 2F;
 			dragonPartTail2.width = dragonPartTail2.height = 2F;
 			dragonPartTail3.width = dragonPartTail3.height = 2F;
-			dragonPartBody.width = 5F;
-			dragonPartBody.height = 3F;
-			dragonPartWing1.width = 4F;
-			dragonPartWing1.height = 2F;
-			dragonPartWing2.width = 4F;
-			dragonPartWing2.height = 3F;
+			dragonPartBody.width = 5F; dragonPartBody.height = 3F;
+			dragonPartWing1.width = 4F; dragonPartWing1.height = 2F;
+			dragonPartWing2.width = 4F; dragonPartWing2.height = 3F;
 			
-			float offsetAngle = (float)(getMovementOffsets(5,1F)[1]-getMovementOffsets(10,1F)[1])*10F/180F*(float)Math.PI;
+			float offsetAngle = MathUtil.toRad((float)(getMovementOffsets(5,1F)[1]-getMovementOffsets(10,1F)[1])*10F);
 			float angleCos = MathHelper.cos(offsetAngle);
 			float angleSin = -MathHelper.sin(offsetAngle);
 			float yawRad = MathUtil.toRad(rotationYaw);
 			float yawSin = MathHelper.sin(yawRad);
 			float yawCos = MathHelper.cos(yawRad);
 			dragonPartBody.onUpdate();
-			dragonPartBody.setLocationAndAngles(posX+(yawSin*0.5F),posY,posZ-(yawCos*0.5F),0F,0F);
+			dragonPartBody.setLocationAndAngles(posX+yawSin*0.5F,posY,posZ-yawCos*0.5F,0F,0F);
 			dragonPartWing1.onUpdate();
-			dragonPartWing1.setLocationAndAngles(posX+(yawCos*4.5F),posY+2D,posZ+(yawSin*4.5F),0F,0F);
+			dragonPartWing1.setLocationAndAngles(posX+yawCos*4.5F,posY+2D,posZ+yawSin*4.5F,0F,0F);
 			dragonPartWing2.onUpdate();
-			dragonPartWing2.setLocationAndAngles(posX-(yawCos*4.5F),posY+2D,posZ-(yawSin*4.5F),0F,0F);
+			dragonPartWing2.setLocationAndAngles(posX-yawCos*4.5F,posY+2D,posZ-yawSin*4.5F,0F,0F);
 
 			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing1.boundingBox.expand(3.5D,2D,3.5D).offset(0D,-2D,0D)));
 			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing2.boundingBox.expand(3.5D,2D,3.5D).offset(0D,-2D,0D)));
 			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartHead.boundingBox.expand(0.7D,1D,0.7D)));
 
-			double[] adouble = getMovementOffsets(5,1F);
-			double[] adouble1 = getMovementOffsets(0,1F);
+			double[] oldOffsets = getMovementOffsets(5,1F);
+			double[] currentOffsets = getMovementOffsets(0,1F);
 			float moveX = MathHelper.sin(MathUtil.toRad(rotationYaw)-randomYawVelocity*0.01F);
 			float moveZ = MathHelper.cos(MathUtil.toRad(rotationYaw)-randomYawVelocity*0.01F);
 			dragonPartHead.onUpdate();
-			dragonPartHead.setLocationAndAngles(posX+(moveX*5.5F*angleCos),posY+(adouble1[1]-adouble[1])+(angleSin*5.5F),posZ-(moveZ*5.5F*angleCos),0F,0F);
+			dragonPartHead.setLocationAndAngles(posX+moveX*5.5F*angleCos,posY+currentOffsets[1]-oldOffsets[1]+angleSin*5.5F,posZ-moveZ*5.5F*angleCos,0F,0F);
 
 			for(int part = 0; part < 3; part++){
 				EntityDragonPart tailPart = part == 0 ? dragonPartTail1 : part == 1 ? dragonPartTail2 : dragonPartTail3;
 				
-				double[] adouble2 = getMovementOffsets(12+part*2,1F);
-				float f14 = MathUtil.toRad(rotationYaw)+MathUtil.toRad((float)MathHelper.wrapAngleTo180_double(adouble2[0]-adouble[0]));
-				float f15 = MathHelper.sin(f14);
-				float f16 = MathHelper.cos(f14);
-				float f18 = (part+1)*2F;
+				double[] partOffsets = getMovementOffsets(12+part*2,1F);
+				float partYaw = MathUtil.toRad(rotationYaw)+MathUtil.toRad((float)MathHelper.wrapAngleTo180_double(partOffsets[0]-oldOffsets[0]));
+				float partYawSin = MathHelper.sin(partYaw);
+				float partYawCos = MathHelper.cos(partYaw);
+				float partMp = (part+1)*2F;
 				tailPart.onUpdate();
-				tailPart.setLocationAndAngles(posX-((yawSin*1.5F+f15*f18)*angleCos),posY+(adouble2[1]-adouble[1])-((f18+1.5F)*angleSin)+1.5D,posZ+((yawCos*1.5F+f16*f18)*angleCos),0F,0F);
+				tailPart.setLocationAndAngles(posX-((yawSin*1.5F+partYawSin*partMp)*angleCos),posY+(partOffsets[1]-oldOffsets[1])-((partMp+1.5F)*angleSin)+1.5D,posZ+((yawCos*1.5F+partYawCos*partMp)*angleCos),0F,0F);
 			}
 
 			if (!worldObj.isRemote){
@@ -515,7 +505,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float amount){
-		if (source.isExplosion() && source.getEntity() == this)return false;
+		if (source.isExplosion() && source.getSourceOfDamage() == this)return false;
 		
 		if (dragonPart != dragonPartHead)amount = amount/3+1;
 		int plam = Math.min(5,MathUtil.floor(worldObj.playerEntities.size()*0.5F))+(ModCommonProxy.opMobs ? 2 : 0);
