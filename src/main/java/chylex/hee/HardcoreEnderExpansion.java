@@ -43,7 +43,6 @@ import chylex.hee.entity.projectile.EntityProjectileCorporealMirageOrb;
 import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.projectile.EntityProjectileDragonFireball;
-import chylex.hee.entity.projectile.EntityProjectileDragonFreezeball;
 import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
 import chylex.hee.entity.projectile.EntityProjectileExpBottleConsistent;
 import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
@@ -242,7 +241,6 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityItemDragonEgg.class, "ItemDragonEgg", 37, this, 64, 1, true);
 		
 		EntityRegistry.registerModEntity(EntityProjectileDragonFireball.class, "ProjectileDragonFireball", 2, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileDragonFreezeball.class, "ProjectileDragonFreezeball", 3, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileEnhancedEnderPearl.class, "ProjectileEnhancedEnderPearl", 5, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileFlamingBall.class, "ProjectileFlamingBall", 17, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileGolemFireball.class, "ProjectileGolemFireball", 18, this, 128, 1, true);

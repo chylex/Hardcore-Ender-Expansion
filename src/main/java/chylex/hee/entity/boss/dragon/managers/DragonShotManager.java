@@ -3,12 +3,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityFireball;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.projectile.EntityProjectileDragonFireball;
-import chylex.hee.entity.projectile.EntityProjectileDragonFreezeball;
 import chylex.hee.proxy.ModCommonProxy;
 
 public class DragonShotManager{
 	public enum ShotType{
-		NONE, FIREBALL, FREEZEBALL
+		NONE, FIREBALL
 	}
 	
 	private final EntityBossDragon dragon;
@@ -55,10 +54,8 @@ public class DragonShotManager{
 		double yDiff = y-(dragon.posY+(dragon.height/2F));
 		double zDiff = z-dragon.posZ;
 		
-		EntityFireball e = null;
-		if (type == ShotType.FIREBALL)e = new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yDiff,zDiff,dragon.angryStatus ? 1.5F : 1F,random,(dragon.angryStatus ? 2.8F : 2.5F)+(ModCommonProxy.opMobs ? 0.8F : 0F));
-		else if (type == ShotType.FREEZEBALL)e = new EntityProjectileDragonFreezeball(dragon.worldObj,dragon,xDiff,yDiff,zDiff,dragon.angryStatus ? 1.5F : 1F,random);
-		else return;
+		EntityFireball e = type == ShotType.FIREBALL ? new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yDiff,zDiff,dragon.angryStatus ? 1.5F : 1F,random,(dragon.angryStatus ? 2.8F : 2.5F)+(ModCommonProxy.opMobs ? 0.8F : 0F)) : null;
+		if (e == null)return;
 		
 		e.posX = dragon.dragonPartHead.posX;
 		e.posY = dragon.dragonPartHead.posY+(dragon.height/6F);

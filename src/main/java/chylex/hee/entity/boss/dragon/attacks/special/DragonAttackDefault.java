@@ -7,7 +7,6 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
-import chylex.hee.entity.boss.dragon.managers.DragonShotManager.ShotType;
 import chylex.hee.system.commands.DebugBoard;
 import chylex.hee.system.util.DragonUtil;
 
@@ -125,10 +124,6 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		}
 		
 		if (isOverriding)event.newTarget = attackCooldown > 1 ? null : overrideTarget;
-		
-		if (event.newTarget != null && !event.newTarget.equals(event.oldTarget) && rand.nextInt(5-getDifficulty()) == 0){
-			dragon.shots.createNew(ShotType.FREEZEBALL).setTarget(event.newTarget).shoot();
-		}
 	}
 	
 	@Override
