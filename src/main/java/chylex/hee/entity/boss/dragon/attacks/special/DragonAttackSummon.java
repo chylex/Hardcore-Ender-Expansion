@@ -57,7 +57,7 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 		}
 		else if (phase == 2){
 			if (summonTimer-- < 0){
-				int rageDiff = dragon.getWorldDifficulty(), amount = 0;
+				int rageDiff = getDifficulty(), amount = 0;
 				summonTimer = 114-rageDiff*8;
 				if ((rageDiff > 2 && rand.nextInt(4) == 0) || (rageDiff > 1 && rand.nextInt(6) == 0))amount = 1;
 				
@@ -89,7 +89,7 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 	
 	@Override
 	public boolean canStart(){
-		return dragon.getWorldDifficulty() > 0;
+		return getDifficulty() > 0;
 	}
 	
 	@Override

@@ -48,7 +48,7 @@ public class DragonAttackFreezer extends DragonSpecialAttackBase{
 	
 	@Override
 	public int getNextAttackTimer(){
-		return 2+((4-dragon.getWorldDifficulty())*5);
+		return 2+((4-getDifficulty())*5);
 	}
 	
 	@Override

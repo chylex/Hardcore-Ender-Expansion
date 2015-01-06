@@ -3,8 +3,8 @@ import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.dragon.attacks.passive.DragonPassiveAttackBase;
 import chylex.hee.entity.boss.dragon.attacks.special.event.CollisionEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
@@ -29,10 +29,6 @@ public abstract class DragonSpecialAttackBase{
 	public final byte id;
 	
 	public DragonSpecialAttackBase(EntityBossDragon dragon, int attackId){
-		if (!dragon.attacks.registerSpecialAttack(this,attackId)){
-			this.id = -1;
-			return;
-		}
 		this.dragon = dragon;
 		this.id = (byte)attackId;
 	}
@@ -42,17 +38,13 @@ public abstract class DragonSpecialAttackBase{
 		return this;
 	}
 	
-	public DragonSpecialAttackBase setDisabledPassiveAttacks(DragonPassiveAttackBase...attacks){
-		disabledPassiveAttacks = new byte[attacks.length];
-		for(int a = 0; a < attacks.length; a++)disabledPassiveAttacks[a] = attacks[a].id;
+	public DragonSpecialAttackBase setDisabledPassiveAttacks(byte...attackIds){
+		disabledPassiveAttacks = attackIds;
 		return this;
 	}
 	
-	public boolean isPassiveAttackDisabled(DragonPassiveAttackBase attack){
-		for(byte id:disabledPassiveAttacks){
-			if (id == attack.id)return true;
-		}
-		return false;
+	public boolean isPassiveAttackDisabled(byte attackId){
+		return ArrayUtils.contains(disabledPassiveAttacks,attackId);
 	}
 	
 	public void init(){
@@ -112,7 +104,7 @@ public abstract class DragonSpecialAttackBase{
 	}
 	
 	public int getNextAttackTimer(){
-		return Math.max(140,180+rand.nextInt(100)+((4-dragon.getWorldDifficulty())*30)-dragon.worldObj.playerEntities.size()*15);  
+		return Math.max(140,180+rand.nextInt(100)+((4-getDifficulty())*30)-dragon.worldObj.playerEntities.size()*15);  
 	}
 
 	public float overrideMovementSpeed(){
@@ -133,12 +125,13 @@ public abstract class DragonSpecialAttackBase{
 	
 	public void onCollisionEvent(CollisionEvent event){}
 	
+	protected final int getDifficulty(){
+		return dragon.worldObj.difficultySetting.getDifficultyId();
+	}
+	
 	@Override
 	public boolean equals(Object o){
-		if (o instanceof DragonSpecialAttackBase){
-			return ((DragonSpecialAttackBase)o).id == this.id;
-		}
-		return false;
+		return o instanceof DragonSpecialAttackBase && ((DragonSpecialAttackBase)o).id == id;
 	}
 	
 	public boolean equals(DragonSpecialAttackBase attack){

@@ -4,7 +4,6 @@ import java.util.List;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.dragon.attacks.passive.DragonPassiveAttackBase;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
@@ -38,12 +37,12 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		 */
 		if (!stealthInProgress && dragon.target == null){
 			byte healthPerc = (byte)dragon.attacks.getHealthPercentage();
-			int iangry = Math.min(140,(dragon.angryStatus?40:15)+dragon.getWorldDifficulty()*4+dragon.worldObj.playerEntities.size()*14+(50-(healthPerc>>1)));
+			int iangry = Math.min(140,(dragon.angryStatus?40:15)+getDifficulty()*4+dragon.worldObj.playerEntities.size()*14+(50-(healthPerc>>1)));
 			DebugBoard.updateValue("TargetChance",250-iangry);
 			DebugBoard.updateValue("HealthPerc",healthPerc);
 			
 			if (rand.nextInt(250-iangry) == 0 || (nextTargetTimer = Math.max(0,nextTargetTimer-1)) <= 0){
-				nextTargetTimer = rand.nextInt(1+(healthPerc>>1))+healthPerc+120+(dragon.angryStatus?0:50)-dragon.getWorldDifficulty()*8-Math.min(5,dragon.worldObj.playerEntities.size())*5;
+				nextTargetTimer = rand.nextInt(1+(healthPerc>>1))+healthPerc+120+(dragon.angryStatus?0:50)-getDifficulty()*8-Math.min(5,dragon.worldObj.playerEntities.size())*5;
 				dragon.trySetTarget(dragon.attacks.getRandomPlayer());
 			}
 		}
@@ -52,7 +51,6 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		/*
 		 * STEALTH
 		 */
-		DragonPassiveAttackBase fireball = dragon.attacks.getPassiveAttackById(0);
 		
 		if (!dragon.angryStatus){
 			if (!stealthInProgress && ++seesCheck > 20 && dragon.target == null){
@@ -60,7 +58,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 					int cur = seesDragon.get(player.getCommandSenderName());
 					cur = (cur == seesDragon.getNoEntryValue() || getVision(dragon,player) ? 0 : cur+1);
 
-					if (cur > 4+(dragon.getWorldDifficulty() <= 1?1:0)){
+					if (cur > 4+(getDifficulty() <= 1?1:0)){
 						overrideTarget = player;
 						isOverriding = stealthInProgress = true;
 						seesDragon.clear();
@@ -81,8 +79,8 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		}
 		else stealthInProgress = false;
 		
-		if (stealthInProgress && !isPassiveAttackDisabled(fireball))setDisabledPassiveAttacks(fireball);
-		else if (!stealthInProgress && isPassiveAttackDisabled(fireball))setDisabledPassiveAttacks();
+		if (stealthInProgress && !isPassiveAttackDisabled(EntityBossDragon.ATTACK_FIREBALL))setDisabledPassiveAttacks(EntityBossDragon.ATTACK_FIREBALL);
+		else if (!stealthInProgress && isPassiveAttackDisabled(EntityBossDragon.ATTACK_FIREBALL))setDisabledPassiveAttacks();
 	}
 	
 	@Override
@@ -107,7 +105,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	
 	@Override
 	public int getNextAttackTimer(){
-		return (120+rand.nextInt(60)+((4-dragon.getWorldDifficulty())*20));
+		return (120+rand.nextInt(60)+((4-getDifficulty())*20));
 	}
 
 	@Override
@@ -129,7 +127,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		
 		if (isOverriding)event.newTarget = attackCooldown > 1 ? null : overrideTarget;
 		
-		if (event.newTarget != null && !event.newTarget.equals(event.oldTarget) && rand.nextInt(5-dragon.getWorldDifficulty()) == 0){
+		if (event.newTarget != null && !event.newTarget.equals(event.oldTarget) && rand.nextInt(5-getDifficulty()) == 0){
 			dragon.initShot().setTarget(event.newTarget).setType(ShotType.FREEZEBALL).shoot();
 		}
 	}

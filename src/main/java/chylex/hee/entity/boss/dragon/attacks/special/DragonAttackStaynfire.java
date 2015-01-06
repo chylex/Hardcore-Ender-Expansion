@@ -38,7 +38,7 @@ public class DragonAttackStaynfire extends DragonSpecialAttackBase{
 			else dragon.targetY = 90;
 			
 			if (target != null){
-				if (tick > 29-(dragon.getWorldDifficulty()*2)-(ModCommonProxy.opMobs?5:0)){
+				if (tick > 29-(getDifficulty()*2)-(ModCommonProxy.opMobs?5:0)){
 					tick = 0;
 					dragon.initShot().setType(ShotType.FIREBALL).setTarget(target).shoot();
 					if (shootTimer++ > rand.nextInt(15)+26-damageTaken*2 || (shootTimer > 25 && rand.nextInt(5) == 0) || damageTaken > 13)ended = true;

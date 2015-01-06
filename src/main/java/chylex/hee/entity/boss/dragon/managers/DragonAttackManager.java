@@ -52,21 +52,19 @@ public class DragonAttackManager{
 		this.dragon = dragon;
 	}
 	
-	public boolean registerPassiveAttack(DragonPassiveAttackBase attack, int attackId){
-		if (getPassiveAttackById(attackId) != null)throw new IllegalArgumentException("Tried to register passive dragon attack with already registered attack ID "+attackId);
+	public void registerPassive(DragonPassiveAttackBase attack){
+		if (getPassiveAttackById(attack.id) != null)throw new IllegalArgumentException("Tried to register passive dragon attack with already registered attack ID "+attack.id);
 		passiveAttackList.add(attack);
-		return true;
 	}
 	
-	public boolean registerSpecialAttack(DragonSpecialAttackBase attack, int attackId){
-		if (getSpecialAttackById(attackId) != null)throw new IllegalArgumentException("Tried to register special dragon attack with already registered attack ID "+attackId);
+	public void registerSpecial(DragonSpecialAttackBase attack){
+		if (getSpecialAttackById(attack.id) != null)throw new IllegalArgumentException("Tried to register special dragon attack with already registered attack ID "+attack.id);
 		specialAttackList.add(attack);
-		return true;
 	}
 	
 	public boolean biteClosePlayers(){
 		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,dragon.dragonPartHead.boundingBox.expand(2.8D,2.4D,2.8D))){
-			int diff = dragon.getWorldDifficulty(), rm;
+			int diff = dragon.worldObj.difficultySetting.getDifficultyId(), rm;
 			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 9F : 4F)+diff);
 			
 			switch(diff){
@@ -120,7 +118,7 @@ public class DragonAttackManager{
 	
 	public void updatePassiveAttacks(DragonSpecialAttackBase currentSpecialAttack){
 		for(DragonPassiveAttackBase attack:passiveAttackList){
-			if (currentSpecialAttack != null && currentSpecialAttack.isPassiveAttackDisabled(attack))continue;
+			if (currentSpecialAttack != null && currentSpecialAttack.isPassiveAttackDisabled(attack.id))continue;
 			attack.update();
 		}
 	}

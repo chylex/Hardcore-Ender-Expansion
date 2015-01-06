@@ -59,7 +59,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 		else if (phase == 1){
 			if (--timer == 0){
 				++counter;
-				timer = (byte)(25+rand.nextInt(30)+7*(4-dragon.getWorldDifficulty())-2*Math.min(5,dragon.worldObj.playerEntities.size()));
+				timer = (byte)(25+rand.nextInt(30)+7*(4-getDifficulty())-2*Math.min(5,dragon.worldObj.playerEntities.size()));
 
 				for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
 					if (player.capabilities.isCreativeMode)continue;
@@ -67,7 +67,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 					List<EntityEnderman> endermanList = dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(64D,96D,64D));
 					
 					if (endermanList.isEmpty()){
-						for(int a = 0; a < 2+rand.nextInt(3)+(dragon.getWorldDifficulty()>>1); a++){
+						for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
 							double pX = 0,pY = 0,pZ = 0,len = 24D;
 							for(int attempt = 0; attempt < 18; attempt++){
 								double rad = rand.nextDouble()*2D*Math.PI;
@@ -92,7 +92,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 							enderman = entry.getKey();
 							if (enderman.isDead)continue;
 						
-							for(int a = 0; a < 2+rand.nextInt(3)+(dragon.getWorldDifficulty()>>1); a++){
+							for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
 								spawnBatAt(enderman.posX,enderman.posY+rand.nextFloat()*enderman.height,enderman.posZ,player);
 							}
 							
@@ -120,7 +120,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	
 	@Override
 	public boolean hasEnded(){
-		return counter > 4+Math.min(6,dragon.worldObj.playerEntities.size()>>1)+dragon.getWorldDifficulty();
+		return counter > 4+Math.min(6,dragon.worldObj.playerEntities.size()>>1)+getDifficulty();
 	}
 	
 	@Override

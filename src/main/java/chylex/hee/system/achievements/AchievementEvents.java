@@ -61,17 +61,15 @@ public final class AchievementEvents{
 	public void onLivingDeath(LivingDeathEvent e){
 		if (e.entity.worldObj.isRemote)return;
 		
-		if (e.entity.dimension == 1){
-			if (System.currentTimeMillis()-EntityBossDragon.lastUpdate < 20){
-				EntityBossDragon dragon;
-				
-				if (e.entity instanceof EntityPlayer){
-					if ((dragon = getDragon(e.entity.worldObj)) != null)dragon.achievements.onPlayerDied(((EntityPlayer)e.entityLiving).getCommandSenderName());
-				}
-				
-				if (e.entity instanceof EntityEnderman && e.source.getEntity() instanceof EntityPlayer){
-					if ((dragon = getDragon(e.entity.worldObj)) != null)dragon.achievements.onPlayerKilledEnderman(((EntityPlayer)e.source.getEntity()).getCommandSenderName());
-				}
+		if (e.entity.dimension == 1 && e.entity.worldObj.getTotalWorldTime()-EntityBossDragon.lastUpdate < 20){
+			EntityBossDragon dragon;
+			
+			if (e.entity instanceof EntityPlayer){
+				if ((dragon = getDragon(e.entity.worldObj)) != null)dragon.achievements.onPlayerDied(((EntityPlayer)e.entityLiving).getCommandSenderName());
+			}
+			
+			if (e.entity instanceof EntityEnderman && e.source.getEntity() instanceof EntityPlayer){
+				if ((dragon = getDragon(e.entity.worldObj)) != null)dragon.achievements.onPlayerKilledEnderman(((EntityPlayer)e.source.getEntity()).getCommandSenderName());
 			}
 		}
 	}
@@ -108,6 +106,7 @@ public final class AchievementEvents{
 		for(Object o:world.loadedEntityList){
 			if (o instanceof EntityBossDragon)return (EntityBossDragon)o;
 		}
+		
 		return null;
 	}
 }

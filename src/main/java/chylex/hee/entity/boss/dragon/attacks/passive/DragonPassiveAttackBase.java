@@ -6,10 +6,6 @@ public abstract class DragonPassiveAttackBase{
 	public final byte id;
 	
 	public DragonPassiveAttackBase(EntityBossDragon dragon, int attackId){
-		if (!dragon.attacks.registerPassiveAttack(this,attackId)){
-			this.id = -1;
-			return;
-		}
 		this.dragon = dragon;
 		this.id = (byte)attackId;
 	}

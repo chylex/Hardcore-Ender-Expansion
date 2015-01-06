@@ -9,7 +9,7 @@ public class DragonAttackFireball extends DragonPassiveAttackBase{
 	
 	@Override
 	public void update(){
-		if (dragon.target != null && dragon.ticksExisted%(24-(dragon.getWorldDifficulty()*4)+(dragon.angryStatus?10:30)-((100-dragon.attacks.getHealthPercentage())>>3)) == 0){
+		if (dragon.target != null && dragon.ticksExisted%(24-(dragon.worldObj.difficultySetting.getDifficultyId()*4)+(dragon.angryStatus?10:30)-((100-dragon.attacks.getHealthPercentage())>>3)) == 0){
 			if (dragon.target.getDistanceSqToEntity(dragon.dragonPartHead) > 400D)dragon.initShot().setType(ShotType.FIREBALL).setTarget(dragon.target).shoot();
 		}
 	}
