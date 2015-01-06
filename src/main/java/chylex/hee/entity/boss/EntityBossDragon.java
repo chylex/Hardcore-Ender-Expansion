@@ -91,6 +91,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public double moveSpeedMp = 1D;
 
 	public DragonAttackManager attacks;
+	public DragonShotManager shots;
 	public DragonRewardManager rewards;
 	public DragonAchievementManager achievements;
 	
@@ -116,6 +117,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		renderDistanceWeight = 5D;
 		
 		attacks = new DragonAttackManager(this);
+		shots = new DragonShotManager(this);
 		rewards = new DragonRewardManager(this);
 		achievements = new DragonAchievementManager(this);
 		
@@ -124,7 +126,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		
 		attacks.registerSpecial(defaultAttack = new DragonAttackDefault(this,0));
 		attacks.registerSpecial(new DragonAttackDivebomb(this,10).setDisabledPassiveAttacks(ATTACK_FIREBALL));
-		attacks.registerSpecial(new DragonAttackStaynfire(this,4).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
+		attacks.registerSpecial(new DragonAttackStaynfire(this,4).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE)); // TODO fireburst
 		attacks.registerSpecial(new DragonAttackPunch(this,6).setDisabledPassiveAttacks(ATTACK_FIREBALL));
 		attacks.registerSpecial(new DragonAttackSummon(this,9).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
 		attacks.registerSpecial(new DragonAttackBloodlust(this,3).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
@@ -167,7 +169,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			
 			if (spawnCooldown <= 1 && !angryStatus && ticksExisted%10 == 0){
 				DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
-				if (save.countCrystals() <= 2+save.getDragonDeathAmount() || attacks.getHealthPercentage() < 80)setAngry(true);
+				if (save.countCrystals() <= 2+save.getDragonDeathAmount() || attacks.getHealthPercentage() <= 80)setAngry(true);
 			}
 			
 			if (spawnCooldown > 1)DebugBoard.updateValue("SpawnCooldown",--spawnCooldown);
@@ -604,12 +606,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  			byte bottomY = 64, portalSize = 4;
 
  			for(int iy = bottomY-1; iy <= bottomY+32; ++iy){
- 				for(int ix = xx-portalSize; ix <= xx+portalSize; ++ix){
- 					for(int iz = zz-portalSize; iz <= zz+portalSize; ++iz){
- 						double len = MathUtil.square(ix-xx)+MathUtil.square(iz-zz);
+ 				for(int ix = xx-portalSize; ix <= xx+portalSize; ix++){
+ 					for(int iz = zz-portalSize; iz <= zz+portalSize; iz++){
+ 						double distSq = MathUtil.square(ix-xx)+MathUtil.square(iz-zz);
  						
- 						if (len <= (portalSize-0.5D)*(portalSize-0.5D)){
- 							if ((iy < bottomY && len <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)) || iy > bottomY)continue;
+ 						if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
+ 							if ((iy < bottomY && distSq <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)) || iy > bottomY)continue;
  							for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",ix+rand.nextDouble(),iy+rand.nextDouble()-0.5D,iz+rand.nextDouble(),0D,0D,0D);
  						}
  					}
@@ -646,19 +648,19 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		BlockEndPortal.field_149948_a = true;
 		byte portalSize = 4, bottomY = 64;
 
-		for(int yy = bottomY-1; yy <= bottomY+32; ++yy){
-			for(int xx = x-portalSize; xx <= x+portalSize; ++xx){
-				for(int zz = z-portalSize; zz <= z+portalSize; ++zz){
-					double dist = MathUtil.square(xx-x)+MathUtil.square(zz-z);
+		for(int yy = bottomY-1; yy <= bottomY+32; yy++){
+			for(int xx = x-portalSize; xx <= x+portalSize; xx++){
+				for(int zz = z-portalSize; zz <= z+portalSize; zz++){
+					double distSq = MathUtil.square(xx-x)+MathUtil.square(zz-z);
 
-					if (dist <= (portalSize-0.5D)*(portalSize-0.5D)){
+					if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
 						if (yy < bottomY){
-							if (dist <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)){
+							if (distSq <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)){
 								worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
 							}
 						}
 						else if (yy > bottomY)worldObj.setBlockToAir(xx,yy,zz);
-						else if (dist > ((portalSize-1)-0.5D)*((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
+						else if (distSq > ((portalSize-1)-0.5D)*((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
 						else worldObj.setBlock(xx,yy,zz,Blocks.end_portal);
 					}
 				}
@@ -711,10 +713,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		if (currentAttack != null)currentAttack.end();
 		currentAttack = newAttack;
 		currentAttack.init();
-	}
-
-	public DragonShotManager initShot(){
-		return new DragonShotManager(this);
 	}
 
 	@Override

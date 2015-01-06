@@ -12,20 +12,29 @@ public class DragonShotManager{
 	}
 	
 	private final EntityBossDragon dragon;
-	private double x,y,z;
-	private boolean random;
 	private ShotType type;
+	private double x, y, z;
+	private boolean random;
 	
 	public DragonShotManager(EntityBossDragon dragon){
 		this.dragon = dragon;
-		x = y = z = 0;
-		random = false;
+		reset();
+	}
+	
+	private void reset(){
 		type = ShotType.NONE;
+		x = y = z = 0D;
+		random = false;
+	}
+	
+	public DragonShotManager createNew(ShotType type){
+		this.type = type;
+		return this;
 	}
 	
 	public DragonShotManager setTarget(Entity e){
 		if (e == null)return this;
-		return setTarget(e.posX,(e.boundingBox.minY+(e.height/2F))-(dragon.posY+(dragon.height/2F)),e.posZ);
+		return setTarget(e.posX,e.boundingBox.minY+(e.height/2F),e.posZ);
 	}
 	
 	public DragonShotManager setTarget(double x, double y, double z){
@@ -35,30 +44,27 @@ public class DragonShotManager{
 		return this;
 	}
 	
-	public DragonShotManager setType(ShotType type){
-		this.type = type;
-		return this;
-	}
-	
 	public DragonShotManager setRandom(){
 		random = true;
 		return this;
 	}
 	
 	public void shoot(){
-		if (x == 0 && y == 0 && z == 0)return;
+		if (x == 0D && y == 0D && z == 0D)return;
 		double xDiff = x-dragon.posX;
-		double yTarget = y;
+		double yDiff = y-(dragon.posY+(dragon.height/2F));
 		double zDiff = z-dragon.posZ;
 		
 		EntityFireball e = null;
-		if (type == ShotType.FIREBALL)e = new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yTarget,zDiff,dragon.angryStatus ? 1.5F : 1F,random,(dragon.angryStatus ? 2.8F : 2.5F)+(ModCommonProxy.opMobs?0.8F:0F));
-		else if (type == ShotType.FREEZEBALL)e = new EntityProjectileDragonFreezeball(dragon.worldObj,dragon,xDiff,yTarget,zDiff,dragon.angryStatus ? 1.5F : 1F,random);
+		if (type == ShotType.FIREBALL)e = new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yDiff,zDiff,dragon.angryStatus ? 1.5F : 1F,random,(dragon.angryStatus ? 2.8F : 2.5F)+(ModCommonProxy.opMobs ? 0.8F : 0F));
+		else if (type == ShotType.FREEZEBALL)e = new EntityProjectileDragonFreezeball(dragon.worldObj,dragon,xDiff,yDiff,zDiff,dragon.angryStatus ? 1.5F : 1F,random);
 		else return;
 		
 		e.posX = dragon.dragonPartHead.posX;
 		e.posY = dragon.dragonPartHead.posY+(dragon.height/6F);
 		e.posZ = dragon.dragonPartHead.posZ;
 		dragon.worldObj.spawnEntityInWorld(e);
+		
+		reset();
 	}
 }

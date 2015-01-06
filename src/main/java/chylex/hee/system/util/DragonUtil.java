@@ -195,8 +195,7 @@ public final class DragonUtil{
 	}
 	
 	public static UUID convertNameToUUID(String name){
-		if (name.length() == 32 && name.split("-").length == 5)return UUID.fromString(name);
-		else return UUID.fromString(PreYggdrasilConverter.func_152719_a(name));
+		return name.length() == 32 ? UUID.fromString(name) : UUID.fromString(PreYggdrasilConverter.func_152719_a(name));
 	}
 	
 	public static String stripChatFormatting(String str){

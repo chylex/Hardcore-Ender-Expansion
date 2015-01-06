@@ -31,7 +31,7 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 		this.curseType = type;
 		this.eternal = eternal;
 		this.usesLeft = (byte)(target instanceof EntityPlayer ? ((eternal ? 2 : 1)*type.getUses(EnumCurseUse.PLAYER,rand)) : (eternal ? -1 : type.getUses(EnumCurseUse.ENTITY,rand)));
-		this.targetID = target.getPersistentID();
+		this.targetID = target.getUniqueID();
 		this.target = target;
 	}
 
@@ -87,7 +87,7 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 		}
 		else if (ticksExisted < 20){
 			for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox)){
-				if (entity.getPersistentID().equals(targetID) && entity instanceof EntityLivingBase){
+				if (entity.getUniqueID().equals(targetID) && entity instanceof EntityLivingBase){
 					target = (EntityLivingBase)entity;
 					break;
 				}

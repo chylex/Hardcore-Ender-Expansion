@@ -84,7 +84,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 		if (ticksExisted%20 == 1){
 			if (ownerEntityID == -1){
 				for(EntityPlayer player:(List<EntityPlayer>)worldObj.playerEntities){
-					if (player.getPersistentID().equals(owner)){
+					if (player.getUniqueID().equals(owner)){
 						dataWatcher.updateObject(17,ownerEntityID = player.getEntityId());
 						break;
 					}
@@ -96,7 +96,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 		List<EntityLivingBase> newAffectedEntities = new ArrayList<>();
 		
 		for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.5D,0.1D,1.5D))){
-			if (entity.getPersistentID().equals(owner) || entity instanceof IBossDisplayData)continue;
+			if (entity.getUniqueID().equals(owner) || entity instanceof IBossDisplayData)continue;
 			else{
 				newAffectedEntities.add(entity);
 				

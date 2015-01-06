@@ -128,7 +128,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		if (isOverriding)event.newTarget = attackCooldown > 1 ? null : overrideTarget;
 		
 		if (event.newTarget != null && !event.newTarget.equals(event.oldTarget) && rand.nextInt(5-getDifficulty()) == 0){
-			dragon.initShot().setTarget(event.newTarget).setType(ShotType.FREEZEBALL).shoot();
+			dragon.shots.createNew(ShotType.FREEZEBALL).setTarget(event.newTarget).shoot();
 		}
 	}
 	

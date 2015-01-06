@@ -32,7 +32,7 @@ public class DragonAttackFreezer extends DragonSpecialAttackBase{
 			if (target == null)target = dragon.attacks.getWeakPlayer();
 			if (target != null){
 				if (shootTimer++ > 16){
-					dragon.initShot().setType(ShotType.FREEZEBALL).setTarget(target).shoot();
+					dragon.shots.createNew(ShotType.FREEZEBALL).setTarget(target).shoot();
 					shootTimer = 0;
 				}
 				
