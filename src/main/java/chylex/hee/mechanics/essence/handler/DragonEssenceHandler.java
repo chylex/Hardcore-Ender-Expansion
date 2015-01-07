@@ -24,7 +24,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.world.util.BlockLocation;
@@ -97,7 +97,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					}
 				}
 				
-				SortedSet<Entry<Block,Byte>> sorted = DragonUtil.sortMapByValueDescending(blockCounts);
+				SortedSet<Entry<Block,Byte>> sorted = CollectionUtil.sortMapByValueDesc(blockCounts);
 				for(Entry<Block,Byte> entry:sorted){
 					if (entry.getValue() > maxPedestals)continue;
 					

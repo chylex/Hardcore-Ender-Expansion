@@ -1,13 +1,7 @@
 package chylex.hee.system.util;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.UUID;
 import java.util.regex.Pattern;
 import net.minecraft.block.Block;
@@ -21,7 +15,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.system.logging.Stopwatch;
 
 public final class DragonUtil{
@@ -31,34 +24,6 @@ public final class DragonUtil{
 	public static final DecimalFormat formatTwoPlaces = new DecimalFormat("0.00");
 	
 	private static final Pattern regexChatFormatting = Pattern.compile("(?i)"+String.valueOf('\u00a7')+"[0-9A-FK-OR]");
-	
-	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAscending(Map<K,V> map){
-		SortedSet<Entry<K,V>> sorted = new TreeSet<>(
-			new Comparator<Entry<K,V>>(){
-				@Override public int compare(Entry<K,V> e1, Entry<K,V> e2){
-					int r = e1.getValue().compareTo(e2.getValue());
-					return r == 0 ? 1 : r;
-				}
-			}
-		);
-		
-		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry(entry));
-		return sorted;
-	}
-
-	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueDescending(Map<K,V> map){
-		SortedSet<Entry<K,V>> sorted = new TreeSet<>(
-			new Comparator<Entry<K,V>>(){
-				@Override public int compare(Entry<K,V> e1, Entry<K,V> e2){
-					int r = e2.getValue().compareTo(e1.getValue());
-					return r == 0 ? 1 : r;
-				}
-			}
-		);
-		
-		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry(entry));
-		return sorted;
-	}
 	
 	private static final double[] rayX = new double[]{ -1D, -1D, 1D, 1D },
 								  rayZ = new double[]{ -1D, 1D, -1D, 1D };
@@ -76,7 +41,7 @@ public final class DragonUtil{
 			   ry = -entity.rotationYaw,
 			   rp = -entity.rotationPitch;
 		
-		int t1x,t1z,t2x,t2z,t3y,t4y;
+		int t1x, t1z, t2x, t2z, t3y, t4y;
 		
 		if (!fromCenter){
 			px -= MathUtil.lendirx(1.5D,ry);
@@ -161,6 +126,7 @@ public final class DragonUtil{
 		return newArray;
 	}
 
+	// TODO redo
 	public static int getTopBlock(World worldObj, Block block, int x, int z, int starty){
 		int y = starty+1;
 		while(y-- >= 0){
@@ -173,11 +139,11 @@ public final class DragonUtil{
 		return getTopBlock(worldObj,block,x,z,255);
 	}
 	
-	public static void spawnXP(EntityBossDragon dragon, int amount){
+	public static void spawnXP(Entity entity, int amount){
 		for(int a = amount; a > 0;){
 			int split = EntityXPOrb.getXPSplit(a);
 			a -= split;
-			dragon.worldObj.spawnEntityInWorld(new EntityXPOrb(dragon.worldObj,dragon.posX,dragon.posY,dragon.posZ,a));
+			entity.worldObj.spawnEntityInWorld(new EntityXPOrb(entity.worldObj,entity.posX,entity.posY,entity.posZ,a));
 		}
 	}
 	

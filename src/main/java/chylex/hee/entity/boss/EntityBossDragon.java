@@ -10,7 +10,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,6 +18,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
@@ -570,9 +570,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				worldObj.playBroadcastSound(1018,(int)posX,(int)posY,(int)posZ,0);
  			}
  			else if (deathTicks == 20 || deathTicks == 140){ // double check
- 				List<Entity> entities = worldObj.loadedEntityList;
- 				
- 				for(Entity entity:entities){
+ 				for(Entity entity:(List<Entity>)worldObj.loadedEntityList){
  					if (MathUtil.distance(entity.posX,entity.posZ) > 180D)continue;
  					
  					if (entity instanceof EntityEnderman)((EntityEnderman)entity).setTarget(null);
@@ -626,14 +624,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		renderYawOffset = rotationYaw += 20F;
 
 		if (deathTicks == 200 && !worldObj.isRemote){
-			int xp = 2000, tmpSplit;
-
-			while(xp > 0){
-				tmpSplit = EntityXPOrb.getXPSplit(xp);
-				xp -= tmpSplit;
-				worldObj.spawnEntityInWorld(new EntityXPOrb(worldObj,posX,posY,posZ,tmpSplit));
-			}
-
+			DragonUtil.spawnXP(this,2000);
 			createEnderPortal(MathUtil.floor(posX),MathUtil.floor(posZ));
 			setDead();
 		}
@@ -649,30 +640,20 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					double distSq = MathUtil.square(xx-x)+MathUtil.square(zz-z);
 
 					if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
-						if (yy < bottomY){
-							if (distSq <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)){
-								worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
-							}
-						}
+						if (yy < bottomY && distSq <= MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
 						else if (yy > bottomY)worldObj.setBlockToAir(xx,yy,zz);
-						else if (distSq > ((portalSize-1)-0.5D)*((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
+						else if (distSq > MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
 						else worldObj.setBlock(xx,yy,zz,Blocks.end_portal);
 					}
 				}
 			}
 		}
-
-		worldObj.setBlock(x,bottomY,z,Blocks.bedrock);
-		worldObj.setBlock(x,bottomY+1,z,Blocks.bedrock);
-		worldObj.setBlock(x,bottomY+2,z,Blocks.bedrock);
-		worldObj.setBlock(x-1,bottomY+2,z,Blocks.torch);
-		worldObj.setBlock(x+1,bottomY+2,z,Blocks.torch);
-		worldObj.setBlock(x,bottomY+2,z-1,Blocks.torch);
-		worldObj.setBlock(x,bottomY+2,z+1,Blocks.torch);
-		worldObj.setBlock(x,bottomY+3,z,Blocks.bedrock);
-		worldObj.setBlock(x,bottomY+4,z,Blocks.dragon_egg);
-		BlockEndPortal.field_149948_a = false;
 		
+		for(int yy = bottomY; yy <= bottomY+3; yy++)worldObj.setBlock(x,yy,z,Blocks.bedrock);
+		for(int dir = 0; dir < 4; dir++)worldObj.setBlock(x+Direction.offsetX[dir],bottomY+2,z+Direction.offsetZ[dir],Blocks.torch);
+		worldObj.setBlock(x,bottomY+4,z,Blocks.dragon_egg);
+		
+		BlockEndPortal.field_149948_a = false;
 		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,bottomY+4,z);
 	}
 	

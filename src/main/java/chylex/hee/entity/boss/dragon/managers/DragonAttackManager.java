@@ -21,7 +21,7 @@ import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.CollectionUtil;
 
 public class DragonAttackManager{
 	protected final Random rand = new Random();
@@ -147,7 +147,7 @@ public class DragonAttackManager{
 			return getSpecialAttackById(notTried.get(rand.nextInt(notTried.size()))); // try a new attack
 		}
 		
-		SortedSet<Entry<Byte,Double>> effSorted = DragonUtil.sortMapByValueDescending(effList);
+		SortedSet<Entry<Byte,Double>> effSorted = CollectionUtil.sortMapByValueDesc(effList);
 		int maxId = rand.nextInt(Math.min(healthPercentage < 30?3:4,effSorted.size()));
 
 		for(Entry<Byte,Double> entry:effSorted){

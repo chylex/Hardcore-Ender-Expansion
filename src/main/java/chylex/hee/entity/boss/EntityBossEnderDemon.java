@@ -6,7 +6,6 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.effect.EntityWeatherEffect;
-import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
@@ -207,12 +206,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 		if (worldObj.isRemote)return;
 		
 		if (++deathTime > 99){
-			for(int exp = getExperiencePoints(attackingPlayer); exp > 0;){
-				int xpSplit = EntityXPOrb.getXPSplit(exp);
-				exp -= xpSplit;
-				worldObj.spawnEntityInWorld(new EntityXPOrb(worldObj,posX,posY,posZ,xpSplit));
-			}
-			
+			DragonUtil.spawnXP(this,getExperiencePoints(attackingPlayer));
 			setDead();
 		}
 		

@@ -13,7 +13,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackBloodlust extends DragonSpecialAttackBase{
@@ -88,7 +88,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 						Map<EntityEnderman,Double> endermen = new HashMap<>();
 						for(EntityEnderman e:endermanList)endermen.put(e,e.getDistanceSqToEntity(player));
 
-						for(Entry<EntityEnderman,Double> entry:DragonUtil.sortMapByValueAscending(endermen)){
+						for(Entry<EntityEnderman,Double> entry:CollectionUtil.sortMapByValueAsc(endermen)){
 							enderman = entry.getKey();
 							if (enderman.isDead)continue;
 						
