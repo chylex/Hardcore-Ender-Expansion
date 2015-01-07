@@ -89,7 +89,10 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public Entity target;
 	public double targetX, targetY, targetZ;
 	public boolean angryStatus, forceAttackEnd, frozen;
-	public int spawnCooldown = 140, nextAttackTicks;
+	public int nextAttackTicks;
+	
+	public int spawnCooldown = 1200;
+	public byte loadTimer = 10;
 	public double moveSpeedMp = 1D;
 
 	public final DragonAttackManager attacks;
@@ -153,18 +156,29 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		angryStatus = isAngry();
 
 		if (!worldObj.isRemote){
-			if (spawnCooldown == 2){
+			if (spawnCooldown > 0 && --spawnCooldown > 0 && ticksExisted%20 == 0){
+				for(EntityPlayer player:attacks.getViablePlayers()){
+					if (worldObj.getBlock(MathUtil.floor(player.posX),MathUtil.floor(player.posY)-1,MathUtil.floor(player.posZ)) == Blocks.end_stone){
+						spawnCooldown = 0;
+						break;
+					}
+				}
+			}
+			
+			if (loadTimer > 0 && --loadTimer == 1){
 				for(int chunkX = -6; chunkX <= 6; chunkX++){
 					for(int chunkZ = -6; chunkZ <= 6; chunkZ++)worldObj.getChunkFromChunkCoords(chunkX,chunkZ);
 				}
 			}
 			
-			if (spawnCooldown <= 1 && !angryStatus && ticksExisted%10 == 0){
+			if (loadTimer == 0 && !angryStatus && ticksExisted%10 == 0){
 				DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
-				if (save.countCrystals() <= 2+save.getDragonDeathAmount() || attacks.getHealthPercentage() <= 80)setAngry(true);
+				
+				if (save.countCrystals() <= 2+save.getDragonDeathAmount() || attacks.getHealthPercentage() <= 80){
+					setAngry(true);
+					spawnCooldown = 0;
+				}
 			}
-			
-			if (spawnCooldown > 1)--spawnCooldown;
 			
 			currentAttack.update();
 			
@@ -509,6 +523,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float amount){
 		if (source.isExplosion() && source.getSourceOfDamage() == this)return false;
 		
+		spawnCooldown = 0;
+		
 		if (dragonPart != dragonPartHead)amount = amount/3+1;
 		int plam = Math.min(5,MathUtil.floor(worldObj.playerEntities.size()*0.5F))+(ModCommonProxy.opMobs ? 2 : 0);
 		if (plam > 1)amount = Math.max(1F,amount/(plam/1.5F));
@@ -661,7 +677,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	}
 	
 	public void trySetTarget(Entity entity){
-		if (entity != null && (entity.isDead || (entity instanceof EntityPlayer && !attacks.getViablePlayers().contains(entity))))return;
+		if (entity != null && (entity.isDead || (entity instanceof EntityPlayer && !attacks.getViablePlayers().contains(entity)) || spawnCooldown > 0))return;
 		forceNewTarget = false;
 		
 		TargetSetEvent event = new TargetSetEvent(target,entity);
@@ -672,6 +688,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public void trySetTargetPosition(double newTargetX, double newTargetY, double newTargetZ){
 		TargetPositionSetEvent event = new TargetPositionSetEvent(target,targetX,targetY,targetZ,newTargetX,newTargetY,newTargetZ);
 		currentAttack.onTargetPositionSetEvent(event);
+		
 		if (event.isCancelled() && event.currentEntityTarget != null)target = event.currentEntityTarget;
 		else{
 			targetX = event.newTargetX;
@@ -700,6 +717,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		nbt.setBoolean("angry",isAngry());
 		nbt.setShort("nat",(short)Math.max(120,nextAttackTicks));
 		nbt.setShort("dth",(short)deathTicks);
+		nbt.setShort("scd",(short)spawnCooldown);
+		nbt.setByte("load",loadTimer);
 
 		nbt.setTag("att",attacks.writeToNBT());
 		nbt.setTag("rwr",rewards.writeToNBT());
@@ -713,7 +732,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		setAngry(nbt.getBoolean("angry"));
 		nextAttackTicks = nbt.getShort("nat");
 		deathTicks = nbt.getShort("dth");
-		spawnCooldown = nbt.hasKey("nat") ? 50 : 140;
+		spawnCooldown = nbt.getShort("scd");
+		loadTimer = nbt.hasKey("load") ? nbt.getByte("load") : loadTimer;
 		
 		attacks.readFromNBT(nbt.getCompoundTag("att"));
 		rewards.readFromNBT(nbt.getCompoundTag("rwr"));
