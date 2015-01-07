@@ -28,6 +28,22 @@ public class DragonAttackManager{
 	private final List<DragonPassiveAttackBase> passiveAttackList = new ArrayList<>();
 	private final List<DragonSpecialAttackBase> specialAttackList = new ArrayList<>();
 	
+	protected EntityBossDragon dragon;
+	
+	public DragonAttackManager(EntityBossDragon dragon){
+		this.dragon = dragon;
+	}
+	
+	public void registerPassive(DragonPassiveAttackBase attack){
+		if (getPassiveAttackById(attack.id) != null)throw new IllegalArgumentException("Tried to register passive dragon attack with already registered attack ID "+attack.id);
+		passiveAttackList.add(attack);
+	}
+	
+	public void registerSpecial(DragonSpecialAttackBase attack){
+		if (getSpecialAttackById(attack.id) != null)throw new IllegalArgumentException("Tried to register special dragon attack with already registered attack ID "+attack.id);
+		specialAttackList.add(attack);
+	}
+	
 	public DragonPassiveAttackBase getPassiveAttackById(int id){
 		for(DragonPassiveAttackBase attack:passiveAttackList){
 			if (attack.id == id)return attack;
@@ -46,47 +62,6 @@ public class DragonAttackManager{
 	
 	public List<DragonSpecialAttackBase> getSpecialAttackList(){
 		return Collections.unmodifiableList(specialAttackList);
-	}
-	
-	protected EntityBossDragon dragon;
-	
-	public DragonAttackManager(EntityBossDragon dragon){
-		this.dragon = dragon;
-	}
-	
-	public void registerPassive(DragonPassiveAttackBase attack){
-		if (getPassiveAttackById(attack.id) != null)throw new IllegalArgumentException("Tried to register passive dragon attack with already registered attack ID "+attack.id);
-		passiveAttackList.add(attack);
-	}
-	
-	public void registerSpecial(DragonSpecialAttackBase attack){
-		if (getSpecialAttackById(attack.id) != null)throw new IllegalArgumentException("Tried to register special dragon attack with already registered attack ID "+attack.id);
-		specialAttackList.add(attack);
-	}
-	
-	public boolean biteClosePlayers(){
-		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,dragon.dragonPartHead.boundingBox.expand(2.8D,2.4D,2.8D))){
-			int diff = dragon.worldObj.difficultySetting.getDifficultyId(), rm;
-			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 9F : 4F)+diff);
-			
-			switch(diff){
-				case 3: rm = 34; break;
-				case 2: rm = 22; break;
-				case 1: rm = 15; break;
-				default: rm = 10;
-			}
-			
-			if (rand.nextInt(100) < rm){
-				player.addPotionEffect(new PotionEffect(Potion.poison.id,180+25*(diff),0));
-				dragon.rewards.addHandicap(0.1F,false);
-				if (rand.nextInt(100) < 35+diff*12){
-					player.addPotionEffect(new PotionEffect(Potion.blindness.id,200+18*(diff),0));
-					player.addPotionEffect(new PotionEffect(Potion.confusion.id,160+20*(diff),0));
-				}
-			}
-		}
-		
-		return false;
 	}
 	
 	public List<EntityPlayer> getViablePlayers(){
@@ -148,13 +123,38 @@ public class DragonAttackManager{
 		}
 		
 		SortedSet<Entry<Byte,Double>> effSorted = CollectionUtil.sortMapByValueDesc(effList);
-		int maxId = rand.nextInt(Math.min(healthPercentage < 30?3:4,effSorted.size()));
+		int maxId = rand.nextInt(Math.min(healthPercentage < 30 ? 3 : 4,effSorted.size()));
 
 		for(Entry<Byte,Double> entry:effSorted){
 			if (maxId-- <= 0)return getSpecialAttackById(entry.getKey());
 		}
 			
 		return null;
+	}
+	
+	public boolean biteClosePlayers(){
+		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,dragon.dragonPartHead.boundingBox.expand(2.8D,2.4D,2.8D))){
+			int diff = dragon.worldObj.difficultySetting.getDifficultyId(), rm;
+			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 9F : 4F)+diff);
+			
+			switch(diff){
+				case 3: rm = 34; break;
+				case 2: rm = 22; break;
+				case 1: rm = 15; break;
+				default: rm = 10;
+			}
+			
+			if (rand.nextInt(100) < rm){
+				player.addPotionEffect(new PotionEffect(Potion.poison.id,180+25*(diff),0));
+				dragon.rewards.addHandicap(0.1F,false);
+				if (rand.nextInt(100) < 35+diff*12){
+					player.addPotionEffect(new PotionEffect(Potion.blindness.id,200+18*(diff),0));
+					player.addPotionEffect(new PotionEffect(Potion.confusion.id,160+20*(diff),0));
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	public int getHealthPercentage(){
