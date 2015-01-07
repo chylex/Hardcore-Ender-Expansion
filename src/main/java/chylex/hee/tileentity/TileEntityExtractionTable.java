@@ -82,14 +82,20 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	private byte leakTimer = 100;
 	
 	@Override
+	protected float getDrainAmount(){
+		return time < totalTime ? EnergyChunkData.energyDrainUnit*0.25F : 0F;
+	}
+	
+	@Override
 	public void updateEntity(){
 		super.updateEntity();
 		
-		if (!worldObj.isRemote && leakTimer < 0 || (leakTimer -= (items[2] == null || items[2].getItem() != ItemList.instability_orb ? 0 : 16-items[2].stackSize)) < 0){
+		if (!worldObj.isRemote && leakTimer < 0 || (leakTimer -= (items[2] == null || items[2].getItem() != ItemList.instability_orb ? 16 : Math.max(0,16-items[2].stackSize))) < 0){
 			leakTimer = 100;
 			
 			if (storedEnergy >= EnergyChunkData.minSignificantEnergy){
-				float release = EnergyChunkData.energyDrainUnit*0.5F+(float)Math.sqrt(storedEnergy)*0.1F;
+				float release = EnergyChunkData.energyDrainUnit*0.08F+(float)Math.sqrt(storedEnergy)*0.005F;
+				storedEnergy = Math.max(storedEnergy-release,0F);
 				
 				List<TileEntityEnergyCluster> clusters = new ArrayList<>();
 				int chunkX = xCoord>>4, chunkZ = zCoord>>4, cx, cz;
@@ -145,8 +151,8 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 			float energy = getItemEnergy(items[0]);
 			
 			if (energy > 0F){
-				requiredStardust = (byte)(1+Math.sqrt(energy/EnergyChunkData.energyDrainUnit));
-				timeStep = (short)Math.max(1,20-(requiredStardust>>2));System.out.println(requiredStardust);
+				requiredStardust = (byte)(1+1.5F*Math.sqrt(energy*4F/EnergyChunkData.energyDrainUnit));
+				timeStep = (short)Math.max(1,20-(requiredStardust>>1));
 				updateComparatorStatus();
 			}
 		}
@@ -155,7 +161,7 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	@Override
 	protected boolean onWorkFinished(){
 		float energy = getItemEnergy(items[0]);
-		if (storedEnergy+energy <= maxStoredEnergy)return false;
+		if (storedEnergy+energy > maxStoredEnergy)return false;
 		
 		storedEnergy += energy;
 		if ((items[0].stackSize -= 1) <= 0)items[0] = null;

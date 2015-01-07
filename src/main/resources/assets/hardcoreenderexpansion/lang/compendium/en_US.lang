@@ -266,7 +266,7 @@ ec.reg.980=A table that stores Energy and channels it into items.
 ec.reg.982=Breaking the Table causes the stored Energy to leak into the world.
 
 ec.reg.990=A table that extracts Energy from blocks and items from the End.
-ec.reg.992=It requires Stardust and Energy from a different source to run. A Redstone Comparator can be used to detect whether the Table is running.
+ec.reg.992=It requires Stardust and a low amount of Energy from a different source to run. A Redstone Comparator can be used to detect whether the Table is running.
 ec.reg.993=Stored Energy leaks out into the environment and nearby Energy Clusters.
 ec.reg.994=Leaking can be slowed down or stopped by placing Instability Orbs into the Table.
 ec.reg.995=Breaking the Table causes the stored Energy to leak into the world.

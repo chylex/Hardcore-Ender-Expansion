@@ -11,8 +11,10 @@ public class GuiExtractionTable extends GuiAbstractTable{
 	
 	public GuiExtractionTable(InventoryPlayer inv, TileEntityExtractionTable tile){
 		super(new ContainerExtractionTable(inv,tile),tile);
+		setupProgressBar(64,34);
 		setupEnergyIcon(36,37);
-		setupEnergyStorage(51,18);
+		setupEnergyStorage(96,17);
+		setupStardustText(40,53);
 	}
 	
 	@Override

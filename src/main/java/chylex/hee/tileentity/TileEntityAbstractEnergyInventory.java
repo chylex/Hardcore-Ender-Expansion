@@ -64,7 +64,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 		}
 		
 		if (draining && (drainTimer == 0 || --drainTimer == 0)){
-			Stopwatch.timeAverage("TileEntityAbstractEnergyInventory - drain",300);
+			Stopwatch.timeAverage("TileEntityAbstractEnergyInventory - drain",1000);
 			
 			float drain = energyLeft <= 0F ? getDrainAmount() : energyLeft;
 			
@@ -93,7 +93,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 				}
 				
 				if (!clusters.isEmpty()){
-					Collections.shuffle(clusters);
+					Collections.shuffle(clusters,worldObj.rand);
 					
 					for(Iterator<TileEntityEnergyCluster> iter = clusters.iterator(); iter.hasNext();){
 						if ((drain = iter.next().drainEnergy(drain,this)) < EnergyChunkData.minSignificantEnergy)break;

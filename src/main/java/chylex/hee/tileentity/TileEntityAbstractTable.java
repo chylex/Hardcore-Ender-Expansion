@@ -65,7 +65,7 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	protected final void updateComparatorStatus(){
-		worldObj.func_147453_f(xCoord,yCoord,zCoord,blockType);
+		if (worldObj != null)worldObj.func_147453_f(xCoord,yCoord,zCoord,blockType);
 	}
 	
 	protected final void resetTable(){
