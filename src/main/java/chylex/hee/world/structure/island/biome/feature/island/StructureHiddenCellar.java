@@ -60,7 +60,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	
 	private static final WeightedLootList[] normalChestVariation = new WeightedLootList[]{
 		normalChest.copy().addAll(new LootItemStack[]{
-			
+			new LootItemStack(ItemList.arcane_shard).setAmount(1,2).setWeight(8)
 		}),
 		
 		normalChest.copy().addAll(new LootItemStack[]{
@@ -99,7 +99,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}),
 		
 		rareChest.copy().addAll(new LootItemStack[]{
-			
+			new LootItemStack(ItemList.auricion).setWeight(5)
 		})
 	};
 	
