@@ -1,4 +1,5 @@
-package chylex.hee.gui;
+package chylex.hee.gui.slots;
+import chylex.hee.gui.ContainerCharmPouch;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.energy.EnergyChunkData;
@@ -68,19 +67,14 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 	}
 	
 	@Override
-	public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int direction){
-		TileEntity tile = world.getTileEntity(x,y,z);
-		return tile == null || ((TileEntityAbstractTable)tile).isWorking() ? 0 : 15;
-	}
-	
-	@Override
-	public int isProvidingStrongPower(IBlockAccess world, int x, int y, int z, int direction){
-		return isProvidingWeakPower(world,x,y,z,direction);
-	}
-	
-	@Override
-	public boolean canProvidePower(){
+	public boolean hasComparatorInputOverride(){
 		return true;
+	}
+	
+	@Override
+	public int getComparatorInputOverride(World world, int x, int y, int z, int dir){
+		TileEntity tile = world.getTileEntity(x,y,z);
+		return tile == null || ((TileEntityAbstractTable)tile).isWorking() ? 15 : 0;
 	}
 
 	@Override

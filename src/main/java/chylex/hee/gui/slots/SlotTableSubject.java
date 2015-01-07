@@ -1,8 +1,8 @@
-package chylex.hee.gui;
+package chylex.hee.gui.slots;
 import net.minecraft.inventory.Slot;
 import chylex.hee.tileentity.IInventoryInvalidateable;
 
-class SlotTableSubject extends Slot{
+public class SlotTableSubject extends Slot{
 	private final IInventoryInvalidateable inv;
 	
 	public SlotTableSubject(IInventoryInvalidateable inv, int id, int x, int z){

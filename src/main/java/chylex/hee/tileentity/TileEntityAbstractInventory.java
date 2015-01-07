@@ -1,4 +1,5 @@
 package chylex.hee.tileentity;
+import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -10,9 +11,23 @@ import net.minecraftforge.common.util.Constants;
 public abstract class TileEntityAbstractInventory extends TileEntity implements ISidedInventory{
 	protected ItemStack[] items;
 	private String customName;
+	private TIntHashSet slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity = new TIntHashSet();
 	
 	public TileEntityAbstractInventory(){
 		items = new ItemStack[getSizeInventory()];
+	}
+	
+	@Override
+	public void updateEntity(){
+		super.updateEntity();
+		
+		if (!slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.isEmpty()){
+			for(int slot:slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.toArray()){
+				setInventorySlotContents(slot,getStackInSlot(slot));
+			}
+			
+			slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.clear();
+		}
 	}
 	
 	@Override
@@ -55,7 +70,7 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 	}
 
 	@Override
-	public ItemStack decrStackSize(int slot, int amount){
+	public final ItemStack decrStackSize(int slot, int amount){
 		if (slot >= 0 && slot < items.length){
 			if (items[slot].stackSize <= amount){
 				ItemStack toReturn = items[slot];
@@ -88,7 +103,7 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player){
-		return player.getDistanceSq(xCoord + 0.5D,yCoord + 0.5D,zCoord + 0.5D) <= 64D;
+		return player.getDistanceSq(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D) <= 64D;
 	}
 
 	@Override
@@ -99,11 +114,16 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 
 	@Override
 	public boolean canInsertItem(int slot, ItemStack is, int side){
-		return isItemValidForSlot(slot,is);
+		if (isItemValidForSlot(slot,is)){
+			slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.add(slot);
+			return true;
+		}
+		else return false;
 	}
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack is, int side){
+		slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.add(slot);
 		return true;
 	}
 

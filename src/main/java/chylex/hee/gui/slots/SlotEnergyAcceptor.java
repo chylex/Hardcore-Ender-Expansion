@@ -1,10 +1,10 @@
-package chylex.hee.gui;
+package chylex.hee.gui.slots;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import chylex.hee.item.ItemAbstractEnergyAcceptor;
 
-class SlotEnergyAcceptor extends Slot{
+public class SlotEnergyAcceptor extends Slot{
 	public SlotEnergyAcceptor(IInventory inv, int id, int x, int z){
 		super(inv,id,x,z);
 	}

@@ -42,6 +42,7 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 				
 				requiredStardust = (byte)Math.ceil(stardust);
 				timeStep = (short)Math.max(2,20-Math.pow(requiredStardust,0.9D));
+				updateComparatorStatus();
 			}
 		}
 	}
@@ -90,6 +91,12 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 	@Override
 	public int getSizeInventory(){
 		return 11;
+	}
+	
+	@Override
+	public void setInventorySlotContents(int slot, ItemStack is){
+		super.setInventorySlotContents(slot,is);
+		if (slot == 0)invalidateInventory();
 	}
 
 	@Override

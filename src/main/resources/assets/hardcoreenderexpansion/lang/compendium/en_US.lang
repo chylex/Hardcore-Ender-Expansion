@@ -253,20 +253,20 @@ ec.reg.342=Fortune enchantment has a small effect on the drops.
 ec.reg.350=Dust dropped by Stardust Ore and Sphalerite with Stardust. It is used for crafting and as a decomposition catalyst in Tables.
 
 ec.reg.880=A table that decomposes items into their crafting ingredients.
-ec.reg.882=It requires Stardust and Energy to run, price increases with complexity of the recipe.
+ec.reg.882=It requires Stardust and Energy to run, price increases with complexity of the recipe. A Redstone Comparator can be used to detect whether the Table is running.
 ec.reg.883=Not all ingredients are returned, but up to 84% of them are retrievable.
 ec.reg.884=Damaged items yield less ingredients than fully repaired ones.
 ec.reg.885=If multiple recipes exist, one is chosen randomly.
 
 ec.reg.970=A table that extracts experience from blocks.
-ec.reg.972=It requires Stardust and Energy to run, it always runs at the same speed.
+ec.reg.972=It requires Stardust and Energy to run, it always runs at the same speed. A Redstone Comparator can be used to detect whether the Table is running.
 ec.reg.973=The table yields triple the amount of experience, and destroys the block in the process.
 
 ec.reg.980=A table that stores Energy and channels it into items.
 ec.reg.982=Breaking the Table causes the stored Energy to leak into the world.
 
 ec.reg.990=A table that extracts Energy from blocks and items from the End.
-ec.reg.992=It requires Stardust and Energy from a different source to run.
+ec.reg.992=It requires Stardust and Energy from a different source to run. A Redstone Comparator can be used to detect whether the Table is running.
 ec.reg.993=Stored Energy leaks out into the environment and nearby Energy Clusters.
 ec.reg.994=Leaking can be slowed down or stopped by placing Instability Orbs into the Table.
 ec.reg.995=Breaking the Table causes the stored Energy to leak into the world.

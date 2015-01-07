@@ -13,6 +13,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.gui.slots.SlotBasicItem;
+import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;

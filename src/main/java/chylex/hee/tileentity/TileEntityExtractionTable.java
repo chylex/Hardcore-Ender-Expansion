@@ -139,14 +139,15 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	@Override
 	public void invalidateInventory(){
 		if (worldObj != null && worldObj.isRemote)return;
-		resetTable();
+		if (requiredStardust == 0 || items[0] == null)resetTable();
 		
 		if (items[0] != null){
 			float energy = getItemEnergy(items[0]);
 			
 			if (energy > 0F){
 				requiredStardust = (byte)(1+Math.sqrt(energy/EnergyChunkData.energyDrainUnit));
-				timeStep = (short)Math.max(1,20-(requiredStardust>>2));
+				timeStep = (short)Math.max(1,20-(requiredStardust>>2));System.out.println(requiredStardust);
+				updateComparatorStatus();
 			}
 		}
 	}
@@ -189,6 +190,12 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	@Override
 	public int getSizeInventory(){
 		return 3;
+	}
+	
+	@Override
+	public void setInventorySlotContents(int slot, ItemStack is){
+		super.setInventorySlotContents(slot,is);
+		if (slot == 0)invalidateInventory();
 	}
 
 	@Override

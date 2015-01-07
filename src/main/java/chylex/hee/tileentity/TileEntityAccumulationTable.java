@@ -8,7 +8,7 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*50F;
 	
 	private byte channelCooldown;
-	
+
 	@Override
 	public void invalidateInventory(){}
 	
@@ -65,6 +65,12 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	@Override
 	public int getSizeInventory(){
 		return 1;
+	}
+	
+	@Override
+	public void setInventorySlotContents(int slot, ItemStack is){
+		super.setInventorySlotContents(slot,is);
+		if (slot == 0)invalidateInventory();
 	}
 
 	@Override

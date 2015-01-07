@@ -38,6 +38,8 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 	
 	@Override
 	public void updateEntity(){
+		super.updateEntity();
+		
 		if (worldObj.isRemote)return;
 		
 		if (isWorking()){
@@ -62,7 +64,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 		}
 		
 		if (draining && (drainTimer == 0 || --drainTimer == 0)){
-			Stopwatch.timeAverage("TileEntityAbstractEnergyInventory - drain",30);
+			Stopwatch.timeAverage("TileEntityAbstractEnergyInventory - drain",300);
 			
 			float drain = energyLeft <= 0F ? getDrainAmount() : energyLeft;
 			
