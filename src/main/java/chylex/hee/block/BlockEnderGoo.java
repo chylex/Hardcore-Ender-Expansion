@@ -1,13 +1,9 @@
 package chylex.hee.block;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Random;
-import java.util.Set;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -84,14 +80,10 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	private static final PotionEffect weakness = new PotionEffect(Potion.weakness.id,5,1,false),
 									  miningFatigue = new PotionEffect(Potion.digSlowdown.id,5,1,false),
 									  poison = new PotionEffect(Potion.poison.id,100,2,false);
-
-	private static final Set<Class> ignoreMobsHardcoded = new HashSet<>(Arrays.asList(new Class[]{
-		EntityEnderman.class, EntitySilverfish.class
-	}));
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityLivingBase && !(entity instanceof IIgnoreEnderGoo) && !ignoreMobsHardcoded.contains(entity.getClass())){
+		if (entity instanceof EntityLivingBase && !(entity instanceof IIgnoreEnderGoo) && entity.getClass() != EntitySilverfish.class){
 			EntityLivingBase e = (EntityLivingBase)entity;
 			e.addPotionEffect(weakness);
 			e.addPotionEffect(miningFatigue);

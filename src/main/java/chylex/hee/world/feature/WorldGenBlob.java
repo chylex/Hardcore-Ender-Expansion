@@ -226,7 +226,9 @@ public class WorldGenBlob extends WorldGenerator{
 			world.getBlock(x,y,z-7) != Blocks.air ||
 			world.getBlock(x,y,z+7) != Blocks.air ||
 			world.getBlock(x,y-7,z) != Blocks.air ||
-			world.getBlock(x,y+7,z) != Blocks.air)return false;
+			world.getBlock(x,y+7,z) != Blocks.air ||
+			world.getBlock(x,y-14,z) != Blocks.air ||
+			world.getBlock(x,y+14,z) != Blocks.air)return false;
 		
 		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 		Pair<BlobGenerator,List<BlobPopulator>> pattern = getBlobType(rand,x,z).patterns.getRandomItem(rand).generatePattern(rand);

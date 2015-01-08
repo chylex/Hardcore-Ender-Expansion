@@ -2,7 +2,6 @@ package chylex.hee.world.structure.island.biome;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -11,6 +10,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobEndermage;
+import chylex.hee.entity.mob.EntityMobEnderman;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.packets.PacketPipeline;
@@ -43,13 +43,13 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		randomDeviations.add(TALL_PILES);
 		
 		getSpawnEntries(HOMELAND).addAll(new SpawnEntry[]{
-			new SpawnEntry(EntityEnderman.class,22,38),
+			new SpawnEntry(EntityMobEnderman.class,22,38),
 			new SpawnEntry(EntityMobBabyEnderman.class,14,20)
 		});
 		
 		getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobEndermage.class,6,15),
-			new SpawnEntry(EntityEnderman.class,12,10),
+			new SpawnEntry(EntityMobEnderman.class,12,10),
 			new SpawnEntry(EntityMobEnderGuardian.class,20,7)
 		});
 		

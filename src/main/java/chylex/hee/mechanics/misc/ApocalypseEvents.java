@@ -6,7 +6,7 @@ public final class ApocalypseEvents{
 	/*private static ApocalypseEvents instance;
 	
 	private static final WeightedList<SpawnEntry> spawnList = new WeightedList<>(
-		new SpawnEntry(EntityEnderman.class,32,100),
+		new SpawnEntry(EntityMobEnderman.class,32,100),
 		new SpawnEntry(EntityMobAngryEnderman.class,13,23),
 		new SpawnEntry(EntityMobEnderGuardian.class,6,5)
 	);

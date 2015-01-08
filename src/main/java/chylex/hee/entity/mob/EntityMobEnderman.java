@@ -2,10 +2,11 @@ package chylex.hee.entity.mob;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 
-public class EntityMobEnderman extends EntityEnderman{
+public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo{
 	public EntityMobEnderman(World world){
 		super(world);
 	}
