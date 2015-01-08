@@ -92,14 +92,14 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// HOMELAND CACHE
-		for(int attempt = 70+rand.nextInt(42), placed = 9+rand.nextInt(6), xx, yy, zz; attempt > 0 && placed > 0; attempt--){
+		for(int attempt = 280+rand.nextInt(42), placed = 14+rand.nextInt(10), xx, yy, zz; attempt > 0 && placed > 0; attempt--){
 			xx = rand.nextInt(ComponentIsland.size-10)+5;
 			zz = rand.nextInt(ComponentIsland.size-10)+5;
 			yy = world.getHighestY(xx,zz);
 			
-			if (world.getBlock(xx,yy,zz) == Blocks.end_stone){
-				for(int obsidianSearch = 0; obsidianSearch < 15; obsidianSearch++){
-					Block block = world.getBlock(xx+rand.nextInt(9)-4,yy,zz+rand.nextInt(9)-4);
+			if (world.getBlock(xx,yy,zz) == BlockList.end_terrain){
+				for(int obsidianSearch = 0; obsidianSearch < 40; obsidianSearch++){
+					Block block = world.getBlock(xx+rand.nextInt(11)-5,yy,zz+rand.nextInt(11)-5);
 					
 					if (block == Blocks.obsidian || block == BlockList.obsidian_falling){
 						EntityBlockHomelandCache cache = new EntityBlockHomelandCache(null);

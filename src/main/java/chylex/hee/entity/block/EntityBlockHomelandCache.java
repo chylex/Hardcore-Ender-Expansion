@@ -21,7 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityBlockHomelandCache extends Entity{
 	private static final WeightedLootList loot = new WeightedLootList(new LootItemStack[]{
-		new LootItemStack(ItemList.arcane_shard).setWeight(220),
+		new LootItemStack(ItemList.arcane_shard).setWeight(190),
 		new LootItemStack(ItemList.end_powder).setWeight(15),
 		new LootItemStack(ItemList.instability_orb).setWeight(3),
 		new LootItemStack(Items.iron_ingot).setWeight(3),
