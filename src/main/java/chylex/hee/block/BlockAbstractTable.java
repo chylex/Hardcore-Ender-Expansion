@@ -74,7 +74,7 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 	@Override
 	public int getComparatorInputOverride(World world, int x, int y, int z, int dir){
 		TileEntity tile = world.getTileEntity(x,y,z);
-		return tile == null || ((TileEntityAbstractTable)tile).isWorking() ? 15 : 0;
+		return tile == null || ((TileEntityAbstractTable)tile).isComparatorOn() ? 15 : 0;
 	}
 
 	@Override

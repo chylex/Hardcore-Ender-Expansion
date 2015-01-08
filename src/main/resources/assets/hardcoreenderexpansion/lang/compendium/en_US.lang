@@ -263,7 +263,8 @@ ec.reg.972=It requires Stardust and Energy to run, it always runs at the same sp
 ec.reg.973=The table yields triple the amount of experience, and destroys the block in the process.
 
 ec.reg.980=A table that stores Energy and channels it into items.
-ec.reg.982=Breaking the Table causes the stored Energy to leak into the world.
+ec.reg.982=A Redstone Comparator can be used to detect whether the Table is currently charging an item.
+ec.reg.983=Breaking the Table causes the stored Energy to leak into the world.
 
 ec.reg.990=A table that extracts Energy from blocks and items from the End.
 ec.reg.992=It requires Stardust and a low amount of Energy from a different source to run. A Redstone Comparator can be used to detect whether the Table is running.

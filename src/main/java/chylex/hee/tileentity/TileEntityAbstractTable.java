@@ -64,6 +64,10 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 		}
 	}
 	
+	public boolean isComparatorOn(){
+		return isWorking();
+	}
+	
 	protected final void updateComparatorStatus(){
 		if (worldObj != null)worldObj.func_147453_f(xCoord,yCoord,zCoord,blockType);
 	}
