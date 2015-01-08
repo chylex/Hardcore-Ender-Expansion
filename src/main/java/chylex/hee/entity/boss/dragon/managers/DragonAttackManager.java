@@ -69,7 +69,8 @@ public class DragonAttackManager{
 		
 		if (players.size() > 1){
 			for(Iterator<EntityPlayer> iter = players.iterator(); iter.hasNext();){
-				if (iter.next().capabilities.isCreativeMode)iter.remove();
+				EntityPlayer player = iter.next();
+				if (player.capabilities.isCreativeMode || player.isDead)iter.remove();
 			}
 		}
 		

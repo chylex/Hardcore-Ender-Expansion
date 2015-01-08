@@ -33,15 +33,14 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 		speed = 1F;
 		
 		if (phase == 0){
-			if (dragon.posY<120)dragon.targetY = 140;
+			if (dragon.posY < 120)dragon.targetY = 140;
 			
 			if (tmpTarget == null){
 				EntityPlayer closest = null;
 				double dist = Double.MAX_VALUE,d;
 				
 				for(EntityPlayer player:dragon.attacks.getViablePlayers()){
-					if (player.isDead)continue;
-					else if ((d = MathUtil.distance(player.posX-dragon.posX,player.posZ-dragon.posZ)) < dist){
+					if ((d = MathUtil.distance(player.posX-dragon.posX,player.posZ-dragon.posZ)) < dist){
 						dist = d;
 						closest = player;
 					}
@@ -67,26 +66,28 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 		}
 		else if (phase == 1){
 			dragon.targetY = 20;
-			if (dragon.motionY == 0 && tick > 50){
-				phase = 3;
-			}
+			speed = 3.5F;
+			
+			if (dragon.motionY == 0 && tick > 50)phase = 3;
+			
 			if (dragon.posY <= 30){
 				phase = 2;
 				tick = 1;
 			}
+			
 			if (dragon.moveSpeedMp < 3.5D)dragon.moveSpeedMp += 0.04D;
-			speed = 3.5F;
 		}
 		else if (phase == 2){
 			if (tick > 160)phase = 3;
+			
 			if (temp == null)temp = dragon.attacks.getRandomPlayer();
-			if (temp != null && !temp.isDead){
+			if (temp != null){
 				dragon.targetX = temp.posX;
 				dragon.targetZ = temp.posZ;
 			}
-			if (tick < 60)dragon.targetY = 30;
-			else dragon.targetY = 80;
-			speed = 2f;
+			
+			dragon.targetY = tick < 60 ? 30 : 80;
+			speed = 2F;
 		}
 		if (phase < 3)dragon.target = null;
 	}
@@ -103,7 +104,7 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 	
 	@Override
 	public float overrideWingSpeed(){
-		return phase == 0 ? 1.15F : phase == 1 ? 0.4F:1F;
+		return phase == 0 ? 1.15F : phase == 1 ? 0.4F : 1F;
 	}
 	
 	@Override

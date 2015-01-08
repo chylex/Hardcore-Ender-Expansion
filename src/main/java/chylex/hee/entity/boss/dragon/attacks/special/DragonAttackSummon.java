@@ -35,16 +35,20 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 	@Override
 	public void update(){
 		super.update();
+		
 		if (target == null)target = dragon.attacks.getWeakPlayer();
 		if (target == null){
 			ended = true;
 			return;
 		}
+		
 		dragon.targetX = target.posX;
 		dragon.targetY = 125;
 		dragon.targetZ = target.posZ;
+		
 		double dist = dragon.getDistance(target.posX,125,target.posZ);
 		speed = (dist < 9D ? 0 : 1);
+		
 		if (phase == 0){
 			if (dist < 10D)phase = 1;
 		}
@@ -63,7 +67,7 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 				
 				List<EntityPlayer> nearbyPlayers = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class,target.boundingBox.expand(48D,64D,48D));
 				
-				for(int a = 0; a < amount+Math.floor(nearbyPlayers.size()/2); a++){
+				for(int a = 0; a < amount+Math.floor(nearbyPlayers.size()>>1); a++){
 					int x = rand.nextInt(31)-15+(int)target.posX,z = rand.nextInt(31)-15+(int)target.posZ;
 					int y = 1+DragonUtil.getTopBlock(dragon.worldObj,Blocks.end_stone,x,z);
 					
@@ -117,6 +121,7 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 	public void onMotionUpdateEvent(MotionUpdateEvent event){
 		super.onMotionUpdateEvent(event);
 		if (phase == 0)return;
+		
 		if (dragon.motionX > 0.3)dragon.motionX = 0.25;
 		else if (dragon.motionX < -0.3)dragon.motionX = -0.25;
 		if (dragon.motionZ > 0.3)dragon.motionZ = 0.25;
