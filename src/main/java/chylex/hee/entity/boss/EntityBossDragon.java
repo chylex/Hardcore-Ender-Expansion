@@ -91,7 +91,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public boolean angryStatus, forceAttackEnd, frozen;
 	public int nextAttackTicks;
 	
-	public int spawnCooldown = 1200;
+	public int spawnCooldown = 1200, lastAttackInterruption = -600;
 	public byte loadTimer = 10;
 	public double moveSpeedMp = 1D;
 
@@ -536,8 +536,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		currentAttack.onDamageTaken(event.damage);
 		amount = event.damage;
 		
-		boolean shouldChangeTarget = (target != null && getDistanceSqToEntity(target) > 600D);
-		if (shouldChangeTarget)trySetTarget(null);
+		boolean shouldChangeTarget = (target != null && getDistanceSqToEntity(target) < 4600D);
+		
+		if (shouldChangeTarget && ticksExisted-lastAttackInterruption >= 600){
+			trySetTarget(null);
+			lastAttackInterruption = ticksExisted;
+		}
 
 		float yaw = rotationYaw*(float)Math.PI/180F;
 		float yawSin = MathHelper.sin(yaw);
