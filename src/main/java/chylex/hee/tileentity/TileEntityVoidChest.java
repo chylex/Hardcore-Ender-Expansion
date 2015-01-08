@@ -2,6 +2,7 @@ package chylex.hee.tileentity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import chylex.hee.system.util.MathUtil;
 
 public class TileEntityVoidChest extends TileEntity{
 	public float lidAnim;
@@ -23,7 +24,7 @@ public class TileEntityVoidChest extends TileEntity{
 
 		if (openedAmount == 0 && lidAnim > 0F || openedAmount > 0 && lidAnim < 1F){
 			float oldAnim = lidAnim;
-			lidAnim = Math.max(0F,Math.min(1F,openedAmount > 0 ? lidAnim+0.1F : lidAnim-0.1F));
+			lidAnim = MathUtil.clamp(openedAmount > 0 ? lidAnim+0.1F : lidAnim-0.1F,0F,1F);
 
 			if (lidAnim < 0.5F && oldAnim >= 0.5F){
 				worldObj.playSoundEffect(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,"random.chestclosed",0.5F,worldObj.rand.nextFloat()*0.1F+0.9F);

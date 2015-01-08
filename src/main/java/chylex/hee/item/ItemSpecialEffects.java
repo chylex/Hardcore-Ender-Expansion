@@ -1,4 +1,5 @@
 package chylex.hee.item;
+import chylex.hee.system.util.MathUtil;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
@@ -15,26 +16,26 @@ public class ItemSpecialEffects extends Item{
 	public static final byte totalIcons = 24;
 
 	@SideOnly(Side.CLIENT)
-	private IIcon[] icons;
+	private IIcon[] iconArray;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage){
-		return icons[Math.min(icons.length-1,Math.max(0,damage))];
+		return iconArray[MathUtil.clamp(damage,0,iconArray.length-1)];
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister){
-		icons = new IIcon[totalIcons];
+		iconArray = new IIcon[totalIcons];
 		
-		for(int a = 0; a < 10; a++)icons[a] = iconRegister.registerIcon("hardcoreenderexpansion:"+a);
+		for(int a = 0; a < 10; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:"+a);
 		char c = 'a';
-		for(int a = 10; a < 18; a++)icons[a] = iconRegister.registerIcon("hardcoreenderexpansion:altar_glyph_"+(c++));
-		icons[18] = iconRegister.registerIcon("hardcoreenderexpansion:question_mark");
-		icons[19] = iconRegister.registerIcon("hardcoreenderexpansion:achievement_lore_pages");
-		for(int a = 20; a <= biomePointEnd; a++)icons[a] = iconRegister.registerIcon("hardcoreenderexpansion:biome_"+(a-20));
-		icons[23] = iconRegister.registerIcon("hardcoreenderexpansion:ender_compendium");
-		itemIcon = icons[0];
+		for(int a = 10; a < 18; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:altar_glyph_"+(c++));
+		iconArray[18] = iconRegister.registerIcon("hardcoreenderexpansion:question_mark");
+		iconArray[19] = iconRegister.registerIcon("hardcoreenderexpansion:achievement_lore_pages");
+		for(int a = 20; a <= biomePointEnd; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:biome_"+(a-20));
+		iconArray[23] = iconRegister.registerIcon("hardcoreenderexpansion:ender_compendium");
+		itemIcon = iconArray[0];
 	}
 }

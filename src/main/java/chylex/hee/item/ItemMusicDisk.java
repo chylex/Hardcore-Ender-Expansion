@@ -14,6 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -38,7 +39,7 @@ public class ItemMusicDisk extends ItemRecord{
 	}
 	
 	public static String[] getRecordData(int damage){
-		return musicNames.get(Math.max(0,Math.min(musicNames.size()-1,damage)));
+		return musicNames.get(MathUtil.clamp(damage,0,musicNames.size()-1));
 	}
 	
 	private IIcon[] iconArray;
@@ -66,7 +67,7 @@ public class ItemMusicDisk extends ItemRecord{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIconFromDamage(int damage){
-		return iconArray[Math.max(0,Math.min(iconArray.length-1,damage))];
+		return iconArray[MathUtil.clamp(damage,0,iconArray.length-1)];
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class ItemMusicDisk extends ItemRecord{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){	
-		textLines.add(getRecordNameLocal()+musicNames.get(Math.max(0,Math.min(musicNames.size()-1,is.getItemDamage())))[0]);
+		textLines.add(getRecordNameLocal()+musicNames.get(MathUtil.clamp(is.getItemDamage(),0,musicNames.size()-1))[0]);
 	}
 	
 	@Override

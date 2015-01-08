@@ -178,7 +178,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					if (updateItemCounter(is,"HEE_repair",1) < 18)continue;
 					updateItemCounter(is,"HEE_repair",0);
 					
-					int amount = Math.min(is.getItemDamage(),Math.max(1,MathUtil.floor(Math.sqrt(is.getMaxDamage())*0.65D)));
+					int amount = MathUtil.clamp(MathUtil.floor(Math.sqrt(is.getMaxDamage())*0.65D),1,is.getItemDamage());
 					is.setItemDamage(is.getItemDamage()-amount);
 					item.hasChanged = true;
 				}

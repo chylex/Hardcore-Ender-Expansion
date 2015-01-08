@@ -75,7 +75,7 @@ public abstract class IslandBiomeBase{
 		BiomeContentVariation contentVariation = contentVariations.getRandomItem(rand);
 		
 		List<BiomeRandomDeviation> deviations = new ArrayList<>();
-		int deviationAmt = Math.max(0,Math.min(randomDeviations.size(),MathUtil.floor((rand.nextGaussian()+0.35D)*randomDeviations.size()*(0.5D+0.5D*rand.nextDouble()))));
+		int deviationAmt = MathUtil.clamp(MathUtil.floor((rand.nextGaussian()+0.35D)*randomDeviations.size()*(0.5D+0.5D*rand.nextDouble())),0,randomDeviations.size());
 		
 		if (deviationAmt > 0){
 			List<BiomeRandomDeviation> availableDeviations = new ArrayList<>(randomDeviations);

@@ -53,7 +53,7 @@ public class BlockSphalerite extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return iconArray[Math.min(Math.max(meta,0),1)];
+		return iconArray[MathUtil.clamp(meta,0,iconArray.length-1)];
 	}
 	
 	@Override

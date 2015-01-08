@@ -22,6 +22,7 @@ import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -213,7 +214,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		String name = names[Math.max(0,Math.min(names.length-1,is.getItemDamage()))];
+		String name = names[MathUtil.clamp(is.getItemDamage(),0,names.length-1)];
 		return name == null ? "" : "tile.dungeonPuzzle."+name;
 	}
 	
