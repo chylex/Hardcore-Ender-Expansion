@@ -79,6 +79,18 @@ public final class MathUtil{
 		return (int)Math.ceil(n);
 	}
 	
+	public static int clamp(int value, int min, int max){
+		return Math.min(Math.max(value,min),max);
+	}
+	
+	public static float clamp(float value, float min, float max){
+		return Math.min(Math.max(value,min),max);
+	}
+	
+	public static double clamp(double value, double min, double max){
+		return Math.min(Math.max(value,min),max);
+	}
+	
 	public static boolean floatEquals(float val1, float val2){
 		return Math.abs(val1-val2) < 0.00001F;
 	}

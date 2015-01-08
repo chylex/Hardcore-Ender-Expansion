@@ -2,6 +2,7 @@ package chylex.hee.entity.boss.dragon.attacks.special;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -18,24 +19,18 @@ public abstract class DragonSpecialAttackBase{
 	protected EntityBossDragon dragon;
 	protected float damageTaken;
 	protected float damageDealt;
-	protected TObjectFloatHashMap<String> lastPlayerHealth = new TObjectFloatHashMap<>();
+	protected TObjectFloatHashMap<UUID> lastPlayerHealth = new TObjectFloatHashMap<>();
 	public int tick;
 	public int phase;
 	public double previousEffectivness;
 	public double newEffectivness;
 	public double effectivness;
-	private byte[] disabledPassiveAttacks = new byte[0];
-	public boolean disabled;
+	private byte[] disabledPassiveAttacks = ArrayUtils.EMPTY_BYTE_ARRAY;
 	public final byte id;
 	
 	public DragonSpecialAttackBase(EntityBossDragon dragon, int attackId){
 		this.dragon = dragon;
 		this.id = (byte)attackId;
-	}
-	
-	public DragonSpecialAttackBase setDisabled(){
-		this.disabled = true;
-		return this;
 	}
 	
 	public DragonSpecialAttackBase setDisabledPassiveAttacks(byte...attackIds){
@@ -73,14 +68,14 @@ public abstract class DragonSpecialAttackBase{
 	
 	protected void updatePlayerHealth(){
 		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
-			String username = player.getCommandSenderName();
+			UUID id = player.getUniqueID();
 			
-			if (lastPlayerHealth.containsKey(username)){
-				float last = lastPlayerHealth.get(username);
+			if (lastPlayerHealth.containsKey(id)){
+				float last = lastPlayerHealth.get(id);
 				if (player.getHealth() < last)damageDealt += (last-player.getHealth());
 			}
 			
-			lastPlayerHealth.put(username,player.getHealth());
+			lastPlayerHealth.put(id,player.getHealth());
 		}
 	}
 	
@@ -99,9 +94,7 @@ public abstract class DragonSpecialAttackBase{
 		damageTaken += damage;
 	}
 	
-	public boolean hasEnded(){
-		return true;
-	}
+	public abstract boolean hasEnded();
 	
 	public int getNextAttackTimer(){
 		return Math.max(140,180+rand.nextInt(100)+((4-getDifficulty())*30)-dragon.worldObj.playerEntities.size()*15);  

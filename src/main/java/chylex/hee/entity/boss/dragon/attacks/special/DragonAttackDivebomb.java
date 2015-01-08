@@ -103,13 +103,13 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 	
 	@Override
 	public float overrideWingSpeed(){
-		return phase == 0?1.15f:phase == 1?0.4F:1F;
+		return phase == 0 ? 1.15F : phase == 1 ? 0.4F:1F;
 	}
 	
 	@Override
 	public void onCollisionEvent(CollisionEvent event){
 		event.velocityX *= 1.5D;
-		event.velocityY *= phase == 1?8.5D:6D;
+		event.velocityY *= phase == 1 ? 8.5D : 6D;
 		event.velocityZ *= 1.5D;
 	}
 	
@@ -125,10 +125,10 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 		
 			if (phase == 1 && dragon.posY<30)event.motionY = 0;
 			
-			if (event.motionX>0.01)event.motionX = 0.01;
-			else if (event.motionX<-0.01)event.motionX = -0.01;
-			if (event.motionZ>0.01)event.motionZ = 0.01;
-			else if (event.motionZ<-0.01)event.motionZ = -0.01;
+			if (event.motionX > 0.01)event.motionX = 0.01;
+			else if (event.motionX < -0.01)event.motionX = -0.01;
+			if (event.motionZ > 0.01)event.motionZ = 0.01;
+			else if (event.motionZ < -0.01)event.motionZ = -0.01;
 		}
 	}
 	
