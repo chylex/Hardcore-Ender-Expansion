@@ -1,9 +1,12 @@
 package chylex.hee.world.structure.island.biome.decorator;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.List;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
@@ -86,6 +89,27 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		// OBSIDIAN ROADS
 		for(int attempt = 0, placed = 0, placedMax = 8+rand.nextInt(5); attempt < 36 && placed < placedMax; attempt++){
 			if (generateStructure(genRoads))++placed;
+		}
+		
+		// HOMELAND CACHE
+		for(int attempt = 70+rand.nextInt(42), placed = 9+rand.nextInt(6), xx, yy, zz; attempt > 0 && placed > 0; attempt--){
+			xx = rand.nextInt(ComponentIsland.size-10)+5;
+			zz = rand.nextInt(ComponentIsland.size-10)+5;
+			yy = world.getHighestY(xx,zz);
+			
+			if (world.getBlock(xx,yy,zz) == Blocks.end_stone){
+				for(int obsidianSearch = 0; obsidianSearch < 15; obsidianSearch++){
+					Block block = world.getBlock(xx+rand.nextInt(9)-4,yy,zz+rand.nextInt(9)-4);
+					
+					if (block == Blocks.obsidian || block == BlockList.obsidian_falling){
+						EntityBlockHomelandCache cache = new EntityBlockHomelandCache(null);
+						cache.setPosition(xx+0.5D,yy+1D,zz+0.5D);
+						world.addEntity(cache);
+						--placed;
+						break;
+					}
+				}
+			}
 		}
 		
 		// HOMELAND ENDERMEN
