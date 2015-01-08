@@ -163,9 +163,9 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobGeneratorChain(1).amount(IRandomAmount.aroundCenter,2,5).rad(2.4D,2.8D).distMp(1D,2D),
 				new BlobGeneratorFromCenter(1).amount(IRandomAmount.aroundCenter,3,6).rad(2.4D,3.1D).dist(1.1D,1.5D).limitDist()
 			}).addPopulators(new BlobPopulator[]{
-				new BlobPopulatorOreScattered(1).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.aroundCenter,18,32).attempts(37,46).knownBlockLocations(),
+				new BlobPopulatorOreScattered(1).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.aroundCenter,25,34).attempts(41,54).visiblePlacementAttempts(3).knownBlockLocations(),
 				new BlobPopulatorOreScattered(1).block(BlockList.igneous_rock_ore).blockAmount(IRandomAmount.aroundCenter,13,23).attempts(24,31).knownBlockLocations(),
-				new BlobPopulatorOreScattered(1).block(BlockList.endium_ore).blockAmount(IRandomAmount.preferSmaller,4,10).attempts(8,13).visiblePlacementAttempts(3).knownBlockLocations()
+				new BlobPopulatorOreScattered(1).block(BlockList.endium_ore).blockAmount(IRandomAmount.preferSmaller,4,8).attempts(8,13).visiblePlacementAttempts(4).knownBlockLocations()
 			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),
 			
 			// large blob with a spawner
@@ -227,8 +227,8 @@ public class WorldGenBlob extends WorldGenerator{
 			world.getBlock(x,y,z+7) != Blocks.air ||
 			world.getBlock(x,y-7,z) != Blocks.air ||
 			world.getBlock(x,y+7,z) != Blocks.air ||
-			world.getBlock(x,y-14,z) != Blocks.air ||
-			world.getBlock(x,y+14,z) != Blocks.air)return false;
+			world.getBlock(x,y-15,z) != Blocks.air ||
+			world.getBlock(x,y+15,z) != Blocks.air)return false;
 		
 		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 		Pair<BlobGenerator,List<BlobPopulator>> pattern = getBlobType(rand,x,z).patterns.getRandomItem(rand).generatePattern(rand);
@@ -248,17 +248,14 @@ public class WorldGenBlob extends WorldGenerator{
 		public void run(String...args){
 			WeightedList<BlobPattern> patterns = new WeightedList<>(new BlobPattern[]{
 				new BlobPattern(1).addGenerators(new BlobGenerator[]{
-					new BlobGeneratorFromCenter(10).amount(IRandomAmount.preferSmaller,2,6).rad(2.5D,4.5D).dist(3.5D,6D),
-					new BlobGeneratorSingle(9).rad(2D,5D),
-					new BlobGeneratorRecursive(8).baseAmount(IRandomAmount.linear,1,4).totalAmount(IRandomAmount.preferSmaller,4,10).recursionAmount(IRandomAmount.preferSmaller,1,5).recursionChance(0.1D,0.5D,0.8D,4).rad(2.6D,3.8D).distMp(0.9D,1.5D).cacheRecursionChance(),
-					new BlobGeneratorFromCenter(7).amount(IRandomAmount.aroundCenter,2,8).rad(2.2D,5D).dist(6D,6D).limitDist().unifySize(),
-					new BlobGeneratorSingle(4).rad(4D,10D),
-					new BlobGeneratorRecursive(4).baseAmount(IRandomAmount.linear,1,3).totalAmount(IRandomAmount.linear,5,9).recursionAmount(IRandomAmount.linear,1,3).recursionChance(0.4D,0.8D,0.5D,3).rad(3D,5.5D).distMp(1D,1.7D),
-					new BlobGeneratorFromCenter(3).amount(IRandomAmount.linear,4,10).rad(2.4D,3D).dist(2D,6D),
-					new BlobGeneratorChain(3).amount(IRandomAmount.linear,3,6).rad(2.5D,4D).distMp(1.5D,2.5D)
+					new BlobGeneratorSingle(1).rad(2.9D,4.9D),
+					new BlobGeneratorChain(1).amount(IRandomAmount.aroundCenter,2,5).rad(2.4D,2.8D).distMp(1D,2D),
+					new BlobGeneratorFromCenter(1).amount(IRandomAmount.aroundCenter,3,6).rad(2.4D,3.1D).dist(1.1D,1.5D).limitDist()
 				}).addPopulators(new BlobPopulator[]{
-					new BlobPopulatorLake(2).block(BlockList.ender_goo).rad(2D,3.5D)
-				}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
+					new BlobPopulatorOreScattered(1).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.aroundCenter,25,34).attempts(41,54).visiblePlacementAttempts(3).knownBlockLocations(),
+					new BlobPopulatorOreScattered(1).block(BlockList.igneous_rock_ore).blockAmount(IRandomAmount.aroundCenter,13,23).attempts(24,31).knownBlockLocations(),
+					new BlobPopulatorOreScattered(1).block(BlockList.endium_ore).blockAmount(IRandomAmount.preferSmaller,4,8).attempts(8,13).visiblePlacementAttempts(4).knownBlockLocations()
+				}).setPopulatorAmountProvider(IRandomAmount.exact,3,3)
 			});
 			
 			DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();

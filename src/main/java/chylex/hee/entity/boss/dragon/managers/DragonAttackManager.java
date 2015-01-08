@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +23,6 @@ import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.util.CollectionUtil;
 
 public class DragonAttackManager{
-	protected final Random rand = new Random();
 	private final List<DragonPassiveAttackBase> passiveAttackList = new ArrayList<>();
 	private final List<DragonSpecialAttackBase> specialAttackList = new ArrayList<>();
 	
@@ -79,7 +77,7 @@ public class DragonAttackManager{
 	
 	public EntityPlayer getRandomPlayer(){
 		List<EntityPlayer> list = getViablePlayers();
-		return list.isEmpty() ? null : list.get(rand.nextInt(list.size()));
+		return list.isEmpty() ? null : list.get(dragon.worldObj.rand.nextInt(list.size()));
 	}
 	
 	public EntityPlayer getWeakPlayer(){
@@ -90,7 +88,7 @@ public class DragonAttackManager{
 		
 		WeightedList<ObjectWeightPair<EntityPlayer>> players = new WeightedList<>();
 		for(EntityPlayer p:list)players.add(ObjectWeightPair.of(p,5+((int)p.getHealth()>>1)+(p.getTotalArmorValue()>>2)));
-		return players.getRandomItem(rand).getObject();
+		return players.getRandomItem(dragon.worldObj.rand).getObject();
 	}
 	
 	public void updatePassiveAttacks(DragonSpecialAttackBase currentSpecialAttack){
@@ -119,12 +117,12 @@ public class DragonAttackManager{
 		
 		if (effList.isEmpty())return null;
 		
-		if (notTried.size() > 1 || (notTried.size() == 1 && rand.nextBoolean())){
-			return getSpecialAttackById(notTried.get(rand.nextInt(notTried.size()))); // try a new attack
+		if (notTried.size() > 1 || (notTried.size() == 1 && dragon.worldObj.rand.nextBoolean())){
+			return getSpecialAttackById(notTried.get(dragon.worldObj.rand.nextInt(notTried.size()))); // try a new attack
 		}
 		
 		SortedSet<Entry<Byte,Double>> effSorted = CollectionUtil.sortMapByValueDesc(effList);
-		int maxId = rand.nextInt(Math.min(healthPercentage < 30 ? 3 : 4,effSorted.size()));
+		int maxId = dragon.worldObj.rand.nextInt(Math.min(healthPercentage < 30 ? 3 : 4,effSorted.size()));
 
 		for(Entry<Byte,Double> entry:effSorted){
 			if (maxId-- <= 0)return getSpecialAttackById(entry.getKey());
@@ -147,11 +145,11 @@ public class DragonAttackManager{
 				default: rm = 10;
 			}
 			
-			if (rand.nextInt(100) < rm){
+			if (dragon.worldObj.rand.nextInt(100) < rm){
 				player.addPotionEffect(new PotionEffect(Potion.poison.id,180+25*diff,0));
 				dragon.rewards.addHandicap(0.1F,false);
 				
-				if (rand.nextInt(100) < 35+diff*12){
+				if (dragon.worldObj.rand.nextInt(100) < 35+diff*12){
 					player.addPotionEffect(new PotionEffect(Potion.blindness.id,200+18*diff,0));
 					player.addPotionEffect(new PotionEffect(Potion.confusion.id,160+20*diff,0));
 				}

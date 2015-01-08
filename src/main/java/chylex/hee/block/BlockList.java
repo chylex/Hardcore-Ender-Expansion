@@ -34,6 +34,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public final class BlockList{
 	private static final Map<String,BlockData> blocks = new HashMap<>();
+	static final Random blockRandom = new Random();
 	
 	private static void register(String blockIdentifier, Block block){
 		blocks.put(blockIdentifier,new BlockData(block));

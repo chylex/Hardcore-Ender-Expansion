@@ -14,9 +14,8 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.system.util.MathUtil;
 
 public abstract class DragonSpecialAttackBase{
-	protected static Random rand = new Random();
-	
 	protected EntityBossDragon dragon;
+	protected Random rand;
 	protected float damageTaken;
 	protected float damageDealt;
 	protected TObjectFloatHashMap<UUID> lastPlayerHealth = new TObjectFloatHashMap<>();
@@ -30,6 +29,7 @@ public abstract class DragonSpecialAttackBase{
 	
 	public DragonSpecialAttackBase(EntityBossDragon dragon, int attackId){
 		this.dragon = dragon;
+		this.rand = dragon.worldObj.rand;
 		this.id = (byte)attackId;
 	}
 	

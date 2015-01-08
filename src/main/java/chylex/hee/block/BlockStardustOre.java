@@ -47,9 +47,8 @@ public class BlockStardustOre extends BlockOre{
 	}
 	
 	@Override
-	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
-		super.dropBlockAsItemWithChance(world,x,y,z,meta,chance,fortune);
-		dropXpOnBlockBreak(world,x,y,z,MathHelper.getRandomIntegerInRange(world.rand,1,6));
+	public int getExpDrop(IBlockAccess world, int meta, int fortune){
+		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom,1,6);
 	}
 
 	@Override

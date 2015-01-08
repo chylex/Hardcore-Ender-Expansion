@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
@@ -23,21 +24,22 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	
 	@Override
 	public void onUpdate(){
+		World world = altar.getWorldObj();
 		int level = altar.getEssenceLevel();
 		int n = 35+Math.min(60,level>>3);
 		boolean drained = false;
 		
-		byte socketEffects = getSocketEffects(altar),socketBoost = getSocketBoost(altar);
+		byte socketEffects = getSocketEffects(altar), socketBoost = getSocketBoost(altar);
 		
-		int range = 12+((socketEffects&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE?MathUtil.floor(Math.sqrt(socketBoost*3D))*2:0);
+		int range = 12+((socketEffects&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE ? MathUtil.floor(Math.sqrt(socketBoost*3D))*2 : 0);
 		n += (range-12)*2;
 		
 		if ((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST)n += socketBoost*3;
 		
 		for(int a = 0,xx,yy,zz; a < n; a++){
-			xx = altar.xCoord+rand.nextInt(range)-(range>>1);
-			yy = altar.yCoord+rand.nextInt(5)-2;
-			zz = altar.zCoord+rand.nextInt(range)-(range>>1);
+			xx = altar.xCoord+world.rand.nextInt(1+range)-(range>>1);
+			yy = altar.yCoord+world.rand.nextInt(5)-2;
+			zz = altar.zCoord+world.rand.nextInt(1+range)-(range>>1);
 			
 			Block block = altar.getWorldObj().getBlock(xx,yy,zz);
 			TileEntity tile = altar.getWorldObj().getTileEntity(xx,yy,zz);
@@ -60,7 +62,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 						else break;
 					}
 					
-					if (drained && rand.nextInt(6+(n>>1)) <= 4)createOrbParticle(xx,yy,zz);
+					if (drained && world.rand.nextInt(6+(n>>1)) <= 4)createOrbParticle(xx,yy,zz);
 					return;
 				}
 			}
