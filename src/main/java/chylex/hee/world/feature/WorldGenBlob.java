@@ -172,7 +172,7 @@ public class WorldGenBlob extends WorldGenerator{
 			new BlobPattern(1).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(1).rad(6D,7.7D),
 			}).addPopulators(new BlobPopulator[]{
-				new BlobPopulatorEndermanSpawner(1).blockAmount(IRandomAmount.aroundCenter,3,6).attempts(8,13).visiblePlacementAttempts(8).knownBlockLocations(),
+				new BlobPopulatorEndermanSpawner(1).blockAmount(IRandomAmount.aroundCenter,3,6).attempts(12,17).visiblePlacementAttempts(8).knownBlockLocations(),
 				new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
 					new LootItemStack(ItemList.end_powder).setAmount(3,9).setWeight(10),
 					new LootItemStack(ItemList.stardust).setAmount(3,7).setWeight(9),
@@ -248,14 +248,26 @@ public class WorldGenBlob extends WorldGenerator{
 		public void run(String...args){
 			WeightedList<BlobPattern> patterns = new WeightedList<>(new BlobPattern[]{
 				new BlobPattern(1).addGenerators(new BlobGenerator[]{
-					new BlobGeneratorSingle(1).rad(2.9D,4.9D),
-					new BlobGeneratorChain(1).amount(IRandomAmount.aroundCenter,2,5).rad(2.4D,2.8D).distMp(1D,2D),
-					new BlobGeneratorFromCenter(1).amount(IRandomAmount.aroundCenter,3,6).rad(2.4D,3.1D).dist(1.1D,1.5D).limitDist()
+					new BlobGeneratorSingle(1).rad(6D,7.7D),
 				}).addPopulators(new BlobPopulator[]{
-					new BlobPopulatorOreScattered(1).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.aroundCenter,25,34).attempts(41,54).visiblePlacementAttempts(3).knownBlockLocations(),
-					new BlobPopulatorOreScattered(1).block(BlockList.igneous_rock_ore).blockAmount(IRandomAmount.aroundCenter,13,23).attempts(24,31).knownBlockLocations(),
-					new BlobPopulatorOreScattered(1).block(BlockList.endium_ore).blockAmount(IRandomAmount.preferSmaller,4,8).attempts(8,13).visiblePlacementAttempts(4).knownBlockLocations()
-				}).setPopulatorAmountProvider(IRandomAmount.exact,3,3)
+					new BlobPopulatorEndermanSpawner(1).blockAmount(IRandomAmount.aroundCenter,3,6).attempts(12,17).visiblePlacementAttempts(8).knownBlockLocations(),
+					new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
+						new LootItemStack(ItemList.end_powder).setAmount(3,9).setWeight(10),
+						new LootItemStack(ItemList.stardust).setAmount(3,7).setWeight(9),
+						new LootItemStack(Items.ender_pearl).setAmount(2,5).setWeight(7),
+						new LootItemStack(BlockList.obsidian_special).setAmount(3,10).setDamage(0,2).setWeight(6),
+						new LootItemStack(ItemList.endium_ingot).setAmount(1,3).setWeight(5),
+						new LootItemStack(Items.iron_ingot).setAmount(1,5).setWeight(5),
+						new LootItemStack(Items.redstone).setAmount(2,6).setWeight(4),
+						new LootItemStack(Items.gold_ingot).setAmount(1,5).setWeight(4),
+						new LootItemStack(ItemList.igneous_rock).setAmount(1,2).setWeight(4),
+						new LootItemStack(BlockList.obsidian_special_glow).setAmount(3,10).setDamage(0,2).setWeight(3),
+						new LootItemStack(Items.diamond).setAmount(1,3).setWeight(3),
+						new LootItemStack(Items.quartz).setAmount(2,7).setWeight(3),
+						new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(3),
+						new LootItemStack(Items.gold_nugget).setAmount(2,8).setWeight(2)
+					}),IRandomAmount.preferSmaller,6,10)
+				}).setPopulatorAmountProvider(IRandomAmount.exact,2,2)
 			});
 			
 			DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();

@@ -7,7 +7,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class AltarActionHandler{
-	//protected final Random rand = new Random();
 	protected final TileEntityEssenceAltar altar;
 	
 	public AltarActionHandler(TileEntityEssenceAltar altar){

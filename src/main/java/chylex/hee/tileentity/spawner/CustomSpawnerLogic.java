@@ -54,9 +54,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 		return true;
 	}
 	
-	protected boolean canMobSpawn(EntityLiving entity){
-		return true;
-	}
+	protected abstract boolean canMobSpawn(EntityLiving entity);
 	
 	protected void onMobSpawned(EntityLiving entity){}
 	
@@ -159,6 +157,11 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	public static final class BrokenSpawnerLogic extends CustomSpawnerLogic{
 		public BrokenSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 			super(spawnerTile);
+		}
+		
+		@Override
+		protected boolean canMobSpawn(EntityLiving entity){
+			return false;
 		}
 
 		@Override
