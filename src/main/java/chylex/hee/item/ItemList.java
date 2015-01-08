@@ -6,8 +6,6 @@ import java.util.Map.Entry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemReed;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Stopwatch;
@@ -170,8 +168,6 @@ public final class ItemList{
 		ModCreativeTab.tabCharms.list.addItems(
 			charm
 		);
-
-		OreDictionary.registerOre("ingotHEEEndium", endium_ingot);
 	}
 	
 	private ItemList(){} // static class

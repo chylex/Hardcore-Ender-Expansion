@@ -5,6 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.BlockDragonEggCustom;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.block.BlockList;
@@ -184,12 +185,21 @@ public class HardcoreEnderExpansion{
 		Blocks.fire.setFireInfo(BlockList.spooky_log, 10, 10);
 		Blocks.fire.setFireInfo(BlockList.spooky_leaves, 40, 30);
 		
+		OreDictionary.registerOre("blockHeeEndium", BlockList.endium_block);
+		OreDictionary.registerOre("oreHeeEndium", BlockList.endium_ore);
+		OreDictionary.registerOre("oreHeeEndPowder", BlockList.end_powder_ore);
+		OreDictionary.registerOre("oreHeeStardust", BlockList.stardust_ore);
+		OreDictionary.registerOre("oreHeeIgneousRock", BlockList.igneous_rock_ore);
+		OreDictionary.registerOre("oreHeeInstabilityOrb", BlockList.instability_orb_ore);
+		
 		MinecraftForge.EVENT_BUS.register(BlockList.essence_altar);
 		MinecraftForge.EVENT_BUS.register(BlockList.ender_goo);
 		
 		// ITEMS
 		
 		ItemList.registerItems();
+		
+		OreDictionary.registerOre("ingotHeeEndium", ItemList.endium_ingot);
 		
 		MinecraftForge.EVENT_BUS.register(ItemList.enderman_head);
 		MinecraftForge.EVENT_BUS.register(ItemList.scorching_pickaxe);
