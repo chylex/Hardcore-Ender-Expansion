@@ -2,7 +2,6 @@ package chylex.hee.mechanics.charms.handler;
 import gnu.trove.list.array.TFloatArrayList;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -217,9 +216,9 @@ public final class CharmEvents{
 					float[] badEffLvl = getProp(sourcePlayer,"badefflvl");
 					float[] badEffTime = getProp(sourcePlayer,"badefftime");
 					boolean causedEffect = false;
-					List<Potion> potionEffects = new ArrayList<>(Arrays.asList(
+					List<Potion> potionEffects = Arrays.asList(
 						Potion.weakness, Potion.moveSlowdown, Potion.blindness, Potion.poison, null // null = fire
-					));
+					);
 					
 					for(int a = 0; a < badEff.length && !potionEffects.isEmpty(); a++){
 						if (e.entity.worldObj.rand.nextFloat() < badEff[a]){

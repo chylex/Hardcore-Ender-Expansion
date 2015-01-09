@@ -183,7 +183,7 @@ public final class StardustDecomposition{
 		}
 		
 		while(!ingredients.isEmpty()){
-			List<ItemStack> randRecipeIngredients = new ArrayList<>(Arrays.asList(ingredients.remove(rand.nextInt(ingredients.size()))));
+			List<ItemStack> randRecipeIngredients = Arrays.asList(ingredients.remove(rand.nextInt(ingredients.size())));
 
 			for(Iterator<ItemStack> iter = randRecipeIngredients.iterator(); iter.hasNext();){
 				ItemStack ingredient = iter.next();

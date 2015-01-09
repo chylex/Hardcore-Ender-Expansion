@@ -34,7 +34,7 @@ public abstract class IslandBiomeBase{
 										burningMountains = new IslandBiomeBurningMountains(1),
 										enchantedIsland = new IslandBiomeEnchantedIsland(2);
 	
-	public static final List<IslandBiomeBase> biomeList = new ArrayList<>(Arrays.asList(infestedForest,burningMountains,enchantedIsland));
+	public static final List<IslandBiomeBase> biomeList = Arrays.asList(infestedForest,burningMountains,enchantedIsland);
 	
 	public static final IslandBiomeBase pickRandomBiome(Random rand){
 		return biomeList.get(rand.nextInt(biomeList.size()));

@@ -81,7 +81,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		public ItemStack processItem(ItemStack is, Random rand){
 			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
 			else if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = new ArrayList<>(Arrays.asList(EnderPearlEnhancements.values()));
+				List<EnderPearlEnhancements> availableTypes = Arrays.asList(EnderPearlEnhancements.values());
 				
 				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*3.2D)); a++){
 					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));

@@ -1,10 +1,10 @@
 package chylex.hee.system.util;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.Map.Entry;
 
 public final class CollectionUtil{
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAsc(Map<K,V> map){

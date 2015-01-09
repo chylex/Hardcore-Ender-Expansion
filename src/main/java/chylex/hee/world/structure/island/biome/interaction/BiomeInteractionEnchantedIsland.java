@@ -1,5 +1,4 @@
 package chylex.hee.world.structure.island.biome.interaction;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +30,7 @@ public class BiomeInteractionEnchantedIsland{
 					List<EntityMobHomelandEnderman> sameGroup = HomelandEndermen.getInSameGroup(subject);
 					if (sameGroup.size() < 5)continue;
 					
-					List<OvertakeGroupRole> roles = new ArrayList<>(Arrays.asList(OvertakeGroupRole.values));
+					List<OvertakeGroupRole> roles = Arrays.asList(OvertakeGroupRole.values);
 					for(EntityMobHomelandEnderman enderman:sameGroup)roles.remove(enderman.getGroupRole());
 					
 					if (roles.isEmpty() && rand.nextInt(666) < MathUtil.square(sameGroup.size()) && rand.nextInt(3) == 0){
