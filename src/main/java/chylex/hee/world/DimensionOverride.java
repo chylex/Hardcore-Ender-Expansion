@@ -31,7 +31,7 @@ public final class DimensionOverride{
 		MapGenStructureIO.registerStructure(StructureIsland.class,"hardcoreenderdragon_EndIsland");
 		MapGenStructureIO.func_143031_a(ComponentIsland.class,"hardcoreenderdragon_EndIslandC");
 		
-		/*if (BiomeGenHardcoreEnd.overrideWorldGen)*/MinecraftForge.EVENT_BUS.register(new DimensionOverride());
+		if (BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.register(new DimensionOverride());
 		
 		Stopwatch.finish("DimensionOverride");
 	}
@@ -91,14 +91,14 @@ public final class DimensionOverride{
 		}
 
 		@Override
-		public void populate(IChunkProvider provider, int x, int z){Thread.dumpStack();
+		public void populate(IChunkProvider provider, int x, int z){
 			Chunk chunk = provideChunk(x,z);
 			
 			if (!chunk.isTerrainPopulated){
 				chunk.func_150809_p();
 				
 				if (currentChunkProvider != null){
-					//currentChunkProvider.populate(provider,x,z);
+					currentChunkProvider.populate(provider,x,z);
 					chunk.setChunkModified();
 				}
 			}
