@@ -32,6 +32,7 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
@@ -43,6 +44,8 @@ import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.Offsets;
+port chylex.hee.world.structure.util.Offsets;
+port chylex.hee.world.structure.util.Offsets;
 
 public class ComponentTower extends ComponentScatteredFeatureCustom{
 	private static final Random spawnerRand = new Random();
@@ -91,7 +94,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
 			if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = Arrays.asList(EnderPearlEnhancements.values());
+				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
 				
 				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
 					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
@@ -99,7 +102,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 				}
 			}
 			else if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_tnt)){
-				List<TNTEnhancements> availableTypes = Arrays.asList(TNTEnhancements.values());
+				List<TNTEnhancements> availableTypes = CollectionUtil.newList(TNTEnhancements.values());
 				
 				for(int a = 0; a < 1+rand.nextInt(2)+Math.round(rand.nextDouble()*2D); a++){
 					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
@@ -750,7 +753,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 
 		TileEntityCustomSpawner spawner = (TileEntityCustomSpawner)world.getTileEntity(offsets.x,offsets.y,offsets.z);
 		if (spawner != null){
-			List<Potion> availablePotions = Arrays.asList(new Potion[]{
+			List<Potion> availablePotions = CollectionUtil.newList(new Potion[]{
 				Potion.damageBoost, /*Potion.invisibility, */Potion.moveSpeed, Potion.regeneration, Potion.resistance, Potion.fireResistance
 			});
 			

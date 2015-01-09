@@ -1,6 +1,5 @@
 package chylex.hee.mechanics.enhancements;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.List;
 import net.minecraft.init.Blocks;
@@ -17,6 +16,7 @@ import chylex.hee.mechanics.enhancements.SlotList.SlotType;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
+import chylex.hee.system.util.CollectionUtil;
 
 public final class EnhancementHandler{
 	private static final IdentityHashMap<Item, EnhancementData> itemMap = new IdentityHashMap<>(8);
@@ -57,7 +57,7 @@ public final class EnhancementHandler{
 	}
 	
 	public static List<IEnhancementEnum> getEnhancementsForItem(Item item){
-		return canEnhanceItem(item) ? Arrays.asList(itemMap.get(item).valuesInterface) : new ArrayList<IEnhancementEnum>();
+		return canEnhanceItem(item) ? CollectionUtil.newList(itemMap.get(item).valuesInterface) : new ArrayList<IEnhancementEnum>();
 	}
 	
 	public static SlotList getEnhancementSlotsForItem(Item item){

@@ -2,7 +2,6 @@ package chylex.hee.mechanics.charms.handler;
 import gnu.trove.list.array.TFloatArrayList;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +41,7 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -216,7 +216,7 @@ public final class CharmEvents{
 					float[] badEffLvl = getProp(sourcePlayer,"badefflvl");
 					float[] badEffTime = getProp(sourcePlayer,"badefftime");
 					boolean causedEffect = false;
-					List<Potion> potionEffects = Arrays.asList(
+					List<Potion> potionEffects = CollectionUtil.newList(
 						Potion.weakness, Potion.moveSlowdown, Potion.blindness, Potion.poison, null // null = fire
 					);
 					

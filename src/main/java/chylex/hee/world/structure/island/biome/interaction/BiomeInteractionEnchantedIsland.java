@@ -1,5 +1,4 @@
 package chylex.hee.world.structure.island.biome.interaction;
-import java.util.Arrays;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,6 +10,7 @@ import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 
@@ -30,7 +30,7 @@ public class BiomeInteractionEnchantedIsland{
 					List<EntityMobHomelandEnderman> sameGroup = HomelandEndermen.getInSameGroup(subject);
 					if (sameGroup.size() < 5)continue;
 					
-					List<OvertakeGroupRole> roles = Arrays.asList(OvertakeGroupRole.values);
+					List<OvertakeGroupRole> roles = CollectionUtil.newList(OvertakeGroupRole.values);
 					for(EntityMobHomelandEnderman enderman:sameGroup)roles.remove(enderman.getGroupRole());
 					
 					if (roles.isEmpty() && rand.nextInt(666) < MathUtil.square(sameGroup.size()) && rand.nextInt(3) == 0){

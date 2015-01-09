@@ -1,5 +1,7 @@
 package chylex.hee.system.util;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,6 +35,12 @@ public final class CollectionUtil{
 		
 		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry(entry));
 		return sorted;
+	}
+	
+	public static <T> ArrayList<T> newList(T...elements){
+		ArrayList<T> list = new ArrayList<>(elements.length);
+		Collections.addAll(list,elements);
+		return list;
 	}
 	
 	private CollectionUtil(){}

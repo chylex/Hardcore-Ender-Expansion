@@ -1,5 +1,4 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -13,6 +12,7 @@ import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.world.loot.IItemPostProcessor;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
@@ -66,7 +66,7 @@ final class RavagedDungeonLoot{
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
 			if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = Arrays.asList(EnderPearlEnhancements.values());
+				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
 				int amount = 1+(int)Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*1.5D));
 				
 				for(int a = 0; a < amount; a++){
@@ -98,7 +98,7 @@ final class RavagedDungeonLoot{
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
 			if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = Arrays.asList(EnderPearlEnhancements.values());
+				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
 				int amount = 1+(int)Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.25D));
 				
 				for(int a = 0; a < amount; a++){
