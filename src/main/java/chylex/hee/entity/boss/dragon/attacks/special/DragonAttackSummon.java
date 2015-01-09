@@ -69,7 +69,7 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 				
 				for(int a = 0; a < amount+Math.floor(nearbyPlayers.size()>>1); a++){
 					int x = rand.nextInt(31)-15+(int)target.posX,z = rand.nextInt(31)-15+(int)target.posZ;
-					int y = 1+DragonUtil.getTopBlock(dragon.worldObj,Blocks.end_stone,x,z);
+					int y = 1+DragonUtil.getTopBlockY(dragon.worldObj,Blocks.end_stone,x,z);
 					
 					EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(dragon.worldObj);
 					buddy.setPosition(x,y,z);

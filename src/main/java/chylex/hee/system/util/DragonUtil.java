@@ -126,17 +126,16 @@ public final class DragonUtil{
 		return newArray;
 	}
 
-	// TODO redo
-	public static int getTopBlock(World worldObj, Block block, int x, int z, int starty){
-		int y = starty+1;
-		while(y-- >= 0){
-			if (worldObj.getBlock(x,y,z) == block)return y+1;
+	public static int getTopBlockY(World world, Block block, int x, int z, int startY){
+		for(int y = startY; y >= 0; y--){
+			if (world.getBlock(x,y,z) == block)return y;
 		}
+		
 		return -1;
 	}
 	
-	public static int getTopBlock(World worldObj, Block block, int x, int z){
-		return getTopBlock(worldObj,block,x,z,255);
+	public static int getTopBlockY(World world, Block block, int x, int z){
+		return getTopBlockY(world,block,x,z,255);
 	}
 	
 	public static void spawnXP(Entity entity, int amount){

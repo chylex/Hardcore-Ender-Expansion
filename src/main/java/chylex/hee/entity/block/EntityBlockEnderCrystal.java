@@ -43,7 +43,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			
 			if (crystalType == TNT){
 				if (tar instanceof EntityPlayer){
-					int limiter = 4+worldObj.difficultySetting.getDifficultyId(),topblock = DragonUtil.getTopBlock(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ));
+					int limiter = 4+worldObj.difficultySetting.getDifficultyId(), topblock = DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ),MathUtil.floor(posY));
 					
 					for(EntityEnderman enderman:(List<EntityEnderman>)worldObj.getEntitiesWithinAABB(EntityEnderman.class,AxisAlignedBB.getBoundingBox(posX-10D,topblock-5D,posZ-10D,posX+10D,topblock+5D,posZ+10D))){
 						if (enderman.getDistance(posX,topblock,posZ) < 20D){
@@ -70,7 +70,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 					
 					tnt = new EntityTNTPrimed(worldObj,posX+0.5F,posY+1F,posZ+0.5F,null);
 					tnt.addVelocity(tx,1F,tz);
-					tnt.fuse = (int)(58+(posY-DragonUtil.getTopBlock(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ)))/2);
+					tnt.fuse = (int)(58+(posY-DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ),MathUtil.floor(posY)))/2);
 					worldObj.spawnEntityInWorld(tnt);
 					worldObj.playSoundAtEntity(tnt,"random.fuse",1F,1F);
 				}
@@ -83,7 +83,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 					ix = MathUtil.floor(posX),
 					iy = MathUtil.floor(posY),
 					iz = MathUtil.floor(posZ),
-					terY = DragonUtil.getTopBlock(worldObj,Blocks.end_stone,ix,iz);
+					terY = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,ix,iz,MathUtil.floor(posY));
 				
 				worldObj.setBlockToAir(ix,iy-1,iz);
 				

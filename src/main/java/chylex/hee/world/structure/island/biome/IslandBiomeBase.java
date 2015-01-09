@@ -154,7 +154,7 @@ public abstract class IslandBiomeBase{
 						}
 					}
 					
-					if (!hasBlockBelow || DragonUtil.getTopBlock(world,BlockList.end_terrain,xx,zz,120) <= 30)continue;
+					if (!hasBlockBelow || DragonUtil.getTopBlockY(world,BlockList.end_terrain,xx,zz,120) <= 30)continue;
 					
 					e.setPositionAndUpdate(e.posX,e.posY+0.01D,e.posZ);
 					world.spawnEntityInWorld(e);

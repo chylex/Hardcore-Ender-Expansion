@@ -218,7 +218,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					int perc = attacks.getHealthPercentage();
 					if (perc < 40 && rand.nextInt(500-(50-perc)*8) == 0){
 						int x = (int)posX+rand.nextInt(301)-150,z = (int)posZ+rand.nextInt(301)-150;
-						int y = 1+DragonUtil.getTopBlock(worldObj,Blocks.end_stone,x,z);
+						int y = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,x,z);
 						
 						EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(worldObj);
 						buddy.setPosition(x,y,z);
@@ -585,7 +585,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  				for(int a = 0, xx, yy, zz; a < 250; a++){
  					xx = MathUtil.floor(posX)+rand.nextInt(51)-25;
  					zz = MathUtil.floor(posZ)+rand.nextInt(51)-25;
- 					yy = DragonUtil.getTopBlock(worldObj,Blocks.end_stone,xx,zz,65);
+ 					yy = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,xx,zz,65);
  					
  					if (yy > 40 && worldObj.getBlock(xx,yy,zz) == Blocks.fire)worldObj.setBlockToAir(xx,yy,zz);
  				}
