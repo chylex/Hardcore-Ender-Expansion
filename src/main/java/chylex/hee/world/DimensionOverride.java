@@ -80,8 +80,7 @@ public final class DimensionOverride{
 	public void onWorldLoad(WorldEvent.Load e){
 		if (e.world.provider.dimensionId == 1 && e.world instanceof WorldServer){
 			WorldServer world = (WorldServer)e.world;
-			world.theChunkProviderServer = new ChunkProviderServerOverride(world);
-			world.chunkProvider = world.theChunkProviderServer;
+			world.chunkProvider = world.theChunkProviderServer = new ChunkProviderServerOverride(world);
 		}
 	}
 	
