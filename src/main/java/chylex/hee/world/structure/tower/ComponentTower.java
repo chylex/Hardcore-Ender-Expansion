@@ -1,7 +1,6 @@
 package chylex.hee.world.structure.tower;
 import gnu.trove.list.array.TByteArrayList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.material.Material;
@@ -44,8 +43,6 @@ import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.structure.ComponentScatteredFeatureCustom;
 import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.Offsets;
-port chylex.hee.world.structure.util.Offsets;
-port chylex.hee.world.structure.util.Offsets;
 
 public class ComponentTower extends ComponentScatteredFeatureCustom{
 	private static final Random spawnerRand = new Random();
