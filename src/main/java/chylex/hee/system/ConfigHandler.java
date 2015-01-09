@@ -61,6 +61,7 @@ public final class ConfigHandler{
 		config.moveProperty("general","enableMusic","client");
 		config.moveProperty("client","enableUpdateNotifications","general");
 		config.getCategory("general").remove("achievementIdStart");
+		config.getCategory("general").remove("enableEndermapocalypse");
 		
 		if (config.get("client","compendiumSmoothText",0).getType() == Type.BOOLEAN)config.getCategory("client").remove("compendiumSmoothText");
 	}
@@ -89,13 +90,14 @@ public final class ConfigHandler{
 		ModCommonProxy.opMobs = getBoolValue("overpoweredMobs",false,"Additional abilities and increased attributes of mobs in the End, useful for modpacks with powerful weapons and armor.");
 		BlockEnderGoo.shouldBattleWater = getBoolValue("gooBattlesWater",true,"Ender Goo interacts with Water by battling it, this might cause lag from block updates.");
 		ItemTempleCaller.isEnabled = getBoolValue("enableTempleCaller",true,"Mechanic that allows players to reset the End, may not be desirable on servers.");
-		BiomeGenHardcoreEnd.overrideMobLists = getBool("overrideBiomeMobs",false,"Prevents other mods from changing mobs that spawn in the End.").setRequiresMcRestart(true).getBoolean();
-		BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier",1F,"Multiplies spawn weight of Endermen for each overworld biome.").setRequiresMcRestart(true).getDouble();
+		UpdateNotificationManager.enableNotifications = getBool("enableUpdateNotifications",true,"Notifies users about new updates. It does not slow the game down.").setShowInGui(true).getBoolean();
 		Log.forceDebugEnabled = getBool("logDebuggingInfo",false,"Only use for debugging, enabling debug logging will have severe impact on game performance!").getBoolean();
 		
 		if (firstTimeGeneral){
+			BiomeGenHardcoreEnd.overrideWorldGen = getBool("overrideWorldGen",false,"Prevents other mods from adding worldgen features to the End. EXPERIMENTAL, MIGHT BREAK STUFF!").setRequiresMcRestart(true).getBoolean(); // TODO remove experimental once properly tested
+			BiomeGenHardcoreEnd.overrideMobLists = getBool("overrideBiomeMobs",false,"Prevents other mods from changing mobs that spawn in the End.").setRequiresMcRestart(true).getBoolean();
+			BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier",1F,"Multiplies spawn weight of Endermen for each overworld biome.").setRequiresMcRestart(true).getDouble();
 			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();
-			UpdateNotificationManager.enableNotifications = getBool("enableUpdateNotifications",true,"Notifies users about new updates. It does not slow the game down.").setShowInGui(false).getBoolean();
 			UpdateNotificationManager.enableBuildCheck = getBool("enableBuildCheck",true,"It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.").setShowInGui(false).getBoolean();
 			ModCommonProxy.achievementStartId = getInt("achievementStartId",3500,"Starting ID of achievements, only change this if there is a conflict.").setShowInGui(false).getInt();
 			StardustDecomposition.addFromString(getString("decompositionBlacklist","","Blacklist of items that should not be decomposable or decomposed into. Visit http://hardcore-ender-expansion.wikia.com/wiki/Configuration for syntax and examples.").setRequiresMcRestart(true).getString());

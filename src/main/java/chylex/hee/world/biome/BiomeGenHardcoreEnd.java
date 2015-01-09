@@ -14,6 +14,7 @@ import chylex.hee.system.util.MathUtil;
 
 public final class BiomeGenHardcoreEnd extends BiomeGenEnd{
 	public static boolean overrideMobLists;
+	public static boolean overrideWorldGen;
 	public static float overworldEndermanMultiplier;
 	
 	public BiomeGenHardcoreEnd(int id){
