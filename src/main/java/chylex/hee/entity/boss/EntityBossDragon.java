@@ -90,6 +90,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public double targetX, targetY, targetZ;
 	public boolean angryStatus, forceAttackEnd, noPlayers, frozen;
 	public int nextAttackTicks;
+	public byte dragonHurtTime;
 	
 	public int spawnCooldown = 1200, lastAttackInterruption = -600;
 	public byte loadTimer = 10;
@@ -212,6 +213,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			if (getHealth() > 0){
 				rewards.updateManager();
 				achievements.updateManager();
+				
+				if (dragonHurtTime > 0)--dragonHurtTime;
 				
 				double spd = currentAttack.overrideMovementSpeed();
 				if (moveSpeedMp > spd)moveSpeedMp = moveSpeedMp < 0.2D && spd == 0D ? 0D : Math.max(spd,moveSpeedMp-0.0175D);
@@ -396,15 +399,14 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float amount){
-		if (source.isExplosion() && source.getSourceOfDamage() == this)return false;
-		
+		if ((source.isExplosion() && source.getSourceOfDamage() == this) || dragonHurtTime > 0)return false;
 		spawnCooldown = 0;
 		
 		if (dragonPart != dragonPartHead)amount = amount/3+1;
-		int plam = Math.min(5,MathUtil.floor(worldObj.playerEntities.size()*0.5F))+(ModCommonProxy.opMobs ? 2 : 0);
-		if (plam > 1)amount = Math.max(1F,amount/(plam/1.5F));
+		amount = Math.min(amount,ModCommonProxy.opMobs ? 14F : 18F);
 		
-		amount = Math.min(amount,ModCommonProxy.opMobs ? 10F : 13F);
+		int players = attacks.getViablePlayers().size();
+		if (players > 1)amount = amount*(1F-Math.max(0.5F,(players-1)*0.05F));
 		
 		DamageTakenEvent event = new DamageTakenEvent(source,amount);
 		currentAttack.onDamageTakenEvent(event);
@@ -426,7 +428,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 								 posZ-(MathHelper.cos(yawRad)*5F)+((rand.nextFloat()-0.5F)*2F));
 		}
 
-		if (source.getEntity() instanceof EntityPlayer || source.isExplosion())super.attackEntityFrom(source,amount); 
+		if ((source.getEntity() instanceof EntityPlayer || source.isExplosion()) && super.attackEntityFrom(source,amount))hurtResistantTime = (dragonHurtTime = (byte)(hurtTime = 15))+10;
 		return true;
 	}
 
