@@ -179,7 +179,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 				for(yAttempt = 0; yAttempt < 7; yAttempt++){
 					tmpY = yy-rand.nextInt(20);
 					
-					if (world.getBlock(xx,tmpY,zz) == BlockList.end_terrain && world.isAir(xx,tmpY+1,zz)){
+					if (tmpY > 0 && world.getBlock(xx,tmpY,zz) == BlockList.end_terrain && world.isAir(xx,tmpY+1,zz)){
 						yy = tmpY;
 						break;
 					}

@@ -2,7 +2,6 @@ package chylex.hee.world.structure.util.pregen;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -89,8 +88,9 @@ public final class LargeStructureWorld{
 	}
 	
 	public boolean isAir(int blockX, int blockY, int blockZ){
-		Block block = getBlock(blockX,blockY,blockZ);
-		return block == Blocks.air || block.getMaterial() == Material.air;
+		return getBlock(blockX,blockY,blockZ) == Blocks.air;
+		/*Block block = getBlock(blockX,blockY,blockZ);
+		return block == Blocks.air || block.getMaterial() == Material.air;*/
 	}
 	
 	public void setTileEntityGenerator(int blockX, int blockY, int blockZ, String key, ITileEntityGenerator tileGen){
