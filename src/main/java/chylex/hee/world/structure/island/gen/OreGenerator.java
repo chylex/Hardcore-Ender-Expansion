@@ -47,6 +47,7 @@ public class OreGenerator{
 			
 			for(attempt = 0, placed = 0; attempt < attemptAm && placed < list.placeAmount; ++attempt){
 				loc = list.blockList.get(attempt);
+				
 				if (loc.y >= 0 && world.getBlock(loc.x,loc.y,loc.z) == Blocks.end_stone){
 					world.setBlock(loc.x,loc.y,loc.z,BlockList.stardust_ore,rand.nextInt(15)+1);
 					++placed;
@@ -59,7 +60,8 @@ public class OreGenerator{
 			
 			for(attempt = 0, placed = 0; attempt < attemptAm && placed < list.placeAmount; ++attempt){
 				loc = list.blockList.get(attempt);
-				if (world.getBlock(loc.x,loc.y,loc.z) == Blocks.end_stone){
+				
+				if (loc.y >= 0 && world.getBlock(loc.x,loc.y,loc.z) == Blocks.end_stone){
 					world.setBlock(loc.x,loc.y,loc.z,BlockList.instability_orb_ore);
 					++placed;
 				}

@@ -192,14 +192,14 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomContent>> roomContentList = new WeightedList<>(
-		ObjectWeightPair.of(EnumRoomContent.NONE, 80),
-		ObjectWeightPair.of(EnumRoomContent.CONNECTING_LINES, 10),
-		ObjectWeightPair.of(EnumRoomContent.SPIKES, 10),
+		ObjectWeightPair.of(EnumRoomContent.NONE, 65),
+		ObjectWeightPair.of(EnumRoomContent.CONNECTING_LINES, 9),
+		ObjectWeightPair.of(EnumRoomContent.SPIKES, 9),
 		ObjectWeightPair.of(EnumRoomContent.PERSEGRIT_CUBE, 8),
 		ObjectWeightPair.of(EnumRoomContent.LOTS_OF_CHESTS, 7),
 		ObjectWeightPair.of(EnumRoomContent.FLOATING_CUBES, 5),
 		ObjectWeightPair.of(EnumRoomContent.CHEST_PILLARS, 4),
-		ObjectWeightPair.of(EnumRoomContent.CHAOTIC_PERSEGRIT, 3)
+		ObjectWeightPair.of(EnumRoomContent.CHAOTIC_PERSEGRIT, 4)
 	);
 	
 	private void genRoomContent(RoomInfo room, int bottomY, int height, Random rand){
@@ -409,7 +409,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 					if (world.isAir(xx-1,bottomY+1,zz) && world.isAir(xx+1,bottomY+1,zz) &&
 						world.isAir(xx,bottomY+1,zz-1) && world.isAir(xx,bottomY+1,zz+1)){
 						world.setBlock(xx,yy,zz,Blocks.chest);
-						if (rand.nextInt(3) != 0)world.setTileEntityGenerator(xx,yy,zz,(rand.nextInt(4) == 0 ? "CellarChestRare" : "CellarChestNormal")+"|"+variation.ordinal(),this);
+						if (rand.nextInt(5) <= 1)world.setTileEntityGenerator(xx,yy,zz,(rand.nextInt(4) == 0 ? "CellarChestRare" : "CellarChestNormal")+"|"+variation.ordinal(),this);
 						for(--yy; yy >= bottomY+1; yy--)world.setBlock(xx,yy,zz,BlockList.persegrit);
 					}
 				}
@@ -417,7 +417,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				break;
 				
 			case CHAOTIC_PERSEGRIT:
-				for(int amount = MathUtil.ceil(Math.sqrt(room.halfWidth*room.halfWidth*(height-2))*(0.7D+rand.nextDouble()*0.4D)), width = halfWidth*2-2; amount > 0; amount--){
+				for(int amount = MathUtil.ceil(Math.sqrt(room.halfWidth*room.halfWidth*(height-1))*(0.85D+rand.nextDouble()*0.5D)), width = halfWidth*2-2; amount > 0; amount--){
 					world.setBlock(x+rand.nextInt(width)-(width>>1),bottomY+1+rand.nextInt(height-1),z+rand.nextInt(width)-(width>>1),BlockList.persegrit);
 				}
 				
