@@ -88,7 +88,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	
 	public Entity target;
 	public double targetX, targetY, targetZ;
-	public boolean angryStatus, forceAttackEnd, frozen;
+	public boolean angryStatus, forceAttackEnd, noPlayers, frozen;
 	public int nextAttackTicks;
 	
 	public int spawnCooldown = 1200, lastAttackInterruption = -600;
@@ -152,6 +152,15 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 	@Override
 	public void onLivingUpdate(){
+		if (noPlayers){
+			if (ticksExisted%10 == 0 && !attacks.getViablePlayers().isEmpty())noPlayers = false;
+			else return;
+		}
+		else if (ticksExisted%40 == 0 && attacks.getViablePlayers().isEmpty()){
+			noPlayers = true;
+			return;
+		}
+		
 		if (currentAttack == null)currentAttack = defaultAttack;
 		angryStatus = isAngry();
 

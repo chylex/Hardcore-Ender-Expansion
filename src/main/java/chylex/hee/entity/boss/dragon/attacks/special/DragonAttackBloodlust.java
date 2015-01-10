@@ -115,7 +115,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	
 	@Override
 	public boolean canStart(){
-		return dragon.getHealth() < 120 && !dragon.worldObj.playerEntities.isEmpty();
+		return dragon.attacks.getHealthPercentage() < 40;
 	}
 	
 	@Override

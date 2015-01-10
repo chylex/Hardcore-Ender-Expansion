@@ -2,11 +2,13 @@ package chylex.hee.entity.boss.dragon.attacks.special;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -35,61 +37,39 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 		
 		List<EntityPlayer> viablePlayers = dragon.attacks.getViablePlayers();
 		
-		if (++summonTimer > 35-Math.min(viablePlayers.size()*4,20)){
+		if (++summonTimer > 35-Math.min(viablePlayers.size()*4+(ModCommonProxy.opMobs ? 5 : 0),20)){
 			summonTimer = 0;
+			boolean didSummon = false;
 			
-			for(int amt = MathUtil.clamp(MathUtil.ceil(viablePlayers.size()*(0.2D+rand.nextDouble()*0.25D)),1,viablePlayers.size()); amt > 0; amt--){
+			for(int amt = MathUtil.clamp(MathUtil.ceil(viablePlayers.size()*(0.2D+rand.nextDouble()*0.25D)),1,viablePlayers.size()), aggro = 0; amt > 0; amt--){
 				EntityPlayer player = viablePlayers.remove(rand.nextInt(viablePlayers.size()));
-				// TODO
-			}
-		}
-		
-		if (target == null)target = dragon.attacks.getWeakPlayer();
-		if (target == null){
-			ended = true;
-			return;
-		}
-		
-		dragon.targetX = target.posX;
-		dragon.targetY = 125;
-		dragon.targetZ = target.posZ;
-		
-		double dist = dragon.getDistance(target.posX,125,target.posZ);
-		speed = (dist < 9D ? 0 : 1);
-		
-		if (phase == 0){
-			if (dist < 10D)phase = 1;
-		}
-		else if (phase == 1){
-			if (Math.abs(dragon.motionX) < 0.5D && Math.abs(dragon.motionZ) < 0.5D)phase = 2;
-			if (summonTimer++ > 150){
-				summonTimer = 0;
-				phase = 2;
-			}
-		}
-		else if (phase == 2){
-			if (summonTimer-- < 0){
-				int rageDiff = getDifficulty(), amount = 0;
-				summonTimer = 114-rageDiff*8;
-				if ((rageDiff > 2 && rand.nextInt(4) == 0) || (rageDiff > 1 && rand.nextInt(6) == 0))amount = 1;
 				
-				List<EntityPlayer> nearbyPlayers = target.worldObj.getEntitiesWithinAABB(EntityPlayer.class,target.boundingBox.expand(48D,64D,48D));
-				
-				for(int a = 0; a < amount+Math.floor(nearbyPlayers.size()>>1); a++){
-					int x = rand.nextInt(31)-15+(int)target.posX,z = rand.nextInt(31)-15+(int)target.posZ;
-					int y = 1+DragonUtil.getTopBlockY(dragon.worldObj,Blocks.end_stone,x,z);
-					
-					EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(dragon.worldObj);
-					buddy.setPosition(x,y,z);
-					buddy.setTarget(nearbyPlayers.get(rand.nextInt(nearbyPlayers.size())));
-					
-					dragon.worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(dragon.worldObj,x,y,z));
-					dragon.worldObj.spawnEntityInWorld(buddy);
+				for(EntityMobAngryEnderman enderman:(List<EntityMobAngryEnderman>)dragon.worldObj.getEntitiesWithinAABB(EntityMobAngryEnderman.class,player.boundingBox.expand(7D,3D,7D))){
+					if (enderman.getEntityToAttack() == player)++aggro;
 				}
 				
-				++summoned;
+				if (aggro < 1+getDifficulty()){
+					for(int a = 0; a < 3+rand.nextInt(2+getDifficulty()); a++){
+						double x = player.posX+(rand.nextDouble()-0.5D)*11D, z = player.posZ+(rand.nextDouble()-0.5D)*11D;
+						int y = 1+DragonUtil.getTopBlockY(dragon.worldObj,Blocks.end_stone,MathUtil.floor(x),MathUtil.floor(z),MathUtil.floor(player.posY+8));
+						
+						EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(dragon.worldObj);
+						enderman.setPosition(x,y,z);
+						enderman.setTarget(player);
+						
+						if ((getDifficulty() > 1 || ModCommonProxy.opMobs) && rand.nextInt(100) < 5+getDifficulty()*10+(ModCommonProxy.opMobs ? 25 : 0)){
+							enderman.addPotionEffect(new PotionEffect(Potion.damageBoost.id,2400,0,true));
+						}
+						
+						dragon.worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(dragon.worldObj,x,y,z));
+						dragon.worldObj.spawnEntityInWorld(enderman);
+					}
+					
+					didSummon = true;
+				}
 			}
-			if ((summoned > 4 && rand.nextInt(12)+6 < damageTaken) || summoned > 13)ended = true;
+			
+			if (didSummon && ++summoned > 5+getDifficulty())ended = true;
 		}
 	}
 	
@@ -111,17 +91,6 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 	@Override
 	public int getNextAttackTimer(){
 		return super.getNextAttackTimer()+80;
-	}
-	
-	@Override
-	public void onMotionUpdateEvent(MotionUpdateEvent event){
-		super.onMotionUpdateEvent(event);
-		/*if (phase == 0)return;
-		
-		if (dragon.motionX > 0.3)dragon.motionX = 0.25;
-		else if (dragon.motionX < -0.3)dragon.motionX = -0.25;
-		if (dragon.motionZ > 0.3)dragon.motionZ = 0.25;
-		else if (dragon.motionZ < -0.3)dragon.motionZ = -0.25;*/
 	}
 	
 	@Override
