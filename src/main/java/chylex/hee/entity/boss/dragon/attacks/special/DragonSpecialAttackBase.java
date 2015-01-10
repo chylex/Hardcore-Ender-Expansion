@@ -19,8 +19,8 @@ public abstract class DragonSpecialAttackBase{
 	protected float damageTaken;
 	protected float damageDealt;
 	protected TObjectFloatHashMap<UUID> lastPlayerHealth = new TObjectFloatHashMap<>();
-	public int tick;
-	public int phase;
+	protected int tick;
+	protected byte phase;
 	public double previousEffectivness;
 	public double newEffectivness;
 	public double effectivness;

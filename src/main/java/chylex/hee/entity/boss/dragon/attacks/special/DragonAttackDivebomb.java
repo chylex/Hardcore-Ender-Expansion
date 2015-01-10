@@ -6,11 +6,14 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.CollisionEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackDivebomb extends DragonSpecialAttackBase{
+	private static final byte PHASE_FLY_UP = 0, PHASE_DIVEBOMB = 1, PHASE_POST_TARGET = 2, PHASE_END = 3;
+	
 	private Entity temp;
-	private float speed = 1F;
+	private float speed;
 	private byte timer;
 	private EntityPlayer tmpTarget;
 	
@@ -21,10 +24,9 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 	@Override
 	public void init(){
 		super.init();
-		temp = null;
+		temp = tmpTarget = null;
 		speed = 1F;
 		timer = 0;
-		tmpTarget = null;
 	}
 	
 	@Override
@@ -32,22 +34,10 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 		super.update();
 		speed = 1F;
 		
-		if (phase == 0){
+		if (phase == PHASE_FLY_UP){
 			if (dragon.posY < 120)dragon.targetY = 140;
 			
-			if (tmpTarget == null){
-				EntityPlayer closest = null;
-				double dist = Double.MAX_VALUE, d;
-				
-				for(EntityPlayer player:dragon.attacks.getViablePlayers()){
-					if ((d = MathUtil.distance(player.posX-dragon.posX,player.posZ-dragon.posZ)) < dist){
-						dist = d;
-						closest = player;
-					}
-				}
-				
-				tmpTarget = closest;
-			}
+			if (tmpTarget == null)tmpTarget = DragonUtil.getClosestEntity(dragon,dragon.attacks.getViablePlayers());
 			
 			if (tmpTarget == null){
 				dragon.targetX += dragon.getRNG().nextGaussian()*2D;
@@ -60,25 +50,25 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 			
 			if (++timer > 125 || MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ) < 6D){
 				tick = 0;
-				phase = 1;
+				phase = PHASE_DIVEBOMB;
 				tmpTarget = null;
 			}
 		}
-		else if (phase == 1){
+		else if (phase == PHASE_DIVEBOMB){
 			dragon.targetY = 20;
 			speed = 3.5F;
 			
-			if (dragon.motionY == 0 && tick > 50)phase = 3;
+			if (dragon.motionY == 0D && tick > 50)phase = PHASE_END;
 			
 			if (dragon.posY <= 30){
-				phase = 2;
+				phase = PHASE_POST_TARGET;
 				tick = 1;
 			}
 			
 			if (dragon.moveSpeedMp < 3.5D)dragon.moveSpeedMp += 0.04D;
 		}
-		else if (phase == 2){
-			if (tick > 160)phase = 3;
+		else if (phase == PHASE_POST_TARGET){
+			if (tick > 160)phase = PHASE_END;
 			
 			if (temp == null)temp = dragon.attacks.getRandomPlayer();
 			if (temp != null){
@@ -89,12 +79,13 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 			dragon.targetY = tick < 60 ? 30 : 80;
 			speed = 2F;
 		}
-		if (phase < 3)dragon.target = null;
+		
+		if (phase < PHASE_END)dragon.target = null;
 	}
 	
 	@Override
 	public boolean hasEnded(){
-		return phase == 3;
+		return phase == PHASE_END;
 	}
 	
 	@Override
@@ -104,32 +95,26 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 	
 	@Override
 	public float overrideWingSpeed(){
-		return phase == 0 ? 1.15F : phase == 1 ? 0.4F : 1F;
+		return phase == PHASE_FLY_UP ? 1.15F : phase == PHASE_DIVEBOMB ? 0.4F : 1F;
 	}
 	
 	@Override
 	public void onCollisionEvent(CollisionEvent event){
 		event.velocityX *= 1.5D;
-		event.velocityY *= phase == 1 ? 8.5D : 6D;
+		event.velocityY *= phase == PHASE_DIVEBOMB ? 8.5D : 6D;
 		event.velocityZ *= 1.5D;
 	}
 	
 	@Override
 	public void onMotionUpdateEvent(MotionUpdateEvent event){
-		if (phase == 0){
+		if (phase == PHASE_FLY_UP){
 			event.motionX *= 0.98D;
 			event.motionZ *= 0.98D;
 		}
-		else if (phase == 1){
-			event.motionX /= dragon.moveSpeedMp;
-			event.motionZ /= dragon.moveSpeedMp;
-		
-			if (phase == 1 && dragon.posY<30)event.motionY = 0;
-			
-			if (event.motionX > 0.01)event.motionX = 0.01;
-			else if (event.motionX < -0.01)event.motionX = -0.01;
-			if (event.motionZ > 0.01)event.motionZ = 0.01;
-			else if (event.motionZ < -0.01)event.motionZ = -0.01;
+		else if (phase == PHASE_DIVEBOMB){
+			event.motionX = MathUtil.clamp(event.motionX/dragon.moveSpeedMp,-0.01D,0.01D);
+			event.motionZ = MathUtil.clamp(event.motionZ/dragon.moveSpeedMp,-0.01D,0.01D);
+			if (dragon.posY < 30)event.motionY = 0D;
 		}
 	}
 	
@@ -140,6 +125,6 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 	
 	@Override
 	public void onTargetPositionSetEvent(TargetPositionSetEvent event){
-		if (phase < 3)event.cancel();
+		if (phase < PHASE_END)event.cancel();
 	}
 }

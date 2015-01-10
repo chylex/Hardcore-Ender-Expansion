@@ -1,40 +1,48 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import java.util.List;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
-import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 
-public class DragonAttackSummon extends DragonSpecialAttackBase{
-	private EntityLivingBase target;
-	private boolean ended;
+public class DragonAttackSummoning extends DragonSpecialAttackBase{
 	private int summonTimer;
 	private short summoned;
-	private float speed = 1F;
+	private float speed;
+	private boolean ended;
 	
-	public DragonAttackSummon(EntityBossDragon dragon, int attackId){
+	public DragonAttackSummoning(EntityBossDragon dragon, int attackId){
 		super(dragon,attackId);
 	}
 	
 	@Override
 	public void init(){
 		super.init();
-		ended = false;
 		summonTimer = 0;
 		summoned = 0;
 		speed = 1F;
+		ended = false;
 	}
 	
 	@Override
 	public void update(){
 		super.update();
+		
+		List<EntityPlayer> viablePlayers = dragon.attacks.getViablePlayers();
+		
+		if (++summonTimer > 35-Math.min(viablePlayers.size()*4,20)){
+			summonTimer = 0;
+			
+			for(int amt = MathUtil.clamp(MathUtil.ceil(viablePlayers.size()*(0.2D+rand.nextDouble()*0.25D)),1,viablePlayers.size()); amt > 0; amt--){
+				EntityPlayer player = viablePlayers.remove(rand.nextInt(viablePlayers.size()));
+				// TODO
+			}
+		}
 		
 		if (target == null)target = dragon.attacks.getWeakPlayer();
 		if (target == null){
@@ -86,19 +94,13 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 	}
 	
 	@Override
-	public void end(){
-		super.end();
-		if (target != null && target.getHealth() < 8)dragon.doFatalityAttack(target);
-	}
-	
-	@Override
 	public boolean canStart(){
 		return getDifficulty() > 0;
 	}
 	
 	@Override
 	public boolean hasEnded(){
-		return ended || (target != null && target.isDead);
+		return ended;
 	}
 	
 	@Override
@@ -112,29 +114,18 @@ public class DragonAttackSummon extends DragonSpecialAttackBase{
 	}
 	
 	@Override
-	public void onDamageTakenEvent(DamageTakenEvent event){
-		super.onDamageTakenEvent(event);
-		if (effectivness < 0)summoned += 1;
-	}
-	
-	@Override
 	public void onMotionUpdateEvent(MotionUpdateEvent event){
 		super.onMotionUpdateEvent(event);
-		if (phase == 0)return;
+		/*if (phase == 0)return;
 		
 		if (dragon.motionX > 0.3)dragon.motionX = 0.25;
 		else if (dragon.motionX < -0.3)dragon.motionX = -0.25;
 		if (dragon.motionZ > 0.3)dragon.motionZ = 0.25;
-		else if (dragon.motionZ < -0.3)dragon.motionZ = -0.25;
+		else if (dragon.motionZ < -0.3)dragon.motionZ = -0.25;*/
 	}
 	
 	@Override
 	public void onTargetSetEvent(TargetSetEvent event){
 		event.newTarget = null;
-	}
-	
-	@Override
-	public void onTargetPositionSetEvent(TargetPositionSetEvent event){
-		event.cancel();
 	}
 }

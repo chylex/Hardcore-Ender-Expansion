@@ -33,7 +33,7 @@ import chylex.hee.entity.boss.dragon.attacks.special.DragonAttackDefault;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonAttackDivebomb;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonAttackFireburst;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonAttackPunch;
-import chylex.hee.entity.boss.dragon.attacks.special.DragonAttackSummon;
+import chylex.hee.entity.boss.dragon.attacks.special.DragonAttackSummoning;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.entity.boss.dragon.attacks.special.event.CollisionEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
@@ -133,7 +133,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		attacks.registerSpecial(new DragonAttackDivebomb(this,10).setDisabledPassiveAttacks(ATTACK_FIREBALL));
 		attacks.registerSpecial(new DragonAttackFireburst(this,4).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
 		attacks.registerSpecial(new DragonAttackPunch(this,6).setDisabledPassiveAttacks(ATTACK_FIREBALL));
-		attacks.registerSpecial(new DragonAttackSummon(this,9).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
+		attacks.registerSpecial(new DragonAttackSummoning(this,9).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
 		attacks.registerSpecial(new DragonAttackBloodlust(this,3).setDisabledPassiveAttacks(ATTACK_FIREBALL,ATTACK_BITE));
 	}
 
