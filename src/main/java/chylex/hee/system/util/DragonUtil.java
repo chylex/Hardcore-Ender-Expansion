@@ -1,6 +1,7 @@
 package chylex.hee.system.util;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -99,6 +100,20 @@ public final class DragonUtil{
 		sourceAngle += amount*((targetAngle > d && targetAngle < sourceAngle) || (sourceAngle < 180F && (targetAngle > d || targetAngle < sourceAngle)) ? -1 : 1);
 		
 		return sourceAngle;
+	}
+	
+	public static <T extends Entity> T getClosestEntity(Entity source, List<T> list){
+		double closestDist = Double.MAX_VALUE, currentDist;
+		Entity closestEntity = null;
+		
+		for(Entity entity:list){
+			if ((currentDist = source.getDistanceSqToEntity(entity)) < closestDist){
+				closestDist = currentDist;
+				closestEntity = entity;
+			}
+		}
+		
+		return (T)closestEntity;
 	}
 	
 	public static double[] getNormalizedVector(double vecX, double vecZ){

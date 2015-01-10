@@ -240,11 +240,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		prevAnimTime = animTime;
 
-		if (getHealth() <= 0F){
-			worldObj.spawnParticle("largeexplode",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
-		}
+		if (getHealth() <= 0F)worldObj.spawnParticle("largeexplode",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
 		else{
-			updateDragonEnderCrystal();
+			updateEnderCrystal();
 			
 			float animAdvance = 0.2F/(MathHelper.sqrt_double(motionX*motionX+motionZ*motionZ)*10F+1F);
 			animAdvance *= (float)Math.pow(2D,motionY);
@@ -291,21 +289,15 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 				if ((target != null && target.isDead) || distFromTargetSq > 22500D)forceAttackEnd = forceNewTarget = true;
 
-				if (forceNewTarget || distFromTargetSq < 100D || distFromTargetSq > 22500D || isCollidedHorizontally || isCollidedVertically){
+				if (forceNewTarget || distFromTargetSq < 64D || distFromTargetSq > 22500D || isCollidedHorizontally || isCollidedVertically){
 					setNewTarget();
 				}
 
-				yDiff /= MathHelper.sqrt_double(xDiff*xDiff+zDiff*zDiff);
-				if (yDiff < -0.6F)yDiff = -0.6F;
-				if (yDiff > 0.6F)yDiff = 0.6F;
+				yDiff = MathUtil.clamp(yDiff/MathUtil.distance(xDiff,zDiff),-0.6F,0.6F);
 
 				motionY += yDiff*0.1D;
 				rotationYaw = MathHelper.wrapAngleTo180_float(rotationYaw);
-				double d8 = 180D-MathUtil.toDeg(Math.atan2(xDiff,zDiff));
-				double d9 = MathHelper.wrapAngleTo180_double(d8-rotationYaw);
-
-				if (d9 > 50D)d9 = 50D;
-				if (d9 < -50D)d9 = -50D;
+				double d9 = MathUtil.clamp(MathHelper.wrapAngleTo180_double(180D-MathUtil.toDeg(Math.atan2(xDiff,zDiff))-rotationYaw),-50D,50D);
 
 				Vec3 targetDiffVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
 				Vec3 rotationVec = Vec3.createVectorHelper(MathHelper.sin(MathUtil.toRad(rotationYaw)),motionY,(-MathHelper.cos(MathUtil.toRad(rotationYaw)))).normalize();
@@ -332,8 +324,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				if (slowed)moveEntity(motionX*moveSpeedMp*0.8D,motionY*moveSpeedMp*0.8D,motionZ*moveSpeedMp*0.8D);
 				else moveEntity(motionX*moveSpeedMp,motionY*moveSpeedMp,motionZ*moveSpeedMp);
 
-				Vec3 normalizedMotion = Vec3.createVectorHelper(motionX,motionY,motionZ).normalize();
-				double motionMultiplier = 0.8D+0.15D*((normalizedMotion.dotProduct(rotationVec)+1D)/2D);
+				double motionMultiplier = 0.8D+0.15D*((Vec3.createVectorHelper(motionX,motionY,motionZ).normalize().dotProduct(rotationVec)+1D)*0.5D);
 				motionX *= motionMultiplier;
 				motionZ *= motionMultiplier;
 				motionY *= 0.91D;
@@ -365,8 +356,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing2.boundingBox.expand(3.5D,2D,3.5D).offset(0D,-2D,0D)));
 			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartHead.boundingBox.expand(0.7D,1D,0.7D)));
 
-			double[] oldOffsets = getMovementOffsets(5,1F);
-			double[] currentOffsets = getMovementOffsets(0,1F);
+			double[] oldOffsets = getMovementOffsets(5,1F), currentOffsets = getMovementOffsets(0,1F);
 			float moveX = MathHelper.sin(MathUtil.toRad(rotationYaw)-randomYawVelocity*0.01F);
 			float moveZ = MathHelper.cos(MathUtil.toRad(rotationYaw)-randomYawVelocity*0.01F);
 			dragonPartHead.onUpdate();
@@ -395,130 +385,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 	}
 
-	private void updateDragonEnderCrystal(){
-		if (healingEnderCrystal != null){
-			if (healingEnderCrystal.isDead){
-				if (!worldObj.isRemote){
-					attackEntityFromPart(dragonPartHead,DamageSource.setExplosionSource(null),10F);
-					if (target == null)trySetTarget(attacks.getRandomPlayer());
-				}
-
-				healingEnderCrystal = null;
-			}
-			else if (ticksExisted%10 == 0 && getHealth() < getMaxHealth())setHealth(getHealth()+1F);
-		}
-
-		if (rand.nextInt(10) == 0){
-			float dist = 30F+4F*worldObj.difficultySetting.getDifficultyId()+(ModCommonProxy.opMobs ? 8F : 0F);
-			List<EntityEnderCrystal> crystals = worldObj.getEntitiesWithinAABB(EntityEnderCrystal.class,boundingBox.expand(dist,dist,dist));
-			double closestDist = Double.MAX_VALUE, currentDist;
-			EntityEnderCrystal closestCrystal = null;
-			
-			for(EntityEnderCrystal crystal:crystals){
-				if ((currentDist = crystal.getDistanceSqToEntity(this)) < closestDist){
-					closestDist = currentDist;
-					closestCrystal = crystal;
-				}
-			}
-
-			healingEnderCrystal = closestCrystal;
-		}
-	}
-
-	public double[] getMovementOffsets(int offset, float partialTickTime){
-		partialTickTime = getHealth() <= 0F ? 0F : 1F-partialTickTime;
-		int index = movementBufferIndex-offset&63, prevIndex = movementBufferIndex-offset-1&63;
-		
-		return new double[]{
-			movementBuffer[index][0]+MathHelper.wrapAngleTo180_double(movementBuffer[prevIndex][0]-movementBuffer[index][0])*partialTickTime,
-			movementBuffer[index][1]+(movementBuffer[prevIndex][1]-movementBuffer[index][1])*partialTickTime
-		};
-	}
-
-	private void collideWithEntities(List<? extends Entity> list){
-		double bodyCenterX = (dragonPartBody.boundingBox.minX+dragonPartBody.boundingBox.maxX)*0.5D;
-		double bodyCenterZ = (dragonPartBody.boundingBox.minZ+dragonPartBody.boundingBox.maxZ)*0.5D;
-		
-		for(Entity entity:list){
-			if (entity instanceof EntityLivingBase || entity instanceof EntityBlockFallingObsidian){
-				while(entity.ridingEntity != null)entity = entity.ridingEntity;
-				
-				double[] vec = DragonUtil.getNormalizedVector(entity.posX-bodyCenterX,entity.posZ-bodyCenterZ);
-				CollisionEvent event = new CollisionEvent(entity,vec[0]*2D,0.2D,vec[1]*2D);
-				currentAttack.onCollisionEvent(event);
-				event.collidedEntity.motionX = event.velocityX;
-				event.collidedEntity.motionY = event.velocityY;
-				event.collidedEntity.motionZ = event.velocityZ;
-				
-				if (entity instanceof EntityPlayerMP)PacketPipeline.sendToPlayer((EntityPlayerMP)entity,new C06SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
-			}
-		}
-	}
-
-	private void setNewTarget(){
-		forceNewTarget = false;
-
-		if (rand.nextBoolean())trySetTarget(attacks.getWeakPlayer());
-		else{
-			double newTargetX,newTargetY,newTargetZ;
-			
-			while(true){
-				newTargetX = newTargetZ = 0D;
-				newTargetY = (70F+rand.nextFloat()*50F);
-				
-				newTargetX += (rand.nextFloat()*120F-60F);
-				newTargetZ += (rand.nextFloat()*120F-60F);
-				if (Math.pow(posX-newTargetX,2)+Math.pow(posY-newTargetY,2)+Math.pow(posZ-newTargetZ,2) > 100D)break;
-			}
-
-			trySetTargetPosition(newTargetX,newTargetY,newTargetZ);
-		}
-	}
-
-	private boolean destroyBlocksInAABB(AxisAlignedBB aabb){
-		if (!worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))return false;
-
-		int minX = MathUtil.floor(aabb.minX)-(int)Math.min(3,rand.nextGaussian()*2.5D-0.25D);
-		int minY = MathUtil.floor(aabb.minY)-(int)Math.min(3,rand.nextGaussian()*2.5D-0.25D);
-		int minZ = MathUtil.floor(aabb.minZ)-(int)Math.min(3,rand.nextGaussian()*2.5D-0.25D);
-		int maxX = MathUtil.floor(aabb.maxX)+(int)Math.min(3,rand.nextGaussian()*2.5D-0.25D);
-		int maxY = MathUtil.floor(aabb.maxY)+(int)Math.min(3,rand.nextGaussian()*2.5D-0.25D);
-		int maxZ = MathUtil.floor(aabb.maxZ)+(int)Math.min(3,rand.nextGaussian()*2.5D-0.25D);
-		boolean wasBlocked = false;
-		boolean spawnParticles = false;
-		
-		int cx = (int)((aabb.maxX-aabb.minX)*0.5D+aabb.minX),
-			cy = (int)((aabb.maxY-aabb.minY)*0.5D+aabb.minY),
-			cz = (int)((aabb.maxZ-aabb.minZ)*0.5D+aabb.minZ);
-		double rad = 2.8D+Math.min((aabb.maxX-aabb.minX)*0.5D,(aabb.maxZ-aabb.minZ)*0.5D);
-
-		for(int xx = minX; xx <= maxX; xx++){
-			for(int yy = minY; yy <= maxY; yy++){
-				for(int zz = minZ; zz <= maxZ; zz++){
-					Block block = worldObj.getBlock(xx,yy,zz);
-
-					if (angryStatus && block == BlockList.obsidian_falling){
-						worldObj.setBlockToAir(xx,yy,zz);
-						EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,xx,yy,zz);
-						obsidian.motionY = -0.2;
-						worldObj.spawnEntityInWorld(obsidian);
-						spawnParticles = true;
-					}
-					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && worldObj.getBlock(xx,yy-1,zz) == BlockList.obsidian_falling)))){
-						wasBlocked = true;
-					}
-					else if (MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+0.3D*rand.nextGaussian()){
-						spawnParticles = worldObj.setBlockToAir(xx,yy,zz) || spawnParticles;
-					}
-				}
-			}
-		}
-
-		if (spawnParticles)worldObj.spawnParticle("largeexplode",aabb.minX+(aabb.maxX-aabb.minX)*rand.nextFloat(),aabb.minY+(aabb.maxY-aabb.minY)*rand.nextFloat(),aabb.minZ+(aabb.maxZ-aabb.minZ)*rand.nextFloat(),0D,0D,0D);
-		
-		return wasBlocked;
-	}
-
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float amount){
 		if (source.isExplosion() && source.getSourceOfDamage() == this)return false;
@@ -536,21 +402,19 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		currentAttack.onDamageTaken(event.damage);
 		amount = event.damage;
 		
-		boolean shouldChangeTarget = (target != null && getDistanceSqToEntity(target) < 4600D);
+		boolean shouldChangeTarget = (target != null && getDistanceSqToEntity(target) < 4600D && !angryStatus);
 		
 		if (shouldChangeTarget && ticksExisted-lastAttackInterruption >= 600){
 			trySetTarget(null);
 			lastAttackInterruption = ticksExisted;
 		}
 
-		float yaw = rotationYaw*(float)Math.PI/180F;
-		float yawSin = MathHelper.sin(yaw);
-		float yawCos = MathHelper.cos(yaw);
-		
 		if (shouldChangeTarget){
-			trySetTargetPosition(posX+(yawSin*5F)+((rand.nextFloat()-0.5F)*2F),
+			float yawRad = MathUtil.toRad(rotationYaw);
+			
+			trySetTargetPosition(posX+(MathHelper.sin(yawRad)*5F)+((rand.nextFloat()-0.5F)*2F),
 								 posY+(rand.nextFloat()*3F)+1D,
-								 posZ-(yawCos*5F)+((rand.nextFloat()-0.5F)*2F));
+								 posZ-(MathHelper.cos(yawRad)*5F)+((rand.nextFloat()-0.5F)*2F));
 		}
 
 		if (source.getEntity() instanceof EntityPlayer || source.isExplosion())super.attackEntityFrom(source,amount); 
@@ -598,7 +462,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  			
  			if (deathTicks > 40 && deathTicks < 140)rewards.spawnEssence(worldObj,(int)posX,(int)posZ);
 		}
- 		else if (deathTicks > 20){
+ 		else if (deathTicks > 20 && worldObj.isRemote){
  			int amount = 1+deathTicks/40, xx = DragonUtil.portalEffectX, zz = DragonUtil.portalEffectZ;
  			byte bottomY = 64, portalSize = 4;
 
@@ -659,6 +523,116 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		
 		BlockEndPortal.field_149948_a = false;
 		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,bottomY+4,z);
+	}
+
+	public double[] getMovementOffsets(int offset, float partialTickTime){
+		partialTickTime = getHealth() <= 0F ? 0F : 1F-partialTickTime;
+		int index = movementBufferIndex-offset&63, prevIndex = movementBufferIndex-offset-1&63;
+		
+		return new double[]{
+			movementBuffer[index][0]+MathHelper.wrapAngleTo180_double(movementBuffer[prevIndex][0]-movementBuffer[index][0])*partialTickTime,
+			movementBuffer[index][1]+(movementBuffer[prevIndex][1]-movementBuffer[index][1])*partialTickTime
+		};
+	}
+
+	private void updateEnderCrystal(){
+		if (healingEnderCrystal != null){
+			if (healingEnderCrystal.isDead){
+				if (!worldObj.isRemote){
+					attackEntityFromPart(dragonPartHead,DamageSource.setExplosionSource(null),10F);
+					if (target == null)trySetTarget(attacks.getRandomPlayer());
+				}
+
+				healingEnderCrystal = null;
+			}
+			else if (ticksExisted%10 == 0 && getHealth() < getMaxHealth())setHealth(getHealth()+(ModCommonProxy.opMobs ? 2F : 1F));
+		}
+
+		if (rand.nextInt(10) == 0){
+			float dist = 30F+4F*worldObj.difficultySetting.getDifficultyId()+(ModCommonProxy.opMobs ? 8F : 0F);
+			healingEnderCrystal = DragonUtil.getClosestEntity(this,worldObj.getEntitiesWithinAABB(EntityEnderCrystal.class,boundingBox.expand(dist,dist,dist)));
+		}
+	}
+
+	private void collideWithEntities(List<? extends Entity> list){
+		double bodyCenterX = (dragonPartBody.boundingBox.minX+dragonPartBody.boundingBox.maxX)*0.5D;
+		double bodyCenterZ = (dragonPartBody.boundingBox.minZ+dragonPartBody.boundingBox.maxZ)*0.5D;
+		
+		for(Entity entity:list){
+			if (entity instanceof EntityLivingBase || entity instanceof EntityBlockFallingObsidian){
+				while(entity.ridingEntity != null)entity = entity.ridingEntity;
+				
+				double[] vec = DragonUtil.getNormalizedVector(entity.posX-bodyCenterX,entity.posZ-bodyCenterZ);
+				CollisionEvent event = new CollisionEvent(entity,vec[0]*2D,0.2D,vec[1]*2D);
+				currentAttack.onCollisionEvent(event);
+				event.collidedEntity.motionX = event.velocityX;
+				event.collidedEntity.motionY = event.velocityY;
+				event.collidedEntity.motionZ = event.velocityZ;
+				
+				if (entity instanceof EntityPlayerMP)PacketPipeline.sendToPlayer((EntityPlayerMP)entity,new C06SetPlayerVelocity(event.velocityX,event.velocityY,event.velocityZ));
+			}
+		}
+	}
+
+	private boolean destroyBlocksInAABB(AxisAlignedBB aabb){
+		if (!worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))return false;
+
+		boolean wasBlocked = false;
+		boolean spawnParticles = false;
+		int minX = MathUtil.floor(aabb.minX-Math.min(3,rand.nextGaussian()*2.5D-0.25D));
+		int minY = MathUtil.floor(aabb.minY-Math.min(3,rand.nextGaussian()*2.5D-0.25D));
+		int minZ = MathUtil.floor(aabb.minZ-Math.min(3,rand.nextGaussian()*2.5D-0.25D));
+		int maxX = MathUtil.floor(aabb.maxX+Math.min(3,rand.nextGaussian()*2.5D-0.25D));
+		int maxY = MathUtil.floor(aabb.maxY+Math.min(3,rand.nextGaussian()*2.5D-0.25D));
+		int maxZ = MathUtil.floor(aabb.maxZ+Math.min(3,rand.nextGaussian()*2.5D-0.25D));
+		double rad = 2.8D+Math.min((aabb.maxX-aabb.minX)*0.5D,(aabb.maxZ-aabb.minZ)*0.5D);
+		int cx = (int)((aabb.maxX-aabb.minX)*0.5D+aabb.minX);
+		int cy = (int)((aabb.maxY-aabb.minY)*0.5D+aabb.minY);
+		int cz = (int)((aabb.maxZ-aabb.minZ)*0.5D+aabb.minZ);
+
+		for(int xx = minX; xx <= maxX; xx++){
+			for(int yy = minY; yy <= maxY; yy++){
+				for(int zz = minZ; zz <= maxZ; zz++){
+					Block block = worldObj.getBlock(xx,yy,zz);
+
+					if (angryStatus && block == BlockList.obsidian_falling){
+						worldObj.setBlockToAir(xx,yy,zz);
+						EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,xx,yy,zz);
+						obsidian.motionY = -0.2;
+						worldObj.spawnEntityInWorld(obsidian);
+						spawnParticles = true;
+					}
+					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && worldObj.getBlock(xx,yy-1,zz) == BlockList.obsidian_falling)))){
+						wasBlocked = true;
+					}
+					else if (MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+0.3D*rand.nextDouble()){
+						spawnParticles = worldObj.setBlockToAir(xx,yy,zz) || spawnParticles;
+					}
+				}
+			}
+		}
+
+		if (spawnParticles)worldObj.spawnParticle("largeexplode",aabb.minX+(aabb.maxX-aabb.minX)*rand.nextFloat(),aabb.minY+(aabb.maxY-aabb.minY)*rand.nextFloat(),aabb.minZ+(aabb.maxZ-aabb.minZ)*rand.nextFloat(),0D,0D,0D);
+		
+		return wasBlocked;
+	}
+
+	private void setNewTarget(){
+		forceNewTarget = false;
+
+		if (rand.nextBoolean())trySetTarget(attacks.getWeakPlayer());
+		else{
+			for(double newTargetX, newTargetY, newTargetZ;;){
+				newTargetX = (rand.nextFloat()*120F-60F);
+				newTargetY = (70F+rand.nextFloat()*50F);
+				newTargetZ = (rand.nextFloat()*120F-60F);
+				
+				if (MathUtil.square(posX-newTargetX)+MathUtil.square(posY-newTargetY)+MathUtil.square(posZ-newTargetZ) > 100D){
+					trySetTargetPosition(newTargetX,newTargetY,newTargetZ);
+					break;
+				}
+			}
+		}
 	}
 	
 	public void trySetTarget(Entity entity){

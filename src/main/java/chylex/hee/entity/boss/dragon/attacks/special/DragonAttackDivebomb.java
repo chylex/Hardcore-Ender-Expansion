@@ -37,7 +37,7 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 			
 			if (tmpTarget == null){
 				EntityPlayer closest = null;
-				double dist = Double.MAX_VALUE,d;
+				double dist = Double.MAX_VALUE, d;
 				
 				for(EntityPlayer player:dragon.attacks.getViablePlayers()){
 					if ((d = MathUtil.distance(player.posX-dragon.posX,player.posZ-dragon.posZ)) < dist){
