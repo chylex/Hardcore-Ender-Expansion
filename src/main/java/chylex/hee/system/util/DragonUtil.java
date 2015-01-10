@@ -107,7 +107,7 @@ public final class DragonUtil{
 		Entity closestEntity = null;
 		
 		for(Entity entity:list){
-			if ((currentDist = source.getDistanceSqToEntity(entity)) < closestDist){
+			if (!entity.isDead && (currentDist = source.getDistanceSqToEntity(entity)) < closestDist){
 				closestDist = currentDist;
 				closestEntity = entity;
 			}

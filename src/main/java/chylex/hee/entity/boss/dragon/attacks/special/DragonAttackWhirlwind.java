@@ -1,5 +1,5 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
-import java.util.Iterator;
+/*import java.util.Iterator; // TAG
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -100,4 +100,4 @@ public class DragonAttackWhirlwind extends DragonSpecialAttackBase{
 	public void onTargetPositionSetEvent(TargetPositionSetEvent event){
 		event.cancel();
 	}
-}
+}*/

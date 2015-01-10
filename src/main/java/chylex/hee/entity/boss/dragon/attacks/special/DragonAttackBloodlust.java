@@ -1,10 +1,7 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
@@ -13,13 +10,11 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
-import chylex.hee.system.util.CollectionUtil;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackBloodlust extends DragonSpecialAttackBase{
-	private int targetX, targetZ;
-	private float moveSpeed;
-	private byte timer,counter;
+	private byte timer, counter;
+	private boolean ended;
 	
 	public DragonAttackBloodlust(EntityBossDragon dragon, int attackId){
 		super(dragon,attackId);
@@ -28,81 +23,56 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	@Override
 	public void init(){
 		super.init();
-		timer = (byte)(80+(counter = (byte)(targetX = targetZ = 0)));
-		moveSpeed = 1F;
-		
-		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
-			targetX += player.posX;
-			targetZ += player.posZ;
-		}
-		
-		targetX /= dragon.worldObj.playerEntities.size();
-		targetZ /= dragon.worldObj.playerEntities.size();
-		
+		timer = 40;
+		counter = 0;
+		ended = false;
 		dragon.target = null;
+		dragon.targetY = 86D;
 	}
 	
 	@Override
 	public void update(){
 		super.update();
-		dragon.targetY = 90;
 		
-		if (phase == 0){
-			dragon.targetX = targetX;
-			dragon.targetZ = targetZ;
+		if (++timer > 125-getDifficulty()*10){
+			timer = -10;
 			
-			if (MathUtil.distance(targetX-dragon.posX,targetZ-dragon.posZ) < 80D && (moveSpeed -= 0.035F) < 0.01F){
-				moveSpeed = 0F;
-				phase = 1;
-			}
-		}
-		else if (phase == 1){
-			if (--timer == 0){
-				++counter;
-				timer = (byte)(25+rand.nextInt(30)+7*(4-getDifficulty())-2*Math.min(5,dragon.worldObj.playerEntities.size()));
-
-				for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
-					if (player.capabilities.isCreativeMode)continue;
+			for(EntityPlayer player:dragon.attacks.getViablePlayers()){
+				EntityEnderman enderman = DragonUtil.getClosestEntity(player,dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(18D,8D,18D)));
+				
+				if (enderman == null){
+					int px = 0, py = 0, pz = 0;
 					
-					List<EntityEnderman> endermanList = dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(64D,96D,64D));
-					
-					if (endermanList.isEmpty()){
-						for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
-							double pX = 0,pY = 0,pZ = 0,len = 24D;
-							for(int attempt = 0; attempt < 18; attempt++){
-								double rad = rand.nextDouble()*2D*Math.PI;
-								pY = player.posY-6D+rand.nextDouble()*12D;
-								pX = player.posX+Math.cos(rad)*len;
-								pZ = player.posZ+Math.sin(rad)*len;
-								
-								if (dragon.worldObj.isAirBlock(MathUtil.floor(pX),MathUtil.floor(pY),MathUtil.floor(pZ)))break;
-								--len;
-							}
-							
-							spawnBatAt(pX,pY,pZ,player);
-						}
+					for(int attempt = 0; attempt < 40; attempt++){
+						float rad = rand.nextFloat()*(float)Math.PI*2F;
+						double len = 10D+rand.nextDouble()*8D;
+						
+						px = (int)Math.round(player.posX+MathHelper.sin(rad)*len);
+						py = (int)Math.round(player.posY-(rand.nextDouble()-0.5D)*6D);
+						pz = (int)Math.round(player.posZ+MathHelper.cos(rad)*len);
+						
+						if (dragon.worldObj.isAirBlock(px,py,pz))break;
 					}
-					else{
-						EntityEnderman enderman;
-						
-						Map<EntityEnderman,Double> endermen = new HashMap<>();
-						for(EntityEnderman e:endermanList)endermen.put(e,e.getDistanceSqToEntity(player));
-
-						for(Entry<EntityEnderman,Double> entry:CollectionUtil.sortMapByValueAsc(endermen)){
-							enderman = entry.getKey();
-							if (enderman.isDead)continue;
-						
-							for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
-								spawnBatAt(enderman.posX,enderman.posY+rand.nextFloat()*enderman.height,enderman.posZ,player);
-							}
-							
-							enderman.setDead();
-							PacketPipeline.sendToAllAround(enderman,64D,new C20Effect(FXType.Basic.ENDERMAN_BLOODLUST_TRANSFORMATION,enderman));
-							break;
+					
+					for(int a = 0, xx, yy, zz; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
+						for(int attempt = 0; attempt < 6; attempt++){
+							if (dragon.worldObj.isAirBlock(xx = px+rand.nextInt(3)-1,yy = py+rand.nextInt(3)-1,zz = pz+rand.nextInt(3)-1))break;
 						}
+						
+						spawnBatAt(px,py,pz,player);
 					}
 				}
+				else{
+					for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
+						spawnBatAt(enderman.posX+rand.nextDouble()-0.5D,enderman.posY+rand.nextDouble()*enderman.height,enderman.posZ+rand.nextDouble()-0.5D,player);
+					}
+					
+					enderman.setDead();
+					PacketPipeline.sendToAllAround(enderman,64D,new C20Effect(FXType.Basic.ENDERMAN_BLOODLUST_TRANSFORMATION,enderman));
+				}
 			}
+			
+			if (++counter > 3+(getDifficulty()>>1)+rand.nextInt(3))ended = true;
 		}
 	}
 	
@@ -120,26 +90,26 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	
 	@Override
 	public boolean hasEnded(){
-		return counter > 4+Math.min(6,dragon.worldObj.playerEntities.size()>>1)+getDifficulty();
+		return ended;
 	}
 	
 	@Override
 	public float overrideMovementSpeed(){
-		return moveSpeed;
+		return 0.6F;
 	}
 	
 	@Override
 	public void onDamageTakenEvent(DamageTakenEvent event){
-		event.damage = Math.max(event.damage*0.15F,0.6F);
+		event.damage *= 0.2F;
+	}
+	
+	@Override
+	public void onTargetPositionSetEvent(TargetPositionSetEvent event){
+		event.newTargetY = 80D+rand.nextDouble()*12D;
 	}
 	
 	@Override
 	public void onTargetSetEvent(TargetSetEvent event){
 		event.newTarget = null;
-	}
-	
-	@Override
-	public void onTargetPositionSetEvent(TargetPositionSetEvent event){
-		event.cancel();
 	}
 }
