@@ -666,12 +666,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 	}
 	
-	public void doFatalityAttack(Entity entity){
-		if (entity.isDead)return;
-		forceNewTarget = false;
-		target = entity;
-	}
-	
 	public void forceSpecialAttack(DragonSpecialAttackBase newAttack){
 		lastAttack = currentAttack;
 		if (currentAttack != null)currentAttack.end();
