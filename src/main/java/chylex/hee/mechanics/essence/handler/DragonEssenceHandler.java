@@ -1,7 +1,6 @@
 package chylex.hee.mechanics.essence.handler;
 import static chylex.hee.mechanics.essence.SocketManager.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -30,7 +29,7 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.world.util.BlockLocation;
 
 public class DragonEssenceHandler extends AltarActionHandler{
-	public static final List<AltarItemRecipe> recipes = Arrays.asList(new AltarItemRecipe[]{
+	public static final List<AltarItemRecipe> recipes = CollectionUtil.newList(new AltarItemRecipe[]{
 		new AltarItemRecipe(Items.brewing_stand, ItemList.enhanced_brewing_stand, 20),
 		new AltarItemRecipe(Items.ender_eye, ItemList.temple_caller, 50),
 		new AltarItemRecipe(ItemList.ghost_amulet, 0, ItemList.ghost_amulet, 1, 8)
