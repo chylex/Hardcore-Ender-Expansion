@@ -228,8 +228,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				
 				if (ticksExisted%2 == 0){
 					int perc = attacks.getHealthPercentage();
+					
 					if (perc < 40 && rand.nextInt(500-(50-perc)*8) == 0){
-						int x = (int)posX+rand.nextInt(301)-150,z = (int)posZ+rand.nextInt(301)-150;
+						int x = (int)posX+rand.nextInt(301)-150, z = (int)posZ+rand.nextInt(301)-150;
 						int y = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,x,z);
 						
 						EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(worldObj);
@@ -301,7 +302,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 				if ((target != null && target.isDead) || distFromTargetSq > 22500D)forceAttackEnd = forceNewTarget = true;
 
-				if (forceNewTarget || distFromTargetSq < 64D || distFromTargetSq > 22500D || isCollidedHorizontally || isCollidedVertically){
+				if (forceNewTarget || distFromTargetSq < 90D || distFromTargetSq > 22500D || isCollidedHorizontally || isCollidedVertically){
 					setNewTarget();
 				}
 
@@ -363,10 +364,11 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			dragonPartWing1.setLocationAndAngles(posX+yawCos*4.5F,posY+2D,posZ+yawSin*4.5F,0F,0F);
 			dragonPartWing2.onUpdate();
 			dragonPartWing2.setLocationAndAngles(posX-yawCos*4.5F,posY+2D,posZ-yawSin*4.5F,0F,0F);
-
-			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing1.boundingBox.expand(3.5D,2D,3.5D).offset(0D,-2D,0D)));
-			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing2.boundingBox.expand(3.5D,2D,3.5D).offset(0D,-2D,0D)));
-			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartHead.boundingBox.expand(0.7D,1D,0.7D)));
+			
+			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing1.boundingBox.expand(1.5D,2D,1.5D).offset(0D,-2D,0D)));
+			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartWing2.boundingBox.expand(1.5D,2D,1.5D).offset(0D,-2D,0D)));
+			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartTail3.boundingBox.expand(0.8D,1D,0.8D)));
+			collideWithEntities(worldObj.getEntitiesWithinAABBExcludingEntity(this,dragonPartHead.boundingBox.expand(0.6D,1D,0.6D)));
 
 			double[] oldOffsets = getMovementOffsets(5,1F), currentOffsets = getMovementOffsets(0,1F);
 			float moveX = MathHelper.sin(MathUtil.toRad(rotationYaw)-randomYawVelocity*0.01F);
@@ -388,11 +390,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 			if (!worldObj.isRemote){
 				slowed = destroyBlocksInAABB(dragonPartHead.boundingBox)|destroyBlocksInAABB(dragonPartBody.boundingBox);
-				attacks.updatePassiveAttacks(currentAttack);
+				if (currentAttack.id == 1)slowed |= destroyBlocksInAABB(dragonPartWing1.boundingBox.expand(0.5D,0.5D,0.5D))|destroyBlocksInAABB(dragonPartWing2.boundingBox.expand(0.5D,0.5D,0.5D));
 				
-				if (currentAttack.id == 10){
-					slowed |= destroyBlocksInAABB(dragonPartWing1.boundingBox)|destroyBlocksInAABB(dragonPartWing2.boundingBox)|destroyBlocksInAABB(dragonPartBody.boundingBox.expand(1D,1D,1D));
-				}
+				attacks.updatePassiveAttacks(currentAttack);
 			}
 		}
 	}
@@ -590,12 +590,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		boolean wasBlocked = false;
 		boolean spawnParticles = false;
-		int minX = MathUtil.floor(aabb.minX-Math.min(3,rand.nextGaussian()*2.5D-0.25D));
-		int minY = MathUtil.floor(aabb.minY-Math.min(3,rand.nextGaussian()*2.5D-0.25D));
-		int minZ = MathUtil.floor(aabb.minZ-Math.min(3,rand.nextGaussian()*2.5D-0.25D));
-		int maxX = MathUtil.floor(aabb.maxX+Math.min(3,rand.nextGaussian()*2.5D-0.25D));
-		int maxY = MathUtil.floor(aabb.maxY+Math.min(3,rand.nextGaussian()*2.5D-0.25D));
-		int maxZ = MathUtil.floor(aabb.maxZ+Math.min(3,rand.nextGaussian()*2.5D-0.25D));
+		int minX = MathUtil.floor(aabb.minX+0.5D-rand.nextDouble()*rand.nextDouble()*5D);
+		int minY = MathUtil.floor(aabb.minY+0.5D-rand.nextDouble()*rand.nextDouble()*5D);
+		int minZ = MathUtil.floor(aabb.minZ+0.5D-rand.nextDouble()*rand.nextDouble()*5D);
+		int maxX = MathUtil.floor(aabb.maxX-0.5D+rand.nextDouble()*rand.nextDouble()*5D);
+		int maxY = MathUtil.floor(aabb.maxY-0.5D+rand.nextDouble()*rand.nextDouble()*5D);
+		int maxZ = MathUtil.floor(aabb.maxZ-0.5D+rand.nextDouble()*rand.nextDouble()*5D);
 		double rad = 2.8D+Math.min((aabb.maxX-aabb.minX)*0.5D,(aabb.maxZ-aabb.minZ)*0.5D);
 		int cx = (int)((aabb.maxX-aabb.minX)*0.5D+aabb.minX);
 		int cy = (int)((aabb.maxY-aabb.minY)*0.5D+aabb.minY);
@@ -616,7 +616,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && worldObj.getBlock(xx,yy-1,zz) == BlockList.obsidian_falling)))){
 						wasBlocked = true;
 					}
-					else if (MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+0.3D*rand.nextDouble()){
+					else if (MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+(0.9D*rand.nextDouble()-0.4D)){
 						spawnParticles = worldObj.setBlockToAir(xx,yy,zz) || spawnParticles;
 					}
 				}
@@ -670,7 +670,12 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	
 	public void forceSpecialAttack(DragonSpecialAttackBase newAttack){
 		lastAttack = currentAttack;
-		if (currentAttack != null)currentAttack.end();
+		
+		if (currentAttack != null){
+			currentAttack.end();
+			nextAttackTicks = currentAttack.getNextAttackTimer();
+		}
+		
 		currentAttack = newAttack;
 		currentAttack.init();
 	}

@@ -41,7 +41,7 @@ public class HeeAdminCommand extends HeeCommand{
 				EnumChatFormatting.GREEN+"Available commands:\n"+
 				"/heeadmin version\n"+
 				"/heeadmin dragon-set-angry\n"+
-				"/heeadmin dragon-set-attack <none|dive|fire|punch|bite|freeze|summon|bats>\n"+
+				"/heeadmin dragon-set-attack <none|divebomb|fireburst|punch|summoning|bloodlust>\n"+
 				"/heeadmin kill-bosses\n"+
 				"/heeadmin spawn-entity <endercrystal|homelandcache>\n"+
 				"/heeadmin compendium-reset\n"+

@@ -10,7 +10,7 @@ public class DragonAttackBite extends DragonPassiveAttackBase{
 	
 	@Override
 	public void update(){
-		if (dragon.target != null && biteCooldown == 0){
+		if (biteCooldown == 0 || --biteCooldown == 0){
 			if (dragon.attacks.biteClosePlayers() && ++biteCounter >= (dragon.angryStatus ? 3 : 1)){
 				dragon.trySetTarget(null);
 				biteCounter = 0;
@@ -18,6 +18,5 @@ public class DragonAttackBite extends DragonPassiveAttackBase{
 			
 			biteCooldown = (byte)(dragon.angryStatus ? 7 : 9);
 		}
-		if (biteCooldown > 0)--biteCooldown;
 	}
 }
