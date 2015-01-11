@@ -2,7 +2,6 @@ package chylex.hee.system.commands;
 import java.util.List;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -14,8 +13,6 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.MathUtil;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
 
@@ -164,7 +161,7 @@ public class HeeDebugCommand extends HeeCommand{
 		}
 		else if (args[0].equalsIgnoreCase("tmp") && sender instanceof EntityPlayer){
 			EntityPlayer player = (EntityPlayer)sender;
-			sendMessage(sender,""+DragonUtil.getTopBlockY(player.worldObj,Blocks.grass,MathUtil.floor(player.posX),MathUtil.floor(player.posZ)));
+			// tmp command
 		}
 		else{
 			sendMessage(sender,"Unknown command.");
