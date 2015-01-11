@@ -1,4 +1,5 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
+import java.util.List;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
@@ -38,7 +39,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 			timer = -10;
 			
 			for(EntityPlayer player:dragon.attacks.getViablePlayers()){
-				EntityEnderman enderman = DragonUtil.getClosestEntity(player,dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(18D,8D,18D)));
+				EntityEnderman enderman = DragonUtil.getClosestEntity(player,(List<EntityEnderman>)dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(18D,8D,18D)));
 				
 				if (enderman == null){
 					int px = 0, py = 0, pz = 0;

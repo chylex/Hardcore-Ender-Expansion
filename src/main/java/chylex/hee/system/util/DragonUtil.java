@@ -102,7 +102,7 @@ public final class DragonUtil{
 		return sourceAngle;
 	}
 	
-	public static <T extends Entity> T getClosestEntity(Entity source, List<T> list){
+	public static <T extends Entity> T getClosestEntity(Entity source, List<? extends T> list){
 		double closestDist = Double.MAX_VALUE, currentDist;
 		Entity closestEntity = null;
 		
