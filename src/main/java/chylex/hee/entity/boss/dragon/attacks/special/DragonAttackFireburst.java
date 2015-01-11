@@ -1,5 +1,6 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Vec3;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
@@ -35,28 +36,43 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 		super.update();
 		
 		if (target == null || target.isDead){
-			if (waitTimer <= 0 && --waitTimer <= 0){
-				if ((target = dragon.attacks.getRandomPlayer()) == null)ended = true;
+			if (waitTimer <= 0 || --waitTimer <= 0){
+				if ((target = dragon.attacks.getRandomPlayer()) == null){
+					ended = true;
+					System.out.println("NO PLAYER END");
+				}
 				else{
-					if (MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ) < 30D){
+					if (MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ) < 60D){
 						target = null;
-						waitTimer = 80;
+						waitTimer = 60;
+						
+						double dist = 10D;
+						Vec3 vec = Vec3.createVectorHelper(dragon.motionX,0D,dragon.motionZ).normalize();
+						
+						for(int attempt = 0; attempt < 10; attempt++){
+							dragon.targetX = dragon.posX+vec.xCoord*dist+(rand.nextDouble()-0.5D)*4D;
+							dragon.targetZ = dragon.posZ+vec.zCoord*dist+(rand.nextDouble()-0.5D)*4D;
+							
+							if (MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ) > 65D)break;
+							else dist += 5D;
+						}
 					}
-					else dragon.targetY = 65D+rand.nextDouble()*10D;
+					else waitTimer = 8;
 				}
 			}
 		}
 		else{
 			dragon.targetX = target.posX;
+			dragon.targetY = target.posY+10D;
 			dragon.targetZ = target.posZ;
 			
 			double dist = MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ);
 			boolean stopShooting = false;
 			
-			if (dist < 80D){
-				if (dist < 10D)stopShooting = true;
-				else if (++shootTimer > 16-getDifficulty()*2-(ModCommonProxy.opMobs ? 3 : 0)){
-					dragon.shots.createNew(ShotType.FIREBALL).setTarget(target).shoot();
+			if (dist < 90D && (waitTimer <= 0 || --waitTimer <= 0)){
+				if (dist < 30D)stopShooting = true;
+				else if (++shootTimer > 13-getDifficulty()*2-(ModCommonProxy.opMobs ? 3 : 0)){
+					dragon.shots.createNew(ShotType.FIREBALL).setTarget(target).setRandom().shoot();
 					shootTimer = 0;
 					
 					if (++shotAmount > 7+rand.nextInt(6))stopShooting = true;
@@ -65,8 +81,12 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 			
 			if (stopShooting){
 				waitTimer = 110;
-				shootTimer = 0;
+				shootTimer = shotAmount = 0;
 				target = null;
+				
+				if (++runCounter > 3+rand.nextInt(1+getDifficulty())+Math.min(4,dragon.attacks.getViablePlayers().size())){
+					ended = true;
+				}
 			}
 		}
 	}
