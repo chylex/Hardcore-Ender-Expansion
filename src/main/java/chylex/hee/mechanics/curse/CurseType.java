@@ -146,6 +146,8 @@ public enum CurseType{
 		private AttributeModifier noNavigation = new AttributeModifier("HEE NoNavigationCurse",-1D,2);
 		
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
+			if (!(entity instanceof EntityLiving))return true;
+			
 			if (entity.getEntityAttribute(SharedMonsterAttributes.followRange).getModifier(noNavigation.getID()) == null){
 				entity.getEntityAttribute(SharedMonsterAttributes.followRange).applyModifier(noNavigation);
 			}
@@ -161,7 +163,7 @@ public enum CurseType{
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.getEntityAttribute(SharedMonsterAttributes.followRange).removeModifier(noNavigation);
+			if (entity instanceof EntityLiving)entity.getEntityAttribute(SharedMonsterAttributes.followRange).removeModifier(noNavigation);
 		}
 	}),
 	
