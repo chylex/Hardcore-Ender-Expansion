@@ -102,6 +102,8 @@ public class DragonAttackManager{
 		int healthPercentage = getHealthPercentage();
 		if (healthPercentage == 0)return null;
 		
+		if (true)return specialAttackList.get(dragon.worldObj.rand.nextInt(specialAttackList.size())); // TODO hell no
+		
 		Map<Byte,Double> effList = new TreeMap<>();
 		TByteArrayList notTried = new TByteArrayList();
 		
