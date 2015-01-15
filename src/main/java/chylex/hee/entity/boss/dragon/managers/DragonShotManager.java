@@ -33,7 +33,7 @@ public class DragonShotManager{
 	
 	public DragonShotManager setTarget(Entity e){
 		if (e == null)return this;
-		return setTarget(e.posX,e.boundingBox.minY+(e.height/2F),e.posZ);
+		return setTarget(e.posX,e.boundingBox.minY+e.height*0.5F,e.posZ);
 	}
 	
 	public DragonShotManager setTarget(double x, double y, double z){
@@ -51,10 +51,10 @@ public class DragonShotManager{
 	public void shoot(){
 		if (x == 0D && y == 0D && z == 0D)return;
 		double xDiff = x-dragon.posX;
-		double yDiff = y-(dragon.posY+(dragon.height/2F));
+		double yDiff = y-(dragon.posY+dragon.height*0.5F);
 		double zDiff = z-dragon.posZ;
 		
-		EntityFireball e = type == ShotType.FIREBALL ? new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yDiff,zDiff,dragon.angryStatus ? 1.5F : 1F,random,(dragon.angryStatus ? 2.8F : 2.5F)+(ModCommonProxy.opMobs ? 0.8F : 0F)) : null;
+		EntityFireball e = type == ShotType.FIREBALL ? new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yDiff,zDiff,dragon.angryStatus ? 1.5F : 1F,random,(dragon.angryStatus ? 3F : 2.7F)+(ModCommonProxy.opMobs ? 0.8F : 0F)) : null;
 		if (e == null)return;
 		
 		e.posX = dragon.dragonPartHead.posX;

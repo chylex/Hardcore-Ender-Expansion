@@ -8,11 +8,12 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.commands.DebugBoard;
 import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackDefault extends DragonSpecialAttackBase{
-	private int attackCooldown = 140, nextTargetTimer = 100;
+	private int nextTargetTimer = 100;
 	private EntityPlayer overrideTarget;
 	private boolean isOverriding;
 	
@@ -25,30 +26,32 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	}
 	
 	@Override
+	public void init(){
+		super.init();
+		
+	}
+	
+	@Override
 	public void update(){
 		tick++;
-		
-		if (attackCooldown > 0){
-			attackCooldown -= 1;
-			return;
-		}
 		
 		/*
 		 * TARGET PICKING
 		 */
 		
 		if (!stealthInProgress && dragon.target == null){
-			byte healthPerc = (byte)dragon.attacks.getHealthPercentage();
-			int iangry = Math.min(140,(dragon.angryStatus ? 40 : 15)+getDifficulty()*4+dragon.worldObj.playerEntities.size()*14+(50-(healthPerc>>1)));
-			DebugBoard.updateValue("TargetChance",250-iangry);
+			int healthPerc = dragon.attacks.getHealthPercentage();
+			int viablePlayers = dragon.attacks.getViablePlayers().size();
+			int attackChance = Math.min(170,(dragon.angryStatus ? 45 : 5)+getDifficulty()*5+Math.min(viablePlayers,5)*14+(ModCommonProxy.opMobs ? 10 : 0)+(50-(healthPerc>>1)));
 			
-			if (rand.nextInt(250-iangry) == 0 || (nextTargetTimer = Math.max(0,nextTargetTimer-1)) <= 0){
-				nextTargetTimer = rand.nextInt(1+(healthPerc>>1))+healthPerc+120+(dragon.angryStatus ? 0 : 50)-getDifficulty()*8-Math.min(5,dragon.worldObj.playerEntities.size())*5;
+			if (rand.nextInt(250-attackChance) == 0 || nextTargetTimer <= 0 || --nextTargetTimer <= 0){
+				nextTargetTimer = 100+rand.nextInt(40)+(healthPerc>>2)+(dragon.angryStatus ? 0 : 55)-getDifficulty()*6-Math.min(dragon.worldObj.playerEntities.size(),5)*5;
 				dragon.trySetTarget(dragon.attacks.getRandomPlayer());
 			}
+			
+			DebugBoard.updateValue("TargetChance",250-attackChance);
+			DebugBoard.updateValue("NextTargetTimer",nextTargetTimer);
 		}
-		
-		DebugBoard.updateValue("NextTargetTimer",nextTargetTimer);
 		
 		/*
 		 * STEALTH
@@ -105,7 +108,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	
 	@Override
 	public int getNextAttackTimer(){
-		return (120+rand.nextInt(60)+((4-getDifficulty())*20));
+		return (140+rand.nextInt(70)+((4-getDifficulty())*15));
 	}
 
 	@Override
@@ -120,12 +123,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	
 	@Override
 	public void onTargetSetEvent(TargetSetEvent event){
-		if (attackCooldown > 1){
-			event.newTarget = null;
-			return;
-		}
-		
-		if (isOverriding)event.newTarget = attackCooldown > 1 ? null : overrideTarget;
+		if (isOverriding)event.newTarget = overrideTarget;
 	}
 	
 	@Override

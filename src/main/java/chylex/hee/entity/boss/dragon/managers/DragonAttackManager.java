@@ -1,30 +1,28 @@
 package chylex.hee.entity.boss.dragon.managers;
-import gnu.trove.list.array.TByteArrayList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.SortedSet;
-import java.util.TreeMap;
+import java.util.Queue;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.passive.DragonPassiveAttackBase;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.util.CollectionUtil;
 
 public class DragonAttackManager{
 	private final List<DragonPassiveAttackBase> passiveAttackList = new ArrayList<>();
 	private final List<DragonSpecialAttackBase> specialAttackList = new ArrayList<>();
+	private final Queue<Byte> specialAttackQueue = new LinkedList<>();
 	
 	protected EntityBossDragon dragon;
 	
@@ -102,35 +100,13 @@ public class DragonAttackManager{
 		int healthPercentage = getHealthPercentage();
 		if (healthPercentage == 0)return null;
 		
-		if (true)return specialAttackList.get(dragon.worldObj.rand.nextInt(specialAttackList.size())); // TODO hell no
-		
-		Map<Byte,Double> effList = new TreeMap<>();
-		TByteArrayList notTried = new TByteArrayList();
-		
-		for(DragonSpecialAttackBase attack:specialAttackList){
-			if (!attack.canStart())continue;
-			if (attack.previousEffectivness == 0D && attack.newEffectivness == 0D)notTried.add(attack.id);
-			
-			double add = 0D;
-			if (attack.equals(lastAttack))add -= attack.effectivness*0.6D; // lower chance of retrying
-			if (attack.newEffectivness > attack.previousEffectivness)add += 0.5D*(attack.newEffectivness-attack.previousEffectivness); // if attack went better, increase chance
-			effList.put(attack.id,attack.effectivness+add);
+		if (specialAttackQueue.isEmpty()){
+			List<DragonSpecialAttackBase> list = new ArrayList<>(specialAttackList);
+			Collections.shuffle(list,dragon.worldObj.rand);
+			for(int a = 0; a < list.size()-1; a++)specialAttackQueue.add(Byte.valueOf(list.get(a).id));
 		}
 		
-		if (effList.isEmpty())return null;
-		
-		if (notTried.size() > 1 || (notTried.size() == 1 && dragon.worldObj.rand.nextBoolean())){
-			return getSpecialAttackById(notTried.get(dragon.worldObj.rand.nextInt(notTried.size()))); // try a new attack
-		}
-		
-		SortedSet<Entry<Byte,Double>> effSorted = CollectionUtil.sortMapByValueDesc(effList);
-		int maxId = dragon.worldObj.rand.nextInt(Math.min(healthPercentage < 30 ? 3 : 4,effSorted.size()));
-
-		for(Entry<Byte,Double> entry:effSorted){
-			if (maxId-- <= 0)return getSpecialAttackById(entry.getKey());
-		}
-			
-		return null;
+		return getSpecialAttackById(specialAttackQueue.poll());
 	}
 	
 	public boolean biteClosePlayers(){
@@ -138,7 +114,7 @@ public class DragonAttackManager{
 		
 		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,dragon.dragonPartHead.boundingBox.expand(2.2D,1.5D,2.2D))){
 			int diff = dragon.worldObj.difficultySetting.getDifficultyId(), rm;
-			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 9F : 4F)+diff);
+			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 14F : 9F)+diff);
 			
 			switch(diff){
 				case 3: rm = 34; break;
@@ -169,21 +145,11 @@ public class DragonAttackManager{
 	
 	public NBTTagCompound writeToNBT(){
 		NBTTagCompound tag = new NBTTagCompound();
-
-		for(DragonSpecialAttackBase attack:specialAttackList){
-			tag.setDouble("p_"+attack.id,attack.previousEffectivness);
-			tag.setDouble("n_"+attack.id,attack.newEffectivness);
-			tag.setDouble("c_"+attack.id,attack.effectivness);
-		}
-		
+		tag.setByteArray("attq",ArrayUtils.toPrimitive(specialAttackQueue.toArray(new Byte[specialAttackQueue.size()])));
 		return tag;
 	}
 
 	public void readFromNBT(NBTTagCompound tag){
-		for(DragonSpecialAttackBase attack:specialAttackList){
-			attack.previousEffectivness = tag.getDouble("p_"+attack.id);
-			attack.newEffectivness = tag.getDouble("n_"+attack.id);
-			attack.effectivness = tag.getDouble("c_"+attack.id);
-		}
+		for(byte b:tag.getByteArray("attq"))specialAttackQueue.add(Byte.valueOf(b));
 	}
 }

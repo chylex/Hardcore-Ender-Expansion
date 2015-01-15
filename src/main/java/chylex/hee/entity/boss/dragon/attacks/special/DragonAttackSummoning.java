@@ -48,15 +48,15 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 			for(int amt = MathUtil.clamp(MathUtil.ceil(viablePlayers.size()*(0.2D+rand.nextDouble()*0.25D)),1,viablePlayers.size()), aggro = 0, total = 0; amt > 0; amt--){
 				EntityPlayer player = viablePlayers.remove(rand.nextInt(viablePlayers.size()));
 				
-				for(EntityMobAngryEnderman enderman:(List<EntityMobAngryEnderman>)dragon.worldObj.getEntitiesWithinAABB(EntityMobAngryEnderman.class,player.boundingBox.expand(7D,3D,7D))){
+				for(EntityMobAngryEnderman enderman:(List<EntityMobAngryEnderman>)dragon.worldObj.getEntitiesWithinAABB(EntityMobAngryEnderman.class,player.boundingBox.expand(14D,5D,14D))){
 					if (enderman.getEntityToAttack() == player)++aggro;
 					++total;
 				}
 				
-				if (aggro < 1+getDifficulty() && total < 7+getDifficulty()){
+				if (aggro < getDifficulty() && total < 6+getDifficulty()){
 					boolean flying = true;
 					
-					for(int a = 0, xx = MathUtil.floor(player.posX), zz = MathUtil.floor(player.posZ), testY = MathUtil.floor(player.posY)-1; a < 4; a++){
+					for(int a = 0, xx = MathUtil.floor(player.posX), zz = MathUtil.floor(player.posZ), testY = MathUtil.floor(player.posY)-1; a < 5; a++){
 						if (!dragon.worldObj.isAirBlock(xx,testY-a,zz)){
 							flying = false;
 							break;
@@ -76,8 +76,8 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 						continue;
 					}
 					
-					for(int a = 0; a < 3+rand.nextInt(2+getDifficulty()); a++){
-						double x = player.posX+(rand.nextDouble()-0.5D)*11D, z = player.posZ+(rand.nextDouble()-0.5D)*11D;
+					for(int a = 0; a < 3+rand.nextInt(1+getDifficulty()); a++){
+						double x = player.posX+(rand.nextDouble()-0.5D)*13D, z = player.posZ+(rand.nextDouble()-0.5D)*13D;
 						int y = 1+DragonUtil.getTopBlockY(dragon.worldObj,Blocks.end_stone,MathUtil.floor(x),MathUtil.floor(z),MathUtil.floor(player.posY+8));
 						
 						EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(dragon.worldObj);
@@ -96,7 +96,7 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 				}
 			}
 			
-			if (didSummon && ++summoned > 5+getDifficulty())ended = true;
+			if (didSummon && ++summoned > 4+getDifficulty())ended = true;
 		}
 	}
 	

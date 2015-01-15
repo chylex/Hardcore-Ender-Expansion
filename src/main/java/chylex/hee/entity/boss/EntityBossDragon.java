@@ -630,29 +630,28 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 	private void setNewTarget(){
 		forceNewTarget = false;
-
-		if (rand.nextBoolean())trySetTarget(attacks.getWeakPlayer());
-		else{
-			for(double newTargetX, newTargetY, newTargetZ;;){
-				newTargetX = (rand.nextFloat()*120F-60F);
-				newTargetY = (70F+rand.nextFloat()*50F);
-				newTargetZ = (rand.nextFloat()*120F-60F);
-				
-				if (MathUtil.square(posX-newTargetX)+MathUtil.square(posY-newTargetY)+MathUtil.square(posZ-newTargetZ) > 100D){
-					trySetTargetPosition(newTargetX,newTargetY,newTargetZ);
-					break;
-				}
+		if (rand.nextBoolean() && trySetTarget(attacks.getWeakPlayer()))return;
+		
+		for(double newTargetX, newTargetY, newTargetZ;;){
+			newTargetX = (rand.nextFloat()*120F-60F);
+			newTargetY = (70F+rand.nextFloat()*50F);
+			newTargetZ = (rand.nextFloat()*120F-60F);
+			
+			if (MathUtil.square(posX-newTargetX)+MathUtil.square(posY-newTargetY)+MathUtil.square(posZ-newTargetZ) > 100D){
+				trySetTargetPosition(newTargetX,newTargetY,newTargetZ);
+				break;
 			}
 		}
 	}
 	
-	public void trySetTarget(Entity entity){
-		if (entity != null && (entity.isDead || (entity instanceof EntityPlayer && !attacks.getViablePlayers().contains(entity)) || spawnCooldown > 0))return;
+	public boolean trySetTarget(Entity entity){
+		if (entity != null && (entity.isDead || (entity instanceof EntityPlayer && !attacks.getViablePlayers().contains(entity)) || spawnCooldown > 0))return false;
 		forceNewTarget = false;
 		
 		TargetSetEvent event = new TargetSetEvent(target,entity);
 		currentAttack.onTargetSetEvent(event);
 		target = event.newTarget;
+		return target != null;
 	}
 	
 	public void trySetTargetPosition(double newTargetX, double newTargetY, double newTargetZ){

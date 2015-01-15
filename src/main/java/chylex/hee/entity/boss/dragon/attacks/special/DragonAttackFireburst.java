@@ -39,7 +39,6 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 			if (waitTimer <= 0 || --waitTimer <= 0){
 				if ((target = dragon.attacks.getRandomPlayer()) == null){
 					ended = true;
-					System.out.println("NO PLAYER END");
 				}
 				else{
 					if (MathUtil.distance(dragon.targetX-dragon.posX,dragon.targetZ-dragon.posZ) < 60D){
@@ -75,7 +74,7 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 					dragon.shots.createNew(ShotType.FIREBALL).setTarget(target).setRandom().shoot();
 					shootTimer = 0;
 					
-					if (++shotAmount > 7+rand.nextInt(6))stopShooting = true;
+					if (++shotAmount > 7+rand.nextInt(6)+getDifficulty())stopShooting = true;
 				}
 			}
 			
@@ -84,7 +83,7 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 				shootTimer = shotAmount = 0;
 				target = null;
 				
-				if (++runCounter > 3+rand.nextInt(1+getDifficulty())+Math.min(4,dragon.attacks.getViablePlayers().size())){
+				if (++runCounter > 3+Math.min(4,dragon.attacks.getViablePlayers().size())){
 					ended = true;
 				}
 			}

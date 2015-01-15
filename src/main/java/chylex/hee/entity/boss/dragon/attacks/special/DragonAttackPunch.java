@@ -54,7 +54,7 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 			if (tick > 20)speed = 4F;
 			
 			if (dragon.dragonPartHead.getDistanceSqToEntity(tempTarget) < 35D){
-				target.attackEntityFrom(DamageSource.causeMobDamage(dragon),4F+getDifficulty());
+				target.attackEntityFrom(DamageSource.causeMobDamage(dragon),13F+getDifficulty());
 				ended = true;
 			}
 		}

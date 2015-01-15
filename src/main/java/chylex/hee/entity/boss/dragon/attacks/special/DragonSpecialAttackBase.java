@@ -11,7 +11,6 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
-import chylex.hee.system.util.MathUtil;
 
 public abstract class DragonSpecialAttackBase{
 	protected EntityBossDragon dragon;
@@ -21,9 +20,6 @@ public abstract class DragonSpecialAttackBase{
 	protected TObjectFloatHashMap<UUID> lastPlayerHealth = new TObjectFloatHashMap<>();
 	protected int tick;
 	protected byte phase;
-	public double previousEffectivness;
-	public double newEffectivness;
-	public double effectivness;
 	private byte[] disabledPassiveAttacks = ArrayUtils.EMPTY_BYTE_ARRAY;
 	public final byte id;
 	
@@ -56,11 +52,7 @@ public abstract class DragonSpecialAttackBase{
 		updatePlayerHealth();
 	}
 	
-	public void end(){
-		previousEffectivness = newEffectivness;
-		newEffectivness = calculateTempEffectivness();
-		effectivness = calculateFinalEffectivness();
-	}
+	public void end(){}
 	
 	public boolean canStart(){
 		return true;
@@ -77,17 +69,6 @@ public abstract class DragonSpecialAttackBase{
 			
 			lastPlayerHealth.put(id,player.getHealth());
 		}
-	}
-	
-	protected double calculateTempEffectivness(){
-		double dealt = damageDealt;
-		double taken = damageTaken;
-		if (dealt-taken > 0)return ((MathUtil.square(dealt-taken)*0.1D)+Math.sqrt(dealt)+Math.sqrt((4D*(dealt-taken))/(taken == 0D ? 1D : taken))-(((taken*taken)+taken)/35D));
-		return (Math.sqrt(3D*dealt)-((taken*taken)+taken)/30D-Math.sqrt(taken)+(dealt/2D*taken));
-	}
-	
-	protected double calculateFinalEffectivness(){
-		return (previousEffectivness+newEffectivness)/2D;
 	}
 	
 	public final void onDamageTaken(float damage){
