@@ -45,7 +45,7 @@ ec.reg.10=Short story of an adventurer, split across 16 pages.
 ec.reg.11=Opening a new diary page unlocks next page of the story, and locks the item to only open that page for other players.
 
 ec.reg.20=Rare drop from Endermen.
-ec.reg.21=Drop chance is 1 in 40 (2.5%), Looting enchantment increases the chance.
+ec.reg.21=Drop chance is 1 in 40 (2.5%%), Looting enchantment increases the chance.
 
 ec.reg.30=Jukebox discs with various pieces of qwertygiy's music.
 
@@ -178,7 +178,7 @@ ec.reg.963=Maximum teleportation distance is 960 blocks.
 ec.reg.270=A tall tower consisting of various types of Obsidian.
 ec.reg.271=They start spawning around 350 blocks away from the Dragon Lair and are most common until 900 blocks, then they start becoming less common.
 ec.reg.272=Each tower contains 3 content floors and 1 chest floor with loot, all are randomly picked and have random elements.
-ec.reg.273=Loot is also often found in Dispensers, Furnaces and Brewing Stands. There is a 1 in 100 (1%) chance of spawning an Enhanced Brewing Stand.
+ec.reg.273=Loot is also often found in Dispensers, Furnaces and Brewing Stands. There is a 1 in 100 (1%%) chance of spawning an Enhanced Brewing Stand.
 ec.reg.274=Most floors have Angry Enderman spawners. Each spawner gives the Endermen potion effects that are more powerful the higher you get.
 ec.reg.275=On top of the tower lies an Ender Eye.
 
@@ -252,7 +252,7 @@ ec.reg.350=Dust dropped by Stardust Ore and Sphalerite with Stardust. It is used
 
 ec.reg.880=A table that decomposes items into their crafting ingredients.
 ec.reg.882=It requires Stardust and Energy to run, price increases with complexity of the recipe. A Redstone Comparator can be used to detect whether the Table is running.
-ec.reg.883=Not all ingredients are returned, but up to 84% of them are retrievable.
+ec.reg.883=Not all ingredients are returned, but up to 84%% of them are retrievable.
 ec.reg.884=Damaged items yield less ingredients than fully repaired ones.
 ec.reg.885=If multiple recipes exist, one is chosen randomly.
 
@@ -277,8 +277,8 @@ ec.reg.723=Instability Orb Ore and Stardust Ore only spawn in the islands.
 
 ec.reg.360=Uncommon ore found in tiny clusters in all Biome Islands.
 ec.reg.361=It can be only mined with Diamond Pickaxe or better.
-ec.reg.362=The ore has a 40% chance of dropping Instability Orb.
-ec.reg.363=Each level of Fortune enchantment increases the drop chance by 4%.
+ec.reg.362=The ore has a 40%% chance of dropping Instability Orb.
+ec.reg.363=Each level of Fortune enchantment increases the drop chance by 4%%.
 
 ec.reg.370=Ore found commonly in Biome Islands.
 ec.reg.371=Diamond Pickaxe or better is required to get any drops.
@@ -317,20 +317,20 @@ ec.reg.421=On contact, it causes short Poison effect.
 
 ec.reg.430=Logs used for the trunk of Spooky Trees.
 ec.reg.431=Breaking one log also destroys all logs above.
-ec.reg.432=Each log has a 1 in 8 (12.5%) chance of dropping a Dry Splinter.
+ec.reg.432=Each log has a 1 in 8 (12.5%%) chance of dropping a Dry Splinter.
 ec.reg.433=In the Deep variation of Infested Forest, some trees have faces.
 ec.reg.434=When nobody looks at a face, it will move around the tree or move to another nearby tree.
-ec.reg.435=If a log with a face is broken, it has a 1 in 4 (25%) chance of spawning a Forest Ghost.
-ec.reg.436=Ghost Amulet will stop the Forest Ghost from spawning, and the face will have a 3 in 5 (60%) chance to drop Ectoplasm.
+ec.reg.435=If a log with a face is broken, it has a 1 in 4 (25%%) chance of spawning a Forest Ghost.
+ec.reg.436=Ghost Amulet will stop the Forest Ghost from spawning, and the face will have a 3 in 5 (60%%) chance to drop Ectoplasm.
 
 ec.reg.440=Spooky Leaves are foliage of the Spooky Trees.
 ec.reg.441=If not connected to a Spooky Log, they leaves very quickly decay.
 
 ec.reg.450=Crafting material dropped by Spooky Logs.
-ec.reg.451=Each Spooky Log has 1 in 8 (12.5%) chance of dropping a Dry Splinter.
+ec.reg.451=Each Spooky Log has 1 in 8 (12.5%%) chance of dropping a Dry Splinter.
 
 ec.reg.460=An amulet that banishes the Forest Ghost.
-ec.reg.461=When in the inventory, Forest Ghost will not spawn and the Spooky Log face will have 3 in 5 (60%) chance to drop Ectoplasm.
+ec.reg.461=When in the inventory, Forest Ghost will not spawn and the Spooky Log face will have 3 in 5 (60%%) chance to drop Ectoplasm.
 ec.reg.462=In order to create it, one piece of End Powder, Emerald and String all have to be thrown into Ender Goo.
 ec.reg.463=Then it has to be purified in Dragon Essence Altar.
 
@@ -422,7 +422,7 @@ ec.reg.911=It moves randomly, but always tries to stay around and above players.
 ec.reg.912=The Fiend switches between two major attacks every couple seconds.
 ec.reg.913=First attack consists of spawning fireballs rotating around the Fiend, and shooting them one by one at random players.
 ec.reg.914=Second attack is less common. It starts by creating fire around the Fiend, and then it deals damage to all players and sets them on fire.
-ec.reg.915=When the mini-boss gets down to 40% health, it will get into the next stage, marked by constant flame around the Fiend.
+ec.reg.915=When the mini-boss gets down to 40%% health, it will get into the next stage, marked by constant flame around the Fiend.
 ec.reg.916=During that stage, the Fiend's attacks are much quicker, it takes less damage and occasionally it will also make nearby Fire Golems attack players.
 ec.reg.917=On death, it drops 40 experience and 240 Fiery Essence.
 
@@ -461,7 +461,7 @@ ec.reg.1430=Blank Gem is used solely to create higher level Gems.
 ec.reg.1440=Next tier Gem that allows teleportation across long distances.
 ec.reg.1442=Using it on a block while sneaking will link the Gem to that block.
 ec.reg.1443=When linked, using it will teleport you to the linked block, and use a specified amount of Energy.
-ec.reg.1444=If the Gem has below 44% Energy, the Gem might cause a negative effect with higher chance the less Energy it has.
+ec.reg.1444=If the Gem has below 44%% Energy, the Gem might cause a negative effect with higher chance the less Energy it has.
 ec.reg.1445=Some of these effects include bad potion effects, random teleportation deflections or even a short storm.
 
 ec.reg.680=Baby Enderman spawns in the Enchanted Island (Homeland).
