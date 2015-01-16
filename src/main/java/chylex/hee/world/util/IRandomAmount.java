@@ -34,14 +34,14 @@ public interface IRandomAmount{
 	aroundCenter = new IRandomAmount(){
 		@Override
 		public int generate(Random rand, int minAmount, int maxAmount){
-			return Math.min(maxAmount,Math.max(minAmount,(int)Math.round(minAmount+(maxAmount-minAmount)*0.5D+(rand.nextDouble()-0.5D)*rand.nextDouble()*(1+maxAmount-minAmount))));
+			return MathUtil.clamp((int)Math.round(minAmount+(maxAmount-minAmount)*0.5D+(rand.nextDouble()-0.5D)*rand.nextDouble()*(1+maxAmount-minAmount)),minAmount,maxAmount);
 		}
 	},
 	
 	gaussian = new IRandomAmount(){
 		@Override
 		public int generate(Random rand, int minAmount, int maxAmount){
-			return minAmount+(int)Math.round(Math.min(1D,Math.max(0D,rand.nextGaussian()*0.5D))*(maxAmount-minAmount));
+			return minAmount+(int)Math.round(MathUtil.clamp(rand.nextGaussian()*0.5D,0D,1D)*(maxAmount-minAmount));
 		}
 	};
 	

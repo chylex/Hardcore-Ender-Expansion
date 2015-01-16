@@ -10,6 +10,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -51,7 +52,7 @@ public class ItemEssence extends Item{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIconFromDamage(int damage){
-		return iconArray[Math.min(iconArray.length-1,Math.max(0,damage))];
+		return iconArray[MathUtil.clamp(damage,0,iconArray.length-1)];
 	}
 	
 	@SideOnly(Side.CLIENT)

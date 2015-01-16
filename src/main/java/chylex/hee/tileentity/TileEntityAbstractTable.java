@@ -46,6 +46,7 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 		if ((time += timeStep) >= totalTime){
 			if (onWorkFinished()){
 				resetTable();
+				updateComparatorStatus();
 				markDirty();
 				invalidateInventory();
 			}
@@ -61,6 +62,14 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 			postLoadInvalidate = false;
 			invalidateInventory();
 		}
+	}
+	
+	public boolean isComparatorOn(){
+		return isWorking();
+	}
+	
+	protected final void updateComparatorStatus(){
+		if (worldObj != null)worldObj.func_147453_f(xCoord,yCoord,zCoord,blockType);
 	}
 	
 	protected final void resetTable(){

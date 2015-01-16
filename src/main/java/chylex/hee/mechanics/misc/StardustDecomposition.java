@@ -1,6 +1,5 @@
 package chylex.hee.mechanics.misc;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +17,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameData;
@@ -183,7 +183,7 @@ public final class StardustDecomposition{
 		}
 		
 		while(!ingredients.isEmpty()){
-			List<ItemStack> randRecipeIngredients = new ArrayList<>(Arrays.asList(ingredients.remove(rand.nextInt(ingredients.size()))));
+			List<ItemStack> randRecipeIngredients = CollectionUtil.newList(ingredients.remove(rand.nextInt(ingredients.size())));
 
 			for(Iterator<ItemStack> iter = randRecipeIngredients.iterator(); iter.hasNext();){
 				ItemStack ingredient = iter.next();

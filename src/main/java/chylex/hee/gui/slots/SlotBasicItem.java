@@ -1,10 +1,10 @@
-package chylex.hee.gui;
+package chylex.hee.gui.slots;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-class SlotBasicItem extends Slot{
+public class SlotBasicItem extends Slot{
 	private final Item validItem;
 	private final byte stackLimit;
 	

@@ -1,21 +1,23 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
-import gnu.trove.map.hash.TObjectIntHashMap;
+import gnu.trove.map.hash.TObjectByteHashMap;
 import java.util.List;
+import java.util.UUID;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.commands.DebugBoard;
 import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackDefault extends DragonSpecialAttackBase{
-	private int attackCooldown = 140, nextTargetTimer = 100;
+	private int nextTargetTimer = 100;
 	private EntityPlayer overrideTarget;
 	private boolean isOverriding;
 	
-	private TObjectIntHashMap<String> seesDragon = new TObjectIntHashMap<>();
+	private TObjectByteHashMap<UUID> seesDragon = new TObjectByteHashMap<>();
 	private byte seesCheck;
 	private boolean stealthInProgress;
 	
@@ -24,27 +26,32 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	}
 	
 	@Override
+	public void init(){
+		super.init();
+		
+	}
+	
+	@Override
 	public void update(){
 		tick++;
-		if (attackCooldown > 0){
-			attackCooldown -= 1;
-			return;
-		}
 		
 		/*
 		 * TARGET PICKING
 		 */
+		
 		if (!stealthInProgress && dragon.target == null){
-			byte healthPerc = (byte)dragon.attacks.getHealthPercentage();
-			int iangry = Math.min(140,(dragon.angryStatus?40:15)+getDifficulty()*4+dragon.worldObj.playerEntities.size()*14+(50-(healthPerc>>1)));
-			DebugBoard.updateValue("TargetChance",250-iangry);
+			int healthPerc = dragon.attacks.getHealthPercentage();
+			int viablePlayers = dragon.attacks.getViablePlayers().size();
+			int attackChance = Math.min(170,(dragon.angryStatus ? 45 : 5)+getDifficulty()*5+Math.min(viablePlayers,5)*14+(ModCommonProxy.opMobs ? 10 : 0)+(50-(healthPerc>>1)));
 			
-			if (rand.nextInt(250-iangry) == 0 || (nextTargetTimer = Math.max(0,nextTargetTimer-1)) <= 0){
-				nextTargetTimer = rand.nextInt(1+(healthPerc>>1))+healthPerc+120+(dragon.angryStatus?0:50)-getDifficulty()*8-Math.min(5,dragon.worldObj.playerEntities.size())*5;
+			if (rand.nextInt(250-attackChance) == 0 || nextTargetTimer <= 0 || --nextTargetTimer <= 0){
+				nextTargetTimer = 100+rand.nextInt(40)+(healthPerc>>2)+(dragon.angryStatus ? 0 : 55)-getDifficulty()*6-Math.min(dragon.worldObj.playerEntities.size(),5)*5;
 				dragon.trySetTarget(dragon.attacks.getRandomPlayer());
 			}
+			
+			DebugBoard.updateValue("TargetChance",250-attackChance);
+			DebugBoard.updateValue("NextTargetTimer",nextTargetTimer);
 		}
-		DebugBoard.updateValue("NextTargetTimer",nextTargetTimer);
 		
 		/*
 		 * STEALTH
@@ -53,17 +60,15 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		if (!dragon.angryStatus){
 			if (!stealthInProgress && ++seesCheck > 20 && dragon.target == null){
 				for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
-					int cur = seesDragon.get(player.getCommandSenderName());
-					cur = (cur == seesDragon.getNoEntryValue() || getVision(dragon,player) ? 0 : cur+1);
-
-					if (cur > 4+(getDifficulty() <= 1?1:0)){
+					UUID id = player.getUniqueID();
+					
+					if (getVision(dragon,player) && seesDragon.adjustOrPutValue(id,(byte)1,(byte)1) > 4+(getDifficulty()>>1)){
 						overrideTarget = player;
 						isOverriding = stealthInProgress = true;
 						seesDragon.clear();
 						break;
 					}
-					
-					seesDragon.put(player.getCommandSenderName(),cur);
+					else seesDragon.remove(id);
 				}
 				
 				seesCheck = 0;
@@ -103,7 +108,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	
 	@Override
 	public int getNextAttackTimer(){
-		return (120+rand.nextInt(60)+((4-getDifficulty())*20));
+		return (140+rand.nextInt(70)+((4-getDifficulty())*15));
 	}
 
 	@Override
@@ -118,12 +123,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	
 	@Override
 	public void onTargetSetEvent(TargetSetEvent event){
-		if (attackCooldown > 1){
-			event.newTarget = null;
-			return;
-		}
-		
-		if (isOverriding)event.newTarget = attackCooldown > 1 ? null : overrideTarget;
+		if (isOverriding)event.newTarget = overrideTarget;
 	}
 	
 	@Override

@@ -2,15 +2,22 @@ package chylex.hee.world;
 import java.lang.reflect.Field;
 import java.util.Hashtable;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.world.WorldEvent;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.StructureIsland;
 import chylex.hee.world.structure.tower.ComponentTower;
 import chylex.hee.world.structure.tower.StructureTower;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class DimensionOverride{
 	public static void setup(){
@@ -23,6 +30,8 @@ public final class DimensionOverride{
 		MapGenStructureIO.func_143031_a(ComponentTower.class,"hardcoreenderdragon_EndTowerC"); // OBFUSCATED register structure component
 		MapGenStructureIO.registerStructure(StructureIsland.class,"hardcoreenderdragon_EndIsland");
 		MapGenStructureIO.func_143031_a(ComponentIsland.class,"hardcoreenderdragon_EndIslandC");
+		
+		if (BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.register(new DimensionOverride());
 		
 		Stopwatch.finish("DimensionOverride");
 	}
@@ -66,4 +75,32 @@ public final class DimensionOverride{
 	}
 	
 	private DimensionOverride(){}
+	
+	@SubscribeEvent
+	public void onWorldLoad(WorldEvent.Load e){
+		if (e.world.provider.dimensionId == 1 && e.world instanceof WorldServer){
+			WorldServer world = (WorldServer)e.world;
+			world.chunkProvider = world.theChunkProviderServer = new ChunkProviderServerOverride(world);
+		}
+	}
+	
+	public static final class ChunkProviderServerOverride extends ChunkProviderServer{
+		public ChunkProviderServerOverride(WorldServer world){
+			super(world,world.theChunkProviderServer.currentChunkLoader,world.theChunkProviderServer.currentChunkProvider);
+		}
+
+		@Override
+		public void populate(IChunkProvider provider, int x, int z){
+			Chunk chunk = provideChunk(x,z);
+			
+			if (!chunk.isTerrainPopulated){
+				chunk.func_150809_p();
+				
+				if (currentChunkProvider != null){
+					currentChunkProvider.populate(provider,x,z);
+					chunk.setChunkModified();
+				}
+			}
+		}
+	}
 }

@@ -8,7 +8,8 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*50F;
 	
 	private byte channelCooldown;
-	
+	private boolean lastComparatorStatus;
+
 	@Override
 	public void invalidateInventory(){}
 	
@@ -23,8 +24,23 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 				if ((storedEnergy -= EnergyChunkData.energyDrainUnit) < EnergyChunkData.minSignificantEnergy)storedEnergy = 0F;
 				item.onEnergyAccepted(items[0]);
 				channelCooldown = 4;
+				
+				if (lastComparatorStatus == false){
+					lastComparatorStatus = true;
+					updateComparatorStatus();
+				}
 			}
 		}
+		
+		if (lastComparatorStatus == true && (items[0] == null || !(items[0].getItem() instanceof ItemAbstractEnergyAcceptor) || !((ItemAbstractEnergyAcceptor)items[0].getItem()).canAcceptEnergy(items[0]))){
+			lastComparatorStatus = false;
+			updateComparatorStatus();
+		}
+	}
+	
+	@Override
+	public boolean isComparatorOn(){
+		return lastComparatorStatus;
 	}
 	
 	@Override
@@ -65,6 +81,12 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	@Override
 	public int getSizeInventory(){
 		return 1;
+	}
+	
+	@Override
+	public void setInventorySlotContents(int slot, ItemStack is){
+		super.setInventorySlotContents(slot,is);
+		if (slot == 0)invalidateInventory();
 	}
 
 	@Override

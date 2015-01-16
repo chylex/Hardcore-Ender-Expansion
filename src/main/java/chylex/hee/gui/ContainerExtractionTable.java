@@ -3,6 +3,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import chylex.hee.gui.slots.SlotBasicItem;
+import chylex.hee.gui.slots.SlotTableSubject;
 import chylex.hee.item.ItemList;
 import chylex.hee.tileentity.TileEntityAbstractTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
@@ -16,7 +18,7 @@ public class ContainerExtractionTable extends ContainerAbstractTable{
 	protected void registerSlots(TileEntityAbstractTable table){
 		addSlotToContainer(new SlotTableSubject(table,0,40,17));
 		addSlotToContainer(new SlotBasicItem(table,1,40,53,ItemList.stardust));
-		addSlotToContainer(new SlotBasicItem(table,2,121,64,ItemList.instability_orb,16));
+		addSlotToContainer(new SlotBasicItem(table,2,121,53,ItemList.instability_orb,16));
 	}
 	
 	@Override

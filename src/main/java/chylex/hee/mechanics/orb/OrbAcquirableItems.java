@@ -151,7 +151,7 @@ public final class OrbAcquirableItems{
 	
 	private static void addItemToList(ItemStack is, int weight){
 		if (is == null || weight <= 0)return;
-		if (is.getItem() == null)throw new RuntimeException(errorMessage);
+		if (is.getItem() == null)is.isItemDamaged(); // throws NPE
 	
 		idList.add(new WeightedItem(is.getItem(),is.getItemDamage(),weight));
 	}

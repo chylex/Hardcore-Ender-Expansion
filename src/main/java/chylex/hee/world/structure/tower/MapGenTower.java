@@ -20,7 +20,7 @@ public class MapGenTower extends MapGenScatteredFeatureCustom{
 
 	@Override
 	protected boolean canStructureSpawn(int x, int z, double dist, Random rand){
-		if (rand.nextInt(3) != 0 || (dist > 900D && !WorldGenChance.checkChance(0.25D+0.75D*WorldGenChance.cubic2Decr.calculate(dist,900D,3800D),rand)))return false;
+		if (rand.nextInt(100) > 28 || (dist > 900D && !WorldGenChance.checkChance(0.25D+0.75D*WorldGenChance.cubic2Decr.calculate(dist,900D,3800D),rand)))return false;
 		
 		long seed1 = worldObj.getWorldInfo().getSeed();
 		int seed2 = 1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount();

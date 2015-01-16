@@ -10,7 +10,6 @@ import net.minecraftforge.common.DimensionManager;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import com.google.common.reflect.ClassPath;
@@ -83,14 +82,6 @@ public class HeeDebugCommand extends HeeCommand{
 				sendMessage(sender,"Invalid number.");
 			}
 		}
-		else if (args[0].equalsIgnoreCase("dragon-attack-eff")){
-			EntityBossDragon dragon = getDragon();
-			if (dragon == null)return;
-			
-			for(DragonSpecialAttackBase attack:dragon.attacks.getSpecialAttackList()){
-				sendMessage(sender,attack.id+" | "+attack.previousEffectivness+" / "+attack.effectivness+" / "+attack.newEffectivness);
-			}
-		}
 		else if (args[0].equalsIgnoreCase("dragon-attack-end")){
 			EntityBossDragon dragon = getDragon();
 			if (dragon != null)dragon.forceAttackEnd = true;
@@ -158,6 +149,10 @@ public class HeeDebugCommand extends HeeCommand{
 			}
 			
 			return;
+		}
+		else if (args[0].equalsIgnoreCase("tmp") && sender instanceof EntityPlayer){
+			EntityPlayer player = (EntityPlayer)sender;
+			// tmp command
 		}
 		else{
 			sendMessage(sender,"Unknown command.");

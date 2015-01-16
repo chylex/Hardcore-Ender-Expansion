@@ -21,7 +21,7 @@ public final class OrbSpawnableMobs{
 	
 	public static void initialize(){
 		Stopwatch.time("OrbSpawnableMobs");
-		
+
 		for(BiomeGenBase biome:BiomeGenBase.getBiomeGenArray()){
 			if (biome == null)continue;
 			

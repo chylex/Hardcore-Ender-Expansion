@@ -1,6 +1,7 @@
 package chylex.hee.system.util;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -101,6 +102,20 @@ public final class DragonUtil{
 		return sourceAngle;
 	}
 	
+	public static <T extends Entity> T getClosestEntity(Entity source, List<? extends T> list){
+		double closestDist = Double.MAX_VALUE, currentDist;
+		Entity closestEntity = null;
+		
+		for(Entity entity:list){
+			if (!entity.isDead && (currentDist = source.getDistanceSqToEntity(entity)) < closestDist){
+				closestDist = currentDist;
+				closestEntity = entity;
+			}
+		}
+		
+		return (T)closestEntity;
+	}
+	
 	public static double[] getNormalizedVector(double vecX, double vecZ){
 		double len = Math.sqrt(vecX*vecX+vecZ*vecZ);
 		return len == 0 ? new double[]{ 0, 0 } : new double[]{ vecX/len, vecZ/len };
@@ -126,17 +141,16 @@ public final class DragonUtil{
 		return newArray;
 	}
 
-	// TODO redo
-	public static int getTopBlock(World worldObj, Block block, int x, int z, int starty){
-		int y = starty+1;
-		while(y-- >= 0){
-			if (worldObj.getBlock(x,y,z) == block)return y+1;
+	public static int getTopBlockY(World world, Block block, int x, int z, int startY){
+		for(int y = startY; y >= 0; y--){
+			if (world.getBlock(x,y,z) == block)return y;
 		}
+		
 		return -1;
 	}
 	
-	public static int getTopBlock(World worldObj, Block block, int x, int z){
-		return getTopBlock(worldObj,block,x,z,255);
+	public static int getTopBlockY(World world, Block block, int x, int z){
+		return getTopBlockY(world,block,x,z,255);
 	}
 	
 	public static void spawnXP(Entity entity, int amount){

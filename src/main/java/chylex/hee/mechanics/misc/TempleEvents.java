@@ -180,7 +180,7 @@ public final class TempleEvents{
 	
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerLoggedOutEvent e){
-		if (e.player.dimension == 1 && attemptDestroyTemple(e.player))e.player.setPositionAndUpdate(0,DragonUtil.getTopBlock(e.player.worldObj,Blocks.end_stone,0,0,100),0);
+		if (e.player.dimension == 1 && attemptDestroyTemple(e.player))e.player.setPositionAndUpdate(0,1+DragonUtil.getTopBlockY(e.player.worldObj,Blocks.end_stone,0,0,100),0);
 	}
 	
 	@SubscribeEvent

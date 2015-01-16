@@ -1,9 +1,9 @@
-package chylex.hee.gui;
+package chylex.hee.gui.slots;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-class SlotReadOnly extends Slot{
+public class SlotReadOnly extends Slot{
 	public SlotReadOnly(IInventory inv, int id, int x, int z){
 		super(inv,id,x,z);
 	}

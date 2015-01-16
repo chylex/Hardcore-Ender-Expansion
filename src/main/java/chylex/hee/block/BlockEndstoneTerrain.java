@@ -1,6 +1,5 @@
 package chylex.hee.block;
 import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -15,8 +14,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
-	private static final Random rand = new Random();
-	
 	private static final String[] types = new String[]{
 		"infested", "burned", "enchanted"
 	};
@@ -38,7 +35,7 @@ public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
 	@Override
 	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z){
 		switch(world.getBlockMetadata(x,y,z)){
-			case metaInfested: return rand.nextInt(10) <= 2;
+			case metaInfested: return BlockList.blockRandom.nextInt(10) <= 2;
 			case metaBurned: return false;
 			case metaEnchanted:
 			default: return true;

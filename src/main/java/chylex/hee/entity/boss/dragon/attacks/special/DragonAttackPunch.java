@@ -1,16 +1,18 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Vec3;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.CollisionEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
-import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackPunch extends DragonSpecialAttackBase{
+	private static final byte PHASE_PREPARATION = 0, PHASE_DISTANCE = 1, PHASE_ATTACK = 2;
+	
 	private EntityLivingBase target;
 	private EntityLivingBase tempTarget;
-	private float speed = 1F;
+	private float speed;
 	private boolean ended;
 	
 	public DragonAttackPunch(EntityBossDragon dragon, int attackId){
@@ -28,33 +30,32 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 	@Override
 	public void update(){
 		super.update();
-		if (phase == 0){
-			target = null;
-			speed = 1.5F;
-			dragon.targetY = 74;
-			if (tick > 100)phase = 1;
+		
+		if (phase == PHASE_PREPARATION){
+			if ((tempTarget = dragon.attacks.getRandomPlayer()) == null){
+				ended = true;
+				return;
+			}
+			
+			Vec3 vec = Vec3.createVectorHelper(-tempTarget.posX,0D,-tempTarget.posZ).normalize();
+			dragon.targetX = vec.xCoord*55D*(1D+rand.nextDouble()*0.25D)+rand.nextInt(25);
+			dragon.targetY = 72+rand.nextInt(12);
+			dragon.targetZ = vec.zCoord*55D*(1D+rand.nextDouble()*0.25D)+rand.nextInt(25);
+			phase = PHASE_DISTANCE;
 		}
-		else{
-			if (tempTarget == null){
-				tempTarget = dragon.attacks.getWeakPlayer();
-				if (tempTarget == null)ended = true;
+		else if (phase == PHASE_DISTANCE){
+			if (dragon.getDistance(dragon.targetX,dragon.targetY,dragon.targetZ) < 10D || tick > 180){
+				target = tempTarget;
+				phase = PHASE_ATTACK;
 				tick = 0;
 			}
-			else{
-				if (target == null && (MathUtil.distance(dragon.posX-tempTarget.posX,dragon.posZ-tempTarget.posZ) > 110D || tick > 200)){
-					target = tempTarget;
-					dragon.target = target;
-					tick = 0;
-				}
-				
-				if (target != null){
-					if (tick > 20)speed = 4F;
-					
-					if (dragon.dragonPartHead.getDistanceSqToEntity(tempTarget) < 35D){
-						target.attackEntityFrom(DamageSource.causeMobDamage(dragon),2+getDifficulty());
-						ended = true;
-					}
-				}
+		}
+		else if (phase == PHASE_ATTACK){
+			if (tick > 20)speed = 4F;
+			
+			if (dragon.dragonPartHead.getDistanceSqToEntity(tempTarget) < 35D){
+				target.attackEntityFrom(DamageSource.causeMobDamage(dragon),13F+getDifficulty());
+				ended = true;
 			}
 		}
 	}
@@ -76,8 +77,7 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 	
 	@Override
 	public void onTargetPositionSetEvent(TargetPositionSetEvent event){
-		if (phase == 0)event.newTargetY = 74;
-		else event.cancel();
+		event.cancel();
 	}
 	
 	@Override

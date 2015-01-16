@@ -5,6 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.BlockDragonEggCustom;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.block.BlockList;
@@ -184,12 +185,21 @@ public class HardcoreEnderExpansion{
 		Blocks.fire.setFireInfo(BlockList.spooky_log, 10, 10);
 		Blocks.fire.setFireInfo(BlockList.spooky_leaves, 40, 30);
 		
+		OreDictionary.registerOre("blockHeeEndium", BlockList.endium_block);
+		OreDictionary.registerOre("oreHeeEndium", BlockList.endium_ore);
+		OreDictionary.registerOre("oreHeeEndPowder", BlockList.end_powder_ore);
+		OreDictionary.registerOre("oreHeeStardust", BlockList.stardust_ore);
+		OreDictionary.registerOre("oreHeeIgneousRock", BlockList.igneous_rock_ore);
+		OreDictionary.registerOre("oreHeeInstabilityOrb", BlockList.instability_orb_ore);
+		
 		MinecraftForge.EVENT_BUS.register(BlockList.essence_altar);
 		MinecraftForge.EVENT_BUS.register(BlockList.ender_goo);
 		
 		// ITEMS
 		
 		ItemList.registerItems();
+		
+		OreDictionary.registerOre("ingotHeeEndium", ItemList.endium_ingot);
 		
 		MinecraftForge.EVENT_BUS.register(ItemList.enderman_head);
 		MinecraftForge.EVENT_BUS.register(ItemList.scorching_pickaxe);
@@ -213,6 +223,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityBossEnderDemon.class, "EnderDemon", 21, this, 512, 1, true);
 		EntityRegistry.registerModEntity(EntityMiniBossEnderEye.class, "EnderEye", 11, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMiniBossFireFiend.class, "FireFiend", 23, this, 256, 1, true);
+		EntityRegistry.registerModEntity(EntityMobEnderman.class, "Enderman", 51, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobAngryEnderman.class, "AngryEnderman", 1, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobBabyEnderman.class, "BabyEnderman", 16, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobParalyzedEnderman.class, "ParalyzedEnderman", 24, this, 256, 1, true);
@@ -262,7 +273,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, this, 0, Integer.MAX_VALUE, false);
 		EntityRegistry.registerModEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, this, 64, 1, false);
 		EntityRegistry.registerModEntity(EntityTechnicalCurseEntity.class, "TechnicalCurseEntity", 47, this, 64, 1, false);
-		// last: 50
+		// last: 51
 		
 		Stopwatch.finish("PreInitEvent - entities");
 

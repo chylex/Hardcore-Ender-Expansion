@@ -18,7 +18,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.item.block.ItemBlockEndFlower;
 import chylex.hee.item.block.ItemBlockEnhancedTNT;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
@@ -35,6 +34,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public final class BlockList{
 	private static final Map<String,BlockData> blocks = new HashMap<>();
+	static final Random blockRandom = new Random();
 	
 	private static void register(String blockIdentifier, Block block){
 		blocks.put(blockIdentifier,new BlockData(block));
@@ -218,14 +218,6 @@ public final class BlockList{
 		);
 		
 		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.addBlocks(special_effects);
-
-		OreDictionary.registerOre("blockHEEEndium", endium_block);
-		OreDictionary.registerOre("oreHEEEndium", endium_ore);
-		OreDictionary.registerOre("oreHEEEndPowder", end_powder_ore);
-		OreDictionary.registerOre("oreHEEStardust", stardust_ore);
-		OreDictionary.registerOre("oreHEEIgneous", igneous_rock_ore);
-		OreDictionary.registerOre("oreHEEInstabilityOrb", instability_orb_ore);
-		OreDictionary.registerOre("oreHEEStardust", new ItemStack(sphalerite, 1, 1));
 	}
 	
 	private BlockList(){} // static class

@@ -40,7 +40,7 @@ public abstract class ContainerAbstractTable extends Container{
 	public void detectAndSendChanges(){
 		super.detectAndSendChanges();
 
-		for(int i = 0; i < crafters.size(); ++i){
+		for(int i = 0; i < crafters.size(); i++){
 			ICrafting crafter = (ICrafting)crafters.get(i);
 			if (prevReqStardust != table.getRequiredStardust())crafter.sendProgressBarUpdate(this,0,table.getRequiredStardust());
 			if (prevTime != table.getTime())crafter.sendProgressBarUpdate(this,1,table.getTime());

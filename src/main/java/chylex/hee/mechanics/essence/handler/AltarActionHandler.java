@@ -1,5 +1,4 @@
 package chylex.hee.mechanics.essence.handler;
-import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,7 +7,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class AltarActionHandler{
-	protected final Random rand = new Random();
 	protected final TileEntityEssenceAltar altar;
 	
 	public AltarActionHandler(TileEntityEssenceAltar altar){

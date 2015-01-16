@@ -1,8 +1,9 @@
-package chylex.hee.gui;
+package chylex.hee.gui.slots;
 import net.minecraft.inventory.IInventory;
+import chylex.hee.gui.ContainerCharmPouch;
 import chylex.hee.item.ItemList;
 
-class SlotCharmPouchItem extends SlotBasicItem{
+public class SlotCharmPouchItem extends SlotBasicItem{
 	private final ContainerCharmPouch pouchContainer;
 	
 	public SlotCharmPouchItem(IInventory inv, ContainerCharmPouch pouchContainer, int id, int x, int z){

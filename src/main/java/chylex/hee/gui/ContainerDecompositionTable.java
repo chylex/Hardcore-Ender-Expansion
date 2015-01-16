@@ -3,6 +3,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import chylex.hee.gui.slots.SlotBasicItem;
+import chylex.hee.gui.slots.SlotTableSubject;
 import chylex.hee.item.ItemList;
 import chylex.hee.tileentity.TileEntityAbstractTable;
 import chylex.hee.tileentity.TileEntityDecompositionTable;

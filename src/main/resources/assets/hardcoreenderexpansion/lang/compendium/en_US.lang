@@ -253,20 +253,21 @@ ec.reg.342=Fortune enchantment has a small effect on the drops.
 ec.reg.350=Dust dropped by Stardust Ore and Sphalerite with Stardust. It is used for crafting and as a decomposition catalyst in Tables.
 
 ec.reg.880=A table that decomposes items into their crafting ingredients.
-ec.reg.882=It requires Stardust and Energy to run, price increases with complexity of the recipe.
+ec.reg.882=It requires Stardust and Energy to run, price increases with complexity of the recipe. A Redstone Comparator can be used to detect whether the Table is running.
 ec.reg.883=Not all ingredients are returned, but up to 84% of them are retrievable.
 ec.reg.884=Damaged items yield less ingredients than fully repaired ones.
 ec.reg.885=If multiple recipes exist, one is chosen randomly.
 
 ec.reg.970=A table that extracts experience from blocks.
-ec.reg.972=It requires Stardust and Energy to run, it always runs at the same speed.
+ec.reg.972=It requires Stardust and Energy to run, it always runs at the same speed. A Redstone Comparator can be used to detect whether the Table is running.
 ec.reg.973=The table yields triple the amount of experience, and destroys the block in the process.
 
 ec.reg.980=A table that stores Energy and channels it into items.
-ec.reg.982=Breaking the Table causes the stored Energy to leak into the world.
+ec.reg.982=A Redstone Comparator can be used to detect whether the Table is currently charging an item.
+ec.reg.983=Breaking the Table causes the stored Energy to leak into the world.
 
 ec.reg.990=A table that extracts Energy from blocks and items from the End.
-ec.reg.992=It requires Stardust and Energy from a different source to run.
+ec.reg.992=It requires Stardust and a low amount of Energy from a different source to run. A Redstone Comparator can be used to detect whether the Table is running.
 ec.reg.993=Stored Energy leaks out into the environment and nearby Energy Clusters.
 ec.reg.994=Leaking can be slowed down or stopped by placing Instability Orbs into the Table.
 ec.reg.995=Breaking the Table causes the stored Energy to leak into the world.
@@ -444,15 +445,26 @@ ec.reg.657=When killed, they drop 0-2 Fire Shards and 10 experience.
 
 ec.reg.660=Very flat biome with small amount of caves.
 ec.reg.661=There are currently two variations - Homeland and Laboratory.
-ec.reg.662=Homeland has lakes of Ender Goo, piles of Falling Obsidian and a strange Obsidian road-like structure. Endermen, Baby Endermen and Ender Guardians spawn there.
+ec.reg.662=Homeland has lakes of Ender Goo, piles of Falling Obsidian and a strange Obsidian road-like structure. You can often find Homeland Cache, a floating transparent cube that can be broken. Endermen, Baby Endermen and Ender Guardians spawn there.
 ec.reg.663=Laboratory has a single large structure made of special blocks. Endermages and Ender Guardians spawn in the variation.
-ec.reg.665=All variations have Hidden Cellar, a haunted underground dungeon.
+ec.reg.665=All variations have several Hidden Cellars, haunted underground dungeons that are often completely buried in the ground.
 
 ec.reg.670=Variation of End Stone found in the Enchanted Island Biome.
 
 ec.reg.810=A purple block that forms the floor, walls and ceiling of Hidden Cellar.
 ec.reg.811=Shovels are efficient tools for breaking, but you can still get the block if you mine using other tools or your hand.
 ec.reg.812=Some blocks in the Hidden Cellar have ornaments.
+
+ec.reg.1420=Arcane Shards are often dropped from Homeland Cache, and sometimes found in the Hidden Cellar.
+ec.reg.1421=It can be used for several purposes, including crafting Eternal Curses.
+
+ec.reg.1430=Blank Gem is used solely to create higher level Gems.
+
+ec.reg.1440=Next tier Gem that allows teleportation across long distances.
+ec.reg.1442=Using it on a block while sneaking will link the Gem to that block.
+ec.reg.1443=When linked, using it will teleport you to the linked block, and use a specified amount of Energy.
+ec.reg.1444=If the Gem has below 44% Energy, the Gem might cause a negative effect with higher chance the less Energy it has.
+ec.reg.1445=Some of these effects include bad potion effects, random teleportation deflections or even a short storm.
 
 ec.reg.680=Baby Enderman spawns in the Enchanted Island (Homeland).
 ec.reg.681=If attacked, the parents will teleport and protect the baby.

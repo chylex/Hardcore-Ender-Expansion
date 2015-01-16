@@ -1,7 +1,6 @@
 package chylex.hee.world.structure.island.biome;
 import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -17,6 +16,7 @@ import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.ComponentIsland;
@@ -34,7 +34,7 @@ public abstract class IslandBiomeBase{
 										burningMountains = new IslandBiomeBurningMountains(1),
 										enchantedIsland = new IslandBiomeEnchantedIsland(2);
 	
-	public static final List<IslandBiomeBase> biomeList = new ArrayList<>(Arrays.asList(infestedForest,burningMountains,enchantedIsland));
+	public static final List<IslandBiomeBase> biomeList = CollectionUtil.newList(infestedForest,burningMountains,enchantedIsland);
 	
 	public static final IslandBiomeBase pickRandomBiome(Random rand){
 		return biomeList.get(rand.nextInt(biomeList.size()));
@@ -75,7 +75,7 @@ public abstract class IslandBiomeBase{
 		BiomeContentVariation contentVariation = contentVariations.getRandomItem(rand);
 		
 		List<BiomeRandomDeviation> deviations = new ArrayList<>();
-		int deviationAmt = Math.max(0,Math.min(randomDeviations.size(),MathUtil.floor((rand.nextGaussian()+0.35D)*randomDeviations.size()*(0.5D+0.5D*rand.nextDouble()))));
+		int deviationAmt = MathUtil.clamp(MathUtil.floor((rand.nextGaussian()+0.35D)*randomDeviations.size()*(0.5D+0.5D*rand.nextDouble())),0,randomDeviations.size());
 		
 		if (deviationAmt > 0){
 			List<BiomeRandomDeviation> availableDeviations = new ArrayList<>(randomDeviations);
@@ -154,7 +154,7 @@ public abstract class IslandBiomeBase{
 						}
 					}
 					
-					if (!hasBlockBelow || DragonUtil.getTopBlock(world,BlockList.end_terrain,xx,zz,120) <= 30)continue;
+					if (!hasBlockBelow || DragonUtil.getTopBlockY(world,BlockList.end_terrain,xx,zz,120) <= 30)continue;
 					
 					e.setPositionAndUpdate(e.posX,e.posY+0.01D,e.posZ);
 					world.spawnEntityInWorld(e);

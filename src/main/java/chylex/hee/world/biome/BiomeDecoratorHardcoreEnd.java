@@ -1,10 +1,11 @@
 package chylex.hee.world.biome;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeEndDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
@@ -86,7 +87,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		if (distFromCenter > 102D && Math.abs(randomGenerator.nextGaussian()) < 0.285D){
 			Stopwatch.timeAverage("WorldGenBlob",64);
-			blobGen.generate(currentWorld,randomGenerator,chunk_X+16,32+randomGenerator.nextInt(60),chunk_Z+16);
+			tryGenerate(blobGen,chunk_X+16,32+randomGenerator.nextInt(60),chunk_Z+16);
 			Stopwatch.finish("WorldGenBlob");
 		}
 		
@@ -105,7 +106,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.timeAverage("WorldGenEndiumOre",64);
 			
 			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+randomGenerator.nextInt(2+MathUtil.ceil(9D*WorldGenChance.linear2Incr.calculate(distFromCenter,1500D,21000D)))); attempt < 440; attempt++){
-				if (endiumOreGen.generate(currentWorld,randomGenerator,randX(),10+randomGenerator.nextInt(100),randZ()) && --max <= 0)break;
+				if (tryGenerate(endiumOreGen,randX(),10+randomGenerator.nextInt(100),randZ()) && --max <= 0)break;
 			}
 			
 			Stopwatch.finish("WorldGenEndiumOre");
@@ -113,24 +114,14 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		if (distFromCenter > 1280D && checkChance(WorldGenChance.linear3IncrDecr.calculate(distFromCenter,1280D,2700D,15000D)) && randomGenerator.nextFloat()*randomGenerator.nextFloat() > 0.666F){
 			Stopwatch.timeAverage("WorldGenMeteoroid",64);
-			
-			for(int attempt = 0; attempt < randomGenerator.nextInt(3); attempt++){
-				meteoroidGen.generate(currentWorld,randomGenerator,randX(),8+randomGenerator.nextInt(112),randZ());
-			}
-
+			for(int attempt = 0; attempt < randomGenerator.nextInt(3); attempt++)tryGenerate(meteoroidGen,randX(),8+randomGenerator.nextInt(112),randZ());
 			Stopwatch.finish("WorldGenMeteoroid");
 		}
 		
 		Stopwatch.timeAverage("WorldGenEndPowderOre",64);
 		
 		for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 22 && placed < 4+randomGenerator.nextInt(5); attempt++){
-			xx = randX();
-			yy = 35+randomGenerator.nextInt(92);
-			zz = randZ();
-			
-			if (currentWorld.getBlock(xx,yy,zz) == Blocks.end_stone && endPowderOreGen.generate(currentWorld,randomGenerator,xx,yy,zz)){
-				++placed;
-			}
+			if (tryGenerate(endPowderOreGen,randX(),35+randomGenerator.nextInt(92),randZ()))++placed;
 		}
 		
 		Stopwatch.finish("WorldGenEndPowderOre");
@@ -145,8 +136,10 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 
 	@Override
 	protected void generateOres(){
-		MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(currentWorld,randomGenerator,chunk_X,chunk_Z));
-		MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(currentWorld,randomGenerator,chunk_X,chunk_Z));
+		if (!BiomeGenHardcoreEnd.overrideWorldGen){
+			MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(currentWorld,randomGenerator,chunk_X,chunk_Z));
+			MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(currentWorld,randomGenerator,chunk_X,chunk_Z));
+		}
 	}
 	
 	private int randX(){
@@ -159,5 +152,14 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	
 	private boolean checkChance(double chance){
 		return WorldGenChance.checkChance(chance,randomGenerator);
+	}
+	
+	private boolean tryGenerate(WorldGenerator generator, int x, int y, int z){
+		try{
+			return generator.generate(currentWorld,randomGenerator,x,y,z);
+		}catch(RuntimeException e){
+			Log.warn("Failed generating "+generator.getClass().getSimpleName()+" at "+(chunk_X+x)+","+(chunk_Z+z)+", there might be an empty chunk.");
+			return false;
+		}
 	}
 }

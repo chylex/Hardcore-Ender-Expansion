@@ -41,7 +41,7 @@ public class HeeAdminCommand extends HeeCommand{
 				EnumChatFormatting.GREEN+"Available commands:\n"+
 				"/heeadmin version\n"+
 				"/heeadmin dragon-set-angry\n"+
-				"/heeadmin dragon-set-attack <none|dive|fire|punch|bite|freeze|summon|bats>\n"+
+				"/heeadmin dragon-set-attack <none|divebomb|fireburst|punch|summoning|bloodlust>\n"+
 				"/heeadmin kill-bosses\n"+
 				"/heeadmin spawn-entity <endercrystal|homelandcache>\n"+
 				"/heeadmin compendium-reset\n"+
@@ -84,7 +84,7 @@ public class HeeAdminCommand extends HeeCommand{
 			}
 			
 			DragonSpecialAttackBase att = null;
-			String[] ids = new String[]{ "none","","","bats","fire","bite","punch","freeze","","summon","dive" };
+			String[] ids = new String[]{ "none", "divebomb", "fireburst", "punch", "summoning", "bloodlust" };
 			
 			for(int a = 0; a < ids.length; a++){
 				if (args[1].equalsIgnoreCase(ids[a])){

@@ -1,10 +1,11 @@
-package chylex.hee.gui;
+package chylex.hee.gui.slots;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 
-class SlotEnhancementsSubject extends Slot{
+public class SlotEnhancementsSubject extends Slot{
 	private final ContainerEndPowderEnhancements container;
 	
 	public SlotEnhancementsSubject(ContainerEndPowderEnhancements container, IInventory inv, int id, int x, int z){

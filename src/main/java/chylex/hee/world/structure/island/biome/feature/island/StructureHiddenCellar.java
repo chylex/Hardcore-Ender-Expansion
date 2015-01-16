@@ -1,6 +1,5 @@
 package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -18,6 +17,7 @@ import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.IItemPostProcessor;
@@ -81,7 +81,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		public ItemStack processItem(ItemStack is, Random rand){
 			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
 			else if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = new ArrayList<>(Arrays.asList(EnderPearlEnhancements.values()));
+				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
 				
 				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*3.2D)); a++){
 					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
@@ -192,14 +192,14 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	}
 	
 	private static final WeightedList<ObjectWeightPair<EnumRoomContent>> roomContentList = new WeightedList<>(
-		ObjectWeightPair.of(EnumRoomContent.NONE, 80),
-		ObjectWeightPair.of(EnumRoomContent.CONNECTING_LINES, 10),
-		ObjectWeightPair.of(EnumRoomContent.SPIKES, 10),
+		ObjectWeightPair.of(EnumRoomContent.NONE, 65),
+		ObjectWeightPair.of(EnumRoomContent.CONNECTING_LINES, 9),
+		ObjectWeightPair.of(EnumRoomContent.SPIKES, 9),
 		ObjectWeightPair.of(EnumRoomContent.PERSEGRIT_CUBE, 8),
 		ObjectWeightPair.of(EnumRoomContent.LOTS_OF_CHESTS, 7),
 		ObjectWeightPair.of(EnumRoomContent.FLOATING_CUBES, 5),
 		ObjectWeightPair.of(EnumRoomContent.CHEST_PILLARS, 4),
-		ObjectWeightPair.of(EnumRoomContent.CHAOTIC_PERSEGRIT, 3)
+		ObjectWeightPair.of(EnumRoomContent.CHAOTIC_PERSEGRIT, 4)
 	);
 	
 	private void genRoomContent(RoomInfo room, int bottomY, int height, Random rand){
@@ -409,7 +409,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 					if (world.isAir(xx-1,bottomY+1,zz) && world.isAir(xx+1,bottomY+1,zz) &&
 						world.isAir(xx,bottomY+1,zz-1) && world.isAir(xx,bottomY+1,zz+1)){
 						world.setBlock(xx,yy,zz,Blocks.chest);
-						if (rand.nextInt(3) != 0)world.setTileEntityGenerator(xx,yy,zz,(rand.nextInt(4) == 0 ? "CellarChestRare" : "CellarChestNormal")+"|"+variation.ordinal(),this);
+						if (rand.nextInt(5) <= 1)world.setTileEntityGenerator(xx,yy,zz,(rand.nextInt(4) == 0 ? "CellarChestRare" : "CellarChestNormal")+"|"+variation.ordinal(),this);
 						for(--yy; yy >= bottomY+1; yy--)world.setBlock(xx,yy,zz,BlockList.persegrit);
 					}
 				}
@@ -417,7 +417,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				break;
 				
 			case CHAOTIC_PERSEGRIT:
-				for(int amount = MathUtil.ceil(Math.sqrt(room.halfWidth*room.halfWidth*(height-2))*(0.7D+rand.nextDouble()*0.4D)), width = halfWidth*2-2; amount > 0; amount--){
+				for(int amount = MathUtil.ceil(Math.sqrt(room.halfWidth*room.halfWidth*(height-1))*(0.85D+rand.nextDouble()*0.5D)), width = halfWidth*2-2; amount > 0; amount--){
 					world.setBlock(x+rand.nextInt(width)-(width>>1),bottomY+1+rand.nextInt(height-1),z+rand.nextInt(width)-(width>>1),BlockList.persegrit);
 				}
 				

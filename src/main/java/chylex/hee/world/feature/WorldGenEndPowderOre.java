@@ -9,7 +9,9 @@ import chylex.hee.block.BlockList;
 public class WorldGenEndPowderOre extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		int blockAmount = rand.nextInt(4)+4;
+		if (world.getBlock(x,y,z) != Blocks.end_stone)return false;
+		
+		int blockAmount = rand.nextInt(5)+4;
 		
 		float randomAngle = rand.nextFloat()*(float)Math.PI;
 		double genX1 = (x+MathHelper.sin(randomAngle)*blockAmount);

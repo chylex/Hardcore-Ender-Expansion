@@ -24,10 +24,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
+	private static final Random rand = new Random();
 	private static RenderBlocks blockRenderer;
 	
 	private RenderManager renderManager;
-	private Random rand = new Random();
 
 	private TileEntityEssenceAltar altar;
 	private long lastRotationUpdateTime;

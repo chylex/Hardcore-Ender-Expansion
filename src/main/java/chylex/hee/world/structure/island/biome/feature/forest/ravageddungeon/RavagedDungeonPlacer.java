@@ -1,6 +1,4 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
@@ -14,6 +12,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
@@ -380,7 +379,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				break;
 				
 			case WALL_MOUNTED_SPAWNERS:
-				List<DungeonDir> availableDirs = new ArrayList<DungeonDir>(Arrays.asList(DungeonDir.values));
+				List<DungeonDir> availableDirs = CollectionUtil.newList(DungeonDir.values);
 				
 				for(int attempt = 0, placed = 0; attempt < 1+rand.nextInt(3) && !availableDirs.isEmpty(); attempt++){
 					off = availableDirs.remove(rand.nextInt(availableDirs.size()));

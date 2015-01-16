@@ -1,7 +1,6 @@
 package chylex.hee.world.structure.tower;
 import gnu.trove.list.array.TByteArrayList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.material.Material;
@@ -32,6 +31,7 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
@@ -91,7 +91,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
 			if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = new ArrayList<>(Arrays.asList(EnderPearlEnhancements.values()));
+				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
 				
 				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
 					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
@@ -99,7 +99,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 				}
 			}
 			else if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_tnt)){
-				List<TNTEnhancements> availableTypes = new ArrayList<>(Arrays.asList(TNTEnhancements.values()));
+				List<TNTEnhancements> availableTypes = CollectionUtil.newList(TNTEnhancements.values());
 				
 				for(int a = 0; a < 1+rand.nextInt(2)+Math.round(rand.nextDouble()*2D); a++){
 					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
@@ -750,9 +750,9 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 
 		TileEntityCustomSpawner spawner = (TileEntityCustomSpawner)world.getTileEntity(offsets.x,offsets.y,offsets.z);
 		if (spawner != null){
-			List<Potion> availablePotions = new ArrayList<>(Arrays.asList(new Potion[]{
+			List<Potion> availablePotions = CollectionUtil.newList(new Potion[]{
 				Potion.damageBoost, /*Potion.invisibility, */Potion.moveSpeed, Potion.regeneration, Potion.resistance, Potion.fireResistance
-			}));
+			});
 			
 			spawnerRand.setSeed(minY*256L+x*341873128712L+z*132897987541L+world.getWorldInfo().getSeed()+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount());
 			

@@ -1,7 +1,6 @@
 package chylex.hee.mechanics.essence.handler;
 import static chylex.hee.mechanics.essence.SocketManager.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -30,11 +29,11 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.world.util.BlockLocation;
 
 public class DragonEssenceHandler extends AltarActionHandler{
-	public static final List<AltarItemRecipe> recipes = new ArrayList<>(Arrays.asList(new AltarItemRecipe[]{
+	public static final List<AltarItemRecipe> recipes = CollectionUtil.newList(new AltarItemRecipe[]{
 		new AltarItemRecipe(Items.brewing_stand, ItemList.enhanced_brewing_stand, 20),
 		new AltarItemRecipe(Items.ender_eye, ItemList.temple_caller, 50),
 		new AltarItemRecipe(ItemList.ghost_amulet, 0, ItemList.ghost_amulet, 1, 8)
-	}));
+	});
 	
 	private AxisAlignedBB itemBoundingBox;
 	private final List<BlockLocation> pedestals = new ArrayList<>();
@@ -114,7 +113,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			}
 			
 			for(BlockLocation loc:pedestals){
-				if (rand.nextInt(5) <= 1){
+				if (world.rand.nextInt(5) <= 1){
 					PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,loc.x+0.5D,altar.yCoord+0.5D,loc.z+0.5D));
 				}
 			}
@@ -145,7 +144,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					altarItem.pedestalUpdate = 0;
 					updatePedestalItem(altarItem);
 					
-					if (rand.nextInt(5) == 0){
+					if (world.rand.nextInt(5) == 0){
 						PacketPipeline.sendToAllAround(altar.getWorldObj().provider.dimensionId,targX,loc.y+0.5D,targZ,64D,new C11ParticleAltarOrb(targX,loc.y+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
 					}
 				}
@@ -155,11 +154,11 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	
 	public static boolean hasCollisionBox(TileEntityEssenceAltar altar, int x, int y, int z){
 		Block block = altar.getWorldObj().getBlock(x,y,z);
-		return block.getMaterial() == Material.air?false:block.getCollisionBoundingBoxFromPool(altar.getWorldObj(),x,y,z) != null;
+		return block.getMaterial() == Material.air ? false : block.getCollisionBoundingBoxFromPool(altar.getWorldObj(),x,y,z) != null;
 	}
 	
 	private void updatePedestalItem(EntityItemAltar item){
-		byte socketEffects = getSocketEffects(altar),socketBoost = getSocketBoost(altar);
+		byte socketEffects = getSocketEffects(altar), socketBoost = getSocketBoost(altar);
 		
 		ItemStack is = item.getEntityItem();
 		
@@ -167,7 +166,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		 * REPAIRING
 		 */
 		
-		if (rand.nextInt(3) != 0){
+		if (item.worldObj.rand.nextInt(3) != 0){
 			if (is.isItemStackDamageable() && is.getItemDamage() != 0 && is.getItem().isRepairable()){
 				for(int a = 0; a < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST ? (1+(socketBoost>>2)) : 0); a++){
 					if (++repairCounter > 56+((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST ? 1+Math.floor(socketBoost*0.6D) : 0)){
@@ -178,7 +177,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					if (updateItemCounter(is,"HEE_repair",1) < 18)continue;
 					updateItemCounter(is,"HEE_repair",0);
 					
-					int amount = Math.min(is.getItemDamage(),Math.max(1,MathUtil.floor(Math.sqrt(is.getMaxDamage())*0.65D)));
+					int amount = MathUtil.clamp(MathUtil.floor(Math.sqrt(is.getMaxDamage())*0.65D),1,is.getItemDamage());
 					is.setItemDamage(is.getItemDamage()-amount);
 					item.hasChanged = true;
 				}
@@ -207,7 +206,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						list.add(ObjectWeightPair.of(e,e.getWeight()));
 					}
 					
-					Enchantment chosenEnchantment = list.getRandomItem(rand).getObject();
+					Enchantment chosenEnchantment = list.getRandomItem(item.worldObj.rand).getObject();
 					
 					for(int a = 0; a < enchants.tagCount(); a++){
 						NBTTagCompound tag = enchants.getCompoundTagAt(a);
@@ -234,7 +233,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		 * ITEM TRANSFORMATIONS
 		 */
 		
-		else if (rand.nextInt(5) == 0){
+		else if (item.worldObj.rand.nextInt(5) == 0){
 			for(AltarItemRecipe recipe:recipes){
 				if (recipe.isApplicable(is)){
 					for(int a = 0; a < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST?Math.ceil(socketBoost*0.15D):0); a++){

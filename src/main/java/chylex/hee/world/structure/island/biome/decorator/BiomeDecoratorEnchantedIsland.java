@@ -1,9 +1,12 @@
 package chylex.hee.world.structure.island.biome.decorator;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.List;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
@@ -88,6 +91,27 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 			if (generateStructure(genRoads))++placed;
 		}
 		
+		// HOMELAND CACHE
+		for(int attempt = 280+rand.nextInt(42), placed = 14+rand.nextInt(10), xx, yy, zz; attempt > 0 && placed > 0; attempt--){
+			xx = rand.nextInt(ComponentIsland.size-10)+5;
+			zz = rand.nextInt(ComponentIsland.size-10)+5;
+			yy = world.getHighestY(xx,zz);
+			
+			if (world.getBlock(xx,yy,zz) == BlockList.end_terrain){
+				for(int obsidianSearch = 0; obsidianSearch < 40; obsidianSearch++){
+					Block block = world.getBlock(xx+rand.nextInt(11)-5,yy,zz+rand.nextInt(11)-5);
+					
+					if (block == Blocks.obsidian || block == BlockList.obsidian_falling){
+						EntityBlockHomelandCache cache = new EntityBlockHomelandCache(null);
+						cache.setPosition(xx+0.5D,yy+1D,zz+0.5D);
+						world.addEntity(cache);
+						--placed;
+						break;
+					}
+				}
+			}
+		}
+		
 		// HOMELAND ENDERMEN
 		TObjectIntHashMap<HomelandRole> map = new TObjectIntHashMap<>();
 		
@@ -155,7 +179,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 				for(yAttempt = 0; yAttempt < 7; yAttempt++){
 					tmpY = yy-rand.nextInt(20);
 					
-					if (world.getBlock(xx,tmpY,zz) == BlockList.end_terrain && world.isAir(xx,tmpY+1,zz)){
+					if (tmpY > 0 && world.getBlock(xx,tmpY,zz) == BlockList.end_terrain && world.isAir(xx,tmpY+1,zz)){
 						yy = tmpY;
 						break;
 					}

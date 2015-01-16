@@ -1,9 +1,9 @@
 package chylex.hee.entity.boss.dragon.attacks.special.event;
 import net.minecraft.entity.Entity;
 
-public class CollisionEvent extends BaseEvent{
+public class CollisionEvent{
 	public Entity collidedEntity;
-	public double velocityX,velocityY,velocityZ;
+	public double velocityX, velocityY, velocityZ;
 	
 	public CollisionEvent(Entity collidedEntity, double velocityX, double velocityY, double velocityZ){
 		this.collidedEntity = collidedEntity;

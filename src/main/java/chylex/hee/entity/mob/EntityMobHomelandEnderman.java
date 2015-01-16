@@ -89,7 +89,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	public EntityMobHomelandEnderman(World world){
 		super(world);
 		setSize(0.6F,2.9F);
-		stepHeight = 1.0F;
+		stepHeight = 1F;
 	}
 	
 	@Override

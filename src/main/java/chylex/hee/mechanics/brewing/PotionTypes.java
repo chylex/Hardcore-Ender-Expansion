@@ -1,5 +1,4 @@
 package chylex.hee.mechanics.brewing;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +19,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
 
 public class PotionTypes{
-	public static final List<AbstractPotionData> potionData = new ArrayList<>(Arrays.asList(
+	public static final List<AbstractPotionData> potionData = Arrays.asList(
 		/*  0 */ new EmptyPotion(null,0,16),
 		/*  1 */ new InstantPotion(Potion.heal,16,8197,4),
 		/*  2 */ new InstantPotion(Potion.harm,8197,8204,4),
@@ -39,7 +38,7 @@ public class PotionTypes{
 		/* 14 */ new TimedPotion(Potion.blindness,16,8197,1,6,48,6),
 		/* 15 */ new TimedPotion(Potion.jump,16,8192,4,60,600),
 		/* 16 */ new TimedPotion(Potion.confusion,8251,8253,1,6,48,6)
-	));
+	);
 	
 	private static final Map<Item,Item> customPotions = new HashMap<>();
 	private static final Map<ItemDamagePair,byte[]> itemToIndex = new HashMap<>();

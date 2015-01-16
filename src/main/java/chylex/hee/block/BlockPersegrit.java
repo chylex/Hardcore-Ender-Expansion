@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,7 +42,7 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return iconArray[Math.min(iconArray.length-1,Math.max(0,meta))];
+		return iconArray[MathUtil.clamp(meta,0,iconArray.length-1)];
 	}
 	
 	@SuppressWarnings("unchecked")

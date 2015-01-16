@@ -51,10 +51,10 @@ public final class EnergyClusterData{
 			}
 		}
 		
-		float regenTimMp = energyLevel < maxEnergyLevel*0.5F ? 1F+(1F-(energyLevel/(maxEnergyLevel*0.5F)))*2F : 1F;
+		float regenTimMp = energyLevel < maxEnergyLevel*0.5F ? 1F+(1F-(energyLevel/(maxEnergyLevel*0.5F)))*2F : 1F; // slow down regen if below half max energy
 		
 		if (healthStatus.regenTimer != -1 && ++regenTimer > Math.min((int)(healthStatus.regenTimer*regenTimMp),125)){
-			energyLevel += Math.min((float)Math.sqrt(maxEnergyLevel)*0.012F,maxEnergyLevel-energyLevel);
+			energyLevel += Math.min((EnergyChunkData.energyDrainUnit*0.08F+(float)Math.sqrt(maxEnergyLevel)*0.005F)*healthStatus.regenMultiplier,maxEnergyLevel-energyLevel);
 			cluster.synchronize();
 			regenTimer = 0;
 		}

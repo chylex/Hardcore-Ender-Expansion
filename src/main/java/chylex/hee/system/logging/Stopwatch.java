@@ -4,6 +4,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 
 public final class Stopwatch{
 	public static boolean isEnabled = true;
@@ -110,4 +111,19 @@ public final class Stopwatch{
 			}
 		}
 	}
+	
+	public static final HeeTest $debugTest = new HeeTest(){
+		@Override
+		public void run(String...args){
+			// should be exactly 55 ms
+			
+			for(int a = 1; a <= 10; a++){
+				try{
+					Stopwatch.timeAverage("Stopwatch - test average",10);
+					Thread.sleep(10L*a);
+					Stopwatch.finish("Stopwatch - test average");
+				}catch(InterruptedException e){}
+			}
+		}
+	};
 }

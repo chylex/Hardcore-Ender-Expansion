@@ -15,18 +15,19 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	@Override
 	public void invalidateInventory(){
 		if (worldObj != null && worldObj.isRemote)return;
-		resetTable();
 		expAmount = 0;
 		
-		if (items[0] != null && worldObj != null){
+		if (items[0] != null){
 			Block block = Block.getBlockFromItem(items[0].getItem());
 			
 			if (block != null && block.getExpDrop(worldObj,items[0].getItemDamage(),0) > 0){
 				expAmount = -1;
 				timeStep = 12;
 				requiredStardust = 4;
+				updateComparatorStatus();
 			}
 		}
+		else resetTable();
 	}
 
 	@Override
@@ -55,6 +56,12 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	@Override
 	public int getSizeInventory(){
 		return 3;
+	}
+	
+	@Override
+	public void setInventorySlotContents(int slot, ItemStack is){
+		super.setInventorySlotContents(slot,is);
+		if (slot == 0)invalidateInventory();
 	}
 
 	@Override

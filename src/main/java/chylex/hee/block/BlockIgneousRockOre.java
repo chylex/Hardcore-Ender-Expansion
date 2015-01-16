@@ -3,6 +3,7 @@ import java.util.Random;
 import net.minecraft.block.BlockOre;
 import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
 import cpw.mods.fml.relauncher.Side;
@@ -18,11 +19,10 @@ public class BlockIgneousRockOre extends BlockOre{
 	public int quantityDroppedWithBonus(int fortune, Random rand){
 		return 1;
 	}
-
+	
 	@Override
-	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
-		super.dropBlockAsItemWithChance(world,x,y,z,meta,chance,fortune);
-		dropXpOnBlockBreak(world,x,y,z,MathHelper.getRandomIntegerInRange(world.rand,3,5));
+	public int getExpDrop(IBlockAccess world, int meta, int fortune){
+		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom,3,5);
 	}
 
 	@Override

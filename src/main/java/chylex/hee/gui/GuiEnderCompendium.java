@@ -68,6 +68,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	private boolean hasClickedButton = false;
 	private int dragMouseY = Integer.MIN_VALUE;
+	private float prevDragOffsetY;
 	
 	private List<CategoryDisplayElement> categoryElements = new ArrayList<>();
 	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
@@ -222,7 +223,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	@Override
 	protected void mouseClickMove(int mouseX, int mouseY, int lastButton, long timeSinceClick){
 		if (dragMouseY != Integer.MIN_VALUE && lastButton == 0){
-			offsetY.startAnimation(offsetY.value(),offsetY.value()+(mouseY-dragMouseY)*6,0F); // TODO fix negative mouse acceleration
+			prevDragOffsetY = MathUtil.floor((dragMouseY-mouseY)*6);
 			dragMouseY = mouseY;
 		}
 		
@@ -256,6 +257,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
 			}
 			else offsetY.set(offsetY.value()+(wheel > 0 ? 80 : -80));
+		}
+		
+		if (!MathUtil.floatEquals(prevDragOffsetY,0F)){
+			offsetY.set(offsetY.value()-prevDragOffsetY);
+			prevDragOffsetY = 0F;
 		}
 		
 		if (offsetY.value() > 0)offsetY.set(0F);

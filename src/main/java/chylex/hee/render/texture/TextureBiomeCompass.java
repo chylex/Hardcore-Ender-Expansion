@@ -85,7 +85,7 @@ public class TextureBiomeCompass extends TextureAtlasSprite{
 
 				for(targetDelta = angle-currentAngle; targetDelta < -Math.PI; targetDelta += Math.PI*2D);
 				while(targetDelta >= Math.PI)targetDelta -= Math.PI*2D;
-				targetDelta = Math.max(Math.min(targetDelta,1D),-1D);
+				targetDelta = MathUtil.clamp(targetDelta,-1D,1D);
 
 				angleDelta += targetDelta*0.1D;
 				angleDelta *= 0.8D;

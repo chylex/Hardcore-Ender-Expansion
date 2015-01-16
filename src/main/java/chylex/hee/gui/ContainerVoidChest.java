@@ -1,4 +1,5 @@
 package chylex.hee.gui;
+import chylex.hee.gui.slots.SlotReadOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;

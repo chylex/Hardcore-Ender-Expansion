@@ -31,9 +31,8 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	protected void updateAITasks(){
 		super.updateAITasks();
 
-		if (target == null || (!worldObj.isAirBlock(MathUtil.floor(target.posX),MathUtil.floor(target.posY),MathUtil.floor(target.posZ)) || target.isDead || target.posY<1)){
-			target = worldObj.getClosestPlayerToEntity(this,32D);
-			if (target == null){
+		if (target == null || (!worldObj.isAirBlock(MathUtil.floor(target.posX),MathUtil.floor(target.posY),MathUtil.floor(target.posZ)) || target.isDead || target.posY < 1)){
+			if ((target = worldObj.getClosestPlayerToEntity(this,32D)) == null){
 				setDead();
 				return;
 			}
