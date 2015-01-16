@@ -1024,7 +1024,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(1421).setPrice(2),
 				new KnowledgeFragmentCrafting(1422).setRecipeFromRegistry(new ItemStack(ItemList.blank_gem)).setPrice(5),
 				new KnowledgeFragmentCrafting(1423).setRecipeFromRegistry(new ItemStack(ItemList.spatial_dash_gem)).setPrice(7).setUnlockCascade(295),
-				new KnowledgeFragmentCrafting(1423).setRecipeFromRegistry(new ItemStack(ItemList.transference_gem)).setPrice(7)
+				new KnowledgeFragmentCrafting(1424).setRecipeFromRegistry(new ItemStack(ItemList.transference_gem)).setPrice(7)
 			}),
 			
 			BLANK_GEM.setPos(7,6).setUnlockPrice(15).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
