@@ -65,13 +65,13 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 					
 					if (flying){
 						if (lastStriked.adjustOrPutValue(player.getPersistentID(),(byte)-1,(byte)0) <= 0){
-							player.attackEntityFrom(DamageSource.magic,1F);
+							player.attackEntityFrom(DamageSource.magic,2F);
 							player.hurtResistantTime = 0;
-							player.attackEntityFrom(DamageSource.causeMobDamage(dragon),7F);
+							player.attackEntityFrom(DamageSource.causeMobDamage(dragon),12F);
 							player.setFire(5);
 							
 							dragon.worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(dragon.worldObj,player.posX,player.posY,player.posZ));
-							lastStriked.put(player.getPersistentID(),(byte)(2+rand.nextInt(3)));
+							lastStriked.put(player.getPersistentID(),(byte)(4+rand.nextInt(3)));
 						}
 						continue;
 					}
