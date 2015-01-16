@@ -452,9 +452,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(196).setPrice(5).setUnlockRequirements(194),
 				new KnowledgeFragmentText(197).setPrice(2).setUnlockRequirements(196),
 				new KnowledgeFragmentText(198).setPrice(2).setUnlockRequirements(196),
-				new KnowledgeFragmentText(199).setPrice(2).setUnlockRequirements(196),
 				new KnowledgeFragmentText(700).setPrice(2).setUnlockRequirements(196),
-				new KnowledgeFragmentText(701).setPrice(2).setUnlockRequirements(196),
 				new KnowledgeFragmentText(702).setPrice(2).setUnlockRequirements(196),
 				new KnowledgeFragmentText(703).setPrice(2).setUnlockRequirements(196).setUnlockCascade(210),
 				new KnowledgeFragmentText(704).setPrice(2).setUnlockRequirements(190).setUnlockCascade(81),
@@ -1113,7 +1111,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 1420
+		// next: 1450
 		// taken: 1000-1399
 		
 		Stopwatch.finish("KnowledgeRegistrations");
