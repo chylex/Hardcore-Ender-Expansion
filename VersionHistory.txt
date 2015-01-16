@@ -1,0 +1,921 @@
+==================
+Release 1.6.7 (1.7.10)
+18 December 2014
+------------------
+[b]Additions[/b]
+New mechanics for the Dungeon Puzzle and Fire Fiend (see changes)
+Brand new mechanic - Curses!
+New items - Spectral Tear, Living Matter
+Several new achievements
+
+[b]Changes[/b]
+Dungeon Puzzle is now back, and completely redesigned - including the Fire Fiend boss fight!
+Compendium texts are now in language files, making translations possible (might make a new translation website for that)
+Significantly sped up mod startup, especially with many other mods installed
+Using AT instead of reflection (performance improvements)
+Outdated Forge is no longer supported, use 10.13.2.* or newer
+
+[b]Bugfixes[/b]
+Void Chest rendering in the Ender Compendium fixed
+Dungeon Towers should no longer spawn inside Biome Islands
+Fixed Dragon Essence Altar pedestal crash with unenchanted items
+Fixed rare crash with portal particles
+Fixed Decomposition Table blacklist occasionally yielding nothing with multiple recipes
+Custom spawners no longer function after moving them
+Mining Spots in Burning Mountains were heavily optimized and should no longer cause unnecessary recursion
+
+
+==================
+Release 1.6.6 (1.7.10)
+3 December 2014
+------------------
+[b]Additions[/b]
+New Enchanted Island biome variation - Laboratory
+New blocks - Laboratory Obsidian, Laboratory Glass, Laboratory Floor, Laboratory Stairs
+New items - Obsidian Fragment, Obsidian Rod, Auricion, Energy Wand Core, Energy Wand
+New mob - Endermage
+New icon background in Ender Compendium (golden outline = all fragments unlocked)
+Ender Compendium now contains all Charm recipes
+Ghost Amulet has to be purified using Dragon Essence Altar
+New creative tab for Charms
+Obsidian, variations and stairs are craftable
+
+[b]Changes[/b]
+Redesigned some elements in Ender Compendium, it is much faster and easier to use
+It is no longer required to sneak while pressing Ender Compendium key to open object that is being looked at
+Compendium prices get higher the further you go, improved balance of prices and discovery rewards
+Changed Energy chunk size in the End, current Energy levels will reset
+Dragon Essence Altar no longer adds new enchantments, it just repairs and improves existing enchantments
+Updated tables to use Energy, currently only Decomposition Table is available
+Minor tweaks and refactoring (new type of Endstone Blob, Ravaged Dungeon improvements...)
+
+[b]Bugfixes[/b]
+Loot chests would not spawn variable damage items with damage 0
+Many Charm Pouch fixes - drop crash, slot change, activation issues, charm order
+Charm of Magic Defense had wrong recipes
+Charm of Haste is now calculated correctly
+Compendium tooltip depth fix
+Fixed Homeland Endermen crashing when spawned using the egg
+Fixed uncommon NPE crash in Compendium NEI integration
+Fixed (worked around) AM2 crash with Homeland Endermen
+Fixed rare crash in Endstone Blob generation (decoration and fall populator)
+Important fixes with Enhanced TNT - interaction with nearby explosions and missing particles, and exploding when destroying trapped one in creative mode
+
+
+==================
+Release 1.6.5 (1.7.10)
+13 November 2014
+------------------
+[b]Additions[/b]
+Void Chest that stores items you lost in the void!
+Persegrit, a new block featured in a new structure found inside the Enchanted Island biome!
+Read the Ender Compendium help again, there are some handy new features!
+New particle effects for Scorching Pickaxe, Death Flower, Homeland Endermen and fixed Temple Caller ones too
+Biome Compass now stores the last biome setting when you relog or throw it
+Config option to control amount of Endermen in the Overworld
+
+[b]Changes[/b]
+Energy is now omnipresent in the End, many changes to it have been made, which means old Energy Clusters will disappear from your world
+Complete rewrite of Endstone Blobs, with more improvements to come in future updates
+Ender Guardian attacks and abilities have been redesigned
+Altar Nexus has a new texture
+
+[b]Bugfixes[/b]
+Dragon Egg falling into the void now also teleports back to the portal
+Rewritten the Temple Caller to work better, also fixed the particle effect
+Finally made the Temple Caller change Dragon Lair generation
+Hopefully fixed Ender Dragon collision causing lag and console spam
+NEI integration should no longer crash under specific circumstances
+Many RNG uses had a bias towards negative coordinates
+Smooth text rendering in Ender Compendium has a second option, because of differences across GPU drivers
+Spooky Logs stopped ticking after switching places
+Enhanced Brewing Stands work again
+
+
+==================
+Release 1.6.4 (1.7.10)
+12 October 2014
+------------------
+[b]Additions[/b]
+Biome Islands have Interactions, which are random events that make the islands more alive!
+Added Endium Ore, Ingot and Block!
+Added Homeland Endermen that spawn in Enchanted Island (Homeland), they are special!
+Added health regeneration and mob healing ability to Lice
+Added check for broken builds + config option (it is suggested to leave this option enabled)
+New ambient sounds in the Infested Forest (Deep)
+New notification system reports errors to the player/server operators
+
+[b]Changes[/b]
+Ravaged Brick hardness now depends on amount of spawners in the dungeon, mining is also quicker with Scorching Pickaxe
+Ender Dragon's crystal range now depends on difficulty and overpoweredMobs config option
+Meteoroid worldgen changed quite a bit, more changes will be done later
+Dragon Egg has been added to creative menu, and it teleports back to the portal when it gets destroyed
+Improved broken recipe handling and debugging
+Holding shift while using NEI on HEE items will not open the Compendium
+
+[b]Bugfixes[/b]
+Lice would lose abilities after reloading the world
+Removing activated Charm Pouch from the inventory kept the effects active
+Discovering new object had no sound effect
+End structures should no longer regenerate when the world is reloaded midst generation
+Fixed Biome Compass crash
+Fixed Infestation file crash
+(Hopefully) fixed occasional island generation crash
+
+
+==================
+Release 1.6.3 (1.7.10)
+22 September 2014
+------------------
+[b]Additions[/b]
+New configuration option to enable debug logging, useful to debug defective recipes that crash the Orb
+
+[b]Changes[/b]
+Massively reworked Ender Compendium system, it is no longer an item (access using P)
+Tweaked Enhanced TNT's extra power enhancement radius
+Instability Orb can now drop many more items
+Fiery Essence Altar should now work with modded furnaces, as long as they extend TileEntityFurnace
+Tweaked textures of Knowledge Note (formerly Knowledge Fragment and Adventurer's Diary)
+
+[b]Bugfixes[/b]
+Fixed huge amounts of ore drops using Scorching Pickaxe with Nether Ores installed
+Fixed Enhanced TNT & Redstone Torch making the TNT disappear
+Fixed crash when shift-clicking wrong items into Charm Pouch
+Fixed Louse server crash with rare drops
+Fixed Biome Compass texture replacing vanilla checkerboard for blocks/items without a texture
+Crying Soul music disc is now working
+
+
+==================
+Release 1.6.2 (1.7.10)
+10 August 2014
+------------------
+[b]Additions[/b]
+New item - Fire Shard
+New mob modeled by vadis365 <3 - Haunted Miner
+Added many new types of Charms
+Brand new Burning Mountains Biome variation - Mine
+Music is back! Unfortunately, it is no longer loaded dynamically, so you can delete the folder with custom music
+
+[b]Changes[/b]
+Changed existing Biome Islands generation
+Scorching Pickaxe is now craftable
+Improvements to particle effects, try out Dragon Egg teleportation :D
+Done some more code refactoring and optimizations
+
+[b]Bugfixes[/b]
+Fixed possibility of breaking Dragon Egg
+Fixed Biome Islands getting cut off under certain circumstances
+Fixed Biome Compass showing biome icons outside End dimension
+Tweaked Temple Caller to hopefully make resetting the End less buggy
+
+
+==================
+Pre-release 1.6.2 (1.7.10)
+31 July 2014
+------------------
+[b]Additions[/b]
+New blocks - Ravaged Brick (variations, slab, stairs), Cinder
+New items - Scorching Pickaxe (uncraftable atm), Charm Pouch, Runes and Charms
+New mob modeled by vadis365 <3 - Louse
+Huge overhaul of Biome Island generation, introducing different variations of each biome
+Implemented in-game configuration (with the exception of achievementStartId and decompositionBlacklist)
+Biome Compass has a (probably temporary) recipe now
+Added config to disable other mods' mobs 
+
+[b]Changes[/b]
+Sphalerite with Stardust now drops plain Sphalerite block too
+Massively rewritten Biome Island generation to be pre-generated
+Dungeon Tower can now have Enhanced TNT in loot
+Removed some old compatibility code, if you skipped an update you may lose some things
+Done some code refactoring and optimizations
+
+[b]Bugfixes[/b]
+Fortune enchantment no longer affects Stardust Ore drops
+Fixed invalid metadata values for some blocks causing crashes
+Fixed infinite item bug with Baby Endermen and MineFactoryReloaded
+Fixed Dragon Essence Altar repairing some things that shouldn't be repaired
+Fixed a vanilla issue that made it possible to create Ender Dragon XP farms
+
+
+==================
+Release 1.6.1 (1.7.2/1.6.4)
+1 June 2014
+------------------
+[b]Additions[/b]
+New particle effects for Igneous Rock
+New way of creating Ghost Amulets, they also no longer generate in Silverfish dungeons
+Enhancing is now done by right-clicking with End Powder while sneaking
+TNT enhancements!
+Readded Thaumcraft integration, some blocks and items still need aspects though
+
+[b]Changes[/b]
+Spectral Wand is no longer needed to see Energy Cluster stats
+Essence Altars now take 32 of the Essence when standing and 1 when sneaking
+Igneous Rock only burns entities when they hold them
+Removed Gem Fragment
+Modified GUIs with required amount of items
+
+[b]Bugfixes[/b]
+Fixed memory leak in packet handling
+Fixed crash with dragon fight achievement data loading
+Fixed bed explosion crash in the End if the dragon is dead
+Adventurer's Diary no longer shows "Format error"
+
+
+==================
+Release 1.6 (1.7.2/1.6.4)
+15 May 2014
+------------------
+[b]Important[/b]
+This release requires Java 7!
+ 
+[b]Additions[/b]
+Meteoroids with Sphalerite generate in the End
+Decomposition blacklist can now blacklist entire mods
+Default forced entries for Decomposition blacklist (hardcoded into the mod) - minecraft:fire, ExtraUtilities:unstable_ingot, witchery:*
+New block - Sphalerite (+ variation with Stardust)
+New items - Spatial Dash Gem and Biome Compass
+Exploding a TNT next to Instability Orbs will prevent the orbs from exploding
+Updated Ender Compendium information
+You can right-click instead of clicking on the Back button in Ender Compendium
+New achievements, most old ones were removed
+WorldAPI can add dimension mobs
+Implemented mobGriefing gamerule where it wasn't implemented before
+
+[b]Changes[/b]
+Worldgen is now layered (kind of like an onion)
+Small modifications of some worldgen variables, mainly island caves
+Biome Islands are more massive
+End Powder Ore generates everywhere, Stardust Ore only in Biome Islands and Meteoroids
+Dungeon Tower no longer contain Gem Fragments in chests
+Optimized structure generation code
+Finally removed placed Stardust, it will disappear from your world if you haven't picked it up
+Dragon Essence Altar no longer creates spawn eggs, Fiery Essence Altar doesn't require Blaze Egg anymore
+Instability Orb doesn't get destroyed by explosions, instead the decomposition is delayed (however, items and mobs will still get hurt)
+Instability Orb creates less amount of particles
+Modified damage for Transference Gem's bad effects to 44%
+Brewing Infestation Remedy is now done in Enhanced Brewing Stand
+Renamed Endoplasm to Ectoplasm
+Removed Infested Bat Wing, Shattered Enderman Relic
+Ender Eye drops Spatial Dash Gem
+Bunch of refactoring
+ 
+[b]Bugfixes[/b]
+Fixed Scorching Lens flame attack
+Fixed Silverfish kill crash (https://github.com/chylex/Hardcore-Ender-Expansion/issues/17)
+Fixed apostrophes in language files
+Optimized mod integration, you should no longer run out of memory on startup
+
+
+==================
+Release 1.5a (1.6.4, 1.7.2)
+21 Apr 2014
+------------------
+[b]Bugfixes[/b]
+Fixed Ender Demon crash when in water
+Fixed Ender Demon not being hurt by lightning on peaceful and easy
+
+
+==================
+Release 1.5 (1.6.4)
+16 Apr 2014
+------------------
+[b]Important[/b]
+Backported HEE 1.5 for MC 1.7.2 back to 1.6.4
+Most features should be identical, with the exception of music system, and the API
+The 1.6.4 version also fixes crash caused by bad handling of biome blocks with ID > 127
+
+
+==================
+Release 1.5 (1.7.2)
+15 Apr 2014
+------------------
+[b]Important[/b]
+Because of a bug in 1.7.2, all HEE music is disabled!
+
+[b]Additions[/b]
+Added Energy Cluster (and Corrupted Energy), which is the fuel for Temple Caller, Transference Gem and Enderman Relic
+Added Spectral Wand and Energy Extraction Table to interact with clusters
+Completed Ender Compendium with new information + added fragments into loot
+
+[b]Changes[/b]
+Modified Decomposition Table texture
+Redesigned Transference Gem (again) to use Energy instead, slightly lowered durability
+Removed Transference Gem's regeneration in the End dimension
+ 
+[b]Bugfixes[/b]
+Soul Charm renders correctly in the End
+Ender Compendium sometimes shows help when clicking on a fragment
+
+
+==================
+Beta 1.5 (1.7.2)
+18 Mar 2014
+------------------
+[b]Additions[/b]
+Basic API (chylex.hee.api.HeeAPI)
+Transference Gem requires Ender Pearls
+Added Decomposition Table, and redesigned Stardust usage
+Added blacklist for Decomposition Table in config
+Achievement IDs are configurable in config
+
+[b]Changes[/b]
+Sped up Instability Orb and added sound
+Slightly increased Fiery Essence drops and effectivity
+Lowered experience dropped by Stardust Ore, and made it more random
+Spooky Logs with faces now change position quicker
+Temple Caller is now made using Dragon Essence Altar, reduced chance to be loot
+ 
+[b]Bugfixes[/b]
+Rewritten and fixed the algorithm, which detects whether player can see a certain point
+
+
+==================
+Release 1.4.3 (1.6.4)
+9 Mar 2014
+------------------
+[b]Changes[/b]
+Massively lowered amount of experience from the Ender Dragon
+Increased Ender Demon's strength
+
+[b]Bugfixes[/b]
+Fixed Knowledge Fragments causing world to hang if nothing can be unlocked
+Fixed Essence Altar not dropping socket contents
+Fixed some knowledge unlocked by Ender Dragon
+
+
+==================
+Release 1.4.2 (1.6.4)
+2 Mar 2014
+------------------
+[b]Changes[/b]
+Massively increased amount of worldgen features
+Changed internal names of blocks and items
+ 
+[b]Bugfixes[/b]
+Fixed dragon battle music restarting
+
+
+==================
+Release 1.4.1 (1.6.4)
+20 Feb 2014
+------------------
+[b]Bugfixes[/b]
+Fixed crash when unlocking knowledge and player was null
+
+
+==================
+Release 1.4 (1.6.4)
+18 Feb 2014
+------------------
+[b]Additions[/b]
+Ender Compendium, the source of all knowledge about the End!
+Knowledge Fragments in dungeons and villager trades
+
+[b]Changes[/b]
+Ghost Amulet is slightly more common
+Silverfish Dungeons are closer to caves, and will turn Stone Bricks into Silverfish when the spawner is broken
+Items on Essence Altar pedestals have smaller collision box
+Dead Death Flower added to creative menu
+Renamed Brainless Enderman to Paralyzed Enderman
+Paralyzed Endermen drop less Ender Pearls
+ 
+[b]Bugfixes[/b]
+Fixed Essence Altar disappearing at certain angles
+Items on Essence Altar pedestals have smaller collision box
+Logs and leaves now catch on fire
+
+
+==================
+Release 1.3.3 (1.6.4)
+27 Jan 2014
+------------------
+[b]Additions[/b]
+Added NEI compatibility for enhancement recipes
+Music Discs!
+New music that plays randomly while in End (2 tracks from qwertygiy, every 7 to 14 minutes)
+Updated Thaumcraft aspects
+
+[b]Changes[/b]
+Stardust has ~65% chance of dropping itself it uncrafting fails
+Tweaked mob health and Scorching Lens abilities
+Temple blocks are unbreakable, instead of setting to Adventure mode
+The Dragon Egg no longer teleports on block update (piston techniques still won't work)
+Spectral Essence is acquirable, but doesn't do anything yet
+ 
+[b]Bugfixes[/b]
+Fixed item duplication bug with Stardust, dropping items that aren't consumed in crafting
+Pick block on Stardust returns correct item
+Temple Caller works with MCPC+
+Fixed Temple Caller when the mod was installed after killing vanilla dragon
+
+
+==================
+Release 1.3.2 (1.6.4)
+19 Jan 2014
+------------------
+[b]Additions[/b]
+Started work on Spectral Essence + altar (doesn't do anything yet)
+
+[b]Changes[/b]
+Higher chance to get Silverfish Blood when using a Golden Sword
+Updated language files
+ 
+[b]Bugfixes[/b]
+Fixed dragon fireball crash
+
+
+==================
+Release 1.3.1 (1.6.4)
+12 Jan 2014
+------------------
+[b]Additions[/b]
+Essence Altar sockets
+
+[b]Changes[/b]
+Tweaked OP mobs setting for the dragon
+Corporeal Mirage drops Endoplasm on death
+Fiery Essence Altar speeds up brewing too
+ 
+[b]Bugfixes[/b]
+Fixed MCPC+ crash
+Fixed incompatibility with some mod (OrbAcquirableItems crash)
+Fixed Forge Multipart crash
+
+
+==================
+Release 1.3 (1.6.4)
+30 Dec 2013
+------------------
+[b]Additions[/b]
+Added Stardust & Stardust Ore, Potion of Instability, Ghost Amulet, Endoplasm, Corporeal Mirage Orb and Soul Charm with enhancements
+Burning Mountains Biome may now have Resource Pits
+Dry Splinter can be crafted into Spooky Log and Spooky Leaves
+Ender Eye breaks blocks when awoken on Medium and Hard difficulty
+New sound effects
+Config option to make all mobs overpowered (useful for modpacks with OP items)
+Admin commands - /heeadmin
+
+[b]Changes[/b]
+Ender Dragon has special attacks on Easy difficulty when below 60% health
+Tweaked dragon's Divebomb attack + velocity tweaks
+Forest Ghost tweaks to make him more reliable and scary
+Whole bunch of small tweaks after a big test (thanks vadis365 & ganymedes for participating)
+
+[b]Bugfixes[/b]
+Essence Altar orbs no longer light up other particles
+Fixed throwing Igneous Rock on a Dungeon Puzzle wall block
+Fixed Dragon being damaged by his own fireballs
+Fire Fiend drops correct amount of experience
+
+
+==================
+Release 1.2.2 (1.6.4)
+19 Dec 2013
+------------------
+[b]Additions[/b]
+Randomly chosen rare variations of Biome Islands
+Angry Endermen spawn during the Endermanpocalypse too
+New configuration settings for Endermanpocalypse and Temple Caller
+
+[b]Changes[/b]
+Biome Island variations are much more common
+Tweaked Instability Orb item chances
+
+[b]Bugfixes[/b]
+Corrected amount of Ender Pearls dropped by Ender Guardian
+Fixed Spooky Logs with heads always summoning Ghosts
+Fixed some missing configuration in client
+
+
+==================
+Release 1.2.1 (1.6.4)
+5 Dec 2013
+------------------
+[b]Additions[/b]
+Added Enderman Stash into the Enchanted Island biome
+Completed Enderman Relic functionality
+New items - Gem Fragment, Silverfish Blood, Infested Bat Wing, Dry Splinter, Infestation Remedy
+New mob - Brainless Enderman
+Ender Guardian drops Obsidian and Ender Pearls
+More custom music triggerers
+
+[b]Changes[/b]
+Biome Island structure improvements
+Tweaked generation mechanics of Biome Islands and Dungeon Tower
+Tuned down Ender Goo's aggresivity in the Overworld
+Improved Instability Orb item & entity list
+Ender Eye drops 2 Gem Fragments instead of Transference Gem
+Updated Forge registration names - will cause block & item mismatch warning!
+Less frequent update notifications
+ 
+[b]Bugfixes[/b]
+Fixed Enderman Heads dropping 2 heads from one
+Fixed rendering of falling blocks
+Biome Islands should generate correctly in all cases
+Fixed MCPC+ file glitch
+
+
+==================
+Pre-release 1.2 (1.6.4)
+28 Nov 2013
+------------------
+[b]Additions[/b]
+Added new type of Biome Island!
+Added Silverfish dungeons into Infested Forest Biome & puzzle dungeon into Burning Mountains Biome
+New blocks - Ender Goo, Dungeon Puzzle
+New items - Spawn Eggs, Enderman Relic
+New mobs - Ender Guardian, Fire Fiend, Ender Demon
+More achievements!
+Endermanpocalypse
+Added more translatable names
+
+[b]Changes[/b]
+Water in Endstone Blobs changed to Ender Goo + some blob improvements
+Dungeon Towers slightly less common
+Silverfish spawn in Infested Forest Biome instead of Baby Endermen
+Infested Bats no longer hurt players and have random size
+Tweaked Dragon Egg teleportation randomness
+Improved Falling Obsidian visuals
+Baby Endermen have actual family instead of just spawning them
+Some code refactoring, optimizations and tweaks
+ 
+[b]Bugfixes[/b]
+Removed leftovers from old mod name
+Critical Endstone Blob generation fixes
+Critical Dungeon Tower generation fix (random missing walls)
+Fixed Dungeon Tower's Enderman Head rotations
+Baby Endermen won't keep following you if you have empty inventory
+Biome Island mobs no longer flicker on peaceful difficulty
+Fixed compatibility with IdFix and Railcraft (dragon egg glitch)
+
+
+==================
+Release 1.1.2 (1.6.4)
+1 Nov 2013
+------------------
+[b]Additions[/b]
+Ender Eye has a boss health bar
+Update notifications
+Added several languages
+
+[b]Changes[/b]
+Death message shows Ender Dragon instead of the custom name
+Renamed Scorched Lens to Scorching Lens
+Fire Golem's fireballs create less fire
+ 
+[b]Bugfixes[/b]
+Fixed rare crashes with the Dragon Essence Altar and music loader
+Fixed Essence Altar particle opacity flickering
+Fixed Essence Altar glyphs rotating with daylight cycle off
+Fixed infestation effect curability after restarting
+Corrected Ender Eye's arm animation when falling asleep
+
+
+==================
+Release 1.1.1 (1.6.4)
+29 Oct 2013
+------------------
+[b]Additions[/b]
+Added new altars
+Added Fiery Essence
+Added Altar Nexus purely for the Basic Essence Altar
+Fire Golem can teleport away when a fireball explodes nearby
+Scorched Lens' fire attack deals random knockback
+Enderman Head is wearable and will prevent Baby Endermen from stealing items
+All names are now in a .lang file, allowing more languages in the future
+Readded Thaumcraft 4 integration
+
+[b]Changes[/b]
+Renamed the mod to Hardcore Ender Expansion
+Completely redesigned Essence Altar mechanics and recipes
+Instability Orb Ore is slightly more common
+Reduced Knockback effect on the Ender Eye
+Balanced Fire Golem attack and reward ratio
+Lowered amount of experience from the dragon battle
+ 
+[b]Bugfixes[/b]
+Compatibility with mods that add derpy recipes
+Hopefully fixed occasionally buggy Biome Island generation
+
+
+==================
+Release 1.1 (1.6.4)
+18 Oct 2013
+------------------
+[b]Additions[/b]
+Biome Islands! Currently 2 biomes available - Infested Forest, Burning Mountains
+Island blocks - End Stone Terrain, Spooky Log & Leaves, decorations (grass, ferns, bushes, flowers)
+Island mobs - Infested Bat, Baby Enderman, Fire Golem, Scorched Lens
+Added Instability Orb
+2 new types of Obsidian Spikes - crumbling & iron bars
+Death Flower will spawn more Angry Endermen as it dies
+Death Flower in a flower pot will slowly die
+Music loader & player handles external music in .minecraft\config\HardcoreEnderdragonMusic\
+
+[b]Changes[/b]
+The angry stage of dragon battle comes faster with each respawn
+Obsidian Spikes no longer shoot bombs
+Obsidian from main island towers, while flying, will damage players just like anvils
+Temple Caller much more rare in overworld, more common in Dungeon Towers
+Explosive effect on Ender Pearls has now radius of 2.7
+Code refactoring to prevent potential errors when updating & remove unnecessary code
+
+[b]Bugfixes[/b]
+Fixed crash when deleting a world and then creating a new one with the same name
+Angry Endermen will not attack players in creative mode
+Prevented skipping angry stage of the dragon battle by not destroying enough crystals
+
+
+==================
+Release 1.0.1 (1.6.4)
+30 Sep 2013
+------------------
+[b]Additions[/b]
+New config option to turn off music
+Igneous Rock makes nearby TNT blow up instantly
+
+[b]Changes[/b]
+Updated Igneous Rock and Igneous Rock Ore textures
+Removed Death Flower as item with different ID than the block (sorry!)
+Temple Caller much more rare in overworld, more common in Dungeon Towers
+
+
+==================
+Release 1.0 (1.6.2)
+6 Sep 2013
+------------------
+[b]Additions[/b]
+Transference Gem can be enhanced with 3 effects
+Death Flower can be crafted into dyes
+Essence Altar allows transfering from multiple slots
+Exchange Nether Wart for Witch Spawn Egg using the Essence Altar
+Custom bubble particles when Igneous Rock is thrown in water
+Added a tab with mod's blocks and items to the Creative mode inventory
+
+[b]Changes[/b]
+Removed all (most) debugging messages
+Fire block is no longer overridden
+Huge balancing to the Essence Altar
+
+[b]Bugfixes[/b]
+Ender Pearls with Riding effect are much smoother and won't kick you for flying
+Prevented suffocation when using Ender Pearls with Double speed
+Enhanced Brewing Stand can't brew Instant Health and Strength potions
+Enhanced Brewing Stand can't apply redstone to Fire Resistance potions
+Portal in the temple becomes inactive after the egg is placed
+Ending (credits/win) screen no longer briefly showing when teleported to overworld via the temple
+Prevented breaking and placing blocks in the temple
+Temple Caller is now usable in Creative mode
+Cannot get Squid Spawn Egg from the Essence Altar
+Hopefully fixed rare Dungeon Tower deformations (needs more testing)
+Pick Block gives correct item when clicking a Death Flower
+
+
+==================
+Pre-release 2 (1.6.2)
+29 Aug 2013
+------------------
+[b]Additions[/b]
+Achievements and challenges
+Dungeon towers with Ender Eye mini-boss
+Transference Gem
+Enderman Head (in dungeon towers + rare enderman drop)
+New types of Obsidian
+Configuration file with block and item IDs
+Thaumcraft integration
+
+[b]Changes[/b]
+Massive balancing of Enhanced Brewing Stand
+The Adventurer's Diary is slightly more rare
+Warning when people enter End in creative mode
+Tweaked the Summon attack
+
+[b]Bugfixes[/b]
+Fixed sounds that were not working in previous release
+Corrections in The Adventurer's Diary
+Tweaks to some Enhanced Ender Pearl effects
+Crash when clicking both buttons on a block while sneaking in creative mode
+
+
+==================
+Pre-release 1 (1.6.2)
+10 Aug 2013
+------------------
+[b]Important[/b]
+Major rewrite and feature update :D
+Huge amount of tweaks, unlistable
+
+[b]Additions[/b]
+New special attack (the one with bats)
+Ender Crystals shoot bombs
+Blocks - Essence Altar, Enhanced Brewing Stand, Death Flower, ores for End Powder and Igneous Rock
+Items - Adventurer's Diary, Dragon Essence, End Powder, Enhanced Ender Pearls, Igneous Rock, Temple Caller
+Endstone Blobs around the main island
+New sounds from SoundJay.com
+
+[b]Bugfixes[/b]
+AI, Dragon Egg and other fixes
+Music no longer plays without the dragon
+
+
+==================
+Beta 12 (1.6.2)
+14 Jul 2013
+------------------
+[b]Important[/b]
+Rewritten for Forge!
+Code refactoring, optimizations...
+
+[b]Additions[/b]
+Removed forced difficulty, added average difficulty value instead
+Tweaked rewards - added Dragon Essence instead of a chest
+Added End Powder and Essence Altar
+End portal shows particles before it's actually spawned
+
+[b]Changes[/b]
+Small tweaks, as always
+
+[b]Bugfixes[/b]
+Fixed non-legit ways of getting the Dragon Egg
+
+
+==================
+Beta 11 (1.5.2)
+19 May 2013
+------------------
+[b]Additions[/b]
+Added occasional Fatality attack
+Added Angry Enderman
+
+[b]Changes[/b]
+Regular attacks more frequent
+Lower health makes the dragon more aggressive
+
+[b]Bugfixes[/b]
+Fixed biting during regular attacks
+
+
+==================
+Beta 10 (1.5.1)
+30 Mar 2013
+------------------
+[b]Important[/b]
+Unstable
+
+[b]Changes[/b]
+Many code tweaks and changes, only 8 base classes used
+
+
+==================
+Beta 9 (1.4.7)
+20 Jan 2013
+------------------
+[b]Additions[/b]
+Added chance of a freezeball right before regular fireball attack
+Added lightning effect to Summon attack
+
+[b]Changes[/b]
+Big coding changes, 4 less base classes used
+Improved stay'n'fire attack
+1 in 4 chance of instant fireball attack after a special attack
+Slightly modified some values, like summon frequency
+Tweaked rewards - amount, levels, anvil price
+End music playlist tries to not play the same track twice
+
+[b]Bugfixes[/b]
+Fixed dragon not attacking as he used to
+Fixed speed of divebomb
+Fixed attack efficiency of 'infinity'
+
+
+==================
+Beta 8 (1.4.6)
+23 Dec 2012
+------------------
+[b]Additions[/b]
+Stealth attack (non-special, silent bite&punch attack from behind if you don't pay attention to the dragon)
+New special attack, secret!
+New AI that evaluates each attack's efficiency and influences dragon's attack picking
+Only one legit way of getting the dragon egg
+
+[b]Changes[/b]
+A 'carefulness' element, influencing attacks too, but also key decisions for the dragon to survive
+Dragon's much more likely to get rid of weak and damaged players first
+Less random, more IQ
+Few tweaks for attacks - some of them are faster, played around with timing and AI...
+Rewritten reward system
+Extremely lowered amount of XP to combine items with books
+Easier to implement new attacks
+
+[b]Bugfixes[/b]
+Performance optimizations, many people had problems with FPS (like huge lagspikes destroying crystals)
+Wing speed fixed
+Many SMP fixes, thanks to ssp and smp merge in 1.3!
+
+
+==================
+Beta 7 (1.3.1)
+14 Aug 2012
+------------------
+[b]Additions[/b]
+Biting can now make you bleed (adds nausea and blindness)
+Deleted End disappearing
+Removed unfinished features from final code, reducing amount of classes
+
+[b]Bugfixes[/b]
+Couple bugfixes, again AI tweaks
+Fixed most of SMP bugs like collisions and new obsidian
+
+
+==================
+Beta 6 (1.2.5)
+21 Jun 2012
+------------------
+[b]Additions[/b]
+Obsidian scatters around (SSP only)
+The End disappears a while after you kill the dragon (SSP only)
+Fire below the dragon extinguishes and endermen stop attacking while the dragon's dying
+
+[b]Changes[/b]
+Whirlwind attack replacing unfinished Pickup attack
+AI tweaks, little collision and visual changes
+
+[b]Bugfixes[/b]
+Lot of SMP fixes
+Optimized code, especially for better SSP-SMP converting
+
+
+==================
+Beta 5 (1.2.5)
+Unknown
+------------------
+[b]Additions[/b]
+Leaked attack - pickup (derpy update)
+
+[b]Changes[/b]
+More aggresive dragon
+Reward chest, more XP
+
+
+==================
+Beta 4 (1.2.5)
+17 Apr 2012
+------------------
+[b]Additions[/b]
+5 music tracks
+Chance of poisoning when the dragon bites you
+
+[b]Bugfixes[/b]
+Fixed divebomb, adjusted settings
+
+
+==================
+Beta 3 (1.2.5)
+11 Apr 2012
+------------------
+[b]Additions[/b]
+New special attack - freezer
+More XP at death
+Water creates at death to prevent destroying xp orbs
+Surprise when you punch fireball
+Freezeballs - slowness II
+Freezeball attack when you're near TNT
+
+[b]Changes[/b]
+Adjusted settings and attacks
+
+[b]Bugfixes[/b]
+Fixed punch and collisions in SSP
+Fixed destroying endstone in divebomb
+
+
+==================
+Beta 2 (1.2.5)
+8 Apr 2012
+------------------
+[b]Bugfixes[/b]
+Fixed enderobsidian
+SMP update
+
+
+==================
+Beta 1 (1.2.5)
+4 Apr 2012
+------------------
+[b]Additions[/b]
+4 special attacks - divebomb, stay'n'fire, bitemadness, punch
+Enderobsidian
+
+
+==================
+First version (1.2.3)
+1 Mar 2012
+------------------
+[b]Additions[/b]
+Angry dragon mode
+Fireballs
+Crystals shooting TNT
+New reward
+And more... too old to be fully remembered :)
