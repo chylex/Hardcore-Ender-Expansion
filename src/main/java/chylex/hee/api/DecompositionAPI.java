@@ -28,7 +28,7 @@ public final class DecompositionAPI extends AbstractAPI{
 	}
 	
 	/**
-	 * Blacklists items by parsing a string, which follows the same syntax rules as decompositionBlackList in configuration - {@code http://hardcore-ender-expansion.wikia.com/wiki/Configuration}.
+	 * Blacklists items by parsing a string, which follows the same syntax rules as decompositionBlackList in configuration - {@code http://hee.chylex.com/config}.
 	 * @param data String to parse.
 	 */
 	public static void blacklistItemFromString(String data){

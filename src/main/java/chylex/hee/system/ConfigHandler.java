@@ -100,7 +100,7 @@ public final class ConfigHandler{
 			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes",false,"This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();
 			UpdateNotificationManager.enableBuildCheck = getBool("enableBuildCheck",true,"It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.").setShowInGui(false).getBoolean();
 			ModCommonProxy.achievementStartId = getInt("achievementStartId",3500,"Starting ID of achievements, only change this if there is a conflict.").setShowInGui(false).getInt();
-			StardustDecomposition.addFromString(getString("decompositionBlacklist","","Blacklist of items that should not be decomposable or decomposed into. Visit http://hardcore-ender-expansion.wikia.com/wiki/Configuration for syntax and examples.").setRequiresMcRestart(true).getString());
+			StardustDecomposition.addFromString(getString("decompositionBlacklist","","Blacklist of items that should not be decomposable or decomposed into. Visit http://hee.chylex.com/config for syntax and examples.").setRequiresMcRestart(true).getString());
 			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");
 			firstTimeGeneral = false;
 		}
