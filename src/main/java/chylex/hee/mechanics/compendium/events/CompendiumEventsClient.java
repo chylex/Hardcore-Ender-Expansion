@@ -81,10 +81,16 @@ public final class CompendiumEventsClient{
 		instance.newlyDiscoveredTime = System.nanoTime();
 	}
 	
+	public static void showCompendiumAchievement(){
+		Minecraft.getMinecraft().guiAchievement.func_146255_b(AchievementManager.THE_MORE_YOU_KNOW);
+		instance.achievementTimer = 120;
+	}
+	
 	private final KeyBinding keyOpenCompendium;
 	private PlayerCompendiumData data;
 	private short newlyDiscoveredId = -1;
 	private long newlyDiscoveredTime = 0L;
+	private byte achievementTimer = Byte.MIN_VALUE;
 	
 	private CompendiumEventsClient(){
 		keyOpenCompendium = new KeyBinding(ModCommonProxy.hardcoreEnderbacon ? "key.openCompendium.bacon" : "key.openCompendium",25,"Hardcore Ender Expansion");
@@ -111,6 +117,8 @@ public final class CompendiumEventsClient{
 		if (e.phase != Phase.START)return;
 		
 		Minecraft mc = Minecraft.getMinecraft();
+		
+		if (achievementTimer > Byte.MIN_VALUE && --achievementTimer == Byte.MIN_VALUE)Minecraft.getMinecraft().guiAchievement.func_146257_b();
 		
 		if ((keyOpenCompendium.isPressed() || Keyboard.getEventKeyState() && Keyboard.getEventKey() == keyOpenCompendium.getKeyCode()) && (mc.inGameHasFocus || mc.currentScreen instanceof GuiContainer)){
 			if (canOpenCompendium()){
@@ -149,7 +157,10 @@ public final class CompendiumEventsClient{
 				
 				openCompendium(obj);
 				
-				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))PacketPipeline.sendToServer(new S03OpenCompendium());
+				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW)){
+					PacketPipeline.sendToServer(new S03OpenCompendium());
+					achievementTimer = Byte.MIN_VALUE;
+				}
 			} 
 		}
 	}

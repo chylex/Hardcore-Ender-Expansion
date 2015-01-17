@@ -78,7 +78,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 					if (o instanceof EntityBossDragon){
 						EntityBossDragon dragon = (EntityBossDragon)o;
 						dragon.heal(1);
-						worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj,dragon.posX,dragon.posY,dragon.posZ));
+						worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj,dragon.posX,dragon.posY+dragon.height*0.25F,dragon.posZ));
 						break;
 					}
 				}
