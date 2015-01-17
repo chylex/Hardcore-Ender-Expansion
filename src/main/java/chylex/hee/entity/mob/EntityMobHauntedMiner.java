@@ -1,4 +1,5 @@
 package chylex.hee.entity.mob;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -117,7 +118,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								else if (item == Items.iron_ingot || item == Items.gold_ingot || item == Items.diamond || item == Items.redstone || (item == Items.dye && is.getItemDamage() == 4) ||
 										 item == Items.emerald || item == Items.coal || item == ItemList.end_powder || item == ItemList.igneous_rock || item == ItemList.instability_orb ||
 										 item == ItemList.stardust)foundMiningStuff += 1+(is.stackSize>>3);
-								else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(((ItemBlock)item).field_150939_a))foundMiningStuff += 1+(is.stackSize>>3);
+								else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(((ItemBlock)item).field_150939_a))foundMiningStuff += 1+(is.stackSize>>3); // TODO ore only
 							}
 							
 							if (foundMiningStuff >= 13+rand.nextInt(6))target = (EntityPlayer)temp;
@@ -225,7 +226,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 									if (dist > 12D)continue;
 									
 									double[] vec = DragonUtil.getNormalizedVector(entity.posX-posX,entity.posZ-posZ);
-									double strength = 1.25D+(12D-dist)*0.22D;
+									double strength = 1.15D+(12D-dist)*0.2D;
 									vec[0] *= strength;
 									vec[1] *= strength;
 									
@@ -346,6 +347,40 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 			target = newTarget;
 			nextAttackTimer = ATTACK_TIMER;
 		}
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount){
+		boolean damaged = super.attackEntityFrom(source,amount);
+		Entity sourceEntity = source.getSourceOfDamage();
+		
+		if (damaged && sourceEntity instanceof EntityLivingBase){
+			if (!(sourceEntity instanceof EntityMobHauntedMiner)){
+				target = (EntityLivingBase)sourceEntity;
+				nextAttackTimer = 10;
+			}
+			
+			if (rand.nextInt(6) == 0 || getHealth() <= 0F){
+				int maxTargeted = worldObj.difficultySetting.getDifficultyId()-2+rand.nextInt(2);
+				List<EntityMobHauntedMiner> nearby = worldObj.getEntitiesWithinAABB(EntityMobHauntedMiner.class,boundingBox.expand(48D,30D,48D)), viable = new ArrayList<>();
+				
+				while(!nearby.isEmpty()){
+					EntityMobHauntedMiner miner = nearby.remove(rand.nextInt(nearby.size()));
+					if (miner == this)continue;
+					
+					double dist = getDistanceToEntity(miner);
+					
+					if (miner.target == null && dist < 16D)viable.add(miner);
+					else if (miner.target == sourceEntity){
+						if (--maxTargeted == 0)break;
+					}
+				}
+				
+				if (maxTargeted > 0 && !viable.isEmpty())viable.get(rand.nextInt(viable.size())).setRevengeTarget((EntityLivingBase)sourceEntity);
+			}
+		}
+		
+		return damaged;
 	}
 	
 	@Override

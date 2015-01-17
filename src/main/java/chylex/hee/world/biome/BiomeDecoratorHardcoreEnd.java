@@ -42,10 +42,10 @@ import chylex.hee.world.util.WorldGenChance;
  * Dragon Lair        | single   | 0-120           |
  * End Powder Ore     | constant | 0-              |
  * Endstone Blob      | constant | 100-            | some types spawn a bit further
- * Energy Cluster     | cubic+   | 320-6400        | x != 0 => x*0.45+0.22
- * Energy Cluster (2) | linear+  | 320-6400        | x != 0 => x*0.9+0.1 ... chance to continue spawning
+ * Energy Cluster     | cubic+   | 320-6400        | x != 0 => x*0.45+0.12
+ * Energy Cluster (2) | linear+  | 320-6400        | x != 0 => x*0.8+0.1 ... chance to continue spawning
  * Dungeon Tower      | cubic-   | 350/900-3800    | x != 0 => x*0.75+0.25
- * Endium Ore         | cubic+   | 500-12000       | x != 0 => x*0.64+0.28
+ * Endium Ore         | cubic+   | 500-12000       | x != 0 => x*0.6+0.34
  * Endium Ore (2)     | linear+  | 1500-21000      | max amount of blocks spawned
  * Meteoroid          | linear+- | 1280-2700-15000 |
  * Biome Island       | linear+  | 1600-4000       | x != 0 => x*0.35+0.65
@@ -91,18 +91,18 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.finish("WorldGenBlob");
 		}
 		
-		if (distFromCenter > 320D && checkChance(0.22D+0.45D*WorldGenChance.cubic2Incr.calculate(distFromCenter,320D,6400D)) && randomGenerator.nextDouble()*randomGenerator.nextDouble() > 0.6D){
+		if (distFromCenter > 320D && checkChance(0.12D+0.45D*WorldGenChance.cubic2Incr.calculate(distFromCenter,320D,6400D)) && randomGenerator.nextDouble()*randomGenerator.nextDouble() > 0.65D){
 			Stopwatch.timeAverage("WorldGenEnergyCluster",64);
 			
 			for(int a = 0; a < randomGenerator.nextInt(4); a++){
 				clusterGen.generate(currentWorld,randomGenerator,chunk_X+8,0,chunk_Z+8);
-				if (!checkChance(0.1D+0.9D*WorldGenChance.linear2Incr.calculate(distFromCenter,320D,6400D)))break;
+				if (!checkChance(0.1D+0.8D*WorldGenChance.linear2Incr.calculate(distFromCenter,320D,6400D)))break;
 			}
 			
 			Stopwatch.finish("WorldGenEnergyCluster");
 		}
 		
-		if (distFromCenter > 500D && checkChance(0.28D+0.64D*WorldGenChance.cubic2Incr.calculate(distFromCenter,500D,12000D))){
+		if (distFromCenter > 500D && checkChance(0.34D+0.6D*WorldGenChance.cubic2Incr.calculate(distFromCenter,500D,12000D))){
 			Stopwatch.timeAverage("WorldGenEndiumOre",64);
 			
 			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+randomGenerator.nextInt(2+MathUtil.ceil(9D*WorldGenChance.linear2Incr.calculate(distFromCenter,1500D,21000D)))); attempt < 440; attempt++){

@@ -173,7 +173,9 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 	}
 	
 	private void spawnParticles(){
-		HardcoreEnderExpansion.fx.spatialDash(this);
+		double dist = getDistanceSqToEntity(HardcoreEnderExpansion.proxy.getClientSidePlayer());
+		if (dist > 600D && rand.nextBoolean())return;
+		if (dist < 180D)HardcoreEnderExpansion.fx.spatialDash(this);
 		HardcoreEnderExpansion.fx.spatialDash(this);
 	}
 	

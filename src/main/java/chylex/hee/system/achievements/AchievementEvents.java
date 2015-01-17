@@ -97,7 +97,10 @@ public final class AchievementEvents implements IQuickSavefile{
 	
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent e){
-		if (e.pickedUp.getEntityItem().getItem() == ItemList.stardust)e.player.addStat(AchievementManager.MAGIC_OF_DECOMPOSITION,1);
+		Item item = e.pickedUp.getEntityItem().getItem();
+		
+		if (item == Item.getItemFromBlock(BlockList.enhanced_brewing_stand))e.player.addStat(AchievementManager.ENHANCED_BREWERY,1);
+		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.MAGIC_OF_DECOMPOSITION,1);
 	}
 	
 	@SubscribeEvent

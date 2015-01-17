@@ -23,6 +23,7 @@ public final class AchievementManager{
 	public static Achievement
 		TIME_FOR_NEW_ADVENTURES = addAchievement(0, "newAdventures", 0, -1, Blocks.dragon_egg, 0, null),
 		LEARNING_THE_POWERS = addAchievement(1, "learningThePowers", 2, -2, ItemList.essence, 0, TIME_FOR_NEW_ADVENTURES),
+		ENHANCED_BREWERY = addAchievement(11, "enhancedBrewery", 4, -2, ItemList.enhanced_brewing_stand, 0, LEARNING_THE_POWERS),
 		REBIRTH = addAchievement(50, "rebirth", 1, -4, ItemList.temple_caller, 0, LEARNING_THE_POWERS),
 		TRAVELING_101 = addAchievement(2, "traveling101", 0, 1, ItemList.end_powder, 0, TIME_FOR_NEW_ADVENTURES),
 		SUPER_SHINY = addAchievement(51, "superShiny", -3, 1, ItemList.enhanced_ender_pearl, 0, TRAVELING_101),

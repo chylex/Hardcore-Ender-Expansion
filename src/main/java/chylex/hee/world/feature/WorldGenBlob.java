@@ -146,7 +146,7 @@ public class WorldGenBlob extends WorldGenerator{
 		
 		BlobType.RARE.patterns.addAll(new BlobPattern[]{
 			// transport beacon
-			new BlobPattern(1).addGenerators(new BlobGenerator[]{
+			new BlobPattern(3).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorFromCenter(10).amount(IRandomAmount.preferSmaller,3,6).rad(2.7D,4.5D).dist(3.2D,5D),
 				new BlobGeneratorRecursive(8).baseAmount(IRandomAmount.linear,1,3).totalAmount(IRandomAmount.preferSmaller,4,8).recursionAmount(IRandomAmount.preferSmaller,1,3).recursionChance(0.2D,0.45D,0.7D,3).rad(2.5D,4D).distMp(0.9D,1.5D),
 				new BlobGeneratorRecursive(5).baseAmount(IRandomAmount.linear,2,4).totalAmount(IRandomAmount.preferSmaller,5,10).recursionAmount(IRandomAmount.preferSmaller,1,4).recursionChance(0.1D,0.4D,0.7D,4).rad(2.5D,4D).distMp(1D,1.4D).cacheRecursionChance(),
@@ -158,7 +158,7 @@ public class WorldGenBlob extends WorldGenerator{
 			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1),
 			
 			// blob filled with ores
-			new BlobPattern(1).addGenerators(new BlobGenerator[]{
+			new BlobPattern(2).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(1).rad(2.9D,4.9D),
 				new BlobGeneratorChain(1).amount(IRandomAmount.aroundCenter,2,5).rad(2.4D,2.8D).distMp(1D,2D),
 				new BlobGeneratorFromCenter(1).amount(IRandomAmount.aroundCenter,3,6).rad(2.4D,3.1D).dist(1.1D,1.5D).limitDist()
@@ -169,7 +169,7 @@ public class WorldGenBlob extends WorldGenerator{
 			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),
 			
 			// large blob with a spawner
-			new BlobPattern(1).addGenerators(new BlobGenerator[]{
+			new BlobPattern(2).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(1).rad(6D,7.7D),
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorEndermanSpawner(1).blockAmount(IRandomAmount.aroundCenter,3,6).attempts(12,17).visiblePlacementAttempts(8).knownBlockLocations(),

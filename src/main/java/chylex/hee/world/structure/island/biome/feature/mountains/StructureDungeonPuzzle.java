@@ -152,6 +152,19 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 				type = rand.nextInt(2); // 0 = spread, 1 = square
 				
 				if (meta == BlockDungeonPuzzle.metaTriggerUnlit || (meta == BlockDungeonPuzzle.metaChainedUnlit && rand.nextInt(5) > 2)){
+					boolean stop = false;
+					
+					for(int dir = 0; dir < 4; dir++){
+						int adjMeta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX+Direction.offsetX[dir],yy,posZ+Direction.offsetZ[dir]));
+						
+						if (adjMeta == BlockDungeonPuzzle.metaDistributorSpreadUnlit || adjMeta == BlockDungeonPuzzle.metaDistributorSquareUnlit){
+							stop = true;
+							break;
+						}
+					}
+					
+					if (stop)continue;
+					
 					if (type == 0){
 						int nextX = Integer.MIN_VALUE, nextZ = Integer.MIN_VALUE;
 						

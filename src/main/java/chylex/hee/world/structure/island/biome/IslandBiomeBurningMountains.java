@@ -12,7 +12,7 @@ import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1,8);
-	public static final BiomeContentVariation MINE = new BiomeContentVariation(5,5);
+	public static final BiomeContentVariation MINE = new BiomeContentVariation(5,6);
 	
 	private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
 	

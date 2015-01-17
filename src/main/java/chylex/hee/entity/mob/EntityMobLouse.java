@@ -137,7 +137,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 			}
 		}
 		
-		if (entityToAttack != null && entityToAttack.posY > posY+0.95D && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) <= 3D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
+		if (entityToAttack != null && entityToAttack.posY > posY+1.3D && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) <= 3D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
 			jump();
 		}
 	}
