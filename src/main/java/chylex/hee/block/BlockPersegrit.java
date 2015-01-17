@@ -17,6 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockPersegrit extends Block implements IBlockSubtypes{
+	public static final byte metaAmount = 16;
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
 	
