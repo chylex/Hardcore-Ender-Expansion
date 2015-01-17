@@ -15,6 +15,7 @@ ec.title.essence=Essence
 ec.title.ravagedDungeon=Ravaged Dungeon
 ec.title.curses=Curses
 ec.title.dungeonPuzzle=Dungeon Puzzle
+ec.title.laboratory=Laboratory
 
 ec.help.nonbuyable=The fragment has to be purchased elsewhere
 ec.help.requirements=Another fragment must be bought first
@@ -444,7 +445,7 @@ ec.reg.657=When killed, they drop 0-2 Fire Shards and 10 experience.
 ec.reg.660=Very flat biome with small amount of caves.
 ec.reg.661=There are currently two variations - Homeland and Laboratory.
 ec.reg.662=Homeland has lakes of Ender Goo, piles of Falling Obsidian and a strange Obsidian road-like structure. You can often find Homeland Cache, a floating transparent cube that can be broken. Endermen, Baby Endermen and Ender Guardians spawn there.
-ec.reg.663=Laboratory has a single large structure made of special blocks. Endermages and Ender Guardians spawn in the variation.
+ec.reg.663=Laboratory has a single large structure made of special blocks, and Violet Moss for decoration. Endermages and Ender Guardians spawn in the variation.
 ec.reg.665=All variations have several Hidden Cellars, haunted underground dungeons that are often completely buried in the ground.
 
 ec.reg.670=Variation of End Stone found in the Enchanted Island Biome.
@@ -475,12 +476,25 @@ ec.reg.791=Each Enderman has their role in the Homeland, which is identified by 
 ec.reg.792=Some may form groups, those occasionally emit gray particles.
 ec.reg.793=Attacking Endermen that have certain roles will make them call the guards.
 
-ec.reg.820=Fragment of Obsidian dropped by Ender Guardians.
+ec.reg.1460=Laboratory is a large structure used by Endermages to experiment with magical items from the End.
+ec.reg.1461=It consists of several hallways, and small and large rooms with various lootable content.
+ec.reg.1462=Rooms often contain Energy Clusters, Death Flowers, sometimes Endium and Ender Chests, and other useful content.
+ec.reg.1463=There are also regular chests with loot. Those can contain Obsidian Fragments and Auricion, amongst several other items.
+
+ec.reg.1450=Weaker variation of Obsidian that forms the walls and ceiling of the Laboratory.
+
+ec.reg.1451=Dark glass found in the Laboratory.
+
+ec.reg.1452=Smooth block that is used for the Laboratory floor.
+
+ec.reg.1453=Stairs of Laboratory Floor, cannot be crafted.
+
+ec.reg.820=Fragment of Obsidian dropped by Ender Guardians, and found in chests inside the Laboratory.
 
 ec.reg.830=Rod made of Obsidian Fragments.
 
 ec.reg.870=Golden token used for crafting.
-ec.reg.871=It can be found in Laboratory loot chests, and is also uncommonly dropped by Endermages.
+ec.reg.871=It can be found in Laboratory and Hidden Cellar loot chests, and is also uncommonly dropped by Endermages.
 
 ec.reg.840=Core of the Energy Wand
 
