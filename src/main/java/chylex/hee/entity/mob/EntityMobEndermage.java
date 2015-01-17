@@ -20,6 +20,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IRangedAttackMob{
@@ -46,7 +47,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(70D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 80D : 65D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.24D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12D);
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(25D);
@@ -60,15 +61,15 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
-		
 		if (lastAttacked > 0)--lastAttacked;
 	}
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (super.attackEntityFrom(source,amount)){
-			if (lastAttacked == 0 && source.getSourceOfDamage() != null){
-				lastAttacked = (short)(100+rand.nextInt(140));
+			if ((lastAttacked == 0 || (rand.nextInt(3) != 0 && getHealth()-amount*2D <= 0D)) && source.getSourceOfDamage() != null){
+				lastAttacked = (short)(130+rand.nextInt(160));
+				double prevPosX = posX, prevPosY = posY, prevPosZ = posZ;
 				
 				Entity sourceEntity = source.getSourceOfDamage();
 				double dist = MathUtil.distance(sourceEntity.posX-posX,sourceEntity.posZ-posZ);
@@ -78,22 +79,23 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 					zz = MathUtil.floor(posZ)+rand.nextInt(31)-15;
 					
 					if (MathUtil.distance(xx+0.5D-sourceEntity.posX,zz+0.5D-sourceEntity.posZ) > dist*4D){
-						boolean found = false;
 						yy = MathUtil.floor(posY)+7;
 						
 						for(int yAttempt = 0; yAttempt < 14; yAttempt++){
 							if (!worldObj.isAirBlock(xx,yy-1,zz) && worldObj.isAirBlock(xx,yy,zz) && worldObj.isAirBlock(xx,yy+1,zz)){
-								PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,xx+0.5D,yy,zz+0.5D));
 								setPosition(xx+0.5D,yy,zz+0.5D);
-								found = true;
-								break;
+								
+								if (canEntityBeSeen(sourceEntity)){
+									PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,xx+0.5D,yy,zz+0.5D));
+									return true;
+								}
 							}
 							else --yy;
 						}
-						
-						if (found)break;
 					}
 				}
+				
+				setPosition(prevPosX,prevPosY,prevPosZ);
 			}
 			
 			return true;

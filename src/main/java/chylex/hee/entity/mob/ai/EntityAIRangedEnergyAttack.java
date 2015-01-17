@@ -41,7 +41,7 @@ public class EntityAIRangedEnergyAttack extends EntityAIBase{
 	
 	@Override
 	public void updateTask(){
-		entity.getNavigator().tryMoveToEntityLiving(target,entity.getDistanceSqToEntity(target) > 64D ? moveSpeed : moveSpeed*0.5D);
+		entity.getNavigator().tryMoveToEntityLiving(target,entity.getDistanceSqToEntity(target) > 100D ? moveSpeed : moveSpeed*0.5D);
 		entity.getLookHelper().setLookPositionWithEntity(target,25F,25F);
 		
 		if (entity.getEntitySenses().canSee(target)){

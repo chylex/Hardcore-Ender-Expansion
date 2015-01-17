@@ -48,7 +48,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		});
 		
 		getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
-			new SpawnEntry(EntityMobEndermage.class,6,15),
+			new SpawnEntry(EntityMobEndermage.class,7,15),
 			new SpawnEntry(EntityMobEnderman.class,12,10),
 			new SpawnEntry(EntityMobEnderGuardian.class,20,7)
 		});

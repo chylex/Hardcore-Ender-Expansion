@@ -509,7 +509,7 @@ ec.reg.694=Damage caused by fire, projectiles and falling blocks is reduced, cac
 ec.reg.693=The guardian drops 0-1 Ender Pearls, 1-3 Obsidian blocks and 0-3 Obsidian Fragments.
 
 ec.reg.860=Mage that lives in the Enchanted Island (Laboratory).
-ec.reg.861=It only attacks players when attacked.
+ec.reg.861=It only attacks players when attacked. Taking damage makes it teleport with a short cooldown, it will also often teleport when taking another hit would kill it.
 ec.reg.862=During its attack, it shoots several consecutive projectiles of Corrupted Energy, which go through blocks and severely damage anything that is too close.
 ec.reg.863=When killed by a player, it has a small chance to drop Auricion.
 ec.reg.864=Any level of Looting increases the chance to get the drop.

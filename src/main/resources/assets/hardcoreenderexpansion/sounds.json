@@ -125,6 +125,12 @@
             "hauntedminer/attack_blast"
         ]
     },
+    "mob.endermage.attack": {
+        "category": "hostile",
+        "sounds": [
+            "endermage/attack"
+        ]
+    },
     "mob.louse.hit": {
         "category": "hostile",
         "sounds": [
