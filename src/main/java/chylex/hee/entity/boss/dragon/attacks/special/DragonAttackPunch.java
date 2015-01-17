@@ -15,8 +15,8 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 	private float speed;
 	private boolean ended;
 	
-	public DragonAttackPunch(EntityBossDragon dragon, int attackId){
-		super(dragon,attackId);
+	public DragonAttackPunch(EntityBossDragon dragon, int attackId, int weight){
+		super(dragon,attackId,weight);
 	}
 	
 	@Override
@@ -51,10 +51,10 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 			}
 		}
 		else if (phase == PHASE_ATTACK){
-			if (tick > 20)speed = 4F;
+			if (tick > 20)speed = 3F;
 			
 			if (dragon.dragonPartHead.getDistanceSqToEntity(tempTarget) < 35D){
-				target.attackEntityFrom(DamageSource.causeMobDamage(dragon),13F+getDifficulty());
+				target.attackEntityFrom(DamageSource.causeMobDamage(dragon),10F+getDifficulty());
 				ended = true;
 			}
 		}
@@ -83,8 +83,8 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 	@Override
 	public void onCollisionEvent(CollisionEvent event){
 		super.onCollisionEvent(event);
-		event.velocityX *= 2.3D*Math.min(3D,speed);
+		event.velocityX *= 2D*Math.min(2.5D,speed);
 		event.velocityY *= 1.4D*speed;
-		event.velocityZ *= 2.3D*Math.min(3D,speed);
+		event.velocityZ *= 2D*Math.min(2.5D,speed);
 	}
 }

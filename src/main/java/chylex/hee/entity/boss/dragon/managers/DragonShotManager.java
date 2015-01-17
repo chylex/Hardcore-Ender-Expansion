@@ -1,6 +1,7 @@
 package chylex.hee.entity.boss.dragon.managers;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraft.util.Vec3;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.projectile.EntityProjectileDragonFireball;
 import chylex.hee.proxy.ModCommonProxy;
@@ -54,9 +55,10 @@ public class DragonShotManager{
 		double yDiff = y-(dragon.posY+dragon.height*0.5F);
 		double zDiff = z-dragon.posZ;
 		
-		EntityFireball e = type == ShotType.FIREBALL ? new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yDiff,zDiff,dragon.angryStatus ? 1.5F : 1F,random,(dragon.angryStatus ? 3F : 2.7F)+(ModCommonProxy.opMobs ? 0.8F : 0F)) : null;
+		EntityFireball e = type == ShotType.FIREBALL ? new EntityProjectileDragonFireball(dragon.worldObj,dragon,xDiff,yDiff,zDiff,dragon.angryStatus ? 1.5F : 1F,random,(dragon.angryStatus ? 2.8F : 2.5F)+(ModCommonProxy.opMobs ? 0.7F : 0F)) : null;
 		if (e == null)return;
 		
+		Vec3 look = dragon.getLookVec();
 		e.posX = dragon.dragonPartHead.posX;
 		e.posY = dragon.dragonPartHead.posY+(dragon.height/6F);
 		e.posZ = dragon.dragonPartHead.posZ;

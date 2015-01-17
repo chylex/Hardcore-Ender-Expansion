@@ -8,6 +8,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
@@ -19,18 +20,19 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 	private final TObjectByteHashMap<UUID> lastStriked = new TObjectByteHashMap<>(6);
 	private byte summonTimer;
 	private byte summoned;
+	private int totalTimer;
 	private boolean ended;
 	
-	public DragonAttackSummoning(EntityBossDragon dragon, int attackId){
-		super(dragon,attackId);
+	public DragonAttackSummoning(EntityBossDragon dragon, int attackId, int weight){
+		super(dragon,attackId,weight);
 	}
 	
 	@Override
 	public void init(){
 		super.init();
 		lastStriked.clear();
-		summonTimer = 0;
-		summoned = 0;
+		summonTimer = summoned = 0;
+		totalTimer = 1200;
 		ended = false;
 		dragon.target = null;
 	}
@@ -73,10 +75,11 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 							dragon.worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(dragon.worldObj,player.posX,player.posY,player.posZ));
 							lastStriked.put(player.getPersistentID(),(byte)(4+rand.nextInt(3)));
 						}
+						
 						continue;
 					}
 					
-					for(int a = 0; a < 3+rand.nextInt(1+getDifficulty()); a++){
+					for(int a = 0; a < 3+rand.nextInt(getDifficulty()); a++){
 						double x = player.posX+(rand.nextDouble()-0.5D)*13D, z = player.posZ+(rand.nextDouble()-0.5D)*13D;
 						int y = 1+DragonUtil.getTopBlockY(dragon.worldObj,Blocks.end_stone,MathUtil.floor(x),MathUtil.floor(z),MathUtil.floor(player.posY+8));
 						
@@ -96,7 +99,16 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 				}
 			}
 			
-			if (didSummon && ++summoned > 4+getDifficulty())ended = true;
+			if (didSummon && ++summoned > 2+getDifficulty()+(ModCommonProxy.opMobs ? 1 : 0))ended = true;
+		}
+		
+		if (--totalTimer < 0)ended = true;
+		
+		if (dragon.ticksExisted%10 == 0){
+			if (MathUtil.distance(dragon.posX,dragon.posZ) > 100D){
+				dragon.targetX = (rand.nextDouble()-0.5D)*60;
+				dragon.targetZ = (rand.nextDouble()-0.5D)*60;
+			}
 		}
 	}
 	
@@ -111,13 +123,18 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 	}
 	
 	@Override
+	public int getNextAttackTimer(){
+		return super.getNextAttackTimer()+100;
+	}
+	
+	@Override
 	public float overrideMovementSpeed(){
 		return 0.7F;
 	}
 	
 	@Override
-	public int getNextAttackTimer(){
-		return super.getNextAttackTimer()+80;
+	public void onDamageTakenEvent(DamageTakenEvent event){
+		totalTimer -= 40;
 	}
 	
 	@Override

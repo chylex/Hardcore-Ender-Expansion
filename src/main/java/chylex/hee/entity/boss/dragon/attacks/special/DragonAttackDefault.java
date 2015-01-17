@@ -13,6 +13,7 @@ import chylex.hee.system.commands.DebugBoard;
 import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackDefault extends DragonSpecialAttackBase{
+	private byte targetCooldown;
 	private int nextTargetTimer = 100;
 	private EntityPlayer overrideTarget;
 	private boolean isOverriding;
@@ -22,13 +23,13 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	private boolean stealthInProgress;
 	
 	public DragonAttackDefault(EntityBossDragon dragon, int attackId){
-		super(dragon,attackId);
+		super(dragon,attackId,-1);
 	}
 	
 	@Override
 	public void init(){
 		super.init();
-		
+		targetCooldown = 70;
 	}
 	
 	@Override
@@ -39,17 +40,17 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 		 * TARGET PICKING
 		 */
 		
-		if (!stealthInProgress && dragon.target == null){
+		if (!stealthInProgress && dragon.target == null && (targetCooldown == 0 || --targetCooldown == 0)){
 			int healthPerc = dragon.attacks.getHealthPercentage();
 			int viablePlayers = dragon.attacks.getViablePlayers().size();
 			int attackChance = Math.min(170,(dragon.angryStatus ? 45 : 5)+getDifficulty()*5+Math.min(viablePlayers,5)*14+(ModCommonProxy.opMobs ? 10 : 0)+(50-(healthPerc>>1)));
 			
-			if (rand.nextInt(250-attackChance) == 0 || nextTargetTimer <= 0 || --nextTargetTimer <= 0){
-				nextTargetTimer = 100+rand.nextInt(40)+(healthPerc>>2)+(dragon.angryStatus ? 0 : 55)-getDifficulty()*6-Math.min(dragon.worldObj.playerEntities.size(),5)*5;
+			if ((nextTargetTimer < 80 && rand.nextInt(260-attackChance) == 0) || nextTargetTimer <= 0 || --nextTargetTimer <= 0){
+				nextTargetTimer = 150+rand.nextInt(40)+(healthPerc>>2)+(dragon.angryStatus ? 0 : 35)-getDifficulty()*6-Math.min(dragon.worldObj.playerEntities.size(),5)*5;
 				dragon.trySetTarget(dragon.attacks.getRandomPlayer());
 			}
 			
-			DebugBoard.updateValue("TargetChance",250-attackChance);
+			DebugBoard.updateValue("TargetChance",260-attackChance);
 			DebugBoard.updateValue("NextTargetTimer",nextTargetTimer);
 		}
 		
@@ -108,7 +109,7 @@ public class DragonAttackDefault extends DragonSpecialAttackBase{
 	
 	@Override
 	public int getNextAttackTimer(){
-		return (140+rand.nextInt(70)+((4-getDifficulty())*15));
+		return (220+rand.nextInt(70)+((4-getDifficulty())*15));
 	}
 
 	@Override

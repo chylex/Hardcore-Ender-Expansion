@@ -13,6 +13,10 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		for(T item:weightedItems)add(item);
 	}
 
+	public WeightedList(WeightedList<T> weightedItemCollection){
+		for(T item:weightedItemCollection)add(item);
+	}
+
 	@Override
 	public boolean add(T obj){
 		boolean b = super.add(obj);

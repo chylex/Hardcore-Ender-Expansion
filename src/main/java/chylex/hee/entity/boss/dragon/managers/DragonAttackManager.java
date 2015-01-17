@@ -22,6 +22,7 @@ import chylex.hee.system.collections.weight.ObjectWeightPair;
 public class DragonAttackManager{
 	private final List<DragonPassiveAttackBase> passiveAttackList = new ArrayList<>();
 	private final List<DragonSpecialAttackBase> specialAttackList = new ArrayList<>();
+	private final WeightedList<DragonSpecialAttackBase> specialAttackWeights = new WeightedList<>();
 	private final Queue<Byte> specialAttackQueue = new LinkedList<>();
 	
 	protected EntityBossDragon dragon;
@@ -38,6 +39,7 @@ public class DragonAttackManager{
 	public void registerSpecial(DragonSpecialAttackBase attack){
 		if (getSpecialAttackById(attack.id) != null)throw new IllegalArgumentException("Tried to register special dragon attack with already registered attack ID "+attack.id);
 		specialAttackList.add(attack);
+		if (attack.getWeight() != -1)specialAttackWeights.add(attack);
 	}
 	
 	public DragonPassiveAttackBase getPassiveAttackById(int id){
@@ -101,9 +103,13 @@ public class DragonAttackManager{
 		if (healthPercentage == 0)return null;
 		
 		if (specialAttackQueue.isEmpty()){
-			List<DragonSpecialAttackBase> list = new ArrayList<>(specialAttackList);
-			Collections.shuffle(list,dragon.worldObj.rand);
-			for(int a = 0; a < list.size()-1; a++)specialAttackQueue.add(Byte.valueOf(list.get(a).id));
+			WeightedList<DragonSpecialAttackBase> list = new WeightedList<DragonSpecialAttackBase>(specialAttackWeights);
+			
+			for(int a = 0, amt = list.size()-2; a < amt; a++){
+				DragonSpecialAttackBase attack = list.getRandomItem(dragon.worldObj.rand);
+				list.remove(attack);
+				specialAttackQueue.add(Byte.valueOf(attack.id));
+			}
 		}
 		
 		return getSpecialAttackById(specialAttackQueue.poll());
@@ -117,19 +123,19 @@ public class DragonAttackManager{
 			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 14F : 9F)+diff);
 			
 			switch(diff){
-				case 3: rm = 34; break;
-				case 2: rm = 22; break;
-				case 1: rm = 15; break;
-				default: rm = 10;
+				case 3: rm = 31; break;
+				case 2: rm = 20; break;
+				case 1: rm = 14; break;
+				default: rm = 9;
 			}
 			
 			if (dragon.worldObj.rand.nextInt(100) < rm){
-				player.addPotionEffect(new PotionEffect(Potion.poison.id,120+35*diff,ModCommonProxy.opMobs ? 1 : 0));
+				player.addPotionEffect(new PotionEffect(Potion.poison.id,90+30*diff,ModCommonProxy.opMobs ? 1 : 0));
 				dragon.rewards.addHandicap(0.1F,false);
 				
 				if (dragon.worldObj.rand.nextInt(100) < 35+diff*12){
 					player.addPotionEffect(new PotionEffect(Potion.blindness.id,160+24*diff,0));
-					player.addPotionEffect(new PotionEffect(Potion.confusion.id,100+24*diff,0));
+					player.addPotionEffect(new PotionEffect(Potion.confusion.id,80+24*diff,0));
 				}
 			}
 			

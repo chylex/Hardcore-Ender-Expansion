@@ -12,13 +12,14 @@ import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	private byte timer, counter;
 	private boolean ended;
 	
-	public DragonAttackBloodlust(EntityBossDragon dragon, int attackId){
-		super(dragon,attackId);
+	public DragonAttackBloodlust(EntityBossDragon dragon, int attackId, int weight){
+		super(dragon,attackId,weight);
 	}
 	
 	@Override
@@ -73,7 +74,14 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 				}
 			}
 			
-			if (++counter > 3+(getDifficulty()>>1)+rand.nextInt(3))ended = true;
+			if (++counter > 2+(getDifficulty()>>1)+rand.nextInt(4))ended = true;
+		}
+		
+		if (dragon.ticksExisted%10 == 0){
+			if (MathUtil.distance(dragon.posX,dragon.posZ) > 100D){
+				dragon.targetX = (rand.nextDouble()-0.5D)*60;
+				dragon.targetZ = (rand.nextDouble()-0.5D)*60;
+			}
 		}
 	}
 	
@@ -92,6 +100,11 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 	@Override
 	public boolean hasEnded(){
 		return ended;
+	}
+	
+	@Override
+	public int getNextAttackTimer(){
+		return super.getNextAttackTimer()+70;
 	}
 	
 	@Override

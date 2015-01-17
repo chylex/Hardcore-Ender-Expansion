@@ -11,8 +11,9 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
+import chylex.hee.system.collections.weight.IWeightProvider;
 
-public abstract class DragonSpecialAttackBase{
+public abstract class DragonSpecialAttackBase implements IWeightProvider{
 	protected EntityBossDragon dragon;
 	protected Random rand;
 	protected float damageTaken;
@@ -20,13 +21,15 @@ public abstract class DragonSpecialAttackBase{
 	protected TObjectFloatHashMap<UUID> lastPlayerHealth = new TObjectFloatHashMap<>();
 	protected int tick;
 	protected byte phase;
+	private final short weight;
 	private byte[] disabledPassiveAttacks = ArrayUtils.EMPTY_BYTE_ARRAY;
 	public final byte id;
 	
-	public DragonSpecialAttackBase(EntityBossDragon dragon, int attackId){
+	public DragonSpecialAttackBase(EntityBossDragon dragon, int attackId, int weight){
 		this.dragon = dragon;
 		this.rand = dragon.worldObj.rand;
 		this.id = (byte)attackId;
+		this.weight = (short)weight;
 	}
 	
 	public DragonSpecialAttackBase setDisabledPassiveAttacks(byte...attackIds){
@@ -78,7 +81,7 @@ public abstract class DragonSpecialAttackBase{
 	public abstract boolean hasEnded();
 	
 	public int getNextAttackTimer(){
-		return Math.max(140,180+rand.nextInt(100)+((4-getDifficulty())*30)-dragon.worldObj.playerEntities.size()*15);  
+		return Math.max(140,220+rand.nextInt(140)+((4-getDifficulty())*30)-Math.min(60,dragon.worldObj.playerEntities.size()*10));  
 	}
 
 	public float overrideMovementSpeed(){
@@ -101,6 +104,11 @@ public abstract class DragonSpecialAttackBase{
 	
 	protected final int getDifficulty(){
 		return dragon.worldObj.difficultySetting.getDifficultyId();
+	}
+	
+	@Override
+	public final int getWeight(){
+		return weight;
 	}
 	
 	@Override

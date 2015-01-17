@@ -17,8 +17,8 @@ public class DragonAttackDivebomb extends DragonSpecialAttackBase{
 	private byte timer;
 	private EntityPlayer tmpTarget;
 	
-	public DragonAttackDivebomb(EntityBossDragon dragon, int attackId){
-		super(dragon,attackId);
+	public DragonAttackDivebomb(EntityBossDragon dragon, int attackId, int weight){
+		super(dragon,attackId,weight);
 	}
 	
 	@Override

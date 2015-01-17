@@ -17,8 +17,8 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 	private byte waitTimer;
 	private boolean ended;
 	
-	public DragonAttackFireburst(EntityBossDragon dragon, int attackId){
-		super(dragon,attackId);
+	public DragonAttackFireburst(EntityBossDragon dragon, int attackId, int weight){
+		super(dragon,attackId,weight);
 	}
 	
 	@Override
