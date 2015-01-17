@@ -119,6 +119,12 @@
             "scorchinglens/death"
         ]
     },
+    "mob.hauntedminer.attack.blast": {
+        "category": "hostile",
+        "sounds": [
+            "hauntedminer/attack_blast"
+        ]
+    },
     "mob.louse.hit": {
         "category": "hostile",
         "sounds": [

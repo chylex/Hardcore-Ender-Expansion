@@ -1,4 +1,5 @@
 package chylex.hee.entity.mob;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -9,14 +10,21 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.ai.EntityAIRangedEnergyAttack;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IRangedAttackMob{
+	private short lastAttacked;
+	
 	public EntityMobEndermage(World world){
 		super(world);
 		setSize(0.6F,2.7F);
@@ -38,7 +46,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(60D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(70D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.24D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12D);
 		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(25D);
@@ -48,7 +56,51 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	public boolean isAIEnabled(){
 		return true;
 	}
-
+	
+	@Override
+	public void onLivingUpdate(){
+		super.onLivingUpdate();
+		
+		if (lastAttacked > 0)--lastAttacked;
+	}
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount){
+		if (super.attackEntityFrom(source,amount)){
+			if (lastAttacked == 0 && source.getSourceOfDamage() != null){
+				lastAttacked = (short)(100+rand.nextInt(140));
+				
+				Entity sourceEntity = source.getSourceOfDamage();
+				double dist = MathUtil.distance(sourceEntity.posX-posX,sourceEntity.posZ-posZ);
+				
+				for(int attempt = 0, xx, yy, zz; attempt < 15; attempt++){
+					xx = MathUtil.floor(posX)+rand.nextInt(31)-15;
+					zz = MathUtil.floor(posZ)+rand.nextInt(31)-15;
+					
+					if (MathUtil.distance(xx+0.5D-sourceEntity.posX,zz+0.5D-sourceEntity.posZ) > dist*4D){
+						boolean found = false;
+						yy = MathUtil.floor(posY)+7;
+						
+						for(int yAttempt = 0; yAttempt < 14; yAttempt++){
+							if (!worldObj.isAirBlock(xx,yy-1,zz) && worldObj.isAirBlock(xx,yy,zz) && worldObj.isAirBlock(xx,yy+1,zz)){
+								PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,xx+0.5D,yy,zz+0.5D));
+								setPosition(xx+0.5D,yy,zz+0.5D);
+								found = true;
+								break;
+							}
+							else --yy;
+						}
+						
+						if (found)break;
+					}
+				}
+			}
+			
+			return true;
+		}
+		else return false;
+	}
+	
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase entity, float amount){}
 	

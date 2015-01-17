@@ -185,7 +185,7 @@ public class EntityMobFireGolem extends EntityMob{
 	
 	@Override
 	protected boolean isValidLightLevel(){
-		return worldObj.provider.dimensionId == 1?true:super.isValidLightLevel();
+		return worldObj.provider.dimensionId == 1 || super.isValidLightLevel();
 	}
 	
 	@Override

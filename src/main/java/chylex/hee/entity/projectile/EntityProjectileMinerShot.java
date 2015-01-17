@@ -51,9 +51,9 @@ public class EntityProjectileMinerShot extends EntityFireball{
 		}
 		else{
 			if (mop.entityHit != null){
-				mop.entityHit.attackEntityFrom(DamageSource.magic,2F);
+				mop.entityHit.attackEntityFrom(DamageSource.magic,3F);
 				mop.entityHit.hurtResistantTime = 0;
-				mop.entityHit.attackEntityFrom(shootingEntity == null ? DamageSource.generic : DamageSource.causeMobDamage(shootingEntity),10F);
+				mop.entityHit.attackEntityFrom(shootingEntity == null ? DamageSource.generic : DamageSource.causeMobDamage(shootingEntity),13F);
 				mop.entityHit.setFire(4);
 			}
 			else{

@@ -56,7 +56,7 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		for(T obj:this)totalWeight += obj.getWeight();
 	}
 	
-	public T getRandomItem(Random rand){
+	public T getRandomItem(Random rand){ // TODO check
 		if (totalWeight == 0)return null;
 		int i = rand.nextInt(totalWeight);
 		

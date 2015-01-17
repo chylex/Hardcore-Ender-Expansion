@@ -131,7 +131,16 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				
 				if (isAngry && worldObj.difficultySetting != EnumDifficulty.PEACEFUL && rand.nextInt(5) == 0){
 					for(EntityPlayer player:getNearbyPlayers()){
-						List<EntityMobFireGolem> golems = worldObj.getEntitiesWithinAABB(EntityMobFireGolem.class,player.boundingBox.expand(16D,16D,16D));
+						int targeted = 0;
+						List<EntityMobFireGolem> golems = worldObj.getEntitiesWithinAABB(EntityMobFireGolem.class,player.boundingBox.expand(32D,32D,32D));
+						
+						for(EntityMobFireGolem golem:golems){
+							if (golem.getEntityToAttack() == player && ++targeted >= 2)break;
+						}
+						
+						if (targeted >= 2)continue;
+						
+						golems = worldObj.getEntitiesWithinAABB(EntityMobFireGolem.class,player.boundingBox.expand(16D,16D,16D));
 						if (golems.isEmpty())continue;
 						
 						for(int attempt = 0, called = ModCommonProxy.opMobs ? 3 : 2; attempt < 3 && !golems.isEmpty() && called > 0; attempt++){

@@ -136,8 +136,10 @@ public abstract class IslandBiomeBase{
 					EntityPlayer player = (EntityPlayer)world.playerEntities.get(world.rand.nextInt(playerAmount));
 					if (MathUtil.distance(player.posX-x,player.posZ-z) > playerCheck)continue;
 					
-					double ang = world.rand.nextDouble()*2D*Math.PI, len = 19+world.rand.nextInt(55)+Math.abs(world.rand.nextGaussian()*12D);
+					double ang = world.rand.nextDouble()*2D*Math.PI, len = 19D+world.rand.nextInt(55)+Math.abs(world.rand.nextGaussian()*12D);
 					double posX = player.posX+Math.cos(ang)*len, posZ = player.posZ+Math.sin(ang)*len;
+					
+					if (MathUtil.distance(posX-x+0.5D,posZ-z+0.5D) > 150D)continue;
 					
 					for(int yAttempt = 0; yAttempt < 28; yAttempt++){
 						e.setLocationAndAngles(posX,MathUtil.floor(player.posY+(world.rand.nextDouble()-0.65D)*(yAttempt+4)*3D)+0.01D,posZ,world.rand.nextFloat()*360F,0F);

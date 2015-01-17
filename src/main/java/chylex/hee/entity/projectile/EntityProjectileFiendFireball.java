@@ -163,10 +163,10 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (mop.entityHit instanceof EntityMiniBossFireFiend || mop.entityHit instanceof EntityProjectileFiendFireball)return;
-		if (mop.entityHit != null)mop.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this,shootingEntity),ModCommonProxy.opMobs ? 12F : 7F);
+		if (mop.entityHit != null)mop.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this,shootingEntity),ModCommonProxy.opMobs ? 9F : 4F);
 		
 		if (!worldObj.isRemote){
-			Explosion explosion = new FieryExplosion(worldObj,shootingEntity,worldObj.isRemote ? actualPosX : posX,posY,worldObj.isRemote ? actualPosZ : posZ,ModCommonProxy.opMobs ? 3.4F : 2.8F);
+			Explosion explosion = new FieryExplosion(worldObj,shootingEntity,worldObj.isRemote ? actualPosX : posX,posY,worldObj.isRemote ? actualPosZ : posZ,ModCommonProxy.opMobs ? 3.5F : 2.7F);
 			explosion.doExplosionA();
 			explosion.doExplosionB(true);
 			PacketPipeline.sendToAllAround(this,128D,new C12FiendFireballExplosion(this));

@@ -28,6 +28,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemScorchingPickaxe;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
+import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -60,7 +61,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 90D : 65D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 100D : 85D);
 	}
 	
 	@Override
@@ -150,6 +151,8 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								look.rotateAroundY(MathUtil.toRad(-72F));
 								worldObj.spawnEntityInWorld(new EntityProjectileMinerShot(worldObj,this,posX+look.xCoord*1.5D,posY+0.7D,posZ+look.zCoord*1.5D,target));
 								hasFinished = true;
+								
+								PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.SPAWN_FIREBALL,posX,posY,posZ,2F,1.8F));
 							}
 							
 							break;
@@ -226,17 +229,19 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 									if (dist > 12D)continue;
 									
 									double[] vec = DragonUtil.getNormalizedVector(entity.posX-posX,entity.posZ-posZ);
-									double strength = 1.15D+(12D-dist)*0.2D;
+									double strength = 0.4D+(12D-dist)*0.2D;
 									vec[0] *= strength;
 									vec[1] *= strength;
 									
-									entity.attackEntityFrom(DamageSource.causeMobDamage(this),8F);
+									entity.attackEntityFrom(DamageSource.causeMobDamage(this),13F);
 									if (entity instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)entity,new C07AddPlayerVelocity(vec[0],0.4D,vec[1]));
 									
 									entity.motionX += vec[0];
 									entity.motionY += 0.4D;
 									entity.motionZ += vec[1];
 								}
+								
+								PacketPipeline.sendToAllAround(this,24D,new C08PlaySound(C08PlaySound.HAUNTEDMINER_ATTACK_BLAST,posX,posY,posZ,1.5F,1F));
 								
 								for(int attempt = 0, xx, yy, zz; attempt < 90; attempt++){
 									xx = MathUtil.floor(posX)+rand.nextInt(21)-10;
@@ -270,7 +275,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 					}
 				}
 				else if (--nextAttackTimer <= 0){
-					currentAttack = (MathUtil.distance(target.posX-posX,target.posZ-posZ) < 7.5D && rand.nextInt(4) != 0) || rand.nextInt(5) == 0 ? ATTACK_BLAST_WAVE : (rand.nextInt(4) != 0 ? ATTACK_PROJECTILES : ATTACK_LAVA);
+					currentAttack = (MathUtil.distance(target.posX-posX,target.posZ-posZ) < 7.5D && rand.nextInt(3) != 0) || rand.nextInt(6) == 0 ? ATTACK_BLAST_WAVE : (rand.nextInt(4) != 0 ? ATTACK_PROJECTILES : ATTACK_LAVA);
 					dataWatcher.updateObject(16,Byte.valueOf(currentAttack));
 				}
 			}
@@ -357,10 +362,10 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		if (damaged && sourceEntity instanceof EntityLivingBase){
 			if (!(sourceEntity instanceof EntityMobHauntedMiner)){
 				target = (EntityLivingBase)sourceEntity;
-				nextAttackTimer = 10;
+				nextAttackTimer = 5;
 			}
 			
-			if (rand.nextInt(6) == 0 || getHealth() <= 0F){
+			if (rand.nextInt(7) == 0 || (getHealth() <= 0F && rand.nextInt(3) != 0)){
 				int maxTargeted = worldObj.difficultySetting.getDifficultyId()-2+rand.nextInt(2);
 				List<EntityMobHauntedMiner> nearby = worldObj.getEntitiesWithinAABB(EntityMobHauntedMiner.class,boundingBox.expand(48D,30D,48D)), viable = new ArrayList<>();
 				

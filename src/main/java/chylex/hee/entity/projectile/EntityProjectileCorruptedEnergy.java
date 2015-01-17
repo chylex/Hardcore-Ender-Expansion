@@ -8,8 +8,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.mob.EntityMobEndermage;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 
 public class EntityProjectileCorruptedEnergy extends EntityFireball{
 	public EntityProjectileCorruptedEnergy(World world){
@@ -42,7 +41,7 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 		
 		if (ticksExisted % 3 == 0){
 			for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.offset(0D,0.5D,0D).expand(1D,1D,1D))){
-				if (e.hurtResistantTime == 0 && e.getClass() != EntityMobEndermage.class && e.getClass() != EntityMobEnderGuardian.class){
+				if (e.hurtResistantTime == 0 && !(e instanceof IIgnoreEnderGoo)){
 					e.attackEntityFrom(DamageSource.magic,2F);
 					e.hurtResistantTime = 0;
 					e.attackEntityFrom(shootingEntity == null ? DamageSource.generic : DamageSource.causeMobDamage(shootingEntity),12F);
