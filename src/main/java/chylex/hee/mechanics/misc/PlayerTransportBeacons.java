@@ -71,7 +71,7 @@ public class PlayerTransportBeacons implements IExtendedEntityProperties{
 		NBTTagList list = nbt.getTagList("HEE_TB_locs",NBT.TAG_INT_ARRAY);
 		
 		for(int a = 0; a < list.tagCount(); a++){
-			int[] loc = list.func_150306_c(a);
+			int[] loc = list.getIntArray(a);
 			
 			if (loc.length == 2)locations.add(new LocationXZ(loc[0],loc[1]));
 			else Log.error("Corrupted data found when loading transport beacon, expected an int array of size 2, got $0",loc.length);

@@ -52,13 +52,13 @@ public final class AchievementManager{
 	}
 
 	private static Achievement addAchievement(int id, String stringId, int x, int y, ItemStack is, Achievement parentAchievement){
-		Achievement achievement = new HeeAchievement("achievement.hee."+(ModCommonProxy.achievementStartId+40+id),stringId,x,y,is,parentAchievement).registerStat();
+		Achievement achievement = new HeeAchievement("achievement.hee."+(ModCommonProxy.achievementStartId+40+id),stringId,x,y,is,parentAchievement).registerAchievement();
 		achievements.add(achievement);
 		return achievement;
 	}
 	
 	private static Achievement addChallenge(int id, String stringId, String difficultyLevel){
-		Achievement challenge = new HeeChallenge("achievement.hee."+(ModCommonProxy.achievementStartId+120+id),stringId,-1+(id%2 == 0?0:1),-2+id,new ItemStack(Items.diamond_sword)).registerStat();
+		Achievement challenge = new HeeChallenge("achievement.hee."+(ModCommonProxy.achievementStartId+120+id),stringId,-1+(id%2 == 0?0:1),-2+id,new ItemStack(Items.diamond_sword)).registerAchievement();
 		challenges.add(challenge);
 		challengeStrings.put(stringId,difficultyLevel);
 		return challenge;

@@ -40,7 +40,7 @@ public class RandomNameGenerator{
 	}
 	
 	public static void generateEntityName(EntityLiving entity, int length){
-		if (!entity.hasCustomNameTag())entity.setCustomNameTag(generate(entity.getRNG(),length)+StatCollector.translateToLocal("namegenerator.middle")+entity.getCommandSenderName());
+		if (!entity.hasCustomName())entity.setCustomNameTag(generate(entity.getRNG(),length)+StatCollector.translateToLocal("namegenerator.middle")+entity.getName());
 	}
 	
 	public static String generate(Random rand, int length){
