@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.regex.Pattern;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -12,25 +13,27 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
-import chylex.hee.block.BlockList;
-import chylex.hee.system.util.MathUtil;
-import com.google.common.collect.ImmutableSet;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.BlockList;
+import chylex.hee.system.util.MathUtil;
+import com.google.common.collect.ImmutableSet;
 
 public class ItemScorchingPickaxe extends Item{
 	private static final Pattern blockRegex = Pattern.compile("(?:^ore[A-Z].+$)|(?:^ore_.+$)|(?:.+_ore$)|(?:.+Ore$)");
 	private static final Map<Block,Boolean> cachedBlocks = new IdentityHashMap<>();
 	private static final Random cacheRand = new Random(0);
 	
-	public static final boolean isBlockValid(Block block){
+	public static final boolean isBlockValid(IBlockState state){
+		Block block = state.getBlock();
+		
 		if (cachedBlocks.containsKey(block))return cachedBlocks.get(block).booleanValue();
 		
-		if (FurnaceRecipes.smelting().getSmeltingResult(new ItemStack(block)) != null){
+		if (FurnaceRecipes.instance().getSmeltingResult(new ItemStack(block)) != null){
 			cachedBlocks.put(block,true);
 			return true;
 		}
@@ -42,7 +45,7 @@ public class ItemScorchingPickaxe extends Item{
 		}
 		
 		if (blockRegex.matcher(name.name).find()){
-			Item drop = block.getItemDropped(0,cacheRand,0);
+			Item drop = block.getItemDropped(state,cacheRand,0);
 			
 			if (drop != null && !(drop instanceof ItemBlock)){
 				int testAmt = 0;
@@ -105,7 +108,7 @@ public class ItemScorchingPickaxe extends Item{
 		ItemStack heldItem = e.harvester.getHeldItem();
 		if (heldItem == null || heldItem.getItem() != this)return;
 		
-		if (isBlockValid(e.block) && !e.drops.isEmpty()){
+		if (isBlockValid(e.state) && !e.drops.isEmpty()){
 			e.dropChance = 1F;
 			
 			ItemStack drop = e.drops.get(0);
@@ -120,7 +123,7 @@ public class ItemScorchingPickaxe extends Item{
 			
 			if (drop.getItem() instanceof ItemBlock){
 				ItemStack result = null;
-				ItemStack smelted = FurnaceRecipes.smelting().getSmeltingResult(drop);
+				ItemStack smelted = FurnaceRecipes.instance().getSmeltingResult(drop);
 				
 				if (smelted == null)return;
 				else if (smelted.getItem() instanceof ItemBlock)result = smelted.copy();
@@ -129,7 +132,7 @@ public class ItemScorchingPickaxe extends Item{
 					
 					int fortune = 0;
 					for(int a = 0; a < 5; a++)fortune += 1+rand.nextInt(3+rand.nextInt(3));
-					fortune = 1+MathUtil.floor(fortune*(0.35D*rand.nextDouble()*rand.nextDouble()*Math.pow(FurnaceRecipes.smelting().func_151398_b(result),2.6D)+(fortune*0.06D))/6.4D); // OBFUSCATED getExperience
+					fortune = 1+MathUtil.floor(fortune*(0.35D*rand.nextDouble()*rand.nextDouble()*Math.pow(FurnaceRecipes.instance().getSmeltingExperience(result),2.6D)+(fortune*0.06D))/6.4D); // OBFUSCATED getExperience
 					result.stackSize = fortune;
 				}
 				
@@ -137,9 +140,9 @@ public class ItemScorchingPickaxe extends Item{
 			}
 			else{
 				int fortune = 0;
-				for(int a = 0; a < 4; a++)fortune += e.block.quantityDropped(e.blockMetadata,3+rand.nextInt(3)-rand.nextInt(2),rand);
-				for(int a = 0; a < 4; a++)fortune += e.block.quantityDropped(e.blockMetadata,0,rand);
-				fortune = 1+MathUtil.floor((fortune+e.block.getExpDrop(e.world,e.blockMetadata,0)/2D)*(rand.nextDouble()+(rand.nextDouble()*0.5D)+0.35D)/6D);
+				for(int a = 0; a < 4; a++)fortune += e.state.getBlock().quantityDropped(e.state,3+rand.nextInt(3)-rand.nextInt(2),rand);
+				for(int a = 0; a < 4; a++)fortune += e.state.getBlock().quantityDropped(e.state,0,rand);
+				fortune = 1+MathUtil.floor((fortune+e.state.getBlock().getExpDrop(e.world,e.pos,0)/2D)*(rand.nextDouble()+(rand.nextDouble()*0.5D)+0.35D)/6D);
 				
 				drop.stackSize = fortune;
 				e.drops.add(drop);

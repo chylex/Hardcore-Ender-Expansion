@@ -13,17 +13,17 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	private List<Enum> tntEnhancements = new ArrayList<>();
@@ -105,9 +105,9 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	}
 
 	private void explode(){
-		EnhancedTNTExplosion explosion = new EnhancedTNTExplosion(worldObj,this,posX,posY,posZ,tntEnhancements.contains(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F);
-		explosion.isFlaming = tntEnhancements.contains(TNTEnhancements.FIRE);
-		explosion.isSmoking = !tntEnhancements.contains(TNTEnhancements.NO_BLOCK_DAMAGE);
+		boolean isFlaming = tntEnhancements.contains(TNTEnhancements.FIRE);
+		boolean isSmoking = !tntEnhancements.contains(TNTEnhancements.NO_BLOCK_DAMAGE);
+		EnhancedTNTExplosion explosion = new EnhancedTNTExplosion(worldObj,this,posX,posY,posZ,tntEnhancements.contains(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F,isFlaming,isSmoking);
 		explosion.damageEntities = !tntEnhancements.contains(TNTEnhancements.NO_ENTITY_DAMAGE);
 		explosion.doExplosionA();
 		explosion.doExplosionB(true);
@@ -148,19 +148,27 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		private final World worldObj;
 		private final int dist = 16;
 		private final Map<EntityPlayer,Vec3> hurtPlayers = new HashMap<>();
+		private final Entity exploder;
+		private final double explosionX, explosionY, explosionZ;
+		private final float explosionSize;
 		
 		public boolean damageEntities = true;
 
-		public EnhancedTNTExplosion(World world, Entity sourceEntity, double x, double y, double z, float power){
-			super(world,sourceEntity,x,y,z,power);
+		public EnhancedTNTExplosion(World world, Entity sourceEntity, double x, double y, double z, float power, boolean isFlaming, boolean isSmoking){
+			super(world,sourceEntity,x,y,z,power,isFlaming,isSmoking);
 			this.worldObj = world;
+			this.exploder = sourceEntity;
+			this.explosionX = x;
+			this.explosionY = y;
+			this.explosionZ = z;
+			this.explosionSize = power;
 		}
 		
 		@Override
 		public void doExplosionA(){
 			float explosionSizeBackup = explosionSize;
 			
-			HashSet<ChunkPosition> affectedBlocks = new HashSet<>();
+			HashSet<BlockPos> affectedBlocks = new HashSet<>();
 			double tempX, tempY, tempZ, distX, distY, distZ, totalDist;
 			int xInt, yInt, zInt;
 
@@ -195,7 +203,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 								}
 
 								if (affectedDistance > 0F && (exploder == null || exploder.func_145774_a(this,worldObj,xInt,yInt,zInt,block,affectedDistance))){
-									affectedBlocks.add(new ChunkPosition(xInt,yInt,zInt));
+									affectedBlocks.add(new BlockPos(xInt,yInt,zInt));
 								}
 
 								tempX += distX*mp;
@@ -207,7 +215,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 				}
 			}
 
-			affectedBlockPositions.addAll(affectedBlocks);
+			func_180343_e().addAll(affectedBlocks);
 			explosionSize *= 2F;
 			
 			int minX = MathHelper.floor_double(explosionX-explosionSize-1D), maxX = MathHelper.floor_double(explosionX+explosionSize+1D);

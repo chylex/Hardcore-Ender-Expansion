@@ -93,7 +93,7 @@ public class DragonRewardManager{
 		double fx = x+Math.cos(ang)*len,
 		 	   fz = z+Math.sin(ang)*len;
 		EntityItem item = new EntityItem(world,fx+world.rand.nextDouble()-0.5D,128,fz+world.rand.nextDouble()-0.5D,new ItemStack(ItemList.essence,getEssencePerTick(),0));
-		item.delayBeforeCanPickup = 10;
+		item.setDefaultPickupDelay();
 		world.spawnEntityInWorld(item);
 	}
 	

@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -163,6 +164,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			}
 		}
 		else if (isEntityAlive()){
+			EntityLivingBase entityToAttack = getAttackTarget();
+			
 			if (homelandRole == null){
 				setDead();
 				return;
@@ -599,11 +602,13 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				
 				lastEntityToAttack = entityToAttack;
 			}
+			
+			if (entityToAttack != getAttackTarget())setAttackTarget(entityToAttack);
 		}
 		
 		isJumping = false;
 
-		if (entityToAttack != null)faceEntity(entityToAttack,100F,100F);
+		if (getAttackTarget() != null)faceEntity(getAttackTarget(),100F,100F);
 		
 		super.onLivingUpdate();
 	}

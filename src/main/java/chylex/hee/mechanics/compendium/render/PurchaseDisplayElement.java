@@ -41,7 +41,7 @@ public class PurchaseDisplayElement{
 		gui.drawTexturedModalRect(pageCenterX-27,y-14,155,0,54,26);
 		
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(GuiEnderCompendium.knowledgeFragmentIS,pageCenterX-22,y-10);
+		gui.mc.getRenderItem().renderItemIntoGUI(GuiEnderCompendium.knowledgeFragmentIS,pageCenterX-22,y-10);
 		RenderHelper.disableStandardItemLighting();
 		
 		String price = status == FragmentPurchaseStatus.NOT_BUYABLE ? "---" : String.valueOf(this.price);

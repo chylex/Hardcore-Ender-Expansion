@@ -13,14 +13,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.render.BlockRenderHelper;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
@@ -128,7 +128,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 					GL11.glRotatef(++requiredItemRot >= 360?requiredItemRot -= 360:requiredItemRot,0F,1F,0F);
 					GL11.glTranslatef(-0.5F,-0.5F,0F);
 					
-					renderManager.renderEngine.bindTexture(is.getItemSpriteNumber() == 0?TextureMap.locationBlocksTexture:TextureMap.locationItemsTexture);
+					renderManager.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 					IIcon icon = is.getItem().getIconFromDamage(is.getItemDamage());
 					ItemRenderer.renderItemIn2D(Tessellator.instance,icon.getMaxU(),icon.getMinV(),icon.getMinU(),icon.getMaxV(),icon.getIconWidth(),icon.getIconHeight(),0.0625F);
 				}

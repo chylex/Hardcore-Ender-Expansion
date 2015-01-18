@@ -45,7 +45,7 @@ public final class BiomeGenHardcoreEnd extends BiomeGenEnd{
 		if (!MathUtil.floatEquals(overworldEndermanMultiplier,1F) || ModCommonProxy.hardcoreEnderbacon){
 			for(BiomeType type:BiomeManager.BiomeType.values()){
 				for(BiomeEntry entry:BiomeManager.getBiomes(type)){
-					List<SpawnListEntry> spawnList = entry.biome.getSpawnableList(EnumCreatureType.monster);
+					List<SpawnListEntry> spawnList = entry.biome.getSpawnableList(EnumCreatureType.MONSTER);
 					
 					for(SpawnListEntry spawnEntry:spawnList){
 						if (spawnEntry.entityClass == EntityEnderman.class){

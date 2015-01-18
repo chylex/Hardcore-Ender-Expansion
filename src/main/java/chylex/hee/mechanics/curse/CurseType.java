@@ -10,7 +10,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -95,28 +94,14 @@ public enum CurseType{
 			if (entity instanceof EntityCreature){
 				EntityCreature creature = (EntityCreature)entity;
 				
-				Entity target = creature.getEntityToAttack();
-				if (target == null)target = creature.getAttackTarget();
+				Entity target = creature.getAttackTarget();
 				
 				if (target == null || target instanceof EntityPlayer){
 					EntityLiving newTarget = getMob(creature,16D);
 					
 					if (newTarget != null){
 						cooldown = 60;
-						creature.setTarget(newTarget);
 						creature.setAttackTarget(newTarget);
-					}
-				}
-			}
-			else if (entity instanceof EntityGhast){
-				EntityGhast ghast = (EntityGhast)entity;
-				
-				if (ghast.targetedEntity == null || ghast.targetedEntity instanceof EntityPlayer){
-					EntityLiving newTarget = getMob(ghast,64D);
-					
-					if (newTarget != null){
-						cooldown = 60;
-						ghast.targetedEntity = newTarget;
 					}
 				}
 			}
@@ -154,10 +139,8 @@ public enum CurseType{
 			
 			if (entity instanceof EntityCreature){
 				EntityCreature creature = (EntityCreature)entity;
-				if (creature.getEntityToAttack() != null)creature.setTarget(null);
 				if (creature.getAttackTarget() != null)creature.setAttackTarget(null);
 			}
-			else if (entity instanceof EntityGhast)((EntityGhast)entity).targetedEntity = null;
 			
 			return entity.ticksExisted%20 == 0;
 		}

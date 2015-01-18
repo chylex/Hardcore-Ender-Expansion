@@ -201,7 +201,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					WeightedList<ObjectWeightPair<Enchantment>> list = new WeightedList<>();
 					
 					for(int a = 0; a < enchants.tagCount(); a++){
-						Enchantment e = Enchantment.enchantmentsList[enchants.getCompoundTagAt(a).getShort("id")];
+						Enchantment e = Enchantment.getEnchantmentById(enchants.getCompoundTagAt(a).getShort("id"));
 						if (e == null)continue;
 						
 						list.add(ObjectWeightPair.of(e,e.getWeight()));

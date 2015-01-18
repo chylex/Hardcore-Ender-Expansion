@@ -18,12 +18,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3i;
 import net.minecraft.world.World;
-import org.apache.commons.io.FilenameUtils;
-import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.system.logging.Stopwatch;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
 import net.minecraftforge.fml.common.network.FMLEventChannel;
@@ -36,6 +34,9 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.io.FilenameUtils;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.system.logging.Stopwatch;
 
 public class PacketPipeline{
 	private static PacketPipeline instance;
@@ -114,7 +115,7 @@ public class PacketPipeline{
 	}
 
 	private FMLProxyPacket writePacket(AbstractPacket packet){
-		ByteBuf buffer = Unpooled.buffer();
+		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
 		buffer.writeByte(packetToId.get(packet.getClass()));
 		packet.write(buffer);
 		return new FMLProxyPacket(buffer,channelName);

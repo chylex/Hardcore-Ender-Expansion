@@ -54,7 +54,7 @@ public final class BiomeInteractionsInfestedForest{
 				if (world.getBlock(x,y,z) == BlockList.spooky_log){
 					if (rand.nextInt(8) == 0 && world.getGameRules().getGameRuleBooleanValue("doTileDrops")){
 						EntityItem item = new EntityItem(world,x+rand.nextFloat()*0.7F+0.15F,y+rand.nextFloat()*0.7F+0.15F,z+rand.nextFloat()*0.7F+0.15F,new ItemStack(ItemList.dry_splinter));
-						item.delayBeforeCanPickup = 10;
+						item.setDefaultPickupDelay();
 						world.spawnEntityInWorld(item);
 					}
 					

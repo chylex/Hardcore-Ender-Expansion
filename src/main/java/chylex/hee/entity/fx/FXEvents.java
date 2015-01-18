@@ -5,18 +5,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
-import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.block.BlockList;
-import chylex.hee.item.ItemList;
-import chylex.hee.item.ItemScorchingPickaxe;
-import chylex.hee.item.ItemTempleCaller;
-import chylex.hee.mechanics.misc.TempleEvents;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.block.BlockList;
+import chylex.hee.item.ItemList;
+import chylex.hee.item.ItemScorchingPickaxe;
+import chylex.hee.item.ItemTempleCaller;
+import chylex.hee.mechanics.misc.TempleEvents;
 
 @SideOnly(Side.CLIENT)
 public class FXEvents{
@@ -35,7 +35,7 @@ public class FXEvents{
 	public void onGetBlockHardness(BreakSpeed e){
 		ItemStack heldItem = e.entityPlayer.getHeldItem();
 		
-		if (heldItem != null && heldItem.getItem() == ItemList.scorching_pickaxe && (ItemScorchingPickaxe.isBlockValid(e.block) || e.block == BlockList.ravaged_brick)){
+		if (heldItem != null && heldItem.getItem() == ItemList.scorching_pickaxe && (ItemScorchingPickaxe.isBlockValid(e.state.getBlock()) || e.state.getBlock() == BlockList.ravaged_brick)){
 			Random rand = e.entity.worldObj.rand;
 			Minecraft mc = Minecraft.getMinecraft();
 			for(int fx = 0; fx < 5-2*mc.gameSettings.particleSetting; fx++)HardcoreEnderExpansion.fx.flame(e.entity.worldObj,e.x-0.2D+rand.nextDouble()*1.4D,e.y-0.2D+rand.nextDouble()*1.4D,e.z-0.2D+rand.nextDouble()*1.4D,6);

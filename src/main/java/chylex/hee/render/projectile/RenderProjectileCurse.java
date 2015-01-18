@@ -1,7 +1,8 @@
 package chylex.hee.render.projectile;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -11,8 +12,10 @@ import chylex.hee.mechanics.curse.CurseType;
 
 @SideOnly(Side.CLIENT)
 public class RenderProjectileCurse extends RenderProjectileBase{
-	public RenderProjectileCurse(RenderManager renderManager){
-		super(renderManager);
+	private ItemStack curseItem = new ItemStack(ItemList.curse);
+	
+	public RenderProjectileCurse(RenderManager renderManager, RenderItem renderItem){
+		super(renderManager,renderItem);
 	}
 
 	@Override
@@ -23,10 +26,12 @@ public class RenderProjectileCurse extends RenderProjectileBase{
 		
 		int col = type.getColor(0);
 		GL11.glColor3f(((col>>16)&255)/255F,((col>>8)&255)/255F,(col&255)/255F);
-		renderIcon(Tessellator.instance,ItemList.curse.getIconFromDamageForRenderPass(type.damage,0));
+		
+		curseItem.setItemDamage(type.damage);
+		renderItem.renderItemModel(curseItem);
 		
 		col = type.getColor(1);
 		GL11.glColor3f(((col>>16)&255)/255F,((col>>8)&255)/255F,(col&255)/255F);
-		renderIcon(Tessellator.instance,ItemList.curse.getIconFromDamageForRenderPass(type.damage,1));
+		renderIcon(ItemList.curse.getIconFromDamageForRenderPass(type.damage,1));
 	}
 }

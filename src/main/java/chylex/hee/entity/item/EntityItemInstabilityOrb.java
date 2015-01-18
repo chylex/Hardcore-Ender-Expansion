@@ -34,7 +34,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			ItemStack newIS = is.copy();
 			newIS.stackSize = 1;
 			EntityItem item = new EntityItemInstabilityOrb(world,x,y,z,newIS);
-			item.delayBeforeCanPickup = 40;
+			item.setPickupDelay(40);
 			world.spawnEntityInWorld(item);
 		}
 		
@@ -99,7 +99,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			
 			EntityItem entityitem = new EntityItem(worldObj,posX,posY,posZ,new ItemStack(item.getItem(),1,meta));
 			entityitem.motionX = entityitem.motionY = entityitem.motionZ = 0D;
-			entityitem.delayBeforeCanPickup = 10;
+			entityitem.setDefaultPickupDelay();
 			worldObj.spawnEntityInWorld(entityitem);
 			
 			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION,posX,posY,posZ,0.25F,0.4F));

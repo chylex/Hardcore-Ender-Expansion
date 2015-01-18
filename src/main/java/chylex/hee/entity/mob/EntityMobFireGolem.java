@@ -143,7 +143,7 @@ public class EntityMobFireGolem extends EntityMob{
 				
 				if (!worldObj.isAirBlock(ix,iy-1,iz) && worldObj.isAirBlock(ix,iy,iz) && worldObj.isAirBlock(ix,iy+1,iz)){
 					setPosition(xx,yy,zz);
-					if (entityToAttack != null)faceEntity(entityToAttack,360F,360F);
+					if (getAttackTarget() != null)faceEntity(getAttackTarget(),360F,360F);
 					playSound("mob.endermen.portal",1F,1.1F);
 					return false;
 				}

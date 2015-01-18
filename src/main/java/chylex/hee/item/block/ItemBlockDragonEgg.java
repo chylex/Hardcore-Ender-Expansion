@@ -20,7 +20,7 @@ public class ItemBlockDragonEgg extends ItemBlock{
 	@Override
 	public final Entity createEntity(World world, Entity originalEntity, ItemStack is){
 		EntityItem newEntity = new EntityItemDragonEgg(world,originalEntity.posX,originalEntity.posY,originalEntity.posZ,is);
-		newEntity.delayBeforeCanPickup = 10;
+		newEntity.setDefaultPickupDelay();
 		
 		newEntity.copyLocationAndAnglesFrom(originalEntity);
 		newEntity.motionX = newEntity.motionY = newEntity.motionZ = 0D;

@@ -12,11 +12,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemTransferenceGem;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MiscEvents{
 	/*
@@ -59,7 +59,7 @@ public class MiscEvents{
 		
 		if (is != null){
 			EntityItem item = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,is);
-			item.delayBeforeCanPickup = 10;
+			item.setDefaultPickupDelay();
 			e.drops.add(item);
 		}
 	}

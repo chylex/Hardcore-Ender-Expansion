@@ -8,6 +8,8 @@ import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.item.ItemList;
@@ -16,8 +18,6 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityBlockHomelandCache extends Entity{
 	private static final WeightedLootList loot = new WeightedLootList(new LootItemStack[]{
@@ -98,7 +98,7 @@ public class EntityBlockHomelandCache extends Entity{
 			else{
 				for(int a = 0; a < 2+rand.nextInt(2+rand.nextInt(2)); a++){
 					EntityItem item = new EntityItem(worldObj,posX+(rand.nextDouble()-0.5D)*0.75D,posY+0.2D+rand.nextDouble()*0.6D,posZ+(rand.nextDouble()-0.5D)*0.75D,loot.generateIS(rand));
-					item.delayBeforeCanPickup = 10;
+					item.setDefaultPickupDelay();
 					worldObj.spawnEntityInWorld(item);
 				}
 				

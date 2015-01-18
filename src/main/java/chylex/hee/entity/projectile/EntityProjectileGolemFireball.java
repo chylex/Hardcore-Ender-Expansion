@@ -4,9 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.proxy.ModCommonProxy;
@@ -40,18 +40,17 @@ public class EntityProjectileGolemFireball extends EntityLargeFireball{
 		private final World world;
 		
 		public FieryExplosion(World world, Entity cause, double x, double y, double z, float strength){
-			super(world,cause,x,y,z,strength);
+			super(world,cause,x,y,z,strength,false,world.getGameRules().getGameRuleBooleanValue("mobGriefing"));
 			this.world = world;
-			isSmoking = world.getGameRules().getGameRuleBooleanValue("mobGriefing");
 		}
 		
 		@Override
 		public void doExplosionB(boolean doParticles){
 			super.doExplosionB(doParticles);
 			
-			for(Iterator<ChunkPosition> iter = affectedBlockPositions.iterator(); iter.hasNext();){
-				ChunkPosition pos = iter.next();
-				if (world.isAirBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ) && world.rand.nextInt(9) == 0)world.setBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ,Blocks.fire);
+			for(Iterator<BlockPos> iter = func_180343_e().iterator(); iter.hasNext();){
+				BlockPos pos = iter.next();
+				if (world.isAirBlock(pos) && world.rand.nextInt(9) == 0)world.setBlock(pos,Blocks.fire);
 			}
 		}
 	}

@@ -29,7 +29,7 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 	protected final Random rand = new Random();
 
 	public AbstractRenderMobEnderman(RenderManager renderManager){
-		super(renderManager,new ModelEnderman(),0.5F);
+		super(renderManager,new ModelEnderman(0F),0.5F);
 		endermanModel = (ModelEnderman)super.mainModel;
 		setRenderPassModel(endermanModel);
 		

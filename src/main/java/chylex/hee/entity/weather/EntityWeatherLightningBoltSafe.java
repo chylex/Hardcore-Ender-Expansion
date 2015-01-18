@@ -47,7 +47,7 @@ public class EntityWeatherLightningBoltSafe extends EntityLightningBolt{
 		}
 
 		if (lightningState >= 0 && worldObj.isRemote){
-			worldObj.lastLightningBolt = 2;
+			worldObj.setLastLightningBolt(2);
 		}
 	}
 }
