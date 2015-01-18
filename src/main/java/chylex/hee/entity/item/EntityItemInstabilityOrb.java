@@ -22,6 +22,7 @@ import chylex.hee.system.util.DragonUtil;
 public class EntityItemInstabilityOrb extends EntityItem{
 	private boolean isTntNearby = false;
 	private boolean canExplode = true;
+	private int age;
 	
 	public EntityItemInstabilityOrb(World world){
 		super(world);
@@ -127,11 +128,13 @@ public class EntityItemInstabilityOrb extends EntityItem{
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
 		nbt.setBoolean("canExplode",canExplode);
+		nbt.setInteger("HEE_age",age);
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
 		canExplode = nbt.getBoolean("canExplode");
+		age = nbt.getInteger("HEE_age");
 	}
 }

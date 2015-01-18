@@ -15,6 +15,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.block.material.MaterialDungeonPuzzle;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;

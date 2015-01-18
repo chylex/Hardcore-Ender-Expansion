@@ -5,7 +5,10 @@ import java.util.Set;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
@@ -13,8 +16,6 @@ import chylex.hee.mechanics.misc.PlayerTransportBeacons.LocationXZ;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S04TransportBeaconTravel;
 import chylex.hee.proxy.ModCommonProxy;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
@@ -72,7 +73,7 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	protected void actionPerformed(GuiButton button){
-		if (button.id == 1)PacketPipeline.sendToServer(new S04TransportBeaconTravel(centerX,centerY,centerZ,selectedX,selectedZ));
+		if (button.id == 1)PacketPipeline.sendToServer(new S04TransportBeaconTravel(new BlockPos(centerX,centerY,centerZ),selectedX,selectedZ));
 		mc.displayGuiScreen(null);
 	}
 	

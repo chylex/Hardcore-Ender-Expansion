@@ -165,7 +165,7 @@ public final class FXHandler{
 	}
 	
 	public static void handleLine(World world, EntityClientPlayerMP player, FXType.Line fx, double x1, double y1, double z1, double x2, double y2, double z2){
-		Vec3 lineVec = Vec3.createVectorHelper(x2-x1,y2-y1,z2-z1);
+		Vec3 lineVec = new Vec3(x2-x1,y2-y1,z2-z1);
 		double len = lineVec.lengthVector();
 		lineVec = lineVec.normalize();
 		

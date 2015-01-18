@@ -312,8 +312,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				rotationYaw = MathHelper.wrapAngleTo180_float(rotationYaw);
 				double d9 = MathUtil.clamp(MathHelper.wrapAngleTo180_double(180D-MathUtil.toDeg(Math.atan2(xDiff,zDiff))-rotationYaw),-50D,50D);
 
-				Vec3 targetDiffVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
-				Vec3 rotationVec = Vec3.createVectorHelper(MathHelper.sin(MathUtil.toRad(rotationYaw)),motionY,(-MathHelper.cos(MathUtil.toRad(rotationYaw)))).normalize();
+				Vec3 targetDiffVec = new Vec3(targetX-posX,targetY-posY,targetZ-posZ).normalize();
+				Vec3 rotationVec = new Vec3(MathHelper.sin(MathUtil.toRad(rotationYaw)),motionY,(-MathHelper.cos(MathUtil.toRad(rotationYaw)))).normalize();
 				
 				float f4 = Math.max((float)(rotationVec.dotProduct(targetDiffVec)+0.5D)/1.5F,0F);
 
@@ -337,7 +337,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				if (slowed)moveEntity(motionX*moveSpeedMp*0.8D,motionY*moveSpeedMp*0.8D,motionZ*moveSpeedMp*0.8D);
 				else moveEntity(motionX*moveSpeedMp,motionY*moveSpeedMp,motionZ*moveSpeedMp);
 
-				double motionMultiplier = 0.8D+0.15D*((Vec3.createVectorHelper(motionX,motionY,motionZ).normalize().dotProduct(rotationVec)+1D)*0.5D);
+				double motionMultiplier = 0.8D+0.15D*((new Vec3(motionX,motionY,motionZ).normalize().dotProduct(rotationVec)+1D)*0.5D);
 				motionX *= motionMultiplier;
 				motionZ *= motionMultiplier;
 				motionY *= 0.91D;

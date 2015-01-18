@@ -76,7 +76,7 @@ public class EntitySoulCharmFX extends EntityFX{
 		if (targetX != 0D && targetZ != 0D){
 			maxAge = 120;
 			
-			Vec3 motionVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
+			Vec3 motionVec = new Vec3(targetX-posX,targetY-posY,targetZ-posZ).normalize();
 			
 			double speedFactor = rand.nextDouble()*0.05D+0.15D;
 			posX += motionVec.xCoord*speedFactor;

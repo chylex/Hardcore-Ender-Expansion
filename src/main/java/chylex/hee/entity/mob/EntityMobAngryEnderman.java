@@ -112,7 +112,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	}
 
 	protected boolean teleportToEntity(Entity entity){
-		Vec3 targVec = Vec3.createVectorHelper(posX-entity.posX,boundingBox.minY+(height/2F)-entity.posY+entity.getEyeHeight(),posZ-entity.posZ).normalize();
+		Vec3 targVec = new Vec3(posX-entity.posX,boundingBox.minY+(height/2F)-entity.posY+entity.getEyeHeight(),posZ-entity.posZ).normalize();
 		double dist = 16D;
 		return teleportTo(posX+(rand.nextDouble()-0.5D)*8D-targVec.xCoord*dist,posY+(rand.nextInt(16)-8)-targVec.yCoord*dist,posZ+(rand.nextDouble()-0.5D)*8D-targVec.zCoord*dist);
 	}

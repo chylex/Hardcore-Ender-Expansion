@@ -59,19 +59,19 @@ public final class CustomMusicTicker extends MusicTicker{
 		MusicType type = getCurrentMusicType();
 
 		if (currentMusic != null){
-			if (!type.getMusicTickerLocation().equals(currentMusic.getPositionedSoundLocation()) && !isJukebox){
+			if (!type.getMusicLocation().equals(currentMusic.getSoundLocation()) && !isJukebox){
 				mc.getSoundHandler().stopSound(currentMusic);
-				timeUntilNextMusic = MathHelper.getRandomIntegerInRange(rand,0,type.func_148634_b()/2);
+				timeUntilNextMusic = MathHelper.getRandomIntegerInRange(rand,0,type.getMinDelay()/2);
 			}
 
 			if (!mc.getSoundHandler().isSoundPlaying(currentMusic)){
 				currentMusic = null;
-				timeUntilNextMusic = Math.min(MathHelper.getRandomIntegerInRange(rand,type.func_148634_b(),type.func_148633_c()),timeUntilNextMusic);
+				timeUntilNextMusic = Math.min(MathHelper.getRandomIntegerInRange(rand,type.getMinDelay(),type.getMaxDelay()),timeUntilNextMusic);
 			}
 		}
 
 		if (currentMusic == null && timeUntilNextMusic-- <= 0){
-			currentMusic = PositionedSoundRecord.func_147673_a(type.getMusicTickerLocation());
+			currentMusic = PositionedSoundRecord.create(type.getMusicLocation());
 			mc.getSoundHandler().playSound(currentMusic);
 			timeUntilNextMusic = Integer.MAX_VALUE;
 			isJukebox = false;
@@ -79,7 +79,7 @@ public final class CustomMusicTicker extends MusicTicker{
 	}
 	
 	private MusicType getCurrentMusicType(){
-		MusicType suggestedType = mc.func_147109_W();
+		MusicType suggestedType = mc.getAmbientMusicType();
 		
 		if (suggestedType == MusicType.END || suggestedType == MusicType.END_BOSS){
 			if (BossStatus.statusBarTime > 0){

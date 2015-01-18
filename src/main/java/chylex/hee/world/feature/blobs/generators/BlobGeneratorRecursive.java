@@ -80,7 +80,7 @@ public class BlobGeneratorRecursive extends BlobGenerator{
 			rad = minRad+rand.nextDouble()*(maxRad-minRad);
 			if (a == 0)firstRad = rad;
 			
-			vec = a == 0 ? Vec3.createVectorHelper(0D,0D,0D) : DragonUtil.getRandomVector(rand);
+			vec = a == 0 ? new Vec3(0D,0D,0D) : DragonUtil.getRandomVector(rand);
 			dist = a == 0 ? 0D : firstRad*(minBlobDistMp+rand.nextDouble()*(maxBlobDistMp-minBlobDistMp));
 			
 			genNewBlob(gen,rand,vec.xCoord*dist,vec.yCoord*dist,vec.zCoord*dist,rad,0);

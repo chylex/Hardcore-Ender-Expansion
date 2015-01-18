@@ -8,11 +8,11 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.sound.CustomMusicTicker;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C02PlayRecord extends AbstractClientPacket{
 	private int x,y,z;
@@ -58,7 +58,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 
 		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]);
 		ResourceLocation resource = new ResourceLocation("hardcoreenderexpansion:"+recordData[1]);
-		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,x,y,z);
+		PositionedSoundRecord snd = PositionedSoundRecord.create(resource,x,y,z);
 		mapSoundPositions.put(coords,snd);
 		
 		CustomMusicTicker.stopMusicAndPlayJukebox(snd);

@@ -36,7 +36,7 @@ public class EntityAltarOrbFX extends EntityFX{
 		particleBlue = essenceType.glyphColors[2];
 		particleAlpha = 1F;
 		
-		movementVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
+		movementVec = new Vec3(targetX-posX,targetY-posY,targetZ-posZ).normalize();
 		movementVec.xCoord *= 0.065D;
 		movementVec.yCoord *= 0.065D;
 		movementVec.zCoord *= 0.065D;

@@ -51,7 +51,7 @@ public class BlobGeneratorChain extends BlobGenerator{
 		for(int a = 0, amount = amountGen.generate(rand,minAmount,maxAmount); a < amount; a++){
 			double rad = unifiedSize && a > 0 ? prevRad : minRad+rand.nextDouble()*(maxRad-minRad);
 			
-			Vec3 vec = a == 0 ? Vec3.createVectorHelper(0D,0D,0D) : DragonUtil.getRandomVector(rand);
+			Vec3 vec = a == 0 ? new Vec3(0D,0D,0D) : DragonUtil.getRandomVector(rand);
 			double dist = a == 0 ? 0D : prevRad*(minChainDistMp+rand.nextDouble()*(maxChainDistMp-minChainDistMp));
 			
 			genBlob(gen,x += vec.xCoord*dist,y += vec.yCoord*dist,z += vec.zCoord*dist,rad);

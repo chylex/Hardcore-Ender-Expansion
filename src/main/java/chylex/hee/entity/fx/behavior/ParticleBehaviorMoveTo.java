@@ -9,7 +9,7 @@ public class ParticleBehaviorMoveTo implements IParticleBehavior{
 	private final double checkDist;
 	
 	public ParticleBehaviorMoveTo(EntityFX particle, double targetX, double targetY, double targetZ, float speedMultiplier){
-		motionVec = Vec3.createVectorHelper((this.targetX = targetX)-particle.posX,(this.targetY = targetY)-particle.posY,(this.targetZ = targetZ)-particle.posZ).normalize();
+		motionVec = new Vec3((this.targetX = targetX)-particle.posX,(this.targetY = targetY)-particle.posY,(this.targetZ = targetZ)-particle.posZ).normalize();
 		motionVec.xCoord *= speedMultiplier;
 		motionVec.yCoord *= speedMultiplier;
 		motionVec.zCoord *= speedMultiplier;

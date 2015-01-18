@@ -42,7 +42,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	private float targetAngle;
 	private boolean targetAngleChangeDir;
 	private byte targetAngleTimer;
-	private final Vec3 motionVec = Vec3.createVectorHelper(0D,0D,0D);
+	private final Vec3 motionVec = new Vec3(0D,0D,0D);
 	public float wingAnimation, wingAnimationStep;
 	
 	public EntityMiniBossFireFiend(World world){

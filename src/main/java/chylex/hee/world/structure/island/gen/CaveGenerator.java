@@ -42,7 +42,7 @@ public class CaveGenerator{
 			z = centerZ+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*radY*(rand.nextDouble()*0.1D+0.9D));
 			y = centerY+rand.nextInt(radY*2)-radY;
 			
-			generateNode(rand,x,y,z,rand.nextFloat()*0.45F+2.65F,biome.getCaveBranchingChance(),Vec3.createVectorHelper(rand.nextBoolean()?(centerX-x):(x-centerX),(centerY-y)*rand.nextDouble()*4D,rand.nextBoolean()?(centerZ-z):(z-centerZ)).normalize(),0);
+			generateNode(rand,x,y,z,rand.nextFloat()*0.45F+2.65F,biome.getCaveBranchingChance(),new Vec3(rand.nextBoolean()?(centerX-x):(x-centerX),(centerY-y)*rand.nextDouble()*4D,rand.nextBoolean()?(centerZ-z):(z-centerZ)).normalize(),0);
 		}
 	}
 	
@@ -79,7 +79,7 @@ public class CaveGenerator{
 			if (!createAirBlob(rand,MathUtil.floor(x),MathUtil.floor(y),MathUtil.floor(z),rad))break;
 			
 			if (rand.nextFloat() < branchingChance){
-				generateNode(rand,x,y,z,rad-rand.nextFloat()*0.15F,branchingChance*0.75F,Vec3.createVectorHelper(vec.xCoord+0.8F*(rand.nextDouble()-0.5D),vec.yCoord+0.4F*(rand.nextDouble()-0.5D),vec.zCoord+0.8F*(rand.nextDouble()-0.5D)),iteration+1);
+				generateNode(rand,x,y,z,rad-rand.nextFloat()*0.15F,branchingChance*0.75F,new Vec3(vec.xCoord+0.8F*(rand.nextDouble()-0.5D),vec.yCoord+0.4F*(rand.nextDouble()-0.5D),vec.zCoord+0.8F*(rand.nextDouble()-0.5D)),iteration+1);
 			}
 		}
 	}

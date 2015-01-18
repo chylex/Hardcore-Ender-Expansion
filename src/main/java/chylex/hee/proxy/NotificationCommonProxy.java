@@ -47,7 +47,7 @@ public class NotificationCommonProxy{
 		List<EntityPlayer> players = manager.playerEntityList;
 		
 		for(EntityPlayer player:players){
-			if (manager.func_152596_g(player.getGameProfile())){
+			if (manager.canSendCommands(player.getGameProfile())){
 				deliverNotificationsToPlayer(player);
 				delivered = true;
 			}
@@ -57,7 +57,7 @@ public class NotificationCommonProxy{
 	}
 	
 	protected void onPlayerLogin(EntityPlayer player){
-		if (MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile())){
+		if (MinecraftServer.getServer().getConfigurationManager().canSendCommands(player.getGameProfile())){
 			deliverNotificationsToPlayer(player);
 			clearNotifications();
 		}

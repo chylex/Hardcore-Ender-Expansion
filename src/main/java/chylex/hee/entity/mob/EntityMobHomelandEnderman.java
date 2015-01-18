@@ -293,10 +293,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 						if (currentTaskTimer > 0 && currentTaskTimer < 20 && rand.nextInt(3) == 0){
 							Vec3 obj = (Vec3)currentTaskData;
 							
-							if ((obj.distanceTo(Vec3.createVectorHelper(posX,posY,posZ)) <= 0.5D || rand.nextInt(10) == 0) && randomTpTimer > 30){
+							if ((obj.distanceTo(new Vec3(posX,posY,posZ)) <= 0.5D || rand.nextInt(10) == 0) && randomTpTimer > 30){
 								for(int attempt = 0; attempt < 30; attempt++){
 									if (teleportRandomly(48D)){
-										currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
+										currentTaskData = new Vec3(posX,posY,posZ);
 										randomTpTimer -= 40+rand.nextInt(30);
 										break;
 									}
@@ -362,7 +362,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									Vec3 look = getLookVec();
 									
 									for(int attempt = 0, pathX, pathY, pathZ; attempt < 12; attempt++){
-										if (attempt > 8 || rand.nextInt(6) == 0)look = Vec3.createVectorHelper(rand.nextDouble()-0.5D,0D,rand.nextDouble()-0.5D).normalize();
+										if (attempt > 8 || rand.nextInt(6) == 0)look = new Vec3(rand.nextDouble()-0.5D,0D,rand.nextDouble()-0.5D).normalize();
 										
 										pathX = (int)(posX+look.xCoord*16D+(rand.nextDouble()-0.5D)*5D);
 										pathZ = (int)(posZ+look.zCoord*16D+(rand.nextDouble()-0.5D)*5D);
@@ -372,7 +372,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 											setPathToEntity(worldObj.getEntityPathToXYZ(this,pathX,pathY+1,pathZ,30F,true,false,false,true));
 											currentTask = EndermanTask.STROLL;
 											currentTaskTimer = 65+rand.nextInt(60);
-											currentTaskData = Vec3.createVectorHelper(posX,posY,posZ);
+											currentTaskData = new Vec3(posX,posY,posZ);
 											break;
 										}
 									}
@@ -909,7 +909,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 
 	public boolean teleportToEntity(Entity entity){
-		Vec3 vec = Vec3.createVectorHelper(posX-entity.posX,boundingBox.minY+(height/2F)-entity.posY+entity.getEyeHeight(),posZ-entity.posZ).normalize();
+		Vec3 vec = new Vec3(posX-entity.posX,boundingBox.minY+(height/2F)-entity.posY+entity.getEyeHeight(),posZ-entity.posZ).normalize();
 		double newX = posX+(rand.nextDouble()-0.5D)*8D-vec.xCoord*16D;
 		double newY = posY+(rand.nextInt(16)-8)-vec.yCoord*16D;
 		double newZ = posZ+(rand.nextDouble()-0.5D)*8D-vec.zCoord*16D;
@@ -968,7 +968,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (is != null && is.getItem() == Item.getItemFromBlock(Blocks.pumpkin))return false;
 		else{
 			Vec3 playerLook = player.getLook(1F).normalize();
-			Vec3 eyeVecDiff = Vec3.createVectorHelper(posX-player.posX,boundingBox.minY+(height*0.5F)-(player.posY+player.getEyeHeight()),posZ-player.posZ);
+			Vec3 eyeVecDiff = new Vec3(posX-player.posX,boundingBox.minY+(height*0.5F)-(player.posY+player.getEyeHeight()),posZ-player.posZ);
 			double eyeVecLen = eyeVecDiff.lengthVector();
 			return playerLook.dotProduct(eyeVecDiff.normalize()) > 1D-0.025D/eyeVecLen && player.canEntityBeSeen(this);
 		}

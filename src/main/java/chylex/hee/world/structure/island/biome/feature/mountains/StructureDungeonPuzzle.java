@@ -218,7 +218,7 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 			
 			// generate entrance cave
 			
-			Vec3 caveVec = Vec3.createVectorHelper(xx-airX,yy-airY,zz-airZ).normalize();
+			Vec3 caveVec = new Vec3(xx-airX,yy-airY,zz-airZ).normalize();
 			int iterLimiter = 0, intrad, add = 1+rand.nextInt(4), brokenDungBlocks = 0;
 			yy += add;
 			

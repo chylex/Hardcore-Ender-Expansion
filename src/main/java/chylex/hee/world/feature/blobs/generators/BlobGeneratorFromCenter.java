@@ -56,7 +56,7 @@ public class BlobGeneratorFromCenter extends BlobGenerator{
 		double rad = minRad+rand.nextDouble()*(maxRad-minRad), firstDist = 0D;
 		
 		for(int a = 0, amt = amountGen.generate(rand,minAmount,maxAmount); a < amt; a++){
-			Vec3 vec = a == 0 ? Vec3.createVectorHelper(0D,0D,0D) : DragonUtil.getRandomVector(rand);
+			Vec3 vec = a == 0 ? new Vec3(0D,0D,0D) : DragonUtil.getRandomVector(rand);
 			double dist = a == 0 ? 0D : minDist+rand.nextDouble()*(maxDist-minDist);
 			
 			if (limitDist){

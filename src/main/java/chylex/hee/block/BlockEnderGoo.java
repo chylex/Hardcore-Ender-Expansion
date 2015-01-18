@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.block.material.MaterialEnderGoo;
 import chylex.hee.item.ItemList;
 
 public class BlockEnderGoo extends BlockFluidClassic{
@@ -96,7 +97,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 			
 			if (eff.getDuration() < 102)eff.combine(new PotionEffect(Potion.poison.id,eff.getDuration()+17,eff.getAmplifier(),eff.getIsAmbient(),eff.getIsShowParticles()));
 			
-			Vec3 vec = Vec3.createVectorHelper(0D,0D,0D);
+			Vec3 vec = new Vec3(0D,0D,0D);
 			super.velocityToAddToEntity(world,x,y,z,entity,vec);
 			vec.normalize();
 			

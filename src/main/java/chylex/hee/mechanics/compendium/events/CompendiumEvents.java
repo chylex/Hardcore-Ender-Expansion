@@ -67,7 +67,7 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 	public static KnowledgeObservation getObservation(EntityPlayer player){
 		observationReuse.setEmpty();
 		
-		Vec3 posVec = Vec3.createVectorHelper(player.posX,(player.worldObj.isRemote ? 1.5D : 0D)+player.boundingBox.minY+player.getEyeHeight()-(player.isSneaking() ? 0.08D : 0D),player.posZ);
+		Vec3 posVec = new Vec3(player.posX,(player.worldObj.isRemote ? 1.5D : 0D)+player.boundingBox.minY+player.getEyeHeight()-(player.isSneaking() ? 0.08D : 0D),player.posZ);
 		Vec3 lookVec = player.getLookVec();
 		
 		MovingObjectPosition mopBlock = player.worldObj.rayTraceBlocks(posVec.addVector(0D,0D,0D),posVec.addVector(lookVec.xCoord*10D,lookVec.yCoord*10D,lookVec.zCoord*10D),true);

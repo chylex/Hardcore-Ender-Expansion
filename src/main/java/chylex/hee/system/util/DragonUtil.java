@@ -68,7 +68,7 @@ public final class DragonUtil{
 
 		for(int a = 0; a < 4; a++){
 			for(int b = 0; b < 2; b++){
-				MovingObjectPosition mop = entity.worldObj.rayTraceBlocks(Vec3.createVectorHelper(px,py+0.12F,pz),Vec3.createVectorHelper(x+rayX[a]*pointScale,y+(b == 0?-1D:1D)*pointScale,z+rayZ[a]*pointScale));
+				MovingObjectPosition mop = entity.worldObj.rayTraceBlocks(new Vec3(px,py+0.12F,pz),new Vec3(x+rayX[a]*pointScale,y+(b == 0?-1D:1D)*pointScale,z+rayZ[a]*pointScale));
 				
 				if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
 					isBlockedArr[a*2+b] = MathUtil.distance(mop.blockX+0.5D-x,mop.blockY+0.5D-y,mop.blockZ+0.5D-z) > 0.1D &&
@@ -122,7 +122,7 @@ public final class DragonUtil{
 	}
 	
 	public static Vec3 getRandomVector(Random rand){
-		return Vec3.createVectorHelper(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
+		return new Vec3(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
 	}
 
 	public static <T> T[] getNonNullValues(T[] array){

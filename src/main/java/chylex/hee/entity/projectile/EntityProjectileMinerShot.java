@@ -20,7 +20,7 @@ public class EntityProjectileMinerShot extends EntityFireball{
 		setSize(0.25F,0.25F);
 		setPosition(x,y,z);
 		
-		Vec3 motionVec = Vec3.createVectorHelper(target.posX-x,target.posY+target.height*0.5F-y,target.posZ-z).normalize();
+		Vec3 motionVec = new Vec3(target.posX-x,target.posY+target.height*0.5F-y,target.posZ-z).normalize();
 		motionX = motionVec.xCoord*0.35D+rand.nextGaussian()*0.002D;
 		motionY = motionVec.yCoord*0.35D+rand.nextGaussian()*0.002D;
 		motionZ = motionVec.zCoord*0.35D+rand.nextGaussian()*0.002D;

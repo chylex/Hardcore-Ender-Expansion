@@ -2,10 +2,10 @@ package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import chylex.hee.block.BlockList;
-import chylex.hee.packets.AbstractClientPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.BlockList;
+import chylex.hee.packets.AbstractClientPacket;
 
 public class C08PlaySound extends AbstractClientPacket{
 	public static final byte ENDEREYE_ATTACK_POOF = 0,
@@ -54,7 +54,7 @@ public class C08PlaySound extends AbstractClientPacket{
 		/*  9 */ "random.break",
 		/* 10 */ "random.orb",
 		/* 11 */ "hardcoreenderexpansion:mob.ghost.move",
-		/* 12 */ BlockList.persegrit.stepSound.getStepResourcePath(),
+		/* 12 */ BlockList.persegrit.stepSound.getStepSound(),
 		/* 13 */ "random.chestopen",
 		/* 14 */ "random.chestclosed",
 		/* 15 */ Block.soundTypeGrass.getBreakSound(),

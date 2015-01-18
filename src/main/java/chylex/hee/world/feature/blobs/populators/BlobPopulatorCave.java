@@ -93,7 +93,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 		if (side >= 2)z = rand.nextInt(32)-16;
 		else z = side == 0 ? 15 : -16;
 		
-		if (genCave(gen,rand,x,y,z,rad,Vec3.createVectorHelper(-x,-y,-z).normalize(),0)){
+		if (genCave(gen,rand,x,y,z,rad,new Vec3(-x,-y,-z).normalize(),0)){
 			--tmpCavesLeft;
 			return true;
 		}

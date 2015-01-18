@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.block.material.MaterialCorruptedEnergy;
 
 public class BlockCorruptedEnergy extends Block{
 	private static final Material corruptedEnergy = new MaterialCorruptedEnergy();

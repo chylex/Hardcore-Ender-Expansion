@@ -94,13 +94,13 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	private void simulateClientUpdate(){
 		posX = actualPosX;
 		posZ = actualPosZ;
-		Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
-		Vec3 vecPosNext = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+		Vec3 vecPos = new Vec3(posX,posY,posZ);
+		Vec3 vecPosNext = new Vec3(posX+motionX,posY+motionY,posZ+motionZ);
 		MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos,vecPosNext);
-		vecPos = Vec3.createVectorHelper(posX,posY,posZ);
-		vecPosNext = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+		vecPos = new Vec3(posX,posY,posZ);
+		vecPosNext = new Vec3(posX+motionX,posY+motionY,posZ+motionZ);
 
-		if (mop != null)vecPosNext = Vec3.createVectorHelper(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
+		if (mop != null)vecPosNext = new Vec3(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
 
 		Entity closest = null;
 		double minDist = Double.MAX_VALUE;

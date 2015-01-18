@@ -223,7 +223,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 			int minZ = MathHelper.floor_double(explosionZ-explosionSize-1D), maxZ = MathHelper.floor_double(explosionZ+explosionSize+1D);
 			
 			List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(exploder,AxisAlignedBB.getBoundingBox(minX,minY,minZ,maxX,maxY,maxZ));
-			Vec3 locationVec = Vec3.createVectorHelper(explosionX,explosionY,explosionZ);
+			Vec3 locationVec = new Vec3(explosionX,explosionY,explosionZ);
 
 			for(int a = 0; a < entities.size(); ++a){
 				Entity entity = entities.get(a);
@@ -249,7 +249,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 						entity.motionZ += tempZ*knockbackMp;
 
 						if (damageEntities && entity instanceof EntityPlayer){
-							hurtPlayers.put((EntityPlayer)entity,Vec3.createVectorHelper(tempX*blastPower,tempY*blastPower,tempZ*blastPower));
+							hurtPlayers.put((EntityPlayer)entity,new Vec3(tempX*blastPower,tempY*blastPower,tempZ*blastPower));
 						}
 					}
 				}

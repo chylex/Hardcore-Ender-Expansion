@@ -53,15 +53,15 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 			setDead();
 		}
 
-		Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
-		Vec3 vecPosWithMotion = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+		Vec3 vecPos = new Vec3(posX,posY,posZ);
+		Vec3 vecPosWithMotion = new Vec3(posX+motionX,posY+motionY,posZ+motionZ);
 		Vec3 hitVec;
 		
 		MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos,vecPosWithMotion);
-		vecPos = Vec3.createVectorHelper(posX,posY,posZ);
+		vecPos = new Vec3(posX,posY,posZ);
 
-		if (mop != null)hitVec = Vec3.createVectorHelper(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
-		else hitVec = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+		if (mop != null)hitVec = new Vec3(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
+		else hitVec = new Vec3(posX+motionX,posY+motionY,posZ+motionZ);
 
 		if (!worldObj.isRemote){
 			Entity finalEntity = null;

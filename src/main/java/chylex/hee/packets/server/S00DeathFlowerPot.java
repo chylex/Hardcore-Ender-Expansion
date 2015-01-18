@@ -4,35 +4,32 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import chylex.hee.block.BlockList;
 import chylex.hee.packets.AbstractServerPacket;
 
 public class S00DeathFlowerPot extends AbstractServerPacket{
-	private int x,y,z;
+	private BlockPos pos;
 	
 	public S00DeathFlowerPot(){}
 	
-	public S00DeathFlowerPot(int x, int y, int z){
-		this.x = x;
-		this.y = y;
-		this.z = z;
+	public S00DeathFlowerPot(BlockPos pos){
+		this.pos = pos;
 	}
 	
 	@Override
 	public void write(ByteBuf buffer){
-		buffer.writeInt(x).writeInt(y).writeInt(z);
+		buffer.writeLong(pos.toLong());
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
-		x = buffer.readInt();
-		y = buffer.readInt();
-		z = buffer.readInt();
+		pos = BlockPos.fromLong(buffer.readLong());
 	}
 
 	@Override
 	protected void handle(EntityPlayerMP player){
-		if (player.worldObj.getBlock(x,y,z) == Blocks.flower_pot && player.worldObj.getBlockMetadata(x,y,z) == 0){
+		if (player.worldObj.getBlock(pos) == Blocks.flower_pot && player.worldObj.getBlockMetadata(x,y,z) == 0){
 			ItemStack is = player.inventory.getCurrentItem();
 			if (is != null && is.getItem() == Item.getItemFromBlock(BlockList.death_flower)){
 				if (!player.capabilities.isCreativeMode)--is.stackSize;
