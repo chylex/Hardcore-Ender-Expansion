@@ -32,7 +32,7 @@ public class BlockReplaceHelper{
 						
 						FMLControlledNamespacedRegistry<Block> registryBlocks = GameData.getBlockRegistry();
 						registryBlocks.registryObjects.put(registryName,replacement);
-						registryBlocks.underlyingIntegerMap.func_148746_a(replacement,id); // OBFUSCATED put object
+						registryBlocks.underlyingIntegerMap.put(replacement,id);
 						
 						blockField.setAccessible(true);
 						Unfinalizer.unfinalizeField(blockField);
@@ -41,7 +41,7 @@ public class BlockReplaceHelper{
 						ItemBlock itemBlock = itemBlockClass.getConstructor(Block.class).newInstance(replacement);
 						FMLControlledNamespacedRegistry<Item> registryItems = GameData.getItemRegistry();
 						registryItems.registryObjects.put(registryName,itemBlock);
-						registryItems.underlyingIntegerMap.func_148746_a(itemBlock,id); // OBFUSCATED put object
+						registryItems.underlyingIntegerMap.put(itemBlock,id);
 						
 						int itemID = Item.getIdFromItem(itemBlock);
 						StatBase stat = StatList.mineBlockStatArray[itemID];

@@ -81,7 +81,7 @@ public class DragonAchievementManager{
 	}
 
 	public void readFromNBT(NBTTagCompound tag){
-		for(String key:(Set<String>)tag.getKeySet()){ // OBFUSCATED get keys
+		for(String key:(Set<String>)tag.getKeySet()){
 			NBTBase b = tag.getTag(key);
 			
 			if (b instanceof NBTTagCompound){

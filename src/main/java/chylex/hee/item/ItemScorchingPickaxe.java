@@ -132,7 +132,7 @@ public class ItemScorchingPickaxe extends Item{
 					
 					int fortune = 0;
 					for(int a = 0; a < 5; a++)fortune += 1+rand.nextInt(3+rand.nextInt(3));
-					fortune = 1+MathUtil.floor(fortune*(0.35D*rand.nextDouble()*rand.nextDouble()*Math.pow(FurnaceRecipes.instance().getSmeltingExperience(result),2.6D)+(fortune*0.06D))/6.4D); // OBFUSCATED getExperience
+					fortune = 1+MathUtil.floor(fortune*(0.35D*rand.nextDouble()*rand.nextDouble()*Math.pow(FurnaceRecipes.instance().getSmeltingExperience(result),2.6D)+(fortune*0.06D))/6.4D);
 					result.stackSize = fortune;
 				}
 				

@@ -60,7 +60,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	
 	@Override
 	protected void updateEntityActionState(){
-		if (lastAttacker != null && (lastAttacker.isDead || !lastAttacker.playerNetServerHandler.getNetworkManager().isChannelOpen()))lastAttacker = null; // OBFUSCATED get network manager
+		if (lastAttacker != null && (lastAttacker.isDead || !lastAttacker.playerNetServerHandler.getNetworkManager().isChannelOpen()))lastAttacker = null;
 		
 		float health = getHealth();
 		if (health <= 0)return;

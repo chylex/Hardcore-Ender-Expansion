@@ -12,6 +12,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
@@ -19,13 +21,11 @@ import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEnergyCluster extends BlockContainer{
 	public static final SoundType soundTypeEnergyCluster = new SoundType("holycrapthisisloud",5F,1.6F){
 		@Override
-		public String getStepResourcePath(){
+		public String getStepSound(){
 			return "dig.glass";
 		}
 
@@ -35,7 +35,7 @@ public class BlockEnergyCluster extends BlockContainer{
 		}
 
 		@Override
-		public String func_150496_b(){ // OBFUSCATED placed block sound
+		public String getPlaceSound(){
 			return "dig.glass";
 		}
 	};

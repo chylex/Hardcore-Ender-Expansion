@@ -27,9 +27,9 @@ public final class DimensionOverride{
 		overrideWorldGen();
 
 		MapGenStructureIO.registerStructure(StructureTower.class,"hardcoreenderdragon_EndTower");
-		MapGenStructureIO.func_143031_a(ComponentTower.class,"hardcoreenderdragon_EndTowerC"); // OBFUSCATED register structure component
+		MapGenStructureIO.registerStructureComponent(ComponentTower.class,"hardcoreenderdragon_EndTowerC");
 		MapGenStructureIO.registerStructure(StructureIsland.class,"hardcoreenderdragon_EndIsland");
-		MapGenStructureIO.func_143031_a(ComponentIsland.class,"hardcoreenderdragon_EndIslandC");
+		MapGenStructureIO.registerStructureComponent(ComponentIsland.class,"hardcoreenderdragon_EndIslandC");
 		
 		if (BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.register(new DimensionOverride());
 		

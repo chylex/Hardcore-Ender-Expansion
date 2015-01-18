@@ -11,6 +11,8 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkPosition;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C10ParticleEnergyTransfer;
@@ -18,8 +20,6 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstractInventory{
 	protected static final byte[] chunkOffX = new byte[]{ -1, -1, -1, 0, 0, 0, 1, 1, 1 },
@@ -114,13 +114,13 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 	public Packet getDescriptionPacket(){
 		NBTTagCompound nbt = new NBTTagCompound();
 		nbt.setBoolean("engInsuf",hasInsufficientEnergy);
-		return new S35PacketUpdateTileEntity(xCoord,yCoord,zCoord,0,nbt);
+		return new S35PacketUpdateTileEntity(pos,0,nbt);
 	}
 	
 	@Override
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet){
-		hasInsufficientEnergy = packet.func_148857_g().getBoolean("engInsuf"); // OBFUSCATED get tag data
-		worldObj.markBlockRangeForRenderUpdate(xCoord,yCoord,zCoord,xCoord,yCoord,zCoord);
+		hasInsufficientEnergy = packet.getNbtCompound().getBoolean("engInsuf");
+		worldObj.markBlockRangeForRenderUpdate(pos,pos);
 	}
 	
 	@SideOnly(Side.CLIENT)

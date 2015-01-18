@@ -34,7 +34,7 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 		if (++fallTime == 1 && !worldObj.isRemote){
 			BlockPosM pos = new BlockPosM(this);
 			
-			if (pos.getBlock(worldObj) != Blocks.dragon_egg){ // OBFUSCATED get block
+			if (pos.getBlock(worldObj) != Blocks.dragon_egg){
 				setDead();
 				return;
 			}
@@ -62,8 +62,9 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 			double deltaY = posY-ItemTempleCaller.templeY-2;
 			
 			if (!worldObj.isRemote){
-				if (deltaY>4D && rand.nextInt(6-(deltaY>6D?2 : 0)) == 0){
-					double xx = -5D,zz = -5D;
+				if (deltaY > 4D && rand.nextInt(6-(deltaY>6D?2 : 0)) == 0){
+					double xx = -5D, zz = -5D;
+					
 					switch(rand.nextInt(4)){
 						case 0: zz = ItemTempleCaller.templeZ;
 						case 1: xx = ItemTempleCaller.templeX+rand.nextFloat()*18D;

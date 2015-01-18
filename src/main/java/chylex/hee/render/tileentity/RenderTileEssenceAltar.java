@@ -12,7 +12,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -203,10 +202,5 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 		GL11.glColor4f(red,green,blue,1F);
 		IIcon icon = item.getIconFromDamage(damage);
 		ItemRenderer.renderItemIn2D(Tessellator.instance,icon.getMaxU(),icon.getMinV(),icon.getMinU(),icon.getMaxV(),icon.getIconWidth(),icon.getIconHeight(),0.0625F);
-	}
-	
-	@Override
-	public void func_147496_a(World world){ // OBFUSCATED create block renderer
-		blockRenderer = new RenderBlocks(world);
 	}
 }

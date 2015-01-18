@@ -1,6 +1,7 @@
 package chylex.hee.system.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -40,6 +41,14 @@ public class BlockPosM extends BlockPos{
 	@Override
 	public int getZ(){
 		return z;
+	}
+	
+	public boolean setBlock(World world, IBlockState state){
+		return world.setBlockState(this,state);
+	}
+	
+	public boolean setBlock(World world, IBlockState state, int flags){
+		return world.setBlockState(this,state,flags);
 	}
 	
 	public Block getBlock(World world){

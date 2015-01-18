@@ -22,7 +22,6 @@ public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeatur
 	}
 	
 	protected abstract boolean canStructureSpawn(int x, int z, double dist, Random rand);
-	protected abstract String getStructureName();
 	
 	@Override
 	protected final boolean canSpawnStructureAtCoords(int x, int z){
@@ -47,11 +46,6 @@ public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeatur
 			return dist >= minDistanceFromCenter && canStructureSpawn(x2,z2,dist,coordCheckRand);
 		}
 		else return false;
-	}
-	
-	@Override
-	public final String func_143025_a(){ // OBFUSCATED get structure name
-		return getStructureName();
 	}
 	
 	public static final HeeTest $debugTest = new HeeTest(){

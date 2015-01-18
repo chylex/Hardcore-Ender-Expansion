@@ -60,7 +60,7 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	}
 
 	private void fallIfPossible(World world, BlockPos pos){
-		if (BlockFalling.canFallInto(world,pos.down()) && pos.getY() >= 0){ // OBFUSCATED can fall?
+		if (BlockFalling.canFallInto(world,pos.down()) && pos.getY() >= 0){
 			byte checkRange = 32;
 			
 			if (!BlockFalling.fallInstantly && world.checkChunksExist(x-checkRange,y-checkRange,z-checkRange,x+checkRange,y+checkRange,z+checkRange)){

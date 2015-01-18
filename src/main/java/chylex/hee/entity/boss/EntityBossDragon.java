@@ -736,9 +736,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public boolean canBeCollidedWith(){
 		return false;
 	}
-
+	
 	@Override
-	public World func_82194_d(){ // OBFUSCATED get world obj
+	public World getWorld(){
 		return worldObj;
 	}
 	

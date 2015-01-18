@@ -148,8 +148,8 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 	}
 
 	@Override
-	protected void func_143012_a(NBTTagCompound nbt){ // OBFUSCATED writeToNBT
-		super.func_143012_a(nbt);
+	protected void writeStructureToNBT(NBTTagCompound nbt){
+		super.writeStructureToNBT(nbt);
 		nbt.setInteger("startX",startX);
 		nbt.setInteger("startZ",startZ);
 		nbt.setByte("bottomY",(byte)islandBottomY);
@@ -157,8 +157,8 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 	}
 
 	@Override
-	protected void func_143011_b(NBTTagCompound nbt){ // OBFUSCATED readFromNBT
-		super.func_143011_b(nbt);
+	protected void readStructureFromNBT(NBTTagCompound nbt){
+		super.readStructureFromNBT(nbt);
 		startX = nbt.getInteger("startX");
 		startZ = nbt.getInteger("startZ");
 		islandBottomY = nbt.getByte("bottomY");

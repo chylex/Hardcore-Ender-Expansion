@@ -39,7 +39,7 @@ public class RenderMiniBossFireFiend extends RenderLiving{
 	}
 	
 	@Override
-	protected boolean func_110813_b(EntityLiving entity){ // OBFUSCATED show mob name
+	protected boolean canRenderName(EntityLiving entity){
 		return false;
 	}
 }

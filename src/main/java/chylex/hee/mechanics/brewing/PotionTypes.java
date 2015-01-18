@@ -76,7 +76,7 @@ public class PotionTypes{
 		mapItemToIndex(Items.ghast_tear,9);
 		mapItemToIndex(Items.spider_eye,10);
 		mapItemToIndex(Items.magma_cream,11);
-		mapItemToIndex(Items.fish,(short)FishType.PUFFERFISH.func_150976_a(),new int[]{ 12 }); // OBFUSCATED get fish damage
+		mapItemToIndex(Items.fish,(short)FishType.PUFFERFISH.getMetadata(),new int[]{ 12 });
 		mapItemToIndex(Items.fermented_spider_eye,2,4,6,8/*,16*/);
 		/*mapItemToIndex(Item.rottenFlesh,13);
 		mapItemToIndex(Item.flint,14);

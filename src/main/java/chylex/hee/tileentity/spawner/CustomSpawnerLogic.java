@@ -5,15 +5,17 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import chylex.hee.tileentity.TileEntityCustomSpawner;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	protected TileEntityCustomSpawner spawnerTile;
 	protected Entity entityCache;
 	
+	protected int spawnDelay = 20;
 	protected int minSpawnDelay = 200;
 	protected int maxSpawnDelay = 800;
 	protected byte spawnRange;
@@ -35,9 +37,8 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 
 	public void onBlockBreak(){}
 	
-	@Override
 	public boolean isActivated(){
-		return getSpawnerWorld().getClosestPlayer(getSpawnerX()+0.5D,getSpawnerY()+0.5D,getSpawnerZ()+0.5D,activatingRangeFromPlayer) != null;
+		return getSpawnerWorld().getClosestPlayer(spawnerTile.getPos().getX()+0.5D,spawnerTile.getPos().getY()+0.5D,spawnerTile.getPos().getZ()+0.5D,activatingRangeFromPlayer) != null;
 	}
 	
 	protected void resetTimer(){
@@ -47,7 +48,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	}
 	
 	protected AxisAlignedBB getSpawnerCheckBB(){
-		return AxisAlignedBB.getBoundingBox(getSpawnerX(),getSpawnerY(),getSpawnerZ(),getSpawnerX()+1,getSpawnerY()+1,getSpawnerZ()+1).expand(spawnRange*2D,4D,spawnRange*2D);
+		return new AxisAlignedBB(spawnerTile.getPos(),spawnerTile.getPos().add(1,1,1)).expand(spawnRange*2D,4D,spawnRange*2D);
 	}
 	
 	protected boolean checkSpawnerConditions(){
@@ -66,7 +67,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 
 	@Override
 	public final void func_98267_a(int i){
-		spawnerTile.getWorld().addBlockEvent(spawnerTile.xCoord,spawnerTile.yCoord,spawnerTile.zCoord,Blocks.mob_spawner,i,0);
+		spawnerTile.getWorld().addBlockEvent(spawnerTile.getPos(),Blocks.mob_spawner,i,0);
 	}
 
 	@Override
@@ -133,24 +134,14 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	}
 
 	@Override
-	public final int getSpawnerX(){
-		return spawnerTile.xCoord;
-	}
-
-	@Override
-	public final int getSpawnerY(){
-		return spawnerTile.yCoord;
-	}
-
-	@Override
-	public final int getSpawnerZ(){
-		return spawnerTile.zCoord;
+	public BlockPos func_177221_b(){ // OBFUSCATED getPos
+		return spawnerTile.getPos();
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public final Entity func_98281_h(){
-		if (entityCache == null)entityCache = func_98265_a(createMob(null)); // OBFUSCATED spawn entity
+	public final Entity func_180612_a(World world){
+		if (entityCache == null)entityCache = func_98265_a(createMob(world)); // OBFUSCATED spawn entity
 		return entityCache;
 	}
 	

@@ -49,7 +49,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"It smells fishy...");
 			}
 			else if (is.getItem() == Items.enchanted_book){
-				is.func_150996_a(Items.book); // OBFUSCATED set item
+				is.setItem(Items.book);
 				EnchantmentHelper.addRandomEnchantment(rand,is,13+rand.nextInt(7));
 			}
 			else if (is.isItemEnchantable() && is.getItem() != Items.book){

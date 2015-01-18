@@ -12,14 +12,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityProjectileSpatialDash extends EntityThrowable{
 	private byte ticks = 0;
@@ -108,7 +108,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 				
 				PacketPipeline.sendToAllAround(player,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,player));
 
-				if (player.playerNetServerHandler.getNetworkManager().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
+				if (player.playerNetServerHandler.getNetworkManager().isChannelOpen() && player.worldObj == worldObj){
 					if (player.isRiding())player.mountEntity((Entity)null);
 					
 					int x,y,z;

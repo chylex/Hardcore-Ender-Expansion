@@ -13,12 +13,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.proxy.ModCommonProxy;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockSpookyLeaves extends BlockLeaves{
 	@Override
@@ -107,7 +107,7 @@ public class BlockSpookyLeaves extends BlockLeaves{
 	public void registerBlockIcons(IIconRegister iconRegister){
 		blockIcon = iconRegister.registerIcon(getTextureName());
 	}
-
+	
 	@Override
 	public String[] func_150125_e(){ // OBFUSCATED
 		return new String[]{ getUnlocalizedName() };
