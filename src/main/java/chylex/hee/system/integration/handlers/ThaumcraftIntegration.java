@@ -1,17 +1,11 @@
 package chylex.hee.system.integration.handlers;
-import static thaumcraft.api.ThaumcraftApi.*;
+//import static thaumcraft.api.ThaumcraftApi.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
-import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.block.BlockList;
-import chylex.hee.item.ItemList;
-import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.integration.IIntegrationHandler;
+//import thaumcraft.api.aspects.Aspect;
+//import thaumcraft.api.aspects.AspectList;
 
 public class ThaumcraftIntegration implements IIntegrationHandler{
 	@Override
@@ -24,7 +18,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		
 		// BLOCK ASPECTS
 		
-		registerObjectTag(block(BlockList.obsidian_falling), meta(0), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
+		/*registerObjectTag(block(BlockList.obsidian_falling), meta(0), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
 		registerObjectTag(block(BlockList.obsidian_stairs), meta(0,1,2,3,4,5,6,7), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
 		registerObjectTag(block(BlockList.obsidian_special), meta(0,1,2,3,4,5,6), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
 		registerObjectTag(block(BlockList.obsidian_special_glow), meta(0,1,2,3,4,5,6), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.LIGHT,5).add(Aspect.EARTH,2));
@@ -109,7 +103,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerEntityTag("HardcoreEnderExpansion.InfestedBat", new AspectList().add(Aspect.AIR,1).add(Aspect.BEAST,1).add(Aspect.FLIGHT,1).add(Aspect.POISON,1));
 		registerEntityTag("HardcoreEnderExpansion.FireGolem", new AspectList().add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,1).add(Aspect.FIRE,3).add(Aspect.MAGIC,1));
 		registerEntityTag("HardcoreEnderExpansion.ScorchingLens", new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,3).add(Aspect.SENSES,1));
-		registerEntityTag("HardcoreEnderExpansion.CorporealMirage", new AspectList().add(Aspect.AIR,4).add(Aspect.ENTROPY,3).add(Aspect.MIND,2).add(Aspect.SOUL,5).add(Aspect.TRAVEL,1));
+		registerEntityTag("HardcoreEnderExpansion.CorporealMirage", new AspectList().add(Aspect.AIR,4).add(Aspect.ENTROPY,3).add(Aspect.MIND,2).add(Aspect.SOUL,5).add(Aspect.TRAVEL,1));*/
 	}
 	
 	private static ItemStack block(Block block){
