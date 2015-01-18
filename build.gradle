@@ -27,7 +27,7 @@ targetCompatibility = 1.7
 minecraft {
     version = "1.8-11.14.0.1289-1.8"
     runDir = "eclipse"
-    mappings = "snapshot_20150118
+    mappings = "snapshot_20150118"
 }
 
 processResources {
