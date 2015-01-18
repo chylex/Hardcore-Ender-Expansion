@@ -11,6 +11,8 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
@@ -19,8 +21,6 @@ import chylex.hee.mechanics.gem.GemSideEffects;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	@SideOnly(Side.CLIENT)
@@ -85,8 +85,8 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 			
 			if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.HEAL) && isLiving){
 				EntityLivingBase e = (EntityLivingBase)entity;
-				e.addPotionEffect(new PotionEffect(Potion.regeneration.id,120,1,true));
-				e.addPotionEffect(new PotionEffect(Potion.field_76443_y.id,1,0,true));
+				e.addPotionEffect(new PotionEffect(Potion.regeneration.id,120,1,true,false));
+				e.addPotionEffect(new PotionEffect(Potion.saturation.id,1,0,true,false));
 				e.extinguish();
 			}
 

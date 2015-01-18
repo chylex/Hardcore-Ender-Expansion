@@ -11,13 +11,13 @@ import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.StructureIsland;
 import chylex.hee.world.structure.tower.ComponentTower;
 import chylex.hee.world.structure.tower.StructureTower;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public final class DimensionOverride{
 	public static void setup(){
@@ -93,7 +93,7 @@ public final class DimensionOverride{
 		public void populate(IChunkProvider provider, int x, int z){
 			Chunk chunk = provideChunk(x,z);
 			
-			if (!chunk.isTerrainPopulated){
+			if (!chunk.isTerrainPopulated()){
 				chunk.func_150809_p();
 				
 				if (currentChunkProvider != null){

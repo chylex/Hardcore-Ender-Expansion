@@ -172,14 +172,14 @@ public enum CurseType{
 			PotionEffect eff = entity.getActivePotionEffect(Potion.moveSlowdown);
 			
 			if (eff == null || eff.getAmplifier() < 1 || eff.getDuration() < 25){
-				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true));
+				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true,true));
 				return true;
 			}
 			else return false;
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true));
+			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true,true));
 		}
 	}),
 	
@@ -188,14 +188,14 @@ public enum CurseType{
 			PotionEffect eff = entity.getActivePotionEffect(Potion.weakness);
 			
 			if (eff == null || eff.getAmplifier() < 1 || eff.getDuration() < 25){
-				entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true));
+				entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true,true));
 				return true;
 			}
 			else return false;
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true));
+			entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true,true));
 		}
 	}),
 	
@@ -204,14 +204,14 @@ public enum CurseType{
 			PotionEffect eff = entity.getActivePotionEffect(Potion.blindness);
 			
 			if (eff == null || eff.getDuration() < 25){
-				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,0,true));
+				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,0,true,true));
 				return true;
 			}
 			else return false;
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,1,true));
+			entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,1,true,true));
 		}
 	}),
 	

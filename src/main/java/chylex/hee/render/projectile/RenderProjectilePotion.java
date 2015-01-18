@@ -1,13 +1,18 @@
 package chylex.hee.render.projectile;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemPotion;
-import chylex.hee.entity.projectile.EntityProjectilePotion;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.entity.projectile.EntityProjectilePotion;
 
 @SideOnly(Side.CLIENT)
 public class RenderProjectilePotion extends RenderProjectileBase{
+	public RenderProjectilePotion(RenderManager renderManager){
+		super(renderManager);
+	}
+
 	@Override
 	protected void render(Entity entity){
 		renderIcon(Tessellator.instance,((EntityProjectilePotion)entity).getPotionItem().getIconFromDamageForRenderPass(1,0));

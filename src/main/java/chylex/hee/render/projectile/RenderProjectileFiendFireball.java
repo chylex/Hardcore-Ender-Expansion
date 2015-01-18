@@ -7,17 +7,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderProjectileFiendFireball extends Render{
 	private final float scale;
 	
-	public RenderProjectileFiendFireball(float scale){
+	public RenderProjectileFiendFireball(RenderManager renderManager, float scale){
+		super(renderManager);
 		this.scale = scale;
 	}
 	

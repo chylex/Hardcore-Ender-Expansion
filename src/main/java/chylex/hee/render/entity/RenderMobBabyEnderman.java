@@ -1,6 +1,7 @@
 package chylex.hee.render.entity;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -8,15 +9,17 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderMobBabyEnderman extends AbstractRenderMobEnderman{
-	public RenderMobBabyEnderman(){}
+	public RenderMobBabyEnderman(RenderManager renderManager){
+		super(renderManager);
+	}
 
 	@Override
 	public void renderEnderman(IEndermanRenderer enderman, double x, double y, double z, float yaw, float partialTickTime){

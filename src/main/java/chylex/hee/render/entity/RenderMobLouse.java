@@ -3,17 +3,18 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.render.model.ModelLouse;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderMobLouse extends RenderLiving{
@@ -35,8 +36,8 @@ public class RenderMobLouse extends RenderLiving{
 	
 	private static final Random runeTexRand = new Random();
 
-	public RenderMobLouse(){
-		super(new ModelLouse(),0.4F);
+	public RenderMobLouse(RenderManager renderManager){
+		super(renderManager,new ModelLouse(),0.4F);
 	}
 	
 	private enum RuneColor{

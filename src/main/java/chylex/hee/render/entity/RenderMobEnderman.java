@@ -1,17 +1,20 @@
 package chylex.hee.render.entity;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderEnderman;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.model.ModelBaconmanHead;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderMobEnderman extends RenderEnderman{
-	public RenderMobEnderman(){
+	public RenderMobEnderman(RenderManager renderManager){
+		super(renderManager);
+		
 		if (ModCommonProxy.hardcoreEnderbacon){
 			((ModelBiped)mainModel).bipedHead = new ModelBaconmanHead(mainModel,0,0);
 		}

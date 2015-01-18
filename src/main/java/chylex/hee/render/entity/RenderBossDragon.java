@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -12,6 +13,8 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.mechanics.misc.Baconizer;
@@ -19,8 +22,6 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.model.ModelEnderDragon;
 import chylex.hee.sound.BossType;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderBossDragon extends RenderLiving{
@@ -29,8 +30,8 @@ public class RenderBossDragon extends RenderLiving{
 	private static final ResourceLocation texCrystalBeam = new ResourceLocation("textures/entity/endercrystal/endercrystal_beam.png");
 	private static final ResourceLocation texDeathExplosions = new ResourceLocation("textures/entity/enderdragon/dragon_exploding.png");
 
-	public RenderBossDragon(){
-		super(new ModelEnderDragon(),0.5F);
+	public RenderBossDragon(RenderManager renderManager){
+		super(renderManager,new ModelEnderDragon(),0.5F);
 		setRenderPassModel(mainModel);
 	}
 

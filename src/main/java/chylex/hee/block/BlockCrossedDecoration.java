@@ -19,10 +19,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.util.ForgeDirection;
-import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.proxy.ModCommonProxy;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.proxy.ModCommonProxy;
 
 public class BlockCrossedDecoration extends BlockFlower implements IShearable, IBlockSubtypes{
 	private static final String[] decorTypes = new String[]{
@@ -90,7 +90,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 			entity.attackEntityFrom(DamageSource.generic,1F);
 			
 			if (world.rand.nextInt(80) == 0 && entity instanceof EntityLivingBase && !((EntityLivingBase)entity).isPotionActive(Potion.poison)){
-				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id,30+world.rand.nextInt(40),1,true));
+				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id,30+world.rand.nextInt(40),1,false,false));
 			}
 		}
 	}

@@ -17,7 +17,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class GuiItemRenderHelper{
-	private static final RenderItem renderItem = new RenderItem();
 	private static final RenderBlocks renderBlocks = new RenderBlocks();
 
 	public static void renderItemIntoGUI(TextureManager textureManager, ItemStack is, int x, int y){
@@ -25,6 +24,8 @@ public class GuiItemRenderHelper{
 		int damage = is.getItemDamage();
 		Object object = is.getIconIndex();
 		Block block = item instanceof ItemBlock ? Block.getBlockFromItem(item) : null;
+		
+		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		
 		if (is.getItemSpriteNumber() == 0 && block != null && RenderBlocks.renderItemIn3d(block.getRenderType())){
 			RenderHelper.enableGUIStandardItemLighting();

@@ -1,15 +1,20 @@
 package chylex.hee.render.projectile;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.curse.CurseType;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderProjectileCurse extends RenderProjectileBase{
+	public RenderProjectileCurse(RenderManager renderManager){
+		super(renderManager);
+	}
+
 	@Override
 	protected void render(Entity entity){
 		EntityProjectileCurse curse = (EntityProjectileCurse)entity;

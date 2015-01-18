@@ -17,6 +17,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
@@ -24,7 +25,6 @@ import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.util.DragonUtil;
-import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 	private List<Enum> pearlTypes = new ArrayList<>();
@@ -135,7 +135,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 						if (pearlTypes.contains(EnderPearlEnhancements.FREEZE)){
 							for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(5D,3D,5D))){
 								double dist = entity.getDistanceSqToEntity(this);
-								if (dist <= 5D)entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,80+(int)(10D*(6D-dist)),3,true));
+								if (dist <= 5D)entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,80+(int)(10D*(6D-dist)),3,true,true));
 							}
 						}
 						

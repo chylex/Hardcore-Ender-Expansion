@@ -1,18 +1,23 @@
 package chylex.hee.render.block;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.render.model.ModelHomelandCache;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderBlockHomelandCache extends Render{
 	private static final ResourceLocation texHomelandCache = new ResourceLocation("hardcoreenderexpansion:textures/entity/homeland_cache.png");
 	
 	private ModelHomelandCache model = new ModelHomelandCache();
+	
+	public RenderBlockHomelandCache(RenderManager renderManager){
+		super(renderManager);
+	}
 	
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float rotationYaw, float partialTickTime){

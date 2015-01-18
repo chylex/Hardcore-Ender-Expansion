@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -49,7 +48,6 @@ import chylex.hee.system.util.MathUtil;
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjLeft = 32;
 	
-	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	public static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
 	public static final ResourceLocation texFragments = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_fragments.png");
@@ -458,7 +456,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		drawTexturedModalRect(x,y,56,0,56,20);
 		
 		RenderHelper.enableGUIStandardItemLighting();
-		renderItem.renderItemIntoGUI(knowledgeFragmentIS,x+3,y+1);
+		mc.getRenderItem().renderItemIntoGUI(knowledgeFragmentIS,x+3,y+1);
 		
 		String pointAmount = String.valueOf(compendiumData.getPoints());
 		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,0x404040);

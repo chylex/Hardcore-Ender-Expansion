@@ -85,10 +85,10 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 						
 						EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(dragon.worldObj);
 						enderman.setPosition(x,y,z);
-						enderman.setTarget(player);
+						enderman.setAttackTarget(player);
 						
 						if ((getDifficulty() > 1 || ModCommonProxy.opMobs) && rand.nextInt(100) < 5+getDifficulty()*10+(ModCommonProxy.opMobs ? 25 : 0)){
-							enderman.addPotionEffect(new PotionEffect(Potion.damageBoost.id,2400,0,true));
+							enderman.addPotionEffect(new PotionEffect(Potion.damageBoost.id,2400,0,true,true));
 						}
 						
 						dragon.worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(dragon.worldObj,x,y,z));

@@ -1,18 +1,19 @@
 package chylex.hee.render.entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.render.model.ModelEnderEye;
 import chylex.hee.sound.BossType;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderMiniBossEnderEye extends RenderLiving{
@@ -21,8 +22,8 @@ public class RenderMiniBossEnderEye extends RenderLiving{
 
 	private byte statusTick = 0;
 	
-	public RenderMiniBossEnderEye(){
-		super(new ModelEnderEye(),0.75F);
+	public RenderMiniBossEnderEye(RenderManager renderManager){
+		super(renderManager,new ModelEnderEye(),0.75F);
 	}
 	
 	@Override

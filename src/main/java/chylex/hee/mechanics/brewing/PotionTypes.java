@@ -17,6 +17,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.item.ItemAbstractPotion;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
+import chylex.hee.system.util.ItemUtil;
 
 public class PotionTypes{
 	public static final List<AbstractPotionData> potionData = Arrays.asList(
@@ -178,11 +179,11 @@ public class PotionTypes{
 			PotionEffect newEffect = null;
 			
 			if (ingredientItem == Items.glowstone_dust){
-				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration(),eff.getAmplifier()+1,eff.getIsAmbient());
+				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration(),eff.getAmplifier()+1,eff.getIsAmbient(),eff.getIsShowParticles());
 			}
 			else if (ingredientItem == Items.redstone){
 				AbstractPotionData data = getPotionData(is);
-				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration()+((TimedPotion)data).getDurationStep(),eff.getAmplifier(),eff.getIsAmbient());
+				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration()+((TimedPotion)data).getDurationStep(),eff.getAmplifier(),eff.getIsAmbient(),eff.getIsShowParticles());
 			}
 			
 			if (newEffect != null)setCustomPotionEffect(is,newEffect);
@@ -194,12 +195,12 @@ public class PotionTypes{
 			if (data != null && data.requiredDamageValue == (is.getItemDamage()&~16384)){
 				PotionEffect prevEffect = getEffectIfValid(is);
 				
-				if (is.stackTagCompound != null)is.stackTagCompound.removeTag("CustomPotionEffects");
+				ItemUtil.getNBT(is,false).removeTag("CustomPotionEffects");
 				data.onFirstBrewingFinished(is);
 				
 				if (prevEffect != null){
 					PotionEffect curEffect = getEffectIfValid(is);
-					if (curEffect != null)setCustomPotionEffect(is,new PotionEffect(curEffect.getPotionID(),prevEffect.getDuration(),prevEffect.getAmplifier(),prevEffect.getIsAmbient()));
+					if (curEffect != null)setCustomPotionEffect(is,new PotionEffect(curEffect.getPotionID(),prevEffect.getDuration(),prevEffect.getAmplifier(),prevEffect.getIsAmbient(),prevEffect.getIsShowParticles()));
 				}
 				
 				break;
@@ -210,11 +211,10 @@ public class PotionTypes{
 	}
 	
 	public static ItemStack setCustomPotionEffect(ItemStack is, PotionEffect effect){
-		NBTTagCompound nbt = is.stackTagCompound == null?new NBTTagCompound():is.stackTagCompound;
+		NBTTagCompound nbt = ItemUtil.getNBT(is,true);
 		NBTTagList potionList = new NBTTagList();
 		potionList.appendTag(effect.writeCustomPotionEffectToNBT(new NBTTagCompound()));
 		nbt.setTag("CustomPotionEffects",potionList);
-		is.setTagCompound(nbt);
 		return is;
 	}
 }

@@ -14,13 +14,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
-import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
-import chylex.hee.item.ItemList;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.item.ItemList;
 
 public class BlockEnderGoo extends BlockFluidClassic{
 	public static boolean shouldBattleWater = true;
@@ -77,9 +77,9 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	@Override
 	public void velocityToAddToEntity(World world, int x, int y, int z, Entity entity, Vec3 vec){}
 	
-	private static final PotionEffect weakness = new PotionEffect(Potion.weakness.id,5,1,false),
-									  miningFatigue = new PotionEffect(Potion.digSlowdown.id,5,1,false),
-									  poison = new PotionEffect(Potion.poison.id,100,2,false);
+	private static final PotionEffect weakness = new PotionEffect(Potion.weakness.id,5,1,false,true),
+									  miningFatigue = new PotionEffect(Potion.digSlowdown.id,5,1,false,true),
+									  poison = new PotionEffect(Potion.poison.id,100,2,false,true);
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
@@ -94,7 +94,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 				if ((eff = e.getActivePotionEffect(Potion.poison)) == null)return;
 			}
 			
-			if (eff.getDuration() < 102)eff.combine(new PotionEffect(Potion.poison.id,eff.getDuration()+17,eff.getAmplifier(),eff.getIsAmbient()));
+			if (eff.getDuration() < 102)eff.combine(new PotionEffect(Potion.poison.id,eff.getDuration()+17,eff.getAmplifier(),eff.getIsAmbient(),eff.getIsShowParticles()));
 			
 			Vec3 vec = Vec3.createVectorHelper(0D,0D,0D);
 			super.velocityToAddToEntity(world,x,y,z,entity,vec);

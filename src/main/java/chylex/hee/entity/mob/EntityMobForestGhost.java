@@ -50,7 +50,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 			}
 			else if (lifeLeft < 80)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 9F : 5F,worldObj.getDifficulty()));
 			
-			if (dist < 2.1D && lifeLeft < 80)target.addPotionEffect(new PotionEffect(Potion.blindness.id,80,0,true));
+			if (dist < 2.1D && lifeLeft < 80)target.addPotionEffect(new PotionEffect(Potion.blindness.id,80,0,true,false));
 		}
 	}
 	

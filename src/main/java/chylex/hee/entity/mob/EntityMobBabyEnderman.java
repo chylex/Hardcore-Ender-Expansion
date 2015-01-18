@@ -413,7 +413,7 @@ enum ItemPriorityLevel{
 	
 	FOOD(new IItemSelector(){
 		@Override public boolean isValid(ItemStack is){
-			return is.getItemUseAction() == EnumAction.eat;
+			return is.getItemUseAction() == EnumAction.EAT;
 		}
 	}),
 	

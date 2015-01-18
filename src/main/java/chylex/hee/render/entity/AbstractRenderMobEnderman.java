@@ -4,20 +4,21 @@ import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelEnderman;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.model.ModelBaconmanHead;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public abstract class AbstractRenderMobEnderman extends RenderLiving{
@@ -27,8 +28,8 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 	protected final ModelEnderman endermanModel;
 	protected final Random rand = new Random();
 
-	public AbstractRenderMobEnderman(){
-		super(new ModelEnderman(),0.5F);
+	public AbstractRenderMobEnderman(RenderManager renderManager){
+		super(renderManager,new ModelEnderman(),0.5F);
 		endermanModel = (ModelEnderman)super.mainModel;
 		setRenderPassModel(endermanModel);
 		

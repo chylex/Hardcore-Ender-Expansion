@@ -48,19 +48,19 @@ public enum GemSideEffects implements IWeightProvider{
 				break;
 				
 			case SLOWNESS:
-				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,MathUtil.ceil(280f*percBroken),1,true));
+				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,MathUtil.ceil(280F*percBroken),1,true,true));
 				break;
 				
 			case NAUSEA:
-				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.confusion.id,MathUtil.ceil(340f*percBroken),0,true));
+				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.confusion.id,MathUtil.ceil(340F*percBroken),0,true,true));
 				break;
 				
 			case WEAKNESS:
-				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.weakness.id,MathUtil.ceil(320f*percBroken),1,true));
+				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.weakness.id,MathUtil.ceil(320F*percBroken),1,true,true));
 				break;
 				
 			case HUNGER:
-				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.hunger.id,MathUtil.ceil(265f*percBroken),0,true));
+				if (entity instanceof EntityLivingBase)((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.hunger.id,MathUtil.ceil(265F*percBroken),0,true,true));
 				break;
 				
 			case ENDERMEN:

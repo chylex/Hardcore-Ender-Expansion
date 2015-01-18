@@ -45,7 +45,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItemUseAction() == EnumAction.eat){
+			if (is.getItemUseAction() == EnumAction.EAT){
 				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"It smells fishy...");
 			}
 			else if (is.getItem() == Items.enchanted_book){

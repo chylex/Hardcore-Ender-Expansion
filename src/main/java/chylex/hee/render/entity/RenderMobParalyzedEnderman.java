@@ -1,16 +1,21 @@
 package chylex.hee.render.entity;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.RenderEnderman;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderMobParalyzedEnderman extends RenderEnderman{
 	private static final ResourceLocation texEndermanEyes = new ResourceLocation("hardcoreenderexpansion:textures/entity/enderman_eyes_brainless.png");
 
+	public RenderMobParalyzedEnderman(RenderManager renderManager){
+		super(renderManager);
+	}
+	
 	@Override
 	protected int shouldRenderPass(EntityEnderman enderman, int pass, float partialTickTime){
 		if (pass != 0)return -1;

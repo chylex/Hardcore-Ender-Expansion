@@ -25,7 +25,7 @@ import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
-	private static final PotionEffect endermanStrength = new PotionEffect(Potion.damageBoost.id,600,2,true);
+	private static final PotionEffect endermanStrength = new PotionEffect(Potion.damageBoost.id,600,2,true,true);
 	
 	private byte healthRegenTimer = 10, lightningStartCounter = 30, lightningCounter,
 				 endermanSpawnTimer = 25, obsidianSpawnTimer = 69;

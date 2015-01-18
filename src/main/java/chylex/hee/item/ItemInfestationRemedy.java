@@ -51,7 +51,7 @@ public class ItemInfestationRemedy extends Item{
 		for(Entry<PotionEffect,Integer> entry:newDurations.entrySet()){
 			PotionEffect oldEff = entry.getKey();
 			player.removePotionEffect(oldEff.getPotionID());
-			player.addPotionEffect(new PotionEffect(oldEff.getPotionID(),entry.getValue(),oldEff.getAmplifier(),oldEff.getIsAmbient()));
+			player.addPotionEffect(new PotionEffect(oldEff.getPotionID(),entry.getValue(),oldEff.getAmplifier(),oldEff.getIsAmbient(),oldEff.getIsShowParticles()));
 		}
 		
 		if (is.stackSize <= 0)return new ItemStack(Items.glass_bottle);

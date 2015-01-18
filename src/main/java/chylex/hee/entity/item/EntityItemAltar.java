@@ -4,12 +4,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 
 public class EntityItemAltar extends EntityItem{
 	public byte pedestalUpdate;
 	public byte essenceType;
 	public boolean hasChanged = false;
+	private int pickupDelay;
+	private int age;
 	
 	public EntityItemAltar(World world){
 		super(world);
@@ -18,7 +22,7 @@ public class EntityItemAltar extends EntityItem{
 	public EntityItemAltar(World world, double x, double y, double z, EntityItem originalItem, byte essenceType){
 		super(world,x,y,z);
 		motionX = motionY = motionZ = 0D;
-		delayBeforeCanPickup = 50;
+		pickupDelay = 50;
 		
 		hoverStart = originalItem.hoverStart;
 		rotationYaw = originalItem.rotationYaw;
@@ -55,8 +59,12 @@ public class EntityItemAltar extends EntityItem{
 		}
 		
 		onEntityUpdate();
-
-		if (delayBeforeCanPickup > 0)--delayBeforeCanPickup;
+		
+		if (pickupDelay > 0){
+			--pickupDelay;
+			setInfinitePickupDelay();
+		}
+		else setNoPickupDelay();
 		
 		prevPosX = posX;
 		prevPosY = posY;
@@ -84,6 +92,12 @@ public class EntityItemAltar extends EntityItem{
 	
 	public void setSparkling(){
 		dataWatcher.updateObject(11,Byte.valueOf((byte)1));
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getAge(){
+		return age;
 	}
 	
 	@Override

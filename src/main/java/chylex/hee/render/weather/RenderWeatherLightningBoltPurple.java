@@ -2,13 +2,18 @@ package chylex.hee.render.weather;
 import java.util.Random;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLightningBolt;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import org.lwjgl.opengl.GL11;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
+	public RenderWeatherLightningBoltPurple(RenderManager renderManager){
+		super(renderManager);
+	}
+
 	@Override
 	public void doRender(EntityLightningBolt bolt, double x, double y, double z, float yaw, float partialTickTime){
 		Tessellator tessellator = Tessellator.instance;

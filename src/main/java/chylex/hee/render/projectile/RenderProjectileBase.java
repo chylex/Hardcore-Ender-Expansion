@@ -1,17 +1,22 @@
 package chylex.hee.render.projectile;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
 abstract class RenderProjectileBase extends Render{
+	public RenderProjectileBase(RenderManager renderManager){
+		super(renderManager);
+	}
+	
 	protected abstract void render(Entity entity);
 	
 	@Override
@@ -37,8 +42,8 @@ abstract class RenderProjectileBase extends Render{
 	}
 	
 	protected static final void renderIcon(Tessellator tessellator, IIcon icon){
-		float minU = icon.getMinU(),maxU = icon.getMaxU(),
-			  minV = icon.getMinV(),maxV = icon.getMaxV();
+		float minU = icon.getMinU(), maxU = icon.getMaxU(),
+			  minV = icon.getMinV(), maxV = icon.getMaxV();
 
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0F,1F,0F);

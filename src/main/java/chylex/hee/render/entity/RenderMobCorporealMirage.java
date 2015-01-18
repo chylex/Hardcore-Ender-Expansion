@@ -1,20 +1,21 @@
 package chylex.hee.render.entity;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+import chylex.hee.entity.mob.EntityMobCorporealMirage;
 
 @SideOnly(Side.CLIENT)
 public class RenderMobCorporealMirage extends RendererLivingEntity{
 	private static final double angleStep = 0.01745329251994327D;
 	
-	public RenderMobCorporealMirage(){
-		super(new ModelBiped(),0F);
+	public RenderMobCorporealMirage(RenderManager renderManager){
+		super(renderManager,new ModelBiped(),0F);
 	}
 	
 	@Override
