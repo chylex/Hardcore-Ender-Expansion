@@ -18,19 +18,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.item.block.ItemBlockEndFlower;
 import chylex.hee.item.block.ItemBlockEnhancedTNT;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
 import chylex.hee.item.block.ItemBlockSlab;
 import chylex.hee.item.block.ItemBlockSlab.IBlockSlab;
-import chylex.hee.item.block.ItemBlockSoulCharm;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public final class BlockList{
 	private static final Map<String,BlockData> blocks = new HashMap<>();

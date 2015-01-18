@@ -71,11 +71,11 @@ public final class DragonUtil{
 				MovingObjectPosition mop = entity.worldObj.rayTraceBlocks(new Vec3(px,py+0.12F,pz),new Vec3(x+rayX[a]*pointScale,y+(b == 0?-1D:1D)*pointScale,z+rayZ[a]*pointScale));
 				
 				if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
-					isBlockedArr[a*2+b] = MathUtil.distance(mop.blockX+0.5D-x,mop.blockY+0.5D-y,mop.blockZ+0.5D-z) > 0.1D &&
-										  MathUtil.distance(mop.blockX+0.5D-px,mop.blockY+0.62D-py,mop.blockZ-pz) > 2D;
+					isBlockedArr[a*2+b] = MathUtil.distance(mop.getBlockPos().getX()+0.5D-x,mop.getBlockPos().getY()+0.5D-y,mop.getBlockPos().getZ()+0.5D-z) > 0.1D &&
+										  MathUtil.distance(mop.getBlockPos().getX()+0.5D-px,mop.getBlockPos().getY()+0.62D-py,mop.getBlockPos().getZ()-pz) > 2D;
 
 					if (isBlockedArr[a*2+b]){
-						if (!entity.worldObj.getBlock(mop.blockX,mop.blockY,mop.blockZ).isOpaqueCube())isBlockedArr[a*2+b] = false;
+						if (!entity.worldObj.getBlockState(mop.getBlockPos()).getBlock().isOpaqueCube())isBlockedArr[a*2+b] = false;
 					}
 				}
 			}
@@ -118,11 +118,11 @@ public final class DragonUtil{
 	
 	public static double[] getNormalizedVector(double vecX, double vecZ){
 		double len = Math.sqrt(vecX*vecX+vecZ*vecZ);
-		return len == 0 ? new double[]{ 0, 0 } : new double[]{ vecX/len, vecZ/len };
+		return len == 0D ? new double[]{ 0, 0 } : new double[]{ vecX/len, vecZ/len };
 	}
 	
-	public static Vec3 getRandomVector(Random rand){
-		return new Vec3(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
+	public static Vec3M getRandomVector(Random rand){
+		return new Vec3M(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
 	}
 
 	public static <T> T[] getNonNullValues(T[] array){
@@ -142,8 +142,10 @@ public final class DragonUtil{
 	}
 
 	public static int getTopBlockY(World world, Block block, int x, int z, int startY){
-		for(int y = startY; y >= 0; y--){
-			if (world.getBlock(x,y,z) == block)return y;
+		BlockPosM pos = new BlockPosM(x,startY,z);
+		
+		for(; pos.y >= 0; pos.y--){
+			if (pos.getBlock(world) == block)return pos.y;
 		}
 		
 		return -1;

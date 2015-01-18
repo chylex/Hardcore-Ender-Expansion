@@ -7,12 +7,13 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.system.util.MathUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.system.util.MathUtil;
 
 public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 	public static byte metaNormal = 0, metaCracked = 1, metaDamaged1 = 2, metaDamaged2 = 3, metaDamaged3 = 4, metaDamaged4 = 5, metaAmount = 6;
@@ -35,17 +36,17 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 	}
 	
 	@Override
-	public float getBlockHardness(World world, int x, int y, int z){
+	public float getBlockHardness(World world, BlockPos pos){
 		if (world.provider.getDimensionId() != 1 || !world.isRemote)return blockHardness; // only run on client side
 		
 		List<TileEntity> list = world.loadedTileEntityList;
 		int spawnerCount = 0;
 		
 		for(TileEntity tile:list){
-			if (tile.blockType == BlockList.custom_spawner && MathUtil.distance(x-tile.xCoord,z-tile.zCoord) < 260)++spawnerCount;
+			if (tile.getBlockType() == BlockList.custom_spawner && MathUtil.distance(pos.getX()-tile.getPos().getX(),pos.getZ()-tile.getPos().getZ()) < 260)++spawnerCount;
 		}
 		
-		if (spawnerCount > 24)world.spawnParticle("reddust",x-0.2D+world.rand.nextDouble()*1.4D,y-0.2D+world.rand.nextDouble()*1.4D,z-0.2D+world.rand.nextDouble()*1.4D,1D,0.2D,0.2D);
+		if (spawnerCount > 24)world.spawnParticle("reddust",pos.getX()-0.2D+world.rand.nextDouble()*1.4D,pos.getY()-0.2D+world.rand.nextDouble()*1.4D,pos.getZ()-0.2D+world.rand.nextDouble()*1.4D,1D,0.2D,0.2D);
 		
 		return spawnerCount <= 24 ? blockHardness : blockHardness+(3F+(float)Math.pow(spawnerCount-24,0.8D)*1.5F);
 	}

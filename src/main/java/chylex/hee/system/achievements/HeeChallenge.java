@@ -19,7 +19,7 @@ public class HeeChallenge extends HeeAchievement{
 	}
 	
 	@Override
-	public IChatComponent func_150951_e(){ // OBFUSCATED get name
+	public IChatComponent getStatName(){
 		if (statName == null)this.statName = new ChatComponentText(new StringBuilder().append(StatCollector.translateToLocal("challenge.title")).append(" ").append(StatCollector.translateToLocal("challenge."+achievementId)).toString());
 		
 		IChatComponent component = statName.createCopy();

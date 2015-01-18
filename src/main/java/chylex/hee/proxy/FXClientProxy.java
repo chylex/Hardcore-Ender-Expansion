@@ -26,7 +26,6 @@ import chylex.hee.entity.fx.behavior.ParticleBehaviorMoveTo;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.entity.item.EntityItemIgneousRock;
 import chylex.hee.entity.item.EntityItemInstabilityOrb;
-import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.item.ItemList;

@@ -150,7 +150,7 @@ public class DragonSavefile extends WorldSavefile{
 		
 		NBTTagCompound tagCrystals = nbt.getCompoundTag("crystals");
 		
-		for(String key:(Set<String>)tagCrystals.func_150296_c()){
+		for(String key:(Set<String>)tagCrystals.getKeySet()){
 			int[] coords = tagCrystals.getIntArray(key);
 			if (coords.length == 3)crystals.put(key,new ChunkCoordinates(coords[0],coords[1],coords[2]));
 		}

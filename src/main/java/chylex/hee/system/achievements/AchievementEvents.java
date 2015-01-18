@@ -66,7 +66,7 @@ public final class AchievementEvents implements IQuickSavefile{
 	public void onLoad(NBTTagCompound nbt){
 		delayedAchievements.clear();
 		
-		for(String key:(Set<String>)nbt.func_150296_c()){
+		for(String key:(Set<String>)nbt.getKeySet()){
 			for(String achievementId:nbt.getString(key).split("\\|")){
 				for(Achievement achievement:(List<Achievement>)AchievementList.achievementList){
 					if (achievement.statId.equals(achievementId)){

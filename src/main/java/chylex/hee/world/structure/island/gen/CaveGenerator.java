@@ -3,9 +3,9 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.Vec3;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.Vec3M;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.BlockLocation;
@@ -42,7 +42,7 @@ public class CaveGenerator{
 			z = centerZ+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*radY*(rand.nextDouble()*0.1D+0.9D));
 			y = centerY+rand.nextInt(radY*2)-radY;
 			
-			generateNode(rand,x,y,z,rand.nextFloat()*0.45F+2.65F,biome.getCaveBranchingChance(),new Vec3(rand.nextBoolean()?(centerX-x):(x-centerX),(centerY-y)*rand.nextDouble()*4D,rand.nextBoolean()?(centerZ-z):(z-centerZ)).normalize(),0);
+			generateNode(rand,x,y,z,rand.nextFloat()*0.45F+2.65F,biome.getCaveBranchingChance(),new Vec3M(rand.nextBoolean() ? (centerX-x) : (x-centerX),(centerY-y)*rand.nextDouble()*4D,rand.nextBoolean() ? (centerZ-z) : (z-centerZ)).normalize(),0);
 		}
 	}
 	
@@ -62,24 +62,24 @@ public class CaveGenerator{
 		}
 	}
 	
-	private void generateNode(Random rand, float x, float y, float z, float rad, float branchingChance, Vec3 vec, int iteration){
+	private void generateNode(Random rand, float x, float y, float z, float rad, float branchingChance, Vec3M vec, int iteration){
 		if (iteration == 3)return;
 		
 		int cycle = 0;
 		
 		while(++cycle < 150){
-			vec.xCoord += 0.65F*(rand.nextDouble()-0.5D);
-			vec.yCoord += 0.4F*(rand.nextDouble()-0.5D);
-			vec.zCoord += 0.65F*(rand.nextDouble()-0.5D);
+			vec.x += 0.65F*(rand.nextDouble()-0.5D);
+			vec.y += 0.4F*(rand.nextDouble()-0.5D);
+			vec.z += 0.65F*(rand.nextDouble()-0.5D);
 			
-			x += vec.xCoord;
-			y += vec.yCoord;
-			z += vec.zCoord;
+			x += vec.x;
+			y += vec.y;
+			z += vec.z;
 			
 			if (!createAirBlob(rand,MathUtil.floor(x),MathUtil.floor(y),MathUtil.floor(z),rad))break;
 			
 			if (rand.nextFloat() < branchingChance){
-				generateNode(rand,x,y,z,rad-rand.nextFloat()*0.15F,branchingChance*0.75F,new Vec3(vec.xCoord+0.8F*(rand.nextDouble()-0.5D),vec.yCoord+0.4F*(rand.nextDouble()-0.5D),vec.zCoord+0.8F*(rand.nextDouble()-0.5D)),iteration+1);
+				generateNode(rand,x,y,z,rad-rand.nextFloat()*0.15F,branchingChance*0.75F,new Vec3M(vec.x+0.8F*(rand.nextDouble()-0.5D),vec.y+0.4F*(rand.nextDouble()-0.5D),vec.z+0.8F*(rand.nextDouble()-0.5D)),iteration+1);
 			}
 		}
 	}

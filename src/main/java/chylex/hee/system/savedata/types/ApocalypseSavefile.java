@@ -66,13 +66,13 @@ public class ApocalypseSavefile extends WorldSavefile{
 	protected void onLoad(NBTTagCompound nbt){
 		NBTTagCompound ritualTag = nbt.getCompoundTag("rituals");
 		
-		for(String key:(Set<String>)ritualTag.func_150296_c()){
+		for(String key:(Set<String>)ritualTag.getKeySet()){
 			rituals.put(key,ritualTag.getByteArray(key));
 		}
 		
 		NBTTagCompound timeTag = nbt.getCompoundTag("times");
 		
-		for(String key:(Set<String>)timeTag.func_150296_c()){
+		for(String key:(Set<String>)timeTag.getKeySet()){
 			times.put(key,timeTag.getShort(key));
 		}
 	}

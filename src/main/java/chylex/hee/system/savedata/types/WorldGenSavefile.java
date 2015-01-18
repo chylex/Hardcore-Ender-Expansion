@@ -83,7 +83,7 @@ public class WorldGenSavefile extends WorldSavefile{
 			NBTTagList list = nbt.getTagList(String.valueOf(a),NBT.TAG_DOUBLE);
 			
 			for(int index = 0; index < list.tagCount(); index++){
-				elements.put(Double.doubleToLongBits(list.func_150309_d(index)),vals[a]);
+				elements.put(Double.doubleToLongBits(list.getDouble(index)),vals[a]);
 			}
 		}
 	}

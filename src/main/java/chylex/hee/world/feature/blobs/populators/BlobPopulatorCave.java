@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.Vec3;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.Vec3M;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
@@ -93,18 +93,18 @@ public class BlobPopulatorCave extends BlobPopulator{
 		if (side >= 2)z = rand.nextInt(32)-16;
 		else z = side == 0 ? 15 : -16;
 		
-		if (genCave(gen,rand,x,y,z,rad,new Vec3(-x,-y,-z).normalize(),0)){
+		if (genCave(gen,rand,x,y,z,rad,new Vec3M(-x,-y,-z).normalize(),0)){
 			--tmpCavesLeft;
 			return true;
 		}
 		else return false;
 	}
 	
-	private boolean genCave(DecoratorFeatureGenerator gen, Random rand, double x, double y, double z, double rad, Vec3 dirVec, int recursionLevel){
+	private boolean genCave(DecoratorFeatureGenerator gen, Random rand, double x, double y, double z, double rad, Vec3M dirVec, int recursionLevel){
 		if (tmpCavesLeft < 0 || recursionLevel > maxRecursion)return false;
 		
 		boolean generatedSomething = false;
-		Vec3 dirChangeVec = null;
+		Vec3M dirChangeVec = null;
 		double dirChangeMp = 0D;
 		
 		List<double[]> recursionLocs = new ArrayList<>();
@@ -117,13 +117,13 @@ public class BlobPopulatorCave extends BlobPopulator{
 				dirChangeMp = rand.nextDouble();
 			}
 			
-			dirVec.xCoord += dirChangeVec.xCoord*dirChangeMp;
-			dirVec.yCoord += dirChangeVec.yCoord*dirChangeMp;
-			dirVec.zCoord += dirChangeVec.zCoord*dirChangeMp;
+			dirVec.x += dirChangeVec.x*dirChangeMp;
+			dirVec.y += dirChangeVec.y*dirChangeMp;
+			dirVec.z += dirChangeVec.z*dirChangeMp;
 			
-			x += dirVec.xCoord;
-			y += dirVec.yCoord;
-			z += dirVec.zCoord;
+			x += dirVec.x;
+			y += dirVec.y;
+			z += dirVec.z;
 			
 			if (!recursionChanceCached && a > 0)tmpRecursionChance = (minRecursionChance+rand.nextDouble()*(maxRecursionChance-minRecursionChance))/(recursionLevel+1);
 			if (rand.nextDouble() < tmpRecursionChance)recursionLocs.add(new double[]{ x, y, z });
@@ -131,7 +131,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 		
 		if (generatedSomething){
 			for(double[] loc:recursionLocs){
-				Vec3 newVec = dirVec.crossProduct(DragonUtil.getRandomVector(rand)).normalize();
+				Vec3M newVec = dirVec.crossProduct(DragonUtil.getRandomVector(rand)).normalize();
 				
 				if (genCave(gen,rand,loc[0],loc[1],loc[2],rad*(minRecursionRadMp+rand.nextDouble()*(maxRecursionRadMp-minRecursionRadMp)),newVec,recursionLevel+1)){
 					--tmpCavesLeft;
