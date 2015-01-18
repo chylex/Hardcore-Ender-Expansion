@@ -34,7 +34,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	public static final byte metaTriggerUnlit = 0, metaTriggerLit = 1, metaChainedUnlit = 2, metaChainedLit = 3,
 							 metaDistributorSpreadUnlit = 4, metaDistributorSpreadLit = 5,
 							 metaDistributorSquareUnlit = 6, metaDistributorSquareLit = 7,
-							 metaPortal = 11, metaDisabled = 12, metaWall = 13, metaRock = 14, metaCeiling = 15;
+							 metaPortal = 11, metaDisabled = 12, metaWall = 13, metaRock = 14, metaCeiling = 15, metaAmount = 16;
 	
 	public static final byte[] icons = new byte[]{ 2, 3, 4, 5, 6, 7, 8, 9, 3, 3, 3, 10, 10, 0, 1, 3 };
 	
