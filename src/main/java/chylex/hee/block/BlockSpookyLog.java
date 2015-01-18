@@ -89,7 +89,7 @@ public class BlockSpookyLog extends Block{
 
 		if (world.getBlock(x,y+1,z) == this){
 			dropBlockAsItemWithChance(world,x,y+1,z,world.getBlockMetadata(x,y+1,z),chance,fortune);
-			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,x,y,z));
+			PacketPipeline.sendToAllAround(world.provider.getDimensionId(),x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,x,y,z));
 			world.setBlockToAir(x,y+1,z);
 		}
 	}
@@ -152,7 +152,7 @@ public class BlockSpookyLog extends Block{
 			}
 			
 			if (moved){
-				if (rand.nextInt(32) == 0)PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C08PlaySound(C08PlaySound.GHOST_MOVE,x+0.5D,y+0.5D,z+0.5D,1.2F+rand.nextFloat()*0.4F,0.6F+rand.nextFloat()*0.5F));
+				if (rand.nextInt(32) == 0)PacketPipeline.sendToAllAround(world.provider.getDimensionId(),x+0.5D,y+0.5D,z+0.5D,64D,new C08PlaySound(C08PlaySound.GHOST_MOVE,x+0.5D,y+0.5D,z+0.5D,1.2F+rand.nextFloat()*0.4F,0.6F+rand.nextFloat()*0.5F));
 				return;
 			}
 			

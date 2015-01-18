@@ -34,7 +34,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			setDead();
 
 			worldObj.createExplosion((Entity)null,posX,posY,posZ,6F,true);
-			if (worldObj.provider.dimensionId == 1)WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).destroyCrystal(crystalKey);
+			if (worldObj.provider.getDimensionId() == 1)WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).destroyCrystal(crystalKey);
 
 			/*
 			 * TNT

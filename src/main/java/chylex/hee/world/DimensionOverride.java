@@ -78,7 +78,7 @@ public final class DimensionOverride{
 	
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load e){
-		if (e.world.provider.dimensionId == 1 && e.world instanceof WorldServer){
+		if (e.world.provider.getDimensionId() == 1 && e.world instanceof WorldServer){
 			WorldServer world = (WorldServer)e.world;
 			world.chunkProvider = world.theChunkProviderServer = new ChunkProviderServerOverride(world);
 		}

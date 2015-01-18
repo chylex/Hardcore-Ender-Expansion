@@ -127,7 +127,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 			if (getThrower() != null && getThrower() instanceof EntityPlayerMP){
 				EntityPlayerMP player = (EntityPlayerMP)getThrower();
 
-				if (player.playerNetServerHandler.func_147362_b().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
+				if (player.playerNetServerHandler.getNetworkManager().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
 					EnderTeleportEvent event = new EnderTeleportEvent(player,posX,posY,posZ,5F);
 					
 					if (!MinecraftForge.EVENT_BUS.post(event)){

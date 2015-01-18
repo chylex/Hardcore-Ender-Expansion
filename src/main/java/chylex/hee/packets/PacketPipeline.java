@@ -19,6 +19,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Vec3i;
+import net.minecraft.world.World;
 import org.apache.commons.io.FilenameUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.logging.Stopwatch;
@@ -176,18 +178,20 @@ public class PacketPipeline{
 		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 	}
 	
+	public static void sendToAllAround(World world, double x, double y, double z, double range, AbstractPacket packet){
+		sendToAllAround(world.provider.getDimensionId(),x,y,z,range,packet);
+	}
+	
+	public static void sendToAllAround(int dimension, Vec3i vec, double range, AbstractPacket packet){
+		sendToAllAround(dimension,vec.getX()+0.5D,vec.getY()+0.5D,vec.getZ()+0.5D,range,packet);
+	}
+	
 	public static void sendToAllAround(Entity entity, double range, AbstractPacket packet){
-		FMLEmbeddedChannel channel = instance.channels.get(Side.SERVER);
-		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.ALLAROUNDPOINT);
-		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(entity.dimension,entity.posX,entity.posY,entity.posZ,range));
-		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+		sendToAllAround(entity.dimension,entity.posX,entity.posY,entity.posZ,range,packet);
 	}
 	
 	public static void sendToAllAround(TileEntity tile, double range, AbstractPacket packet){
-		FMLEmbeddedChannel channel = instance.channels.get(Side.SERVER);
-		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.ALLAROUNDPOINT);
-		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(tile.getWorldObj().provider.dimensionId,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,range));
-		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+		sendToAllAround(tile.getWorld().provider.getDimensionId(),tile.getPos(),range,packet);
 	}
 	
 	public static void sendToDimension(int dimension, AbstractPacket packet){
@@ -195,6 +199,10 @@ public class PacketPipeline{
 		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.DIMENSION);
 		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimension);
 		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+	}
+	
+	public static void sendToDimension(World world, AbstractPacket packet){
+		sendToDimension(world.provider.getDimensionId(),packet);
 	}
 	
 	public static void sendToServer(AbstractPacket packet){

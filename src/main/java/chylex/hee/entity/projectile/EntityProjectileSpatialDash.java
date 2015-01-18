@@ -108,7 +108,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 				
 				PacketPipeline.sendToAllAround(player,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,player));
 
-				if (player.playerNetServerHandler.func_147362_b().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
+				if (player.playerNetServerHandler.getNetworkManager().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
 					if (player.isRiding())player.mountEntity((Entity)null);
 					
 					int x,y,z;

@@ -31,7 +31,7 @@ public class EntityTechnicalVoidChest extends EntityTechnicalBase{
 	public void onUpdate(){
 		if (worldObj.isRemote)return;
 		
-		if (items == null || items.isEmpty() || player == null || player.isDead || !player.playerNetServerHandler.func_147362_b().isChannelOpen())setDead();
+		if (items == null || items.isEmpty() || player == null || player.isDead || !player.playerNetServerHandler.getNetworkManager().isChannelOpen())setDead();
 		else{
 			for(Iterator<EntityItem> iter = items.iterator(); iter.hasNext();){
 				EntityItem entity = iter.next();

@@ -1,4 +1,5 @@
 package chylex.hee.gui;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.client.gui.GuiButton;
@@ -81,7 +82,7 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	@Override
-	protected void mouseClicked(int x, int y, int button){
+	protected void mouseClicked(int x, int y, int button) throws IOException{
 		if (button == 0){
 			for(LocationXZ loc:locs){
 				if (checkMouseOver(loc,x,y)){
@@ -141,8 +142,8 @@ public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{
 		
 		fontRendererObj.drawString(locs,(width>>1)+(size>>1)-fontRendererObj.getStringWidth(locs)-6,(height>>1)+52,0x404040);
 		
-		if (!buttonTravel.enabled && x >= buttonTravel.xPosition && y >= buttonTravel.yPosition && x < buttonTravel.xPosition+buttonTravel.getButtonWidth() && y < buttonTravel.yPosition+buttonTravel.func_154310_c()){
-			if ((status&0b10) == 0)GuiItemRenderHelper.setupTooltip(x,y,I18n.format(mc.theWorld.provider.dimensionId == 1 ? "container.transportBeacon.error.tamper" : "container.transportBeacon.error.dimension"));
+		if (!buttonTravel.enabled && x >= buttonTravel.xPosition && y >= buttonTravel.yPosition && x < buttonTravel.xPosition+buttonTravel.getButtonWidth() && y < buttonTravel.yPosition+20){
+			if ((status&0b10) == 0)GuiItemRenderHelper.setupTooltip(x,y,I18n.format(mc.theWorld.provider.getDimensionId() == 1 ? "container.transportBeacon.error.tamper" : "container.transportBeacon.error.dimension"));
 			else if (selectedX == centerX && selectedZ == centerZ)GuiItemRenderHelper.setupTooltip(x,y,I18n.format("container.transportBeacon.error.nodestination"));
 			else if ((status&0b1) == 0)GuiItemRenderHelper.setupTooltip(x,y,I18n.format("container.transportBeacon.error.noenergy"));
 			

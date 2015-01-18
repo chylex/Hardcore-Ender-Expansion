@@ -15,7 +15,7 @@ public final class EnergyClusterData{
 	private byte regenTimer, drainTimer;
 	
 	public void generate(World world, int blockX, int blockZ){
-		if (world.provider.dimensionId == 1){
+		if (world.provider.getDimensionId() == 1){
 			int chunkX = blockX>>4, chunkZ = blockZ>>4;
 			EnergySavefile file = WorldDataHandler.get(EnergySavefile.class);
 			
@@ -59,7 +59,7 @@ public final class EnergyClusterData{
 			regenTimer = 0;
 		}
 		
-		if (world.provider.dimensionId == 1 && rand.nextInt(healthStatus.ordinal()+1) == 0 && ++drainTimer > 10+rand.nextInt(70)){
+		if (world.provider.getDimensionId() == 1 && rand.nextInt(healthStatus.ordinal()+1) == 0 && ++drainTimer > 10+rand.nextInt(70)){
 			drainTimer = 0;
 			
 			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,cluster.xCoord,cluster.zCoord,true);

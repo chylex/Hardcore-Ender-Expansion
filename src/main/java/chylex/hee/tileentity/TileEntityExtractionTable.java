@@ -122,7 +122,7 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 					}
 				}
 				
-				if (release >= EnergyChunkData.minSignificantEnergy && worldObj.provider.dimensionId == 1){
+				if (release >= EnergyChunkData.minSignificantEnergy && worldObj.provider.getDimensionId() == 1){
 					release = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).addEnergy(release);
 				}
 				

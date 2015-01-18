@@ -43,7 +43,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 			if (blocks[index] == Blocks.stone)blocks[index] = Blocks.end_stone;
 		}
 
-		if (world.provider.dimensionId == 1){
+		if (world.provider.getDimensionId() == 1){
 			islandGen.func_151539_a(this,world,x,z,blocks);
 			towerGen.func_151539_a(this,world,x,z,blocks);
 		}
@@ -54,7 +54,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 		BlockFalling.fallInstantly = true;
 		if (!BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Pre(chunkProvider,world,randCopy,x,z,false));
 		
-		if (world.provider.dimensionId == 1){
+		if (world.provider.getDimensionId() == 1){
 			islandGen.generateStructuresInChunk(world,randCopy,x,z);
 			towerGen.generateStructuresInChunk(world,randCopy,x,z);
 		}
@@ -67,7 +67,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	
 	@Override
 	public void recreateStructures(int x, int z){
-		if (world.provider.dimensionId == 1){
+		if (world.provider.getDimensionId() == 1){
 			islandGen.func_151539_a(this,world,x,z,(Block[])null);
 			towerGen.func_151539_a(this,world,x,z,(Block[])null);
 		}

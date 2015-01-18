@@ -29,7 +29,7 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 				actualZ = zCoord;
 			}
 			
-			if (xCoord == actualX && yCoord == actualY && zCoord == actualZ && worldObj.provider.dimensionId == 1){
+			if (xCoord == actualX && yCoord == actualY && zCoord == actualZ && worldObj.provider.getDimensionId() == 1){
 				if (!noTampering){
 					noTampering = true;
 					worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.transport_beacon,0,1);

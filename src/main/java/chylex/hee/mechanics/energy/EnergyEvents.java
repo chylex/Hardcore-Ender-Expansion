@@ -28,7 +28,7 @@ public final class EnergyEvents{
 	
 	@SubscribeEvent
 	public void onWorldTick(WorldTickEvent e){
-		if (e.phase != Phase.START || e.world.provider.dimensionId != 1 || e.world.isRemote || ++updateTimer <= 4)return;
+		if (e.phase != Phase.START || e.world.provider.getDimensionId() != 1 || e.world.isRemote || ++updateTimer <= 4)return;
 		
 		Stopwatch.timeAverage("EnergyEvents - WorldTick",80);
 		

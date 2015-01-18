@@ -91,7 +91,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 				for(int xx = -1, zz, distrMeta, distrToggled; xx <= 1; xx++){
 					for(zz = -1; zz <= 1; zz++){
 						if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+xx,y,z+zz))) != distrMeta && !(xx == 0 && zz == 0) && world.getBlock(x+xx,y,z+zz) == BlockList.dungeon_puzzle){
-							PacketPipeline.sendToAllAround(world.provider.dimensionId,x+xx+0.5D,y+0.5D,z+zz+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+xx+0.5D,y+0.5D,z+zz+0.5D));
+							PacketPipeline.sendToAllAround(world.provider.getDimensionId(),x+xx+0.5D,y+0.5D,z+zz+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+xx+0.5D,y+0.5D,z+zz+0.5D));
 							world.setBlockMetadataWithNotify(x+xx,y,z+zz,distrToggled,3);
 						}
 					}
@@ -99,7 +99,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			}
 			else return true;
 			
-			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+0.5D,y+0.5D,z+0.5D));
+			PacketPipeline.sendToAllAround(world.provider.getDimensionId(),x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+0.5D,y+0.5D,z+0.5D));
 		}
 		
 		checkWinConditions(world,x,y,z);

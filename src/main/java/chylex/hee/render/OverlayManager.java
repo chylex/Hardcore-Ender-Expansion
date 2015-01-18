@@ -216,7 +216,7 @@ public class OverlayManager{
 		
 		if (block == BlockList.soul_charm)e.setCanceled(true);
 		else if (block == BlockList.energy_cluster){
-			clusterLookedAt = (TileEntityEnergyCluster)e.player.worldObj.getTileEntity(e.target.blockX,e.target.blockY,e.target.blockZ);
+			clusterLookedAt = (TileEntityEnergyCluster)e.player.worldObj.getTileEntity(e.target.getBlockPos());
 			e.setCanceled(true);
 		}
 	}

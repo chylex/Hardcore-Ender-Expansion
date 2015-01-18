@@ -36,7 +36,7 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 	
 	@Override
 	public float getBlockHardness(World world, int x, int y, int z){
-		if (world.provider.dimensionId != 1 || !world.isRemote)return blockHardness; // only run on client side
+		if (world.provider.getDimensionId() != 1 || !world.isRemote)return blockHardness; // only run on client side
 		
 		List<TileEntity> list = world.loadedTileEntityList;
 		int spawnerCount = 0;

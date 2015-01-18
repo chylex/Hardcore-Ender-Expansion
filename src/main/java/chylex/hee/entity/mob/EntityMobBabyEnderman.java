@@ -252,7 +252,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	protected boolean isValidLightLevel(){
-		return worldObj.provider.dimensionId == 1?true:super.isValidLightLevel();
+		return worldObj.provider.getDimensionId() == 1?true:super.isValidLightLevel();
 	}
 	
 	@Override

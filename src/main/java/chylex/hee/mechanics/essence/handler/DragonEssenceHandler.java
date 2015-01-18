@@ -145,7 +145,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					updatePedestalItem(altarItem);
 					
 					if (world.rand.nextInt(5) == 0){
-						PacketPipeline.sendToAllAround(altar.getWorldObj().provider.dimensionId,targX,loc.y+0.5D,targZ,64D,new C11ParticleAltarOrb(targX,loc.y+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
+						PacketPipeline.sendToAllAround(altar.getWorldObj().provider.getDimensionId(),targX,loc.y+0.5D,targZ,64D,new C11ParticleAltarOrb(targX,loc.y+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
 					}
 				}
 			}

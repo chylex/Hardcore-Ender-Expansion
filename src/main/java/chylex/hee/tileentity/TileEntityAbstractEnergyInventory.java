@@ -68,7 +68,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 			
 			float drain = energyLeft <= 0F ? getDrainAmount() : energyLeft;
 			
-			if (worldObj.provider.dimensionId == 1){
+			if (worldObj.provider.getDimensionId() == 1){
 				float newDrain = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).drainEnergy(drain);
 				if (!MathUtil.floatEquals(newDrain,drain))PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,xCoord+0.5D,yCoord+96D,zCoord+0.5D,(byte)80,(byte)80,(byte)80));
 				drain = newDrain;

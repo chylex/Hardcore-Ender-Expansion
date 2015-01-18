@@ -212,11 +212,11 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("PreInitEvent - entities");
 		
 		EntityList.stringToClassMapping.remove("Enderman");
-		EntityList.IDtoClassMapping.remove(Integer.valueOf(58));
+		EntityList.idToClassMapping.remove(Integer.valueOf(58));
 		EntityList.addMapping(EntityMobEnderman.class, "Enderman", 58);
 		
 		EntityList.stringToClassMapping.remove("EnderCrystal");
-		EntityList.IDtoClassMapping.remove(Integer.valueOf(200));
+		EntityList.idToClassMapping.remove(Integer.valueOf(200));
 		EntityList.addMapping(EntityBlockEnderCrystal.class, "EnderCrystal", 200);
 		
 		EntityRegistry.registerModEntity(EntityBossDragon.class, "Dragon", 8, this, 320, 1, true);

@@ -65,7 +65,7 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 			}
 		}
 		
-		if (world.provider.dimensionId == 1){
+		if (world.provider.getDimensionId() == 1){
 			byte timer = is.stackTagCompound.getByte("engRgnTim");
 			
 			if (++timer <= 42+world.rand.nextInt(20)){

@@ -252,7 +252,7 @@ public final class RecipeList{
 		
 		// SMELTING
 		
-		FurnaceRecipes.smelting().func_151393_a(BlockList.endium_ore,new ItemStack(ItemList.endium_ingot),0.9F);
+		FurnaceRecipes.instance().addSmeltingRecipeForBlock(BlockList.endium_ore,new ItemStack(ItemList.endium_ingot),0.9F);
 		
 		Stopwatch.finish("RecipeList - addRecipes");
 	}

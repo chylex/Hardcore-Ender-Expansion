@@ -44,7 +44,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z){
 		Block soil = world.getBlock(x,y-1,z);
-		return (world.getFullBlockLightValue(x,y,z) >= 8 || world.canBlockSeeTheSky(x,y,z) || world.provider.dimensionId == 1)&&
+		return (world.getFullBlockLightValue(x,y,z) >= 8 || world.canBlockSeeTheSky(x,y,z) || world.provider.getDimensionId() == 1)&&
 			   (soil != null && soil.canSustainPlant(world,x,y-1,z,ForgeDirection.UP,this));
 	}
 	

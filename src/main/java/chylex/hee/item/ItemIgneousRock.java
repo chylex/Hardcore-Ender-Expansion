@@ -11,7 +11,7 @@ public class ItemIgneousRock extends ItemAbstractCustomEntity implements IFuelHa
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
 		if (world.isRemote || !isHeld || entity.isInWater() || itemRand.nextInt(200) != 0)return;
-		float mp = world.provider.dimensionId == 1 ? 0.4F : world.provider.dimensionId == -1 ? 3F : 1F;
+		float mp = world.provider.getDimensionId() == 1 ? 0.4F : world.provider.getDimensionId() == -1 ? 3F : 1F;
 		entity.setFire(MathUtil.ceil(mp*(itemRand.nextInt(4)+4+Math.max(1,is.stackSize/10))));
 	}
 

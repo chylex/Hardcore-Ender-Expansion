@@ -72,7 +72,7 @@ public class TextureBiomeCompass extends TextureAtlasSprite{
 					lastSavedZ = z;
 				}
 				
-				if (cachedCoords == null || world.provider.dimensionId != 1)angle = Math.random()*Math.PI*2D;
+				if (cachedCoords == null || world.provider.getDimensionId() != 1)angle = Math.random()*Math.PI*2D;
 				else{
 					yaw %= 360D;
 					angle = -((yaw-90D)*Math.PI/180D-Math.atan2(cachedCoords.posZ-z,cachedCoords.posX-x));

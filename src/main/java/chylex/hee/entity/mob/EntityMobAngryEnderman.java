@@ -233,7 +233,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	
 	@Override
 	protected boolean isValidLightLevel(){
-		return worldObj.provider.dimensionId == 1 ? true : super.isValidLightLevel();
+		return worldObj.provider.getDimensionId() == 1 ? true : super.isValidLightLevel();
 	}
 	
 	public void setCanDespawn(boolean canDespawn){

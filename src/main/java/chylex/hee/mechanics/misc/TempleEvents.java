@@ -185,7 +185,7 @@ public final class TempleEvents{
 	
 	@SubscribeEvent
 	public void onWorldUnload(WorldEvent.Unload e){
-		if (e.world.provider.dimensionId == 1 && instance.stage == DestroyStage.WAIT_FOR_UNLOAD)instance.setStage(DestroyStage.DELETE);
+		if (e.world.provider.getDimensionId() == 1 && instance.stage == DestroyStage.WAIT_FOR_UNLOAD)instance.setStage(DestroyStage.DELETE);
 	}
 	
 	public static boolean isPlayerInTemple(EntityPlayer player){

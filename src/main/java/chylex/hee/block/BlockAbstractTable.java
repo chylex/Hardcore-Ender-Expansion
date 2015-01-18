@@ -42,7 +42,7 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 			if (table.getStoredEnergy() >= EnergyChunkData.minSignificantEnergy){
 				float amount = table.getStoredEnergy();
 				
-				if (world.provider.dimensionId == 1){
+				if (world.provider.getDimensionId() == 1){
 					amount = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,x,z,true).addEnergy(amount);
 				}
 				

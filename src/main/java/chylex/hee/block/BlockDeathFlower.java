@@ -38,7 +38,7 @@ public class BlockDeathFlower extends BlockFlower{
 	}
 	
 	public void updateFlowerLogic(World world, int x, int y, int z, Random rand){
-		if (world.provider.dimensionId != 1 && rand.nextInt(5) <= 1){
+		if (world.provider.getDimensionId() != 1 && rand.nextInt(5) <= 1){
 			int meta = world.getBlockMetadata(x,y,z);
 			
 			if (meta > 3 && meta < 15){

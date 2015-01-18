@@ -49,7 +49,7 @@ public class ItemBlockSoulCharm extends ItemBlock{
 
 	@Override
 	public EnumAction getItemUseAction(ItemStack is){
-		return is.getItemDamage() == 1 ? EnumAction.bow : super.getItemUseAction(is);
+		return is.getItemDamage() == 1 ? EnumAction.BOW : super.getItemUseAction(is);
 	}
 	
 	@Override

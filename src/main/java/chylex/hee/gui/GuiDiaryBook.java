@@ -1,4 +1,5 @@
 package chylex.hee.gui;
+import java.io.IOException;
 import java.util.Iterator;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreenBook;
@@ -62,7 +63,7 @@ public class GuiDiaryBook extends GuiScreenBook{
 	}
 	
 	@Override
-	protected void actionPerformed(GuiButton button){
+	protected void actionPerformed(GuiButton button) throws IOException{
 		if (button.enabled){
 			if (button.id == 1){
 				if (currPage < bookTotalPages-1)++currPage;

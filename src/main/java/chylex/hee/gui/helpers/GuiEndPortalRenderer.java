@@ -2,6 +2,7 @@ package chylex.hee.gui.helpers;
 import java.util.Random;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
@@ -76,20 +77,20 @@ public final class GuiEndPortalRenderer{
 			
 			GL11.glScalef(div,1F,1F);
 			
-			Tessellator tessellator = Tessellator.instance;
-			tessellator.startDrawingQuads();
+			WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
+			renderer.startDrawingQuads();
 			
 			float red = consistentRandom.nextFloat()*0.5F+0.1F;
 			float green = consistentRandom.nextFloat()*0.5F+0.4F;
 			float blue = consistentRandom.nextFloat()*0.5F+0.5F;
 			if (layer == 0)red = green = blue = 1F;
 
-			tessellator.setColorRGBA_F(red*colorMultiplier,green*colorMultiplier,blue*colorMultiplier,1F);
-			tessellator.addVertexWithUV(hw-portalWidthHalf,hh+portalHeightHalf+portalTopOffset,0D,0D,1D);
-			tessellator.addVertexWithUV(hw+portalWidthHalf,hh+portalHeightHalf+portalTopOffset,0D,1D,1D);
-			tessellator.addVertexWithUV(hw+portalWidthHalf,hh-portalHeightHalf+portalTopOffset,0D,1D,0D);
-			tessellator.addVertexWithUV(hw-portalWidthHalf,hh-portalHeightHalf+portalTopOffset,0D,0D,0D);
-			tessellator.draw();
+			renderer.setColorRGBA_F(red*colorMultiplier,green*colorMultiplier,blue*colorMultiplier,1F);
+			renderer.addVertexWithUV(hw-portalWidthHalf,hh+portalHeightHalf+portalTopOffset,0D,0D,1D);
+			renderer.addVertexWithUV(hw+portalWidthHalf,hh+portalHeightHalf+portalTopOffset,0D,1D,1D);
+			renderer.addVertexWithUV(hw+portalWidthHalf,hh-portalHeightHalf+portalTopOffset,0D,1D,0D);
+			renderer.addVertexWithUV(hw-portalWidthHalf,hh-portalHeightHalf+portalTopOffset,0D,0D,0D);
+			Tessellator.getInstance().draw();
 			GL11.glPopMatrix();
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		}

@@ -55,7 +55,7 @@ public class ItemMusicDisk extends ItemRecord{
 			if (world.isRemote)return true;
 
 			((BlockJukebox)Blocks.jukebox).func_149926_b(world,x,y,z,is);
-			PacketPipeline.sendToDimension(world.provider.dimensionId,new C02PlayRecord(x,y,z,(byte)is.getItemDamage()));
+			PacketPipeline.sendToDimension(world,new C02PlayRecord(x,y,z,(byte)is.getItemDamage()));
 			--is.stackSize;
 			
 			return true;

@@ -37,7 +37,7 @@ public class ItemEnergyWand extends Item{
 					tile.readTileFromNBT(tag);
 					
 					int[] prevLoc = is.stackTagCompound.getIntArray("prevLoc");
-					double dist = is.stackTagCompound.getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc[0]-x,prevLoc[1]-y,prevLoc[2]-z) : Double.MAX_VALUE;
+					double dist = is.stackTagCompound.getShort("prevDim") == world.provider.getDimensionId() ? MathUtil.distance(prevLoc[0]-x,prevLoc[1]-y,prevLoc[2]-z) : Double.MAX_VALUE;
 					
 					if (dist > 8D){
 						tile.data.setEnergyLevel(tile.data.getEnergyLevel()*(1F-0.5F*Math.min(1F,(float)dist/256F)));
@@ -63,7 +63,7 @@ public class ItemEnergyWand extends Item{
 						if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
 						is.stackTagCompound.setTag("cluster",tag);
 						is.stackTagCompound.setIntArray("prevLoc",new int[]{ x, y, z });
-						is.stackTagCompound.setShort("prevDim",(short)world.provider.dimensionId);
+						is.stackTagCompound.setShort("prevDim",(short)world.provider.getDimensionId());
 						
 						world.setBlockToAir(x,y,z);
 					}
