@@ -1,4 +1,42 @@
 ==================
+Release 1.7 (1.7.10)
+18 January 2015
+------------------
+[b]Important[/b]
+The 1.6 redesign is finished, time to work on expanding beyond Biome Islands!
+
+[b]Additions[/b]
+A squealing secret
+New Tables and redesign of old Tables - Decomposition Table, Experience Table, Accumulation Table, Extraction Table
+Added Transport Beacon, as one of three new Endstone Blob variations
+Added Homeland Cache, Curse Amulet, Arcane Shards, Blank Gems (Transference Gem is now craftable!)
+More variety in Hidden Cellar, varied loot based on Biome Island
+New command - /heeadmin version
+New config option (overrideWorldGen) to prevent other mods from adding generated elements to the End
+Ores and ingots are now in the Ore Dictionary
+
+[b]Changes[/b]
+Redesign of Ender Dragon - attacks, balance, everything!
+Last revision of worldgen - most elements now change frequency based on distance (for ex. Dungeon Towers become less frequent and Endium becomes more frequent the further you go)
+Tons of tweaks (config comments, Compendium key conflict check, name generator improvements, better debug options)
+More tweaks (Cluster cleanup and fixes, End Powder no longer needs sneaking, tweaked Compendium fragment logic and fixed negative mouse acceleration)
+And more tweaks (lots and lots of balancing, and other stuff)
+General refactoring and performance improvements (primarily regarding Laboratory generation)
+Renamed Fire Shard to Infernium
+
+[b]Bugfixes[/b]
+Biome Compass updates when the End is regenerated
+Fixed Endstone Blob generation derps
+Fixed Decomposition Table yielding items with wrong damage
+Fixed Stats crashing the game
+Fixed crash that would happen when another mod stopped Endermen from picking blocks up
+Curse of Tranquility will no longer crash when applied to a player
+Enhanced TNT will no longer lose data when placed next to a redstone power source
+End Portal now renders correctly on AMD/ATI cards (the fix was applied to vanilla 1.8)
+Invalid Monster Spawners will no longer crash
+
+
+==================
 Release 1.6.7 (1.7.10)
 18 December 2014
 ------------------
