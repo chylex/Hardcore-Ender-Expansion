@@ -19,14 +19,15 @@ apply plugin: 'forge'
 
 version = ""
 group = "chylex.hee.HardcoreEnderExpansion"
-archivesBaseName = "HardcoreEnderExpansion  MC-1.7.10  v1."
+archivesBaseName = "HardcoreEnderExpansion  MC-1.8  v1."
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 minecraft {
-    version = "1.7.10-10.13.2.1258"
+    version = "1.8-11.14.0.1289-1.8"
     runDir = "eclipse"
+    mappings = "snapshot_20150118
 }
 
 processResources {
