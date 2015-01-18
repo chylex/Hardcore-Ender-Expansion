@@ -14,6 +14,9 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -41,9 +44,6 @@ import chylex.hee.packets.server.S02CompendiumPurchase;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
@@ -458,7 +458,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		drawTexturedModalRect(x,y,56,0,56,20);
 		
 		RenderHelper.enableGUIStandardItemLighting();
-		renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,x+3,y+1);
+		renderItem.renderItemIntoGUI(knowledgeFragmentIS,x+3,y+1);
 		
 		String pointAmount = String.valueOf(compendiumData.getPoints());
 		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,0x404040);
@@ -495,7 +495,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (!currentObject.isBuyable() && !compendiumData.hasDiscoveredObject(currentObject)){
 			RenderHelper.disableStandardItemLighting();
 			String msg = "Cannot buy this object";
-			mc.fontRenderer.drawString(msg,x-(mc.fontRenderer.getStringWidth(msg)>>1),y-7,0x404040);
+			mc.fontRendererObj.drawString(msg,x-(mc.fontRendererObj.getStringWidth(msg)>>1),y-7,0x404040);
 		}
 	}
 	

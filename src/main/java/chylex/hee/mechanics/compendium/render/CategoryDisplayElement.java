@@ -26,7 +26,7 @@ public class CategoryDisplayElement{
 		GL11.glPushMatrix();
 		GL11.glScalef(2F,2F,1F);
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),category.getItemStack(),(GuiEnderCompendium.guiObjLeft+4)>>1,(y+4)>>1);
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(category.getItemStack(),(GuiEnderCompendium.guiObjLeft+4)>>1,(y+4)>>1);
 		GL11.glPopMatrix();
 	}
 	

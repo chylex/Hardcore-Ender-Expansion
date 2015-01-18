@@ -16,6 +16,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.item.ItemList;
@@ -25,14 +33,6 @@ import chylex.hee.system.savedata.types.QuickSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile.IQuickSavefile;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public final class AchievementEvents implements IQuickSavefile{
 	private static AchievementEvents instance;
@@ -133,7 +133,7 @@ public final class AchievementEvents implements IQuickSavefile{
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent e){
 		World world = e.entityPlayer.worldObj;
-		if (e.action != Action.RIGHT_CLICK_BLOCK || world.isRemote || e.entityPlayer.dimension != 1 || world.getBlock(e.x,e.y,e.z) != Blocks.bed)return;
+		if (e.action != Action.RIGHT_CLICK_BLOCK || world.isRemote || e.entityPlayer.dimension != 1 || world.getBlock(e.pos) != Blocks.bed)return;
 		
 		EntityBossDragon dragon = getDragon(world);
 		if (dragon == null || dragon.getHealth() <= 0F)return;
@@ -141,7 +141,7 @@ public final class AchievementEvents implements IQuickSavefile{
 		e.useBlock = Result.DENY;
 		
 		double dX = e.x+0.5D, dY = e.y+0.5D, dZ = e.z+0.5D;
-		world.setBlockToAir(e.x,e.y,e.z);
+		world.setBlockToAir(e.pos);
 		
 		int dir = world.getBlockMetadata(e.x,e.y,e.z)&3;
 		int x2 = e.x+BlockBed.field_149981_a[dir][0];

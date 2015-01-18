@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.entity.projectile.EntityProjectilePotion;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.entity.projectile.EntityProjectilePotion;
 
 public abstract class ItemAbstractPotion extends Item{
 	@SideOnly(Side.CLIENT)
@@ -60,7 +60,7 @@ public abstract class ItemAbstractPotion extends Item{
 
 	@Override
 	public final EnumAction getItemUseAction(ItemStack is){
-		return EnumAction.drink;
+		return EnumAction.DRINK;
 	}
 	
 	@Override

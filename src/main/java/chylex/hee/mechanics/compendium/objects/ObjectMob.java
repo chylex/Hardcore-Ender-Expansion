@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpawnEggs;
+import chylex.hee.system.util.ItemUtil;
 
 public class ObjectMob implements IKnowledgeObjectInstance<Class<? extends EntityLiving>>{
 	private final Class<? extends EntityLiving> mobClass;
@@ -44,9 +45,7 @@ public class ObjectMob implements IKnowledgeObjectInstance<Class<? extends Entit
 		
 		NBTTagCompound displayTag = new NBTTagCompound();
 		displayTag.setString("Name",name);
-		
-		is.stackTagCompound = new NBTTagCompound();
-		is.stackTagCompound.setTag("display",displayTag);
+		ItemUtil.getNBT(is,true).setTag("display",displayTag);
 		
 		return is;
 	}

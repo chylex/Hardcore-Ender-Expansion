@@ -78,7 +78,7 @@ public class GuiItemRenderHelper{
 
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		
-		renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRenderer,textureManager,is,x,y);
+		renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj,is,x,y,null);
 		GL11.glDisable(GL11.GL_LIGHTING);
 	}
 	

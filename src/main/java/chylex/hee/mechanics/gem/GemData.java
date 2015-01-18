@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.gem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import chylex.hee.system.util.ItemUtil;
 
 public class GemData{
 	private static final GemData cache = new GemData();
@@ -9,7 +10,7 @@ public class GemData{
 	 * @return Instance of GemData cache, do not store anywhere!!!
 	 */
 	public static GemData loadFromItemStack(ItemStack is){
-		cache.set(is.stackTagCompound == null ? new NBTTagCompound() : is.stackTagCompound);
+		cache.set(ItemUtil.getNBT(is,true));
 		return cache;
 	}
 	
@@ -55,13 +56,10 @@ public class GemData{
 	}
 	
 	public void saveToItemStack(ItemStack is){
-		NBTTagCompound nbt = is.stackTagCompound;
-		if (nbt == null)nbt = new NBTTagCompound();
-		
+		NBTTagCompound nbt = ItemUtil.getNBT(is,true);
 		nbt.setInteger("HED_Gem_Dim",dim);
 		nbt.setInteger("HED_Gem_X",x);
 		nbt.setInteger("HED_Gem_Y",y);
 		nbt.setInteger("HED_Gem_Z",z);
-		is.stackTagCompound = nbt;
 	}
 }

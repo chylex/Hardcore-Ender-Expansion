@@ -29,6 +29,11 @@ import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.entity.fx.FXType;
@@ -44,11 +49,6 @@ import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
 public final class CharmEvents{
 	public static float[] getProp(EntityPlayer player, String prop){
@@ -456,7 +456,7 @@ public final class CharmEvents{
 				newIS.setItemDamage(newIS.getMaxDamage()-MathUtil.floor(newIS.getMaxDamage()*Math.min(1F,toRepair)));
 				
 				EntityItem newItem = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY+e.entityPlayer.getEyeHeight()-0.3D,e.entity.posZ,newIS);
-				newItem.delayBeforeCanPickup = 40;
+				newItem.setPickupDelay(40);
 				
 				float power = 0.3F, yawRadians = (float)Math.toRadians(e.entityPlayer.rotationYaw), randomAngle = e.entity.worldObj.rand.nextFloat()*(float)Math.PI*2F;
 				
@@ -482,8 +482,8 @@ public final class CharmEvents{
 		if (e.entity.worldObj.isRemote)return;
 		
 		// DIGESTIVE_RECOVER
-		if (e.item.getItemUseAction() == EnumAction.eat && e.item.getItem() instanceof ItemFood){
-			int hungerRecovered = ((ItemFood)e.item.getItem()).func_150905_g(e.item);
+		if (e.item.getItemUseAction() == EnumAction.EAT && e.item.getItem() instanceof ItemFood){
+			int hungerRecovered = ((ItemFood)e.item.getItem()).getHealAmount(e.item);
 			
 			float healthRecovered = getPropPercentIncrease(e.entityPlayer,"healthperhunger",hungerRecovered);
 			if (healthRecovered > 0F)e.entityPlayer.heal(healthRecovered);

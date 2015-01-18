@@ -5,11 +5,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.system.util.ItemUtil;
 
 public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand implements IAcceptFieryEssence{
 	private static final int[] topSlots = new int[]{ 3 },
@@ -77,9 +78,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 			if (slotItems[a] == null)continue;
 			
 			slotItems[a] = PotionTypes.applyIngredientUnsafe(slotItems[3],slotItems[a]);
-			
-			if (slotItems[a].stackTagCompound == null)slotItems[a].stackTagCompound = new NBTTagCompound();
-			slotItems[a].stackTagCompound.setBoolean("hasPotionChanged",true);
+			ItemUtil.getNBT(slotItems[a],true).setBoolean("hasPotionChanged",true);
 		}
 		
 		if (--slotItems[3].stackSize == 0)slotItems[3] = null;
@@ -93,7 +92,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	
 	@Override
 	public String getInventoryName(){
-		return hasCustomInventoryName()?super.getInventoryName():"container.enhancedBrewing";
+		return hasCustomInventoryName() ? super.getInventoryName() : "container.enhancedBrewing";
 	}
 	
 	@Override

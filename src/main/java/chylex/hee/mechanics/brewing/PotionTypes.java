@@ -193,7 +193,7 @@ public class PotionTypes{
 			AbstractPotionData data = potionData.get(b);
 			if (data != null && data.requiredDamageValue == (is.getItemDamage()&~16384)){
 				PotionEffect prevEffect = getEffectIfValid(is);
-
+				
 				if (is.stackTagCompound != null)is.stackTagCompound.removeTag("CustomPotionEffects");
 				data.onFirstBrewingFinished(is);
 				

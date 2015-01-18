@@ -22,7 +22,7 @@ public class ItemInfestationRemedy extends Item{
 	
 	@Override
 	public EnumAction getItemUseAction(ItemStack is){
-		return EnumAction.drink;
+		return EnumAction.DRINK;
 	}
 	
 	@Override
