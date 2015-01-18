@@ -1,6 +1,13 @@
 {
   "~URL": "http://tinyurl.com/hc-ender-expansion",
   
+  "26 - 1.7": {
+    "modVersion": "1.7",
+    "mcVersions": [ "1.7.10" ],
+    "buildId": 1891150,
+    "releaseDate": "18 Jan 2015"
+  },
+  
   "25 - 1.6.7": {
     "modVersion": "1.6.7",
     "mcVersions": [ "1.7.10" ],
