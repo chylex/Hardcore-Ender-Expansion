@@ -643,7 +643,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		
 		if (worldObj.isRemote)return super.attackEntityFrom(source,amount);
 		
-		if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL && source.getEntity() instanceof EntityPlayer){
+		if (worldObj.getDifficulty() == EnumDifficulty.PEACEFUL && source.getEntity() instanceof EntityPlayer){
 			if (super.attackEntityFrom(DamageSource.generic,amount)){
 				double diffX = source.getEntity().posX-posX, diffZ = source.getEntity().posZ-posZ;
 
@@ -774,7 +774,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	public void setTarget(Entity target){
-		if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL && target instanceof EntityPlayer)return;
+		if (worldObj.getDifficulty() == EnumDifficulty.PEACEFUL && target instanceof EntityPlayer)return;
 		
 		super.setTarget(target);
 		
@@ -813,7 +813,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	private boolean shouldActHostile(Entity entity){
-		if (worldObj.difficultySetting == EnumDifficulty.PEACEFUL && entity instanceof EntityPlayer)return false;
+		if (worldObj.getDifficulty() == EnumDifficulty.PEACEFUL && entity instanceof EntityPlayer)return false;
 		else if (homelandRole == HomelandRole.ISLAND_LEADERS || (groupId != -1 && rand.nextInt(5) != 0) || HomelandEndermen.isOvertakeHappening(this))return false;
 		else return rand.nextInt(3) != 0;
 	}

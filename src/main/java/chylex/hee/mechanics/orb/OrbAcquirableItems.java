@@ -23,7 +23,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.DragonUtil;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public final class OrbAcquirableItems{
 	public static boolean overrideRemoveBrokenRecipes = false;

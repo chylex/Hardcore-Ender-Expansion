@@ -1,6 +1,5 @@
 package chylex.hee.entity.block;
 import java.util.ArrayList;
-import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -8,8 +7,8 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.misc.TempleEvents;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	public EntityBlockTempleDragonEgg(World world){
@@ -17,7 +16,7 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	}
 	
 	public EntityBlockTempleDragonEgg(World world, double x, double y, double z){
-		super(world,x,y,z,Blocks.dragon_egg,0);
+		super(world,x,y,z,Blocks.dragon_egg.getDefaultState());
 	}
 	
 	@Override
@@ -32,14 +31,15 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 		prevPosY = posY;
 		prevPosZ = posZ;
 		
-		if (++field_145812_b == 1 && !worldObj.isRemote){
-			int xx = MathUtil.floor(posX), yy = MathUtil.floor(posY), zz = MathUtil.floor(posZ);
-			if (worldObj.getBlock(xx,yy,zz) != func_145805_f()){ // OBFUSCATED get block
+		if (++fallTime == 1 && !worldObj.isRemote){
+			BlockPosM pos = new BlockPosM(this);
+			
+			if (pos.getBlock(worldObj) != Blocks.dragon_egg){ // OBFUSCATED get block
 				setDead();
 				return;
 			}
 			
-			worldObj.setBlockToAir(xx,yy,zz);
+			worldObj.setBlockToAir(pos);
 			
 			for(int x = xx+2; x < xx+5; x++){
 				for(int z = zz-1; z <= zz+1; z++){
@@ -51,12 +51,12 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 		moveEntity(motionX,motionY,motionZ);
 		
 		for(int y = 7; y >= 0; y--){
-			for(int a = 0; a < Math.min(10,field_145812_b/4F); a++){
+			for(int a = 0; a < Math.min(10,fallTime/4F); a++){
 				worldObj.spawnParticle("portal",posX+rand.nextDouble()-0.5D,posY+y+rand.nextDouble()-0.3D,posZ+rand.nextDouble()-0.5D,0D,0D,0D);
 			}
 		}
 		
-		if (field_145812_b >= 24){
+		if (fallTime >= 24){
 			motionY = 0.01D;
 			
 			double deltaY = posY-ItemTempleCaller.templeY-2;
@@ -91,10 +91,5 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	}
 	
 	@Override
-	protected void fall(float distance){}
-	
-	@Override
-	public Block func_145805_f(){
-		return Blocks.dragon_egg;
-	}
+	public void fall(float distance, float damageMp){}
 }

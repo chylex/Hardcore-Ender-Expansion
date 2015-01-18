@@ -126,10 +126,10 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		motionZ = motionVec.zCoord*0.1D+motionZ*0.9D;
 		
 		if (currentAttack == ATTACK_NONE){
-			if (++timer > 125-worldObj.difficultySetting.getDifficultyId()*7-(isAngry ? 18 : 0)-(ModCommonProxy.opMobs ? 12 : 0)){
+			if (++timer > 125-worldObj.getDifficulty().getDifficultyId()*7-(isAngry ? 18 : 0)-(ModCommonProxy.opMobs ? 12 : 0)){
 				boolean hasCalledGolems = false;
 				
-				if (isAngry && worldObj.difficultySetting != EnumDifficulty.PEACEFUL && rand.nextInt(5) == 0){
+				if (isAngry && worldObj.getDifficulty() != EnumDifficulty.PEACEFUL && rand.nextInt(5) == 0){
 					for(EntityPlayer player:getNearbyPlayers()){
 						int targeted = 0;
 						List<EntityMobFireGolem> golems = worldObj.getEntitiesWithinAABB(EntityMobFireGolem.class,player.boundingBox.expand(32D,32D,32D));
@@ -193,11 +193,11 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		}
 		else if (currentAttack == ATTACK_FLAMES){
 			if (++timer > (isAngry ? 18 : 26)){
-				int fireLength = 3+(worldObj.difficultySetting.getDifficultyId()>>1);
+				int fireLength = 3+(worldObj.getDifficulty().getDifficultyId()>>1);
 				
 				for(EntityPlayer player:getNearbyPlayers()){
 					player.setFire(fireLength);
-					player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 12F : 8F,worldObj.difficultySetting));
+					player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 12F : 8F,worldObj.getDifficulty()));
 					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.FIRE_FIEND_FLAME_ATTACK,player));
 				}
 				

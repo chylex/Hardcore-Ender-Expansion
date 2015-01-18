@@ -70,7 +70,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	@Override
 	protected void updateEntityActionState(){
 		if (isAsleep()){
-			if (++healTimer >= 7-worldObj.difficultySetting.getDifficultyId() && getHealth() < getMaxHealth()){
+			if (++healTimer >= 7-worldObj.getDifficulty().getDifficultyId() && getHealth() < getMaxHealth()){
 				healTimer = 0;
 				heal(1);
 			}
@@ -134,7 +134,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					if (attackType == AttackType.Poof){
 						if (attackAnim == 34){
 							if (worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){
-								for(int a = 0,hits = 0,x,y,z; a < 200 && hits < 16+worldObj.difficultySetting.getDifficultyId(); a++){
+								for(int a = 0,hits = 0,x,y,z; a < 200 && hits < 16+worldObj.getDifficulty().getDifficultyId(); a++){
 									x = rand.nextInt(15)-7+MathUtil.floor(posX);
 									y = rand.nextInt(8)-4+MathUtil.floor(posY);
 									z = rand.nextInt(15)-7+MathUtil.floor(posZ);
@@ -161,7 +161,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								player.motionY += 0.34D;
 								player.motionZ += vec[1];
 								
-								player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
+								player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.getDifficulty()));
 							}
 							
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_POOF,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
@@ -240,7 +240,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					if (Math.abs(yD) >= 0.8D)motionY -= Math.abs(yD)*0.005D*Math.signum(yD);
 					
 					if (distance >= 3D)setMoveForward((float)getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
-					else if (Math.abs(yD) < 1D)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 6F : 3F,worldObj.difficultySetting));
+					else if (Math.abs(yD) < 1D)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 6F : 3F,worldObj.getDifficulty()));
 					
 					if (target.isDead)target = null;
 				}
@@ -258,8 +258,8 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		if (isAsleep()){
 			setIsAsleep(false);
 			
-			if (worldObj.difficultySetting.getDifficultyId() > 1 || ModCommonProxy.opMobs){
-				for(int a = 0, hits = 0, x, y, z; a < 400 && hits < 5+worldObj.difficultySetting.getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
+			if (worldObj.getDifficulty().getDifficultyId() > 1 || ModCommonProxy.opMobs){
+				for(int a = 0, hits = 0, x, y, z; a < 400 && hits < 5+worldObj.getDifficulty().getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
 					x = rand.nextInt(15)-7+MathUtil.floor(posX);
 					y = rand.nextInt(8)-4+MathUtil.floor(posY);
 					z = rand.nextInt(15)-7+MathUtil.floor(posZ);

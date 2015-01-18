@@ -11,8 +11,8 @@ import net.minecraft.util.ResourceLocation;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.sound.CustomMusicTicker;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C02PlayRecord extends AbstractClientPacket{
 	private int x,y,z;

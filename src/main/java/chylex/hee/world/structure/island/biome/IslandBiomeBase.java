@@ -122,7 +122,7 @@ public abstract class IslandBiomeBase{
 			SpawnEntry entry = spawnEntries.containsKey((byte)meta) ? spawnEntries.get((byte)meta).getRandomItem(world.rand) : null;
 			if (entry == null)return;
 			
-			if (world.difficultySetting == EnumDifficulty.PEACEFUL && entry.isMob)return;
+			if (world.getDifficulty() == EnumDifficulty.PEACEFUL && entry.isMob)return;
 			
 			int currentAmount = world.getEntitiesWithinAABB(entry.getMobClass(),AxisAlignedBB.getBoundingBox(x-halfsz,y+10,z-halfsz,x+halfsz,y+55,z+halfsz)).size();
 			if (currentAmount >= entry.getMaxAmount() || world.rand.nextFloat()*1.1F < (float)currentAmount/entry.getMaxAmount())return;

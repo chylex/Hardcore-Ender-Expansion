@@ -6,8 +6,8 @@ import net.minecraft.tileentity.TileEntity;
 import chylex.hee.entity.fx.FXHandler;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.AbstractClientPacket;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C20Effect extends AbstractClientPacket{	
 	private FXType.Basic type;

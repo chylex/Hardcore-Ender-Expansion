@@ -58,6 +58,8 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	private final WorldGenEndiumOre endiumOreGen;
 	private final WorldGenEnergyCluster clusterGen;
 	
+	private int chunkX, chunkZ;
+	
 	public BiomeDecoratorHardcoreEnd(){
 		spikeGen = new WorldGenObsidianSpike();
 		blobGen = new WorldGenBlob();
@@ -74,9 +76,12 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			return;
 		}
 		
+		chunkX = field_180294_c.getX();
+		chunkZ = field_180294_c.getZ();
+		
 		generateOres();
 
-		double distFromCenter = MathUtil.distance(chunk_X>>4,chunk_Z>>4)*16D;
+		double distFromCenter = MathUtil.distance(chunkX>>4,chunkZ>>4)*16D;
 		
 		if (distFromCenter < 120D && randomGenerator.nextInt(5) == 0){
 			Stopwatch.timeAverage("WorldGenObsidianSpike",4);
@@ -87,7 +92,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		if (distFromCenter > 102D && Math.abs(randomGenerator.nextGaussian()) < 0.285D){
 			Stopwatch.timeAverage("WorldGenBlob",64);
-			tryGenerate(blobGen,chunk_X+16,32+randomGenerator.nextInt(60),chunk_Z+16);
+			tryGenerate(blobGen,chunkX+16,32+randomGenerator.nextInt(60),chunkZ+16);
 			Stopwatch.finish("WorldGenBlob");
 		}
 		
@@ -95,7 +100,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.timeAverage("WorldGenEnergyCluster",64);
 			
 			for(int a = 0; a < randomGenerator.nextInt(4); a++){
-				clusterGen.generate(currentWorld,randomGenerator,chunk_X+8,0,chunk_Z+8);
+				clusterGen.generate(currentWorld,randomGenerator,chunkX+8,0,chunkZ+8);
 				if (!checkChance(0.1D+0.8D*WorldGenChance.linear2Incr.calculate(distFromCenter,320D,6400D)))break;
 			}
 			
@@ -126,7 +131,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		Stopwatch.finish("WorldGenEndPowderOre");
 
-		if (chunk_X == 0 && chunk_Z == 0){
+		if (chunkX == 0 && chunkZ == 0){
 			EntityBossDragon dragon = new EntityBossDragon(currentWorld);
 			dragon.setLocationAndAngles(0D,128D,0D,randomGenerator.nextFloat()*360F,0F);
 			currentWorld.spawnEntityInWorld(dragon);
@@ -137,17 +142,17 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	@Override
 	protected void generateOres(){
 		if (!BiomeGenHardcoreEnd.overrideWorldGen){
-			MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(currentWorld,randomGenerator,chunk_X,chunk_Z));
-			MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(currentWorld,randomGenerator,chunk_X,chunk_Z));
+			MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(currentWorld,randomGenerator,field_180294_c));
+			MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(currentWorld,randomGenerator,field_180294_c));
 		}
 	}
 	
 	private int randX(){
-		return chunk_X+randomGenerator.nextInt(16)+8;
+		return chunkX+randomGenerator.nextInt(16)+8;
 	}
 	
 	private int randZ(){
-		return chunk_Z+randomGenerator.nextInt(16)+8;
+		return chunkZ+randomGenerator.nextInt(16)+8;
 	}
 	
 	private boolean checkChance(double chance){
@@ -158,7 +163,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		try{
 			return generator.generate(currentWorld,randomGenerator,x,y,z);
 		}catch(RuntimeException e){
-			Log.warn("Failed generating "+generator.getClass().getSimpleName()+" at "+(chunk_X+x)+","+(chunk_Z+z)+", there might be an empty chunk.");
+			Log.warn("Failed generating "+generator.getClass().getSimpleName()+" at "+(chunkX+x)+","+(chunkZ+z)+", there might be an empty chunk.");
 			return false;
 		}
 	}

@@ -17,8 +17,8 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.enhancements.types.SoulCharmEnhancements;
 import chylex.hee.tileentity.TileEntitySoulCharm;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockSoulCharm extends ItemBlock{
 	@SideOnly(Side.CLIENT)
@@ -80,11 +80,11 @@ public class ItemBlockSoulCharm extends ItemBlock{
 		}
 
 		if (is.stackSize == 0 || !player.canPlayerEdit(x,y,z,side,is) || (y == 255 && block.getMaterial().isSolid())||
-			!world.canPlaceEntityOnSide(field_150939_a,x,y,z,false,side,player,is) || !world.isAirBlock(x,y+1,z))return false;	
+			!world.canPlaceEntityOnSide(block,x,y,z,false,side,player,is) || !world.isAirBlock(x,y+1,z))return false;	
 
 		if (placeBlockAt(is,player,world,x,y,z,side,hitX,hitY,hitZ,block.onBlockPlaced(world,x,y,z,side,hitX,hitY,hitZ,0))){
 			world.playSoundEffect(x+0.5F,y+0.5F,z+0.5F,block.stepSound.func_150496_b(),(block.stepSound.getVolume()+1F)/2F,block.stepSound.getPitch()*0.8F); // OBFUSCATED get place sound
-			world.setBlock(x,y+1,z,field_150939_a,1,3);
+			world.setBlock(x,y+1,z,block,1,3);
 
 			if (!player.capabilities.isCreativeMode && --is.stackSize <= 0)player.inventory.mainInventory[player.inventory.currentItem] = new ItemStack(BlockList.soul_charm,1,1);
 			else{

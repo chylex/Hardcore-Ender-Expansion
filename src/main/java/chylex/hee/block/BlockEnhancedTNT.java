@@ -20,8 +20,8 @@ import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEnhancedTNT extends BlockContainer{
 	@SideOnly(Side.CLIENT)

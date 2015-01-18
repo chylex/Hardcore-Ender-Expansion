@@ -13,8 +13,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEssenceAltar extends BlockContainer{
 	private static final float hitCenter1 = 0.09F, hitCenter2 = 0.9F, hitDist = 0.05F;

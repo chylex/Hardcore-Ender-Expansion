@@ -5,8 +5,8 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C11ParticleAltarOrb extends AbstractClientPacket{
 	private double startX,startY,startZ;

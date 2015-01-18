@@ -1,7 +1,7 @@
 package chylex.hee.packets;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.Side;
 
 public abstract class AbstractServerPacket extends AbstractPacket{
 	@Override

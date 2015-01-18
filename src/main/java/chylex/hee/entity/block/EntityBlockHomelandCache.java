@@ -16,8 +16,8 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityBlockHomelandCache extends Entity{
 	private static final WeightedLootList loot = new WeightedLootList(new LootItemStack[]{
@@ -104,7 +104,7 @@ public class EntityBlockHomelandCache extends Entity{
 				
 				if (!(source.getSourceOfDamage() instanceof EntityPlayer))return true;
 				
-				int amt = 3+worldObj.difficultySetting.getDifficultyId();
+				int amt = 3+worldObj.getDifficulty().getDifficultyId();
 				EntityPlayer target = (EntityPlayer)source.getSourceOfDamage();
 				
 				for(EntityMobHomelandEnderman enderman:(List<EntityMobHomelandEnderman>)worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,boundingBox.expand(12D,5D,12D))){

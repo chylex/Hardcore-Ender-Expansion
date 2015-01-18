@@ -6,8 +6,8 @@ import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.system.achievements.AchievementManager;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C03KnowledgeNotification extends AbstractClientPacket{
 	private byte objectID;

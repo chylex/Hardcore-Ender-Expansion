@@ -7,8 +7,8 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 	private double startX, startY, startZ;

@@ -13,8 +13,8 @@ import net.minecraft.world.IBlockAccess;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockPersegrit extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)

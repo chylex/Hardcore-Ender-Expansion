@@ -60,7 +60,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				pedestalAreaHash = 0L;
 			}
 			
-			World world = altar.getWorldObj();
+			World world = altar.getWorld();
 			for(int xx = -range,id; xx <= range; xx++){
 				for(int zz = -range; zz <= range; zz++){
 					id = Block.getIdFromBlock(world.getBlock(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz));
@@ -123,7 +123,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			itemBoundingBox = AxisAlignedBB.getBoundingBox(altar.xCoord+0.5D-4.5D,altar.yCoord+0.9D,altar.zCoord+0.5D-4.5D,altar.xCoord+0.5+4.5D,altar.yCoord+1.6D,altar.zCoord+0.5D+4.5D);
 		}
 
-		World world = altar.getWorldObj();
+		World world = altar.getWorld();
 		List<EntityItem> thrownItems = world.getEntitiesWithinAABB(EntityItem.class,itemBoundingBox);
 		double targX,targY,targZ;
 		
@@ -145,7 +145,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					updatePedestalItem(altarItem);
 					
 					if (world.rand.nextInt(5) == 0){
-						PacketPipeline.sendToAllAround(altar.getWorldObj().provider.getDimensionId(),targX,loc.y+0.5D,targZ,64D,new C11ParticleAltarOrb(targX,loc.y+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
+						PacketPipeline.sendToAllAround(altar.getWorld().provider.getDimensionId(),targX,loc.y+0.5D,targZ,64D,new C11ParticleAltarOrb(targX,loc.y+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
 					}
 				}
 			}
@@ -153,8 +153,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	}
 	
 	public static boolean hasCollisionBox(TileEntityEssenceAltar altar, int x, int y, int z){
-		Block block = altar.getWorldObj().getBlock(x,y,z);
-		return block.getMaterial() == Material.air ? false : block.getCollisionBoundingBoxFromPool(altar.getWorldObj(),x,y,z) != null;
+		Block block = altar.getWorld().getBlock(x,y,z);
+		return block.getMaterial() == Material.air ? false : block.getCollisionBoundingBoxFromPool(altar.getWorld(),x,y,z) != null;
 	}
 	
 	private void updatePedestalItem(EntityItemAltar item){

@@ -79,7 +79,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 					   yy = lightningTarget.posY,
 					   zz = lightningTarget.posZ+(rand.nextDouble()-0.5D)*1.5D;
 				
-				lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
+				lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.getDifficulty()));
 
 				EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,xx,yy,zz,this,false);
 				worldObj.weatherEffects.add(bolt);
@@ -129,7 +129,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 				if (!list.isEmpty()){
 					EntityPlayer player = list.get(rand.nextInt(list.size()));
 					
-					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 25 && placed < 12+worldObj.difficultySetting.getDifficultyId()*2; attempt++){
+					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 25 && placed < 12+worldObj.getDifficulty().getDifficultyId()*2; attempt++){
 						xx = MathUtil.floor(player.posX)+rand.nextInt(9)-4;
 						yy = MathUtil.floor(player.posY)+9+rand.nextInt(6);
 						zz = MathUtil.floor(player.posZ)+rand.nextInt(9)-4;

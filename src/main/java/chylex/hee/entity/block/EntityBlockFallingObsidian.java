@@ -31,7 +31,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 		prevPosX = posX;
 		prevPosY = posY;
 		prevPosZ = posZ;
-		field_145812_b++;
+		fallTime++;
 		motionY -= 0.15D;
 		moveEntity(motionX,motionY,motionZ);
 		motionX *= 0.9D;
@@ -42,18 +42,18 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 			iy = MathHelper.floor_double(posY),
 			iz = MathHelper.floor_double(posZ);
 
-		if (field_145812_b == 1 && worldObj.getBlock(ix,iy,iz) == func_145805_f())worldObj.setBlockToAir(ix,iy,iz);
+		if (fallTime == 1 && worldObj.getBlock(ix,iy,iz) == func_145805_f())worldObj.setBlockToAir(ix,iy,iz);
 
 		if (onGround){
 			motionX *= 0.7D;
 			motionZ *= 0.7D;
 			motionY *= -0.5D;
 
-			if (field_145812_b > 5 && worldObj.getBlock(ix,iy,iz) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).isEmpty()){
+			if (fallTime > 5 && worldObj.getBlock(ix,iy,iz) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).isEmpty()){
 				if (worldObj.setBlock(ix,iy,iz,func_145805_f()))setDead();
 			}
 		}
-		else if (!worldObj.isRemote && ((field_145812_b > 100 && (iy < 1 || iy > 256)) || field_145812_b > 600)){
+		else if (!worldObj.isRemote && ((fallTime > 100 && (iy < 1 || iy > 256)) || fallTime > 600)){
 			dropItem(Item.getItemFromBlock(Blocks.obsidian),1);
 			setDead();
 		}

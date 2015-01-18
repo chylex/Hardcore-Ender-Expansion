@@ -41,9 +41,9 @@ import chylex.hee.packets.server.S02CompendiumPurchase;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.client.config.IConfigElement;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{

@@ -992,7 +992,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			ItemStack is = RavagedDungeonLoot.flowerPotItems[rand.nextInt(RavagedDungeonLoot.flowerPotItems.length)].copy();
 			
 			if (is.getItem() == Item.getItemFromBlock(BlockList.death_flower)){
-				tile.getWorldObj().setBlock(tile.xCoord,tile.yCoord,tile.zCoord,BlockList.death_flower_pot,is.getItemDamage(),3);
+				tile.getWorld().setBlock(tile.xCoord,tile.yCoord,tile.zCoord,BlockList.death_flower_pot,is.getItemDamage(),3);
 			}
 			else{
 				TileEntityFlowerPot flowerPot = (TileEntityFlowerPot)tile;
@@ -1000,8 +1000,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				flowerPot.func_145964_a(is.getItem(),is.getItemDamage());
 				flowerPot.markDirty();
 	
-				if (!flowerPot.getWorldObj().setBlockMetadataWithNotify(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord,is.getItemDamage(),2)){
-					flowerPot.getWorldObj().markBlockForUpdate(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord);
+				if (!flowerPot.getWorld().setBlockMetadataWithNotify(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord,is.getItemDamage(),2)){
+					flowerPot.getWorld().markBlockForUpdate(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord);
 				}
 			}
 		}

@@ -19,8 +19,8 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityMobCorporealMirage extends EntityLiving implements IEntityOwnable{
 	@SideOnly(Side.CLIENT)

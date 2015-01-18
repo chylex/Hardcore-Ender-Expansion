@@ -4,8 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockSlab extends ItemBlock{
 	private final Block fullBlock;
@@ -15,7 +15,7 @@ public class ItemBlockSlab extends ItemBlock{
 		setHasSubtypes(true);
 		setUnlocalizedName(block.getUnlocalizedName());
 		
-		fullBlock = ((IBlockSlab)field_150939_a).getFullBlock();
+		fullBlock = ((IBlockSlab)block).getFullBlock();
 	}
 	
 	@Override
@@ -24,7 +24,7 @@ public class ItemBlockSlab extends ItemBlock{
 
 		boolean isTopSlab = (world.getBlockMetadata(x,y,z)&8) != 0;
 
-		if ((side == 1 && !isTopSlab || side == 0 && isTopSlab) && world.getBlock(x,y,z) == field_150939_a){
+		if ((side == 1 && !isTopSlab || side == 0 && isTopSlab) && world.getBlock(x,y,z) == block){
 			if (world.checkNoEntityCollision(fullBlock.getCollisionBoundingBoxFromPool(world,x,y,z)) && world.setBlock(x,y,z,fullBlock,0,3)){
 				world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,fullBlock.stepSound.func_150496_b(),(fullBlock.stepSound.getVolume()+1F)*0.5F,fullBlock.stepSound.getPitch()*0.8F);
 				--is.stackSize;
@@ -40,7 +40,7 @@ public class ItemBlockSlab extends ItemBlock{
 	public boolean func_150936_a(World world, int x, int y, int z, int side, EntityPlayer player, ItemStack is){
 		boolean isTopSlab = (world.getBlockMetadata(x,y,z)&8) != 0;
 
-		if ((side == 1 && !isTopSlab || side == 0 && isTopSlab) && world.getBlock(x,y,z) == field_150939_a)return true;
+		if ((side == 1 && !isTopSlab || side == 0 && isTopSlab) && world.getBlock(x,y,z) == block)return true;
 		
 		int origX = x, origY = y, origZ = z;
 		
@@ -54,7 +54,7 @@ public class ItemBlockSlab extends ItemBlock{
 			default:
 		}
 
-		return world.getBlock(x,y,z) == field_150939_a || super.func_150936_a(world,origX,origY,origZ,side,player,is);
+		return world.getBlock(x,y,z) == block || super.func_150936_a(world,origX,origY,origZ,side,player,is);
 	}
 
 	private boolean tryPlaceSlab(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side){
@@ -68,7 +68,7 @@ public class ItemBlockSlab extends ItemBlock{
 			default:
 		}
 
-		if (world.getBlock(x,y,z) == field_150939_a){
+		if (world.getBlock(x,y,z) == block){
 			if (world.checkNoEntityCollision(fullBlock.getCollisionBoundingBoxFromPool(world,x,y,z)) && world.setBlock(x,y,z,fullBlock,0,3)){
 				world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,fullBlock.stepSound.func_150496_b(),(fullBlock.stepSound.getVolume()+1F)*0.5F,fullBlock.stepSound.getPitch()*0.8F);
 				--is.stackSize;

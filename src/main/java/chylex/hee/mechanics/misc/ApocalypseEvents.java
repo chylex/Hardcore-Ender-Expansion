@@ -87,7 +87,7 @@ public final class ApocalypseEvents{
 				int sz = world.playerEntities.size();
 				if (sz == 0)return;
 				
-				if (world.difficultySetting.getDifficultyId() > 0 && world.rand.nextFloat() < 0.45F){
+				if (world.getDifficulty().getDifficultyId() > 0 && world.rand.nextFloat() < 0.45F){
 					EntityPlayer player = (EntityPlayer)world.playerEntities.get(world.rand.nextInt(sz));
 					
 					SpawnEntry spawnEntry = spawnList.getRandomItem(world.rand);

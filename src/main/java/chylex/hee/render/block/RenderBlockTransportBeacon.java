@@ -6,7 +6,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockTransportBeacon;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.BlockRenderHelper;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderBlockTransportBeacon implements ISimpleBlockRenderingHandler{
 	@Override

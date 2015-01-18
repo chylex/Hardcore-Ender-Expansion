@@ -48,7 +48,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 				rotationYaw = (float)(Math.atan2(zDiff,xDiff)*180D/Math.PI);
 				setPositionAndUpdate(posX+Math.cos(Math.toRadians(rotationYaw))*0.35D,posY,posZ+Math.sin(Math.toRadians(rotationYaw))*0.35D);
 			}
-			else if (lifeLeft < 80)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 9F : 5F,worldObj.difficultySetting));
+			else if (lifeLeft < 80)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 9F : 5F,worldObj.getDifficulty()));
 			
 			if (dist < 2.1D && lifeLeft < 80)target.addPotionEffect(new PotionEffect(Potion.blindness.id,80,0,true));
 		}

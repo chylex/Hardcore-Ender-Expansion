@@ -31,7 +31,7 @@ public final class EnergyClusterData{
 	}
 	
 	public void update(TileEntityEnergyCluster cluster){
-		World world = cluster.getWorldObj();
+		World world = cluster.getWorld();
 		Random rand = world.rand;
 		
 		if (energyLevel > 0.1F && energyLevel/maxEnergyLevel > 0.85F+rand.nextFloat()*2.5F && rand.nextInt(75) == 0){

@@ -24,7 +24,7 @@ import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.util.DragonUtil;
-import cpw.mods.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.FMLClientHandler;
 
 public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 	private List<Enum> pearlTypes = new ArrayList<>();

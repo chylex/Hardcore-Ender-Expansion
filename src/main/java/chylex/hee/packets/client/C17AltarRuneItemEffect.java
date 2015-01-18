@@ -9,8 +9,8 @@ import chylex.hee.mechanics.essence.RuneItem;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C17AltarRuneItemEffect extends AbstractClientPacket{
 	private int x,y,z;

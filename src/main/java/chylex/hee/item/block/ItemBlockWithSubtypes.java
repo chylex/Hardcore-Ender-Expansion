@@ -17,7 +17,7 @@ public class ItemBlockWithSubtypes extends ItemBlock{
 	
 	@Override
 	public IIcon getIconFromDamage(int damage){
-		return field_150939_a.getIcon(0,damage);
+		return block.getIcon(0,damage);
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class ItemBlockWithSubtypes extends ItemBlock{
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		if (isIBlockSubtypes)return ((IBlockSubtypes)field_150939_a).getUnlocalizedName(is);
+		if (isIBlockSubtypes)return ((IBlockSubtypes)block).getUnlocalizedName(is);
 		else return super.getUnlocalizedName(is);
 	}
 	

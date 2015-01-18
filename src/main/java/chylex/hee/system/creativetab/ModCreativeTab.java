@@ -5,8 +5,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import chylex.hee.item.ItemList;
 import chylex.hee.proxy.ModCommonProxy;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModCreativeTab extends CreativeTabs{
 	public static ModCreativeTab tabMain, tabCharms;

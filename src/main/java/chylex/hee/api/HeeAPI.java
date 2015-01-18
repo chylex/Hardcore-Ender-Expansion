@@ -1,6 +1,6 @@
 package chylex.hee.api;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.LoaderState;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.LoaderState;
 
 /**
  * Main API class that contains and provides specific API instances.

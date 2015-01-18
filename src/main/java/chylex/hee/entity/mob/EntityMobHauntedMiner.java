@@ -66,7 +66,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	
 	@Override
 	protected void updateEntityActionState(){
-		if (!worldObj.isRemote && worldObj.difficultySetting == EnumDifficulty.PEACEFUL)setDead();
+		if (!worldObj.isRemote && worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)setDead();
 		
 		despawnEntity();
 		if (dead)return;
@@ -119,7 +119,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								else if (item == Items.iron_ingot || item == Items.gold_ingot || item == Items.diamond || item == Items.redstone || (item == Items.dye && is.getItemDamage() == 4) ||
 										 item == Items.emerald || item == Items.coal || item == ItemList.end_powder || item == ItemList.igneous_rock || item == ItemList.instability_orb ||
 										 item == ItemList.stardust)foundMiningStuff += 1+(is.stackSize>>3);
-								else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(((ItemBlock)item).field_150939_a))foundMiningStuff += 1+(is.stackSize>>3); // TODO ore only
+								else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(((ItemBlock)item).block))foundMiningStuff += 1+(is.stackSize>>3); // TODO ore only
 							}
 							
 							if (foundMiningStuff >= 13+rand.nextInt(6))target = (EntityPlayer)temp;
@@ -269,7 +269,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 					
 					if (hasFinished || currentAttackTime > 120){
 						currentAttack = ATTACK_NONE;
-						nextAttackTimer = (byte)(ATTACK_TIMER-5*worldObj.difficultySetting.getDifficultyId());
+						nextAttackTimer = (byte)(ATTACK_TIMER-5*worldObj.getDifficulty().getDifficultyId());
 						currentAttackTime = 0;
 						dataWatcher.updateObject(16,Byte.valueOf((byte)0));
 					}
@@ -366,7 +366,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 			}
 			
 			if (rand.nextInt(7) == 0 || (getHealth() <= 0F && rand.nextInt(3) != 0)){
-				int maxTargeted = worldObj.difficultySetting.getDifficultyId()-2+rand.nextInt(2);
+				int maxTargeted = worldObj.getDifficulty().getDifficultyId()-2+rand.nextInt(2);
 				List<EntityMobHauntedMiner> nearby = worldObj.getEntitiesWithinAABB(EntityMobHauntedMiner.class,boundingBox.expand(48D,30D,48D)), viable = new ArrayList<>();
 				
 				while(!nearby.isEmpty()){

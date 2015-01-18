@@ -8,8 +8,8 @@ import net.minecraft.init.Blocks;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockList;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public final class BlockRenderHelper{

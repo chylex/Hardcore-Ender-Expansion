@@ -46,7 +46,7 @@ import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import cpw.mods.fml.common.Loader;
+import net.minecraftforge.fml.common.Loader;
 
 public final class KnowledgeRegistrations{
 	public static final KnowledgeObject<? extends IKnowledgeObjectInstance<?>>

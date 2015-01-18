@@ -42,7 +42,7 @@ public class DragonRewardManager{
 	}
 	
 	public void updateManager(){
-		byte diff = (byte)dragon.worldObj.difficultySetting.getDifficultyId();
+		byte diff = (byte)dragon.worldObj.getDifficulty().getDifficultyId();
 
 		if ((deadPlayerCheck = deadPlayerCheck^true) == true){
 			for(EntityPlayer p:(List<EntityPlayer>)dragon.worldObj.playerEntities){

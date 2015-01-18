@@ -19,8 +19,8 @@ import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.render.BlockRenderHelper;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
@@ -59,7 +59,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 		altar = (TileEntityEssenceAltar)tile;
 		viewRot = 180D+Math.toDegrees(Math.atan2(renderManager.viewerPosX-altar.xCoord-0.5D,renderManager.viewerPosZ-altar.zCoord-0.5D));
 
-		long time = altar.getWorldObj().getTotalWorldTime();
+		long time = altar.getWorld().getTotalWorldTime();
 		if (time != lastRotationUpdateTime){
 			if (++requiredItemRot >= 360)requiredItemRot -= 360;
 			if (++glyphRot >= 720)glyphRot -= 720;

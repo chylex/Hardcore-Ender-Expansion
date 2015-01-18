@@ -24,7 +24,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	
 	@Override
 	public void onUpdate(){
-		World world = altar.getWorldObj();
+		World world = altar.getWorld();
 		int level = altar.getEssenceLevel();
 		int n = 35+Math.min(60,level>>3);
 		boolean drained = false;
@@ -41,8 +41,8 @@ public class FieryEssenceHandler extends AltarActionHandler{
 			yy = altar.yCoord+world.rand.nextInt(5)-2;
 			zz = altar.zCoord+world.rand.nextInt(1+range)-(range>>1);
 			
-			Block block = altar.getWorldObj().getBlock(xx,yy,zz);
-			TileEntity tile = altar.getWorldObj().getTileEntity(xx,yy,zz);
+			Block block = altar.getWorld().getBlock(xx,yy,zz);
+			TileEntity tile = altar.getWorld().getTileEntity(xx,yy,zz);
 			drained = false;
 			
 			if (block == Blocks.lit_furnace || tile instanceof TileEntityFurnace){
@@ -67,7 +67,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 				}
 			}
 			else if (block == Blocks.brewing_stand){
-				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorldObj().getTileEntity(xx,yy,zz);
+				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorld().getTileEntity(xx,yy,zz);
 				
 				if (stand != null && stand.getBrewTime() > 1 && stand.getBrewTime() != 400){
 					n = 1+Math.min(5,level>>6);

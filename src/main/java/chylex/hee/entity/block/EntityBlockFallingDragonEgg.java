@@ -36,7 +36,7 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 		prevPosX = posX;
 		prevPosY = posY;
 		prevPosZ = posZ;
-		field_145812_b++;
+		fallTime++;
 		motionY -= 0.09D;
 		moveEntity(motionX,motionY,motionZ);
 		motionX *= 0.9D;
@@ -46,10 +46,10 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 		int j = MathHelper.floor_double(posY);
 		int k = MathHelper.floor_double(posZ);
 
-		if (field_145812_b == 1 && worldObj.getBlock(i,j,k) == func_145805_f()){ // OBFUSCATED get block
+		if (fallTime == 1 && worldObj.getBlock(i,j,k) == func_145805_f()){ // OBFUSCATED get block
 			worldObj.setBlockToAir(i,j,k);
 		}
-		else if (!worldObj.isRemote && field_145812_b == 1){
+		else if (!worldObj.isRemote && fallTime == 1){
 			die();
 		}
 
@@ -64,7 +64,7 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 			}
 			else die();
 		}
-		else if (field_145812_b > 100 && !worldObj.isRemote && (j < 1 || j > 256) || field_145812_b > 600){
+		else if (fallTime > 100 && !worldObj.isRemote && (j < 1 || j > 256) || fallTime > 600){
 			die();
 		}
 	}

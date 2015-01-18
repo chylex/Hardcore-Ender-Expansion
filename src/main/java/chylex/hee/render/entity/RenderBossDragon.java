@@ -19,8 +19,8 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.model.ModelEnderDragon;
 import chylex.hee.sound.BossType;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderBossDragon extends RenderLiving{

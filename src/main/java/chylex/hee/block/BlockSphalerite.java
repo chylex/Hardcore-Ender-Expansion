@@ -12,8 +12,8 @@ import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockSphalerite extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)

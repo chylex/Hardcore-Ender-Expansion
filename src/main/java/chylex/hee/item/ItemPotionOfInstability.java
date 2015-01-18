@@ -12,8 +12,8 @@ import chylex.hee.mechanics.brewing.AbstractPotionData;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.brewing.TimedPotion;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemPotionOfInstability extends ItemAbstractPotion{
 	public static final PotionEffect getRandomPotionEffect(Random rand){

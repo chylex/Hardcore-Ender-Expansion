@@ -27,14 +27,14 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
-import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public final class CompendiumEvents implements IExtendedPropertyInitializer<PlayerCompendiumData>{
 	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~Compendium";
@@ -59,7 +59,7 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 	}
 	
 	public static KnowledgeObject<ObjectBlock> getBlockObject(ItemStack is){
-		bmwReuse.block = ((ItemBlock)is.getItem()).field_150939_a;
+		bmwReuse.block = ((ItemBlock)is.getItem()).block;
 		bmwReuse.metadata = (byte)is.getItemDamage();
 		return KnowledgeObject.getObject(bmwReuse);
 	}
@@ -162,7 +162,7 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 	
 	private void discoverItemStack(EntityPlayer player, ItemStack is){
 		if (is.getItem() instanceof ItemBlock){
-			bmwReuse.block = ((ItemBlock)is.getItem()).field_150939_a;
+			bmwReuse.block = ((ItemBlock)is.getItem()).block;
 			bmwReuse.metadata = (byte)is.getItemDamage();
 			KnowledgeObject<ObjectBlock> obj = KnowledgeObject.getObject(bmwReuse);
 			if (obj != null)observationReuse.setBlock(obj).discover(player);

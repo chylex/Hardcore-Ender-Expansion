@@ -3,8 +3,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EntityBubbleFX;
 import net.minecraft.world.World;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityCustomBubbleFX extends EntityBubbleFX{

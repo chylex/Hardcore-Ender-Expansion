@@ -2,7 +2,7 @@ package chylex.hee.packets;
 import io.netty.buffer.ByteBuf;
 import java.util.Random;
 import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.Side;
 
 public abstract class AbstractPacket{
 	protected static Random rand = new Random();

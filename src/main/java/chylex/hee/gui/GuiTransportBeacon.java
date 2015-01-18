@@ -13,8 +13,8 @@ import chylex.hee.mechanics.misc.PlayerTransportBeacons.LocationXZ;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S04TransportBeaconTravel;
 import chylex.hee.proxy.ModCommonProxy;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiTransportBeacon extends GuiScreen implements ITooltipRenderer{

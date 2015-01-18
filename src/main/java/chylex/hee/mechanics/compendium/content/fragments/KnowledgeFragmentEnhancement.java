@@ -13,8 +13,8 @@ import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.base.Joiner;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 	private static final Set<KnowledgeFragmentEnhancement> enhancementFragments = new HashSet<>();

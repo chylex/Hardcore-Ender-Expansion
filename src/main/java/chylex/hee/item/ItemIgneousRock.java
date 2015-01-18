@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemIgneousRock;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.IFuelHandler;
 
 public class ItemIgneousRock extends ItemAbstractCustomEntity implements IFuelHandler{
 	@Override

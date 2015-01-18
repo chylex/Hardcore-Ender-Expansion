@@ -8,8 +8,8 @@ import net.minecraftforge.common.util.Constants;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand implements IAcceptFieryEssence{
 	private static final int[] topSlots = new int[]{ 3 },

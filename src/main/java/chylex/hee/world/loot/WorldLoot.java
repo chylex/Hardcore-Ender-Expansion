@@ -11,8 +11,8 @@ import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.logging.Stopwatch;
-import cpw.mods.fml.common.registry.VillagerRegistry;
-import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 
 public class WorldLoot implements IVillageTradeHandler{
 	private static final ItemStack lorePage = new ItemStack(ItemList.adventurers_diary);

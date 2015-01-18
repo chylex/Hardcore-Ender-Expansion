@@ -4,8 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import chylex.hee.block.BlockList;
 import chylex.hee.packets.AbstractClientPacket;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C08PlaySound extends AbstractClientPacket{
 	public static final byte ENDEREYE_ATTACK_POOF = 0,

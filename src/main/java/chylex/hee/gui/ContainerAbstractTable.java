@@ -6,8 +6,8 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityAbstractTable;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class ContainerAbstractTable extends Container{
 	private final TileEntityAbstractTable table;

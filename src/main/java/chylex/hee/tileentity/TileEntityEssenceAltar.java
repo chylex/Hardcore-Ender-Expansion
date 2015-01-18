@@ -28,8 +28,8 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	public static final byte STAGE_BASIC = 0, STAGE_HASTYPE = 1, STAGE_WORKING = 2;
@@ -305,7 +305,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	}
 	
 	private static EntityItem createItem(TileEntity tile, ItemStack is){
-		EntityItem item = new EntityItem(tile.getWorldObj(),tile.xCoord+0.5D,tile.yCoord+1.175D,tile.zCoord+0.5D,is);
+		EntityItem item = new EntityItem(tile.getWorld(),tile.xCoord+0.5D,tile.yCoord+1.175D,tile.zCoord+0.5D,is);
 		item.delayBeforeCanPickup = 5;
 		item.motionY = (item.motionX = item.motionZ = 0D)+0.02D;
 		return item;

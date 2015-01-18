@@ -9,8 +9,8 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.render.model.ModelFireFiend;
 import chylex.hee.sound.BossType;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderMiniBossFireFiend extends RenderLiving{

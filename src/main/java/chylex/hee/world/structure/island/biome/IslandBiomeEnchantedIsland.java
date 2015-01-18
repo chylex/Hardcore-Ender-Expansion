@@ -73,7 +73,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	public void updateCore(World world, int x, int y, int z, int meta){
 		super.updateCore(world,x,y,z,meta);
 		
-		if (meta == HOMELAND.id && world.rand.nextInt(40) == 0 && world.difficultySetting != EnumDifficulty.PEACEFUL){
+		if (meta == HOMELAND.id && world.rand.nextInt(40) == 0 && world.getDifficulty() != EnumDifficulty.PEACEFUL){
 			AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x-ComponentIsland.halfSize,10,z-ComponentIsland.halfSize,x+ComponentIsland.halfSize,128,z+ComponentIsland.halfSize);
 			
 			List<EntityMobHomelandEnderman> all = world.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,aabb);

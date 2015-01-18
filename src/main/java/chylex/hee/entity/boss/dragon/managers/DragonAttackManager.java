@@ -119,7 +119,7 @@ public class DragonAttackManager{
 		boolean res = false;
 		
 		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,dragon.dragonPartHead.boundingBox.expand(2.2D,1.5D,2.2D))){
-			int diff = dragon.worldObj.difficultySetting.getDifficultyId(), rm;
+			int diff = dragon.worldObj.getDifficulty().getDifficultyId(), rm;
 			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 14F : 9F)+diff);
 			
 			switch(diff){

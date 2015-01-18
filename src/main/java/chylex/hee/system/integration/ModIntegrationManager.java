@@ -5,7 +5,7 @@ import chylex.hee.system.integration.handlers.NotEnoughItemsIntegration;
 import chylex.hee.system.integration.handlers.ThaumcraftIntegration;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import cpw.mods.fml.common.Loader;
+import net.minecraftforge.fml.common.Loader;
 
 public final class ModIntegrationManager{
 	public static final void integrateMods(){

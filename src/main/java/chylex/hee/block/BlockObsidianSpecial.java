@@ -11,8 +11,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.proxy.ModCommonProxy;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)

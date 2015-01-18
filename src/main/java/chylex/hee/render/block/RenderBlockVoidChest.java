@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityVoidChest;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import net.minecraftforge.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderBlockVoidChest implements ISimpleBlockRenderingHandler{
 	private final TileEntityVoidChest chestRenderer = new TileEntityVoidChest();

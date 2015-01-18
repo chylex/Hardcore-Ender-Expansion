@@ -23,8 +23,8 @@ import chylex.hee.render.entity.RenderMobEnderman;
 import chylex.hee.render.entity.RenderMobHomelandEnderman;
 import chylex.hee.render.entity.RenderMobInfestedBat;
 import chylex.hee.render.entity.RenderMobParalyzedEnderman;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public final class Baconizer{
 	private static final Pattern lcword = Pattern.compile("\\b([a-z]+?)\\b",Pattern.MULTILINE),

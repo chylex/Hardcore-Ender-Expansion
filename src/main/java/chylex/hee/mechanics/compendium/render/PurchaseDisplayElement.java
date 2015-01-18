@@ -41,18 +41,18 @@ public class PurchaseDisplayElement{
 		gui.drawTexturedModalRect(pageCenterX-27,y-14,155,0,54,26);
 		
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),GuiEnderCompendium.knowledgeFragmentIS,pageCenterX-22,y-10);
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(GuiEnderCompendium.knowledgeFragmentIS,pageCenterX-22,y-10);
 		RenderHelper.disableStandardItemLighting();
 		
 		String price = status == FragmentPurchaseStatus.NOT_BUYABLE ? "---" : String.valueOf(this.price);
 		int color = status == FragmentPurchaseStatus.CAN_PURCHASE ? 0x404040 :
 					(status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED || status == FragmentPurchaseStatus.NOT_BUYABLE) ? 0x888888 :
 					status == FragmentPurchaseStatus.NOT_ENOUGH_POINTS ? 0xdd2020 : 0;
-		gui.mc.fontRenderer.drawString(price,pageCenterX-gui.mc.fontRenderer.getStringWidth(price)+20,y-5,color);
+		gui.mc.fontRendererObj.drawString(price,pageCenterX-gui.mc.fontRendererObj.getStringWidth(price)+20,y-5,color);
 		
 		if (object.getClass() == KnowledgeObject.class){
 			String name = ((KnowledgeObject)object).getTooltip();
-			gui.mc.fontRenderer.drawString(name,pageCenterX-(gui.mc.fontRenderer.getStringWidth(name)>>1),y-25,0x404040);
+			gui.mc.fontRendererObj.drawString(name,pageCenterX-(gui.mc.fontRendererObj.getStringWidth(name)>>1),y-25,0x404040);
 		}
 		else if (isMouseOver(mouseX,mouseY,pageCenterX-3)){
 			String tooltip = status == FragmentPurchaseStatus.NOT_BUYABLE ? "ec.help.nonbuyable" :

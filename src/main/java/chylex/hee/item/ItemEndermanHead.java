@@ -13,9 +13,9 @@ import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.misc.ApocalypseEvents;
 import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.tileentity.TileEntityEndermanHead;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemEndermanHead extends Item{
 	@Override

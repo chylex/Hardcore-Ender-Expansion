@@ -7,8 +7,8 @@ import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	protected TileEntityCustomSpawner spawnerTile;
@@ -66,7 +66,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 
 	@Override
 	public final void func_98267_a(int i){
-		spawnerTile.getWorldObj().addBlockEvent(spawnerTile.xCoord,spawnerTile.yCoord,spawnerTile.zCoord,Blocks.mob_spawner,i,0);
+		spawnerTile.getWorld().addBlockEvent(spawnerTile.xCoord,spawnerTile.yCoord,spawnerTile.zCoord,Blocks.mob_spawner,i,0);
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 
 	@Override
 	public final World getSpawnerWorld(){
-		return spawnerTile.getWorldObj();
+		return spawnerTile.getWorld();
 	}
 
 	@Override

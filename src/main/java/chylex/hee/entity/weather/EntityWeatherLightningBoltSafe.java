@@ -14,7 +14,7 @@ public class EntityWeatherLightningBoltSafe extends EntityLightningBolt{
 		boltVertex = rand.nextLong();
 		boltLivingTime = rand.nextInt(3)+1;
 
-		if (!world.isRemote && world.difficultySetting.getDifficultyId() >= 2 && world.doChunksNearChunkExist(MathHelper.floor_double(x),MathHelper.floor_double(y),MathHelper.floor_double(z),10)){
+		if (!world.isRemote && world.getDifficulty().getDifficultyId() >= 2 && world.doChunksNearChunkExist(MathHelper.floor_double(x),MathHelper.floor_double(y),MathHelper.floor_double(z),10)){
 			for(int testX = -2; testX <= 2; ++testX){
 				for(int testY = -2; testY <= 2; ++testY){
 					for(int testZ = -2; testZ <= 2; ++testZ){

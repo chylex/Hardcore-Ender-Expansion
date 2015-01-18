@@ -2,8 +2,8 @@ package chylex.hee.tileentity;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyInventory implements IInventoryInvalidateable{
 	protected static final int totalTime = 1000;

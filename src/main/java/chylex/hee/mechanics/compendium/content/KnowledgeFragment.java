@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.gui.GuiEnderCompendium;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class KnowledgeFragment{
 	private static final TIntObjectMap<KnowledgeFragment> allFragments = new TIntObjectHashMap<>();

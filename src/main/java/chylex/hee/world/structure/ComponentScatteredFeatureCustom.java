@@ -35,14 +35,14 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 	}
 
 	@Override
-	protected void func_143012_a(NBTTagCompound nbt){ // OBFUSCATED save structure to nbt
+	protected void writeStructureToNBT(NBTTagCompound nbt){
 		nbt.setInteger("Width",sizeX);
 		nbt.setInteger("Height",sizeY);
 		nbt.setInteger("Depth",sizeZ);
 	}
 
 	@Override
-	protected void func_143011_b(NBTTagCompound nbt){ // OBFUSCATED load structure from nbt
+	protected void readStructureFromNBT(NBTTagCompound nbt){
 		sizeX = nbt.getInteger("Width");
 		sizeY = nbt.getInteger("Height");
 		sizeZ = nbt.getInteger("Depth");

@@ -19,8 +19,8 @@ import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEnergyCluster extends BlockContainer{
 	public static final SoundType soundTypeEnergyCluster = new SoundType("holycrapthisisloud",5F,1.6F){
@@ -111,7 +111,7 @@ public class BlockEnergyCluster extends BlockContainer{
 	public static void destroyCluster(TileEntityEnergyCluster tile){
 		Stopwatch.time("BlockEnergyCluster - destroyCluster");
 		
-		World world = tile.getWorldObj();
+		World world = tile.getWorld();
 		int x = tile.xCoord, y = tile.yCoord, z = tile.zCoord;
 		int energyMeta = Math.min(15,3+(int)(tile.data.getEnergyLevel()*0.8F));
 		

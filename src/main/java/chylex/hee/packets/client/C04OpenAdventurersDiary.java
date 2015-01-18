@@ -3,8 +3,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import chylex.hee.mechanics.misc.LoreTexts;
 import chylex.hee.packets.AbstractClientPacket;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C04OpenAdventurersDiary extends AbstractClientPacket{
 	private byte[] pages;

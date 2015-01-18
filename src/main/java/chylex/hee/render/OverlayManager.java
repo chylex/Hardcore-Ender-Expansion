@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -19,6 +20,9 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.block.BlockList;
@@ -29,9 +33,6 @@ import chylex.hee.mechanics.energy.EnergyClusterHealth;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class OverlayManager{
@@ -124,13 +125,13 @@ public class OverlayManager{
 			GL11.glColor4f(1F,1F,1F,1F);
 			
 			mc.getTextureManager().bindTexture(texGoo);
-			Tessellator tessellator = Tessellator.instance;
-			tessellator.startDrawingQuads();
-			tessellator.addVertexWithUV(0D,h,-90D,0D,1D);
-			tessellator.addVertexWithUV(w,h,-90D,1D,1D);
-			tessellator.addVertexWithUV(w,0D,-90D,1D,0D);
-			tessellator.addVertexWithUV(0D,0D,-90D,0D,0D);
-			tessellator.draw();
+			WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
+			renderer.startDrawingQuads();
+			renderer.addVertexWithUV(0D,h,-90D,0D,1D);
+			renderer.addVertexWithUV(w,h,-90D,1D,1D);
+			renderer.addVertexWithUV(w,0D,-90D,1D,0D);
+			renderer.addVertexWithUV(0D,0D,-90D,0D,0D);
+			Tessellator.getInstance().draw();
 			
 			GL11.glDepthMask(true);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -146,7 +147,7 @@ public class OverlayManager{
 		
 		if (e.type == ElementType.HOTBAR){
 			if (!notifications.isEmpty()){
-				FontRenderer font = mc.fontRenderer;
+				FontRenderer font = mc.fontRendererObj;
 				
 				boolean prevUnicode = font.getUnicodeFlag();
 				font.setUnicodeFlag(true);
@@ -181,7 +182,7 @@ public class OverlayManager{
 			}
 			
 			if (clusterLookedAt != null){
-				FontRenderer font = mc.fontRenderer;
+				FontRenderer font = mc.fontRendererObj;
 				int x = e.resolution.getScaledWidth()>>1;
 				int y = e.resolution.getScaledHeight()>>1;
 				

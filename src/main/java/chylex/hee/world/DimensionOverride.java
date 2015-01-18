@@ -17,7 +17,7 @@ import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.StructureIsland;
 import chylex.hee.world.structure.tower.ComponentTower;
 import chylex.hee.world.structure.tower.StructureTower;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public final class DimensionOverride{
 	public static void setup(){

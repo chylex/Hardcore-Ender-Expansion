@@ -7,6 +7,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpawnEggs;
 import chylex.hee.mechanics.charms.CharmRecipe;
@@ -20,8 +22,6 @@ import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.curse.CurseType;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
 public final class KnowledgeUtils{
 	public static KnowledgeObject<? extends IKnowledgeObjectInstance<?>> tryGetFromItemStack(ItemStack is){
@@ -35,7 +35,7 @@ public final class KnowledgeUtils{
 		if (uniqueId != null && uniqueId.modId.equalsIgnoreCase("hardcoreenderexpansion")){
 			if (is.getItem() == ItemList.spawn_eggs){
 				Class<? extends EntityLiving> entity = ItemSpawnEggs.getMobFromDamage(is.getItemDamage());
-				if (entity == null)entity = (Class<? extends EntityLiving>)EntityList.IDtoClassMapping.get(is.getItemDamage());
+				if (entity == null)entity = (Class<? extends EntityLiving>)EntityList.idToClassMapping.get(is.getItemDamage());
 				return entity == null ? null : KnowledgeObject.<ObjectMob>getObject(entity);
 			}
 			else if (is.getItem() instanceof ItemBlock)return CompendiumEvents.getBlockObject(is);

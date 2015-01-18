@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemKnowledgeNote extends Item{
 	public ItemKnowledgeNote(){

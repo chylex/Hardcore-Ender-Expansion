@@ -11,8 +11,8 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.render.model.ModelEnderEye;
 import chylex.hee.sound.BossType;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderMiniBossEnderEye extends RenderLiving{

@@ -29,8 +29,8 @@ import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public final class BlockList{
 	private static final Map<String,BlockData> blocks = new HashMap<>();

@@ -5,8 +5,8 @@ import net.minecraft.world.Explosion;
 import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.proxy.ModCommonProxy;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C12FiendFireballExplosion extends AbstractClientPacket{
 	private double x, y, z;

@@ -2,8 +2,8 @@ package chylex.hee.render.block;
 import net.minecraft.client.renderer.entity.RenderTNTPrimed;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderBlockEnhancedTNTPrimed extends RenderTNTPrimed{

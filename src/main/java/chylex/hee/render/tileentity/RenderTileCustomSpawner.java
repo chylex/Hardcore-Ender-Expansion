@@ -6,8 +6,8 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.spawner.CustomSpawnerLogic;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileCustomSpawner extends TileEntitySpecialRenderer{

@@ -13,8 +13,8 @@ import chylex.hee.packets.client.C09SimpleEvent.EventType;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.world.feature.TempleGenerator;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 	public static boolean isEnabled = true;

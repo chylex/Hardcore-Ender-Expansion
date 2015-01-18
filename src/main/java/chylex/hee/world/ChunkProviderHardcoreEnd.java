@@ -15,7 +15,7 @@ import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.MapGenIsland;
 import chylex.hee.world.structure.tower.MapGenTower;
-import cpw.mods.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 
 public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	private final World world;

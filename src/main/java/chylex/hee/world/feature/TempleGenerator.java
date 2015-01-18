@@ -1,6 +1,5 @@
 package chylex.hee.world.feature;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockEndPortal;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
@@ -80,11 +79,7 @@ public class TempleGenerator{
 		linez(z+5,z+7,x+7,y,Blocks.stone_slab,7);
 		for(int a = 0; a < 2; a++)linex(x+11,x+13,z+4+a*4,y,Blocks.quartz_block);
 		linez(z+5,z+7,x+14,y,Blocks.quartz_block);
-		
-		boolean originalValue = BlockEndPortal.field_149948_a;
-		BlockEndPortal.field_149948_a = true;
 		rect(x+11,z+5,x+13,z+7,y,BlockList.temple_end_portal);
-		BlockEndPortal.field_149948_a = originalValue;
 		
 		for(int a = 0; a < 2; a++){
 			for(int b = 0; b < 2; b++)block(x+10+4*b,z+4*(a+1),y,Blocks.quartz_block,2);
