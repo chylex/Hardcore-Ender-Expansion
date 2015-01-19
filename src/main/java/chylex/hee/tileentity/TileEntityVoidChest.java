@@ -1,25 +1,24 @@
 package chylex.hee.tileentity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
+import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
 
-public class TileEntityVoidChest extends TileEntity{
+public class TileEntityVoidChest extends TileEntity implements IUpdatePlayerListBox{
 	public float lidAnim;
 	public float prevLidAnim;
 	public int openedAmount;
 	private int ticksExisted;
 	
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
-
-		if (++ticksExisted%80 == 0)worldObj.addBlockEvent(xCoord,yCoord,zCoord,Blocks.ender_chest,1,openedAmount);
+	public void update(){
+		if (++ticksExisted%80 == 0)worldObj.addBlockEvent(getPos(),BlockList.void_chest,1,openedAmount);
 
 		prevLidAnim = lidAnim;
 
 		if (openedAmount > 0 && lidAnim == 0F){
-			worldObj.playSoundEffect(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,"random.chestopen",0.5F,worldObj.rand.nextFloat()*0.1F+0.9F);
+			worldObj.playSoundEffect(getPos().getX()+0.5D,getPos().getY()+0.5D,getPos().getZ()+0.5D,"random.chestopen",0.5F,worldObj.rand.nextFloat()*0.1F+0.9F);
 		}
 
 		if (openedAmount == 0 && lidAnim > 0F || openedAmount > 0 && lidAnim < 1F){
@@ -27,7 +26,7 @@ public class TileEntityVoidChest extends TileEntity{
 			lidAnim = MathUtil.clamp(openedAmount > 0 ? lidAnim+0.1F : lidAnim-0.1F,0F,1F);
 
 			if (lidAnim < 0.5F && oldAnim >= 0.5F){
-				worldObj.playSoundEffect(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D,"random.chestclosed",0.5F,worldObj.rand.nextFloat()*0.1F+0.9F);
+				worldObj.playSoundEffect(getPos().getX()+0.5D,getPos().getY()+0.5D,getPos().getZ()+0.5D,"random.chestclosed",0.5F,worldObj.rand.nextFloat()*0.1F+0.9F);
 			}
 		}
 	}
@@ -49,15 +48,15 @@ public class TileEntityVoidChest extends TileEntity{
 
 	public void addPlayerToOpenList(){
 		++openedAmount;
-		worldObj.addBlockEvent(xCoord,yCoord,zCoord,Blocks.ender_chest,1,openedAmount);
+		worldObj.addBlockEvent(getPos(),BlockList.void_chest,1,openedAmount);
 	}
 
 	public void removePlayerFromOpenList(){
 		--openedAmount;
-		worldObj.addBlockEvent(xCoord,yCoord,zCoord,Blocks.ender_chest,1,openedAmount);
+		worldObj.addBlockEvent(getPos(),BlockList.void_chest,1,openedAmount);
 	}
 
 	public boolean canPlayerUse(EntityPlayer player){
-		return worldObj.getTileEntity(xCoord,yCoord,zCoord) != this ? false : player.getDistanceSq(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D) <= 64D;
+		return worldObj.getTileEntity(getPos()) != this ? false : player.getDistanceSq(getPos().getX()+0.5D,getPos().getY()+0.5D,getPos().getZ()+0.5D) <= 64D;
 	}
 }

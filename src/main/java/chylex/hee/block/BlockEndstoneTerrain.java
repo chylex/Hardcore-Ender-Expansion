@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 
 public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
 	private static final String[] types = new String[]{

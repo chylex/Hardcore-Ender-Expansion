@@ -2,6 +2,7 @@ package chylex.hee.block;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
@@ -9,6 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
@@ -51,19 +53,19 @@ public class BlockSpookyLeaves extends BlockLeaves{
 	}
 	
 	@Override
-	public boolean isShearable(ItemStack item, IBlockAccess world, int x, int y, int z){
+	public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos){
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getRenderColor(int meta){
+	public int getRenderColor(IBlockState state){
 		return 16777215;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int colorMultiplier(IBlockAccess world, int x, int y, int z){
+	public int colorMultiplier(IBlockAccess world, BlockPos pos, int pass){
 		return 16777215;
 	}
 	
@@ -101,7 +103,7 @@ public class BlockSpookyLeaves extends BlockLeaves{
 	}
 
 	@Override
-	protected ItemStack createStackedBlock(int meta){
+	protected ItemStack createStackedBlock(IBlockState state){
 		return new ItemStack(this,1,0);
 	}
 

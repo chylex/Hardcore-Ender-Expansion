@@ -1,5 +1,6 @@
 package chylex.hee.tileentity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import chylex.hee.item.ItemAbstractEnergyAcceptor;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 
@@ -95,7 +96,7 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side){
+	public int[] getSlotsForFace(EnumFacing side){
 		return slotsAll;
 	}
 

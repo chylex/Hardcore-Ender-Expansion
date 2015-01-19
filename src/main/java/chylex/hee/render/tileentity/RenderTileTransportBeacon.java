@@ -1,21 +1,22 @@
 package chylex.hee.render.tileentity;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import chylex.hee.tileentity.TileEntityTransportBeacon;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+import chylex.hee.tileentity.TileEntityTransportBeacon;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileTransportBeacon extends TileEntitySpecialRenderer{
 	private static final ResourceLocation beam = new ResourceLocation("hardcoreenderexpansion:textures/blocks/transport_beacon_beam.png");
-
+	
 	@Override
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime){
-		Tessellator tessellator = Tessellator.instance;
+	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime, int what){
+		WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
 		bindTexture(beam);
 		
 		GL11.glTexParameterf(GL11.GL_TEXTURE_2D,GL11.GL_TEXTURE_WRAP_S,10497F);
@@ -30,8 +31,8 @@ public class RenderTileTransportBeacon extends TileEntitySpecialRenderer{
 		float f3 = -beamAngle*0.2F-MathHelper.floor_float(-beamAngle*0.1F);
 		double d3 = -beamAngle*0.1D;
 		
-		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA(255,255,255,32);
+		renderer.startDrawingQuads();
+		renderer.setColorRGBA(255,255,255,32);
 		double beamSize = 0.2D;
 		double d5 = 0.5D+Math.cos(d3+2.3562D)*beamSize;
 		double d6 = 0.5D+Math.sin(d3+2.3562D)*beamSize;
@@ -44,52 +45,52 @@ public class RenderTileTransportBeacon extends TileEntitySpecialRenderer{
 		double d16 = (-1F+f3);
 		double d17 = (0.5D/beamSize)+d16;
 		
-		tessellator.addVertexWithUV(x+d5,y+192D,z+d6,1D,d17);
-		tessellator.addVertexWithUV(x+d5,y,z+d6,1D,d16);
-		tessellator.addVertexWithUV(x+d7,y,z+d8,0D,d16);
-		tessellator.addVertexWithUV(x+d7,y+192D,z+d8,0D,d17);
-		tessellator.addVertexWithUV(x+d11,y+192D,z+d12,1D,d17);
-		tessellator.addVertexWithUV(x+d11,y,z+d12,1D,d16);
-		tessellator.addVertexWithUV(x+d9,y,z+d10,0D,d16);
-		tessellator.addVertexWithUV(x+d9,y+192D,z+d10,0D,d17);
-		tessellator.addVertexWithUV(x+d7,y+192D,z+d8,1D,d17);
-		tessellator.addVertexWithUV(x+d7,y,z+d8,1D,d16);
-		tessellator.addVertexWithUV(x+d11,y,z+d12,0D,d16);
-		tessellator.addVertexWithUV(x+d11,y+192D,z+d12,0D,d17);
-		tessellator.addVertexWithUV(x+d9,y+192D,z+d10,1D,d17);
-		tessellator.addVertexWithUV(x+d9,y,z+d10,1D,d16);
-		tessellator.addVertexWithUV(x+d5,y,z+d6,0D,d16);
-		tessellator.addVertexWithUV(x+d5,y+192D,z+d6,0D,d17);
-		tessellator.draw();
+		renderer.addVertexWithUV(x+d5,y+192D,z+d6,1D,d17);
+		renderer.addVertexWithUV(x+d5,y,z+d6,1D,d16);
+		renderer.addVertexWithUV(x+d7,y,z+d8,0D,d16);
+		renderer.addVertexWithUV(x+d7,y+192D,z+d8,0D,d17);
+		renderer.addVertexWithUV(x+d11,y+192D,z+d12,1D,d17);
+		renderer.addVertexWithUV(x+d11,y,z+d12,1D,d16);
+		renderer.addVertexWithUV(x+d9,y,z+d10,0D,d16);
+		renderer.addVertexWithUV(x+d9,y+192D,z+d10,0D,d17);
+		renderer.addVertexWithUV(x+d7,y+192D,z+d8,1D,d17);
+		renderer.addVertexWithUV(x+d7,y,z+d8,1D,d16);
+		renderer.addVertexWithUV(x+d11,y,z+d12,0D,d16);
+		renderer.addVertexWithUV(x+d11,y+192D,z+d12,0D,d17);
+		renderer.addVertexWithUV(x+d9,y+192D,z+d10,1D,d17);
+		renderer.addVertexWithUV(x+d9,y,z+d10,1D,d16);
+		renderer.addVertexWithUV(x+d5,y,z+d6,0D,d16);
+		renderer.addVertexWithUV(x+d5,y+192D,z+d6,0D,d17);
+		Tessellator.getInstance().draw();
 		
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glDepthMask(false);
 		
-		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA(255,255,255,32);
+		renderer.startDrawingQuads();
+		renderer.setColorRGBA(255,255,255,32);
 
 		double d29 = (-1F+f3);
 		double posMin = 0.4D;
 		double posMax = 0.6D;
 		
-		tessellator.addVertexWithUV(x+posMin,y+1D,z+posMin,1D,d29);
-		tessellator.addVertexWithUV(x+posMin,y,z+posMin,1D,d29);
-		tessellator.addVertexWithUV(x+posMax,y,z+posMin,0D,d29);
-		tessellator.addVertexWithUV(x+posMax,y+1D,z+posMin,0D,d29);
-		tessellator.addVertexWithUV(x+posMax,y+1D,z+posMax,1D,d29);
-		tessellator.addVertexWithUV(x+posMax,y,z+posMax,1D,d29);
-		tessellator.addVertexWithUV(x+posMin,y,z+posMax,0D,d29);
-		tessellator.addVertexWithUV(x+posMin,y+1D,z+posMax,0D,d29);
-		tessellator.addVertexWithUV(x+posMax,y+1D,z+posMin,1D,d29);
-		tessellator.addVertexWithUV(x+posMax,y,z+posMin,1D,d29);
-		tessellator.addVertexWithUV(x+posMax,y,z+posMax,0D,d29);
-		tessellator.addVertexWithUV(x+posMax,y+1D,z+posMax,0D,d29);
-		tessellator.addVertexWithUV(x+posMin,y+1D,z+posMax,1D,d29);
-		tessellator.addVertexWithUV(x+posMin,y,z+posMax,1D,d29);
-		tessellator.addVertexWithUV(x+posMin,y,z+posMin,0D,d29);
-		tessellator.addVertexWithUV(x+posMin,y+1D,z+posMin,0D,d29);
-		tessellator.draw();
+		renderer.addVertexWithUV(x+posMin,y+1D,z+posMin,1D,d29);
+		renderer.addVertexWithUV(x+posMin,y,z+posMin,1D,d29);
+		renderer.addVertexWithUV(x+posMax,y,z+posMin,0D,d29);
+		renderer.addVertexWithUV(x+posMax,y+1D,z+posMin,0D,d29);
+		renderer.addVertexWithUV(x+posMax,y+1D,z+posMax,1D,d29);
+		renderer.addVertexWithUV(x+posMax,y,z+posMax,1D,d29);
+		renderer.addVertexWithUV(x+posMin,y,z+posMax,0D,d29);
+		renderer.addVertexWithUV(x+posMin,y+1D,z+posMax,0D,d29);
+		renderer.addVertexWithUV(x+posMax,y+1D,z+posMin,1D,d29);
+		renderer.addVertexWithUV(x+posMax,y,z+posMin,1D,d29);
+		renderer.addVertexWithUV(x+posMax,y,z+posMax,0D,d29);
+		renderer.addVertexWithUV(x+posMax,y+1D,z+posMax,0D,d29);
+		renderer.addVertexWithUV(x+posMin,y+1D,z+posMax,1D,d29);
+		renderer.addVertexWithUV(x+posMin,y,z+posMax,1D,d29);
+		renderer.addVertexWithUV(x+posMin,y,z+posMin,0D,d29);
+		renderer.addVertexWithUV(x+posMin,y+1D,z+posMin,0D,d29);
+		Tessellator.getInstance().draw();
 		
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);

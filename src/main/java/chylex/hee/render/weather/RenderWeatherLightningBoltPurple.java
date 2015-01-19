@@ -1,6 +1,7 @@
 package chylex.hee.render.weather;
 import java.util.Random;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderLightningBolt;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -16,7 +17,7 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 
 	@Override
 	public void doRender(EntityLightningBolt bolt, double x, double y, double z, float yaw, float partialTickTime){
-		Tessellator tessellator = Tessellator.instance;
+		WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
 		
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_LIGHTING);
@@ -67,8 +68,8 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 						d6 += (rand.nextInt(31)-15);
 					}
 
-					tessellator.startDrawing(5);
-					tessellator.setColorRGBA_F(0.33595F,0.08395F,0.43165F,0.4F);
+					renderer.startDrawing(5);
+					renderer.setColorRGBA_F(0.33595F,0.08395F,0.43165F,0.4F);
 					double d9 = 0.1D+j*0.2D;
 
 					if (k == 0){
@@ -104,11 +105,11 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 							d14 += d10*2D;
 						}
 
-						tessellator.addVertex(d13+d5,y+(j1*16),d14+d6);
-						tessellator.addVertex(d11+d7,y+((j1+1)*16),d12+d8);
+						renderer.addVertex(d13+d5,y+(j1*16),d14+d6);
+						renderer.addVertex(d11+d7,y+((j1+1)*16),d12+d8);
 					}
 
-					tessellator.draw();
+					Tessellator.getInstance().draw();
 				}
 			}
 		}

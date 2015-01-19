@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.item.ItemList;
@@ -153,9 +154,9 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		}
 	}
 	
-	public static boolean hasCollisionBox(TileEntityEssenceAltar altar, int x, int y, int z){
-		Block block = altar.getWorld().getBlock(x,y,z);
-		return block.getMaterial() == Material.air ? false : block.getCollisionBoundingBoxFromPool(altar.getWorld(),x,y,z) != null;
+	public static boolean hasCollisionBox(TileEntityEssenceAltar altar, BlockPos pos){
+		Block block = altar.getWorld().getBlockState(pos).getBlock();
+		return block.getMaterial() == Material.air ? false : block.getCollisionBoundingBox(altar.getWorld(),pos,altar.getWorld().getBlockState(pos)) != null;
 	}
 	
 	private void updatePedestalItem(EntityItemAltar item){

@@ -6,13 +6,16 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	protected TileEntityCustomSpawner spawnerTile;
+	protected BlockPosM pos;
 	protected Entity entityCache;
 	
 	protected int spawnDelay = 20;
@@ -29,6 +32,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 
 	protected CustomSpawnerLogic(TileEntityCustomSpawner spawnerTile){
 		this.spawnerTile = spawnerTile;
+		this.pos = new BlockPosM(spawnerTile.getPos());
 	}
 	
 	/*
@@ -77,11 +81,11 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 		World world = getSpawnerWorld();
 		
 		if (world.isRemote){
-			double particleX = getSpawnerX()+world.rand.nextFloat();
-			double particleY = getSpawnerY()+world.rand.nextFloat();
-			double particleZ = getSpawnerZ()+world.rand.nextFloat();
-			world.spawnParticle("smoke",particleX,particleY,particleZ,0D,0D,0D);
-			world.spawnParticle("flame",particleX,particleY,particleZ,0D,0D,0D);
+			double particleX = pos.x+world.rand.nextFloat();
+			double particleY = pos.y+world.rand.nextFloat();
+			double particleZ = pos.z+world.rand.nextFloat();
+			world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,particleX,particleY,particleZ,0D,0D,0D);
+			world.spawnParticle(EnumParticleTypes.FLAME,particleX,particleY,particleZ,0D,0D,0D);
 
 			if (spawnDelay > 0)--spawnDelay;
 
@@ -109,14 +113,14 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 					return;
 				}
 
-				double posX = getSpawnerX()+(world.rand.nextDouble()-world.rand.nextDouble())*spawnRange;
-				double posY = getSpawnerY()+getSpawnerWorld().rand.nextInt(3)-1;
-				double posZ = getSpawnerZ()+(world.rand.nextDouble()-world.rand.nextDouble())*spawnRange;
+				double posX = pos.x+(world.rand.nextDouble()-world.rand.nextDouble())*spawnRange;
+				double posY = pos.y+getSpawnerWorld().rand.nextInt(3)-1;
+				double posZ = pos.z+(world.rand.nextDouble()-world.rand.nextDouble())*spawnRange;
 				entity.setLocationAndAngles(posX,posY,posZ,getSpawnerWorld().rand.nextFloat()*360F,0F);
 
 				if (canMobSpawn(entity)){
 					func_98265_a(entity); // OBFUSCATED spawn entity
-					getSpawnerWorld().playAuxSFX(2004,getSpawnerX(),getSpawnerY(),getSpawnerZ(),0);
+					getSpawnerWorld().playAuxSFX(2004,pos,0);
 					entity.spawnExplosionParticle();
 					
 					onMobSpawned(entity);
@@ -135,7 +139,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 
 	@Override
 	public BlockPos func_177221_b(){ // OBFUSCATED getPos
-		return spawnerTile.getPos();
+		return pos;
 	}
 	
 	@Override

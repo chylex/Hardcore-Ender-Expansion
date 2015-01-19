@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.ChunkPosition;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.block.BlockList;
@@ -210,8 +211,8 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side){
-		return side == 0 ? ArrayUtils.EMPTY_INT_ARRAY : side == 1 ? slotsTop : slotsSides;
+	public int[] getSlotsForFace(EnumFacing side){
+		return side == EnumFacing.DOWN ? ArrayUtils.EMPTY_INT_ARRAY : side == EnumFacing.UP ? slotsTop : slotsSides;
 	}
 
 	@Override

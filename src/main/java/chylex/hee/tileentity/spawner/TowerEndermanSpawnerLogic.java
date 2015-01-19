@@ -24,8 +24,8 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 		this.spawnCount = 2;
 		this.maxNearbyEntities = 3;
 		
-		minY = getSpawnerY()-1;
-		maxY = getSpawnerY()+4;
+		minY = pos.y-1;
+		maxY = pos.y+4;
 	}
 	
 	public TowerEndermanSpawnerLogic setSpawnEffects(List<PotionEffect> effects){
@@ -42,7 +42,7 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	
 	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
-		return AxisAlignedBB.fromBounds(getSpawnerX(),minY,getSpawnerZ(),getSpawnerX()+1,maxY,getSpawnerZ()+1).expand(spawnRange*2D,0.5D,spawnRange*2D);
+		return AxisAlignedBB.fromBounds(pos.x,minY,pos.z,pos.x+1,maxY,pos.z+1).expand(spawnRange*2D,0.5D,spawnRange*2D);
 	}
 	
 	@Override

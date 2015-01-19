@@ -13,6 +13,7 @@ import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.particle.EntitySpellParticleFX;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityAltarOrbFX;
 import chylex.hee.entity.fx.EntityBigPortalFX;
@@ -45,9 +46,9 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void omnipresent(String particleName, World world, double x, double y, double z, double motionX, double motionY, double motionZ){
 		switch(particleName){
-			case "smoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,1F)); break;
-			case "largesmoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,2.5F)); break;
-			case "portal": spawn(new EntityPortalFX(world,x,y,z,motionX,motionY,motionZ)); break;
+			case "smoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,1F){}); break;
+			case "largesmoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,2.5F){}); break;
+			case "portal": spawn(new EntityPortalFX(world,x,y,z,motionX,motionY,motionZ){}); break;
 			default: Log.debug("Particle $0 not found!",particleName);
 		}
 	}
@@ -137,7 +138,7 @@ public class FXClientProxy extends FXCommonProxy{
 	
 	@Override
 	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){
-		EntityCritFX fx = new EntityCritFX(world,x,y,z,motionX,motionY,motionZ);
+		EntityCritFX fx = new EntityCritFX(world,x,y,z,motionX,motionY,motionZ){};
 		fx.setRBGColorF(red,green,blue);
 		fx.nextTextureIndexX();
 		spawn(fx);
@@ -145,7 +146,7 @@ public class FXClientProxy extends FXCommonProxy{
 	
 	@Override
 	public void spell(World world, double x, double y, double z, float red, float green, float blue){
-		EntitySpellParticleFX fx = new EntitySpellParticleFX(world,x,y,z,0D,0D,0D);
+		EntitySpellParticleFX fx = new EntitySpellParticleFX(world,x,y,z,0D,0D,0D){};
 		fx.setRBGColorF(red,green,blue);
 		spawn(fx);
 	}
@@ -197,7 +198,8 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void energyCluster(TileEntityEnergyCluster cluster){
 		Random rand = cluster.getWorld().rand;
-		spawn(new EntityEnergyClusterFX(cluster.getWorld(),cluster.xCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.yCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.zCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.data));
+		BlockPos pos = cluster.getPos();
+		spawn(new EntityEnergyClusterFX(cluster.getWorld(),pos.getX()+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,pos.getY()+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,pos.getZ()+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.data));
 	}
 	
 	@Override

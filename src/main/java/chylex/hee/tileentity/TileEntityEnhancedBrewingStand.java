@@ -3,7 +3,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntityBrewingStand;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,7 +14,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.system.util.ItemUtil;
 
-public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand implements IAcceptFieryEssence{
+public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand implements IAcceptFieryEssence, IUpdatePlayerListBox{
 	private static final int[] topSlots = new int[]{ 3 },
 							   sideSlots = new int[]{ 0, 1, 2 },
 							   bottomSlots = new int[]{ 4 };
@@ -23,7 +25,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	private Item ingredient;
 	
 	@Override
-	public void updateEntity(){
+	public void update(){
 		if (brewTime > 0){
 			--brewTime;
 			
@@ -91,8 +93,8 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	}
 	
 	@Override
-	public String getInventoryName(){
-		return hasCustomInventoryName() ? super.getInventoryName() : "container.enhancedBrewing";
+	public String getName(){
+		return hasCustomName() ? super.getName() : "container.enhancedBrewing";
 	}
 	
 	@Override
@@ -140,8 +142,8 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side){
-		return side == 1?topSlots:side == 0?bottomSlots:sideSlots;
+	public int[] getSlotsForFace(EnumFacing side){
+		return side == EnumFacing.UP ? topSlots : side == EnumFacing.DOWN ? bottomSlots : sideSlots;
 	}
 	
 	@Override

@@ -3,6 +3,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
@@ -12,8 +15,6 @@ import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy.MessageType;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory{
 	private boolean hasEnergy, noTampering;
@@ -149,7 +150,7 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 	}
 	
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side){
+	public int[] getSlotsForFace(EnumFacing side){
 		return ArrayUtils.EMPTY_INT_ARRAY;
 	}
 

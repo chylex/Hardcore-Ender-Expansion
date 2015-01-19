@@ -8,16 +8,15 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.system.util.ItemUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 	@Override

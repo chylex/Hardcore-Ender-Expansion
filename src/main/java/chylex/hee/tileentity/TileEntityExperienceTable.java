@@ -1,6 +1,7 @@
 package chylex.hee.tileentity;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.util.MathUtil;
 
@@ -70,8 +71,8 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int side){
-		return side == 0 ? slotsBottom : side == 1 ? slotsTop : slotsSides;
+	public int[] getSlotsForFace(EnumFacing side){
+		return side == EnumFacing.UP ? slotsTop : side == EnumFacing.DOWN ? slotsBottom : slotsSides;
 	}
 
 	@Override

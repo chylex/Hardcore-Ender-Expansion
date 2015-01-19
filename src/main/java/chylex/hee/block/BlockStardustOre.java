@@ -1,16 +1,18 @@
 package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.BlockOre;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import chylex.hee.item.ItemList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.item.ItemList;
 
 public class BlockStardustOre extends BlockOre{
 	private static final byte iconAmount = 16;
@@ -30,14 +32,14 @@ public class BlockStardustOre extends BlockOre{
 	private IIcon[] iconArray;
 	
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z){
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state){
 		if (world.getBlockMetadata(x,y,z) == 0){
 			world.setBlockMetadataWithNotify(x,y,z,world.rand.nextInt(15)+1,3);
 		}
 	}
 	
 	@Override
-	public Item getItemDropped(int meta, Random rand, int fortune){
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
 		return ItemList.stardust;
 	}
 
@@ -47,7 +49,7 @@ public class BlockStardustOre extends BlockOre{
 	}
 	
 	@Override
-	public int getExpDrop(IBlockAccess world, int meta, int fortune){
+	public int getExpDrop(IBlockAccess world, BlockPos pos, int fortune){
 		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom,1,6);
 	}
 

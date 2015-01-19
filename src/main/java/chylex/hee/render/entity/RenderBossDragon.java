@@ -3,6 +3,7 @@ import java.util.Random;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
@@ -91,27 +92,27 @@ public class RenderBossDragon extends RenderLiving{
 			GL11.glTranslatef((float)x,(float)y+2F,(float)z);
 			GL11.glRotatef(MathUtil.toDeg((float)-Math.atan2(diffZ,diffX))-90F,0F,1F,0F);
 			GL11.glRotatef(MathUtil.toDeg((float)-Math.atan2(distXZ,diffY))-90F,1F,0F,0F);
-			Tessellator tessellator = Tessellator.instance;
+			WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			bindTexture(texCrystalBeam);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			float animTime = -(dragon.ticksExisted+partialTickTime)*0.01F;
 			float textureV = MathHelper.sqrt_float(diffX*diffX+diffY*diffY+diffZ*diffZ)*0.03125F-(dragon.ticksExisted+partialTickTime)*0.01F;
-			tessellator.startDrawing(5);
+			renderer.startDrawing(5);
 			byte sideAmount = 8;
 
 			for(int i = 0; i <= sideAmount; ++i){
 				float f11 = MathHelper.sin((i%sideAmount)*(float)Math.PI*2F/sideAmount)*0.75F;
 				float f12 = MathHelper.cos((i%sideAmount)*(float)Math.PI*2F/sideAmount)*0.75F;
 				float f13 = (i%sideAmount)/sideAmount;
-				tessellator.setColorOpaque_I(0);
-				tessellator.addVertexWithUV(f11*0.2F,f12*0.2F,0D,f13,textureV);
-				tessellator.setColorOpaque_I(16777215);
-				tessellator.addVertexWithUV(f11,f12,distXYZ,f13,animTime);
+				renderer.setColorOpaque_I(0);
+				renderer.addVertexWithUV(f11*0.2F,f12*0.2F,0D,f13,textureV);
+				renderer.setColorOpaque_I(16777215);
+				renderer.addVertexWithUV(f11,f12,distXYZ,f13,animTime);
 			}
 
-			tessellator.draw();
+			Tessellator.getInstance().draw();
 			GL11.glEnable(GL11.GL_CULL_FACE);
 			GL11.glShadeModel(GL11.GL_FLAT);
 			RenderHelper.enableStandardItemLighting();
@@ -123,7 +124,7 @@ public class RenderBossDragon extends RenderLiving{
 		super.renderEquippedItems(dragon,partialTickTime);
 
 		if (dragon.deathTicks > 0){
-			Tessellator tessellator = Tessellator.instance;
+			WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
 			RenderHelper.disableStandardItemLighting();
 			float animPerc = (dragon.deathTicks+partialTickTime)*0.005F;
 			float fade = animPerc > 0.8F ? (animPerc-0.8F)*5F : 0F;
@@ -146,17 +147,17 @@ public class RenderBossDragon extends RenderLiving{
 				GL11.glRotatef(random.nextFloat()*360F,1F,0F,0F);
 				GL11.glRotatef(random.nextFloat()*360F,0F,1F,0F);
 				GL11.glRotatef(random.nextFloat()*360F+animPerc*90F,0F,0F,1F);
-				tessellator.startDrawing(6);
+				renderer.startDrawing(6);
 				float yRot = random.nextFloat()*20F+5F+fade*10F;
 				float xzRot = random.nextFloat()*2F+1F+fade*2F;
-				tessellator.setColorRGBA_I(16777215,(int)(255F*(1F-fade)));
-				tessellator.addVertex(0D,0D,0D);
-				tessellator.setColorRGBA_I(16711935,0);
-				tessellator.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
-				tessellator.addVertex(0.866D*xzRot,yRot,-0.5F*xzRot);
-				tessellator.addVertex(0D,yRot,xzRot);
-				tessellator.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
-				tessellator.draw();
+				renderer.setColorRGBA_I(16777215,(int)(255F*(1F-fade)));
+				renderer.addVertex(0D,0D,0D);
+				renderer.setColorRGBA_I(16711935,0);
+				renderer.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
+				renderer.addVertex(0.866D*xzRot,yRot,-0.5F*xzRot);
+				renderer.addVertex(0D,yRot,xzRot);
+				renderer.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
+				Tessellator.getInstance().draw();
 			}
 
 			GL11.glPopMatrix();
