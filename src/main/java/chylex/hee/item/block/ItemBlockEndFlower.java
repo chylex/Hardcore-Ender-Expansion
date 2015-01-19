@@ -6,9 +6,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S00DeathFlowerPot;
 
@@ -16,11 +14,6 @@ public class ItemBlockEndFlower extends ItemBlock{
 	public ItemBlockEndFlower(Block block){
 		super(block);
 		setHasSubtypes(true);
-	}
-	
-	@Override
-	public IIcon getIconFromDamage(int damage){
-		return BlockList.death_flower.getIcon(2,damage);
 	}
 	
 	@Override

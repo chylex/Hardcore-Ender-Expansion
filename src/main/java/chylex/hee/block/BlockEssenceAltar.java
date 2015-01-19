@@ -3,24 +3,19 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.tileentity.TileEntityEssenceAltar;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.tileentity.TileEntityEssenceAltar;
 
 public class BlockEssenceAltar extends BlockContainer{
 	private static final float hitCenter1 = 0.09F, hitCenter2 = 0.9F, hitDist = 0.05F;
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconTop,iconSide,iconBottom;
 	
 	public BlockEssenceAltar(){
 		super(Material.iron);
@@ -81,29 +76,6 @@ public class BlockEssenceAltar extends BlockContainer{
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		for(EssenceType essenceType:EssenceType.values()){
 			list.add(new ItemStack(item,1,essenceType.id));
-		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		if (meta >= iconBottom.length)meta = 0;
-		return side == 0 ? iconBottom[meta] : (side == 1 ? iconTop[meta] : iconSide[meta]);
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		String s = getTextureName()+"_";
-		
-		iconTop = new IIcon[EssenceType.values().length];
-		iconSide = new IIcon[iconTop.length];
-		iconBottom = new IIcon[iconTop.length];
-		
-		for(int a = 0; a < iconTop.length; a++){
-			iconTop[a] = iconRegister.registerIcon(s+a+"_top");
-			iconSide[a] = iconRegister.registerIcon(s+a+"_side");
-			iconBottom[a] = iconRegister.registerIcon(s+a+"_bottom");
 		}
 	}
 }

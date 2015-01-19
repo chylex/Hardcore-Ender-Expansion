@@ -2,12 +2,10 @@ package chylex.hee.block;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,9 +17,6 @@ public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
 	};
 	
 	public static final byte metaInfested = 0, metaBurned = 1, metaEnchanted = 2;
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconTop, iconSide;
 	
 	public BlockEndstoneTerrain(){
 		super(Material.rock);
@@ -52,30 +47,10 @@ public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
 		}
 	}
 	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		if (meta >= types.length)meta = 0;
-		return side == 0 ? blockIcon : (side == 1 ? iconTop[meta] : iconSide[meta]);
-	}
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		for(int a = 0; a < types.length; a++)list.add(new ItemStack(item,1,a));
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		blockIcon = iconRegister.registerIcon("end_stone");
-		iconTop = new IIcon[types.length];
-		iconSide = new IIcon[types.length];
-		
-		for(int a = 0; a < types.length; a++){
-			iconTop[a] = iconRegister.registerIcon("hardcoreenderexpansion:endstone_ter_"+types[a]+"_top");
-			iconSide[a] = iconRegister.registerIcon("hardcoreenderexpansion:endstone_ter_"+types[a]+"_side");
-		}
 	}
 }

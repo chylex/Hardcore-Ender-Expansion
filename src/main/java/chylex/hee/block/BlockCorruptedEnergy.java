@@ -3,7 +3,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -136,10 +135,6 @@ public class BlockCorruptedEnergy extends Block{
 	public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid){
 		return false;
 	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){}
 	
 	@Override
 	@SideOnly(Side.CLIENT)

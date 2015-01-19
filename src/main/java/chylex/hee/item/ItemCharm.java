@@ -1,21 +1,16 @@
 package chylex.hee.item;
 import java.util.List;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import chylex.hee.mechanics.charms.CharmRecipe;
-import chylex.hee.mechanics.charms.CharmType;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.mechanics.charms.CharmRecipe;
+import chylex.hee.mechanics.charms.CharmType;
 
 public class ItemCharm extends Item{
 	private static final byte iconsBackAmount = 17, iconsForeAmount = 13;
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArrayBack, iconArrayFore;
 	
 	public ItemCharm(){
 		setHasSubtypes(true);
@@ -43,13 +38,6 @@ public class ItemCharm extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int damage, int pass){
-		CharmType type = CharmType.getFromDamage(damage).getLeft();
-		return pass == 0 ? iconArrayBack[type == null ? 0 : type.backIcon] : iconArrayFore[type == null ? 0 : type.foregroundIcon];
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
 	public boolean requiresMultipleRenderPasses(){
 		return true;
 	}
@@ -57,20 +45,5 @@ public class ItemCharm extends Item{
 	@Override
 	public int getRenderPasses(int metadata){
 		return 2;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerIcons(IIconRegister iconRegister){
-		iconArrayBack = new IIcon[iconsBackAmount];
-		iconArrayFore = new IIcon[iconsForeAmount];
-
-		for(int a = 0; a < iconsBackAmount; a++){
-			iconArrayBack[a] = iconRegister.registerIcon(iconString+"_back_"+a);
-		}
-		
-		for(int a = 0; a < iconsForeAmount; a++){
-			iconArrayFore[a] = iconRegister.registerIcon(iconString+"_fore_"+a);
-		}
 	}
 }

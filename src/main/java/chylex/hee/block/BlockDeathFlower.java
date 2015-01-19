@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -13,7 +12,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -26,11 +24,7 @@ public class BlockDeathFlower extends BlockFlower{
 		0, 1, 2, 3, -2, -1
 	};
 	
-	@SideOnly(Side.CLIENT)
-	private IIcon iconDeadFlower;
-	
-	public BlockDeathFlower(){
-	}
+	public BlockDeathFlower(){}
 	
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
@@ -181,21 +175,8 @@ public class BlockDeathFlower extends BlockFlower{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return meta == 15 ? iconDeadFlower : blockIcon;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		list.add(new ItemStack(item,1,0));
 		list.add(new ItemStack(item,1,15));
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		blockIcon = iconRegister.registerIcon(getTextureName());
-		iconDeadFlower = iconRegister.registerIcon(getTextureName()+"_dead");
 	}
 }

@@ -2,16 +2,11 @@ package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.item.ItemList;
 
 public class BlockStardustOre extends BlockOre{
@@ -27,9 +22,6 @@ public class BlockStardustOre extends BlockOre{
 			}
 		}
 	}
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
 	
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state){
@@ -51,28 +43,5 @@ public class BlockStardustOre extends BlockOre{
 	@Override
 	public int getExpDrop(IBlockAccess world, BlockPos pos, int fortune){
 		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom,1,6);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side){
-		int meta = world.getBlockMetadata(x,y,z);
-		if (meta == 0)return Blocks.end_stone.getIcon(world,x,y,z,side);
-		
-		return iconArray[iconIndexes[side][meta]];
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return iconArray[iconIndexes[side][meta]];
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		String s = getTextureName()+"_";
-		iconArray = new IIcon[iconAmount];
-		for(int a = 0; a < iconAmount; a++)iconArray[a] = iconRegister.registerIcon(s+(a+1));
 	}
 }

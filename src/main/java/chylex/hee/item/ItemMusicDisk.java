@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,7 +11,6 @@ import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -44,8 +42,6 @@ public class ItemMusicDisk extends ItemRecord{
 		return musicNames.get(MathUtil.clamp(damage,0,musicNames.size()-1));
 	}
 	
-	private IIcon[] iconArray;
-	
 	public ItemMusicDisk(){
 		super("");
 		setHasSubtypes(true);
@@ -65,12 +61,6 @@ public class ItemMusicDisk extends ItemRecord{
 		
 		return false;
 	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamage(int damage){
-		return iconArray[MathUtil.clamp(damage,0,iconArray.length-1)];
-	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -89,16 +79,6 @@ public class ItemMusicDisk extends ItemRecord{
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(int a = 0; a < musicNames.size(); a++){
 			list.add(new ItemStack(item,1,a));
-		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[musicNames.size()];
-
-		for(int index = 0; index < iconArray.length; index++){
-			iconArray[index] = iconRegister.registerIcon(getIconString()+"_"+(index+1));
 		}
 	}
 }

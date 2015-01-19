@@ -3,23 +3,17 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public class BlockPersegrit extends Block implements IBlockSubtypes{
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
-	
 	public BlockPersegrit(){
 		super(Material.cloth);
 	}
@@ -39,29 +33,11 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 		return getUnlocalizedName();
 	}
 	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return iconArray[MathUtil.clamp(meta,0,iconArray.length-1)];
-	}
-	
 	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		for(int a = 0; a < iconArray.length; a++)list.add(new ItemStack(item,1,a));
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[16];
-		iconArray[0] = iconRegister.registerIcon(textureName);
-		
-		String tex = textureName+"_"; // 1    2     3     4     5     6     7     8     9    10     11     12     13     14   15
-		String[] names = new String[]{ "h", "v", "hl", "hr", "vb", "vt", "tl", "tr", "bl", "br", "trb", "trl", "tbl", "rbl", "x" };
-		
-		for(int a = 1; a < 16; a++)iconArray[a] = iconRegister.registerIcon(tex+names[a-1]);
 	}
 	
 	public static int getConnectionMeta(LargeStructureWorld world, Random rand, int x, int y, int z){

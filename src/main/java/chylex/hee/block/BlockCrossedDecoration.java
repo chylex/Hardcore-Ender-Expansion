@@ -4,7 +4,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,7 +15,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
@@ -24,7 +22,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.proxy.ModCommonProxy;
 
 public class BlockCrossedDecoration extends BlockFlower implements IShearable, IBlockSubtypes{
 	private static final String[] decorTypes = new String[]{
@@ -34,10 +31,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	
 	public static final byte dataThornBush = 2, dataInfestedGrass = 3, dataInfestedFern = 4, dataInfestedTallgrass = 5,
 					   		 dataLilyFire = 6, dataVioletMossTall = 7, dataVioletMossModerate = 8, dataVioletMossShort = 9;
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
-	
+
 	public BlockCrossedDecoration(){
 		setBlockBounds(0.1F,0.0F,0.1F,0.9F,0.8F,0.9F);
 	}
@@ -109,33 +103,12 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 		}
 	}
 
-	@Override
-	public int getRenderType(){
-		return ModCommonProxy.renderIdCrossedDecoration;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return iconArray[meta < decorTypes.length ? meta : 0];
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		for(int a = 2; a < decorTypes.length; a++){
 			list.add(new ItemStack(item,1,a));
-		}
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[decorTypes.length];
-
-		for(int a = 2; a < decorTypes.length; ++a){
-			iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:"+decorTypes[a]);
 		}
 	}
 }

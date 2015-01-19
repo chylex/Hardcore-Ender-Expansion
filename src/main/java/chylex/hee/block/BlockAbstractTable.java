@@ -1,15 +1,11 @@
 package chylex.hee.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.system.savedata.WorldDataHandler;
@@ -17,9 +13,6 @@ import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.tileentity.TileEntityAbstractTable;
 
 public abstract class BlockAbstractTable extends BlockAbstractInventory{
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop, iconSide, iconBottom;
-	
 	public BlockAbstractTable(){
 		super(Material.rock);
 		setHardness(4F);
@@ -77,19 +70,5 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 	public int getComparatorInputOverride(World world, BlockPos pos){
 		TileEntity tile = world.getTileEntity(pos);
 		return tile == null || ((TileEntityAbstractTable)tile).isComparatorOn() ? 15 : 0;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public final IIcon getIcon(int side, int meta){
-		return side == 0 ? iconBottom : side == 1 ? iconTop : iconSide;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public final void registerBlockIcons(IIconRegister iconRegister){
-		iconTop = iconRegister.registerIcon("hardcoreenderexpansion:"+textureName+"_top");
-		iconSide = iconRegister.registerIcon("hardcoreenderexpansion:"+textureName+"_side");
-		iconBottom = iconRegister.registerIcon("hardcoreenderexpansion:table_bottom");
 	}
 }

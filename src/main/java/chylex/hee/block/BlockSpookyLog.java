@@ -6,15 +6,15 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobForestGhost;
 import chylex.hee.item.ItemList;
@@ -24,13 +24,8 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockSpookyLog extends Block{
-	@SideOnly(Side.CLIENT)
-	private IIcon iconFace,iconTop;
-
 	public BlockSpookyLog(){
 		super(Material.wood);
 		setTickRandomly(true);
@@ -223,19 +218,5 @@ public class BlockSpookyLog extends Block{
 		}
 		
 		return false;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return side == 0 || side == 1 ? iconTop : meta >= 1 && side-1 == meta ? iconFace : blockIcon;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		blockIcon = iconRegister.registerIcon("hardcoreenderexpansion:spooky_log_side");
-		iconFace = iconRegister.registerIcon("hardcoreenderexpansion:spooky_log_face");
-		iconTop = iconRegister.registerIcon("hardcoreenderexpansion:spooky_log_side");
 	}
 }

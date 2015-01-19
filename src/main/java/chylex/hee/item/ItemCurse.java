@@ -1,7 +1,6 @@
 package chylex.hee.item;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,21 +8,17 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemCurse extends Item{
-	@SideOnly(Side.CLIENT)
-	private IIcon icon1, icon2;
-	
 	public ItemCurse(){
 		setHasSubtypes(true);
 	}
@@ -106,12 +101,6 @@ public class ItemCurse extends Item{
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
 		return type == null ? 16777215 : type.getColor(pass);
 	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconFromDamageForRenderPass(int damage, int pass){
-		return pass == 0 ? icon1 : icon2;
-	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -122,11 +111,5 @@ public class ItemCurse extends Item{
 	@Override
 	public int getRenderPasses(int metadata){
 		return 2;
-	}
-	
-	@Override
-	public void registerIcons(IIconRegister iconRegister){
-		icon1 = iconRegister.registerIcon(iconString+"_1");
-		icon2 = iconRegister.registerIcon(iconString+"_2");
 	}
 }

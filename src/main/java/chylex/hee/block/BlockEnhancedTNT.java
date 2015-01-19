@@ -4,7 +4,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,22 +12,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEnhancedTNT extends BlockContainer{
-	@SideOnly(Side.CLIENT)
-	private IIcon iconTop;
-	@SideOnly(Side.CLIENT)
-	private IIcon iconBottom;
-
 	public BlockEnhancedTNT(){
 		super(Material.tnt);
 	}
@@ -139,19 +130,5 @@ public class BlockEnhancedTNT extends BlockContainer{
 		}
 		
 		return drops;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return side == 0 ? iconBottom : (side == 1 ? iconTop : blockIcon);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		blockIcon = iconRegister.registerIcon(getTextureName()+"_side");
-		iconTop = iconRegister.registerIcon(getTextureName()+"_top");
-		iconBottom = iconRegister.registerIcon(getTextureName()+"_bottom");
 	}
 }

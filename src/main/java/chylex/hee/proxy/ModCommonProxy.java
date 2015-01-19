@@ -6,7 +6,6 @@ import chylex.hee.system.ConfigHandler;
 public class ModCommonProxy{
 	public static boolean opMobs, hardcoreEnderbacon;
 	public static int achievementStartId;
-	public static int renderIdObsidianSpecial, renderIdFlowerPot, renderIdSpookyLeaves, renderIdCrossedDecoration, renderIdVoidChest, renderIdTransportBeacon;
 	
 	public void loadConfiguration(){
 		ConfigHandler.loadGeneral();

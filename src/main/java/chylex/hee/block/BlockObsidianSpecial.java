@@ -3,21 +3,16 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.proxy.ModCommonProxy;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.proxy.ModCommonProxy;
 
-public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
-	@SideOnly(Side.CLIENT)
-	private IIcon iconSmooth, iconPillar, iconPillarTop, iconChiseled, iconChiseledTop;
-	
+public class BlockObsidianSpecial extends Block implements IBlockSubtypes{	
 	/*
 	 * Metadata
 	 *   0: smooth
@@ -36,14 +31,6 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 		this.isGlowing = isGlowing;
 	}
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		if (meta == 1 || meta == 6)return side == 1 ? iconChiseledTop : iconChiseled;
-		else if (meta >= 2 && meta <= 4)return (meta == 2 && (side == 0 || side == 1)) || (meta == 3 && (side == 4 || side == 5)) || (meta == 4 && (side == 2 || side == 3)) ? iconPillarTop : iconPillar;
-		return iconSmooth;
-	}
-	
 	@Override
 	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta){
 		return (meta == 2) ? (side == 0 || side == 1 ? 2 : side == 2 || side == 3 ? 4 : side == 4 || side == 5 ? 3 : meta) : meta;
@@ -101,15 +88,5 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 		list.add(new ItemStack(item,1,0));
 		list.add(new ItemStack(item,1,1));
 		list.add(new ItemStack(item,1,2));
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		iconSmooth = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_smooth");
-		iconPillar = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_pillar");
-		iconPillarTop = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_pillar_top");
-		iconChiseled = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_chiseled");
-		iconChiseledTop = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_chiseled_top");
 	}
 }

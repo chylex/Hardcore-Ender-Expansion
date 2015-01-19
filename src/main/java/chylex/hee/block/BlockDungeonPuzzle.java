@@ -3,17 +3,17 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.material.MaterialDungeonPuzzle;
 import chylex.hee.entity.fx.FXType;
@@ -24,8 +24,6 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	private static final Material dungeonPuzzle = new MaterialDungeonPuzzle();
@@ -60,9 +58,6 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	public static final int getUnlit(int meta){
 		return (meta&1) != 0 ? meta-1 : meta;
 	}
-	
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
 	
 	public BlockDungeonPuzzle(){
 		super(dungeonPuzzle);
@@ -221,33 +216,10 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return meta >= 0 && meta < icons.length ? iconArray[icons[meta]] : iconArray[3];
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		for(byte meta:new byte[]{
 			metaWall, metaRock, metaCeiling, metaDisabled, metaTriggerUnlit, metaTriggerLit, metaChainedUnlit, metaChainedLit,
 			metaDistributorSpreadUnlit, metaDistributorSpreadLit, metaDistributorSquareUnlit, metaDistributorSquareLit,
 		})list.add(new ItemStack(item,1,meta));
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[11];
-		iconArray[0] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_wall");
-		iconArray[1] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_wall_rock");
-		iconArray[2] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_trigger_unlit");
-		iconArray[3] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_trigger_lit");
-		iconArray[4] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_chained_unlit");
-		iconArray[5] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_chained_lit");
-		iconArray[6] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_spread_unlit");
-		iconArray[7] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_spread_lit");
-		iconArray[8] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_square_unlit");
-		iconArray[9] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_distributor_square_lit");
-		iconArray[10] = iconRegister.registerIcon("hardcoreenderexpansion:dungeon_puzzle_disabled");
 	}
 }

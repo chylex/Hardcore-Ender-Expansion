@@ -2,7 +2,6 @@ package chylex.hee.item.block;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 
 public class ItemBlockWithSubtypes extends ItemBlock{
 	private final boolean isIBlockSubtypes;
@@ -13,11 +12,6 @@ public class ItemBlockWithSubtypes extends ItemBlock{
 		setUnlocalizedName(block.getUnlocalizedName());
 		
 		isIBlockSubtypes = block instanceof IBlockSubtypes;
-	}
-	
-	@Override
-	public IIcon getIconFromDamage(int damage){
-		return block.getIcon(0,damage);
 	}
 
 	@Override

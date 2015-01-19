@@ -1,6 +1,5 @@
 package chylex.hee.item;
 import java.util.List;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,7 +7,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,9 +14,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.projectile.EntityProjectilePotion;
 
 public abstract class ItemAbstractPotion extends Item{
-	@SideOnly(Side.CLIENT)
-	private IIcon iconBottleNormal, iconBottleSplash;
-	
 	public ItemAbstractPotion(){
 		setMaxStackSize(1);
 	}
@@ -82,22 +77,8 @@ public abstract class ItemAbstractPotion extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public final IIcon getIconFromDamageForRenderPass(int damage, int pass){
-		return pass == 0 ? itemIcon : damage == 1 ? iconBottleSplash : iconBottleNormal;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
 	public final void getSubItems(Item item, CreativeTabs tab, List list){
 		list.add(new ItemStack(item,1,0));
 		list.add(new ItemStack(item,1,1));
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public final void registerIcons(IIconRegister iconRegister){
-		super.registerIcons(iconRegister);
-		iconBottleNormal = iconRegister.registerIcon("potion_bottle_drinkable");
-		iconBottleSplash = iconRegister.registerIcon("potion_bottle_splash");
 	}
 }

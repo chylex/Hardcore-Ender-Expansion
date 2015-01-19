@@ -1,7 +1,6 @@
 package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySilverfish;
@@ -124,12 +123,5 @@ public class BlockEnderGoo extends BlockFluidClassic{
 			e.result = new ItemStack(ItemList.bucket_ender_goo);
 			e.setResult(Result.ALLOW);
 		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		super.registerBlockIcons(iconRegister);
-		fluid.setIcons(blockIcon);
 	}
 }

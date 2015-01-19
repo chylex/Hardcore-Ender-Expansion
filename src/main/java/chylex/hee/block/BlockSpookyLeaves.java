@@ -6,12 +6,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -89,12 +87,6 @@ public class BlockSpookyLeaves extends BlockLeaves{
 		}
 		return false;
 	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return blockIcon;
-	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -105,12 +97,6 @@ public class BlockSpookyLeaves extends BlockLeaves{
 	@Override
 	protected ItemStack createStackedBlock(IBlockState state){
 		return new ItemStack(this,1,0);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		blockIcon = iconRegister.registerIcon(getTextureName());
 	}
 	
 	@Override

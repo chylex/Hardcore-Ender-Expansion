@@ -3,22 +3,17 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockSphalerite extends Block implements IBlockSubtypes{
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
-	
 	public BlockSphalerite(){
 		super(Material.rock);
 	}
@@ -48,19 +43,5 @@ public class BlockSphalerite extends Block implements IBlockSubtypes{
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		list.add(new ItemStack(item,1,0));
 		list.add(new ItemStack(item,1,1));
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta){
-		return iconArray[MathUtil.clamp(meta,0,iconArray.length-1)];
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerBlockIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[2];
-		iconArray[0] = iconRegister.registerIcon("hardcoreenderexpansion:sphalerite");
-		iconArray[1] = iconRegister.registerIcon("hardcoreenderexpansion:sphalerite_stardust");
 	}
 }

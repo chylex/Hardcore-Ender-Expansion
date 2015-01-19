@@ -1,23 +1,17 @@
 package chylex.hee.item;
 import java.util.List;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.MathUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.proxy.ModCommonProxy;
 
 public class ItemEssence extends Item{
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
-	
 	public ItemEssence(){
 		setHasSubtypes(true);
 	}
@@ -47,23 +41,5 @@ public class ItemEssence extends Item{
 	@Override
 	public EnumRarity getRarity(ItemStack is){
 		return EnumRarity.uncommon;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public IIcon getIconFromDamage(int damage){
-		return iconArray[MathUtil.clamp(damage,0,iconArray.length-1)];
-	}
-	
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void registerIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[EssenceType.values().length-1];
-		int index = -1;
-		
-		for(EssenceType essenceType:EssenceType.values()){
-			if (essenceType == EssenceType.INVALID)continue;
-			iconArray[++index] = iconRegister.registerIcon("hardcoreenderexpansion:essence_"+essenceType.id);
-		}
 	}
 }

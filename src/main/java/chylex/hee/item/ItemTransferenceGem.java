@@ -1,6 +1,5 @@
 package chylex.hee.item;
 import java.util.List;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -23,9 +21,6 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 
 public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
-	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
-	
 	@Override
 	public boolean canAcceptEnergy(ItemStack is){
 		return is.getItemDamage() > 0;
@@ -114,25 +109,6 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack is){
 		return EnumRarity.uncommon;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(ItemStack is, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining){
-		return iconArray[getIcon(is)];
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIconIndex(ItemStack is){
-		return iconArray[getIcon(is)];
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[3];
-		for(int a = 0; a < iconArray.length; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:transference_gem_"+(a+1));
 	}
 	
 	private static int getIcon(ItemStack is){
