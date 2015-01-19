@@ -45,13 +45,13 @@ public class SilverfishDungeonSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(spawnRange*2,0.5D,spawnRange*2D);
+		return AxisAlignedBB.fromBounds(sx,sy,sz,sx+1,sy+1,sz+1).expand(spawnRange*2,0.5D,spawnRange*2D);
 	}
 
 	@Override
 	protected boolean checkSpawnerConditions(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return getSpawnerWorld().getEntitiesWithinAABB(EntitySilverfish.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+6,sz+1).expand(40D,30D,40D)).size() <= 35;
+		return getSpawnerWorld().getEntitiesWithinAABB(EntitySilverfish.class,AxisAlignedBB.fromBounds(sx,sy,sz,sx+1,sy+6,sz+1).expand(40D,30D,40D)).size() <= 35;
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float damage){
-		if (isEntityInvulnerable())return false;
+		if (isEntityInvulnerable(source))return false;
 		else if (!isDead && !worldObj.isRemote){
 			health = 0;
 			setDead();
@@ -45,7 +45,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 				if (tar instanceof EntityPlayer){
 					int limiter = 4+worldObj.getDifficulty().getDifficultyId(), topblock = DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ),MathUtil.floor(posY));
 					
-					for(EntityEnderman enderman:(List<EntityEnderman>)worldObj.getEntitiesWithinAABB(EntityEnderman.class,AxisAlignedBB.getBoundingBox(posX-10D,topblock-5D,posZ-10D,posX+10D,topblock+5D,posZ+10D))){
+					for(EntityEnderman enderman:(List<EntityEnderman>)worldObj.getEntitiesWithinAABB(EntityEnderman.class,AxisAlignedBB.fromBounds(posX-10D,topblock-5D,posZ-10D,posX+10D,topblock+5D,posZ+10D))){
 						if (enderman.getDistance(posX,topblock,posZ) < 20D){
 							enderman.setTarget(tar);
 							if (--limiter <= 0)break;

@@ -65,7 +65,7 @@ public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 			else if (worldObj.getClosestPlayerToEntity(this,1D) != null){
 				int iy = MathUtil.floor(posY);
 				
-				for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(minX,posY,minZ,maxX,posY+3D,maxZ))){
+				for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.fromBounds(minX,posY,minZ,maxX,posY+3D,maxZ))){
 					int ix = MathUtil.floor(player.posX), iz = MathUtil.floor(player.posZ);
 					
 					if (worldObj.getBlock(ix,iy,iz) == BlockList.dungeon_puzzle){

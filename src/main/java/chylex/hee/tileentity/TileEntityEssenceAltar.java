@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,7 +43,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	private ItemStack[] sockets = new ItemStack[4];
 	
 	private AltarActionHandler actionHandler;
-	private final Map<String,ItemUseCache> playerItemCache = new HashMap<>();
+	private final Map<UUID,ItemUseCache> playerItemCache = new HashMap<>();
 	
 	/*
 	 * GETTERS, LOADING & SAVING
@@ -170,8 +171,8 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	}
 	
 	private void addOrRenewCache(EntityPlayer player, ItemStack is){
-		ItemUseCache cache = playerItemCache.get(player.getCommandSenderName());
-		if (cache == null || is.getItem() != cache.item || is.getItemDamage() != cache.damage)playerItemCache.put(player.getCommandSenderName(),new ItemUseCache(is));
+		ItemUseCache cache = playerItemCache.get(player.getPersistentID());
+		if (cache == null || is.getItem() != cache.item || is.getItemDamage() != cache.damage)playerItemCache.put(player.getPersistentID(),new ItemUseCache(is));
 		else cache.renewTime();
 	}
 	
@@ -179,10 +180,10 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 		ItemStack is = player.inventory.getCurrentItem();
 		
 		if (is == null){
-			ItemUseCache cache = playerItemCache.get(player.getCommandSenderName());
+			ItemUseCache cache = playerItemCache.get(player.getPersistentID());
 			if (cache == null)return;
 			else if (cache.getElapsedTime() > 1500000000){
-				playerItemCache.remove(player.getCommandSenderName());
+				playerItemCache.remove(player.getPersistentID());
 				return;
 			}
 
@@ -201,7 +202,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 			}
 			
 			if (!found){
-				playerItemCache.remove(player.getCommandSenderName());
+				playerItemCache.remove(player.getPersistentID());
 				return;
 			}
 		}
@@ -301,7 +302,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox(){
-		return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord,xCoord+1,yCoord+3,zCoord+1);
+		return AxisAlignedBB.fromBounds(xCoord,yCoord,zCoord,xCoord+1,yCoord+3,zCoord+1);
 	}
 	
 	private static EntityItem createItem(TileEntity tile, ItemStack is){

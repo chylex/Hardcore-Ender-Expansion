@@ -70,21 +70,14 @@ import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
-import chylex.hee.render.block.RenderBlockCrossedDecoration;
-import chylex.hee.render.block.RenderBlockEndFlowerPot;
 import chylex.hee.render.block.RenderBlockEnhancedTNTPrimed;
 import chylex.hee.render.block.RenderBlockHomelandCache;
-import chylex.hee.render.block.RenderBlockObsidianSpecial;
-import chylex.hee.render.block.RenderBlockSpookyLeaves;
-import chylex.hee.render.block.RenderBlockTransportBeacon;
-import chylex.hee.render.block.RenderBlockVoidChest;
 import chylex.hee.render.entity.RenderBossDragon;
 import chylex.hee.render.entity.RenderBossEnderDemon;
 import chylex.hee.render.entity.RenderMiniBossEnderEye;
 import chylex.hee.render.entity.RenderMiniBossFireFiend;
 import chylex.hee.render.entity.RenderMobAngryEnderman;
 import chylex.hee.render.entity.RenderMobBabyEnderman;
-import chylex.hee.render.entity.RenderMobCorporealMirage;
 import chylex.hee.render.entity.RenderMobEnderman;
 import chylex.hee.render.entity.RenderMobHomelandEnderman;
 import chylex.hee.render.entity.RenderMobInfestedBat;
@@ -142,20 +135,6 @@ public class ModClientProxy extends ModCommonProxy{
 	public void registerRenderers(){
 		Stopwatch.time("ModClientProxy - renderers");
 		
-		renderIdObsidianSpecial = RenderingRegistry.getNextAvailableRenderId();
-		renderIdFlowerPot = RenderingRegistry.getNextAvailableRenderId();
-		renderIdSpookyLeaves = RenderingRegistry.getNextAvailableRenderId();
-		renderIdCrossedDecoration = RenderingRegistry.getNextAvailableRenderId();
-		renderIdVoidChest = RenderingRegistry.getNextAvailableRenderId();
-		renderIdTransportBeacon = RenderingRegistry.getNextAvailableRenderId();
-		
-		RenderingRegistry.registerBlockHandler(new RenderBlockObsidianSpecial());
-		RenderingRegistry.registerBlockHandler(new RenderBlockEndFlowerPot());
-		RenderingRegistry.registerBlockHandler(new RenderBlockSpookyLeaves());
-		RenderingRegistry.registerBlockHandler(new RenderBlockCrossedDecoration());
-		RenderingRegistry.registerBlockHandler(new RenderBlockVoidChest());
-		RenderingRegistry.registerBlockHandler(new RenderBlockTransportBeacon());
-		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEssenceAltar.class, new RenderTileEssenceAltar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndermanHead.class, new RenderTileEndermanHead());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCustomSpawner.class, new RenderTileCustomSpawner());
@@ -186,7 +165,6 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobFireGolem.class, new RenderTexturedMob(renderManager, new ModelFireGolem(), 0.3F, "fire_golem.png"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobScorchingLens.class, new RenderTexturedMob(renderManager, new ModelScorchingLens(), 0.3F, "scorching_lens.png"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobHauntedMiner.class, new RenderTexturedMob(renderManager, new ModelHauntedMiner(), 0.5F, "haunted_miner.png", 1.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobCorporealMirage.class, new RenderMobCorporealMirage(renderManager));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobEndermage.class, new RenderTexturedMob(renderManager, new ModelEndermage(), 0.3F, "endermage.png"));
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockEnderCrystal.class, new RenderEnderCrystal(renderManager));
@@ -200,12 +178,11 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileMinerShot.class, new RenderNothing(renderManager));
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileGolemFireball.class, new RenderFireball(renderManager, 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileDragonFireball.class, new RenderFireball(renderManager, 1F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCorporealMirageOrb.class, new RenderSnowball(renderManager, ItemList.corporeal_mirage_orb, renderItem));
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectilePotion.class, new RenderProjectilePotion(renderManager));
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileSpatialDash.class, new RenderNothing(renderManager));
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCorruptedEnergy.class, new RenderNothing(renderManager));
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileFiendFireball.class, new RenderProjectileFiendFireball(renderManager, 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCurse.class, new RenderProjectileCurse(renderManager));
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCurse.class, new RenderProjectileCurse(renderManager, renderItem));
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileExpBottleConsistent.class, new RenderSnowball(renderManager, ItemList.exp_bottle, renderItem));
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltSafe.class, new RenderLightningBolt(renderManager));

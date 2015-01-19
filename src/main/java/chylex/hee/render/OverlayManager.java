@@ -71,7 +71,7 @@ public class OverlayManager{
 					GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 					
 					GL11.glPushMatrix();
-					mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
+					mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
 					
 					for(ChunkCoordinates coord:coords){
 						double viewRot = 90F+Math.toDegrees(Math.atan2(mc.thePlayer.posX-coord.posX,mc.thePlayer.posZ-coord.posZ));
@@ -213,7 +213,7 @@ public class OverlayManager{
 	
 	@SubscribeEvent
 	public void onRenderBlockOutline(DrawBlockHighlightEvent e){
-		Block block = e.player.worldObj.getBlock(e.target.blockX,e.target.blockY,e.target.blockZ);
+		Block block = e.player.worldObj.getBlockState(e.target.getBlockPos()).getBlock();
 		
 		if (block == BlockList.soul_charm)e.setCanceled(true);
 		else if (block == BlockList.energy_cluster){

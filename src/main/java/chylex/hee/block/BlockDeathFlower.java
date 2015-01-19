@@ -42,7 +42,7 @@ public class BlockDeathFlower extends BlockFlower{
 			int meta = world.getBlockMetadata(x,y,z);
 			
 			if (meta > 3 && meta < 15){
-				List nearbyEndermen = world.getEntitiesWithinAABB(EntityMobAngryEnderman.class,AxisAlignedBB.getBoundingBox(x-8D,y-2D,z-8D,x+8D,y+2D,z+8D));
+				List nearbyEndermen = world.getEntitiesWithinAABB(EntityMobAngryEnderman.class,AxisAlignedBB.fromBounds(x-8D,y-2D,z-8D,x+8D,y+2D,z+8D));
 				if (nearbyEndermen != null && nearbyEndermen.size() > meta)return;
 				
 				for(int attempt = 0, spawned = 0; attempt < 30 && spawned < (meta/3)+rand.nextInt(meta/2); attempt++){
@@ -81,7 +81,7 @@ public class BlockDeathFlower extends BlockFlower{
 								else if (block == Blocks.cobblestone)setBlock(world,xx,yy,zz,Blocks.gravel);
 								else if (block == Blocks.sand)setBlock(world,xx,yy,zz,Blocks.soul_sand);
 								else if (block == Blocks.brick_block)setBlock(world,xx,yy,zz,Blocks.nether_brick);
-								else if (block == Blocks.fence)setBlock(world,xx,yy,zz,Blocks.nether_brick_fence);
+								else if (block == Blocks.oak_fence || block == Blocks.spruce_fence || block == Blocks.jungle_fence)setBlock(world,xx,yy,zz,Blocks.nether_brick_fence);
 								else if (block == Blocks.torch)setBlock(world,xx,yy,zz,Blocks.redstone_torch);
 								else if (block == Blocks.wool || block == Blocks.carpet || block == Blocks.stained_hardened_clay)setMeta(world,xx,yy,zz,15);
 								else if (block == Blocks.quartz_block)setMeta(world,xx,yy,zz,1);

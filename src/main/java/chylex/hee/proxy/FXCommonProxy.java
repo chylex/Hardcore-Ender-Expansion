@@ -43,7 +43,5 @@ public class FXCommonProxy{
 	public void instability(EntityItemInstabilityOrb orb){}
 	public void spatialDash(EntityProjectileSpatialDash spatialDash){}
 	public void spatialDashExplode(EntityProjectileSpatialDash spatialDash){}
-	public void mirageHurt(EntityMobCorporealMirage mirage){}
-	public void mirageDeath(EntityMobCorporealMirage mirage){}
 	public void corruptedEnergy(EntityProjectileCorruptedEnergy energy){}
 }

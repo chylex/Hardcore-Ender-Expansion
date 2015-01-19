@@ -86,7 +86,7 @@ public class EntityBlockHomelandCache extends Entity{
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (isEntityInvulnerable())return false;
+		if (isEntityInvulnerable(source))return false;
 		
 		if (!isDead){
 			setDead();

@@ -15,7 +15,7 @@ public class MapGenIsland extends MapGenScatteredFeatureCustom{
 	}
 
 	@Override
-	protected String getStructureName(){
+	public String getStructureName(){
 		return "hardcoreenderdragon_EndIsland";
 	}
 	

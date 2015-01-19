@@ -247,8 +247,8 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.enderDemon.name");
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.enderDemon.name");
 	}
 	
 	@Override

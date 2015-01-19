@@ -252,7 +252,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (isEntityInvulnerable() || source == DamageSource.inWall || source == DamageSource.drown || source == DamageSource.cactus || source.isFireDamage()||
+		if (isEntityInvulnerable(source) || source == DamageSource.inWall || source == DamageSource.drown || source == DamageSource.cactus || source.isFireDamage()||
 			source.isMagicDamage() || source.isProjectile())return false; // you need manly strength to penetrate through the obsidian armor; min iron sword
 		
 		if (isAsleep()){
@@ -375,8 +375,8 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return hasCustomNameTag()?getCustomNameTag():StatCollector.translateToLocal("entity.enderEye.name");
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.enderEye.name");
 	}
 	
 	@Override

@@ -22,6 +22,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.material.MaterialEnderGoo;
 import chylex.hee.item.ItemList;
+import chylex.hee.system.util.BlockPosM;
 
 public class BlockEnderGoo extends BlockFluidClassic{
 	public static boolean shouldBattleWater = true;
@@ -116,8 +117,10 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	
 	@SubscribeEvent
 	public void onBucketFill(FillBucketEvent e){
-		if (e.world.getBlock(e.target.blockX,e.target.blockY,e.target.blockZ) == this){
-			e.world.setBlockToAir(e.target.blockX,e.target.blockY,e.target.blockZ);
+		BlockPosM pos = new BlockPosM(e.target.getBlockPos());
+		
+		if (pos.getBlock(e.world) == this){
+			pos.setToAir(e.world);
 			e.result = new ItemStack(ItemList.bucket_ender_goo);
 			e.setResult(Result.ALLOW);
 		}

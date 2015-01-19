@@ -60,7 +60,7 @@ public class RenderProjectileFiendFireball extends Render{
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
-		return TextureMap.locationItemsTexture;
+		return TextureMap.locationBlocksTexture;
 	}
 	
 	private double getX(EntityProjectileFiendFireball fireball, float partialTickTime){

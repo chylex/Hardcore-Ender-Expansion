@@ -27,7 +27,7 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return ModCommonProxy.hardcoreEnderbacon ? StatCollector.translateToLocal("entity.enderman.bacon.name") : super.getCommandSenderName();
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : (ModCommonProxy.hardcoreEnderbacon ? StatCollector.translateToLocal("entity.enderman.bacon.name") : super.getName());
 	}
 }

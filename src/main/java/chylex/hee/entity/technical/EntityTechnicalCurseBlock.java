@@ -8,14 +8,15 @@ import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements ICurseCaller{
 	private UUID owner;
@@ -33,9 +34,9 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 		super(world);
 	}
 	
-	public EntityTechnicalCurseBlock(World world, int x, int y, int z, UUID ownerID, CurseType type, boolean eternal){
+	public EntityTechnicalCurseBlock(World world, BlockPosM pos, UUID ownerID, CurseType type, boolean eternal){
 		super(world);
-		setPosition(x+0.5D,y,z+0.5D);
+		setPosition(pos.x+0.5D,pos.y,pos.z+0.5D);
 		this.owner = ownerID;
 		this.curseType = type;
 		this.eternal = eternal;

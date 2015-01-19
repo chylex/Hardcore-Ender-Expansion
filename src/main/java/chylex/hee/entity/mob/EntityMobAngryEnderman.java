@@ -205,13 +205,11 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float damage){
-		if (isEntityInvulnerable()){
-			return false;
-		}
+		if (isEntityInvulnerable(source))return false;
 		else{
 			setScreaming(true);
 			
-			if (source instanceof EntityDamageSourceIndirect && entityToAttack == null){
+			if (source instanceof EntityDamageSourceIndirect && getAttackTarget() == null){
 				for(int attempt = 0; attempt < 64; ++attempt){
 					if (teleportRandomly())return true;
 				}
@@ -268,7 +266,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.angryEnderman.name"));
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.angryEnderman.name"));
 	}
 }

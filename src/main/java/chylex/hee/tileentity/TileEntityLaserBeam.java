@@ -22,7 +22,7 @@ public class TileEntityLaserBeam extends TileEntity{
 			worldObj.setBlockToAir(xCoord,yCoord,zCoord);
 			double x = xCoord+0.5D, z = zCoord+0.5D;
 			
-			for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x-1.5D,yCoord,z-1.5D,x+1.5D,yCoord+1D,z+1.5D))){
+			for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.fromBounds(x-1.5D,yCoord,z-1.5D,x+1.5D,yCoord+1D,z+1.5D))){
 				player.hurtResistantTime = 0;
 				player.attackEntityFrom(DamageSource.magic,ModCommonProxy.opMobs ? 5F : 3F);
 				player.hurtResistantTime = 0;

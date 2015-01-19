@@ -127,7 +127,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.endermage.name"));
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.endermage.name"));
 	}
 }

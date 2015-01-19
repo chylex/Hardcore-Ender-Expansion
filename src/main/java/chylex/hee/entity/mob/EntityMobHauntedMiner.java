@@ -37,7 +37,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	private static final byte ATTACK_TIMER = 80;
 	private static final byte ATTACK_NONE = 0, ATTACK_PROJECTILES = 1, ATTACK_LAVA = 2, ATTACK_BLAST_WAVE = 3;
 	
-	private AxisAlignedBB bottomBB = AxisAlignedBB.getBoundingBox(0D,0D,0D,0D,0D,0D);
+	private AxisAlignedBB bottomBB = AxisAlignedBB.fromBounds(0D,0D,0D,0D,0D,0D);
 	private EntityLivingBase target;
 	private double targetX, targetY, targetZ;
 	private byte wanderResetTimer = -120, nextAttackTimer = ATTACK_TIMER, currentAttack = ATTACK_NONE, currentAttackTime;
@@ -397,7 +397,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.hauntedMiner.name");
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.hauntedMiner.name");
 	}
 }

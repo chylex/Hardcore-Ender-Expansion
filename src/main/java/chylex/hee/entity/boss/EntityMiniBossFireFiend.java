@@ -303,8 +303,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal("entity.fireFiend.name");
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.fireFiend.name");
 	}
 	
 	@Override

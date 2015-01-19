@@ -45,7 +45,7 @@ public class MapGenTower extends MapGenScatteredFeatureCustom{
 	}
 
 	@Override
-	protected String getStructureName(){
+	public String getStructureName(){
 		return "hardcoreenderdragon_EndTower";
 	}
 	

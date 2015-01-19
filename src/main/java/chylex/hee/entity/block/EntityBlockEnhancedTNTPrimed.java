@@ -222,7 +222,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 			int minY = MathHelper.floor_double(explosionY-explosionSize-1D), maxY = MathHelper.floor_double(explosionY+explosionSize+1D);
 			int minZ = MathHelper.floor_double(explosionZ-explosionSize-1D), maxZ = MathHelper.floor_double(explosionZ+explosionSize+1D);
 			
-			List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(exploder,AxisAlignedBB.getBoundingBox(minX,minY,minZ,maxX,maxY,maxZ));
+			List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(exploder,AxisAlignedBB.fromBounds(minX,minY,minZ,maxX,maxY,maxZ));
 			Vec3 locationVec = new Vec3(explosionX,explosionY,explosionZ);
 
 			for(int a = 0; a < entities.size(); ++a){

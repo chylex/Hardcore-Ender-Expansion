@@ -189,7 +189,7 @@ public class EntityMobFireGolem extends EntityMob{
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.fireGolem.name");
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.fireGolem.name");
 	}
 }

@@ -63,7 +63,7 @@ public class HeeDebugCommand extends HeeCommand{
 			boolean found = false;
 			
 			for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
-				if (player.getCommandSenderName().equalsIgnoreCase(args[1])){
+				if (player.getName().equalsIgnoreCase(args[1])){
 					dragon.trySetTarget(player);
 					found = true;
 					break;

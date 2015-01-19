@@ -42,7 +42,7 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	
 	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
-		return AxisAlignedBB.getBoundingBox(getSpawnerX(),minY,getSpawnerZ(),getSpawnerX()+1,maxY,getSpawnerZ()+1).expand(spawnRange*2D,0.5D,spawnRange*2D);
+		return AxisAlignedBB.fromBounds(getSpawnerX(),minY,getSpawnerZ(),getSpawnerX()+1,maxY,getSpawnerZ()+1).expand(spawnRange*2D,0.5D,spawnRange*2D);
 	}
 	
 	@Override

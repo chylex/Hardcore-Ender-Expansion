@@ -19,6 +19,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityProjectileSpatialDash extends EntityThrowable{
@@ -111,18 +112,10 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 				if (player.playerNetServerHandler.getNetworkManager().isChannelOpen() && player.worldObj == worldObj){
 					if (player.isRiding())player.mountEntity((Entity)null);
 					
-					int x,y,z;
+					BlockPosM pos;
 					
-					if (mop.typeOfHit == MovingObjectType.BLOCK){
-						x = mop.blockX;
-						y = mop.blockY;
-						z = mop.blockZ;
-					}
-					else if (mop.typeOfHit == MovingObjectType.ENTITY){
-						x = MathUtil.floor(posX);
-						y = MathUtil.floor(posY);
-						z = MathUtil.floor(posZ);
-					}
+					if (mop.typeOfHit == MovingObjectType.BLOCK)pos = new BlockPosM(mop.getBlockPos());
+					else if (mop.typeOfHit == MovingObjectType.ENTITY)pos = new BlockPosM(mop.entityHit);
 					else{
 						setDead();
 						return;

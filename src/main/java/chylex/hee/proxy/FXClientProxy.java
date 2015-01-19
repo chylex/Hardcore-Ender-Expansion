@@ -282,20 +282,6 @@ public class FXClientProxy extends FXCommonProxy{
 	}
 	
 	@Override
-	public void mirageHurt(EntityMobCorporealMirage mirage){
-		Random rand = mirage.worldObj.rand;
-		double realY = mirage.posY+MathHelper.cos((float)mirage.angle)*0.15D;
-		spawn(new EntitySoulCharmFX(mirage.worldObj,mirage.posX+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.2D,realY-0.1D+rand.nextDouble()*mirage.height*1.1D,mirage.posZ+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.2D,rand.nextFloat()*0.04D));
-	}
-	
-	@Override
-	public void mirageDeath(EntityMobCorporealMirage mirage){
-		Random rand = mirage.worldObj.rand;
-		double realY = mirage.posY+MathHelper.cos((float)mirage.angle)*0.15D;
-		spawn(new EntitySoulCharmFX(mirage.worldObj,mirage.posX+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.8D,realY-0.1D+rand.nextDouble()*mirage.height*1.1D,mirage.posZ+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.8D,rand.nextFloat()*0.05D));
-	}
-	
-	@Override
 	public void corruptedEnergy(EntityProjectileCorruptedEnergy energy){
 		Random rand = energy.worldObj.rand;
 		double motX = (rand.nextDouble()-rand.nextDouble())*0.2D, motY = (rand.nextDouble()-rand.nextDouble())*0.2D, motZ = (rand.nextDouble()-rand.nextDouble())*0.2D;

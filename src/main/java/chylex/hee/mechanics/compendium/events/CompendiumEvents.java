@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
@@ -26,6 +27,7 @@ import chylex.hee.mechanics.misc.PlayerDataHandler.IExtendedPropertyInitializer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -71,10 +73,11 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 		Vec3 lookVec = player.getLookVec();
 		
 		MovingObjectPosition mopBlock = player.worldObj.rayTraceBlocks(posVec.addVector(0D,0D,0D),posVec.addVector(lookVec.xCoord*10D,lookVec.yCoord*10D,lookVec.zCoord*10D),true);
-		double distBlock = mopBlock != null && mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlock.blockX+0.5D-posVec.xCoord,mopBlock.blockY+0.5D-posVec.yCoord,mopBlock.blockZ+0.5D-posVec.zCoord) : Double.MAX_VALUE;
+		BlockPos mopBlockPos = mopBlock.getBlockPos();
+		double distBlock = mopBlock != null && mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlockPos.getX()+0.5D-posVec.xCoord,mopBlockPos.getY()+0.5D-posVec.yCoord,mopBlockPos.getZ()+0.5D-posVec.zCoord) : Double.MAX_VALUE;
 		
 		double bbX = posVec.xCoord+lookVec.xCoord*5D, bbY = posVec.yCoord+lookVec.yCoord*5D, bbZ = posVec.zCoord+lookVec.zCoord*5D;
-		List<Entity> list = player.worldObj.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.getBoundingBox(bbX-6D,bbY-6D,bbZ-6D,bbX+6D,bbY+6D,bbZ+6D));
+		List<Entity> list = player.worldObj.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.fromBounds(bbX-6D,bbY-6D,bbZ-6D,bbX+6D,bbY+6D,bbZ+6D));
 		Vec3 interceptVec = posVec.addVector(lookVec.xCoord*10D,lookVec.yCoord*10,lookVec.zCoord*10D);
 		Entity tracedEntity = null;
 		double distEntity = Double.MAX_VALUE;

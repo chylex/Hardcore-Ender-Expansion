@@ -74,7 +74,7 @@ public class RenderBossDragon extends RenderLiving{
 
 	public void renderDragon(EntityBossDragon dragon, double x, double y, double z, float yaw, float partialTickTime){
 		BossStatus.setBossStatus(dragon,false);
-		BossStatus.bossName = (dragon.isAngry() ? EnumChatFormatting.LIGHT_PURPLE : "")+I18n.format(dragon.getCommandSenderName());
+		BossStatus.bossName = (dragon.isAngry() ? EnumChatFormatting.LIGHT_PURPLE : "")+I18n.format(dragon.getName());
 		BossType.update(dragon.isAngry() ? BossType.DRAGON_ANGRY : BossType.DRAGON_CALM);
 		super.doRender(dragon,x,y,z,yaw,partialTickTime);
 

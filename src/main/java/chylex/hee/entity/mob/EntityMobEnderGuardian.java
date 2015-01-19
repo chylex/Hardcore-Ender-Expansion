@@ -154,7 +154,7 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.enderGuardian.name"));
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.enderGuardian.name"));
 	}
 }

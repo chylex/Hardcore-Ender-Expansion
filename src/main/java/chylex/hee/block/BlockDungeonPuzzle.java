@@ -108,7 +108,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	}
 	
 	public void checkWinConditions(World world, int x, int y, int z){
-		if (world.getEntitiesWithinAABB(EntityTechnicalPuzzleChain.class,AxisAlignedBB.getBoundingBox(x+0.5D-maxDungeonSize,y,z+0.5D-maxDungeonSize,x+0.5D+maxDungeonSize,y+1D,z+0.5D+maxDungeonSize)).size() == 1){
+		if (world.getEntitiesWithinAABB(EntityTechnicalPuzzleChain.class,AxisAlignedBB.fromBounds(x+0.5D-maxDungeonSize,y,z+0.5D-maxDungeonSize,x+0.5D+maxDungeonSize,y+1D,z+0.5D+maxDungeonSize)).size() == 1){
 			int minX = x, minZ = z, maxX = x, maxZ = z, cnt = 0;
 			boolean isFinished = true;
 			

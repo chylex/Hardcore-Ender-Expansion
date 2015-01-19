@@ -76,7 +76,7 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 	}
 	
 	@Override
-	public boolean isEntityInvulnerable(){
+	public boolean isEntityInvulnerable(DamageSource source){
 		return true;
 	}
 }

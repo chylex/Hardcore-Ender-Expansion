@@ -74,7 +74,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		super.updateCore(world,x,y,z,meta);
 		
 		if (meta == HOMELAND.id && world.rand.nextInt(40) == 0 && world.getDifficulty() != EnumDifficulty.PEACEFUL){
-			AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x-ComponentIsland.halfSize,10,z-ComponentIsland.halfSize,x+ComponentIsland.halfSize,128,z+ComponentIsland.halfSize);
+			AxisAlignedBB aabb = AxisAlignedBB.fromBounds(x-ComponentIsland.halfSize,10,z-ComponentIsland.halfSize,x+ComponentIsland.halfSize,128,z+ComponentIsland.halfSize);
 			
 			List<EntityMobHomelandEnderman> all = world.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,aabb);
 			if (all.size() > 15+world.rand.nextInt(50))return;

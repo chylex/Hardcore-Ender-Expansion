@@ -31,6 +31,7 @@ import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
+import chylex.hee.system.util.BlockPosM;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -118,15 +119,15 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world,player,true);
 		
 		if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
-			int x = mop.blockX,y = mop.blockY,z = mop.blockZ;
+			BlockPosM pos = new BlockPosM(mop.getBlockPos());
+			
+			if (!player.canPlayerEdit(pos,mop.sideHit,is))return is;
 
-			if (!world.canMineBlock(player,x,y,z) || !player.canPlayerEdit(x,y,z,mop.sideHit,is))return is;
-
-			if (world.getBlock(x,y,z).getMaterial() == Material.water){
+			if (pos.getBlockMaterial(world) == Material.water){
 				EggData egg = getEggData(is);
+				
 				if (egg != null){
-					egg.spawnMob(world,x,y,z,is);
-					
+					egg.spawnMob(world,mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord,is);
 					if (!player.capabilities.isCreativeMode)--is.stackSize;
 				}
 			}
@@ -175,7 +176,7 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 			e.setLocationAndAngles(x,y,z,MathHelper.wrapAngleTo180_float(itemRand.nextFloat()*360F),0F);
 			e.rotationYawHead = e.rotationYaw;
 			e.renderYawOffset = e.rotationYaw;
-			e.onSpawnWithEgg((IEntityLivingData)null);
+			e.onSpawnFirstTime(world.getDifficultyForLocation(new BlockPosM(x,y,z)),null);
 			world.spawnEntityInWorld(e);
 			e.playLivingSound();
 			

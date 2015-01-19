@@ -4,6 +4,7 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
@@ -58,7 +59,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 	public void moveEntityWithHeading(float strafe, float forward){}
 	
 	@Override
-	public boolean isEntityInvulnerable(){
+	public boolean isEntityInvulnerable(DamageSource source){
 		return true;
 	}
 	
@@ -71,7 +72,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 	public void despawnEntity(){}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.forestGhost.name");
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.forestGhost.name");
 	}
 }

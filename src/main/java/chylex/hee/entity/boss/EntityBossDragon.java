@@ -743,8 +743,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.dragon.name"));
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.dragon.name"));
 	}
 
 	@Override

@@ -30,13 +30,13 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(spawnRange*2D,2.5D,spawnRange*2D);
+		return AxisAlignedBB.fromBounds(sx,sy,sz,sx+1,sy+1,sz+1).expand(spawnRange*2D,2.5D,spawnRange*2D);
 	}
 
 	@Override
 	protected boolean checkSpawnerConditions(){
 		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
-		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobLouse.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(10D,10D,10D)).size() <= 9;
+		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobLouse.class,AxisAlignedBB.fromBounds(sx,sy,sz,sx+1,sy+1,sz+1).expand(10D,10D,10D)).size() <= 9;
 	}
 
 	@Override

@@ -642,7 +642,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (isEntityInvulnerable())return false;
+		if (isEntityInvulnerable(source))return false;
 		
 		attackedRecentlyTimer = 120;
 		
@@ -803,8 +803,8 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.homelandEnderman.name"));
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.homelandEnderman.name"));
 	}
 	
 	@Override

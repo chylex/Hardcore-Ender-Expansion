@@ -15,6 +15,7 @@ import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
+import chylex.hee.system.util.ItemUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -37,14 +38,13 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack is){
-		return EnumRarity.uncommon;
+		return EnumRarity.UNCOMMON;
 	}
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity owner, int slot, boolean isHeld){
 		if (!world.isRemote){
-			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-			byte timer = is.stackTagCompound.getByte("HEE_relicTimer");
+			byte timer = ItemUtil.getNBT(is,true).getByte("HEE_relicTimer");
 			
 			if (++timer > 8){
 				timer = 0;
@@ -55,7 +55,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 						cls = mob.getClass();
 						
 						if (cls == EntityEnderman.class || cls == EntityMobAngryEnderman.class){
-							if (mob.getEntityToAttack() != owner)continue;
+							if (mob.getAttackTarget() != owner)continue;
 							
 							EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(world,mob.posX,mob.posY,mob.posZ,null,false);
 							world.addWeatherEffect(bolt);
@@ -70,7 +70,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 								if (!otherEntities.isEmpty()){
 									EntityLiving target = otherEntities.get(world.rand.nextInt(otherEntities.size()));
 									if (!paralyzed.canEntityBeSeen(target))target = null;
-									paralyzed.setTarget(target);
+									paralyzed.setAttackTarget(target);
 								}
 							}
 							
@@ -85,7 +85,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 				}
 			}
 			
-			is.stackTagCompound.setByte("HEE_relicTimer",timer);
+			ItemUtil.getNBT(is,true).setByte("HEE_relicTimer",timer);
 		}
 	}
 }

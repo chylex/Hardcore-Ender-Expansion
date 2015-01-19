@@ -92,7 +92,7 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 	}
 	
 	@Override
-	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.brainlessEnderman.name"));
+	public String getName(){
+		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.brainlessEnderman.name"));
 	}
 }

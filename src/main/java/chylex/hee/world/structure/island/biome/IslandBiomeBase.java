@@ -124,7 +124,7 @@ public abstract class IslandBiomeBase{
 			
 			if (world.getDifficulty() == EnumDifficulty.PEACEFUL && entry.isMob)return;
 			
-			int currentAmount = world.getEntitiesWithinAABB(entry.getMobClass(),AxisAlignedBB.getBoundingBox(x-halfsz,y+10,z-halfsz,x+halfsz,y+55,z+halfsz)).size();
+			int currentAmount = world.getEntitiesWithinAABB(entry.getMobClass(),AxisAlignedBB.fromBounds(x-halfsz,y+10,z-halfsz,x+halfsz,y+55,z+halfsz)).size();
 			if (currentAmount >= entry.getMaxAmount() || world.rand.nextFloat()*1.1F < (float)currentAmount/entry.getMaxAmount())return;
 			
 			int playerAmount = world.playerEntities.size();
@@ -177,7 +177,7 @@ public abstract class IslandBiomeBase{
 		if (variation != null && interactions.containsKey(variation.id) && world.rand.nextInt(5) == 0){
 			for(BiomeInteraction interaction:interactions.get(variation.id)){
 				if (world.rand.nextInt(interaction.getRNG()) == 0){
-					List<EntityTechnicalBiomeInteraction> list = world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.getBoundingBox(x-1,y-1,z-1,x+2,y+2,z+2));
+					List<EntityTechnicalBiomeInteraction> list = world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.fromBounds(x-1,y-1,z-1,x+2,y+2,z+2));
 					byte instances = 0;
 					
 					for(EntityTechnicalBiomeInteraction interactionEntity:list){
