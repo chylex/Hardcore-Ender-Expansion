@@ -1,5 +1,7 @@
 package chylex.hee.item.block;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
@@ -23,9 +25,13 @@ public class ItemBlockEndFlower extends ItemBlock{
 	
 	@Override
 	public boolean onItemUseFirst(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
-		if (world.isRemote && world.getBlock(x,y,z) == Blocks.flower_pot && world.getBlockMetadata(x,y,z) == 0){
-			PacketPipeline.sendToServer(new S00DeathFlowerPot(pos));
-			return true;
+		if (world.isRemote){
+			IBlockState state = world.getBlockState(pos);
+			
+			if (state.getBlock() == Blocks.flower_pot && ((BlockFlowerPot.EnumFlowerType)state.getBlock().getActualState(state,world,pos).getValue(BlockFlowerPot.CONTENTS)) == BlockFlowerPot.EnumFlowerType.EMPTY){
+				PacketPipeline.sendToServer(new S00DeathFlowerPot(pos));
+				return true;
+			}
 		}
 		
 		return super.onItemUseFirst(is,player,world,pos,side,hitX,hitY,hitZ);

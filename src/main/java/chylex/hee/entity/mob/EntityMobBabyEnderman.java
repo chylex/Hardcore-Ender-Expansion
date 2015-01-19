@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -211,7 +212,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 				EntityEnderman orig = endermanList.get(a);
 				EntityMobAngryEnderman angryEnderman = new EntityMobAngryEnderman(worldObj,orig.posX,orig.posY,orig.posZ);
 				angryEnderman.copyLocationAndAnglesFrom(orig);
-				angryEnderman.setAttackTarget(source.getEntity());
+				angryEnderman.setAttackTarget((EntityLivingBase)source.getEntity());
 				
 				orig.setDead();
 				worldObj.spawnEntityInWorld(angryEnderman);
@@ -220,8 +221,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 			isFamilyChosen = isScared = true;
 		}
 		
-		entityToAttack = null;
-		
+		setAttackTarget(null);
 		return flag;
 	}
 	

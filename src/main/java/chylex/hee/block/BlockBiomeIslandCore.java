@@ -11,7 +11,7 @@ import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 
-public class BlockBiomeIslandCore extends BlockAbstract{
+public class BlockBiomeIslandCore extends BlockAbstractStateEnum{
 	public static enum Biome{ INFESTED_FOREST_DEEP, BURNING_MOUNTAINS_SCORCHING, ENCHANTED_ISLAND_HOMELAND, INFESTED_FOREST_RAVAGED, INFESTED_FOREST_RUINS, BURNING_MOUNTAINS_MINE, ENCHANTED_ISLAND_LABORATORY }
 	public static final PropertyEnumSimple BIOME = PropertyEnumSimple.create("biome",Biome.class);
 	

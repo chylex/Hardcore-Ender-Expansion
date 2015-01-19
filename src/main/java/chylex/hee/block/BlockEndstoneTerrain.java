@@ -8,7 +8,7 @@ import net.minecraft.world.IBlockAccess;
 import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 
-public class BlockEndstoneTerrain extends BlockAbstract implements IBlockSubtypes{
+public class BlockEndstoneTerrain extends BlockAbstractStateEnum implements IBlockSubtypes{
 	public static enum Variant{ INFESTED, BURNED, ENCHANTED }
 	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
 	

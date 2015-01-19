@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -38,7 +39,7 @@ public class BlockSpookyLog extends Block{
 	}
 
 	@Override
-	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
+	public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune){
 		super.dropBlockAsItemWithChance(world,x,y,z,meta,chance,fortune);
 		
 		if (meta > 0 && !world.isRemote && world.rand.nextInt(4) == 0){
@@ -92,7 +93,7 @@ public class BlockSpookyLog extends Block{
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
 		if (world.isRemote || world.getBlockMetadata(x,y,z) == 0)return;
 		
 		if (rand.nextInt(4) == 0 && !isBlockSeen(world,x,y,z)){

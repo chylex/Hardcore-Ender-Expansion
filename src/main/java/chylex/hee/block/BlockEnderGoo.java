@@ -45,13 +45,13 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	}
 	
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
 		if (!world.blockExists(x-1,y,z-1) || !world.blockExists(x+1,y,z+1)){
 			world.scheduleUpdate(pos,this,tickRate(world));
 			return;
 		}
 		
-		super.updateTick(world,x,y,z,rand);
+		super.updateTick(world,pos,state,rand);
 		
 		if (shouldBattleWater){
 			int meta = world.getBlockMetadata(x,y,z);

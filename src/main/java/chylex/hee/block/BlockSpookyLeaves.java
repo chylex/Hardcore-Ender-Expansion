@@ -28,7 +28,7 @@ public class BlockSpookyLeaves extends BlockLeaves{
 	}
 	
 	@Override
-	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
+	public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune){
 		if (!world.isRemote){
 			PacketPipeline.sendToAllAround(world.provider.getDimensionId(),x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LEAVES_DECAY,x,y,z));
 		}

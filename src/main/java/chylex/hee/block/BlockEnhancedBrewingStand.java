@@ -5,6 +5,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.item.ItemList;
@@ -17,7 +19,7 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
 		player.openGui(HardcoreEnderExpansion.instance,0,world,x,y,z);
 		return true;
 	}
@@ -28,7 +30,7 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	}
 	
 	@Override
-	public Item getItem(World world, int x, int y, int z){
+	public Item getItem(World world, BlockPos pos){
 		return ItemList.enhanced_brewing_stand;
 	}
 }

@@ -11,11 +11,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-abstract class BlockAbstract extends Block{
+abstract class BlockAbstractStateEnum extends Block{
 	private IProperty metaProp;
 	private Enum[] metaStates;
 	
-	public BlockAbstract(Material materialIn){
+	public BlockAbstractStateEnum(Material materialIn){
 		super(materialIn);
 	}
 	

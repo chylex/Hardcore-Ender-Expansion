@@ -21,7 +21,7 @@ public class BlockObsidianEnd extends BlockStone{
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
 		tryToFall(world,x,y,z);
 	}
 

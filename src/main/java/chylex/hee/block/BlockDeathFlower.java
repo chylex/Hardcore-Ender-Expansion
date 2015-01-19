@@ -2,8 +2,12 @@ package chylex.hee.block;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFlower;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,22 +25,44 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.item.ItemList;
 
-public class BlockDeathFlower extends BlockFlower{
-	private static int[] yOffsets = new int[]{
-		0, 1, 2, 3, -2, -1
-	};
+public class BlockDeathFlower extends BlockBush{
+	public static final PropertyInteger DECAY = PropertyInteger.create("decay",0,15);
 	
-	public BlockDeathFlower(){}
+	private static int[] yOffsets = new int[]{ 0, 1, 2, 3, -2, -1 };
+	
+	public BlockDeathFlower(){
+		setDefaultState(blockState.getBaseState().withProperty(DECAY,0));
+	}
+	
+	@Override
+	protected BlockState createBlockState(){
+		return new BlockState(this,new IProperty[]{ DECAY });
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta){
+		return getDefaultState().withProperty(DECAY,meta);
+	}
+	
+	@Override
+	public int getMetaFromState(IBlockState state){
+		return (int)state.getValue(DECAY);
+	}
+	
+	@Override
+	public int damageDropped(IBlockState state){
+		return getMetaFromState(state);
+	}
 	
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
 		super.updateTick(world,pos,state,rand);
-		updateFlowerLogic(world,x,y,z,rand);
+		updateFlowerLogic(world,pos,rand);
 	}
 	
-	public void updateFlowerLogic(World world, int x, int y, int z, Random rand){
+	public void updateFlowerLogic(World world, BlockPos pos, Random rand){
 		if (world.provider.getDimensionId() != 1 && rand.nextInt(5) <= 1){
-			int meta = world.getBlockMetadata(x,y,z);
+			int meta = getMetaFromState(world.getBlockState(pos));
 			
 			if (meta > 3 && meta < 15){
 				List nearbyEndermen = world.getEntitiesWithinAABB(EntityMobAngryEnderman.class,AxisAlignedBB.fromBounds(x-8D,y-2D,z-8D,x+8D,y+2D,z+8D));
@@ -128,7 +155,7 @@ public class BlockDeathFlower extends BlockFlower{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
 		ItemStack is = player.inventory.getCurrentItem();
 		if (is == null || is.getItem() != ItemList.end_powder)return false;
 		
@@ -145,11 +172,6 @@ public class BlockDeathFlower extends BlockFlower{
 		}
 		
 		return true;
-	}
-	
-	@Override
-	public int damageDropped(int meta){
-		return meta;
 	}
 	
 	@Override
