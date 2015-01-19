@@ -27,10 +27,9 @@ abstract class BlockAbstract extends Block{
 		setDefaultState(blockState.getBaseState().withProperty(metaProp,metaStates[0]));
 	}
 	
-	@Override
-	public int damageDropped(IBlockState state){
-		return getMetaFromState(state);
-	}
+	/*
+	 * STATE HANDLING
+	 */
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta){
@@ -46,9 +45,18 @@ abstract class BlockAbstract extends Block{
 		return metaStates != null && damage >= 0 && damage < metaStates.length ? metaStates[damage] : null;
 	}
 	
+	/*
+	 * OVERRIDES
+	 */
+	
 	@Override
 	protected final BlockState createBlockState(){
 		return new BlockState(this,getPropertyArray());
+	}
+	
+	@Override
+	public int damageDropped(IBlockState state){
+		return getMetaFromState(state);
 	}
 	
 	@Override

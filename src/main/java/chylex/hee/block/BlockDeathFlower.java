@@ -164,7 +164,7 @@ public class BlockDeathFlower extends BlockFlower{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
 		int meta = world.getBlockMetadata(x,y,z);
 		
 		if (meta > 0 && meta < 15 && (rand.nextInt(50) < meta*Math.sqrt(meta) || rand.nextInt(18-meta) == 0)){

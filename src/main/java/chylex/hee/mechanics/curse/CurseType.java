@@ -18,11 +18,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -38,22 +38,22 @@ public enum CurseType{
 				timer = (byte)(20+rand.nextInt(60));
 				
 				double prevX = entity.posX, prevY = entity.posY, prevZ = entity.posZ, tpX, tpY, tpZ;
+				BlockPosM tpPos = new BlockPosM();
 				
 				for(int attempt = 0; attempt < 200; attempt++){
 					tpX = prevX+(rand.nextDouble()-0.5D)*64D;
 					tpY = prevY+rand.nextInt(64)-32;
 					tpZ = prevZ+(rand.nextDouble()-0.5D)*64D;
-					
-					int ix = MathHelper.floor_double(tpX), iy = MathHelper.floor_double(tpY), iz = MathHelper.floor_double(tpZ);
+					tpPos.moveTo(tpX,tpY,tpZ);
 
-					if (entity.worldObj.blockExists(ix,iy,iz)){
+					if (entity.worldObj.isBlockLoaded(tpPos)){
 						boolean foundTopBlock = false;
 
-						while(!foundTopBlock && iy > 0){
-							if (entity.worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement())foundTopBlock = true;
+						while(!foundTopBlock && tpPos.y > 0){
+							if (tpPos.moveDown().getBlockMaterial(entity.worldObj).blocksMovement())foundTopBlock = true;
 							else{
 								--tpY;
-								--iy;
+								--tpPos.y;
 							}
 						}
 
@@ -245,7 +245,7 @@ public enum CurseType{
 				}
 				else if (entity instanceof EntityLiving){
 					EntityLiving living = (EntityLiving)entity;
-					ItemStack[] equipment = living.getLastActiveItems();
+					ItemStack[] equipment = living.getInventory();
 					
 					TIntArrayList indexes = new TIntArrayList();
 					for(int a = 0; a < equipment.length; a++)indexes.add(a);
@@ -256,10 +256,10 @@ public enum CurseType{
 						
 						if (equipment[index] == null)continue;
 						else if (equipment[index].isItemStackDamageable()){
-							equipment[index].setItemDamage(equipment[index].getItemDamageForDisplay()+1+rand.nextInt(3));
+							equipment[index].setItemDamage(equipment[index].getItemDamage()+1+rand.nextInt(3));
 							living.renderBrokenItemStack(equipment[index]);
 
-							if (equipment[index].getItemDamageForDisplay() >= equipment[index].getMaxDamage()){
+							if (equipment[index].getItemDamage() >= equipment[index].getMaxDamage()){
 								((EntityLiving)entity).setCurrentItemOrArmor(index,null);
 							}
 
@@ -284,7 +284,7 @@ public enum CurseType{
 	VAMPIRE(8, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			if (entity.ticksExisted%20 == 0){
-				if (entity.worldObj.isDaytime() && entity.getBrightness(1F) > 0.5F && entity.worldObj.canBlockSeeTheSky(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ))){
+				if (entity.worldObj.isDaytime() && entity.getBrightness(1F) > 0.5F && entity.worldObj.canBlockSeeSky(new BlockPosM(entity))){
 					entity.hurtResistantTime = 0;
 					entity.attackEntityFrom(DamageSource.onFire,1F);
 					entity.setFire(8);
@@ -337,7 +337,7 @@ public enum CurseType{
 						ItemStack is = index < 0 ? player.inventory.armorInventory[4+index] : player.inventory.mainInventory[index];
 						if (is == null)continue;
 						
-						player.func_146097_a(is,false,true);
+						player.dropItem(is,false,true);
 						
 						if (index < 0)player.inventory.armorInventory[4+index] = null;
 						else player.inventory.mainInventory[index] = null;
@@ -347,7 +347,7 @@ public enum CurseType{
 				}
 				else if (entity instanceof EntityLiving){
 					EntityLiving living = (EntityLiving)entity;
-					ItemStack[] equipment = living.getLastActiveItems();
+					ItemStack[] equipment = living.getInventory();
 					
 					TIntArrayList indexes = new TIntArrayList();
 					for(int a = 0; a < equipment.length; a++)indexes.add(a);

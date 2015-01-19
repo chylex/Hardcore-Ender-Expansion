@@ -1,5 +1,6 @@
 package chylex.hee.world.structure.island.biome;
 import java.util.Random;
+import chylex.hee.block.BlockBiomeIslandCore.Biome;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobHauntedMiner;
@@ -11,8 +12,8 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeBurningMountains extends IslandBiomeBase{
-	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1,8);
-	public static final BiomeContentVariation MINE = new BiomeContentVariation(5,6);
+	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(Biome.BURNING_MOUNTAINS_SCORCHING.ordinal(), 8);
+	public static final BiomeContentVariation MINE = new BiomeContentVariation(Biome.BURNING_MOUNTAINS_MINE.ordinal(), 6);
 	
 	private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
 	

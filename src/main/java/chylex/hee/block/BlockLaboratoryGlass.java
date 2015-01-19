@@ -1,12 +1,13 @@
 package chylex.hee.block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockLaboratoryGlass extends BlockBreakable{	
 	public BlockLaboratoryGlass(){
-		super("",Material.glass,false);
+		super(Material.glass,false);
 	}
 
 	@Override
@@ -18,10 +19,10 @@ public class BlockLaboratoryGlass extends BlockBreakable{
 	public boolean isOpaqueCube(){
 		return false;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
-	public int getRenderBlockPass(){
-		return 1;
+	public EnumWorldBlockLayer getBlockLayer(){
+		return EnumWorldBlockLayer.TRANSLUCENT;
 	}
 }

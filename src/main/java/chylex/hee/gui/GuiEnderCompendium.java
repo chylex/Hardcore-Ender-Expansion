@@ -1,5 +1,6 @@
 package chylex.hee.gui;
 import gnu.trove.map.hash.TByteObjectHashMap;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -163,7 +164,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
+	protected void mouseClicked(int mouseX, int mouseY, int buttonId) throws IOException{
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(0));
 		else if (buttonId == 0){
 			int offY = (int)offsetY.value();
@@ -213,9 +214,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	@Override
-	protected void mouseMovedOrUp(int mouseX, int mouseY, int event){
+	protected void mouseReleased(int mouseX, int mouseY, int event){
 		if (dragMouseY != Integer.MIN_VALUE && event == 0)dragMouseY = Integer.MIN_VALUE;
-		super.mouseMovedOrUp(mouseX,mouseY,event);
+		super.mouseReleased(mouseX,mouseY,event);
 	}
 	
 	@Override

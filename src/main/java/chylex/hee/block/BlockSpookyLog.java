@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
@@ -172,7 +173,7 @@ public class BlockSpookyLog extends Block{
 	}
 
 	@Override
-	public Item getItemDropped(int meta, Random rand, int fortune){
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
 		return Items.stick;
 	}
 	

@@ -11,6 +11,7 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -124,7 +125,7 @@ public final class BlockList{
 		FluidRegistry.registerFluid(BlockEnderGoo.fluid);
 		
 		register("obsidian_end", obsidian_falling = new BlockObsidianEnd().setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone).setUnlocalizedName("obsidianEnd"));
-		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian,0).setHardness(25F).setResistance(1000F).setUnlocalizedName("obsidianStairs"));
+		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian.getDefaultState()).setHardness(25F).setResistance(1000F).setUnlocalizedName("obsidianStairs"));
 		register("obsidian_special", obsidian_special = new BlockObsidianSpecial(false).setHardness(28F).setResistance(2000F).setStepSound(Block.soundTypeStone).setUnlocalizedName("obsidianSpecial"));
 		register("obsidian_special_glow", obsidian_special_glow = new BlockObsidianSpecial(true).setHardness(28F).setResistance(2000F).setLightLevel(1F).setStepSound(Block.soundTypeStone).setUnlocalizedName("obsidianSpecial"));
 		register("end_stone_terrain", end_terrain = new BlockEndstoneTerrain().setHardness(2.5F).setResistance(15F).setStepSound(Block.soundTypeStone).setUnlocalizedName("endStoneTerrain"));
@@ -132,14 +133,14 @@ public final class BlockList{
 		register("ravaged_brick_smooth", ravaged_brick_smooth = new BlockRavagedBrickSmooth().setHardness(1F).setResistance(6F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickSmooth"));
 		register("ravaged_brick_glow", ravaged_brick_glow = new BlockBasic(Material.rock).setHardness(1F).setResistance(6F).setLightLevel(1F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickGlow"));
 		register("ravaged_brick_slab", ravaged_brick_slab = new BlockBasicSlab(ravaged_brick).setHardness(1.75F).setResistance(14F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickSlab"));
-		register("ravaged_brick_stairs", ravaged_brick_stairs = new BlockBasicStairs(ravaged_brick,0).setHardness(2.25F).setResistance(22F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickStairs"));
+		register("ravaged_brick_stairs", ravaged_brick_stairs = new BlockBasicStairs(ravaged_brick.getDefaultState()).setHardness(2.25F).setResistance(22F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickStairs"));
 		register("ravaged_brick_fence", ravaged_brick_fence = new BlockFence(Material.rock).setHardness(1.5F).setResistance(6F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickFence"));
 		register("dungeon_puzzle", dungeon_puzzle = new BlockDungeonPuzzle().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("dungeonPuzzle"));
 		register("cinder", cinder = new BlockBasic(Material.rock).setHardness(1F).setResistance(10F).setStepSound(Block.soundTypeStone).setUnlocalizedName("cinder"));
 		register("persegrit", persegrit = new BlockPersegrit().setHardness(4F).setResistance(0.2F).setStepSound(Block.soundTypeGravel).setUnlocalizedName("persegrit"));
 		register("laboratory_obsidian", laboratory_obsidian = new BlockBasic(Material.rock).setHardness(40F).setResistance(500F).setStepSound(Block.soundTypeStone).setUnlocalizedName("laboratoryObsidian"));
 		register("laboratory_floor", laboratory_floor = new BlockBasic(Material.rock).setHardness(30F).setResistance(100F).setStepSound(Block.soundTypeStone).setUnlocalizedName("laboratoryFloor"));
-		register("laboratory_stairs", laboratory_stairs = new BlockBasicStairs(laboratory_floor,0).setHardness(20F).setResistance(80F).setStepSound(Block.soundTypeStone).setUnlocalizedName("laboratoryStairs"));
+		register("laboratory_stairs", laboratory_stairs = new BlockBasicStairs(laboratory_floor.getDefaultState()).setHardness(20F).setResistance(80F).setStepSound(Block.soundTypeStone).setUnlocalizedName("laboratoryStairs"));
 		
 		register("end_powder_ore", end_powder_ore = new BlockEndPowderOre().setHardness(3F).setResistance(12F).setStepSound(Block.soundTypeStone).setUnlocalizedName("endPowderOre"));
 		register("endium_ore", endium_ore = new BlockEndiumOre().setHardness(18F).setResistance(100F).setStepSound(Block.soundTypeStone).setUnlocalizedName("endiumOre"));
@@ -169,7 +170,6 @@ public final class BlockList{
 		register("energy_cluster", energy_cluster = new BlockEnergyCluster().setHardness(0.7F).setResistance(0.2F).setStepSound(BlockEnergyCluster.soundTypeEnergyCluster).setUnlocalizedName("energyCluster"));
 		register("corrupted_energy_high", corrupted_energy_high = new BlockCorruptedEnergy(true).setBlockUnbreakable().setResistance(6000000F));
 		register("corrupted_energy_low", corrupted_energy_low = new BlockCorruptedEnergy(false).setBlockUnbreakable().setResistance(6000000F));
-		register("soul_charm", soul_charm = new BlockSoulCharm().setHardness(-1F).setResistance(6000000F).setUnlocalizedName("soulCharm"));
 		register("laboratory_glass", laboratory_glass = new BlockLaboratoryGlass().setHardness(5F).setResistance(50F).setLightOpacity(5).setUnlocalizedName("laboratoryGlass"));
 		
 		register("death_flower_pot", death_flower_pot = new BlockDeathFlowerPot().setHardness(0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("flowerPot"));
@@ -184,7 +184,6 @@ public final class BlockList{
 		setItemClass("essence_altar", ItemBlockEssenceAltar.class);
 		setItemClass("enhanced_tnt", ItemBlockEnhancedTNT.class);
 		setItemClass("end_stone_terrain", ItemBlockWithSubtypes.class);
-		setItemClass("soul_charm", ItemBlockSoulCharm.class);
 		setItemClass("crossed_decoration", ItemBlockWithSubtypes.class);
 		setItemClass("death_flower", ItemBlockEndFlower.class);
 		setItemClass("sphalerite", ItemBlockWithSubtypes.class);
@@ -236,8 +235,8 @@ public final class BlockList{
 	}
 	
 	public static class BlockBasicStairs extends BlockStairs{
-		public BlockBasicStairs(Block sourceBlock, int sourceMetadata){
-			super(sourceBlock,sourceMetadata);
+		public BlockBasicStairs(IBlockState modelState){
+			super(modelState);
 		}
 	}
 	
@@ -245,7 +244,7 @@ public final class BlockList{
 		private final Block fullBlock;
 		
 		public BlockBasicSlab(Block fullBlock){
-			super(false,fullBlock.getMaterial());
+			super(fullBlock.getMaterial());
 			this.fullBlock = fullBlock;
 		}
 
@@ -260,12 +259,12 @@ public final class BlockList{
 		}
 		
 		@Override
-		public Item getItemDropped(int meta, Random rand, int fortune){
+		public Item getItemDropped(IBlockState state, Random rand, int fortune){
 			return Item.getItemFromBlock(this);
 		}
 		
 		@Override
-		protected ItemStack createStackedBlock(int meta){
+		protected ItemStack createStackedBlock(IBlockState state){
 			return new ItemStack(Item.getItemFromBlock(this),1,0);
 		}
 		

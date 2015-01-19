@@ -1,9 +1,11 @@
 package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -36,7 +38,7 @@ public class BlockDeathFlowerPot extends BlockFlowerPot{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
 		BlockList.death_flower.randomDisplayTick(world,x,y,z,rand);
 	}
 

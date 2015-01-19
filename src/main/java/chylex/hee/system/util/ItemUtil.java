@@ -1,4 +1,6 @@
 package chylex.hee.system.util;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,6 +34,13 @@ public final class ItemUtil{
 	
 	public static void setArmorColor(ItemStack is, int color){
 		is.getSubCompound("display",true).setInteger("color",color);
+	}
+	
+	/**
+	 * Typecasts to ItemBlock without checking.
+	 */
+	public static IBlockState getBlockState(ItemStack is){
+		return ((ItemBlock)is.getItem()).block.getStateFromMeta(is.getItemDamage());
 	}
 	
 	public static final class NBTTagCompoundDummy extends NBTTagCompound{

@@ -1,6 +1,7 @@
 package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.BlockBrewingStand;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +23,7 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	}
 	
 	@Override
-	public Item getItemDropped(int meta, Random rand, int fortune){
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
 		return ItemList.enhanced_brewing_stand;
 	}
 	

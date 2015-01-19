@@ -5,6 +5,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import chylex.hee.block.BlockBiomeIslandCore.Biome;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
@@ -27,8 +28,8 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
-	public static final BiomeContentVariation HOMELAND = new BiomeContentVariation(2,6);
-	public static final BiomeContentVariation LABORATORY = new BiomeContentVariation(6,4);
+	public static final BiomeContentVariation HOMELAND = new BiomeContentVariation(Biome.ENCHANTED_ISLAND_HOMELAND.ordinal(), 6);
+	public static final BiomeContentVariation LABORATORY = new BiomeContentVariation(Biome.ENCHANTED_ISLAND_LABORATORY.ordinal(), 4);
 	
 	public static final BiomeRandomDeviation TALL_PILES = new BiomeRandomDeviation(HOMELAND);
 	

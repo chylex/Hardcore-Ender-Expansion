@@ -87,7 +87,7 @@ public class BlockEnergyCluster extends BlockContainer{
 	}
 	
 	@Override
-	public Item getItemDropped(int meta, Random rand, int fortune){
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
 		return null;
 	}
 

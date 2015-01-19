@@ -2,6 +2,7 @@ package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -62,7 +63,7 @@ public class BlockEndermanHead extends BlockContainer{
 	}
 	
 	@Override
-	public Item getItemDropped(int meta, Random rand, int fortune){
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
 		return ItemList.enderman_head;
 	}
 	

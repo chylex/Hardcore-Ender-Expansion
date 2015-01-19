@@ -3,6 +3,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.BlockStone;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -36,7 +37,7 @@ public class BlockObsidianEnd extends BlockStone{
 	}
 
 	@Override
-	public Item getItemDropped(int meta, Random rand, int fortune){
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
 		return Item.getItemFromBlock(Blocks.obsidian);
 	}
 

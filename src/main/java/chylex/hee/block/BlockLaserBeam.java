@@ -2,6 +2,7 @@ package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -21,7 +22,7 @@ public class BlockLaserBeam extends BlockContainer{
 	}
 	
 	@Override
-	public Item getItemDropped(int metadata, Random rand, int fortune){
+	public Item getItemDropped(IBlockState statedata, Random rand, int fortune){
 		return null;
 	}
 

@@ -1,25 +1,16 @@
 package chylex.hee.gui.helpers;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class GuiItemRenderHelper{
 	private static final RenderBlocks renderBlocks = new RenderBlocks();
 
-	public static void renderItemIntoGUI(TextureManager textureManager, ItemStack is, int x, int y){
+	/*public static void renderItemIntoGUI(TextureManager textureManager, ItemStack is, int x, int y){
 		Item item = is.getItem();
 		int damage = is.getItemDamage();
 		Object object = is.getIconIndex();
@@ -81,7 +72,7 @@ public class GuiItemRenderHelper{
 		
 		renderItem.renderItemOverlayIntoGUI(Minecraft.getMinecraft().fontRendererObj,is,x,y,null);
 		GL11.glDisable(GL11.GL_LIGHTING);
-	}
+	}*/
 	
 	private static int tooltipX, tooltipY;
 	private static String tooltipString;
@@ -109,7 +100,7 @@ public class GuiItemRenderHelper{
 		if (xx+maxWidth > guiScreen.width)xx -= 28+maxWidth;
 		if (yy+height+6 > guiScreen.height)yy -= guiScreen.height-height-6;
 
-		renderItem.zLevel = 300F;
+		Minecraft.getMinecraft().getRenderItem().zLevel = 300F;
 		gui.setZLevel(300F);
 		
 		int grad1 = -267386864,grad2 = 1347420415,grad3 = (grad2&16711422)>>1|grad2&-16777216;
@@ -130,7 +121,7 @@ public class GuiItemRenderHelper{
 			yy += a == 0 ? 12 : 10;
 		}
 
-		renderItem.zLevel = 0F;
+		Minecraft.getMinecraft().getRenderItem().zLevel = 0F;
 		gui.setZLevel(0F);
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);

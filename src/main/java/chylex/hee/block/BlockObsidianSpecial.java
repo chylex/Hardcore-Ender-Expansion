@@ -3,9 +3,11 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -42,7 +44,7 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	}
 	
 	@Override
-	protected ItemStack createStackedBlock(int meta){
+	protected ItemStack createStackedBlock(IBlockState state){
 		if (meta == 3 || meta == 4)return new ItemStack(this,1,2);
 		else if (meta == 5)return new ItemStack(this,1,0);
 		else if (meta == 6)return new ItemStack(this,1,1);
@@ -60,7 +62,7 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
 		int meta = world.getBlockMetadata(x,y,z);
 		
 		if (meta == 5){

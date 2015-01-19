@@ -1,6 +1,5 @@
 package chylex.hee.proxy;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityAuraFX;
 import net.minecraft.client.particle.EntityBreakingFX;
@@ -12,6 +11,7 @@ import net.minecraft.client.particle.EntityPortalFX;
 import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.particle.EntitySpellParticleFX;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
@@ -33,6 +33,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.ItemUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public class FXClientProxy extends FXCommonProxy{
@@ -56,16 +57,16 @@ public class FXClientProxy extends FXCommonProxy{
 	
 	@Override
 	public void item(ItemStack is, World world, double x, double y, double z, double motionX, double motionY, double motionZ){
-		spawn(is.getItemSpriteNumber() == 0 ?
-			new EntityDiggingFX(world,x,y,z,motionX,motionY,motionZ,Block.getBlockFromItem(is.getItem()),is.getItemDamage()) :
-			new EntityBreakingFX(world,x,y,z,motionX,motionY,motionZ,is.getItem(),is.getItemDamage())
+		spawn(is.getItem() instanceof ItemBlock ?
+			new EntityDiggingFX(world,x,y,z,motionX,motionY,motionZ,ItemUtil.getBlockState(is)){} :
+			new EntityBreakingFX(world,x,y,z,motionX,motionY,motionZ,is.getItem(),is.getItemDamage()){}
 		);
 	}
 	
 	@Override
 	public void itemTarget(ItemStack is, World world, double startX, double startY, double startZ, final double targetX, final double targetY, final double targetZ, final float speedMultiplier){
-		EntityFX fx = (is.getItemSpriteNumber() == 0 ?
-			new EntityDiggingFX(world,startX,startY,startZ,0D,0D,0D,Block.getBlockFromItem(is.getItem()),is.getItemDamage()){
+		EntityFX fx = (is.getItem() instanceof ItemBlock ?
+			new EntityDiggingFX(world,startX,startY,startZ,0D,0D,0D,ItemUtil.getBlockState(is)){
 				final ParticleBehaviorMoveTo moveBehavior = new ParticleBehaviorMoveTo(this,targetX,targetY,targetZ,speedMultiplier);
 				
 				@Override

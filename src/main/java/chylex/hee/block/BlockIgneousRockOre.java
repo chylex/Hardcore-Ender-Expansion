@@ -1,7 +1,9 @@
 package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.BlockOre;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -12,7 +14,7 @@ import chylex.hee.item.ItemList;
 
 public class BlockIgneousRockOre extends BlockOre{
 	@Override
-	public Item getItemDropped(int meta, Random rand, int fortune){
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
 		return ItemList.igneous_rock;
 	}
 	
@@ -22,13 +24,13 @@ public class BlockIgneousRockOre extends BlockOre{
 	}
 	
 	@Override
-	public int getExpDrop(IBlockAccess world, int meta, int fortune){
+	public int getExpDrop(IBlockAccess world, BlockPos pos, int fortune){
 		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom,3,5);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		for(int a = 0; a < 2; a++)world.spawnParticle(EnumParticleTypes.LAVA,(x-0.425F+1.75F*rand.nextFloat()),(y+1.5F*rand.nextFloat()),(z-0.425F+1.75F*rand.nextFloat()),0D,0D,0D);
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
+		for(int a = 0; a < 2; a++)world.spawnParticle(EnumParticleTypes.LAVA,(pos.getX()-0.425F+1.75F*rand.nextFloat()),(pos.getY()+1.5F*rand.nextFloat()),(pos.getZ()-0.425F+1.75F*rand.nextFloat()),0D,0D,0D);
 	}
 }

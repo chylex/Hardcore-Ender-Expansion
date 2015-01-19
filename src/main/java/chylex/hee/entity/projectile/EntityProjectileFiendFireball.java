@@ -23,11 +23,6 @@ import chylex.hee.packets.client.C12FiendFireballExplosion;
 import chylex.hee.packets.client.C69FiendFuckball;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
-xy;
-import chylex.hee.system.util.MathUtil;
-xy;
-import chylex.hee.system.util.MathUtil;
- net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	private int fiendId;

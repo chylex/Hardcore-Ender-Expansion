@@ -16,6 +16,7 @@ import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -113,7 +114,7 @@ public abstract class IslandBiomeBase{
 		return false;
 	}
 	
-	public void updateCore(World world, int x, int y, int z, int meta){
+	public void updateCore(World world, BlockPosM pos, int meta){
 		if (world.playerEntities.isEmpty())return;
 		
 		if (world.rand.nextInt(3) == 0){
