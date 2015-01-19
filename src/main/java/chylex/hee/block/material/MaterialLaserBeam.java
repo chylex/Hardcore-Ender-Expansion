@@ -12,9 +12,9 @@ public class MaterialLaserBeam extends Material{
 	public boolean isSolid(){
 		return false;
 	}
-
+	
 	@Override
-	public boolean getCanBlockGrass(){
+	public boolean blocksLight(){
 		return false;
 	}
 

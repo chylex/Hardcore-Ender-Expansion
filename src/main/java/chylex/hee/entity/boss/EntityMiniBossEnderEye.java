@@ -26,6 +26,7 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityLaserBeam;
@@ -134,15 +135,18 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					if (attackType == AttackType.Poof){
 						if (attackAnim == 34){
 							if (worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){
-								for(int a = 0,hits = 0,x,y,z; a < 200 && hits < 16+worldObj.getDifficulty().getDifficultyId(); a++){
-									x = rand.nextInt(15)-7+MathUtil.floor(posX);
-									y = rand.nextInt(8)-4+MathUtil.floor(posY);
-									z = rand.nextInt(15)-7+MathUtil.floor(posZ);
+								BlockPosM pos = new BlockPosM();
+								
+								for(int a = 0, hits = 0; a < 200 && hits < 16+worldObj.getDifficulty().getDifficultyId(); a++){
+									pos.x = rand.nextInt(15)-7+MathUtil.floor(posX);
+									pos.y = rand.nextInt(8)-4+MathUtil.floor(posY);
+									pos.z = rand.nextInt(15)-7+MathUtil.floor(posZ);
 									
-									Block block = worldObj.getBlock(x,y,z);
-									if (block.getMaterial() != Material.air && block.getBlockHardness(worldObj,x,y,z) != -1F){
-										worldObj.setBlockToAir(x,y,z);
-										worldObj.playAuxSFX(2001,x,y,z,Block.getIdFromBlock(Blocks.obsidian));
+									Block block = pos.getBlock(worldObj);
+									
+									if (block.getMaterial() != Material.air && block.getBlockHardness(worldObj,pos) != -1F){
+										pos.setToAir(worldObj);
+										worldObj.playAuxSFX(2001,pos,Block.getIdFromBlock(Blocks.obsidian));
 										++hits;
 									}
 								}
@@ -193,16 +197,17 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					 */
 					else if (attackType == AttackType.LaserBeams){
 						if (attackAnim > 35 && attackAnim < 99 && attackAnim%7 == 0){
+							BlockPosM pos = new BlockPosM();
 							int myY = MathUtil.floor(posY), attempt, x, y, z, minY;
 							
 							for(attempt = 0; attempt < 12; attempt++){
 								x = MathUtil.floor(posX)+rand.nextInt(17)-8;
 								z = MathUtil.floor(posZ)+rand.nextInt(17)-8;
 								
-								if (worldObj.getBlock(x,myY,z) != Blocks.air)continue;
+								if (pos.moveTo(x,myY,z).isAir(worldObj))continue;
 								
 								for(y = myY; y > myY-6; y--){
-									if (worldObj.getBlock(x,y,z) != Blocks.air)break;
+									if (pos.moveTo(x,y,z).isAir(worldObj))break;
 									else if (y == myY-4){
 										y = -1;
 										break;
@@ -215,9 +220,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								if (laserTopY == 0)laserTopY = (short)(myY+8);
 								
 								for(y = minY+1; y < laserTopY; y++){
-									if (worldObj.getBlock(x,y,z) != Blocks.air)break;
-									worldObj.setBlock(x,y,z,BlockList.laser_beam);
-									TileEntityLaserBeam beam = (TileEntityLaserBeam)worldObj.getTileEntity(x,y,z);
+									if (pos.moveTo(x,y,z).isAir(worldObj))break;
+									pos.setBlock(worldObj,BlockList.laser_beam);
+									TileEntityLaserBeam beam = (TileEntityLaserBeam)worldObj.getTileEntity(pos);
 									if (beam != null)beam.setTicksLeft(102-attackAnim);
 								}
 								
@@ -259,18 +264,21 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 			setIsAsleep(false);
 			
 			if (worldObj.getDifficulty().getDifficultyId() > 1 || ModCommonProxy.opMobs){
-				for(int a = 0, hits = 0, x, y, z; a < 400 && hits < 5+worldObj.getDifficulty().getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
-					x = rand.nextInt(15)-7+MathUtil.floor(posX);
-					y = rand.nextInt(8)-4+MathUtil.floor(posY);
-					z = rand.nextInt(15)-7+MathUtil.floor(posZ);
+				BlockPosM pos = new BlockPosM();
+				
+				for(int a = 0, hits = 0; a < 400 && hits < 5+worldObj.getDifficulty().getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
+					pos.x = rand.nextInt(15)-7+MathUtil.floor(posX);
+					pos.y = rand.nextInt(8)-4+MathUtil.floor(posY);
+					pos.z = rand.nextInt(15)-7+MathUtil.floor(posZ);
 					
-					Block block = worldObj.getBlock(x,y,z);
+					Block block = pos.getBlock(worldObj);
 					
 					if (block != Blocks.air){
-						float hardness = block.getBlockHardness(worldObj,x,y,z);
-						if (hardness != -1F && hardness <= 5F){					
-							worldObj.setBlockToAir(x,y,z);
-							worldObj.playAuxSFX(2001,x,y,z,Block.getIdFromBlock(Blocks.obsidian));
+						float hardness = block.getBlockHardness(worldObj,pos);
+						
+						if (hardness != -1F && hardness <= 5F){	
+							pos.setToAir(worldObj);
+							worldObj.playAuxSFX(2001,pos,Block.getIdFromBlock(Blocks.obsidian));
 							++hits;
 						}
 					}

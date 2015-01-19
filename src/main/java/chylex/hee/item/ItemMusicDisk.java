@@ -10,13 +10,15 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMusicDisk extends ItemRecord{
 	private static final List<String[]> musicNames = new ArrayList<>();
@@ -48,14 +50,14 @@ public class ItemMusicDisk extends ItemRecord{
 		super("");
 		setHasSubtypes(true);
 	}
-
+	
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
 		if (world.getBlock(x,y,z) == Blocks.jukebox && world.getBlockMetadata(x,y,z) == 0 && world.getTileEntity(x,y,z) instanceof TileEntityJukebox){
 			if (world.isRemote)return true;
 
-			((BlockJukebox)Blocks.jukebox).func_149926_b(world,x,y,z,is);
-			PacketPipeline.sendToDimension(world,new C02PlayRecord(x,y,z,(byte)is.getItemDamage()));
+			((BlockJukebox)Blocks.jukebox).insertRecord(world,pos,world.getBlockState(pos),is);
+			PacketPipeline.sendToDimension(world,new C02PlayRecord(pos,(byte)is.getItemDamage()));
 			--is.stackSize;
 			
 			return true;

@@ -59,7 +59,7 @@ public class DragonAchievementManager{
 		for(Entry<UUID,AchievementData> entry:playerData.entrySet()){
 			if ((float)entry.getValue().participationCounter/(float)battleTimer < 0.75F)continue;
 			
-			EntityPlayer player = dragon.worldObj.func_152378_a(entry.getKey());
+			EntityPlayer player = dragon.worldObj.getPlayerEntityByUUID(entry.getKey());
 			
 			if (entry.getValue().deathAmount == 0 && finalDiff >= 98){
 				if (player == null)AchievementEvents.addDelayedAchievement(entry.getKey(),AchievementManager.CHALLENGE_HARD0DEATHS);

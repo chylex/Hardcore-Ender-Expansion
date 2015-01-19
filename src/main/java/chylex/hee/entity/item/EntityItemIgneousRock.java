@@ -19,6 +19,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityItemIgneousRock extends EntityItem{
@@ -67,21 +68,22 @@ public class EntityItemIgneousRock extends EntityItem{
 			}
 			
 			if (rand.nextInt(64-Math.min(32,is.stackSize/2)) == 0){
+				BlockPosM pos = new BlockPosM();
+				
 				for(int attempt = 0; attempt < 4+(is.stackSize/8); attempt++){
-					int[] pos = new int[]{ MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ) };
-					for(int a = 0; a < pos.length; a++)pos[a] += MathUtil.floor((rand.nextDouble()-0.5D)*4D);
+					pos.moveTo(this).moveBy(MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D));
 					
-					Block block = worldObj.getBlock(pos[0],pos[1],pos[2]);
+					Block block = pos.getBlock(worldObj);
 					Block target = blockTransformations.get(block);
 					
-					if (target != null)worldObj.setBlock(pos[0],pos[1],pos[2],target);
+					if (target != null)pos.setBlock(worldObj,target);
 					else if (block.getMaterial() == Material.air){
-						if (rand.nextInt(5) == 0)worldObj.setBlock(pos[0],pos[1],pos[2],Blocks.fire);
+						if (rand.nextInt(5) == 0)pos.setBlock(worldObj,Blocks.fire);
 						else continue;
 					}
 					else if (block == Blocks.tnt){
-						worldObj.setBlockToAir(pos[0],pos[1],pos[2]);
-						worldObj.createExplosion(null,pos[0],pos[1],pos[2],3.9F,true);
+						pos.setToAir(worldObj);
+						worldObj.createExplosion(null,pos.x+0.5D,pos.y+0.5D,pos.z+0.5D,3.9F,true);
 					}
 					else if (block == Blocks.tallgrass && worldObj.getBlockMetadata(pos[0],pos[1],pos[2]) != 0){
 						worldObj.setBlockMetadataWithNotify(pos[0],pos[1],pos[2],0,2);
@@ -102,20 +104,20 @@ public class EntityItemIgneousRock extends EntityItem{
 			}
 		}
 		
-		int ix = MathUtil.floor(posX), iy = MathUtil.floor(posY), iz = MathUtil.floor(posZ);
+		BlockPosM pos = new BlockPosM(this);
 		
-		if (rand.nextInt(6) == 0 && worldObj.getBlock(ix,iy,iz).getMaterial() == Material.water){
+		if (rand.nextInt(6) == 0 && pos.getBlockMaterial(worldObj) == Material.water){
 			HardcoreEnderExpansion.fx.bubble(worldObj,posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0.6D,0D);		
 		}
 		
-		if (worldObj.getBlock(ix,iy-1,iz) == BlockList.dungeon_puzzle){
+		if (pos.moveDown().getBlock(worldObj) == BlockList.dungeon_puzzle){
 			int meta = worldObj.getBlockMetadata(ix,iy-1,iz);
 			
 			if (BlockDungeonPuzzle.canTrigger(meta)){
 				for(int a = 0; a < 4; a++)HardcoreEnderExpansion.fx.igneousRockBreak(this);
 				
 				if (!worldObj.isRemote && onGround){
-					worldObj.spawnEntityInWorld(new EntityTechnicalPuzzleChain(worldObj,ix,iy-1,iz,thrownDirection));
+					worldObj.spawnEntityInWorld(new EntityTechnicalPuzzleChain(worldObj,pos,thrownDirection));
 					setDead();
 				}
 			}

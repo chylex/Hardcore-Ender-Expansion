@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -13,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -37,14 +39,13 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	private IIcon[] iconArray;
 	
 	public BlockCrossedDecoration(){
-		super(0);
 		setBlockBounds(0.1F,0.0F,0.1F,0.9F,0.8F,0.9F);
 	}
 	
 	@Override
-	public boolean canBlockStay(World world, int x, int y, int z){
+	public boolean canBlockStay(World world, BlockPos pos, IBlockState state){
 		Block soil = world.getBlock(x,y-1,z);
-		return (world.getFullBlockLightValue(x,y,z) >= 8 || world.canBlockSeeTheSky(x,y,z) || world.provider.getDimensionId() == 1)&&
+		return (world.getFullBlockLightValue(x,y,z) >= 8 || world.canBlockSeeTheSky(x,y,z) || world.provider.getDimensionId() == 1) &&
 			   (soil != null && soil.canSustainPlant(world,x,y-1,z,ForgeDirection.UP,this));
 	}
 	
@@ -54,38 +55,36 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	}
 	
 	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune){
+	public ArrayList<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune){
 		ArrayList<ItemStack> ret = new ArrayList<>();
-
 		if (meta == dataLilyFire)ret.add(new ItemStack(this,1,meta));
-		
 		return ret;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z){
+	public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos){
 		int meta = world.getBlockMetadata(x,y,z);
 		
 		if (meta == dataLilyFire)return AxisAlignedBB.fromBounds(x+0.3F,y,z+0.3F,x+0.7F,y+0.8F,z+0.7F);
-		else return super.getSelectedBoundingBoxFromPool(world,x,y,z);
+		else return super.getSelectedBoundingBox(world,pos);
 	}
-
+	
 	@Override
-	public boolean isShearable(ItemStack item, IBlockAccess world, int x, int y, int z){
+	public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos){
 		int meta = world.getBlockMetadata(x,y,z);
 		return meta != dataLilyFire;
 	}
 
 	@Override
-	public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, int x, int y, int z, int fortune){
+	public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune){
 		ArrayList<ItemStack> ret = new ArrayList<>();
 		ret.add(new ItemStack(this,1,world.getBlockMetadata(x,y,z)));
 		return ret;
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity){
 		if (world.getBlockMetadata(x,y,z) == dataThornBush){
 			entity.attackEntityFrom(DamageSource.generic,1F);
 			

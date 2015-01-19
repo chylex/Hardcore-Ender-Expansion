@@ -12,12 +12,12 @@ abstract class HeeCommand extends CommandBase{
 	}
 	
 	@Override
-	public String getCommandName(){
+	public String getName(){
 		return cmdName;
 	}
 
 	@Override
-	public String getCommandUsage(ICommandSender sender){
+	public String getUsage(ICommandSender sender){
 		return "/"+cmdName;
 	}
 	

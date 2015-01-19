@@ -41,7 +41,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
 		super.onBlockAdded(world,x,y,z);
-		if (world.isBlockIndirectlyGettingPowered(x,y,z))world.scheduleBlockUpdate(x,y,z,this,1);
+		if (world.isBlockIndirectlyGettingPowered(x,y,z))world.scheduleUpdate(pos,this,1);
 	}
 	
 	@Override

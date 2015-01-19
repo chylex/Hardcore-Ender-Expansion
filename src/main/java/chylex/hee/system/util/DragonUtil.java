@@ -165,7 +165,7 @@ public final class DragonUtil{
 	
 	public static void teleportToOverworld(EntityPlayerMP player){
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player,0);
-		player.playerNetServerHandler.playerEntity = player.mcServer.getConfigurationManager().respawnPlayer(player,0,true);
+		player.playerNetServerHandler.playerEntity = player.mcServer.getConfigurationManager().recreatePlayerEntity(player,0,true);
 	}
 	
 	public static void createExplosion(Entity entity, double x, double y, double z, float strength, boolean fire){

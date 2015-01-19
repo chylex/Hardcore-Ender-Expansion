@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.block.BlockBed;
+import net.minecraft.block.BlockDirectional;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -11,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -31,6 +34,7 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile.IQuickSavefile;
+import chylex.hee.system.util.BlockPosM;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 
@@ -133,28 +137,27 @@ public final class AchievementEvents implements IQuickSavefile{
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent e){
 		World world = e.entityPlayer.worldObj;
-		if (e.action != Action.RIGHT_CLICK_BLOCK || world.isRemote || e.entityPlayer.dimension != 1 || world.getBlock(e.pos) != Blocks.bed)return;
+		if (e.action != Action.RIGHT_CLICK_BLOCK || world.isRemote || e.entityPlayer.dimension != 1)return;
+		
+		BlockPosM pos = new BlockPosM(e.pos);
+		IBlockState state =  world.getBlockState(pos);
+		EnumFacing facing = (EnumFacing)state.getValue(BlockDirectional.FACING);
+		
+		if (state.getBlock() != Blocks.bed)return;
+		if (state.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD){
+			if ((state = world.getBlockState(pos.moveBy(facing,1))).getBlock() != Blocks.bed)return;
+		}
 		
 		EntityBossDragon dragon = getDragon(world);
 		if (dragon == null || dragon.getHealth() <= 0F)return;
 		
 		e.useBlock = Result.DENY;
 		
-		double dX = e.x+0.5D, dY = e.y+0.5D, dZ = e.z+0.5D;
-		world.setBlockToAir(e.pos);
-		
-		int dir = world.getBlockMetadata(e.x,e.y,e.z)&3;
-		int x2 = e.x+BlockBed.field_149981_a[dir][0];
-		int z2 = e.z+BlockBed.field_149981_a[dir][1];
+		pos.setToAir(world);
+		pos.moveBy(facing.getOpposite(),1).setToAir(world);
+		pos.moveBy(facing,1);
 
-		if (world.getBlock(x2,e.y,z2) == Blocks.bed){
-			world.setBlockToAir(x2,e.y,z2);
-			dX = (dX+x2+0.5D)/2D;
-			dY = (dY+e.y+0.5D)/2D;
-			dZ = (dZ+z2+0.5D)/2D;
-		}
-
-		world.newExplosion(null,dX,dY,dZ,5F,true,true);
+		world.newExplosion(null,pos.x+0.5D,pos.y+0.5D,pos.z+0.5D,5F,true,true);
 		if (dragon.getHealth() <= 0F)e.entityPlayer.addStat(AchievementManager.CHALLENGE_BEDEXPLODE,1);
 	}
 	

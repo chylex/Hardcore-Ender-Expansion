@@ -6,7 +6,7 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -15,28 +15,24 @@ import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.sound.CustomMusicTicker;
 
 public class C02PlayRecord extends AbstractClientPacket{
-	private int x,y,z;
+	private BlockPos pos;
 	private byte diskDamage;
 	
 	public C02PlayRecord(){}
 	
-	public C02PlayRecord(int x, int y, int z, byte diskDamage){
-		this.x = x;
-		this.y = y;
-		this.z = z;
+	public C02PlayRecord(BlockPos pos, byte diskDamage){
+		this.pos = pos;
 		this.diskDamage = diskDamage;
 	}
 	
 	@Override
 	public void write(ByteBuf buffer){
-		buffer.writeInt(x).writeInt(y).writeInt(z).writeByte(diskDamage);
+		buffer.writeLong(pos.toLong()).writeByte(diskDamage);
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
-		x = buffer.readInt();
-		y = buffer.readInt();
-		z = buffer.readInt();
+		pos = BlockPos.fromLong(buffer.readLong());
 		diskDamage = buffer.readByte();
 	}
 
@@ -47,19 +43,18 @@ public class C02PlayRecord extends AbstractClientPacket{
 		Minecraft mc = Minecraft.getMinecraft();
 
 		SoundHandler soundHandler = mc.getSoundHandler();
-		ChunkCoordinates coords = new ChunkCoordinates(x,y,z);
 		Map mapSoundPositions = mc.renderGlobal.mapSoundPositions;
-		ISound currentSound = (ISound)mapSoundPositions.get(coords);
+		ISound currentSound = (ISound)mapSoundPositions.get(pos);
 
 		if (currentSound != null){
 			soundHandler.stopSound(currentSound);
-			mapSoundPositions.remove(coords);
+			mapSoundPositions.remove(pos);
 		}
 
 		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]);
 		ResourceLocation resource = new ResourceLocation("hardcoreenderexpansion:"+recordData[1]);
-		PositionedSoundRecord snd = PositionedSoundRecord.create(resource,x,y,z);
-		mapSoundPositions.put(coords,snd);
+		PositionedSoundRecord snd = PositionedSoundRecord.create(resource,pos.getX()+0.5F,pos.getY()+0.5F,pos.getZ()+0.5F);
+		mapSoundPositions.put(pos,snd);
 		
 		CustomMusicTicker.stopMusicAndPlayJukebox(snd);
 	}

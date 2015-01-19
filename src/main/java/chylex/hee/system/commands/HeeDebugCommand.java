@@ -23,7 +23,7 @@ public class HeeDebugCommand extends HeeCommand{
 	}
 	
 	@Override
-	public void processCommand(ICommandSender sender, String[] args){
+	public void execute(ICommandSender sender, String[] args){
 		if (!Log.isDebugEnabled()){
 			sendMessage(sender,"Debug mode is not enabled.");
 			return;

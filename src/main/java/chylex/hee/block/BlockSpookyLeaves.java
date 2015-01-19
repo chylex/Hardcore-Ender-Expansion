@@ -24,7 +24,7 @@ import chylex.hee.system.util.BlockPosM;
 public class BlockSpookyLeaves extends BlockLeaves{
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor){
-		world.scheduleBlockUpdate(x,y,z,this,world.rand.nextInt(20)+3);
+		world.scheduleUpdate(pos,this,world.rand.nextInt(20)+3);
 		if (neighbor == BlockList.spooky_log)beginLeavesDecay(world,x,y,z);
 	}
 	

@@ -8,11 +8,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
-import chylex.hee.block.BlockList;
-import chylex.hee.system.util.MathUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+import chylex.hee.block.BlockList;
+import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.MathUtil;
 
 @SideOnly(Side.CLIENT)
 public class EntitySoulCharmFX extends EntityFX{
@@ -64,7 +65,7 @@ public class EntitySoulCharmFX extends EntityFX{
 		
 		if (--breakCheckTimer < 0){
 			breakCheckTimer = 10;
-			if (worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ)) != getTargetBlock())age = (byte)(maxAge-18);
+			if (new BlockPosM(this).getBlock(worldObj) != getTargetBlock())age = (byte)(maxAge-18);
 		}
 		
 		if (rand.nextInt(3) == 0)posX += rand.nextDouble()*0.02D-0.01D;

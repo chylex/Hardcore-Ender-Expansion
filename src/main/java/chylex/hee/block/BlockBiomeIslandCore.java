@@ -2,8 +2,9 @@ package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -20,14 +21,14 @@ public class BlockBiomeIslandCore extends Block{
 	}
 	
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z){
-		super.onBlockAdded(world,x,y,z);
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state){
+		super.onBlockAdded(world,pos,state);
+		world.scheduleUpdate(pos,this,tickRate(world));
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
+		world.scheduleUpdate(pos,this,tickRate(world));
 		
 		int meta = world.getBlockMetadata(x,y,z);
 		
@@ -40,7 +41,7 @@ public class BlockBiomeIslandCore extends Block{
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos){
 		return null;
 	}
 }

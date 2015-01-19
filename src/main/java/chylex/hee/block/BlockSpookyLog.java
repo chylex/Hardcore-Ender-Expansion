@@ -38,7 +38,7 @@ public class BlockSpookyLog extends Block{
 
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+		world.scheduleUpdate(pos,this,tickRate(world));
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class BlockSpookyLog extends Block{
 			
 			if (w == 0 || w == 1){
 				world.setBlockMetadataWithNotify(x,y,z,rand.nextInt(4)+1,3);
-				world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+				world.scheduleUpdate(pos,this,tickRate(world));
 				moved = true;
 			}
 			else if (w == 2){
@@ -157,9 +157,9 @@ public class BlockSpookyLog extends Block{
 				return;
 			}
 			
-			world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+			world.scheduleUpdate(pos,this,tickRate(world));
 		}
-		else world.scheduleBlockUpdate(x,y,z,this,8);
+		else world.scheduleUpdate(pos,this,8);
 	}
 	
 	private boolean isBlockSeen(World world, int x, int y, int z){

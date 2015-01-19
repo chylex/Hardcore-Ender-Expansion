@@ -281,7 +281,6 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerTileEntity(TileEntityEndermanHead.class, "EndermanHead");
 		GameRegistryUtil.registerTileEntity(TileEntityLaserBeam.class, "LaserBeam");
 		GameRegistryUtil.registerTileEntity(TileEntityCustomSpawner.class, "EndermanSpawner");
-		GameRegistryUtil.registerTileEntity(TileEntitySoulCharm.class, "SoulCharm");
 		GameRegistryUtil.registerTileEntity(TileEntityDecompositionTable.class, "DecompositionTable");
 		GameRegistryUtil.registerTileEntity(TileEntityExperienceTable.class, "ExperienceTable");
 		GameRegistryUtil.registerTileEntity(TileEntityAccumulationTable.class, "AccumulationTable");

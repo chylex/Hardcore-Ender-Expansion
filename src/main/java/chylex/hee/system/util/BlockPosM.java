@@ -59,6 +59,14 @@ public class BlockPosM extends BlockPos{
 		return this;
 	}
 	
+	public BlockPosM moveTo(double x, double y, double z){
+		return moveTo(MathUtil.floor(x),MathUtil.floor(y),MathUtil.floor(z));
+	}
+	
+	public BlockPosM moveTo(Entity entity){
+		return moveTo(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ));
+	}
+	
 	public BlockPosM moveBy(int x, int y, int z){
 		this.x += x;
 		this.y += y;

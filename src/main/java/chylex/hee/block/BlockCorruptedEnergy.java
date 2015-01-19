@@ -2,6 +2,7 @@ package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,12 +36,12 @@ public class BlockCorruptedEnergy extends Block{
 	}
 	
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z){
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state){
+		world.scheduleUpdate(pos,this,tickRate(world));
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random rand){
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
 		if (world.isRemote){
 			for(int a = 0; a < 3; a++){
 				HardcoreEnderExpansion.fx.corruptedEnergy(world,x,y,z);
@@ -72,7 +74,7 @@ public class BlockCorruptedEnergy extends Block{
 			else world.setBlockMetadataWithNotify(x,y,z,meta-1,3);
 		}
 		
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+		world.scheduleUpdate(pos,this,tickRate(world));
 	}
 	
 	@Override
@@ -81,7 +83,7 @@ public class BlockCorruptedEnergy extends Block{
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity){
 		if (entity instanceof EntityLivingBase && !(entity instanceof IBossDisplayData)){
 			EntityLivingBase living = (EntityLivingBase)entity;
 			int meta = world.getBlockMetadata(x,y,z);
@@ -106,12 +108,12 @@ public class BlockCorruptedEnergy extends Block{
 	}
 	
 	@Override
-	public Item getItemDropped(int meta, Random rand, int fortune){
+	public Item getItemDropped(IBlockState state, Random rand, int fortune){
 		return null;
 	}
 	
 	@Override
-	protected ItemStack createStackedBlock(int meta){
+	protected ItemStack createStackedBlock(IBlockState state){
 		return null;
 	}
 
@@ -121,7 +123,7 @@ public class BlockCorruptedEnergy extends Block{
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
+	public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state){
 		return null;
 	}
 
@@ -131,7 +133,7 @@ public class BlockCorruptedEnergy extends Block{
 	}
 
 	@Override
-	public boolean canCollideCheck(int meta, boolean holdingBoat){
+	public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid){
 		return false;
 	}
 	
@@ -141,7 +143,7 @@ public class BlockCorruptedEnergy extends Block{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.corruptedEnergy(world,x,y,z);
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);
 		if (world.rand.nextInt(30) == 0)world.spawnParticle("explode",x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);

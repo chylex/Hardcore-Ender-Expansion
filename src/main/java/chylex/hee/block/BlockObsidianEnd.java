@@ -11,12 +11,12 @@ import chylex.hee.entity.block.EntityBlockFallingObsidian;
 public class BlockObsidianEnd extends BlockStone{
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+		world.scheduleUpdate(pos,this,tickRate(world));
 	}
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor){
-		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
+		world.scheduleUpdate(pos,this,tickRate(world));
 	}
 
 	@Override
