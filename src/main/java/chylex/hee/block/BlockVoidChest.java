@@ -8,7 +8,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityVoidChest;
 
 public class BlockVoidChest extends BlockContainer{
@@ -26,17 +25,12 @@ public class BlockVoidChest extends BlockContainer{
 	public boolean isOpaqueCube(){
 		return false;
 	}
-
+	
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isFullCube(){
 		return false;
 	}
-
-	@Override
-	public int getRenderType(){
-		return ModCommonProxy.renderIdVoidChest;
-	}
-
+	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack is){
 		byte meta = 0;

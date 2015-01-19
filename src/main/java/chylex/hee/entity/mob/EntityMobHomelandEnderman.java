@@ -174,7 +174,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			if (isWet())attackEntityFrom(DamageSource.drown,1F);
 			
 			if (isWet() || isBurning()){
-				setTarget(null);
+				setAttackTarget(null);
 				setScreaming(false);
 			}
 			
@@ -280,7 +280,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 									
 									if (!escaped){
 										guard.teleportToEntity(this);
-										guard.setTarget(this);
+										guard.setAttackTarget(this);
 									}
 									else if (rand.nextInt(4) != 0)guard.teleportTo(oldX+4D*(rand.nextDouble()-0.5D),oldY+2D+rand.nextDouble()*4D,oldZ+4D*(rand.nextDouble()-0.5D));
 								}
@@ -539,7 +539,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										}
 									}
 									
-									setTarget(target);
+									setAttackTarget(target);
 								}
 								
 								break;
@@ -561,7 +561,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 						EntityMobHomelandEnderman enderman = all.remove(rand.nextInt(all.size()));
 						
 						if (enderman.groupId == overtakeGroup){
-							setTarget(enderman);
+							setAttackTarget(enderman);
 							break;
 						}
 					}
@@ -629,7 +629,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 					if (stareTimer++ == 5){
 						stareTimer = 0;
 						setScreaming(true);
-						setTarget(player);
+						setAttackTarget(player);
 						return null;
 					}
 				}
@@ -674,7 +674,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (source.getSourceOfDamage() instanceof EntityPlayer || source.getSourceOfDamage() instanceof EntityMobHomelandEnderman){
 			boolean callGuards = entityToAttack == null || rand.nextInt(4) == 0;
 			
-			setTarget(source.getSourceOfDamage());
+			setAttackTarget(source.getSourceOfDamage());
 			setScreaming(true);
 			
 			if (callGuards){
@@ -702,7 +702,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt && !list.isEmpty(); a++){
 					EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
 					guard.teleportToEntity(source.getSourceOfDamage());
-					guard.setTarget(source.getSourceOfDamage());
+					guard.setAttackTarget(source.getSourceOfDamage());
 					guard.setScreaming(true);
 					PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,this,guard));
 				}
@@ -711,7 +711,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		else if (source instanceof EntityDamageSourceIndirect){
 			for(int attempt = 0; attempt < 64; attempt++){
 				if (teleportRandomly()){
-					setTarget(null);
+					setAttackTarget(null);
 					setScreaming(false);
 					return true;
 				}
@@ -778,10 +778,10 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	@Override
-	public void setTarget(Entity target){
+	public void setAttackTarget(Entity target){
 		if (worldObj.getDifficulty() == EnumDifficulty.PEACEFUL && target instanceof EntityPlayer)return;
 		
-		super.setTarget(target);
+		super.setAttackTarget(target);
 		
 		if (entityToAttack != null){
 			resetTask();

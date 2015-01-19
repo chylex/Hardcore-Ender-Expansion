@@ -42,7 +42,7 @@ public class BlockTransportBeacon extends BlockContainer{
 	}
 
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isFullCube(){
 		return false;
 	}
 	

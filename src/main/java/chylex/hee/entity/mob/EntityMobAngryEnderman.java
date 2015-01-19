@@ -79,7 +79,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 		}
 		
 		for(int i = 0; i < 2; ++i){
-			worldObj.spawnParticle("portal",posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*this.width,(this.rand.nextDouble()-0.5D)*2D,-this.rand.nextDouble(),(this.rand.nextDouble()-0.5D)*2D);
+			worldObj.spawnParticle(EnumParticleTypes.PORTAL,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*this.width,(this.rand.nextDouble()-0.5D)*2D,-this.rand.nextDouble(),(this.rand.nextDouble()-0.5D)*2D);
 		}
 
 		if (!worldObj.isRemote && isEntityAlive()){
@@ -161,7 +161,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 			for(int i = 0; i < dist; ++i){
 				double prog = i/(dist-1D);
 				
-				worldObj.spawnParticle("portal",
+				worldObj.spawnParticle(EnumParticleTypes.PORTAL,
 					origX+(posX-origX)*prog+(rand.nextDouble()-0.5D)*width*2D,
 					origY+(posY-origY)*prog+rand.nextDouble()*height,
 					origZ+(posZ-origZ)*prog+(rand.nextDouble()-0.5D)*width*2D,

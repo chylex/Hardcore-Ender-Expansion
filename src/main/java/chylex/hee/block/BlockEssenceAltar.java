@@ -67,7 +67,7 @@ public class BlockEssenceAltar extends BlockContainer{
 	}
 	
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isFullCube(){
 		return false;
 	}
 	

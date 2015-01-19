@@ -52,7 +52,7 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 		
 		for(int y = 7; y >= 0; y--){
 			for(int a = 0; a < Math.min(10,fallTime/4F); a++){
-				worldObj.spawnParticle("portal",posX+rand.nextDouble()-0.5D,posY+y+rand.nextDouble()-0.3D,posZ+rand.nextDouble()-0.5D,0D,0D,0D);
+				worldObj.spawnParticle(EnumParticleTypes.PORTAL,posX+rand.nextDouble()-0.5D,posY+y+rand.nextDouble()-0.3D,posZ+rand.nextDouble()-0.5D,0D,0D,0D);
 			}
 		}
 		

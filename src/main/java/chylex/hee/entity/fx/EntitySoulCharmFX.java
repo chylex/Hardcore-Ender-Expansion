@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -107,7 +109,7 @@ public class EntitySoulCharmFX extends EntityFX{
 	}
 	
 	@Override
-	public void renderParticle(Tessellator tessellator, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
+	public void renderParticle(WorldRenderer renderer, Entity viewer, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
 		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
@@ -127,15 +129,15 @@ public class EntitySoulCharmFX extends EntityFX{
 		GL11.glColor4f(1F,1F,1F,1F);
 		RenderHelper.disableStandardItemLighting();
 		
-		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA_F(particleRed,particleGreen,particleBlue,particleAlpha);
-		tessellator.setNormal(0F,1F,0F);
-		tessellator.setBrightness(65);
-		tessellator.addVertexWithUV(x-rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z-rotZ*particleScale-rotXY*particleScale,right,bottom);
-		tessellator.addVertexWithUV(x-rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z-rotZ*particleScale+rotXY*particleScale,right,top);
-		tessellator.addVertexWithUV(x+rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z+rotZ*particleScale+rotXY*particleScale,left,top);
-		tessellator.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z+rotZ*particleScale-rotXY*particleScale,left,bottom);
-		tessellator.draw();
+		renderer.startDrawingQuads();
+		renderer.setColorRGBA_F(particleRed,particleGreen,particleBlue,particleAlpha);
+		renderer.setNormal(0F,1F,0F);
+		renderer.setBrightness(65);
+		renderer.addVertexWithUV(x-rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z-rotZ*particleScale-rotXY*particleScale,right,bottom);
+		renderer.addVertexWithUV(x-rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z-rotZ*particleScale+rotXY*particleScale,right,top);
+		renderer.addVertexWithUV(x+rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z+rotZ*particleScale+rotXY*particleScale,left,top);
+		renderer.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z+rotZ*particleScale-rotXY*particleScale,left,bottom);
+		Tessellator.getInstance().draw();
 		
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);

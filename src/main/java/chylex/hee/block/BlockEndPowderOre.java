@@ -2,12 +2,13 @@ package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.BlockOre;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import chylex.hee.item.ItemList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.item.ItemList;
 
 public class BlockEndPowderOre extends BlockOre{
 	@Override
@@ -28,6 +29,6 @@ public class BlockEndPowderOre extends BlockOre{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		for(int a = 0; a < 2; a++)world.spawnParticle("portal",(x-0.425F+1.75F*rand.nextFloat()),(y+1.5F*rand.nextFloat()),(z-0.425F+1.75F*rand.nextFloat()),0D,0D,0D);
+		for(int a = 0; a < 2; a++)world.spawnParticle(EnumParticleTypes.PORTAL,(x-0.425F+1.75F*rand.nextFloat()),(y+1.5F*rand.nextFloat()),(z-0.425F+1.75F*rand.nextFloat()),0D,0D,0D);
 	}
 }

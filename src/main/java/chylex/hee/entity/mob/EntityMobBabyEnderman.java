@@ -211,7 +211,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 				EntityEnderman orig = endermanList.get(a);
 				EntityMobAngryEnderman angryEnderman = new EntityMobAngryEnderman(worldObj,orig.posX,orig.posY,orig.posZ);
 				angryEnderman.copyLocationAndAnglesFrom(orig);
-				angryEnderman.setTarget(source.getEntity());
+				angryEnderman.setAttackTarget(source.getEntity());
 				
 				orig.setDead();
 				worldObj.spawnEntityInWorld(angryEnderman);

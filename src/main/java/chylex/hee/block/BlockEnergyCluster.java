@@ -77,7 +77,7 @@ public class BlockEnergyCluster extends BlockContainer{
 	}
 
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isFullCube(){
 		return false;
 	}
 

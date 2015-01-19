@@ -10,7 +10,7 @@ public class BlockLaboratoryGlass extends BlockBreakable{
 	}
 
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isFullCube(){
 		return false;
 	}
 	

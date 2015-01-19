@@ -4,10 +4,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
-import chylex.hee.system.util.MathUtil;
-import chylex.hee.tileentity.TileEntityAbstractTable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.system.util.MathUtil;
+import chylex.hee.tileentity.TileEntityAbstractTable;
 
 public abstract class ContainerAbstractTable extends Container{
 	private final TileEntityAbstractTable table;

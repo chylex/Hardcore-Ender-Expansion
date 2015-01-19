@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
@@ -106,7 +107,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 								for(int a = 0; a<(ModCommonProxy.opMobs?4:3); a++){
 									EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(worldObj,ix+rand.nextDouble(),iy,iz+rand.nextDouble());
 									enderman.rotationYaw = rand.nextFloat()*360F;
-									enderman.setTarget(player);
+									enderman.setAttackTarget(player);
 									enderman.addPotionEffect(endermanStrength);
 									worldObj.spawnEntityInWorld(enderman);
 									attempt = 999;
@@ -201,7 +202,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	
 	@Override
 	protected void onDeathUpdate(){
-		worldObj.spawnParticle("hugeexplosion",posX+(rand.nextFloat()*width*2F)-width,posY+(rand.nextFloat()*height),posZ+(rand.nextFloat()*width*2F)-width,0D,0D,0D);
+		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE,posX+(rand.nextFloat()*width*2F)-width,posY+(rand.nextFloat()*height),posZ+(rand.nextFloat()*width*2F)-width,0D,0D,0D);
 
 		if (worldObj.isRemote)return;
 		

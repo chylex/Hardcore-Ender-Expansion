@@ -118,7 +118,7 @@ public final class CompendiumEventsClient{
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		
-		if (achievementTimer > Byte.MIN_VALUE && --achievementTimer == Byte.MIN_VALUE)Minecraft.getMinecraft().guiAchievement.clearAchievements(();
+		if (achievementTimer > Byte.MIN_VALUE && --achievementTimer == Byte.MIN_VALUE)Minecraft.getMinecraft().guiAchievement.clearAchievements();
 		
 		if ((keyOpenCompendium.isPressed() || Keyboard.getEventKeyState() && Keyboard.getEventKey() == keyOpenCompendium.getKeyCode()) && (mc.inGameHasFocus || mc.currentScreen instanceof GuiContainer)){
 			if (canOpenCompendium()){

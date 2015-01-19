@@ -5,13 +5,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotBrewingStandIngredient;
 import chylex.hee.gui.slots.SlotBrewingStandPotion;
 import chylex.hee.item.ItemList;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerEnhancedBrewingStand extends Container{
 	private final TileEntityEnhancedBrewingStand tileBrewingStand;

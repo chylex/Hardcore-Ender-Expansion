@@ -7,14 +7,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C09SimpleEvent;
 import chylex.hee.packets.client.C09SimpleEvent.EventType;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.world.feature.TempleGenerator;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 	public static boolean isEnabled = true;

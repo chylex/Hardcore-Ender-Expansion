@@ -19,6 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
@@ -253,7 +254,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		prevAnimTime = animTime;
 
-		if (getHealth() <= 0F)worldObj.spawnParticle("largeexplode",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
+		if (getHealth() <= 0F)worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE,posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
 		else{
 			updateEnderCrystal();
 			
@@ -452,7 +453,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  				for(Entity entity:(List<Entity>)worldObj.loadedEntityList){
  					if (MathUtil.distance(entity.posX,entity.posZ) > 180D)continue;
  					
- 					if (entity instanceof EntityEnderman)((EntityEnderman)entity).setTarget(null);
+ 					if (entity instanceof EntityEnderman)((EntityEnderman)entity).setAttackTarget(null);
  					else if (entity instanceof EntityMobAngryEnderman)((EntityMobAngryEnderman)entity).setHealth(0F);
  				}
  			}
@@ -484,19 +485,19 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  						
  						if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
  							if ((iy < bottomY && distSq <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)) || iy > bottomY)continue;
- 							for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",ix+rand.nextDouble(),iy+rand.nextDouble()-0.5D,iz+rand.nextDouble(),0D,0D,0D);
+ 							for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle(EnumParticleTypes.PORTAL,ix+rand.nextDouble(),iy+rand.nextDouble()-0.5D,iz+rand.nextDouble(),0D,0D,0D);
  						}
  					}
  				}
  			}
  			
  			for(int minX = 2; minX < 5; minX++){
- 				for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",xx+rand.nextDouble(),bottomY+a+rand.nextDouble()-0.5D,zz+rand.nextDouble(),0D,0D,0D);
+ 				for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle(EnumParticleTypes.PORTAL,xx+rand.nextDouble(),bottomY+a+rand.nextDouble()-0.5D,zz+rand.nextDouble(),0D,0D,0D);
  			}
  		}
 
 		if (deathTicks >= 180 && deathTicks <= 200){
-			worldObj.spawnParticle("hugeexplosion",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
+			worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE,posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
 		}
 
 		moveEntity(0D,0.1D,0D);
@@ -623,7 +624,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			}
 		}
 
-		if (spawnParticles)worldObj.spawnParticle("largeexplode",aabb.minX+(aabb.maxX-aabb.minX)*rand.nextFloat(),aabb.minY+(aabb.maxY-aabb.minY)*rand.nextFloat(),aabb.minZ+(aabb.maxZ-aabb.minZ)*rand.nextFloat(),0D,0D,0D);
+		if (spawnParticles)worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE,aabb.minX+(aabb.maxX-aabb.minX)*rand.nextFloat(),aabb.minY+(aabb.maxY-aabb.minY)*rand.nextFloat(),aabb.minZ+(aabb.maxZ-aabb.minZ)*rand.nextFloat(),0D,0D,0D);
 		
 		return wasBlocked;
 	}

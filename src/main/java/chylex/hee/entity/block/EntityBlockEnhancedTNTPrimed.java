@@ -99,7 +99,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 			setDead();
 			if (!worldObj.isRemote)explode();
 		}
-		else worldObj.spawnParticle("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
+		else worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,posX,posY+0.5D,posZ,0D,0D,0D);
 		
 		setPosition(posX,posY,posZ);
 	}

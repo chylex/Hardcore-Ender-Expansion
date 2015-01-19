@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -41,7 +42,7 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 			if (tile.getBlockType() == BlockList.custom_spawner && MathUtil.distance(pos.getX()-tile.getPos().getX(),pos.getZ()-tile.getPos().getZ()) < 260)++spawnerCount;
 		}
 		
-		if (spawnerCount > 24)world.spawnParticle("reddust",pos.getX()-0.2D+world.rand.nextDouble()*1.4D,pos.getY()-0.2D+world.rand.nextDouble()*1.4D,pos.getZ()-0.2D+world.rand.nextDouble()*1.4D,1D,0.2D,0.2D);
+		if (spawnerCount > 24)world.spawnParticle(EnumParticleTypes.REDSTONE,pos.getX()-0.2D+world.rand.nextDouble()*1.4D,pos.getY()-0.2D+world.rand.nextDouble()*1.4D,pos.getZ()-0.2D+world.rand.nextDouble()*1.4D,1D,0.2D,0.2D);
 		
 		return spawnerCount <= 24 ? blockHardness : blockHardness+(3F+(float)Math.pow(spawnerCount-24,0.8D)*1.5F);
 	}

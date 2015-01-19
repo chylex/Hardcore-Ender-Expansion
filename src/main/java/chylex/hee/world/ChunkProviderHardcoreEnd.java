@@ -12,10 +12,10 @@ import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.ChunkProviderEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.MapGenIsland;
 import chylex.hee.world.structure.tower.MapGenTower;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
 
 public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	private final World world;

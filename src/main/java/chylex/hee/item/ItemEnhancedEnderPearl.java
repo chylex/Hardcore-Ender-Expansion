@@ -4,10 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
 
 public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	@Override

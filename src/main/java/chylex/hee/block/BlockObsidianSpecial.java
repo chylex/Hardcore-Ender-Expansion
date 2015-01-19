@@ -6,11 +6,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.proxy.ModCommonProxy;
 
 public class BlockObsidianSpecial extends Block implements IBlockSubtypes{	
 	/*
@@ -50,11 +50,6 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	}
 	
 	@Override
-	public int getRenderType(){
-		return ModCommonProxy.renderIdObsidianSpecial;
-	}
-	
-	@Override
 	public String getUnlocalizedName(ItemStack is){
 		switch(is.getItemDamage()){
 			case 1: return isGlowing ? "tile.obsidianSpecialGlowing.chiseled" : "tile.obsidianSpecial.chiseled";
@@ -70,13 +65,13 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 		
 		if (meta == 5){
 			for(int a = 0; a < 10; a++){
-				world.spawnParticle("portal",(x+rand.nextFloat()),(y-4F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
-				world.spawnParticle("largesmoke",(x+rand.nextFloat()),(y-4F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
+				world.spawnParticle(EnumParticleTypes.PORTAL,(x+rand.nextFloat()),(y-4F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
+				world.spawnParticle(EnumParticleTypes.SMOKE_LARGE,(x+rand.nextFloat()),(y-4F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
 			}
 		}
 		else if (meta == 6){
 			for(int a = 0; a < 30; a++){
-				world.spawnParticle("portal",(x+rand.nextFloat()),(y+5F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
+				world.spawnParticle(EnumParticleTypes.PORTAL,(x+rand.nextFloat()),(y+5F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
 			}
 		}
 	}

@@ -1,56 +1,44 @@
 package chylex.hee.block;
-import java.util.List;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.item.Item;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 
-public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
-	private static final String[] types = new String[]{
-		"infested", "burned", "enchanted"
-	};
-	
-	public static final byte metaInfested = 0, metaBurned = 1, metaEnchanted = 2;
+public class BlockEndstoneTerrain extends BlockAbstract implements IBlockSubtypes{
+	public static enum Variant{ INFESTED, BURNED, ENCHANTED }
+	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
 	
 	public BlockEndstoneTerrain(){
 		super(Material.rock);
+		createSimpleMeta(VARIANT,Variant.class);
 	}
 	
 	@Override
-	public int damageDropped(int meta){
-		return meta;
+	protected IProperty[] getPropertyArray(){
+		return new IProperty[]{ VARIANT };
 	}
 	
 	@Override
-	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z){
-		switch(world.getBlockMetadata(x,y,z)){
-			case metaInfested: return BlockList.blockRandom.nextInt(10) <= 2;
-			case metaBurned: return false;
-			case metaEnchanted:
+	public boolean canCreatureSpawn(IBlockAccess world, BlockPos pos, SpawnPlacementType type){
+		switch((Variant)world.getBlockState(pos).getValue(VARIANT)){
+			case INFESTED: return BlockList.blockRandom.nextInt(10) <= 2;
+			case BURNED: return false;
+			case ENCHANTED:
 			default: return true;
 		}
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		switch(is.getItemDamage()){
-			case BlockEndstoneTerrain.metaInfested: return "tile.endStoneTerrain.infested";
-			case BlockEndstoneTerrain.metaBurned: return "tile.endStoneTerrain.burned";
-			case BlockEndstoneTerrain.metaEnchanted: return "tile.endStoneTerrain.enchanted";
+		switch((Variant)getEnumFromDamage(is.getItemDamage())){
+			case INFESTED: return "tile.endStoneTerrain.infested";
+			case BURNED: return "tile.endStoneTerrain.burned";
+			case ENCHANTED: return "tile.endStoneTerrain.enchanted";
 			default: return "";
 		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < types.length; a++)list.add(new ItemStack(item,1,a));
 	}
 }

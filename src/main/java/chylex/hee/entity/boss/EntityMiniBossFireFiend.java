@@ -135,7 +135,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 						List<EntityMobFireGolem> golems = worldObj.getEntitiesWithinAABB(EntityMobFireGolem.class,player.boundingBox.expand(32D,32D,32D));
 						
 						for(EntityMobFireGolem golem:golems){
-							if (golem.getEntityToAttack() == player && ++targeted >= 2)break;
+							if (golem.getAttackTarget() == player && ++targeted >= 2)break;
 						}
 						
 						if (targeted >= 2)continue;
@@ -147,7 +147,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 							EntityMobFireGolem golem = golems.remove(rand.nextInt(golems.size()));
 							
 							if (player.getDistanceToEntity(golem) <= 16D){
-								golem.setTarget(player);
+								golem.setAttackTarget(player);
 								PacketPipeline.sendToAllAround(this,128D,new C22EffectLine(FXType.Line.FIRE_FIEND_GOLEM_CALL,this,golem));
 								called -= rand.nextInt(2)+1;
 							}

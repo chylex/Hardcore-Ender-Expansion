@@ -79,7 +79,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 				int chunkX = xCoord>>4, chunkZ = zCoord>>4, cx, cz;
 				
 				for(int a = 0; a < 9; a++){
-					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).chunkTileEntityMap;
+					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).getTileEntityMap();
 					cx = chunkX*16+chunkOffX[a]*16;
 					cz = chunkZ*16+chunkOffZ[a]*16;
 					

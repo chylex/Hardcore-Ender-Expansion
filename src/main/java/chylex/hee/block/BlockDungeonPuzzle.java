@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Direction;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -175,7 +176,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	@Override
 	public boolean onBlockEventReceived(World world, int x, int y, int z, int eventID, int eventData){
 		if (eventID == 69){
-			for(int a = 0; a < (eventData == 0 ? 3 : 25); a++)world.spawnParticle("flame",x+world.rand.nextDouble(),y+(eventData == 0 ? 1.15D : 1D+world.rand.nextDouble()*2D),z+world.rand.nextDouble(),(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D);
+			for(int a = 0; a < (eventData == 0 ? 3 : 25); a++)world.spawnParticle(EnumParticleTypes.FLAME,x+world.rand.nextDouble(),y+(eventData == 0 ? 1.15D : 1D+world.rand.nextDouble()*2D),z+world.rand.nextDouble(),(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D);
 			world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,"random.fizz",0.5F,2.6F+(world.rand.nextFloat()-world.rand.nextFloat())*0.8F);
 			return true;
 		}

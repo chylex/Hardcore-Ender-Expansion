@@ -7,11 +7,14 @@ import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball.FieryExplosion;
@@ -20,8 +23,11 @@ import chylex.hee.packets.client.C12FiendFireballExplosion;
 import chylex.hee.packets.client.C69FiendFuckball;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+xy;
+import chylex.hee.system.util.MathUtil;
+xy;
+import chylex.hee.system.util.MathUtil;
+ net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	private int fiendId;
@@ -140,7 +146,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		float motFactor = getMotionFactor();
 
 		if (isInWater()){
-			for(int a = 0; a < 4; ++a)worldObj.spawnParticle("bubble",posX-motionX*0.25F,posY-motionY*0.25F,posZ-motionZ*0.25F,motionX,motionY,motionZ);
+			for(int a = 0; a < 4; ++a)worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE,posX-motionX*0.25F,posY-motionY*0.25F,posZ-motionZ*0.25F,motionX,motionY,motionZ);
 			motFactor = 0.8F;
 		}
 
@@ -150,7 +156,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		motionX *= motFactor;
 		motionY *= motFactor;
 		motionZ *= motFactor;
-		worldObj.spawnParticle("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
+		worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,posX,posY+0.5D,posZ,0D,0D,0D);
 		setPosition(posX,posY,posZ);
 	}
 	

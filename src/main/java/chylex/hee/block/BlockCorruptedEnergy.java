@@ -13,6 +13,7 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -46,7 +47,7 @@ public class BlockCorruptedEnergy extends Block{
 				HardcoreEnderExpansion.fx.corruptedEnergy(world,x,y,z);
 				HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);
 			}
-			if (world.rand.nextInt(5) == 0)world.spawnParticle("explode",x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
+			if (world.rand.nextInt(5) == 0)world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL,x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
 			return;
 		}
 		
@@ -141,6 +142,6 @@ public class BlockCorruptedEnergy extends Block{
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.corruptedEnergy(world,x,y,z);
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);
-		if (world.rand.nextInt(30) == 0)world.spawnParticle("explode",x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
+		if (world.rand.nextInt(30) == 0)world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL,x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
 	}
 }

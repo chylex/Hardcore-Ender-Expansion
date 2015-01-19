@@ -18,7 +18,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
-import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.BlockPosM;
 
 public class BlockSpookyLeaves extends BlockLeaves{
@@ -41,13 +40,8 @@ public class BlockSpookyLeaves extends BlockLeaves{
 	}
 	
 	@Override
-	public boolean renderAsNormalBlock(){
+	public boolean isFullCube(){
 		return false;
-	}
-
-	@Override
-	public int getRenderType(){
-		return ModCommonProxy.renderIdSpookyLeaves;
 	}
 	
 	@Override

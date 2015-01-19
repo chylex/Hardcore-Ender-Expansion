@@ -93,7 +93,7 @@ public class EntityBlockHomelandCache extends Entity{
 			
 			if (worldObj.isRemote){
 				worldObj.playSound(posX,posY,posZ,"dig.glass",1F,rand.nextFloat()*0.1F+0.92F,false);
-				for(int a = 0; a < 20; a++)worldObj.spawnParticle("largesmoke",posX+(rand.nextDouble()-0.5D)*0.8D,posY+0.05D+rand.nextDouble()*1D,posZ+(rand.nextDouble()-0.5D)*0.8D,0D,0D,0D);
+				for(int a = 0; a < 20; a++)worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE,posX+(rand.nextDouble()-0.5D)*0.8D,posY+0.05D+rand.nextDouble()*1D,posZ+(rand.nextDouble()-0.5D)*0.8D,0D,0D,0D);
 			}
 			else{
 				for(int a = 0; a < 2+rand.nextInt(2+rand.nextInt(2)); a++){
@@ -114,7 +114,7 @@ public class EntityBlockHomelandCache extends Entity{
 						case GUARD:
 							--amt;
 							enderman.teleportToEntity(target);
-							enderman.setTarget(target);
+							enderman.setAttackTarget(target);
 							enderman.setScreaming(true);
 							break;
 							
@@ -141,7 +141,7 @@ public class EntityBlockHomelandCache extends Entity{
 						for(int a = 2+rand.nextInt(2); a > 0 && !list.isEmpty(); a--){
 							EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
 							guard.teleportToEntity(source.getSourceOfDamage());
-							guard.setTarget(source.getSourceOfDamage());
+							guard.setAttackTarget(source.getSourceOfDamage());
 							guard.setScreaming(true);
 							PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,enderman,guard));
 							if (--amt <= 0)break;

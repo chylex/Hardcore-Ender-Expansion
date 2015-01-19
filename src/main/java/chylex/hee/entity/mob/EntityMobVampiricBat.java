@@ -24,7 +24,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
-		for(int a = 0; a < 3; a++)worldObj.spawnParticle("portal",posX,posY-0.45D,posZ,0D,0D,0D);
+		for(int a = 0; a < 3; a++)worldObj.spawnParticle(EnumParticleTypes.PORTAL,posX,posY-0.45D,posZ,0D,0D,0D);
 	}
 	
 	@Override
@@ -87,8 +87,8 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 			}
 			
 			for(int a = 0; a < 6; a++){
-				worldObj.spawnParticle("largesmoke",posX,posY+0.4D,posZ,0D,0D,0D);
-				worldObj.spawnParticle("smoke",posX,posY+0.4D,posZ,0D,0D,0D);
+				worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE,posX,posY+0.4D,posZ,0D,0D,0D);
+				worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,posX,posY+0.4D,posZ,0D,0D,0D);
 			}
 		}
 	}
@@ -98,8 +98,8 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 		if (!worldObj.isRemote)setDead();
 		
 		for(int a = 0; a < 6; a++){
-			worldObj.spawnParticle("largesmoke",posX,posY+0.4D,posZ,0D,0D,0D);
-			worldObj.spawnParticle("smoke",posX,posY+0.4D,posZ,0D,0D,0D);
+			worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE,posX,posY+0.4D,posZ,0D,0D,0D);
+			worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,posX,posY+0.4D,posZ,0D,0D,0D);
 		}
 		
 		return true;

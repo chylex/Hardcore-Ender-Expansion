@@ -1,9 +1,9 @@
 package chylex.hee.gui;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import chylex.hee.tileentity.TileEntityExperienceTable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.tileentity.TileEntityExperienceTable;
 
 @SideOnly(Side.CLIENT)
 public class GuiExperienceTable extends GuiAbstractTable{

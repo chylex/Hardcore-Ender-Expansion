@@ -53,8 +53,8 @@ public class FXEvents{
 				Random rand = player.getRNG();
 				
 				for(int a = 0; a < 30; a++){
-					player.worldObj.spawnParticle("largesmoke",player.posX+rand.nextDouble()-0.5D,player.posY,player.posZ+rand.nextDouble()-0.5D,0D,0D,0D);
-					HardcoreEnderExpansion.fx.omnipresent("largesmoke",player.worldObj,ItemTempleCaller.templeX+1.5D+rand.nextDouble()-0.5D,ItemTempleCaller.templeY+2.5D,ItemTempleCaller.templeZ+6.5D+rand.nextDouble()-0.5D,0D,0D,0D);
+					player.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE,player.posX+rand.nextDouble()-0.5D,player.posY,player.posZ+rand.nextDouble()-0.5D,0D,0D,0D);
+					HardcoreEnderExpansion.fx.omnipresent(EnumParticleTypes.SMOKE_LARGE,player.worldObj,ItemTempleCaller.templeX+1.5D+rand.nextDouble()-0.5D,ItemTempleCaller.templeY+2.5D,ItemTempleCaller.templeZ+6.5D+rand.nextDouble()-0.5D,0D,0D,0D);
 				}
 				
 				if (TempleEvents.isPlayerInTemple(player)){

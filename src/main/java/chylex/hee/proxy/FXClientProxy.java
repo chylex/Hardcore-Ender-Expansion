@@ -14,6 +14,7 @@ import net.minecraft.client.particle.EntitySpellParticleFX;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityAltarOrbFX;
 import chylex.hee.entity.fx.EntityBigPortalFX;
@@ -44,12 +45,12 @@ public class FXClientProxy extends FXCommonProxy{
 	 */
 	
 	@Override
-	public void omnipresent(String particleName, World world, double x, double y, double z, double motionX, double motionY, double motionZ){
-		switch(particleName){
-			case "smoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,1F){}); break;
-			case "largesmoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,2.5F){}); break;
-			case "portal": spawn(new EntityPortalFX(world,x,y,z,motionX,motionY,motionZ){}); break;
-			default: Log.debug("Particle $0 not found!",particleName);
+	public void omnipresent(EnumParticleTypes particleType, World world, double x, double y, double z, double motionX, double motionY, double motionZ){
+		switch(particleType){
+			case SMOKE_NORMAL: spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,1F){}); break;
+			case SMOKE_LARGE: spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,2.5F){}); break;
+			case PORTAL: spawn(new EntityPortalFX(world,x,y,z,motionX,motionY,motionZ){}); break;
+			default: Log.debug("Particle $0 not found!",particleType.getParticleName());
 		}
 	}
 	

@@ -3,10 +3,10 @@ import net.minecraft.client.gui.inventory.GuiBrewingStand;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnhancedBrewingStand extends GuiBrewingStand{

@@ -3,13 +3,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.system.logging.Stopwatch;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
 	public static void addRecipes(){

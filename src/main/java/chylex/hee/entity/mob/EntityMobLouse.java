@@ -208,7 +208,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		
 		if (worldObj.isRemote){
 			for(int a = 0; a < 64; a++){
-				worldObj.spawnParticle("portal",posX+(rand.nextDouble()-rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
+				worldObj.spawnParticle(EnumParticleTypes.PORTAL,posX+(rand.nextDouble()-rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
 			}
 
 			return;
@@ -245,7 +245,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		if (!hasTeleported)return;
 		
 		for(int a = 0; a < 64; a++){
-			worldObj.spawnParticle("portal",oldPosX+(rand.nextDouble()-rand.nextDouble())*width,oldPosY+rand.nextDouble()*height,oldPosZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
+			worldObj.spawnParticle(EnumParticleTypes.PORTAL,oldPosX+(rand.nextDouble()-rand.nextDouble())*width,oldPosY+rand.nextDouble()*height,oldPosZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
 		}
 
 		worldObj.playSoundEffect(oldPosX,oldPosY,oldPosZ,"mob.endermen.portal",1F,1F);

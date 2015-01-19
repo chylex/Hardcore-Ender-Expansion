@@ -32,7 +32,7 @@ import chylex.hee.system.util.BlockPosM;
 
 public class BlockDragonEggCustom extends BlockDragonEgg{
 	public BlockDragonEggCustom(){
-		setBlockUnbreakable().setResistance(2000F).setStepSound(Block.soundTypeStone).setLightLevel(0.125F).setUnlocalizedName("dragonEgg").setBlockTextureName("dragon_egg");
+		setBlockUnbreakable().setResistance(2000F).setStepSound(Block.soundTypeStone).setLightLevel(0.125F).setUnlocalizedName("dragonEgg");
 	}
 	
 	@Override

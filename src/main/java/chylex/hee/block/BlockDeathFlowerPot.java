@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chylex.hee.proxy.ModCommonProxy;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -45,11 +44,6 @@ public class BlockDeathFlowerPot extends BlockFlowerPot{
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World world, int x, int y, int z){
 		return Item.getItemFromBlock(BlockList.death_flower);
-	}
-	
-	@Override
-	public int getRenderType(){
-		return ModCommonProxy.renderIdFlowerPot;
 	}
 
 	public static ItemStack getPlantForMeta(int meta){

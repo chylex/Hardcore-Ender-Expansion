@@ -120,7 +120,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 		}
 
 		for(int i = 0; i < 32; ++i){
-			worldObj.spawnParticle("portal",posX,posY+rand.nextDouble()*2D,posZ,rand.nextGaussian(),0D,rand.nextGaussian());
+			worldObj.spawnParticle(EnumParticleTypes.PORTAL,posX,posY+rand.nextDouble()*2D,posZ,rand.nextGaussian(),0D,rand.nextGaussian());
 		}
 
 		if (!worldObj.isRemote){

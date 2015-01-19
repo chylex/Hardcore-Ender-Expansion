@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMonsterPlacer;
@@ -16,6 +15,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
@@ -32,8 +33,6 @@ import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.system.util.BlockPosM;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemSpawnEggs extends ItemMonsterPlacer{
 	private static final EggData[] eggTypes = new EggData[]{

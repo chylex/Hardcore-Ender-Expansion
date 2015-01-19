@@ -4,10 +4,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-import chylex.hee.tileentity.TileEntityAbstractTable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+import chylex.hee.tileentity.TileEntityAbstractTable;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiAbstractTable extends GuiContainer{
