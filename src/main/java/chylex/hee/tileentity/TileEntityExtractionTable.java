@@ -21,6 +21,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
 
@@ -88,8 +89,8 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	}
 	
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 		
 		if (!worldObj.isRemote && leakTimer < 0 || (leakTimer -= (items[2] == null || items[2].getItem() != ItemList.instability_orb ? 16 : Math.max(0,16-items[2].stackSize))) < 0){
 			leakTimer = 100;
@@ -99,7 +100,7 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 				storedEnergy = Math.max(storedEnergy-release,0F);
 				
 				List<TileEntityEnergyCluster> clusters = new ArrayList<>();
-				int chunkX = xCoord>>4, chunkZ = zCoord>>4, cx, cz;
+				int x = getPos().getX(), y = getPos().getY(), z = getPos().getZ(), chunkX = x>>4, chunkZ = z>>4, cx, cz;
 				
 				for(int a = 0; a < 9; a++){
 					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).getTileEntityMap();
@@ -109,7 +110,7 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 					for(Entry<ChunkPosition,TileEntity> entry:tiles.entrySet()){
 						ChunkPosition pos = entry.getKey();
 						
-						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.chunkPosX-xCoord,pos.chunkPosY-yCoord,cz+pos.chunkPosZ-zCoord) <= 16D){
+						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.chunkPosX-x,pos.chunkPosY-y,cz+pos.chunkPosZ-z) <= 16D){
 							clusters.add((TileEntityEnergyCluster)entry.getValue());
 						}
 					}
@@ -124,16 +125,16 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 				}
 				
 				if (release >= EnergyChunkData.minSignificantEnergy && worldObj.provider.getDimensionId() == 1){
-					release = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).addEnergy(release);
+					release = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,x,z,true).addEnergy(release);
 				}
 				
 				if (release >= EnergyChunkData.minSignificantEnergy){
+					BlockPosM testPos = new BlockPosM();
+					
 					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 8 && placed < 4; attempt++){
-						xx = xCoord+worldObj.rand.nextInt(7)-3;
-						yy = yCoord+worldObj.rand.nextInt(7)-3;
-						zz = zCoord+worldObj.rand.nextInt(7)-3;
+						testPos.moveTo(getPos()).moveBy(worldObj.rand.nextInt(7)-3,worldObj.rand.nextInt(7)-3,worldObj.rand.nextInt(7)-3);
 						
-						if (worldObj.isAirBlock(xx,yy,zz)){
+						if (testPos.isAir(worldObj)){
 							worldObj.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+MathUtil.floor(release*4.5F),3);
 							++placed;
 						}

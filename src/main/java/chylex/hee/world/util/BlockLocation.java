@@ -1,4 +1,5 @@
 package chylex.hee.world.util;
+import chylex.hee.system.util.BlockPosM;
 import net.minecraft.util.BlockPos;
 
 public class BlockLocation{
@@ -14,6 +15,10 @@ public class BlockLocation{
 		this.x = pos.getX();
 		this.y = pos.getY();
 		this.z = pos.getZ();
+	}
+	
+	public BlockPosM toBlockPos(){
+		return new BlockPosM(x,y,z);
 	}
 	
 	@Override

@@ -15,8 +15,8 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	public void invalidateInventory(){}
 	
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 		
 		if (!worldObj.isRemote && (channelCooldown == 0 || --channelCooldown == 0) && items[0] != null && storedEnergy >= EnergyChunkData.energyDrainUnit && items[0].getItem() instanceof ItemAbstractEnergyAcceptor){
 			ItemAbstractEnergyAcceptor item = (ItemAbstractEnergyAcceptor)items[0].getItem();

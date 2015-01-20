@@ -106,8 +106,8 @@ public final class BlockList{
 	public static Block enderman_head;
 	public static Block death_flower;
 	public static Block energy_cluster;
-	public static Block corrupted_energy_high;
-	public static Block corrupted_energy_low;
+	public static BlockAbstractState corrupted_energy_high;
+	public static BlockAbstractState corrupted_energy_low;
 	public static Block soul_charm;
 	public static Block laboratory_glass;
 	
@@ -169,8 +169,8 @@ public final class BlockList{
 		register("enderman_head_block", enderman_head = new BlockEndermanHead().setHardness(1F).setStepSound(Block.soundTypeStone).setUnlocalizedName("endermanHead"));
 		register("death_flower", death_flower = new BlockDeathFlower().setHardness(0F).setResistance(4F).setStepSound(Block.soundTypeGrass).setCreativeTab(null).setUnlocalizedName("endFlower"));
 		register("energy_cluster", energy_cluster = new BlockEnergyCluster().setHardness(0.7F).setResistance(0.2F).setStepSound(BlockEnergyCluster.soundTypeEnergyCluster).setUnlocalizedName("energyCluster"));
-		register("corrupted_energy_high", corrupted_energy_high = new BlockCorruptedEnergy(true).setBlockUnbreakable().setResistance(6000000F));
-		register("corrupted_energy_low", corrupted_energy_low = new BlockCorruptedEnergy(false).setBlockUnbreakable().setResistance(6000000F));
+		register("corrupted_energy_high", corrupted_energy_high = (BlockAbstractState)new BlockCorruptedEnergy(true).setBlockUnbreakable().setResistance(6000000F));
+		register("corrupted_energy_low", corrupted_energy_low = (BlockAbstractState)new BlockCorruptedEnergy(false).setBlockUnbreakable().setResistance(6000000F));
 		register("laboratory_glass", laboratory_glass = new BlockLaboratoryGlass().setHardness(5F).setResistance(50F).setLightOpacity(5).setUnlocalizedName("laboratoryGlass"));
 		
 		register("death_flower_pot", death_flower_pot = new BlockDeathFlowerPot().setHardness(0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("flowerPot"));

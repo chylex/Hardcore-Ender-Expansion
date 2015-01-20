@@ -1,7 +1,6 @@
 package chylex.hee.entity.projectile;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderPearl;
@@ -13,11 +12,12 @@ import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import net.minecraftforge.fml.client.FMLClientHandler;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
@@ -66,7 +66,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 	@Override
 	public void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(16,ride == null ? "" : ride.getCommandSenderName());
+		dataWatcher.addObject(16,ride == null ? "" : ride.getPersistentID().toString());
 	}
 	
 	@Override
@@ -75,7 +75,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 		
 		if (!worldObj.isRemote){
 			if (ride != null){
-				dataWatcher.updateObject(16,ride.getCommandSenderName());
+				dataWatcher.updateObject(16,ride.getPersistentID().toString());
 				updateRidePosition();
 				ride.fallDistance = 0F;
 				ride.setPosition(posX,posY+ride.height,posZ);
@@ -96,8 +96,8 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 			if (++life > 200)setDead();
 		}
 		else{
-			EntityClientPlayerMP clientPlayer = FMLClientHandler.instance().getClient().thePlayer;
-			if (dataWatcher.getWatchableObjectString(16).equals(clientPlayer.getCommandSenderName()))clientPlayer.setPosition(posX,posY+clientPlayer.height,posZ);
+			EntityPlayer clientPlayer = HardcoreEnderExpansion.proxy.getClientSidePlayer();
+			if (dataWatcher.getWatchableObjectString(16).equals(clientPlayer.getPersistentID().toString()))clientPlayer.setPosition(posX,posY+clientPlayer.height,posZ);
 		}
 	}
 

@@ -1,12 +1,14 @@
 package chylex.hee.tileentity;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.util.MathUtil;
 
 public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1 }, slotsBottom = new int[]{ 2 };
+	private static final BlockPos zeroPos = new BlockPos(0,0,0);
 	
 	/**
 	 * 0 = inactive, -1 = active but undecided (because of randomness in exp drop)
@@ -21,7 +23,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 		if (items[0] != null){
 			Block block = Block.getBlockFromItem(items[0].getItem());
 			
-			if (block != null && block.getExpDrop(worldObj,items[0].getItemDamage(),0) > 0){
+			if (block != null && block.getExpDrop(worldObj,zeroPos,0) > 0){
 				expAmount = -1;
 				timeStep = 12;
 				requiredStardust = 4;
@@ -33,7 +35,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 
 	@Override
 	protected boolean onWorkFinished(){
-		if (expAmount == -1)expAmount = (byte)MathUtil.ceil(0.6D*Block.getBlockFromItem(items[0].getItem()).getExpDrop(worldObj,items[0].getItemDamage(),0));
+		if (expAmount == -1)expAmount = (byte)MathUtil.ceil(0.6D*Block.getBlockFromItem(items[0].getItem()).getExpDrop(worldObj,zeroPos,0));
 		
 		if (items[2] == null)items[2] = new ItemStack(ItemList.exp_bottle,expAmount);
 		else if (items[2].stackSize+expAmount <= items[2].getMaxStackSize())items[2].stackSize += expAmount;

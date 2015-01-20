@@ -43,20 +43,13 @@ public class ItemEndermanHead extends Item{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
 		if (side == EnumFacing.UP || !world.getBlockState(pos).getBlock().getMaterial().isSolid())return false;
 		
-		switch(side){
-			case 1: ++y; break;
-			case 2: --z; break;
-			case 3: ++z; break;
-			case 4: --x; break;
-			case 5: ++x; break;
-			default:
-		}
+		// TODO offset
 
 		if (!player.canPlayerEdit(pos,side,is) || !BlockList.enderman_head.canPlaceBlockAt(world,pos))return false;
 
 		world.setBlock(x,y,z,BlockList.enderman_head,side,2);
 		
-		if (side == 1 && ApocalypseEvents.checkEndermanpocalypseStructure(world,x,y,z)){
+		if (side == EnumFacing.UP && ApocalypseEvents.checkEndermanpocalypseStructure(world,x,y,z)){
 			//int rotation = (int)((MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15)*360F/16F);
 			--is.stackSize;
 			return true;
@@ -64,7 +57,7 @@ public class ItemEndermanHead extends Item{
 		
 		TileEntityEndermanHead tile = (TileEntityEndermanHead)world.getTileEntity(x,y,z);
 		if (tile != null){
-			if (side == 1)tile.setRotation(MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15);
+			if (side == EnumFacing.UP)tile.setRotation(MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15);
 			else tile.setMeta(side);
 		}
 

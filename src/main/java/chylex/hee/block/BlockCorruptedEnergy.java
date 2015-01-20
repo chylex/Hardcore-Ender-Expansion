@@ -1,8 +1,12 @@
 package chylex.hee.block;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -19,9 +23,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.material.MaterialCorruptedEnergy;
+import chylex.hee.system.util.BlockPosM;
 
-public class BlockCorruptedEnergy extends Block{
+public class BlockCorruptedEnergy extends BlockAbstractStateInt{
 	private static final Material corruptedEnergy = new MaterialCorruptedEnergy();
+	
+	public static final PropertyInteger LEVEL = PropertyInteger.create("level",0,15);
 	
 	private static final byte[] offsetX = new byte[]{ -1, 1, 0, 0, 0, 0 },
 								offsetY = new byte[]{ 0, 0, -1, 1, 0, 0 },
@@ -36,6 +43,19 @@ public class BlockCorruptedEnergy extends Block{
 	}
 	
 	@Override
+	protected IProperty[] getPropertyArray(){
+		return new IProperty[]{ LEVEL };
+	}
+	
+	public int getLevel(IBlockState state){
+		return ((Integer)state.getValue(LEVEL)).intValue()+(isHighLevel ? 16 : 0);
+	}
+	
+	public int decreaseLevel(int level){
+		return level > 16 ? level-17 : level-1;
+	}
+	
+	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state){
 		world.scheduleUpdate(pos,this,tickRate(world));
 	}
@@ -43,35 +63,40 @@ public class BlockCorruptedEnergy extends Block{
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
 		if (world.isRemote){
+			int x = pos.getX(), y = pos.getY(), z = pos.getZ();
+			
 			for(int a = 0; a < 3; a++){
 				HardcoreEnderExpansion.fx.corruptedEnergy(world,x,y,z);
 				HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);
 			}
+			
 			if (world.rand.nextInt(5) == 0)world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL,x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
 			return;
 		}
 		
-		int meta = world.getBlockMetadata(x,y,z);
+		int level = getLevel(state);
 		
-		if (meta > 1){
+		if (level > 1){
+			BlockPosM testPos = new BlockPosM();
+			
 			for(int a = 0; a < 6; a++){
 				if (rand.nextInt(3) == 0){
-					Block block = world.getBlock(x+offsetX[a],y+offsetY[a],z+offsetZ[a]);
-					if (block.getMaterial() == Material.air)world.setBlock(x+offsetX[a],y+offsetY[a],z+offsetZ[a],this,meta-1,3);
-					else if (!block.isOpaqueCube() && world.getBlock(x+offsetX[a]*2,y+offsetY[a]*2,z+offsetZ[a]*2).getMaterial() == Material.air){
-						world.setBlock(x+offsetX[a]*2,y+offsetY[a]*2,z+offsetZ[a]*2,this,meta-1,3);
+					Block block = testPos.moveTo(pos).moveBy(offsetX[a],offsetY[a],offsetZ[a]).getBlock(world);
+					if (block.getMaterial() == Material.air)testPos.setBlock(world,setProperty(decreaseLevel(level)));
+					else if (!block.isOpaqueCube() && testPos.moveBy(offsetX[a],offsetY[a],offsetZ[a]).getBlockMaterial(world) == Material.air){
+						testPos.setBlock(world,setProperty(decreaseLevel(level)));
 					}
 				}
 			}
 		}
 		
 		if (world.rand.nextInt(7) <= 3 || world.rand.nextBoolean()){
-			if (meta == 1){
-				if (isHighLevel)world.setBlock(x,y,z,BlockList.corrupted_energy_low,15,3);
-				else world.setBlockToAir(x,y,z);
+			if (level == 16){
+				if (isHighLevel)world.setBlockState(pos,BlockList.corrupted_energy_low.setProperty(15));
+				else world.setBlockToAir(pos);
 				return;
 			}
-			else world.setBlockMetadataWithNotify(x,y,z,meta-1,3);
+			else world.setBlockState(pos,setProperty(decreaseLevel(level)));
 		}
 		
 		world.scheduleUpdate(pos,this,tickRate(world));
@@ -86,9 +111,9 @@ public class BlockCorruptedEnergy extends Block{
 	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity){
 		if (entity instanceof EntityLivingBase && !(entity instanceof IBossDisplayData)){
 			EntityLivingBase living = (EntityLivingBase)entity;
-			int meta = world.getBlockMetadata(x,y,z);
+			int level = getLevel(world.getBlockState(pos));
 			
-			if (world.rand.nextInt(meta >= 10 ? 3 : (meta >= 5 ? 4 : 5)) == 0 && (living.hurtTime <= 3 || world.rand.nextInt(7) == 0) && living.getHealth() > 0F){
+			if (world.rand.nextInt(6-(level>>3)) == 0 && (living.hurtTime <= 3 || world.rand.nextInt(7) == 0) && living.getHealth() > 0F){
 				if (entity instanceof EntityPlayer){
 					EntityPlayer player = (EntityPlayer)entity;
 					if (player.capabilities.isCreativeMode && player.getHealth() <= 1F)return;
@@ -139,7 +164,12 @@ public class BlockCorruptedEnergy extends Block{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list){}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
+		int x = pos.getX(), y = pos.getY(), z = pos.getZ();
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.corruptedEnergy(world,x,y,z);
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);
 		if (world.rand.nextInt(30) == 0)world.spawnParticle(EnumParticleTypes.EXPLOSION_NORMAL,x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);

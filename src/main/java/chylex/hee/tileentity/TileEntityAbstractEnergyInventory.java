@@ -37,8 +37,8 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 	protected abstract void onWork();
 	
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 		
 		if (worldObj.isRemote)return;
 		
@@ -50,12 +50,12 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 				
 				if (hasInsufficientEnergy){
 					hasInsufficientEnergy = false;
-					worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+					worldObj.markBlockForUpdate(getPos());
 				}
 			}
 			else if (!hasInsufficientEnergy && !MathUtil.floatEquals(energyLeft,-1F)){
 				hasInsufficientEnergy = true;
-				worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+				worldObj.markBlockForUpdate(getPos());
 			}
 		}
 		else{
@@ -69,14 +69,14 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 			float drain = energyLeft <= 0F ? getDrainAmount() : energyLeft;
 			
 			if (worldObj.provider.getDimensionId() == 1){
-				float newDrain = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).drainEnergy(drain);
-				if (!MathUtil.floatEquals(newDrain,drain))PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,xCoord+0.5D,yCoord+96D,zCoord+0.5D,(byte)80,(byte)80,(byte)80));
+				float newDrain = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,getPos().getX(),getPos().getZ(),true).drainEnergy(drain);
+				if (!MathUtil.floatEquals(newDrain,drain))PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,getPos().getX()+0.5D,getPos().getY()+96D,getPos().getZ()+0.5D,(byte)80,(byte)80,(byte)80));
 				drain = newDrain;
 			}
 			
 			if (drain > EnergyChunkData.minSignificantEnergy){
 				List<TileEntityEnergyCluster> clusters = new ArrayList<>();
-				int chunkX = xCoord>>4, chunkZ = zCoord>>4, cx, cz;
+				int x = getPos().getX(), y = getPos().getY(), z = getPos().getZ(), chunkX = x>>4, chunkZ = z>>4, cx, cz;
 				
 				for(int a = 0; a < 9; a++){
 					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).getTileEntityMap();
@@ -86,7 +86,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 					for(Entry<ChunkPosition,TileEntity> entry:tiles.entrySet()){
 						ChunkPosition pos = entry.getKey();
 						
-						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.chunkPosX-xCoord,pos.chunkPosY-yCoord,cz+pos.chunkPosZ-zCoord) <= 16D){
+						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.chunkPosX-x,pos.chunkPosY-y,cz+pos.chunkPosZ-z) <= 16D){
 							clusters.add((TileEntityEnergyCluster)entry.getValue());
 						}
 					}

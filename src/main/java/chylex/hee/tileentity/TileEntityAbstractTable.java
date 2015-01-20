@@ -55,8 +55,8 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	@Override
-	public void updateEntity(){
-		super.updateEntity();
+	public void update(){
+		super.update();
 		
 		if (worldObj != null && !worldObj.isRemote && postLoadInvalidate){
 			postLoadInvalidate = false;
@@ -69,7 +69,7 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	protected final void updateComparatorStatus(){
-		if (worldObj != null)worldObj.func_147453_f(xCoord,yCoord,zCoord,blockType);
+		if (worldObj != null)worldObj.notifyNeighborsOfStateChange(getPos(),blockType);
 	}
 	
 	protected final void resetTable(){

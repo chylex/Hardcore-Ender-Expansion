@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
@@ -36,13 +37,13 @@ public class FieryEssenceHandler extends AltarActionHandler{
 		
 		if ((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST)n += socketBoost*3;
 		
+		BlockPosM pos = new BlockPosM();
+		
 		for(int a = 0,xx,yy,zz; a < n; a++){
-			xx = altar.xCoord+world.rand.nextInt(1+range)-(range>>1);
-			yy = altar.yCoord+world.rand.nextInt(5)-2;
-			zz = altar.zCoord+world.rand.nextInt(1+range)-(range>>1);
+			pos.moveTo(altar.getPos()).moveBy(world.rand.nextInt(1+range)-(range>>1),world.rand.nextInt(5)-2,world.rand.nextInt(1+range)-(range>>1));
 			
-			Block block = altar.getWorld().getBlock(xx,yy,zz);
-			TileEntity tile = altar.getWorld().getTileEntity(xx,yy,zz);
+			Block block = pos.getBlock(altar.getWorld());
+			TileEntity tile = altar.getWorld().getTileEntity(pos);
 			drained = false;
 			
 			if (block == Blocks.lit_furnace || tile instanceof TileEntityFurnace){
@@ -67,12 +68,12 @@ public class FieryEssenceHandler extends AltarActionHandler{
 				}
 			}
 			else if (block == Blocks.brewing_stand){
-				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorld().getTileEntity(xx,yy,zz);
+				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorld().getTileEntity(pos.moveTo(xx,yy,zz));
 				
 				if (stand != null && stand.getBrewTime() > 1 && stand.getBrewTime() != 400){
 					n = 1+Math.min(5,level>>6);
 					for(int b = 0; b < n; b++){
-						stand.updateEntity();
+						stand.update();
 						
 						if (tryDrainEssence()){
 							drained = true;
@@ -128,7 +129,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	private boolean canFurnaceSmelt(TileEntityFurnace furnace){
 		if (furnace.getStackInSlot(0) == null)return false;
 		
-		ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(furnace.getStackInSlot(0));
+		ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(furnace.getStackInSlot(0));
 		if (itemstack == null)return false;
 		
 		ItemStack input = furnace.getStackInSlot(2);
