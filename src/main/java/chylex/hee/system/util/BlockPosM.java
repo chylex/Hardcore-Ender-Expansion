@@ -33,6 +33,10 @@ public class BlockPosM extends BlockPos{
 		this(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ));
 	}
 	
+	public BlockPosM copy(){
+		return new BlockPosM(x,y,z);
+	}
+	
 	@Override
 	public int getX(){
 		return x;

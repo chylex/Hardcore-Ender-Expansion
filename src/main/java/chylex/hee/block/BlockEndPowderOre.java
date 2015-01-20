@@ -24,13 +24,13 @@ public class BlockEndPowderOre extends BlockOre{
 	}
 	
 	@Override
-	public int getExpDrop(IBlockAccess world, int meta, int fortune){
+	public int getExpDrop(IBlockAccess world, BlockPos pos, int fortune){
 		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom,2,4);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
-		for(int a = 0; a < 2; a++)world.spawnParticle(EnumParticleTypes.PORTAL,(x-0.425F+1.75F*rand.nextFloat()),(y+1.5F*rand.nextFloat()),(z-0.425F+1.75F*rand.nextFloat()),0D,0D,0D);
+		for(int a = 0; a < 2; a++)world.spawnParticle(EnumParticleTypes.PORTAL,pos.getX()-0.425F+1.75F*rand.nextFloat(),pos.getY()+1.5F*rand.nextFloat(),pos.getZ()-0.425F+1.75F*rand.nextFloat(),0D,0D,0D);
 	}
 }

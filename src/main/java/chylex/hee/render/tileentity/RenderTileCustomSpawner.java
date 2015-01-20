@@ -17,7 +17,7 @@ public class RenderTileCustomSpawner extends TileEntitySpecialRenderer{
 		GL11.glTranslatef((float)x+0.5F,(float)y,(float)z+0.5F);
 
 		CustomSpawnerLogic logic = ((TileEntityCustomSpawner)tile).getSpawnerLogic();
-		Entity entity = logic.func_98281_h(); // OBFUSCATED spawn entity
+		Entity entity = logic.func_180612_a(tile.getWorld()); // OBFUSCATED spawn entity
 
 		if (entity != null){
 			entity.setWorld(logic.getSpawnerWorld());

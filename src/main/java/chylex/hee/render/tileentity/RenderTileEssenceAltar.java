@@ -38,7 +38,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime){
+	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime, int what){
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float)x,(float)y,(float)z);
 

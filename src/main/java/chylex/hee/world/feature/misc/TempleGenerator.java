@@ -1,4 +1,4 @@
-package chylex.hee.world.feature;
+package chylex.hee.world.feature.misc;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;

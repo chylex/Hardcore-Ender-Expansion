@@ -1,7 +1,6 @@
 package chylex.hee.world.biome;
 import net.minecraft.world.biome.BiomeEndDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -9,7 +8,9 @@ import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.feature.WorldGenBase;
 import chylex.hee.world.feature.WorldGenBlob;
 import chylex.hee.world.feature.WorldGenEndPowderOre;
 import chylex.hee.world.feature.WorldGenEndiumOre;
@@ -78,6 +79,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		chunkX = field_180294_c.getX();
 		chunkZ = field_180294_c.getZ();
+		BlockPosM pos = new BlockPosM();
 		
 		generateOres();
 
@@ -85,8 +87,11 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		if (distFromCenter < 120D && randomGenerator.nextInt(5) == 0){
 			Stopwatch.timeAverage("WorldGenObsidianSpike",4);
-			int xx = randX(), zz = randZ();
-			spikeGen.generate(currentWorld,randomGenerator,xx,currentWorld.getTopSolidOrLiquidBlock(xx,zz),zz);
+			
+			pos.moveTo(randX(),0,randZ());
+			pos.y = currentWorld.getTopSolidOrLiquidBlock(pos).getY();
+			spikeGen.generate(currentWorld,randomGenerator,pos);
+			
 			Stopwatch.finish("WorldGenObsidianSpike");
 		}
 		
@@ -111,7 +116,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.timeAverage("WorldGenEndiumOre",64);
 			
 			for(int attempt = 0, max = 1+randomGenerator.nextInt(1+randomGenerator.nextInt(2+MathUtil.ceil(9D*WorldGenChance.linear2Incr.calculate(distFromCenter,1500D,21000D)))); attempt < 440; attempt++){
-				if (tryGenerate(endiumOreGen,randX(),10+randomGenerator.nextInt(100),randZ()) && --max <= 0)break;
+				if (tryGenerate(endiumOreGen,pos.moveTo(randX(),10+randomGenerator.nextInt(100),randZ())) && --max <= 0)break;
 			}
 			
 			Stopwatch.finish("WorldGenEndiumOre");
@@ -126,7 +131,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		Stopwatch.timeAverage("WorldGenEndPowderOre",64);
 		
 		for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 22 && placed < 4+randomGenerator.nextInt(5); attempt++){
-			if (tryGenerate(endPowderOreGen,randX(),35+randomGenerator.nextInt(92),randZ()))++placed;
+			if (tryGenerate(endPowderOreGen,pos.moveTo(randX(),35+randomGenerator.nextInt(92),randZ())))++placed;
 		}
 		
 		Stopwatch.finish("WorldGenEndPowderOre");
@@ -159,11 +164,11 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		return WorldGenChance.checkChance(chance,randomGenerator);
 	}
 	
-	private boolean tryGenerate(WorldGenerator generator, int x, int y, int z){
+	private boolean tryGenerate(WorldGenBase generator, BlockPosM pos){
 		try{
-			return generator.generate(currentWorld,randomGenerator,x,y,z);
+			return generator.generate(currentWorld,randomGenerator,pos);
 		}catch(RuntimeException e){
-			Log.warn("Failed generating "+generator.getClass().getSimpleName()+" at "+(chunkX+x)+","+(chunkZ+z)+", there might be an empty chunk.");
+			Log.warn("Failed generating "+generator.getClass().getSimpleName()+" at "+(chunkX+pos.getX())+","+(chunkZ+pos.getZ())+", there might be an empty chunk.");
 			return false;
 		}
 	}

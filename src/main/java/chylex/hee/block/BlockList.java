@@ -79,7 +79,7 @@ public final class BlockList{
 	public static Block stardust_ore;
 	public static Block igneous_rock_ore;
 	public static Block instability_orb_ore;
-	public static Block sphalerite;
+	public static BlockAbstractState sphalerite;
 	
 	// FUNCTIONAL BLOCKS
 	
@@ -131,7 +131,7 @@ public final class BlockList{
 		register("obsidian_special_glow", obsidian_special_glow = new BlockObsidianSpecial(true).setHardness(28F).setResistance(2000F).setLightLevel(1F).setStepSound(Block.soundTypeStone).setUnlocalizedName("obsidianSpecial"));
 		register("end_stone_terrain", end_terrain = new BlockEndstoneTerrain().setHardness(2.5F).setResistance(15F).setStepSound(Block.soundTypeStone).setUnlocalizedName("endStoneTerrain"));
 		register("ravaged_brick", ravaged_brick = new BlockRavagedBrick().setHardness(3.5F).setResistance(28F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrick"));
-		register("ravaged_brick_smooth", ravaged_brick_smooth = new BlockRavagedBrickSmooth().setHardness(1F).setResistance(6F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickSmooth"));
+		register("ravaged_brick_smooth", ravaged_brick_smooth = new BlockBasic(Material.rock).setHardness(1F).setResistance(6F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickSmooth"));
 		register("ravaged_brick_glow", ravaged_brick_glow = new BlockBasic(Material.rock).setHardness(1F).setResistance(6F).setLightLevel(1F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickGlow"));
 		register("ravaged_brick_slab", ravaged_brick_slab = new BlockBasicSlab(ravaged_brick).setHardness(1.75F).setResistance(14F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickSlab"));
 		register("ravaged_brick_stairs", ravaged_brick_stairs = new BlockBasicStairs(ravaged_brick.getDefaultState()).setHardness(2.25F).setResistance(22F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickStairs"));
@@ -148,7 +148,7 @@ public final class BlockList{
 		register("stardust_ore", stardust_ore = new BlockStardustOre().setHardness(7F).setResistance(4F).setStepSound(Block.soundTypeStone).setUnlocalizedName("stardustOre"));
 		register("igneous_rock_ore", igneous_rock_ore = new BlockIgneousRockOre().setHardness(2F).setResistance(5F).setStepSound(Block.soundTypeStone).setUnlocalizedName("igneousRockOre"));
 		register("instability_orb_ore", instability_orb_ore = new BlockInstabilityOrbOre().setHardness(5.5F).setResistance(3F).setStepSound(Block.soundTypeStone).setUnlocalizedName("instabilityOrbOre"));
-		register("sphalerite", sphalerite = new BlockSphalerite().setHardness(1.8F).setResistance(40F).setUnlocalizedName("sphalerite"));
+		register("sphalerite", sphalerite = (BlockAbstractState)new BlockSphalerite().setHardness(1.8F).setResistance(40F).setUnlocalizedName("sphalerite"));
 		
 		register("essence_altar", essence_altar = new BlockEssenceAltar().setHardness(8F).setResistance(20F).setLightOpacity(0).setLightLevel(0.4F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("essenceAltar"));
 		register("enhanced_brewing_stand_block", enhanced_brewing_stand = new BlockEnhancedBrewingStand().setHardness(0.65F).setLightLevel(0.125F).setUnlocalizedName("brewingStand"));

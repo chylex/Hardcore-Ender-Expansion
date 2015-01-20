@@ -4,6 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -38,8 +40,8 @@ public class ItemEndermanHead extends Item{
 	}
 	
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (side == 0 || !world.getBlock(x,y,z).getMaterial().isSolid())return false;
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
+		if (side == EnumFacing.UP || !world.getBlockState(pos).getBlock().getMaterial().isSolid())return false;
 		
 		switch(side){
 			case 1: ++y; break;
@@ -50,7 +52,7 @@ public class ItemEndermanHead extends Item{
 			default:
 		}
 
-		if (!player.canPlayerEdit(x,y,z,side,is) || !BlockList.enderman_head.canPlaceBlockAt(world,x,y,z))return false;
+		if (!player.canPlayerEdit(pos,side,is) || !BlockList.enderman_head.canPlaceBlockAt(world,pos))return false;
 
 		world.setBlock(x,y,z,BlockList.enderman_head,side,2);
 		

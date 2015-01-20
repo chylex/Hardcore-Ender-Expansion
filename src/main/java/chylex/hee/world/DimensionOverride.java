@@ -86,7 +86,7 @@ public final class DimensionOverride{
 	
 	public static final class ChunkProviderServerOverride extends ChunkProviderServer{
 		public ChunkProviderServerOverride(WorldServer world){
-			super(world,world.theChunkProviderServer.currentChunkLoader,world.theChunkProviderServer.currentChunkProvider);
+			super(world,world.theChunkProviderServer.chunkLoader,world.theChunkProviderServer.serverChunkGenerator);
 		}
 
 		@Override
@@ -96,8 +96,8 @@ public final class DimensionOverride{
 			if (!chunk.isTerrainPopulated()){
 				chunk.func_150809_p();
 				
-				if (currentChunkProvider != null){
-					currentChunkProvider.populate(provider,x,z);
+				if (serverChunkGenerator != null){
+					serverChunkGenerator.populate(provider,x,z);
 					chunk.setChunkModified();
 				}
 			}

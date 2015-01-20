@@ -79,8 +79,8 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player){
 		if (player != null && player.isSneaking() && player.getHeldItem() != null &&
 			player.getHeldItem().getItemUseAction() == EnumAction.BLOCK){
-			world.setBlockToAir(x,y,z);
-			dropBlockAsItem(world,x,y,z,new ItemStack(Blocks.dragon_egg));
+			world.setBlockToAir(pos);
+			dropBlockAsItem(world,pos,new ItemStack(Blocks.dragon_egg));
 		}
 		else teleportNearby(world,x,y,z);
 	}

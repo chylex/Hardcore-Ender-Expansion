@@ -33,7 +33,7 @@ public class S00DeathFlowerPot extends AbstractServerPacket{
 	protected void handle(EntityPlayerMP player){
 		IBlockState state = player.worldObj.getBlockState(pos);
 		
-		if (state.getBlock() == Blocks.flower_pot && (int)state.getValue(BlockDeathFlower.DECAY) == 0){
+		if (state.getBlock() == Blocks.flower_pot && ((Integer)state.getValue(BlockDeathFlower.DECAY)).intValue() == 0){
 			ItemStack is = player.inventory.getCurrentItem();
 			if (is != null && is.getItem() == Item.getItemFromBlock(BlockList.death_flower)){
 				if (!player.capabilities.isCreativeMode)--is.stackSize;

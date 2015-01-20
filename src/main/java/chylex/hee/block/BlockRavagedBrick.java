@@ -1,34 +1,33 @@
 package chylex.hee.block;
 import java.util.List;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.system.util.MathUtil;
 
-public class BlockRavagedBrick extends Block implements IBlockSubtypes{
-	public static byte metaNormal = 0, metaCracked = 1, metaDamaged1 = 2, metaDamaged2 = 3, metaDamaged3 = 4, metaDamaged4 = 5, metaAmount = 6;
+public class BlockRavagedBrick extends BlockAbstractStateEnum implements IBlockSubtypes{
+	public enum Variant{ NORMAL, CRACKED, DAMAGED_1, DAMAGED_2, DAMAGED_3, DAMAGED_4 }
+	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
 	
 	public BlockRavagedBrick(){
 		super(Material.rock);
+		createSimpleMeta(VARIANT,Variant.class);
+	}
+	
+	@Override
+	protected IProperty[] getPropertyArray(){
+		return new IProperty[]{ VARIANT };
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		return getUnlocalizedName();
-	}
-	
-	@Override
-	public int damageDropped(int meta){
-		return meta;
 	}
 	
 	@Override
@@ -45,11 +44,5 @@ public class BlockRavagedBrick extends Block implements IBlockSubtypes{
 		if (spawnerCount > 24)world.spawnParticle(EnumParticleTypes.REDSTONE,pos.getX()-0.2D+world.rand.nextDouble()*1.4D,pos.getY()-0.2D+world.rand.nextDouble()*1.4D,pos.getZ()-0.2D+world.rand.nextDouble()*1.4D,1D,0.2D,0.2D);
 		
 		return spawnerCount <= 24 ? blockHardness : blockHardness+(3F+(float)Math.pow(spawnerCount-24,0.8D)*1.5F);
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < metaAmount; a++)list.add(new ItemStack(item,1,a));
 	}
 }

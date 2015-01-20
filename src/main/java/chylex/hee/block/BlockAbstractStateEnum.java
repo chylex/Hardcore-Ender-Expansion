@@ -1,6 +1,5 @@
 package chylex.hee.block;
 import java.util.List;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
@@ -11,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-abstract class BlockAbstractStateEnum extends Block{
+abstract class BlockAbstractStateEnum extends BlockAbstractState{
 	private IProperty metaProp;
 	private Enum[] metaStates;
 	
@@ -32,12 +31,22 @@ abstract class BlockAbstractStateEnum extends Block{
 	 */
 	
 	@Override
-	public IBlockState getStateFromMeta(int meta){
+	public final IBlockState setProperty(Comparable value){
+		return setProperty(metaProp,value);
+	}
+	
+	@Override
+	public final IBlockState setProperty(IProperty property, Comparable value){
+		return getDefaultState().withProperty(property,value);
+	}
+	
+	@Override
+	public final IBlockState getStateFromMeta(int meta){
 		return metaStates != null && meta >= 0 && meta < metaStates.length ? getDefaultState().withProperty(metaProp,metaStates[meta]) : getDefaultState();
 	}
 	
 	@Override
-	public int getMetaFromState(IBlockState state){
+	public final int getMetaFromState(IBlockState state){
 		return metaStates != null ? ((Enum)state.getValue(metaProp)).ordinal() : 0;
 	}
 	
@@ -45,14 +54,14 @@ abstract class BlockAbstractStateEnum extends Block{
 		return metaStates != null && damage >= 0 && damage < metaStates.length ? metaStates[damage] : null;
 	}
 	
-	/*
-	 * OVERRIDES
-	 */
-	
 	@Override
 	protected final BlockState createBlockState(){
 		return new BlockState(this,getPropertyArray());
 	}
+	
+	/*
+	 * OVERRIDES
+	 */
 	
 	@Override
 	public int damageDropped(IBlockState state){

@@ -14,7 +14,7 @@ import chylex.hee.packets.client.C09SimpleEvent;
 import chylex.hee.packets.client.C09SimpleEvent.EventType;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
-import chylex.hee.world.feature.TempleGenerator;
+import chylex.hee.world.feature.misc.TempleGenerator;
 
 public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 	public static boolean isEnabled = true;

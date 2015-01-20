@@ -20,9 +20,9 @@ public abstract class ItemAbstractPotion extends Item{
 	
 	public abstract void applyEffectDrunk(ItemStack is, World world, EntityPlayer player);
 	public abstract void applyEffectThrown(Entity entity, double dist);
-
+	
 	@Override
-	public final ItemStack onEaten(ItemStack is, World world, EntityPlayer player){
+	public final ItemStack onItemUseFinish(ItemStack is, World world, EntityPlayer player){
 		if (!world.isRemote)applyEffectDrunk(is,world,player);
 
 		if (!player.capabilities.isCreativeMode){
@@ -62,11 +62,11 @@ public abstract class ItemAbstractPotion extends Item{
 	public final String getItemStackDisplayName(ItemStack is){
 		return is.getItemDamage() != 1 ? StatCollector.translateToLocal(getUnlocalizedName()+".name") : StatCollector.translateToLocal(getUnlocalizedName()+".splash.name");
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public final boolean hasEffect(ItemStack is, int pass){
-		return pass == 0 && is.getItemDamage() < 2;
+	public final boolean hasEffect(ItemStack is){
+		return is.getItemDamage() < 2;
 	}
 	
 	@Override

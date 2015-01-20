@@ -1,14 +1,17 @@
 package chylex.hee.world.structure;
 import java.util.Random;
+import chylex.hee.system.util.BlockPosM;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 
 public abstract class ComponentScatteredFeatureCustom extends StructureComponent{
-	protected int sizeX,sizeY,sizeZ;
+	protected int sizeX, sizeY, sizeZ;
+	private BlockPosM pos;
 	
 	public ComponentScatteredFeatureCustom(){}
 
@@ -18,8 +21,8 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 		this.sizeY = sizeY;
 		this.sizeZ = sizeZ;
 		
-		coordBaseMode = rand.nextInt(4);
-		boundingBox = (coordBaseMode == 0 || coordBaseMode == 2) ? new StructureBoundingBox(x,y,z,x+sizeX-1,y+sizeY-1,z+sizeZ-1) : new StructureBoundingBox(x,y,z,x+sizeZ-1,y+sizeY-1,z+sizeX-1);
+		coordBaseMode = EnumFacing.getHorizontal(rand.nextInt(4));
+		boundingBox = (coordBaseMode.getHorizontalIndex() == 0 || coordBaseMode.getHorizontalIndex() == 2) ? new StructureBoundingBox(x,y,z,x+sizeX-1,y+sizeY-1,z+sizeZ-1) : new StructureBoundingBox(x,y,z,x+sizeZ-1,y+sizeY-1,z+sizeX-1);
 	}
 	
 	public int getSizeX(){
@@ -49,8 +52,7 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 	}
 	
 	public final boolean placeBlockWithoutUpdate(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
-		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
-		if (bb.isVecInside(xx,yy,zz)){
+		if (bb.isVecInside(updatePos(x,y,z))){
 			world.setBlock(xx,yy,zz,block,metadata,2);
 			return true;
 		}
@@ -58,8 +60,7 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 	}
 	
 	public final boolean placeBlockAndUpdate(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
-		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
-		if (bb.isVecInside(xx,yy,zz)){
+		if (bb.isVecInside(updatePos(x,y,z))){
 			world.setBlock(xx,yy,zz,block,metadata,3);
 			world.markBlockForUpdate(xx,yy,zz);
 			return true;
@@ -68,8 +69,7 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 	}
 	
 	public final TileEntity getBlockTileEntity(int x, int y, int z, World world, StructureBoundingBox bb){
-		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
-		return bb.isVecInside(xx,yy,zz) ? world.getTileEntity(xx,yy,zz) : null;
+		return bb.isVecInside(updatePos(x,y,z)) ? world.getTileEntity(pos) : null;
 	}
 	
 	/**
@@ -79,8 +79,7 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 	public final boolean placeBlockUnsafe(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
 		if (placeBlockWithoutUpdate(block,metadata,x,y,z,world,bb))return true;
 		
-		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
-		if (world.blockExists(xx,yy,zz)){
+		if (world.isBlockLoaded(updatePos(x,y,z))){
 			world.setBlock(xx,yy,zz,block,metadata,2);
 			return true;
 		}
@@ -94,10 +93,9 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 	public final boolean placeBlockAndUpdateUnsafe(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
 		if (placeBlockAndUpdate(block,metadata,x,y,z,world,bb))return true;
 		
-		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
-		if (world.blockExists(xx,yy,zz)){
+		if (world.isBlockLoaded(updatePos(x,y,z))){
 			world.setBlock(xx,yy,zz,block,metadata,3);
-			world.markBlockForUpdate(xx,yy,zz);
+			world.markBlockForUpdate(pos);
 			return true;
 		}
 		else return false;
@@ -111,8 +109,14 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 		TileEntity te = getBlockTileEntity(x,y,z,world,bb);
 		if (te != null)return te;
 		
-		int xx = this.getXWithOffset(x,z), yy = this.getYWithOffset(y), zz = this.getZWithOffset(x,z);
-		return world.blockExists(xx,yy,zz) ? world.getTileEntity(xx,yy,zz) : null;
+		return world.isBlockLoaded(updatePos(x,y,z)) ? world.getTileEntity(pos) : null;
+	}
+	
+	private BlockPosM updatePos(int x, int y, int z){
+		pos.x = super.getXWithOffset(x,z);
+		pos.y = super.getYWithOffset(y);
+		pos.z = super.getZWithOffset(x,z);
+		return pos;
 	}
 	
 	@Override

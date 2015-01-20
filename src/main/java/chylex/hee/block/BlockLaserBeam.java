@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.block.material.MaterialLaserBeam;
@@ -42,12 +43,12 @@ public class BlockLaserBeam extends BlockContainer{
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
+	public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state){
 		return null;
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity){
 		if (entity.isImmuneToFire())return;
 		entity.attackEntityFrom(DamageSource.magic,ModCommonProxy.opMobs ? 5F : 3F);
 		entity.setFire(1);

@@ -1,7 +1,6 @@
 package chylex.hee.block;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -28,7 +27,7 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.MathUtil;
 
-public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
+public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlockSubtypes{
 	private static final Material dungeonPuzzle = new MaterialDungeonPuzzle();
 	
 	public static final byte minDungeonSize = 7, maxDungeonSize = 13;

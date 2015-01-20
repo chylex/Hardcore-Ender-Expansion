@@ -15,7 +15,7 @@ public class RenderTileVoidChest extends TileEntitySpecialRenderer{
 	private final ModelChest model = new ModelChest();
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime){
+	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime, int what){
 		int meta = tile.hasWorldObj() ?	meta = tile.getBlockMetadata() : 0;
 		TileEntityVoidChest chest = (TileEntityVoidChest)tile;
 		

@@ -5,6 +5,7 @@ import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeature{
@@ -56,6 +57,7 @@ public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeatur
 			int deathAmt = WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount();
 			int px = MathUtil.floor(player.posX), py = MathUtil.floor(player.posY), pz = MathUtil.floor(player.posZ);
 			Random rand = new Random();
+			BlockPosM pos = new BlockPosM();
 			
 			for(int x = -48; x <= 48; x++){
 				for(int z = -48; z <= 48; z++){
@@ -73,12 +75,12 @@ public abstract class MapGenScatteredFeatureCustom extends MapGenScatteredFeatur
 					x2 *= maxSpacing;
 					z2 *= maxSpacing;
 					
-					world.setBlock(px+x2,py-1,pz+z2,Blocks.emerald_block);
+					world.setBlockState(pos.moveTo(px+x2,py-1,pz+z2),Blocks.emerald_block.getDefaultState());
 					
 					x2 += rand.nextInt(maxSpacing-minSpacing);
 					z2 += rand.nextInt(maxSpacing-minSpacing);
 					
-					if (origChunkX == x2 && origChunkZ == z2 && rand.nextInt(3) == 0)world.setBlock(px+x,py-1,pz+z,Blocks.brick_block);
+					if (origChunkX == x2 && origChunkZ == z2 && rand.nextInt(3) == 0)world.setBlockState(pos.moveTo(px+x,py-1,pz+z),Blocks.brick_block.getDefaultState());
 				}
 			}
 		}

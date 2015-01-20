@@ -1,43 +1,37 @@
 package chylex.hee.block;
-import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.item.Item;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
-public class BlockPersegrit extends Block implements IBlockSubtypes{
+public class BlockPersegrit extends BlockAbstractStateEnum implements IBlockSubtypes{
+	public static enum Variant{ PLAIN, LR, TB, END_1, END_2, END_3, END_4, TL, TR, BL, BR, TRB, TRL, TBL, RBL, LRTB }
+	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
+	
 	public BlockPersegrit(){
 		super(Material.cloth);
+		createSimpleMeta(VARIANT,Variant.class);
 	}
 	
 	@Override
-	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z){
+	protected IProperty[] getPropertyArray(){
+		return new IProperty[]{ VARIANT };
+	}
+	
+	@Override
+	public boolean canCreatureSpawn(IBlockAccess world, BlockPos pos, SpawnPlacementType type){
 		return false;
-	}
-	
-	@Override
-	public int damageDropped(int meta){
-		return meta;
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		return getUnlocalizedName();
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < iconArray.length; a++)list.add(new ItemStack(item,1,a));
 	}
 	
 	public static int getConnectionMeta(LargeStructureWorld world, Random rand, int x, int y, int z){

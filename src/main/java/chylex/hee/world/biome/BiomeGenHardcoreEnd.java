@@ -20,8 +20,8 @@ public final class BiomeGenHardcoreEnd extends BiomeGenEnd{
 	public BiomeGenHardcoreEnd(int id){
 		super(id);
 		
-		topBlock = Blocks.dirt;
-		fillerBlock = Blocks.dirt;
+		topBlock = Blocks.dirt.getDefaultState();
+		fillerBlock = Blocks.dirt.getDefaultState();
 		theBiomeDecorator = createBiomeDecorator();
 	}
 	

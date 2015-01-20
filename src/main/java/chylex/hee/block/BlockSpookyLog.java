@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
@@ -17,6 +18,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobForestGhost;
 import chylex.hee.item.ItemList;
@@ -27,27 +29,38 @@ import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
-public class BlockSpookyLog extends Block{
+public class BlockSpookyLog extends BlockAbstractStateEnum{
+	public enum Variant{ PLAIN, FACE_1, FACE_2, FACE_3, FACE_4 }
+	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
+	
 	public BlockSpookyLog(){
 		super(Material.wood);
 		setTickRandomly(true);
+		createSimpleMeta(VARIANT,Variant.class);
+	}
+	
+	@Override
+	protected IProperty[] getPropertyArray(){
+		return new IProperty[]{ VARIANT };
 	}
 
 	@Override
-	public void onBlockAdded(World world, int x, int y, int z){
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state){
 		world.scheduleUpdate(pos,this,tickRate(world));
 	}
 
 	@Override
 	public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune){
-		super.dropBlockAsItemWithChance(world,x,y,z,meta,chance,fortune);
+		super.dropBlockAsItemWithChance(world,pos,state,chance,fortune);
+		
+		int meta = getMetaFromState(state);
 		
 		if (meta > 0 && !world.isRemote && world.rand.nextInt(4) == 0){
 			EntityPlayer closest = null;
 			double curDist = 8D;
 			
 			for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
-				double dist = MathUtil.distance(player.posX-x,player.posZ-z);
+				double dist = MathUtil.distance(player.posX-pos.getX(),player.posZ-pos.getZ());
 				
 				if (dist < curDist){
 					dist = curDist;
@@ -63,7 +76,7 @@ public class BlockSpookyLog extends Block{
 					if ((is = closest.inventory.getStackInSlot(a)) == null)continue;
 					
 					if (is.getItem() == ItemList.ghost_amulet && is.getItemDamage() == 1){
-						if (world.rand.nextInt(5) <= 1)dropBlockAsItem(world,x,y,z,new ItemStack(ItemList.ectoplasm));
+						if (world.rand.nextInt(5) <= 1)spawnAsEntity(world,pos,new ItemStack(ItemList.ectoplasm));
 						
 						PacketPipeline.sendToPlayer(closest,new C08PlaySound(C08PlaySound.GHOST_DEATH,closest.posX,closest.posY,closest.posZ,1.8F,0.9F+world.rand.nextFloat()*0.3F));
 						
@@ -83,12 +96,12 @@ public class BlockSpookyLog extends Block{
 			}
 		}
 		
-		if (!world.isRemote && world.rand.nextInt(8) == 0)dropBlockAsItem(world,x,y,z,new ItemStack(ItemList.dry_splinter));
-
-		if (world.getBlock(x,y+1,z) == this){
-			dropBlockAsItemWithChance(world,x,y+1,z,world.getBlockMetadata(x,y+1,z),chance,fortune);
-			PacketPipeline.sendToAllAround(world.provider.getDimensionId(),x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,x,y,z));
-			world.setBlockToAir(x,y+1,z);
+		if (!world.isRemote && world.rand.nextInt(8) == 0)spawnAsEntity(world,pos,new ItemStack(ItemList.dry_splinter));
+		
+		if (world.getBlockState(pos = pos.up()) == this){
+			dropBlockAsItemWithChance(world,pos,world.getBlockState(pos),chance,fortune);
+			PacketPipeline.sendToAllAround(world.provider.getDimensionId(),pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D));
+			world.setBlockToAir(pos);
 		}
 	}
 
@@ -162,7 +175,7 @@ public class BlockSpookyLog extends Block{
 	private boolean isBlockSeen(World world, int x, int y, int z){
 		for(EntityPlayer entity:(List<EntityPlayer>)world.playerEntities){
 			if (Math.abs(entity.posX-x) > 250 || Math.abs(entity.posZ-z) > 250)continue;
-			if (DragonUtil.canEntitySeePoint(entity,x,y,z,0.5D))return true;
+			if (DragonUtil.canEntitySeePoint(entity,x+0.5D,y+0.5D,z+0.5D,0.5D))return true;
 		}
 		
 		return false;
@@ -184,7 +197,7 @@ public class BlockSpookyLog extends Block{
 	}
 	
 	@Override
-	public boolean canSustainLeaves(IBlockAccess world, int x, int y, int z){
+	public boolean canSustainLeaves(IBlockAccess world, BlockPos pos){
 		return true;
 	}
 	
@@ -194,7 +207,7 @@ public class BlockSpookyLog extends Block{
 		BlockPosM pos = new BlockPosM(target.getBlockPos());
 		
 		for(int a = 0; a < 30; a++){	
-			effectRenderer.addEffect(new EntityDiggingFX(world,pos.x+world.rand.nextFloat(),pos.y+world.rand.nextFloat(),pos.z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0).applyColourMultiplier(x,y,z).multiplyVelocity(0.3F+world.rand.nextFloat()*0.6F).multipleParticleScaleBy(0.2F+world.rand.nextFloat()*2F));
+			effectRenderer.addEffect(new EntityDiggingFX(world,pos.x+world.rand.nextFloat(),pos.y+world.rand.nextFloat(),pos.z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,world.getBlockState(pos)){}.multiplyVelocity(0.3F+world.rand.nextFloat()*0.6F).multipleParticleScaleBy(0.2F+world.rand.nextFloat()*2F));
 		}
 		
 		return false;
@@ -202,19 +215,20 @@ public class BlockSpookyLog extends Block{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
+	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer){
 		for(int a = 0; a < 90; a++){
-			effectRenderer.addEffect(new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat()*1.5F,z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0).applyColourMultiplier(x,y,z).multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
+			effectRenderer.addEffect(new EntityDiggingFX(world,pos.getX()+world.rand.nextFloat(),pos.getY()+world.rand.nextFloat()*1.5F,pos.getZ()+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,world.getBlockState(pos)){}.multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
 		}
 		
 		return false;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffectsCustom(World world, int x, int y, int z){
+	public boolean addDestroyEffectsCustom(World world, BlockPos pos){
 		EffectRenderer eff = Minecraft.getMinecraft().effectRenderer;
+		
 		for(int a = 0; a < 30; a++){
-			eff.addEffect(new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat()*1.5F,z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0).applyColourMultiplier(x,y,z).multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
+			eff.addEffect(new EntityDiggingFX(world,pos.getX()+world.rand.nextFloat(),pos.getY()+world.rand.nextFloat()*1.5F,pos.getZ()+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,world.getBlockState(pos)){}.multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
 		}
 		
 		return false;
