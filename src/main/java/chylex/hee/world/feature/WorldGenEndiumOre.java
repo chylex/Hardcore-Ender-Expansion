@@ -11,9 +11,13 @@ public class WorldGenEndiumOre extends WorldGenBase{
 		if (pos.getBlock(world) != Blocks.end_stone)return false;
 		
 		BlockPosM checkPos = pos.copy();
+		BlockPosM airPos = checkPos.copy();
 		
 		for(int check = 0; check < 25; check++){
-			if (checkPos.getBlock(world) == Blocks.end_stone && (world.isAirBlock(x-1,y,z) || world.isAirBlock(x+1,y,z) || world.isAirBlock(x,y,z-1) || world.isAirBlock(x,y,z+1) || (check > 15 && rand.nextInt(3) == 0))){
+			
+			if (checkPos.getBlock(world) == Blocks.end_stone && ((check > 15 && rand.nextInt(3) == 0) ||
+				airPos.moveTo(checkPos).moveEast().isAir(world) || airPos.moveTo(checkPos).moveWest().isAir(world) ||
+				airPos.moveTo(checkPos).moveNorth().isAir(world) || airPos.moveTo(checkPos).moveSouth().isAir(world))){
 				checkPos.setBlock(world,BlockList.endium_ore);
 				return true;
 			}

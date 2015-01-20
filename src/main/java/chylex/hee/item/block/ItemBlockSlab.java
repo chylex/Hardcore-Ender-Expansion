@@ -26,7 +26,7 @@ public class ItemBlockSlab extends ItemBlock{
 
 		if ((side == 1 && !isTopSlab || side == 0 && isTopSlab) && world.getBlock(x,y,z) == block){
 			if (world.checkNoEntityCollision(fullBlock.getCollisionBoundingBoxFromPool(world,x,y,z)) && world.setBlock(x,y,z,fullBlock,0,3)){
-				world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,fullBlock.stepSound.func_150496_b(),(fullBlock.stepSound.getVolume()+1F)*0.5F,fullBlock.stepSound.getPitch()*0.8F);
+				world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,fullBlock.stepSound.func_150496_b(),(fullBlock.stepSound.getVolume()+1F)*0.5F,fullBlock.stepSound.getFrequency()*0.8F);
 				--is.stackSize;
 			}
 
@@ -70,7 +70,7 @@ public class ItemBlockSlab extends ItemBlock{
 
 		if (world.getBlock(x,y,z) == block){
 			if (world.checkNoEntityCollision(fullBlock.getCollisionBoundingBoxFromPool(world,x,y,z)) && world.setBlock(x,y,z,fullBlock,0,3)){
-				world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,fullBlock.stepSound.func_150496_b(),(fullBlock.stepSound.getVolume()+1F)*0.5F,fullBlock.stepSound.getPitch()*0.8F);
+				world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,fullBlock.stepSound.func_150496_b(),(fullBlock.stepSound.getVolume()+1F)*0.5F,fullBlock.stepSound.getFrequency()*0.8F);
 				--is.stackSize;
 			}
 

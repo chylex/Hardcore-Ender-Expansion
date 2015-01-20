@@ -5,7 +5,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemKnowledgeNote;
@@ -15,6 +14,7 @@ import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
@@ -44,7 +44,7 @@ import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.util.BlockLocation;
 import chylex.hee.world.util.IRandomAmount;
 
-public class WorldGenBlob extends WorldGenerator{
+public class WorldGenBlob extends WorldGenBase{
 	private enum BlobType{
 		COMMON, UNCOMMON, RARE;
 		
@@ -220,18 +220,20 @@ public class WorldGenBlob extends WorldGenerator{
 	}
 	
 	@Override
-	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (world.getBlock(x-7,y,z) != Blocks.air ||
-			world.getBlock(x+7,y,z) != Blocks.air ||
-			world.getBlock(x,y,z-7) != Blocks.air ||
-			world.getBlock(x,y,z+7) != Blocks.air ||
-			world.getBlock(x,y-7,z) != Blocks.air ||
-			world.getBlock(x,y+7,z) != Blocks.air ||
-			world.getBlock(x,y-15,z) != Blocks.air ||
-			world.getBlock(x,y+15,z) != Blocks.air)return false;
+	public boolean generate(World world, Random rand, BlockPosM pos){
+		BlockPosM tmpPos = pos.copy();
+		
+		if (tmpPos.moveTo(pos.x-7,pos.y,pos.z).getBlock(world) != Blocks.air ||
+			tmpPos.moveTo(pos.x+7,pos.y,pos.z).getBlock(world) != Blocks.air ||
+			tmpPos.moveTo(pos.x,pos.y,pos.z-7).getBlock(world) != Blocks.air ||
+			tmpPos.moveTo(pos.x,pos.y,pos.z+7).getBlock(world) != Blocks.air ||
+			tmpPos.moveTo(pos.x,pos.y-7,pos.z).getBlock(world) != Blocks.air ||
+			tmpPos.moveTo(pos.x,pos.y+7,pos.z).getBlock(world) != Blocks.air ||
+			tmpPos.moveTo(pos.x,pos.y-15,pos.z).getBlock(world) != Blocks.air ||
+			tmpPos.moveTo(pos.x,pos.y+15,pos.z).getBlock(world) != Blocks.air)return false;
 		
 		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
-		Pair<BlobGenerator,List<BlobPopulator>> pattern = getBlobType(rand,x,z).patterns.getRandomItem(rand).generatePattern(rand);
+		Pair<BlobGenerator,List<BlobPopulator>> pattern = getBlobType(rand,pos.x,pos.z).patterns.getRandomItem(rand).generatePattern(rand);
 		
 		pattern.getLeft().generate(gen,rand);
 		gen.runPass(genSmootherPass);

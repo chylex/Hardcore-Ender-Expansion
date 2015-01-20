@@ -1,7 +1,6 @@
 package chylex.hee.block;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -107,55 +106,58 @@ public class BlockSpookyLog extends BlockAbstractStateEnum{
 
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
-		if (world.isRemote || world.getBlockMetadata(x,y,z) == 0)return;
+		if (world.isRemote || state.getValue(VARIANT) == Variant.PLAIN)return;
 		
-		if (rand.nextInt(4) == 0 && !isBlockSeen(world,x,y,z)){
+		if (rand.nextInt(4) == 0 && !isBlockSeen(world,pos)){
 			int w = rand.nextInt(5); // 0,1 = rotate, 2 = move up or down, 3,4 = move tree
 			boolean moved = false;
 			
 			if (w == 0 || w == 1){
-				world.setBlockMetadataWithNotify(x,y,z,rand.nextInt(4)+1,3);
+				world.setBlockState(pos,setProperty(Variant.values()[rand.nextInt(4)+1]));
 				world.scheduleUpdate(pos,this,tickRate(world));
 				moved = true;
 			}
 			else if (w == 2){
 				int dir = rand.nextInt(2)*2-1;
+				BlockPosM movePos = new BlockPosM(pos).moveBy(0,dir,0);
 				
-				if (world.getBlock(x,y+dir,z) == this){
-					world.setBlockMetadataWithNotify(x,y+dir,z,world.getBlockMetadata(x,y,z),3);
-					world.setBlockMetadataWithNotify(x,y,z,0,3);
-					world.scheduleBlockUpdate(x,y+dir,z,this,tickRate(world));
+				if (movePos.getBlock(world) == this){
+					world.setBlockState(movePos,state);
+					world.setBlockState(pos,setProperty(Variant.PLAIN));
+					world.scheduleUpdate(movePos,this,tickRate(world));
 					moved = true;
 				}
 			}
 			else{
-				for(int attempt = 0, xx, zz; attempt < 50; attempt++){
-					xx = x+rand.nextInt(31)-15;
-					zz = z+rand.nextInt(31)-15;
-					
-					if (world.getBlock(xx,y,zz) == this){
+				BlockPosM movePos = new BlockPosM(pos), tmpPos = new BlockPosM();
+				
+				for(int attempt = 0; attempt < 50; attempt++){
+					if (movePos.moveTo(pos).moveBy(rand.nextInt(31)-15,0,rand.nextInt(31-15)).getBlock(world) == this){
 						boolean hasFace = false;
+						tmpPos.moveTo(movePos);
 						
-						for(int testY = y; true; testY++){
-							if (world.getBlock(xx,testY,zz) != this)break;
-							if (world.getBlockMetadata(xx,testY,zz) > 0){
+						while(true){
+							if (tmpPos.moveUp().getBlock(world) != this)break;
+							if (world.getBlockState(tmpPos).getValue(VARIANT) != Variant.PLAIN){
 								hasFace = true;
 								break;
 							}
 						}
 						
-						for(int testY = y; true; testY--){
-							if (world.getBlock(xx,testY,zz) != this)break;
-							if (world.getBlockMetadata(xx,testY,zz) > 0){
+						tmpPos.moveTo(movePos);
+						
+						while(true){
+							if (tmpPos.moveDown().getBlock(world) != this)break;
+							if (world.getBlockState(tmpPos).getValue(VARIANT) != Variant.PLAIN){
 								hasFace = true;
 								break;
 							}
 						}
 						
-						if (!hasFace && !isBlockSeen(world,xx,y,zz)){
-							world.setBlockMetadataWithNotify(xx,y,zz,world.getBlockMetadata(x,y,z),3);
-							world.setBlockMetadataWithNotify(x,y,z,0,3);
-							world.scheduleBlockUpdate(xx,y,zz,this,tickRate(world));
+						if (!hasFace && !isBlockSeen(world,movePos)){
+							world.setBlockState(movePos,state);
+							world.setBlockState(pos,setProperty(Variant.PLAIN));
+							world.scheduleUpdate(movePos,this,tickRate(world));
 							moved = true;
 						}
 					}
@@ -163,7 +165,7 @@ public class BlockSpookyLog extends BlockAbstractStateEnum{
 			}
 			
 			if (moved){
-				if (rand.nextInt(32) == 0)PacketPipeline.sendToAllAround(world.provider.getDimensionId(),x+0.5D,y+0.5D,z+0.5D,64D,new C08PlaySound(C08PlaySound.GHOST_MOVE,x+0.5D,y+0.5D,z+0.5D,1.2F+rand.nextFloat()*0.4F,0.6F+rand.nextFloat()*0.5F));
+				if (rand.nextInt(32) == 0)PacketPipeline.sendToAllAround(world.provider.getDimensionId(),pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,64D,new C08PlaySound(C08PlaySound.GHOST_MOVE,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,1.2F+rand.nextFloat()*0.4F,0.6F+rand.nextFloat()*0.5F));
 				return;
 			}
 			
@@ -172,10 +174,10 @@ public class BlockSpookyLog extends BlockAbstractStateEnum{
 		else world.scheduleUpdate(pos,this,8);
 	}
 	
-	private boolean isBlockSeen(World world, int x, int y, int z){
+	private boolean isBlockSeen(World world, BlockPos pos){
 		for(EntityPlayer entity:(List<EntityPlayer>)world.playerEntities){
-			if (Math.abs(entity.posX-x) > 250 || Math.abs(entity.posZ-z) > 250)continue;
-			if (DragonUtil.canEntitySeePoint(entity,x+0.5D,y+0.5D,z+0.5D,0.5D))return true;
+			if (Math.abs(entity.posX-pos.getX()) > 250 || Math.abs(entity.posZ-pos.getZ()) > 250)continue;
+			if (DragonUtil.canEntitySeePoint(entity,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,0.5D))return true;
 		}
 		
 		return false;

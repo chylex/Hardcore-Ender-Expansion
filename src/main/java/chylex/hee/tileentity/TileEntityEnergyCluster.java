@@ -1,7 +1,8 @@
 package chylex.hee.tileentity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnergyCluster;
 import chylex.hee.mechanics.energy.EnergyChunkData;
@@ -11,12 +12,12 @@ import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
 
-public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
+public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized implements IUpdatePlayerListBox{
 	public final EnergyClusterData data;
 	public boolean shouldNotExplode = false;
 	private boolean shouldBeDestroyedSilently = false;
 	private byte[] colRgb;
-	private int[] cachedCoords = ArrayUtils.EMPTY_INT_ARRAY;
+	private long cachedPos = Long.MIN_VALUE;
 	
 	public TileEntityEnergyCluster(){
 		data = new EnergyClusterData();
@@ -29,20 +30,20 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	}
 
 	@Override
-	public void updateEntity(){
+	public void update(){
 		if (shouldBeDestroyedSilently){
 			shouldNotExplode = true;
-			worldObj.setBlockToAir(xCoord,yCoord,zCoord);
+			worldObj.setBlockToAir(getPos());
 			return;
 		}
 		
 		if (!worldObj.isRemote){
-			if (cachedCoords.length == 0){
-				data.generate(worldObj,xCoord,zCoord);
-				cachedCoords = new int[]{ xCoord, yCoord, zCoord };
+			if (cachedPos == Long.MIN_VALUE){
+				data.generate(worldObj,getPos().getX(),getPos().getZ());
+				cachedPos = getPos().toLong();
 				synchronize();
 			}
-			else if (cachedCoords[0] != xCoord || cachedCoords[1] != yCoord || cachedCoords[2] != zCoord){
+			else if (cachedPos != getPos().toLong()){
 				BlockEnergyCluster.destroyCluster(this);
 				return;
 			}
@@ -83,7 +84,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
 		nbt.setByteArray("col",colRgb);
-		nbt.setIntArray("loc",cachedCoords);
+		nbt.setLong("cpos",cachedPos);
 		data.writeToNBT(nbt);
 		return nbt;
 	}
@@ -91,7 +92,13 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	@Override
 	public void readTileFromNBT(NBTTagCompound nbt){
 		colRgb = nbt.getByteArray("col");
-		cachedCoords = nbt.getIntArray("loc");
+		
+		if (nbt.hasKey("cpos"))cachedPos = nbt.getLong("cpos");
+		else{
+			int[] cached = nbt.getIntArray("loc");
+			if (cached.length == 3)cachedPos = new BlockPos(cached[0],cached[1],cached[2]).toLong();
+		}
+		
 		data.readFromNBT(nbt);
 		
 		if (colRgb.length == 0)shouldBeDestroyedSilently = true;

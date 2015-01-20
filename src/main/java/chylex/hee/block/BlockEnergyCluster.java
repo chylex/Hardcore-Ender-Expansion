@@ -20,6 +20,7 @@ import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -53,21 +54,21 @@ public class BlockEnergyCluster extends BlockContainer{
 	}
 	
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block block, int meta){
-		TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
+	public void breakBlock(World world, BlockPos pos, IBlockState state){
+		TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(pos);
 		if (tile == null || tile.shouldNotExplode)return;
 		
-		super.breakBlock(world,x,y,z,block,meta);
+		super.breakBlock(world,pos,state);
 		destroyCluster(tile);
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityArrow || entity instanceof EntityThrowable)world.setBlockToAir(x,y,z);
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity){
+		if (entity instanceof EntityArrow || entity instanceof EntityThrowable)world.setBlockToAir(pos);
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
+	public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state){
 		return null;
 	}
 
@@ -103,11 +104,11 @@ public class BlockEnergyCluster extends BlockContainer{
 		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyClusterFX(world,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,0D,0D,0D,0D,0D,0D));
 		return true;
 	}
-
+	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffects(World world, BlockPos pos, IBlockState state, EffectRenderer effectRenderer){
-		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyClusterFX(world,x+0.5D,y+0.5D,z+0.5D,0D,0D,0D,0D,0D,0D));
+	public boolean addDestroyEffects(World world, BlockPos pos, EffectRenderer effectRenderer){
+		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyClusterFX(world,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,0D,0D,0D,0D,0D,0D));
 		return true;
 	}
 	
@@ -115,8 +116,9 @@ public class BlockEnergyCluster extends BlockContainer{
 		Stopwatch.time("BlockEnergyCluster - destroyCluster");
 		
 		World world = tile.getWorld();
-		int x = tile.xCoord, y = tile.yCoord, z = tile.zCoord;
+		int x = tile.getPos().getX(), y = tile.getPos().getY(), z = tile.getPos().getZ();
 		int energyMeta = Math.min(15,3+(int)(tile.data.getEnergyLevel()*0.8F));
+		BlockPosM pos = new BlockPosM();
 		
 		double dist = 4.4D+energyMeta*0.1D;
 		int idist = MathUtil.ceil(dist);
@@ -128,7 +130,7 @@ public class BlockEnergyCluster extends BlockContainer{
 		for(int xx = x-idist; xx <= x+idist; xx++){
 			for(int zz = z-idist; zz <= z+idist; zz++){
 				for(int yy = y-idist; yy <= y+idist; yy++){
-					if (MathUtil.distance(xx-x,yy-y,zz-z) <= dist && world.isAirBlock(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
+					if (MathUtil.distance(xx-x,yy-y,zz-z) <= dist && pos.moveTo(xx,yy,zz).isAir(world))world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
 				}
 			}
 		}

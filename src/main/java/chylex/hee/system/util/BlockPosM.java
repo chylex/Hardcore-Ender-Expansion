@@ -63,6 +63,13 @@ public class BlockPosM extends BlockPos{
 		return this;
 	}
 	
+	public BlockPosM moveTo(BlockPos pos){
+		this.x = pos.getX();
+		this.y = pos.getY();
+		this.z = pos.getZ();
+		return this;
+	}
+	
 	public BlockPosM moveTo(double x, double y, double z){
 		return moveTo(MathUtil.floor(x),MathUtil.floor(y),MathUtil.floor(z));
 	}
@@ -127,6 +134,10 @@ public class BlockPosM extends BlockPos{
 	
 	public boolean setBlock(World world, Block block){
 		return world.setBlockState(this,block.getDefaultState());
+	}
+	
+	public boolean setBlock(World world, Block block, int flags){
+		return world.setBlockState(this,block.getDefaultState(),flags);
 	}
 	
 	public boolean isAir(World world){

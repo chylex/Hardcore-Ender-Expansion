@@ -78,14 +78,14 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	}
 	
 	@Override
-	public void velocityToAddToEntity(World world, int x, int y, int z, Entity entity, Vec3 vec){}
+	public void modifyAcceleration(World world, BlockPos pos, Entity entity, Vec3 vec){}
 	
 	private static final PotionEffect weakness = new PotionEffect(Potion.weakness.id,5,1,false,true),
 									  miningFatigue = new PotionEffect(Potion.digSlowdown.id,5,1,false,true),
 									  poison = new PotionEffect(Potion.poison.id,100,2,false,true);
 	
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity){
 		if (entity instanceof EntityLivingBase && !(entity instanceof IIgnoreEnderGoo) && entity.getClass() != EntitySilverfish.class){
 			EntityLivingBase e = (EntityLivingBase)entity;
 			e.addPotionEffect(weakness);
@@ -100,7 +100,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 			if (eff.getDuration() < 102)eff.combine(new PotionEffect(Potion.poison.id,eff.getDuration()+17,eff.getAmplifier(),eff.getIsAmbient(),eff.getIsShowParticles()));
 			
 			Vec3 vec = new Vec3(0D,0D,0D);
-			super.velocityToAddToEntity(world,x,y,z,entity,vec);
+			super.modifyAcceleration(world,pos,entity,vec);
 			vec.normalize();
 			
 			entity.addVelocity(vec.xCoord*0.0075D,vec.yCoord*0.005D,vec.zCoord*0.0075D);
@@ -113,7 +113,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
-		HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);
+		HardcoreEnderExpansion.fx.enderGoo(world,pos.getX(),pos.getY(),pos.getZ());
 	}
 	
 	@SubscribeEvent

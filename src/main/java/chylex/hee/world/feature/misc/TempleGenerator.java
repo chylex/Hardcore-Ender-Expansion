@@ -3,6 +3,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.util.BlockPosM;
 
 public class TempleGenerator{
 	private final World world;
@@ -12,12 +13,13 @@ public class TempleGenerator{
 	}
 
 	public void preloadAndClearArea(int x, int y, int z){
-		world.getChunkFromBlockCoords(x,z);
-		world.getChunkFromBlockCoords(x+19,z);
+		BlockPosM pos = new BlockPosM();
+		world.getChunkFromBlockCoords(pos.moveTo(x,0,z));
+		world.getChunkFromBlockCoords(pos.moveTo(x+19,0,z));
 		
 		for(int xx = x; xx <= x+19; xx++){
 			for(int zz = z; zz <= z+13; zz++){
-				for(int yy = y+7; yy >= y; yy--)world.setBlockToAir(xx,yy,zz);
+				for(int yy = y+7; yy >= y; yy--)pos.moveTo(xx,yy,zz).setToAir(world);
 			}
 		}
 	}

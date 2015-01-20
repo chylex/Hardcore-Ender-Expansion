@@ -2,6 +2,7 @@ package chylex.hee.block;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
@@ -22,15 +23,15 @@ import chylex.hee.system.util.BlockPosM;
 
 public class BlockSpookyLeaves extends BlockLeaves{
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor){
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighbor){
 		world.scheduleUpdate(pos,this,world.rand.nextInt(20)+3);
-		if (neighbor == BlockList.spooky_log)beginLeavesDecay(world,x,y,z);
+		if (neighbor == BlockList.spooky_log)beginLeavesDecay(world,pos);
 	}
 	
 	@Override
 	public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune){
 		if (!world.isRemote){
-			PacketPipeline.sendToAllAround(world.provider.getDimensionId(),x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LEAVES_DECAY,x,y,z));
+			PacketPipeline.sendToAllAround(world.provider.getDimensionId(),pos,64D,new C20Effect(FXType.Basic.SPOOKY_LEAVES_DECAY,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D));
 		}
 	}
 	
@@ -67,17 +68,17 @@ public class BlockSpookyLeaves extends BlockLeaves{
 		BlockPosM pos = new BlockPosM(target.getBlockPos());
 		
 		for(int a = 0; a < 10; a++){
-			effectRenderer.addEffect((new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0)).applyColourMultiplier(x,y,z).multiplyVelocity(0.3F+world.rand.nextFloat()*0.6F).multipleParticleScaleBy(0.2F+world.rand.nextFloat()*2F));
+			effectRenderer.addEffect(new EntityDiggingFX(world,pos.x+world.rand.nextFloat(),pos.y+world.rand.nextFloat(),pos.z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,world.getBlockState(pos)){}.multiplyVelocity(0.3F+world.rand.nextFloat()*0.6F).multipleParticleScaleBy(0.2F+world.rand.nextFloat()*2F));
 		}
 		return false;
 	}
 
 	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffectsCustom(World world, int x, int y, int z){
+	public boolean addDestroyEffectsCustom(World world, BlockPosM pos){
 		EffectRenderer eff = Minecraft.getMinecraft().effectRenderer;
 		
 		for(int a = 0; a < 30; a++){
-			eff.addEffect((new EntityDiggingFX(world,x+world.rand.nextFloat(),y+world.rand.nextFloat()*1.5F,z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,this,0)).applyColourMultiplier(x,y,z).multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
+			eff.addEffect(new EntityDiggingFX(world,pos.x+world.rand.nextFloat(),pos.y+world.rand.nextFloat()*1.5F,pos.z+world.rand.nextFloat(),world.rand.nextFloat()-0.5F,0D,world.rand.nextFloat()-0.5F,world.getBlockState(pos)){}.multiplyVelocity(0.1F+world.rand.nextFloat()*0.2F).multipleParticleScaleBy(world.rand.nextFloat()*2.2F));
 		}
 		return false;
 	}

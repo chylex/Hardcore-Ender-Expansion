@@ -97,7 +97,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		if (distFromCenter > 102D && Math.abs(randomGenerator.nextGaussian()) < 0.285D){
 			Stopwatch.timeAverage("WorldGenBlob",64);
-			tryGenerate(blobGen,chunkX+16,32+randomGenerator.nextInt(60),chunkZ+16);
+			tryGenerate(blobGen,pos.moveTo(chunkX+16,32+randomGenerator.nextInt(60),chunkZ+16));
 			Stopwatch.finish("WorldGenBlob");
 		}
 		
@@ -105,7 +105,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 			Stopwatch.timeAverage("WorldGenEnergyCluster",64);
 			
 			for(int a = 0; a < randomGenerator.nextInt(4); a++){
-				clusterGen.generate(currentWorld,randomGenerator,chunkX+8,0,chunkZ+8);
+				clusterGen.generate(currentWorld,randomGenerator,pos.moveTo(chunkX+8,0,chunkZ+8));
 				if (!checkChance(0.1D+0.8D*WorldGenChance.linear2Incr.calculate(distFromCenter,320D,6400D)))break;
 			}
 			
@@ -124,7 +124,7 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 		
 		if (distFromCenter > 1280D && checkChance(WorldGenChance.linear3IncrDecr.calculate(distFromCenter,1280D,2700D,15000D)) && randomGenerator.nextFloat()*randomGenerator.nextFloat() > 0.666F){
 			Stopwatch.timeAverage("WorldGenMeteoroid",64);
-			for(int attempt = 0; attempt < randomGenerator.nextInt(3); attempt++)tryGenerate(meteoroidGen,randX(),8+randomGenerator.nextInt(112),randZ());
+			for(int attempt = 0; attempt < randomGenerator.nextInt(3); attempt++)tryGenerate(meteoroidGen,pos.moveTo(randX(),8+randomGenerator.nextInt(112),randZ()));
 			Stopwatch.finish("WorldGenMeteoroid");
 		}
 		

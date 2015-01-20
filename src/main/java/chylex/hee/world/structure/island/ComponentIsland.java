@@ -6,6 +6,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.block.BlockList;
@@ -48,7 +49,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 		this.startX = x;
 		this.startZ = z;
 		
-		coordBaseMode = 0;
+		coordBaseMode = EnumFacing.getHorizontal(0);
 		boundingBox = new StructureBoundingBox(x,20,z,x+sizeX-1,140+sizeY-1,z+sizeZ-1);
 		structure = new LargeStructureWorld(this);
 		

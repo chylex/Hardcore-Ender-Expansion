@@ -20,11 +20,6 @@ public class TileEntityEnhancedTNT extends TileEntity{
 	}
 	
 	@Override
-	public boolean canUpdate(){
-		return false;
-	}
-	
-	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		nbt.setString("enhancements",EnhancementEnumHelper.serialize(tntEnhancements));

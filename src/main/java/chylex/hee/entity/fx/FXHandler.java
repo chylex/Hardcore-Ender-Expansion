@@ -11,6 +11,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockSpookyLeaves;
 import chylex.hee.block.BlockSpookyLog;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 @SideOnly(Side.CLIENT)
@@ -33,11 +34,11 @@ public final class FXHandler{
 				break;
 				
 			case SPOOKY_LOG_DECAY:
-				((BlockSpookyLog)BlockList.spooky_log).addDestroyEffectsCustom(world,(int)x,(int)y,(int)z);
+				((BlockSpookyLog)BlockList.spooky_log).addDestroyEffectsCustom(world,new BlockPosM(x,y,z));
 				break;
 				
 			case SPOOKY_LEAVES_DECAY:
-				((BlockSpookyLeaves)BlockList.spooky_leaves).addDestroyEffectsCustom(world,(int)x,(int)y,(int)z);
+				((BlockSpookyLeaves)BlockList.spooky_leaves).addDestroyEffectsCustom(world,new BlockPosM(x,y,z));
 				break;
 				
 			case DUNGEON_PUZZLE_BURN:
@@ -69,7 +70,7 @@ public final class FXHandler{
 					for(double yy = y-5; yy <= y+5; yy++){
 						for(double zz = z-5; zz <= z+5; zz++){
 							if (MathUtil.distance(xx-x,yy-y,zz-z) > 5D)continue;
-							for(int i = 0; i < 2; ++i)world.spawnParticle("snowballpoof",xx+rand.nextDouble()-0.5D,yy,zz+rand.nextDouble()-0.5D,0D,0D,0D);
+							for(int i = 0; i < 2; ++i)world.spawnParticle(EnumParticleTypes.SNOWBALL,xx+rand.nextDouble()-0.5D,yy,zz+rand.nextDouble()-0.5D,0D,0D,0D);
 						}
 					}
 				}

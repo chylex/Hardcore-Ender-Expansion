@@ -2,22 +2,24 @@ package chylex.hee.world.feature;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
-public class WorldGenObsidianSpike extends WorldGenerator{
+public class WorldGenObsidianSpike extends WorldGenBase{
 	@Override
-	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (world.isAirBlock(x,y,z) && world.getBlock(x,y-1,z) == Blocks.end_stone){
+	public boolean generate(World world, Random rand, BlockPosM pos){
+		BlockPosM tmpPos = pos.copy();
+		
+		if (tmpPos.isAir(world) && tmpPos.moveDown().getBlock(world) == Blocks.end_stone){
 			int radius = rand.nextInt(4)+1;
 
-			for(int xx = x-radius; xx <= x+radius; ++xx){
-				for(int zz = z-radius; zz <= z+radius; ++zz){
-					if (MathUtil.square(xx-x)+MathUtil.square(zz-z) <= radius*radius+1 && world.getBlock(xx,y-1,zz) != Blocks.end_stone){
+			for(int xx = pos.x-radius; xx <= pos.x+radius; xx++){
+				for(int zz = pos.z-radius; zz <= pos.z+radius; zz++){
+					if (MathUtil.square(xx-pos.x)+MathUtil.square(zz-pos.z) <= radius*radius+1 && tmpPos.moveTo(xx,pos.y-1,zz).getBlock(world) != Blocks.end_stone){
 						return false;
 					}
 				}
@@ -25,11 +27,11 @@ public class WorldGenObsidianSpike extends WorldGenerator{
 			
 			int height = rand.nextInt(32)+6;
 
-			for(int yy = y; yy < y+height && yy < 128; ++yy){
-				for(int xx = x-radius; xx <= x+radius; ++xx){
-					for(int zz = z-radius; zz <= z+radius; ++zz){
-						if (MathUtil.square(xx-x)+MathUtil.square(zz-z) <= radius*radius+1){
-							world.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,2);
+			for(int yy = pos.y; yy < pos.y+height && yy < 128; yy++){
+				for(int xx = pos.x-radius; xx <= pos.x+radius; xx++){
+					for(int zz = pos.z-radius; zz <= pos.z+radius; zz++){
+						if (MathUtil.square(xx-pos.x)+MathUtil.square(zz-pos.z) <= radius*radius+1){
+							tmpPos.moveTo(xx,yy,zz).setBlock(world,BlockList.obsidian_falling,2);
 						}
 					}
 				}
@@ -38,14 +40,14 @@ public class WorldGenObsidianSpike extends WorldGenerator{
 			boolean bars = height > 20 && rand.nextInt(5) <= 1;
 			
 			if (bars){
-				for(int xx = x-radius; xx <= x+radius; ++xx){
-					for(int zz = z-radius; zz <= z+radius; ++zz){
-						if (!world.isAirBlock(xx,y+height-1,zz)){
+				for(int xx = pos.x-radius; xx <= pos.x+radius; xx++){
+					for(int zz = pos.z-radius; zz <= pos.z+radius; zz++){
+						if (!tmpPos.moveTo(xx,pos.y+height-1,zz).isAir(world)){
 							boolean hasMoreAir = false;
 							
 							for(int ax = -1; ax <= 1; ax++){
 								for(int az = -1; az <= 1; az++){
-									if (world.isAirBlock(xx+ax,y+height-1,zz+az)){
+									if (tmpPos.moveTo(xx+ax,pos.y+height-1,zz+az).isAir(world)){
 										hasMoreAir = true;
 										ax = 2;
 										break;
@@ -53,14 +55,14 @@ public class WorldGenObsidianSpike extends WorldGenerator{
 								}
 							}
 							
-							if (hasMoreAir)world.setBlock(xx,y+height,zz,Blocks.iron_bars,0,2);
+							if (hasMoreAir)tmpPos.moveTo(xx,pos.y+height,zz).setBlock(world,Blocks.iron_bars,2);
 						}
 					}
 				}
 			}
 
 			EntityBlockEnderCrystal crystal = new EntityBlockEnderCrystal(world);
-			crystal.setLocationAndAngles(x+0.5D,y+height,z+0.5D,rand.nextFloat()*360F,0F);
+			crystal.setLocationAndAngles(pos.x+0.5D,pos.y+height,pos.z+0.5D,rand.nextFloat()*360F,0F);
 
 			crystal.setCrystalType(
 				bars ? EntityBlockEnderCrystal.BARS :
@@ -69,9 +71,9 @@ public class WorldGenObsidianSpike extends WorldGenerator{
 			);
 			
 			world.spawnEntityInWorld(crystal);
-			world.setBlock(x,y+height,z,Blocks.bedrock,0,2);
+			tmpPos.moveTo(pos.x,pos.y+height,pos.z).setBlock(world,Blocks.bedrock,2);
 			
-			crystal.setCrystalKey(WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).addCrystal(x,y+height,z));
+			crystal.setCrystalKey(WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).addCrystal(pos.x,pos.y+height,pos.z));
 			
 			return true;
 		}

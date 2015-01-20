@@ -1,7 +1,7 @@
 package chylex.hee.world.feature.blobs.generators;
 import java.util.Random;
-import net.minecraft.util.Vec3;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.Vec3M;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.IRandomAmount;
@@ -74,16 +74,16 @@ public class BlobGeneratorRecursive extends BlobGenerator{
 		tmpRecursionChance = minRecursionChance+rand.nextDouble()*(maxRecursionChance-minRecursionChance);
 		
 		double firstRad = 0D, rad, dist;
-		Vec3 vec;
+		Vec3M vec;
 		
 		for(int a = 0, amount = baseAmountGen.generate(rand,minAmount,maxAmount); a < amount; a++){
 			rad = minRad+rand.nextDouble()*(maxRad-minRad);
 			if (a == 0)firstRad = rad;
 			
-			vec = a == 0 ? new Vec3(0D,0D,0D) : DragonUtil.getRandomVector(rand);
+			vec = a == 0 ? new Vec3M(0D,0D,0D) : DragonUtil.getRandomVector(rand);
 			dist = a == 0 ? 0D : firstRad*(minBlobDistMp+rand.nextDouble()*(maxBlobDistMp-minBlobDistMp));
 			
-			genNewBlob(gen,rand,vec.xCoord*dist,vec.yCoord*dist,vec.zCoord*dist,rad,0);
+			genNewBlob(gen,rand,vec.x*dist,vec.y*dist,vec.z*dist,rad,0);
 		}
 	}
 	
@@ -95,9 +95,9 @@ public class BlobGeneratorRecursive extends BlobGenerator{
 		
 		if (rand.nextDouble() < tmpRecursionChance*(Math.pow(recursionChanceMp,recursionLevel))){
 			for(int a = 0, amount = recursionAmountGen.generate(rand,minRecursionAmount,maxRecursionAmount); a < amount; a++){
-				Vec3 dir = DragonUtil.getRandomVector(rand);
+				Vec3M dir = DragonUtil.getRandomVector(rand);
 				double dist = rad*(minBlobDistMp+rand.nextDouble()*(maxBlobDistMp-minBlobDistMp));
-				genNewBlob(gen,rand,x+dir.xCoord*dist,y+dir.yCoord*dist,z+dir.zCoord*dist,minRad+rand.nextDouble()*(maxRad-minRad),recursionLevel+1);
+				genNewBlob(gen,rand,x+dir.x*dist,y+dir.y*dist,z+dir.z*dist,minRad+rand.nextDouble()*(maxRad-minRad),recursionLevel+1);
 			}
 		}
 		

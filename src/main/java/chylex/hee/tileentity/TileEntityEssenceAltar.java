@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
@@ -32,7 +33,7 @@ import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 
-public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
+public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized implements IUpdatePlayerListBox{
 	public static final byte STAGE_BASIC = 0, STAGE_HASTYPE = 1, STAGE_WORKING = 2;
 	
 	private EssenceType essenceType = EssenceType.INVALID;
@@ -91,7 +92,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	
 	public void drainEssence(int amount){
 		essenceLevel = Math.max(essenceLevel-amount,0);
-		worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+		worldObj.markBlockForUpdate(getPos());
 	}
 	
 	@Override
@@ -151,7 +152,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	 */
 	
 	@Override
-	public void updateEntity(){
+	public void update(){
 		if (currentStage == STAGE_WORKING){
 			if (!worldObj.isRemote)actionHandler.onUpdate();
 			else actionHandler.onClientUpdate();
@@ -302,11 +303,11 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox(){
-		return AxisAlignedBB.fromBounds(xCoord,yCoord,zCoord,xCoord+1,yCoord+3,zCoord+1);
+		return new AxisAlignedBB(getPos(),getPos().add(1,3,1));
 	}
 	
 	private static EntityItem createItem(TileEntity tile, ItemStack is){
-		EntityItem item = new EntityItem(tile.getWorld(),tile.xCoord+0.5D,tile.yCoord+1.175D,tile.zCoord+0.5D,is);
+		EntityItem item = new EntityItem(tile.getWorld(),tile.getPos().getX()+0.5D,tile.getPos().getY()+1.175D,tile.getPos().getZ()+0.5D,is);
 		item.setPickupDelay(5);
 		item.motionY = (item.motionX = item.motionZ = 0D)+0.02D;
 		return item;

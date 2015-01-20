@@ -24,6 +24,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
@@ -53,6 +54,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		if (--updatePedestalTimer <= 0){
 			updatePedestalTimer = 20;
 			
+			BlockPosM pos = new BlockPosM(altar.getPos());
+			
 			int maxPedestals = Math.min(12,8+((getSocketEffects(altar)&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE ? MathUtil.ceil(4F*getSocketBoost(altar)/26F) : 0));
 			int range = maxPedestals > 8 ? 4 : 3;
 			long currentHash = 0L;
@@ -63,9 +66,11 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			}
 			
 			World world = altar.getWorld();
+			BlockPosM testPos = new BlockPosM();
+			
 			for(int xx = -range,id; xx <= range; xx++){
 				for(int zz = -range; zz <= range; zz++){
-					id = Block.getIdFromBlock(world.getBlock(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz));
+					id = Block.getStateId(world.getBlockState(testPos.moveTo(xx,pos.y,zz)));
 					currentHash += ((4+xx)*7+(4+zz)+id)*262144L+(xx*id)+(zz*id);
 				}
 			}
@@ -77,20 +82,19 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				IdentityHashMap<Block,Byte> blockCounts = new IdentityHashMap<>();
 				Block[][] blocks = new Block[range*2+1][range*2+1];
 				
-				for(int xx = altar.xCoord-range; xx <= altar.xCoord+range; xx++){
-					for(int zz = altar.zCoord-range; zz <= altar.zCoord+range; zz++){
-						if (Math.abs(xx-altar.xCoord) <= 1 && Math.abs(zz-altar.zCoord) <= 1)continue;
+				for(int xx = pos.x-range; xx <= pos.x+range; xx++){
+					for(int zz = pos.z-range; zz <= pos.z+range; zz++){
+						if (Math.abs(xx-pos.x) <= 1 && Math.abs(zz-pos.z) <= 1)continue;
 						
-						if (world.isAirBlock(xx,altar.yCoord+1,zz)&&
-							(world.isAirBlock(xx-1,altar.yCoord,zz) || !hasCollisionBox(altar,xx-1,altar.yCoord,zz)) &&
-							(world.isAirBlock(xx+1,altar.yCoord,zz) || !hasCollisionBox(altar,xx+1,altar.yCoord,zz)) &&
-							(world.isAirBlock(xx,altar.yCoord,zz-1) || !hasCollisionBox(altar,xx,altar.yCoord,zz-1)) &&
-							(world.isAirBlock(xx,altar.yCoord,zz+1) || !hasCollisionBox(altar,xx,altar.yCoord,zz+1)) &&
-							hasCollisionBox(altar,xx,altar.yCoord,zz)){
-							Block block = world.getBlock(xx,altar.yCoord,zz);
+						if (testPos.moveTo(xx,pos.y,zz).isAir(world) && hasCollisionBox(altar,testPos) &&
+							(testPos.moveTo(xx-1,pos.y,zz).isAir(world) || !hasCollisionBox(altar,testPos)) &&
+							(testPos.moveTo(xx+1,pos.y,zz).isAir(world) || !hasCollisionBox(altar,testPos)) &&
+							(testPos.moveTo(xx,pos.y,zz-1).isAir(world) || !hasCollisionBox(altar,testPos)) &&
+							(testPos.moveTo(xx,pos.y,zz+1).isAir(world) || !hasCollisionBox(altar,testPos))){
+							Block block = testPos.moveTo(xx,pos.y,zz).getBlock(world);
 							if (block.getMaterial() == Material.air)continue;
 							
-							blocks[range+xx-altar.xCoord][range+zz-altar.zCoord] = block;
+							blocks[range+xx-pos.x][range+zz-pos.z] = block;
 							
 							if (blockCounts.containsKey(block))blockCounts.put(block,(byte)(blockCounts.get(block)+1));
 							else blockCounts.put(block,(byte)1);
@@ -106,7 +110,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						for(int zz = -range; zz <= range; zz++){
 							if (blocks[range+xx][range+zz] != entry.getKey())continue;
 							
-							pedestals.add(new BlockLocation(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz));
+							pedestals.add(new BlockLocation(testPos.moveTo(pos).moveBy(xx,0,zz)));
 						}
 					}
 					
@@ -116,13 +120,14 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			
 			for(BlockLocation loc:pedestals){
 				if (world.rand.nextInt(5) <= 1){
-					PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,loc.x+0.5D,altar.yCoord+0.5D,loc.z+0.5D));
+					PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,loc.x+0.5D,loc.y+0.5D,loc.z+0.5D));
 				}
 			}
 		}
 		
 		if (itemBoundingBox == null){
-			itemBoundingBox = AxisAlignedBB.fromBounds(altar.xCoord+0.5D-4.5D,altar.yCoord+0.9D,altar.zCoord+0.5D-4.5D,altar.xCoord+0.5+4.5D,altar.yCoord+1.6D,altar.zCoord+0.5D+4.5D);
+			BlockPos pos = altar.getPos();
+			itemBoundingBox = AxisAlignedBB.fromBounds(pos.getX()+0.5D-4.5D,pos.getY()+0.9D,pos.getZ()+0.5D-4.5D,pos.getX()+0.5D+4.5D,pos.getY()+1.6D,pos.getZ()+0.5D+4.5D);
 		}
 
 		World world = altar.getWorld();

@@ -25,7 +25,7 @@ public class BlockReplaceHelper{
 					Block block = (Block)blockField.get(null);
 					
 					if (block == toReplace){
-						String registryName = Block.blockRegistry.getNameForObject(block);
+						String registryName = (String)Block.blockRegistry.getNameForObject(block);
 						int id = Block.getIdFromBlock(block);
 						
 						Log.debug("Replacing block - $0/$1",id,registryName);

@@ -1,12 +1,19 @@
 package chylex.hee.world.util;
+import net.minecraft.util.BlockPos;
 
 public class BlockLocation{
-	public final int x,y,z;
+	public final int x, y, z;
 	
 	public BlockLocation(int x, int y, int z){
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+	
+	public BlockLocation(BlockPos pos){
+		this.x = pos.getX();
+		this.y = pos.getY();
+		this.z = pos.getZ();
 	}
 	
 	@Override

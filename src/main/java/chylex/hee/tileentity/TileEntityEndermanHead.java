@@ -6,11 +6,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class TileEntityEndermanHead extends TileEntityAbstractSynchronized{
 	private byte rotation;
 	private byte meta;
-	
-	@Override
-	public boolean canUpdate(){
-		return false;
-	}
 
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){

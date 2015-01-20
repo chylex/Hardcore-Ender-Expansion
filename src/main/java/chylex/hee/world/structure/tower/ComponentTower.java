@@ -3,6 +3,7 @@ import gnu.trove.list.array.TByteArrayList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -31,6 +32,7 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
@@ -47,6 +49,7 @@ import chylex.hee.world.structure.util.Offsets;
 public class ComponentTower extends ComponentScatteredFeatureCustom{
 	private static final Random spawnerRand = new Random();
 	private static final byte roomHeight = 6;
+	private static final BlockPosM tmpPos = new BlockPosM();
 	
 	public static final WeightedLootList lootTower = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(Blocks.web).setWeight(220),
@@ -166,6 +169,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 				
 				for(int spikeY = 0; spikeY <= distFactor*0.45D*Math.sqrt(distFactor*0.5D)+rand.nextDouble()*1.5D*distFactor; spikeY++){
 					placeBlockAtCurrentPosition(world,Blocks.end_stone,0,a,islandY-spikeY,b,bb);
+					
 				}
 			}
 		}
@@ -242,9 +246,10 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		placeBlockAndUpdate(BlockList.obsidian_special_glow,1,centerX,topY+1,centerZ+zOffset,world,bb);
 		
 		int xx = getXWithOffset(centerX,centerZ+zOffset), yy = getYWithOffset(topY+1), zz = getZWithOffset(centerX,centerZ+zOffset);
-		if (bb.isVecInside(xx,yy,zz)){
+		
+		if (bb.isVecInside(tmpPos.moveTo(xx,yy,zz))){
 			EntityMiniBossEnderEye eye = new EntityMiniBossEnderEye(world,xx+0.5D,yy+0.825D,zz+0.5D);
-			eye.setPositionAndRotation(eye.posX,eye.posY,eye.posZ,90*coordBaseMode,0);
+			eye.setPositionAndRotation(eye.posX,eye.posY,eye.posZ,90*coordBaseMode.getHorizontalIndex(),0);
 			world.spawnEntityInWorld(eye);
 		}
 		
@@ -351,7 +356,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 			for(int a = 0,xx,zz; a < 6+rand.nextInt(10); a++){
 				xx = x+rand.nextInt(7)-3;
 				zz = z+rand.nextInt(7)-3;
-				if (getBlockAtCurrentPosition(world,xx,y,zz,bb).getMaterial() == Material.air && getBlockAtCurrentPosition(world,xx,y-1,zz,bb).isNormalCube(world,xx,y-1,zz)){
+				if (getBlockAtCurrentPosition(world,xx,y,zz,bb).getMaterial() == Material.air && getBlockAtCurrentPosition(world,xx,y-1,zz,bb).isNormalCube(world,tmpPos.moveTo(xx,y-1,zz))){
 					placeBlockAtCurrentPosition(world,Blocks.redstone_wire,0,xx,y,zz,bb);
 				}
 			}
@@ -447,7 +452,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 			for(int a = 0,xx,zz; a < 5+rand.nextInt(8); a++){
 				xx = rand.nextInt(7)-3;
 				zz = rand.nextInt(7)-3;
-				if (getBlockAtCurrentPosition(world,xx,y,zz,bb).getMaterial() == Material.air && getBlockAtCurrentPosition(world,xx,y-1,zz,bb).isNormalCube(world,xx,y-1,zz)){
+				if (getBlockAtCurrentPosition(world,xx,y,zz,bb).getMaterial() == Material.air && getBlockAtCurrentPosition(world,xx,y-1,zz,bb).isNormalCube(world,tmpPos.moveTo(xx,y-1,zz))){
 					placeBlockAtCurrentPosition(world,Blocks.redstone_wire,0,xx,y,zz,bb);
 				}
 			}
@@ -646,7 +651,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 	
 	private Offsets getOffsets(int x, int y, int z, StructureBoundingBox bb){
 		int xx = getXWithOffset(x,z), yy = getYWithOffset(y), zz = getZWithOffset(x,z);
-		return new Offsets(xx,yy,zz,bb.isVecInside(xx,yy,zz));
+		return new Offsets(xx,yy,zz,bb.isVecInside(tmpPos.moveTo(xx,yy,zz)));
 	}
 	
 	private final int[] potionData = new int[]{
@@ -664,7 +669,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		int fill = r > 0.9F ? 3 : r > 0.6F ? 2 : r > 0.25F ? 1 : 0;
 		if (fill == 0)return;
 		
-		TileEntityBrewingStand brewingStand = (TileEntityBrewingStand)world.getTileEntity(offsets.x,offsets.y,offsets.z);
+		TileEntityBrewingStand brewingStand = (TileEntityBrewingStand)world.getTileEntity(tmpPos.moveTo(offsets.x,offsets.y,offsets.z));
 		if (brewingStand == null)return;
 		
 		TByteArrayList slots = new TByteArrayList(3);
@@ -685,7 +690,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		
 		placeBlockAtCurrentPosition(world,isTrapped?Blocks.trapped_chest:Blocks.chest,getMetadataWithOffset(Blocks.chest,facing.get6Directional()),x,y,z,bb);
 		
-		TileEntityChest chest = (TileEntityChest)world.getTileEntity(offsets.x,offsets.y,offsets.z);
+		TileEntityChest chest = (TileEntityChest)world.getTileEntity(tmpPos.moveTo(offsets.x,offsets.y,offsets.z));
 		if (chest == null)return;
 		
 		for(int a = 0; a < rand.nextInt(maxItems-minItems+1)+minItems; a++)chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootTower.generateIS(rand));
@@ -701,7 +706,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		placeBlockAtCurrentPosition(world,Blocks.dispenser,meta,x,y,z,bb);
 		world.setBlockMetadataWithNotify(offsets.x,offsets.y,offsets.z,meta,2);
 		
-		TileEntityDispenser dispenser = (TileEntityDispenser)world.getTileEntity(offsets.x,offsets.y,offsets.z);
+		TileEntityDispenser dispenser = (TileEntityDispenser)world.getTileEntity(tmpPos.moveTo(offsets.x,offsets.y,offsets.z));
 		if (dispenser == null)return;
 		
 		dispenser.blockMetadata = meta;
@@ -715,7 +720,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		placeBlockAtCurrentPosition(world,Blocks.furnace,getMetadataWithOffset(Blocks.pumpkin,facing.get6Directional()),x,y,z,bb);
 		
 		if (rand.nextFloat() < fuelChance){
-			TileEntityFurnace furnace = (TileEntityFurnace)world.getTileEntity(offsets.x,offsets.y,offsets.z);
+			TileEntityFurnace furnace = (TileEntityFurnace)world.getTileEntity(tmpPos.moveTo(offsets.x,offsets.y,offsets.z));
 			if (furnace != null)furnace.setInventorySlotContents(1,lootFuel.generateIS(rand));
 		}
 	}
@@ -726,7 +731,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		
 		placeBlockAtCurrentPosition(world,BlockList.enderman_head,getMetadataWithOffset(Blocks.skull,facing.getSkull()),x,y,z,bb); // may be broken
 		
-		TileEntityEndermanHead head = (TileEntityEndermanHead)world.getTileEntity(offsets.x,offsets.y,offsets.z);
+		TileEntityEndermanHead head = (TileEntityEndermanHead)world.getTileEntity(tmpPos.moveTo(offsets.x,offsets.y,offsets.z));
 		if (head != null)head.setMeta(facing.getSkull());
 	}
 	
@@ -737,7 +742,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		placeBlockAtCurrentPosition(world,BlockList.enderman_head,1,x,y,z,bb);
 		Offsets pointOff = getOffsets(pointingAtX,y,pointingAtZ,bb);
 
-		TileEntityEndermanHead head = (TileEntityEndermanHead)world.getTileEntity(offsets.x,offsets.y,offsets.z);
+		TileEntityEndermanHead head = (TileEntityEndermanHead)world.getTileEntity(tmpPos.moveTo(offsets.x,offsets.y,offsets.z));
 		if (head != null)head.setRotation((byte)Math.floor(90D+MathUtil.toDeg(Math.atan2(pointOff.z-offsets.z,pointOff.x-offsets.x))/22.5D));
 	}
 	
@@ -748,7 +753,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		placeBlockAtCurrentPosition(world,BlockList.custom_spawner,0,x,y,z,bb);
 		if (difficulty == 0)return;
 
-		TileEntityCustomSpawner spawner = (TileEntityCustomSpawner)world.getTileEntity(offsets.x,offsets.y,offsets.z);
+		TileEntityCustomSpawner spawner = (TileEntityCustomSpawner)world.getTileEntity(tmpPos.moveTo(offsets.x,offsets.y,offsets.z));
 		if (spawner != null){
 			List<Potion> availablePotions = CollectionUtil.newList(new Potion[]{
 				Potion.damageBoost, /*Potion.invisibility, */Potion.moveSpeed, Potion.regeneration, Potion.resistance, Potion.fireResistance
@@ -774,7 +779,7 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 	
 	private void spawnAnvil(World world, Random rand, StructureBoundingBox bb, int x, int y, int z, Facing facing){
 		int meta = facing.getAnvil();
-		if (coordBaseMode == 1 || coordBaseMode == 3)meta = 1-meta;
+		if (coordBaseMode.getHorizontalIndex() == 1 || coordBaseMode.getHorizontalIndex() == 3)meta = 1-meta;
 		
 		float broken = rand.nextFloat();
 		if (broken < 0.25F)meta |= 0x8;
@@ -797,5 +802,25 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		startX = nbt.getInteger("startX");
 		startZ = nbt.getInteger("startZ");
 		lastRoomUsed = nbt.getByte("lastRoomUsed");
+	}
+	
+	/*
+	 * 1.7 PORT METHODS
+	 */
+	
+	private void placeBlockAtCurrentPosition(World world, Block block, int meta, int x, int y, int z, StructureBoundingBox bb){
+		func_175811_a(world,block.getStateFromMeta(meta),x,y,z,bb);
+	}
+	
+	private void fillWithBlocks(World world, StructureBoundingBox bb, int x1, int y1, int z1, int x2, int y2, int z2, Block block, Block replace, boolean whatever){
+		func_175804_a(world,bb,x1,y1,z1,x2,y2,z2,block.getDefaultState(),replace.getDefaultState(),whatever);
+	}
+	
+	private void fillWithMetadataBlocks(World world, StructureBoundingBox bb, int x1, int y1, int z1, int x2, int y2, int z2, Block block, int meta, Block replace, int replaceMeta, boolean whatever){
+		func_175804_a(world,bb,x1,y1,z1,x2,y2,z2,block.getStateFromMeta(meta),replace.getStateFromMeta(replaceMeta),whatever);
+	}
+	
+	private Block getBlockAtCurrentPosition(World world, int x, int y, int z, StructureBoundingBox bb){
+		return getBlockStateFromPos(world,x,y,z,bb).getBlock();
 	}
 }
