@@ -1,8 +1,8 @@
 package chylex.hee.block;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,9 +14,10 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 
-public class BlockObsidianSpecial extends Block implements IBlockSubtypes{	
+public class BlockObsidianSpecial extends BlockAbstractStateEnum implements IBlockSubtypes{	
 	/*
 	 * Metadata
 	 *   0: smooth
@@ -28,29 +29,52 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	 *   6: (chiseled) upward particle spawner - 5 blocks
 	 */
 	
+	public enum Variant{ SMOOTH, CHISELED, PILLAR_VERTICAL, PILLAR_NS, PILLAR_EW, SMOOTH_PARTICLES, CHISELED_PARTICLES }
+	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
+	
+	private static final Variant getDroppable(Variant variant){
+		switch(variant){
+			case SMOOTH_PARTICLES: return Variant.SMOOTH;
+			case CHISELED_PARTICLES: return Variant.CHISELED;
+			case PILLAR_EW:
+			case PILLAR_NS: return Variant.PILLAR_VERTICAL;
+			default: return variant;
+		}
+	}
+	
 	private final boolean isGlowing;
 	
 	public BlockObsidianSpecial(boolean isGlowing){
 		super(Material.rock);
 		this.isGlowing = isGlowing;
+		createSimpleMeta(VARIANT,Variant.class);
 	}
 	
 	@Override
-	public int onBlockPlaced(World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, int meta){
-		return (meta == 2) ? (side == 0 || side == 1 ? 2 : side == 2 || side == 3 ? 4 : side == 4 || side == 5 ? 3 : meta) : meta;
+	protected IProperty[] getPropertyArray(){
+		return new IProperty[]{ VARIANT };
 	}
 	
 	@Override
-	public int damageDropped(int meta){
-		return meta == 6 ? 1 : meta == 5 ? 0 : meta == 3 || meta == 4 ? 2 : meta;
+	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
+		if (meta == Variant.PILLAR_VERTICAL.ordinal()){
+			switch(side.getAxis().ordinal()){
+				case 1: return setProperty(Variant.PILLAR_NS);
+				case 2: return setProperty(Variant.PILLAR_EW);
+				default: return setProperty(Variant.PILLAR_VERTICAL);
+			}
+		}
+		else return super.onBlockPlaced(world,pos,side,hitX,hitY,hitZ,meta,placer);
+	}
+	
+	@Override
+	public int damageDropped(IBlockState state){
+		return getDroppable((Variant)state.getValue(VARIANT)).ordinal();
 	}
 	
 	@Override
 	protected ItemStack createStackedBlock(IBlockState state){
-		if (meta == 3 || meta == 4)return new ItemStack(this,1,2);
-		else if (meta == 5)return new ItemStack(this,1,0);
-		else if (meta == 6)return new ItemStack(this,1,1);
-		else return super.createStackedBlock(meta);
+		return new ItemStack(this,1,getDroppable((Variant)state.getValue(VARIANT)).ordinal());
 	}
 	
 	@Override
@@ -65,15 +89,15 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
-		int meta = world.getBlockMetadata(x,y,z);
+		Variant variant = (Variant)state.getValue(VARIANT);
 		
-		if (meta == 5){
+		if (variant == Variant.SMOOTH_PARTICLES){
 			for(int a = 0; a < 10; a++){
 				world.spawnParticle(EnumParticleTypes.PORTAL,pos.getX()+rand.nextFloat(),pos.getY()-4F*rand.nextFloat(),pos.getZ()+rand.nextFloat(),0D,0D,0D);
 				world.spawnParticle(EnumParticleTypes.SMOKE_LARGE,pos.getX()+rand.nextFloat(),pos.getY()-4F*rand.nextFloat(),pos.getZ()+rand.nextFloat(),0D,0D,0D);
 			}
 		}
-		else if (meta == 6){
+		else if (variant == Variant.CHISELED_PARTICLES){
 			for(int a = 0; a < 30; a++){
 				world.spawnParticle(EnumParticleTypes.PORTAL,pos.getX()+rand.nextFloat(),pos.getY()+5F*rand.nextFloat(),pos.getZ()+rand.nextFloat(),0D,0D,0D);
 			}
@@ -84,8 +108,8 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		list.add(new ItemStack(item,1,0));
-		list.add(new ItemStack(item,1,1));
-		list.add(new ItemStack(item,1,2));
+		list.add(new ItemStack(item,1,Variant.SMOOTH.ordinal()));
+		list.add(new ItemStack(item,1,Variant.CHISELED.ordinal()));
+		list.add(new ItemStack(item,1,Variant.PILLAR_VERTICAL.ordinal()));
 	}
 }

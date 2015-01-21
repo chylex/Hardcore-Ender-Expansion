@@ -46,8 +46,8 @@ public abstract class GuiAbstractTable extends GuiContainer{
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		String s = table.hasCustomInventoryName() ? table.getInventoryName() : I18n.format(table.getInventoryName());
-		fontRendererObj.drawString(s,(xSize>>1)-(fontRendererObj.getStringWidth(s)>>1),6,0x404040);
+		String name = table.getName();
+		fontRendererObj.drawString(name,(xSize>>1)-(fontRendererObj.getStringWidth(name)>>1),6,0x404040);
 		fontRendererObj.drawString(I18n.format("container.inventory"),8,ySize-94,0x404040);
 		
 		if (stardustTextX != -1){

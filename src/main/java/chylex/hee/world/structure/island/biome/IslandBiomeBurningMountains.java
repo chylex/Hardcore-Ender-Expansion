@@ -70,7 +70,7 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	}
 	
 	@Override
-	public int getTopBlockMeta(){
-		return BlockEndstoneTerrain.metaBurned;
+	public BlockEndstoneTerrain.Variant getTopBlockVariant(){
+		return BlockEndstoneTerrain.Variant.BURNED;
 	}
 }

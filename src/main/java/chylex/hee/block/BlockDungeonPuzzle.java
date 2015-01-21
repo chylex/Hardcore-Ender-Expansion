@@ -2,6 +2,7 @@ package chylex.hee.block;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.material.MaterialDungeonPuzzle;
+import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
@@ -25,6 +27,7 @@ import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlockSubtypes{
@@ -32,43 +35,52 @@ public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlock
 	
 	public static final byte minDungeonSize = 7, maxDungeonSize = 13;
 	
-	public static final byte metaTriggerUnlit = 0, metaTriggerLit = 1, metaChainedUnlit = 2, metaChainedLit = 3,
-							 metaDistributorSpreadUnlit = 4, metaDistributorSpreadLit = 5,
-							 metaDistributorSquareUnlit = 6, metaDistributorSquareLit = 7,
-							 metaPortal = 11, metaDisabled = 12, metaWall = 13, metaRock = 14, metaCeiling = 15;
-	
-	public static final byte[] icons = new byte[]{ 2, 3, 4, 5, 6, 7, 8, 9, 3, 3, 3, 10, 10, 0, 1, 3 };
-	
-	public static final String[] names = new String[]{
-		"trigger.unlit", "trigger.lit", "chained.unlit", "chained.lit", "distr.spread.unlit", "distr.spread.lit", "distr.square.unlit", "distr.square.lit",
-		null, null, null, null, "disabled", "wall", "rock", "ceiling"
-	};
-	
-	public static final boolean canTrigger(int meta){
-		return meta == metaTriggerUnlit || meta == metaTriggerLit;
+	public enum Variant{
+		TRIGGER_UNLIT(false,"trigger.unlit"), TRIGGER_LIT(true,"trigger.lit"),
+		CHAINED_UNLIT(false,"chained.unlit"), CHAINED_LIT(true,"chained.lit"),
+		DISTRBUTOR_SPREAD_UNLIT(false,"distr.spread.unlit"), DISTRIBUTOR_SPREAD_LIT(true,"distr.spread.lit"),
+		DISTRIBUTOR_SQUARE_UNLIT(false,"distr.square.unlit"), DISTRIBUTOR_SQUARE_LIT(true,"distr.square.lit"),
+		UNUSED_1(false,""), UNUSED_2(false,""), UNUSED_3(false,""),
+		PORTAL(false,""), DISABLED(false,"disabled"), WALL(false,"wall"), ROCK(false,"rock"), CEILING(false,"ceiling");
+		
+		public static final Variant[] values = values();
+		
+		public final boolean isLit;
+		public final String unlocalizedName;
+		
+		Variant(boolean isLit, String unlocalizedName){
+			this.isLit = isLit;
+			this.unlocalizedName = unlocalizedName;
+		}
+		
+		public boolean canTrigger(){
+			return this == TRIGGER_UNLIT || this == TRIGGER_LIT;
+		}
+		
+		public Variant getUnlit(){
+			return isLit ? (values[ordinal()-1].isLit ? this : values[ordinal()-1]) : this;
+		}
+		
+		public Variant toggleLit(){
+			return (ordinal()&1) == 0 ? values[ordinal()+1] : values[ordinal()-1];
+		}
 	}
 	
-	public static final int toggleState(int meta){
-		if (meta == metaWall || meta == metaRock || meta == metaCeiling || meta == metaDisabled || meta == metaPortal)return meta;
-		else return (meta&1) == 0 ? meta+1 : meta-1;
-	}
-	
-	public static final boolean isLit(int meta){
-		return (meta&1) != 0;
-	}
-	
-	public static final int getUnlit(int meta){
-		return (meta&1) != 0 ? meta-1 : meta;
-	}
+	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
 	
 	public BlockDungeonPuzzle(){
 		super(dungeonPuzzle);
 	}
 	
+	@Override
+	protected IProperty[] getPropertyArray(){
+		return new IProperty[]{ VARIANT };
+	}
+	
 	/**
 	 * Update chain from the entity, return false to stop the chain.
 	 */
-	public boolean updateChain(World world, int x, int y, int z, byte chainDir){
+	public boolean updateChain(World world, BlockPosM pos, byte chainDir){
 		int meta = world.getBlockMetadata(x,y,z), toggled = toggleState(meta);
 		
 		if (meta != toggled){
@@ -104,7 +116,7 @@ public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlock
 		return false;
 	}
 	
-	public void checkWinConditions(World world, int x, int y, int z){
+	public void checkWinConditions(World world, BlockPosM pos){
 		if (world.getEntitiesWithinAABB(EntityTechnicalPuzzleChain.class,AxisAlignedBB.fromBounds(x+0.5D-maxDungeonSize,y,z+0.5D-maxDungeonSize,x+0.5D+maxDungeonSize,y+1D,z+0.5D+maxDungeonSize)).size() == 1){
 			int minX = x, minZ = z, maxX = x, maxZ = z, cnt = 0;
 			boolean isFinished = true;
@@ -170,15 +182,15 @@ public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlock
 	}
 	
 	@Override
-	public int getLightValue(IBlockAccess world, int x, int y, int z){
-		return world.getBlockMetadata(x,y,z) == metaPortal ? 15 : super.getLightValue(world,x,y,z);
+	public int getLightValue(IBlockAccess world, BlockPos pos){
+		return (Variant)world.getBlockState(pos).getValue(VARIANT) == Variant.PORTAL ? 15 : super.getLightValue(world,pos);
 	}
 	
 	@Override
-	public boolean onBlockEventReceived(World world, int x, int y, int z, int eventID, int eventData){
+	public boolean onBlockEventReceived(World world, BlockPos pos, IBlockState state, int eventID, int eventData){
 		if (eventID == 69){
-			for(int a = 0; a < (eventData == 0 ? 3 : 25); a++)world.spawnParticle(EnumParticleTypes.FLAME,x+world.rand.nextDouble(),y+(eventData == 0 ? 1.15D : 1D+world.rand.nextDouble()*2D),z+world.rand.nextDouble(),(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D);
-			world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,"random.fizz",0.5F,2.6F+(world.rand.nextFloat()-world.rand.nextFloat())*0.8F);
+			for(int a = 0; a < (eventData == 0 ? 3 : 25); a++)world.spawnParticle(EnumParticleTypes.FLAME,pos.getX()+world.rand.nextDouble(),pos.getY()+(eventData == 0 ? 1.15D : 1D+world.rand.nextDouble()*2D),pos.getZ()+world.rand.nextDouble(),(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D);
+			world.playSoundEffect(pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,"random.fizz",0.5F,2.6F+(world.rand.nextFloat()-world.rand.nextFloat())*0.8F);
 			return true;
 		}
 		else return false;
@@ -187,9 +199,9 @@ public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlock
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
-		if (world.getBlockMetadata(x,y,z) == metaPortal){
-			for(int a = 0; a < 18; a++)HardcoreEnderExpansion.fx.portalColor(world,x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,0.6289F,0.3359F,0.0391F);
-			HardcoreEnderExpansion.fx.portalColor(world,x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,1F,1F,1F);
+		if ((Variant)world.getBlockState(pos).getValue(VARIANT) == Variant.PORTAL){
+			for(int a = 0; a < 18; a++)HardcoreEnderExpansion.fx.portalColor(world,pos.getX()+0.5D+(rand.nextDouble()-0.5D)*0.3D,pos.getY()+1D+rand.nextDouble()*2D,pos.getZ()+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,0.6289F,0.3359F,0.0391F);
+			HardcoreEnderExpansion.fx.portalColor(world,pos.getX()+0.5D+(rand.nextDouble()-0.5D)*0.3D,pos.getY()+1D+rand.nextDouble()*2D,pos.getZ()+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,1F,1F,1F);
 		}
 	}
 	
@@ -202,26 +214,25 @@ public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlock
 	protected ItemStack createStackedBlock(IBlockState state){
 		return null;
 	}
-
+	
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
-		int meta = world.getBlockMetadata(x,y,z);
-		if (meta == metaPortal)meta = metaDisabled;
-		return new ItemStack(this,1,meta);
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos){
+		if ((Variant)world.getBlockState(pos).getValue(VARIANT) == Variant.PORTAL)return new ItemStack(this,1,Variant.DISABLED.ordinal());
+		else return super.getPickBlock(target,world,pos);
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		String name = names[MathUtil.clamp(is.getItemDamage(),0,names.length-1)];
-		return name == null ? "" : "tile.dungeonPuzzle."+name;
+		return "tile.dungeonPuzzle."+((Variant)getEnumFromDamage(is.getItemDamage())).unlocalizedName;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(byte meta:new byte[]{
-			metaWall, metaRock, metaCeiling, metaDisabled, metaTriggerUnlit, metaTriggerLit, metaChainedUnlit, metaChainedLit,
-			metaDistributorSpreadUnlit, metaDistributorSpreadLit, metaDistributorSquareUnlit, metaDistributorSquareLit,
-		})list.add(new ItemStack(item,1,meta));
+		for(Variant variant:new Variant[]{
+			Variant.WALL, Variant.ROCK, Variant.CEILING, Variant.DISABLED, Variant.TRIGGER_UNLIT, Variant.TRIGGER_LIT,
+			Variant.CHAINED_UNLIT, Variant.CHAINED_LIT, Variant.DISTRBUTOR_SPREAD_UNLIT, Variant.DISTRIBUTOR_SPREAD_LIT,
+			Variant.DISTRIBUTOR_SQUARE_UNLIT, Variant.DISTRIBUTOR_SQUARE_LIT
+		})list.add(new ItemStack(item,1,variant.ordinal()));
 	}
 }

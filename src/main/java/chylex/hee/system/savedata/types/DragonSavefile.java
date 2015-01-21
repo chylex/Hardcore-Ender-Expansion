@@ -10,16 +10,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.savedata.WorldSavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 
 public class DragonSavefile extends WorldSavefile{
 	private Map<String,ChunkCoordinates> crystals = new HashMap<>();
 	private Set<UUID> templePlayers = new HashSet<>();
-	private ChunkCoordinates portalEggLocation = new ChunkCoordinates(0,100,0);
+	private BlockPosM portalEggLocation = new BlockPosM(0,100,0);
 	private boolean isDragonDead;
 	private boolean hasDragonTicked;
 	private int dragonDeathCount;
@@ -112,7 +114,7 @@ public class DragonSavefile extends WorldSavefile{
 		return shouldDestroyEnd;
 	}
 	
-	public ChunkCoordinates getPortalEggLocation(){
+	public BlockPosM getPortalEggLocation(){
 		return portalEggLocation;
 	}
 
@@ -123,7 +125,7 @@ public class DragonSavefile extends WorldSavefile{
 		nbt.setBoolean("dragonTicked",hasDragonTicked);
 		nbt.setBoolean("noTempleDestruct",preventTempleDestruction);
 		nbt.setBoolean("destroyEnd",shouldDestroyEnd);
-		nbt.setIntArray("portalCoords",new int[]{ portalEggLocation.posX, portalEggLocation.posY, portalEggLocation.posZ });
+		nbt.setLong("portalCoordsL",portalEggLocation.toLong());
 		
 		NBTTagCompound tagCrystals = new NBTTagCompound();
 		for(Entry<String,ChunkCoordinates> entry:crystals.entrySet()){
@@ -145,8 +147,11 @@ public class DragonSavefile extends WorldSavefile{
 		preventTempleDestruction = nbt.getBoolean("noTempleDestruct");
 		if ((shouldDestroyEnd = nbt.getBoolean("destroyEnd")) == true)TempleEvents.destroyWorld();
 		
-		int[] portalCoords = nbt.getIntArray("portalCoords");
-		if (portalCoords.length == 3)portalEggLocation.set(portalCoords[0],portalCoords[1],portalCoords[2]);
+		if (nbt.hasKey("portalCoordsL"))portalEggLocation = new BlockPosM(BlockPos.fromLong(nbt.getLong("portalCoordsL")));
+		else{
+			int[] portalCoords = nbt.getIntArray("portalCoords");
+			if (portalCoords.length == 3)portalEggLocation = new BlockPosM(portalCoords[0],portalCoords[1],portalCoords[2]);
+		}
 		
 		NBTTagCompound tagCrystals = nbt.getCompoundTag("crystals");
 		

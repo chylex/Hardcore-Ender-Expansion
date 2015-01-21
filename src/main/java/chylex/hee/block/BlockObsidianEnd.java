@@ -27,7 +27,7 @@ public class BlockObsidianEnd extends BlockStone{
 	}
 
 	private void tryToFall(World world, BlockPos pos){
-		if (BlockFalling.canFallInto(world,pos.down()) && pos.getY() >= 0 && !world.isRemote){
+		if (!world.isRemote && BlockFalling.canFallInto(world,pos.down()) && pos.getY() >= 0){
 			world.spawnEntityInWorld(new EntityBlockFallingObsidian(world,pos.getX()+0.5F,pos.getY()+0.5F,pos.getZ()+0.5F));
 		}
 	}

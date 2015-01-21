@@ -16,6 +16,7 @@ import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
@@ -71,11 +72,11 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	}
 	
 	@Override
-	public void updateCore(World world, int x, int y, int z, int meta){
-		super.updateCore(world,x,y,z,meta);
+	public void updateCore(World world, BlockPosM pos, int meta){
+		super.updateCore(world,pos,meta);
 		
 		if (meta == HOMELAND.id && world.rand.nextInt(40) == 0 && world.getDifficulty() != EnumDifficulty.PEACEFUL){
-			AxisAlignedBB aabb = AxisAlignedBB.fromBounds(x-ComponentIsland.halfSize,10,z-ComponentIsland.halfSize,x+ComponentIsland.halfSize,128,z+ComponentIsland.halfSize);
+			AxisAlignedBB aabb = AxisAlignedBB.fromBounds(pos.x-ComponentIsland.halfSize,10,pos.z-ComponentIsland.halfSize,pos.x+ComponentIsland.halfSize,128,pos.z+ComponentIsland.halfSize);
 			
 			List<EntityMobHomelandEnderman> all = world.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,aabb);
 			if (all.size() > 15+world.rand.nextInt(50))return;
@@ -135,7 +136,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	}
 	
 	@Override
-	public int getTopBlockMeta(){
-		return BlockEndstoneTerrain.metaEnchanted;
+	public BlockEndstoneTerrain.Variant getTopBlockVariant(){
+		return BlockEndstoneTerrain.Variant.ENCHANTED;
 	}
 }

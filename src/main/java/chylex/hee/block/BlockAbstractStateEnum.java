@@ -64,11 +64,6 @@ abstract class BlockAbstractStateEnum extends BlockAbstractState{
 	 */
 	
 	@Override
-	public int damageDropped(IBlockState state){
-		return getMetaFromState(state);
-	}
-	
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
 		if (metaStates != null){

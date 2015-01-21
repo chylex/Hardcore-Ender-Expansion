@@ -5,12 +5,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.achievements.AchievementManager;
@@ -117,6 +119,8 @@ public abstract class IslandBiomeBase{
 	public void updateCore(World world, BlockPosM pos, int meta){
 		if (world.playerEntities.isEmpty())return;
 		
+		BlockPosM tmpPos = new BlockPosM();
+		
 		if (world.rand.nextInt(3) == 0){
 			int halfsz = ComponentIsland.halfSize, playerCheck = halfsz*2;
 			
@@ -125,7 +129,7 @@ public abstract class IslandBiomeBase{
 			
 			if (world.getDifficulty() == EnumDifficulty.PEACEFUL && entry.isMob)return;
 			
-			int currentAmount = world.getEntitiesWithinAABB(entry.getMobClass(),AxisAlignedBB.fromBounds(x-halfsz,y+10,z-halfsz,x+halfsz,y+55,z+halfsz)).size();
+			int currentAmount = world.getEntitiesWithinAABB(entry.getMobClass(),AxisAlignedBB.fromBounds(pos.x-halfsz,pos.y+10,pos.z-halfsz,pos.x+halfsz+1,pos.y+55,pos.z+halfsz+1)).size();
 			if (currentAmount >= entry.getMaxAmount() || world.rand.nextFloat()*1.1F < (float)currentAmount/entry.getMaxAmount())return;
 			
 			int playerAmount = world.playerEntities.size();
@@ -135,12 +139,12 @@ public abstract class IslandBiomeBase{
 				
 				for(int attempt = 0; attempt < 20+Math.min(10,playerAmount); attempt++){
 					EntityPlayer player = (EntityPlayer)world.playerEntities.get(world.rand.nextInt(playerAmount));
-					if (MathUtil.distance(player.posX-x,player.posZ-z) > playerCheck)continue;
+					if (MathUtil.distance(player.posX-pos.x,player.posZ-pos.z) > playerCheck)continue;
 					
 					double ang = world.rand.nextDouble()*2D*Math.PI, len = 19D+world.rand.nextInt(55)+Math.abs(world.rand.nextGaussian()*12D);
 					double posX = player.posX+Math.cos(ang)*len, posZ = player.posZ+Math.sin(ang)*len;
 					
-					if (MathUtil.distance(posX-x+0.5D,posZ-z+0.5D) > 150D)continue;
+					if (MathUtil.distance(posX-pos.x+0.5D,posZ-pos.z+0.5D) > 150D)continue;
 					
 					for(int yAttempt = 0; yAttempt < 28; yAttempt++){
 						e.setLocationAndAngles(posX,MathUtil.floor(player.posY+(world.rand.nextDouble()-0.65D)*(yAttempt+4)*3D)+0.01D,posZ,world.rand.nextFloat()*360F,0F);
@@ -151,7 +155,7 @@ public abstract class IslandBiomeBase{
 					boolean hasBlockBelow = false;
 					
 					for(int yy = (int)e.posY-1; yy > e.posY-4D; yy--){
-						if (world.getBlock(xx,yy,zz).isOpaqueCube()){
+						if (tmpPos.moveTo(xx,yy,zz).getBlock(world).isOpaqueCube()){
 							hasBlockBelow = true;
 							break;
 						}
@@ -178,7 +182,7 @@ public abstract class IslandBiomeBase{
 		if (variation != null && interactions.containsKey(variation.id) && world.rand.nextInt(5) == 0){
 			for(BiomeInteraction interaction:interactions.get(variation.id)){
 				if (world.rand.nextInt(interaction.getRNG()) == 0){
-					List<EntityTechnicalBiomeInteraction> list = world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.fromBounds(x-1,y-1,z-1,x+2,y+2,z+2));
+					List<EntityTechnicalBiomeInteraction> list = world.getEntitiesWithinAABB(EntityTechnicalBiomeInteraction.class,AxisAlignedBB.fromBounds(pos.x-1,pos.y-1,pos.z-1,pos.x+2,pos.y+2,pos.z+2));
 					byte instances = 0;
 					
 					for(EntityTechnicalBiomeInteraction interactionEntity:list){
@@ -187,7 +191,7 @@ public abstract class IslandBiomeBase{
 					
 					if (instances < interaction.getMaxInstances()){
 						AbstractBiomeInteraction interactionInstance = interaction.create();
-						if (interactionInstance != null)world.spawnEntityInWorld(new EntityTechnicalBiomeInteraction(world,x+0.5D,y+0.5D,z+0.5D,interactionInstance));
+						if (interactionInstance != null)world.spawnEntityInWorld(new EntityTechnicalBiomeInteraction(world,pos.x+0.5D,pos.y+0.5D,pos.z+0.5D,interactionInstance));
 					}
 				}
 			}
@@ -195,9 +199,9 @@ public abstract class IslandBiomeBase{
 		
 		for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
 			if (isPlayerMoving(player)){
-				int ix = (int)player.posX, iy = (int)player.posY-1, iz = (int)player.posZ;
+				IBlockState state = tmpPos.moveTo(player).moveDown().getBlockState(world);
 				
-				if (world.getBlock(ix,iy,iz) == getTopBlock() && world.getBlockMetadata(ix,iy,iz) == getTopBlockMeta()){
+				if (state.getBlock() == getTopBlock() && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant()){
 					player.addStat(AchievementManager.WHOLE_NEW_CULTURES,1);
 				}
 			}
@@ -238,7 +242,7 @@ public abstract class IslandBiomeBase{
 	
 	protected abstract IslandBiomeDecorator getDecorator();
 	
-	public abstract int getTopBlockMeta();
+	public abstract BlockEndstoneTerrain.Variant getTopBlockVariant();
 	
 	public static final Block getTopBlock(){
 		return BlockList.end_terrain;

@@ -16,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
@@ -64,13 +63,14 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		if (BlockFalling.canFallInto(world,pos.down()) && pos.getY() >= 0){
 			byte checkRange = 32;
 			
-			if (!BlockFalling.fallInstantly && world.checkChunksExist(x-checkRange,y-checkRange,z-checkRange,x+checkRange,y+checkRange,z+checkRange)){
-				world.spawnEntityInWorld(new EntityBlockFallingDragonEgg(world,x+0.5F,y+0.5F,z+0.5F));
+			if (!BlockFalling.fallInstantly && world.isAreaLoaded(pos.add(-checkRange,-checkRange,-checkRange),pos.add(checkRange,checkRange,checkRange))){
+				world.spawnEntityInWorld(new EntityBlockFallingDragonEgg(world,pos.getX()+0.5F,pos.getY()+0.5F,pos.getZ()+0.5F));
 			}
 			else{
 				world.setBlockToAir(pos);
-				while(BlockFalling.func_149831_e(world,x,y-1,z) && y > 0)--y;
-				if (y > 0)world.setBlock(x,y,z,this,0,2);
+				BlockPosM fallPos = new BlockPosM(pos);
+				while(BlockFalling.canFallInto(world,pos.down()) && fallPos.y >= 0)--fallPos.y;
+				if (fallPos.y > 0)fallPos.setBlock(world,this);
 			}
 		}
 	}
@@ -80,20 +80,20 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		if (player != null && player.isSneaking() && player.getHeldItem() != null &&
 			player.getHeldItem().getItemUseAction() == EnumAction.BLOCK){
 			world.setBlockToAir(pos);
-			dropBlockAsItem(world,pos,new ItemStack(Blocks.dragon_egg));
+			spawnAsEntity(world,pos,new ItemStack(Blocks.dragon_egg));
 		}
-		else teleportNearby(world,x,y,z);
+		else teleportNearby(world,pos);
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
-		teleportNearby(world,x,y,z);
+		teleportNearby(world,pos);
 		return true;
 	}
 	
 	@Override
 	public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune){
-		teleportNearby(world,x,y,z);
+		teleportNearby(world,pos);
 	}
 	
 	@Override
@@ -124,7 +124,7 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 					world.setBlockState(tpLoc,world.getBlockState(pos));
 					world.setBlockToAir(pos);
 					
-					PacketPipeline.sendToAllAround(world,pos,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,x+0.5D,y+0.5D,z+0.5D,xx+0.5D,yy+0.5D,zz+0.5D));
+					PacketPipeline.sendToAllAround(world.provider.getDimensionId(),pos,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,tpLoc.x+0.5D,tpLoc.y+0.5D,tpLoc.z+0.5D));
 					return true;
 				}
 			}
@@ -137,14 +137,14 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
 		
 		if (file.isDragonDead()){
-			ChunkCoordinates coords = file.getPortalEggLocation();
+			BlockPosM coords = file.getPortalEggLocation();
 			World endWorld = MinecraftServer.getServer().worldServerForDimension(1);
 			
 			if (endWorld == null)HardcoreEnderExpansion.notifications.report("Could not teleport Dragon Egg to the End, world is null.");
-			else if (endWorld.getBlock(coords.posX,coords.posY,coords.posZ) != Blocks.dragon_egg){
-				endWorld.setBlock(coords.posX,coords.posY,coords.posZ,Blocks.dragon_egg);
+			else if (coords.getBlock(endWorld) != Blocks.dragon_egg){
+				coords.setBlock(endWorld,Blocks.dragon_egg);
 				PacketPipeline.sendToAllAround(eggEntity,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,eggEntity));
-				PacketPipeline.sendToAllAround(endWorld.provider.getDimensionId(),coords.posX+0.5D,coords.posY+0.5D,coords.posZ+0.5D,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,coords.posX+0.5D,coords.posY+0.5D,coords.posZ+0.5D));
+				PacketPipeline.sendToAllAround(endWorld.provider.getDimensionId(),coords.x+0.5D,coords.y+0.5D,coords.z+0.5D,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,coords.x+0.5D,coords.y+0.5D,coords.z+0.5D));
 				return true;
 			}
 		}

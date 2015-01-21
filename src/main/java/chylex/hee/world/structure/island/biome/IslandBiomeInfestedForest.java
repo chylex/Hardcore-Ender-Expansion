@@ -1,6 +1,7 @@
 package chylex.hee.world.structure.island.biome;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -65,11 +66,14 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 			
 			int xx = MathUtil.floor(player.posX), yy = MathUtil.floor(player.posY), zz = MathUtil.floor(player.posZ);
 			boolean found = false;
+			BlockPosM testPos = new BlockPosM();
 			
 			for(int testY = yy-2; testY <= yy+1 && !found; testY++){
 				for(int testX = xx-1; testX <= xx+1 && !found; testX++){
 					for(int testZ = zz-1; testZ <= zz+1; testZ++){
-						if (world.getBlock(testX,testY,testZ) == getTopBlock() && world.getBlockMetadata(testX,testY,testZ) == getTopBlockMeta()){
+						IBlockState state = testPos.moveTo(testX,testY,testZ).getBlockState(world);
+						
+						if (state.getBlock() == getTopBlock() && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant()){
 							WorldDataHandler.<InfestationSavefile>get(InfestationSavefile.class).increaseInfestationPower(player);
 							found = true;
 							break;
@@ -116,7 +120,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	}
 	
 	@Override
-	public int getTopBlockMeta(){
-		return BlockEndstoneTerrain.metaInfested;
+	public BlockEndstoneTerrain.Variant getTopBlockVariant(){
+		return BlockEndstoneTerrain.Variant.INFESTED;
 	}
 }

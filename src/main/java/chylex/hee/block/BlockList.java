@@ -11,6 +11,7 @@ import net.minecraft.block.BlockSlab;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -250,11 +251,6 @@ public final class BlockList{
 		}
 
 		@Override
-		public String func_150002_b(int meta){
-			return getUnlocalizedName();
-		}
-
-		@Override
 		public Block getFullBlock(){
 			return fullBlock;
 		}
@@ -273,6 +269,26 @@ public final class BlockList{
 		@SideOnly(Side.CLIENT)
 		public Item getItem(World world, BlockPos pos){
 			return Item.getItemFromBlock(this);
+		}
+
+		@Override
+		public String getUnlocalizedName(int meta){
+			return fullBlock.getUnlocalizedName();
+		}
+
+		@Override
+		public boolean isDouble(){
+			return false;
+		}
+
+		@Override
+		public IProperty getVariantProperty(){
+			return null;
+		}
+
+		@Override
+		public Object getVariant(ItemStack stack){
+			return null;
 		}
 	}
 }

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -49,7 +50,9 @@ public class ItemMusicDisk extends ItemRecord{
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
-		if (world.getBlock(x,y,z) == Blocks.jukebox && world.getBlockMetadata(x,y,z) == 0 && world.getTileEntity(x,y,z) instanceof TileEntityJukebox){
+		IBlockState state = world.getBlockState(pos);
+		
+		if (state.getBlock() == Blocks.jukebox && !((Boolean)state.getValue(BlockJukebox.HAS_RECORD)).booleanValue() && world.getTileEntity(pos) instanceof TileEntityJukebox){
 			if (world.isRemote)return true;
 
 			((BlockJukebox)Blocks.jukebox).insertRecord(world,pos,world.getBlockState(pos),is);
