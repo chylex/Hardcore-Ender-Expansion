@@ -1,8 +1,9 @@
 package chylex.hee.render.entity;
+import java.util.Iterator;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderEnderman;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,17 +18,18 @@ public class RenderMobEnderman extends RenderEnderman{
 		
 		if (ModCommonProxy.hardcoreEnderbacon){
 			((ModelBiped)mainModel).bipedHead = new ModelBaconmanHead(mainModel,0,0);
+			
+			for(Iterator<Object> iter = layerRenderers.iterator(); iter.hasNext();){
+				if (iter.next() instanceof net.minecraft.client.renderer.entity.layers.LayerEndermanEyes){
+					iter.remove();
+					break;
+				}
+			}
 		}
 	}
 	
 	@Override
-	protected int shouldRenderPass(EntityEnderman enderman, int pass, float partialTickTime){
-		if (pass != 0 || ModCommonProxy.hardcoreEnderbacon)return -1;
-		else return super.shouldRenderPass(enderman,pass,partialTickTime);
-	}
-	
-	@Override
-	protected ResourceLocation getEntityTexture(EntityEnderman enderman){
-		return Baconizer.mobTexture(this,super.getEntityTexture(enderman));
+	protected ResourceLocation getEntityTexture(Entity entity){
+		return Baconizer.mobTexture(this,super.getEntityTexture(entity));
 	}
 }

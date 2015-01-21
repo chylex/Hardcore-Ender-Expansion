@@ -145,7 +145,7 @@ public final class ApocalypseEvents{
 		else world.addWeatherEffect(new EntityWeatherLightningBoltSafe(world,x,y,z));
 	}*/
 	
-	public static boolean checkEndermanpocalypseStructure(World world, int x, int y, int z){
+	/*public static boolean checkEndermanpocalypseStructure(World world, int x, int y, int z){
 		for(int xx = x-1; xx <= x+1; xx++){
 			for(int zz = z-1; zz <= z+1; zz++){
 				if (world.getBlock(xx,y-1,zz) != BlockList.obsidian_special || world.getBlockMetadata(xx,y-1,zz) != 0)return false;
@@ -161,5 +161,5 @@ public final class ApocalypseEvents{
 		}
 		
 		return true;
-	}
+	}*/
 }

@@ -20,6 +20,8 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.render.entity.layer.LayerDragonDeath;
+import chylex.hee.render.entity.layer.LayerDragonEyes;
 import chylex.hee.render.model.ModelEnderDragon;
 import chylex.hee.sound.BossType;
 import chylex.hee.system.util.MathUtil;
@@ -33,7 +35,8 @@ public class RenderBossDragon extends RenderLiving{
 
 	public RenderBossDragon(RenderManager renderManager){
 		super(renderManager,new ModelEnderDragon(),0.5F);
-		setRenderPassModel(mainModel);
+		addLayer(new LayerDragonEyes(this));
+		addLayer(new LayerDragonDeath());
 	}
 
 	protected void rotateDragonBody(EntityBossDragon dragon, float entityTickTime, float yawOffset, float partialTickTime){
@@ -121,8 +124,6 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	protected void renderDragonDying(EntityBossDragon dragon, float partialTickTime){
-		super.renderEquippedItems(dragon,partialTickTime);
-
 		if (dragon.deathTicks > 0){
 			WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
 			RenderHelper.disableStandardItemLighting();
@@ -191,21 +192,6 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	@Override
-	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
-		renderDragon((EntityBossDragon)entity,x,y,z,yaw,partialTickTime);
-	}
-
-	@Override
-	protected int shouldRenderPass(EntityLivingBase entity, int pass, float partialTickTime){
-		return renderGlow((EntityBossDragon)entity,pass,partialTickTime);
-	}
-
-	@Override
-	protected void renderEquippedItems(EntityLivingBase entity, float partialTickTime){
-		renderDragonDying((EntityBossDragon)entity,partialTickTime);
-	}
-
-	@Override
 	protected void rotateCorpse(EntityLivingBase entity, float entityTickTime, float yawOffset, float partialTickTime){
 		rotateDragonBody((EntityBossDragon)entity,entityTickTime,yawOffset,partialTickTime);
 	}
@@ -216,17 +202,12 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	@Override
-	public void doRender(EntityLivingBase entity, double x, double y, double z, float yaw, float partialTickTime){
-		renderDragon((EntityBossDragon)entity,x,y,z,yaw,partialTickTime);
-	}
-
-	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
 		return Baconizer.mobTexture(this,texDragon);
 	}
 
 	@Override
-	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime){
+	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
 		renderDragon((EntityBossDragon)entity,x,y,z,yaw,partialTickTime);
 	}
 }

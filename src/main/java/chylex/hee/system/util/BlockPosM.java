@@ -1,6 +1,7 @@
 package chylex.hee.system.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
@@ -142,6 +143,14 @@ public class BlockPosM extends BlockPos{
 	
 	public boolean isAir(World world){
 		return world.isAirBlock(this);
+	}
+	
+	public boolean changeProperty(World world, IProperty property, Comparable value){
+		return world.setBlockState(this,world.getBlockState(this).withProperty(property,value));
+	}
+	
+	public IBlockState getBlockState(World world){
+		return world.getBlockState(this);
 	}
 	
 	public Block getBlock(World world){
