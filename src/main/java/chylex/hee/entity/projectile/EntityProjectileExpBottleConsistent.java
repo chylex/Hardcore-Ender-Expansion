@@ -1,10 +1,10 @@
 package chylex.hee.entity.projectile;
-import chylex.hee.system.util.BlockPosM;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityExpBottle;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityProjectileExpBottleConsistent extends EntityExpBottle{
 	public EntityProjectileExpBottleConsistent(World world){

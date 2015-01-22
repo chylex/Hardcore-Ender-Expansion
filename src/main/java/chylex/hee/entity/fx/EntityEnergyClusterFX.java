@@ -1,11 +1,11 @@
 package chylex.hee.entity.fx;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.mechanics.energy.EnergyClusterHealth;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityEnergyClusterFX extends EntitySoulCharmFX{

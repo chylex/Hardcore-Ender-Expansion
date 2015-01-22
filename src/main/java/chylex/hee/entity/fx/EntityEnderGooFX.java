@@ -2,6 +2,7 @@ package chylex.hee.entity.fx;
 import net.minecraft.client.particle.EntityLavaFX;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

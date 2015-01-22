@@ -1,9 +1,9 @@
 package chylex.hee.entity.fx;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
-import chylex.hee.entity.fx.behavior.ParticleBehaviorMoveTo;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.entity.fx.behavior.ParticleBehaviorMoveTo;
 
 @SideOnly(Side.CLIENT)
 public class EntityRelicGlyphFX extends EntityFX{

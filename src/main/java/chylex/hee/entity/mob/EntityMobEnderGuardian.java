@@ -13,6 +13,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
@@ -21,8 +23,6 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo{
 	private static final AttributeModifier dashModifier = (new AttributeModifier(UUID.fromString("69B01060-4B09-4D5C-A6FA-22BEFB9C2D02"),"Guardian dash speed boost",1.2D,1)).setSaved(false);

@@ -3,11 +3,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityWeatherLightningBoltDemon extends EntityLightningBolt{
 	private int lightningState;
@@ -27,14 +26,14 @@ public class EntityWeatherLightningBoltDemon extends EntityLightningBolt{
 		isSafe = shouldMakeFire^true;
 
 		if (!world.isRemote){
-			int ix = MathUtil.floor(x),iy = MathUtil.floor(y),iz = MathUtil.floor(z);
+			BlockPosM pos = new BlockPosM(this), testPos = pos.copy();
 			
 			if (caster != null){
-				for(int testX = ix-1; testX <= ix+1; testX++){
-					for(int testZ = iz-1; testZ <= iz+1; testZ++){
-						for(int testY = iy; testY > iy-1; testY--){
-							if (world.getBlock(testX,testY,testZ).getMaterial() == Material.water){
-								caster.attackEntityFrom(DamageSource.drown,ModCommonProxy.opMobs?50F:70F);
+				for(int testX = pos.x-1; testX <= pos.x+1; testX++){
+					for(int testZ = pos.z-1; testZ <= pos.z+1; testZ++){
+						for(int testY = pos.y; testY > pos.y-1; testY--){
+							if (testPos.getBlockMaterial(worldObj) == Material.water){
+								caster.attackEntityFrom(DamageSource.drown,ModCommonProxy.opMobs ? 50F : 70F);
 								return;
 							}
 						}
@@ -42,12 +41,11 @@ public class EntityWeatherLightningBoltDemon extends EntityLightningBolt{
 				}
 			}
 			
-			if (!shouldMakeFire && world.doChunksNearChunkExist(MathHelper.floor_double(x),MathHelper.floor_double(y),MathHelper.floor_double(z),10)){
+			if (!shouldMakeFire && world.isAreaLoaded(testPos.moveTo(this),10)){
 				for(int testX = -2; testX <= 2; ++testX){
 					for(int testY = -2; testY <= 2; ++testY){
 						for(int testZ = -2; testZ <= 2; ++testZ){
-							int xx = ix+testX,yy = iy+testY,zz = iz+testZ;
-							if (world.getBlock(xx,yy,zz) == Blocks.fire)world.setBlockToAir(xx,yy,zz);
+							if (testPos.moveTo(pos).moveBy(testX,testY,testZ).getBlock(worldObj) == Blocks.fire)testPos.setToAir(worldObj);
 						}
 					}
 				}

@@ -46,7 +46,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
-		if (!world.isBlockLoaded(pos.add(-1,0,-1)) || !world.blockExists(pos.add(1,0,1))){
+		if (!world.isBlockLoaded(pos.add(-1,0,-1)) || !world.isBlockLoaded(pos.add(1,0,1))){
 			world.scheduleUpdate(pos,this,tickRate(world));
 			return;
 		}
@@ -65,11 +65,11 @@ public class BlockEnderGoo extends BlockFluidClassic{
 					if (rand.nextInt(6-level) == 0)tmpPos.moveTo(pos).setToAir(world);
 				}
 				else if (world.provider.getDimensionId() != 1 && rand.nextInt(4) != 0){
-					world.setBlock(x,y,z,Blocks.flowing_water,2,3);
+					tmpPos.moveTo(pos).setBlock(world,Blocks.flowing_water.getDefaultState().withProperty(LEVEL,2));
 					
 					for(int b = 0, index; b < 2+rand.nextInt(5); b++){
 						index = rand.nextInt(6);
-						if (world.getBlock(x+xOff[index],y+yOff[index],z+zOff[index]) == this)world.setBlock(x+xOff[index],y+yOff[index],z+zOff[index],Blocks.flowing_water,2,3);
+						if (tmpPos.moveTo(pos).moveBy(xOff[index],yOff[index],zOff[index]).getBlock(world) == this)tmpPos.setBlock(world,Blocks.flowing_water.getDefaultState().withProperty(LEVEL,2));
 					}
 					
 					return;

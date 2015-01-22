@@ -1,7 +1,7 @@
 package chylex.hee.entity.boss;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockEndPortal;
+import net.minecraft.block.BlockTorch;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,6 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
@@ -59,6 +60,7 @@ import chylex.hee.system.commands.HeeDebugCommand;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -168,8 +170,10 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		if (!worldObj.isRemote){
 			if (spawnCooldown > 0 && --spawnCooldown > 0 && ticksExisted%20 == 0){
+				BlockPosM pos = new BlockPosM();
+				
 				for(EntityPlayer player:attacks.getViablePlayers()){
-					if (worldObj.getBlock(MathUtil.floor(player.posX),MathUtil.floor(player.posY)-1,MathUtil.floor(player.posZ)) == Blocks.end_stone){
+					if (pos.moveTo(player).moveDown().getBlock(worldObj) == Blocks.end_stone){
 						spawnCooldown = 0;
 						break;
 					}
@@ -447,7 +451,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  				PacketPipeline.sendToDimension(dimension,new C01ParticleEndPortalCreation(MathUtil.floor(posX),MathUtil.floor(posZ)));
  				achievements.onBattleFinished();
  				WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setDragonDead(true);
-				worldObj.playBroadcastSound(1018,(int)posX,(int)posY,(int)posZ,0);
+				worldObj.playBroadcastSound(1018,new BlockPosM(this),0);
  			}
  			else if (deathTicks == 20 || deathTicks == 140){ // double check
  				for(Entity entity:(List<Entity>)worldObj.loadedEntityList){
@@ -458,12 +462,13 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  				}
  			}
  			else if (deathTicks > 4 && deathTicks < 70 && deathTicks%4 == 0){
- 				for(int a = 0, xx, yy, zz; a < 250; a++){
- 					xx = MathUtil.floor(posX)+rand.nextInt(51)-25;
- 					zz = MathUtil.floor(posZ)+rand.nextInt(51)-25;
- 					yy = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,xx,zz,65);
+ 				BlockPosM pos = new BlockPosM();
+ 				
+ 				for(int a = 0; a < 250; a++){
+ 					pos.moveTo(this).moveBy(rand.nextInt(51)-25,0,rand.nextInt(51)-25);
+ 					pos.y = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,pos.x,pos.z,65);
  					
- 					if (yy > 40 && worldObj.getBlock(xx,yy,zz) == Blocks.fire)worldObj.setBlockToAir(xx,yy,zz);
+ 					if (pos.y > 40 && pos.getBlock(worldObj) == Blocks.fire)pos.setToAir(worldObj);
  				}
  			}
  			else if (deathTicks > 150 && deathTicks%5 == 0)DragonUtil.spawnXP(this,550+(250*(rewards.getFinalDifficulty()>>2)));
@@ -505,36 +510,35 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		if (deathTicks == 200 && !worldObj.isRemote){
 			DragonUtil.spawnXP(this,2000);
-			createEnderPortal(MathUtil.floor(posX),MathUtil.floor(posZ));
+			createEnderPortal(new BlockPosM(posX,0,posZ));
 			setDead();
 		}
 	}
 
-	private void createEnderPortal(int x, int z){
-		BlockEndPortal.field_149948_a = true;
+	private void createEnderPortal(BlockPosM pos){
+		BlockPosM tmpPos = pos.copy();
 		byte portalSize = 4, bottomY = 64;
 
 		for(int yy = bottomY-1; yy <= bottomY+32; yy++){
-			for(int xx = x-portalSize; xx <= x+portalSize; xx++){
-				for(int zz = z-portalSize; zz <= z+portalSize; zz++){
-					double distSq = MathUtil.square(xx-x)+MathUtil.square(zz-z);
+			for(int xx = pos.x-portalSize; xx <= pos.x+portalSize; xx++){
+				for(int zz = pos.z-portalSize; zz <= pos.z+portalSize; zz++){
+					double distSq = MathUtil.square(xx-pos.x)+MathUtil.square(zz-pos.z);
 
 					if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
-						if (yy < bottomY && distSq <= MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
-						else if (yy > bottomY)worldObj.setBlockToAir(xx,yy,zz);
-						else if (distSq > MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
-						else worldObj.setBlock(xx,yy,zz,Blocks.end_portal);
+						if (yy < bottomY && distSq <= MathUtil.square((portalSize-1)-0.5D))tmpPos.moveTo(xx,yy,zz).setBlock(worldObj,Blocks.bedrock);
+						else if (yy > bottomY)tmpPos.moveTo(xx,yy,zz).setToAir(worldObj);
+						else if (distSq > MathUtil.square((portalSize-1)-0.5D))tmpPos.moveTo(xx,yy,zz).setBlock(worldObj,Blocks.bedrock);
+						else tmpPos.moveTo(xx,yy,zz).setBlock(worldObj,Blocks.end_portal);
 					}
 				}
 			}
 		}
 		
-		for(int yy = bottomY; yy <= bottomY+3; yy++)worldObj.setBlock(x,yy,z,Blocks.bedrock);
-		for(int dir = 0; dir < 4; dir++)worldObj.setBlock(x+Direction.offsetX[dir],bottomY+2,z+Direction.offsetZ[dir],Blocks.torch);
-		worldObj.setBlock(x,bottomY+4,z,Blocks.dragon_egg);
+		for(int yy = bottomY; yy <= bottomY+3; yy++)tmpPos.moveTo(pos.x,yy,pos.z).setBlock(worldObj,Blocks.bedrock);
+		for(int dir = 0; dir < 4; dir++)tmpPos.moveTo(pos.x+Direction.offsetX[dir],bottomY+2,pos.z+Direction.offsetZ[dir]).setBlock(worldObj,Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING,EnumFacing.getHorizontal(Direction.directionToFacing[dir])));
+		tmpPos.moveTo(pos.x,bottomY+4,pos.z).setBlock(worldObj,Blocks.dragon_egg);
 		
-		BlockEndPortal.field_149948_a = false;
-		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,bottomY+4,z);
+		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().moveTo(pos).moveBy(0,bottomY+4,0);
 	}
 
 	public double[] getMovementOffsets(int offset, float partialTickTime){
@@ -601,24 +605,25 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		int cx = (int)((aabb.maxX-aabb.minX)*0.5D+aabb.minX);
 		int cy = (int)((aabb.maxY-aabb.minY)*0.5D+aabb.minY);
 		int cz = (int)((aabb.maxZ-aabb.minZ)*0.5D+aabb.minZ);
+		BlockPosM tmpPos = new BlockPosM();
 
 		for(int xx = minX; xx <= maxX; xx++){
 			for(int yy = minY; yy <= maxY; yy++){
 				for(int zz = minZ; zz <= maxZ; zz++){
-					Block block = worldObj.getBlock(xx,yy,zz);
+					Block block = tmpPos.moveTo(xx,yy,zz).getBlock(worldObj);
 
 					if (angryStatus && block == BlockList.obsidian_falling){
-						worldObj.setBlockToAir(xx,yy,zz);
+						tmpPos.setToAir(worldObj);
 						EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,xx,yy,zz);
 						obsidian.motionY = -0.2;
 						worldObj.spawnEntityInWorld(obsidian);
 						spawnParticles = true;
 					}
-					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && worldObj.getBlock(xx,yy-1,zz) == BlockList.obsidian_falling)))){
+					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && tmpPos.moveDown().getBlock(worldObj) == BlockList.obsidian_falling)))){
 						wasBlocked = true;
 					}
 					else if (MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+(0.9D*rand.nextDouble()-0.4D)){
-						spawnParticles = worldObj.setBlockToAir(xx,yy,zz) || spawnParticles;
+						spawnParticles = tmpPos.setToAir(worldObj) || spawnParticles;
 					}
 				}
 			}

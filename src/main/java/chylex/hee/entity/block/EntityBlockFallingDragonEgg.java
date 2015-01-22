@@ -7,7 +7,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockDragonEggCustom;
 import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 	public EntityBlockFallingDragonEgg(World world){
@@ -18,7 +17,6 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 		super(world,x,y,z,Blocks.dragon_egg.getDefaultState());
 		preventEntitySpawning = true;
 		setSize(0.98F,0.98F);
-		yOffset = height/2F;
 		setPosition(x,y,z);
 		motionX = motionY = motionZ = 0D;
 		prevPosX = x;
@@ -70,10 +68,7 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 	}
 
 	private void die(){
-		if (!worldObj.isRemote && !BlockDragonEggCustom.teleportNearby(worldObj,MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ))){
-			BlockDragonEggCustom.teleportEntityToPortal(this);
-		}
-		
+		if (!worldObj.isRemote && !BlockDragonEggCustom.teleportNearby(worldObj,new BlockPosM(this)))BlockDragonEggCustom.teleportEntityToPortal(this);
 		setDead();
 	}
 }

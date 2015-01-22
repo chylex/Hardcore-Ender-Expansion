@@ -3,9 +3,10 @@ import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockCorruptedEnergy;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
@@ -38,14 +39,11 @@ public final class EnergyClusterData{
 			float leak = energyLevel*(0.05F+rand.nextFloat()*rand.nextFloat()*0.15F);
 			energyLevel -= leak;
 			cluster.synchronize();
+			BlockPosM pos = new BlockPosM();
 			
-			for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 8 && placed < 4; attempt++){
-				xx = cluster.xCoord+rand.nextInt(7)-3;
-				yy = cluster.yCoord+rand.nextInt(7)-3;
-				zz = cluster.zCoord+rand.nextInt(7)-3;
-				
-				if (world.isAirBlock(xx,yy,zz)){
-					world.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+MathUtil.floor(leak*4.5F),3);
+			for(int attempt = 0, placed = 0; attempt < 8 && placed < 4; attempt++){
+				if (pos.moveTo(cluster.getPos()).moveBy(rand.nextInt(7)-3,rand.nextInt(7)-3,rand.nextInt(7)-3).isAir(world)){
+					pos.setBlock(world,BlockCorruptedEnergy.createState(3+MathUtil.floor(leak*4.5F)));
 					++placed;
 				}
 			}
@@ -62,7 +60,7 @@ public final class EnergyClusterData{
 		if (world.provider.getDimensionId() == 1 && rand.nextInt(healthStatus.ordinal()+1) == 0 && ++drainTimer > 10+rand.nextInt(70)){
 			drainTimer = 0;
 			
-			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,cluster.xCoord,cluster.zCoord,true);
+			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,cluster.getPos().getX(),cluster.getPos().getZ(),true);
 			float envLevel = environment.getEnergyLevel();
 			
 			if (envLevel > EnergyChunkData.minSignificantEnergy && maxEnergyLevel < energyLevel){

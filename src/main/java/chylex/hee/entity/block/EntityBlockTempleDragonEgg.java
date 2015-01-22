@@ -3,8 +3,10 @@ import java.util.ArrayList;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockTempleEndPortal;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.util.BlockPosM;
@@ -32,7 +34,7 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 		prevPosZ = posZ;
 		
 		if (++fallTime == 1 && !worldObj.isRemote){
-			BlockPosM pos = new BlockPosM(this);
+			BlockPosM pos = new BlockPosM(this), testPos = pos.copy();
 			
 			if (pos.getBlock(worldObj) != Blocks.dragon_egg){
 				setDead();
@@ -41,9 +43,11 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 			
 			worldObj.setBlockToAir(pos);
 			
-			for(int x = xx+2; x < xx+5; x++){
-				for(int z = zz-1; z <= zz+1; z++){
-					if (worldObj.getBlock(x,yy-1,z) == BlockList.temple_end_portal)worldObj.setBlockMetadataWithNotify(x,yy-1,z,1,2);
+			for(int xx = pos.x+2; xx < pos.x+5; xx++){
+				for(int zz = pos.z-1; zz <= pos.z+1; zz++){
+					if (testPos.moveTo(xx,pos.y-1,zz).getBlock(worldObj) == BlockList.temple_end_portal){
+						testPos.setBlock(worldObj,BlockList.temple_end_portal.getDefaultState().withProperty(BlockTempleEndPortal.STATUS,BlockTempleEndPortal.Status.INACTIVE)); 
+					}
 				}
 			}
 		}

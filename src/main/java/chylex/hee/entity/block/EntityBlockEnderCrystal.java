@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -39,7 +40,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			/*
 			 * TNT
 			 */
-			Entity tar = source.getEntity();
+			Entity tar = source.getSourceOfDamage();
 			
 			if (crystalType == TNT){
 				if (tar instanceof EntityPlayer){
@@ -47,7 +48,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 					
 					for(EntityEnderman enderman:(List<EntityEnderman>)worldObj.getEntitiesWithinAABB(EntityEnderman.class,AxisAlignedBB.fromBounds(posX-10D,topblock-5D,posZ-10D,posX+10D,topblock+5D,posZ+10D))){
 						if (enderman.getDistance(posX,topblock,posZ) < 20D){
-							enderman.setAttackTarget(tar);
+							enderman.setAttackTarget((EntityPlayer)tar);
 							if (--limiter <= 0)break;
 						}
 					}
@@ -79,20 +80,18 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			 * BLAST
 			 */
 			else if (crystalType == BLAST){
+				BlockPosM pos = new BlockPosM(this), testPos = pos.copy();
 				int maxRad = 4,
-					ix = MathUtil.floor(posX),
-					iy = MathUtil.floor(posY),
-					iz = MathUtil.floor(posZ),
-					terY = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,ix,iz,MathUtil.floor(posY));
+					terY = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,pos.x,pos.z,MathUtil.floor(posY));
 				
-				worldObj.setBlockToAir(ix,iy-1,iz);
+				testPos.moveDown().setToAir(worldObj);
 				
-				for(int xx = ix-maxRad; xx <= ix+maxRad; xx++){
-					for(int zz = iz-maxRad; zz <= iz+maxRad; zz++){
-						for(int yy = terY; yy <= iy; yy++){
-							if (worldObj.getBlock(xx,yy,zz) == BlockList.obsidian_falling){
-								worldObj.setBlockToAir(xx,yy,zz);
-								double[] vec = DragonUtil.getNormalizedVector(xx-ix,zz-iz);
+				for(int xx = pos.x-maxRad; xx <= pos.x+maxRad; xx++){
+					for(int zz = pos.z-maxRad; zz <= pos.z+maxRad; zz++){
+						for(int yy = terY; yy <= pos.y; yy++){
+							if (testPos.moveTo(xx,yy,zz).getBlock(worldObj) == BlockList.obsidian_falling){
+								testPos.setToAir(worldObj);
+								double[] vec = DragonUtil.getNormalizedVector(xx-pos.x,zz-pos.z);
 								EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,xx+0.5D,yy+0.1D,zz+0.5D);
 								obsidian.motionX = (vec[0]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
 								obsidian.motionZ = (vec[1]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();

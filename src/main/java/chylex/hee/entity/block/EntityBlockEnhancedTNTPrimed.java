@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
@@ -23,7 +25,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	private List<Enum> tntEnhancements = new ArrayList<>();
@@ -32,7 +34,6 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	public EntityBlockEnhancedTNTPrimed(World world){
 		super(world);
 		fuse = 80;
-		yOffset = 0;
 	}
 
 	public EntityBlockEnhancedTNTPrimed(World world, double x, double y, double z, EntityLivingBase igniter, List<Enum> enhancements){
@@ -78,7 +79,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		motionZ *= 0.98D;
 		
 		if (!worldObj.isRemote && noClip){
-			Block block = worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ));
+			Block block = new BlockPosM(this).getBlock(worldObj);
 			
 			if (!wentIntoWall && block.isOpaqueCube())wentIntoWall = true;
 			else if (wentIntoWall && block.getMaterial() == Material.air){
@@ -125,9 +126,9 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int par9){
+	public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int posRotationIncrements, boolean booleanissimo){
 		setPosition(x,y,z);
-		setRotation(yaw,pitch);
+		setRotation(rotationYaw,rotationPitch);
 	}
 	
 	@Override
@@ -150,7 +151,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		private final Map<EntityPlayer,Vec3> hurtPlayers = new HashMap<>();
 		private final Entity exploder;
 		private final double explosionX, explosionY, explosionZ;
-		private final float explosionSize;
+		private float explosionSize;
 		
 		public boolean damageEntities = true;
 
@@ -171,6 +172,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 			HashSet<BlockPos> affectedBlocks = new HashSet<>();
 			double tempX, tempY, tempZ, distX, distY, distZ, totalDist;
 			int xInt, yInt, zInt;
+			BlockPosM pos = new BlockPosM();
 
 			for(int x = 0; x < dist; ++x){
 				for(int y = 0; y < dist; ++y){
@@ -191,19 +193,15 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 							tempZ = explosionZ;
 
 							for(float mp = 0.3F; affectedDistance > 0F; affectedDistance -= mp*0.75F){
-								xInt = MathHelper.floor_double(tempX);
-								yInt = MathHelper.floor_double(tempY);
-								zInt = MathHelper.floor_double(tempZ);
-								
-								Block block = worldObj.getBlock(xInt,yInt,zInt);
+								IBlockState state = pos.moveTo(tempX,tempY,tempZ).getBlockState(worldObj);
 
-								if (block.getMaterial() != Material.air){
-									float resistance = exploder != null ? exploder.func_145772_a(this,worldObj,xInt,yInt,zInt,block) : block.getExplosionResistance(exploder,worldObj,xInt,yInt,zInt,explosionX,explosionY,explosionZ);
+								if (state.getBlock().getMaterial() != Material.air){
+									float resistance = exploder != null ? exploder.getExplosionResistance(this,worldObj,pos,state) : state.getBlock().getExplosionResistance(worldObj,pos,exploder,this);
 									affectedDistance -= (resistance+0.3F)*mp;
 								}
 
-								if (affectedDistance > 0F && (exploder == null || exploder.func_145774_a(this,worldObj,xInt,yInt,zInt,block,affectedDistance))){
-									affectedBlocks.add(new BlockPos(xInt,yInt,zInt));
+								if (affectedDistance > 0F && (exploder == null || exploder.verifyExplosion(this,worldObj,pos,state,affectedDistance))){
+									affectedBlocks.add(pos.copy());
 								}
 
 								tempX += distX*mp;

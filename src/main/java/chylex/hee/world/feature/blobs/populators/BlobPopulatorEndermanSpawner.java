@@ -2,7 +2,8 @@ package chylex.hee.world.feature.blobs.populators;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockCustomSpawner;
+import chylex.hee.block.BlockCustomSpawner.Type;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.util.BlockLocation;
@@ -86,7 +87,7 @@ public class BlobPopulatorEndermanSpawner extends BlobPopulator{
 					}
 				}
 				
-				gen.setBlock(x,y,z,BlockList.custom_spawner,4);
+				gen.setBlockState(x,y,z,BlockCustomSpawner.createSpawner(Type.BLOB_ENDERMAN));
 				--blocks;
 			}
 		}
