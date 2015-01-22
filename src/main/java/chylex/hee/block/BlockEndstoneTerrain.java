@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import chylex.hee.block.state.BlockAbstractStateEnum;
 import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 

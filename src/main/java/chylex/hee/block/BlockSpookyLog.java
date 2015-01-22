@@ -17,6 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.state.BlockAbstractStateEnum;
 import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobForestGhost;

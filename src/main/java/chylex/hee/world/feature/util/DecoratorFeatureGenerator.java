@@ -7,22 +7,25 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.world.util.BlockLocation;
 
 public final class DecoratorFeatureGenerator{
+	private final BlockPosM pos = new BlockPosM();
 	private final TIntObjectHashMap<GeneratedBlock> blocks = new TIntObjectHashMap<>();
 	private final Map<BlockLocation,ITileEntityGenerator> tileEntities = new HashMap<>();
 	private int minX, maxX, minZ, maxZ, bottomY, topY, outOfBoundsCounter;
 	
 	public boolean setBlock(int x, int y, int z, Block block){
-		return setBlock(x,y,z,block,0);
+		return setBlockState(x,y,z,block.getDefaultState());
 	}
 	
-	public boolean setBlock(int x, int y, int z, Block block, int metadata){
+	public boolean setBlockState(int x, int y, int z, IBlockState state){
 		if (x < -16 || x > 15 || z < -16 || z > 15 || y < -64 || y > 63){
 			++outOfBoundsCounter;
 			return false;
@@ -37,7 +40,7 @@ public final class DecoratorFeatureGenerator{
 		if (y > topY)topY = y;
 		else if (y < bottomY)bottomY = y;
 		
-		blocks.put(1024*(y+128)+32*(x+16)+z+16,new GeneratedBlock(block,metadata,x,y,z));
+		blocks.put(1024*(y+128)+32*(x+16)+z+16,new GeneratedBlock(state,x,y,z));
 		return true;
 	}
 	
@@ -54,12 +57,12 @@ public final class DecoratorFeatureGenerator{
 	
 	public Block getBlock(int x, int y, int z){
 		GeneratedBlock block = blocks.get(1024*(y+128)+32*(x+16)+z+16);
-		return block == null ? Blocks.air : block.block;
+		return block == null ? Blocks.air : block.state.getBlock();
 	}
 	
-	public int getMetadata(int x, int y, int z){
+	public IBlockState getBlockState(int x, int y, int z){
 		GeneratedBlock block = blocks.get(1024*(y+128)+32*(x+16)+z+16);
-		return block == null ? 0 : block.metadata;
+		return block == null ? Blocks.air.getDefaultState() : block.state;
 	}
 	
 	public int getTopBlockY(int x, int z){
@@ -80,7 +83,7 @@ public final class DecoratorFeatureGenerator{
 		List<BlockLocation> locs = new ArrayList<>();
 		
 		for(GeneratedBlock block:blocks.valueCollection()){
-			if (block.block != Blocks.air)locs.add(new BlockLocation(block.x,block.y,block.z));
+			if (block.state.getBlock() != Blocks.air)locs.add(new BlockLocation(block.x,block.y,block.z));
 		}
 		
 		return locs;
@@ -89,46 +92,44 @@ public final class DecoratorFeatureGenerator{
 	/**
 	 * Generate in the center of 4 chunk group, in decorator it is chunkX+16, chunkZ+16
 	 */
-	public void generate(World world, Random rand, int centerX, int centerY, int centerZ){
+	public void generate(World world, Random rand, BlockPosM center){
 		if (blocks.isEmpty())return;
 		
 		int sizeX = maxX-minX+1, sizeZ = maxZ-minZ+1;
 		int randX = (16-sizeX)>>1, randZ = (16-sizeZ)>>1;
 		
-		if (randX > 0)centerX += rand.nextInt(randX*2)-randX;
-		if (randZ > 0)centerZ += rand.nextInt(randZ*2)-randZ;
+		if (randX > 0)center.x += rand.nextInt(randX*2)-randX;
+		if (randZ > 0)center.z += rand.nextInt(randZ*2)-randZ;
 		
 		List<GeneratedBlock> delayed = new ArrayList<>();
 		
 		try{
 			for(GeneratedBlock block:blocks.valueCollection()){
-				if (!block.block.canBlockStay(world,centerX+block.x,centerY+block.y,centerZ+block.z))delayed.add(block);
-				else world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
+				if (!block.state.getBlock().canPlaceBlockAt(world,pos.moveTo(center).moveBy(block.x,block.y,block.z)))delayed.add(block);
+				else world.setBlockState(pos.moveTo(center).moveBy(block.x,block.y,block.z),block.state,3);
 			}
 			
 			if (!delayed.isEmpty()){
-				for(GeneratedBlock block:delayed)world.setBlock(centerX+block.x,centerY+block.y,centerZ+block.z,block.block,block.metadata,3);
+				for(GeneratedBlock block:delayed)world.setBlockState(pos.moveTo(center).moveBy(block.x,block.y,block.z),block.state,3);
 			}
 			
 			if (!tileEntities.isEmpty()){
 				for(Entry<BlockLocation,ITileEntityGenerator> entry:tileEntities.entrySet()){
 					BlockLocation loc = entry.getKey();
-					entry.getValue().onTileEntityRequested("",world.getTileEntity(centerX+loc.x,centerY+loc.y,centerZ+loc.z),rand);
+					entry.getValue().onTileEntityRequested("",world.getTileEntity(pos.moveTo(center).moveBy(loc.x,loc.y,loc.z)),rand);
 				}
 			}
 		}catch(RuntimeException e){
-			Log.debug("DecoratorFeatureGenerator failed ($0,$1 - $2,$3)",centerX,centerZ,sizeX,sizeZ);
+			Log.debug("DecoratorFeatureGenerator failed ($0,$1 - $2,$3)",center.x,center.z,sizeX,sizeZ);
 		}
 	}
 	
 	private static final class GeneratedBlock{
-		final Block block;
-		final byte metadata;
+		final IBlockState state;
 		final byte x, y, z;
 		
-		GeneratedBlock(Block block, int metadata, int x, int y, int z){
-			this.block = block;
-			this.metadata = (byte)metadata;
+		GeneratedBlock(IBlockState state, int x, int y, int z){
+			this.state = state;
 			this.x = (byte)x;
 			this.y = (byte)y;
 			this.z = (byte)z;

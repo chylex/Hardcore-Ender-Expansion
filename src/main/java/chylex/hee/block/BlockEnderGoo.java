@@ -46,7 +46,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	
 	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
-		if (!world.blockExists(x-1,y,z-1) || !world.blockExists(x+1,y,z+1)){
+		if (!world.isBlockLoaded(pos.add(-1,0,-1)) || !world.blockExists(pos.add(1,0,1))){
 			world.scheduleUpdate(pos,this,tickRate(world));
 			return;
 		}
@@ -54,14 +54,15 @@ public class BlockEnderGoo extends BlockFluidClassic{
 		super.updateTick(world,pos,state,rand);
 		
 		if (shouldBattleWater){
-			int meta = world.getBlockMetadata(x,y,z);
+			BlockPosM tmpPos = new BlockPosM(pos);
+			int level = ((Integer)tmpPos.getBlockState(world).getValue(LEVEL)).intValue();
 			
 			for(int a = 0; a < 6; a++){
-				if (world.getBlock(x+xOff[a],y+yOff[a],z+zOff[a]).getMaterial() != Material.water)continue;
+				if (tmpPos.moveTo(pos).moveBy(xOff[a],yOff[a],zOff[a]).getBlockMaterial(world) != Material.water)continue;
 				
-				if ((rand.nextInt(Math.max(1,10-meta-(world.provider.getDimensionId() == 1 ? 7 : 0)+(a == 2 || a == 3 ? 2 : 0))) == 0)){
-					world.setBlock(x+xOff[a],y+yOff[a],z+zOff[a],this,Math.max(2,world.getBlockMetadata(x,y,z)),3);
-					if (rand.nextInt(6-meta) == 0)world.setBlockToAir(x,y,z);
+				if ((rand.nextInt(Math.max(1,10-level-(world.provider.getDimensionId() == 1 ? 7 : 0)+(a == 2 || a == 3 ? 2 : 0))) == 0)){
+					tmpPos.setBlock(world,state.withProperty(LEVEL,Math.max(2,((Integer)tmpPos.getBlockState(world).getValue(LEVEL)).intValue())));
+					if (rand.nextInt(6-level) == 0)tmpPos.moveTo(pos).setToAir(world);
 				}
 				else if (world.provider.getDimensionId() != 1 && rand.nextInt(4) != 0){
 					world.setBlock(x,y,z,Blocks.flowing_water,2,3);
@@ -78,7 +79,9 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	}
 	
 	@Override
-	public void modifyAcceleration(World world, BlockPos pos, Entity entity, Vec3 vec){}
+	public Vec3 modifyAcceleration(World world, BlockPos pos, Entity entity, Vec3 vec){
+		return vec;
+	}
 	
 	private static final PotionEffect weakness = new PotionEffect(Potion.weakness.id,5,1,false,true),
 									  miningFatigue = new PotionEffect(Potion.digSlowdown.id,5,1,false,true),
@@ -100,8 +103,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 			if (eff.getDuration() < 102)eff.combine(new PotionEffect(Potion.poison.id,eff.getDuration()+17,eff.getAmplifier(),eff.getIsAmbient(),eff.getIsShowParticles()));
 			
 			Vec3 vec = new Vec3(0D,0D,0D);
-			super.modifyAcceleration(world,pos,entity,vec);
-			vec.normalize();
+			vec = super.modifyAcceleration(world,pos,entity,vec).normalize();
 			
 			entity.addVelocity(vec.xCoord*0.0075D,vec.yCoord*0.005D,vec.zCoord*0.0075D);
 			entity.motionX *= 0.25D;

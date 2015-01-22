@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,8 +22,7 @@ public class LargeStructureChunk{
 	private final int ySize;
 	private int minBlockY, maxBlockY;
 	
-	private final Block[] storedBlocks;
-	private final byte[] storedMetadata;
+	private final IBlockState[] storedStates;
 	private final TIntHashSet scheduledForUpdate = new TIntHashSet();
 	private final Map<Integer,String> storedTileEntityClues = new HashMap<>();
 	private final Map<String,ITileEntityGenerator> storedTileEntities = new HashMap<>();
@@ -38,11 +37,10 @@ public class LargeStructureChunk{
 		this.minBlockY = ySize;
 		this.maxBlockY = 0;
 		
-		this.storedBlocks = new Block[256*ySize];
-		this.storedMetadata = new byte[256*ySize];
+		this.storedStates = new IBlockState[256*ySize];
 	}
 	
-	public void setBlock(int xInChunk, int yInChunk, int zInChunk, Block block, int metadata, boolean scheduleUpdate){
+	public void setBlock(int xInChunk, int yInChunk, int zInChunk, IBlockState state, boolean scheduleUpdate){
 		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
 			if (Log.isDebugEnabled())Thread.dumpStack();
 			Log.debug("Placing block at invalid coordinates: $0,$1,$2",xInChunk,yInChunk,zInChunk);
@@ -53,31 +51,19 @@ public class LargeStructureChunk{
 		if (yInChunk > maxBlockY)maxBlockY = yInChunk;
 		
 		int index = yInChunk*256+xInChunk*16+zInChunk;
-		storedBlocks[index] = block;
-		storedMetadata[index] = (byte)metadata;
+		storedStates[index] = state;
 		
 		if (scheduleUpdate)scheduledForUpdate.add(index);
 	}
 	
-	public Block getBlock(int xInChunk, int yInChunk, int zInChunk){
+	public IBlockState getBlock(int xInChunk, int yInChunk, int zInChunk){
 		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
 			if (Log.isDebugEnabled())Thread.dumpStack();
 			Log.debug("Getting block at invalid coordinates: $0,$1,$2",xInChunk,yInChunk,zInChunk);
-			return Blocks.air;
+			return Blocks.air.getDefaultState();
 		}
 		
-		Block block = storedBlocks[yInChunk*256+xInChunk*16+zInChunk];
-		return block == null ? Blocks.air : block;
-	}
-	
-	public int getMetadata(int xInChunk, int yInChunk, int zInChunk){
-		if (xInChunk < 0 || xInChunk >= 16 || yInChunk < 0 || yInChunk >= ySize || zInChunk < 0 || zInChunk >= 16){
-			if (Log.isDebugEnabled())Thread.dumpStack();
-			Log.debug("Getting block metadata at invalid coordinates: $0,$1,$2",xInChunk,yInChunk,zInChunk);
-			return 0;
-		}
-		
-		return storedMetadata[yInChunk*256+xInChunk*16+zInChunk];
+		return storedStates[yInChunk*256+xInChunk*16+zInChunk];
 	}
 	
 	public void addTileEntityGenerator(int xInChunk, int yInChunk, int zInChunk, String key, ITileEntityGenerator tileGen){
@@ -105,7 +91,7 @@ public class LargeStructureChunk{
 		if (minBlockY == ySize && maxBlockY == 0)return;
 		
 		boolean hasBlocksToUpdate = !scheduledForUpdate.isEmpty(), hasTileEntities = !storedTileEntities.isEmpty(), continueY = true;
-		Block block;
+		IBlockState state;
 		
 		for(int x = 0; x < 16; x++){
 			for(int z = 0; z < 16; z++){
@@ -134,10 +120,10 @@ public class LargeStructureChunk{
 							}
 						}
 						
-						if ((block = getBlock(x,y,z)) == Blocks.air)continue;
+						if ((state = getBlock(x,y,z)).getBlock() == Blocks.air)continue;
 						
-						if (hasBlocksToUpdate && isBlockScheduledForUpdate(x,y,z))continueY = structure.placeBlockAndUpdateUnsafe(block,getMetadata(x,y,z),addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
-						else continueY = structure.placeBlockUnsafe(block,getMetadata(x,y,z),addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
+						if (hasBlocksToUpdate && isBlockScheduledForUpdate(x,y,z))continueY = structure.placeBlockAndUpdateUnsafe(state,addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
+						else continueY = structure.placeBlockUnsafe(state,addX+this.x*16+x,addY+y,addZ+this.z*16+z,world,bb);
 						
 						if (continueY && hasTileEntities && storedTileEntityClues.containsKey(y*256+x*16+z)){
 							String key = storedTileEntityClues.get(y*256+x*16+z);
@@ -171,7 +157,7 @@ public class LargeStructureChunk{
 		}
 		
 		@Override
-		public void setBlock(int xInChunk, int yInChunk, int zInChunk, Block block, int metadata, boolean scheduleUpdate){}
+		public void setBlock(int xInChunk, int yInChunk, int zInChunk, IBlockState state, boolean scheduleUpdate){}
 		
 		@Override
 		public void addTileEntityGenerator(int xInChunk, int yInChunk, int zInChunk, String key, ITileEntityGenerator tileGen){}

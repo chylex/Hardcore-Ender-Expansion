@@ -2,6 +2,7 @@ package chylex.hee.world.structure.util.pregen;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -58,23 +59,27 @@ public final class LargeStructureWorld{
 	}
 	
 	public void setBlock(int blockX, int blockY, int blockZ, Block block){
-		getChunk(blockX,blockZ).setBlock(xInChunk(blockX),blockY,zInChunk(blockZ),block,0,false);
+		getChunk(blockX,blockZ).setBlock(xInChunk(blockX),blockY,zInChunk(blockZ),block.getDefaultState(),false);
 	}
 	
-	public void setBlock(int blockX, int blockY, int blockZ, Block block, int metadata){
-		getChunk(blockX,blockZ).setBlock(xInChunk(blockX),blockY,zInChunk(blockZ),block,metadata,false);
+	public void setBlock(int blockX, int blockY, int blockZ, Block block, boolean scheduleUpdate){
+		getChunk(blockX,blockZ).setBlock(xInChunk(blockX),blockY,zInChunk(blockZ),block.getDefaultState(),scheduleUpdate);
 	}
 	
-	public void setBlock(int blockX, int blockY, int blockZ, Block block, int metadata, boolean scheduleUpdate){
-		getChunk(blockX,blockZ).setBlock(xInChunk(blockX),blockY,zInChunk(blockZ),block,metadata,scheduleUpdate);
+	public void setBlock(int blockX, int blockY, int blockZ, IBlockState state){
+		getChunk(blockX,blockZ).setBlock(xInChunk(blockX),blockY,zInChunk(blockZ),state,false);
+	}
+	
+	public void setBlock(int blockX, int blockY, int blockZ, IBlockState state, boolean scheduleUpdate){
+		getChunk(blockX,blockZ).setBlock(xInChunk(blockX),blockY,zInChunk(blockZ),state,scheduleUpdate);
 	}
 	
 	public Block getBlock(int blockX, int blockY, int blockZ){
-		return getChunk(blockX,blockZ).getBlock(xInChunk(blockX),blockY,zInChunk(blockZ));
+		return getChunk(blockX,blockZ).getBlock(xInChunk(blockX),blockY,zInChunk(blockZ)).getBlock();
 	}
 	
-	public int getMetadata(int blockX, int blockY, int blockZ){
-		return getChunk(blockX,blockZ).getMetadata(xInChunk(blockX),blockY,zInChunk(blockZ));
+	public IBlockState getBlockState(int blockX, int blockY, int blockZ){
+		return getChunk(blockX,blockZ).getBlock(xInChunk(blockX),blockY,zInChunk(blockZ));
 	}
 	
 	public int getHighestY(int blockX, int blockZ){

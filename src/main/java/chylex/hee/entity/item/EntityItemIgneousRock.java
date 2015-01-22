@@ -2,6 +2,7 @@ package chylex.hee.entity.item;
 import java.util.IdentityHashMap;
 import java.util.List;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -86,13 +87,13 @@ public class EntityItemIgneousRock extends EntityItem{
 						pos.setToAir(worldObj);
 						worldObj.createExplosion(null,pos.x+0.5D,pos.y+0.5D,pos.z+0.5D,3.9F,true);
 					}
-					else if (block == Blocks.tallgrass && worldObj.getBlockMetadata(pos[0],pos[1],pos[2]) != 0){
-						worldObj.setBlockMetadataWithNotify(pos[0],pos[1],pos[2],0,2);
+					else if (block == Blocks.tallgrass && worldObj.getBlockState(pos).getValue(BlockTallGrass.TYPE) != BlockTallGrass.EnumType.DEAD_BUSH){
+						worldObj.setBlockState(pos,worldObj.getBlockState(pos).withProperty(BlockTallGrass.TYPE,BlockTallGrass.EnumType.DEAD_BUSH));
 					}
 					else continue;
 					
 					if (block.getMaterial() != Material.air){
-						PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.IGNEOUS_ROCK_MELT,pos[0]+0.5D,pos[1]+0.5D,pos[2]+0.5D));
+						PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.IGNEOUS_ROCK_MELT,pos.x+0.5D,pos.y+0.5D,pos.z+0.5D));
 					}
 					
 					if (rand.nextInt(3) == 0)break;
@@ -112,9 +113,7 @@ public class EntityItemIgneousRock extends EntityItem{
 		}
 		
 		if (pos.moveDown().getBlock(worldObj) == BlockList.dungeon_puzzle){
-			int meta = worldObj.getBlockMetadata(ix,iy-1,iz);
-			
-			if (BlockDungeonPuzzle.canTrigger(meta)){
+			if (((BlockDungeonPuzzle.Variant)pos.getBlockState(worldObj).getValue(BlockDungeonPuzzle.VARIANT)).canTrigger()){
 				for(int a = 0; a < 4; a++)HardcoreEnderExpansion.fx.igneousRockBreak(this);
 				
 				if (!worldObj.isRemote && onGround){

@@ -22,6 +22,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C12FiendFireballExplosion;
 import chylex.hee.packets.client.C69FiendFuckball;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityProjectileFiendFireball extends EntityLargeFireball{
@@ -55,7 +56,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	}
 	
 	public void shootAt(EntityPlayer player){
-		worldObj.playAuxSFXAtEntity(null,1008,(int)posX,(int)posY,(int)posZ,0);
+		worldObj.playAuxSFXAtEntity(null,1008,new BlockPosM(this),0);
 		
 		if (player == null)setDead();
 		else{
@@ -157,8 +158,8 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int eger){
-		super.setPositionAndRotation2(actualPosX,y,actualPosZ,rotationYaw,rotationPitch,eger);
+	public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int posRotationIncrements, boolean booleanissimo){
+		super.setPositionAndRotation2(actualPosX,y,actualPosZ,rotationYaw,rotationPitch,posRotationIncrements,booleanissimo);
 	}
 
 	@Override

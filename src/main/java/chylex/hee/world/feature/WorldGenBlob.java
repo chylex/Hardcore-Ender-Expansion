@@ -241,7 +241,7 @@ public class WorldGenBlob extends WorldGenBase{
 		
 		if (gen.getOutOfBoundsCounter() > 6)return false;
 		
-		gen.generate(world,rand,x,y,z);
+		gen.generate(world,rand,pos);
 		return true;
 	}
 	
@@ -288,7 +288,7 @@ public class WorldGenBlob extends WorldGenBase{
 			Stopwatch.finish("WorldGenBlob - test pattern generator");
 			
 			Stopwatch.time("WorldGenBlob - test generate");
-			gen.generate(world,world.rand,(int)player.posX+10,(int)player.posY-5,(int)player.posZ);
+			gen.generate(world,world.rand,new BlockPosM(player).moveBy(10,-5,0));
 			Stopwatch.finish("WorldGenBlob - test generate");
 		}
 	};

@@ -23,6 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.material.MaterialCorruptedEnergy;
+import chylex.hee.block.state.BlockAbstractStateInt;
 import chylex.hee.system.util.BlockPosM;
 
 public class BlockCorruptedEnergy extends BlockAbstractStateInt{
@@ -33,6 +34,10 @@ public class BlockCorruptedEnergy extends BlockAbstractStateInt{
 	private static final byte[] offsetX = new byte[]{ -1, 1, 0, 0, 0, 0 },
 								offsetY = new byte[]{ 0, 0, -1, 1, 0, 0 },
 								offsetZ = new byte[]{ 0, 0, 0, 0, -1, 1 };
+	
+	public static IBlockState createState(int level){
+		return level <= 15 ? BlockList.corrupted_energy_low.setProperty(level) : BlockList.corrupted_energy_high.setProperty(level-16);
+	}
 	
 	private final boolean isHighLevel;
 	

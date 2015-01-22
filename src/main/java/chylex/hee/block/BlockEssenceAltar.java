@@ -1,6 +1,5 @@
 package chylex.hee.block;
 import java.util.List;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -45,12 +44,12 @@ public class BlockEssenceAltar extends BlockContainer{
 	}
 	
 	@Override
-	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
+	public void breakBlock(World world, BlockPos pos, IBlockState state){
 		if (world.isRemote)return;
 		
-		TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x,y,z);
+		TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(pos);
 		if (altar != null)altar.onBlockDestroy();
-		super.breakBlock(world,x,y,z,oldBlock,oldMeta);
+		super.breakBlock(world,pos,state);
 	}
 	
 

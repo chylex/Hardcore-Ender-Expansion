@@ -11,6 +11,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.state.BlockAbstractStateEnum;
 import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;

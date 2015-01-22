@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import chylex.hee.block.state.BlockAbstractStateEnum;
 import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;

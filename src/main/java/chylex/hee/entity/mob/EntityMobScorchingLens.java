@@ -1,5 +1,6 @@
 package chylex.hee.entity.mob;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.EntityMob;
@@ -31,15 +32,17 @@ public class EntityMobScorchingLens extends EntityMob{
 	@Override
 	protected Entity findPlayerToAttack(){
 		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,12D);
-		return player != null && canEntityBeSeen(player)?player:null;
+		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 	
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
 		
+		EntityLivingBase entityToAttack = getAttackTarget();
+		
 		if (!worldObj.isRemote && entityToAttack != null){
-			if (getDistanceSqToEntity(entityToAttack) > 180D)entityToAttack = null;
+			if (getDistanceSqToEntity(entityToAttack) > 180D)setAttackTarget(entityToAttack = null);
 			else if ((ticksExisted&1) == 1 && getHealth() > 0 && canEntityBeSeen(entityToAttack)){
 				Vec3 look = getLookVec();
 				
@@ -59,7 +62,7 @@ public class EntityMobScorchingLens extends EntityMob{
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float damage){
 		if (super.attackEntityFrom(source,damage)){
-			if (entityToAttack instanceof IBossDisplayData)entityToAttack = null;
+			if (getAttackTarget() instanceof IBossDisplayData)setAttackTarget(null);
 			return true;
 		}
 		return false;

@@ -73,6 +73,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
+		updateActionState();
 		
 		if (worldObj.isRemote){
 			byte attack = dataWatcher.getWatchableObjectByte(16);
@@ -92,8 +93,9 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		}
 	}
 	
-	@Override
-	protected void updateEntityActionState(){
+	private void updateActionState(){
+		if (worldObj.isRemote)return;
+		
 		EntityPlayer closest = worldObj.getClosestPlayerToEntity(this,164D);
 		if (closest == null)return;
 		

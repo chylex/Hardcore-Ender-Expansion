@@ -1,4 +1,4 @@
-package chylex.hee.block;
+package chylex.hee.block.state;
 import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -10,11 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-abstract class BlockAbstractStateEnum extends BlockAbstractState{
+public abstract class BlockAbstractContainerStateEnum extends BlockAbstractContainerState{
 	private IProperty metaProp;
 	private Enum[] metaStates;
 	
-	public BlockAbstractStateEnum(Material materialIn){
+	public BlockAbstractContainerStateEnum(Material materialIn){
 		super(materialIn);
 	}
 	

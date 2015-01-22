@@ -1,4 +1,4 @@
-package chylex.hee.block;
+package chylex.hee.block.state;
 import java.util.List;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-abstract class BlockAbstractStateInt extends BlockAbstractState{
+public abstract class BlockAbstractStateInt extends BlockAbstractState{
 	private IProperty metaProp;
 	private int[] metaStates;
 	

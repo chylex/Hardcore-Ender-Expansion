@@ -35,13 +35,13 @@ public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 			BlockPosM pos = new BlockPosM(this);
 			
 			if (pos.getBlock(worldObj) == BlockList.dungeon_puzzle){
-				if (((BlockDungeonPuzzle)BlockList.dungeon_puzzle).updateChain(worldObj,x,y,z,dir)){
-					PacketPipeline.sendToAllAround(dimension,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+0.5D,y+0.5D,z+0.5D));
+				if (((BlockDungeonPuzzle)BlockList.dungeon_puzzle).updateChain(worldObj,pos,dir)){
+					PacketPipeline.sendToAllAround(dimension,pos,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,pos.x+0.5D,pos.y+0.5D,pos.z+0.5D));
 				}
 				else setDead();
 			}
 			else{
-				((BlockDungeonPuzzle)BlockList.dungeon_puzzle).checkWinConditions(worldObj,x-Direction.offsetX[dir],y,z-Direction.offsetZ[dir]);
+				((BlockDungeonPuzzle)BlockList.dungeon_puzzle).checkWinConditions(worldObj,pos.moveBy(-Direction.offsetX[dir],0,-Direction.offsetZ[dir]));
 				setDead();
 			}
 		}

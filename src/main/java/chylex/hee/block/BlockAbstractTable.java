@@ -43,7 +43,7 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 				}
 				
 				if (amount >= EnergyChunkData.minSignificantEnergy){
-					int energyMeta = Math.min(15,3+(int)(amount*0.8F));
+					int energyLevel = Math.min(25,3+(int)(amount*0.8F));
 					BlockPosM testPos = new BlockPosM();
 					
 					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 20 && placed < 3; attempt++){
@@ -52,7 +52,7 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 						testPos.z = pos.getZ()+world.rand.nextInt(4)-world.rand.nextInt(4);
 						
 						if (testPos.isAir(world)){
-							world.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,energyMeta,3);
+							testPos.setBlock(world,BlockCorruptedEnergy.createState(energyLevel));
 							++placed;
 						}
 					}

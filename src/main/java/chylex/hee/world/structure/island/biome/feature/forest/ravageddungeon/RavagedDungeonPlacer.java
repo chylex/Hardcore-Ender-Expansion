@@ -2,16 +2,24 @@ package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockColored;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityFlowerPot;
+import chylex.hee.block.BlockCustomSpawner;
+import chylex.hee.block.BlockCustomSpawner.Type;
+import chylex.hee.block.BlockDeathFlower;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic;
@@ -50,7 +58,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			for(int xx = x-radEntrance; xx <= x+radEntrance; xx++){
 				for(int zz = z-radEntrance; zz <= z+radEntrance; zz++){
 					if (yy > surfaceY || (Math.abs(xx-x) <= radEntrance-1 && Math.abs(zz-z) <= radEntrance-1 && yy != y-maxEntranceHeight))world.setBlock(xx,yy,zz,Blocks.air);
-					else world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
+					else world.setBlock(xx,yy,zz,getBrick(rand));
 				}
 			}
 		}
@@ -80,7 +88,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			for(int xx = x-radEntrance; xx <= x+radEntrance; xx++){
 				for(int zz = z-radEntrance; zz <= z+radEntrance; zz++){
 					if (Math.abs(xx-x) <= 1 && Math.abs(zz-z) <= radEntrance-1 && yy != y-hallHeight-2)world.setBlock(xx,yy,zz,yy == y ? coverBlock : Blocks.air);
-					else world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
+					else world.setBlock(xx,yy,zz,getBrick(rand));
 				}
 			}
 		}
@@ -103,7 +111,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					}
 					
 					world.setBlock(x,y+hallHeight,z,BlockList.ravaged_brick);
-					world.setBlock(x,y+hallHeight-1,z,BlockList.custom_spawner,2);
+					world.setBlock(x,y+hallHeight-1,z,BlockCustomSpawner.createSpawner(Type.LOUSE_RAVAGED));
 					world.setTileEntityGenerator(x,y+hallHeight-1,z,"louseSpawner",this);
 					
 					break;
@@ -219,7 +227,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			for(int xx = x-radHallway; xx <= x+radHallway; xx++){
 				for(int zz = z-radHallway; zz <= z+radHallway; zz++){
 					if (yy == y || yy == y+hallHeight+1 || xx == x-radHallway || xx == x+radHallway || zz == z-radHallway || zz == z+radHallway){
-						world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
+						world.setBlock(xx,yy,zz,getBrick(rand));
 					}
 					else world.setBlock(xx,yy,zz,Blocks.air);
 				}
@@ -248,7 +256,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					yy = y+1+rand.nextInt(hallHeight);
 					
 					if (world.getBlock(xx,yy,zz) == BlockList.ravaged_brick){
-						world.setBlock(xx,yy,zz,BlockList.ravaged_brick,BlockRavagedBrick.metaDamaged1+rand.nextInt(1+BlockRavagedBrick.metaDamaged4-BlockRavagedBrick.metaDamaged1));
+						world.setBlock(xx,yy,zz,BlockList.ravaged_brick.setProperty(BlockRavagedBrick.getRandomDamagedBrick(rand)));
 					}
 				}
 				
@@ -274,7 +282,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 							}
 							
 							if (ax2 == 3 && !canReplaceBlock(world.getBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2))))continue;
-							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air : BlockList.ravaged_brick,ax2 == 2 ? 0 : getBrickMeta(rand));
+							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air : BlockList.ravaged_brick,ax2 == 2 ? 0 : getBrick(rand));
 						}
 					}
 				}
@@ -305,7 +313,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 								continue;
 							}
 							
-							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air : BlockList.ravaged_brick,ax2 == 2 ? 0 : getBrickMeta(rand));
+							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air.getDefaultState() : getBrick(rand));
 						}
 						
 						world.setBlock(x+rotX(off,ax1,2),y+hallHeight,z+rotZ(off,ax1,2),BlockList.ravaged_brick_stairs,4+offFacing.getStairs());
@@ -390,7 +398,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					}
 					
 					world.setBlock(x+rotX(off,0,-1),y+2,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab,8);
-					world.setBlock(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),BlockList.custom_spawner,2);
+					world.setBlock(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),BlockCustomSpawner.createSpawner(Type.LOUSE_RAVAGED));
 					world.setTileEntityGenerator(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),"louseSpawner",this);
 					world.setBlock(x+rotX(off,0,-1),y+4,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab,0);
 				}
@@ -398,7 +406,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				break;
 				
 			case SPAWNERS_IN_WALLS:
-				int spawnerMeta = rand.nextBoolean() ? 3 : 2;
+				Type spawnerType = rand.nextBoolean() ? Type.SILVERFISH_RAVAGED : Type.LOUSE_RAVAGED;
 				
 				for(int attempt = 0, placed = 0, maxPlaced = 2+level+rand.nextInt(3+level), xx, yy, zz; attempt < 22 && placed < maxPlaced; attempt++){
 					xx = x+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
@@ -406,8 +414,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					yy = rand.nextBoolean() ? y+1 : y+hallHeight;
 					
 					if (world.getBlock(xx,yy,zz) == BlockList.ravaged_brick){
-						world.setBlock(xx,yy,zz,BlockList.custom_spawner,spawnerMeta);
-						if (spawnerMeta == 2)world.setTileEntityGenerator(xx,yy,zz,"louseSpawner",this);
+						world.setBlock(xx,yy,zz,BlockCustomSpawner.createSpawner(spawnerType));
+						if (spawnerType == Type.LOUSE_RAVAGED)world.setTileEntityGenerator(xx,yy,zz,"louseSpawner",this);
 						++placed;
 					}
 				}
@@ -416,7 +424,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					if (!hallway.checkConnection(dir)){
 						for(int a = -1; a <= 1; a++){
 							for(int yy = y+1; yy <= y+hallHeight; yy++){
-								if (canReplaceBlock(world.getBlock(x+rotX(dir,a,3),yy,z+rotZ(dir,a,3))))world.setBlock(x+rotX(dir,a,3),yy,z+rotZ(dir,a,3),BlockList.ravaged_brick,getBrickMeta(rand));
+								if (canReplaceBlock(world.getBlock(x+rotX(dir,a,3),yy,z+rotZ(dir,a,3))))world.setBlock(x+rotX(dir,a,3),yy,z+rotZ(dir,a,3),getBrick(rand));
 							}	
 						}
 					}
@@ -434,7 +442,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					if (rand.nextBoolean())off = off.reversed();
 					
 					for(int ax1 = -1; ax1 <= 1; ax1++){
-						if (canReplaceBlock(world.getBlock(x+rotX(off,ax1,3),y+2,z+rotZ(off,ax1,3))))world.setBlock(x+rotX(off,ax1,3),y+2,z+rotZ(off,ax1,3),BlockList.ravaged_brick,getBrickMeta(rand));
+						if (canReplaceBlock(world.getBlock(x+rotX(off,ax1,3),y+2,z+rotZ(off,ax1,3))))world.setBlock(x+rotX(off,ax1,3),y+2,z+rotZ(off,ax1,3),getBrick(rand));
 						
 						world.setBlock(x+rotX(off,ax1,2),y+2,z+rotZ(off,ax1,2),Blocks.flower_pot);
 						world.setTileEntityGenerator(x+rotX(off,ax1,2),y+2,z+rotZ(off,ax1,2),"flowerPot",this);
@@ -490,7 +498,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			for(int xx = x-radRoom; xx <= x+radRoom; xx++){
 				for(int zz = z-radRoom; zz <= z+radRoom; zz++){
 					if (yy == y || yy == y+hallHeight+1 || xx == x-radRoom || xx == x+radRoom || zz == z-radRoom || zz == z+radRoom){
-						world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
+						world.setBlock(xx,yy,zz,getBrick(rand));
 					}
 					else world.setBlock(xx,yy,zz,Blocks.air);
 				}
@@ -525,7 +533,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					}
 					
 					world.setBlock(x,y+hallHeight,z,BlockList.ender_goo);
-					world.setBlock(x,y+1,z,BlockList.custom_spawner,3);
+					world.setBlock(x,y+1,z,BlockCustomSpawner.createSpawner(Type.SILVERFISH_RAVAGED));
 
 					for(int a = 0; a < 2; a++){
 						for(int b = 0; b < 2; b++){
@@ -541,43 +549,45 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					break;
 					
 				case CARPET_TARGET:
-					int color;
+					EnumDyeColor color;
 					
 					switch(rand.nextInt(4)){
-						case 0: color = 10; break; // purple
-						case 1: color = 14; break; // red
-						case 2: color = 15; break; // black
-						default: color = 0; break; // white
+						case 0: color = EnumDyeColor.PURPLE; break; // purple
+						case 1: color = EnumDyeColor.RED; break; // red
+						case 2: color = EnumDyeColor.BLACK; break; // black
+						default: color = EnumDyeColor.WHITE; break; // white
 					}
 					
+					IBlockState coloredCarpet = Blocks.carpet.getDefaultState().withProperty(BlockColored.COLOR,color);
+					
 					for(int a = -6; a <= 6; a++){
-						world.setBlock(x+a,y+1,z-6,Blocks.carpet,color);
-						world.setBlock(x+a,y+1,z+6,Blocks.carpet,color);
+						world.setBlock(x+a,y+1,z-6,coloredCarpet);
+						world.setBlock(x+a,y+1,z+6,coloredCarpet);
 					}
 					
 					for(int a = -4; a <= 4; a++){
-						world.setBlock(x+a,y+1,z-4,Blocks.carpet,color);
-						world.setBlock(x+a,y+1,z+4,Blocks.carpet,color);
+						world.setBlock(x+a,y+1,z-4,coloredCarpet);
+						world.setBlock(x+a,y+1,z+4,coloredCarpet);
 					}
 					
 					for(int a = -2; a <= 2; a++){
-						world.setBlock(x+a,y+1,z-2,Blocks.carpet,color);
-						world.setBlock(x+a,y+1,z+2,Blocks.carpet,color);
+						world.setBlock(x+a,y+1,z-2,coloredCarpet);
+						world.setBlock(x+a,y+1,z+2,coloredCarpet);
 					}
 					
 					for(int a = -5; a <= 5; a++){
-						world.setBlock(x-6,y+1,z+a,Blocks.carpet,color);
-						world.setBlock(x+6,y+1,z+a,Blocks.carpet,color);
+						world.setBlock(x-6,y+1,z+a,coloredCarpet);
+						world.setBlock(x+6,y+1,z+a,coloredCarpet);
 					}
 					
 					for(int a = -3; a <= 3; a++){
-						world.setBlock(x-4,y+1,z+a,Blocks.carpet,color);
-						world.setBlock(x+4,y+1,z+a,Blocks.carpet,color);
+						world.setBlock(x-4,y+1,z+a,coloredCarpet);
+						world.setBlock(x+4,y+1,z+a,coloredCarpet);
 					}
 					
 					for(int a = -1; a <= 1; a++){
-						world.setBlock(x-2,y+1,z+a,Blocks.carpet,color);
-						world.setBlock(x+2,y+1,z+a,Blocks.carpet,color);
+						world.setBlock(x-2,y+1,z+a,coloredCarpet);
+						world.setBlock(x+2,y+1,z+a,coloredCarpet);
 					}
 					
 					for(DungeonDir dir:DungeonDir.values){
@@ -619,13 +629,13 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					
 					for(int yy = y+1; yy <= y+hallHeight; yy++){
 						for(int xx = x-2; xx <= x+2; xx++){
-							world.setBlock(xx,yy,z+2,BlockList.ravaged_brick,getBrickMeta(rand));
-							world.setBlock(xx,yy,z-2,BlockList.ravaged_brick,getBrickMeta(rand));
+							world.setBlock(xx,yy,z+2,getBrick(rand));
+							world.setBlock(xx,yy,z-2,getBrick(rand));
 						}
 
 						for(int zz = z-1; zz <= z+1; zz++){
-							world.setBlock(x+2,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
-							world.setBlock(x-2,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
+							world.setBlock(x+2,yy,zz,getBrick(rand));
+							world.setBlock(x-2,yy,zz,getBrick(rand));
 						}
 					}
 					
@@ -633,27 +643,31 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					world.setTileEntityGenerator(x,y+1,z,"encasedCubicleChest",this);
 					
 					int[] spawnerX = new int[]{ -1, -1, -1, 0, 0, 1, 1, 1 }, spawnerZ = new int[]{ -1, 0, 1, -1, 1, -1, 0, 1 };
+					Type spawnerType;
 					
-					for(int a = 0, spawnerMeta; a < spawnerX.length; a++){
-						spawnerMeta = rand.nextInt(3) == 0 ? 2 : 3;
-						world.setBlock(x+spawnerX[a],y+1,z+spawnerZ[a],BlockList.custom_spawner,spawnerMeta);
-						if (spawnerMeta == 2)world.setTileEntityGenerator(x+spawnerX[a],y+1,z+spawnerZ[a],"louseSpawner",this);
+					for(int a = 0; a < spawnerX.length; a++){
+						spawnerType = rand.nextInt(3) == 0 ? Type.LOUSE_RAVAGED : Type.SILVERFISH_RAVAGED;
+						world.setBlock(x+spawnerX[a],y+1,z+spawnerZ[a],BlockCustomSpawner.createSpawner(spawnerType));
+						if (spawnerType == Type.LOUSE_RAVAGED)world.setTileEntityGenerator(x+spawnerX[a],y+1,z+spawnerZ[a],"louseSpawner",this);
 					}
 					
 					break;
 					
 				case TERRARIUM:
+					IBlockState podzol = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT,BlockDirt.DirtType.PODZOL);
+					IBlockState glassRed = Blocks.stained_glass.getDefaultState().withProperty(BlockColored.COLOR,EnumDyeColor.RED);
+					
 					for(int a = 0; a < 2; a++){
 						for(int b = 0; b < 2; b++){
 							for(int c = 6; c >= 2; c--){
-								world.setBlock(x-c+2*c*a,y+1,z-6+12*b,Blocks.dirt,2);
-								world.setBlock(x-c+2*c*a,y+1,z-5+10*b,Blocks.dirt,2);
-								world.setBlock(x-c+2*c*a,y+1,z-4+8*b,Blocks.dirt,2);
+								world.setBlock(x-c+2*c*a,y+1,z-6+12*b,podzol);
+								world.setBlock(x-c+2*c*a,y+1,z-5+10*b,podzol);
+								world.setBlock(x-c+2*c*a,y+1,z-4+8*b,podzol);
 							}
 							
-							world.setBlock(x-6+12*a,y+1,z-3+6*b,Blocks.dirt,2);
-							world.setBlock(x-5+10*a,y+1,z-3+6*b,Blocks.dirt,2);
-							world.setBlock(x-4+8*a,y+1,z-3+6*b,Blocks.dirt,2);
+							world.setBlock(x-6+12*a,y+1,z-3+6*b,podzol);
+							world.setBlock(x-5+10*a,y+1,z-3+6*b,podzol);
+							world.setBlock(x-4+8*a,y+1,z-3+6*b,podzol);
 					
 							world.setBlock(x-6+12*a,y+1,z-2+4*b,BlockList.ravaged_brick_glow);
 							world.setBlock(x-5+10*a,y+1,z-2+4*b,BlockList.ravaged_brick);
@@ -667,8 +681,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 							
 							for(int yy = y+2; yy <= y+hallHeight; yy++){
 								for(int c = 3; c <= 6; c++){
-									world.setBlock(x-c+2*c*a,yy,z-2+4*b,Blocks.stained_glass,14);
-									world.setBlock(x-2+4*a,yy,z-c+2*c*b,Blocks.stained_glass,14);
+									world.setBlock(x-c+2*c*a,yy,z-2+4*b,glassRed);
+									world.setBlock(x-2+4*a,yy,z-c+2*c*b,glassRed);
 								}
 							}
 							
@@ -710,7 +724,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 											break;
 									}
 									
-									world.setBlock(xx,y+2,zz,plantBlock,plantMeta);
+									world.setBlock(xx,y+2,zz,plantBlock.getStateFromMeta(plantMeta));
 								}
 							}
 						}
@@ -727,7 +741,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 						
 						int height = rand.nextInt(3);
 						for(int yy = y+1; yy <= y+1+height; yy++){
-							if (rand.nextInt(8-level) == 0)world.setBlock(xx,yy,zz,BlockList.custom_spawner,3);
+							if (rand.nextInt(8-level) == 0)world.setBlock(xx,yy,zz,BlockCustomSpawner.createSpawner(Type.SILVERFISH_RAVAGED));
 							else world.setBlock(xx,yy,zz,BlockList.ravaged_brick);
 						}
 						
@@ -750,7 +764,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					
 					for(int a = 0; a < 2; a++){
 						for(int b = 0; b < 2; b++){
-							world.setBlock(x-2+4*a,y+1,z-2+4*b,BlockList.custom_spawner,2);
+							world.setBlock(x-2+4*a,y+1,z-2+4*b,BlockCustomSpawner.createSpawner(Type.LOUSE_RAVAGED));
 							world.setTileEntityGenerator(x-2+4*a,y+1,z-2+4*b,"louseSpawner",this);
 							world.setBlock(x-2+4*a,y+2,z-2+4*b,BlockList.ravaged_brick_slab);
 						}
@@ -831,10 +845,10 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 									break;
 									
 								case 3:
-									world.setBlock(x-4+7*a,y+1,z-4+7*b,(a^b) == 1 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 1 ? 3 : 0);
-									world.setBlock(x-3+7*a,y+1,z-4+7*b,(a^b) == 0 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 0 ? 3 : 0);
-									world.setBlock(x-3+7*a,y+1,z-3+7*b,(a^b) == 1 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 1 ? 3 : 0);
-									world.setBlock(x-4+7*a,y+1,z-3+7*b,(a^b) == 0 ? BlockList.custom_spawner : Blocks.coal_block,(a^b) == 0 ? 3 : 0);
+									world.setBlock(x-4+7*a,y+1,z-4+7*b,(a^b) == 1 ? BlockCustomSpawner.createSpawner(Type.SILVERFISH_RAVAGED) : Blocks.coal_block.getDefaultState());
+									world.setBlock(x-3+7*a,y+1,z-4+7*b,(a^b) == 0 ? BlockCustomSpawner.createSpawner(Type.SILVERFISH_RAVAGED) : Blocks.coal_block.getDefaultState());
+									world.setBlock(x-3+7*a,y+1,z-3+7*b,(a^b) == 1 ? BlockCustomSpawner.createSpawner(Type.SILVERFISH_RAVAGED) : Blocks.coal_block.getDefaultState());
+									world.setBlock(x-4+7*a,y+1,z-3+7*b,(a^b) == 0 ? BlockCustomSpawner.createSpawner(Type.SILVERFISH_RAVAGED) : Blocks.coal_block.getDefaultState());
 									break;
 							}
 						}
@@ -865,7 +879,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			for(int xx = minX-radRoom; xx <= maxX+radRoom; xx++){
 				for(int zz = minZ-radRoom; zz <= maxZ+radRoom; zz++){
 					if (yy == y || yy == y+hallHeight+1 || xx == minX-radRoom || xx == maxX+radRoom || zz == minZ-radRoom || zz == maxZ+radRoom){
-						world.setBlock(xx,yy,zz,BlockList.ravaged_brick,getBrickMeta(rand));
+						world.setBlock(xx,yy,zz,getBrick(rand));
 					}
 					else world.setBlock(xx,yy,zz,Blocks.air);
 				}
@@ -896,16 +910,16 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			for(int py = 0; py < 2; py++){
 				for(int px = 0; px < 4; px++){
 					world.setBlock(topLeftAirX+gooX[a]+px,y+2+py,topLeftAirZ+gooZ[a],Blocks.air);
-					world.setBlock(topLeftAirX+gooX[a]+px,y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a],BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a]+px,y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a],getBrick(rand));
 					world.setBlock(topLeftAirX+gooX[a]+px,y+2+py,topLeftAirZ+gooZ[a]+3,Blocks.air);
-					world.setBlock(topLeftAirX+gooX[a]+px,y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a]+3,BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a]+px,y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a]+3,getBrick(rand));
 				}
 				
 				for(int pz = 0; pz < 2; pz++){
 					world.setBlock(topLeftAirX+gooX[a],y+2+py,topLeftAirZ+gooZ[a]+1+pz,Blocks.air);
-					world.setBlock(topLeftAirX+gooX[a],y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a],y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,getBrick(rand));
 					world.setBlock(topLeftAirX+gooX[a]+3,y+2+py,topLeftAirZ+gooZ[a]+1+pz,Blocks.air);
-					world.setBlock(topLeftAirX+gooX[a]+3,y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,BlockList.ravaged_brick,getBrickMeta(rand));
+					world.setBlock(topLeftAirX+gooX[a]+3,y+1+py*(hallHeight-1),topLeftAirZ+gooZ[a]+1+pz,getBrick(rand));
 				}
 			}
 			
@@ -915,7 +929,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				yy = rand.nextBoolean() ? y+1 : y+hallHeight;
 				
 				if (world.getBlock(xx,yy,zz) == BlockList.ravaged_brick){
-					world.setBlock(xx,yy,zz,BlockList.custom_spawner,2);
+					world.setBlock(xx,yy,zz,BlockCustomSpawner.createSpawner(Type.LOUSE_RAVAGED));
 					world.setTileEntityGenerator(xx,yy,zz,"louseSpawner",this);
 				}
 			}
@@ -927,7 +941,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					world.setBlock(topLeftAirX+12+3*a,y+1+py,topLeftAirZ+12+3*b,py == 0 || py == 3 ? BlockList.ravaged_brick_glow : BlockList.ravaged_brick);
 					
 					if (py > 0){
-						world.setBlock(topLeftAirX+13+a,y+1+py,topLeftAirZ+13+b,BlockList.custom_spawner,2);
+						world.setBlock(topLeftAirX+13+a,y+1+py,topLeftAirZ+13+b,BlockCustomSpawner.createSpawner(Type.LOUSE_RAVAGED));
 						world.setTileEntityGenerator(topLeftAirX+13+a,y+1+py,topLeftAirZ+13+b,"louseSpawner",this);
 					}
 					else world.setBlock(topLeftAirX+13+a,y+1,topLeftAirZ+13+b,BlockList.ravaged_brick);
@@ -992,7 +1006,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			ItemStack is = RavagedDungeonLoot.flowerPotItems[rand.nextInt(RavagedDungeonLoot.flowerPotItems.length)].copy();
 			
 			if (is.getItem() == Item.getItemFromBlock(BlockList.death_flower)){
-				tile.getWorld().setBlock(tile.xCoord,tile.yCoord,tile.zCoord,BlockList.death_flower_pot,is.getItemDamage(),3);
+				tile.getWorld().setBlockState(tile.getPos(),BlockList.death_flower_pot.getDefaultState().withProperty(BlockDeathFlower.DECAY,is.getItemDamage()));
 			}
 			else{
 				TileEntityFlowerPot flowerPot = (TileEntityFlowerPot)tile;
@@ -1000,8 +1014,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				flowerPot.func_145964_a(is.getItem(),is.getItemDamage());
 				flowerPot.markDirty();
 	
-				if (!flowerPot.getWorld().setBlockMetadataWithNotify(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord,is.getItemDamage(),2)){
-					flowerPot.getWorld().markBlockForUpdate(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord);
+				if (!flowerPot.getWorld().setBlockMetadataWithNotify(flowerPot.getPos(),is.getItemDamage(),2)){
+					flowerPot.getWorld().markBlockForUpdate(flowerPot.getPos());
 				}
 			}
 		}
@@ -1015,8 +1029,10 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		return block == Blocks.end_stone || block == BlockList.end_terrain || block == Blocks.air || block == BlockList.crossed_decoration || block == BlockList.stardust_ore || block == BlockList.end_powder_ore;
 	}
 	
-	private static int getBrickMeta(Random rand){
-		return rand.nextInt(8) != 0 ? 0 : rand.nextInt(12) == 0 ? BlockRavagedBrick.metaCracked : BlockRavagedBrick.metaDamaged1+rand.nextInt(1+BlockRavagedBrick.metaDamaged4-BlockRavagedBrick.metaDamaged1);
+	private static IBlockState getBrick(Random rand){
+		if (rand.nextInt(8) != 0)return BlockList.ravaged_brick.getDefaultState();
+		else if (rand.nextInt(12) == 0)return BlockList.ravaged_brick.setProperty(BlockRavagedBrick.Variant.CRACKED);
+		else return BlockList.ravaged_brick.setProperty(BlockRavagedBrick.getRandomDamagedBrick(rand));
 	}
 	
 	private static int rotX(DungeonDir dir, int x, int z){

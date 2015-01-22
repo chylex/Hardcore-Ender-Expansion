@@ -2,7 +2,6 @@ package chylex.hee.block;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;

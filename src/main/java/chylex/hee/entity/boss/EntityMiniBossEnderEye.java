@@ -69,7 +69,10 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	}
 	
 	@Override
-	protected void updateEntityActionState(){
+	public void onLivingUpdate(){
+		super.onLivingUpdate();
+		if (worldObj.isRemote)return;
+		
 		if (isAsleep()){
 			if (++healTimer >= 7-worldObj.getDifficulty().getDifficultyId() && getHealth() < getMaxHealth()){
 				healTimer = 0;

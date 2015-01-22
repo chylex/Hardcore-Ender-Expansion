@@ -1,5 +1,6 @@
 package chylex.hee.block;
 import java.util.List;
+import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.item.ItemStack;
@@ -7,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import chylex.hee.block.state.BlockAbstractStateEnum;
 import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.system.util.MathUtil;
@@ -14,6 +16,15 @@ import chylex.hee.system.util.MathUtil;
 public class BlockRavagedBrick extends BlockAbstractStateEnum implements IBlockSubtypes{
 	public enum Variant{ NORMAL, CRACKED, DAMAGED_1, DAMAGED_2, DAMAGED_3, DAMAGED_4 }
 	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
+	
+	public static final Variant getRandomDamagedBrick(Random rand){
+		switch(rand.nextInt(4)){
+			case 0: return Variant.DAMAGED_1;
+			case 1: return Variant.DAMAGED_2;
+			case 2: return Variant.DAMAGED_3;
+			default: return Variant.DAMAGED_4;
+		}
+	}
 	
 	public BlockRavagedBrick(){
 		super(Material.rock);

@@ -64,9 +64,9 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 100D : 85D);
 	}
 	
-	@Override
-	protected void updateEntityActionState(){
-		if (!worldObj.isRemote && worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)setDead();
+	private void updateActionState(){
+		if (worldObj.isRemote)return;
+		if (worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)setDead();
 		
 		despawnEntity();
 		if (dead)return;
@@ -307,6 +307,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
+		updateActionState();
 		
 		if (worldObj.isRemote){
 			for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.2D,posY,posZ+(rand.nextDouble()-0.5D)*0.2D,0D,-0.05D,0D,8);

@@ -1,6 +1,5 @@
 package chylex.hee.block;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -117,20 +116,20 @@ public class BlockEnergyCluster extends BlockContainer{
 		
 		World world = tile.getWorld();
 		int x = tile.getPos().getX(), y = tile.getPos().getY(), z = tile.getPos().getZ();
-		int energyMeta = Math.min(15,3+(int)(tile.data.getEnergyLevel()*0.8F));
+		int energyLevel = Math.min(25,3+(int)(tile.data.getEnergyLevel()*0.8F));
 		BlockPosM pos = new BlockPosM();
 		
-		double dist = 4.4D+energyMeta*0.1D;
+		double dist = 4.4D+energyLevel*0.1D;
 		int idist = MathUtil.ceil(dist);
 		
-		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true);
+		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyLevel-3)*0.225F,true);
 		
 		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,x,z,true).addEnergy(tile.data.getEnergyLevel()*0.2F);
 		
 		for(int xx = x-idist; xx <= x+idist; xx++){
 			for(int zz = z-idist; zz <= z+idist; zz++){
 				for(int yy = y-idist; yy <= y+idist; yy++){
-					if (MathUtil.distance(xx-x,yy-y,zz-z) <= dist && pos.moveTo(xx,yy,zz).isAir(world))world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
+					if (MathUtil.distance(xx-x,yy-y,zz-z) <= dist && pos.moveTo(xx,yy,zz).isAir(world))pos.setBlock(world,BlockCorruptedEnergy.createState(energyLevel));
 				}
 			}
 		}

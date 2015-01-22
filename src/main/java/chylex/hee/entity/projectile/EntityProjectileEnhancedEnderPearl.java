@@ -51,7 +51,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 					if (o instanceof EntityProjectileEnhancedEnderPearl){
 						EntityProjectileEnhancedEnderPearl pearl = (EntityProjectileEnhancedEnderPearl)o;
 						
-						if (pearl.ride != null && pearl.ride.getCommandSenderName().equals(player.getCommandSenderName())){
+						if (pearl.ride != null && pearl.ride.getPersistentID().equals(player.getPersistentID())){
 							pearl.ride = null;
 							if (!pearl.pearlTypes.contains(EnderPearlEnhancements.NO_FALL_DAMAGE))player.attackEntityFrom(DamageSource.fall,5F);
 							pearl.setDead();
@@ -103,7 +103,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 
 	private void updateRidePosition(){
 		ride.lastTickPosX = ride.prevPosX = ride.posX = posX;
-		ride.lastTickPosY = ride.prevPosY = ride.posY = posY+ride.height+yOffset;
+		ride.lastTickPosY = ride.prevPosY = ride.posY = posY+ride.height;
 		ride.lastTickPosZ = ride.prevPosZ = ride.posZ = posZ;
 		NetHandlerPlayServer serverHandler = ((EntityPlayerMP)ride).playerNetServerHandler;
 		serverHandler.floatingTickCount = 0;

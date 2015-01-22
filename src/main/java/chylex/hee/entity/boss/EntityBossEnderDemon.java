@@ -13,6 +13,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
@@ -60,7 +61,10 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	}
 	
 	@Override
-	protected void updateEntityActionState(){
+	public void onLivingUpdate(){
+		super.onLivingUpdate();
+		
+		if (worldObj.isRemote)return;
 		if (lastAttacker != null && (lastAttacker.isDead || !lastAttacker.playerNetServerHandler.getNetworkManager().isChannelOpen()))lastAttacker = null;
 		
 		float health = getHealth();
@@ -222,10 +226,10 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	@Override public void addVelocity(double xVelocity, double yVelocity, double zVelocity){}
 	
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data){
+	public IEntityLivingData onSpawnFirstTime(DifficultyInstance difficulty, IEntityLivingData livingdata){
 		setDead();
 		motionY = 7D;
-		return super.onSpawnWithEgg(data);
+		return super.onSpawnFirstTime(difficulty,livingdata);
 	}
 
 	public boolean isDoingLightningAttack(){

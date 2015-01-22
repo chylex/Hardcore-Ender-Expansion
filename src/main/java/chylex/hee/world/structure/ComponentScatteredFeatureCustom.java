@@ -1,17 +1,17 @@
 package chylex.hee.world.structure;
 import java.util.Random;
-import chylex.hee.system.util.BlockPosM;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
+import chylex.hee.system.util.BlockPosM;
 
 public abstract class ComponentScatteredFeatureCustom extends StructureComponent{
+	private final BlockPosM pos = new BlockPosM();
 	protected int sizeX, sizeY, sizeZ;
-	private BlockPosM pos;
 	
 	public ComponentScatteredFeatureCustom(){}
 
@@ -51,18 +51,18 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 		sizeZ = nbt.getInteger("Depth");
 	}
 	
-	public final boolean placeBlockWithoutUpdate(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
+	public final boolean placeBlockWithoutUpdate(IBlockState state, int x, int y, int z, World world, StructureBoundingBox bb){
 		if (bb.isVecInside(updatePos(x,y,z))){
-			world.setBlock(xx,yy,zz,block,metadata,2);
+			pos.setBlock(world,state,2);
 			return true;
 		}
 		else return false;
 	}
 	
-	public final boolean placeBlockAndUpdate(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
+	public final boolean placeBlockAndUpdate(IBlockState state, int x, int y, int z, World world, StructureBoundingBox bb){
 		if (bb.isVecInside(updatePos(x,y,z))){
-			world.setBlock(xx,yy,zz,block,metadata,3);
-			world.markBlockForUpdate(xx,yy,zz);
+			pos.setBlock(world,state,3);
+			world.markBlockForUpdate(pos);
 			return true;
 		}
 		else return false;
@@ -76,11 +76,11 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 	 * Unsafe version of placeBlockWithoutUpdate that checks for existing chunks instead of provided bounding box.
 	 * It seems to provide better results in special cases without causing issues.
 	 */
-	public final boolean placeBlockUnsafe(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
-		if (placeBlockWithoutUpdate(block,metadata,x,y,z,world,bb))return true;
+	public final boolean placeBlockUnsafe(IBlockState state, int x, int y, int z, World world, StructureBoundingBox bb){
+		if (placeBlockWithoutUpdate(state,x,y,z,world,bb))return true;
 		
 		if (world.isBlockLoaded(updatePos(x,y,z))){
-			world.setBlock(xx,yy,zz,block,metadata,2);
+			pos.setBlock(world,state,2);
 			return true;
 		}
 		else return false;
@@ -90,11 +90,11 @@ public abstract class ComponentScatteredFeatureCustom extends StructureComponent
 	 * Unsafe version of placeBlockAndUpdate that checks for existing chunks instead of provided bounding box.
 	 * It seems to provide better results in special cases without causing issues.
 	 */
-	public final boolean placeBlockAndUpdateUnsafe(Block block, int metadata, int x, int y, int z, World world, StructureBoundingBox bb){
-		if (placeBlockAndUpdate(block,metadata,x,y,z,world,bb))return true;
+	public final boolean placeBlockAndUpdateUnsafe(IBlockState state, int x, int y, int z, World world, StructureBoundingBox bb){
+		if (placeBlockAndUpdate(state,x,y,z,world,bb))return true;
 		
 		if (world.isBlockLoaded(updatePos(x,y,z))){
-			world.setBlock(xx,yy,zz,block,metadata,3);
+			pos.setBlock(world,state);
 			world.markBlockForUpdate(pos);
 			return true;
 		}

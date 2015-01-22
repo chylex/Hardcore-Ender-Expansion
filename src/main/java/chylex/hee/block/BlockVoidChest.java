@@ -35,7 +35,7 @@ public class BlockVoidChest extends BlockContainer{
 	}
 	
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack is){
+	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack is){
 		byte meta = 0;
 		
 		switch(MathHelper.floor_double(entity.rotationYaw/90F+0.5D)&3){
@@ -50,8 +50,8 @@ public class BlockVoidChest extends BlockContainer{
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
-		if (!world.isRemote && !world.getBlock(x,y+1,z).isNormalCube() && world.getTileEntity(x,y,z) instanceof TileEntityVoidChest){
-			player.openGui(HardcoreEnderExpansion.instance,6,world,x,y,z);
+		if (!world.isRemote && !world.getBlockState(pos.up()).getBlock().isNormalCube() && world.getTileEntity(pos) instanceof TileEntityVoidChest){
+			player.openGui(HardcoreEnderExpansion.instance,6,world,pos.getX(),pos.getY(),pos.getZ());
 		}
 		
 		return true;
