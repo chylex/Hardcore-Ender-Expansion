@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,7 +22,7 @@ public class ItemEssence extends Item{
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(EssenceType essenceType:EssenceType.values()){
 			if (essenceType == EssenceType.INVALID)continue;
-			list.add(new ItemStack(item,1,essenceType.id-1));
+			list.add(new ItemStack(item,1,essenceType.getItemDamage()));
 		}
 	}
 	
@@ -33,13 +34,13 @@ public class ItemEssence extends Item{
 	}
 	
 	@Override
-	public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player){
+	public boolean doesSneakBypassUse(World world, BlockPos pos, EntityPlayer player){
 		return true;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public EnumRarity getRarity(ItemStack is){
-		return EnumRarity.uncommon;
+		return EnumRarity.UNCOMMON;
 	}
 }

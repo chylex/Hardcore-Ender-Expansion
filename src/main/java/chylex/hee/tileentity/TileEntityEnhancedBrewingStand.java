@@ -1,4 +1,7 @@
 package chylex.hee.tileentity;
+import scala.actors.threadpool.Arrays;
+import net.minecraft.block.BlockBrewingStand;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,8 +23,8 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 							   bottomSlots = new int[]{ 4 };
 	
 	private ItemStack[] slotItems = new ItemStack[5];
-	private byte filledSlotsCache;
-	private short startBrewTime,brewTime,requiredPowder;
+	private short startBrewTime, brewTime, requiredPowder;
+	private boolean[] cachedFilledSlots;
 	private Item ingredient;
 	
 	@Override
@@ -43,10 +46,16 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 			ingredient = slotItems[3].getItem();
 		}
 		
-		int filledSlots = getFilledSlots();
-		if (filledSlots != filledSlotsCache){
-			filledSlotsCache = (byte)filledSlots;
-			worldObj.setBlockMetadataWithNotify(xCoord,yCoord,zCoord,filledSlots,2);
+		if (!worldObj.isRemote){
+			boolean[] currentFilledSlots = new boolean[]{ slotItems[0] != null, slotItems[1] != null, slotItems[2] != null };
+			
+			if (!Arrays.equals(currentFilledSlots,cachedFilledSlots)){
+				cachedFilledSlots = currentFilledSlots;
+				
+				IBlockState state = worldObj.getBlockState(getPos());
+				for(int a = 0; a < BlockBrewingStand.HAS_BOTTLE.length; a++)state = state.withProperty(BlockBrewingStand.HAS_BOTTLE[a],Boolean.valueOf(currentFilledSlots[a]));
+                worldObj.setBlockState(getPos(),state,2);
+			}
 		}
 	}
 	
@@ -133,22 +142,12 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	}
 	
 	@Override
-	public int getFilledSlots(){
-		int i = 0;
-		for(int j = 0; j < 3; ++j){
-			if (slotItems[j] != null)i |= 1<<j;
-		}
-		return i;
-	}
-	
-	@Override
 	public int[] getSlotsForFace(EnumFacing side){
 		return side == EnumFacing.UP ? topSlots : side == EnumFacing.DOWN ? bottomSlots : sideSlots;
 	}
 	
-	@Override
 	@SideOnly(Side.CLIENT)
-	public void func_145938_d(int brewTime){ // OBFUSCATED set brew time
+	public void setBrewTime(int brewTime){
 		this.brewTime = (short)brewTime;
 	}
 	
@@ -162,7 +161,6 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		this.startBrewTime = (short)startBrewTime;
 	}
 	
-	@Override
 	public int getBrewTime(){
 		return brewTime;
 	}

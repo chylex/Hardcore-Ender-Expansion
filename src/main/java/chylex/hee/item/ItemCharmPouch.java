@@ -69,7 +69,7 @@ public class ItemCharmPouch extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is, int pass){
+	public boolean hasEffect(ItemStack is){
 		return ItemUtil.getNBT(is,false).getBoolean("isPouchActive");
 	}
 	

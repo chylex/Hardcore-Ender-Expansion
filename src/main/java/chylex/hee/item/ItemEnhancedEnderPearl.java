@@ -21,7 +21,7 @@ public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is, int pass){
+	public boolean hasEffect(ItemStack is){
 		return true;
 	}
 	

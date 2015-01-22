@@ -7,6 +7,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockDungeonPuzzle.Variant;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
@@ -41,23 +42,24 @@ public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 		if (worldObj.isRemote)return;
 		
 		if (ticksExisted == 1 && appearTimer == 0){
+			BlockPosM pos = new BlockPosM();
 			int yy = MathUtil.floor(posY);
 			
 			for(int xx = minX; xx <= maxX; xx++){
 				for(int zz = minZ; zz <= maxZ; zz++){
-					if (worldObj.getBlock(xx,yy,zz) == BlockList.dungeon_puzzle && worldObj.getBlockMetadata(xx,yy,zz) != BlockDungeonPuzzle.metaDisabled)locs.add(new BlockLocation(xx,yy,zz));
+					if (pos.moveTo(xx,yy,zz).getBlock(worldObj) == BlockList.dungeon_puzzle && pos.getBlockState(worldObj).getValue(BlockDungeonPuzzle.VARIANT) != Variant.DISABLED)locs.add(new BlockLocation(xx,yy,zz));
 				}
 			}
 		}
 		else if (!locs.isEmpty() && ticksExisted%4 == 0){
 			for(int a = 0; a < 1+rand.nextInt(3) && !locs.isEmpty(); a++){
 				BlockLocation loc = locs.remove(rand.nextInt(locs.size()));
-				worldObj.setBlockMetadataWithNotify(loc.x,loc.y,loc.z,BlockDungeonPuzzle.metaDisabled,3);
+				loc.toBlockPos().changeProperty(worldObj,BlockDungeonPuzzle.VARIANT,Variant.DISABLED);
 				worldObj.addBlockEvent(loc.toBlockPos(),BlockList.dungeon_puzzle,69,0);
 			}
 		}
 		else if (locs.isEmpty() && appearTimer < 12 && ++appearTimer == 12){
-			worldObj.setBlockMetadataWithNotify(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ),BlockDungeonPuzzle.metaPortal,3);
+			new BlockPosM(this).changeProperty(worldObj,BlockDungeonPuzzle.VARIANT,Variant.PORTAL);
 			worldObj.addBlockEvent(new BlockPosM(posX,posY,posZ),BlockList.dungeon_puzzle,69,1);
 			appearTimer = 69;
 		}
@@ -85,7 +87,7 @@ public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 				fiend.setLocationAndAngles(blockX+0.5D+(rand.nextDouble()-0.5D)*18D,worldObj.getTopSolidOrLiquidBlock(pos.moveTo(blockX,0,blockZ)).getY()+10,blockZ+0.5D+(rand.nextDouble()-0.5D)*18D,rand.nextFloat()*360F,0F);
 				worldObj.spawnEntityInWorld(fiend);
 				
-				worldObj.setBlockMetadataWithNotify(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ),BlockDungeonPuzzle.metaDisabled,3);
+				pos.moveTo(this).changeProperty(worldObj,BlockDungeonPuzzle.VARIANT,Variant.DISABLED);
 				setDead();
 			}
 		}

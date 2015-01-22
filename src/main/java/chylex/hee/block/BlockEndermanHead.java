@@ -35,9 +35,10 @@ public class BlockEndermanHead extends BlockContainer{
 	public boolean isFullCube(){
 		return false;
 	}
-
+	
 	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
+	public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos){
+		super.setBlockBoundsBasedOnState(world,pos);
 		switch(world.getBlockMetadata(x,y,z)&7){
 			default: case 1: setBlockBounds(0.25F,0.0F,0.25F,0.75F,0.5F,0.75F); break;
 			case 2: setBlockBounds(0.25F,0.25F,0.5F,0.75F,0.75F,1.0F); break;
@@ -48,7 +49,7 @@ public class BlockEndermanHead extends BlockContainer{
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
+	public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state){
 		setBlockBoundsBasedOnState(world,x,y,z);
 		return super.getCollisionBoundingBoxFromPool(world,x,y,z);
 	}

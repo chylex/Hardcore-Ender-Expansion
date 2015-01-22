@@ -20,7 +20,7 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
-		player.openGui(HardcoreEnderExpansion.instance,0,world,x,y,z);
+		player.openGui(HardcoreEnderExpansion.instance,0,world,pos.getX(),pos.getY(),pos.getZ());
 		return true;
 	}
 	

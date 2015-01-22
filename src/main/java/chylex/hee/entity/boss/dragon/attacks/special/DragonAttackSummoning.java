@@ -13,6 +13,7 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -51,15 +52,16 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 				EntityPlayer player = viablePlayers.remove(rand.nextInt(viablePlayers.size()));
 				
 				for(EntityMobAngryEnderman enderman:(List<EntityMobAngryEnderman>)dragon.worldObj.getEntitiesWithinAABB(EntityMobAngryEnderman.class,player.boundingBox.expand(14D,5D,14D))){
-					if (enderman.getEntityToAttack() == player)++aggro;
+					if (enderman.getAttackTarget() == player)++aggro;
 					++total;
 				}
 				
 				if (aggro < getDifficulty() && total < 6+getDifficulty()){
 					boolean flying = true;
+					BlockPosM testPos = new BlockPosM(player);
 					
-					for(int a = 0, xx = MathUtil.floor(player.posX), zz = MathUtil.floor(player.posZ), testY = MathUtil.floor(player.posY)-1; a < 5; a++){
-						if (!dragon.worldObj.isAirBlock(xx,testY-a,zz)){
+					for(int a = 0; a < 5; a++){
+						if (!testPos.moveDown().isAir(dragon.worldObj)){
 							flying = false;
 							break;
 						}

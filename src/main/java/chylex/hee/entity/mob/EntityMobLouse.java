@@ -59,11 +59,6 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		updateLouseData();
 	}
 	
-	@Override
-	protected boolean isAIEnabled(){
-		return false;
-	}
-	
 	private void updateLouseData(){
 		if (worldObj == null || worldObj.isRemote || louseData == null)return;
 		

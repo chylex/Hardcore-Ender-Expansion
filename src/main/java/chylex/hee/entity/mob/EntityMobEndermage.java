@@ -54,11 +54,6 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	}
 	
 	@Override
-	public boolean isAIEnabled(){
-		return true;
-	}
-	
-	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
 		if (lastAttacked > 0)--lastAttacked;
