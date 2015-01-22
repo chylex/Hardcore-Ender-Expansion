@@ -226,7 +226,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	@Override public void addVelocity(double xVelocity, double yVelocity, double zVelocity){}
 	
 	@Override
-	public IEntityLivingData onSpawnFirstTime(DifficultyInstance difficulty, IEntityLivingData livingdata){
+	public IEntityLivingData onSpawnFirstTime(DifficultyInstance difficulty, IEntityLivingData data){
 		setDead();
 		motionY = 7D;
 		return super.onSpawnFirstTime(difficulty,livingdata);

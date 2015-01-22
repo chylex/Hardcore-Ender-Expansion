@@ -1,16 +1,20 @@
 package chylex.hee.mechanics.compendium;
 import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockObsidianSpecial;
 import chylex.hee.block.BlockSpecialEffects;
+import chylex.hee.block.BlockSphalerite;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
@@ -60,7 +64,7 @@ public final class KnowledgeRegistrations{
 		MUSIC_DISKS = create(ItemList.music_disk),
 		END_PORTAL = create(Blocks.end_portal_frame,"ec.title.portal"),
 		ALTAR_NEXUS = create(ItemList.altar_nexus),
-		BASIC_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.INVALID.id),
+		BASIC_ESSENCE_ALTAR = create(BlockList.essence_altar.setProperty(EssenceType.INVALID)),
 		ENDERMAN = create(EntityMobEnderman.class),
 		SILVERFISH = create(EntitySilverfish.class),
 		
@@ -71,7 +75,7 @@ public final class KnowledgeRegistrations{
 		DRAGON_LAIR = dummy("DragonLair",new ItemStack(Blocks.dragon_egg),"ec.title.dragonLair"),
 		END_STONE = create(Blocks.end_stone),
 		FALLING_OBSIDIAN = create(BlockList.obsidian_falling),
-		DRAGON_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.DRAGON.id),
+		DRAGON_ESSENCE_ALTAR = create(BlockList.essence_altar.setProperty(EssenceType.DRAGON)),
 		END_POWDER_ORE = create(BlockList.end_powder_ore),
 		ENHANCED_BREWING_STAND = create(ItemList.enhanced_brewing_stand),
 		ENHANCED_TNT = create(BlockList.enhanced_tnt),
@@ -97,12 +101,12 @@ public final class KnowledgeRegistrations{
 		
 		DUNGEON_TOWER = dummy("DungeonTower",new ItemStack(BlockList.obsidian_special,1),"ec.title.dungeonTower"),
 		OBSIDIAN_STAIRS = create(BlockList.obsidian_stairs),
-		OBSIDIAN_SMOOTH = create(BlockList.obsidian_special,0),
-		OBSIDIAN_CHISELED = create(BlockList.obsidian_special,1),
-		OBSIDIAN_PILLAR = create(BlockList.obsidian_special,2),
-		OBSIDIAN_SMOOTH_GLOWING = create(BlockList.obsidian_special_glow,0),
-		OBSIDIAN_CHISELED_GLOWING = create(BlockList.obsidian_special_glow,1),
-		OBSIDIAN_PILLAR_GLOWING = create(BlockList.obsidian_special_glow,2),
+		OBSIDIAN_SMOOTH = create(BlockList.obsidian_special.setProperty(BlockObsidianSpecial.Variant.SMOOTH)),
+		OBSIDIAN_CHISELED = create(BlockList.obsidian_special.setProperty(BlockObsidianSpecial.Variant.CHISELED)),
+		OBSIDIAN_PILLAR = create(BlockList.obsidian_special.setProperty(BlockObsidianSpecial.Variant.PILLAR_VERTICAL)),
+		OBSIDIAN_SMOOTH_GLOWING = create(BlockList.obsidian_special_glow.setProperty(BlockObsidianSpecial.Variant.SMOOTH)),
+		OBSIDIAN_CHISELED_GLOWING = create(BlockList.obsidian_special_glow.setProperty(BlockObsidianSpecial.Variant.CHISELED)),
+		OBSIDIAN_PILLAR_GLOWING = create(BlockList.obsidian_special_glow.setProperty(BlockObsidianSpecial.Variant.PILLAR_VERTICAL)),
 		ENERGY = create(BlockList.energy_cluster,"Energy"),
 		ENDIUM_ORE = create(BlockList.endium_ore),
 		ENDIUM_BLOCK = create(BlockList.endium_block),
@@ -116,8 +120,8 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		METEOROID = dummy("Meteoroid",new ItemStack(BlockList.sphalerite),"ec.title.meteoroid"),
-		SPHALERITE = create(BlockList.sphalerite,0),
-		SPHALERITE_WITH_STARDUST = create(BlockList.sphalerite,1),
+		SPHALERITE = create(BlockList.sphalerite.setProperty(BlockSphalerite.Variant.NORMAL)),
+		SPHALERITE_WITH_STARDUST = create(BlockList.sphalerite.setProperty(BlockSphalerite.Variant.STARDUST)),
 		STARDUST = create(ItemList.stardust),
 		
 		// ===
@@ -135,16 +139,16 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		INFESTED_FOREST_BIOME = dummy("InfestedForest",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaInfested),"ec.title.biome.infestedForest"),
-		INFESTED_END_STONE = create(BlockList.end_terrain,0),
-		INFESTED_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass),
-		INFESTED_TALL_GRASS = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass),
-		INFESTED_FERN = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedFern),
+		INFESTED_FOREST_BIOME = dummy("InfestedForest",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.Variant.INFESTED.ordinal()),"ec.title.biome.infestedForest"),
+		INFESTED_END_STONE = create(BlockList.end_terrain.setProperty(BlockEndstoneTerrain.Variant.INFESTED)),
+		INFESTED_GRASS = create(BlockCrossedDecoration.createState(BlockCrossedDecoration.Variant.INFESTED_GRASS)),
+		INFESTED_TALL_GRASS = create(BlockCrossedDecoration.createState(BlockCrossedDecoration.Variant.INFESTED_TALL_GRASS)),
+		INFESTED_FERN = create(BlockCrossedDecoration.createState(BlockCrossedDecoration.Variant.INFESTED_FERN)),
 		INFESTATION_REMEDY = create(ItemList.infestation_remedy),
 		INFESTED_BAT = create(EntityMobInfestedBat.class),
 		SILVERFISH_LINKED = link(SILVERFISH),
 		
-		THORNY_BUSH = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataThornBush),
+		THORNY_BUSH = create(BlockCrossedDecoration.createState(BlockCrossedDecoration.Variant.THORN_BUSH)),
 		SPOOKY_LOG = create(BlockList.spooky_log),
 		SPOOKY_LEAVES = create(BlockList.spooky_leaves),
 		DRY_SPLINTER = create(ItemList.dry_splinter),
@@ -169,15 +173,15 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		BURNING_MOUNTAINS_BIOME = dummy("BurningMountains",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaBurned),"ec.title.biome.burningMountains"),
-		BURNED_END_STONE = create(BlockList.end_terrain,1),
-		LILYFIRE = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire),
+		BURNING_MOUNTAINS_BIOME = dummy("BurningMountains",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.Variant.BURNED.ordinal()),"ec.title.biome.burningMountains"),
+		BURNED_END_STONE = create(BlockList.end_terrain.setProperty(BlockEndstoneTerrain.Variant.BURNED)),
+		LILYFIRE = create(BlockCrossedDecoration.createState(BlockCrossedDecoration.Variant.LILYFIRE)),
 		IGNEOUS_ROCK_ORE_LINKED = link(IGNEOUS_ROCK_ORE),
 		IGNEOUS_ROCK_LINKED = link(IGNEOUS_ROCK),
 		
 		CINDER = create(BlockList.cinder),
 		DUNGEON_PUZZLE = create(BlockList.dungeon_puzzle,"ec.title.dungeonPuzzle"),
-		FIERY_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.FIERY.id),
+		FIERY_ESSENCE_ALTAR = create(BlockList.essence_altar.setProperty(EssenceType.FIERY)),
 		FIERY_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,1,EssenceType.FIERY.getItemDamage()),"ec.title.essence"),
 		FIRE_GOLEM = create(EntityMobFireGolem.class),
 		SCORCHING_LENS = create(EntityMobScorchingLens.class),
@@ -189,8 +193,8 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		ENCHANTED_ISLAND_BIOME = dummy("EnchantedIsland",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaEnchanted),"ec.title.biome.enchantedIsland"),
-		ENCHANTED_END_STONE = create(BlockList.end_terrain,2),
+		ENCHANTED_ISLAND_BIOME = dummy("EnchantedIsland",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.Variant.ENCHANTED.ordinal()),"ec.title.biome.enchantedIsland"),
+		ENCHANTED_END_STONE = create(BlockList.end_terrain.setProperty(BlockEndstoneTerrain.Variant.ENCHANTED)),
 		
 		FALLING_OBSIDIAN_LINKED = link(FALLING_OBSIDIAN),
 		PERSEGRIT = create(BlockList.persegrit),
@@ -921,7 +925,7 @@ public final class KnowledgeRegistrations{
 			
 			LILYFIRE.setPos(4,0).setUnlockPrice(4).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(580).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(581).setCustomRecipe(new ItemStack(Items.dye,2,14),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire) }).setPrice(4).setUnlockRequirements(580)
+				new KnowledgeFragmentCrafting(581).setCustomRecipe(new ItemStack(Items.dye,2,EnumDyeColor.ORANGE.getDyeDamage()),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.Variant.LILYFIRE.ordinal()) }).setPrice(4).setUnlockRequirements(580)
 			}),
 			
 			IGNEOUS_ROCK_ORE_LINKED.setPos(2,0),
@@ -1201,12 +1205,12 @@ public final class KnowledgeRegistrations{
 		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(block));
 	}
 	
-	public static KnowledgeObject<ObjectBlock> create(Block block, String tooltip){
-		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(block),tooltip);
+	public static KnowledgeObject<ObjectBlock> create(IBlockState state){
+		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(state));
 	}
 	
-	public static KnowledgeObject<ObjectBlock> create(Block block, int metadata){
-		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(block,metadata));
+	public static KnowledgeObject<ObjectBlock> create(Block block, String tooltip){
+		return new KnowledgeObject<ObjectBlock>(new ObjectBlock(block),tooltip);
 	}
 	
 	public static KnowledgeObject<ObjectItem> create(Item item){

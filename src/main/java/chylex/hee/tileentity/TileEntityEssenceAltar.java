@@ -18,6 +18,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
@@ -98,7 +99,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
 		nbt.setByte("stage",currentStage);
-		nbt.setByte("essenceTypeId",essenceType.id);
+		nbt.setByte("essenceTypeId",essenceType.getId());
 		nbt.setInteger("essence",essenceLevel);
 				
 		NBTTagList runeTag = new NBTTagList();
@@ -231,7 +232,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 				
 				PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.ESSENCE_ALTAR_SMOKE,this));
 			}
-			else if (currentStage == STAGE_WORKING && is.getItemDamage() == essenceType.id-1){
+			else if (currentStage == STAGE_WORKING && is.getItemDamage() == essenceType.getItemDamage()){
 				essenceLevel += giveAmount;
 			}
 			else return;
@@ -248,7 +249,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 					createActionHandler();
 					runeItemIndex = -1;
 					essenceLevel += 1;
-					worldObj.setBlockMetadataWithNotify(xCoord,yCoord,zCoord,blockMetadata = essenceType.id,3);
+					worldObj.setBlockState(getPos(),BlockList.essence_altar.setProperty(essenceType));
 					
 					if (essenceType == EssenceType.DRAGON)player.addStat(AchievementManager.LEARNING_THE_POWERS,1);
 				}

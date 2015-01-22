@@ -1,36 +1,40 @@
 package chylex.hee.block;
-import java.util.List;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.block.state.BlockAbstractContainerStateEnum;
+import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
-public class BlockEssenceAltar extends BlockContainer{
+public class BlockEssenceAltar extends BlockAbstractContainerStateEnum{
+	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",EssenceType.class);
+	
 	private static final float hitCenter1 = 0.09F, hitCenter2 = 0.9F, hitDist = 0.05F;
 	
 	public BlockEssenceAltar(){
 		super(Material.iron);
 		setBlockBounds(0.0F,0.0F,0.0F,1.0F,0.75F,1.0F);
+		createSimpleMeta(VARIANT,EssenceType.class);
+	}
+	
+	@Override
+	protected IProperty[] getPropertyArray(){
+		return new IProperty[]{ VARIANT };
 	}
 	
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
 		if (world.isRemote)return true;
 		
-		TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x,y,z);
+		TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(pos);
 		if (altar != null){
-			if (side == 1){
+			if (side == EnumFacing.UP){
 				if (hitX >= hitCenter1-hitDist && hitX <= hitCenter1+hitDist && hitZ >= hitCenter1-hitDist && hitZ <= hitCenter1+hitDist)altar.onSocketClick(player,3);
 				else if (hitX >= hitCenter1-hitDist && hitX <= hitCenter1+hitDist && hitZ >= hitCenter2-hitDist && hitZ <= hitCenter2+hitDist)altar.onSocketClick(player,2);
 				else if (hitX >= hitCenter2-hitDist && hitX <= hitCenter2+hitDist && hitZ >= hitCenter2-hitDist && hitZ <= hitCenter2+hitDist)altar.onSocketClick(player,1);
@@ -51,12 +55,6 @@ public class BlockEssenceAltar extends BlockContainer{
 		if (altar != null)altar.onBlockDestroy();
 		super.breakBlock(world,pos,state);
 	}
-	
-
-	@Override
-	public int damageDropped(int damage){
-		return damage;
-	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta){
@@ -71,13 +69,5 @@ public class BlockEssenceAltar extends BlockContainer{
 	@Override
 	public boolean isFullCube(){
 		return false;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(EssenceType essenceType:EssenceType.values()){
-			list.add(new ItemStack(item,1,essenceType.id));
-		}
 	}
 }

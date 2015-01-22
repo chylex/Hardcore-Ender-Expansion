@@ -10,7 +10,7 @@ import chylex.hee.entity.projectile.EntityProjectileExpBottleConsistent;
 public class ItemExpBottleConsistent extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is, int pass){
+	public boolean hasEffect(ItemStack is){
 		return true;
 	}
 

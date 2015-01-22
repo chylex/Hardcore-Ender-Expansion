@@ -1,5 +1,6 @@
 package chylex.hee.mechanics.compendium.objects;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
@@ -8,11 +9,11 @@ public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 	private final BlockMetaWrapper wrapper;
 	
 	public ObjectBlock(Block block){
-		this.wrapper = new BlockMetaWrapper(block,-1);
+		this.wrapper = new BlockMetaWrapper(block,OreDictionary.WILDCARD_VALUE);
 	}
 	
-	public ObjectBlock(Block block, int metadata){
-		this.wrapper = new BlockMetaWrapper(block,metadata);
+	public ObjectBlock(IBlockState state){
+		this.wrapper = new BlockMetaWrapper(state);
 	}
 
 	@Override
@@ -40,6 +41,11 @@ public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 		public BlockMetaWrapper(Block block, int metadata){
 			this.block = block;
 			this.metadata = (byte)metadata;
+		}
+		
+		public BlockMetaWrapper(IBlockState state){
+			this.block = state.getBlock();
+			this.metadata = (byte)block.getMetaFromState(state);
 		}
 		
 		@Override

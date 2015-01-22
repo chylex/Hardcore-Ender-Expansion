@@ -7,7 +7,9 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,12 +39,12 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (super.onItemUse(is,player,world,x,y,z,side,hitX,hitY,hitZ))return true;
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
+		if (super.onItemUse(is,player,world,pos,side,hitX,hitY,hitZ))return true;
 		
-		if (!world.isRemote && side == 1 && player.isSneaking()){
-			GemData.updateItemStack(is,player.dimension,x,y,z);
-			PacketPipeline.sendToAllAround(player.dimension,x,y,z,64D,new C20Effect(FXType.Basic.GEM_LINK,x,y,z));
+		if (!world.isRemote && side == EnumFacing.UP && player.isSneaking()){
+			GemData.updateItemStack(is,player.dimension,pos.getX(),pos.getY(),pos.getZ());
+			PacketPipeline.sendToAllAround(player.dimension,pos,64D,new C20Effect(FXType.Basic.GEM_LINK,pos.getX(),pos.getY(),pos.getZ()));
 			return true;
 		}
 		
@@ -108,7 +110,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack is){
-		return EnumRarity.uncommon;
+		return EnumRarity.UNCOMMON;
 	}
 	
 	private static int getIcon(ItemStack is){

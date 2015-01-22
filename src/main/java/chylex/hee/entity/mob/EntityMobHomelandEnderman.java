@@ -27,6 +27,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -778,14 +779,14 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	@Override
-	public void setAttackTarget(Entity target){
+	public void setAttackTarget(EntityLivingBase target){
 		if (worldObj.getDifficulty() == EnumDifficulty.PEACEFUL && target instanceof EntityPlayer)return;
 		
 		super.setAttackTarget(target);
 		
-		if (entityToAttack != null){
+		if (getAttackTarget() != null){
 			resetTask();
-			setPathToEntity(worldObj.getPathEntityToEntity(this,entityToAttack,16F,true,false,false,true));
+			setPathToEntity(worldObj.getPathEntityToEntity(this,getAttackTarget(),16F,true,false,false,true));
 		}
 	}
 	
@@ -796,7 +797,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	@Override
-	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data){
+	public IEntityLivingData onSpawnFirstTime(DifficultyInstance difficulty, IEntityLivingData data){
 		setHomelandRole(HomelandRole.getRandomRole(rand));
 		refreshRoles();
 		return data;

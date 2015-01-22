@@ -15,6 +15,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
@@ -27,16 +35,7 @@ import chylex.hee.mechanics.misc.PlayerDataHandler.IExtendedPropertyInitializer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 public final class CompendiumEvents implements IExtendedPropertyInitializer<PlayerCompendiumData>{
 	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~Compendium";
@@ -73,7 +72,7 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 		Vec3 lookVec = player.getLookVec();
 		
 		MovingObjectPosition mopBlock = player.worldObj.rayTraceBlocks(posVec.addVector(0D,0D,0D),posVec.addVector(lookVec.xCoord*10D,lookVec.yCoord*10D,lookVec.zCoord*10D),true);
-		BlockPos mopBlockPos = mopBlock.getBlockPos();
+		BlockPos mopBlockPos = mopBlock != null ? mopBlock.getBlockPos() : null;
 		double distBlock = mopBlock != null && mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlockPos.getX()+0.5D-posVec.xCoord,mopBlockPos.getY()+0.5D-posVec.yCoord,mopBlockPos.getZ()+0.5D-posVec.zCoord) : Double.MAX_VALUE;
 		
 		double bbX = posVec.xCoord+lookVec.xCoord*5D, bbY = posVec.yCoord+lookVec.yCoord*5D, bbZ = posVec.zCoord+lookVec.zCoord*5D;
@@ -95,7 +94,7 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 		}
 		
 		if (distBlock < distEntity && mopBlock != null){
-			BlockMetaWrapper wrapper = new BlockMetaWrapper(player.worldObj.getBlock(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ),player.worldObj.getBlockMetadata(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ));
+			BlockMetaWrapper wrapper = new BlockMetaWrapper(player.worldObj.getBlockState(mopBlockPos));
 			observationReuse.setBlock(KnowledgeObject.<ObjectBlock>getObject(wrapper));
 		}
 		else if (tracedEntity != null){

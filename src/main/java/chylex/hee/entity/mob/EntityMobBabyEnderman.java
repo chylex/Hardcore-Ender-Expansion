@@ -93,8 +93,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		
 		isJumping = false;
 
-		if (entityToAttack != null){
-			faceEntity(entityToAttack,100F,100F);
+		if (getAttackTarget() != null){
+			faceEntity(getAttackTarget(),100F,100F);
 		}
 		
 		boolean hasIS = isCarrying();
@@ -430,7 +430,7 @@ enum ItemPriorityLevel{
 			if (!(item instanceof ItemBlock))return false;
 			
 			Block block = Block.getBlockFromItem(item);
-			return block == BlockList.death_flower || (block == BlockList.crossed_decoration && is.getItemDamage() == BlockCrossedDecoration.dataLilyFire);
+			return block == BlockList.death_flower || (block == BlockList.crossed_decoration && is.getItemDamage() == BlockCrossedDecoration.Variant.LILYFIRE.ordinal());
 		}
 	}),
 	

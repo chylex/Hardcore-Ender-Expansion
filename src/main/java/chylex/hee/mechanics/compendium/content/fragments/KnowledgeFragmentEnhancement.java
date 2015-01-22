@@ -69,7 +69,7 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 		
 		ItemStack is = isUnlocked ? enhancement.getItemSelector().getRepresentativeItem() : KnowledgeFragmentCrafting.lockedItem;
 		
-		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,x+1,y+1);
+		gui.mc.getRenderItem().renderItemAndEffectIntoGUI(is,x+1,y+1);
 		
 		RenderHelper.disableStandardItemLighting();
 		KnowledgeFragmentText.renderString(name,x+22,y+5,130<<16|255,130<<16|255,gui);

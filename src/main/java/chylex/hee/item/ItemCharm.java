@@ -35,15 +35,4 @@ public class ItemCharm extends Item{
 			for(CharmRecipe charmRecipe:charmType.recipes)list.add(new ItemStack(item,1,charmRecipe.id));
 		}
 	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean requiresMultipleRenderPasses(){
-		return true;
-	}
-	
-	@Override
-	public int getRenderPasses(int metadata){
-		return 2;
-	}
 }

@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import chylex.hee.block.BlockCrossedDecoration;
+import chylex.hee.block.BlockCrossedDecoration.Variant;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
@@ -75,7 +76,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 								for(int zz = oz-radius; zz <= oz+radius; ++zz){
 									for(int yy = world.getHighestY(xx,zz)+1; yy < oy+height && yy < 128; ++yy){
 										if (MathUtil.square(xx-ox)+MathUtil.square(zz-oz) <= radius*radius+0.5D+rand.nextGaussian()*0.7D){
-											world.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,true);
+											world.setBlock(xx,yy,zz,BlockList.obsidian_falling,true);
 										}
 									}
 								}
@@ -195,7 +196,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 						
 						for(yAttempt = 0; yAttempt < 5; yAttempt++){
 							if (world.getBlock(px,py-1,pz) == BlockList.end_terrain && world.isAir(px,py,pz)){
-								world.setBlock(px,py,pz,BlockList.crossed_decoration,rand.nextInt(4) == 0 ? BlockCrossedDecoration.dataVioletMossTall : rand.nextInt(3) == 0 ? BlockCrossedDecoration.dataVioletMossModerate : BlockCrossedDecoration.dataVioletMossShort);
+								world.setBlock(px,py,pz,BlockCrossedDecoration.createState(rand.nextInt(4) == 0 ? Variant.VIOLET_MOSS_TALL : rand.nextInt(3) == 0 ? Variant.VIOLET_MOSS_MODERATE : Variant.VIOLET_MOSS_SHORT));
 								++placed;
 								break;
 							}

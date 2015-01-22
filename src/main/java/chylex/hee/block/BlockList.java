@@ -58,9 +58,9 @@ public final class BlockList{
 	
 	public static Block obsidian_falling;
 	public static Block obsidian_stairs;
-	public static Block obsidian_special;
-	public static Block obsidian_special_glow;
-	public static Block end_terrain;
+	public static BlockAbstractState obsidian_special;
+	public static BlockAbstractState obsidian_special_glow;
+	public static BlockAbstractState end_terrain;
 	public static BlockAbstractState ravaged_brick;
 	public static Block ravaged_brick_smooth;
 	public static Block ravaged_brick_glow;
@@ -85,7 +85,7 @@ public final class BlockList{
 	
 	// FUNCTIONAL BLOCKS
 	
-	public static Block essence_altar;
+	public static BlockAbstractState essence_altar;
 	public static Block enhanced_brewing_stand;
 	public static Block enhanced_tnt;
 	public static Block void_chest;
@@ -129,9 +129,9 @@ public final class BlockList{
 		
 		register("obsidian_end", obsidian_falling = new BlockObsidianEnd().setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone).setUnlocalizedName("obsidianEnd"));
 		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian.getDefaultState()).setHardness(25F).setResistance(1000F).setUnlocalizedName("obsidianStairs"));
-		register("obsidian_special", obsidian_special = new BlockObsidianSpecial(false).setHardness(28F).setResistance(2000F).setStepSound(Block.soundTypeStone).setUnlocalizedName("obsidianSpecial"));
-		register("obsidian_special_glow", obsidian_special_glow = new BlockObsidianSpecial(true).setHardness(28F).setResistance(2000F).setLightLevel(1F).setStepSound(Block.soundTypeStone).setUnlocalizedName("obsidianSpecial"));
-		register("end_stone_terrain", end_terrain = new BlockEndstoneTerrain().setHardness(2.5F).setResistance(15F).setStepSound(Block.soundTypeStone).setUnlocalizedName("endStoneTerrain"));
+		register("obsidian_special", obsidian_special = (BlockAbstractState)new BlockObsidianSpecial(false).setHardness(28F).setResistance(2000F).setStepSound(Block.soundTypeStone).setUnlocalizedName("obsidianSpecial"));
+		register("obsidian_special_glow", obsidian_special_glow = (BlockAbstractState)new BlockObsidianSpecial(true).setHardness(28F).setResistance(2000F).setLightLevel(1F).setStepSound(Block.soundTypeStone).setUnlocalizedName("obsidianSpecial"));
+		register("end_stone_terrain", end_terrain = (BlockAbstractState)new BlockEndstoneTerrain().setHardness(2.5F).setResistance(15F).setStepSound(Block.soundTypeStone).setUnlocalizedName("endStoneTerrain"));
 		register("ravaged_brick", ravaged_brick = (BlockAbstractState)new BlockRavagedBrick().setHardness(3.5F).setResistance(28F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrick"));
 		register("ravaged_brick_smooth", ravaged_brick_smooth = new BlockBasic(Material.rock).setHardness(1F).setResistance(6F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickSmooth"));
 		register("ravaged_brick_glow", ravaged_brick_glow = new BlockBasic(Material.rock).setHardness(1F).setResistance(6F).setLightLevel(1F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickGlow"));
@@ -152,7 +152,7 @@ public final class BlockList{
 		register("instability_orb_ore", instability_orb_ore = new BlockInstabilityOrbOre().setHardness(5.5F).setResistance(3F).setStepSound(Block.soundTypeStone).setUnlocalizedName("instabilityOrbOre"));
 		register("sphalerite", sphalerite = (BlockAbstractState)new BlockSphalerite().setHardness(1.8F).setResistance(40F).setUnlocalizedName("sphalerite"));
 		
-		register("essence_altar", essence_altar = new BlockEssenceAltar().setHardness(8F).setResistance(20F).setLightOpacity(0).setLightLevel(0.4F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("essenceAltar"));
+		register("essence_altar", essence_altar = (BlockAbstractState)new BlockEssenceAltar().setHardness(8F).setResistance(20F).setLightOpacity(0).setLightLevel(0.4F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("essenceAltar"));
 		register("enhanced_brewing_stand_block", enhanced_brewing_stand = new BlockEnhancedBrewingStand().setHardness(0.65F).setLightLevel(0.125F).setUnlocalizedName("brewingStand"));
 		register("enhanced_tnt", enhanced_tnt = new BlockEnhancedTNT().setHardness(0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("tnt"));
 		register("void_chest", void_chest = new BlockVoidChest().setHardness(5F).setResistance(140F).setStepSound(Block.soundTypePiston).setUnlocalizedName("voidChest"));

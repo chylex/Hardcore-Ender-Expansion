@@ -64,7 +64,7 @@ public class GuiItemViewer extends GuiScreen{
 		
 		for(int a = yStart, xx = 0, yy = 0; a < toRender.size(); a++){
 			drawRect(2+xx*17,2+yy*17,1+(xx+1)*17,1+(yy+1)*17,(255<<24)|(180<<16)|(180<<8)|180);
-			// TODO fix GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(),toRender.get(a),2+xx*17,2+yy*17);
+			Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(toRender.get(a),2+xx*17,2+yy*17);
 			
 			if (++xx == 12){
 				++yy;

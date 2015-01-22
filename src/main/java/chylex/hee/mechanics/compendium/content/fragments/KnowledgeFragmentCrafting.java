@@ -1,5 +1,6 @@
 package chylex.hee.mechanics.compendium.content.fragments;
 import java.util.List;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
@@ -102,7 +103,7 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 			ItemStack is = isUnlocked ? items[a] : lockedItem;
 			
 			if (is != null){
-				GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
+				gui.mc.getRenderItem().renderItemAndEffectIntoGUI(is,xx+2,yy+2);
 				
 				if (isUnlocked && mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
 					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(is,gui.mc.thePlayer)));

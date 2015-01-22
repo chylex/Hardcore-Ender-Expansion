@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.decorator;
 import static chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest.MORE_THORNY_BUSHES;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockCrossedDecoration.Variant;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.feature.forest.StructureBush;
 import chylex.hee.world.structure.island.biome.feature.forest.StructureRavagedDungeon;
@@ -44,7 +44,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 					int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = world.getHighestY(xx,zz);
 					
 					if (world.getBlock(xx,yy,zz) == topBlock && world.isAir(xx,yy+1,zz)){
-						world.setBlock(xx,yy,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataThornBush);
+						world.setBlock(xx,yy,zz,BlockCrossedDecoration.createState(Variant.THORN_BUSH));
 						if (!data.hasDeviation(MORE_THORNY_BUSHES) && rand.nextInt(5) <= 1)break;
 					}
 				}
@@ -54,7 +54,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			for(int attempt = 0; attempt < 100; attempt++){
 				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 70 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
 				if (world.getBlock(xx,yy,zz) == topBlock && world.isAir(xx,yy+1,zz)){
-					world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass);
+					world.setBlock(xx,yy+1,zz,BlockCrossedDecoration.createState(Variant.INFESTED_GRASS));
 				}
 			}
 			
@@ -62,7 +62,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			for(int attempt = 0; attempt < 85; attempt++){
 				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 60 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
 				if (world.getBlock(xx,yy,zz) == topBlock && world.isAir(xx,yy+1,zz)){
-					world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedFern);
+					world.setBlock(xx,yy+1,zz,BlockCrossedDecoration.createState(Variant.INFESTED_FERN));
 				}
 			}
 			
@@ -70,7 +70,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			for(int attempt = 0; attempt < 80; attempt++){
 				int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = attempt > 50 ? 10+rand.nextInt(50) : world.getHighestY(xx,zz);
 				if (world.getBlock(xx,yy,zz) == topBlock && world.isAir(xx,yy+1,zz)){
-					world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass);
+					world.setBlock(xx,yy+1,zz,BlockCrossedDecoration.createState(Variant.INFESTED_TALL_GRASS));
 				}
 			}
 		}
@@ -105,20 +105,22 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 				if (world.getBlock(xx,yy++,zz) == topBlock || yy >= 60)break;
 			}
 			
-			for(int attempt = 0, attemptAmount = 70+rand.nextInt(80), px, py, pz, meta; attempt < attemptAmount; attempt++){
+			Variant variant;
+			
+			for(int attempt = 0, attemptAmount = 70+rand.nextInt(80), px, py, pz; attempt < attemptAmount; attempt++){
 				px = xx+rand.nextInt(4+(attempt>>2))-rand.nextInt(4+(attempt>>2));
 				py = yy+rand.nextInt(4+(attempt>>5))-rand.nextInt(4+(attempt>>5));
 				pz = zz+rand.nextInt(4+(attempt>>2))-rand.nextInt(4+(attempt>>2));
 				
 				if (world.getBlock(px,py,pz) == topBlock && world.isAir(px,py+1,pz)){
-					meta = (type == 0 ? BlockCrossedDecoration.dataInfestedTallgrass : type == 1 ? BlockCrossedDecoration.dataInfestedGrass : BlockCrossedDecoration.dataInfestedFern);
+					variant = (type == 0 ? Variant.INFESTED_TALL_GRASS : type == 1 ? Variant.INFESTED_GRASS : Variant.INFESTED_FERN);
 					
 					if (rand.nextInt(8) == 0){
 						int newType = rand.nextInt(3);
-						meta = (newType == 0 ? BlockCrossedDecoration.dataInfestedTallgrass : newType == 1 ? BlockCrossedDecoration.dataInfestedGrass : BlockCrossedDecoration.dataInfestedFern);
+						variant = (newType == 0 ? Variant.INFESTED_TALL_GRASS : newType == 1 ? Variant.INFESTED_GRASS : Variant.INFESTED_FERN);
 					}
 					
-					world.setBlock(px,py+1,pz,BlockList.crossed_decoration,meta);
+					world.setBlock(px,py+1,pz,BlockCrossedDecoration.createState(variant));
 				}
 			}
 		}
@@ -131,7 +133,7 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 					
 					if (world.getBlock(xx,yy-1,zz) == topBlock){
 						type = rand.nextInt(3);
-						world.setBlock(xx,yy,zz,BlockList.crossed_decoration,type == 0 ? BlockCrossedDecoration.dataInfestedTallgrass : type == 1 ? BlockCrossedDecoration.dataInfestedGrass : BlockCrossedDecoration.dataInfestedFern);
+						world.setBlock(xx,yy,zz,BlockCrossedDecoration.createState(type == 0 ? Variant.INFESTED_TALL_GRASS : type == 1 ? Variant.INFESTED_GRASS : Variant.INFESTED_FERN));
 					}
 				}
 			}

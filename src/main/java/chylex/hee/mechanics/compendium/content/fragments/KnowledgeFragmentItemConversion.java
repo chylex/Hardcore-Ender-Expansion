@@ -57,8 +57,8 @@ public class KnowledgeFragmentItemConversion extends KnowledgeFragment{
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
 		gui.drawTexturedModalRect(x+20,y,0,59,22,20);
 		
-		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),isUnlocked ? itemFrom : KnowledgeFragmentCrafting.lockedItem,x+1,y+1);
-		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),isUnlocked ? itemTo : KnowledgeFragmentCrafting.lockedItem,x+45,y+1);
+		gui.mc.getRenderItem().renderItemAndEffectIntoGUI(isUnlocked ? itemFrom : KnowledgeFragmentCrafting.lockedItem,x+1,y+1);
+		gui.mc.getRenderItem().renderItemAndEffectIntoGUI(isUnlocked ? itemTo : KnowledgeFragmentCrafting.lockedItem,x+45,y+1);
 		
 		RenderHelper.disableStandardItemLighting();
 		

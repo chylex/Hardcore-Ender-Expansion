@@ -27,7 +27,7 @@ public class C11ParticleAltarOrb extends AbstractClientPacket{
 		this.targetX = targetX;
 		this.targetY = targetY;
 		this.targetZ = targetZ;
-		this.essenceId = altar.getEssenceType().id;
+		this.essenceId = altar.getEssenceType().getId();
 		this.amount = amount;
 	}
 	

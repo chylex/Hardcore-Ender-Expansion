@@ -32,7 +32,7 @@ public class BlockDeathFlowerPot extends BlockFlowerPot{
 	
 	@Override
 	public int getMetaFromState(IBlockState state){
-		return (int)state.getValue(BlockDeathFlower.DECAY);
+		return ((Integer)state.getValue(BlockDeathFlower.DECAY)).intValue();
 	}
 	
 	@Override

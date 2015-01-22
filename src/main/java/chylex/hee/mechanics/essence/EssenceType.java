@@ -10,9 +10,9 @@ import chylex.hee.mechanics.essence.handler.FieryEssenceHandler;
 import chylex.hee.system.util.IItemSelector;
 
 public enum EssenceType{
-	INVALID(0, "Basic", AltarActionHandler.class, new RuneItem[]{}, new float[]{ 1F, 1F, 1F }),
+	INVALID("Basic", AltarActionHandler.class, new RuneItem[]{}, new float[]{ 1F, 1F, 1F }),
 	
-	DRAGON(1, "Dragon", DragonEssenceHandler.class, new RuneItem[]{
+	DRAGON("Dragon", DragonEssenceHandler.class, new RuneItem[]{
 		new RuneItem(Items.ender_pearl, "random.glass"),
 		new RuneItem(Items.ender_eye, "random.glass"),
 		new RuneItem(ItemList.enderman_head, "dig.stone").setShowcaseItem(new ItemStack(BlockList.enderman_head)),
@@ -29,7 +29,7 @@ public enum EssenceType{
 		new RuneItem(Blocks.stonebrick, "dig.stone")
 	}, new float[]{ 0.4648F,0.1914F,0.5195F }),
 
-	FIERY(2, "Fiery", FieryEssenceHandler.class, new RuneItem[]{
+	FIERY("Fiery", FieryEssenceHandler.class, new RuneItem[]{
 		new RuneItem(ItemList.igneous_rock, "mob.ghast.fireball"),
 		new RuneItem(Blocks.furnace, "dig.stone"),
 		new RuneItem(Items.blaze_powder, "mob.blaze.hit"),
@@ -42,7 +42,7 @@ public enum EssenceType{
 		new RuneItem(Blocks.coal_block, "dig.stone")
 	}, new float[]{ 0.5898F,0.4023F,0.125F }),
 	
-	SPECTRAL(3, "Spectral", AltarActionHandler.class, new RuneItem[]{
+	SPECTRAL("Spectral", AltarActionHandler.class, new RuneItem[]{
 		new RuneItem(Items.fish, "random.burp"),
 		new RuneItem(Items.chicken, "random.burp"),
 		new RuneItem(Blocks.red_flower, "dig.dirt"),
@@ -53,15 +53,13 @@ public enum EssenceType{
 		new RuneItem(Items.egg, "mob.chicken.plop")
 	}, new float[]{ 0.1875F,0.1641F,0.5273F });
 	
-	public final byte id;
 	public final String essenceName;
 	public final String essenceNameLowercase;
 	public final Class<? extends AltarActionHandler> actionHandlerClass;
 	public final RuneItem[] itemsNeeded;
 	public final float[] glyphColors;
 	
-	private EssenceType(int id, String essenceName, Class<? extends AltarActionHandler> actionHandlerClass, RuneItem[] itemsNeeded, float[] glyphColors){
-		this.id = (byte)id;
+	private EssenceType(String essenceName, Class<? extends AltarActionHandler> actionHandlerClass, RuneItem[] itemsNeeded, float[] glyphColors){
 		this.essenceName = essenceName;
 		this.essenceNameLowercase = essenceName.toLowerCase();
 		this.actionHandlerClass = actionHandlerClass;
@@ -71,13 +69,17 @@ public enum EssenceType{
 		for(byte a = 0; a < itemsNeeded.length; a++)itemsNeeded[a].indexInArray = a;
 	}
 	
+	public byte getId(){
+		return (byte)ordinal();
+	}
+	
 	public byte getItemDamage(){
-		return (byte)(id-1);
+		return (byte)(ordinal()-1);
 	}
 	
 	public static EssenceType getById(int id){
 		for(EssenceType type:values()){
-			if (type.id == id)return type;
+			if (type.ordinal() == id)return type;
 		}
 		return INVALID;
 	}

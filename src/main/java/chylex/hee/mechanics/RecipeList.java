@@ -242,7 +242,7 @@ public final class RecipeList{
 		
 		GameRegistry.addShapelessRecipe(
 			new ItemStack(Items.dye,2,14),
-			new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire)
+			new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.Variant.LILYFIRE.ordinal())
 		);
 		
 		GameRegistry.addShapelessRecipe(

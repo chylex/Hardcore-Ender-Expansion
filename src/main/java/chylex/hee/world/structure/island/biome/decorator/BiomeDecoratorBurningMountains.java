@@ -2,6 +2,7 @@ package chylex.hee.world.structure.island.biome.decorator;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockCrossedDecoration.Variant;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureCinderPatch;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureDungeonPuzzle;
@@ -42,7 +43,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 			int xx = getRandomXZ(rand,32), zz = getRandomXZ(rand,32), yy = 10+rand.nextInt(65);
 			
 			if (world.getBlock(xx,yy,zz) == Blocks.end_stone && (world.isAir(xx+1,yy,zz) || world.isAir(xx-1,yy,zz) || world.isAir(xx,yy,zz+1) || world.isAir(xx,yy,zz-1))){
-				world.setBlock(xx,yy,zz,Blocks.flowing_lava,0,true);
+				world.setBlock(xx,yy,zz,Blocks.flowing_lava,true);
 			}
 		}
 		
@@ -59,7 +60,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 						int xx = cx*16+rand.nextInt(16), zz = cz*16+rand.nextInt(16), yy = world.getHighestY(xx,zz);
 						
 						if (world.getBlock(xx,yy,zz) == BlockList.end_terrain){
-							world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire);
+							world.setBlock(xx,yy+1,zz,BlockCrossedDecoration.createState(Variant.LILYFIRE));
 						}
 					}
 				}

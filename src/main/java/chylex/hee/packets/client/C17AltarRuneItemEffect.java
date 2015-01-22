@@ -21,7 +21,7 @@ public class C17AltarRuneItemEffect extends AbstractClientPacket{
 	
 	public C17AltarRuneItemEffect(TileEntityEssenceAltar altar, byte runeArrayIndex){
 		this.pos = altar.getPos();
-		this.essenceId = altar.getEssenceType().id;
+		this.essenceId = altar.getEssenceType().getId();
 		this.runeArrayIndex = runeArrayIndex;
 	}
 	
