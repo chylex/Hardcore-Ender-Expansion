@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -201,7 +200,7 @@ public abstract class IslandBiomeBase{
 			if (isPlayerMoving(player)){
 				IBlockState state = tmpPos.moveTo(player).moveDown().getBlockState(world);
 				
-				if (state.getBlock() == getTopBlock() && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant()){
+				if (state.getBlock() == BlockList.end_terrain && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant()){
 					player.addStat(AchievementManager.WHOLE_NEW_CULTURES,1);
 				}
 			}
@@ -243,8 +242,4 @@ public abstract class IslandBiomeBase{
 	protected abstract IslandBiomeDecorator getDecorator();
 	
 	public abstract BlockEndstoneTerrain.Variant getTopBlockVariant();
-	
-	public static final Block getTopBlock(){
-		return BlockList.end_terrain;
-	}
 }

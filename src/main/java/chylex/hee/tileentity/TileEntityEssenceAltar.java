@@ -51,8 +51,8 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	 * GETTERS, LOADING & SAVING
 	 */
 	
-	public void loadFromDamage(int damage){
-		if ((essenceType = EssenceType.getById(damage)) != EssenceType.INVALID){
+	public void loadFromType(EssenceType type){
+		if ((essenceType = type) != EssenceType.INVALID){
 			currentStage = STAGE_WORKING;
 			createActionHandler();
 			runeItemIndex = -1;

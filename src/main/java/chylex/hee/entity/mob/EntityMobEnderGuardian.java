@@ -2,6 +2,7 @@ package chylex.hee.entity.mob;
 import java.util.UUID;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityMob;
@@ -59,10 +60,14 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 				if (--dashCooldown == 70)getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(dashModifier);
 				else if (dashCooldown > 1 && dashCooldown < 70 && ((ModCommonProxy.opMobs && rand.nextInt(3) == 0) || rand.nextInt(5) == 0))--dashCooldown;
 			}
-			else if (dashCooldown == 0 && entityToAttack != null && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) < 4D && Math.abs(posY-entityToAttack.posY) <= 3){
-				dashCooldown = 80;
-				getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(dashModifier);
-				PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_GUARDIAN_DASH,this));
+			else if (dashCooldown == 0){
+				EntityLivingBase entityToAttack = getAttackTarget();
+				
+				if (entityToAttack != null && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) < 4D && Math.abs(posY-entityToAttack.posY) <= 3){
+					dashCooldown = 80;
+					getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(dashModifier);
+					PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_GUARDIAN_DASH,this));
+				}
 			}
 		}
 	}

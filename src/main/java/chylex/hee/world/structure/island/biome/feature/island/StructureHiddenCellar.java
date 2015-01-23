@@ -3,12 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.Direction;
+import net.minecraft.util.EnumFacing;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockPersegrit;
 import chylex.hee.item.ItemKnowledgeNote;
@@ -338,9 +340,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 							else if (block == Blocks.trapped_chest)++trapped;
 						}
 						
-						if (normal == 0 && trapped == 0)world.setBlock(xx,yy,zz,rand.nextBoolean() ? Blocks.chest : Blocks.trapped_chest,rand.nextInt(4));
-						else if (normal == 1 && trapped == 0)world.setBlock(xx,yy,zz,Blocks.trapped_chest,rand.nextInt(4));
-						else if (normal == 0 && trapped == 1)world.setBlock(xx,yy,zz,Blocks.chest,rand.nextInt(4));
+						if (normal == 0 && trapped == 0)world.setBlock(xx,yy,zz,(rand.nextBoolean() ? Blocks.chest : Blocks.trapped_chest).getDefaultState().withProperty(BlockChest.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
+						else if (normal == 1 && trapped == 0)world.setBlock(xx,yy,zz,Blocks.trapped_chest.getDefaultState().withProperty(BlockChest.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
+						else if (normal == 0 && trapped == 1)world.setBlock(xx,yy,zz,Blocks.chest.getDefaultState().withProperty(BlockChest.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
 						else continue;
 						
 						if (rand.nextInt(10) == 0){

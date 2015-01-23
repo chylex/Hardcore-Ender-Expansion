@@ -66,7 +66,7 @@ public class StructureResourcePit extends AbstractIslandStructure{
 				
 				if (world.getBlock(px,py,pz) == Blocks.end_stone && (world.isAir(px-1,py,pz) || world.isAir(px+1,py,pz) || world.isAir(px,py,pz-1) || world.isAir(px,py,pz+1))){
 					if (rand.nextInt(9) <= 7)world.setBlock(px,py,pz,getOre(rand));
-					else world.setBlock(px,py,pz,Blocks.flowing_lava,0,true);
+					else world.setBlock(px,py,pz,Blocks.flowing_lava,true);
 					++placed;
 				}
 			}

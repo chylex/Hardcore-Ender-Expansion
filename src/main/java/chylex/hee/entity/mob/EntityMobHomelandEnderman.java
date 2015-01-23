@@ -1011,7 +1011,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		onEntityUpdate();
 		
 		if (!worldObj.isRemote){
-			if (ticksExisted%20 == 0)func_110142_aN().func_94549_h();
+			if (ticksExisted%20 == 0)getCombatTracker().func_94549_h();
 		}
 
 		onLivingUpdate();
@@ -1020,7 +1020,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		float distanceMoved = (float)(xDiff*xDiff+zDiff*zDiff);
 		float yawOffset = renderYawOffset;
 		float f2 = 0F, f3 = 0F;
-		field_70768_au = field_110154_aX;
+		prevOnGroundSpeedFactor = onGroundSpeedFactor;
 
 		if (distanceMoved > 0.0025F){
 			f3 = 1F;
@@ -1031,7 +1031,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		if (swingProgress > 0F)yawOffset = rotationYaw;
 		if (!onGround)f3 = 0F;
 
-		field_110154_aX += (f3-field_110154_aX)*0.3F;
+		onGroundSpeedFactor += (f3-onGroundSpeedFactor)*0.3F;
 		worldObj.theProfiler.startSection("headTurn");
 		f2 = func_110146_f(yawOffset,f2);
 		worldObj.theProfiler.endSection();
@@ -1047,7 +1047,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		while(rotationYawHead-prevRotationYawHead >= 180F)prevRotationYawHead += 360F;
 
 		worldObj.theProfiler.endSection();
-		field_70764_aw += f2;
+		movedDistance += f2;
 		
 		if (!worldObj.isRemote)updateLeashedState();
 	}

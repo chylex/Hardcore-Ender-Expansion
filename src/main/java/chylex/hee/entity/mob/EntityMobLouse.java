@@ -133,6 +133,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 			}
 		}
 		
+		Entity entityToAttack = getAttackTarget();
+		
 		if (entityToAttack != null && entityToAttack.posY > posY+1.3D && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) <= 3D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
 			jump();
 		}
@@ -141,10 +143,6 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	@Override
 	public boolean attackEntityAsMob(Entity entity){
 		float dmgAmount = (float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-
-		if (entity instanceof EntityLivingBase){
-			dmgAmount += EnchantmentHelper.getEnchantmentModifierLiving(this,(EntityLivingBase)entity);
-		}
 
 		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),dmgAmount)){
 			int knockback = louseData.ability(EnumLouseAbility.KNOCKBACK);
@@ -185,7 +183,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		armorRegenTimer = (byte)(100-louseData.attribute(EnumLouseAttribute.ARMOR)*15);
 		
 		if (armor > 0F && hurtResistantTime == 0){
-			entityToAttack = source.getEntity();
+			setAttackTarget(source.getEntity());
 			playSound("random.anvil_land",0.5F,1.2F);
 			PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.LOUSE_ARMOR_HIT,this));
 			

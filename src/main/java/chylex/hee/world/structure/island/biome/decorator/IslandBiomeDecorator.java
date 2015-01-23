@@ -1,6 +1,7 @@
 package chylex.hee.world.structure.island.biome.decorator;
 import java.util.Random;
 import net.minecraft.block.Block;
+import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
@@ -8,7 +9,7 @@ import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public abstract class IslandBiomeDecorator{
-	protected static final Block topBlock = IslandBiomeBase.getTopBlock();
+	protected static final Block topBlock = BlockList.end_terrain;
 	
 	protected LargeStructureWorld world;
 	protected Random rand;

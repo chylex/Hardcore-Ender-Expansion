@@ -1,6 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature;
 import java.util.Random;
 import net.minecraft.block.Block;
+import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
@@ -25,6 +26,6 @@ public abstract class AbstractIslandStructure{
 	}
 	
 	protected final Block surface(){
-		return IslandBiomeBase.getTopBlock();
+		return BlockList.end_terrain;
 	}
 }

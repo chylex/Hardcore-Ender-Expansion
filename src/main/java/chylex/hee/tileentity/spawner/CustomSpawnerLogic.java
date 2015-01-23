@@ -1,6 +1,7 @@
 package chylex.hee.tileentity.spawner;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
@@ -119,7 +120,7 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 				entity.setLocationAndAngles(posX,posY,posZ,getSpawnerWorld().rand.nextFloat()*360F,0F);
 
 				if (canMobSpawn(entity)){
-					func_98265_a(entity); // OBFUSCATED spawn entity
+					onEntitySpawn(entity);
 					getSpawnerWorld().playAuxSFX(2004,pos,0);
 					entity.spawnExplosionParticle();
 					
@@ -145,8 +146,17 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public final Entity func_180612_a(World world){
-		if (entityCache == null)entityCache = func_98265_a(createMob(world)); // OBFUSCATED spawn entity
+		if (entityCache == null)entityCache = onEntitySpawn(createMob(world));
 		return entityCache;
+	}
+	
+	private Entity onEntitySpawn(Entity entity){
+		if (entity instanceof EntityLivingBase && entity.worldObj != null){
+			((EntityLiving)entity).onSpawnFirstTime(entity.worldObj.getDifficultyForLocation(new BlockPos(entity)),null);
+			entity.worldObj.spawnEntityInWorld(entity);
+		}
+		
+		return entity;
 	}
 	
 	public static final class BrokenSpawnerLogic extends CustomSpawnerLogic{

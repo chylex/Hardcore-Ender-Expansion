@@ -53,7 +53,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		int surfaceY = y-maxEntranceHeight-1;
 		
 		while(++surfaceY <= y){
-			if (world.getBlock(x,surfaceY,z) == IslandBiomeBase.getTopBlock())break;
+			if (world.getBlock(x,surfaceY,z) == BlockList.end_terrain)break;
 		}
 		
 		for(int yy = surfaceY+5; yy >= y-maxEntranceHeight; yy--){

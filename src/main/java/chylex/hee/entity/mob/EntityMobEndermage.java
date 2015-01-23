@@ -21,6 +21,7 @@ import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IRangedAttackMob{
@@ -68,24 +69,24 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 				
 				Entity sourceEntity = source.getSourceOfDamage();
 				double dist = MathUtil.distance(sourceEntity.posX-posX,sourceEntity.posZ-posZ);
+				BlockPosM pos = new BlockPosM(), testPos = new BlockPosM();
 				
-				for(int attempt = 0, xx, yy, zz; attempt < 15; attempt++){
-					xx = MathUtil.floor(posX)+rand.nextInt(31)-15;
-					zz = MathUtil.floor(posZ)+rand.nextInt(31)-15;
+				for(int attempt = 0; attempt < 15; attempt++){
+					pos.moveTo(this).moveBy(rand.nextInt(31)-15,0,rand.nextInt(31)-15);
 					
-					if (MathUtil.distance(xx+0.5D-sourceEntity.posX,zz+0.5D-sourceEntity.posZ) > dist*4D){
-						yy = MathUtil.floor(posY)+7;
+					if (MathUtil.distance(pos.x+0.5D-sourceEntity.posX,pos.z+0.5D-sourceEntity.posZ) > dist*4D){
+						pos.y = MathUtil.floor(posY)+7;
 						
 						for(int yAttempt = 0; yAttempt < 14; yAttempt++){
-							if (!worldObj.isAirBlock(xx,yy-1,zz) && worldObj.isAirBlock(xx,yy,zz) && worldObj.isAirBlock(xx,yy+1,zz)){
-								setPosition(xx+0.5D,yy,zz+0.5D);
+							if (testPos.moveTo(pos).isAir(worldObj) && testPos.moveDown().isAir(worldObj) && testPos.moveUp().moveUp().isAir(worldObj)){
+								setPosition(pos.x+0.5D,testPos.y,pos.z+0.5D);
 								
 								if (canEntityBeSeen(sourceEntity)){
-									PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,xx+0.5D,yy,zz+0.5D));
+									PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,prevPosX,prevPosY,prevPosZ,posX,posY,posZ));
 									return true;
 								}
 							}
-							else --yy;
+							else --pos.y;
 						}
 					}
 				}

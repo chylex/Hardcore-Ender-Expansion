@@ -1,12 +1,16 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
+import net.minecraft.block.BlockEnderChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.Direction;
+import net.minecraft.util.EnumFacing;
+import chylex.hee.block.BlockDeathFlower;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
@@ -37,7 +41,7 @@ public final class LaboratoryContent{
 		
 		switch(design){
 			case FLOWER_POTS:
-				world.setBlock(x,y+1,z,BlockList.death_flower_pot,rand.nextInt(4) == 0 ? 15 : rand.nextInt(15));
+				world.setBlock(x,y+1,z,BlockList.death_flower_pot.getDefaultState().withProperty(BlockDeathFlower.DECAY,rand.nextInt(4) == 0 ? 15 : rand.nextInt(15)));
 				
 				for(int extra = rand.nextInt(2+rand.nextInt(5)), xx, zz; extra > 0; extra--){
 					xx = x+rand.nextInt(3)-rand.nextInt(3);
@@ -57,7 +61,7 @@ public final class LaboratoryContent{
 							if (adj)continue;
 						}
 						
-						world.setBlock(xx,y+1,zz,BlockList.death_flower_pot,rand.nextInt(4) == 0 ? 15 : rand.nextInt(15));
+						world.setBlock(xx,y+1,zz,BlockList.death_flower_pot.getDefaultState().withProperty(BlockDeathFlower.DECAY,rand.nextInt(4) == 0 ? 15 : rand.nextInt(15)));
 					}
 				}
 				
@@ -77,11 +81,11 @@ public final class LaboratoryContent{
 				break;
 				
 			case ENDER_CHEST:
-				world.setBlock(x,y+1,z,Blocks.ender_chest,rand.nextInt(4));
+				world.setBlock(x,y+1,z,Blocks.ender_chest.getDefaultState().withProperty(BlockEnderChest.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
 				break;
 				
 			case LOOT_CHEST:
-				world.setBlock(x,y+1,z,Blocks.chest,rand.nextInt(4));
+				world.setBlock(x,y+1,z,Blocks.chest.getDefaultState().withProperty(BlockChest.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
 				world.setTileEntityGenerator(x,y+1,z,"LabSmallChest",new ITileEntityGenerator(){
 					@Override
 					public void onTileEntityRequested(String key, TileEntity tile, Random rand){
@@ -178,7 +182,7 @@ public final class LaboratoryContent{
 					dir = rand.nextInt(4);
 					
 					if (world.isAir(x+Direction.offsetX[dir]*4,y+1,z+Direction.offsetZ[dir]*4) && !world.isAir(x+Direction.offsetX[dir]*5,y+1,z+Direction.offsetZ[dir]*5)){
-						world.setBlock(x+Direction.offsetX[dir]*4,y+1,z+Direction.offsetZ[dir]*4,Blocks.chest,dir);
+						world.setBlock(x+Direction.offsetX[dir]*4,y+1,z+Direction.offsetZ[dir]*4,Blocks.chest.getDefaultState().withProperty(BlockChest.FACING,EnumFacing.getHorizontal(dir)));
 						world.setTileEntityGenerator(x+Direction.offsetX[dir]*4,y+1,z+Direction.offsetZ[dir]*4,"LabLargeChest",new ITileEntityGenerator(){
 							@Override
 							public void onTileEntityRequested(String key, TileEntity tile, Random rand){

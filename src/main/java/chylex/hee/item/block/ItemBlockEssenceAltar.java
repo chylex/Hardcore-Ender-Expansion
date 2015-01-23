@@ -1,9 +1,13 @@
 package chylex.hee.item.block;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import chylex.hee.block.BlockEssenceAltar;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
@@ -28,10 +32,10 @@ public class ItemBlockEssenceAltar extends ItemBlock{
 	}
 	
 	@Override
-	public boolean placeBlockAt(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata){
-		if (super.placeBlockAt(is,player,world,x,y,z,side,hitX,hitY,hitZ,metadata)){
-			TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x,y,z);
-			if (altar != null)altar.loadFromDamage(metadata);
+	public boolean placeBlockAt(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState state){
+		if (super.placeBlockAt(is,player,world,pos,side,hitX,hitY,hitZ,state)){
+			TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(pos);
+			if (altar != null)altar.loadFromType((EssenceType)state.getValue(BlockEssenceAltar.VARIANT));
 			return true;
 		}
 		return false;

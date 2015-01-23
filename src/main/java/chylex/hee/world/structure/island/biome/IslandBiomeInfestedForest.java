@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockBiomeIslandCore.Biome;
 import chylex.hee.block.BlockEndstoneTerrain;
+import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.InfestationSavefile;
@@ -73,7 +74,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 					for(int testZ = zz-1; testZ <= zz+1; testZ++){
 						IBlockState state = testPos.moveTo(testX,testY,testZ).getBlockState(world);
 						
-						if (state.getBlock() == getTopBlock() && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant()){
+						if (state.getBlock() == BlockList.end_terrain && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant()){
 							WorldDataHandler.<InfestationSavefile>get(InfestationSavefile.class).increaseInfestationPower(player);
 							found = true;
 							break;

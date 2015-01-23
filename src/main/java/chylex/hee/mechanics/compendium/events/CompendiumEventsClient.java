@@ -144,7 +144,7 @@ public final class CompendiumEventsClient{
 					mouseY -= (container.height-container.ySize)/2;
 					
 					for(Slot slot:slots){
-						if (slot.getHasStack() && slot.func_111238_b() &&
+						if (slot.getHasStack() &&
 							mouseX >= slot.xDisplayPosition-1 && mouseX <= slot.xDisplayPosition+16 &&
 							mouseY >= slot.yDisplayPosition-1 && mouseY <= slot.yDisplayPosition+16){
 							obj = KnowledgeUtils.tryGetFromItemStack(slot.getStack());

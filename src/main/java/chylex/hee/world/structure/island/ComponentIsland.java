@@ -99,7 +99,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 							
 							for(int y = structure.getHighestY(xx,zz); y >= 5; y--){
 								if (structure.getBlock(xx,y,zz) == Blocks.end_stone && structure.isAir(xx,y+1,zz)){
-									structure.setBlock(xx,y,zz,IslandBiomeBase.getTopBlock(),biome.getTopBlockMeta());
+									structure.setBlock(xx,y,zz,BlockList.end_terrain.setProperty(biome.getTopBlockVariant()));
 								}
 							}
 						}

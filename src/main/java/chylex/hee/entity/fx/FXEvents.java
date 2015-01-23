@@ -3,6 +3,7 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
@@ -39,7 +40,7 @@ public class FXEvents{
 		if (heldItem != null && heldItem.getItem() == ItemList.scorching_pickaxe && (ItemScorchingPickaxe.isBlockValid(e.state.getBlock()) || e.state.getBlock() == BlockList.ravaged_brick)){
 			Random rand = e.entity.worldObj.rand;
 			Minecraft mc = Minecraft.getMinecraft();
-			for(int fx = 0; fx < 5-2*mc.gameSettings.particleSetting; fx++)HardcoreEnderExpansion.fx.flame(e.entity.worldObj,e.x-0.2D+rand.nextDouble()*1.4D,e.y-0.2D+rand.nextDouble()*1.4D,e.z-0.2D+rand.nextDouble()*1.4D,6);
+			for(int fx = 0; fx < 5-2*mc.gameSettings.particleSetting; fx++)HardcoreEnderExpansion.fx.flame(e.entity.worldObj,e.pos.getX()-0.2D+rand.nextDouble()*1.4D,e.pos.getY()-0.2D+rand.nextDouble()*1.4D,e.pos.getZ()-0.2D+rand.nextDouble()*1.4D,6);
 		}
 	}
 	

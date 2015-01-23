@@ -21,6 +21,7 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobFireGolem extends EntityMob{
@@ -74,8 +75,8 @@ public class EntityMobFireGolem extends EntityMob{
 		}
 		else{
 			getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(cancelMovement);
-			
 			if (teleportCooldown > 0)--teleportCooldown;
+			EntityLivingBase entityToAttack = getAttackTarget();
 			
 			if (entityToAttack != null){
 				double dist = MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ);
@@ -128,20 +129,17 @@ public class EntityMobFireGolem extends EntityMob{
 			teleportCooldown = 45;
 
 			Vec3 look = getLookVec();
-			double xx,yy,zz;
+			double xx, yy, zz;
+			BlockPosM testPos = new BlockPosM();
 			
-			for(int attempt = 0,ix,iy,iz; attempt < 300; attempt++){
+			for(int attempt = 0; attempt < 300; attempt++){
 				xx = posX+look.xCoord*3F+rand.nextDouble()*18D-9D;
 				yy = posY+rand.nextDouble()*8D-4D;
 				zz = posZ+look.zCoord*3F+rand.nextDouble()*18D-9D;
 				
 				if (Math.pow(xx-posX,2)+Math.pow(yy-posY,2)+Math.pow(zz-posZ,2) < 30)continue;
 				
-				ix = MathUtil.floor(xx);
-				iy = MathUtil.floor(yy);
-				iz = MathUtil.floor(zz);
-				
-				if (!worldObj.isAirBlock(ix,iy-1,iz) && worldObj.isAirBlock(ix,iy,iz) && worldObj.isAirBlock(ix,iy+1,iz)){
+				if (!testPos.moveTo(xx,yy,zz).moveDown().isAir(worldObj) && testPos.moveUp().isAir(worldObj) && testPos.moveUp().isAir(worldObj)){
 					setPosition(xx,yy,zz);
 					if (getAttackTarget() != null)faceEntity(getAttackTarget(),360F,360F);
 					playSound("mob.endermen.portal",1F,1.1F);
@@ -151,7 +149,7 @@ public class EntityMobFireGolem extends EntityMob{
 		}
 		
 		if (super.attackEntityFrom(source,damage)){
-			if (entityToAttack instanceof IBossDisplayData)entityToAttack = null;
+			if (getAttackTarget() instanceof IBossDisplayData)setAttackTarget(null);
 			return true;
 		}
 		return false;

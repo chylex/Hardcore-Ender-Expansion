@@ -30,6 +30,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -74,24 +75,21 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		if (target == null){
 			if (--wanderResetTimer < -120 || rand.nextInt(300) == 0 || (motionX == 0D && motionZ == 0D && rand.nextInt(20) == 0)){
 				wanderResetTimer = 0;
+				BlockPosM pos = new BlockPosM();
 				
-				for(int attempt = 0, xx, yy, zz; attempt < 32; attempt++){
-					xx = MathUtil.floor(posX)+rand.nextInt(14)-rand.nextInt(14);
-					zz = MathUtil.floor(posZ)+rand.nextInt(14)-rand.nextInt(14);
-					yy = MathUtil.floor(posY);
-					
-					if (worldObj.isAirBlock(xx,yy,zz)){
-						while(worldObj.isAirBlock(xx,--yy,zz) && Math.abs(posY-yy) < 10);
-						if (Math.abs(posY-yy) >= 10)continue;
+				for(int attempt = 0; attempt < 32; attempt++){
+					if (pos.moveTo(this).moveBy(rand.nextInt(14)-rand.nextInt(14),0,rand.nextInt(14)-rand.nextInt(14)).isAir(worldObj)){
+						while(pos.moveDown().isAir(worldObj) && Math.abs(posY-pos.y) < 10);
+						if (Math.abs(posY-pos.y) >= 10)continue;
 					}
 					else{
-						while(!worldObj.isAirBlock(xx,++yy,zz) && Math.abs(posY-yy) < 10);
-						if (Math.abs(posY-yy) >= 10)continue;
+						while(!pos.moveUp().isAir(worldObj) && Math.abs(posY-pos.y) < 10);
+						if (Math.abs(posY-pos.y) >= 10)continue;
 					}
 					
-					targetX = xx+rand.nextDouble();
-					targetY = yy+rand.nextDouble()*0.2D+3D;
-					targetZ = zz+rand.nextDouble();
+					targetX = pos.x+rand.nextDouble();
+					targetY = pos.y+rand.nextDouble()*0.2D+3D;
+					targetZ = pos.z+rand.nextDouble();
 					wanderResetTimer += 40;
 					break;
 				}
@@ -146,9 +144,9 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 							if (currentAttackTime == 50){
 								Vec3 look = getLookVec();
 								
-								look.rotateAroundY(MathUtil.toRad(36F));
+								look.rotateYaw(MathUtil.toRad(36F));
 								worldObj.spawnEntityInWorld(new EntityProjectileMinerShot(worldObj,this,posX+look.xCoord*1.5D,posY+0.7D,posZ+look.zCoord*1.5D,target));
-								look.rotateAroundY(MathUtil.toRad(-72F));
+								look.rotateYaw(MathUtil.toRad(-72F));
 								worldObj.spawnEntityInWorld(new EntityProjectileMinerShot(worldObj,this,posX+look.xCoord*1.5D,posY+0.7D,posZ+look.zCoord*1.5D,target));
 								hasFinished = true;
 								
@@ -163,50 +161,43 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								
 								if (attackLavaCounter == 0){
 									attackLavaCounter = 1;
+									BlockPosM pos = new BlockPosM();
 									
-									for(int attempt = 0, xx, yy, zz; attempt < 64; attempt++){
-										xx = MathUtil.floor(target.posX)+rand.nextInt(5)-rand.nextInt(5);
-										zz = MathUtil.floor(target.posZ)+rand.nextInt(5)-rand.nextInt(5);
-										yy = MathUtil.floor(target.posY)+4;
+									for(int attempt = 0; attempt < 64; attempt++){
+										pos.moveTo(target).moveBy(rand.nextInt(5)-rand.nextInt(5),4,rand.nextInt(5)-rand.nextInt(5));
 										
 										for(int yAttempt = 0; yAttempt < 7; yAttempt++){
-											if (worldObj.isAirBlock(xx,yy,zz) && worldObj.getBlock(xx,yy-1,zz).isOpaqueCube()){
-												attackLavaCurrentX = xx;
-												attackLavaCurrentY = yy-2;
-												attackLavaCurrentZ = zz;
+											if (!pos.isAir(worldObj))--pos.y;
+											else if (pos.moveDown().getBlock(worldObj).isOpaqueCube()){
+												attackLavaCurrentX = pos.x;
+												attackLavaCurrentY = pos.y-1;
+												attackLavaCurrentZ = pos.z;
 												attempt = 65;
 												break;
 											}
-											else --yy;
 										}
 									}
 								}
 								else{
-									int xx, yy, zz;
+									BlockPosM pos = new BlockPosM();
 									
 									for(int px = -1; px <= 1; px++){
 										for(int pz = -1; pz <= 1; pz++){
 											if (px == 0 && pz == 0)continue;
-											xx = attackLavaCurrentX+px;
-											yy = attackLavaCurrentY-1+attackLavaCounter;
-											zz = attackLavaCurrentZ+pz;
+											pos.moveTo(attackLavaCurrentX+px,attackLavaCurrentY-1+attackLavaCounter,attackLavaCurrentZ+pz);
 											
-											Block block = worldObj.getBlock(xx,yy,zz);
+											Block block = pos.getBlock(worldObj);
 											
 											if (block == Blocks.flowing_lava || block == Blocks.lava)continue;
-											else if (!MathUtil.floatEquals(block.getBlockHardness(worldObj,xx,yy,zz),-1F)){
-												worldObj.setBlock(xx,yy,zz,Blocks.air);
-												worldObj.playAuxSFX(2001,xx,yy,zz,Block.getIdFromBlock(block));
+											else if (!MathUtil.floatEquals(block.getBlockHardness(worldObj,pos),-1F)){
+												pos.setToAir(worldObj);
+												worldObj.playAuxSFX(2001,pos,Block.getIdFromBlock(block));
 											}
 										}
 									}
-
-									xx = attackLavaCurrentX;
-									yy = attackLavaCurrentY-1+attackLavaCounter;
-									zz = attackLavaCurrentZ;
 									
-									worldObj.setBlock(xx,yy,zz,Blocks.flowing_lava,0,3);
-									for(int a = 0; a < 5; a++)Blocks.flowing_lava.updateTick(worldObj,xx,yy,zz,rand);
+									pos.moveTo(attackLavaCurrentX,attackLavaCurrentY-1+attackLavaCounter,attackLavaCurrentZ).setBlock(worldObj,Blocks.flowing_lava);
+									for(int a = 0; a < 5; a++)Blocks.flowing_lava.updateTick(worldObj,pos,pos.getBlockState(worldObj),rand);
 									
 									if (++attackLavaCounter == 6){
 										if (++attackLavaDone >= 4){
@@ -242,20 +233,18 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								}
 								
 								PacketPipeline.sendToAllAround(this,24D,new C08PlaySound(C08PlaySound.HAUNTEDMINER_ATTACK_BLAST,posX,posY,posZ,1.5F,1F));
+								BlockPosM pos = new BlockPosM();
 								
-								for(int attempt = 0, xx, yy, zz; attempt < 90; attempt++){
-									xx = MathUtil.floor(posX)+rand.nextInt(21)-10;
-									zz = MathUtil.floor(posZ)+rand.nextInt(21)-10;
-									if (MathUtil.distance(xx-posX,zz-posZ) > 10D)continue;
-									
-									yy = MathUtil.floor(posY)-1;
+								for(int attempt = 0; attempt < 90; attempt++){
+									pos.moveTo(this).moveBy(rand.nextInt(21)-10,-1,rand.nextInt(21)-10);
+									if (MathUtil.distance(pos.x-posX,pos.z-posZ) > 10D)continue;
 									
 									for(int yAttempt = 0; yAttempt < 4; yAttempt++){
-										if (worldObj.isAirBlock(xx,yy,zz) && !worldObj.isAirBlock(xx,yy-1,zz)){
-											worldObj.setBlock(xx,yy,zz,Blocks.fire);
+										if (!pos.isAir(worldObj))--pos.y;
+										else if (pos.moveDown().isAir(worldObj)){
+											pos.setBlock(worldObj,Blocks.fire);
 											break;
 										}
-										else --yy;
 									}
 								}
 								
@@ -318,9 +307,9 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 				rotationYaw = renderYawOffset = rotationYawHead;
 				Vec3 look = getLookVec();
 				
-				look.rotateAroundY(MathUtil.toRad(36F));
+				look.rotateYaw(MathUtil.toRad(36F));
 				HardcoreEnderExpansion.fx.spell(worldObj,posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0.9F,0.6F,0F);
-				look.rotateAroundY(MathUtil.toRad(-72F));
+				look.rotateYaw(MathUtil.toRad(-72F));
 				HardcoreEnderExpansion.fx.spell(worldObj,posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0.9F,0.6F,0F);
 				
 				++currentAttackTime;
@@ -334,7 +323,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 			else currentAttackTime = 0;
 		}
 		else if (!dead){
-			List<Entity> nearEntities = worldObj.getEntitiesWithinAABBExcludingEntity(this,bottomBB.setBounds(posX-1.65D,posY-3,posZ-1.65D,posX+1.65D,posY,posZ+1.65D));
+			List<Entity> nearEntities = worldObj.getEntitiesWithinAABBExcludingEntity(this,bottomBB = AxisAlignedBB.fromBounds(posX-1.65D,posY-3,posZ-1.65D,posX+1.65D,posY,posZ+1.65D));
 			
 			for(Entity entity:nearEntities){
 				if (entity instanceof EntityMobHauntedMiner)continue;
