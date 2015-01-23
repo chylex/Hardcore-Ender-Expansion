@@ -229,7 +229,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	public IEntityLivingData onSpawnFirstTime(DifficultyInstance difficulty, IEntityLivingData data){
 		setDead();
 		motionY = 7D;
-		return super.onSpawnFirstTime(difficulty,livingdata);
+		return super.onSpawnFirstTime(difficulty,data);
 	}
 
 	public boolean isDoingLightningAttack(){

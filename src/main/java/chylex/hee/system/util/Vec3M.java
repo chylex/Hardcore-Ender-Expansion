@@ -1,4 +1,5 @@
 package chylex.hee.system.util;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 
 public class Vec3M{
@@ -16,12 +17,25 @@ public class Vec3M{
 		this.z = vec.zCoord;
 	}
 	
+	public Vec3M(BlockPos pos){
+		this.x = pos.getX();
+		this.y = pos.getY();
+		this.z = pos.getZ();
+	}
+	
 	public Vec3M copy(){
 		return new Vec3M(x,y,z);
 	}
 	
 	public Vec3 toVec3(){
 		return new Vec3(x,y,z);
+	}
+	
+	public Vec3M add(double x, double y, double z){
+		this.x += x;
+		this.y += y;
+		this.z += z;
+		return this;
 	}
 	
 	public Vec3M normalize(){

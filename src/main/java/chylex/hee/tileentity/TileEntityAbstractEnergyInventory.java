@@ -10,7 +10,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.ChunkPosition;
+import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.energy.EnergyChunkData;
@@ -79,14 +79,14 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 				int x = getPos().getX(), y = getPos().getY(), z = getPos().getZ(), chunkX = x>>4, chunkZ = z>>4, cx, cz;
 				
 				for(int a = 0; a < 9; a++){
-					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).getTileEntityMap();
+					Map<BlockPos,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).getTileEntityMap();
 					cx = chunkX*16+chunkOffX[a]*16;
 					cz = chunkZ*16+chunkOffZ[a]*16;
 					
-					for(Entry<ChunkPosition,TileEntity> entry:tiles.entrySet()){
-						ChunkPosition pos = entry.getKey();
+					for(Entry<BlockPos,TileEntity> entry:tiles.entrySet()){
+						BlockPos pos = entry.getKey();
 						
-						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.chunkPosX-x,pos.chunkPosY-y,cz+pos.chunkPosZ-z) <= 16D){
+						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.getX()-x,pos.getY()-y,cz+pos.getZ()-z) <= 16D){
 							clusters.add((TileEntityEnergyCluster)entry.getValue());
 						}
 					}

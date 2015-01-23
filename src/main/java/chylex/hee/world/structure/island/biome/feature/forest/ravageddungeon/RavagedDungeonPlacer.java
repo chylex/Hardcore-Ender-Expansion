@@ -4,6 +4,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityFlowerPot;
+import net.minecraft.world.World;
 import chylex.hee.block.BlockCustomSpawner;
 import chylex.hee.block.BlockCustomSpawner.Type;
 import chylex.hee.block.BlockDeathFlower;
@@ -1010,13 +1012,9 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			}
 			else{
 				TileEntityFlowerPot flowerPot = (TileEntityFlowerPot)tile;
-				
-				flowerPot.func_145964_a(is.getItem(),is.getItemDamage());
+				flowerPot.setFlowerPotData(is.getItem(),is.getItemDamage());
 				flowerPot.markDirty();
-	
-				if (!flowerPot.getWorld().setBlockMetadataWithNotify(flowerPot.getPos(),is.getItemDamage(),2)){
-					flowerPot.getWorld().markBlockForUpdate(flowerPot.getPos());
-				}
+				flowerPot.getWorld().markBlockForUpdate(flowerPot.getPos());
 			}
 		}
 	}

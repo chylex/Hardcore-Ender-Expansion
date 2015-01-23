@@ -26,7 +26,7 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 		super.drawGuiContainerForegroundLayer(x,y);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		
-		int powderReq = brewingStand.getRequiredPowder();
+		int powderReq = brewingStand.getField(1);
 		
 		fontRendererObj.drawStringWithShadow(
 			(brewingStand.getHoldingPowder() < powderReq ? EnumChatFormatting.YELLOW : EnumChatFormatting.WHITE)+String.valueOf(powderReq),
@@ -40,10 +40,10 @@ public class GuiEnhancedBrewingStand extends GuiBrewingStand{
 		int guiX = 1+(width-xSize)/2;
 		int guiY = (height-ySize)/2;
 		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
-		int brewTime = brewingStand.getBrewTime();
+		int brewTime = brewingStand.getField(0);
 
 		if (brewTime > 0){
-			int texPos = (int)(28F*(1F-(float)brewTime/brewingStand.getStartBrewTime()));
+			int texPos = (int)(28F*(1F-(float)brewTime/brewingStand.getField(2)));
 			if (texPos > 0)drawTexturedModalRect(guiX+98,guiY+16,176,0,9,texPos);
 
 			switch(brewTime/2%7){

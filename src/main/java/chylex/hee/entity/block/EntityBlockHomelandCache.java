@@ -2,6 +2,7 @@ package chylex.hee.entity.block;
 import java.util.Iterator;
 import java.util.List;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -9,8 +10,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.item.ItemList;
@@ -142,7 +141,7 @@ public class EntityBlockHomelandCache extends Entity{
 						for(int a = 2+rand.nextInt(2); a > 0 && !list.isEmpty(); a--){
 							EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
 							guard.teleportToEntity(source.getSourceOfDamage());
-							guard.setAttackTarget(source.getSourceOfDamage());
+							guard.setAttackTarget((EntityLivingBase)source.getSourceOfDamage());
 							guard.setScreaming(true);
 							PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,enderman,guard));
 							if (--amt <= 0)break;
@@ -165,11 +164,5 @@ public class EntityBlockHomelandCache extends Entity{
 	@Override
 	public boolean canBeCollidedWith(){
 		return true;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public float getShadowSize(){
-		return 0F;
 	}
 }

@@ -13,9 +13,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.ChunkPosition;
 import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.block.BlockCorruptedEnergy;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
@@ -103,14 +104,14 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 				int x = getPos().getX(), y = getPos().getY(), z = getPos().getZ(), chunkX = x>>4, chunkZ = z>>4, cx, cz;
 				
 				for(int a = 0; a < 9; a++){
-					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).getTileEntityMap();
+					Map<BlockPos,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).getTileEntityMap();
 					cx = chunkX*16+chunkOffX[a]*16;
 					cz = chunkZ*16+chunkOffZ[a]*16;
 					
-					for(Entry<ChunkPosition,TileEntity> entry:tiles.entrySet()){
-						ChunkPosition pos = entry.getKey();
+					for(Entry<BlockPos,TileEntity> entry:tiles.entrySet()){
+						BlockPos pos = entry.getKey();
 						
-						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.chunkPosX-x,pos.chunkPosY-y,cz+pos.chunkPosZ-z) <= 16D){
+						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.getX()-x,pos.getY()-y,cz+pos.getZ()-z) <= 16D){
 							clusters.add((TileEntityEnergyCluster)entry.getValue());
 						}
 					}
@@ -131,11 +132,11 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 				if (release >= EnergyChunkData.minSignificantEnergy){
 					BlockPosM testPos = new BlockPosM();
 					
-					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 8 && placed < 4; attempt++){
+					for(int attempt = 0, placed = 0; attempt < 8 && placed < 4; attempt++){
 						testPos.moveTo(getPos()).moveBy(worldObj.rand.nextInt(7)-3,worldObj.rand.nextInt(7)-3,worldObj.rand.nextInt(7)-3);
 						
 						if (testPos.isAir(worldObj)){
-							worldObj.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+MathUtil.floor(release*4.5F),3);
+							testPos.setBlock(worldObj,BlockCorruptedEnergy.createState(3+MathUtil.floor(release*4.5F)));
 							++placed;
 						}
 					}

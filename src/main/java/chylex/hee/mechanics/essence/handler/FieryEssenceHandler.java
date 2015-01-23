@@ -39,7 +39,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 		
 		BlockPosM pos = new BlockPosM();
 		
-		for(int a = 0,xx,yy,zz; a < n; a++){
+		for(int a = 0; a < n; a++){
 			pos.moveTo(altar.getPos()).moveBy(world.rand.nextInt(1+range)-(range>>1),world.rand.nextInt(5)-2,world.rand.nextInt(1+range)-(range>>1));
 			
 			Block block = pos.getBlock(altar.getWorld());
@@ -50,10 +50,10 @@ public class FieryEssenceHandler extends AltarActionHandler{
 				TileEntityFurnace furnace = (TileEntityFurnace)tile;
 				
 				if (furnace != null && furnace.isBurning() && canFurnaceSmelt(furnace)){
-					n = 1+Math.min(8,level>>6)+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST?(socketBoost>>2):0);
+					n = 1+Math.min(8,level>>6)+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST ? (socketBoost>>2) : 0);
 					for(int b = 0; b < n; b++){
-						if (furnace.furnaceCookTime < 199){
-							++furnace.furnaceCookTime;
+						if (furnace.getField(0) < 199){
+							furnace.setField(0,furnace.getField(0)+1);
 							
 							if (tryDrainEssence()){
 								drained = true;
@@ -63,14 +63,14 @@ public class FieryEssenceHandler extends AltarActionHandler{
 						else break;
 					}
 					
-					if (drained && world.rand.nextInt(6+(n>>1)) <= 4)createOrbParticle(xx,yy,zz);
+					if (drained && world.rand.nextInt(6+(n>>1)) <= 4)createOrbParticle(pos.getX(),pos.getY(),pos.getZ());
 					return;
 				}
 			}
 			else if (block == Blocks.brewing_stand){
-				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorld().getTileEntity(pos.moveTo(xx,yy,zz));
+				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorld().getTileEntity(pos.moveTo(pos.getX(),pos.getY(),pos.getZ()));
 				
-				if (stand != null && stand.getBrewTime() > 1 && stand.getBrewTime() != 400){
+				if (stand != null && stand.getField(0) > 1 && stand.getField(0) != 400){
 					n = 1+Math.min(5,level>>6);
 					for(int b = 0; b < n; b++){
 						stand.update();
@@ -80,7 +80,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 							if (--level <= 0)break;
 						}
 						
-						if (stand.getBrewTime() <= 1)break;
+						if (stand.getField(0) <= 1)break;
 					}
 				}
 			}

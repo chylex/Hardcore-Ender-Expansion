@@ -1,5 +1,4 @@
 package chylex.hee.tileentity;
-import scala.actors.threadpool.Arrays;
 import net.minecraft.block.BlockBrewingStand;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -10,8 +9,7 @@ import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import scala.actors.threadpool.Arrays;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
@@ -146,35 +144,33 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		return side == EnumFacing.UP ? topSlots : side == EnumFacing.DOWN ? bottomSlots : sideSlots;
 	}
 	
-	@SideOnly(Side.CLIENT)
-	public void setBrewTime(int brewTime){
-		this.brewTime = (short)brewTime;
+	@Override
+	public void setField(int id, int value){
+		if (id == 0)brewTime = (short)value;
+		else if (id == 1)requiredPowder = (short)value;
+		else if (id == 2)startBrewTime = (short)value;
 	}
 	
-	@SideOnly(Side.CLIENT)
-	public void setRequiredPowder(int requiredPowder){
-		this.requiredPowder = (short)requiredPowder;
+	@Override
+	public int getField(int id){
+		if (id == 0)return brewTime;
+		else if (id == 1)return requiredPowder;
+		else if (id == 2)return startBrewTime;
+		else return 0;
 	}
 	
-	@SideOnly(Side.CLIENT)
-	public void setStartBrewTime(int startBrewTime){
-		this.startBrewTime = (short)startBrewTime;
+	@Override
+	public int getFieldCount(){
+		return 3;
 	}
 	
-	public int getBrewTime(){
-		return brewTime;
-	}
-	
-	public int getStartBrewTime(){
-		return startBrewTime;
-	}
-
-	public int getRequiredPowder(){
-		return requiredPowder;
+	@Override
+	public void clear(){
+		for(int a = 0; a < slotItems.length; a++)slotItems[a] = null;
 	}
 	
 	public int getHoldingPowder(){
-		return slotItems[4] == null?0:slotItems[4].stackSize;
+		return slotItems[4] == null ? 0 : slotItems[4].stackSize;
 	}
 
 	@Override

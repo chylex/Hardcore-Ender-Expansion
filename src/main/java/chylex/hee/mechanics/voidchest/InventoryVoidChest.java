@@ -66,13 +66,13 @@ public class InventoryVoidChest extends InventoryBasic{
 	@Override
 	public void openInventory(EntityPlayer player){
 		if (chest != null)chest.addPlayerToOpenList();
-		super.openInventory();
+		super.openInventory(player);
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player){
 		if (chest != null)chest.removePlayerFromOpenList();
-		super.closeInventory();
+		super.closeInventory(player);
 		chest = null;
 	}
 }
