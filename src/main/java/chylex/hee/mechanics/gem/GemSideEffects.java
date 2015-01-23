@@ -10,6 +10,7 @@ import net.minecraft.world.storage.WorldInfo;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.IWeightProvider;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public enum GemSideEffects implements IWeightProvider{
@@ -44,7 +45,7 @@ public enum GemSideEffects implements IWeightProvider{
 			case DEFLECTION:
 				double ang = rand.nextDouble()*2D*Math.PI, len = rand.nextDouble()*72D*percBroken*percBroken;
 				double x = entity.posX+Math.cos(ang)*len, z = entity.posZ+Math.sin(ang)*len;
-				entity.setLocationAndAngles(x+0.5D,entity.worldObj.getTopSolidOrLiquidBlock(MathUtil.floor(x),MathUtil.floor(z))+1D,z+0.5D,entity.rotationYaw,entity.rotationPitch);
+				entity.setLocationAndAngles(x+0.5D,entity.worldObj.getTopSolidOrLiquidBlock(new BlockPosM(x,0,z)).getY()+1D,z+0.5D,entity.rotationYaw,entity.rotationPitch);
 				break;
 				
 			case SLOWNESS:

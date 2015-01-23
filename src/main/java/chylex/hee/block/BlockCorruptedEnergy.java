@@ -125,9 +125,9 @@ public class BlockCorruptedEnergy extends BlockAbstractStateInt{
 					player.addStat(StatList.damageTakenStat,Math.round(10F));
 				}
 				
-				living.prevHealth = living.getHealth();
+				float prevHealth = living.getHealth();
 				living.setHealth(living.getHealth()-1F);
-				living.getCombatTracker().func_94547_a(DamageSource.magic,living.prevHealth,1F); // OBFUSCATED second method
+				living.getCombatTracker().func_94547_a(DamageSource.magic,prevHealth,1F); // OBFUSCATED second method
 				living.hurtTime = 10; // change hurt time instead of hurtResistantTime
 				
 				if (living.getHealth() <= 0F)living.onDeath(DamageSource.magic);

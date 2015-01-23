@@ -11,6 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -28,9 +29,12 @@ public class ItemScorchingPickaxe extends Item{
 	private static final Map<Block,Boolean> cachedBlocks = new IdentityHashMap<>();
 	private static final Random cacheRand = new Random(0);
 	
+	public static final boolean isBlockValid(Block block){
+		return isBlockValid(block.getDefaultState());
+	}
+	
 	public static final boolean isBlockValid(IBlockState state){
 		Block block = state.getBlock();
-		
 		if (cachedBlocks.containsKey(block))return cachedBlocks.get(block).booleanValue();
 		
 		if (FurnaceRecipes.instance().getSmeltingResult(new ItemStack(block)) != null){
@@ -62,8 +66,8 @@ public class ItemScorchingPickaxe extends Item{
 	}
 	
 	@Override
-	public boolean onBlockDestroyed(ItemStack is, World world, Block block, int x, int y, int z, EntityLivingBase owner){
-		if (block.getBlockHardness(world,x,y,z) != 0D)is.damageItem(1,owner);
+	public boolean onBlockDestroyed(ItemStack is, World world, Block block, BlockPos pos, EntityLivingBase owner){
+		if (block.getBlockHardness(world,pos) != 0D)is.damageItem(1,owner);
 		return true;
 	}
 	
@@ -74,10 +78,10 @@ public class ItemScorchingPickaxe extends Item{
 	}
 	
 	@Override
-	public float getDigSpeed(ItemStack stack, Block block, int meta){
-		if (isBlockValid(block))return 8F;
-		else if (block == BlockList.ravaged_brick)return 16F;
-		else return super.getDigSpeed(stack,block,meta);
+	public float getDigSpeed(ItemStack stack, IBlockState state){
+		if (isBlockValid(state))return 8F;
+		else if (state.getBlock() == BlockList.ravaged_brick)return 16F;
+		else return super.getDigSpeed(stack,state);
 	}
 	
 	@Override

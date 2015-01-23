@@ -2,6 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockSpookyLog;
 import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
@@ -66,7 +67,7 @@ public class StructureSpookyTree extends AbstractIslandStructure{
 			boolean hasFace = false;
 			
 			for(int treeY = 0, meta = 0; treeY < treeHeight; treeY++, meta = canGenerateFace && rand.nextInt(12) == 0 ? rand.nextInt(5) : 0){
-				world.setBlock(x,y+treeY,z,BlockList.spooky_log,hasFace ? 0 : meta);
+				world.setBlock(x,y+treeY,z,BlockList.spooky_log.setProperty(BlockSpookyLog.VARIANT,BlockSpookyLog.Variant.values()[hasFace ? 0 : meta]));
 				if (meta > 0)hasFace = true;
 			}
 			
@@ -82,7 +83,7 @@ public class StructureSpookyTree extends AbstractIslandStructure{
 					for(int px = x-1; px <= x+1; px++){
 						for(int pz = z-1; pz <= z+1; pz++){
 							if (px == x && pz == z)continue;
-							world.setBlock(px,pyramidBottomY,pz,BlockList.spooky_leaves,0);
+							world.setBlock(px,pyramidBottomY,pz,BlockList.spooky_leaves);
 						}
 					}
 				}

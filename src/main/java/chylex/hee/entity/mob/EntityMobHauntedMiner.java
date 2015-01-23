@@ -32,6 +32,7 @@ import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobHauntedMiner extends EntityFlying implements IMob{
@@ -117,7 +118,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								else if (item == Items.iron_ingot || item == Items.gold_ingot || item == Items.diamond || item == Items.redstone || (item == Items.dye && is.getItemDamage() == 4) ||
 										 item == Items.emerald || item == Items.coal || item == ItemList.end_powder || item == ItemList.igneous_rock || item == ItemList.instability_orb ||
 										 item == ItemList.stardust)foundMiningStuff += 1+(is.stackSize>>3);
-								else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(((ItemBlock)item).block))foundMiningStuff += 1+(is.stackSize>>3); // TODO ore only
+								else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(ItemUtil.getBlockState(is)))foundMiningStuff += 1+(is.stackSize>>3); // TODO ore only
 							}
 							
 							if (foundMiningStuff >= 13+rand.nextInt(6))target = (EntityPlayer)temp;

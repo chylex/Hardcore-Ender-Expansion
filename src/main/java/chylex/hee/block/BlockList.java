@@ -98,7 +98,7 @@ public final class BlockList{
 	// OPAQUE BLOCKS
 	
 	public static Block endium_block;
-	public static Block spooky_log;
+	public static BlockAbstractState spooky_log;
 	public static Block spooky_leaves;
 	
 	// TRANSPARENT BLOCKS
@@ -163,7 +163,7 @@ public final class BlockList{
 		register("transport_beacon", transport_beacon = new BlockTransportBeacon().setBlockUnbreakable().setResistance(6000000F).setLightLevel(1F).setUnlocalizedName("transportBeacon"));
 		
 		register("endium_block", endium_block = new BlockCompressed(MapColor.pinkColor).setHardness(14F).setResistance(800F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("endiumBlock"));
-		register("spooky_log", spooky_log = new BlockSpookyLog().setHardness(0.7F).setStepSound(Block.soundTypeWood).setUnlocalizedName("spookyLog"));
+		register("spooky_log", spooky_log = (BlockAbstractState)new BlockSpookyLog().setHardness(0.7F).setStepSound(Block.soundTypeWood).setUnlocalizedName("spookyLog"));
 		register("spooky_leaves", spooky_leaves = new BlockSpookyLeaves().setHardness(0.1F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("spookyLeaves"));
 		
 		register("ender_goo", ender_goo = new BlockEnderGoo().setHardness(150F).setLightOpacity(2).setUnlocalizedName("enderGoo"));

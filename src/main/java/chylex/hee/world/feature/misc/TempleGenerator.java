@@ -1,12 +1,20 @@
 package chylex.hee.world.feature.misc;
+import sun.security.krb5.internal.crypto.EType;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockCarpet;
+import net.minecraft.block.BlockQuartz;
+import net.minecraft.block.BlockQuartz.EnumType;
+import net.minecraft.block.BlockStoneSlab;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.BlockPosM;
 
 public class TempleGenerator{
 	private final World world;
+	private final BlockPosM pos = new BlockPosM();
 	
 	public TempleGenerator(World world){
 		this.world = world;
@@ -45,34 +53,34 @@ public class TempleGenerator{
 		// LAYER 2
 		rect(x+11,z+5,x+13,z+7,y,Blocks.quartz_block);
 		rect(x+6,z+5,x+10,z+7,y,Blocks.quartz_block);
-		linez(z+5,z+7,x+5,y,Blocks.stone_slab,7);
-		for(int a = 0; a < 2; a++)linex(x+11,x+13,z+4+a*4,y,Blocks.quartz_block,1);
-		linez(z+5,z+7,x+14,y,Blocks.quartz_block,1);
+		linez(z+5,z+7,x+5,y,Blocks.stone_slab.getDefaultState().withProperty(BlockStoneSlab.VARIANT,BlockStoneSlab.EnumType.QUARTZ));
+		for(int a = 0; a < 2; a++)linex(x+11,x+13,z+4+a*4,y,getQuartz(EnumType.CHISELED));
+		linez(z+5,z+7,x+14,y,getQuartz(EnumType.CHISELED));
 		for(int a = 0; a < 2; a++){
-			for(int b = 0; b < 2; b++)block(x+10+4*b,z+4*(a+1),y,Blocks.quartz_block,2);
+			for(int b = 0; b < 2; b++)block(x+10+4*b,z+4*(a+1),y,getQuartz(EnumType.LINES_Y));
 		}
 		
 		for(int a = 0; a < 2; a++){
 			rect(x+1,z+8*a,x+2,z+4+8*a,y,Blocks.quartz_block);
-			block(x+1,z+4*(a+1),y,Blocks.quartz_block,1);
+			block(x+1,z+4*(a+1),y,getQuartz(EnumType.CHISELED));
 			linex(x+3,x+6,z+3+6*a,y,Blocks.quartz_block);
 			block(x+6,z+2+8*a,y,Blocks.quartz_block);
 			rect(x+17,z+11*a,x+18,z+1+11*a,y,Blocks.quartz_block);
-			for(int b = 0; b < 13; b++)linez(z+11*a,z+1+11*a,x+4+b,y,Blocks.quartz_block,b%2 == 0 ? 2 : 0);
+			for(int b = 0; b < 13; b++)linez(z+11*a,z+1+11*a,x+4+b,y,getQuartz(b%2 == 0 ? EnumType.LINES_Y : EnumType.DEFAULT));
 			linez(z+11*a,z+1+11*a,x+3,y,Blocks.quartz_block);
 			linex(x+3,x+5,z+2+8*a,y,Blocks.water);
 		}
-		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,Blocks.quartz_block,a%2 == 1 ? 0 : 2);
+		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,Blocks.quartz_block,getQuartz(a%2 == 1 ? EnumType.DEFAULT : EnumType.LINES_Y));
 		
 		for(int a = 0; a < 2; a++)block(x,z+5+2*a,y,Blocks.quartz_block);
-		block(x,z+6,y,Blocks.quartz_block,2);
+		block(x,z+6,y,getQuartz(EnumType.LINES_Y));
 		block(x,z+4,y,Blocks.quartz_stairs,6);
 		block(x,z+8,y,Blocks.quartz_stairs,7);
 		
-		rect(x+1,z+5,x+4,z+7,y,Blocks.carpet,14);
-		linex(x+7,x+15,z+2,y,Blocks.carpet,14);
-		linex(x+7,x+15,z+10,y,Blocks.carpet,14);
-		linez(z+2,z+10,x+16,y,Blocks.carpet,14);
+		rect(x+1,z+5,x+4,z+7,y,Blocks.carpet.getDefaultState().withProperty(BlockCarpet.COLOR,EnumDyeColor.RED));
+		linex(x+7,x+15,z+2,y,Blocks.carpet.getDefaultState().withProperty(BlockCarpet.COLOR,EnumDyeColor.RED));
+		linex(x+7,x+15,z+10,y,Blocks.carpet.getDefaultState().withProperty(BlockCarpet.COLOR,EnumDyeColor.RED));
+		linez(z+2,z+10,x+16,y,Blocks.carpet.getDefaultState().withProperty(BlockCarpet.COLOR,EnumDyeColor.RED));
 		++y;
 		
 		// LAYER 3
@@ -84,28 +92,28 @@ public class TempleGenerator{
 		rect(x+11,z+5,x+13,z+7,y,BlockList.temple_end_portal);
 		
 		for(int a = 0; a < 2; a++){
-			for(int b = 0; b < 2; b++)block(x+10+4*b,z+4*(a+1),y,Blocks.quartz_block,2);
+			for(int b = 0; b < 2; b++)block(x+10+4*b,z+4*(a+1),y,getQuartz(EnumType.LINES_Y));
 		}
 		
 		for(int a = 0; a < 2; a++){
 			rect(x+1,z+8*a,x+2,z+4+8*a,y,Blocks.quartz_block);
 			rect(x+17,z+11*a,x+18,z+1+11*a,y,Blocks.quartz_block);
-			for(int b = 0; b < 2; b++)block(x+2,z+2+6*a+2*b,y,Blocks.quartz_block,1);
-			for(int b = 0; b < 13; b++)linez(z+11*a,z+1+11*a,x+4+b,y,Blocks.quartz_block,b%2 == 0?2:0);
+			for(int b = 0; b < 2; b++)block(x+2,z+2+6*a+2*b,y,getQuartz(EnumType.CHISELED));
+			for(int b = 0; b < 13; b++)linez(z+11*a,z+1+11*a,x+4+b,y,getQuartz(b%2 == 0 ? EnumType.LINES_Y : EnumType.DEFAULT));
 			linez(z+11*a,z+1+11*a,x+3,y,Blocks.quartz_block);
 		}
-		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,Blocks.quartz_block,a%2 == 1?0:2);
+		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,getQuartz(a%2 == 1 ? EnumType.DEFAULT : EnumType.LINES_Y));
 		
-		for(int a = 0; a < 5; a++)block(x,z+4+a,y,Blocks.quartz_block,a == 2?1:(a == 1 || a == 3?4:0));
+		for(int a = 0; a < 5; a++)block(x,z+4+a,y,getQuartz(a == 2 ? EnumType.CHISELED : (a == 1 || a == 3 ? EnumType.LINES_Z : EnumType.DEFAULT)));
 		++y;
 		
 		// LAYER 4
 		for(int a = 0; a < 2; a++){
-			for(int b = 0; b < 2; b++)block(x+10+4*a,z+4+4*b,y,Blocks.stone_slab,7);
+			for(int b = 0; b < 2; b++)block(x+10+4*a,z+4+4*b,y,Blocks.stone_slab.getDefaultState().withProperty(BlockStoneSlab.VARIANT,BlockStoneSlab.EnumType.QUARTZ));
 		}
 		
 		for(int a = 0; a < 2; a++)block(x,z+5+2*a,y,Blocks.quartz_block);
-		block(x,z+6,y,Blocks.quartz_block,2);
+		block(x,z+6,y,getQuartz(EnumType.LINES_Y));
 		block(x,z+4,y,Blocks.quartz_stairs,2);
 		block(x,z+8,y,Blocks.quartz_stairs,3);
 		
@@ -116,22 +124,22 @@ public class TempleGenerator{
 				rect(x+17,z+11*a,x+18,z+1+11*a,y,Blocks.quartz_block);
 				for(int b = 0; b < 2; b++){
 					if (i == 0){
-						block(x+2,z+3+6*a,y,Blocks.quartz_block,1);
-						block(x+1,z+4+4*a,y,Blocks.quartz_block,1);
+						block(x+2,z+3+6*a,y,getQuartz(EnumType.CHISELED));
+						block(x+1,z+4+4*a,y,getQuartz(EnumType.CHISELED));
 					}
-					else block(x+2,z+2+6*a+2*b,y,Blocks.quartz_block,1);
+					else block(x+2,z+2+6*a+2*b,y,getQuartz(EnumType.CHISELED));
 				}
 				for(int b = 0; b < 13; b++){
-					if (b%2 == 0)linez(z+11*a,z+1+11*a,x+4+b,y,Blocks.quartz_block,2);
+					if (b%2 == 0)linez(z+11*a,z+1+11*a,x+4+b,y,getQuartz(EnumType.LINES_Y));
 					else{
-						block(x+4+b,z+11*a,y,a == 0?Blocks.glowstone:Blocks.iron_bars);
-						block(x+4+b,z+1+11*a,y,a == 1?Blocks.glowstone:Blocks.iron_bars);
+						block(x+4+b,z+11*a,y,a == 0 ? Blocks.glowstone : Blocks.iron_bars);
+						block(x+4+b,z+1+11*a,y,a == 1 ? Blocks.glowstone : Blocks.iron_bars);
 					}
 				}
 				linez(z+11*a,z+1+11*a,x+3,y,Blocks.quartz_block);
 			}
 			for(int a = 0; a < 9; a++){
-				if (a%2 == 0)linex(x+17,x+18,z+2+a,y,Blocks.quartz_block,2);
+				if (a%2 == 0)linex(x+17,x+18,z+2+a,y,getQuartz(EnumType.LINES_Y));
 				else{
 					block(x+17,z+2+a,y,Blocks.iron_bars);
 					block(x+18,z+2+a,y,Blocks.glowstone);
@@ -141,25 +149,25 @@ public class TempleGenerator{
 		}
 		
 		// LAYER 5
-		block(x,z+6,y,Blocks.quartz_block,0);
+		block(x,z+6,y,Blocks.quartz_block);
 		block(x,z+5,y,Blocks.quartz_stairs,2);
 		block(x,z+7,y,Blocks.quartz_stairs,3);
 
-		for(int a = 0; a < 9; a++)block(x+2,z+2+a,y,Blocks.quartz_block,a%2 == 0?1:0);
-		for(int a = 0; a < 3; a++)block(x+1,z+5+a,y,Blocks.quartz_block,a%2 == 0?1:0);
+		for(int a = 0; a < 9; a++)block(x+2,z+2+a,y,getQuartz(a%2 == 0 ? EnumType.CHISELED : EnumType.DEFAULT));
+		for(int a = 0; a < 3; a++)block(x+1,z+5+a,y,getQuartz(a%2 == 0 ? EnumType.CHISELED : EnumType.DEFAULT));
 		++y;
 		
 		// LAYER 6
 		for(int a = 0; a < 2; a++){
 			linex(x+1,x+18,z+12*a,y,Blocks.quartz_block);
 			linez(z+1,z+11,x+1+17*a,y,Blocks.quartz_block);
-			for(int b = 0; b < 13; b++)block(x+4+b,z+1+10*a,y,Blocks.quartz_block,b%2 == 0?2:0);
+			for(int b = 0; b < 13; b++)block(x+4+b,z+1+10*a,y,getQuartz(b%2 == 0 ? EnumType.LINES_Y : EnumType.DEFAULT));
 			linez(z+11*a,z+1+11*a,x+3,y,Blocks.quartz_block);
 			linex(x+3,x+16,z+12*a,y,Blocks.quartz_block);
 		}
 		for(int a = 0; a < 9; a++){
-			block(x+17,z+2+a,y,Blocks.quartz_block,a%2 == 1?0:2);
-			block(x+2,z+2+a,y,Blocks.quartz_block,a%2 == 1?1:0);
+			block(x+17,z+2+a,y,getQuartz(a%2 == 1 ? EnumType.DEFAULT : EnumType.LINES_Y));
+			block(x+2,z+2+a,y,getQuartz(a%2 == 1 ? EnumType.CHISELED : EnumType.DEFAULT));
 		}
 		linez(z+2,z+10,x+18,y,Blocks.quartz_block);
 		++y;
@@ -179,40 +187,44 @@ public class TempleGenerator{
 			linex(x+3,x+16,z+2+8*a,y,Blocks.quartz_stairs,2+a);
 		}
 		rect(x+4,z+3,x+15,z+9,y,Blocks.quartz_block);
-		world.setBlockToAir(x+9,y,z+6);
+		world.setBlockToAir(pos.moveTo(x+9,y,z+6));
 	}
 	
 	private void block(int x, int z, int y, Block block){
-		block(x,z,y,block,0);
+		block(x,z,y,block.getDefaultState());
 	}
 	
-	private void block(int x, int z, int y, Block block, int data){
-		world.setBlock(x,y,z,block,data,2);
+	private void block(int x, int z, int y, IBlockState state){
+		world.setBlockState(pos.moveTo(x,y,z),state,2);
 	}
 	
 	private void linex(int x1, int x2, int z, int y, Block block){
-		linex(x1,x2,z,y,block,0);
+		linex(x1,x2,z,y,block.getDefaultState());
 	}
 	
-	private void linex(int x1, int x2, int z, int y, Block block, int data){
-		for(int x = x1; x <= x2; x++)world.setBlock(x,y,z,block,data,2);
+	private void linex(int x1, int x2, int z, int y, IBlockState state){
+		for(int x = x1; x <= x2; x++)world.setBlockState(pos.moveTo(x,y,z),state,2);
 	}
 	
 	private void linez(int z1, int z2, int x, int y, Block block){
-		linez(z1,z2,x,y,block,0);
+		linez(z1,z2,x,y,block.getDefaultState());
 	}
 	
-	private void linez(int z1, int z2, int x, int y, Block block, int data){
-		for(int z = z1; z <= z2; z++)world.setBlock(x,y,z,block,data,2);
+	private void linez(int z1, int z2, int x, int y, IBlockState state){
+		for(int z = z1; z <= z2; z++)world.setBlockState(pos.moveTo(x,y,z),state,2);
 	}
 	
 	private void rect(int x1, int z1, int x2, int z2, int y, Block block){
-		rect(x1,z1,x2,z2,y,block,0);
+		rect(x1,z1,x2,z2,y,block.getDefaultState());
 	}
 	
-	private void rect(int x1, int z1, int x2, int z2, int y, Block block, int data){
+	private void rect(int x1, int z1, int x2, int z2, int y, IBlockState state){
 		for(int x = x1; x <= x2; x++){
-			for(int z = z1; z <= z2; z++)world.setBlock(x,y,z,block,data,2);
+			for(int z = z1; z <= z2; z++)world.setBlockState(pos.moveTo(x,y,z),state,2);
 		}
+	}
+	
+	private IBlockState getQuartz(EnumType type){
+		return Blocks.quartz_block.getDefaultState().withProperty(BlockQuartz.VARIANT,type);
 	}
 }
