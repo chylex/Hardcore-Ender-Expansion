@@ -1,6 +1,6 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import chylex.hee.packets.AbstractClientPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,7 +30,7 @@ public class C07AddPlayerVelocity extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		player.motionX += velX;
 		player.motionY += velY;
 		player.motionZ += velZ;

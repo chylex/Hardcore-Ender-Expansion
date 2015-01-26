@@ -1,6 +1,6 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
 import chylex.hee.entity.fx.FXHandler;
 import chylex.hee.entity.fx.FXType;
@@ -50,7 +50,7 @@ public class C22EffectLine extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		if (type != null)FXHandler.handleLine(player.worldObj,player,type,x1,y1,z1,x2,y2,z2);
 	}
 }

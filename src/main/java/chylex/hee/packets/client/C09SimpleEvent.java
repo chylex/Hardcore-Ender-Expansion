@@ -1,6 +1,6 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import chylex.hee.entity.fx.FXEvents;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.AbstractClientPacket;
@@ -35,7 +35,7 @@ public class C09SimpleEvent extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		if (type == null)return;
 		
 		switch(type){

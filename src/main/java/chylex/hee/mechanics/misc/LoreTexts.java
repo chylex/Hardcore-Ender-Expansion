@@ -1,6 +1,6 @@
 package chylex.hee.mechanics.misc;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
@@ -133,7 +133,7 @@ public final class LoreTexts{
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void openBook(EntityClientPlayerMP player, byte[] unlockedPages){
+	public static void openBook(AbstractClientPlayer player, byte[] unlockedPages){
 		ItemStack is = new ItemStack(Items.written_book);
 		NBTTagList pages = new NBTTagList();
 		

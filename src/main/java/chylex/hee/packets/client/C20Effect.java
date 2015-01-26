@@ -1,6 +1,6 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
@@ -49,7 +49,7 @@ public class C20Effect extends AbstractClientPacket{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		if (type != null)FXHandler.handleBasic(player.worldObj,player,type,x,y,z);
 	}
 }

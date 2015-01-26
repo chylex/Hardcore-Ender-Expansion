@@ -1,7 +1,7 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.block.BlockList;
@@ -108,7 +108,7 @@ public class C08PlaySound extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		if (soundId >= 0 && soundId < soundNames.length)player.worldObj.playSound(x,y,z,soundNames[soundId],volume,pitch,false);
 	}
 }

@@ -1,6 +1,6 @@
 package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
-import net.minecraft.util.Direction;
+import chylex.hee.system.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockSpookyLog;
 import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;

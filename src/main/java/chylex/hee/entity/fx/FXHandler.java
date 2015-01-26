@@ -1,6 +1,6 @@
 package chylex.hee.entity.fx;
 import java.util.Random;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -18,7 +18,7 @@ import chylex.hee.system.util.MathUtil;
 public final class FXHandler{
 	private static final Random rand = new Random();
 	
-	public static void handleBasic(World world, EntityClientPlayerMP player, FXType.Basic fx, double x, double y, double z){
+	public static void handleBasic(World world, AbstractClientPlayer player, FXType.Basic fx, double x, double y, double z){
 		switch(fx){
 			case ESSENCE_ALTAR_SMOKE:
 				for(int a = 0; a < 15; a++)world.spawnParticle(EnumParticleTypes.SMOKE_LARGE,x+randCenter(0.5D),y+0.6D+rand.nextDouble()*0.25D,z+randCenter(0.5D),0D,0.15D,0D);
@@ -111,7 +111,7 @@ public final class FXHandler{
 		}
 	}
 	
-	public static void handleEntity(World world, EntityClientPlayerMP player, FXType.Entity fx, double x, double y, double z, float width, float height){
+	public static void handleEntity(World world, AbstractClientPlayer player, FXType.Entity fx, double x, double y, double z, float width, float height){
 		switch(fx){
 			case CHARM_CRITICAL:
 				for(int a = 0; a < 12; a++)world.spawnParticle(EnumParticleTypes.CRIT,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.2D),randCenter(0.2D),randCenter(0.2D));
@@ -166,7 +166,7 @@ public final class FXHandler{
 		}
 	}
 	
-	public static void handleLine(World world, EntityClientPlayerMP player, FXType.Line fx, double x1, double y1, double z1, double x2, double y2, double z2){
+	public static void handleLine(World world, AbstractClientPlayer player, FXType.Line fx, double x1, double y1, double z1, double x2, double y2, double z2){
 		Vec3 lineVec = new Vec3(x2-x1,y2-y1,z2-z1);
 		double len = lineVec.lengthVector();
 		lineVec = lineVec.normalize();

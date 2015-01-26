@@ -1,6 +1,6 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.packets.AbstractClientPacket;
@@ -30,7 +30,7 @@ public class C03KnowledgeNotification extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		OverlayManager.addNotification("Unlocked new Knowledge Object: "+KnowledgeObject.getObjectById(objectID+128).getTooltip());
 		CompendiumEventsClient.onObjectDiscovered(objectID+128);
 		

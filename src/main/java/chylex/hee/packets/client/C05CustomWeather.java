@@ -1,7 +1,7 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityWeatherEffect;
 import net.minecraft.world.World;
@@ -41,7 +41,7 @@ public class C05CustomWeather extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		World world = Minecraft.getMinecraft().theWorld;
 		Entity e = null;
 		

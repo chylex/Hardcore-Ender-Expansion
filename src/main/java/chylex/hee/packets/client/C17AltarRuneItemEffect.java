@@ -1,6 +1,6 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -39,7 +39,7 @@ public class C17AltarRuneItemEffect extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		RuneItem runeItem = EssenceType.getById(essenceId).itemsNeeded[runeArrayIndex];
 		ItemStack is = runeItem.getShowcaseItem();
 		World world = player.worldObj;

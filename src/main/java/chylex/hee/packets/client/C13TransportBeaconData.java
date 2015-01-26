@@ -3,7 +3,7 @@ import io.netty.buffer.ByteBuf;
 import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiScreen;
 import chylex.hee.gui.GuiTransportBeacon;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons.LocationXZ;
@@ -42,7 +42,7 @@ public class C13TransportBeaconData extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
 		
 		if (gui instanceof GuiTransportBeacon){

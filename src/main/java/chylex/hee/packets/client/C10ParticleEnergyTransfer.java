@@ -1,6 +1,6 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.fml.relauncher.Side;
@@ -66,7 +66,7 @@ public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(EntityClientPlayerMP player){
+	protected void handle(AbstractClientPlayer player){
 		Vec3 vec = new Vec3(targetX-startX,targetY-startY,targetZ-startZ);
 		int steps = MathUtil.floor(vec.lengthVector()*(1F/spacing));
 		vec = vec.normalize();

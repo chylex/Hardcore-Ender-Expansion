@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.Direction;
+import chylex.hee.system.util.Direction;
 import net.minecraft.util.MathHelper;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;

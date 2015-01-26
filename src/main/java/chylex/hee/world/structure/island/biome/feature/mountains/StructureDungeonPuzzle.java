@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.Direction;
+import chylex.hee.system.util.Direction;
 import net.minecraft.util.Vec3;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;

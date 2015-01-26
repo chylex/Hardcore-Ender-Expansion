@@ -1,6 +1,6 @@
 package chylex.hee.entity.technical;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Direction;
+import chylex.hee.system.util.Direction;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
