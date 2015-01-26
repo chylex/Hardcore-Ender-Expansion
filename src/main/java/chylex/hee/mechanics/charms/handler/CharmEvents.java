@@ -46,6 +46,7 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -350,6 +351,7 @@ public final class CharmEvents{
 			if (lastResortCooldown.length > 0 && !playerLastResortCooldown.containsKey(targetPlayer.getGameProfile().getId())){
 				float[] lastResortDist = getProp(targetPlayer,"lastresortblocks");
 				int randIndex = targetPlayer.worldObj.rand.nextInt(lastResortCooldown.length);
+				BlockPosM testPos = new BlockPosM();
 				
 				for(int attempt = 0, xx, yy, zz; attempt < 128; attempt++){
 					float ang = targetPlayer.worldObj.rand.nextFloat()*2F*(float)Math.PI;
@@ -359,7 +361,7 @@ public final class CharmEvents{
 					yy = MathUtil.floor(targetPlayer.posY)-2;
 					
 					for(int yAttempt = 0; yAttempt <= 6; yAttempt++){
-						if (!targetPlayer.worldObj.isAirBlock(xx,yy-1,zz) && targetPlayer.worldObj.isAirBlock(xx,yy,zz) && targetPlayer.worldObj.isAirBlock(xx,yy+1,zz)){
+						if (!testPos.moveTo(xx,yy-1,zz).isAir(targetPlayer.worldObj) && testPos.moveUp().isAir(targetPlayer.worldObj) && testPos.moveUp().isAir(targetPlayer.worldObj)){
 							PacketPipeline.sendToAllAround(targetPlayer,64D,new C21EffectEntity(FXType.Entity.CHARM_LAST_RESORT,targetPlayer));
 							targetPlayer.setPositionAndUpdate(xx+0.5D,yy+0.01D,zz+0.5D);
 							attempt = 129;

@@ -11,6 +11,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -43,25 +44,20 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 				EntityEnderman enderman = DragonUtil.getClosestEntity(player,(List<EntityEnderman>)dragon.worldObj.getEntitiesWithinAABB(EntityEnderman.class,player.boundingBox.expand(18D,8D,18D)));
 				
 				if (enderman == null){
-					int px = 0, py = 0, pz = 0;
+					BlockPosM pos = new BlockPosM(), pos2 = new BlockPosM();
 					
 					for(int attempt = 0; attempt < 40; attempt++){
-						float rad = rand.nextFloat()*(float)Math.PI*2F;
-						double len = 10D+rand.nextDouble()*8D;
-						
-						px = (int)Math.round(player.posX+MathHelper.sin(rad)*len);
-						py = (int)Math.round(player.posY-(rand.nextDouble()-0.5D)*6D);
-						pz = (int)Math.round(player.posZ+MathHelper.cos(rad)*len);
-						
-						if (dragon.worldObj.isAirBlock(px,py,pz))break;
+						float rad = rand.nextFloat()*(float)Math.PI*2F, len = 10F+rand.nextFloat()*8F;
+						pos.moveTo(player).moveBy(Math.round(MathHelper.sin(rad)*len),Math.round(-(rand.nextFloat()-0.5F)*6F),Math.round(MathHelper.cos(rad)*len));
+						if (pos.isAir(dragon.worldObj))break;
 					}
 					
-					for(int a = 0, xx, yy, zz; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
+					for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
 						for(int attempt = 0; attempt < 6; attempt++){
-							if (dragon.worldObj.isAirBlock(xx = px+rand.nextInt(3)-1,yy = py+rand.nextInt(3)-1,zz = pz+rand.nextInt(3)-1))break;
+							if (pos2.moveTo(pos).moveBy(rand.nextInt(3)-1,rand.nextInt(3)-1,rand.nextInt(3)-1).isAir(dragon.worldObj))break;
 						}
 						
-						spawnBatAt(px,py,pz,player);
+						spawnBatAt(pos.x+0.5D,pos.y+0.5D,pos.z+0.5D,player);
 					}
 				}
 				else{

@@ -2,6 +2,7 @@ package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -98,14 +99,11 @@ public class BlockPersegrit extends BlockAbstractStateEnum implements IBlockSubt
 	}
 	
 	public static boolean isConnectable(LargeStructureWorld world, int x, int y, int z){
-		if (world.getBlock(x,y,z) == BlockList.persegrit){
-			int meta = world.getMetadata(x,y,z);
-			
-			if (meta == 0)return false;
-			else if (meta >= 3 && meta <= 6){
-				return false;
-			}
-			else return true;
+		IBlockState state = world.getBlockState(x,y,z);
+		
+		if (state.getBlock() == BlockList.persegrit){
+			Variant variant = (Variant)state.getValue(VARIANT);
+			return variant != Variant.PLAIN && variant != Variant.END_1 && variant != Variant.END_2 && variant != Variant.END_3 && variant != Variant.END_4;
 		}
 		else return false;
 	}

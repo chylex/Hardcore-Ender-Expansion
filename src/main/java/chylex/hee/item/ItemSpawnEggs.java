@@ -1,7 +1,6 @@
 package chylex.hee.item;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
@@ -9,7 +8,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Facing;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
@@ -93,18 +93,14 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	}
 	
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
 		if (world.isRemote)return true;
-
-		Block block = world.getBlock(x,y,z);
-		x += Facing.offsetsXForSide[side];
-		y += Facing.offsetsYForSide[side];
-		z += Facing.offsetsZForSide[side];
-
+		
 		EggData egg = getEggData(is);
+		
 		if (egg != null){
-			egg.spawnMob(world,x+0.5D,y+(side == 1 && block != null && block.getRenderType() == 11?0.5D:0D),z+0.5D,is);
-			
+			pos = pos.offset(side);
+			egg.spawnMob(world,pos.getX()+0.5D,pos.getY(),pos.getZ()+0.5D,is);
 			if (!player.capabilities.isCreativeMode)--is.stackSize;
 		}
 

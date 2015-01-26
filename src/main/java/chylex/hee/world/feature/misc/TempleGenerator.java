@@ -1,13 +1,15 @@
 package chylex.hee.world.feature.misc;
-import sun.security.krb5.internal.crypto.EType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCarpet;
 import net.minecraft.block.BlockQuartz;
 import net.minecraft.block.BlockQuartz.EnumType;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.BlockStairs.EnumHalf;
 import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.BlockPosM;
@@ -38,8 +40,8 @@ public class TempleGenerator{
 		// LAYER 1
 		rect(x+1,z,x+18,z+12,y,Blocks.quartz_block);
 		block(x,z+6,y,Blocks.quartz_block);
-		block(x,z+5,y,Blocks.quartz_stairs,6);
-		block(x,z+7,y,Blocks.quartz_stairs,7);
+		block(x,z+5,y,getQuartzStairs(EnumFacing.SOUTH,true));
+		block(x,z+7,y,getQuartzStairs(EnumFacing.WEST,true));
 		
 		block(x+3,z+6,y,Blocks.glowstone);
 		rect(x+11,z+5,x+13,z+7,y,Blocks.glowstone);
@@ -70,12 +72,12 @@ public class TempleGenerator{
 			linez(z+11*a,z+1+11*a,x+3,y,Blocks.quartz_block);
 			linex(x+3,x+5,z+2+8*a,y,Blocks.water);
 		}
-		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,Blocks.quartz_block,getQuartz(a%2 == 1 ? EnumType.DEFAULT : EnumType.LINES_Y));
+		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,getQuartz(a%2 == 1 ? EnumType.DEFAULT : EnumType.LINES_Y));
 		
 		for(int a = 0; a < 2; a++)block(x,z+5+2*a,y,Blocks.quartz_block);
 		block(x,z+6,y,getQuartz(EnumType.LINES_Y));
-		block(x,z+4,y,Blocks.quartz_stairs,6);
-		block(x,z+8,y,Blocks.quartz_stairs,7);
+		block(x,z+4,y,getQuartzStairs(EnumFacing.SOUTH,true));
+		block(x,z+8,y,getQuartzStairs(EnumFacing.WEST,true));
 		
 		rect(x+1,z+5,x+4,z+7,y,Blocks.carpet.getDefaultState().withProperty(BlockCarpet.COLOR,EnumDyeColor.RED));
 		linex(x+7,x+15,z+2,y,Blocks.carpet.getDefaultState().withProperty(BlockCarpet.COLOR,EnumDyeColor.RED));
@@ -86,7 +88,7 @@ public class TempleGenerator{
 		// LAYER 3
 		rect(x+8,z+5,x+10,z+7,y,Blocks.quartz_block);
 		block(x+9,z+6,y,Blocks.coal_block);
-		linez(z+5,z+7,x+7,y,Blocks.stone_slab,7);
+		linez(z+5,z+7,x+7,y,Blocks.stone_slab.getDefaultState().withProperty(BlockStoneSlab.VARIANT,BlockStoneSlab.EnumType.QUARTZ));
 		for(int a = 0; a < 2; a++)linex(x+11,x+13,z+4+a*4,y,Blocks.quartz_block);
 		linez(z+5,z+7,x+14,y,Blocks.quartz_block);
 		rect(x+11,z+5,x+13,z+7,y,BlockList.temple_end_portal);
@@ -114,8 +116,8 @@ public class TempleGenerator{
 		
 		for(int a = 0; a < 2; a++)block(x,z+5+2*a,y,Blocks.quartz_block);
 		block(x,z+6,y,getQuartz(EnumType.LINES_Y));
-		block(x,z+4,y,Blocks.quartz_stairs,2);
-		block(x,z+8,y,Blocks.quartz_stairs,3);
+		block(x,z+4,y,getQuartzStairs(EnumFacing.SOUTH,false));
+		block(x,z+8,y,getQuartzStairs(EnumFacing.WEST,false));
 		
 		// LAYER 4 + 5
 		for(int i = 0; i < 2; i++){
@@ -150,8 +152,8 @@ public class TempleGenerator{
 		
 		// LAYER 5
 		block(x,z+6,y,Blocks.quartz_block);
-		block(x,z+5,y,Blocks.quartz_stairs,2);
-		block(x,z+7,y,Blocks.quartz_stairs,3);
+		block(x,z+5,y,getQuartzStairs(EnumFacing.SOUTH,false));
+		block(x,z+7,y,getQuartzStairs(EnumFacing.WEST,false));
 
 		for(int a = 0; a < 9; a++)block(x+2,z+2+a,y,getQuartz(a%2 == 0 ? EnumType.CHISELED : EnumType.DEFAULT));
 		for(int a = 0; a < 3; a++)block(x+1,z+5+a,y,getQuartz(a%2 == 0 ? EnumType.CHISELED : EnumType.DEFAULT));
@@ -174,17 +176,17 @@ public class TempleGenerator{
 		
 		// LAYER 7 + 8 (ROOF)
 		for(int a = 0; a < 2; a++){
-			linez(z+2,z+10,x+2+15*a,y,Blocks.quartz_stairs,0+a);
-			linex(x+2,x+17,z+1+10*a,y,Blocks.quartz_stairs,2+a);
+			linez(z+2,z+10,x+2+15*a,y,getQuartzStairs(getFacing(a),false));
+			linex(x+2,x+17,z+1+10*a,y,getQuartzStairs(getFacing(2+a),false));
 			linez(z+3,z+9,x+3+13*a,y,Blocks.quartz_block);
 			linex(x+3,x+16,z+2+8*a,y,Blocks.quartz_block);
-			linez(z+4,z+8,x+4+11*a,y,Blocks.quartz_stairs,5-a);
-			linex(x+4,x+15,z+3+6*a,y,Blocks.quartz_stairs,7-a);
+			linez(z+4,z+8,x+4+11*a,y,getQuartzStairs(getFacing(1+a),true));
+			linex(x+4,x+15,z+3+6*a,y,getQuartzStairs(getFacing(3+a),true));
 		}
 		++y;
 		for(int a = 0; a < 2; a++){
-			linez(z+3,z+9,x+3+13*a,y,Blocks.quartz_stairs,0+a);
-			linex(x+3,x+16,z+2+8*a,y,Blocks.quartz_stairs,2+a);
+			linez(z+3,z+9,x+3+13*a,y,getQuartzStairs(getFacing(a),false));
+			linex(x+3,x+16,z+2+8*a,y,getQuartzStairs(getFacing(2+a),false));
 		}
 		rect(x+4,z+3,x+15,z+9,y,Blocks.quartz_block);
 		world.setBlockToAir(pos.moveTo(x+9,y,z+6));
@@ -226,5 +228,13 @@ public class TempleGenerator{
 	
 	private IBlockState getQuartz(EnumType type){
 		return Blocks.quartz_block.getDefaultState().withProperty(BlockQuartz.VARIANT,type);
+	}
+	
+	private IBlockState getQuartzStairs(EnumFacing facing, boolean upsideDown){
+		return Blocks.quartz_stairs.getDefaultState().withProperty(BlockStairs.FACING,facing).withProperty(BlockStairs.HALF,upsideDown ? EnumHalf.TOP : EnumHalf.BOTTOM);
+	}
+	
+	private EnumFacing getFacing(int facing){
+		return EnumFacing.getHorizontal(facing);
 	}
 }

@@ -670,9 +670,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		}
 		
 		if (source.getSourceOfDamage() instanceof EntityPlayer || source.getSourceOfDamage() instanceof EntityMobHomelandEnderman){
-			boolean callGuards = entityToAttack == null || rand.nextInt(4) == 0;
+			boolean callGuards = getAttackTarget() == null || rand.nextInt(4) == 0;
 			
-			setAttackTarget(source.getSourceOfDamage());
+			setAttackTarget((EntityLivingBase)source.getSourceOfDamage());
 			setScreaming(true);
 			
 			if (callGuards){
@@ -700,7 +700,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				for(int a = 0, amt = Math.max(2,Math.round(list.size()*guardPerc)); a < amt && !list.isEmpty(); a++){
 					EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
 					guard.teleportToEntity(source.getSourceOfDamage());
-					guard.setAttackTarget(source.getSourceOfDamage());
+					guard.setAttackTarget((EntityLivingBase)source.getSourceOfDamage());
 					guard.setScreaming(true);
 					PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,this,guard));
 				}
