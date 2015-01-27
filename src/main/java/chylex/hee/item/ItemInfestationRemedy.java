@@ -32,7 +32,7 @@ public class ItemInfestationRemedy extends Item{
 	}
 	
 	@Override
-	public ItemStack onEaten(ItemStack is, World world, EntityPlayer player){
+	public ItemStack onItemUseFinish(ItemStack is, World world, EntityPlayer player){
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		
 		TIntHashSet toRemove = new TIntHashSet(5);

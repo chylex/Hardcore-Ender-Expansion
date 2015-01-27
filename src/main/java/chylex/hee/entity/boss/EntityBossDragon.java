@@ -535,7 +535,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 		
 		for(int yy = bottomY; yy <= bottomY+3; yy++)tmpPos.moveTo(pos.x,yy,pos.z).setBlock(worldObj,Blocks.bedrock);
-		for(int dir = 0; dir < 4; dir++)tmpPos.moveTo(pos.x+Direction.offsetX[dir],bottomY+2,pos.z+Direction.offsetZ[dir]).setBlock(worldObj,Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING,EnumFacing.getHorizontal(Direction.directionToFacing[dir])));
+		for(int dir = 0; dir < 4; dir++)tmpPos.moveTo(pos.x+Direction.offsetX[dir],bottomY+2,pos.z+Direction.offsetZ[dir]).setBlock(worldObj,Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING,EnumFacing.getHorizontal(dir)));
 		tmpPos.moveTo(pos.x,bottomY+4,pos.z).setBlock(worldObj,Blocks.dragon_egg);
 		
 		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().moveTo(pos).moveBy(0,bottomY+4,0);

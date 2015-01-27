@@ -54,7 +54,7 @@ public class StructureResourcePit extends AbstractIslandStructure{
 			for(int py = maxy; py > maxy-height-rand.nextInt(4); py--){
 				for(int px = -irad; px <= irad; px++){
 					for(int pz = -irad; pz <= irad; pz++){
-						if (holes[px+irad][pz+irad])world.setBlock(x+px,py,z+pz,py < maxy-height+3 ? Blocks.flowing_lava : Blocks.air,0,py < maxy-height+3);
+						if (holes[px+irad][pz+irad])world.setBlock(x+px,py,z+pz,py < maxy-height+3 ? Blocks.flowing_lava : Blocks.air,py < maxy-height+3);
 					}
 				}
 			}

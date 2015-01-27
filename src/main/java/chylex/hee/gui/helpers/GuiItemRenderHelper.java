@@ -2,14 +2,11 @@ package chylex.hee.gui.helpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class GuiItemRenderHelper{
-	private static final RenderBlocks renderBlocks = new RenderBlocks();
-	
 	private static int tooltipX, tooltipY;
 	private static String tooltipString;
 	

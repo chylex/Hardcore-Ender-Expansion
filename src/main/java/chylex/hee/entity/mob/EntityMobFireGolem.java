@@ -53,7 +53,7 @@ public class EntityMobFireGolem extends EntityMob{
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,28D);
+		EntityPlayer player = worldObj.getClosestPlayerToEntity(this,28D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 

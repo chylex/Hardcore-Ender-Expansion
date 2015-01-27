@@ -1,23 +1,17 @@
 package chylex.hee.item;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import chylex.hee.render.texture.TextureBiomeCompass;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
@@ -25,7 +19,7 @@ import chylex.hee.world.structure.island.util.IslandSpawnChecker;
 
 public class ItemBiomeCompass extends Item{
 	@SideOnly(Side.CLIENT)
-	public static List<Set<ChunkCoordinates>> locations;
+	public static List<Set<BlockPosM>> locations;
 	@SideOnly(Side.CLIENT)
 	public static byte currentBiome;
 	@SideOnly(Side.CLIENT)
@@ -42,7 +36,7 @@ public class ItemBiomeCompass extends Item{
 					for(int x = entity.chunkCoordX-96, z; x <= entity.chunkCoordX+96; x++){
 						for(z = entity.chunkCoordZ-96; z <= entity.chunkCoordZ+96; z++){
 							byte biome = IslandSpawnChecker.getIslandBiomeAt(x,z,nbt.getLong("seed1"),nbt.getInteger("seed2"));
-							if (biome != -1)locations.get(biome).add(new ChunkCoordinates(x*16+(IslandSpawnChecker.featureSize>>1),0,z*16+(IslandSpawnChecker.featureSize>>1)));
+							if (biome != -1)locations.get(biome).add(new BlockPosM(x*16+(IslandSpawnChecker.featureSize>>1),0,z*16+(IslandSpawnChecker.featureSize>>1)));
 						}
 					}
 					
@@ -79,7 +73,7 @@ public class ItemBiomeCompass extends Item{
 		return is;
 	}
 	
-	@Override
+	/*@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister){
 		((TextureMap)iconRegister).setTextureEntry("hardcoreenderexpansion:biome_compass",(TextureAtlasSprite)(itemIcon = new TextureBiomeCompass("hardcoreenderexpansion:biome_compass")));
@@ -87,5 +81,5 @@ public class ItemBiomeCompass extends Item{
 		locations = new ArrayList<>(IslandBiomeBase.biomeList.size());
 		for(int a = 0; a < IslandBiomeBase.biomeList.size(); a++)locations.add(a,new HashSet<ChunkCoordinates>());
 		lastSavedX = lastSavedZ = Integer.MAX_VALUE;
-	}
+	}*/ // TODO
 }

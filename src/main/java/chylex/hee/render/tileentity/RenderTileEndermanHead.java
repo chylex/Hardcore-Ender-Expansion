@@ -49,7 +49,7 @@ public class RenderTileEndermanHead extends TileEntitySpecialRenderer{
 	}
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime){
+	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime, int what){
 		GL11.glPushMatrix();
 		GL11.glTranslated(x,y,z);
 		renderSkull(((TileEntityEndermanHead)tile).getMeta(),((TileEntityEndermanHead)tile).getRotation()*360F/16F);

@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+import chylex.hee.block.BlockBiomeIslandCore;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
@@ -128,7 +129,7 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 			
 			Stopwatch.finish("ComponentIsland - biome content "+biomeData.content.id);
 			
-			structure.setBlock(104,8,104,BlockList.biome_core,biomeData.content.id,true);
+			structure.setBlock(104,8,104,BlockList.biome_core.setProperty(BlockBiomeIslandCore.Biome.values()[biomeData.content.id]),true);
 			
 			Stopwatch.finish("ComponentIsland - total");
 		

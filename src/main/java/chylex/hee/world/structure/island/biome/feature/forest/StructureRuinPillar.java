@@ -1,8 +1,11 @@
 package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.BlockStoneBrick.EnumType;
+import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
@@ -74,7 +77,7 @@ public class StructureRuinPillar extends AbstractIslandStructure{
 	}
 	
 	public static void placeRandomTopBlock(LargeStructureWorld world, int x, int y, int z, Random rand){
-		if (rand.nextInt(6) == 0)world.setBlock(x,y,z,Blocks.stone_slab,rand.nextInt(4) == 0 ? 3 : 5);
-		else world.setBlock(x,y,z,rand.nextInt(5) == 0 ? Blocks.stone_stairs : Blocks.stone_brick_stairs,rand.nextInt(4));
+		if (rand.nextInt(6) == 0)world.setBlock(x,y,z,Blocks.stone_slab.getDefaultState().withProperty(BlockStoneSlab.VARIANT,rand.nextInt(4) == 0 ? BlockStoneSlab.EnumType.COBBLESTONE : BlockStoneSlab.EnumType.SMOOTHBRICK));
+		else world.setBlock(x,y,z,(rand.nextInt(5) == 0 ? Blocks.stone_stairs : Blocks.stone_brick_stairs).getDefaultState().withProperty(BlockStairs.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
 	}
 }

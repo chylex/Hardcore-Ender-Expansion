@@ -73,8 +73,7 @@ public class WorldGenObsidianSpike extends WorldGenBase{
 			world.spawnEntityInWorld(crystal);
 			tmpPos.moveTo(pos.x,pos.y+height,pos.z).setBlock(world,Blocks.bedrock,2);
 			
-			crystal.setCrystalKey(WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).addCrystal(pos.x,pos.y+height,pos.z));
-			
+			crystal.setCrystalKey(WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).addCrystal(tmpPos.copy()));
 			return true;
 		}
 

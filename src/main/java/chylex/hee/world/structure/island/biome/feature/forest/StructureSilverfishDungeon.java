@@ -8,7 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumChatFormatting;
-import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockCustomSpawner;
+import chylex.hee.block.BlockCustomSpawner.Type;
 import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemMusicDisk;
@@ -118,13 +119,13 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 					iz = z+rand.nextInt(11)-5;
 				
 				if (world.getBlock(ix,iy,iz) == Blocks.end_stone && world.isAir(ix,iy+1,iz)){
-					world.setBlock(ix,iy,iz,Blocks.stonebrick,rand.nextInt(3));
+					world.setBlock(ix,iy,iz,Blocks.stonebrick.getStateFromMeta(rand.nextInt(3)));
 				}
 			}
 			
 			// Spawner
 			
-			world.setBlock(x,lowestY,z,BlockList.custom_spawner,1);
+			world.setBlock(x,lowestY,z,BlockCustomSpawner.createSpawner(Type.SILVERFISH_DUNGEON));
 			
 			if (rand.nextInt(5) <= 1){
 				for(int nextSpawnerAttempt = 0,spawnerX,spawnerY,spawnerZ; nextSpawnerAttempt < 10; nextSpawnerAttempt++){
@@ -133,7 +134,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 					spawnerZ = z+rand.nextInt(11)-5;
 					
 					if (world.isAir(spawnerX,spawnerY,spawnerZ) && world.isAir(spawnerX,spawnerY+1,spawnerZ) && !world.isAir(spawnerX,spawnerY-1,spawnerZ)){
-						world.setBlock(spawnerX,spawnerY,spawnerZ,BlockList.custom_spawner,1);
+						world.setBlock(spawnerX,spawnerY,spawnerZ,BlockCustomSpawner.createSpawner(Type.SILVERFISH_DUNGEON));
 						break;
 					}
 				}
@@ -161,7 +162,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 				chestZ = z;
 			}
 			
-			world.setBlock(chestX,chestY,chestZ,Blocks.chest,0);
+			world.setBlock(chestX,chestY,chestZ,Blocks.chest);
 			world.setTileEntityGenerator(chestX,chestY,chestZ,"silverfishDungeonChest",this);
 			
 			break;

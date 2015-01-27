@@ -176,7 +176,7 @@ public final class DragonUtil{
 		world.newExplosion(null,x,y,z,strength,fire,world.getGameRules().getGameRuleBooleanValue("mobGriefing"));
 	}
 	
-	public static UUID convertNameToUUID(String name){
+	public static UUID convertNameToUUID(String name){ // TODO remove support
 		return name.length() == 32 ? UUID.fromString(name) : UUID.fromString(PreYggdrasilConverter.func_152719_a(name));
 	}
 	

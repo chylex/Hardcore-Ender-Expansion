@@ -204,15 +204,14 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				posY = 10000D;
 				
 				if (--currentTaskTimer == 0){
-					int tpX, tpY, tpZ;
+					BlockPosM pos = new BlockPosM();
 					
 					for(int attempt = 0; attempt < 100; attempt++){
-						tpX = MathUtil.floor(posX)+rand.nextInt(41)-20;
-						tpZ = MathUtil.floor(posZ)+rand.nextInt(41)-20;
-						tpY = worldObj.getTopSolidOrLiquidBlock(tpX,tpZ)-1;
+						pos.moveTo(this).moveBy(rand.nextInt(41)-20,0,rand.nextInt(41)-20);
+						pos.y = worldObj.getTopSolidOrLiquidBlock(pos).getY()-1;
 						
-						if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.end_terrain){
-							teleportTo(tpX+0.3D+rand.nextDouble()*0.4D,tpY+1D,tpZ+0.3D+rand.nextDouble()*0.4D,true);
+						if (pos.getBlock(worldObj) == BlockList.end_terrain){
+							teleportTo(pos.x+0.3D+rand.nextDouble()*0.4D,pos.y+1D,pos.z+0.3D+rand.nextDouble()*0.4D,true);
 							PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 							
 							if (overtakeGroupRole == OvertakeGroupRole.CHAOSMAKER){
@@ -361,16 +360,16 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								}
 								else{
 									Vec3 look = getLookVec();
+									BlockPosM pos = new BlockPosM();
 									
-									for(int attempt = 0, pathX, pathY, pathZ; attempt < 12; attempt++){
+									for(int attempt = 0; attempt < 12; attempt++){
 										if (attempt > 8 || rand.nextInt(6) == 0)look = new Vec3(rand.nextDouble()-0.5D,0D,rand.nextDouble()-0.5D).normalize();
 										
-										pathX = (int)(posX+look.xCoord*16D+(rand.nextDouble()-0.5D)*5D);
-										pathZ = (int)(posZ+look.zCoord*16D+(rand.nextDouble()-0.5D)*5D);
-										pathY = worldObj.getTopSolidOrLiquidBlock(pathX,pathZ)-1;
+										pos.moveTo(this).moveBy(MathUtil.floor(look.xCoord*16D+(rand.nextDouble()-0.5D)*5D),0,MathUtil.floor(look.zCoord*16D+(rand.nextDouble()-0.5D)*5D));
+										pos.y = worldObj.getTopSolidOrLiquidBlock(pos).getY()-1;
 										
-										if (worldObj.getBlock(pathX,pathY,pathZ) == BlockList.end_terrain && MathUtil.distance(posX-pathX,posY-pathY,posZ-pathZ) > 5D){
-											setPathToEntity(worldObj.getEntityPathToXYZ(this,pathX,pathY+1,pathZ,30F,true,false,false,true));
+										if (pos.getBlock(worldObj) == BlockList.end_terrain && MathUtil.distance(posX-pos.x,posY-pos.y,posZ-pos.z) > 5D){
+											setPathToEntity(worldObj.getEntityPathToXYZ(this,pos.x,pos.y+1,pos.z,30F,true,false,false,true));
 											currentTask = EndermanTask.STROLL;
 											currentTaskTimer = 65+rand.nextInt(60);
 											currentTaskData = new Vec3(posX,posY,posZ);

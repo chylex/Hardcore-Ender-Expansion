@@ -31,7 +31,7 @@ public class EntityMobScorchingLens extends EntityMob{
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,12D);
+		EntityPlayer player = worldObj.getClosestPlayerToEntity(this,12D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 	

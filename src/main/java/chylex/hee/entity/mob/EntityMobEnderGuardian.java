@@ -37,7 +37,7 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,3D);
+		EntityPlayer player = worldObj.getClosestPlayerToEntity(this,3D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 	

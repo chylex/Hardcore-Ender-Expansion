@@ -2,7 +2,8 @@ package chylex.hee.mechanics.energy;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockCorruptedEnergy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EnergyChunkData{
@@ -39,7 +40,7 @@ public class EnergyChunkData{
 			energyLevel -= release;
 			releaseTimer = (byte)(4+rand.nextInt(7));
 			
-			world.setBlock(x+rand.nextInt(16),8+rand.nextInt(116),z+rand.nextInt(16),BlockList.corrupted_energy_low,MathUtil.clamp(MathUtil.floor(1F+release*12F),2,8),3);
+			world.setBlockState(new BlockPosM(x+rand.nextInt(16),8+rand.nextInt(116),z+rand.nextInt(16)),BlockCorruptedEnergy.createState(MathUtil.clamp(MathUtil.floor(1F+release*12F),2,8)));
 		}
 	}
 	

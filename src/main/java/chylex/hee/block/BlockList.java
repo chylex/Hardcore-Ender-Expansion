@@ -69,7 +69,7 @@ public final class BlockList{
 	public static Block ravaged_brick_fence;
 	public static BlockAbstractState dungeon_puzzle;
 	public static Block cinder;
-	public static Block persegrit;
+	public static BlockAbstractState persegrit;
 	public static Block laboratory_obsidian;
 	public static Block laboratory_floor;
 	public static Block laboratory_stairs;
@@ -78,7 +78,7 @@ public final class BlockList{
 	
 	public static Block end_powder_ore;
 	public static Block endium_ore;
-	public static Block stardust_ore;
+	public static BlockAbstractState stardust_ore;
 	public static Block igneous_rock_ore;
 	public static Block instability_orb_ore;
 	public static BlockAbstractState sphalerite;
@@ -119,7 +119,7 @@ public final class BlockList{
 	public static Block laser_beam;
 	public static Block custom_spawner;
 	public static Block temple_end_portal;
-	public static Block biome_core;
+	public static BlockAbstractState biome_core;
 	public static Block special_effects;
 	
 	// LOAD
@@ -140,14 +140,14 @@ public final class BlockList{
 		register("ravaged_brick_fence", ravaged_brick_fence = new BlockFence(Material.rock).setHardness(1.5F).setResistance(6F).setStepSound(Block.soundTypePiston).setUnlocalizedName("ravagedBrickFence"));
 		register("dungeon_puzzle", dungeon_puzzle = (BlockAbstractState)new BlockDungeonPuzzle().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("dungeonPuzzle"));
 		register("cinder", cinder = new BlockBasic(Material.rock).setHardness(1F).setResistance(10F).setStepSound(Block.soundTypeStone).setUnlocalizedName("cinder"));
-		register("persegrit", persegrit = new BlockPersegrit().setHardness(4F).setResistance(0.2F).setStepSound(Block.soundTypeGravel).setUnlocalizedName("persegrit"));
+		register("persegrit", persegrit = (BlockAbstractState)new BlockPersegrit().setHardness(4F).setResistance(0.2F).setStepSound(Block.soundTypeGravel).setUnlocalizedName("persegrit"));
 		register("laboratory_obsidian", laboratory_obsidian = new BlockBasic(Material.rock).setHardness(40F).setResistance(500F).setStepSound(Block.soundTypeStone).setUnlocalizedName("laboratoryObsidian"));
 		register("laboratory_floor", laboratory_floor = new BlockBasic(Material.rock).setHardness(30F).setResistance(100F).setStepSound(Block.soundTypeStone).setUnlocalizedName("laboratoryFloor"));
 		register("laboratory_stairs", laboratory_stairs = new BlockBasicStairs(laboratory_floor.getDefaultState()).setHardness(20F).setResistance(80F).setStepSound(Block.soundTypeStone).setUnlocalizedName("laboratoryStairs"));
 		
 		register("end_powder_ore", end_powder_ore = new BlockEndPowderOre().setHardness(3F).setResistance(12F).setStepSound(Block.soundTypeStone).setUnlocalizedName("endPowderOre"));
 		register("endium_ore", endium_ore = new BlockEndiumOre().setHardness(18F).setResistance(100F).setStepSound(Block.soundTypeStone).setUnlocalizedName("endiumOre"));
-		register("stardust_ore", stardust_ore = new BlockStardustOre().setHardness(7F).setResistance(4F).setStepSound(Block.soundTypeStone).setUnlocalizedName("stardustOre"));
+		register("stardust_ore", stardust_ore = (BlockAbstractState)new BlockStardustOre().setHardness(7F).setResistance(4F).setStepSound(Block.soundTypeStone).setUnlocalizedName("stardustOre"));
 		register("igneous_rock_ore", igneous_rock_ore = new BlockIgneousRockOre().setHardness(2F).setResistance(5F).setStepSound(Block.soundTypeStone).setUnlocalizedName("igneousRockOre"));
 		register("instability_orb_ore", instability_orb_ore = new BlockInstabilityOrbOre().setHardness(5.5F).setResistance(3F).setStepSound(Block.soundTypeStone).setUnlocalizedName("instabilityOrbOre"));
 		register("sphalerite", sphalerite = (BlockAbstractState)new BlockSphalerite().setHardness(1.8F).setResistance(40F).setUnlocalizedName("sphalerite"));
@@ -179,7 +179,7 @@ public final class BlockList{
 		register("laser_beam", laser_beam = new BlockLaserBeam().setBlockUnbreakable().setLightLevel(1F).setResistance(6000000F).setUnlocalizedName("laserBeam"));
 		register("custom_spawner", custom_spawner = new BlockCustomSpawner().setHardness(5F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("mobSpawner"));
 		register("temple_end_portal", temple_end_portal = new BlockTempleEndPortal().setHardness(-1F).setResistance(6000000F).setUnlocalizedName("templeEndPortal"));
-		register("biome_core", biome_core = new BlockBiomeIslandCore().setBlockUnbreakable().setStepSound(Block.soundTypeStone).setUnlocalizedName("biomeIslandCore"));
+		register("biome_core", biome_core = (BlockAbstractState)new BlockBiomeIslandCore().setBlockUnbreakable().setStepSound(Block.soundTypeStone).setUnlocalizedName("biomeIslandCore"));
 		register("block_special_effects", special_effects = new BlockSpecialEffects());
 		
 		setItemClass("obsidian_special", ItemBlockWithSubtypes.class);

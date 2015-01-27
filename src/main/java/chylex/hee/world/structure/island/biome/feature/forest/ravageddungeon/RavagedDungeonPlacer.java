@@ -2,9 +2,11 @@ package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockDirt;
-import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
@@ -13,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityFlowerPot;
-import net.minecraft.world.World;
+import net.minecraft.util.EnumFacing;
 import chylex.hee.block.BlockCustomSpawner;
 import chylex.hee.block.BlockCustomSpawner.Type;
 import chylex.hee.block.BlockDeathFlower;
@@ -21,12 +23,10 @@ import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
-import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
@@ -247,8 +247,9 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		boolean isDeadEnd = connections == 1;
 		
 		DungeonDir off;
-		Facing offFacing;
+		EnumFacing offEnum;
 		boolean isLR;
+		Type spawnerType;
 		
 		switch(design){
 			case DESTROYED_WALLS:				
@@ -269,22 +270,18 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				
 				off = DungeonDir.values[rand.nextInt(DungeonDir.values.length)];
 				while(hallway.checkConnection(off))off = DungeonDir.values[rand.nextInt(DungeonDir.values.length)];
-				offFacing = dirToFacing(off);
-				
-				isLR = off == DungeonDir.LEFT || off == DungeonDir.RIGHT;
-				int metaStairsLeft = (isLR ? offFacing.getRotatedRight() : offFacing.getRotatedLeft()).getStairs()+(rand.nextBoolean() ? 0 : 4),
-					metaStairsRight = (isLR ? offFacing.getRotatedLeft() : offFacing.getRotatedRight()).getStairs()+(rand.nextBoolean() ? 0 : 4);
+				offEnum = dirToFacing(off).toEnumFacing();
 				
 				for(int yy = y+1; yy <= y+hallHeight; yy++){
 					for(int ax1 = -1; ax1 <= 1; ax1++){
 						for(int ax2 = 2; ax2 <= 3; ax2++){
 							if (ax2 == 2 && (ax1 == -1 || ax1 == 1)){
-								world.setBlock(x+rotX(off,ax1,2),yy,z+rotZ(off,ax1,2),BlockList.ravaged_brick_stairs,ax1 == -1 ? metaStairsLeft : metaStairsRight);
+								world.setBlock(x+rotX(off,ax1,2),yy,z+rotZ(off,ax1,2),getStairs(ax1 == -1 ? offEnum.rotateYCCW() : offEnum.rotateY(),false));
 								continue;
 							}
 							
 							if (ax2 == 3 && !canReplaceBlock(world.getBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2))))continue;
-							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air : BlockList.ravaged_brick,ax2 == 2 ? 0 : getBrick(rand));
+							if (ax2 == 2)world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air.getDefaultState() : getBrick(rand));
 						}
 					}
 				}
@@ -299,7 +296,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				
 				isLR = off == DungeonDir.LEFT || off == DungeonDir.RIGHT;
 				
-				offFacing = dirToFacing(off);
+				offEnum = dirToFacing(off).toEnumFacing();
 				
 				int sz = isDeadEnd ? 1 : 2;
 				boolean canGenerate = true;
@@ -318,21 +315,21 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 							world.setBlock(x+rotX(off,ax1,ax2),yy,z+rotZ(off,ax1,ax2),ax2 == 2 ? Blocks.air.getDefaultState() : getBrick(rand));
 						}
 						
-						world.setBlock(x+rotX(off,ax1,2),y+hallHeight,z+rotZ(off,ax1,2),BlockList.ravaged_brick_stairs,4+offFacing.getStairs());
+						world.setBlock(x+rotX(off,ax1,2),y+hallHeight,z+rotZ(off,ax1,2),getStairs(offEnum,true));
 					}
 				}
 				
 				if (!canGenerate)break;
 
 				if (sz == 2){
-					world.setBlock(x+rotX(off,-2,2),y+1,z+rotZ(off,-2,2),BlockList.ravaged_brick_stairs,4+(isLR ? offFacing.getRotatedRight() : offFacing.getRotatedLeft()).getStairs());
-					world.setBlock(x+rotX(off,2,2),y+1,z+rotZ(off,2,2),BlockList.ravaged_brick_stairs,4+(isLR ? offFacing.getRotatedLeft() : offFacing.getRotatedRight()).getStairs());
+					world.setBlock(x+rotX(off,-2,2),y+1,z+rotZ(off,-2,2),getStairs(isLR ? offEnum.rotateY() : offEnum.rotateYCCW(),true));
+					world.setBlock(x+rotX(off,2,2),y+1,z+rotZ(off,2,2),getStairs(isLR ? offEnum.rotateYCCW() : offEnum.rotateY(),true));
 				}
 				
-				for(int a = 0; a < 2; a++)world.setBlock(x+rotX(off,-1+2*a,2),y+1,z+rotZ(off,-1+2*a,2),BlockList.ravaged_brick_stairs,4+offFacing.getStairs());
+				for(int a = 0; a < 2; a++)world.setBlock(x+rotX(off,-1+2*a,2),y+1,z+rotZ(off,-1+2*a,2),getStairs(offEnum,true));
 				world.setBlock(x+rotX(off,0,2),y+1,z+rotZ(off,0,2),BlockList.ravaged_brick);
 				
-				world.setBlock(x+rotX(off,0,2),y+2,z+rotZ(off,0,2),Blocks.chest,offFacing.getReversed().get6Directional());
+				world.setBlock(x+rotX(off,0,2),y+2,z+rotZ(off,0,2),Blocks.chest.getDefaultState().withProperty(BlockChest.FACING,offEnum.getOpposite()));
 				world.setTileEntityGenerator(x+rotX(off,0,2),y+2,z+rotZ(off,0,2),"hallwayEmbeddedChest",this);
 				break;
 				
@@ -348,15 +345,15 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					}
 				}
 				
-				offFacing = dirToFacing(off);
+				offEnum = dirToFacing(off).toEnumFacing();
 				
 				for(int ax1 = -1; ax1 <= 1; ax1++){
-					world.setBlock(x+rotX(off,ax1,1),y+hallHeight,z+rotZ(off,ax1,1),BlockList.ravaged_brick_stairs,4+offFacing.getStairs());
-					if (ax1 != 0)world.setBlock(x+rotX(off,ax1,1),y+1,z+rotZ(off,ax1,1),BlockList.ravaged_brick_stairs,offFacing.getStairs());
+					world.setBlock(x+rotX(off,ax1,1),y+hallHeight,z+rotZ(off,ax1,1),getStairs(offEnum,true));
+					if (ax1 != 0)world.setBlock(x+rotX(off,ax1,1),y+1,z+rotZ(off,ax1,1),getStairs(offEnum,true));
 				}
 				
-				world.setBlock(x+rotX(off,0,1),y+1,z+rotZ(off,0,1),BlockList.ravaged_brick,offFacing.getStairs());
-				world.setBlock(x+rotX(off,0,1),y+2,z+rotZ(off,0,1),Blocks.chest,offFacing.getReversed().get6Directional());
+				world.setBlock(x+rotX(off,0,1),y+1,z+rotZ(off,0,1),BlockList.ravaged_brick);
+				world.setBlock(x+rotX(off,0,1),y+2,z+rotZ(off,0,1),Blocks.chest.getDefaultState().withProperty(BlockChest.FACING,offEnum.getOpposite()));
 				world.setTileEntityGenerator(x+rotX(off,0,1),y+2,z+rotZ(off,0,1),"hallwayDeadEndChest",this);
 				
 				break;
@@ -378,7 +375,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					zz = z+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
 					yy = rand.nextBoolean() ? y+1 : y+hallHeight;
 					
-					if (world.isAir(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.ravaged_brick_slab,yy == y+1 ? 0 : 8);
+					if (world.isAir(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.ravaged_brick_slab.getDefaultState().withProperty(BlockSlab.HALF,yy == y+1 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP));
 				}
 				
 				break;
@@ -399,16 +396,16 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 						continue;
 					}
 					
-					world.setBlock(x+rotX(off,0,-1),y+2,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab,8);
+					world.setBlock(x+rotX(off,0,-1),y+2,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab.getDefaultState().withProperty(BlockSlab.HALF,BlockSlab.EnumBlockHalf.TOP));
 					world.setBlock(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),BlockCustomSpawner.createSpawner(Type.LOUSE_RAVAGED));
 					world.setTileEntityGenerator(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),"louseSpawner",this);
-					world.setBlock(x+rotX(off,0,-1),y+4,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab,0);
+					world.setBlock(x+rotX(off,0,-1),y+4,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab);
 				}
 				
 				break;
 				
 			case SPAWNERS_IN_WALLS:
-				Type spawnerType = rand.nextBoolean() ? Type.SILVERFISH_RAVAGED : Type.LOUSE_RAVAGED;
+				spawnerType = rand.nextBoolean() ? Type.SILVERFISH_RAVAGED : Type.LOUSE_RAVAGED;
 				
 				for(int attempt = 0, placed = 0, maxPlaced = 2+level+rand.nextInt(3+level), xx, yy, zz; attempt < 22 && placed < maxPlaced; attempt++){
 					xx = x+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
@@ -461,7 +458,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					off = DungeonDir.values[rand.nextInt(DungeonDir.values.length)];
 					while(hallway.checkConnection(off))off = DungeonDir.values[rand.nextInt(DungeonDir.values.length)];
 					
-					world.setBlock(x+rotX(off,0,-1),y+2,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab,8);
+					world.setBlock(x+rotX(off,0,-1),y+2,z+rotZ(off,0,-1),BlockList.ravaged_brick_slab.getDefaultState().withProperty(BlockSlab.HALF,BlockSlab.EnumBlockHalf.TOP));
 					world.setBlock(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),Blocks.flower_pot);
 					world.setTileEntityGenerator(x+rotX(off,0,-1),y+3,z+rotZ(off,0,-1),"flowerPot",this);
 				}
@@ -605,12 +602,14 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					break;
 					
 				case SCATTERED_SPAWNERS_WITH_COAL:
-					for(int attempt = 0, attemptAmount = rand.nextInt(3)+4+level*2, xx, zz, spawnerMeta = rand.nextBoolean() ? 2 : 3; attempt < attemptAmount; attempt++){
+					Type spawnerType = rand.nextBoolean() ? Type.LOUSE_RAVAGED : Type.SILVERFISH_RAVAGED;
+					
+					for(int attempt = 0, attemptAmount = rand.nextInt(3)+4+level*2, xx, zz; attempt < attemptAmount; attempt++){
 						xx = x+rand.nextInt(5)-rand.nextInt(5);
 						zz = z+rand.nextInt(5)-rand.nextInt(5);
 						
-						world.setBlock(xx,y+1,zz,BlockList.custom_spawner,spawnerMeta);
-						if (spawnerMeta == 2)world.setTileEntityGenerator(xx,y+1,zz,"louseSpawner",this);
+						world.setBlock(xx,y+1,zz,BlockCustomSpawner.createSpawner(spawnerType));
+						if (spawnerType == Type.LOUSE_RAVAGED)world.setTileEntityGenerator(xx,y+1,zz,"louseSpawner",this);
 						world.setBlock(xx,y+2,zz,Blocks.coal_block);
 					}
 					
@@ -625,7 +624,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					for(int a = 0; a < 2; a++){
 						for(int b = 0; b < 2; b++){
 							world.setBlock(x-6+12*a,y+hallHeight,z-6+12*b,BlockList.ravaged_brick_glow);
-							world.setBlock(x-6+12*a,y+hallHeight-1,z-6+12*b,BlockList.ravaged_brick_slab,8);
+							world.setBlock(x-6+12*a,y+hallHeight-1,z-6+12*b,BlockList.ravaged_brick_slab.getDefaultState().withProperty(BlockSlab.HALF,BlockSlab.EnumBlockHalf.TOP));
 						}
 					}
 					
@@ -645,7 +644,6 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					world.setTileEntityGenerator(x,y+1,z,"encasedCubicleChest",this);
 					
 					int[] spawnerX = new int[]{ -1, -1, -1, 0, 0, 1, 1, 1 }, spawnerZ = new int[]{ -1, 0, 1, -1, 1, -1, 0, 1 };
-					Type spawnerType;
 					
 					for(int a = 0; a < spawnerX.length; a++){
 						spawnerType = rand.nextInt(3) == 0 ? Type.LOUSE_RAVAGED : Type.SILVERFISH_RAVAGED;
@@ -748,7 +746,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 						}
 						
 						if (rand.nextInt(3) == 0)world.setBlock(xx,y+2+height,zz,BlockList.ravaged_brick_slab);
-						else if (rand.nextInt(4) == 0)world.setBlock(xx,y+2+height,zz,BlockList.ravaged_brick_stairs,rand.nextInt(4));
+						else if (rand.nextInt(4) == 0)world.setBlock(xx,y+2+height,zz,getStairs(EnumFacing.getHorizontal(rand.nextInt(4)),false));
 						else if (placedChests < 2 && height < 2 && rand.nextInt(4+placedChests*2) == 0){
 							world.setBlock(xx,y+2+height,zz,Blocks.chest);
 							world.setTileEntityGenerator(xx,y+2+height,zz,"ruinChest",this);
@@ -1061,5 +1059,9 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			case RIGHT: return Facing.WEST_NEGX;
 			default: return null;
 		}
+	}
+	
+	private static IBlockState getStairs(EnumFacing facing, boolean upsideDown){
+		return BlockList.ravaged_brick_stairs.getDefaultState().withProperty(BlockStairs.FACING,facing).withProperty(BlockStairs.HALF,upsideDown ? BlockStairs.EnumHalf.TOP : BlockStairs.EnumHalf.BOTTOM);
 	}
 }

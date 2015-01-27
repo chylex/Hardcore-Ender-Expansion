@@ -502,7 +502,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				}
 				
 				if (world.getBlock(x,y,z) == BlockList.persegrit){
-					world.setBlock(x,y,z,BlockList.persegrit,15);
+					world.setBlock(x,y,z,BlockList.persegrit.setProperty(BlockPersegrit.Variant.LRTB));
 					connections.add(new BlockLocation(x,y,z));
 				}
 				else break;
@@ -510,7 +510,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}
 		
 		for(BlockLocation loc:connections){
-			world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit,BlockPersegrit.getConnectionMeta(world,rand,loc.x,loc.y,loc.z));
+			world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit.getStateFromMeta(BlockPersegrit.getConnectionMeta(world,rand,loc.x,loc.y,loc.z)));
 		}
 	}
 	

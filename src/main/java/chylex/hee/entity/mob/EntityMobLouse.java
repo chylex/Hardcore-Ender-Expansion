@@ -26,6 +26,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
@@ -82,7 +83,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	
 	@Override
 	protected Entity findPlayerToAttack(){
-		return worldObj.getClosestVulnerablePlayerToEntity(this,12D);
+		return worldObj.getClosestPlayerToEntity(this,12D);
 	}
 	
 	@Override
@@ -182,8 +183,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		healTimer = 45;
 		armorRegenTimer = (byte)(100-louseData.attribute(EnumLouseAttribute.ARMOR)*15);
 		
-		if (armor > 0F && hurtResistantTime == 0){
-			setAttackTarget(source.getEntity());
+		if (armor > 0F && hurtResistantTime == 0 && source.getSourceOfDamage() instanceof EntityLivingBase){
+			setAttackTarget((EntityLivingBase)source.getSourceOfDamage());
 			playSound("random.anvil_land",0.5F,1.2F);
 			PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.LOUSE_ARMOR_HIT,this));
 			
@@ -214,25 +215,28 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		int maxDist = 3+level;
 		
 		boolean hasTeleported = false;
+		BlockPosM testPos = new BlockPosM();
 		
-		for(int attempt = 0, ix, iy, iz; attempt < 32 && !hasTeleported; attempt++){
+		for(int attempt = 0; attempt < 32 && !hasTeleported; attempt++){
 			posX = oldPosX+rand.nextInt(maxDist)-rand.nextInt(maxDist);
 			posY = oldPosY+1;
 			posZ = oldPosZ+rand.nextInt(maxDist)-rand.nextInt(maxDist);
 			
 			if (MathUtil.distance(posX-oldPosX,posZ-oldPosZ) < 2D)continue;
 			
-			ix = MathUtil.floor(posX);
-			iy = MathUtil.floor(posY);
-			iz = MathUtil.floor(posZ);
+			testPos.moveTo(posX,posY,posZ);
 			
 			for(int py = 0; py < 3; py++){
-				if (worldObj.isAirBlock(ix,iy,iz) && !worldObj.isAirBlock(ix,iy-1,iz)){
+				if (!testPos.isAir(worldObj)){
+					testPos.moveDown();
+					--posY;
+				}
+				else if (!testPos.moveDown().isAir(worldObj)){
 					setPosition(posX,posY+0.1D,posZ);
 					hasTeleported = true;
 					break;
 				}
-				else iy = MathUtil.floor(--posY);
+				else --posY;
 			}
 		}
 		
@@ -269,7 +273,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	}
 	
 	@Override
-	protected void dropRareDrop(int lootingExtraLuck){
+	protected void addRandomArmor(){ // OBFUSCATED dropRareDrop?!
 		int nearbyLice = worldObj.getEntitiesWithinAABB(EntityMobLouse.class,boundingBox.expand(4D,4D,4D)).size();
 		
 		if (rand.nextInt(1+(nearbyLice>>3)) == 0){

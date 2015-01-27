@@ -21,6 +21,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockObsidianSpecial;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
@@ -227,7 +228,8 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 				fillWithBlocks(world,bb,centerX-6+12*a,topY,centerZ-1+2*b,centerX-6+12*a,topY+4,centerZ-1+2*b,Blocks.obsidian,Blocks.obsidian,false);
 				fillWithBlocks(world,bb,centerX-7+14*a,topY+4,centerZ-1+2*b,centerX-7+14*a,topY+8,centerZ-1+2*b,Blocks.obsidian,Blocks.obsidian,false);
 			}
-			placeBlockAndUpdate(Blocks.glowstone,0,centerX-8+16*a,topY+13,centerZ,world,bb);
+			
+			placeBlockAndUpdate(Blocks.glowstone.getDefaultState(),centerX-8+16*a,topY+13,centerZ,world,bb);
 			
 			fillWithBlocks(world,bb,centerX,topY-2,centerZ-5+10*a,centerX,topY+5,centerZ-5+10*a,Blocks.obsidian,Blocks.obsidian,false);
 			fillWithBlocks(world,bb,centerX,topY-1,centerZ-6+12*a,centerX,topY+8,centerZ-6+12*a,Blocks.obsidian,Blocks.obsidian,false);
@@ -238,12 +240,12 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 				fillWithBlocks(world,bb,centerX-1+2*b,topY,centerZ-6+12*a,centerX-1+2*b,topY+4,centerZ-6+12*a,Blocks.obsidian,Blocks.obsidian,false);
 				fillWithBlocks(world,bb,centerX-1+2*b,topY+4,centerZ-7+14*a,centerX-1+2*b,topY+8,centerZ-7+14*a,Blocks.obsidian,Blocks.obsidian,false);
 			}
-			placeBlockAndUpdate(Blocks.glowstone,0,centerX,topY+13,centerZ-8+16*a,world,bb);
+			placeBlockAndUpdate(Blocks.glowstone.getDefaultState(),centerX,topY+13,centerZ-8+16*a,world,bb);
 		}
 		
 		int zOffset = roomAmount%2 == 1 ? 2 : -2;
 		placeBlockAtCurrentPosition(world,Blocks.ladder,getMetadataWithOffset(Blocks.ladder,roomAmount%2 == 0?3:2),centerX,topY,centerZ+(roomAmount%2 == 1?-3:3),bb);
-		placeBlockAndUpdate(BlockList.obsidian_special_glow,1,centerX,topY+1,centerZ+zOffset,world,bb);
+		placeBlockAndUpdate(BlockList.obsidian_special_glow.setProperty(BlockObsidianSpecial.Variant.CHISELED),centerX,topY+1,centerZ+zOffset,world,bb);
 		
 		int xx = getXWithOffset(centerX,centerZ+zOffset), yy = getYWithOffset(topY+1), zz = getZWithOffset(centerX,centerZ+zOffset);
 		
@@ -272,8 +274,8 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 			
 			// obsidian blocks and stairs + glowing obsidian
 			for(int b = 0; b < 2; b++){
-				placeBlockAndUpdate(BlockList.obsidian_special_glow,0,x-4+8*a,y+3,z-1+2*b,world,bb);
-				placeBlockAndUpdate(BlockList.obsidian_special_glow,0,x-1+2*b,y+3,z-4+8*a,world,bb);
+				placeBlockAndUpdate(BlockList.obsidian_special_glow.getDefaultState(),x-4+8*a,y+3,z-1+2*b,world,bb);
+				placeBlockAndUpdate(BlockList.obsidian_special_glow.getDefaultState(),x-1+2*b,y+3,z-4+8*a,world,bb);
 				
 				for(int c = 0; c < 2; c++){
 					placeBlockAtCurrentPosition(world,Blocks.obsidian,0,x-5+10*a,y+1+4*c,z-1+2*b,bb);
@@ -621,8 +623,8 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		 * one chest with torches on nether fences in corners
 		 */
 		else if (n == 3){
-			spawnChest(world,rand,bb,x,y,z,false,17,21,isRoomEven?Facing.NORTH_NEGZ:Facing.SOUTH_POSZ);
-			placeBlockAndUpdate(BlockList.obsidian_special_glow,2,x,y+2,z,world,bb);
+			spawnChest(world,rand,bb,x,y,z,false,17,21,isRoomEven ? Facing.NORTH_NEGZ : Facing.SOUTH_POSZ);
+			placeBlockAndUpdate(BlockList.obsidian_special_glow.setProperty(BlockObsidianSpecial.Variant.PILLAR_VERTICAL),x,y+2,z,world,bb);
 			spawnEndermanSpawner(world,rand,bb,x,y+3,z,7,32+y);
 			
 			for(int a = 0; a < 2; a++){
@@ -704,12 +706,11 @@ public class ComponentTower extends ComponentScatteredFeatureCustom{
 		if (facing != Facing.DOWN && facing != Facing.UP)meta = getMetadataWithOffset(Blocks.dispenser,meta);
 		
 		placeBlockAtCurrentPosition(world,Blocks.dispenser,meta,x,y,z,bb);
-		world.setBlockMetadataWithNotify(offsets.x,offsets.y,offsets.z,meta,2);
 		
 		TileEntityDispenser dispenser = (TileEntityDispenser)world.getTileEntity(tmpPos.moveTo(offsets.x,offsets.y,offsets.z));
 		if (dispenser == null)return;
 		
-		dispenser.blockMetadata = meta;
+		// TODO dispenser.blockMetadata = meta;
 		for(int a = 0; a < rand.nextInt(maxItems-minItems+1)+minItems; a++)dispenser.setInventorySlotContents(rand.nextInt(dispenser.getSizeInventory()),lootTower.generateIS(rand));
 	}
 	

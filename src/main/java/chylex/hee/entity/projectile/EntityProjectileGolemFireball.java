@@ -50,7 +50,7 @@ public class EntityProjectileGolemFireball extends EntityLargeFireball{
 			
 			for(Iterator<BlockPos> iter = func_180343_e().iterator(); iter.hasNext();){
 				BlockPos pos = iter.next();
-				if (world.isAirBlock(pos) && world.rand.nextInt(9) == 0)world.setBlock(pos,Blocks.fire);
+				if (world.isAirBlock(pos) && world.rand.nextInt(9) == 0)world.setBlockState(pos,Blocks.fire.getDefaultState());
 			}
 		}
 	}

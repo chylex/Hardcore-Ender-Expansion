@@ -13,7 +13,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
@@ -29,8 +28,10 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.Vec3M;
 
 public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
 	private static final byte ATTACK_NONE = 0, ATTACK_FIREBALLS = 1, ATTACK_FLAMES = 2;
@@ -42,7 +43,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	private float targetAngle;
 	private boolean targetAngleChangeDir;
 	private byte targetAngleTimer;
-	private final Vec3 motionVec = new Vec3(0D,0D,0D);
+	private final Vec3M motionVec = new Vec3M(0D,0D,0D);
 	public float wingAnimation, wingAnimationStep;
 	
 	public EntityMiniBossFireFiend(World world){
@@ -103,9 +104,10 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		rotationPitch = MathUtil.toDeg((float)Math.atan2(posY-(closest.posY+closest.getEyeHeight()),MathUtil.distance(posX-closest.posX,posZ-closest.posZ)));
 		
 		double targetYDiff = posY-(closest.posY+9D);
+		BlockPosM pos = new BlockPosM(this).moveDown();
 		
 		for(int a = 1; a <= 7; a += 2){
-			if (!worldObj.isAirBlock(MathUtil.floor(posX),MathUtil.floor(posY)-a,MathUtil.floor(posZ))){
+			if (!pos.moveDown().isAir(worldObj)){
 				targetYDiff = -1.5D;
 				break;
 			}
@@ -121,11 +123,11 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		targetAngle += (targetAngleChangeDir ? 1 : -1)*0.02F;
 		double[] vec = DragonUtil.getNormalizedVector((closest.posX+MathHelper.cos(targetAngle)*40D)-posX+(rand.nextDouble()-0.5D)*4D,(closest.posZ+MathHelper.sin(targetAngle)*40D)-posZ+(rand.nextDouble()-0.5D)*4D);
-		motionVec.xCoord = vec[0]*0.5D;
-		motionVec.zCoord = vec[1]*0.5D;
+		motionVec.x = vec[0]*0.5D;
+		motionVec.z = vec[1]*0.5D;
 		
-		motionX = motionVec.xCoord*0.1D+motionX*0.9D;
-		motionZ = motionVec.zCoord*0.1D+motionZ*0.9D;
+		motionX = motionVec.x*0.1D+motionX*0.9D;
+		motionZ = motionVec.z*0.1D+motionZ*0.9D;
 		
 		if (currentAttack == ATTACK_NONE){
 			if (++timer > 125-worldObj.getDifficulty().getDifficultyId()*7-(isAngry ? 18 : 0)-(ModCommonProxy.opMobs ? 12 : 0)){

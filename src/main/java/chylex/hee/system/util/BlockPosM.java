@@ -22,6 +22,10 @@ public class BlockPosM extends BlockPos{
 		this.z = z;
 	}
 	
+	public BlockPosM(long serialized){
+		this(BlockPos.fromLong(serialized));
+	}
+	
 	public BlockPosM(BlockPos pos){
 		this(pos.getX(),pos.getY(),pos.getZ());
 	}

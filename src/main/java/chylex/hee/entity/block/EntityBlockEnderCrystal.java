@@ -21,7 +21,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 	public static final byte TNT = 0, BARS = 1, BLAST = 2;
 
 	private byte crystalType = 0;
-	private String crystalKey = "";
+	private long crystalKey = Long.MIN_VALUE;
 
 	public EntityBlockEnderCrystal(World world){
 		super(world);
@@ -111,7 +111,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 		this.crystalType = type;
 	}
 	
-	public void setCrystalKey(String key){
+	public void setCrystalKey(long key){
 		this.crystalKey = key;
 	}
 
@@ -119,13 +119,13 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
 		nbt.setByte("crystalType",crystalType);
-		nbt.setString("crystalKey",crystalKey);
+		nbt.setLong("crystalKeyL",crystalKey);
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
 		crystalType = nbt.getByte("crystalType");
-		crystalKey = nbt.getString("crystalKey");
+		crystalKey = nbt.getLong("crystalKeyL");
 	}
 }

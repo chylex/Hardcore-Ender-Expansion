@@ -1,7 +1,9 @@
 package chylex.hee.block;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockPlanks.EnumType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
@@ -94,7 +96,12 @@ public class BlockSpookyLeaves extends BlockLeaves{
 	}
 	
 	@Override
-	public String[] func_150125_e(){ // OBFUSCATED
-		return new String[]{ getUnlocalizedName() };
+	public EnumType getWoodType(int meta){
+		return EnumType.OAK;
+	}
+	
+	@Override
+	public List<ItemStack> onSheared(ItemStack is, IBlockAccess world, BlockPos pos, int fortune){
+		return new ArrayList<>();
 	}
 }

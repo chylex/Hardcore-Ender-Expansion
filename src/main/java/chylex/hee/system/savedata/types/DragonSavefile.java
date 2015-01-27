@@ -1,17 +1,15 @@
 package chylex.hee.system.savedata.types;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.savedata.WorldSavefile;
@@ -19,7 +17,7 @@ import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 
 public class DragonSavefile extends WorldSavefile{
-	private Map<String,ChunkCoordinates> crystals = new HashMap<>();
+	private List<BlockPosM> crystals = new ArrayList<>();
 	private Set<UUID> templePlayers = new HashSet<>();
 	private BlockPosM portalEggLocation = new BlockPosM(0,100,0);
 	private boolean isDragonDead;
@@ -32,14 +30,13 @@ public class DragonSavefile extends WorldSavefile{
 		super("server.nbt");
 	}
 	
-	public String addCrystal(int posX, int posY, int posZ){
-		String key = "l-"+Arrays.hashCode(new int[]{ posX, posY, posZ });
-		crystals.put(key,new ChunkCoordinates(posX,posY,posZ));
+	public long addCrystal(BlockPosM pos){
+		crystals.add(pos);
 		setModified();
-		return key;
+		return pos.toLong();
 	}
 	
-	public void destroyCrystal(String key){
+	public void destroyCrystal(long key){
 		crystals.remove(key);
 		setModified();
 	}
@@ -127,12 +124,9 @@ public class DragonSavefile extends WorldSavefile{
 		nbt.setBoolean("destroyEnd",shouldDestroyEnd);
 		nbt.setLong("portalCoordsL",portalEggLocation.toLong());
 		
-		NBTTagCompound tagCrystals = new NBTTagCompound();
-		for(Entry<String,ChunkCoordinates> entry:crystals.entrySet()){
-			ChunkCoordinates coords = entry.getValue();
-			tagCrystals.setIntArray(entry.getKey(),new int[]{ coords.posX, coords.posY, coords.posZ });
-		}
-		nbt.setTag("crystals",tagCrystals);
+		NBTTagList tagCrystals = new NBTTagList();
+		for(BlockPosM pos:crystals)tagCrystals.appendTag(new NBTTagLong(pos.toLong()));
+		nbt.setTag("crystalsL",tagCrystals);
 		
 		NBTTagList tagTemplePlayers = new NBTTagList();
 		for(UUID uuid:templePlayers)tagTemplePlayers.appendTag(new NBTTagString(uuid.toString()));
@@ -153,17 +147,10 @@ public class DragonSavefile extends WorldSavefile{
 			if (portalCoords.length == 3)portalEggLocation = new BlockPosM(portalCoords[0],portalCoords[1],portalCoords[2]);
 		}
 		
-		NBTTagCompound tagCrystals = nbt.getCompoundTag("crystals");
-		
-		for(String key:(Set<String>)tagCrystals.getKeySet()){
-			int[] coords = tagCrystals.getIntArray(key);
-			if (coords.length == 3)crystals.put(key,new ChunkCoordinates(coords[0],coords[1],coords[2]));
-		}
+		NBTTagList tagCrystals = nbt.getTagList("crystalsL",NBT.TAG_LONG);
+		for(int a = 0; a < tagCrystals.tagCount(); a++)crystals.add(new BlockPosM(((NBTTagLong)tagCrystals.get(a)).getLong()));
 		
 		NBTTagList tagTemplePlayers = nbt.getTagList("templePlayers",NBT.TAG_STRING);
-		
-		for(int a = 0; a < tagTemplePlayers.tagCount(); a++){
-			templePlayers.add(DragonUtil.convertNameToUUID(tagTemplePlayers.getStringTagAt(a)));
-		}
+		for(int a = 0; a < tagTemplePlayers.tagCount(); a++)templePlayers.add(DragonUtil.convertNameToUUID(tagTemplePlayers.getStringTagAt(a)));
 	}
 }
