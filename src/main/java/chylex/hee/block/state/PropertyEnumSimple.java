@@ -10,16 +10,16 @@ public class PropertyEnumSimple extends PropertyHelper{
 		return new PropertyEnumSimple(name,valueClass);
 	}
 	
-	private final ImmutableSet values;
+	private final ImmutableSet<Enum> values;
 	
 	private PropertyEnumSimple(String name, Class valueClass){
 		super(name,String.class);
 		
-		Set<String> valuesSetup = new HashSet<>();
+		Set<Enum> valuesSetup = new HashSet<>();
 		
 		for(Object o:valueClass.getEnumConstants()){
 			Enum e = (Enum)o;
-			if (!valuesSetup.add(e.name()))throw new IllegalArgumentException("Multiple values have the same name \'"+e+"\'");
+			if (!valuesSetup.add(e))throw new IllegalArgumentException("Multiple values have the same name \'"+e+"\'");
 		}
 		
 		values = ImmutableSet.copyOf(valuesSetup);

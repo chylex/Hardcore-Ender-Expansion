@@ -31,9 +31,11 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 	private EntityPlayer ride = null;
 	private short life = 0;
 	
+	// TODO well, fuck
+	/*
 	public EntityProjectileEnhancedEnderPearl(World world){
 		super(world);
-	}
+	}*/
 
 	public EntityProjectileEnhancedEnderPearl(World world, EntityLivingBase thrower){
 		super(world,thrower);

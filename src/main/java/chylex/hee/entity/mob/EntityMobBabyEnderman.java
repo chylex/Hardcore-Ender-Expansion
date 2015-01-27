@@ -37,6 +37,8 @@ import net.minecraftforge.common.util.Constants;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.misc.Baconizer;
@@ -47,7 +49,7 @@ import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.IItemSelector;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
+public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo, IOldTargetAI{
 	private EntityPlayer target;
 	private final List<ItemPriorityLevel> itemPriorities = new ArrayList<>();
 	private ItemPriorityLevel carryingLevel = ItemPriorityLevel.RANDOM;
@@ -56,6 +58,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	public EntityMobBabyEnderman(World world){
 		super(world);
+		EntityAIOldTarget.insertOldAI(this);
 		setSize(0.5F,1.26F);
 		stepHeight = 1F;
 		
@@ -83,8 +86,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	}
 	
 	@Override
-	protected Entity findPlayerToAttack(){
-		return entityToAttack;
+	public EntityLivingBase findEntityToAttack(){
+		return getAttackTarget();
 	}
 	
 	@Override
@@ -185,12 +188,12 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 						Block low = pos.getBlock(worldObj);
 						
 						if ((low.getMaterial() == Material.air || low == BlockList.crossed_decoration) && pos.moveUp().isAir(worldObj)){
-							escapePath = worldObj.getEntityPathToXYZ(this,xx,yy,zz,16F,false,true,false,false);
+							escapePath = navigator.getPathToXYZ(pos.x+0.5D,pos.y,pos.z+0.5D);
 							break;
 						}
 					}
 					
-					if (escapePath != null)setPathToEntity(escapePath);
+					if (escapePath != null)navigator.setPath(escapePath,1D);
 					target = null;
 				}
 			}

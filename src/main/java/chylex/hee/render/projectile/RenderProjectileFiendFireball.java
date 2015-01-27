@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.util.ResourceLocation;
@@ -66,10 +67,10 @@ public class RenderProjectileFiendFireball extends Render{
 	}
 	
 	private double getX(EntityProjectileFiendFireball fireball, float partialTickTime){
-		return fireball.prevActualPosX+(fireball.actualPosX-fireball.prevActualPosX)*partialTickTime-RenderManager.renderPosX;
+		return fireball.prevActualPosX+(fireball.actualPosX-fireball.prevActualPosX)*partialTickTime-TileEntityRendererDispatcher.staticPlayerX;
 	}
 	
 	private double getZ(EntityProjectileFiendFireball fireball, float partialTickTime){
-		return fireball.prevActualPosZ+(fireball.actualPosZ-fireball.prevActualPosZ)*partialTickTime-RenderManager.renderPosZ;
+		return fireball.prevActualPosZ+(fireball.actualPosZ-fireball.prevActualPosZ)*partialTickTime-TileEntityRendererDispatcher.staticPlayerZ;
 	}
 }

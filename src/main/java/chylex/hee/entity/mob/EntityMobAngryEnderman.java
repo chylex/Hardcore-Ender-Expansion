@@ -20,6 +20,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
@@ -27,7 +29,7 @@ import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.BlockPosM;
 
-public class EntityMobAngryEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
+public class EntityMobAngryEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo, IOldTargetAI{
 	private static final UUID aggroSpeedBoostID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
 	private static final AttributeModifier aggroSpeedBoost = new AttributeModifier(aggroSpeedBoostID,"Attacking speed boost",7.4D,0).setSaved(false); // 6.2 -> 7.4
 	
@@ -36,6 +38,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 
 	public EntityMobAngryEnderman(World world){
 		super(world);
+		EntityAIOldTarget.insertOldAI(this);
 		setSize(0.6F,2.9F);
 		stepHeight = 1F;
 	}
@@ -61,8 +64,8 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	}
 
 	@Override
-	protected Entity findPlayerToAttack(){
-		return entityToAttack;
+	public EntityLivingBase findEntityToAttack(){
+		return getAttackTarget();
 	}
 
 	@Override

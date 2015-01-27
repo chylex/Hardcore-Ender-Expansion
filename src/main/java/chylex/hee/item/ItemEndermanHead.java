@@ -1,22 +1,14 @@
 package chylex.hee.item;
 import net.minecraft.block.BlockSkull;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockList;
-import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 
@@ -69,11 +61,12 @@ public class ItemEndermanHead extends Item{
 
 	private static final ResourceLocation tex = new ResourceLocation("hardcoreenderexpansion:textures/armor/enderman_head.png");
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onArmorModelSet(RenderPlayerEvent.SetArmorModel e){
 		if (e.stack == null || e.stack.getItem() != this || e.slot != 3)return;
-
+		
+		e.renderer.getPlayerModel().bipedHead.isHidden = true;
 		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
 		e.renderer.setRenderPassModel(ModClientProxy.endermanHeadModelBiped);
 		
@@ -82,5 +75,6 @@ public class ItemEndermanHead extends Item{
 		
 		GL11.glColor3f(1F,1F,1F);
 		e.result = e.stack.isItemEnchanted() ? 15 : 1;
-	}
+	}*/
+	// TODO
 }

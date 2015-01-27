@@ -15,6 +15,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
@@ -24,7 +26,7 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityMobFireGolem extends EntityMob{
+public class EntityMobFireGolem extends EntityMob implements IOldTargetAI{
 	private static final UUID cancelMovementModifierUUID = UUID.fromString("7107DE5E-7CE8-4030-940E-514C1F160890");
 	private static final AttributeModifier cancelMovement = new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2).setSaved(false);
 	
@@ -32,6 +34,7 @@ public class EntityMobFireGolem extends EntityMob{
 	
 	public EntityMobFireGolem(World world){
 		super(world);
+		EntityAIOldTarget.insertOldAI(this);
 		setSize(0.9F,1.4F);
 		isImmuneToFire = true;
 		experienceValue = 8;
@@ -46,14 +49,15 @@ public class EntityMobFireGolem extends EntityMob{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(22D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.55D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 42D : 24D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs ? 4D : 2D);
 	}
 	
 	@Override
-	protected Entity findPlayerToAttack(){
-		EntityPlayer player = worldObj.getClosestPlayerToEntity(this,28D);
+	public EntityLivingBase findEntityToAttack(){
+		EntityPlayer player = worldObj.getClosestPlayerToEntity(this,22D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 

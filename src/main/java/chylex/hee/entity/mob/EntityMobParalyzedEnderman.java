@@ -1,6 +1,5 @@
 package chylex.hee.entity.mob;
 import java.util.List;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -16,11 +15,7 @@ public class EntityMobParalyzedEnderman extends EntityEnderman{
 	
 	public EntityMobParalyzedEnderman(World world){
 		super(world);
-	}
-	
-	@Override
-	protected Entity findPlayerToAttack(){
-		return null;
+		targetTasks.taskEntries.clear();
 	}
 
 	@Override

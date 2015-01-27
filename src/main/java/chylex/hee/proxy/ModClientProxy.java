@@ -12,13 +12,10 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
@@ -84,7 +81,6 @@ import chylex.hee.render.entity.RenderMobInfestedBat;
 import chylex.hee.render.entity.RenderMobLouse;
 import chylex.hee.render.entity.RenderMobParalyzedEnderman;
 import chylex.hee.render.entity.RenderTexturedMob;
-import chylex.hee.render.item.RenderItemVoidChest;
 import chylex.hee.render.model.ModelEnderGuardian;
 import chylex.hee.render.model.ModelEndermage;
 import chylex.hee.render.model.ModelEndermanHeadBiped;
@@ -142,7 +138,7 @@ public class ModClientProxy extends ModCommonProxy{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new RenderTileVoidChest());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransportBeacon.class, new RenderTileTransportBeacon());
 		
-		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
+		// TODO MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
 
 		RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();

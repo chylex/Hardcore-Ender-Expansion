@@ -12,6 +12,7 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -80,7 +81,9 @@ public final class StardustDecomposition{
 				
 				// SEARCH ALL BLOCKS WITH SPECIFIED ID
 				
-				for(String key:(Set<String>)GameData.getBlockRegistry().getKeys()){
+				for(ResourceLocation loc:(Set<ResourceLocation>)GameData.getBlockRegistry().getKeys()){
+					String key = loc.toString();
+					
 					if (key.startsWith(identifier)){
 						Block block = GameData.getBlockRegistry().getRaw(key);
 						
@@ -96,7 +99,9 @@ public final class StardustDecomposition{
 				
 				// SEARCH ALL ITEMS WITH SPECIFIED ID
 				
-				for(String key:(Set<String>)GameData.getItemRegistry().getKeys()){
+				for(ResourceLocation loc:(Set<ResourceLocation>)GameData.getItemRegistry().getKeys()){
+					String key = loc.toString();
+					
 					if (key.startsWith(identifier)){
 						Item item = GameData.getItemRegistry().getRaw(key);
 						

@@ -18,6 +18,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
@@ -25,18 +27,19 @@ import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo{
+public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo, IOldTargetAI{
 	private static final AttributeModifier dashModifier = (new AttributeModifier(UUID.fromString("69B01060-4B09-4D5C-A6FA-22BEFB9C2D02"),"Guardian dash speed boost",1.2D,1)).setSaved(false);
 	
 	private byte attackTimer, dashCooldown;
 	
 	public EntityMobEnderGuardian(World world){
 		super(world);
+		EntityAIOldTarget.insertOldAI(this);
 		setSize(1.5F,3.2F);
 	}
 	
 	@Override
-	protected Entity findPlayerToAttack(){
+	public EntityLivingBase findEntityToAttack(){
 		EntityPlayer player = worldObj.getClosestPlayerToEntity(this,3D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}

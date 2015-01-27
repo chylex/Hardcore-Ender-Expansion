@@ -10,14 +10,17 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
 import chylex.hee.entity.projectile.EntityProjectileFlamingBall;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.proxy.ModCommonProxy;
 
-public class EntityMobScorchingLens extends EntityMob{
+public class EntityMobScorchingLens extends EntityMob implements IOldTargetAI{
 	public EntityMobScorchingLens(World world){
 		super(world);
+		EntityAIOldTarget.insertOldAI(this);
 		isImmuneToFire = true;
 		experienceValue = 6;
 	}
@@ -30,7 +33,7 @@ public class EntityMobScorchingLens extends EntityMob{
 	}
 	
 	@Override
-	protected Entity findPlayerToAttack(){
+	public EntityLivingBase findEntityToAttack(){
 		EntityPlayer player = worldObj.getClosestPlayerToEntity(this,12D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}

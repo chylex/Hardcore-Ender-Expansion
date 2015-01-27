@@ -10,11 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class BlockAbstractStateInt extends BlockAbstractState{
+public abstract class BlockAbstractContainerStateInt extends BlockAbstractContainerState{
 	private IProperty metaProp;
 	private int[] metaStates;
 	
-	public BlockAbstractStateInt(Material material){
+	public BlockAbstractContainerStateInt(Material material){
 		super(material);
 	}
 	

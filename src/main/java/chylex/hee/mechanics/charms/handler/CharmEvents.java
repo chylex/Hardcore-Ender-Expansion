@@ -370,7 +370,7 @@ public final class CharmEvents{
 					}
 				}
 				
-				targetPlayer.setHealth(targetPlayer.prevHealth);
+				targetPlayer.setHealth(targetPlayer.lastDamage);
 				targetPlayer.motionX = targetPlayer.motionY = targetPlayer.motionZ = 0D;
 				playerLastResortCooldown.put(targetPlayer.getGameProfile().getId(),(byte)(-100+lastResortCooldown[randIndex]*20));
 				

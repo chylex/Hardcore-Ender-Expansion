@@ -11,7 +11,7 @@ import chylex.hee.HardcoreEnderExpansion;
 public class EntityItemAltar extends EntityItem{
 	public byte pedestalUpdate;
 	public byte essenceType;
-	public boolean hasChanged = false;
+	public boolean hasChanged;
 	private int pickupDelay;
 	private int age;
 	

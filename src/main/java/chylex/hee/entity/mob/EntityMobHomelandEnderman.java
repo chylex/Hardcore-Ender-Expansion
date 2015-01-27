@@ -21,9 +21,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.DifficultyInstance;
@@ -34,6 +34,9 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
+import chylex.hee.entity.mob.ai.PathNavigateGroundCustom;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.mechanics.misc.HomelandEndermen;
@@ -49,7 +52,7 @@ import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.Vec3M;
 
-public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
+public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo, IOldTargetAI{
 	public static boolean ignoreUpdateEvent = false;
 	
 	private static Block[] endermanBlockList;
@@ -91,6 +94,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	public EntityMobHomelandEnderman(World world){
 		super(world);
+		EntityAIOldTarget.insertOldAI(this);
 		setSize(0.6F,2.9F);
 		stepHeight = 1F;
 	}
@@ -141,6 +145,11 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				
 			default:
 		}
+	}
+	
+	@Override
+	protected PathNavigate getNewNavigator(World world){
+		return new PathNavigateGroundCustom(this,world);
 	}
 	
 	@Override
@@ -369,7 +378,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										pos.y = worldObj.getTopSolidOrLiquidBlock(pos).getY()-1;
 										
 										if (pos.getBlock(worldObj) == BlockList.end_terrain && MathUtil.distance(posX-pos.x,posY-pos.y,posZ-pos.z) > 5D){
-											setPathToEntity(worldObj.getEntityPathToXYZ(this,pos.x,pos.y+1,pos.z,30F,true,false,false,true));
+											((PathNavigateGroundCustom)navigator).searchRange = 30F;
+											navigator.setPath(navigator.getPathToXYZ(pos.x+0.5D,pos.y+1D,pos.z+0.5D),1D);
+											((PathNavigateGroundCustom)navigator).searchRange = 16F;
 											currentTask = EndermanTask.STROLL;
 											currentTaskTimer = 65+rand.nextInt(60);
 											currentTaskData = new Vec3(posX,posY,posZ);
@@ -406,7 +417,9 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 										walkPos.y = worldObj.getTopSolidOrLiquidBlock(walkPos).getY()-1;
 										
 										if (walkPos.getBlock(worldObj) == BlockList.end_terrain){
-											setPathToEntity(worldObj.getEntityPathToXYZ(this,walkToX,walkToY+1,walkToZ,100F,true,false,false,true));
+											((PathNavigateGroundCustom)navigator).searchRange = 100F;
+											navigator.setPath(navigator.getPathToXYZ(walkPos.x+0.5D,walkPos.y+1D,walkPos.z+0.5D),1D);
+											((PathNavigateGroundCustom)navigator).searchRange = 16F;
 											currentTask = EndermanTask.WALK;
 											currentTaskTimer = 200+rand.nextInt(100);
 											currentTaskData = walkPos;
@@ -579,7 +592,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 			else{
 				attackTpTimer = -80;
 				
-				if (currentTask == EndermanTask.NONE && entityToAttack == null && ++randomTpTimer > 70+rand.nextInt(50)){
+				if (currentTask == EndermanTask.NONE && ++randomTpTimer > 70+rand.nextInt(50)){
 					if (rand.nextInt(19) == 0){
 						for(int attempt = 0; attempt < 5; attempt++){
 							if (teleportRandomly(10D))break;
@@ -611,7 +624,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	}
 	
 	@Override
-	protected Entity findPlayerToAttack(){
+	public EntityLivingBase findEntityToAttack(){
 		if (worldObj.isRemote)return null;
 		
 		List<EntityPlayerMP> players = worldObj.playerEntities;
@@ -782,7 +795,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		
 		if (getAttackTarget() != null){
 			resetTask();
-			setPathToEntity(worldObj.getPathEntityToEntity(this,getAttackTarget(),16F,true,false,false,true));
+			navigator.setPath(navigator.getPathToEntityLiving(getAttackTarget()),1D);
 		}
 	}
 	

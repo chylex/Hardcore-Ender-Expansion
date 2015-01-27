@@ -1,22 +1,7 @@
 package chylex.hee.system.integration.handlers;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.oredict.OreDictionary;
-import org.lwjgl.input.Keyboard;
-import chylex.hee.block.BlockList;
-import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
-import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
-import chylex.hee.system.integration.IIntegrationHandler;
-import codechicken.nei.LayoutManager;
-import codechicken.nei.NEIClientConfig;
-import codechicken.nei.api.API;
-import codechicken.nei.guihook.GuiContainerManager;
-import codechicken.nei.guihook.IContainerInputHandler;
-import codechicken.nei.recipe.GuiRecipe;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
+import chylex.hee.system.integration.IIntegrationHandler;
 
 public class NotEnoughItemsIntegration implements IIntegrationHandler{
 	@Override
@@ -28,6 +13,8 @@ public class NotEnoughItemsIntegration implements IIntegrationHandler{
 	public void integrate(){
 		if (FMLCommonHandler.instance().getSide() != Side.CLIENT)return;
 		
+		// TODO update lib
+		/*
 		API.hideItem(new ItemStack(BlockList.special_effects,1,OreDictionary.WILDCARD_VALUE));
 		
 		GuiContainerManager.inputHandlers.addFirst(new IContainerInputHandler(){
@@ -86,6 +73,6 @@ public class NotEnoughItemsIntegration implements IIntegrationHandler{
 			public boolean keyTyped(GuiContainer gui, char keyChar, int keyCode){
 				return false;
 			}
-		});
+		});*/
 	}
 }

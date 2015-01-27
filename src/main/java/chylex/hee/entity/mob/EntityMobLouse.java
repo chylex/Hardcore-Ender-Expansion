@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget;
+import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.RuneType;
 import chylex.hee.packets.PacketPipeline;
@@ -32,13 +34,14 @@ import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 
-public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
+public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTargetAI{
 	private LouseSpawnData louseData;
 	private float armor;
 	private byte armorCapacity,armorRegenTimer,regenLevel,regenTimer,healAbility,healTimer,teleportTimer;
 	
 	public EntityMobLouse(World world){
 		super(world);
+		EntityAIOldTarget.insertOldAI(this);
 		setSize(1.1F,0.45F);
 	}
 	
@@ -82,7 +85,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	}
 	
 	@Override
-	protected Entity findPlayerToAttack(){
+	public EntityLivingBase findEntityToAttack(){
 		return worldObj.getClosestPlayerToEntity(this,12D);
 	}
 	
