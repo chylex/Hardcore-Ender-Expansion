@@ -36,6 +36,7 @@ public class BlockCrossedDecoration extends BlockBush implements IShearable, IBl
 	
 	public BlockCrossedDecoration(){
 		setBlockBounds(0.1F,0F,0.1F,0.9F,0.8F,0.9F);
+		setDefaultState(blockState.getBaseState().withProperty(VARIANT,Variant.UNUSED_1));
 	}
 	
 	@Override

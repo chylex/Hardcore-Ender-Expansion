@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.GameData;
 import chylex.hee.system.logging.Log;
@@ -20,18 +21,18 @@ public class BlockReplaceHelper{
 		Exception exception = null;
 		
 		try{
-			for(Field blockField:Blocks.class.getDeclaredFields()){
+			for(Field blockField:Blocks.class.getFields()){
 				if (Block.class.isAssignableFrom(blockField.getType())){
 					Block block = (Block)blockField.get(null);
 					
 					if (block == toReplace){
-						String registryName = (String)Block.blockRegistry.getNameForObject(block);
+						ResourceLocation registryRes = (ResourceLocation)Block.blockRegistry.getNameForObject(block);
 						int id = Block.getIdFromBlock(block);
 						
-						Log.debug("Replacing block - $0/$1",id,registryName);
+						Log.debug("Replacing block - $0/$1",id,registryRes);
 						
 						FMLControlledNamespacedRegistry<Block> registryBlocks = GameData.getBlockRegistry();
-						registryBlocks.registryObjects.put(registryName,replacement);
+						registryBlocks.registryObjects.put(registryRes,replacement);
 						registryBlocks.underlyingIntegerMap.put(replacement,id);
 						
 						blockField.setAccessible(true);
@@ -40,8 +41,10 @@ public class BlockReplaceHelper{
 						
 						ItemBlock itemBlock = itemBlockClass.getConstructor(Block.class).newInstance(replacement);
 						FMLControlledNamespacedRegistry<Item> registryItems = GameData.getItemRegistry();
-						registryItems.registryObjects.put(registryName,itemBlock);
+						registryItems.registryObjects.put(registryRes,itemBlock);
 						registryItems.underlyingIntegerMap.put(itemBlock,id);
+						
+						GameData.getBlockItemMap().put(replacement,itemBlock);
 						
 						int itemID = Item.getIdFromItem(itemBlock);
 						StatBase stat = StatList.mineBlockStatArray[itemID];
@@ -70,7 +73,7 @@ public class BlockReplaceHelper{
 		Log.debug("Check itemblock: $0",classTest[3]);
 		
 		if (classTest[0] != classTest[1] || classTest[0] != classTest[2] || classTest[0] == null || classTest[3] != itemBlockClass){
-			throw new RuntimeException("HardcoreEnderExpansion was unable to replace block "+toReplace.getUnlocalizedName()+"! Debug info to report: "+classTest[0]+","+classTest[1]+","+classTest[2]+","+classTest[3],exception);
+			throw new RuntimeException("HardcoreEnderExpansion was unable to replace block "+toReplace.getUnlocalizedName()+"! Debug info to report: "+classTest[0]+", "+classTest[1]+", "+classTest[2]+", "+classTest[3],exception);
 		}
 	}
 }
