@@ -1,6 +1,4 @@
 package chylex.hee.tileentity;
-import net.minecraft.block.BlockBrewingStand;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -50,9 +48,10 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 			if (!Arrays.equals(currentFilledSlots,cachedFilledSlots)){
 				cachedFilledSlots = currentFilledSlots;
 				
-				IBlockState state = worldObj.getBlockState(getPos());
+				/*IBlockState state = worldObj.getBlockState(getPos());
 				for(int a = 0; a < BlockBrewingStand.HAS_BOTTLE.length; a++)state = state.withProperty(BlockBrewingStand.HAS_BOTTLE[a],Boolean.valueOf(currentFilledSlots[a]));
-                worldObj.setBlockState(getPos(),state,2);
+                worldObj.setBlockState(getPos(),state,2);*/
+				// TODO fix
 			}
 		}
 	}

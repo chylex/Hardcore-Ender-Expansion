@@ -9,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import chylex.hee.system.util.Direction;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
@@ -28,6 +27,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.Direction;
 
 public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlockSubtypes{
 	private static final Material dungeonPuzzle = new MaterialDungeonPuzzle();
@@ -69,6 +69,7 @@ public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlock
 	
 	public BlockDungeonPuzzle(){
 		super(dungeonPuzzle);
+		createSimpleMeta(VARIANT,Variant.class);
 	}
 	
 	@Override

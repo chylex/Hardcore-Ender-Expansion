@@ -13,7 +13,7 @@ public class PropertyEnumSimple extends PropertyHelper{
 	private final ImmutableSet<Enum> values;
 	
 	private PropertyEnumSimple(String name, Class valueClass){
-		super(name,String.class);
+		super(name,valueClass);
 		
 		Set<Enum> valuesSetup = new HashSet<>();
 		
@@ -34,5 +34,4 @@ public class PropertyEnumSimple extends PropertyHelper{
 	public String getName(Comparable value){
 		return ((Enum)value).name();
 	}
-
 }

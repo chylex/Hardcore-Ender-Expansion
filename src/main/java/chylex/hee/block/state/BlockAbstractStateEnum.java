@@ -51,7 +51,7 @@ public abstract class BlockAbstractStateEnum extends BlockAbstractState{
 	}
 	
 	public final Enum getEnumFromDamage(int damage){
-		return metaStates != null && damage >= 0 && damage < metaStates.length ? metaStates[damage] : null;
+		return metaStates != null ? (damage >= 0 && damage < metaStates.length ? metaStates[damage] : metaStates[0]) : null;
 	}
 	
 	@Override

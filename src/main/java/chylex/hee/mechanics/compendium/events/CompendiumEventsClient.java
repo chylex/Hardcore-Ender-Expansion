@@ -41,12 +41,14 @@ public final class CompendiumEventsClient{
 	public static void loadClientData(PlayerCompendiumData data){
 		instance.data = data;
 		
-		if (Minecraft.getMinecraft().currentScreen instanceof GuiEnderCompendium){
-			((GuiEnderCompendium)Minecraft.getMinecraft().currentScreen).updateCompendiumData(data);
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		if (mc.currentScreen instanceof GuiEnderCompendium){
+			((GuiEnderCompendium)mc.currentScreen).updateCompendiumData(data);
 		}
 		
-		if (Minecraft.getMinecraft().thePlayer.openContainer instanceof ContainerEndPowderEnhancements){
-			((ContainerEndPowderEnhancements)Minecraft.getMinecraft().thePlayer.openContainer).updateClientItems();
+		if (mc.thePlayer != null && mc.thePlayer.openContainer instanceof ContainerEndPowderEnhancements){
+			((ContainerEndPowderEnhancements)mc.thePlayer.openContainer).updateClientItems();
 		}
 	}
 	

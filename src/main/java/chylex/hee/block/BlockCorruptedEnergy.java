@@ -44,6 +44,7 @@ public class BlockCorruptedEnergy extends BlockAbstractStateInt{
 	public BlockCorruptedEnergy(boolean isHighLevel){
 		super(corruptedEnergy);
 		setTickRandomly(true);
+		createSimpleMeta(LEVEL,0,15);
 		this.isHighLevel = isHighLevel;
 	}
 	
