@@ -23,7 +23,6 @@ import chylex.hee.item.block.ItemBlockEnhancedTNT;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
 import chylex.hee.item.block.ItemBlockSlab;
 import chylex.hee.item.block.ItemBlockSlab.IBlockSlab;
-import chylex.hee.item.block.ItemBlockSoulCharm;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Log;
@@ -108,7 +107,6 @@ public final class BlockList{
 	public static Block energy_cluster;
 	public static Block corrupted_energy_high;
 	public static Block corrupted_energy_low;
-	public static Block soul_charm;
 	public static Block laboratory_glass;
 	
 	// TECHNICAL
@@ -171,7 +169,6 @@ public final class BlockList{
 		register("energy_cluster", energy_cluster = new BlockEnergyCluster().setHardness(0.7F).setResistance(0.2F).setStepSound(BlockEnergyCluster.soundTypeEnergyCluster).setBlockName("energyCluster").setBlockTextureName("hardcoreenderexpansion:energy_cluster"));
 		register("corrupted_energy_high", corrupted_energy_high = new BlockCorruptedEnergy(true).setBlockUnbreakable().setResistance(6000000F));
 		register("corrupted_energy_low", corrupted_energy_low = new BlockCorruptedEnergy(false).setBlockUnbreakable().setResistance(6000000F));
-		register("soul_charm", soul_charm = new BlockSoulCharm().setHardness(-1F).setResistance(6000000F).setBlockName("soulCharm").setBlockTextureName("hardcoreenderexpansion:empty"));
 		register("laboratory_glass", laboratory_glass = new BlockLaboratoryGlass().setHardness(5F).setResistance(50F).setLightOpacity(5).setBlockName("laboratoryGlass").setBlockTextureName("hardcoreenderexpansion:laboratory_glass"));
 		
 		register("death_flower_pot", death_flower_pot = new BlockDeathFlowerPot().setHardness(0F).setStepSound(Block.soundTypeStone).setBlockName("flowerPot").setBlockTextureName("flower_pot"));
@@ -186,7 +183,6 @@ public final class BlockList{
 		setItemClass("essence_altar", ItemBlockEssenceAltar.class);
 		setItemClass("enhanced_tnt", ItemBlockEnhancedTNT.class);
 		setItemClass("end_stone_terrain", ItemBlockWithSubtypes.class);
-		setItemClass("soul_charm", ItemBlockSoulCharm.class);
 		setItemClass("crossed_decoration", ItemBlockWithSubtypes.class);
 		setItemClass("death_flower", ItemBlockEndFlower.class);
 		setItemClass("sphalerite", ItemBlockWithSubtypes.class);

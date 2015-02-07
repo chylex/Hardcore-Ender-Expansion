@@ -27,7 +27,6 @@ import chylex.hee.entity.item.EntityItemIgneousRock;
 import chylex.hee.entity.item.EntityItemInstabilityOrb;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
-import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobEndermage;
 import chylex.hee.entity.mob.EntityMobEnderman;
@@ -40,7 +39,6 @@ import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
-import chylex.hee.entity.projectile.EntityProjectileCorporealMirageOrb;
 import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.projectile.EntityProjectileDragonFireball;
@@ -106,7 +104,6 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
 import chylex.hee.tileentity.TileEntityLaserBeam;
-import chylex.hee.tileentity.TileEntitySoulCharm;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
 import chylex.hee.tileentity.TileEntityVoidChest;
 import chylex.hee.world.DimensionOverride;
@@ -236,7 +233,6 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityMobFireGolem.class, "FireGolem", 14, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobScorchingLens.class, "ScorchedLens", 15, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobHauntedMiner.class, "HauntedMiner", 35, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobCorporealMirage.class, "CorporealMirage", 29, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobEndermage.class, "Endermage", 41, this, 256, 1, true);
 
 		EntityRegistry.registerModEntity(EntityBlockFallingDragonEgg.class, "FallingDragonEgg", 25, this, 128, 1, true);
@@ -256,7 +252,6 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityProjectileFlamingBall.class, "ProjectileFlamingBall", 17, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileGolemFireball.class, "ProjectileGolemFireball", 18, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileMinerShot.class, "ProjectileMinerShot", 36, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileCorporealMirageOrb.class, "ProjectileCorporealMirageOrb", 28, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectilePotion.class, "ProjectilePotionOfInstability", 30, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileSpatialDash.class, "ProjectileSpatialDash", 32, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityProjectileCorruptedEnergy.class, "ProjectileCorruptedEnergy", 42, this, 128, 1, true);
@@ -286,7 +281,6 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerTileEntity(TileEntityEndermanHead.class, "EndermanHead");
 		GameRegistryUtil.registerTileEntity(TileEntityLaserBeam.class, "LaserBeam");
 		GameRegistryUtil.registerTileEntity(TileEntityCustomSpawner.class, "EndermanSpawner");
-		GameRegistryUtil.registerTileEntity(TileEntitySoulCharm.class, "SoulCharm");
 		GameRegistryUtil.registerTileEntity(TileEntityDecompositionTable.class, "DecompositionTable");
 		GameRegistryUtil.registerTileEntity(TileEntityExperienceTable.class, "ExperienceTable");
 		GameRegistryUtil.registerTileEntity(TileEntityAccumulationTable.class, "AccumulationTable");

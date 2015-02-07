@@ -67,8 +67,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(block(BlockList.spooky_log), meta(1,2,3,4), new AspectList().add(Aspect.DEATH,2).add(Aspect.SOUL,1).add(Aspect.TREE,3));
 		registerObjectTag(block(BlockList.spooky_leaves), meta(0), new AspectList().add(Aspect.PLANT,1));
 		
-		registerObjectTag(block(BlockList.soul_charm), meta(0), new AspectList().add(Aspect.AURA,8).add(Aspect.ENTROPY,4).add(Aspect.SENSES,3).add(Aspect.SOUL,2).add(Aspect.TRAVEL,1));
-		
 		registerObjectTag(block(BlockList.death_flower), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14), new AspectList().add(Aspect.DEATH,1).add(Aspect.ENTROPY,1).add(Aspect.PLANT,1));
 		registerObjectTag(block(BlockList.death_flower), meta(15), new AspectList().add(Aspect.DEATH,6).add(Aspect.ENTROPY,3).add(Aspect.SENSES,1).add(Aspect.PLANT,1));
 		
@@ -127,7 +125,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(item(ItemList.ghost_amulet), meta(0), new AspectList().add(Aspect.AURA,3).add(Aspect.TAINT,2).add(Aspect.CRYSTAL,1).add(Aspect.ENERGY,2));
 		registerObjectTag(item(ItemList.ghost_amulet), meta(1), new AspectList().add(Aspect.AURA,5).add(Aspect.CRYSTAL,1).add(Aspect.ENERGY,2));
 		registerObjectTag(item(ItemList.ectoplasm), meta(0), new AspectList().add(Aspect.ELDRITCH,5).add(Aspect.ENERGY,5).add(Aspect.MAGIC,5).add(Aspect.SENSES,2));
-		registerObjectTag(item(ItemList.corporeal_mirage_orb), meta(0), new AspectList().add(Aspect.AIR,4).add(Aspect.ENTROPY,3).add(Aspect.MIND,2).add(Aspect.SOUL,5).add(Aspect.TRAVEL,1));
 		
 		registerObjectTag(item(ItemList.bucket_ender_goo), meta(0), new AspectList().add(Aspect.METAL,8).add(Aspect.POISON,4).add(Aspect.TAINT,2).add(Aspect.VOID,1));
 		
@@ -169,7 +166,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerEntityTag("HardcoreEnderExpansion.InfestedBat", new AspectList().add(Aspect.AIR,1).add(Aspect.BEAST,1).add(Aspect.FLIGHT,1).add(Aspect.POISON,1));
 		registerEntityTag("HardcoreEnderExpansion.FireGolem", new AspectList().add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,1).add(Aspect.FIRE,3).add(Aspect.MAGIC,1));
 		registerEntityTag("HardcoreEnderExpansion.ScorchingLens", new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,3).add(Aspect.SENSES,1));
-		registerEntityTag("HardcoreEnderExpansion.CorporealMirage", new AspectList().add(Aspect.AIR,4).add(Aspect.ENTROPY,3).add(Aspect.MIND,2).add(Aspect.SOUL,5).add(Aspect.TRAVEL,1));
 
 		// TODO SoundLogic: Add aspects to HardcoreEnderExpansion.Louse
 

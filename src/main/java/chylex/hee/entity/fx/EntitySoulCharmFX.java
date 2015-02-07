@@ -9,13 +9,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
-import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class EntitySoulCharmFX extends EntityFX{
+public abstract class EntitySoulCharmFX extends EntityFX{
 	private static final ResourceLocation tex = new ResourceLocation("hardcoreenderexpansion:textures/particles/soul_charm.png");
 
 	private double targetX, targetY, targetZ;
@@ -90,9 +89,7 @@ public class EntitySoulCharmFX extends EntityFX{
 		else if (motionY != 0D)posY += motionY *= 0.98D;
 	}
 	
-	protected Block getTargetBlock(){
-		return BlockList.soul_charm;
-	}
+	protected abstract Block getTargetBlock();
 	
 	@Override
 	@SideOnly(Side.CLIENT)

@@ -13,7 +13,6 @@ import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.particle.EntitySpellParticleFX;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityAltarOrbFX;
 import chylex.hee.entity.fx.EntityBigPortalFX;
@@ -21,12 +20,10 @@ import chylex.hee.entity.fx.EntityCustomBubbleFX;
 import chylex.hee.entity.fx.EntityEnderGooFX;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.entity.fx.EntityOrbitingPortalFX;
-import chylex.hee.entity.fx.EntitySoulCharmFX;
 import chylex.hee.entity.fx.behavior.ParticleBehaviorMoveTo;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.entity.item.EntityItemIgneousRock;
 import chylex.hee.entity.item.EntityItemInstabilityOrb;
-import chylex.hee.entity.mob.EntityMobCorporealMirage;
 import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.item.ItemList;
@@ -192,11 +189,6 @@ public class FXClientProxy extends FXCommonProxy{
 	}
 	
 	@Override
-	public void soulCharm(World world, int x, int y, int z){
-		spawn(new EntitySoulCharmFX(world,x+0.25D+world.rand.nextDouble()*0.5D,y+0.1D+world.rand.nextDouble(),z+0.25D+world.rand.nextDouble()*0.5D));
-	}
-	
-	@Override
 	public void energyCluster(TileEntityEnergyCluster cluster){
 		Random rand = cluster.getWorldObj().rand;
 		spawn(new EntityEnergyClusterFX(cluster.getWorldObj(),cluster.xCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.yCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.zCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.data));
@@ -205,11 +197,6 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void energyClusterMoving(World world, double x, double y, double z, double motionX, double motionY, double motionZ, double red, double green, double blue){
 		spawn(new EntityEnergyClusterFX(world,x,y,z,red,green,blue,motionX,motionY,motionZ));
-	}
-
-	@Override
-	public void soulCharmMoving(World world, double startX, double startY, double startZ, double targetX, double targetY, double targetZ){
-		spawn(new EntitySoulCharmFX(world,startX,startY,startZ,targetX,targetY,targetZ));
 	}
 	
 	/*
@@ -280,20 +267,6 @@ public class FXClientProxy extends FXCommonProxy{
 	public void spatialDashExplode(EntityProjectileSpatialDash spatialDash){
 		Random rand = spatialDash.worldObj.rand;
 		spawn(new EntityBigPortalFX(spatialDash.worldObj,spatialDash.posX+(rand.nextDouble()-rand.nextDouble())*0.1D,spatialDash.posY+(rand.nextDouble()-rand.nextDouble())*0.1D,spatialDash.posZ+(rand.nextDouble()-rand.nextDouble())*0.1D,(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.3D,1F));
-	}
-	
-	@Override
-	public void mirageHurt(EntityMobCorporealMirage mirage){
-		Random rand = mirage.worldObj.rand;
-		double realY = mirage.posY+MathHelper.cos((float)mirage.angle)*0.15D;
-		spawn(new EntitySoulCharmFX(mirage.worldObj,mirage.posX+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.2D,realY-0.1D+rand.nextDouble()*mirage.height*1.1D,mirage.posZ+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.2D,rand.nextFloat()*0.04D));
-	}
-	
-	@Override
-	public void mirageDeath(EntityMobCorporealMirage mirage){
-		Random rand = mirage.worldObj.rand;
-		double realY = mirage.posY+MathHelper.cos((float)mirage.angle)*0.15D;
-		spawn(new EntitySoulCharmFX(mirage.worldObj,mirage.posX+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.8D,realY-0.1D+rand.nextDouble()*mirage.height*1.1D,mirage.posZ+(rand.nextDouble()-rand.nextDouble())*mirage.width*0.8D,rand.nextFloat()*0.05D));
 	}
 	
 	@Override

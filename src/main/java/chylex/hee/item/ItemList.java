@@ -71,7 +71,6 @@ public final class ItemList{
 	public static Item curse;
 	public static Item potion_of_purity;
 	public static Item curse_amulet;
-	public static Item corporeal_mirage_orb;
 	public static Item charm_pouch;
 	public static Item charm;
 	public static Item scorching_pickaxe;
@@ -129,7 +128,6 @@ public final class ItemList{
 		register("curse", curse = new ItemCurse().setMaxStackSize(32).setUnlocalizedName("curse").setTextureName("hardcoreenderexpansion:curse"));
 		register("potion_of_purity", potion_of_purity = new ItemPotionOfPurity().setUnlocalizedName("potionOfPurity").setTextureName("hardcoreenderexpansion:potion_of_purity"));
 		register("curse_amulet", curse_amulet = new Item().setMaxStackSize(1).setUnlocalizedName("curseAmulet").setTextureName("hardcoreenderexpansion:curse_amulet"));
-		register("corporeal_mirage_orb", corporeal_mirage_orb = new ItemCorporealMirageOrb().setMaxStackSize(4).setUnlocalizedName("corporealMirageOrb").setTextureName("hardcoreenderexpansion:corporeal_mirage_orb"));
 		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
 		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
 		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe"));

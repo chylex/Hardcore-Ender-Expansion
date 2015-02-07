@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -212,10 +211,7 @@ public class OverlayManager{
 	
 	@SubscribeEvent
 	public void onRenderBlockOutline(DrawBlockHighlightEvent e){
-		Block block = e.player.worldObj.getBlock(e.target.blockX,e.target.blockY,e.target.blockZ);
-		
-		if (block == BlockList.soul_charm)e.setCanceled(true);
-		else if (block == BlockList.energy_cluster){
+		if (e.player.worldObj.getBlock(e.target.blockX,e.target.blockY,e.target.blockZ) == BlockList.energy_cluster){
 			clusterLookedAt = (TileEntityEnergyCluster)e.player.worldObj.getTileEntity(e.target.blockX,e.target.blockY,e.target.blockZ);
 			e.setCanceled(true);
 		}
