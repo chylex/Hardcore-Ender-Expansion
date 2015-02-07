@@ -33,8 +33,6 @@ public class FXCommonProxy{
 	public void corruptedEnergy(World world, int x, int y, int z){}
 	public void enderGoo(World world, int x, int y, int z){}
 	public void altarOrb(World world, double startX, double startY, double startZ, double targetX, double targetY, double targetZ, EssenceType essence){}
-	public void soulCharm(World world, int x, int y, int z){}
-	public void soulCharmMoving(World world, double startX, double startY, double startZ, double targetX, double targetY, double targetZ){}
 	public void energyCluster(TileEntityEnergyCluster cluster){}
 	public void energyClusterMoving(World world, double x, double y, double z, double motionX, double motionY, double motionZ, double red, double green, double blue){}
 	

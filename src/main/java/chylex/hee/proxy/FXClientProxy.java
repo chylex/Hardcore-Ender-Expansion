@@ -22,7 +22,6 @@ import chylex.hee.entity.fx.EntityCustomBubbleFX;
 import chylex.hee.entity.fx.EntityEnderGooFX;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.entity.fx.EntityOrbitingPortalFX;
-import chylex.hee.entity.fx.EntitySoulCharmFX;
 import chylex.hee.entity.fx.behavior.ParticleBehaviorMoveTo;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.entity.item.EntityItemIgneousRock;
@@ -193,11 +192,6 @@ public class FXClientProxy extends FXCommonProxy{
 	}
 	
 	@Override
-	public void soulCharm(World world, int x, int y, int z){
-		spawn(new EntitySoulCharmFX(world,x+0.25D+world.rand.nextDouble()*0.5D,y+0.1D+world.rand.nextDouble(),z+0.25D+world.rand.nextDouble()*0.5D));
-	}
-	
-	@Override
 	public void energyCluster(TileEntityEnergyCluster cluster){
 		Random rand = cluster.getWorld().rand;
 		BlockPos pos = cluster.getPos();
@@ -207,11 +201,6 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void energyClusterMoving(World world, double x, double y, double z, double motionX, double motionY, double motionZ, double red, double green, double blue){
 		spawn(new EntityEnergyClusterFX(world,x,y,z,red,green,blue,motionX,motionY,motionZ));
-	}
-
-	@Override
-	public void soulCharmMoving(World world, double startX, double startY, double startZ, double targetX, double targetY, double targetZ){
-		spawn(new EntitySoulCharmFX(world,startX,startY,startZ,targetX,targetY,targetZ));
 	}
 	
 	/*

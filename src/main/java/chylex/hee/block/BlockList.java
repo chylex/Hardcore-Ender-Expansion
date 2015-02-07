@@ -111,7 +111,6 @@ public final class BlockList{
 	public static Block energy_cluster;
 	public static BlockAbstractState corrupted_energy_high;
 	public static BlockAbstractState corrupted_energy_low;
-	public static Block soul_charm;
 	public static Block laboratory_glass;
 	
 	// TECHNICAL

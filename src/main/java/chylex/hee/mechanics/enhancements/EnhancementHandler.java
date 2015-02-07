@@ -49,8 +49,6 @@ public final class EnhancementHandler{
 			Item.getItemFromBlock(BlockList.enhanced_tnt),
 			new EnhancementData(TNTEnhancements.class, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
 		);
-		
-		//itemMap.put(Item.getItemFromBlock(BlockList.soul_charm), new EnhancementData(SoulCharmEnhancements.class));
 	}
 	
 	public static boolean canEnhanceItem(Item item){

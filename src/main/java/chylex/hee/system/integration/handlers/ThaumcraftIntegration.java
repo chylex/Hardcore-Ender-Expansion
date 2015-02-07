@@ -14,7 +14,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 	}
 
 	@Override
-	public void integrate(){
+	public void integrate(){ // TODO update from 1.7.10
 		
 		// BLOCK ASPECTS
 		

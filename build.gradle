@@ -25,7 +25,7 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 minecraft {
-    version = "1.8-11.14.0.1289-1.8"
+    version = "1.8-11.14.1.1306"
     runDir = "eclipse"
     mappings = "snapshot_20150118"
 }
