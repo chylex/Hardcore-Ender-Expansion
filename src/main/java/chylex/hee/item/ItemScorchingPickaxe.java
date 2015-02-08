@@ -1,5 +1,7 @@
 package chylex.hee.item;
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -23,8 +25,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemScorchingPickaxe extends Item{
-	private static final Pattern blockRegex = Pattern.compile("(?:^ore[A-Z].+$)|(?:^ore_.+$)|(?:.+_ore$)|(?:.+Ore$)");
+	private static final Pattern oreRegex = Pattern.compile("(?:^ore[A-Z].+$)|(?:^ore_.+$)|(?:.+_ore$)|(?:.+Ore$)");
 	private static final Map<Block,Boolean> cachedBlocks = new IdentityHashMap<>();
+	private static final List<Block> cachedOres = new ArrayList<>();
 	private static final Random cacheRand = new Random(0);
 	
 	public static final boolean isBlockValid(Block block){
@@ -41,7 +44,7 @@ public class ItemScorchingPickaxe extends Item{
 			return false;
 		}
 		
-		if (blockRegex.matcher(name.name).find()){
+		if (oreRegex.matcher(name.name).find()){
 			Item drop = block.getItemDropped(0,cacheRand,0);
 			
 			if (drop != null && !(drop instanceof ItemBlock)){
@@ -50,12 +53,17 @@ public class ItemScorchingPickaxe extends Item{
 				boolean isValid = testAmt > 50;
 				
 				cachedBlocks.put(block,isValid);
+				cachedOres.add(block);
 				return isValid;
 			}
 		}
 		
 		cachedBlocks.put(block,false);
 		return false;
+	}
+	
+	public static final boolean isBlockOre(Block block){
+		return isBlockValid(block) && cachedOres.contains(block);
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import org.lwjgl.input.Mouse;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
@@ -70,6 +71,7 @@ public final class CompendiumEventsClient{
 			compendium.showObject(obj);
 			compendium.moveToCurrentObject(false);
 		}
+		else if (!instance.data.seenHelp())compendium.showObject(KnowledgeRegistrations.HELP);
 	}
 	
 	public static int getCompendiumKeyCode(){

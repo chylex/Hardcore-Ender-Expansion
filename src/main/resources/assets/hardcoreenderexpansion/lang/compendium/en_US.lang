@@ -28,8 +28,9 @@ ec.reg.4=Newly discovered object will show up in the bottom right corner of your
 ec.reg.5=Note that discovering objects also unlocks some of their fragments and gives you points, whereas buying the object does neither.
 ec.reg.6=Prices of objects and fragments will gradually increase the further you progress.
 ec.reg.7=Knowledge Notes are items found in dungeons and traded by villagers. Using them gives you Knowledge Points.
-ec.reg.8=For easier control of the Compendium, you can use the right mouse button instead of the Back button, and mouse wheel to scroll objects and pages.
-ec.reg.9=Opening the Compendium while looking at a block, item, or a mob opens the appropriate object.
+ec.reg.8=Important progression points are shown in the Achievements screen.
+ec.reg.9=For easier control of the Compendium, you can use the right mouse button instead of the Back button, and mouse wheel to scroll objects and pages.
+ec.reg.17=Opening the Compendium while looking at a block, item, or a mob opens the appropriate object.
 ec.reg.18=The same happens when you press the Compendium key while hovering over and item in a GUI.
 ec.reg.19=This behavior works with Not Enough Items too, but you can bypass it by holding CTRL.
 

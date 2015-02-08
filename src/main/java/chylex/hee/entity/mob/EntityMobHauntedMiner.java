@@ -119,7 +119,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								else if (item == Items.iron_ingot || item == Items.gold_ingot || item == Items.diamond || item == Items.redstone || (item == Items.dye && is.getItemDamage() == 4) ||
 										 item == Items.emerald || item == Items.coal || item == ItemList.end_powder || item == ItemList.igneous_rock || item == ItemList.instability_orb ||
 										 item == ItemList.stardust)foundMiningStuff += 1+(is.stackSize>>3);
-								else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockValid(((ItemBlock)item).field_150939_a))foundMiningStuff += 1+(is.stackSize>>3); // TODO ore only
+								else if (item instanceof ItemBlock && ItemScorchingPickaxe.isBlockOre(((ItemBlock)item).field_150939_a))foundMiningStuff += 1+(is.stackSize>>3);
 							}
 							
 							if (foundMiningStuff >= 13+rand.nextInt(6))target = (EntityPlayer)temp;

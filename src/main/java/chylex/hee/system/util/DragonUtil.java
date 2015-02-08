@@ -3,7 +3,6 @@ import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.regex.Pattern;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -11,7 +10,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
@@ -172,10 +170,6 @@ public final class DragonUtil{
 	
 	public static void createExplosion(World world, double x, double y, double z, float strength, boolean fire){
 		world.newExplosion(null,x,y,z,strength,fire,world.getGameRules().getGameRuleBooleanValue("mobGriefing"));
-	}
-	
-	public static UUID convertNameToUUID(String name){
-		return name.length() == 32 ? UUID.fromString(name) : UUID.fromString(PreYggdrasilConverter.func_152719_a(name));
 	}
 	
 	public static String stripChatFormatting(String str){

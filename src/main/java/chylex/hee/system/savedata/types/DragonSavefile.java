@@ -14,7 +14,6 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.savedata.WorldSavefile;
-import chylex.hee.system.util.DragonUtil;
 
 public class DragonSavefile extends WorldSavefile{
 	private Map<String,ChunkCoordinates> crystals = new HashMap<>();
@@ -158,7 +157,7 @@ public class DragonSavefile extends WorldSavefile{
 		NBTTagList tagTemplePlayers = nbt.getTagList("templePlayers",NBT.TAG_STRING);
 		
 		for(int a = 0; a < tagTemplePlayers.tagCount(); a++){
-			templePlayers.add(DragonUtil.convertNameToUUID(tagTemplePlayers.getStringTagAt(a)));
+			templePlayers.add(UUID.fromString(tagTemplePlayers.getStringTagAt(a)));
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package chylex.hee.render.tileentity;
 import java.nio.FloatBuffer;
 import java.util.Random;
-import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.GLAllocation;
@@ -9,8 +8,8 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.RenderEndPortal;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
-// TODO remove in 1.8 which has my fix applied
 public class RenderTileEndPortalFixed extends RenderEndPortal{
 	private static final ResourceLocation texPortalBackground = new ResourceLocation("textures/environment/end_sky.png");
 	private static final ResourceLocation texPortalLayers = new ResourceLocation("textures/entity/end_portal.png");

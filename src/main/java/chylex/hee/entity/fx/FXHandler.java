@@ -110,6 +110,8 @@ public final class FXHandler{
 	}
 	
 	public static void handleEntity(World world, EntityClientPlayerMP player, FXType.Entity fx, double x, double y, double z, float width, float height){
+		width *= 0.75F; // compensate for incorrect rand calculation
+		
 		switch(fx){
 			case CHARM_CRITICAL:
 				for(int a = 0; a < 12; a++)world.spawnParticle("crit",x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.2D),randCenter(0.2D),randCenter(0.2D));
@@ -282,7 +284,7 @@ public final class FXHandler{
 		}
 	}
 	
-	private static double randCenter(double mp){ // TODO review
+	private static double randCenter(double mp){
 		return (rand.nextDouble()-0.5D)*2D*mp;
 	}
 }

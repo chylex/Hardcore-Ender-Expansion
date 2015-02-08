@@ -272,6 +272,7 @@ public final class KnowledgeRegistrations{
 			new KnowledgeFragmentText(7),
 			new KnowledgeFragmentText(8),
 			new KnowledgeFragmentText(9),
+			new KnowledgeFragmentText(17),
 			new KnowledgeFragmentText(18)
 		});
 		

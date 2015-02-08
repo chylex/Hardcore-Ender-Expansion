@@ -16,6 +16,9 @@ import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.proxy.ModCommonProxy;
 
 public final class AchievementManager{
+	public static final String achievementScreenName = "HEE Achievements";
+	public static final String challengeScreenName = "HEE Challenges";
+	
 	private static List<Achievement> achievements = new ArrayList<>();
 	private static List<Achievement> challenges = new ArrayList<>();
 	public static Map<String,String> challengeStrings = new HashMap<>();
@@ -39,8 +42,8 @@ public final class AchievementManager{
 		CHALLENGE_NOENDERMAN = addChallenge(2, "noEnderman", "mediumorhard");
 	
 	public static void register(){
-		AchievementPage.registerAchievementPage(new AchievementPage("HEE Achievements",achievements.toArray(new Achievement[achievements.size()])));
-		AchievementPage.registerAchievementPage(new AchievementPage("HEE Challenges",challenges.toArray(new Achievement[challenges.size()])));
+		AchievementPage.registerAchievementPage(new AchievementPage(achievementScreenName,achievements.toArray(new Achievement[achievements.size()])));
+		AchievementPage.registerAchievementPage(new AchievementPage(challengeScreenName,challenges.toArray(new Achievement[challenges.size()])));
 	}
 	
 	private static Achievement addAchievement(int id, String stringId, int x, int y, Block block, int metadata, Achievement parentAchievement){
