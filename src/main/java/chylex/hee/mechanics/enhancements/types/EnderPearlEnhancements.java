@@ -71,7 +71,7 @@ public enum EnderPearlEnhancements implements IEnhancementEnum{
 	
 	@Override
 	public void onEnhanced(ItemStack is, EntityPlayer player){
-		player.addStat(AchievementManager.END_POWDER,1);
+		player.addStat(AchievementManager.ENHANCED_ENDER_PEARL,1);
 		
 		if (EnhancementHandler.getEnhancements(is).size() == EnhancementHandler.getEnhancementsForItem(is.getItem()).size()){
 			player.addStat(AchievementManager.ENHANCED_ENDER_PEARL_FULL,1);

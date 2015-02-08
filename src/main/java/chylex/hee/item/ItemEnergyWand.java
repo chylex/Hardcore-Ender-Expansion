@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -74,6 +75,11 @@ public class ItemEnergyWand extends Item{
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void onCreated(ItemStack is, World world, EntityPlayer player){
+		player.addStat(AchievementManager.ENERGY_WAND,1);
 	}
 	
 	@Override

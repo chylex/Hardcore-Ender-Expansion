@@ -3,9 +3,11 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.stats.Achievement;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.InfestationSavefile;
 import chylex.hee.system.util.MathUtil;
@@ -111,6 +113,11 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	@Override
 	protected IslandBiomeDecorator getDecorator(){
 		return decorator;
+	}
+	
+	@Override
+	protected Achievement getAchievement(){
+		return AchievementManager.BIOME_INFESTED_FOREST;
 	}
 	
 	@Override

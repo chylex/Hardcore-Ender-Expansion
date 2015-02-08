@@ -13,6 +13,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
+import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -58,6 +59,11 @@ public class ItemCharmPouch extends Item{
 		
 		if (is.stackTagCompound.getBoolean("isPouchActive"))is.stackTagCompound.setBoolean("isPouchActive",false);
 		return false;
+	}
+	
+	@Override
+	public void onCreated(ItemStack is, World world, EntityPlayer player){
+		player.addStat(AchievementManager.CHARM_POUCH,1);
 	}
 	
 	@Override

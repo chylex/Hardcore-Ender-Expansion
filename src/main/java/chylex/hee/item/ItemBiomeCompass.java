@@ -8,12 +8,14 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import chylex.hee.render.texture.TextureBiomeCompass;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
@@ -53,6 +55,11 @@ public class ItemBiomeCompass extends Item{
 			}
 		}
 		else{
+			if (entity instanceof EntityPlayerMP){
+				EntityPlayerMP player = (EntityPlayerMP)entity;
+				if (!player.func_147099_x().hasAchievementUnlocked(AchievementManager.BIOME_COMPASS))player.addStat(AchievementManager.BIOME_COMPASS,1); // OBFUSCATED getStatisticsFile
+			}
+			
 			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
 			
 			if (!is.stackTagCompound.hasKey("seed1")){

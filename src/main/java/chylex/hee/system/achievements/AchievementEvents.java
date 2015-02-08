@@ -8,6 +8,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
@@ -19,6 +20,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile;
@@ -97,10 +99,12 @@ public final class AchievementEvents implements IQuickSavefile{
 	
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent e){
-		Item item = e.pickedUp.getEntityItem().getItem();
+		ItemStack is = e.pickedUp.getEntityItem();
+		Item item = is.getItem();
 		
-		if (item == Item.getItemFromBlock(BlockList.enhanced_brewing_stand))e.player.addStat(AchievementManager.ENHANCED_BREWING_STAND,1);
+		if (item == ItemList.end_powder)e.player.addStat(AchievementManager.END_POWDER,1);
 		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.STARDUST,1);
+		else if (item == ItemList.essence && is.getItemDamage() == EssenceType.FIERY.getItemDamage())e.player.addStat(AchievementManager.FIERY_ESSSENCE,1);
 	}
 	
 	@SubscribeEvent

@@ -19,6 +19,7 @@ import chylex.hee.mechanics.gem.GemSideEffects;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -57,6 +58,11 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		return (world.isRemote || player.isSneaking()) ? is : tryTeleportEntity(is,player,player);
+	}
+	
+	@Override
+	public void onCreated(ItemStack is, World world, EntityPlayer player){
+		player.addStat(AchievementManager.TRANSFERENCE_GEM,1);
 	}
 	
 	public ItemStack tryTeleportEntity(ItemStack is, EntityPlayer player, Entity entity){

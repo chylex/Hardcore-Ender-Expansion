@@ -1,5 +1,4 @@
 package chylex.hee.block;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
@@ -23,7 +22,6 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 
@@ -45,11 +43,6 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 			
 			if (!playersInTemple.isEmpty()){
 				save.setPreventTempleDestruction(true);
-				
-				for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
-					if (playersInTemple.contains(player.getGameProfile().getId()))player.addStat(AchievementManager.TEMPLE_CALLER,1);
-				}
-				
 				world.spawnEntityInWorld(new EntityBlockTempleDragonEgg(world,x+0.5D,y+0.5D,z+0.5D));
 			}
 		}

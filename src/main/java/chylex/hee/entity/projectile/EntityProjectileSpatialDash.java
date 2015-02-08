@@ -17,6 +17,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -62,7 +63,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 
 		if (mop != null)hitVec = Vec3.createVectorHelper(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
 		else hitVec = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
-
+		
 		if (!worldObj.isRemote){
 			Entity finalEntity = null;
 			List<Entity> collisionList = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.addCoord(motionX,motionY,motionZ).expand(1D,1D,1D));
@@ -109,7 +110,8 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 				PacketPipeline.sendToAllAround(player,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,player));
 
 				if (player.playerNetServerHandler.func_147362_b().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
-					if (player.isRiding())player.mountEntity((Entity)null);
+					if (player.isRiding())player.mountEntity(null);
+					if (player.posY <= 0D)player.addStat(AchievementManager.TP_NEAR_VOID,1);
 					
 					int x,y,z;
 					

@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -15,6 +16,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent.HarvestDropsEvent;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.MathUtil;
 import com.google.common.collect.ImmutableSet;
 import cpw.mods.fml.common.eventhandler.EventPriority;
@@ -98,6 +100,11 @@ public class ItemScorchingPickaxe extends Item{
 	@Override
 	public Set<String> getToolClasses(ItemStack is){
 		return ImmutableSet.of("pickaxe");
+	}
+	
+	@Override
+	public void onCreated(ItemStack is, World world, EntityPlayer player){
+		player.addStat(AchievementManager.SCORCHING_PICKAXE,1);
 	}
 	
 	@Override

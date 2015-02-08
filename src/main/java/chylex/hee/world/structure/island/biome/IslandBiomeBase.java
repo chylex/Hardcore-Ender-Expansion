@@ -8,6 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -192,11 +194,11 @@ public abstract class IslandBiomeBase{
 		}
 		
 		for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
-			if (isPlayerMoving(player)){
+			if (isPlayerMoving(player) && player instanceof EntityPlayerMP){
 				int ix = (int)player.posX, iy = (int)player.posY-1, iz = (int)player.posZ;
 				
-				if (world.getBlock(ix,iy,iz) == getTopBlock() && world.getBlockMetadata(ix,iy,iz) == getTopBlockMeta()){
-					// TODO player.addStat(AchievementManager.WHOLE_NEW_CULTURES,1);
+				if (world.getBlock(ix,iy,iz) == getTopBlock() && world.getBlockMetadata(ix,iy,iz) == getTopBlockMeta() && !((EntityPlayerMP)player).func_147099_x().hasAchievementUnlocked(getAchievement())){ // OBFUSCATED getStatisticsFile
+					player.addStat(getAchievement(),1);
 				}
 			}
 		}
@@ -235,6 +237,8 @@ public abstract class IslandBiomeBase{
 	}
 	
 	protected abstract IslandBiomeDecorator getDecorator();
+	
+	protected abstract Achievement getAchievement();
 	
 	public abstract int getTopBlockMeta();
 	

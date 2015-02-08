@@ -17,6 +17,7 @@ import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
+import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -78,6 +79,11 @@ public class ItemCurse extends Item{
 		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileCurse(world,player,type,CurseType.isEternal(is.getItemDamage())));
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		return is;
+	}
+	
+	@Override
+	public void onCreated(ItemStack is, World world, EntityPlayer player){
+		player.addStat(AchievementManager.CURSE,1);
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C13TransportBeaconData;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,7 +36,11 @@ public class BlockTransportBeacon extends BlockContainer{
 			PlayerTransportBeacons data = PlayerTransportBeacons.getInstance(player);
 			TileEntityTransportBeacon tile = (TileEntityTransportBeacon)world.getTileEntity(x,y,z);
 			
-			if (tile.hasNotBeenTampered())data.addBeacon(x,z);
+			if (tile.hasNotBeenTampered()){
+				data.addBeacon(x,z);
+				player.addStat(AchievementManager.TRANSPORT_BEACON,1);
+			}
+			
 			PacketPipeline.sendToPlayer(player,new C13TransportBeaconData(data.getOffsets(x,z),tile.hasEnergy(),tile.hasNotBeenTampered()));
 		}
 		
