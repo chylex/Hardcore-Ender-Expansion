@@ -15,6 +15,6 @@ public class S03OpenCompendium extends AbstractServerPacket{
 
 	@Override
 	protected void handle(EntityPlayerMP player){
-		player.addStat(AchievementManager.THE_MORE_YOU_KNOW,1);
+		player.addStat(AchievementManager.ENDER_COMPENDIUM,1);
 	}
 }

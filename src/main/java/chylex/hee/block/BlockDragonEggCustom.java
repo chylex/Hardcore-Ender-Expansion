@@ -47,7 +47,7 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 				save.setPreventTempleDestruction(true);
 				
 				for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
-					if (playersInTemple.contains(player.getGameProfile().getId()))player.addStat(AchievementManager.REBIRTH,1);
+					if (playersInTemple.contains(player.getGameProfile().getId()))player.addStat(AchievementManager.TEMPLE_CALLER,1);
 				}
 				
 				world.spawnEntityInWorld(new EntityBlockTempleDragonEgg(world,x+0.5D,y+0.5D,z+0.5D));

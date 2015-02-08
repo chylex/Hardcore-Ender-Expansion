@@ -248,7 +248,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 					essenceLevel += 1;
 					worldObj.setBlockMetadataWithNotify(xCoord,yCoord,zCoord,blockMetadata = essenceType.id,3);
 					
-					if (essenceType == EssenceType.DRAGON)player.addStat(AchievementManager.LEARNING_THE_POWERS,1);
+					if (essenceType == EssenceType.DRAGON)player.addStat(AchievementManager.DRAGON_ESSENCE,1);
 				}
 			}
 			else return;

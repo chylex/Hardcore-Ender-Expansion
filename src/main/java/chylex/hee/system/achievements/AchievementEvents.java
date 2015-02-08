@@ -80,7 +80,7 @@ public final class AchievementEvents implements IQuickSavefile{
 	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent e){
-		if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
+		if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
 		
 		QuickSavefile file = WorldDataHandler.<QuickSavefile>get(QuickSavefile.class);
 		
@@ -92,25 +92,25 @@ public final class AchievementEvents implements IQuickSavefile{
 	
 	@SubscribeEvent
 	public void onPlayerChangedDimension(PlayerChangedDimensionEvent e){
-		if (e.toDim == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
+		if (e.toDim == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
 	}
 	
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent e){
 		Item item = e.pickedUp.getEntityItem().getItem();
 		
-		if (item == Item.getItemFromBlock(BlockList.enhanced_brewing_stand))e.player.addStat(AchievementManager.ENHANCED_BREWERY,1);
-		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.MAGIC_OF_DECOMPOSITION,1);
+		if (item == Item.getItemFromBlock(BlockList.enhanced_brewing_stand))e.player.addStat(AchievementManager.ENHANCED_BREWING_STAND,1);
+		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.STARDUST,1);
 	}
 	
 	@SubscribeEvent
 	public void onItemCrafted(ItemCraftedEvent e){
-		if (e.crafting.getItem() == Item.getItemFromBlock(BlockList.void_chest))e.player.addStat(AchievementManager.AFRAID_NO_MORE,1);
+		if (e.crafting.getItem() == Item.getItemFromBlock(BlockList.void_chest))e.player.addStat(AchievementManager.VOID_CHEST,1);
 	}
 	
 	@SubscribeEvent
 	public void onItemSmelted(ItemSmeltedEvent e){
-		if (e.smelting.getItem() == ItemList.endium_ingot)e.player.addStat(AchievementManager.THE_NEXT_STEP,1);
+		if (e.smelting.getItem() == ItemList.endium_ingot)e.player.addStat(AchievementManager.ENDIUM_INGOT,1);
 	}
 	
 	@SubscribeEvent

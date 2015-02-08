@@ -288,7 +288,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	@Override
 	public void onDeath(DamageSource source){
 		if (source.getEntity() instanceof EntityPlayer){
-			((EntityPlayer)source.getEntity()).addStat(AchievementManager.DEAD_VISIONARY,1);
+			((EntityPlayer)source.getEntity()).addStat(AchievementManager.ENDER_EYE_KILL,1);
 		}
 		
 		super.onDeath(source);

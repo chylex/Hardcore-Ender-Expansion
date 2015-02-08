@@ -84,7 +84,7 @@ public final class CompendiumEventsClient{
 	}
 	
 	public static void showCompendiumAchievement(){
-		Minecraft.getMinecraft().guiAchievement.func_146255_b(AchievementManager.THE_MORE_YOU_KNOW);
+		Minecraft.getMinecraft().guiAchievement.func_146255_b(AchievementManager.ENDER_COMPENDIUM);
 		instance.achievementTimer = 120;
 	}
 	
@@ -159,7 +159,7 @@ public final class CompendiumEventsClient{
 				
 				openCompendium(obj);
 				
-				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW)){
+				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.ENDER_COMPENDIUM)){
 					PacketPipeline.sendToServer(new S03OpenCompendium());
 					achievementTimer = Byte.MIN_VALUE;
 				}

@@ -467,7 +467,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  			}
  			else if (deathTicks > 150 && deathTicks%5 == 0)DragonUtil.spawnXP(this,550+(250*(rewards.getFinalDifficulty()>>2)));
  			else if (deathTicks == 191){
- 				for(EntityPlayer player:(List<EntityPlayer>)worldObj.playerEntities)player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
+ 				for(EntityPlayer player:(List<EntityPlayer>)worldObj.playerEntities)player.addStat(AchievementManager.GO_INTO_THE_END,1);
  			}
  			else if (deathTicks == 200)DragonUtil.spawnXP(this,4000);
  			

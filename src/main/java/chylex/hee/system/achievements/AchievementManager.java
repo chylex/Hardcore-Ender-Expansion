@@ -24,22 +24,37 @@ public final class AchievementManager{
 	public static Map<String,String> challengeStrings = new HashMap<>();
 	
 	public static Achievement
-		TIME_FOR_NEW_ADVENTURES = addAchievement(0, "newAdventures", 0, -1, Blocks.dragon_egg, 0, null),
-		LEARNING_THE_POWERS = addAchievement(1, "learningThePowers", 2, -2, ItemList.essence, 0, TIME_FOR_NEW_ADVENTURES),
-		ENHANCED_BREWERY = addAchievement(11, "enhancedBrewery", 4, -2, ItemList.enhanced_brewing_stand, 0, LEARNING_THE_POWERS),
-		REBIRTH = addAchievement(50, "rebirth", 1, -4, ItemList.temple_caller, 0, LEARNING_THE_POWERS),
-		TRAVELING_101 = addAchievement(2, "traveling101", 0, 1, ItemList.end_powder, 0, TIME_FOR_NEW_ADVENTURES),
-		SUPER_SHINY = addAchievement(51, "superShiny", -3, 1, ItemList.enhanced_ender_pearl, 0, TRAVELING_101),
-		DEAD_VISIONARY = addAchievement(4, "deadVisionary", 2, 2, Items.ender_eye, 0, TRAVELING_101),
-		THE_NEXT_STEP = addAchievement(9, "theNextStep", 5, 2, ItemList.endium_ingot, 0, DEAD_VISIONARY),
-		WHOLE_NEW_CULTURES = addAchievement(6, "wholeNewCultures", 7, 2, BlockList.end_terrain, 0, THE_NEXT_STEP),
-		AFRAID_NO_MORE = addAchievement(10, "afraidNoMore", 3, 0, BlockList.void_chest, 0, THE_NEXT_STEP),
-		MAGIC_OF_DECOMPOSITION = addAchievement(7, "magicOfDecomposition", 5, 4, ItemList.stardust, 0, THE_NEXT_STEP),
-		THE_MORE_YOU_KNOW = addAchievement(8, "theMoreYouKnow", -2, -1, ItemList.special_effects, ItemSpecialEffects.achievementCompendiumIcon, null),
+		/*  8 */ ENDER_COMPENDIUM = addAchievement(8, "enderCompendium", -2, -1, ItemList.special_effects, ItemSpecialEffects.achievementCompendiumIcon, null),
+		/*  0 */ GO_INTO_THE_END = addAchievement(0, "newAdventures", 0, -1, Blocks.dragon_egg, 0, null),
 		
-		CHALLENGE_HARD0DEATHS = addChallenge(0, "hard0Deaths", "hard"),
-		CHALLENGE_BEDEXPLODE = addChallenge(1, "bedExplode", "mediumorhard"),
-		CHALLENGE_NOENDERMAN = addChallenge(2, "noEnderman", "mediumorhard");
+		/*  1 */ DRAGON_ESSENCE = addAchievement(1, "dragonEssence", 2, -2, ItemList.essence, 0, GO_INTO_THE_END),
+		/* 11 */ ENHANCED_BREWING_STAND = addAchievement(11, "enhancedBrewingStand", 4, -2, ItemList.enhanced_brewing_stand, 0, DRAGON_ESSENCE),
+		/* 24 */ TEMPLE_CALLER = addAchievement(24, "templeCaller", 1, -4, ItemList.temple_caller, 0, DRAGON_ESSENCE),
+		
+		/*  2 */ END_POWDER = addAchievement(2, "endPowder", 0, 1, ItemList.end_powder, 0, GO_INTO_THE_END),
+		/* 12 */ ENHANCED_ENDER_PEARL = addAchievement(12, "enhancedEnderPearl", -3, 1, Items.ender_pearl, 0, END_POWDER),
+		/* 51 */ ENHANCED_ENDER_PEARL_FULL = addAchievement(51, "enhancedEnderPearlFull", -4, 3, ItemList.enhanced_ender_pearl, 0, ENHANCED_ENDER_PEARL),
+		/*  4 */ ENDER_EYE_KILL = addAchievement(4, "enderEyeKill", 1, 4, Items.ender_eye, 0, END_POWDER),
+		/* 14 */ TRANSPORT_BEACON = addAchievement(14, "transportBeacon", -3, 4, BlockList.transport_beacon, 0, END_POWDER),
+		/*  7 */ STARDUST = addAchievement(7, "stardust", 0, 6, ItemList.stardust, 0, END_POWDER),
+		
+		/*  9 */ ENDIUM_INGOT = addAchievement(9, "endiumIngot", 5, 2, ItemList.endium_ingot, 0, END_POWDER),
+		/* 10 */ VOID_CHEST = addAchievement(10, "voidChest", 2, 0, BlockList.void_chest, 0, ENDIUM_INGOT),
+		/* 13 */ BIOME_COMPASS = addAchievement(13, "biomeCompass", 4, 2, ItemList.biome_compass, 0, ENDIUM_INGOT),
+		
+		/* 15 */ BIOME_INFESTED_FOREST = addAchievement(15, "biomeInfestedForest", 6, -1, BlockList.end_terrain, 0, BIOME_COMPASS),
+		/* 18 */ CURSE = addAchievement(18, "curse", 8, -2, ItemList.curse, 0, BIOME_INFESTED_FOREST),
+		/* 19 */ CHARM_POUCH = addAchievement(19, "charmPouch", 8, -1, ItemList.charm_pouch, 0, BIOME_INFESTED_FOREST),
+		/* 16 */ BIOME_BURNING_MOUNTAINS = addAchievement(16, "biomeBurningMountains", 6, 2, BlockList.end_terrain, 0, BIOME_COMPASS),
+		/* 20 */ FIERY_ESSSENCE = addAchievement(20, "fieryEssence", 8, 1, ItemList.essence, 1, BIOME_BURNING_MOUNTAINS),
+		/* 21 */ SCORCHING_PICKAXE = addAchievement(21, "scorchingPickaxe", 8, 2, BlockList.end_terrain, 0, BIOME_BURNING_MOUNTAINS),
+		/* 17 */ BIOME_ENCHANTED_ISLAND = addAchievement(17, "biomeEnchantedIsland", 6, 5, BlockList.end_terrain, 0, BIOME_COMPASS),
+		/* 22 */ TRANSFERENCE_GEM = addAchievement(22, "transferenceGem", 8, 4, BlockList.end_terrain, 0, BIOME_ENCHANTED_ISLAND),
+		/* 23 */ ENERGY_WAND = addAchievement(23, "energyWand", 8, 5, ItemList.essence, 1, BIOME_ENCHANTED_ISLAND),
+		
+		/*  0 */ CHALLENGE_HARD0DEATHS = addChallenge(0, "hard0Deaths", "hard"),
+		/*  1 */ CHALLENGE_BEDEXPLODE = addChallenge(1, "bedExplode", "mediumorhard"),
+		/*  2 */ CHALLENGE_NOENDERMAN = addChallenge(2, "noEnderman", "mediumorhard");
 	
 	public static void register(){
 		AchievementPage.registerAchievementPage(new AchievementPage(achievementScreenName,achievements.toArray(new Achievement[achievements.size()])));
