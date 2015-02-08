@@ -237,7 +237,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	protected void keyTyped(char key, int keyCode){
-		if (keyCode == 1)actionPerformed((GuiButton)buttonList.get(0));
+		if (keyCode == 1)actionPerformed((GuiButton)buttonList.get(2));
 	}
 	
 	@Override

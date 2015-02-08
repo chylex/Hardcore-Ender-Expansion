@@ -22,7 +22,7 @@ public class GuiAchievementsCustom extends GuiAchievements{
 	private AchievementPage achievements;
 	
 	public GuiAchievementsCustom(GuiScreen parent, StatFileWriter statWriter){
-		super(parent,statWriter);
+		super(parent,new ShowAllReadStatFile(statWriter));
 	}
 	
 	@Override
@@ -55,7 +55,7 @@ public class GuiAchievementsCustom extends GuiAchievements{
 			float realMouseX = (mouseX-centerX)*field_146570_r; // OBFUSCATED viewportScale
 			float realMouseY = (mouseY-centerY)*field_146570_r;
 			
-			for(Achievement achievement:achievements.getAchievements()){ // TODO ignore achievements that are not on the screen
+			for(Achievement achievement:achievements.getAchievements()){
 				int x = achievement.displayColumn*24-offsetX;
 				int y = achievement.displayRow*24-offsetY;
 
@@ -80,6 +80,30 @@ public class GuiAchievementsCustom extends GuiAchievements{
 				achievements = AchievementPage.getAchievementPage(AchievementManager.achievementScreenName);
 				break;
 			}
+		}
+	}
+	
+	static final class ShowAllReadStatFile extends StatFileWriter{
+		private final StatFileWriter wrapped;
+		
+		public ShowAllReadStatFile(StatFileWriter wrapped){
+			this.wrapped = wrapped;
+		}
+		
+		@Override
+		public boolean canUnlockAchievement(Achievement achievement){
+			return wrapped.canUnlockAchievement(achievement);
+		}
+		
+		@Override
+		public boolean hasAchievementUnlocked(Achievement achievement){
+			return wrapped.hasAchievementUnlocked(achievement);
+		}
+		
+		@Override
+		@SideOnly(Side.CLIENT)
+		public int func_150874_c(Achievement achievement){ // OBFUSCATED getUnlockDepth
+			return hasAchievementUnlocked(achievement) ? 0 : 1;
 		}
 	}
 }

@@ -13,7 +13,6 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
-import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.util.CollectionUtil;
@@ -197,7 +196,7 @@ public abstract class IslandBiomeBase{
 				int ix = (int)player.posX, iy = (int)player.posY-1, iz = (int)player.posZ;
 				
 				if (world.getBlock(ix,iy,iz) == getTopBlock() && world.getBlockMetadata(ix,iy,iz) == getTopBlockMeta()){
-					player.addStat(AchievementManager.WHOLE_NEW_CULTURES,1);
+					// TODO player.addStat(AchievementManager.WHOLE_NEW_CULTURES,1);
 				}
 			}
 		}
