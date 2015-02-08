@@ -78,13 +78,14 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> currentObject = null;
 	private TByteObjectHashMap<Map<KnowledgeFragment,Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
 	private byte pageIndex;
-	private GuiButton[] pageArrows = new GuiButton[2];
+	private GuiButtonPageArrow[] pageArrows = new GuiButtonPageArrow[2];
 	
 	private GuiButtonState btnHelp;
-	private byte btnHelpTrigger;
+	private byte hoverTriggerTimer = Byte.MIN_VALUE;
 	
 	public GuiEnderCompendium(PlayerCompendiumData compendiumData){
-		this.compendiumData = compendiumData;
+		if (!(this.compendiumData = compendiumData).seenHelp())hoverTriggerTimer = 0;
+		
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(portalSpeed = new AnimatedFloat(Easing.CUBIC));
 		
@@ -272,9 +273,17 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (offsetY.value() > 0)offsetY.set(0F);
 		else if (offsetY.value() < -totalHeight+height-32)offsetY.set(-totalHeight+height-32);
 		
-		if (!compendiumData.seenHelp() && ++btnHelpTrigger > 10){
-			btnHelp.forcedHover = !btnHelp.forcedHover;
-			btnHelpTrigger = 0;
+		if (hoverTriggerTimer != Byte.MIN_VALUE && ++hoverTriggerTimer > 12){
+			if (!compendiumData.seenHelp())btnHelp.forcedHover = !btnHelp.forcedHover;
+			else if (currentObject == KnowledgeRegistrations.HELP){
+				if (pageIndex == 0)pageArrows[1].forcedHover = !pageArrows[1].forcedHover;
+				else{
+					hoverTriggerTimer = Byte.MIN_VALUE;
+					pageArrows[1].forcedHover = false;
+				}
+			}
+			
+			if (hoverTriggerTimer != Byte.MIN_VALUE)hoverTriggerTimer = 0;
 		}
 	}
 	
