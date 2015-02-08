@@ -19,7 +19,7 @@ public class BlockEndstoneTerrain extends BlockAbstractStateEnum implements IBlo
 	}
 	
 	@Override
-	protected IProperty[] getPropertyArray(){
+	public IProperty[] getPropertyArray(){
 		return new IProperty[]{ VARIANT };
 	}
 	

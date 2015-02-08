@@ -27,7 +27,7 @@ public class BlockSphalerite extends BlockAbstractStateEnum implements IBlockSub
 	}
 	
 	@Override
-	protected IProperty[] getPropertyArray(){
+	public IProperty[] getPropertyArray(){
 		return new IProperty[]{ VARIANT };
 	}
 	

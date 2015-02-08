@@ -23,7 +23,7 @@ public class BlockDeathFlowerPot extends BlockAbstractContainerStateInt{ // TODO
 	}
 	
 	@Override
-	protected IProperty[] getPropertyArray(){
+	public IProperty[] getPropertyArray(){
 		return new IProperty[]{ BlockDeathFlower.DECAY };
 	}
 	

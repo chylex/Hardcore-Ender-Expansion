@@ -18,8 +18,6 @@ public abstract class BlockAbstractContainerStateInt extends BlockAbstractContai
 		super(material);
 	}
 	
-	protected abstract IProperty[] getPropertyArray();
-	
 	protected final void createSimpleMeta(IProperty property, int minValue, int maxValue){
 		metaProp = property;
 		metaStates = new int[maxValue-minValue+1];

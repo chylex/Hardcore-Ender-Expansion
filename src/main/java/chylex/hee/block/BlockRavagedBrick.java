@@ -32,7 +32,7 @@ public class BlockRavagedBrick extends BlockAbstractStateEnum implements IBlockS
 	}
 	
 	@Override
-	protected IProperty[] getPropertyArray(){
+	public IProperty[] getPropertyArray(){
 		return new IProperty[]{ VARIANT };
 	}
 

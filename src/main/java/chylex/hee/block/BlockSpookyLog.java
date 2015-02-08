@@ -40,7 +40,7 @@ public class BlockSpookyLog extends BlockAbstractStateEnum{
 	}
 	
 	@Override
-	protected IProperty[] getPropertyArray(){
+	public IProperty[] getPropertyArray(){
 		return new IProperty[]{ VARIANT };
 	}
 

@@ -17,6 +17,8 @@ public interface IAbstractState{
 	 */
 	IBlockState setProperty(IProperty property, Comparable value);
 	
+	IProperty[] getPropertyArray();
+	
 	IBlockState getStateFromMeta(int meta);
 	int getMetaFromState(IBlockState state);
 	

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCompressed;
 import net.minecraft.block.BlockFence;
@@ -34,6 +35,7 @@ import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
+import com.google.common.collect.ImmutableSet;
 
 public final class BlockList{
 	private static final Map<String,BlockData> blocks = new HashMap<>();
@@ -53,6 +55,10 @@ public final class BlockList{
 	
 	public static Collection<BlockData> getAllBlocks(){
 		return blocks.values();
+	}
+	
+	public static Set<Entry<String,BlockData>> getBlockEntries(){
+		return ImmutableSet.copyOf(blocks.entrySet());
 	}
 	
 	// BUILDING BLOCKS

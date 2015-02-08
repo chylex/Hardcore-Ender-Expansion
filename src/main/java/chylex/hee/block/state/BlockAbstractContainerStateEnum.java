@@ -18,8 +18,6 @@ public abstract class BlockAbstractContainerStateEnum extends BlockAbstractConta
 		super(materialIn);
 	}
 	
-	protected abstract IProperty[] getPropertyArray();
-	
 	protected final void createSimpleMeta(IProperty property, Class<? extends Enum> states){
 		metaProp = property;
 		metaStates = states.getEnumConstants();

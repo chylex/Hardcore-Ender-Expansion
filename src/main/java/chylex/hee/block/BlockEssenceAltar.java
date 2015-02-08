@@ -24,7 +24,7 @@ public class BlockEssenceAltar extends BlockAbstractContainerStateEnum{
 	}
 	
 	@Override
-	protected IProperty[] getPropertyArray(){
+	public IProperty[] getPropertyArray(){
 		return new IProperty[]{ VARIANT };
 	}
 	

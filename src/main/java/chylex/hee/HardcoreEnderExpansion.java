@@ -321,7 +321,6 @@ public class HardcoreEnderExpansion{
 		Stopwatch.finish("PreInitEvent - events");
 		
 		proxy.registerSidedEvents();
-		proxy.registerRenderers();		
 		notifications.register();
 		
 		Stopwatch.finish("PreInitEvent");
@@ -330,6 +329,8 @@ public class HardcoreEnderExpansion{
 	@EventHandler
 	public void onInit(FMLInitializationEvent e){
 		Stopwatch.time("InitEvent");
+
+		proxy.registerRenderers();
 		
 		PacketPipeline.initializePipeline();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,GuiHandler.instance);

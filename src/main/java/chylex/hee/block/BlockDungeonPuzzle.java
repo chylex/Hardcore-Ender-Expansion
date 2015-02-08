@@ -73,7 +73,7 @@ public class BlockDungeonPuzzle extends BlockAbstractStateEnum implements IBlock
 	}
 	
 	@Override
-	protected IProperty[] getPropertyArray(){
+	public IProperty[] getPropertyArray(){
 		return new IProperty[]{ VARIANT };
 	}
 	

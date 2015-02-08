@@ -22,7 +22,7 @@ public class BlockPersegrit extends BlockAbstractStateEnum implements IBlockSubt
 	}
 	
 	@Override
-	protected IProperty[] getPropertyArray(){
+	public IProperty[] getPropertyArray(){
 		return new IProperty[]{ VARIANT };
 	}
 	

@@ -65,6 +65,7 @@ import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.render.ItemRenderRegistry;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
 import chylex.hee.render.block.RenderBlockEnhancedTNTPrimed;
@@ -142,6 +143,8 @@ public class ModClientProxy extends ModCommonProxy{
 
 		RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+		
+		ItemRenderRegistry.registerAll(renderItem);
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon(renderManager));
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon(renderManager));

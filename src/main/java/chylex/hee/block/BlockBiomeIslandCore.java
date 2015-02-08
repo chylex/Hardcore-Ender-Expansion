@@ -23,7 +23,7 @@ public class BlockBiomeIslandCore extends BlockAbstractStateEnum{
 	}
 
 	@Override
-	protected IProperty[] getPropertyArray(){
+	public IProperty[] getPropertyArray(){
 		return new IProperty[]{ BIOME };
 	}
 	
