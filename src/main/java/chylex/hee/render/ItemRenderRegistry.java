@@ -16,21 +16,27 @@ import chylex.hee.block.BlockList.BlockData;
 import chylex.hee.block.state.IAbstractState;
 import chylex.hee.item.IMultiModel;
 import chylex.hee.item.ItemList;
+import chylex.hee.render.json.JsonRenderSetup;
 import chylex.hee.system.logging.Log;
 
 @SideOnly(Side.CLIENT)
 public class ItemRenderRegistry{
-	public static void registerAll(RenderItem renderItem){
+	private static final boolean doJson = Log.isDeobfEnvironment;
+	
+	public static void registerAll(RenderItem renderItem){		
 		ItemModelMesher mesher = renderItem.getItemModelMesher();
 		
 		for(Entry<String,BlockData> data:BlockList.getBlockEntries())registerBlock(mesher,data);
 		for(Entry<String,Item> data:ItemList.getItemEntries())registerItem(mesher,data);
 		
 		loadBlockModels();
+		
+		if (doJson)JsonRenderSetup.generate();
 	}
 	
 	private static void registerBlock(ItemModelMesher mesher, Entry<String,BlockData> blockEntry){
 		Block block = blockEntry.getValue().block;
+		String name = "hardcoreenderexpansion:"+blockEntry.getKey();
 		
 		if (block instanceof IAbstractState){
 			IAbstractState state = (IAbstractState)block;
@@ -40,21 +46,22 @@ public class ItemRenderRegistry{
 			for(Object value:prop.getAllowedValues()){
 				int intval = value instanceof Integer ? ((Integer)value).intValue() : value instanceof Enum ? ((Enum)value).ordinal() : -1;
 				
-				if (intval == -1)Log.debug("Registering complex block location failed: $0/$1, $2=$3",blockEntry.getKey(),block,prop.getName(),value);
+				if (intval == -1)Log.debug("Registering complex block location failed: $0/$1, $2=$3",name,block,prop.getName(),value);
 				else{
-					Log.debug("Registering complex block location: $0/$1, $2=$3",blockEntry.getKey(),block,prop.getName(),intval);
-					mesher.register(Item.getItemFromBlock(block),intval,new ModelResourceLocation(blockEntry.getKey(),"inventory"));
+					Log.debug("Registering complex block location: $0/$1, $2=$3",name,block,prop.getName(),intval);
+					mesher.register(Item.getItemFromBlock(block),intval,new ModelResourceLocation(name,"inventory"));
 				}
 			}
 		}
 		else{
-			Log.debug("Registering simple block location: $0/$1",blockEntry.getKey(),block);
-			mesher.register(Item.getItemFromBlock(block),0,new ModelResourceLocation(blockEntry.getKey(),"inventory"));
+			Log.debug("Registering simple block location: $0/$1",name,block);
+			mesher.register(Item.getItemFromBlock(block),0,new ModelResourceLocation(name,"inventory"));
 		}
 	}
 	
 	private static void registerItem(ItemModelMesher mesher, Entry<String,Item> itemEntry){
 		Item item = itemEntry.getValue();
+		String name = "hardcoreenderexpansion:"+itemEntry.getKey();
 		
 		if (item instanceof IMultiModel){
 			IMultiModel multi = (IMultiModel)item;
@@ -63,13 +70,15 @@ public class ItemRenderRegistry{
 			for(String model:multi.getModels()){
 				if (model.startsWith("^"))model = "hardcoreenderexpansion:"+model.substring(1);
 				
-				Log.debug("Registering complex item location: $0/$1, $2",itemEntry.getKey(),item,model);
+				Log.debug("Registering complex item location: $0/$1, $2",name,item,model);
 				mesher.register(item,++a,new ModelResourceLocation(model,"inventory"));
+				JsonRenderSetup.addItem(model);
 			}
 		}
 		else{
-			Log.debug("Registering simple item location: $0/$1",itemEntry.getKey(),item);
-			mesher.register(item,0,new ModelResourceLocation(itemEntry.getKey(),"inventory"));
+			Log.debug("Registering simple item location: $0/$1",name,item);
+			mesher.register(item,0,new ModelResourceLocation(name,"inventory"));
+			JsonRenderSetup.addItem(name);
 		}
 	}
 	
