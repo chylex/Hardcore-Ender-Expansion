@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.mechanics.charms.RuneType;
 
-public class ItemRune extends Item{
+public class ItemRune extends Item implements IMultiModel{
 	public ItemRune(){
 		setHasSubtypes(true);
 	}
@@ -24,5 +24,18 @@ public class ItemRune extends Item{
 	public String getUnlocalizedName(ItemStack is){
 		int damage = is.getItemDamage();
 		return "item.rune."+(damage >= 0 && damage < RuneType.values.length ? RuneType.values[damage].name().toLowerCase() : damage == OreDictionary.WILDCARD_VALUE ? "any" : "invalid");
+	}
+	
+	@Override
+	public String[] getModels(){
+		return new String[]{
+			"rune_unknown",
+			"rune_power",
+			"rune_agility",
+			"rune_vigor",
+			"rune_defense",
+			"rune_magic",
+			"rune_void"
+		};
 	}
 }

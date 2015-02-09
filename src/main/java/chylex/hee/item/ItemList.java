@@ -3,6 +3,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemReed;
@@ -10,6 +11,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
+import com.google.common.collect.ImmutableSet;
 
 public final class ItemList{
 	private static final Map<String,Item> items = new HashMap<>();
@@ -24,6 +26,10 @@ public final class ItemList{
 	
 	public static Collection<Item> getAllItems(){
 		return items.values();
+	}
+	
+	public static Set<Entry<String,Item>> getItemEntries(){
+		return ImmutableSet.copyOf(items.entrySet());
 	}
 	
 	// LORE

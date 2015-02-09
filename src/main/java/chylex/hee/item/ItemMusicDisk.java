@@ -19,7 +19,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
 import chylex.hee.system.util.MathUtil;
 
-public class ItemMusicDisk extends ItemRecord{
+public class ItemMusicDisk extends ItemRecord implements IMultiModel{
 	private static final List<String[]> musicNames = new ArrayList<>();
 	
 	static{
@@ -83,5 +83,12 @@ public class ItemMusicDisk extends ItemRecord{
 		for(int a = 0; a < musicNames.size(); a++){
 			list.add(new ItemStack(item,1,a));
 		}
+	}
+	
+	@Override
+	public String[] getModels(){
+		List<String> list = new ArrayList<>();
+		for(int a = 0; a < musicNames.size(); a++)list.add("^music_disk_"+a);
+		return list.toArray(new String[musicNames.size()]);
 	}
 }

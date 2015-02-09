@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.proxy.ModCommonProxy;
 
-public class ItemEssence extends Item{
+public class ItemEssence extends Item implements IMultiModel{
 	public ItemEssence(){
 		setHasSubtypes(true);
 	}
@@ -42,5 +42,14 @@ public class ItemEssence extends Item{
 	@Override
 	public EnumRarity getRarity(ItemStack is){
 		return EnumRarity.UNCOMMON;
+	}
+	
+	@Override
+	public String[] getModels(){
+		return new String[]{
+			"^dragon_essence",
+			"^fiery_essence",
+			"^spectral_essence"
+		};
 	}
 }
