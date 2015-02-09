@@ -13,7 +13,9 @@ public class ItemSpecialEffects extends Item implements IMultiModel{
 	@Override
 	public String[] getModels(){
 		return new String[]{
-			"^0", "^1", "^2", "^3", "^4", "^5", "^6", "^7", "^8", "^9"
+			"^0", "^1", "^2", "^3", "^4", "^5", "^6", "^7", "^8", "^9",
+			"^altar_glyph_a", "^altar_glyph_b", "^altar_glyph_c", "^altar_glyph_d", "^altar_glyph_e", "^altar_glyph_f", "^altar_glyph_g", "^altar_glyph_h",
+			"^question_mark", "^achievement_lore_pages", "^biome_0", "^biome_1", "^biome_2", "^ender_compendium"
 		};
 	}
 }

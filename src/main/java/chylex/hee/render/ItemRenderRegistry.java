@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
@@ -66,14 +67,19 @@ public class ItemRenderRegistry{
 		if (item instanceof IMultiModel){
 			IMultiModel multi = (IMultiModel)item;
 			int a = -1;
+			Set<String> models = new HashSet<>();
 			
 			for(String model:multi.getModels()){
 				if (model.startsWith("^"))model = "hardcoreenderexpansion:"+model.substring(1);
 				
 				Log.debug("Registering complex item location: $0/$1, $2",name,item,model);
 				mesher.register(item,++a,new ModelResourceLocation(model,"inventory"));
+				
+				models.add(model);
 				JsonRenderSetup.addItem(model);
 			}
+			
+			ModelBakery.addVariantName(item,models.toArray(new String[models.size()]));
 		}
 		else{
 			Log.debug("Registering simple item location: $0/$1",name,item);

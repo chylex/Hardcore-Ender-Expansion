@@ -23,7 +23,7 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.achievements.AchievementManager;
 
-public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
+public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements IMultiModel{
 	@Override
 	public boolean canAcceptEnergy(ItemStack is){
 		return is.getItemDamage() > 0;
@@ -123,5 +123,12 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 		if (is.getItemDamage() == is.getMaxDamage())return 2;
 		float percBroken = is.getItemDamage()/(float)is.getMaxDamage();
 		return percBroken > 0.56F ? 1 : 0;
+	}
+	
+	@Override
+	public String[] getModels(){
+		return new String[]{
+			"^transference_gem_1", "^transference_gem_2", "^transference_gem_3"
+		};
 	}
 }

@@ -88,7 +88,7 @@ public class ItemMusicDisk extends ItemRecord implements IMultiModel{
 	@Override
 	public String[] getModels(){
 		List<String> list = new ArrayList<>();
-		for(int a = 0; a < musicNames.size(); a++)list.add("^music_disk_"+a);
+		for(int a = 0; a < musicNames.size(); a++)list.add("^music_disk_"+(a+1));
 		return list.toArray(new String[musicNames.size()]);
 	}
 }

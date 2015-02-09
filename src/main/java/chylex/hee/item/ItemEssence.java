@@ -47,9 +47,9 @@ public class ItemEssence extends Item implements IMultiModel{
 	@Override
 	public String[] getModels(){
 		return new String[]{
-			"^dragon_essence",
-			"^fiery_essence",
-			"^spectral_essence"
+			"^essence_dragon",
+			"^essence_fiery",
+			"^essence_spectral"
 		};
 	}
 }

@@ -114,7 +114,7 @@ public final class ItemList{
 		register("spectral_tear", spectral_tear = new Item().setUnlocalizedName("spectralTear"));
 		register("living_matter", living_matter = new Item().setUnlocalizedName("livingMatter"));
 		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune"));
-		register("fire_shard", infernium = new Item().setUnlocalizedName("infernium"));
+		register("fire_shard", infernium = new Item().setUnlocalizedName("infernium")); // TODO rename
 		register("arcane_shard", arcane_shard = new Item().setUnlocalizedName("arcaneShard"));
 		register("blank_gem", blank_gem = new Item().setUnlocalizedName("blankGem"));
 		register("obsidian_fragment", obsidian_fragment = new Item().setUnlocalizedName("obsidianFragment"));
@@ -136,7 +136,7 @@ public final class ItemList{
 		register("curse_amulet", curse_amulet = new Item().setMaxStackSize(1).setUnlocalizedName("curseAmulet"));
 		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch"));
 		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm"));
-		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe"));
+		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe")); // TODO rename
 		register("energy_wand", energy_wand = new ItemEnergyWand().setMaxStackSize(1).setUnlocalizedName("energyWand"));
 		
 		register("enderman_head", enderman_head = new ItemEndermanHead().setUnlocalizedName("endermanHead"));

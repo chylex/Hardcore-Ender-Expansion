@@ -29,7 +29,6 @@ public class ItemRune extends Item implements IMultiModel{
 	@Override
 	public String[] getModels(){
 		return new String[]{
-			"rune_unknown",
 			"rune_power",
 			"rune_agility",
 			"rune_vigor",
