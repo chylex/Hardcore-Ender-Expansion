@@ -25,20 +25,20 @@ public class LayerEndermanEyes implements LayerRenderer{
 	@Override
 	public void doRenderLayer(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float partialTickTime, float entityTickTime, float rotationYaw, float rotationPitch, float unitSize){
 		renderer.bindTexture(isParalyzed ? textureParalyzed : texture);
-	    GlStateManager.enableBlend();
-	    GlStateManager.disableAlpha();
-	    GlStateManager.blendFunc(1,1);
-	    GlStateManager.disableLighting();
-	    GlStateManager.depthMask(!entity.isInvisible());
-	    
-	    OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,61680%65536,61680/65536);
-	    GlStateManager.enableLighting();
-	    GlStateManager.color(1F,1F,1F,1F);
-	    renderer.getMainModel().render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitSize);
-	    renderer.func_177105_a((EntityLiving)entity,partialTickTime);
-	    
-	    GlStateManager.disableBlend();
-	    GlStateManager.enableAlpha();
+		GlStateManager.enableBlend();
+		GlStateManager.disableAlpha();
+		GlStateManager.blendFunc(1,1);
+		GlStateManager.disableLighting();
+		GlStateManager.depthMask(!entity.isInvisible());
+		
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,61680%65536,61680/65536);
+		GlStateManager.enableLighting();
+		GlStateManager.color(1F,1F,1F,1F);
+		renderer.getMainModel().render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitSize);
+		renderer.func_177105_a((EntityLiving)entity,partialTickTime);
+		
+		GlStateManager.disableBlend();
+		GlStateManager.enableAlpha();
 	}
 
 	@Override
