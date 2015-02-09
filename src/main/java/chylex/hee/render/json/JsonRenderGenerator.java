@@ -20,6 +20,18 @@ public class JsonRenderGenerator{
 		fileModelsItems.mkdir();
 	}
 	
+	public void createBlockState(String stateName, String contents){
+		try(PrintWriter file = new PrintWriter(new File(fileBlockStates,stateName.substring(stateName.indexOf(':')+1)+".json"))){
+			file.println(contents);
+		}catch(Exception e){}
+	}
+	
+	public void createModelBlock(String modelName, String contents){
+		try(PrintWriter file = new PrintWriter(new File(fileModelsBlocks,modelName.substring(modelName.indexOf(':')+1)+".json"))){
+			file.println(contents);
+		}catch(Exception e){}
+	}
+	
 	public void createModelItem(String modelName, String contents){
 		try(PrintWriter file = new PrintWriter(new File(fileModelsItems,modelName.substring(modelName.indexOf(':')+1)+".json"))){
 			file.println(contents);

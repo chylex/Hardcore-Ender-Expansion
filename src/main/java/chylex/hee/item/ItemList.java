@@ -110,7 +110,7 @@ public final class ItemList{
 		register("essence", essence = new ItemEssence().setUnlocalizedName("essence"));
 		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood"));
 		register("dry_splinter", dry_splinter = new Item().setUnlocalizedName("drySplinter"));
-		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("ectoplasm"));
+		register("endoplasm", ectoplasm = new Item().setUnlocalizedName("ectoplasm")); // TODO rename
 		register("spectral_tear", spectral_tear = new Item().setUnlocalizedName("spectralTear"));
 		register("living_matter", living_matter = new Item().setUnlocalizedName("livingMatter"));
 		register("rune", rune = new ItemRune().setMaxStackSize(16).setUnlocalizedName("rune"));

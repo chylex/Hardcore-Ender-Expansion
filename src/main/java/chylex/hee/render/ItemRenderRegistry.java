@@ -1,5 +1,4 @@
 package chylex.hee.render;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -30,7 +29,7 @@ public class ItemRenderRegistry{
 		for(Entry<String,BlockData> data:BlockList.getBlockEntries())registerBlock(mesher,data);
 		for(Entry<String,Item> data:ItemList.getItemEntries())registerItem(mesher,data);
 		
-		loadBlockModels();
+		//loadBlockModels();
 		
 		if (doJson)JsonRenderSetup.generate();
 	}
@@ -57,6 +56,7 @@ public class ItemRenderRegistry{
 		else{
 			Log.debug("Registering simple block location: $0/$1",name,block);
 			mesher.register(Item.getItemFromBlock(block),0,new ModelResourceLocation(name,"inventory"));
+			if (doJson)JsonRenderSetup.addBlock(name);
 		}
 	}
 	
@@ -76,7 +76,7 @@ public class ItemRenderRegistry{
 				mesher.register(item,++a,new ModelResourceLocation(model,"inventory"));
 				
 				models.add(model);
-				JsonRenderSetup.addItem(model);
+				if (doJson)JsonRenderSetup.addItem(model);
 			}
 			
 			ModelBakery.addVariantName(item,models.toArray(new String[models.size()]));
@@ -84,9 +84,9 @@ public class ItemRenderRegistry{
 		else{
 			Log.debug("Registering simple item location: $0/$1",name,item);
 			mesher.register(item,0,new ModelResourceLocation(name,"inventory"));
-			JsonRenderSetup.addItem(name);
+			if (doJson)JsonRenderSetup.addItem(name);
 		}
-	}
+	}/*
 	
 	private static void loadBlockModels(){
 		Set<String> models = new HashSet<>();
@@ -107,5 +107,5 @@ public class ItemRenderRegistry{
 				// TODO ModelBakery.addVariantName(Item.getItemFromBlock(block),models.toArray(new String[models.size()]));
 			}
 		}
-	}
+	}*/
 }

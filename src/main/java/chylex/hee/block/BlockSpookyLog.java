@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityDiggingFX;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -202,6 +203,12 @@ public class BlockSpookyLog extends BlockAbstractStateEnum{
 	@Override
 	public boolean canSustainLeaves(IBlockAccess world, BlockPos pos){
 		return true;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list){
+		list.add(new ItemStack(item));
 	}
 	
 	@Override
