@@ -51,6 +51,13 @@ public class ItemBiomeCompass extends Item{
 		else{
 			NBTTagCompound nbt = ItemUtil.getNBT(is,true);
 			
+			if (entity instanceof EntityPlayerMP){
+				EntityPlayerMP player = (EntityPlayerMP)entity;
+				if (!player.func_147099_x().hasAchievementUnlocked(AchievementManager.BIOME_COMPASS))player.addStat(AchievementManager.BIOME_COMPASS,1); // OBFUSCATED getStatisticsFile
+			}
+			
+			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+			
 			if (!nbt.hasKey("seed1")){
 				nbt.setLong("seed1",world.getSeed());
 				nbt.setShort("seed2",(short)(1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount()));

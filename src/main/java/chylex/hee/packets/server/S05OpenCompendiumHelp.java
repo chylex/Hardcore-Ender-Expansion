@@ -1,11 +1,11 @@
 package chylex.hee.packets.server;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
+import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.packets.AbstractServerPacket;
-import chylex.hee.system.achievements.AchievementManager;
 
-public class S03OpenCompendium extends AbstractServerPacket{
-	public S03OpenCompendium(){}
+public class S05OpenCompendiumHelp extends AbstractServerPacket{
+	public S05OpenCompendiumHelp(){}
 	
 	@Override
 	public void write(ByteBuf buffer){}
@@ -15,6 +15,6 @@ public class S03OpenCompendium extends AbstractServerPacket{
 
 	@Override
 	protected void handle(EntityPlayerMP player){
-		player.addStat(AchievementManager.ENDER_COMPENDIUM,1);
+		CompendiumEvents.getPlayerData(player).setSeenHelp();
 	}
 }

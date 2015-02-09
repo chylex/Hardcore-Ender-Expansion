@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 class GuiButtonPageArrow extends GuiButton{
 	private final boolean isRightArrow;
+	public boolean forcedHover;
 
 	public GuiButtonPageArrow(int id, int x, int y, boolean isRightArrow){
 		super(id,x,y,23,13,"");
@@ -19,7 +20,7 @@ class GuiButtonPageArrow extends GuiButton{
 		if (visible){
 			GL11.glColor4f(1F,1F,1F,1F);
 			mc.getTextureManager().bindTexture(GuiEnderCompendium.texPage);
-			drawTexturedModalRect(xPosition,yPosition,mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition+width && mouseY < yPosition+height?23:0,231+(!isRightArrow?13:0),23,13);
+			drawTexturedModalRect(xPosition,yPosition,(mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition+width && mouseY < yPosition+height) || forcedHover ? 23 : 0,231+(!isRightArrow ? 13 : 0),23,13);
 		}
 	}
 }

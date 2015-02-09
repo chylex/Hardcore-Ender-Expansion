@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
@@ -71,6 +72,11 @@ public class ItemEnergyWand extends Item{
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public void onCreated(ItemStack is, World world, EntityPlayer player){
+		player.addStat(AchievementManager.ENERGY_WAND,1);
 	}
 	
 	@Override

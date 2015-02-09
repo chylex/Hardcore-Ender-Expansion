@@ -56,6 +56,11 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 		return (world.isRemote || player.isSneaking()) ? is : tryTeleportEntity(is,player,player);
 	}
 	
+	@Override
+	public void onCreated(ItemStack is, World world, EntityPlayer player){
+		player.addStat(AchievementManager.TRANSFERENCE_GEM,1);
+	}
+	
 	public ItemStack tryTeleportEntity(ItemStack is, EntityPlayer player, Entity entity){
 		if (entity.isRiding() || entity.riddenByEntity != null)return is;
 		

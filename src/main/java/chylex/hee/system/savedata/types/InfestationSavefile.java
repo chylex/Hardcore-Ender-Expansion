@@ -8,7 +8,6 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.system.savedata.WorldSavefile;
-import chylex.hee.system.util.DragonUtil;
 
 public class InfestationSavefile extends WorldSavefile{
 	private TObjectIntHashMap<UUID> infestationPower = new TObjectIntHashMap<>();
@@ -67,10 +66,10 @@ public class InfestationSavefile extends WorldSavefile{
 	protected void onLoad(NBTTagCompound nbt){
 		for(String key:(Set<String>)nbt.getKeySet()){
 			if (key.endsWith("_pow")){
-				infestationPower.put(DragonUtil.convertNameToUUID(key.substring(0,key.length()-4)),nbt.getInteger(key));
+				infestationPower.put(UUID.fromString(key.substring(0,key.length()-4)),nbt.getInteger(key));
 			}
 			else if (key.endsWith("_tim")){
-				infestationTimer.put(DragonUtil.convertNameToUUID(key.substring(0,key.length()-4)),nbt.getByte(key));
+				infestationTimer.put(UUID.fromString(key.substring(0,key.length()-4)),nbt.getByte(key));
 			}
 		}
 	}

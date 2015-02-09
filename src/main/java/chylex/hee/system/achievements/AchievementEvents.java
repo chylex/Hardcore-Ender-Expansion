@@ -10,6 +10,7 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
@@ -30,6 +31,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile;
@@ -84,7 +86,7 @@ public final class AchievementEvents implements IQuickSavefile{
 	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent e){
-		if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
+		if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
 		
 		QuickSavefile file = WorldDataHandler.<QuickSavefile>get(QuickSavefile.class);
 		
@@ -96,25 +98,27 @@ public final class AchievementEvents implements IQuickSavefile{
 	
 	@SubscribeEvent
 	public void onPlayerChangedDimension(PlayerChangedDimensionEvent e){
-		if (e.toDim == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.TIME_FOR_NEW_ADVENTURES,1);
+		if (e.toDim == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
 	}
 	
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent e){
-		Item item = e.pickedUp.getEntityItem().getItem();
+		ItemStack is = e.pickedUp.getEntityItem();
+		Item item = is.getItem();
 		
-		if (item == Item.getItemFromBlock(BlockList.enhanced_brewing_stand))e.player.addStat(AchievementManager.ENHANCED_BREWERY,1);
-		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.MAGIC_OF_DECOMPOSITION,1);
+		if (item == ItemList.end_powder)e.player.addStat(AchievementManager.END_POWDER,1);
+		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.STARDUST,1);
+		else if (item == ItemList.essence && is.getItemDamage() == EssenceType.FIERY.getItemDamage())e.player.addStat(AchievementManager.FIERY_ESSSENCE,1);
 	}
 	
 	@SubscribeEvent
 	public void onItemCrafted(ItemCraftedEvent e){
-		if (e.crafting.getItem() == Item.getItemFromBlock(BlockList.void_chest))e.player.addStat(AchievementManager.AFRAID_NO_MORE,1);
+		if (e.crafting.getItem() == Item.getItemFromBlock(BlockList.void_chest))e.player.addStat(AchievementManager.VOID_CHEST,1);
 	}
 	
 	@SubscribeEvent
 	public void onItemSmelted(ItemSmeltedEvent e){
-		if (e.smelting.getItem() == ItemList.endium_ingot)e.player.addStat(AchievementManager.THE_NEXT_STEP,1);
+		if (e.smelting.getItem() == ItemList.endium_ingot)e.player.addStat(AchievementManager.ENDIUM_INGOT,1);
 	}
 	
 	@SubscribeEvent

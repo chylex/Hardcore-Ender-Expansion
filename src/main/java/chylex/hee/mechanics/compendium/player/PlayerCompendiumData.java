@@ -27,6 +27,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PlayerCompendiumData implements IExtendedEntityProperties{
+	private boolean seenHelp;
 	private int pointAmount;
 	
 	private final PlayerDiscoveryList<ObjectBlock,BlockMetaWrapper> discoveredBlocks = new PlayerDiscoveryList<>(new DiscoveryBlockSerializer());
@@ -41,6 +42,14 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	@SideOnly(Side.CLIENT)
 	public PlayerCompendiumData(NBTTagCompound nbt){
 		loadNBTData(nbt);
+	}
+	
+	public boolean seenHelp(){
+		return seenHelp;
+	}
+	
+	public void setSeenHelp(){
+		seenHelp = true;
 	}
 	
 	public int getPoints(){
@@ -154,6 +163,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	public void saveNBTData(NBTTagCompound nbt){
 		Stopwatch.time("PlayerCompendiumData - save");
 		NBTTagCompound hee = new NBTTagCompound();
+		hee.setBoolean("hlp",seenHelp);
 		hee.setInteger("kps",pointAmount);
 		hee.setTag("fndBlocks",discoveredBlocks.saveToNBTList());
 		hee.setTag("fndItems",discoveredItems.saveToNBTList());
@@ -168,6 +178,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	public void loadNBTData(NBTTagCompound nbt){
 		Stopwatch.time("PlayerCompendiumData - load");
 		NBTTagCompound hee = nbt.getCompoundTag("HEE");
+		seenHelp = hee.getBoolean("hlp");
 		pointAmount = hee.getInteger("kps");
 		discoveredBlocks.loadFromNBTList(hee.getTagList("fndBlocks",NBT.TAG_STRING));
 		discoveredItems.loadFromNBTList(hee.getTagList("fndItems",NBT.TAG_STRING));

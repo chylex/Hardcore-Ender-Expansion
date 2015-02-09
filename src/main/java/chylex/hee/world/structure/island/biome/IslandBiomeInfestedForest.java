@@ -121,6 +121,11 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	}
 	
 	@Override
+	protected Achievement getAchievement(){
+		return AchievementManager.BIOME_INFESTED_FOREST;
+	}
+	
+	@Override
 	public BlockEndstoneTerrain.Variant getTopBlockVariant(){
 		return BlockEndstoneTerrain.Variant.INFESTED;
 	}

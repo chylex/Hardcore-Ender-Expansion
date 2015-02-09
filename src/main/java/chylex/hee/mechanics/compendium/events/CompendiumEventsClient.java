@@ -72,6 +72,7 @@ public final class CompendiumEventsClient{
 			compendium.showObject(obj);
 			compendium.moveToCurrentObject(false);
 		}
+		else if (!instance.data.seenHelp())compendium.showObject(KnowledgeRegistrations.HELP);
 	}
 	
 	public static int getCompendiumKeyCode(){

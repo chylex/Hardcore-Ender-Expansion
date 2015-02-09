@@ -11,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.system.achievements.AchievementEvents;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.util.DragonUtil;
 
 public class DragonAchievementManager{
 	private final EntityBossDragon dragon;
@@ -86,7 +85,7 @@ public class DragonAchievementManager{
 			
 			if (b instanceof NBTTagCompound){
 				NBTTagCompound compound = (NBTTagCompound)b;
-				getData(DragonUtil.convertNameToUUID(key)).readFromNBT(compound);
+				getData(UUID.fromString(key)).readFromNBT(compound);
 			}
 		}
 		

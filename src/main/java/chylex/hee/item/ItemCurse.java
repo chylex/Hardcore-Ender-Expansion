@@ -73,6 +73,11 @@ public class ItemCurse extends Item{
 	}
 	
 	@Override
+	public void onCreated(ItemStack is, World world, EntityPlayer player){
+		player.addStat(AchievementManager.CURSE,1);
+	}
+	
+	@Override
 	public String getUnlocalizedName(ItemStack is){
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
 		return "item.curse."+(type == null ? "invalid" : type.name().toLowerCase().replaceAll("_",""));

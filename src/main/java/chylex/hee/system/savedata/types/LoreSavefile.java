@@ -10,7 +10,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.mechanics.misc.LoreTexts;
 import chylex.hee.system.savedata.WorldSavefile;
-import chylex.hee.system.util.DragonUtil;
 
 public class LoreSavefile extends WorldSavefile{
 	private final Map<UUID,byte[]> unlockedPages = new HashMap<>();
@@ -67,6 +66,6 @@ public class LoreSavefile extends WorldSavefile{
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
 		unlockedPages.clear();
-		for(String key:(Set<String>)nbt.getKeySet())unlockedPages.put(DragonUtil.convertNameToUUID(key),nbt.getByteArray(key));
+		for(String key:(Set<String>)nbt.getKeySet())unlockedPages.put(UUID.toString(key),nbt.getByteArray(key));
 	}
 }

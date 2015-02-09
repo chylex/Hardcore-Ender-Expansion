@@ -110,6 +110,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 
 				if (player.playerNetServerHandler.getNetworkManager().isChannelOpen() && player.worldObj == worldObj){
 					if (player.isRiding())player.mountEntity((Entity)null);
+					if (player.posY <= 0D)player.addStat(AchievementManager.TP_NEAR_VOID,1);
 					
 					BlockPosM pos, testPos = new BlockPosM();
 					

@@ -251,7 +251,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 					essenceLevel += 1;
 					worldObj.setBlockState(getPos(),BlockList.essence_altar.setProperty(essenceType));
 					
-					if (essenceType == EssenceType.DRAGON)player.addStat(AchievementManager.LEARNING_THE_POWERS,1);
+					if (essenceType == EssenceType.DRAGON)player.addStat(AchievementManager.DRAGON_ESSENCE,1);
 				}
 			}
 			else return;

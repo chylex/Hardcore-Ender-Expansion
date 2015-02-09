@@ -136,6 +136,11 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	}
 	
 	@Override
+	protected Achievement getAchievement(){
+		return AchievementManager.BIOME_ENCHANTED_ISLAND;
+	}
+	
+	@Override
 	public BlockEndstoneTerrain.Variant getTopBlockVariant(){
 		return BlockEndstoneTerrain.Variant.ENCHANTED;
 	}

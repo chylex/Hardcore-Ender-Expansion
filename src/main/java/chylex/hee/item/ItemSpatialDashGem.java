@@ -21,6 +21,11 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
+	public boolean hasEffect(ItemStack is, int pass){
+		return is.getItemDamage() == 1 || super.hasEffect(is,pass);
+	}
+	
+	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (is.getItemDamage() < getMaxDamage()){
 			if (!world.isRemote){

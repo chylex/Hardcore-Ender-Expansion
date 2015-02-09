@@ -1,12 +1,16 @@
 package chylex.hee.entity.item;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.block.BlockList;
+import chylex.hee.item.ItemList;
+import chylex.hee.system.achievements.AchievementManager;
 
 public class EntityItemAltar extends EntityItem{
 	public byte pedestalUpdate;
@@ -87,7 +91,15 @@ public class EntityItemAltar extends EntityItem{
 	
 	@Override
 	public void onCollideWithPlayer(EntityPlayer player){
-		if (Math.abs(player.posX-posX) < 0.8001D && Math.abs(player.posZ-posZ) < 0.8001D)super.onCollideWithPlayer(player);
+		if (Math.abs(player.posX-posX) < 0.8001D && Math.abs(player.posZ-posZ) < 0.8001D){
+			ItemStack is = getEntityItem().copy();
+			super.onCollideWithPlayer(player);
+			
+			if (isDead){
+				if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_brewing_stand))player.addStat(AchievementManager.ENHANCED_BREWING_STAND,1);
+				else if (is.getItem() == ItemList.temple_caller)player.addStat(AchievementManager.TEMPLE_CALLER,1);
+			}
+		}
 	}
 	
 	public void setSparkling(){

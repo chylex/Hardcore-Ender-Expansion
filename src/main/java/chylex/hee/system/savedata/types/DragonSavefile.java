@@ -151,6 +151,6 @@ public class DragonSavefile extends WorldSavefile{
 		for(int a = 0; a < tagCrystals.tagCount(); a++)crystals.add(new BlockPosM(((NBTTagLong)tagCrystals.get(a)).getLong()));
 		
 		NBTTagList tagTemplePlayers = nbt.getTagList("templePlayers",NBT.TAG_STRING);
-		for(int a = 0; a < tagTemplePlayers.tagCount(); a++)templePlayers.add(DragonUtil.convertNameToUUID(tagTemplePlayers.getStringTagAt(a)));
+		for(int a = 0; a < tagTemplePlayers.tagCount(); a++)templePlayers.add(UUID.toString(tagTemplePlayers.getStringTagAt(a)));
 	}
 }

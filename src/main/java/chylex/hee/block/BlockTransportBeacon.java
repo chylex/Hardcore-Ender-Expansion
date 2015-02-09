@@ -33,7 +33,11 @@ public class BlockTransportBeacon extends BlockContainer{
 			PlayerTransportBeacons data = PlayerTransportBeacons.getInstance(player);
 			TileEntityTransportBeacon tile = (TileEntityTransportBeacon)world.getTileEntity(pos);
 			
-			if (tile.hasNotBeenTampered())data.addBeacon(pos.getX(),pos.getZ());
+			if (tile.hasNotBeenTampered()){
+				data.addBeacon(pos.getX(),pos.getZ());
+				player.addStat(AchievementManager.TRANSPORT_BEACON,1);
+			}
+			
 			PacketPipeline.sendToPlayer(player,new C13TransportBeaconData(data.getOffsets(pos.getX(),pos.getZ()),tile.hasEnergy(),tile.hasNotBeenTampered()));
 		}
 		

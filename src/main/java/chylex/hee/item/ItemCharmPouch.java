@@ -62,6 +62,11 @@ public class ItemCharmPouch extends Item{
 	}
 	
 	@Override
+	public void onCreated(ItemStack is, World world, EntityPlayer player){
+		player.addStat(AchievementManager.CHARM_POUCH,1);
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		textLines.add(ItemUtil.getNBT(is,false).getBoolean("isPouchActive") ? "Active" : "Inactive");

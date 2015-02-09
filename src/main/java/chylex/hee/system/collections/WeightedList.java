@@ -1,8 +1,11 @@
 package chylex.hee.system.collections;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 import chylex.hee.system.collections.weight.IWeightProvider;
+import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 
 public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 	private static final long serialVersionUID = -382485527777212023L;
@@ -56,7 +59,7 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		for(T obj:this)totalWeight += obj.getWeight();
 	}
 	
-	public T getRandomItem(Random rand){ // TODO check
+	public T getRandomItem(Random rand){
 		if (totalWeight == 0)return null;
 		int i = rand.nextInt(totalWeight);
 		
@@ -67,4 +70,22 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		
 		return null;
 	}
+	
+	public static final HeeTest $debugTest = new HeeTest(){
+		@Override
+		public void run(String...args){
+			WeightedList<ObjectWeightPair<String>> list = new WeightedList<>();
+			list.add(ObjectWeightPair.of("A",50));
+			list.add(ObjectWeightPair.of("B",25));
+			list.add(ObjectWeightPair.of("C",10));
+			list.add(ObjectWeightPair.of("D",5));
+			list.add(ObjectWeightPair.of("E",5));
+			list.add(ObjectWeightPair.of("F",1));
+			
+			TObjectIntHashMap<String> freq = new TObjectIntHashMap<>();
+			for(int a = 0; a < 5000; a++)freq.adjustOrPutValue(list.getRandomItem(world.rand).getObject(),1,1);
+			
+			for(String key:freq.keySet())System.out.println(key+" ... "+freq.get(key));
+		}
+	};
 }

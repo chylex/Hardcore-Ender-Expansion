@@ -5,6 +5,7 @@ import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobHauntedMiner;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorBurningMountains;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
@@ -67,6 +68,11 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	@Override
 	protected IslandBiomeDecorator getDecorator(){
 		return decorator;
+	}
+	
+	@Override
+	protected Achievement getAchievement(){
+		return AchievementManager.BIOME_BURNING_MOUNTAINS;
 	}
 	
 	@Override

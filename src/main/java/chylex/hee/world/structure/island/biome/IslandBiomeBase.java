@@ -8,6 +8,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -197,11 +199,11 @@ public abstract class IslandBiomeBase{
 		}
 		
 		for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
-			if (isPlayerMoving(player)){
+			if (isPlayerMoving(player) && player instanceof EntityPlayerMP){
 				IBlockState state = tmpPos.moveTo(player).moveDown().getBlockState(world);
 				
-				if (state.getBlock() == BlockList.end_terrain && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant()){
-					player.addStat(AchievementManager.WHOLE_NEW_CULTURES,1);
+				if (state.getBlock() == BlockList.end_terrain && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant() && !((EntityPlayerMP)player).func_147099_x().hasAchievementUnlocked(getAchievement())){ // OBFUSCATED getStatisticsFile
+					player.addStat(getAchievement(),1);
 				}
 			}
 		}
@@ -240,6 +242,8 @@ public abstract class IslandBiomeBase{
 	}
 	
 	protected abstract IslandBiomeDecorator getDecorator();
+	
+	protected abstract Achievement getAchievement();
 	
 	public abstract BlockEndstoneTerrain.Variant getTopBlockVariant();
 }

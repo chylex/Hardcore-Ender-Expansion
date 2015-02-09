@@ -76,10 +76,14 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> currentObject = null;
 	private TByteObjectHashMap<Map<KnowledgeFragment,Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
 	private byte pageIndex;
-	private GuiButton[] pageArrows = new GuiButton[2];
+	private GuiButtonPageArrow[] pageArrows = new GuiButtonPageArrow[2];
+	
+	private GuiButtonState btnHelp;
+	private byte hoverTriggerTimer = Byte.MIN_VALUE;
 	
 	public GuiEnderCompendium(PlayerCompendiumData compendiumData){
-		this.compendiumData = compendiumData;
+		if (!(this.compendiumData = compendiumData).seenHelp())hoverTriggerTimer = 0;
+		
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(portalSpeed = new AnimatedFloat(Easing.CUBIC));
 		
@@ -115,14 +119,16 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public void initGui(){
 		this.portalRenderer = new GuiEndPortalRenderer(this,width-48,height-48,0);
 		
-		buttonList.add(new GuiButton(0,(width>>1)-120,height-27,98,20,I18n.format("gui.back")));
-		buttonList.add(new GuiButton(1,(width>>1)-10,height-27,20,20,"?"));
-		buttonList.add(new GuiButton(2,(width>>1)+22,height-27,98,20,I18n.format("gui.done")));
+		buttonList.add(new GuiButton(0,(width>>1)-120,height-27,98,20,I18n.format("gui.achievements")));
+		buttonList.add(btnHelp = new GuiButtonState(1,(width>>1)-10,height-27,20,20,"?"));
+		buttonList.add(new GuiButton(2,(width>>1)+22,height-27,98,20,I18n.format("gui.back")));
 		buttonList.add(pageArrows[0] = new GuiButtonPageArrow(3,0,((height+guiPageTexHeight)>>1)-32,false));
 		buttonList.add(pageArrows[1] = new GuiButtonPageArrow(4,0,((height+guiPageTexHeight)>>1)-32,true));
 		buttonList.add(new GuiButton(5,width-60,height-27,20,20,""));
 		
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
+		
+		if (currentObject == KnowledgeRegistrations.HELP)btnHelp.forcedHover = true;
 		
 		offsetY.set(0);
 	}
@@ -134,16 +140,15 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (!(button.enabled && button.visible))return;
 		
 		if (button.id == 0 && !offsetY.isAnimating()){
+			mc.displayGuiScreen(new GuiAchievementsCustom(this,mc.thePlayer.getStatFileWriter()));
+		}
+		else if (button.id == 1)showObject(KnowledgeRegistrations.HELP);
+		else if (button.id == 2 && !offsetY.isAnimating()){
 			if (currentObject != null)showObject(null);
 			else{
 				mc.displayGuiScreen((GuiScreen)null);
 				mc.setIngameFocus();
 			}
-		}
-		else if (button.id == 1)showObject(KnowledgeRegistrations.HELP);
-		else if (button.id == 2){
-			mc.displayGuiScreen((GuiScreen)null);
-			mc.setIngameFocus();
 		}
 		else if (button.id == 3)pageIndex = (byte)Math.max(0,pageIndex-1);
 		else if (button.id == 4)pageIndex = (byte)Math.min(currentObjectPages.size()-1,pageIndex+1);
@@ -165,7 +170,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId) throws IOException{
-		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(0));
+		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(2));
 		else if (buttonId == 0){
 			int offY = (int)offsetY.value();
 			
@@ -231,7 +236,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	protected void keyTyped(char key, int keyCode){
-		if (keyCode == 1)actionPerformed((GuiButton)buttonList.get(0));
+		if (keyCode == 1)actionPerformed((GuiButton)buttonList.get(2));
 	}
 	
 	@Override
@@ -265,13 +270,30 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (offsetY.value() > 0)offsetY.set(0F);
 		else if (offsetY.value() < -totalHeight+height-32)offsetY.set(-totalHeight+height-32);
+		
+		if (hoverTriggerTimer != Byte.MIN_VALUE && ++hoverTriggerTimer > 12){
+			if (!compendiumData.seenHelp())btnHelp.forcedHover = !btnHelp.forcedHover;
+			else if (currentObject == KnowledgeRegistrations.HELP){
+				if (pageIndex == 0)pageArrows[1].forcedHover = !pageArrows[1].forcedHover;
+				else{
+					hoverTriggerTimer = Byte.MIN_VALUE;
+					pageArrows[1].forcedHover = false;
+				}
+			}
+			
+			if (hoverTriggerTimer != Byte.MIN_VALUE)hoverTriggerTimer = 0;
+		}
 	}
 	
 	public void showObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
 		if (currentObject != null){
 			currentObjectPages.clear();
 			purchaseElements.clear();
-			if (currentObject != object)pageIndex = 0;
+			
+			if (currentObject != object){
+				pageIndex = 0;
+				btnHelp.forcedHover = false;
+			}
 		}
 
 		if ((currentObject = object) == null)return;
@@ -301,7 +323,16 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			yy += height;
 		}
 		
-		if (object == KnowledgeRegistrations.HELP)return;
+		if (object == KnowledgeRegistrations.HELP){
+			btnHelp.forcedHover = true;
+			
+			if (!compendiumData.seenHelp()){
+				PacketPipeline.sendToServer(new S05OpenCompendiumHelp());
+				compendiumData.setSeenHelp();
+			}
+			
+			return;
+		}
 		
 		if (!compendiumData.hasDiscoveredObject(currentObject)){
 			if (currentObject.isBuyable())purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumData.getPoints() >= currentObject.getUnlockPrice() ? FragmentPurchaseStatus.CAN_PURCHASE : FragmentPurchaseStatus.NOT_ENOUGH_POINTS));
