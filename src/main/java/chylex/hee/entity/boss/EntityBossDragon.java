@@ -18,7 +18,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import chylex.hee.system.util.Direction;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
@@ -61,6 +60,7 @@ import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.Direction;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 

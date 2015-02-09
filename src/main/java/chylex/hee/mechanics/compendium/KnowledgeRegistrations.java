@@ -9,6 +9,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Loader;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockList;
@@ -50,7 +51,6 @@ import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import net.minecraftforge.fml.common.Loader;
 
 public final class KnowledgeRegistrations{
 	public static final KnowledgeObject<? extends IKnowledgeObjectInstance<?>>

@@ -9,6 +9,11 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.StringUtils;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -20,11 +25,6 @@ import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.player.PlayerDiscoveryList.IObjectSerializer;
 import chylex.hee.system.logging.Stopwatch;
-import net.minecraftforge.fml.common.registry.GameData;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PlayerCompendiumData implements IExtendedEntityProperties{
 	private boolean seenHelp;

@@ -3,11 +3,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import chylex.hee.mechanics.charms.CharmPouchInfo;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import chylex.hee.mechanics.charms.CharmPouchInfo;
 
 public final class CharmPouchHandlerClient{
 	private static CharmPouchHandlerClient instance;

@@ -3,6 +3,8 @@ import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
@@ -13,8 +15,6 @@ import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.base.Joiner;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 	private static final Set<KnowledgeFragmentEnhancement> enhancementFragments = new HashSet<>();

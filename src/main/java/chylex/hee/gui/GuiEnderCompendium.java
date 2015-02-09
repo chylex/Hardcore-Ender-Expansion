@@ -41,6 +41,7 @@ import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S02CompendiumPurchase;
+import chylex.hee.packets.server.S05OpenCompendiumHelp;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.util.MathUtil;

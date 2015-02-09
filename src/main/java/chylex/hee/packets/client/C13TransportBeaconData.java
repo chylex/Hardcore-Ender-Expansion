@@ -5,11 +5,11 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.gui.GuiTransportBeacon;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons.LocationXZ;
 import chylex.hee.packets.AbstractClientPacket;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C13TransportBeaconData extends AbstractClientPacket{
 	private Set<LocationXZ> offsets;

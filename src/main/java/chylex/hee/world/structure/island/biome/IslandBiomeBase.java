@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
-import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.util.BlockPosM;
@@ -202,7 +201,7 @@ public abstract class IslandBiomeBase{
 			if (isPlayerMoving(player) && player instanceof EntityPlayerMP){
 				IBlockState state = tmpPos.moveTo(player).moveDown().getBlockState(world);
 				
-				if (state.getBlock() == BlockList.end_terrain && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant() && !((EntityPlayerMP)player).func_147099_x().hasAchievementUnlocked(getAchievement())){ // OBFUSCATED getStatisticsFile
+				if (state.getBlock() == BlockList.end_terrain && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant() && !((EntityPlayerMP)player).getStatFile().hasAchievementUnlocked(getAchievement())){
 					player.addStat(getAchievement(),1);
 				}
 			}

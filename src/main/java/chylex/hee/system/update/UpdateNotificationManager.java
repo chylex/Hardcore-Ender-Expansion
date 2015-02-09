@@ -1,8 +1,8 @@
 package chylex.hee.system.update;
-import chylex.hee.HardcoreEnderExpansion;
-import com.google.common.base.Joiner;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import chylex.hee.HardcoreEnderExpansion;
+import com.google.common.base.Joiner;
 
 public final class UpdateNotificationManager{
 	public static boolean enableNotifications = true;

@@ -1,6 +1,5 @@
 package chylex.hee.entity.technical;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.system.util.Direction;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
@@ -8,6 +7,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.Direction;
 
 public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 	private byte dir;

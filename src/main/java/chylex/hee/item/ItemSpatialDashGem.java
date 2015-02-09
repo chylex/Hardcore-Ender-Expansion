@@ -21,8 +21,8 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
-	public boolean hasEffect(ItemStack is, int pass){
-		return is.getItemDamage() == 1 || super.hasEffect(is,pass);
+	public boolean hasEffect(ItemStack is){
+		return is.getItemDamage() == 1 || super.hasEffect(is);
 	}
 	
 	@Override

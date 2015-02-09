@@ -18,12 +18,12 @@ public class EntityAIOldTarget extends EntityAITarget{
 		entity.targetTasks.taskEntries.clear();
 		
 		entity.tasks.addTask(0,new EntityAISwimming(entity));
-        entity.tasks.addTask(2,new EntityAIAttackOnCollide(entity,1D,false));
-        entity.tasks.addTask(7,new EntityAIWander(entity,1D));
-        entity.tasks.addTask(8,new EntityAIWatchClosest(entity,EntityPlayer.class,8F));
-        entity.tasks.addTask(8,new EntityAILookIdle(entity));
-        entity.targetTasks.addTask(1,new EntityAIHurtByTarget(entity,false,new Class[0]));
-        entity.targetTasks.addTask(2,new EntityAIOldTarget(entity));
+		entity.tasks.addTask(2,new EntityAIAttackOnCollide(entity,1D,false));
+		entity.tasks.addTask(7,new EntityAIWander(entity,1D));
+		entity.tasks.addTask(8,new EntityAIWatchClosest(entity,EntityPlayer.class,8F));
+		entity.tasks.addTask(8,new EntityAILookIdle(entity));
+		entity.targetTasks.addTask(1,new EntityAIHurtByTarget(entity,false,new Class[0]));
+		entity.targetTasks.addTask(2,new EntityAIOldTarget(entity));
 	}
 	
 	private EntityLivingBase target;

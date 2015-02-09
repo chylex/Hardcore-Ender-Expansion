@@ -2,10 +2,10 @@ package chylex.hee.render.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import chylex.hee.entity.boss.EntityMiniBossEnderEye;
-import chylex.hee.system.util.MathUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.entity.boss.EntityMiniBossEnderEye;
+import chylex.hee.system.util.MathUtil;
 
 @SideOnly(Side.CLIENT)
 public class ModelEnderEye extends ModelBase{

@@ -1,11 +1,11 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXEvents;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.AbstractClientPacket;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C09SimpleEvent extends AbstractClientPacket{
 	public enum EventType{

@@ -1,5 +1,7 @@
 package chylex.hee.item;
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -7,6 +9,7 @@ import java.util.regex.Pattern;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -21,6 +24,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.MathUtil;
 import com.google.common.collect.ImmutableSet;
 

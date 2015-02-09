@@ -5,10 +5,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
-import chylex.hee.entity.technical.EntityTechnicalVoidChest;
-import com.google.common.collect.Lists;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import chylex.hee.entity.technical.EntityTechnicalVoidChest;
+import com.google.common.collect.Lists;
 
 public final class VoidChestEvents{
 	public static void register(){

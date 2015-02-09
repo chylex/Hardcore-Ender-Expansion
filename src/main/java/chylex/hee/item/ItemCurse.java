@@ -21,6 +21,7 @@ import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.BlockPosM;
 
 public class ItemCurse extends Item{

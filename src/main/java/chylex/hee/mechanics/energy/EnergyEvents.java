@@ -3,20 +3,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import chylex.hee.system.util.Direction;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.EnergySavefile;
-import chylex.hee.system.util.MathUtil;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.Direction;
+import chylex.hee.system.util.MathUtil;
 
 public final class EnergyEvents{
 	private static final EnergyEvents instance = new EnergyEvents();

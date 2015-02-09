@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import chylex.hee.item.ItemList;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import chylex.hee.item.ItemList;
 
 public final class CurseEvents{
 	public static void register(){

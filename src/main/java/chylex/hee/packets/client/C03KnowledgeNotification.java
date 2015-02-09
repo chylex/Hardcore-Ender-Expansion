@@ -36,6 +36,6 @@ public class C03KnowledgeNotification extends AbstractClientPacket{
 		CompendiumEventsClient.onObjectDiscovered(objectID+128);
 		
 		player.worldObj.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.pageflip",0.25F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.6F),false);
-		if (!((EntityPlayerSP)player).getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW))CompendiumEventsClient.showCompendiumAchievement();
+		if (!((EntityPlayerSP)player).getStatFileWriter().hasAchievementUnlocked(AchievementManager.ENDER_COMPENDIUM))CompendiumEventsClient.showCompendiumAchievement();
 	}
 }

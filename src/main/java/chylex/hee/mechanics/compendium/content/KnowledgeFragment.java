@@ -3,10 +3,10 @@ import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.Collection;
 import java.util.Collections;
-import org.apache.commons.lang3.ArrayUtils;
-import chylex.hee.gui.GuiEnderCompendium;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.gui.GuiEnderCompendium;
 
 public abstract class KnowledgeFragment{
 	private static final TIntObjectMap<KnowledgeFragment> allFragments = new TIntObjectHashMap<>();

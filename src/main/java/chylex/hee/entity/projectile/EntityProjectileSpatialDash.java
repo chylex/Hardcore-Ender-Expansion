@@ -19,6 +19,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.BlockPosM;
 
 public class EntityProjectileSpatialDash extends EntityThrowable{

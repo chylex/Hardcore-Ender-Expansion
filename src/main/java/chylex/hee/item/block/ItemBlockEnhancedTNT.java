@@ -8,10 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
-import chylex.hee.tileentity.TileEntityEnhancedTNT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.tileentity.TileEntityEnhancedTNT;
 
 public class ItemBlockEnhancedTNT extends ItemBlock{
 	public ItemBlockEnhancedTNT(Block block){

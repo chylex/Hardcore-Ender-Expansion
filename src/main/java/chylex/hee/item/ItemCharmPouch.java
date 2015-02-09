@@ -15,6 +15,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.ItemUtil;
 
 public class ItemCharmPouch extends Item{	

@@ -2,9 +2,9 @@ package chylex.hee.mechanics.essence.handler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.tileentity.TileEntityEssenceAltar;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.tileentity.TileEntityEssenceAltar;
 
 public class AltarActionHandler{
 	protected final TileEntityEssenceAltar altar;

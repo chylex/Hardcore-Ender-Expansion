@@ -14,7 +14,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 	}
 
 	@Override
-	public void integrate(){ // TODO update from 1.7.10
+	public void integrate(){
 		
 		// BLOCK ASPECTS
 		
@@ -171,6 +171,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2), new EntityTagsNBT("homelandRole",(byte)HomelandRole.WORKER.ordinal()));
 
 		registerEntityTag("HardcoreEnderExpansion.Endermage", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,2).add(Aspect.MAGIC,4));
+		*/
 	}
 	
 	private static ItemStack block(Block block){

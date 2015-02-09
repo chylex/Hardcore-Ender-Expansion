@@ -50,7 +50,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 				
 				/*IBlockState state = worldObj.getBlockState(getPos());
 				for(int a = 0; a < BlockBrewingStand.HAS_BOTTLE.length; a++)state = state.withProperty(BlockBrewingStand.HAS_BOTTLE[a],Boolean.valueOf(currentFilledSlots[a]));
-                worldObj.setBlockState(getPos(),state,2);*/
+				worldObj.setBlockState(getPos(),state,2);*/
 				// TODO fix
 			}
 		}

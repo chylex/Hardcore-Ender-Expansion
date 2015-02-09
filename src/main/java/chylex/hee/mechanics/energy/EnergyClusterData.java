@@ -1,12 +1,12 @@
 package chylex.hee.mechanics.energy;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.system.util.Direction;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockCorruptedEnergy;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.Direction;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 

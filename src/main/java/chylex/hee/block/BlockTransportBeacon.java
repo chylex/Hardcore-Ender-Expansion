@@ -14,6 +14,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C13TransportBeaconData;
+import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
 
 public class BlockTransportBeacon extends BlockContainer{

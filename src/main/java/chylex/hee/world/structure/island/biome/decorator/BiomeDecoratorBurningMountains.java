@@ -1,8 +1,8 @@
 package chylex.hee.world.structure.island.biome.decorator;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockCrossedDecoration.Variant;
+import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureCinderPatch;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureDungeonPuzzle;

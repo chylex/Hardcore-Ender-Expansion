@@ -2,11 +2,11 @@ package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXHandler;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.AbstractClientPacket;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class C22EffectLine extends AbstractClientPacket{	
 	private FXType.Line type;

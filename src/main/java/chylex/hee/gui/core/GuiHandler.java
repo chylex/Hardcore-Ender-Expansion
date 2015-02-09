@@ -2,6 +2,7 @@ package chylex.hee.gui.core;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 import chylex.hee.gui.ContainerAccumulationTable;
 import chylex.hee.gui.ContainerCharmPouch;
 import chylex.hee.gui.ContainerDecompositionTable;
@@ -26,7 +27,6 @@ import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
 import chylex.hee.tileentity.TileEntityVoidChest;
-import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public final class GuiHandler implements IGuiHandler{
 	public static GuiHandler instance = new GuiHandler();

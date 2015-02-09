@@ -13,6 +13,9 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.registry.GameData;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -20,9 +23,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameData;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public final class StardustDecomposition{
 	private static IdentityHashMap<Item,short[]> blacklist = new IdentityHashMap<>();

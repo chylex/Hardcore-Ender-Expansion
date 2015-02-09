@@ -3,10 +3,10 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import org.lwjgl.opengl.GL11;
-import chylex.hee.system.util.MathUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+import chylex.hee.system.util.MathUtil;
 
 @SideOnly(Side.CLIENT)
 public class ModelHauntedMiner extends ModelBase{

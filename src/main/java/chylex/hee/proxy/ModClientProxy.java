@@ -209,7 +209,7 @@ public class ModClientProxy extends ModCommonProxy{
 		MusicManager.register();
 		CharmPouchHandlerClient.register();
 		
-		AchievementManager.THE_MORE_YOU_KNOW.setStatStringFormatter(new IStatStringFormat(){
+		AchievementManager.ENDER_COMPENDIUM.setStatStringFormatter(new IStatStringFormat(){
 			@Override
 			public String formatString(String str){
 				if (hardcoreEnderbacon)str = StatCollector.translateToLocal("achievement.theMoreYouKnow.desc.bacon");

@@ -3,10 +3,10 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import chylex.hee.item.ItemList;
-import chylex.hee.proxy.ModCommonProxy;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.item.ItemList;
+import chylex.hee.proxy.ModCommonProxy;
 
 public class ModCreativeTab extends CreativeTabs{
 	public static ModCreativeTab tabMain, tabCharms;

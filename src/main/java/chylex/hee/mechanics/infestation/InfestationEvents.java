@@ -6,14 +6,14 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import chylex.hee.system.collections.WeightedList;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.InfestationSavefile;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
+import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.InfestationSavefile;
 
 public final class InfestationEvents{
 	private static InfestationEvents instance;

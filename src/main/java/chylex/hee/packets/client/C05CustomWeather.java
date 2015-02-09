@@ -5,10 +5,10 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityWeatherEffect;
 import net.minecraft.world.World;
-import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
-import chylex.hee.packets.AbstractClientPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
+import chylex.hee.packets.AbstractClientPacket;
 
 public class C05CustomWeather extends AbstractClientPacket{
 	private int entityId;

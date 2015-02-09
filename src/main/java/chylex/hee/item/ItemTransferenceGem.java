@@ -21,6 +21,7 @@ import chylex.hee.mechanics.gem.GemSideEffects;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.system.achievements.AchievementManager;
 
 public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	@Override

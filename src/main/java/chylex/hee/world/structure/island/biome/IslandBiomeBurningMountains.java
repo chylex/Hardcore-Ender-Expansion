@@ -1,5 +1,6 @@
 package chylex.hee.world.structure.island.biome;
 import java.util.Random;
+import net.minecraft.stats.Achievement;
 import chylex.hee.block.BlockBiomeIslandCore.Biome;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobFireGolem;

@@ -20,6 +20,7 @@ import org.lwjgl.input.Mouse;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
@@ -85,7 +86,7 @@ public final class CompendiumEventsClient{
 	}
 	
 	public static void showCompendiumAchievement(){
-		Minecraft.getMinecraft().guiAchievement.displayUnformattedAchievement(AchievementManager.THE_MORE_YOU_KNOW);
+		Minecraft.getMinecraft().guiAchievement.displayUnformattedAchievement(AchievementManager.ENDER_COMPENDIUM);
 		instance.achievementTimer = 120;
 	}
 	
@@ -160,7 +161,7 @@ public final class CompendiumEventsClient{
 				
 				openCompendium(obj);
 				
-				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.THE_MORE_YOU_KNOW)){
+				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.ENDER_COMPENDIUM)){
 					PacketPipeline.sendToServer(new S03OpenCompendium());
 					achievementTimer = Byte.MIN_VALUE;
 				}

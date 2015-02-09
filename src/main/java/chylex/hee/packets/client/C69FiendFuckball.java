@@ -2,10 +2,10 @@ package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
-import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
-import chylex.hee.packets.AbstractClientPacket;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
+import chylex.hee.packets.AbstractClientPacket;
 
 public class C69FiendFuckball extends AbstractClientPacket{
 	private int enTittyId;

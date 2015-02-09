@@ -1,5 +1,4 @@
 package chylex.hee.block;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
@@ -25,7 +24,6 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.BlockPosM;

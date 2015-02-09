@@ -6,10 +6,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
-import org.apache.commons.lang3.ArrayUtils;
-import chylex.hee.gui.GuiDiaryBook;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.gui.GuiDiaryBook;
 
 public final class LoreTexts{
 	public static int pageAmount = 16;

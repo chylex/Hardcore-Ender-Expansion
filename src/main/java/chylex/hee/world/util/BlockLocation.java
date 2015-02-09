@@ -1,6 +1,6 @@
 package chylex.hee.world.util;
-import chylex.hee.system.util.BlockPosM;
 import net.minecraft.util.BlockPos;
+import chylex.hee.system.util.BlockPosM;
 
 public class BlockLocation{
 	public final int x, y, z;

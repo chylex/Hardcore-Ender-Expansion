@@ -14,7 +14,6 @@ import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.savedata.WorldSavefile;
 import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.DragonUtil;
 
 public class DragonSavefile extends WorldSavefile{
 	private List<BlockPosM> crystals = new ArrayList<>();
@@ -151,6 +150,6 @@ public class DragonSavefile extends WorldSavefile{
 		for(int a = 0; a < tagCrystals.tagCount(); a++)crystals.add(new BlockPosM(((NBTTagLong)tagCrystals.get(a)).getLong()));
 		
 		NBTTagList tagTemplePlayers = nbt.getTagList("templePlayers",NBT.TAG_STRING);
-		for(int a = 0; a < tagTemplePlayers.tagCount(); a++)templePlayers.add(UUID.toString(tagTemplePlayers.getStringTagAt(a)));
+		for(int a = 0; a < tagTemplePlayers.tagCount(); a++)templePlayers.add(UUID.fromString(tagTemplePlayers.getStringTagAt(a)));
 	}
 }

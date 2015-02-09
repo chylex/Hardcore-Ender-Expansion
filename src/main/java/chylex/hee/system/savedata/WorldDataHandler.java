@@ -10,9 +10,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public final class WorldDataHandler{
 	private static WorldDataHandler instance;

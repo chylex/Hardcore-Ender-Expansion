@@ -2,10 +2,10 @@ package chylex.hee.render.model;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import org.lwjgl.opengl.GL11;
-import chylex.hee.system.util.MathUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.opengl.GL11;
+import chylex.hee.system.util.MathUtil;
 
 @SideOnly(Side.CLIENT)
 public class ModelEndermanHeadBiped extends ModelBiped{
