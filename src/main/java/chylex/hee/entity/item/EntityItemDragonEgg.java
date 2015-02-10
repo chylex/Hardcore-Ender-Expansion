@@ -21,6 +21,11 @@ public class EntityItemDragonEgg extends EntityItem{
 		super.onUpdate();
 		lifespan = Integer.MAX_VALUE;
 		overrideDeath = false;
+		
+		if (posY < -60D){
+			BlockDragonEggCustom.teleportEntityToPortal(this);
+			super.setDead();
+		}
 	}
 
 	@Override

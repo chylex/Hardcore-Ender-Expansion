@@ -60,7 +60,6 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.item.ItemList;
-import chylex.hee.item.block.ItemBlockDragonEgg;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
@@ -162,7 +161,7 @@ public class HardcoreEnderExpansion{
 		
 		// BLOCKS
 		
-		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom(), ItemBlockDragonEgg.class);
+		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom());
 		BlockList.registerBlocks();
 		
 		BlockList.obsidian_falling.setHarvestLevel("pickaxe", 3);
