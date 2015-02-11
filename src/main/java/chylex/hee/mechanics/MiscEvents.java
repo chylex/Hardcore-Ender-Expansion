@@ -20,6 +20,24 @@ import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 
 public class MiscEvents{
 	/*
+	 * Dragon Egg entity join world
+	 */
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onEntityJoinWorld(EntityJoinWorldEvent e){
+		if (!e.world.isRemote && e.entity.getClass() == EntityItem.class && ((EntityItem)e.entity).getEntityItem().getItem() == Item.getItemFromBlock(Blocks.dragon_egg)){
+			e.setCanceled(true);
+			
+			EntityItem newEntity = new EntityItemDragonEgg(e.world,e.entity.posX,e.entity.posY,e.entity.posZ,((EntityItem)e.entity).getEntityItem());
+			newEntity.delayBeforeCanPickup = 10;
+			
+			newEntity.copyLocationAndAnglesFrom(e.entity);
+			newEntity.motionX = newEntity.motionY = newEntity.motionZ = 0D;
+			newEntity.addVelocity(e.entity.motionX,e.entity.motionY,e.entity.motionZ);
+			e.world.spawnEntityInWorld(newEntity);
+		}
+	}
+	
+	/*
 	 * Endermanpocalypse spawn immunity
 	 */
 	@SubscribeEvent
