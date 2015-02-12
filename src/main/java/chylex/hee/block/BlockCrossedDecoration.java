@@ -21,6 +21,7 @@ import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.util.ForgeDirection;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -55,11 +56,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune){
-		ArrayList<ItemStack> ret = new ArrayList<>();
-
-		if (meta == dataLilyFire)ret.add(new ItemStack(this,1,meta));
-		
-		return ret;
+		return meta == dataLilyFire ? CollectionUtil.newList(new ItemStack(this,1,meta)) : new ArrayList<ItemStack>();
 	}
 	
 	@Override
