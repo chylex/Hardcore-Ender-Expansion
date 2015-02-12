@@ -25,34 +25,32 @@ public final class EnhancementHandler{
 	static{
 		SlotType p = SlotType.POWDER, i = SlotType.INGREDIENT;
 		
-		itemMap.put(
-			Items.ender_pearl,
+		register(
+			new Item[]{ Items.ender_pearl, ItemList.enhanced_ender_pearl },
 			new EnhancementData(EnderPearlEnhancements.class, ItemList.enhanced_ender_pearl, p, i, p)
 		);
 		
-		itemMap.put(
-			ItemList.enhanced_ender_pearl,
-			new EnhancementData(EnderPearlEnhancements.class, ItemList.enhanced_ender_pearl, p, i, p)
-		);
-		
-		itemMap.put(
-			ItemList.transference_gem,
+		register(
+			new Item[]{ ItemList.transference_gem },
 			new EnhancementData(TransferenceGemEnhancements.class, ItemList.transference_gem, p, p, p, i, p, p, p)
 		);
 		
-		itemMap.put(
-			Item.getItemFromBlock(Blocks.tnt),
-			new EnhancementData(TNTEnhancements.class, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
-		);
-		
-		itemMap.put(
-			Item.getItemFromBlock(BlockList.enhanced_tnt),
+		register(
+			new Item[]{ Item.getItemFromBlock(Blocks.tnt), Item.getItemFromBlock(BlockList.enhanced_tnt) },
 			new EnhancementData(TNTEnhancements.class, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
 		);
 	}
 	
+	private static void register(Item[] items, EnhancementData data){
+		for(Item item:items)itemMap.put(item,data);
+	}
+	
 	public static boolean canEnhanceItem(Item item){
 		return itemMap.containsKey(item);
+	}
+	
+	public static boolean canEnhanceBlock(Block block){
+		return itemMap.containsKey(Item.getItemFromBlock(block));
 	}
 	
 	public static List<IEnhancementEnum> getEnhancementsForItem(Item item){
@@ -99,6 +97,20 @@ public final class EnhancementHandler{
 		is = is.copy();
 		is.setItem(itemMap.get(is.getItem()).newItem);
 		addEnhancementToItemStack(is,enhancement);
+		
+		return is;
+	}
+	
+	public static ItemStack addEnhancements(ItemStack is, Collection<Enum> enhancements){
+		if (!canEnhanceItem(is.getItem()) || enhancements.isEmpty())return is;
+		
+		is = is.copy();
+		is.setItem(itemMap.get(is.getItem()).newItem);
+		List<Enum> current = getEnhancements(is);
+		
+		for(Enum enhancement:enhancements){
+			if (!current.contains(enhancement))addEnhancementToItemStack(is,enhancement);
+		}
 		
 		return is;
 	}

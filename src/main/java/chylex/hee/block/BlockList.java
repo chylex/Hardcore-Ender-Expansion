@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.block.state.BlockAbstractContainerState;
 import chylex.hee.block.state.BlockAbstractState;
 import chylex.hee.item.block.ItemBlockEndFlower;
-import chylex.hee.item.block.ItemBlockEnhancedTNT;
+import chylex.hee.item.block.ItemBlockEnhanceableTile;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
 import chylex.hee.item.block.ItemBlockSlab;
 import chylex.hee.item.block.ItemBlockSlab.IBlockSlab;
@@ -191,7 +191,7 @@ public final class BlockList{
 		setItemClass("obsidian_special", ItemBlockWithSubtypes.class);
 		setItemClass("obsidian_special_glow", ItemBlockWithSubtypes.class);
 		setItemClass("essence_altar", ItemBlockEssenceAltar.class);
-		setItemClass("enhanced_tnt", ItemBlockEnhancedTNT.class);
+		setItemClass("enhanced_tnt", ItemBlockEnhanceableTile.class);
 		setItemClass("end_stone_terrain", ItemBlockWithSubtypes.class);
 		setItemClass("crossed_decoration", ItemBlockWithSubtypes.class);
 		setItemClass("death_flower", ItemBlockEndFlower.class);

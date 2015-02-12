@@ -12,7 +12,7 @@ import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
 
 public enum TransferenceGemEnhancements implements IEnhancementEnum{
-	HEAL("Heal",new IRepresentativeItemSelector(){
+	HEAL(new IRepresentativeItemSelector(){
 		@Override
 		public boolean isValid(ItemStack is){
 			if (is.getItem() != Items.potionitem)return false;
@@ -26,16 +26,14 @@ public enum TransferenceGemEnhancements implements IEnhancementEnum{
 			return PotionTypes.setCustomPotionEffect(new ItemStack(Items.potionitem,1,8197),new PotionEffect(Potion.heal.id,0,3));
 		}
 	}),
-	TOUCH("Touch", new SimpleItemSelector(Items.item_frame)),
-	MOB("Mob", new SimpleItemSelector(Items.lead));
+	TOUCH(new SimpleItemSelector(Items.item_frame)),
+	MOB(new SimpleItemSelector(Items.lead));
 	
 	private final String name;
-	private final String effectName;
 	public final IRepresentativeItemSelector itemSelector;
 	
-	private TransferenceGemEnhancements(String effectName, IRepresentativeItemSelector itemSelector){
+	private TransferenceGemEnhancements(IRepresentativeItemSelector itemSelector){
 		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.GRAY);
-		this.effectName = EnumChatFormatting.GRAY+effectName;
 		this.itemSelector = itemSelector;
 	}
 

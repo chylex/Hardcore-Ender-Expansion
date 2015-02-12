@@ -8,15 +8,22 @@ import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 
-public class TileEntityEnhancedTNT extends TileEntity{
+public class TileEntityEnhancedTNT extends TileEntity implements IEnhanceableTile{
 	private List<Enum> tntEnhancements = new ArrayList<>();
 	
+	@Override
 	public void loadEnhancementsFromItem(ItemStack is){
 		for(Enum enhancement:EnhancementHandler.getEnhancements(is))tntEnhancements.add(enhancement);
 	}
 	
+	@Override
 	public List<Enum> getEnhancements(){
 		return tntEnhancements;
+	}
+	
+	@Override
+	public ItemStack createEnhancementDisplay(){
+		return EnhancementHandler.addEnhancements(new ItemStack(BlockList.enhanced_tnt),tntEnhancements);
 	}
 	
 	@Override

@@ -15,12 +15,14 @@ import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
+import chylex.hee.gui.slots.SlotReadOnly;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.mechanics.enhancements.SlotList;
 import chylex.hee.packets.PacketPipeline;
@@ -34,6 +36,7 @@ public class ContainerEndPowderEnhancements extends Container{
 	private EntityPlayerMP owner;
 	
 	public final IInventory containerInv;
+	public final IEnhanceableTile enhanceableTile;
 	public final Slot[] powderSlots = new Slot[6];
 	public final Slot[] ingredientSlots = new Slot[3];
 	
@@ -45,14 +48,22 @@ public class ContainerEndPowderEnhancements extends Container{
 	private IEnhancementEnum selectedEnhancement;
 	private int selectedSlot, prevSelectedSlot = -1;
 	
-	public ContainerEndPowderEnhancements(InventoryPlayer inv){
+	public ContainerEndPowderEnhancements(InventoryPlayer inv, IEnhanceableTile tileOptional){
 		containerInv = new InventoryBasic("",false,2+ingredientSlots.length+powderSlots.length);
+		this.enhanceableTile = tileOptional;
 		
 		enhancementListInv = new InventoryBasic("",false,enhancementSlotX.length);
 		for(int a = 0; a < enhancementSlotX.length; a++)enhancementSlotX[a] = -3200;
 		
-		addSlotToContainer(new SlotEnhancementsSubject(this,containerInv,0,53,17));
-		addSlotToContainer(new SlotBasicItem(containerInv,1,107,17,null));
+		if (tileOptional != null){
+			addSlotToContainer(new SlotReadOnly(containerInv,0,80,17));
+			containerInv.setInventorySlotContents(0,tileOptional.createEnhancementDisplay());
+			addSlotToContainer(new SlotReadOnly(containerInv,1,3200,17));
+		}
+		else{
+			addSlotToContainer(new SlotEnhancementsSubject(this,containerInv,0,53,17));
+			addSlotToContainer(new SlotBasicItem(containerInv,1,107,17,null));
+		}
 		
 		for(int a = 0; a < powderSlots.length; a++){
 			addSlotToContainer(powderSlots[a] = new SlotBasicItem(containerInv,2+a,-3200,57,ItemList.end_powder));
@@ -106,7 +117,7 @@ public class ContainerEndPowderEnhancements extends Container{
 					shownIngredientSlots = slots.amountIngredient;
 				}
 				
-				if (EnhancementHandler.canEnhanceItem(is2.getItem())){
+				if (EnhancementHandler.canEnhanceItem(is2.getItem()) && enhanceableTile == null){
 					if (!mergeItemStack(is2,0,1,false))return null;
 				}
 				else if (shownPowderSlots > 0 && is2.getItem() == ItemList.end_powder){
@@ -129,7 +140,7 @@ public class ContainerEndPowderEnhancements extends Container{
 	public void onContainerClosed(EntityPlayer player){
 		super.onContainerClosed(player);
 		
-		for(int a = 0; a < containerInv.getSizeInventory(); a++){
+		for(int a = enhanceableTile == null ? 0 : 1; a < containerInv.getSizeInventory(); a++){
 			if (containerInv.getStackInSlot(a) != null){
 				player.dropPlayerItemWithRandomChoice(containerInv.getStackInSlot(a),false);
 			}
@@ -240,7 +251,10 @@ public class ContainerEndPowderEnhancements extends Container{
 				if (currentOutput != null)newIS.stackSize += currentOutput.stackSize;
 				if (mainIS.stackSize-enhancedAmount == 0 && mainIS.stackSize > 1)newIS.stackSize = --enhancedAmount;
 				
-				if (owner != null)enhancement.onEnhanced(newIS,owner);
+				if (owner != null){
+					enhancement.onEnhanced(newIS,owner);
+					if (enhanceableTile != null)enhanceableTile.loadEnhancementsFromItem(newIS);
+				}
 				
 				containerInv.setInventorySlotContents(1,newIS);
 				if ((mainIS.stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(0,null);

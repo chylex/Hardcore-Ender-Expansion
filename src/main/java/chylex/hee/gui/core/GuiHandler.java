@@ -20,6 +20,7 @@ import chylex.hee.gui.GuiExperienceTable;
 import chylex.hee.gui.GuiExtractionTable;
 import chylex.hee.gui.GuiTransportBeacon;
 import chylex.hee.gui.GuiVoidChest;
+import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.voidchest.PlayerVoidChest;
 import chylex.hee.tileentity.TileEntityAccumulationTable;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
@@ -39,7 +40,7 @@ public final class GuiHandler implements IGuiHandler{
 			case 0: return new ContainerEnhancedBrewingStand(player.inventory,(TileEntityEnhancedBrewingStand)world.getTileEntity(pos));
 			case 2: return new ContainerDecompositionTable(player.inventory,(TileEntityDecompositionTable)world.getTileEntity(pos));
 			case 3: return new ContainerExtractionTable(player.inventory,(TileEntityExtractionTable)world.getTileEntity(pos));
-			case 4: return new ContainerEndPowderEnhancements(player.inventory);
+			case 4: return new ContainerEndPowderEnhancements(player.inventory,y == -1 ? null : (IEnhanceableTile)world.getTileEntity(x,y,z));
 			case 5: return new ContainerCharmPouch(player);
 			case 6: return new ContainerVoidChest(player.inventory,PlayerVoidChest.getInventory(player).setChest((TileEntityVoidChest)world.getTileEntity(pos)),player);
 			case 7: return new ContainerExperienceTable(player.inventory,(TileEntityExperienceTable)world.getTileEntity(pos));
@@ -57,7 +58,7 @@ public final class GuiHandler implements IGuiHandler{
 			case 0: return new GuiEnhancedBrewingStand(player.inventory,(TileEntityEnhancedBrewingStand)world.getTileEntity(pos));
 			case 2: return new GuiDecompositionTable(player.inventory,(TileEntityDecompositionTable)world.getTileEntity(pos));
 			case 3: return new GuiExtractionTable(player.inventory,(TileEntityExtractionTable)world.getTileEntity(pos));
-			case 4: return new GuiEndPowderEnhancements(player.inventory);
+			case 4: return y == -1 ? new GuiEndPowderEnhancements(player.inventory) : new GuiEndPowderEnhancements(player.inventory,(IEnhanceableTile)world.getTileEntity(x,y,z));
 			case 5: return new GuiCharmPouch(player);
 			case 6: return new GuiVoidChest(player.inventory,PlayerVoidChest.getInventory(player).setChest((TileEntityVoidChest)world.getTileEntity(pos)),player);
 			case 7: return new GuiExperienceTable(player.inventory,(TileEntityExperienceTable)world.getTileEntity(pos));

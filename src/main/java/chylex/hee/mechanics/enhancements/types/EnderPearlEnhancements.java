@@ -12,20 +12,18 @@ import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
 
 public enum EnderPearlEnhancements implements IEnhancementEnum{
-	NO_FALL_DAMAGE("No fall damage", new SimpleItemSelector(Blocks.wool)),
-	NO_GRAVITY("No gravity", new SimpleItemSelector(Items.feather)),
-	INCREASED_RANGE("Increased range", new SimpleItemSelector(Items.string)),
-	DOUBLE_SPEED("Double speed", new SimpleItemSelector(Items.gold_nugget)),
-	EXPLOSIVE("Explosive", new SimpleItemSelector(Items.gunpowder)),
-	FREEZE("Freeze", new SimpleItemSelector(Items.snowball)),
-	RIDING("Riding", new SimpleItemSelector(Items.lead));
+	NO_FALL_DAMAGE(new SimpleItemSelector(Blocks.wool)),
+	NO_GRAVITY(new SimpleItemSelector(Items.feather)),
+	INCREASED_RANGE(new SimpleItemSelector(Items.string)),
+	DOUBLE_SPEED(new SimpleItemSelector(Items.gold_nugget)),
+	EXPLOSIVE(new SimpleItemSelector(Items.gunpowder)),
+	FREEZE(new SimpleItemSelector(Items.snowball)),
+	RIDING(new SimpleItemSelector(Items.lead));
 	
 	private final String name;
-	private String oldLore;
 	private IRepresentativeItemSelector itemSelector;
 	
-	private EnderPearlEnhancements(String lore, IRepresentativeItemSelector itemSelector){
-		this.oldLore = EnumChatFormatting.RESET.toString()+EnumChatFormatting.RED.toString()+lore;
+	private EnderPearlEnhancements(IRepresentativeItemSelector itemSelector){
 		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.RED);
 		this.itemSelector = itemSelector;
 	}
