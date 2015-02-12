@@ -1,29 +1,24 @@
 package chylex.hee.block;
-import java.util.ArrayList;
 import java.util.Random;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockEnhancedTNT extends BlockContainer{
+public class BlockEnhancedTNT extends BlockAbstractEnhanceable{
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 	@SideOnly(Side.CLIENT)
@@ -56,11 +51,6 @@ public class BlockEnhancedTNT extends BlockContainer{
 			tryIgniteTNT(world,x,y,z,true,null);
 			world.setBlockToAir(x,y,z);
 		}
-	}
-
-	@Override
-	public int quantityDropped(Random rand){
-		return 1;
 	}
 
 	@Override
@@ -124,21 +114,6 @@ public class BlockEnhancedTNT extends BlockContainer{
 	@Override
 	public boolean canDropFromExplosion(Explosion explosion){
 		return false;
-	}
-	
-	@Override
-	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune){
-		ArrayList<ItemStack> drops = new ArrayList<>(1);
-		TileEntityEnhancedTNT tile = (TileEntityEnhancedTNT)world.getTileEntity(x,y,z);
-		
-		if (tile == null)drops.add(new ItemStack(Blocks.tnt));
-		else{
-			ItemStack is = new ItemStack(BlockList.enhanced_tnt);
-			for(Enum enhancement:tile.getEnhancements())EnhancementHandler.addEnhancement(is,enhancement);
-			drops.add(is);
-		}
-		
-		return drops;
 	}
 	
 	@Override

@@ -3,7 +3,13 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 
 public interface IEnhanceableTile{
-	public void loadEnhancementsFromItem(ItemStack is);
+	/**
+	 * Returns an ItemStack with all enhancements stored in the tile.
+	 */
+	public ItemStack createItemStack();
+	
+	/**
+	 * Returned collection must be modifiable and reflect the internal enhancement values.
+	 */
 	public List<Enum> getEnhancements();
-	public ItemStack createEnhancementDisplay();
 }

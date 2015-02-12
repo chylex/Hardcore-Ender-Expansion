@@ -57,7 +57,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		
 		if (tileOptional != null){
 			addSlotToContainer(new SlotReadOnly(containerInv,0,80,17));
-			containerInv.setInventorySlotContents(0,tileOptional.createEnhancementDisplay());
+			containerInv.setInventorySlotContents(0,tileOptional.createItemStack());
 			addSlotToContainer(new SlotReadOnly(containerInv,1,3200,17));
 		}
 		else{
@@ -253,7 +253,11 @@ public class ContainerEndPowderEnhancements extends Container{
 				
 				if (owner != null){
 					enhancement.onEnhanced(newIS,owner);
-					if (enhanceableTile != null)enhanceableTile.loadEnhancementsFromItem(newIS);
+					
+					if (enhanceableTile != null){
+						enhanceableTile.getEnhancements().clear();
+						enhanceableTile.getEnhancements().addAll(EnhancementHandler.getEnhancements(newIS));
+					}
 				}
 				
 				containerInv.setInventorySlotContents(1,newIS);

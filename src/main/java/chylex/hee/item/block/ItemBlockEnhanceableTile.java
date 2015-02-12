@@ -17,11 +17,14 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 	
 	@Override
 	public boolean placeBlockAt(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata){
-		ItemStack isCopy = is.copy();
-		
 		if (super.placeBlockAt(is,player,world,x,y,z,side,hitX,hitY,hitZ,metadata)){
 			IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
-			if (tile != null)tile.loadEnhancementsFromItem(isCopy);
+			
+			if (tile != null){
+				tile.getEnhancements().clear();
+				tile.getEnhancements().addAll(EnhancementHandler.getEnhancements(is));
+			}
+			
 			return true;
 		}
 		else return false;
