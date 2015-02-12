@@ -6,12 +6,12 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
-import chylex.hee.tileentity.TileEntityEnhancedTNT;
+import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBlockEnhancedTNT extends ItemBlock{
-	public ItemBlockEnhancedTNT(Block block){
+public class ItemBlockEnhanceableTile extends ItemBlock{
+	public ItemBlockEnhanceableTile(Block block){
 		super(block);
 	}
 	
@@ -20,7 +20,7 @@ public class ItemBlockEnhancedTNT extends ItemBlock{
 		ItemStack isCopy = is.copy();
 		
 		if (super.placeBlockAt(is,player,world,x,y,z,side,hitX,hitY,hitZ,metadata)){
-			TileEntityEnhancedTNT tile = (TileEntityEnhancedTNT)world.getTileEntity(x,y,z);
+			IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
 			if (tile != null)tile.loadEnhancementsFromItem(isCopy);
 			return true;
 		}

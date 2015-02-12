@@ -3,12 +3,14 @@ import java.util.Iterator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.enhancements.SlotList;
 import chylex.hee.mechanics.enhancements.SlotList.SlotType;
 import chylex.hee.packets.PacketPipeline;
@@ -25,10 +27,18 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 	private final ContainerEndPowderEnhancements container;
 	private int selectedEnhancementSlot = -1;
 	
-	public GuiEndPowderEnhancements(InventoryPlayer inv){
-		super(new ContainerEndPowderEnhancements(inv));
-		container = (ContainerEndPowderEnhancements)inventorySlots;
+	private GuiEndPowderEnhancements(Container container){
+		super(container);
+		this.container = (ContainerEndPowderEnhancements)inventorySlots;
 		ySize += 4;
+	}
+	
+	public GuiEndPowderEnhancements(InventoryPlayer inv){
+		this(new ContainerEndPowderEnhancements(inv,null));
+	}
+	
+	public GuiEndPowderEnhancements(InventoryPlayer inv, IEnhanceableTile tile){
+		this(new ContainerEndPowderEnhancements(inv,tile));
 	}
 	
 	@Override
