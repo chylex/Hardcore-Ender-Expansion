@@ -104,6 +104,9 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1;
 		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
 		
+		if (container.isEnhancingTile())drawTexturedModalRect(guiX+79,guiY+16,176,0,18,18);
+		else drawTexturedModalRect(guiX+52,guiY+16,176,0,72,18);
+		
 		if (container.containerInv.getStackInSlot(0) == null){
 			for(int a = 0; a < container.enhancementSlotX.length; a++)container.enhancementSlotX[a] = -3200;
 			for(int a = 0; a < container.powderSlots.length; a++)container.powderSlots[a].xDisplayPosition = -3200;

@@ -16,6 +16,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.gui.slots.SlotReadOnly;
+import chylex.hee.gui.slots.SlotShowCase;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
@@ -31,6 +32,8 @@ import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEndPowderEnhancements extends Container{
 	private EntityPlayerMP owner;
@@ -55,8 +58,8 @@ public class ContainerEndPowderEnhancements extends Container{
 		enhancementListInv = new InventoryBasic("",false,enhancementSlotX.length);
 		for(int a = 0; a < enhancementSlotX.length; a++)enhancementSlotX[a] = -3200;
 		
-		if (tileOptional != null){
-			addSlotToContainer(new SlotReadOnly(containerInv,0,80,17));
+		if (isEnhancingTile()){
+			addSlotToContainer(new SlotShowCase(containerInv,0,80,17));
 			containerInv.setInventorySlotContents(0,tileOptional.createItemStack());
 			addSlotToContainer(new SlotReadOnly(containerInv,1,3200,17));
 		}
@@ -117,7 +120,7 @@ public class ContainerEndPowderEnhancements extends Container{
 					shownIngredientSlots = slots.amountIngredient;
 				}
 				
-				if (EnhancementHandler.canEnhanceItem(is2.getItem()) && enhanceableTile == null){
+				if (EnhancementHandler.canEnhanceItem(is2.getItem()) && !isEnhancingTile()){
 					if (!mergeItemStack(is2,0,1,false))return null;
 				}
 				else if (shownPowderSlots > 0 && is2.getItem() == ItemList.end_powder){
@@ -140,11 +143,18 @@ public class ContainerEndPowderEnhancements extends Container{
 	public void onContainerClosed(EntityPlayer player){
 		super.onContainerClosed(player);
 		
-		for(int a = enhanceableTile == null ? 0 : 1; a < containerInv.getSizeInventory(); a++){
+		for(int a = isEnhancingTile() ? 1 : 0; a < containerInv.getSizeInventory(); a++){
 			if (containerInv.getStackInSlot(a) != null){
 				player.dropPlayerItemWithRandomChoice(containerInv.getStackInSlot(a),false);
 			}
 		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public void putStacksInSlots(ItemStack[] items){
+		super.putStacksInSlots(items);
+		if (isEnhancingTile())onSubjectChanged();
 	}
 	
 	public void updateClientItems(){
@@ -254,14 +264,14 @@ public class ContainerEndPowderEnhancements extends Container{
 				if (owner != null){
 					enhancement.onEnhanced(newIS,owner);
 					
-					if (enhanceableTile != null){
+					if (isEnhancingTile()){
 						enhanceableTile.getEnhancements().clear();
 						enhanceableTile.getEnhancements().addAll(EnhancementHandler.getEnhancements(newIS));
 					}
 				}
 				
-				containerInv.setInventorySlotContents(1,newIS);
-				if ((mainIS.stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(0,null);
+				containerInv.setInventorySlotContents(isEnhancingTile() ? 0 : 1,newIS);
+				if (!isEnhancingTile() && (mainIS.stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(0,null);
 
 				for(int a = 0; a < slots.amountPowder; a++){
 					if ((powderSlots[a].getStack().stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(2+a,null);
@@ -271,7 +281,7 @@ public class ContainerEndPowderEnhancements extends Container{
 					if ((ingredientSlots[a].getStack().stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(2+powderSlots.length+a,null);
 				}
 				
-				if (getSlot(0).getStack() == null)onSubjectChanged();
+				if (isEnhancingTile() || getSlot(0).getStack() == null)onSubjectChanged();
 				
 				if (CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement))){
 					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
@@ -352,5 +362,9 @@ public class ContainerEndPowderEnhancements extends Container{
 			
 			build.setLength(0);
 		}
+	}
+	
+	public boolean isEnhancingTile(){
+		return enhanceableTile != null;
 	}
 }

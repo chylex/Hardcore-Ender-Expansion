@@ -17,7 +17,7 @@ public class ItemEndPowder extends ItemAbstractCustomEntity{
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (EnhancementHandler.canEnhanceBlock(world.getBlock(x,y,z)) && world.getTileEntity(x,y,z) instanceof IEnhanceableTile){
+		if (EnhancementHandler.canEnhanceBlock(world.getBlock(x,y,z)) && world.getTileEntity(x,y,z) instanceof IEnhanceableTile){ // TODO vanilla tnt etc
 			player.openGui(HardcoreEnderExpansion.instance,4,world,x,y,z);
 			return true;
 		}
