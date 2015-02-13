@@ -81,7 +81,7 @@ public final class RecipeList{
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.biome_compass),
 			" N ", "NSN", " N ",
 			'N', ItemList.endium_ingot,
-			'S', ItemList.stardust
+			'S', ItemList.end_powder
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(ItemList.spectral_tear),
