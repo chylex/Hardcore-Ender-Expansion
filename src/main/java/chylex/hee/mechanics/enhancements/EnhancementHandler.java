@@ -84,6 +84,10 @@ public final class EnhancementHandler{
 		return enhancements;
 	}
 	
+	public static Item getEnhancementTransformation(ItemStack is){
+		return canEnhanceItem(is.getItem()) ? itemMap.get(is.getItem()).newItem : is.getItem();
+	}
+	
 	public static boolean hasEnhancement(ItemStack is, Enum enhancement){
 		return getEnhancements(is).contains(enhancement);
 	}
