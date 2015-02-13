@@ -30,5 +30,23 @@ public interface IItemSelector{
 				return new ItemStack(item);
 			}
 		}
+		
+		public static class ItemStackSelector implements IRepresentativeItemSelector{
+			private final ItemStack is;
+			
+			public ItemStackSelector(ItemStack is){
+				this.is = is;
+			}
+			
+			@Override
+			public boolean isValid(ItemStack is){
+				return ItemStack.areItemStacksEqual(this.is,is);
+			}
+			
+			@Override
+			public ItemStack getRepresentativeItem(){
+				return is;
+			}
+		}
 	}
 }

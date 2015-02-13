@@ -7,17 +7,18 @@ import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
+import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.ItemStackSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
 
-public enum TransferenceGemEnhancements implements IEnhancementEnum{ // TODO implement
+public enum SpatialDashGemEnhancements implements IEnhancementEnum{ // TODO implement
 	CAPACITY(new SimpleItemSelector(ItemList.endium_ingot)),
-	TOUCH(new SimpleItemSelector(Items.leather)),
-	MOB(new SimpleItemSelector(ItemList.ectoplasm));
+	RANGE(new ItemStackSelector(new ItemStack(Items.dye,1,4))),
+	INSTANT(new SimpleItemSelector(ItemList.instability_orb));
 	
 	private final String name;
 	public final IRepresentativeItemSelector itemSelector;
 	
-	private TransferenceGemEnhancements(IRepresentativeItemSelector itemSelector){
+	private SpatialDashGemEnhancements(IRepresentativeItemSelector itemSelector){
 		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.GRAY);
 		this.itemSelector = itemSelector;
 	}
