@@ -6,10 +6,10 @@ import net.minecraft.item.ItemStack;
 public interface IItemSelector{
 	boolean isValid(ItemStack is);
 	
-	static interface IRepresentativeItemSelector extends IItemSelector{
+	public static interface IRepresentativeItemSelector extends IItemSelector{
 		ItemStack getRepresentativeItem();
 		
-		static class SimpleItemSelector implements IRepresentativeItemSelector{
+		public static class SimpleItemSelector implements IRepresentativeItemSelector{
 			private final Item item;
 			
 			public SimpleItemSelector(Block block){

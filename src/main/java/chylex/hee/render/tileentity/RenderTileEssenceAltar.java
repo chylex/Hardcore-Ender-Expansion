@@ -175,7 +175,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 			if (sockets[a] == null)continue;
 			
 			GL11.glPushMatrix();
-			GL11.glTranslatef((a == 0 || a == 1?1:-1)*0.8125F,-0.999F,(a == 1 || a == 2?1:-1)*0.8125F);
+			GL11.glTranslatef((a == 0 || a == 1 ? 1 : -1)*0.8125F,-0.999F,(a == 1 || a == 2 ? 1 : -1)*0.8125F);
 			GL11.glPushMatrix();
 			GL11.glScalef(0.1F,0.1F,0.1F);
 			BlockRenderHelper.renderBlockAsItem(blockRenderer,Block.getBlockFromItem(sockets[a].getItem()),0);

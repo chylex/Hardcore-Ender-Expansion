@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,12 +13,16 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants;
+import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.IEnhanceableTile;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.ItemUseCache;
 import chylex.hee.mechanics.essence.RuneItem;
-import chylex.hee.mechanics.essence.SocketManager;
 import chylex.hee.mechanics.essence.handler.AltarActionHandler;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
@@ -31,7 +34,7 @@ import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
+public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized implements IEnhanceableTile{
 	public static final byte STAGE_BASIC = 0, STAGE_HASTYPE = 1, STAGE_WORKING = 2;
 	
 	private EssenceType essenceType = EssenceType.INVALID;
@@ -39,10 +42,14 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	private byte currentStage;
 	private RuneItem[] runeItems = new RuneItem[8]; // @STAGE_HASTYPE
 	private byte runeItemIndex = -2; // @STAGE_HASTYPE
+	
+	@Deprecated
 	private ItemStack[] sockets = new ItemStack[4];
 	
 	private AltarActionHandler actionHandler;
 	private final Map<String,ItemUseCache> playerItemCache = new HashMap<>();
+	
+	private List<Enum> enhancementList = new ArrayList<>();
 	
 	/*
 	 * GETTERS, LOADING & SAVING
@@ -84,6 +91,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 		return runeItemIndex;
 	}
 	
+	@Deprecated
 	public ItemStack[] getSocketContents(){
 		return sockets;
 	}
@@ -91,6 +99,16 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 	public void drainEssence(int amount){
 		essenceLevel = Math.max(essenceLevel-amount,0);
 		worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+	}
+	
+	@Override
+	public ItemStack createItemStack(){
+		return EnhancementHandler.addEnhancements(new ItemStack(BlockList.essence_altar,1,essenceType.getItemDamage()),enhancementList);
+	}
+	
+	@Override
+	public List<Enum> getEnhancements(){
+		return enhancementList;
 	}
 	
 	@Override
@@ -110,6 +128,8 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 		for(int a = 0; a < sockets.length; a++){
 			if (sockets[a] != null)nbt.setTag("socket"+a,sockets[a].writeToNBT(new NBTTagCompound()));
 		}
+		
+		nbt.setString("enhancements",EnhancementEnumHelper.serialize(enhancementList));
 		
 		if (actionHandler != null)actionHandler.onTileWriteToNBT(nbt);
 		
@@ -138,6 +158,8 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 			}
 			sockets[a] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("socket"+a));
 		}
+		
+		enhancementList = EnhancementEnumHelper.deserialize(nbt.getString("enhancements"),EssenceAltarEnhancements.class);
 		
 		if (currentStage == STAGE_WORKING){
 			createActionHandler();
@@ -269,15 +291,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized{
 		if (sockets[socketId] != null){
 			worldObj.spawnEntityInWorld(createItem(this,sockets[socketId]));
 			sockets[socketId] = null;
-		}
-		else{
-			ItemStack is = player.inventory.getCurrentItem();
-			if (is == null)return;
-			else if (SocketManager.isValidSocketBlock(Block.getBlockFromItem(is.getItem()))){
-				sockets[socketId] = is.copy();
-				sockets[socketId].stackSize = 1;
-				if (!player.capabilities.isCreativeMode)--is.stackSize;
-			}
 		}
 		
 		synchronize();

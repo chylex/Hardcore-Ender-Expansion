@@ -17,6 +17,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.enhancements.SlotList.SlotType;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.system.util.CollectionUtil;
@@ -40,6 +41,11 @@ public final class EnhancementHandler{
 		register(
 			new Item[]{ Item.getItemFromBlock(Blocks.tnt), Item.getItemFromBlock(BlockList.enhanced_tnt) },
 			new EnhancementData(TNTEnhancements.class, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
+		);
+		
+		register(
+			new Item[]{ Item.getItemFromBlock(BlockList.essence_altar) },
+			new EnhancementData(EssenceAltarEnhancements.class, Item.getItemFromBlock(BlockList.essence_altar), p, p, i, i, i, p, p)
 		);
 	}
 	

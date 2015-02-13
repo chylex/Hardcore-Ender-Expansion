@@ -1,5 +1,4 @@
 package chylex.hee.mechanics.essence.handler;
-import static chylex.hee.mechanics.essence.SocketManager.*;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.packets.PacketPipeline;
@@ -51,8 +51,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		if (--updatePedestalTimer <= 0){
 			updatePedestalTimer = 20;
 			
-			int maxPedestals = Math.min(12,8+((getSocketEffects(altar)&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE ? MathUtil.ceil(4F*getSocketBoost(altar)/26F) : 0));
-			int range = maxPedestals > 8 ? 4 : 3;
+			int maxPedestals = altar.getEnhancements().contains(EssenceAltarEnhancements.RANGE) ? 12 : 8;
+			int range = maxPedestals == 12 ? 4 : 3;
 			long currentHash = 0L;
 			
 			if (lastMaxPedestals != maxPedestals){
@@ -158,7 +158,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	}
 	
 	private void updatePedestalItem(EntityItemAltar item){
-		byte socketEffects = getSocketEffects(altar), socketBoost = getSocketBoost(altar);
+		List<Enum> enhancements = altar.getEnhancements();
 		
 		ItemStack is = item.getEntityItem();
 		
@@ -168,8 +168,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		
 		if (item.worldObj.rand.nextInt(3) != 0){
 			if (is.isItemStackDamageable() && is.getItemDamage() != 0 && is.getItem().isRepairable()){
-				for(int a = 0; a < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST ? (1+(socketBoost>>2)) : 0); a++){
-					if (++repairCounter > 56+((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST ? 1+Math.floor(socketBoost*0.6D) : 0)){
+				for(int a = enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : 1; a > 0; a--){
+					if (++repairCounter > (enhancements.contains(EssenceAltarEnhancements.EFFICIENCY) ? 66 : 56)){
 						altar.drainEssence(1);
 						repairCounter = 0;
 					}
@@ -189,7 +189,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		 */
 		
 		else if (is.isItemEnchanted() && is.getItem() != Items.enchanted_book){
-			for(int b = 0; b < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST ? 1+Math.floor(socketBoost*0.4D) : 0); b++){
+			for(int b = enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : 1; b > 0; b--){
 				if (updateItemCounter(is,"HEE_enchant",1) < 400-is.getItem().getItemEnchantability()*4)return;
 				updateItemCounter(is,"HEE_enchant",0);
 				
@@ -213,7 +213,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						if (tag.getShort("id") != chosenEnchantment.effectId)continue;
 						
 						int level = tag.getShort("lvl"),cost = getEnchantmentCost(chosenEnchantment,level+1);
-						if ((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST)cost = (int)Math.max(cost>>2,cost*(1F-socketBoost/42F));
+						if (enhancements.contains(EssenceAltarEnhancements.EFFICIENCY))cost = MathUtil.ceil(cost*0.75F);
 						if (level >= chosenEnchantment.getMaxLevel() || altar.getEssenceLevel() < cost)continue;
 						
 						altar.drainEssence(cost);
@@ -236,8 +236,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		else if (item.worldObj.rand.nextInt(5) == 0){
 			for(AltarItemRecipe recipe:recipes){
 				if (recipe.isApplicable(is)){
-					for(int a = 0; a < 1+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST?Math.ceil(socketBoost*0.15D):0); a++){
-						if (updateItemCounter(is,"HEE_transform",1) <= Math.max(recipe.getCost()*((socketEffects&EFFECT_LOWER_COST) == EFFECT_LOWER_COST?1F-(socketBoost/40F):1F),recipe.getCost()>>1)){
+					for(int a = enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : 1; a > 0; a--){
+						if (updateItemCounter(is,"HEE_transform",1) <= Math.max(MathUtil.ceil(recipe.getCost()*(enhancements.contains(EssenceAltarEnhancements.EFFICIENCY) ? 0.75F : 1F)),recipe.getCost()>>1)){
 							altar.drainEssence(1);
 							continue;
 						}
