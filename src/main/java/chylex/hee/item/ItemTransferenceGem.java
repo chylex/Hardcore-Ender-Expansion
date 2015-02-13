@@ -3,11 +3,10 @@ import java.util.List;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -61,6 +60,13 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
+    public boolean itemInteractionForEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity){
+		if (entity instanceof IBossDisplayData || !EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.BEAST) || player.isSneaking())return false;
+		tryTeleportEntity(is,player,entity);
+		return true;
+	}
+	
+	@Override
 	public void onCreated(ItemStack is, World world, EntityPlayer player){
 		player.addStat(AchievementManager.TRANSFERENCE_GEM,1);
 	}
@@ -89,13 +95,6 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 				GemSideEffects.performRandomEffect(entity,percBroken);
 			}
 			
-			if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.HEAL) && isLiving){
-				EntityLivingBase e = (EntityLivingBase)entity;
-				e.addPotionEffect(new PotionEffect(Potion.regeneration.id,120,1,true));
-				e.addPotionEffect(new PotionEffect(Potion.field_76443_y.id,1,0,true));
-				e.extinguish();
-			}
-
 			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
 		}
 		

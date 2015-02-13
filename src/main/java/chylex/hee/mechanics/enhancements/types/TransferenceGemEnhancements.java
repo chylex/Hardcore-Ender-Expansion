@@ -12,7 +12,7 @@ import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleIt
 public enum TransferenceGemEnhancements implements IEnhancementEnum{ // TODO implement
 	CAPACITY(new SimpleItemSelector(ItemList.endium_ingot)),
 	TOUCH(new SimpleItemSelector(Items.leather)),
-	MOB(new SimpleItemSelector(ItemList.ectoplasm));
+	BEAST(new SimpleItemSelector(ItemList.ectoplasm));
 	
 	private final String name;
 	public final IRepresentativeItemSelector itemSelector;

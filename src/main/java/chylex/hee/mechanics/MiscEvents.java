@@ -1,7 +1,5 @@
 package chylex.hee.mechanics;
 import java.util.Random;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -101,15 +99,6 @@ public class MiscEvents{
 			if (is == null || is.getItem() != ItemList.transference_gem || e.entityPlayer.isSneaking())return;
 			else if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.TOUCH)){
 				itemFrame.setDisplayedItem(((ItemTransferenceGem)ItemList.transference_gem).tryTeleportEntity(is,e.entityPlayer,e.entityPlayer));
-				e.setCanceled(true);
-			}
-		}
-		else if (e.target instanceof EntityLivingBase && !(e.target instanceof IBossDisplayData)){
-			ItemStack is = e.entityPlayer.inventory.getCurrentItem();
-			
-			if (is == null || is.getItem() != ItemList.transference_gem || !e.entityPlayer.isSneaking())return;
-			else if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.MOB)){
-				((ItemTransferenceGem)ItemList.transference_gem).tryTeleportEntity(is,e.entityPlayer,e.target);
 				e.setCanceled(true);
 			}
 		}
