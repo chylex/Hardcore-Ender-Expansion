@@ -1,8 +1,6 @@
 package chylex.hee.mechanics;
-import java.util.Random;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -11,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import chylex.hee.entity.item.EntityItemDragonEgg;
 import chylex.hee.item.ItemList;
@@ -41,17 +38,6 @@ public class MiscEvents{
 	}
 	
 	/*
-	 * Endermanpocalypse spawn immunity
-	 */
-	@SubscribeEvent
-	public void onLivingHurt(LivingHurtEvent e){
-		if (!e.entity.worldObj.isRemote && e.entity.hurtResistantTime > 1700 && e.entity.hurtResistantTime < 2000){
-			e.entityLiving.hurtResistantTime = 0;
-			e.setCanceled(true);
-		}
-	}
-	
-	/*
 	 * Endermen dropping heads
 	 * Silverfish dropping blood
 	 * Mobs dropping Spectral Essence and dying next to Spectral Essence Altar
@@ -60,14 +46,8 @@ public class MiscEvents{
 	public void onLivingDrops(LivingDropsEvent e){
 		if (e.entity.worldObj.isRemote /*|| SpectralEssenceHandler.handleMobDeath(e)*/ || !e.recentlyHit)return;
 		
-		ItemStack is = null;
-		Random rand = e.entityLiving.getRNG();
-		
-		if (rand.nextInt(Math.max(1,40-e.lootingLevel)) == 0 && e.entity instanceof EntityEnderman){
-			is = new ItemStack(ItemList.enderman_head);
-		}
-		else if (rand.nextInt(14-Math.min(e.lootingLevel,4)) == 0 && e.entity instanceof EntitySilverfish){
-			boolean drop = rand.nextInt(4) == 0;
+		if (e.entity.getClass() == EntitySilverfish.class && e.entityLiving.getRNG().nextInt(14-Math.min(e.lootingLevel,4)) == 0){
+			boolean drop = e.entityLiving.getRNG().nextInt(4) == 0;
 			boolean isPlayer = e.source.getEntity() instanceof EntityPlayer;
 			
 			if (!drop && isPlayer){
@@ -75,13 +55,11 @@ public class MiscEvents{
 				if (held != null && held.getItem() == Items.golden_sword)drop = true;
 			}
 			
-			if (drop)is = new ItemStack(ItemList.silverfish_blood);
-		}
-		
-		if (is != null){
-			EntityItem item = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,is);
-			item.delayBeforeCanPickup = 10;
-			e.drops.add(item);
+			if (drop){
+				EntityItem item = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,new ItemStack(ItemList.silverfish_blood));
+				item.delayBeforeCanPickup = 10;
+				e.drops.add(item);
+			}
 		}
 	}
 	
