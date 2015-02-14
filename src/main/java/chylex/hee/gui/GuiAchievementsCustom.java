@@ -7,6 +7,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraftforge.common.AchievementPage;
+import org.lwjgl.input.Mouse;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
@@ -81,6 +82,26 @@ public class GuiAchievementsCustom extends GuiAchievements{
 				break;
 			}
 		}
+	}
+	
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTickTime){
+		int wheel = Mouse.getDWheel();
+		float prevScale = field_146570_r;
+		
+		if (wheel < 0)field_146570_r += 0.5F;
+		else if (wheel > 0)field_146570_r -= 0.5F;
+		
+		field_146570_r = MathUtil.clamp(field_146570_r,1F,2F);
+
+		if (field_146570_r != prevScale){
+			field_146567_u -= ((field_146570_r*field_146555_f)-(prevScale*field_146555_f))*0.5F;
+			field_146566_v -= ((field_146570_r*field_146557_g)-(prevScale*field_146557_g))*0.5F;
+			field_146565_w = field_146569_s = field_146567_u;
+			field_146573_x = field_146568_t = field_146566_v;
+		}
+		
+		super.drawScreen(mouseX,mouseY,partialTickTime);
 	}
 	
 	static final class ShowAllReadStatFile extends StatFileWriter{
