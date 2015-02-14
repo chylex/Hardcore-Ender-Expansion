@@ -128,7 +128,7 @@ public final class AchievementEvents implements IQuickSavefile{
 				if ((dragon = getDragon(e.entity.worldObj)) != null)dragon.achievements.onPlayerDied((EntityPlayer)e.entityLiving);
 			}
 			
-			if (e.entity instanceof EntityEnderman && e.source.getEntity() instanceof EntityPlayer){
+			if (e.entity instanceof EntityEnderman && e.source.getEntity() instanceof EntityPlayer){ // TODO move out
 				if ((dragon = getDragon(e.entity.worldObj)) != null)dragon.achievements.onPlayerKilledEnderman((EntityPlayer)e.source.getEntity());
 			}
 		}

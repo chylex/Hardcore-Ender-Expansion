@@ -258,6 +258,9 @@ container.button.travel=Travel
 key.openCompendium=Ender Compendium
 key.openCompendium.bacon=Bacon Compendium
 
+achievement.viewAchievements=View Achievements
+achievement.viewChallenges=View Challenges
+
 achievement.enderCompendium=The more you know
 achievement.enderCompendium.desc=Press '%1$s' to open Ender Compendium
 achievement.enderCompendium.desc.bacon=Press '%1$s' to open Bacon Compendium
@@ -311,9 +314,9 @@ achievement.energyWand.desc=Acquire an Energy Wand to manipulate with Energy Clu
 challenge.hard0Deaths=Hardcore Player
 challenge.hard0Deaths.desc=Kill the dragon without dying
 challenge.bedExplode=Insomniac
-challenge.bedExplode.desc=Deal the finishing amount of damage using bed explosion
+challenge.bedExplode.desc=Deal the finishing amount of damage to the dragon using bed explosion
 challenge.noEnderman=Enderlover
-challenge.noEnderman.desc=Don't kill a single enderman during the battle
+challenge.noEnderman.desc=Don't kill a single enderman during the dragon battle
 
 challenge.title=Challenge:
 challenge.difficulty.hard=Hard difficulty
