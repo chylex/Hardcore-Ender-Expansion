@@ -34,6 +34,11 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 	public int getEnergyPerUse(ItemStack is){
 		return is.getMaxDamage();
 	}
+	
+	@Override
+	protected float getRegenSpeedMultiplier(){
+		return 3F;
+	}
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){

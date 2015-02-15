@@ -45,7 +45,12 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	
 	@Override
 	public int getEnergyPerUse(ItemStack is){
-		return 2;
+		return 3;
+	}
+	
+	@Override
+	protected float getRegenSpeedMultiplier(){
+		return 0.06F;
 	}
 	
 	@Override

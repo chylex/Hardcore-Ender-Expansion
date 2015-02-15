@@ -25,12 +25,17 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 
 	@Override
 	public void onEnergyAccepted(ItemStack is){
-		is.setItemDamage(is.getItemDamage()-3);
+		is.setItemDamage(is.getItemDamage()-2);
 	}
 
 	@Override
 	public int getEnergyPerUse(ItemStack is){
 		return 1;
+	}
+	
+	@Override
+	protected float getRegenSpeedMultiplier(){
+		return 0.05F;
 	}
 	
 	@Override
@@ -53,7 +58,7 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 				world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player,EnhancementHandler.getEnhancements(is)));
 
 				if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-				is.stackTagCompound.setByte("cooldown",(byte)25);
+				is.stackTagCompound.setByte("cooldown",(byte)18);
 			}
 			else world.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.spatialdash",0.8F,0.9F,false);
 		}
@@ -64,7 +69,7 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack is, int pass){
-		return is.getItemDamage() == 1 || super.hasEffect(is,pass);
+		return is.getItemDamage() == 32766 || super.hasEffect(is,pass);
 	}
 	
 	@Override
