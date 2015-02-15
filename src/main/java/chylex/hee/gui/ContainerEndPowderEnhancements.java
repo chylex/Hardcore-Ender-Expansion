@@ -40,8 +40,8 @@ public class ContainerEndPowderEnhancements extends Container{
 	
 	public final IInventory containerInv;
 	public final IEnhanceableTile enhanceableTile;
-	public final Slot[] powderSlots = new Slot[6];
-	public final Slot[] ingredientSlots = new Slot[3];
+	public final Slot[] powderSlots = new Slot[8];
+	public final Slot[] ingredientSlots = new Slot[8];
 	
 	public final IInventory enhancementListInv;
 	public final ItemStack[] clientEnhancementItems = new ItemStack[7];

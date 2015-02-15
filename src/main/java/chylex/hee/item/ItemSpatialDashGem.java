@@ -1,6 +1,10 @@
 package chylex.hee.item;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
@@ -29,16 +33,38 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
+	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
+		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown")){
+			byte cooldown = is.stackTagCompound.getByte("cooldown");
+			
+			if (--cooldown <= 0)is.stackTagCompound.removeTag("cooldown");
+			else is.stackTagCompound.setByte("cooldown",cooldown);
+		}
+		
+		super.onUpdate(is,world,entity,slot,isHeld);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack is, int pass){
 		return is.getItemDamage() == 1 || super.hasEffect(is,pass);
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack is, int pass){
+		return is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown") ? (192<<16|192<<8|192) : super.getColorFromItemStack(is,pass);
+	}
+	
+	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (is.getItemDamage() < getMaxDamage()){
+		if (is.getItemDamage() < getMaxDamage() && is.stackTagCompound != null && !is.stackTagCompound.hasKey("cooldown")){
 			if (!world.isRemote){
 				is.damageItem(getEnergyPerUse(is),player);
 				world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player,EnhancementHandler.getEnhancements(is)));
+
+				if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+				is.stackTagCompound.setByte("cooldown",(byte)25);
 			}
 			else world.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.spatialdash",0.8F,0.9F,false);
 		}

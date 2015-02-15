@@ -128,7 +128,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 				for(Iterator<SlotType> iter = slots.iterator(); iter.hasNext();){
 					SlotType type = iter.next();
 					if (type != SlotType.POWDER && type != SlotType.INGREDIENT)throw new IllegalArgumentException("Invalid slot type "+type);
-	
+					
 					x = MathUtil.floor(88-w*0.5F+18*(index++));
 					drawTexturedModalRect(guiX+x,guiY+56,176,type == SlotType.POWDER ? 18 : 0,18,18);
 					(type == SlotType.POWDER ? container.powderSlots : container.ingredientSlots)[type == SlotType.POWDER ? indexPowder++ : indexIngredient++].xDisplayPosition = x+1;

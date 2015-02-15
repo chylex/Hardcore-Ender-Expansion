@@ -7,6 +7,7 @@ import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
@@ -48,6 +49,18 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
+	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
+		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown")){
+			byte cooldown = is.stackTagCompound.getByte("cooldown");
+			
+			if (--cooldown <= 0)is.stackTagCompound.removeTag("cooldown");
+			else is.stackTagCompound.setByte("cooldown",cooldown);
+		}
+		
+		super.onUpdate(is,world,entity,slot,isHeld);
+	}
+	
+	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (super.onItemUse(is,player,world,x,y,z,side,hitX,hitY,hitZ))return true;
 		
@@ -79,6 +92,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	
 	public ItemStack tryTeleportEntity(ItemStack is, EntityPlayer player, Entity entity){
 		if (entity.isRiding() || entity.riddenByEntity != null)return is;
+		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown"))return is;
 		
 		GemData gemData = GemData.loadFromItemStack(is);
 		
@@ -101,13 +115,21 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 				GemSideEffects.performRandomEffect(entity,percBroken);
 			}
 			
+			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+			is.stackTagCompound.setByte("cooldown",(byte)50);
+			
 			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
 		}
 		
 		return is;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack is, int pass){
+		return is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown") ? (192<<16|192<<8|192) : super.getColorFromItemStack(is,pass);
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
