@@ -32,6 +32,12 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack is, int pass){
+		return true;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		EnhancementHandler.appendEnhancementNames(is,textLines);
 	}

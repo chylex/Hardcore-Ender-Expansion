@@ -87,9 +87,9 @@ public final class KnowledgeRegistrations{
 		ANGRY_ENDERMAN = create(EntityMobAngryEnderman.class),
 		VAMPIRE_BAT = create(EntityMobVampiricBat.class),
 		
-		ENDER_PEARL_ENHANCEMENTS = dummy("Enhancements.EnderPearl",new ItemStack(ItemList.enhanced_ender_pearl),"ec.title.enh.enderPearl"),
+		ENDER_PEARL_ENHANCEMENTS = dummy("Enhancements.EnderPearl",new ItemStack(Items.ender_pearl),"ec.title.enh.enderPearl"),
 		ESSENCE_ALTAR_ENHANCEMENTS = dummy("Enhancements.EssenceAltar",new ItemStack(BlockList.essence_altar),"ec.title.enh.essenceAltar"),
-		TNT_ENHANCEMENTS = dummy("Enhancements.TNT",new ItemStack(BlockList.enhanced_tnt),"ec.title.enh.tnt"),
+		TNT_ENHANCEMENTS = dummy("Enhancements.TNT",new ItemStack(Blocks.tnt),"ec.title.enh.tnt"),
 		SPATIAL_DASH_GEM_ENHANCEMENTS = dummy("Enhancements.SpatialDashGem",new ItemStack(ItemList.spatial_dash_gem),"ec.title.enh.spatialDashGem"),
 		TRANSFERENCE_GEM_ENHANCEMENTS = dummy("Enhancements.TransferenceGem",new ItemStack(ItemList.transference_gem),"ec.title.enh.transferenceGem"),
 		
@@ -464,15 +464,15 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(212).setPrice(3).setUnlockRequirements(210)
 			}),
 			
-			ENDER_PEARL_ENHANCEMENTS.setPos(5,0).setUnlockPrice(8).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnderPearlEnhancements.class,170,3,10)),
+			ENDER_PEARL_ENHANCEMENTS.setPos(11,0).setUnlockPrice(8).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnderPearlEnhancements.class,170,3,10)),
 			
-			ESSENCE_ALTAR_ENHANCEMENTS.setPos(5,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EssenceAltarEnhancements.class,1470,5,10)),
+			ESSENCE_ALTAR_ENHANCEMENTS.setPos(11,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EssenceAltarEnhancements.class,1470,5,10)),
 			
-			TNT_ENHANCEMENTS.setPos(5,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TNTEnhancements.class,140,3,10)),
+			TNT_ENHANCEMENTS.setPos(11,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TNTEnhancements.class,140,3,10)),
 			
-			SPATIAL_DASH_GEM_ENHANCEMENTS.setPos(5,6).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(SpatialDashGemEnhancements.class,1480,4,10)),
+			SPATIAL_DASH_GEM_ENHANCEMENTS.setPos(11,6).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(SpatialDashGemEnhancements.class,1480,4,10)),
 			
-			TRANSFERENCE_GEM_ENHANCEMENTS.setPos(5,8).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TransferenceGemEnhancements.class,1490,4,10))
+			TRANSFERENCE_GEM_ENHANCEMENTS.setPos(11,8).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TransferenceGemEnhancements.class,1490,4,10))
 		});
 		
 		// ===

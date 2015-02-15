@@ -10,7 +10,7 @@ import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleIt
 
 public enum EssenceAltarEnhancements implements IEnhancementEnum{
 	RANGE(new SimpleItemSelector(Blocks.lapis_block)),
-	SPEED(new SimpleItemSelector(Blocks.redstone_ore)),
+	SPEED(new SimpleItemSelector(Blocks.redstone_block)),
 	EFFICIENCY(new SimpleItemSelector(Blocks.emerald_block));
 	
 	private final String name;
