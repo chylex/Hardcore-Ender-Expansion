@@ -9,7 +9,7 @@ import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
 
-public enum TransferenceGemEnhancements implements IEnhancementEnum{ // TODO implement
+public enum TransferenceGemEnhancements implements IEnhancementEnum{
 	CAPACITY(new SimpleItemSelector(ItemList.endium_ingot)),
 	TOUCH(new SimpleItemSelector(Items.leather)),
 	BEAST(new SimpleItemSelector(ItemList.ectoplasm));

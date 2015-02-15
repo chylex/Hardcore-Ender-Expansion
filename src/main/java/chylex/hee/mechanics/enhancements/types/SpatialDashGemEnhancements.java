@@ -10,7 +10,7 @@ import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.ItemStackSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
 
-public enum SpatialDashGemEnhancements implements IEnhancementEnum{ // TODO implement
+public enum SpatialDashGemEnhancements implements IEnhancementEnum{
 	CAPACITY(new SimpleItemSelector(ItemList.endium_ingot)),
 	RANGE(new ItemStackSelector(new ItemStack(Items.dye,1,4))),
 	INSTANT(new SimpleItemSelector(ItemList.instability_orb));

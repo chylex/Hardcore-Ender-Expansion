@@ -166,6 +166,18 @@ public class FXClientProxy extends FXCommonProxy{
 		portalBig(world,x,y,z,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.03D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.03D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.03D,0.1F+rand.nextFloat()*0.1F,((color>>16)&255)/255F,((color>>8)&255)/255F,(color&255)/255F);
 	}
 	
+	@Override
+	public void spatialDash(World world, double x, double y, double z){
+		Random rand = world.rand;
+		
+		spawn(new EntityBigPortalFX(world,x+(rand.nextDouble()-rand.nextDouble())*0.3D,y+(rand.nextDouble()-rand.nextDouble())*0.3D,z+(rand.nextDouble()-rand.nextDouble())*0.3D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,0.1F));
+		
+		for(int a = 0; a < 3; a++){
+			double motX = (rand.nextDouble()-rand.nextDouble())*0.0002D, motY = (rand.nextDouble()-rand.nextDouble())*0.0002D, motZ = (rand.nextDouble()-rand.nextDouble())*0.0002D;
+			spawn(new EntityEnergyClusterFX(world,x,y,z,0.6D,0.2D,1D,motX,motY,motZ,0.015F));
+		}
+	}
+	
 	/*
 	 * BLOCKS
 	 */
@@ -248,18 +260,6 @@ public class FXClientProxy extends FXCommonProxy{
 				particleScale /= 2.5F;
 				particleMaxAge = 80+rand.nextInt(30);
 			}});
-		}
-	}
-	
-	@Override
-	public void spatialDash(EntityProjectileSpatialDash spatialDash){
-		Random rand = spatialDash.worldObj.rand;
-		
-		spawn(new EntityBigPortalFX(spatialDash.worldObj,spatialDash.posX+(rand.nextDouble()-rand.nextDouble())*0.3D,spatialDash.posY+(rand.nextDouble()-rand.nextDouble())*0.3D,spatialDash.posZ+(rand.nextDouble()-rand.nextDouble())*0.3D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,0.1F));
-		
-		for(int a = 0; a < 3; a++){
-			double motX = (rand.nextDouble()-rand.nextDouble())*0.0002D, motY = (rand.nextDouble()-rand.nextDouble())*0.0002D, motZ = (rand.nextDouble()-rand.nextDouble())*0.0002D;
-			spawn(new EntityEnergyClusterFX(spatialDash.worldObj,spatialDash.posX,spatialDash.posY,spatialDash.posZ,0.6D,0.2D,1D,motX,motY,motZ,0.015F));
 		}
 	}
 

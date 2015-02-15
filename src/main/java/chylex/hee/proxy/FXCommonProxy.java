@@ -27,6 +27,7 @@ public class FXCommonProxy{
 	public void spell(World world, double x, double y, double z, float red, float green, float blue){}
 	public void aura(World world, double x, double y, double z, float red, float green, float blue, int maxAge){}
 	public void curse(World world, double x, double y, double z, CurseType type){}
+	public void spatialDash(World world, double x, double y, double z){}
 	
 	// BLOCKS
 	public void corruptedEnergy(World world, int x, int y, int z){}
@@ -39,7 +40,6 @@ public class FXCommonProxy{
 	public void altarAura(EntityItemAltar item){}
 	public void igneousRockBreak(EntityItemIgneousRock rock){}
 	public void instability(EntityItemInstabilityOrb orb){}
-	public void spatialDash(EntityProjectileSpatialDash spatialDash){}
 	public void spatialDashExplode(EntityProjectileSpatialDash spatialDash){}
 	public void corruptedEnergy(EntityProjectileCorruptedEnergy energy){}
 }

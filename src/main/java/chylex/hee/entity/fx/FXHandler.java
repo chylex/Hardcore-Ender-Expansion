@@ -221,6 +221,24 @@ public final class FXHandler{
 				world.playSound(x1,y1,z1,"mob.endermen.portal",1.2F,1F,false);
 				break;
 				
+			case SPATIAL_DASH_MOVE:
+				addX = lineVec.xCoord*0.2D;
+				addY = lineVec.yCoord*0.2D;
+				addZ = lineVec.zCoord*0.2D;
+				
+				for(int a = 0; a < len*5D; a++){
+					double dist = player.getDistanceSq(x1,y1,z1);
+					if (dist > 600D && rand.nextBoolean())continue;
+					if (dist < 180D)HardcoreEnderExpansion.fx.spatialDash(world,x1,y1,z1);
+					HardcoreEnderExpansion.fx.spatialDash(world,x1,y1,z1);
+					
+					x1 += addX;
+					y1 += addY;
+					z1 += addZ;
+				}
+				
+				break;
+				
 			case LOUSE_HEAL_ENTITY:
 				addX = lineVec.xCoord*0.125D;
 				addY = lineVec.yCoord*0.125D;

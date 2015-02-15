@@ -1,4 +1,5 @@
 package chylex.hee.entity.projectile;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -14,26 +15,31 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
+import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityProjectileSpatialDash extends EntityThrowable{
-	private byte ticks = 0;
+	private List<Enum> enhancements = new ArrayList<>();
+	private byte ticks;
 	
 	public EntityProjectileSpatialDash(World world){
 		super(world);
 	}
 
-	public EntityProjectileSpatialDash(World world, EntityLivingBase thrower){
+	public EntityProjectileSpatialDash(World world, EntityLivingBase thrower, List<Enum> enhancements){
 		super(world,thrower);
 		motionX *= 1.75D;
 		motionY *= 1.75D;
 		motionZ *= 1.75D;
+		this.enhancements.addAll(enhancements);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -48,57 +54,55 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		lastTickPosZ = posZ;
 		
 		onEntityUpdate();
-		
-		if (++ticks > 28){
-			for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.spatialDashExplode(this);
-			setDead();
-		}
 
-		Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
-		Vec3 vecPosWithMotion = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
-		Vec3 hitVec;
-		
-		MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos,vecPosWithMotion);
-		vecPos = Vec3.createVectorHelper(posX,posY,posZ);
-
-		if (mop != null)hitVec = Vec3.createVectorHelper(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
-		else hitVec = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
-		
 		if (!worldObj.isRemote){
-			Entity finalEntity = null;
-			List<Entity> collisionList = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.addCoord(motionX,motionY,motionZ).expand(1D,1D,1D));
-			double minDist = Double.MAX_VALUE, dist;
-			EntityLivingBase thrower = getThrower();
-
-			for(Entity e:collisionList){
-				if (e.canBeCollidedWith() && (e != thrower || ticks >= 5)){
-					AxisAlignedBB aabb = e.boundingBox.expand(0.3F,0.3F,0.3F);
-					MovingObjectPosition mopTest = aabb.calculateIntercept(vecPos,hitVec);
-
-					if (mopTest != null){
-						dist = vecPos.distanceTo(mopTest.hitVec);
-
-						if (dist < minDist){
-							finalEntity = e;
-							minDist = dist;
+			for(int cycles = enhancements.contains(SpatialDashGemEnhancements.INSTANT) ? 4 : 1; cycles > 0; cycles--){
+				if (++ticks > (enhancements.contains(SpatialDashGemEnhancements.RANGE) ? 48 : 28))setDead();
+		
+				Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
+				Vec3 vecPosWithMotion = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+				Vec3 hitVec;
+				
+				MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos,vecPosWithMotion);
+				vecPos = Vec3.createVectorHelper(posX,posY,posZ);
+		
+				if (mop != null)hitVec = Vec3.createVectorHelper(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
+				else hitVec = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
+			
+				Entity finalEntity = null;
+				List<Entity> collisionList = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.addCoord(motionX,motionY,motionZ).expand(1D,1D,1D));
+				double minDist = Double.MAX_VALUE, dist;
+				EntityLivingBase thrower = getThrower();
+	
+				for(Entity e:collisionList){
+					if (e.canBeCollidedWith() && (e != thrower || ticks >= 5)){
+						AxisAlignedBB aabb = e.boundingBox.expand(0.3F,0.3F,0.3F);
+						MovingObjectPosition mopTest = aabb.calculateIntercept(vecPos,hitVec);
+	
+						if (mopTest != null){
+							dist = vecPos.distanceTo(mopTest.hitVec);
+	
+							if (dist < minDist){
+								finalEntity = e;
+								minDist = dist;
+							}
 						}
 					}
 				}
+	
+				if (finalEntity != null)mop = new MovingObjectPosition(finalEntity);
+	
+				if (mop != null)onImpact(mop);
+				
+				posX += motionX;
+				posY += motionY;
+				posZ += motionZ;
 			}
-
-			if (finalEntity != null)mop = new MovingObjectPosition(finalEntity);
+			
+			setPosition(posX,posY,posZ);
+			
+			PacketPipeline.sendToAllAround(this,128D,new C22EffectLine(FXType.Line.SPATIAL_DASH_MOVE,lastTickPosX,lastTickPosY,lastTickPosZ,posX,posY,posZ));
 		}
-
-		if (mop != null)onImpact(mop);
-
-		for(int a = 0; a < 5; a++){
-			posX += motionX*0.2D;
-			posY += motionY*0.2D;
-			posZ += motionZ*0.2D;
-			if (worldObj.isRemote)spawnParticles();
-		}
-
-		setPosition(posX,posY,posZ);
 	}
 
 	@Override
@@ -170,26 +174,29 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		}
 	}
 	
+	@Override
+	public void setDead(){
+		super.setDead();
+		
+		if (worldObj.isRemote){
+			for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.spatialDashExplode(this);
+		}
+	}
+	
 	private boolean canSpawnIn(Block blockBottom, Block blockTop){
 		return (blockBottom.getMaterial() == Material.air || !blockBottom.isOpaqueCube()) && (blockTop.getMaterial() == Material.air || !blockTop.isOpaqueCube());
 	}
-	
-	private void spawnParticles(){
-		double dist = getDistanceSqToEntity(HardcoreEnderExpansion.proxy.getClientSidePlayer());
-		if (dist > 600D && rand.nextBoolean())return;
-		if (dist < 180D)HardcoreEnderExpansion.fx.spatialDash(this);
-		HardcoreEnderExpansion.fx.spatialDash(this);
-	}
-	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
 		nbt.setByte("tickTimer",ticks);
+		nbt.setString("enhancements",EnhancementEnumHelper.serialize(enhancements));
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
 		ticks = nbt.getByte("tickTimer");
+		enhancements = EnhancementEnumHelper.deserialize("enhancements",SpatialDashGemEnhancements.class);
 	}
 }
