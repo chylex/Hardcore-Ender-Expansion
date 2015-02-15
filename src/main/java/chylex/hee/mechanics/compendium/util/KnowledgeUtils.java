@@ -15,11 +15,13 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCharm;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.curse.CurseType;
+import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
@@ -77,6 +79,15 @@ public final class KnowledgeUtils{
 		}
 		
 		return fragments.toArray(new KnowledgeFragment[fragments.size()]);
+	}
+	
+	public static KnowledgeFragment[] createEnhancementFragments(Class<? extends Enum> enhancementCls, int startID, int points, int maxUsedIDs){
+		Enum[] enums = enhancementCls.getEnumConstants();
+		if (enums.length > maxUsedIDs)throw new RuntimeException("Enhancement "+enhancementCls.getName()+" exceeds fragment ID limit ("+maxUsedIDs+").");
+		
+		KnowledgeFragment[] fragments = new KnowledgeFragment[enums.length];
+		for(int a = 0; a < enums.length; a++)fragments[a] = new KnowledgeFragmentEnhancement(startID+a).setEnhancement((IEnhancementEnum)enums[a]).setPrice(points);
+		return fragments;
 	}
 	
 	private KnowledgeUtils(){}

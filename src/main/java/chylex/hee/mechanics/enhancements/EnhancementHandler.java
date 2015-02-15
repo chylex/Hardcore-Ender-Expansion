@@ -67,6 +67,16 @@ public final class EnhancementHandler{
 		return itemMap.containsKey(Item.getItemFromBlock(block));
 	}
 	
+	public static List<IEnhancementEnum> getAllEnhancements(){
+		List<IEnhancementEnum> list = new ArrayList<IEnhancementEnum>();
+		
+		for(EnhancementData data:itemMap.values()){
+			for(IEnhancementEnum enhancement:data.valuesInterface)list.add(enhancement);
+		}
+		
+		return list;
+	}
+	
 	public static List<IEnhancementEnum> getEnhancementsForItem(Item item){
 		return canEnhanceItem(item) ? CollectionUtil.newList(itemMap.get(item).valuesInterface) : new ArrayList<IEnhancementEnum>();
 	}
