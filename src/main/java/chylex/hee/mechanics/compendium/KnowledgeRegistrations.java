@@ -42,7 +42,10 @@ import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
+import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
+import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
@@ -74,15 +77,19 @@ public final class KnowledgeRegistrations{
 		DRAGON_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.DRAGON.id),
 		END_POWDER_ORE = create(BlockList.end_powder_ore),
 		ENHANCED_BREWING_STAND = create(ItemList.enhanced_brewing_stand),
-		ENHANCED_TNT = create(BlockList.enhanced_tnt),
 		DRAGON_EGG = create(Blocks.dragon_egg),
 		DRAGON_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,EssenceType.DRAGON.getItemDamage()),"ec.title.essence"),
 		END_POWDER = create(ItemList.end_powder),
-		ENHANCED_ENDER_PEARL = create(ItemList.enhanced_ender_pearl),
 		TEMPLE_CALLER = create(ItemList.temple_caller),
 		ENDER_DRAGON = new KnowledgeObject<ObjectMob>(new ObjectMob(EntityBossDragon.class),new ItemStack(Blocks.dragon_egg),"ec.title.enderDragon"),
 		ANGRY_ENDERMAN = create(EntityMobAngryEnderman.class),
 		VAMPIRE_BAT = create(EntityMobVampiricBat.class),
+		
+		ENDER_PEARL_ENHANCEMENTS = dummy("Enhancements.EnderPearl",new ItemStack(ItemList.enhanced_ender_pearl),"ec.title.enh.enderPearl"),
+		ESSENCE_ALTAR_ENHANCEMENTS = dummy("Enhancements.EssenceAltar",new ItemStack(BlockList.essence_altar),"ec.title.enh.essenceAltar"),
+		TNT_ENHANCEMENTS = dummy("Enhancements.TNT",new ItemStack(BlockList.enhanced_tnt),"ec.title.enh.tnt"),
+		SPATIAL_DASH_GEM_ENHANCEMENTS = dummy("Enhancements.SpatialDashGem",new ItemStack(ItemList.spatial_dash_gem),"ec.title.enh.spatialDashGem"),
+		TRANSFERENCE_GEM_ENHANCEMENTS = dummy("Enhancements.TransferenceGem",new ItemStack(ItemList.transference_gem),"ec.title.enh.transferenceGem"),
 		
 		// ===
 		
@@ -399,16 +406,6 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentItemConversion(136).setItems(new ItemStack(ItemList.ectoplasm),new ItemStack(ItemList.potion_of_purity)).setNonBuyable() // 951
 			}),
 			
-			ENHANCED_TNT.setPos(7,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentEnhancement(140).setEnhancement(TNTEnhancements.NO_BLOCK_DAMAGE).setPrice(3),
-				new KnowledgeFragmentEnhancement(141).setEnhancement(TNTEnhancements.NO_ENTITY_DAMAGE).setPrice(3),
-				new KnowledgeFragmentEnhancement(142).setEnhancement(TNTEnhancements.EXTRA_POWER).setPrice(3),
-				new KnowledgeFragmentEnhancement(143).setEnhancement(TNTEnhancements.TRAP).setPrice(3),
-				new KnowledgeFragmentEnhancement(144).setEnhancement(TNTEnhancements.NOCLIP).setPrice(3),
-				new KnowledgeFragmentEnhancement(145).setEnhancement(TNTEnhancements.FIRE).setPrice(3),
-				new KnowledgeFragmentEnhancement(146).setEnhancement(TNTEnhancements.NO_FUSE).setPrice(3)
-			}),
-			
 			DRAGON_EGG.setPos(1,8).setUnlockPrice(12).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(150).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(705),
 				new KnowledgeFragmentText(151).setPrice(2).setUnlockRequirements(150),
@@ -418,7 +415,7 @@ public final class KnowledgeRegistrations{
 			
 			DRAGON_ESSENCE.setPos(3,8),
 			
-			END_POWDER.setPos(6,2).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			END_POWDER.setPos(8,0).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(160).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(161).setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(160),
 				new KnowledgeFragmentText(162).setPrice(2).setUnlockRequirements(161),
@@ -427,16 +424,6 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(165).setPrice(2).setUnlockRequirements(162),
 				new KnowledgeFragmentText(166).setPrice(5).setUnlockRequirements(160).setUnlockCascade(132),
 				new KnowledgeFragmentText(167).setPrice(3).setUnlockCascade(244)
-			}),
-			
-			ENHANCED_ENDER_PEARL.setPos(5,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentEnhancement(170).setEnhancement(EnderPearlEnhancements.NO_FALL_DAMAGE).setPrice(3),
-				new KnowledgeFragmentEnhancement(171).setEnhancement(EnderPearlEnhancements.NO_GRAVITY).setPrice(3),
-				new KnowledgeFragmentEnhancement(172).setEnhancement(EnderPearlEnhancements.INCREASED_RANGE).setPrice(3),
-				new KnowledgeFragmentEnhancement(173).setEnhancement(EnderPearlEnhancements.DOUBLE_SPEED).setPrice(3),
-				new KnowledgeFragmentEnhancement(174).setEnhancement(EnderPearlEnhancements.EXPLOSIVE).setPrice(3),
-				new KnowledgeFragmentEnhancement(175).setEnhancement(EnderPearlEnhancements.FREEZE).setPrice(3),
-				new KnowledgeFragmentEnhancement(176).setEnhancement(EnderPearlEnhancements.RIDING).setPrice(3)
 			}),
 			
 			TEMPLE_CALLER.setPos(2,12).setUnlockPrice(18).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
@@ -473,6 +460,44 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(210).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(703),
 				new KnowledgeFragmentText(211).setPrice(2).setUnlockRequirements(210),
 				new KnowledgeFragmentText(212).setPrice(3).setUnlockRequirements(210)
+			}),
+			
+			ENDER_PEARL_ENHANCEMENTS.setPos(5,0).setUnlockPrice(8).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentEnhancement(170).setEnhancement(EnderPearlEnhancements.NO_FALL_DAMAGE).setPrice(3),
+				new KnowledgeFragmentEnhancement(171).setEnhancement(EnderPearlEnhancements.NO_GRAVITY).setPrice(3),
+				new KnowledgeFragmentEnhancement(172).setEnhancement(EnderPearlEnhancements.INCREASED_RANGE).setPrice(3),
+				new KnowledgeFragmentEnhancement(173).setEnhancement(EnderPearlEnhancements.DOUBLE_SPEED).setPrice(3),
+				new KnowledgeFragmentEnhancement(174).setEnhancement(EnderPearlEnhancements.EXPLOSIVE).setPrice(3),
+				new KnowledgeFragmentEnhancement(175).setEnhancement(EnderPearlEnhancements.FREEZE).setPrice(3),
+				new KnowledgeFragmentEnhancement(176).setEnhancement(EnderPearlEnhancements.RIDING).setPrice(3)
+			}),
+			
+			ESSENCE_ALTAR_ENHANCEMENTS.setPos(5,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentEnhancement(1470).setEnhancement(EssenceAltarEnhancements.RANGE).setPrice(5),
+				new KnowledgeFragmentEnhancement(1471).setEnhancement(EssenceAltarEnhancements.SPEED).setPrice(5),
+				new KnowledgeFragmentEnhancement(1472).setEnhancement(EssenceAltarEnhancements.EFFICIENCY).setPrice(5)
+			}),
+			
+			TNT_ENHANCEMENTS.setPos(5,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentEnhancement(140).setEnhancement(TNTEnhancements.NO_BLOCK_DAMAGE).setPrice(3),
+				new KnowledgeFragmentEnhancement(141).setEnhancement(TNTEnhancements.NO_ENTITY_DAMAGE).setPrice(3),
+				new KnowledgeFragmentEnhancement(142).setEnhancement(TNTEnhancements.EXTRA_POWER).setPrice(3),
+				new KnowledgeFragmentEnhancement(143).setEnhancement(TNTEnhancements.TRAP).setPrice(3),
+				new KnowledgeFragmentEnhancement(144).setEnhancement(TNTEnhancements.NOCLIP).setPrice(3),
+				new KnowledgeFragmentEnhancement(145).setEnhancement(TNTEnhancements.FIRE).setPrice(3),
+				new KnowledgeFragmentEnhancement(146).setEnhancement(TNTEnhancements.NO_FUSE).setPrice(3)
+			}),
+			
+			SPATIAL_DASH_GEM_ENHANCEMENTS.setPos(5,6).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentEnhancement(1480).setEnhancement(SpatialDashGemEnhancements.CAPACITY).setPrice(4),
+				new KnowledgeFragmentEnhancement(1481).setEnhancement(SpatialDashGemEnhancements.RANGE).setPrice(4),
+				new KnowledgeFragmentEnhancement(1482).setEnhancement(SpatialDashGemEnhancements.INSTANT).setPrice(4)
+			}),
+			
+			TRANSFERENCE_GEM_ENHANCEMENTS.setPos(5,8).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentEnhancement(1490).setEnhancement(TransferenceGemEnhancements.CAPACITY).setPrice(4),
+				new KnowledgeFragmentEnhancement(1491).setEnhancement(TransferenceGemEnhancements.TOUCH).setPrice(4),
+				new KnowledgeFragmentEnhancement(1492).setEnhancement(TransferenceGemEnhancements.BEAST).setPrice(4)
 			})
 		});
 		
@@ -1140,7 +1165,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 1470
+		// next: 1500
 		// taken: 1000-1399
 		
 		Stopwatch.finish("KnowledgeRegistrations");
@@ -1181,6 +1206,8 @@ public final class KnowledgeRegistrations{
 				amtFragments += obj.getFragments().size();
 				totalObjPrice += obj.getUnlockPrice();
 				totalReward += obj.getDiscoveryReward();
+				
+				// TODO check all enhancements
 			}
 			
 			Log.debug("Knowledge Object amount: $0",amtObjects);

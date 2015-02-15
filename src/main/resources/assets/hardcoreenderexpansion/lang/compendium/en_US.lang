@@ -17,6 +17,12 @@ ec.title.curses=Curses
 ec.title.dungeonPuzzle=Dungeon Puzzle
 ec.title.laboratory=Laboratory
 
+ec.title.enh.enderPearl=Ender Pearl Enhancements
+ec.title.enh.essenceAltar=Essence Altar Enhancements
+ec.title.enh.tnt=TNT Enhancements
+ec.title.enh.spatialDashGem=Spatial Dash Gem Enhancements
+ec.title.enh.transferenceGem=Transference Gem Enhancements
+
 ec.help.nonbuyable=The fragment has to be purchased elsewhere
 ec.help.requirements=Another fragment must be bought first
 
