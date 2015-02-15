@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
@@ -31,7 +32,11 @@ public class BlockEssenceAltar extends BlockContainer{
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
 		if (world.isRemote)return true;
 		
+		ItemStack held = player.getHeldItem();
+		if (held != null && held.getItem() == ItemList.end_powder)return false;
+		
 		TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x,y,z);
+		
 		if (altar != null){
 			if (side == 1){
 				if (hitX >= hitCenter1-hitDist && hitX <= hitCenter1+hitDist && hitZ >= hitCenter1-hitDist && hitZ <= hitCenter1+hitDist)altar.onSocketClick(player,3);
@@ -43,6 +48,7 @@ public class BlockEssenceAltar extends BlockContainer{
 			}
 			else altar.onRightClick(player);
 		}
+		
 		return true;
 	}
 	

@@ -56,7 +56,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		onEntityUpdate();
 
 		if (!worldObj.isRemote){
-			for(int cycles = enhancements.contains(SpatialDashGemEnhancements.INSTANT) ? 4 : 1; cycles > 0; cycles--){
+			for(int cycles = enhancements.contains(SpatialDashGemEnhancements.INSTANT) ? 48 : 1; cycles > 0; cycles--){
 				if (++ticks > (enhancements.contains(SpatialDashGemEnhancements.RANGE) ? 48 : 28))setDead();
 		
 				Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
@@ -92,16 +92,19 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 	
 				if (finalEntity != null)mop = new MovingObjectPosition(finalEntity);
 	
-				if (mop != null)onImpact(mop);
+				if (mop != null){
+					onImpact(mop);
+					break;
+				}
 				
 				posX += motionX;
 				posY += motionY;
 				posZ += motionZ;
+				setPosition(posX,posY,posZ);
 			}
 			
-			setPosition(posX,posY,posZ);
-			
 			PacketPipeline.sendToAllAround(this,128D,new C22EffectLine(FXType.Line.SPATIAL_DASH_MOVE,lastTickPosX,lastTickPosY,lastTickPosZ,posX,posY,posZ));
+			
 		}
 	}
 

@@ -289,7 +289,7 @@ public class ContainerEndPowderEnhancements extends Container{
 				
 				PacketPipeline.sendToPlayer(owner,new C08PlaySound(C08PlaySound.EXP_ORB,owner.posX,owner.posY,owner.posZ,1F,1F));
 			}
-			else if (owner != null){ // TRY BREAK SOME POWDER AND INGREDIENTS
+			else if (owner != null){ // TRY BREAK SOME POWDER
 				for(int a = 0; a < slots.amountPowder; a++){
 					if (powderSlots[a].getStack() == null)return;
 				}
@@ -299,15 +299,11 @@ public class ContainerEndPowderEnhancements extends Container{
 				}
 				
 				Random rand = owner.worldObj.rand;
-				int powderBroken = 1, ingredientsBroken = 0;
+				int powderBroken = 1;
 				
 				if (slots.amountPowder > 2){
 					float add = (rand.nextFloat()+rand.nextFloat())*0.49F*(slots.amountPowder-1);
 					powderBroken += rand.nextBoolean() ? MathUtil.floor(add) : MathUtil.ceil(add);
-				}
-				
-				if (rand.nextInt(5) == 0 && powderBroken < slots.amountPowder){
-					ingredientsBroken = slots.amountIngredient == 1 ? 1 : 1+Math.min(slots.amountIngredient-1,MathUtil.floor((rand.nextFloat()+0.25F)*(slots.amountIngredient-1)));
 				}
 				
 				int index;
@@ -318,14 +314,7 @@ public class ContainerEndPowderEnhancements extends Container{
 					}
 				}
 				
-				while(ingredientsBroken > 0){
-					if (ingredientSlots[index = rand.nextInt(slots.amountIngredient)].getStack() != null){
-						if (--ingredientSlots[index].getStack().stackSize <= 0)containerInv.setInventorySlotContents(2+powderSlots.length+index,null);
-						--ingredientsBroken;
-					}
-				}
-				
-				if (rand.nextInt(ingredientsBroken > 0 ? 4 : 6) == 0){
+				if (rand.nextInt(4+((slots.amountPowder+slots.amountIngredient)>>1)) == 0){
 					CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement));
 					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
 				}

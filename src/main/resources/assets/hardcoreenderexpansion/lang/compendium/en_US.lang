@@ -115,10 +115,10 @@ ec.reg.152=The egg can be picked up by sneaking and hitting it with any sword.
 ec.reg.153=When destroyed, it teleports back to the End.
 
 ec.reg.160=Magical powder used to enhance items with special effects.
-ec.reg.161=Using the End Powder opens enhancement screen.
-ec.reg.162=Placing a block or item into the top slot opens all possible enhancements.
+ec.reg.161=Using the End Powder opens enhancement screen. Placing a block or item into the top slot opens all possible enhancements.
+ec.reg.162=Also, using the End Powder directly on an enhanceable block will let you enhance it remotely.
 ec.reg.163=Enhancing requires a specific amount of End Powder and ingredients of one type.
-ec.reg.164=The ingredient is unlocked by trying. Using an incorrect ingredient may destroy random items in the interface, but may also reveal the correct ingredient.
+ec.reg.164=The ingredient is unlocked by trying. Using an incorrect ingredient will destroy some of the End Powder, but may also reveal the correct ingredient.
 ec.reg.165=Different enhancements can be stacked together.
 ec.reg.166=End Powder applies enhancing effects to potions in Enhanced Brewing Stand.
 ec.reg.167=Applying End Powder to Death Flower partially reverts the effect of decaying.

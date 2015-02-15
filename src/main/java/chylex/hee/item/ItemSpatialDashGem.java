@@ -1,6 +1,5 @@
 package chylex.hee.item;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -10,6 +9,8 @@ import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	@Override
@@ -45,20 +46,8 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is, int pass){
-		return is.getItemDamage() == 1 || super.hasEffect(is,pass);
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getColorFromItemStack(ItemStack is, int pass){
-		return is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown") ? (192<<16|192<<8|192) : super.getColorFromItemStack(is,pass);
-	}
-	
-	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (is.getItemDamage() < getMaxDamage() && is.stackTagCompound != null && !is.stackTagCompound.hasKey("cooldown")){
+		if (is.getItemDamage() < getMaxDamage() && (is.stackTagCompound == null || !is.stackTagCompound.hasKey("cooldown"))){
 			if (!world.isRemote){
 				is.damageItem(getEnergyPerUse(is),player);
 				world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player,EnhancementHandler.getEnhancements(is)));
@@ -70,5 +59,23 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 		}
 		
 		return is;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack is, int pass){
+		return is.getItemDamage() == 1 || super.hasEffect(is,pass);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
+		EnhancementHandler.appendEnhancementNames(is,textLines);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack is, int pass){
+		return is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown") ? (192<<16|192<<8|192) : super.getColorFromItemStack(is,pass);
 	}
 }

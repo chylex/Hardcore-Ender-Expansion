@@ -421,9 +421,9 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(160).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(161).setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(160),
 				new KnowledgeFragmentText(162).setPrice(2).setUnlockRequirements(161),
-				new KnowledgeFragmentText(163).setPrice(2).setUnlockRequirements(162),
+				new KnowledgeFragmentText(163).setPrice(2).setUnlockRequirements(161),
 				new KnowledgeFragmentText(164).setPrice(3).setUnlockRequirements(163),
-				new KnowledgeFragmentText(165).setPrice(2).setUnlockRequirements(162),
+				new KnowledgeFragmentText(165).setPrice(2).setUnlockRequirements(161),
 				new KnowledgeFragmentText(166).setPrice(5).setUnlockRequirements(160).setUnlockCascade(132),
 				new KnowledgeFragmentText(167).setPrice(3).setUnlockCascade(244)
 			}),
