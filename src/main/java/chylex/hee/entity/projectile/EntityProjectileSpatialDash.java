@@ -118,9 +118,9 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 
 				if (player.playerNetServerHandler.func_147362_b().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
 					if (player.isRiding())player.mountEntity(null);
-					if (player.posY <= 0D)player.addStat(AchievementManager.TP_NEAR_VOID,1);
+					boolean tryAchievement = player.posY <= 0D;
 					
-					int x,y,z;
+					int x, y, z;
 					
 					if (mop.typeOfHit == MovingObjectType.BLOCK){
 						x = mop.blockX;
@@ -167,6 +167,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					}
 					
 					if (!found)player.setPositionAndUpdate(x+0.5D,y+0.01D,z+0.5D);
+					if (tryAchievement && worldObj.getBlock(x,y,z).isOpaqueCube())player.addStat(AchievementManager.TP_NEAR_VOID,1);
 					player.fallDistance = 0F;
 					
 					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,player));
