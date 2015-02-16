@@ -401,9 +401,11 @@ ec.reg.563=Mine variation spawns Haunted Miners, which protect Resource Pits (ho
 
 ec.reg.570=Variation of End Stone found in the Burning Mountains Biome.
 
-ec.reg.580=Orange tulip found in the Burning Mountains (Scorching).
+ec.reg.582=Flameweed is a plant found commonly in the Burning Mountains Biome. In the Scorching variation, it is often more abundant near lava.
 
 ec.reg.590=Rock found in Burning Mountains (Scorching).
+
+ec.reg.580=Orange tulip found in the Burning Mountains (Scorching).
 
 ec.reg.900=Dungeon Puzzle is a structure found in Burning Mountains (Scorching). There is always a cave leading to the dungeon.
 ec.reg.901=Throwing Igneous Rock on plain puzzle blocks will start a chain reaction and destroy the rock.

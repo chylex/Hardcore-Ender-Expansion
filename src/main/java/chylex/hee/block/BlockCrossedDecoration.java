@@ -28,11 +28,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockCrossedDecoration extends BlockFlower implements IShearable, IBlockSubtypes{
 	private static final String[] decorTypes = new String[]{
 		"decor_bullrush_bottom", "decor_bullrush_top", "decor_thorn_bush", "decor_infested_grass", "decor_infested_fern", "decor_infested_tallgrass",
-		"decor_lily_fire", "decor_violet_moss_tall", "decor_violet_moss_moderate", "decor_violet_moss_short"
+		"decor_lily_fire", "decor_violet_moss_tall", "decor_violet_moss_moderate", "decor_violet_moss_short", "decor_flameweed_1", "decor_flameweed_2", "decor_flameweed_3"
 	};
 	
 	public static final byte dataThornBush = 2, dataInfestedGrass = 3, dataInfestedFern = 4, dataInfestedTallgrass = 5,
-					   		 dataLilyFire = 6, dataVioletMossTall = 7, dataVioletMossModerate = 8, dataVioletMossShort = 9;
+					   		 dataLilyFire = 6, dataVioletMossTall = 7, dataVioletMossModerate = 8, dataVioletMossShort = 9,
+					   		 dataFlameweed1 = 10, dataFlameweed2 = 11, dataFlameweed3 = 12;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
@@ -103,6 +104,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 			case dataVioletMossTall: return "tile.crossedDecoration.violetMoss.tall";
 			case dataVioletMossModerate: return "tile.crossedDecoration.violetMoss.moderate";
 			case dataVioletMossShort: return "tile.crossedDecoration.violetMoss.short";
+			case dataFlameweed1: case dataFlameweed2: case dataFlameweed3: return "tile.crossedDecoration.flameweed";
 			default: return "";
 		}
 	}
@@ -122,18 +124,13 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 2; a < decorTypes.length; a++){
-			list.add(new ItemStack(item,1,a));
-		}
+		for(int a = 2; a < decorTypes.length; a++)list.add(new ItemStack(item,1,a));
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister){
 		iconArray = new IIcon[decorTypes.length];
-
-		for(int a = 2; a < decorTypes.length; ++a){
-			iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:"+decorTypes[a]);
-		}
+		for(int a = 2; a < decorTypes.length; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:"+decorTypes[a]);
 	}
 }

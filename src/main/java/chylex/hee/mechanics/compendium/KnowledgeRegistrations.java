@@ -180,11 +180,14 @@ public final class KnowledgeRegistrations{
 		
 		BURNING_MOUNTAINS_BIOME = dummy("BurningMountains",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.metaBurned),"ec.title.biome.burningMountains"),
 		BURNED_END_STONE = create(BlockList.end_terrain,1),
-		LILYFIRE = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire),
+		FLAMEWEED_1 = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataFlameweed1),
+		FLAMEWEED_2 = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataFlameweed2),
+		FLAMEWEED_3 = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataFlameweed3),
 		IGNEOUS_ROCK_ORE_LINKED = link(IGNEOUS_ROCK_ORE),
 		IGNEOUS_ROCK_LINKED = link(IGNEOUS_ROCK),
 		
 		CINDER = create(BlockList.cinder),
+		LILYFIRE = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire),
 		DUNGEON_PUZZLE = create(BlockList.dungeon_puzzle,"ec.title.dungeonPuzzle"),
 		FIERY_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.FIERY.id),
 		FIERY_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,1,EssenceType.FIERY.getItemDamage()),"ec.title.essence"),
@@ -918,9 +921,16 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(570).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			LILYFIRE.setPos(4,0).setUnlockPrice(4).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(580).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(581).setCustomRecipe(new ItemStack(Items.dye,2,14),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire) }).setPrice(4).setUnlockRequirements(580)
+			FLAMEWEED_1.setPos(5,0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(582).setPrice(4).setUnlockOnDiscovery()
+			}),
+			
+			FLAMEWEED_2.setPos(7,0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
+				FLAMEWEED_1.getFragments().iterator().next()
+			}),
+			
+			FLAMEWEED_3.setPos(9,0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
+				FLAMEWEED_1.getFragments().iterator().next()
 			}),
 			
 			IGNEOUS_ROCK_ORE_LINKED.setPos(2,0),
@@ -931,6 +941,11 @@ public final class KnowledgeRegistrations{
 			
 			CINDER.setPos(0,7).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(590).setPrice(5).setUnlockOnDiscovery()
+			}),
+			
+			LILYFIRE.setPos(13,7).setUnlockPrice(4).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(580).setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(581).setCustomRecipe(new ItemStack(Items.dye,2,14),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire) }).setPrice(4).setUnlockRequirements(580)
 			}),
 			
 			DUNGEON_PUZZLE.setPos(10,7).setUnlockPrice(15).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
