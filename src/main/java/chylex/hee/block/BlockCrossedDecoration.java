@@ -28,12 +28,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockCrossedDecoration extends BlockFlower implements IShearable, IBlockSubtypes{
 	private static final String[] decorTypes = new String[]{
 		"decor_bullrush_bottom", "decor_bullrush_top", "decor_thorn_bush", "decor_infested_grass", "decor_infested_fern", "decor_infested_tallgrass",
-		"decor_lily_fire", "decor_violet_moss_tall", "decor_violet_moss_moderate", "decor_violet_moss_short", "decor_flameweed_1", "decor_flameweed_2", "decor_flameweed_3"
+		"decor_lily_fire", "decor_violet_moss_tall", "decor_violet_moss_moderate", "decor_violet_moss_short",
+		"decor_flameweed_1", "decor_flameweed_2", "decor_flameweed_3", "decor_shadow_orchid"
 	};
 	
 	public static final byte dataThornBush = 2, dataInfestedGrass = 3, dataInfestedFern = 4, dataInfestedTallgrass = 5,
 					   		 dataLilyFire = 6, dataVioletMossTall = 7, dataVioletMossModerate = 8, dataVioletMossShort = 9,
-					   		 dataFlameweed1 = 10, dataFlameweed2 = 11, dataFlameweed3 = 12;
+					   		 dataFlameweed1 = 10, dataFlameweed2 = 11, dataFlameweed3 = 12, dataShadowOrchid = 13;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
@@ -63,9 +64,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z){
-		int meta = world.getBlockMetadata(x,y,z);
-		
-		if (meta == dataLilyFire)return AxisAlignedBB.getBoundingBox(x+0.3F,y,z+0.3F,x+0.7F,y+0.8F,z+0.7F);
+		if (world.getBlockMetadata(x,y,z) == dataLilyFire)return AxisAlignedBB.getBoundingBox(x+0.3F,y,z+0.3F,x+0.7F,y+0.8F,z+0.7F);
 		else return super.getSelectedBoundingBoxFromPool(world,x,y,z);
 	}
 
@@ -77,9 +76,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 
 	@Override
 	public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, int x, int y, int z, int fortune){
-		ArrayList<ItemStack> ret = new ArrayList<>();
-		ret.add(new ItemStack(this,1,world.getBlockMetadata(x,y,z)));
-		return ret;
+		return CollectionUtil.newList(new ItemStack(this,1,world.getBlockMetadata(x,y,z)));
 	}
 	
 	@Override
@@ -105,6 +102,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 			case dataVioletMossModerate: return "tile.crossedDecoration.violetMoss.moderate";
 			case dataVioletMossShort: return "tile.crossedDecoration.violetMoss.short";
 			case dataFlameweed1: case dataFlameweed2: case dataFlameweed3: return "tile.crossedDecoration.flameweed";
+			case dataShadowOrchid: return "tile.crossedDecoration.shadowOrchid"; // TODO add to world
 			default: return "";
 		}
 	}
