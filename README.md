@@ -7,6 +7,26 @@ DO NOT MODIFY THE LANGUAGE FILES, THEY WILL GET AUTOMATICALLY REPLACED BY THE TR
 
 Use http://hee-translate.chylex.com/ for translations instead.
 
+## Building
+The Hardcore Ender Expansion project follows standard Forge conventions for setting up and building a project, with a couple additional details (details to come).
+
+You can create a gradle.properties file in the project root with the following properties:
+```
+mcUsername=YourMCUsername
+mcPassword=YourPassword
+```
+
+Initially setting up the Hardcore Ender Expansion project via the Command Line:
+```
+gradlew setupDecompWorkspace
+```
+
+Now here's the fun part! Building the project! This command will automatically fetch all dependencies, and then build the project. You will find the .jar once it's finished building in `build\libs` in the `Hardcore-Ender-Expansion` folder in the directory where you cloned the repository.
+```
+gradlew build
+```
+
+
 ## Source code and asset license
 
 The project is under the All Rights Reserved license, which means that redistribution is forbidden. However, I do not want to be as restrictive, so here are some general rules, and some specific cases for what you may want to do with the source.
