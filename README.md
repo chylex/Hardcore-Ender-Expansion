@@ -10,6 +10,8 @@ Use http://hee-translate.chylex.com/ for translations instead.
 ## Building
 The Hardcore Ender Expansion project follows standard Forge conventions for setting up and building a project, with a couple additional details (details to come).
 
+You have to manually install Gradle before you can build the project as the gradlew files are not included when you clone the project, due to how the .gitignore file is set up. You can download Gradle from [here] (http://gradle.org/).
+
 You can create a gradle.properties file in the project root with the following properties:
 ```
 mcUsername=YourMCUsername
@@ -18,12 +20,12 @@ mcPassword=YourPassword
 
 Initially setting up the Hardcore Ender Expansion project via the Command Line:
 ```
-gradlew setupDecompWorkspace
+gradle setupDecompWorkspace
 ```
 
 Now here's the fun part! Building the project! This command will automatically fetch all dependencies, and then build the project. You will find the .jar once it's finished building in `build\libs` in the `Hardcore-Ender-Expansion` folder in the directory where you cloned the repository.
 ```
-gradlew build
+gradle build
 ```
 
 
