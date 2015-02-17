@@ -81,7 +81,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (world.getBlockMetadata(x,y,z) == dataThornBush){
+		if (!world.isRemote && world.getBlockMetadata(x,y,z) == dataThornBush){
 			entity.attackEntityFrom(DamageSource.generic,1F);
 			
 			if (world.rand.nextInt(80) == 0 && entity instanceof EntityLivingBase && !((EntityLivingBase)entity).isPotionActive(Potion.poison)){
