@@ -52,7 +52,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	}
 	
 	@Override
-	protected boolean canPlaceBlockOn(Block block){
+	public boolean canPlaceBlockOn(Block block){
 		return block == Blocks.end_stone || block == BlockList.end_terrain || super.canPlaceBlockOn(block);
 	}
 	
