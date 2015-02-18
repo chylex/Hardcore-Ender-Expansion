@@ -66,9 +66,6 @@ ec.reg.40=Core component of the Basic Essence Altar.
 
 ec.reg.51=Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.
 ec.reg.52=Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.
-ec.reg.53=Altars have 4 sockets for precious blocks in the corners. Some of the blocks give an effect and some boost used effects, one of each is required minimum.
-ec.reg.54=Redstone Block increases altar speed, Lapis Block improves range and Nether Quartz Block makes Essence usage lower.
-ec.reg.55=Iron Block has effect boost 1, Gold Block 3, Diamond Block 7 and Emerald Block 10.
 
 ec.reg.60=Tall black mobs that populate the End, and uncommonly spawn in the Overworld.
 ec.reg.61=Looking into their eyes or attacking them makes them aggroed.
@@ -96,7 +93,7 @@ ec.reg.104=When broken, it loses its ability to fall.
 
 ec.reg.110=Dragon Essence Altar infuses blocks and items with Dragon Essence.
 ec.reg.111=Infusion requires pedestals, which are up to 8 blocks of the same type placed close around the altar
-ec.reg.112=Using altar sockets to increase range allows up to 12 pedestals to be used.
+ec.reg.112=Enhancing the altar with Range enhancement allows up to 12 pedestals to be used.
 ec.reg.113=Tools, weapons and armor will quickly repair, and slowly improve enchantments and gain new enchantments.
 ec.reg.114=Some items will turn into different items when infused:
 

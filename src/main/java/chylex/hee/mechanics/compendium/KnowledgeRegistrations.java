@@ -341,10 +341,7 @@ public final class KnowledgeRegistrations{
 			BASIC_ESSENCE_ALTAR.setPos(3,9).setNonBuyable().setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(42),
 				new KnowledgeFragmentText(51).setUnlockOnDiscovery().setPrice(5).setUnlockRequirements(50),
-				new KnowledgeFragmentText(52).setPrice(2).setUnlockRequirements(51),
-				new KnowledgeFragmentText(53).setPrice(6).setUnlockRequirements(51), // TODO remove sockets
-				new KnowledgeFragmentText(54).setPrice(2).setUnlockRequirements(53),
-				new KnowledgeFragmentText(55).setPrice(2).setUnlockRequirements(53)
+				new KnowledgeFragmentText(52).setPrice(2).setUnlockRequirements(51)
 			}),
 			
 			ENDERMAN.setPos(1,3).setUnlockPrice(5).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
