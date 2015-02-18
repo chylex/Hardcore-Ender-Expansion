@@ -44,6 +44,7 @@ import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
@@ -89,6 +90,7 @@ public final class KnowledgeRegistrations{
 		
 		ENDER_PEARL_ENHANCEMENTS = dummy("Enhancements.EnderPearl",new ItemStack(Items.ender_pearl),"ec.title.enh.enderPearl"),
 		ESSENCE_ALTAR_ENHANCEMENTS = dummy("Enhancements.EssenceAltar",new ItemStack(BlockList.essence_altar),"ec.title.enh.essenceAltar"),
+		ENHANCED_BREWING_STAND_ENHANCEMENTS = dummy("Enhancements.EnhancedBrewingStand",new ItemStack(ItemList.enhanced_brewing_stand),"ec.title.enh.enhancedBrewingStand"),
 		TNT_ENHANCEMENTS = dummy("Enhancements.TNT",new ItemStack(Blocks.tnt),"ec.title.enh.tnt"),
 		SPATIAL_DASH_GEM_ENHANCEMENTS = dummy("Enhancements.SpatialDashGem",new ItemStack(ItemList.spatial_dash_gem),"ec.title.enh.spatialDashGem"),
 		TRANSFERENCE_GEM_ENHANCEMENTS = dummy("Enhancements.TransferenceGem",new ItemStack(ItemList.transference_gem),"ec.title.enh.transferenceGem"),
@@ -405,6 +407,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(130).setPrice(5),
 				new KnowledgeFragmentText(131).setPrice(2).setUnlockRequirements(130),
 				new KnowledgeFragmentText(132).setPrice(5).setUnlockRequirements(130).setUnlockCascade(166),
+				new KnowledgeFragmentText(137).setPrice(5).setUnlockRequirements(132),
 				new KnowledgeFragmentText(133).setPrice(2).setUnlockRequirements(130),
 				new KnowledgeFragmentItemConversion(134).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setNonBuyable(), // 741
 				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setNonBuyable(), // 731
@@ -467,15 +470,17 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(212).setPrice(3).setUnlockRequirements(210)
 			}),
 			
-			ENDER_PEARL_ENHANCEMENTS.setPos(11,0).setUnlockPrice(8).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnderPearlEnhancements.class,170,3,10)),
+			ENDER_PEARL_ENHANCEMENTS.setPos(11,0).setUnlockPrice(8).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnderPearlEnhancements.class,170,3,10,new int[]{ 160 })),
 			
-			ESSENCE_ALTAR_ENHANCEMENTS.setPos(11,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EssenceAltarEnhancements.class,1470,5,10)),
+			ESSENCE_ALTAR_ENHANCEMENTS.setPos(11,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EssenceAltarEnhancements.class,1470,5,10,new int[]{ 160, 51 })),
 			
-			TNT_ENHANCEMENTS.setPos(11,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TNTEnhancements.class,140,3,10)),
+			ENHANCED_BREWING_STAND_ENHANCEMENTS.setPos(11,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnhancedBrewingStandEnhancements.class,1500,4,10,new int[]{ 160, 130 })),
 			
-			SPATIAL_DASH_GEM_ENHANCEMENTS.setPos(11,6).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(SpatialDashGemEnhancements.class,1480,4,10)),
+			TNT_ENHANCEMENTS.setPos(13,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TNTEnhancements.class,140,3,10,new int[]{ 160 })),
 			
-			TRANSFERENCE_GEM_ENHANCEMENTS.setPos(11,8).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TransferenceGemEnhancements.class,1490,4,10))
+			SPATIAL_DASH_GEM_ENHANCEMENTS.setPos(13,2).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(SpatialDashGemEnhancements.class,1480,4,10,new int[]{ 160, 290 })),
+			
+			TRANSFERENCE_GEM_ENHANCEMENTS.setPos(13,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TransferenceGemEnhancements.class,1490,4,10,new int[]{ 160, 1440 }))
 		});
 		
 		// ===
@@ -1154,7 +1159,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 1500
+		// next: 1510
 		// taken: 1000-1399
 		
 		Stopwatch.finish("KnowledgeRegistrations");

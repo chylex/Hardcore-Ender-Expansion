@@ -120,7 +120,7 @@ public class PotionTypes{
 		return 0;
 	}
 	
-	public static boolean canBeApplied(ItemStack ingredient, ItemStack is, boolean enhanced){ // TODO knowledge regs
+	public static boolean canBeApplied(ItemStack ingredient, ItemStack is, boolean enhanced){
 		byte[] indexes = getItemIndexes(ingredient);
 		
 		if (indexes.length == 0){

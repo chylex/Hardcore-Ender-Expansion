@@ -19,6 +19,7 @@ ec.title.laboratory=Laboratory
 
 ec.title.enh.enderPearl=Ender Pearl Enhancements
 ec.title.enh.essenceAltar=Essence Altar Enhancements
+ec.title.enh.enhancedBrewingStand=Enhanced Brewing Stand Enhancements
 ec.title.enh.tnt=TNT Enhancements
 ec.title.enh.spatialDashGem=Spatial Dash Gem Enhancements
 ec.title.enh.transferenceGem=Transference Gem Enhancements
@@ -107,6 +108,7 @@ ec.reg.123=Fortune enchantment has an effect on the amount of End Powder dropped
 ec.reg.130=A Brewing Stand infused with Dragon Essence.
 ec.reg.131=The brewing speed depends on potion complexity, simple potions brew much faster than with regular Brewing Stand.
 ec.reg.132=Using Glowstone, Redstone and Gunpowder requires End Powder, but the potions can go over the limits of basic Brewing Stand.
+ec.reg.137=Most potions can be brewed up to tier III, or when enhanced with the Tier enhancement, they can go up to tier IV.
 ec.reg.133=It is required to brew special potions using Awkward Potion and another ingredient:
 
 ec.reg.150=Dragon Egg is created on top of the End Portal after killing the Ender Dragon.
