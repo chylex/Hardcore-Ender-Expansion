@@ -22,7 +22,7 @@ public class ItemPotionOfInstability extends ItemAbstractPotion{
 			
 			if (potion instanceof TimedPotion){
 				TimedPotion timed = (TimedPotion)potion;
-				return new PotionEffect(timed.getPotionType().id,(int)(rand.nextInt(MathUtil.ceil(timed.getMaxDuration()*0.8D))+timed.getMaxDuration()*0.2D),rand.nextInt(timed.getMaxLevel()));
+				return new PotionEffect(timed.getPotionType().id,(int)(rand.nextInt(MathUtil.ceil(timed.getMaxDuration()*0.8D))+timed.getMaxDuration()*0.2D),rand.nextInt(timed.getMaxLevel(false)));
 			}
 		}
 	}

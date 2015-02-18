@@ -17,6 +17,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.enhancements.SlotList.SlotType;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
@@ -52,6 +53,11 @@ public final class EnhancementHandler{
 		register(
 			new Item[]{ Item.getItemFromBlock(BlockList.essence_altar) },
 			new EnhancementData(EssenceAltarEnhancements.class, Item.getItemFromBlock(BlockList.essence_altar), p, p, i, i, i, p, p)
+		);
+		
+		register(
+			new Item[]{ Item.getItemFromBlock(BlockList.enhanced_brewing_stand), ItemList.enhanced_brewing_stand },
+			new EnhancementData(EnhancedBrewingStandEnhancements.class, ItemList.enhanced_brewing_stand, p, i, i, i, i, i, p)
 		);
 	}
 	
