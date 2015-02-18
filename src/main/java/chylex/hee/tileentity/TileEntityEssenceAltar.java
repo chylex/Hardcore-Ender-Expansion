@@ -34,7 +34,7 @@ import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 
-public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized implements IUpdatePlayerListBox{
+public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized implements IEnhanceableTile, IUpdatePlayerListBox{
 	public static final byte STAGE_BASIC = 0, STAGE_HASTYPE = 1, STAGE_WORKING = 2;
 	
 	private EssenceType essenceType = EssenceType.INVALID;
@@ -46,6 +46,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	
 	private AltarActionHandler actionHandler;
 	private final Map<UUID,ItemUseCache> playerItemCache = new HashMap<>();
+	private List<Enum> enhancementList = new ArrayList<>();
 	
 	/*
 	 * GETTERS, LOADING & SAVING
@@ -97,6 +98,16 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	}
 	
 	@Override
+	public ItemStack createItemStack(){
+		return EnhancementHandler.addEnhancements(new ItemStack(BlockList.essence_altar,1,essenceType.id),enhancementList);
+	}
+	
+	@Override
+	public List<Enum> getEnhancements(){
+		return enhancementList;
+	}
+	
+	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
 		nbt.setByte("stage",currentStage);
 		nbt.setByte("essenceTypeId",essenceType.getId());
@@ -113,6 +124,8 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		for(int a = 0; a < sockets.length; a++){
 			if (sockets[a] != null)nbt.setTag("socket"+a,sockets[a].writeToNBT(new NBTTagCompound()));
 		}
+		
+		nbt.setString("enhancements",EnhancementEnumHelper.serialize(enhancementList));
 		
 		if (actionHandler != null)actionHandler.onTileWriteToNBT(nbt);
 		
@@ -141,6 +154,8 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 			}
 			sockets[a] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("socket"+a));
 		}
+		
+		enhancementList = EnhancementEnumHelper.deserialize(nbt.getString("enhancements"),EssenceAltarEnhancements.class);
 		
 		if (currentStage == STAGE_WORKING){
 			createActionHandler();
@@ -272,15 +287,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		if (sockets[socketId] != null){
 			worldObj.spawnEntityInWorld(createItem(this,sockets[socketId]));
 			sockets[socketId] = null;
-		}
-		else{
-			ItemStack is = player.inventory.getCurrentItem();
-			if (is == null)return;
-			else if (SocketManager.isValidSocketBlock(Block.getBlockFromItem(is.getItem()))){
-				sockets[socketId] = is.copy();
-				sockets[socketId].stackSize = 1;
-				if (!player.capabilities.isCreativeMode)--is.stackSize;
-			}
 		}
 		
 		synchronize();

@@ -14,6 +14,9 @@ import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.enhancements.SlotList.SlotType;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
+import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.system.util.CollectionUtil;
@@ -31,13 +34,28 @@ public final class EnhancementHandler{
 		);
 		
 		register(
+			new Item[]{ ItemList.spatial_dash_gem },
+			new EnhancementData(SpatialDashGemEnhancements.class, ItemList.spatial_dash_gem, p, p, i, i, i, i, p, p)
+		);
+		
+		register(
 			new Item[]{ ItemList.transference_gem },
-			new EnhancementData(TransferenceGemEnhancements.class, ItemList.transference_gem, p, p, p, i, p, p, p)
+			new EnhancementData(TransferenceGemEnhancements.class, ItemList.transference_gem, p, p, i, i, i, i, p, p)
 		);
 		
 		register(
 			new Item[]{ Item.getItemFromBlock(Blocks.tnt), Item.getItemFromBlock(BlockList.enhanced_tnt) },
 			new EnhancementData(TNTEnhancements.class, Item.getItemFromBlock(BlockList.enhanced_tnt), p, p, i, i, p, p)
+		);
+		
+		register(
+			new Item[]{ Item.getItemFromBlock(BlockList.essence_altar) },
+			new EnhancementData(EssenceAltarEnhancements.class, Item.getItemFromBlock(BlockList.essence_altar), p, p, i, i, i, p, p)
+		);
+		
+		register(
+			new Item[]{ Item.getItemFromBlock(BlockList.enhanced_brewing_stand), ItemList.enhanced_brewing_stand },
+			new EnhancementData(EnhancedBrewingStandEnhancements.class, ItemList.enhanced_brewing_stand, p, i, i, i, i, i, p)
 		);
 	}
 	
@@ -51,6 +69,16 @@ public final class EnhancementHandler{
 	
 	public static boolean canEnhanceBlock(Block block){
 		return itemMap.containsKey(Item.getItemFromBlock(block));
+	}
+	
+	public static List<IEnhancementEnum> getAllEnhancements(){
+		List<IEnhancementEnum> list = new ArrayList<IEnhancementEnum>();
+		
+		for(EnhancementData data:itemMap.values()){
+			for(IEnhancementEnum enhancement:data.valuesInterface)list.add(enhancement);
+		}
+		
+		return list;
 	}
 	
 	public static List<IEnhancementEnum> getEnhancementsForItem(Item item){
@@ -80,6 +108,10 @@ public final class EnhancementHandler{
 		}
 		
 		return enhancements;
+	}
+	
+	public static Item getEnhancementTransformation(ItemStack is){
+		return canEnhanceItem(is.getItem()) ? itemMap.get(is.getItem()).newItem : is.getItem();
 	}
 	
 	public static boolean hasEnhancement(ItemStack is, Enum enhancement){

@@ -17,6 +17,13 @@ ec.title.curses=Curses
 ec.title.dungeonPuzzle=Dungeon Puzzle
 ec.title.laboratory=Laboratory
 
+ec.title.enh.enderPearl=Ender Pearl Enhancements
+ec.title.enh.essenceAltar=Essence Altar Enhancements
+ec.title.enh.enhancedBrewingStand=Enhanced Brewing Stand Enhancements
+ec.title.enh.tnt=TNT Enhancements
+ec.title.enh.spatialDashGem=Spatial Dash Gem Enhancements
+ec.title.enh.transferenceGem=Transference Gem Enhancements
+
 ec.help.nonbuyable=The fragment has to be purchased elsewhere
 ec.help.requirements=Another fragment must be bought first
 
@@ -59,9 +66,6 @@ ec.reg.40=Core component of the Basic Essence Altar.
 
 ec.reg.51=Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.
 ec.reg.52=Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.
-ec.reg.53=Altars have 4 sockets for precious blocks in the corners. Some of the blocks give an effect and some boost used effects, one of each is required minimum.
-ec.reg.54=Redstone Block increases altar speed, Lapis Block improves range and Nether Quartz Block makes Essence usage lower.
-ec.reg.55=Iron Block has effect boost 1, Gold Block 3, Diamond Block 7 and Emerald Block 10.
 
 ec.reg.60=Tall black mobs that populate the End, and uncommonly spawn in the Overworld.
 ec.reg.61=Looking into their eyes or attacking them makes them aggroed.
@@ -89,7 +93,7 @@ ec.reg.104=When broken, it loses its ability to fall.
 
 ec.reg.110=Dragon Essence Altar infuses blocks and items with Dragon Essence.
 ec.reg.111=Infusion requires pedestals, which are up to 8 blocks of the same type placed close around the altar
-ec.reg.112=Using altar sockets to increase range allows up to 12 pedestals to be used.
+ec.reg.112=Enhancing the altar with Range enhancement allows up to 12 pedestals to be used.
 ec.reg.113=Tools, weapons and armor will quickly repair, and slowly improve enchantments and gain new enchantments.
 ec.reg.114=Some items will turn into different items when infused:
 
@@ -101,6 +105,7 @@ ec.reg.123=Fortune enchantment has an effect on the amount of End Powder dropped
 ec.reg.130=A Brewing Stand infused with Dragon Essence.
 ec.reg.131=The brewing speed depends on potion complexity, simple potions brew much faster than with regular Brewing Stand.
 ec.reg.132=Using Glowstone, Redstone and Gunpowder requires End Powder, but the potions can go over the limits of basic Brewing Stand.
+ec.reg.137=Most potions can be brewed up to tier III, or when enhanced with the Tier enhancement, they can go up to tier IV.
 ec.reg.133=It is required to brew special potions using Awkward Potion and another ingredient:
 
 ec.reg.150=Dragon Egg is created on top of the End Portal after killing the Ender Dragon.
@@ -109,10 +114,10 @@ ec.reg.152=The egg can be picked up by sneaking and hitting it with any sword.
 ec.reg.153=When destroyed, it teleports back to the End.
 
 ec.reg.160=Magical powder used to enhance items with special effects.
-ec.reg.161=Using the End Powder opens enhancement screen.
-ec.reg.162=Placing a block or item into the top slot opens all possible enhancements.
+ec.reg.161=Using the End Powder opens enhancement screen. Placing a block or item into the top slot opens all possible enhancements.
+ec.reg.162=Also, using the End Powder directly on an enhanceable block will let you enhance it remotely.
 ec.reg.163=Enhancing requires a specific amount of End Powder and ingredients of one type.
-ec.reg.164=The ingredient is unlocked by trying. Using an incorrect ingredient may destroy random items in the interface, but may also reveal the correct ingredient.
+ec.reg.164=The ingredient is unlocked by trying. Using an incorrect ingredient will destroy some of the End Powder, but may also reveal the correct ingredient.
 ec.reg.165=Different enhancements can be stacked together.
 ec.reg.166=End Powder applies enhancing effects to potions in Enhanced Brewing Stand.
 ec.reg.167=Applying End Powder to Death Flower partially reverts the effect of decaying.
@@ -395,9 +400,11 @@ ec.reg.563=Mine variation spawns Haunted Miners, which protect Resource Pits (ho
 
 ec.reg.570=Variation of End Stone found in the Burning Mountains Biome.
 
-ec.reg.580=Orange tulip found in the Burning Mountains (Scorching).
+ec.reg.582=Flameweed is a plant found commonly in the Burning Mountains Biome. In the Scorching variation, it is often more abundant near lava.
 
 ec.reg.590=Rock found in Burning Mountains (Scorching).
+
+ec.reg.580=Orange tulip found in the Burning Mountains (Scorching).
 
 ec.reg.900=Dungeon Puzzle is a structure found in Burning Mountains (Scorching). There is always a cave leading to the dungeon.
 ec.reg.901=Throwing Igneous Rock on plain puzzle blocks will start a chain reaction and destroy the rock.

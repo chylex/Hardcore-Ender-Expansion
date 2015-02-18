@@ -16,6 +16,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.gui.slots.SlotReadOnly;
+import chylex.hee.gui.slots.SlotShowCase;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
@@ -31,14 +32,16 @@ import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEndPowderEnhancements extends Container{
 	private EntityPlayerMP owner;
 	
 	public final IInventory containerInv;
 	public final IEnhanceableTile enhanceableTile;
-	public final Slot[] powderSlots = new Slot[6];
-	public final Slot[] ingredientSlots = new Slot[3];
+	public final Slot[] powderSlots = new Slot[8];
+	public final Slot[] ingredientSlots = new Slot[8];
 	
 	public final IInventory enhancementListInv;
 	public final ItemStack[] clientEnhancementItems = new ItemStack[7];
@@ -55,9 +58,9 @@ public class ContainerEndPowderEnhancements extends Container{
 		enhancementListInv = new InventoryBasic("",false,enhancementSlotX.length);
 		for(int a = 0; a < enhancementSlotX.length; a++)enhancementSlotX[a] = -3200;
 		
-		if (tileOptional != null){
-			addSlotToContainer(new SlotReadOnly(containerInv,0,80,17));
-			containerInv.setInventorySlotContents(0,tileOptional.createEnhancementDisplay());
+		if (isEnhancingTile()){
+			addSlotToContainer(new SlotShowCase(containerInv,0,80,17));
+			containerInv.setInventorySlotContents(0,tileOptional.createItemStack());
 			addSlotToContainer(new SlotReadOnly(containerInv,1,3200,17));
 		}
 		else{
@@ -117,7 +120,7 @@ public class ContainerEndPowderEnhancements extends Container{
 					shownIngredientSlots = slots.amountIngredient;
 				}
 				
-				if (EnhancementHandler.canEnhanceItem(is2.getItem()) && enhanceableTile == null){
+				if (EnhancementHandler.canEnhanceItem(is2.getItem()) && !isEnhancingTile()){
 					if (!mergeItemStack(is2,0,1,false))return null;
 				}
 				else if (shownPowderSlots > 0 && is2.getItem() == ItemList.end_powder){
@@ -140,11 +143,18 @@ public class ContainerEndPowderEnhancements extends Container{
 	public void onContainerClosed(EntityPlayer player){
 		super.onContainerClosed(player);
 		
-		for(int a = enhanceableTile == null ? 0 : 1; a < containerInv.getSizeInventory(); a++){
+		for(int a = isEnhancingTile() ? 1 : 0; a < containerInv.getSizeInventory(); a++){
 			if (containerInv.getStackInSlot(a) != null){
 				player.dropPlayerItemWithRandomChoice(containerInv.getStackInSlot(a),false);
 			}
 		}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+    public void putStacksInSlots(ItemStack[] items){
+		super.putStacksInSlots(items);
+		if (isEnhancingTile())onSubjectChanged();
 	}
 	
 	public void updateClientItems(){
@@ -253,11 +263,15 @@ public class ContainerEndPowderEnhancements extends Container{
 				
 				if (owner != null){
 					enhancement.onEnhanced(newIS,owner);
-					if (enhanceableTile != null)enhanceableTile.loadEnhancementsFromItem(newIS);
+					
+					if (isEnhancingTile()){
+						enhanceableTile.getEnhancements().clear();
+						enhanceableTile.getEnhancements().addAll(EnhancementHandler.getEnhancements(newIS));
+					}
 				}
 				
-				containerInv.setInventorySlotContents(1,newIS);
-				if ((mainIS.stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(0,null);
+				containerInv.setInventorySlotContents(isEnhancingTile() ? 0 : 1,newIS);
+				if (!isEnhancingTile() && (mainIS.stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(0,null);
 
 				for(int a = 0; a < slots.amountPowder; a++){
 					if ((powderSlots[a].getStack().stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(2+a,null);
@@ -267,7 +281,7 @@ public class ContainerEndPowderEnhancements extends Container{
 					if ((ingredientSlots[a].getStack().stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(2+powderSlots.length+a,null);
 				}
 				
-				if (getSlot(0).getStack() == null)onSubjectChanged();
+				if (isEnhancingTile() || getSlot(0).getStack() == null)onSubjectChanged();
 				
 				if (CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement))){
 					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
@@ -275,7 +289,7 @@ public class ContainerEndPowderEnhancements extends Container{
 				
 				PacketPipeline.sendToPlayer(owner,new C08PlaySound(C08PlaySound.EXP_ORB,owner.posX,owner.posY,owner.posZ,1F,1F));
 			}
-			else if (owner != null){ // TRY BREAK SOME POWDER AND INGREDIENTS
+			else if (owner != null){ // TRY BREAK SOME POWDER
 				for(int a = 0; a < slots.amountPowder; a++){
 					if (powderSlots[a].getStack() == null)return;
 				}
@@ -285,15 +299,11 @@ public class ContainerEndPowderEnhancements extends Container{
 				}
 				
 				Random rand = owner.worldObj.rand;
-				int powderBroken = 1, ingredientsBroken = 0;
+				int powderBroken = 1;
 				
 				if (slots.amountPowder > 2){
 					float add = (rand.nextFloat()+rand.nextFloat())*0.49F*(slots.amountPowder-1);
 					powderBroken += rand.nextBoolean() ? MathUtil.floor(add) : MathUtil.ceil(add);
-				}
-				
-				if (rand.nextInt(5) == 0 && powderBroken < slots.amountPowder){
-					ingredientsBroken = slots.amountIngredient == 1 ? 1 : 1+Math.min(slots.amountIngredient-1,MathUtil.floor((rand.nextFloat()+0.25F)*(slots.amountIngredient-1)));
 				}
 				
 				int index;
@@ -304,14 +314,7 @@ public class ContainerEndPowderEnhancements extends Container{
 					}
 				}
 				
-				while(ingredientsBroken > 0){
-					if (ingredientSlots[index = rand.nextInt(slots.amountIngredient)].getStack() != null){
-						if (--ingredientSlots[index].getStack().stackSize <= 0)containerInv.setInventorySlotContents(2+powderSlots.length+index,null);
-						--ingredientsBroken;
-					}
-				}
-				
-				if (rand.nextInt(ingredientsBroken > 0 ? 4 : 6) == 0){
+				if (rand.nextInt(4+((slots.amountPowder+slots.amountIngredient)>>1)) == 0){
 					CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement));
 					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
 				}
@@ -348,5 +351,9 @@ public class ContainerEndPowderEnhancements extends Container{
 			
 			build.setLength(0);
 		}
+	}
+	
+	public boolean isEnhancingTile(){
+		return enhanceableTile != null;
 	}
 }

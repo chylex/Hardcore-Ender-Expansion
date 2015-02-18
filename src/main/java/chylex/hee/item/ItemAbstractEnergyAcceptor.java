@@ -22,6 +22,7 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 	public abstract boolean canAcceptEnergy(ItemStack is);
 	public abstract void onEnergyAccepted(ItemStack is);
 	public abstract int getEnergyPerUse(ItemStack is);
+	protected abstract float getRegenSpeedMultiplier();
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
@@ -70,13 +71,13 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 		}
 		
 		if (world.provider.getDimensionId() == 1){
-			byte timer = nbt.getByte("engRgnTim");
+			short timer = nbt.getShort("engRgnTim");
 			
-			if (++timer <= 42+world.rand.nextInt(20)){
-				nbt.setByte("engRgnTim",timer);
+			if (++timer <= (42+world.rand.nextInt(20))/getRegenSpeedMultiplier()){
+				nbt.setShort("engRgnTim",timer);
 				return;
 			}
-			else nbt.setByte("engRgnTim",(byte)0);
+			else nbt.setShort("engRgnTim",(short)0);
 			
 			EnergyChunkData chunk = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,(int)entity.posX,(int)entity.posZ,true);
 			if (chunk.drainEnergyUnit())onEnergyAccepted(is);

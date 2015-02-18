@@ -2,7 +2,6 @@ package chylex.hee.item.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -12,7 +11,7 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
-public class ItemBlockEssenceAltar extends ItemBlock{
+public class ItemBlockEssenceAltar extends ItemBlockEnhanceableTile{
 	public ItemBlockEssenceAltar(Block block){
 		super(block);
 		setHasSubtypes(true);

@@ -1,27 +1,26 @@
 package chylex.hee.mechanics.enhancements.types;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
 
-public enum TransferenceGemEnhancements implements IEnhancementEnum{
-	CAPACITY(new SimpleItemSelector(ItemList.endium_ingot)),
-	TOUCH(new SimpleItemSelector(Items.leather)),
-	BEAST(new SimpleItemSelector(ItemList.ectoplasm));
+public enum EssenceAltarEnhancements implements IEnhancementEnum{
+	RANGE(new SimpleItemSelector(Blocks.lapis_block)),
+	SPEED(new SimpleItemSelector(Blocks.redstone_block)),
+	EFFICIENCY(new SimpleItemSelector(Blocks.emerald_block));
 	
 	private final String name;
-	public final IRepresentativeItemSelector itemSelector;
+	private IRepresentativeItemSelector itemSelector;
 	
-	private TransferenceGemEnhancements(IRepresentativeItemSelector itemSelector){
-		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.GRAY);
+	EssenceAltarEnhancements(IRepresentativeItemSelector itemSelector){
+		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.GREEN);
 		this.itemSelector = itemSelector;
 	}
-
+	
 	@Override
 	public String getName(){
 		return name;
@@ -31,7 +30,7 @@ public enum TransferenceGemEnhancements implements IEnhancementEnum{
 	public IRepresentativeItemSelector getItemSelector(){
 		return itemSelector;
 	}
-	
+
 	@Override
 	public void onEnhanced(ItemStack is, EntityPlayer player){}
 }

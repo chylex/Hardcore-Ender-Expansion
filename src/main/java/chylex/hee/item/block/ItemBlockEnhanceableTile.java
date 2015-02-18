@@ -26,10 +26,21 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 		
 		if (super.placeBlockAt(is,player,world,pos,side,hitX,hitY,hitZ,state)){
 			IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
-			if (tile != null)tile.loadEnhancementsFromItem(isCopy);
+			
+			if (tile != null){
+				tile.getEnhancements().clear();
+				tile.getEnhancements().addAll(EnhancementHandler.getEnhancements(is));
+			}
+			
 			return true;
 		}
 		else return false;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack is, int pass){
+		return true;
 	}
 	
 	@Override

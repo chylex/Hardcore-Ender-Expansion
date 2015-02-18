@@ -20,6 +20,7 @@ import chylex.hee.world.structure.island.biome.feature.island.StructureHiddenCel
 import chylex.hee.world.structure.island.biome.feature.island.StructureHiddenCellar.EnchantedIslandVariation;
 import chylex.hee.world.structure.island.biome.feature.island.StructureLaboratory;
 import chylex.hee.world.structure.island.biome.feature.island.StructureObsidianRoad;
+import chylex.hee.world.structure.island.biome.feature.island.StructureShadowOrchid;
 
 public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	@Override
@@ -31,6 +32,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	private final StructureObsidianRoad genRoads = new StructureObsidianRoad();
 	private final StructureHiddenCellar genCellar = new StructureHiddenCellar();
 	private final StructureLaboratory genLaboratory = new StructureLaboratory();
+	private final StructureShadowOrchid genShadowOrchid = new StructureShadowOrchid();
 	
 	/*
 	 * HOMELAND
@@ -90,6 +92,11 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		// OBSIDIAN ROADS
 		for(int attempt = 0, placed = 0, placedMax = 8+rand.nextInt(5); attempt < 36 && placed < placedMax; attempt++){
 			if (generateStructure(genRoads))++placed;
+		}
+		
+		// SHADOW ORCHID
+		for(int attempt = 0; attempt < 250; attempt++){
+			if (generateStructure(genShadowOrchid))++attempt;
 		}
 		
 		// HOMELAND CACHE
@@ -215,6 +222,11 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 				
 				break;
 			}
+		}
+		
+		// SHADOW ORCHID
+		for(int attempt = 0; attempt < 200; attempt++){
+			if (generateStructure(genShadowOrchid) || rand.nextBoolean())++attempt;
 		}
 	}
 }

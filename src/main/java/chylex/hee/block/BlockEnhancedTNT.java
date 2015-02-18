@@ -23,7 +23,7 @@ import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
 
-public class BlockEnhancedTNT extends BlockContainer{
+public class BlockEnhancedTNT extends BlockAbstractEnhanceable{
 	public BlockEnhancedTNT(){
 		super(Material.tnt);
 	}

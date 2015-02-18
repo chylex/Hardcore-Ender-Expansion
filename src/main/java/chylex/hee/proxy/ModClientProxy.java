@@ -212,7 +212,7 @@ public class ModClientProxy extends ModCommonProxy{
 		AchievementManager.ENDER_COMPENDIUM.setStatStringFormatter(new IStatStringFormat(){
 			@Override
 			public String formatString(String str){
-				if (hardcoreEnderbacon)str = StatCollector.translateToLocal("achievement.theMoreYouKnow.desc.bacon");
+				if (hardcoreEnderbacon)str = StatCollector.translateToLocal("achievement.enderCompendium.desc.bacon");
 				
 				try{
 					return String.format(str,GameSettings.getKeyDisplayString(CompendiumEventsClient.getCompendiumKeyCode()));

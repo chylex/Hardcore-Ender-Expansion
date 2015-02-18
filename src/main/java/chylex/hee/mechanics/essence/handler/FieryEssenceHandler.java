@@ -1,5 +1,5 @@
 package chylex.hee.mechanics.essence.handler;
-import static chylex.hee.mechanics.essence.SocketManager.*;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -25,19 +25,17 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	
 	@Override
 	public void onUpdate(){
+		List<Enum> enhancementList = altar.getEnhancements();
 		World world = altar.getWorld();
 		int level = altar.getEssenceLevel();
 		int n = 35+Math.min(60,level>>3);
 		boolean drained = false;
 		
-		byte socketEffects = getSocketEffects(altar), socketBoost = getSocketBoost(altar);
-		
-		int range = 12+((socketEffects&EFFECT_RANGE_INCREASE) == EFFECT_RANGE_INCREASE ? MathUtil.floor(Math.sqrt(socketBoost*3D))*2 : 0);
+		int range = enhancementList.contains(EssenceAltarEnhancements.RANGE) ? 16 : 12;
 		n += (range-12)*2;
 		
-		if ((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST)n += socketBoost*3;
-		
-		BlockPosM pos = new BlockPosM();
+		boolean hasSpeedEnh = enhancementList.contains(EssenceAltarEnhancements.SPEED);
+		if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
 		
 		for(int a = 0; a < n; a++){
 			pos.moveTo(altar.getPos()).moveBy(world.rand.nextInt(1+range)-(range>>1),world.rand.nextInt(5)-2,world.rand.nextInt(1+range)-(range>>1));
@@ -50,7 +48,9 @@ public class FieryEssenceHandler extends AltarActionHandler{
 				TileEntityFurnace furnace = (TileEntityFurnace)tile;
 				
 				if (furnace != null && furnace.isBurning() && canFurnaceSmelt(furnace)){
-					n = 1+Math.min(8,level>>6)+((socketEffects&EFFECT_SPEED_BOOST) == EFFECT_SPEED_BOOST ? (socketBoost>>2) : 0);
+					n = 1+Math.min(8,level>>6);
+					if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
+					
 					for(int b = 0; b < n; b++){
 						if (furnace.getField(0) < 199){
 							furnace.setField(0,furnace.getField(0)+1);
@@ -72,6 +72,8 @@ public class FieryEssenceHandler extends AltarActionHandler{
 				
 				if (stand != null && stand.getField(0) > 1 && stand.getField(0) != 400){
 					n = 1+Math.min(5,level>>6);
+					if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
+					
 					for(int b = 0; b < n; b++){
 						stand.update();
 						
@@ -87,6 +89,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 			else if (tile instanceof IAcceptFieryEssence){
 				IAcceptFieryEssence acceptor = (IAcceptFieryEssence)tile;
 				n = acceptor.getBoostAmount(level);
+				// TODO boost speed?
 				
 				for(int b = 0; b < n; b++){
 					acceptor.boost();
@@ -101,7 +104,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	}
 	
 	private boolean tryDrainEssence(){
-		if (++essenceUsageCounter > 60+((getSocketEffects(altar)&EFFECT_LOWER_COST) == EFFECT_LOWER_COST ? 3+MathUtil.floor(getSocketBoost(altar)*0.7D) : 0)){
+		if (++essenceUsageCounter > (altar.getEnhancements().contains(EssenceAltarEnhancements.EFFICIENCY) ? 80 : 60)){
 			essenceUsageCounter = 0;
 			altar.drainEssence(1);
 			return true;

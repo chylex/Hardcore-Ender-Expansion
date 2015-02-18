@@ -27,7 +27,7 @@ import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 
 public class BlockCrossedDecoration extends BlockBush implements IShearable, IBlockSubtypes{
-	public enum Variant{ UNUSED_1, UNUSED_2, THORN_BUSH, INFESTED_GRASS, INFESTED_FERN, INFESTED_TALL_GRASS, LILYFIRE, VIOLET_MOSS_TALL, VIOLET_MOSS_MODERATE, VIOLET_MOSS_SHORT }
+	public enum Variant{ UNUSED_1, UNUSED_2, THORN_BUSH, INFESTED_GRASS, INFESTED_FERN, INFESTED_TALL_GRASS, LILYFIRE, VIOLET_MOSS_TALL, VIOLET_MOSS_MODERATE, VIOLET_MOSS_SHORT, FLAMEWEED_1, FLAMEWEED_2, FLAMEWEED_3, SHADOW_ORCHID }
 	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
 	
 	public static IBlockState createState(Variant variant){
@@ -71,9 +71,7 @@ public class BlockCrossedDecoration extends BlockBush implements IShearable, IBl
 	
 	@Override
 	public ArrayList<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune){
-		ArrayList<ItemStack> ret = new ArrayList<>();
-		if (state.getValue(VARIANT) == Variant.LILYFIRE)ret.add(new ItemStack(this,1,getMetaFromState(state)));
-		return ret;
+		return state.getValue(VARIANT) == Variant.LILYFIRE ? CollectionUtil.newList(new ItemStack(this,1,getMetaFromState(state))) : new ArrayList<ItemStack>();
 	}
 	
 	@Override
@@ -89,15 +87,13 @@ public class BlockCrossedDecoration extends BlockBush implements IShearable, IBl
 	}
 
 	@Override
-	public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, BlockPos pos, int fortune){
-		ArrayList<ItemStack> ret = new ArrayList<>();
-		ret.add(new ItemStack(this,1,getMetaFromState(world.getBlockState(pos))));
-		return ret;
+	public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, int x, int y, int z, int fortune){
+		return CollectionUtil.newList(new ItemStack(this,1,getMetaFromState(world.getBlockState(x,y,z))));
 	}
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity){
-		if (state.getValue(VARIANT) == Variant.THORN_BUSH){
+		if (!world.isRemote && state.getValue(VARIANT) == Variant.THORN_BUSH){
 			entity.attackEntityFrom(DamageSource.generic,1F);
 			
 			if (world.rand.nextInt(80) == 0 && entity instanceof EntityLivingBase && !((EntityLivingBase)entity).isPotionActive(Potion.poison)){
@@ -117,6 +113,8 @@ public class BlockCrossedDecoration extends BlockBush implements IShearable, IBl
 			case VIOLET_MOSS_TALL: return "tile.crossedDecoration.violetMoss.tall";
 			case VIOLET_MOSS_MODERATE: return "tile.crossedDecoration.violetMoss.moderate";
 			case VIOLET_MOSS_SHORT: return "tile.crossedDecoration.violetMoss.short";
+			case FLAMEWEED_1: case FLAMEWEED_2: case FLAMEWEED_3: return "tile.crossedDecoration.flameweed";
+			case SHADOW_ORCHID: return "tile.crossedDecoration.shadowOrchid";
 			default: return "";
 		}
 	}

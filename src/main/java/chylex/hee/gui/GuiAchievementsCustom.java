@@ -21,6 +21,8 @@ import chylex.hee.system.util.MathUtil;
 public class GuiAchievementsCustom extends GuiAchievements{
 	private GuiButton nextPageButton;
 	private AchievementPage achievements;
+	private boolean isLoaded;
+	private byte screenType; // 0 = achievements, 1 = challenges
 	
 	public GuiAchievementsCustom(GuiScreen parent, StatFileWriter statWriter){
 		super(parent,new ShowAllReadStatFile(statWriter));
@@ -33,20 +35,56 @@ public class GuiAchievementsCustom extends GuiAchievements{
 		for(Iterator<GuiButton> iter = buttonList.iterator(); iter.hasNext();){
 			GuiButton btn = iter.next();
 			
-			if (btn.id == 1){
-				btn.width = 120;
-				btn.xPosition = (width>>1)-(btn.width>>1);
-			}
-			else if (btn.id == 2){
+			if (btn.id == 2){
 				nextPageButton = btn;
 				iter.remove();
+				break;
 			}
+		}
+		
+		buttonList.add(new GuiButton(10,(width-field_146555_f)/2+24,height/2+74,125,20,I18n.format("achievement.viewChallenges")));
+	}
+	
+	private void loadPage(){
+		String str = screenType == 0 ? AchievementManager.achievementScreenName : AchievementManager.challengeScreenName;
+		
+		for(int a = 0; a < AchievementPage.getAchievementPages().size(); a++){
+			actionPerformed(nextPageButton);
+			
+			if (nextPageButton.displayString.equals(str)){
+				achievements = AchievementPage.getAchievementPage(str);
+				break;
+			}
+		}
+		
+		if (screenType == 0){
+			field_146565_w = field_146569_s = field_146567_u = AchievementList.openInventory.displayColumn*24-82;
+			field_146573_x = field_146568_t = field_146566_v = AchievementList.openInventory.displayRow*24-82;
+		}
+		else if (screenType == 1){
+			field_146565_w = field_146569_s = field_146567_u = AchievementList.openInventory.displayColumn*24-118;
+			field_146573_x = field_146568_t = field_146566_v = AchievementList.openInventory.displayRow*24-94;
 		}
 	}
 	
 	@Override
+	protected void actionPerformed(GuiButton button){
+		if (button.id == 10 && isLoaded){
+			if (++screenType == 2)screenType = 0;
+			button.displayString = I18n.format(screenType == 0 ? "achievement.viewChallenges" : "achievement.viewAchievements");
+			loadPage();
+		}
+		else super.actionPerformed(button);
+	}
+	
+	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId) throws IOException{
-		if (buttonId == 0 && achievements != null){
+		if (buttonId == 0 && achievements != null && screenType == 0){
+			if (mouseX < width/2-113 || mouseX > width/2+113 || mouseY < height/2-84 || mouseY > height/2+68){
+				super.mouseClicked(mouseX,mouseY,buttonId);
+				return;
+			}
+			
 			int offsetX = MathUtil.clamp(MathUtil.floor(field_146567_u),AchievementList.minDisplayColumn*24-112,AchievementList.maxDisplayColumn*24-78); // OBFUSCATED viewportX
 			int offsetY = MathUtil.clamp(MathUtil.floor(field_146566_v),AchievementList.minDisplayRow*24-112,AchievementList.maxDisplayRow*24-78); // OBFUSCATED viewportY
 			
@@ -73,17 +111,30 @@ public class GuiAchievementsCustom extends GuiAchievements{
 	@Override
 	public void doneLoading(){
 		super.doneLoading();
-		
-		for(int a = 0; a < AchievementPage.getAchievementPages().size(); a++){
-			try{
-				actionPerformed(nextPageButton);
-			}catch(IOException e){}
+		loadPage();
+		isLoaded = true;
+	}
+
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTickTime){
+		if (isLoaded){
+			int wheel = Mouse.getDWheel();
+			float prevScale = field_146570_r;
 			
-			if (nextPageButton.displayString.equals(AchievementManager.achievementScreenName)){
-				achievements = AchievementPage.getAchievementPage(AchievementManager.achievementScreenName);
-				break;
+			if (wheel < 0)field_146570_r += 0.5F;
+			else if (wheel > 0)field_146570_r -= 0.5F;
+			
+			field_146570_r = MathUtil.clamp(field_146570_r,1F,2F);
+	
+			if (field_146570_r != prevScale){
+				field_146567_u -= ((field_146570_r*field_146555_f)-(prevScale*field_146555_f))*0.5F;
+				field_146566_v -= ((field_146570_r*field_146557_g)-(prevScale*field_146557_g))*0.5F;
+				field_146565_w = field_146569_s = field_146567_u;
+				field_146573_x = field_146568_t = field_146566_v;
 			}
 		}
+		
+		super.drawScreen(mouseX,mouseY,partialTickTime);
 	}
 	
 	static final class ShowAllReadStatFile extends StatFileWriter{

@@ -25,6 +25,11 @@ import chylex.hee.system.achievements.AchievementManager;
 
 public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements IMultiModel{
 	@Override
+	public int getMaxDamage(ItemStack is){
+		return EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.CAPACITY) ? MathUtil.ceil(1.5F*super.getMaxDamage(is)) : super.getMaxDamage(is);
+	}
+	
+	@Override
 	public boolean canAcceptEnergy(ItemStack is){
 		return is.getItemDamage() > 0;
 	}
@@ -36,7 +41,24 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 	
 	@Override
 	public int getEnergyPerUse(ItemStack is){
-		return 2;
+		return 3;
+	}
+	
+	@Override
+	protected float getRegenSpeedMultiplier(){
+		return 0.06F;
+	}
+	
+	@Override
+	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
+		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown")){
+			byte cooldown = is.stackTagCompound.getByte("cooldown");
+			
+			if (--cooldown <= 0)is.stackTagCompound.removeTag("cooldown");
+			else is.stackTagCompound.setByte("cooldown",cooldown);
+		}
+		
+		super.onUpdate(is,world,entity,slot,isHeld);
 	}
 	
 	@Override
@@ -58,12 +80,20 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 	}
 	
 	@Override
+    public boolean itemInteractionForEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity){
+		if (entity instanceof IBossDisplayData || !EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.BEAST) || player.isSneaking())return false;
+		tryTeleportEntity(is,player,entity);
+		return true;
+	}
+	
+	@Override
 	public void onCreated(ItemStack is, World world, EntityPlayer player){
 		player.addStat(AchievementManager.TRANSFERENCE_GEM,1);
 	}
 	
 	public ItemStack tryTeleportEntity(ItemStack is, EntityPlayer player, Entity entity){
 		if (entity.isRiding() || entity.riddenByEntity != null)return is;
+		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown"))return is;
 		
 		GemData gemData = GemData.loadFromItemStack(is);
 		
@@ -86,20 +116,21 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 				GemSideEffects.performRandomEffect(entity,percBroken);
 			}
 			
-			if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.HEAL) && isLiving){
-				EntityLivingBase e = (EntityLivingBase)entity;
-				e.addPotionEffect(new PotionEffect(Potion.regeneration.id,120,1,true,false));
-				e.addPotionEffect(new PotionEffect(Potion.saturation.id,1,0,true,false));
-				e.extinguish();
-			}
-
+			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+			is.stackTagCompound.setByte("cooldown",(byte)50);
+			
 			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
 		}
 		
 		return is;
 	}
 	
-	@SuppressWarnings("unchecked")
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack is, int pass){
+		return is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown") ? (192<<16|192<<8|192) : super.getColorFromItemStack(is,pass);
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){

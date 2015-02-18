@@ -132,6 +132,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (currentObject == KnowledgeRegistrations.HELP)btnHelp.forcedHover = true;
 		
 		offsetY.set(0);
+		
+		updatePurchaseElements();
 	}
 	
 	@Override
@@ -172,7 +174,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId) throws IOException{
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(2));
-		else if (buttonId == 0){
+		else if (buttonId == 0 && !(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
 			int offY = (int)offsetY.value();
 			
 			for(CategoryDisplayElement element:categoryElements){
@@ -335,10 +337,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			return;
 		}
 		
-		if (!compendiumData.hasDiscoveredObject(currentObject)){
-			if (currentObject.isBuyable())purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumData.getPoints() >= currentObject.getUnlockPrice() ? FragmentPurchaseStatus.CAN_PURCHASE : FragmentPurchaseStatus.NOT_ENOUGH_POINTS));
-		}
-		else updatePurchaseElements();
+		updatePurchaseElements();
 	}
 	
 	public void moveToCurrentObject(boolean animate){
@@ -360,6 +359,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		purchaseElements.clear();
 		
 		if (currentObject != null){
+			if (!compendiumData.hasDiscoveredObject(currentObject)){
+				if (currentObject.isBuyable())purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumData.getPoints() >= currentObject.getUnlockPrice() ? FragmentPurchaseStatus.CAN_PURCHASE : FragmentPurchaseStatus.NOT_ENOUGH_POINTS));
+				return;
+			}
+			
 			int yy = ((this.height-guiPageTexHeight)>>1)+guiPageTop, height;
 			
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
@@ -407,15 +411,17 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
 		
-		for(CategoryDisplayElement element:categoryElements){
-			if (element.isMouseOver(mouseX,mouseY,(int)offY)){
-				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.category.getTooltip());
+		if (!(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
+			for(CategoryDisplayElement element:categoryElements){
+				if (element.isMouseOver(mouseX,mouseY,(int)offY)){
+					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.category.getTooltip());
+				}
 			}
-		}
-		
-		for(ObjectDisplayElement element:objectElements){
-			if (element.isMouseOver(mouseX,mouseY,(int)offY)){
-				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.object.getTooltip());
+			
+			for(ObjectDisplayElement element:objectElements){
+				if (element.isMouseOver(mouseX,mouseY,(int)offY)){
+					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.object.getTooltip());
+				}
 			}
 		}
 

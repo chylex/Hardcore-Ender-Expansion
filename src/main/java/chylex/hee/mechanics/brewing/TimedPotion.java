@@ -6,12 +6,12 @@ import net.minecraft.potion.PotionEffect;
 public class TimedPotion extends AbstractPotionData{
 	protected int startDuration,maxDuration,durationStep;
 	
-	public TimedPotion(Potion potion, int requiredDamageValue, int damageValue, int maxLevel, int startDuration, int maxDuration){
-		this(potion,requiredDamageValue,damageValue,maxLevel,startDuration,maxDuration,45);
+	public TimedPotion(Potion potion, int requiredDamageValue, int damageValue, int maxLevel, int maxLevelEnhanced, int startDuration, int maxDuration){
+		this(potion,requiredDamageValue,damageValue,maxLevel,maxLevelEnhanced,startDuration,maxDuration,45);
 	}
 	
-	public TimedPotion(Potion potion, int requiredDamageValue, int damageValue, int maxLevel, int startDuration, int maxDuration, int durationStep){
-		super(potion,requiredDamageValue,damageValue,maxLevel);
+	public TimedPotion(Potion potion, int requiredDamageValue, int damageValue, int maxLevel, int maxLevelEnhanced, int startDuration, int maxDuration, int durationStep){
+		super(potion,requiredDamageValue,damageValue,maxLevel,maxLevelEnhanced);
 		this.startDuration = startDuration*20;
 		this.maxDuration = maxDuration*20;
 		this.durationStep = durationStep*20;

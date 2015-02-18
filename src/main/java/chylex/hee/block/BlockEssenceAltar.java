@@ -32,7 +32,11 @@ public class BlockEssenceAltar extends BlockAbstractContainerStateEnum{
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
 		if (world.isRemote)return true;
 		
+		ItemStack held = player.getHeldItem();
+		if (held != null && held.getItem() == ItemList.end_powder)return false;
+		
 		TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(pos);
+		
 		if (altar != null){
 			if (side == EnumFacing.UP){
 				if (hitX >= hitCenter1-hitDist && hitX <= hitCenter1+hitDist && hitZ >= hitCenter1-hitDist && hitZ <= hitCenter1+hitDist)altar.onSocketClick(player,3);

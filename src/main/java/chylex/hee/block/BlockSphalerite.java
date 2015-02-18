@@ -33,12 +33,7 @@ public class BlockSphalerite extends BlockAbstractStateEnum implements IBlockSub
 	
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune){
-		if (state.getValue(VARIANT) == Variant.STARDUST){
-			ArrayList<ItemStack> items = new ArrayList<>();
-			items.add(new ItemStack(BlockList.sphalerite,1,0));
-			items.add(new ItemStack(ItemList.stardust,1+BlockList.blockRandom.nextInt(3+MathUtil.ceil(fortune*0.49D)),0));
-			return items;
-		}
+		if (state.getValue(VARIANT) == Variant.STARDUST)return CollectionUtil.newList(new ItemStack(BlockList.sphalerite,1,0),new ItemStack(ItemList.stardust,1+BlockList.blockRandom.nextInt(3+MathUtil.ceil(fortune*0.49D)),0)));
 		else return super.getDrops(world,pos,state,fortune);
 	}
 

@@ -6,10 +6,10 @@ import net.minecraft.item.ItemStack;
 public interface IItemSelector{
 	boolean isValid(ItemStack is);
 	
-	static interface IRepresentativeItemSelector extends IItemSelector{
+	public static interface IRepresentativeItemSelector extends IItemSelector{
 		ItemStack getRepresentativeItem();
 		
-		static class SimpleItemSelector implements IRepresentativeItemSelector{
+		public static class SimpleItemSelector implements IRepresentativeItemSelector{
 			private final Item item;
 			
 			public SimpleItemSelector(Block block){
@@ -28,6 +28,24 @@ public interface IItemSelector{
 			@Override
 			public ItemStack getRepresentativeItem(){
 				return new ItemStack(item);
+			}
+		}
+		
+		public static class ItemStackSelector implements IRepresentativeItemSelector{
+			private final ItemStack is;
+			
+			public ItemStackSelector(ItemStack is){
+				this.is = is;
+			}
+			
+			@Override
+			public boolean isValid(ItemStack is){
+				return ItemStack.areItemStacksEqual(this.is,is);
+			}
+			
+			@Override
+			public ItemStack getRepresentativeItem(){
+				return is;
 			}
 		}
 	}

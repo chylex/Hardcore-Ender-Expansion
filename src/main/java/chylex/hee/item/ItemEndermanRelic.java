@@ -35,6 +35,11 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
+	protected float getRegenSpeedMultiplier(){
+		return 1F;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack is){
 		return EnumRarity.UNCOMMON;

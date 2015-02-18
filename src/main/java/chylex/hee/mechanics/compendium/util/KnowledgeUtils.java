@@ -79,5 +79,14 @@ public final class KnowledgeUtils{
 		return fragments.toArray(new KnowledgeFragment[fragments.size()]);
 	}
 	
+	public static KnowledgeFragment[] createEnhancementFragments(Class<? extends Enum> enhancementCls, int startID, int points, int maxUsedIDs, int[] requiredFragments){
+		Enum[] enums = enhancementCls.getEnumConstants();
+		if (enums.length > maxUsedIDs)throw new RuntimeException("Enhancement "+enhancementCls.getName()+" exceeds fragment ID limit ("+maxUsedIDs+").");
+		
+		KnowledgeFragment[] fragments = new KnowledgeFragment[enums.length];
+		for(int a = 0; a < enums.length; a++)fragments[a] = new KnowledgeFragmentEnhancement(startID+a).setEnhancement((IEnhancementEnum)enums[a]).setPrice(points).setUnlockRequirements(requiredFragments);
+		return fragments;
+	}
+	
 	private KnowledgeUtils(){}
 }

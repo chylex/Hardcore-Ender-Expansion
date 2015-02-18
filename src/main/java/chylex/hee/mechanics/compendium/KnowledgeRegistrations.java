@@ -78,15 +78,20 @@ public final class KnowledgeRegistrations{
 		DRAGON_ESSENCE_ALTAR = create(BlockList.essence_altar.setProperty(EssenceType.DRAGON)),
 		END_POWDER_ORE = create(BlockList.end_powder_ore),
 		ENHANCED_BREWING_STAND = create(ItemList.enhanced_brewing_stand),
-		ENHANCED_TNT = create(BlockList.enhanced_tnt),
 		DRAGON_EGG = create(Blocks.dragon_egg),
 		DRAGON_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,EssenceType.DRAGON.getItemDamage()),"ec.title.essence"),
 		END_POWDER = create(ItemList.end_powder),
-		ENHANCED_ENDER_PEARL = create(ItemList.enhanced_ender_pearl),
 		TEMPLE_CALLER = create(ItemList.temple_caller),
 		ENDER_DRAGON = new KnowledgeObject<ObjectMob>(new ObjectMob(EntityBossDragon.class),new ItemStack(Blocks.dragon_egg),"ec.title.enderDragon"),
 		ANGRY_ENDERMAN = create(EntityMobAngryEnderman.class),
 		VAMPIRE_BAT = create(EntityMobVampiricBat.class),
+		
+		ENDER_PEARL_ENHANCEMENTS = dummy("Enhancements.EnderPearl",new ItemStack(Items.ender_pearl),"ec.title.enh.enderPearl"),
+		ESSENCE_ALTAR_ENHANCEMENTS = dummy("Enhancements.EssenceAltar",new ItemStack(BlockList.essence_altar),"ec.title.enh.essenceAltar"),
+		ENHANCED_BREWING_STAND_ENHANCEMENTS = dummy("Enhancements.EnhancedBrewingStand",new ItemStack(ItemList.enhanced_brewing_stand),"ec.title.enh.enhancedBrewingStand"),
+		TNT_ENHANCEMENTS = dummy("Enhancements.TNT",new ItemStack(Blocks.tnt),"ec.title.enh.tnt"),
+		SPATIAL_DASH_GEM_ENHANCEMENTS = dummy("Enhancements.SpatialDashGem",new ItemStack(ItemList.spatial_dash_gem),"ec.title.enh.spatialDashGem"),
+		TRANSFERENCE_GEM_ENHANCEMENTS = dummy("Enhancements.TransferenceGem",new ItemStack(ItemList.transference_gem),"ec.title.enh.transferenceGem"),
 		
 		// ===
 		
@@ -175,11 +180,14 @@ public final class KnowledgeRegistrations{
 		
 		BURNING_MOUNTAINS_BIOME = dummy("BurningMountains",new ItemStack(BlockList.end_terrain,1,BlockEndstoneTerrain.Variant.BURNED.ordinal()),"ec.title.biome.burningMountains"),
 		BURNED_END_STONE = create(BlockList.end_terrain.setProperty(BlockEndstoneTerrain.Variant.BURNED)),
-		LILYFIRE = create(BlockCrossedDecoration.createState(BlockCrossedDecoration.Variant.LILYFIRE)),
+		FLAMEWEED_1 = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataFlameweed1),
+		FLAMEWEED_2 = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataFlameweed2),
+		FLAMEWEED_3 = create(BlockList.crossed_decoration,BlockCrossedDecoration.dataFlameweed3),
 		IGNEOUS_ROCK_ORE_LINKED = link(IGNEOUS_ROCK_ORE),
 		IGNEOUS_ROCK_LINKED = link(IGNEOUS_ROCK),
 		
 		CINDER = create(BlockList.cinder),
+		LILYFIRE = create(BlockCrossedDecoration.createState(BlockCrossedDecoration.Variant.LILYFIRE)),
 		DUNGEON_PUZZLE = create(BlockList.dungeon_puzzle,"ec.title.dungeonPuzzle"),
 		FIERY_ESSENCE_ALTAR = create(BlockList.essence_altar.setProperty(EssenceType.FIERY)),
 		FIERY_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,1,EssenceType.FIERY.getItemDamage()),"ec.title.essence"),
@@ -331,10 +339,7 @@ public final class KnowledgeRegistrations{
 			BASIC_ESSENCE_ALTAR.setPos(3,9).setNonBuyable().setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(42),
 				new KnowledgeFragmentText(51).setUnlockOnDiscovery().setPrice(5).setUnlockRequirements(50),
-				new KnowledgeFragmentText(52).setPrice(2).setUnlockRequirements(51),
-				new KnowledgeFragmentText(53).setPrice(6).setUnlockRequirements(51),
-				new KnowledgeFragmentText(54).setPrice(2).setUnlockRequirements(53),
-				new KnowledgeFragmentText(55).setPrice(2).setUnlockRequirements(53)
+				new KnowledgeFragmentText(52).setPrice(2).setUnlockRequirements(51)
 			}),
 			
 			ENDERMAN.setPos(1,3).setUnlockPrice(5).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
@@ -397,20 +402,11 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(130).setPrice(5),
 				new KnowledgeFragmentText(131).setPrice(2).setUnlockRequirements(130),
 				new KnowledgeFragmentText(132).setPrice(5).setUnlockRequirements(130).setUnlockCascade(166),
+				new KnowledgeFragmentText(137).setPrice(5).setUnlockRequirements(132),
 				new KnowledgeFragmentText(133).setPrice(2).setUnlockRequirements(130),
 				new KnowledgeFragmentItemConversion(134).setItems(new ItemStack(ItemList.instability_orb),new ItemStack(ItemList.potion_of_instability)).setNonBuyable(), // 741
 				new KnowledgeFragmentItemConversion(135).setItems(new ItemStack(ItemList.silverfish_blood),new ItemStack(ItemList.infestation_remedy)).setNonBuyable(), // 731
 				new KnowledgeFragmentItemConversion(136).setItems(new ItemStack(ItemList.ectoplasm),new ItemStack(ItemList.potion_of_purity)).setNonBuyable() // 951
-			}),
-			
-			ENHANCED_TNT.setPos(7,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentEnhancement(140).setEnhancement(TNTEnhancements.NO_BLOCK_DAMAGE).setPrice(3),
-				new KnowledgeFragmentEnhancement(141).setEnhancement(TNTEnhancements.NO_ENTITY_DAMAGE).setPrice(3),
-				new KnowledgeFragmentEnhancement(142).setEnhancement(TNTEnhancements.EXTRA_POWER).setPrice(3),
-				new KnowledgeFragmentEnhancement(143).setEnhancement(TNTEnhancements.TRAP).setPrice(3),
-				new KnowledgeFragmentEnhancement(144).setEnhancement(TNTEnhancements.NOCLIP).setPrice(3),
-				new KnowledgeFragmentEnhancement(145).setEnhancement(TNTEnhancements.FIRE).setPrice(3),
-				new KnowledgeFragmentEnhancement(146).setEnhancement(TNTEnhancements.NO_FUSE).setPrice(3)
 			}),
 			
 			DRAGON_EGG.setPos(1,8).setUnlockPrice(12).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
@@ -422,25 +418,15 @@ public final class KnowledgeRegistrations{
 			
 			DRAGON_ESSENCE.setPos(3,8),
 			
-			END_POWDER.setPos(6,2).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			END_POWDER.setPos(8,0).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(160).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(161).setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(160),
 				new KnowledgeFragmentText(162).setPrice(2).setUnlockRequirements(161),
-				new KnowledgeFragmentText(163).setPrice(2).setUnlockRequirements(162),
+				new KnowledgeFragmentText(163).setPrice(2).setUnlockRequirements(161),
 				new KnowledgeFragmentText(164).setPrice(3).setUnlockRequirements(163),
-				new KnowledgeFragmentText(165).setPrice(2).setUnlockRequirements(162),
+				new KnowledgeFragmentText(165).setPrice(2).setUnlockRequirements(161),
 				new KnowledgeFragmentText(166).setPrice(5).setUnlockRequirements(160).setUnlockCascade(132),
 				new KnowledgeFragmentText(167).setPrice(3).setUnlockCascade(244)
-			}),
-			
-			ENHANCED_ENDER_PEARL.setPos(5,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentEnhancement(170).setEnhancement(EnderPearlEnhancements.NO_FALL_DAMAGE).setPrice(3),
-				new KnowledgeFragmentEnhancement(171).setEnhancement(EnderPearlEnhancements.NO_GRAVITY).setPrice(3),
-				new KnowledgeFragmentEnhancement(172).setEnhancement(EnderPearlEnhancements.INCREASED_RANGE).setPrice(3),
-				new KnowledgeFragmentEnhancement(173).setEnhancement(EnderPearlEnhancements.DOUBLE_SPEED).setPrice(3),
-				new KnowledgeFragmentEnhancement(174).setEnhancement(EnderPearlEnhancements.EXPLOSIVE).setPrice(3),
-				new KnowledgeFragmentEnhancement(175).setEnhancement(EnderPearlEnhancements.FREEZE).setPrice(3),
-				new KnowledgeFragmentEnhancement(176).setEnhancement(EnderPearlEnhancements.RIDING).setPrice(3)
 			}),
 			
 			TEMPLE_CALLER.setPos(2,12).setUnlockPrice(18).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
@@ -477,7 +463,19 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(210).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(703),
 				new KnowledgeFragmentText(211).setPrice(2).setUnlockRequirements(210),
 				new KnowledgeFragmentText(212).setPrice(3).setUnlockRequirements(210)
-			})
+			}),
+			
+			ENDER_PEARL_ENHANCEMENTS.setPos(11,0).setUnlockPrice(8).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnderPearlEnhancements.class,170,3,10,new int[]{ 160 })),
+			
+			ESSENCE_ALTAR_ENHANCEMENTS.setPos(11,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EssenceAltarEnhancements.class,1470,5,10,new int[]{ 160, 51 })),
+			
+			ENHANCED_BREWING_STAND_ENHANCEMENTS.setPos(11,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnhancedBrewingStandEnhancements.class,1500,4,10,new int[]{ 160, 130 })),
+			
+			TNT_ENHANCEMENTS.setPos(13,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TNTEnhancements.class,140,3,10,new int[]{ 160 })),
+			
+			SPATIAL_DASH_GEM_ENHANCEMENTS.setPos(13,2).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(SpatialDashGemEnhancements.class,1480,4,10,new int[]{ 160, 290 })),
+			
+			TRANSFERENCE_GEM_ENHANCEMENTS.setPos(13,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TransferenceGemEnhancements.class,1490,4,10,new int[]{ 160, 1440 }))
 		});
 		
 		// ===
@@ -923,9 +921,16 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(570).setPrice(2).setUnlockOnDiscovery()
 			}),
 			
-			LILYFIRE.setPos(4,0).setUnlockPrice(4).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(580).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(581).setCustomRecipe(new ItemStack(Items.dye,2,EnumDyeColor.ORANGE.getDyeDamage()),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.Variant.LILYFIRE.ordinal()) }).setPrice(4).setUnlockRequirements(580)
+			FLAMEWEED_1.setPos(5,0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(582).setPrice(4).setUnlockOnDiscovery()
+			}),
+			
+			FLAMEWEED_2.setPos(7,0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
+				FLAMEWEED_1.getFragments().iterator().next()
+			}),
+			
+			FLAMEWEED_3.setPos(9,0).setUnlockPrice(3).setDiscoveryReward(4).addFragments(new KnowledgeFragment[]{
+				FLAMEWEED_1.getFragments().iterator().next()
 			}),
 			
 			IGNEOUS_ROCK_ORE_LINKED.setPos(2,0),
@@ -936,6 +941,11 @@ public final class KnowledgeRegistrations{
 			
 			CINDER.setPos(0,7).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(590).setPrice(5).setUnlockOnDiscovery()
+			}),
+			
+			LILYFIRE.setPos(13,7).setUnlockPrice(4).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+				new KnowledgeFragmentText(580).setPrice(5).setUnlockOnDiscovery(),
+				new KnowledgeFragmentCrafting(581).setCustomRecipe(new ItemStack(Items.dye,2,14),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire) }).setPrice(4).setUnlockRequirements(580)
 			}),
 			
 			DUNGEON_PUZZLE.setPos(10,7).setUnlockPrice(15).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{
@@ -1144,7 +1154,7 @@ public final class KnowledgeRegistrations{
 			})
 		});
 		
-		// next: 1470
+		// next: 1510
 		// taken: 1000-1399
 		
 		Stopwatch.finish("KnowledgeRegistrations");
@@ -1185,6 +1195,10 @@ public final class KnowledgeRegistrations{
 				amtFragments += obj.getFragments().size();
 				totalObjPrice += obj.getUnlockPrice();
 				totalReward += obj.getDiscoveryReward();
+			}
+			
+			for(IEnhancementEnum enhancement:EnhancementHandler.getAllEnhancements()){
+				if (KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement) == null)throw new IllegalStateException("Enhancement is missing a fragment: "+enhancement);
 			}
 			
 			Log.debug("Knowledge Object amount: $0",amtObjects);

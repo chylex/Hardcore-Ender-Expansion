@@ -89,7 +89,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity){
-		if (entity instanceof EntityLivingBase && !(entity instanceof IIgnoreEnderGoo) && entity.getClass() != EntitySilverfish.class){
+		if (!world.isRemote && entity instanceof EntityLivingBase && !(entity instanceof IIgnoreEnderGoo) && entity.getClass() != EntitySilverfish.class){
 			EntityLivingBase e = (EntityLivingBase)entity;
 			e.addPotionEffect(weakness);
 			e.addPotionEffect(miningFatigue);

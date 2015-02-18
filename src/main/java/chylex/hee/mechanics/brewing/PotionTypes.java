@@ -22,23 +22,22 @@ import chylex.hee.system.util.ItemUtil;
 public class PotionTypes{
 	public static final List<AbstractPotionData> potionData = Arrays.asList(
 		/*  0 */ new EmptyPotion(null,0,16),
-		/*  1 */ new InstantPotion(Potion.heal,16,8197,4),
-		/*  2 */ new InstantPotion(Potion.harm,8197,8204,4),
-		/*  3 */ new TimedPotion(Potion.moveSpeed,16,8194,4,60,720),
-		/*  4 */ new TimedPotion(Potion.moveSlowdown,8194,8202,4,30,480,30),
-		/*  5 */ new TimedPotion(Potion.damageBoost,16,8201,4,60,720),
-		/*  6 */ new TimedPotion(Potion.weakness,8195,8200,4,30,480,30),
-		/*  7 */ new TimedPotion(Potion.nightVision,16,8198,1,30,600),
-		/*  8 */ new TimedPotion(Potion.invisibility,8198,8206,1,30,600),
-		/*  9 */ new TimedPotion(Potion.regeneration,16,8193,4,15,120,15),
-		/* 10 */ new TimedPotion(Potion.poison,16,8196,4,6,48,6),
-		/* 11 */ new TimedPotion(Potion.fireResistance,16,8195,1,60,600),
-		/* 12 */ new TimedPotion(Potion.waterBreathing,16,000,1,60,720,40),
+		/*  1 */ new InstantPotion(Potion.heal,16,8197,3,4),
+		/*  2 */ new InstantPotion(Potion.harm,8197,8204,3,4),
+		/*  3 */ new TimedPotion(Potion.moveSpeed,16,8194,3,4,60,720),
+		/*  4 */ new TimedPotion(Potion.moveSlowdown,8194,8202,3,4,30,480,30),
+		/*  5 */ new TimedPotion(Potion.damageBoost,16,8201,3,4,60,720),
+		/*  6 */ new TimedPotion(Potion.weakness,8195,8200,3,4,30,480,30),
+		/*  7 */ new TimedPotion(Potion.nightVision,16,8198,1,1,30,600),
+		/*  8 */ new TimedPotion(Potion.invisibility,8198,8206,1,1,30,600),
+		/*  9 */ new TimedPotion(Potion.regeneration,16,8193,3,4,15,120,15),
+		/* 10 */ new TimedPotion(Potion.poison,16,8196,3,4,6,48,6),
+		/* 11 */ new TimedPotion(Potion.fireResistance,16,8195,1,1,60,600),
+		/* 12 */ new TimedPotion(Potion.waterBreathing,16,000,1,1,60,720,40),
 		// NEW //
-		/* 13 */ new TimedPotion(Potion.hunger,16,8193,4,6,48,6),
-		/* 14 */ new TimedPotion(Potion.blindness,16,8197,1,6,48,6),
-		/* 15 */ new TimedPotion(Potion.jump,16,8192,4,60,600),
-		/* 16 */ new TimedPotion(Potion.confusion,8251,8253,1,6,48,6)
+		/* 13 */ new TimedPotion(Potion.blindness,16,8197,1,1,6,48,6),
+		/* 14 */ new TimedPotion(Potion.jump,16,8192,3,4,60,600),
+		/* 15 */ new TimedPotion(Potion.confusion,8251,8253,1,1,6,48,6)
 	);
 	
 	private static final Map<Item,Item> customPotions = new HashMap<>();
@@ -122,7 +121,7 @@ public class PotionTypes{
 		return 0;
 	}
 	
-	public static boolean canBeApplied(ItemStack ingredient, ItemStack is){
+	public static boolean canBeApplied(ItemStack ingredient, ItemStack is, boolean enhanced){
 		byte[] indexes = getItemIndexes(ingredient);
 		
 		if (indexes.length == 0){
@@ -139,7 +138,7 @@ public class PotionTypes{
 			}
 			else if (ingredientItem == Items.glowstone_dust){
 				AbstractPotionData data = getPotionData(is);
-				return data != null && data.canIncreaseLevel(is);
+				return data != null && data.canIncreaseLevel(is,enhanced);
 			}
 			else if (ingredientItem == Items.redstone){
 				AbstractPotionData data = getPotionData(is);

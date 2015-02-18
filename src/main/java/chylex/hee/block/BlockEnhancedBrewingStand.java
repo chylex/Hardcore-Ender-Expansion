@@ -33,4 +33,10 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	public Item getItem(World world, BlockPos pos){
 		return ItemList.enhanced_brewing_stand;
 	}
+	
+	@Override
+	public final ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune){		
+		TileEntity tile = world.getTileEntity(x,y,z);
+		return tile instanceof IEnhanceableTile ? CollectionUtil.newList(((IEnhanceableTile)tile).createItemStack()) : super.getDrops(world,x,y,z,metadata,fortune);
+	}
 }
