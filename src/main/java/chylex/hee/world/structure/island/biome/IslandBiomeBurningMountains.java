@@ -30,6 +30,11 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 		contentVariations.add(SCORCHING);
 		contentVariations.add(MINE);
 		
+		randomDeviations.add(EXCESSIVE_CINDER);
+		randomDeviations.add(SINGLE_LAVA_ONLY);
+		randomDeviations.add(LIMITED_ORES);
+		randomDeviations.add(DEEP_RESOURCE_PITS);
+		
 		getSpawnEntries(SCORCHING).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobFireGolem.class,14,10),
 			new SpawnEntry(EntityMobScorchingLens.class,10,6)

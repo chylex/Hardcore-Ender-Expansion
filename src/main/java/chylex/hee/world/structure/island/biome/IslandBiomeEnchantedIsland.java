@@ -45,6 +45,8 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		contentVariations.add(LABORATORY);
 		
 		randomDeviations.add(TALL_PILES);
+		randomDeviations.add(GOO_SWAMP);
+		randomDeviations.add(MORE_SHADOW_ORCHIDS);
 		
 		getSpawnEntries(HOMELAND).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobEnderman.class,22,38),

@@ -6,6 +6,7 @@ import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.ComponentIsland;
+import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureMiningSpot extends AbstractIslandStructure{
@@ -23,7 +24,14 @@ public class StructureMiningSpot extends AbstractIslandStructure{
 			ObjectWeightPair.of(Blocks.iron_ore,26)
 		);
 		
-		for(int a = 0; a < 1+rand.nextInt(2); a++)oreWeights.remove(rand.nextInt(oreWeights.size()));
+		if (biomeData.hasDeviation(IslandBiomeBurningMountains.LIMITED_ORES)){
+			WeightedList<ObjectWeightPair<Block>> selected = new WeightedList<>();
+			for(int a = 0; a < 3+rand.nextInt(2); a++)selected.add(oreWeights.removeRandomItem(rand));
+			oreWeights = selected;
+		}
+		else{
+			for(int a = 0; a < 1+rand.nextInt(2); a++)oreWeights.remove(rand.nextInt(oreWeights.size()));
+		}
 	}
 	
 	@Override

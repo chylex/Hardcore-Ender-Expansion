@@ -8,6 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
@@ -209,7 +210,9 @@ public class ComponentIsland extends ComponentScatteredFeatureCustom{
 		}
 		
 		private void generate(){
-			new ComponentIsland(world.rand,(int)player.posX-104,(int)player.posZ-104).addComponentParts(world,world.rand,new StructureBoundingBox(-9999999,0,-9999999,9999999,128,9999999));
+			ComponentIsland island = new ComponentIsland(world.rand,(int)player.posX-104,(int)player.posZ-104);
+			island.addComponentParts(world,world.rand,new StructureBoundingBox(-9999999,0,-9999999,9999999,128,9999999));
+			HardcoreEnderExpansion.notifications.report("Generated island: "+island.biomeData.getDeviationsAsString(),true);
 		}
 	};
 }
