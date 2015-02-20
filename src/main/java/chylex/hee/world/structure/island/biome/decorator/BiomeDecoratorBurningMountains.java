@@ -5,6 +5,7 @@ import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
+import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureCinderPatch;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureDungeonPuzzle;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureIgneousRockOre;
@@ -40,7 +41,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		generateStructure(genIgneousRockOre.setAttemptAmount(110));
 		
 		// SINGLE LAVA BLOCKS
-		for(int a = 0, xx, yy, zz; a < 6500; a++){
+		for(int a = data.hasDeviation(IslandBiomeBurningMountains.SINGLE_LAVA_ONLY) ? 8000 : 6500, xx, yy, zz; a > 0; a--){
 			xx = getRandomXZ(rand,32);
 			zz = getRandomXZ(rand,32);
 			yy = 10+rand.nextInt(65);
@@ -51,8 +52,10 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		}
 		
 		// LAVA POOLS
-		for(int attempt = 0, placed = 0, placedMax = 3+rand.nextInt(10); attempt < 450 && placed < placedMax; attempt++){
-			if (generateStructure(genLavaPool))++placed;
+		if (!data.hasDeviation(IslandBiomeBurningMountains.SINGLE_LAVA_ONLY)){
+			for(int attempt = 0, placed = 0, placedMax = 3+rand.nextInt(10); attempt < 450 && placed < placedMax; attempt++){
+				if (generateStructure(genLavaPool))++placed;
+			}
 		}
 		
 		// LILYFIRES

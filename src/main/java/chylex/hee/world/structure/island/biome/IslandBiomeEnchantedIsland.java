@@ -33,6 +33,8 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	public static final BiomeContentVariation LABORATORY = new BiomeContentVariation(6,4);
 	
 	public static final BiomeRandomDeviation TALL_PILES = new BiomeRandomDeviation(HOMELAND);
+	public static final BiomeRandomDeviation GOO_SWAMP = new BiomeRandomDeviation(HOMELAND);
+	public static final BiomeRandomDeviation MORE_SHADOW_ORCHIDS = new BiomeRandomDeviation(HOMELAND, LABORATORY);
 	
 	private final BiomeDecoratorEnchantedIsland decorator = new BiomeDecoratorEnchantedIsland();
 	

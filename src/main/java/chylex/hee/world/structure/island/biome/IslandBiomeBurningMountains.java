@@ -7,6 +7,7 @@ import chylex.hee.entity.mob.EntityMobHauntedMiner;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
+import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorBurningMountains;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
@@ -15,6 +16,11 @@ import chylex.hee.world.util.SpawnEntry;
 public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1,8);
 	public static final BiomeContentVariation MINE = new BiomeContentVariation(5,6);
+	
+	public static final BiomeRandomDeviation EXCESSIVE_CINDER = new BiomeRandomDeviation(SCORCHING);
+	public static final BiomeRandomDeviation SINGLE_LAVA_ONLY = new BiomeRandomDeviation(SCORCHING);
+	public static final BiomeRandomDeviation LIMITED_ORES = new BiomeRandomDeviation(MINE);
+	public static final BiomeRandomDeviation DEEP_RESOURCE_PITS = new BiomeRandomDeviation(MINE);
 	
 	private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
 	

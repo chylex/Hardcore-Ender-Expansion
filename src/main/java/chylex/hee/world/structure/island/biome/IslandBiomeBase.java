@@ -75,19 +75,19 @@ public abstract class IslandBiomeBase{
 	public final IslandBiomeData generateData(Random rand){
 		BiomeContentVariation contentVariation = contentVariations.getRandomItem(rand);
 		
-		List<BiomeRandomDeviation> deviations = new ArrayList<>();
-		int deviationAmt = MathUtil.clamp(MathUtil.floor((rand.nextGaussian()+0.35D)*randomDeviations.size()*(0.5D+0.5D*rand.nextDouble())),0,randomDeviations.size());
+		List<BiomeRandomDeviation> available = new ArrayList<>(), selected = new ArrayList<>();
 		
-		if (deviationAmt > 0){
-			List<BiomeRandomDeviation> availableDeviations = new ArrayList<>(randomDeviations);
-			
-			for(int deviationAttempt = 0; deviationAttempt < deviationAmt; deviationAttempt++){
-				BiomeRandomDeviation deviation = availableDeviations.remove(rand.nextInt(availableDeviations.size()));
-				if (deviation.isCompatible(contentVariation))deviations.add(deviation);
-			}
+		for(BiomeRandomDeviation deviation:randomDeviations){
+			if (deviation.isCompatible(contentVariation))available.add(deviation);
 		}
 		
-		return new IslandBiomeData(contentVariation,deviations.toArray(new BiomeRandomDeviation[deviations.size()]));
+		int deviationAmt = available.isEmpty() ? 0 : MathUtil.clamp(MathUtil.floor((rand.nextGaussian()+0.35D)*available.size()*(0.5D+0.5D*rand.nextDouble())),0,available.size());
+		
+		for(int deviationAttempt = 0; deviationAttempt < deviationAmt; deviationAttempt++){
+			selected.add(available.remove(rand.nextInt(available.size())));
+		}
+		
+		return new IslandBiomeData(contentVariation,selected.toArray(new BiomeRandomDeviation[selected.size()]));
 	}
 	
 	public final IslandBiomeData getData(){

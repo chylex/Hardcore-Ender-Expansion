@@ -10,7 +10,7 @@ import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 	private static final long serialVersionUID = -382485527777212023L;
 	
-	private int totalWeight = 0;
+	protected int totalWeight;
 	
 	public WeightedList(T...weightedItems){
 		for(T item:weightedItems)add(item);
@@ -69,6 +69,12 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 		}
 		
 		return null;
+	}
+	
+	public T removeRandomItem(Random rand){
+		T item = getRandomItem(rand);
+		this.remove(item);
+		return item;
 	}
 	
 	public static final HeeTest $debugTest = new HeeTest(){

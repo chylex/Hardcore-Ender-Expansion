@@ -3,13 +3,15 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
+import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureResourcePit extends AbstractIslandStructure{
 	@Override
 	protected boolean generate(Random rand){
 		double rad = rand.nextDouble()*2.5D+3.5D;
-		byte height = (byte)(rand.nextInt(10)+12),irad = (byte)Math.ceil(rad);
+		byte height = (byte)(rand.nextInt(10)+12+(biomeData.hasDeviation(IslandBiomeBurningMountains.DEEP_RESOURCE_PITS) ? 6+rand.nextInt(10) : 0)),
+			 irad = (byte)Math.ceil(rad);
 		
 		byte[] xOff = new byte[]{ (byte)-irad, irad, 0, 0 }, zOff = new byte[]{ 0, 0, irad, (byte)-irad };
 		boolean[][] holes = new boolean[irad*2+1][irad*2+1];

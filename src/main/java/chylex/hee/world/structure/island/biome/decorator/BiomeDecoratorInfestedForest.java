@@ -37,9 +37,11 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 			if (generateStructure(genTree))++placed;
 		}
 		
+		boolean moreBushes = data.hasDeviation(MORE_THORNY_BUSHES);
+		
 		for(int a = 0; a < 169; a++){
 			// THORNY BUSHES
-			if (rand.nextBoolean() || data.hasDeviation(MORE_THORNY_BUSHES)){
+			if (moreBushes || rand.nextBoolean()){
 				for(int attempt = 0; attempt < 18; attempt++){
 					int xx = getRandomXZ(rand,0), zz = getRandomXZ(rand,0), yy = world.getHighestY(xx,zz);
 					

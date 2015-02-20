@@ -3,6 +3,7 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureGooLake extends AbstractIslandStructure{
@@ -16,7 +17,9 @@ public class StructureGooLake extends AbstractIslandStructure{
 		
 		if (y <= 1)return false;
 		
-		double rad = 2D+rand.nextDouble()*3D+rand.nextDouble()*3D,//(biome.hasRareVariation(RareVariationIsland.LARGE_LAKES)?8D:3D),
+		boolean isSwamp = biomeData.hasDeviation(IslandBiomeEnchantedIsland.GOO_SWAMP);
+		
+		double rad = (isSwamp ? 4D*(rand.nextDouble()+0.8D) : 2D)+rand.nextDouble()*3D+rand.nextDouble()*3D,
 			   hrad = rad*0.5D;
 		boolean canGenerate = true;
 		
@@ -44,7 +47,7 @@ public class StructureGooLake extends AbstractIslandStructure{
 		
 		--minY;
 		
-		for(int a = 0; a < 3+rad+rand.nextInt(5); a++,yOff = 0){
+		for(int a = 0; a < 3+rad+rand.nextInt(isSwamp ? 10 : 5); a++,yOff = 0){
 			double cx = x+Math.min(hrad,Math.abs(rand.nextGaussian()*0.7D*a))*(rand.nextInt(2)*2D-1D),
 				   cz = z+Math.min(hrad,Math.abs(rand.nextGaussian()*0.7D*a))*(rand.nextInt(2)*2D-1D),
 				   r = hrad*(0.25D+rand.nextDouble()*0.75D);
