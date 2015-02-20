@@ -48,7 +48,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		// GOO LAKES
 		boolean swamp = data.hasDeviation(IslandBiomeEnchantedIsland.GOO_SWAMP);
 		
-		for(int attempt = 0, placed = 0, amount = rand.nextInt(3)+5; attempt < (swamp ? 170 : 240) && placed < (swamp ? amount*2 : amount); attempt++){
+		for(int attempt = 0, placed = 0, amount = rand.nextInt(3)+5; attempt < (swamp ? 450 : 170) && placed < (swamp ? amount*3 : amount); attempt++){
 			if (generateStructure(genGooLake))++placed;
 		}
 		
@@ -56,7 +56,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
 			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){	
 				if (rand.nextInt(5) <= 2){
-					int height = rand.nextInt(14)+(data.hasDeviation(IslandBiomeEnchantedIsland.TALL_PILES) ? 6+rand.nextInt(8) : 4);
+					int height = rand.nextInt(14)+(data.hasDeviation(IslandBiomeEnchantedIsland.TALL_PILES) ? 6+rand.nextInt(12) : 4);
 					int radius = rand.nextInt(2)+1;
 					
 					int ox = cx*16+rand.nextInt(16),
@@ -96,7 +96,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// SHADOW ORCHID
-		for(int attempt = data.hasDeviation(IslandBiomeEnchantedIsland.MORE_SHADOW_ORCHIDS) ? 400 : 250; attempt > 0; attempt--){
+		for(int attempt = data.hasDeviation(IslandBiomeEnchantedIsland.MORE_SHADOW_ORCHIDS) ? 750 : 450; attempt > 0; attempt--){
 			if (generateStructure(genShadowOrchid))++attempt;
 		}
 		
@@ -226,8 +226,8 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// SHADOW ORCHID
-		for(int attempt = data.hasDeviation(IslandBiomeEnchantedIsland.MORE_SHADOW_ORCHIDS) ? 360 : 200; attempt > 0; attempt--){
-			if (generateStructure(genShadowOrchid) || rand.nextBoolean())++attempt;
+		for(int attempt = data.hasDeviation(IslandBiomeEnchantedIsland.MORE_SHADOW_ORCHIDS) ? 550 : 350; attempt > 0; attempt--){
+			if (generateStructure(genShadowOrchid))++attempt;
 		}
 	}
 }

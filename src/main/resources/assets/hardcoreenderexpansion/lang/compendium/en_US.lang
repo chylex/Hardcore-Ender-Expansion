@@ -278,7 +278,7 @@ ec.reg.995=Breaking the Table causes the stored Energy to leak into the world.
 
 ec.reg.720=Biome Islands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the Dragon Lair.
 ec.reg.721=Each island has caves and ores, every biome modifies the amounts and rates as well as the overall shape of the terrain.
-ec.reg.722=Biomes can have multiple different variations with unique content, and random deviations that modify properties of some features (such as very tall trees).
+ec.reg.722=Biomes can have one of multiple different variations with unique content, and one or more random deviations that modify the amount or properties of some features (such as tall trees or goo swamps) to increase the variety.
 ec.reg.723=Instability Orb Ore and Stardust Ore only spawn in the islands.
 
 ec.reg.360=Uncommon ore found in tiny clusters in all Biome Islands.

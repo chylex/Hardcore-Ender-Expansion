@@ -32,7 +32,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	
 	public void genScorching(){
 		// CINDER
-		for(int a = 0; a < 72; a++)generateStructure(genCinderPatch);
+		for(int a = data.hasDeviation(IslandBiomeBurningMountains.EXCESSIVE_CINDER) ? 110 : 62; a > 0; a--)generateStructure(genCinderPatch);
 		
 		// DUNGEON PUZZLE
 		generateStructure(genMountainPuzzle);
@@ -53,7 +53,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		
 		// LAVA POOLS
 		if (!data.hasDeviation(IslandBiomeBurningMountains.SINGLE_LAVA_ONLY)){
-			for(int attempt = 0, placed = 0, placedMax = 3+rand.nextInt(10); attempt < 450 && placed < placedMax; attempt++){
+			for(int attempt = 0, placed = 0, placedMax = 4+rand.nextInt(10); attempt < 550 && placed < placedMax; attempt++){
 				if (generateStructure(genLavaPool))++placed;
 			}
 		}
@@ -133,7 +133,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		}
 		
 		// MINING SPOT
-		genMiningSpot.regenerateOreWeightList(rand);
+		genMiningSpot.regenerateOreWeightList(rand,data);
 		
 		for(int attempt = 0, attemptAmount = 90+rand.nextInt(20), placed = 0; attempt < attemptAmount; attempt++){
 			if (generateStructure(genMiningSpot)){

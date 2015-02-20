@@ -19,7 +19,7 @@ public class StructureGooLake extends AbstractIslandStructure{
 		
 		boolean isSwamp = biomeData.hasDeviation(IslandBiomeEnchantedIsland.GOO_SWAMP);
 		
-		double rad = (isSwamp ? 4D*(rand.nextDouble()+0.8D) : 2D)+rand.nextDouble()*3D+rand.nextDouble()*3D,
+		double rad = (isSwamp ? 3D*(rand.nextDouble()*2D+0.8D) : 2D)+rand.nextDouble()*3D+rand.nextDouble()*3D,
 			   hrad = rad*0.5D;
 		boolean canGenerate = true;
 		

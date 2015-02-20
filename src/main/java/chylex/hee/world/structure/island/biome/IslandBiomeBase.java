@@ -81,7 +81,7 @@ public abstract class IslandBiomeBase{
 			if (deviation.isCompatible(contentVariation))available.add(deviation);
 		}
 		
-		int deviationAmt = available.isEmpty() ? 0 : MathUtil.clamp(MathUtil.floor((rand.nextGaussian()+0.35D)*available.size()*(0.5D+0.5D*rand.nextDouble())),0,available.size());
+		int deviationAmt = available.isEmpty() ? 0 : MathUtil.clamp(MathUtil.floor((rand.nextGaussian()+0.4D)*available.size()*(0.5D+0.5D*rand.nextDouble())),0,available.size());
 		
 		for(int deviationAttempt = 0; deviationAttempt < deviationAmt; deviationAttempt++){
 			selected.add(available.remove(rand.nextInt(available.size())));

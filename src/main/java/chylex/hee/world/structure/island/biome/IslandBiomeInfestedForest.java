@@ -25,8 +25,8 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	public static final BiomeContentVariation RAVAGED = new BiomeContentVariation(3,6);
 	public static final BiomeContentVariation RUINS = new BiomeContentVariation(4,3);
 	
-	public static final BiomeRandomDeviation TALL_TREES = new BiomeRandomDeviation(DEEP, RAVAGED);
-	public static final BiomeRandomDeviation MORE_THORNY_BUSHES = new BiomeRandomDeviation(DEEP);
+	public static final BiomeRandomDeviation TALL_TREES = new BiomeRandomDeviation("TallTrees", DEEP, RAVAGED);
+	public static final BiomeRandomDeviation MORE_THORNY_BUSHES = new BiomeRandomDeviation("ThornyBushes", DEEP);
 	
 	private final BiomeDecoratorInfestedForest decorator = new BiomeDecoratorInfestedForest();
 	

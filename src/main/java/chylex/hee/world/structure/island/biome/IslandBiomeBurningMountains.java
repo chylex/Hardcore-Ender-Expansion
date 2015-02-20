@@ -17,10 +17,10 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1,8);
 	public static final BiomeContentVariation MINE = new BiomeContentVariation(5,6);
 	
-	public static final BiomeRandomDeviation EXCESSIVE_CINDER = new BiomeRandomDeviation(SCORCHING);
-	public static final BiomeRandomDeviation SINGLE_LAVA_ONLY = new BiomeRandomDeviation(SCORCHING);
-	public static final BiomeRandomDeviation LIMITED_ORES = new BiomeRandomDeviation(MINE);
-	public static final BiomeRandomDeviation DEEP_RESOURCE_PITS = new BiomeRandomDeviation(MINE);
+	public static final BiomeRandomDeviation EXCESSIVE_CINDER = new BiomeRandomDeviation("ExcessiveCinder", SCORCHING);
+	public static final BiomeRandomDeviation SINGLE_LAVA_ONLY = new BiomeRandomDeviation("SingleLava", SCORCHING);
+	public static final BiomeRandomDeviation LIMITED_ORES = new BiomeRandomDeviation("LimitedOres", MINE);
+	public static final BiomeRandomDeviation DEEP_RESOURCE_PITS = new BiomeRandomDeviation("DeepResPits", MINE);
 	
 	private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
 	

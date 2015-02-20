@@ -1,9 +1,11 @@
 package chylex.hee.world.structure.island.biome.data;
 
 public final class BiomeRandomDeviation{
+	private final String identifier;
 	private final BiomeContentVariation[] compatibleVariations;
 	
-	public BiomeRandomDeviation(BiomeContentVariation...compatibleVariations){
+	public BiomeRandomDeviation(String identifier, BiomeContentVariation...compatibleVariations){
+		this.identifier = identifier;
 		this.compatibleVariations = compatibleVariations;
 	}
 	
@@ -23,5 +25,10 @@ public final class BiomeRandomDeviation{
 	@Override
 	public int hashCode(){
 		return System.identityHashCode(this);
+	}
+	
+	@Override
+	public String toString(){
+		return identifier;
 	}
 }
