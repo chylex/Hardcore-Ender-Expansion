@@ -102,7 +102,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 			case dataVioletMossModerate: return "tile.crossedDecoration.violetMoss.moderate";
 			case dataVioletMossShort: return "tile.crossedDecoration.violetMoss.short";
 			case dataFlameweed1: case dataFlameweed2: case dataFlameweed3: return "tile.crossedDecoration.flameweed";
-			case dataShadowOrchid: return "tile.crossedDecoration.shadowOrchid"; // TODO add to world
+			case dataShadowOrchid: return "tile.crossedDecoration.shadowOrchid";
 			default: return "";
 		}
 	}

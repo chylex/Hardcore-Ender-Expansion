@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.block.BlockBed;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -119,17 +118,12 @@ public final class AchievementEvents implements IQuickSavefile{
 	
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e){
-		if (e.entity.worldObj.isRemote)return;
-		
-		if (e.entity.dimension == 1 && e.entity.worldObj.getTotalWorldTime()-EntityBossDragon.lastUpdate < 20){
-			EntityBossDragon dragon;
-			
-			if (e.entity instanceof EntityPlayer){
-				if ((dragon = getDragon(e.entity.worldObj)) != null)dragon.achievements.onPlayerDied((EntityPlayer)e.entityLiving);
-			}
-			
-			if (e.entity instanceof EntityEnderman && e.source.getEntity() instanceof EntityPlayer){ // TODO move out
-				if ((dragon = getDragon(e.entity.worldObj)) != null)dragon.achievements.onPlayerKilledEnderman((EntityPlayer)e.source.getEntity());
+		if (!e.entity.worldObj.isRemote && e.entity.dimension == 1 && e.entity.worldObj.getTotalWorldTime()-EntityBossDragon.lastUpdate < 20 && e.entity instanceof EntityPlayer){
+			for(Object o:e.entity.worldObj.loadedEntityList){
+				if (o instanceof EntityBossDragon){
+					((EntityBossDragon)o).achievements.onPlayerDied((EntityPlayer)e.entity);
+					break;
+				}
 			}
 		}
 	}
