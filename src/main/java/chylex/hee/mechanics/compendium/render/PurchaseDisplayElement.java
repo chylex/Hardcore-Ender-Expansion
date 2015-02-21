@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.compendium.render;
+import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
@@ -52,7 +53,12 @@ public class PurchaseDisplayElement{
 		
 		if (object instanceof KnowledgeObject){
 			String name = ((KnowledgeObject)object).getTooltip();
-			gui.mc.fontRenderer.drawString(name,pageCenterX-(gui.mc.fontRenderer.getStringWidth(name)>>1),y-25,0x404040);
+			List<String> parsed = gui.mc.fontRenderer.listFormattedStringToWidth(name,GuiEnderCompendium.guiPageWidth);
+			
+			for(int a = 0, yy = y-25-(parsed.size()-1)*gui.mc.fontRenderer.FONT_HEIGHT; a < parsed.size(); a++){
+				gui.mc.fontRenderer.drawString(parsed.get(a),pageCenterX-(gui.mc.fontRenderer.getStringWidth(parsed.get(a))>>1),yy,0x404040);
+				yy += gui.mc.fontRenderer.FONT_HEIGHT;
+			}
 		}
 		else if (isMouseOver(mouseX,mouseY,pageCenterX-3)){
 			String tooltip = status == FragmentPurchaseStatus.NOT_BUYABLE ? "ec.help.nonbuyable" :
