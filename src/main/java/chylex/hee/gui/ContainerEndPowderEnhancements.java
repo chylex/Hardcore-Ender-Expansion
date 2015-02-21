@@ -60,7 +60,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		
 		if (isEnhancingTile()){
 			addSlotToContainer(new SlotShowCase(containerInv,0,80,17));
-			containerInv.setInventorySlotContents(0,tileOptional.createItemStack());
+			containerInv.setInventorySlotContents(0,tileOptional.createEnhancedItemStack());
 			addSlotToContainer(new SlotReadOnly(containerInv,1,3200,17));
 		}
 		else{

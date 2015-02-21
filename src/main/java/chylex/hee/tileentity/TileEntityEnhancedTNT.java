@@ -14,7 +14,7 @@ public class TileEntityEnhancedTNT extends TileEntity implements IEnhanceableTil
 	private List<Enum> tntEnhancements = new ArrayList<>();
 	
 	@Override
-	public ItemStack createItemStack(){
+	public ItemStack createEnhancedItemStack(){
 		return EnhancementHandler.addEnhancements(new ItemStack(BlockList.enhanced_tnt),tntEnhancements);
 	}
 	

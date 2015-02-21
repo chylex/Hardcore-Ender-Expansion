@@ -17,7 +17,7 @@ public abstract class BlockAbstractEnhanceable extends BlockContainer{
 	@Override
 	public final ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune){		
 		TileEntity tile = world.getTileEntity(x,y,z);
-		return tile instanceof IEnhanceableTile ? CollectionUtil.newList(((IEnhanceableTile)tile).createItemStack()) : super.getDrops(world,x,y,z,metadata,fortune);
+		return tile instanceof IEnhanceableTile ? CollectionUtil.newList(((IEnhanceableTile)tile).createEnhancedItemStack()) : super.getDrops(world,x,y,z,metadata,fortune);
 	}
 
 	@Override

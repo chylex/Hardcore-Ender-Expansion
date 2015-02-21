@@ -11,6 +11,7 @@ import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
 import cpw.mods.fml.relauncher.Side;
@@ -105,8 +106,8 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	}
 	
 	@Override
-	public ItemStack createItemStack(){
-		return new ItemStack(ItemList.enhanced_brewing_stand);
+	public ItemStack createEnhancedItemStack(){
+		return EnhancementHandler.addEnhancements(new ItemStack(ItemList.enhanced_brewing_stand),enhancements);
 	}
 	
 	@Override

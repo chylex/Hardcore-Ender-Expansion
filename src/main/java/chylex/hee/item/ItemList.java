@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemReed;
 import chylex.hee.block.BlockList;
+import chylex.hee.item.block.ItemBlockEnhancedBrewingStand;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
@@ -116,7 +116,7 @@ public final class ItemList{
 		register("auricion", auricion = new Item().setUnlocalizedName("auricion").setTextureName("hardcoreenderexpansion:auricion"));
 		register("energy_wand_core", energy_wand_core = new Item().setUnlocalizedName("energyWandCore").setTextureName("hardcoreenderexpansion:energy_wand_core"));
 		
-		register("enhanced_brewing_stand", enhanced_brewing_stand = new ItemReed(BlockList.enhanced_brewing_stand).setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
+		register("enhanced_brewing_stand", enhanced_brewing_stand = new ItemBlockEnhancedBrewingStand().setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
 		register("enhanced_ender_pearl", enhanced_ender_pearl = new ItemEnhancedEnderPearl().setCreativeTab(null).setUnlocalizedName("enderPearl").setTextureName("ender_pearl"));
 		register("potion_of_instability", potion_of_instability = new ItemPotionOfInstability().setUnlocalizedName("potionOfInstability").setTextureName("hardcoreenderexpansion:potion_of_instability"));
 		register("biome_compass", biome_compass = new ItemBiomeCompass().setMaxStackSize(1).setUnlocalizedName("biomeCompass"));

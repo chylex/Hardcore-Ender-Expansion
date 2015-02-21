@@ -6,7 +6,7 @@ public interface IEnhanceableTile{
 	/**
 	 * Returns an ItemStack with all enhancements stored in the tile.
 	 */
-	public ItemStack createItemStack();
+	public ItemStack createEnhancedItemStack();
 	
 	/**
 	 * Returned collection must be modifiable and reflect the internal enhancement values.

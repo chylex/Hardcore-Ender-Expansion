@@ -181,6 +181,7 @@ public final class BlockList{
 		setItemClass("obsidian_special", ItemBlockWithSubtypes.class);
 		setItemClass("obsidian_special_glow", ItemBlockWithSubtypes.class);
 		setItemClass("essence_altar", ItemBlockEssenceAltar.class);
+		setItemClass("enhanced_brewing_stand_block", ItemBlockEnhanceableTile.class);
 		setItemClass("enhanced_tnt", ItemBlockEnhanceableTile.class);
 		setItemClass("end_stone_terrain", ItemBlockWithSubtypes.class);
 		setItemClass("crossed_decoration", ItemBlockWithSubtypes.class);

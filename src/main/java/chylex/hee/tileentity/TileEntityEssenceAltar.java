@@ -102,7 +102,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	}
 	
 	@Override
-	public ItemStack createItemStack(){
+	public ItemStack createEnhancedItemStack(){
 		return EnhancementHandler.addEnhancements(new ItemStack(BlockList.essence_altar,1,essenceType.id),enhancementList);
 	}
 	
