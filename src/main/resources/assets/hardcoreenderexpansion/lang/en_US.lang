@@ -259,6 +259,7 @@ container.button.travel=Travel
 
 key.openCompendium=Ender Compendium
 key.openCompendium.bacon=Bacon Compendium
+key.openCompendium.conflict=Ender Compendium key conflicts with $, please fix the issue in Controls menu.
 
 achievement.viewAchievements=View Achievements
 achievement.viewChallenges=View Challenges

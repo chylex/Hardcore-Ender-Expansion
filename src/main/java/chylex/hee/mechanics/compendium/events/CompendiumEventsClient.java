@@ -106,7 +106,7 @@ public final class CompendiumEventsClient{
 		
 		for(KeyBinding kb:Minecraft.getMinecraft().gameSettings.keyBindings){
 			if (kb != instance.keyOpenCompendium && kb.getKeyCode() == instance.keyOpenCompendium.getKeyCode()){
-				HardcoreEnderExpansion.notifications.report("Ender Compendium key conflicts with "+I18n.format(kb.getKeyDescription())+", please fix the issue in Controls menu.");
+				HardcoreEnderExpansion.notifications.report(I18n.format("key.openCompendium.conflict").replace("$",I18n.format(kb.getKeyDescription())));
 				break;
 			}
 		}
