@@ -18,7 +18,7 @@ public enum EnhancedBrewingStandEnhancements implements IEnhancementEnum{
 	private IRepresentativeItemSelector itemSelector;
 	
 	EnhancedBrewingStandEnhancements(IRepresentativeItemSelector itemSelector){
-		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.GREEN);
+		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.AQUA);
 		this.itemSelector = itemSelector;
 	}
 	

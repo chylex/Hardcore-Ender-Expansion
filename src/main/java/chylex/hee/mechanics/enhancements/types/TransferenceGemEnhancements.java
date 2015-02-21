@@ -18,7 +18,7 @@ public enum TransferenceGemEnhancements implements IEnhancementEnum{
 	public final IRepresentativeItemSelector itemSelector;
 	
 	private TransferenceGemEnhancements(IRepresentativeItemSelector itemSelector){
-		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.GRAY);
+		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.LIGHT_PURPLE);
 		this.itemSelector = itemSelector;
 	}
 

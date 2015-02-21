@@ -49,7 +49,7 @@ public class ContainerEndPowderEnhancements extends Container{
 	public final boolean[] clientEnhancementBlocked = new boolean[7];
 	public final int[] enhancementSlotX = new int[7];
 	private IEnhancementEnum selectedEnhancement;
-	private int selectedSlot, prevSelectedSlot = -1;
+	private int selectedSlot = -1, prevSelectedSlot = -1;
 	
 	public ContainerEndPowderEnhancements(InventoryPlayer inv, IEnhanceableTile tileOptional){
 		containerInv = new InventoryBasic("",false,2+ingredientSlots.length+powderSlots.length);

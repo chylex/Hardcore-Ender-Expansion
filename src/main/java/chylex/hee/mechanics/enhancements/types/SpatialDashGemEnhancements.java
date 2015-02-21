@@ -19,7 +19,7 @@ public enum SpatialDashGemEnhancements implements IEnhancementEnum{
 	public final IRepresentativeItemSelector itemSelector;
 	
 	private SpatialDashGemEnhancements(IRepresentativeItemSelector itemSelector){
-		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.GRAY);
+		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.RED);
 		this.itemSelector = itemSelector;
 	}
 
