@@ -51,7 +51,7 @@ public class ContainerEnhancedBrewingStand extends Container{
 			if (requiredPowder != tileBrewingStand.getRequiredPowder())icrafting.sendProgressBarUpdate(this,1,tileBrewingStand.getRequiredPowder());
 			if (startBrewTime != tileBrewingStand.getStartBrewTime())icrafting.sendProgressBarUpdate(this,2,tileBrewingStand.getStartBrewTime());
 		}
-
+		
 		brewTime = tileBrewingStand.getBrewTime();
 		requiredPowder = tileBrewingStand.getRequiredPowder();
 		startBrewTime = tileBrewingStand.getStartBrewTime();

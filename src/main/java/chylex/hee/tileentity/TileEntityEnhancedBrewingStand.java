@@ -31,25 +31,28 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	
 	@Override
 	public void updateEntity(){
-		if (brewTime > 0){
-			--brewTime;
-			if (brewTime > 1 && brewTime%2 == 0 && enhancements.contains(EnhancedBrewingStandEnhancements.SPEED))--brewTime;
-			
-			if (brewTime == 0){
-				doBrewing();
-				markDirty();
+		if (!worldObj.isRemote){
+			if (brewTime > 0){
+				--brewTime;
+				if (brewTime > 1 && brewTime%2 == 0 && enhancements.contains(EnhancedBrewingStandEnhancements.SPEED))--brewTime;
+				
+				if (brewTime == 0){
+					doBrewing();
+					markDirty();
+				}
+				else if (!checkBrewingRequirements() || ingredient != slotItems[3].getItem()){
+					brewTime = 0;
+					markDirty();
+				}
 			}
-			else if (!checkBrewingRequirements() || ingredient != slotItems[3].getItem()){
-				brewTime = 0;
-				markDirty();
+			else if (checkBrewingRequirements()){
+				startBrewTime = brewTime = (short)(140+15*requiredPowder);
+				ingredient = slotItems[3].getItem();
 			}
-		}
-		else if (checkBrewingRequirements()){
-			startBrewTime = brewTime = (short)(140+15*requiredPowder);
-			ingredient = slotItems[3].getItem();
 		}
 		
 		int filledSlots = getFilledSlots();
+		
 		if (filledSlots != filledSlotsCache){
 			filledSlotsCache = (byte)filledSlots;
 			worldObj.setBlockMetadataWithNotify(xCoord,yCoord,zCoord,filledSlots,2);
