@@ -59,7 +59,7 @@ public final class FXHandler{
 				break;
 				
 			case GEM_TELEPORT_TO:
-				for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.portalOrbiting(world,x,y+1.63D+rand.nextDouble()*0.6D,z,rand.nextDouble()*0.045D+0.015D);
+				for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.portalOrbiting(world,x,y+0.1D+rand.nextDouble()*1.2D,z,rand.nextDouble()*0.045D+0.015D);
 				world.playSound(x,y+1.63D,z,"mob.endermen.portal",1.2F,world.rand.nextFloat()*0.05F+0.85F,false);
 				break;
 				

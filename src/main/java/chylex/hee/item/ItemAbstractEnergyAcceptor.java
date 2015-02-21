@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.MathUtil;
@@ -20,6 +21,15 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 	public abstract void onEnergyAccepted(ItemStack is);
 	public abstract int getEnergyPerUse(ItemStack is);
 	protected abstract float getRegenSpeedMultiplier();
+	
+	public static void enhanceCapacity(ItemStack is){
+		int prev = is.getItem().getMaxDamage(), now = is.getMaxDamage();
+		is.setItemDamage(is.getItemDamage()+(now-prev));
+	}
+	
+	public final int calculateMaxDamage(ItemStack is, Enum capacityEnhancement){
+		return EnhancementHandler.hasEnhancement(is,capacityEnhancement) ? MathUtil.ceil(1.5F*super.getMaxDamage(is)) : super.getMaxDamage(is);
+	}
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){

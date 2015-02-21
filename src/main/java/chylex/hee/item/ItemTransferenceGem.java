@@ -20,17 +20,16 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
-	
+
 	@Override
 	public int getMaxDamage(ItemStack is){
-		return EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.CAPACITY) ? MathUtil.ceil(1.5F*super.getMaxDamage(is)) : super.getMaxDamage(is);
+		return calculateMaxDamage(is,TransferenceGemEnhancements.CAPACITY);
 	}
 	
 	@Override

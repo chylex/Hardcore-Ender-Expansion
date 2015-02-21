@@ -469,8 +469,9 @@ ec.reg.1430=Blank Gem is used solely to create higher level Gems.
 ec.reg.1440=Next tier Gem that allows teleportation across long distances.
 ec.reg.1442=Using it on a block while sneaking will link the Gem to that block.
 ec.reg.1443=When linked, using it will teleport you to the linked block, and use a specified amount of Energy.
-ec.reg.1444=If the Gem has below 44%% Energy, the Gem might cause a negative effect with higher chance the less Energy it has.
+ec.reg.1444=If the Gem has below 44%% Energy, the Gem might cause a negative effect with higher chance the less Energy it has. The center of the Gem will also appear darker.
 ec.reg.1445=Some of these effects include bad potion effects, random teleportation deflections or even a short storm.
+ec.reg.1446=When enhanced with the Beast enhancement, using it on another creature while standing teleports the targeted creature.
 
 ec.reg.680=Baby Enderman spawns in the Enchanted Island (Homeland).
 ec.reg.681=If attacked, the parents will teleport and protect the baby.

@@ -39,12 +39,13 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		super(world,x,y,z,igniter);
 		this.tntEnhancements.addAll(enhancements);
 		
-		if (tntEnhancements.contains(TNTEnhancements.NO_FUSE))fuse = 1;
 		if (tntEnhancements.contains(TNTEnhancements.NOCLIP)){
 			noClip = true;
-			if (fuse > 1)fuse = 40;
+			fuse = 40;
 			dataWatcher.updateObject(16,Byte.valueOf((byte)1));
 		}
+		
+		if (tntEnhancements.contains(TNTEnhancements.NO_FUSE))fuse = 1;
 	}
 	
 	@Override

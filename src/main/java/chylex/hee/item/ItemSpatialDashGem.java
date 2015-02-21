@@ -8,14 +8,13 @@ import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
-import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	public int getMaxDamage(ItemStack is){
-		return EnhancementHandler.hasEnhancement(is,SpatialDashGemEnhancements.CAPACITY) ? MathUtil.ceil(1.5F*super.getMaxDamage(is)) : super.getMaxDamage(is);
+		return calculateMaxDamage(is,SpatialDashGemEnhancements.CAPACITY);
 	}
 	
 	@Override

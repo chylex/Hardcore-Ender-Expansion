@@ -69,14 +69,18 @@ public class MiscEvents{
 	@SubscribeEvent
 	public void onPlayerInteractEntity(EntityInteractEvent e){
 		if (e.entity.worldObj.isRemote)return;
-
+		
 		if (e.target instanceof EntityItemFrame){
 			EntityItemFrame itemFrame = (EntityItemFrame)e.target;
 			
 			ItemStack is = itemFrame.getDisplayedItem();
+			
 			if (is == null || is.getItem() != ItemList.transference_gem || e.entityPlayer.isSneaking())return;
 			else if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.TOUCH)){
-				itemFrame.setDisplayedItem(((ItemTransferenceGem)ItemList.transference_gem).tryTeleportEntity(is,e.entityPlayer,e.entityPlayer));
+				is = ((ItemTransferenceGem)ItemList.transference_gem).tryTeleportEntity(is,e.entityPlayer,e.entityPlayer);
+				if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown"))is.stackTagCompound.removeTag("cooldown");
+				
+				itemFrame.setDisplayedItem(is);
 				e.setCanceled(true);
 			}
 		}

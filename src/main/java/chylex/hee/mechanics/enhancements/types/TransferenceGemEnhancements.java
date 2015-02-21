@@ -3,6 +3,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import chylex.hee.item.ItemAbstractEnergyAcceptor;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
@@ -33,5 +34,7 @@ public enum TransferenceGemEnhancements implements IEnhancementEnum{
 	}
 	
 	@Override
-	public void onEnhanced(ItemStack is, EntityPlayer player){}
+	public void onEnhanced(ItemStack is, EntityPlayer player){
+		if (this == CAPACITY)ItemAbstractEnergyAcceptor.enhanceCapacity(is);
+	}
 }

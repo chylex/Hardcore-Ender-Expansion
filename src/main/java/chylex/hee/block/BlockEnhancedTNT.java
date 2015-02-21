@@ -70,7 +70,8 @@ public class BlockEnhancedTNT extends BlockAbstractEnhanceable{
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest){
-		return !player.capabilities.isCreativeMode && tryIgniteTNT(world,x,y,z,false,null) ? false : super.removedByPlayer(world,player,x,y,z,willHarvest);
+		if (!player.capabilities.isCreativeMode)tryIgniteTNT(world,x,y,z,false,null);
+		return super.removedByPlayer(world,player,x,y,z,willHarvest);
 	}
 
 	@Override

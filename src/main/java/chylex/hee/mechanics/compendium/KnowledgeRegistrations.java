@@ -1062,7 +1062,8 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(1442).setPrice(5).setUnlockRequirements(1440),
 				new KnowledgeFragmentText(1443).setPrice(5).setUnlockRequirements(1442),
 				new KnowledgeFragmentText(1444).setPrice(4).setUnlockRequirements(1443),
-				new KnowledgeFragmentText(1445).setPrice(4).setUnlockRequirements(1444)
+				new KnowledgeFragmentText(1445).setPrice(4).setUnlockRequirements(1444),
+				new KnowledgeFragmentText(1446).setPrice(5).setUnlockRequirements(1443)
 			}),
 			
 			BABY_ENDERMAN.setPos(0,6).setUnlockPrice(25).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
