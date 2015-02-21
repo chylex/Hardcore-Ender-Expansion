@@ -99,7 +99,7 @@ public class DragonAchievementManager{
 		
 		private final NBTTagCompound writeToNBT(){
 			NBTTagCompound tag = new NBTTagCompound();
-			tag.setShort("participatonCnt",participationCounter);
+			tag.setShort("participationCnt",participationCounter);
 			tag.setShort("deathAmount",deathAmount);
 			tag.setBoolean("killedEnderman",killedEnderman);
 			return tag;
