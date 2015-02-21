@@ -39,6 +39,14 @@ You are welcome to create and distribute any addon. If you let me know about it,
 
 The terms say that you cannot redistribute the mod or modifications of the mod. You can play around with the code if you fork the project, but if you want to distribute it, you need my explicit permission. I haven't been in this situation yet, so if you create a modification, let me know and we'll figure something out.
 
+## Project setup guide
+
+In order to setup your own workspace to play around with the source code, first clone this repository using your Git client (make sure to select the correct branch, they are named by Minecraft versions; master is always the latest).
+
+Once you cloned the repository, follow this tutorial on how to install Forge: http://www.minecraftforge.net/wiki/Installation/Source
+
+When you download Forge, do not copy the *src* folder and *build.gradle* file, as those are provided by the mod's repository, otherwise your setup will not work.
+
 ## Issue & task tracker
 
 This project also contains an issue tracker for the mod, which you should use for ideas, questions and bug reports.
