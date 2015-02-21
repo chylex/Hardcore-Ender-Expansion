@@ -275,7 +275,7 @@ public final class KnowledgeRegistrations{
 		 * Objects which are made in a way they should be unlocked with points would only give small reward.
 		 */
 		
-		HELP.addFragments(new KnowledgeFragment[]{
+		HELP.setNonBuyable().addFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(0),
 			new KnowledgeFragmentText(1),
 			new KnowledgeFragmentText(2),

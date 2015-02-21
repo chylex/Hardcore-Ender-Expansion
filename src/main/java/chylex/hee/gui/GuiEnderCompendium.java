@@ -260,7 +260,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		int wheel = Mouse.getDWheel();
 		
 		if (wheel != 0){
-			if (currentObject != null && prevMouseX >= width>>1){
+			if (currentObject != null && (currentObject == KnowledgeRegistrations.HELP || prevMouseX >= width>>1)){
 				if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
 				else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
 			}
@@ -335,6 +335,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				compendiumData.setSeenHelp();
 			}
 			
+			purchaseElements.clear();
 			return;
 		}
 		
@@ -345,7 +346,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (currentObject == null)return;
 		
 		for(ObjectDisplayElement element:objectElements){
-			if (element.object == currentObject){
+			if (element.object.getObject() == currentObject.getObject()){
 				int newY = -(element.y+element.object.getY()-(height>>1)+11);
 				
 				if (animate)offsetY.startAnimation(offsetY.value(),newY,0.5F);
@@ -503,6 +504,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private void renderPaper(int x, int y, int mouseX, int mouseY){
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		pageArrows[0].xPosition = x-(guiPageTexWidth*3/10)-10;
 		pageArrows[1].xPosition = x+(guiPageTexWidth*3/10)-10;
 		
@@ -512,7 +514,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		mc.getTextureManager().bindTexture(texPage);
 		drawTexturedModalRect(x-(guiPageTexWidth>>1),y-(guiPageTexHeight>>1),0,0,guiPageTexWidth,guiPageTexHeight);
 		
-		if (compendiumData.hasDiscoveredObject(currentObject) || currentObject == KnowledgeRegistrations.HELP){
+		if (compendiumData.hasDiscoveredObject(currentObject)){
 			x = x-(guiPageTexWidth>>1)+guiPageLeft;
 			y = y-(guiPageTexHeight>>1)+guiPageTop;
 			
@@ -535,6 +537,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			String msg = "Cannot buy this object";
 			mc.fontRenderer.drawString(msg,x-(mc.fontRenderer.getStringWidth(msg)>>1),y-7,0x404040);
 		}
+
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
 	@Override

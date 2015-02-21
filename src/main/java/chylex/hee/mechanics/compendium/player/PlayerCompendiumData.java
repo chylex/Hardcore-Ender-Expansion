@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
 import org.apache.commons.lang3.StringUtils;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
@@ -75,6 +76,8 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	}
 	
 	public boolean hasDiscoveredObject(KnowledgeObject<?> object){
+		if (object == KnowledgeRegistrations.HELP)return true;
+		
 		IKnowledgeObjectInstance<?> obj = object.getObject();
 		
 		if (obj instanceof ObjectBlock)return discoveredBlocks.hasDiscoveredObject((ObjectBlock)obj);
