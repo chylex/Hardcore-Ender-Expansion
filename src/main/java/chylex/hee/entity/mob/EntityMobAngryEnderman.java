@@ -18,6 +18,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
@@ -220,6 +221,20 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 			}
 			else return super.attackEntityFrom(source,damage);
 		}
+	}
+	
+	@Override
+	public void onDeath(DamageSource source){
+		if (!worldObj.isRemote && worldObj.provider.dimensionId == 1 && worldObj.getTotalWorldTime()-EntityBossDragon.lastUpdate < 20 && source.getSourceOfDamage() instanceof EntityPlayer){
+			for(Object o:worldObj.loadedEntityList){
+				if (o instanceof EntityBossDragon){
+					((EntityBossDragon)o).achievements.onPlayerKilledEnderman((EntityPlayer)source.getSourceOfDamage());
+					break;
+				}
+			}
+		}
+		
+		super.onDeath(source);
 	}
 
 	@Override
