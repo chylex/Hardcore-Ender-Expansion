@@ -13,7 +13,7 @@ public abstract class AbstractPotionData{
 		this.requiredDamageValue = (short)requiredDamageValue;
 		this.damageValue = (short)damageValue;
 		this.maxLevel = maxLevel;
-		this.maxLevel = maxLevelEnhanced;
+		this.maxLevelEnhanced = maxLevelEnhanced;
 	}
 	
 	public Potion getPotionType(){
