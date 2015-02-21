@@ -125,7 +125,7 @@ public abstract class IslandBiomeBase{
 			
 			if (world.difficultySetting == EnumDifficulty.PEACEFUL && entry.isMob)return;
 			
-			int currentAmount = world.getEntitiesWithinAABB(entry.getMobClass(),AxisAlignedBB.getBoundingBox(x-halfsz,y+10,z-halfsz,x+halfsz,y+55,z+halfsz)).size();
+			int currentAmount = world.getEntitiesWithinAABB(entry.getMobClass(),AxisAlignedBB.getBoundingBox(x-halfsz,y,z-halfsz,x+halfsz,y+100,z+halfsz)).size();
 			if (currentAmount >= entry.getMaxAmount() || world.rand.nextFloat()*1.1F < (float)currentAmount/entry.getMaxAmount())return;
 			
 			int playerAmount = world.playerEntities.size();

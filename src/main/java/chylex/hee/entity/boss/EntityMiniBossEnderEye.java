@@ -299,9 +299,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		isAirBorne = true;
 		double dist = Math.sqrt(xPower*xPower+zPower*zPower);
 		
-		motionX -= xPower/dist*0.1D;
+		motionX -= xPower/dist*0.04D;
 		motionY += 0.005D;
-		motionZ -= zPower/dist*0.1D;
+		motionZ -= zPower/dist*0.04D;
 
 		if (motionY > 0.05D)motionY = 0.05D;
 	}
