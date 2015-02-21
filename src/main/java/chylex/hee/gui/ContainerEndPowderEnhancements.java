@@ -151,6 +151,15 @@ public class ContainerEndPowderEnhancements extends Container{
 	}
 	
 	@Override
+	public void putStackInSlot(int slot, ItemStack is){
+		super.putStackInSlot(slot,is);
+		
+		if (slot == 0 && isEnhancingTile()){
+			onSubjectChanged();
+		}
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
     public void putStacksInSlots(ItemStack[] items){
 		super.putStacksInSlots(items);
@@ -176,10 +185,10 @@ public class ContainerEndPowderEnhancements extends Container{
 			clientEnhancementItems[a] = is;
 		}
 	}
-
+	
 	public void onSubjectChanged(){
 		ItemStack mainIS = getSlot(0).getStack();
-
+		
 		updateClientItems();
 		onEnhancementSlotChangeClient(-1);
 		
@@ -280,7 +289,7 @@ public class ContainerEndPowderEnhancements extends Container{
 				for(int a = 0; a < slots.amountIngredient; a++){
 					if ((ingredientSlots[a].getStack().stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(2+powderSlots.length+a,null);
 				}
-				
+
 				if (isEnhancingTile() || getSlot(0).getStack() == null)onSubjectChanged();
 				
 				if (CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement))){
