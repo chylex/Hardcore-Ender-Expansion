@@ -107,6 +107,9 @@ public class GuiAchievementsCustom extends GuiAchievements{
 				}
 			}
 		}
+		else if (buttonId == 1){
+			mc.displayGuiScreen(field_146562_a); // OBFUSCATED parentScreen
+		}
 		
 		super.mouseClicked(mouseX,mouseY,buttonId);
 	}

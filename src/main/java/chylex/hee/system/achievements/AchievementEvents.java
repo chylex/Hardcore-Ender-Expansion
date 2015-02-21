@@ -103,6 +103,7 @@ public final class AchievementEvents implements IQuickSavefile{
 		
 		if (item == ItemList.end_powder)e.player.addStat(AchievementManager.END_POWDER,1);
 		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.STARDUST,1);
+		else if (item == ItemList.endium_ingot)e.player.addStat(AchievementManager.ENDIUM_INGOT,1);
 		else if (item == ItemList.essence && is.getItemDamage() == EssenceType.FIERY.getItemDamage())e.player.addStat(AchievementManager.FIERY_ESSSENCE,1);
 	}
 	

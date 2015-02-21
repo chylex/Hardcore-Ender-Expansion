@@ -388,7 +388,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(112).setPrice(3).setUnlockRequirements(111),
 				new KnowledgeFragmentText(113).setPrice(5).setUnlockRequirements(110),
 				new KnowledgeFragmentText(114).setPrice(2).setUnlockRequirements(110),
-				new KnowledgeFragmentItemConversion(115).setItems(new ItemStack(Items.brewing_stand),new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(2).setUnlockRequirements(114),
+				new KnowledgeFragmentItemConversion(115).setItems(new ItemStack(Items.brewing_stand),new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(3).setUnlockRequirements(114).setUnlockCascade(130),
 				new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setNonBuyable(), // 180
 				new KnowledgeFragmentItemConversion(117).setItems(new ItemStack(ItemList.ghost_amulet),new ItemStack(ItemList.ghost_amulet,1,1)).setNonBuyable(), // 463
 			}),
@@ -401,7 +401,7 @@ public final class KnowledgeRegistrations{
 			}),
 			
 			ENHANCED_BREWING_STAND.setPos(4,12).setUnlockPrice(18).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
-				new KnowledgeFragmentText(130).setPrice(5),
+				new KnowledgeFragmentText(130).setPrice(3).setUnlockCascade(115),
 				new KnowledgeFragmentText(131).setPrice(2).setUnlockRequirements(130),
 				new KnowledgeFragmentText(132).setPrice(5).setUnlockRequirements(130).setUnlockCascade(166),
 				new KnowledgeFragmentText(137).setPrice(5).setUnlockRequirements(132),

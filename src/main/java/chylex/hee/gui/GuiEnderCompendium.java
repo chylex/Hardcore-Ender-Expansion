@@ -492,7 +492,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private void renderFragmentCount(int x, int y){
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glColor4f(1F,1F,1F,1F);
+		
 		mc.getTextureManager().bindTexture(texBack);
 		drawTexturedModalRect(x,y,56,0,56,20);
 		
@@ -501,6 +503,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		String pointAmount = String.valueOf(compendiumData.getPoints());
 		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,0x404040);
+		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
 	private void renderPaper(int x, int y, int mouseX, int mouseY){

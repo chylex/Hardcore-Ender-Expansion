@@ -1,12 +1,10 @@
 package chylex.hee.entity.item;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.achievements.AchievementManager;
 
@@ -88,7 +86,7 @@ public class EntityItemAltar extends EntityItem{
 			super.onCollideWithPlayer(player);
 			
 			if (isDead){
-				if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_brewing_stand))player.addStat(AchievementManager.ENHANCED_BREWING_STAND,1);
+				if (is.getItem() == ItemList.enhanced_brewing_stand)player.addStat(AchievementManager.ENHANCED_BREWING_STAND,1);
 				else if (is.getItem() == ItemList.temple_caller)player.addStat(AchievementManager.TEMPLE_CALLER,1);
 			}
 		}
