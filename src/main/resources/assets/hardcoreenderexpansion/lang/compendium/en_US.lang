@@ -67,8 +67,8 @@ ec.reg.40=Core component of the Basic Essence Altar.
 ec.reg.51=Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.
 ec.reg.52=Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.
 
-ec.reg.60=Tall black mobs that populate the End, and uncommonly spawn in the Overworld.
-ec.reg.61=Looking into their eyes or attacking them makes them aggroed.
+ec.reg.60=Tall black mob that populates the End, and uncommonly spawns in the Overworld.
+ec.reg.61=Looking into their eyes or attacking them makes them hostile.
 ec.reg.62=Endermen can teleport away, either randomly or sometimes when attacked.
 ec.reg.63=Water damages them.
 
