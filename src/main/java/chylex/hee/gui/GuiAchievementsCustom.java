@@ -14,6 +14,7 @@ import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.achievements.HeeAchievement;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -100,7 +101,8 @@ public class GuiAchievementsCustom extends GuiAchievements{
 				int y = achievement.displayRow*24-offsetY;
 
 				if (x >= -24 && y >= -24 && x <= 224F*field_146570_r && y <= 155F*field_146570_r && realMouseX >= x && realMouseX <= x+22 && realMouseY >= y && realMouseY <= y+22){
-					KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = KnowledgeUtils.tryGetFromItemStack(achievement.theItemStack);
+					KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = ((HeeAchievement)achievement).getKnowledgeObj();
+					if (obj == null)obj = KnowledgeUtils.tryGetFromItemStack(achievement.theItemStack);
 					if (obj != null)CompendiumEventsClient.openCompendium(obj);
 				}
 			}
