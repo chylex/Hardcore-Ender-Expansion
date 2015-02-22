@@ -1,4 +1,41 @@
 ==================
+Release 1.7.1 (1.7.10)
+22 February 2015
+------------------
+[b]Additions[/b]
+Added Achievement screen to the Ender Compendium
+Around a dozen brand new Achievements!
+Blocks can now be enhanced by right-clicking on them while holding End Powder
+New enhancements for Essence Altars, Enhanced Brewing Stands and Spatial Dash Gems
+Biome Islands have several new deviations (adds much more variation to each biome)
+Added Flameweed and Shadow Orchids to Biome Islands
+New Thaumcraft aspects on blocks, items and mobs (thanks SoundLogic)
+
+[b]Changes[/b]
+Ender Compendium has a first-time help and page indicators
+One-sided Knowledge Fragments will now point you to the place where you can unlock them
+Biome Compass uses End Powder instead of Stardust
+Gems now have a short use cooldown, and slower absorption of Energy from the environment
+Enhancing attempts will no longer destroy the ingredients, only End Powder itself
+Enhanced Brewing Stand will only brew potions to tier III, until enhanced with Tier
+Essence Altars are a bit faster and more efficient
+Removed Soul Charm and Corporeal Mirage Orb, as they were obsolete
+Removed Essence Altar sockets in favor of new enhancements (the socket blocks can still be taken away)
+
+[b]Bugfixes[/b]
+Fixed Dragon Egg not working correctly in modded recipes
+Fixed a bug in Dragon achievement savefile, which caused people to not get achievements if the Dragon unloaded
+Haunted Miner would could logs, glass and other smeltable blocks as ores
+Blocks and items in Ender Compendium would render above other elements
+Burning Mountains will not keep spawning mobs when you get into very large altitudes
+Fixed a certain combination of TNT Enhancements to cause explosions which would not destroy the TNT, and cause client desync
+Enhanced TNT would not drop the enhanced item
+Music system was rewritten, End music will no longer suddenly cut out and Jukeboxes work better with HEE Music Discs too
+Endermen spawning in Overworld are now replaced correctly (internal change)
+General fixes (Compendium texts not showing or not being wrapped, occasionally missing text)
+
+
+==================
 Release 1.7 (1.7.10)
 18 January 2015
 ------------------
