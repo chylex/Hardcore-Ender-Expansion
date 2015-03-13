@@ -41,7 +41,7 @@ The terms say that you cannot redistribute the mod or modifications of the mod. 
 
 ## Project setup guide
 
-In order to setup your own workspace to play around with the source code, first clone this repository using your Git client (make sure to select the correct branch, they are named by Minecraft versions; master is always the latest).
+In order to setup your own workspace to play around with the source code, first clone this repository using your Git client (make sure to select the correct branch, they are named by Minecraft versions; master is always the latest released version).
 
 Once you cloned the repository, follow this tutorial on how to install Forge: http://www.minecraftforge.net/wiki/Installation/Source
 
