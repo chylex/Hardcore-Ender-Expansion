@@ -43,5 +43,11 @@ public final class CollectionUtil{
 		return list;
 	}
 	
+	public static <T> ArrayList<T> newList(int capacity, T...elements){
+		ArrayList<T> list = new ArrayList<>(capacity);
+		Collections.addAll(list,elements);
+		return list;
+	}
+	
 	private CollectionUtil(){}
 }

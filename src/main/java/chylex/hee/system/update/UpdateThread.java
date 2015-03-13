@@ -83,7 +83,7 @@ class UpdateThread extends Thread{
 			}
 			else Log.debug("Done.");
 			
-			if (buildId != HardcoreEnderExpansion.buildId){
+			if (buildId != HardcoreEnderExpansion.buildId){ // TODO externalize
 				StringBuilder message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
 					.append("\n Caution, you are using a broken build that can cause critical crashes! Please, redownload the mod, or update it if there is an update available.")

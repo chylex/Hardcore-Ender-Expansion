@@ -1,6 +1,5 @@
 package chylex.hee.proxy;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.entity.item.EntityItemIgneousRock;
@@ -13,7 +12,7 @@ import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public class FXCommonProxy{
 	// GENERIC
-	public void omnipresent(EnumParticleTypes particleType, World world, double x, double y, double z, double motionX, double motionY, double motionZ){}
+	public void omnipresent(String particleName, World world, double x, double y, double z, double motionX, double motionY, double motionZ){}
 	public void item(ItemStack is, World world, double x, double y, double z, double motionX, double motionY, double motionZ){}
 	public void itemTarget(ItemStack is, World world, double startX, double startY, double startZ, double targetX, double targetY, double targetZ, float speedMultiplier){}
 	public void bubble(World world, double x, double y, double z, double motionX, double motionY, double motionZ){}

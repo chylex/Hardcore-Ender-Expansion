@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDragonEgg;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -14,8 +13,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
@@ -26,76 +24,74 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
-import chylex.hee.system.util.BlockPosM;
 
 public class BlockDragonEggCustom extends BlockDragonEgg{
 	public BlockDragonEggCustom(){
-		setBlockUnbreakable().setResistance(2000F).setStepSound(Block.soundTypeStone).setLightLevel(0.125F).setUnlocalizedName("dragonEgg");
+		setBlockUnbreakable().setResistance(2000F).setStepSound(Block.soundTypeStone).setLightLevel(0.125F).setBlockName("dragonEgg").setBlockTextureName("dragon_egg");
 	}
 	
 	@Override
-	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
-		fallIfPossible(world,pos);
+	public void updateTick(World world, int x, int y, int z, Random rand){
+		fallIfPossible(world,x,y,z);
 	}
 	
 	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state){
-		if (pos.getX() == 9 && pos.getZ() == 6 && pos.getY() == 249 && world.provider.getDimensionId() == 1 && !world.isRemote){
+	public void onBlockAdded(World world, int x, int y, int z){
+		if (x == 9 && z == 6 && y == 249 && world.provider.dimensionId == 1 && !world.isRemote){
 			DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
 			Set<UUID> playersInTemple = save.getPlayersInTemple();
 			
 			if (!playersInTemple.isEmpty()){
 				save.setPreventTempleDestruction(true);
-				world.spawnEntityInWorld(new EntityBlockTempleDragonEgg(world,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D));
+				world.spawnEntityInWorld(new EntityBlockTempleDragonEgg(world,x+0.5D,y+0.5D,z+0.5D));
 			}
 		}
-		else super.onBlockAdded(world,pos,state);
+		else super.onBlockAdded(world,x,y,z);
 	}
 
-	private void fallIfPossible(World world, BlockPos pos){
-		if (BlockFalling.canFallInto(world,pos.down()) && pos.getY() >= 0){
+	private void fallIfPossible(World world, int x, int y, int z){
+		if (BlockFalling.func_149831_e(world,x,y-1,z) && y >= 0){ // OBFUSCATED can fall?
 			byte checkRange = 32;
 			
-			if (!BlockFalling.fallInstantly && world.isAreaLoaded(pos.add(-checkRange,-checkRange,-checkRange),pos.add(checkRange,checkRange,checkRange))){
-				world.spawnEntityInWorld(new EntityBlockFallingDragonEgg(world,pos.getX()+0.5F,pos.getY()+0.5F,pos.getZ()+0.5F));
+			if (!BlockFalling.fallInstantly && world.checkChunksExist(x-checkRange,y-checkRange,z-checkRange,x+checkRange,y+checkRange,z+checkRange)){
+				world.spawnEntityInWorld(new EntityBlockFallingDragonEgg(world,x+0.5F,y+0.5F,z+0.5F));
 			}
 			else{
-				world.setBlockToAir(pos);
-				BlockPosM fallPos = new BlockPosM(pos);
-				while(BlockFalling.canFallInto(world,pos.down()) && fallPos.y >= 0)--fallPos.y;
-				if (fallPos.y > 0)fallPos.setBlock(world,this);
+				world.setBlockToAir(x,y,z);
+				while(BlockFalling.func_149831_e(world,x,y-1,z) && y > 0)--y;
+				if (y > 0)world.setBlock(x,y,z,this,0,2);
 			}
 		}
 	}
 	
 	@Override
-	public void onBlockClicked(World world, BlockPos pos, EntityPlayer player){
+	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player){
 		if (player != null && player.isSneaking() && player.getHeldItem() != null &&
-			player.getHeldItem().getItemUseAction() == EnumAction.BLOCK){
-			world.setBlockToAir(pos);
-			spawnAsEntity(world,pos,new ItemStack(Blocks.dragon_egg));
+			player.getHeldItem().getItemUseAction() == EnumAction.block){
+			world.setBlockToAir(x,y,z);
+			dropBlockAsItem(world,x,y,z,new ItemStack(Blocks.dragon_egg));
 		}
-		else teleportNearby(world,pos);
+		else teleportNearby(world,x,y,z);
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
-		teleportNearby(world,pos);
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
+		teleportNearby(world,x,y,z);
 		return true;
 	}
 	
 	@Override
-	public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune){
-		teleportNearby(world,pos);
+	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
+		teleportNearby(world,x,y,z);
 	}
 	
 	@Override
-	public void breakBlock(World world, BlockPos pos, IBlockState state){
-		teleportNearby(world,pos);
+	public void breakBlock(World world, int x, int y, int z, Block block, int meta){
+		teleportNearby(world,x,y,z);
 	}
 	
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune){
+	public Item getItemDropped(int meta, Random rand, int fortune){
 		return null;
 	}
 	
@@ -104,20 +100,18 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		return 0;
 	}
 	
-	public static boolean teleportNearby(World world, BlockPos pos){
-		if (world.getBlockState(pos).getBlock() == Blocks.dragon_egg && !world.isRemote){
-			BlockPosM tpLoc = new BlockPosM();
-			
-			for(int attempt = 0; attempt < 1000; attempt++){
-				tpLoc.x = pos.getX()+world.rand.nextInt(16)-world.rand.nextInt(16);
-				tpLoc.y = pos.getY()+world.rand.nextInt(8)-world.rand.nextInt(8);
-				tpLoc.z = pos.getZ()+world.rand.nextInt(16)-world.rand.nextInt(16);
+	public static boolean teleportNearby(World world, int x, int y, int z){
+		if (world.getBlock(x,y,z) == Blocks.dragon_egg && !world.isRemote){
+			for(int attempt = 0,xx,yy,zz; attempt < 1000; ++attempt){
+				xx = x+world.rand.nextInt(16)-world.rand.nextInt(16);
+				yy = y+world.rand.nextInt(8)-world.rand.nextInt(8);
+				zz = z+world.rand.nextInt(16)-world.rand.nextInt(16);
 
-				if (tpLoc.getBlockMaterial(world) == Material.air){
-					world.setBlockState(tpLoc,world.getBlockState(pos));
-					world.setBlockToAir(pos);
+				if (world.getBlock(xx,yy,zz).getMaterial() == Material.air){
+					world.setBlock(xx,yy,zz,Blocks.dragon_egg,world.getBlockMetadata(x,y,z),2);
+					world.setBlockToAir(x,y,z);
 					
-					PacketPipeline.sendToAllAround(world.provider.getDimensionId(),pos,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D,tpLoc.x+0.5D,tpLoc.y+0.5D,tpLoc.z+0.5D));
+					PacketPipeline.sendToAllAround(world.provider.dimensionId,x,y,z,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,x+0.5D,y+0.5D,z+0.5D,xx+0.5D,yy+0.5D,zz+0.5D));
 					return true;
 				}
 			}
@@ -130,14 +124,14 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
 		
 		if (file.isDragonDead()){
-			BlockPosM coords = file.getPortalEggLocation();
+			ChunkCoordinates coords = file.getPortalEggLocation();
 			World endWorld = MinecraftServer.getServer().worldServerForDimension(1);
 			
 			if (endWorld == null)HardcoreEnderExpansion.notifications.report("Could not teleport Dragon Egg to the End, world is null.");
-			else if (coords.getBlock(endWorld) != Blocks.dragon_egg){
-				coords.setBlock(endWorld,Blocks.dragon_egg);
+			else if (endWorld.getBlock(coords.posX,coords.posY,coords.posZ) != Blocks.dragon_egg){
+				endWorld.setBlock(coords.posX,coords.posY,coords.posZ,Blocks.dragon_egg);
 				PacketPipeline.sendToAllAround(eggEntity,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,eggEntity));
-				PacketPipeline.sendToAllAround(endWorld.provider.getDimensionId(),coords.x+0.5D,coords.y+0.5D,coords.z+0.5D,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,coords.x+0.5D,coords.y+0.5D,coords.z+0.5D));
+				PacketPipeline.sendToAllAround(endWorld.provider.dimensionId,coords.posX+0.5D,coords.posY+0.5D,coords.posZ+0.5D,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,coords.posX+0.5D,coords.posY+0.5D,coords.posZ+0.5D));
 				return true;
 			}
 		}

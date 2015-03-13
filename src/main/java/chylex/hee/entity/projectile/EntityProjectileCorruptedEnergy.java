@@ -8,7 +8,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityProjectileCorruptedEnergy extends EntityFireball{
@@ -23,7 +23,7 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 		setPosition(x,y,z);
 		
 		double speed = 0.21D+rand.nextDouble()*0.05D;
-		Vec3 motionVec = new Vec3(target.posX-x,target.posY+target.height*0.5F-y,target.posZ-z).normalize();
+		Vec3 motionVec = Vec3.createVectorHelper(target.posX-x,target.posY+target.height*0.5F-y,target.posZ-z).normalize();
 		motionX = motionVec.xCoord*speed+rand.nextGaussian()*0.015D;
 		motionY = motionVec.yCoord*speed+rand.nextGaussian()*0.015D;
 		motionZ = motionVec.zCoord*speed+rand.nextGaussian()*0.015D;
@@ -76,7 +76,7 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 	}
 	
 	@Override
-	public boolean isEntityInvulnerable(DamageSource source){
+	public boolean isEntityInvulnerable(){
 		return true;
 	}
 }

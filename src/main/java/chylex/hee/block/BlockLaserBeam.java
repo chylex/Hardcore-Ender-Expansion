@@ -2,15 +2,12 @@ package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import chylex.hee.block.material.MaterialLaserBeam;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 
@@ -23,7 +20,7 @@ public class BlockLaserBeam extends BlockContainer{
 	}
 	
 	@Override
-	public Item getItemDropped(IBlockState statedata, Random rand, int fortune){
+	public Item getItemDropped(int metadata, Random rand, int fortune){
 		return null;
 	}
 
@@ -38,17 +35,17 @@ public class BlockLaserBeam extends BlockContainer{
 	}
 
 	@Override
-	public boolean isFullCube(){
+	public boolean renderAsNormalBlock(){
 		return false;
 	}
 	
 	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state){
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z){
 		return null;
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity){
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		if (entity.isImmuneToFire())return;
 		entity.attackEntityFrom(DamageSource.magic,ModCommonProxy.opMobs ? 5F : 3F);
 		entity.setFire(1);

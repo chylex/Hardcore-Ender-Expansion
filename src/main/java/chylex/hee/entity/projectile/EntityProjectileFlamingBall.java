@@ -10,7 +10,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 
 public class EntityProjectileFlamingBall extends EntityFireball{
@@ -56,15 +55,18 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 			mop.entityHit.fire += 3+EnchantmentProtection.getFireTimeForEntity(mop.entityHit,25);
 		}
 		else if (rand.nextInt(3) == 0){
-			BlockPosM mopPos = new BlockPosM(mop.getBlockPos());
-			mopPos.x += mop.sideHit.getFrontOffsetX();
-			mopPos.z += mop.sideHit.getFrontOffsetZ();
-			
-			if (mopPos.getBlockMaterial(worldObj) == Material.air){
-				mopPos.setBlock(worldObj,Blocks.fire);
+			switch(mop.sideHit){
+				case 2: --mop.blockZ; break;
+				case 3: ++mop.blockZ; break;
+				case 4: --mop.blockX; break;
+				case 5: ++mop.blockX; break;
 			}
-			else if (mopPos.moveUp().getBlockMaterial(worldObj) == Material.air){
-				mopPos.setBlock(worldObj,Blocks.fire);
+			
+			if (worldObj.getBlock(mop.blockX,mop.blockY,mop.blockZ).getMaterial() == Material.air){
+				worldObj.setBlock(mop.blockX,mop.blockY,mop.blockZ,Blocks.fire);
+			}
+			else if (worldObj.getBlock(mop.blockX,mop.blockY+1,mop.blockZ).getMaterial() == Material.air){
+				worldObj.setBlock(mop.blockX,mop.blockY+1,mop.blockZ,Blocks.fire);
 			}
 		}
 		
@@ -87,7 +89,7 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 	}
 	
 	@Override
-	public boolean isEntityInvulnerable(DamageSource source){
+	public boolean isEntityInvulnerable(){
 		return true;
 	}
 	

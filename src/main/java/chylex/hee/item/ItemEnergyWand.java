@@ -1,42 +1,47 @@
 package chylex.hee.item;
 import java.util.List;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.block.BlockList;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemEnergyWand extends Item{
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (player.isSneaking() && !world.isRemote){
-			NBTTagCompound nbt = ItemUtil.getNBT(is,false);
-			
-			if (nbt.hasKey("cluster")){
-				pos = pos.offset(side);
-				if (!player.canPlayerEdit(pos,side,is) || !world.isAirBlock(pos))return false;
+			if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cluster")){
+				switch(side){
+					case 1: ++y; break;
+					case 2: --z; break;
+					case 3: ++z; break;
+					case 4: --x; break;
+					case 5: ++x; break;
+				}
+	
+				if (!player.canPlayerEdit(x,y,z,side,is) || !world.isAirBlock(x,y,z))return false;
 				
-				world.setBlockState(pos,BlockList.energy_cluster.getDefaultState());
-				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(pos);
+				world.setBlock(x,y,z,BlockList.energy_cluster);
+				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
 				
 				if (tile != null){
-					NBTTagCompound tag = nbt.getCompoundTag("cluster");
-					tag.setIntArray("loc",new int[]{ pos.getX(), pos.getY(), pos.getZ() });
+					NBTTagCompound tag = is.stackTagCompound.getCompoundTag("cluster");
+					tag.setIntArray("loc",new int[]{ x, y, z });
 					tile.readTileFromNBT(tag);
 					
-					int[] prevLoc = nbt.getIntArray("prevLoc");
-					double dist = nbt.getShort("prevDim") == world.provider.getDimensionId() ? MathUtil.distance(prevLoc[0]-pos.getX(),prevLoc[1]-pos.getY(),prevLoc[2]-pos.getZ()) : Double.MAX_VALUE;
+					int[] prevLoc = is.stackTagCompound.getIntArray("prevLoc");
+					double dist = is.stackTagCompound.getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc[0]-x,prevLoc[1]-y,prevLoc[2]-z) : Double.MAX_VALUE;
 					
 					if (dist > 8D){
 						tile.data.setEnergyLevel(tile.data.getEnergyLevel()*(1F-0.5F*Math.min(1F,(float)dist/256F)));
@@ -46,24 +51,27 @@ public class ItemEnergyWand extends Item{
 					tile.synchronize();
 				}
 				
-				nbt.removeTag("cluster");
+				is.stackTagCompound.removeTag("cluster");
 				return true;
 			}
-			else if (world.getBlockState(pos).getBlock() == BlockList.energy_cluster){
-				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(pos);
+			else if (world.getBlock(x,y,z) == BlockList.energy_cluster){
+				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
 				
 				if (tile != null){
 					tile.shouldNotExplode = true;
 					
 					if (!world.isRemote){
+						CausatumUtils.increase(player,CausatumMeters.END_ENERGY,tile.data.getEnergyLevel()*0.5F);
+						
 						NBTTagCompound tag = tile.writeTileToNBT(new NBTTagCompound());
 						tag.setIntArray("loc",ArrayUtils.EMPTY_INT_ARRAY);
 						
-						nbt.setTag("cluster",tag);
-						nbt.setIntArray("prevLoc",new int[]{ pos.getX(), pos.getY(), pos.getZ() });
-						nbt.setShort("prevDim",(short)world.provider.getDimensionId());
+						if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+						is.stackTagCompound.setTag("cluster",tag);
+						is.stackTagCompound.setIntArray("prevLoc",new int[]{ x, y, z });
+						is.stackTagCompound.setShort("prevDim",(short)world.provider.dimensionId);
 						
-						world.setBlockToAir(pos);
+						world.setBlockToAir(x,y,z);
 					}
 				}
 				
@@ -82,13 +90,13 @@ public class ItemEnergyWand extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		if (!ItemUtil.getNBT(is,false).hasKey("cluster"))return;
-		textLines.add("Holding cluster with "+DragonUtil.formatTwoPlaces.format(ItemUtil.getNBT(is,false).getCompoundTag("cluster").getShort("lvl"))+" Energy");
+		if (is.stackTagCompound == null || !is.stackTagCompound.hasKey("cluster"))return;
+		textLines.add(I18n.format("item.energyWand.info.holding").replace("$",DragonUtil.formatTwoPlaces.format(is.stackTagCompound.getCompoundTag("cluster").getShort("lvl"))));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is){
-		return ItemUtil.getNBT(is,false).hasKey("cluster");
+	public boolean hasEffect(ItemStack is, int pass){
+		return is.stackTagCompound != null && is.stackTagCompound.hasKey("cluster");
 	}
 }

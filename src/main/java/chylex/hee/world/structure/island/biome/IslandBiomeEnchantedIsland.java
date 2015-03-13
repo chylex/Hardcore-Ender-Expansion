@@ -6,7 +6,6 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockBiomeIslandCore.Biome;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
@@ -18,7 +17,6 @@ import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
@@ -31,10 +29,12 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
-	public static final BiomeContentVariation HOMELAND = new BiomeContentVariation(Biome.ENCHANTED_ISLAND_HOMELAND.ordinal(), 6);
-	public static final BiomeContentVariation LABORATORY = new BiomeContentVariation(Biome.ENCHANTED_ISLAND_LABORATORY.ordinal(), 4);
+	public static final BiomeContentVariation HOMELAND = new BiomeContentVariation(2,6);
+	public static final BiomeContentVariation LABORATORY = new BiomeContentVariation(6,4);
 	
-	public static final BiomeRandomDeviation TALL_PILES = new BiomeRandomDeviation(HOMELAND);
+	public static final BiomeRandomDeviation TALL_PILES = new BiomeRandomDeviation("TallPiles", HOMELAND);
+	public static final BiomeRandomDeviation GOO_SWAMP = new BiomeRandomDeviation("GooSwamp", HOMELAND);
+	public static final BiomeRandomDeviation MORE_SHADOW_ORCHIDS = new BiomeRandomDeviation("ShadowOrchids", HOMELAND, LABORATORY);
 	
 	private final BiomeDecoratorEnchantedIsland decorator = new BiomeDecoratorEnchantedIsland();
 	
@@ -45,6 +45,8 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		contentVariations.add(LABORATORY);
 		
 		randomDeviations.add(TALL_PILES);
+		randomDeviations.add(GOO_SWAMP);
+		randomDeviations.add(MORE_SHADOW_ORCHIDS);
 		
 		getSpawnEntries(HOMELAND).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobEnderman.class,22,38),
@@ -74,11 +76,11 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	}
 	
 	@Override
-	public void updateCore(World world, BlockPosM pos, int meta){
-		super.updateCore(world,pos,meta);
+	public void updateCore(World world, int x, int y, int z, int meta){
+		super.updateCore(world,x,y,z,meta);
 		
-		if (meta == HOMELAND.id && world.rand.nextInt(40) == 0 && world.getDifficulty() != EnumDifficulty.PEACEFUL){
-			AxisAlignedBB aabb = AxisAlignedBB.fromBounds(pos.x-ComponentIsland.halfSize,10,pos.z-ComponentIsland.halfSize,pos.x+ComponentIsland.halfSize,128,pos.z+ComponentIsland.halfSize);
+		if (meta == HOMELAND.id && world.rand.nextInt(40) == 0 && world.difficultySetting != EnumDifficulty.PEACEFUL){
+			AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(x-ComponentIsland.halfSize,10,z-ComponentIsland.halfSize,x+ComponentIsland.halfSize,128,z+ComponentIsland.halfSize);
 			
 			List<EntityMobHomelandEnderman> all = world.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,aabb);
 			if (all.size() > 15+world.rand.nextInt(50))return;
@@ -143,7 +145,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	}
 	
 	@Override
-	public BlockEndstoneTerrain.Variant getTopBlockVariant(){
-		return BlockEndstoneTerrain.Variant.ENCHANTED;
+	public int getTopBlockMeta(){
+		return BlockEndstoneTerrain.metaEnchanted;
 	}
 }

@@ -1,16 +1,15 @@
 package chylex.hee.entity.block;
 import java.util.ArrayList;
+import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
-import chylex.hee.block.BlockTempleEndPortal;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.misc.TempleEvents;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	public EntityBlockTempleDragonEgg(World world){
@@ -18,7 +17,7 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	}
 	
 	public EntityBlockTempleDragonEgg(World world, double x, double y, double z){
-		super(world,x,y,z,Blocks.dragon_egg.getDefaultState());
+		super(world,x,y,z,Blocks.dragon_egg,0);
 	}
 	
 	@Override
@@ -33,40 +32,37 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 		prevPosY = posY;
 		prevPosZ = posZ;
 		
-		if (++fallTime == 1 && !worldObj.isRemote){
-			BlockPosM pos = new BlockPosM(this), testPos = pos.copy();
-			
-			if (pos.getBlock(worldObj) != Blocks.dragon_egg){
+		if (++field_145812_b == 1 && !worldObj.isRemote){
+			int xx = MathUtil.floor(posX), yy = MathUtil.floor(posY), zz = MathUtil.floor(posZ);
+			if (worldObj.getBlock(xx,yy,zz) != func_145805_f()){ // OBFUSCATED get block
 				setDead();
 				return;
 			}
 			
-			worldObj.setBlockToAir(pos);
+			worldObj.setBlockToAir(xx,yy,zz);
 			
-			for(int xx = pos.x+2; xx < pos.x+5; xx++){
-				for(int zz = pos.z-1; zz <= pos.z+1; zz++){
-					if (testPos.moveTo(xx,pos.y-1,zz).getBlock(worldObj) == BlockList.temple_end_portal){
-						testPos.setBlock(worldObj,BlockList.temple_end_portal.getDefaultState().withProperty(BlockTempleEndPortal.STATUS,BlockTempleEndPortal.Status.INACTIVE)); 
-					}
+			for(int x = xx+2; x < xx+5; x++){
+				for(int z = zz-1; z <= zz+1; z++){
+					if (worldObj.getBlock(x,yy-1,z) == BlockList.temple_end_portal)worldObj.setBlockMetadataWithNotify(x,yy-1,z,1,2);
 				}
 			}
 		}
 		
 		moveEntity(motionX,motionY,motionZ);
 		
-		for(int y = 7; y >= 0; y--){
-			for(int a = 0; a < Math.min(10,fallTime/4F); a++){
-				worldObj.spawnParticle(EnumParticleTypes.PORTAL,posX+rand.nextDouble()-0.5D,posY+y+rand.nextDouble()-0.3D,posZ+rand.nextDouble()-0.5D,0D,0D,0D);
+		for(int y = 5; y >= 0; y--){
+			for(int a = 0; a < Math.min(10,field_145812_b/4F); a++){
+				worldObj.spawnParticle("portal",posX+rand.nextDouble()-0.5D,posY+y+rand.nextDouble()-0.3D,posZ+rand.nextDouble()-0.5D,0D,0D,0D);
 			}
 		}
 		
-		if (fallTime >= 24){
+		if (field_145812_b >= 24){
 			motionY = 0.01D;
 			
 			double deltaY = posY-ItemTempleCaller.templeY-2;
 			
 			if (!worldObj.isRemote){
-				if (deltaY > 4D && rand.nextInt(6-(deltaY>6D?2 : 0)) == 0){
+				if (deltaY > 4D && rand.nextInt(6-(deltaY > 6D ? 2 : 0)) == 0){
 					double xx = -5D, zz = -5D;
 					
 					switch(rand.nextInt(4)){
@@ -96,5 +92,10 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	}
 	
 	@Override
-	public void fall(float distance, float damageMp){}
+	protected void fall(float distance){}
+	
+	@Override
+	public Block func_145805_f(){
+		return Blocks.dragon_egg;
+	}
 }

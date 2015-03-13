@@ -1,11 +1,16 @@
 package chylex.hee.tileentity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityEndermanHead extends TileEntityAbstractSynchronized{
 	private byte rotation;
 	private byte meta;
+	
+	@Override
+	public boolean canUpdate(){
+		return false;
+	}
 
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){

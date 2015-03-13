@@ -1,4 +1,6 @@
 package chylex.hee.mechanics.misc;
+import net.minecraft.world.World;
+import chylex.hee.block.BlockList;
 
 public final class ApocalypseEvents{
 	/*private static ApocalypseEvents instance;
@@ -85,7 +87,7 @@ public final class ApocalypseEvents{
 				int sz = world.playerEntities.size();
 				if (sz == 0)return;
 				
-				if (world.getDifficulty().getDifficultyId() > 0 && world.rand.nextFloat() < 0.45F){
+				if (world.difficultySetting.getDifficultyId() > 0 && world.rand.nextFloat() < 0.45F){
 					EntityPlayer player = (EntityPlayer)world.playerEntities.get(world.rand.nextInt(sz));
 					
 					SpawnEntry spawnEntry = spawnList.getRandomItem(world.rand);
@@ -143,7 +145,7 @@ public final class ApocalypseEvents{
 		else world.addWeatherEffect(new EntityWeatherLightningBoltSafe(world,x,y,z));
 	}*/
 	
-	/*public static boolean checkEndermanpocalypseStructure(World world, int x, int y, int z){
+	public static boolean checkEndermanpocalypseStructure(World world, int x, int y, int z){
 		for(int xx = x-1; xx <= x+1; xx++){
 			for(int zz = z-1; zz <= z+1; zz++){
 				if (world.getBlock(xx,y-1,zz) != BlockList.obsidian_special || world.getBlockMetadata(xx,y-1,zz) != 0)return false;
@@ -159,5 +161,5 @@ public final class ApocalypseEvents{
 		}
 		
 		return true;
-	}*/
+	}
 }

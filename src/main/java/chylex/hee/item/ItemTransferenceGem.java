@@ -1,32 +1,39 @@
 package chylex.hee.item;
 import java.util.List;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
-import chylex.hee.mechanics.gem.GemData;
-import chylex.hee.mechanics.gem.GemSideEffects;
+import chylex.hee.mechanics.misc.GemSideEffects;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.achievements.AchievementManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements IMultiModel{
+public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
+	private static final GemData clientCache = new GemData();
+	
+	@SideOnly(Side.CLIENT)
+	private IIcon[] iconArray;
+
 	@Override
 	public int getMaxDamage(ItemStack is){
-		return EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.CAPACITY) ? MathUtil.ceil(1.5F*super.getMaxDamage(is)) : super.getMaxDamage(is);
+		return calculateMaxDamage(is,TransferenceGemEnhancements.CAPACITY);
 	}
 	
 	@Override
@@ -62,12 +69,14 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 	}
 	
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
-		if (super.onItemUse(is,player,world,pos,side,hitX,hitY,hitZ))return true;
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
+		if (super.onItemUse(is,player,world,x,y,z,side,hitX,hitY,hitZ))return true;
 		
-		if (!world.isRemote && side == EnumFacing.UP && player.isSneaking()){
-			GemData.updateItemStack(is,player.dimension,pos.getX(),pos.getY(),pos.getZ());
-			PacketPipeline.sendToAllAround(player.dimension,pos,64D,new C20Effect(FXType.Basic.GEM_LINK,pos.getX(),pos.getY(),pos.getZ()));
+		if (!world.isRemote && side == 1 && player.isSneaking()){
+			GemData data = new GemData();
+			data.set(player.dimension,x,y,z);
+			data.saveToItemStack(is);
+			PacketPipeline.sendToAllAround(player.dimension,x,y,z,64D,new C20Effect(FXType.Basic.GEM_LINK,x,y,z));
 			return true;
 		}
 		
@@ -80,7 +89,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 	}
 	
 	@Override
-    public boolean itemInteractionForEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity){
+	public boolean itemInteractionForEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity){
 		if (entity instanceof IBossDisplayData || !EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.BEAST) || player.isSneaking())return false;
 		tryTeleportEntity(is,player,entity);
 		return true;
@@ -95,9 +104,10 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 		if (entity.isRiding() || entity.riddenByEntity != null)return is;
 		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown"))return is;
 		
-		GemData gemData = GemData.loadFromItemStack(is);
+		GemData gemData = new GemData();
+		gemData.set(is.stackTagCompound);
 		
-		if (gemData.isLinked() && entity.dimension == gemData.getDimension()){		
+		if (gemData.isLinked() && entity.dimension == gemData.dim){		
 			int itemDamage = is.getItemDamage();
 			if (itemDamage >= is.getMaxDamage())return is;
 			
@@ -105,10 +115,10 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 			
 			PacketPipeline.sendToAllAround(entity,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,entity));
 			
-			is.damageItem(getEnergyPerUse(is),player);
+			damageItem(is,player);
 			
-			if (isLiving)((EntityLivingBase)entity).setPositionAndUpdate(gemData.getX()+0.5D,gemData.getY()+1.001D,gemData.getZ()+0.5D);
-			entity.setLocationAndAngles(gemData.getX()+0.5D,gemData.getY()+1.001D,gemData.getZ()+0.5D,entity.rotationYaw,entity.rotationPitch);
+			if (isLiving)((EntityLivingBase)entity).setPositionAndUpdate(gemData.x+0.5D,gemData.y+1.001D,gemData.z+0.5D);
+			entity.setLocationAndAngles(gemData.x+0.5D,gemData.y+1.001D,gemData.z+0.5D,entity.rotationYaw,entity.rotationPitch);
 			entity.fallDistance = 0F;
 			
 			float percBroken = itemDamage/(float)is.getMaxDamage();
@@ -120,6 +130,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 			is.stackTagCompound.setByte("cooldown",(byte)50);
 			
 			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
+			CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,1F);
 		}
 		
 		return is;
@@ -134,11 +145,13 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		GemData gemData = GemData.loadFromItemStack(is);
-		
-		if (gemData.isLinked()){
-			textLines.add(EnumChatFormatting.GRAY+"Linked");
-			if (showAdvancedInfo)textLines.add(new StringBuilder().append(EnumChatFormatting.GRAY.toString()).append("DIM ").append(gemData.getDimension()).append(", X ").append(gemData.getX()).append(", Y ").append(gemData.getY()).append(", Z ").append(gemData.getZ()).toString());
+		if (is.stackTagCompound != null){
+			clientCache.set(is.stackTagCompound);
+			
+			if (clientCache.isLinked()){
+				textLines.add(EnumChatFormatting.GRAY+I18n.format("item.transferenceGem.info.linked"));
+				if (showAdvancedInfo)textLines.add(new StringBuilder().append(EnumChatFormatting.GRAY.toString()).append("DIM ").append(clientCache.dim).append(", X ").append(clientCache.x).append(", Y ").append(clientCache.y).append(", Z ").append(clientCache.z).toString());
+			}
 		}
 		
 		EnhancementHandler.appendEnhancementNames(is,textLines);
@@ -147,7 +160,26 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack is){
-		return EnumRarity.UNCOMMON;
+		return EnumRarity.uncommon;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(ItemStack is, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining){
+		return iconArray[getIcon(is)];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconIndex(ItemStack is){
+		return iconArray[getIcon(is)];
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister iconRegister){
+		iconArray = new IIcon[3];
+		for(int a = 0; a < iconArray.length; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:transference_gem_"+(a+1));
 	}
 	
 	private static int getIcon(ItemStack is){
@@ -156,10 +188,32 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor implements I
 		return percBroken > 0.56F ? 1 : 0;
 	}
 	
-	@Override
-	public String[] getModels(){
-		return new String[]{
-			"^transference_gem_1", "^transference_gem_2", "^transference_gem_3"
-		};
+	private static class GemData{		
+		private int dim, x, y, z;
+		
+		private void set(NBTTagCompound nbt){
+			set(nbt.hasKey("HED_Gem_Dim") ? nbt.getInteger("HED_Gem_Dim") : -999,nbt.getInteger("HED_Gem_X"),nbt.getInteger("HED_Gem_Y"),nbt.getInteger("HED_Gem_Z"));
+		}
+		
+		private void set(int dimension, int x, int y, int z){
+			this.dim = dimension;
+			this.x = x;
+			this.y = y;
+			this.z = z;
+		}
+		
+		public boolean isLinked(){
+			return dim != -999;
+		}
+		
+		public void saveToItemStack(ItemStack is){
+			NBTTagCompound nbt = is.stackTagCompound;
+			if (nbt == null)nbt = is.stackTagCompound = new NBTTagCompound();
+			
+			nbt.setInteger("HED_Gem_Dim",dim);
+			nbt.setInteger("HED_Gem_X",x);
+			nbt.setInteger("HED_Gem_Y",y);
+			nbt.setInteger("HED_Gem_Z",z);
+		}
 	}
 }

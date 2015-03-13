@@ -22,7 +22,7 @@ public class ItemInfestationRemedy extends Item{
 	
 	@Override
 	public EnumAction getItemUseAction(ItemStack is){
-		return EnumAction.DRINK;
+		return EnumAction.drink;
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class ItemInfestationRemedy extends Item{
 	}
 	
 	@Override
-	public ItemStack onItemUseFinish(ItemStack is, World world, EntityPlayer player){
+	public ItemStack onEaten(ItemStack is, World world, EntityPlayer player){
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		
 		TIntHashSet toRemove = new TIntHashSet(5);
@@ -51,7 +51,7 @@ public class ItemInfestationRemedy extends Item{
 		for(Entry<PotionEffect,Integer> entry:newDurations.entrySet()){
 			PotionEffect oldEff = entry.getKey();
 			player.removePotionEffect(oldEff.getPotionID());
-			player.addPotionEffect(new PotionEffect(oldEff.getPotionID(),entry.getValue(),oldEff.getAmplifier(),oldEff.getIsAmbient(),oldEff.getIsShowParticles()));
+			player.addPotionEffect(new PotionEffect(oldEff.getPotionID(),entry.getValue(),oldEff.getAmplifier(),oldEff.getIsAmbient()));
 		}
 		
 		if (is.stackSize <= 0)return new ItemStack(Items.glass_bottle);

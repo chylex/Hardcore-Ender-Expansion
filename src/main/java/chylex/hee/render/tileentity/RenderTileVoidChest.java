@@ -3,11 +3,11 @@ import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.tileentity.TileEntityVoidChest;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileVoidChest extends TileEntitySpecialRenderer{
@@ -15,7 +15,7 @@ public class RenderTileVoidChest extends TileEntitySpecialRenderer{
 	private final ModelChest model = new ModelChest();
 	
 	@Override
-	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime, int what){
+	public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime){
 		int meta = tile.hasWorldObj() ?	meta = tile.getBlockMetadata() : 0;
 		TileEntityVoidChest chest = (TileEntityVoidChest)tile;
 		

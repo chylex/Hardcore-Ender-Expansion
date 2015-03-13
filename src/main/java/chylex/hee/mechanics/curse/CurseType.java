@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -18,11 +19,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -38,22 +39,22 @@ public enum CurseType{
 				timer = (byte)(20+rand.nextInt(60));
 				
 				double prevX = entity.posX, prevY = entity.posY, prevZ = entity.posZ, tpX, tpY, tpZ;
-				BlockPosM tpPos = new BlockPosM();
 				
 				for(int attempt = 0; attempt < 200; attempt++){
 					tpX = prevX+(rand.nextDouble()-0.5D)*64D;
 					tpY = prevY+rand.nextInt(64)-32;
 					tpZ = prevZ+(rand.nextDouble()-0.5D)*64D;
-					tpPos.moveTo(tpX,tpY,tpZ);
+					
+					int ix = MathHelper.floor_double(tpX), iy = MathHelper.floor_double(tpY), iz = MathHelper.floor_double(tpZ);
 
-					if (entity.worldObj.isBlockLoaded(tpPos)){
+					if (entity.worldObj.blockExists(ix,iy,iz)){
 						boolean foundTopBlock = false;
 
-						while(!foundTopBlock && tpPos.y > 0){
-							if (tpPos.moveDown().getBlockMaterial(entity.worldObj).blocksMovement())foundTopBlock = true;
+						while(!foundTopBlock && iy > 0){
+							if (entity.worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement())foundTopBlock = true;
 							else{
 								--tpY;
-								--tpPos.y;
+								--iy;
 							}
 						}
 
@@ -94,14 +95,28 @@ public enum CurseType{
 			if (entity instanceof EntityCreature){
 				EntityCreature creature = (EntityCreature)entity;
 				
-				Entity target = creature.getAttackTarget();
+				Entity target = creature.getEntityToAttack();
+				if (target == null)target = creature.getAttackTarget();
 				
 				if (target == null || target instanceof EntityPlayer){
 					EntityLiving newTarget = getMob(creature,16D);
 					
 					if (newTarget != null){
 						cooldown = 60;
+						creature.setTarget(newTarget);
 						creature.setAttackTarget(newTarget);
+					}
+				}
+			}
+			else if (entity instanceof EntityGhast){
+				EntityGhast ghast = (EntityGhast)entity;
+				
+				if (ghast.targetedEntity == null || ghast.targetedEntity instanceof EntityPlayer){
+					EntityLiving newTarget = getMob(ghast,64D);
+					
+					if (newTarget != null){
+						cooldown = 60;
+						ghast.targetedEntity = newTarget;
 					}
 				}
 			}
@@ -139,8 +154,10 @@ public enum CurseType{
 			
 			if (entity instanceof EntityCreature){
 				EntityCreature creature = (EntityCreature)entity;
+				if (creature.getEntityToAttack() != null)creature.setTarget(null);
 				if (creature.getAttackTarget() != null)creature.setAttackTarget(null);
 			}
+			else if (entity instanceof EntityGhast)((EntityGhast)entity).targetedEntity = null;
 			
 			return entity.ticksExisted%20 == 0;
 		}
@@ -155,14 +172,14 @@ public enum CurseType{
 			PotionEffect eff = entity.getActivePotionEffect(Potion.moveSlowdown);
 			
 			if (eff == null || eff.getAmplifier() < 1 || eff.getDuration() < 25){
-				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true,true));
+				entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true));
 				return true;
 			}
 			else return false;
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true,true));
+			entity.addPotionEffect(new PotionEffect(Potion.moveSlowdown.getId(),125,1,true));
 		}
 	}),
 	
@@ -171,14 +188,14 @@ public enum CurseType{
 			PotionEffect eff = entity.getActivePotionEffect(Potion.weakness);
 			
 			if (eff == null || eff.getAmplifier() < 1 || eff.getDuration() < 25){
-				entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true,true));
+				entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true));
 				return true;
 			}
 			else return false;
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true,true));
+			entity.addPotionEffect(new PotionEffect(Potion.weakness.getId(),125,1,true));
 		}
 	}),
 	
@@ -187,14 +204,14 @@ public enum CurseType{
 			PotionEffect eff = entity.getActivePotionEffect(Potion.blindness);
 			
 			if (eff == null || eff.getDuration() < 25){
-				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,0,true,true));
+				entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,0,true));
 				return true;
 			}
 			else return false;
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,1,true,true));
+			entity.addPotionEffect(new PotionEffect(Potion.blindness.getId(),125,1,true));
 		}
 	}),
 	
@@ -245,7 +262,7 @@ public enum CurseType{
 				}
 				else if (entity instanceof EntityLiving){
 					EntityLiving living = (EntityLiving)entity;
-					ItemStack[] equipment = living.getInventory();
+					ItemStack[] equipment = living.getLastActiveItems();
 					
 					TIntArrayList indexes = new TIntArrayList();
 					for(int a = 0; a < equipment.length; a++)indexes.add(a);
@@ -256,10 +273,10 @@ public enum CurseType{
 						
 						if (equipment[index] == null)continue;
 						else if (equipment[index].isItemStackDamageable()){
-							equipment[index].setItemDamage(equipment[index].getItemDamage()+1+rand.nextInt(3));
+							equipment[index].setItemDamage(equipment[index].getItemDamageForDisplay()+1+rand.nextInt(3));
 							living.renderBrokenItemStack(equipment[index]);
 
-							if (equipment[index].getItemDamage() >= equipment[index].getMaxDamage()){
+							if (equipment[index].getItemDamageForDisplay() >= equipment[index].getMaxDamage()){
 								((EntityLiving)entity).setCurrentItemOrArmor(index,null);
 							}
 
@@ -284,7 +301,7 @@ public enum CurseType{
 	VAMPIRE(8, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			if (entity.ticksExisted%20 == 0){
-				if (entity.worldObj.isDaytime() && entity.getBrightness(1F) > 0.5F && entity.worldObj.canBlockSeeSky(new BlockPosM(entity))){
+				if (entity.worldObj.isDaytime() && entity.getBrightness(1F) > 0.5F && entity.worldObj.canBlockSeeTheSky(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ))){
 					entity.hurtResistantTime = 0;
 					entity.attackEntityFrom(DamageSource.onFire,1F);
 					entity.setFire(8);
@@ -337,7 +354,7 @@ public enum CurseType{
 						ItemStack is = index < 0 ? player.inventory.armorInventory[4+index] : player.inventory.mainInventory[index];
 						if (is == null)continue;
 						
-						player.dropItem(is,false,true);
+						player.func_146097_a(is,false,true);
 						
 						if (index < 0)player.inventory.armorInventory[4+index] = null;
 						else player.inventory.mainInventory[index] = null;
@@ -347,7 +364,7 @@ public enum CurseType{
 				}
 				else if (entity instanceof EntityLiving){
 					EntityLiving living = (EntityLiving)entity;
-					ItemStack[] equipment = living.getInventory();
+					ItemStack[] equipment = living.getLastActiveItems();
 					
 					TIntArrayList indexes = new TIntArrayList();
 					for(int a = 0; a < equipment.length; a++)indexes.add(a);

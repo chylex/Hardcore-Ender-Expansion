@@ -1,8 +1,8 @@
 package chylex.hee.render.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ModelBaconmanHead extends ModelRenderer{
 	public ModelBaconmanHead(ModelBase base, int offsetX, int offsetY){

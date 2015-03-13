@@ -13,10 +13,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.RandomNameGenerator;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobFireGolem;
@@ -28,10 +29,8 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.system.util.Vec3M;
 
 public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
 	private static final byte ATTACK_NONE = 0, ATTACK_FIREBALLS = 1, ATTACK_FLAMES = 2;
@@ -43,7 +42,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	private float targetAngle;
 	private boolean targetAngleChangeDir;
 	private byte targetAngleTimer;
-	private final Vec3M motionVec = new Vec3M(0D,0D,0D);
+	private final Vec3 motionVec = Vec3.createVectorHelper(0D,0D,0D);
 	public float wingAnimation, wingAnimationStep;
 	
 	public EntityMiniBossFireFiend(World world){
@@ -74,7 +73,6 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
-		updateActionState();
 		
 		if (worldObj.isRemote){
 			byte attack = dataWatcher.getWatchableObjectByte(16);
@@ -94,9 +92,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		}
 	}
 	
-	private void updateActionState(){
-		if (worldObj.isRemote)return;
-		
+	@Override
+	protected void updateEntityActionState(){
 		EntityPlayer closest = worldObj.getClosestPlayerToEntity(this,164D);
 		if (closest == null)return;
 		
@@ -104,10 +101,9 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		rotationPitch = MathUtil.toDeg((float)Math.atan2(posY-(closest.posY+closest.getEyeHeight()),MathUtil.distance(posX-closest.posX,posZ-closest.posZ)));
 		
 		double targetYDiff = posY-(closest.posY+9D);
-		BlockPosM pos = new BlockPosM(this).moveDown();
 		
 		for(int a = 1; a <= 7; a += 2){
-			if (!pos.moveDown().isAir(worldObj)){
+			if (!worldObj.isAirBlock(MathUtil.floor(posX),MathUtil.floor(posY)-a,MathUtil.floor(posZ))){
 				targetYDiff = -1.5D;
 				break;
 			}
@@ -123,23 +119,23 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		targetAngle += (targetAngleChangeDir ? 1 : -1)*0.02F;
 		double[] vec = DragonUtil.getNormalizedVector((closest.posX+MathHelper.cos(targetAngle)*40D)-posX+(rand.nextDouble()-0.5D)*4D,(closest.posZ+MathHelper.sin(targetAngle)*40D)-posZ+(rand.nextDouble()-0.5D)*4D);
-		motionVec.x = vec[0]*0.5D;
-		motionVec.z = vec[1]*0.5D;
+		motionVec.xCoord = vec[0]*0.5D;
+		motionVec.zCoord = vec[1]*0.5D;
 		
-		motionX = motionVec.x*0.1D+motionX*0.9D;
-		motionZ = motionVec.z*0.1D+motionZ*0.9D;
+		motionX = motionVec.xCoord*0.1D+motionX*0.9D;
+		motionZ = motionVec.zCoord*0.1D+motionZ*0.9D;
 		
 		if (currentAttack == ATTACK_NONE){
-			if (++timer > 125-worldObj.getDifficulty().getDifficultyId()*7-(isAngry ? 18 : 0)-(ModCommonProxy.opMobs ? 12 : 0)){
+			if (++timer > 125-worldObj.difficultySetting.getDifficultyId()*7-(isAngry ? 18 : 0)-(ModCommonProxy.opMobs ? 12 : 0)){
 				boolean hasCalledGolems = false;
 				
-				if (isAngry && worldObj.getDifficulty() != EnumDifficulty.PEACEFUL && rand.nextInt(5) == 0){
+				if (isAngry && worldObj.difficultySetting != EnumDifficulty.PEACEFUL && rand.nextInt(5) == 0){
 					for(EntityPlayer player:getNearbyPlayers()){
 						int targeted = 0;
 						List<EntityMobFireGolem> golems = worldObj.getEntitiesWithinAABB(EntityMobFireGolem.class,player.boundingBox.expand(32D,32D,32D));
 						
 						for(EntityMobFireGolem golem:golems){
-							if (golem.getAttackTarget() == player && ++targeted >= 2)break;
+							if (golem.getEntityToAttack() == player && ++targeted >= 2)break;
 						}
 						
 						if (targeted >= 2)continue;
@@ -151,7 +147,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 							EntityMobFireGolem golem = golems.remove(rand.nextInt(golems.size()));
 							
 							if (player.getDistanceToEntity(golem) <= 16D){
-								golem.setAttackTarget(player);
+								golem.setTarget(player);
 								PacketPipeline.sendToAllAround(this,128D,new C22EffectLine(FXType.Line.FIRE_FIEND_GOLEM_CALL,this,golem));
 								called -= rand.nextInt(2)+1;
 							}
@@ -197,11 +193,11 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		}
 		else if (currentAttack == ATTACK_FLAMES){
 			if (++timer > (isAngry ? 18 : 26)){
-				int fireLength = 3+(worldObj.getDifficulty().getDifficultyId()>>1);
+				int fireLength = 3+(worldObj.difficultySetting.getDifficultyId()>>1);
 				
 				for(EntityPlayer player:getNearbyPlayers()){
 					player.setFire(fireLength);
-					player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 12F : 8F,worldObj.getDifficulty()));
+					player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 12F : 8F,worldObj.difficultySetting));
 					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.FIRE_FIEND_FLAME_ATTACK,player));
 				}
 				
@@ -307,8 +303,8 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.fireFiend.name");
+	public String getCommandSenderName(){
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal("entity.fireFiend.name");
 	}
 	
 	@Override

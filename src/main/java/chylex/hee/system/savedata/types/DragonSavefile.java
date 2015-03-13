@@ -1,26 +1,27 @@
 package chylex.hee.system.savedata.types;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.savedata.WorldSavefile;
-import chylex.hee.system.util.BlockPosM;
 
 public class DragonSavefile extends WorldSavefile{
-	private List<BlockPosM> crystals = new ArrayList<>();
+	private Map<String,ChunkCoordinates> crystals = new HashMap<>();
 	private Set<UUID> templePlayers = new HashSet<>();
-	private BlockPosM portalEggLocation = new BlockPosM(0,100,0);
+	private ChunkCoordinates portalEggLocation = new ChunkCoordinates(0,100,0);
+	private ChunkCoordIntPair lastDragonChunk = new ChunkCoordIntPair(0,0);
 	private boolean isDragonDead;
-	private boolean hasDragonTicked;
 	private int dragonDeathCount;
 	private boolean preventTempleDestruction;
 	private boolean shouldDestroyEnd;
@@ -29,13 +30,14 @@ public class DragonSavefile extends WorldSavefile{
 		super("server.nbt");
 	}
 	
-	public long addCrystal(BlockPosM pos){
-		crystals.add(pos);
+	public String addCrystal(int posX, int posY, int posZ){
+		String key = "l-"+Arrays.hashCode(new int[]{ posX, posY, posZ });
+		crystals.put(key,new ChunkCoordinates(posX,posY,posZ));
 		setModified();
-		return pos.toLong();
+		return key;
 	}
 	
-	public void destroyCrystal(long key){
+	public void destroyCrystal(String key){
 		crystals.remove(key);
 		setModified();
 	}
@@ -49,28 +51,31 @@ public class DragonSavefile extends WorldSavefile{
 		setModified();
 	}
 	
+	public void setLastDragonChunk(int x, int z){
+		lastDragonChunk = new ChunkCoordIntPair(x,z);
+		setModified();
+	}
+	
+	public ChunkCoordIntPair getLastDragonChunk(){
+		return lastDragonChunk;
+	}
+	
 	public void setDragonDead(boolean isDead){
-		this.isDragonDead = isDead;
+		isDragonDead = isDead;
 		setModified();
 	}
 	
 	public boolean isDragonDead(){
-		return isDragonDead || !hasDragonTicked;
+		return isDragonDead;
 	}
 	
 	public void addDragonDeath(){
 		++dragonDeathCount;
-		hasDragonTicked = false;
 		setModified();
 	}
 	
 	public int getDragonDeathAmount(){
 		return dragonDeathCount;
-	}
-	
-	public void setDragonExists(){
-		hasDragonTicked = true;
-		setModified();
 	}
 	
 	public void setPlayerIsInTemple(EntityPlayer player, boolean isInTemple){
@@ -110,7 +115,7 @@ public class DragonSavefile extends WorldSavefile{
 		return shouldDestroyEnd;
 	}
 	
-	public BlockPosM getPortalEggLocation(){
+	public ChunkCoordinates getPortalEggLocation(){
 		return portalEggLocation;
 	}
 
@@ -118,14 +123,17 @@ public class DragonSavefile extends WorldSavefile{
 	protected void onSave(NBTTagCompound nbt){
 		nbt.setShort("dragonDeaths",(short)dragonDeathCount);
 		nbt.setBoolean("dragonDead",isDragonDead);
-		nbt.setBoolean("dragonTicked",hasDragonTicked);
 		nbt.setBoolean("noTempleDestruct",preventTempleDestruction);
 		nbt.setBoolean("destroyEnd",shouldDestroyEnd);
-		nbt.setLong("portalCoordsL",portalEggLocation.toLong());
+		nbt.setIntArray("portalCoords",new int[]{ portalEggLocation.posX, portalEggLocation.posY, portalEggLocation.posZ });
+		nbt.setIntArray("lastChunk",new int[]{ lastDragonChunk.chunkXPos, lastDragonChunk.chunkZPos });
 		
-		NBTTagList tagCrystals = new NBTTagList();
-		for(BlockPosM pos:crystals)tagCrystals.appendTag(new NBTTagLong(pos.toLong()));
-		nbt.setTag("crystalsL",tagCrystals);
+		NBTTagCompound tagCrystals = new NBTTagCompound();
+		for(Entry<String,ChunkCoordinates> entry:crystals.entrySet()){
+			ChunkCoordinates coords = entry.getValue();
+			tagCrystals.setIntArray(entry.getKey(),new int[]{ coords.posX, coords.posY, coords.posZ });
+		}
+		nbt.setTag("crystals",tagCrystals);
 		
 		NBTTagList tagTemplePlayers = new NBTTagList();
 		for(UUID uuid:templePlayers)tagTemplePlayers.appendTag(new NBTTagString(uuid.toString()));
@@ -136,20 +144,26 @@ public class DragonSavefile extends WorldSavefile{
 	protected void onLoad(NBTTagCompound nbt){
 		dragonDeathCount = nbt.getShort("dragonDeaths");
 		isDragonDead = nbt.getBoolean("dragonDead");
-		hasDragonTicked = nbt.getBoolean("dragonTicked");
 		preventTempleDestruction = nbt.getBoolean("noTempleDestruct");
 		if ((shouldDestroyEnd = nbt.getBoolean("destroyEnd")) == true)TempleEvents.destroyWorld();
 		
-		if (nbt.hasKey("portalCoordsL"))portalEggLocation = new BlockPosM(BlockPos.fromLong(nbt.getLong("portalCoordsL")));
-		else{
-			int[] portalCoords = nbt.getIntArray("portalCoords");
-			if (portalCoords.length == 3)portalEggLocation = new BlockPosM(portalCoords[0],portalCoords[1],portalCoords[2]);
+		int[] portalCoords = nbt.getIntArray("portalCoords");
+		if (portalCoords.length == 3)portalEggLocation.set(portalCoords[0],portalCoords[1],portalCoords[2]);
+		
+		int[] lastChunk = nbt.getIntArray("lastChunk");
+		if (lastChunk.length == 2)lastDragonChunk = new ChunkCoordIntPair(lastChunk[0],lastChunk[1]);
+		
+		NBTTagCompound tagCrystals = nbt.getCompoundTag("crystals");
+		
+		for(String key:(Set<String>)tagCrystals.func_150296_c()){
+			int[] coords = tagCrystals.getIntArray(key);
+			if (coords.length == 3)crystals.put(key,new ChunkCoordinates(coords[0],coords[1],coords[2]));
 		}
 		
-		NBTTagList tagCrystals = nbt.getTagList("crystalsL",NBT.TAG_LONG);
-		for(int a = 0; a < tagCrystals.tagCount(); a++)crystals.add(new BlockPosM(((NBTTagLong)tagCrystals.get(a)).getLong()));
-		
 		NBTTagList tagTemplePlayers = nbt.getTagList("templePlayers",NBT.TAG_STRING);
-		for(int a = 0; a < tagTemplePlayers.tagCount(); a++)templePlayers.add(UUID.fromString(tagTemplePlayers.getStringTagAt(a)));
+		
+		for(int a = 0; a < tagTemplePlayers.tagCount(); a++){
+			templePlayers.add(UUID.fromString(tagTemplePlayers.getStringTagAt(a)));
+		}
 	}
 }

@@ -33,7 +33,7 @@ public class TimedPotion extends AbstractPotionData{
 	public void onFirstBrewingFinished(ItemStack is){
 		super.onFirstBrewingFinished(is);
 		PotionEffect eff = PotionTypes.getEffectIfValid(is);
-		if (eff != null)PotionTypes.setCustomPotionEffect(is,new PotionEffect(eff.getPotionID(),startDuration,eff.getAmplifier(),eff.getIsAmbient(),eff.getIsShowParticles()));
+		if (eff != null)PotionTypes.setCustomPotionEffect(is,new PotionEffect(eff.getPotionID(),startDuration,eff.getAmplifier(),eff.getIsAmbient()));
 	}
 	
 	public boolean canIncreaseDuration(ItemStack is){

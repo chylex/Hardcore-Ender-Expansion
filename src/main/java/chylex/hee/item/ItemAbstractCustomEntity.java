@@ -16,7 +16,7 @@ public abstract class ItemAbstractCustomEntity extends Item{
 	@Override
 	public final Entity createEntity(World world, Entity originalEntity, ItemStack is){
 		EntityItem newEntity = createEntityItem(world,originalEntity.posX,originalEntity.posY,originalEntity.posZ,is);
-		newEntity.setDefaultPickupDelay();
+		newEntity.delayBeforeCanPickup = 10;
 		
 		newEntity.copyLocationAndAnglesFrom(originalEntity);
 		newEntity.motionX = newEntity.motionY = newEntity.motionZ = 0D;

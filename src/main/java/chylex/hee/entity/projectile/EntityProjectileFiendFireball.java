@@ -7,14 +7,11 @@ import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball.FieryExplosion;
@@ -22,8 +19,9 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C12FiendFireballExplosion;
 import chylex.hee.packets.client.C69FiendFuckball;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	private int fiendId;
@@ -56,7 +54,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	}
 	
 	public void shootAt(EntityPlayer player){
-		worldObj.playAuxSFXAtEntity(null,1008,new BlockPosM(this),0);
+		worldObj.playAuxSFXAtEntity(null,1008,(int)posX,(int)posY,(int)posZ,0);
 		
 		if (player == null)setDead();
 		else{
@@ -96,13 +94,13 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 	private void simulateClientUpdate(){
 		posX = actualPosX;
 		posZ = actualPosZ;
-		Vec3 vecPos = new Vec3(posX,posY,posZ);
-		Vec3 vecPosNext = new Vec3(posX+motionX,posY+motionY,posZ+motionZ);
+		Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
+		Vec3 vecPosNext = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
 		MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos,vecPosNext);
-		vecPos = new Vec3(posX,posY,posZ);
-		vecPosNext = new Vec3(posX+motionX,posY+motionY,posZ+motionZ);
+		vecPos = Vec3.createVectorHelper(posX,posY,posZ);
+		vecPosNext = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
 
-		if (mop != null)vecPosNext = new Vec3(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
+		if (mop != null)vecPosNext = Vec3.createVectorHelper(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
 
 		Entity closest = null;
 		double minDist = Double.MAX_VALUE;
@@ -142,7 +140,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		float motFactor = getMotionFactor();
 
 		if (isInWater()){
-			for(int a = 0; a < 4; ++a)worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE,posX-motionX*0.25F,posY-motionY*0.25F,posZ-motionZ*0.25F,motionX,motionY,motionZ);
+			for(int a = 0; a < 4; ++a)worldObj.spawnParticle("bubble",posX-motionX*0.25F,posY-motionY*0.25F,posZ-motionZ*0.25F,motionX,motionY,motionZ);
 			motFactor = 0.8F;
 		}
 
@@ -152,14 +150,14 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		motionX *= motFactor;
 		motionY *= motFactor;
 		motionZ *= motFactor;
-		worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,posX,posY+0.5D,posZ,0D,0D,0D);
+		worldObj.spawnParticle("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
 		setPosition(posX,posY,posZ);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int posRotationIncrements, boolean booleanissimo){
-		super.setPositionAndRotation2(actualPosX,y,actualPosZ,rotationYaw,rotationPitch,posRotationIncrements,booleanissimo);
+	public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int eger){
+		super.setPositionAndRotation2(actualPosX,y,actualPosZ,rotationYaw,rotationPitch,eger);
 	}
 
 	@Override

@@ -12,8 +12,9 @@ import chylex.hee.world.util.SpawnEntry;
 /**
  * API for manipulating with new biomes and loot.
  */
+@Deprecated
 public final class WorldAPI extends AbstractAPI{
-	WorldAPI(){}
+	public WorldAPI(){}
 	
 	/**
 	 * Adds a mob spawning entry to specified biome. List of existing entries is in javadoc of each {@link Biome}.
@@ -22,6 +23,7 @@ public final class WorldAPI extends AbstractAPI{
 	 * @param maxAmount Maximum amount of mobs of this type that can exist on the island at one point in time.
 	 * @param weight Weight of the spawn entry.
 	 */
+	@Deprecated
 	public static void addMobToBiome(Biome biome, Class<? extends EntityLiving> mobClass, int maxAmount, int weight){
 		SpawnEntry entry = new SpawnEntry(mobClass,maxAmount,weight);
 		
@@ -41,6 +43,7 @@ public final class WorldAPI extends AbstractAPI{
 	 * @param loot Type of loot to use.
 	 * @return Instance of {@link chylex.hee.api.wrappers.LootList LootList}, or null if {@code loot} parameter is null.
 	 */
+	@Deprecated
 	public LootList getLootList(LootType loot){
 		switch(loot){
 			case DungeonTowerRegular: return new LootList(ComponentTower.lootTower);
@@ -53,6 +56,7 @@ public final class WorldAPI extends AbstractAPI{
 	/**
 	 * List of biomes that generate in the End.
 	 */
+	@Deprecated
 	public static enum Biome{
 		/**
 		 * <strong>{@code Mob type, max amount, weight}</strong><br>
@@ -85,6 +89,7 @@ public final class WorldAPI extends AbstractAPI{
 	/**
 	 * List of structures which generate loot inside them.
 	 */
+	@Deprecated
 	public static enum LootType{
 		/**
 		 * Loot spawned inside chests, dispensers and similar containers in Dungeon Tower.

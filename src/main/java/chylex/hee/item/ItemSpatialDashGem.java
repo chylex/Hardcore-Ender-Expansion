@@ -1,13 +1,22 @@
 package chylex.hee.item;
+import java.util.List;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	public int getMaxDamage(ItemStack is){
-		return EnhancementHandler.hasEnhancement(is,SpatialDashGemEnhancements.CAPACITY) ? MathUtil.ceil(1.5F*super.getMaxDamage(is)) : super.getMaxDamage(is);
+		return calculateMaxDamage(is,SpatialDashGemEnhancements.CAPACITY);
 	}
 	
 	@Override
@@ -31,11 +40,6 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
-	public boolean hasEffect(ItemStack is){
-		return is.getItemDamage() == 1 || super.hasEffect(is);
-	}
-	
-	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
 		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown")){
 			byte cooldown = is.stackTagCompound.getByte("cooldown");
@@ -51,7 +55,8 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (is.getItemDamage() < getMaxDamage() && (is.stackTagCompound == null || !is.stackTagCompound.hasKey("cooldown"))){
 			if (!world.isRemote){
-				is.damageItem(getEnergyPerUse(is),player);
+				CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,0.5F);
+				damageItem(is,player);
 				world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player,EnhancementHandler.getEnhancements(is)));
 
 				if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
@@ -61,6 +66,12 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 		}
 		
 		return is;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack is, int pass){
+		return is.getItemDamage() == 32766 || super.hasEffect(is,pass);
 	}
 	
 	@Override

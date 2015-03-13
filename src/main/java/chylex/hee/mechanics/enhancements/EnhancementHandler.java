@@ -1,7 +1,9 @@
 package chylex.hee.mechanics.enhancements;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.List;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -10,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.enhancements.SlotList.SlotType;
@@ -20,7 +23,6 @@ import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.system.util.CollectionUtil;
-import chylex.hee.system.util.ItemUtil;
 
 public final class EnhancementHandler{
 	private static final IdentityHashMap<Item, EnhancementData> itemMap = new IdentityHashMap<>(8);
@@ -92,8 +94,8 @@ public final class EnhancementHandler{
 	public static List<Enum> getEnhancements(ItemStack is){
 		List<Enum> enhancements = new ArrayList<>();
 		
-		if (!is.hasTagCompound() || !canEnhanceItem(is.getItem()))return enhancements;
-		NBTTagList list = is.getTagCompound().getTagList("HEE_enhancements",Constants.NBT.TAG_STRING);
+		if (is.stackTagCompound == null || !canEnhanceItem(is.getItem()))return enhancements;
+		NBTTagList list = is.stackTagCompound.getTagList("HEE_enhancements",Constants.NBT.TAG_STRING);
 		EnhancementData enhancementData = itemMap.get(is.getItem());
 		
 		for(int a = 0; a < list.tagCount(); a++){
@@ -127,7 +129,7 @@ public final class EnhancementHandler{
 		if (getEnhancements(is).contains(enhancement) || !canEnhanceItem(is.getItem()))return is;
 		
 		is = is.copy();
-		is.setItem(itemMap.get(is.getItem()).newItem);
+		is.func_150996_a(itemMap.get(is.getItem()).newItem);
 		addEnhancementToItemStack(is,enhancement);
 		
 		return is;
@@ -137,7 +139,7 @@ public final class EnhancementHandler{
 		if (!canEnhanceItem(is.getItem()) || enhancements.isEmpty())return is;
 		
 		is = is.copy();
-		is.setItem(itemMap.get(is.getItem()).newItem);
+		is.func_150996_a(itemMap.get(is.getItem()).newItem);
 		List<Enum> current = getEnhancements(is);
 		
 		for(Enum enhancement:enhancements){
@@ -148,10 +150,11 @@ public final class EnhancementHandler{
 	}
 	
 	public static void addEnhancementToItemStack(ItemStack is, Enum enhancement){
-		NBTTagCompound nbt = ItemUtil.getNBT(is,true);
-		NBTTagList list = nbt.getTagList("HEE_enhancements",Constants.NBT.TAG_STRING);
+		if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+		
+		NBTTagList list = is.stackTagCompound.getTagList("HEE_enhancements",NBT.TAG_STRING);
 		list.appendTag(new NBTTagString(enhancement.name()));
-		nbt.setTag("HEE_enhancements",list);
+		is.stackTagCompound.setTag("HEE_enhancements",list);
 	}
 	
 	public static void appendEnhancementNames(ItemStack is, List list){

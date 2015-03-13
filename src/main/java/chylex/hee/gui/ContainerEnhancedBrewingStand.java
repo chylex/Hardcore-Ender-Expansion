@@ -5,13 +5,13 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotBrewingStandIngredient;
 import chylex.hee.gui.slots.SlotBrewingStandPotion;
 import chylex.hee.item.ItemList;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEnhancedBrewingStand extends Container{
 	private final TileEntityEnhancedBrewingStand tileBrewingStand;
@@ -36,8 +36,8 @@ public class ContainerEnhancedBrewingStand extends Container{
 	@Override
 	public void addCraftingToCrafters(ICrafting icrafting){
 		super.addCraftingToCrafters(icrafting);
-		icrafting.sendProgressBarUpdate(this,0,tileBrewingStand.getField(0));
-		icrafting.sendProgressBarUpdate(this,2,tileBrewingStand.getField(2));
+		icrafting.sendProgressBarUpdate(this,0,tileBrewingStand.getBrewTime());
+		icrafting.sendProgressBarUpdate(this,2,tileBrewingStand.getStartBrewTime());
 	}
 
 	@Override
@@ -47,20 +47,22 @@ public class ContainerEnhancedBrewingStand extends Container{
 		for(int i = 0; i < crafters.size(); ++i){
 			ICrafting icrafting = (ICrafting)crafters.get(i);
 
-			if (brewTime != tileBrewingStand.getField(0))icrafting.sendProgressBarUpdate(this,0,tileBrewingStand.getField(0));
-			if (requiredPowder != tileBrewingStand.getField(1))icrafting.sendProgressBarUpdate(this,1,tileBrewingStand.getField(1));
-			if (startBrewTime != tileBrewingStand.getField(2))icrafting.sendProgressBarUpdate(this,2,tileBrewingStand.getField(2));
+			if (brewTime != tileBrewingStand.getBrewTime())icrafting.sendProgressBarUpdate(this,0,tileBrewingStand.getBrewTime());
+			if (requiredPowder != tileBrewingStand.getRequiredPowder())icrafting.sendProgressBarUpdate(this,1,tileBrewingStand.getRequiredPowder());
+			if (startBrewTime != tileBrewingStand.getStartBrewTime())icrafting.sendProgressBarUpdate(this,2,tileBrewingStand.getStartBrewTime());
 		}
-
-		brewTime = tileBrewingStand.getField(0);
-		requiredPowder = tileBrewingStand.getField(1);
-		startBrewTime = tileBrewingStand.getField(2);
+		
+		brewTime = tileBrewingStand.getBrewTime();
+		requiredPowder = tileBrewingStand.getRequiredPowder();
+		startBrewTime = tileBrewingStand.getStartBrewTime();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int value){
-		tileBrewingStand.setField(id,value);
+		if (id == 0)tileBrewingStand.func_145938_d(value); // OBFUSCATED set brew time
+		else if (id == 1)tileBrewingStand.setRequiredPowder(value);
+		else if (id == 2)tileBrewingStand.setStartBrewTime(value);
 	}
 
 	@Override

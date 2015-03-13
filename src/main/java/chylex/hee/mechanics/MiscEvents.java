@@ -1,22 +1,22 @@
 package chylex.hee.mechanics;
-import java.util.Random;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import chylex.hee.entity.item.EntityItemDragonEgg;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemTransferenceGem;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class MiscEvents{
 	/*
@@ -57,7 +57,7 @@ public class MiscEvents{
 			
 			if (drop){
 				EntityItem item = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,new ItemStack(ItemList.silverfish_blood));
-				item.setDefaultPickupDelay();
+				item.delayBeforeCanPickup = 10;
 				e.drops.add(item);
 			}
 		}
@@ -69,14 +69,18 @@ public class MiscEvents{
 	@SubscribeEvent
 	public void onPlayerInteractEntity(EntityInteractEvent e){
 		if (e.entity.worldObj.isRemote)return;
-
+		
 		if (e.target instanceof EntityItemFrame){
 			EntityItemFrame itemFrame = (EntityItemFrame)e.target;
 			
 			ItemStack is = itemFrame.getDisplayedItem();
+			
 			if (is == null || is.getItem() != ItemList.transference_gem || e.entityPlayer.isSneaking())return;
 			else if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.TOUCH)){
-				itemFrame.setDisplayedItem(((ItemTransferenceGem)ItemList.transference_gem).tryTeleportEntity(is,e.entityPlayer,e.entityPlayer));
+				is = ((ItemTransferenceGem)ItemList.transference_gem).tryTeleportEntity(is,e.entityPlayer,e.entityPlayer);
+				if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown"))is.stackTagCompound.removeTag("cooldown");
+				
+				itemFrame.setDisplayedItem(is);
 				e.setCanceled(true);
 			}
 		}

@@ -4,10 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	@Override
@@ -21,7 +21,7 @@ public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is){
+	public boolean hasEffect(ItemStack is, int pass){
 		return true;
 	}
 	

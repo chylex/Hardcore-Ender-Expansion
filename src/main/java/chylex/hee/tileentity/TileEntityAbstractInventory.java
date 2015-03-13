@@ -5,15 +5,10 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
 import net.minecraftforge.common.util.Constants;
 
-public abstract class TileEntityAbstractInventory extends TileEntity implements IUpdatePlayerListBox, ISidedInventory{
+public abstract class TileEntityAbstractInventory extends TileEntity implements ISidedInventory{
 	protected ItemStack[] items;
 	private String customName;
 	private TIntHashSet slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity = new TIntHashSet();
@@ -23,7 +18,9 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 	}
 	
 	@Override
-	public void update(){
+	public void updateEntity(){
+		super.updateEntity();
+		
 		if (!slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.isEmpty()){
 			for(int slot:slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.toArray()){
 				setInventorySlotContents(slot,getStackInSlot(slot));
@@ -48,7 +45,7 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 		}
 
 		nbt.setTag("Items",itemList);
-		if (hasCustomName())nbt.setString("CustomName",customName);
+		if (hasCustomInventoryName())nbt.setString("CustomName",customName);
 	}
 
 	@Override
@@ -106,17 +103,17 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player){
-		return player.getDistanceSq(getPos().getX()+0.5D,getPos().getY()+0.5D,getPos().getZ()+0.5D) <= 64D;
+		return player.getDistanceSq(xCoord+0.5D,yCoord+0.5D,zCoord+0.5D) <= 64D;
 	}
 
 	@Override
-	public void openInventory(EntityPlayer player){}
+	public void openInventory(){}
 
 	@Override
-	public void closeInventory(EntityPlayer player){}
+	public void closeInventory(){}
 
 	@Override
-	public boolean canInsertItem(int slot, ItemStack is, EnumFacing side){
+	public boolean canInsertItem(int slot, ItemStack is, int side){
 		if (isItemValidForSlot(slot,is)){
 			slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.add(slot);
 			return true;
@@ -125,42 +122,19 @@ public abstract class TileEntityAbstractInventory extends TileEntity implements 
 	}
 
 	@Override
-	public boolean canExtractItem(int slot, ItemStack is, EnumFacing side){
+	public boolean canExtractItem(int slot, ItemStack is, int side){
 		slotIndexesToUpdateBecauseTheMotherfuckingHoppersDoNotCallAnythingToNotifyTheTileEntity.add(slot);
 		return true;
 	}
 
 	@Override
-	public final String getName(){
+	public String getInventoryName(){
 		return customName != null ? customName : getContainerDefaultName();
 	}
 
 	@Override
-	public final boolean hasCustomName(){
+	public boolean hasCustomInventoryName(){
 		return customName != null && customName.length() > 0;
-	}
-	
-	@Override
-	public final IChatComponent getDisplayName(){
-		return hasCustomName() ? new ChatComponentText(customName) : new ChatComponentTranslation(getName());
-	}
-	
-	@Override
-	public int getFieldCount(){
-		return 0;
-	}
-
-	@Override
-	public void setField(int id, int value){}
-
-	@Override
-	public int getField(int id){
-		return 0;
-	}
-
-	@Override
-	public void clear(){
-		for(int a = 0; a < items.length; a++)items[a] = null;
 	}
 	
 	protected abstract String getContainerDefaultName();

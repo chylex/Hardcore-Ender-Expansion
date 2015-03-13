@@ -11,24 +11,21 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
-	private static final PotionEffect endermanStrength = new PotionEffect(Potion.damageBoost.id,600,2,true,true);
+	private static final PotionEffect endermanStrength = new PotionEffect(Potion.damageBoost.id,600,2,true);
 	
 	private byte healthRegenTimer = 10, lightningStartCounter = 30, lightningCounter,
 				 endermanSpawnTimer = 25, obsidianSpawnTimer = 69;
@@ -62,11 +59,8 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	}
 	
 	@Override
-	public void onLivingUpdate(){
-		super.onLivingUpdate();
-		
-		if (worldObj.isRemote)return;
-		if (lastAttacker != null && (lastAttacker.isDead || !lastAttacker.playerNetServerHandler.getNetworkManager().isChannelOpen()))lastAttacker = null;
+	protected void updateEntityActionState(){
+		if (lastAttacker != null && (lastAttacker.isDead || !lastAttacker.playerNetServerHandler.func_147362_b().isChannelOpen()))lastAttacker = null; // OBFUSCATED get network manager
 		
 		float health = getHealth();
 		if (health <= 0)return;
@@ -85,7 +79,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 					   yy = lightningTarget.posY,
 					   zz = lightningTarget.posZ+(rand.nextDouble()-0.5D)*1.5D;
 				
-				lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.getDifficulty()));
+				lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
 
 				EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,xx,yy,zz,this,false);
 				worldObj.weatherEffects.add(bolt);
@@ -99,25 +93,26 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 				endermanSpawnTimer = (byte)(125-rand.nextInt(40));
 				if (obsidianSpawnTimer<-105)obsidianSpawnTimer += 20;
 				
-				BlockPosM pos = new BlockPosM(), testPos = new BlockPosM();
-				
 				for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(128D,64D,128D))){
-					for(int attempt = 0; attempt < 40; attempt++){
+					int attempt, ix, iy, iz;
+					
+					for(attempt = 0; attempt < 40; attempt++){
 						double ang = rand.nextDouble()*Math.PI*2D,len = 3.5D+rand.nextDouble()*2D;
-						pos.moveTo(player).moveBy(MathUtil.floor(Math.cos(ang)*len),-2,MathUtil.floor(Math.sin(ang)*len));
 						
-						for(; pos.y < player.posY+3; pos.y++){
-							if (testPos.moveTo(pos).isAir(worldObj) && testPos.moveUp().isAir(worldObj) && testPos.moveUp().isAir(worldObj)){
+						ix = MathUtil.floor(player.posX+Math.cos(ang)*len);
+						iz = MathUtil.floor(player.posZ+Math.sin(ang)*len);
+						for(iy = MathUtil.floor(player.posY)-2; iy < player.posY+3; iy++){
+							if (worldObj.isAirBlock(ix,iy,iz) && worldObj.isAirBlock(ix,iy+1,iz) && worldObj.isAirBlock(ix,iy+2,iz)){
 								for(int a = 0; a<(ModCommonProxy.opMobs?4:3); a++){
-									EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(worldObj,pos.x+rand.nextDouble(),pos.y,pos.z+rand.nextDouble());
+									EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(worldObj,ix+rand.nextDouble(),iy,iz+rand.nextDouble());
 									enderman.rotationYaw = rand.nextFloat()*360F;
-									enderman.setAttackTarget(player);
+									enderman.setTarget(player);
 									enderman.addPotionEffect(endermanStrength);
 									worldObj.spawnEntityInWorld(enderman);
 									attempt = 999;
 								}
 								
-								EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,pos.x+0.5D,pos.y,pos.z+0.5D,this,false);
+								EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,ix+0.5D,iy,iz+0.5D,this,false);
 								worldObj.addWeatherEffect(bolt);
 								PacketPipeline.sendToAllAround(bolt,512D,new C05CustomWeather(bolt,(byte)0));
 								break;
@@ -133,13 +128,14 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 				
 				if (!list.isEmpty()){
 					EntityPlayer player = list.get(rand.nextInt(list.size()));
-					BlockPosM pos = new BlockPosM();
 					
-					for(int attempt = 0, placed = 0; attempt < 25 && placed < 12+worldObj.getDifficulty().getDifficultyId()*2; attempt++){
-						pos.moveTo(player).moveBy(rand.nextInt(9)-4,9+rand.nextInt(6),rand.nextInt(9)-4);
+					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 25 && placed < 12+worldObj.difficultySetting.getDifficultyId()*2; attempt++){
+						xx = MathUtil.floor(player.posX)+rand.nextInt(9)-4;
+						yy = MathUtil.floor(player.posY)+9+rand.nextInt(6);
+						zz = MathUtil.floor(player.posZ)+rand.nextInt(9)-4;
 						
-						if (pos.isAir(worldObj) && pos.moveDown().isAir(worldObj)){
-							pos.moveUp().setBlock(worldObj,BlockList.obsidian_falling);
+						if (worldObj.isAirBlock(xx,yy,zz) && worldObj.isAirBlock(xx,yy-1,zz)){
+							worldObj.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,3);
 							++placed;
 						}
 						
@@ -152,10 +148,8 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 		if (worldObj.isRemote)return;
 		
 		boolean hasBlockBelow = false;
-		BlockPosM pos = new BlockPosM(this);
-		
-		for(int yy = pos.y; yy > posY-22; yy--){
-			if (!pos.moveDown().isAir(worldObj)){
+		for(int ix = MathUtil.floor(posX),iz = MathUtil.floor(posZ),yy = MathUtil.floor(posY); yy > posY-22; yy--){
+			if (!worldObj.isAirBlock(ix,yy,iz)){
 				hasBlockBelow = true;
 				break;
 			}
@@ -207,7 +201,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	
 	@Override
 	protected void onDeathUpdate(){
-		worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE,posX+(rand.nextFloat()*width*2F)-width,posY+(rand.nextFloat()*height),posZ+(rand.nextFloat()*width*2F)-width,0D,0D,0D);
+		worldObj.spawnParticle("hugeexplosion",posX+(rand.nextFloat()*width*2F)-width,posY+(rand.nextFloat()*height),posZ+(rand.nextFloat()*width*2F)-width,0D,0D,0D);
 
 		if (worldObj.isRemote)return;
 		
@@ -227,10 +221,10 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	@Override public void addVelocity(double xVelocity, double yVelocity, double zVelocity){}
 	
 	@Override
-	public IEntityLivingData onSpawnFirstTime(DifficultyInstance difficulty, IEntityLivingData data){
+	public IEntityLivingData onSpawnWithEgg(IEntityLivingData data){
 		setDead();
 		motionY = 7D;
-		return super.onSpawnFirstTime(difficulty,data);
+		return super.onSpawnWithEgg(data);
 	}
 
 	public boolean isDoingLightningAttack(){
@@ -253,8 +247,8 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.enderDemon.name");
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal("entity.enderDemon.name");
 	}
 	
 	@Override

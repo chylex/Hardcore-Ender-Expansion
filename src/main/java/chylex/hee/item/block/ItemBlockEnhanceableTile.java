@@ -1,15 +1,10 @@
 package chylex.hee.item.block;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import cpw.mods.fml.relauncher.Side;
@@ -21,10 +16,8 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 	}
 	
 	@Override
-	public boolean placeBlockAt(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState state){
-		ItemStack isCopy = is.copy();
-		
-		if (super.placeBlockAt(is,player,world,pos,side,hitX,hitY,hitZ,state)){
+	public boolean placeBlockAt(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata){
+		if (super.placeBlockAt(is,player,world,x,y,z,side,hitX,hitY,hitZ,metadata)){
 			IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
 			
 			if (tile != null){

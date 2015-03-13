@@ -1,11 +1,6 @@
 package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
-import net.minecraft.block.BlockStairs;
-import net.minecraft.block.BlockStoneBrick;
-import net.minecraft.block.BlockStoneBrick.EnumType;
-import net.minecraft.block.BlockStoneSlab;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
@@ -71,13 +66,13 @@ public class StructureRuinPillar extends AbstractIslandStructure{
 	public static void placeRandomPillarBlock(LargeStructureWorld world, int x, int y, int z, Random rand){
 		int n = rand.nextInt(20);
 		
-		if (n < 15)world.setBlock(x,y,z,Blocks.stonebrick.getDefaultState().withProperty(BlockStoneBrick.VARIANT,rand.nextInt(7) <= 4 ? EnumType.DEFAULT : rand.nextBoolean() ? EnumType.MOSSY : EnumType.CRACKED));
+		if (n < 15)world.setBlock(x,y,z,Blocks.stonebrick,rand.nextInt(7) <= 4 ? 0 : rand.nextBoolean() ? 1 : 2);
 		else if (n < 18)world.setBlock(x,y,z,Blocks.cobblestone);
 		else if (n < 20)world.setBlock(x,y,z,Blocks.stone);
 	}
 	
 	public static void placeRandomTopBlock(LargeStructureWorld world, int x, int y, int z, Random rand){
-		if (rand.nextInt(6) == 0)world.setBlock(x,y,z,Blocks.stone_slab.getDefaultState().withProperty(BlockStoneSlab.VARIANT,rand.nextInt(4) == 0 ? BlockStoneSlab.EnumType.COBBLESTONE : BlockStoneSlab.EnumType.SMOOTHBRICK));
-		else world.setBlock(x,y,z,(rand.nextInt(5) == 0 ? Blocks.stone_stairs : Blocks.stone_brick_stairs).getDefaultState().withProperty(BlockStairs.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
+		if (rand.nextInt(6) == 0)world.setBlock(x,y,z,Blocks.stone_slab,rand.nextInt(4) == 0 ? 3 : 5);
+		else world.setBlock(x,y,z,rand.nextInt(5) == 0 ? Blocks.stone_stairs : Blocks.stone_brick_stairs,rand.nextInt(4));
 	}
 }

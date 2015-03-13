@@ -9,12 +9,8 @@ import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
-import net.minecraftforge.fml.common.registry.GameData;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.StringUtils;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
@@ -25,6 +21,11 @@ import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.player.PlayerDiscoveryList.IObjectSerializer;
 import chylex.hee.system.logging.Stopwatch;
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class PlayerCompendiumData implements IExtendedEntityProperties{
 	private boolean seenHelp;
@@ -75,6 +76,8 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	}
 	
 	public boolean hasDiscoveredObject(KnowledgeObject<?> object){
+		if (object == KnowledgeRegistrations.HELP)return true;
+		
 		IKnowledgeObjectInstance<?> obj = object.getObject();
 		
 		if (obj instanceof ObjectBlock)return discoveredBlocks.hasDiscoveredObject((ObjectBlock)obj);

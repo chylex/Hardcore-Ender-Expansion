@@ -3,8 +3,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ItemDamagePair{
-	private final Item item;
-	private final int damage;
+	public final Item item;
+	public final int damage;
 	
 	public ItemDamagePair(Item item, int damage){
 		this.item = item;

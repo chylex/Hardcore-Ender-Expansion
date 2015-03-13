@@ -16,6 +16,7 @@ ec.title.ravagedDungeon=Ravaged Dungeon
 ec.title.curses=Curses
 ec.title.dungeonPuzzle=Dungeon Puzzle
 ec.title.laboratory=Laboratory
+ec.title.ghostAmulet=Ghost Amulet
 
 ec.title.enh.enderPearl=Ender Pearl Enhancements
 ec.title.enh.essenceAltar=Essence Altar Enhancements
@@ -23,9 +24,6 @@ ec.title.enh.enhancedBrewingStand=Enhanced Brewing Stand Enhancements
 ec.title.enh.tnt=TNT Enhancements
 ec.title.enh.spatialDashGem=Spatial Dash Gem Enhancements
 ec.title.enh.transferenceGem=Transference Gem Enhancements
-
-ec.help.nonbuyable=The fragment has to be purchased elsewhere
-ec.help.requirements=Another fragment must be bought first
 
 ec.reg.0=Welcome to the Ender Compendium, the source of all knowledge about the End!
 ec.reg.1=The Compendium is divided into phases, each contains blocks, items and mobs you can find in that phase.
@@ -67,8 +65,8 @@ ec.reg.40=Core component of the Basic Essence Altar.
 ec.reg.51=Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.
 ec.reg.52=Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.
 
-ec.reg.60=Tall black mobs that populate the End, and uncommonly spawn in the Overworld.
-ec.reg.61=Looking into their eyes or attacking them makes them aggroed.
+ec.reg.60=Tall black mob that populates the End, and uncommonly spawns in the Overworld.
+ec.reg.61=Looking into their eyes or attacking them makes them hostile.
 ec.reg.62=Endermen can teleport away, either randomly or sometimes when attacked.
 ec.reg.63=Water damages them.
 
@@ -94,7 +92,7 @@ ec.reg.104=When broken, it loses its ability to fall.
 ec.reg.110=Dragon Essence Altar infuses blocks and items with Dragon Essence.
 ec.reg.111=Infusion requires pedestals, which are up to 8 blocks of the same type placed close around the altar
 ec.reg.112=Enhancing the altar with Range enhancement allows up to 12 pedestals to be used.
-ec.reg.113=Tools, weapons and armor will quickly repair, and slowly improve enchantments and gain new enchantments.
+ec.reg.113=Tools, weapons and armor will quickly repair, and slowly improve their enchantments.
 ec.reg.114=Some items will turn into different items when infused:
 
 ec.reg.120=Commonly found ore in the End.
@@ -278,7 +276,7 @@ ec.reg.995=Breaking the Table causes the stored Energy to leak into the world.
 
 ec.reg.720=Biome Islands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the Dragon Lair.
 ec.reg.721=Each island has caves and ores, every biome modifies the amounts and rates as well as the overall shape of the terrain.
-ec.reg.722=Biomes can have multiple different variations with unique content, and random deviations that modify properties of some features (such as very tall trees).
+ec.reg.722=Biomes can have one of multiple different variations with unique content, and one or more random deviations that modify the amount or properties of some features (such as tall trees or goo swamps) to increase the variety.
 ec.reg.723=Instability Orb Ore and Stardust Ore only spawn in the islands.
 
 ec.reg.360=Uncommon ore found in tiny clusters in all Biome Islands.
@@ -469,8 +467,9 @@ ec.reg.1430=Blank Gem is used solely to create higher level Gems.
 ec.reg.1440=Next tier Gem that allows teleportation across long distances.
 ec.reg.1442=Using it on a block while sneaking will link the Gem to that block.
 ec.reg.1443=When linked, using it will teleport you to the linked block, and use a specified amount of Energy.
-ec.reg.1444=If the Gem has below 44%% Energy, the Gem might cause a negative effect with higher chance the less Energy it has.
+ec.reg.1444=If the Gem has below 44%% Energy, the Gem might cause a negative effect with higher chance the less Energy it has. The center of the Gem will also appear darker.
 ec.reg.1445=Some of these effects include bad potion effects, random teleportation deflections or even a short storm.
+ec.reg.1446=When enhanced with the Beast enhancement, using it on another creature while standing teleports the targeted creature.
 
 ec.reg.680=Baby Enderman spawns in the Enchanted Island (Homeland).
 ec.reg.681=If attacked, the parents will teleport and protect the baby.

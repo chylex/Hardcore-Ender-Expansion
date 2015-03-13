@@ -10,7 +10,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemAbstractPotion;
-import chylex.hee.system.util.BlockPosM;
 
 public class EntityProjectilePotion extends EntityPotion{
 	private Item potionItem;
@@ -51,7 +50,7 @@ public class EntityProjectilePotion extends EntityPotion{
 				if (dist < 16D)((ItemAbstractPotion)potionItem).applyEffectThrown(entity,mop.entityHit == entity ? Double.MAX_VALUE : dist);
 			}
 
-			worldObj.playAuxSFX(2002,new BlockPosM(this),0);
+			worldObj.playAuxSFX(2002,(int)Math.round(posX),(int)Math.round(posY),(int)Math.round(posZ),0);
 			setDead();
 		}
 	}

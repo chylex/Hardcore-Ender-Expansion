@@ -1,13 +1,13 @@
 package chylex.hee.entity.technical;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.Direction;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 	private byte dir;
@@ -16,9 +16,9 @@ public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 		super(world);
 	}
 	
-	public EntityTechnicalPuzzleChain(World world, BlockPosM pos, int dir){
+	public EntityTechnicalPuzzleChain(World world, int x, int y, int z, int dir){
 		super(world);
-		setPosition(pos.x+0.5D-Direction.offsetX[dir],pos.y+0.5D,pos.z+0.5D-Direction.offsetZ[dir]);
+		setPosition(x+0.5D-Direction.offsetX[dir],y+0.5D,z+0.5D-Direction.offsetZ[dir]);
 		this.dir = (byte)dir;
 	}
 
@@ -32,16 +32,16 @@ public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 		if (ticksExisted%8 == 1){
 			setPosition(posX+Direction.offsetX[dir],posY,posZ+Direction.offsetZ[dir]);
 			
-			BlockPosM pos = new BlockPosM(this);
+			int x = MathUtil.floor(posX), y = MathUtil.floor(posY), z = MathUtil.floor(posZ);
 			
-			if (pos.getBlock(worldObj) == BlockList.dungeon_puzzle){
-				if (((BlockDungeonPuzzle)BlockList.dungeon_puzzle).updateChain(worldObj,pos,dir)){
-					PacketPipeline.sendToAllAround(dimension,pos,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,pos.x+0.5D,pos.y+0.5D,pos.z+0.5D));
+			if (worldObj.getBlock(x,y,z) == BlockList.dungeon_puzzle){
+				if (((BlockDungeonPuzzle)BlockList.dungeon_puzzle).updateChain(worldObj,x,y,z,dir)){
+					PacketPipeline.sendToAllAround(dimension,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+0.5D,y+0.5D,z+0.5D));
 				}
 				else setDead();
 			}
 			else{
-				((BlockDungeonPuzzle)BlockList.dungeon_puzzle).checkWinConditions(worldObj,pos.moveBy(-Direction.offsetX[dir],0,-Direction.offsetZ[dir]));
+				((BlockDungeonPuzzle)BlockList.dungeon_puzzle).checkWinConditions(worldObj,x-Direction.offsetX[dir],y,z-Direction.offsetZ[dir]);
 				setDead();
 			}
 		}

@@ -17,7 +17,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.item.ItemAbstractPotion;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
-import chylex.hee.system.util.ItemUtil;
 
 public class PotionTypes{
 	public static final List<AbstractPotionData> potionData = Arrays.asList(
@@ -75,7 +74,7 @@ public class PotionTypes{
 		mapItemToIndex(Items.ghast_tear,9);
 		mapItemToIndex(Items.spider_eye,10);
 		mapItemToIndex(Items.magma_cream,11);
-		mapItemToIndex(Items.fish,(short)FishType.PUFFERFISH.getMetadata(),new int[]{ 12 });
+		mapItemToIndex(Items.fish,(short)FishType.PUFFERFISH.func_150976_a(),new int[]{ 12 }); // OBFUSCATED get fish damage
 		mapItemToIndex(Items.fermented_spider_eye,2,4,6,8/*,16*/);
 		/*mapItemToIndex(Item.rottenFlesh,13);
 		mapItemToIndex(Item.flint,14);
@@ -178,11 +177,11 @@ public class PotionTypes{
 			PotionEffect newEffect = null;
 			
 			if (ingredientItem == Items.glowstone_dust){
-				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration(),eff.getAmplifier()+1,eff.getIsAmbient(),eff.getIsShowParticles());
+				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration(),eff.getAmplifier()+1,eff.getIsAmbient());
 			}
 			else if (ingredientItem == Items.redstone){
 				AbstractPotionData data = getPotionData(is);
-				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration()+((TimedPotion)data).getDurationStep(),eff.getAmplifier(),eff.getIsAmbient(),eff.getIsShowParticles());
+				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration()+((TimedPotion)data).getDurationStep(),eff.getAmplifier(),eff.getIsAmbient());
 			}
 			
 			if (newEffect != null)setCustomPotionEffect(is,newEffect);
@@ -193,13 +192,13 @@ public class PotionTypes{
 			AbstractPotionData data = potionData.get(b);
 			if (data != null && data.requiredDamageValue == (is.getItemDamage()&~16384)){
 				PotionEffect prevEffect = getEffectIfValid(is);
-				
-				ItemUtil.getNBT(is,false).removeTag("CustomPotionEffects");
+
+				if (is.stackTagCompound != null)is.stackTagCompound.removeTag("CustomPotionEffects");
 				data.onFirstBrewingFinished(is);
 				
 				if (prevEffect != null){
 					PotionEffect curEffect = getEffectIfValid(is);
-					if (curEffect != null)setCustomPotionEffect(is,new PotionEffect(curEffect.getPotionID(),prevEffect.getDuration(),prevEffect.getAmplifier(),prevEffect.getIsAmbient(),prevEffect.getIsShowParticles()));
+					if (curEffect != null)setCustomPotionEffect(is,new PotionEffect(curEffect.getPotionID(),prevEffect.getDuration(),prevEffect.getAmplifier(),prevEffect.getIsAmbient()));
 				}
 				
 				break;
@@ -210,7 +209,7 @@ public class PotionTypes{
 	}
 	
 	public static ItemStack setCustomPotionEffect(ItemStack is, PotionEffect effect){
-		NBTTagCompound nbt = ItemUtil.getNBT(is,true);
+		NBTTagCompound nbt = is.stackTagCompound == null ? is.stackTagCompound = new NBTTagCompound() : is.stackTagCompound;
 		NBTTagList potionList = new NBTTagList();
 		potionList.appendTag(effect.writeCustomPotionEffectToNBT(new NBTTagCompound()));
 		nbt.setTag("CustomPotionEffects",potionList);

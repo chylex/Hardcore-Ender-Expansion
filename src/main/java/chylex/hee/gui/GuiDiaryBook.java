@@ -1,5 +1,4 @@
 package chylex.hee.gui;
-import java.io.IOException;
 import java.util.Iterator;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreenBook;
@@ -9,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiDiaryBook extends GuiScreenBook{
@@ -63,7 +62,7 @@ public class GuiDiaryBook extends GuiScreenBook{
 	}
 	
 	@Override
-	protected void actionPerformed(GuiButton button) throws IOException{
+	protected void actionPerformed(GuiButton button){
 		if (button.enabled){
 			if (button.id == 1){
 				if (currPage < bookTotalPages-1)++currPage;

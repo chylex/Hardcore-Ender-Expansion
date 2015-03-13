@@ -29,11 +29,6 @@ import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerUseItemEvent;
 import net.minecraftforge.event.world.BlockEvent.BreakEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.entity.fx.FXType;
@@ -46,10 +41,14 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.ReflectionPublicizer;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import cpw.mods.fml.relauncher.Side;
 
 public final class CharmEvents{
 	public static float[] getProp(EntityPlayer player, String prop){
@@ -170,7 +169,7 @@ public final class CharmEvents{
 	public void onLivingHurt(LivingHurtEvent e){
 		boolean isTargetPlayer = e.entityLiving instanceof EntityPlayer;
 		
-		if (e.source.getSourceOfDamage() == null){
+		if (e.source.getEntity() == null){
 			if (isTargetPlayer){
 				EntityPlayer targetPlayer = (EntityPlayer)e.entity;
 				
@@ -185,10 +184,10 @@ public final class CharmEvents{
 			}
 		}
 		else{
-			boolean isSourcePlayer = e.source.getSourceOfDamage() instanceof EntityPlayer;
+			boolean isSourcePlayer = e.source.getEntity() instanceof EntityPlayer;
 			
 			if (isSourcePlayer){
-				EntityPlayer sourcePlayer = (EntityPlayer)e.source.getSourceOfDamage();
+				EntityPlayer sourcePlayer = (EntityPlayer)e.source.getEntity();
 
 				// BASIC_POWER / EQUALITY
 				e.ammount += getPropPercentIncrease(sourcePlayer,"dmg",e.ammount);
@@ -263,7 +262,7 @@ public final class CharmEvents{
 					if (reflectDmg.length > 0){
 						float reflected = 0F;
 						for(int a = 0; a < reflectDmg.length; a++)reflected += e.ammount*reflectDmg[a];
-						e.source.getSourceOfDamage().attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),reflected);
+						e.source.getEntity().attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),reflected);
 						showBlockingEffect = true;
 					}
 					
@@ -272,7 +271,7 @@ public final class CharmEvents{
 					
 					if (repulseAmt > 0.001F){
 						float mp = 0.5F+0.8F*repulseAmt;
-						Entity source = e.source.getSourceOfDamage();
+						Entity source = e.source.getEntity();
 						
 						double[] vec = DragonUtil.getNormalizedVector(source.posX-targetPlayer.posX,source.posZ-targetPlayer.posZ);
 						vec[0] *= mp;
@@ -305,7 +304,7 @@ public final class CharmEvents{
 						for(int mob = 0; mob < Math.round(redirMobs[a]); mob++){
 							while(iter.hasNext()){
 								EntityLivingBase entity = iter.next();
-								if (entity == targetPlayer || entity == e.source.getSourceOfDamage())continue;
+								if (entity == targetPlayer || entity == e.source.getEntity())continue;
 								
 								entity.attackEntityFrom(DamageSource.causePlayerDamage(targetPlayer),redirAmt[a]*e.ammount);
 								PacketPipeline.sendToAllAround(targetPlayer,64D,new C22EffectLine(FXType.Line.CHARM_DAMAGE_REDIRECTION,entity,targetPlayer));
@@ -318,7 +317,7 @@ public final class CharmEvents{
 			}
 			
 			if (isSourcePlayer){
-				EntityPlayer sourcePlayer = (EntityPlayer)e.source.getSourceOfDamage();
+				EntityPlayer sourcePlayer = (EntityPlayer)e.source.getEntity();
 				
 				// LIFE_STEAL
 				float[] stealHealth = getProp(sourcePlayer,"stealhealth");
@@ -351,7 +350,6 @@ public final class CharmEvents{
 			if (lastResortCooldown.length > 0 && !playerLastResortCooldown.containsKey(targetPlayer.getGameProfile().getId())){
 				float[] lastResortDist = getProp(targetPlayer,"lastresortblocks");
 				int randIndex = targetPlayer.worldObj.rand.nextInt(lastResortCooldown.length);
-				BlockPosM testPos = new BlockPosM();
 				
 				for(int attempt = 0, xx, yy, zz; attempt < 128; attempt++){
 					float ang = targetPlayer.worldObj.rand.nextFloat()*2F*(float)Math.PI;
@@ -361,7 +359,7 @@ public final class CharmEvents{
 					yy = MathUtil.floor(targetPlayer.posY)-2;
 					
 					for(int yAttempt = 0; yAttempt <= 6; yAttempt++){
-						if (!testPos.moveTo(xx,yy-1,zz).isAir(targetPlayer.worldObj) && testPos.moveUp().isAir(targetPlayer.worldObj) && testPos.moveUp().isAir(targetPlayer.worldObj)){
+						if (!targetPlayer.worldObj.isAirBlock(xx,yy-1,zz) && targetPlayer.worldObj.isAirBlock(xx,yy,zz) && targetPlayer.worldObj.isAirBlock(xx,yy+1,zz)){
 							PacketPipeline.sendToAllAround(targetPlayer,64D,new C21EffectEntity(FXType.Entity.CHARM_LAST_RESORT,targetPlayer));
 							targetPlayer.setPositionAndUpdate(xx+0.5D,yy+0.01D,zz+0.5D);
 							attempt = 129;
@@ -370,7 +368,7 @@ public final class CharmEvents{
 					}
 				}
 				
-				targetPlayer.setHealth(targetPlayer.lastDamage);
+				targetPlayer.setHealth(targetPlayer.prevHealth);
 				targetPlayer.motionX = targetPlayer.motionY = targetPlayer.motionZ = 0D;
 				playerLastResortCooldown.put(targetPlayer.getGameProfile().getId(),(byte)(-100+lastResortCooldown[randIndex]*20));
 				
@@ -381,15 +379,15 @@ public final class CharmEvents{
 			}
 		}
 		
-		if (e.source.getSourceOfDamage() instanceof EntityPlayer){
-			EntityPlayer sourcePlayer = (EntityPlayer)e.source.getSourceOfDamage();
+		if (e.source.getEntity() instanceof EntityPlayer){
+			EntityPlayer sourcePlayer = (EntityPlayer)e.source.getEntity();
 			
 			// SLAUGHTER_IMPACT
 			float[] impactRad = getProp(sourcePlayer,"impactrad");
 			
 			if (impactRad.length > 0){
 				float[] impactAmt = getProp(sourcePlayer,"impactamt");
-				float lastDamage = e.entityLiving.lastDamage;//(float)ReflectionPublicizer.get(ReflectionPublicizer.entityLivingBaseLastDamage,e.entityLiving);
+				float lastDamage = e.entityLiving.lastDamage;
 				
 				for(int a = 0; a < impactRad.length; a++){
 					List<EntityLivingBase> entities = e.entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class,e.entity.boundingBox.expand(impactRad[a],impactRad[a],impactRad[a]));
@@ -412,11 +410,11 @@ public final class CharmEvents{
 	 */
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onLivingDrops(LivingDropsEvent e){
-		if (e.recentlyHit && e.source.getSourceOfDamage() instanceof EntityPlayer && e.entityLiving instanceof EntityLiving &&
+		if (e.recentlyHit && e.source.getEntity() instanceof EntityPlayer && e.entityLiving instanceof EntityLiving &&
 			!e.entityLiving.isChild() && e.entity.worldObj.getGameRules().getGameRuleBooleanValue("doMobLoot")){
 			// BASIC_MAGIC / EQUALITY
-			int xp = (int)ReflectionPublicizer.invoke(ReflectionPublicizer.entityLivingBaseGetExperiencePoints,e.entityLiving,(EntityPlayer)e.source.getSourceOfDamage());
-			xp = MathUtil.ceil(getPropPercentIncrease((EntityPlayer)e.source.getSourceOfDamage(),"exp",xp)); // extra xp only
+			int xp = (int)ReflectionPublicizer.invoke(ReflectionPublicizer.entityLivingBaseGetExperiencePoints,e.entityLiving,(EntityPlayer)e.source.getEntity());
+			xp = MathUtil.ceil(getPropPercentIncrease((EntityPlayer)e.source.getEntity(),"exp",xp)); // extra xp only
 			DragonUtil.spawnXP(e.entity,xp);
 		}
 	}
@@ -458,7 +456,7 @@ public final class CharmEvents{
 				newIS.setItemDamage(newIS.getMaxDamage()-MathUtil.floor(newIS.getMaxDamage()*Math.min(1F,toRepair)));
 				
 				EntityItem newItem = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY+e.entityPlayer.getEyeHeight()-0.3D,e.entity.posZ,newIS);
-				newItem.setPickupDelay(40);
+				newItem.delayBeforeCanPickup = 40;
 				
 				float power = 0.3F, yawRadians = (float)Math.toRadians(e.entityPlayer.rotationYaw), randomAngle = e.entity.worldObj.rand.nextFloat()*(float)Math.PI*2F;
 				
@@ -484,8 +482,8 @@ public final class CharmEvents{
 		if (e.entity.worldObj.isRemote)return;
 		
 		// DIGESTIVE_RECOVER
-		if (e.item.getItemUseAction() == EnumAction.EAT && e.item.getItem() instanceof ItemFood){
-			int hungerRecovered = ((ItemFood)e.item.getItem()).getHealAmount(e.item);
+		if (e.item.getItemUseAction() == EnumAction.eat && e.item.getItem() instanceof ItemFood){
+			int hungerRecovered = ((ItemFood)e.item.getItem()).func_150905_g(e.item);
 			
 			float healthRecovered = getPropPercentIncrease(e.entityPlayer,"healthperhunger",hungerRecovered);
 			if (healthRecovered > 0F)e.entityPlayer.heal(healthRecovered);

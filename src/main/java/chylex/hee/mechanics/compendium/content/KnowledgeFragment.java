@@ -3,10 +3,11 @@ import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.Collection;
 import java.util.Collections;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class KnowledgeFragment{
 	private static final TIntObjectMap<KnowledgeFragment> allFragments = new TIntObjectHashMap<>();
@@ -24,6 +25,7 @@ public abstract class KnowledgeFragment{
 	private boolean unlockOnDiscovery;
 	private int[] unlockRequirements = ArrayUtils.EMPTY_INT_ARRAY;
 	private int[] unlockCascade = ArrayUtils.EMPTY_INT_ARRAY;
+	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> unlockRedirect;
 	
 	public KnowledgeFragment(int globalID){
 		this.globalID = globalID;
@@ -44,8 +46,18 @@ public abstract class KnowledgeFragment{
 		return this;
 	}
 	
+	public KnowledgeFragment setNonBuyableRedirect(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> unlockRedirect){
+		this.price = -1;
+		this.unlockRedirect = unlockRedirect;
+		return this;
+	}
+	
 	public boolean isBuyable(){
 		return price != -1;
+	}
+	
+	public KnowledgeObject<? extends IKnowledgeObjectInstance<?>> getUnlockRedirect(){
+		return unlockRedirect;
 	}
 	
 	public KnowledgeFragment setUnlockOnDiscovery(){

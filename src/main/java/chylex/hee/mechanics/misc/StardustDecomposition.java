@@ -12,10 +12,6 @@ import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameData;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -23,12 +19,17 @@ import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.ItemPattern;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class StardustDecomposition{
+	private static final List<ItemPattern> patterns = new ArrayList<>();
 	private static IdentityHashMap<Item,short[]> blacklist = new IdentityHashMap<>();
-
-	public static void addToBlacklist(Item item, short[] damages){
-		blacklist.put(item,damages.clone());
+	
+	public static void addToBlacklist(ItemPattern pattern){
+		patterns.add(pattern);
 	}
 	
 	public static void addFromString(String list){
@@ -81,9 +82,7 @@ public final class StardustDecomposition{
 				
 				// SEARCH ALL BLOCKS WITH SPECIFIED ID
 				
-				for(ResourceLocation loc:(Set<ResourceLocation>)GameData.getBlockRegistry().getKeys()){
-					String key = loc.toString();
-					
+				for(String key:(Set<String>)GameData.getBlockRegistry().getKeys()){
 					if (key.startsWith(identifier)){
 						Block block = GameData.getBlockRegistry().getRaw(key);
 						
@@ -99,9 +98,7 @@ public final class StardustDecomposition{
 				
 				// SEARCH ALL ITEMS WITH SPECIFIED ID
 				
-				for(ResourceLocation loc:(Set<ResourceLocation>)GameData.getItemRegistry().getKeys()){
-					String key = loc.toString();
-					
+				for(String key:(Set<String>)GameData.getItemRegistry().getKeys()){
 					if (key.startsWith(identifier)){
 						Item item = GameData.getItemRegistry().getRaw(key);
 						
@@ -136,15 +133,19 @@ public final class StardustDecomposition{
 		if (added > 0)Log.info("Added $0 items into Decomposition blacklist",added);
 	}
 	
-	public static boolean isBlacklisted(Item item, int damage){
-		short[] blacklistedDamages = blacklist.get(item);
-		return (blacklistedDamages != null && blacklistedDamages.length > 0 && (blacklistedDamages[0] == -1 || ArrayUtils.contains(blacklistedDamages,(short)damage)));
+	private static boolean isBlacklisted(ItemStack is){
+		for(ItemPattern pattern:patterns){
+			if (pattern.matches(is))return true;
+		}
+		
+		short[] blacklistedDamages = blacklist.get(is.getItem());
+		return (blacklistedDamages != null && blacklistedDamages.length > 0 && (blacklistedDamages[0] == -1 || ArrayUtils.contains(blacklistedDamages,(short)is.getItemDamage())));
 	}
 
 	public static List<ItemStack> getRandomRecipeIngredientsFor(ItemStack is, Random rand){
 		Item item = is.getItem();
 
-		if (isBlacklisted(item,is.getItemDamage()))return null;
+		if (isBlacklisted(is))return null;
 		
 		List<ItemStack[]> ingredients = new ArrayList<>();
 
@@ -194,8 +195,7 @@ public final class StardustDecomposition{
 				ItemStack ingredient = iter.next();
 				if (ingredient == null)return null;
 				
-				if (ingredient.getItem().hasContainerItem(ingredient))iter.remove();
-				else if (isBlacklisted(ingredient.getItem(),ingredient.getItemDamage()))iter.remove();
+				if (ingredient.getItem().hasContainerItem(ingredient) || isBlacklisted(ingredient))iter.remove();
 				else if (ingredient.getItemDamage() == OreDictionary.WILDCARD_VALUE)ingredient.setItemDamage(0);
 			}
 			

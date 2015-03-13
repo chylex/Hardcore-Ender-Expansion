@@ -1,5 +1,6 @@
 package chylex.hee.item;
 import java.util.List;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,19 +10,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.util.ItemUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCharmPouch extends Item{	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (ItemUtil.getNBT(is,false).getBoolean("isPouchActive") && entity instanceof EntityPlayer){
+		if (is.stackTagCompound != null && is.stackTagCompound.getBoolean("isPouchActive") && entity instanceof EntityPlayer){
 			if (world.isRemote)CharmPouchHandlerClient.onActivePouchUpdate((EntityPlayer)entity,is);
 			else{
 				CharmPouchInfo pouchInfo = CharmPouchHandler.getActivePouch((EntityPlayer)entity);
@@ -30,7 +30,7 @@ public class ItemCharmPouch extends Item{
 					CharmPouchHandler.setActivePouch((EntityPlayer)entity,is);
 					CharmPouchHandler.getActivePouch((EntityPlayer)entity).update(world);
 				}
-				else if (pouchInfo.pouchID != getPouchID(is))ItemUtil.getNBT(is,false).setBoolean("isPouchActive",false);
+				else if (pouchInfo.pouchID != getPouchID(is))is.stackTagCompound.setBoolean("isPouchActive",false);
 				else pouchInfo.update(world);
 			}
 		}
@@ -45,7 +45,7 @@ public class ItemCharmPouch extends Item{
 			boolean deactivate = activePouch != null && activePouch.pouchID == getPouchID(is);
 			
 			CharmPouchHandler.setActivePouch(player,deactivate ? null : is);
-			ItemUtil.getNBT(is,true).setBoolean("isPouchActive",!deactivate);
+			(is.stackTagCompound == null ? is.stackTagCompound = new NBTTagCompound() : is.stackTagCompound).setBoolean("isPouchActive",!deactivate);
 			if (!deactivate)CharmPouchHandler.getActivePouch(player).update(world);
 		}
 		else player.openGui(HardcoreEnderExpansion.instance,5,world,0,0,0);
@@ -56,9 +56,9 @@ public class ItemCharmPouch extends Item{
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entity){
 		ItemStack is = entity.getEntityItem();
-		if (is == null || !is.hasTagCompound())return false;
+		if (is == null || is.stackTagCompound == null)return false;
 		
-		if (is.getTagCompound().getBoolean("isPouchActive"))is.getTagCompound().setBoolean("isPouchActive",false);
+		if (is.stackTagCompound.getBoolean("isPouchActive"))is.stackTagCompound.setBoolean("isPouchActive",false);
 		return false;
 	}
 	
@@ -70,19 +70,19 @@ public class ItemCharmPouch extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		textLines.add(ItemUtil.getNBT(is,false).getBoolean("isPouchActive") ? "Active" : "Inactive");
+		textLines.add(I18n.format(is.stackTagCompound != null && is.stackTagCompound.getBoolean("isPouchActive") ? "item.charmPouch.info.active" : "item.charmPouch.info.inactive"));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is){
-		return ItemUtil.getNBT(is,false).getBoolean("isPouchActive");
+	public boolean hasEffect(ItemStack is, int pass){
+		return is.stackTagCompound != null && is.stackTagCompound.getBoolean("isPouchActive");
 	}
 	
 	public static final long getPouchID(ItemStack is){
 		if (is.getItem() != ItemList.charm_pouch)return 0;
 		
-		NBTTagCompound nbt = ItemUtil.getNBT(is,true);
+		NBTTagCompound nbt = is.stackTagCompound != null ? is.stackTagCompound : (is.stackTagCompound = new NBTTagCompound());
 		
 		long id = nbt.getLong("pouchID");
 		if (id == 0)nbt.setLong("pouchID",id = itemRand.nextLong());
@@ -92,7 +92,7 @@ public class ItemCharmPouch extends Item{
 	public static final ItemStack[] getPouchCharms(ItemStack is){
 		if (is.getItem() != ItemList.charm_pouch)return new ItemStack[0];
 		
-		NBTTagCompound nbt = ItemUtil.getNBT(is,true);
+		NBTTagCompound nbt = is.stackTagCompound != null ? is.stackTagCompound : (is.stackTagCompound = new NBTTagCompound());
 		NBTTagList tagCharms = nbt.getTagList("pouchCharms",Constants.NBT.TAG_COMPOUND);
 		
 		ItemStack[] items = new ItemStack[tagCharms.tagCount()];
@@ -108,7 +108,7 @@ public class ItemCharmPouch extends Item{
 	public static final void setPouchCharms(ItemStack pouch, ItemStack[] charms){
 		if (pouch.getItem() != ItemList.charm_pouch)return;
 		
-		NBTTagCompound nbt = ItemUtil.getNBT(pouch,true);
+		NBTTagCompound nbt = pouch.stackTagCompound != null ? pouch.stackTagCompound : (pouch.stackTagCompound = new NBTTagCompound());
 		NBTTagList tagCharms = new NBTTagList();
 		
 		for(ItemStack charm:charms){

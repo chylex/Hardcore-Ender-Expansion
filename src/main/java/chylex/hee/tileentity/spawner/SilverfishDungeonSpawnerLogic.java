@@ -6,7 +6,6 @@ import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class SilverfishDungeonSpawnerLogic extends CustomSpawnerLogic{
@@ -25,15 +24,18 @@ public class SilverfishDungeonSpawnerLogic extends CustomSpawnerLogic{
 	public void onBlockBreak(){
 		World world = getSpawnerWorld();
 		Random rand = world.rand;
-		BlockPosM testPos = new BlockPosM();
-		
-		for(int attempt = 0, found = 0, targ = 4+rand.nextInt(4); attempt < 400 && found < targ; attempt++){
-			if (testPos.moveTo(pos.x+rand.nextInt(11)-5,pos.y+1-rand.nextInt(5),pos.z+rand.nextInt(11)-5).getBlock(world) == Blocks.stonebrick){
-				testPos.setToAir(world);
-				world.playAuxSFX(2001,testPos,Block.getIdFromBlock(Blocks.stonebrick));
+
+		for(int attempt = 0,found = 0,targ = 4+rand.nextInt(4),xx,yy,zz; attempt < 400 && found < targ; attempt++){
+			xx = getSpawnerX()+rand.nextInt(11)-5;
+			yy = getSpawnerY()+1-rand.nextInt(5);
+			zz = getSpawnerZ()+rand.nextInt(11)-5;
+			
+			if (world.getBlock(xx,yy,zz) == Blocks.stonebrick){
+				world.setBlockToAir(xx,yy,zz);
+				world.playAuxSFX(xx,yy,zz,2001,Block.getIdFromBlock(Blocks.stonebrick));
 				
 				EntitySilverfish silverfish = new EntitySilverfish(world);
-				silverfish.setLocationAndAngles(testPos.x+0.5D,testPos.y+0.5D,testPos.z+0.5D,rand.nextFloat()*360F,0F);
+				silverfish.setLocationAndAngles(xx+0.5D,yy+0.5D,zz+0.5D,rand.nextFloat()*360F,0F);
 				world.spawnEntityInWorld(silverfish);
 				++found;
 			}
@@ -42,18 +44,20 @@ public class SilverfishDungeonSpawnerLogic extends CustomSpawnerLogic{
 
 	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
-		return new AxisAlignedBB(pos,pos.add(1,1,1)).expand(spawnRange*2,0.5D,spawnRange*2D);
+		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
+		return AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(spawnRange*2,0.5D,spawnRange*2D);
 	}
 
 	@Override
 	protected boolean checkSpawnerConditions(){
-		return getSpawnerWorld().getEntitiesWithinAABB(EntitySilverfish.class,new AxisAlignedBB(pos,pos.add(1,6,1)).expand(40D,30D,40D)).size() <= 35;
+		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
+		return getSpawnerWorld().getEntitiesWithinAABB(EntitySilverfish.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+6,sz+1).expand(40D,30D,40D)).size() <= 35;
 	}
 
 	@Override
 	protected boolean canMobSpawn(EntityLiving entity){
 		for(int yy = 0; yy <= 6; yy++){
-			entity.setLocationAndAngles(entity.posX,pos.y+yy,entity.posZ,entity.rotationYaw,0F);
+			entity.setLocationAndAngles(entity.posX,getSpawnerY()+yy,entity.posZ,entity.rotationYaw,0F);
 			
 			if (entity.worldObj.checkNoEntityCollision(entity.boundingBox) && entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty()){
 				return true;

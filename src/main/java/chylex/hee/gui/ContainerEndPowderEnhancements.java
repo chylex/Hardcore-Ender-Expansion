@@ -2,6 +2,7 @@ package chylex.hee.gui;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -12,6 +13,7 @@ import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
@@ -29,6 +31,7 @@ import chylex.hee.mechanics.enhancements.SlotList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C19CompendiumData;
+import chylex.hee.proxy.ModCommonProxy.MessageType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -49,7 +52,7 @@ public class ContainerEndPowderEnhancements extends Container{
 	public final boolean[] clientEnhancementBlocked = new boolean[7];
 	public final int[] enhancementSlotX = new int[7];
 	private IEnhancementEnum selectedEnhancement;
-	private int selectedSlot, prevSelectedSlot = -1;
+	private int selectedSlot = -1, prevSelectedSlot = -1;
 	
 	public ContainerEndPowderEnhancements(InventoryPlayer inv, IEnhanceableTile tileOptional){
 		containerInv = new InventoryBasic("",false,2+ingredientSlots.length+powderSlots.length);
@@ -60,7 +63,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		
 		if (isEnhancingTile()){
 			addSlotToContainer(new SlotShowCase(containerInv,0,80,17));
-			containerInv.setInventorySlotContents(0,tileOptional.createItemStack());
+			containerInv.setInventorySlotContents(0,tileOptional.createEnhancedItemStack());
 			addSlotToContainer(new SlotReadOnly(containerInv,1,3200,17));
 		}
 		else{
@@ -151,8 +154,17 @@ public class ContainerEndPowderEnhancements extends Container{
 	}
 	
 	@Override
+	public void putStackInSlot(int slot, ItemStack is){
+		super.putStackInSlot(slot,is);
+		
+		if (slot == 0 && isEnhancingTile()){
+			onSubjectChanged();
+		}
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
-    public void putStacksInSlots(ItemStack[] items){
+	public void putStacksInSlots(ItemStack[] items){
 		super.putStacksInSlots(items);
 		if (isEnhancingTile())onSubjectChanged();
 	}
@@ -176,12 +188,12 @@ public class ContainerEndPowderEnhancements extends Container{
 			clientEnhancementItems[a] = is;
 		}
 	}
-
+	
 	public void onSubjectChanged(){
 		ItemStack mainIS = getSlot(0).getStack();
-
+		
 		updateClientItems();
-		onEnhancementSlotChangeClient(-1);
+		HardcoreEnderExpansion.proxy.sendMessage(MessageType.ENHANCEMENT_SLOT_RESET,ArrayUtils.EMPTY_INT_ARRAY);
 		
 		List<ItemStack> toDrop = new ArrayList<ItemStack>();
 		SlotList slots = mainIS == null ? new SlotList() : EnhancementHandler.getEnhancementSlotsForItem(mainIS.getItem());
@@ -280,7 +292,7 @@ public class ContainerEndPowderEnhancements extends Container{
 				for(int a = 0; a < slots.amountIngredient; a++){
 					if ((ingredientSlots[a].getStack().stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(2+powderSlots.length+a,null);
 				}
-				
+
 				if (isEnhancingTile() || getSlot(0).getStack() == null)onSubjectChanged();
 				
 				if (CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement))){
@@ -324,6 +336,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public void onEnhancementSlotChangeClient(int selectedSlot){
 		ItemStack mainIS = getSlot(0).getStack();
 		
@@ -344,7 +357,7 @@ public class ContainerEndPowderEnhancements extends Container{
 
 			clientEnhancementTooltips[a] = build.append(EnumChatFormatting.LIGHT_PURPLE)
 				.append(DragonUtil.stripChatFormatting(enhancement.getName())).append("\n")
-				.append(EnumChatFormatting.GRAY).append(currentEnhancements.contains(enhancement) ? "Already enhanced" : (selectedSlot == a ? "Click to enhance" : "Click to select"))
+				.append(EnumChatFormatting.GRAY).append(I18n.format(currentEnhancements.contains(enhancement) ? "enhancements.alreadyEnhanced" : (selectedSlot == a ? "enhancements.clickEnhance" : "enhancements.clickSelect")))
 				.toString();
 			
 			clientEnhancementBlocked[a] = currentEnhancements.contains(enhancement);

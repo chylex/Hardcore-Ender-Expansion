@@ -1,11 +1,20 @@
 package chylex.hee.system.integration.handlers;
-//import static thaumcraft.api.ThaumcraftApi.*;
+import static thaumcraft.api.ThaumcraftApi.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
+import thaumcraft.api.ThaumcraftApi.EntityTagsNBT;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
+import chylex.hee.block.BlockCrossedDecoration;
+import chylex.hee.block.BlockEndstoneTerrain;
+import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockRavagedBrick;
+import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.system.integration.IIntegrationHandler;
-//import thaumcraft.api.aspects.Aspect;
-//import thaumcraft.api.aspects.AspectList;
 
 public class ThaumcraftIntegration implements IIntegrationHandler{
 	@Override
@@ -18,7 +27,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		
 		// BLOCK ASPECTS
 		
-		/*registerObjectTag(block(BlockList.obsidian_falling), meta(0), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
+		registerObjectTag(block(BlockList.obsidian_falling), meta(0), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
 		registerObjectTag(block(BlockList.obsidian_stairs), meta(0,1,2,3,4,5,6,7), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
 		registerObjectTag(block(BlockList.obsidian_special), meta(0,5), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
 		registerObjectTag(block(BlockList.obsidian_special), meta(1,6), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
@@ -171,7 +180,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2), new EntityTagsNBT("homelandRole",(byte)HomelandRole.WORKER.ordinal()));
 
 		registerEntityTag("HardcoreEnderExpansion.Endermage", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,2).add(Aspect.MAGIC,4));
-		*/
 	}
 	
 	private static ItemStack block(Block block){

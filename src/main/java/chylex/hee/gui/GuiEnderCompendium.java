@@ -1,6 +1,5 @@
 package chylex.hee.gui;
 import gnu.trove.map.hash.TByteObjectHashMap;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -10,13 +9,11 @@ import java.util.Map.Entry;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -45,11 +42,15 @@ import chylex.hee.packets.server.S05OpenCompendiumHelp;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.client.config.IConfigElement;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjLeft = 32;
 	
+	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	public static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
 	public static final ResourceLocation texFragments = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_fragments.png");
@@ -172,7 +173,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int buttonId) throws IOException{
+	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(2));
 		else if (buttonId == 0 && !(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
 			int offY = (int)offsetY.value();
@@ -191,16 +192,29 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				}
 			}
 			
+			KnowledgeObject<? extends IKnowledgeObjectInstance<?>> redirect = null;
+			
 			for(PurchaseDisplayElement element:purchaseElements){
-				if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4) && element.canBePurchased() && compendiumData.getPoints() >= element.price){
-					Object obj = element.object;
-					
-					if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
-					else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
-					else continue;
-					
-					return;
+				if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4)){
+					if (element.getStatus() == FragmentPurchaseStatus.NOT_BUYABLE && element.fragmentHasRedirect){
+						redirect = ((KnowledgeFragment)element.object).getUnlockRedirect();
+						break;
+					}
+					else if (element.getStatus() == FragmentPurchaseStatus.CAN_PURCHASE && compendiumData.getPoints() >= element.price){
+						Object obj = element.object;
+						
+						if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
+						else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
+						else continue;
+						
+						return;
+					}
 				}
+			}
+			
+			if (redirect != null){
+				showObject(redirect);
+				moveToCurrentObject(true);
 			}
 		}
 		
@@ -222,9 +236,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	@Override
-	protected void mouseReleased(int mouseX, int mouseY, int event){
+	protected void mouseMovedOrUp(int mouseX, int mouseY, int event){
 		if (dragMouseY != Integer.MIN_VALUE && event == 0)dragMouseY = Integer.MIN_VALUE;
-		super.mouseReleased(mouseX,mouseY,event);
+		super.mouseMovedOrUp(mouseX,mouseY,event);
 	}
 	
 	@Override
@@ -259,7 +273,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		int wheel = Mouse.getDWheel();
 		
 		if (wheel != 0){
-			if (currentObject != null && prevMouseX >= width>>1){
+			if (currentObject != null && (currentObject == KnowledgeRegistrations.HELP || prevMouseX >= width>>1)){
 				if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
 				else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
 			}
@@ -334,6 +348,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				compendiumData.setSeenHelp();
 			}
 			
+			purchaseElements.clear();
 			return;
 		}
 		
@@ -344,7 +359,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (currentObject == null)return;
 		
 		for(ObjectDisplayElement element:objectElements){
-			if (element.object == currentObject){
+			if (element.object.getObject() == currentObject.getObject()){
 				int newY = -(element.y+element.object.getY()-(height>>1)+11);
 				
 				if (animate)offsetY.startAnimation(offsetY.value(),newY,0.5F);
@@ -448,13 +463,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (mouseX >= button.xPosition && mouseX <= button.xPosition+button.width && mouseY > button.yPosition && mouseY < button.yPosition+button.height){
 			StringBuilder build = new StringBuilder(110);
-			build.append("Smooth text rendering\n");
-			build.append(EnumChatFormatting.GRAY);
-			build.append("Enable if you experience bad\n");
-			build.append(EnumChatFormatting.GRAY);
-			build.append("text scaling (experimental)\n");
-			build.append(EnumChatFormatting.DARK_GREEN);
-			build.append("Mode: ").append(KnowledgeFragmentText.smoothRenderingMode == 0 ? "Off" : String.valueOf(KnowledgeFragmentText.smoothRenderingMode));
+			build.append(I18n.format("compendium.smoothText.title")).append('\n');
+			build.append(EnumChatFormatting.GRAY).append(I18n.format("compendium.smoothText.line1")).append('\n');
+			build.append(EnumChatFormatting.GRAY).append(I18n.format("compendium.smoothText.line2")).append('\n');
+			build.append(EnumChatFormatting.DARK_GREEN).append(I18n.format("compendium.smoothText.mode")).append(": ");
+			build.append(KnowledgeFragmentText.smoothRenderingMode == 0 ? I18n.format("compendium.smoothText.disabled") : String.valueOf(KnowledgeFragmentText.smoothRenderingMode));
 			GuiItemRenderHelper.setupTooltip(mouseX,mouseY-24,build.toString());
 		}
 		
@@ -490,18 +503,23 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	}
 	
 	private void renderFragmentCount(int x, int y){
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glColor4f(1F,1F,1F,1F);
+		
 		mc.getTextureManager().bindTexture(texBack);
 		drawTexturedModalRect(x,y,56,0,56,20);
 		
 		RenderHelper.enableGUIStandardItemLighting();
-		mc.getRenderItem().renderItemIntoGUI(knowledgeFragmentIS,x+3,y+1);
+		renderItem.renderItemIntoGUI(fontRendererObj,mc.getTextureManager(),knowledgeFragmentIS,x+3,y+1);
 		
 		String pointAmount = String.valueOf(compendiumData.getPoints());
 		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,0x404040);
+		
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
 	private void renderPaper(int x, int y, int mouseX, int mouseY){
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		pageArrows[0].xPosition = x-(guiPageTexWidth*3/10)-10;
 		pageArrows[1].xPosition = x+(guiPageTexWidth*3/10)-10;
 		
@@ -511,7 +529,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		mc.getTextureManager().bindTexture(texPage);
 		drawTexturedModalRect(x-(guiPageTexWidth>>1),y-(guiPageTexHeight>>1),0,0,guiPageTexWidth,guiPageTexHeight);
 		
-		if (compendiumData.hasDiscoveredObject(currentObject) || currentObject == KnowledgeRegistrations.HELP){
+		if (compendiumData.hasDiscoveredObject(currentObject)){
 			x = x-(guiPageTexWidth>>1)+guiPageLeft;
 			y = y-(guiPageTexHeight>>1)+guiPageTop;
 			
@@ -531,9 +549,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (!currentObject.isBuyable() && !compendiumData.hasDiscoveredObject(currentObject)){
 			RenderHelper.disableStandardItemLighting();
-			String msg = "Cannot buy this object";
-			mc.fontRendererObj.drawString(msg,x-(mc.fontRendererObj.getStringWidth(msg)>>1),y-7,0x404040);
+			String msg = I18n.format("compendium.cannotBuy");
+			mc.fontRenderer.drawString(msg,x-(mc.fontRenderer.getStringWidth(msg)>>1),y-7,0x404040);
 		}
+
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	
 	@Override

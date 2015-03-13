@@ -16,12 +16,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import org.apache.commons.io.FileUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.item.ItemTempleCaller;
@@ -31,7 +25,13 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.world.feature.misc.TempleGenerator;
+import chylex.hee.world.feature.TempleGenerator;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.Event.Result;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public final class TempleEvents{
 	private static TempleEvents instance;
@@ -185,7 +185,7 @@ public final class TempleEvents{
 	
 	@SubscribeEvent
 	public void onWorldUnload(WorldEvent.Unload e){
-		if (e.world.provider.getDimensionId() == 1 && instance.stage == DestroyStage.WAIT_FOR_UNLOAD)instance.setStage(DestroyStage.DELETE);
+		if (e.world.provider.dimensionId == 1 && instance.stage == DestroyStage.WAIT_FOR_UNLOAD)instance.setStage(DestroyStage.DELETE);
 	}
 	
 	public static boolean isPlayerInTemple(EntityPlayer player){

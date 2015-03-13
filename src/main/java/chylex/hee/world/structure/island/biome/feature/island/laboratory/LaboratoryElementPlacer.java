@@ -1,9 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import java.util.Random;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
@@ -113,7 +111,7 @@ public class LaboratoryElementPlacer{
 				}
 				
 				for(int b = 0; b < 3; b++){
-					if (py == 1)world.setBlock(x,y+py,z-1+b,BlockList.laboratory_stairs.getDefaultState().withProperty(BlockStairs.FACING,xAdd == 1 ? EnumFacing.EAST : EnumFacing.NORTH));
+					if (py == 1)world.setBlock(x,y+py,z-1+b,BlockList.laboratory_stairs,xAdd == 1 ? 1 : 0);
 					else world.setBlock(x,y+py,z-1+b,py == 0 ? blockFloor : py == 5 ? blockLab : Blocks.air);
 				}
 			}
@@ -156,7 +154,7 @@ public class LaboratoryElementPlacer{
 				}
 				
 				for(int b = 0; b < 3; b++){
-					if (py == 1)world.setBlock(x-1+b,y+py,z,BlockList.laboratory_stairs.getDefaultState().withProperty(BlockStairs.FACING,zAdd == 1 ? EnumFacing.WEST : EnumFacing.SOUTH));
+					if (py == 1)world.setBlock(x-1+b,y+py,z,BlockList.laboratory_stairs,zAdd == 1 ? 3 : 2);
 					else world.setBlock(x-1+b,y+py,z,py == 0 ? blockFloor : py == 5 ? blockLab : Blocks.air);
 				}
 			}

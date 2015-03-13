@@ -1,23 +1,17 @@
 package chylex.hee.entity.item;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.achievements.AchievementManager;
 
 public class EntityItemAltar extends EntityItem{
 	public byte pedestalUpdate;
 	public byte essenceType;
-	public boolean hasChanged;
-	private int pickupDelay;
-	private int age;
+	public boolean hasChanged = false;
 	
 	public EntityItemAltar(World world){
 		super(world);
@@ -26,7 +20,7 @@ public class EntityItemAltar extends EntityItem{
 	public EntityItemAltar(World world, double x, double y, double z, EntityItem originalItem, byte essenceType){
 		super(world,x,y,z);
 		motionX = motionY = motionZ = 0D;
-		pickupDelay = 50;
+		delayBeforeCanPickup = 50;
 		
 		hoverStart = originalItem.hoverStart;
 		rotationYaw = originalItem.rotationYaw;
@@ -63,12 +57,8 @@ public class EntityItemAltar extends EntityItem{
 		}
 		
 		onEntityUpdate();
-		
-		if (pickupDelay > 0){
-			--pickupDelay;
-			setInfinitePickupDelay();
-		}
-		else setNoPickupDelay();
+
+		if (delayBeforeCanPickup > 0)--delayBeforeCanPickup;
 		
 		prevPosX = posX;
 		prevPosY = posY;
@@ -96,7 +86,7 @@ public class EntityItemAltar extends EntityItem{
 			super.onCollideWithPlayer(player);
 			
 			if (isDead){
-				if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_brewing_stand))player.addStat(AchievementManager.ENHANCED_BREWING_STAND,1);
+				if (is.getItem() == ItemList.enhanced_brewing_stand)player.addStat(AchievementManager.ENHANCED_BREWING_STAND,1);
 				else if (is.getItem() == ItemList.temple_caller)player.addStat(AchievementManager.TEMPLE_CALLER,1);
 			}
 		}
@@ -104,12 +94,6 @@ public class EntityItemAltar extends EntityItem{
 	
 	public void setSparkling(){
 		dataWatcher.updateObject(11,Byte.valueOf((byte)1));
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public int getAge(){
-		return age;
 	}
 	
 	@Override

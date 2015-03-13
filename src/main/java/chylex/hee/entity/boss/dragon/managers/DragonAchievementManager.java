@@ -9,6 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.system.achievements.AchievementEvents;
 import chylex.hee.system.achievements.AchievementManager;
 
@@ -58,7 +60,7 @@ public class DragonAchievementManager{
 		for(Entry<UUID,AchievementData> entry:playerData.entrySet()){
 			if ((float)entry.getValue().participationCounter/(float)battleTimer < 0.75F)continue;
 			
-			EntityPlayer player = dragon.worldObj.getPlayerEntityByUUID(entry.getKey());
+			EntityPlayer player = dragon.worldObj.func_152378_a(entry.getKey());
 			
 			if (entry.getValue().deathAmount == 0 && finalDiff >= 98){
 				if (player == null)AchievementEvents.addDelayedAchievement(entry.getKey(),AchievementManager.CHALLENGE_HARD0DEATHS);
@@ -69,6 +71,8 @@ public class DragonAchievementManager{
 				if (player == null)AchievementEvents.addDelayedAchievement(entry.getKey(),AchievementManager.CHALLENGE_NOENDERMAN);
 				else player.addStat(AchievementManager.CHALLENGE_NOENDERMAN,1);
 			}
+			
+			CausatumUtils.increase(entry.getKey(),CausatumMeters.DRAGON_KILL_PARTICIPATION,300);
 		}
 	}
 	
@@ -80,7 +84,7 @@ public class DragonAchievementManager{
 	}
 
 	public void readFromNBT(NBTTagCompound tag){
-		for(String key:(Set<String>)tag.getKeySet()){
+		for(String key:(Set<String>)tag.func_150296_c()){ // OBFUSCATED get keys
 			NBTBase b = tag.getTag(key);
 			
 			if (b instanceof NBTTagCompound){
@@ -99,7 +103,7 @@ public class DragonAchievementManager{
 		
 		private final NBTTagCompound writeToNBT(){
 			NBTTagCompound tag = new NBTTagCompound();
-			tag.setShort("participatonCnt",participationCounter);
+			tag.setShort("participationCnt",participationCounter);
 			tag.setShort("deathAmount",deathAmount);
 			tag.setBoolean("killedEnderman",killedEnderman);
 			return tag;

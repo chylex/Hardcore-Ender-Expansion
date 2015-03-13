@@ -2,7 +2,6 @@ package chylex.hee.entity.item;
 import java.util.IdentityHashMap;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -11,7 +10,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
@@ -21,7 +19,6 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityItemIgneousRock extends EntityItem{
@@ -70,30 +67,29 @@ public class EntityItemIgneousRock extends EntityItem{
 			}
 			
 			if (rand.nextInt(64-Math.min(32,is.stackSize/2)) == 0){
-				BlockPosM pos = new BlockPosM();
-				
 				for(int attempt = 0; attempt < 4+(is.stackSize/8); attempt++){
-					pos.moveTo(this).moveBy(MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D));
+					int[] pos = new int[]{ MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ) };
+					for(int a = 0; a < pos.length; a++)pos[a] += MathUtil.floor((rand.nextDouble()-0.5D)*4D);
 					
-					Block block = pos.getBlock(worldObj);
+					Block block = worldObj.getBlock(pos[0],pos[1],pos[2]);
 					Block target = blockTransformations.get(block);
 					
-					if (target != null)pos.setBlock(worldObj,target);
+					if (target != null)worldObj.setBlock(pos[0],pos[1],pos[2],target);
 					else if (block.getMaterial() == Material.air){
-						if (rand.nextInt(5) == 0)pos.setBlock(worldObj,Blocks.fire);
+						if (rand.nextInt(5) == 0)worldObj.setBlock(pos[0],pos[1],pos[2],Blocks.fire);
 						else continue;
 					}
 					else if (block == Blocks.tnt){
-						pos.setToAir(worldObj);
-						worldObj.createExplosion(null,pos.x+0.5D,pos.y+0.5D,pos.z+0.5D,3.9F,true);
+						worldObj.setBlockToAir(pos[0],pos[1],pos[2]);
+						worldObj.createExplosion(null,pos[0],pos[1],pos[2],3.9F,true);
 					}
-					else if (block == Blocks.tallgrass && worldObj.getBlockState(pos).getValue(BlockTallGrass.TYPE) != BlockTallGrass.EnumType.DEAD_BUSH){
-						worldObj.setBlockState(pos,worldObj.getBlockState(pos).withProperty(BlockTallGrass.TYPE,BlockTallGrass.EnumType.DEAD_BUSH));
+					else if (block == Blocks.tallgrass && worldObj.getBlockMetadata(pos[0],pos[1],pos[2]) != 0){
+						worldObj.setBlockMetadataWithNotify(pos[0],pos[1],pos[2],0,2);
 					}
 					else continue;
 					
 					if (block.getMaterial() != Material.air){
-						PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.IGNEOUS_ROCK_MELT,pos.x+0.5D,pos.y+0.5D,pos.z+0.5D));
+						PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.IGNEOUS_ROCK_MELT,pos[0]+0.5D,pos[1]+0.5D,pos[2]+0.5D));
 					}
 					
 					if (rand.nextInt(3) == 0)break;
@@ -106,25 +102,27 @@ public class EntityItemIgneousRock extends EntityItem{
 			}
 		}
 		
-		BlockPosM pos = new BlockPosM(this);
+		int ix = MathUtil.floor(posX), iy = MathUtil.floor(posY), iz = MathUtil.floor(posZ);
 		
-		if (rand.nextInt(6) == 0 && pos.getBlockMaterial(worldObj) == Material.water){
+		if (rand.nextInt(6) == 0 && worldObj.getBlock(ix,iy,iz).getMaterial() == Material.water){
 			HardcoreEnderExpansion.fx.bubble(worldObj,posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0.6D,0D);		
 		}
 		
-		if (pos.moveDown().getBlock(worldObj) == BlockList.dungeon_puzzle){
-			if (((BlockDungeonPuzzle.Variant)pos.getBlockState(worldObj).getValue(BlockDungeonPuzzle.VARIANT)).canTrigger()){
+		if (worldObj.getBlock(ix,iy-1,iz) == BlockList.dungeon_puzzle){
+			int meta = worldObj.getBlockMetadata(ix,iy-1,iz);
+			
+			if (BlockDungeonPuzzle.canTrigger(meta)){
 				for(int a = 0; a < 4; a++)HardcoreEnderExpansion.fx.igneousRockBreak(this);
 				
 				if (!worldObj.isRemote && onGround){
-					worldObj.spawnEntityInWorld(new EntityTechnicalPuzzleChain(worldObj,pos,thrownDirection));
+					worldObj.spawnEntityInWorld(new EntityTechnicalPuzzleChain(worldObj,ix,iy-1,iz,thrownDirection));
 					setDead();
 				}
 			}
 		}
 		
 		if (rand.nextInt(30) == 0){
-			for(int a = 0; a < 2; a++)worldObj.spawnParticle(EnumParticleTypes.LAVA,posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0D,0D);
+			for(int a = 0; a < 2; a++)worldObj.spawnParticle("lava",posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0D,0D);
 		}
 	}
 	

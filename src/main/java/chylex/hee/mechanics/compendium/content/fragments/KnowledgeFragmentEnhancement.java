@@ -3,8 +3,6 @@ import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
@@ -15,6 +13,8 @@ import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.base.Joiner;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 	private static final Set<KnowledgeFragmentEnhancement> enhancementFragments = new HashSet<>();
@@ -69,7 +69,7 @@ public class KnowledgeFragmentEnhancement extends KnowledgeFragment{
 		
 		ItemStack is = isUnlocked ? enhancement.getItemSelector().getRepresentativeItem() : KnowledgeFragmentCrafting.lockedItem;
 		
-		gui.mc.getRenderItem().renderItemAndEffectIntoGUI(is,x+1,y+1);
+		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,x+1,y+1);
 		
 		RenderHelper.disableStandardItemLighting();
 		KnowledgeFragmentText.renderString(name,x+22,y+5,130<<16|255,130<<16|255,gui);

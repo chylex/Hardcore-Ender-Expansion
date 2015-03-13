@@ -10,7 +10,6 @@ import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
@@ -141,17 +140,16 @@ public class BiomeInteractionEnchantedIsland{
 			
 			if (++cellarCheckTimer > 10){
 				boolean foundBottom = false, foundTop = false;
-				BlockPosM persegritPos = new BlockPosM(target);
-				int minY = persegritPos.y, maxY = persegritPos.y+1;
+				int tx = (int)target.posX, tz = (int)target.posZ, minPersegritY = (int)target.posY, maxPersegritY = minPersegritY+1;
 				
 				for(int a = 0; a < 8; a++){
 					if (!foundBottom){
-						if (persegritPos.moveTo(persegritPos.x,minY,persegritPos.z).getBlock(world) != BlockList.persegrit)--minY;
+						if (world.getBlock(tx,minPersegritY,tz) != BlockList.persegrit)--minPersegritY;
 						else foundBottom = true;
 					}
 					
 					if (!foundTop){
-						if (persegritPos.moveTo(persegritPos.x,maxY,persegritPos.z).getBlock(world) != BlockList.persegrit)++maxY;
+						if (world.getBlock(tx,maxPersegritY,tz) != BlockList.persegrit)++maxPersegritY;
 						else foundTop = true;
 					}
 					
@@ -175,14 +173,14 @@ public class BiomeInteractionEnchantedIsland{
 				switch(procedure){
 					case FOOTSTEPS:
 						timer = 7+rand.nextInt(3);
-						play(C08PlaySound.PERSEGRIT_FOOTSTEPS,BlockList.persegrit.stepSound.getVolume()*0.15F,BlockList.persegrit.stepSound.getFrequency()*1F);
+						play(C08PlaySound.PERSEGRIT_FOOTSTEPS,BlockList.persegrit.stepSound.getVolume()*0.15F,BlockList.persegrit.stepSound.getPitch()*1F);
 						break;
 						
 					case BLOCK_BREAKING:
 						timer = 7+rand.nextInt(8+rand.nextInt(15));
 						if (lastSoundId == 0 || rand.nextInt(8) == 0)lastSoundId = (byte)(1+rand.nextInt(BreakEffects.values.length));
 						
-						play((byte)(C08PlaySound.GRASS_BREAK-1+lastSoundId),lastSoundId == BreakEffects.WOOD.ordinal()+1 ? 0.5F : 0.25F,BlockList.persegrit.stepSound.getFrequency()*0.8F);
+						play((byte)(C08PlaySound.GRASS_BREAK-1+lastSoundId),lastSoundId == BreakEffects.WOOD.ordinal()+1 ? 0.5F : 0.25F,BlockList.persegrit.stepSound.getPitch()*0.8F);
 						break;
 						
 					case CHEST_OPENING:

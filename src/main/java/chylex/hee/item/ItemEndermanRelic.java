@@ -8,15 +8,15 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
-import chylex.hee.system.util.ItemUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 	@Override
@@ -42,13 +42,14 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public EnumRarity getRarity(ItemStack is){
-		return EnumRarity.UNCOMMON;
+		return EnumRarity.uncommon;
 	}
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity owner, int slot, boolean isHeld){
 		if (!world.isRemote){
-			byte timer = ItemUtil.getNBT(is,true).getByte("HEE_relicTimer");
+			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+			byte timer = is.stackTagCompound.getByte("HEE_relicTimer");
 			
 			if (++timer > 8){
 				timer = 0;
@@ -59,7 +60,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 						cls = mob.getClass();
 						
 						if (cls == EntityEnderman.class || cls == EntityMobAngryEnderman.class){
-							if (mob.getAttackTarget() != owner)continue;
+							if (mob.getEntityToAttack() != owner)continue;
 							
 							EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(world,mob.posX,mob.posY,mob.posZ,null,false);
 							world.addWeatherEffect(bolt);
@@ -74,14 +75,14 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 								if (!otherEntities.isEmpty()){
 									EntityLiving target = otherEntities.get(world.rand.nextInt(otherEntities.size()));
 									if (!paralyzed.canEntityBeSeen(target))target = null;
-									paralyzed.setAttackTarget(target);
+									paralyzed.setTarget(target);
 								}
 							}
 							
 							world.removeEntity(mob);
 							world.spawnEntityInWorld(paralyzed);
 							
-							is.damageItem(getEnergyPerUse(is),(EntityPlayer)owner);
+							damageItem(is,(EntityPlayer)owner);
 							
 							break;
 						}
@@ -89,7 +90,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 				}
 			}
 			
-			ItemUtil.getNBT(is,true).setByte("HEE_relicTimer",timer);
+			is.stackTagCompound.setByte("HEE_relicTimer",timer);
 		}
 	}
 }

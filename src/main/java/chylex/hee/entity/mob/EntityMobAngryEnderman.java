@@ -2,7 +2,6 @@ package chylex.hee.entity.mob;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -14,22 +13,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
-import chylex.hee.entity.fx.FXType;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
+import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 
-public class EntityMobAngryEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo, IOldTargetAI{
+public class EntityMobAngryEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
 	private static final UUID aggroSpeedBoostID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
 	private static final AttributeModifier aggroSpeedBoost = new AttributeModifier(aggroSpeedBoostID,"Attacking speed boost",7.4D,0).setSaved(false); // 6.2 -> 7.4
 	
@@ -38,7 +34,6 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 
 	public EntityMobAngryEnderman(World world){
 		super(world);
-		EntityAIOldTarget.insertOldAI(this);
 		setSize(0.6F,2.9F);
 		stepHeight = 1F;
 	}
@@ -64,8 +59,8 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	}
 
 	@Override
-	public EntityLivingBase findEntityToAttack(){
-		return getAttackTarget();
+	protected Entity findPlayerToAttack(){
+		return entityToAttack;
 	}
 
 	@Override
@@ -73,15 +68,13 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 		if (isWet()){
 			attackEntityFrom(DamageSource.drown,1F);
 		}
-		
-		EntityLivingBase entityToAttack = getAttackTarget();
 
 		if (lastEntityToAttack != entityToAttack){
 			IAttributeInstance attributeinstance = getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 			attributeinstance.removeModifier(aggroSpeedBoost);
 			if (entityToAttack != null)attributeinstance.applyModifier(aggroSpeedBoost);
+
 		}
-		
 		lastEntityToAttack = entityToAttack;
 
 		if (entityToAttack != null){
@@ -89,7 +82,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 		}
 		
 		for(int i = 0; i < 2; ++i){
-			worldObj.spawnParticle(EnumParticleTypes.PORTAL,posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*this.width,(this.rand.nextDouble()-0.5D)*2D,-this.rand.nextDouble(),(this.rand.nextDouble()-0.5D)*2D);
+			worldObj.spawnParticle("portal",posX+(rand.nextDouble()-0.5D)*width,posY+rand.nextDouble()*height-0.25D,posZ+(rand.nextDouble()-0.5D)*this.width,(this.rand.nextDouble()-0.5D)*2D,-this.rand.nextDouble(),(this.rand.nextDouble()-0.5D)*2D);
 		}
 
 		if (!worldObj.isRemote && isEntityAlive()){
@@ -104,7 +97,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 				if (rand.nextInt(30) == 0){
 					for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,4D,6D))){
 						if (!player.capabilities.isCreativeMode){
-							setAttackTarget(entityToAttack = player);
+							entityToAttack = player;
 							break;
 						}
 					}
@@ -122,7 +115,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	}
 
 	protected boolean teleportToEntity(Entity entity){
-		Vec3 targVec = new Vec3(posX-entity.posX,boundingBox.minY+(height/2F)-entity.posY+entity.getEyeHeight(),posZ-entity.posZ).normalize();
+		Vec3 targVec = Vec3.createVectorHelper(posX-entity.posX,boundingBox.minY+(height/2F)-entity.posY+entity.getEyeHeight(),posZ-entity.posZ).normalize();
 		double dist = 16D;
 		return teleportTo(posX+(rand.nextDouble()-0.5D)*8D-targVec.xCoord*dist,posY+(rand.nextInt(16)-8)-targVec.yCoord*dist,posZ+(rand.nextDouble()-0.5D)*8D-targVec.zCoord*dist);
 	}
@@ -131,22 +124,25 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	 * Teleport the enderman
 	 */
 	protected boolean teleportTo(double x, double y, double z){
-		double oldX = posX;
-		double oldY = posY;
-		double oldZ = posZ;
+		double origX = posX;
+		double origY = posY;
+		double origZ = posZ;
 		posX = x;
 		posY = y;
 		posZ = z;
 		
 		boolean wasTeleported = false;
-		BlockPosM pos = new BlockPosM(this);
+		int ix = MathHelper.floor_double(posX),iy = MathHelper.floor_double(posY),iz = MathHelper.floor_double(posZ);
 
-		if (worldObj.isBlockLoaded(pos)){
+		if (worldObj.blockExists(ix,iy,iz)){
 			boolean found = false;
 
-			while(!found && pos.y > 0){
-				if (pos.moveDown().getBlockMaterial(worldObj).blocksMovement())found = true;
-				else --posY;
+			while(!found && iy > 0){
+				if (worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement())found = true;
+				else{
+					--posY;
+					--iy;
+				}
 			}
 
 			if (found){
@@ -159,12 +155,26 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 		}
 
 		if (!wasTeleported){
-			setPosition(oldX,oldY,oldZ);
+			setPosition(origX,origY,origZ);
 			return false;
 		}
-		else if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,oldX,oldY,oldZ,posX,posY,posZ));
-		
-		return true;
+		else{
+			short dist = 128;
+
+			for(int i = 0; i < dist; ++i){
+				double prog = i/(dist-1D);
+				
+				worldObj.spawnParticle("portal",
+					origX+(posX-origX)*prog+(rand.nextDouble()-0.5D)*width*2D,
+					origY+(posY-origY)*prog+rand.nextDouble()*height,
+					origZ+(posZ-origZ)*prog+(rand.nextDouble()-0.5D)*width*2D,
+					(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
+			}
+
+			worldObj.playSoundEffect(origX,origY,origZ,"mob.endermen.portal",1F,1F);
+			playSound("mob.endermen.portal",1F,1F);
+			return true;
+		}
 	}
 
 	@Override
@@ -197,20 +207,40 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float damage){
-		if (isEntityInvulnerable(source))return false;
+	public boolean attackEntityFrom(DamageSource source, float amount){
+		if (isEntityInvulnerable()){
+			return false;
+		}
 		else{
 			setScreaming(true);
 			
-			if (source instanceof EntityDamageSourceIndirect && getAttackTarget() == null){
+			if (source instanceof EntityDamageSourceIndirect && entityToAttack == null){
 				for(int attempt = 0; attempt < 64; ++attempt){
 					if (teleportRandomly())return true;
 				}
 
 				return false;
 			}
-			else return super.attackEntityFrom(source,damage);
+			else if (super.attackEntityFrom(source,amount)){
+				CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
+				return true;
+			}
+			else return false;
 		}
+	}
+	
+	@Override
+	public void onDeath(DamageSource source){
+		if (!worldObj.isRemote && worldObj.provider.dimensionId == 1 && worldObj.getTotalWorldTime()-EntityBossDragon.lastUpdate < 20 && source.getEntity() instanceof EntityPlayer){
+			for(Object o:worldObj.loadedEntityList){
+				if (o instanceof EntityBossDragon){
+					((EntityBossDragon)o).achievements.onPlayerKilledEnderman((EntityPlayer)source.getEntity());
+					break;
+				}
+			}
+		}
+		
+		super.onDeath(source);
 	}
 
 	@Override
@@ -224,7 +254,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	
 	@Override
 	protected boolean isValidLightLevel(){
-		return worldObj.provider.getDimensionId() == 1 ? true : super.isValidLightLevel();
+		return worldObj.provider.dimensionId == 1 ? true : super.isValidLightLevel();
 	}
 	
 	public void setCanDespawn(boolean canDespawn){
@@ -259,7 +289,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.angryEnderman.name"));
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.angryEnderman.name"));
 	}
 }

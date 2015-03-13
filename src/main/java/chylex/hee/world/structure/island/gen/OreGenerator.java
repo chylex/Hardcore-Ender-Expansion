@@ -5,7 +5,6 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import chylex.hee.block.BlockList;
-import chylex.hee.block.BlockStardustOre;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.BlockLocation;
@@ -50,7 +49,7 @@ public class OreGenerator{
 				loc = list.blockList.get(attempt);
 				
 				if (loc.y >= 0 && world.getBlock(loc.x,loc.y,loc.z) == Blocks.end_stone){
-					world.setBlock(loc.x,loc.y,loc.z,BlockList.stardust_ore.getDefaultState().withProperty(BlockStardustOre.TYPE,rand.nextInt(15)+1));
+					world.setBlock(loc.x,loc.y,loc.z,BlockList.stardust_ore,rand.nextInt(15)+1);
 					++placed;
 				}
 			}

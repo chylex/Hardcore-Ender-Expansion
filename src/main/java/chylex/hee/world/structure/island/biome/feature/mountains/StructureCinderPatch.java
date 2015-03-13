@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureCinderPatch extends AbstractIslandStructure{
@@ -12,7 +13,7 @@ public class StructureCinderPatch extends AbstractIslandStructure{
 		int x = getRandomXZ(rand,24), z = getRandomXZ(rand,24), y = 5+rand.nextInt(60);
 		if (world.getBlock(x,y,z) != Blocks.end_stone)return false;
 		
-		double rad = 5D+rand.nextDouble()*rand.nextDouble()*10D;
+		double rad = 3.5D+rand.nextDouble()*rand.nextDouble()*7D*(biomeData.hasDeviation(IslandBiomeBurningMountains.EXCESSIVE_CINDER) ? 1.5D : 1D);
 		generateBlob(rand,x,y,z,rad);
 		
 		for(int attempt = 0, attemptAmount = rand.nextInt(4)*rand.nextInt(4); attempt < attemptAmount; attempt++){

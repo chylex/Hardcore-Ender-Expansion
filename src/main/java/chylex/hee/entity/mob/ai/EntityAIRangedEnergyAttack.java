@@ -52,7 +52,7 @@ public class EntityAIRangedEnergyAttack extends EntityAIBase{
 					if (++attackShots > 3+entity.worldObj.rand.nextInt(4))attackCooldown = attackShots = 0;
 				}
 			}
-			else if (++attackCooldown > 100-entity.worldObj.getDifficulty().getDifficultyId()*7-(ModCommonProxy.opMobs ? 15 : 0))attackShots = 1;
+			else if (++attackCooldown > 100-entity.worldObj.difficultySetting.getDifficultyId()*7-(ModCommonProxy.opMobs ? 15 : 0))attackShots = 1;
 		}
 		else attackCooldown = attackShotTimer = attackShots = 0;
 	}

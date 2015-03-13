@@ -25,7 +25,7 @@ public final class Stopwatch{
 		
 		StopwatchHandler timer = runningStopwatches.get(identifier);
 		if (timer == null || !(timer instanceof ThresholdTimer))runningStopwatches.put(identifier,timer = new ThresholdTimer());
-
+		
 		((ThresholdTimer)timer).setThreshold(threshold);
 		timer.onStart();
 	}

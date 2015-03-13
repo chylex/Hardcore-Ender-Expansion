@@ -1,5 +1,4 @@
 package chylex.hee.gui;
-import java.io.IOException;
 import java.util.Iterator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -7,8 +6,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
@@ -20,6 +17,8 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S01GuiEnhancementsClick;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRenderer{
@@ -43,7 +42,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 	}
 	
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException{
+	protected void mouseClicked(int mouseX, int mouseY, int button){
 		if (container.getSlot(0).getStack() != null){
 			for(int a = 0; a < container.enhancementSlotX.length; a++){
 				int x = container.enhancementSlotX[a];
@@ -82,8 +81,8 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 				
 				GL11.glEnable(GL11.GL_LIGHTING);
 				zLevel = itemRender.zLevel = 100F;
-				itemRender.renderItemAndEffectIntoGUI(toRender,x,y);
-				itemRender.renderItemOverlayIntoGUI(fontRendererObj,toRender,x,y,null);
+				itemRender.renderItemAndEffectIntoGUI(fontRendererObj,mc.getTextureManager(),toRender,x,y);
+				itemRender.renderItemOverlayIntoGUI(fontRendererObj,mc.getTextureManager(),toRender,x,y,null);
 				itemRender.zLevel = zLevel = 0F;
 			}
 

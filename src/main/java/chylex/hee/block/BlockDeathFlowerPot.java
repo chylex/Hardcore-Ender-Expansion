@@ -1,73 +1,55 @@
 package chylex.hee.block;
 import java.util.Random;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFlowerPot;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import chylex.hee.block.state.BlockAbstractContainerStateInt;
+import chylex.hee.proxy.ModCommonProxy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockDeathFlowerPot extends BlockAbstractContainerStateInt{ // TODO BlockFlowerPot
+public class BlockDeathFlowerPot extends BlockFlowerPot{
 	public BlockDeathFlowerPot(){
-		super(Material.circuits);
 		setTickRandomly(true);
-		createSimpleMeta(BlockDeathFlower.DECAY,0,15);
 	}
 	
 	@Override
-	public IProperty[] getPropertyArray(){
-		return new IProperty[]{ BlockDeathFlower.DECAY };
+	public void updateTick(World world, int x, int y, int z, Random rand){
+		((BlockDeathFlower)BlockList.death_flower).updateFlowerLogic(world,x,y,z,rand);
 	}
 	
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta){
-		return new TileEntityFlowerPot(Item.getItemFromBlock(BlockList.death_flower),0);
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
+		return BlockList.death_flower.onBlockActivated(world,x,y,z,player,side,hitX,hitY,hitZ);
 	}
-	
+
 	@Override
-	public int damageDropped(IBlockState state){
-		return getMetaFromState(state);
+	public int getDamageValue(World world, int x, int y, int z){
+		return world.getBlockMetadata(x,y,z);
 	}
-	
+
 	@Override
-	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand){
-		((BlockDeathFlower)BlockList.death_flower).updateFlowerLogic(world,pos,rand);
-	}
-	
-	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
-		return BlockList.death_flower.onBlockActivated(world,pos,state,player,side,hitX,hitY,hitZ);
-	}
-	
-	@Override
-	public int getDamageValue(World world, BlockPos pos){
-		return getMetaFromState(world.getBlockState(pos));
-	}
-	
-	@Override
-	public void dropBlockAsItemWithChance(World world, BlockPos pos, IBlockState state, float chance, int fortune){
-		super.dropBlockAsItemWithChance(world,pos,state,chance,fortune);
-		spawnAsEntity(world,pos,new ItemStack(BlockList.death_flower,1,getMetaFromState(state)));
+	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
+		super.dropBlockAsItemWithChance(world,x,y,z,0,chance,fortune);
+		dropBlockAsItem(world,x,y,z,new ItemStack(BlockList.death_flower,1,meta));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
-		BlockList.death_flower.randomDisplayTick(world,pos,state,rand);
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+		BlockList.death_flower.randomDisplayTick(world,x,y,z,rand);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Item getItem(World world, BlockPos pos){
+	public Item getItem(World world, int x, int y, int z){
 		return Item.getItemFromBlock(BlockList.death_flower);
+	}
+	
+	@Override
+	public int getRenderType(){
+		return ModCommonProxy.renderIdFlowerPot;
 	}
 
 	public static ItemStack getPlantForMeta(int meta){

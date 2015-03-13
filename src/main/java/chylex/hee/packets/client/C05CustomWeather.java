@@ -1,14 +1,14 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityWeatherEffect;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.packets.AbstractClientPacket;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class C05CustomWeather extends AbstractClientPacket{
 	private int entityId;
@@ -41,7 +41,7 @@ public class C05CustomWeather extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(AbstractClientPlayer player){
+	protected void handle(EntityClientPlayerMP player){
 		World world = Minecraft.getMinecraft().theWorld;
 		Entity e = null;
 		

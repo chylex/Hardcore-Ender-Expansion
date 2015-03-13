@@ -1,9 +1,9 @@
 package chylex.hee.tileentity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyInventory implements IInventoryInvalidateable{
 	protected static final int totalTime = 1000;
@@ -55,8 +55,8 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	@Override
-	public void update(){
-		super.update();
+	public void updateEntity(){
+		super.updateEntity();
 		
 		if (worldObj != null && !worldObj.isRemote && postLoadInvalidate){
 			postLoadInvalidate = false;
@@ -69,7 +69,7 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	protected final void updateComparatorStatus(){
-		if (worldObj != null)worldObj.notifyNeighborsOfStateChange(getPos(),blockType);
+		if (worldObj != null)worldObj.func_147453_f(xCoord,yCoord,zCoord,blockType);
 	}
 	
 	protected final void resetTable(){

@@ -2,10 +2,8 @@ package chylex.hee.block;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockFlower;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,115 +13,122 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import chylex.hee.block.state.PropertyEnumSimple;
+import net.minecraftforge.common.util.ForgeDirection;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.CollectionUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockCrossedDecoration extends BlockBush implements IShearable, IBlockSubtypes{
-	public enum Variant{ UNUSED_1, UNUSED_2, THORN_BUSH, INFESTED_GRASS, INFESTED_FERN, INFESTED_TALL_GRASS, LILYFIRE, VIOLET_MOSS_TALL, VIOLET_MOSS_MODERATE, VIOLET_MOSS_SHORT, FLAMEWEED_1, FLAMEWEED_2, FLAMEWEED_3, SHADOW_ORCHID }
-	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
+public class BlockCrossedDecoration extends BlockFlower implements IShearable, IBlockSubtypes{
+	private static final String[] decorTypes = new String[]{
+		"decor_bullrush_bottom", "decor_bullrush_top", "decor_thorn_bush", "decor_infested_grass", "decor_infested_fern", "decor_infested_tallgrass",
+		"decor_lily_fire", "decor_violet_moss_tall", "decor_violet_moss_moderate", "decor_violet_moss_short",
+		"decor_flameweed_1", "decor_flameweed_2", "decor_flameweed_3", "decor_shadow_orchid"
+	};
 	
-	public static IBlockState createState(Variant variant){
-		return BlockList.crossed_decoration.getDefaultState().withProperty(VARIANT,variant);
-	}
+	public static final byte dataThornBush = 2, dataInfestedGrass = 3, dataInfestedFern = 4, dataInfestedTallgrass = 5,
+					   		 dataLilyFire = 6, dataVioletMossTall = 7, dataVioletMossModerate = 8, dataVioletMossShort = 9,
+					   		 dataFlameweed1 = 10, dataFlameweed2 = 11, dataFlameweed3 = 12, dataShadowOrchid = 13;
+	
+	@SideOnly(Side.CLIENT)
+	private IIcon[] iconArray;
 	
 	public BlockCrossedDecoration(){
-		setBlockBounds(0.1F,0F,0.1F,0.9F,0.8F,0.9F);
-		setDefaultState(blockState.getBaseState().withProperty(VARIANT,Variant.UNUSED_1));
+		super(0);
+		setBlockBounds(0.1F,0.0F,0.1F,0.9F,0.8F,0.9F);
 	}
 	
 	@Override
-	public final IBlockState getStateFromMeta(int meta){
-		return meta >= 0 && meta < Variant.values().length ? getDefaultState().withProperty(VARIANT,Variant.values()[meta]) : getDefaultState();
+	public boolean canBlockStay(World world, int x, int y, int z){
+		Block soil = world.getBlock(x,y-1,z);
+		return (world.getFullBlockLightValue(x,y,z) >= 8 || world.canBlockSeeTheSky(x,y,z) || world.provider.dimensionId == 1)&&
+			   (soil != null && soil.canSustainPlant(world,x,y-1,z,ForgeDirection.UP,this));
 	}
 	
 	@Override
-	public final int getMetaFromState(IBlockState state){
-		return ((Enum)state.getValue(VARIANT)).ordinal();
-	}
-	
-	public final Enum getEnumFromDamage(int damage){
-		return damage >= 0 && damage < Variant.values().length ? Variant.values()[damage] : null;
-	}
-	
-	@Override
-	protected final BlockState createBlockState(){
-		return new BlockState(this,new IProperty[]{ VARIANT });
-	}
-	
-	@Override
-	public boolean canBlockStay(World world, BlockPos pos, IBlockState state){
-		IBlockState soil = world.getBlockState(pos.down());
-		return (world.getLight(pos) >= 8 || world.canBlockSeeSky(pos) || world.provider.getDimensionId() == 1) && soil.getBlock().canSustainPlant(world,pos.down(),EnumFacing.UP,this);
-	}
-	
-	@Override
-	protected boolean canPlaceBlockOn(Block block){
+	public boolean canPlaceBlockOn(Block block){
 		return block == Blocks.end_stone || block == BlockList.end_terrain || super.canPlaceBlockOn(block);
 	}
 	
 	@Override
-	public ArrayList<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune){
-		return state.getValue(VARIANT) == Variant.LILYFIRE ? CollectionUtil.newList(new ItemStack(this,1,getMetaFromState(state))) : new ArrayList<ItemStack>();
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune){
+		return meta == dataLilyFire ? CollectionUtil.newList(new ItemStack(this,1,meta)) : new ArrayList<ItemStack>();
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos){
-		if (world.getBlockState(pos).getValue(VARIANT) == Variant.LILYFIRE)return AxisAlignedBB.fromBounds(pos.getX()+0.3F,pos.getY(),pos.getZ()+0.3F,pos.getX()+0.7F,pos.getY()+0.8F,pos.getZ()+0.7F);
-		else return super.getSelectedBoundingBox(world,pos);
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z){
+		if (world.getBlockMetadata(x,y,z) == dataLilyFire)return AxisAlignedBB.getBoundingBox(x+0.3F,y,z+0.3F,x+0.7F,y+0.8F,z+0.7F);
+		else return super.getSelectedBoundingBoxFromPool(world,x,y,z);
 	}
-	
+
 	@Override
-	public boolean isShearable(ItemStack item, IBlockAccess world, BlockPos pos){
-		return world.getBlockState(pos).getValue(VARIANT) != Variant.LILYFIRE;
+	public boolean isShearable(ItemStack item, IBlockAccess world, int x, int y, int z){
+		int meta = world.getBlockMetadata(x,y,z);
+		return meta != dataLilyFire;
 	}
 
 	@Override
 	public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, int x, int y, int z, int fortune){
-		return CollectionUtil.newList(new ItemStack(this,1,getMetaFromState(world.getBlockState(x,y,z))));
+		return CollectionUtil.newList(new ItemStack(this,1,world.getBlockMetadata(x,y,z)));
 	}
 	
 	@Override
-	public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity){
-		if (!world.isRemote && state.getValue(VARIANT) == Variant.THORN_BUSH){
+	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
+		if (!world.isRemote && world.getBlockMetadata(x,y,z) == dataThornBush){
 			entity.attackEntityFrom(DamageSource.generic,1F);
 			
 			if (world.rand.nextInt(80) == 0 && entity instanceof EntityLivingBase && !((EntityLivingBase)entity).isPotionActive(Potion.poison)){
-				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id,30+world.rand.nextInt(40),1,false,false));
+				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.poison.id,30+world.rand.nextInt(40),1,true));
 			}
 		}
 	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		switch((Variant)getEnumFromDamage(is.getItemDamage())){
-			case THORN_BUSH: return "tile.crossedDecoration.thornyBush";
-			case INFESTED_FERN: return "tile.crossedDecoration.infestedFern";
-			case INFESTED_GRASS: return "tile.crossedDecoration.infestedBush";
-			case INFESTED_TALL_GRASS: return "tile.crossedDecoration.infestedGrass";
-			case LILYFIRE: return "tile.crossedDecoration.lilyfire";
-			case VIOLET_MOSS_TALL: return "tile.crossedDecoration.violetMoss.tall";
-			case VIOLET_MOSS_MODERATE: return "tile.crossedDecoration.violetMoss.moderate";
-			case VIOLET_MOSS_SHORT: return "tile.crossedDecoration.violetMoss.short";
-			case FLAMEWEED_1: case FLAMEWEED_2: case FLAMEWEED_3: return "tile.crossedDecoration.flameweed";
-			case SHADOW_ORCHID: return "tile.crossedDecoration.shadowOrchid";
+		switch(is.getItemDamage()){
+			case dataThornBush: return "tile.crossedDecoration.thornyBush";
+			case dataInfestedFern: return "tile.crossedDecoration.infestedFern";
+			case dataInfestedGrass: return "tile.crossedDecoration.infestedBush";
+			case dataInfestedTallgrass: return "tile.crossedDecoration.infestedGrass";
+			case dataLilyFire: return "tile.crossedDecoration.lilyfire";
+			case dataVioletMossTall: return "tile.crossedDecoration.violetMoss.tall";
+			case dataVioletMossModerate: return "tile.crossedDecoration.violetMoss.moderate";
+			case dataVioletMossShort: return "tile.crossedDecoration.violetMoss.short";
+			case dataFlameweed1: case dataFlameweed2: case dataFlameweed3: return "tile.crossedDecoration.flameweed";
+			case dataShadowOrchid: return "tile.crossedDecoration.shadowOrchid";
 			default: return "";
 		}
+	}
+
+	@Override
+	public int getRenderType(){
+		return ModCommonProxy.renderIdCrossedDecoration;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta){
+		return iconArray[meta < decorTypes.length ? meta : 0];
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 2; a < Variant.values().length; a++){
-			list.add(new ItemStack(item,1,a));
-		}
+		for(int a = 2; a < decorTypes.length; a++)list.add(new ItemStack(item,1,a));
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister){
+		iconArray = new IIcon[decorTypes.length];
+		for(int a = 2; a < decorTypes.length; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:"+decorTypes[a]);
 	}
 }

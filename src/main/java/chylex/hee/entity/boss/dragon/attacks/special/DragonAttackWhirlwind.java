@@ -1,5 +1,5 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
-/*import java.util.Iterator; // TAG
+/*import java.util.Iterator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;

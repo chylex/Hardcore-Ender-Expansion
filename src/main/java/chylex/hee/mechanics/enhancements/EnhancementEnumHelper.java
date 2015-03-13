@@ -2,6 +2,7 @@ package chylex.hee.mechanics.enhancements;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.util.EnumChatFormatting;
+import chylex.hee.system.logging.Log;
 
 public final class EnhancementEnumHelper{
 	public static String getName(Enum enhancementEnum, EnumChatFormatting color){
@@ -20,11 +21,14 @@ public final class EnhancementEnumHelper{
 	
 	public static List<Enum> deserialize(String str, Class<? extends Enum> enumClass){
 		List<Enum> types = new ArrayList<>();
+		if (str.isEmpty())return types;
 		
 		for(String s:str.split(",")){
 			try{
 				types.add(Enum.valueOf(enumClass,s));
-			}catch(IllegalArgumentException e){}
+			}catch(IllegalArgumentException e){
+				Log.error("Unknown enhancement ("+enumClass.getSimpleName()+") entry: "+s+" (saved data: "+str+")");
+			}
 		}
 		
 		return types;

@@ -1,11 +1,11 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import chylex.hee.entity.fx.FXEvents;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.AbstractClientPacket;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class C09SimpleEvent extends AbstractClientPacket{
 	public enum EventType{
@@ -35,7 +35,7 @@ public class C09SimpleEvent extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(AbstractClientPlayer player){
+	protected void handle(EntityClientPlayerMP player){
 		if (type == null)return;
 		
 		switch(type){

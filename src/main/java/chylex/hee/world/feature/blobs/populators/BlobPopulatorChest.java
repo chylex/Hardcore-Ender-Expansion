@@ -1,11 +1,9 @@
 package chylex.hee.world.feature.blobs.populators;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.BlockChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.EnumFacing;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.loot.WeightedLootList;
@@ -49,7 +47,7 @@ public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGene
 			if (gen.getBlock(loc.x,loc.y,loc.z) == Blocks.end_stone && gen.getBlock(loc.x,loc.y+1,loc.z) == Blocks.air && gen.getBlock(loc.x,loc.y+2,loc.z) == Blocks.air){
 				if (onlyInside && gen.getTopBlockY(loc.x,loc.z) < loc.y+2)continue;
 				
-				gen.setBlockState(loc.x,loc.y+1,loc.z,Blocks.chest.getDefaultState().withProperty(BlockChest.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
+				gen.setBlock(loc.x,loc.y+1,loc.z,Blocks.chest,rand.nextInt(4));
 				gen.setTileEntity(loc.x,loc.y+1,loc.z,this);
 				break;
 			}

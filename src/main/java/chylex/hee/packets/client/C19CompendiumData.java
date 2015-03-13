@@ -1,19 +1,17 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
 import java.io.IOException;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.packets.AbstractClientPacket;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class C19CompendiumData extends AbstractClientPacket{
 	private PlayerCompendiumData data;
@@ -34,21 +32,24 @@ public class C19CompendiumData extends AbstractClientPacket{
 		data.saveNBTData(nbt);
 		
 		try{
-			CompressedStreamTools.write(nbt,new ByteBufOutputStream(buffer));
+			byte[] compressed = CompressedStreamTools.compress(nbt);
+			buffer.writeShort(compressed.length);
+			buffer.writeBytes(compressed);
 		}catch(IOException e){
-			buffer.writeByte(0);
+			buffer.writeShort(-1);
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
-		int index = buffer.readerIndex();
-		if (buffer.readByte() == 0)return;
+		short len = buffer.readShort();
+		if (len == -1)return;
+		
+		byte[] compressed = buffer.readBytes(len).array();
 		
 		try{
-			buffer.readerIndex(index);
-			data = new PlayerCompendiumData(CompressedStreamTools.func_152456_a(new ByteBufInputStream(buffer),new NBTSizeTracker(2097152L)));
+			data = new PlayerCompendiumData(CompressedStreamTools.func_152457_a(compressed,new NBTSizeTracker(2097152L)));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -56,7 +57,7 @@ public class C19CompendiumData extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(AbstractClientPlayer player){
+	protected void handle(EntityClientPlayerMP player){
 		if (data != null)CompendiumEventsClient.loadClientData(data);
 	}
 }

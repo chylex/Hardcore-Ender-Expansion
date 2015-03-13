@@ -10,14 +10,14 @@ import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
 public class FieryEssenceHandler extends AltarActionHandler{
-	private byte essenceUsageCounter;
+	private byte essenceUsageCounter = -100;
 	
 	public FieryEssenceHandler(TileEntityEssenceAltar altar){
 		super(altar);
@@ -26,22 +26,25 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	@Override
 	public void onUpdate(){
 		List<Enum> enhancementList = altar.getEnhancements();
-		World world = altar.getWorld();
+		
+		World world = altar.getWorldObj();
 		int level = altar.getEssenceLevel();
 		int n = 35+Math.min(60,level>>3);
 		boolean drained = false;
 		
 		int range = enhancementList.contains(EssenceAltarEnhancements.RANGE) ? 16 : 12;
-		n += (range-12)*2;
+		n += MathUtil.square(range-12);
 		
 		boolean hasSpeedEnh = enhancementList.contains(EssenceAltarEnhancements.SPEED);
-		if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
+		if (hasSpeedEnh)n = MathUtil.ceil(n*2.25D);
 		
-		for(int a = 0; a < n; a++){
-			pos.moveTo(altar.getPos()).moveBy(world.rand.nextInt(1+range)-(range>>1),world.rand.nextInt(5)-2,world.rand.nextInt(1+range)-(range>>1));
+		for(int a = 0, xx, yy, zz; a < n; a++){
+			xx = altar.xCoord+world.rand.nextInt(1+range)-(range>>1);
+			yy = altar.yCoord+world.rand.nextInt(5)-2;
+			zz = altar.zCoord+world.rand.nextInt(1+range)-(range>>1);
 			
-			Block block = pos.getBlock(altar.getWorld());
-			TileEntity tile = altar.getWorld().getTileEntity(pos);
+			Block block = altar.getWorldObj().getBlock(xx,yy,zz);
+			TileEntity tile = altar.getWorldObj().getTileEntity(xx,yy,zz);
 			drained = false;
 			
 			if (block == Blocks.lit_furnace || tile instanceof TileEntityFurnace){
@@ -52,8 +55,8 @@ public class FieryEssenceHandler extends AltarActionHandler{
 					if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
 					
 					for(int b = 0; b < n; b++){
-						if (furnace.getField(0) < 199){
-							furnace.setField(0,furnace.getField(0)+1);
+						if (furnace.furnaceCookTime < 199){
+							++furnace.furnaceCookTime;
 							
 							if (tryDrainEssence()){
 								drained = true;
@@ -63,33 +66,33 @@ public class FieryEssenceHandler extends AltarActionHandler{
 						else break;
 					}
 					
-					if (drained && world.rand.nextInt(6+(n>>1)) <= 4)createOrbParticle(pos.getX(),pos.getY(),pos.getZ());
+					if (drained && world.rand.nextInt(6+(n>>1)) <= 4)createOrbParticle(xx,yy,zz);
 					return;
 				}
 			}
 			else if (block == Blocks.brewing_stand){
-				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorld().getTileEntity(pos.moveTo(pos.getX(),pos.getY(),pos.getZ()));
+				TileEntityBrewingStand stand = (TileEntityBrewingStand)altar.getWorldObj().getTileEntity(xx,yy,zz);
 				
-				if (stand != null && stand.getField(0) > 1 && stand.getField(0) != 400){
+				if (stand != null && stand.getBrewTime() > 1 && stand.getBrewTime() != 400){
 					n = 1+Math.min(5,level>>6);
 					if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
 					
 					for(int b = 0; b < n; b++){
-						stand.update();
+						stand.updateEntity();
 						
 						if (tryDrainEssence()){
 							drained = true;
 							if (--level <= 0)break;
 						}
 						
-						if (stand.getField(0) <= 1)break;
+						if (stand.getBrewTime() <= 1)break;
 					}
 				}
 			}
 			else if (tile instanceof IAcceptFieryEssence){
 				IAcceptFieryEssence acceptor = (IAcceptFieryEssence)tile;
 				n = acceptor.getBoostAmount(level);
-				// TODO boost speed?
+				if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
 				
 				for(int b = 0; b < n; b++){
 					acceptor.boost();
@@ -104,8 +107,8 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	}
 	
 	private boolean tryDrainEssence(){
-		if (++essenceUsageCounter > (altar.getEnhancements().contains(EssenceAltarEnhancements.EFFICIENCY) ? 80 : 60)){
-			essenceUsageCounter = 0;
+		if (++essenceUsageCounter > (altar.getEnhancements().contains(EssenceAltarEnhancements.EFFICIENCY) ? 120 : 30)){
+			essenceUsageCounter = -120;
 			altar.drainEssence(1);
 			return true;
 		}
@@ -132,7 +135,7 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	private boolean canFurnaceSmelt(TileEntityFurnace furnace){
 		if (furnace.getStackInSlot(0) == null)return false;
 		
-		ItemStack itemstack = FurnaceRecipes.instance().getSmeltingResult(furnace.getStackInSlot(0));
+		ItemStack itemstack = FurnaceRecipes.smelting().getSmeltingResult(furnace.getStackInSlot(0));
 		if (itemstack == null)return false;
 		
 		ItemStack input = furnace.getStackInSlot(2);

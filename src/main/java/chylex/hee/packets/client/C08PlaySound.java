@@ -1,11 +1,11 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import chylex.hee.block.BlockList;
 import chylex.hee.packets.AbstractClientPacket;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class C08PlaySound extends AbstractClientPacket{
 	public static final byte ENDEREYE_ATTACK_POOF = 0,
@@ -54,7 +54,7 @@ public class C08PlaySound extends AbstractClientPacket{
 		/*  9 */ "random.break",
 		/* 10 */ "random.orb",
 		/* 11 */ "hardcoreenderexpansion:mob.ghost.move",
-		/* 12 */ BlockList.persegrit.stepSound.getStepSound(),
+		/* 12 */ BlockList.persegrit.stepSound.getStepResourcePath(),
 		/* 13 */ "random.chestopen",
 		/* 14 */ "random.chestclosed",
 		/* 15 */ Block.soundTypeGrass.getBreakSound(),
@@ -108,7 +108,7 @@ public class C08PlaySound extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(AbstractClientPlayer player){
+	protected void handle(EntityClientPlayerMP player){
 		if (soundId >= 0 && soundId < soundNames.length)player.worldObj.playSound(x,y,z,soundNames[soundId],volume,pitch,false);
 	}
 }

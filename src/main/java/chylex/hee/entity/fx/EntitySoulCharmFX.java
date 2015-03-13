@@ -4,17 +4,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public abstract class EntitySoulCharmFX extends EntityFX{
@@ -66,7 +63,7 @@ public abstract class EntitySoulCharmFX extends EntityFX{
 		
 		if (--breakCheckTimer < 0){
 			breakCheckTimer = 10;
-			if (new BlockPosM(this).getBlock(worldObj) != getTargetBlock())age = (byte)(maxAge-18);
+			if (worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ)) != getTargetBlock())age = (byte)(maxAge-18);
 		}
 		
 		if (rand.nextInt(3) == 0)posX += rand.nextDouble()*0.02D-0.01D;
@@ -78,7 +75,7 @@ public abstract class EntitySoulCharmFX extends EntityFX{
 		if (targetX != 0D && targetZ != 0D){
 			maxAge = 120;
 			
-			Vec3 motionVec = new Vec3(targetX-posX,targetY-posY,targetZ-posZ).normalize();
+			Vec3 motionVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
 			
 			double speedFactor = rand.nextDouble()*0.05D+0.15D;
 			posX += motionVec.xCoord*speedFactor;
@@ -92,7 +89,7 @@ public abstract class EntitySoulCharmFX extends EntityFX{
 		else if (motionY != 0D)posY += motionY *= 0.98D;
 	}
 	
-	protected abstract Block getTargetBlock(); // TODO
+	protected abstract Block getTargetBlock();
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -106,7 +103,7 @@ public abstract class EntitySoulCharmFX extends EntityFX{
 	}
 	
 	@Override
-	public void renderParticle(WorldRenderer renderer, Entity viewer, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
+	public void renderParticle(Tessellator tessellator, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
 		Minecraft.getMinecraft().renderEngine.bindTexture(tex);
 		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		
@@ -126,15 +123,15 @@ public abstract class EntitySoulCharmFX extends EntityFX{
 		GL11.glColor4f(1F,1F,1F,1F);
 		RenderHelper.disableStandardItemLighting();
 		
-		renderer.startDrawingQuads();
-		renderer.setColorRGBA_F(particleRed,particleGreen,particleBlue,particleAlpha);
-		renderer.setNormal(0F,1F,0F);
-		renderer.setBrightness(65);
-		renderer.addVertexWithUV(x-rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z-rotZ*particleScale-rotXY*particleScale,right,bottom);
-		renderer.addVertexWithUV(x-rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z-rotZ*particleScale+rotXY*particleScale,right,top);
-		renderer.addVertexWithUV(x+rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z+rotZ*particleScale+rotXY*particleScale,left,top);
-		renderer.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z+rotZ*particleScale-rotXY*particleScale,left,bottom);
-		Tessellator.getInstance().draw();
+		tessellator.startDrawingQuads();
+		tessellator.setColorRGBA_F(particleRed,particleGreen,particleBlue,particleAlpha);
+		tessellator.setNormal(0F,1F,0F);
+		tessellator.setBrightness(65);
+		tessellator.addVertexWithUV(x-rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z-rotZ*particleScale-rotXY*particleScale,right,bottom);
+		tessellator.addVertexWithUV(x-rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z-rotZ*particleScale+rotXY*particleScale,right,top);
+		tessellator.addVertexWithUV(x+rotX*particleScale+rotYZ*particleScale,y+rotXZ*particleScale,z+rotZ*particleScale+rotXY*particleScale,left,top);
+		tessellator.addVertexWithUV(x+rotX*particleScale-rotYZ*particleScale,y-rotXZ*particleScale,z+rotZ*particleScale-rotXY*particleScale,left,bottom);
+		tessellator.draw();
 		
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);

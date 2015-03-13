@@ -11,7 +11,7 @@ public class HeeBaconCommand extends HeeCommand{
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] args){
+	public void processCommand(ICommandSender sender, String[] args){
 		if (sender instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)sender,new C09SimpleEvent(EventType.BACON_COMMAND));
 	}
 }

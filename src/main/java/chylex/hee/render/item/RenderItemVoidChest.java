@@ -1,6 +1,12 @@
 package chylex.hee.render.item;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.IItemRenderer;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+import chylex.hee.tileentity.TileEntityVoidChest;
 
-/*public class RenderItemVoidChest implements IItemRenderer{
+public class RenderItemVoidChest implements IItemRenderer{
 	private final TileEntityVoidChest chestRenderer = new TileEntityVoidChest();
 	
 	@Override
@@ -29,4 +35,3 @@ package chylex.hee.render.item;
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 	}
 }
-*/

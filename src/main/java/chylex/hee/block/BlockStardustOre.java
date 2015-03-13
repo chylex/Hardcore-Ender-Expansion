@@ -1,42 +1,42 @@
 package chylex.hee.block;
 import java.util.Random;
-import net.minecraft.block.BlockOre;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockState;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockStardustOre extends BlockOre{
-	public static final PropertyInteger TYPE = PropertyInteger.create("type",0,15);
+public class BlockStardustOre extends BlockAbstractOre{
+	private static final byte iconAmount = 16;
+	private static final byte[][] iconIndexes = new byte[6][16];
+	
+	static{
+		Random rand = new Random(69);
+		
+		for(int side = 0; side < 6; side++){
+			for(int meta = 0; meta < 16; meta++){
+				iconIndexes[side][meta] = (byte)rand.nextInt(iconAmount);
+			}
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private IIcon[] iconArray;
 	
 	@Override
-	public void onBlockAdded(World world, BlockPos pos, IBlockState state){
-		if (getMetaFromState(state) == 0)world.setBlockState(pos,state.withProperty(TYPE,world.rand.nextInt(15)+1));
+	public void onBlockAdded(World world, int x, int y, int z){
+		if (world.getBlockMetadata(x,y,z) == 0){
+			world.setBlockMetadataWithNotify(x,y,z,world.rand.nextInt(15)+1,3);
+		}
 	}
 	
 	@Override
-	public IBlockState getStateFromMeta(int meta){
-		return meta >= 0 && meta < 16 ? getDefaultState().withProperty(TYPE,meta) : getDefaultState();
-	}
-	
-	@Override
-	public int getMetaFromState(IBlockState state){
-		return ((Integer)state.getValue(TYPE)).intValue();
-	}
-	
-	@Override
-	protected BlockState createBlockState(){
-		return new BlockState(this,new IProperty[]{ TYPE });
-	}
-	
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune){
+	public Item getItemDropped(int meta, Random rand, int fortune){
 		return ItemList.stardust;
 	}
 
@@ -46,7 +46,35 @@ public class BlockStardustOre extends BlockOre{
 	}
 	
 	@Override
-	public int getExpDrop(IBlockAccess world, BlockPos pos, int fortune){
+	public int getExpDrop(IBlockAccess world, int meta, int fortune){
 		return MathHelper.getRandomIntegerInRange(BlockList.blockRandom,1,6);
+	}
+	
+	@Override
+	protected int getCausatumLevel(){
+		return 4;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side){
+		int meta = world.getBlockMetadata(x,y,z);
+		if (meta == 0)return Blocks.end_stone.getIcon(world,x,y,z,side);
+		
+		return iconArray[iconIndexes[side][meta]];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta){
+		return iconArray[iconIndexes[side][meta]];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister){
+		String s = getTextureName()+"_";
+		iconArray = new IIcon[iconAmount];
+		for(int a = 0; a < iconAmount; a++)iconArray[a] = iconRegister.registerIcon(s+(a+1));
 	}
 }

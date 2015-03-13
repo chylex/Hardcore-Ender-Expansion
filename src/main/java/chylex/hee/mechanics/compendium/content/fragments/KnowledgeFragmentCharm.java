@@ -1,8 +1,6 @@
 package chylex.hee.mechanics.compendium.content.fragments;
 import java.util.Map.Entry;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
@@ -14,6 +12,8 @@ import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import com.google.common.base.Joiner;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentCharm extends KnowledgeFragment{
 	private ItemStack[] runes = new ItemStack[5];
@@ -75,7 +75,7 @@ public class KnowledgeFragmentCharm extends KnowledgeFragment{
 			ItemStack is = isUnlocked ? (a == 5 ? charm : runes[a]) : KnowledgeFragmentCrafting.lockedItem;
 			
 			if (is != null){
-				gui.mc.getRenderItem().renderItemAndEffectIntoGUI(is,xx+2,yy+2);
+				GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
 				
 				if (isUnlocked && mouseX >= xx+1 && mouseX <= xx+18 && mouseY >= yy+1 && mouseY <= yy+18){
 					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,Joiner.on('\n').join(KnowledgeUtils.getCompendiumTooltip(is,gui.mc.thePlayer)));

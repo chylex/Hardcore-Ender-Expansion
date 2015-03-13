@@ -18,25 +18,22 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3i;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
-import net.minecraftforge.fml.common.network.FMLEventChannel;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
-import net.minecraftforge.fml.common.network.FMLOutboundHandler;
-import net.minecraftforge.fml.common.network.FMLOutboundHandler.OutboundTarget;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
-import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.io.FilenameUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.logging.Stopwatch;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.network.FMLEmbeddedChannel;
+import cpw.mods.fml.common.network.FMLEventChannel;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
+import cpw.mods.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
+import cpw.mods.fml.common.network.FMLOutboundHandler.OutboundTarget;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
+import cpw.mods.fml.common.network.internal.FMLProxyPacket;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class PacketPipeline{
 	private static PacketPipeline instance;
@@ -115,7 +112,7 @@ public class PacketPipeline{
 	}
 
 	private FMLProxyPacket writePacket(AbstractPacket packet){
-		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
+		ByteBuf buffer = Unpooled.buffer();
 		buffer.writeByte(packetToId.get(packet.getClass()));
 		packet.write(buffer);
 		return new FMLProxyPacket(buffer,channelName);
@@ -179,20 +176,18 @@ public class PacketPipeline{
 		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 	}
 	
-	public static void sendToAllAround(World world, double x, double y, double z, double range, AbstractPacket packet){
-		sendToAllAround(world.provider.getDimensionId(),x,y,z,range,packet);
-	}
-	
-	public static void sendToAllAround(int dimension, Vec3i vec, double range, AbstractPacket packet){
-		sendToAllAround(dimension,vec.getX()+0.5D,vec.getY()+0.5D,vec.getZ()+0.5D,range,packet);
-	}
-	
 	public static void sendToAllAround(Entity entity, double range, AbstractPacket packet){
-		sendToAllAround(entity.dimension,entity.posX,entity.posY,entity.posZ,range,packet);
+		FMLEmbeddedChannel channel = instance.channels.get(Side.SERVER);
+		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.ALLAROUNDPOINT);
+		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(entity.dimension,entity.posX,entity.posY,entity.posZ,range));
+		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 	}
 	
 	public static void sendToAllAround(TileEntity tile, double range, AbstractPacket packet){
-		sendToAllAround(tile.getWorld().provider.getDimensionId(),tile.getPos(),range,packet);
+		FMLEmbeddedChannel channel = instance.channels.get(Side.SERVER);
+		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.ALLAROUNDPOINT);
+		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(new TargetPoint(tile.getWorldObj().provider.dimensionId,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,range));
+		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
 	}
 	
 	public static void sendToDimension(int dimension, AbstractPacket packet){
@@ -200,10 +195,6 @@ public class PacketPipeline{
 		channel.attr(FMLOutboundHandler.FML_MESSAGETARGET).set(OutboundTarget.DIMENSION);
 		channel.attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(dimension);
 		channel.writeAndFlush(instance.writePacket(packet)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
-	}
-	
-	public static void sendToDimension(World world, AbstractPacket packet){
-		sendToDimension(world.provider.getDimensionId(),packet);
 	}
 	
 	public static void sendToServer(AbstractPacket packet){

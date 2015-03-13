@@ -3,13 +3,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.system.logging.Stopwatch;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
 	public static void addRecipes(){
@@ -242,7 +242,7 @@ public final class RecipeList{
 		
 		GameRegistry.addShapelessRecipe(
 			new ItemStack(Items.dye,2,14),
-			new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.Variant.LILYFIRE.ordinal())
+			new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire)
 		);
 		
 		GameRegistry.addShapelessRecipe(
@@ -252,7 +252,7 @@ public final class RecipeList{
 		
 		// SMELTING
 		
-		FurnaceRecipes.instance().addSmeltingRecipeForBlock(BlockList.endium_ore,new ItemStack(ItemList.endium_ingot),0.9F);
+		FurnaceRecipes.smelting().func_151393_a(BlockList.endium_ore,new ItemStack(ItemList.endium_ingot),0.9F);
 		
 		Stopwatch.finish("RecipeList - addRecipes");
 	}

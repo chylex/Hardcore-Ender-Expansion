@@ -1,14 +1,19 @@
 package chylex.hee.item;
 import java.util.List;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.mechanics.charms.RuneType;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemRune extends Item implements IMultiModel{
+public class ItemRune extends Item{
+	@SideOnly(Side.CLIENT)
+	private IIcon[] iconArray;
+	
 	public ItemRune(){
 		setHasSubtypes(true);
 	}
@@ -27,14 +32,18 @@ public class ItemRune extends Item implements IMultiModel{
 	}
 	
 	@Override
-	public String[] getModels(){
-		return new String[]{
-			"^rune_power",
-			"^rune_agility",
-			"^rune_vigor",
-			"^rune_defense",
-			"^rune_magic",
-			"^rune_void"
-		};
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconFromDamage(int damage){
+		return damage < 0 || damage >= iconArray.length ? iconArray[0] : iconArray[damage];
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister iconRegister){
+		iconArray = new IIcon[RuneType.values.length];
+		
+		for(int a = 0; a < iconArray.length; a++){
+			iconArray[a] = iconRegister.registerIcon(iconString+"_"+RuneType.values[a].iconSuffix);
+		}
 	}
 }

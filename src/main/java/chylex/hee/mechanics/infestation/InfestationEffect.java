@@ -16,7 +16,7 @@ class InfestationEffect implements IWeightProvider{
 	}
 	
 	PotionEffect createPotionEffect(int amplifier, int durationTicks){
-		PotionEffect eff = new PotionEffect(potionEffectId,MathUtil.ceil(durationTicks*durationMp),amplifier,true,true);
+		PotionEffect eff = new PotionEffect(potionEffectId,MathUtil.ceil(durationTicks*durationMp),amplifier,true);
 		setCurativeItems(eff);
 		return eff;
 	}

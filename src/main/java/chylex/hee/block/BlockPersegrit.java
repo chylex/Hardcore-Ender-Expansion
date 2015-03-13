@@ -1,39 +1,67 @@
 package chylex.hee.block;
+import java.util.List;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLiving.SpawnPlacementType;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import chylex.hee.block.state.BlockAbstractStateEnum;
-import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockPersegrit extends BlockAbstractStateEnum implements IBlockSubtypes{
-	public static enum Variant{ PLAIN, LR, TB, END_1, END_2, END_3, END_4, TL, TR, BL, BR, TRB, TRL, TBL, RBL, LRTB }
-	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
+public class BlockPersegrit extends Block implements IBlockSubtypes{
+	@SideOnly(Side.CLIENT)
+	private IIcon[] iconArray;
 	
 	public BlockPersegrit(){
 		super(Material.cloth);
-		createSimpleMeta(VARIANT,Variant.class);
 	}
 	
 	@Override
-	public IProperty[] getPropertyArray(){
-		return new IProperty[]{ VARIANT };
-	}
-	
-	@Override
-	public boolean canCreatureSpawn(IBlockAccess world, BlockPos pos, SpawnPlacementType type){
+	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z){
 		return false;
+	}
+	
+	@Override
+	public int damageDropped(int meta){
+		return meta;
 	}
 
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		return getUnlocalizedName();
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta){
+		return iconArray[MathUtil.clamp(meta,0,iconArray.length-1)];
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubBlocks(Item item, CreativeTabs tab, List list){
+		for(int a = 0; a < iconArray.length; a++)list.add(new ItemStack(item,1,a));
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister){
+		iconArray = new IIcon[16];
+		iconArray[0] = iconRegister.registerIcon(textureName);
+		
+		String tex = textureName+"_"; // 1    2     3     4     5     6     7     8     9    10     11     12     13     14   15
+		String[] names = new String[]{ "h", "v", "hl", "hr", "vb", "vt", "tl", "tr", "bl", "br", "trb", "trl", "tbl", "rbl", "x" };
+		
+		for(int a = 1; a < 16; a++)iconArray[a] = iconRegister.registerIcon(tex+names[a-1]);
 	}
 	
 	public static int getConnectionMeta(LargeStructureWorld world, Random rand, int x, int y, int z){
@@ -99,11 +127,14 @@ public class BlockPersegrit extends BlockAbstractStateEnum implements IBlockSubt
 	}
 	
 	public static boolean isConnectable(LargeStructureWorld world, int x, int y, int z){
-		IBlockState state = world.getBlockState(x,y,z);
-		
-		if (state.getBlock() == BlockList.persegrit){
-			Variant variant = (Variant)state.getValue(VARIANT);
-			return variant != Variant.PLAIN && variant != Variant.END_1 && variant != Variant.END_2 && variant != Variant.END_3 && variant != Variant.END_4;
+		if (world.getBlock(x,y,z) == BlockList.persegrit){
+			int meta = world.getMetadata(x,y,z);
+			
+			if (meta == 0)return false;
+			else if (meta >= 3 && meta <= 6){
+				return false;
+			}
+			else return true;
 		}
 		else return false;
 	}

@@ -2,8 +2,8 @@ package chylex.hee.world.feature.blobs.generators;
 
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.Vec3;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.Vec3M;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 
 public class BlobGeneratorSingleCut extends BlobGeneratorSingle{
@@ -30,8 +30,8 @@ public class BlobGeneratorSingleCut extends BlobGeneratorSingle{
 		double rad = minRad+rand.nextDouble()*(maxRad-minRad);
 		genBlob(gen,0D,0D,0D,rad);
 		
-		Vec3M vec = DragonUtil.getRandomVector(rand);
+		Vec3 vec = DragonUtil.getRandomVector(rand);
 		double dist = minDistMp+rand.nextDouble()*(maxDistMp-minDistMp);
-		genBlob(gen,vec.x*dist,vec.y*dist,vec.z*dist,rad*(minRadMp+rand.nextDouble()*(maxRadMp-minRadMp)),Blocks.air);
+		genBlob(gen,vec.xCoord*dist,vec.yCoord*dist,vec.zCoord*dist,rad*(minRadMp+rand.nextDouble()*(maxRadMp-minRadMp)),Blocks.air);
 	}
 }

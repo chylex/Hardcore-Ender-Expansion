@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome.data;
+import org.apache.commons.lang3.ArrayUtils;
 
 public final class IslandBiomeData{
 	public final BiomeContentVariation content;
@@ -15,5 +16,9 @@ public final class IslandBiomeData{
 		}
 		
 		return false;
+	}
+	
+	public String getDeviationsAsString(){
+		return ArrayUtils.toString(deviations);
 	}
 }

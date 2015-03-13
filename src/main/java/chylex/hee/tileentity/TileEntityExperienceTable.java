@@ -1,14 +1,62 @@
 package chylex.hee.tileentity;
+import gnu.trove.map.hash.TObjectByteHashMap;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
+import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
 
 public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1 }, slotsBottom = new int[]{ 2 };
-	private static final BlockPos zeroPos = new BlockPos(0,0,0);
+	
+	private static final TObjectByteHashMap<ItemDamagePair> direct = new TObjectByteHashMap<>();
+	
+	static{
+		// TODO add ingots and stuff + regs
+	}
+	
+	private static void addDirectConversion(Item item, int bottleAmount){
+		direct.put(new ItemDamagePair(item,-1),(byte)bottleAmount);
+	}
+	
+	public static boolean addDirectConversion(ItemDamagePair pair, byte bottleAmount){
+		if (getDirectExperience(new ItemStack(pair.item,pair.damage == -1 ? 0 : pair.damage)) > 0)return false;
+		direct.put(pair,bottleAmount);
+		return true;
+	}
+	
+	private static byte getDirectExperience(ItemStack is){
+		for(ItemDamagePair idp:direct.keySet()){
+			if (idp.check(is))return direct.get(idp);
+		}
+		
+		return 0;
+	}
+	
+	private static boolean canConvertItem(ItemStack is, World world){
+		if (is.getItem() instanceof ItemBlock){
+			Block block = Block.getBlockFromItem(is.getItem());
+			if (block != null && block.getExpDrop(world,is.getItemDamage(),0) > 0)return true;
+		}
+		
+		return getDirectExperience(is) > 0;
+	}
+	
+	private static byte getExperience(ItemStack is, World world){
+		if (is.getItem() instanceof ItemBlock){
+			Block block = Block.getBlockFromItem(is.getItem());
+			
+			if (block != null){
+				byte exp = (byte)MathUtil.ceil(0.6D*block.getExpDrop(world,is.getItemDamage(),0));
+				if (exp > 0)return exp;
+			}
+		}
+		
+		return getDirectExperience(is);
+	}
 	
 	/**
 	 * 0 = inactive, -1 = active but undecided (because of randomness in exp drop)
@@ -21,9 +69,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 		expAmount = 0;
 		
 		if (items[0] != null){
-			Block block = Block.getBlockFromItem(items[0].getItem());
-			
-			if (block != null && block.getExpDrop(worldObj,zeroPos,0) > 0){
+			if (canConvertItem(items[0],worldObj)){
 				expAmount = -1;
 				timeStep = 12;
 				requiredStardust = 4;
@@ -35,7 +81,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 
 	@Override
 	protected boolean onWorkFinished(){
-		if (expAmount == -1)expAmount = (byte)MathUtil.ceil(0.6D*Block.getBlockFromItem(items[0].getItem()).getExpDrop(worldObj,zeroPos,0));
+		if (expAmount == -1)expAmount = (byte)Math.min(64,getExperience(items[0],worldObj));
 		
 		if (items[2] == null)items[2] = new ItemStack(ItemList.exp_bottle,expAmount);
 		else if (items[2].stackSize+expAmount <= items[2].getMaxStackSize())items[2].stackSize += expAmount;
@@ -73,8 +119,8 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	}
 
 	@Override
-	public int[] getSlotsForFace(EnumFacing side){
-		return side == EnumFacing.UP ? slotsTop : side == EnumFacing.DOWN ? slotsBottom : slotsSides;
+	public int[] getAccessibleSlotsFromSide(int side){
+		return side == 0 ? slotsBottom : side == 1 ? slotsTop : slotsSides;
 	}
 
 	@Override

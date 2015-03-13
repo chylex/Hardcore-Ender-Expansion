@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,18 +13,17 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	private List<Enum> tntEnhancements = new ArrayList<>();
@@ -34,18 +32,20 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	public EntityBlockEnhancedTNTPrimed(World world){
 		super(world);
 		fuse = 80;
+		yOffset = 0;
 	}
 
 	public EntityBlockEnhancedTNTPrimed(World world, double x, double y, double z, EntityLivingBase igniter, List<Enum> enhancements){
 		super(world,x,y,z,igniter);
 		this.tntEnhancements.addAll(enhancements);
 		
-		if (tntEnhancements.contains(TNTEnhancements.NO_FUSE))fuse = 1;
 		if (tntEnhancements.contains(TNTEnhancements.NOCLIP)){
 			noClip = true;
-			if (fuse > 1)fuse = 40;
+			fuse = 40;
 			dataWatcher.updateObject(16,Byte.valueOf((byte)1));
 		}
+		
+		if (tntEnhancements.contains(TNTEnhancements.NO_FUSE))fuse = 1;
 	}
 	
 	@Override
@@ -79,7 +79,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		motionZ *= 0.98D;
 		
 		if (!worldObj.isRemote && noClip){
-			Block block = new BlockPosM(this).getBlock(worldObj);
+			Block block = worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ));
 			
 			if (!wentIntoWall && block.isOpaqueCube())wentIntoWall = true;
 			else if (wentIntoWall && block.getMaterial() == Material.air){
@@ -100,15 +100,15 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 			setDead();
 			if (!worldObj.isRemote)explode();
 		}
-		else worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,posX,posY+0.5D,posZ,0D,0D,0D);
+		else worldObj.spawnParticle("smoke",posX,posY+0.5D,posZ,0D,0D,0D);
 		
 		setPosition(posX,posY,posZ);
 	}
 
 	private void explode(){
-		boolean isFlaming = tntEnhancements.contains(TNTEnhancements.FIRE);
-		boolean isSmoking = !tntEnhancements.contains(TNTEnhancements.NO_BLOCK_DAMAGE);
-		EnhancedTNTExplosion explosion = new EnhancedTNTExplosion(worldObj,this,posX,posY,posZ,tntEnhancements.contains(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F,isFlaming,isSmoking);
+		EnhancedTNTExplosion explosion = new EnhancedTNTExplosion(worldObj,this,posX,posY,posZ,tntEnhancements.contains(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F);
+		explosion.isFlaming = tntEnhancements.contains(TNTEnhancements.FIRE);
+		explosion.isSmoking = !tntEnhancements.contains(TNTEnhancements.NO_BLOCK_DAMAGE);
 		explosion.damageEntities = !tntEnhancements.contains(TNTEnhancements.NO_ENTITY_DAMAGE);
 		explosion.doExplosionA();
 		explosion.doExplosionB(true);
@@ -126,9 +126,9 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int posRotationIncrements, boolean booleanissimo){
+	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int par9){
 		setPosition(x,y,z);
-		setRotation(rotationYaw,rotationPitch);
+		setRotation(yaw,pitch);
 	}
 	
 	@Override
@@ -149,30 +149,21 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		private final World worldObj;
 		private final int dist = 16;
 		private final Map<EntityPlayer,Vec3> hurtPlayers = new HashMap<>();
-		private final Entity exploder;
-		private final double explosionX, explosionY, explosionZ;
-		private float explosionSize;
 		
 		public boolean damageEntities = true;
 
-		public EnhancedTNTExplosion(World world, Entity sourceEntity, double x, double y, double z, float power, boolean isFlaming, boolean isSmoking){
-			super(world,sourceEntity,x,y,z,power,isFlaming,isSmoking);
+		public EnhancedTNTExplosion(World world, Entity sourceEntity, double x, double y, double z, float power){
+			super(world,sourceEntity,x,y,z,power);
 			this.worldObj = world;
-			this.exploder = sourceEntity;
-			this.explosionX = x;
-			this.explosionY = y;
-			this.explosionZ = z;
-			this.explosionSize = power;
 		}
 		
 		@Override
 		public void doExplosionA(){
 			float explosionSizeBackup = explosionSize;
 			
-			HashSet<BlockPos> affectedBlocks = new HashSet<>();
+			HashSet<ChunkPosition> affectedBlocks = new HashSet<>();
 			double tempX, tempY, tempZ, distX, distY, distZ, totalDist;
 			int xInt, yInt, zInt;
-			BlockPosM pos = new BlockPosM();
 
 			for(int x = 0; x < dist; ++x){
 				for(int y = 0; y < dist; ++y){
@@ -193,15 +184,19 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 							tempZ = explosionZ;
 
 							for(float mp = 0.3F; affectedDistance > 0F; affectedDistance -= mp*0.75F){
-								IBlockState state = pos.moveTo(tempX,tempY,tempZ).getBlockState(worldObj);
+								xInt = MathHelper.floor_double(tempX);
+								yInt = MathHelper.floor_double(tempY);
+								zInt = MathHelper.floor_double(tempZ);
+								
+								Block block = worldObj.getBlock(xInt,yInt,zInt);
 
-								if (state.getBlock().getMaterial() != Material.air){
-									float resistance = exploder != null ? exploder.getExplosionResistance(this,worldObj,pos,state) : state.getBlock().getExplosionResistance(worldObj,pos,exploder,this);
+								if (block.getMaterial() != Material.air){
+									float resistance = exploder != null ? exploder.func_145772_a(this,worldObj,xInt,yInt,zInt,block) : block.getExplosionResistance(exploder,worldObj,xInt,yInt,zInt,explosionX,explosionY,explosionZ);
 									affectedDistance -= (resistance+0.3F)*mp;
 								}
 
-								if (affectedDistance > 0F && (exploder == null || exploder.verifyExplosion(this,worldObj,pos,state,affectedDistance))){
-									affectedBlocks.add(pos.copy());
+								if (affectedDistance > 0F && (exploder == null || exploder.func_145774_a(this,worldObj,xInt,yInt,zInt,block,affectedDistance))){
+									affectedBlocks.add(new ChunkPosition(xInt,yInt,zInt));
 								}
 
 								tempX += distX*mp;
@@ -213,15 +208,15 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 				}
 			}
 
-			func_180343_e().addAll(affectedBlocks);
+			affectedBlockPositions.addAll(affectedBlocks);
 			explosionSize *= 2F;
 			
 			int minX = MathHelper.floor_double(explosionX-explosionSize-1D), maxX = MathHelper.floor_double(explosionX+explosionSize+1D);
 			int minY = MathHelper.floor_double(explosionY-explosionSize-1D), maxY = MathHelper.floor_double(explosionY+explosionSize+1D);
 			int minZ = MathHelper.floor_double(explosionZ-explosionSize-1D), maxZ = MathHelper.floor_double(explosionZ+explosionSize+1D);
 			
-			List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(exploder,AxisAlignedBB.fromBounds(minX,minY,minZ,maxX,maxY,maxZ));
-			Vec3 locationVec = new Vec3(explosionX,explosionY,explosionZ);
+			List<Entity> entities = worldObj.getEntitiesWithinAABBExcludingEntity(exploder,AxisAlignedBB.getBoundingBox(minX,minY,minZ,maxX,maxY,maxZ));
+			Vec3 locationVec = Vec3.createVectorHelper(explosionX,explosionY,explosionZ);
 
 			for(int a = 0; a < entities.size(); ++a){
 				Entity entity = entities.get(a);
@@ -247,7 +242,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 						entity.motionZ += tempZ*knockbackMp;
 
 						if (damageEntities && entity instanceof EntityPlayer){
-							hurtPlayers.put((EntityPlayer)entity,new Vec3(tempX*blastPower,tempY*blastPower,tempZ*blastPower));
+							hurtPlayers.put((EntityPlayer)entity,Vec3.createVectorHelper(tempX*blastPower,tempY*blastPower,tempZ*blastPower));
 						}
 					}
 				}

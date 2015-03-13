@@ -4,14 +4,8 @@ import java.util.List;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
-import net.minecraftforge.common.config.Property.Type;
-import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.api.HeeIMC;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
@@ -23,6 +17,12 @@ import chylex.hee.sound.MusicManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
+import cpw.mods.fml.client.config.IConfigElement;
+import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public final class ConfigHandler{
 	private static ConfigHandler instance;
@@ -52,18 +52,11 @@ public final class ConfigHandler{
 
 	private final Configuration config;
 	private String currentCategory;
-	private boolean firstTimeGeneral = true;
+	private boolean firstTimeClient = true, firstTimeGeneral = true;
 	
 	private ConfigHandler(Configuration config){
 		this.config = config;
 		this.config.load();
-		
-		config.moveProperty("general","enableMusic","client");
-		config.moveProperty("client","enableUpdateNotifications","general");
-		config.getCategory("general").remove("achievementIdStart");
-		config.getCategory("general").remove("enableEndermapocalypse");
-		
-		if (config.get("client","compendiumSmoothText",0).getType() == Type.BOOLEAN)config.getCategory("client").remove("compendiumSmoothText");
 	}
 	
 	@SubscribeEvent
@@ -78,8 +71,13 @@ public final class ConfigHandler{
 		currentCategory = "client";
 		
 		KnowledgeFragmentText.smoothRenderingMode = (byte)getInt("compendiumSmoothText",0,"Special text rendering mode for Ender Compendium, smooths out aliasing in Large GUI scale.").getInt();
-		MusicManager.enableMusic = getBool("enableMusic",true,"Custom music playing in the End dimension.").setRequiresMcRestart(true).getBoolean();
 		ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbacon",0,"0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
+		
+		if (firstTimeClient){
+			MusicManager.enableEndMusic = getBool("enableMusic",true,"Custom music playing in the End dimension.").setRequiresMcRestart(true).getBoolean();
+			MusicManager.removeVanillaDelay = getBool("removeVanillaDelay",false,"Removes long delays between vanilla music tracks.").setRequiresMcRestart(true).getBoolean();
+			firstTimeClient = false;
+		}
 		
 		if (config.hasChanged())config.save();
 	}
@@ -102,6 +100,13 @@ public final class ConfigHandler{
 			ModCommonProxy.achievementStartId = getInt("achievementStartId",3500,"Starting ID of achievements, only change this if there is a conflict.").setShowInGui(false).getInt();
 			StardustDecomposition.addFromString(getString("decompositionBlacklist","","Blacklist of items that should not be decomposable or decomposed into. Visit http://hee.chylex.com/config for syntax and examples.").setRequiresMcRestart(true).getString());
 			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");
+			
+			String[] imcs = getStringArray("IMC",new String[]{ "Write your message here" },"").setShowInGui(false).getStringList();
+			
+			if (!(imcs.length == 1 && imcs[0].equals("Write your message here"))){
+				for(String imc:imcs)HeeIMC.acceptString("HEE Configuration File",imc);
+			}
+			
 			firstTimeGeneral = false;
 		}
 		
@@ -127,6 +132,10 @@ public final class ConfigHandler{
 	}
 	
 	private Property getString(String key, String defaultValue, String comment){
+		return config.get(currentCategory,key,defaultValue,comment);
+	}
+	
+	private Property getStringArray(String key, String[] defaultValue, String comment){
 		return config.get(currentCategory,key,defaultValue,comment);
 	}
 }

@@ -1,11 +1,9 @@
 package chylex.hee.entity.fx;
 import net.minecraft.client.particle.EntityLavaFX;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityEnderGooFX extends EntityLavaFX{
@@ -26,10 +24,10 @@ public class EntityEnderGooFX extends EntityLavaFX{
 	}
 	
 	@Override
-	public void renderParticle(WorldRenderer renderer, Entity viewer, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
+	public void renderParticle(Tessellator tessellator, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
 		float scale = (particleAge+partialTickTime)/particleMaxAge;
 		particleScale = lavaParticleScale*(1.0F-scale*scale);
-		super.renderParticle(renderer,viewer,partialTickTime,rotX,rotXZ,rotZ,rotYZ,rotXY);
+		super.renderParticle(tessellator,partialTickTime,rotX,rotXZ,rotZ,rotYZ,rotXY);
 	}
 	
 	@Override
@@ -39,7 +37,7 @@ public class EntityEnderGooFX extends EntityLavaFX{
 		prevPosZ = posZ;
 
 		if (particleAge++ >= particleMaxAge)setDead();
-		if (rand.nextFloat() < 0.004F)worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,posX,posY,posZ,motionX,motionY,motionZ);
+		if (rand.nextFloat() < 0.004F)worldObj.spawnParticle("smoke",posX,posY,posZ,motionX,motionY,motionZ);
 
 		motionY -= 0.005D;
 		moveEntity(motionX,motionY,motionZ);

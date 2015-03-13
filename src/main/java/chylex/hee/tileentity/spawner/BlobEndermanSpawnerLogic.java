@@ -2,7 +2,7 @@ package chylex.hee.tileentity.spawner;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class BlobEndermanSpawnerLogic extends CustomSpawnerLogic{
@@ -18,7 +18,7 @@ public class BlobEndermanSpawnerLogic extends CustomSpawnerLogic{
 	
 	@Override
 	protected boolean canMobSpawn(EntityLiving entity){
-		return entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty() && !new BlockPosM(entity).moveDown().isAir(entity.worldObj);
+		return entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty() && !entity.worldObj.isAirBlock(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY)-1,MathUtil.floor(entity.posZ));
 	}
 
 	@Override

@@ -1,15 +1,15 @@
 package chylex.hee.mechanics.misc;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.gui.GuiDiaryBook;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public final class LoreTexts{
 	public static int pageAmount = 16;
@@ -133,7 +133,7 @@ public final class LoreTexts{
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public static void openBook(AbstractClientPlayer player, byte[] unlockedPages){
+	public static void openBook(EntityClientPlayerMP player, byte[] unlockedPages){
 		ItemStack is = new ItemStack(Items.written_book);
 		NBTTagList pages = new NBTTagList();
 		

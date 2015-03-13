@@ -11,7 +11,7 @@ import chylex.hee.system.savedata.WorldSavefile;
 
 public class WorldGenSavefile extends WorldSavefile{
 	public enum WorldGenElement{
-		DUNGEON_TOWER(1), BIOME_ISLAND(6);
+		DUNGEON_TOWER(1), BIOME_ISLAND(6), INSIDIOUS_SANCTUARY(0 /* ignore collisions */);
 		
 		private final byte rad;
 		
@@ -83,7 +83,7 @@ public class WorldGenSavefile extends WorldSavefile{
 			NBTTagList list = nbt.getTagList(String.valueOf(a),NBT.TAG_DOUBLE);
 			
 			for(int index = 0; index < list.tagCount(); index++){
-				elements.put(Double.doubleToLongBits(list.getDouble(index)),vals[a]);
+				elements.put(Double.doubleToLongBits(list.func_150309_d(index)),vals[a]);
 			}
 		}
 	}

@@ -64,7 +64,7 @@ public class InfestationSavefile extends WorldSavefile{
 
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
-		for(String key:(Set<String>)nbt.getKeySet()){
+		for(String key:(Set<String>)nbt.func_150296_c()){
 			if (key.endsWith("_pow")){
 				infestationPower.put(UUID.fromString(key.substring(0,key.length()-4)),nbt.getInteger(key));
 			}

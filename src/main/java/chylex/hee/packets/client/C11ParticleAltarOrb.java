@@ -1,18 +1,18 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class C11ParticleAltarOrb extends AbstractClientPacket{
-	private double startX, startY, startZ;
-	private double targetX, targetY, targetZ;
-	private byte essenceId, amount;
-	private float width, height;
+	private double startX,startY,startZ;
+	private double targetX,targetY,targetZ;
+	private byte essenceId,amount;
+	private float width,height;
 	
 	public C11ParticleAltarOrb(){}
 	
@@ -21,13 +21,13 @@ public class C11ParticleAltarOrb extends AbstractClientPacket{
 	}
 	
 	public C11ParticleAltarOrb(TileEntityEssenceAltar altar, double targetX, double targetY, double targetZ, byte amount){
-		this.startX = altar.getPos().getX()+0.5D;
-		this.startY = altar.getPos().getY()+0.5D;
-		this.startZ = altar.getPos().getZ()+0.5D;
+		this.startX = altar.xCoord+0.5D;
+		this.startY = altar.yCoord+0.5D;
+		this.startZ = altar.zCoord+0.5D;
 		this.targetX = targetX;
 		this.targetY = targetY;
 		this.targetZ = targetZ;
-		this.essenceId = altar.getEssenceType().getId();
+		this.essenceId = altar.getEssenceType().id;
 		this.amount = amount;
 	}
 	
@@ -69,7 +69,7 @@ public class C11ParticleAltarOrb extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(AbstractClientPlayer player){
+	protected void handle(EntityClientPlayerMP player){
 		EssenceType essence = EssenceType.getById(essenceId);
 
 		for(int a = 0; a < amount; a++){

@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.system.util.DragonUtil;
@@ -106,8 +105,8 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 	}
 
 	@Override
-	public int[] getSlotsForFace(EnumFacing side){
-		return side == EnumFacing.UP ? slotsTop : side == EnumFacing.DOWN ? slotsBottom : slotsSides;
+	public int[] getAccessibleSlotsFromSide(int side){
+		return side == 0 ? slotsBottom : side == 1 ? slotsTop : slotsSides;
 	}
 
 	@Override

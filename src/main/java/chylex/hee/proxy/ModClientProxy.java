@@ -5,17 +5,18 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBat;
 import net.minecraft.client.renderer.entity.RenderFallingBlock;
 import net.minecraft.client.renderer.entity.RenderFireball;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderLightningBolt;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.stats.IStatStringFormat;
+import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.client.MinecraftForgeClient;
+import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
@@ -58,6 +59,7 @@ import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
 import chylex.hee.entity.technical.EntityTechnicalVoidChest;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
+import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.gui.GuiTransportBeacon;
 import chylex.hee.item.ItemList;
@@ -65,11 +67,16 @@ import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.misc.Baconizer;
-import chylex.hee.render.ItemRenderRegistry;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
+import chylex.hee.render.block.RenderBlockCrossedDecoration;
+import chylex.hee.render.block.RenderBlockEndFlowerPot;
 import chylex.hee.render.block.RenderBlockEnhancedTNTPrimed;
 import chylex.hee.render.block.RenderBlockHomelandCache;
+import chylex.hee.render.block.RenderBlockObsidianSpecial;
+import chylex.hee.render.block.RenderBlockSpookyLeaves;
+import chylex.hee.render.block.RenderBlockTransportBeacon;
+import chylex.hee.render.block.RenderBlockVoidChest;
 import chylex.hee.render.entity.RenderBossDragon;
 import chylex.hee.render.entity.RenderBossEnderDemon;
 import chylex.hee.render.entity.RenderMiniBossEnderEye;
@@ -82,6 +89,7 @@ import chylex.hee.render.entity.RenderMobInfestedBat;
 import chylex.hee.render.entity.RenderMobLouse;
 import chylex.hee.render.entity.RenderMobParalyzedEnderman;
 import chylex.hee.render.entity.RenderTexturedMob;
+import chylex.hee.render.item.RenderItemVoidChest;
 import chylex.hee.render.model.ModelEnderGuardian;
 import chylex.hee.render.model.ModelEndermage;
 import chylex.hee.render.model.ModelEndermanHeadBiped;
@@ -92,6 +100,7 @@ import chylex.hee.render.projectile.RenderProjectileCurse;
 import chylex.hee.render.projectile.RenderProjectileFiendFireball;
 import chylex.hee.render.projectile.RenderProjectilePotion;
 import chylex.hee.render.tileentity.RenderTileCustomSpawner;
+import chylex.hee.render.tileentity.RenderTileEndPortalFixed;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
 import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.render.tileentity.RenderTileLaserBeam;
@@ -108,6 +117,8 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
 import chylex.hee.tileentity.TileEntityVoidChest;
+import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ModClientProxy extends ModCommonProxy{
 	public static final ModelEndermanHeadBiped endermanHeadModelBiped = new ModelEndermanHeadBiped();
@@ -132,67 +143,77 @@ public class ModClientProxy extends ModCommonProxy{
 	public void registerRenderers(){
 		Stopwatch.time("ModClientProxy - renderers");
 		
+		renderIdObsidianSpecial = RenderingRegistry.getNextAvailableRenderId();
+		renderIdFlowerPot = RenderingRegistry.getNextAvailableRenderId();
+		renderIdSpookyLeaves = RenderingRegistry.getNextAvailableRenderId();
+		renderIdCrossedDecoration = RenderingRegistry.getNextAvailableRenderId();
+		renderIdVoidChest = RenderingRegistry.getNextAvailableRenderId();
+		renderIdTransportBeacon = RenderingRegistry.getNextAvailableRenderId();
+		
+		RenderingRegistry.registerBlockHandler(new RenderBlockObsidianSpecial());
+		RenderingRegistry.registerBlockHandler(new RenderBlockEndFlowerPot());
+		RenderingRegistry.registerBlockHandler(new RenderBlockSpookyLeaves());
+		RenderingRegistry.registerBlockHandler(new RenderBlockCrossedDecoration());
+		RenderingRegistry.registerBlockHandler(new RenderBlockVoidChest());
+		RenderingRegistry.registerBlockHandler(new RenderBlockTransportBeacon());
+		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEssenceAltar.class, new RenderTileEssenceAltar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndermanHead.class, new RenderTileEndermanHead());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCustomSpawner.class, new RenderTileCustomSpawner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserBeam.class, new RenderTileLaserBeam());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new RenderTileVoidChest());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransportBeacon.class, new RenderTileTransportBeacon());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndPortal.class, new RenderTileEndPortalFixed());
 		
-		// TODO MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
 
-		RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+		RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon());
 		
-		ItemRenderRegistry.registerAll(renderItem);
+		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossEnderEye.class, new RenderMiniBossEnderEye());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossFireFiend.class, new RenderMiniBossFireFiend());
 		
-		RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon(renderManager));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderman.class, new RenderMobEnderman());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobAngryEnderman.class, new RenderMobAngryEnderman());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobBabyEnderman.class, new RenderMobBabyEnderman());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobParalyzedEnderman.class, new RenderMobParalyzedEnderman());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobHomelandEnderman.class, new RenderMobHomelandEnderman());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderGuardian.class, new RenderTexturedMob(new ModelEnderGuardian(), 0.3F, "ender_guardian.png"));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobVampiricBat.class, new RenderTexturedMob(new ModelBat(), 0.25F, "bat_vampiric.png", 0.35F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobInfestedBat.class, new RenderMobInfestedBat());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobLouse.class, new RenderMobLouse());
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobFireGolem.class, new RenderTexturedMob(new ModelFireGolem(), 0.3F, "fire_golem.png"));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobScorchingLens.class, new RenderTexturedMob(new ModelScorchingLens(), 0.3F, "scorching_lens.png"));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobHauntedMiner.class, new RenderTexturedMob(new ModelHauntedMiner(), 0.5F, "haunted_miner.png", 1.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityMobEndermage.class, new RenderTexturedMob(new ModelEndermage(), 0.3F, "endermage.png"));
 		
-		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossEnderEye.class, new RenderMiniBossEnderEye(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossFireFiend.class, new RenderMiniBossFireFiend(renderManager));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlockEnderCrystal.class, new RenderEnderCrystal());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlockFallingObsidian.class, new RenderFallingBlock());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlockFallingDragonEgg.class, new RenderFallingBlock());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlockTempleDragonEgg.class, new RenderFallingBlock());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlockEnhancedTNTPrimed.class, new RenderBlockEnhancedTNTPrimed());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlockHomelandCache.class, new RenderBlockHomelandCache());
 		
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderman.class, new RenderMobEnderman(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobAngryEnderman.class, new RenderMobAngryEnderman(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobBabyEnderman.class, new RenderMobBabyEnderman(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobParalyzedEnderman.class, new RenderMobParalyzedEnderman(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobHomelandEnderman.class, new RenderMobHomelandEnderman(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderGuardian.class, new RenderTexturedMob(renderManager, new ModelEnderGuardian(), 0.3F, "ender_guardian.png"));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobVampiricBat.class, new RenderTexturedMob(renderManager, new ModelBat(), 0.25F, "bat_vampiric.png", 0.35F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobInfestedBat.class, new RenderMobInfestedBat(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobLouse.class, new RenderMobLouse(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobFireGolem.class, new RenderTexturedMob(renderManager, new ModelFireGolem(), 0.3F, "fire_golem.png"));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobScorchingLens.class, new RenderTexturedMob(renderManager, new ModelScorchingLens(), 0.3F, "scorching_lens.png"));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobHauntedMiner.class, new RenderTexturedMob(renderManager, new ModelHauntedMiner(), 0.5F, "haunted_miner.png", 1.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobEndermage.class, new RenderTexturedMob(renderManager, new ModelEndermage(), 0.3F, "endermage.png"));
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlockEnderCrystal.class, new RenderEnderCrystal(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlockFallingObsidian.class, new RenderFallingBlock(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlockFallingDragonEgg.class, new RenderFallingBlock(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlockTempleDragonEgg.class, new RenderFallingBlock(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlockEnhancedTNTPrimed.class, new RenderBlockEnhancedTNTPrimed(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlockHomelandCache.class, new RenderBlockHomelandCache(renderManager));
-		
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileFlamingBall.class, new RenderNothing(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileMinerShot.class, new RenderNothing(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileGolemFireball.class, new RenderFireball(renderManager, 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileDragonFireball.class, new RenderFireball(renderManager, 1F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectilePotion.class, new RenderProjectilePotion(renderManager, renderItem));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileSpatialDash.class, new RenderNothing(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCorruptedEnergy.class, new RenderNothing(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileFiendFireball.class, new RenderProjectileFiendFireball(renderManager, 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCurse.class, new RenderProjectileCurse(renderManager, renderItem));
-		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileExpBottleConsistent.class, new RenderSnowball(renderManager, ItemList.exp_bottle, renderItem));
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileFlamingBall.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileMinerShot.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileGolemFireball.class, new RenderFireball(0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileDragonFireball.class, new RenderFireball(1F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectilePotion.class, new RenderProjectilePotion());
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileSpatialDash.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCorruptedEnergy.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileFiendFireball.class, new RenderProjectileFiendFireball(0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileCurse.class, new RenderProjectileCurse());
+		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileExpBottleConsistent.class, new RenderSnowball(ItemList.exp_bottle));
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltSafe.class, new RenderLightningBolt(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltDemon.class, new RenderWeatherLightningBoltPurple(renderManager));
+		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltSafe.class, new RenderLightningBolt());
+		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltDemon.class, new RenderWeatherLightningBoltPurple());
 		
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalBiomeInteraction.class, new RenderNothing(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalVoidChest.class, new RenderNothing(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleChain.class, new RenderNothing(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleSolved.class, new RenderNothing(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalCurseBlock.class, new RenderNothing(renderManager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalCurseEntity.class, new RenderNothing(renderManager));
+		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalBiomeInteraction.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalVoidChest.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleChain.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleSolved.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalCurseBlock.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalCurseEntity.class, new RenderNothing());
 
 		Stopwatch.finish("ModClientProxy - renderers");
 		
@@ -242,6 +263,11 @@ public class ModClientProxy extends ModCommonProxy{
 					if (beacon.centerX == data[0] && beacon.centerY == data[1] && beacon.centerZ == data[2])beacon.updateStatusEvent(data[3],data[4] == 1);
 				}
 				
+				break;
+				
+			case ENHANCEMENT_SLOT_RESET:
+				Container container = Minecraft.getMinecraft().thePlayer.openContainer;
+				if (container instanceof ContainerEndPowderEnhancements)((ContainerEndPowderEnhancements)container).onEnhancementSlotChangeClient(-1);
 				break;
 		}
 	}

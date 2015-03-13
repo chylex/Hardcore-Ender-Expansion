@@ -13,15 +13,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.ai.EntityAIRangedEnergyAttack;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IRangedAttackMob{
@@ -55,6 +56,11 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	}
 	
 	@Override
+	public boolean isAIEnabled(){
+		return true;
+	}
+	
+	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
 		if (lastAttacked > 0)--lastAttacked;
@@ -63,30 +69,30 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (super.attackEntityFrom(source,amount)){
-			if ((lastAttacked == 0 || (rand.nextInt(3) != 0 && getHealth()-amount*2D <= 0D)) && source.getSourceOfDamage() != null){
+			if ((lastAttacked == 0 || (rand.nextInt(3) != 0 && getHealth()-amount*2D <= 0D)) && source.getEntity() != null){
 				lastAttacked = (short)(130+rand.nextInt(160));
 				double prevPosX = posX, prevPosY = posY, prevPosZ = posZ;
 				
-				Entity sourceEntity = source.getSourceOfDamage();
+				Entity sourceEntity = source.getEntity();
 				double dist = MathUtil.distance(sourceEntity.posX-posX,sourceEntity.posZ-posZ);
-				BlockPosM pos = new BlockPosM(), testPos = new BlockPosM();
 				
-				for(int attempt = 0; attempt < 15; attempt++){
-					pos.moveTo(this).moveBy(rand.nextInt(31)-15,0,rand.nextInt(31)-15);
+				for(int attempt = 0, xx, yy, zz; attempt < 15; attempt++){
+					xx = MathUtil.floor(posX)+rand.nextInt(31)-15;
+					zz = MathUtil.floor(posZ)+rand.nextInt(31)-15;
 					
-					if (MathUtil.distance(pos.x+0.5D-sourceEntity.posX,pos.z+0.5D-sourceEntity.posZ) > dist*4D){
-						pos.y = MathUtil.floor(posY)+7;
+					if (MathUtil.distance(xx+0.5D-sourceEntity.posX,zz+0.5D-sourceEntity.posZ) > dist*4D){
+						yy = MathUtil.floor(posY)+7;
 						
 						for(int yAttempt = 0; yAttempt < 14; yAttempt++){
-							if (testPos.moveTo(pos).isAir(worldObj) && testPos.moveDown().isAir(worldObj) && testPos.moveUp().moveUp().isAir(worldObj)){
-								setPosition(pos.x+0.5D,testPos.y,pos.z+0.5D);
+							if (!worldObj.isAirBlock(xx,yy-1,zz) && worldObj.isAirBlock(xx,yy,zz) && worldObj.isAirBlock(xx,yy+1,zz)){
+								setPosition(xx+0.5D,yy,zz+0.5D);
 								
 								if (canEntityBeSeen(sourceEntity)){
-									PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,prevPosX,prevPosY,prevPosZ,posX,posY,posZ));
+									PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,xx+0.5D,yy,zz+0.5D));
 									return true;
 								}
 							}
-							else --pos.y;
+							else --yy;
 						}
 					}
 				}
@@ -94,6 +100,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 				setPosition(prevPosX,prevPosY,prevPosZ);
 			}
 			
+			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
 			return true;
 		}
 		else return false;
@@ -123,7 +130,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.endermage.name"));
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.endermage.name"));
 	}
 }

@@ -1,7 +1,7 @@
 package chylex.hee.entity.boss;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockTorch;
+import net.minecraft.block.BlockEndPortal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,14 +18,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Direction;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.block.EntityBlockFallingObsidian;
 import chylex.hee.entity.boss.dragon.attacks.passive.DragonAttackBite;
 import chylex.hee.entity.boss.dragon.attacks.passive.DragonAttackFireball;
@@ -43,11 +42,14 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEven
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.boss.dragon.managers.DragonAchievementManager;
 import chylex.hee.entity.boss.dragon.managers.DragonAttackManager;
+import chylex.hee.entity.boss.dragon.managers.DragonChunkManager;
 import chylex.hee.entity.boss.dragon.managers.DragonDebugManager;
 import chylex.hee.entity.boss.dragon.managers.DragonRewardManager;
 import chylex.hee.entity.boss.dragon.managers.DragonShotManager;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C01ParticleEndPortalCreation;
@@ -59,8 +61,6 @@ import chylex.hee.system.commands.HeeDebugCommand;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.Direction;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -162,6 +162,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 		else if (ticksExisted%40 == 0 && attacks.getViablePlayers().isEmpty()){
 			noPlayers = true;
+			DragonChunkManager.release(this);
 			return;
 		}
 		
@@ -170,10 +171,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		if (!worldObj.isRemote){
 			if (spawnCooldown > 0 && --spawnCooldown > 0 && ticksExisted%20 == 0){
-				BlockPosM pos = new BlockPosM();
-				
 				for(EntityPlayer player:attacks.getViablePlayers()){
-					if (pos.moveTo(player).moveDown().getBlock(worldObj) == Blocks.end_stone){
+					if (worldObj.getBlock(MathUtil.floor(player.posX),MathUtil.floor(player.posY)-1,MathUtil.floor(player.posZ)) == Blocks.end_stone){
 						spawnCooldown = 0;
 						break;
 					}
@@ -218,6 +217,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			if (getHealth() > 0){
 				rewards.updateManager();
 				achievements.updateManager();
+				DragonChunkManager.ping(this);
 				
 				if (dragonHurtTime > 0)--dragonHurtTime;
 				
@@ -258,7 +258,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		prevAnimTime = animTime;
 
-		if (getHealth() <= 0F)worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE,posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
+		if (getHealth() <= 0F)worldObj.spawnParticle("largeexplode",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
 		else{
 			updateEnderCrystal();
 			
@@ -317,8 +317,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				rotationYaw = MathHelper.wrapAngleTo180_float(rotationYaw);
 				double d9 = MathUtil.clamp(MathHelper.wrapAngleTo180_double(180D-MathUtil.toDeg(Math.atan2(xDiff,zDiff))-rotationYaw),-50D,50D);
 
-				Vec3 targetDiffVec = new Vec3(targetX-posX,targetY-posY,targetZ-posZ).normalize();
-				Vec3 rotationVec = new Vec3(MathHelper.sin(MathUtil.toRad(rotationYaw)),motionY,(-MathHelper.cos(MathUtil.toRad(rotationYaw)))).normalize();
+				Vec3 targetDiffVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
+				Vec3 rotationVec = Vec3.createVectorHelper(MathHelper.sin(MathUtil.toRad(rotationYaw)),motionY,(-MathHelper.cos(MathUtil.toRad(rotationYaw)))).normalize();
 				
 				float f4 = Math.max((float)(rotationVec.dotProduct(targetDiffVec)+0.5D)/1.5F,0F);
 
@@ -342,7 +342,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				if (slowed)moveEntity(motionX*moveSpeedMp*0.8D,motionY*moveSpeedMp*0.8D,motionZ*moveSpeedMp*0.8D);
 				else moveEntity(motionX*moveSpeedMp,motionY*moveSpeedMp,motionZ*moveSpeedMp);
 
-				double motionMultiplier = 0.8D+0.15D*((new Vec3(motionX,motionY,motionZ).normalize().dotProduct(rotationVec)+1D)*0.5D);
+				double motionMultiplier = 0.8D+0.15D*((Vec3.createVectorHelper(motionX,motionY,motionZ).normalize().dotProduct(rotationVec)+1D)*0.5D);
 				motionX *= motionMultiplier;
 				motionZ *= motionMultiplier;
 				motionY *= 0.91D;
@@ -404,7 +404,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float amount){
-		if ((source.isExplosion() && source.getSourceOfDamage() == this) || dragonHurtTime > 0)return false;
+		if ((source.isExplosion() && source.getEntity() == this) || dragonHurtTime > 0)return false;
 		spawnCooldown = 0;
 		
 		if (dragonPart != dragonPartHead)amount = amount/3+1;
@@ -434,6 +434,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 
 		if ((source.getEntity() instanceof EntityPlayer || source.isExplosion()) && super.attackEntityFrom(source,amount))hurtResistantTime = (dragonHurtTime = (byte)(hurtTime = 15))+10;
+		CausatumUtils.increase(source,CausatumMeters.DRAGON_DAMAGE,amount*50F);
 		return true;
 	}
 
@@ -451,24 +452,23 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  				PacketPipeline.sendToDimension(dimension,new C01ParticleEndPortalCreation(MathUtil.floor(posX),MathUtil.floor(posZ)));
  				achievements.onBattleFinished();
  				WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setDragonDead(true);
-				worldObj.playBroadcastSound(1018,new BlockPosM(this),0);
+				worldObj.playBroadcastSound(1018,(int)posX,(int)posY,(int)posZ,0);
  			}
  			else if (deathTicks == 20 || deathTicks == 140){ // double check
  				for(Entity entity:(List<Entity>)worldObj.loadedEntityList){
  					if (MathUtil.distance(entity.posX,entity.posZ) > 180D)continue;
  					
- 					if (entity instanceof EntityEnderman)((EntityEnderman)entity).setAttackTarget(null);
+ 					if (entity instanceof EntityEnderman)((EntityEnderman)entity).setTarget(null);
  					else if (entity instanceof EntityMobAngryEnderman)((EntityMobAngryEnderman)entity).setHealth(0F);
  				}
  			}
  			else if (deathTicks > 4 && deathTicks < 70 && deathTicks%4 == 0){
- 				BlockPosM pos = new BlockPosM();
- 				
- 				for(int a = 0; a < 250; a++){
- 					pos.moveTo(this).moveBy(rand.nextInt(51)-25,0,rand.nextInt(51)-25);
- 					pos.y = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,pos.x,pos.z,65);
+ 				for(int a = 0, xx, yy, zz; a < 250; a++){
+ 					xx = MathUtil.floor(posX)+rand.nextInt(51)-25;
+ 					zz = MathUtil.floor(posZ)+rand.nextInt(51)-25;
+ 					yy = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,xx,zz,65);
  					
- 					if (pos.y > 40 && pos.getBlock(worldObj) == Blocks.fire)pos.setToAir(worldObj);
+ 					if (yy > 40 && worldObj.getBlock(xx,yy,zz) == Blocks.fire)worldObj.setBlockToAir(xx,yy,zz);
  				}
  			}
  			else if (deathTicks > 150 && deathTicks%5 == 0)DragonUtil.spawnXP(this,550+(250*(rewards.getFinalDifficulty()>>2)));
@@ -490,19 +490,19 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  						
  						if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
  							if ((iy < bottomY && distSq <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)) || iy > bottomY)continue;
- 							for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle(EnumParticleTypes.PORTAL,ix+rand.nextDouble(),iy+rand.nextDouble()-0.5D,iz+rand.nextDouble(),0D,0D,0D);
+ 							for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",ix+rand.nextDouble(),iy+rand.nextDouble()-0.5D,iz+rand.nextDouble(),0D,0D,0D);
  						}
  					}
  				}
  			}
  			
  			for(int minX = 2; minX < 5; minX++){
- 				for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle(EnumParticleTypes.PORTAL,xx+rand.nextDouble(),bottomY+a+rand.nextDouble()-0.5D,zz+rand.nextDouble(),0D,0D,0D);
+ 				for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",xx+rand.nextDouble(),bottomY+a+rand.nextDouble()-0.5D,zz+rand.nextDouble(),0D,0D,0D);
  			}
  		}
 
 		if (deathTicks >= 180 && deathTicks <= 200){
-			worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE,posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
+			worldObj.spawnParticle("hugeexplosion",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
 		}
 
 		moveEntity(0D,0.1D,0D);
@@ -510,35 +510,37 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		if (deathTicks == 200 && !worldObj.isRemote){
 			DragonUtil.spawnXP(this,2000);
-			createEnderPortal(new BlockPosM(posX,0,posZ));
+			createEnderPortal(MathUtil.floor(posX),MathUtil.floor(posZ));
+			DragonChunkManager.release(this);
 			setDead();
 		}
 	}
 
-	private void createEnderPortal(BlockPosM pos){
-		BlockPosM tmpPos = pos.copy();
+	private void createEnderPortal(int x, int z){
+		BlockEndPortal.field_149948_a = true;
 		byte portalSize = 4, bottomY = 64;
 
 		for(int yy = bottomY-1; yy <= bottomY+32; yy++){
-			for(int xx = pos.x-portalSize; xx <= pos.x+portalSize; xx++){
-				for(int zz = pos.z-portalSize; zz <= pos.z+portalSize; zz++){
-					double distSq = MathUtil.square(xx-pos.x)+MathUtil.square(zz-pos.z);
+			for(int xx = x-portalSize; xx <= x+portalSize; xx++){
+				for(int zz = z-portalSize; zz <= z+portalSize; zz++){
+					double distSq = MathUtil.square(xx-x)+MathUtil.square(zz-z);
 
 					if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
-						if (yy < bottomY && distSq <= MathUtil.square((portalSize-1)-0.5D))tmpPos.moveTo(xx,yy,zz).setBlock(worldObj,Blocks.bedrock);
-						else if (yy > bottomY)tmpPos.moveTo(xx,yy,zz).setToAir(worldObj);
-						else if (distSq > MathUtil.square((portalSize-1)-0.5D))tmpPos.moveTo(xx,yy,zz).setBlock(worldObj,Blocks.bedrock);
-						else tmpPos.moveTo(xx,yy,zz).setBlock(worldObj,Blocks.end_portal);
+						if (yy < bottomY && distSq <= MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
+						else if (yy > bottomY)worldObj.setBlockToAir(xx,yy,zz);
+						else if (distSq > MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
+						else worldObj.setBlock(xx,yy,zz,Blocks.end_portal);
 					}
 				}
 			}
 		}
 		
-		for(int yy = bottomY; yy <= bottomY+3; yy++)tmpPos.moveTo(pos.x,yy,pos.z).setBlock(worldObj,Blocks.bedrock);
-		for(int dir = 0; dir < 4; dir++)tmpPos.moveTo(pos.x+Direction.offsetX[dir],bottomY+2,pos.z+Direction.offsetZ[dir]).setBlock(worldObj,Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING,EnumFacing.getHorizontal(dir)));
-		tmpPos.moveTo(pos.x,bottomY+4,pos.z).setBlock(worldObj,Blocks.dragon_egg);
+		for(int yy = bottomY; yy <= bottomY+3; yy++)worldObj.setBlock(x,yy,z,Blocks.bedrock);
+		for(int dir = 0; dir < 4; dir++)worldObj.setBlock(x+Direction.offsetX[dir],bottomY+2,z+Direction.offsetZ[dir],Blocks.torch);
+		worldObj.setBlock(x,bottomY+4,z,Blocks.dragon_egg);
 		
-		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().moveTo(pos).moveBy(0,bottomY+4,0);
+		BlockEndPortal.field_149948_a = false;
+		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,bottomY+4,z);
 	}
 
 	public double[] getMovementOffsets(int offset, float partialTickTime){
@@ -565,7 +567,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 
 		if (rand.nextInt(10) == 0){
-			float dist = 30F+4F*worldObj.getDifficulty().getDifficultyId()+(ModCommonProxy.opMobs ? 8F : 0F);
+			float dist = 30F+4F*worldObj.difficultySetting.getDifficultyId()+(ModCommonProxy.opMobs ? 8F : 0F);
 			healingEnderCrystal = DragonUtil.getClosestEntity(this,(List<EntityEnderCrystal>)worldObj.getEntitiesWithinAABB(EntityEnderCrystal.class,boundingBox.expand(dist,dist,dist)));
 		}
 	}
@@ -605,31 +607,30 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		int cx = (int)((aabb.maxX-aabb.minX)*0.5D+aabb.minX);
 		int cy = (int)((aabb.maxY-aabb.minY)*0.5D+aabb.minY);
 		int cz = (int)((aabb.maxZ-aabb.minZ)*0.5D+aabb.minZ);
-		BlockPosM tmpPos = new BlockPosM();
 
 		for(int xx = minX; xx <= maxX; xx++){
 			for(int yy = minY; yy <= maxY; yy++){
 				for(int zz = minZ; zz <= maxZ; zz++){
-					Block block = tmpPos.moveTo(xx,yy,zz).getBlock(worldObj);
+					Block block = worldObj.getBlock(xx,yy,zz);
 
 					if (angryStatus && block == BlockList.obsidian_falling){
-						tmpPos.setToAir(worldObj);
+						worldObj.setBlockToAir(xx,yy,zz);
 						EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,xx,yy,zz);
 						obsidian.motionY = -0.2;
 						worldObj.spawnEntityInWorld(obsidian);
 						spawnParticles = true;
 					}
-					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && tmpPos.moveDown().getBlock(worldObj) == BlockList.obsidian_falling)))){
+					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && worldObj.getBlock(xx,yy-1,zz) == BlockList.obsidian_falling)))){
 						wasBlocked = true;
 					}
 					else if (MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+(0.9D*rand.nextDouble()-0.4D)){
-						spawnParticles = tmpPos.setToAir(worldObj) || spawnParticles;
+						spawnParticles = worldObj.setBlockToAir(xx,yy,zz) || spawnParticles;
 					}
 				}
 			}
 		}
 
-		if (spawnParticles)worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE,aabb.minX+(aabb.maxX-aabb.minX)*rand.nextFloat(),aabb.minY+(aabb.maxY-aabb.minY)*rand.nextFloat(),aabb.minZ+(aabb.maxZ-aabb.minZ)*rand.nextFloat(),0D,0D,0D);
+		if (spawnParticles)worldObj.spawnParticle("largeexplode",aabb.minX+(aabb.maxX-aabb.minX)*rand.nextFloat(),aabb.minY+(aabb.maxY-aabb.minY)*rand.nextFloat(),aabb.minZ+(aabb.maxZ-aabb.minZ)*rand.nextFloat(),0D,0D,0D);
 		
 		return wasBlocked;
 	}
@@ -691,7 +692,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		nbt.setBoolean("angry",isAngry());
 		nbt.setShort("nat",(short)Math.max(120,nextAttackTicks));
 		nbt.setShort("dth",(short)deathTicks);
-		nbt.setShort("scd",(short)spawnCooldown);
+		nbt.setShort("scd",(short)Math.max(200,spawnCooldown));
 		nbt.setByte("load",loadTimer);
 
 		nbt.setTag("atk",attacks.writeToNBT());
@@ -742,15 +743,15 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public boolean canBeCollidedWith(){
 		return false;
 	}
-	
+
 	@Override
-	public World getWorld(){
+	public World func_82194_d(){ // OBFUSCATED get world obj
 		return worldObj;
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.dragon.name"));
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.dragon.name"));
 	}
 
 	@Override

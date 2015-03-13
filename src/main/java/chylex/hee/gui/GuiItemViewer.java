@@ -5,14 +5,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockList.BlockData;
+import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.item.ItemList;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiItemViewer extends GuiScreen{
@@ -64,7 +65,7 @@ public class GuiItemViewer extends GuiScreen{
 		
 		for(int a = yStart, xx = 0, yy = 0; a < toRender.size(); a++){
 			drawRect(2+xx*17,2+yy*17,1+(xx+1)*17,1+(yy+1)*17,(255<<24)|(180<<16)|(180<<8)|180);
-			Minecraft.getMinecraft().getRenderItem().renderItemIntoGUI(toRender.get(a),2+xx*17,2+yy*17);
+			GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(),toRender.get(a),2+xx*17,2+yy*17);
 			
 			if (++xx == 12){
 				++yy;

@@ -1,7 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
+import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
-import chylex.hee.system.util.Direction;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureBush extends AbstractIslandStructure{

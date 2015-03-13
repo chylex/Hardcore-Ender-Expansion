@@ -1,24 +1,23 @@
 package chylex.hee.block;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import chylex.hee.block.state.BlockAbstractStateEnum;
-import chylex.hee.block.state.PropertyEnumSimple;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
+import chylex.hee.proxy.ModCommonProxy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockObsidianSpecial extends BlockAbstractStateEnum implements IBlockSubtypes{	
+public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
+	@SideOnly(Side.CLIENT)
+	private IIcon iconSmooth, iconPillar, iconPillarTop, iconChiseled, iconChiseledTop;
+	
 	/*
 	 * Metadata
 	 *   0: smooth
@@ -30,52 +29,42 @@ public class BlockObsidianSpecial extends BlockAbstractStateEnum implements IBlo
 	 *   6: (chiseled) upward particle spawner - 5 blocks
 	 */
 	
-	public enum Variant{ SMOOTH, CHISELED, PILLAR_VERTICAL, PILLAR_NS, PILLAR_EW, SMOOTH_PARTICLES, CHISELED_PARTICLES }
-	public static final PropertyEnumSimple VARIANT = PropertyEnumSimple.create("variant",Variant.class);
-	
-	private static final Variant getDroppable(Variant variant){
-		switch(variant){
-			case SMOOTH_PARTICLES: return Variant.SMOOTH;
-			case CHISELED_PARTICLES: return Variant.CHISELED;
-			case PILLAR_EW:
-			case PILLAR_NS: return Variant.PILLAR_VERTICAL;
-			default: return variant;
-		}
-	}
-	
 	private final boolean isGlowing;
 	
 	public BlockObsidianSpecial(boolean isGlowing){
 		super(Material.rock);
 		this.isGlowing = isGlowing;
-		createSimpleMeta(VARIANT,Variant.class);
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side, int meta){
+		if (meta == 1 || meta == 6)return side == 1 ? iconChiseledTop : iconChiseled;
+		else if (meta >= 2 && meta <= 4)return (meta == 2 && (side == 0 || side == 1)) || (meta == 3 && (side == 4 || side == 5)) || (meta == 4 && (side == 2 || side == 3)) ? iconPillarTop : iconPillar;
+		return iconSmooth;
 	}
 	
 	@Override
-	public IProperty[] getPropertyArray(){
-		return new IProperty[]{ VARIANT };
+	public int onBlockPlaced(World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int meta){
+		return (meta == 2) ? (side == 0 || side == 1 ? 2 : side == 2 || side == 3 ? 4 : side == 4 || side == 5 ? 3 : meta) : meta;
 	}
 	
 	@Override
-	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer){
-		if (meta == Variant.PILLAR_VERTICAL.ordinal()){
-			switch(side.getAxis().ordinal()){
-				case 1: return setProperty(Variant.PILLAR_NS);
-				case 2: return setProperty(Variant.PILLAR_EW);
-				default: return setProperty(Variant.PILLAR_VERTICAL);
-			}
-		}
-		else return super.onBlockPlaced(world,pos,side,hitX,hitY,hitZ,meta,placer);
+	public int damageDropped(int meta){
+		return meta == 6 ? 1 : meta == 5 ? 0 : meta == 3 || meta == 4 ? 2 : meta;
 	}
 	
 	@Override
-	public int damageDropped(IBlockState state){
-		return getDroppable((Variant)state.getValue(VARIANT)).ordinal();
+	protected ItemStack createStackedBlock(int meta){
+		if (meta == 3 || meta == 4)return new ItemStack(this,1,2);
+		else if (meta == 5)return new ItemStack(this,1,0);
+		else if (meta == 6)return new ItemStack(this,1,1);
+		else return super.createStackedBlock(meta);
 	}
 	
 	@Override
-	protected ItemStack createStackedBlock(IBlockState state){
-		return new ItemStack(this,1,getDroppable((Variant)state.getValue(VARIANT)).ordinal());
+	public int getRenderType(){
+		return ModCommonProxy.renderIdObsidianSpecial;
 	}
 	
 	@Override
@@ -89,18 +78,18 @@ public class BlockObsidianSpecial extends BlockAbstractStateEnum implements IBlo
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand){
-		Variant variant = (Variant)state.getValue(VARIANT);
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+		int meta = world.getBlockMetadata(x,y,z);
 		
-		if (variant == Variant.SMOOTH_PARTICLES){
+		if (meta == 5){
 			for(int a = 0; a < 10; a++){
-				world.spawnParticle(EnumParticleTypes.PORTAL,pos.getX()+rand.nextFloat(),pos.getY()-4F*rand.nextFloat(),pos.getZ()+rand.nextFloat(),0D,0D,0D);
-				world.spawnParticle(EnumParticleTypes.SMOKE_LARGE,pos.getX()+rand.nextFloat(),pos.getY()-4F*rand.nextFloat(),pos.getZ()+rand.nextFloat(),0D,0D,0D);
+				world.spawnParticle("portal",(x+rand.nextFloat()),(y-4F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
+				world.spawnParticle("largesmoke",(x+rand.nextFloat()),(y-4F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
 			}
 		}
-		else if (variant == Variant.CHISELED_PARTICLES){
+		else if (meta == 6){
 			for(int a = 0; a < 30; a++){
-				world.spawnParticle(EnumParticleTypes.PORTAL,pos.getX()+rand.nextFloat(),pos.getY()+5F*rand.nextFloat(),pos.getZ()+rand.nextFloat(),0D,0D,0D);
+				world.spawnParticle("portal",(x+rand.nextFloat()),(y+5F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
 			}
 		}
 	}
@@ -109,8 +98,18 @@ public class BlockObsidianSpecial extends BlockAbstractStateEnum implements IBlo
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		list.add(new ItemStack(item,1,Variant.SMOOTH.ordinal()));
-		list.add(new ItemStack(item,1,Variant.CHISELED.ordinal()));
-		list.add(new ItemStack(item,1,Variant.PILLAR_VERTICAL.ordinal()));
+		list.add(new ItemStack(item,1,0));
+		list.add(new ItemStack(item,1,1));
+		list.add(new ItemStack(item,1,2));
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister){
+		iconSmooth = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_smooth");
+		iconPillar = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_pillar");
+		iconPillarTop = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_pillar_top");
+		iconChiseled = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_chiseled");
+		iconChiseledTop = iconRegister.registerIcon("hardcoreenderexpansion:obsidian_chiseled_top");
 	}
 }

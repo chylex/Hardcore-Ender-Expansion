@@ -6,7 +6,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -34,22 +33,20 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.Constants;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockList;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.IItemSelector;
-import chylex.hee.system.util.MathUtil;
 
-public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo, IOldTargetAI{
+public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
 	private EntityPlayer target;
 	private final List<ItemPriorityLevel> itemPriorities = new ArrayList<>();
 	private ItemPriorityLevel carryingLevel = ItemPriorityLevel.RANDOM;
@@ -58,7 +55,6 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	public EntityMobBabyEnderman(World world){
 		super(world);
-		EntityAIOldTarget.insertOldAI(this);
 		setSize(0.5F,1.26F);
 		stepHeight = 1F;
 		
@@ -86,8 +82,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	}
 	
 	@Override
-	public EntityLivingBase findEntityToAttack(){
-		return getAttackTarget();
+	protected Entity findPlayerToAttack(){
+		return entityToAttack;
 	}
 	
 	@Override
@@ -98,8 +94,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		
 		isJumping = false;
 
-		if (getAttackTarget() != null){
-			faceEntity(getAttackTarget(),100F,100F);
+		if (entityToAttack != null){
+			faceEntity(entityToAttack,100F,100F);
 		}
 		
 		boolean hasIS = isCarrying();
@@ -180,35 +176,36 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 					}
 					
 					PathEntity escapePath = null;
-					BlockPosM pos = new BlockPosM();
-					
-					for(int pathatt = 0; pathatt < 100; pathatt++){
+					for(int pathatt = 0,xx,yy,zz; pathatt < 100; pathatt++){
 						double ang = rand.nextDouble()*2D*Math.PI,len = 8D+rand.nextDouble()*6D;
-						pos.moveTo(this).moveBy(MathUtil.floor(Math.cos(ang)*len),rand.nextInt(4)-2,MathUtil.floor(Math.sin(ang)*len));
-						Block low = pos.getBlock(worldObj);
+						xx = (int)(posX+Math.cos(ang)*len);
+						yy = (int)(posY+rand.nextInt(4)-2);
+						zz = (int)(posZ+Math.sin(ang)*len);
 						
-						if ((low.getMaterial() == Material.air || low == BlockList.crossed_decoration) && pos.moveUp().isAir(worldObj)){
-							escapePath = navigator.getPathToXYZ(pos.x+0.5D,pos.y,pos.z+0.5D);
+						Block low = worldObj.getBlock(xx,yy,zz);
+						if ((low.getMaterial() == Material.air || low == BlockList.crossed_decoration) && worldObj.getBlock(xx,yy+1,zz).getMaterial() == Material.air){
+							escapePath = worldObj.getEntityPathToXYZ(this,xx,yy,zz,16F,false,true,false,false);
 							break;
 						}
 					}
 					
-					if (escapePath != null)navigator.setPath(escapePath,1D);
+					if (escapePath != null)setPathToEntity(escapePath);
 					target = null;
 				}
 			}
 
-			setAttackTarget(target);
+			entityToAttack = target;
 		}
 
 		super.onLivingUpdate();
 	}
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float damage){
-		boolean flag = super.attackEntityFrom(source,damage);
-
-		if (flag && !isFamilyChosen && !worldObj.isRemote && source.damageType.equals("player")){
+	public boolean attackEntityFrom(DamageSource source, float amount){
+		boolean flag = super.attackEntityFrom(source,amount);
+		if (flag)CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
+		
+		if (flag && !isFamilyChosen && !worldObj.isRemote && source.getEntity() instanceof EntityPlayer){
 			List<EntityEnderman> endermanList = worldObj.getEntitiesWithinAABB(EntityEnderman.class,boundingBox.expand(32D,32D,32D));			
 			Collections.sort(endermanList,new DistanceComparator(this));
 			
@@ -217,7 +214,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 				EntityEnderman orig = endermanList.get(a);
 				EntityMobAngryEnderman angryEnderman = new EntityMobAngryEnderman(worldObj,orig.posX,orig.posY,orig.posZ);
 				angryEnderman.copyLocationAndAnglesFrom(orig);
-				angryEnderman.setAttackTarget((EntityLivingBase)source.getEntity());
+				angryEnderman.setTarget(source.getEntity());
 				
 				orig.setDead();
 				worldObj.spawnEntityInWorld(angryEnderman);
@@ -226,7 +223,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 			isFamilyChosen = isScared = true;
 		}
 		
-		setAttackTarget(null);
+		entityToAttack = null;
+		
 		return flag;
 	}
 	
@@ -257,7 +255,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	protected boolean isValidLightLevel(){
-		return worldObj.provider.getDimensionId() == 1?true:super.isValidLightLevel();
+		return worldObj.provider.dimensionId == 1?true:super.isValidLightLevel();
 	}
 	
 	@Override
@@ -333,8 +331,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.babyEnderman.name"));
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.babyEnderman.name"));
 	}
 }
 
@@ -418,7 +416,7 @@ enum ItemPriorityLevel{
 	
 	FOOD(new IItemSelector(){
 		@Override public boolean isValid(ItemStack is){
-			return is.getItemUseAction() == EnumAction.EAT;
+			return is.getItemUseAction() == EnumAction.eat;
 		}
 	}),
 	
@@ -435,7 +433,7 @@ enum ItemPriorityLevel{
 			if (!(item instanceof ItemBlock))return false;
 			
 			Block block = Block.getBlockFromItem(item);
-			return block == BlockList.death_flower || (block == BlockList.crossed_decoration && is.getItemDamage() == BlockCrossedDecoration.Variant.LILYFIRE.ordinal());
+			return block == BlockList.death_flower || (block == BlockList.crossed_decoration && is.getItemDamage() == BlockCrossedDecoration.dataLilyFire);
 		}
 	}),
 	

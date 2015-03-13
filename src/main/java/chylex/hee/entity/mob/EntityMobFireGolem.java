@@ -15,18 +15,15 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityMobFireGolem extends EntityMob implements IOldTargetAI{
+public class EntityMobFireGolem extends EntityMob{
 	private static final UUID cancelMovementModifierUUID = UUID.fromString("7107DE5E-7CE8-4030-940E-514C1F160890");
 	private static final AttributeModifier cancelMovement = new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2).setSaved(false);
 	
@@ -34,7 +31,6 @@ public class EntityMobFireGolem extends EntityMob implements IOldTargetAI{
 	
 	public EntityMobFireGolem(World world){
 		super(world);
-		EntityAIOldTarget.insertOldAI(this);
 		setSize(0.9F,1.4F);
 		isImmuneToFire = true;
 		experienceValue = 8;
@@ -49,15 +45,14 @@ public class EntityMobFireGolem extends EntityMob implements IOldTargetAI{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(22D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.55D);
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 42D : 24D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs ? 4D : 2D);
 	}
 	
 	@Override
-	public EntityLivingBase findEntityToAttack(){
-		EntityPlayer player = worldObj.getClosestPlayerToEntity(this,22D);
+	protected Entity findPlayerToAttack(){
+		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,28D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 
@@ -79,8 +74,8 @@ public class EntityMobFireGolem extends EntityMob implements IOldTargetAI{
 		}
 		else{
 			getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(cancelMovement);
+			
 			if (teleportCooldown > 0)--teleportCooldown;
-			EntityLivingBase entityToAttack = getAttackTarget();
 			
 			if (entityToAttack != null){
 				double dist = MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ);
@@ -133,19 +128,22 @@ public class EntityMobFireGolem extends EntityMob implements IOldTargetAI{
 			teleportCooldown = 45;
 
 			Vec3 look = getLookVec();
-			double xx, yy, zz;
-			BlockPosM testPos = new BlockPosM();
+			double xx,yy,zz;
 			
-			for(int attempt = 0; attempt < 300; attempt++){
+			for(int attempt = 0,ix,iy,iz; attempt < 300; attempt++){
 				xx = posX+look.xCoord*3F+rand.nextDouble()*18D-9D;
 				yy = posY+rand.nextDouble()*8D-4D;
 				zz = posZ+look.zCoord*3F+rand.nextDouble()*18D-9D;
 				
 				if (Math.pow(xx-posX,2)+Math.pow(yy-posY,2)+Math.pow(zz-posZ,2) < 30)continue;
 				
-				if (!testPos.moveTo(xx,yy,zz).moveDown().isAir(worldObj) && testPos.moveUp().isAir(worldObj) && testPos.moveUp().isAir(worldObj)){
+				ix = MathUtil.floor(xx);
+				iy = MathUtil.floor(yy);
+				iz = MathUtil.floor(zz);
+				
+				if (!worldObj.isAirBlock(ix,iy-1,iz) && worldObj.isAirBlock(ix,iy,iz) && worldObj.isAirBlock(ix,iy+1,iz)){
 					setPosition(xx,yy,zz);
-					if (getAttackTarget() != null)faceEntity(getAttackTarget(),360F,360F);
+					if (entityToAttack != null)faceEntity(entityToAttack,360F,360F);
 					playSound("mob.endermen.portal",1F,1.1F);
 					return false;
 				}
@@ -153,7 +151,7 @@ public class EntityMobFireGolem extends EntityMob implements IOldTargetAI{
 		}
 		
 		if (super.attackEntityFrom(source,damage)){
-			if (getAttackTarget() instanceof IBossDisplayData)setAttackTarget(null);
+			if (entityToAttack instanceof IBossDisplayData)entityToAttack = null;
 			return true;
 		}
 		return false;
@@ -187,11 +185,11 @@ public class EntityMobFireGolem extends EntityMob implements IOldTargetAI{
 	
 	@Override
 	protected boolean isValidLightLevel(){
-		return worldObj.provider.getDimensionId() == 1 || super.isValidLightLevel();
+		return worldObj.provider.dimensionId == 1 || super.isValidLightLevel();
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.fireGolem.name");
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal("entity.fireGolem.name");
 	}
 }

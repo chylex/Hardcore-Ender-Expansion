@@ -13,8 +13,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.proxy.ModCommonProxy;
@@ -25,6 +23,8 @@ import chylex.hee.render.entity.RenderMobEnderman;
 import chylex.hee.render.entity.RenderMobHomelandEnderman;
 import chylex.hee.render.entity.RenderMobInfestedBat;
 import chylex.hee.render.entity.RenderMobParalyzedEnderman;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public final class Baconizer{
 	private static final Pattern lcword = Pattern.compile("\\b([a-z]+?)\\b",Pattern.MULTILINE),
@@ -38,7 +38,7 @@ public final class Baconizer{
 	public static void load(){
 		if (!ModCommonProxy.hardcoreEnderbacon)return;
 		
-		Blocks.end_stone.setUnlocalizedName("baconStone");
+		Blocks.end_stone.setBlockName("baconStone");
 		
 		baconizeBlocks(new Block[]{
 			BlockList.end_powder_ore,
@@ -74,7 +74,7 @@ public final class Baconizer{
 	}
 	
 	private static void baconizeBlocks(Block[] blocks){
-		for(Block block:blocks)block.setUnlocalizedName(block.getUnlocalizedName().substring(5)+".bacon");
+		for(Block block:blocks)block.setBlockName(block.getUnlocalizedName().substring(5)+".bacon");
 	}
 	
 	private static void baconizeItems(Item[] items){

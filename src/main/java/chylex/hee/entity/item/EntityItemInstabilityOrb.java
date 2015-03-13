@@ -22,7 +22,6 @@ import chylex.hee.system.util.DragonUtil;
 public class EntityItemInstabilityOrb extends EntityItem{
 	private boolean isTntNearby = false;
 	private boolean canExplode = true;
-	private int age;
 	
 	public EntityItemInstabilityOrb(World world){
 		super(world);
@@ -35,7 +34,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			ItemStack newIS = is.copy();
 			newIS.stackSize = 1;
 			EntityItem item = new EntityItemInstabilityOrb(world,x,y,z,newIS);
-			item.setPickupDelay(40);
+			item.delayBeforeCanPickup = 40;
 			world.spawnEntityInWorld(item);
 		}
 		
@@ -100,7 +99,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			
 			EntityItem entityitem = new EntityItem(worldObj,posX,posY,posZ,new ItemStack(item.getItem(),1,meta));
 			entityitem.motionX = entityitem.motionY = entityitem.motionZ = 0D;
-			entityitem.setDefaultPickupDelay();
+			entityitem.delayBeforeCanPickup = 10;
 			worldObj.spawnEntityInWorld(entityitem);
 			
 			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ORB_TRANSFORMATION,posX,posY,posZ,0.25F,0.4F));
@@ -128,13 +127,11 @@ public class EntityItemInstabilityOrb extends EntityItem{
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
 		nbt.setBoolean("canExplode",canExplode);
-		nbt.setInteger("HEE_age",age);
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
 		canExplode = nbt.getBoolean("canExplode");
-		age = nbt.getInteger("HEE_age");
 	}
 }

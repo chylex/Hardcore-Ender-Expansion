@@ -3,19 +3,19 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.item.ItemBiomeCompass;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class TextureBiomeCompass extends TextureAtlasSprite{
 	public double currentAngle;
 	public double angleDelta;
 	private double lastSavedX,lastSavedZ;
-	private BlockPosM cachedCoords;
+	private ChunkCoordinates cachedCoords;
 	private byte cachedBiomeId;
 
 	public TextureBiomeCompass(String iconName){
@@ -51,17 +51,17 @@ public class TextureBiomeCompass extends TextureAtlasSprite{
 				else if (MathUtil.square(x-lastSavedX)+MathUtil.square(z-lastSavedZ) > 230)cachedCoords = null;
 				
 				if (cachedCoords == null && cachedBiomeId != -1 && !ItemBiomeCompass.locations.isEmpty()){
-					Set<BlockPosM> coords = ItemBiomeCompass.locations.get(cachedBiomeId);
+					Set<ChunkCoordinates> coords = ItemBiomeCompass.locations.get(cachedBiomeId);
 					double minDist = Double.MAX_VALUE, dist;
 					
-					for(BlockPosM coord:coords){
+					for(ChunkCoordinates coord:coords){
 						if (minDist == Double.MAX_VALUE){
 							cachedCoords = coord;
-							minDist = MathUtil.square(coord.x-x)+MathUtil.square(coord.z-z);
+							minDist = MathUtil.square(coord.posX-x)+MathUtil.square(coord.posZ-z);
 							continue;
 						}
 						
-						dist = MathUtil.square(coord.x-x)+MathUtil.square(coord.z-z);
+						dist = MathUtil.square(coord.posX-x)+MathUtil.square(coord.posZ-z);
 						if (dist < minDist){
 							cachedCoords = coord;
 							minDist = dist;
@@ -72,10 +72,10 @@ public class TextureBiomeCompass extends TextureAtlasSprite{
 					lastSavedZ = z;
 				}
 				
-				if (cachedCoords == null || world.provider.getDimensionId() != 1)angle = Math.random()*Math.PI*2D;
+				if (cachedCoords == null || world.provider.dimensionId != 1)angle = Math.random()*Math.PI*2D;
 				else{
 					yaw %= 360D;
-					angle = -MathUtil.toRad((yaw-90D)-Math.atan2(cachedCoords.z-z,cachedCoords.x-x));
+					angle = -((yaw-90D)*Math.PI/180D-Math.atan2(cachedCoords.posZ-z,cachedCoords.posX-x));
 				}
 			}
 

@@ -1,21 +1,26 @@
 package chylex.hee.world.structure.island.biome;
 import java.util.Random;
 import net.minecraft.stats.Achievement;
-import chylex.hee.block.BlockBiomeIslandCore.Biome;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.EntityMobHauntedMiner;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
+import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorBurningMountains;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeBurningMountains extends IslandBiomeBase{
-	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(Biome.BURNING_MOUNTAINS_SCORCHING.ordinal(), 8);
-	public static final BiomeContentVariation MINE = new BiomeContentVariation(Biome.BURNING_MOUNTAINS_MINE.ordinal(), 6);
+	public static final BiomeContentVariation SCORCHING = new BiomeContentVariation(1,8);
+	public static final BiomeContentVariation MINE = new BiomeContentVariation(5,6);
+	
+	public static final BiomeRandomDeviation EXCESSIVE_CINDER = new BiomeRandomDeviation("ExcessiveCinder", SCORCHING);
+	public static final BiomeRandomDeviation SINGLE_LAVA_ONLY = new BiomeRandomDeviation("SingleLava", SCORCHING);
+	public static final BiomeRandomDeviation LIMITED_ORES = new BiomeRandomDeviation("LimitedOres", MINE);
+	public static final BiomeRandomDeviation DEEP_RESOURCE_PITS = new BiomeRandomDeviation("DeepResPits", MINE);
 	
 	private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
 	
@@ -24,6 +29,11 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 		
 		contentVariations.add(SCORCHING);
 		contentVariations.add(MINE);
+		
+		randomDeviations.add(EXCESSIVE_CINDER);
+		randomDeviations.add(SINGLE_LAVA_ONLY);
+		randomDeviations.add(LIMITED_ORES);
+		randomDeviations.add(DEEP_RESOURCE_PITS);
 		
 		getSpawnEntries(SCORCHING).addAll(new SpawnEntry[]{
 			new SpawnEntry(EntityMobFireGolem.class,14,10),
@@ -77,7 +87,7 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	}
 	
 	@Override
-	public BlockEndstoneTerrain.Variant getTopBlockVariant(){
-		return BlockEndstoneTerrain.Variant.BURNED;
+	public int getTopBlockMeta(){
+		return BlockEndstoneTerrain.metaBurned;
 	}
 }

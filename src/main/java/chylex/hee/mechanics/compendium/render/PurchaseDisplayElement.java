@@ -1,7 +1,9 @@
 package chylex.hee.mechanics.compendium.render;
+import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
@@ -14,12 +16,14 @@ public class PurchaseDisplayElement{
 	public final int price;
 	private final FragmentPurchaseStatus status;
 	private final int y;
+	public final boolean fragmentHasRedirect;
 	
 	public PurchaseDisplayElement(KnowledgeFragment fragment, int y, FragmentPurchaseStatus status){
 		this.object = fragment;
 		this.price = fragment.getPrice();
 		this.y = y;
 		this.status = status;
+		this.fragmentHasRedirect = fragment.getUnlockRedirect() != null;
 	}
 	
 	public PurchaseDisplayElement(KnowledgeObject<?> object, int y, FragmentPurchaseStatus status){
@@ -27,6 +31,7 @@ public class PurchaseDisplayElement{
 		this.price = object.getUnlockPrice();
 		this.y = y;
 		this.status = status;
+		this.fragmentHasRedirect = false;
 	}
 	
 	public void render(GuiScreen gui, int mouseX, int mouseY, int pageCenterX){
@@ -41,23 +46,33 @@ public class PurchaseDisplayElement{
 		gui.drawTexturedModalRect(pageCenterX-27,y-14,155,0,54,26);
 		
 		RenderHelper.enableGUIStandardItemLighting();
-		gui.mc.getRenderItem().renderItemIntoGUI(GuiEnderCompendium.knowledgeFragmentIS,pageCenterX-22,y-10);
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),GuiEnderCompendium.knowledgeFragmentIS,pageCenterX-22,y-10);
 		RenderHelper.disableStandardItemLighting();
 		
 		String price = status == FragmentPurchaseStatus.NOT_BUYABLE ? "---" : String.valueOf(this.price);
 		int color = status == FragmentPurchaseStatus.CAN_PURCHASE ? 0x404040 :
 					(status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED || status == FragmentPurchaseStatus.NOT_BUYABLE) ? 0x888888 :
 					status == FragmentPurchaseStatus.NOT_ENOUGH_POINTS ? 0xdd2020 : 0;
-		gui.mc.fontRendererObj.drawString(price,pageCenterX-gui.mc.fontRendererObj.getStringWidth(price)+20,y-5,color);
+		gui.mc.fontRenderer.drawString(price,pageCenterX-gui.mc.fontRenderer.getStringWidth(price)+20,y-5,color);
 		
-		if (object.getClass() == KnowledgeObject.class){
+		if (object instanceof KnowledgeObject){
 			String name = ((KnowledgeObject)object).getTooltip();
-			gui.mc.fontRendererObj.drawString(name,pageCenterX-(gui.mc.fontRendererObj.getStringWidth(name)>>1),y-25,0x404040);
+			List<String> parsed = gui.mc.fontRenderer.listFormattedStringToWidth(name,GuiEnderCompendium.guiPageWidth);
+			
+			for(int a = 0, yy = y-25-(parsed.size()-1)*gui.mc.fontRenderer.FONT_HEIGHT; a < parsed.size(); a++){
+				gui.mc.fontRenderer.drawString(parsed.get(a),pageCenterX-(gui.mc.fontRenderer.getStringWidth(parsed.get(a))>>1),yy,0x404040);
+				yy += gui.mc.fontRenderer.FONT_HEIGHT;
+			}
 		}
 		else if (isMouseOver(mouseX,mouseY,pageCenterX-3)){
-			String tooltip = status == FragmentPurchaseStatus.NOT_BUYABLE ? "ec.help.nonbuyable" :
-							 status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED ? "ec.help.requirements" : null;
-			if (tooltip != null)GuiItemRenderHelper.setupTooltip(mouseX,mouseY,I18n.format(tooltip));
+			if (status == FragmentPurchaseStatus.NOT_BUYABLE){
+				String tooltip = I18n.format("compendium.nonBuyable");
+				if (fragmentHasRedirect)tooltip = new StringBuilder(tooltip).append('\n').append(EnumChatFormatting.DARK_PURPLE).append(I18n.format("compendium.viewObject")).append(' ').append(((KnowledgeFragment)object).getUnlockRedirect().getTooltip()).toString();
+				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,tooltip);
+			}
+			else if (status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED){
+				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,I18n.format("compendium.unfulfilledRequirements"));
+			}
 		}
 	}
 	
@@ -65,7 +80,7 @@ public class PurchaseDisplayElement{
 		return mouseX >= (pageCenterX+3)-27 && mouseY >= y-14 && mouseX <= (pageCenterX+3)+27 && mouseY <= y+12;
 	}
 	
-	public boolean canBePurchased(){
-		return status == FragmentPurchaseStatus.CAN_PURCHASE;
+	public FragmentPurchaseStatus getStatus(){
+		return status;
 	}
 }

@@ -1,22 +1,21 @@
 package chylex.hee.item;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Facing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
@@ -32,7 +31,8 @@ import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
-import chylex.hee.system.util.BlockPosM;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSpawnEggs extends ItemMonsterPlacer{
 	private static final EggData[] eggTypes = new EggData[]{
@@ -93,14 +93,18 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	}
 	
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (world.isRemote)return true;
-		
+
+		Block block = world.getBlock(x,y,z);
+		x += Facing.offsetsXForSide[side];
+		y += Facing.offsetsYForSide[side];
+		z += Facing.offsetsZForSide[side];
+
 		EggData egg = getEggData(is);
-		
 		if (egg != null){
-			pos = pos.offset(side);
-			egg.spawnMob(world,pos.getX()+0.5D,pos.getY(),pos.getZ()+0.5D,is);
+			egg.spawnMob(world,x+0.5D,y+(side == 1 && block != null && block.getRenderType() == 11?0.5D:0D),z+0.5D,is);
+			
 			if (!player.capabilities.isCreativeMode)--is.stackSize;
 		}
 
@@ -114,15 +118,15 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world,player,true);
 		
 		if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
-			BlockPosM pos = new BlockPosM(mop.getBlockPos());
-			
-			if (!player.canPlayerEdit(pos,mop.sideHit,is))return is;
+			int x = mop.blockX,y = mop.blockY,z = mop.blockZ;
 
-			if (pos.getBlockMaterial(world) == Material.water){
+			if (!world.canMineBlock(player,x,y,z) || !player.canPlayerEdit(x,y,z,mop.sideHit,is))return is;
+
+			if (world.getBlock(x,y,z).getMaterial() == Material.water){
 				EggData egg = getEggData(is);
-				
 				if (egg != null){
-					egg.spawnMob(world,mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord,is);
+					egg.spawnMob(world,x,y,z,is);
+					
 					if (!player.capabilities.isCreativeMode)--is.stackSize;
 				}
 			}
@@ -171,7 +175,7 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 			e.setLocationAndAngles(x,y,z,MathHelper.wrapAngleTo180_float(itemRand.nextFloat()*360F),0F);
 			e.rotationYawHead = e.rotationYaw;
 			e.renderYawOffset = e.rotationYaw;
-			e.onSpawnFirstTime(world.getDifficultyForLocation(new BlockPosM(x,y,z)),null);
+			e.onSpawnWithEgg((IEntityLivingData)null);
 			world.spawnEntityInWorld(e);
 			e.playLivingSound();
 			

@@ -1,12 +1,11 @@
 package chylex.hee.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiVoidChest extends GuiContainer{
@@ -16,8 +15,8 @@ public class GuiVoidChest extends GuiContainer{
 	private final IInventory invVoidChest;
 	private final byte inventoryHeight;
 	
-	public GuiVoidChest(IInventory inventory, IInventory chest, EntityPlayer player){
-		super(new ContainerVoidChest(inventory,chest,player));
+	public GuiVoidChest(IInventory inventory, IInventory chest){
+		super(new ContainerVoidChest(inventory,chest));
 		this.invPlayer = inventory;
 		this.invVoidChest = chest;
 		allowUserInput = false;
@@ -27,8 +26,8 @@ public class GuiVoidChest extends GuiContainer{
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		fontRendererObj.drawString(invVoidChest.hasCustomName() ? invVoidChest.getDisplayName().getUnformattedText() : I18n.format(invVoidChest.getDisplayName().getUnformattedText()),8,6,4210752);
-		fontRendererObj.drawString(invPlayer.hasCustomName() ? invPlayer.getDisplayName().getUnformattedText() : I18n.format(invPlayer.getDisplayName().getUnformattedText()),8,ySize-94,4210752);
+		fontRendererObj.drawString(invVoidChest.hasCustomInventoryName() ? invVoidChest.getInventoryName() : I18n.format(invVoidChest.getInventoryName()),8,6,4210752);
+		fontRendererObj.drawString(invPlayer.hasCustomInventoryName() ? invPlayer.getInventoryName() : I18n.format(invPlayer.getInventoryName()),8,ySize-94,4210752);
 	}
 
 	@Override

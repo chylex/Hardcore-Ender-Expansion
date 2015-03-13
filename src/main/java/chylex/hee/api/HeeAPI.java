@@ -1,34 +1,38 @@
 package chylex.hee.api;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.LoaderState;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.LoaderState;
 
 /**
- * Main API class that contains and provides specific API instances.
+ * DO NOT USE, WILL BE REMOVED IN FAVOR OF http://hee-api.chylex.com/
  */
+@Deprecated
 public final class HeeAPI{
 	private static final EssenceAPI essenceAPI = new EssenceAPI();
 	private static final WorldAPI worldAPI = new WorldAPI();
 	private static final DecompositionAPI decompositionAPI = new DecompositionAPI();
 	
 	/**
-	 * @return API instance for Essences and Essence Altars.
+	 * DO NOT USE, WILL BE REMOVED IN FAVOR OF http://hee-api.chylex.com/
 	 */
+	@Deprecated
 	public static EssenceAPI essence(){
 		validate();
 		return essenceAPI;
 	}
 	
 	/**
-	 * @return API instance for loot and new biomes in the End.
+	 * DO NOT USE, WILL BE REMOVED IN FAVOR OF http://hee-api.chylex.com/
 	 */
+	@Deprecated
 	public static WorldAPI world(){
 		validate();
 		return worldAPI;
 	}
 	
 	/**
-	 * @return  API instance for Stardust and Decomposition Table.
+	 * DO NOT USE, WILL BE REMOVED IN FAVOR OF http://hee-api.chylex.com/
 	 */
+	@Deprecated
 	public static DecompositionAPI decomposition(){
 		validate();
 		return decompositionAPI;

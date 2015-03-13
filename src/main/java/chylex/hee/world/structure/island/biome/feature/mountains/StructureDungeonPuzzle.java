@@ -1,12 +1,10 @@
 package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Vec3;
 import chylex.hee.block.BlockDungeonPuzzle;
-import chylex.hee.block.BlockDungeonPuzzle.Variant;
 import chylex.hee.block.BlockList;
-import chylex.hee.system.util.Direction;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.island.gen.CaveGenerator;
@@ -82,13 +80,13 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 				boolean genRock = posY > yy && posY < yy+4;
 				
 				for(int posX = xx-distX; posX <= xx+distX; posX++){
-					world.setBlock(posX,posY,zz-distZ,BlockList.dungeon_puzzle.setProperty(genRock && rand.nextInt(24) == 0 ? Variant.ROCK : Variant.WALL));
-					world.setBlock(posX,posY,zz+distZ,BlockList.dungeon_puzzle.setProperty(genRock && rand.nextInt(24) == 0 ? Variant.ROCK : Variant.WALL));
+					world.setBlock(posX,posY,zz-distZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(24) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
+					world.setBlock(posX,posY,zz+distZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(24) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
 				}
 				
 				for(int posZ = zz-distZ; posZ <= zz+distZ; posZ++){
-					world.setBlock(xx-distX,posY,posZ,BlockList.dungeon_puzzle.setProperty(genRock && rand.nextInt(24) == 0 ? Variant.ROCK : Variant.WALL));
-					world.setBlock(xx+distX,posY,posZ,BlockList.dungeon_puzzle.setProperty(genRock && rand.nextInt(24) == 0 ? Variant.ROCK : Variant.WALL));
+					world.setBlock(xx-distX,posY,posZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(24) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
+					world.setBlock(xx+distX,posY,posZ,BlockList.dungeon_puzzle,genRock && rand.nextInt(24) == 0 ? BlockDungeonPuzzle.metaRock : BlockDungeonPuzzle.metaWall);
 				}
 				
 				if (posY > yy && posY < yy+4){
@@ -102,16 +100,14 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 			
 			// generate basic floor and ceiling
 			
-			Variant tmpVar;
-			
-			for(int posX = xx-distX+1; posX <= xx+distX-1; posX++){
+			for(int posX = xx-distX+1, meta; posX <= xx+distX-1; posX++){
 				for(int posZ = zz-distZ+1; posZ <= zz+distZ-1; posZ++){
-					world.setBlock(posX,yy+4,posZ,BlockList.dungeon_puzzle.setProperty(Variant.CEILING));
+					world.setBlock(posX,yy+4,posZ,BlockList.dungeon_puzzle,BlockDungeonPuzzle.metaCeiling);
 					
-					if (posX == xx-distX+1 || posX == xx+distX-1 || posZ == zz-distZ+1 || posZ == zz+distZ-1)tmpVar = pickBlock(Variant.CHAINED_UNLIT,rand);
-					else tmpVar = pickBlock(Variant.TRIGGER_UNLIT,rand);
+					if (posX == xx-distX+1 || posX == xx+distX-1 || posZ == zz-distZ+1 || posZ == zz+distZ-1)meta = pickBlock(BlockDungeonPuzzle.metaChainedUnlit,rand);
+					else meta = pickBlock(BlockDungeonPuzzle.metaTriggerUnlit,rand);
 					
-					world.setBlock(posX,yy,posZ,BlockList.dungeon_puzzle.setProperty(tmpVar));
+					world.setBlock(posX,yy,posZ,BlockList.dungeon_puzzle,meta);
 				}
 			}
 			
@@ -127,41 +123,41 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 					posZ = rand.nextBoolean() ? zz+distZ-1 : zz-distZ+1;
 				}
 				
-				world.setBlock(posX,yy,posZ,BlockList.dungeon_puzzle.setProperty(pickBlock(Variant.TRIGGER_UNLIT,rand)));
+				world.setBlock(posX,yy,posZ,BlockList.dungeon_puzzle,pickBlock(BlockDungeonPuzzle.metaTriggerUnlit,rand));
 			}
 			
 			boolean[] foundTriggerable = new boolean[4];
 			
 			for(int posX = xx-distX+1, meta; posX <= xx+distX-1; posX++){
-				if (getVariant(world.getBlockState(posX,yy,zz-distZ+1)).getUnlit() == Variant.TRIGGER_UNLIT)foundTriggerable[0] = true;
-				if (getVariant(world.getBlockState(posX,yy,zz+distZ-1)).getUnlit() == Variant.TRIGGER_UNLIT)foundTriggerable[1] = true;
+				if (BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,zz-distZ+1)) == BlockDungeonPuzzle.metaTriggerUnlit)foundTriggerable[0] = true;
+				if (BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,zz+distZ-1)) == BlockDungeonPuzzle.metaTriggerUnlit)foundTriggerable[1] = true;
 			}
 			
 			for(int posZ = zz-distZ+1, meta; posZ <= zz+distZ-1; posZ++){
-				if (getVariant(world.getBlockState(xx-distX+1,yy,posZ)).getUnlit() == Variant.TRIGGER_UNLIT)foundTriggerable[2] = true;
-				if (getVariant(world.getBlockState(xx+distX-1,yy,posZ)).getUnlit() == Variant.TRIGGER_UNLIT)foundTriggerable[3] = true;
+				if (BlockDungeonPuzzle.getUnlit(world.getMetadata(xx-distX+1,yy,posZ)) == BlockDungeonPuzzle.metaTriggerUnlit)foundTriggerable[2] = true;
+				if (BlockDungeonPuzzle.getUnlit(world.getMetadata(xx+distX-1,yy,posZ)) == BlockDungeonPuzzle.metaTriggerUnlit)foundTriggerable[3] = true;
 			}
 			
-			if (!foundTriggerable[0])world.setBlock(xx+rand.nextInt(distX*2+1)-distX,yy,zz-distZ+1,BlockList.dungeon_puzzle.setProperty(pickBlock(Variant.TRIGGER_UNLIT,rand)));
-			if (!foundTriggerable[1])world.setBlock(xx+rand.nextInt(distX*2+1)-distX,yy,zz+distZ-1,BlockList.dungeon_puzzle.setProperty(pickBlock(Variant.TRIGGER_UNLIT,rand)));
-			if (!foundTriggerable[2])world.setBlock(xx-distX+1,yy,zz+rand.nextInt(distZ*2+1)-distZ,BlockList.dungeon_puzzle.setProperty(pickBlock(Variant.TRIGGER_UNLIT,rand)));
-			if (!foundTriggerable[3])world.setBlock(xx+distX-1,yy,zz+rand.nextInt(distZ*2+1)-distZ,BlockList.dungeon_puzzle.setProperty(pickBlock(Variant.TRIGGER_UNLIT,rand)));
+			if (!foundTriggerable[0])world.setBlock(xx+rand.nextInt(distX*2+1)-distX,yy,zz-distZ+1,BlockList.dungeon_puzzle,pickBlock(BlockDungeonPuzzle.metaTriggerUnlit,rand));
+			if (!foundTriggerable[1])world.setBlock(xx+rand.nextInt(distX*2+1)-distX,yy,zz+distZ-1,BlockList.dungeon_puzzle,pickBlock(BlockDungeonPuzzle.metaTriggerUnlit,rand));
+			if (!foundTriggerable[2])world.setBlock(xx-distX+1,yy,zz+rand.nextInt(distZ*2+1)-distZ,BlockList.dungeon_puzzle,pickBlock(BlockDungeonPuzzle.metaTriggerUnlit,rand));
+			if (!foundTriggerable[3])world.setBlock(xx+distX-1,yy,zz+rand.nextInt(distZ*2+1)-distZ,BlockList.dungeon_puzzle,pickBlock(BlockDungeonPuzzle.metaTriggerUnlit,rand));
 			
 			// generate distributors
 			
-			for(int amt = 3+rand.nextInt(4+rand.nextInt(xSize*zSize > 90 ? 5 : 3)), distrAttempt = amt*3, posX, posZ, type; distrAttempt > 0 && amt > 0; distrAttempt--){
+			for(int amt = 3+rand.nextInt(4+rand.nextInt(xSize*zSize > 90 ? 5 : 3)), distrAttempt = amt*3, posX, posZ, meta, type; distrAttempt > 0 && amt > 0; distrAttempt--){
 				posX = xx+rand.nextInt(distX*2+1)-distX;
 				posZ = zz+rand.nextInt(distZ*2+1)-distZ;
-				tmpVar = getVariant(world.getBlockState(posX,yy,posZ)).getUnlit();
+				meta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,posZ));
 				type = rand.nextInt(2); // 0 = spread, 1 = square
 				
-				if (tmpVar == Variant.TRIGGER_UNLIT || (tmpVar == Variant.CHAINED_UNLIT && rand.nextInt(5) > 2)){
+				if (meta == BlockDungeonPuzzle.metaTriggerUnlit || (meta == BlockDungeonPuzzle.metaChainedUnlit && rand.nextInt(5) > 2)){
 					boolean stop = false;
 					
 					for(int dir = 0; dir < 4; dir++){
-						Variant ajdVar = getVariant(world.getBlockState(posX+Direction.offsetX[dir],yy,posZ+Direction.offsetZ[dir])).getUnlit();
+						int adjMeta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX+Direction.offsetX[dir],yy,posZ+Direction.offsetZ[dir]));
 						
-						if (ajdVar == Variant.DISTRIBUTOR_SPREAD_UNLIT || ajdVar == Variant.DISTRIBUTOR_SQUARE_UNLIT){
+						if (adjMeta == BlockDungeonPuzzle.metaDistributorSpreadUnlit || adjMeta == BlockDungeonPuzzle.metaDistributorSquareUnlit){
 							stop = true;
 							break;
 						}
@@ -173,41 +169,41 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 						int nextX = Integer.MIN_VALUE, nextZ = Integer.MIN_VALUE;
 						
 						for(int px = xx-distX+1; px <= xx+distX-1; px++){
-							if (px != posX && getVariant(world.getBlockState(px,yy,posZ)).getUnlit() == Variant.DISTRIBUTOR_SPREAD_UNLIT){
+							if (px != posX && BlockDungeonPuzzle.getUnlit(world.getMetadata(px,yy,posZ)) == BlockDungeonPuzzle.metaDistributorSpreadUnlit){
 								nextX = px;
 								break;
 							}
 						}
 						
 						for(int pz = zz-distZ+1; pz <= zz+distZ-1; pz++){
-							if (pz != posZ && getVariant(world.getBlockState(posX,yy,zz)).getUnlit() == Variant.DISTRIBUTOR_SPREAD_UNLIT){
+							if (pz != posZ && BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,zz)) == BlockDungeonPuzzle.metaDistributorSpreadUnlit){
 								nextZ = pz;
 								break;
 							}
 						}
 						
-						if (nextX != Integer.MIN_VALUE && nextZ != Integer.MIN_VALUE && getVariant(world.getBlockState(nextX,yy,nextZ)).getUnlit() == Variant.DISTRIBUTOR_SPREAD_UNLIT){
+						if (nextX != Integer.MIN_VALUE && nextZ != Integer.MIN_VALUE && BlockDungeonPuzzle.getUnlit(world.getMetadata(nextX,yy,nextZ)) == BlockDungeonPuzzle.metaDistributorSpreadUnlit){
 							continue;
 						}
 					}
 					
-					world.setBlock(posX,yy,posZ,BlockList.dungeon_puzzle.setProperty(pickBlock(type == 0 ? Variant.DISTRIBUTOR_SPREAD_UNLIT : Variant.DISTRIBUTOR_SQUARE_UNLIT,rand)));
+					world.setBlock(posX,yy,posZ,BlockList.dungeon_puzzle,pickBlock(type == 0 ? BlockDungeonPuzzle.metaDistributorSpreadUnlit : BlockDungeonPuzzle.metaDistributorSquareUnlit,rand));
 				}
 			}
 			
 			// generate additional non-triggerable blocks
 			
-			for(int amt = 1+rand.nextInt(6+(rand.nextInt(xSize*2+zSize*2)>>3))+(MathUtil.square(xSize)>>4)+(MathUtil.square(zSize)>>4), chainAttempt = amt*3, posX, posZ; chainAttempt > 0 && amt > 0; chainAttempt--){
+			for(int amt = 1+rand.nextInt(6+(rand.nextInt(xSize*2+zSize*2)>>3))+(MathUtil.square(xSize)>>4)+(MathUtil.square(zSize)>>4), chainAttempt = amt*3, posX, posZ, meta; chainAttempt > 0 && amt > 0; chainAttempt--){
 				posX = xx+rand.nextInt(distX*2+1)-distX;
 				posZ = zz+rand.nextInt(distZ*2+1)-distZ;
 				
-				if ((tmpVar = getVariant(world.getBlockState(posX,yy,posZ)).getUnlit()) == Variant.TRIGGER_UNLIT){
+				if ((meta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX,yy,posZ))) == BlockDungeonPuzzle.metaTriggerUnlit){
 					boolean canSpawn = true;
 					
-					for(int dir = 0, adjacentNonTrig = 0; dir < 4; dir++){
-						Variant adjVar = getVariant(world.getBlockState(posX+Direction.offsetX[dir],yy,posZ+Direction.offsetZ[dir])).getUnlit();
+					for(int dir = 0, adjacentNonTrig = 0, adjMeta; dir < 4; dir++){
+						adjMeta = BlockDungeonPuzzle.getUnlit(world.getMetadata(posX+Direction.offsetX[dir],yy,posZ+Direction.offsetZ[dir]));
 						
-						if ((adjVar == Variant.CHAINED_UNLIT && ++adjacentNonTrig > 1) || adjVar != Variant.TRIGGER_UNLIT){
+						if ((adjMeta == BlockDungeonPuzzle.metaChainedUnlit && ++adjacentNonTrig > 1) || adjMeta != BlockDungeonPuzzle.metaTriggerUnlit){
 							canSpawn = false;
 							break;
 						}
@@ -222,7 +218,7 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 			
 			// generate entrance cave
 			
-			Vec3 caveVec = new Vec3(xx-airX,yy-airY,zz-airZ).normalize();
+			Vec3 caveVec = Vec3.createVectorHelper(xx-airX,yy-airY,zz-airZ).normalize();
 			int iterLimiter = 0, intrad, add = 1+rand.nextInt(4), brokenDungBlocks = 0;
 			yy += add;
 			
@@ -254,15 +250,7 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 		return false;
 	}
 	
-	private BlockDungeonPuzzle.Variant pickBlock(IBlockState state, Random rand){
-		return pickBlock((Variant)state.getValue(BlockDungeonPuzzle.VARIANT),rand);
-	}
-	
-	private BlockDungeonPuzzle.Variant pickBlock(Variant base, Random rand){
-		return rand.nextInt(9) < 7 ? base.getUnlit() : base.getUnlit().toggleLit();
-	}
-	
-	private BlockDungeonPuzzle.Variant getVariant(IBlockState state){
-		return (BlockDungeonPuzzle.Variant)state.getValue(BlockDungeonPuzzle.VARIANT);
+	private int pickBlock(int meta, Random rand){
+		return rand.nextInt(9) < 7 ? BlockDungeonPuzzle.getUnlit(meta) : BlockDungeonPuzzle.toggleState(BlockDungeonPuzzle.getUnlit(meta));
 	}
 }

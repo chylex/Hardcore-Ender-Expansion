@@ -5,15 +5,14 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
-import chylex.hee.system.util.ItemUtil;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public final class CharmPouchHandler{
 	private static CharmPouchHandler instance;
@@ -65,7 +64,7 @@ public final class CharmPouchHandler{
 		ItemStack[] mainInv = e.player.inventory.mainInventory;
 		
 		for(int a = 0; a < mainInv.length; a++){
-			if (mainInv[a] != null && mainInv[a].getItem() == ItemList.charm_pouch && ItemUtil.getNBT(mainInv[a],false).getBoolean("isPouchActive")){
+			if (mainInv[a] != null && mainInv[a].getItem() == ItemList.charm_pouch && mainInv[a].stackTagCompound != null && mainInv[a].stackTagCompound.getBoolean("isPouchActive")){
 				setActivePouch(e.player,mainInv[a]);
 				break;
 			}

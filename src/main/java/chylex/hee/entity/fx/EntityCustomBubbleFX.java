@@ -2,9 +2,9 @@ package chylex.hee.entity.fx;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EntityBubbleFX;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityCustomBubbleFX extends EntityBubbleFX{
@@ -27,7 +27,7 @@ public class EntityCustomBubbleFX extends EntityBubbleFX{
 		motionY *= 0.875D;
 		motionZ *= 0.85D;
 
-		if (new BlockPosM(this).getBlockMaterial(worldObj) != Material.water){
+		if (worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ)).getMaterial() != Material.water){
 			if (++airLife > airLifeSpan)setDead();
 		}
 		else if (particleMaxAge-- <= 0)setDead();

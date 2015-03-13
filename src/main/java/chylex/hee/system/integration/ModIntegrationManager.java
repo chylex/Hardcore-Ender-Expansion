@@ -1,11 +1,11 @@
 package chylex.hee.system.integration;
-import net.minecraftforge.fml.common.Loader;
 import chylex.hee.system.integration.handlers.ArsMagicaFixIntegration;
 import chylex.hee.system.integration.handlers.MineFactoryReloadedIntegration;
 import chylex.hee.system.integration.handlers.NotEnoughItemsIntegration;
 import chylex.hee.system.integration.handlers.ThaumcraftIntegration;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
+import cpw.mods.fml.common.Loader;
 
 public final class ModIntegrationManager{
 	public static final void integrateMods(){

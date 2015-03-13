@@ -1,4 +1,5 @@
 package chylex.hee.entity.projectile;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -12,15 +13,18 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
+import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityProjectileSpatialDash extends EntityThrowable{
 	private List<Enum> enhancements = new ArrayList<>();
@@ -112,14 +116,22 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 				
 				PacketPipeline.sendToAllAround(player,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,player));
 
-				if (player.playerNetServerHandler.getNetworkManager().isChannelOpen() && player.worldObj == worldObj){
-					if (player.isRiding())player.mountEntity((Entity)null);
+				if (player.playerNetServerHandler.func_147362_b().isChannelOpen() && player.worldObj == worldObj){ // OBFUSCATED get network manager
+					if (player.isRiding())player.mountEntity(null);
 					boolean tryAchievement = player.posY <= 0D;
 					
-					BlockPosM pos, testPos = new BlockPosM();
+					int x, y, z;
 					
-					if (mop.typeOfHit == MovingObjectType.BLOCK)pos = new BlockPosM(mop.getBlockPos());
-					else if (mop.typeOfHit == MovingObjectType.ENTITY)pos = new BlockPosM(mop.entityHit);
+					if (mop.typeOfHit == MovingObjectType.BLOCK){
+						x = mop.blockX;
+						y = mop.blockY;
+						z = mop.blockZ;
+					}
+					else if (mop.typeOfHit == MovingObjectType.ENTITY){
+						x = MathUtil.floor(posX);
+						y = MathUtil.floor(posY);
+						z = MathUtil.floor(posZ);
+					}
 					else{
 						setDead();
 						return;
@@ -127,26 +139,24 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					
 					boolean found = false;
 					Block block;
-					testPos.moveTo(pos.x,pos.y,pos.z);
 					
-					for(int yTest = 0; yTest <= 8; yTest++){
-						if ((block = testPos.moveUp().getBlock(worldObj)).getBlockHardness(worldObj,testPos) == -1)break;
+					for(int yTest = y; yTest <= y+8; yTest++){
+						if ((block = worldObj.getBlock(x,yTest,z)).getBlockHardness(worldObj,x,yTest,z) == -1)break;
 						
-						if (canSpawnIn(block,testPos.moveUp().getBlock(worldObj))){
-							player.setPositionAndUpdate(testPos.x+0.5D,testPos.y-1+0.01D,testPos.z+0.5D);
+						if (canSpawnIn(block,worldObj.getBlock(x,yTest+1,z))){
+							player.setPositionAndUpdate(x+0.5D,yTest+0.01D,z+0.5D);
 							found = true;
 							break;
 						}
-						else testPos.moveDown();
 					}
 					
 					if (!found){
-						for(int xTest = pos.x-1; xTest <= pos.x+1; xTest++){
-							for(int zTest = pos.z-1; zTest <= pos.z+1; zTest++){
-								for(int yTest = pos.y+1; yTest <= pos.y+8; yTest++){
-									if ((block = testPos.moveTo(xTest,yTest,zTest).getBlock(worldObj)).getBlockHardness(worldObj,testPos) == -1)break;
+						for(int xTest = x-1; xTest <= x+1; xTest++){
+							for(int zTest = z-1; zTest <= z+1; zTest++){
+								for(int yTest = y+1; yTest <= y+8; yTest++){
+									if ((block = worldObj.getBlock(x,yTest,z)).getBlockHardness(worldObj,x,yTest,z) == -1)break;
 									
-									if (canSpawnIn(block,testPos.moveUp().getBlock(worldObj))){
+									if (canSpawnIn(block,worldObj.getBlock(xTest,yTest+1,zTest))){
 										player.setPositionAndUpdate(xTest+0.5D,yTest+0.01D,zTest+0.5D);
 										found = true;
 										break;
@@ -156,7 +166,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 						}
 					}
 					
-					if (!found)player.setPositionAndUpdate(pos.x+0.5D,pos.y+0.01D,pos.z+0.5D);
+					if (!found)player.setPositionAndUpdate(x+0.5D,y+0.01D,z+0.5D);
 					if (tryAchievement && worldObj.getBlock(x,y,z).isOpaqueCube())player.addStat(AchievementManager.TP_NEAR_VOID,1);
 					player.fallDistance = 0F;
 					
@@ -168,10 +178,6 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		}
 	}
 	
-	private boolean canSpawnIn(Block blockBottom, Block blockTop){
-		return (blockBottom.getMaterial() == Material.air || !blockBottom.isOpaqueCube()) && (blockTop.getMaterial() == Material.air || !blockTop.isOpaqueCube());
-	}
-
 	@Override
 	public void setDead(){
 		super.setDead();
@@ -181,13 +187,9 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		}
 	}
 	
-	private void spawnParticles(){
-		double dist = getDistanceSqToEntity(HardcoreEnderExpansion.proxy.getClientSidePlayer());
-		if (dist > 600D && rand.nextBoolean())return;
-		if (dist < 180D)HardcoreEnderExpansion.fx.spatialDash(this);
-		HardcoreEnderExpansion.fx.spatialDash(this);
+	private boolean canSpawnIn(Block blockBottom, Block blockTop){
+		return (blockBottom.getMaterial() == Material.air || !blockBottom.isOpaqueCube()) && (blockTop.getMaterial() == Material.air || !blockTop.isOpaqueCube());
 	}
-	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);

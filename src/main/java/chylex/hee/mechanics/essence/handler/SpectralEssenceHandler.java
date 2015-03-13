@@ -35,8 +35,8 @@ import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.world.util.BlockLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class SpectralEssenceHandler extends AltarActionHandler{
 	private static final HashMap<BlockLocation,Long> lastUpdates = new HashMap<>();
@@ -129,12 +129,12 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 			}
 			
 			if (itemBoundingBox == null){
-				itemBoundingBox = AxisAlignedBB.fromBounds(altar.xCoord+0.5D-3.5D,altar.yCoord+0.9D,altar.zCoord+0.5D-3.5D,altar.xCoord+0.5+3.5D,altar.yCoord+1.6D,altar.zCoord+0.5D+3.5D);
+				itemBoundingBox = AxisAlignedBB.getBoundingBox(altar.xCoord+0.5D-3.5D,altar.yCoord+0.9D,altar.zCoord+0.5D-3.5D,altar.xCoord+0.5+3.5D,altar.yCoord+1.6D,altar.zCoord+0.5D+3.5D);
 			}
 
 			EntityItem[] altarItems = new EntityItem[4];
 			ItemStack[] altarItemStacks = new ItemStack[4];
-			World world = altar.getWorld();
+			World world = altar.getWorldObj();
 			List<EntityItem> thrownItems = world.getEntitiesWithinAABB(EntityItem.class,itemBoundingBox);
 			double targX,targY,targZ;
 			long itemHash = 0;
@@ -146,7 +146,7 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 					targZ = altar.zCoord+0.5D+pedestalOffsetZ[a];
 					
 					if (Math.abs(item.posX-targX) > 0.001D || Math.abs(item.posY-targY) > 0.001D || Math.abs(item.posZ-targZ) > 0.001D){
-						if (world.getEntitiesWithinAABB(EntityItemAltar.class,AxisAlignedBB.fromBounds(targX,targY,targZ,targX,targY,targZ)).isEmpty()&&
+						if (world.getEntitiesWithinAABB(EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).isEmpty()&&
 							Math.sqrt(MathUtil.square(targX-item.posX)+MathUtil.square(targY-item.posY)+MathUtil.square(targZ-item.posZ)) < 0.275D){
 							world.spawnEntityInWorld(new EntityItemAltar(world,targX,targY,targZ,item,EssenceType.SPECTRAL.id));
 						}
@@ -216,7 +216,7 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 			for(MinionObsidianBase obsidianBase:MinionObsidianBase.values()){
 				if (obsidianBase.blockSelector.isValid(is)){
 					currentMinionData = new MinionData(obsidianBase);
-					altar.getWorld().markBlockForUpdate(altar.xCoord,altar.yCoord,altar.zCoord);
+					altar.getWorldObj().markBlockForUpdate(altar.xCoord,altar.yCoord,altar.zCoord);
 					return true;
 				}
 			}
@@ -227,12 +227,12 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 			currentMinionData.writeToNBT(data);
 			(minion.stackTagCompound = new NBTTagCompound()).setTag("minion",data);
 			
-			EntityItem drop = new EntityItem(altar.getWorld(),altar.xCoord+0.5D,altar.yCoord+2.5D,altar.zCoord+0.5D,minion);
+			EntityItem drop = new EntityItem(altar.getWorldObj(),altar.xCoord+0.5D,altar.yCoord+2.5D,altar.zCoord+0.5D,minion);
 			drop.delayBeforeCanPickup = 10;
-			altar.getWorld().spawnEntityInWorld(drop);
+			altar.getWorldObj().spawnEntityInWorld(drop);
 			
 			currentMinionData = null;
-			altar.getWorld().markBlockForUpdate(altar.xCoord,altar.yCoord,altar.zCoord);*/
+			altar.getWorldObj().markBlockForUpdate(altar.xCoord,altar.yCoord,altar.zCoord);*/
 			/*return true;
 		}
 
@@ -244,10 +244,10 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 	public void onClientUpdate(){
 		if (infusionTimer > 0){
 			if (itemBoundingBox == null){
-				itemBoundingBox = AxisAlignedBB.fromBounds(altar.xCoord+0.5D-3.5D,altar.yCoord+0.9D,altar.zCoord+0.5D-3.5D,altar.xCoord+0.5+3.5D,altar.yCoord+1.6D,altar.zCoord+0.5D+3.5D);
+				itemBoundingBox = AxisAlignedBB.getBoundingBox(altar.xCoord+0.5D-3.5D,altar.yCoord+0.9D,altar.zCoord+0.5D-3.5D,altar.xCoord+0.5+3.5D,altar.yCoord+1.6D,altar.zCoord+0.5D+3.5D);
 			}
 			
-			List nearbyAltarItems = altar.getWorld().getEntitiesWithinAABB(EntityItemAltar.class,itemBoundingBox);
+			List nearbyAltarItems = altar.getWorldObj().getEntitiesWithinAABB(EntityItemAltar.class,itemBoundingBox);
 			double targX,targY,targZ;
 			for(Object o:nearbyAltarItems){
 				EntityItemAltar item = (EntityItemAltar)o;
@@ -261,10 +261,10 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 						ItemStack is = item.getEntityItem();
 						
 						for(int b = 0; b < rand.nextInt(Math.max(1,(101-infusionTimer)/18))+(infusionTimer == 1?10:1); b++){
-							HardcoreEnderExpansion.fx.itemTarget(is,altar.getWorld(),targX+(rand.nextDouble()-rand.nextDouble())*0.3D,targY+0.1D+rand.nextDouble()*0.15D,targZ+(rand.nextDouble()-rand.nextDouble())*0.3D,altar.xCoord+0.5D,altar.yCoord+2.5D,altar.zCoord+0.5D,rand.nextFloat()*0.2F+0.2F);
+							HardcoreEnderExpansion.fx.itemTarget(is,altar.getWorldObj(),targX+(rand.nextDouble()-rand.nextDouble())*0.3D,targY+0.1D+rand.nextDouble()*0.15D,targZ+(rand.nextDouble()-rand.nextDouble())*0.3D,altar.xCoord+0.5D,altar.yCoord+2.5D,altar.zCoord+0.5D,rand.nextFloat()*0.2F+0.2F);
 						}
 						
-						if (infusionTimer > 25 && rand.nextInt(15) == 0)HardcoreEnderExpansion.fx.altarOrb(altar.getWorld(),targX,targY+0.2D,targZ,altar.xCoord+0.5D,altar.yCoord+2.5D,altar.zCoord+0.5D,EssenceType.SPECTRAL);
+						if (infusionTimer > 25 && rand.nextInt(15) == 0)HardcoreEnderExpansion.fx.altarOrb(altar.getWorldObj(),targX,targY+0.2D,targZ,altar.xCoord+0.5D,altar.yCoord+2.5D,altar.zCoord+0.5D,EssenceType.SPECTRAL);
 					}
 				}
 			}
@@ -282,8 +282,8 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 		if (base != null){
 			ItemStack isToShow = base.blockSelector.getRepresentativeItem();
 			
-			if (altar.getWorld().getTotalWorldTime() != prevWorldTime){
-				prevWorldTime = altar.getWorld().getTotalWorldTime();
+			if (altar.getWorldObj().getTotalWorldTime() != prevWorldTime){
+				prevWorldTime = altar.getWorldObj().getTotalWorldTime();
 				rotation += 1F;
 			}
 
@@ -309,7 +309,7 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 	public void onTileReadFromNBT(NBTTagCompound nbt){
 		if (nbt.hasKey("S_obsidianData")){
 			(currentMinionData = new MinionData((MinionObsidianBase)null)).readFromNBT(nbt.getCompoundTag("S_obsidianData"));
-			if (nbt.hasKey("clientInfusionTimer") && (altar.hasWorldObj() && altar.getWorld().isRemote))infusionTimer = nbt.getByte("clientInfusionTimer");
+			if (nbt.hasKey("clientInfusionTimer") && (altar.hasWorldObj() && altar.getWorldObj().isRemote))infusionTimer = nbt.getByte("clientInfusionTimer");
 		}
 	}
 }

@@ -3,21 +3,20 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemScorchingPickaxe;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.misc.TempleEvents;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class FXEvents{
@@ -36,10 +35,10 @@ public class FXEvents{
 	public void onGetBlockHardness(BreakSpeed e){
 		ItemStack heldItem = e.entityPlayer.getHeldItem();
 		
-		if (heldItem != null && heldItem.getItem() == ItemList.scorching_pickaxe && (ItemScorchingPickaxe.isBlockValid(e.state) || e.state.getBlock() == BlockList.ravaged_brick)){
+		if (heldItem != null && heldItem.getItem() == ItemList.scorching_pickaxe && (ItemScorchingPickaxe.isBlockValid(e.block) || e.block == BlockList.ravaged_brick)){
 			Random rand = e.entity.worldObj.rand;
 			Minecraft mc = Minecraft.getMinecraft();
-			for(int fx = 0; fx < 5-2*mc.gameSettings.particleSetting; fx++)HardcoreEnderExpansion.fx.flame(e.entity.worldObj,e.pos.getX()-0.2D+rand.nextDouble()*1.4D,e.pos.getY()-0.2D+rand.nextDouble()*1.4D,e.pos.getZ()-0.2D+rand.nextDouble()*1.4D,6);
+			for(int fx = 0; fx < 5-2*mc.gameSettings.particleSetting; fx++)HardcoreEnderExpansion.fx.flame(e.entity.worldObj,e.x-0.2D+rand.nextDouble()*1.4D,e.y-0.2D+rand.nextDouble()*1.4D,e.z-0.2D+rand.nextDouble()*1.4D,6);
 		}
 	}
 	
@@ -54,8 +53,8 @@ public class FXEvents{
 				Random rand = player.getRNG();
 				
 				for(int a = 0; a < 30; a++){
-					player.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE,player.posX+rand.nextDouble()-0.5D,player.posY,player.posZ+rand.nextDouble()-0.5D,0D,0D,0D);
-					HardcoreEnderExpansion.fx.omnipresent(EnumParticleTypes.SMOKE_LARGE,player.worldObj,ItemTempleCaller.templeX+1.5D+rand.nextDouble()-0.5D,ItemTempleCaller.templeY+2.5D,ItemTempleCaller.templeZ+6.5D+rand.nextDouble()-0.5D,0D,0D,0D);
+					player.worldObj.spawnParticle("largesmoke",player.posX+rand.nextDouble()-0.5D,player.posY,player.posZ+rand.nextDouble()-0.5D,0D,0D,0D);
+					HardcoreEnderExpansion.fx.omnipresent("largesmoke",player.worldObj,ItemTempleCaller.templeX+1.5D+rand.nextDouble()-0.5D,ItemTempleCaller.templeY+2.5D,ItemTempleCaller.templeZ+6.5D+rand.nextDouble()-0.5D,0D,0D,0D);
 				}
 				
 				if (TempleEvents.isPlayerInTemple(player)){

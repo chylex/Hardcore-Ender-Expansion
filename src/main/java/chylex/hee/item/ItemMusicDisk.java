@@ -3,23 +3,22 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemMusicDisk extends ItemRecord implements IMultiModel{
+public class ItemMusicDisk extends ItemRecord{
 	private static final List<String[]> musicNames = new ArrayList<>();
 	
 	static{
@@ -43,26 +42,32 @@ public class ItemMusicDisk extends ItemRecord implements IMultiModel{
 		return musicNames.get(MathUtil.clamp(damage,0,musicNames.size()-1));
 	}
 	
+	private IIcon[] iconArray;
+	
 	public ItemMusicDisk(){
 		super("");
 		setHasSubtypes(true);
 	}
-	
+
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
-		IBlockState state = world.getBlockState(pos);
-		
-		if (state.getBlock() == Blocks.jukebox && !((Boolean)state.getValue(BlockJukebox.HAS_RECORD)).booleanValue() && world.getTileEntity(pos) instanceof TileEntityJukebox){
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
+		if (world.getBlock(x,y,z) == Blocks.jukebox && world.getBlockMetadata(x,y,z) == 0 && world.getTileEntity(x,y,z) instanceof TileEntityJukebox){
 			if (world.isRemote)return true;
 
-			((BlockJukebox)Blocks.jukebox).insertRecord(world,pos,world.getBlockState(pos),is);
-			PacketPipeline.sendToDimension(world,new C02PlayRecord(pos,(byte)is.getItemDamage()));
+			((BlockJukebox)Blocks.jukebox).func_149926_b(world,x,y,z,is);
+			PacketPipeline.sendToDimension(world.provider.dimensionId,new C02PlayRecord(x,y,z,(byte)is.getItemDamage()));
 			--is.stackSize;
 			
 			return true;
 		}
 		
 		return false;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconFromDamage(int damage){
+		return iconArray[MathUtil.clamp(damage,0,iconArray.length-1)];
 	}
 
 	@Override
@@ -86,9 +91,12 @@ public class ItemMusicDisk extends ItemRecord implements IMultiModel{
 	}
 	
 	@Override
-	public String[] getModels(){
-		List<String> list = new ArrayList<>();
-		for(int a = 0; a < musicNames.size(); a++)list.add("^music_disk_"+(a+1));
-		return list.toArray(new String[musicNames.size()]);
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister iconRegister){
+		iconArray = new IIcon[musicNames.size()];
+
+		for(int index = 0; index < iconArray.length; index++){
+			iconArray[index] = iconRegister.registerIcon(getIconString()+"_"+(index+1));
+		}
 	}
 }

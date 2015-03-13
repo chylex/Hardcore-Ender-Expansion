@@ -5,16 +5,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C09SimpleEvent;
 import chylex.hee.packets.client.C09SimpleEvent.EventType;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
-import chylex.hee.world.feature.misc.TempleGenerator;
+import chylex.hee.world.feature.TempleGenerator;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 	public static boolean isEnabled = true;
@@ -45,16 +47,18 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 		if (world.isRemote)return is;
 		
 		if (!isEnabled){
-			player.addChatMessage(new ChatComponentText("The server has disabled Temple Caller."));
+			player.addChatMessage(new ChatComponentTranslation("item.templeCaller.info.disabled"));
 			return is;
 		}
 		
 		if (is.getItemDamage() < getMaxDamage()){
-			player.addChatMessage(new ChatComponentText("The Temple Caller does not have enough energy."));
+			player.addChatMessage(new ChatComponentTranslation("item.templeCaller.info.energy"));
 			return is;
 		}
 		
-		if (player.dimension != 1 || !player.inventory.hasItem(Item.getItemFromBlock(Blocks.dragon_egg)) || !WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())player.addChatMessage(new ChatComponentText("This is not the time to use that!"));
+		if (player.dimension != 1 || !player.inventory.hasItem(Item.getItemFromBlock(Blocks.dragon_egg)) || !WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead()){
+			player.addChatMessage(new ChatComponentTranslation("item.templeCaller.info.conditions"));
+		}
 		else if (player.posY < templeY){
 			if (!player.capabilities.isCreativeMode)--is.stackSize;
 			
@@ -64,6 +68,7 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 			player.setPositionAndUpdate(templeX+1.5D,templeY+1,templeZ+6.5D);
 			WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setPlayerIsInTemple(player,true);
 			
+			CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,150F);
 		}
 
 		return is;

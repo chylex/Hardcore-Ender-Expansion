@@ -3,13 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockPersegrit;
 import chylex.hee.item.ItemKnowledgeNote;
@@ -19,7 +18,6 @@ import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.util.CollectionUtil;
-import chylex.hee.system.util.Direction;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.IItemPostProcessor;
@@ -60,7 +58,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}
 	});
 	
-	private static final WeightedLootList[] normalChestVariation = new WeightedLootList[]{
+	public static final WeightedLootList[] normalChestVariation = new WeightedLootList[]{
 		normalChest.copy().addAll(new LootItemStack[]{
 			new LootItemStack(ItemList.arcane_shard).setAmount(1,2).setWeight(8)
 		}),
@@ -95,7 +93,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}
 	});
 	
-	private static final WeightedLootList[] rareChestVariation = new WeightedLootList[]{
+	public static final WeightedLootList[] rareChestVariation = new WeightedLootList[]{
 		rareChest.copy().addAll(new LootItemStack[]{
 			
 		}),
@@ -340,9 +338,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 							else if (block == Blocks.trapped_chest)++trapped;
 						}
 						
-						if (normal == 0 && trapped == 0)world.setBlock(xx,yy,zz,(rand.nextBoolean() ? Blocks.chest : Blocks.trapped_chest).getDefaultState().withProperty(BlockChest.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
-						else if (normal == 1 && trapped == 0)world.setBlock(xx,yy,zz,Blocks.trapped_chest.getDefaultState().withProperty(BlockChest.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
-						else if (normal == 0 && trapped == 1)world.setBlock(xx,yy,zz,Blocks.chest.getDefaultState().withProperty(BlockChest.FACING,EnumFacing.getHorizontal(rand.nextInt(4))));
+						if (normal == 0 && trapped == 0)world.setBlock(xx,yy,zz,rand.nextBoolean() ? Blocks.chest : Blocks.trapped_chest,rand.nextInt(4));
+						else if (normal == 1 && trapped == 0)world.setBlock(xx,yy,zz,Blocks.trapped_chest,rand.nextInt(4));
+						else if (normal == 0 && trapped == 1)world.setBlock(xx,yy,zz,Blocks.chest,rand.nextInt(4));
 						else continue;
 						
 						if (rand.nextInt(10) == 0){
@@ -376,7 +374,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 								for(pz = zz-1; pz <= zz+size; pz++){
 									Block block = world.getBlock(px,py,pz);
 									
-									if (block != Blocks.air && block !=  BlockList.persegrit){
+									if (block != Blocks.air && block != BlockList.persegrit){
 										canGenerate = false;
 										px += 99;
 										py += 99;
@@ -502,7 +500,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				}
 				
 				if (world.getBlock(x,y,z) == BlockList.persegrit){
-					world.setBlock(x,y,z,BlockList.persegrit.setProperty(BlockPersegrit.Variant.LRTB));
+					world.setBlock(x,y,z,BlockList.persegrit,15);
 					connections.add(new BlockLocation(x,y,z));
 				}
 				else break;
@@ -510,7 +508,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}
 		
 		for(BlockLocation loc:connections){
-			world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit.getStateFromMeta(BlockPersegrit.getConnectionMeta(world,rand,loc.x,loc.y,loc.z)));
+			world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit,BlockPersegrit.getConnectionMeta(world,rand,loc.x,loc.y,loc.z));
 		}
 	}
 	

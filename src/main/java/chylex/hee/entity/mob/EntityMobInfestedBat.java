@@ -40,7 +40,7 @@ public class EntityMobInfestedBat extends EntityBat{
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.infestedBat.name"));
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.infestedBat.name"));
 	}
 }

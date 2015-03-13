@@ -1,61 +1,61 @@
 package chylex.hee.tileentity;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntityBrewingStand;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
-import scala.actors.threadpool.Arrays;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
-import chylex.hee.system.util.ItemUtil;
+import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.IEnhanceableTile;
+import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand implements IAcceptFieryEssence, IEnhanceableTile, IUpdatePlayerListBox{
+public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand implements IAcceptFieryEssence, IEnhanceableTile{
 	private static final int[] topSlots = new int[]{ 3 },
 							   sideSlots = new int[]{ 0, 1, 2 },
 							   bottomSlots = new int[]{ 4 };
 	
 	private ItemStack[] slotItems = new ItemStack[5];
+	private byte filledSlotsCache;
 	private short startBrewTime, brewTime, requiredPowder;
-	private boolean[] cachedFilledSlots;
 	private Item ingredient;
 	
 	private List<Enum> enhancements = new ArrayList<>();
 	
 	@Override
-	public void update(){
-		if (brewTime > 0){
-			--brewTime;
-			if (brewTime > 1 && brewTime%2 == 0 && enhancements.contains(EnhancedBrewingStandEnhancements.SPEED))--brewTime;
-			
-			if (brewTime == 0){
-				doBrewing();
-				markDirty();
+	public void updateEntity(){
+		if (!worldObj.isRemote){
+			if (brewTime > 0){
+				--brewTime;
+				if (brewTime > 1 && brewTime%2 == 0 && enhancements.contains(EnhancedBrewingStandEnhancements.SPEED))--brewTime;
+				
+				if (brewTime == 0){
+					doBrewing();
+					markDirty();
+				}
+				else if (!checkBrewingRequirements() || ingredient != slotItems[3].getItem()){
+					brewTime = 0;
+					markDirty();
+				}
 			}
-			else if (!checkBrewingRequirements() || ingredient != slotItems[3].getItem()){
-				brewTime = 0;
-				markDirty();
+			else if (checkBrewingRequirements()){
+				startBrewTime = brewTime = (short)(140+15*requiredPowder);
+				ingredient = slotItems[3].getItem();
 			}
-		}
-		else if (checkBrewingRequirements()){
-			startBrewTime = brewTime = (short)(140+15*requiredPowder);
-			ingredient = slotItems[3].getItem();
 		}
 		
-		if (!worldObj.isRemote){
-			boolean[] currentFilledSlots = new boolean[]{ slotItems[0] != null, slotItems[1] != null, slotItems[2] != null };
-			
-			if (!Arrays.equals(currentFilledSlots,cachedFilledSlots)){
-				cachedFilledSlots = currentFilledSlots;
-				
-				/*IBlockState state = worldObj.getBlockState(getPos());
-				for(int a = 0; a < BlockBrewingStand.HAS_BOTTLE.length; a++)state = state.withProperty(BlockBrewingStand.HAS_BOTTLE[a],Boolean.valueOf(currentFilledSlots[a]));
-				worldObj.setBlockState(getPos(),state,2);*/
-				// TODO fix
-			}
+		int filledSlots = getFilledSlots();
+		
+		if (filledSlots != filledSlotsCache){
+			filledSlotsCache = (byte)filledSlots;
+			worldObj.setBlockMetadataWithNotify(xCoord,yCoord,zCoord,filledSlots,2);
 		}
 	}
 	
@@ -89,7 +89,9 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 			if (slotItems[a] == null)continue;
 			
 			slotItems[a] = PotionTypes.applyIngredientUnsafe(slotItems[3],slotItems[a]);
-			ItemUtil.getNBT(slotItems[a],true).setBoolean("hasPotionChanged",true);
+			
+			if (slotItems[a].stackTagCompound == null)slotItems[a].stackTagCompound = new NBTTagCompound();
+			slotItems[a].stackTagCompound.setBoolean("hasPotionChanged",true);
 		}
 		
 		if (--slotItems[3].stackSize == 0)slotItems[3] = null;
@@ -107,13 +109,13 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	}
 	
 	@Override
-	public ItemStack createItemStack(){
-		return new ItemStack(ItemList.enhanced_brewing_stand);
+	public ItemStack createEnhancedItemStack(){
+		return EnhancementHandler.addEnhancements(new ItemStack(ItemList.enhanced_brewing_stand),enhancements);
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? super.getName() : "container.enhancedBrewing";
+	public String getInventoryName(){
+		return hasCustomInventoryName() ? super.getInventoryName() : "container.enhancedBrewing";
 	}
 	
 	@Override
@@ -152,33 +154,46 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	}
 	
 	@Override
-	public int[] getSlotsForFace(EnumFacing side){
-		return side == EnumFacing.UP ? topSlots : side == EnumFacing.DOWN ? bottomSlots : sideSlots;
+	public int getFilledSlots(){
+		int i = 0;
+		for(int j = 0; j < 3; ++j){
+			if (slotItems[j] != null)i |= 1<<j;
+		}
+		return i;
 	}
 	
 	@Override
-	public void setField(int id, int value){
-		if (id == 0)brewTime = (short)value;
-		else if (id == 1)requiredPowder = (short)value;
-		else if (id == 2)startBrewTime = (short)value;
+	public int[] getAccessibleSlotsFromSide(int side){
+		return side == 1 ? topSlots : side == 0 ? bottomSlots : sideSlots;
 	}
 	
 	@Override
-	public int getField(int id){
-		if (id == 0)return brewTime;
-		else if (id == 1)return requiredPowder;
-		else if (id == 2)return startBrewTime;
-		else return 0;
+	@SideOnly(Side.CLIENT)
+	public void func_145938_d(int brewTime){ // OBFUSCATED set brew time
+		this.brewTime = (short)brewTime;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void setRequiredPowder(int requiredPowder){
+		this.requiredPowder = (short)requiredPowder;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void setStartBrewTime(int startBrewTime){
+		this.startBrewTime = (short)startBrewTime;
 	}
 	
 	@Override
-	public int getFieldCount(){
-		return 3;
+	public int getBrewTime(){
+		return brewTime;
 	}
 	
-	@Override
-	public void clear(){
-		for(int a = 0; a < slotItems.length; a++)slotItems[a] = null;
+	public int getStartBrewTime(){
+		return startBrewTime;
+	}
+
+	public int getRequiredPowder(){
+		return requiredPowder;
 	}
 	
 	public int getHoldingPowder(){

@@ -38,7 +38,7 @@ public abstract class AbstractBiomeInteraction{
 	}
 	
 	protected final AxisAlignedBB getIslandBoundingBox(){
-		return AxisAlignedBB.fromBounds(centerX-ComponentIsland.halfSize,10,centerZ-ComponentIsland.halfSize,centerX+ComponentIsland.halfSize,120,centerZ+ComponentIsland.halfSize);
+		return AxisAlignedBB.getBoundingBox(centerX-ComponentIsland.halfSize,10,centerZ-ComponentIsland.halfSize,centerX+ComponentIsland.halfSize,120,centerZ+ComponentIsland.halfSize);
 	}
 	
 	public static final class BiomeInteraction{

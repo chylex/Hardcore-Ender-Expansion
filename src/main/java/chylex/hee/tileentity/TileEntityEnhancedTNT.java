@@ -4,21 +4,28 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 
 public class TileEntityEnhancedTNT extends TileEntity implements IEnhanceableTile{
 	private List<Enum> tntEnhancements = new ArrayList<>();
 	
 	@Override
-	public ItemStack createItemStack(){
+	public ItemStack createEnhancedItemStack(){
 		return EnhancementHandler.addEnhancements(new ItemStack(BlockList.enhanced_tnt),tntEnhancements);
 	}
 	
 	@Override
 	public List<Enum> getEnhancements(){
 		return tntEnhancements;
+	}
+	
+	@Override
+	public boolean canUpdate(){
+		return false;
 	}
 	
 	@Override

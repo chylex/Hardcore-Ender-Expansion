@@ -17,13 +17,13 @@ import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.DragonUtil;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class OrbAcquirableItems{
 	public static boolean overrideRemoveBrokenRecipes = false;
@@ -39,17 +39,17 @@ public final class OrbAcquirableItems{
 			if (biome == null)continue;
 			else if (biome.biomeID >= 128)break;
 			
-			idList.add(new WeightedItem(biome.topBlock.getBlock(),0,34));
-			idList.add(new WeightedItem(biome.fillerBlock.getBlock(),0,34));
+			idList.add(new WeightedItem(biome.topBlock,0,34));
+			idList.add(new WeightedItem(biome.fillerBlock,0,34));
 		}
 		
 		Throwable lastThrowable = null;
 		
-		for(Iterator<Entry<ItemStack,ItemStack>> iter = FurnaceRecipes.instance().getSmeltingList().entrySet().iterator(); iter.hasNext();){
+		for(Iterator<Entry<ItemStack,ItemStack>> iter = FurnaceRecipes.smelting().getSmeltingList().entrySet().iterator(); iter.hasNext();){
 			Entry<ItemStack,ItemStack> entry = iter.next();
 			
 			try{
-				int weight = 30-(int)(7F*FurnaceRecipes.instance().getSmeltingExperience(entry.getValue()));
+				int weight = 30-(int)(7F*FurnaceRecipes.smelting().func_151398_b(entry.getValue())); // OBFUSCATED get experience amount
 				idList.add(new WeightedItem(entry.getKey().getItem(),0,weight));
 				idList.add(new WeightedItem(entry.getValue().getItem(),0,weight));
 			}catch(Throwable t){

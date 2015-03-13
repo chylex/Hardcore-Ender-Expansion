@@ -5,8 +5,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.StatCollector;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class HeeChallenge extends HeeAchievement{
 	private IChatComponent statName;
@@ -19,7 +19,7 @@ public class HeeChallenge extends HeeAchievement{
 	}
 	
 	@Override
-	public IChatComponent getStatName(){
+	public IChatComponent func_150951_e(){ // OBFUSCATED get name
 		if (statName == null)this.statName = new ChatComponentText(new StringBuilder().append(StatCollector.translateToLocal("challenge.title")).append(" ").append(StatCollector.translateToLocal("challenge."+achievementId)).toString());
 		
 		IChatComponent component = statName.createCopy();

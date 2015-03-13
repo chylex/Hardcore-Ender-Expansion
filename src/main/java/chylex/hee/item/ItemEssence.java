@@ -1,18 +1,23 @@
 package chylex.hee.item;
 import java.util.List;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemEssence extends Item implements IMultiModel{
+public class ItemEssence extends Item{
+	@SideOnly(Side.CLIENT)
+	private IIcon[] iconArray;
+	
 	public ItemEssence(){
 		setHasSubtypes(true);
 	}
@@ -22,7 +27,7 @@ public class ItemEssence extends Item implements IMultiModel{
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(EssenceType essenceType:EssenceType.values()){
 			if (essenceType == EssenceType.INVALID)continue;
-			list.add(new ItemStack(item,1,essenceType.getItemDamage()));
+			list.add(new ItemStack(item,1,essenceType.id-1));
 		}
 	}
 	
@@ -34,22 +39,31 @@ public class ItemEssence extends Item implements IMultiModel{
 	}
 	
 	@Override
-	public boolean doesSneakBypassUse(World world, BlockPos pos, EntityPlayer player){
+	public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player){
 		return true;
 	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public EnumRarity getRarity(ItemStack is){
-		return EnumRarity.UNCOMMON;
+		return EnumRarity.uncommon;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@Override
-	public String[] getModels(){
-		return new String[]{
-			"^essence_dragon",
-			"^essence_fiery",
-			"^essence_spectral"
-		};
+	public IIcon getIconFromDamage(int damage){
+		return iconArray[MathUtil.clamp(damage,0,iconArray.length-1)];
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IIconRegister iconRegister){
+		iconArray = new IIcon[EssenceType.values().length-1];
+		int index = -1;
+		
+		for(EssenceType essenceType:EssenceType.values()){
+			if (essenceType == EssenceType.INVALID)continue;
+			iconArray[++index] = iconRegister.registerIcon("hardcoreenderexpansion:essence_"+essenceType.id);
+		}
 	}
 }

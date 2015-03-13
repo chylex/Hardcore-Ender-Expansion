@@ -2,27 +2,23 @@ package chylex.hee.world.feature;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
-import chylex.hee.system.util.BlockPosM;
 
-public class WorldGenEndiumOre extends WorldGenBase{
+public class WorldGenEndiumOre extends WorldGenerator{
 	@Override
-	public boolean generate(World world, Random rand, BlockPosM pos){		
-		if (pos.getBlock(world) != Blocks.end_stone)return false;
+	public boolean generate(World world, Random rand, int x, int y, int z){		
+		if (world.getBlock(x,y,z) != Blocks.end_stone)return false;
 		
-		BlockPosM checkPos = pos.copy();
-		BlockPosM airPos = checkPos.copy();
-		
-		for(int check = 0; check < 25; check++){
-			
-			if (checkPos.getBlock(world) == Blocks.end_stone && ((check > 15 && rand.nextInt(3) == 0) ||
-				airPos.moveTo(checkPos).moveEast().isAir(world) || airPos.moveTo(checkPos).moveWest().isAir(world) ||
-				airPos.moveTo(checkPos).moveNorth().isAir(world) || airPos.moveTo(checkPos).moveSouth().isAir(world))){
-				checkPos.setBlock(world,BlockList.endium_ore);
+		for(int check = 0, xx = x, yy = y, zz = z; check < 25; check++){
+			if (world.getBlock(xx,yy,zz) == Blocks.end_stone && (world.isAirBlock(x-1,y,z) || world.isAirBlock(x+1,y,z) || world.isAirBlock(x,y,z-1) || world.isAirBlock(x,y,z+1) || (check > 15 && rand.nextInt(3) == 0))){
+				world.setBlock(xx,yy,zz,BlockList.endium_ore);
 				return true;
 			}
 			
-			checkPos.moveTo(pos.x+rand.nextInt(9)-4,pos.y+rand.nextInt(9)-4,pos.z+rand.nextInt(9)-4);
+			xx = x+rand.nextInt(9)-4;
+			yy = y+rand.nextInt(9)-4;
+			zz = z+rand.nextInt(9)-4;
 		}
 		
 		return false;

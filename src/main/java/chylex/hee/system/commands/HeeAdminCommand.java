@@ -32,7 +32,7 @@ public class HeeAdminCommand extends HeeCommand{
 	}
 	
 	@Override
-	public void execute(ICommandSender sender, String[] args){
+	public void processCommand(ICommandSender sender, String[] args){
 		EntityPlayer player = sender instanceof EntityPlayer ? (EntityPlayer)sender : null;
 		String extra = "";
 		

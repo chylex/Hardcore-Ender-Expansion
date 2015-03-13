@@ -1,23 +1,25 @@
 package chylex.hee.block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C13TransportBeaconData;
+import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockTransportBeacon extends BlockContainer{
+	@SideOnly(Side.CLIENT)
+	public IIcon iconOutside;
+	
 	public BlockTransportBeacon(){
 		super(Material.glass);
 	}
@@ -28,18 +30,18 @@ public class BlockTransportBeacon extends BlockContainer{
 	}
 	
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ){
-		if (world.isRemote)player.openGui(HardcoreEnderExpansion.instance,8,world,pos.getX(),pos.getY(),pos.getZ());
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
+		if (world.isRemote)player.openGui(HardcoreEnderExpansion.instance,8,world,x,y,z);
 		else{
 			PlayerTransportBeacons data = PlayerTransportBeacons.getInstance(player);
-			TileEntityTransportBeacon tile = (TileEntityTransportBeacon)world.getTileEntity(pos);
+			TileEntityTransportBeacon tile = (TileEntityTransportBeacon)world.getTileEntity(x,y,z);
 			
 			if (tile.hasNotBeenTampered()){
-				data.addBeacon(pos.getX(),pos.getZ());
+				data.addBeacon(x,z);
 				player.addStat(AchievementManager.TRANSPORT_BEACON,1);
 			}
 			
-			PacketPipeline.sendToPlayer(player,new C13TransportBeaconData(data.getOffsets(pos.getX(),pos.getZ()),tile.hasEnergy(),tile.hasNotBeenTampered()));
+			PacketPipeline.sendToPlayer(player,new C13TransportBeaconData(data.getOffsets(x,z),tile.hasEnergy(),tile.hasNotBeenTampered()));
 		}
 		
 		return true;
@@ -51,13 +53,24 @@ public class BlockTransportBeacon extends BlockContainer{
 	}
 
 	@Override
-	public boolean isFullCube(){
+	public boolean renderAsNormalBlock(){
 		return false;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public EnumWorldBlockLayer getBlockLayer(){
-		return EnumWorldBlockLayer.TRANSLUCENT;
+	public int getRenderBlockPass(){
+		return 1;
+	}
+
+	@Override
+	public int getRenderType(){
+		return ModCommonProxy.renderIdTransportBeacon;
+	}
+	
+	@Override
+	public void registerBlockIcons(IIconRegister iconRegister){
+		super.registerBlockIcons(iconRegister);
+		iconOutside = iconRegister.registerIcon(textureName+"_outside");
 	}
 }

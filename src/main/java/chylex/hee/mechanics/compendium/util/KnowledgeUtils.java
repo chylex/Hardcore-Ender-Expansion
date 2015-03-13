@@ -1,14 +1,13 @@
 package chylex.hee.mechanics.compendium.util;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry.UniqueIdentifier;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpawnEggs;
 import chylex.hee.mechanics.charms.CharmRecipe;
@@ -17,11 +16,17 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCharm;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.curse.CurseType;
+import chylex.hee.mechanics.enhancements.IEnhancementEnum;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public final class KnowledgeUtils{
 	public static KnowledgeObject<? extends IKnowledgeObjectInstance<?>> tryGetFromItemStack(ItemStack is){
@@ -35,7 +40,7 @@ public final class KnowledgeUtils{
 		if (uniqueId != null && uniqueId.modId.equalsIgnoreCase("hardcoreenderexpansion")){
 			if (is.getItem() == ItemList.spawn_eggs){
 				Class<? extends EntityLiving> entity = ItemSpawnEggs.getMobFromDamage(is.getItemDamage());
-				if (entity == null)entity = (Class<? extends EntityLiving>)EntityList.idToClassMapping.get(is.getItemDamage());
+				if (entity == null)entity = (Class<? extends EntityLiving>)EntityList.IDtoClassMapping.get(is.getItemDamage());
 				return entity == null ? null : KnowledgeObject.<ObjectMob>getObject(entity);
 			}
 			else if (is.getItem() instanceof ItemBlock)return CompendiumEvents.getBlockObject(is);
@@ -45,13 +50,10 @@ public final class KnowledgeUtils{
 		return null;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static List<String> getCompendiumTooltip(ItemStack is, EntityPlayer player){
 		List<String> tooltip = is.getTooltip(player,false);
-		
-		if (KnowledgeUtils.tryGetFromItemStack(is) != null){
-			tooltip.add(EnumChatFormatting.DARK_PURPLE+"Click to view");
-		}
-		
+		if (KnowledgeUtils.tryGetFromItemStack(is) != null)tooltip.add(EnumChatFormatting.DARK_PURPLE+I18n.format("ec.help.clicktoview"));
 		return tooltip;
 	}
 	

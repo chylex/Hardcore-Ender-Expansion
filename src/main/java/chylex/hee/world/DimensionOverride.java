@@ -11,25 +11,29 @@ import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.StructureIsland;
+import chylex.hee.world.structure.sanctuary.ComponentSanctuary;
+import chylex.hee.world.structure.sanctuary.StructureSanctuary;
 import chylex.hee.world.structure.tower.ComponentTower;
 import chylex.hee.world.structure.tower.StructureTower;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class DimensionOverride{
 	public static void setup(){
 		Stopwatch.time("DimensionOverride");
 		
-		overrideBiome();
-		overrideWorldGen();
+		BiomeGenBase.sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
+		BiomeGenBase.getBiomeGenArray()[9] = BiomeGenBase.sky;
 
 		MapGenStructureIO.registerStructure(StructureTower.class,"hardcoreenderdragon_EndTower");
-		MapGenStructureIO.registerStructureComponent(ComponentTower.class,"hardcoreenderdragon_EndTowerC");
+		MapGenStructureIO.func_143031_a(ComponentTower.class,"hardcoreenderdragon_EndTowerC"); // OBFUSCATED register structure component
 		MapGenStructureIO.registerStructure(StructureIsland.class,"hardcoreenderdragon_EndIsland");
-		MapGenStructureIO.registerStructureComponent(ComponentIsland.class,"hardcoreenderdragon_EndIslandC");
+		MapGenStructureIO.func_143031_a(ComponentIsland.class,"hardcoreenderdragon_EndIslandC");
+		MapGenStructureIO.registerStructure(StructureSanctuary.class,"hee_EndSanctuary");
+		MapGenStructureIO.func_143031_a(ComponentSanctuary.class,"hee_EndSanctuaryC");
 		
 		if (BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.register(new DimensionOverride());
 		
@@ -37,10 +41,14 @@ public final class DimensionOverride{
 	}
 	
 	public static void postInit(){
-		Stopwatch.time("DimensionOverride - PostInit");
-		
 		if (!(BiomeGenBase.sky instanceof BiomeGenHardcoreEnd))throw new RuntimeException("End biome class mismatch, Hardcore Ender Expansion cannot proceed! Biome class: "+BiomeGenBase.sky.getClass().getName());
-		
+		((BiomeGenHardcoreEnd)BiomeGenBase.getBiome(9)).overrideMobLists();
+
+		DimensionManager.unregisterProviderType(1);
+		DimensionManager.registerProviderType(1,WorldProviderHardcoreEnd.class,false);
+	}
+	
+	public static void verifyIntegrity(){
 		try{
 			Field f = DimensionManager.class.getDeclaredField("providers");
 			f.setAccessible(true); // let it throw NPE if the field isn't found
@@ -50,35 +58,13 @@ public final class DimensionOverride{
 		}catch(NullPointerException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e){
 			throw new RuntimeException("End world provider check failed!",e);
 		}
-		
-		((BiomeGenHardcoreEnd)BiomeGenBase.getBiome(9)).overrideMobLists();
-		
-		Stopwatch.finish("DimensionOverride - PostInit");
-	}
-	
-	private static void overrideBiome(){
-		Stopwatch.time("DimensionOverride - Biome");
-		
-		BiomeGenBase.sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
-		BiomeGenBase.getBiomeGenArray()[9] = BiomeGenBase.sky;
-		
-		Stopwatch.finish("DimensionOverride - Biome");
-	}
-	
-	private static void overrideWorldGen(){
-		Stopwatch.time("DimensionOverride - WorldProvider");
-		
-		DimensionManager.unregisterProviderType(1);
-		DimensionManager.registerProviderType(1,WorldProviderHardcoreEnd.class,false);
-
-		Stopwatch.finish("DimensionOverride - WorldProvider");
 	}
 	
 	private DimensionOverride(){}
 	
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load e){
-		if (e.world.provider.getDimensionId() == 1 && e.world instanceof WorldServer){
+		if (e.world.provider.dimensionId == 1 && e.world instanceof WorldServer){
 			WorldServer world = (WorldServer)e.world;
 			world.chunkProvider = world.theChunkProviderServer = new ChunkProviderServerOverride(world);
 		}
@@ -86,18 +72,18 @@ public final class DimensionOverride{
 	
 	public static final class ChunkProviderServerOverride extends ChunkProviderServer{
 		public ChunkProviderServerOverride(WorldServer world){
-			super(world,world.theChunkProviderServer.chunkLoader,world.theChunkProviderServer.serverChunkGenerator);
+			super(world,world.theChunkProviderServer.currentChunkLoader,world.theChunkProviderServer.currentChunkProvider);
 		}
 
 		@Override
 		public void populate(IChunkProvider provider, int x, int z){
 			Chunk chunk = provideChunk(x,z);
 			
-			if (!chunk.isTerrainPopulated()){
+			if (!chunk.isTerrainPopulated){
 				chunk.func_150809_p();
 				
-				if (serverChunkGenerator != null){
-					serverChunkGenerator.populate(provider,x,z);
+				if (currentChunkProvider != null){
+					currentChunkProvider.populate(provider,x,z);
 					chunk.setChunkModified();
 				}
 			}

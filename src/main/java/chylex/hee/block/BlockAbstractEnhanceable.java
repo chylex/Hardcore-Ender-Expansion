@@ -1,13 +1,12 @@
 package chylex.hee.block;
-import java.util.ArrayList;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.system.util.CollectionUtil;
 
 public abstract class BlockAbstractEnhanceable extends BlockContainer{
 	public BlockAbstractEnhanceable(Material material){
@@ -15,13 +14,30 @@ public abstract class BlockAbstractEnhanceable extends BlockContainer{
 	}
 	
 	@Override
-	public final ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune){		
+	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
 		TileEntity tile = world.getTileEntity(x,y,z);
-		return tile instanceof IEnhanceableTile ? CollectionUtil.newList(((IEnhanceableTile)tile).createItemStack()) : super.getDrops(world,x,y,z,metadata,fortune);
+		if (tile instanceof IEnhanceableTile)dropBlockAsItem(world,x,y,z,((IEnhanceableTile)tile).createEnhancedItemStack());
+		
+		super.breakBlock(world,x,y,z,oldBlock,oldMeta);
 	}
-
+	
+	@Override
+	public final Item getItemDropped(int meta, Random rand, int fortune){
+		return null;
+	}
+	
+	@Override
+	public final int damageDropped(int meta){
+		return 0;
+	}
+	
+	@Override
+	public final int quantityDropped(int meta, int fortune, Random rand){
+		return 0;
+	}
+	
 	@Override
 	public final int quantityDropped(Random rand){
-		return 1;
+		return 0;
 	}
 }

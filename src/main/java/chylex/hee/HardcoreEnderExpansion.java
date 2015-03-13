@@ -5,20 +5,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.IFuelHandler;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import chylex.hee.api.HeeIMC;
 import chylex.hee.block.BlockDragonEggCustom;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.block.BlockList;
@@ -33,6 +21,7 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
+import chylex.hee.entity.boss.dragon.managers.DragonChunkManager;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.entity.item.EntityItemDragonEgg;
 import chylex.hee.entity.item.EntityItemEndPowder;
@@ -75,12 +64,12 @@ import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
+import chylex.hee.mechanics.causatum.CausatumEvents;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.energy.EnergyEvents;
-import chylex.hee.mechanics.infestation.InfestationEvents;
 import chylex.hee.mechanics.misc.PlayerDataHandler;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.mechanics.misc.TempleEvents;
@@ -120,6 +109,22 @@ import chylex.hee.tileentity.TileEntityTransportBeacon;
 import chylex.hee.tileentity.TileEntityVoidChest;
 import chylex.hee.world.DimensionOverride;
 import chylex.hee.world.loot.WorldLoot;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.IFuelHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = "HardcoreEnderExpansion", name = "Hardcore Ender Expansion", version = "", useMetadata = true, guiFactory = "chylex.hee.gui.core.ModGuiFactory")
 public class HardcoreEnderExpansion{
@@ -135,7 +140,7 @@ public class HardcoreEnderExpansion{
 	@SidedProxy(clientSide = "chylex.hee.proxy.NotificationClientProxy", serverSide = "chylex.hee.proxy.NotificationCommonProxy")
 	public static NotificationCommonProxy notifications;
 	
-	public static final int buildId = 18_91_15_0;
+	public static final int buildId = 22_92_15_0;
 	
 	public static String modVersion;
 	public static String configPath;
@@ -208,11 +213,11 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("PreInitEvent - entities");
 		
 		EntityList.stringToClassMapping.remove("Enderman");
-		EntityList.idToClassMapping.remove(Integer.valueOf(58));
+		EntityList.IDtoClassMapping.remove(Integer.valueOf(58));
 		EntityList.addMapping(EntityMobEnderman.class, "Enderman", 58);
 		
 		EntityList.stringToClassMapping.remove("EnderCrystal");
-		EntityList.idToClassMapping.remove(Integer.valueOf(200));
+		EntityList.IDtoClassMapping.remove(Integer.valueOf(200));
 		EntityList.addMapping(EntityBlockEnderCrystal.class, "EnderCrystal", 200);
 		
 		EntityRegistry.registerModEntity(EntityBossDragon.class, "Dragon", 8, this, 320, 1, true);
@@ -313,13 +318,15 @@ public class HardcoreEnderExpansion{
 		VoidChestEvents.register();
 		EnergyEvents.register();
 		TempleEvents.register();
-		InfestationEvents.register();
 		CurseEvents.register();
+		CausatumEvents.register();
 		PlayerTransportBeacons.register();
+		DragonChunkManager.register();
 		
 		Stopwatch.finish("PreInitEvent - events");
 		
 		proxy.registerSidedEvents();
+		proxy.registerRenderers();		
 		notifications.register();
 		
 		Stopwatch.finish("PreInitEvent");
@@ -328,14 +335,11 @@ public class HardcoreEnderExpansion{
 	@EventHandler
 	public void onInit(FMLInitializationEvent e){
 		Stopwatch.time("InitEvent");
-
-		proxy.registerRenderers();
 		
 		PacketPipeline.initializePipeline();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,GuiHandler.instance);
 		RecipeList.addRecipes();
 		WorldLoot.registerWorldLoot();
-		KnowledgeRegistrations.initialize();
 		
 		Stopwatch.finish("InitEvent");
 	}
@@ -344,6 +348,8 @@ public class HardcoreEnderExpansion{
 	public void onPostInit(FMLPostInitializationEvent e){
 		Stopwatch.time("PostInitEvent");
 		
+		HeeIMC.runPostInit();
+		KnowledgeRegistrations.initialize();
 		OrbAcquirableItems.initialize();
 		OrbSpawnableMobs.initialize();
 		ModIntegrationManager.integrateMods();
@@ -351,11 +357,31 @@ public class HardcoreEnderExpansion{
 		
 		Stopwatch.finish("PostInitEvent");
 	}
+	
+	@EventHandler
+	public void onLoadComplete(FMLLoadCompleteEvent e){
+		Stopwatch.time("LoadCompleteEvent");
+		
+		try{
+			DimensionOverride.verifyIntegrity();
+			HeeIMC.runLoadComplete();
+		}
+		catch(Throwable t){
+			FMLCommonHandler.instance().raiseException(t,"Critical error handling post-load data.",true);
+		}
+		
+		Stopwatch.finish("LoadCompleteEvent");
+	}
 
 	@EventHandler
 	public void onServerStarting(FMLServerStartingEvent e){
 		e.registerServerCommand(new HeeAdminCommand());
 		e.registerServerCommand(new HeeBaconCommand());
 		e.registerServerCommand(new HeeDebugCommand());
+	}
+	
+	@EventHandler
+	public void onIMC(IMCEvent e){
+		for(IMCMessage message:e.getMessages())HeeIMC.acceptIMC(message);
 	}
 }

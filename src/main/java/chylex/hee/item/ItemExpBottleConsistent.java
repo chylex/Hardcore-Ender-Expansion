@@ -3,14 +3,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.projectile.EntityProjectileExpBottleConsistent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemExpBottleConsistent extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is){
+	public boolean hasEffect(ItemStack is, int pass){
 		return true;
 	}
 

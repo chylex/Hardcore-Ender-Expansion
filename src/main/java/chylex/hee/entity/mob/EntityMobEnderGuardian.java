@@ -2,7 +2,6 @@ package chylex.hee.entity.mob;
 import java.util.UUID;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityMob;
@@ -14,33 +13,32 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo, IOldTargetAI{
+public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo{
 	private static final AttributeModifier dashModifier = (new AttributeModifier(UUID.fromString("69B01060-4B09-4D5C-A6FA-22BEFB9C2D02"),"Guardian dash speed boost",1.2D,1)).setSaved(false);
 	
 	private byte attackTimer, dashCooldown;
 	
 	public EntityMobEnderGuardian(World world){
 		super(world);
-		EntityAIOldTarget.insertOldAI(this);
 		setSize(1.5F,3.2F);
 	}
 	
 	@Override
-	public EntityLivingBase findEntityToAttack(){
-		EntityPlayer player = worldObj.getClosestPlayerToEntity(this,3D);
+	protected Entity findPlayerToAttack(){
+		EntityPlayer player = worldObj.getClosestVulnerablePlayerToEntity(this,3D);
 		return player != null && canEntityBeSeen(player) ? player : null;
 	}
 	
@@ -63,14 +61,10 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 				if (--dashCooldown == 70)getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(dashModifier);
 				else if (dashCooldown > 1 && dashCooldown < 70 && ((ModCommonProxy.opMobs && rand.nextInt(3) == 0) || rand.nextInt(5) == 0))--dashCooldown;
 			}
-			else if (dashCooldown == 0){
-				EntityLivingBase entityToAttack = getAttackTarget();
-				
-				if (entityToAttack != null && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) < 4D && Math.abs(posY-entityToAttack.posY) <= 3){
-					dashCooldown = 80;
-					getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(dashModifier);
-					PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_GUARDIAN_DASH,this));
-				}
+			else if (dashCooldown == 0 && entityToAttack != null && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) < 4D && Math.abs(posY-entityToAttack.posY) <= 3){
+				dashCooldown = 80;
+				getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(dashModifier);
+				PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_GUARDIAN_DASH,this));
 			}
 		}
 	}
@@ -112,13 +106,17 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 	}
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float damage){
-		if (source == DamageSource.fallingBlock || source == DamageSource.anvil)damage *= 0.8F;
-		else if (source.isProjectile())damage *= 0.5F;
-		else if (source.isFireDamage() || source == DamageSource.drown)damage *= 0.2F;
-		else if (source == DamageSource.cactus)damage = 0F;
+	public boolean attackEntityFrom(DamageSource source, float amount){
+		if (source == DamageSource.fallingBlock || source == DamageSource.anvil)amount *= 0.8F;
+		else if (source.isProjectile())amount *= 0.5F;
+		else if (source.isFireDamage() || source == DamageSource.drown)amount *= 0.2F;
+		else if (source == DamageSource.cactus)amount = 0F;
 		
-		return damage < 0.1F ? false : super.attackEntityFrom(source,damage);
+		if (amount >= 0.1F && super.attackEntityFrom(source,amount)){
+			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
+			return true;
+		}
+		else return false;
 	}
 	
 	@Override
@@ -162,7 +160,7 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.enderGuardian.name"));
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.enderGuardian.name"));
 	}
 }

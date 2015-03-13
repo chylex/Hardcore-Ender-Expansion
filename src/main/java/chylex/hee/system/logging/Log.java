@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -25,7 +26,7 @@ public final class Log{
 	static{
 		isDeobfEnvironment = ((Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment")).booleanValue();
 		
-		if (isDeobfEnvironment && MinecraftServer.getServer().getClass().getSimpleName().equals("DedicatedServer")){
+		if (isDeobfEnvironment && MinecraftServer.getServer() instanceof DedicatedServer){
 			try(FileOutputStream fos = new FileOutputStream(new File("eula.txt"))){
 				Properties properties = new Properties();
 				properties.setProperty("eula","true");
@@ -62,11 +63,13 @@ public final class Log{
 	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void warn(String message, Object...data){
 		logger.warn(getMessage(message,data));
+		if (isDeobfEnvironment)HardcoreEnderExpansion.notifications.report("[WARN] "+getMessage(message,data));
 	}
 
 	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void error(String message, Object...data){
 		logger.error(getMessage(message,data));
+		if (isDeobfEnvironment)HardcoreEnderExpansion.notifications.report("[ERROR] "+getMessage(message,data));
 	}
 
 	/** Use $x where x is between 0 and data.length-1 to input variables. */

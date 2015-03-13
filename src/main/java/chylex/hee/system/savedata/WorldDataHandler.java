@@ -10,9 +10,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class WorldDataHandler{
 	private static WorldDataHandler instance;
@@ -22,7 +22,7 @@ public final class WorldDataHandler{
 	}
 	
 	public static <T> T get(Class<? extends WorldSavefile> cls){
-		Stopwatch.timeAverage("WorldDataHandler - get",32768);
+		Stopwatch.timeAverage("WorldDataHandler - get",160000);
 		
 		WorldSavefile savefile = instance.cache.get(cls);
 		

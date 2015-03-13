@@ -6,13 +6,15 @@ import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.ComponentIsland;
+import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
+import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureMiningSpot extends AbstractIslandStructure{
 	private WeightedList<ObjectWeightPair<Block>> oreWeights;
 	private byte iterationsLeft;
 	
-	public void regenerateOreWeightList(Random rand){
+	public void regenerateOreWeightList(Random rand, IslandBiomeData biomeData){
 		oreWeights = new WeightedList<>(
 			ObjectWeightPair.of(Blocks.emerald_ore,8),
 			ObjectWeightPair.of(Blocks.lapis_ore,8),
@@ -23,12 +25,19 @@ public class StructureMiningSpot extends AbstractIslandStructure{
 			ObjectWeightPair.of(Blocks.iron_ore,26)
 		);
 		
-		for(int a = 0; a < 1+rand.nextInt(2); a++)oreWeights.remove(rand.nextInt(oreWeights.size()));
+		if (biomeData.hasDeviation(IslandBiomeBurningMountains.LIMITED_ORES)){
+			WeightedList<ObjectWeightPair<Block>> selected = new WeightedList<>();
+			for(int a = 0; a < 3+rand.nextInt(2); a++)selected.add(oreWeights.removeRandomItem(rand));
+			oreWeights = selected;
+		}
+		else{
+			for(int a = 0; a < 1+rand.nextInt(2); a++)oreWeights.remove(rand.nextInt(oreWeights.size()));
+		}
 	}
 	
 	@Override
 	protected boolean generate(Random rand){
-		if (oreWeights == null)regenerateOreWeightList(rand);
+		if (oreWeights == null)regenerateOreWeightList(rand,biomeData);
 		
 		int x = getRandomXZ(rand,32), z = getRandomXZ(rand,32), y = 15-rand.nextInt(2)*rand.nextInt(14)+rand.nextInt(15+rand.nextInt(35));
 		if (world.getBlock(x,y,z) != Blocks.end_stone)return false;

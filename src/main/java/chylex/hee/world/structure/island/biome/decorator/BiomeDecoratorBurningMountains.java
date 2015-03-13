@@ -2,10 +2,10 @@ package chylex.hee.world.structure.island.biome.decorator;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockCrossedDecoration.Variant;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
+import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureCinderPatch;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureDungeonPuzzle;
 import chylex.hee.world.structure.island.biome.feature.mountains.StructureIgneousRockOre;
@@ -32,7 +32,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	
 	public void genScorching(){
 		// CINDER
-		for(int a = 0; a < 72; a++)generateStructure(genCinderPatch);
+		for(int a = data.hasDeviation(IslandBiomeBurningMountains.EXCESSIVE_CINDER) ? 110 : 62; a > 0; a--)generateStructure(genCinderPatch);
 		
 		// DUNGEON PUZZLE
 		generateStructure(genMountainPuzzle);
@@ -41,19 +41,21 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		generateStructure(genIgneousRockOre.setAttemptAmount(110));
 		
 		// SINGLE LAVA BLOCKS
-		for(int a = 0, xx, yy, zz; a < 6500; a++){
+		for(int a = data.hasDeviation(IslandBiomeBurningMountains.SINGLE_LAVA_ONLY) ? 8000 : 6500, xx, yy, zz; a > 0; a--){
 			xx = getRandomXZ(rand,32);
 			zz = getRandomXZ(rand,32);
 			yy = 10+rand.nextInt(65);
 			
 			if (world.getBlock(xx,yy,zz) == Blocks.end_stone && (world.isAir(xx+1,yy,zz) || world.isAir(xx-1,yy,zz) || world.isAir(xx,yy,zz+1) || world.isAir(xx,yy,zz-1))){
-				world.setBlock(xx,yy,zz,Blocks.flowing_lava,true);
+				world.setBlock(xx,yy,zz,Blocks.flowing_lava,0,true);
 			}
 		}
 		
 		// LAVA POOLS
-		for(int attempt = 0, placed = 0, placedMax = 3+rand.nextInt(10); attempt < 450 && placed < placedMax; attempt++){
-			if (generateStructure(genLavaPool))++placed;
+		if (!data.hasDeviation(IslandBiomeBurningMountains.SINGLE_LAVA_ONLY)){
+			for(int attempt = 0, placed = 0, placedMax = 4+rand.nextInt(10); attempt < 550 && placed < placedMax; attempt++){
+				if (generateStructure(genLavaPool))++placed;
+			}
 		}
 		
 		// LILYFIRES
@@ -64,7 +66,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 						int xx = cx*16+rand.nextInt(16), zz = cz*16+rand.nextInt(16), yy = world.getHighestY(xx,zz);
 						
 						if (world.getBlock(xx,yy,zz) == BlockList.end_terrain){
-							world.setBlock(xx,yy+1,zz,BlockCrossedDecoration.createState(Variant.LILYFIRE));
+							world.setBlock(xx,yy+1,zz,BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire);
 						}
 					}
 				}
@@ -131,7 +133,7 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		}
 		
 		// MINING SPOT
-		genMiningSpot.regenerateOreWeightList(rand);
+		genMiningSpot.regenerateOreWeightList(rand,data);
 		
 		for(int attempt = 0, attemptAmount = 90+rand.nextInt(20), placed = 0; attempt < attemptAmount; attempt++){
 			if (generateStructure(genMiningSpot)){

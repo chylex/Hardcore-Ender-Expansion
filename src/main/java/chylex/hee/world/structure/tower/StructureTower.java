@@ -9,7 +9,6 @@ public class StructureTower extends StructureStart{
 	 */
 	public StructureTower(){}
 	
-	@SuppressWarnings("unchecked")
 	public StructureTower(World world, Random rand, int x, int z){
 		super(x,z);
 		components.add(new ComponentTower(rand,x*16,z*16));

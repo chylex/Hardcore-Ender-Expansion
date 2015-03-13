@@ -5,8 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import chylex.hee.item.ItemList;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class CurseEvents{
 	public static void register(){
@@ -20,8 +20,8 @@ public final class CurseEvents{
 	
 	@SubscribeEvent
 	public void onLivingHurt(LivingHurtEvent e){
-		if (e.source.getSourceOfDamage() instanceof EntityLivingBase){
-			EntityLivingBase source = (EntityLivingBase)e.source.getSourceOfDamage();
+		if (e.source.getEntity() instanceof EntityLivingBase){
+			EntityLivingBase source = (EntityLivingBase)e.source.getEntity();
 			NBTTagCompound nbt = source.getEntityData();
 			long tim = nbt.getLong("HEE_C9_l");
 			

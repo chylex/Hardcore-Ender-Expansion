@@ -2,13 +2,11 @@ package chylex.hee.entity.block;
 import java.util.Iterator;
 import java.util.List;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
@@ -18,9 +16,11 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityBlockHomelandCache extends Entity{
-	private static final WeightedLootList loot = new WeightedLootList(new LootItemStack[]{
+	public static final WeightedLootList loot = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(ItemList.arcane_shard).setWeight(190),
 		new LootItemStack(ItemList.end_powder).setWeight(15),
 		new LootItemStack(ItemList.instability_orb).setWeight(3),
@@ -86,26 +86,26 @@ public class EntityBlockHomelandCache extends Entity{
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (isEntityInvulnerable(source))return false;
+		if (isEntityInvulnerable() || source.isProjectile() || source.isFireDamage() || source.isMagicDamage())return false;
 		
 		if (!isDead){
 			setDead();
 			
 			if (worldObj.isRemote){
 				worldObj.playSound(posX,posY,posZ,"dig.glass",1F,rand.nextFloat()*0.1F+0.92F,false);
-				for(int a = 0; a < 20; a++)worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE,posX+(rand.nextDouble()-0.5D)*0.8D,posY+0.05D+rand.nextDouble()*1D,posZ+(rand.nextDouble()-0.5D)*0.8D,0D,0D,0D);
+				for(int a = 0; a < 20; a++)worldObj.spawnParticle("largesmoke",posX+(rand.nextDouble()-0.5D)*0.8D,posY+0.05D+rand.nextDouble()*1D,posZ+(rand.nextDouble()-0.5D)*0.8D,0D,0D,0D);
 			}
 			else{
 				for(int a = 0; a < 2+rand.nextInt(2+rand.nextInt(2)); a++){
 					EntityItem item = new EntityItem(worldObj,posX+(rand.nextDouble()-0.5D)*0.75D,posY+0.2D+rand.nextDouble()*0.6D,posZ+(rand.nextDouble()-0.5D)*0.75D,loot.generateIS(rand));
-					item.setDefaultPickupDelay();
+					item.delayBeforeCanPickup = 10;
 					worldObj.spawnEntityInWorld(item);
 				}
 				
-				if (!(source.getSourceOfDamage() instanceof EntityPlayer))return true;
+				if (!(source.getEntity() instanceof EntityPlayer))return true;
 				
-				int amt = 3+worldObj.getDifficulty().getDifficultyId();
-				EntityPlayer target = (EntityPlayer)source.getSourceOfDamage();
+				int amt = 3+worldObj.difficultySetting.getDifficultyId();
+				EntityPlayer target = (EntityPlayer)source.getEntity();
 				
 				for(EntityMobHomelandEnderman enderman:(List<EntityMobHomelandEnderman>)worldObj.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,boundingBox.expand(12D,5D,12D))){
 					boolean call = false;
@@ -114,7 +114,7 @@ public class EntityBlockHomelandCache extends Entity{
 						case GUARD:
 							--amt;
 							enderman.teleportToEntity(target);
-							enderman.setAttackTarget(target);
+							enderman.setTarget(target);
 							enderman.setScreaming(true);
 							break;
 							
@@ -140,8 +140,8 @@ public class EntityBlockHomelandCache extends Entity{
 						
 						for(int a = 2+rand.nextInt(2); a > 0 && !list.isEmpty(); a--){
 							EntityMobHomelandEnderman guard = list.remove(rand.nextInt(list.size()));
-							guard.teleportToEntity(source.getSourceOfDamage());
-							guard.setAttackTarget((EntityLivingBase)source.getSourceOfDamage());
+							guard.teleportToEntity(source.getEntity());
+							guard.setTarget(source.getEntity());
 							guard.setScreaming(true);
 							PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.HOMELAND_ENDERMAN_GUARD_CALL,enderman,guard));
 							if (--amt <= 0)break;
@@ -164,5 +164,11 @@ public class EntityBlockHomelandCache extends Entity{
 	@Override
 	public boolean canBeCollidedWith(){
 		return true;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public float getShadowSize(){
+		return 0F;
 	}
 }

@@ -3,9 +3,7 @@ import java.util.Random;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -14,17 +12,15 @@ import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.render.entity.layer.LayerDragonDeath;
-import chylex.hee.render.entity.layer.LayerDragonEyes;
 import chylex.hee.render.model.ModelEnderDragon;
-import chylex.hee.sound.BossType;
+import chylex.hee.sound.EndMusicType;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderBossDragon extends RenderLiving{
@@ -33,10 +29,9 @@ public class RenderBossDragon extends RenderLiving{
 	private static final ResourceLocation texCrystalBeam = new ResourceLocation("textures/entity/endercrystal/endercrystal_beam.png");
 	private static final ResourceLocation texDeathExplosions = new ResourceLocation("textures/entity/enderdragon/dragon_exploding.png");
 
-	public RenderBossDragon(RenderManager renderManager){
-		super(renderManager,new ModelEnderDragon(),0.5F);
-		addLayer(new LayerDragonEyes(this));
-		addLayer(new LayerDragonDeath());
+	public RenderBossDragon(){
+		super(new ModelEnderDragon(),0.5F);
+		setRenderPassModel(mainModel);
 	}
 
 	protected void rotateDragonBody(EntityBossDragon dragon, float entityTickTime, float yawOffset, float partialTickTime){
@@ -78,8 +73,8 @@ public class RenderBossDragon extends RenderLiving{
 
 	public void renderDragon(EntityBossDragon dragon, double x, double y, double z, float yaw, float partialTickTime){
 		BossStatus.setBossStatus(dragon,false);
-		BossStatus.bossName = (dragon.isAngry() ? EnumChatFormatting.LIGHT_PURPLE : "")+I18n.format(dragon.getName());
-		BossType.update(dragon.isAngry() ? BossType.DRAGON_ANGRY : BossType.DRAGON_CALM);
+		BossStatus.bossName = (dragon.isAngry() ? EnumChatFormatting.LIGHT_PURPLE : "")+I18n.format(dragon.getCommandSenderName());
+		EndMusicType.update(dragon.isAngry() ? EndMusicType.DRAGON_ANGRY : EndMusicType.DRAGON_CALM);
 		super.doRender(dragon,x,y,z,yaw,partialTickTime);
 
 		if (dragon.healingEnderCrystal != null){
@@ -95,27 +90,27 @@ public class RenderBossDragon extends RenderLiving{
 			GL11.glTranslatef((float)x,(float)y+2F,(float)z);
 			GL11.glRotatef(MathUtil.toDeg((float)-Math.atan2(diffZ,diffX))-90F,0F,1F,0F);
 			GL11.glRotatef(MathUtil.toDeg((float)-Math.atan2(distXZ,diffY))-90F,1F,0F,0F);
-			WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
+			Tessellator tessellator = Tessellator.instance;
 			RenderHelper.disableStandardItemLighting();
 			GL11.glDisable(GL11.GL_CULL_FACE);
 			bindTexture(texCrystalBeam);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			float animTime = -(dragon.ticksExisted+partialTickTime)*0.01F;
 			float textureV = MathHelper.sqrt_float(diffX*diffX+diffY*diffY+diffZ*diffZ)*0.03125F-(dragon.ticksExisted+partialTickTime)*0.01F;
-			renderer.startDrawing(5);
+			tessellator.startDrawing(5);
 			byte sideAmount = 8;
 
 			for(int i = 0; i <= sideAmount; ++i){
 				float f11 = MathHelper.sin((i%sideAmount)*(float)Math.PI*2F/sideAmount)*0.75F;
 				float f12 = MathHelper.cos((i%sideAmount)*(float)Math.PI*2F/sideAmount)*0.75F;
 				float f13 = (i%sideAmount)/sideAmount;
-				renderer.setColorOpaque_I(0);
-				renderer.addVertexWithUV(f11*0.2F,f12*0.2F,0D,f13,textureV);
-				renderer.setColorOpaque_I(16777215);
-				renderer.addVertexWithUV(f11,f12,distXYZ,f13,animTime);
+				tessellator.setColorOpaque_I(0);
+				tessellator.addVertexWithUV(f11*0.2F,f12*0.2F,0D,f13,textureV);
+				tessellator.setColorOpaque_I(16777215);
+				tessellator.addVertexWithUV(f11,f12,distXYZ,f13,animTime);
 			}
 
-			Tessellator.getInstance().draw();
+			tessellator.draw();
 			GL11.glEnable(GL11.GL_CULL_FACE);
 			GL11.glShadeModel(GL11.GL_FLAT);
 			RenderHelper.enableStandardItemLighting();
@@ -124,8 +119,10 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	protected void renderDragonDying(EntityBossDragon dragon, float partialTickTime){
+		super.renderEquippedItems(dragon,partialTickTime);
+
 		if (dragon.deathTicks > 0){
-			WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
+			Tessellator tessellator = Tessellator.instance;
 			RenderHelper.disableStandardItemLighting();
 			float animPerc = (dragon.deathTicks+partialTickTime)*0.005F;
 			float fade = animPerc > 0.8F ? (animPerc-0.8F)*5F : 0F;
@@ -148,17 +145,17 @@ public class RenderBossDragon extends RenderLiving{
 				GL11.glRotatef(random.nextFloat()*360F,1F,0F,0F);
 				GL11.glRotatef(random.nextFloat()*360F,0F,1F,0F);
 				GL11.glRotatef(random.nextFloat()*360F+animPerc*90F,0F,0F,1F);
-				renderer.startDrawing(6);
+				tessellator.startDrawing(6);
 				float yRot = random.nextFloat()*20F+5F+fade*10F;
 				float xzRot = random.nextFloat()*2F+1F+fade*2F;
-				renderer.setColorRGBA_I(16777215,(int)(255F*(1F-fade)));
-				renderer.addVertex(0D,0D,0D);
-				renderer.setColorRGBA_I(16711935,0);
-				renderer.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
-				renderer.addVertex(0.866D*xzRot,yRot,-0.5F*xzRot);
-				renderer.addVertex(0D,yRot,xzRot);
-				renderer.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
-				Tessellator.getInstance().draw();
+				tessellator.setColorRGBA_I(16777215,(int)(255F*(1F-fade)));
+				tessellator.addVertex(0D,0D,0D);
+				tessellator.setColorRGBA_I(16711935,0);
+				tessellator.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
+				tessellator.addVertex(0.866D*xzRot,yRot,-0.5F*xzRot);
+				tessellator.addVertex(0D,yRot,xzRot);
+				tessellator.addVertex(-0.866D*xzRot,yRot,-0.5F*xzRot);
+				tessellator.draw();
 			}
 
 			GL11.glPopMatrix();
@@ -192,6 +189,21 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	@Override
+	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
+		renderDragon((EntityBossDragon)entity,x,y,z,yaw,partialTickTime);
+	}
+
+	@Override
+	protected int shouldRenderPass(EntityLivingBase entity, int pass, float partialTickTime){
+		return renderGlow((EntityBossDragon)entity,pass,partialTickTime);
+	}
+
+	@Override
+	protected void renderEquippedItems(EntityLivingBase entity, float partialTickTime){
+		renderDragonDying((EntityBossDragon)entity,partialTickTime);
+	}
+
+	@Override
 	protected void rotateCorpse(EntityLivingBase entity, float entityTickTime, float yawOffset, float partialTickTime){
 		rotateDragonBody((EntityBossDragon)entity,entityTickTime,yawOffset,partialTickTime);
 	}
@@ -202,12 +214,17 @@ public class RenderBossDragon extends RenderLiving{
 	}
 
 	@Override
+	public void doRender(EntityLivingBase entity, double x, double y, double z, float yaw, float partialTickTime){
+		renderDragon((EntityBossDragon)entity,x,y,z,yaw,partialTickTime);
+	}
+
+	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
 		return Baconizer.mobTexture(this,texDragon);
 	}
 
 	@Override
-	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
+	public void doRender(Entity entity, double x, double y, double z, float yaw, float partialTickTime){
 		renderDragon((EntityBossDragon)entity,x,y,z,yaw,partialTickTime);
 	}
 }

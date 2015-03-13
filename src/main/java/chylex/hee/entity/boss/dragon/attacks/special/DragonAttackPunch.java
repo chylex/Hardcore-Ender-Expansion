@@ -37,7 +37,7 @@ public class DragonAttackPunch extends DragonSpecialAttackBase{
 				return;
 			}
 			
-			Vec3 vec = new Vec3(-tempTarget.posX,0D,-tempTarget.posZ).normalize();
+			Vec3 vec = Vec3.createVectorHelper(-tempTarget.posX,0D,-tempTarget.posZ).normalize();
 			dragon.targetX = vec.xCoord*55D*(1D+rand.nextDouble()*0.25D)+rand.nextInt(25);
 			dragon.targetY = 72+rand.nextInt(12);
 			dragon.targetZ = vec.zCoord*55D*(1D+rand.nextDouble()*0.25D)+rand.nextInt(25);

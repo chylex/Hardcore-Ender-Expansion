@@ -1,17 +1,17 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXHandler;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.AbstractClientPacket;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class C20Effect extends AbstractClientPacket{	
 	private FXType.Basic type;
-	private double x, y, z;
+	private double x,y,z;
 	
 	public C20Effect(){}
 	
@@ -27,7 +27,7 @@ public class C20Effect extends AbstractClientPacket{
 	}
 	
 	public C20Effect(FXType.Basic type, TileEntity tile){
-		this(type,tile.getPos().getX()+0.5D,tile.getPos().getY()+0.5D,tile.getPos().getZ()+0.5D);
+		this(type,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class C20Effect extends AbstractClientPacket{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(AbstractClientPlayer player){
+	protected void handle(EntityClientPlayerMP player){
 		if (type != null)FXHandler.handleBasic(player.worldObj,player,type,x,y,z);
 	}
 }

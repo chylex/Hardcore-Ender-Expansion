@@ -4,7 +4,6 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
@@ -49,9 +48,9 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 				rotationYaw = (float)(Math.atan2(zDiff,xDiff)*180D/Math.PI);
 				setPositionAndUpdate(posX+Math.cos(Math.toRadians(rotationYaw))*0.35D,posY,posZ+Math.sin(Math.toRadians(rotationYaw))*0.35D);
 			}
-			else if (lifeLeft < 80)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 9F : 5F,worldObj.getDifficulty()));
+			else if (lifeLeft < 80)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 9F : 5F,worldObj.difficultySetting));
 			
-			if (dist < 2.1D && lifeLeft < 80)target.addPotionEffect(new PotionEffect(Potion.blindness.id,80,0,true,false));
+			if (dist < 2.1D && lifeLeft < 80)target.addPotionEffect(new PotionEffect(Potion.blindness.id,80,0,true));
 		}
 	}
 	
@@ -59,7 +58,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 	public void moveEntityWithHeading(float strafe, float forward){}
 	
 	@Override
-	public boolean isEntityInvulnerable(DamageSource source){
+	public boolean isEntityInvulnerable(){
 		return true;
 	}
 	
@@ -72,7 +71,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 	public void despawnEntity(){}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.forestGhost.name");
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal("entity.forestGhost.name");
 	}
 }

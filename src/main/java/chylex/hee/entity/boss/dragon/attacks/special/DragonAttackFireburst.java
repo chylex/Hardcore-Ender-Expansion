@@ -46,7 +46,7 @@ public class DragonAttackFireburst extends DragonSpecialAttackBase{
 						waitTimer = 60;
 						
 						double dist = 10D;
-						Vec3 vec = new Vec3(dragon.motionX,0D,dragon.motionZ).normalize();
+						Vec3 vec = Vec3.createVectorHelper(dragon.motionX,0D,dragon.motionZ).normalize();
 						
 						for(int attempt = 0; attempt < 10; attempt++){
 							dragon.targetX = dragon.posX+vec.xCoord*dist+(rand.nextDouble()-0.5D)*4D;

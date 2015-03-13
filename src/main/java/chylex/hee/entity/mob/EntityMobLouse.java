@@ -13,35 +13,30 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget;
-import chylex.hee.entity.mob.ai.EntityAIOldTarget.IOldTargetAI;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.charms.RuneType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 
-public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTargetAI{
+public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	private LouseSpawnData louseData;
 	private float armor;
 	private byte armorCapacity,armorRegenTimer,regenLevel,regenTimer,healAbility,healTimer,teleportTimer;
 	
 	public EntityMobLouse(World world){
 		super(world);
-		EntityAIOldTarget.insertOldAI(this);
 		setSize(1.1F,0.45F);
 	}
 	
@@ -61,6 +56,11 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTa
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		updateLouseData();
+	}
+	
+	@Override
+	protected boolean isAIEnabled(){
+		return false;
 	}
 	
 	private void updateLouseData(){
@@ -85,8 +85,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTa
 	}
 	
 	@Override
-	public EntityLivingBase findEntityToAttack(){
-		return worldObj.getClosestPlayerToEntity(this,12D);
+	protected Entity findPlayerToAttack(){
+		return worldObj.getClosestVulnerablePlayerToEntity(this,12D);
 	}
 	
 	@Override
@@ -137,8 +137,6 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTa
 			}
 		}
 		
-		Entity entityToAttack = getAttackTarget();
-		
 		if (entityToAttack != null && entityToAttack.posY > posY+1.3D && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) <= 3D && (getDistanceToEntity(entityToAttack) < 8D || canEntityBeSeen(entityToAttack))){
 			jump();
 		}
@@ -147,6 +145,10 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTa
 	@Override
 	public boolean attackEntityAsMob(Entity entity){
 		float dmgAmount = (float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+
+		if (entity instanceof EntityLivingBase){
+			dmgAmount += EnchantmentHelper.getEnchantmentModifierLiving(this,(EntityLivingBase)entity);
+		}
 
 		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),dmgAmount)){
 			int knockback = louseData.ability(EnumLouseAbility.KNOCKBACK);
@@ -186,8 +188,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTa
 		healTimer = 45;
 		armorRegenTimer = (byte)(100-louseData.attribute(EnumLouseAttribute.ARMOR)*15);
 		
-		if (armor > 0F && hurtResistantTime == 0 && source.getSourceOfDamage() instanceof EntityLivingBase){
-			setAttackTarget((EntityLivingBase)source.getSourceOfDamage());
+		if (armor > 0F && hurtResistantTime == 0){
+			entityToAttack = source.getEntity();
 			playSound("random.anvil_land",0.5F,1.2F);
 			PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.LOUSE_ARMOR_HIT,this));
 			
@@ -206,7 +208,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTa
 		
 		if (worldObj.isRemote){
 			for(int a = 0; a < 64; a++){
-				worldObj.spawnParticle(EnumParticleTypes.PORTAL,posX+(rand.nextDouble()-rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
+				worldObj.spawnParticle("portal",posX+(rand.nextDouble()-rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
 			}
 
 			return;
@@ -218,35 +220,32 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTa
 		int maxDist = 3+level;
 		
 		boolean hasTeleported = false;
-		BlockPosM testPos = new BlockPosM();
 		
-		for(int attempt = 0; attempt < 32 && !hasTeleported; attempt++){
+		for(int attempt = 0, ix, iy, iz; attempt < 32 && !hasTeleported; attempt++){
 			posX = oldPosX+rand.nextInt(maxDist)-rand.nextInt(maxDist);
 			posY = oldPosY+1;
 			posZ = oldPosZ+rand.nextInt(maxDist)-rand.nextInt(maxDist);
 			
 			if (MathUtil.distance(posX-oldPosX,posZ-oldPosZ) < 2D)continue;
 			
-			testPos.moveTo(posX,posY,posZ);
+			ix = MathUtil.floor(posX);
+			iy = MathUtil.floor(posY);
+			iz = MathUtil.floor(posZ);
 			
 			for(int py = 0; py < 3; py++){
-				if (!testPos.isAir(worldObj)){
-					testPos.moveDown();
-					--posY;
-				}
-				else if (!testPos.moveDown().isAir(worldObj)){
+				if (worldObj.isAirBlock(ix,iy,iz) && !worldObj.isAirBlock(ix,iy-1,iz)){
 					setPosition(posX,posY+0.1D,posZ);
 					hasTeleported = true;
 					break;
 				}
-				else --posY;
+				else iy = MathUtil.floor(--posY);
 			}
 		}
 		
 		if (!hasTeleported)return;
 		
 		for(int a = 0; a < 64; a++){
-			worldObj.spawnParticle(EnumParticleTypes.PORTAL,oldPosX+(rand.nextDouble()-rand.nextDouble())*width,oldPosY+rand.nextDouble()*height,oldPosZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
+			worldObj.spawnParticle("portal",oldPosX+(rand.nextDouble()-rand.nextDouble())*width,oldPosY+rand.nextDouble()*height,oldPosZ+(rand.nextDouble()-rand.nextDouble())*width,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F,(rand.nextFloat()-0.5F)*0.2F);
 		}
 
 		worldObj.playSoundEffect(oldPosX,oldPosY,oldPosZ,"mob.endermen.portal",1F,1F);
@@ -276,7 +275,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTa
 	}
 	
 	@Override
-	protected void addRandomArmor(){ // OBFUSCATED dropRareDrop?!
+	protected void dropRareDrop(int lootingExtraLuck){
 		int nearbyLice = worldObj.getEntitiesWithinAABB(EntityMobLouse.class,boundingBox.expand(4D,4D,4D)).size();
 		
 		if (rand.nextInt(1+(nearbyLice>>3)) == 0){
@@ -320,8 +319,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo, IOldTa
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.louse.name");
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal("entity.louse.name");
 	}
 	
 	public LouseSpawnData getSpawnData(){

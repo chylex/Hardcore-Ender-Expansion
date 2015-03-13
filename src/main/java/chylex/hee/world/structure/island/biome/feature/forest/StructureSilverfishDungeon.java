@@ -8,14 +8,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumChatFormatting;
-import chylex.hee.block.BlockCustomSpawner;
-import chylex.hee.block.BlockCustomSpawner.Type;
+import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemMusicDisk;
-import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.IItemPostProcessor;
+import chylex.hee.world.loot.ItemUtil;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
@@ -46,11 +45,11 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 	}).addItemPostProcessor(new IItemPostProcessor(){
 		@Override
 		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItemUseAction() == EnumAction.EAT){
+			if (is.getItemUseAction() == EnumAction.eat){
 				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"It smells fishy...");
 			}
 			else if (is.getItem() == Items.enchanted_book){
-				is.setItem(Items.book);
+				is.func_150996_a(Items.book); // OBFUSCATED set item
 				EnchantmentHelper.addRandomEnchantment(rand,is,13+rand.nextInt(7));
 			}
 			else if (is.isItemEnchantable() && is.getItem() != Items.book){
@@ -119,13 +118,13 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 					iz = z+rand.nextInt(11)-5;
 				
 				if (world.getBlock(ix,iy,iz) == Blocks.end_stone && world.isAir(ix,iy+1,iz)){
-					world.setBlock(ix,iy,iz,Blocks.stonebrick.getStateFromMeta(rand.nextInt(3)));
+					world.setBlock(ix,iy,iz,Blocks.stonebrick,rand.nextInt(3));
 				}
 			}
 			
 			// Spawner
 			
-			world.setBlock(x,lowestY,z,BlockCustomSpawner.createSpawner(Type.SILVERFISH_DUNGEON));
+			world.setBlock(x,lowestY,z,BlockList.custom_spawner,1);
 			
 			if (rand.nextInt(5) <= 1){
 				for(int nextSpawnerAttempt = 0,spawnerX,spawnerY,spawnerZ; nextSpawnerAttempt < 10; nextSpawnerAttempt++){
@@ -134,7 +133,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 					spawnerZ = z+rand.nextInt(11)-5;
 					
 					if (world.isAir(spawnerX,spawnerY,spawnerZ) && world.isAir(spawnerX,spawnerY+1,spawnerZ) && !world.isAir(spawnerX,spawnerY-1,spawnerZ)){
-						world.setBlock(spawnerX,spawnerY,spawnerZ,BlockCustomSpawner.createSpawner(Type.SILVERFISH_DUNGEON));
+						world.setBlock(spawnerX,spawnerY,spawnerZ,BlockList.custom_spawner,1);
 						break;
 					}
 				}
@@ -162,7 +161,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 				chestZ = z;
 			}
 			
-			world.setBlock(chestX,chestY,chestZ,Blocks.chest);
+			world.setBlock(chestX,chestY,chestZ,Blocks.chest,0);
 			world.setTileEntityGenerator(chestX,chestY,chestZ,"silverfishDungeonChest",this);
 			
 			break;

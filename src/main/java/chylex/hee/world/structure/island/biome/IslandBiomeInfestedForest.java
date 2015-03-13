@@ -1,19 +1,15 @@
 package chylex.hee.world.structure.island.biome;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.stats.Achievement;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockBiomeIslandCore.Biome;
 import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.InfestationSavefile;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
@@ -25,12 +21,12 @@ import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeInfestedForest extends IslandBiomeBase{
-	public static final BiomeContentVariation DEEP = new BiomeContentVariation(Biome.INFESTED_FOREST_DEEP.ordinal(), 8);
-	public static final BiomeContentVariation RAVAGED = new BiomeContentVariation(Biome.INFESTED_FOREST_RAVAGED.ordinal(), 6);
-	public static final BiomeContentVariation RUINS = new BiomeContentVariation(Biome.INFESTED_FOREST_RUINS.ordinal(), 3);
+	public static final BiomeContentVariation DEEP = new BiomeContentVariation(0,8);
+	public static final BiomeContentVariation RAVAGED = new BiomeContentVariation(3,6);
+	public static final BiomeContentVariation RUINS = new BiomeContentVariation(4,3);
 	
-	public static final BiomeRandomDeviation TALL_TREES = new BiomeRandomDeviation(DEEP, RAVAGED);
-	public static final BiomeRandomDeviation MORE_THORNY_BUSHES = new BiomeRandomDeviation(DEEP);
+	public static final BiomeRandomDeviation TALL_TREES = new BiomeRandomDeviation("TallTrees", DEEP, RAVAGED);
+	public static final BiomeRandomDeviation MORE_THORNY_BUSHES = new BiomeRandomDeviation("ThornyBushes", DEEP);
 	
 	private final BiomeDecoratorInfestedForest decorator = new BiomeDecoratorInfestedForest();
 	
@@ -61,22 +57,19 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	}
 	
 	@Override
-	public void updateCore(World world, BlockPosM pos, int meta){
-		super.updateCore(world,pos,meta);
+	public void updateCore(World world, int x, int y, int z, int meta){
+		super.updateCore(world,x,y,z,meta);
 		
 		for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
 			if (world.rand.nextInt(5) <= 2)continue;
 			
 			int xx = MathUtil.floor(player.posX), yy = MathUtil.floor(player.posY), zz = MathUtil.floor(player.posZ);
 			boolean found = false;
-			BlockPosM testPos = new BlockPosM();
 			
 			for(int testY = yy-2; testY <= yy+1 && !found; testY++){
 				for(int testX = xx-1; testX <= xx+1 && !found; testX++){
 					for(int testZ = zz-1; testZ <= zz+1; testZ++){
-						IBlockState state = testPos.moveTo(testX,testY,testZ).getBlockState(world);
-						
-						if (state.getBlock() == BlockList.end_terrain && (BlockEndstoneTerrain.Variant)state.getValue(BlockEndstoneTerrain.VARIANT) == getTopBlockVariant()){
+						if (world.getBlock(testX,testY,testZ) == getTopBlock() && world.getBlockMetadata(testX,testY,testZ) == getTopBlockMeta()){
 							WorldDataHandler.<InfestationSavefile>get(InfestationSavefile.class).increaseInfestationPower(player);
 							found = true;
 							break;
@@ -128,7 +121,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	}
 	
 	@Override
-	public BlockEndstoneTerrain.Variant getTopBlockVariant(){
-		return BlockEndstoneTerrain.Variant.INFESTED;
+	public int getTopBlockMeta(){
+		return BlockEndstoneTerrain.metaInfested;
 	}
 }

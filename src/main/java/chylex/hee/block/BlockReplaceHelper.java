@@ -4,12 +4,11 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
-import net.minecraftforge.fml.common.registry.GameData;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.Unfinalizer;
+import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
+import cpw.mods.fml.common.registry.GameData;
 
 public class BlockReplaceHelper{
 	public static void replaceBlock(Block toReplace, Block replacement){
@@ -19,21 +18,21 @@ public class BlockReplaceHelper{
 		Exception exception = null;
 		
 		try{
-			for(Field blockField:Blocks.class.getFields()){
+			for(Field blockField:Blocks.class.getDeclaredFields()){
 				if (Block.class.isAssignableFrom(blockField.getType())){
 					Block block = (Block)blockField.get(null);
 					
 					if (block == toReplace){
-						ResourceLocation registryRes = (ResourceLocation)Block.blockRegistry.getNameForObject(block);
+						String registryName = Block.blockRegistry.getNameForObject(block);
 						int id = Block.getIdFromBlock(block);
 						
-						Log.debug("Replacing block - $0/$1",id,registryRes);
+						Log.debug("Replacing block - $0/$1",id,registryName);
 						
 						((ItemBlock)Item.getItemFromBlock(block)).field_150939_a = replacement;
 						
 						FMLControlledNamespacedRegistry<Block> registryBlocks = GameData.getBlockRegistry();
-						registryBlocks.registryObjects.put(registryRes,replacement);
-						registryBlocks.underlyingIntegerMap.put(replacement,id);
+						registryBlocks.registryObjects.put(registryName,replacement);
+						registryBlocks.underlyingIntegerMap.func_148746_a(replacement,id); // OBFUSCATED put object
 						
 						blockField.setAccessible(true);
 						Unfinalizer.unfinalizeField(blockField);

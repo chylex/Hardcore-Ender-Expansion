@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -21,7 +20,7 @@ public class EntityProjectileMinerShot extends EntityFireball{
 		setSize(0.25F,0.25F);
 		setPosition(x,y,z);
 		
-		Vec3 motionVec = new Vec3(target.posX-x,target.posY+target.height*0.5F-y,target.posZ-z).normalize();
+		Vec3 motionVec = Vec3.createVectorHelper(target.posX-x,target.posY+target.height*0.5F-y,target.posZ-z).normalize();
 		motionX = motionVec.xCoord*0.35D+rand.nextGaussian()*0.002D;
 		motionY = motionVec.yCoord*0.35D+rand.nextGaussian()*0.002D;
 		motionZ = motionVec.zCoord*0.35D+rand.nextGaussian()*0.002D;
@@ -35,7 +34,7 @@ public class EntityProjectileMinerShot extends EntityFireball{
 			super.onUpdate();
 			
 			if (worldObj.isRemote){
-				for(int a = 0; a < 5; a++)worldObj.spawnParticle(EnumParticleTypes.SPELL_MOB,posX+(rand.nextDouble()-0.5D)*0.15D,posY+(rand.nextDouble()-0.5D)*0.15D,posZ+(rand.nextDouble()-0.5D)*0.15D,0.9D,0.6D,0D);
+				for(int a = 0; a < 5; a++)worldObj.spawnParticle("mobSpell",posX+(rand.nextDouble()-0.5D)*0.15D,posY+(rand.nextDouble()-0.5D)*0.15D,posZ+(rand.nextDouble()-0.5D)*0.15D,0.9D,0.6D,0D);
 				if (rand.nextBoolean())HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.15D,posY+0.2D,posZ+(rand.nextDouble()-0.5D)*0.15D,10);
 			}
 		}
@@ -82,7 +81,7 @@ public class EntityProjectileMinerShot extends EntityFireball{
 	}
 	
 	@Override
-	public boolean isEntityInvulnerable(DamageSource source){
+	public boolean isEntityInvulnerable(){
 		return true;
 	}
 }

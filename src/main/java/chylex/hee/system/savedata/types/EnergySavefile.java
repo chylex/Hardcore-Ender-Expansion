@@ -23,7 +23,7 @@ public class EnergySavefile extends WorldSavefile{
 	}
 	
 	public EnergyChunkData getFromChunkCoords(World world, int chunkX, int chunkZ, boolean setModified){
-		if (world.provider.getDimensionId() != 1)return chunkDataOverworld;
+		if (world.provider.dimensionId != 1)return chunkDataOverworld;
 		
 		if (setModified)setModified();
 		

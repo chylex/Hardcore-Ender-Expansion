@@ -103,7 +103,7 @@ public abstract class DragonSpecialAttackBase implements IWeightProvider{
 	public void onCollisionEvent(CollisionEvent event){}
 	
 	protected final int getDifficulty(){
-		return dragon.worldObj.getDifficulty().getDifficultyId();
+		return dragon.worldObj.difficultySetting.getDifficultyId();
 	}
 	
 	@Override

@@ -8,7 +8,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
@@ -30,20 +29,20 @@ public class LouseRavagedSpawnerLogic extends CustomSpawnerLogic{
 	
 	@Override
 	protected AxisAlignedBB getSpawnerCheckBB(){
-		return new AxisAlignedBB(pos,pos.add(1,1,1)).expand(spawnRange*2D,2.5D,spawnRange*2D);
+		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
+		return AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(spawnRange*2D,2.5D,spawnRange*2D);
 	}
 
 	@Override
 	protected boolean checkSpawnerConditions(){
-		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobLouse.class,new AxisAlignedBB(pos,pos.add(1,1,1)).expand(10D,10D,10D)).size() <= 9;
+		int sx = getSpawnerX(), sy = getSpawnerY(), sz = getSpawnerZ();
+		return getSpawnerWorld().getEntitiesWithinAABB(EntityMobLouse.class,AxisAlignedBB.getBoundingBox(sx,sy,sz,sx+1,sy+1,sz+1).expand(10D,10D,10D)).size() <= 9;
 	}
 
 	@Override
 	protected boolean canMobSpawn(EntityLiving entity){
-		BlockPosM testPos = new BlockPosM();
-		
-		for(int spawnerY = pos.y, yy = spawnerY; yy > spawnerY-5; yy--){
-			if (!testPos.moveTo(entity.posX,yy,entity.posZ).isAir(entity.worldObj) || yy == spawnerY-4){
+		for(int spawnerY = getSpawnerY(), yy = spawnerY; yy > spawnerY-5; yy--){
+			if (!entity.worldObj.isAirBlock((int)entity.posX,yy,(int)entity.posZ) || yy == spawnerY-4){
 				entity.setLocationAndAngles(entity.posX,yy+1,entity.posZ,entity.rotationYaw,0F);
 				
 				if (entity.worldObj.checkNoEntityCollision(entity.boundingBox) && entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty()){

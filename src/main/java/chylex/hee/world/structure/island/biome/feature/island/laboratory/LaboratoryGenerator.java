@@ -3,7 +3,8 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import chylex.hee.system.util.Direction;
+import net.minecraft.util.Direction;
+import chylex.hee.system.util.CycleProtection;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
@@ -44,8 +45,9 @@ public final class LaboratoryGenerator{
 					dist = 1;
 					
 					LaboratoryElementPlacer.generateRoomEntrance(world,rand,fromX-offX,yy,fromZ-offZ,offX != 0);
+					CycleProtection.setCounter(512);
 					
-					while(true){
+					while(CycleProtection.proceed()){
 						xx += offX;
 						zz += offZ;
 						++dist;
@@ -92,6 +94,8 @@ public final class LaboratoryGenerator{
 
 						prevStairs = false;
 					}
+					
+					CycleProtection.reset();
 					
 					dist += room.type.halfSizeX*offX+room.type.halfSizeZ*offZ-1;
 					

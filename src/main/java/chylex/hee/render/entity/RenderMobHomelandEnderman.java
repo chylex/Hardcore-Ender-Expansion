@@ -1,11 +1,6 @@
 package chylex.hee.render.entity;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderMobHomelandEnderman extends AbstractRenderMobEnderman{
-	public RenderMobHomelandEnderman(RenderManager renderManager){
-		super(renderManager);
-	}
-}
+public class RenderMobHomelandEnderman extends AbstractRenderMobEnderman{}

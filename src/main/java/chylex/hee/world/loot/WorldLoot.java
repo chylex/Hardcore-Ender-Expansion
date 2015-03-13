@@ -1,11 +1,20 @@
 package chylex.hee.world.loot;
 import static net.minecraftforge.common.ChestGenHooks.*;
+import java.util.Random;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraft.village.MerchantRecipe;
+import net.minecraft.village.MerchantRecipeList;
+import chylex.hee.block.BlockList;
+import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.logging.Stopwatch;
+import cpw.mods.fml.common.registry.VillagerRegistry;
+import cpw.mods.fml.common.registry.VillagerRegistry.IVillageTradeHandler;
 
-public class WorldLoot{
+public class WorldLoot implements IVillageTradeHandler{
 	private static final ItemStack lorePage = new ItemStack(ItemList.adventurers_diary);
 	
 	public static void registerWorldLoot(){
@@ -44,19 +53,20 @@ public class WorldLoot{
 		})getInfo(s).addItem(item);
 		
 		// MISC
-		// TODO add librarian trades once the system is fucking implemented again
+		VillagerRegistry.instance().registerVillageTradeHandler(1,new WorldLoot());
 
 		Stopwatch.finish("WorldLoot - register");
 	}
 	
 	private WorldLoot(){}
-	
-	/*@Override
+
+	@SuppressWarnings("unchecked")
+	@Override
 	public void manipulateTradesForVillager(EntityVillager villager, MerchantRecipeList recipeList, Random rand){
 		if (villager.getProfession() == 1){
 			if (rand.nextFloat() < 0.65F)recipeList.add(new MerchantRecipe(new ItemStack(Items.emerald,4+rand.nextInt(4)),ItemKnowledgeNote.setRandomNote(new ItemStack(ItemList.knowledge_note),rand,2)));
 			else if (rand.nextFloat() < 0.6F)recipeList.add(new MerchantRecipe(new ItemStack(Items.emerald,3+rand.nextInt(3),0),lorePage.copy()));
 			else if (rand.nextFloat() < 0.3F)recipeList.add(new MerchantRecipe(new ItemStack(Items.emerald,11+rand.nextInt(5),0),new ItemStack(BlockList.essence_altar)));
 		}
-	}*/
+	}
 }

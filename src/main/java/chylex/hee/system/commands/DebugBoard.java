@@ -13,10 +13,10 @@ public class DebugBoard{
 		sb = world.getScoreboard();
 		objective = sb.getObjective("HEE_DEBUG");
 		if (objective == null){
-			objective = sb.addScoreObjective("HEE_DEBUG",IScoreObjectiveCriteria.DUMMY);
+			objective = sb.addScoreObjective("HEE_DEBUG",IScoreObjectiveCriteria.field_96641_b);
 			objective.setDisplayName("HEE Debug");
 		}
-		sb.setObjectiveInDisplaySlot(1,objective);
+		sb.func_96530_a(1,objective);
 	}
 	
 	static void stopDebug(){
@@ -29,6 +29,6 @@ public class DebugBoard{
 	
 	public static void updateValue(String name, int newValue){
 		if (sb == null)return;
-		sb.getValueFromObjective(name,objective).setScorePoints(newValue);
+		sb.func_96529_a(name,objective).setScorePoints(newValue);
 	}
 }

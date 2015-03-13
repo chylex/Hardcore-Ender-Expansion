@@ -1,7 +1,5 @@
 package chylex.hee.world.structure.util;
 
-import net.minecraft.util.EnumFacing;
-
 public enum Facing{
 	DOWN, UP, NORTH_NEGZ, SOUTH_POSZ, WEST_NEGX, EAST_POSX;
 	
@@ -50,18 +48,6 @@ public enum Facing{
 			case WEST_NEGX: return EAST_POSX;
 			case EAST_POSX: return WEST_NEGX;
 			default: return this;
-		}
-	}
-	
-	public EnumFacing toEnumFacing(){
-		switch(this){
-			case DOWN: return EnumFacing.DOWN;
-			case UP: return EnumFacing.UP;
-			case NORTH_NEGZ: return EnumFacing.NORTH;
-			case SOUTH_POSZ: return EnumFacing.SOUTH;
-			case WEST_NEGX: return EnumFacing.WEST;
-			case EAST_POSX: return EnumFacing.EAST;
-			default: return EnumFacing.NORTH;
 		}
 	}
 }

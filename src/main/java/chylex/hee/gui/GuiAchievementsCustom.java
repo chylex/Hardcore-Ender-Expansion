@@ -1,21 +1,23 @@
 package chylex.hee.gui;
-import java.io.IOException;
 import java.util.Iterator;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.achievement.GuiAchievements;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraftforge.common.AchievementPage;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Mouse;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.achievements.HeeAchievement;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiAchievementsCustom extends GuiAchievements{
@@ -78,7 +80,7 @@ public class GuiAchievementsCustom extends GuiAchievements{
 	}
 	
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int buttonId) throws IOException{
+	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 0 && achievements != null && screenType == 0){
 			if (mouseX < width/2-113 || mouseX > width/2+113 || mouseY < height/2-84 || mouseY > height/2+68){
 				super.mouseClicked(mouseX,mouseY,buttonId);
@@ -99,22 +101,26 @@ public class GuiAchievementsCustom extends GuiAchievements{
 				int y = achievement.displayRow*24-offsetY;
 
 				if (x >= -24 && y >= -24 && x <= 224F*field_146570_r && y <= 155F*field_146570_r && realMouseX >= x && realMouseX <= x+22 && realMouseY >= y && realMouseY <= y+22){
-					KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = KnowledgeUtils.tryGetFromItemStack(achievement.theItemStack);
+					KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = ((HeeAchievement)achievement).getKnowledgeObj();
+					if (obj == null)obj = KnowledgeUtils.tryGetFromItemStack(achievement.theItemStack);
 					if (obj != null)CompendiumEventsClient.openCompendium(obj);
 				}
 			}
+		}
+		else if (buttonId == 1){
+			mc.displayGuiScreen(field_146562_a); // OBFUSCATED parentScreen
 		}
 		
 		super.mouseClicked(mouseX,mouseY,buttonId);
 	}
 	
 	@Override
-	public void doneLoading(){
-		super.doneLoading();
+	public void func_146509_g(){
+		super.func_146509_g();
 		loadPage();
 		isLoaded = true;
 	}
-
+	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTickTime){
 		if (isLoaded){

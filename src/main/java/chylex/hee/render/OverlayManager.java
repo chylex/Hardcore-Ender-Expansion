@@ -5,20 +5,19 @@ import java.util.List;
 import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChunkCoordinates;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.block.BlockList;
@@ -26,10 +25,12 @@ import chylex.hee.item.ItemBiomeCompass;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.energy.EnergyClusterHealth;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class OverlayManager{
@@ -38,7 +39,6 @@ public class OverlayManager{
 	
 	private TileEntityEnergyCluster clusterLookedAt;
 	private final List<Notification> notifications = new ArrayList<>();
-	private final ItemStack biomeIS = new ItemStack(ItemList.special_effects);
 	
 	public static void addNotification(String notification){
 		if (instance == null)register();
@@ -60,7 +60,7 @@ public class OverlayManager{
 			ItemStack is = mc.thePlayer.inventory.getCurrentItem();
 			
 			if (is != null && is.getItem() == ItemList.biome_compass && ItemBiomeCompass.currentBiome != -1){
-				Set<BlockPosM> coords = ItemBiomeCompass.locations.get(ItemBiomeCompass.currentBiome);
+				Set<ChunkCoordinates> coords = ItemBiomeCompass.locations.get(ItemBiomeCompass.currentBiome);
 				
 				if (!coords.isEmpty()){
 					GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -69,11 +69,11 @@ public class OverlayManager{
 					GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 					
 					GL11.glPushMatrix();
-					mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+					mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
 					
-					for(BlockPosM coord:coords){
-						double viewRot = 90F+Math.toDegrees(Math.atan2(mc.thePlayer.posX-coord.x,mc.thePlayer.posZ-coord.z));
-						float dist = (float)MathUtil.distance(mc.thePlayer.posX-coord.x,mc.thePlayer.posZ-coord.z);
+					for(ChunkCoordinates coord:coords){
+						double viewRot = 90F+Math.toDegrees(Math.atan2(mc.thePlayer.posX-coord.posX,mc.thePlayer.posZ-coord.posZ));
+						float dist = (float)MathUtil.distance(mc.thePlayer.posX-coord.posX,mc.thePlayer.posZ-coord.posZ);
 						
 						if (dist <= 40F)continue;
 						else if (dist < 140F)GL11.glColor4f(1F,1F,1F,0.5F*((dist-40F)/100F));
@@ -90,8 +90,8 @@ public class OverlayManager{
 						GL11.glScalef(6F,6F,6F);
 						GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
 						
-						biomeIS.setItemDamage(ItemSpecialEffects.biomePointStart+ItemBiomeCompass.currentBiome);
-						mc.getRenderItem().renderItemModel(biomeIS);
+						IIcon icon = ItemList.special_effects.getIconFromDamage(ItemSpecialEffects.biomePointStart+ItemBiomeCompass.currentBiome);
+						ItemRenderer.renderItemIn2D(Tessellator.instance,icon.getMaxU(),icon.getMinV(),icon.getMinU(),icon.getMaxV(),icon.getIconWidth(),icon.getIconHeight(),0.0625F);
 						
 						GL11.glPopMatrix();
 						GL11.glPopMatrix();
@@ -123,13 +123,13 @@ public class OverlayManager{
 			GL11.glColor4f(1F,1F,1F,1F);
 			
 			mc.getTextureManager().bindTexture(texGoo);
-			WorldRenderer renderer = Tessellator.getInstance().getWorldRenderer();
-			renderer.startDrawingQuads();
-			renderer.addVertexWithUV(0D,h,-90D,0D,1D);
-			renderer.addVertexWithUV(w,h,-90D,1D,1D);
-			renderer.addVertexWithUV(w,0D,-90D,1D,0D);
-			renderer.addVertexWithUV(0D,0D,-90D,0D,0D);
-			Tessellator.getInstance().draw();
+			Tessellator tessellator = Tessellator.instance;
+			tessellator.startDrawingQuads();
+			tessellator.addVertexWithUV(0D,h,-90D,0D,1D);
+			tessellator.addVertexWithUV(w,h,-90D,1D,1D);
+			tessellator.addVertexWithUV(w,0D,-90D,1D,0D);
+			tessellator.addVertexWithUV(0D,0D,-90D,0D,0D);
+			tessellator.draw();
 			
 			GL11.glDepthMask(true);
 			GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -145,7 +145,7 @@ public class OverlayManager{
 		
 		if (e.type == ElementType.HOTBAR){
 			if (!notifications.isEmpty()){
-				FontRenderer font = mc.fontRendererObj;
+				FontRenderer font = mc.fontRenderer;
 				
 				boolean prevUnicode = font.getUnicodeFlag();
 				font.setUnicodeFlag(true);
@@ -180,7 +180,7 @@ public class OverlayManager{
 			}
 			
 			if (clusterLookedAt != null){
-				FontRenderer font = mc.fontRendererObj;
+				FontRenderer font = mc.fontRenderer;
 				int x = e.resolution.getScaledWidth()>>1;
 				int y = e.resolution.getScaledHeight()>>1;
 				
@@ -211,8 +211,8 @@ public class OverlayManager{
 	
 	@SubscribeEvent
 	public void onRenderBlockOutline(DrawBlockHighlightEvent e){
-		if (e.player.worldObj.getBlockState(e.target.getBlockPos()).getBlock() == BlockList.energy_cluster){
-			clusterLookedAt = (TileEntityEnergyCluster)e.player.worldObj.getTileEntity(e.target.getBlockPos());
+		if (e.player.worldObj.getBlock(e.target.blockX,e.target.blockY,e.target.blockZ) == BlockList.energy_cluster){
+			clusterLookedAt = (TileEntityEnergyCluster)e.player.worldObj.getTileEntity(e.target.blockX,e.target.blockY,e.target.blockZ);
 			e.setCanceled(true);
 		}
 	}

@@ -1,7 +1,11 @@
 package chylex.hee.system.util;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
 import net.minecraft.block.Block;
@@ -66,14 +70,14 @@ public final class DragonUtil{
 
 		for(int a = 0; a < 4; a++){
 			for(int b = 0; b < 2; b++){
-				MovingObjectPosition mop = entity.worldObj.rayTraceBlocks(new Vec3(px,py+0.12F,pz),new Vec3(x+rayX[a]*pointScale,y+(b == 0?-1D:1D)*pointScale,z+rayZ[a]*pointScale));
+				MovingObjectPosition mop = entity.worldObj.rayTraceBlocks(Vec3.createVectorHelper(px,py+0.12F,pz),Vec3.createVectorHelper(x+rayX[a]*pointScale,y+(b == 0?-1D:1D)*pointScale,z+rayZ[a]*pointScale));
 				
 				if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
-					isBlockedArr[a*2+b] = MathUtil.distance(mop.getBlockPos().getX()+0.5D-x,mop.getBlockPos().getY()+0.5D-y,mop.getBlockPos().getZ()+0.5D-z) > 0.1D &&
-										  MathUtil.distance(mop.getBlockPos().getX()+0.5D-px,mop.getBlockPos().getY()+0.62D-py,mop.getBlockPos().getZ()-pz) > 2D;
+					isBlockedArr[a*2+b] = MathUtil.distance(mop.blockX+0.5D-x,mop.blockY+0.5D-y,mop.blockZ+0.5D-z) > 0.1D &&
+										  MathUtil.distance(mop.blockX+0.5D-px,mop.blockY+0.62D-py,mop.blockZ-pz) > 2D;
 
 					if (isBlockedArr[a*2+b]){
-						if (!entity.worldObj.getBlockState(mop.getBlockPos()).getBlock().isOpaqueCube())isBlockedArr[a*2+b] = false;
+						if (!entity.worldObj.getBlock(mop.blockX,mop.blockY,mop.blockZ).isOpaqueCube())isBlockedArr[a*2+b] = false;
 					}
 				}
 			}
@@ -102,25 +106,44 @@ public final class DragonUtil{
 	
 	public static <T extends Entity> T getClosestEntity(Entity source, List<? extends T> list){
 		double closestDist = Double.MAX_VALUE, currentDist;
-		Entity closestEntity = null;
+		T closestEntity = null;
 		
-		for(Entity entity:list){
+		for(T entity:list){
 			if (!entity.isDead && (currentDist = source.getDistanceSqToEntity(entity)) < closestDist){
 				closestDist = currentDist;
 				closestEntity = entity;
 			}
 		}
 		
-		return (T)closestEntity;
+		return closestEntity;
+	}
+	
+	public static <T extends Entity> List<T> getClosestEntities(int maxAmount, Entity source, List<? extends T> list){
+		List<T> closestEntities = new ArrayList<>();
+		Map<T,Float> entities = new HashMap<>();
+		
+		if (maxAmount <= 0)return closestEntities;
+		
+		for(T entity:list){
+			if (entity.isDead)continue;
+			entities.put(entity,source.getDistanceToEntity(entity));
+		}
+		
+		for(Entry<T,Float> entry:CollectionUtil.sortMapByValueAsc(entities)){
+			closestEntities.add(entry.getKey());
+			if (--maxAmount <= 0)break;
+		}
+		
+		return closestEntities;
 	}
 	
 	public static double[] getNormalizedVector(double vecX, double vecZ){
 		double len = Math.sqrt(vecX*vecX+vecZ*vecZ);
-		return len == 0D ? new double[]{ 0, 0 } : new double[]{ vecX/len, vecZ/len };
+		return len == 0 ? new double[]{ 0, 0 } : new double[]{ vecX/len, vecZ/len };
 	}
 	
-	public static Vec3M getRandomVector(Random rand){
-		return new Vec3M(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
+	public static Vec3 getRandomVector(Random rand){
+		return Vec3.createVectorHelper(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
 	}
 
 	public static <T> T[] getNonNullValues(T[] array){
@@ -140,10 +163,8 @@ public final class DragonUtil{
 	}
 
 	public static int getTopBlockY(World world, Block block, int x, int z, int startY){
-		BlockPosM pos = new BlockPosM(x,startY,z);
-		
-		for(; pos.y >= 0; pos.y--){
-			if (pos.getBlock(world) == block)return pos.y;
+		for(int y = startY; y >= 0; y--){
+			if (world.getBlock(x,y,z) == block)return y;
 		}
 		
 		return -1;
@@ -163,7 +184,7 @@ public final class DragonUtil{
 	
 	public static void teleportToOverworld(EntityPlayerMP player){
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player,0);
-		player.playerNetServerHandler.playerEntity = player.mcServer.getConfigurationManager().recreatePlayerEntity(player,0,true);
+		player.playerNetServerHandler.playerEntity = player.mcServer.getConfigurationManager().respawnPlayer(player,0,true);
 	}
 	
 	public static void createExplosion(Entity entity, double x, double y, double z, float strength, boolean fire){

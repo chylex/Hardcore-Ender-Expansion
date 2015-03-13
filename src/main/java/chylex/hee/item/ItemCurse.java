@@ -1,49 +1,57 @@
 package chylex.hee.item;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSnow;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.util.BlockPosM;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemCurse extends Item{
+	@SideOnly(Side.CLIENT)
+	private IIcon icon1, icon2;
+	
 	public ItemCurse(){
 		setHasSubtypes(true);
 	}
 	
 	@Override
-	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ){
-		IBlockState state = world.getBlockState(pos);
-		Block block = state.getBlock();
+	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
+		Block block = world.getBlock(x,y,z);
 
-		if (block == Blocks.snow_layer && ((Integer)state.getValue(BlockSnow.LAYERS)).intValue() < 1)side = EnumFacing.UP;
-		else if (!block.isReplaceable(world,pos))pos = pos.offset(side);
+		if (block == Blocks.snow_layer && (world.getBlockMetadata(x,y,z)&7) < 1)side = 1;
+		else if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush && !block.isReplaceable(world,x,y,z)){
+			switch(side){
+				case 0: --y; break;
+				case 1: ++y; break;
+				case 2: --z; break;
+				case 3: ++z; break;
+				case 4: --x; break;
+				case 5: ++x; break;
+			}
+		}
 
-		if (is.stackSize == 0 || !player.canPlayerEdit(pos,side,is))return false;
+		if (is.stackSize == 0)return false;
 		else{
 			CurseType type = CurseType.getFromDamage(is.getItemDamage());
 			if (type == null)return false;
 			
-			if (!world.isRemote)world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,new BlockPosM(pos),player.getUniqueID(),type,CurseType.isEternal(is.getItemDamage())));
-			else world.playSound(pos.getX()+0.5D,pos.getY(),pos.getZ()+0.5D,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
+			if (!world.isRemote)world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,x,y,z,player.getUniqueID(),type,CurseType.isEternal(is.getItemDamage())));
+			else world.playSound(x+0.5D,y,z+0.5D,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
 			
 			return true;
 		}
@@ -103,5 +111,28 @@ public class ItemCurse extends Item{
 	public int getColorFromItemStack(ItemStack is, int pass){
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
 		return type == null ? 16777215 : type.getColor(pass);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIconFromDamageForRenderPass(int damage, int pass){
+		return pass == 0 ? icon1 : icon2;
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses(){
+		return true;
+	}
+	
+	@Override
+	public int getRenderPasses(int metadata){
+		return 2;
+	}
+	
+	@Override
+	public void registerIcons(IIconRegister iconRegister){
+		icon1 = iconRegister.registerIcon(iconString+"_1");
+		icon2 = iconRegister.registerIcon(iconString+"_2");
 	}
 }

@@ -13,7 +13,6 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -52,16 +51,15 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 				EntityPlayer player = viablePlayers.remove(rand.nextInt(viablePlayers.size()));
 				
 				for(EntityMobAngryEnderman enderman:(List<EntityMobAngryEnderman>)dragon.worldObj.getEntitiesWithinAABB(EntityMobAngryEnderman.class,player.boundingBox.expand(14D,5D,14D))){
-					if (enderman.getAttackTarget() == player)++aggro;
+					if (enderman.getEntityToAttack() == player)++aggro;
 					++total;
 				}
 				
 				if (aggro < getDifficulty() && total < 6+getDifficulty()){
 					boolean flying = true;
-					BlockPosM testPos = new BlockPosM(player);
 					
-					for(int a = 0; a < 5; a++){
-						if (!testPos.moveDown().isAir(dragon.worldObj)){
+					for(int a = 0, xx = MathUtil.floor(player.posX), zz = MathUtil.floor(player.posZ), testY = MathUtil.floor(player.posY)-1; a < 5; a++){
+						if (!dragon.worldObj.isAirBlock(xx,testY-a,zz)){
 							flying = false;
 							break;
 						}
@@ -87,10 +85,10 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 						
 						EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(dragon.worldObj);
 						enderman.setPosition(x,y,z);
-						enderman.setAttackTarget(player);
+						enderman.setTarget(player);
 						
 						if ((getDifficulty() > 1 || ModCommonProxy.opMobs) && rand.nextInt(100) < 5+getDifficulty()*10+(ModCommonProxy.opMobs ? 25 : 0)){
-							enderman.addPotionEffect(new PotionEffect(Potion.damageBoost.id,2400,0,true,true));
+							enderman.addPotionEffect(new PotionEffect(Potion.damageBoost.id,2400,0,true));
 						}
 						
 						dragon.worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(dragon.worldObj,x,y,z));

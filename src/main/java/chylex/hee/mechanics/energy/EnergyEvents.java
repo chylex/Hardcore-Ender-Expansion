@@ -3,20 +3,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import net.minecraft.util.Direction;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.ChunkProviderServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
-import chylex.hee.system.util.Direction;
 import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.WorldTickEvent;
 
 public final class EnergyEvents{
 	private static final EnergyEvents instance = new EnergyEvents();
@@ -28,7 +28,7 @@ public final class EnergyEvents{
 	
 	@SubscribeEvent
 	public void onWorldTick(WorldTickEvent e){
-		if (e.phase != Phase.START || e.world.provider.getDimensionId() != 1 || e.world.isRemote || ++updateTimer <= 4)return;
+		if (e.phase != Phase.START || e.world.provider.dimensionId != 1 || e.world.isRemote || ++updateTimer <= 4)return;
 		
 		Stopwatch.timeAverage("EnergyEvents - WorldTick",80);
 		
@@ -57,8 +57,8 @@ public final class EnergyEvents{
 	public void onLivingDeath(LivingDeathEvent e){
 		if (e.entity.worldObj.isRemote || e.entity.dimension != 1)return;
 		
-		float energy = MobEnergy.getEnergy(e.entityLiving);
-		if (MathUtil.floatEquals(energy,-1F))return;
+		float energy = EnergyValues.getMobEnergy(e.entityLiving);
+		if (MathUtil.floatEquals(energy,0F))return;
 		
 		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(e.entity.worldObj,MathUtil.floor(e.entity.posX),MathUtil.floor(e.entity.posZ),true).addEnergy(energy);
 	}

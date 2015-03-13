@@ -1,12 +1,12 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import chylex.hee.entity.fx.FXHandler;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.AbstractClientPacket;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class C22EffectLine extends AbstractClientPacket{	
 	private FXType.Line type;
@@ -50,7 +50,7 @@ public class C22EffectLine extends AbstractClientPacket{
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	protected void handle(AbstractClientPlayer player){
+	protected void handle(EntityClientPlayerMP player){
 		if (type != null)FXHandler.handleLine(player.worldObj,player,type,x1,y1,z1,x2,y2,z2);
 	}
 }

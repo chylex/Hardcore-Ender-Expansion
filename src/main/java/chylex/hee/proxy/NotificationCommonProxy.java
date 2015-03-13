@@ -6,9 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatComponentText;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public class NotificationCommonProxy{
 	protected static final String prefix = "[HEE] ";
@@ -47,7 +47,7 @@ public class NotificationCommonProxy{
 		List<EntityPlayer> players = manager.playerEntityList;
 		
 		for(EntityPlayer player:players){
-			if (manager.canSendCommands(player.getGameProfile())){
+			if (manager.func_152596_g(player.getGameProfile())){
 				deliverNotificationsToPlayer(player);
 				delivered = true;
 			}
@@ -57,7 +57,7 @@ public class NotificationCommonProxy{
 	}
 	
 	protected void onPlayerLogin(EntityPlayer player){
-		if (MinecraftServer.getServer().getConfigurationManager().canSendCommands(player.getGameProfile())){
+		if (MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile())){
 			deliverNotificationsToPlayer(player);
 			clearNotifications();
 		}

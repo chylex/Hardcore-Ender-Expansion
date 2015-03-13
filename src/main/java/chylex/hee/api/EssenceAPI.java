@@ -8,8 +8,9 @@ import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 /**
  * API for Essences and Essence Altars.
  */
+@Deprecated
 public final class EssenceAPI extends AbstractAPI{
-	EssenceAPI(){}
+	public EssenceAPI(){}
 	
 	/**
 	 * Adds an item exchange recipe to the Dragon Essence Altar.
@@ -17,6 +18,7 @@ public final class EssenceAPI extends AbstractAPI{
 	 * @param result Final ItemStack that is created after the exchange.
 	 * @param cost Amount of Dragon Essence used, the final number may be lower if sockets are used.
 	 */
+	@Deprecated
 	public void addDragonItemRecipe(ItemStack source, ItemStack result, int cost){
 		validate();
 		DragonEssenceHandler.recipes.add(new AltarItemRecipe(source,result,cost));
@@ -26,6 +28,7 @@ public final class EssenceAPI extends AbstractAPI{
 	 * Adds an item exchange recipe to the Dragon Essence Altar.
 	 * @param recipe Custom instance of AltarItemRecipe to use.
 	 */
+	@Deprecated
 	public void addDragonItemRecipe(AltarItemRecipe recipe){
 		validate();
 		DragonEssenceHandler.recipes.add(recipe);
@@ -36,6 +39,7 @@ public final class EssenceAPI extends AbstractAPI{
 	 * @param essenceType Type of essence.
 	 * @return New ItemStack, or null if provided invalid value.
 	 */
+	@Deprecated
 	public ItemStack createEssenceItemStack(EssenceType essenceType){
 		validate();
 		if (essenceType == null || essenceType == EssenceType.INVALID)return null;

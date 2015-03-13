@@ -8,6 +8,8 @@ import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.util.IGuiItemStackRenderer;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeObject<T extends IKnowledgeObjectInstance<?>> implements IGuiItemStackRenderer{
 	private static int lastUsedID = 0;
@@ -132,8 +134,13 @@ public class KnowledgeObject<T extends IKnowledgeObjectInstance<?>> implements I
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public String getTooltip(){
 		return I18n.format(tooltip);
+	}
+	
+	public String getUnlocalizedTooltip(){
+		return tooltip;
 	}
 	
 	@Override

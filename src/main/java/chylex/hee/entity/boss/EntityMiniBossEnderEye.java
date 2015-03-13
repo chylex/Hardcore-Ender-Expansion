@@ -16,17 +16,18 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.RandomNameGenerator;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityLaserBeam;
@@ -69,12 +70,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	}
 	
 	@Override
-	public void onLivingUpdate(){
-		super.onLivingUpdate();
-		if (worldObj.isRemote)return;
-		
+	protected void updateEntityActionState(){
 		if (isAsleep()){
-			if (++healTimer >= 7-worldObj.getDifficulty().getDifficultyId() && getHealth() < getMaxHealth()){
+			if (++healTimer >= 7-worldObj.difficultySetting.getDifficultyId() && getHealth() < getMaxHealth()){
 				healTimer = 0;
 				heal(1);
 			}
@@ -138,18 +136,15 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					if (attackType == AttackType.Poof){
 						if (attackAnim == 34){
 							if (worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){
-								BlockPosM pos = new BlockPosM();
-								
-								for(int a = 0, hits = 0; a < 200 && hits < 16+worldObj.getDifficulty().getDifficultyId(); a++){
-									pos.x = rand.nextInt(15)-7+MathUtil.floor(posX);
-									pos.y = rand.nextInt(8)-4+MathUtil.floor(posY);
-									pos.z = rand.nextInt(15)-7+MathUtil.floor(posZ);
+								for(int a = 0,hits = 0,x,y,z; a < 200 && hits < 16+worldObj.difficultySetting.getDifficultyId(); a++){
+									x = rand.nextInt(15)-7+MathUtil.floor(posX);
+									y = rand.nextInt(8)-4+MathUtil.floor(posY);
+									z = rand.nextInt(15)-7+MathUtil.floor(posZ);
 									
-									Block block = pos.getBlock(worldObj);
-									
-									if (block.getMaterial() != Material.air && block.getBlockHardness(worldObj,pos) != -1F){
-										pos.setToAir(worldObj);
-										worldObj.playAuxSFX(2001,pos,Block.getIdFromBlock(Blocks.obsidian));
+									Block block = worldObj.getBlock(x,y,z);
+									if (block.getMaterial() != Material.air && block.getBlockHardness(worldObj,x,y,z) != -1F){
+										worldObj.setBlockToAir(x,y,z);
+										worldObj.playAuxSFX(2001,x,y,z,Block.getIdFromBlock(Blocks.obsidian));
 										++hits;
 									}
 								}
@@ -168,7 +163,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								player.motionY += 0.34D;
 								player.motionZ += vec[1];
 								
-								player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.getDifficulty()));
+								player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
 							}
 							
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_POOF,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
@@ -179,15 +174,15 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					 */
 					else if (attackType == AttackType.Nausea){
 						if (attackAnim == 17){
-							PotionEffect effNausea = new PotionEffect(Potion.confusion.id,220,0,true,false);
+							PotionEffect effNausea = new PotionEffect(Potion.confusion.id,220,0,true);
 							for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,6D,6D)))player.addPotionEffect(effNausea);
 						}
 						else if (attackAnim == 19){
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_CONFUSION,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
 						}
 						else if (attackAnim == 26){
-							PotionEffect effBlind = new PotionEffect(Potion.blindness.id,160,0,true,false),
-										 effSlow = new PotionEffect(Potion.moveSlowdown.id,120,0,true,false);
+							PotionEffect effBlind = new PotionEffect(Potion.blindness.id,160,0,true),
+										 effSlow = new PotionEffect(Potion.moveSlowdown.id,120,0,true);
 							
 							for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,6D,6D))){
 								player.addPotionEffect(effBlind);
@@ -200,17 +195,16 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					 */
 					else if (attackType == AttackType.LaserBeams){
 						if (attackAnim > 35 && attackAnim < 99 && attackAnim%7 == 0){
-							BlockPosM pos = new BlockPosM();
 							int myY = MathUtil.floor(posY), attempt, x, y, z, minY;
 							
 							for(attempt = 0; attempt < 12; attempt++){
 								x = MathUtil.floor(posX)+rand.nextInt(17)-8;
 								z = MathUtil.floor(posZ)+rand.nextInt(17)-8;
 								
-								if (pos.moveTo(x,myY,z).isAir(worldObj))continue;
+								if (worldObj.getBlock(x,myY,z) != Blocks.air)continue;
 								
 								for(y = myY; y > myY-6; y--){
-									if (pos.moveTo(x,y,z).isAir(worldObj))break;
+									if (worldObj.getBlock(x,y,z) != Blocks.air)break;
 									else if (y == myY-4){
 										y = -1;
 										break;
@@ -223,9 +217,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								if (laserTopY == 0)laserTopY = (short)(myY+8);
 								
 								for(y = minY+1; y < laserTopY; y++){
-									if (pos.moveTo(x,y,z).isAir(worldObj))break;
-									pos.setBlock(worldObj,BlockList.laser_beam);
-									TileEntityLaserBeam beam = (TileEntityLaserBeam)worldObj.getTileEntity(pos);
+									if (worldObj.getBlock(x,y,z) != Blocks.air)break;
+									worldObj.setBlock(x,y,z,BlockList.laser_beam);
+									TileEntityLaserBeam beam = (TileEntityLaserBeam)worldObj.getTileEntity(x,y,z);
 									if (beam != null)beam.setTicksLeft(102-attackAnim);
 								}
 								
@@ -248,7 +242,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					if (Math.abs(yD) >= 0.8D)motionY -= Math.abs(yD)*0.005D*Math.signum(yD);
 					
 					if (distance >= 3D)setMoveForward((float)getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
-					else if (Math.abs(yD) < 1D)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 6F : 3F,worldObj.getDifficulty()));
+					else if (Math.abs(yD) < 1D)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 6F : 3F,worldObj.difficultySetting));
 					
 					if (target.isDead)target = null;
 				}
@@ -260,28 +254,25 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (isEntityInvulnerable(source) || source == DamageSource.inWall || source == DamageSource.drown || source == DamageSource.cactus || source.isFireDamage()||
+		if (isEntityInvulnerable() || source == DamageSource.inWall || source == DamageSource.drown || source == DamageSource.cactus || source.isFireDamage()||
 			source.isMagicDamage() || source.isProjectile())return false; // you need manly strength to penetrate through the obsidian armor; min iron sword
 		
 		if (isAsleep()){
 			setIsAsleep(false);
 			
-			if (worldObj.getDifficulty().getDifficultyId() > 1 || ModCommonProxy.opMobs){
-				BlockPosM pos = new BlockPosM();
-				
-				for(int a = 0, hits = 0; a < 400 && hits < 5+worldObj.getDifficulty().getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
-					pos.x = rand.nextInt(15)-7+MathUtil.floor(posX);
-					pos.y = rand.nextInt(8)-4+MathUtil.floor(posY);
-					pos.z = rand.nextInt(15)-7+MathUtil.floor(posZ);
+			if (worldObj.difficultySetting.getDifficultyId() > 1 || ModCommonProxy.opMobs){
+				for(int a = 0, hits = 0, x, y, z; a < 400 && hits < 5+worldObj.difficultySetting.getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
+					x = rand.nextInt(15)-7+MathUtil.floor(posX);
+					y = rand.nextInt(8)-4+MathUtil.floor(posY);
+					z = rand.nextInt(15)-7+MathUtil.floor(posZ);
 					
-					Block block = pos.getBlock(worldObj);
+					Block block = worldObj.getBlock(x,y,z);
 					
 					if (block != Blocks.air){
-						float hardness = block.getBlockHardness(worldObj,pos);
-						
-						if (hardness != -1F && hardness <= 5F){	
-							pos.setToAir(worldObj);
-							worldObj.playAuxSFX(2001,pos,Block.getIdFromBlock(Blocks.obsidian));
+						float hardness = block.getBlockHardness(worldObj,x,y,z);
+						if (hardness != -1F && hardness <= 5F){					
+							worldObj.setBlockToAir(x,y,z);
+							worldObj.playAuxSFX(2001,x,y,z,Block.getIdFromBlock(Blocks.obsidian));
 							++hits;
 						}
 					}
@@ -293,7 +284,12 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		
 		amount = 7F+Math.min((amount-7F)*0.5F,5F);
 		if (getAttackAnimationTime() > 0)amount *= 0.275F;
-		return super.attackEntityFrom(source,amount);
+		
+		if (super.attackEntityFrom(source,amount)){
+			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
+			return true;
+		}
+		else return false;
 	}
 	
 	@Override
@@ -310,9 +306,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		isAirBorne = true;
 		double dist = Math.sqrt(xPower*xPower+zPower*zPower);
 		
-		motionX -= xPower/dist*0.1D;
+		motionX -= xPower/dist*0.04D;
 		motionY += 0.005D;
-		motionZ -= zPower/dist*0.1D;
+		motionZ -= zPower/dist*0.04D;
 
 		if (motionY > 0.05D)motionY = 0.05D;
 	}
@@ -386,8 +382,8 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal("entity.enderEye.name");
+	public String getCommandSenderName(){
+		return hasCustomNameTag()?getCustomNameTag():StatCollector.translateToLocal("entity.enderEye.name");
 	}
 	
 	@Override

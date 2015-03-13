@@ -4,16 +4,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.api.interfaces.IIgnoreEnderGoo;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
@@ -26,14 +24,14 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
-		for(int a = 0; a < 3; a++)worldObj.spawnParticle(EnumParticleTypes.PORTAL,posX,posY-0.45D,posZ,0D,0D,0D);
+		for(int a = 0; a < 3; a++)worldObj.spawnParticle("portal",posX,posY-0.45D,posZ,0D,0D,0D);
 	}
 	
 	@Override
 	protected void updateAITasks(){
 		super.updateAITasks();
-		
-		if (target == null || !new BlockPosM(this).isAir(worldObj) || target.isDead || target.posY < 1){
+
+		if (target == null || (!worldObj.isAirBlock(MathUtil.floor(target.posX),MathUtil.floor(target.posY),MathUtil.floor(target.posZ)) || target.isDead || target.posY < 1)){
 			if ((target = worldObj.getClosestPlayerToEntity(this,32D)) == null){
 				setDead();
 				return;
@@ -46,7 +44,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 		motionX += (Math.signum(xDiff)*0.5D-motionX)*0.1D;
 		motionY += (Math.signum(yDiff)*0.7D-motionY)*0.1D;
 		motionZ += (Math.signum(zDiff)*0.5D-motionZ)*0.1D;
-		rotationYaw += MathHelper.wrapAngleTo180_float((float)(MathUtil.toDeg(Math.atan2(motionZ,motionX)))-90F-rotationYaw);
+		rotationYaw += MathHelper.wrapAngleTo180_float((float)(Math.atan2(motionZ,motionX)*180D/Math.PI)-90F-rotationYaw);
 		moveForward = 0.5F;
 		
 	}
@@ -89,8 +87,8 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 			}
 			
 			for(int a = 0; a < 6; a++){
-				worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE,posX,posY+0.4D,posZ,0D,0D,0D);
-				worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,posX,posY+0.4D,posZ,0D,0D,0D);
+				worldObj.spawnParticle("largesmoke",posX,posY+0.4D,posZ,0D,0D,0D);
+				worldObj.spawnParticle("smoke",posX,posY+0.4D,posZ,0D,0D,0D);
 			}
 		}
 	}
@@ -100,8 +98,8 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 		if (!worldObj.isRemote)setDead();
 		
 		for(int a = 0; a < 6; a++){
-			worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE,posX,posY+0.4D,posZ,0D,0D,0D);
-			worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL,posX,posY+0.4D,posZ,0D,0D,0D);
+			worldObj.spawnParticle("largesmoke",posX,posY+0.4D,posZ,0D,0D,0D);
+			worldObj.spawnParticle("smoke",posX,posY+0.4D,posZ,0D,0D,0D);
 		}
 		
 		return true;
@@ -121,7 +119,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	}
 	
 	@Override
-	public String getName(){
-		return hasCustomName() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.vampireBat.name"));
+	public String getCommandSenderName(){
+		return StatCollector.translateToLocal(Baconizer.mobName("entity.vampireBat.name"));
 	}
 }

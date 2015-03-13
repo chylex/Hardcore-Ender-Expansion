@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockCrossedDecoration.Variant;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
@@ -47,7 +46,9 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// GOO LAKES
-		for(int attempt = 0, placed = 0, amount = rand.nextInt(3)+5; attempt < 170 && placed < amount; attempt++){
+		boolean swamp = data.hasDeviation(IslandBiomeEnchantedIsland.GOO_SWAMP);
+		
+		for(int attempt = 0, placed = 0, amount = rand.nextInt(3)+5; attempt < (swamp ? 450 : 170) && placed < (swamp ? amount*3 : amount); attempt++){
 			if (generateStructure(genGooLake))++placed;
 		}
 		
@@ -55,7 +56,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
 			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){	
 				if (rand.nextInt(5) <= 2){
-					int height = rand.nextInt(14)+(data.hasDeviation(IslandBiomeEnchantedIsland.TALL_PILES) ? 6+rand.nextInt(8) : 4);
+					int height = rand.nextInt(14)+(data.hasDeviation(IslandBiomeEnchantedIsland.TALL_PILES) ? 6+rand.nextInt(12) : 4);
 					int radius = rand.nextInt(2)+1;
 					
 					int ox = cx*16+rand.nextInt(16),
@@ -78,7 +79,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 								for(int zz = oz-radius; zz <= oz+radius; ++zz){
 									for(int yy = world.getHighestY(xx,zz)+1; yy < oy+height && yy < 128; ++yy){
 										if (MathUtil.square(xx-ox)+MathUtil.square(zz-oz) <= radius*radius+0.5D+rand.nextGaussian()*0.7D){
-											world.setBlock(xx,yy,zz,BlockList.obsidian_falling,true);
+											world.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,true);
 										}
 									}
 								}
@@ -95,7 +96,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// SHADOW ORCHID
-		for(int attempt = 0; attempt < 250; attempt++){
+		for(int attempt = data.hasDeviation(IslandBiomeEnchantedIsland.MORE_SHADOW_ORCHIDS) ? 750 : 450; attempt > 0; attempt--){
 			if (generateStructure(genShadowOrchid))++attempt;
 		}
 		
@@ -203,7 +204,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 						
 						for(yAttempt = 0; yAttempt < 5; yAttempt++){
 							if (world.getBlock(px,py-1,pz) == BlockList.end_terrain && world.isAir(px,py,pz)){
-								world.setBlock(px,py,pz,BlockCrossedDecoration.createState(rand.nextInt(4) == 0 ? Variant.VIOLET_MOSS_TALL : rand.nextInt(3) == 0 ? Variant.VIOLET_MOSS_MODERATE : Variant.VIOLET_MOSS_SHORT));
+								world.setBlock(px,py,pz,BlockList.crossed_decoration,rand.nextInt(4) == 0 ? BlockCrossedDecoration.dataVioletMossTall : rand.nextInt(3) == 0 ? BlockCrossedDecoration.dataVioletMossModerate : BlockCrossedDecoration.dataVioletMossShort);
 								++placed;
 								break;
 							}
@@ -225,8 +226,8 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 		
 		// SHADOW ORCHID
-		for(int attempt = 0; attempt < 200; attempt++){
-			if (generateStructure(genShadowOrchid) || rand.nextBoolean())++attempt;
+		for(int attempt = data.hasDeviation(IslandBiomeEnchantedIsland.MORE_SHADOW_ORCHIDS) ? 550 : 350; attempt > 0; attempt--){
+			if (generateStructure(genShadowOrchid))++attempt;
 		}
 	}
 }

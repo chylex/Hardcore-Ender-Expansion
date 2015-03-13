@@ -6,7 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import chylex.hee.block.BlockList;
-import chylex.hee.block.BlockRavagedBrick.Variant;
+import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.mechanics.charms.CharmType;
@@ -17,7 +17,7 @@ import chylex.hee.world.loot.IItemPostProcessor;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
 
-final class RavagedDungeonLoot{
+public final class RavagedDungeonLoot{
 	public static ItemStack[] flowerPotItems = new ItemStack[]{
 		new ItemStack(Blocks.sapling,1,2), // birch sapling
 		new ItemStack(Blocks.sapling,1,3), // jungle sapling
@@ -37,7 +37,7 @@ final class RavagedDungeonLoot{
 		new LootItemStack(ItemList.end_powder).setAmount(1,5).setWeight(100),
 		new LootItemStack(Items.paper).setAmount(1,7).setWeight(68),
 		new LootItemStack(BlockList.ravaged_brick).setAmount(1,5).setWeight(56),
-		new LootItemStack(BlockList.ravaged_brick).setAmount(1,4).setDamage(Variant.CRACKED.ordinal(),Variant.values().length-1).setWeight(50),
+		new LootItemStack(BlockList.ravaged_brick).setAmount(1,4).setDamage(1,BlockRavagedBrick.metaAmount-1).setWeight(50),
 		new LootItemStack(BlockList.ravaged_brick_glow).setAmount(1,3).setWeight(46),
 		new LootItemStack(Items.leather).setAmount(1,4).setWeight(44),
 		new LootItemStack(ItemList.stardust).setAmount(1,3).setWeight(20),
@@ -52,7 +52,7 @@ final class RavagedDungeonLoot{
 		new LootItemStack(Items.leather).setAmount(1,5).setWeight(50),
 		new LootItemStack(BlockList.ravaged_brick).setAmount(4,8).setWeight(45),
 		new LootItemStack(Items.ender_pearl).setAmount(1,3).setWeight(44),
-		new LootItemStack(BlockList.ravaged_brick).setAmount(2,6).setDamage(Variant.CRACKED.ordinal(),Variant.values().length-1).setWeight(42),
+		new LootItemStack(BlockList.ravaged_brick).setAmount(2,6).setDamage(1,BlockRavagedBrick.metaAmount-1).setWeight(42),
 		new LootItemStack(BlockList.ravaged_brick_glow).setAmount(2,6).setWeight(42),
 		new LootItemStack(Items.iron_ingot).setAmount(1,5).setWeight(40),
 		new LootItemStack(ItemList.enhanced_ender_pearl).setAmount(1,3).setWeight(35),
@@ -75,7 +75,7 @@ final class RavagedDungeonLoot{
 				}
 			}
 			else if (is.getItem() == Items.enchanted_book){
-				is.setItem(Items.book);
+				is.func_150996_a(Items.book); // OBFUSCATED set item
 				EnchantmentHelper.addRandomEnchantment(rand,is,15+rand.nextInt(10));
 			}
 			
