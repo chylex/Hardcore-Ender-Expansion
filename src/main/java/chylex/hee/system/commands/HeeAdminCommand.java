@@ -72,7 +72,7 @@ public class HeeAdminCommand extends HeeCommand{
 			}
 		});
 		
-		sub.add(new SubCommand("compendium-set-points",1,true){
+		sub.add(new SubCommand("compendium-set-points","<pts>",1,true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
@@ -117,7 +117,7 @@ public class HeeAdminCommand extends HeeCommand{
 			}
 		});
 		
-		sub.add(new SubCommand("spawn-entity",1,true){
+		sub.add(new SubCommand("spawn-entity","<endercrystal|homelandcache>",1,true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
@@ -150,7 +150,7 @@ public class HeeAdminCommand extends HeeCommand{
 			}
 		});
 		
-		sub.add(new SubCommand("dragon-set-attack",1,false){
+		sub.add(new SubCommand("dragon-set-attack","<none|divebomb|fireburst|punch|summoning|bloodlust>",1,false){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityBossDragon dragon = HeeDebugCommand.getDragon();
@@ -187,7 +187,7 @@ public class HeeAdminCommand extends HeeCommand{
 			}
 		});
 		
-		sub.add(new SubCommand("achievement-unlock",1,true){
+		sub.add(new SubCommand("achievement-unlock","<id>",1,true){
 			@Override
 			void run(ICommandSender sender, String[] args){
 				for(Achievement achievement:(List<Achievement>)AchievementList.achievementList){
