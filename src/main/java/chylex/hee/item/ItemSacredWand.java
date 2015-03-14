@@ -15,6 +15,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData;
+import chylex.hee.entity.projectile.EntityProjectileSacredWand;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.SacredWandEnhancements;
 import chylex.hee.mechanics.wand.WandCore;
@@ -27,7 +28,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
-	public static void attackEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity, boolean isMelee){
+	public static boolean attackEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity, EntityProjectileSacredWand projectile){
 		if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
 		
 		float damage = WandType.fromItemStack(is).baseDamage;
@@ -35,14 +36,15 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		if (GlobalMobData.isEnderGooTolerant(entity))damage *= 1.5F;
 		else if (entity instanceof IMob)damage *= 1.2F;
 		
-		int knockback = player.isSprinting() ? 2 : 0; // double knockback value
 		boolean critical = false, magic = false;
+		boolean isMelee = projectile == null;
 		EntityLivingBase[] attacked = new EntityLivingBase[]{ entity };
+		int knockback = isMelee && player.isSprinting() ? 2 : 0; // double knockback value
 		
 		// critical
-		if (player.worldObj.getTotalWorldTime()-is.stackTagCompound.getLong("latktm") >= 600){
+		if (entity.worldObj.getTotalWorldTime()-is.stackTagCompound.getLong("latktm") >= 600){
 			damage *= 1.2F;
-			is.stackTagCompound.setLong("latktm",player.worldObj.getTotalWorldTime());
+			is.stackTagCompound.setLong("latktm",entity.worldObj.getTotalWorldTime());
 			critical = true;
 		}
 		
@@ -58,7 +60,7 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		if (cores.contains(WandCore.DEXTERITY)){
 			int max = hasCapability ? 3 : 2;
 			List<EntityLivingBase> newAttacked = CollectionUtil.<EntityLivingBase>newList(max+1,entity);
-			List<EntityLiving> closest = DragonUtil.getClosestEntities(max,entity,player.worldObj.getEntitiesWithinAABB(EntityLiving.class,entity.boundingBox.expand(4D,4D,4D)));
+			List<EntityLiving> closest = DragonUtil.getClosestEntities(max,entity,entity.worldObj.getEntitiesWithinAABB(EntityLiving.class,entity.boundingBox.expand(4D,4D,4D)));
 			
 			for(EntityLiving e:closest){
 				if (e.getDistanceToEntity(entity) <= (enhancements.contains(SacredWandEnhancements.RANGE) ? 4D : 2.5D))newAttacked.add(e);
@@ -70,21 +72,32 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		if (cores.contains(WandCore.FORCE))damage *= 1.2F;
 		if (cores.contains(WandCore.REPULSION))knockback += isMelee? 1+MathUtil.floor(Math.max(0D,6D-player.getDistanceToEntity(entity)*0.75D)) : 4;
 		
+		// no energy
+		if (isMelee && is.getItemDamage() == is.getMaxDamage())damage *= 0.1F;
+		
 		// run
+		boolean didHurt = false;
+		
 		for(EntityLivingBase target:attacked){			
 			if (target.attackEntityFrom(DamageSource.causePlayerDamage(player),magic ? damage*0.8F : damage)){
 				if (knockback > 0){
-					target.addVelocity(-MathHelper.sin(MathUtil.toRad(player.rotationYaw))*knockback*0.25F,0.1D,MathHelper.cos(MathUtil.toRad(player.rotationYaw))*knockback*0.25F);
-					player.motionX *= 0.6D;
-					player.motionZ *= 0.6D;
-					player.setSprinting(false);
+					double motX = isMelee ? -MathHelper.sin(MathUtil.toRad(player.rotationYaw)) : projectile.motionX;
+					double motZ = isMelee ? MathHelper.cos(MathUtil.toRad(player.rotationYaw)) : projectile.motionZ;
+					target.addVelocity(motX*knockback*0.25F,0.1D,motZ*knockback*0.25F);
+					
+					if (isMelee){
+						player.motionX *= 0.6D;
+						player.motionZ *= 0.6D;
+						player.setSprinting(false);
+					}
 				}
 				
 				if (critical)player.onCriticalHit(target);
 				player.setLastAttacker(target);
 				EnchantmentHelper.func_151385_b(player,target); // OBFUSCATED some kind of damage event (there was another one for thorns, screw that one)
-				((ItemAbstractEnergyAcceptor)ItemList.sacred_wand).damageItem(is,player);
 				player.addStat(StatList.damageDealtStat,Math.round(damage*10F));
+				
+				didHurt = true;
 			}
 			
 			if (magic){
@@ -94,6 +107,8 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 			
 			target.hurtResistantTime = (target.hurtResistantTime*3)/4;
 		}
+		
+		return didHurt;
 	}
 	
 	@Override
@@ -132,12 +147,15 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		if (!(entity instanceof EntityLivingBase))return false;
 		if (!entity.canAttackWithItem() || entity.hitByEntity(player))return true;
 		
-		attackEntity(is,player,(EntityLivingBase)entity,true);
+		if (attackEntity(is,player,(EntityLivingBase)entity,null))damageItem(is,player);
 		return true; // cancel
 	}
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
+		if (is.getItemDamage() == is.getMaxDamage())return is;
+		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileSacredWand(world,player,is));
+		damageItem(is,player);
 		return is;
 	}
 	

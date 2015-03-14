@@ -111,7 +111,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote){
-			if (getThrower() != null && getThrower() instanceof EntityPlayerMP){
+			if (getThrower() instanceof EntityPlayerMP){
 				EntityPlayerMP player = (EntityPlayerMP)getThrower();
 				
 				PacketPipeline.sendToAllAround(player,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,player));
@@ -190,11 +190,14 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 	private boolean canSpawnIn(Block blockBottom, Block blockTop){
 		return (blockBottom.getMaterial() == Material.air || !blockBottom.isOpaqueCube()) && (blockTop.getMaterial() == Material.air || !blockTop.isOpaqueCube());
 	}
+	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
 		nbt.setByte("tickTimer",ticks);
 		nbt.setString("enhancements",EnhancementEnumHelper.serialize(enhancements));
+		nbt.removeTag("inTile");
+		nbt.removeTag("shake");
 	}
 	
 	@Override
