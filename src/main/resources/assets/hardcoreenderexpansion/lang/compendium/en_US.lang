@@ -62,34 +62,34 @@ ec.reg.1413=The further you travel, the more abundant some of the structures and
 
 ec.reg.40=Core component of the $b:~essence_altar/0.
 
-ec.reg.51=Basic altar is converted into a specific type of altar by giving it one Essence, and 8 blocks and items it requests.
-ec.reg.52=Transformed altars can be given 32 of Essence per right-click, or 1 while sneaking.
+ec.reg.51=Basic altar is converted into a specific type of altar by giving it one $i:~essence:Essence$, and 8 blocks and items it requests.
+ec.reg.52=Transformed altars can be given 32 of $i:~essence:Essence$ per right-click, or 1 while sneaking.
 
 ec.reg.60=Tall black mob that populates the End, and uncommonly spawns in the Overworld.
 ec.reg.61=Looking into their eyes or attacking them makes them hostile.
 ec.reg.62=Endermen can teleport away, either randomly or sometimes when attacked.
 ec.reg.63=Water damages them.
 
-ec.reg.70=A tiny hostile arthropod found in Overworld Strongholds, and Infested Forest biomes in the End.
-ec.reg.71=They are often hidden inside Stone Brick blocks. Those blocks are easier to mine.
+ec.reg.70=A tiny hostile arthropod found in Overworld $d:Stronghold:Strongholds$, and $d:InfestedForest:Infested Forest$ biomes in the End.
+ec.reg.71=They are often hidden inside Stone Brick blocks. These infested blocks are easier to mine.
 ec.reg.72=Attacking a Silverfish will wake up nearby Silverfish hidden in blocks.
 
-ec.reg.750=Large island made of End Stone, protected by the Ender Dragon.
+ec.reg.750=Large island made of End Stone, protected by the $e:EnderDragon.
 ec.reg.751=Several Obsidian spikes with Ender Crystals are scattered across the island. The crystals heal the dragon and explode when destroyed.
 ec.reg.752=There are 3 types of spikes:
-ec.reg.753=One type of crystal spawn 8 primed TNT blocks that explodes near the ground, and makes Endermen under it attack the player.
+ec.reg.753=One type of crystal spawn 8 primed TNT blocks that explodes near the ground, and makes $e:Enderman:Endermen$ under it attack the player.
 ec.reg.754=Another type has Iron Bars on top around the crystal. This type is usually present on tall pillars.
 ec.reg.755=The third type causes a massive explosion when destroyed, and scatters the entire pillar around. This type is only selected for small pillars.
 
 ec.reg.90=End Stone is the primary building material of the End. It is highly resistant to explosions.
 
 ec.reg.100=Special variation of Obsidian affected by gravity.
-ec.reg.101=It is primarily found in Dragon Lair and Enchanted Island Biome.
+ec.reg.101=It is primarily found in $d:DragonLair and $d:EnchantedIsland.
 ec.reg.102=Falling on a weak block, such as torches or flowers, crushes the block.
 ec.reg.103=Players and mobs hit by it are severely damaged, up to 30 hearts.
 ec.reg.104=When broken, it loses its ability to fall.
 
-ec.reg.110=Dragon Essence Altar infuses blocks and items with Dragon Essence.
+ec.reg.110=Dragon Essence Altar infuses blocks and items with $i:~essence/0.
 ec.reg.111=Infusion requires pedestals, which are up to 8 blocks of the same type placed close around the altar
 ec.reg.112=Enhancing the altar with Range enhancement allows up to 12 pedestals to be used.
 ec.reg.113=Tools, weapons and armor will quickly repair, and slowly improve their enchantments.
@@ -97,16 +97,16 @@ ec.reg.114=Some items will turn into different items when infused:
 
 ec.reg.120=Commonly found ore in the End.
 ec.reg.121=It spawns clusters spread out across a larger area than other ores.
-ec.reg.122=Mining with any pickaxe yields 1-3 End Powder and 2-4 experience.
-ec.reg.123=Fortune enchantment has an effect on the amount of End Powder dropped.
+ec.reg.122=Mining with any pickaxe yields 1-3 $i:~end_powder and 2-4 experience.
+ec.reg.123=Fortune enchantment has an effect on the amount of $i:~end_powder dropped.
 
-ec.reg.130=A Brewing Stand infused with Dragon Essence.
+ec.reg.130=A Brewing Stand infused with $i:~essence/0.
 ec.reg.131=The brewing speed depends on potion complexity, simple potions brew much faster than with regular Brewing Stand.
-ec.reg.132=Using Glowstone, Redstone and Gunpowder requires End Powder, but the potions can go over the limits of basic Brewing Stand.
+ec.reg.132=Using Glowstone, Redstone and Gunpowder requires $i:~end_powder, but the potions can go over the limits of basic Brewing Stand.
 ec.reg.137=Most potions can be brewed up to tier III, or when enhanced with the Tier enhancement, they can go up to tier IV.
 ec.reg.133=It is required to brew special potions using Awkward Potion and another ingredient:
 
-ec.reg.150=Dragon Egg is created on top of the End Portal after killing the Ender Dragon.
+ec.reg.150=Dragon Egg is created on top of the End Portal after killing the $e:EnderDragon.
 ec.reg.151=It teleports into random directions when interacted with.
 ec.reg.152=The egg can be picked up by sneaking and hitting it with any sword.
 ec.reg.153=When destroyed, it teleports back to the End.
@@ -118,13 +118,13 @@ ec.reg.163=Enhancing requires a specific amount of End Powder and ingredients of
 ec.reg.164=The ingredient is unlocked by trying. Using an incorrect ingredient will destroy some of the End Powder, but may also reveal the correct ingredient.
 ec.reg.165=Different enhancements can be stacked together.
 ec.reg.166=End Powder applies enhancing effects to potions in Enhanced Brewing Stand.
-ec.reg.167=Applying End Powder to Death Flower partially reverts the effect of decaying.
+ec.reg.167=Applying End Powder to $b:~death_flower partially reverts the effect of decaying.
 
-ec.reg.180=Temple Caller is an Eye of Ender infused with Dragon Essence.
+ec.reg.180=Temple Caller is an Eye of Ender infused with $i:~essence/0.
 ec.reg.181=It can rarely be found in Overworld dungeons, Stronghold and Dungeon Tower.
-ec.reg.182=Before using the Temple Caller, it has to be filled with Energy.
-ec.reg.183=Using it in the End with Dragon Egg in the inventory teleports the player to a temple.
-ec.reg.184=In the temple, there is a dark pedestal for the Dragon Egg. When the Egg is placed, it will use its power to destroy the End.
+ec.reg.182=Before using the Temple Caller, it has to be filled with $b:~energy_cluster:Energy$.
+ec.reg.183=Using it in the End with $b:dragon_egg in the inventory teleports the player to a temple.
+ec.reg.184=In the temple, there is a dark pedestal for the $b:dragon_egg. When the Egg is placed, it will use its power to destroy the End.
 
 ec.reg.190=Ender Dragon is a giant boss with 125 hearts, that protects the End dimension.
 ec.reg.191=Nearby Ender Crystals regenerate the dragon's health.
@@ -136,55 +136,55 @@ ec.reg.196=There are 5 special attacks:
 ec.reg.197=Divebomb makes the dragon fly up, and then swoop down through the island.
 ec.reg.198=Fireburst consists of the dragon flying above players, choosing a target, rapidly churning out fireballs at it and repeating a couple times.
 ec.reg.700=Punch attack quadruples the dragon's flight speed, and then attack a player.
-ec.reg.702=Summoning makes the dragon fly high up and spawn Angry Endermen accompanied by lightning. When a player is above ground, it will strike the player instead.
-ec.reg.703=Bloodlust slows the dragon down, protects it from attack and turns nearby Endermen into Vampire Bats.
-ec.reg.704=When killed, the dragon floats high up while disappearing, dropping large amount of experience and Dragon Essence.
-ec.reg.705=End Portal is formed below the dragon, with a Dragon Egg on top.
+ec.reg.702=Summoning makes the dragon fly high up and spawn $e:~AngryEnderman:Angry Endermen$ accompanied by lightning. When a player is above ground, it will strike the player instead.
+ec.reg.703=Bloodlust slows the dragon down, protects it from attack and turns nearby $e:Enderman:Endermen$ into Vampire Bats.
+ec.reg.704=When killed, the dragon floats high up while disappearing, dropping large amount of experience and $i:~essence/0.
+ec.reg.705=End Portal is formed below the dragon, with a $b:dragon_egg on top.
 
 ec.reg.200=Startled Enderman that will attack nearby playeres.
 ec.reg.201=They have less health and strength, but will not teleport away when damaged.
 
-ec.reg.210=Special bat summoned by one of the Ender Dragon attacks.
+ec.reg.210=Special bat summoned by one of the $e:EnderDragon attacks.
 ec.reg.211=They instantly die when damaged.
-ec.reg.212=The bats try to attack players. When they do, they damage the player, heal the Ender Dragon and die.
+ec.reg.212=The bats try to attack players. When they do, they damage the player, heal the $e:EnderDragon and die.
 
 ec.reg.220=Small blobs of varying shapes, sizes and features, made of End Stone.
 ec.reg.221=There are three types of blobs, Common, Uncommon and Rare.
-ec.reg.222=Common blobs are the most random. They can have a variety of shapes, and 1 to 7 populators that include caves, Obsidian spikes and cover, Ender Goo lakes and falls, End Powder and Igneous Rock ores and Death Flower.
-ec.reg.223=Uncommon blobs have predetermined shapes and populators, such as one tiny blob with large amount of End Powder, goo covered one with a chest inside, caterpillar shaped one and several more.
+ec.reg.222=Common blobs are the most random. They can have a variety of shapes, and 1 to 7 populators that include caves, Obsidian spikes and cover, $i:~bucket_ender_goo:Ender Goo$ lakes and falls, $i:~end_powder and $i:~igneous_rock ores and $b:~death_flower.
+ec.reg.223=Uncommon blobs have predetermined shapes and populators, such as one tiny blob with large amount of $i:~end_powder, goo covered one with a chest inside, caterpillar shaped one and several more.
 ec.reg.224=Rare blobs have precious resources and utilities and are usually very distinguishable from other types. They can spawn Transport Beacons, spawners with loot and large blobs filled with ores.
 
-ec.reg.230=An ore rarely spawned in Endstone Blobs and commonly in Burning Moutains Biome.
+ec.reg.230=An ore rarely spawned in $d:EndstoneBlob:Endstone Blobs$ and commonly in $d:BurningMountains.
 ec.reg.231=Iron Pickaxe or better can effectively mine the ore.
-ec.reg.232=Always drops just one Igneous Rock, and 3-5 experience orbs.
+ec.reg.232=Always drops just one $i:~igneous_rock, and 3-5 experience orbs.
 
-ec.reg.240=Purple flower found on top of Endstone Blobs. It can be planted on End Stone, Dirt, Grass or inside Flower Pots.
+ec.reg.240=Purple flower found on top of $d:EndstoneBlob:Endstone Blobs$. It can be planted on End Stone, Dirt, Grass or inside Flower Pots.
 ec.reg.241=Outside the End, the flower will slowly decay, even if in a Flower Pot.
-ec.reg.242=After some time of decaying, it starts to occasionally attract Angry Endermen.
-ec.reg.243=When the flower decays completely, it turns dark, propagates massive amount decay to nearby blocks and spawns an Energy Cluster.
-ec.reg.244=Partial decay can be healed a little using End Powder.
+ec.reg.242=After some time of decaying, it starts to occasionally attract $e:~AngryEnderman:Angry Endermen$.
+ec.reg.243=When the flower decays completely, it turns dark, propagates massive amount decay to nearby blocks and spawns an $b:~energy_cluster.
+ec.reg.244=Partial decay can be healed a little using $i:~end_powder.
 
 ec.reg.250=Thick goo found across the End dimension.
 ec.reg.251=The goo heavily limits movement of anything touching it, and it causes Poison, Weakness and Mining Fatigue as well.
 ec.reg.252=Creatures from the End are unaffected by its effects.
 ec.reg.253=It aggresively fights water, especially in the End.
 
-ec.reg.260=Extremely hot rock dropped by the Igneous Rock Ore.
+ec.reg.260=Extremely hot rock dropped by the $b:~igneous_rock_ore.
 ec.reg.261=When held, it has a chance of setting the holder on fire. The effect is strengthened in the Nether and partially suppressed in the End.
 ec.reg.262=It is a very efficient fuel, roughly 3 times better than Blaze Rods.
 ec.reg.263=When thrown on the ground, it spreads fire, smelts blocks, burns creatures and causes TNT to instantly explode. The rock also quickly dissolves.
 
 ec.reg.960=Transport Beacon allows teleportation between other nearby Beacons you discovered.
-ec.reg.961=They spawn in one of the rare Endstone Blob varieties, and emit a bright vertical beam.
-ec.reg.962=Teleportation consumes Energy, which should suffice until the next phase where you learn more about Energy.
+ec.reg.961=They spawn in one of the rare $d:EndstoneBlob varieties, and emit a bright vertical beam.
+ec.reg.962=Teleportation consumes $b:~energy_cluster:Energy$, which should suffice until the next phase where you learn more about $b:~energy_cluster:Energy$.
 ec.reg.963=Maximum teleportation distance is 960 blocks.
 
 ec.reg.270=A tall tower consisting of various types of Obsidian.
-ec.reg.271=They start spawning around 350 blocks away from the Dragon Lair and are most common until 900 blocks, then they start becoming less common.
+ec.reg.271=They start spawning around 350 blocks away from the $d:DragonLair and are most common until 900 blocks, then they start becoming less common.
 ec.reg.272=Each tower contains 3 content floors and 1 chest floor with loot, all are randomly picked and have random elements.
 ec.reg.273=Loot is also often found in Dispensers, Furnaces and Brewing Stands. There is a 1 in 100 (1%%) chance of spawning an Enhanced Brewing Stand.
-ec.reg.274=Most floors have Angry Enderman spawners. Each spawner gives the Endermen potion effects that are more powerful the higher you get.
-ec.reg.275=On top of the tower lies an Ender Eye.
+ec.reg.274=Most floors have $e:AngryEnderman spawners. Each spawner gives the $e:Enderman:Endermen$ potion effects that are more powerful the higher you get.
+ec.reg.275=On top of the tower lies an $e:~EnderEye.
 
 ec.reg.280=Very tough stairs made of Obsidian. Uncraftable.
 
@@ -201,7 +201,7 @@ ec.reg.285=Glowing Obsidian with a chiseled texture, it is easier to break. Uncr
 ec.reg.286=Glowing Obsidian pillar, can be placed horizontally or vertically and it is easier to break. Uncraftable.
 
 ec.reg.890=Energy is a form of power for various items and blocks.
-ec.reg.891=It is omnipresent in the End dimension, and in Energy Clusters that begin to spawn near Dungeon Towers and eventually become much more common if you continue traveling further.
+ec.reg.891=It is omnipresent in the End dimension, and in Energy Clusters that begin to spawn near $d:DungeonTower:Dungeon Towers$ and eventually become much more common if you continue traveling further.
 ec.reg.892=Both forms slowly regenerate Energy up to a certain point. Too much Energy causes random leaks of Corrupted Energy.
 ec.reg.893=Corrupted Energy is also created by breaking a Cluster, accompanied by a fiery explosion.
 ec.reg.894=Getting in contact with Corrupted Energy causes massive amount of damage that penetrates armor.
@@ -212,23 +212,23 @@ ec.reg.897=Clusters can be moved using Energy Wand. Moving them too far or acros
 ec.reg.898=Blocks that use Energy will take it from Clusters up to 16 blocks away, and from the environment if placed in the End.
 ec.reg.899=Items that use Energy automatically refill in the End, or can be used on a Cluster to start and stop draining the Energy.
 
-ec.reg.760=Rare ore that starts to appear near Dungeon Towers, and gets more common the further you travel.
-ec.reg.761=The block drops the ore, it can be then smelted into Endium Ingot.
+ec.reg.760=Rare ore that starts to appear near $d:DungeonTower:Dungeon Towers$, and gets more common the further you travel.
+ec.reg.761=The block drops the ore, it can be then smelted into $i:~endium_ingot.
 
-ec.reg.770=Block made of Endium Ingots.
+ec.reg.770=Block made of $i:~endium_ingot:Endium Ingots$.
 
 ec.reg.800=A chest that stores items you own that fell into the void.
 ec.reg.802=If there are too many items inside, there will be a higher chance of new items replacing them.
 
-ec.reg.290=Teleportation gem dropped by the Ender Eye.
+ec.reg.290=Teleportation gem dropped by the $e:~EnderEye.
 ec.reg.291=Using it creates a beam, which teleports the player to a block of mob it hits.
 ec.reg.292=The beam can travel up to 75 blocks.
 ec.reg.293=Unlike Ender Pearls, the beam will try to find suitable area to teleport the player to, even if it hits the side or the bottom of block.
 ec.reg.294=If no suitable area is found, the player may be teleported into nearby blocks and start suffocating.
 
-ec.reg.780=Shiny blue metal made by smelting Endium Ore.
+ec.reg.780=Shiny blue metal made by smelting $b:~endium_ore.
 
-ec.reg.300=Special compass that points at the nearest Biome Island.
+ec.reg.300=Special compass that points at the nearest $d:BiomeIslands:Biome Island$.
 ec.reg.301=Holding it will show markers for all nearby islands in the dimension.
 ec.reg.302=Right-clicking switches between biomes.
 
@@ -243,53 +243,53 @@ ec.reg.317=Second attack is a confusion attack, which deals short nausea and bli
 ec.reg.318=Third attack is a beam attack, during which several purple beams are created and then destroyed. The beams deal magic and fire damage, and additional damage when they get destroyed.
 ec.reg.319=When killed, it drops a Spatial Dash Gem, 1 Eye of Ender, 3-6 Obsidian and 35 experience.
 
-ec.reg.320=Tiny clump of Sphalerite which begins to spawn around 1300 blocks away from the Dragon Lair and is most common around 2700 blocks away. Then it slowly starts disappearing.
+ec.reg.320=Tiny clump of $b:~sphalerite/0 which begins to spawn around 1300 blocks away from the $d:DragonLair and is most common around 2700 blocks away. Then it slowly starts disappearing.
 
-ec.reg.330=Rock of medium toughness found in Meteoroids.
+ec.reg.330=Rock of medium toughness found in $d:Meteoroid:Meteoroids$.
 ec.reg.331=Stone Pickaxe or better is required to mine it quickly.
 
-ec.reg.340=Variation of Sphalerite, that has yellow marks on the surface.
-ec.reg.341=It drops 1-3 Stardust, but no experience unlike the ores.
+ec.reg.340=Variation of $b:~sphalerite/0, that has yellow marks on the surface.
+ec.reg.341=It drops 1-3 $i:~stardust, but no experience unlike the ores.
 ec.reg.342=Fortune enchantment has a small effect on the drops.
 
-ec.reg.350=Dust dropped by Stardust Ore and Sphalerite with Stardust. It is used for crafting and as a decomposition catalyst in Tables.
+ec.reg.350=Dust dropped by $b:~stardust_ore and $b:~sphalerite/1. It is used for crafting and as a decomposition catalyst in Tables.
 
 ec.reg.880=A table that decomposes items into their crafting ingredients.
-ec.reg.882=It requires Stardust and Energy to run, price increases with complexity of the recipe. A Redstone Comparator can be used to detect whether the Table is running.
+ec.reg.882=It requires $i:~stardust and $b:~energy_cluster:Energy$ to run, price increases with complexity of the recipe. A Redstone Comparator can be used to detect whether the Table is running.
 ec.reg.883=Not all ingredients are returned, but up to 84%% of them are retrievable.
 ec.reg.884=Damaged items yield less ingredients than fully repaired ones.
 ec.reg.885=If multiple recipes exist, one is chosen randomly.
 
 ec.reg.970=A table that extracts experience from blocks.
-ec.reg.972=It requires Stardust and Energy to run, it always runs at the same speed. A Redstone Comparator can be used to detect whether the Table is running.
+ec.reg.972=It requires $i:~stardust and $b:~energy_cluster:Energy$ to run, it always runs at the same speed. A Redstone Comparator can be used to detect whether the Table is running.
 ec.reg.973=The table yields triple the amount of experience, and destroys the block in the process.
 
-ec.reg.980=A table that stores Energy and channels it into items.
+ec.reg.980=A table that stores $b:~energy_cluster:Energy$ and channels it into items.
 ec.reg.982=A Redstone Comparator can be used to detect whether the Table is currently charging an item.
-ec.reg.983=Breaking the Table causes the stored Energy to leak into the world.
+ec.reg.983=Breaking the Table causes the stored $b:~energy_cluster:Energy$ to leak into the world.
 
-ec.reg.990=A table that extracts Energy from blocks and items from the End.
-ec.reg.992=It requires Stardust and a low amount of Energy from a different source to run. A Redstone Comparator can be used to detect whether the Table is running.
-ec.reg.993=Stored Energy leaks out into the environment and nearby Energy Clusters.
-ec.reg.994=Leaking can be slowed down or stopped by placing Instability Orbs into the Table.
-ec.reg.995=Breaking the Table causes the stored Energy to leak into the world.
+ec.reg.990=A table that extracts $b:~energy_cluster:Energy$ from blocks and items from the End.
+ec.reg.992=It requires $i:~stardust and a low amount of $b:~energy_cluster:Energy$ from a different source to run. A Redstone Comparator can be used to detect whether the Table is running.
+ec.reg.993=Stored $b:~energy_cluster:Energy$ leaks out into the environment and nearby $b:~energy_cluster:Energy Clusters$.
+ec.reg.994=Leaking can be slowed down or stopped by placing $i:~instability_orb:Instability Orbs$ into the Table.
+ec.reg.995=Breaking the Table causes the stored $b:~energy_cluster:Energy$ to leak into the world.
 
-ec.reg.720=Biome Islands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the Dragon Lair.
+ec.reg.720=$d:BiomeIslands are large islands made of End Stone, that start spawning roughly 1600 blocks away from the $d:DragonLair.
 ec.reg.721=Each island has caves and ores, every biome modifies the amounts and rates as well as the overall shape of the terrain.
-ec.reg.722=Biomes can have one of multiple different variations with unique content, and one or more random deviations that modify the amount or properties of some features (such as tall trees or goo swamps) to increase the variety.
-ec.reg.723=Instability Orb Ore and Stardust Ore only spawn in the islands.
+ec.reg.722=Biomes can have one of multiple different variations with unique content, and one or more random deviations that modify the amount or properties of some features (such as tall trees or $i:~bucket_ender_goo:goo$ swamps) to increase the variety.
+ec.reg.723=$b:~instability_orb_ore and $b:~stardust_ore only spawn in the islands.
 
-ec.reg.360=Uncommon ore found in tiny clusters in all Biome Islands.
+ec.reg.360=Uncommon ore found in tiny clusters in all $d:BiomeIslands.
 ec.reg.361=It can be only mined with Diamond Pickaxe or better.
-ec.reg.362=The ore has a 40%% chance of dropping Instability Orb.
+ec.reg.362=The ore has a 40%% chance of dropping $i:~instability_orb.
 ec.reg.363=Each level of Fortune enchantment increases the drop chance by 4%%.
 
-ec.reg.370=Ore found commonly in Biome Islands.
+ec.reg.370=Ore found commonly in $d:BiomeIslands.
 ec.reg.371=Diamond Pickaxe or better is required to get any drops.
-ec.reg.372=One ore drops 0-4 Stardust and 6-9 experience orbs.
+ec.reg.372=One ore drops 0-4 $i:~stardust and 6-9 experience orbs.
 ec.reg.373=Fortune enchantment does not affect the drops.
 
-ec.reg.380=Very unstable material dropped by Instability Orb Ore.
+ec.reg.380=Very unstable material dropped by $b:~instability_orb_ore.
 ec.reg.381=It decomposes when thrown on the ground. When the process finishes, it can either explode, or turn into a random mob, block or item.
 ec.reg.382=When a TNT explodes near one or more decomposing orbs, they will not explode once the decomposition is complete.
 ec.reg.383=Brewing it in an Enhanced Brewing Stand creates Potion of Instability.
@@ -298,23 +298,23 @@ ec.reg.740=Special potion that causes a random effect. It has to be brewed in an
 
 ec.reg.390=Mostly flat biome with occasional hills, long caves and decent amount of ores.
 ec.reg.391=There are 2 variations of the biome - Deep and Ravaged.
-ec.reg.392=Both of these variations contain Silverfish, Infested Bats and occasionally Endermen.
+ec.reg.392=Both of these variations contain Silverfish, Infested Bats and occasionally $e:Enderman:Endermen$.
 ec.reg.393=Deep variation is massively populated with Spooky Trees that can have faces on them. The ground has all types of infested plants, including Thorny Bushes.
-ec.reg.394=Ravaged variation has patches of infested plants and occasional Spooky Trees, but the most important feature is the Ravaged Dungeon which is an open gate to the Charms.
+ec.reg.394=Ravaged variation has patches of infested plants and occasional Spooky Trees, but the most important feature is the $d:RavagedDungeon which is an open gate to the Charms.
 ec.reg.396=Staying in an Infested Forest for too long causes Infestation to build up. The effects of Infestation kick off some time after leaving the island. Those effects include Weakness, Slowness, Mining Fatigue, and if the Infestation builds up too much, it can even cause Poison, Blindness or Nausea.
 ec.reg.397=Infestation can only be partly cured using Infestation Remedy.
 
-ec.reg.400=Variation of End Stone found in the Infested Forest Biome.
+ec.reg.400=Variation of End Stone found in the $d:InfestedForest:Infested Forest$.
 
-ec.reg.410=One of the plants commonly found in the Infested Forest Biome.
+ec.reg.410=One of the plants commonly found in the $d:InfestedForest:Infested Forest$.
 
-ec.reg.411=One of the plants commonly found in the Infested Forest Biome.
+ec.reg.411=One of the plants commonly found in the $d:InfestedForest:Infested Forest$.
 
-ec.reg.412=One of the plants commonly found in the Infested Forest Biome.
+ec.reg.412=One of the plants commonly found in the $d:InfestedForest:Infested Forest$.
 
 ec.reg.730=A potion that eases the effects of Infestation. It has to be brewed in Enhanced Brewing Stand.
 
-ec.reg.480=Special type of bat that spawns in the Infested Forest Biome. Each bat varies in size.
+ec.reg.480=Special type of bat that spawns in the $d:InfestedForest:Infested Forest$. Each bat varies in size.
 
 ec.reg.420=Dark plant found in the Infested Forest (Deep).
 ec.reg.421=On contact, it causes short Poison effect.
@@ -322,7 +322,7 @@ ec.reg.421=On contact, it causes short Poison effect.
 ec.reg.430=Logs used for the trunk of Spooky Trees.
 ec.reg.431=Breaking one log also destroys all logs above.
 ec.reg.432=Each log has a 1 in 8 (12.5%%) chance of dropping a Dry Splinter.
-ec.reg.433=In the Deep variation of Infested Forest, some trees have faces.
+ec.reg.433=In the Deep variation of $d:InfestedForest:Infested Forest$, some trees have faces.
 ec.reg.434=When nobody looks at a face, it will move around the tree or move to another nearby tree.
 ec.reg.435=If a log with a face is broken, it has a 1 in 4 (25%%) chance of spawning a Forest Ghost.
 ec.reg.436=Ghost Amulet will stop the Forest Ghost from spawning, and the face will have a 3 in 5 (60%%) chance to drop Ectoplasm.
@@ -335,7 +335,7 @@ ec.reg.451=Each Spooky Log has 1 in 8 (12.5%%) chance of dropping a Dry Splinter
 
 ec.reg.460=An amulet that banishes the Forest Ghost.
 ec.reg.461=When in the inventory, Forest Ghost will not spawn and the Spooky Log face will have 3 in 5 (60%%) chance to drop Ectoplasm.
-ec.reg.462=In order to create it, one piece of End Powder, Emerald and String all have to be thrown into Ender Goo.
+ec.reg.462=In order to create it, one piece of $i:~end_powder, Emerald and String all have to be thrown into $i:~bucket_ender_goo:Ender Goo$.
 ec.reg.463=Then it has to be purified in Dragon Essence Altar.
 
 ec.reg.470=Strange ethereal substance dropped by banished Forest Ghosts.
@@ -344,9 +344,9 @@ ec.reg.920=One of the components to create Living Matter.
 
 ec.reg.930=Microorganisms used to craft Curses.
 
-ec.reg.940=A Curse is a magical powder that attaches itself to an area of blocks, a mob, or a player, crafted using Living Matter, End Powder and specific ingredients.
+ec.reg.940=A Curse is a magical powder that attaches itself to an area of blocks, a mob, or a player, crafted using Living Matter, $i:~end_powder and specific ingredients.
 ec.reg.941=It can be either placed right on a block or an entity, or thrown. If it gets thrown into a group of entities, it will have a chance to hit more of then at the same time.
-ec.reg.942=Curses eventually disappear, but they can be made eternal by crafting them with Stardust and Arcane Shard. Eternal Curses will stay forever on blocks and mobs, and longer than normal Curses on players.
+ec.reg.942=Curses eventually disappear, but they can be made eternal by crafting them with $i:~stardust and Arcane Shard. Eternal Curses will stay forever on blocks and mobs, and longer than normal Curses on players.
 ec.reg.943=Curses placed on blocks are only visible to the player who casted it, and for a short duration to players affected by it.
 ec.reg.944=Getting very close to a Curse makes it visible without having it affect you, but it requires extreme carefulness.
 ec.reg.945=It is possible to remove Curses by using Potion of Purity.
@@ -355,73 +355,72 @@ ec.reg.950=Potion of Purity is a drinkable or throwable potion that removes Curs
 ec.reg.951=It is brewed using Ectoplasm on an Awkward Potion in the Enhanced Brewing Stand.
 
 ec.reg.1400=Curse Amulet reveals all nearby Curses placed on blocks and depletes Curses quicker when held.
-ec.reg.1401=It is created by throwing End Powder, Gold Ingot, Ectoplasm and String into Ender Goo.
+ec.reg.1401=It is created by throwing $i:~end_powder, Gold Ingot, Ectoplasm and String into $i:~bucket_ender_goo:Ender Goo$.
 
-ec.reg.490=Huge dungeon built from Ravaged Bricks, found in Infested Forest (Ravaged).
+ec.reg.490=Huge dungeon built from $b:~ravaged_brick/0:Ravaged Bricks$, found in $d:InfestedForest:Infested Forest$ (Ravaged).
 ec.reg.491=It is the only way of acquiring items required to create Charms.
 ec.reg.492=The dungeon consists of 3 floors. Each floor is a collection of randomly generated hallways and rooms spread across the entire island.
 ec.reg.493=There is always an entrance to the first floor, then the floors have rooms that lead to lower floors and the bottom floor contains a massive final room with many spawners and loot chests.
 ec.reg.494=Hallways and rooms have random designs, some of which contain loot chests and Silverfish and Louse spawners.
 
-ec.reg.500=Primary building block of the Ravaged Dungeon.
+ec.reg.500=Primary building block of the $d:RavagedDungeon.
 ec.reg.501=Some of the bricks are cracked or damaged.
 ec.reg.505=Brick hardness depends on amount of spawners in the dungeon.
 
-ec.reg.510=Glowing variation of the Ravaged Brick. It has the same level as Glowstone. Uncraftable.
+ec.reg.510=Glowing variation of the $b:~ravaged_brick/0. It has the same level as Glowstone. Uncraftable.
 
-ec.reg.512=Stairs made of Ravaged Brick, slightly weaker than the full block.
+ec.reg.512=Stairs made of $b:~ravaged_brick/0, slightly weaker than the full block.
 
-ec.reg.514=Slab made of Ravaged Brick, weaker than the full block.
+ec.reg.514=Slab made of $b:~ravaged_brick/0, weaker than the full block.
 
-ec.reg.516=Fence made of Ravaged Brick, weaker than the full block.
+ec.reg.516=Fence made of $b:~ravaged_brick/0, weaker than the full block.
 
 ec.reg.520=Magical pouch that allows creating, holding and activating Charms.
-
 ec.reg.522=Sneaking and using the pouch activates or deactives the Charms. Only one pouch can be active at a time.
 
-ec.reg.530=Runes are used to create Charms, and craft Charm Pouch.
+ec.reg.530=Runes are used to create Charms, and craft $i:~charm_pouch.
 ec.reg.531=There are 6 types of Runes - Power, Agility, Vigor, Defense, Magic and Void. The Void rune is less common than other types.
-ec.reg.532=It is required to explore the Ravaged Dungeon to get Runes. They are found in chests and rarely dropped by Lice.
+ec.reg.532=It is required to explore the $d:RavagedDungeon to get Runes. They are found in chests and rarely dropped by Lice.
 
-ec.reg.540=Charms are player enchantments, used and crafted in the Charm Pouch.
+ec.reg.540=Charms are player enchantments, used and crafted in the $i:~charm_pouch.
 ec.reg.541=Between 3 to 5 Runes are combined together to create a Charm. Many combinations create same Charms with different attributes.
 
-ec.reg.550=An arthropod spawning in the Ravaged Dungeon.
+ec.reg.550=An arthropod spawning in the $d:RavagedDungeon.
 ec.reg.551=Lice have runic symbols on top, which modify their attributes or abilities.
 ec.reg.552=The runic symbols can have one or two different colors, each corresponds to a Rune. Killing them can drop either of the Runes.
 ec.reg.553=Basic Runes increase attributes, such as strength, speed or health. Void Rune (gray) gives the Louse one of special and extremely dangerous abilities.
 
-ec.reg.560=Fire-oriented biome with huge mountains and a large amount of caves and ores. Apart from default ores, this biome also has common Igneous Rock Ore.
+ec.reg.560=Fire-oriented biome with huge mountains and a large amount of caves and ores. Apart from default ores, this biome also has common $b:~igneous_rock_ore.
 ec.reg.561=There are 2 variations of the biome - Scorching and Mine.
-ec.reg.562=Scorching variation has large blobs of Cinder, streams and pools of Lava and Lilyfires. Each island also contains a Dungeon Puzzle. This is the only place where Fire Golems and Scorching Lenses spawn.
-ec.reg.563=Mine variation spawns Haunted Miners, which protect Resource Pits (holes with ores from the End and Lava) and long patches of Overworld ores. Not all Overworld ores are present in a single island, usually one or two random ores are missing.
+ec.reg.562=Scorching variation has large blobs of $b:~cinder, streams and pools of Lava and Lilyfires. Each island also contains a $b:~dungeon_puzzle/0. This is the only place where $e:~FireGolem:Fire Golems$ and $e:~ScorchedLens:Scorching Lenses$ spawn.
+ec.reg.563=Mine variation spawns $e:~HauntedMiner:Haunted Miners$, which protect Resource Pits (holes with ores from the End and Lava) and long patches of Overworld ores. Not all Overworld ores are present in a single island, usually one or two random ores are missing.
 
-ec.reg.570=Variation of End Stone found in the Burning Mountains Biome.
+ec.reg.570=Variation of End Stone found in the $d:BurningMountains.
 
-ec.reg.582=Flameweed is a plant found commonly in the Burning Mountains Biome. In the Scorching variation, it is often more abundant near lava.
+ec.reg.582=Flameweed is a plant found commonly in the $d:BurningMountains. In the Scorching variation, it is often more abundant near lava.
 
-ec.reg.590=Rock found in Burning Mountains (Scorching).
+ec.reg.590=Rock found in $d:BurningMountains:Burning Mountains$ (Scorching).
 
-ec.reg.580=Orange tulip found in the Burning Mountains (Scorching).
+ec.reg.580=Orange tulip found in the $d:BurningMountains:Burning Mountains$ (Scorching).
 
-ec.reg.900=Dungeon Puzzle is a structure found in Burning Mountains (Scorching). There is always a cave leading to the dungeon.
-ec.reg.901=Throwing Igneous Rock on plain puzzle blocks will start a chain reaction and destroy the rock.
+ec.reg.900=Dungeon Puzzle is a structure found in $d:BurningMountains:Burning Mountains$ (Scorching). There is always a cave leading to the dungeon.
+ec.reg.901=Throwing $i:~igneous_rock on plain puzzle blocks will start a chain reaction and destroy the rock.
 ec.reg.902=Blocks with ornaments cause different effects when a chain hits them.
 ec.reg.903=When all blocks on the floor are lit, a fiery beam spawns in the middle. Entering the beam begins a Fire Fiend battle.
 
-ec.reg.600=Fiery Essence Altar converts Fiery Essence into heat to speed up Furnaces, Brewing Stands and other devices.
-ec.reg.601=More Fiery Essence causes faster distribution of heat, having 512 Essence yields best speed.
+ec.reg.600=Fiery Essence Altar converts $i:~essence/1 into heat to speed up Furnaces, Brewing Stands and other devices.
+ec.reg.601=More $i:~essence/1 causes faster distribution of heat, having 512 Essence yields best speed.
 
-ec.reg.610=Fiery creature that spawns in Burning Mountains (Scorching).
+ec.reg.610=Fiery creature that spawns in $d:BurningMountains:Burning Mountains$ (Scorching).
 ec.reg.611=It has both a ranged attack and a melee attack.
 ec.reg.612=During the ranged attack, it creates fireballs which cause large fiery craters.
 ec.reg.613=When the golem is hit by an explosion, it ignores the damage and teleports. This ability has a short cooldown.
-ec.reg.614=The golem drops 0-1 Fire Charges and 1-3 Fiery Essence.
+ec.reg.614=The golem drops 0-1 Fire Charges and 1-3 $i:~essence/1.
 
-ec.reg.620=Small biped with a large eye, that spawns in Burning Mountains (Scorching).
+ec.reg.620=Small biped with a large eye, that spawns in $d:BurningMountains:Burning Mountains$ (Scorching).
 ec.reg.621=It attacks players in proximity by churning out fire from its eye.
 ec.reg.622=The fire deals damage, has a chance of knocking the attacked creature back and increases the length of fire status effect.
-ec.reg.623=It drops 0-2 Igneous Rock and 1-2 Fiery Essence.
+ec.reg.623=It drops 0-2 $i:~igneous_rock and 1-2 $i:~essence/1.
 
 ec.reg.910=Flying mini-boss spawned by the Dungeon Puzzle. It has 100 hearts.
 ec.reg.911=It moves randomly, but always tries to stay around and above players.
@@ -430,30 +429,30 @@ ec.reg.913=First attack consists of spawning fireballs rotating around the Fiend
 ec.reg.914=Second attack is less common. It starts by creating fire around the Fiend, and then it deals damage to all players and sets them on fire.
 ec.reg.915=When the mini-boss gets down to 40%% health, it will get into the next stage, marked by constant flame around the Fiend.
 ec.reg.916=During that stage, the Fiend's attacks are much quicker, it takes less damage and occasionally it will also make nearby Fire Golems attack players.
-ec.reg.917=On death, it drops 40 experience and 240 Fiery Essence.
+ec.reg.917=On death, it drops 40 experience and 240 $i:~essence/1.
 
-ec.reg.630=Infernium is a crafting material dropped by Haunted Miners.
+ec.reg.630=Infernium is a crafting material dropped by $e:~HauntedMiner:Haunted Miners$.
 
 ec.reg.640=Special type of pickaxe that smelts blocks and applies fortune effect to ores.
 ec.reg.641=It only works on smeltable blocks and ores. Blocks that smelt into items are affected by fortune, including for example Iron Ore and Cactus.
 ec.reg.642=Compatible blocks are also mined much faster.
 
-ec.reg.650=Haunted Miner is a fiery flying mob that spawns in Burning Mountains (Mine).
+ec.reg.650=Haunted Miner is a fiery flying mob that spawns in $d:BurningMountains:Burning Mountains$ (Mine).
 ec.reg.651=They guard the mines, they sense and attack players who have too many mining related items in their inventory, such as pickaxes, ores, ingots or minerals.
 ec.reg.652=They burn any creature that gets too close to it.
 ec.reg.653=The miners have 3 powerful spells:
 ec.reg.654=First one is a projectile attack. The miner shoots two rapid projectiles that deal massive amount of damage and set hit mobs on fire.
 ec.reg.655=Second attack is a blast wave, which blasts all living creatures away with higher strength the closer they are, causes damage to them and spawns fire all around.
 ec.reg.656=Third attack is a lava attack, during which the miner continuously creates lava pillars that come from the ground, destroying all blocks that touch the lava.
-ec.reg.657=When killed, they drop 0-2 Infernium and 10 experience.
+ec.reg.657=When killed, they drop 0-2 $i:~infernium and 10 experience.
 
 ec.reg.660=Very flat biome with small amount of caves.
 ec.reg.661=There are currently two variations - Homeland and Laboratory.
-ec.reg.662=Homeland has lakes of Ender Goo, piles of Falling Obsidian and a strange Obsidian road-like structure. You can often find Homeland Cache, a floating transparent cube that can be broken. Endermen, Baby Endermen and Ender Guardians spawn there.
-ec.reg.663=Laboratory has a single large structure made of special blocks, and Violet Moss for decoration. Endermages and Ender Guardians spawn in the variation.
+ec.reg.662=Homeland has lakes of $i:~bucket_ender_goo:Ender Goo$, piles of Falling Obsidian and a strange Obsidian road-like structure. You can often find Homeland Cache, a floating transparent cube that can be broken. $e:Enderman:Endermen$, $e:~BabyEnderman:Baby Endermen$ and $e:~EnderGuardian:Ender Guardians$ spawn there.
+ec.reg.663=Laboratory has a single large $d:Laboratory:structure$ made of special blocks, and Violet Moss for decoration. $e:~Endermage:Endermages$ and $e:~EnderGuardian:Ender Guardians$ spawn in the variation.
 ec.reg.665=All variations have several Hidden Cellars, haunted underground dungeons that are often completely buried in the ground.
 
-ec.reg.670=Variation of End Stone found in the Enchanted Island Biome.
+ec.reg.670=Variation of End Stone found in the $d:EnchantedIsland.
 
 ec.reg.810=A purple block that forms the floor, walls and ceiling of Hidden Cellar.
 ec.reg.811=Shovels are efficient tools for breaking, but you can still get the block if you mine using other tools or your hand.
@@ -466,56 +465,56 @@ ec.reg.1430=Blank Gem is used solely to create higher level Gems.
 
 ec.reg.1440=Next tier Gem that allows teleportation across long distances.
 ec.reg.1442=Using it on a block while sneaking will link the Gem to that block.
-ec.reg.1443=When linked, using it will teleport you to the linked block, and use a specified amount of Energy.
-ec.reg.1444=If the Gem has below 44%% Energy, the Gem might cause a negative effect with higher chance the less Energy it has. The center of the Gem will also appear darker.
+ec.reg.1443=When linked, using it will teleport you to the linked block, and use a specified amount of $b:~energy_cluster:Energy$.
+ec.reg.1444=If the Gem has below 44%% $b:~energy_cluster:Energy$, the Gem might cause a negative effect with higher chance the less $b:~energy_cluster:Energy$ it has. The center of the Gem will also appear darker.
 ec.reg.1445=Some of these effects include bad potion effects, random teleportation deflections or even a short storm.
 ec.reg.1446=When enhanced with the Beast enhancement, using it on another creature while standing teleports the targeted creature.
 
-ec.reg.680=Baby Enderman spawns in the Enchanted Island (Homeland).
+ec.reg.680=Baby Enderman spawns in the $d:EnchantedIsland:Enchanted Island$ (Homeland).
 ec.reg.681=If attacked, the parents will teleport and protect the baby.
 ec.reg.682=Sometimes, it may approach a player and steal random item from their inventory.
 ec.reg.683=The item is dropped on death. Each baby also has their own priorities and may exchange stolen item with another one on the ground.
-ec.reg.684=It will not steal from players who wear Enderman Head.
+ec.reg.684=It will not steal from players who wear $i:~enderman_head.
 
-ec.reg.790=Special type of Enderman that spawns in the Enchanted Island (Homeland).
+ec.reg.790=Special type of Enderman that spawns in the $d:EnchantedIsland:Enchanted Island$ (Homeland).
 ec.reg.791=Each Enderman has their role in the Homeland, which is identified by differently colored particles. Those decide their attributes and behavior.
 ec.reg.792=Some may form groups, those occasionally emit gray particles.
-ec.reg.793=Attacking Endermen that have certain roles will make them call the guards.
+ec.reg.793=Attacking $e:Enderman:Endermen$ that have certain roles will make them call the guards.
 
 ec.reg.1460=Laboratory is a large structure used by Endermages to experiment with magical items from the End.
 ec.reg.1461=It consists of several hallways, and small and large rooms with various lootable content.
-ec.reg.1462=Rooms often contain Energy Clusters, Death Flowers, sometimes Endium and Ender Chests, and other useful content.
-ec.reg.1463=There are also regular chests with loot. Those can contain Obsidian Fragments and Auricion, amongst several other items.
+ec.reg.1462=Rooms often contain $b:~energy_cluster:Energy Clusters$, $b:~death_flower:Death Flowers$, sometimes $i:~endium_ingot:Endium$ and Ender Chests, and other useful content.
+ec.reg.1463=There are also regular chests with loot. Those can contain $i:~obsidian_fragment:Obsidian Fragments$ and $i:~auricion, amongst several other items.
 
-ec.reg.1450=Weaker variation of Obsidian that forms the walls and ceiling of the Laboratory.
+ec.reg.1450=Weaker variation of Obsidian that forms the walls and ceiling of the $d:Laboratory.
 
-ec.reg.1451=Dark glass found in the Laboratory.
+ec.reg.1451=Dark glass found in the $d:Laboratory.
 
-ec.reg.1452=Smooth block that is used for the Laboratory floor.
+ec.reg.1452=Smooth block that is used for the floor of the $d:Laboratory.
 
-ec.reg.1453=Stairs of Laboratory Floor, cannot be crafted.
+ec.reg.1453=Stairs of $b:~laboratory_floor, cannot be crafted.
 
-ec.reg.820=Fragment of Obsidian dropped by Ender Guardians, and found in chests inside the Laboratory.
+ec.reg.820=Fragment of Obsidian dropped by $e:~EnderGuardian:Ender Guardians$, and found in chests inside the $d:Laboratory.
 
-ec.reg.830=Rod made of Obsidian Fragments.
+ec.reg.830=Rod made of $i:~obsidian_fragment:Obsidian Fragments$.
 
 ec.reg.870=Golden token used for crafting.
-ec.reg.871=It can be found in Laboratory and Hidden Cellar loot chests, and is also uncommonly dropped by Endermages.
+ec.reg.871=It can be found in $d:Laboratory and Hidden Cellar loot chests, and is also uncommonly dropped by Endermages.
 
 ec.reg.840=Core of the Energy Wand
 
-ec.reg.850=Wand used to store and move Energy Clusters.
-ec.reg.852=Sneak and right-click on a Cluster to store it in the wand, or on a block to release stored Cluster.
-ec.reg.853=The further you move the Cluster, the higher chance it has to weaken and lose some Energy.
+ec.reg.850=Wand used to store and move $b:~energy_cluster:Energy Clusters$.
+ec.reg.852=Sneak and right-click on a $b:~energy_cluster:Cluster$ to store it in the wand, or on a block to release the stored $b:~energy_cluster:Cluster$.
+ec.reg.853=The further you move the $b:~energy_cluster:Cluster$, the higher chance it has to weaken and lose some $b:~energy_cluster:Energy$.
 
-ec.reg.690=Large golem-like creature that spawns in the Enchanted Island (Laboratory).
+ec.reg.690=Large golem-like creature that spawns in the $d:EnchantedIsland:Enchanted Island$ (Laboratory).
 ec.reg.691=It attacks players when provoked (attacking or getting too close).
 ec.reg.692=When attacking, it dashes towards the player every few seconds, causing massive knockback.
 ec.reg.694=Damage caused by fire, projectiles and falling blocks is reduced, cactuses don't hurt the Guardian at all. Knockback is reduced, sometimes ignored completely.
-ec.reg.693=The guardian drops 0-1 Ender Pearls, 1-3 Obsidian blocks and 0-3 Obsidian Fragments.
+ec.reg.693=The guardian drops 0-1 Ender Pearls, 1-3 Obsidian blocks and 0-3 $i:~obsidian_fragment:Obsidian Fragments$.
 
-ec.reg.860=Mage that lives in the Enchanted Island (Laboratory).
+ec.reg.860=Mage that lives in the $d:EnchantedIsland:Enchanted Island$ (Laboratory).
 ec.reg.861=It only attacks players when attacked. Taking damage makes it teleport with a short cooldown, it will also often teleport when taking another hit would kill it.
-ec.reg.862=During its attack, it shoots several consecutive projectiles of Corrupted Energy, which go through blocks and severely damage anything that is too close.
-ec.reg.863=When killed by a player, it has a small chance to drop Auricion.
+ec.reg.862=During its attack, it shoots several consecutive projectiles of $b:~energy_cluster:Corrupted Energy$, which go through blocks and severely damage anything that is too close.
+ec.reg.863=When killed by a player, it has a small chance to drop $i:~auricion.
 ec.reg.864=Any level of Looting increases the chance to get the drop.

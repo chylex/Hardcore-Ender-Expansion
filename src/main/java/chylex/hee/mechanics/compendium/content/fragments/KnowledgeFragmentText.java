@@ -135,7 +135,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 				else break;
 			}
 			
-			build.append(EnumChatFormatting.DARK_PURPLE);//.append(EnumChatFormatting.UNDERLINE);
+			build.append(EnumChatFormatting.DARK_PURPLE);
 			
 			if (str.charAt(index) == ':'){
 				lastIndex = ++index;
@@ -146,7 +146,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 					break;
 				}
 				
-				build.append(str.substring(lastIndex,index++));
+				build.append(str.substring(lastIndex,index++)); // TODO getObjectName to test
 			}
 			else if (tmpBuild.length() > 0){
 				build.append(getObjectName(type,tmpBuild.toString()));
