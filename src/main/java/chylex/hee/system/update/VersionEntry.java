@@ -1,5 +1,9 @@
 package chylex.hee.system.update;
+import java.util.Calendar;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.DragonUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -45,10 +49,22 @@ final class VersionEntry implements Comparable<VersionEntry>{
 	}
 	
 	public boolean isSupportedByMC(String mcVersion){
-		for(String version:mcVersions){
-			if (version.equals(mcVersion))return true;
-		}
-		return false;
+		return ArrayUtils.contains(mcVersions,mcVersion);
+	}
+	
+	public Calendar convertReleaseDate(){
+		Calendar cal = Calendar.getInstance();
+		cal.clear();
+		
+		String[] info = StringUtils.split(releaseDate,' ');
+		if (info.length != 3)return cal;
+		
+		int day = DragonUtil.tryParse(info[0],cal.get(Calendar.DAY_OF_MONTH));
+		int month = ArrayUtils.indexOf(new String[]{ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },info[1]);
+		int year = DragonUtil.tryParse(info[2],cal.get(Calendar.YEAR));
+		
+		cal.set(year,month == ArrayUtils.INDEX_NOT_FOUND ? cal.get(Calendar.MONTH) : month,day);
+		return cal;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package chylex.hee.system.util;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -205,6 +206,10 @@ public final class DragonUtil{
 		}catch(NumberFormatException e){
 			return def;
 		}
+	}
+	
+	public static int getDayDifference(Calendar cal1, Calendar cal2){
+		return MathUtil.floor((double)Math.abs(cal1.getTimeInMillis()-cal2.getTimeInMillis())/(1000*60*60*24));
 	}
 	
 	public static boolean canAddOneItemTo(ItemStack is, ItemStack itemToAdd){

@@ -1,5 +1,5 @@
 {
-  "~URL": "http://tinyurl.com/hc-ender-expansion",
+  "~URL": "http://hee.chylex.com",
   
   "27 - 1.7.1": {
     "modVersion": "1.7.1",

@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
@@ -12,6 +13,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.DragonUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -40,7 +42,7 @@ class UpdateThread extends Thread{
 			
 			JsonElement root = new JsonParser().parse(build.toString());
 			List<VersionEntry> versionList = new ArrayList<>();
-			VersionEntry newestVersion = null, newestVersionForCurrentMC = null;
+			VersionEntry currentVersion = null, newestVersion = null, newestVersionForCurrentMC = null;
 			int counter = -1, buildId = 0;
 			boolean isInDev = true;
 			
@@ -73,6 +75,7 @@ class UpdateThread extends Thread{
 					isInDev = false;
 					buildId = version.buildId;
 					UpdateNotificationManager.refreshUpdateData(version);
+					currentVersion = version;
 					break;
 				}
 			}
@@ -83,7 +86,7 @@ class UpdateThread extends Thread{
 			}
 			else Log.debug("Done.");
 			
-			if (buildId != HardcoreEnderExpansion.buildId){ // TODO externalize
+			if (buildId != HardcoreEnderExpansion.buildId){
 				StringBuilder message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
 					.append("\n Caution, you are using a broken build that can cause critical crashes! Please, redownload the mod, or update it if there is an update available.")
@@ -97,6 +100,18 @@ class UpdateThread extends Thread{
 					.append("\n Found a new version ").append(EnumChatFormatting.GREEN).append(newestVersionForCurrentMC.modVersionName).append(EnumChatFormatting.RESET)
 					.append(" for Minecraft ").append(mcVersion).append(", released ").append(newestVersionForCurrentMC.releaseDate)
 					.append(". You are currently ").append(counter).append(" version").append(counter == 1 ? "" : "s").append(" behind.");
+				
+				if (counter > 1){
+					int days = DragonUtil.getDayDifference(Calendar.getInstance(),currentVersion.convertReleaseDate());
+					
+					if (days > 60){
+						message.append("\nThe version you are using is over a month old, please update soon.");
+					}
+					else if (days > 30){
+						message.append("\n").append(EnumChatFormatting.RED)
+							   .append("The version you are using is over 2 months old and is no longer supported, please update as soon as possible.");
+					}
+				}
 				
 				if (newestVersion != newestVersionForCurrentMC){
 					message.append("\n\n There is also an update ").append(EnumChatFormatting.GREEN).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)
