@@ -1,16 +1,10 @@
 package chylex.hee.world.structure.island.biome;
-import java.util.List;
 import java.util.Random;
 import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.stats.Achievement;
-import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.InfestationSavefile;
-import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
@@ -54,30 +48,6 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 		if (data.content == DEEP)decorator.genDeep();
 		else if (data.content == RAVAGED)decorator.genRavaged();
 		else if (data.content == RUINS)decorator.genRuins();
-	}
-	
-	@Override
-	public void updateCore(World world, int x, int y, int z, int meta){
-		super.updateCore(world,x,y,z,meta);
-		
-		for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
-			if (world.rand.nextInt(5) <= 2)continue;
-			
-			int xx = MathUtil.floor(player.posX), yy = MathUtil.floor(player.posY), zz = MathUtil.floor(player.posZ);
-			boolean found = false;
-			
-			for(int testY = yy-2; testY <= yy+1 && !found; testY++){
-				for(int testX = xx-1; testX <= xx+1 && !found; testX++){
-					for(int testZ = zz-1; testZ <= zz+1; testZ++){
-						if (world.getBlock(testX,testY,testZ) == getTopBlock() && world.getBlockMetadata(testX,testY,testZ) == getTopBlockMeta()){
-							WorldDataHandler.<InfestationSavefile>get(InfestationSavefile.class).increaseInfestationPower(player);
-							found = true;
-							break;
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	@Override
