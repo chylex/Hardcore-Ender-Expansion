@@ -19,13 +19,13 @@ public final class VoidChestEvents{
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void onPlayerDrops(PlayerDropsEvent e){
 		if (!e.entity.worldObj.isRemote && e.entity.dimension == 1 && !e.drops.isEmpty()){
-			if (e.entity.posY < -28D){
+			if (e.entity.posY <= -8D){
 				InventoryVoidChest voidChest = PlayerVoidChest.getInventory(e.entityPlayer);
 				
 				for(Iterator<EntityItem> iter = e.drops.iterator(); iter.hasNext();){
 					EntityItem entity = iter.next();
 					
-					if (entity.posY <= -32D){
+					if (entity.posY <= -8D){
 						voidChest.putItemRandomly(entity.getEntityItem(),e.entity.worldObj.rand);
 						iter.remove();
 					}
@@ -34,7 +34,7 @@ public final class VoidChestEvents{
 			
 			if (!e.drops.isEmpty()){
 				for(EntityItem entity:e.drops)e.entity.worldObj.spawnEntityInWorld(entity);
-				e.entity.worldObj.spawnEntityInWorld(new EntityTechnicalVoidChest(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,(EntityPlayerMP)e.entityPlayer,e.drops));
+				e.entity.worldObj.spawnEntityInWorld(new EntityTechnicalVoidChest(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,(EntityPlayerMP)e.entityPlayer,e.drops,true));
 				e.drops.clear();
 			}
 		}
@@ -43,12 +43,12 @@ public final class VoidChestEvents{
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void onItemToss(ItemTossEvent e){
 		if (!e.entity.worldObj.isRemote && e.entity.dimension == 1){
-			if (e.entity.posY <= -32D){
+			if (e.entity.posY <= -8D){
 				PlayerVoidChest.getInventory(e.player).putItemRandomly(e.entityItem.getEntityItem(),e.entity.worldObj.rand);
 				e.setCanceled(true);
 			}
 			else{
-				e.entity.worldObj.spawnEntityInWorld(new EntityTechnicalVoidChest(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,(EntityPlayerMP)e.player,Lists.newArrayList(e.entityItem)));
+				e.entity.worldObj.spawnEntityInWorld(new EntityTechnicalVoidChest(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,(EntityPlayerMP)e.player,Lists.newArrayList(e.entityItem),false));
 			}
 		}
 	}
