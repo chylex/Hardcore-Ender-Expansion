@@ -9,6 +9,20 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeFragmentText extends KnowledgeFragment{
+	/* === LANGUAGE FILE LINKS ===
+	 * $<type>:<name>[:<display>][$]
+	 * Type: [a-z]
+	 * Name: [a-zA-Z_]
+	 * Display: [^$]
+	 * $b:Block --> block registry name
+	 * $b:Block/0 --> block registry name with metadata
+	 * $i:Item --> item registry name
+	 * $e:Entity --> entity list name
+	 * $d:Dummy --> dummy identifier
+	 * ~ before block/item/entity names is a substitute for HEE
+	 * trailing $ is only required if there is a <display> or to add regular characters right after <name>
+	 */
+	
 	public static byte smoothRenderingMode = 0;
 	
 	public KnowledgeFragmentText(int globalID){
