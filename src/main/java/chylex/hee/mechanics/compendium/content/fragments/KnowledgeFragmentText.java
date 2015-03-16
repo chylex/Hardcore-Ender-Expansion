@@ -87,7 +87,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 		
 		if (isUnlocked){
 			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
-			if (obj != null)GuiItemRenderHelper.setupTooltip(mouseX,mouseY,obj.getTooltip()+"\n\n"+EnumChatFormatting.DARK_PURPLE+I18n.format("compendium.viewObject"));
+			if (obj != null)GuiItemRenderHelper.setupTooltip(mouseX,mouseY,obj.getTooltip()+"\n"+EnumChatFormatting.DARK_PURPLE+I18n.format("compendium.viewObject"));
 		}
 	}
 	
@@ -222,15 +222,15 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 					if (multiLine)multiLine = false;
 					else ++count;
 					
+					int startX = x+fontRenderer.getStringWidth(lineStr.substring(0,prevIndex = index));
+					
+					if ((index = lineStr.indexOf(EnumChatFormatting.BLACK.toString(),index)) == -1){
+						index = lineStr.length();
+						multiLine = true;
+					}
+
 					if (mouseY >= y+line*fontRenderer.FONT_HEIGHT && mouseY <= y+(line+1)*fontRenderer.FONT_HEIGHT){
-						int startX = x+fontRenderer.getStringWidth(lineStr.substring(0,prevIndex = index));
-						
-						if ((index = lineStr.indexOf(EnumChatFormatting.RESET.toString(),index)) == -1){
-							index = lineStr.length();
-							multiLine = true;
-						}
-						
-						if (mouseX >= startX && mouseX <= startX+fontRenderer.getStringWidth(lineStr.substring(prevIndex,index-1))){
+						if (mouseX >= startX && mouseX <= startX+fontRenderer.getStringWidth(lineStr.substring(prevIndex,index))){
 							fontRenderer.setUnicodeFlag(origFont);
 							return count < parsedObjects.size() ? parsedObjects.get(count) : null;
 						}
