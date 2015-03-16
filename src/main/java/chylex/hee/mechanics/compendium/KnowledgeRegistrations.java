@@ -743,8 +743,6 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(393).setPrice(15).setUnlockRequirements(391),
 				new KnowledgeFragmentText(394).setPrice(15).setUnlockRequirements(391),
 				// 395 reseved for third variation
-				new KnowledgeFragmentText(396).setPrice(10).setUnlockRequirements(390),
-				new KnowledgeFragmentText(397).setPrice(5).setUnlockRequirements(396)
 			}),
 			
 			INFESTED_END_STONE.setPos(0,0).setUnlockPrice(7).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{

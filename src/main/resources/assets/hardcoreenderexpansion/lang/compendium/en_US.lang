@@ -91,7 +91,7 @@ ec.reg.104=When broken, it loses its ability to fall.
 
 ec.reg.110=Dragon Essence Altar infuses blocks and items with $i:~essence/0.
 ec.reg.111=Infusion requires pedestals, which are up to 8 blocks of the same type placed close around the altar
-ec.reg.112=Enhancing the altar with Range enhancement allows up to 12 pedestals to be used.
+ec.reg.112=$i:~end_powder:Enhancing$ the altar with Range enhancement allows up to 12 pedestals to be used.
 ec.reg.113=Tools, weapons and armor will quickly repair, and slowly improve their enchantments.
 ec.reg.114=Some items will turn into different items when infused:
 
@@ -103,7 +103,7 @@ ec.reg.123=Fortune enchantment has an effect on the amount of $i:~end_powder dro
 ec.reg.130=A Brewing Stand infused with $i:~essence/0.
 ec.reg.131=The brewing speed depends on potion complexity, simple potions brew much faster than with regular Brewing Stand.
 ec.reg.132=Using Glowstone, Redstone and Gunpowder requires $i:~end_powder, but the potions can go over the limits of basic Brewing Stand.
-ec.reg.137=Most potions can be brewed up to tier III, or when enhanced with the Tier enhancement, they can go up to tier IV.
+ec.reg.137=Most potions can be brewed up to tier III, or when $i:~end_powder:enhanced$ with the Tier enhancement, they can go up to tier IV.
 ec.reg.133=It is required to brew special potions using Awkward Potion and another ingredient:
 
 ec.reg.150=Dragon Egg is created on top of the End Portal after killing the $e:EnderDragon.
@@ -117,11 +117,11 @@ ec.reg.162=Also, using the End Powder directly on an enhanceable block will let 
 ec.reg.163=Enhancing requires a specific amount of End Powder and ingredients of one type.
 ec.reg.164=The ingredient is unlocked by trying. Using an incorrect ingredient will destroy some of the End Powder, but may also reveal the correct ingredient.
 ec.reg.165=Different enhancements can be stacked together.
-ec.reg.166=End Powder applies enhancing effects to potions in Enhanced Brewing Stand.
+ec.reg.166=End Powder applies enhancing effects to potions in $i:~enhanced_brewing_stand.
 ec.reg.167=Applying End Powder to $b:~death_flower partially reverts the effect of decaying.
 
 ec.reg.180=Temple Caller is an Eye of Ender infused with $i:~essence/0.
-ec.reg.181=It can rarely be found in Overworld dungeons, Stronghold and Dungeon Tower.
+ec.reg.181=It can rarely be found in Overworld dungeons, $d:Stronghold and $d:DungeonTower.
 ec.reg.182=Before using the Temple Caller, it has to be filled with $b:~energy_cluster:Energy$.
 ec.reg.183=Using it in the End with $b:dragon_egg in the inventory teleports the player to a temple.
 ec.reg.184=In the temple, there is a dark pedestal for the $b:dragon_egg. When the Egg is placed, it will use its power to destroy the End.
@@ -141,7 +141,7 @@ ec.reg.703=Bloodlust slows the dragon down, protects it from attack and turns ne
 ec.reg.704=When killed, the dragon floats high up while disappearing, dropping large amount of experience and $i:~essence/0.
 ec.reg.705=End Portal is formed below the dragon, with a $b:dragon_egg on top.
 
-ec.reg.200=Startled Enderman that will attack nearby playeres.
+ec.reg.200=Startled $e:Enderman that will attack nearby playeres.
 ec.reg.201=They have less health and strength, but will not teleport away when damaged.
 
 ec.reg.210=Special bat summoned by one of the $e:EnderDragon attacks.
@@ -152,7 +152,7 @@ ec.reg.220=Small blobs of varying shapes, sizes and features, made of End Stone.
 ec.reg.221=There are three types of blobs, Common, Uncommon and Rare.
 ec.reg.222=Common blobs are the most random. They can have a variety of shapes, and 1 to 7 populators that include caves, Obsidian spikes and cover, $i:~bucket_ender_goo:Ender Goo$ lakes and falls, $i:~end_powder and $i:~igneous_rock ores and $b:~death_flower.
 ec.reg.223=Uncommon blobs have predetermined shapes and populators, such as one tiny blob with large amount of $i:~end_powder, goo covered one with a chest inside, caterpillar shaped one and several more.
-ec.reg.224=Rare blobs have precious resources and utilities and are usually very distinguishable from other types. They can spawn Transport Beacons, spawners with loot and large blobs filled with ores.
+ec.reg.224=Rare blobs have precious resources and utilities and are usually very distinguishable from other types. They can spawn $b:~transport_beacon:Transport Beacons$, spawners with loot and large blobs filled with ores.
 
 ec.reg.230=An ore rarely spawned in $d:EndstoneBlob:Endstone Blobs$ and commonly in $d:BurningMountains.
 ec.reg.231=Iron Pickaxe or better can effectively mine the ore.
@@ -182,7 +182,7 @@ ec.reg.963=Maximum teleportation distance is 960 blocks.
 ec.reg.270=A tall tower consisting of various types of Obsidian.
 ec.reg.271=They start spawning around 350 blocks away from the $d:DragonLair and are most common until 900 blocks, then they start becoming less common.
 ec.reg.272=Each tower contains 3 content floors and 1 chest floor with loot, all are randomly picked and have random elements.
-ec.reg.273=Loot is also often found in Dispensers, Furnaces and Brewing Stands. There is a 1 in 100 (1%%) chance of spawning an Enhanced Brewing Stand.
+ec.reg.273=Loot is also often found in Dispensers, Furnaces and Brewing Stands. There is a 1 in 100 (1%%) chance of spawning an $i:~enhanced_brewing_stand.
 ec.reg.274=Most floors have $e:AngryEnderman spawners. Each spawner gives the $e:Enderman:Endermen$ potion effects that are more powerful the higher you get.
 ec.reg.275=On top of the tower lies an $e:~EnderEye.
 
@@ -241,7 +241,7 @@ ec.reg.315=Attack routine consists of 3 randomly selected attacks:
 ec.reg.316=First attack is a blast wave, which destroys blocks and massively knocks all creatures around away.
 ec.reg.317=Second attack is a confusion attack, which deals short nausea and blindness effects to players.
 ec.reg.318=Third attack is a beam attack, during which several purple beams are created and then destroyed. The beams deal magic and fire damage, and additional damage when they get destroyed.
-ec.reg.319=When killed, it drops a Spatial Dash Gem, 1 Eye of Ender, 3-6 Obsidian and 35 experience.
+ec.reg.319=When killed, it drops a $i:~spatial_dash_gem, 1 Eye of Ender, 3-6 Obsidian and 35 experience.
 
 ec.reg.320=Tiny clump of $b:~sphalerite/0 which begins to spawn around 1300 blocks away from the $d:DragonLair and is most common around 2700 blocks away. Then it slowly starts disappearing.
 
@@ -292,17 +292,15 @@ ec.reg.373=Fortune enchantment does not affect the drops.
 ec.reg.380=Very unstable material dropped by $b:~instability_orb_ore.
 ec.reg.381=It decomposes when thrown on the ground. When the process finishes, it can either explode, or turn into a random mob, block or item.
 ec.reg.382=When a TNT explodes near one or more decomposing orbs, they will not explode once the decomposition is complete.
-ec.reg.383=Brewing it in an Enhanced Brewing Stand creates Potion of Instability.
+ec.reg.383=Brewing it in an $i:~enhanced_brewing_stand creates $i:~potion_of_instability.
 
-ec.reg.740=Special potion that causes a random effect. It has to be brewed in an Enhanced Brewing Stand, using Gunpowder on the brewed potion turns it into splash version.
+ec.reg.740=Special potion that causes a random effect. It has to be brewed in an $i:~enhanced_brewing_stand, using Gunpowder on the brewed potion turns it into splash version.
 
 ec.reg.390=Mostly flat biome with occasional hills, long caves and decent amount of ores.
 ec.reg.391=There are 2 variations of the biome - Deep and Ravaged.
 ec.reg.392=Both of these variations contain Silverfish, Infested Bats and occasionally $e:Enderman:Endermen$.
 ec.reg.393=Deep variation is massively populated with Spooky Trees that can have faces on them. The ground has all types of infested plants, including Thorny Bushes.
-ec.reg.394=Ravaged variation has patches of infested plants and occasional Spooky Trees, but the most important feature is the $d:RavagedDungeon which is an open gate to the Charms.
-ec.reg.396=Staying in an Infested Forest for too long causes Infestation to build up. The effects of Infestation kick off some time after leaving the island. Those effects include Weakness, Slowness, Mining Fatigue, and if the Infestation builds up too much, it can even cause Poison, Blindness or Nausea.
-ec.reg.397=Infestation can only be partly cured using Infestation Remedy.
+ec.reg.394=Ravaged variation has patches of infested plants and occasional Spooky Trees, but the most important feature is the $d:RavagedDungeon which is an open gate to the $i:~charm:Charms$.
 
 ec.reg.400=Variation of End Stone found in the $d:InfestedForest:Infested Forest$.
 
@@ -312,56 +310,56 @@ ec.reg.411=One of the plants commonly found in the $d:InfestedForest:Infested Fo
 
 ec.reg.412=One of the plants commonly found in the $d:InfestedForest:Infested Forest$.
 
-ec.reg.730=A potion that eases the effects of Infestation. It has to be brewed in Enhanced Brewing Stand.
+ec.reg.730=A potion that eases the effects of Infestation. It has to be brewed in $i:~enhanced_brewing_stand.
 
 ec.reg.480=Special type of bat that spawns in the $d:InfestedForest:Infested Forest$. Each bat varies in size.
 
-ec.reg.420=Dark plant found in the Infested Forest (Deep).
+ec.reg.420=Dark plant found in the $d:InfestedForest:Infested Forest$ (Deep).
 ec.reg.421=On contact, it causes short Poison effect.
 
 ec.reg.430=Logs used for the trunk of Spooky Trees.
 ec.reg.431=Breaking one log also destroys all logs above.
-ec.reg.432=Each log has a 1 in 8 (12.5%%) chance of dropping a Dry Splinter.
+ec.reg.432=Each log has a 1 in 8 (12.5%%) chance of dropping a $i:~dry_splinter.
 ec.reg.433=In the Deep variation of $d:InfestedForest:Infested Forest$, some trees have faces.
 ec.reg.434=When nobody looks at a face, it will move around the tree or move to another nearby tree.
 ec.reg.435=If a log with a face is broken, it has a 1 in 4 (25%%) chance of spawning a Forest Ghost.
-ec.reg.436=Ghost Amulet will stop the Forest Ghost from spawning, and the face will have a 3 in 5 (60%%) chance to drop Ectoplasm.
+ec.reg.436=$i:~ghost_amulet will stop the Forest Ghost from spawning, and the face will have a 3 in 5 (60%%) chance to drop $i:~ectoplasm.
 
 ec.reg.440=Spooky Leaves are foliage of the Spooky Trees.
-ec.reg.441=If not connected to a Spooky Log, they leaves very quickly decay.
+ec.reg.441=If not connected to a $b:~spooky_log, they leaves very quickly decay.
 
-ec.reg.450=Crafting material dropped by Spooky Logs.
-ec.reg.451=Each Spooky Log has 1 in 8 (12.5%%) chance of dropping a Dry Splinter.
+ec.reg.450=Crafting material dropped by $b:~spooky_log.
+ec.reg.451=Each $b:~spooky_log has 1 in 8 (12.5%%) chance of dropping a $i:~dry_splinter.
 
 ec.reg.460=An amulet that banishes the Forest Ghost.
-ec.reg.461=When in the inventory, Forest Ghost will not spawn and the Spooky Log face will have 3 in 5 (60%%) chance to drop Ectoplasm.
+ec.reg.461=When in the inventory, Forest Ghost will not spawn and the $b:~spooky_log face will have 3 in 5 (60%%) chance to drop $i:~ectoplasm.
 ec.reg.462=In order to create it, one piece of $i:~end_powder, Emerald and String all have to be thrown into $i:~bucket_ender_goo:Ender Goo$.
-ec.reg.463=Then it has to be purified in Dragon Essence Altar.
+ec.reg.463=Then it has to be purified in $b:~essence_altar/1.
 
 ec.reg.470=Strange ethereal substance dropped by banished Forest Ghosts.
 
-ec.reg.920=One of the components to create Living Matter.
+ec.reg.920=One of the components to create $i:~living_matter.
 
-ec.reg.930=Microorganisms used to craft Curses.
+ec.reg.930=Microorganisms used to craft $i:~curse:Curses$.
 
-ec.reg.940=A Curse is a magical powder that attaches itself to an area of blocks, a mob, or a player, crafted using Living Matter, $i:~end_powder and specific ingredients.
+ec.reg.940=A Curse is a magical powder that attaches itself to an area of blocks, a mob, or a player, crafted using $i:~living_matter, $i:~end_powder and specific ingredients.
 ec.reg.941=It can be either placed right on a block or an entity, or thrown. If it gets thrown into a group of entities, it will have a chance to hit more of then at the same time.
-ec.reg.942=Curses eventually disappear, but they can be made eternal by crafting them with $i:~stardust and Arcane Shard. Eternal Curses will stay forever on blocks and mobs, and longer than normal Curses on players.
+ec.reg.942=Curses eventually disappear, but they can be made eternal by crafting them with $i:~stardust and $i:~arcane_shard. Eternal Curses will stay forever on blocks and mobs, and longer than normal Curses on players.
 ec.reg.943=Curses placed on blocks are only visible to the player who casted it, and for a short duration to players affected by it.
 ec.reg.944=Getting very close to a Curse makes it visible without having it affect you, but it requires extreme carefulness.
-ec.reg.945=It is possible to remove Curses by using Potion of Purity.
+ec.reg.945=It is possible to remove Curses by using $i:~potion_of_purity.
 
-ec.reg.950=Potion of Purity is a drinkable or throwable potion that removes Curses.
-ec.reg.951=It is brewed using Ectoplasm on an Awkward Potion in the Enhanced Brewing Stand.
+ec.reg.950=Potion of Purity is a drinkable or throwable potion that removes $i:~curse:Curses$.
+ec.reg.951=It is brewed using $i:~ectoplasm on an Awkward Potion in the $i:~enhanced_brewing_stand.
 
-ec.reg.1400=Curse Amulet reveals all nearby Curses placed on blocks and depletes Curses quicker when held.
-ec.reg.1401=It is created by throwing $i:~end_powder, Gold Ingot, Ectoplasm and String into $i:~bucket_ender_goo:Ender Goo$.
+ec.reg.1400=Curse Amulet reveals all nearby $i:~curse:Curses$ placed on blocks and depletes $i:~curse:Curses$ quicker when held.
+ec.reg.1401=It is created by throwing $i:~end_powder, Gold Ingot, $i:~ectoplasm and String into $i:~bucket_ender_goo:Ender Goo$.
 
 ec.reg.490=Huge dungeon built from $b:~ravaged_brick/0:Ravaged Bricks$, found in $d:InfestedForest:Infested Forest$ (Ravaged).
-ec.reg.491=It is the only way of acquiring items required to create Charms.
+ec.reg.491=It is the only way of acquiring items required to create $i:~charm:Charms$.
 ec.reg.492=The dungeon consists of 3 floors. Each floor is a collection of randomly generated hallways and rooms spread across the entire island.
 ec.reg.493=There is always an entrance to the first floor, then the floors have rooms that lead to lower floors and the bottom floor contains a massive final room with many spawners and loot chests.
-ec.reg.494=Hallways and rooms have random designs, some of which contain loot chests and Silverfish and Louse spawners.
+ec.reg.494=Hallways and rooms have random designs, some of which contain loot chests and $e:Silverfish and $e:~Louse spawners.
 
 ec.reg.500=Primary building block of the $d:RavagedDungeon.
 ec.reg.501=Some of the bricks are cracked or damaged.
@@ -375,10 +373,10 @@ ec.reg.514=Slab made of $b:~ravaged_brick/0, weaker than the full block.
 
 ec.reg.516=Fence made of $b:~ravaged_brick/0, weaker than the full block.
 
-ec.reg.520=Magical pouch that allows creating, holding and activating Charms.
-ec.reg.522=Sneaking and using the pouch activates or deactives the Charms. Only one pouch can be active at a time.
+ec.reg.520=Magical pouch that allows creating, holding and activating $i:~charm:Charms$.
+ec.reg.522=Sneaking and using the pouch activates or deactives the $i:~charm:Charms$. Only one pouch can be active at a time.
 
-ec.reg.530=Runes are used to create Charms, and craft $i:~charm_pouch.
+ec.reg.530=Runes are used to create $i:~charm:Charms$, and craft $i:~charm_pouch.
 ec.reg.531=There are 6 types of Runes - Power, Agility, Vigor, Defense, Magic and Void. The Void rune is less common than other types.
 ec.reg.532=It is required to explore the $d:RavagedDungeon to get Runes. They are found in chests and rarely dropped by Lice.
 
@@ -387,8 +385,8 @@ ec.reg.541=Between 3 to 5 Runes are combined together to create a Charm. Many co
 
 ec.reg.550=An arthropod spawning in the $d:RavagedDungeon.
 ec.reg.551=Lice have runic symbols on top, which modify their attributes or abilities.
-ec.reg.552=The runic symbols can have one or two different colors, each corresponds to a Rune. Killing them can drop either of the Runes.
-ec.reg.553=Basic Runes increase attributes, such as strength, speed or health. Void Rune (gray) gives the Louse one of special and extremely dangerous abilities.
+ec.reg.552=The runic symbols can have one or two different colors, each corresponds to a $i:~rune:Rune$. Killing them can drop either of the $i:~rune:Runes$.
+ec.reg.553=Basic $i:~rune:Runes$ increase attributes, such as strength, speed or health. $i:~rune:Void Rune$ (gray) gives the Louse one of special and extremely dangerous abilities.
 
 ec.reg.560=Fire-oriented biome with huge mountains and a large amount of caves and ores. Apart from default ores, this biome also has common $b:~igneous_rock_ore.
 ec.reg.561=There are 2 variations of the biome - Scorching and Mine.
@@ -406,10 +404,10 @@ ec.reg.580=Orange tulip found in the $d:BurningMountains:Burning Mountains$ (Sco
 ec.reg.900=Dungeon Puzzle is a structure found in $d:BurningMountains:Burning Mountains$ (Scorching). There is always a cave leading to the dungeon.
 ec.reg.901=Throwing $i:~igneous_rock on plain puzzle blocks will start a chain reaction and destroy the rock.
 ec.reg.902=Blocks with ornaments cause different effects when a chain hits them.
-ec.reg.903=When all blocks on the floor are lit, a fiery beam spawns in the middle. Entering the beam begins a Fire Fiend battle.
+ec.reg.903=When all blocks on the floor are lit, a fiery beam spawns in the middle. Entering the beam begins a $e:~FireFiend battle.
 
 ec.reg.600=Fiery Essence Altar converts $i:~essence/1 into heat to speed up Furnaces, Brewing Stands and other devices.
-ec.reg.601=More $i:~essence/1 causes faster distribution of heat, having 512 Essence yields best speed.
+ec.reg.601=More $i:~essence/1 causes faster distribution of heat, having 512 $i:~essence/1:Essence$ yields best speed.
 
 ec.reg.610=Fiery creature that spawns in $d:BurningMountains:Burning Mountains$ (Scorching).
 ec.reg.611=It has both a ranged attack and a melee attack.
@@ -422,13 +420,13 @@ ec.reg.621=It attacks players in proximity by churning out fire from its eye.
 ec.reg.622=The fire deals damage, has a chance of knocking the attacked creature back and increases the length of fire status effect.
 ec.reg.623=It drops 0-2 $i:~igneous_rock and 1-2 $i:~essence/1.
 
-ec.reg.910=Flying mini-boss spawned by the Dungeon Puzzle. It has 100 hearts.
+ec.reg.910=Flying mini-boss spawned by the $b:~dungeon_puzzle. It has 100 hearts.
 ec.reg.911=It moves randomly, but always tries to stay around and above players.
 ec.reg.912=The Fiend switches between two major attacks every couple seconds.
 ec.reg.913=First attack consists of spawning fireballs rotating around the Fiend, and shooting them one by one at random players.
 ec.reg.914=Second attack is less common. It starts by creating fire around the Fiend, and then it deals damage to all players and sets them on fire.
 ec.reg.915=When the mini-boss gets down to 40%% health, it will get into the next stage, marked by constant flame around the Fiend.
-ec.reg.916=During that stage, the Fiend's attacks are much quicker, it takes less damage and occasionally it will also make nearby Fire Golems attack players.
+ec.reg.916=During that stage, the Fiend's attacks are much quicker, it takes less damage and occasionally it will also make nearby $e:~FireGolem:Fire Golems$ attack players.
 ec.reg.917=On death, it drops 40 experience and 240 $i:~essence/1.
 
 ec.reg.630=Infernium is a crafting material dropped by $e:~HauntedMiner:Haunted Miners$.
@@ -459,7 +457,7 @@ ec.reg.811=Shovels are efficient tools for breaking, but you can still get the b
 ec.reg.812=Some blocks in the Hidden Cellar have ornaments.
 
 ec.reg.1420=Arcane Shards are often dropped from Homeland Cache, and sometimes found in the Hidden Cellar.
-ec.reg.1421=It can be used for several purposes, including crafting Eternal Curses.
+ec.reg.1421=It can be used for several purposes, including crafting $i:~curse:Eternal Curses$.
 
 ec.reg.1430=Blank Gem is used solely to create higher level Gems.
 
@@ -468,7 +466,7 @@ ec.reg.1442=Using it on a block while sneaking will link the Gem to that block.
 ec.reg.1443=When linked, using it will teleport you to the linked block, and use a specified amount of $b:~energy_cluster:Energy$.
 ec.reg.1444=If the Gem has below 44%% $b:~energy_cluster:Energy$, the Gem might cause a negative effect with higher chance the less $b:~energy_cluster:Energy$ it has. The center of the Gem will also appear darker.
 ec.reg.1445=Some of these effects include bad potion effects, random teleportation deflections or even a short storm.
-ec.reg.1446=When enhanced with the Beast enhancement, using it on another creature while standing teleports the targeted creature.
+ec.reg.1446=When $i:~end_powder:enhanced$ with the Beast enhancement, using it on another creature while standing teleports the targeted creature.
 
 ec.reg.680=Baby Enderman spawns in the $d:EnchantedIsland:Enchanted Island$ (Homeland).
 ec.reg.681=If attacked, the parents will teleport and protect the baby.
@@ -499,9 +497,9 @@ ec.reg.820=Fragment of Obsidian dropped by $e:~EnderGuardian:Ender Guardians$, a
 ec.reg.830=Rod made of $i:~obsidian_fragment:Obsidian Fragments$.
 
 ec.reg.870=Golden token used for crafting.
-ec.reg.871=It can be found in $d:Laboratory and Hidden Cellar loot chests, and is also uncommonly dropped by Endermages.
+ec.reg.871=It can be found in $d:Laboratory and Hidden Cellar loot chests, and is also uncommonly dropped by $e:~Endermage:Endermages$.
 
-ec.reg.840=Core of the Energy Wand
+ec.reg.840=Core of the $i:~energy_wand.
 
 ec.reg.850=Wand used to store and move $b:~energy_cluster:Energy Clusters$.
 ec.reg.852=Sneak and right-click on a $b:~energy_cluster:Cluster$ to store it in the wand, or on a block to release the stored $b:~energy_cluster:Cluster$.
