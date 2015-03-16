@@ -7,7 +7,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
 
 public class CategoryDisplayElement{
 	public final KnowledgeCategory category;
-	private final int y;
+	public final int y;
 	
 	public CategoryDisplayElement(KnowledgeCategory category, int y){
 		this.category = category;

@@ -358,15 +358,27 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public void moveToCurrentObject(boolean animate){
 		if (currentObject == null)return;
 		
+		int newY = Integer.MIN_VALUE;
+		
 		for(ObjectDisplayElement element:objectElements){
 			if (element.object.getObject() == currentObject.getObject()){
-				int newY = -(element.y+element.object.getY()-(height>>1)+11);
-				
-				if (animate)offsetY.startAnimation(offsetY.value(),newY,0.5F);
-				else offsetY.set(newY);
-				
+				newY = -(element.y+element.object.getY()-(height>>1)+11);
 				break;
 			}
+		}
+		
+		if (newY == Integer.MIN_VALUE){
+			for(CategoryDisplayElement element:categoryElements){
+				if (element.category.getCategoryObject().getObject() == currentObject.getObject()){
+					newY = -(element.y+element.category.getCategoryObject().getY()-(height>>1)+20);
+					break;
+				}
+			}
+		}
+		
+		if (newY != Integer.MIN_VALUE){
+			if (animate)offsetY.startAnimation(offsetY.value(),newY,0.5F);
+			else offsetY.set(newY);
 		}
 	}
 	
