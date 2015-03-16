@@ -39,7 +39,7 @@ ec.reg.18=Pressing the Compendium key while looking at an object or hovering ove
 ec.reg.19=This behavior works with Not Enough Items too, but you can bypass it by holding CTRL.
 
 ec.reg.80=Essence is used to unleash power of altars.
-ec.reg.81=Dragon Essence is gained by killing the $e:EnderDragon.
+ec.reg.81=Dragon Essence is gained by killing the $e:~Dragon:Ender Dragon$.
 ec.reg.82=Fiery Essence is dropped by $e:~FireGolem and $e:~ScorchedLens, which can be found in a variation of $d:BurningMountains:Burning Mountains$.
 
 ec.reg.710=Overworld contains Strongholds, large and complex undeground structures made of Stone Brick.
@@ -74,7 +74,7 @@ ec.reg.70=A tiny hostile arthropod found in Overworld $d:Stronghold:Strongholds$
 ec.reg.71=They are often hidden inside Stone Brick blocks. These infested blocks are easier to mine.
 ec.reg.72=Attacking a Silverfish will wake up nearby Silverfish hidden in blocks.
 
-ec.reg.750=Large island made of End Stone, protected by the $e:EnderDragon.
+ec.reg.750=Large island made of End Stone, protected by the $e:~Dragon:Ender Dragon$.
 ec.reg.751=Several Obsidian spikes with Ender Crystals are scattered across the island. The crystals heal the dragon and explode when destroyed.
 ec.reg.752=There are 3 types of spikes:
 ec.reg.753=One type of crystal spawn 8 primed TNT blocks that explodes near the ground, and makes $e:Enderman:Endermen$ under it attack the player.
@@ -106,7 +106,7 @@ ec.reg.132=Using Glowstone, Redstone and Gunpowder requires $i:~end_powder, but 
 ec.reg.137=Most potions can be brewed up to tier III, or when $i:~end_powder:enhanced$ with the Tier enhancement, they can go up to tier IV.
 ec.reg.133=It is required to brew special potions using Awkward Potion and another ingredient:
 
-ec.reg.150=Dragon Egg is created on top of the End Portal after killing the $e:EnderDragon.
+ec.reg.150=Dragon Egg is created on top of the End Portal after killing the $e:~Dragon:Ender Dragon$.
 ec.reg.151=It teleports into random directions when interacted with.
 ec.reg.152=The egg can be picked up by sneaking and hitting it with any sword.
 ec.reg.153=When destroyed, it teleports back to the End.
@@ -144,9 +144,9 @@ ec.reg.705=End Portal is formed below the dragon, with a $b:dragon_egg on top.
 ec.reg.200=Startled $e:Enderman that will attack nearby playeres.
 ec.reg.201=They have less health and strength, but will not teleport away when damaged.
 
-ec.reg.210=Special bat summoned by one of the $e:EnderDragon attacks.
+ec.reg.210=Special bat summoned by one of the $e:~Dragon:Ender Dragon$ attacks.
 ec.reg.211=They instantly die when damaged.
-ec.reg.212=The bats try to attack players. When they do, they damage the player, heal the $e:EnderDragon and die.
+ec.reg.212=The bats try to attack players. When they do, they damage the player, heal the $e:~Dragon:Ender Dragon$ and die.
 
 ec.reg.220=Small blobs of varying shapes, sizes and features, made of End Stone.
 ec.reg.221=There are three types of blobs, Common, Uncommon and Rare.
@@ -183,7 +183,7 @@ ec.reg.270=A tall tower consisting of various types of Obsidian.
 ec.reg.271=They start spawning around 350 blocks away from the $d:DragonLair and are most common until 900 blocks, then they start becoming less common.
 ec.reg.272=Each tower contains 3 content floors and 1 chest floor with loot, all are randomly picked and have random elements.
 ec.reg.273=Loot is also often found in Dispensers, Furnaces and Brewing Stands. There is a 1 in 100 (1%%) chance of spawning an $i:~enhanced_brewing_stand.
-ec.reg.274=Most floors have $e:AngryEnderman spawners. Each spawner gives the $e:Enderman:Endermen$ potion effects that are more powerful the higher you get.
+ec.reg.274=Most floors have $e:~AngryEnderman spawners. Each spawner gives the $e:Enderman:Endermen$ potion effects that are more powerful the higher you get.
 ec.reg.275=On top of the tower lies an $e:~EnderEye.
 
 ec.reg.280=Very tough stairs made of Obsidian. Uncraftable.
@@ -323,7 +323,7 @@ ec.reg.432=Each log has a 1 in 8 (12.5%%) chance of dropping a $i:~dry_splinter.
 ec.reg.433=In the Deep variation of $d:InfestedForest:Infested Forest$, some trees have faces.
 ec.reg.434=When nobody looks at a face, it will move around the tree or move to another nearby tree.
 ec.reg.435=If a log with a face is broken, it has a 1 in 4 (25%%) chance of spawning a Forest Ghost.
-ec.reg.436=$i:~ghost_amulet will stop the Forest Ghost from spawning, and the face will have a 3 in 5 (60%%) chance to drop $i:~ectoplasm.
+ec.reg.436=$i:~ghost_amulet will stop the Forest Ghost from spawning, and the face will have a 3 in 5 (60%%) chance to drop $i:~endoplasm.
 
 ec.reg.440=Spooky Leaves are foliage of the Spooky Trees.
 ec.reg.441=If not connected to a $b:~spooky_log, they leaves very quickly decay.
@@ -332,7 +332,7 @@ ec.reg.450=Crafting material dropped by $b:~spooky_log.
 ec.reg.451=Each $b:~spooky_log has 1 in 8 (12.5%%) chance of dropping a $i:~dry_splinter.
 
 ec.reg.460=An amulet that banishes the Forest Ghost.
-ec.reg.461=When in the inventory, Forest Ghost will not spawn and the $b:~spooky_log face will have 3 in 5 (60%%) chance to drop $i:~ectoplasm.
+ec.reg.461=When in the inventory, Forest Ghost will not spawn and the $b:~spooky_log face will have 3 in 5 (60%%) chance to drop $i:~endoplasm.
 ec.reg.462=In order to create it, one piece of $i:~end_powder, Emerald and String all have to be thrown into $i:~bucket_ender_goo:Ender Goo$.
 ec.reg.463=Then it has to be purified in $b:~essence_altar/1.
 
@@ -350,10 +350,10 @@ ec.reg.944=Getting very close to a Curse makes it visible without having it affe
 ec.reg.945=It is possible to remove Curses by using $i:~potion_of_purity.
 
 ec.reg.950=Potion of Purity is a drinkable or throwable potion that removes $i:~curse:Curses$.
-ec.reg.951=It is brewed using $i:~ectoplasm on an Awkward Potion in the $i:~enhanced_brewing_stand.
+ec.reg.951=It is brewed using $i:~endoplasm on an Awkward Potion in the $i:~enhanced_brewing_stand.
 
 ec.reg.1400=Curse Amulet reveals all nearby $i:~curse:Curses$ placed on blocks and depletes $i:~curse:Curses$ quicker when held.
-ec.reg.1401=It is created by throwing $i:~end_powder, Gold Ingot, $i:~ectoplasm and String into $i:~bucket_ender_goo:Ender Goo$.
+ec.reg.1401=It is created by throwing $i:~end_powder, Gold Ingot, $i:~endoplasm and String into $i:~bucket_ender_goo:Ender Goo$.
 
 ec.reg.490=Huge dungeon built from $b:~ravaged_brick/0:Ravaged Bricks$, found in $d:InfestedForest:Infested Forest$ (Ravaged).
 ec.reg.491=It is the only way of acquiring items required to create $i:~charm:Charms$.
@@ -442,7 +442,7 @@ ec.reg.653=The miners have 3 powerful spells:
 ec.reg.654=First one is a projectile attack. The miner shoots two rapid projectiles that deal massive amount of damage and set hit mobs on fire.
 ec.reg.655=Second attack is a blast wave, which blasts all living creatures away with higher strength the closer they are, causes damage to them and spawns fire all around.
 ec.reg.656=Third attack is a lava attack, during which the miner continuously creates lava pillars that come from the ground, destroying all blocks that touch the lava.
-ec.reg.657=When killed, they drop 0-2 $i:~infernium and 10 experience.
+ec.reg.657=When killed, they drop 0-2 $i:~fire_shard and 10 experience.
 
 ec.reg.660=Very flat biome with small amount of caves.
 ec.reg.661=There are currently two variations - Homeland and Laboratory.

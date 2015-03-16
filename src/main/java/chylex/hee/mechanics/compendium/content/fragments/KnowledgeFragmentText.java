@@ -274,7 +274,8 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 				if (isHEE)text = ItemSpawnEggs.getMobName((Class<?>)EntityList.stringToClassMapping.get(identifier = ("HardcoreEnderExpansion."+identifier)));
 				else text = StatCollector.translateToLocal("entity."+identifier+".name");
 				
-				obj = KnowledgeObject.getObject(EntityList.stringToClassMapping.get(identifier));
+				Class<?> cls = (Class<?>)EntityList.stringToClassMapping.get(identifier);
+				if (cls != null)obj = KnowledgeObject.getObject(cls);
 				break;
 				
 			case 'd':
@@ -283,9 +284,9 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 				break;
 		}
 		
-		if (text == null){
+		if (text == null || obj == null){
 			Log.warn("Invalid object type or identifier: $0:$1",type,identifier);
-			return Pair.of(identifier,null);
+			return Pair.<String,KnowledgeObject<?>>of(text == null ? identifier : text,obj);
 		}
 		else return Pair.<String,KnowledgeObject<?>>of(text,obj);
 	}
