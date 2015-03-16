@@ -45,7 +45,7 @@ ec.reg.82=Fiery Essence is dropped by $e:~FireGolem and $e:~ScorchedLens, which 
 ec.reg.710=Overworld contains Strongholds, large and complex undeground structures made of Stone Brick.
 ec.reg.711=It is possible to locate Strongholds by releasing Eyes of Ender into the air.
 ec.reg.712=They contain a variety of rooms, one of which is the $b:end_portal_frame:End Portal$ room. The portal leads to the $d:DragonLair, and needs to be activated using Eyes of Ender.
-ec.reg.713=Chests in the Stronghold may contain $i:~adventurers_diary, $i:~temple_caller and $i:~knowledge_note:Knowledge Notes$.
+ec.reg.713=Chests in the Stronghold may contain $i:~adventurers_diary, $i:~temple_caller and Knowledge Notes.
 
 ec.reg.10=Short story of an adventurer, split across 16 pages.
 ec.reg.11=Opening a new diary page unlocks next page of the story, and locks the item to only open that page for other players.

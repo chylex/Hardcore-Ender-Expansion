@@ -205,14 +205,14 @@ public class HeeAdminCommand extends HeeCommand{
 	
 	@Override
 	public void processCommand(ICommandSender sender, String[] args){
-		int helpPage = args.length == 0 ? 0 : args.length == 2 && args[0].equalsIgnoreCase("help") ? DragonUtil.tryParse(args[1],-1) : -1;
+		int helpPage = args.length == 0 ? 0 : args[0].equalsIgnoreCase("help") ? DragonUtil.tryParse(args.length == 2 ? args[1] : "1",1)-1 : -1;
 		
 		if (helpPage >= 0){
 			final int cmdsPerPage = 7;
 			int pages = MathUtil.ceil(sub.size()/(float)cmdsPerPage);
-			if (helpPage > pages)helpPage = pages;
+			if (helpPage >= pages-1)helpPage = pages-1;
 			
-			sendMessage(sender,GREEN+"[Hardcore Ender Expansion] page "+helpPage+"/"+pages);
+			sendMessage(sender,GREEN+"[Hardcore Ender Expansion] page "+(helpPage+1)+"/"+pages);
 			
 			for(int a = helpPage*cmdsPerPage; a < Math.min((helpPage+1)*cmdsPerPage,sub.size()); a++){
 				SubCommand cmd = sub.get(a);
@@ -226,9 +226,11 @@ public class HeeAdminCommand extends HeeCommand{
 					else if (cmd.requiresPlayer && !(sender instanceof EntityPlayer))sendMessage(sender,pre+"You need to be in-game to invoke this command.");
 					else cmd.run(sender,ArrayUtils.remove(args,0));
 					
-					break;
+					return;
 				}
 			}
+			
+			sendMessage(sender,pre+"Unknown command.");
 		}
 	}
 }
