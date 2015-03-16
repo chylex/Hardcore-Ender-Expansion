@@ -87,7 +87,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 		
 		if (isUnlocked){
 			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
-			if (obj != null)GuiItemRenderHelper.setupTooltip(mouseX,mouseY,EnumChatFormatting.DARK_PURPLE+I18n.format("ec.help.clicktoview"));
+			if (obj != null)GuiItemRenderHelper.setupTooltip(mouseX,mouseY,obj.getTooltip()+"\n\n"+EnumChatFormatting.DARK_PURPLE+I18n.format("compendium.viewObject"));
 		}
 	}
 	
@@ -201,10 +201,14 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	@SideOnly(Side.CLIENT)
 	private KnowledgeObject<?> getHoveredObject(FontRenderer fontRenderer, int mouseX, int mouseY, int x, int y){
 		if (!(mouseX >= x && mouseX <= x+GuiEnderCompendium.guiPageWidth-10 && mouseY >= y && parsed.contains(linkColor)))return null;
+
+		boolean origFont = fontRenderer.getUnicodeFlag();
+		fontRenderer.setUnicodeFlag(true);
 		
 		List<String> list = fontRenderer.listFormattedStringToWidth(parsed,GuiEnderCompendium.guiPageWidth-10);
 		
 		if (mouseY <= y+list.size()*fontRenderer.FONT_HEIGHT){
+			boolean multiLine = false;
 			int count = -1, index, prevIndex;
 			String lineStr;
 			
@@ -214,13 +218,20 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 				
 				while((index = lineStr.indexOf(linkColor,++prevIndex)) != -1){
 					prevIndex = index;
-					++count;
+					
+					if (multiLine)multiLine = false;
+					else ++count;
 					
 					if (mouseY >= y+line*fontRenderer.FONT_HEIGHT && mouseY <= y+(line+1)*fontRenderer.FONT_HEIGHT){
 						int startX = x+fontRenderer.getStringWidth(lineStr.substring(0,prevIndex = index));
-						if ((index = lineStr.indexOf(EnumChatFormatting.RESET.toString(),index)) == -1)index = prevIndex;
 						
-						if (mouseX >= startX && mouseX <= startX+fontRenderer.getStringWidth(lineStr.substring(prevIndex,index))){
+						if ((index = lineStr.indexOf(EnumChatFormatting.RESET.toString(),index)) == -1){
+							index = lineStr.length();
+							multiLine = true;
+						}
+						
+						if (mouseX >= startX && mouseX <= startX+fontRenderer.getStringWidth(lineStr.substring(prevIndex,index-1))){
+							fontRenderer.setUnicodeFlag(origFont);
 							return count < parsedObjects.size() ? parsedObjects.get(count) : null;
 						}
 					}
@@ -228,6 +239,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 			}
 		}
 		
+		fontRenderer.setUnicodeFlag(origFont);
 		return null;
 	}
 	

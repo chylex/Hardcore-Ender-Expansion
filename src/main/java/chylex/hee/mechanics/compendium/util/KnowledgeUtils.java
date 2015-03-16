@@ -53,7 +53,7 @@ public final class KnowledgeUtils{
 	@SideOnly(Side.CLIENT)
 	public static List<String> getCompendiumTooltip(ItemStack is, EntityPlayer player){
 		List<String> tooltip = is.getTooltip(player,false);
-		if (KnowledgeUtils.tryGetFromItemStack(is) != null)tooltip.add(EnumChatFormatting.DARK_PURPLE+I18n.format("ec.help.clicktoview"));
+		if (KnowledgeUtils.tryGetFromItemStack(is) != null)tooltip.add(EnumChatFormatting.DARK_PURPLE+I18n.format("compendium.viewObject"));
 		return tooltip;
 	}
 	
