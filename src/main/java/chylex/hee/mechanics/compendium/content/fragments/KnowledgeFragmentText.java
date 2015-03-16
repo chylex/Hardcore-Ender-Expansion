@@ -1,16 +1,23 @@
 package chylex.hee.mechanics.compendium.content.fragments;
+import java.util.ArrayList;
+import java.util.List;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.item.ItemSpawnEggs;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
@@ -37,6 +44,10 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	 */
 	
 	public static byte smoothRenderingMode = 0;
+	private static final String linkColor = EnumChatFormatting.DARK_PURPLE.toString();
+	
+	private String parsed;
+	private List<KnowledgeObject<?>> parsedObjects = new ArrayList<>();
 	
 	public KnowledgeFragmentText(int globalID){
 		super(globalID);
@@ -55,13 +66,29 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
+		if (isUnlocked){
+			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
+			
+			if (obj != null){
+				gui.showObject(obj);
+				gui.moveToCurrentObject(true);
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
-		renderString(getString(isUnlocked),x+1,y,GuiEnderCompendium.guiPageWidth-10,gui);
+		String str = getString(isUnlocked);
+		renderString(str,x+1,y,GuiEnderCompendium.guiPageWidth-10,gui);
+		
+		if (isUnlocked){
+			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
+			if (obj != null)GuiItemRenderHelper.setupTooltip(mouseX,mouseY,EnumChatFormatting.DARK_PURPLE+I18n.format("ec.help.clicktoview"));
+		}
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -103,8 +130,10 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 	}
 	
 	@SideOnly(Side.CLIENT)
-	private static String convertString(String str){
-		if (str.indexOf('$') == -1)return str;
+	private String convertString(String str){
+		if (parsed != null)return parsed;
+		
+		if (str.indexOf('$') == -1)return parsed = str;
 		
 		int index = 0, lastIndex = 0;
 		char type = 0, tmp;
@@ -135,7 +164,7 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 				else break;
 			}
 			
-			build.append(EnumChatFormatting.DARK_PURPLE);
+			build.append(linkColor);
 			
 			if (str.charAt(index) == ':'){
 				lastIndex = ++index;
@@ -146,10 +175,13 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 					break;
 				}
 				
-				build.append(str.substring(lastIndex,index++)); // TODO getObjectName to test
+				parsedObjects.add(getObject(type,tmpBuild.toString()).getRight());
+				build.append(str.substring(lastIndex,index++));
 			}
 			else if (tmpBuild.length() > 0){
-				build.append(getObjectName(type,tmpBuild.toString()));
+				Pair<String,KnowledgeObject<?>> pair = getObject(type,tmpBuild.toString());
+				parsedObjects.add(pair.getRight());
+				build.append(pair.getLeft());
 			}
 			else{
 				Log.warn("Invalid text formatting, identifier empty: $0",str);
@@ -160,12 +192,48 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 			build.append(EnumChatFormatting.BLACK);
 		}
 		
+		if (parsedObjects.contains(null))Log.warn("Invalid text formatting, unknown object found: $0 $1",str,parsedObjects);
+		
 		build.append(str.substring(lastIndex));
-		return build.toString();
+		return parsed = build.toString();
 	}
 	
 	@SideOnly(Side.CLIENT)
-	private static String getObjectName(char type, String identifier){
+	private KnowledgeObject<?> getHoveredObject(FontRenderer fontRenderer, int mouseX, int mouseY, int x, int y){
+		if (!(mouseX >= x && mouseX <= x+GuiEnderCompendium.guiPageWidth-10 && mouseY >= y && parsed.contains(linkColor)))return null;
+		
+		List<String> list = fontRenderer.listFormattedStringToWidth(parsed,GuiEnderCompendium.guiPageWidth-10);
+		
+		if (mouseY <= y+list.size()*fontRenderer.FONT_HEIGHT){
+			int count = -1, index, prevIndex;
+			String lineStr;
+			
+			for(int line = 0; line < list.size(); line++){
+				lineStr = list.get(line);
+				prevIndex = -1;
+				
+				while((index = lineStr.indexOf(linkColor,++prevIndex)) != -1){
+					prevIndex = index;
+					++count;
+					
+					if (mouseY >= y+line*fontRenderer.FONT_HEIGHT && mouseY <= y+(line+1)*fontRenderer.FONT_HEIGHT){
+						int startX = x+fontRenderer.getStringWidth(lineStr.substring(0,prevIndex = index));
+						if ((index = lineStr.indexOf(EnumChatFormatting.RESET.toString(),index)) == -1)index = prevIndex;
+						
+						if (mouseX >= startX && mouseX <= startX+fontRenderer.getStringWidth(lineStr.substring(prevIndex,index))){
+							return count < parsedObjects.size() ? parsedObjects.get(count) : null;
+						}
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	@SideOnly(Side.CLIENT)
+	private static Pair<String,KnowledgeObject<?>> getObject(char type, String identifier){
+		KnowledgeObject<?> obj = null;
 		String text = null;
 		
 		boolean isHEE = identifier.charAt(0) == '~' && identifier.length() > 1;
@@ -182,24 +250,31 @@ public class KnowledgeFragmentText extends KnowledgeFragment{
 				}
 				
 				Item item = GameRegistry.findItem(isHEE ? "HardcoreEnderExpansion" : "minecraft",identifier);
-				if (item != null)text = StatCollector.translateToLocal(item.getUnlocalizedName(new ItemStack(item,1,meta))+".name");
+				
+				if (item != null){
+					text = StatCollector.translateToLocal(item.getUnlocalizedName(new ItemStack(item,1,meta))+".name");
+					obj = KnowledgeObject.getObject(type == 'b' ? (item instanceof ItemBlock ? new BlockMetaWrapper(((ItemBlock)item).field_150939_a,meta) : null) : item);
+				}
+				
 				break;
 				
 			case 'e':
-				if (isHEE)text = ItemSpawnEggs.getMobName((Class<?>)EntityList.stringToClassMapping.get("HardcoreEnderExpansion."+identifier));
+				if (isHEE)text = ItemSpawnEggs.getMobName((Class<?>)EntityList.stringToClassMapping.get(identifier = ("HardcoreEnderExpansion."+identifier)));
 				else text = StatCollector.translateToLocal("entity."+identifier+".name");
+				
+				obj = KnowledgeObject.getObject(EntityList.stringToClassMapping.get(identifier));
 				break;
 				
 			case 'd':
-				KnowledgeObject obj = KnowledgeObject.getObject(identifier);
+				obj = KnowledgeObject.getObject(identifier);
 				if (obj != null)text = obj.getTooltip();
 				break;
 		}
 		
 		if (text == null){
 			Log.warn("Invalid object type or identifier: $0:$1",type,identifier);
-			return identifier;
+			return Pair.of(identifier,null);
 		}
-		else return text;
+		else return Pair.<String,KnowledgeObject<?>>of(text,obj);
 	}
 }
