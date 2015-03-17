@@ -6,6 +6,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.inventory.Slot;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -84,8 +85,11 @@ public final class CompendiumEventsClient{
 	}
 	
 	public static void showCompendiumAchievement(){
-		Minecraft.getMinecraft().guiAchievement.func_146255_b(AchievementManager.ENDER_COMPENDIUM);
-		instance.achievementTimer = 120;
+		instance.displayAchievement(AchievementManager.ENDER_COMPENDIUM);
+	}
+	
+	public static void showVoidChestAchievement(){
+		instance.displayAchievement(AchievementManager.VOID_CHEST);
 	}
 	
 	private final KeyBinding keyOpenCompendium;
@@ -93,11 +97,18 @@ public final class CompendiumEventsClient{
 	private short newlyDiscoveredId = -1;
 	private long newlyDiscoveredTime = 0L;
 	private byte achievementTimer = Byte.MIN_VALUE;
+	private String achievementId = null;
 	
 	private CompendiumEventsClient(){
 		keyOpenCompendium = new KeyBinding(ModCommonProxy.hardcoreEnderbacon ? "key.openCompendium.bacon" : "key.openCompendium",25,"Hardcore Ender Expansion");
 		ClientRegistry.registerKeyBinding(keyOpenCompendium);
 		Minecraft.getMinecraft().gameSettings.loadOptions();
+	}
+	
+	private void displayAchievement(Achievement achievement){
+		Minecraft.getMinecraft().guiAchievement.func_146255_b(achievement);
+		instance.achievementId = achievement.statId;
+		instance.achievementTimer = 120;
 	}
 	
 	@SubscribeEvent
@@ -127,7 +138,11 @@ public final class CompendiumEventsClient{
 				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = null;
 				
 				if (mc.inGameHasFocus){
-					if (newlyDiscoveredTime != 0L && System.nanoTime()-newlyDiscoveredTime <= 7000000000L){
+					if (achievementId != null && achievementId.equals(AchievementManager.VOID_CHEST.statId)){
+						obj = KnowledgeRegistrations.VOID_CHEST;
+						achievementTimer = Byte.MIN_VALUE;
+					}
+					else if (newlyDiscoveredTime != 0L && System.nanoTime()-newlyDiscoveredTime <= 7000000000L){
 						obj = KnowledgeObject.getObjectById(newlyDiscoveredId);
 						newlyDiscoveredId = -1;
 						newlyDiscoveredTime = 0L;

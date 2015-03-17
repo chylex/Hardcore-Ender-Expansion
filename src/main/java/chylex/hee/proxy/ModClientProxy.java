@@ -225,10 +225,10 @@ public class ModClientProxy extends ModCommonProxy{
 		Stopwatch.time("ModClientProxy - events");
 		
 		OverlayManager.register();
-		FXEvents.register();
 		CompendiumEventsClient.register();
-		MusicManager.register();
 		CharmPouchHandlerClient.register();
+		MusicManager.register();
+		FXEvents.register();
 		
 		AchievementManager.ENDER_COMPENDIUM.setStatStringFormatter(new IStatStringFormat(){
 			@Override
