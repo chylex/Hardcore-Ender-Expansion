@@ -1,10 +1,13 @@
 package chylex.hee.tileentity;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
@@ -15,11 +18,32 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	private static final TObjectByteHashMap<ItemDamagePair> direct = new TObjectByteHashMap<>();
 	
 	static{
-		// TODO add ingots and stuff + regs
+		addDirectConversion(ItemList.end_powder,1);
+		addDirectConversion(Items.redstone,1);
+		addDirectConversion(Items.dye,4,1);
+		addDirectConversion(Items.iron_ingot,1);
+		addDirectConversion(ItemList.igneous_rock,2);
+		addDirectConversion(Items.gold_ingot,2);
+		addDirectConversion(Items.quartz,2);
+		addDirectConversion(Items.emerald,3);
+		addDirectConversion(Items.diamond,3);
+		addDirectConversion(ItemList.endium_ingot,4);
+		addDirectConversion(Item.getItemFromBlock(Blocks.quartz_block),8);
+		addDirectConversion(Item.getItemFromBlock(Blocks.iron_block),9);
+		addDirectConversion(Item.getItemFromBlock(Blocks.redstone_block),9);
+		addDirectConversion(Item.getItemFromBlock(Blocks.lapis_block),9);
+		addDirectConversion(Item.getItemFromBlock(Blocks.gold_block),18);
+		addDirectConversion(Item.getItemFromBlock(Blocks.emerald_block),27);
+		addDirectConversion(Item.getItemFromBlock(Blocks.diamond_block),27);
+		addDirectConversion(Item.getItemFromBlock(BlockList.endium_block),36);
 	}
 	
 	private static void addDirectConversion(Item item, int bottleAmount){
 		direct.put(new ItemDamagePair(item,-1),(byte)bottleAmount);
+	}
+	
+	private static void addDirectConversion(Item item, int damage, int bottleAmount){
+		direct.put(new ItemDamagePair(item,damage),(byte)bottleAmount);
 	}
 	
 	public static boolean addDirectConversion(ItemDamagePair pair, byte bottleAmount){

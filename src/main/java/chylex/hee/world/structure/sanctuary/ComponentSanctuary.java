@@ -12,6 +12,7 @@ import chylex.hee.system.util.CycleProtection;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.ComponentLargeStructureWorld;
 import chylex.hee.world.structure.sanctuary.data.SanctuaryMaze;
+import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 
 public class ComponentSanctuary extends ComponentLargeStructureWorld implements ITileEntityGenerator{
@@ -106,6 +107,8 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 			// room holes
 			for(int room1 = 0; room1 < roomsX-1; room1++){
 				for(int room2 = 0; room2 < roomsZ; room2++){
+					if (!maze.isOpen(room1,room2,Facing.EAST_POSX))continue;
+					
 					int px = tlX+1+(room1+1)*roomWidth-1;
 					int sizeY = 1+rand.nextInt(4), sizeZ = 1+rand.nextInt(4);
 					int yy = startY+1+rand.nextInt(floorHeight-3-sizeY), zz = tlZ+1+room2*roomDepth+rand.nextInt(roomDepth-sizeZ-1)+1;
@@ -122,6 +125,8 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 			
 			for(int room1 = 0; room1 < roomsZ-1; room1++){
 				for(int room2 = 0; room2 < roomsX; room2++){
+					if (!maze.isOpen(room2,room1,Facing.SOUTH_POSZ))continue;
+					
 					int pz = tlZ+1+(room1+1)*roomDepth-1;
 					int sizeY = 1+rand.nextInt(4), sizeX = 1+rand.nextInt(4);
 					int yy = startY+1+rand.nextInt(floorHeight-3-sizeY), xx = tlX+1+room2*roomWidth+rand.nextInt(roomWidth-sizeX-1)+1;
@@ -137,25 +142,36 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 			}
 		}
 		
-		// hairy chest
-		/*for(int attempt = 0, px, py, pz, dir; attempt < 500000; attempt++){
-			px = centerX+rand.nextInt(halfWidth+10)-rand.nextInt(halfWidth+10);
-			py = rand.nextInt(bottom+height+10);
-			pz = centerZ+rand.nextInt(halfWidth+10)-rand.nextInt(halfWidth+10);
+		// outside decoration
+		for(int attempt = 0, px = 0, py = 0, pz = 0, addX, addY, addZ, dir; attempt < 2000; attempt++){
+			dir = rand.nextInt(6);
+			addX = addY = addZ = 0;
 			
-			if (structure.getBlock(px,py,pz) == BlockList.sacred_stone){
-				if (rand.nextInt(6) <= 1){
-					py += rand.nextInt(2)*2-1;
-				}
-				else{
-					dir = rand.nextInt(4);
-					px += Direction.offsetX[dir];
-					pz += Direction.offsetZ[dir];
-				}
-				
-				if (structure.isAir(px,py,pz))structure.setBlock(px,py,pz,BlockList.sacred_stone,rand.nextInt(BlockSacredStone.metaAmount));
+			if (dir == 0 || dir == 1){
+				px = tlX+rand.nextInt(structureWidth+1);
+				pz = tlZ+rand.nextInt(structureWidth+1);
+				py = dir == 0 ? bottom : bottom+height+10;
+				addY = dir == 0 ? -1 : 1;
 			}
-		}*/
+			else if (dir == 2 || dir == 3){
+				px = tlX+10+rand.nextInt(structureWidth+1);
+				pz = dir == 2 ? tlZ+10 : tlZ+10+structureDepth;
+				py = rand.nextInt(bottom+height+20);
+				addZ = dir == 2 ? -1 : 1;
+			}
+			else if (dir == 4 || dir == 5){
+				pz = tlZ+10+rand.nextInt(structureDepth+1);
+				px = dir == 4 ? tlX+10 : tlX+10+structureDepth;
+				py = rand.nextInt(bottom+height+20);
+				addZ = dir == 4 ? -1 : 1;
+			}
+			
+			if (structure.getBlock(px,py,pz) == BlockList.sacred_stone && structure.isAir(px+addX,py+addY,pz+addZ)){
+				for(int a = 0; a < 1+rand.nextInt(9); a++){
+					structure.setBlock(px += addX,py += addY,pz += addZ,BlockList.sacred_stone,rand.nextInt(BlockSacredStone.metaAmount));
+				}
+			}
+		}
 		
 		return rand.nextInt(64);
 	}
