@@ -146,7 +146,7 @@ public final class CharmEvents{
 			
 			// BASIC_VIGOR, EQUALITY
 			if (e.player.shouldHeal() && e.player.getFoodStats().getFoodLevel() >= 18){
-				float regen = getPropPercentDecrease(e.player,"regenspd",100F);
+				float regen = getPropPercentDecrease(e.player,"regenspd",90F); // 100 was too much
 				
 				if (regen > 0F && playerRegen.adjustOrPutValue(playerID,(byte)1,(byte)0) >= 100F-regen){
 					e.player.heal(1F);

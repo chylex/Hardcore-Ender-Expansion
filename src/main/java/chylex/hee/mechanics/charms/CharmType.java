@@ -19,10 +19,10 @@ public enum CharmType{
 	}, new String[]{ "perc-1,spd" }),
 	
 	BASIC_VIGOR(4, 2, new CharmRecipe[]{
-		new CharmRecipe(6).rune(VIGOR,3).prop("regenspd",0.80F),
-		new CharmRecipe(7).rune(VIGOR,4).prop("regenspd",0.60F),
-		new CharmRecipe(8).rune(VIGOR,5).prop("regenspd",0.45F)
-	}, new String[]{ "perc1-,regenspd" }),
+		new CharmRecipe(6).rune(VIGOR,3).prop("regenspd",0.20F),
+		new CharmRecipe(7).rune(VIGOR,4).prop("regenspd",0.40F),
+		new CharmRecipe(8).rune(VIGOR,5).prop("regenspd",0.55F)
+	}, new String[]{ "perc,regenspd" }),
 	
 	BASIC_DEFENSE(8, 3, new CharmRecipe[]{
 		new CharmRecipe(9).rune(DEFENSE,3).prop("reducedmg",0.10F),
@@ -37,8 +37,8 @@ public enum CharmType{
 	}, new String[]{ "perc-1,exp" }),
 	
 	EQUALITY(16, 9, new CharmRecipe[]{
-		new CharmRecipe(18).rune(POWER).rune(AGILITY).rune(VIGOR).rune(DEFENSE).rune(MAGIC).prop("dmg",1.08F).prop("spd",1.05F).prop("regenspd",0.94F).prop("reducedmg",0.03F).prop("exp",1.03F)
-	}, new String[]{ "perc-1,dmg", "perc-1,spd", "perc1-,regenspd", "perc,reducedmg", "perc-1,exp" }),
+		new CharmRecipe(18).rune(POWER).rune(AGILITY).rune(VIGOR).rune(DEFENSE).rune(MAGIC).prop("dmg",1.08F).prop("spd",1.05F).prop("regenspd",0.06F).prop("reducedmg",0.03F).prop("exp",1.03F)
+	}, new String[]{ "perc-1,dmg", "perc-1,spd", "perc,regenspd", "perc,reducedmg", "perc-1,exp" }),
 	
 	BLOCKING(0, 10, new CharmRecipe[]{
 		new CharmRecipe(19).rune(POWER).rune(DEFENSE).rune(VOID).prop("reducedmgblock",0.20F),

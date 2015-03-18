@@ -64,7 +64,10 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z){
-		if (world.getBlockMetadata(x,y,z) == dataLilyFire)return AxisAlignedBB.getBoundingBox(x+0.3F,y,z+0.3F,x+0.7F,y+0.8F,z+0.7F);
+		int meta = world.getBlockMetadata(x,y,z);
+		
+		if (meta == dataLilyFire)return AxisAlignedBB.getBoundingBox(x+0.3F,y,z+0.3F,x+0.7F,y+0.8F,z+0.7F);
+		else if (meta == dataShadowOrchid)return AxisAlignedBB.getBoundingBox(x+0.25F,y,z+0.25F,x+0.75F,y+0.95F,z+0.75F);
 		else return super.getSelectedBoundingBoxFromPool(world,x,y,z);
 	}
 
