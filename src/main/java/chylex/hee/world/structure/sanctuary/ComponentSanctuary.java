@@ -4,12 +4,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockSacredStone;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.WorldGenSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
 import chylex.hee.system.util.CycleProtection;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.ComponentLargeStructureWorld;
+import chylex.hee.world.structure.sanctuary.data.SanctuaryMaze;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 
 public class ComponentSanctuary extends ComponentLargeStructureWorld implements ITileEntityGenerator{
@@ -37,12 +39,20 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		
 		if (CycleProtection.failed())roomsX = roomsZ = 5;
 		
+		SanctuaryMaze maze = SanctuaryMaze.generate(rand,roomsX,roomsZ);
+		
+		if (maze == null){
+			Log.error("Failed generating maze (x: $0, y: $1, seed: $2)",getStartX(),getStartZ(),seed);
+			return 0;
+		}
+		
 		int roomWidth = 8, roomDepth = 8;
 		int floorHeight = 11, height = floorHeight*2-1, bottom = 10;
 		int structureWidth = roomWidth*roomsX+2, structureDepth = roomDepth*roomsZ+2;
 		
 		int tlX = (getSizeX()>>1)-(structureWidth>>1), tlZ = (getSizeZ()>>1)-(structureDepth>>1);
 		
+		// outside box
 		for(int xx = tlX; xx <= tlX+structureWidth; xx++){
 			for(int zz = tlZ; zz <= tlZ+structureDepth; zz++){
 				structure.setBlock(xx,bottom,zz,BlockList.sacred_stone,0);
@@ -66,6 +76,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		for(int floor = 0; floor < 2; floor++){
 			int startY = bottom+1+floor*(floorHeight-1);
 			
+			// room layout
 			for(int roomX = 0; roomX < roomsX; roomX++){
 				for(int roomZ = 0; roomZ < roomsZ; roomZ++){
 					int px = tlX+1+roomX*roomWidth, pz = tlZ+1+roomZ*roomDepth;
@@ -92,6 +103,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 				}
 			}
 			
+			// room holes
 			for(int room1 = 0; room1 < roomsX-1; room1++){
 				for(int room2 = 0; room2 < roomsZ; room2++){
 					int px = tlX+1+(room1+1)*roomWidth-1;
@@ -146,10 +158,6 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		}*/
 		
 		return rand.nextInt(64);
-	}
-	
-	private void genMain(int x, int y, int z, int rad){
-		
 	}
 	
 	@Override

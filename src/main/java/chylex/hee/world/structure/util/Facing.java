@@ -3,6 +3,10 @@ package chylex.hee.world.structure.util;
 public enum Facing{
 	DOWN, UP, NORTH_NEGZ, SOUTH_POSZ, WEST_NEGX, EAST_POSX;
 	
+	public int get4Directional(){
+		return this == SOUTH_POSZ ? 0 : this == WEST_NEGX ? 1 : this == NORTH_NEGZ ? 2 : this == EAST_POSX ? 3 : -1;
+	}
+	
 	public int get6Directional(){
 		return this == DOWN ? 0 : this == UP ? 1 : this == NORTH_NEGZ ? 2 : this == SOUTH_POSZ ? 3 : this == WEST_NEGX ? 4 : 5;
 	}
@@ -49,5 +53,9 @@ public enum Facing{
 			case EAST_POSX: return WEST_NEGX;
 			default: return this;
 		}
+	}
+	
+	public static Facing from4Directional(int index){
+		return index == 0 ? SOUTH_POSZ : index == 1 ? WEST_NEGX : index == 2 ? NORTH_NEGZ : index == 3 ? EAST_POSX : null;
 	}
 }
