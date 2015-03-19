@@ -434,7 +434,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 
 		if ((source.getEntity() instanceof EntityPlayer || source.isExplosion()) && super.attackEntityFrom(source,amount))hurtResistantTime = (dragonHurtTime = (byte)(hurtTime = 15))+10;
-		CausatumUtils.increase(source,CausatumMeters.DRAGON_DAMAGE,amount*50F);
+		CausatumUtils.increase(source,CausatumMeters.DRAGON_DAMAGE,amount*16F);
 		return true;
 	}
 
@@ -560,7 +560,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					attackEntityFromPart(dragonPartHead,DamageSource.setExplosionSource(null),10F);
 					if (target == null)trySetTarget(attacks.getRandomPlayer());
 				}
-
+				
 				healingEnderCrystal = null;
 			}
 			else if (ticksExisted%10 == 0 && getHealth() < getMaxHealth())setHealth(getHealth()+(ModCommonProxy.opMobs ? 2F : 1F));

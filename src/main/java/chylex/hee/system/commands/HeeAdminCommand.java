@@ -2,6 +2,7 @@ package chylex.hee.system.commands;
 import static net.minecraft.util.EnumChatFormatting.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -16,6 +17,7 @@ import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
+import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
@@ -24,6 +26,8 @@ import chylex.hee.mechanics.curse.ICurseCaller;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.savedata.types.CausatumSavefile;
 import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -134,6 +138,18 @@ public class HeeAdminCommand extends HeeCommand{
 					player.worldObj.spawnEntityInWorld(e);
 					sendMessage(sender,pre+"Entity spawned.");
 				}
+			}
+		});
+		
+		sub.add(new SubCommand("causatum-check",0,true){
+			@Override
+			void run(ICommandSender sender, String[] args){
+				CausatumSavefile file = WorldDataHandler.get(CausatumSavefile.class);
+				sendMessage(sender,DARK_PURPLE+"Ender Causatum");
+				sendMessage(sender,LIGHT_PURPLE+"[TOTAL] "+RESET+file.getTotalLevel(((EntityPlayer)sender)));
+				
+				UUID id = ((EntityPlayer)sender).getUniqueID();
+				for(CausatumMeters meter:CausatumMeters.values())sendMessage(sender,LIGHT_PURPLE+"["+meter.name()+"] "+RESET+file.getLevel(id,meter));
 			}
 		});
 		

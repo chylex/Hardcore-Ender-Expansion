@@ -55,10 +55,12 @@ public class DragonAchievementManager{
 	public void onBattleFinished(){
 		if (battleTimer < 24)return; // quicker than 2 minutes must be fake or testing
 		int finalDiff = dragon.rewards.getFinalDifficultyRaw();
-		if (finalDiff < 68)return; // no challenge can be done on peaceful/easy
 		
 		for(Entry<UUID,AchievementData> entry:playerData.entrySet()){
 			if ((float)entry.getValue().participationCounter/(float)battleTimer < 0.75F)continue;
+
+			CausatumUtils.increase(entry.getKey(),CausatumMeters.DRAGON_KILL_PARTICIPATION,300);
+			if (finalDiff < 68)continue; // no challenge can be done on peaceful/easy
 			
 			EntityPlayer player = dragon.worldObj.func_152378_a(entry.getKey());
 			
@@ -71,8 +73,6 @@ public class DragonAchievementManager{
 				if (player == null)AchievementEvents.addDelayedAchievement(entry.getKey(),AchievementManager.CHALLENGE_NOENDERMAN);
 				else player.addStat(AchievementManager.CHALLENGE_NOENDERMAN,1);
 			}
-			
-			CausatumUtils.increase(entry.getKey(),CausatumMeters.DRAGON_KILL_PARTICIPATION,300);
 		}
 	}
 	
