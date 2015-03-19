@@ -38,7 +38,8 @@ import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S02CompendiumPurchase;
-import chylex.hee.packets.server.S05OpenCompendiumHelp;
+import chylex.hee.packets.server.S03SimpleEvent;
+import chylex.hee.packets.server.S03SimpleEvent.EventType;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.util.MathUtil;
@@ -344,7 +345,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			btnHelp.forcedHover = true;
 			
 			if (!compendiumData.seenHelp()){
-				PacketPipeline.sendToServer(new S05OpenCompendiumHelp());
+				PacketPipeline.sendToServer(new S03SimpleEvent(EventType.OPEN_COMPENDIUM_HELP));
 				compendiumData.setSeenHelp();
 			}
 			

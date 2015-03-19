@@ -19,7 +19,8 @@ import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.server.S03OpenCompendium;
+import chylex.hee.packets.server.S03SimpleEvent;
+import chylex.hee.packets.server.S03SimpleEvent.EventType;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.logging.Stopwatch;
@@ -141,6 +142,7 @@ public final class CompendiumEventsClient{
 					if (achievementId != null && achievementId.equals(AchievementManager.VOID_CHEST.statId)){
 						obj = KnowledgeRegistrations.VOID_CHEST;
 						achievementTimer = Byte.MIN_VALUE;
+						PacketPipeline.sendToServer(new S03SimpleEvent(EventType.OPEN_COMPENDIUM_VOID_CHEST));
 					}
 					else if (newlyDiscoveredTime != 0L && System.nanoTime()-newlyDiscoveredTime <= 7000000000L){
 						obj = KnowledgeObject.getObjectById(newlyDiscoveredId);
@@ -175,7 +177,7 @@ public final class CompendiumEventsClient{
 				openCompendium(obj);
 				
 				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.ENDER_COMPENDIUM)){
-					PacketPipeline.sendToServer(new S03OpenCompendium());
+					PacketPipeline.sendToServer(new S03SimpleEvent(EventType.OPEN_COMPENDIUM));
 					achievementTimer = Byte.MIN_VALUE;
 				}
 			} 

@@ -26,7 +26,20 @@ public class PlayerVoidChest implements IExtendedEntityProperties{
 		return ((PlayerVoidChest)player.getExtendedProperties(playerPropertyIdentifier)).inventory;
 	}
 	
+	public static PlayerVoidChest getData(EntityPlayer player){
+		return ((PlayerVoidChest)player.getExtendedProperties(playerPropertyIdentifier));
+	}
+	
 	private final InventoryVoidChest inventory = new InventoryVoidChest();
+	private boolean seenNotification;
+	
+	public boolean hasSeenNotification(){
+		return seenNotification;
+	}
+	
+	public void setSeenNotification(){
+		seenNotification = true;
+	}
 	
 	@Override
 	public void init(Entity entity, World world){}
@@ -44,6 +57,7 @@ public class PlayerVoidChest implements IExtendedEntityProperties{
 		}
 		
 		nbt.setTag("HEE_VC_items",tagItems);
+		nbt.setBoolean("HEE_VC_notif",seenNotification);
 	}
 
 	@Override
@@ -54,5 +68,7 @@ public class PlayerVoidChest implements IExtendedEntityProperties{
 			NBTTagCompound tag = tagItems.getCompoundTagAt(a);
 			inventory.setInventorySlotContents(tag.getByte("slot"),ItemStack.loadItemStackFromNBT(tag));
 		}
+		
+		seenNotification = nbt.getBoolean("HEE_VC_notif");
 	}
 }
