@@ -526,7 +526,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					double distSq = MathUtil.square(xx-x)+MathUtil.square(zz-z);
 
 					if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
-						if (yy < bottomY && distSq <= MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
+						if (yy < bottomY){
+							if (distSq <= MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
+						}
 						else if (yy > bottomY)worldObj.setBlockToAir(xx,yy,zz);
 						else if (distSq > MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
 						else worldObj.setBlock(xx,yy,zz,Blocks.end_portal);
