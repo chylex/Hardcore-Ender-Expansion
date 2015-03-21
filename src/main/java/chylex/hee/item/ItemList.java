@@ -160,9 +160,9 @@ public final class ItemList{
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
 			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,curse_amulet,
 			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_wand,
-			enderman_head,bucket_ender_goo,music_disk,
-			knowledge_note,exp_bottle,
-			spawn_eggs
+			enderman_head,bucket_ender_goo,knowledge_note,
+			sacred_wand,
+			music_disk,exp_bottle,spawn_eggs
 		);
 		
 		ModCreativeTab.tabCharms.list.addItems(

@@ -29,7 +29,7 @@ public class BlockSacredStone extends Block implements IBlockSubtypes{
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		return "";
+		return getUnlocalizedName();
 	}
 	
 	@Override

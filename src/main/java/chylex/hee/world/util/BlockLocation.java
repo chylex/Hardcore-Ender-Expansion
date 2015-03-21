@@ -1,7 +1,7 @@
 package chylex.hee.world.util;
 
 public class BlockLocation{
-	public final int x,y,z;
+	public final int x, y, z;
 	
 	public BlockLocation(int x, int y, int z){
 		this.x = x;

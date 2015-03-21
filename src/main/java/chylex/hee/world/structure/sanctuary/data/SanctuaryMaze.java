@@ -69,7 +69,7 @@ public final class SanctuaryMaze{
 	
 	public static SanctuaryMaze generate(Random rand, int width, int depth){
 		SanctuaryMaze maze = new SanctuaryMaze(width,depth);
-		CycleProtection.setCounter(1000);
+		CycleProtection.setCounter(4000);
 		
 		int x = 0, z = rand.nextInt(depth), dir, test = 0;
 		List<int[]> used = new ArrayList<>();

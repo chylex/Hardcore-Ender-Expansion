@@ -106,6 +106,7 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
 import chylex.hee.tileentity.TileEntityLaserBeam;
+import chylex.hee.tileentity.TileEntitySanctuaryBrain;
 import chylex.hee.tileentity.TileEntityTransportBeacon;
 import chylex.hee.tileentity.TileEntityVoidChest;
 import chylex.hee.world.DimensionOverride;
@@ -295,6 +296,7 @@ public class HardcoreEnderExpansion{
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
 		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
 		GameRegistryUtil.registerTileEntity(TileEntityTransportBeacon.class, "TransportBeacon");
+		GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
 		
 		Stopwatch.finish("PreInitEvent - tile entities");
 		
