@@ -103,14 +103,16 @@ class UpdateThread extends Thread{
 				
 				if (counter > 1){
 					int days = DragonUtil.getDayDifference(Calendar.getInstance(),currentVersion.convertReleaseDate());
+					String add = "";
 					
 					if (days > 60){
-						message.append("\nThe version you are using is over a month old, please update soon.");
+						add = "The version you are using is over 2 months old and is no longer supported, please update as soon as possible.";
 					}
 					else if (days > 30){
-						message.append("\n").append(EnumChatFormatting.RED)
-							   .append("The version you are using is over 2 months old and is no longer supported, please update as soon as possible.");
+						add = "The version you are using is over a month old, please update soon.";
 					}
+					
+					message.append("\n ").append(EnumChatFormatting.RED).append(add.replace(" "," "+EnumChatFormatting.RED.toString()));
 				}
 				
 				if (newestVersion != newestVersionForCurrentMC){

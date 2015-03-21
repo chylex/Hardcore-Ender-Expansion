@@ -1,5 +1,6 @@
 package chylex.hee.system.update;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -29,4 +30,11 @@ public final class UpdateNotificationManager{
 			}
 		}
 	}
+	
+	public static final HeeTest $debugTest = new HeeTest(){
+		@Override
+		public void run(String...args){
+			new UpdateThread(HardcoreEnderExpansion.modVersion).start();
+		}
+	};
 }
