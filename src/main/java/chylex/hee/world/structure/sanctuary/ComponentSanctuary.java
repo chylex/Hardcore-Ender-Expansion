@@ -2,6 +2,7 @@ package chylex.hee.world.structure.sanctuary;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockSacredStone;
@@ -13,7 +14,8 @@ import chylex.hee.system.util.CycleProtection;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntitySanctuaryBrain;
 import chylex.hee.world.structure.ComponentLargeStructureWorld;
-import chylex.hee.world.structure.sanctuary.data.SanctuaryMaze;
+import chylex.hee.world.structure.sanctuary.data.SanctuaryConquerPointGen;
+import chylex.hee.world.structure.sanctuary.data.SanctuaryMazeGen;
 import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 
@@ -45,12 +47,17 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		
 		if (CycleProtection.failed())roomsX = roomsZ = 5;
 		
-		SanctuaryMaze maze = SanctuaryMaze.generate(rand,roomsX,roomsZ);
+		// data
+		SanctuaryMazeGen maze = SanctuaryMazeGen.generate(rand,roomsX,roomsZ);
 		
 		if (maze == null){
 			Log.error("Failed generating maze (x: $0, y: $1, seed: $2)",getStartX(),getStartZ(),seed);
 			return 0;
 		}
+		
+		SanctuaryConquerPointGen conquerPts = SanctuaryConquerPointGen.generate(rand,roomsX,roomsZ,3);
+		
+		// prepare
 		
 		final int roomWidth = 8, roomDepth = 8;
 		final int floorHeight = 11, height = floorHeight*2-1, bottom = 10;
@@ -182,8 +189,24 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		int bottomY = rand.nextInt(64);System.out.println("coord "+coordBaseMode);
 		
 		int x1 = tlX+roomWidth, z1 = tlZ+roomDepth, x2 = x1+structureWidth, z2 = z1+structureDepth;
-		brainNBT.setIntArray("point1",new int[]{ getXWithOffset(x1,z1), bottomY+getYWithOffset(bottom), getZWithOffset(x1,z1) });
-		brainNBT.setIntArray("point2",new int[]{ getXWithOffset(x2,z2), bottomY+getYWithOffset(bottom+height), getZWithOffset(x2,z2) });
+		brainNBT.setIntArray("p1",new int[]{ getXWithOffset(x1,z1), bottomY+getYWithOffset(bottom), getZWithOffset(x1,z1) });
+		brainNBT.setIntArray("p2",new int[]{ getXWithOffset(x2,z2), bottomY+getYWithOffset(bottom+height), getZWithOffset(x2,z2) });
+		
+		NBTTagList ptsTag = new NBTTagList();
+		
+		for(byte[] point:conquerPts.getPoints()){
+			NBTTagCompound pointTag = new NBTTagCompound();
+			x1 = tlX+roomWidth+point[0]*(roomWidth+1)+2;
+			x2 = x1+roomWidth-1;
+			z1 = tlZ+roomDepth+point[1]*(roomDepth+1)+2;
+			z2 = z1+roomDepth-1;
+			pointTag.setIntArray("p1",new int[]{ getXWithOffset(x1,z1), bottomY+getYWithOffset(bottom+1+floorHeight), getZWithOffset(x1,z1) });
+			pointTag.setIntArray("p2",new int[]{ getXWithOffset(x2,z2), bottomY+getYWithOffset(bottom+height-2), getZWithOffset(x2,z2) });
+			ptsTag.appendTag(pointTag);
+		}
+		
+		brainNBT.setTag("conquer",ptsTag);
+		
 		structure.setBlock(tlX+2+roomWidth,bottom+1+floorHeight,tlZ+2+roomDepth,BlockList.sanctuary_brain);
 		structure.setTileEntityGenerator(tlX+2+roomWidth,bottom+1+floorHeight,tlZ+2+roomDepth,"Brain",this);
 		

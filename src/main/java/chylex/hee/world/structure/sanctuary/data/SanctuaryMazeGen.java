@@ -6,12 +6,12 @@ import net.minecraft.util.Direction;
 import chylex.hee.system.util.CycleProtection;
 import chylex.hee.world.structure.util.Facing;
 
-public final class SanctuaryMaze{
+public final class SanctuaryMazeGen{
 	private final byte width, depth;
 	private final boolean[][] openX;
 	private final boolean[][] openZ;
 	
-	SanctuaryMaze(int width, int depth){
+	SanctuaryMazeGen(int width, int depth){
 		this.width = (byte)width;
 		this.depth = (byte)depth;
 		this.openX = new boolean[width-1][depth];
@@ -67,8 +67,8 @@ public final class SanctuaryMaze{
 		return true;
 	}
 	
-	public static SanctuaryMaze generate(Random rand, int width, int depth){
-		SanctuaryMaze maze = new SanctuaryMaze(width,depth);
+	public static SanctuaryMazeGen generate(Random rand, int width, int depth){
+		SanctuaryMazeGen maze = new SanctuaryMazeGen(width,depth);
 		CycleProtection.setCounter(4000);
 		
 		int x = 0, z = rand.nextInt(depth), dir, test = 0;
