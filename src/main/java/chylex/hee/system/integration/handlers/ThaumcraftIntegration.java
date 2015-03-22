@@ -149,8 +149,8 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(item(ItemList.enderman_head), meta(0,1,2,3,4,5), new AspectList().add(Aspect.DEATH,4).add(Aspect.ELDRITCH,6).add(Aspect.SOUL,4));
 
 		// TODO SoundLogic: Add aspects to fixed value bottle o enchanting
-		// TODO SoundLogic: Add aspects to enhanced TNT
-		// TODO SoundLogic: Add aspects to enhanced ender pearl
+		// 					Add aspects to enhanced TNT
+		//                  Add aspects to enhanced ender pearl
 		
 		// ENTITY ASPECTS
 		

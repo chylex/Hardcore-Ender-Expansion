@@ -669,11 +669,6 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 	 * SPAWN HELPERS
 	 */
 	
-	/*private Offsets getOffsets(int x, int y, int z, StructureBoundingBox bb){
-		int xx = getXWithOffset(x,z), yy = getYWithOffset(y), zz = getZWithOffset(x,z);
-		return new Offsets(xx,yy,zz,bb.isVecInside(xx,yy,zz));
-	}*/ // TODO
-	
 	private final int[] potionData = new int[]{
 		0, 16, 8193, 8257, 8225, 8194, 8258, 8226, 8195, 8259, 8227, 8197, 8261, 8229, 8198, 8262, 8201,
 		8265, 8233, 8206, 8270, 8196, 8260, 8228, 8200, 8264, 8232, 8202, 8266, 8234, 8204, 8268, 8236
