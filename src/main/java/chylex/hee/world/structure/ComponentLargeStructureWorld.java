@@ -49,10 +49,6 @@ public abstract class ComponentLargeStructureWorld extends ComponentScatteredFea
 		return startZ;
 	}
 	
-	protected final int getBottomY(){
-		return bottomY;
-	}
-	
 	protected abstract int setupStructure(long seed);
 	
 	@Override

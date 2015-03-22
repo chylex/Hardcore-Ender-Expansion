@@ -26,7 +26,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 	public ComponentSanctuary(){}
 	
 	protected ComponentSanctuary(Random rand, int x, int z){
-		super(rand,x,128,z,112,256,112);
+		super(rand,x,128,z,112,128,112);
 		WorldDataHandler.<WorldGenSavefile>get(WorldGenSavefile.class).addElementAt(getStartX()>>4,getStartZ()>>4,WorldGenElement.INSIDIOUS_SANCTUARY);
 	}
 	
@@ -52,8 +52,8 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 			return 0;
 		}
 		
-		int roomWidth = 8, roomDepth = 8;
-		int floorHeight = 11, height = floorHeight*2-1, bottom = 10;
+		final int roomWidth = 8, roomDepth = 8;
+		final int floorHeight = 11, height = floorHeight*2-1, bottom = 10;
 		int structureWidth = (roomWidth+1)*roomsX+1, structureDepth = (roomDepth+1)*roomsZ+1;
 		
 		int tlX = (getSizeX()>>1)-(structureWidth>>1), tlZ = (getSizeZ()>>1)-(structureDepth>>1);
@@ -148,7 +148,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		}
 		
 		// outside decoration
-		for(int attempt = 0, px = 0, py = 0, pz = 0, addX, addY, addZ, dir; attempt < 20000; attempt++){
+		for(int attempt = 0, px = 0, py = 0, pz = 0, addX, addY, addZ, dir; attempt < 20000 && false; attempt++){
 			dir = rand.nextInt(6);
 			addX = addY = addZ = 0;
 			
@@ -179,20 +179,19 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		}
 		
 		// the brainz
-		int x1 = getStartX()+tlX, y1 = getBottomY()+bottom, z1 = getStartZ()+tlZ;
-		int x2 = getStartX()+tlX+structureWidth, y2 = getBottomY()+bottom+height, z2 = getStartZ()+tlZ+structureDepth;
-		brainNBT.setIntArray("point1",new int[]{ getXWithOffset(x1,z1), getYWithOffset(y1), getZWithOffset(x1,z1) });
-		brainNBT.setIntArray("point2",new int[]{ getXWithOffset(x2,z2), getYWithOffset(y2), getZWithOffset(x2,z2) });
-		structure.setBlock(tlX+2+roomWidth,bottom+1+floorHeight,tlZ+2+roomDepth,BlockList.sanctuary_brain);
-		structure.setBlock(tlX+2+roomWidth,1,tlZ+2+roomDepth,Blocks.bedrock); // TODO use to test coords
+		int bottomY = rand.nextInt(64);System.out.println("coord "+coordBaseMode);
 		
-		return rand.nextInt(64);
+		int x1 = tlX+roomWidth, z1 = tlZ+roomDepth, x2 = x1+structureWidth, z2 = z1+structureDepth;
+		brainNBT.setIntArray("point1",new int[]{ getXWithOffset(x1,z1), bottomY+getYWithOffset(bottom), getZWithOffset(x1,z1) });
+		brainNBT.setIntArray("point2",new int[]{ getXWithOffset(x2,z2), bottomY+getYWithOffset(bottom+height), getZWithOffset(x2,z2) });
+		structure.setBlock(tlX+2+roomWidth,bottom+1+floorHeight,tlZ+2+roomDepth,BlockList.sanctuary_brain);
+		structure.setTileEntityGenerator(tlX+2+roomWidth,bottom+1+floorHeight,tlZ+2+roomDepth,"Brain",this);
+		
+		return bottomY;
 	}
 	
 	@Override
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
-		if (key.equals("Brain")){
-			((TileEntitySanctuaryBrain)tile).readFromNBT(brainNBT);
-		}
+		if (key.equals("Brain"))((TileEntitySanctuaryBrain)tile).readCustomData(brainNBT);
 	}
 }
