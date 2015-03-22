@@ -186,7 +186,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		}
 		
 		// the brainz
-		int bottomY = rand.nextInt(64);System.out.println("coord "+coordBaseMode);
+		int bottomY = rand.nextInt(64);
 		
 		int x1 = tlX+roomWidth, z1 = tlZ+roomDepth, x2 = x1+structureWidth, z2 = z1+structureDepth;
 		brainNBT.setIntArray("p1",new int[]{ getXWithOffset(x1,z1), bottomY+getYWithOffset(bottom), getZWithOffset(x1,z1) });

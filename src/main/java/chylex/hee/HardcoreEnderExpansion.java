@@ -39,6 +39,7 @@ import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
+import chylex.hee.entity.mob.EntityMobSanctuaryOverseer;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
@@ -240,6 +241,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityMobScorchingLens.class, "ScorchedLens", 15, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobHauntedMiner.class, "HauntedMiner", 35, this, 256, 1, true);
 		EntityRegistry.registerModEntity(EntityMobEndermage.class, "Endermage", 41, this, 256, 1, true);
+		EntityRegistry.registerModEntity(EntityMobSanctuaryOverseer.class, "SanctuaryOverseer", 53, this, 256, 1, true);
 
 		EntityRegistry.registerModEntity(EntityBlockFallingDragonEgg.class, "FallingDragonEgg", 25, this, 128, 1, true);
 		EntityRegistry.registerModEntity(EntityBlockFallingObsidian.class, "FallingObsidian", 26, this, 128, 1, true);
@@ -275,7 +277,7 @@ public class HardcoreEnderExpansion{
 		EntityRegistry.registerModEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, this, 0, Integer.MAX_VALUE, false);
 		EntityRegistry.registerModEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, this, 64, 1, false);
 		EntityRegistry.registerModEntity(EntityTechnicalCurseEntity.class, "TechnicalCurseEntity", 47, this, 64, 1, false);
-		// last: 52
+		// last: 53
 		
 		Stopwatch.finish("PreInitEvent - entities");
 

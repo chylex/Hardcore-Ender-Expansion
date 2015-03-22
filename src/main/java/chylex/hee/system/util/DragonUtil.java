@@ -105,12 +105,15 @@ public final class DragonUtil{
 		return sourceAngle;
 	}
 	
+	/**
+	 * Returns the closest entity to the source. It never returns the source entity, even if it is inside the provided list.
+	 */
 	public static <T extends Entity> T getClosestEntity(Entity source, List<? extends T> list){
 		double closestDist = Double.MAX_VALUE, currentDist;
 		T closestEntity = null;
 		
 		for(T entity:list){
-			if (!entity.isDead && (currentDist = source.getDistanceSqToEntity(entity)) < closestDist){
+			if (!entity.isDead && entity != source && (currentDist = source.getDistanceSqToEntity(entity)) < closestDist){
 				closestDist = currentDist;
 				closestEntity = entity;
 			}
@@ -118,7 +121,11 @@ public final class DragonUtil{
 		
 		return closestEntity;
 	}
+
 	
+	/**
+	 * Returns the sorted list of entities based by distance to the source. It never returns the source entity, even if it is inside the provided list.
+	 */
 	public static <T extends Entity> List<T> getClosestEntities(int maxAmount, Entity source, List<? extends T> list){
 		List<T> closestEntities = new ArrayList<>();
 		Map<T,Float> entities = new HashMap<>();
@@ -126,7 +133,7 @@ public final class DragonUtil{
 		if (maxAmount <= 0)return closestEntities;
 		
 		for(T entity:list){
-			if (entity.isDead)continue;
+			if (entity.isDead || entity == source)continue;
 			entities.put(entity,source.getDistanceToEntity(entity));
 		}
 		

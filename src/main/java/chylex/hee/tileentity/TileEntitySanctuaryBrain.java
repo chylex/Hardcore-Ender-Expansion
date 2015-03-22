@@ -1,7 +1,9 @@
 package chylex.hee.tileentity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -11,6 +13,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.mob.EntityMobSanctuaryOverseer;
+import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.util.BlockLocation;
 
 public class TileEntitySanctuaryBrain extends TileEntity{
@@ -76,9 +81,9 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		}
 	}
 	
-	private final class ConquerPointHandler{
+	private final class ConquerPointHandler{ // TODO test everything
 		BlockLocation point1, point2;
-		byte enemiesLeft = -1;
+		byte enemiesLeft = Byte.MIN_VALUE;
 		byte runTimer = -1, startTimer = 0;
 		boolean isConquered;
 		
@@ -91,18 +96,44 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 			if (runTimer == -1){
 				if (!hasPlayers)startTimer = 0;
 				else if (++startTimer >= 10+worldObj.rand.nextInt(35)){
-					runTimer = 0;
+					runTimer = startTimer = 0;
+					if (enemiesLeft == Byte.MIN_VALUE)enemiesLeft = (byte)(8+worldObj.difficultySetting.getDifficultyId()*2+worldObj.rand.nextInt(4));
 					updateBarriers(true);
 				}
 			}
 			else if (runTimer >= 0){
 				if (!hasPlayers){
 					updateBarriers(false);
-					// TODO unblock and kill enemies
+					for(EntityMobSanctuaryOverseer foe:(List<EntityMobSanctuaryOverseer>)worldObj.getEntitiesWithinAABB(EntityMobSanctuaryOverseer.class,full))foe.setDead();
 				}
 				else{
-					if (++runTimer > 30){
+					List<EntityMobSanctuaryOverseer> foes = worldObj.getEntitiesWithinAABB(EntityMobSanctuaryOverseer.class,full);
+					
+					if (++runTimer > 8){
 						runTimer = 0;
+						
+						if (foes.isEmpty()){
+							Random rand = worldObj.rand;
+							
+							for(int enemies = Math.min(enemiesLeft,2+rand.nextInt(2)+Math.min(2,rand.nextInt(1+worldObj.difficultySetting.getDifficultyId()))), attempt = 0; enemies > 0 && attempt < 10; attempt++){
+								EntityMobSanctuaryOverseer mob = new EntityMobSanctuaryOverseer(worldObj);
+								mob.setPosition(MathUtil.floor(full.minX+rand.nextFloat()*(full.maxX-full.minX))+0.5D,full.minY+1+rand.nextFloat()*(full.maxY-2),MathUtil.floor(full.minZ+rand.nextFloat()*(full.maxZ-full.minZ))+0.5D);
+								
+								if (DragonUtil.getClosestEntity(mob,(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,mob.boundingBox.expand(1.5D,1.5D,1.5D))) == null){
+									worldObj.spawnEntityInWorld(mob);
+									--enemies;
+								}
+							}
+						}
+					}
+					
+					for(EntityMobSanctuaryOverseer overseer:foes){
+						if (overseer.deathTime == 1)--enemiesLeft;
+					}
+					
+					if (enemiesLeft <= 0){
+						isConquered = true;
+						updateBarriers(false);
 					}
 				}
 			}
