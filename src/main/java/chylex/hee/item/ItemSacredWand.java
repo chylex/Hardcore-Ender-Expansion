@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData;
@@ -79,7 +80,7 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		boolean didHurt = false;
 		
 		for(EntityLivingBase target:attacked){			
-			if (target.attackEntityFrom(DamageSource.causePlayerDamage(player),magic ? damage*0.8F : damage)){
+			if (target.attackEntityFrom(isMelee ? DamageSource.causePlayerDamage(player) : new EntityDamageSourceIndirect("player",projectile,player),magic ? damage*0.8F : damage)){
 				if (knockback > 0){
 					double motX = isMelee ? -MathHelper.sin(MathUtil.toRad(player.rotationYaw)) : projectile.motionX;
 					double motZ = isMelee ? MathHelper.cos(MathUtil.toRad(player.rotationYaw)) : projectile.motionZ;
