@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
@@ -37,16 +38,16 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		if (!isIdle){
 			if (--runTimer < 0){
 				runTimer = 5;
-				List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,BlockLocation.getBoundingBox(point1,point2));
+				List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,BlockLocation.getBoundingBox(point1,point2).expand(0.9D,0.9D,0.9D));
 				
 				for(EntityPlayer player:list){
 					PotionEffect effJump = player.getActivePotionEffect(Potion.jump);
 					player.addPotionEffect(new PotionEffect(Potion.jump.id,8,4,true));
-					player.addPotionEffect(new PotionEffect(Potion.nightVision.id,205,0,true));
+					player.addPotionEffect(new PotionEffect(Potion.nightVision.id,215,0,true));
 				}
-				
-				for(ConquerPointHandler point:conquerPts)point.update();
 			}
+				
+			for(ConquerPointHandler point:conquerPts)point.update();
 		}
 	}
 	
@@ -90,12 +91,19 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		void update(){
 			if (point1 == null || point2 == null || isConquered)return;
 			
+			worldObj.setBlock(point1.x,point2.y+8,point1.z,Blocks.bedrock); // TODO
+			
 			AxisAlignedBB full = BlockLocation.getBoundingBox(point1,point2);
-			boolean hasPlayers = !worldObj.getEntitiesWithinAABB(EntityPlayer.class,full).isEmpty();
+			boolean hasPlayers = !worldObj.getEntitiesWithinAABB(EntityPlayer.class,full.expand(0.9D,0.9D,0.9D)).isEmpty();
+			
+			if (hasPlayers){ // TODO
+				System.out.println("run "+runTimer+", start "+startTimer+", enemies "+enemiesLeft);
+				System.out.println("tick "+point1.toString()+", "+point2.toString());
+			}
 			
 			if (runTimer == -1){
 				if (!hasPlayers)startTimer = 0;
-				else if (++startTimer >= 10+worldObj.rand.nextInt(35)){
+				else if (++startTimer >= 12+worldObj.rand.nextInt(20)){
 					runTimer = startTimer = 0;
 					if (enemiesLeft == Byte.MIN_VALUE)enemiesLeft = (byte)(8+worldObj.difficultySetting.getDifficultyId()*2+worldObj.rand.nextInt(4));
 					updateBarriers(true);
@@ -103,11 +111,13 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 			}
 			else if (runTimer >= 0){
 				if (!hasPlayers){
+					runTimer = -1;
+					startTimer = 0;
 					updateBarriers(false);
-					for(EntityMobSanctuaryOverseer foe:(List<EntityMobSanctuaryOverseer>)worldObj.getEntitiesWithinAABB(EntityMobSanctuaryOverseer.class,full))foe.setDead();
+					for(EntityMobSanctuaryOverseer foe:(List<EntityMobSanctuaryOverseer>)worldObj.getEntitiesWithinAABB(EntityMobSanctuaryOverseer.class,full.expand(0.9D,0.9D,0.9D)))foe.setDead();
 				}
 				else{
-					List<EntityMobSanctuaryOverseer> foes = worldObj.getEntitiesWithinAABB(EntityMobSanctuaryOverseer.class,full);
+					List<EntityMobSanctuaryOverseer> foes = worldObj.getEntitiesWithinAABB(EntityMobSanctuaryOverseer.class,full.expand(0.9D,0.9D,0.9D));
 					
 					if (++runTimer > 8){
 						runTimer = 0;
@@ -117,7 +127,7 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 							
 							for(int enemies = Math.min(enemiesLeft,2+rand.nextInt(2)+Math.min(2,rand.nextInt(1+worldObj.difficultySetting.getDifficultyId()))), attempt = 0; enemies > 0 && attempt < 10; attempt++){
 								EntityMobSanctuaryOverseer mob = new EntityMobSanctuaryOverseer(worldObj);
-								mob.setPosition(MathUtil.floor(full.minX+rand.nextFloat()*(full.maxX-full.minX))+0.5D,full.minY+1+rand.nextFloat()*(full.maxY-2),MathUtil.floor(full.minZ+rand.nextFloat()*(full.maxZ-full.minZ))+0.5D);
+								mob.setPosition(MathUtil.floor(full.minX+rand.nextFloat()*(full.maxX-full.minX))+0.5D,full.minY+1+rand.nextFloat()*(full.maxY-full.minY-2),MathUtil.floor(full.minZ+rand.nextFloat()*(full.maxZ-full.minZ))+0.5D);
 								
 								if (DragonUtil.getClosestEntity(mob,(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,mob.boundingBox.expand(1.5D,1.5D,1.5D))) == null){
 									worldObj.spawnEntityInWorld(mob);
@@ -175,9 +185,9 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 			int[] p1 = tag.getIntArray("p1"), p2 = tag.getIntArray("p2");
 			if (p1.length == 3)point1 = new BlockLocation(p1[0],p1[1],p1[2]);
 			if (p2.length == 3)point2 = new BlockLocation(p2[0],p2[1],p2[2]);
-			runTimer = tag.getByte("run");
-			enemiesLeft = tag.getByte("enm");
-			isConquered = tag.getBoolean("done");
+			runTimer = tag.hasKey("run") ? tag.getByte("run") : runTimer;
+			enemiesLeft = tag.hasKey("enm") ? tag.getByte("enm") : enemiesLeft;
+			isConquered = tag.hasKey("done") ? tag.getBoolean("done") : isConquered;
 		}
 	}
 }

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.util.Direction;
+import chylex.hee.system.logging.Log;
 import com.google.common.collect.ImmutableList;
 
 public class SanctuaryConquerPointGen{
@@ -13,7 +14,13 @@ public class SanctuaryConquerPointGen{
 	SanctuaryConquerPointGen(int width, int depth){
 		this.width = (byte)width;
 		this.depth = (byte)depth;
-		this.available = new boolean[width][depth];
+		this.available = new boolean[width+1][depth+1];
+		
+		for(int x = 0; x <= width; x++){
+			for(int z = 0; z <= depth; z++){
+				available[x][z] = true;
+			}
+		}
 	}
 	
 	boolean tryAddPoint(byte x, byte z){
@@ -58,6 +65,8 @@ public class SanctuaryConquerPointGen{
 			byte[] loc = options.remove(rand.nextInt(options.size()));
 			if (pts.tryAddPoint(loc[0],loc[1]) && pts.chosenPoints.size() >= conquerPointAmount)break;
 		}
+		
+		if (pts.chosenPoints.size() != conquerPointAmount)Log.warn("Incorrect conquer point amount, expected $0, got $1 ($2)",conquerPointAmount,pts.chosenPoints.size(),pts.chosenPoints);
 		
 		return pts;
 	}

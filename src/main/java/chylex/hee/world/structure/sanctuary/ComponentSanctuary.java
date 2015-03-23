@@ -122,7 +122,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 					if (!maze.isOpen(room1,room2,Facing.EAST_POSX))continue;
 					
 					int px = tlX+(room1+1)*(roomWidth+1);
-					int sizeY = 1+rand.nextInt(4), sizeZ = 1+rand.nextInt(4);
+					int sizeY = 2+rand.nextInt(3), sizeZ = 1+rand.nextInt(4);
 					int yy = startY+1+rand.nextInt(floorHeight-3-sizeY), zz = tlZ+2+room2*(roomDepth+1)+rand.nextInt(roomDepth-sizeZ-1);
 					
 					for(int xx = px; xx <= px+1; xx++){
@@ -140,7 +140,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 					if (!maze.isOpen(room2,room1,Facing.SOUTH_POSZ))continue;
 					
 					int pz = tlZ+(room1+1)*(roomDepth+1);
-					int sizeY = 1+rand.nextInt(4), sizeX = 1+rand.nextInt(4);
+					int sizeY = 2+rand.nextInt(3), sizeX = 1+rand.nextInt(4);
 					int yy = startY+1+rand.nextInt(floorHeight-3-sizeY), xx = tlX+2+room2*(roomWidth+1)+rand.nextInt(roomWidth-sizeX-1);
 					
 					for(int zz = pz; zz <= pz+1; zz++){
@@ -197,9 +197,9 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		for(byte[] point:conquerPts.getPoints()){
 			NBTTagCompound pointTag = new NBTTagCompound();
 			x1 = tlX+roomWidth+point[0]*(roomWidth+1)+2;
-			x2 = x1+roomWidth-1;
+			x2 = x1+roomWidth-2;
 			z1 = tlZ+roomDepth+point[1]*(roomDepth+1)+2;
-			z2 = z1+roomDepth-1;
+			z2 = z1+roomDepth-2;
 			pointTag.setIntArray("p1",new int[]{ getXWithOffset(x1,z1), bottomY+getYWithOffset(bottom+1+floorHeight), getZWithOffset(x1,z1) });
 			pointTag.setIntArray("p2",new int[]{ getXWithOffset(x2,z2), bottomY+getYWithOffset(bottom+height-2), getZWithOffset(x2,z2) });
 			ptsTag.appendTag(pointTag);
