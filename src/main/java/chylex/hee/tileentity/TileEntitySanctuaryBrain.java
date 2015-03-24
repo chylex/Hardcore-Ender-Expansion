@@ -96,7 +96,7 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 			AxisAlignedBB full = BlockLocation.getBoundingBox(point1,point2);
 			boolean hasPlayers = !worldObj.getEntitiesWithinAABB(EntityPlayer.class,full.expand(0.9D,0.9D,0.9D)).isEmpty();
 			
-			if (hasPlayers){ // TODO
+			if (hasPlayers && false){ // TODO
 				System.out.println("run "+runTimer+", start "+startTimer+", enemies "+enemiesLeft);
 				System.out.println("tick "+point1.toString()+", "+point2.toString());
 			}

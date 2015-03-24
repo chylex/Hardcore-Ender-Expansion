@@ -14,10 +14,10 @@ public class SanctuaryConquerPointGen{
 	SanctuaryConquerPointGen(int width, int depth){
 		this.width = (byte)width;
 		this.depth = (byte)depth;
-		this.available = new boolean[width+1][depth+1];
+		this.available = new boolean[width][depth];
 		
-		for(int x = 0; x <= width; x++){
-			for(int z = 0; z <= depth; z++){
+		for(int x = 0; x < width; x++){
+			for(int z = 0; z < depth; z++){
 				available[x][z] = true;
 			}
 		}
@@ -55,8 +55,8 @@ public class SanctuaryConquerPointGen{
 		SanctuaryConquerPointGen pts = new SanctuaryConquerPointGen(width,depth);
 		List<byte[]> options = new ArrayList<>();
 		
-		for(int x = 0; x <= width; x++){
-			for(int z = 0; z <= depth; z++){
+		for(int x = 0; x < width; x++){
+			for(int z = 0; z < depth; z++){
 				options.add(new byte[]{ (byte)x, (byte)z });
 			}
 		}
