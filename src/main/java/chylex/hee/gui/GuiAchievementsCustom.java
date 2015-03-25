@@ -132,7 +132,7 @@ public class GuiAchievementsCustom extends GuiAchievements{
 			
 			field_146570_r = MathUtil.clamp(field_146570_r,1F,2F);
 	
-			if (field_146570_r != prevScale){
+			if (!MathUtil.floatEquals(field_146570_r,prevScale)){
 				field_146567_u -= ((field_146570_r*field_146555_f)-(prevScale*field_146555_f))*0.5F;
 				field_146566_v -= ((field_146570_r*field_146557_g)-(prevScale*field_146557_g))*0.5F;
 				field_146565_w = field_146569_s = field_146567_u;

@@ -101,7 +101,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	public ItemStack tryTeleportEntity(ItemStack is, EntityPlayer player, Entity entity){
-		if (entity.isRiding() || entity.riddenByEntity != null)return is;
+		if (entity.isRiding() || entity.riddenByEntity != null || is.stackTagCompound == null)return is;
 		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown"))return is;
 		
 		GemData gemData = new GemData();

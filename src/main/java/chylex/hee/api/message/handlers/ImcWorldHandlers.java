@@ -75,7 +75,6 @@ public final class ImcWorldHandlers extends ImcHandler{
 			
 			ItemPattern pattern = runner.<ItemPattern>getValue("search");
 			pattern.setDamageValues(ArrayUtils.EMPTY_INT_ARRAY);
-			pattern.setNBT(null);
 			
 			int size = list.size();
 			

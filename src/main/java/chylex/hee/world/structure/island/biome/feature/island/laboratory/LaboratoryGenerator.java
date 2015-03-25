@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.util.Direction;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.CycleProtection;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
@@ -64,6 +65,11 @@ public final class LaboratoryGenerator{
 									nextRoom = element;
 									break;
 								}
+							}
+							
+							if (nextRoom == null){
+								Log.error("Next room is null, this was never supposed to happen!");
+								continue;
 							}
 							
 							if (nextRoom.y != yy){

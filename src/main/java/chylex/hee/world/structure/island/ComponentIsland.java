@@ -14,6 +14,7 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.WorldGenSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.structure.ComponentLargeStructureWorld;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
@@ -21,7 +22,6 @@ import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
 import chylex.hee.world.structure.island.gen.CaveGenerator;
 import chylex.hee.world.structure.island.gen.OreGenerator;
 import chylex.hee.world.structure.island.gen.TerrainGenerator;
-import com.google.common.primitives.Ints;
 
 public class ComponentIsland extends ComponentLargeStructureWorld{
 	public static final int size = 208, halfSize = size>>1;
@@ -120,7 +120,7 @@ public class ComponentIsland extends ComponentLargeStructureWorld{
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
-			int variation = args.length == 0 ? -1 : Ints.tryParse(args[0]);
+			int variation = args.length == 0 ? -1 : DragonUtil.tryParse(args[0],-1);
 			
 			for(IslandBiomeBase biome:new ArrayList<IslandBiomeBase>(IslandBiomeBase.biomeList)){
 				if (biome.isValidMetadata(variation)){
