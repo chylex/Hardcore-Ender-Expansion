@@ -1,4 +1,6 @@
 package chylex.hee.system.util;
+import java.util.ArrayList;
+import java.util.Collection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.commons.lang3.ArrayUtils;
@@ -16,6 +18,7 @@ public class ItemPattern{
 		this.prefix = prefix;
 		this.name = name;
 		if (name.equals("*"))nameWildcard = true;
+		else if (prefix.isEmpty())prefix = "minecraft";
 		return this;
 	}
 	
@@ -43,5 +46,15 @@ public class ItemPattern{
 		if (!(nbt == null || (is.hasTagCompound() && nbt.equals(is.getTagCompound()))))return false;
 		
 		return true;
+	}
+	
+	public ArrayList<ItemStack> retainMatching(Collection<ItemStack> coll){
+		ArrayList<ItemStack> retained = new ArrayList<>();
+		
+		for(ItemStack is:coll){
+			if (matches(is))retained.add(is);
+		}
+		
+		return retained;
 	}
 }
