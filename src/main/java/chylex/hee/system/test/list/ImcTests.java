@@ -20,7 +20,7 @@ public class ImcTests{
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
 	public void testMessages(){
 		Assert.equal(DragonEssenceHandler.recipes.size(),3,"Unexpected list size, expected $2, got $1.");
-		Assert.equal(DragonEssenceHandler.recipes.get(2).input.getItem(),ItemList.ghost_amulet,"Unexpected second entry, expected $2, got $1.");
-		Assert.equal(DragonEssenceHandler.recipes.get(3).cost,15,"Unexpected recipe cost, expected $2, got $1.");
+		Assert.equal(DragonEssenceHandler.recipes.get(1).input.getItem(),ItemList.ghost_amulet,"Unexpected second entry, expected $2, got $1. Full list: "+DragonEssenceHandler.recipes);
+		Assert.equal(DragonEssenceHandler.recipes.get(2).cost,15,"Unexpected recipe cost, expected $2, got $1.");
 	}
 }

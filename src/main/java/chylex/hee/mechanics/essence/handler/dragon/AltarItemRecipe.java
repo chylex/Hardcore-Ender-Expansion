@@ -23,4 +23,9 @@ public class AltarItemRecipe{
 		item.setEntityItemStack(is);
 		if (item instanceof EntityItemAltar)((EntityItemAltar)item).setSparkling();
 	}
+	
+	@Override
+	public String toString(){
+		return "{ input: "+input.toString()+", output: "+output.toString()+", cost: "+cost+" }";
+	}
 }
