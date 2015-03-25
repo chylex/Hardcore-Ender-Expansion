@@ -65,10 +65,10 @@ public class HeeIMC{
 	/* === MESSAGE ACCEPTING === */
 	
 	public static void acceptString(String sender, String fullNotation){
-		int colon = fullNotation.indexOf(' ');
+		int space = fullNotation.indexOf(' ');
 		
-		if (colon == -1)MessageLogger.logError("Received incorrect IMC String message from $0. Cannot identify message key and contents. || $1",sender,fullNotation);
-		else acceptString(sender,fullNotation.substring(0,colon),fullNotation.substring(colon+1));
+		if (space == -1)MessageLogger.logError("Received incorrect IMC String message from $0. Cannot identify message key and contents. || $1",sender,fullNotation);
+		else acceptString(sender,fullNotation.substring(0,space),fullNotation.substring(space+1));
 	}
 	
 	public static void acceptString(String sender, String key, String message){

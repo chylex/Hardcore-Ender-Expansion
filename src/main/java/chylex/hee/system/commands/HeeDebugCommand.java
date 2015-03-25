@@ -12,8 +12,8 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.test.RunTime;
 import chylex.hee.system.test.UnitTester;
+import chylex.hee.system.test.data.RunTime;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
 
