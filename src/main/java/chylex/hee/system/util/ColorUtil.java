@@ -18,7 +18,7 @@ public final class ColorUtil{
 			case 3:
 				return new float[]{ p, q, value };
 			case 4:
-				return new float[]{  t, p, value };
+				return new float[]{ t, p, value };
 			case 5:
 				return new float[]{ value, p, q };
 			default:

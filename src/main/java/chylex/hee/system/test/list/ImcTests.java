@@ -9,7 +9,7 @@ import chylex.hee.system.test.data.UnitTest;
 
 public class ImcTests{
 	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.PREINIT)
-	public void prepareMessages(){
+	public void prepareImcs(){
 		for(String msgs:new String[]{
 			"HEE:DragonEssence:AddRecipe { 'input': { 'id': 'ghast_tear' }, 'output': { 'id': '~hee:spectral_tear' }, 'cost': 15 }",
 			"HEE:DragonEssence:RemoveRecipe { 'type': 'input', 'search': { 'id': '~hee:*' }, 'limit': 1 }"
@@ -18,7 +18,7 @@ public class ImcTests{
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
-	public void testMessages(){
+	public void testImcsDragonEssence(){
 		Assert.equal(DragonEssenceHandler.recipes.size(),3,"Unexpected list size, expected $2, got $1.");
 		Assert.equal(DragonEssenceHandler.recipes.get(1).input.getItem(),Items.ender_eye,"Unexpected second entry, expected $2, got $1. Full list: "+DragonEssenceHandler.recipes);
 		Assert.equal(DragonEssenceHandler.recipes.get(2).cost,15,"Unexpected recipe cost, expected $2, got $1.");
