@@ -19,6 +19,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.logging.Stopwatch;
 
 public final class DragonUtil{
@@ -224,6 +225,11 @@ public final class DragonUtil{
 			   (!is.getHasSubtypes() || is.getItemDamage() == itemToAdd.getItemDamage()) &&
 			   ItemStack.areItemStackTagsEqual(is,itemToAdd) &&
 			   is.stackSize+1 <= is.getMaxStackSize();
+	}
+	
+	public static boolean checkSystemProperty(String key){
+		String str = System.getProperty("hee");
+		return str != null && ArrayUtils.contains(str.split(","),key);
 	}
 	
 	private DragonUtil(){}

@@ -1,18 +1,20 @@
 package chylex.hee.system.test;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
-import org.apache.commons.lang3.ArrayUtils;
+import java.util.Set;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.util.DragonUtil;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
@@ -22,8 +24,7 @@ public final class UnitTester{
 	private static final Multimap<RunTime,Method> registryTests = HashMultimap.create();
 	
 	public static void load(){
-		String[] data = System.getProperty("hee").split(",");
-		if (!ArrayUtils.contains(data,"unit"))return;
+		if (!DragonUtil.checkSystemProperty("unit"))return;
 		
 		Log.debug("Loading unit tests!");
 		
@@ -58,7 +59,7 @@ public final class UnitTester{
 						if (test.type() == MethodType.PREPARATION)registryPrep.put(test.runTime(),method);
 						else registryTests.put(test.runTime(),method);
 						
-						Log.debug("Registered unit test method $0.$1",cls.getSimpleName(),method.getName());
+						Log.debug("Registered unit test $2method $0.$1",cls.getSimpleName(),method.getName(),test.type() == MethodType.PREPARATION ? "prep " : "");
 					}
 				}
 			}
@@ -72,37 +73,41 @@ public final class UnitTester{
 	}
 	
 	public static void trigger(RunTime time, String trigger){
-		List<Method> methods = new ArrayList<>();
-		int tests = 0;
+		Set<Method> prepList = new HashSet<>(), testList = new HashSet<>();
 		
 		for(Method prep:registryPrep.get(time)){
-			if (trigger.equals(prep.getAnnotation(UnitTest.class).trigger()))methods.add(prep);
+			if (trigger.equals(prep.getAnnotation(UnitTest.class).trigger()))prepList.add(prep);
 		}
 		
 		for(Method test:registryTests.get(time)){
-			if (trigger.equals(test.getAnnotation(UnitTest.class).trigger())){
-				methods.add(test);
-				++tests;
-			}
+			if (trigger.equals(test.getAnnotation(UnitTest.class).trigger()))testList.add(test);
 		}
 		
-		Log.debug("Running $0 unit test(s)...",tests);
+		if (prepList.isEmpty() && testList.isEmpty())return;
+		
+		Log.debug("Running $0 prep method(s) and $1 unit test(s)...",prepList.size(),testList.size());
 		
 		Map<Class<?>,Object> objects = new HashMap<>();
 		int succeeded = 0, failed = 0;
 		
-		for(Method method:methods){
+		for(Method method:Iterables.concat(prepList,testList)){
 			try{
 				Class<?> cls = method.getDeclaringClass();
 				Object obj = objects.get(cls);
 				if (obj == null)objects.put(cls,obj = cls.newInstance());
 				
+				boolean isTest = testList.contains(method);
+				
 				try{
 					method.invoke(obj);
-					++succeeded;
-				}catch(Throwable t){
-					Log.error("Unit test $0.$1 failed: $2",cls.getSimpleName(),method.getName(),t.getMessage());
-					++failed;
+					if (isTest)++succeeded;
+				}catch(InvocationTargetException e){
+					if (!isTest)Log.throwable(e.getCause(),"Failed preparing a test!");
+					else{
+						Throwable cause = e.getCause();
+						Log.error("Unit test $0.$1:$2 failed: $3",cls.getSimpleName(),method.getName(),cause.getStackTrace()[0].getLineNumber(),cause.getMessage());
+						++failed;
+					}
 				}
 			}catch(Exception e){
 				Log.throwable(e,"Error running a unit test!");
