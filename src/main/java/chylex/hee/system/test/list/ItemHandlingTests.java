@@ -36,7 +36,7 @@ public class ItemHandlingTests{
 		Assert.equal(new ItemPattern().setItemName("minecraft","sand").retainMatching(items).size(),0,error);
 		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1 }).retainMatching(items).size(),1,error);
 		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1, 2 }).retainMatching(items).size(),2,error);
-		Assert.equal(new ItemPattern().setNBT(nbt),1,error);
+		Assert.equal(new ItemPattern().setNBT(nbt).retainMatching(items).size(),1,error);
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)

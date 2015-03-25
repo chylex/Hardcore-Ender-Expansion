@@ -1,6 +1,6 @@
 package chylex.hee.system.test.list;
+import net.minecraft.init.Items;
 import chylex.hee.api.HeeIMC;
-import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.data.MethodType;
@@ -20,7 +20,7 @@ public class ImcTests{
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
 	public void testMessages(){
 		Assert.equal(DragonEssenceHandler.recipes.size(),3,"Unexpected list size, expected $2, got $1.");
-		Assert.equal(DragonEssenceHandler.recipes.get(1).input.getItem(),ItemList.ghost_amulet,"Unexpected second entry, expected $2, got $1. Full list: "+DragonEssenceHandler.recipes);
+		Assert.equal(DragonEssenceHandler.recipes.get(1).input.getItem(),Items.ender_eye,"Unexpected second entry, expected $2, got $1. Full list: "+DragonEssenceHandler.recipes);
 		Assert.equal(DragonEssenceHandler.recipes.get(2).cost,15,"Unexpected recipe cost, expected $2, got $1.");
 	}
 }

@@ -9,19 +9,19 @@ import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
 public class ItemPattern{
 	private String prefix = "";
-	private String name = "";
-	private boolean nameWildcard;
+	private String name = "*";
+	private boolean nameWildcard = true;
 	private short[] damageValues = ArrayUtils.EMPTY_SHORT_ARRAY;
 	private NBTTagCompound nbt;
 	
 	/**
-	 * If the name is '*', it will accept all items from the mod specified by prefix, or from the game if an empty prefix is provided.
+	 * If the name is '*', it will accept all items from the mod specified by prefix, or from the game if an empty prefix is provided (default).
 	 */
 	public ItemPattern setItemName(String prefix, String name){
 		this.prefix = prefix;
 		this.name = name;
-		if (name.equals("*"))nameWildcard = true;
-		else if (prefix.isEmpty())prefix = "minecraft";
+		nameWildcard = name.equals("*");
+		if (!nameWildcard && prefix.isEmpty())prefix = "minecraft";
 		return this;
 	}
 	
