@@ -31,7 +31,7 @@ public class ItemHandlingTests{
 		String error = "Unexpected matching item list size, expected $2, got $1.";
 		
 		Assert.equal(new ItemPattern().setItemName("","*").retainMatching(items).size(),6,error);
-		Assert.equal(new ItemPattern().setItemName("~hee","*").retainMatching(items).size(),2,error);
+		Assert.equal(new ItemPattern().setItemName("HardcoreEnderExpansion","*").retainMatching(items).size(),2,error);
 		Assert.equal(new ItemPattern().setItemName("minecraft","dirt").retainMatching(items).size(),3,error);
 		Assert.equal(new ItemPattern().setItemName("minecraft","sand").retainMatching(items).size(),0,error);
 		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1 }).retainMatching(items).size(),1,error);
