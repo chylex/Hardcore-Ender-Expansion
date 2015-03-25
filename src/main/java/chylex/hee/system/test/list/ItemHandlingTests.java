@@ -2,6 +2,7 @@ package chylex.hee.system.test.list;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.item.ItemList;
@@ -9,6 +10,7 @@ import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.ItemPattern;
 
 public class ItemHandlingTests{
@@ -35,5 +37,20 @@ public class ItemHandlingTests{
 		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1 }).retainMatching(items).size(),1,error);
 		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1, 2 }).retainMatching(items).size(),2,error);
 		Assert.equal(new ItemPattern().setNBT(nbt),1,error);
+	}
+	
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	public void testItemDamagePair(){
+		ItemDamagePair pair1 = new ItemDamagePair(Items.gunpowder,0);
+		ItemDamagePair pair2 = new ItemDamagePair(Items.gunpowder,-1);
+		
+		String error1 = "Failed item damage pair test (expected true).";
+		String error2 = "Failed item damage pair test (expected false).";
+		
+		Assert.state(pair1.check(new ItemStack(Items.gunpowder)),error1);
+		Assert.state(!pair1.check(new ItemStack(Items.gunpowder,1,1)),error2);
+		Assert.state(pair2.check(new ItemStack(Items.gunpowder,1,1)),error1);
+		Assert.state(!pair1.check(new ItemStack(Items.dye)),error2);
+		
 	}
 }
