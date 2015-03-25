@@ -20,13 +20,14 @@ import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
 
 public final class UnitTester{
+	private static final String prefix = "[HEE-UNIT] ";
 	private static final Multimap<RunTime,Method> registryPrep = HashMultimap.create();
 	private static final Multimap<RunTime,Method> registryTests = HashMultimap.create();
 	
 	public static void load(){
 		if (!DragonUtil.checkSystemProperty("unit"))return;
 		
-		Log.debug("Loading unit tests!");
+		Log.debug(prefix+"Loading unit tests!");
 		
 		try{
 			for(ClassInfo clsInfo:ClassPath.from(UnitTester.class.getClassLoader()).getTopLevelClassesRecursive("chylex.hee.system.test.list")){
@@ -38,7 +39,7 @@ public final class UnitTester{
 				}catch(Exception e){}
 				
 				if (constr == null){
-					Log.error("Error registering unit test class $0, a no-arg constructor is required!",cls.getSimpleName());
+					Log.error(prefix+"Error registering unit test class $0, a no-arg constructor is required!",cls.getSimpleName());
 					continue;
 				}
 					
@@ -47,24 +48,24 @@ public final class UnitTester{
 					
 					if (test != null){
 						if ((method.getModifiers()&Modifier.STATIC) == Modifier.STATIC){
-							Log.error("Error registering unit test method $0.$1, the test methods cannot be static!",cls.getSimpleName(),method.getName());
+							Log.error(prefix+"Error registering unit test method $0.$1, the test methods cannot be static!",cls.getSimpleName(),method.getName());
 							continue;
 						}
 						
 						if (test.runTime() != RunTime.INGAME && !test.trigger().isEmpty()){
-							Log.error("Error registering unit test method $0.$1, cannot use $2 run time with a trigger!",cls.getSimpleName(),method.getName(),test.runTime());
+							Log.error(prefix+"Error registering unit test method $0.$1, cannot use $2 run time with a trigger!",cls.getSimpleName(),method.getName(),test.runTime());
 							continue;
 						}
 						
 						if (test.type() == MethodType.PREPARATION)registryPrep.put(test.runTime(),method);
 						else registryTests.put(test.runTime(),method);
 						
-						Log.debug("Registered unit test $2method $0.$1",cls.getSimpleName(),method.getName(),test.type() == MethodType.PREPARATION ? "prep " : "");
+						Log.debug(prefix+"Registered unit test $2method $0.$1",cls.getSimpleName(),method.getName(),test.type() == MethodType.PREPARATION ? "prep " : "");
 					}
 				}
 			}
 		}catch(IOException e){
-			Log.throwable(e,"Error loading unit tests!");
+			Log.throwable(e,prefix+"Error loading unit tests!");
 		}
 	}
 	
@@ -85,7 +86,7 @@ public final class UnitTester{
 		
 		if (prepList.isEmpty() && testList.isEmpty())return;
 		
-		Log.debug("Running $0 prep method(s) and $1 unit test(s)...",prepList.size(),testList.size());
+		Log.debug(prefix+"Running $0 prep method(s) and $1 unit test(s)...",prepList.size(),testList.size());
 		
 		Map<Class<?>,Object> objects = new HashMap<>();
 		int succeeded = 0, failed = 0;
@@ -102,19 +103,19 @@ public final class UnitTester{
 					method.invoke(obj);
 					if (isTest)++succeeded;
 				}catch(InvocationTargetException e){
-					if (!isTest)Log.throwable(e.getCause(),"Failed preparing a test!");
+					if (!isTest)Log.throwable(e.getCause(),prefix+"Failed preparing a test!");
 					else{
 						Throwable cause = e.getCause();
-						Log.error("Unit test $0.$1:$2 failed: $3",cls.getSimpleName(),method.getName(),cause.getStackTrace()[0].getLineNumber(),cause.getMessage());
+						Log.error(prefix+"Unit test ($0.java:$2)~$1 failed: $3",cls.getSimpleName(),method.getName(),cause.getStackTrace()[1].getLineNumber(),cause.getMessage());
 						++failed;
 					}
 				}
 			}catch(Exception e){
-				Log.throwable(e,"Error running a unit test!");
+				Log.throwable(e,prefix+"Error running a unit test!");
 			}
 		}
 		
-		Log.debug("Finished unit tests: $0 succeeded, $1 failed.",succeeded,failed);
+		Log.debug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",succeeded,failed);
 	}
 	
 	private UnitTester(){}
