@@ -101,7 +101,7 @@ public final class UnitTester{
 					method.invoke(obj);
 					++succeeded;
 				}catch(Throwable t){
-					Log.throwable(t,"Unit test failed.");
+					Log.error("Unit test $0.$1 failed: $2",cls.getSimpleName(),method.getName(),t.getMessage());
 					++failed;
 				}
 			}catch(Exception e){
