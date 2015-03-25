@@ -12,6 +12,8 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.test.RunTime;
+import chylex.hee.system.test.UnitTester;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
 
@@ -42,7 +44,8 @@ public class HeeDebugCommand extends HeeCommand{
 				"/heedebug speedup\n"+
 				"/heedebug noweather\n"+
 				"/heedebug stopwatch\n"+
-				"/heedebug test <testid>"
+				"/heedebug test <testid>\n"+
+				"/heedebug unit [trigger]"
 				).split("\n")){
 				sendMessage(sender,s);
 			}
@@ -149,6 +152,12 @@ public class HeeDebugCommand extends HeeCommand{
 			}
 			
 			return;
+		}
+		else if (args[0].equalsIgnoreCase("unit") && sender instanceof EntityPlayer){
+			StringBuilder build = new StringBuilder();
+			for(int a = 1; a < args.length; a++)build.append(args[a]).append(' ');
+			
+			UnitTester.trigger(RunTime.INGAME,args.length > 1 ? build.deleteCharAt(build.length()-1).toString() : "");
 		}
 		else if (args[0].equalsIgnoreCase("tmp") && sender instanceof EntityPlayer){
 			EntityPlayer player = (EntityPlayer)sender;

@@ -94,6 +94,8 @@ import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.test.RunTime;
+import chylex.hee.system.test.UnitTester;
 import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.TileEntityAccumulationTable;
@@ -158,6 +160,7 @@ public class HardcoreEnderExpansion{
 		configPath = e.getSuggestedConfigurationFile().getParentFile().getName();
 		sourceFile = e.getSourceFile();
 		Log.initializeDebug();
+		UnitTester.load();
 		
 		// CONFIGURATION LOAD
 
@@ -335,6 +338,8 @@ public class HardcoreEnderExpansion{
 		proxy.registerRenderers();		
 		notifications.register();
 		
+		UnitTester.trigger(RunTime.PREINIT);
+		
 		Stopwatch.finish("PreInitEvent");
 	}
 	
@@ -346,6 +351,8 @@ public class HardcoreEnderExpansion{
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,GuiHandler.instance);
 		RecipeList.addRecipes();
 		WorldLoot.registerWorldLoot();
+		
+		UnitTester.trigger(RunTime.INIT);
 		
 		Stopwatch.finish("InitEvent");
 	}
@@ -361,6 +368,8 @@ public class HardcoreEnderExpansion{
 		ModIntegrationManager.integrateMods();
 		DimensionOverride.postInit();
 		
+		UnitTester.trigger(RunTime.POSTINIT);
+		
 		Stopwatch.finish("PostInitEvent");
 	}
 	
@@ -371,6 +380,7 @@ public class HardcoreEnderExpansion{
 		try{
 			DimensionOverride.verifyIntegrity();
 			HeeIMC.runLoadComplete();
+			UnitTester.trigger(RunTime.LOADCOMPLETE);
 		}
 		catch(Throwable t){
 			FMLCommonHandler.instance().raiseException(t,"Critical error handling post-load data.",true);
