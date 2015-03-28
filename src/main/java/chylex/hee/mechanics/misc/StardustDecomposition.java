@@ -141,7 +141,10 @@ public final class StardustDecomposition{
 		short[] blacklistedDamages = blacklist.get(is.getItem());
 		return (blacklistedDamages != null && blacklistedDamages.length > 0 && (blacklistedDamages[0] == -1 || ArrayUtils.contains(blacklistedDamages,(short)is.getItemDamage())));
 	}
-
+	
+	/**
+	 * Returns list of decomposed ingredients, or null if the source item is blacklisted or the list would be empty.
+	 */
 	public static List<ItemStack> getRandomRecipeIngredientsFor(ItemStack is, Random rand){
 		Item item = is.getItem();
 

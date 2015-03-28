@@ -52,7 +52,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 		return true;
 	}
 	
-	private static byte getDirectExperience(ItemStack is){
+	public static byte getDirectExperience(ItemStack is){
 		for(ItemDamagePair idp:direct.keySet()){
 			if (idp.check(is))return direct.get(idp);
 		}
