@@ -6,7 +6,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 
 public final class CausatumEvents{
 	public static void register(){
-		FMLCommonHandler.instance().bus().register(new CausatumEvents());
+		if (false)FMLCommonHandler.instance().bus().register(new CausatumEvents()); // TODO implement
 	}
 	
 	private int timer;
@@ -18,6 +18,6 @@ public final class CausatumEvents{
 		if (e.phase == Phase.START || ++timer < 2400)return;
 		timer = 0;
 		
-		// TODO
+		
 	}
 }
