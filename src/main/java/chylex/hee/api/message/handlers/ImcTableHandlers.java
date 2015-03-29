@@ -18,6 +18,7 @@ public final class ImcTableHandlers extends ImcHandler{
 		@Override
 		public void call(MessageRunner runner){
 			StardustDecomposition.addToBlacklist(runner.<ItemPattern>getValue("pattern"));
+			MessageLogger.logOk("Added 1 pattern to the list.");
 		}
 	};
 	

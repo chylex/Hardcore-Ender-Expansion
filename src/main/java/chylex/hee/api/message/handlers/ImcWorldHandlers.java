@@ -13,7 +13,6 @@ import chylex.hee.api.message.element.WeightedLootValue;
 import chylex.hee.api.message.utils.MessageLogger;
 import chylex.hee.api.message.utils.RunEvent;
 import chylex.hee.entity.block.EntityBlockHomelandCache;
-import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.system.util.ItemPattern;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
@@ -75,6 +74,8 @@ public final class ImcWorldHandlers extends ImcHandler{
 			
 			ItemPattern pattern = runner.<ItemPattern>getValue("search");
 			pattern.setDamageValues(ArrayUtils.EMPTY_INT_ARRAY);
+			pattern.setNBT(null);
+			// reset search
 			
 			int size = list.size();
 			
@@ -85,7 +86,7 @@ public final class ImcWorldHandlers extends ImcHandler{
 				}
 			}
 			
-			size = size-DragonEssenceHandler.recipes.size();
+			size = size-list.size();
 			
 			if (size == 0)MessageLogger.logWarn("Did not find any items to remove.");
 			else MessageLogger.logOk("Removed $0 item(s).",size);

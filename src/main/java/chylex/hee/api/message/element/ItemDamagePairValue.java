@@ -17,7 +17,7 @@ public class ItemDamagePairValue extends PreconditionComposite<ItemDamagePair>{
 	
 	@Override
 	public ItemDamagePair getValue(MessageRunner runner){
-		Item item = ItemStackValue.getItemFromString("id");
+		Item item = ItemStackValue.getItemFromString(runner.getString("id"));
 		if (item == null)throw new IllegalStateException("Failed constructing an ItemDamagePair from IMC, item is null.");
 		
 		int damage = runner.getInt("damage");

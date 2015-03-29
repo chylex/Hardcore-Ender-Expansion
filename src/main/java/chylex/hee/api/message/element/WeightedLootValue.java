@@ -26,7 +26,7 @@ public class WeightedLootValue extends PreconditionComposite<LootItemStack>{
 		if (damage.length == 2)item.setDamage(damage[0],damage[1]);
 		else item.setDamage(damage[0]);
 		
-		int[] count = runner.getIntArray("damage");
+		int[] count = runner.getIntArray("count");
 		
 		if (count.length == 2)item.setAmount(count[0],count[1]);
 		else item.setAmount(count[0]);

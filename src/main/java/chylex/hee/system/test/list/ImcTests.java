@@ -30,7 +30,7 @@ public class ImcTests{
 			"HEE:Mobs:SetEnergy { 'id': 'HardcoreEnderExpansion.VampireBat', 'units': 2.5 }",
 			
 			"HEE:DecompositionTable:Blacklist { 'pattern': { 'id': 'dispenser' } }",
-			"HEE:ExtractionTable:SetEnergy { 'item': { 'id': 'coal', 'damage: 1 }, 'units': 5.4 }",
+			"HEE:ExtractionTable:SetEnergy { 'item': { 'id': 'coal', 'damage': 1 }, 'units': 5.4 }",
 			"HEE:ExperienceTable:AddItem { 'item': { 'id': 'coal' }, 'bottles': 12 }",
 			
 			"HEE:World:LootAdd { 'list': 'DungeonTowerChest', 'item': { 'id': 'minecraft:dye', 'damage': [ 0, 15 ], 'count': [ 2 ], 'weight': 32000 } }",

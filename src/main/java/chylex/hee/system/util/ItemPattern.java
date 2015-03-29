@@ -35,7 +35,8 @@ public class ItemPattern{
 	}
 	
 	public ItemPattern setNBT(NBTTagCompound nbt){
-		if (!nbt.hasNoTags())this.nbt = nbt;
+		if (nbt == null)this.nbt = null;
+		else if (!nbt.hasNoTags())this.nbt = nbt;
 		return this;
 	}
 	
