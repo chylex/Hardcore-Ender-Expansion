@@ -44,7 +44,7 @@ public class HeeIMC{
 	public static void runUnsafe(){
 		if (!Loader.instance().hasReachedState(LoaderState.AVAILABLE))throw new IllegalStateException("Invalid loader state, tried manually running IMC messages before LoadComplete.");
 		
-		MessageLogger.logState("Running IMC messages unsafely from mod $0.",Loader.instance().activeModContainer().getModId()); // TODO try if this works
+		MessageLogger.logState("Running IMC messages unsafely from mod $0.",Loader.instance().activeModContainer().getModId());
 		runMessagesForEvent(null);
 	}
 	
