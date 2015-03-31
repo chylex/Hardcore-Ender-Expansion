@@ -92,6 +92,7 @@ public class KnowledgeFragmentCrafting extends KnowledgeFragment{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glColor4f(1F,1F,1F,1F);
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texFragments);
 		gui.drawTexturedModalRect(x,y,0,0,88,58);
