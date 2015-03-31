@@ -31,6 +31,7 @@ public final class FXType{
 		HOMELAND_ENDERMAN_RECRUIT,
 		BABY_ENDERMAN_GROW,
 		ENDER_GUARDIAN_DASH,
+		SANCTUARY_OVERSEER_SINGLE,
 		SIMPLE_TELEPORT;
 		
 		public static FXType.Entity[] values = values();
@@ -45,7 +46,8 @@ public final class FXType{
 		ENDERMAN_TELEPORT,
 		DUNGEON_PUZZLE_TELEPORT,
 		HOMELAND_ENDERMAN_GUARD_CALL,
-		FIRE_FIEND_GOLEM_CALL;
+		FIRE_FIEND_GOLEM_CALL,
+		SANCTUARY_OVERSEER_FULL;
 		
 		public static FXType.Line[] values = values();
 	}

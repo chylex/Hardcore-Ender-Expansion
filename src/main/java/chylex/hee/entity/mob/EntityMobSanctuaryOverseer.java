@@ -7,14 +7,25 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.fx.FXType;
+import chylex.hee.entity.mob.util.MultiDamage;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C07AddPlayerVelocity;
+import chylex.hee.packets.client.C21EffectEntity;
+import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobSanctuaryOverseer extends EntityFlying{
 	private Map<UUID,double[]> prevPlayerLocs = new HashMap<>();
 	private short provocation, maxProvocation;
+	private byte attackTimer, screamTimer;
 	
 	public EntityMobSanctuaryOverseer(World world){
 		super(world);
@@ -52,9 +63,55 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 			dataWatcher.updateObject(17,maxProvocation);
 		}
 		
-		if (!worldObj.isRemote && ticksExisted%4 == 0){
-			boolean updated = false;
+		if (!worldObj.isRemote){
+			if (attackTimer > 0)--attackTimer;
 			
+			if (screamTimer > 0){
+				if (attackTimer > 0 || ++screamTimer > 55 && screamTimer > 55+rand.nextInt(45)){
+					if (attackTimer > 0 && attackingPlayer != null){
+						MultiDamage.from(this).addMagic(7F).addScaled(ModCommonProxy.opMobs ? 29F : 24F).attack(attackingPlayer);
+						
+						double[] vec = DragonUtil.getNormalizedVector(attackingPlayer.posX-posX,attackingPlayer.posZ-posZ);
+						attackingPlayer.addVelocity(vec[0],0.2D,vec[1]);
+						PacketPipeline.sendToPlayer(attackingPlayer,new C07AddPlayerVelocity(vec[0],0.2D,vec[1]));
+						
+						PacketPipeline.sendToAllAround(this,10D,new C21EffectEntity(FXType.Entity.SANCTUARY_OVERSEER_SINGLE,this));
+					}
+					else{
+						setHealth(getHealth()*0.5F);
+						
+						int x1 = MathUtil.floor(posX), y1 = MathUtil.floor(posY), z1 = MathUtil.floor(posZ),
+							x2 = x1, y2 = y1, z2 = z1;
+						
+						for(int att = 0; att < 30; att++){
+							if (worldObj.isAirBlock(x1-1,y1,z1))--x1;
+							if (worldObj.isAirBlock(x2+1,y1,z1))++x2;
+							if (worldObj.isAirBlock(x1,y1-1,z1))--y1;
+							if (worldObj.isAirBlock(x1,y2+1,z1))++y2;
+							if (worldObj.isAirBlock(x1,y1,z1-1))--z1;
+							if (worldObj.isAirBlock(x1,y1,z2+1))++z2;
+						}
+						
+						for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x1,y1,z1,x2,y2,z2).expand(0.9D,0.9D,0.9D))){
+							MultiDamage.from(this).addMagic(5F).addScaled(ModCommonProxy.opMobs ? 22F : 18F).attack(player);
+						}
+						
+						for(EntityMobSanctuaryOverseer overseer:(List<EntityMobSanctuaryOverseer>)worldObj.getEntitiesWithinAABB(EntityMobSanctuaryOverseer.class,boundingBox.expand(8D,8D,8D))){
+							overseer.provocation /= 2;
+							overseer.dataWatcher.updateObject(16,provocation);
+						}
+						
+						PacketPipeline.sendToAllAround(this,10D,new C22EffectLine(FXType.Line.SANCTUARY_OVERSEER_FULL,x1,y1,z1,x2,y2,z2));
+					}
+					
+					provocation = screamTimer = attackTimer = 0;
+					dataWatcher.updateObject(16,provocation);
+				}
+			}
+		}
+		if (!worldObj.isRemote && ticksExisted%4 == 0 && screamTimer == 0){
+			boolean updated = false;
+		
 			for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,8D,8D))){
 				if (!player.isDead && canEntityBeSeen(player)){
 					double[] prevLocs = prevPlayerLocs.get(player.getUniqueID());
@@ -73,8 +130,10 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 			
 			if (updated){
 				dataWatcher.updateObject(16,provocation);
-				System.out.println("movement prov "+provocation);
+				System.out.println("update prov "+provocation);
 			}
+			
+			if (provocation >= maxProvocation)screamTimer = 1;
 		}
 	}
 	
@@ -97,6 +156,7 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 					System.out.println("added prov to other entity: "+overseer.provocation);
 				}
 				
+				attackTimer = 12;
 				return true;
 			}
 		}
@@ -117,7 +177,7 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 	@Override
 	protected void onDeathUpdate(){
 		if (++deathTime >= 2){
-			// TODO particles
+			for(int a = 0; a < 8; a++)HardcoreEnderExpansion.fx.portalBig(worldObj,posX,posY,posZ,0D,0D,0D,0.8F+rand.nextFloat()*0.2F);
 			setDead();
 		}
 	}

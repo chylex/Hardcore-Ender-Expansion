@@ -163,6 +163,10 @@ public final class FXHandler{
 				for(int a = 0; a < 30; a++)HardcoreEnderExpansion.fx.omnipresent("portal",world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.15D),randCenter(0.15D),randCenter(0.15D));
 				world.playSound(x,y,z,"mob.endermen.portal",1F,1F,false);
 				break;
+				
+			case SANCTUARY_OVERSEER_SINGLE:
+				for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.portalBig(world,x+randCenter(width*2D),y+rand.nextDouble()*height,z+randCenter(width*2D),randCenter(0.5D),randCenter(0.5D),randCenter(0.5D));
+				break;
 		}
 	}
 	
@@ -296,6 +300,17 @@ public final class FXHandler{
 					x1 += addX;
 					y1 += addY;
 					z1 += addZ;
+				}
+				
+				break;
+				
+			case SANCTUARY_OVERSEER_FULL:
+				for(int x = (int)Math.min(x1,x2); x <= Math.max(x1,x2); x++){
+					for(int y = (int)Math.min(y1,y2); y <= Math.max(y1,y2); y++){
+						for(int z = (int)Math.min(z1,z2); z <= Math.max(z1,z2); z++){
+							HardcoreEnderExpansion.fx.corruptedEnergy(world,x,y,z);
+						}						
+					}
 				}
 				
 				break;
