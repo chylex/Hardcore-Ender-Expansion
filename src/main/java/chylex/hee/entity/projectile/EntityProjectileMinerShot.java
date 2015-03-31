@@ -3,11 +3,12 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.mob.util.MultiDamage;
+import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityProjectileMinerShot extends EntityFireball{
 	public EntityProjectileMinerShot(World world){
@@ -51,9 +52,7 @@ public class EntityProjectileMinerShot extends EntityFireball{
 		}
 		else{
 			if (mop.entityHit != null){
-				mop.entityHit.attackEntityFrom(DamageSource.magic,3F);
-				mop.entityHit.hurtResistantTime = 0;
-				mop.entityHit.attackEntityFrom(shootingEntity == null ? DamageSource.generic : DamageSource.causeMobDamage(shootingEntity),13F);
+				MultiDamage.from(shootingEntity).addMagic(3F).addScaled(ModCommonProxy.opMobs ? 18F : 13F).attack(mop.entityHit);
 				mop.entityHit.setFire(4);
 			}
 			else{

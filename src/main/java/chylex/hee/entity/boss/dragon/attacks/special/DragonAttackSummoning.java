@@ -6,11 +6,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
+import chylex.hee.entity.mob.util.MultiDamage;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
@@ -67,9 +67,7 @@ public class DragonAttackSummoning extends DragonSpecialAttackBase{
 					
 					if (flying){
 						if (lastStriked.adjustOrPutValue(player.getPersistentID(),(byte)-1,(byte)0) <= 0){
-							player.attackEntityFrom(DamageSource.magic,2F);
-							player.hurtResistantTime = 0;
-							player.attackEntityFrom(DamageSource.causeMobDamage(dragon),12F);
+							MultiDamage.from(dragon).addMagic(2F).addUnscaled(11F).attack(player);
 							player.setFire(5);
 							
 							dragon.worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(dragon.worldObj,player.posX,player.posY,player.posZ));
