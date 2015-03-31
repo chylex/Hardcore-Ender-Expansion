@@ -12,6 +12,8 @@ import chylex.hee.system.util.CollectionUtil;
 public enum WandCore{
 	INFESTATION, BLAZE, MAGIC, DEXTERITY, FORCE, REPULSION;
 	
+	public static WandCore[] values = values();
+	
 	/**
 	 * Returns an array of cores sorted based on slots (there can be null elements).
 	 */

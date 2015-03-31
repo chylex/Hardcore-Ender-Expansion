@@ -136,7 +136,17 @@ item.auricion.name=Auricion
 item.charmPouch.name=Charm Pouch
 item.charmPouch.info.active=Active
 item.charmPouch.info.inactive=Inactive
+
 item.sacredWand.name=Sacred Wand
+item.sacredWand.type.basic=Basic Wand Core
+item.sacredWand.type.advanced=Advanced Wand Core
+item.sacredWand.type.epic=Epic Wand Core
+item.sacredWand.core.infestation=Infestation Wand Core
+item.sacredWand.core.blazing=Blazing Wand Core
+item.sacredWand.core.magic=Magic Wand Core
+item.sacredWand.core.dexterity=Dexterity Wand Core
+item.sacredWand.core.force=Force Wand Core
+item.sacredWand.core.repulsion=Repulsion Wand Core
 
 item.rune.any.name=Rune (Any)
 item.rune.power.name=Rune of Power

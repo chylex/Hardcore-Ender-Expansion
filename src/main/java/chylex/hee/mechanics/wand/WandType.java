@@ -6,7 +6,7 @@ public enum WandType{
 	ADVANCED(3,17),
 	EPIC(4,25);
 	
-	static WandType[] values = values();
+	public static WandType[] values = values();
 	
 	public final byte slots;
 	public final byte baseDamage;
