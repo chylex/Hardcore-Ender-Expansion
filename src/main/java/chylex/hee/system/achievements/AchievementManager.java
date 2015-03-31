@@ -97,7 +97,7 @@ public final class AchievementManager{
 	}
 	
 	private static HeeAchievement addChallenge(int id, String stringId, String difficultyLevel){
-		HeeChallenge challenge = (HeeChallenge)new HeeChallenge("achievement.hee."+(ModCommonProxy.achievementStartId+120+id),stringId,-1+(id%2 == 0?0:1),-2+id,new ItemStack(Items.diamond_sword)).registerStat();
+		HeeChallenge challenge = (HeeChallenge)new HeeChallenge("achievement.hee."+(ModCommonProxy.achievementStartId+120+id),stringId,-1+(id%2 == 0 ? 0 : 1),-2+id,new ItemStack(Items.diamond_sword)).registerStat();
 		challenges.add(challenge);
 		challengeStrings.put(stringId,difficultyLevel);
 		return challenge;

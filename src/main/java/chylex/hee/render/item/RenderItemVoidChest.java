@@ -1,4 +1,7 @@
 package chylex.hee.render.item;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.achievement.GuiAchievements;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
@@ -29,6 +32,9 @@ public class RenderItemVoidChest implements IItemRenderer{
 		}
 		else if (type == ItemRenderType.EQUIPPED){
 			GL11.glTranslatef(-0.5F,0.7F,0.5F);
+		}
+		else if (type == ItemRenderType.INVENTORY){
+			if (Minecraft.getMinecraft().currentScreen instanceof GuiAchievements)RenderHelper.enableGUIStandardItemLighting();
 		}
 		
 		TileEntityRendererDispatcher.instance.renderTileEntityAt(chestRenderer,0D,0D,0D,0F);

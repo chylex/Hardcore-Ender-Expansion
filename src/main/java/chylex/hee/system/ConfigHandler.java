@@ -103,7 +103,7 @@ public final class ConfigHandler{
 			
 			String[] imcs = getStringArray("IMC",new String[]{ "Write your message here" },"").setShowInGui(false).getStringList();
 			
-			if (!(imcs.length == 1 && imcs[0].equals("Write your message here"))){
+			if (!(imcs.length == 1 && (imcs[0].isEmpty() || imcs[0].equals("Write your message here")))){
 				for(String imc:imcs)HeeIMC.acceptString("HEE Configuration File",imc);
 			}
 			
