@@ -674,7 +674,8 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(970).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(971).setRecipeFromRegistry(new ItemStack(BlockList.experience_table)).setPrice(10).setUnlockRequirements(970),
 				new KnowledgeFragmentText(972).setPrice(4).setUnlockRequirements(970),
-				new KnowledgeFragmentText(973).setPrice(4).setUnlockRequirements(970)
+				new KnowledgeFragmentText(973).setPrice(7).setUnlockRequirements(970),
+				new KnowledgeFragmentText(974).setPrice(4).setUnlockRequirements(973)
 			}),
 			
 			ACCUMULATION_TABLE.setPos(5,9).setUnlockPrice(18).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{

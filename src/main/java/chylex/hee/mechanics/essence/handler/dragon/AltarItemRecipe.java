@@ -21,7 +21,7 @@ public class AltarItemRecipe{
 	/**
 	 * Checks if the ItemStacks have the same item, damage and NBT (except for Altar status NBT).
 	 */
-	public boolean isApplicable(ItemStack is){ // TODO test
+	public boolean isApplicable(ItemStack is){
 		if (input.getItem() == is.getItem() && input.getItemDamage() == is.getItemDamage()){
 			NBTTagCompound nbt = is.stackTagCompound == null ? emptyTag : (NBTTagCompound)is.stackTagCompound.copy();
 			

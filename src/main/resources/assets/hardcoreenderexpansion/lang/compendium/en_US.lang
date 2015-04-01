@@ -260,9 +260,10 @@ ec.reg.883=Not all ingredients are returned, but up to 84%% of them are retrieva
 ec.reg.884=Damaged items yield less ingredients than fully repaired ones.
 ec.reg.885=If multiple recipes exist, one is chosen randomly.
 
-ec.reg.970=A table that extracts experience from blocks.
+ec.reg.970=A table that extracts experience from blocks and items.
 ec.reg.972=It requires $i:~stardust and $b:~energy_cluster:Energy$ to run, it always runs at the same speed. A Redstone Comparator can be used to detect whether the Table is running.
-ec.reg.973=The table yields triple the amount of experience, and destroys the block in the process.
+ec.reg.973=The table can process precious gems and materials, as well as blocks that drop experience. The materials are destroyed in the process.
+ec.reg.974=Blocks yield triple the amount of experience.
 
 ec.reg.980=A table that stores $b:~energy_cluster:Energy$ and channels it into items.
 ec.reg.982=A Redstone Comparator can be used to detect whether the Table is currently charging an item.
@@ -310,7 +311,7 @@ ec.reg.411=One of the plants commonly found in the $d:InfestedForest:Infested Fo
 
 ec.reg.412=One of the plants commonly found in the $d:InfestedForest:Infested Forest$.
 
-ec.reg.730=A potion that eases the effects of Infestation. It has to be brewed in $i:~enhanced_brewing_stand.
+ec.reg.730=A potion that eases the effects of Ender Causatum. It has to be brewed in $i:~enhanced_brewing_stand.
 
 ec.reg.480=Special type of bat that spawns in the $d:InfestedForest:Infested Forest$. Each bat varies in size.
 
