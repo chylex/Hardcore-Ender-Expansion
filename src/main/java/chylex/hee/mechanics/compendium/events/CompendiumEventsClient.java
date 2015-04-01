@@ -21,6 +21,7 @@ import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03SimpleEvent;
 import chylex.hee.packets.server.S03SimpleEvent.EventType;
+import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.logging.Stopwatch;
@@ -90,7 +91,9 @@ public final class CompendiumEventsClient{
 	}
 	
 	public static void showVoidChestAchievement(){
+		ModClientProxy.modifyVoidChestDescription = true;
 		instance.displayAchievement(AchievementManager.VOID_CHEST);
+		ModClientProxy.modifyVoidChestDescription = false;
 	}
 	
 	private final KeyBinding keyOpenCompendium;
@@ -98,7 +101,6 @@ public final class CompendiumEventsClient{
 	private short newlyDiscoveredId = -1;
 	private long newlyDiscoveredTime = 0L;
 	private byte achievementTimer = Byte.MIN_VALUE;
-	private String achievementId = null;
 	
 	private CompendiumEventsClient(){
 		keyOpenCompendium = new KeyBinding(ModCommonProxy.hardcoreEnderbacon ? "key.openCompendium.bacon" : "key.openCompendium",25,"Hardcore Ender Expansion");
@@ -108,7 +110,6 @@ public final class CompendiumEventsClient{
 	
 	private void displayAchievement(Achievement achievement){
 		Minecraft.getMinecraft().guiAchievement.func_146255_b(achievement);
-		instance.achievementId = achievement.statId;
 		instance.achievementTimer = 120;
 	}
 	
@@ -139,12 +140,7 @@ public final class CompendiumEventsClient{
 				KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = null;
 				
 				if (mc.inGameHasFocus){
-					if (achievementId != null && achievementId.equals(AchievementManager.VOID_CHEST.statId)){
-						obj = KnowledgeRegistrations.VOID_CHEST;
-						achievementTimer = Byte.MIN_VALUE;
-						PacketPipeline.sendToServer(new S03SimpleEvent(EventType.OPEN_COMPENDIUM_VOID_CHEST));
-					}
-					else if (newlyDiscoveredTime != 0L && System.nanoTime()-newlyDiscoveredTime <= 7000000000L){
+					if (newlyDiscoveredTime != 0L && System.nanoTime()-newlyDiscoveredTime <= 7000000000L){
 						obj = KnowledgeObject.getObjectById(newlyDiscoveredId);
 						newlyDiscoveredId = -1;
 						newlyDiscoveredTime = 0L;

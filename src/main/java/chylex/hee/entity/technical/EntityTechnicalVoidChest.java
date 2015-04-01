@@ -10,6 +10,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.voidchest.PlayerVoidChest;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C09SimpleEvent;
+import chylex.hee.packets.client.C09SimpleEvent.EventType;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityTechnicalVoidChest extends EntityTechnicalBase{
 	private EntityPlayerMP player;
@@ -41,6 +45,8 @@ public class EntityTechnicalVoidChest extends EntityTechnicalBase{
 		if (items == null || items.isEmpty() || player == null || player.isDead || !player.playerNetServerHandler.func_147362_b().isChannelOpen())setDead();
 		else{
 			if (age == 1 && simulateFall){
+				boolean triggered = false;
+				
 				for(Iterator<EntityItem> iter = items.iterator(); iter.hasNext();){
 					EntityItem item = iter.next();
 					EntityItem copy = new EntityItem(worldObj,item.posX,item.posY,item.posZ,new ItemStack(Blocks.bedrock,64));
@@ -53,14 +59,17 @@ public class EntityTechnicalVoidChest extends EntityTechnicalBase{
 					for(int attempt = 0; attempt < 300; attempt++){
 						copy.onUpdate();
 						
-						if (copy.posY <= prevPosY)break;
+						if (MathUtil.floatEquals((float)copy.posY,(float)prevPosY))break;
 						else if ((prevPosY = copy.posY) <= -8D){
 							takeItem(item);
+							triggered = true;
 							iter.remove();
 							break;
 						}
 					}
 				}
+				
+				if (triggered)PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.SHOW_VOID_CHEST));
 			}
 			
 			for(Iterator<EntityItem> iter = items.iterator(); iter.hasNext();){

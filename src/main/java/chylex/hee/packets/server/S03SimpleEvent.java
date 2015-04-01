@@ -2,15 +2,13 @@ package chylex.hee.packets.server;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
-import chylex.hee.mechanics.voidchest.PlayerVoidChest;
 import chylex.hee.packets.AbstractServerPacket;
 import chylex.hee.system.achievements.AchievementManager;
 
 public class S03SimpleEvent extends AbstractServerPacket{
 	public enum EventType{
 		OPEN_COMPENDIUM,
-		OPEN_COMPENDIUM_HELP,
-		OPEN_COMPENDIUM_VOID_CHEST
+		OPEN_COMPENDIUM_HELP
 	}
 	
 	private EventType type;
@@ -39,7 +37,6 @@ public class S03SimpleEvent extends AbstractServerPacket{
 		switch(type){
 			case OPEN_COMPENDIUM: player.addStat(AchievementManager.ENDER_COMPENDIUM,1); break;
 			case OPEN_COMPENDIUM_HELP: CompendiumEvents.getPlayerData(player).setSeenHelp(); break;
-			case OPEN_COMPENDIUM_VOID_CHEST: PlayerVoidChest.getData(player).setSeenNotification(); break;
 		}
 	}
 }

@@ -122,6 +122,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ModClientProxy extends ModCommonProxy{
 	public static final ModelEndermanHeadBiped endermanHeadModelBiped = new ModelEndermanHeadBiped();
+	public static boolean modifyVoidChestDescription = false;
 	
 	@Override
 	public void loadConfiguration(){
@@ -240,6 +241,13 @@ public class ModClientProxy extends ModCommonProxy{
 				}catch(Exception e){
 					return "Error: "+e.getLocalizedMessage();
 				}
+			}
+		});
+		
+		AchievementManager.VOID_CHEST.setStatStringFormatter(new IStatStringFormat(){
+			@Override
+			public String formatString(String str){
+				return modifyVoidChestDescription ? StatCollector.translateToLocal("achievement.voidChest.notification") : str;
 			}
 		});
 		

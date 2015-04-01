@@ -325,6 +325,7 @@ achievement.endiumIngot=The next step
 achievement.endiumIngot.desc=Get Endium
 achievement.voidChest=Afraid no more
 achievement.voidChest.desc=Craft a Void Chest to get back items lost in the void
+achievement.voidChest.notification=You have new items in your Void Chest
 achievement.biomeCompass=Whole new cultures!
 achievement.biomeCompass.desc=Craft or find a Biome Compass
 achievement.biomeInfestedForest=The Infested Forest

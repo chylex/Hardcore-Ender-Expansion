@@ -9,7 +9,6 @@ import chylex.hee.entity.technical.EntityTechnicalVoidChest;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C09SimpleEvent;
 import chylex.hee.packets.client.C09SimpleEvent.EventType;
-import chylex.hee.system.achievements.AchievementManager;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -37,10 +36,7 @@ public final class VoidChestEvents{
 						
 						if (!triggered){
 							triggered = true;
-							
-							if (!PlayerVoidChest.getData(e.entityPlayer).hasSeenNotification() && !((EntityPlayerMP)e.entityPlayer).func_147099_x().hasAchievementUnlocked(AchievementManager.VOID_CHEST)){ // OBFUSCATED getStatFile
-								PacketPipeline.sendToPlayer(e.entityPlayer,new C09SimpleEvent(EventType.SHOW_VOID_CHEST));
-							}
+							PacketPipeline.sendToPlayer(e.entityPlayer,new C09SimpleEvent(EventType.SHOW_VOID_CHEST));
 						}
 					}
 				}
