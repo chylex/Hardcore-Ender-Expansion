@@ -2,7 +2,7 @@ package chylex.hee.world.structure.sanctuary.data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.util.Direction;
+import chylex.hee.world.util.Direction;
 import chylex.hee.system.logging.Log;
 import com.google.common.collect.ImmutableList;
 

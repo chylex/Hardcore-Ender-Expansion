@@ -3,7 +3,7 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.util.Direction;
+import chylex.hee.world.util.Direction;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.CycleProtection;
 import chylex.hee.world.structure.island.ComponentIsland;

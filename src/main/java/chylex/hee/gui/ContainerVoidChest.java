@@ -1,10 +1,10 @@
 package chylex.hee.gui;
-import chylex.hee.gui.slots.SlotReadOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import chylex.hee.gui.slots.SlotReadOnly;
 
 public class ContainerVoidChest extends ContainerChest{
 	private int chestSlots;

@@ -8,7 +8,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.Direction;
+import chylex.hee.world.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockPersegrit;
 import chylex.hee.item.ItemKnowledgeNote;

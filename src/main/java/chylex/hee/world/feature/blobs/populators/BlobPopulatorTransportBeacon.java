@@ -2,7 +2,7 @@ package chylex.hee.world.feature.blobs.populators;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.Direction;
+import chylex.hee.world.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;

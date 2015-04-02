@@ -1,9 +1,9 @@
 package chylex.hee.api;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import net.minecraft.item.Item;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.system.util.ItemPattern;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
 /**
  * API for Stardust and Decomposition Table (uncrafting).

@@ -1,7 +1,7 @@
 package chylex.hee.mechanics.energy;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Direction;
+import chylex.hee.world.util.Direction;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.savedata.WorldDataHandler;
