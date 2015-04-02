@@ -57,6 +57,8 @@ public final class ConfigHandler{
 	private ConfigHandler(Configuration config){
 		this.config = config;
 		this.config.load();
+		
+		config.getCategory("client").remove("hardcoreEnderbacon");
 	}
 	
 	@SubscribeEvent
@@ -71,9 +73,9 @@ public final class ConfigHandler{
 		currentCategory = "client";
 		
 		KnowledgeFragmentText.smoothRenderingMode = (byte)getInt("compendiumSmoothText",0,"Special text rendering mode for Ender Compendium, smooths out aliasing in Large GUI scale.").getInt();
-		ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbacon",0,"0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
 		
 		if (firstTimeClient){
+			ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbaconMode",0,"0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
 			MusicManager.enableEndMusic = getBool("enableMusic",true,"Custom music playing in the End dimension.").setRequiresMcRestart(true).getBoolean();
 			MusicManager.removeVanillaDelay = getBool("removeVanillaDelay",false,"Removes long delays between vanilla music tracks.").setRequiresMcRestart(true).getBoolean();
 			firstTimeClient = false;
