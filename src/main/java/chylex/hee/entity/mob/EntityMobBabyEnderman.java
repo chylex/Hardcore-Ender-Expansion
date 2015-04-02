@@ -332,7 +332,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.babyEnderman.name"));
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.babyEnderman.name"));
 	}
 }
 

@@ -88,6 +88,6 @@ public class EntityMobScorchingLens extends EntityMob{
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.scorchingLens.name");
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal("entity.scorchingLens.name");
 	}
 }

@@ -72,6 +72,6 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.forestGhost.name");
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal("entity.forestGhost.name");
 	}
 }

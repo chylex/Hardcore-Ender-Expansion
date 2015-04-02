@@ -320,7 +320,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.louse.name");
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal("entity.louse.name");
 	}
 	
 	public LouseSpawnData getSpawnData(){

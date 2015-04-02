@@ -290,6 +290,6 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.angryEnderman.name"));
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.angryEnderman.name"));
 	}
 }

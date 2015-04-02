@@ -120,6 +120,6 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.vampireBat.name"));
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.vampireBat.name"));
 	}
 }

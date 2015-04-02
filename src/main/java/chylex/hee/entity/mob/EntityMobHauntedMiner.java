@@ -398,6 +398,6 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal("entity.hauntedMiner.name");
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal("entity.hauntedMiner.name");
 	}
 }

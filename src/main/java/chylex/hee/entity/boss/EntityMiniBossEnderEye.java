@@ -383,7 +383,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	
 	@Override
 	public String getCommandSenderName(){
-		return hasCustomNameTag()?getCustomNameTag():StatCollector.translateToLocal("entity.enderEye.name");
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal("entity.enderEye.name");
 	}
 	
 	@Override

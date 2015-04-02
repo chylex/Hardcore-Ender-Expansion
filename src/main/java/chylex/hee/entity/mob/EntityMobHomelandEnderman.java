@@ -805,7 +805,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 	
 	@Override
 	public String getCommandSenderName(){
-		return StatCollector.translateToLocal(Baconizer.mobName("entity.homelandEnderman.name"));
+		return hasCustomNameTag() ? getCustomNameTag() : StatCollector.translateToLocal(Baconizer.mobName("entity.homelandEnderman.name"));
 	}
 	
 	@Override
