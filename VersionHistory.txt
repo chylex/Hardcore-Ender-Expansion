@@ -1,4 +1,29 @@
 ==================
+Release 1.8 (1.7.10)
+2 April 2015
+------------------
+[b]Additions[/b]
+Brand new IMC system, which allows inter-mod communication as well as user-defined commands - find out more at http://hee-api.chylex.com
+New concept in works - Ender Causatum (currently has no visible effect)
+Added colored text links to the Compendium, clicking them will direct you to the appropriate object
+Added config option to remove vanilla music delay
+
+[b]Changes[/b]
+The old API is deprecated because of the new IMC system, and will be removed in next update
+Experience Table can now convert precious materials and gems
+Improved /heeadmin command with help pages and colors :D
+Removed Infestation effect in favor of the Causatum
+Update notifications have additional text when using very old versions
+
+[b]Bugfixes[/b]
+Basic Essence Altar drops the correct item
+Dragon Essence Altar will no longer crash when it has an item with removed enchantments
+Fixed the 'Click to view' text not showing properly
+Regeneration effect in Charms was giving reversed effect
+The Dragon will no longer unload during the fight
+
+
+==================
 Release 1.7.1 (1.7.10)
 22 February 2015
 ------------------
