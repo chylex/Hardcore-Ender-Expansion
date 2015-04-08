@@ -8,13 +8,13 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
+import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -48,8 +48,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity owner, int slot, boolean isHeld){
 		if (!world.isRemote){
-			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-			byte timer = is.stackTagCompound.getByte("HEE_relicTimer");
+			byte timer = ItemUtil.getTagRoot(is,true).getByte("HEE_relicTimer");
 			
 			if (++timer > 8){
 				timer = 0;
@@ -90,7 +89,7 @@ public class ItemEndermanRelic extends ItemAbstractEnergyAcceptor{
 				}
 			}
 			
-			is.stackTagCompound.setByte("HEE_relicTimer",timer);
+			is.getTagCompound().setByte("HEE_relicTimer",timer);
 		}
 	}
 }

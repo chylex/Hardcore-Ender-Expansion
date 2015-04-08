@@ -17,6 +17,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.item.ItemAbstractPotion;
 import chylex.hee.item.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
+import chylex.hee.system.util.ItemUtil;
 
 public class PotionTypes{
 	public static final List<AbstractPotionData> potionData = Arrays.asList(
@@ -192,8 +193,8 @@ public class PotionTypes{
 			AbstractPotionData data = potionData.get(b);
 			if (data != null && data.requiredDamageValue == (is.getItemDamage()&~16384)){
 				PotionEffect prevEffect = getEffectIfValid(is);
-
-				if (is.stackTagCompound != null)is.stackTagCompound.removeTag("CustomPotionEffects");
+				
+				ItemUtil.getTagRoot(is,false).removeTag("CustomPotionEffects");
 				data.onFirstBrewingFinished(is);
 				
 				if (prevEffect != null){
@@ -209,10 +210,9 @@ public class PotionTypes{
 	}
 	
 	public static ItemStack setCustomPotionEffect(ItemStack is, PotionEffect effect){
-		NBTTagCompound nbt = is.stackTagCompound == null ? is.stackTagCompound = new NBTTagCompound() : is.stackTagCompound;
 		NBTTagList potionList = new NBTTagList();
 		potionList.appendTag(effect.writeCustomPotionEffectToNBT(new NBTTagCompound()));
-		nbt.setTag("CustomPotionEffects",potionList);
+		ItemUtil.getTagRoot(is,true).setTag("CustomPotionEffects",potionList);
 		return is;
 	}
 }

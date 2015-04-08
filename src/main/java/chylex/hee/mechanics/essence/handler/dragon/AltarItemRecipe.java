@@ -3,6 +3,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.entity.item.EntityItemAltar;
+import chylex.hee.system.util.ItemUtil;
 
 public class AltarItemRecipe{
 	private static final NBTTagCompound emptyTag = new NBTTagCompound();
@@ -15,7 +16,7 @@ public class AltarItemRecipe{
 		this.output = output;
 		this.cost = (short)cost;
 		
-		if (input.stackTagCompound == null)input.stackTagCompound = new NBTTagCompound();
+		ItemUtil.getTagRoot(input,true);
 	}
 	
 	/**
@@ -23,7 +24,7 @@ public class AltarItemRecipe{
 	 */
 	public boolean isApplicable(ItemStack is){
 		if (input.getItem() == is.getItem() && input.getItemDamage() == is.getItemDamage()){
-			NBTTagCompound nbt = is.stackTagCompound == null ? emptyTag : (NBTTagCompound)is.stackTagCompound.copy();
+			NBTTagCompound nbt = is.hasTagCompound() ? (NBTTagCompound)is.getTagCompound().copy() : emptyTag;
 			
 			nbt.removeTag("HEE_transform");
 			nbt.removeTag("HEE_enchant");

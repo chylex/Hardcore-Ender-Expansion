@@ -22,6 +22,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -58,11 +59,11 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown")){
-			byte cooldown = is.stackTagCompound.getByte("cooldown");
+		if (ItemUtil.getTagRoot(is,false).hasKey("cooldown")){
+			byte cooldown = is.getTagCompound().getByte("cooldown");
 			
-			if (--cooldown <= 0)is.stackTagCompound.removeTag("cooldown");
-			else is.stackTagCompound.setByte("cooldown",cooldown);
+			if (--cooldown <= 0)is.getTagCompound().removeTag("cooldown");
+			else is.getTagCompound().setByte("cooldown",cooldown);
 		}
 		
 		super.onUpdate(is,world,entity,slot,isHeld);
@@ -101,11 +102,11 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	}
 	
 	public ItemStack tryTeleportEntity(ItemStack is, EntityPlayer player, Entity entity){
-		if (entity.isRiding() || entity.riddenByEntity != null || is.stackTagCompound == null)return is;
-		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown"))return is;
+		if (entity.isRiding() || entity.riddenByEntity != null || !is.hasTagCompound())return is;
+		if (ItemUtil.getTagRoot(is,false).hasKey("cooldown"))return is;
 		
 		GemData gemData = new GemData();
-		gemData.set(is.stackTagCompound);
+		gemData.set(is.getTagCompound());
 		
 		if (gemData.isLinked() && entity.dimension == gemData.dim){		
 			int itemDamage = is.getItemDamage();
@@ -126,8 +127,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 				GemSideEffects.performRandomEffect(entity,percBroken);
 			}
 			
-			if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-			is.stackTagCompound.setByte("cooldown",(byte)50);
+			ItemUtil.getTagRoot(is,true).setByte("cooldown",(byte)50);
 			
 			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
 			CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,1F);
@@ -139,14 +139,14 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int pass){
-		return is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown") ? (192<<16|192<<8|192) : super.getColorFromItemStack(is,pass);
+		return ItemUtil.getTagRoot(is,false).hasKey("cooldown") ? (192<<16|192<<8|192) : super.getColorFromItemStack(is,pass);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		if (is.stackTagCompound != null){
-			clientCache.set(is.stackTagCompound);
+		if (is.hasTagCompound()){
+			clientCache.set(is.getTagCompound());
 			
 			if (clientCache.isLinked()){
 				textLines.add(EnumChatFormatting.GRAY+I18n.format("item.transferenceGem.info.linked"));
@@ -207,9 +207,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 		}
 		
 		public void saveToItemStack(ItemStack is){
-			NBTTagCompound nbt = is.stackTagCompound;
-			if (nbt == null)nbt = is.stackTagCompound = new NBTTagCompound();
-			
+			NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
 			nbt.setInteger("HED_Gem_Dim",dim);
 			nbt.setInteger("HED_Gem_X",x);
 			nbt.setInteger("HED_Gem_Y",y);

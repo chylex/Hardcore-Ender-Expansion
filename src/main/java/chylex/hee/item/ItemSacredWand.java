@@ -23,6 +23,7 @@ import chylex.hee.mechanics.wand.WandCore;
 import chylex.hee.mechanics.wand.WandType;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import com.google.common.collect.Multimap;
 import cpw.mods.fml.relauncher.Side;
@@ -30,7 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 	public static boolean attackEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity, EntityProjectileSacredWand projectile){
-		if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
+		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
 		
 		float damage = WandType.fromItemStack(is).baseDamage;
 		
@@ -43,9 +44,9 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		int knockback = isMelee && player.isSprinting() ? 2 : 0; // double knockback value
 		
 		// critical
-		if (entity.worldObj.getTotalWorldTime()-is.stackTagCompound.getLong("latktm") >= 600){
+		if (entity.worldObj.getTotalWorldTime()-nbt.getLong("latktm") >= 600){
 			damage *= 1.2F;
-			is.stackTagCompound.setLong("latktm",entity.worldObj.getTotalWorldTime());
+			nbt.setLong("latktm",entity.worldObj.getTotalWorldTime());
 			critical = true;
 		}
 		

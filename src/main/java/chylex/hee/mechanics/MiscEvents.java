@@ -15,6 +15,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemTransferenceGem;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
+import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -78,7 +79,7 @@ public class MiscEvents{
 			if (is == null || is.getItem() != ItemList.transference_gem || e.entityPlayer.isSneaking())return;
 			else if (EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.TOUCH)){
 				is = ((ItemTransferenceGem)ItemList.transference_gem).tryTeleportEntity(is,e.entityPlayer,e.entityPlayer);
-				if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown"))is.stackTagCompound.removeTag("cooldown");
+				ItemUtil.getTagRoot(is,false).removeTag("cooldown");
 				
 				itemFrame.setDisplayedItem(is);
 				e.setCanceled(true);

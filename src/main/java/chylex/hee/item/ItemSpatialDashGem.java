@@ -3,13 +3,13 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
+import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -41,11 +41,11 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown")){
-			byte cooldown = is.stackTagCompound.getByte("cooldown");
+		if (ItemUtil.getTagRoot(is,false).hasKey("cooldown")){
+			byte cooldown = is.getTagCompound().getByte("cooldown");
 			
-			if (--cooldown <= 0)is.stackTagCompound.removeTag("cooldown");
-			else is.stackTagCompound.setByte("cooldown",cooldown);
+			if (--cooldown <= 0)is.getTagCompound().removeTag("cooldown");
+			else is.getTagCompound().setByte("cooldown",cooldown);
 		}
 		
 		super.onUpdate(is,world,entity,slot,isHeld);
@@ -53,14 +53,13 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (is.getItemDamage() < getMaxDamage() && (is.stackTagCompound == null || !is.stackTagCompound.hasKey("cooldown"))){
+		if (is.getItemDamage() < getMaxDamage() && (!is.hasTagCompound() || !is.getTagCompound().hasKey("cooldown"))){
 			if (!world.isRemote){
 				CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,0.5F);
 				damageItem(is,player);
 				world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player,EnhancementHandler.getEnhancements(is)));
-
-				if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-				is.stackTagCompound.setByte("cooldown",(byte)18);
+				
+				ItemUtil.getTagRoot(is,true).setByte("cooldown",(byte)18);
 			}
 			else world.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.spatialdash",0.8F,0.9F,false);
 		}
@@ -83,6 +82,6 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int pass){
-		return is.stackTagCompound != null && is.stackTagCompound.hasKey("cooldown") ? (192<<16|192<<8|192) : super.getColorFromItemStack(is,pass);
+		return ItemUtil.getTagRoot(is,false).hasKey("cooldown") ? (192<<16|192<<8|192) : super.getColorFromItemStack(is,pass);
 	}
 }

@@ -63,7 +63,7 @@ public class ItemStackValue extends PreconditionComposite<ItemStack>{
 		is.stackSize = runner.getInt("count");
 		
 		NBTTagCompound tag = runner.<NBTTagCompound>getValue("tag");
-		if (!tag.hasNoTags())is.stackTagCompound = tag;
+		if (!tag.hasNoTags())is.setTagCompound(tag);
 		
 		return is;
 	}

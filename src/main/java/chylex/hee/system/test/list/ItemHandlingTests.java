@@ -30,7 +30,7 @@ public class ItemHandlingTests{
 		
 		patternTestNbt = new NBTTagCompound();
 		patternTestNbt.setByte("testValue",(byte)1);
-		patternTestList.get(0).stackTagCompound = patternTestNbt;
+		patternTestList.get(0).setTagCompound(patternTestNbt);
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)

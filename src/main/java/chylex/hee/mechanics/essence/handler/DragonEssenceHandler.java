@@ -24,6 +24,7 @@ import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.util.CollectionUtil;
+import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.world.util.BlockLocation;
@@ -220,8 +221,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						
 						altar.drainEssence(cost);
 						tag.setShort("lvl",(short)(level+1));
-						if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-						is.stackTagCompound.setTag("ench",enchants);
+						ItemUtil.getTagRoot(is,true).setTag("ench",enchants);
 
 						item.hasChanged = true;
 						attempt = 999;
@@ -265,8 +265,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	 * @return current value
 	 */
 	private short updateItemCounter(ItemStack is, String counterName, int operation){
-		if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-		NBTTagCompound nbt = is.stackTagCompound;
+		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
 		
 		if (operation == 0){
 			nbt.removeTag(counterName);

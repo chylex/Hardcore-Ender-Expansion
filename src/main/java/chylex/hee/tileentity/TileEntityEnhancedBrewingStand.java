@@ -14,6 +14,7 @@ import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
+import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -89,9 +90,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 			if (slotItems[a] == null)continue;
 			
 			slotItems[a] = PotionTypes.applyIngredientUnsafe(slotItems[3],slotItems[a]);
-			
-			if (slotItems[a].stackTagCompound == null)slotItems[a].stackTagCompound = new NBTTagCompound();
-			slotItems[a].stackTagCompound.setBoolean("hasPotionChanged",true);
+			ItemUtil.getTagRoot(slotItems[a],true).setBoolean("hasPotionChanged",true);
 		}
 		
 		if (--slotItems[3].stackSize == 0)slotItems[3] = null;

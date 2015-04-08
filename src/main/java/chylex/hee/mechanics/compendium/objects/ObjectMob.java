@@ -45,8 +45,8 @@ public class ObjectMob implements IKnowledgeObjectInstance<Class<? extends Entit
 		NBTTagCompound displayTag = new NBTTagCompound();
 		displayTag.setString("Name",name);
 		
-		is.stackTagCompound = new NBTTagCompound();
-		is.stackTagCompound.setTag("display",displayTag);
+		is.setTagCompound(new NBTTagCompound());
+		is.getTagCompound().setTag("display",displayTag);
 		
 		return is;
 	}

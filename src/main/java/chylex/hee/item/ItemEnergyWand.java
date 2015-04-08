@@ -12,6 +12,7 @@ import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
@@ -21,7 +22,7 @@ public class ItemEnergyWand extends Item{
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (player.isSneaking() && !world.isRemote){
-			if (is.stackTagCompound != null && is.stackTagCompound.hasKey("cluster")){
+			if (ItemUtil.getTagRoot(is,false).hasKey("cluster")){
 				switch(side){
 					case 1: ++y; break;
 					case 2: --z; break;
@@ -36,12 +37,12 @@ public class ItemEnergyWand extends Item{
 				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
 				
 				if (tile != null){
-					NBTTagCompound tag = is.stackTagCompound.getCompoundTag("cluster");
+					NBTTagCompound tag = ItemUtil.getTagSub(is,"cluster",true);
 					tag.setIntArray("loc",new int[]{ x, y, z });
 					tile.readTileFromNBT(tag);
 					
-					int[] prevLoc = is.stackTagCompound.getIntArray("prevLoc");
-					double dist = is.stackTagCompound.getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc[0]-x,prevLoc[1]-y,prevLoc[2]-z) : Double.MAX_VALUE;
+					int[] prevLoc = ItemUtil.getTagRoot(is,false).getIntArray("prevLoc");
+					double dist = ItemUtil.getTagRoot(is,false).getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc[0]-x,prevLoc[1]-y,prevLoc[2]-z) : Double.MAX_VALUE;
 					
 					if (dist > 8D){
 						tile.data.setEnergyLevel(tile.data.getEnergyLevel()*(1F-0.5F*Math.min(1F,(float)dist/256F)));
@@ -51,7 +52,7 @@ public class ItemEnergyWand extends Item{
 					tile.synchronize();
 				}
 				
-				is.stackTagCompound.removeTag("cluster");
+				ItemUtil.getTagRoot(is,false).removeTag("cluster");
 				return true;
 			}
 			else if (world.getBlock(x,y,z) == BlockList.energy_cluster){
@@ -66,10 +67,10 @@ public class ItemEnergyWand extends Item{
 						NBTTagCompound tag = tile.writeTileToNBT(new NBTTagCompound());
 						tag.setIntArray("loc",ArrayUtils.EMPTY_INT_ARRAY);
 						
-						if (is.stackTagCompound == null)is.stackTagCompound = new NBTTagCompound();
-						is.stackTagCompound.setTag("cluster",tag);
-						is.stackTagCompound.setIntArray("prevLoc",new int[]{ x, y, z });
-						is.stackTagCompound.setShort("prevDim",(short)world.provider.dimensionId);
+						NBTTagCompound itemNbt = ItemUtil.getTagRoot(is,true);
+						itemNbt.setTag("cluster",tag);
+						itemNbt.setIntArray("prevLoc",new int[]{ x, y, z });
+						itemNbt.setShort("prevDim",(short)world.provider.dimensionId);
 						
 						world.setBlockToAir(x,y,z);
 					}
@@ -90,13 +91,12 @@ public class ItemEnergyWand extends Item{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		if (is.stackTagCompound == null || !is.stackTagCompound.hasKey("cluster"))return;
-		textLines.add(I18n.format("item.energyWand.info.holding").replace("$",DragonUtil.formatTwoPlaces.format(is.stackTagCompound.getCompoundTag("cluster").getShort("lvl"))));
+		if (ItemUtil.getTagRoot(is,false).hasKey("cluster"))textLines.add(I18n.format("item.energyWand.info.holding").replace("$",DragonUtil.formatTwoPlaces.format(ItemUtil.getTagSub(is,"cluster",false).getShort("lvl"))));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack is, int pass){
-		return is.stackTagCompound != null && is.stackTagCompound.hasKey("cluster");
+		return ItemUtil.getTagRoot(is,false).hasKey("cluster");
 	}
 }
