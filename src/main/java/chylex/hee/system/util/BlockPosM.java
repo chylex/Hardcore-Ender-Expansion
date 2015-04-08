@@ -162,6 +162,10 @@ public class BlockPosM{
 		return world.getBlock(x,y,z).getMaterial();
 	}
 	
+	public boolean checkBlock(World world, Block block, int metadata){
+		return world.getBlock(x,y,z) == block && world.getBlockMetadata(x,y,z) == metadata;
+	}
+	
 	/* === SERIALIZATION AND UTILITIES === */
 	
 	public BlockPosM copy(){
