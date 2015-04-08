@@ -25,7 +25,7 @@ public class EntityMobScorchingLens extends EntityMob{
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.42D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs?32D:18D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 32D : 18D);
 	}
 	
 	@Override

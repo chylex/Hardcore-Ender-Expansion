@@ -33,7 +33,7 @@ public final class ApocalypseEvents{
 	
 	@SubscribeEvent
 	public void onServerTick(ServerTickEvent e){
-		if (e.phase != Phase.START || ++tickTimer<(isApocalypseRunning || save == null?15:2400))return;
+		if (e.phase != Phase.START || ++tickTimer<(isApocalypseRunning || save == null ? 15 : 2400))return;
 		tickTimer = 0;
 		
 		WorldServer world = DimensionManager.getWorld(0);

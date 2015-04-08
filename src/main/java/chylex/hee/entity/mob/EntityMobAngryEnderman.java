@@ -258,7 +258,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 	}
 	
 	public void setCanDespawn(boolean canDespawn){
-		dataWatcher.updateObject(19,Byte.valueOf((byte)(canDespawn?0:1)));
+		dataWatcher.updateObject(19,Byte.valueOf((byte)(canDespawn ? 0 : 1)));
 	}
 	
 	@Override

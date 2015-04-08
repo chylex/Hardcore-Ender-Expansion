@@ -336,7 +336,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	}
 	
 	public void setIsAsleep(boolean isAsleep){
-		dataWatcher.updateObject(16,Byte.valueOf((byte)(isAsleep?1:0)));
+		dataWatcher.updateObject(16,Byte.valueOf((byte)(isAsleep ? 1 : 0)));
 	}
 	
 	public boolean isAsleep(){

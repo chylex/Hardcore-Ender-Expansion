@@ -71,8 +71,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs?15D:11D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(ModCommonProxy.opMobs?0.75D:0.7D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 15D : 11D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(ModCommonProxy.opMobs ? 0.75D : 0.7D);
 	}
 	
 	@Override
@@ -255,7 +255,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	protected boolean isValidLightLevel(){
-		return worldObj.provider.dimensionId == 1?true:super.isValidLightLevel();
+		return worldObj.provider.dimensionId == 1 || super.isValidLightLevel();
 	}
 	
 	@Override

@@ -342,7 +342,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		 */
 		if (n == 1){
 			structure.setBlock(x,y,z,Blocks.enchanting_table,0);
-			int flowerType = rand.nextInt(3) == 0?15:rand.nextInt(5);
+			int flowerType = rand.nextInt(3) == 0 ? 15 : rand.nextInt(5);
 
 			for(int a = 0; a < 2; a++){
 				structure.setBlock(x-3+a*6,y+4,z,BlockList.death_flower_pot,flowerType);
@@ -356,7 +356,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 					for(int c = 0; c < 2; c++)structure.setBlock(x-3+a*6,y+c*3,z+2-b*4,Blocks.oak_stairs,c*4+getMetadataWithOffset(Blocks.stone_stairs,(b == 1?Facing.NORTH_NEGZ:Facing.SOUTH_POSZ).getStairs()));
 				}
 				
-				for(int b = 0; b < 4; b++)structure.setBlock(x-3+a*6,y+b,z,Blocks.oak_stairs,(b%2 == 1?4:0)+getMetadataWithOffset(Blocks.stone_stairs,(a == 1?Facing.EAST_POSX:Facing.WEST_NEGX).getStairs()));
+				for(int b = 0; b < 4; b++)structure.setBlock(x-3+a*6,y+b,z,Blocks.oak_stairs,(b%2 == 1 ? 4 : 0)+getMetadataWithOffset(Blocks.stone_stairs,(a == 1?Facing.EAST_POSX:Facing.WEST_NEGX).getStairs()));
 			}
 		}
 		/*

@@ -103,7 +103,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 						iz = MathUtil.floor(player.posZ+Math.sin(ang)*len);
 						for(iy = MathUtil.floor(player.posY)-2; iy < player.posY+3; iy++){
 							if (worldObj.isAirBlock(ix,iy,iz) && worldObj.isAirBlock(ix,iy+1,iz) && worldObj.isAirBlock(ix,iy+2,iz)){
-								for(int a = 0; a<(ModCommonProxy.opMobs?4:3); a++){
+								for(int a = 0; a < (ModCommonProxy.opMobs ? 4 : 3); a++){
 									EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(worldObj,ix+rand.nextDouble(),iy,iz+rand.nextDouble());
 									enderman.rotationYaw = rand.nextFloat()*360F;
 									enderman.setTarget(player);
@@ -182,7 +182,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
-		amount = source == DamageSource.drown?amount:Math.min(5F,amount*0.45F);
+		amount = source == DamageSource.drown ? amount : Math.min(5F,amount*0.45F);
 		
 		if (super.attackEntityFrom(source,amount)){
 			if (source == DamageSource.drown){

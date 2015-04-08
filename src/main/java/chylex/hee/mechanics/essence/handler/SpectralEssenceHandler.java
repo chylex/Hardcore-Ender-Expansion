@@ -260,7 +260,7 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 					if (Math.abs(item.posX-targX) <= 0.1D && Math.abs(item.posY-targY) <= 0.1D && Math.abs(item.posZ-targZ) <= 0.1D){
 						ItemStack is = item.getEntityItem();
 						
-						for(int b = 0; b < rand.nextInt(Math.max(1,(101-infusionTimer)/18))+(infusionTimer == 1?10:1); b++){
+						for(int b = 0; b < rand.nextInt(Math.max(1,(101-infusionTimer)/18))+(infusionTimer == 1 ? 10 : 1); b++){
 							HardcoreEnderExpansion.fx.itemTarget(is,altar.getWorldObj(),targX+(rand.nextDouble()-rand.nextDouble())*0.3D,targY+0.1D+rand.nextDouble()*0.15D,targZ+(rand.nextDouble()-rand.nextDouble())*0.3D,altar.xCoord+0.5D,altar.yCoord+2.5D,altar.zCoord+0.5D,rand.nextFloat()*0.2F+0.2F);
 						}
 						

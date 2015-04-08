@@ -34,7 +34,7 @@ public class EntityWeatherLightningBoltDemon extends EntityLightningBolt{
 					for(int testZ = iz-1; testZ <= iz+1; testZ++){
 						for(int testY = iy; testY > iy-1; testY--){
 							if (world.getBlock(testX,testY,testZ).getMaterial() == Material.water){
-								caster.attackEntityFrom(DamageSource.drown,ModCommonProxy.opMobs?50F:70F);
+								caster.attackEntityFrom(DamageSource.drown,ModCommonProxy.opMobs ? 50F : 70F);
 								return;
 							}
 						}

@@ -94,12 +94,12 @@ public class TempleGenerator{
 			rect(x+1,z+8*a,x+2,z+4+8*a,y,Blocks.quartz_block);
 			rect(x+17,z+11*a,x+18,z+1+11*a,y,Blocks.quartz_block);
 			for(int b = 0; b < 2; b++)block(x+2,z+2+6*a+2*b,y,Blocks.quartz_block,1);
-			for(int b = 0; b < 13; b++)linez(z+11*a,z+1+11*a,x+4+b,y,Blocks.quartz_block,b%2 == 0?2:0);
+			for(int b = 0; b < 13; b++)linez(z+11*a,z+1+11*a,x+4+b,y,Blocks.quartz_block,b%2 == 0 ? 2 : 0);
 			linez(z+11*a,z+1+11*a,x+3,y,Blocks.quartz_block);
 		}
-		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,Blocks.quartz_block,a%2 == 1?0:2);
+		for(int a = 0; a < 9; a++)linex(x+17,x+18,z+2+a,y,Blocks.quartz_block,a%2 == 1 ? 0 : 2);
 		
-		for(int a = 0; a < 5; a++)block(x,z+4+a,y,Blocks.quartz_block,a == 2?1:(a == 1 || a == 3?4:0));
+		for(int a = 0; a < 5; a++)block(x,z+4+a,y,Blocks.quartz_block,a == 2?1:(a == 1 || a == 3 ? 4 : 0));
 		++y;
 		
 		// LAYER 4
@@ -148,21 +148,21 @@ public class TempleGenerator{
 		block(x,z+5,y,Blocks.quartz_stairs,2);
 		block(x,z+7,y,Blocks.quartz_stairs,3);
 
-		for(int a = 0; a < 9; a++)block(x+2,z+2+a,y,Blocks.quartz_block,a%2 == 0?1:0);
-		for(int a = 0; a < 3; a++)block(x+1,z+5+a,y,Blocks.quartz_block,a%2 == 0?1:0);
+		for(int a = 0; a < 9; a++)block(x+2,z+2+a,y,Blocks.quartz_block,a%2 == 0 ? 1 : 0);
+		for(int a = 0; a < 3; a++)block(x+1,z+5+a,y,Blocks.quartz_block,a%2 == 0 ? 1 : 0);
 		++y;
 		
 		// LAYER 6
 		for(int a = 0; a < 2; a++){
 			linex(x+1,x+18,z+12*a,y,Blocks.quartz_block);
 			linez(z+1,z+11,x+1+17*a,y,Blocks.quartz_block);
-			for(int b = 0; b < 13; b++)block(x+4+b,z+1+10*a,y,Blocks.quartz_block,b%2 == 0?2:0);
+			for(int b = 0; b < 13; b++)block(x+4+b,z+1+10*a,y,Blocks.quartz_block,b%2 == 0 ? 2 : 0);
 			linez(z+11*a,z+1+11*a,x+3,y,Blocks.quartz_block);
 			linex(x+3,x+16,z+12*a,y,Blocks.quartz_block);
 		}
 		for(int a = 0; a < 9; a++){
-			block(x+17,z+2+a,y,Blocks.quartz_block,a%2 == 1?0:2);
-			block(x+2,z+2+a,y,Blocks.quartz_block,a%2 == 1?1:0);
+			block(x+17,z+2+a,y,Blocks.quartz_block,a%2 == 1 ? 0 : 2);
+			block(x+2,z+2+a,y,Blocks.quartz_block,a%2 == 1 ? 1 : 0);
 		}
 		linez(z+2,z+10,x+18,y,Blocks.quartz_block);
 		++y;
