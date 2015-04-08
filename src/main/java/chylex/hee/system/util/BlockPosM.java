@@ -164,6 +164,10 @@ public class BlockPosM{
 	
 	/* === SERIALIZATION AND UTILITIES === */
 	
+	public BlockPosM copy(){
+		return new BlockPosM(x,y,z);
+	}
+	
 	public long toLong(){
 		return (x&(1L<<26)-1L)<<38|(y&(1L<<12)-1L)<<26|(z&(1L<<26)-1L);
 	}
