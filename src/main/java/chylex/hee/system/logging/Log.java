@@ -25,7 +25,7 @@ public final class Log{
 	static{
 		isDeobfEnvironment = ((Boolean)Launch.blackboard.get("fml.deobfuscatedEnvironment")).booleanValue();
 		
-		if (isDeobfEnvironment && MinecraftServer.getServer().getClass().getSimpleName().equals("DedicatedServer")){
+		if (isDeobfEnvironment && MinecraftServer.getServer() != null && MinecraftServer.getServer().getClass().getSimpleName().equals("DedicatedServer")){
 			try(FileOutputStream fos = new FileOutputStream(new File("eula.txt"))){
 				Properties properties = new Properties();
 				properties.setProperty("eula","true");
