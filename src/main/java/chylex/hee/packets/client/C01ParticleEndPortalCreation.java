@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class C01ParticleEndPortalCreation extends AbstractClientPacket{
-	private int x,z;
+	private int x, z;
 	
 	public C01ParticleEndPortalCreation(){}
 	
@@ -18,13 +18,13 @@ public class C01ParticleEndPortalCreation extends AbstractClientPacket{
 	
 	@Override
 	public void write(ByteBuf buffer){
-		buffer.writeInt(x).writeInt(z);
+		buffer.writeShort(x).writeShort(z);
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
-		this.x = buffer.readInt();
-		this.z = buffer.readInt();
+		this.x = buffer.readShort();
+		this.z = buffer.readShort();
 	}
 
 	@Override
