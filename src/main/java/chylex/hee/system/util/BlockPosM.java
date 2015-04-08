@@ -15,6 +15,10 @@ public class BlockPosM{
 	
 	private static final BlockPosM temporary = new BlockPosM();
 	
+	public static BlockPosM tmp(){
+		return temporary.set(0,0,0);
+	}
+	
 	public static BlockPosM tmp(int x, int y, int z){
 		return temporary.set(x,y,z);
 	}
@@ -62,6 +66,21 @@ public class BlockPosM{
 	}
 	
 	/* === POSITION SETTING === */
+	
+	public BlockPosM setX(int x){
+		this.x = x;
+		return this;
+	}
+	
+	public BlockPosM setY(int y){
+		this.y = y;
+		return this;
+	}
+	
+	public BlockPosM setZ(int z){
+		this.z = z;
+		return this;
+	}
 	
 	public BlockPosM set(int x, int y, int z){
 		this.x = x;
