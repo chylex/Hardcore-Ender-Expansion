@@ -3,26 +3,26 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
 
 public class BlockPosM{
-	private static final BlockPosM global = new BlockPosM();
+	private static final BlockPosM temporary = new BlockPosM();
 	
-	public static BlockPosM global(int x, int y, int z){
-		return global.set(x,y,z);
+	public static BlockPosM tmp(int x, int y, int z){
+		return temporary.set(x,y,z);
 	}
 	
-	public static BlockPosM global(int[] array3){
-		return global.set(array3);
+	public static BlockPosM tmp(int[] array3){
+		return temporary.set(array3);
 	}
 	
-	public static BlockPosM global(double x, double y, double z){
-		return global.set(x,y,z);
+	public static BlockPosM tmp(double x, double y, double z){
+		return temporary.set(x,y,z);
 	}
 	
-	public static BlockPosM global(Entity entity){
-		return global.set(entity);
+	public static BlockPosM tmp(Entity entity){
+		return temporary.set(entity);
 	}
 	
-	public static BlockPosM global(long serialized){
-		return global.set(serialized);
+	public static BlockPosM tmp(long serialized){
+		return temporary.set(serialized);
 	}
 	
 	public int x, y, z;
