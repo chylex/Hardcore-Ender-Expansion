@@ -2,6 +2,7 @@ package chylex.hee.system.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -179,6 +180,10 @@ public class BlockPosM{
 	
 	public Material getMaterial(World world){
 		return world.getBlock(x,y,z).getMaterial();
+	}
+	
+	public TileEntity getTileEntity(World world){
+		return world.getTileEntity(x,y,z);
 	}
 	
 	public boolean checkBlock(World world, Block block, int metadata){
