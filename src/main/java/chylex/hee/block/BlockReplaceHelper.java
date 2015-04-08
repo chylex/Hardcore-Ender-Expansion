@@ -18,7 +18,7 @@ public class BlockReplaceHelper{
 		Exception exception = null;
 		
 		try{
-			for(Field blockField:Blocks.class.getDeclaredFields()){
+			for(Field blockField:Blocks.class.getFields()){
 				if (Block.class.isAssignableFrom(blockField.getType())){
 					Block block = (Block)blockField.get(null);
 					
