@@ -34,12 +34,12 @@ import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class SpectralEssenceHandler extends AltarActionHandler{
-	private static final HashMap<BlockLocation,Long> lastUpdates = new HashMap<>();
+	private static final HashMap<BlockPosM,Long> lastUpdates = new HashMap<>();
 	private static final byte[] pedestalOffsetX = new byte[]{ 0, 3, 0, -3 }, pedestalOffsetZ = new byte[]{ 3, 0, -3, 0 };
 	private static final List<Enum<? extends IMinionInfusionHandler>> infusionHandlers = new ArrayList<>();
 	
@@ -55,12 +55,12 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 		EntityLiving living = (EntityLiving)e.entity;
 		long time = System.nanoTime();
 		
-		for(Iterator<Entry<BlockLocation,Long>> iter = lastUpdates.entrySet().iterator(); iter.hasNext();){
-			Entry<BlockLocation,Long> entry = iter.next();
+		for(Iterator<Entry<BlockPosM,Long>> iter = lastUpdates.entrySet().iterator(); iter.hasNext();){
+			Entry<BlockPosM,Long> entry = iter.next();
 			
 			if (TimeUnit.NANOSECONDS.toMillis(time-entry.getValue()) > 5000)iter.remove();
 			else{
-				BlockLocation loc = entry.getKey();
+				BlockPosM loc = entry.getKey();
 				TileEntityEssenceAltar altar = (TileEntityEssenceAltar)e.entity.worldObj.getTileEntity(loc.x,loc.y,loc.z);
 				
 				if (MathUtil.distance(loc.x+0.5D-e.entity.posX,loc.z+0.5D-e.entity.posZ) < 5D && Math.abs(e.entity.posY-loc.y) < 3D){
@@ -89,7 +89,7 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 	private static float rotation = 0F;
 	private static long prevWorldTime;
 	
-	private BlockLocation blockLocation;
+	private BlockPosM blockLocation;
 	private byte blockLocationTimer = 0;
 
 	private AxisAlignedBB itemBoundingBox;
@@ -105,7 +105,7 @@ public class SpectralEssenceHandler extends AltarActionHandler{
 	@Override
 	public void onUpdate(){		
 		if (blockLocation == null){
-			blockLocation = new BlockLocation(altar.xCoord,altar.yCoord,altar.zCoord);
+			blockLocation = new BlockPosM(altar.xCoord,altar.yCoord,altar.zCoord);
 			lastUpdates.put(blockLocation,System.nanoTime());
 		}
 		else if (blockLocationTimer >= 20){

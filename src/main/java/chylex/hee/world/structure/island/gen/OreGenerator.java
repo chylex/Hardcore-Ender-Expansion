@@ -5,9 +5,9 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
-import chylex.hee.world.util.BlockLocation;
 
 public class OreGenerator{
 	private static final byte attemptMp = 3;
@@ -40,7 +40,7 @@ public class OreGenerator{
 	
 	public void generate(LargeStructureWorld world, Random rand){
 		int attempt = 0, placed = 0, attemptAm;
-		BlockLocation loc;
+		BlockPosM loc;
 		
 		for(OreLocationList list:oreListStardust){
 			attemptAm = list.placeAmount*attemptMp;
@@ -78,10 +78,10 @@ public class OreGenerator{
 		if (yy < minY+14)yy = rand.nextInt(maxY-minY+1)+minY; // try again!
 		
 		for(int a = 0, n = amount*attemptMp; a < n; ++a){
-			list.blockList.add(new BlockLocation(
-				xx+(int)(MathHelper.cos((float)(rand.nextDouble()*2D*Math.PI))*sqrtAmount*rand.nextDouble()),
-				yy+(int)(MathHelper.cos((float)(rand.nextDouble()*2D*Math.PI))*sqrtAmount*rand.nextDouble()),
-				zz+(int)(MathHelper.cos((float)(rand.nextDouble()*2D*Math.PI))*sqrtAmount*rand.nextDouble())
+			list.blockList.add(new BlockPosM(
+				xx+MathHelper.cos((float)(rand.nextDouble()*2D*Math.PI))*sqrtAmount*rand.nextDouble(),
+				yy+MathHelper.cos((float)(rand.nextDouble()*2D*Math.PI))*sqrtAmount*rand.nextDouble(),
+				zz+MathHelper.cos((float)(rand.nextDouble()*2D*Math.PI))*sqrtAmount*rand.nextDouble()
 			));
 		}
 		
@@ -89,7 +89,7 @@ public class OreGenerator{
 	}
 	
 	private class OreLocationList{
-		private final List<BlockLocation> blockList;
+		private final List<BlockPosM> blockList;
 		private final byte placeAmount;
 		
 		public OreLocationList(int amount){

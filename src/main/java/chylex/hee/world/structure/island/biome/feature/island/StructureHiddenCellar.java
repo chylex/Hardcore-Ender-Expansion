@@ -25,7 +25,7 @@ import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 
 public class StructureHiddenCellar extends AbstractIslandStructure implements ITileEntityGenerator{
 	public enum EnchantedIslandVariation{
@@ -104,7 +104,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	};
 	
 	private EnchantedIslandVariation variation;
-	private final List<BlockLocation> patternBlocks = new ArrayList<>();
+	private final List<BlockPosM> patternBlocks = new ArrayList<>();
 	
 	public void setVariation(EnchantedIslandVariation variation){
 		this.variation = variation;
@@ -178,7 +178,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				for(int yy = bottomY; yy <= bottomY+height; yy++){
 					boolean edge = xx == x1 || xx == x2 || zz == z1 || zz == z2 || yy == bottomY || yy == bottomY+height;
 					world.setBlock(xx,yy,zz,edge ? BlockList.persegrit : Blocks.air);
-					if (edge && rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(xx,yy,zz));
+					if (edge && rand.nextInt(60) == 0)patternBlocks.add(new BlockPosM(xx,yy,zz));
 				}
 			}
 		}
@@ -211,7 +211,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		
 		switch(type){
 			case CONNECTING_LINES:
-				List<BlockLocation> toPersegrit = new ArrayList<BlockLocation>();
+				List<BlockPosM> toPersegrit = new ArrayList<BlockPosM>();
 				
 				for(int lines = 3+((halfWidth*(height-2))>>1)+rand.nextInt(6+halfWidth*2+height), width = halfWidth*2-2, dir, xx, yy, zz, addX = 0, addY = 0, addZ = 0, a, b; lines > 0; lines--){
 					dir = rand.nextInt(4);
@@ -255,14 +255,14 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 						for(b = 0; b <= width+2; b++){
 							if (world.getBlock(xx -= addX,yy -= addY,zz -= addZ) == BlockList.persegrit)break;
 							world.setBlock(xx,yy,zz,Blocks.bedrock);
-							toPersegrit.add(new BlockLocation(xx,yy,zz));
+							toPersegrit.add(new BlockPosM(xx,yy,zz));
 						}
 						
 						break;
 					}
 				}
 				
-				for(BlockLocation loc:toPersegrit){
+				for(BlockPosM loc:toPersegrit){
 					world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit);
 					if (rand.nextInt(60) == 0)patternBlocks.add(loc);
 				}
@@ -298,16 +298,16 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				for(int yy = bottomY+1; yy <= bottomY+height-1; yy++){
 					for(int a = -cubeHalfWidth; a <= cubeHalfWidth; a++){
 						world.setBlock(x+a,yy,z-cubeHalfWidth,BlockList.persegrit);
-						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(x+a,yy,z-cubeHalfWidth));
+						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockPosM(x+a,yy,z-cubeHalfWidth));
 						
 						world.setBlock(x+a,yy,z+cubeHalfWidth,BlockList.persegrit);
-						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(x+a,yy,z+cubeHalfWidth));
+						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockPosM(x+a,yy,z+cubeHalfWidth));
 						
 						world.setBlock(x-cubeHalfWidth,yy,z+a,BlockList.persegrit);
-						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(x-cubeHalfWidth,yy,z+a));
+						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockPosM(x-cubeHalfWidth,yy,z+a));
 						
 						world.setBlock(x+cubeHalfWidth,yy,z+a,BlockList.persegrit);
-						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(x+cubeHalfWidth,yy,z+a));
+						if (rand.nextInt(60) == 0)patternBlocks.add(new BlockPosM(x+cubeHalfWidth,yy,z+a));
 					}
 				}
 				
@@ -435,7 +435,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 					
 					if (!edge || world.getBlock(xx,yy,zz) != Blocks.air){
 						world.setBlock(xx,yy,zz,edge ? BlockList.persegrit : Blocks.air);
-						if (edge && rand.nextInt(60) == 0)patternBlocks.add(new BlockLocation(xx,yy,zz));
+						if (edge && rand.nextInt(60) == 0)patternBlocks.add(new BlockPosM(xx,yy,zz));
 					}
 				}
 			}
@@ -443,9 +443,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	}
 	
 	private void genPatterns(Random rand){
-		List<BlockLocation> connections = new ArrayList<>();
+		List<BlockPosM> connections = new ArrayList<>();
 		
-		for(BlockLocation loc:patternBlocks){
+		for(BlockPosM loc:patternBlocks){
 			int x = loc.x, y = loc.y, z = loc.z, addX = 0, addY = 0, addZ = 0, iterations = 6+rand.nextInt(30+rand.nextInt(60));
 			
 			if (!isWall(x,y,z)){
@@ -501,13 +501,13 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 				
 				if (world.getBlock(x,y,z) == BlockList.persegrit){
 					world.setBlock(x,y,z,BlockList.persegrit,15);
-					connections.add(new BlockLocation(x,y,z));
+					connections.add(new BlockPosM(x,y,z));
 				}
 				else break;
 			}
 		}
 		
-		for(BlockLocation loc:connections){
+		for(BlockPosM loc:connections){
 			world.setBlock(loc.x,loc.y,loc.z,BlockList.persegrit,BlockPersegrit.getConnectionMeta(world,rand,loc.x,loc.y,loc.z));
 		}
 	}

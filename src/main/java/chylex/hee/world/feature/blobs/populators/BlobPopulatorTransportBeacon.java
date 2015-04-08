@@ -6,7 +6,7 @@ import chylex.hee.world.util.Direction;
 import chylex.hee.block.BlockList;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 
 public class BlobPopulatorTransportBeacon extends BlobPopulator{
 	public BlobPopulatorTransportBeacon(int weight){
@@ -15,11 +15,11 @@ public class BlobPopulatorTransportBeacon extends BlobPopulator{
 
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
-		List<BlockLocation> locs = gen.getUsedLocations();
-		BlockLocation top = null;
+		List<BlockPosM> locs = gen.getUsedLocations();
+		BlockPosM top = null;
 		
 		while(!locs.isEmpty()){
-			BlockLocation loc = locs.remove(rand.nextInt(locs.size()));
+			BlockPosM loc = locs.remove(rand.nextInt(locs.size()));
 			if (gen.getBlock(loc.x,loc.y,loc.z) == Blocks.end_stone && gen.getBlock(loc.x,loc.y+1,loc.z) == Blocks.air && (top == null || loc.y > top.y)){
 				boolean canGen = true;
 				

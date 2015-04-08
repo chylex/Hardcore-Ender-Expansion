@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 
 public class BlobPopulatorFiller extends BlobPopulator{
 	private static final byte[] offX = new byte[]{ -1, 1, 0, 0, 0, 0 },
@@ -26,10 +26,10 @@ public class BlobPopulatorFiller extends BlobPopulator{
 
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
-		List<BlockLocation> list = gen.getUsedLocations();
+		List<BlockPosM> list = gen.getUsedLocations();
 		
-		for(Iterator<BlockLocation> iter = list.iterator(); iter.hasNext();){
-			BlockLocation loc = iter.next();
+		for(Iterator<BlockPosM> iter = list.iterator(); iter.hasNext();){
+			BlockPosM loc = iter.next();
 			
 			for(int a = 0; a < 6; a++){
 				if (gen.getBlock(loc.x+offX[a],loc.y+offY[a],loc.z+offZ[a]) != Blocks.end_stone){
@@ -39,6 +39,6 @@ public class BlobPopulatorFiller extends BlobPopulator{
 			}
 		}
 		
-		for(BlockLocation loc:list)gen.setBlock(loc.x,loc.y,loc.z,block);
+		for(BlockPosM loc:list)gen.setBlock(loc.x,loc.y,loc.z,block);
 	}
 }

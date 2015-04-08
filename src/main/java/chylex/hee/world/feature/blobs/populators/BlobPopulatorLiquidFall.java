@@ -6,7 +6,7 @@ import net.minecraft.init.Blocks;
 import chylex.hee.world.util.Direction;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorLiquidFall extends BlobPopulator{
@@ -44,13 +44,13 @@ public class BlobPopulatorLiquidFall extends BlobPopulator{
 
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
-		List<BlockLocation> blocks = gen.getUsedLocations();
+		List<BlockPosM> blocks = gen.getUsedLocations();
 		if (blocks.isEmpty())return;
 		
 		int amount = amountGen.generate(rand,minAmount,maxAmount);
 		
 		for(int attempts = minAttempts+rand.nextInt(maxAttempts-minAttempts+1), xx, yy, zz; attempts > 0 && amount > 0 && !blocks.isEmpty(); attempts--){
-			BlockLocation loc = blocks.remove(rand.nextInt(blocks.size()));
+			BlockPosM loc = blocks.remove(rand.nextInt(blocks.size()));
 			if (gen.getBlock(loc.x,loc.y,loc.z) != Blocks.end_stone || gen.getBlock(loc.x,loc.y-1,loc.z) != Blocks.end_stone)continue;
 			
 			byte airDir = -1;

@@ -15,12 +15,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.mob.EntityMobSanctuaryOverseer;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.util.BlockLocation;
 
 public class TileEntitySanctuaryBrain extends TileEntity{
-	private BlockLocation point1, point2;
+	private BlockPosM point1, point2;
 	private List<ConquerPointHandler> conquerPts = new ArrayList<>();
 	
 	private byte checkTimer = 5, runTimer = 0;
@@ -32,13 +32,13 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		
 		if (--checkTimer < 0){
 			checkTimer = 20;
-			isIdle = worldObj.getEntitiesWithinAABB(EntityPlayer.class,BlockLocation.getBoundingBox(point1,point2).expand(8D,8D,8D)).isEmpty();
+			isIdle = worldObj.getEntitiesWithinAABB(EntityPlayer.class,BlockPosM.getBoundingBox(point1,point2).expand(8D,8D,8D)).isEmpty();
 		}
 		
 		if (!isIdle){
 			if (--runTimer < 0){
 				runTimer = 5;
-				List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,BlockLocation.getBoundingBox(point1,point2).expand(0.9D,0.9D,0.9D));
+				List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,BlockPosM.getBoundingBox(point1,point2).expand(0.9D,0.9D,0.9D));
 				
 				for(EntityPlayer player:list){
 					PotionEffect effJump = player.getActivePotionEffect(Potion.jump);
@@ -54,8 +54,8 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		if (point1 != null)nbt.setIntArray("p1",new int[]{ point1.x, point1.y, point1.z });
-		if (point2 != null)nbt.setIntArray("p2",new int[]{ point2.x, point2.y, point2.z });
+		if (point1 != null)nbt.setLong("p1",point1.toLong());
+		if (point2 != null)nbt.setLong("p2",point2.toLong());
 		
 		NBTTagList ptsTag = new NBTTagList();
 		for(ConquerPointHandler point:conquerPts)ptsTag.appendTag(point.writeToNBT());
@@ -69,9 +69,8 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 	}
 	
 	public void readCustomData(NBTTagCompound nbt){
-		int[] p1 = nbt.getIntArray("p1"), p2 = nbt.getIntArray("p2");
-		if (p1.length == 3)point1 = new BlockLocation(p1[0],p1[1],p1[2]);
-		if (p2.length == 3)point2 = new BlockLocation(p2[0],p2[1],p2[2]);
+		if (nbt.hasKey("p1"))point1 = new BlockPosM(nbt.getLong("p1"));
+		if (nbt.hasKey("p2"))point2 = new BlockPosM(nbt.getLong("p2"));
 		
 		NBTTagList ptsTag = nbt.getTagList("conquer",NBT.TAG_COMPOUND);
 		
@@ -83,7 +82,7 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 	}
 	
 	private final class ConquerPointHandler{ // TODO test everything
-		BlockLocation point1, point2;
+		BlockPosM point1, point2;
 		byte enemiesLeft = Byte.MIN_VALUE;
 		byte runTimer = -1, startTimer = 0;
 		boolean isConquered;
@@ -93,7 +92,7 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 			
 			worldObj.setBlock(point1.x,point2.y+8,point1.z,Blocks.bedrock); // TODO
 			
-			AxisAlignedBB full = BlockLocation.getBoundingBox(point1,point2);
+			AxisAlignedBB full = BlockPosM.getBoundingBox(point1,point2);
 			boolean hasPlayers = !worldObj.getEntitiesWithinAABB(EntityPlayer.class,full.expand(0.9D,0.9D,0.9D)).isEmpty();
 			
 			if (hasPlayers && false){ // TODO
@@ -173,8 +172,8 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		
 		NBTTagCompound writeToNBT(){
 			NBTTagCompound tag = new NBTTagCompound();
-			if (point1 != null)tag.setIntArray("p1",new int[]{ point1.x, point1.y, point1.z });
-			if (point2 != null)tag.setIntArray("p2",new int[]{ point2.x, point2.y, point2.z });
+			if (point1 != null)tag.setLong("p1",point1.toLong());
+			if (point2 != null)tag.setLong("p2",point2.toLong());
 			tag.setByte("run",runTimer);
 			tag.setByte("enm",enemiesLeft);
 			tag.setBoolean("done",isConquered);
@@ -182,9 +181,8 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		}
 		
 		void readFromNBT(NBTTagCompound tag){
-			int[] p1 = tag.getIntArray("p1"), p2 = tag.getIntArray("p2");
-			if (p1.length == 3)point1 = new BlockLocation(p1[0],p1[1],p1[2]);
-			if (p2.length == 3)point2 = new BlockLocation(p2[0],p2[1],p2[2]);
+			if (tag.hasKey("p1"))point1 = new BlockPosM(tag.getLong("p1"));
+			if (tag.hasKey("p2"))point2 = new BlockPosM(tag.getLong("p2"));
 			runTimer = tag.hasKey("run") ? tag.getByte("run") : runTimer;
 			enemiesLeft = tag.hasKey("enm") ? tag.getByte("enm") : enemiesLeft;
 			isConquered = tag.hasKey("done") ? tag.getBoolean("done") : isConquered;

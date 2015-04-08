@@ -1,5 +1,6 @@
 package chylex.hee.system.util;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 
 public class BlockPosM{
@@ -23,6 +24,10 @@ public class BlockPosM{
 	
 	public static BlockPosM tmp(long serialized){
 		return temporary.set(serialized);
+	}
+	
+	public static AxisAlignedBB getBoundingBox(BlockPosM loc1, BlockPosM loc2){
+		return AxisAlignedBB.getBoundingBox(Math.min(loc1.x,loc2.x),loc1.y,Math.min(loc1.z,loc2.z),Math.max(loc1.x,loc2.x),loc2.y,Math.max(loc1.z,loc2.z));
 	}
 	
 	public int x, y, z;

@@ -11,7 +11,7 @@ import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.MapGenScatteredFeatureCustom;
 import chylex.hee.world.structure.island.util.IslandSpawnChecker;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.util.WorldGenChance;
 
 public class MapGenTower extends MapGenScatteredFeatureCustom{
@@ -26,19 +26,19 @@ public class MapGenTower extends MapGenScatteredFeatureCustom{
 		long seed1 = worldObj.getWorldInfo().getSeed();
 		int seed2 = 1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount();
 
-		List<BlockLocation> locs = new ArrayList<>();
+		List<BlockPosM> locs = new ArrayList<>();
 		
 		for(int xx = x-12; xx <= x+12; xx++){
 			for(int zz = z-12; zz <= z+12; zz++){
 				if (IslandSpawnChecker.getIslandBiomeAt(xx,zz,seed1,seed2) != -1){
-					locs.add(new BlockLocation(xx*16+(IslandSpawnChecker.featureSize>>1),0,zz*16+(IslandSpawnChecker.featureSize>>1)));
+					locs.add(new BlockPosM(xx*16+(IslandSpawnChecker.featureSize>>1),0,zz*16+(IslandSpawnChecker.featureSize>>1)));
 				}
 			}
 		}
 		
 		int xx = x*16+16, zz = z*16+16, check = MathUtil.ceil(IslandSpawnChecker.featureSize*0.6F);
 		
-		for(BlockLocation loc:locs){
+		for(BlockPosM loc:locs){
 			if (MathUtil.distance(xx-loc.x,zz-loc.z) < check)return false;
 		}
 		

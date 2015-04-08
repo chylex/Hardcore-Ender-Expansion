@@ -8,7 +8,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 
 public class CaveGenerator{
 	private static double[] distanceValues = new double[64];
@@ -24,8 +24,8 @@ public class CaveGenerator{
 	}
 	
 	private final int centerX,centerY,centerZ,radX,radY,radZ;
-	private final Set<BlockLocation> airList = new HashSet<>();
-	private final Set<BlockLocation> clusterList = new HashSet<>();
+	private final Set<BlockPosM> airList = new HashSet<>();
+	private final Set<BlockPosM> clusterList = new HashSet<>();
 	
 	public CaveGenerator(int centerX, int centerY, int centerZ, int radX, int radY, int radZ){
 		this.centerX = centerX;
@@ -47,8 +47,8 @@ public class CaveGenerator{
 	}
 	
 	public void generate(LargeStructureWorld world){
-		for(BlockLocation loc:airList)world.setBlock(loc.x,loc.y,loc.z,Blocks.air);
-		for(BlockLocation loc:clusterList){
+		for(BlockPosM loc:airList)world.setBlock(loc.x,loc.y,loc.z,Blocks.air);
+		for(BlockPosM loc:clusterList){
 			boolean foundSolid = false;
 			
 			for(int py = loc.y-5; py <= loc.y+5; py++){
@@ -97,7 +97,7 @@ public class CaveGenerator{
 					
 					if (getDistance(xx-x,yy-y,zz-z) < rad+rand.nextFloat()*0.15F){
 						onePlaced = true;
-						airList.add(new BlockLocation(xx,yy,zz));
+						airList.add(new BlockPosM(xx,yy,zz));
 					}
 				}
 			}
@@ -107,7 +107,7 @@ public class CaveGenerator{
 			int xx = x+rand.nextInt(intrad)-rand.nextInt(intrad),
 				yy = y+rand.nextInt(intrad)-rand.nextInt(intrad),
 				zz = z+rand.nextInt(intrad)-rand.nextInt(intrad);
-			if ((getDistance(xx-x,yy-y,zz-z) < rad*0.5F || rand.nextInt(8) == 0))clusterList.add(new BlockLocation(xx,yy,zz));
+			if ((getDistance(xx-x,yy-y,zz-z) < rad*0.5F || rand.nextInt(8) == 0))clusterList.add(new BlockPosM(xx,yy,zz));
 		}
 		
 		return onePlaced;

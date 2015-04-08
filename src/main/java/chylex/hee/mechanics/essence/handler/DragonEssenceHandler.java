@@ -27,7 +27,7 @@ import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 
 public class DragonEssenceHandler extends AltarActionHandler{
 	public static final List<AltarItemRecipe> recipes = CollectionUtil.newList(new AltarItemRecipe[]{
@@ -37,7 +37,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	});
 	
 	private AxisAlignedBB itemBoundingBox;
-	private final List<BlockLocation> pedestals = new ArrayList<>();
+	private final List<BlockPosM> pedestals = new ArrayList<>();
 	private byte updatePedestalTimer = 2;
 	private long pedestalAreaHash;
 	private byte lastMaxPedestals;
@@ -105,7 +105,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						for(int zz = -range; zz <= range; zz++){
 							if (blocks[range+xx][range+zz] != entry.getKey())continue;
 							
-							pedestals.add(new BlockLocation(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz));
+							pedestals.add(new BlockPosM(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz));
 						}
 					}
 					
@@ -113,7 +113,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				}
 			}
 			
-			for(BlockLocation loc:pedestals){
+			for(BlockPosM loc:pedestals){
 				if (world.rand.nextInt(5) <= 1){
 					PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,loc.x+0.5D,altar.yCoord+0.5D,loc.z+0.5D));
 				}
@@ -129,7 +129,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		double targX,targY,targZ;
 		
 		for(EntityItem item:thrownItems){
-			for(BlockLocation loc:pedestals){
+			for(BlockPosM loc:pedestals){
 				targX = loc.x+0.5D;
 				targY = loc.y+1.15D;
 				targZ = loc.z+0.5D;

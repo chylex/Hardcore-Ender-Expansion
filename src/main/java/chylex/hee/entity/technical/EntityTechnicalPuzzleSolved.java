@@ -12,11 +12,11 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 	private int minX, minZ, maxX, maxZ;
-	private final List<BlockLocation> locs = new ArrayList<>();
+	private final List<BlockPosM> locs = new ArrayList<>();
 	private byte appearTimer;
 	
 	public EntityTechnicalPuzzleSolved(World world){
@@ -44,13 +44,13 @@ public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 			
 			for(int xx = minX; xx <= maxX; xx++){
 				for(int zz = minZ; zz <= maxZ; zz++){
-					if (worldObj.getBlock(xx,yy,zz) == BlockList.dungeon_puzzle && worldObj.getBlockMetadata(xx,yy,zz) != BlockDungeonPuzzle.metaDisabled)locs.add(new BlockLocation(xx,yy,zz));
+					if (worldObj.getBlock(xx,yy,zz) == BlockList.dungeon_puzzle && worldObj.getBlockMetadata(xx,yy,zz) != BlockDungeonPuzzle.metaDisabled)locs.add(new BlockPosM(xx,yy,zz));
 				}
 			}
 		}
 		else if (!locs.isEmpty() && ticksExisted%4 == 0){
 			for(int a = 0; a < 1+rand.nextInt(3) && !locs.isEmpty(); a++){
-				BlockLocation loc = locs.remove(rand.nextInt(locs.size()));
+				BlockPosM loc = locs.remove(rand.nextInt(locs.size()));
 				worldObj.setBlockMetadataWithNotify(loc.x,loc.y,loc.z,BlockDungeonPuzzle.metaDisabled,3);
 				worldObj.addBlockEvent(loc.x,loc.y,loc.z,BlockList.dungeon_puzzle,69,0);
 			}

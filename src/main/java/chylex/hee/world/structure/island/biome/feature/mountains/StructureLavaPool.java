@@ -4,11 +4,11 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.init.Blocks;
-import chylex.hee.world.util.Direction;
 import net.minecraft.util.MathHelper;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.world.util.Direction;
 
 public class StructureLavaPool extends AbstractIslandStructure{
 	@Override
@@ -18,7 +18,7 @@ public class StructureLavaPool extends AbstractIslandStructure{
 		while(world.isAir(x,--y,z) && y > 10);
 		if (world.getBlock(x,y,z) != surface())return false;
 		
-		Set<BlockLocation> lavaBlocks = new HashSet<BlockLocation>();
+		Set<BlockPosM> lavaBlocks = new HashSet<BlockPosM>();
 		
 		for(int disc = 0, discAmount = 5+rand.nextInt(8); disc < discAmount; disc++){
 			double len = (0.5D+rand.nextDouble()*0.5D)*disc*0.75D, rad = 1.8D+rand.nextDouble()*3D, radSq = MathUtil.square(rad+0.5D), px, pz;
@@ -30,24 +30,24 @@ public class StructureLavaPool extends AbstractIslandStructure{
 			for(int ix = (int)(px-rad)-1; ix <= (int)(px+rad)+1; ix++){
 				for(int iz = (int)(pz-rad)-1; iz <= (int)(pz+rad)+1; iz++){
 					if (MathUtil.square(ix-px)+MathUtil.square(iz-pz) <= radSq){
-						lavaBlocks.add(new BlockLocation(ix,y,iz));
+						lavaBlocks.add(new BlockPosM(ix,y,iz));
 					}
 				}
 			}
 		}
 		
-		for(BlockLocation lava:lavaBlocks){
+		for(BlockPosM lava:lavaBlocks){
 			if (world.getBlock(lava.x,lava.y,lava.z) != surface() || world.isAir(lava.x,lava.y-1,lava.z) ||
 				world.isAir(lava.x-1,lava.y,lava.z) || world.isAir(lava.x+1,lava.y,lava.z) ||
 				world.isAir(lava.x,lava.y,lava.z-1) || world.isAir(lava.x,lava.y,lava.z+1))return false;
 		}
 		
-		for(BlockLocation lava:lavaBlocks)world.setBlock(lava.x,lava.y,lava.z,Blocks.lava);
+		for(BlockPosM lava:lavaBlocks)world.setBlock(lava.x,lava.y,lava.z,Blocks.lava);
 		
 		for(int yOff = 1; yOff < 3+rand.nextInt(2); yOff++){
 			for(int pass = 0; pass < 3; pass++){
-				for(Iterator<BlockLocation> iter = lavaBlocks.iterator(); iter.hasNext();){
-					BlockLocation lava = iter.next();
+				for(Iterator<BlockPosM> iter = lavaBlocks.iterator(); iter.hasNext();){
+					BlockPosM lava = iter.next();
 					
 					if (world.isAir(lava.x,lava.y-yOff-1,lava.z))iter.remove();
 					else if (rand.nextBoolean() || rand.nextBoolean()){
@@ -61,7 +61,7 @@ public class StructureLavaPool extends AbstractIslandStructure{
 					}
 				}
 				
-				for(BlockLocation lava:lavaBlocks)world.setBlock(lava.x,lava.y-yOff,lava.z,Blocks.lava);
+				for(BlockPosM lava:lavaBlocks)world.setBlock(lava.x,lava.y-yOff,lava.z,Blocks.lava);
 			}
 		}
 		

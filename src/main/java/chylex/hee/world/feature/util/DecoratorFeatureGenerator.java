@@ -11,11 +11,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import chylex.hee.system.logging.Log;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 
 public final class DecoratorFeatureGenerator{
 	private final TIntObjectHashMap<GeneratedBlock> blocks = new TIntObjectHashMap<>();
-	private final Map<BlockLocation,ITileEntityGenerator> tileEntities = new HashMap<>();
+	private final Map<BlockPosM,ITileEntityGenerator> tileEntities = new HashMap<>();
 	private int minX, maxX, minZ, maxZ, bottomY, topY, outOfBoundsCounter;
 	
 	public boolean setBlock(int x, int y, int z, Block block){
@@ -44,7 +44,7 @@ public final class DecoratorFeatureGenerator{
 	public boolean setTileEntity(int x, int y, int z, ITileEntityGenerator tileGen){
 		if (x < -16 || x > 15 || z < -16 || z > 15 || y < -64 || y > 63)return false;
 		
-		tileEntities.put(new BlockLocation(x,y,z),tileGen);
+		tileEntities.put(new BlockPosM(x,y,z),tileGen);
 		return true;
 	}
 	
@@ -76,11 +76,11 @@ public final class DecoratorFeatureGenerator{
 		return outOfBoundsCounter;
 	}
 	
-	public List<BlockLocation> getUsedLocations(){
-		List<BlockLocation> locs = new ArrayList<>();
+	public List<BlockPosM> getUsedLocations(){
+		List<BlockPosM> locs = new ArrayList<>();
 		
 		for(GeneratedBlock block:blocks.valueCollection()){
-			if (block.block != Blocks.air)locs.add(new BlockLocation(block.x,block.y,block.z));
+			if (block.block != Blocks.air)locs.add(new BlockPosM(block.x,block.y,block.z));
 		}
 		
 		return locs;
@@ -111,8 +111,8 @@ public final class DecoratorFeatureGenerator{
 			}
 			
 			if (!tileEntities.isEmpty()){
-				for(Entry<BlockLocation,ITileEntityGenerator> entry:tileEntities.entrySet()){
-					BlockLocation loc = entry.getKey();
+				for(Entry<BlockPosM,ITileEntityGenerator> entry:tileEntities.entrySet()){
+					BlockPosM loc = entry.getKey();
 					entry.getValue().onTileEntityRequested("",world.getTileEntity(centerX+loc.x,centerY+loc.y,centerZ+loc.z),rand);
 				}
 			}
@@ -136,6 +136,6 @@ public final class DecoratorFeatureGenerator{
 	}
 	
 	public static interface IDecoratorGenPass{
-		public void run(DecoratorFeatureGenerator gen, List<BlockLocation> blocks);
+		public void run(DecoratorFeatureGenerator gen, List<BlockPosM> blocks);
 	}
 }

@@ -8,7 +8,7 @@ import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.loot.WeightedLootList;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
-import chylex.hee.world.util.BlockLocation;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGenerator{
@@ -39,10 +39,10 @@ public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGene
 
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
-		List<BlockLocation> locs = gen.getUsedLocations();
+		List<BlockPosM> locs = gen.getUsedLocations();
 		
 		while(!locs.isEmpty()){
-			BlockLocation loc = locs.remove(rand.nextInt(locs.size()));
+			BlockPosM loc = locs.remove(rand.nextInt(locs.size()));
 			
 			if (gen.getBlock(loc.x,loc.y,loc.z) == Blocks.end_stone && gen.getBlock(loc.x,loc.y+1,loc.z) == Blocks.air && gen.getBlock(loc.x,loc.y+2,loc.z) == Blocks.air){
 				if (onlyInside && gen.getTopBlockY(loc.x,loc.z) < loc.y+2)continue;

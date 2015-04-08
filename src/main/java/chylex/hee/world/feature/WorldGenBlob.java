@@ -15,6 +15,7 @@ import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.blobs.BlobGenerator;
 import chylex.hee.world.feature.blobs.BlobPattern;
@@ -41,7 +42,6 @@ import chylex.hee.world.feature.util.DecoratorFeatureGenerator.IDecoratorGenPass
 import chylex.hee.world.loot.IItemPostProcessor;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
-import chylex.hee.world.util.BlockLocation;
 import chylex.hee.world.util.IRandomAmount;
 
 public class WorldGenBlob extends WorldGenerator{
@@ -199,8 +199,8 @@ public class WorldGenBlob extends WorldGenerator{
 							 airOffZ = new byte[]{ 0, 0, -1, 1, 0, 0 };
 		
 		@Override
-		public void run(DecoratorFeatureGenerator gen, List<BlockLocation> blocks){
-			for(BlockLocation loc:blocks){
+		public void run(DecoratorFeatureGenerator gen, List<BlockPosM> blocks){
+			for(BlockPosM loc:blocks){
 				for(int a = 0, adjacentAir = 0; a < 6; a++){
 					if (gen.getBlock(loc.x+airOffX[a],loc.y+airOffY[a],loc.z+airOffZ[a]) == Blocks.air && ++adjacentAir >= 4){
 						gen.setBlock(loc.x,loc.y,loc.z,Blocks.air);

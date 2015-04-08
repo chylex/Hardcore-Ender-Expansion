@@ -3,9 +3,9 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.world.util.BlockLocation;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorEndermanSpawner extends BlobPopulator{
@@ -49,13 +49,13 @@ public class BlobPopulatorEndermanSpawner extends BlobPopulator{
 	@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		int blocks = blockAmountGen.generate(rand,minBlockAmount,maxBlockAmount);
-		List<BlockLocation> locs = knownBlockLocations ? gen.getUsedLocations() : null;
+		List<BlockPosM> locs = knownBlockLocations ? gen.getUsedLocations() : null;
 		
 		for(int attempt = 0, attempts = minAttempts+rand.nextInt(maxAttempts-minAttempts+1), x, y, z; attempt < attempts && blocks > 0; attempt++){
 			if (knownBlockLocations){
 				if (locs.isEmpty())return;
 				
-				BlockLocation loc = locs.get(rand.nextInt(locs.size()));
+				BlockPosM loc = locs.get(rand.nextInt(locs.size()));
 				x = loc.x;
 				y = loc.y;
 				z = loc.z;
