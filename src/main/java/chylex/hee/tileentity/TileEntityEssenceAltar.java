@@ -43,9 +43,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	private RuneItem[] runeItems = new RuneItem[8]; // @STAGE_HASTYPE
 	private byte runeItemIndex = -2; // @STAGE_HASTYPE
 	
-	@Deprecated
-	private ItemStack[] sockets = new ItemStack[4];
-	
 	private AltarActionHandler actionHandler;
 	private final Map<String,ItemUseCache> playerItemCache = new HashMap<>();
 	
@@ -91,11 +88,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		return runeItemIndex;
 	}
 	
-	@Deprecated
-	public ItemStack[] getSocketContents(){
-		return sockets;
-	}
-	
 	public void drainEssence(int amount){
 		essenceLevel = Math.max(essenceLevel-amount,0);
 		worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
@@ -125,10 +117,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		nbt.setTag("runeItems",runeTag);
 		nbt.setByte("runeIndex",runeItemIndex);
 		
-		for(int a = 0; a < sockets.length; a++){
-			if (sockets[a] != null)nbt.setTag("socket"+a,sockets[a].writeToNBT(new NBTTagCompound()));
-		}
-		
 		nbt.setString("enhancements",EnhancementEnumHelper.serialize(enhancementList));
 		
 		if (actionHandler != null)actionHandler.onTileWriteToNBT(nbt);
@@ -150,14 +138,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		}
 		
 		runeItemIndex = nbt.getByte("runeIndex");
-		
-		for(int a = 0; a < sockets.length; a++){
-			if (!nbt.hasKey("socket"+a)){
-				sockets[a] = null;
-				continue;
-			}
-			sockets[a] = ItemStack.loadItemStackFromNBT(nbt.getCompoundTag("socket"+a));
-		}
 		
 		enhancementList = EnhancementEnumHelper.deserialize(nbt.getString("enhancements"),EssenceAltarEnhancements.class);
 		
@@ -287,15 +267,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		synchronize();
 	}
 	
-	public void onSocketClick(EntityPlayer player, int socketId){
-		if (sockets[socketId] != null){
-			worldObj.spawnEntityInWorld(createItem(this,sockets[socketId]));
-			sockets[socketId] = null;
-		}
-		
-		synchronize();
-	}
-	
 	public void onBlockDestroy(){
 		if (currentStage == STAGE_HASTYPE)worldObj.spawnEntityInWorld(createItem(this,new ItemStack(ItemList.essence,1,essenceType.getItemDamage())));
 		
@@ -304,10 +275,6 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		
 		for(int a = 0; a < essence16; a++)worldObj.spawnEntityInWorld(createItem(this,is16.copy()));
 		if (essenceLevel-(16*essence16) > 0)worldObj.spawnEntityInWorld(createItem(this,new ItemStack(ItemList.essence,essenceLevel-(16*essence16),essenceType.getItemDamage())));
-		
-		for(int a = 0; a < sockets.length; a++){
-			if (sockets[a] != null)worldObj.spawnEntityInWorld(createItem(this,sockets[a]));
-		}
 	}
 	
 	@Override

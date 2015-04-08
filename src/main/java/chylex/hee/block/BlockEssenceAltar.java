@@ -40,18 +40,7 @@ public class BlockEssenceAltar extends BlockAbstractEnhanceable{
 		if (held != null && held.getItem() == ItemList.end_powder)return false;
 		
 		TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x,y,z);
-		
-		if (altar != null){
-			if (side == 1){
-				if (hitX >= hitCenter1-hitDist && hitX <= hitCenter1+hitDist && hitZ >= hitCenter1-hitDist && hitZ <= hitCenter1+hitDist)altar.onSocketClick(player,3);
-				else if (hitX >= hitCenter1-hitDist && hitX <= hitCenter1+hitDist && hitZ >= hitCenter2-hitDist && hitZ <= hitCenter2+hitDist)altar.onSocketClick(player,2);
-				else if (hitX >= hitCenter2-hitDist && hitX <= hitCenter2+hitDist && hitZ >= hitCenter2-hitDist && hitZ <= hitCenter2+hitDist)altar.onSocketClick(player,1);
-				else if (hitX >= hitCenter2-hitDist && hitX <= hitCenter2+hitDist && hitZ >= hitCenter1-hitDist && hitZ <= hitCenter1+hitDist)altar.onSocketClick(player,0);
-				else altar.onRightClick(player);
-				return true;
-			}
-			else altar.onRightClick(player);
-		}
+		if (altar != null)altar.onRightClick(player);
 		
 		return true;
 	}

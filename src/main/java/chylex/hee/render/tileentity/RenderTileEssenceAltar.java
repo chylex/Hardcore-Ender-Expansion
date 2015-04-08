@@ -165,23 +165,6 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 		}
 		
 		GL11.glPopMatrix();
-		
-		/*
-		 * SOCKETS
-		 */
-
-		ItemStack[] sockets = altar.getSocketContents();
-		for(int a = 0; a < sockets.length; a++){
-			if (sockets[a] == null)continue;
-			
-			GL11.glPushMatrix();
-			GL11.glTranslatef((a == 0 || a == 1 ? 1 : -1)*0.8125F,-0.999F,(a == 1 || a == 2 ? 1 : -1)*0.8125F);
-			GL11.glPushMatrix();
-			GL11.glScalef(0.1F,0.1F,0.1F);
-			BlockRenderHelper.renderBlockAsItem(blockRenderer,Block.getBlockFromItem(sockets[a].getItem()),0);
-			GL11.glPopMatrix();
-			GL11.glPopMatrix();
-		}
 	}
 
 	private void startVerticalItem(){
