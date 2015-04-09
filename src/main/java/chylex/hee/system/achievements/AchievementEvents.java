@@ -26,6 +26,7 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile.IQuickSavefile;
+import chylex.hee.system.util.BlockPosM;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -137,7 +138,9 @@ public final class AchievementEvents implements IQuickSavefile{
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent e){
 		World world = e.entityPlayer.worldObj;
-		if (e.action != Action.RIGHT_CLICK_BLOCK || world.isRemote || e.entityPlayer.dimension != 1 || world.getBlock(e.x,e.y,e.z) != Blocks.bed)return;
+		BlockPosM tmpPos = BlockPosM.tmp(e.x,e.y,e.z);
+		
+		if (e.action != Action.RIGHT_CLICK_BLOCK || world.isRemote || e.entityPlayer.dimension != 1 || tmpPos.getBlock(world) != Blocks.bed)return;
 		
 		EntityBossDragon dragon = getDragon(world);
 		if (dragon == null || dragon.getHealth() <= 0F)return;
@@ -145,17 +148,15 @@ public final class AchievementEvents implements IQuickSavefile{
 		e.useBlock = Result.DENY;
 		
 		double dX = e.x+0.5D, dY = e.y+0.5D, dZ = e.z+0.5D;
-		world.setBlockToAir(e.x,e.y,e.z);
+		tmpPos.setAir(world);
 		
-		int dir = world.getBlockMetadata(e.x,e.y,e.z)&3;
-		int x2 = e.x+BlockBed.field_149981_a[dir][0];
-		int z2 = e.z+BlockBed.field_149981_a[dir][1];
-
-		if (world.getBlock(x2,e.y,z2) == Blocks.bed){
-			world.setBlockToAir(x2,e.y,z2);
-			dX = (dX+x2+0.5D)/2D;
-			dY = (dY+e.y+0.5D)/2D;
-			dZ = (dZ+z2+0.5D)/2D;
+		int dir = tmpPos.getMetadata(world)&3;
+		
+		if (tmpPos.move(BlockBed.field_149981_a[dir][0],0,BlockBed.field_149981_a[dir][1]).getBlock(world) == Blocks.bed){
+			tmpPos.setAir(world);
+			dX = (dX+tmpPos.x+0.5D)/2D;
+			dY = (dY+tmpPos.y+0.5D)/2D;
+			dZ = (dZ+tmpPos.z+0.5D)/2D;
 		}
 
 		world.newExplosion(null,dX,dY,dZ,5F,true,true);

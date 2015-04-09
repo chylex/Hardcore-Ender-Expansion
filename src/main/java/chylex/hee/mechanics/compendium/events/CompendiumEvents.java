@@ -26,6 +26,7 @@ import chylex.hee.mechanics.misc.PlayerDataHandler.IExtendedPropertyInitializer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -92,7 +93,7 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 		}
 		
 		if (distBlock < distEntity && mopBlock != null){
-			BlockMetaWrapper wrapper = new BlockMetaWrapper(player.worldObj.getBlock(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ),player.worldObj.getBlockMetadata(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ));
+			BlockMetaWrapper wrapper = new BlockMetaWrapper(BlockPosM.tmp(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ).getBlock(player.worldObj),BlockPosM.tmp(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ).getMetadata(player.worldObj));
 			observationReuse.setBlock(KnowledgeObject.<ObjectBlock>getObject(wrapper));
 		}
 		else if (tracedEntity != null){

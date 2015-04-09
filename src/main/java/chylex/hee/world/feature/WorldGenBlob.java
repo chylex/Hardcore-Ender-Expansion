@@ -221,14 +221,16 @@ public class WorldGenBlob extends WorldGenerator{
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (world.getBlock(x-7,y,z) != Blocks.air ||
-			world.getBlock(x+7,y,z) != Blocks.air ||
-			world.getBlock(x,y,z-7) != Blocks.air ||
-			world.getBlock(x,y,z+7) != Blocks.air ||
-			world.getBlock(x,y-7,z) != Blocks.air ||
-			world.getBlock(x,y+7,z) != Blocks.air ||
-			world.getBlock(x,y-15,z) != Blocks.air ||
-			world.getBlock(x,y+15,z) != Blocks.air)return false;
+		BlockPosM tmpPos = BlockPosM.tmp();
+		
+		if (tmpPos.set(x-7,y,z).getBlock(world) != Blocks.air ||
+			tmpPos.set(x+7,y,z).getBlock(world) != Blocks.air ||
+			tmpPos.set(x,y,z-7).getBlock(world) != Blocks.air ||
+			tmpPos.set(x,y,z+7).getBlock(world) != Blocks.air ||
+			tmpPos.set(x,y-7,z).getBlock(world) != Blocks.air ||
+			tmpPos.set(x,y+7,z).getBlock(world) != Blocks.air ||
+			tmpPos.set(x,y-15,z).getBlock(world) != Blocks.air ||
+			tmpPos.set(x,y+15,z).getBlock(world) != Blocks.air)return false;
 		
 		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 		Pair<BlobGenerator,List<BlobPopulator>> pattern = getBlobType(rand,x,z).patterns.getRandomItem(rand).generatePattern(rand);

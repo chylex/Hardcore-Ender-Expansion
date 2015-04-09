@@ -5,11 +5,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.util.BlockPosM;
 
 public class WorldGenEndPowderOre extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (world.getBlock(x,y,z) != Blocks.end_stone)return false;
+		if (BlockPosM.tmp(x,y,z).getBlock(world) != Blocks.end_stone)return false;
 		
 		int blockAmount = rand.nextInt(5)+4;
 		
@@ -46,8 +47,8 @@ public class WorldGenEndPowderOre extends WorldGenerator{
 							for(int zz = minZ; zz <= maxZ; ++zz){
 								double d14 = (zz+0.5D-centerZ)/(area/2D);
 
-								if (d12*d12+d13*d13+d14*d14 < 1D && world.getBlock(xx,yy,zz) == Blocks.end_stone && rand.nextInt(6) == 0){
-									world.setBlock(xx,yy,zz,BlockList.end_powder_ore,0,2);
+								if (d12*d12+d13*d13+d14*d14 < 1D && BlockPosM.tmp(xx,yy,zz).getBlock(world) == Blocks.end_stone && rand.nextInt(6) == 0){
+									BlockPosM.tmp(xx,yy,zz).setBlock(world,BlockList.end_powder_ore,0,2);
 									if (++placed > blockAmount-rand.nextInt(3)+rand.nextInt(4))return true;
 								}
 							}

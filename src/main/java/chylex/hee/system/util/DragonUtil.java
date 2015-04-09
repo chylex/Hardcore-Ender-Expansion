@@ -172,8 +172,8 @@ public final class DragonUtil{
 	}
 
 	public static int getTopBlockY(World world, Block block, int x, int z, int startY){
-		for(int y = startY; y >= 0; y--){
-			if (world.getBlock(x,y,z) == block)return y;
+		for(BlockPosM pos = new BlockPosM(x,startY,z); pos.y >= 0; pos.y--){
+			if (pos.getBlock(world) == block)return pos.y;
 		}
 		
 		return -1;

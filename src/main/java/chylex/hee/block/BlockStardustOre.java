@@ -8,6 +8,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,7 +31,7 @@ public class BlockStardustOre extends BlockAbstractOre{
 	
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
-		if (world.getBlockMetadata(x,y,z) == 0){
+		if (BlockPosM.tmp(x,y,z).getMetadata(world) == 0){
 			world.setBlockMetadataWithNotify(x,y,z,world.rand.nextInt(15)+1,3);
 		}
 	}
@@ -58,7 +59,7 @@ public class BlockStardustOre extends BlockAbstractOre{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side){
-		int meta = world.getBlockMetadata(x,y,z);
+		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		if (meta == 0)return Blocks.end_stone.getIcon(world,x,y,z,side);
 		
 		return iconArray[iconIndexes[side][meta]];

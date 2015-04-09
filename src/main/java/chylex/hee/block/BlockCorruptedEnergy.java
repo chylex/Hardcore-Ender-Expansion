@@ -14,6 +14,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -44,19 +45,23 @@ public class BlockCorruptedEnergy extends Block{
 				HardcoreEnderExpansion.fx.corruptedEnergy(world,x,y,z);
 				HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);
 			}
+			
 			if (world.rand.nextInt(5) == 0)world.spawnParticle("explode",x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
 			return;
 		}
 		
-		int meta = world.getBlockMetadata(x,y,z);
+		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		
 		if (meta > 1){
+			BlockPosM tmpPos = BlockPosM.tmp();
+			
 			for(int a = 0; a < 6; a++){
 				if (rand.nextInt(3) == 0){
-					Block block = world.getBlock(x+offsetX[a],y+offsetY[a],z+offsetZ[a]);
-					if (block.getMaterial() == Material.air)world.setBlock(x+offsetX[a],y+offsetY[a],z+offsetZ[a],this,meta-1,3);
-					else if (!block.isOpaqueCube() && world.getBlock(x+offsetX[a]*2,y+offsetY[a]*2,z+offsetZ[a]*2).getMaterial() == Material.air){
-						world.setBlock(x+offsetX[a]*2,y+offsetY[a]*2,z+offsetZ[a]*2,this,meta-1,3);
+					Block block = tmpPos.set(x+offsetX[a],y+offsetY[a],z+offsetZ[a]).getBlock(world);
+					
+					if (block.getMaterial() == Material.air)tmpPos.setBlock(world,this,meta-1);
+					else if (!block.isOpaqueCube() && tmpPos.set(x+offsetX[a]*2,y+offsetY[a]*2,z+offsetZ[a]*2).getMaterial(world) == Material.air){
+						tmpPos.setBlock(world,this,meta-1,3);
 					}
 				}
 			}
@@ -64,11 +69,11 @@ public class BlockCorruptedEnergy extends Block{
 		
 		if (world.rand.nextInt(7) <= 3 || world.rand.nextBoolean()){
 			if (meta == 1){
-				if (isHighLevel)world.setBlock(x,y,z,BlockList.corrupted_energy_low,15,3);
-				else world.setBlockToAir(x,y,z);
+				if (isHighLevel)BlockPosM.tmp(x,y,z).setBlock(world,BlockList.corrupted_energy_low,15);
+				else BlockPosM.tmp(x,y,z).setAir(world);
 				return;
 			}
-			else world.setBlockMetadataWithNotify(x,y,z,meta-1,3);
+			else BlockPosM.tmp(x,y,z).setMetadata(world,meta-1);
 		}
 		
 		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
@@ -83,7 +88,7 @@ public class BlockCorruptedEnergy extends Block{
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
 		if (entity instanceof EntityLivingBase && !(entity instanceof IBossDisplayData)){
 			EntityLivingBase living = (EntityLivingBase)entity;
-			int meta = world.getBlockMetadata(x,y,z);
+			int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 			
 			if (world.rand.nextInt(meta >= 10 ? 3 : (meta >= 5 ? 4 : 5)) == 0 && (living.hurtTime <= 3 || world.rand.nextInt(7) == 0) && living.getHealth() > 0F){
 				if (entity instanceof EntityPlayer){

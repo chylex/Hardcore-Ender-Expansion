@@ -7,35 +7,32 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.RuneItem;
 import chylex.hee.packets.AbstractClientPacket;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class C17AltarRuneItemEffect extends AbstractClientPacket{
-	private int x,y,z;
+	private BlockPosM pos;
 	private byte essenceId,runeArrayIndex;
 	
 	public C17AltarRuneItemEffect(){}
 	
 	public C17AltarRuneItemEffect(TileEntityEssenceAltar altar, byte runeArrayIndex){
-		this.x = altar.xCoord;
-		this.y = altar.yCoord;
-		this.z = altar.zCoord;
+		this.pos = new BlockPosM(altar.xCoord,altar.yCoord,altar.zCoord);
 		this.essenceId = altar.getEssenceType().id;
 		this.runeArrayIndex = runeArrayIndex;
 	}
 	
 	@Override
 	public void write(ByteBuf buffer){
-		buffer.writeInt(x).writeInt(y).writeInt(z).writeByte(essenceId).writeByte(runeArrayIndex);
+		buffer.writeLong(pos.toLong()).writeByte(essenceId).writeByte(runeArrayIndex);
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
-		x = buffer.readInt();
-		y = buffer.readInt();
-		z = buffer.readInt();
+		pos = new BlockPosM(buffer.readLong());
 		essenceId = buffer.readByte();
 		runeArrayIndex = buffer.readByte();
 	}
@@ -49,9 +46,9 @@ public class C17AltarRuneItemEffect extends AbstractClientPacket{
 		
 		for(int a = 0; a < 42; a++){
 			double[] vec = DragonUtil.getNormalizedVector(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
-			HardcoreEnderExpansion.fx.item(is,world,x+0.5D+rand.nextDouble()*0.4D-0.2D,y+1.1D+rand.nextDouble()*0.4D,z+0.5D+rand.nextDouble()*0.2D-0.1D,vec[0]*0.1D,0.1D,vec[1]*0.1D);
+			HardcoreEnderExpansion.fx.item(is,world,pos.x+0.5D+rand.nextDouble()*0.4D-0.2D,pos.y+1.1D+rand.nextDouble()*0.4D,pos.z+0.5D+rand.nextDouble()*0.2D-0.1D,vec[0]*0.1D,0.1D,vec[1]*0.1D);
 		}
 		
-		world.playSound(x,y,z,runeItem.soundEffect,1F,0.9F+rand.nextFloat()*0.1F,false);
+		world.playSound(pos.x,pos.y,pos.z,runeItem.soundEffect,1F,0.9F+rand.nextFloat()*0.1F,false);
 	}
 }

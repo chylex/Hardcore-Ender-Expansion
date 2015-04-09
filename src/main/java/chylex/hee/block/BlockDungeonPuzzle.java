@@ -21,6 +21,7 @@ import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.util.Direction;
 import cpw.mods.fml.relauncher.Side;
@@ -71,7 +72,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	 * Update chain from the entity, return false to stop the chain.
 	 */
 	public boolean updateChain(World world, int x, int y, int z, byte chainDir){
-		int meta = world.getBlockMetadata(x,y,z), toggled = toggleState(meta);
+		int meta = BlockPosM.tmp(x,y,z).getMetadata(world), toggled = toggleState(meta);
 		
 		if (meta != toggled){
 			world.setBlockMetadataWithNotify(x,y,z,toggled,3);
@@ -109,14 +110,15 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	public void checkWinConditions(World world, int x, int y, int z){
 		if (world.getEntitiesWithinAABB(EntityTechnicalPuzzleChain.class,AxisAlignedBB.getBoundingBox(x+0.5D-maxDungeonSize,y,z+0.5D-maxDungeonSize,x+0.5D+maxDungeonSize,y+1D,z+0.5D+maxDungeonSize)).size() == 1){
 			int minX = x, minZ = z, maxX = x, maxZ = z, cnt = 0;
+			BlockPosM tmpPos = BlockPosM.tmp();
 			boolean isFinished = true;
 			
 			Stopwatch.time("BlockDungeonPuzzle - win detection - coords");
 			
-			while(world.getBlock(--minX,y,z) == this);
-			while(world.getBlock(x,y,--minZ) == this);
-			while(world.getBlock(++maxX,y,z) == this);
-			while(world.getBlock(x,y,++maxZ) == this);
+			while(tmpPos.set(--minX,y,z).getBlock(world) == this);
+			while(tmpPos.set(x,y,--minZ).getBlock(world) == this);
+			while(tmpPos.set(++maxX,y,z).getBlock(world) == this);
+			while(tmpPos.set(x,y,++maxZ).getBlock(world) == this);
 			
 			++minX;
 			++minZ;
@@ -124,22 +126,22 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			--maxZ;
 			
 			for(int px = minX, pz = z; px <= maxX; px++){
-				while(world.getBlock(px,y,--pz) == this);
+				while(tmpPos.set(px,y,--pz).getBlock(world) == this);
 				if (pz+1 < minZ)minZ = pz+1;
 				
 				pz = z;
 				
-				while(world.getBlock(px,y,++pz) == this);
+				while(tmpPos.set(px,y,++pz).getBlock(world) == this);
 				if (pz-1 > maxZ)maxZ = pz-1;
 			}
 			
 			for(int pz = minZ, px = x; pz <= maxZ; pz++){
-				while(world.getBlock(--px,y,pz) == this);
+				while(tmpPos.set(--px,y,pz).getBlock(world) == this);
 				if (px+1 < minX)minX = px+1;
 				
 				px = x;
 				
-				while(world.getBlock(++px,y,pz) == this);
+				while(tmpPos.set(++px,y,pz).getBlock(world) == this);
 				if (px-1 > maxX)maxX = px-1;
 			}
 
@@ -153,11 +155,11 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 			
 			for(int xx = minX; xx <= maxX; xx++){
 				for(int zz = minZ; zz <= maxZ; zz++){
-					if (world.getBlock(xx,y,zz) != this)continue;
+					if (tmpPos.set(xx,y,zz).getBlock(world) != this)continue;
 					
 					++cnt;
 					
-					if (isLit(toggleState(world.getBlockMetadata(xx,y,zz)))){
+					if (isLit(toggleState(tmpPos.getMetadata(world)))){
 						isFinished = false;
 						xx = maxX+1;
 						break;
@@ -173,7 +175,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	
 	@Override
 	public int getLightValue(IBlockAccess world, int x, int y, int z){
-		return world.getBlockMetadata(x,y,z) == metaPortal ? 15 : super.getLightValue(world,x,y,z);
+		return BlockPosM.tmp(x,y,z).getMetadata(world) == metaPortal ? 15 : super.getLightValue(world,x,y,z);
 	}
 	
 	@Override
@@ -189,7 +191,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		if (world.getBlockMetadata(x,y,z) == metaPortal){
+		if (BlockPosM.tmp(x,y,z).getMetadata(world) == metaPortal){
 			for(int a = 0; a < 18; a++)HardcoreEnderExpansion.fx.portalColor(world,x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,0.6289F,0.3359F,0.0391F);
 			HardcoreEnderExpansion.fx.portalColor(world,x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,1F,1F,1F);
 		}
@@ -207,7 +209,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
-		int meta = world.getBlockMetadata(x,y,z);
+		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		if (meta == metaPortal)meta = metaDisabled;
 		return new ItemStack(this,1,meta);
 	}

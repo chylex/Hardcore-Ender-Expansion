@@ -17,7 +17,7 @@ import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball.FieryExplosion;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C12FiendFireballExplosion;
-import chylex.hee.packets.client.C69FiendFuckball;
+import chylex.hee.packets.client.C14FiendFireball;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -77,7 +77,7 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 			for(int a = 0; a < 3; a++)HardcoreEnderExpansion.fx.flame(worldObj,actualPosX+(rand.nextDouble()-0.5D)*0.1D,posY+(rand.nextDouble()-0.5D)*0.1D,actualPosZ+(rand.nextDouble()-0.5D)*0.1D,4+rand.nextInt(6));
 		}
 		
-		if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,128D,new C69FiendFuckball(this,posX,posZ));
+		if (!worldObj.isRemote)PacketPipeline.sendToAllAround(this,128D,new C14FiendFireball(this,posX,posZ));
 		
 		if (!worldObj.isRemote && timer > 0 && --timer > 0){
 			onEntityUpdate();

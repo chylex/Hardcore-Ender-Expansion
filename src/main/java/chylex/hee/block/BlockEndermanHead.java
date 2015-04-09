@@ -14,6 +14,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -41,7 +42,7 @@ public class BlockEndermanHead extends BlockContainer{
 
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
-		switch(world.getBlockMetadata(x,y,z)&7){
+		switch(BlockPosM.tmp(x,y,z).getMetadata(world)&7){
 			default: case 1: setBlockBounds(0.25F,0.0F,0.25F,0.75F,0.5F,0.75F); break;
 			case 2: setBlockBounds(0.25F,0.25F,0.5F,0.75F,0.75F,1.0F); break;
 			case 3: setBlockBounds(0.25F,0.25F,0.0F,0.75F,0.75F,0.5F); break;

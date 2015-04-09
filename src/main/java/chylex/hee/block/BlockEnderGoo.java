@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.Fluid;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.GlobalMobData;
 import chylex.hee.item.ItemList;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -50,21 +51,22 @@ public class BlockEnderGoo extends BlockFluidClassic{
 		super.updateTick(world,x,y,z,rand);
 		
 		if (shouldBattleWater){
-			int meta = world.getBlockMetadata(x,y,z);
+			BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
+			int meta = tmpPos.getMetadata(world);
 			
 			for(int a = 0; a < 6; a++){
-				if (world.getBlock(x+xOff[a],y+yOff[a],z+zOff[a]).getMaterial() != Material.water)continue;
+				if (tmpPos.set(x+xOff[a],y+yOff[a],z+zOff[a]).getMaterial(world) != Material.water)continue;
 				
 				if ((rand.nextInt(Math.max(1,10-meta-(world.provider.dimensionId == 1 ? 7 : 0)+(a == 2 || a == 3 ? 2 : 0))) == 0)){
-					world.setBlock(x+xOff[a],y+yOff[a],z+zOff[a],this,Math.max(2,world.getBlockMetadata(x,y,z)),3);
+					tmpPos.setBlock(world,this,Math.max(2,world.getBlockMetadata(x,y,z)));
 					if (rand.nextInt(6-meta) == 0)world.setBlockToAir(x,y,z);
 				}
 				else if (world.provider.dimensionId != 1 && rand.nextInt(4) != 0){
-					world.setBlock(x,y,z,Blocks.flowing_water,2,3);
+					tmpPos.set(x,y,z).setBlock(world,Blocks.flowing_water,2);
 					
 					for(int b = 0, index; b < 2+rand.nextInt(5); b++){
 						index = rand.nextInt(6);
-						if (world.getBlock(x+xOff[index],y+yOff[index],z+zOff[index]) == this)world.setBlock(x+xOff[index],y+yOff[index],z+zOff[index],Blocks.flowing_water,2,3);
+						if (tmpPos.set(x+xOff[index],y+yOff[index],z+zOff[index]).getBlock(world) == this)tmpPos.setBlock(world,Blocks.flowing_water,2);
 					}
 					
 					return;
@@ -114,8 +116,8 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	
 	@SubscribeEvent
 	public void onBucketFill(FillBucketEvent e){
-		if (e.world.getBlock(e.target.blockX,e.target.blockY,e.target.blockZ) == this){
-			e.world.setBlockToAir(e.target.blockX,e.target.blockY,e.target.blockZ);
+		if (BlockPosM.tmp(e.target.blockX,e.target.blockY,e.target.blockZ).getBlock(e.world) == this){
+			BlockPosM.tmp(e.target.blockX,e.target.blockY,e.target.blockZ).setAir(e.world);
 			e.result = new ItemStack(ItemList.bucket_ender_goo);
 			e.setResult(Result.ALLOW);
 		}

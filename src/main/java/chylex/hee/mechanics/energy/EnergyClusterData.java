@@ -1,13 +1,14 @@
 package chylex.hee.mechanics.energy;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.world.util.Direction;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
+import chylex.hee.world.util.Direction;
 
 public final class EnergyClusterData{
 	private EnergyClusterHealth healthStatus = EnergyClusterHealth.HEALTHY;
@@ -39,13 +40,13 @@ public final class EnergyClusterData{
 			energyLevel -= leak;
 			cluster.synchronize();
 			
-			for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 8 && placed < 4; attempt++){
-				xx = cluster.xCoord+rand.nextInt(7)-3;
-				yy = cluster.yCoord+rand.nextInt(7)-3;
-				zz = cluster.zCoord+rand.nextInt(7)-3;
+			BlockPosM tmpPos = BlockPosM.tmp();
+			
+			for(int attempt = 0, placed = 0; attempt < 8 && placed < 4; attempt++){
+				tmpPos.set(cluster.xCoord+rand.nextInt(7)-3,cluster.yCoord+rand.nextInt(7)-3,cluster.zCoord+rand.nextInt(7)-3);
 				
-				if (world.isAirBlock(xx,yy,zz)){
-					world.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+MathUtil.floor(leak*4.5F),3);
+				if (tmpPos.isAir(world)){
+					tmpPos.setBlock(world,BlockList.corrupted_energy_low,3+MathUtil.floor(leak*4.5F));
 					++placed;
 				}
 			}

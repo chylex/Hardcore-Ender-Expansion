@@ -21,6 +21,7 @@ import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.util.ForgeDirection;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,9 +47,8 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z){
-		Block soil = world.getBlock(x,y-1,z);
-		return (world.getFullBlockLightValue(x,y,z) >= 8 || world.canBlockSeeTheSky(x,y,z) || world.provider.dimensionId == 1)&&
-			   (soil != null && soil.canSustainPlant(world,x,y-1,z,ForgeDirection.UP,this));
+		return (world.getFullBlockLightValue(x,y,z) >= 8 || world.canBlockSeeTheSky(x,y,z) || world.provider.dimensionId == 1) &&
+			   (BlockPosM.tmp(x,y-1,z).getBlock(world).canSustainPlant(world,x,y-1,z,ForgeDirection.UP,this));
 	}
 	
 	@Override
@@ -64,7 +64,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z){
-		int meta = world.getBlockMetadata(x,y,z);
+		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		
 		if (meta == dataLilyFire)return AxisAlignedBB.getBoundingBox(x+0.3F,y,z+0.3F,x+0.7F,y+0.8F,z+0.7F);
 		else if (meta == dataShadowOrchid)return AxisAlignedBB.getBoundingBox(x+0.25F,y,z+0.25F,x+0.75F,y+0.95F,z+0.75F);
@@ -73,18 +73,18 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 
 	@Override
 	public boolean isShearable(ItemStack item, IBlockAccess world, int x, int y, int z){
-		int meta = world.getBlockMetadata(x,y,z);
+		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		return meta != dataLilyFire;
 	}
 
 	@Override
 	public ArrayList<ItemStack> onSheared(ItemStack item, IBlockAccess world, int x, int y, int z, int fortune){
-		return CollectionUtil.newList(new ItemStack(this,1,world.getBlockMetadata(x,y,z)));
+		return CollectionUtil.newList(new ItemStack(this,1,BlockPosM.tmp(x,y,z).getMetadata(world)));
 	}
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (!world.isRemote && world.getBlockMetadata(x,y,z) == dataThornBush){
+		if (!world.isRemote && BlockPosM.tmp(x,y,z).getMetadata(world) == dataThornBush){
 			entity.attackEntityFrom(DamageSource.generic,1F);
 			
 			if (world.rand.nextInt(80) == 0 && entity instanceof EntityLivingBase && !((EntityLivingBase)entity).isPotionActive(Potion.poison)){

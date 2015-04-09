@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class C22EffectLine extends AbstractClientPacket{	
 	private FXType.Line type;
-	private double x1,y1,z1,x2,y2,z2;
+	private double x1, y1, z1, x2, y2, z2;
 	
 	public C22EffectLine(){}
 	

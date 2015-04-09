@@ -24,6 +24,7 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.util.BlockPosM;
 
 public class BlockDragonEggCustom extends BlockDragonEgg{
 	public BlockDragonEggCustom(){
@@ -101,17 +102,16 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	}
 	
 	public static boolean teleportNearby(World world, int x, int y, int z){
-		if (world.getBlock(x,y,z) == Blocks.dragon_egg && !world.isRemote){
-			for(int attempt = 0,xx,yy,zz; attempt < 1000; ++attempt){
-				xx = x+world.rand.nextInt(16)-world.rand.nextInt(16);
-				yy = y+world.rand.nextInt(8)-world.rand.nextInt(8);
-				zz = z+world.rand.nextInt(16)-world.rand.nextInt(16);
+		if (BlockPosM.tmp(x,y,z).getBlock(world) == Blocks.dragon_egg && !world.isRemote){
+			BlockPosM tmpPos = BlockPosM.tmp();
+			
+			for(int attempt = 0; attempt < 1000; ++attempt){
+				tmpPos.set(x+world.rand.nextInt(31)-15,y+world.rand.nextInt(15)-7,z+world.rand.nextInt(31)-15);
 
-				if (world.getBlock(xx,yy,zz).getMaterial() == Material.air){
-					world.setBlock(xx,yy,zz,Blocks.dragon_egg,world.getBlockMetadata(x,y,z),2);
-					world.setBlockToAir(x,y,z);
-					
-					PacketPipeline.sendToAllAround(world.provider.dimensionId,x,y,z,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,x+0.5D,y+0.5D,z+0.5D,xx+0.5D,yy+0.5D,zz+0.5D));
+				if (tmpPos.getMaterial(world) == Material.air){
+					tmpPos.setBlock(world,Blocks.dragon_egg,tmpPos.getMetadata(world),2);
+					PacketPipeline.sendToAllAround(world.provider.dimensionId,x,y,z,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,x+0.5D,y+0.5D,z+0.5D,tmpPos.x+0.5D,tmpPos.y+0.5D,tmpPos.z+0.5D));
+					tmpPos.set(x,y,z).setAir(world);
 					return true;
 				}
 			}

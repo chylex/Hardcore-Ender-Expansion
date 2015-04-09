@@ -149,19 +149,21 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		}
 		
 		private void updateBarriers(boolean block){
+			BlockPosM tmpPos = BlockPosM.tmp();
+			
 			for(int y = point1.y; y <= point2.y; y++){
 				for(int side = 0; side < 2; side++){
 					for(int x = Math.min(point1.x,point2.x), z = side == 0 ? Math.min(point1.z,point2.z)-1 : Math.max(point1.z,point2.z)+1; x <= Math.max(point1.x,point2.x); x++){
-						if (block && worldObj.isAirBlock(x,y,z))worldObj.setBlock(x,y,z,BlockList.sanctuary_barrier);
-						else if (!block && worldObj.getBlock(x,y,z) == BlockList.sanctuary_barrier)worldObj.setBlockToAir(x,y,z);
+						if (block && tmpPos.set(x,y,z).isAir(worldObj))tmpPos.setBlock(worldObj,BlockList.sanctuary_barrier);
+						else if (!block && tmpPos.set(x,y,z).getBlock(worldObj) == BlockList.sanctuary_barrier)tmpPos.setAir(worldObj);
 						else continue;
 						
 						worldObj.playAuxSFX(x,y,z,2001,Block.getIdFromBlock(BlockList.sanctuary_barrier));
 					}
 					
 					for(int z = Math.min(point1.z,point2.z), x = side == 0 ? Math.min(point1.x,point2.x)-1 : Math.max(point1.x,point2.x)+1; z <= Math.max(point1.z,point2.z); z++){
-						if (block && worldObj.isAirBlock(x,y,z))worldObj.setBlock(x,y,z,BlockList.sanctuary_barrier);
-						else if (!block && worldObj.getBlock(x,y,z) == BlockList.sanctuary_barrier)worldObj.setBlockToAir(x,y,z);
+						if (block && tmpPos.set(x,y,z).isAir(worldObj))tmpPos.setBlock(worldObj,BlockList.sanctuary_barrier);
+						else if (!block && tmpPos.set(x,y,z).getBlock(worldObj) == BlockList.sanctuary_barrier)tmpPos.setAir(worldObj);
 						else continue;
 						
 						worldObj.playAuxSFX(x,y,z,2001,Block.getIdFromBlock(BlockList.sanctuary_barrier));

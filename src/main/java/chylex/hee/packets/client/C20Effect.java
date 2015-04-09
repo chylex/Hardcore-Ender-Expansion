@@ -11,7 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class C20Effect extends AbstractClientPacket{	
 	private FXType.Basic type;
-	private double x,y,z;
+	private double x, y, z;
 	
 	public C20Effect(){}
 	

@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S00DeathFlowerPot;
+import chylex.hee.system.util.BlockPosM;
 
 public class ItemBlockEndFlower extends ItemBlock{
 	public ItemBlockEndFlower(Block block){
@@ -28,8 +29,8 @@ public class ItemBlockEndFlower extends ItemBlock{
 
 	@Override
 	public boolean onItemUseFirst(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (world.isRemote && world.getBlock(x,y,z) == Blocks.flower_pot && world.getBlockMetadata(x,y,z) == 0){
-			PacketPipeline.sendToServer(new S00DeathFlowerPot(x,y,z));
+		if (world.isRemote && BlockPosM.tmp(x,y,z).checkBlock(world,Blocks.flower_pot,0)){
+			PacketPipeline.sendToServer(new S00DeathFlowerPot(BlockPosM.tmp(x,y,z)));
 			return true;
 		}
 		

@@ -25,6 +25,7 @@ import chylex.hee.item.ItemBiomeCompass;
 import chylex.hee.item.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.energy.EnergyClusterHealth;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -211,8 +212,10 @@ public class OverlayManager{
 	
 	@SubscribeEvent
 	public void onRenderBlockOutline(DrawBlockHighlightEvent e){
-		if (e.player.worldObj.getBlock(e.target.blockX,e.target.blockY,e.target.blockZ) == BlockList.energy_cluster){
-			clusterLookedAt = (TileEntityEnergyCluster)e.player.worldObj.getTileEntity(e.target.blockX,e.target.blockY,e.target.blockZ);
+		BlockPosM tmp = BlockPosM.tmp(e.target.blockX,e.target.blockY,e.target.blockZ);
+		
+		if (tmp.getBlock(e.player.worldObj) == BlockList.energy_cluster){
+			clusterLookedAt = (TileEntityEnergyCluster)tmp.getTileEntity(e.player.worldObj);
 			e.setCanceled(true);
 		}
 	}

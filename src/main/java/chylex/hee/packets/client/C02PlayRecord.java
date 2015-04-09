@@ -11,32 +11,29 @@ import net.minecraft.util.ResourceLocation;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.sound.CustomMusicTicker;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class C02PlayRecord extends AbstractClientPacket{
-	private int x,y,z;
+	private BlockPosM pos;
 	private byte diskDamage;
 	
 	public C02PlayRecord(){}
 	
-	public C02PlayRecord(int x, int y, int z, byte diskDamage){
-		this.x = x;
-		this.y = y;
-		this.z = z;
+	public C02PlayRecord(BlockPosM pos, byte diskDamage){
+		this.pos = pos.copy();
 		this.diskDamage = diskDamage;
 	}
 	
 	@Override
 	public void write(ByteBuf buffer){
-		buffer.writeInt(x).writeInt(y).writeInt(z).writeByte(diskDamage);
+		buffer.writeLong(pos.toLong()).writeByte(diskDamage);
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
-		x = buffer.readInt();
-		y = buffer.readInt();
-		z = buffer.readInt();
+		pos = new BlockPosM(buffer.readLong());
 		diskDamage = buffer.readByte();
 	}
 
@@ -47,7 +44,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 		Minecraft mc = Minecraft.getMinecraft();
 
 		SoundHandler soundHandler = mc.getSoundHandler();
-		ChunkCoordinates coords = new ChunkCoordinates(x,y,z);
+		ChunkCoordinates coords = new ChunkCoordinates(pos.x,pos.y,pos.z);
 		Map mapSoundPositions = mc.renderGlobal.mapSoundPositions;
 		ISound currentSound = (ISound)mapSoundPositions.get(coords);
 
@@ -58,7 +55,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 
 		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]);
 		ResourceLocation resource = new ResourceLocation("hardcoreenderexpansion:"+recordData[1]);
-		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,x,y,z);
+		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,pos.x,pos.y,pos.z);
 		mapSoundPositions.put(coords,snd);
 		
 		CustomMusicTicker.stopMusicAndPlayJukebox(snd);

@@ -6,37 +6,35 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import chylex.hee.block.BlockList;
 import chylex.hee.packets.AbstractServerPacket;
+import chylex.hee.system.util.BlockPosM;
 
 public class S00DeathFlowerPot extends AbstractServerPacket{
-	private int x,y,z;
+	private BlockPosM pos;
 	
 	public S00DeathFlowerPot(){}
 	
-	public S00DeathFlowerPot(int x, int y, int z){
-		this.x = x;
-		this.y = y;
-		this.z = z;
+	public S00DeathFlowerPot(BlockPosM pos){
+		this.pos = pos.copy();
 	}
 	
 	@Override
 	public void write(ByteBuf buffer){
-		buffer.writeInt(x).writeInt(y).writeInt(z);
+		buffer.writeLong(pos.toLong());
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
-		x = buffer.readInt();
-		y = buffer.readInt();
-		z = buffer.readInt();
+		pos = new BlockPosM(buffer.readLong());
 	}
 
 	@Override
 	protected void handle(EntityPlayerMP player){
-		if (player.worldObj.getBlock(x,y,z) == Blocks.flower_pot && player.worldObj.getBlockMetadata(x,y,z) == 0){
+		if (pos.checkBlock(player.worldObj,Blocks.flower_pot,0)){
 			ItemStack is = player.inventory.getCurrentItem();
+			
 			if (is != null && is.getItem() == Item.getItemFromBlock(BlockList.death_flower)){
 				if (!player.capabilities.isCreativeMode)--is.stackSize;
-				player.worldObj.setBlock(x,y,z,BlockList.death_flower_pot,is.getItemDamage(),3);
+				pos.setBlock(player.worldObj,BlockList.death_flower_pot,is.getItemDamage());
 			}
 		}
 	}

@@ -19,11 +19,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -45,17 +45,14 @@ public enum CurseType{
 					tpY = prevY+rand.nextInt(64)-32;
 					tpZ = prevZ+(rand.nextDouble()-0.5D)*64D;
 					
-					int ix = MathHelper.floor_double(tpX), iy = MathHelper.floor_double(tpY), iz = MathHelper.floor_double(tpZ);
+					BlockPosM pos = BlockPosM.tmp(tpX,tpY,tpZ);
 
-					if (entity.worldObj.blockExists(ix,iy,iz)){
+					if (entity.worldObj.blockExists(pos.x,pos.y,pos.z)){
 						boolean foundTopBlock = false;
 
-						while(!foundTopBlock && iy > 0){
-							if (entity.worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement())foundTopBlock = true;
-							else{
-								--tpY;
-								--iy;
-							}
+						while(!foundTopBlock && pos.y > 0){
+							if (pos.moveDown().getMaterial(entity.worldObj).blocksMovement())foundTopBlock = true; // TODO re-test
+							else --tpY;
 						}
 
 						if (foundTopBlock){

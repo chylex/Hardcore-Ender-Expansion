@@ -21,6 +21,7 @@ import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -87,8 +88,8 @@ public class BlockSpookyLog extends Block{
 		
 		if (!world.isRemote && world.rand.nextInt(8) == 0)dropBlockAsItem(world,x,y,z,new ItemStack(ItemList.dry_splinter));
 
-		if (world.getBlock(x,y+1,z) == this){
-			dropBlockAsItemWithChance(world,x,y+1,z,world.getBlockMetadata(x,y+1,z),chance,fortune);
+		if (BlockPosM.tmp(x,y+1,z).getBlock(world) == this){
+			dropBlockAsItemWithChance(world,x,y+1,z,BlockPosM.tmp(x,y+1,z).getMetadata(world),chance,fortune);
 			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,x,y,z));
 			world.setBlockToAir(x,y+1,z);
 		}
@@ -96,55 +97,56 @@ public class BlockSpookyLog extends Block{
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		if (world.isRemote || world.getBlockMetadata(x,y,z) == 0)return;
+		if (world.isRemote || BlockPosM.tmp(x,y,z).getMetadata(world) == 0)return;
 		
 		if (rand.nextInt(4) == 0 && !isBlockSeen(world,x,y,z)){
 			int w = rand.nextInt(5); // 0,1 = rotate, 2 = move up or down, 3,4 = move tree
 			boolean moved = false;
+			BlockPosM pos = new BlockPosM(x,y,z);
 			
 			if (w == 0 || w == 1){
-				world.setBlockMetadataWithNotify(x,y,z,rand.nextInt(4)+1,3);
+				pos.setMetadata(world,rand.nextInt(4)+1);
 				world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
 				moved = true;
 			}
 			else if (w == 2){
 				int dir = rand.nextInt(2)*2-1;
+				BlockPosM tmpPos = BlockPosM.tmp();
 				
-				if (world.getBlock(x,y+dir,z) == this){
-					world.setBlockMetadataWithNotify(x,y+dir,z,world.getBlockMetadata(x,y,z),3);
-					world.setBlockMetadataWithNotify(x,y,z,0,3);
+				if (tmpPos.set(x,y+dir,z).getBlock(world) == this){
+					tmpPos.setMetadata(world,pos.getMetadata(world));
+					pos.setMetadata(world,0);
 					world.scheduleBlockUpdate(x,y+dir,z,this,tickRate(world));
 					moved = true;
 				}
 			}
 			else{
-				for(int attempt = 0, xx, zz; attempt < 50; attempt++){
-					xx = x+rand.nextInt(31)-15;
-					zz = z+rand.nextInt(31)-15;
-					
-					if (world.getBlock(xx,y,zz) == this){
+				BlockPosM tmpPos = BlockPosM.tmp();
+				
+				for(int attempt = 0; attempt < 50; attempt++){
+					if (tmpPos.set(x+rand.nextInt(31)-15,y,z+rand.nextInt(31)-15).getBlock(world) == this){
 						boolean hasFace = false;
 						
 						for(int testY = y; true; testY++){
-							if (world.getBlock(xx,testY,zz) != this)break;
-							if (world.getBlockMetadata(xx,testY,zz) > 0){
+							if (tmpPos.setY(testY).getBlock(world) != this)break;
+							if (tmpPos.getMetadata(world) > 0){
 								hasFace = true;
 								break;
 							}
 						}
 						
 						for(int testY = y; true; testY--){
-							if (world.getBlock(xx,testY,zz) != this)break;
-							if (world.getBlockMetadata(xx,testY,zz) > 0){
+							if (tmpPos.setY(testY).getBlock(world) != this)break;
+							if (tmpPos.getMetadata(world) > 0){
 								hasFace = true;
 								break;
 							}
 						}
 						
-						if (!hasFace && !isBlockSeen(world,xx,y,zz)){
-							world.setBlockMetadataWithNotify(xx,y,zz,world.getBlockMetadata(x,y,z),3);
-							world.setBlockMetadataWithNotify(x,y,z,0,3);
-							world.scheduleBlockUpdate(xx,y,zz,this,tickRate(world));
+						if (!hasFace && !isBlockSeen(world,tmpPos.x,y,tmpPos.z)){
+							tmpPos.setY(y).setMetadata(world,pos.getMetadata(world));
+							pos.setMetadata(world,0);
+							world.scheduleBlockUpdate(tmpPos.x,tmpPos.y,tmpPos.z,this,tickRate(world));
 							moved = true;
 						}
 					}

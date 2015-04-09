@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.block.BlockList;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class WorldGenMeteoroid extends WorldGenerator{
@@ -51,7 +52,7 @@ public class WorldGenMeteoroid extends WorldGenerator{
 	}
 	
 	private boolean canPlaceAt(World world, int x, int y, int z){
-		Block block = world.getBlock(x,y,z);
+		Block block = BlockPosM.tmp(x,y,z).getBlock(world);
 		return block.getMaterial() == Material.air || block == Blocks.end_stone;
 	}
 }

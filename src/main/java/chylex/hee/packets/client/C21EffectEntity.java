@@ -10,8 +10,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class C21EffectEntity extends AbstractClientPacket{	
 	private FXType.Entity type;
-	private double x,y,z;
-	private float entityWidth,entityHeight;
+	private double x, y, z;
+	private float entityWidth, entityHeight;
 	
 	public C21EffectEntity(){}
 	

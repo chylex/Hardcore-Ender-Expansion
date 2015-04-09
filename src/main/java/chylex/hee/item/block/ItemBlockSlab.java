@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -22,7 +23,7 @@ public class ItemBlockSlab extends ItemBlock{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (is.stackSize == 0 || !player.canPlayerEdit(x,y,z,side,is))return false;
 
-		boolean isTopSlab = (world.getBlockMetadata(x,y,z)&8) != 0;
+		boolean isTopSlab = (BlockPosM.tmp(x,y,z).getMetadata(world)&8) != 0;
 
 		if ((side == 1 && !isTopSlab || side == 0 && isTopSlab) && world.getBlock(x,y,z) == field_150939_a){
 			if (world.checkNoEntityCollision(fullBlock.getCollisionBoundingBoxFromPool(world,x,y,z)) && world.setBlock(x,y,z,fullBlock,0,3)){
@@ -38,7 +39,7 @@ public class ItemBlockSlab extends ItemBlock{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean func_150936_a(World world, int x, int y, int z, int side, EntityPlayer player, ItemStack is){
-		boolean isTopSlab = (world.getBlockMetadata(x,y,z)&8) != 0;
+		boolean isTopSlab = (BlockPosM.tmp(x,y,z).getMetadata(world)&8) != 0;
 
 		if ((side == 1 && !isTopSlab || side == 0 && isTopSlab) && world.getBlock(x,y,z) == field_150939_a)return true;
 		

@@ -4,6 +4,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFlower;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,6 +17,7 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.item.ItemList;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -39,20 +41,22 @@ public class BlockDeathFlower extends BlockFlower{
 	
 	public void updateFlowerLogic(World world, int x, int y, int z, Random rand){
 		if (world.provider.dimensionId != 1 && rand.nextInt(5) <= 1){
-			int meta = world.getBlockMetadata(x,y,z);
+			int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 			
 			if (meta > 3 && meta < 15){
 				List nearbyEndermen = world.getEntitiesWithinAABB(EntityMobAngryEnderman.class,AxisAlignedBB.getBoundingBox(x-8D,y-2D,z-8D,x+8D,y+2D,z+8D));
 				if (nearbyEndermen != null && nearbyEndermen.size() > meta)return;
 				
+				BlockPosM tmpPos = BlockPosM.tmp();
+				
 				for(int attempt = 0, spawned = 0; attempt < 30 && spawned < (meta/3)+rand.nextInt(meta/2); attempt++){
-					int px = x+rand.nextInt(9)-4, pz = z+rand.nextInt(9)-4,py;
+					tmpPos.set(x+rand.nextInt(9)-4,-1,z+rand.nextInt(9)-4);
+					
 					for(int a = 0; a < yOffsets.length; a++){
-						py = y+yOffsets[a];
-						if (!world.getBlock(px,py,pz).isOpaqueCube()){
+						if (!tmpPos.setY(y+yOffsets[a]).getBlock(world).isOpaqueCube()){
 							EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(world);
 							enderman.setCanDespawn(false);
-							enderman.setPosition(px+rand.nextFloat(),py+0.01F,pz+rand.nextFloat());
+							enderman.setPosition(tmpPos.x+rand.nextFloat(),tmpPos.y+0.01F,tmpPos.z+rand.nextFloat());
 							world.spawnEntityInWorld(enderman);							
 							break;
 						}
@@ -62,54 +66,53 @@ public class BlockDeathFlower extends BlockFlower{
 			
 			if (rand.nextInt(6) == 0){
 				if (++meta == 15){
+					BlockPosM tmpPos = BlockPosM.tmp();
+					
 					for(int xx = x-8; xx <= x+8; xx++){
 						for(int yy = y-8; yy <= y+8; yy++){
 							for(int zz = z-8; zz <= z+8; zz++){
 								if (xx == x && yy == y && zz == z || rand.nextFloat() < 0.2F)continue;
 								if (Math.sqrt(Math.pow(xx-x,2)+Math.pow(yy-y,2)+Math.pow(zz-z,2)) > 4D+rand.nextFloat()*3.8D)continue;
 								
-								Block block = world.getBlock(xx,yy,zz);
-								if (block == Blocks.air){
-									if (rand.nextInt(7) == 0)setBlock(world,xx,yy,zz,Blocks.web);
+								Block block = tmpPos.set(xx,yy,zz).getBlock(world);
+								
+								if (block.getMaterial() == Material.air){
+									if (rand.nextInt(7) == 0)tmpPos.setBlock(world,Blocks.web);
 									continue;
 								}
 								
-								if (block == Blocks.grass && world.getBlock(xx,yy+1,zz) == Blocks.air)setBlock(world,xx,yy,zz,Blocks.mycelium);
-								else if (block == Blocks.stone)setBlock(world,xx,yy,zz,Blocks.cobblestone);
-								else if (block == Blocks.stonebrick)setMeta(world,xx,yy,zz,1);
-								else if (block == Blocks.sandstone)setBlock(world,xx,yy,zz,Blocks.sand);
-								else if (block == Blocks.cobblestone)setBlock(world,xx,yy,zz,Blocks.gravel);
-								else if (block == Blocks.sand)setBlock(world,xx,yy,zz,Blocks.soul_sand);
-								else if (block == Blocks.brick_block)setBlock(world,xx,yy,zz,Blocks.nether_brick);
-								else if (block == Blocks.fence)setBlock(world,xx,yy,zz,Blocks.nether_brick_fence);
-								else if (block == Blocks.torch)setBlock(world,xx,yy,zz,Blocks.redstone_torch);
-								else if (block == Blocks.wool || block == Blocks.carpet || block == Blocks.stained_hardened_clay)setMeta(world,xx,yy,zz,15);
-								else if (block == Blocks.quartz_block)setMeta(world,xx,yy,zz,1);
-								else if (block == Blocks.glass)setBlock(world,xx,yy,zz,Blocks.glass_pane);
-								else if (block instanceof BlockFlower)setBlock(world,xx,yy,zz,Blocks.deadbush);
-								else if (block instanceof BlockCrops)world.setBlockToAir(xx,yy,zz);
+								if (block == Blocks.grass && tmpPos.copy().moveUp().isAir(world))tmpPos.setBlock(world,Blocks.mycelium);
+								else if (block == Blocks.stone)tmpPos.setBlock(world,Blocks.cobblestone);
+								else if (block == Blocks.stonebrick)tmpPos.setMetadata(world,1);
+								else if (block == Blocks.sandstone)tmpPos.setBlock(world,Blocks.sand);
+								else if (block == Blocks.cobblestone)tmpPos.setBlock(world,Blocks.gravel);
+								else if (block == Blocks.sand)tmpPos.setBlock(world,Blocks.soul_sand);
+								else if (block == Blocks.brick_block)tmpPos.setBlock(world,Blocks.nether_brick);
+								else if (block == Blocks.fence)tmpPos.setBlock(world,Blocks.nether_brick_fence);
+								else if (block == Blocks.torch)tmpPos.setBlock(world,Blocks.redstone_torch);
+								else if (block == Blocks.wool || block == Blocks.carpet || block == Blocks.stained_hardened_clay)tmpPos.setMetadata(world,15);
+								else if (block == Blocks.quartz_block)tmpPos.setMetadata(world,1);
+								else if (block == Blocks.glass)tmpPos.setBlock(world,Blocks.glass_pane);
+								else if (block instanceof BlockFlower)tmpPos.setBlock(world,Blocks.deadbush);
+								else if (block instanceof BlockCrops)tmpPos.setAir(world);
 							}
 						}
 					}
 					
-					for(int attempt = 0, xx, yy, zz; attempt < 400; attempt++){
-						xx = x+rand.nextInt(17)-8;
-						yy = y+rand.nextInt(17)-8;
-						zz = z+rand.nextInt(17)-8;
-						
-						if (world.isAirBlock(xx,yy,zz)){
-							world.setBlock(xx,yy,zz,BlockList.energy_cluster);
+					for(int attempt = 0; attempt < 400; attempt++){
+						if (tmpPos.set(x+rand.nextInt(17)-8,y+rand.nextInt(17)-8,z+rand.nextInt(17)-8).isAir(world)){
+							tmpPos.setBlock(world,BlockList.energy_cluster);
 							break;
 						}
 					}
 					
 					for(int a = 0; a < 6; a++){
-						int xx = x+rand.nextInt(9)-4,zz = z+rand.nextInt(9)-4,yy;
+						tmpPos.set(x+rand.nextInt(9)-4,-1,z+rand.nextInt(9)-4);
+						
 						for(int b = 0; b < yOffsets.length; b++){
-							yy = y+yOffsets[b];
-							if (!world.getBlock(xx,yy,zz).isOpaqueCube()){
+							if (!tmpPos.setY(y+yOffsets[b]).getBlock(world).isOpaqueCube()){
 								EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(world);
-								enderman.setPosition(xx+rand.nextFloat(),yy+0.01F,zz+rand.nextFloat());
+								enderman.setPosition(tmpPos.x+rand.nextFloat(),tmpPos.y+0.01F,tmpPos.z+rand.nextFloat());
 								enderman.setCanDespawn(false);
 								world.spawnEntityInWorld(enderman);								
 								break;
@@ -118,17 +121,9 @@ public class BlockDeathFlower extends BlockFlower{
 					}
 				}
 				
-				world.setBlockMetadataWithNotify(x,y,z,Math.min(meta,15),3);
+				BlockPosM.tmp(x,y,z).setMetadata(world,Math.min(meta,15));
 			}
 		}
-	}
-	
-	private void setBlock(World world, int x, int y, int z, Block newBlock){
-		world.setBlock(x,y,z,newBlock);
-	}
-	
-	private void setMeta(World world, int x, int y, int z, int newMeta){
-		world.setBlockMetadataWithNotify(x,y,z,newMeta,3);
 	}
 	
 	@Override
@@ -136,11 +131,11 @@ public class BlockDeathFlower extends BlockFlower{
 		ItemStack is = player.inventory.getCurrentItem();
 		if (is == null || is.getItem() != ItemList.end_powder)return false;
 		
-		int meta = world.getBlockMetadata(x,y,z);
+		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		
 		if (meta > 0 && meta < 15){
 			if (!world.isRemote){
-				world.setBlockMetadataWithNotify(x,y,z,meta-1,2);
+				BlockPosM.tmp(x,y,z).setMetadata(world,meta-1,2);
 				if (!player.capabilities.isCreativeMode)--is.stackSize;
 				world.playAuxSFX(2005,x,y,z,0);
 			}
@@ -163,13 +158,13 @@ public class BlockDeathFlower extends BlockFlower{
 	
 	@Override
 	public boolean canBlockStay(World world, int x, int y, int z){
-		return canPlaceBlockOn(world.getBlock(x,y-1,z));
+		return canPlaceBlockOn(BlockPosM.tmp(x,y-1,z).getBlock(world));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		int meta = world.getBlockMetadata(x,y,z);
+		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		
 		if (meta > 0 && meta < 15 && (rand.nextInt(50) < meta*Math.sqrt(meta) || rand.nextInt(18-meta) == 0)){
 			double speedMp = 0.003D*meta;

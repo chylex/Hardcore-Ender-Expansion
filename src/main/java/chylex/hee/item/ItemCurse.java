@@ -18,6 +18,7 @@ import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -33,7 +34,7 @@ public class ItemCurse extends Item{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		Block block = world.getBlock(x,y,z);
 
-		if (block == Blocks.snow_layer && (world.getBlockMetadata(x,y,z)&7) < 1)side = 1;
+		if (block == Blocks.snow_layer && (BlockPosM.tmp(x,y,z).getMetadata(world)&7) < 1)side = 1;
 		else if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush && !block.isReplaceable(world,x,y,z)){
 			switch(side){
 				case 0: --y; break;

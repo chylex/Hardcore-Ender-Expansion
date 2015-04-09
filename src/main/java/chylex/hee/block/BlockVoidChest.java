@@ -11,6 +11,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityVoidChest;
 
 public class BlockVoidChest extends BlockContainer{
@@ -55,7 +56,7 @@ public class BlockVoidChest extends BlockContainer{
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		if (!world.isRemote && !world.getBlock(x,y+1,z).isNormalCube() && world.getTileEntity(x,y,z) instanceof TileEntityVoidChest){
+		if (!world.isRemote && !BlockPosM.tmp(x,y+1,z).getBlock(world).isNormalCube() && BlockPosM.tmp(x,y,z).getTileEntity(world) instanceof TileEntityVoidChest){
 			player.openGui(HardcoreEnderExpansion.instance,6,world,x,y,z);
 		}
 		

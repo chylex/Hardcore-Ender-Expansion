@@ -12,7 +12,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class C05CustomWeather extends AbstractClientPacket{
 	private int entityId;
-	private double x,y,z;
+	private double x, y, z;
 	private byte weatherType;
 	
 	public C05CustomWeather(){}

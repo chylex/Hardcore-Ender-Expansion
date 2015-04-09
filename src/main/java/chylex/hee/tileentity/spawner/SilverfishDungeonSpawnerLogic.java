@@ -6,6 +6,7 @@ import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class SilverfishDungeonSpawnerLogic extends CustomSpawnerLogic{
@@ -24,18 +25,17 @@ public class SilverfishDungeonSpawnerLogic extends CustomSpawnerLogic{
 	public void onBlockBreak(){
 		World world = getSpawnerWorld();
 		Random rand = world.rand;
+		BlockPosM tmpPos = BlockPosM.tmp();
 
-		for(int attempt = 0,found = 0,targ = 4+rand.nextInt(4),xx,yy,zz; attempt < 400 && found < targ; attempt++){
-			xx = getSpawnerX()+rand.nextInt(11)-5;
-			yy = getSpawnerY()+1-rand.nextInt(5);
-			zz = getSpawnerZ()+rand.nextInt(11)-5;
+		for(int attempt = 0, found = 0, targ = 4+rand.nextInt(4); attempt < 400 && found < targ; attempt++){
+			tmpPos.set(getSpawnerX()+rand.nextInt(11)-5,getSpawnerY()+1-rand.nextInt(5),getSpawnerZ()+rand.nextInt(11)-5);
 			
-			if (world.getBlock(xx,yy,zz) == Blocks.stonebrick){
-				world.setBlockToAir(xx,yy,zz);
-				world.playAuxSFX(xx,yy,zz,2001,Block.getIdFromBlock(Blocks.stonebrick));
+			if (tmpPos.getBlock(world) == Blocks.stonebrick){
+				tmpPos.setAir(world);
+				world.playAuxSFX(tmpPos.x,tmpPos.y,tmpPos.z,2001,Block.getIdFromBlock(Blocks.stonebrick));
 				
 				EntitySilverfish silverfish = new EntitySilverfish(world);
-				silverfish.setLocationAndAngles(xx+0.5D,yy+0.5D,zz+0.5D,rand.nextFloat()*360F,0F);
+				silverfish.setLocationAndAngles(tmpPos.x+0.5D,tmpPos.y+0.5D,tmpPos.z+0.5D,rand.nextFloat()*360F,0F);
 				world.spawnEntityInWorld(silverfish);
 				++found;
 			}

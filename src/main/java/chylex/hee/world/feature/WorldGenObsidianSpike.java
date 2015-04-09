@@ -7,17 +7,20 @@ import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class WorldGenObsidianSpike extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		if (world.isAirBlock(x,y,z) && world.getBlock(x,y-1,z) == Blocks.end_stone){
+		BlockPosM tmpPos = BlockPosM.tmp();
+		
+		if (tmpPos.set(x,y,z).isAir(world) && tmpPos.moveDown().getBlock(world) == Blocks.end_stone){
 			int radius = rand.nextInt(4)+1;
 
 			for(int xx = x-radius; xx <= x+radius; ++xx){
 				for(int zz = z-radius; zz <= z+radius; ++zz){
-					if (MathUtil.square(xx-x)+MathUtil.square(zz-z) <= radius*radius+1 && world.getBlock(xx,y-1,zz) != Blocks.end_stone){
+					if (MathUtil.square(xx-x)+MathUtil.square(zz-z) <= radius*radius+1 && tmpPos.set(xx,y-1,zz).getBlock(world) != Blocks.end_stone){
 						return false;
 					}
 				}
@@ -29,7 +32,7 @@ public class WorldGenObsidianSpike extends WorldGenerator{
 				for(int xx = x-radius; xx <= x+radius; ++xx){
 					for(int zz = z-radius; zz <= z+radius; ++zz){
 						if (MathUtil.square(xx-x)+MathUtil.square(zz-z) <= radius*radius+1){
-							world.setBlock(xx,yy,zz,BlockList.obsidian_falling,0,2);
+							tmpPos.set(xx,yy,zz).setBlock(world,BlockList.obsidian_falling,0,2);
 						}
 					}
 				}
@@ -53,7 +56,7 @@ public class WorldGenObsidianSpike extends WorldGenerator{
 								}
 							}
 							
-							if (hasMoreAir)world.setBlock(xx,y+height,zz,Blocks.iron_bars,0,2);
+							if (hasMoreAir)tmpPos.set(xx,y+height,zz).setBlock(world,Blocks.iron_bars,0,2);
 						}
 					}
 				}
@@ -69,7 +72,7 @@ public class WorldGenObsidianSpike extends WorldGenerator{
 			);
 			
 			world.spawnEntityInWorld(crystal);
-			world.setBlock(x,y+height,z,Blocks.bedrock,0,2);
+			tmpPos.set(x,y+height,z).setBlock(world,Blocks.bedrock,0,2);
 			
 			crystal.setCrystalKey(WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).addCrystal(x,y+height,z));
 			
