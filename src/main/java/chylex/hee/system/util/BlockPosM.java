@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockPosM{
@@ -166,23 +167,31 @@ public class BlockPosM{
 		return world.setBlock(x,y,z,block,metadata,flags);
 	}
 	
+	public boolean setMetadata(World world, int metadata){
+		return world.setBlockMetadataWithNotify(x,y,z,metadata,3);
+	}
+	
+	public boolean setMetadata(World world, int metadata, int flags){
+		return world.setBlockMetadataWithNotify(x,y,z,metadata,flags);
+	}
+	
 	public boolean isAir(World world){
 		return world.isAirBlock(x,y,z);
 	}
 	
-	public Block getBlock(World world){
+	public Block getBlock(IBlockAccess world){
 		return world.getBlock(x,y,z);
 	}
 	
-	public int getMetadata(World world){
+	public int getMetadata(IBlockAccess world){
 		return world.getBlockMetadata(x,y,z);
 	}
 	
-	public Material getMaterial(World world){
+	public Material getMaterial(IBlockAccess world){
 		return world.getBlock(x,y,z).getMaterial();
 	}
 	
-	public TileEntity getTileEntity(World world){
+	public TileEntity getTileEntity(IBlockAccess world){
 		return world.getTileEntity(x,y,z);
 	}
 	
