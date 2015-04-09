@@ -100,6 +100,10 @@ public class BlockPosM{
 		return set(MathUtil.floor(x),MathUtil.floor(y),MathUtil.floor(z));
 	}
 	
+	public BlockPosM set(BlockPosM pos){
+		return set(pos.x,pos.y,pos.z);
+	}
+	
 	public BlockPosM set(Entity entity){
 		return set(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ));
 	}

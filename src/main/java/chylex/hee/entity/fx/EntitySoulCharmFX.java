@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -63,7 +64,7 @@ public abstract class EntitySoulCharmFX extends EntityFX{
 		
 		if (--breakCheckTimer < 0){
 			breakCheckTimer = 10;
-			if (worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ)) != getTargetBlock())age = (byte)(maxAge-18);
+			if (BlockPosM.tmp(this).getBlock(worldObj) != getTargetBlock())age = (byte)(maxAge-18);
 		}
 		
 		if (rand.nextInt(3) == 0)posX += rand.nextDouble()*0.02D-0.01D;

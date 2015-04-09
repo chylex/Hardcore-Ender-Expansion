@@ -13,6 +13,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityProjectileCurse extends EntityThrowable{
 	private UUID throwerID;
@@ -62,7 +63,7 @@ public class EntityProjectileCurse extends EntityThrowable{
 				}
 			}
 			else if (mop.typeOfHit == MovingObjectType.BLOCK){
-				int yy = worldObj.getBlock(mop.blockX,mop.blockY,mop.blockZ).isReplaceable(worldObj,mop.blockX,mop.blockY,mop.blockZ) ? mop.blockY-1 : mop.blockY;
+				int yy = BlockPosM.tmp(mop.blockX,mop.blockY,mop.blockZ).getBlock(worldObj).isReplaceable(worldObj,mop.blockX,mop.blockY,mop.blockZ) ? mop.blockY-1 : mop.blockY;
 				worldObj.spawnEntityInWorld(new EntityTechnicalCurseBlock(worldObj,mop.blockX,yy,mop.blockZ,throwerID,curseType,eternal));
 			}
 

@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -24,6 +23,7 @@ import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityMobAngryEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
 	private static final UUID aggroSpeedBoostID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
@@ -132,17 +132,14 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 		posZ = z;
 		
 		boolean wasTeleported = false;
-		int ix = MathHelper.floor_double(posX),iy = MathHelper.floor_double(posY),iz = MathHelper.floor_double(posZ);
+		BlockPosM tmpPos = BlockPosM.tmp(this);
 
-		if (worldObj.blockExists(ix,iy,iz)){
+		if (worldObj.blockExists(tmpPos.x,tmpPos.y,tmpPos.z)){
 			boolean found = false;
 
-			while(!found && iy > 0){
-				if (worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement())found = true;
-				else{
-					--posY;
-					--iy;
-				}
+			while(!found && tmpPos.y > 0){
+				if (tmpPos.moveDown().getMaterial(worldObj).blocksMovement())found = true; // TODO test (same as the curse todo)
+				else --posY;
 			}
 
 			if (found){

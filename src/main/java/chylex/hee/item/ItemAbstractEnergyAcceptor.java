@@ -16,6 +16,7 @@ import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -105,7 +106,7 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
 		
-		if (world.getBlock(x,y,z) == BlockList.energy_cluster && canAcceptEnergy(is)){
+		if (BlockPosM.tmp(x,y,z).getBlock(world) == BlockList.energy_cluster && canAcceptEnergy(is)){
 			if (nbt.hasKey("engDrain")){
 				nbt.removeTag("engDrain");
 				nbt.removeTag("engWait");

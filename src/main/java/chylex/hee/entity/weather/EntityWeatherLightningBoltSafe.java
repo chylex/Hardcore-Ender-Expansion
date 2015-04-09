@@ -3,6 +3,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityWeatherLightningBoltSafe extends EntityLightningBolt{
 	private int lightningState;
@@ -15,11 +16,12 @@ public class EntityWeatherLightningBoltSafe extends EntityLightningBolt{
 		boltLivingTime = rand.nextInt(3)+1;
 
 		if (!world.isRemote && world.difficultySetting.getDifficultyId() >= 2 && world.doChunksNearChunkExist(MathHelper.floor_double(x),MathHelper.floor_double(y),MathHelper.floor_double(z),10)){
+			BlockPosM tmpPos = BlockPosM.tmp();
+			
 			for(int testX = -2; testX <= 2; ++testX){
 				for(int testY = -2; testY <= 2; ++testY){
 					for(int testZ = -2; testZ <= 2; ++testZ){
-						int xx = MathHelper.floor_double(x)+testX,yy = MathHelper.floor_double(y)+testY,zz = MathHelper.floor_double(z)+testZ;
-						if (world.getBlock(xx,yy,zz) == Blocks.fire)world.setBlockToAir(xx,yy,zz);
+						if (tmpPos.set(x+testX,y+testY,z+testZ).getBlock(worldObj) == Blocks.fire)tmpPos.setAir(worldObj);
 					}
 				}
 			}

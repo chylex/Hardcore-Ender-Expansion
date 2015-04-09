@@ -1,12 +1,11 @@
 package chylex.hee.entity.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockDragonEggCustom;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
@@ -42,12 +41,10 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 		motionX *= 0.9D;
 		motionY *= 0.9D;
 		motionZ *= 0.9D;
-		int i = MathHelper.floor_double(posX);
-		int j = MathHelper.floor_double(posY);
-		int k = MathHelper.floor_double(posZ);
+		BlockPosM tmpPos = BlockPosM.tmp(this);
 
-		if (field_145812_b == 1 && worldObj.getBlock(i,j,k) == func_145805_f()){ // OBFUSCATED get block
-			worldObj.setBlockToAir(i,j,k);
+		if (field_145812_b == 1 && tmpPos.getBlock(worldObj) == func_145805_f()){ // OBFUSCATED get block
+			tmpPos.setAir(worldObj);
 		}
 		else if (!worldObj.isRemote && field_145812_b == 1){
 			die();
@@ -58,13 +55,13 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 			motionZ *= 0.7D;
 			motionY *= -0.5D;
 
-			if (worldObj.getBlock(i,j,k) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).isEmpty()){
-				if (worldObj.setBlock(i,j,k,func_145805_f()))setDead(); // OBFUSCATED get block
+			if (tmpPos.getBlock(worldObj) != Blocks.piston_extension){
+				if (tmpPos.setBlock(worldObj,func_145805_f()))setDead(); // OBFUSCATED get block
 				else die();
 			}
 			else die();
 		}
-		else if (field_145812_b > 100 && !worldObj.isRemote && (j < 1 || j > 256) || field_145812_b > 600){
+		else if (field_145812_b > 100 && !worldObj.isRemote && (tmpPos.y < 1 || tmpPos.y > 256) || field_145812_b > 600){
 			die();
 		}
 	}

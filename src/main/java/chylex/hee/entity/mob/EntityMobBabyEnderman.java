@@ -44,6 +44,7 @@ import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.IItemSelector;
 
 public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
@@ -176,15 +177,15 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 					}
 					
 					PathEntity escapePath = null;
-					for(int pathatt = 0,xx,yy,zz; pathatt < 100; pathatt++){
+					BlockPosM tmpPos = BlockPosM.tmp();
+					
+					for(int pathatt = 0; pathatt < 100; pathatt++){
 						double ang = rand.nextDouble()*2D*Math.PI,len = 8D+rand.nextDouble()*6D;
-						xx = (int)(posX+Math.cos(ang)*len);
-						yy = (int)(posY+rand.nextInt(4)-2);
-						zz = (int)(posZ+Math.sin(ang)*len);
+						tmpPos.set(posX+Math.cos(ang)*len,posY+rand.nextInt(4)-2,posZ+Math.sin(ang)*len);
 						
-						Block low = worldObj.getBlock(xx,yy,zz);
-						if ((low.getMaterial() == Material.air || low == BlockList.crossed_decoration) && worldObj.getBlock(xx,yy+1,zz).getMaterial() == Material.air){
-							escapePath = worldObj.getEntityPathToXYZ(this,xx,yy,zz,16F,false,true,false,false);
+						Block low = tmpPos.getBlock(worldObj);
+						if ((low.getMaterial() == Material.air || low == BlockList.crossed_decoration) && tmpPos.moveUp().getMaterial(worldObj) == Material.air){
+							escapePath = worldObj.getEntityPathToXYZ(this,tmpPos.x,tmpPos.y,tmpPos.z,16F,false,true,false,false);
 							break;
 						}
 					}

@@ -10,6 +10,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -48,14 +49,13 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 				
 				if (amount >= EnergyChunkData.minSignificantEnergy){
 					int energyMeta = Math.min(15,3+(int)(amount*0.8F));
+					BlockPosM tmpPos = BlockPosM.tmp();
 					
-					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 20 && placed < 3; attempt++){
-						xx = x+world.rand.nextInt(4)-world.rand.nextInt(4);
-						yy = y+world.rand.nextInt(4)-world.rand.nextInt(4);
-						zz = z+world.rand.nextInt(4)-world.rand.nextInt(4);
+					for(int attempt = 0, placed = 0; attempt < 20 && placed < 3; attempt++){
+						tmpPos.set(x+world.rand.nextInt(9)-4,y+world.rand.nextInt(9)-4,z+world.rand.nextInt(9)-4);
 						
-						if (world.isAirBlock(xx,yy,zz)){
-							world.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,energyMeta,3);
+						if (tmpPos.isAir(world)){
+							tmpPos.setBlock(world,BlockList.corrupted_energy_low,energyMeta);
 							++placed;
 						}
 					}

@@ -1,13 +1,13 @@
 package chylex.hee.entity.technical;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.world.util.Direction;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockDungeonPuzzle;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.BlockPosM;
+import chylex.hee.world.util.Direction;
 
 public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 	private byte dir;
@@ -32,16 +32,16 @@ public class EntityTechnicalPuzzleChain extends EntityTechnicalBase{
 		if (ticksExisted%8 == 1){
 			setPosition(posX+Direction.offsetX[dir],posY,posZ+Direction.offsetZ[dir]);
 			
-			int x = MathUtil.floor(posX), y = MathUtil.floor(posY), z = MathUtil.floor(posZ);
+			BlockPosM tmpPos = BlockPosM.tmp(this);
 			
-			if (worldObj.getBlock(x,y,z) == BlockList.dungeon_puzzle){
-				if (((BlockDungeonPuzzle)BlockList.dungeon_puzzle).updateChain(worldObj,x,y,z,dir)){
-					PacketPipeline.sendToAllAround(dimension,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+0.5D,y+0.5D,z+0.5D));
+			if (tmpPos.getBlock(worldObj) == BlockList.dungeon_puzzle){
+				if (((BlockDungeonPuzzle)BlockList.dungeon_puzzle).updateChain(worldObj,tmpPos.x,tmpPos.y,tmpPos.z,dir)){
+					PacketPipeline.sendToAllAround(dimension,tmpPos.x+0.5D,tmpPos.y+0.5D,tmpPos.z+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,tmpPos.x+0.5D,tmpPos.y+0.5D,tmpPos.z+0.5D));
 				}
 				else setDead();
 			}
 			else{
-				((BlockDungeonPuzzle)BlockList.dungeon_puzzle).checkWinConditions(worldObj,x-Direction.offsetX[dir],y,z-Direction.offsetZ[dir]);
+				((BlockDungeonPuzzle)BlockList.dungeon_puzzle).checkWinConditions(worldObj,tmpPos.x-Direction.offsetX[dir],tmpPos.y,tmpPos.z-Direction.offsetZ[dir]);
 				setDead();
 			}
 		}

@@ -11,6 +11,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
@@ -55,8 +56,8 @@ public class ItemEnergyWand extends Item{
 				ItemUtil.getTagRoot(is,false).removeTag("cluster");
 				return true;
 			}
-			else if (world.getBlock(x,y,z) == BlockList.energy_cluster){
-				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
+			else if (BlockPosM.tmp(x,y,z).getBlock(world) == BlockList.energy_cluster){
+				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)BlockPosM.tmp(x,y,z).getTileEntity(world);
 				
 				if (tile != null){
 					tile.shouldNotExplode = true;
@@ -72,7 +73,7 @@ public class ItemEnergyWand extends Item{
 						itemNbt.setIntArray("prevLoc",new int[]{ x, y, z });
 						itemNbt.setShort("prevDim",(short)world.provider.dimensionId);
 						
-						world.setBlockToAir(x,y,z);
+						BlockPosM.tmp(x,y,z).setAir(world);
 					}
 				}
 				

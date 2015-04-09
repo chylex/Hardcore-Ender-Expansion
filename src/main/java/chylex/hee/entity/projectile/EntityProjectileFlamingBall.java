@@ -10,6 +10,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 
 public class EntityProjectileFlamingBall extends EntityFireball{
@@ -62,11 +63,13 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 				case 5: ++mop.blockX; break;
 			}
 			
-			if (worldObj.getBlock(mop.blockX,mop.blockY,mop.blockZ).getMaterial() == Material.air){
-				worldObj.setBlock(mop.blockX,mop.blockY,mop.blockZ,Blocks.fire);
+			BlockPosM tmpPos = BlockPosM.tmp();
+			
+			if (tmpPos.set(mop.blockX,mop.blockY,mop.blockZ).getMaterial(worldObj) == Material.air){
+				tmpPos.setBlock(worldObj,Blocks.fire);
 			}
-			else if (worldObj.getBlock(mop.blockX,mop.blockY+1,mop.blockZ).getMaterial() == Material.air){
-				worldObj.setBlock(mop.blockX,mop.blockY+1,mop.blockZ,Blocks.fire);
+			else if (tmpPos.set(mop.blockX,mop.blockY+1,mop.blockZ).getMaterial(worldObj) == Material.air){
+				tmpPos.setBlock(worldObj,Blocks.fire);
 			}
 		}
 		

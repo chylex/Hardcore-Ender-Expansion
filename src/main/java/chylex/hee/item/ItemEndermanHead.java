@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockList;
-import chylex.hee.mechanics.misc.ApocalypseEvents;
 import chylex.hee.proxy.ModClientProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -39,7 +39,7 @@ public class ItemEndermanHead extends Item{
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (side == 0 || !world.getBlock(x,y,z).getMaterial().isSolid())return false;
+		if (side == 0 || !BlockPosM.tmp(x,y,z).getMaterial(world).isSolid())return false;
 		
 		switch(side){
 			case 1: ++y; break;
@@ -54,11 +54,11 @@ public class ItemEndermanHead extends Item{
 
 		world.setBlock(x,y,z,BlockList.enderman_head,side,2);
 		
-		if (side == 1 && ApocalypseEvents.checkEndermanpocalypseStructure(world,x,y,z)){
-			//int rotation = (int)((MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15)*360F/16F);
+		/*if (side == 1 && ApocalypseEvents.checkEndermanpocalypseStructure(world,x,y,z)){
+			int rotation = (int)((MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15)*360F/16F);
 			--is.stackSize;
 			return true;
-		}
+		}*/
 		
 		TileEntityEndermanHead tile = (TileEntityEndermanHead)world.getTileEntity(x,y,z);
 		if (tile != null){

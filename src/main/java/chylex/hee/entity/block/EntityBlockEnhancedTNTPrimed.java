@@ -21,7 +21,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -79,7 +79,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		motionZ *= 0.98D;
 		
 		if (!worldObj.isRemote && noClip){
-			Block block = worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ));
+			Block block = BlockPosM.tmp(this).getBlock(worldObj);
 			
 			if (!wentIntoWall && block.isOpaqueCube())wentIntoWall = true;
 			else if (wentIntoWall && block.getMaterial() == Material.air){
@@ -163,7 +163,6 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 			
 			HashSet<ChunkPosition> affectedBlocks = new HashSet<>();
 			double tempX, tempY, tempZ, distX, distY, distZ, totalDist;
-			int xInt, yInt, zInt;
 
 			for(int x = 0; x < dist; ++x){
 				for(int y = 0; y < dist; ++y){
@@ -183,20 +182,17 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 							tempY = explosionY;
 							tempZ = explosionZ;
 
-							for(float mp = 0.3F; affectedDistance > 0F; affectedDistance -= mp*0.75F){
-								xInt = MathHelper.floor_double(tempX);
-								yInt = MathHelper.floor_double(tempY);
-								zInt = MathHelper.floor_double(tempZ);
-								
-								Block block = worldObj.getBlock(xInt,yInt,zInt);
+							for(float mp = 0.3F; affectedDistance > 0F; affectedDistance -= mp*0.75F){								
+								BlockPosM tmpPos = BlockPosM.tmp(tempX,tempY,tempZ);
+								Block block = tmpPos.getBlock(worldObj);
 
 								if (block.getMaterial() != Material.air){
-									float resistance = exploder != null ? exploder.func_145772_a(this,worldObj,xInt,yInt,zInt,block) : block.getExplosionResistance(exploder,worldObj,xInt,yInt,zInt,explosionX,explosionY,explosionZ);
+									float resistance = exploder != null ? exploder.func_145772_a(this,worldObj,tmpPos.x,tmpPos.y,tmpPos.z,block) : block.getExplosionResistance(exploder,worldObj,tmpPos.x,tmpPos.y,tmpPos.z,explosionX,explosionY,explosionZ);
 									affectedDistance -= (resistance+0.3F)*mp;
 								}
 
-								if (affectedDistance > 0F && (exploder == null || exploder.func_145774_a(this,worldObj,xInt,yInt,zInt,block,affectedDistance))){
-									affectedBlocks.add(new ChunkPosition(xInt,yInt,zInt));
+								if (affectedDistance > 0F && (exploder == null || exploder.func_145774_a(this,worldObj,tmpPos.x,tmpPos.y,tmpPos.z,block,affectedDistance))){
+									affectedBlocks.add(new ChunkPosition(tmpPos.x,tmpPos.y,tmpPos.z));
 								}
 
 								tempX += distX*mp;

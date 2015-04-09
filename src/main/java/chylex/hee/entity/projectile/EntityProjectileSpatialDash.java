@@ -22,6 +22,7 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -139,11 +140,12 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					
 					boolean found = false;
 					Block block;
+					BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
 					
 					for(int yTest = y; yTest <= y+8; yTest++){
-						if ((block = worldObj.getBlock(x,yTest,z)).getBlockHardness(worldObj,x,yTest,z) == -1)break;
+						if ((block = tmpPos.setY(yTest).getBlock(worldObj)).getBlockHardness(worldObj,x,yTest,z) == -1)break;
 						
-						if (canSpawnIn(block,worldObj.getBlock(x,yTest+1,z))){
+						if (canSpawnIn(block,tmpPos.moveUp().getBlock(worldObj))){
 							player.setPositionAndUpdate(x+0.5D,yTest+0.01D,z+0.5D);
 							found = true;
 							break;
@@ -154,9 +156,9 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 						for(int xTest = x-1; xTest <= x+1; xTest++){
 							for(int zTest = z-1; zTest <= z+1; zTest++){
 								for(int yTest = y+1; yTest <= y+8; yTest++){
-									if ((block = worldObj.getBlock(x,yTest,z)).getBlockHardness(worldObj,x,yTest,z) == -1)break;
+									if ((block = tmpPos.set(xTest,yTest,zTest).getBlock(worldObj)).getBlockHardness(worldObj,x,yTest,z) == -1)break;
 									
-									if (canSpawnIn(block,worldObj.getBlock(xTest,yTest+1,zTest))){
+									if (canSpawnIn(block,tmpPos.moveUp().getBlock(worldObj))){
 										player.setPositionAndUpdate(xTest+0.5D,yTest+0.01D,zTest+0.5D);
 										found = true;
 										break;
@@ -167,7 +169,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					}
 					
 					if (!found)player.setPositionAndUpdate(x+0.5D,y+0.01D,z+0.5D);
-					if (tryAchievement && worldObj.getBlock(x,y,z).isOpaqueCube())player.addStat(AchievementManager.TP_NEAR_VOID,1);
+					if (tryAchievement && BlockPosM.tmp(x,y,z).getBlock(worldObj).isOpaqueCube())player.addStat(AchievementManager.TP_NEAR_VOID,1);
 					player.fallDistance = 0F;
 					
 					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,player));

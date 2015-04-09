@@ -23,11 +23,11 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
-import chylex.hee.system.util.BlockPosM;
 
 public class DragonEssenceHandler extends AltarActionHandler{
 	public static final List<AltarItemRecipe> recipes = CollectionUtil.newList(new AltarItemRecipe[]{
@@ -62,9 +62,10 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			}
 			
 			World world = altar.getWorldObj();
+			
 			for(int xx = -range,id; xx <= range; xx++){
 				for(int zz = -range; zz <= range; zz++){
-					id = Block.getIdFromBlock(world.getBlock(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz));
+					id = Block.getIdFromBlock(BlockPosM.tmp(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz).getBlock(world));
 					currentHash += ((4+xx)*7+(4+zz)+id)*262144L+(xx*id)+(zz*id);
 				}
 			}
@@ -76,17 +77,19 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				IdentityHashMap<Block,Byte> blockCounts = new IdentityHashMap<>();
 				Block[][] blocks = new Block[range*2+1][range*2+1];
 				
+				BlockPosM tmpPos = BlockPosM.tmp();
+				
 				for(int xx = altar.xCoord-range; xx <= altar.xCoord+range; xx++){
 					for(int zz = altar.zCoord-range; zz <= altar.zCoord+range; zz++){
 						if (Math.abs(xx-altar.xCoord) <= 1 && Math.abs(zz-altar.zCoord) <= 1)continue;
 						
-						if (world.isAirBlock(xx,altar.yCoord+1,zz)&&
-							(world.isAirBlock(xx-1,altar.yCoord,zz) || !hasCollisionBox(altar,xx-1,altar.yCoord,zz)) &&
-							(world.isAirBlock(xx+1,altar.yCoord,zz) || !hasCollisionBox(altar,xx+1,altar.yCoord,zz)) &&
-							(world.isAirBlock(xx,altar.yCoord,zz-1) || !hasCollisionBox(altar,xx,altar.yCoord,zz-1)) &&
-							(world.isAirBlock(xx,altar.yCoord,zz+1) || !hasCollisionBox(altar,xx,altar.yCoord,zz+1)) &&
+						if (tmpPos.set(xx,altar.yCoord+1,zz).isAir(world) &&
+							(tmpPos.set(xx-1,altar.yCoord,zz).isAir(world) || !hasCollisionBox(altar,xx-1,altar.yCoord,zz)) &&
+							(tmpPos.set(xx+1,altar.yCoord,zz).isAir(world) || !hasCollisionBox(altar,xx+1,altar.yCoord,zz)) &&
+							(tmpPos.set(xx,altar.yCoord,zz-1).isAir(world) || !hasCollisionBox(altar,xx,altar.yCoord,zz-1)) &&
+							(tmpPos.set(xx,altar.yCoord,zz+1).isAir(world) || !hasCollisionBox(altar,xx,altar.yCoord,zz+1)) &&
 							hasCollisionBox(altar,xx,altar.yCoord,zz)){
-							Block block = world.getBlock(xx,altar.yCoord,zz);
+							Block block = tmpPos.set(xx,altar.yCoord,zz).getBlock(world);
 							if (block.getMaterial() == Material.air)continue;
 							
 							blocks[range+xx-altar.xCoord][range+zz-altar.zCoord] = block;

@@ -30,6 +30,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -163,21 +164,20 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								
 								if (attackLavaCounter == 0){
 									attackLavaCounter = 1;
+									BlockPosM testPos = new BlockPosM(), tmpPos = BlockPosM.tmp();
 									
-									for(int attempt = 0, xx, yy, zz; attempt < 64; attempt++){
-										xx = MathUtil.floor(target.posX)+rand.nextInt(5)-rand.nextInt(5);
-										zz = MathUtil.floor(target.posZ)+rand.nextInt(5)-rand.nextInt(5);
-										yy = MathUtil.floor(target.posY)+4;
+									for(int attempt = 0; attempt < 64; attempt++){
+										tmpPos.set(this).move(rand.nextInt(5)-rand.nextInt(5),4,rand.nextInt(5)-rand.nextInt(5));
 										
 										for(int yAttempt = 0; yAttempt < 7; yAttempt++){
-											if (worldObj.isAirBlock(xx,yy,zz) && worldObj.getBlock(xx,yy-1,zz).isOpaqueCube()){
-												attackLavaCurrentX = xx;
-												attackLavaCurrentY = yy-2;
-												attackLavaCurrentZ = zz;
+											if (tmpPos.isAir(worldObj) && testPos.set(tmpPos).moveDown().getBlock(worldObj).isOpaqueCube()){
+												attackLavaCurrentX = tmpPos.x;
+												attackLavaCurrentY = tmpPos.y-2;
+												attackLavaCurrentZ = tmpPos.z;
 												attempt = 65;
 												break;
 											}
-											else --yy;
+											else tmpPos.moveDown();
 										}
 									}
 								}

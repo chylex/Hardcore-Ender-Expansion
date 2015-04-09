@@ -3,7 +3,6 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -11,6 +10,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
+import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityBlockFallingObsidian extends EntityFallingBlock{
 	public EntityBlockFallingObsidian(World world){
@@ -37,23 +38,22 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 		motionX *= 0.9D;
 		motionY *= 0.9D;
 		motionZ *= 0.9D;
-		
-		int ix = MathHelper.floor_double(posX),
-			iy = MathHelper.floor_double(posY),
-			iz = MathHelper.floor_double(posZ);
+		BlockPosM tmpPos = BlockPosM.tmp(this);
 
-		if (field_145812_b == 1 && worldObj.getBlock(ix,iy,iz) == func_145805_f())worldObj.setBlockToAir(ix,iy,iz);
+		if (field_145812_b == 1 && tmpPos.getBlock(worldObj) == func_145805_f()){ // OBFUSCATED get block
+			tmpPos.setAir(worldObj);
+		}
 
 		if (onGround){
 			motionX *= 0.7D;
 			motionZ *= 0.7D;
 			motionY *= -0.5D;
 
-			if (field_145812_b > 5 && worldObj.getBlock(ix,iy,iz) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityDragon.class,this.boundingBox.expand(1,1,1)).isEmpty()){
-				if (worldObj.setBlock(ix,iy,iz,func_145805_f()))setDead();
+			if (field_145812_b > 5 && tmpPos.getBlock(worldObj) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityBossDragon.class,this.boundingBox.expand(1,1,1)).isEmpty()){
+				if (tmpPos.setBlock(worldObj,func_145805_f()))setDead();
 			}
 		}
-		else if (!worldObj.isRemote && ((field_145812_b > 100 && (iy < 1 || iy > 256)) || field_145812_b > 600)){
+		else if (!worldObj.isRemote && ((field_145812_b > 100 && (tmpPos.y < 1 || tmpPos.y > 256)) || field_145812_b > 600)){
 			dropItem(Item.getItemFromBlock(Blocks.obsidian),1);
 			setDead();
 		}

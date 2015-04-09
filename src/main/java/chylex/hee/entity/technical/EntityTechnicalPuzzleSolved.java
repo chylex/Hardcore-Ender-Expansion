@@ -11,8 +11,8 @@ import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 	private int minX, minZ, maxX, maxZ;
@@ -44,7 +44,7 @@ public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 			
 			for(int xx = minX; xx <= maxX; xx++){
 				for(int zz = minZ; zz <= maxZ; zz++){
-					if (worldObj.getBlock(xx,yy,zz) == BlockList.dungeon_puzzle && worldObj.getBlockMetadata(xx,yy,zz) != BlockDungeonPuzzle.metaDisabled)locs.add(new BlockPosM(xx,yy,zz));
+					if (BlockPosM.tmp(xx,yy,zz).getBlock(worldObj) == BlockList.dungeon_puzzle && BlockPosM.tmp(xx,yy,zz).getMetadata(worldObj) != BlockDungeonPuzzle.metaDisabled)locs.add(new BlockPosM(xx,yy,zz));
 				}
 			}
 		}
@@ -61,30 +61,28 @@ public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 			appearTimer = 69;
 		}
 		else if (appearTimer == 69){
-			if (worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ)) != BlockList.dungeon_puzzle)setDead();
+			if (BlockPosM.tmp(this).getBlock(worldObj) != BlockList.dungeon_puzzle)setDead();
 			else if (worldObj.getClosestPlayerToEntity(this,1D) != null){
-				int iy = MathUtil.floor(posY);
+				BlockPosM tmpPos = BlockPosM.tmp(0,posY,0);
 				
 				for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(minX,posY,minZ,maxX,posY+3D,maxZ))){
-					int ix = MathUtil.floor(player.posX), iz = MathUtil.floor(player.posZ);
-					
-					if (worldObj.getBlock(ix,iy,iz) == BlockList.dungeon_puzzle){
+					if (tmpPos.set(player.posX,tmpPos.y,player.posZ).getBlock(worldObj) == BlockList.dungeon_puzzle){
 						if (player.isRiding())player.mountEntity(null);
 						
 						double prevX = player.posX, prevY = player.posY, prevZ = player.posZ;
-						player.setPositionAndUpdate(ix+0.5D,worldObj.getTopSolidOrLiquidBlock(ix,iz),iz+0.5D);
+						player.setPositionAndUpdate(tmpPos.x+0.5D,worldObj.getTopSolidOrLiquidBlock(tmpPos.x,tmpPos.z),tmpPos.z+0.5D);
 						player.fallDistance = 0F;
 						PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.DUNGEON_PUZZLE_TELEPORT,player.posX,player.posY,player.posZ,prevX,prevY,prevZ));
 					}
 				}
 				
-				int blockX = MathUtil.floor(posX), blockZ = MathUtil.floor(posZ);
+				tmpPos.set(this);
 				
 				EntityMiniBossFireFiend fiend = new EntityMiniBossFireFiend(worldObj);
-				fiend.setLocationAndAngles(blockX+0.5D+(rand.nextDouble()-0.5D)*18D,worldObj.getTopSolidOrLiquidBlock(blockX,blockZ)+10,blockZ+0.5D+(rand.nextDouble()-0.5D)*18D,rand.nextFloat()*360F,0F);
+				fiend.setLocationAndAngles(tmpPos.x+0.5D+(rand.nextDouble()-0.5D)*18D,worldObj.getTopSolidOrLiquidBlock(tmpPos.x,tmpPos.z)+10,tmpPos.z+0.5D+(rand.nextDouble()-0.5D)*18D,rand.nextFloat()*360F,0F);
 				worldObj.spawnEntityInWorld(fiend);
 				
-				worldObj.setBlockMetadataWithNotify(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ),BlockDungeonPuzzle.metaDisabled,3);
+				tmpPos.setMetadata(worldObj,BlockDungeonPuzzle.metaDisabled);
 				setDead();
 			}
 		}

@@ -22,7 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
@@ -46,6 +45,7 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
@@ -201,15 +201,13 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 				posY = 10000D;
 				
 				if (--currentTaskTimer == 0){
-					int tpX, tpY, tpZ;
+					BlockPosM tmpPos = BlockPosM.tmp();
 					
 					for(int attempt = 0; attempt < 100; attempt++){
-						tpX = MathUtil.floor(posX)+rand.nextInt(41)-20;
-						tpZ = MathUtil.floor(posZ)+rand.nextInt(41)-20;
-						tpY = worldObj.getTopSolidOrLiquidBlock(tpX,tpZ)-1;
+						tmpPos.set(posX+rand.nextInt(41)-20,-1,rand.nextInt(41)-20).setY(worldObj.getTopSolidOrLiquidBlock(tmpPos.x,tmpPos.z)-1);
 						
-						if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.end_terrain){
-							teleportTo(tpX+0.3D+rand.nextDouble()*0.4D,tpY+1D,tpZ+0.3D+rand.nextDouble()*0.4D,true);
+						if (tmpPos.getBlock(worldObj) == BlockList.end_terrain){
+							teleportTo(tmpPos.x+0.3D+rand.nextDouble()*0.4D,tmpPos.y+1D,tmpPos.z+0.3D+rand.nextDouble()*0.4D,true);
 							PacketPipeline.sendToAllAround(this,256D,new C20Effect(FXType.Basic.HOMELAND_ENDERMAN_TP_OVERWORLD,this));
 							
 							if (overtakeGroupRole == OvertakeGroupRole.CHAOSMAKER){
@@ -418,19 +416,19 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 								break;
 								
 							case WORKER:
-								if (rand.nextInt(270) == 0 && worldObj.getBlock(MathUtil.floor(posX),MathUtil.floor(posY)+1,MathUtil.floor(posZ)) != BlockList.ender_goo){
-									for(int attempt = 0, tpX, tpY, tpZ; attempt < 50; attempt++){
-										tpX = (int)posX+rand.nextInt(71)-35;
-										tpZ = (int)posZ+rand.nextInt(71)-35;
-										tpY = worldObj.getTopSolidOrLiquidBlock(tpX,tpZ)-1;
+								if (rand.nextInt(270) == 0 && BlockPosM.tmp(this).moveUp().getBlock(worldObj) != BlockList.ender_goo){
+									BlockPosM tmpPos = BlockPosM.tmp();
+									
+									for(int attempt = 0; attempt < 50; attempt++){
+										tmpPos.set(posX+rand.nextInt(71)-35,-1,posZ+rand.nextInt(71)-35).setY(worldObj.getTopSolidOrLiquidBlock(tmpPos.x,tmpPos.z)-1);
 										
-										if (worldObj.getBlock(tpX,tpY,tpZ) == BlockList.ender_goo){
-											tpX += 0.5D+(rand.nextDouble()-0.5D)*0.3D;
-											tpY += 1D;
-											tpZ += 0.5D+(rand.nextDouble()-0.5D)*0.3D;
+										if (tmpPos.getBlock(worldObj) == BlockList.ender_goo){
+											tmpPos.x += 0.5D+(rand.nextDouble()-0.5D)*0.3D;
+											tmpPos.y += 1D;
+											tmpPos.z += 0.5D+(rand.nextDouble()-0.5D)*0.3D;
 											
-											PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,tpX,tpY,tpZ));
-											teleportTo(tpX,tpY,tpZ,true);
+											PacketPipeline.sendToAllAround(this,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,tmpPos.x,tmpPos.y,tmpPos.z));
+											teleportTo(tmpPos.x,tmpPos.y,tmpPos.z,true);
 											break;
 										}
 									}
@@ -931,17 +929,14 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		posZ = z;
 		
 		boolean hasTeleported = false;
-		int ix = MathHelper.floor_double(posX), iy = MathHelper.floor_double(posY), iz = MathHelper.floor_double(posZ);
+		BlockPosM tmpPos = BlockPosM.tmp(this);
 
-		if (worldObj.blockExists(ix,iy,iz) || ignoreChecks){
+		if (worldObj.blockExists(tmpPos.x,tmpPos.y,tmpPos.z) || ignoreChecks){
 			boolean foundTopBlock = ignoreChecks;
 
-			while(!foundTopBlock && iy > 0){
-				if (worldObj.getBlock(ix,iy-1,iz).getMaterial().blocksMovement() && worldObj.getBlock(ix,iy-1,iz) != BlockList.persegrit)foundTopBlock = true;
-				else{
-					--posY;
-					--iy;
-				}
+			while(!foundTopBlock && tmpPos.y > 0){
+				if (tmpPos.moveDown().getMaterial(worldObj).blocksMovement() && tmpPos.getBlock(worldObj) != BlockList.persegrit)foundTopBlock = true;
+				else --posY;
 			}
 
 			if (foundTopBlock){

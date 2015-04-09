@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 import chylex.hee.block.BlockList;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.misc.TempleEvents;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	public EntityBlockTempleDragonEgg(World world){
@@ -33,17 +33,18 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 		prevPosZ = posZ;
 		
 		if (++field_145812_b == 1 && !worldObj.isRemote){
-			int xx = MathUtil.floor(posX), yy = MathUtil.floor(posY), zz = MathUtil.floor(posZ);
-			if (worldObj.getBlock(xx,yy,zz) != func_145805_f()){ // OBFUSCATED get block
+			BlockPosM tmpPos = BlockPosM.tmp(this);
+			
+			if (tmpPos.getBlock(worldObj) != func_145805_f()){ // OBFUSCATED get block
 				setDead();
 				return;
 			}
 			
-			worldObj.setBlockToAir(xx,yy,zz);
+			tmpPos.setAir(worldObj);
 			
-			for(int x = xx+2; x < xx+5; x++){
-				for(int z = zz-1; z <= zz+1; z++){
-					if (worldObj.getBlock(x,yy-1,z) == BlockList.temple_end_portal)worldObj.setBlockMetadataWithNotify(x,yy-1,z,1,2);
+			for(int origX = tmpPos.x, origZ = tmpPos.z, x = origX+2; x < origX+5; x++){
+				for(int z = origZ-1; z <= origZ+1; z++){
+					if (tmpPos.set(x,tmpPos.y-1,z).getBlock(worldObj) == BlockList.temple_end_portal)tmpPos.setMetadata(worldObj,1,2); // TODO test
 				}
 			}
 		}

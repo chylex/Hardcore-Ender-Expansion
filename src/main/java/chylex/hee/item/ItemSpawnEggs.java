@@ -31,6 +31,7 @@ import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
 import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
+import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -95,15 +96,16 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (world.isRemote)return true;
-
-		Block block = world.getBlock(x,y,z);
+		
+		Block block = BlockPosM.tmp(x,y,z).getBlock(world);
 		x += Facing.offsetsXForSide[side];
 		y += Facing.offsetsYForSide[side];
 		z += Facing.offsetsZForSide[side];
 
 		EggData egg = getEggData(is);
+		
 		if (egg != null){
-			egg.spawnMob(world,x+0.5D,y+(side == 1 && block != null && block.getRenderType() == 11?0.5D:0D),z+0.5D,is);
+			egg.spawnMob(world,x+0.5D,y+(side == 1 && block != null && block.getRenderType() == 11 ? 0.5D : 0D),z+0.5D,is);
 			
 			if (!player.capabilities.isCreativeMode)--is.stackSize;
 		}
@@ -118,15 +120,15 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		MovingObjectPosition mop = getMovingObjectPositionFromPlayer(world,player,true);
 		
 		if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
-			int x = mop.blockX,y = mop.blockY,z = mop.blockZ;
+			int x = mop.blockX, y = mop.blockY, z = mop.blockZ;
 
 			if (!world.canMineBlock(player,x,y,z) || !player.canPlayerEdit(x,y,z,mop.sideHit,is))return is;
 
-			if (world.getBlock(x,y,z).getMaterial() == Material.water){
+			if (BlockPosM.tmp(x,y,z).getMaterial(world) == Material.water){
 				EggData egg = getEggData(is);
+				
 				if (egg != null){
 					egg.spawnMob(world,x,y,z,is);
-					
 					if (!player.capabilities.isCreativeMode)--is.stackSize;
 				}
 			}
