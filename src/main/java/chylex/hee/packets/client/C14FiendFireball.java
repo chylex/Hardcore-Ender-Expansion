@@ -7,41 +7,41 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C69FiendFuckball extends AbstractClientPacket{
-	private int enTittyId;
-	private double fuX, ballZ;
+public class C14FiendFireball extends AbstractClientPacket{
+	private int entityId;
+	private double x, z;
 	
-	public C69FiendFuckball(){}
+	public C14FiendFireball(){}
 	
-	public C69FiendFuckball(EntityProjectileFiendFireball fuckball, double x, double z){
-		this.enTittyId = fuckball.getEntityId();
-		this.fuX = x;
-		this.ballZ = z;
+	public C14FiendFireball(EntityProjectileFiendFireball fuckball, double x, double z){
+		this.entityId = fuckball.getEntityId();
+		this.x = x;
+		this.z = z;
 	}
 	
 	@Override
 	public void write(ByteBuf buffer){
-		buffer.writeInt(enTittyId).writeDouble(fuX).writeDouble(ballZ);
+		buffer.writeInt(entityId).writeDouble(x).writeDouble(z);
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
-		enTittyId = buffer.readInt();
-		fuX = buffer.readDouble();
-		ballZ = buffer.readDouble();
+		entityId = buffer.readInt();
+		x = buffer.readDouble();
+		z = buffer.readDouble();
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		Entity e = player.worldObj.getEntityByID(enTittyId);
+		Entity e = player.worldObj.getEntityByID(entityId);
 		
 		if (e != null){
 			EntityProjectileFiendFireball fuckball = (EntityProjectileFiendFireball)e;
 			fuckball.prevActualPosX = fuckball.actualPosX;
 			fuckball.prevActualPosZ = fuckball.actualPosZ;
-			fuckball.actualPosX = fuX;
-			fuckball.actualPosZ = ballZ;
+			fuckball.actualPosX = x;
+			fuckball.actualPosZ = z;
 		}
 	}
 }
