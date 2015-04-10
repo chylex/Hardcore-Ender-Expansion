@@ -3,6 +3,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class SilverfishRavagedSpawnerLogic extends CustomSpawnerLogic{
@@ -31,7 +32,7 @@ public class SilverfishRavagedSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	protected boolean canMobSpawn(EntityLiving entity){
 		for(int spawnerY = getSpawnerY(), yy = spawnerY; yy > spawnerY-5; yy--){
-			if (!entity.worldObj.isAirBlock((int)entity.posX,yy,(int)entity.posZ) || yy == spawnerY-4){
+			if (!BlockPosM.tmp(entity.posX,yy,entity.posZ).isAir(entity.worldObj) || yy == spawnerY-4){
 				entity.setLocationAndAngles(entity.posX,yy+1,entity.posZ,entity.rotationYaw,0F);
 				
 				if (entity.worldObj.checkNoEntityCollision(entity.boundingBox) && entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty()){

@@ -489,13 +489,13 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 							case CHAOSMAKER:
 								if (isCarrying() && getCarrying().getItem() == Item.getItemFromBlock(Blocks.tnt)){
 									if (rand.nextInt(50) == 0){
-										for(int attempt = 0, xx, yy, zz; attempt < 30; attempt++){
-											xx = MathUtil.floor(posX)+rand.nextInt(7)-3;
-											yy = MathUtil.floor(posY)+rand.nextInt(3)-1;
-											zz = MathUtil.floor(posZ)+rand.nextInt(7)-3;
+										BlockPosM tmpPos = BlockPosM.tmp(), testPos = new BlockPosM();
+										
+										for(int attempt = 0; attempt < 30; attempt++){
+											tmpPos.set(this).move(rand.nextInt(7)-3,rand.nextInt(3)-1,rand.nextInt(7)-3);
 											
-											if (worldObj.getBlock(xx,yy,zz) == BlockList.end_terrain && worldObj.isAirBlock(xx,yy+1,zz)){
-												worldObj.spawnEntityInWorld(new EntityTNTPrimed(worldObj,xx+0.5D,yy+1.5D,zz+0.5D,this));
+											if (tmpPos.getBlock(worldObj) == BlockList.end_terrain && testPos.set(tmpPos).moveUp().isAir(worldObj)){
+												worldObj.spawnEntityInWorld(new EntityTNTPrimed(worldObj,tmpPos.x+0.5D,tmpPos.y+1.5D,tmpPos.z+0.5D,this));
 												setCarrying(null);
 												break;
 											}

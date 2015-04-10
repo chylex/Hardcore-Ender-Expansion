@@ -22,7 +22,7 @@ public class WorldGenMeteoroid extends WorldGenerator{
 			}
 		}
 		
-		world.setBlock(x,y,z,BlockList.sphalerite,1,2);
+		BlockPosM.tmp(x,y,z).setBlock(world,BlockList.sphalerite,1,2);
 		
 		double dx, dy, dz, addX, addY, addZ, rad = 3.6D+rand.nextDouble()*2.8D;
 		float fillFactor = 0.2F+rand.nextFloat()*0.35F, stardustChance = 0.12F+rand.nextFloat()*rand.nextFloat()*0.15F;
@@ -43,7 +43,7 @@ public class WorldGenMeteoroid extends WorldGenerator{
 				zz = (int)(dz += (addZ *= rand.nextDouble()*0.2D+0.8D));
 				
 				if (canPlaceAt(world,xx,yy,zz) && MathUtil.distance(xx-x,yy-y,zz-z) <= rad){
-					world.setBlock(xx,yy,zz,BlockList.sphalerite,rand.nextFloat() < stardustChance ? 1 : 0,2);
+					BlockPosM.tmp(xx,yy,zz).setBlock(world,BlockList.sphalerite,rand.nextFloat() < stardustChance ? 1 : 0,2);
 				}
 			}
 		}

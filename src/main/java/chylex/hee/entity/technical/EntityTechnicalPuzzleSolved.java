@@ -51,12 +51,12 @@ public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 		else if (!locs.isEmpty() && ticksExisted%4 == 0){
 			for(int a = 0; a < 1+rand.nextInt(3) && !locs.isEmpty(); a++){
 				BlockPosM loc = locs.remove(rand.nextInt(locs.size()));
-				worldObj.setBlockMetadataWithNotify(loc.x,loc.y,loc.z,BlockDungeonPuzzle.metaDisabled,3);
+				loc.setMetadata(worldObj,BlockDungeonPuzzle.metaDisabled);
 				worldObj.addBlockEvent(loc.x,loc.y,loc.z,BlockList.dungeon_puzzle,69,0);
 			}
 		}
 		else if (locs.isEmpty() && appearTimer < 12 && ++appearTimer == 12){
-			worldObj.setBlockMetadataWithNotify(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ),BlockDungeonPuzzle.metaPortal,3);
+			BlockPosM.tmp(this).setMetadata(worldObj,BlockDungeonPuzzle.metaPortal);
 			worldObj.addBlockEvent(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ),BlockList.dungeon_puzzle,69,1);
 			appearTimer = 69;
 		}

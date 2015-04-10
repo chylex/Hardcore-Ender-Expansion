@@ -32,7 +32,7 @@ public class BlockStardustOre extends BlockAbstractOre{
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z){
 		if (BlockPosM.tmp(x,y,z).getMetadata(world) == 0){
-			world.setBlockMetadataWithNotify(x,y,z,world.rand.nextInt(15)+1,3);
+			BlockPosM.tmp(x,y,z).setMetadata(world,world.rand.nextInt(15)+1,3);
 		}
 	}
 	

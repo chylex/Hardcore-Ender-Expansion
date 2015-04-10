@@ -32,18 +32,12 @@ public class ItemCurse extends Item{
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		Block block = BlockPosM.tmp(x,y,z).getBlock(world);
+		BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
+		Block block = tmpPos.getBlock(world);
 
-		if (block == Blocks.snow_layer && (BlockPosM.tmp(x,y,z).getMetadata(world)&7) < 1)side = 1;
+		if (block == Blocks.snow_layer && (tmpPos.getMetadata(world)&7) < 1)side = 1;
 		else if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush && !block.isReplaceable(world,x,y,z)){
-			switch(side){
-				case 0: --y; break;
-				case 1: ++y; break;
-				case 2: --z; break;
-				case 3: ++z; break;
-				case 4: --x; break;
-				case 5: ++x; break;
-			}
+			tmpPos.move(side);
 		}
 
 		if (is.stackSize == 0)return false;
@@ -51,8 +45,8 @@ public class ItemCurse extends Item{
 			CurseType type = CurseType.getFromDamage(is.getItemDamage());
 			if (type == null)return false;
 			
-			if (!world.isRemote)world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,x,y,z,player.getUniqueID(),type,CurseType.isEternal(is.getItemDamage())));
-			else world.playSound(x+0.5D,y,z+0.5D,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
+			if (!world.isRemote)world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,tmpPos.x,tmpPos.y,tmpPos.z,player.getUniqueID(),type,CurseType.isEternal(is.getItemDamage())));
+			else world.playSound(tmpPos.x+0.5D,tmpPos.y,tmpPos.z+0.5D,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
 			
 			return true;
 		}

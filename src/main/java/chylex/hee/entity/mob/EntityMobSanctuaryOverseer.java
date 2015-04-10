@@ -19,6 +19,7 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -80,19 +81,18 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 					else{
 						setHealth(getHealth()*0.5F);
 						
-						int x1 = MathUtil.floor(posX), y1 = MathUtil.floor(posY), z1 = MathUtil.floor(posZ),
-							x2 = x1, y2 = y1, z2 = z1;
+						BlockPosM pos1 = new BlockPosM(this), pos2 = pos1.copy();
 						
 						for(int att = 0; att < 30; att++){
-							if (worldObj.isAirBlock(x1-1,y1,z1))--x1;
-							if (worldObj.isAirBlock(x2+1,y1,z1))++x2;
-							if (worldObj.isAirBlock(x1,y1-1,z1))--y1;
-							if (worldObj.isAirBlock(x1,y2+1,z1))++y2;
-							if (worldObj.isAirBlock(x1,y1,z1-1))--z1;
-							if (worldObj.isAirBlock(x1,y1,z2+1))++z2;
+							if (worldObj.isAirBlock(pos1.x-1,pos1.y,pos1.z))--pos1.x;
+							if (worldObj.isAirBlock(pos2.x+1,pos1.y,pos1.z))++pos2.x;
+							if (worldObj.isAirBlock(pos1.x,pos1.y-1,pos1.z))--pos1.y;
+							if (worldObj.isAirBlock(pos1.x,pos2.y+1,pos1.z))++pos2.y;
+							if (worldObj.isAirBlock(pos1.x,pos1.y,pos1.z-1))--pos1.z;
+							if (worldObj.isAirBlock(pos1.x,pos1.y,pos2.z+1))++pos2.z;
 						}
 						
-						for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x1,y1,z1,x2,y2,z2).expand(0.9D,0.9D,0.9D))){
+						for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(pos1.x,pos1.y,pos1.z,pos2.x,pos2.y,pos2.z).expand(0.9D,0.9D,0.9D))){
 							MultiDamage.from(this).addMagic(5F).addScaled(ModCommonProxy.opMobs ? 22F : 18F).attack(player);
 						}
 						
@@ -101,7 +101,7 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 							overseer.dataWatcher.updateObject(16,provocation);
 						}
 						
-						PacketPipeline.sendToAllAround(this,10D,new C22EffectLine(FXType.Line.SANCTUARY_OVERSEER_FULL,x1,y1,z1,x2,y2,z2));
+						PacketPipeline.sendToAllAround(this,10D,new C22EffectLine(FXType.Line.SANCTUARY_OVERSEER_FULL,pos1.x,pos1.y,pos1.z,pos2.x,pos2.y,pos2.z));
 					}
 					
 					provocation = screamTimer = attackTimer = 0;

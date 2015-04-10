@@ -10,6 +10,7 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityProjectileGolemFireball extends EntityLargeFireball{
 	public EntityProjectileGolemFireball(World world){
@@ -48,10 +49,11 @@ public class EntityProjectileGolemFireball extends EntityLargeFireball{
 		@Override
 		public void doExplosionB(boolean doParticles){
 			super.doExplosionB(doParticles);
+			BlockPosM tmpPos = BlockPosM.tmp();
 			
 			for(Iterator<ChunkPosition> iter = affectedBlockPositions.iterator(); iter.hasNext();){
 				ChunkPosition pos = iter.next();
-				if (world.isAirBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ) && world.rand.nextInt(9) == 0)world.setBlock(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ,Blocks.fire);
+				if (tmpPos.set(pos.chunkPosX,pos.chunkPosY,pos.chunkPosZ).isAir(world) && world.rand.nextInt(9) == 0)tmpPos.setBlock(world,Blocks.fire);
 			}
 		}
 	}

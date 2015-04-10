@@ -20,6 +20,7 @@ import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -65,7 +66,7 @@ public class BlockEnergyCluster extends BlockContainer{
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityArrow || entity instanceof EntityThrowable)world.setBlockToAir(x,y,z);
+		if (entity instanceof EntityArrow || entity instanceof EntityThrowable)BlockPosM.tmp(x,y,z).setAir(world);
 	}
 	
 	@Override
@@ -125,11 +126,12 @@ public class BlockEnergyCluster extends BlockContainer{
 		DragonUtil.createExplosion(world,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true);
 		
 		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,x,z,true).addEnergy(tile.data.getEnergyLevel()*0.2F);
+		BlockPosM tmpPos = BlockPosM.tmp();
 		
 		for(int xx = x-idist; xx <= x+idist; xx++){
 			for(int zz = z-idist; zz <= z+idist; zz++){
 				for(int yy = y-idist; yy <= y+idist; yy++){
-					if (MathUtil.distance(xx-x,yy-y,zz-z) <= dist && world.isAirBlock(xx,yy,zz))world.setBlock(xx,yy,zz,BlockList.corrupted_energy_high,energyMeta,3);
+					if (MathUtil.distance(xx-x,yy-y,zz-z) <= dist && world.isAirBlock(xx,yy,zz))tmpPos.set(xx,yy,zz).setBlock(world,BlockList.corrupted_energy_high,energyMeta);
 				}
 			}
 		}

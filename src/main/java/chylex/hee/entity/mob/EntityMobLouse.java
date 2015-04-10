@@ -25,6 +25,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
@@ -220,25 +221,24 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		int maxDist = 3+level;
 		
 		boolean hasTeleported = false;
+		BlockPosM tmpPos = BlockPosM.tmp(), testPos = new BlockPosM();
 		
-		for(int attempt = 0, ix, iy, iz; attempt < 32 && !hasTeleported; attempt++){
+		for(int attempt = 0; attempt < 32 && !hasTeleported; attempt++){
 			posX = oldPosX+rand.nextInt(maxDist)-rand.nextInt(maxDist);
 			posY = oldPosY+1;
 			posZ = oldPosZ+rand.nextInt(maxDist)-rand.nextInt(maxDist);
 			
 			if (MathUtil.distance(posX-oldPosX,posZ-oldPosZ) < 2D)continue;
 			
-			ix = MathUtil.floor(posX);
-			iy = MathUtil.floor(posY);
-			iz = MathUtil.floor(posZ);
+			tmpPos.set(this);
 			
 			for(int py = 0; py < 3; py++){
-				if (worldObj.isAirBlock(ix,iy,iz) && !worldObj.isAirBlock(ix,iy-1,iz)){
+				if (tmpPos.isAir(worldObj) && !testPos.set(tmpPos).moveDown().isAir(worldObj)){
 					setPosition(posX,posY+0.1D,posZ);
 					hasTeleported = true;
 					break;
 				}
-				else iy = MathUtil.floor(--posY);
+				else tmpPos.y = MathUtil.floor(--posY);
 			}
 		}
 		

@@ -51,7 +51,7 @@ public class BlockVoidChest extends BlockContainer{
 			case 3: meta = 4; break;
 		}
 
-		world.setBlockMetadataWithNotify(x,y,z,meta,2);
+		BlockPosM.tmp(x,y,z).setMetadata(world,meta,2);
 	}
 
 	@Override

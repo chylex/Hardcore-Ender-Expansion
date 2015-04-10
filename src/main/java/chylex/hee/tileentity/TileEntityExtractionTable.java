@@ -16,6 +16,7 @@ import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.EnergySavefile;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class TileEntityExtractionTable extends TileEntityAbstractTable{
@@ -70,13 +71,13 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 				}
 				
 				if (release >= EnergyChunkData.minSignificantEnergy){
-					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 8 && placed < 4; attempt++){
-						xx = xCoord+worldObj.rand.nextInt(7)-3;
-						yy = yCoord+worldObj.rand.nextInt(7)-3;
-						zz = zCoord+worldObj.rand.nextInt(7)-3;
+					BlockPosM tmpPos = BlockPosM.tmp();
+					
+					for(int attempt = 0, placed = 0; attempt < 8 && placed < 4; attempt++){
+						tmpPos.set(xCoord+worldObj.rand.nextInt(7)-3,yCoord+worldObj.rand.nextInt(7)-3,zCoord+worldObj.rand.nextInt(7)-3);
 						
-						if (worldObj.isAirBlock(xx,yy,zz)){
-							worldObj.setBlock(xx,yy,zz,BlockList.corrupted_energy_low,3+MathUtil.floor(release*4.5F),3);
+						if (tmpPos.isAir(worldObj)){
+							tmpPos.setBlock(worldObj,BlockList.corrupted_energy_low,3+MathUtil.floor(release*4.5F));
 							++placed;
 						}
 					}

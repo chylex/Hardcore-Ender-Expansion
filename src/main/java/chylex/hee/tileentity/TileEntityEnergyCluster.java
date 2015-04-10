@@ -8,6 +8,7 @@ import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C10ParticleEnergyTransfer;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -32,7 +33,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public void updateEntity(){
 		if (shouldBeDestroyedSilently){
 			shouldNotExplode = true;
-			worldObj.setBlockToAir(xCoord,yCoord,zCoord);
+			BlockPosM.tmp(xCoord,yCoord,zCoord).setAir(worldObj);
 			return;
 		}
 		

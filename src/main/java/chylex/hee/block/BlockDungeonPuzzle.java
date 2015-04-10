@@ -75,7 +75,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 		int meta = BlockPosM.tmp(x,y,z).getMetadata(world), toggled = toggleState(meta);
 		
 		if (meta != toggled){
-			world.setBlockMetadataWithNotify(x,y,z,toggled,3);
+			BlockPosM.tmp(x,y,z).setMetadata(world,toggled);
 			
 			int unlit = getUnlit(meta);
 			
@@ -93,7 +93,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 					for(zz = -1; zz <= 1; zz++){
 						if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+xx,y,z+zz))) != distrMeta && !(xx == 0 && zz == 0) && world.getBlock(x+xx,y,z+zz) == BlockList.dungeon_puzzle){
 							PacketPipeline.sendToAllAround(world.provider.dimensionId,x+xx+0.5D,y+0.5D,z+zz+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+xx+0.5D,y+0.5D,z+zz+0.5D));
-							world.setBlockMetadataWithNotify(x+xx,y,z+zz,distrToggled,3);
+							BlockPosM.tmp(x+xx,y,z+zz).setMetadata(world,distrToggled);
 						}
 					}
 				}

@@ -75,24 +75,23 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		if (target == null){
 			if (--wanderResetTimer < -120 || rand.nextInt(300) == 0 || (motionX == 0D && motionZ == 0D && rand.nextInt(20) == 0)){
 				wanderResetTimer = 0;
+				BlockPosM tmpPos = BlockPosM.tmp();
 				
-				for(int attempt = 0, xx, yy, zz; attempt < 32; attempt++){
-					xx = MathUtil.floor(posX)+rand.nextInt(14)-rand.nextInt(14);
-					zz = MathUtil.floor(posZ)+rand.nextInt(14)-rand.nextInt(14);
-					yy = MathUtil.floor(posY);
+				for(int attempt = 0; attempt < 32; attempt++){
+					tmpPos.set(this).move(rand.nextInt(14)-rand.nextInt(14),0,rand.nextInt(14)-rand.nextInt(14));
 					
-					if (worldObj.isAirBlock(xx,yy,zz)){
-						while(worldObj.isAirBlock(xx,--yy,zz) && Math.abs(posY-yy) < 10);
-						if (Math.abs(posY-yy) >= 10)continue;
+					if (tmpPos.isAir(worldObj)){
+						while(tmpPos.moveDown().isAir(worldObj) && Math.abs(posY-tmpPos.y) < 10);
+						if (Math.abs(posY-tmpPos.y) >= 10)continue;
 					}
 					else{
-						while(!worldObj.isAirBlock(xx,++yy,zz) && Math.abs(posY-yy) < 10);
-						if (Math.abs(posY-yy) >= 10)continue;
+						while(!tmpPos.moveUp().isAir(worldObj) && Math.abs(posY-tmpPos.y) < 10);
+						if (Math.abs(posY-tmpPos.y) >= 10)continue;
 					}
 					
-					targetX = xx+rand.nextDouble();
-					targetY = yy+rand.nextDouble()*0.2D+3D;
-					targetZ = zz+rand.nextDouble();
+					targetX = tmpPos.x+rand.nextDouble();
+					targetY = tmpPos.y+rand.nextDouble()*0.2D+3D;
+					targetZ = tmpPos.z+rand.nextDouble();
 					wanderResetTimer += 40;
 					break;
 				}
@@ -182,31 +181,27 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 									}
 								}
 								else{
-									int xx, yy, zz;
+									BlockPosM tmpPos = BlockPosM.tmp();
 									
 									for(int px = -1; px <= 1; px++){
 										for(int pz = -1; pz <= 1; pz++){
 											if (px == 0 && pz == 0)continue;
-											xx = attackLavaCurrentX+px;
-											yy = attackLavaCurrentY-1+attackLavaCounter;
-											zz = attackLavaCurrentZ+pz;
+											tmpPos.set(attackLavaCurrentX+px,attackLavaCurrentY-1+attackLavaCounter,attackLavaCurrentZ+pz);
 											
-											Block block = worldObj.getBlock(xx,yy,zz);
+											Block block = tmpPos.getBlock(worldObj);
 											
 											if (block == Blocks.flowing_lava || block == Blocks.lava)continue;
-											else if (!MathUtil.floatEquals(block.getBlockHardness(worldObj,xx,yy,zz),-1F)){
-												worldObj.setBlock(xx,yy,zz,Blocks.air);
-												worldObj.playAuxSFX(2001,xx,yy,zz,Block.getIdFromBlock(block));
+											else if (!MathUtil.floatEquals(block.getBlockHardness(worldObj,tmpPos.x,tmpPos.y,tmpPos.z),-1F)){
+												tmpPos.setAir(worldObj);
+												worldObj.playAuxSFX(2001,tmpPos.x,tmpPos.y,tmpPos.z,Block.getIdFromBlock(block));
 											}
 										}
 									}
-
-									xx = attackLavaCurrentX;
-									yy = attackLavaCurrentY-1+attackLavaCounter;
-									zz = attackLavaCurrentZ;
 									
-									worldObj.setBlock(xx,yy,zz,Blocks.flowing_lava,0,3);
-									for(int a = 0; a < 5; a++)Blocks.flowing_lava.updateTick(worldObj,xx,yy,zz,rand);
+									tmpPos.set(attackLavaCurrentX,attackLavaCurrentY-1+attackLavaCounter,attackLavaCurrentZ);
+									
+									tmpPos.setBlock(worldObj,Blocks.flowing_lava);
+									for(int a = 0; a < 5; a++)Blocks.flowing_lava.updateTick(worldObj,tmpPos.x,tmpPos.y,tmpPos.z,rand);
 									
 									if (++attackLavaCounter == 6){
 										if (++attackLavaDone >= 4){
@@ -242,20 +237,18 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 								}
 								
 								PacketPipeline.sendToAllAround(this,24D,new C08PlaySound(C08PlaySound.HAUNTEDMINER_ATTACK_BLAST,posX,posY,posZ,1.5F,1F));
+								BlockPosM testPos = new BlockPosM(), tmpPos = BlockPosM.tmp();
 								
-								for(int attempt = 0, xx, yy, zz; attempt < 90; attempt++){
-									xx = MathUtil.floor(posX)+rand.nextInt(21)-10;
-									zz = MathUtil.floor(posZ)+rand.nextInt(21)-10;
-									if (MathUtil.distance(xx-posX,zz-posZ) > 10D)continue;
-									
-									yy = MathUtil.floor(posY)-1;
+								for(int attempt = 0; attempt < 90; attempt++){
+									tmpPos.set(this).move(rand.nextInt(21)-10,-1,rand.nextInt(21)-10);
+									if (MathUtil.distance(tmpPos.x-posX,tmpPos.z-posZ) > 10D)continue;
 									
 									for(int yAttempt = 0; yAttempt < 4; yAttempt++){
-										if (worldObj.isAirBlock(xx,yy,zz) && !worldObj.isAirBlock(xx,yy-1,zz)){
-											worldObj.setBlock(xx,yy,zz,Blocks.fire);
+										if (tmpPos.isAir(worldObj) && !testPos.set(tmpPos).moveDown().isAir(worldObj)){
+											tmpPos.setBlock(worldObj,Blocks.fire);
 											break;
 										}
-										else --yy;
+										else --tmpPos.y;
 									}
 								}
 								

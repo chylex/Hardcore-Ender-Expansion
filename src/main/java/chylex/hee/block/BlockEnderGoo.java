@@ -58,8 +58,8 @@ public class BlockEnderGoo extends BlockFluidClassic{
 				if (tmpPos.set(x+xOff[a],y+yOff[a],z+zOff[a]).getMaterial(world) != Material.water)continue;
 				
 				if ((rand.nextInt(Math.max(1,10-meta-(world.provider.dimensionId == 1 ? 7 : 0)+(a == 2 || a == 3 ? 2 : 0))) == 0)){
-					tmpPos.setBlock(world,this,Math.max(2,world.getBlockMetadata(x,y,z)));
-					if (rand.nextInt(6-meta) == 0)world.setBlockToAir(x,y,z);
+					tmpPos.setBlock(world,this,Math.max(2,tmpPos.getMetadata(world)));
+					if (rand.nextInt(6-meta) == 0)tmpPos.setAir(world);
 				}
 				else if (world.provider.dimensionId != 1 && rand.nextInt(4) != 0){
 					tmpPos.set(x,y,z).setBlock(world,Blocks.flowing_water,2);

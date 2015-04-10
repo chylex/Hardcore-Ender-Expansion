@@ -33,6 +33,10 @@ public class BlockPosM{
 		return temporary.set(x,y,z);
 	}
 	
+	public static BlockPosM tmp(BlockPosM pos){
+		return temporary.set(pos);
+	}
+	
 	public static BlockPosM tmp(Entity entity){
 		return temporary.set(entity);
 	}
@@ -119,6 +123,14 @@ public class BlockPosM{
 		this.y += y;
 		this.z += z;
 		return this;
+	}
+	
+	public BlockPosM move(int side){
+		return move(EnumFacing.values()[side]);
+	}
+	
+	public BlockPosM move(int side, int amount){
+		return move(EnumFacing.values()[side],amount);
 	}
 	
 	public BlockPosM move(EnumFacing facing){

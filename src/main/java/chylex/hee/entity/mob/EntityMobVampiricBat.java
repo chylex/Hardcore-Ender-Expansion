@@ -12,7 +12,7 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.BlockPosM;
 
 public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	public Entity target;
@@ -31,7 +31,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	protected void updateAITasks(){
 		super.updateAITasks();
 
-		if (target == null || (!worldObj.isAirBlock(MathUtil.floor(target.posX),MathUtil.floor(target.posY),MathUtil.floor(target.posZ)) || target.isDead || target.posY < 1)){
+		if (target == null || (!BlockPosM.tmp(target).isAir(worldObj) || target.isDead || target.posY < 1)){
 			if ((target = worldObj.getClosestPlayerToEntity(this,32D)) == null){
 				setDead();
 				return;

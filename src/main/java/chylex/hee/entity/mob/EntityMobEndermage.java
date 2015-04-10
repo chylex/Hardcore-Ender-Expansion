@@ -23,6 +23,7 @@ import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IRangedAttackMob{
@@ -75,24 +76,24 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 				
 				Entity sourceEntity = source.getEntity();
 				double dist = MathUtil.distance(sourceEntity.posX-posX,sourceEntity.posZ-posZ);
+				BlockPosM tmpPos = BlockPosM.tmp(), testPos = new BlockPosM();
 				
-				for(int attempt = 0, xx, yy, zz; attempt < 15; attempt++){
-					xx = MathUtil.floor(posX)+rand.nextInt(31)-15;
-					zz = MathUtil.floor(posZ)+rand.nextInt(31)-15;
+				for(int attempt = 0; attempt < 15; attempt++){
+					tmpPos.set(posX+rand.nextInt(31)-15,-1,posZ+rand.nextInt(31)-15);
 					
-					if (MathUtil.distance(xx+0.5D-sourceEntity.posX,zz+0.5D-sourceEntity.posZ) > dist*4D){
-						yy = MathUtil.floor(posY)+7;
+					if (MathUtil.distance(tmpPos.x+0.5D-sourceEntity.posX,tmpPos.z+0.5D-sourceEntity.posZ) > dist*4D){
+						tmpPos.y = MathUtil.floor(posY)+7;
 						
 						for(int yAttempt = 0; yAttempt < 14; yAttempt++){
-							if (!worldObj.isAirBlock(xx,yy-1,zz) && worldObj.isAirBlock(xx,yy,zz) && worldObj.isAirBlock(xx,yy+1,zz)){
-								setPosition(xx+0.5D,yy,zz+0.5D);
+							if (!testPos.set(tmpPos).moveDown().isAir(worldObj) && tmpPos.isAir(worldObj) && testPos.set(tmpPos).moveUp().isAir(worldObj)){
+								setPosition(tmpPos.x+0.5D,tmpPos.y,tmpPos.z+0.5D);
 								
 								if (canEntityBeSeen(sourceEntity)){
-									PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,xx+0.5D,yy,zz+0.5D));
+									PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,posX,posY,posZ,tmpPos.x+0.5D,tmpPos.y,tmpPos.z+0.5D));
 									return true;
 								}
 							}
-							else --yy;
+							else --tmpPos.y;
 						}
 					}
 				}

@@ -90,7 +90,7 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		void update(){
 			if (point1 == null || point2 == null || isConquered)return;
 			
-			worldObj.setBlock(point1.x,point2.y+8,point1.z,Blocks.bedrock); // TODO
+			BlockPosM.tmp(point1.x,point2.y+8,point1.z).setBlock(worldObj,Blocks.bedrock); // TODO
 			
 			AxisAlignedBB full = BlockPosM.getBoundingBox(point1,point2);
 			boolean hasPlayers = !worldObj.getEntitiesWithinAABB(EntityPlayer.class,full.expand(0.9D,0.9D,0.9D)).isEmpty();

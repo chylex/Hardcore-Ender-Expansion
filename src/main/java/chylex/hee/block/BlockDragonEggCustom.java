@@ -58,9 +58,9 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 				world.spawnEntityInWorld(new EntityBlockFallingDragonEgg(world,x+0.5F,y+0.5F,z+0.5F));
 			}
 			else{
-				world.setBlockToAir(x,y,z);
+				BlockPosM.tmp(x,y,z).setAir(world);
 				while(BlockFalling.func_149831_e(world,x,y-1,z) && y > 0)--y;
-				if (y > 0)world.setBlock(x,y,z,this,0,2);
+				if (y > 0)BlockPosM.tmp(x,y,z).setBlock(world,this,0,2);
 			}
 		}
 	}
@@ -69,7 +69,7 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player){
 		if (player != null && player.isSneaking() && player.getHeldItem() != null &&
 			player.getHeldItem().getItemUseAction() == EnumAction.block){
-			world.setBlockToAir(x,y,z);
+			BlockPosM.tmp(x,y,z).setAir(world);
 			dropBlockAsItem(world,x,y,z,new ItemStack(Blocks.dragon_egg));
 		}
 		else teleportNearby(world,x,y,z);

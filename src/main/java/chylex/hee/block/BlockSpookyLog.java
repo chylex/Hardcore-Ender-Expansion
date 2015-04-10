@@ -91,7 +91,7 @@ public class BlockSpookyLog extends Block{
 		if (BlockPosM.tmp(x,y+1,z).getBlock(world) == this){
 			dropBlockAsItemWithChance(world,x,y+1,z,BlockPosM.tmp(x,y+1,z).getMetadata(world),chance,fortune);
 			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,x,y,z));
-			world.setBlockToAir(x,y+1,z);
+			BlockPosM.tmp(x,y+1,z).setAir(world);
 		}
 	}
 

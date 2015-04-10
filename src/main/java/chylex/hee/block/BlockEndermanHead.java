@@ -59,7 +59,7 @@ public class BlockEndermanHead extends BlockContainer{
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack is){
-		world.setBlockMetadataWithNotify(x,y,z,MathHelper.floor_double((entity.rotationYaw*4F/360F)+2.5D)&3,2);
+		BlockPosM.tmp(x,y,z).setMetadata(world,MathHelper.floor_double((entity.rotationYaw*4F/360F)+2.5D)&3,2);
 	}
 	
 	@Override

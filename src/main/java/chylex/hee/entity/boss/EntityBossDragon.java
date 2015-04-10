@@ -521,6 +521,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	private void createEnderPortal(int x, int z){
 		BlockEndPortal.field_149948_a = true;
 		byte portalSize = 4, bottomY = 64;
+		BlockPosM tmpPos = BlockPosM.tmp();
 
 		for(int yy = bottomY-1; yy <= bottomY+32; yy++){
 			for(int xx = x-portalSize; xx <= x+portalSize; xx++){
@@ -528,20 +529,22 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					double distSq = MathUtil.square(xx-x)+MathUtil.square(zz-z);
 
 					if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
+						tmpPos.set(xx,yy,zz);
+						
 						if (yy < bottomY){
-							if (distSq <= MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
+							if (distSq <= MathUtil.square((portalSize-1)-0.5D))tmpPos.setBlock(worldObj,Blocks.bedrock);
 						}
-						else if (yy > bottomY)worldObj.setBlockToAir(xx,yy,zz);
-						else if (distSq > MathUtil.square((portalSize-1)-0.5D))worldObj.setBlock(xx,yy,zz,Blocks.bedrock);
-						else worldObj.setBlock(xx,yy,zz,Blocks.end_portal);
+						else if (yy > bottomY)tmpPos.setAir(worldObj);
+						else if (distSq > MathUtil.square((portalSize-1)-0.5D))tmpPos.setBlock(worldObj,Blocks.bedrock);
+						else tmpPos.setBlock(worldObj,Blocks.end_portal);
 					}
 				}
 			}
 		}
 		
-		for(int yy = bottomY; yy <= bottomY+3; yy++)worldObj.setBlock(x,yy,z,Blocks.bedrock);
-		for(int dir = 0; dir < 4; dir++)worldObj.setBlock(x+Direction.offsetX[dir],bottomY+2,z+Direction.offsetZ[dir],Blocks.torch);
-		worldObj.setBlock(x,bottomY+4,z,Blocks.dragon_egg);
+		for(int yy = bottomY; yy <= bottomY+3; yy++)tmpPos.set(x,yy,z).setBlock(worldObj,Blocks.bedrock);
+		for(int dir = 0; dir < 4; dir++)tmpPos.set(x+Direction.offsetX[dir],bottomY+2,z+Direction.offsetZ[dir]).setBlock(worldObj,Blocks.torch);
+		tmpPos.set(x,bottomY+4,z).setBlock(worldObj,Blocks.dragon_egg);
 		
 		BlockEndPortal.field_149948_a = false;
 		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,bottomY+4,z);

@@ -9,6 +9,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.util.BlockPosM;
 
 public class TileEntityLaserBeam extends TileEntity{
 	private float beamAngle;
@@ -19,7 +20,7 @@ public class TileEntityLaserBeam extends TileEntity{
 		beamAngle += 1.5F;
 		
 		if (!worldObj.isRemote && --ticksLeft <= 0){
-			worldObj.setBlockToAir(xCoord,yCoord,zCoord);
+			BlockPosM.tmp(xCoord,yCoord,zCoord).setAir(worldObj);
 			double x = xCoord+0.5D, z = zCoord+0.5D;
 			
 			for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x-1.5D,yCoord,z-1.5D,x+1.5D,yCoord+1D,z+1.5D))){

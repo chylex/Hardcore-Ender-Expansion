@@ -24,26 +24,21 @@ public class ItemEnergyWand extends Item{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (player.isSneaking() && !world.isRemote){
 			if (ItemUtil.getTagRoot(is,false).hasKey("cluster")){
-				switch(side){
-					case 1: ++y; break;
-					case 2: --z; break;
-					case 3: ++z; break;
-					case 4: --x; break;
-					case 5: ++x; break;
-				}
+				BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
+				if (side > 0)tmpPos.move(side);
 	
-				if (!player.canPlayerEdit(x,y,z,side,is) || !world.isAirBlock(x,y,z))return false;
+				if (!player.canPlayerEdit(tmpPos.x,tmpPos.y,tmpPos.z,side,is) || !tmpPos.isAir(world))return false;
 				
-				world.setBlock(x,y,z,BlockList.energy_cluster);
-				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)world.getTileEntity(x,y,z);
+				tmpPos.setBlock(world,BlockList.energy_cluster);
+				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)tmpPos.getTileEntity(world);
 				
 				if (tile != null){
 					NBTTagCompound tag = ItemUtil.getTagSub(is,"cluster",true);
-					tag.setIntArray("loc",new int[]{ x, y, z });
+					tag.setIntArray("loc",new int[]{ tmpPos.x, tmpPos.y, tmpPos.z });
 					tile.readTileFromNBT(tag);
 					
 					int[] prevLoc = ItemUtil.getTagRoot(is,false).getIntArray("prevLoc");
-					double dist = ItemUtil.getTagRoot(is,false).getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc[0]-x,prevLoc[1]-y,prevLoc[2]-z) : Double.MAX_VALUE;
+					double dist = ItemUtil.getTagRoot(is,false).getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc[0]-tmpPos.x,prevLoc[1]-tmpPos.y,prevLoc[2]-tmpPos.z) : Double.MAX_VALUE;
 					
 					if (dist > 8D){
 						tile.data.setEnergyLevel(tile.data.getEnergyLevel()*(1F-0.5F*Math.min(1F,(float)dist/256F)));

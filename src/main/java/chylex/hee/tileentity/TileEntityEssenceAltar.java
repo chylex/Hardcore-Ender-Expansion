@@ -30,6 +30,7 @@ import chylex.hee.packets.client.C17AltarRuneItemEffect;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -248,7 +249,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 					createActionHandler();
 					runeItemIndex = -1;
 					essenceLevel += 1;
-					worldObj.setBlockMetadataWithNotify(xCoord,yCoord,zCoord,blockMetadata = essenceType.id,3);
+					BlockPosM.tmp(xCoord,yCoord,zCoord).setMetadata(worldObj,blockMetadata = essenceType.id);
 					
 					if (essenceType == EssenceType.DRAGON)player.addStat(AchievementManager.DRAGON_ESSENCE,1);
 				}

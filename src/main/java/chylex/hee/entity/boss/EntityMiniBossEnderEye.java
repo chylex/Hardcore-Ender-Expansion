@@ -261,18 +261,19 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 			setIsAsleep(false);
 			
 			if (worldObj.difficultySetting.getDifficultyId() > 1 || ModCommonProxy.opMobs){
+				BlockPosM tmpPos = BlockPosM.tmp();
+				
 				for(int a = 0, hits = 0, x, y, z; a < 400 && hits < 5+worldObj.difficultySetting.getDifficultyId()*10+(ModCommonProxy.opMobs ? 30 : 0); a++){
-					x = rand.nextInt(15)-7+MathUtil.floor(posX);
-					y = rand.nextInt(8)-4+MathUtil.floor(posY);
-					z = rand.nextInt(15)-7+MathUtil.floor(posZ);
+					tmpPos.set(posX+rand.nextInt(15)-7,posY+rand.nextInt(8)-4,posZ+rand.nextInt(15)-7);
 					
-					Block block = worldObj.getBlock(x,y,z);
+					Block block = tmpPos.getBlock(worldObj);
 					
 					if (block != Blocks.air){
-						float hardness = block.getBlockHardness(worldObj,x,y,z);
-						if (hardness != -1F && hardness <= 5F){					
-							worldObj.setBlockToAir(x,y,z);
-							worldObj.playAuxSFX(2001,x,y,z,Block.getIdFromBlock(Blocks.obsidian));
+						float hardness = block.getBlockHardness(worldObj,tmpPos.x,tmpPos.y,tmpPos.z);
+						
+						if (hardness != -1F && hardness <= 5F){
+							tmpPos.setAir(worldObj);
+							worldObj.playAuxSFX(2001,tmpPos.x,tmpPos.y,tmpPos.z,Block.getIdFromBlock(Blocks.obsidian));
 							++hits;
 						}
 					}
