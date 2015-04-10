@@ -4,6 +4,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.spawner.BlobEndermanSpawnerLogic;
 import chylex.hee.tileentity.spawner.CustomSpawnerLogic;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic;
@@ -66,7 +67,7 @@ public class TileEntityCustomSpawner extends TileEntity{
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		nbt.setByte("logicId",logicId);
-		nbt.setIntArray("actualPos",new int[]{ actualX, actualY, actualZ });
+		nbt.setLong("actualPos",BlockPosM.tmp(actualX,actualY,actualZ).toLong());
 		logic.writeToNBT(nbt);
 	}
 	
@@ -75,13 +76,10 @@ public class TileEntityCustomSpawner extends TileEntity{
 		super.readFromNBT(nbt);
 		createLogic(nbt.getByte("logicId"));
 		
-		int[] actualPos = nbt.getIntArray("actualPos");
-		
-		if (actualPos.length == 3){
-			actualX = actualPos[0];
-			actualY = actualPos[1];
-			actualZ = actualPos[2];
-		}
+		BlockPosM actualPos = BlockPosM.fromNBT(nbt,"actualPos");
+		actualX = actualPos.x;
+		actualY = actualPos.y;
+		actualZ = actualPos.z;
 		
 		logic.readFromNBT(nbt);
 	}

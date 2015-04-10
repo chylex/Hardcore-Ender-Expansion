@@ -1,7 +1,6 @@
 package chylex.hee.tileentity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnergyCluster;
 import chylex.hee.mechanics.energy.EnergyChunkData;
@@ -17,7 +16,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public boolean shouldNotExplode = false;
 	private boolean shouldBeDestroyedSilently = false;
 	private byte[] colRgb;
-	private int[] cachedCoords = ArrayUtils.EMPTY_INT_ARRAY;
+	private BlockPosM cachedCoords = new BlockPosM(0,-1,0);
 	
 	public TileEntityEnergyCluster(){
 		data = new EnergyClusterData();
@@ -38,12 +37,12 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		}
 		
 		if (!worldObj.isRemote){
-			if (cachedCoords.length == 0){
+			if (cachedCoords.y == -1){
 				data.generate(worldObj,xCoord,zCoord);
-				cachedCoords = new int[]{ xCoord, yCoord, zCoord };
+				cachedCoords = new BlockPosM(xCoord,yCoord,zCoord);
 				synchronize();
 			}
-			else if (cachedCoords[0] != xCoord || cachedCoords[1] != yCoord || cachedCoords[2] != zCoord){
+			else if (cachedCoords.x != xCoord || cachedCoords.y != yCoord || cachedCoords.z != zCoord){
 				BlockEnergyCluster.destroyCluster(this);
 				return;
 			}
@@ -84,7 +83,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
 		nbt.setByteArray("col",colRgb);
-		nbt.setIntArray("loc",cachedCoords);
+		nbt.setLong("loc",cachedCoords.toLong());
 		data.writeToNBT(nbt);
 		return nbt;
 	}
@@ -92,7 +91,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	@Override
 	public void readTileFromNBT(NBTTagCompound nbt){
 		colRgb = nbt.getByteArray("col");
-		cachedCoords = nbt.getIntArray("loc");
+		cachedCoords = BlockPosM.fromNBT(nbt,"loc");
 		data.readFromNBT(nbt);
 		
 		if (colRgb.length == 0)shouldBeDestroyedSilently = true;

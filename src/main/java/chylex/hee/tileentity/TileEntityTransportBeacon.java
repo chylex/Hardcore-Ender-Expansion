@@ -120,7 +120,7 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		nbt.setBoolean("hasEng",hasEnergy);
-		nbt.setIntArray("actualPos",new int[]{ actualX, actualY, actualZ });
+		nbt.setLong("actualPos",BlockPosM.tmp(actualX,actualY,actualZ).toLong());
 	}
 	
 	@Override
@@ -128,13 +128,10 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 		super.readFromNBT(nbt);
 		hasEnergy = nbt.getBoolean("hasEng");
 		
-		int[] actualPos = nbt.getIntArray("actualPos");
-		
-		if (actualPos.length == 3){
-			actualX = actualPos[0];
-			actualY = actualPos[1];
-			actualZ = actualPos[2];
-		}
+		BlockPosM actualPos = BlockPosM.fromNBT(nbt,"actualPos");
+		actualX = actualPos.x;
+		actualY = actualPos.y;
+		actualZ = actualPos.z;
 	}
 	
 	@Override

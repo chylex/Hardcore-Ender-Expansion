@@ -44,13 +44,13 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 		
 		if (nbt.hasKey("engDrain") && entity instanceof EntityPlayer){
 			boolean stop = false;
-			int[] loc = nbt.getIntArray("engDrain");
+			BlockPosM loc = BlockPosM.tmp(nbt.getLong("engDrain"));
 			byte wait = nbt.getByte("engWait");
 			
-			if (!world.isRemote && Math.abs(nbt.getFloat("engDist")-MathUtil.distance(loc[0]+0.5D-entity.posX,loc[1]+0.5D-entity.posY,loc[2]+0.5D-entity.posZ)) > 0.05D)stop = true;
+			if (!world.isRemote && Math.abs(nbt.getFloat("engDist")-MathUtil.distance(loc.x+0.5D-entity.posX,loc.y+0.5D-entity.posY,loc.z+0.5D-entity.posZ)) > 0.05D)stop = true;
 			else if (wait > 0)nbt.setByte("engWait",(byte)(wait-1));
 			else{
-				TileEntity tile = world.getTileEntity(loc[0],loc[1],loc[2]);
+				TileEntity tile = loc.getTileEntity(world);
 				
 				if (tile instanceof TileEntityEnergyCluster){
 					TileEntityEnergyCluster cluster = (TileEntityEnergyCluster)tile;
@@ -112,8 +112,8 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 				nbt.removeTag("engWait");
 				nbt.removeTag("engDist");
 			}
-			else if (world.getTileEntity(x,y,z) instanceof TileEntityEnergyCluster){
-				nbt.setIntArray("engDrain",new int[]{ x, y, z });
+			else if (BlockPosM.tmp(x,y,z).getTileEntity(world) instanceof TileEntityEnergyCluster){
+				nbt.setLong("engDrain",BlockPosM.tmp(x,y,z).toLong());
 				nbt.setFloat("engDist",(float)MathUtil.distance(x+0.5D-player.posX,y+0.5D-player.posY,z+0.5D-player.posZ));
 			}
 			

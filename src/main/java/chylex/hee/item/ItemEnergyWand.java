@@ -6,7 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.block.BlockList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
@@ -34,11 +33,11 @@ public class ItemEnergyWand extends Item{
 				
 				if (tile != null){
 					NBTTagCompound tag = ItemUtil.getTagSub(is,"cluster",true);
-					tag.setIntArray("loc",new int[]{ tmpPos.x, tmpPos.y, tmpPos.z });
+					tag.setLong("loc",tmpPos.toLong());
 					tile.readTileFromNBT(tag);
 					
-					int[] prevLoc = ItemUtil.getTagRoot(is,false).getIntArray("prevLoc");
-					double dist = ItemUtil.getTagRoot(is,false).getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc[0]-tmpPos.x,prevLoc[1]-tmpPos.y,prevLoc[2]-tmpPos.z) : Double.MAX_VALUE;
+					BlockPosM prevLoc = BlockPosM.fromNBT(ItemUtil.getTagRoot(is,false),"prevLoc");
+					double dist = ItemUtil.getTagRoot(is,false).getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc.x-tmpPos.x,prevLoc.y-tmpPos.y,prevLoc.z-tmpPos.z) : Double.MAX_VALUE;
 					
 					if (dist > 8D){
 						tile.data.setEnergyLevel(tile.data.getEnergyLevel()*(1F-0.5F*Math.min(1F,(float)dist/256F)));
@@ -61,11 +60,11 @@ public class ItemEnergyWand extends Item{
 						CausatumUtils.increase(player,CausatumMeters.END_ENERGY,tile.data.getEnergyLevel()*0.5F);
 						
 						NBTTagCompound tag = tile.writeTileToNBT(new NBTTagCompound());
-						tag.setIntArray("loc",ArrayUtils.EMPTY_INT_ARRAY);
+						tag.setLong("loc",BlockPosM.tmp(0,-1,0).toLong());
 						
 						NBTTagCompound itemNbt = ItemUtil.getTagRoot(is,true);
 						itemNbt.setTag("cluster",tag);
-						itemNbt.setIntArray("prevLoc",new int[]{ x, y, z });
+						itemNbt.setLong("prevLoc",BlockPosM.tmp(x,y,z).toLong());
 						itemNbt.setShort("prevDim",(short)world.provider.dimensionId);
 						
 						BlockPosM.tmp(x,y,z).setAir(world);

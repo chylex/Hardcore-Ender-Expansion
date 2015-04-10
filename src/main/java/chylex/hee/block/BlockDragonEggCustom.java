@@ -13,7 +13,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
@@ -124,14 +123,14 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
 		
 		if (file.isDragonDead()){
-			ChunkCoordinates coords = file.getPortalEggLocation();
+			BlockPosM coords = file.getPortalEggLocation();
 			World endWorld = MinecraftServer.getServer().worldServerForDimension(1);
 			
 			if (endWorld == null)HardcoreEnderExpansion.notifications.report("Could not teleport Dragon Egg to the End, world is null.");
-			else if (endWorld.getBlock(coords.posX,coords.posY,coords.posZ) != Blocks.dragon_egg){
-				endWorld.setBlock(coords.posX,coords.posY,coords.posZ,Blocks.dragon_egg);
+			else if (coords.getBlock(endWorld) != Blocks.dragon_egg){
+				coords.setBlock(endWorld,Blocks.dragon_egg);
 				PacketPipeline.sendToAllAround(eggEntity,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,eggEntity));
-				PacketPipeline.sendToAllAround(endWorld.provider.dimensionId,coords.posX+0.5D,coords.posY+0.5D,coords.posZ+0.5D,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,coords.posX+0.5D,coords.posY+0.5D,coords.posZ+0.5D));
+				PacketPipeline.sendToAllAround(endWorld.provider.dimensionId,coords.x+0.5D,coords.y+0.5D,coords.z+0.5D,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,coords.x+0.5D,coords.y+0.5D,coords.z+0.5D));
 				return true;
 			}
 		}
