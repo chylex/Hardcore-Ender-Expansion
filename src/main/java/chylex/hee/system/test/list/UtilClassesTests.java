@@ -3,10 +3,12 @@ import java.util.Random;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.entity.mob.EntityMobEndermage;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.CycleProtection;
 import chylex.hee.system.util.DragonUtil;
@@ -14,6 +16,8 @@ import chylex.hee.system.util.MathUtil;
 
 public class UtilClassesTests{
 	private final String mathError = "Unexpected value, expected $2, got $1.";
+	private final String coordsError = "Unexpected coords, expected $2, got $1.";
+	private final String coordError = "Unexpected coord, expected $2, got $1.";
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
 	public void testColorUtilHsv(){
@@ -114,5 +118,33 @@ public class UtilClassesTests{
 	public void testMathUtilFloats(){
 		Assert.state(MathUtil.floatEquals(0.333333333F,1F/3F),"Numbers are supposed to be equal.");
 		Assert.state(!MathUtil.floatEquals(0.3333F,1F/3F),"Numbers are not supposed to be equal.");
+	}
+	
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	public void testBlockPosM(){
+		BlockPosM pos = new BlockPosM(), ref = new BlockPosM(1,2,3);
+		Assert.equal(pos.set(ref),ref,coordsError);
+		Assert.equal(pos.set(1,2,3),ref,coordsError);
+		Assert.equal(pos.set(new int[]{ 1, 2, 3 }),ref,coordsError);
+		Assert.equal(pos.set(1D,2.2D,3.49D),ref,coordsError);
+		Assert.equal(pos.set(ref.toLong()),ref,coordsError);
+		Assert.equal(pos.set(new EntityMobEndermage(null,1D,2D,3D)),ref,coordsError);
+		
+		pos.set(ref.setX(5).setY(1).setZ(-5));
+		Assert.equal(pos.x,5,coordError);
+		Assert.equal(pos.y,1,coordError);
+		Assert.equal(pos.z,-5,coordError);
+		
+		pos.set(ref).moveUp().moveEast().moveNorth();
+		Assert.equal(pos.x,4,coordError);
+		Assert.equal(pos.y,2,coordError);
+		Assert.equal(pos.z,-6,coordError);
+		
+		pos.set(ref).moveDown().moveWest().moveSouth();
+		Assert.equal(pos.x,6,coordError);
+		Assert.equal(pos.y,0,coordError);
+		Assert.equal(pos.z,-4,coordError);
+		
+		Assert.equal(pos.setY(0).move(1).move(1,2).y,3,coordError);
 	}
 }
