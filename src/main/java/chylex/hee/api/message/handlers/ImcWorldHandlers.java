@@ -4,10 +4,12 @@ import java.util.Iterator;
 import java.util.Map;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.api.message.MessageHandler;
 import chylex.hee.api.message.MessageRunner;
 import chylex.hee.api.message.element.IntValue;
 import chylex.hee.api.message.element.ItemPatternValue;
+import chylex.hee.api.message.element.SpawnEntryValue;
 import chylex.hee.api.message.element.StringValue;
 import chylex.hee.api.message.element.WeightedLootValue;
 import chylex.hee.api.message.utils.MessageLogger;
@@ -16,14 +18,21 @@ import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.system.util.ItemPattern;
 import chylex.hee.world.loot.LootItemStack;
 import chylex.hee.world.loot.WeightedLootList;
+import chylex.hee.world.structure.island.biome.IslandBiomeBase;
+import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
+import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
+import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
+import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.RavagedDungeonLoot;
 import chylex.hee.world.structure.island.biome.feature.island.StructureHiddenCellar;
 import chylex.hee.world.structure.island.biome.feature.island.laboratory.LaboratoryContent;
 import chylex.hee.world.structure.tower.ComponentTower;
+import chylex.hee.world.util.SpawnEntry;
 import com.google.common.base.Function;
 
 public final class ImcWorldHandlers extends ImcHandler{
 	private static final Map<String,WeightedLootList> lootNames = new HashMap<>();
+	private static final Map<String,Pair<IslandBiomeBase,BiomeContentVariation>> biomeNames = new HashMap<>();
 	
 	static{
 		lootNames.put("DungeonTowerChest",ComponentTower.lootTower);
@@ -39,12 +48,26 @@ public final class ImcWorldHandlers extends ImcHandler{
 		lootNames.put("HomelandCache",EntityBlockHomelandCache.loot);
 		lootNames.put("LaboratorySmallChest",LaboratoryContent.smallChestLoot);
 		lootNames.put("LaboratoryLargeChest",LaboratoryContent.largeChestLoot);
+		
+		biomeNames.put("InfestedForest.Deep",Pair.of(IslandBiomeBase.infestedForest,IslandBiomeInfestedForest.DEEP));
+		biomeNames.put("InfestedForest.Ravaged",Pair.of(IslandBiomeBase.infestedForest,IslandBiomeInfestedForest.RAVAGED));
+		biomeNames.put("BurningMountains.Scorching",Pair.of(IslandBiomeBase.burningMountains,IslandBiomeBurningMountains.SCORCHING));
+		biomeNames.put("BurningMountains.Mine",Pair.of(IslandBiomeBase.burningMountains,IslandBiomeBurningMountains.MINE));
+		biomeNames.put("EnchantedIsland.Homeland",Pair.of(IslandBiomeBase.enchantedIsland,IslandBiomeEnchantedIsland.HOMELAND));
+		biomeNames.put("EnchantedIsland.Laboratory",Pair.of(IslandBiomeBase.enchantedIsland,IslandBiomeEnchantedIsland.LABORATORY));
 	}
 	
 	private static final StringValue lootName = StringValue.function(new Function<String,Boolean>(){
 		@Override
 		public Boolean apply(String input){
 			return Boolean.valueOf(lootNames.containsKey(input));
+		}
+	});
+	
+	private static final StringValue biomeName = StringValue.function(new Function<String,Boolean>(){
+		@Override
+		public Boolean apply(String input){
+			return Boolean.valueOf(biomeNames.containsKey(input));
 		}
 	});
 	
@@ -93,6 +116,15 @@ public final class ImcWorldHandlers extends ImcHandler{
 		}
 	};
 	
+	private static final MessageHandler biomeMobAdd = new MessageHandler(){
+		@Override
+		public void call(MessageRunner runner){
+			Pair<IslandBiomeBase,BiomeContentVariation> pair = biomeNames.get(runner.getString("biome"));
+			pair.getLeft().getSpawnEntries(pair.getRight()).add(runner.<SpawnEntry>getValue("mob"));
+			MessageLogger.logOk("Added 1 entry to the list.");
+		}
+	};
+	
 	@Override
 	public void register(){
 		register("HEE:World:LootAdd",lootAdd,RunEvent.LOADCOMPLETE)
@@ -103,5 +135,9 @@ public final class ImcWorldHandlers extends ImcHandler{
 		.addProp("list",lootName)
 		.addProp("search",ItemPatternValue.any())
 		.addProp("limit",IntValue.positiveOrZero());
+		
+		register("HEE:World:BiomeMobAdd",biomeMobAdd,RunEvent.LOADCOMPLETE)
+		.addProp("biome",biomeName)
+		.addProp("mob",SpawnEntryValue.any());
 	}
 }

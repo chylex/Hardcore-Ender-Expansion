@@ -4,22 +4,13 @@ import net.minecraft.entity.EntityLivingBase;
 import chylex.hee.api.message.MessageHandler;
 import chylex.hee.api.message.MessageRunner;
 import chylex.hee.api.message.element.DecimalValue;
-import chylex.hee.api.message.element.StringValue;
+import chylex.hee.api.message.element.SpawnEntryValue;
 import chylex.hee.api.message.utils.MessageLogger;
 import chylex.hee.api.message.utils.RunEvent;
 import chylex.hee.entity.GlobalMobData;
 import chylex.hee.mechanics.energy.EnergyValues;
-import com.google.common.base.Function;
 
 public final class ImcMobHandlers extends ImcHandler{
-	private static final StringValue livingMobString = StringValue.function(new Function<String,Boolean>(){
-		@Override
-		public Boolean apply(String input){
-			Class<?> cls = (Class<?>)EntityList.stringToClassMapping.get(input);
-			return Boolean.valueOf(cls != null && EntityLivingBase.class.isAssignableFrom(cls));
-		}
-	});
-	
 	private static final MessageHandler enderGooTolerantAdd = new MessageHandler(){
 		@Override
 		public void call(MessageRunner runner){
@@ -39,10 +30,10 @@ public final class ImcMobHandlers extends ImcHandler{
 	@Override
 	public void register(){
 		register("HEE:Mobs:SetGooImmune",enderGooTolerantAdd,RunEvent.LOADCOMPLETE)
-		.addProp("id",livingMobString);
+		.addProp("id",SpawnEntryValue.livingMobString);
 		
 		register("HEE:Mobs:SetEnergy",energySet,RunEvent.LOADCOMPLETE)
-		.addProp("id",livingMobString)
+		.addProp("id",SpawnEntryValue.livingMobString)
 		.addProp("units",DecimalValue.positiveOrZero());
 	}
 }

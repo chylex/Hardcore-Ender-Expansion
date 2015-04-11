@@ -1,6 +1,7 @@
 package chylex.hee.system.test.list;
 import java.util.Random;
 import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,10 @@ import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
 import chylex.hee.tileentity.TileEntityExperienceTable;
+import chylex.hee.world.structure.island.biome.IslandBiomeBase;
+import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
 import chylex.hee.world.structure.tower.ComponentTower;
+import chylex.hee.world.util.SpawnEntry;
 
 public class ImcTests{
 	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.PREINIT)
@@ -34,7 +38,8 @@ public class ImcTests{
 			"HEE:ExperienceTable:AddItem { 'item': { 'id': 'coal' }, 'bottles': 12 }",
 			
 			"HEE:World:LootAdd { 'list': 'DungeonTowerChest', 'item': { 'id': 'minecraft:dye', 'damage': [ 0, 15 ], 'count': [ 2 ], 'weight': 32000 } }",
-			"HEE:World:LootRemove { 'list': 'DungeonTowerFurnaceFuel', 'search': { 'id': '*' }, 'limit': 6 }"
+			"HEE:World:LootRemove { 'list': 'DungeonTowerFurnaceFuel', 'search': { 'id': '*' }, 'limit': 6 }",
+			"HEE:World:BiomeMobAdd { 'biome': 'InfestedForest.Ravaged', 'mob': { 'id': 'Silverfish', 'limit': 32, 'weight': 10 } }"
 		})HeeIMC.acceptString("UnitTester",msgs.replace('\'','"'));
 	}
 	
@@ -74,6 +79,11 @@ public class ImcTests{
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
 	public void testImcWorld(){
 		Assert.equal(ComponentTower.lootFuel.size(),2,"Unexpected list size, expected $2, got $1. List: "+ComponentTower.lootFuel);
+		
+		SpawnEntry entry = IslandBiomeBase.infestedForest.getSpawnEntries(IslandBiomeInfestedForest.RAVAGED).get(0);
+		Assert.equal(entry.getMobClass(),EntitySilverfish.class,"Unexpected entry data, expected $2, got $1.");
+		Assert.equal(entry.getMaxAmount(),32,"Unexpected entry data, expected $2, got $1.");
+		Assert.equal(entry.getWeight(),10,"Unexpected entry data, expected $2, got $1.");
 		
 		Random rand = new Random();
 		
