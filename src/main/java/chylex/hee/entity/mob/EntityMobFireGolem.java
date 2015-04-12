@@ -17,6 +17,8 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
@@ -124,7 +126,7 @@ public class EntityMobFireGolem extends EntityMob{
 	}
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float damage){
+	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (!worldObj.isRemote && source.isExplosion() && teleportCooldown == 0){
 			teleportCooldown = 45;
 
@@ -150,8 +152,9 @@ public class EntityMobFireGolem extends EntityMob{
 			}
 		}
 		
-		if (super.attackEntityFrom(source,damage)){
+		if (super.attackEntityFrom(source,amount)){
 			if (entityToAttack instanceof IBossDisplayData)entityToAttack = null;
+			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
 			return true;
 		}
 		else return false;

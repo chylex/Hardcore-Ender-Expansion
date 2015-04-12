@@ -287,7 +287,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		if (getAttackAnimationTime() > 0)amount *= 0.275F;
 		
 		if (super.attackEntityFrom(source,amount)){
-			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
+			CausatumUtils.increase(source,CausatumMeters.ENDER_EYE_DAMAGE,amount*2F);
 			return true;
 		}
 		else return false;

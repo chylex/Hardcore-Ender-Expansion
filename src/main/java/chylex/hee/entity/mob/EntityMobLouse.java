@@ -20,6 +20,8 @@ import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.causatum.CausatumMeters;
+import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.charms.RuneType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
@@ -201,7 +203,11 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 			return true;
 		}
 		
-		return super.attackEntityFrom(source,amount);
+		if (super.attackEntityFrom(source,amount)){
+			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
+			return true;
+		}
+		else return false;
 	}
 	
 	private void teleport(int level){
