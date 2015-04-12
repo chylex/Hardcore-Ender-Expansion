@@ -9,6 +9,7 @@ public abstract class ImcHandler{
 		ImcHandler[] handlers = new ImcHandler[]{
 			new ImcEssenceHandlers(),
 			new ImcMobHandlers(),
+			new ImcOrbHandlers(),
 			new ImcTableHandlers(),
 			new ImcWorldHandlers()
 		};
