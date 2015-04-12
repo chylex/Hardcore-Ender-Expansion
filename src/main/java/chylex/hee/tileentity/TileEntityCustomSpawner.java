@@ -3,6 +3,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import chylex.hee.block.BlockCustomSpawner;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.spawner.BlobEndermanSpawnerLogic;
@@ -24,11 +25,11 @@ public class TileEntityCustomSpawner extends TileEntity{
 	
 	private void createLogic(byte id){
 		switch(id){
-			case 0: logic = new TowerEndermanSpawnerLogic(this); break;
-			case 1: logic = new SilverfishDungeonSpawnerLogic(this); break;
-			case 2: logic = new LouseRavagedSpawnerLogic(this); break;
-			case 3: logic = new SilverfishRavagedSpawnerLogic(this); break;
-			case 4: logic = new BlobEndermanSpawnerLogic(this); break;
+			case BlockCustomSpawner.metaTowerEnderman: logic = new TowerEndermanSpawnerLogic(this); break;
+			case BlockCustomSpawner.metaSilverfishDungeon: logic = new SilverfishDungeonSpawnerLogic(this); break;
+			case BlockCustomSpawner.metaRavagedLouse: logic = new LouseRavagedSpawnerLogic(this); break;
+			case BlockCustomSpawner.metaRavagedSilverfish: logic = new SilverfishRavagedSpawnerLogic(this); break;
+			case BlockCustomSpawner.metaBlobEnderman: logic = new BlobEndermanSpawnerLogic(this); break;
 			default:
 				Log.error("Unable to find spawner logic $0, this is not supposed to happen! Substituting empty logic to prevent crashes.",id);
 				logic = new CustomSpawnerLogic.BrokenSpawnerLogic(this);
