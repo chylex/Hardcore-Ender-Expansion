@@ -33,7 +33,7 @@ public class ImcOrbHandlers extends ImcHandler{
 			else if (size == 0)MessageLogger.logOk("Removed $0 damage value(s) from items.",damageRemoved);
 			else MessageLogger.logOk("Removed $0 item(s) and $1 damage value(s) in total.",size,damageRemoved);
 			
-			// TODO set to dungeon items if completely empty
+			if (list.size() == 0)MessageLogger.logWarn("No items left in the list, falling back to generic chest loot.");
 		}
 	};
 	

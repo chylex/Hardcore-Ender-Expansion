@@ -7,7 +7,9 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ChestGenHooks;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.entity.fx.FXType;
@@ -94,6 +96,21 @@ public class EntityItemInstabilityOrb extends EntityItem{
 		}
 		else{
 			WeightedItem item = OrbAcquirableItems.idList.getRandomItem(rand);
+			
+			if (item == null){ // list is empty
+				String[] list = new String[]{
+					ChestGenHooks.DUNGEON_CHEST, ChestGenHooks.BONUS_CHEST, ChestGenHooks.MINESHAFT_CORRIDOR,
+					ChestGenHooks.VILLAGE_BLACKSMITH, ChestGenHooks.PYRAMID_DESERT_CHEST, ChestGenHooks.PYRAMID_JUNGLE_CHEST,
+					ChestGenHooks.STRONGHOLD_LIBRARY, ChestGenHooks.STRONGHOLD_CORRIDOR
+				};
+				
+				WeightedRandomChestContent[] content = ChestGenHooks.getItems(list[rand.nextInt(list.length)],rand);
+				if (content.length == 0)return;
+				
+				ItemStack is = content[rand.nextInt(content.length)].theItemId;
+				item = new WeightedItem(is.getItem(),is.getItemDamage(),1);
+			}
+			
 			int meta = item.getDamageValues()[rand.nextInt(item.getDamageValues().length)];
 			if (meta == 32767)meta = 0;
 			
