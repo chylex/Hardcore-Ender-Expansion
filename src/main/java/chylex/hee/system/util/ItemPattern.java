@@ -52,6 +52,10 @@ public class ItemPattern{
 		return true;
 	}
 	
+	public boolean matchesAnyDamage(){
+		return damageValues.length == 0;
+	}
+	
 	public ArrayList<ItemStack> retainMatching(Collection<ItemStack> coll){
 		ArrayList<ItemStack> retained = new ArrayList<>();
 		
