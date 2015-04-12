@@ -62,18 +62,19 @@ public final class OrbAcquirableItems{
 			
 		for(Iterator<IRecipe> iter = CraftingManager.getInstance().getRecipeList().iterator(); iter.hasNext();){
 			IRecipe recipe = iter.next();
+			Class<?> cls = recipe.getClass();
 			
 			try{
-				if (recipe instanceof ShapedRecipes){
+				if (cls == ShapedRecipes.class){
 					ShapedRecipes shaped = (ShapedRecipes)recipe;
 					addItemToList(shaped.getRecipeOutput(),21-shaped.recipeWidth*2-shaped.recipeHeight*2);
 					for(ItemStack is:shaped.recipeItems)addItemToList(is,23-shaped.recipeWidth*2-shaped.recipeHeight*2);
 				}
-				else if (recipe instanceof ShapelessRecipes){
+				else if (cls == ShapelessRecipes.class){
 					addItemToList(recipe.getRecipeOutput(),24-recipe.getRecipeSize()*2);
 					for(ItemStack item:(List<ItemStack>)((ShapelessRecipes)recipe).recipeItems)addItemToList(item,25-recipe.getRecipeSize()*2);
 				}
-				else if (recipe instanceof ShapedOreRecipe){
+				else if (cls == ShapedOreRecipe.class){
 					ShapedOreRecipe shaped = (ShapedOreRecipe)recipe;					
 					int amt = DragonUtil.getNonNullValues(shaped.getInput()).length;
 					
@@ -89,7 +90,7 @@ public final class OrbAcquirableItems{
 						}
 					}
 				}
-				else if (recipe instanceof ShapelessOreRecipe){					
+				else if (cls == ShapelessOreRecipe.class){					
 					int amt = recipe.getRecipeSize();
 					
 					addItemToList(recipe.getRecipeOutput(),23-amt*2);
@@ -105,10 +106,10 @@ public final class OrbAcquirableItems{
 					}
 				}
 			}catch(Throwable t){
-				if (recipe instanceof ShapedRecipes)Log.error("[HEE-ORB] Corrupted shaped recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedRecipes)recipe).recipeItems));
-				else if (recipe instanceof ShapelessRecipes)Log.error("[HEE-ORB] Corrupted shapeless recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessRecipes)recipe).recipeItems));
-				else if (recipe instanceof ShapedOreRecipe)Log.error("[HEE-ORB] Corrupted shaped ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedOreRecipe)recipe).getInput()));
-				else if (recipe instanceof ShapelessOreRecipe)Log.error("[HEE-ORB] Corrupted shapeless ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessOreRecipe)recipe).getInput()));
+				if (cls == ShapedRecipes.class)Log.error("[HEE-ORB] Corrupted shaped recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedRecipes)recipe).recipeItems));
+				else if (cls == ShapelessRecipes.class)Log.error("[HEE-ORB] Corrupted shapeless recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessRecipes)recipe).recipeItems));
+				else if (cls == ShapedOreRecipe.class)Log.error("[HEE-ORB] Corrupted shaped ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapedOreRecipe)recipe).getInput()));
+				else if (cls == ShapelessOreRecipe.class)Log.error("[HEE-ORB] Corrupted shapeless ore recipe: $0 <= $1",toString(recipe.getRecipeOutput()),toString(((ShapelessOreRecipe)recipe).getInput()));
 				
 				if (overrideRemoveBrokenRecipes)iter.remove();
 				lastThrowable = t;
@@ -157,8 +158,8 @@ public final class OrbAcquirableItems{
 	}
 	
 	private static String toString(ItemStack is){
-		if (is == null)return "<supernull, wtf>";
-		else if (is.getItem() == null)return "<null>";
+		if (is == null)return "<critical:stack null>";
+		else if (is.getItem() == null)return "<error:null>";
 		else return "["+getModID(is)+"]"+(is.stackSize > 9 ? is.toString().substring(3).replace('@','/') : is.toString().substring(2)).replace('@','/');
 	}
 	
@@ -175,14 +176,14 @@ public final class OrbAcquirableItems{
 			else if (array[a] instanceof Collection){
 				Collection collection = (Collection)array[a];
 				
-				if (collection.isEmpty())newArray[a] = "<collempty>";
+				if (collection.isEmpty())newArray[a] = "<empty-list>";
 				else{
 					Object obj = collection.iterator().next();
 					if (obj instanceof ItemStack)newArray[a] = toString((ItemStack)obj)+"(ore)";
 					else newArray[a] = "<unknown>";
 				}
 			}
-			else newArray[a] = "<unknowncls "+array[a].getClass().getSimpleName()+">";
+			else newArray[a] = "<unknown-cls "+array[a].getClass().getSimpleName()+">";
 		}
 		
 		return ArrayUtils.toString(newArray).replace(",",", ");
