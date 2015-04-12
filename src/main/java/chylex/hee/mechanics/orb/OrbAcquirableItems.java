@@ -28,6 +28,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public final class OrbAcquirableItems{
 	public static boolean overrideRemoveBrokenRecipes = false;
 	public static final WeightedItemList idList = new WeightedItemList();
+	
 	private static final String errorMessage = "A defective recipe has crashed the game! Another mod is creating recipes with non-existent blocks or items, which is a serious error that will cause item or even world loss when crafting these recipes. Corrupted recipes have been saved in the log with tag [HEE-ORB], please try to find which mod they belong to and report them to the respective modder. Then enable the 'overrideRemoveBrokenRecipes' option in Hardcore Ender Expansion and the game will start.";
 	
 	public static void initialize(){
@@ -151,7 +152,7 @@ public final class OrbAcquirableItems{
 	}
 	
 	private static void addItemToList(ItemStack is, int weight){
-		if (is == null || weight <= 0)return;
+		if (is == null || is.hasTagCompound() || weight <= 0)return;
 		if (is.getItem() == null)is.isItemDamaged(); // throws NPE
 	
 		idList.add(new WeightedItem(is.getItem(),is.getItemDamage(),weight));
