@@ -92,7 +92,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	
 	public EntityPlayer target;
 	public double targetX, targetY, targetZ;
-	public boolean angryStatus, forceAttackEnd, noPlayers, frozen;
+	public boolean angryStatus, forceAttackEnd, noViablePlayers, freezeAI, frozen;
 	public int nextAttackTicks;
 	public byte dragonHurtTime;
 	
@@ -157,14 +157,19 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 	@Override
 	public void onLivingUpdate(){
-		if (noPlayers){
-			if (ticksExisted%10 == 0 && !attacks.getViablePlayers().isEmpty())noPlayers = false;
+		if (freezeAI){
+			if (ticksExisted%10 == 0 && !attacks.getViablePlayers().isEmpty())freezeAI = noViablePlayers = false;
 			else return;
 		}
 		else if (ticksExisted%40 == 0 && attacks.getViablePlayers().isEmpty()){
-			noPlayers = true;
-			DragonChunkManager.release(this);
-			return;
+			noViablePlayers = true;
+			
+			if (worldObj.getClosestPlayerToEntity(this,80D) == null){
+				freezeAI = true;
+				DragonChunkManager.release(this);
+				return;
+			}
+			else freezeAI = false;
 		}
 		
 		if (currentAttack == null)currentAttack = defaultAttack;
@@ -298,14 +303,20 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			else{
 				double xDiff = targetX-posX, yDiff = targetY-posY, zDiff = targetZ-posZ;
 				double distFromTargetSq = xDiff*xDiff+yDiff*yDiff+zDiff*zDiff;
-
+				
+				if (noViablePlayers){
+					forceAttackEnd = true;
+					trySetTarget(null);
+					trySetTargetPosition(rand.nextDouble()*60D-30D,targetY,rand.nextDouble()*60D-30D);
+				}
+				
 				if (target != null){
 					targetX = target.posX;
 					targetZ = target.posZ;
 					targetY = target.boundingBox.minY+Math.min(0.4D+Math.sqrt(Math.pow(targetX-posX,2)+Math.pow(targetZ-posZ,2))/80D-1D,10D);
 				}
 				else trySetTargetPosition(targetX+rand.nextGaussian()*2D,targetY,targetZ+rand.nextGaussian()*2D);
-
+				
 				if ((target != null && target.isDead) || distFromTargetSq > 22500D)forceAttackEnd = forceNewTarget = true;
 
 				if (forceNewTarget || distFromTargetSq < 90D || distFromTargetSq > 22500D || isCollidedHorizontally || isCollidedVertically){
@@ -405,7 +416,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float amount){
-		if ((source.isExplosion() && source.getEntity() == this) || dragonHurtTime > 0)return false;
+		if ((source.isExplosion() && source.getEntity() == this) || dragonHurtTime > 0 || freezeAI)return false;
 		spawnCooldown = 0;
 		
 		if (dragonPart != dragonPartHead)amount = amount/3+1;

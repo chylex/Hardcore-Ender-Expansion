@@ -18,6 +18,7 @@ import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackManager{
 	private final List<DragonPassiveAttackBase> passiveAttackList = new ArrayList<>();
@@ -60,6 +61,10 @@ public class DragonAttackManager{
 	
 	public List<DragonSpecialAttackBase> getSpecialAttackList(){
 		return Collections.unmodifiableList(specialAttackList);
+	}
+	
+	public boolean isPlayerViable(EntityPlayer player){
+		return MathUtil.distance(player.posX,player.posZ) <= 160D; 
 	}
 	
 	public List<EntityPlayer> getViablePlayers(){
