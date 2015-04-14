@@ -419,16 +419,13 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		currentAttack.onDamageTaken(event.damage);
 		amount = event.damage;
 		
-		boolean shouldChangeTarget = (target != null && getDistanceSqToEntity(target) < 4600D && !angryStatus);
+		boolean shouldChangeTarget = (target != null && getDistanceSqToEntity(target) < 4600D && (!angryStatus || rand.nextInt(3) != 0));
 		
-		if (shouldChangeTarget && ticksExisted-lastAttackInterruption >= 600){
+		if (shouldChangeTarget && ticksExisted-lastAttackInterruption >= 500){
 			trySetTarget(null);
 			lastAttackInterruption = ticksExisted;
-		}
-
-		if (shouldChangeTarget){
-			float yawRad = MathUtil.toRad(rotationYaw);
 			
+			float yawRad = MathUtil.toRad(rotationYaw);
 			trySetTargetPosition(posX+(MathHelper.sin(yawRad)*5F)+((rand.nextFloat()-0.5F)*2F),
 								 posY+(rand.nextFloat()*3F)+1D,
 								 posZ-(MathHelper.cos(yawRad)*5F)+((rand.nextFloat()-0.5F)*2F));
