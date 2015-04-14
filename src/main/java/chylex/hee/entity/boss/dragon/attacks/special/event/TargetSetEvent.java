@@ -1,11 +1,11 @@
 package chylex.hee.entity.boss.dragon.attacks.special.event;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class TargetSetEvent{
-	public final Entity oldTarget;
-	public Entity newTarget;
+	public final EntityPlayer oldTarget;
+	public EntityPlayer newTarget;
 	
-	public TargetSetEvent(Entity oldTarget, Entity newTarget){
+	public TargetSetEvent(EntityPlayer oldTarget, EntityPlayer newTarget){
 		this.oldTarget = oldTarget;
 		this.newTarget = newTarget;
 	}

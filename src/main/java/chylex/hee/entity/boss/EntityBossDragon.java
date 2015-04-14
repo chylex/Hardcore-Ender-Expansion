@@ -90,7 +90,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public boolean slowed;
 	public int deathTicks;
 	
-	public Entity target;
+	public EntityPlayer target;
 	public double targetX, targetY, targetZ;
 	public boolean angryStatus, forceAttackEnd, noPlayers, frozen;
 	public int nextAttackTicks;
@@ -659,8 +659,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 	}
 	
-	public boolean trySetTarget(Entity entity){
-		if (entity != null && (entity.isDead || (entity instanceof EntityPlayer && !attacks.getViablePlayers().contains(entity)) || spawnCooldown > 0))return false;
+	public boolean trySetTarget(EntityPlayer entity){
+		if (entity != null && (entity.isDead || !attacks.isPlayerViable(entity) || spawnCooldown > 0))return false;
 		forceNewTarget = false;
 		
 		TargetSetEvent event = new TargetSetEvent(target,entity);

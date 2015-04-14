@@ -1,5 +1,5 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import chylex.hee.entity.boss.EntityBossDragon;
@@ -10,8 +10,8 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
 public class DragonAttackPunch extends DragonSpecialAttackBase{
 	private static final byte PHASE_PREPARATION = 0, PHASE_DISTANCE = 1, PHASE_ATTACK = 2;
 	
-	private EntityLivingBase target;
-	private EntityLivingBase tempTarget;
+	private EntityPlayer target;
+	private EntityPlayer tempTarget;
 	private float speed;
 	private boolean ended;
 	

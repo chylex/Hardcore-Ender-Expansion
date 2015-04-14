@@ -1,13 +1,13 @@
 package chylex.hee.entity.boss.dragon.attacks.special.event;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class TargetPositionSetEvent{
-	public Entity currentEntityTarget;
+	public EntityPlayer currentEntityTarget;
 	public double oldTargetX, oldTargetY, oldTargetZ;
 	public double newTargetX, newTargetY, newTargetZ;
 	private boolean isCancelled;
 	
-	public TargetPositionSetEvent(Entity currentEntityTarget, double oldTargetX, double oldTargetY, double oldTargetZ, double newTargetX, double newTargetY, double newTargetZ){
+	public TargetPositionSetEvent(EntityPlayer currentEntityTarget, double oldTargetX, double oldTargetY, double oldTargetZ, double newTargetX, double newTargetY, double newTargetZ){
 		this.currentEntityTarget = currentEntityTarget;
 		this.oldTargetX = oldTargetX;
 		this.oldTargetY = oldTargetY;
