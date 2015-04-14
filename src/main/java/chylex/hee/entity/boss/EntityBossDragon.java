@@ -164,7 +164,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		else if (ticksExisted%40 == 0 && attacks.getViablePlayers().isEmpty()){
 			noViablePlayers = true;
 			
-			if (worldObj.getClosestPlayerToEntity(this,80D) == null){
+			if (worldObj.getClosestPlayerToEntity(this,180D) == null){
 				freezeAI = true;
 				DragonChunkManager.release(this);
 				return;
@@ -417,6 +417,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	@Override
 	public boolean attackEntityFromPart(EntityDragonPart dragonPart, DamageSource source, float amount){
 		if ((source.isExplosion() && source.getEntity() == this) || dragonHurtTime > 0 || freezeAI)return false;
+		if (noViablePlayers && source.getEntity() instanceof EntityPlayer && !attacks.isPlayerViable((EntityPlayer)source.getEntity()))amount *= 0.1F;
 		spawnCooldown = 0;
 		
 		if (dragonPart != dragonPartHead)amount = amount/3+1;
