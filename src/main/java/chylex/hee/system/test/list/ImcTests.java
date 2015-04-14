@@ -1,7 +1,10 @@
 package chylex.hee.system.test.list;
 import java.util.Random;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySilverfish;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -13,6 +16,7 @@ import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.mechanics.misc.StardustDecomposition;
+import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
@@ -32,6 +36,11 @@ public class ImcTests{
 			
 			"HEE:Mobs:SetGooImmune { 'id': 'Blaze' }",
 			"HEE:Mobs:SetEnergy { 'id': 'HardcoreEnderExpansion.VampireBat', 'units': 2.5 }",
+			
+			"HEE:Orb:ItemBlacklist { 'pattern': { 'id': '*' } }",
+			"HEE:Orb:MobAdd { 'id': 'Villager' }",
+			"HEE:Orb:MobAdd { 'id': 'WitherBoss' }", // should fail
+			"HEE:Orb:MobRemove { 'id': 'Creeper' }",
 			
 			"HEE:DecompositionTable:Blacklist { 'pattern': { 'id': 'dispenser' } }",
 			"HEE:ExtractionTable:SetEnergy { 'item': { 'id': 'coal', 'damage': 1 }, 'units': 5.4 }",
@@ -62,6 +71,13 @@ public class ImcTests{
 	public void testImcsMobs(){
 		Assert.state(GlobalMobData.isEnderGooTolerant(new EntityBlaze(null)),"Expected Blaze to be marked as a Goo tolerant mob.");
 		Assert.equal(EnergyValues.getMobEnergy(new EntityMobVampiricBat(null)),EnergyChunkData.energyDrainUnit*2.5F,"Unexpected mob Energy value, expected $2, got $1.");
+	}
+	
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	public void testImcsOrb(){
+		Assert.state(OrbSpawnableMobs.classList.contains(EntityVillager.class),"Expected Villager to have been added to mob list.");
+		Assert.state(!OrbSpawnableMobs.classList.contains(EntityWither.class),"Expected Wither to NOT have been added to mob list.");
+		Assert.state(!OrbSpawnableMobs.classList.contains(EntityCreeper.class),"Expected Creeper to have been removed from mob list.");
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
