@@ -6,12 +6,13 @@ import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.server.MinecraftServer;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.Display;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.proxy.ModCommonProxy.MessageType;
 
 public final class Log{
 	static final Logger logger = LogManager.getLogger("HardcoreEnderExpansion");
@@ -36,7 +37,7 @@ public final class Log{
 	
 	public static void initializeDebug(){
 		if (forceDebugEnabled || isDeobfEnvironment){
-			Display.setTitle(new StringBuilder().append(Display.getTitle()).append(" - HardcoreEnderExpansion - ").append(isDeobfEnvironment ? "dev" : "debug").append(' ').append(HardcoreEnderExpansion.modVersion).toString());
+			HardcoreEnderExpansion.proxy.sendMessage(MessageType.DEBUG_TITLE_SET,ArrayUtils.EMPTY_INT_ARRAY);
 		}
 	}
 	

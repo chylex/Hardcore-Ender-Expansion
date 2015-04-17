@@ -16,6 +16,8 @@ import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.MinecraftForgeClient;
+import org.lwjgl.opengl.Display;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
@@ -110,6 +112,7 @@ import chylex.hee.render.weather.RenderWeatherLightningBoltPurple;
 import chylex.hee.sound.MusicManager;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
@@ -276,6 +279,10 @@ public class ModClientProxy extends ModCommonProxy{
 			case ENHANCEMENT_SLOT_RESET:
 				Container container = Minecraft.getMinecraft().thePlayer.openContainer;
 				if (container instanceof ContainerEndPowderEnhancements)((ContainerEndPowderEnhancements)container).onEnhancementSlotChangeClient(-1);
+				break;
+				
+			case DEBUG_TITLE_SET:
+				Display.setTitle(Display.getTitle()+" - HardcoreEnderExpansion - "+(Log.isDeobfEnvironment ? "dev" : "debug")+' '+HardcoreEnderExpansion.modVersion);
 				break;
 		}
 	}
