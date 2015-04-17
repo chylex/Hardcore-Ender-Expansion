@@ -467,9 +467,9 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			
 			fillWithBlocks(world,bb,x,y+5,z+1*sign,x,y+4,z+2*sign,Blocks.iron_bars,Blocks.iron_bars,false);*/
 			
-			for(int a = 0,xx,zz; a < 5+rand.nextInt(8); a++){
-				xx = rand.nextInt(7)-3;
-				zz = rand.nextInt(7)-3;
+			for(int a = 0, xx, zz; a < 5+rand.nextInt(8); a++){
+				xx = x+rand.nextInt(7)-3;
+				zz = z+rand.nextInt(7)-3;
 				
 				if (structure.getBlock(xx,y,zz).getMaterial() == Material.air && structure.getBlock(xx,y-1,zz).isNormalCube()){
 					structure.setBlock(xx,y,zz,Blocks.redstone_wire,0);
