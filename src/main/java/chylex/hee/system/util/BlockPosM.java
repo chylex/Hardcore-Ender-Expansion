@@ -21,34 +21,39 @@ public class BlockPosM{
 	
 	/* === TEMPORARY BLOCKPOS === */
 	
-	private static final BlockPosM temporary = new BlockPosM();
+	private static final ThreadLocal<BlockPosM> temporary = new ThreadLocal<BlockPosM>(){
+		@Override
+		protected BlockPosM initialValue(){
+			return new BlockPosM();
+		}
+	};
 	
 	public static BlockPosM tmp(){
-		return temporary.set(0,0,0);
+		return temporary.get().set(0,0,0);
 	}
 	
 	public static BlockPosM tmp(int x, int y, int z){
-		return temporary.set(x,y,z);
+		return temporary.get().set(x,y,z);
 	}
 	
 	public static BlockPosM tmp(int[] array3){
-		return temporary.set(array3);
+		return temporary.get().set(array3);
 	}
 	
 	public static BlockPosM tmp(double x, double y, double z){
-		return temporary.set(x,y,z);
+		return temporary.get().set(x,y,z);
 	}
 	
 	public static BlockPosM tmp(BlockPosM pos){
-		return temporary.set(pos);
+		return temporary.get().set(pos);
 	}
 	
 	public static BlockPosM tmp(Entity entity){
-		return temporary.set(entity);
+		return temporary.get().set(entity);
 	}
 	
 	public static BlockPosM tmp(long serialized){
-		return temporary.set(serialized);
+		return temporary.get().set(serialized);
 	}
 	
 	public int x, y, z;

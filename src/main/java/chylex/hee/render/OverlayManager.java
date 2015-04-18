@@ -41,6 +41,8 @@ public class OverlayManager{
 	private TileEntityEnergyCluster clusterLookedAt;
 	private final List<Notification> notifications = new ArrayList<>();
 	
+	public static BlockPosM tmpPos = new BlockPosM();
+	
 	public static void addNotification(String notification){
 		if (instance == null)register();
 		instance.notifications.add(new Notification(notification));
@@ -212,7 +214,7 @@ public class OverlayManager{
 	
 	@SubscribeEvent
 	public void onRenderBlockOutline(DrawBlockHighlightEvent e){
-		BlockPosM tmp = BlockPosM.tmp(e.target.blockX,e.target.blockY,e.target.blockZ);
+		BlockPosM tmp = tmpPos.set(e.target.blockX,e.target.blockY,e.target.blockZ);
 		
 		if (tmp.getBlock(e.player.worldObj) == BlockList.energy_cluster){
 			clusterLookedAt = (TileEntityEnergyCluster)tmp.getTileEntity(e.player.worldObj);
