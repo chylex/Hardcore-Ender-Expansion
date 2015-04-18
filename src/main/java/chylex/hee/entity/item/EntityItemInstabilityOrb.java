@@ -73,6 +73,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			ExplosionOrb explosion = new ExplosionOrb(worldObj,this,posX,posY,posZ,2.8F+rand.nextFloat()*0.8F);
 			explosion.doExplosionA();
 			explosion.doExplosionB(true);
+			PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ORB_EXPLOSION,posX,posY,posZ,0F,explosion.explosionSize));
 		}
 		else if (rand.nextInt(6) == 0){
 			Class<?> cls = null;
@@ -133,7 +134,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (source.isExplosion()){
-			if (rand.nextInt(5) != 0){
+			if (rand.nextInt(6) != 0){
 				age -= 10-rand.nextInt(80);
 				return false;
 			}
@@ -142,7 +143,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 		return super.attackEntityFrom(source,amount);
 	}
 	
-	private static final class ExplosionOrb extends Explosion{
+	public static final class ExplosionOrb extends Explosion{
 		private final World worldObj;
 		private final int dist = 16;
 		private final Map<EntityPlayer,Vec3> hurtPlayers = new HashMap<>();
