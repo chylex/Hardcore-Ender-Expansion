@@ -161,6 +161,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 			
 			HashSet<ChunkPosition> affectedBlocks = new HashSet<>();
 			double tempX, tempY, tempZ, distX, distY, distZ, totalDist;
+			BlockPosM testPos = new BlockPosM();
 
 			for(int x = 0; x < dist; ++x){
 				for(int y = 0; y < dist; ++y){
@@ -180,17 +181,17 @@ public class EntityItemInstabilityOrb extends EntityItem{
 							tempY = explosionY;
 							tempZ = explosionZ;
 
-							for(float mp = 0.3F; affectedDistance > 0F; affectedDistance -= mp*0.75F){								
-								BlockPosM tmpPos = BlockPosM.tmp(tempX,tempY,tempZ);
-								Block block = tmpPos.getBlock(worldObj);
+							for(float mp = 0.3F; affectedDistance > 0F; affectedDistance -= mp*0.75F){
+								testPos.set(tempX,tempY,tempZ);
+								Block block = testPos.getBlock(worldObj);
 
 								if (block.getMaterial() != Material.air){
-									float resistance = exploder != null ? exploder.func_145772_a(this,worldObj,tmpPos.x,tmpPos.y,tmpPos.z,block) : block.getExplosionResistance(exploder,worldObj,tmpPos.x,tmpPos.y,tmpPos.z,explosionX,explosionY,explosionZ);
+									float resistance = exploder != null ? exploder.func_145772_a(this,worldObj,testPos.x,testPos.y,testPos.z,block) : block.getExplosionResistance(exploder,worldObj,testPos.x,testPos.y,testPos.z,explosionX,explosionY,explosionZ);
 									affectedDistance -= (resistance+0.3F)*mp;
 								}
-
-								if (affectedDistance > 0F && (exploder == null || exploder.func_145774_a(this,worldObj,tmpPos.x,tmpPos.y,tmpPos.z,block,affectedDistance))){
-									affectedBlocks.add(new ChunkPosition(tmpPos.x,tmpPos.y,tmpPos.z));
+								
+								if (affectedDistance > 0F && (exploder == null || exploder.func_145774_a(this,worldObj,testPos.x,testPos.y,testPos.z,block,affectedDistance))){
+									affectedBlocks.add(new ChunkPosition(testPos.x,testPos.y,testPos.z));
 								}
 
 								tempX += distX*mp;
