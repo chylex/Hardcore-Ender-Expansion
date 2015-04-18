@@ -161,15 +161,19 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			if (ticksExisted%10 == 0 && !attacks.getViablePlayers().isEmpty())freezeAI = noViablePlayers = false;
 			else return;
 		}
-		else if (ticksExisted%40 == 0 && attacks.getViablePlayers().isEmpty()){
-			noViablePlayers = true;
-			
-			if (worldObj.getClosestPlayerToEntity(this,180D) == null){
-				freezeAI = true;
-				DragonChunkManager.release(this);
-				return;
+		else{
+			if (noViablePlayers && ticksExisted%10 == 0 && !attacks.getViablePlayers().isEmpty())noViablePlayers = false;
+		
+			if (ticksExisted%40 == 0 && attacks.getViablePlayers().isEmpty()){
+				noViablePlayers = true;
+				
+				if (worldObj.getClosestPlayerToEntity(this,180D) == null){
+					freezeAI = true;
+					DragonChunkManager.release(this);
+					return;
+				}
+				else freezeAI = false;
 			}
-			else freezeAI = false;
 		}
 		
 		if (currentAttack == null)currentAttack = defaultAttack;
