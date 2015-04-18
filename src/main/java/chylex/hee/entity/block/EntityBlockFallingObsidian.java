@@ -39,7 +39,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 		motionY *= 0.9D;
 		motionZ *= 0.9D;
 		BlockPosM tmpPos = BlockPosM.tmp(this);
-
+		
 		if (field_145812_b == 1 && tmpPos.getBlock(worldObj) == func_145805_f()){ // OBFUSCATED get block
 			tmpPos.setAir(worldObj);
 		}
@@ -49,8 +49,8 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 			motionZ *= 0.7D;
 			motionY *= -0.5D;
 
-			if (field_145812_b > 5 && tmpPos.getBlock(worldObj) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityBossDragon.class,this.boundingBox.expand(1,1,1)).isEmpty()){
-				if (tmpPos.setBlock(worldObj,func_145805_f()))setDead();
+			if (field_145812_b > 5 && tmpPos.getBlock(worldObj) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityBossDragon.class,boundingBox.expand(1,1,1)).isEmpty()){
+				if (tmpPos.set(this).setBlock(worldObj,func_145805_f()))setDead();
 			}
 		}
 		else if (!worldObj.isRemote && ((field_145812_b > 100 && (tmpPos.y < 1 || tmpPos.y > 256)) || field_145812_b > 600)){
