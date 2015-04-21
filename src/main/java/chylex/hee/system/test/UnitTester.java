@@ -1,6 +1,7 @@
 package chylex.hee.system.test;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -8,21 +9,28 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import net.minecraftforge.common.ForgeVersion;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public final class UnitTester{
 	private static final String prefix = "[HEE-UNIT] ";
 	private static final Multimap<RunTime,Method> registryPrep = HashMultimap.create();
 	private static final Multimap<RunTime,Method> registryTests = HashMultimap.create();
+	
+	private static boolean isLoaded;
+	private static int menuDisplayOk, menuDisplayFailed;
 	
 	public static void load(){
 		if (!DragonUtil.checkSystemProperty("unit"))return;
@@ -68,6 +76,8 @@ public final class UnitTester{
 					}
 				}
 			}
+
+			isLoaded = true;
 		}catch(IOException e){
 			Log.throwable(e,prefix+"Error loading unit tests!");
 		}
@@ -78,6 +88,8 @@ public final class UnitTester{
 	}
 	
 	public static void trigger(RunTime time, String trigger){
+		if (!isLoaded)return;
+		
 		Set<Method> prepList = new HashSet<>(), testList = new HashSet<>();
 		
 		for(Method prep:registryPrep.get(time)){
@@ -105,13 +117,18 @@ public final class UnitTester{
 				
 				try{
 					method.invoke(obj);
-					if (isTest)++succeeded;
+					
+					if (isTest){
+						++succeeded;
+						++menuDisplayOk;
+					}
 				}catch(InvocationTargetException e){
 					if (!isTest)Log.throwable(e.getCause(),prefix+"Failed preparing a test!");
 					else{
 						Throwable cause = e.getCause();
 						Log.error(prefix+"Unit test ($0.java:$2)~$1 failed: $3",cls.getSimpleName(),method.getName(),cause.getStackTrace()[1].getLineNumber(),cause.getMessage());
 						++failed;
+						++menuDisplayFailed;
 					}
 				}
 			}catch(Exception e){
@@ -120,6 +137,22 @@ public final class UnitTester{
 		}
 		
 		Log.debug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",succeeded,failed);
+	}
+	
+	public static void finalizeEventTests() throws Throwable{
+		if (!isLoaded)return;
+		
+		Builder<String> unitDataList = ImmutableList.builder();
+		unitDataList.add("[Hardcore Ender Expansion - test mode]");
+		unitDataList.add("Event tests: "+menuDisplayOk+" succeeded, "+menuDisplayFailed+" failed");
+		
+		Field field = FMLCommonHandler.class.getDeclaredField("brandings");
+		field.setAccessible(true);
+		field.set(FMLCommonHandler.instance(),unitDataList.build());
+		
+		field = ForgeVersion.class.getDeclaredField("status");
+		field.setAccessible(true);
+		field.set(null,ForgeVersion.Status.UP_TO_DATE);
 	}
 	
 	private UnitTester(){}

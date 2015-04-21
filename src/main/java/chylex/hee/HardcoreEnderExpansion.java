@@ -380,7 +380,9 @@ public class HardcoreEnderExpansion{
 		try{
 			DimensionOverride.verifyIntegrity();
 			HeeIMC.runLoadComplete();
+			
 			UnitTester.trigger(RunTime.LOADCOMPLETE);
+			UnitTester.finalizeEventTests();
 		}
 		catch(Throwable t){
 			FMLCommonHandler.instance().raiseException(t,"Critical error handling post-load data.",true);
