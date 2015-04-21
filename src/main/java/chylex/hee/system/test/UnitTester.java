@@ -30,16 +30,20 @@ public final class UnitTester{
 		Log.debug(prefix+"Loading unit tests!");
 		
 		try{
-			for(ClassInfo clsInfo:ClassPath.from(UnitTester.class.getClassLoader()).getTopLevelClassesRecursive("chylex.hee.system.test.list")){
+			String basePackage = "chylex.hee.system.test.list";
+			
+			for(ClassInfo clsInfo:ClassPath.from(UnitTester.class.getClassLoader()).getTopLevelClassesRecursive(basePackage)){
 				Class<?> cls = clsInfo.load();
 				Constructor<?> constr = null;
+				
+				String clsName = clsInfo.getName().substring(basePackage.length()+1).replace('.','/');
 				
 				try{
 					constr = cls.getConstructor();
 				}catch(Exception e){}
 				
 				if (constr == null){
-					Log.error(prefix+"Error registering unit test class $0, a no-arg constructor is required!",cls.getSimpleName());
+					Log.error(prefix+"Error registering unit test class $0, a no-arg constructor is required!",clsName);
 					continue;
 				}
 					
@@ -48,19 +52,19 @@ public final class UnitTester{
 					
 					if (test != null){
 						if ((method.getModifiers()&Modifier.STATIC) == Modifier.STATIC){
-							Log.error(prefix+"Error registering unit test method $0.$1, the test methods cannot be static!",cls.getSimpleName(),method.getName());
+							Log.error(prefix+"Error registering unit test method $0.$1, the test methods cannot be static!",clsName,method.getName());
 							continue;
 						}
 						
 						if (test.runTime() != RunTime.INGAME && !test.trigger().isEmpty()){
-							Log.error(prefix+"Error registering unit test method $0.$1, cannot use $2 run time with a trigger!",cls.getSimpleName(),method.getName(),test.runTime());
+							Log.error(prefix+"Error registering unit test method $0.$1, cannot use $2 run time with a trigger!",clsName,method.getName(),test.runTime());
 							continue;
 						}
 						
 						if (test.type() == MethodType.PREPARATION)registryPrep.put(test.runTime(),method);
 						else registryTests.put(test.runTime(),method);
 						
-						Log.debug(prefix+"Registered unit test $2method $0.$1",cls.getSimpleName(),method.getName(),test.type() == MethodType.PREPARATION ? "prep " : "");
+						Log.debug(prefix+"Registered a $2 method: $0.$1",clsName,method.getName(),test.type() == MethodType.PREPARATION ? "prep" : "test");
 					}
 				}
 			}
