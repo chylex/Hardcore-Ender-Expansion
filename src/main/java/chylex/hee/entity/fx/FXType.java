@@ -33,7 +33,8 @@ public final class FXType{
 		BABY_ENDERMAN_GROW,
 		ENDER_GUARDIAN_DASH,
 		SANCTUARY_OVERSEER_SINGLE,
-		SIMPLE_TELEPORT;
+		SIMPLE_TELEPORT,
+		SIMPLE_TELEPORT_NOSOUND;
 		
 		public static FXType.Entity[] values = values();
 	}

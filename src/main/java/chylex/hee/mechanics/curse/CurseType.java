@@ -22,6 +22,7 @@ import net.minecraft.util.DamageSource;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.item.ItemList;
 import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
@@ -72,7 +73,11 @@ public enum CurseType{
 
 					if (!hasTeleported)entity.setPosition(prevX,prevY,prevZ);
 					else{
-						if (!entity.worldObj.isRemote)PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,prevX,prevY,prevZ,tpX,tpY,tpZ));
+						if (!entity.worldObj.isRemote){
+							PacketPipeline.sendToAllAround(entity,256D,new C22EffectLine(FXType.Line.ENDERMAN_TELEPORT,prevX,prevY,prevZ,tpX,tpY,tpZ));
+							PacketPipeline.sendToAllAround(entity,256D,new C21EffectEntity(FXType.Entity.SIMPLE_TELEPORT_NOSOUND,prevX,prevY,prevZ,entity.width,entity.height));
+						}
+						
 						break;
 					}
 				}

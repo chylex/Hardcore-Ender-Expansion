@@ -167,8 +167,9 @@ public final class FXHandler{
 				break;
 				
 			case SIMPLE_TELEPORT:
+			case SIMPLE_TELEPORT_NOSOUND:
 				for(int a = 0; a < 30; a++)HardcoreEnderExpansion.fx.omnipresent("portal",world,x+randCenter(width),y+rand.nextDouble()*height,z+randCenter(width),randCenter(0.15D),randCenter(0.15D),randCenter(0.15D));
-				world.playSound(x,y,z,"mob.endermen.portal",1F,1F,false);
+				if (fx != FXType.Entity.SIMPLE_TELEPORT_NOSOUND)world.playSound(x,y,z,"mob.endermen.portal",1F,1F,false);
 				break;
 				
 			case SANCTUARY_OVERSEER_SINGLE:
