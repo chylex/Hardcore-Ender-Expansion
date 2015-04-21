@@ -31,6 +31,12 @@ public enum CurseType{
 	TELEPORTATION(0, new ICurseHandler(){
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			NBTTagCompound nbt = entity.getEntityData();
+			
+			if (!nbt.hasKey("HEE_C0_t")){
+				nbt.setByte("HEE_C0_t",(byte)0);
+				return false;
+			}
+			
 			byte timer = nbt.getByte("HEE_C0_t");
 			boolean hasTeleported = false;
 			
@@ -51,12 +57,12 @@ public enum CurseType{
 						boolean foundTopBlock = false;
 
 						while(!foundTopBlock && pos.y > 0){
-							if (pos.moveDown().getMaterial(entity.worldObj).blocksMovement())foundTopBlock = true; // TODO re-test
+							if (pos.moveDown().getMaterial(entity.worldObj).blocksMovement())foundTopBlock = true;
 							else --tpY;
 						}
 
 						if (foundTopBlock){
-							entity.setPosition(tpX,tpY,tpZ);
+							entity.setPositionAndUpdate(tpX,tpY,tpZ);
 
 							if ((entity.worldObj.getCollidingBoundingBoxes(entity,entity.boundingBox).isEmpty() && !entity.worldObj.isAnyLiquid(entity.boundingBox))){
 								hasTeleported = true;
