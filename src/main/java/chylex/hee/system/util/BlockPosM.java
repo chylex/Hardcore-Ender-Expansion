@@ -16,7 +16,7 @@ public class BlockPosM{
 	}
 	
 	public static BlockPosM fromNBT(NBTTagCompound nbt, String key){
-		return nbt.hasKey(key,NBT.TAG_LONG) ? new BlockPosM(nbt.getLong(key)) : new BlockPosM(nbt.getIntArray(key)); // TODO test
+		return nbt.hasKey(key,NBT.TAG_LONG) ? new BlockPosM(nbt.getLong(key)) : new BlockPosM(nbt.getIntArray(key));
 	}
 	
 	/* === TEMPORARY BLOCKPOS === */

@@ -147,10 +147,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(item(ItemList.rune), meta(5), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.VOID,2));
 		
 		registerObjectTag(item(ItemList.enderman_head), meta(0,1,2,3,4,5), new AspectList().add(Aspect.DEATH,4).add(Aspect.ELDRITCH,6).add(Aspect.SOUL,4));
-
-		// TODO SoundLogic: Add aspects to fixed value bottle o enchanting
-		// 					Add aspects to enhanced TNT
-		//                  Add aspects to enhanced ender pearl
 		
 		// ENTITY ASPECTS
 		
@@ -166,9 +162,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerEntityTag("HardcoreEnderExpansion.InfestedBat", new AspectList().add(Aspect.AIR,1).add(Aspect.BEAST,1).add(Aspect.FLIGHT,1).add(Aspect.POISON,1));
 		registerEntityTag("HardcoreEnderExpansion.FireGolem", new AspectList().add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,1).add(Aspect.FIRE,3).add(Aspect.MAGIC,1));
 		registerEntityTag("HardcoreEnderExpansion.ScorchingLens", new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,3).add(Aspect.SENSES,1));
-
-		// TODO SoundLogic: Add aspects to HardcoreEnderExpansion.Louse
-
 		registerEntityTag("HardcoreEnderExpansion.HauntedMiner", new AspectList().add(Aspect.MINE,4).add(Aspect.FIRE,4).add(Aspect.WEAPON,2).add(Aspect.SOUL,5).add(Aspect.EARTH,1));
 
 		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.EXCHANGE,1), new EntityTagsNBT("homelandRole",(byte)HomelandRole.BUSINESSMAN.ordinal()));

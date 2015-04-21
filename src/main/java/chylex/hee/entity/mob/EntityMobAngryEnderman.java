@@ -138,7 +138,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 			boolean found = false;
 
 			while(!found && tmpPos.y > 0){
-				if (tmpPos.moveDown().getMaterial(worldObj).blocksMovement())found = true; // TODO test (same as the curse todo)
+				if (tmpPos.moveDown().getMaterial(worldObj).blocksMovement())found = true;
 				else --posY;
 			}
 

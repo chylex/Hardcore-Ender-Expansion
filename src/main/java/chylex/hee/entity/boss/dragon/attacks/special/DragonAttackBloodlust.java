@@ -59,7 +59,7 @@ public class DragonAttackBloodlust extends DragonSpecialAttackBase{
 					
 					for(int a = 0; a < 2+rand.nextInt(3)+(getDifficulty()>>1); a++){
 						for(int attempt = 0; attempt < 6; attempt++){
-							if (tmpPos.move(rand.nextInt(3)-1,rand.nextInt(3)-1,rand.nextInt(3)-1).isAir(dragon.worldObj))break; // TODO test
+							if (tmpPos.move(rand.nextInt(3)-1,rand.nextInt(3)-1,rand.nextInt(3)-1).isAir(dragon.worldObj))break;
 						}
 						
 						spawnBatAt(tmpPos.x,tmpPos.y,tmpPos.z,player);
