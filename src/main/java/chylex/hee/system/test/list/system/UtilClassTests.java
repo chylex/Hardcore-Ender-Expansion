@@ -14,7 +14,7 @@ import chylex.hee.system.util.CycleProtection;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
-public class SystemUtilTests{
+public class UtilClassTests{
 	private final String mathError = "Unexpected value, expected $2, got $1.";
 	private final String coordsError = "Unexpected coords, expected $2, got $1.";
 	private final String coordError = "Unexpected coord, expected $2, got $1.";
