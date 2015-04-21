@@ -1,4 +1,4 @@
-package chylex.hee.system.test.list;
+package chylex.hee.system.test.list.system;
 import java.util.Random;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
@@ -14,7 +14,7 @@ import chylex.hee.system.util.CycleProtection;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
-public class UtilClassesTests{
+public class SystemUtilTests{
 	private final String mathError = "Unexpected value, expected $2, got $1.";
 	private final String coordsError = "Unexpected coords, expected $2, got $1.";
 	private final String coordError = "Unexpected coord, expected $2, got $1.";

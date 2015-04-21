@@ -1,4 +1,4 @@
-package chylex.hee.system.test.list;
+package chylex.hee.system.test.list.system;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.init.Blocks;
@@ -20,7 +20,7 @@ public class ItemHandlingTests{
 	private NBTTagCompound patternTestNbt;
 	
 	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.LOADCOMPLETE)
-	public void prepareItemPattern(){
+	public void prepItemPattern(){
 		patternTestList.add(new ItemStack(Blocks.dirt));
 		patternTestList.add(new ItemStack(Blocks.dirt,64));
 		patternTestList.add(new ItemStack(Blocks.dirt,1,2));
