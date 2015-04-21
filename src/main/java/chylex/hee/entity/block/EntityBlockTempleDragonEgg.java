@@ -41,10 +41,11 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 			}
 			
 			tmpPos.setAir(worldObj);
+			tmpPos.moveDown();
 			
 			for(int origX = tmpPos.x, origZ = tmpPos.z, x = origX+2; x < origX+5; x++){
 				for(int z = origZ-1; z <= origZ+1; z++){
-					if (tmpPos.set(x,tmpPos.y-1,z).getBlock(worldObj) == BlockList.temple_end_portal)tmpPos.setMetadata(worldObj,1,2); // TODO test
+					if (tmpPos.set(x,tmpPos.y,z).getBlock(worldObj) == BlockList.temple_end_portal)tmpPos.setMetadata(worldObj,1,2);
 				}
 			}
 		}
