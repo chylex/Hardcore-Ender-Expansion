@@ -182,8 +182,8 @@ public class PotionTypes{
 				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration(),eff.getAmplifier()+1,eff.getIsAmbient());
 			}
 			else if (ingredientItem == Items.redstone){
-				AbstractPotionData data = getPotionData(is);
-				newEffect = new PotionEffect(eff.getPotionID(),eff.getDuration()+((TimedPotion)data).getDurationStep(),eff.getAmplifier(),eff.getIsAmbient());
+				TimedPotion data = (TimedPotion)getPotionData(is);
+				newEffect = new PotionEffect(eff.getPotionID(),Math.min(eff.getDuration()+data.getDurationStep(),data.maxDuration),eff.getAmplifier(),eff.getIsAmbient());
 			}
 			
 			if (newEffect != null)setCustomPotionEffect(is,newEffect);
