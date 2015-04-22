@@ -36,9 +36,8 @@ public final class Log{
 	}
 	
 	public static void initializeDebug(){
-		if (forceDebugEnabled || isDeobfEnvironment){
-			HardcoreEnderExpansion.proxy.sendMessage(MessageType.DEBUG_TITLE_SET,ArrayUtils.EMPTY_INT_ARRAY);
-		}
+		if (forceDebugEnabled || isDeobfEnvironment)HardcoreEnderExpansion.proxy.sendMessage(MessageType.DEBUG_TITLE_SET,ArrayUtils.EMPTY_INT_ARRAY);
+		if (forceDebugEnabled)HardcoreEnderExpansion.notifications.report("[Hardcore Ender Expansion] Forced debugging is enabled.",true);
 	}
 	
 	public static boolean isDebugEnabled(){
@@ -56,6 +55,14 @@ public final class Log{
 	}
 
 	/** Use $x where x is between 0 and data.length-1 to input variables. */
+	public static void reportedDebug(String message, Object...data){
+		if (forceDebugEnabled || isDeobfEnvironment){
+			debug(message,data);
+			HardcoreEnderExpansion.notifications.report("[DEBUG] "+getMessage(message,data));
+		}
+	}
+
+	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void info(String message, Object...data){
 		logger.info(getMessage(message,data));
 	}
@@ -63,13 +70,13 @@ public final class Log{
 	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void warn(String message, Object...data){
 		logger.warn(getMessage(message,data));
-		if (isDeobfEnvironment)HardcoreEnderExpansion.notifications.report("[WARN] "+getMessage(message,data));
+		if (forceDebugEnabled || isDeobfEnvironment)HardcoreEnderExpansion.notifications.report("[WARN] "+getMessage(message,data));
 	}
 
 	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void error(String message, Object...data){
 		logger.error(getMessage(message,data));
-		if (isDeobfEnvironment)HardcoreEnderExpansion.notifications.report("[ERROR] "+getMessage(message,data));
+		if (forceDebugEnabled || isDeobfEnvironment)HardcoreEnderExpansion.notifications.report("[ERROR] "+getMessage(message,data));
 	}
 
 	/** Use $x where x is between 0 and data.length-1 to input variables. */
