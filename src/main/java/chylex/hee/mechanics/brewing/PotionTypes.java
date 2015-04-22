@@ -33,7 +33,7 @@ public class PotionTypes{
 		/*  9 */ new TimedPotion(Potion.regeneration,16,8193,3,4,15,120,15),
 		/* 10 */ new TimedPotion(Potion.poison,16,8196,3,4,6,48,6),
 		/* 11 */ new TimedPotion(Potion.fireResistance,16,8195,1,1,60,600),
-		/* 12 */ new TimedPotion(Potion.waterBreathing,16,000,1,1,60,720,40),
+		/* 12 */ new TimedPotion(Potion.waterBreathing,16,000,1,1,60,720,60),
 		// NEW //
 		/* 13 */ new TimedPotion(Potion.blindness,16,8197,1,1,6,48,6),
 		/* 14 */ new TimedPotion(Potion.jump,16,8192,3,4,60,600),
@@ -99,6 +99,7 @@ public class PotionTypes{
 		for(AbstractPotionData data:potionData){
 			if (data.damageValue == (is.getItemDamage()&~16384))return data;
 		}
+		
 		return null;
 	}
 	
