@@ -136,7 +136,8 @@ public final class UnitTester{
 			}
 		}
 		
-		Log.debug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",succeeded,failed);
+		if (time == RunTime.INGAME)Log.reportedDebug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",succeeded,failed);
+		else Log.debug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",succeeded,failed);
 	}
 	
 	public static void finalizeEventTests() throws Throwable{
