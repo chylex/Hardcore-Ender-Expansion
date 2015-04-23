@@ -151,6 +151,10 @@ public final class UnitTester{
 		field.setAccessible(true);
 		field.set(FMLCommonHandler.instance(),unitDataList.build());
 		
+		field = FMLCommonHandler.class.getDeclaredField("brandingsNoMC");
+		field.setAccessible(true);
+		field.set(FMLCommonHandler.instance(),unitDataList.build());
+		
 		field = ForgeVersion.class.getDeclaredField("status");
 		field.setAccessible(true);
 		field.set(null,ForgeVersion.Status.UP_TO_DATE);
