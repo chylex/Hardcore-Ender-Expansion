@@ -77,12 +77,12 @@ public class BlockEndermanHead extends BlockContainer{
 		return ItemList.enderman_head;
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister){}
 
-	@SideOnly(Side.CLIENT)
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
 		return Blocks.soul_sand.getIcon(side,0);
 	}

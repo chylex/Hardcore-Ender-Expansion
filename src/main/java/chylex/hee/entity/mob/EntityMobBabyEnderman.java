@@ -155,7 +155,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 				}
 			}
 			else if (target != null){
-				if (--attentionLossTimer<-124 || target.isDead)target = null; // is target dead
+				if (--attentionLossTimer < -124 || target.isDead)target = null; // is target dead
 				else if (!hasIS && getDistanceToEntity(target) < 1.8D){ // steal from target
 					for(int attempt = 0,slot; attempt < 60; attempt++){
 						slot = rand.nextInt(target.inventory.mainInventory.length);

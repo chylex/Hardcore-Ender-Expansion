@@ -23,7 +23,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDeathFlower extends BlockFlower{
 	private static int[] yOffsets = new int[]{
-		0,1,2,3,-2,-1
+		0, 1, 2, 3, -2, -1
 	};
 	
 	@SideOnly(Side.CLIENT)
