@@ -292,7 +292,7 @@ ec.reg.373=Fortune enchantment does not affect the drops.
 
 ec.reg.380=Very unstable material dropped by $b:~instability_orb_ore.
 ec.reg.381=It decomposes when thrown on the ground. When the process finishes, it can either explode, or turn into a random mob, block or item.
-ec.reg.382=When a TNT explodes near one or more decomposing orbs, they will not explode once the decomposition is complete.
+ec.reg.382=The explosion does not hurt mobs, but it hurts players, items and some of the Orbs nearby.
 ec.reg.383=Brewing it in an $i:~enhanced_brewing_stand creates $i:~potion_of_instability.
 
 ec.reg.740=Special potion that causes a random effect. It has to be brewed in an $i:~enhanced_brewing_stand, using Gunpowder on the brewed potion turns it into splash version.
