@@ -1,4 +1,30 @@
 ==================
+Beta 1.8.1 (1.7.10)
+24 April 2015
+------------------
+[b]Important[/b]
+THIS IS A BETA! Please, use it for testing and report any bugs and strange behavior to the GitHub issue tracker; if you intend to try out the beta publicly (videos, streams), tweet me @chylexMC and if I can, I'll take a look :)
+Large amount of the code changed, there is a chance I overlooked something so please report anything strange immediately!
+Removed the old API in favor of IMC messages, this will crash mods that still use it
+
+[b]Additions[/b]
+New IMC messages for Instability Orb item and mob management
+
+[b]Changes[/b]
+Removed Essence Altar socket mechanics in favor of enhancements, make sure you picked up the gems before
+Ender Dragon will try to return to 0,0 and freeze only if there is nobody nearby
+Tweaked Instability Orb - exploding Orbs will hurt players, items and some of nearby Orbs, and TNT explosions will no longer prevent Orb explosions
+Increased chance for Hidden Cellar to spawn rooms that aren't empty
+Enhanced Brewing Stand potions extend by greater steps (less Redstone required)
+
+[b]Bugfixes[/b]
+Mod entities can be named using Name Tags
+Fixed a potential problem with Orb and derpy mods that don't follow recipe conventions
+Energy Wand shows correct decimal places
+Curse of Teleportation no longer causes desync when a mob is spawned directly on it
+
+
+==================
 Release 1.8 (1.7.10)
 2 April 2015
 ------------------
