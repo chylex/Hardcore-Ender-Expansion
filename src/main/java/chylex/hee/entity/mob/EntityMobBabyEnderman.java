@@ -103,7 +103,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		
 		if (!worldObj.isRemote){
 			if (target == null){
-				if (!hasIS && !isScared && rand.nextInt(550) == 0){ // set target
+				if (!hasIS && !isScared && rand.nextInt(550) == 0 && worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){ // set target
 					List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,3D,6D));
 					
 					if (!list.isEmpty()){
