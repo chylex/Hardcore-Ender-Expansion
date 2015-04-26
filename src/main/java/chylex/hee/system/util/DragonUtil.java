@@ -196,11 +196,11 @@ public final class DragonUtil{
 		player.playerNetServerHandler.playerEntity = player.mcServer.getConfigurationManager().respawnPlayer(player,0,true);
 	}
 	
-	public static void createExplosion(Entity entity, double x, double y, double z, float strength, boolean fire){
+	public static void createMobExplosion(Entity entity, double x, double y, double z, float strength, boolean fire){
 		entity.worldObj.newExplosion(entity,x,y,z,strength,fire,entity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
 	}
 	
-	public static void createExplosion(World world, double x, double y, double z, float strength, boolean fire){
+	public static void createMobExplosion(World world, double x, double y, double z, float strength, boolean fire){
 		world.newExplosion(null,x,y,z,strength,fire,world.getGameRules().getGameRuleBooleanValue("mobGriefing"));
 	}
 	

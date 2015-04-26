@@ -23,7 +23,6 @@ import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
-import chylex.hee.system.util.DragonUtil;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
@@ -131,7 +130,7 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 					EnderTeleportEvent event = new EnderTeleportEvent(player,posX,posY,posZ,5F);
 					
 					if (!MinecraftForge.EVENT_BUS.post(event)){
-						if (pearlTypes.contains(EnderPearlEnhancements.EXPLOSIVE))DragonUtil.createExplosion(this,posX,posY,posZ,2.7F,true);
+						if (pearlTypes.contains(EnderPearlEnhancements.EXPLOSIVE))worldObj.newExplosion(this,posX,posY,posZ,2.7F,false,true);
 						if (pearlTypes.contains(EnderPearlEnhancements.FREEZE)){
 							for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(5D,3D,5D))){
 								double dist = entity.getDistanceSqToEntity(this);
@@ -144,7 +143,6 @@ public class EntityProjectileEnhancedEnderPearl extends EntityEnderPearl{
 						player.fallDistance = 0F;
 						
 						if (!pearlTypes.contains(EnderPearlEnhancements.NO_FALL_DAMAGE))player.attackEntityFrom(DamageSource.fall,event.attackDamage);
-						
 						if (pearlTypes.contains(EnderPearlEnhancements.FREEZE))PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.ENDER_PEARL_FREEZE,this));
 					}
 				}

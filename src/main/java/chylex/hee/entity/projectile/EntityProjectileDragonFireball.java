@@ -37,8 +37,8 @@ public class EntityProjectileDragonFireball extends EntityFireball{
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote){
 			setDead();
-			if (shootingEntity == null)DragonUtil.createExplosion(worldObj,posX,posY,posZ,power,true);
-			else DragonUtil.createExplosion(shootingEntity,posX,posY,posZ,power,true);
+			if (shootingEntity == null)DragonUtil.createMobExplosion(worldObj,posX,posY,posZ,power,true);
+			else DragonUtil.createMobExplosion(shootingEntity,posX,posY,posZ,power,true);
 		}
 	}
 
@@ -49,8 +49,8 @@ public class EntityProjectileDragonFireball extends EntityFireball{
 		setBeenAttacked();
 		setDead();
 		
-		if (shootingEntity == null)DragonUtil.createExplosion(worldObj,posX,posY,posZ,power,true);
-		else DragonUtil.createExplosion(shootingEntity,posX,posY,posZ,power*0.7F,true);
+		if (shootingEntity == null)DragonUtil.createMobExplosion(worldObj,posX,posY,posZ,power,true);
+		else DragonUtil.createMobExplosion(shootingEntity,posX,posY,posZ,power*0.7F,true);
 		
 		if (source.getEntity() != null)source.getEntity().setFire(3);
 		
