@@ -1,6 +1,6 @@
 package chylex.hee.system.integration.handlers;
-import java.util.HashMap;
-import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraft.entity.EntityList;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import chylex.hee.system.integration.IIntegrationHandler;
@@ -18,6 +18,7 @@ public class ArsMagicaFixIntegration implements IIntegrationHandler{
 	@Override
 	public void integrate(){
 		MinecraftForge.EVENT_BUS.register(this);
+		
 		FMLCommonHandler.instance().registerCrashCallable(new ICrashCallable(){
 			@Override
 			public String getLabel(){
@@ -31,14 +32,10 @@ public class ArsMagicaFixIntegration implements IIntegrationHandler{
 		});
 	}
 	
-	@SubscribeEvent(priority = EventPriority.LOWEST)
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public void am2NullWorldConstructionWorkaround(EntityConstructing e){
-		if (e.entity.worldObj == null && e.entity instanceof IScrewWithAM2){
-			((IScrewWithAM2)e.entity).getExtendedPropertiesMap().remove("ArsMagicaExProps");
+		if (e.entity.worldObj == null && EntityList.getEntityString(e.entity).startsWith("HardcoreEnderExpansion")){
+			e.entity.worldObj = DimensionManager.getWorld(1);
 		}
-	}
-	
-	public static interface IScrewWithAM2{
-		HashMap<String,IExtendedEntityProperties> getExtendedPropertiesMap();
 	}
 }

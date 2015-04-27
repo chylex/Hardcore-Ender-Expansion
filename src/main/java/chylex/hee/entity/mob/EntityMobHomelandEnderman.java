@@ -1,6 +1,5 @@
 package chylex.hee.entity.mob;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +28,6 @@ import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.IExtendedEntityProperties;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
@@ -46,12 +44,11 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.integration.handlers.ArsMagicaFixIntegration.IScrewWithAM2;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
-public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo, IScrewWithAM2{
+public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
 	private static Block[] endermanBlockList;
 	
 	static{
@@ -93,11 +90,6 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		super(world);
 		setSize(0.6F,2.9F);
 		stepHeight = 1F;
-	}
-	
-	@Override
-	public HashMap<String,IExtendedEntityProperties> getExtendedPropertiesMap(){
-		return extendedProperties;
 	}
 	
 	@Override
