@@ -1,5 +1,6 @@
 package chylex.hee.system.integration.handlers;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
@@ -34,7 +35,7 @@ public class ArsMagicaFixIntegration implements IIntegrationHandler{
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void am2NullWorldConstructionWorkaround(EntityConstructing e){
-		if (e.entity.worldObj == null && EntityList.getEntityString(e.entity).startsWith("HardcoreEnderExpansion")){
+		if (e.entity.worldObj == null && e.entity instanceof EntityLivingBase && EntityList.getEntityString(e.entity).startsWith("HardcoreEnderExpansion")){
 			e.entity.getExtendedProperties("ArsMagicaExProps").init(e.entity,DimensionManager.getWorld(1));
 		}
 	}
