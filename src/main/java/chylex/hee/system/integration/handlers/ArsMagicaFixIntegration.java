@@ -32,10 +32,10 @@ public class ArsMagicaFixIntegration implements IIntegrationHandler{
 		});
 	}
 	
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
+	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void am2NullWorldConstructionWorkaround(EntityConstructing e){
 		if (e.entity.worldObj == null && EntityList.getEntityString(e.entity).startsWith("HardcoreEnderExpansion")){
-			e.entity.worldObj = DimensionManager.getWorld(1);
+			e.entity.getExtendedProperties("ArsMagicaExProps").init(e.entity,DimensionManager.getWorld(1));
 		}
 	}
 }
