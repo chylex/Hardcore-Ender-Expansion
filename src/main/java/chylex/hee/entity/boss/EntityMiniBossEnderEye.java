@@ -1,4 +1,5 @@
 package chylex.hee.entity.boss;
+import java.util.HashMap;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,6 +17,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IExtendedEntityProperties;
 import chylex.hee.block.BlockList;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.RandomNameGenerator;
@@ -28,12 +30,13 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.integration.handlers.ArsMagicaFixIntegration.IScrewWithAM2;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 
-public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
+public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo, IScrewWithAM2{
 	private byte sleepTimer, healTimer, attackTimer;
 	private short laserTopY;
 	private AttackType attackType, lastAttackType;
@@ -53,6 +56,11 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	public EntityMiniBossEnderEye(World world, double x, double y, double z){
 		this(world);
 		setPosition(x,y,z);
+	}
+	
+	@Override
+	public HashMap<String,IExtendedEntityProperties> getExtendedPropertiesMap(){
+		return extendedProperties;
 	}
 	
 	@Override
