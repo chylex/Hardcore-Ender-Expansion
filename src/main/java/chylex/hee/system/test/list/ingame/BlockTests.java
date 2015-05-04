@@ -3,13 +3,18 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.block.BlockSacredStone;
+import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
@@ -53,7 +58,7 @@ public class BlockTests{
 		}
 		
 		// first floor - building blocks
-		setFloor(0,0,9,Blocks.stonebrick);
+		setFloor(0,0,7,Blocks.stonebrick);
 		setPos(0,0);
 		
 		setMove(BlockList.obsidian_falling);
@@ -80,6 +85,21 @@ public class BlockTests{
 		setMove(BlockList.sphalerite,0);
 		setMove(BlockList.endium_block);
 		setMove(BlockList.laboratory_glass);
+		
+		// first floor - physics blocks
+		setFloor(0,9,9,Blocks.end_stone);
+		setPos(0,9);
+		
+		for(int a = 0; a < 8; a++){
+			setMove(Blocks.torch);
+			setMove(Blocks.stone_slab);
+		}
+		
+		setPos(0,9);
+		pos.moveUp().moveUp();
+		
+		for(int a = 0; a < 2; a++)setMove(BlockList.obsidian_falling);
+		for(int a = 0; a < 2; a++)setMove(Blocks.dragon_egg);
 		
 		// first floor - special condition decorative blocks
 		setFloor(0,11,15,Blocks.end_stone);
@@ -109,6 +129,28 @@ public class BlockTests{
 		setMove(BlockList.void_chest);
 		
 		// third floor - essence altars
+		setFloor(2,0,6,Blocks.end_stone);
+		setPos(2,0);
+		
+		pos.setX(3).setZ(3).setBlock(world,BlockList.essence_altar,EssenceType.DRAGON.id);
+		
+		pos.setX(0).setZ(3).setBlock(world,Blocks.stonebrick);
+		spawnItem(0.5D,pos.y+1,3.5D,new ItemStack(Items.brewing_stand));
+		pos.setX(3).setZ(0).setBlock(world,Blocks.stonebrick);
+		spawnItem(3.5D,pos.y+1,0.5D,new ItemStack(Items.ender_eye));
+		pos.setX(6).setZ(3).setBlock(world,Blocks.stonebrick);
+		spawnItem(6.5D,pos.y+1,3.5D,new ItemStack(ItemList.ghost_amulet,1,0));
+		pos.setX(3).setZ(6).setBlock(world,Blocks.stonebrick);
+		spawnItem(0.5D,pos.y+1,3.5D,new ItemStack(Items.diamond_sword,1,50));
+		pos.setX(5).setZ(5).setBlock(world,Blocks.stonebrick);
+		pos.setX(1).setZ(5).setBlock(world,Blocks.stonebrick);
+		pos.setX(5).setZ(1).setBlock(world,Blocks.stonebrick);
+		pos.setX(1).setZ(1).setBlock(world,Blocks.stonebrick);
+		
+		setFloor(2,9,15,Blocks.end_stone);
+		setPos(2,0);
+		
+		pos.setX(12).setZ(3).setBlock(world,BlockList.essence_altar,EssenceType.FIERY.id);
 		
 		// third floor - enhanced brewing
 		
@@ -132,5 +174,11 @@ public class BlockTests{
 		pos.setBlock(world,block,meta);
 		pos.move(1,0,0);
 		if (pos.x >= 16)pos.setX(0).move(0,0,1);
+	}
+	
+	private void spawnItem(double x, double y, double z, ItemStack is){
+		EntityItem item = new EntityItem(world,x,y,z,is);
+		item.delayBeforeCanPickup = 10;
+		world.spawnEntityInWorld(item);
 	}
 }
