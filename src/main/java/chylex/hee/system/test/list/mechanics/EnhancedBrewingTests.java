@@ -26,6 +26,7 @@ public class EnhancedBrewingTests{
 	private ItemStack isCustomSpeed;
 	private ItemStack isCustomSpeedT2;
 	private ItemStack isCustomSpeedL2;
+	private ItemStack isCustomSpeedL3;
 	
 	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.LOADCOMPLETE)
 	public void prepPotions(){
@@ -58,6 +59,7 @@ public class EnhancedBrewingTests{
 		isCustomSpeed = PotionTypes.setCustomPotionEffect(isVanillaSpeed.copy(),new PotionEffect(Potion.moveSpeed.id,1200,0)); // 1:00
 		isCustomSpeedT2 = PotionTypes.setCustomPotionEffect(isVanillaSpeed.copy(),new PotionEffect(Potion.moveSpeed.id,1200,1)); // 1:00
 		isCustomSpeedL2 = PotionTypes.setCustomPotionEffect(isVanillaSpeed.copy(),new PotionEffect(Potion.moveSpeed.id,2700,0)); // 2:15
+		isCustomSpeedL3 = PotionTypes.setCustomPotionEffect(isVanillaSpeed.copy(),new PotionEffect(Potion.moveSpeed.id,4200,0)); // 3:30
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
@@ -97,7 +99,8 @@ public class EnhancedBrewingTests{
 		Assert.equal(PotionTypes.getRequiredPowder(Items.glowstone_dust,isCustomSpeed),2,"Unexpected powder requirement, expected $2, got $1.");
 		Assert.equal(PotionTypes.getRequiredPowder(Items.glowstone_dust,isCustomSpeedT2),4,"Unexpected powder requirement, expected $2, got $1.");
 		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeed),1,"Unexpected powder requirement, expected $2, got $1.");
-		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeedL2),2,"Unexpected powder requirement, expected $2, got $1.");
+		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeedL2),1,"Unexpected powder requirement, expected $2, got $1.");
+		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeedL3),2,"Unexpected powder requirement, expected $2, got $1.");
 		Assert.equal(PotionTypes.getRequiredPowder(Items.gunpowder,isCustomSpeed),3,"Unexpected powder requirement, expected $2, got $1.");
 	}
 	
