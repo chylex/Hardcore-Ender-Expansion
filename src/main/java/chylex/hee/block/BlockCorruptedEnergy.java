@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.util.BlockPosM;
@@ -107,6 +108,11 @@ public class BlockCorruptedEnergy extends Block{
 			
 			living.attackEntityFrom(DamageSource.generic,1.5F);
 		}
+	}
+	
+	@Override
+	public boolean isAir(IBlockAccess world, int x, int y, int z){
+		return true;
 	}
 	
 	@Override
