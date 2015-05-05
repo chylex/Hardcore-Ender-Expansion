@@ -37,6 +37,7 @@ public class ContainerEnhancedBrewingStand extends Container{
 	public void addCraftingToCrafters(ICrafting icrafting){
 		super.addCraftingToCrafters(icrafting);
 		icrafting.sendProgressBarUpdate(this,0,tileBrewingStand.getBrewTime());
+		icrafting.sendProgressBarUpdate(this,1,tileBrewingStand.getRequiredPowder());
 		icrafting.sendProgressBarUpdate(this,2,tileBrewingStand.getStartBrewTime());
 	}
 
