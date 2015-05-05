@@ -17,6 +17,7 @@ import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.block.BlockSacredStone;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
@@ -70,7 +71,7 @@ public class BlockTests{
 		}
 		
 		// first floor - building blocks
-		setFloor(0,0,7,Blocks.stonebrick);
+		setFloor(0,0,8,Blocks.stonebrick);
 		setPos(0,0);
 		
 		setMove(BlockList.obsidian_falling);
@@ -99,15 +100,15 @@ public class BlockTests{
 		setMove(BlockList.laboratory_glass);
 		
 		// first floor - physics blocks
-		setFloor(0,9,9,Blocks.end_stone);
-		setPos(0,9);
+		setFloor(0,10,10,Blocks.end_stone);
+		setPos(0,10);
 		
 		for(int a = 0; a < 8; a++){
 			setMove(Blocks.torch);
 			setMove(Blocks.stone_slab);
 		}
 		
-		setPos(0,9);
+		setPos(0,10);
 		pos.moveUp().moveUp();
 		
 		for(int a = 0; a < 2; a++){
@@ -121,8 +122,8 @@ public class BlockTests{
 		}
 		
 		// first floor - special condition decorative blocks
-		setFloor(0,11,15,Blocks.end_stone);
-		setPos(0,11);
+		setFloor(0,12,15,Blocks.end_stone);
+		setPos(0,12);
 		
 		for(int a = 2; a < 14; a++)setMove(BlockList.crossed_decoration,a);
 		setMove(BlockList.enderman_head,1);
@@ -130,7 +131,7 @@ public class BlockTests{
 		setMove(BlockList.death_flower,0);
 		
 		// second floor - ores
-		setFloor(1,0,12,Blocks.stonebrick);
+		setFloor(1,0,13,Blocks.stonebrick);
 		setPos(1,0);
 		
 		for(int a = 0; a < 16; a++)setMove(BlockList.end_powder_ore);
@@ -141,8 +142,8 @@ public class BlockTests{
 		for(int a = 0; a < 16; a++)setMove(BlockList.sphalerite,1);
 		
 		// second floor - static functional blocks
-		setFloor(1,14,15,Blocks.stonebrick);
-		setPos(1,14);
+		setFloor(1,15,15,Blocks.stonebrick);
+		setPos(1,15);
 		
 		setMove(BlockList.transport_beacon);
 		setMove(BlockList.void_chest);
@@ -189,13 +190,22 @@ public class BlockTests{
 		List<Object[]> potions = new ArrayList<>();
 		potions.add(new Object[]{ 0, Items.nether_wart, 0 });
 		potions.add(new Object[]{ 16, Items.sugar, 0 });
-		// TODO
+		potions.add(new Object[]{ 8194, new ItemStack(Items.glowstone_dust,2), 7 }); // leave 1 powder
+		potions.add(new Object[]{ 8194, new ItemStack(Items.glowstone_dust,3), 13, true }); // leave 1 powder
+		potions.add(new Object[]{ 8194, new ItemStack(Items.redstone,8), 25 }); // leave 1 powder
+		potions.add(new Object[]{ 8194, Items.gunpowder, 3 });
+		potions.add(new Object[]{ 16, ItemList.silverfish_blood, 8 });
+		potions.add(new Object[]{ 16, ItemList.instability_orb, 8 });
+		potions.add(new Object[]{ 16, ItemList.ectoplasm, 8 });
 		
 		for(Object[] t:potions){
-			setMove(BlockList.enhanced_brewing_stand);
+			storedLocs.put("EnhancedBrewingStand",pos.copy());
+			set(BlockList.enhanced_brewing_stand);
 			getTile(TileEntityEnhancedBrewingStand.class).setInventorySlotContents(1,new ItemStack(Items.potionitem,1,(Integer)t[0]));
 			getTile(TileEntityEnhancedBrewingStand.class).setInventorySlotContents(3,t[1] instanceof Item ? new ItemStack((Item)t[1]) : (ItemStack)t[1]);
-			if ((Integer)t[2] != 0)getTile(TileEntityEnhancedBrewingStand.class).setInventorySlotContents(4,new ItemStack(ItemList.end_powder,1,(Integer)t[2]));
+			if ((Integer)t[2] != 0)getTile(TileEntityEnhancedBrewingStand.class).setInventorySlotContents(4,new ItemStack(ItemList.end_powder,(Integer)t[2]));
+			if (t.length > 3)getTile(TileEntityEnhancedBrewingStand.class).getEnhancements().add(EnhancedBrewingStandEnhancements.TIER);
+			move();
 		}
 		
 		// fourth floor - energy
@@ -217,11 +227,24 @@ public class BlockTests{
 	}
 	
 	private void setMove(Block block){
-		setMove(block,0);
+		pos.setBlock(world,block);
+		move();
 	}
 	
 	private void setMove(Block block, int meta){
 		pos.setBlock(world,block,meta);
+		move();
+	}
+	
+	private void set(Block block){
+		pos.setBlock(world,block);
+	}
+	
+	private void set(Block block, int meta){
+		pos.setBlock(world,block,meta);
+	}
+	
+	private void move(){
 		pos.move(1,0,0);
 		if (pos.x >= 16)pos.setX(0).move(0,0,1);
 	}
