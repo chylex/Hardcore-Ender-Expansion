@@ -16,11 +16,11 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockEssenceAltar extends BlockAbstractEnhanceable{
+public class BlockEssenceAltar extends BlockAbstractEnhanceable{ // TODO fix pick block
 	private static final float hitCenter1 = 0.09F, hitCenter2 = 0.9F, hitDist = 0.05F;
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon[] iconTop,iconSide,iconBottom;
+	private IIcon[] iconTop, iconSide, iconBottom;
 	
 	public BlockEssenceAltar(){
 		super(Material.iron);

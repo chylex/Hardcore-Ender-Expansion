@@ -183,6 +183,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		
 		if (is == null){
 			ItemUseCache cache = playerItemCache.get(player.getCommandSenderName());
+			
 			if (cache == null)return;
 			else if (cache.getElapsedTime() > 1500000000){
 				playerItemCache.remove(player.getCommandSenderName());
@@ -190,6 +191,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 			}
 
 			boolean found = false;
+			
 			for(byte a = 0; a < player.inventory.getSizeInventory(); a++){
 				ItemStack invIs = player.inventory.getStackInSlot(a);
 				if (invIs != null && invIs.getItem() == cache.item && invIs.getItemDamage() == cache.damage){
