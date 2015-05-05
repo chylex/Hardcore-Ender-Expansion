@@ -33,8 +33,8 @@ public class C11ParticleAltarOrb extends AbstractClientPacket{
 	
 	public C11ParticleAltarOrb(double startX, double startY, double startZ, double targetX, double targetY, double targetZ, byte essenceId, byte amount){
 		this.startX = startX;
-		this.startY = startX;
-		this.startZ = startX;
+		this.startY = startY;
+		this.startZ = startZ;
 		this.targetX = targetX;
 		this.targetY = targetY;
 		this.targetZ = targetZ;
