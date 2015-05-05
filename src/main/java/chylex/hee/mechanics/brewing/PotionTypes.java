@@ -115,7 +115,7 @@ public class PotionTypes{
 
 		if (ingredient == Items.redstone){
 			AbstractPotionData potionData = getPotionData(is);
-			if (potionData instanceof TimedPotion)return ((TimedPotion)potionData).getDurationLevel(eff.getDuration())+1;
+			if (potionData instanceof TimedPotion)return ((TimedPotion)potionData).getDurationLevel(eff.getDuration())/2+1;
 		}
 		else if (ingredient == Items.glowstone_dust)return 2*(eff.getAmplifier()+1);
 		else if (ingredient == Items.gunpowder)return 3;
