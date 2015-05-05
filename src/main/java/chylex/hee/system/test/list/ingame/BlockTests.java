@@ -24,6 +24,7 @@ import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.tileentity.TileEntityEnergyCluster;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import com.google.common.collect.HashMultimap;
@@ -59,6 +60,7 @@ public class BlockTests{
 		for(pos.x = 0; pos.x < 16; pos.x++){
 			for(pos.z = 0; pos.z < 16; pos.z++){
 				for(pos.y = 4; pos.y < 128; pos.y++){
+					if (pos.getBlock(world) == BlockList.energy_cluster)((TileEntityEnergyCluster)pos.getTileEntity(world)).shouldNotExplode = true;
 					pos.setAir(world);
 				}
 			}
@@ -209,7 +211,39 @@ public class BlockTests{
 		}
 		
 		// fourth floor - energy
-		setFloor(3,5,15,Blocks.end_stone);
+		setFloor(3,5,15,Blocks.stonebrick);
+		setPos(3,5);
+		
+		for(int a = -2; a <= 2; a++){
+			for(int b = -2; b <= 2; b++){
+				pos.setX(5+a).setZ(10+b).setBlock(world,BlockList.energy_cluster);
+			}
+		}
+		
+		int y = pos.y;
+		
+		for(int a = -2; a <= 2; a++){
+			pos.setX(0).setY(y).setZ(10+a).setBlock(world,a%2 == 0 ? Blocks.chest : Blocks.trapped_chest);
+			pos.moveUp().setBlock(world,Blocks.hopper);
+			pos.moveUp().setBlock(world,BlockList.decomposition_table);
+			pos.moveUp().setBlock(world,Blocks.hopper);
+		}
+		
+		for(int a = -2; a <= 2; a++){
+			pos.setX(10).setY(y).setZ(10+a).setBlock(world,a%2 == 0 ? Blocks.chest : Blocks.trapped_chest);
+			pos.moveUp().setBlock(world,Blocks.hopper);
+			pos.moveUp().setBlock(world,BlockList.experience_table);
+			pos.moveUp().setBlock(world,Blocks.hopper);
+		}
+		
+		for(int a = -1; a <= 1; a++){
+			pos.setX(5+a).setY(y).setZ(5).setBlock(world,BlockList.accumulation_table);
+		}
+		
+		for(int a = -2; a <= 2; a++){
+			pos.setX(5+a).setY(y).setZ(15).setBlock(world,BlockList.extraction_table);
+			pos.moveUp().setBlock(world,Blocks.hopper);
+		}
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger+"test")
