@@ -62,5 +62,6 @@ Resolved issues will have a resolution in square brackets, optionally with HEE v
 * **[CANCELED]** Canceled feature, enhancement or tweak.
 * **[ANSWERED]** Question answered.
 * **[ACKNOWLEDGED]** Feedback read and acknowledged.
+* **[DUPLICATE]** Reported issue is a duplicate and will be locked.
 
 Visit the issue tracker here: https://github.com/chylex/Hardcore-Ender-Expansion/issues
