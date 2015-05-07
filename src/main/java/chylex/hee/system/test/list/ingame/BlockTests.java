@@ -11,6 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import chylex.hee.block.BlockList;
@@ -24,9 +25,13 @@ import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.tileentity.TileEntityAccumulationTable;
+import chylex.hee.tileentity.TileEntityDecompositionTable;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
+import chylex.hee.tileentity.TileEntityExperienceTable;
+import chylex.hee.tileentity.TileEntityExtractionTable;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import cpw.mods.fml.relauncher.Side;
@@ -34,7 +39,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class BlockTests{
-	private static final String testTrigger = "ingame/blocks/";
+	private static final String testTrigger = "ingame/blocks";
 	
 	private World world;
 	private EntityPlayer player;
@@ -50,7 +55,7 @@ public class BlockTests{
 		storedLocs.clear();
 	}
 	
-	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.INGAME, trigger = testTrigger+"prep")
+	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.INGAME, trigger = testTrigger)
 	public void prepBlockChunk(){
 		setup();
 		
@@ -222,34 +227,102 @@ public class BlockTests{
 		
 		int y = pos.y;
 		
-		for(int a = -2; a <= 2; a++){
+		// fourth floor - energy - decomposition table
+		
+		ItemStack[] decompositionTable = new ItemStack[]{
+			new ItemStack(Items.diamond_sword),
+			new ItemStack(Items.diamond_sword,1,1560),
+			new ItemStack(Blocks.planks,4),
+			new ItemStack(ItemList.energy_wand),
+			new ItemStack(BlockList.void_chest),
+			new ItemStack(Blocks.beacon),
+			new ItemStack(Blocks.bedrock)
+		};
+		
+		for(int a = -3; a <= 3; a++){
 			pos.setX(0).setY(y).setZ(10+a).setBlock(world,a%2 == 0 ? Blocks.chest : Blocks.trapped_chest);
 			pos.moveUp().setBlock(world,Blocks.hopper);
 			pos.moveUp().setBlock(world,BlockList.decomposition_table);
-			pos.moveUp().setBlock(world,Blocks.hopper);
+			getTile(TileEntityDecompositionTable.class).setInventorySlotContents(0,decompositionTable[a+3]);
+			getTile(TileEntityDecompositionTable.class).setInventorySlotContents(1,new ItemStack(ItemList.stardust,64));
+			storedLocs.put("DecompositionTable",pos.copy());
 		}
+		
+		// fourth floor - energy - experience table
+		
+		ItemStack[] experienceTable = new ItemStack[]{
+			new ItemStack(Blocks.diamond_ore),
+			new ItemStack(Blocks.gold_block,3),
+			new ItemStack(Items.redstone,64),
+			new ItemStack(Items.dye,1,4),
+			new ItemStack(ItemList.endium_ingot,17)
+		};
 		
 		for(int a = -2; a <= 2; a++){
 			pos.setX(10).setY(y).setZ(10+a).setBlock(world,a%2 == 0 ? Blocks.chest : Blocks.trapped_chest);
 			pos.moveUp().setBlock(world,Blocks.hopper);
 			pos.moveUp().setBlock(world,BlockList.experience_table);
-			pos.moveUp().setBlock(world,Blocks.hopper);
+			getTile(TileEntityExperienceTable.class).setInventorySlotContents(0,experienceTable[a+2]);
+			getTile(TileEntityExperienceTable.class).setInventorySlotContents(1,new ItemStack(ItemList.stardust,64));
+			storedLocs.put("ExperienceTable",pos.copy());
 		}
+		
+		// fourth floor - energy - accumulation table
+		
+		ItemStack[] accumulationTable = new ItemStack[]{
+			new ItemStack(ItemList.temple_caller),
+			new ItemStack(ItemList.spatial_dash_gem,1,ItemList.spatial_dash_gem.getMaxDamage()-1),
+			new ItemStack(ItemList.transference_gem,1,ItemList.transference_gem.getMaxDamage()-1)
+		};
 		
 		for(int a = -1; a <= 1; a++){
 			pos.setX(5+a).setY(y).setZ(5).setBlock(world,BlockList.accumulation_table);
+			getTile(TileEntityAccumulationTable.class).setInventorySlotContents(0,accumulationTable[a+1]);
+			storedLocs.put("AccumulationTable",pos.copy());
 		}
 		
-		for(int a = -2; a <= 2; a++){
+		// fourth floor - energy - extraction table
+		
+		ItemStack[][] extractionTable = new ItemStack[][]{
+			new ItemStack[]{
+				new ItemStack(Blocks.end_stone,4),
+				new ItemStack(BlockList.end_terrain,2,0),
+				new ItemStack(BlockList.end_terrain,2,1),
+				new ItemStack(BlockList.end_terrain,2,2)
+			},
+			new ItemStack[]{
+				new ItemStack(ItemList.energy_wand),
+				new ItemStack(ItemList.energy_wand),
+				new ItemStack(ItemList.energy_wand)
+			},
+			new ItemStack[]{
+				new ItemStack(BlockList.endium_block,64)
+			}
+		};
+		
+		for(int a = -1; a <= 1; a++){
 			pos.setX(5+a).setY(y).setZ(15).setBlock(world,BlockList.extraction_table);
+			getTile(TileEntityExtractionTable.class).setInventorySlotContents(1,new ItemStack(ItemList.stardust,64));
+			storedLocs.put("ExtractionTable",pos.copy());
 			pos.moveUp().setBlock(world,Blocks.hopper);
+			
+			for(int item = 0; item < extractionTable[a+1].length; item++){
+				getTile(TileEntityHopper.class).setInventorySlotContents(item,extractionTable[a+1][item]);
+			}
 		}
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger+"test")
-	public void testBlockChunk(){
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	public void testFallingBlocks(){
 		
 	}
+	
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	public void testBrewing(){
+		
+	}
+	
+	// TODO
 	
 	private void setFloor(int floor, int startRow, int endRow, Block block){
 		pos.set(0,9+6*floor,startRow);
