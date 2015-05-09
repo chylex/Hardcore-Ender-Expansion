@@ -17,6 +17,7 @@ import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
+import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
@@ -48,7 +49,9 @@ public class ImcTests{
 			
 			"HEE:World:LootAdd { 'list': 'DungeonTowerChest', 'item': { 'id': 'minecraft:dye', 'damage': [ 0, 15 ], 'count': [ 2 ], 'weight': 32000 } }",
 			"HEE:World:LootRemove { 'list': 'DungeonTowerFurnaceFuel', 'search': { 'id': '*' }, 'limit': 6 }",
-			"HEE:World:BiomeMobAdd { 'biome': 'InfestedForest.Ravaged', 'mob': { 'id': 'Silverfish', 'limit': 32, 'weight': 10 } }"
+			"HEE:World:BiomeMobAdd { 'biome': 'InfestedForest.Ravaged', 'mob': { 'id': 'Silverfish', 'limit': 32, 'weight': 10 } }",
+			
+			"HEE:System:DisableIntegration { 'modid': 'NotEnoughItems' }"
 		})HeeIMC.acceptString("UnitTester",msgs.replace('\'','"'));
 	}
 	
@@ -113,5 +116,10 @@ public class ImcTests{
 		}
 		
 		Assert.fail("Unexpected weighted loot check result, never generated the expected item.");
+	}
+	
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	public void testImcSystem(){
+		Assert.state(ModIntegrationManager.blacklistedMods.contains("NotEnoughItems"),"Missing entry in mod integration blacklist, expected NotEnoughItems to be present.");
 	}
 }

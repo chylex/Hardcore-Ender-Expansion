@@ -11,7 +11,8 @@ public abstract class ImcHandler{
 			new ImcMobHandlers(),
 			new ImcOrbHandlers(),
 			new ImcTableHandlers(),
-			new ImcWorldHandlers()
+			new ImcWorldHandlers(),
+			new ImcSystemHandlers()
 		};
 		
 		for(ImcHandler handler:handlers)handler.register();
