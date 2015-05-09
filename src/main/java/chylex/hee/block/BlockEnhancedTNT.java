@@ -1,6 +1,7 @@
 package chylex.hee.block;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
@@ -8,18 +9,20 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
+import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockEnhancedTNT extends BlockAbstractEnhanceable{
+public class BlockEnhancedTNT extends BlockContainer{
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop;
 	@SideOnly(Side.CLIENT)
@@ -71,7 +74,14 @@ public class BlockEnhancedTNT extends BlockAbstractEnhanceable{
 
 	@Override
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest){
-		if (!player.capabilities.isCreativeMode)tryIgniteTNT(world,x,y,z,false,null);
+		boolean exploded = false;
+		if (!player.capabilities.isCreativeMode)exploded = tryIgniteTNT(world,x,y,z,false,null);
+		
+		if (!exploded){
+			TileEntity tile = world.getTileEntity(x,y,z);
+			if (tile instanceof IEnhanceableTile)dropBlockAsItem(world,x,y,z,((IEnhanceableTile)tile).createEnhancedItemStack());
+		}
+		
 		return super.removedByPlayer(world,player,x,y,z,willHarvest);
 	}
 
@@ -111,6 +121,16 @@ public class BlockEnhancedTNT extends BlockAbstractEnhanceable{
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public Item getItemDropped(int meta, Random rand, int fortune){
+		return null;
+	}
+	
+	@Override
+	public int quantityDropped(Random rand){
+		return 0;
 	}
 	
 	@Override

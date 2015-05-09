@@ -55,6 +55,11 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	}
 	
 	@Override
+	public int quantityDropped(Random rand){
+		return 0;
+	}
+	
+	@Override
 	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
 		TileEntity tile = world.getTileEntity(x,y,z);
 		if (tile instanceof IEnhanceableTile)dropBlockAsItem(world,x,y,z,((IEnhanceableTile)tile).createEnhancedItemStack());

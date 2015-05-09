@@ -1,6 +1,8 @@
 package chylex.hee.block;
 import java.util.List;
+import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -9,16 +11,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockEssenceAltar extends BlockAbstractEnhanceable{ // TODO fix pick block
-	private static final float hitCenter1 = 0.09F, hitCenter2 = 0.9F, hitDist = 0.05F;
-	
+public class BlockEssenceAltar extends BlockContainer{
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconTop, iconSide, iconBottom;
 	
@@ -49,10 +51,29 @@ public class BlockEssenceAltar extends BlockAbstractEnhanceable{ // TODO fix pic
 	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
 		if (!world.isRemote){
 			TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x,y,z);
-			if (altar != null)altar.onBlockDestroy();
+			
+			if (altar != null){
+				altar.onBlockDestroy();
+				dropBlockAsItem(world,x,y,z,((IEnhanceableTile)altar).createEnhancedItemStack());
+			}
 		}
 		
 		super.breakBlock(world,x,y,z,oldBlock,oldMeta);
+	}
+	
+	@Override
+	public Item getItemDropped(int meta, Random rand, int fortune){
+		return null;
+	}
+	
+	@Override
+	public int quantityDropped(Random rand){
+		return 0;
+	}
+	
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
+		return new ItemStack(BlockList.essence_altar,1,world.getBlockMetadata(x,y,z));
 	}
 	
 	@Override
