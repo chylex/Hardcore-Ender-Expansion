@@ -712,7 +712,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		super.writeEntityToNBT(nbt);
 		nbt.setBoolean("angry",isAngry());
 		nbt.setShort("nat",(short)Math.max(120,nextAttackTicks));
-		nbt.setShort("dth",(short)deathTicks);
+		nbt.setShort("dth",(short)deathTicks); // suck it, zeek :P
 		nbt.setShort("scd",(short)Math.max(200,spawnCooldown));
 		nbt.setByte("load",loadTimer);
 
