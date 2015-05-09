@@ -46,6 +46,7 @@ import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.IItemSelector;
+import chylex.hee.system.util.MathUtil;
 
 public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
 	private EntityPlayer target;
@@ -276,6 +277,12 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	}
 	
 	@Override
+	public void setEquipmentDropChance(int slot, float chance){
+		super.setEquipmentDropChance(slot,chance);
+		if (MathUtil.floatEquals(chance,0F) && !isDead)setDead(); // autospawner protection
+	}
+	
+	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
 		
@@ -299,6 +306,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		
 		// item priority list
 		NBTTagList tagPriorities = nbt.getTagList("priorities",Constants.NBT.TAG_STRING);
+		
 		if (tagPriorities.tagCount() > 0){
 			itemPriorities.clear();
 			
