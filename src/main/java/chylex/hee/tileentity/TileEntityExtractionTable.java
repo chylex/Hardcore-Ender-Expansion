@@ -21,7 +21,7 @@ import chylex.hee.system.util.MathUtil;
 
 public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1, 2 };
-	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*10F;
+	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*15F;
 
 	private byte leakTimer = 100;
 	
