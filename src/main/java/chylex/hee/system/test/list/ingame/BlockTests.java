@@ -11,15 +11,23 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
+import chylex.hee.block.BlockDragonEggCustom;
 import chylex.hee.block.BlockList;
+import chylex.hee.block.BlockObsidianEnd;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.block.BlockSacredStone;
+import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.item.ItemList;
 import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
@@ -111,7 +119,9 @@ public class BlockTests{
 		setPos(0,10);
 		
 		for(int a = 0; a < 8; a++){
+			storedLocs.put("FallingBlockTarget",pos.copy());
 			setMove(Blocks.torch);
+			storedLocs.put("FallingBlockTarget",pos.copy());
 			setMove(Blocks.stone_slab);
 		}
 		
@@ -119,12 +129,12 @@ public class BlockTests{
 		pos.moveUp().moveUp();
 		
 		for(int a = 0; a < 2; a++){
-			storedLocs.put("FallingBlock",pos.copy());
+			storedLocs.put("FallingBlockObsidian",pos.copy());
 			setMove(BlockList.obsidian_falling);
 		}
 		
 		for(int a = 0; a < 2; a++){
-			storedLocs.put("FallingBlock",pos.copy());
+			storedLocs.put("FallingBlockDragonEgg",pos.copy());
 			setMove(Blocks.dragon_egg);
 		}
 		
@@ -159,30 +169,37 @@ public class BlockTests{
 		setFloor(2,0,6,Blocks.end_stone);
 		setPos(2,0);
 		
-		pos.setX(3).setZ(3).setBlock(world,BlockList.essence_altar,EssenceType.DRAGON.id);
-		storedLocs.put("DragonEssenceAltar",pos.copy());
-		getTile(TileEntityEssenceAltar.class).loadFromDamage(EssenceType.DRAGON.id);
-		
-		try{
-			Field essenceLevel = TileEntityEssenceAltar.class.getDeclaredField("essenceLevel");
-			essenceLevel.setAccessible(true);
-			essenceLevel.set(pos.getTileEntity(world),512);
-		}catch(Exception e){
-			throw new RuntimeException(e);
+		for(int run = 0; run < 2; run++){
+			BlockPosM origin = pos.copy().setX(run == 0 ? 3 : 12).setZ(3);
+			
+			pos.set(origin).setBlock(world,BlockList.essence_altar,EssenceType.DRAGON.id);
+			storedLocs.put("DragonEssenceAltar",pos.copy());
+			getTile(TileEntityEssenceAltar.class).loadFromDamage(EssenceType.DRAGON.id);
+			
+			getTile(TileEntityEssenceAltar.class).getEnhancements().add(EssenceAltarEnhancements.SPEED);
+			if (run == 1)getTile(TileEntityEssenceAltar.class).getEnhancements().add(EssenceAltarEnhancements.EFFICIENCY);
+			
+			try{
+				Field essenceLevel = TileEntityEssenceAltar.class.getDeclaredField("essenceLevel");
+				essenceLevel.setAccessible(true);
+				essenceLevel.set(pos.getTileEntity(world),512);
+			}catch(Exception e){
+				throw new RuntimeException(e);
+			}
+			
+			pos.set(origin).move(-3,0,0).setBlock(world,Blocks.stonebrick);
+			spawnItem(pos.x+0.5D,pos.y+1.25D,pos.z+0.5D,new ItemStack(Items.brewing_stand));
+			pos.set(origin).move(0,0,-3).setBlock(world,Blocks.stonebrick);
+			spawnItem(pos.x+0.5D,pos.y+1.25D,pos.z+0.5D,new ItemStack(Items.ender_eye));
+			pos.set(origin).move(3,0,0).setBlock(world,Blocks.stonebrick);
+			spawnItem(pos.x+0.5D,pos.y+1.25D,pos.z+0.5D,new ItemStack(ItemList.ghost_amulet,1,0));
+			pos.set(origin).move(0,0,3).setBlock(world,Blocks.stonebrick);
+			spawnItem(pos.x+0.5D,pos.y+1.25D,pos.z+0.5D,new ItemStack(Items.diamond_sword,1,50));
+			pos.set(origin).move(2,0,2).setBlock(world,Blocks.stonebrick);
+			pos.set(origin).move(-2,0,2).setBlock(world,Blocks.stonebrick);
+			pos.set(origin).move(2,0,-2).setBlock(world,Blocks.stonebrick);
+			pos.set(origin).move(-2,0,-2).setBlock(world,Blocks.stonebrick);
 		}
-		
-		pos.setX(0).setZ(3).setBlock(world,Blocks.stonebrick);
-		spawnItem(0.5D,pos.y+1.5D,3.5D,new ItemStack(Items.brewing_stand));
-		pos.setX(3).setZ(0).setBlock(world,Blocks.stonebrick);
-		spawnItem(3.5D,pos.y+1.5D,0.5D,new ItemStack(Items.ender_eye));
-		pos.setX(6).setZ(3).setBlock(world,Blocks.stonebrick);
-		spawnItem(6.5D,pos.y+1.5D,3.5D,new ItemStack(ItemList.ghost_amulet,1,0));
-		pos.setX(3).setZ(6).setBlock(world,Blocks.stonebrick);
-		spawnItem(3.5D,pos.y+1.5D,6.5D,new ItemStack(Items.diamond_sword,1,50));
-		pos.setX(5).setZ(5).setBlock(world,Blocks.stonebrick);
-		pos.setX(1).setZ(5).setBlock(world,Blocks.stonebrick);
-		pos.setX(5).setZ(1).setBlock(world,Blocks.stonebrick);
-		pos.setX(1).setZ(1).setBlock(world,Blocks.stonebrick);
 		
 		setFloor(2,9,15,Blocks.end_stone);
 		setPos(2,0);
@@ -219,9 +236,15 @@ public class BlockTests{
 		setFloor(3,5,15,Blocks.stonebrick);
 		setPos(3,5);
 		
-		for(int a = -2; a <= 2; a++){
-			for(int b = -2; b <= 2; b++){
+		for(int a = -1; a <= 1; a++){
+			for(int b = -1; b <= 1; b++){
 				pos.setX(5+a).setZ(10+b).setBlock(world,BlockList.energy_cluster);
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setByte("status",(byte)0);
+				tag.setFloat("lvl",10F);
+				tag.setFloat("max",10F);
+				getTile(TileEntityEnergyCluster.class).updateEntity();
+				getTile(TileEntityEnergyCluster.class).data.readFromNBT(tag);
 			}
 		}
 		
@@ -303,6 +326,7 @@ public class BlockTests{
 		for(int a = -1; a <= 1; a++){
 			pos.setX(5+a).setY(y).setZ(15).setBlock(world,BlockList.extraction_table);
 			getTile(TileEntityExtractionTable.class).setInventorySlotContents(1,new ItemStack(ItemList.stardust,64));
+			getTile(TileEntityExtractionTable.class).setInventorySlotContents(2,new ItemStack(ItemList.instability_orb,16));
 			storedLocs.put("ExtractionTable",pos.copy());
 			pos.moveUp().setBlock(world,Blocks.hopper);
 			
@@ -310,11 +334,59 @@ public class BlockTests{
 				getTile(TileEntityHopper.class).setInventorySlotContents(item,extractionTable[a+1][item]);
 			}
 		}
+		
+		// simulate world for 1 minute
+		
+		for(int a = 0; a < 2400; a++){
+			world.getWorldInfo().incrementTotalWorldTime(world.getWorldInfo().getWorldTotalTime()+1L);
+			world.tickUpdates(false);
+			world.updateEntities();
+		}
 	}
+	
+	/* TESTS */
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
 	public void testFallingBlocks(){
+		Assert.equal(storedLocs.get("FallingBlockObsidian").size(),2,"Unexpected amount of stored locs, expected $2, got $1.");
 		
+		for(BlockPosM testPos:storedLocs.get("FallingBlockObsidian")){
+			Assert.instanceOf(testPos.move(0,-2,0).getBlock(world),BlockObsidianEnd.class,"Unexpected block class, expected $2, got $1.");
+		}
+		
+		Assert.equal(storedLocs.get("FallingBlockDragonEgg").size(),2,"Unexpected amount of stored locs, expected $2, got $1.");
+		
+		for(BlockPosM testPos:storedLocs.get("FallingBlockDragonEgg")){
+			Assert.instanceOf(testPos.move(0,-2,0).getBlock(world),BlockDragonEggCustom.class,"Unexpected block class, expected $2, got $1.");
+		}
+	}
+	
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	public void testDragonEssence(){
+		int essence1 = -1, essence2 = -1;
+		
+		Assert.equal(storedLocs.get("DragonEssenceAltar").size(),2,"Unexpected amount of stored locs, expected $2, got $1.");
+		
+		for(BlockPosM testPos:storedLocs.get("DragonEssenceAltar")){
+			pos.set(testPos);
+			
+			if (essence1 == -1)essence1 = getTile(TileEntityEssenceAltar.class).getEssenceLevel();
+			else essence2 = getTile(TileEntityEssenceAltar.class).getEssenceLevel();
+			
+			pos.set(testPos).move(-3,1,0);
+			Assert.equal(getEntities(EntityItemAltar.class).get(0).getEntityItem().getItem(),ItemList.enhanced_brewing_stand,"Unexpected altar item, expected $2, got $1.");
+			
+			pos.set(testPos).move(0,1,-3);
+			Assert.equal(getEntities(EntityItemAltar.class).get(0).getEntityItem().getItem(),ItemList.temple_caller,"Unexpected altar item, expected $2, got $1.");
+			
+			pos.set(testPos).move(3,1,0);
+			Assert.equal(getEntities(EntityItemAltar.class).get(0).getEntityItem().getItemDamage(),1,"Unexpected altar item damage, expected $2, got $1.");
+			
+			pos.set(testPos).move(0,1,3);
+			Assert.equal(getEntities(EntityItemAltar.class).get(0).getEntityItem().getItemDamage(),0,"Unexpected altar item damage, expected $2, got $1.");
+		}
+		
+		Assert.state(essence1 < essence2,"Unexpected Essence levels, expected "+essence1+" to be lower than "+essence2+".");
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
@@ -322,7 +394,12 @@ public class BlockTests{
 		
 	}
 	
-	// TODO
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	public void testEnergy(){
+		
+	}
+	
+	/* WORLD MANIPULATION */
 	
 	private void setFloor(int floor, int startRow, int endRow, Block block){
 		pos.set(0,9+6*floor,startRow);
@@ -360,10 +437,38 @@ public class BlockTests{
 		return (T)pos.getTileEntity(world);
 	}
 	
+	private <T extends Entity> List<T> getEntities(Class<T> cls){
+		return world.getEntitiesWithinAABB(cls,AxisAlignedBB.getBoundingBox(pos.x,pos.y,pos.z,pos.x+1,pos.y+1,pos.z+1));
+	}
+	
 	private void spawnItem(double x, double y, double z, ItemStack is){
 		EntityItem item = new EntityItem(world,x,y,z,is);
 		item.motionX = item.motionY = item.motionZ = 0D;
 		item.delayBeforeCanPickup = 10;
 		world.spawnEntityInWorld(item);
+	}
+	
+	/* TEST METHODS */
+	
+	private void runEntity(Entity entity, int ticks){
+		Assert.notNull(entity,"Unexpected argument, entity is null.");
+		
+		for(int a = 0; a < ticks; a++){
+			entity.lastTickPosX = entity.posX;
+			entity.lastTickPosY = entity.posY;
+			entity.lastTickPosZ = entity.posZ;
+			entity.prevRotationYaw = entity.rotationYaw;
+            entity.prevRotationPitch = entity.rotationPitch;
+			++entity.ticksExisted;
+			entity.onUpdate();
+			
+			if (entity.isDead)return;
+		}
+	}
+	
+	private void runTile(TileEntity tile, int ticks){
+		Assert.notNull(tile,"Unexpected argument, tile entity is null.");
+		
+		for(int a = 0; a < ticks; a++)tile.updateEntity();
 	}
 }

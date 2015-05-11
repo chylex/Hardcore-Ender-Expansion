@@ -33,6 +33,14 @@ public final class Assert{
 	}
 	
 	/**
+	 * Throws an IllegalStateException if the object is not an instance of targetClass.
+	 * Use $1 to put the current object class into the message, and $2 for the target class.
+	 */
+	public static void instanceOf(Object value, Class<?> targetClass, String message){
+		if (value == null || !targetClass.isAssignableFrom(value.getClass()))throw new IllegalStateException(message.replace("$1",value == null ? "<null>" : value.getClass().getName()).replace("$2",targetClass.getName()));
+	}
+	
+	/**
 	 * Throws an IllegalStateException if the objects are not equal (number objects are checked in a special way).
 	 * Use $1 to substitute first value and $2 to substitute second value in the message.
 	 */
