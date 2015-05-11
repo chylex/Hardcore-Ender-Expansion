@@ -138,7 +138,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				targZ = loc.z+0.5D;
 				
 				if (Math.abs(item.posX-targX) > 0.001D || Math.abs(item.posY-targY) > 0.001D || Math.abs(item.posZ-targZ) > 0.001D){
-					if (world.getEntitiesWithinAABB(EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).isEmpty()&&
+					if (world.getEntitiesWithinAABB(EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).isEmpty() &&
 						Math.sqrt(MathUtil.square(targX-item.posX)+MathUtil.square(targY-item.posY)+MathUtil.square(targZ-item.posZ)) < 0.275D){
 						world.spawnEntityInWorld(new EntityItemAltar(world,targX,targY,targZ,item,EssenceType.DRAGON.id));
 					}
