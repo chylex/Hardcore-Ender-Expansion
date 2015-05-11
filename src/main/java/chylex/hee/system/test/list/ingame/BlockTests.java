@@ -12,7 +12,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -24,6 +27,7 @@ import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.block.BlockSacredStone;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.item.ItemList;
+import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
@@ -40,8 +44,8 @@ import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import com.google.common.base.Function;
+import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -53,7 +57,7 @@ public class BlockTests{
 	private EntityPlayer player;
 	private BlockPosM pos;
 	
-	private Multimap<String,BlockPosM> storedLocs = HashMultimap.create();
+	private ArrayListMultimap<String,BlockPosM> storedLocs = ArrayListMultimap.create();
 	
 	public void setup(){
 		if (world != null)return;
@@ -66,8 +70,6 @@ public class BlockTests{
 	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.INGAME, trigger = testTrigger)
 	public void prepBlockChunk(){
 		setup();
-		
-		if (MathUtil.distance(player.posX,player.posZ) > 64D)player.setPositionAndUpdate(-1D,world.getTopSolidOrLiquidBlock(-1,-1),-1D);
 		
 		// clear area
 		for(pos.x = 0; pos.x < 16; pos.x++){
@@ -253,8 +255,8 @@ public class BlockTests{
 		// fourth floor - energy - decomposition table
 		
 		ItemStack[] decompositionTable = new ItemStack[]{
-			new ItemStack(Items.diamond_sword),
-			new ItemStack(Items.diamond_sword,1,1560),
+			new ItemStack(Items.diamond_chestplate),
+			new ItemStack(Items.diamond_chestplate,1,528),
 			new ItemStack(Blocks.planks,4),
 			new ItemStack(ItemList.energy_wand),
 			new ItemStack(BlockList.void_chest),
@@ -342,6 +344,8 @@ public class BlockTests{
 			world.tickUpdates(false);
 			world.updateEntities();
 		}
+		
+		if (MathUtil.distance(player.posX,player.posZ) > 64D)player.setPositionAndUpdate(-1D,world.getTopSolidOrLiquidBlock(-1,-1),-1D);
 	}
 	
 	/* TESTS */
@@ -390,12 +394,77 @@ public class BlockTests{
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
-	public void testBrewing(){
+	public void testBrewing(){		
+		Object[][] data = new Object[][]{
+			new Object[]{ 0, new ItemStack(Items.potionitem,1,16) },
+			new Object[]{ 0, new ItemStack(Items.potionitem,1,8194) },
+			new Object[]{ 1, PotionTypes.setCustomPotionEffect(new ItemStack(Items.potionitem,1,8194),new PotionEffect(Potion.moveSpeed.id,1200,2)) },
+			new Object[]{ 1, PotionTypes.setCustomPotionEffect(new ItemStack(Items.potionitem,1,8194),new PotionEffect(Potion.moveSpeed.id,1200,3)) },
+			new Object[]{ 1, PotionTypes.setCustomPotionEffect(new ItemStack(Items.potionitem,1,8194),new PotionEffect(Potion.moveSpeed.id,14400,0)) },
+			new Object[]{ 0, PotionTypes.setCustomPotionEffect(new ItemStack(Items.potionitem,1,8194|16384),new PotionEffect(Potion.moveSpeed.id,1200,0)) },
+			new Object[]{ 0, new ItemStack(ItemList.infestation_remedy) },
+			new Object[]{ 0, new ItemStack(ItemList.potion_of_instability) },
+			new Object[]{ 0, new ItemStack(ItemList.potion_of_purity) }
+		};
+		
+		List<BlockPosM> stands = storedLocs.get("EnhancedBrewingStand");
+		
+		for(int a = 0; a < data.length; a++){
+			pos.set(stands.get(a));
+			
+			if ((int)data[a][0] == 0)Assert.isNull(getTile(TileEntityEnhancedBrewingStand.class).getStackInSlot(4),"Unexpected item, expected powder slot to be empty.");
+			else Assert.equal(getTile(TileEntityEnhancedBrewingStand.class).getStackInSlot(4).stackSize,data[a][0],"Unexpected powder amount, expected $2, got $1.");
+			
+			Assert.equal(getTile(TileEntityEnhancedBrewingStand.class).getStackInSlot(1),data[a][1],"Unexpected potion item, expected $2, got $1.");
+		}
+	}
+	
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	public void testDecompositionTable(){
+		int[] stardust = new int[]{
+			59, 59, 63, 61, 57, 57, 64
+		};
+		
+		final List<BlockPosM> decomposition = storedLocs.get("DecompositionTable");
+		
+		for(int a = 0; a < stardust.length; a++){
+			pos.set(decomposition.get(a));
+			Assert.equal(getTile(TileEntityDecompositionTable.class).getStackInSlot(1).stackSize,stardust[a],"Unexpected stardust amount, expected $2, got $1.");
+		}
+		
+		Function<Integer,TileEntityChest> get = new Function<Integer,TileEntityChest>(){
+			@Override public TileEntityChest apply(Integer input){
+				return ((TileEntityChest)pos.set(decomposition.get(input)).move(0,-2,0).getTileEntity(world));
+			}
+		};
+		
+		Assert.equal(get.apply(0).getStackInSlot(0).getItem(),Items.diamond,"Unexpected item, expected $2, got $1.");
+		Assert.state(get.apply(0).getStackInSlot(0).stackSize > 3,"Unexpected state, expected stack size to be greater than 4.");
+		
+		Assert.equal(get.apply(1).getStackInSlot(0).getItem(),Items.diamond,"Unexpected item, expected $2, got $1.");
+		Assert.equal(get.apply(1).getStackInSlot(0).stackSize,1,"Unexpected stack size, expected $2, got $1.");
+		
+		Assert.equal(get.apply(2).getStackInSlot(0).getItem(),Item.getItemFromBlock(Blocks.log),"Unexpected item, expected $2, got $1.");
+		
+		Assert.notNull(get.apply(3).getStackInSlot(0),"Unexpected item, expected it not to be null.");
+		Assert.notNull(get.apply(4).getStackInSlot(0),"Unexpected item, expected it not to be null.");
+		Assert.notNull(get.apply(5).getStackInSlot(0),"Unexpected item, expected it not to be null.");
+		
+		Assert.isNull(get.apply(6).getStackInSlot(0),"Unexpected item, expected it to be null.");
+	}
+	
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	public void testExperienceTable(){
 		
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
-	public void testEnergy(){
+	public void testAccumulationTable(){
+		
+	}
+	
+	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	public void testExtractionTable(){
 		
 	}
 	
