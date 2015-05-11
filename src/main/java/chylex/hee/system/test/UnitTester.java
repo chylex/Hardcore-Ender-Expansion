@@ -29,11 +29,11 @@ public final class UnitTester{
 	private static final Multimap<RunTime,Method> registryPrep = HashMultimap.create();
 	private static final Multimap<RunTime,Method> registryTests = HashMultimap.create();
 	
-	private static boolean isLoaded;
+	private static boolean isLoaded, ingameTestsOnly;
 	private static int menuDisplayOk, menuDisplayFailed;
 	
 	public static void load(){
-		if (!DragonUtil.checkSystemProperty("unit"))return;
+		if (!DragonUtil.checkSystemProperty("unit") && !(ingameTestsOnly = DragonUtil.checkSystemProperty("unitgame")))return;
 		
 		Log.debug(prefix+"Loading unit tests!");
 		
@@ -88,7 +88,7 @@ public final class UnitTester{
 	}
 	
 	public static void trigger(RunTime time, String trigger){
-		if (!isLoaded)return;
+		if (!isLoaded || (ingameTestsOnly && time != RunTime.INGAME))return;
 		
 		Set<Method> prepList = new HashSet<>(), testList = new HashSet<>();
 		
@@ -145,7 +145,9 @@ public final class UnitTester{
 		
 		Builder<String> unitDataList = ImmutableList.builder();
 		unitDataList.add("[Hardcore Ender Expansion - test mode]");
-		unitDataList.add("Event tests: "+menuDisplayOk+" succeeded, "+menuDisplayFailed+" failed");
+		
+		if (ingameTestsOnly)unitDataList.add("Event tests: none");
+		else unitDataList.add("Event tests: "+menuDisplayOk+" succeeded, "+menuDisplayFailed+" failed");
 		
 		Field field = FMLCommonHandler.class.getDeclaredField("brandings");
 		field.setAccessible(true);
