@@ -1,68 +1,11 @@
 package chylex.hee;
 import java.io.File;
-import net.minecraft.entity.EntityList;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.api.HeeIMC;
-import chylex.hee.block.BlockDragonEggCustom;
-import chylex.hee.block.BlockEnderGoo;
-import chylex.hee.block.BlockReplaceHelper;
-import chylex.hee.entity.block.EntityBlockEnderCrystal;
-import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
-import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
-import chylex.hee.entity.block.EntityBlockFallingObsidian;
-import chylex.hee.entity.block.EntityBlockHomelandCache;
-import chylex.hee.entity.block.EntityBlockTempleDragonEgg;
-import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.EntityBossEnderDemon;
-import chylex.hee.entity.boss.EntityMiniBossEnderEye;
-import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.boss.dragon.managers.DragonChunkManager;
-import chylex.hee.entity.item.EntityItemAltar;
-import chylex.hee.entity.item.EntityItemDragonEgg;
-import chylex.hee.entity.item.EntityItemEndPowder;
-import chylex.hee.entity.item.EntityItemIgneousRock;
-import chylex.hee.entity.item.EntityItemInstabilityOrb;
-import chylex.hee.entity.mob.EntityMobAngryEnderman;
-import chylex.hee.entity.mob.EntityMobBabyEnderman;
-import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.mob.EntityMobEndermage;
-import chylex.hee.entity.mob.EntityMobEnderman;
-import chylex.hee.entity.mob.EntityMobFireGolem;
-import chylex.hee.entity.mob.EntityMobForestGhost;
-import chylex.hee.entity.mob.EntityMobHauntedMiner;
-import chylex.hee.entity.mob.EntityMobHomelandEnderman;
-import chylex.hee.entity.mob.EntityMobInfestedBat;
-import chylex.hee.entity.mob.EntityMobLouse;
-import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
-import chylex.hee.entity.mob.EntityMobSanctuaryOverseer;
-import chylex.hee.entity.mob.EntityMobScorchingLens;
-import chylex.hee.entity.mob.EntityMobVampiricBat;
-import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
-import chylex.hee.entity.projectile.EntityProjectileCurse;
-import chylex.hee.entity.projectile.EntityProjectileDragonFireball;
-import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
-import chylex.hee.entity.projectile.EntityProjectileExpBottleConsistent;
-import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
-import chylex.hee.entity.projectile.EntityProjectileFlamingBall;
-import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
-import chylex.hee.entity.projectile.EntityProjectileMinerShot;
-import chylex.hee.entity.projectile.EntityProjectilePotion;
-import chylex.hee.entity.projectile.EntityProjectileSacredWand;
-import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
-import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
-import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
-import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
-import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
-import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
-import chylex.hee.entity.technical.EntityTechnicalVoidChest;
-import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
-import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.init.BlockList;
+import chylex.hee.init.EntityList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
@@ -97,25 +40,9 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.test.UnitTester;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.update.UpdateNotificationManager;
-import chylex.hee.system.util.GameRegistryUtil;
-import chylex.hee.tileentity.TileEntityAccumulationTable;
-import chylex.hee.tileentity.TileEntityCustomSpawner;
-import chylex.hee.tileentity.TileEntityDecompositionTable;
-import chylex.hee.tileentity.TileEntityEndermanHead;
-import chylex.hee.tileentity.TileEntityEnergyCluster;
-import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
-import chylex.hee.tileentity.TileEntityEnhancedTNT;
-import chylex.hee.tileentity.TileEntityEssenceAltar;
-import chylex.hee.tileentity.TileEntityExperienceTable;
-import chylex.hee.tileentity.TileEntityExtractionTable;
-import chylex.hee.tileentity.TileEntityLaserBeam;
-import chylex.hee.tileentity.TileEntitySanctuaryBrain;
-import chylex.hee.tileentity.TileEntityTransportBeacon;
-import chylex.hee.tileentity.TileEntityVoidChest;
 import chylex.hee.world.DimensionOverride;
 import chylex.hee.world.loot.WorldLoot;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -128,8 +55,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = "HardcoreEnderExpansion", name = "Hardcore Ender Expansion", version = "", useMetadata = true, guiFactory = "chylex.hee.gui.core.ModGuiFactory")
 public class HardcoreEnderExpansion{
@@ -165,145 +90,23 @@ public class HardcoreEnderExpansion{
 		// CONFIGURATION LOAD
 
 		ConfigHandler.register(e.getSuggestedConfigurationFile());
-		ModCreativeTab.registerTabs();
 		BlockList.loadBlocks();
 		ItemList.loadItems();
 		proxy.loadConfiguration();
 		
-		// BLOCKS
+		// INITIALIZATION
 		
-		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom());
+		Stopwatch.time("PreInitEvent - data");
+		
+		ModCreativeTab.registerTabs();
 		BlockList.registerBlocks();
-		
-		BlockList.obsidian_falling.setHarvestLevel("pickaxe", 3);
-		BlockList.obsidian_stairs.setHarvestLevel("pickaxe", 3);
-		BlockList.obsidian_special.setHarvestLevel("pickaxe", 3);
-		BlockList.obsidian_special_glow.setHarvestLevel("pickaxe", 3);
-		BlockList.stardust_ore.setHarvestLevel("pickaxe", 3);
-		BlockList.igneous_rock_ore.setHarvestLevel("pickaxe", 2);
-		BlockList.instability_orb_ore.setHarvestLevel("pickaxe", 3);
-		BlockList.sphalerite.setHarvestLevel("pickaxe", 1);
-		BlockList.end_terrain.setHarvestLevel("pickaxe", 1);
-		BlockList.cinder.setHarvestLevel("pickaxe", 2);
-		BlockList.spooky_log.setHarvestLevel("axe", 0);
-		BlockList.persegrit.setHarvestLevel("shovel", 0);
-		BlockList.laboratory_obsidian.setHarvestLevel("pickaxe", 2);
-		BlockList.laboratory_floor.setHarvestLevel("pickaxe", 2);
-		Blocks.fire.setFireInfo(BlockList.spooky_log, 10, 10);
-		Blocks.fire.setFireInfo(BlockList.spooky_leaves, 40, 30);
-		
-		OreDictionary.registerOre("blockHeeEndium", BlockList.endium_block);
-		OreDictionary.registerOre("oreHeeEndium", BlockList.endium_ore);
-		OreDictionary.registerOre("oreHeeEndPowder", BlockList.end_powder_ore);
-		OreDictionary.registerOre("oreHeeStardust", BlockList.stardust_ore);
-		OreDictionary.registerOre("oreHeeIgneousRock", BlockList.igneous_rock_ore);
-		OreDictionary.registerOre("oreHeeInstabilityOrb", BlockList.instability_orb_ore);
-		
-		MinecraftForge.EVENT_BUS.register(BlockList.essence_altar);
-		MinecraftForge.EVENT_BUS.register(BlockList.ender_goo);
-		
-		// ITEMS
-		
 		ItemList.registerItems();
+		BlockList.configureBlocks();
+		ItemList.configureItems();
+		EntityList.registerEntities();
+		BlockList.registerTileEntities();
 		
-		OreDictionary.registerOre("ingotHeeEndium", ItemList.endium_ingot);
-		
-		MinecraftForge.EVENT_BUS.register(ItemList.enderman_head);
-		MinecraftForge.EVENT_BUS.register(ItemList.scorching_pickaxe);
-		GameRegistry.registerFuelHandler((IFuelHandler)ItemList.igneous_rock);
-		
-		FluidContainerRegistry.registerFluidContainer(BlockEnderGoo.fluid, new ItemStack(ItemList.bucket_ender_goo), FluidContainerRegistry.EMPTY_BUCKET);
-		
-		// ENTITIES
-		
-		Stopwatch.time("PreInitEvent - entities");
-		
-		EntityList.stringToClassMapping.remove("Enderman");
-		EntityList.IDtoClassMapping.remove(Integer.valueOf(58));
-		EntityList.addMapping(EntityMobEnderman.class, "Enderman", 58);
-		
-		EntityList.stringToClassMapping.remove("EnderCrystal");
-		EntityList.IDtoClassMapping.remove(Integer.valueOf(200));
-		EntityList.addMapping(EntityBlockEnderCrystal.class, "EnderCrystal", 200);
-		
-		EntityRegistry.registerModEntity(EntityBossDragon.class, "Dragon", 8, this, 320, 1, true);
-		EntityRegistry.registerModEntity(EntityBossEnderDemon.class, "EnderDemon", 21, this, 512, 1, true);
-		EntityRegistry.registerModEntity(EntityMiniBossEnderEye.class, "EnderEye", 11, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMiniBossFireFiend.class, "FireFiend", 23, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobEnderman.class, "Enderman", 51, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobAngryEnderman.class, "AngryEnderman", 1, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobBabyEnderman.class, "BabyEnderman", 16, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobParalyzedEnderman.class, "ParalyzedEnderman", 24, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobHomelandEnderman.class, "HomelandEnderman", 39, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobEnderGuardian.class, "EnderGuardian", 22, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobVampiricBat.class, "VampireBat", 10, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobInfestedBat.class, "InfestedBat", 12, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityMobForestGhost.class, "ForestGhost", 13, this, 32, 1, true);
-		EntityRegistry.registerModEntity(EntityMobLouse.class, "Louse", 34, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobFireGolem.class, "FireGolem", 14, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobScorchingLens.class, "ScorchedLens", 15, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobHauntedMiner.class, "HauntedMiner", 35, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobEndermage.class, "Endermage", 41, this, 256, 1, true);
-		EntityRegistry.registerModEntity(EntityMobSanctuaryOverseer.class, "SanctuaryOverseer", 53, this, 256, 1, true);
-
-		EntityRegistry.registerModEntity(EntityBlockFallingDragonEgg.class, "FallingDragonEgg", 25, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityBlockFallingObsidian.class, "FallingObsidian", 26, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityBlockTempleDragonEgg.class, "TempleEgg", 7, this, 420, 1, true);
-		EntityRegistry.registerModEntity(EntityBlockEnhancedTNTPrimed.class, "EnhancedTNT", 31, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityBlockHomelandCache.class, "BlockHomelandCache", 50, this, 256, 1, true);
-
-		EntityRegistry.registerModEntity(EntityItemIgneousRock.class, "ItemIgneousRock", 9, this, 64, 1, true);
-		EntityRegistry.registerModEntity(EntityItemInstabilityOrb.class, "ItemInstabilityOrb", 6, this, 64, 1, true);
-		EntityRegistry.registerModEntity(EntityItemAltar.class, "ItemAltar", 19, this, 128, 1, false);
-		EntityRegistry.registerModEntity(EntityItemEndPowder.class, "ItemEndPowder", 27, this, 64, 1, true);
-		EntityRegistry.registerModEntity(EntityItemDragonEgg.class, "ItemDragonEgg", 37, this, 64, 1, true);
-		
-		EntityRegistry.registerModEntity(EntityProjectileDragonFireball.class, "ProjectileDragonFireball", 2, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileEnhancedEnderPearl.class, "ProjectileEnhancedEnderPearl", 5, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileFlamingBall.class, "ProjectileFlamingBall", 17, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileGolemFireball.class, "ProjectileGolemFireball", 18, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileMinerShot.class, "ProjectileMinerShot", 36, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectilePotion.class, "ProjectilePotionOfInstability", 30, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileSpatialDash.class, "ProjectileSpatialDash", 32, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileCorruptedEnergy.class, "ProjectileCorruptedEnergy", 42, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileFiendFireball.class, "ProjectileFiendFireball", 45, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileCurse.class, "ProjectileCurse", 48, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileExpBottleConsistent.class, "ProjectileExpBottleConsistent", 49, this, 128, 1, true);
-		EntityRegistry.registerModEntity(EntityProjectileSacredWand.class, "ProjectileSacredWand", 52, this, 128, 1, true);
-
-		EntityRegistry.registerModEntity(EntityWeatherLightningBoltSafe.class, "LightningBoltSafe", 4, this, 512, 1, false);
-		EntityRegistry.registerModEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, this, 512, 1, false);
-		
-		EntityRegistry.registerModEntity(EntityTechnicalBiomeInteraction.class, "TechnicalBiomeInteraction", 38, this, 0, Integer.MAX_VALUE, false);
-		EntityRegistry.registerModEntity(EntityTechnicalVoidChest.class, "TechnicalVoidChest", 40, this, 0, 1, false);
-		EntityRegistry.registerModEntity(EntityTechnicalPuzzleChain.class, "TechnicalPuzzleChain", 43, this, 0, Integer.MAX_VALUE, false);
-		EntityRegistry.registerModEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, this, 0, Integer.MAX_VALUE, false);
-		EntityRegistry.registerModEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, this, 64, 1, false);
-		EntityRegistry.registerModEntity(EntityTechnicalCurseEntity.class, "TechnicalCurseEntity", 47, this, 64, 1, false);
-		// last: 53
-		
-		Stopwatch.finish("PreInitEvent - entities");
-
-		// TILE ENTITIES
-		
-		Stopwatch.time("PreInitEvent - tile entities");
-
-		GameRegistryUtil.registerTileEntity(TileEntityEssenceAltar.class, "EssenceAltar");
-		GameRegistryUtil.registerTileEntity(TileEntityEnhancedBrewingStand.class, "EnhancedBrewingStand");
-		GameRegistryUtil.registerTileEntity(TileEntityEndermanHead.class, "EndermanHead");
-		GameRegistryUtil.registerTileEntity(TileEntityLaserBeam.class, "LaserBeam");
-		GameRegistryUtil.registerTileEntity(TileEntityCustomSpawner.class, "EndermanSpawner");
-		GameRegistryUtil.registerTileEntity(TileEntityDecompositionTable.class, "DecompositionTable");
-		GameRegistryUtil.registerTileEntity(TileEntityExperienceTable.class, "ExperienceTable");
-		GameRegistryUtil.registerTileEntity(TileEntityAccumulationTable.class, "AccumulationTable");
-		GameRegistryUtil.registerTileEntity(TileEntityExtractionTable.class, "EnergyExtractionTable");
-		GameRegistryUtil.registerTileEntity(TileEntityEnergyCluster.class, "EnergyCluster");
-		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
-		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
-		GameRegistryUtil.registerTileEntity(TileEntityTransportBeacon.class, "TransportBeacon");
-		GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
-		
-		Stopwatch.finish("PreInitEvent - tile entities");
+		Stopwatch.finish("PreInitEvent - data");
 		
 		// DIMENSION
 

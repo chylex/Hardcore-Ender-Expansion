@@ -1,6 +1,7 @@
 package chylex.hee.gui;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.Item;
@@ -11,7 +12,6 @@ import org.lwjgl.opengl.GL12;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.init.BlockList.BlockData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -31,8 +31,8 @@ public class GuiItemViewer extends GuiScreen{
 	public void initGui(){
 		toRender.clear();
 
-		for(BlockData block:BlockList.getAllBlocks()){
-			Item item = Item.getItemFromBlock(block.block);
+		for(Block block:BlockList.getAllBlocks()){
+			Item item = Item.getItemFromBlock(block);
 			if (item == null)continue;
 			
 			List<ItemStack> is = new ArrayList<>();

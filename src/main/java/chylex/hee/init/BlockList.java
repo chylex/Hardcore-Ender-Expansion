@@ -7,86 +7,47 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCompressed;
 import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockSlab;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
-import chylex.hee.block.BlockAccumulationTable;
-import chylex.hee.block.BlockBiomeIslandCore;
-import chylex.hee.block.BlockCorruptedEnergy;
-import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockCustomSpawner;
-import chylex.hee.block.BlockDeathFlower;
-import chylex.hee.block.BlockDeathFlowerPot;
-import chylex.hee.block.BlockDecompositionTable;
-import chylex.hee.block.BlockDungeonPuzzle;
-import chylex.hee.block.BlockEndPowderOre;
-import chylex.hee.block.BlockEnderGoo;
-import chylex.hee.block.BlockEndermanHead;
-import chylex.hee.block.BlockEndiumOre;
-import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.block.BlockEnergyCluster;
-import chylex.hee.block.BlockEnhancedBrewingStand;
-import chylex.hee.block.BlockEnhancedTNT;
-import chylex.hee.block.BlockEssenceAltar;
-import chylex.hee.block.BlockExperienceTable;
-import chylex.hee.block.BlockExtractionTable;
-import chylex.hee.block.BlockIgneousRockOre;
-import chylex.hee.block.BlockInstabilityOrbOre;
-import chylex.hee.block.BlockLaboratoryGlass;
-import chylex.hee.block.BlockLaserBeam;
-import chylex.hee.block.BlockObsidianEnd;
-import chylex.hee.block.BlockObsidianSpecial;
-import chylex.hee.block.BlockPersegrit;
-import chylex.hee.block.BlockRavagedBrick;
-import chylex.hee.block.BlockRavagedBrickSmooth;
-import chylex.hee.block.BlockSacredStone;
-import chylex.hee.block.BlockSanctuaryBrain;
-import chylex.hee.block.BlockSpecialEffects;
-import chylex.hee.block.BlockSphalerite;
-import chylex.hee.block.BlockSpookyLeaves;
-import chylex.hee.block.BlockSpookyLog;
-import chylex.hee.block.BlockStardustOre;
-import chylex.hee.block.BlockTempleEndPortal;
-import chylex.hee.block.BlockTransportBeacon;
-import chylex.hee.block.BlockVoidChest;
+import net.minecraftforge.oredict.OreDictionary;
+import chylex.hee.block.*;
+import chylex.hee.block.vanilla.BlockBasic;
+import chylex.hee.block.vanilla.BlockBasicSlab;
+import chylex.hee.block.vanilla.BlockBasicStairs;
 import chylex.hee.item.block.ItemBlockEndFlower;
 import chylex.hee.item.block.ItemBlockEnhanceableTile;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
 import chylex.hee.item.block.ItemBlockSlab;
-import chylex.hee.item.block.ItemBlockSlab.IBlockSlab;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
+import chylex.hee.system.collections.DefaultingHashMap;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import chylex.hee.tileentity.*;
 
 public final class BlockList{
-	private static final Map<String,BlockData> blocks = new HashMap<>();
+	private static final Map<String,Block> blocks = new HashMap<>();
+	private static final Map<String,Class<? extends ItemBlock>> itemBlocks = new DefaultingHashMap<String,Class<? extends ItemBlock>>(ItemBlock.class);
+	
 	public static final Random blockRandom = new Random();
 	
 	private static void register(String blockIdentifier, Block block){
-		blocks.put(blockIdentifier,new BlockData(block));
+		blocks.put(blockIdentifier,block);
 	}
 	
 	private static void setItemClass(String blockIdentifier, Class<? extends ItemBlock> itemBlockClass){
-		blocks.get(blockIdentifier).itemBlockClass = itemBlockClass;
+		itemBlocks.put(blockIdentifier,itemBlockClass);
 	}
 	
 	public static Block getBlock(String identifier){
-		return blocks.get(identifier).block;
+		return blocks.get(identifier);
 	}
 	
-	public static Collection<BlockData> getAllBlocks(){
+	public static Collection<Block> getAllBlocks(){
 		return blocks.values();
 	}
 	
@@ -241,13 +202,11 @@ public final class BlockList{
 	}
 	
 	public static void registerBlocks(){
-		Stopwatch.time("BlockList - register");
+		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom());
 		
-		for(Entry<String,BlockData> entry:BlockList.blocks.entrySet()){
-			GameRegistryUtil.registerBlock(entry.getValue().block,entry.getKey(),entry.getValue().itemBlockClass);
+		for(Entry<String,Block> entry:BlockList.blocks.entrySet()){
+			GameRegistryUtil.registerBlock(entry.getValue(),entry.getKey(),itemBlocks.get(entry.getKey()));
 		}
-		
-		Stopwatch.finish("BlockList - register");
 		
 		ModCreativeTab.tabMain.list.addBlocks(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
@@ -263,67 +222,51 @@ public final class BlockList{
 		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.addBlocks(special_effects);
 	}
 	
+	public static void configureBlocks(){
+		BlockList.obsidian_falling.setHarvestLevel("pickaxe", 3);
+		BlockList.obsidian_stairs.setHarvestLevel("pickaxe", 3);
+		BlockList.obsidian_special.setHarvestLevel("pickaxe", 3);
+		BlockList.obsidian_special_glow.setHarvestLevel("pickaxe", 3);
+		BlockList.stardust_ore.setHarvestLevel("pickaxe", 3);
+		BlockList.igneous_rock_ore.setHarvestLevel("pickaxe", 2);
+		BlockList.instability_orb_ore.setHarvestLevel("pickaxe", 3);
+		BlockList.sphalerite.setHarvestLevel("pickaxe", 1);
+		BlockList.end_terrain.setHarvestLevel("pickaxe", 1);
+		BlockList.cinder.setHarvestLevel("pickaxe", 2);
+		BlockList.spooky_log.setHarvestLevel("axe", 0);
+		BlockList.persegrit.setHarvestLevel("shovel", 0);
+		BlockList.laboratory_obsidian.setHarvestLevel("pickaxe", 2);
+		BlockList.laboratory_floor.setHarvestLevel("pickaxe", 2);
+		Blocks.fire.setFireInfo(BlockList.spooky_log, 10, 10);
+		Blocks.fire.setFireInfo(BlockList.spooky_leaves, 40, 30);
+		
+		OreDictionary.registerOre("blockHeeEndium", BlockList.endium_block);
+		OreDictionary.registerOre("oreHeeEndium", BlockList.endium_ore);
+		OreDictionary.registerOre("oreHeeEndPowder", BlockList.end_powder_ore);
+		OreDictionary.registerOre("oreHeeStardust", BlockList.stardust_ore);
+		OreDictionary.registerOre("oreHeeIgneousRock", BlockList.igneous_rock_ore);
+		OreDictionary.registerOre("oreHeeInstabilityOrb", BlockList.instability_orb_ore);
+		
+		MinecraftForge.EVENT_BUS.register(BlockList.essence_altar);
+		MinecraftForge.EVENT_BUS.register(BlockList.ender_goo);
+	}
+	
+	public static void registerTileEntities(){
+		GameRegistryUtil.registerTileEntity(TileEntityEssenceAltar.class, "EssenceAltar");
+		GameRegistryUtil.registerTileEntity(TileEntityEnhancedBrewingStand.class, "EnhancedBrewingStand");
+		GameRegistryUtil.registerTileEntity(TileEntityEndermanHead.class, "EndermanHead");
+		GameRegistryUtil.registerTileEntity(TileEntityLaserBeam.class, "LaserBeam");
+		GameRegistryUtil.registerTileEntity(TileEntityCustomSpawner.class, "EndermanSpawner");
+		GameRegistryUtil.registerTileEntity(TileEntityDecompositionTable.class, "DecompositionTable");
+		GameRegistryUtil.registerTileEntity(TileEntityExperienceTable.class, "ExperienceTable");
+		GameRegistryUtil.registerTileEntity(TileEntityAccumulationTable.class, "AccumulationTable");
+		GameRegistryUtil.registerTileEntity(TileEntityExtractionTable.class, "EnergyExtractionTable");
+		GameRegistryUtil.registerTileEntity(TileEntityEnergyCluster.class, "EnergyCluster");
+		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
+		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
+		GameRegistryUtil.registerTileEntity(TileEntityTransportBeacon.class, "TransportBeacon");
+		GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
+	}
+	
 	private BlockList(){} // static class
-	
-	public static final class BlockData{
-		public final Block block;
-		public Class<? extends ItemBlock> itemBlockClass = ItemBlock.class;
-		
-		public BlockData(Block block){
-			this.block = block;
-		}
-	}
-	
-	public static class BlockBasic extends Block{
-		public BlockBasic(Material material){
-			super(material);
-		}
-	}
-	
-	public static class BlockBasicStairs extends BlockStairs{
-		public BlockBasicStairs(Block sourceBlock, int sourceMetadata){
-			super(sourceBlock,sourceMetadata);
-		}
-	}
-	
-	public static class BlockBasicSlab extends BlockSlab implements IBlockSlab{
-		private final Block fullBlock;
-		
-		public BlockBasicSlab(Block fullBlock){
-			super(false,fullBlock.getMaterial());
-			this.fullBlock = fullBlock;
-		}
-
-		@Override
-		public String func_150002_b(int meta){
-			return getUnlocalizedName();
-		}
-
-		@Override
-		public Block getFullBlock(){
-			return fullBlock;
-		}
-		
-		@Override
-		public Item getItemDropped(int meta, Random rand, int fortune){
-			return Item.getItemFromBlock(this);
-		}
-		
-		@Override
-		protected ItemStack createStackedBlock(int meta){
-			return new ItemStack(Item.getItemFromBlock(this),1,0);
-		}
-		
-		@Override
-		@SideOnly(Side.CLIENT)
-		public Item getItem(World world, int x, int y, int z){
-			return Item.getItemFromBlock(this);
-		}
-		
-		@Override
-		@SideOnly(Side.CLIENT)
-		public IIcon getIcon(int side, int meta){
-			return fullBlock.getIcon(side,0);
-		}
-	}
 }

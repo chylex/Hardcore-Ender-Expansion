@@ -5,38 +5,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
-import chylex.hee.item.ItemAdventurersDiary;
-import chylex.hee.item.ItemBiomeCompass;
-import chylex.hee.item.ItemCharm;
-import chylex.hee.item.ItemCharmPouch;
-import chylex.hee.item.ItemCurse;
-import chylex.hee.item.ItemEndPowder;
-import chylex.hee.item.ItemEndermanHead;
-import chylex.hee.item.ItemEnergyWand;
-import chylex.hee.item.ItemEnhancedEnderPearl;
-import chylex.hee.item.ItemEssence;
-import chylex.hee.item.ItemExpBottleConsistent;
-import chylex.hee.item.ItemGhostAmulet;
-import chylex.hee.item.ItemIgneousRock;
-import chylex.hee.item.ItemInfestationRemedy;
-import chylex.hee.item.ItemInstabilityOrb;
-import chylex.hee.item.ItemKnowledgeNote;
-import chylex.hee.item.ItemMusicDisk;
-import chylex.hee.item.ItemPotionOfInstability;
-import chylex.hee.item.ItemPotionOfPurity;
-import chylex.hee.item.ItemRune;
-import chylex.hee.item.ItemSacredWand;
-import chylex.hee.item.ItemSacredWandCores;
-import chylex.hee.item.ItemScorchingPickaxe;
-import chylex.hee.item.ItemSpatialDashGem;
-import chylex.hee.item.ItemSpawnEggs;
-import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.item.ItemTempleCaller;
-import chylex.hee.item.ItemTransferenceGem;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import chylex.hee.block.BlockEnderGoo;
+import chylex.hee.item.*;
 import chylex.hee.item.block.ItemBlockEnhancedBrewingStand;
 import chylex.hee.system.creativetab.ModCreativeTab;
-import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
+import cpw.mods.fml.common.IFuelHandler;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class ItemList{
 	private static final Map<String,Item> items = new HashMap<>();
@@ -173,14 +152,10 @@ public final class ItemList{
 		register("item_special_effects", special_effects = new ItemSpecialEffects().setUnlocalizedName("itemNumber"));
 	}
 	
-	public static void registerItems(){
-		Stopwatch.time("ItemList - register");
-		
+	public static void registerItems(){		
 		for(Entry<String,Item> entry:ItemList.items.entrySet()){
 			GameRegistryUtil.registerItem(entry.getValue(),entry.getKey());
 		}
-		
-		Stopwatch.finish("ItemList - register");
 		
 		ModCreativeTab.tabMain.list.addItems(
 			adventurers_diary,altar_nexus,essence,enhanced_brewing_stand,
@@ -197,6 +172,16 @@ public final class ItemList{
 		ModCreativeTab.tabCharms.list.addItems(
 			charm
 		);
+	}
+	
+	public static void configureItems(){
+		OreDictionary.registerOre("ingotHeeEndium", ItemList.endium_ingot);
+		
+		MinecraftForge.EVENT_BUS.register(ItemList.enderman_head);
+		MinecraftForge.EVENT_BUS.register(ItemList.scorching_pickaxe);
+		GameRegistry.registerFuelHandler((IFuelHandler)ItemList.igneous_rock);
+		
+		FluidContainerRegistry.registerFluidContainer(BlockEnderGoo.fluid, new ItemStack(ItemList.bucket_ender_goo), FluidContainerRegistry.EMPTY_BUCKET);
 	}
 	
 	private ItemList(){} // static class
