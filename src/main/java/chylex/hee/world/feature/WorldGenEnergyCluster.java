@@ -2,7 +2,7 @@ package chylex.hee.world.feature;
 import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.util.BlockPosM;
 
 public class WorldGenEnergyCluster extends WorldGenerator{

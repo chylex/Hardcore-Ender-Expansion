@@ -1,8 +1,8 @@
 package chylex.hee.mechanics.compendium;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import chylex.hee.block.BlockList;
 import chylex.hee.block.BlockSpecialEffects;
+import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
 
 public class KnowledgeCategories{

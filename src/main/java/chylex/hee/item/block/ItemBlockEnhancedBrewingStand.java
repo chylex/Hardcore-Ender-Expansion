@@ -3,7 +3,7 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemReed;
 import net.minecraft.item.ItemStack;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

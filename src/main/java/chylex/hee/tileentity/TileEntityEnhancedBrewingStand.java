@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraftforge.common.util.Constants;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;

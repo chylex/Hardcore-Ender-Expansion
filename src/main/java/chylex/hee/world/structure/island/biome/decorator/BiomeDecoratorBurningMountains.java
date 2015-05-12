@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.decorator;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;

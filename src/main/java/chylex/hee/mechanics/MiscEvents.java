@@ -11,7 +11,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import chylex.hee.entity.item.EntityItemDragonEgg;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemTransferenceGem;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;

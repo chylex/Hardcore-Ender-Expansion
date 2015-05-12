@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotBrewingStandIngredient;
 import chylex.hee.gui.slots.SlotBrewingStandPotion;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

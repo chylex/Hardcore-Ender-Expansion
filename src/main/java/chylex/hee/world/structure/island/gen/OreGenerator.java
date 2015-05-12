@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;

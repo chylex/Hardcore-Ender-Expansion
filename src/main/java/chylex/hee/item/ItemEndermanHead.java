@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import org.lwjgl.opengl.GL11;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityEndermanHead;

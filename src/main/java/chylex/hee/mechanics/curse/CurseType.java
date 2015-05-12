@@ -20,7 +20,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import chylex.hee.entity.fx.FXType;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;

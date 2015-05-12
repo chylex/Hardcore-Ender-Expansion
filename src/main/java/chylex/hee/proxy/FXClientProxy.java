@@ -26,7 +26,7 @@ import chylex.hee.entity.item.EntityItemIgneousRock;
 import chylex.hee.entity.item.EntityItemInstabilityOrb;
 import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;

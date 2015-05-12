@@ -4,7 +4,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.BlockList;
+import chylex.hee.init.ItemList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

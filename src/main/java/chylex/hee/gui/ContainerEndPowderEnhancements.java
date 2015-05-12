@@ -19,7 +19,7 @@ import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.gui.slots.SlotReadOnly;
 import chylex.hee.gui.slots.SlotShowCase;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;

@@ -9,8 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockList;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.util.BlockPosM;
 
 public class EntityBlockFallingObsidian extends EntityFallingBlock{

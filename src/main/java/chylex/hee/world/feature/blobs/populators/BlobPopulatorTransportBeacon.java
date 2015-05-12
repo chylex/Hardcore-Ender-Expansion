@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.world.util.Direction;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.system.util.BlockPosM;

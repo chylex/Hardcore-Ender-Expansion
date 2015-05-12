@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+import chylex.hee.block.material.MaterialLaserBeam;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 

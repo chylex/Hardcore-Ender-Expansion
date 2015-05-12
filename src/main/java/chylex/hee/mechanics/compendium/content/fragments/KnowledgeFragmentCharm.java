@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.charms.CharmRecipe;
 import chylex.hee.mechanics.charms.RuneType;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;

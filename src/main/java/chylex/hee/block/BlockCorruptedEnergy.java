@@ -15,6 +15,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.block.material.MaterialCorruptedEnergy;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

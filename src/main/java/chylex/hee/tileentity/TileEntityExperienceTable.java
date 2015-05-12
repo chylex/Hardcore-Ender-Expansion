@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockList;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.BlockList;
+import chylex.hee.init.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
 

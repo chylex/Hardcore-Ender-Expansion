@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;

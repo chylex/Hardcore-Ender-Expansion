@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.item.ItemStack;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemDamagePair;

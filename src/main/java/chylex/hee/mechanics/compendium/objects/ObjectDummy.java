@@ -1,6 +1,6 @@
 package chylex.hee.mechanics.compendium.objects;
 import net.minecraft.item.ItemStack;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 
 public class ObjectDummy implements IKnowledgeObjectInstance<String>{

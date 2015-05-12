@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.mob.EntityMobLouse;
+import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.render.model.ModelLouse;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
@@ -32,8 +33,6 @@ public class RenderMobLouse extends RenderLiving{
 		new ResourceLocation("hardcoreenderexpansion:textures/entity/louse_t3.png"),
 		new ResourceLocation("hardcoreenderexpansion:textures/entity/louse_t4.png")
 	};
-	
-	private static final Random runeTexRand = new Random();
 
 	public RenderMobLouse(){
 		super(new ModelLouse(),0.4F);
@@ -94,12 +93,14 @@ public class RenderMobLouse extends RenderLiving{
 				else if (pass == 2)color = RuneColor.GRAY;
 			}
 			
-			runeTexRand.setSeed(42);
-			for(EnumLouseAttribute attribute:attributes)runeTexRand.nextInt(1+attribute.ordinal());
-			for(EnumLouseAbility ability:abilities)runeTexRand.nextInt(1+ability.ordinal());
+			Random rand = ModClientProxy.seedableRand;
+			rand.setSeed(42);
 			
-			if (pass == 1)res = texLouseRuneBottom[runeTexRand.nextInt(texLouseRuneBottom.length)];
-			else res = texLouseRuneTop[runeTexRand.nextInt(texLouseRuneTop.length)];
+			for(EnumLouseAttribute attribute:attributes)rand.nextInt(1+attribute.ordinal());
+			for(EnumLouseAbility ability:abilities)rand.nextInt(1+ability.ordinal());
+			
+			if (pass == 1)res = texLouseRuneBottom[rand.nextInt(texLouseRuneBottom.length)];
+			else res = texLouseRuneTop[rand.nextInt(texLouseRuneTop.length)];
 			
 			bindTexture(res);
 			GL11.glMatrixMode(GL11.GL_TEXTURE);

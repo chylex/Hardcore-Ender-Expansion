@@ -13,7 +13,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import cpw.mods.fml.relauncher.Side;

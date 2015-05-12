@@ -23,7 +23,7 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobFireGolem;
 import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;

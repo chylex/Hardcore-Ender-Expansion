@@ -15,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.model.ModelEnderDragon;
 import chylex.hee.sound.EndMusicType;
@@ -126,8 +127,10 @@ public class RenderBossDragon extends RenderLiving{
 			RenderHelper.disableStandardItemLighting();
 			float animPerc = (dragon.deathTicks+partialTickTime)*0.005F;
 			float fade = animPerc > 0.8F ? (animPerc-0.8F)*5F : 0F;
-
-			Random random = new Random(432L);
+			
+			Random rand = ModClientProxy.seedableRand;
+			rand.setSeed(432L);
+			
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glShadeModel(GL11.GL_SMOOTH);
 			GL11.glEnable(GL11.GL_BLEND);
@@ -139,15 +142,15 @@ public class RenderBossDragon extends RenderLiving{
 			GL11.glTranslatef(0F,-1F,-2F);
 
 			for(int beam = 0; beam < (animPerc+animPerc*animPerc)/2F*60F; ++beam){
-				GL11.glRotatef(random.nextFloat()*360F,1F,0F,0F);
-				GL11.glRotatef(random.nextFloat()*360F,0F,1F,0F);
-				GL11.glRotatef(random.nextFloat()*360F,0F,0F,1F);
-				GL11.glRotatef(random.nextFloat()*360F,1F,0F,0F);
-				GL11.glRotatef(random.nextFloat()*360F,0F,1F,0F);
-				GL11.glRotatef(random.nextFloat()*360F+animPerc*90F,0F,0F,1F);
+				GL11.glRotatef(rand.nextFloat()*360F,1F,0F,0F);
+				GL11.glRotatef(rand.nextFloat()*360F,0F,1F,0F);
+				GL11.glRotatef(rand.nextFloat()*360F,0F,0F,1F);
+				GL11.glRotatef(rand.nextFloat()*360F,1F,0F,0F);
+				GL11.glRotatef(rand.nextFloat()*360F,0F,1F,0F);
+				GL11.glRotatef(rand.nextFloat()*360F+animPerc*90F,0F,0F,1F);
 				tessellator.startDrawing(6);
-				float yRot = random.nextFloat()*20F+5F+fade*10F;
-				float xzRot = random.nextFloat()*2F+1F+fade*2F;
+				float yRot = rand.nextFloat()*20F+5F+fade*10F;
+				float xzRot = rand.nextFloat()*2F+1F+fade*2F;
 				tessellator.setColorRGBA_I(16777215,(int)(255F*(1F-fade)));
 				tessellator.addVertex(0D,0D,0D);
 				tessellator.setColorRGBA_I(16711935,0);

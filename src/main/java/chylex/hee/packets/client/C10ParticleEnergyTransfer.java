@@ -1,5 +1,6 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
+import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Vec3;
@@ -67,12 +68,14 @@ public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
+		Random rand = player.worldObj.rand;
+		
 		Vec3 vec = Vec3.createVectorHelper(targetX-startX,targetY-startY,targetZ-startZ);
 		int steps = MathUtil.floor(vec.lengthVector()*(1F/spacing));
 		vec = vec.normalize();
 		
 		for(int a = 0; a < steps; a++){
-			for(int b = 0; b < density; b++)HardcoreEnderExpansion.fx.energyClusterMoving(player.worldObj,startX+rand(0.05D),startY+rand(0.05D),startZ+rand(0.05D),rand(0.02D),rand(0.02D),rand(0.02D),(red+128F)/255F,(green+128F)/255F,(blue+128F)/255F);
+			for(int b = 0; b < density; b++)HardcoreEnderExpansion.fx.energyClusterMoving(player.worldObj,startX+rand(rand,0.05D),startY+rand(rand,0.05D),startZ+rand(rand,0.05D),rand(rand,0.02D),rand(rand,0.02D),rand(rand,0.02D),(red+128F)/255F,(green+128F)/255F,(blue+128F)/255F);
 			startX += vec.xCoord*spacing;
 			startY += vec.yCoord*spacing;
 			startZ += vec.zCoord*spacing;
@@ -82,7 +85,7 @@ public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 	/**
 	 * Helper method that returns random number between -1 and 1 multiplied by number provided.
 	 */
-	private double rand(double mp){
+	private double rand(Random rand, double mp){
 		return (rand.nextDouble()-rand.nextDouble())*mp;
 	}
 }

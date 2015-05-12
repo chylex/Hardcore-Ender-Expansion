@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.decorator;
 import static chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest.MORE_THORNY_BUSHES;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.biome.feature.forest.StructureBush;
 import chylex.hee.world.structure.island.biome.feature.forest.StructureRavagedDungeon;

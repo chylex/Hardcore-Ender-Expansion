@@ -9,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;

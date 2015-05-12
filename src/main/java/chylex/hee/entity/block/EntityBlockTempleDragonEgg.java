@@ -5,7 +5,7 @@ import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.util.BlockPosM;

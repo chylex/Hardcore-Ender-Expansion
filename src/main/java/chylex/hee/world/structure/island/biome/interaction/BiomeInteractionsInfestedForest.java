@@ -5,8 +5,8 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.block.BlockList;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.BlockList;
+import chylex.hee.init.ItemList;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 
 public final class BiomeInteractionsInfestedForest{

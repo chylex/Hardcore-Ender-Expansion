@@ -1,5 +1,4 @@
 package chylex.hee.render.tileentity;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -15,7 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.render.BlockRenderHelper;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
@@ -24,7 +23,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
-	private static final Random rand = new Random();
 	private static RenderBlocks blockRenderer;
 	
 	private RenderManager renderManager;
@@ -53,9 +51,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 		GL11.glTranslatef(0.5F,1.25F,0.5F);
 		GL11.glScalef(0.5F,0.5F,0.5F);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-
-		rand.setSeed(187L);
-
+		
 		altar = (TileEntityEssenceAltar)tile;
 		viewRot = 180D+Math.toDegrees(Math.atan2(renderManager.viewerPosX-altar.xCoord-0.5D,renderManager.viewerPosZ-altar.zCoord-0.5D));
 

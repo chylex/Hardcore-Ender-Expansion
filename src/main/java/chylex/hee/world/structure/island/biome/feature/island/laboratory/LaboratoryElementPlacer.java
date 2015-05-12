@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public class LaboratoryElementPlacer{

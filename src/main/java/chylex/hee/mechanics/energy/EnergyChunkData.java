@@ -2,7 +2,7 @@ package chylex.hee.mechanics.energy;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 

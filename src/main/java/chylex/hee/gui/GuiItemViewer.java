@@ -8,10 +8,10 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import chylex.hee.block.BlockList;
-import chylex.hee.block.BlockList.BlockData;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.BlockList;
+import chylex.hee.init.ItemList;
+import chylex.hee.init.BlockList.BlockData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

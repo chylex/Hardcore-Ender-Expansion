@@ -6,13 +6,13 @@ import java.util.Random;
 import chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon.DungeonElementType.RoomCombo;
 
 public class RavagedDungeonGenerator{
-	private static final Random rand = new Random();
-	
+	private final Random rand;
 	private final byte width, height;
 	private final List<TIntHashSet> blockedLocs = new ArrayList<>(4);
 	public final DungeonLayer[] layers;
 	
-	public RavagedDungeonGenerator(int width, int height, int layers){
+	public RavagedDungeonGenerator(int width, int height, int layers, Random rand){
+		this.rand = rand;
 		this.width = (byte)width;
 		this.height = (byte)height;
 		this.layers = new DungeonLayer[layers];

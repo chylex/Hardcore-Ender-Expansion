@@ -1,7 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;

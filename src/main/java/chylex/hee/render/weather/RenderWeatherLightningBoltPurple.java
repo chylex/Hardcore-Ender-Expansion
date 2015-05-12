@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderLightningBolt;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.proxy.ModClientProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -22,7 +23,9 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 		double[] zOffsets = new double[8];
 		double d3 = 0D;
 		double d4 = 0D;
-		Random rand = new Random(bolt.boltVertex);
+		
+		Random rand = ModClientProxy.seedableRand;
+		rand.setSeed(bolt.boltVertex);
 
 		for(int i = 7; i >= 0; --i){
 			xOffsets[i] = d3;
@@ -32,7 +35,7 @@ public class RenderWeatherLightningBoltPurple extends RenderLightningBolt{
 		}
 
 		for(int j = 0; j < 4; ++j){
-			rand = new Random(bolt.boltVertex);
+			rand.setSeed(bolt.boltVertex);
 
 			for(int k = 0; k < 3; ++k){
 				int l = 7;

@@ -10,7 +10,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;

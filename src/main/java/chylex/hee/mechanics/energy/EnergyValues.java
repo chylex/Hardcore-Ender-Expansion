@@ -6,7 +6,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import chylex.hee.block.BlockList;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
@@ -14,7 +13,8 @@ import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEndermage;
 import chylex.hee.entity.mob.EntityMobEnderman;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.BlockList;
+import chylex.hee.init.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
 

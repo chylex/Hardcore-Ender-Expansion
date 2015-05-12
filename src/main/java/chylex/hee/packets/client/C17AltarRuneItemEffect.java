@@ -1,5 +1,6 @@
 package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
+import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -43,6 +44,7 @@ public class C17AltarRuneItemEffect extends AbstractClientPacket{
 		RuneItem runeItem = EssenceType.getById(essenceId).itemsNeeded[runeArrayIndex];
 		ItemStack is = runeItem.getShowcaseItem();
 		World world = player.worldObj;
+		Random rand = world.rand;
 		
 		for(int a = 0; a < 42; a++){
 			double[] vec = DragonUtil.getNormalizedVector(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);

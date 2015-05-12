@@ -1,6 +1,6 @@
 package chylex.hee.mechanics.misc;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 
 public final class ApocalypseEvents{
 	/*private static ApocalypseEvents instance;

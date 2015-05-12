@@ -3,8 +3,8 @@ import java.util.Random;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.WeightedRandomChestContent;
+import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemKnowledgeNote;
-import chylex.hee.item.ItemList;
 
 public class WeightedRandomKnowledgeNote extends WeightedRandomChestContent{
 	public WeightedRandomKnowledgeNote(int weight){

@@ -1,7 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import chylex.hee.world.util.Direction;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 

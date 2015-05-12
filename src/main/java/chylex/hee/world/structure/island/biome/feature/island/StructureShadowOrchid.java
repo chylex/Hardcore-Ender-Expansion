@@ -2,7 +2,7 @@ package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.Random;
 import net.minecraft.block.Block;
 import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureShadowOrchid extends AbstractIslandStructure{

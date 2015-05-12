@@ -4,7 +4,7 @@ import net.minecraft.init.Blocks;
 import chylex.hee.world.util.Direction;
 import net.minecraft.util.Vec3;
 import chylex.hee.block.BlockDungeonPuzzle;
-import chylex.hee.block.BlockList;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.island.gen.CaveGenerator;

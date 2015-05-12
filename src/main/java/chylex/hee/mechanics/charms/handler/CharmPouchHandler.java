@@ -5,7 +5,7 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.charms.CharmPouchInfo;
 import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.common.FMLCommonHandler;

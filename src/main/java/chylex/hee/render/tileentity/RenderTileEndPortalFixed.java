@@ -9,11 +9,11 @@ import net.minecraft.client.renderer.tileentity.RenderEndPortal;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.proxy.ModClientProxy;
 
 public class RenderTileEndPortalFixed extends RenderEndPortal{
 	private static final ResourceLocation texPortalBackground = new ResourceLocation("textures/environment/end_sky.png");
 	private static final ResourceLocation texPortalLayers = new ResourceLocation("textures/entity/end_portal.png");
-	private static final Random rand = new Random(31100L);
 	private FloatBuffer buffer = GLAllocation.createDirectFloatBuffer(16);
 
 	@Override
@@ -22,6 +22,8 @@ public class RenderTileEndPortalFixed extends RenderEndPortal{
 		float globalY = (float)field_147501_a.field_147561_k;
 		float globalZ = (float)field_147501_a.field_147558_l;
 		GL11.glDisable(GL11.GL_LIGHTING);
+		
+		Random rand = ModClientProxy.seedableRand;
 		rand.setSeed(31100L);
 
 		for(int layer = 0; layer < 16; ++layer){
