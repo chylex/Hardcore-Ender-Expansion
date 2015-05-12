@@ -7,20 +7,21 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import chylex.hee.item.ItemList;
+import chylex.hee.init.BlockList;
+import chylex.hee.init.ItemList;
 import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockStardustOre extends BlockAbstractOre{
 	private static final byte iconAmount = 16;
-	private static final byte[][] iconIndexes = new byte[6][16];
+	private static final byte[][] iconIndexes = new byte[6][15];
 	
 	static{
 		Random rand = new Random(69);
 		
 		for(int side = 0; side < 6; side++){
-			for(int meta = 0; meta < 16; meta++){
+			for(int meta = 0; meta < 15; meta++){
 				iconIndexes[side][meta] = (byte)rand.nextInt(iconAmount);
 			}
 		}
@@ -62,7 +63,7 @@ public class BlockStardustOre extends BlockAbstractOre{
 		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		if (meta == 0)return Blocks.end_stone.getIcon(world,x,y,z,side);
 		
-		return iconArray[iconIndexes[side][meta]];
+		return iconArray[iconIndexes[side][meta-1]];
 	}
 	
 	@Override
