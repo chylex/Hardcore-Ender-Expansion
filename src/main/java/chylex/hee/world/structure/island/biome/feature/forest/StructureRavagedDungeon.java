@@ -35,7 +35,7 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		if (y >= 80)return false;
 		
 		Stopwatch.time("RavagedDungeonGen");
-		RavagedDungeonGenerator gen = new RavagedDungeonGenerator(dungW,dungH,3);
+		RavagedDungeonGenerator gen = new RavagedDungeonGenerator(dungW,dungH,3,rand);
 
 		int xx, zz, yy, worldX, worldZ, th = hallHeight+1, layer, visibility;
 		for(xx = 0; xx < dungW; xx++){
