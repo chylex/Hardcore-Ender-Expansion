@@ -745,7 +745,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			int minY = tile.yCoord+32, difficulty = DragonUtil.tryParse(StringUtils.split(key,":",2)[1],0);
 			
 			List<Potion> availablePotions = CollectionUtil.newList(new Potion[]{
-				Potion.damageBoost, /*Potion.invisibility, */Potion.moveSpeed, Potion.regeneration, Potion.resistance, Potion.fireResistance
+				Potion.damageBoost, Potion.moveSpeed, Potion.regeneration, Potion.resistance, Potion.fireResistance
 			});
 			
 			List<PotionEffect> effects = new ArrayList<>();

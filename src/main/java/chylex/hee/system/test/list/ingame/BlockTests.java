@@ -94,8 +94,8 @@ public class BlockTests{
 		setMove(BlockList.obsidian_falling);
 		for(int a = 0; a < 4; a++)setMove(BlockList.obsidian_stairs,a);
 		for(int a = 0; a < 4; a++)setMove(BlockList.obsidian_stairs,4+a);
-		for(int a = 0; a < 6; a++)setMove(BlockList.obsidian_special,a);
-		for(int a = 0; a < 6; a++)setMove(BlockList.obsidian_special_glow,a);
+		for(int a = 0; a < 7; a++)setMove(BlockList.obsidian_special,a);
+		for(int a = 0; a < 7; a++)setMove(BlockList.obsidian_special_glow,a);
 		for(int a = 0; a < 3; a++)setMove(BlockList.end_terrain,a);
 		for(int a = 0; a < BlockRavagedBrick.metaAmount; a++)setMove(BlockList.ravaged_brick,a);
 		setMove(BlockList.ravaged_brick_smooth);
@@ -527,11 +527,11 @@ public class BlockTests{
 			entity.lastTickPosY = entity.posY;
 			entity.lastTickPosZ = entity.posZ;
 			entity.prevRotationYaw = entity.rotationYaw;
-            entity.prevRotationPitch = entity.rotationPitch;
+			entity.prevRotationPitch = entity.rotationPitch;
 			++entity.ticksExisted;
 			entity.onUpdate();
-			
-			if (entity.isDead)return;
+
+			if (entity.isDead) return;
 		}
 	}
 	

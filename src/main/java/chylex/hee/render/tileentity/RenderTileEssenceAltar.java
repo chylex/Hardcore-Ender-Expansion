@@ -121,7 +121,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 				}
 				else{
 					GL11.glScalef(0.85F,0.85F,0.85F);
-					GL11.glRotatef(++requiredItemRot >= 360?requiredItemRot -= 360:requiredItemRot,0F,1F,0F);
+					GL11.glRotatef(++requiredItemRot >= 360 ? requiredItemRot -= 360 : requiredItemRot,0F,1F,0F);
 					GL11.glTranslatef(-0.5F,-0.5F,0F);
 					
 					renderManager.renderEngine.bindTexture(is.getItemSpriteNumber() == 0?TextureMap.locationBlocksTexture:TextureMap.locationItemsTexture);

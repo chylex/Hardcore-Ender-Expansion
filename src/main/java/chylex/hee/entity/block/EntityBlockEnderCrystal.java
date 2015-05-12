@@ -36,10 +36,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 
 			worldObj.createExplosion((Entity)null,posX,posY,posZ,6F,true);
 			if (worldObj.provider.dimensionId == 1)WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).destroyCrystal(crystalKey);
-
-			/*
-			 * TNT
-			 */
+			
 			Entity tar = source.getEntity();
 			
 			if (crystalType == TNT){
@@ -54,11 +51,9 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 					}
 				}
 				
-				float tx, tz, v;
-				EntityTNTPrimed tnt;
 				for(int a = 0; a < 8; a++){
-					v = 0.15F+(rand.nextFloat()/8F);
-					tx = tz = 0F;
+					float v = 0.15F+(rand.nextFloat()/8F);
+					float tx = 0F, tz = 0F;
 					
 					switch(a){
 						case 0:case 1:case 2: tx = v; break;
@@ -69,33 +64,27 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 						case 2:case 4:case 7: tz = v; break;
 					}
 					
-					tnt = new EntityTNTPrimed(worldObj,posX+0.5F,posY+1F,posZ+0.5F,null);
+					EntityTNTPrimed tnt = new EntityTNTPrimed(worldObj,posX+0.5F,posY+1F,posZ+0.5F,null);
 					tnt.addVelocity(tx,1F,tz);
 					tnt.fuse = (int)(58+(posY-DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ),MathUtil.floor(posY)))/2);
 					worldObj.spawnEntityInWorld(tnt);
 					worldObj.playSoundAtEntity(tnt,"random.fuse",1F,1F);
 				}
 			}
-			/*
-			 * BLAST
-			 */
 			else if (crystalType == BLAST){
-				int maxRad = 4,
-					ix = MathUtil.floor(posX),
-					iy = MathUtil.floor(posY),
-					iz = MathUtil.floor(posZ),
-					terY = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,ix,iz,MathUtil.floor(posY));
+				BlockPosM tmpPos = BlockPosM.tmp(this);
+				int terY = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,tmpPos.x,tmpPos.z,tmpPos.y);
 				
-				BlockPosM tmpPos = BlockPosM.tmp(ix,iy-1,iz);
-				tmpPos.setAir(worldObj);
+				tmpPos.moveDown().setAir(worldObj);
+				BlockPosM pos = new BlockPosM();
 				
-				for(int xx = ix-maxRad; xx <= ix+maxRad; xx++){
-					for(int zz = iz-maxRad; zz <= iz+maxRad; zz++){
-						for(int yy = terY; yy <= iy; yy++){
-							if (tmpPos.set(xx,yy,zz).getBlock(worldObj) == BlockList.obsidian_falling){
-								tmpPos.setAir(worldObj);
-								double[] vec = DragonUtil.getNormalizedVector(xx-ix,zz-iz);
-								EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,xx+0.5D,yy+0.1D,zz+0.5D);
+				for(pos.x = tmpPos.x-4; pos.x <= tmpPos.x+4; pos.x++){
+					for(pos.z = tmpPos.z-4; pos.z <= tmpPos.z+4; pos.z++){
+						for(pos.y = terY; pos.y <= tmpPos.y; pos.y++){
+							if (pos.getBlock(worldObj) == BlockList.obsidian_falling){
+								pos.setAir(worldObj);
+								double[] vec = DragonUtil.getNormalizedVector(tmpPos.x-pos.x,tmpPos.z-pos.z);
+								EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,pos.x+0.5D,pos.y+0.1D,pos.z+0.5D);
 								obsidian.motionX = (vec[0]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
 								obsidian.motionZ = (vec[1]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
 								obsidian.motionY = -0.25F-rand.nextFloat()*0.4F;

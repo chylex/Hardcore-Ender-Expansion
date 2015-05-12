@@ -16,19 +16,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
+	public static final byte metaSmooth = 0, metaChiseled = 1, metaPillarV = 2, metaPillarNS = 3, metaPillarEW = 4,
+							 metaSmoothParticlesD = 5, metaChiseledParticlesU = 6;
+	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconSmooth, iconPillar, iconPillarTop, iconChiseled, iconChiseledTop;
-	
-	/*
-	 * Metadata
-	 *   0: smooth
-	 *   1: chiseled
-	 *   2: pillar - vertical
-	 *   3: pillar - NS
-	 *   4: pillar - EW
-	 *   5: (smooth) downward particle spawner - 4 blocks
-	 *   6: (chiseled) upward particle spawner - 5 blocks
-	 */
 	
 	private final boolean isGlowing;
 	
@@ -40,9 +32,13 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		if (meta == 1 || meta == 6)return side == 1 ? iconChiseledTop : iconChiseled;
-		else if (meta >= 2 && meta <= 4)return (meta == 2 && (side == 0 || side == 1)) || (meta == 3 && (side == 4 || side == 5)) || (meta == 4 && (side == 2 || side == 3)) ? iconPillarTop : iconPillar;
-		return iconSmooth;
+		if (meta == metaChiseled || meta == metaChiseledParticlesU){
+			return side == 1 ? iconChiseledTop : iconChiseled;
+		}
+		else if (meta == metaPillarV || meta == metaPillarNS || meta == metaPillarEW){
+			return (meta == metaPillarV && side <= 1) || (meta == metaPillarNS && side >= 4) || (meta == metaPillarEW && (side == 2 || side == 3)) ? iconPillarTop : iconPillar;
+		}
+		else return iconSmooth;
 	}
 	
 	@Override
@@ -52,14 +48,14 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	
 	@Override
 	public int damageDropped(int meta){
-		return meta == 6 ? 1 : meta == 5 ? 0 : meta == 3 || meta == 4 ? 2 : meta;
+		return meta == metaChiseledParticlesU ? 1 : meta == metaSmoothParticlesD ? 0 : meta == metaPillarNS || meta == metaPillarEW ? 2 : meta;
 	}
 	
 	@Override
 	protected ItemStack createStackedBlock(int meta){
-		if (meta == 3 || meta == 4)return new ItemStack(this,1,2);
-		else if (meta == 5)return new ItemStack(this,1,0);
-		else if (meta == 6)return new ItemStack(this,1,1);
+		if (meta == metaPillarNS || meta == metaPillarEW)return new ItemStack(this,1,2);
+		else if (meta == metaSmoothParticlesD)return new ItemStack(this,1,0);
+		else if (meta == metaChiseledParticlesU)return new ItemStack(this,1,1);
 		else return super.createStackedBlock(meta);
 	}
 	
@@ -71,8 +67,8 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		switch(is.getItemDamage()){
-			case 1: return isGlowing ? "tile.obsidianSpecialGlowing.chiseled" : "tile.obsidianSpecial.chiseled";
-			case 2: return isGlowing ? "tile.obsidianSpecialGlowing.pillar" : "tile.obsidianSpecial.pillar";
+			case metaChiseled: return isGlowing ? "tile.obsidianSpecialGlowing.chiseled" : "tile.obsidianSpecial.chiseled";
+			case metaPillarV: return isGlowing ? "tile.obsidianSpecialGlowing.pillar" : "tile.obsidianSpecial.pillar";
 			default: return isGlowing ? "tile.obsidianSpecialGlowing.smooth" : "tile.obsidianSpecial.smooth";
 		}
 	}
@@ -82,15 +78,15 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		
-		if (meta == 5){
+		if (meta == metaSmoothParticlesD){
 			for(int a = 0; a < 10; a++){
-				world.spawnParticle("portal",(x+rand.nextFloat()),(y-4F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
-				world.spawnParticle("largesmoke",(x+rand.nextFloat()),(y-4F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
+				world.spawnParticle("portal",x+rand.nextFloat(),y-4F*rand.nextFloat(),z+rand.nextFloat(),0D,0D,0D);
+				world.spawnParticle("largesmoke",x+rand.nextFloat(),y-4F*rand.nextFloat(),z+rand.nextFloat(),0D,0D,0D);
 			}
 		}
-		else if (meta == 6){
+		else if (meta == metaChiseledParticlesU){
 			for(int a = 0; a < 30; a++){
-				world.spawnParticle("portal",(x+rand.nextFloat()),(y+5F*rand.nextFloat()),(z+rand.nextFloat()),0D,0D,0D);
+				world.spawnParticle("portal",x+rand.nextFloat(),y+5F*rand.nextFloat(),z+rand.nextFloat(),0D,0D,0D);
 			}
 		}
 	}
