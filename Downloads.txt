@@ -1,1 +1,485 @@
-Test
+{
+  "Recommended": {
+    "1.7.10": {
+      "Release 1.8": {
+        "links": [
+          "cf 2232515"
+        ]
+      },
+      
+      "Beta 1.8.1": {
+        "links": [
+          "cf 2235243"
+        ]
+      }
+    }
+  },
+
+  "Old Versions": {
+    "1.7.10": {
+      "Release 1.7.1": {
+        "links": [
+          "cf 2228342"
+        ]
+      },
+      
+      "Release 1.7": {
+        "links": [
+          "cf 2228291"
+        ]
+      },
+      
+      "Release 1.6.7": {
+        "links": [
+          "admf c1vtihp24g51mpy/HEE_1.7.10_release-1.6.7.zip",
+          "mf c1vtihp24g51mpy/HEE_1.7.10_release-1.6.7.zip"
+        ]
+      },
+      
+      "Release 1.6.6": {
+        "links": [
+          "admf jobq5vldo3o5oaa/HEE_1.7.10_release-1.6.6.zip",
+          "mf jobq5vldo3o5oaa/HEE_1.7.10_release-1.6.6.zip"
+        ]
+      },
+      
+      "Release 1.6.5": {
+        "links": [
+          "admf 6aki10d0mfmsj3i/HEE_1.7.10_release-1.6.5.zip",
+          "mf 6aki10d0mfmsj3i/HEE_1.7.10_release-1.6.5.zip"
+        ]
+      },
+      
+      "Release 1.6.4": {
+        "links": [
+          "admf 19yjbri2lyrug3t/HEE_1.7.10_release-1.6.4.zip",
+          "mf 19yjbri2lyrug3t/HEE_1.7.10_release-1.6.4.zip"
+        ]
+      },
+      
+      "Release 1.6.3": {
+        "links": [
+          "admf pk66s3w1904q8f9/HEE_1.7.10_release-1.6.3.zip",
+          "mf pk66s3w1904q8f9/HEE_1.7.10_release-1.6.3.zip"
+        ]
+      },
+      
+      "Release 1.6.2": {
+        "links": [
+          "admf n88a6im6cvjjfr6/HEE_1.7.10_release-1.6.2.zip",
+          "mf n88a6im6cvjjfr6/HEE_1.7.10_release-1.6.2.zip"
+        ]
+      },
+      
+      "Beta 1.6.2": {
+        "links": [
+          "admf gvpb5ya597jsh13/HEE_1.7.10_pre-release-1.6.2.zip",
+          "mf gvpb5ya597jsh13/HEE_1.7.10_pre-release-1.6.2.zip"
+        ]
+      }
+    },
+    
+    "1.7.2": {
+      "Release 1.6.1": {
+        "links": [
+          "admf coh2ga33qwbh41e/HEE_1.7.2_release-1.6.1.zip",
+          "mf coh2ga33qwbh41e/HEE_1.7.2_release-1.6.1.zip"
+        ]
+      },
+      
+      "Release 1.6": {
+        "links": [
+          "admf y1oqm5cn5gd49je/HEE_1.7.2_release-1.6.zip",
+          "mf y1oqm5cn5gd49je/HEE_1.7.2_release-1.6.zip"
+        ]
+      },
+      
+      "Release 1.5a": {
+        "links": [
+          "admf i7s6bra8bjmschh/HEE_1.7.2_release-1.5a.zip",
+          "mf i7s6bra8bjmschh/HEE_1.7.2_release-1.5a.zip"
+        ]
+      },
+      
+      "Beta 1.5": {
+        "links": [
+          "admf rr5q8511cretnql/HEE_1.7.2_beta-1.5.zip",
+          "mf rr5q8511cretnql/HEE_1.7.2_beta-1.5.zip"
+        ]
+      }
+    },
+
+    "1.6.4": {
+      "Release 1.6.1": {
+        "links": [
+          "admf ock52265820530c/HEE_1.6.4_release-1.6.1.zip",
+          "mf ock52265820530c/HEE_1.6.4_release-1.6.1.zip"
+        ]
+      },
+      
+      "Release 1.6": {
+        "links": [
+          "admf yobl3eycmsweh7x/HEE_1.6.4_release-1.6.zip",
+          "mf yobl3eycmsweh7x/HEE_1.6.4_release-1.6.zip"
+        ]
+      },
+      
+      "Release 1.5a": {
+        "links": [
+          "admf 83mijmd3mpmpr64/HEE_1.6.4_release-1.5a.zip",
+          "mf 83mijmd3mpmpr64/HEE_1.6.4_release-1.5a.zip"
+        ]
+      },
+      
+      "Release 1.4.3": {
+        "links": [
+          "admf ks7uyussqkdkq7k/HEE_1.6.4_release-1.4.3.zip",
+          "mf ks7uyussqkdkq7k/HEE_1.6.4_release-1.4.3.zip"
+        ]
+      },
+      
+      "Release 1.4.2": {
+        "links": [
+          "admf yqjdvdrt2s1x78b/HEE_1.6.4_release-1.4.2.zip",
+          "mf yqjdvdrt2s1x78b/HEE_1.6.4_release-1.4.2.zip"
+        ]
+      },
+      
+      "Release 1.4.1": {
+        "links": [
+          "admf bllbsqse5tq3xr4/HEE_1.6.4_release-1.4.1.zip",
+          "mf bllbsqse5tq3xr4/HEE_1.6.4_release-1.4.1.zip"
+        ]
+      },
+      
+      "Release 1.4": {
+        "links": [
+          "admf 5ic2w6cevff6uob/HEE_1.6.4_release-1.4.zip",
+          "mf 5ic2w6cevff6uob/HEE_1.6.4_release-1.4.zip"
+        ]
+      },
+      
+      "Release 1.3.3": {
+        "links": [
+          "admf 12m382n6ect82fq/HEE_1.6.4_release-1.3.3.zip",
+          "mf 12m382n6ect82fq/HEE_1.6.4_release-1.3.3.zip"
+        ]
+      },
+      
+      "Release 1.3.2": {
+        "links": [
+          "admf a5o5cmf23l8q8cc/HEE_1.6.4_release-1.3.2.zip",
+          "mf a5o5cmf23l8q8cc/HEE_1.6.4_release-1.3.2.zip"
+        ]
+      },
+      
+      "Release 1.3.1": {
+        "links": [
+          "admf ktialamhxh2fvay/HEE_1.6.4_release-1.3.1.zip",
+          "mf ktialamhxh2fvay/HEE_1.6.4_release-1.3.1.zip"
+        ]
+      },
+      
+      "Release 1.3": {
+        "links": [
+          "admf wfugb8avrcyfvob/HEE_1.6.4_release-1.3.zip",
+          "mf wfugb8avrcyfvob/HEE_1.6.4_release-1.3.zip"
+        ]
+      },
+      
+      "Release 1.2.2": {
+        "links": [
+          "admf ao3pclo9zw9w4y9/HEE_1.6.4_release-1.2.2.zip",
+          "mf ao3pclo9zw9w4y9/HEE_1.6.4_release-1.2.2.zip"
+        ]
+      },
+      
+      "Release 1.2.1": {
+        "links": [
+          "admf y4685tybfg5p50w/HEE_1.6.4_release-1.2.1.zip",
+          "mf y4685tybfg5p50w/HEE_1.6.4_release-1.2.1.zip"
+        ]
+      },
+      
+      "Beta 1.2": {
+        "search": "Pre-release 1.2 (1.6.4)",
+        "links": [
+          "admf 77av6u748kiob35/HEE_1.6.4_pre-release-1.2.zip",
+          "mf 77av6u748kiob35/HEE_1.6.4_pre-release-1.2.zip"
+        ]
+      },
+      
+      "Release 1.1.2": {
+        "links": [
+          "admf 6x66uw80998n9ci/HEE_1.6.4_release-1.1.2.zip",
+          "mf 6x66uw80998n9ci/HEE_1.6.4_release-1.1.2.zip"
+        ]
+      },
+      
+      "Release 1.1.1": {
+        "links": [
+          "admf 3je46x62m2kyunc/HEE_1.6.4_release-1.1.1.zip",
+          "mf 3je46x62m2kyunc/HEE_1.6.4_release-1.1.1.zip"
+        ]
+      },
+      
+      "Release 1.1": {
+        "links": [
+          "admf ko7unhzj8qp5w93/HED_1.6.4_release-1.1.0.zip",
+          "mf ko7unhzj8qp5w93/HED_1.6.4_release-1.1.0.zip"
+        ]
+      },
+      
+      "Release 1.0.1": {
+        "links": [
+          "admf 6xw79s4ioveaam1/HED_1.6.4_release-1.0.1.zip",
+          "mf 6xw79s4ioveaam1/HED_1.6.4_release-1.0.1.zip"
+        ]
+      }
+    },
+
+    "1.6.2": {
+      "Release 1.0": {
+        "links": [
+          "admf 3oms4btbot6xkc1/HED_1.6.2_release-1.0.zip",
+          "mf 3oms4btbot6xkc1/HED_1.6.2_release-1.0.zip"
+        ]
+      },
+      
+      "Beta 2": {
+        "search": "Pre-release 2 (1.6.2)",
+        "links": [
+          "admf 0c44icuiv8bia07/HED_1.6.2_pre-release-2.zip",
+          "mf 0c44icuiv8bia07/HED_1.6.2_pre-release-2.zip"
+        ]
+      },
+      
+      "Beta 1": {
+        "search": "Pre-release 1 (1.6.2)",
+        "links": [
+          "admf 7kn8391a52c24ch/HED_1.6.2_pre-release-1.zip",
+          "mf 7kn8391a52c24ch/HED_1.6.2_pre-release-1.zip"
+        ]
+      }
+    }
+  },
+
+  "Old Beta Versions": {
+    "1.6.2": {
+      "Beta 12": {
+        "links": [
+          "admf 67xdm4um4cb2du9/HardcoreEnderdragon_1.6.2_beta12.zip",
+          "mf 67xdm4um4cb2du9/HardcoreEnderdragon_1.6.2_beta12.zip"
+        ]
+      }
+    },
+
+    "1.5.2": {
+      "Beta 11 (Client)": {
+        "search": "Beta 11 (1.5.2)",
+        "links": [
+          "admf 4cowjlb86c7fl94/HardcoreEnderdragon_1.5.2_beta11_SSP.zip",
+          "mf 4cowjlb86c7fl94/HardcoreEnderdragon_1.5.2_beta11_SSP.zip"
+        ]
+      },
+      
+      "Beta 11 (Server)": {
+        "search": "Beta 11 (1.5.2)",
+        "links": [
+          "admf 8bd6z603t4s09c5/HardcoreEnderdragon_1.5.2_beta11_SMP.zip",
+          "mf 8bd6z603t4s09c5/HardcoreEnderdragon_1.5.2_beta11_SMP.zip"
+        ]
+      }
+    },
+
+    "1.5.1": {
+      "Beta 10 (Client)": {
+        "search": "Beta 10 (1.5.1)",
+        "links": [
+          "admf 4cowjlb86c7fl94/HardcoreEnderdragon_1.5.2_beta11_SSP.zip",
+          "mf 4cowjlb86c7fl94/HardcoreEnderdragon_1.5.2_beta11_SSP.zip"
+        ]
+      },
+      
+      "Beta 10 (Server)": {
+        "search": "Beta 10 (1.5.1)",
+        "links": [
+          "admf 8bd6z603t4s09c5/HardcoreEnderdragon_1.5.2_beta11_SMP.zip",
+          "mf 8bd6z603t4s09c5/HardcoreEnderdragon_1.5.2_beta11_SMP.zip"
+        ]
+      }
+    },
+
+    "1.4.7": {
+      "Beta 9 (Client)": {
+        "search": "Beta 9 (1.4.7)",
+        "links": [
+          "admf 47um73u6b9fmxbb/HardcoreEnderdragon_1.4.7_beta9_SSP.zip",
+          "mf 47um73u6b9fmxbb/HardcoreEnderdragon_1.4.7_beta9_SSP.zip"
+        ]
+      },
+      
+      "Beta 9 (Server)": {
+        "search": "Beta 9 (1.4.7)",
+        "links": [
+          "admf to1ht6wistt2wsl/HardcoreEnderdragon_1.4.7_beta9_SMP.zip",
+          "mf to1ht6wistt2wsl/HardcoreEnderdragon_1.4.7_beta9_SMP.zip"
+        ]
+      }
+    },
+
+    "1.4.6": {
+      "Beta 8 (Client)": {
+        "search": "Beta 8 (1.4.6)",
+        "links": [
+          "admf zz8n6nnnyru749a/HardcoreEnderdragon_1.4.6_beta8_SSP.zip",
+          "mf zz8n6nnnyru749a/HardcoreEnderdragon_1.4.6_beta8_SSP.zip"
+        ]
+      },
+      
+      "Beta 8 (Server)": {
+        "search": "Beta 8 (1.4.6)",
+        "links": [
+          "admf 78jigw52a0nv61v/HardcoreEnderdragon_1.4.6_beta8_SMP.zip",
+          "mf 78jigw52a0nv61v/HardcoreEnderdragon_1.4.6_beta8_SMP.zip"
+        ]
+      }
+    },
+
+    "1.3.1": {
+      "Beta 7 (Client)": {
+        "search": "Beta 7 (1.3.1)",
+        "links": [
+          "admf a4npmm8jlv0d0ht/HardcoreEnderdragon_1.3.1_beta7_SSP.zip",
+          "mf a4npmm8jlv0d0ht/HardcoreEnderdragon_1.3.1_beta7_SSP.zip"
+        ]
+      }
+    },
+
+    "1.2.5": {
+      "Beta 6 (Client)": {
+        "search": "Beta 6 (1.2.5)",
+        "links": [
+          "admf rbstt8zb6ied5z3/HardcoreEnderdragon_1.2.5_beta6_SSP.zip",
+          "mf rbstt8zb6ied5z3/HardcoreEnderdragon_1.2.5_beta6_SSP.zip"
+        ]
+      },
+      
+      "Beta 6 (Server)": {
+        "search": "Beta 6 (1.2.5)",
+        "links": [
+          "admf y2voe2h141jmxgx/HardcoreEnderdragon_1.2.5_beta6_SMP.zip",
+          "mf y2voe2h141jmxgx/HardcoreEnderdragon_1.2.5_beta6_SMP.zip"
+        ]
+      },
+      
+      "Beta 6 (VC Server)": {
+        "search": "Beta 6 (1.2.5)",
+        "links": [
+          "admf 222l7dodo581v8z/HardcoreEnderdragon_1.2.5_beta6_SMP_C.zip",
+          "mf 222l7dodo581v8z/HardcoreEnderdragon_1.2.5_beta6_SMP_C.zip"
+        ]
+      },
+      
+      "Beta 5 (Client)": {
+        "search": "Beta 5 (1.2.5)",
+        "links": [
+          "admf 52o3vvdc84vhjzb/HardcoreEnd_beta5_1.2.5_SSP.zip",
+          "mf 52o3vvdc84vhjzb/HardcoreEnd_beta5_1.2.5_SSP.zip"
+        ]
+      },
+      
+      "Beta 5 (Server)": {
+        "search": "Beta 5 (1.2.5)",
+        "links": [
+          "admf qzqf0j1ddw700o4/HardcoreEnd_beta5_1.2.5_SMP.zip",
+          "mf qzqf0j1ddw700o4/HardcoreEnd_beta5_1.2.5_SMP.zip"
+        ]
+      },
+      
+      "Beta 5 (VC Server)": {
+        "search": "Beta 5 (1.2.5)",
+        "links": [
+          "admf quddg71y2368oyr/HardcoreEnd_beta5_1.2.5_SMP_C.zip",
+          "mf quddg71y2368oyr/HardcoreEnd_beta5_1.2.5_SMP_C.zip"
+        ]
+      },
+      
+      "Beta 4 (Client)": {
+        "search": "Beta 4 (1.2.5)",
+        "links": [
+          "admf 2cd9c6ed3cy6fj8/HardcoreEnd_beta4_1.2.5_SSP.zip",
+          "mf 2cd9c6ed3cy6fj8/HardcoreEnd_beta4_1.2.5_SSP.zip"
+        ]
+      },
+      
+      "Beta 4 (Server)": {
+        "search": "Beta 4 (1.2.5)",
+        "links": [
+          "admf u460vgtc44gyxcx/HardcoreEnd_beta4_1.2.5_SMP.zip",
+          "mf u460vgtc44gyxcx/HardcoreEnd_beta4_1.2.5_SMP.zip"
+        ]
+      },
+      
+      "Beta 4 (VC Server)": {
+        "search": "Beta 4 (1.2.5)",
+        "links": [
+          "admf pckolou4ool89yd/HardcoreEnd_beta4_1.2.5_SMP_C.zip",
+          "mf pckolou4ool89yd/HardcoreEnd_beta4_1.2.5_SMP_C.zip"
+        ]
+      },
+      
+      "Beta 3 (Client)": {
+        "search": "Beta 3 (1.2.5)",
+        "links": [
+          "admf 83zm8m3qvb3qipv/HardcoreEnd_beta3_1.2.5_SSP.zip",
+          "mf 83zm8m3qvb3qipv/HardcoreEnd_beta3_1.2.5_SSP.zip"
+        ]
+      },
+      
+      "Beta 3 (Server)": {
+        "search": "Beta 3 (1.2.5)",
+        "links": [
+          "admf wbms2220sescusf/HardcoreEnd_beta3_1.2.5_SMP.zip",
+          "mf wbms2220sescusf/HardcoreEnd_beta3_1.2.5_SMP.zip"
+        ]
+      },
+      
+      "Beta 3 (VC Server)": {
+        "search": "Beta 3 (1.2.5)",
+        "links": [
+          "admf tw6c7qziz0849j1/HardcoreEnd_beta3_1.2.5_SMP_C.zip",
+          "mf tw6c7qziz0849j1/HardcoreEnd_beta3_1.2.5_SMP_C.zip"
+        ]
+      },
+      
+      "Beta 2 (Client)": {
+        "search": "Beta 2 (1.2.5)",
+        "links": [
+          "admf xb5hbs3u7vao8hp/HardcoreEnd_beta2_1.2.5_SSP.zip",
+          "mf xb5hbs3u7vao8hp/HardcoreEnd_beta2_1.2.5_SSP.zip"
+        ]
+      }
+    },
+
+    "1.2.4": {
+      "Beta 1 (Client)": {
+        "search": "Beta 1 (1.2.4)",
+        "links": [
+          "admf x0hc3z3qyt5ppu2/HardcoreEnd_beta1_1.2.4_SSP.zip",
+          "mf x0hc3z3qyt5ppu2/HardcoreEnd_beta1_1.2.4_SSP.zip"
+        ]
+      }
+    },
+
+    "1.2.3": {
+      "Beta 1 (Client + Server)": {
+        "search": "First version (1.2.3)",
+        "links": [
+          "admf a8rijy8bj39capa/HardcoreEnd.rar",
+          "mf a8rijy8bj39capa/HardcoreEnd.rar"
+        ]
+      }
+    }
+  }
+}
