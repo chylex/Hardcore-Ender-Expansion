@@ -93,7 +93,8 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 		}
 		
 		if (distBlock < distEntity && mopBlock != null){
-			BlockMetaWrapper wrapper = new BlockMetaWrapper(BlockPosM.tmp(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ).getBlock(player.worldObj),BlockPosM.tmp(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ).getMetadata(player.worldObj));
+			BlockPosM tmpPos = BlockPosM.tmp(mopBlock.blockX,mopBlock.blockY,mopBlock.blockZ);
+			BlockMetaWrapper wrapper = new BlockMetaWrapper(tmpPos.getBlock(player.worldObj),tmpPos.getMetadata(player.worldObj));
 			observationReuse.setBlock(KnowledgeObject.<ObjectBlock>getObject(wrapper));
 		}
 		else if (tracedEntity != null){

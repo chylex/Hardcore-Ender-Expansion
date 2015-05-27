@@ -1,5 +1,4 @@
 package chylex.hee.block.vanilla;
-
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
