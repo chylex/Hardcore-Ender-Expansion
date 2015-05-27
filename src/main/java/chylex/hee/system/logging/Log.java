@@ -82,7 +82,7 @@ public final class Log{
 	/** Use $x where x is between 0 and data.length-1 to input variables. */
 	public static void reportedError(String message, Object...data){
 		logger.error(getMessage(message,data));
-		HardcoreEnderExpansion.notifications.report("["+dateFormat.format(Calendar.getInstance().getTime())+"] "+message+" Check the log for stack trace to report.");
+		HardcoreEnderExpansion.notifications.report("["+dateFormat.format(Calendar.getInstance().getTime())+"] "+getMessage(message,data)+" Check the log for stack trace to report.");
 	}
 
 	/** Use $x where x is between 0 and data.length-1 to input variables. */
@@ -90,7 +90,7 @@ public final class Log{
 		logger.catching(Level.ERROR,throwable);
 		logger.error(getMessage(message,data));
 		
-		if (lastLogReport == -1 || TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-lastLogReport) >= 10)HardcoreEnderExpansion.notifications.report("["+dateFormat.format(Calendar.getInstance().getTime())+"] "+message+" Check the log for stack trace to report.");
+		if (lastLogReport == -1 || TimeUnit.NANOSECONDS.toSeconds(System.nanoTime()-lastLogReport) >= 10)HardcoreEnderExpansion.notifications.report("["+dateFormat.format(Calendar.getInstance().getTime())+"] "+getMessage(message,data)+" Check the log for stack trace to report.");
 		lastLogReport = System.nanoTime();
 	}
 	
