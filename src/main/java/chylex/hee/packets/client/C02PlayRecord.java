@@ -6,6 +6,7 @@ import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityClientPlayerMP;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.ResourceLocation;
 import chylex.hee.item.ItemMusicDisk;
@@ -40,6 +41,11 @@ public class C02PlayRecord extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
+		if (!CustomMusicTicker.canPlayMusic()){
+			Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("notification.music"));
+			return;
+		}
+		
 		String[] recordData = ItemMusicDisk.getRecordData(diskDamage);
 		Minecraft mc = Minecraft.getMinecraft();
 

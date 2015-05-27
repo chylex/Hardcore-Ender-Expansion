@@ -18,6 +18,10 @@ public final class CustomMusicTicker extends MusicTicker{
 		return instance = new CustomMusicTicker(mc);
 	}
 	
+	public static boolean canPlayMusic(){
+		return instance != null;
+	}
+	
 	public static void stopMusicAndPlayJukebox(ISound music){
 		if (instance.currentMusic != null){
 			instance.mc.getSoundHandler().stopSound(instance.currentMusic);
@@ -60,7 +64,7 @@ public final class CustomMusicTicker extends MusicTicker{
 	@Override
 	public void update(){
 		if (playingCustomJukebox)updateCustomJukeboxMusic();
-		else if (mc.theWorld != null && mc.theWorld.provider.dimensionId == 1 && MusicManager.enableEndMusic)updateEndMusic();
+		else if (mc.theWorld != null && mc.theWorld.provider.dimensionId == 1 && MusicManager.enableCustomMusic)updateEndMusic();
 		else updateVanillaMusic();
 	}
 	

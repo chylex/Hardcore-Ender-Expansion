@@ -76,7 +76,7 @@ public final class ConfigHandler{
 		
 		if (firstTimeClient){
 			ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbaconMode",0,"0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
-			MusicManager.enableEndMusic = getBool("enableMusic",true,"Custom music playing in the End dimension.").setRequiresMcRestart(true).getBoolean();
+			MusicManager.enableCustomMusic = getBool("enableMusic",true,"Custom music playing in the End dimension and custom Music Discs.").setRequiresMcRestart(true).getBoolean();
 			MusicManager.removeVanillaDelay = getBool("removeVanillaDelay",false,"Removes long delays between vanilla music tracks.").setRequiresMcRestart(true).getBoolean();
 			firstTimeClient = false;
 		}

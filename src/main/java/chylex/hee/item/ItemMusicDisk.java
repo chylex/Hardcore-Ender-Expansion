@@ -52,7 +52,9 @@ public class ItemMusicDisk extends ItemRecord{
 
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (BlockPosM.tmp(x,y,z).checkBlock(world,Blocks.jukebox,0) && BlockPosM.tmp(x,y,z).getTileEntity(world) instanceof TileEntityJukebox){
+		TileEntityJukebox jukebox = (TileEntityJukebox)BlockPosM.tmp(x,y,z).getTileEntity(world);
+		
+		if (jukebox != null && jukebox.func_145856_a() == null){
 			if (world.isRemote)return true;
 
 			((BlockJukebox)Blocks.jukebox).func_149926_b(world,x,y,z,is);
@@ -74,13 +76,13 @@ public class ItemMusicDisk extends ItemRecord{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public String getRecordNameLocal(){
-		return "qwertygiy - ";
+		return "MUSIC DISC ERROR";
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){	
-		textLines.add(getRecordNameLocal()+musicNames.get(MathUtil.clamp(is.getItemDamage(),0,musicNames.size()-1))[0]);
+		textLines.add("qwertygiy - "+musicNames.get(MathUtil.clamp(is.getItemDamage(),0,musicNames.size()-1))[0]);
 	}
 	
 	@Override

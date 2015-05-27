@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public final class MusicManager{
-	public static boolean enableEndMusic = true;
+	public static boolean enableCustomMusic = true;
 	public static boolean removeVanillaDelay = false;
 	
 	public static void register(){
@@ -22,7 +22,7 @@ public final class MusicManager{
 	
 	@SubscribeEvent
 	public void onSoundLoad(SoundLoadEvent e){
-		if (hasLoaded || (!enableEndMusic && !removeVanillaDelay))return;
+		if (hasLoaded || (!enableCustomMusic && !removeVanillaDelay))return;
 		
 		Minecraft mc = Minecraft.getMinecraft();
 		
