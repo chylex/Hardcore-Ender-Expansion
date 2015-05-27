@@ -503,8 +503,8 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(242).setPrice(3).setUnlockRequirements(241),
 				new KnowledgeFragmentText(243).setPrice(5).setUnlockRequirements(241),
 				new KnowledgeFragmentText(244).setPrice(3).setUnlockRequirements(241).setUnlockCascade(167),
-				new KnowledgeFragmentCrafting(245).setCustomRecipe(new ItemStack(Items.dye,2,13),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,0) }).setPrice(2).setUnlockRequirements(240),
-				new KnowledgeFragmentCrafting(246).setCustomRecipe(new ItemStack(Items.dye,2,8),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,15) }).setPrice(2).setUnlockRequirements(243)
+				new KnowledgeFragmentCrafting(245).setRecipeFromRegistry(new ItemStack(Items.dye,2,13),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,0) }).setPrice(2).setUnlockRequirements(240),
+				new KnowledgeFragmentCrafting(246).setRecipeFromRegistry(new ItemStack(Items.dye,2,8),new ItemStack[]{ new ItemStack(BlockList.death_flower,1,15) }).setPrice(2).setUnlockRequirements(243)
 			}),
 			
 			ENDER_GOO.setPos(6,0).setUnlockPrice(8).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
@@ -946,7 +946,7 @@ public final class KnowledgeRegistrations{
 			
 			LILYFIRE.setPos(13,7).setUnlockPrice(4).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(580).setPrice(5).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(581).setCustomRecipe(new ItemStack(Items.dye,2,14),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire) }).setPrice(4).setUnlockRequirements(580)
+				new KnowledgeFragmentCrafting(581).setRecipeFromRegistry(new ItemStack(Items.dye,2,14),new ItemStack[]{ new ItemStack(BlockList.crossed_decoration,1,BlockCrossedDecoration.dataLilyFire) }).setPrice(4).setUnlockRequirements(580)
 			}),
 			
 			DUNGEON_PUZZLE.setPos(10,7).setUnlockPrice(15).setDiscoveryReward(25).addFragments(new KnowledgeFragment[]{

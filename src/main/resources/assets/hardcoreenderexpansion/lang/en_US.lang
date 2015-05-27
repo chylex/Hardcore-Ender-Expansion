@@ -288,6 +288,8 @@ compendium.smoothText.line1=Enable if you experience bad
 compendium.smoothText.line2=text scaling (experimental)
 compendium.smoothText.mode=Mode
 compendium.smoothText.disabled=Off
+compendium.crafting.changed=Recipe was modified by another mod
+compendium.crafting.removed=Recipe was removed by another mod
 
 key.openCompendium=Ender Compendium
 key.openCompendium.bacon=Bacon Compendium

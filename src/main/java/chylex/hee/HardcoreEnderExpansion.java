@@ -12,6 +12,7 @@ import chylex.hee.mechanics.RecipeList;
 import chylex.hee.mechanics.causatum.CausatumEvents;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.energy.EnergyEvents;
@@ -182,6 +183,7 @@ public class HardcoreEnderExpansion{
 		
 		try{
 			DimensionOverride.verifyIntegrity();
+			KnowledgeFragmentCrafting.verifyRecipes();
 			HeeIMC.runLoadComplete();
 			
 			UnitTester.trigger(RunTime.LOADCOMPLETE);
