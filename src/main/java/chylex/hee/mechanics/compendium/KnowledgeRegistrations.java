@@ -958,7 +958,8 @@ public final class KnowledgeRegistrations{
 			
 			FIERY_ESSENCE_ALTAR.setPos(5,9).setUnlockPrice(25).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(600).setPrice(10).setUnlockOnDiscovery(),
-				new KnowledgeFragmentText(601).setPrice(8).setUnlockRequirements(600)
+				new KnowledgeFragmentText(601).setPrice(8).setUnlockRequirements(600),
+				new KnowledgeFragmentText(602).setPrice(5).setUnlockRequirements(600)
 			}),
 			
 			FIERY_ESSENCE.setPos(5,7),

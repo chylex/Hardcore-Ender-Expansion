@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.essence.handler;
 import java.util.List;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFurnace;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -47,16 +48,31 @@ public class FieryEssenceHandler extends AltarActionHandler{
 			TileEntity tile = altar.getWorldObj().getTileEntity(xx,yy,zz);
 			drained = false;
 			
-			if (block == Blocks.lit_furnace || tile instanceof TileEntityFurnace){
+			if (block == Blocks.furnace || block == Blocks.lit_furnace || tile instanceof TileEntityFurnace){
 				TileEntityFurnace furnace = (TileEntityFurnace)tile;
 				
-				if (furnace != null && furnace.isBurning() && canFurnaceSmelt(furnace)){
+				if (furnace != null && canFurnaceSmelt(furnace)){
 					n = 1+Math.min(8,level>>6);
 					if (hasSpeedEnh)n = MathUtil.ceil(n*1.75D);
 					
 					for(int b = 0; b < n; b++){
 						if (furnace.furnaceCookTime < 199){
-							++furnace.furnaceCookTime;
+							boolean hasNoFuel = TileEntityFurnace.getItemBurnTime(furnace.getStackInSlot(1)) == 0 && furnace.furnaceBurnTime <= 100;
+							
+							if (hasNoFuel && !furnace.isBurning()){
+								if (block == Blocks.furnace)BlockFurnace.updateFurnaceBlockState(true,world,furnace.xCoord,furnace.yCoord,furnace.zCoord);
+								furnace.markDirty();
+								furnace.furnaceBurnTime = 100;
+								furnace.currentItemBurnTime = 1600;
+							}
+							
+							if (hasNoFuel && furnace.furnaceBurnTime < 100){
+								furnace.furnaceBurnTime = 100;
+								furnace.currentItemBurnTime = 1600;
+							}
+							
+							if (hasNoFuel && furnace.furnaceCookTime > 1 && furnace.furnaceCookTime < 197 && furnace.furnaceCookTime%3 == 0 && world.rand.nextInt(3) == 0)--furnace.furnaceCookTime;
+							if (!hasNoFuel)++furnace.furnaceCookTime;
 							
 							if (tryDrainEssence()){
 								drained = true;

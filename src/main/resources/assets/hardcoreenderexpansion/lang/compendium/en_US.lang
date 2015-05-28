@@ -409,6 +409,7 @@ ec.reg.903=When all blocks on the floor are lit, a fiery beam spawns in the midd
 
 ec.reg.600=Fiery Essence Altar converts $i:~essence/1 into heat to speed up Furnaces, Brewing Stands and other devices.
 ec.reg.601=More $i:~essence/1 causes faster distribution of heat, having 512 $i:~essence/1:Essence$ yields best speed.
+ec.reg.602=Furnace supported by the Altar can smelt without any fuel, it will however run a bit slower.
 
 ec.reg.610=Fiery creature that spawns in $d:BurningMountains:Burning Mountains$ (Scorching).
 ec.reg.611=It has both a ranged attack and a melee attack.
