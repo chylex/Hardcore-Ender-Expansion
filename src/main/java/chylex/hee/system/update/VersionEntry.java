@@ -15,7 +15,7 @@ final class VersionEntry implements Comparable<VersionEntry>{
 	public final String[] mcVersions;
 	public final String releaseDate;
 	public final int buildId;
-	private final Byte orderId;
+	private final byte orderId;
 	
 	VersionEntry(String versionIdentifier, JsonObject node){
 		this.versionIdentifier = versionIdentifier;
@@ -44,7 +44,7 @@ final class VersionEntry implements Comparable<VersionEntry>{
 			}
 		}
 		
-		orderId = Byte.valueOf(i);
+		orderId = i;
 		modVersionName = tmp;
 	}
 	
@@ -69,6 +69,16 @@ final class VersionEntry implements Comparable<VersionEntry>{
 
 	@Override
 	public int compareTo(VersionEntry o){
-		return o.orderId.compareTo(orderId);
+		return o.orderId-orderId;
+	}
+	
+	@Override
+	public int hashCode(){
+		return orderId;
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		return obj instanceof VersionEntry && ((VersionEntry)obj).orderId == orderId;
 	}
 }

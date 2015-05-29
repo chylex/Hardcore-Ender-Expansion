@@ -1,5 +1,4 @@
 package chylex.hee.system.update;
-import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -7,6 +6,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public final class UpdateNotificationManager{
 	public static boolean enableNotifications = true;
+	public static boolean enableNewerMC = false;
 	public static boolean enableBuildCheck = true;
 	
 	public static String mcVersions = "?";
@@ -26,7 +26,7 @@ public final class UpdateNotificationManager{
 			
 			if (lastNotificationTime == -1 || time-lastNotificationTime > 14400000){
 				lastNotificationTime = time;
-				new UpdateThread(HardcoreEnderExpansion.modVersion).start();
+				new UpdateThread().start();
 			}
 		}
 	}
@@ -34,7 +34,7 @@ public final class UpdateNotificationManager{
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
-			new UpdateThread(HardcoreEnderExpansion.modVersion).start();
+			new UpdateThread("https://dl.dropboxusercontent.com/u/17157118/update/hee_test.txt").start();
 		}
 	};
 }

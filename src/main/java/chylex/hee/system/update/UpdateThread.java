@@ -1,6 +1,4 @@
 package chylex.hee.system.update;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -11,20 +9,29 @@ import java.util.Map.Entry;
 import net.minecraft.command.CommandBase;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.common.MinecraftForge;
+import org.apache.commons.codec.Charsets;
+import org.apache.commons.io.IOUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.MathUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 class UpdateThread extends Thread{
-	private static final String url = "https://raw.githubusercontent.com/chylex/Hardcore-Ender-Expansion/master/UpdateNotificationDataV2.txt";
+	private static final String defaultUrl = "https://raw.githubusercontent.com/chylex/Hardcore-Ender-Expansion/master/UpdateNotificationDataV2.txt";
 	
+	private final String url;
 	private final String modVersion;
 	private final String mcVersion;
 	
-	UpdateThread(String modVersion){
-		this.modVersion = modVersion;
+	UpdateThread(){
+		this(defaultUrl);
+	}
+	
+	UpdateThread(String url){
+		this.url = url;
+		this.modVersion = HardcoreEnderExpansion.modVersion;
 		this.mcVersion = MinecraftForge.MC_VERSION;
 		setPriority(MIN_PRIORITY);
 		setDaemon(true);
@@ -33,20 +40,15 @@ class UpdateThread extends Thread{
 	@Override
 	public void run(){
 		try{
-			String line;
-			StringBuilder build = new StringBuilder();
+			// TODO 3 second delay
 			
-			BufferedReader read = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
-			while((line = read.readLine()) != null)build.append(line).append('\n');
-			read.close();
+			JsonElement root = new JsonParser().parse(IOUtils.toString(new URL(url),Charsets.UTF_8));
 			
-			JsonElement root = new JsonParser().parse(build.toString());
 			List<VersionEntry> versionList = new ArrayList<>();
 			VersionEntry currentVersion = null, newestVersion = null, newestVersionForCurrentMC = null;
 			int counter = -1, buildId = 0;
-			boolean isInDev = true;
 			
-			String downloadURL = "http://tinyurl.com/hc-ender-expansion";
+			String downloadURL = "http://hee.chylex.com/download";
 			
 			Log.debug("Detecting HEE updates...");
 			
@@ -72,7 +74,6 @@ class UpdateThread extends Thread{
 				}
 				
 				if (version.modVersion.equals(modVersion)){
-					isInDev = false;
 					buildId = version.buildId;
 					UpdateNotificationManager.refreshUpdateData(version);
 					currentVersion = version;
@@ -80,53 +81,51 @@ class UpdateThread extends Thread{
 				}
 			}
 			
-			if (isInDev){
+			if (currentVersion == null){
 				Log.debug("In-dev version used, notifications disabled.");
 				return;
 			}
 			else Log.debug("Done.");
 			
+			StringBuilder message = null;
+			
 			if (buildId != HardcoreEnderExpansion.buildId){
-				StringBuilder message = new StringBuilder()
+				message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
-					.append("\n Caution, you are using a broken build that can cause critical crashes! Please, redownload the mod, or update it if there is an update available.")
-					.append("\n\n ").append(EnumChatFormatting.GRAY).append(downloadURL);
-				
-				for(String s:message.toString().split("\n"))HardcoreEnderExpansion.notifications.report(s,true);
+					.append("\n Caution, you are using a broken build that can cause critical crashes! Please, ").append(counter == 0 ? "redownload" : "redownload or update").append(" the mod.");
 			}
 			else if (counter > 0 && UpdateNotificationManager.enableNotifications){
-				StringBuilder message = new StringBuilder()
+				message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
-					.append("\n Found a new version ").append(EnumChatFormatting.GREEN).append(newestVersionForCurrentMC.modVersionName).append(EnumChatFormatting.RESET)
-					.append(" for Minecraft ").append(mcVersion).append(", released ").append(newestVersionForCurrentMC.releaseDate)
-					.append(". You are currently ").append(counter).append(" version").append(counter == 1 ? "" : "s").append(" behind.");
+					.append("\n Found update ").append(EnumChatFormatting.YELLOW).append(newestVersionForCurrentMC.modVersionName).append(EnumChatFormatting.RESET)
+					.append(" for MC ").append(mcVersion).append(", released ").append(newestVersionForCurrentMC.releaseDate).append(".");
 				
-				if (counter > 1){
+				if (counter >= 1){
 					int days = DragonUtil.getDayDifference(Calendar.getInstance(),currentVersion.convertReleaseDate());
-					String add = "";
+					int months = MathUtil.floor((days+8D)/30D); // ~22 days rounds up to a full month
 					
-					if (days > 60)add = "The version you are using is over 2 months old and is no longer supported, please update as soon as possible.";
-					else if (days > 30)add = "The version you are using is over a month old, please update soon.";
+					if (months > 0)message.append(" Your version is ").append(months).append(months == 1 ? " month" : " months").append(" old, and you are ");
+					else message.append(" You are ");
 					
-					if (!add.isEmpty())message.append("\n ").append(EnumChatFormatting.RED).append(add.replace(" "," "+EnumChatFormatting.RED.toString()));
+					message.append(counter).append(counter == 1 ? " version behind." : " versions behind.");
 				}
 				
-				if (newestVersion != newestVersionForCurrentMC){
+				if (UpdateNotificationManager.enableNewerMC && newestVersion != newestVersionForCurrentMC){
 					message.append("\n\n There is also an update ").append(EnumChatFormatting.GREEN).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)
 						   .append(" for Minecraft ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append('.');
 				}
-				
-				message.append("\n\n ").append(EnumChatFormatting.GRAY).append(downloadURL);
-				
-				for(String s:message.toString().split("\n"))HardcoreEnderExpansion.notifications.report(s,true);
 			}
-			else if (newestVersion != newestVersionForCurrentMC && UpdateNotificationManager.enableNotifications){
-				StringBuilder message = new StringBuilder()
+			else if (UpdateNotificationManager.enableNewerMC && UpdateNotificationManager.enableNotifications && newestVersion != newestVersionForCurrentMC){
+				message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
 					.append("\n Found a new version ").append(EnumChatFormatting.GREEN).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)
 					.append(" for Minecraft ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append(", released ").append(newestVersion.releaseDate)
 					.append(".");
-				
+			}
+			
+			if (message != null){
+				message.append("\n ").append(EnumChatFormatting.GOLD).append("Click to Download: ").append(downloadURL);
+				message.append("\n ").append(EnumChatFormatting.GOLD).append("Notification Settings Command: ").append(EnumChatFormatting.RESET).append("/hee");
 				for(String s:message.toString().split("\n"))HardcoreEnderExpansion.notifications.report(s,true);
 			}
 		}
