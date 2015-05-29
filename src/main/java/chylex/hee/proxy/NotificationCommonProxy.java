@@ -5,7 +5,7 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
-import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.ForgeHooks;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -34,7 +34,7 @@ public class NotificationCommonProxy{
 	}
 	
 	protected final void deliverNotificationsToPlayer(EntityPlayer player){
-		for(String notification:notifications)player.addChatMessage(new ChatComponentText(notification));
+		for(String notification:notifications)player.addChatMessage(ForgeHooks.newChatWithLinks(notification));
 	}
 	
 	protected final void clearNotifications(){
