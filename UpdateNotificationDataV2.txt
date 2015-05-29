@@ -1,5 +1,5 @@
 {
-  "~URL": "http://hee.chylex.com",
+  "~URL": "http://hee.chylex.com/download",
   
    "28 - 1.8": {
     "modVersion": "1.8",
