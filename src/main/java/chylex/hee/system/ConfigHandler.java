@@ -92,9 +92,11 @@ public final class ConfigHandler{
 	private void loadNotificationConfig(){
 		currentCategory = "notifications";
 		
-		UpdateNotificationManager.enableNotifications = getBool("enableUpdateNotifications", true, "Notifies users about new updates. The notifications can be customized with other options. Due to occasional misconceptions: the notifications have no effect on the game performance.").getBoolean();
-		UpdateNotificationManager.enableNewerMC = getBool("enableNewerMC", false, "Checks whether a new version for newer Minecraft is available.").getBoolean();
-		UpdateNotificationManager.enableBuildCheck = getBool("enableBuildCheck", true, "It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.").getBoolean();
+		UpdateNotificationManager.enableNotifications = getBoolValue("enableUpdateNotifications", true, "Notifies users about new updates. The notifications can be customized with other options. Due to occasional misconceptions: the notifications have no effect on the game performance.");
+		UpdateNotificationManager.enableNewerMC = getBoolValue("enableNewerMC", false, "Checks whether a new version for newer Minecraft is available.");
+		UpdateNotificationManager.enableBuildCheck = getBoolValue("enableBuildCheck", true, "It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.");
+		
+		if (config.hasChanged())config.save();
 	}
 	
 	private void loadGeneralConfig(){
@@ -114,7 +116,7 @@ public final class ConfigHandler{
 			StardustDecomposition.addFromString(getString("decompositionBlacklist", "", "Blacklist of items that should not be decomposable or decomposed into. Visit http://hee.chylex.com/config for syntax and examples.").setRequiresMcRestart(true).getString());
 			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");
 			
-			String[] imcs = getStringArray("IMC", new String[]{ "Write your message here" }, "").setShowInGui(false).getStringList();
+			String[] imcs = getStringArray("IMC", new String[]{ "Write your message here" }, "List of IMC/API messages, documentation can be found on http://hee-api.chylex.com").setShowInGui(false).getStringList();
 			
 			if (!(imcs.length == 1 && (imcs[0].isEmpty() || imcs[0].equals("Write your message here")))){
 				for(String imc:imcs)HeeIMC.acceptString("HEE Configuration File",imc);
