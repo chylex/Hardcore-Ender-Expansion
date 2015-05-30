@@ -70,7 +70,7 @@ public final class BlockList{
 	public static Block laboratory_obsidian;
 	public static Block laboratory_floor;
 	public static Block laboratory_stairs;
-	public static Block sacred_stone;
+	// TODO SANCTUARY public static Block sacred_stone;
 	
 	// ORES
 	
@@ -117,8 +117,8 @@ public final class BlockList{
 	public static Block custom_spawner;
 	public static Block temple_end_portal;
 	public static Block biome_core;
-	public static Block sanctuary_brain;
-	public static Block sanctuary_barrier;
+	// TODO SANCTUARY public static Block sanctuary_brain;
+	// TODO SANCTUARY public static Block sanctuary_barrier;
 	public static Block special_effects;
 	
 	// LOAD
@@ -143,7 +143,7 @@ public final class BlockList{
 		register("laboratory_obsidian", laboratory_obsidian = new BlockBasic(Material.rock).setHardness(40F).setResistance(500F).setStepSound(Block.soundTypeStone).setBlockName("laboratoryObsidian").setBlockTextureName("hardcoreenderexpansion:laboratory_obsidian"));
 		register("laboratory_floor", laboratory_floor = new BlockBasic(Material.rock).setHardness(30F).setResistance(100F).setStepSound(Block.soundTypeStone).setBlockName("laboratoryFloor").setBlockTextureName("hardcoreenderexpansion:laboratory_floor"));
 		register("laboratory_stairs", laboratory_stairs = new BlockBasicStairs(laboratory_floor,0).setHardness(20F).setResistance(80F).setStepSound(Block.soundTypeStone).setBlockName("laboratoryStairs"));
-		register("sacred_stone", sacred_stone = new BlockSacredStone().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal).setBlockName("sacredStone").setBlockTextureName("hardcoreenderexpansion:sacred_stone"));
+		// TODO SANCTUARY register("sacred_stone", sacred_stone = new BlockSacredStone().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal).setBlockName("sacredStone").setBlockTextureName("hardcoreenderexpansion:sacred_stone"));
 		
 		register("end_powder_ore", end_powder_ore = new BlockEndPowderOre().setHardness(3F).setResistance(12F).setStepSound(Block.soundTypeStone).setBlockName("endPowderOre").setBlockTextureName("hardcoreenderexpansion:end_powder_ore"));
 		register("endium_ore", endium_ore = new BlockEndiumOre().setHardness(18F).setResistance(100F).setStepSound(Block.soundTypeStone).setBlockName("endiumOre").setBlockTextureName("hardcoreenderexpansion:endium_ore"));
@@ -180,8 +180,8 @@ public final class BlockList{
 		register("custom_spawner", custom_spawner = new BlockCustomSpawner().setHardness(5F).setStepSound(Block.soundTypeMetal).setBlockName("mobSpawner").setBlockTextureName("mob_spawner"));
 		register("temple_end_portal", temple_end_portal = new BlockTempleEndPortal().setBlockUnbreakable().setResistance(6000000F).setBlockName("templeEndPortal"));
 		register("biome_core", biome_core = new BlockBiomeIslandCore().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeStone).setBlockName("biomeIslandCore").setBlockTextureName("bedrock"));
-		register("sanctuary_brain", sanctuary_brain = new BlockSanctuaryBrain().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeStone).setBlockName("sanctuaryBrain").setBlockTextureName("bedrock"));
-		register("sanctuary_barrier", sanctuary_barrier = new BlockBasic(Material.rock).setBlockUnbreakable().setResistance(6000000F).setBlockName("sanctuaryBarrier").setBlockTextureName("hardcoreenderexpansion:sacred_stone_1"));
+		// TODO SANCTUARY register("sanctuary_brain", sanctuary_brain = new BlockSanctuaryBrain().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeStone).setBlockName("sanctuaryBrain").setBlockTextureName("bedrock"));
+		// TODO SANCTUARY register("sanctuary_barrier", sanctuary_barrier = new BlockBasic(Material.rock).setBlockUnbreakable().setResistance(6000000F).setBlockName("sanctuaryBarrier").setBlockTextureName("hardcoreenderexpansion:sacred_stone_1"));
 		register("block_special_effects", special_effects = new BlockSpecialEffects());
 		
 		setItemClass("obsidian_special", ItemBlockWithSubtypes.class);
@@ -216,7 +216,7 @@ public final class BlockList{
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,
 			dungeon_puzzle,cinder,persegrit,laboratory_obsidian,laboratory_floor,laboratory_stairs,laboratory_glass,
-			sacred_stone,crossed_decoration,death_flower
+			/* TODO SANCTUARY sacred_stone,*/crossed_decoration,death_flower
 		);
 		
 		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.addBlocks(special_effects);
@@ -265,7 +265,7 @@ public final class BlockList{
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
 		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
 		GameRegistryUtil.registerTileEntity(TileEntityTransportBeacon.class, "TransportBeacon");
-		GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
+		// TODO SANCTUARY GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
 	}
 	
 	private BlockList(){} // static class

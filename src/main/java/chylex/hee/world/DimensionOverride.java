@@ -15,8 +15,6 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.StructureIsland;
-import chylex.hee.world.structure.sanctuary.ComponentSanctuary;
-import chylex.hee.world.structure.sanctuary.StructureSanctuary;
 import chylex.hee.world.structure.tower.ComponentTower;
 import chylex.hee.world.structure.tower.StructureTower;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -32,8 +30,8 @@ public final class DimensionOverride{
 		MapGenStructureIO.func_143031_a(ComponentTower.class,"hardcoreenderdragon_EndTowerC"); // OBFUSCATED register structure component
 		MapGenStructureIO.registerStructure(StructureIsland.class,"hardcoreenderdragon_EndIsland");
 		MapGenStructureIO.func_143031_a(ComponentIsland.class,"hardcoreenderdragon_EndIslandC");
-		MapGenStructureIO.registerStructure(StructureSanctuary.class,"hee_EndSanctuary");
-		MapGenStructureIO.func_143031_a(ComponentSanctuary.class,"hee_EndSanctuaryC");
+		// TODO SANCTUARY MapGenStructureIO.registerStructure(StructureSanctuary.class,"hee_EndSanctuary");
+		// TODO SANCTUARY MapGenStructureIO.func_143031_a(ComponentSanctuary.class,"hee_EndSanctuaryC");
 		
 		if (BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.register(new DimensionOverride());
 		

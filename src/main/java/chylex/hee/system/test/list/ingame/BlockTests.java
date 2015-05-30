@@ -23,7 +23,6 @@ import net.minecraftforge.common.DimensionManager;
 import chylex.hee.block.BlockDragonEggCustom;
 import chylex.hee.block.BlockObsidianEnd;
 import chylex.hee.block.BlockRavagedBrick;
-import chylex.hee.block.BlockSacredStone;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
@@ -111,7 +110,7 @@ public class BlockTests{
 		setMove(BlockList.laboratory_floor);
 		for(int a = 0; a < 4; a++)setMove(BlockList.laboratory_stairs,a);
 		for(int a = 0; a < 4; a++)setMove(BlockList.laboratory_stairs,4+a);
-		for(int a = 0; a < BlockSacredStone.metaAmount; a++)setMove(BlockList.sacred_stone,a);
+		// TODO SANCTUARY for(int a = 0; a < BlockSacredStone.metaAmount; a++)setMove(BlockList.sacred_stone,a);
 		setMove(BlockList.sphalerite,0);
 		setMove(BlockList.endium_block);
 		setMove(BlockList.laboratory_glass);

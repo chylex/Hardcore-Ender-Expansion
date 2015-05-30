@@ -1,22 +1,12 @@
 package chylex.hee.world.structure.sanctuary;
 import java.util.Random;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import chylex.hee.block.BlockSacredStone;
-import chylex.hee.init.BlockList;
-import chylex.hee.system.logging.Log;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.WorldGenSavefile;
 import chylex.hee.system.savedata.types.WorldGenSavefile.WorldGenElement;
-import chylex.hee.system.util.CycleProtection;
-import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntitySanctuaryBrain;
 import chylex.hee.world.structure.ComponentLargeStructureWorld;
-import chylex.hee.world.structure.sanctuary.data.SanctuaryConquerPointGen;
-import chylex.hee.world.structure.sanctuary.data.SanctuaryMazeGen;
-import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 
 public class ComponentSanctuary extends ComponentLargeStructureWorld implements ITileEntityGenerator{
@@ -31,10 +21,10 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		super(rand,x,128,z,112,128,112);
 		WorldDataHandler.<WorldGenSavefile>get(WorldGenSavefile.class).addElementAt(getStartX()>>4,getStartZ()>>4,WorldGenElement.INSIDIOUS_SANCTUARY);
 	}
-	
+	// TODO SANCTUARY 
 	@Override
-	protected int setupStructure(long seed){
-		brainNBT = new NBTTagCompound();
+	protected int setupStructure(long seed){return 0;
+		/*brainNBT = new NBTTagCompound();
 		Random rand = new Random(((getStartX()/10)*52260739421L+(getStartZ()/10)*704913L)^seed);
 		
 		int roomsX = 0, roomsZ = 0;
@@ -210,7 +200,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		structure.setBlock(tlX+2+roomWidth,bottom+1+floorHeight,tlZ+2+roomDepth,BlockList.sanctuary_brain);
 		structure.setTileEntityGenerator(tlX+2+roomWidth,bottom+1+floorHeight,tlZ+2+roomDepth,"Brain",this);
 		
-		return bottomY;
+		return bottomY;*/
 	}
 	
 	@Override

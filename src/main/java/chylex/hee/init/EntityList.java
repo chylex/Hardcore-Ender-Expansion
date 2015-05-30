@@ -1,11 +1,29 @@
 package chylex.hee.init;
-import chylex.hee.entity.block.*;
-import chylex.hee.entity.boss.*;
-import chylex.hee.entity.item.*;
+import chylex.hee.entity.block.EntityBlockEnderCrystal;
+import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
+import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
+import chylex.hee.entity.block.EntityBlockFallingObsidian;
+import chylex.hee.entity.block.EntityBlockHomelandCache;
+import chylex.hee.entity.block.EntityBlockTempleDragonEgg;
+import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.entity.boss.EntityBossEnderDemon;
+import chylex.hee.entity.boss.EntityMiniBossEnderEye;
+import chylex.hee.entity.boss.EntityMiniBossFireFiend;
+import chylex.hee.entity.item.EntityItemAltar;
+import chylex.hee.entity.item.EntityItemDragonEgg;
+import chylex.hee.entity.item.EntityItemEndPowder;
+import chylex.hee.entity.item.EntityItemIgneousRock;
+import chylex.hee.entity.item.EntityItemInstabilityOrb;
 import chylex.hee.entity.mob.*;
 import chylex.hee.entity.projectile.*;
-import chylex.hee.entity.technical.*;
-import chylex.hee.entity.weather.*;
+import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
+import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
+import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
+import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
+import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
+import chylex.hee.entity.technical.EntityTechnicalVoidChest;
+import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
+import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.system.util.GameRegistryUtil;
 
 public final class EntityList{
@@ -31,7 +49,7 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityMobScorchingLens.class, "ScorchedLens", 15, 256);
 		GameRegistryUtil.registerEntity(EntityMobHauntedMiner.class, "HauntedMiner", 35, 256);
 		GameRegistryUtil.registerEntity(EntityMobEndermage.class, "Endermage", 41, 256);
-		GameRegistryUtil.registerEntity(EntityMobSanctuaryOverseer.class, "SanctuaryOverseer", 53, 256);
+		// TODO SANCTUARY GameRegistryUtil.registerEntity(EntityMobSanctuaryOverseer.class, "SanctuaryOverseer", 53, 256);
 
 		GameRegistryUtil.registerEntity(EntityBlockFallingDragonEgg.class, "FallingDragonEgg", 25, 128);
 		GameRegistryUtil.registerEntity(EntityBlockFallingObsidian.class, "FallingObsidian", 26, 128);

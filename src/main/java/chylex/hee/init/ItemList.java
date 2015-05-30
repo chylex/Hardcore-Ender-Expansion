@@ -62,7 +62,7 @@ public final class ItemList{
 	public static Item obsidian_rod;
 	public static Item auricion;
 	public static Item energy_wand_core;
-	public static Item sacred_wand_cores;
+	// TODO SANCTUARY public static Item sacred_wand_cores;
 	
 	// FUNCTIONAL ITEMS
 	
@@ -82,7 +82,7 @@ public final class ItemList{
 	public static Item charm;
 	public static Item scorching_pickaxe;
 	public static Item energy_wand;
-	public static Item sacred_wand;
+	// TODO SANCTUARY public static Item sacred_wand;
 	
 	// WORLD
 	
@@ -123,7 +123,7 @@ public final class ItemList{
 		register("obsidian_rod", obsidian_rod = new Item().setUnlocalizedName("obsidianRod").setTextureName("hardcoreenderexpansion:obsidian_rod"));
 		register("auricion", auricion = new Item().setUnlocalizedName("auricion").setTextureName("hardcoreenderexpansion:auricion"));
 		register("energy_wand_core", energy_wand_core = new Item().setUnlocalizedName("energyWandCore").setTextureName("hardcoreenderexpansion:energy_wand_core"));
-		register("sacred_wand_cores", sacred_wand_cores = new ItemSacredWandCores().setUnlocalizedName("sacredWandCores"));
+		// TODO SANCTUARY register("sacred_wand_cores", sacred_wand_cores = new ItemSacredWandCores().setUnlocalizedName("sacredWandCores"));
 		
 		register("enhanced_brewing_stand", enhanced_brewing_stand = new ItemBlockEnhancedBrewingStand().setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
 		register("enhanced_ender_pearl", enhanced_ender_pearl = new ItemEnhancedEnderPearl().setCreativeTab(null).setUnlocalizedName("enderPearl").setTextureName("ender_pearl"));
@@ -141,7 +141,7 @@ public final class ItemList{
 		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
 		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe"));
 		register("energy_wand", energy_wand = new ItemEnergyWand().setMaxStackSize(1).setUnlocalizedName("energyWand").setTextureName("hardcoreenderexpansion:energy_wand"));
-		register("sacred_wand", sacred_wand = new ItemSacredWand().setMaxStackSize(1).setMaxDamage(860).setNoRepair().setUnlocalizedName("sacredWand").setTextureName("hardcoreenderexpansion:sacred_wand"));
+		// TODO SANCTUARY register("sacred_wand", sacred_wand = new ItemSacredWand().setMaxStackSize(1).setMaxDamage(860).setNoRepair().setUnlocalizedName("sacredWand").setTextureName("hardcoreenderexpansion:sacred_wand"));
 		
 		register("enderman_head", enderman_head = new ItemEndermanHead().setUnlocalizedName("endermanHead").setTextureName("hardcoreenderexpansion:enderman_head"));
 		register("bucket_ender_goo", bucket_ender_goo = new ItemBucket(BlockList.ender_goo).setUnlocalizedName("bucketEnderGoo").setTextureName("hardcoreenderexpansion:bucket_ender_goo"));
@@ -165,7 +165,7 @@ public final class ItemList{
 			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,curse_amulet,
 			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_wand,
 			enderman_head,bucket_ender_goo,knowledge_note,
-			sacred_wand,sacred_wand_cores,
+			// TODO SANCTUARY sacred_wand,sacred_wand_cores,
 			music_disk,exp_bottle,spawn_eggs
 		);
 		

@@ -2,7 +2,6 @@ package chylex.hee.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -14,7 +13,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.entity.mob.EntityMobSanctuaryOverseer;
-import chylex.hee.init.BlockList;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -149,8 +147,8 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		}
 		
 		private void updateBarriers(boolean block){
-			BlockPosM tmpPos = BlockPosM.tmp();
-			
+			// TODO SANCTUARY BlockPosM tmpPos = BlockPosM.tmp();
+			/*
 			for(int y = point1.y; y <= point2.y; y++){
 				for(int side = 0; side < 2; side++){
 					for(int x = Math.min(point1.x,point2.x), z = side == 0 ? Math.min(point1.z,point2.z)-1 : Math.max(point1.z,point2.z)+1; x <= Math.max(point1.x,point2.x); x++){
@@ -169,7 +167,7 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 						worldObj.playAuxSFX(x,y,z,2001,Block.getIdFromBlock(BlockList.sanctuary_barrier));
 					}
 				}
-			}
+			}*/
 		}
 		
 		NBTTagCompound writeToNBT(){
