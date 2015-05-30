@@ -93,6 +93,7 @@ public final class ConfigHandler{
 		currentCategory = "notifications";
 		
 		UpdateNotificationManager.enableNotifications = getBoolValue("enableUpdateNotifications", true, "Notifies users about new updates. The notifications can be customized with other options. Due to occasional misconceptions: the notifications have no effect on the game performance.");
+		UpdateNotificationManager.enableOneReportPerUpdate = getBoolValue("enableOneReportPerUpdate", false, "Each update only shows a single report.");
 		UpdateNotificationManager.enableNewerMC = getBoolValue("enableNewerMC", false, "Checks whether a new version for newer Minecraft is available.");
 		UpdateNotificationManager.enableBuildCheck = getBoolValue("enableBuildCheck", true, "It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.");
 		

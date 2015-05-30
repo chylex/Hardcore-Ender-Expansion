@@ -87,14 +87,20 @@ class UpdateThread extends Thread{
 			}
 			else Log.debug("Done.");
 			
+			UpdateSavefile saveFile = new UpdateSavefile();
+			saveFile.newestModVersion = counter > 0 ? newestVersionForCurrentMC.versionIdentifier : newestVersion.versionIdentifier;
+			saveFile.lastCheckTime = Calendar.getInstance().getTimeInMillis();
+			saveFile.save();
+			
 			StringBuilder message = null;
+			boolean notifications = UpdateNotificationManager.enableNotifications;
 			
 			if (buildId != HardcoreEnderExpansion.buildId){
 				message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
 					.append("\n Caution, you are using a broken build that can cause critical crashes! Please, ").append(counter == 0 ? "redownload" : "redownload or update").append(" the mod.");
 			}
-			else if (counter > 0 && UpdateNotificationManager.enableNotifications){
+			else if (counter > 0 && notifications && (!UpdateNotificationManager.enableOneReportPerUpdate || !newestVersionForCurrentMC.versionIdentifier.equals(saveFile.newestModVersion))){
 				message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
 					.append("\n Found update ").append(EnumChatFormatting.YELLOW).append(newestVersionForCurrentMC.modVersionName).append(EnumChatFormatting.RESET)
@@ -115,7 +121,7 @@ class UpdateThread extends Thread{
 						   .append(" for Minecraft ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append('.');
 				}
 			}
-			else if (UpdateNotificationManager.enableNewerMC && UpdateNotificationManager.enableNotifications && newestVersion != newestVersionForCurrentMC){
+			else if (UpdateNotificationManager.enableNewerMC && notifications && newestVersion != newestVersionForCurrentMC && (!UpdateNotificationManager.enableOneReportPerUpdate || !newestVersion.versionIdentifier.equals(saveFile.newestModVersion))){
 				message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
 					.append("\n Found a new version ").append(EnumChatFormatting.GREEN).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)

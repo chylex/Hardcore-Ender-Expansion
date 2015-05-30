@@ -6,6 +6,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public final class UpdateNotificationManager{
 	public static boolean enableNotifications = true;
+	public static boolean enableOneReportPerUpdate = false;
 	public static boolean enableNewerMC = false;
 	public static boolean enableBuildCheck = true;
 	
@@ -17,14 +18,21 @@ public final class UpdateNotificationManager{
 		releaseDate = version.releaseDate;
 	}
 	
+	private UpdateSavefile saveFile;
 	private long lastNotificationTime = -1;
+	
+	public UpdateNotificationManager(){
+		UpdateSavefile.prepare();
+		saveFile = new UpdateSavefile();
+		saveFile.load();
+	}
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent e){
 		if (enableNotifications || enableBuildCheck){
 			long time = System.currentTimeMillis();
 			
-			if (lastNotificationTime == -1 || time-lastNotificationTime > 14400000){
+			if (lastNotificationTime == -1 || time-lastNotificationTime > 43200000){
 				lastNotificationTime = time;
 				new UpdateThread().start();
 			}
