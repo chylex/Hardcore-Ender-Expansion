@@ -1,5 +1,12 @@
 {
   "~URL": "http://hee.chylex.com/download",
+
+  "29 - 1.8.1": {
+    "modVersion": "1.8.1",
+    "mcVersions": [ "1.7.10" ],
+    "buildId": 3095150,
+    "releaseDate": "30 May 2015"
+  },
   
    "28 - 1.8": {
     "modVersion": "1.8",

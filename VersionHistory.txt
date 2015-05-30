@@ -1,4 +1,31 @@
 ==================
+Release 1.8.1 (1.7.10)
+30 May 2015
+------------------
+[b]Important[/b]
+See Beta 1.8.1 changelog for original update information
+
+[b]Additions[/b]
+New IMC message to blacklist mod integration
+Partial support for modified recipes (the Compendium will try to find the recipe and update the display)
+
+[b]Changes[/b]
+Large update notification improvements - shorter text, less annoying, customizable using /hee command
+Fiery Essence Altar can now smelt in Furnaces even without fuel
+Increased Extraction Table capacity
+Removed code for old world data compatibility, if you have not ignored updates for half a year don't worry about it
+Brewing with Redstone in Enhanced Brewing Stand is now cheaper
+Explosions that are not caused by mobs no longer check the mobGriefing rule
+
+[b]Bugfixes[/b]
+Fixed Enhanced TNT duplication and ghost bugs
+Custom Music Discs should now play in most modded Jukeboxes
+Fixed Jukebox crash when custom music is disabled
+Fixed Altar particle effects
+Work around AM2 crashes
+
+
+==================
 Beta 1.8.1 (1.7.10)
 24 April 2015
 ------------------
