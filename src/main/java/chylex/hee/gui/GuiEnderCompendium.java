@@ -167,7 +167,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				}
 			}
 			
-			HardcoreEnderExpansion.proxy.loadConfiguration();
+			HardcoreEnderExpansion.proxy.loadConfiguration(); // does not reload, just saves changes
 		}
 		
 		if (button.id == 3 || button.id == 4)updatePurchaseElements();
