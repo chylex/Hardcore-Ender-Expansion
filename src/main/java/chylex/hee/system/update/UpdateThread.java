@@ -40,7 +40,7 @@ class UpdateThread extends Thread{
 	@Override
 	public void run(){
 		try{
-			// TODO 3 second delay
+			Thread.sleep(3333L);
 			
 			JsonElement root = new JsonParser().parse(IOUtils.toString(new URL(url),Charsets.UTF_8));
 			

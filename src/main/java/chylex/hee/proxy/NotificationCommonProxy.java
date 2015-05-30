@@ -6,6 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraftforge.common.ForgeHooks;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C09SimpleEvent;
+import chylex.hee.packets.client.C09SimpleEvent.EventType;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -60,6 +63,7 @@ public class NotificationCommonProxy{
 		if (MinecraftServer.getServer().getConfigurationManager().func_152596_g(player.getGameProfile())){
 			deliverNotificationsToPlayer(player);
 			clearNotifications();
+			PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.CHECK_UPDATES));
 		}
 	}
 }

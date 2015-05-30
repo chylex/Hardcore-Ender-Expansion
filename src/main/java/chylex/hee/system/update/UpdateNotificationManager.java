@@ -2,8 +2,6 @@ package chylex.hee.system.update;
 import java.util.Calendar;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import com.google.common.base.Joiner;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public final class UpdateNotificationManager{
 	public static boolean enableNotifications = true;
@@ -21,18 +19,17 @@ public final class UpdateNotificationManager{
 		releaseDate = version.releaseDate;
 	}
 	
-	private UpdateSavefile saveFile;
+	private static UpdateSavefile saveFile;
 	
-	public UpdateNotificationManager(){
-		UpdateSavefile.prepare();
-		saveFile = new UpdateSavefile();
-		saveFile.load();
-		lastCheckedMod = saveFile.newestModVersion;
-	}
-	
-	@SubscribeEvent
-	public void onPlayerLogin(PlayerLoggedInEvent e){
+	public static void tryRunUpdateCheck(){
 		if (enableNotifications || enableBuildCheck){
+			if (saveFile == null){
+				UpdateSavefile.prepare();
+				saveFile = new UpdateSavefile();
+				saveFile.load();
+				lastCheckedMod = saveFile.newestModVersion;
+			}
+			
 			long time = Calendar.getInstance().getTimeInMillis();
 			
 			if (time-saveFile.lastCheckTime > 86400000L){
