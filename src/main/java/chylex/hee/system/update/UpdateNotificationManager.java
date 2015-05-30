@@ -1,4 +1,5 @@
 package chylex.hee.system.update;
+import java.util.Calendar;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -10,6 +11,8 @@ public final class UpdateNotificationManager{
 	public static boolean enableNewerMC = false;
 	public static boolean enableBuildCheck = true;
 	
+	public static String lastCheckedMod;
+	
 	public static String mcVersions = "?";
 	public static String releaseDate = "?";
 	
@@ -19,21 +22,21 @@ public final class UpdateNotificationManager{
 	}
 	
 	private UpdateSavefile saveFile;
-	private long lastNotificationTime = -1;
 	
 	public UpdateNotificationManager(){
 		UpdateSavefile.prepare();
 		saveFile = new UpdateSavefile();
 		saveFile.load();
+		lastCheckedMod = saveFile.newestModVersion;
 	}
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent e){
 		if (enableNotifications || enableBuildCheck){
-			long time = System.currentTimeMillis();
+			long time = Calendar.getInstance().getTimeInMillis();
 			
-			if (lastNotificationTime == -1 || time-lastNotificationTime > 43200000){
-				lastNotificationTime = time;
+			if (time-saveFile.lastCheckTime > 86400000L){
+				saveFile.lastCheckTime = time;
 				new UpdateThread().start();
 			}
 		}

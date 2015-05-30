@@ -94,39 +94,43 @@ class UpdateThread extends Thread{
 			
 			StringBuilder message = null;
 			boolean notifications = UpdateNotificationManager.enableNotifications;
+			String prevMod = UpdateNotificationManager.lastCheckedMod;
 			
-			if (buildId != HardcoreEnderExpansion.buildId){
+			if (buildId != HardcoreEnderExpansion.buildId && UpdateNotificationManager.enableBuildCheck){
 				message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
 					.append("\n Caution, you are using a broken build that can cause critical crashes! Please, ").append(counter == 0 ? "redownload" : "redownload or update").append(" the mod.");
 			}
-			else if (counter > 0 && notifications && (!UpdateNotificationManager.enableOneReportPerUpdate || !newestVersionForCurrentMC.versionIdentifier.equals(saveFile.newestModVersion))){
-				message = new StringBuilder()
-					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
-					.append("\n Found update ").append(EnumChatFormatting.YELLOW).append(newestVersionForCurrentMC.modVersionName).append(EnumChatFormatting.RESET)
-					.append(" for MC ").append(mcVersion).append(", released ").append(newestVersionForCurrentMC.releaseDate).append(".");
-				
-				if (counter >= 1){
-					int days = DragonUtil.getDayDifference(Calendar.getInstance(),currentVersion.convertReleaseDate());
-					int months = MathUtil.floor((days+8D)/30D); // ~22 days rounds up to a full month
+			else if (counter > 0 && notifications){
+				if (!UpdateNotificationManager.enableOneReportPerUpdate || !newestVersionForCurrentMC.versionIdentifier.equals(prevMod)){
+					message = new StringBuilder()
+						.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
+						.append("\n Found update ").append(EnumChatFormatting.YELLOW).append(newestVersionForCurrentMC.modVersionName).append(EnumChatFormatting.RESET)
+						.append(" for ").append(EnumChatFormatting.YELLOW).append("MC ").append(mcVersion).append(EnumChatFormatting.RESET)
+						.append(", released ").append(newestVersionForCurrentMC.releaseDate).append(".");
 					
-					if (months > 0)message.append(" Your version is ").append(months).append(months == 1 ? " month" : " months").append(" old, and you are ");
-					else message.append(" You are ");
+					if (counter >= 1){
+						int days = DragonUtil.getDayDifference(Calendar.getInstance(),currentVersion.convertReleaseDate());
+						int months = MathUtil.floor((days+8D)/30D); // ~22 days rounds up to a full month
+						
+						if (months > 0)message.append(" Your version is ").append(months).append(months == 1 ? " month" : " months").append(" old, and you are ");
+						else message.append(" You are ");
+						
+						message.append(counter).append(counter == 1 ? " version behind." : " versions behind.");
+					}
 					
-					message.append(counter).append(counter == 1 ? " version behind." : " versions behind.");
-				}
-				
-				if (UpdateNotificationManager.enableNewerMC && newestVersion != newestVersionForCurrentMC){
-					message.append("\n\n There is also an update ").append(EnumChatFormatting.GREEN).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)
-						   .append(" for Minecraft ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append('.');
+					if (UpdateNotificationManager.enableNewerMC && newestVersion != newestVersionForCurrentMC){
+						message.append(" Also found update ").append(EnumChatFormatting.YELLOW).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)
+							   .append(" for ").append(EnumChatFormatting.YELLOW).append("MC ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append(EnumChatFormatting.RESET).append('.');
+					}
 				}
 			}
-			else if (UpdateNotificationManager.enableNewerMC && notifications && newestVersion != newestVersionForCurrentMC && (!UpdateNotificationManager.enableOneReportPerUpdate || !newestVersion.versionIdentifier.equals(saveFile.newestModVersion))){
+			else if (UpdateNotificationManager.enableNewerMC && notifications && newestVersion != newestVersionForCurrentMC && (!UpdateNotificationManager.enableOneReportPerUpdate || !newestVersion.versionIdentifier.equals(prevMod))){
 				message = new StringBuilder()
 					.append(EnumChatFormatting.LIGHT_PURPLE).append(" [Hardcore Ender Expansion ").append(modVersion).append("]").append(EnumChatFormatting.RESET)
-					.append("\n Found a new version ").append(EnumChatFormatting.GREEN).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)
-					.append(" for Minecraft ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append(", released ").append(newestVersion.releaseDate)
-					.append(".");
+					.append("\n Found update ").append(EnumChatFormatting.YELLOW).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)
+					.append(" for ").append(EnumChatFormatting.YELLOW).append("MC ").append(CommandBase.joinNiceString(newestVersion.mcVersions)).append(EnumChatFormatting.RESET)
+					.append(", released ").append(newestVersion.releaseDate).append(".");
 			}
 			
 			if (message != null){

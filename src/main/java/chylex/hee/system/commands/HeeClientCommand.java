@@ -20,6 +20,16 @@ public class HeeClientCommand extends BaseCommand{
 	}
 	
 	@Override
+	public int getRequiredPermissionLevel(){
+		return 0;
+	}
+	
+	@Override
+	public boolean canCommandSenderUseCommand(ICommandSender sender){
+		return true;
+	}
+	
+	@Override
 	public void processCommand(ICommandSender sender, String[] args){
 		if (args.length == 2 && (args[1].equalsIgnoreCase("enable") || args[1].equalsIgnoreCase("disable"))){
 			String prop = null;
@@ -36,27 +46,27 @@ public class HeeClientCommand extends BaseCommand{
 					if (element.getName().equals(prop) && element.isProperty()){
 						element.set(args[1].equalsIgnoreCase("enable"));
 						found = true;
-						sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+"[HEE] "+EnumChatFormatting.RESET+"Configuration updated.");
+						sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+" [HEE] "+EnumChatFormatting.RESET+"Configuration updated.");
 						break;
 					}
 				}
 				
 				if (found)HardcoreEnderExpansion.proxy.loadConfiguration(); // does not reload, just saves changes
-				else sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+"[HEE] "+EnumChatFormatting.RESET+"Could not find property "+prop+", please report this error.");
+				else sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+" [HEE] "+EnumChatFormatting.RESET+"Could not find property "+prop+", please report this error.");
 				
 				return;
 			}
 		}
 		
-		sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+"[Hardcore Ender Expansion] client notifications");
-		sendMessage(sender,"/hee global <enable|disable>  "+getOnOff(UpdateNotificationManager.enableNotifications));
-		sendMessage(sender,EnumChatFormatting.GRAY+"Setting for all update notifications.");
-		sendMessage(sender,"/hee oncePerUpdate <enable|disable>  "+getOnOff(UpdateNotificationManager.enableOneReportPerUpdate));
-		sendMessage(sender,EnumChatFormatting.GRAY+"Each update is reported just once.");
-		sendMessage(sender,"/hee checkMC <enable|disable>  "+getOnOff(UpdateNotificationManager.enableNewerMC));
-		sendMessage(sender,EnumChatFormatting.GRAY+"Check updates for newer versions of Minecraft.");
-		sendMessage(sender,"/hee brokenBuild <enable|disable>  "+getOnOff(UpdateNotificationManager.enableBuildCheck));
-		sendMessage(sender,EnumChatFormatting.GRAY+"Broken build notifications (keep enabled if possible).");
+		sendMessage(sender,EnumChatFormatting.LIGHT_PURPLE+" [Hardcore Ender Expansion] client notifications");
+		sendMessage(sender," /hee global <enable|disable>  "+getOnOff(UpdateNotificationManager.enableNotifications));
+		sendMessage(sender,EnumChatFormatting.GRAY+"  Setting for all update notifications.");
+		sendMessage(sender," /hee oncePerUpdate <enable|disable>  "+getOnOff(UpdateNotificationManager.enableOneReportPerUpdate));
+		sendMessage(sender,EnumChatFormatting.GRAY+"  Each update is reported just once.");
+		sendMessage(sender," /hee checkMC <enable|disable>  "+getOnOff(UpdateNotificationManager.enableNewerMC));
+		sendMessage(sender,EnumChatFormatting.GRAY+"  Check updates for newer versions of Minecraft.");
+		sendMessage(sender," /hee brokenBuild <enable|disable>  "+getOnOff(UpdateNotificationManager.enableBuildCheck));
+		sendMessage(sender,EnumChatFormatting.GRAY+"  Broken build notifications (keep enabled if possible).");
 	}
 	
 	private String getOnOff(boolean state){
