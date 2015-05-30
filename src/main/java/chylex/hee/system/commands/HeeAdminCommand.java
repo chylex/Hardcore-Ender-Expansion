@@ -32,7 +32,7 @@ import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
-public class HeeAdminCommand extends HeeCommand{
+public class HeeAdminCommand extends BaseCommand{
 	private static final String pre = DARK_PURPLE+"[HEE] "+RESET;
 	
 	private List<SubCommand> sub = new ArrayList<>();

@@ -17,7 +17,7 @@ import chylex.hee.system.test.data.RunTime;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
 
-public class HeeDebugCommand extends HeeCommand{
+public class HeeDebugCommand extends BaseCommand{
 	public static float overrideWingSpeed = 1F;
 	
 	public HeeDebugCommand(){

@@ -4,10 +4,10 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 import chylex.hee.mechanics.misc.Baconizer;
 
-abstract class HeeCommand extends CommandBase{
+abstract class BaseCommand extends CommandBase{
 	private final String cmdName;
 	
-	HeeCommand(String cmdName){
+	BaseCommand(String cmdName){
 		this.cmdName = cmdName;
 	}
 	
