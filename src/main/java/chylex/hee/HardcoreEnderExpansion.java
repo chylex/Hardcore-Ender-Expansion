@@ -40,7 +40,6 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.test.UnitTester;
 import chylex.hee.system.test.data.RunTime;
-import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.world.DimensionOverride;
 import chylex.hee.world.loot.WorldLoot;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -123,7 +122,6 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("PreInitEvent - events");
 		
 		MinecraftForge.EVENT_BUS.register(new MiscEvents());
-		FMLCommonHandler.instance().bus().register(new UpdateNotificationManager());
 		PlayerDataHandler.register();
 		CompendiumEvents.register();
 		CharmPouchHandler.register();

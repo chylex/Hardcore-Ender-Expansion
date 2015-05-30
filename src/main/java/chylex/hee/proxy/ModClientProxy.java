@@ -47,8 +47,10 @@ import chylex.hee.render.weather.*;
 import chylex.hee.sound.MusicManager;
 import chylex.hee.system.ConfigHandler;
 import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.system.commands.HeeClientCommand;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
@@ -57,6 +59,7 @@ import chylex.hee.tileentity.TileEntityTransportBeacon;
 import chylex.hee.tileentity.TileEntityVoidChest;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class ModClientProxy extends ModCommonProxy{
 	public static final Random seedableRand = new Random();
@@ -169,6 +172,9 @@ public class ModClientProxy extends ModCommonProxy{
 		CharmPouchHandlerClient.register();
 		MusicManager.register();
 		FXEvents.register();
+		HeeClientCommand.register();
+
+		FMLCommonHandler.instance().bus().register(new UpdateNotificationManager());
 		
 		AchievementManager.ENDER_COMPENDIUM.setStatStringFormatter(new IStatStringFormat(){
 			@Override
