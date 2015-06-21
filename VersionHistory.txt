@@ -103,7 +103,7 @@ Removed Essence Altar sockets in favor of new enhancements (the socket blocks ca
 [b]Bugfixes[/b]
 Fixed Dragon Egg not working correctly in modded recipes
 Fixed a bug in Dragon achievement savefile, which caused people to not get achievements if the Dragon unloaded
-Haunted Miner would could logs, glass and other smeltable blocks as ores
+Haunted Miner would count logs, glass and other smeltable blocks as ores
 Blocks and items in Ender Compendium would render above other elements
 Burning Mountains will not keep spawning mobs when you get into very large altitudes
 Fixed a certain combination of TNT Enhancements to cause explosions which would not destroy the TNT, and cause client desync
