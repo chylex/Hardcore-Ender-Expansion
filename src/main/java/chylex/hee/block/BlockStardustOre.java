@@ -69,7 +69,7 @@ public class BlockStardustOre extends BlockAbstractOre{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return iconArray[iconIndexes[side][meta]];
+		return iconArray[iconIndexes[side][Math.max(0,meta-1)]];
 	}
 	
 	@Override
