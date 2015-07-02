@@ -1,6 +1,13 @@
 package chylex.hee.entity.mob;
+import java.util.ArrayList;
+
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -66,5 +73,48 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 	@Override
 	public String getCommandSenderName(){
 		return ModCommonProxy.hardcoreEnderbacon ? StatCollector.translateToLocal("entity.enderman.bacon.name") : super.getCommandSenderName();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void onUpdate()
+	{
+		// TODO Auto-generated method stub
+		super.onUpdate();
+		
+		
+		if(worldObj.getTotalWorldTime()%20==0){
+			if (worldObj.isRemote)return;
+			if(isDead)return;
+			
+			int distanceXZ = 20;
+			int distanceY = 7; 
+			
+			ArrayList<EntityLivingBase> entitesInRange = (ArrayList<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,
+					AxisAlignedBB.getBoundingBox(posX - distanceXZ, posY - distanceY, posZ - distanceXZ, 
+					posX + distanceXZ, posY + distanceY, posZ + distanceXZ));
+			
+			for(EntityLivingBase entity:entitesInRange){
+				
+				if(entity.isDead)continue;
+				if(!(entity instanceof EntityMob )|| entity instanceof EntityMobEnderman)continue;
+				if(entity.getActivePotionEffects().size() > 0)continue;
+			
+				switch(rand.nextInt(4)){
+					case 0:
+						entity.addPotionEffect(new PotionEffect(Potion.damageBoost.id,8));
+						break;
+					case 1:
+						entity.addPotionEffect(new PotionEffect(Potion.regeneration.id,8));
+						break;
+					case 2:
+						entity.addPotionEffect(new PotionEffect(Potion.moveSpeed.id,8));
+						break;
+					case 3:
+						entity.addPotionEffect(new PotionEffect(Potion.resistance.id,8));
+						break;
+				}
+			}
+		}
 	}
 }
