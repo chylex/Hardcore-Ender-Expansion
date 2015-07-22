@@ -3,7 +3,6 @@ import java.util.HashSet;
 import java.util.Set;
 import chylex.hee.system.integration.handlers.ArsMagicaFixIntegration;
 import chylex.hee.system.integration.handlers.MineFactoryReloadedIntegration;
-import chylex.hee.system.integration.handlers.NotEnoughItemsIntegration;
 import chylex.hee.system.integration.handlers.ThaumcraftIntegration;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
@@ -16,7 +15,6 @@ public final class ModIntegrationManager{
 		Stopwatch.time("ModIntegrationManager - integrateMods");
 		
 		Class[] handlerClasses = new Class[]{
-			NotEnoughItemsIntegration.class,
 			ThaumcraftIntegration.class,
 			MineFactoryReloadedIntegration.class,
 			ArsMagicaFixIntegration.class
