@@ -1,16 +1,16 @@
-buildscript {
-    repositories {
+buildscript{
+    repositories{
         mavenCentral()
-        maven {
+        maven{
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
+        maven{
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
-    dependencies {
+    dependencies{
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
 }
@@ -19,17 +19,17 @@ apply plugin: 'forge'
 
 version = ""
 group = "chylex.hee.HardcoreEnderExpansion"
-archivesBaseName = "HardcoreEnderExpansion  MC-1.7.10  v1.8.2"
+archivesBaseName = "HardcoreEnderExpansion  MC-1.7.10  v2.0-dev"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-minecraft {
-    version = "1.7.10-10.13.3.1408-1.7.10"
+minecraft{
+    version = "1.7.10-10.13.4.1492-1.7.10"
     runDir = "eclipse"
 }
 
-processResources {
+processResources{
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
@@ -43,8 +43,8 @@ processResources {
     }
 }
 
-jar {
-    manifest {
+jar{
+    manifest{
         attributes 'FMLAT': 'hee_at.cfg'
     }
 }
