@@ -9,8 +9,4 @@ public class TargetSetEvent{
 		this.oldTarget = oldTarget;
 		this.newTarget = newTarget;
 	}
-	
-	public void cancel(){
-		newTarget = oldTarget;
-	}
 }

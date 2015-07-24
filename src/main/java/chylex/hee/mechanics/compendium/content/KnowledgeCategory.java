@@ -6,8 +6,6 @@ import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import com.google.common.collect.ImmutableList;
 
 public class KnowledgeCategory{
-	public static final byte iconSize = 44;
-	
 	private final String tooltip;
 	private final ItemStack showcaseItem;
 	private final List<KnowledgeObject> objectList = new ArrayList<>();

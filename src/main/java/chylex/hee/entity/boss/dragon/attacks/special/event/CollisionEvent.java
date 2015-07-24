@@ -11,8 +11,4 @@ public class CollisionEvent{
 		this.velocityY = velocityY;
 		this.velocityZ = velocityZ;
 	}
-	
-	public void cancel(){
-		velocityX = velocityY = velocityZ = 0D;
-	}
 }
