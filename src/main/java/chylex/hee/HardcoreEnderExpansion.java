@@ -18,7 +18,6 @@ import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.energy.EnergyEvents;
 import chylex.hee.mechanics.misc.PlayerDataHandler;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons;
-import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.mechanics.voidchest.VoidChestEvents;
@@ -128,7 +127,6 @@ public class HardcoreEnderExpansion{
 		WorldDataHandler.register();
 		VoidChestEvents.register();
 		EnergyEvents.register();
-		TempleEvents.register();
 		CurseEvents.register();
 		CausatumEvents.register();
 		PlayerTransportBeacons.register();

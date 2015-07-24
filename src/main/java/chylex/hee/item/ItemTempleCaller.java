@@ -9,16 +9,12 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C09SimpleEvent;
-import chylex.hee.packets.client.C09SimpleEvent.EventType;
 import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
-import chylex.hee.world.feature.TempleGenerator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
+public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{ // TODO do something with this? probably remove later
 	public static boolean isEnabled = true;
 	public static int templeX, templeZ = 0, templeY = 246;
 	
@@ -62,8 +58,8 @@ public class ItemTempleCaller extends ItemAbstractEnergyAcceptor{
 		else if (player.posY < templeY){
 			if (!player.capabilities.isCreativeMode)--is.stackSize;
 			
-			PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.BEGIN_TEMPLE_SMOKE));
-			new TempleGenerator(world).spawnTemple(templeX,templeY,templeZ);
+			//PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.BEGIN_TEMPLE_SMOKE));
+			//new TempleGenerator(world).spawnTemple(templeX,templeY,templeZ);
 			player.setLocationAndAngles(templeX+1.5D,templeY+1,templeZ+6.5D,-90F,0F);
 			player.setPositionAndUpdate(templeX+1.5D,templeY+1,templeZ+6.5D);
 			WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setPlayerIsInTemple(player,true);

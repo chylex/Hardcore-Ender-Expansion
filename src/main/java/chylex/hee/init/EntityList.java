@@ -4,7 +4,6 @@ import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
 import chylex.hee.entity.block.EntityBlockFallingObsidian;
 import chylex.hee.entity.block.EntityBlockHomelandCache;
-import chylex.hee.entity.block.EntityBlockTempleDragonEgg;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
@@ -53,7 +52,6 @@ public final class EntityList{
 
 		GameRegistryUtil.registerEntity(EntityBlockFallingDragonEgg.class, "FallingDragonEgg", 25, 128);
 		GameRegistryUtil.registerEntity(EntityBlockFallingObsidian.class, "FallingObsidian", 26, 128);
-		GameRegistryUtil.registerEntity(EntityBlockTempleDragonEgg.class, "TempleEgg", 7, 420);
 		GameRegistryUtil.registerEntity(EntityBlockEnhancedTNTPrimed.class, "EnhancedTNT", 31, 128);
 		GameRegistryUtil.registerEntity(EntityBlockHomelandCache.class, "BlockHomelandCache", 50, 256);
 

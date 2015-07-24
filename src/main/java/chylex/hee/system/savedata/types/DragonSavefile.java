@@ -13,7 +13,6 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.util.Constants.NBT;
-import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.savedata.WorldSavefile;
 import chylex.hee.system.util.BlockPosM;
 
@@ -24,8 +23,6 @@ public class DragonSavefile extends WorldSavefile{
 	private ChunkCoordIntPair lastDragonChunk = new ChunkCoordIntPair(0,0);
 	private boolean isDragonDead;
 	private int dragonDeathCount;
-	private boolean preventTempleDestruction;
-	private boolean shouldDestroyEnd;
 	
 	public DragonSavefile(){
 		super("server.nbt");
@@ -98,24 +95,6 @@ public class DragonSavefile extends WorldSavefile{
 		setModified();
 	}
 	
-	public void setPreventTempleDestruction(boolean preventTempleDestruction){
-		this.preventTempleDestruction = preventTempleDestruction;
-		setModified();
-	}
-	
-	public boolean shouldPreventTempleDestruction(){
-		return preventTempleDestruction;
-	}
-	
-	public void setDestroyEnd(boolean should){
-		this.shouldDestroyEnd = should;
-		setModified();
-	}
-
-	public boolean shouldDestroyEnd(){
-		return shouldDestroyEnd;
-	}
-	
 	public BlockPosM getPortalEggLocation(){
 		return portalEggLocation;
 	}
@@ -124,8 +103,6 @@ public class DragonSavefile extends WorldSavefile{
 	protected void onSave(NBTTagCompound nbt){
 		nbt.setShort("dragonDeaths",(short)dragonDeathCount);
 		nbt.setBoolean("dragonDead",isDragonDead);
-		nbt.setBoolean("noTempleDestruct",preventTempleDestruction);
-		nbt.setBoolean("destroyEnd",shouldDestroyEnd);
 		nbt.setLong("portalCoords",portalEggLocation.toLong());
 		nbt.setIntArray("lastChunk",new int[]{ lastDragonChunk.chunkXPos, lastDragonChunk.chunkZPos });
 		
@@ -145,8 +122,6 @@ public class DragonSavefile extends WorldSavefile{
 	protected void onLoad(NBTTagCompound nbt){
 		dragonDeathCount = nbt.getShort("dragonDeaths");
 		isDragonDead = nbt.getBoolean("dragonDead");
-		preventTempleDestruction = nbt.getBoolean("noTempleDestruct");
-		if ((shouldDestroyEnd = nbt.getBoolean("destroyEnd")) == true)TempleEvents.destroyWorld();
 		
 		portalEggLocation = BlockPosM.fromNBT(nbt,"portalCoords");
 		

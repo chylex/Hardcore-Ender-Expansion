@@ -1,7 +1,5 @@
 package chylex.hee.block.override;
 import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDragonEgg;
 import net.minecraft.block.BlockFalling;
@@ -16,7 +14,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
-import chylex.hee.entity.block.EntityBlockTempleDragonEgg;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
@@ -33,20 +30,6 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
 		fallIfPossible(world,x,y,z);
-	}
-	
-	@Override
-	public void onBlockAdded(World world, int x, int y, int z){
-		if (x == 9 && z == 6 && y == 249 && world.provider.dimensionId == 1 && !world.isRemote){
-			DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
-			Set<UUID> playersInTemple = save.getPlayersInTemple();
-			
-			if (!playersInTemple.isEmpty()){
-				save.setPreventTempleDestruction(true);
-				world.spawnEntityInWorld(new EntityBlockTempleDragonEgg(world,x+0.5D,y+0.5D,z+0.5D));
-			}
-		}
-		else super.onBlockAdded(world,x,y,z);
 	}
 
 	private void fallIfPossible(World world, int x, int y, int z){

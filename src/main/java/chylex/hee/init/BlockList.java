@@ -117,7 +117,6 @@ public final class BlockList{
 	public static Block death_flower_pot;
 	public static Block laser_beam;
 	public static Block custom_spawner;
-	public static Block temple_end_portal;
 	public static Block biome_core;
 	// TODO SANCTUARY public static Block sanctuary_brain;
 	// TODO SANCTUARY public static Block sanctuary_barrier;
@@ -180,7 +179,6 @@ public final class BlockList{
 		register("death_flower_pot", death_flower_pot = new BlockDeathFlowerPot().setHardness(0F).setStepSound(Block.soundTypeStone).setBlockName("flowerPot").setBlockTextureName("flower_pot"));
 		register("laser_beam", laser_beam = new BlockLaserBeam().setBlockUnbreakable().setLightLevel(1F).setResistance(6000000F).setBlockName("laserBeam").setBlockTextureName("hardcoreenderexpansion:laser_beam"));
 		register("custom_spawner", custom_spawner = new BlockCustomSpawner().setHardness(5F).setStepSound(Block.soundTypeMetal).setBlockName("mobSpawner").setBlockTextureName("mob_spawner"));
-		register("temple_end_portal", temple_end_portal = new BlockTempleEndPortal().setBlockUnbreakable().setResistance(6000000F).setBlockName("templeEndPortal"));
 		register("biome_core", biome_core = new BlockBiomeIslandCore().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeStone).setBlockName("biomeIslandCore").setBlockTextureName("bedrock"));
 		// TODO SANCTUARY register("sanctuary_brain", sanctuary_brain = new BlockSanctuaryBrain().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeStone).setBlockName("sanctuaryBrain").setBlockTextureName("bedrock"));
 		// TODO SANCTUARY register("sanctuary_barrier", sanctuary_barrier = new BlockBasic(Material.rock).setBlockUnbreakable().setResistance(6000000F).setBlockName("sanctuaryBarrier").setBlockTextureName("hardcoreenderexpansion:sacred_stone_1"));
