@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -76,11 +77,8 @@ public abstract class CustomSpawnerLogic extends MobSpawnerBaseLogic{
 		World world = getSpawnerWorld();
 		
 		if (world.isRemote){
-			double particleX = getSpawnerX()+world.rand.nextFloat();
-			double particleY = getSpawnerY()+world.rand.nextFloat();
-			double particleZ = getSpawnerZ()+world.rand.nextFloat();
-			world.spawnParticle("smoke",particleX,particleY,particleZ,0D,0D,0D);
-			world.spawnParticle("flame",particleX,particleY,particleZ,0D,0D,0D);
+			FXHelper.create("smoke").pos(getSpawnerX(),getSpawnerY(),getSpawnerZ()).spawn(world.rand,1);
+			FXHelper.create("flame").pos(getSpawnerX(),getSpawnerY(),getSpawnerZ()).spawn(world.rand,1);
 
 			if (spawnDelay > 0)--spawnDelay;
 

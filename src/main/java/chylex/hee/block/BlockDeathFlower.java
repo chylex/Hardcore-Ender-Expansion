@@ -15,6 +15,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
@@ -141,7 +142,7 @@ public class BlockDeathFlower extends BlockFlower{
 				world.playAuxSFX(2005,x,y,z,0);
 			}
 			
-			for(int a = 0; a < 3; a++)world.spawnParticle("portal",x+world.rand.nextFloat(),y+world.rand.nextFloat(),z+world.rand.nextFloat(),0D,0D,0D);
+			FXHelper.create("portal").pos(x,y,z,0.5D).spawn(world.rand,3);
 		}
 		
 		return true;

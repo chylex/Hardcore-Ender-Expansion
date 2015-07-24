@@ -15,6 +15,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.material.MaterialDungeonPuzzle;
+import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
@@ -183,7 +184,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	@Override
 	public boolean onBlockEventReceived(World world, int x, int y, int z, int eventID, int eventData){
 		if (eventID == 69){
-			for(int a = 0; a < (eventData == 0 ? 3 : 25); a++)world.spawnParticle("flame",x+world.rand.nextDouble(),y+(eventData == 0 ? 1.15D : 1D+world.rand.nextDouble()*2D),z+world.rand.nextDouble(),(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D,(world.rand.nextDouble()-0.5D)*0.1D);
+			FXHelper.create("flame").pos(x+0.5D,y+(eventData == 0 ? 1.15D : 1D+world.rand.nextDouble()*2D),z+0.5D).posRand(0.5D,0D,0.5D).motionRand(0.05D).spawn(world.rand,eventData == 0 ? 3 : 25);
 			world.playSoundEffect(x+0.5D,y+0.5D,z+0.5D,"random.fizz",0.5F,2.6F+(world.rand.nextFloat()-world.rand.nextFloat())*0.8F);
 			return true;
 		}

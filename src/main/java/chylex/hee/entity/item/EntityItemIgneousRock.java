@@ -14,6 +14,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockDungeonPuzzle;
+import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.init.BlockList;
@@ -123,7 +124,7 @@ public class EntityItemIgneousRock extends EntityItem{
 		}
 		
 		if (rand.nextInt(30) == 0){
-			for(int a = 0; a < 2; a++)worldObj.spawnParticle("lava",posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0D,0D);
+			FXHelper.create("lava").pos(this,0.1F).spawn(rand,2);
 		}
 	}
 	

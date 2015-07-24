@@ -35,7 +35,7 @@ public class EntityProjectileMinerShot extends EntityFireball{
 			super.onUpdate();
 			
 			if (worldObj.isRemote){
-				for(int a = 0; a < 5; a++)worldObj.spawnParticle("mobSpell",posX+(rand.nextDouble()-0.5D)*0.15D,posY+(rand.nextDouble()-0.5D)*0.15D,posZ+(rand.nextDouble()-0.5D)*0.15D,0.9D,0.6D,0D);
+				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.global("spell",posX+(rand.nextDouble()-0.5D)*0.15D,posY+(rand.nextDouble()-0.5D)*0.15D,posZ+(rand.nextDouble()-0.5D)*0.15D,0.9D,0.6D,0D);
 				if (rand.nextBoolean())HardcoreEnderExpansion.fx.flame(posX+(rand.nextDouble()-0.5D)*0.15D,posY+0.2D,posZ+(rand.nextDouble()-0.5D)*0.15D,10);
 			}
 		}

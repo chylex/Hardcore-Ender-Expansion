@@ -2,15 +2,7 @@ package chylex.hee.proxy;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityAuraFX;
-import net.minecraft.client.particle.EntityBreakingFX;
-import net.minecraft.client.particle.EntityCritFX;
-import net.minecraft.client.particle.EntityDiggingFX;
-import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.particle.EntityFlameFX;
-import net.minecraft.client.particle.EntityPortalFX;
-import net.minecraft.client.particle.EntitySmokeFX;
-import net.minecraft.client.particle.EntitySpellParticleFX;
+import net.minecraft.client.particle.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -80,6 +72,8 @@ public class FXClientProxy extends FXCommonProxy{
 			case "portalbig": spawn(new EntityBigPortalFX(world(),x,y,z,motionX,motionY,motionZ)); break;
 			case "bubble": spawn(new EntityCustomBubbleFX(world(),x,y,z,motionX,motionY,motionZ)); break;
 			case "flame": spawn(new EntityFlameFX(world(),x,y,z,motionX,motionY,motionZ)); break;
+			case "explosion": spawn(new EntityExplodeFX(world(),x,y,z,motionX,motionY,motionZ)); break;
+			case "lava": spawn(new EntityLavaFX(world(),x,y,z)); break;
 			
 			case "magiccrit":
 				EntityCritFX fxCrit = new EntityCritFX(world(),x,y,z,motionX,motionY,motionZ);

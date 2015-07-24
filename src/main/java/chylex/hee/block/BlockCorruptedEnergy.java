@@ -16,6 +16,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.material.MaterialCorruptedEnergy;
+import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
@@ -49,7 +50,7 @@ public class BlockCorruptedEnergy extends Block{
 				HardcoreEnderExpansion.fx.enderGoo(x,y,z);
 			}
 			
-			if (world.rand.nextInt(5) == 0)world.spawnParticle("explode",x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
+			if (world.rand.nextInt(5) == 0)FXHelper.create("explosion").pos(x,y,z).motionRand(0.5D).spawn(rand,1);
 			return;
 		}
 		
@@ -156,6 +157,6 @@ public class BlockCorruptedEnergy extends Block{
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.corruptedEnergy(x,y,z);
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.enderGoo(x,y,z);
-		if (world.rand.nextInt(30) == 0)world.spawnParticle("explode",x+0.5D,y+0.5D,z+0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
+		if (world.rand.nextInt(30) == 0)FXHelper.create("explosion").pos(x,y,z).motionRand(0.5D).spawn(rand,1);
 	}
 }
