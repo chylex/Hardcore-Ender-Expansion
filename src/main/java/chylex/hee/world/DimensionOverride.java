@@ -1,14 +1,20 @@
 package chylex.hee.world;
 import java.lang.reflect.Field;
 import java.util.Hashtable;
+import net.minecraft.world.ChunkPosition;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.gen.structure.MapGenStronghold;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.terraingen.InitMapGenEvent;
+import net.minecraftforge.event.terraingen.InitMapGenEvent.EventType;
 import net.minecraftforge.event.world.WorldEvent;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.providers.ChunkProviderHardcoreEndServer;
 import chylex.hee.world.providers.WorldProviderHardcoreEnd;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class DimensionOverride{
@@ -16,7 +22,9 @@ public final class DimensionOverride{
 		BiomeGenBase.sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
 		BiomeGenBase.getBiomeGenArray()[9] = BiomeGenBase.sky;
 		
-		MinecraftForge.EVENT_BUS.register(new DimensionOverride());
+		DimensionOverride instance = new DimensionOverride();
+		MinecraftForge.EVENT_BUS.register(instance);
+		MinecraftForge.TERRAIN_GEN_BUS.register(instance);
 	}
 	
 	public static void postInit(){
@@ -46,6 +54,19 @@ public final class DimensionOverride{
 		if (e.world.provider.dimensionId == 1 && e.world instanceof WorldServer){
 			WorldServer world = (WorldServer)e.world;
 			world.chunkProvider = world.theChunkProviderServer = new ChunkProviderHardcoreEndServer(world);
+		}
+	}
+
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onInitMapGen(InitMapGenEvent e){
+		if (e.type == EventType.STRONGHOLD){
+			e.newGen = new MapGenStronghold(){
+				@Override
+				protected boolean canSpawnStructureAtCoords(int x, int z){ return false; }
+				
+				@Override
+				public ChunkPosition func_151545_a(World world, int x, int y, int z){ return new ChunkPosition(x,y+2,z); }
+			};
 		}
 	}
 }
