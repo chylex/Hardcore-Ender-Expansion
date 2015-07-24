@@ -57,7 +57,7 @@ public class EntityItemEndPowder extends EntityItem{
 				if (ingredients.isEmpty()){
 					if (++progress > 8){
 						progress = 0;
-						for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.portalBig(worldObj,posX,posY+0.5D,posZ,(rand.nextDouble()-0.5D)*0.2D,0.15D+rand.nextDouble()*0.15D,(rand.nextDouble()-0.5D)*0.2D);
+						for(int a = 0; a < 20; a++)HardcoreEnderExpansion.fx.global("portalbig",posX,posY+0.5D,posZ,(rand.nextDouble()-0.5D)*0.2D,0.15D+rand.nextDouble()*0.15D,(rand.nextDouble()-0.5D)*0.2D);
 						
 						if (!worldObj.isRemote){
 							ItemStack is = getEntityItem();

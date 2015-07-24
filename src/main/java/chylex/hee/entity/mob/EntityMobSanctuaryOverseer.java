@@ -177,7 +177,7 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 	@Override
 	protected void onDeathUpdate(){
 		if (++deathTime >= 2){
-			for(int a = 0; a < 8; a++)HardcoreEnderExpansion.fx.portalBig(worldObj,posX,posY,posZ,0D,0D,0D,0.8F+rand.nextFloat()*0.2F);
+			for(int a = 0; a < 8; a++)HardcoreEnderExpansion.fx.global("portalbig",posX,posY,posZ,0D,0D,0D,0.8F+rand.nextFloat()*0.2F);
 			setDead();
 		}
 	}

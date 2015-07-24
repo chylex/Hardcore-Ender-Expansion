@@ -72,7 +72,7 @@ public class EntityMobFireGolem extends EntityMob{
 				double xx = posX+look.xCoord*0.62D, zz = posZ+look.zCoord*0.62D;
 				int amt = rand.nextInt(2+flameParticleAmount);
 				
-				for(int a = 0; a < amt; a++)HardcoreEnderExpansion.fx.flame(worldObj,xx+(rand.nextDouble()-0.5D)*0.2D,posY+0.8D+rand.nextDouble()*0.1D,zz+(rand.nextDouble()-0.5D)*0.2D,4);
+				for(int a = 0; a < amt; a++)HardcoreEnderExpansion.fx.flame(xx+(rand.nextDouble()-0.5D)*0.2D,posY+0.8D+rand.nextDouble()*0.1D,zz+(rand.nextDouble()-0.5D)*0.2D,4);
 			}
 		}
 		else{

@@ -112,7 +112,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		HardcoreEnderExpansion.fx.enderGoo(world,x,y,z);
+		HardcoreEnderExpansion.fx.enderGoo(x,y,z);
 	}
 	
 	@SubscribeEvent

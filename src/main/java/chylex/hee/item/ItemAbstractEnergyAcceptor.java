@@ -66,7 +66,7 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 							Random rand = world.rand;
 							
 							for(int a = 0; a < 26; a++){
-								HardcoreEnderExpansion.fx.energyClusterMoving(world,cluster.xCoord+0.5D+(rand.nextFloat()-0.5D)*0.2D,cluster.yCoord+0.5D+(rand.nextFloat()-0.5D)*0.2D,cluster.zCoord+0.5D+(rand.nextFloat()-0.5D)*0.2D,(rand.nextFloat()-0.5D)*0.4D,(rand.nextFloat()-0.5D)*0.4D,(rand.nextFloat()-0.5D)*0.4D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2));
+								HardcoreEnderExpansion.fx.global("energy",cluster.xCoord+0.5D+(rand.nextFloat()-0.5D)*0.2D,cluster.yCoord+0.5D+(rand.nextFloat()-0.5D)*0.2D,cluster.zCoord+0.5D+(rand.nextFloat()-0.5D)*0.2D,(rand.nextFloat()-0.5D)*0.4D,(rand.nextFloat()-0.5D)*0.4D,(rand.nextFloat()-0.5D)*0.4D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2));
 							}
 						}
 					}

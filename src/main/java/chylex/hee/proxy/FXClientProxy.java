@@ -14,7 +14,6 @@ import net.minecraft.client.particle.EntitySpellParticleFX;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chylex.hee.entity.fx.EntityAltarOrbFX;
 import chylex.hee.entity.fx.EntityBigPortalFX;
 import chylex.hee.entity.fx.EntityCustomBubbleFX;
 import chylex.hee.entity.fx.EntityEnderGooFX;
@@ -28,13 +27,44 @@ import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.curse.CurseType;
-import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.system.logging.Log;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public class FXClientProxy extends FXCommonProxy{
-	private static void spawn(EntityFX fx){
-		Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+	private static double renderDist = 64D;
+	
+	private static World world(){
+		return Minecraft.getMinecraft().theWorld;
+	}
+	
+	public static void spawn(EntityFX fx){
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		if (renderDist == -1 || MathUtil.distanceSquared(mc.renderViewEntity.posX-fx.posX,mc.renderViewEntity.posY-fx.posY,mc.renderViewEntity.posZ-fx.posZ) <= renderDist*renderDist){
+			mc.effectRenderer.addEffect(fx);
+		}
+	}
+	
+	/*
+	 * SETTINGS
+	 */
+	
+	@Override
+	public FXCommonProxy reset(){
+		renderDist = 64D;
+		return this;
+	}
+	
+	@Override
+	public FXCommonProxy setRenderDist(double dist){
+		renderDist = dist;
+		return this;
+	};
+	
+	@Override
+	public FXCommonProxy setOmnipresent(){
+		renderDist = -1;
+		return this;
 	}
 	
 	/*
@@ -42,27 +72,76 @@ public class FXClientProxy extends FXCommonProxy{
 	 */
 	
 	@Override
-	public void omnipresent(String particleName, World world, double x, double y, double z, double motionX, double motionY, double motionZ){
+	public void global(String particleName, double x, double y, double z, double motionX, double motionY, double motionZ){
 		switch(particleName){
-			case "smoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ)); break;
-			case "largesmoke": spawn(new EntitySmokeFX(world,x,y,z,motionX,motionY,motionZ,2.5F)); break;
-			case "portal": spawn(new EntityPortalFX(world,x,y,z,motionX,motionY,motionZ)); break;
-			default: Log.debug("Particle $0 not found!",particleName);
+			case "smoke": spawn(new EntitySmokeFX(world(),x,y,z,motionX,motionY,motionZ)); break;
+			case "largesmoke": spawn(new EntitySmokeFX(world(),x,y,z,motionX,motionY,motionZ,2.5F)); break;
+			case "portal": spawn(new EntityPortalFX(world(),x,y,z,motionX,motionY,motionZ)); break;
+			case "portalbig": spawn(new EntityBigPortalFX(world(),x,y,z,motionX,motionY,motionZ)); break;
+			case "bubble": spawn(new EntityCustomBubbleFX(world(),x,y,z,motionX,motionY,motionZ)); break;
+			case "flame": spawn(new EntityFlameFX(world(),x,y,z,motionX,motionY,motionZ)); break;
+			
+			case "magiccrit":
+				EntityCritFX fxCrit = new EntityCritFX(world(),x,y,z,motionX,motionY,motionZ);
+				fxCrit.setRBGColorF(fxCrit.getRedColorF()*0.3F,fxCrit.getGreenColorF()*0.8F,fxCrit.getBlueColorF());
+				fxCrit.nextTextureIndexX();
+				spawn(fxCrit);
+				break;
+				
+			case "witchmagic":
+				EntitySpellParticleFX fxSpell = new EntitySpellParticleFX(world(),x,y,z,motionX,motionY,motionZ);
+				float color = world().rand.nextFloat()*0.5F+0.35F;
+				fxSpell.setRBGColorF(color,0F,color);
+				fxSpell.setBaseSpellTextureIndex(144);
+				spawn(fxSpell);
+				
+			default: throw new IllegalArgumentException("Unknown particle effect "+particleName);
 		}
 	}
 	
 	@Override
-	public void item(ItemStack is, World world, double x, double y, double z, double motionX, double motionY, double motionZ){
+	public void global(String particleName, double x, double y, double z, double motionX, double motionY, double motionZ, float parameter){
+		switch(particleName){
+			case "portalbig": spawn(new EntityBigPortalFX(world(),x,y,z,motionX,motionY,motionZ,parameter)); break;
+			default: throw new IllegalArgumentException("Unknown particle effect "+particleName);
+		}
+	}
+	
+	@Override
+	public void global(String particleName, double x, double y, double z, double motionX, double motionY, double motionZ, final float red, final float green, final float blue){
+		switch(particleName){
+			case "portal": spawn(new EntityPortalFX(world(),x,y,z,motionX,motionY,motionZ){{ particleRed = red; particleGreen = green; particleBlue = blue; }}); break;
+			case "energy": spawn(new EntityEnergyClusterFX(world(),x,y,z,red,green,blue,motionX,motionY,motionZ)); break;
+			
+			case "magiccrit":
+				EntityCritFX fxCrit = new EntityCritFX(world(),x,y,z,motionX,motionY,motionZ);
+				fxCrit.setRBGColorF(red,green,blue);
+				fxCrit.nextTextureIndexX();
+				spawn(fxCrit);
+				break;
+				
+			case "spell":
+				EntitySpellParticleFX fxSpell = new EntitySpellParticleFX(world(),x,y,z,motionX,motionY,motionZ);
+				fxSpell.setRBGColorF(red,green,blue);
+				spawn(fxSpell);
+				break;
+				
+			default: throw new IllegalArgumentException("Unknown particle effect "+particleName);
+		}
+	}
+	
+	@Override
+	public void item(ItemStack is, double x, double y, double z, double motionX, double motionY, double motionZ){
 		spawn(is.getItemSpriteNumber() == 0 ?
-			new EntityDiggingFX(world,x,y,z,motionX,motionY,motionZ,Block.getBlockFromItem(is.getItem()),is.getItemDamage()) :
-			new EntityBreakingFX(world,x,y,z,motionX,motionY,motionZ,is.getItem(),is.getItemDamage())
+			new EntityDiggingFX(world(),x,y,z,motionX,motionY,motionZ,Block.getBlockFromItem(is.getItem()),is.getItemDamage()) :
+			new EntityBreakingFX(world(),x,y,z,motionX,motionY,motionZ,is.getItem(),is.getItemDamage())
 		);
 	}
 	
 	@Override
-	public void itemTarget(ItemStack is, World world, double startX, double startY, double startZ, final double targetX, final double targetY, final double targetZ, final float speedMultiplier){
+	public void itemTarget(ItemStack is, double startX, double startY, double startZ, final double targetX, final double targetY, final double targetZ, final float speedMultiplier){
 		EntityFX fx = (is.getItemSpriteNumber() == 0 ?
-			new EntityDiggingFX(world,startX,startY,startZ,0D,0D,0D,Block.getBlockFromItem(is.getItem()),is.getItemDamage()){
+			new EntityDiggingFX(world(),startX,startY,startZ,0D,0D,0D,Block.getBlockFromItem(is.getItem()),is.getItemDamage()){
 				final ParticleBehaviorMoveTo moveBehavior = new ParticleBehaviorMoveTo(this,targetX,targetY,targetZ,speedMultiplier);
 				
 				@Override
@@ -70,7 +149,7 @@ public class FXClientProxy extends FXCommonProxy{
 					moveBehavior.update(this);
 				}
 			} :
-			new EntityBreakingFX(world,startX,startY,startZ,0D,0D,0D,is.getItem(),is.getItemDamage()){
+			new EntityBreakingFX(world(),startX,startY,startZ,0D,0D,0D,is.getItem(),is.getItemDamage()){
 				final ParticleBehaviorMoveTo moveBehavior = new ParticleBehaviorMoveTo(this,targetX,targetY,targetZ,speedMultiplier);
 				
 				@Override
@@ -83,37 +162,22 @@ public class FXClientProxy extends FXCommonProxy{
 		fx.noClip = true;
 		spawn(fx);
 	}
-
+	
 	@Override
-	public void bubble(World world, double x, double y, double z, double motionX, double motionY, double motionZ){
-		spawn(new EntityCustomBubbleFX(world,x,y,z,motionX,motionY,motionZ));
+	public void flame(double x, double y, double z, final int maxAge){
+		flame(x,y,z,0D,0D,0D,maxAge);
 	}
 	
 	@Override
-	public void flame(World world, double x, double y, double z, final int maxAge){
-		flame(world,x,y,z,0D,0D,0D,maxAge);
-	}
-	
-	@Override
-	public void flame(World world, double x, double y, double z, double motionX, double motionY, double motionZ, final int maxAge){
-		spawn(new EntityFlameFX(world,x,y,z,motionX,motionY,motionZ){{
+	public void flame(double x, double y, double z, double motionX, double motionY, double motionZ, final int maxAge){
+		spawn(new EntityFlameFX(world(),x,y,z,motionX,motionY,motionZ){{
 			particleMaxAge = maxAge;
 		}});
 	}
 	
 	@Override
-	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ){
-		spawn(new EntityBigPortalFX(world,x,y,z,motionX,motionY,motionZ));
-	}
-	
-	@Override
-	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp){
-		spawn(new EntityBigPortalFX(world,x,y,z,motionX,motionY,motionZ,scaleMp));
-	}
-	
-	@Override
-	public void portalBig(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp, final float red, final float green, final float blue){
-		spawn(new EntityBigPortalFX(world,x,y,z,motionX,motionY,motionZ,scaleMp){{
+	public void portalBig(double x, double y, double z, double motionX, double motionY, double motionZ, float scaleMp, final float red, final float green, final float blue){
+		spawn(new EntityBigPortalFX(world(),x,y,z,motionX,motionY,motionZ,scaleMp){{
 			particleRed = red;
 			particleGreen = green;
 			particleBlue = blue;
@@ -121,37 +185,13 @@ public class FXClientProxy extends FXCommonProxy{
 	}
 	
 	@Override
-	public void portalOrbiting(World world, double x, double y, double z, double motionY){
-		spawn(new EntityOrbitingPortalFX(world,x,y,z,motionY));
+	public void portalOrbiting(double x, double y, double z, double motionY){
+		spawn(new EntityOrbitingPortalFX(world(),x,y,z,motionY));
 	}
 	
 	@Override
-	public void portalColor(World world, double x, double y, double z, double motionX, double motionY, double motionZ, final float red, final float green, final float blue){
-		spawn(new EntityPortalFX(world,x,y,z,motionX,motionY,motionZ){{
-			particleRed = red;
-			particleGreen = green;
-			particleBlue = blue;
-		}});
-	}
-	
-	@Override
-	public void magicCrit(World world, double x, double y, double z, double motionX, double motionY, double motionZ, float red, float green, float blue){
-		EntityCritFX fx = new EntityCritFX(world,x,y,z,motionX,motionY,motionZ);
-		fx.setRBGColorF(red,green,blue);
-		fx.nextTextureIndexX();
-		spawn(fx);
-	}
-	
-	@Override
-	public void spell(World world, double x, double y, double z, float red, float green, float blue){
-		EntitySpellParticleFX fx = new EntitySpellParticleFX(world,x,y,z,0D,0D,0D);
-		fx.setRBGColorF(red,green,blue);
-		spawn(fx);
-	}
-	
-	@Override
-	public void aura(World world, double x, double y, double z, final float red, final float green, final float blue, final int maxAge){
-		spawn(new EntityAuraFX(world,x,y,z,0D,0D,0D){{
+	public void aura(double x, double y, double z, final float red, final float green, final float blue, final int maxAge){
+		spawn(new EntityAuraFX(world(),x,y,z,0D,0D,0D){{
 			particleMaxAge = maxAge;
 			particleRed = red;
 			particleGreen = green;
@@ -160,21 +200,21 @@ public class FXClientProxy extends FXCommonProxy{
 	}
 	
 	@Override
-	public void curse(World world, double x, double y, double z, CurseType type){
-		Random rand = world.rand;
+	public void curse(double x, double y, double z, CurseType type){
+		Random rand = world().rand;
 		int color = rand.nextInt(5) <= 2 ? type.getColor(0) : type.getColor(1);
-		portalBig(world,x,y,z,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.03D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.03D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.03D,0.1F+rand.nextFloat()*0.1F,((color>>16)&255)/255F,((color>>8)&255)/255F,(color&255)/255F);
+		portalBig(x,y,z,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.03D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.03D,(rand.nextDouble()-0.5D)*rand.nextDouble()*0.03D,0.1F+rand.nextFloat()*0.1F,((color>>16)&255)/255F,((color>>8)&255)/255F,(color&255)/255F);
 	}
 	
 	@Override
-	public void spatialDash(World world, double x, double y, double z){
-		Random rand = world.rand;
+	public void spatialDash(double x, double y, double z){
+		Random rand = world().rand;
 		
-		spawn(new EntityBigPortalFX(world,x+(rand.nextDouble()-rand.nextDouble())*0.3D,y+(rand.nextDouble()-rand.nextDouble())*0.3D,z+(rand.nextDouble()-rand.nextDouble())*0.3D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,0.1F));
+		spawn(new EntityBigPortalFX(world(),x+(rand.nextDouble()-rand.nextDouble())*0.3D,y+(rand.nextDouble()-rand.nextDouble())*0.3D,z+(rand.nextDouble()-rand.nextDouble())*0.3D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,(rand.nextDouble()-0.5D)*0.01D,0.1F));
 		
 		for(int a = 0; a < 3; a++){
 			double motX = (rand.nextDouble()-rand.nextDouble())*0.0002D, motY = (rand.nextDouble()-rand.nextDouble())*0.0002D, motZ = (rand.nextDouble()-rand.nextDouble())*0.0002D;
-			spawn(new EntityEnergyClusterFX(world,x,y,z,0.6D,0.2D,1D,motX,motY,motZ,0.015F));
+			spawn(new EntityEnergyClusterFX(world(),x,y,z,0.6D,0.2D,1D,motX,motY,motZ,0.015F));
 		}
 	}
 	
@@ -183,32 +223,22 @@ public class FXClientProxy extends FXCommonProxy{
 	 */
 	
 	@Override
-	public void corruptedEnergy(World world, int x, int y, int z){
-		Random rand = world.rand;
+	public void corruptedEnergy(int x, int y, int z){
+		Random rand = world().rand;
 		double motX = (rand.nextDouble()-rand.nextDouble())*0.2D, motY = (rand.nextDouble()-rand.nextDouble())*0.2D, motZ = (rand.nextDouble()-rand.nextDouble())*0.2D;
-		spawn(new EntityBigPortalFX(world,x+0.5D,y+0.5D,z+0.5D,motX,motY,motZ,rand.nextBoolean() ? 1F : 1.5F+rand.nextFloat()));
+		spawn(new EntityBigPortalFX(world(),x+0.5D,y+0.5D,z+0.5D,motX,motY,motZ,rand.nextBoolean() ? 1F : 1.5F+rand.nextFloat()));
 	}
 	
 	@Override
-	public void enderGoo(World world, int x, int y, int z){
-		Random rand = world.rand;
-		spawn(new EntityEnderGooFX(world,x+rand.nextDouble(),y+rand.nextDouble()*0.5D,z+rand.nextDouble(),(rand.nextDouble()-0.5D)*0.1D,0.12D,(rand.nextDouble()-0.5D)*0.1D));
-	}
-	
-	@Override
-	public void altarOrb(World world, double startX, double startY, double startZ, double targetX, double targetY, double targetZ, EssenceType essence){
-		spawn(new EntityAltarOrbFX(world,startX,startY,startZ,targetX,targetY,targetZ,essence));
+	public void enderGoo(int x, int y, int z){
+		Random rand = world().rand;
+		spawn(new EntityEnderGooFX(world(),x+rand.nextDouble(),y+rand.nextDouble()*0.5D,z+rand.nextDouble(),(rand.nextDouble()-0.5D)*0.1D,0.12D,(rand.nextDouble()-0.5D)*0.1D));
 	}
 	
 	@Override
 	public void energyCluster(TileEntityEnergyCluster cluster){
 		Random rand = cluster.getWorldObj().rand;
 		spawn(new EntityEnergyClusterFX(cluster.getWorldObj(),cluster.xCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.yCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.zCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.data));
-	}
-	
-	@Override
-	public void energyClusterMoving(World world, double x, double y, double z, double motionX, double motionY, double motionZ, double red, double green, double blue){
-		spawn(new EntityEnergyClusterFX(world,x,y,z,red,green,blue,motionX,motionY,motionZ));
 	}
 	
 	/*

@@ -194,8 +194,8 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		if (BlockPosM.tmp(x,y,z).getMetadata(world) == metaPortal){
-			for(int a = 0; a < 18; a++)HardcoreEnderExpansion.fx.portalColor(world,x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,0.6289F,0.3359F,0.0391F);
-			HardcoreEnderExpansion.fx.portalColor(world,x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,1F,1F,1F);
+			for(int a = 0; a < 18; a++)HardcoreEnderExpansion.fx.global("portal",x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,0.6289F,0.3359F,0.0391F);
+			HardcoreEnderExpansion.fx.global("portal",x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,1F,1F,1F);
 		}
 	}
 	

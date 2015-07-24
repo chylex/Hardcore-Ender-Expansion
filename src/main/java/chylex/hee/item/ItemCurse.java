@@ -60,7 +60,7 @@ public class ItemCurse extends Item{
 		if (!player.worldObj.isRemote)player.worldObj.spawnEntityInWorld(new EntityTechnicalCurseEntity(player.worldObj,entity,type,CurseType.isEternal(is.getItemDamage())));
 		else{
 			player.worldObj.playSound(entity.posX,entity.posY,entity.posZ,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
-			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(player.worldObj,entity.posX+(itemRand.nextDouble()-0.5D)*1.5D,entity.posY+(itemRand.nextDouble()-0.5D)*1.5D,entity.posZ+(itemRand.nextDouble()-0.5D)*1.5D,type);
+			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(entity.posX+(itemRand.nextDouble()-0.5D)*1.5D,entity.posY+(itemRand.nextDouble()-0.5D)*1.5D,entity.posZ+(itemRand.nextDouble()-0.5D)*1.5D,type);
 		}
 		
 		return true;

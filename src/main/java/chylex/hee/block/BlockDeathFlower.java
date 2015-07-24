@@ -170,7 +170,7 @@ public class BlockDeathFlower extends BlockFlower{
 		if (meta > 0 && meta < 15 && (rand.nextInt(50) < meta*Math.sqrt(meta) || rand.nextInt(18-meta) == 0)){
 			double speedMp = 0.003D*meta;
 			float colMp = 1.1F-rand.nextFloat()*0.2F-meta*meta*0.003F;
-			HardcoreEnderExpansion.fx.portalBig(world,x+0.2D+rand.nextDouble()*0.6D,y+0.2D+rand.nextDouble()*0.6D,z+0.2D+rand.nextDouble()*0.6D,(rand.nextDouble()-0.5D)*speedMp,(rand.nextDouble()-0.5D)*speedMp,(rand.nextDouble()-0.5D)*speedMp,0.2F+rand.nextFloat()*0.1F,0.72F*colMp,0.24F*colMp,0.8F*colMp);
+			HardcoreEnderExpansion.fx.portalBig(x+0.2D+rand.nextDouble()*0.6D,y+0.2D+rand.nextDouble()*0.6D,z+0.2D+rand.nextDouble()*0.6D,(rand.nextDouble()-0.5D)*speedMp,(rand.nextDouble()-0.5D)*speedMp,(rand.nextDouble()-0.5D)*speedMp,0.2F+rand.nextFloat()*0.1F,0.72F*colMp,0.24F*colMp,0.8F*colMp);
 		}
 	}
 	

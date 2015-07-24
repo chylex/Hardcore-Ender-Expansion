@@ -48,7 +48,7 @@ public class EntityProjectileCurse extends EntityThrowable{
 			getType();
 			
 			if (curseType != null){
-				for(int a = 0; a < 1+rand.nextInt(2); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*0.15D,posY+(rand.nextDouble()-0.5D)*0.15D,posZ+(rand.nextDouble()-0.5D)*0.15D,curseType);
+				for(int a = 0; a < 1+rand.nextInt(2); a++)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*0.15D,posY+(rand.nextDouble()-0.5D)*0.15D,posZ+(rand.nextDouble()-0.5D)*0.15D,curseType);
 			}
 		}
 		else if (ticksExisted == 1)dataWatcher.updateObject(16,(byte)(curseType.damage+1));
@@ -71,7 +71,7 @@ public class EntityProjectileCurse extends EntityThrowable{
 		}
 		else if (curseType != null){
 			worldObj.playSound(posX,posY,posZ,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+rand.nextFloat()*0.2F,false);
-			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*1.5D,posY+(rand.nextDouble()-0.5D)*1.5D,posZ+(rand.nextDouble()-0.5D)*1.5D,curseType);
+			for(int a = 0; a < 40; a++)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*1.5D,posY+(rand.nextDouble()-0.5D)*1.5D,posZ+(rand.nextDouble()-0.5D)*1.5D,curseType);
 		}
 	}
 	

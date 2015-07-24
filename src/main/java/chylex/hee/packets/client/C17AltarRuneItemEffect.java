@@ -48,7 +48,7 @@ public class C17AltarRuneItemEffect extends AbstractClientPacket{
 		
 		for(int a = 0; a < 42; a++){
 			double[] vec = DragonUtil.getNormalizedVector(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D);
-			HardcoreEnderExpansion.fx.item(is,world,pos.x+0.5D+rand.nextDouble()*0.4D-0.2D,pos.y+1.1D+rand.nextDouble()*0.4D,pos.z+0.5D+rand.nextDouble()*0.2D-0.1D,vec[0]*0.1D,0.1D,vec[1]*0.1D);
+			HardcoreEnderExpansion.fx.item(is,pos.x+0.5D+rand.nextDouble()*0.4D-0.2D,pos.y+1.1D+rand.nextDouble()*0.4D,pos.z+0.5D+rand.nextDouble()*0.2D-0.1D,vec[0]*0.1D,0.1D,vec[1]*0.1D);
 		}
 		
 		world.playSound(pos.x,pos.y,pos.z,runeItem.soundEffect,1F,0.9F+rand.nextFloat()*0.1F,false);

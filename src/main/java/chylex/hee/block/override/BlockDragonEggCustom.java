@@ -53,8 +53,8 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 			EntityItem item = new EntityItem(world,x+0.5D,y+0.25D,z+0.5D,new ItemStack(Blocks.dragon_egg));
 			item.motionX = item.motionY = item.motionZ = 0D;
 			item.delayBeforeCanPickup = 25;
-            world.spawnEntityInWorld(item);
-            world.setBlockToAir(x,y,z);
+			world.spawnEntityInWorld(item);
+			world.setBlockToAir(x,y,z);
 		}
 		
 		// TODO particles

@@ -2,9 +2,10 @@ package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
-import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.fx.EntityAltarOrbFX;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.AbstractClientPacket;
+import chylex.hee.proxy.FXClientProxy;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -75,7 +76,7 @@ public class C11ParticleAltarOrb extends AbstractClientPacket{
 		Random rand = player.worldObj.rand;
 		
 		for(int a = 0; a < amount; a++){
-			HardcoreEnderExpansion.fx.altarOrb(player.worldObj,startX+width*(rand.nextFloat()-rand.nextFloat()),startY+height*rand.nextFloat(),startZ+width*(rand.nextFloat()-rand.nextFloat()),targetX,targetY,targetZ,essence);
+			FXClientProxy.spawn(new EntityAltarOrbFX(player.worldObj,startX+width*(rand.nextFloat()-rand.nextFloat()),startY+height*rand.nextFloat(),startZ+width*(rand.nextFloat()-rand.nextFloat()),targetX,targetY,targetZ,essence));
 		}
 	}
 }

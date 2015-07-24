@@ -73,7 +73,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 				}
 				
 				if (forceRenderFX || (disappearTimer > 0 && --disappearTimer > 0)){
-					for(int a = 0; a < 1+rand.nextInt(dist > 16D ? 2 : 3); a++)HardcoreEnderExpansion.fx.curse(worldObj,posX+(rand.nextDouble()-0.5D)*3D,posY,posZ+(rand.nextDouble()-0.5D)*3D,curseType);
+					for(int a = 0; a < 1+rand.nextInt(dist > 16D ? 2 : 3); a++)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*3D,posY,posZ+(rand.nextDouble()-0.5D)*3D,curseType);
 				}
 			}
 			

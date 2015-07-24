@@ -30,7 +30,7 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 		super.onUpdate();
 		
 		if (worldObj.isRemote){
-			HardcoreEnderExpansion.fx.flame(worldObj,posX,posY+0.4D,posZ,5);
+			HardcoreEnderExpansion.fx.flame(posX,posY+0.4D,posZ,5);
 			if (ticksExisted == 1 && rand.nextInt(4) <= 1)worldObj.playSound(posX,posY,posZ,"mob.ghast.fireball",0.8F,rand.nextFloat()*0.1F+1.2F,false);
 		}
 		

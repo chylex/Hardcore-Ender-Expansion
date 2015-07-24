@@ -75,7 +75,7 @@ public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 		vec = vec.normalize();
 		
 		for(int a = 0; a < steps; a++){
-			for(int b = 0; b < density; b++)HardcoreEnderExpansion.fx.energyClusterMoving(player.worldObj,startX+rand(rand,0.05D),startY+rand(rand,0.05D),startZ+rand(rand,0.05D),rand(rand,0.02D),rand(rand,0.02D),rand(rand,0.02D),(red+128F)/255F,(green+128F)/255F,(blue+128F)/255F);
+			for(int b = 0; b < density; b++)HardcoreEnderExpansion.fx.global("energy",startX+rand(rand,0.05D),startY+rand(rand,0.05D),startZ+rand(rand,0.05D),rand(rand,0.02D),rand(rand,0.02D),rand(rand,0.02D),(red+128F)/255F,(green+128F)/255F,(blue+128F)/255F);
 			startX += vec.xCoord*spacing;
 			startY += vec.yCoord*spacing;
 			startZ += vec.zCoord*spacing;

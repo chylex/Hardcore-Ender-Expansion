@@ -304,7 +304,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		super.onLivingUpdate();
 		
 		if (worldObj.isRemote){
-			for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.2D,posY,posZ+(rand.nextDouble()-0.5D)*0.2D,0D,-0.05D,0D,8);
+			for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(posX+(rand.nextDouble()-0.5D)*0.2D,posY,posZ+(rand.nextDouble()-0.5D)*0.2D,0D,-0.05D,0D,8);
 			
 			byte attack = dataWatcher.getWatchableObjectByte(16);
 			
@@ -313,15 +313,15 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 				Vec3 look = getLookVec();
 				
 				look.rotateAroundY(MathUtil.toRad(36F));
-				HardcoreEnderExpansion.fx.spell(worldObj,posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0.9F,0.6F,0F);
+				HardcoreEnderExpansion.fx.global("spell",posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0D,0D,0D,0.9F,0.6F,0F);
 				look.rotateAroundY(MathUtil.toRad(-72F));
-				HardcoreEnderExpansion.fx.spell(worldObj,posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0.9F,0.6F,0F);
+				HardcoreEnderExpansion.fx.global("spell",posX+look.xCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,posY+0.7D,posZ+look.zCoord*1.5D+(rand.nextDouble()-0.5D)*0.2D,0D,0D,0D,0.9F,0.6F,0F);
 				
 				++currentAttackTime;
 				
 				if (attack == ATTACK_BLAST_WAVE){
 					if (currentAttackTime == 29){
-						for(int flame = 0; flame < 180; flame++)HardcoreEnderExpansion.fx.flame(worldObj,posX+(rand.nextDouble()-0.5D)*0.2D,posY+height*0.5D,posZ+(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*2D,(rand.nextDouble()-0.5D)*2D,(rand.nextDouble()-0.5D)*2D,5+rand.nextInt(20));
+						for(int flame = 0; flame < 180; flame++)HardcoreEnderExpansion.fx.flame(posX+(rand.nextDouble()-0.5D)*0.2D,posY+height*0.5D,posZ+(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*2D,(rand.nextDouble()-0.5D)*2D,(rand.nextDouble()-0.5D)*2D,5+rand.nextInt(20));
 					}
 				}
 			}

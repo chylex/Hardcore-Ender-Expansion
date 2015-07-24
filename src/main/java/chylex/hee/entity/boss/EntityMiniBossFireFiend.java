@@ -79,14 +79,14 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			byte attack = dataWatcher.getWatchableObjectByte(16);
 			
 			if (attack == ATTACK_FLAMES){
-				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,8);
+				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,8);
 			}
 			else timer = 0;
 			
 			if (!isAngry && dataWatcher.getWatchableObjectByte(17) == 1)isAngry = true;
 			
 			if (isAngry){
-				for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(worldObj,posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,12);
+				for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,12);
 			}
 			
 			renderYawOffset = rotationYaw;
