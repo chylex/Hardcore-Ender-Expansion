@@ -11,7 +11,6 @@ import chylex.hee.system.achievements.AchievementManager;
 public class EntityItemAltar extends EntityItem{
 	public byte pedestalUpdate;
 	public byte essenceType;
-	public boolean hasChanged = false;
 	
 	public EntityItemAltar(World world){
 		super(world);

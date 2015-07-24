@@ -183,7 +183,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					
 					int amount = MathUtil.clamp(MathUtil.floor(Math.sqrt(is.getMaxDamage())*0.65D),1,is.getItemDamage());
 					is.setItemDamage(is.getItemDamage()-amount);
-					item.hasChanged = true;
+					item.setSparkling();
 				}
 			}
 		}
@@ -226,7 +226,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						tag.setShort("lvl",(short)(level+1));
 						ItemUtil.getTagRoot(is,true).setTag("ench",enchants);
 
-						item.hasChanged = true;
+						item.setSparkling();
 						attempt = 999;
 						break;
 					}
@@ -249,7 +249,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						
 						updateItemCounter(is,"HEE_transform",0);
 						recipe.doTransaction(item);
-						item.hasChanged = true;
+						item.setSparkling();
 						break;
 					}
 					
