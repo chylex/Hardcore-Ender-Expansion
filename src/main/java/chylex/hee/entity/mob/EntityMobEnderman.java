@@ -67,4 +67,9 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 	public String getCommandSenderName(){
 		return ModCommonProxy.hardcoreEnderbacon ? StatCollector.translateToLocal("entity.enderman.bacon.name") : super.getCommandSenderName();
 	}
+	
+	@Override
+	public boolean getCanSpawnHere(){
+		return super.getCanSpawnHere() && (worldObj.provider.dimensionId != 0 || !worldObj.isDaytime());
+	}
 }
