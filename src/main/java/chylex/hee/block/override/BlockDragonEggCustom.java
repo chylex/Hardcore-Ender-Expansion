@@ -14,6 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
+import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
@@ -56,8 +57,10 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 			world.spawnEntityInWorld(item);
 			world.setBlockToAir(x,y,z);
 		}
-		
-		// TODO particles
+		else{
+			FXHelper.create("smoke").pos(x,y,z,0.5D).motionRand(0.08D).param(1.5F).spawn(world.rand,25);
+			FXHelper.create("portalbig").pos(x,y,z,0.5D).motionRand(0.08D).param(0.25F).spawn(world.rand,15);
+		}
 	}
 	
 	@Override

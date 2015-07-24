@@ -103,6 +103,7 @@ public class FXClientProxy extends FXCommonProxy{
 	public void global(String particleName, double x, double y, double z, double motionX, double motionY, double motionZ, float parameter){
 		switch(particleName){
 			case "portalbig": spawn(new EntityBigPortalFX(world(),x,y,z,motionX,motionY,motionZ,parameter)); break;
+			case "smoke": spawn(new EntitySmokeFX(world(),x,y,z,motionX,motionY,motionZ,parameter)); break;
 			default: throw new IllegalArgumentException("Unknown particle effect "+particleName);
 		}
 	}
