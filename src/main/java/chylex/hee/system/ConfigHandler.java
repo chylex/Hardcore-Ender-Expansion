@@ -109,8 +109,6 @@ public final class ConfigHandler{
 		Log.forceDebugEnabled = getBool("logDebuggingInfo", false, "Only use for debugging, enabling debug logging will have severe impact on game performance!").getBoolean();
 		
 		if (firstTimeGeneral){
-			BiomeGenHardcoreEnd.overrideWorldGen = getBool("overrideWorldGen", false, "Prevents other mods from adding worldgen features to the End.").setRequiresMcRestart(true).getBoolean();
-			BiomeGenHardcoreEnd.overrideMobLists = getBool("overrideBiomeMobs", false, "Prevents other mods from changing mobs that spawn in the End.").setRequiresMcRestart(true).getBoolean();
 			BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier", 1F, "Multiplies spawn weight of Endermen for each overworld biome.").setRequiresMcRestart(true).getDouble();
 			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes", false, "This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();
 			ModCommonProxy.achievementStartId = getInt("achievementStartId", 3500, "Starting ID of achievements, only change this if there is a conflict.").setShowInGui(false).getInt();

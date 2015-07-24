@@ -1,8 +1,8 @@
 package chylex.hee.world.biome;
+import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenEnd;
@@ -10,34 +10,19 @@ import chylex.hee.entity.mob.EntityMobEnderman;
 import chylex.hee.system.util.MathUtil;
 
 public final class BiomeGenHardcoreEnd extends BiomeGenEnd{
-	public static boolean overrideMobLists;
-	public static boolean overrideWorldGen;
 	public static float overworldEndermanMultiplier;
+	private List emptyList = new ArrayList();
 	
 	public BiomeGenHardcoreEnd(int id){
 		super(id);
-		
-		topBlock = Blocks.dirt;
-		fillerBlock = Blocks.dirt;
 		theBiomeDecorator = createBiomeDecorator();
 	}
 	
 	public void overrideMobLists(){
-		if (overrideMobLists){
-			spawnableMonsterList.clear();
-			spawnableCreatureList.clear();
-			spawnableWaterCreatureList.clear();
-			spawnableCaveCreatureList.clear();
-			spawnableMonsterList.add(new SpawnListEntry(EntityMobEnderman.class,10,4,4));
-		}
-		else{
-			for(SpawnListEntry entry:(List<SpawnListEntry>)spawnableMonsterList){
-				if (entry.entityClass == EntityEnderman.class){
-					entry.entityClass = EntityMobEnderman.class;
-					break;
-				}
-			}
-		}
+		spawnableMonsterList.clear();
+		spawnableCreatureList.clear();
+		spawnableWaterCreatureList.clear();
+		spawnableCaveCreatureList.clear();
 		
 		for(BiomeGenBase biome:BiomeGenBase.getBiomeGenArray()){
 			if (biome == null)continue;
@@ -52,6 +37,11 @@ public final class BiomeGenHardcoreEnd extends BiomeGenEnd{
 				}
 			}
 		}
+	}
+	
+	@Override
+	public List getSpawnableList(EnumCreatureType type){
+		return emptyList;
 	}
 	
 	@Override

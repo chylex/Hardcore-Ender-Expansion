@@ -1,8 +1,7 @@
-package chylex.hee.world;
+package chylex.hee.world.providers;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.chunk.IChunkProvider;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.DragonSavefile;
 
 public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	@Override
@@ -11,7 +10,12 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	}
 	
 	@Override
-	public long getSeed(){
-		return super.getSeed()+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount();
+	public boolean canRespawnHere(){
+		return true;
+	}
+	
+	@Override
+	public ChunkCoordinates getEntrancePortalLocation(){
+		return new ChunkCoordinates(0,70,0); // TODO
 	}
 }
