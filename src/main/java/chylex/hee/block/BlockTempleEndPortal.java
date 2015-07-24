@@ -20,7 +20,7 @@ public class BlockTempleEndPortal extends BlockEndPortal{
 		if (!world.isRemote && entity.ridingEntity == null && entity.riddenByEntity == null && entity instanceof EntityPlayerMP){
 			EntityPlayerMP player = (EntityPlayerMP)entity;
 			TempleEvents.attemptDestroyTemple(player);
-			DragonUtil.teleportToOverworld(player);
+			//DragonUtil.teleportToOverworld(player);
 		}
 	}
 }

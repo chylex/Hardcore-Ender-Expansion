@@ -2,6 +2,7 @@ package chylex.hee.world.providers;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.chunk.IChunkProvider;
+import chylex.hee.world.util.TeleportHandler;
 
 public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	@Override
@@ -16,16 +17,16 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	
 	@Override
 	public ChunkCoordinates getEntrancePortalLocation(){
-		return new ChunkCoordinates(0,70,0); // TODO
+		return TeleportHandler.endSpawn;
 	}
 	
 	@Override
 	public ChunkCoordinates getSpawnPoint(){
-		return getEntrancePortalLocation();
+		return TeleportHandler.endSpawn;
 	}
 	
 	@Override
 	public ChunkCoordinates getRandomizedSpawnPoint(){
-		return getEntrancePortalLocation();
+		return TeleportHandler.endSpawn;
 	}
 }

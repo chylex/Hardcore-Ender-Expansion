@@ -109,7 +109,7 @@ public final class TempleEvents{
 				
 				for(EntityPlayerMP player:players){
 					if (player.ridingEntity != null)player.mountEntity(null);
-					DragonUtil.teleportToOverworld(player);
+					//DragonUtil.teleportToOverworld(player);
 				}
 			}
 		}

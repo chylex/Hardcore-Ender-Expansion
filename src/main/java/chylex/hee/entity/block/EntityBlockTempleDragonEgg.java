@@ -9,7 +9,6 @@ import chylex.hee.init.BlockList;
 import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.misc.TempleEvents;
 import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.DragonUtil;
 
 public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 	public EntityBlockTempleDragonEgg(World world){
@@ -84,7 +83,7 @@ public class EntityBlockTempleDragonEgg extends EntityFallingBlock{
 				if (deltaY > 6D){
 					for(EntityPlayerMP player:new ArrayList<EntityPlayerMP>(worldObj.playerEntities)){
 						if (player.ridingEntity != null)player.mountEntity(null);
-						DragonUtil.teleportToOverworld(player);
+						//DragonUtil.teleportToOverworld(player);
 					}
 					
 					TempleEvents.destroyWorld();

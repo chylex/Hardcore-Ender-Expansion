@@ -13,7 +13,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
@@ -189,11 +188,6 @@ public final class DragonUtil{
 			a -= split;
 			entity.worldObj.spawnEntityInWorld(new EntityXPOrb(entity.worldObj,entity.posX,entity.posY,entity.posZ,a));
 		}
-	}
-	
-	public static void teleportToOverworld(EntityPlayerMP player){
-		player.mcServer.getConfigurationManager().transferPlayerToDimension(player,0);
-		player.playerNetServerHandler.playerEntity = player.mcServer.getConfigurationManager().respawnPlayer(player,0,true);
 	}
 	
 	public static void createMobExplosion(Entity entity, double x, double y, double z, float strength, boolean fire){

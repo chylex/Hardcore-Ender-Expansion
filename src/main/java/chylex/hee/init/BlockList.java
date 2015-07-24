@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.*;
 import chylex.hee.block.override.BlockDragonEggCustom;
+import chylex.hee.block.override.BlockEndPortalCustom;
 import chylex.hee.block.vanilla.BlockBasic;
 import chylex.hee.block.vanilla.BlockBasicSlab;
 import chylex.hee.block.vanilla.BlockBasicStairs;
@@ -204,6 +205,7 @@ public final class BlockList{
 	
 	public static void registerBlocks(){
 		BlockReplaceHelper.replaceBlock(Blocks.dragon_egg, new BlockDragonEggCustom());
+		BlockReplaceHelper.replaceBlock(Blocks.end_portal,new BlockEndPortalCustom());
 		
 		for(Entry<String,Block> entry:BlockList.blocks.entrySet()){
 			GameRegistryUtil.registerBlock(entry.getValue(),entry.getKey(),itemBlocks.get(entry.getKey()));
@@ -266,6 +268,7 @@ public final class BlockList{
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
 		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
 		GameRegistryUtil.registerTileEntity(TileEntityTransportBeacon.class, "TransportBeacon");
+		GameRegistryUtil.registerTileEntity(TileEntityEndPortalCustom.class, "EndPortal");
 		// TODO SANCTUARY GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
 	}
 	
