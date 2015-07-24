@@ -5,9 +5,9 @@ import net.minecraft.block.BlockDragonEgg;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -49,12 +49,15 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	
 	@Override
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player){
-		if (player != null && player.isSneaking() && player.getHeldItem() != null &&
-			player.getHeldItem().getItemUseAction() == EnumAction.block){
-			BlockPosM.tmp(x,y,z).setAir(world);
-			dropBlockAsItem(world,x,y,z,new ItemStack(Blocks.dragon_egg));
+		if (!world.isRemote){
+			EntityItem item = new EntityItem(world,x+0.5D,y+0.25D,z+0.5D,new ItemStack(Blocks.dragon_egg));
+			item.motionX = item.motionY = item.motionZ = 0D;
+			item.delayBeforeCanPickup = 25;
+            world.spawnEntityInWorld(item);
+            world.setBlockToAir(x,y,z);
 		}
-		else teleportNearby(world,x,y,z);
+		
+		// TODO particles
 	}
 	
 	@Override
