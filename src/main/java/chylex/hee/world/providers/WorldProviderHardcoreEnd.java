@@ -18,4 +18,14 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	public ChunkCoordinates getEntrancePortalLocation(){
 		return new ChunkCoordinates(0,70,0); // TODO
 	}
+	
+	@Override
+	public ChunkCoordinates getSpawnPoint(){
+		return getEntrancePortalLocation();
+	}
+	
+	@Override
+	public ChunkCoordinates getRandomizedSpawnPoint(){
+		return getEntrancePortalLocation();
+	}
 }
