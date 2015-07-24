@@ -4,7 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockDragonEggCustom;
+import chylex.hee.block.override.BlockDragonEggCustom;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 

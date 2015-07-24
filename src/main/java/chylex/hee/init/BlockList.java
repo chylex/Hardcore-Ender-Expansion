@@ -15,6 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.*;
+import chylex.hee.block.override.BlockDragonEggCustom;
 import chylex.hee.block.vanilla.BlockBasic;
 import chylex.hee.block.vanilla.BlockBasicSlab;
 import chylex.hee.block.vanilla.BlockBasicStairs;

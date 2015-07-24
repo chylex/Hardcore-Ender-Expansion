@@ -3,7 +3,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import chylex.hee.block.BlockDragonEggCustom;
+import chylex.hee.block.override.BlockDragonEggCustom;
 
 public class EntityItemDragonEgg extends EntityItem{
 	private boolean overrideDeath = false;

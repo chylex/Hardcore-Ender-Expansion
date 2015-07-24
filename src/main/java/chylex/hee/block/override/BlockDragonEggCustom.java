@@ -1,4 +1,4 @@
-package chylex.hee.block;
+package chylex.hee.block.override;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
