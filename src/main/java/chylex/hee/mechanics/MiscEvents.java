@@ -16,13 +16,11 @@ import net.minecraftforge.event.entity.player.EntityInteractEvent;
 
 public class MiscEvents{
 	/*
-	 * Endermen dropping heads
 	 * Silverfish dropping blood
-	 * Mobs dropping Spectral Essence and dying next to Spectral Essence Altar
 	 */
 	@SubscribeEvent
 	public void onLivingDrops(LivingDropsEvent e){
-		if (e.entity.worldObj.isRemote /*|| SpectralEssenceHandler.handleMobDeath(e)*/ || !e.recentlyHit)return;
+		if (e.entity.worldObj.isRemote || !e.recentlyHit)return;
 		
 		if (e.entity.getClass() == EntitySilverfish.class && e.entityLiving.getRNG().nextInt(14-Math.min(e.lootingLevel,4)) == 0){
 			boolean drop = e.entityLiving.getRNG().nextInt(4) == 0;

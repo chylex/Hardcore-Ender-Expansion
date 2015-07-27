@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.logging.Stopwatch;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -18,8 +21,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.ArrayUtils;
-import chylex.hee.system.logging.Stopwatch;
 
 public final class DragonUtil{
 	public static int portalEffectX, portalEffectZ;
@@ -171,7 +172,7 @@ public final class DragonUtil{
 	}
 
 	public static int getTopBlockY(World world, Block block, int x, int z, int startY){
-		for(BlockPosM pos = new BlockPosM(x,startY,z); pos.y >= 0; pos.y--){
+		for(PosMutable pos = new PosMutable(x,startY,z); pos.y >= 0; pos.y--){
 			if (pos.getBlock(world) == block)return pos.y;
 		}
 		
