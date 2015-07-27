@@ -62,25 +62,22 @@ public final class RavagedDungeonLoot{
 		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(11),
 		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(6),
 		new LootItemStack(ItemList.rune).setDamage(5).setWeight(5),
-	}).addItemPostProcessor(new IItemPostProcessor(){
-		@Override
-		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
-				int amount = 1+(int)Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*1.5D));
-				
-				for(int a = 0; a < amount; a++){
-					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
-					if (availableTypes.isEmpty())break;
-				}
-			}
-			else if (is.getItem() == Items.enchanted_book){
-				is.func_150996_a(Items.book); // OBFUSCATED set item
-				EnchantmentHelper.addRandomEnchantment(rand,is,15+rand.nextInt(10));
-			}
+	}).addItemPostProcessor((is, rand) -> {
+		if (is.getItem() == ItemList.enhanced_ender_pearl){
+			List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
+			int amount = 1+(int)Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*1.5D));
 			
-			return is;
+			for(int a = 0; a < amount; a++){
+				is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+				if (availableTypes.isEmpty())break;
+			}
 		}
+		else if (is.getItem() == Items.enchanted_book){
+			is.func_150996_a(Items.book); // OBFUSCATED set item
+			EnchantmentHelper.addRandomEnchantment(rand,is,15+rand.nextInt(10));
+		}
+		
+		return is;
 	});
 	
 	public static final WeightedLootList lootRare = new WeightedLootList(new LootItemStack[]{
@@ -94,21 +91,18 @@ public final class RavagedDungeonLoot{
 		new LootItemStack(ItemList.rune).setDamage(0,4).setWeight(9),
 		new LootItemStack(ItemList.rune).setDamage(5).setWeight(7),
 		new LootItemStack(ItemList.charm_pouch).setWeight(1)
-	}).addItemPostProcessor(new IItemPostProcessor(){
-		@Override
-		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
-				int amount = 1+(int)Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.25D));
-				
-				for(int a = 0; a < amount; a++){
-					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
-					if (availableTypes.isEmpty())break;
-				}
-			}
+	}).addItemPostProcessor((is, rand) -> {
+		if (is.getItem() == ItemList.enhanced_ender_pearl){
+			List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
+			int amount = 1+(int)Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.25D));
 			
-			return is;
+			for(int a = 0; a < amount; a++){
+				is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+				if (availableTypes.isEmpty())break;
+			}
 		}
+		
+		return is;
 	});
 	
 	public static final WeightedLootList lootEnd = new WeightedLootList(new LootItemStack[]{
@@ -120,17 +114,14 @@ public final class RavagedDungeonLoot{
 			new LootItemStack(ItemList.stardust).setAmount(6,21).setWeight(20),
 			new LootItemStack(ItemList.rune).setDamage(5).setWeight(12),
 			new LootItemStack(ItemList.charm).setWeight(3)
-	}).addItemPostProcessor(new IItemPostProcessor(){
-		@Override
-		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.charm){
-				CharmType[] types = CharmType.values();
-				CharmType type = types[rand.nextInt(types.length)];
-				is.setItemDamage(type.recipes[rand.nextInt(type.recipes.length)].id);
-			}
-			
-			return is;
+	}).addItemPostProcessor((is, rand) -> {
+		if (is.getItem() == ItemList.charm){
+			CharmType[] types = CharmType.values();
+			CharmType type = types[rand.nextInt(types.length)];
+			is.setItemDamage(type.recipes[rand.nextInt(type.recipes.length)].id);
 		}
+		
+		return is;
 	});
 	
 	private RavagedDungeonLoot(){}

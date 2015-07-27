@@ -234,12 +234,9 @@ public final class LaboratoryContent{
 		new LootItemStack(ItemList.knowledge_note).setWeight(15),
 		new LootItemStack(Items.dye).setAmount(1,3).setDamage(4).setWeight(10),
 		new LootItemStack(Items.emerald).setAmount(1,3).setWeight(10)
-	}).addItemPostProcessor(new IItemPostProcessor(){
-		@Override
-		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,4);
-			return is;
-		}
+	}).addItemPostProcessor((is, rand) -> {
+		if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,4);
+		return is;
 	});
 	
 	public static final WeightedLootList largeChestLoot = new WeightedLootList(new LootItemStack[]{
@@ -250,12 +247,9 @@ public final class LaboratoryContent{
 		new LootItemStack(ItemList.knowledge_note).setWeight(10),
 		new LootItemStack(Items.iron_ingot).setAmount(2,5).setWeight(8),
 		new LootItemStack(Items.gold_ingot).setAmount(2,4).setWeight(7)
-	}).addItemPostProcessor(new IItemPostProcessor(){
-		@Override
-		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
-			return is;
-		}
+	}).addItemPostProcessor((is, rand) -> {
+		if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
+		return is;
 	});
 	
 	private LaboratoryContent(){}

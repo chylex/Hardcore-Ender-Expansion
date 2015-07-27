@@ -85,35 +85,32 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		new LootItemStack(ItemList.temple_caller).setWeight(14),
 		new LootItemStack(BlockList.essence_altar).setWeight(13),
 		new LootItemStack(Items.golden_apple).setDamage(1).setWeight(4)
-	}).addItemPostProcessor(new IItemPostProcessor(){
-		@Override
-		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
-				
-				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
-					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
-					if (availableTypes.isEmpty())break;
-				}
-			}
-			else if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_tnt)){
-				List<TNTEnhancements> availableTypes = CollectionUtil.newList(TNTEnhancements.values());
-				
-				for(int a = 0; a < 1+rand.nextInt(2)+Math.round(rand.nextDouble()*2D); a++){
-					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
-					if (availableTypes.isEmpty())break;
-				}
-			}
-			else if (is.getItem() == ItemList.knowledge_note){
-				ItemKnowledgeNote.setRandomNote(is,rand,5);
-			}
-			else if (is.getItem() == Items.cake){
-				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"Why are there just pieces of cake");
-				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"lying all over the place?...");
-			}
+	}).addItemPostProcessor((is, rand) -> {
+		if (is.getItem() == ItemList.enhanced_ender_pearl){
+			List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
 			
-			return is;
+			for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
+				is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+				if (availableTypes.isEmpty())break;
+			}
 		}
+		else if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_tnt)){
+			List<TNTEnhancements> availableTypes = CollectionUtil.newList(TNTEnhancements.values());
+			
+			for(int a = 0; a < 1+rand.nextInt(2)+Math.round(rand.nextDouble()*2D); a++){
+				is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+				if (availableTypes.isEmpty())break;
+			}
+		}
+		else if (is.getItem() == ItemList.knowledge_note){
+			ItemKnowledgeNote.setRandomNote(is,rand,5);
+		}
+		else if (is.getItem() == Items.cake){
+			ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"Why are there just pieces of cake");
+			ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"lying all over the place?...");
+		}
+		
+		return is;
 	});
 	
 	public static WeightedLootList lootFuel = new WeightedLootList(

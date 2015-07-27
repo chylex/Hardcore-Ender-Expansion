@@ -20,11 +20,7 @@ public enum EssenceType{
 		new RuneItem(Items.book, "hardcoreenderexpansion:player.random.pageflip"),
 		new RuneItem(Blocks.bookshelf, "dig.wood"),
 		new RuneItem(Blocks.iron_bars, "dig.stone"),
-		new RuneItem(new IItemSelector(){
-			@Override public boolean isValid(ItemStack is){
-				return is.getItem() == Items.map || is.getItem() == Items.filled_map;
-			}
-		}, new ItemStack(Items.map), "hardcoreenderexpansion:player.random.pageflip"),
+		new RuneItem(is -> is.getItem() == Items.map || is.getItem() == Items.filled_map, new ItemStack(Items.map), "hardcoreenderexpansion:player.random.pageflip"),
 		new RuneItem(Blocks.obsidian, "dig.stone"),
 		new RuneItem(Blocks.stonebrick, "dig.stone")
 	}, new float[]{ 0.4648F,0.1914F,0.5195F }),

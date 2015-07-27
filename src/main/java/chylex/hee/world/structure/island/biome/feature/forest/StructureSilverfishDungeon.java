@@ -42,26 +42,23 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 		new LootItemStack(Items.beef).setAmount(1,3).setWeight(3),
 		new LootItemStack(Items.sugar).setAmount(1,2).setWeight(3),
 		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(2)
-	}).addItemPostProcessor(new IItemPostProcessor(){
-		@Override
-		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItemUseAction() == EnumAction.eat){
-				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"It smells fishy...");
-			}
-			else if (is.getItem() == Items.enchanted_book){
-				is.func_150996_a(Items.book); // OBFUSCATED set item
-				EnchantmentHelper.addRandomEnchantment(rand,is,13+rand.nextInt(7));
-			}
-			else if (is.isItemEnchantable() && is.getItem() != Items.book){
-				if (rand.nextInt(4) != 0)EnchantmentHelper.addRandomEnchantment(rand,is,16+rand.nextInt(5));
-				ItemUtil.setArmorColor(is,rand.nextInt(16777216));
-			}
-			else if (is.getItem() == ItemList.knowledge_note){
-				ItemKnowledgeNote.setRandomNote(is,rand,5);
-			}
-			
-			return is;
+	}).addItemPostProcessor((is, rand) -> {
+		if (is.getItemUseAction() == EnumAction.eat){
+			ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"It smells fishy...");
 		}
+		else if (is.getItem() == Items.enchanted_book){
+			is.func_150996_a(Items.book); // OBFUSCATED set item
+			EnchantmentHelper.addRandomEnchantment(rand,is,13+rand.nextInt(7));
+		}
+		else if (is.isItemEnchantable() && is.getItem() != Items.book){
+			if (rand.nextInt(4) != 0)EnchantmentHelper.addRandomEnchantment(rand,is,16+rand.nextInt(5));
+			ItemUtil.setArmorColor(is,rand.nextInt(16777216));
+		}
+		else if (is.getItem() == ItemList.knowledge_note){
+			ItemKnowledgeNote.setRandomNote(is,rand,5);
+		}
+		
+		return is;
 	});
 	
 	@Override

@@ -5,44 +5,30 @@ import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 
+@FunctionalInterface
 public interface IRandomAmount{
 	int generate(Random rand, int minAmount, int maxAmount);
 	
 	public static final IRandomAmount
 	
-	exact = new IRandomAmount(){
-		@Override
-		public int generate(Random rand, int minAmount, int maxAmount){
-			return minAmount;
-		}
+	exact = (rand, min, max) -> {
+		return min;
 	},
 	
-	linear = new IRandomAmount(){
-		@Override
-		public int generate(Random rand, int minAmount, int maxAmount){
-			return minAmount+rand.nextInt(maxAmount-minAmount+1);
-		}
+	linear = (rand, min, max) -> {
+		return min+rand.nextInt(max-min+1);
 	},
 	
-	preferSmaller = new IRandomAmount(){
-		@Override
-		public int generate(Random rand, int minAmount, int maxAmount){
-			return minAmount+MathUtil.floor(rand.nextDouble()*rand.nextDouble()*(1+maxAmount-minAmount));
-		}
+	preferSmaller = (rand, min, max) -> {
+		return min+MathUtil.floor(rand.nextDouble()*rand.nextDouble()*(1+max-min));
 	},
 	
-	aroundCenter = new IRandomAmount(){
-		@Override
-		public int generate(Random rand, int minAmount, int maxAmount){
-			return MathUtil.clamp((int)Math.round(minAmount+(maxAmount-minAmount)*0.5D+(rand.nextDouble()-0.5D)*rand.nextDouble()*(1+maxAmount-minAmount)),minAmount,maxAmount);
-		}
+	aroundCenter = (rand, min, max) -> {
+		return MathUtil.clamp((int)Math.round(min+(max-min)*0.5D+(rand.nextDouble()-0.5D)*rand.nextDouble()*(1+max-min)),min,max);
 	},
 	
-	gaussian = new IRandomAmount(){
-		@Override
-		public int generate(Random rand, int minAmount, int maxAmount){
-			return minAmount+(int)Math.round(MathUtil.clamp(rand.nextGaussian()*0.5D,0D,1D)*(maxAmount-minAmount));
-		}
+	gaussian = (rand, min, max) -> {
+		return min+(int)Math.round(MathUtil.clamp(rand.nextGaussian()*0.5D,0D,1D)*(max-min));
 	};
 	
 	public static final HeeTest $debugTest = new HeeTest(){

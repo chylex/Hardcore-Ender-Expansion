@@ -115,7 +115,7 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 	private CompendiumEvents(){}
 
 	@Override
-	public PlayerCompendiumData createNew(Entity entity){
+	public PlayerCompendiumData createNew(){
 		return new PlayerCompendiumData();
 	}
 	

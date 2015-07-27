@@ -17,12 +17,7 @@ public class PlayerTransportBeacons implements IExtendedEntityProperties{
 	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~TransportBeacons";
 	
 	public static void register(){
-		PlayerDataHandler.registerProperty(playerPropertyIdentifier,new IExtendedPropertyInitializer<PlayerTransportBeacons>(){
-			@Override
-			public PlayerTransportBeacons createNew(Entity entity){
-				return new PlayerTransportBeacons();
-			}
-		});
+		PlayerDataHandler.registerProperty(playerPropertyIdentifier,PlayerTransportBeacons::new);
 	}
 	
 	public static PlayerTransportBeacons getInstance(EntityPlayer player){

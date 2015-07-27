@@ -25,23 +25,13 @@ public class RuneItem{
 	}
 	
 	public RuneItem(final Item item, String soundEffect){
-		this.selector = new IItemSelector(){
-			@Override public boolean isValid(ItemStack is){
-				return is.getItem() == item;
-			}
-		};
-		
+		this.selector = is -> is.getItem() == item;
 		this.showedItem = new ItemStack(item,1,0);
 		this.soundEffect = soundEffect;
 	}
 	
 	public RuneItem(final Item item, final int damage, String soundEffect){
-		this.selector = new IItemSelector(){
-			@Override public boolean isValid(ItemStack is){
-				return is.getItem() == item && is.getItemDamage() == damage;
-			}
-		};
-		
+		this.selector = is -> is.getItem() == item && is.getItemDamage() == damage;
 		this.showedItem = new ItemStack(item,1,damage);
 		this.soundEffect = soundEffect;
 	}

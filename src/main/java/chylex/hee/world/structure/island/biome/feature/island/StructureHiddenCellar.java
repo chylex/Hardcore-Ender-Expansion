@@ -50,12 +50,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		new LootItemStack(Blocks.sand).setAmount(1,4).setWeight(4),
 		new LootItemStack(Blocks.gravel).setAmount(1,4).setWeight(4),
 		new LootItemStack(Blocks.clay).setAmount(1,4).setWeight(4)
-	}).addItemPostProcessor(new IItemPostProcessor(){
-		@Override
-		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,4);
-			return is;
-		}
+	}).addItemPostProcessor((is, rand) -> {
+		if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,4);
+		return is;
 	});
 	
 	public static final WeightedLootList[] normalChestVariation = new WeightedLootList[]{
@@ -76,21 +73,18 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		new LootItemStack(ItemList.knowledge_note).setWeight(7),
 		new LootItemStack(Items.ender_pearl).setAmount(3,9).setWeight(5),
 		new LootItemStack(ItemList.temple_caller).setWeight(5)
-	}).addItemPostProcessor(new IItemPostProcessor(){
-		@Override
-		public ItemStack processItem(ItemStack is, Random rand){
-			if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
-			else if (is.getItem() == ItemList.enhanced_ender_pearl){
-				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
-				
-				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*3.2D)); a++){
-					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
-					if (availableTypes.isEmpty())break;
-				}
-			}
+	}).addItemPostProcessor((is, rand) -> {
+		if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
+		else if (is.getItem() == ItemList.enhanced_ender_pearl){
+			List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
 			
-			return is;
+			for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*3.2D)); a++){
+				is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+				if (availableTypes.isEmpty())break;
+			}
 		}
+		
+		return is;
 	});
 	
 	public static final WeightedLootList[] rareChestVariation = new WeightedLootList[]{

@@ -3,6 +3,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+@FunctionalInterface
 public interface IItemSelector{
 	boolean isValid(ItemStack is);
 	
@@ -24,7 +25,7 @@ public interface IItemSelector{
 			public boolean isValid(ItemStack is){
 				return is.getItem() == item;
 			}
-	
+			
 			@Override
 			public ItemStack getRepresentativeItem(){
 				return new ItemStack(item);

@@ -4,16 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCompressed;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemBlock;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.oredict.OreDictionary;
 import chylex.hee.block.*;
 import chylex.hee.block.override.BlockDragonEggCustom;
 import chylex.hee.block.override.BlockEndPortalCustom;
@@ -26,15 +16,24 @@ import chylex.hee.item.block.ItemBlockEnhanceableTile;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
 import chylex.hee.item.block.ItemBlockSlab;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
-import chylex.hee.system.collections.DefaultingHashMap;
 import chylex.hee.system.creativetab.ModCreativeTab;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockCompressed;
+import net.minecraft.block.BlockFence;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 
 public final class BlockList{
 	private static final Map<String,Block> blocks = new HashMap<>();
-	private static final Map<String,Class<? extends ItemBlock>> itemBlocks = new DefaultingHashMap<String,Class<? extends ItemBlock>>(ItemBlock.class);
+	private static final Map<String,Class<? extends ItemBlock>> itemBlocks = new HashMap<>();
 	
 	public static final Random blockRandom = new Random();
 	
@@ -208,7 +207,7 @@ public final class BlockList{
 		BlockReplaceHelper.replaceBlock(Blocks.end_portal_frame,new BlockEndPortalFrameCustom());
 		
 		for(Entry<String,Block> entry:BlockList.blocks.entrySet()){
-			GameRegistryUtil.registerBlock(entry.getValue(),entry.getKey(),itemBlocks.get(entry.getKey()));
+			GameRegistryUtil.registerBlock(entry.getValue(),entry.getKey(),itemBlocks.getOrDefault(entry.getKey(),ItemBlock.class));
 		}
 		
 		ModCreativeTab.tabMain.list.addBlocks(

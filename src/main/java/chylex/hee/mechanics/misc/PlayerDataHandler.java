@@ -30,7 +30,7 @@ public class PlayerDataHandler{
 	public void onEntityConstructing(EntityEvent.EntityConstructing e){
 		if (e.entity.worldObj != null && e.entity instanceof EntityPlayer){
 			for(Entry<String,IExtendedPropertyInitializer<?>> entry:registrations.entrySet()){
-				if (!e.entity.registerExtendedProperties(entry.getKey(),entry.getValue().createNew(e.entity)).equals(entry.getKey())){
+				if (!e.entity.registerExtendedProperties(entry.getKey(),entry.getValue().createNew()).equals(entry.getKey())){
 					throw new IllegalStateException("Could not register extended player properties, likely due to the properties already being registered by another mod!");
 				}
 			}
@@ -46,7 +46,8 @@ public class PlayerDataHandler{
 		}
 	}
 	
+	@FunctionalInterface
 	public static interface IExtendedPropertyInitializer<T extends IExtendedEntityProperties>{
-		T createNew(Entity entity);
+		T createNew();
 	}
 }

@@ -208,8 +208,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		if (flag)CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
 		
 		if (flag && !isFamilyChosen && !worldObj.isRemote && source.getEntity() instanceof EntityPlayer){
-			List<EntityEnderman> endermanList = worldObj.getEntitiesWithinAABB(EntityEnderman.class,boundingBox.expand(32D,32D,32D));			
-			Collections.sort(endermanList,new DistanceComparator(this));
+			List<EntityEnderman> endermanList = worldObj.getEntitiesWithinAABB(EntityEnderman.class,boundingBox.expand(32D,32D,32D));
+			endermanList.sort((e1, e2) -> ((Float)e1.getDistanceToEntity(this)).compareTo(e2.getDistanceToEntity(this)));
 			
 			int familySize = Math.min(endermanList.size(),2+rand.nextInt(3)+rand.nextInt(2));
 			for(int a = 0; a < familySize; a++){
@@ -345,25 +345,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	}
 }
 
-class DistanceComparator<T extends Entity> implements Comparator<T>{
-	private final Entity source;
-	
-	public DistanceComparator(Entity source){
-		this.source = source;
-	}
-	
-	@Override
-	public int compare(T e1, T e2){
-		return ((Float)e1.getDistanceToEntity(source)).compareTo(e2.getDistanceToEntity(source));
-	}
-}
-
 enum ItemPriorityLevel{
-	ENCHANTED(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			return is.isItemEnchanted();
-		}
-	}),
+	ENCHANTED(is -> is.isItemEnchanted()),
 	
 	SHINYARMORTOOLS(new IItemSelector(){
 		@Override public boolean isValid(ItemStack is){
@@ -392,81 +375,51 @@ enum ItemPriorityLevel{
 		}
 	}),
 	
-	SHINYBLOCKS(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			if (!(is.getItem() instanceof ItemBlock))return false;
-			Block block = Block.getBlockFromItem(is.getItem());
-			return block == Blocks.diamond_block || block == Blocks.gold_block || block == Blocks.iron_block ||
-				   block == Blocks.emerald_block || block == Blocks.redstone_block || block == Blocks.quartz_block;
-		}
+	SHINYBLOCKS(is -> {
+		if (!(is.getItem() instanceof ItemBlock))return false;
+		Block block = Block.getBlockFromItem(is.getItem());
+		return block == Blocks.diamond_block || block == Blocks.gold_block || block == Blocks.iron_block ||
+			   block == Blocks.emerald_block || block == Blocks.redstone_block || block == Blocks.quartz_block;
 	}),
 	
-	SHINYITEMS(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			Item item = is.getItem();
-			return item == Items.diamond || item == Items.gold_ingot || item == Items.iron_ingot ||
-				   item == Items.gold_nugget || item == Items.emerald;
-		}
+	SHINYITEMS(is -> {
+		Item item = is.getItem();
+		return item == Items.diamond || item == Items.gold_ingot || item == Items.iron_ingot ||
+			   item == Items.gold_nugget || item == Items.emerald;
 	}),
 	
-	IRONMAT(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			return (is.getItem() instanceof ItemBlock)?Block.getBlockFromItem(is.getItem()).getMaterial() == Material.iron:is.getItem() instanceof ItemMinecart;
-		}
+	IRONMAT(is -> is.getItem() instanceof ItemBlock ? Block.getBlockFromItem(is.getItem()).getMaterial() == Material.iron : is.getItem() instanceof ItemMinecart),
+	
+	ENDER(is -> {
+		Item item = is.getItem();
+		return item == Items.ender_pearl || item == Items.ender_eye || item == ItemList.end_powder ||
+			   item == ItemList.transference_gem || item == ItemList.spatial_dash_gem;
 	}),
 	
-	ENDER(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			Item item = is.getItem();
-			return item == Items.ender_pearl || item == Items.ender_eye || item == ItemList.end_powder ||
-				   item == ItemList.transference_gem || item == ItemList.spatial_dash_gem;
-		}
+	FOOD(is -> is.getItemUseAction() == EnumAction.eat),
+	
+	POTION(is -> is.getItem() == Items.potionitem || is.getItem() == Items.experience_bottle),
+	
+	PLANTS(is -> {
+		Item item = is.getItem();
+		if (item instanceof IPlantable)return true;
+		if (!(item instanceof ItemBlock))return false;
+		
+		Block block = Block.getBlockFromItem(item);
+		return block == BlockList.death_flower || (block == BlockList.crossed_decoration && is.getItemDamage() == BlockCrossedDecoration.dataLilyFire);
 	}),
 	
-	FOOD(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			return is.getItemUseAction() == EnumAction.eat;
+	WOOD(is -> is.getItem() instanceof ItemBlock ? Block.getBlockFromItem(is.getItem()).getMaterial() == Material.wood : is.getItem() == Items.stick),
+	
+	GROUNDMAT(is -> {
+		if (is.getItem() instanceof ItemBlock){
+			Material mat = Block.getBlockFromItem(is.getItem()).getMaterial();
+			return mat == Material.rock || mat == Material.grass || mat == Material.ground || mat == Material.sand;
 		}
+		else return false;
 	}),
 	
-	POTION(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			return is.getItem() == Items.potionitem || is.getItem() == Items.experience_bottle;
-		}
-	}),
-	
-	PLANTS(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			Item item = is.getItem();
-			if (item instanceof IPlantable)return true;
-			if (!(item instanceof ItemBlock))return false;
-			
-			Block block = Block.getBlockFromItem(item);
-			return block == BlockList.death_flower || (block == BlockList.crossed_decoration && is.getItemDamage() == BlockCrossedDecoration.dataLilyFire);
-		}
-	}),
-	
-	WOOD(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			return (is.getItem() instanceof ItemBlock)?Block.getBlockFromItem(is.getItem()).getMaterial() == Material.wood:is.getItem() == Items.stick;
-		}
-	}),
-	
-	GROUNDMAT(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			if (is.getItem() instanceof ItemBlock){
-				Material mat = Block.getBlockFromItem(is.getItem()).getMaterial();
-				return mat == Material.rock || mat == Material.grass || mat == Material.ground || mat == Material.sand;
-			}
-			return false;
-		}
-	}),
-	
-	RANDOM(new IItemSelector(){
-		@Override public boolean isValid(ItemStack is){
-			return true;
-		}
-	});
+	RANDOM(is -> true);
 	
 	static final ItemPriorityLevel[] values = values();
 	

@@ -127,11 +127,9 @@ public class WorldGenBlob extends WorldGenerator{
 					new LootItemStack(ItemList.adventurers_diary).setWeight(5),
 					new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(5),
 					new LootItemStack(Items.ender_eye).setWeight(4)
-				}).addItemPostProcessor(new IItemPostProcessor(){
-					@Override
-					public ItemStack processItem(ItemStack is, Random rand){
-						return is.getItem() == ItemList.knowledge_note ? ItemKnowledgeNote.setRandomNote(is,rand,3) : is;
-					}
+				}).addItemPostProcessor((is, rand) -> {
+					if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,3);
+					return is;
 				}),IRandomAmount.preferSmaller,3,10).onlyInside(),
 				new BlobPopulatorCover(1).block(BlockList.ender_goo)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),

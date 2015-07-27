@@ -14,12 +14,7 @@ public class PlayerVoidChest implements IExtendedEntityProperties{
 	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~VoidChest";
 	
 	static void register(){
-		PlayerDataHandler.registerProperty(playerPropertyIdentifier,new IExtendedPropertyInitializer<PlayerVoidChest>(){
-			@Override
-			public PlayerVoidChest createNew(Entity entity){
-				return new PlayerVoidChest();
-			}
-		});
+		PlayerDataHandler.registerProperty(playerPropertyIdentifier,PlayerVoidChest::new);
 	}
 	
 	public static InventoryVoidChest getInventory(EntityPlayer player){
