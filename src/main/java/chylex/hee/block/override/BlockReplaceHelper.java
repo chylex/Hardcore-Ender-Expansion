@@ -1,20 +1,20 @@
-package chylex.hee.block;
+package chylex.hee.block.override;
 import java.lang.reflect.Field;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.Unfinalizer;
 import cpw.mods.fml.common.registry.FMLControlledNamespacedRegistry;
 import cpw.mods.fml.common.registry.GameData;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 
 public class BlockReplaceHelper{
 	public static void replaceBlock(Block toReplace, Block replacement){
 		Stopwatch.time("BlockReplace");
 		
-		Class<?>[] classTest = new Class<?>[4];
+		Class<?>[] classTest = new Class<?>[3];
 		Exception exception = null;
 		
 		try{
@@ -41,6 +41,7 @@ public class BlockReplaceHelper{
 						classTest[0] = blockField.get(null).getClass();
 						classTest[1] = Block.blockRegistry.getObjectById(id).getClass();
 						classTest[2] = ((ItemBlock)Item.getItemFromBlock(replacement)).field_150939_a.getClass();
+						break;
 					}
 				}
 			}

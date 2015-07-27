@@ -8,6 +8,7 @@ import chylex.hee.block.*;
 import chylex.hee.block.override.BlockDragonEggCustom;
 import chylex.hee.block.override.BlockEndPortalCustom;
 import chylex.hee.block.override.BlockEndPortalFrameCustom;
+import chylex.hee.block.override.BlockReplaceHelper;
 import chylex.hee.block.vanilla.BlockBasic;
 import chylex.hee.block.vanilla.BlockBasicSlab;
 import chylex.hee.block.vanilla.BlockBasicStairs;
