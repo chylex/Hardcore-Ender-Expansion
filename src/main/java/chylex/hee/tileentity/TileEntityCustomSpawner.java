@@ -1,9 +1,6 @@
 package chylex.hee.tileentity;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import chylex.hee.block.BlockCustomSpawner;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.spawner.BlobEndermanSpawnerLogic;
@@ -12,11 +9,15 @@ import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic;
 import chylex.hee.tileentity.spawner.SilverfishDungeonSpawnerLogic;
 import chylex.hee.tileentity.spawner.SilverfishRavagedSpawnerLogic;
 import chylex.hee.tileentity.spawner.TowerEndermanSpawnerLogic;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityCustomSpawner extends TileEntity{
 	private byte logicId;
 	private CustomSpawnerLogic logic;
-	private int actualX, actualY = -1, actualZ;
+	private Pos actualPos;
 
 	public TileEntityCustomSpawner setLogicId(int id){
 		createLogic((byte)id);
@@ -40,12 +41,8 @@ public class TileEntityCustomSpawner extends TileEntity{
 	
 	@Override
 	public void updateEntity(){
-		if (actualY == -1){
-			actualX = xCoord;
-			actualY = yCoord;
-			actualZ = zCoord;
-		}
-		else if (xCoord == actualX && yCoord == actualY && zCoord == actualZ)logic.updateSpawner();
+		if (actualPos == null)actualPos = Pos.at(xCoord,yCoord,zCoord);
+		else if (xCoord == actualPos.getX() && yCoord == actualPos.getY() && zCoord == actualPos.getZ())logic.updateSpawner();
 		
 		super.updateEntity();
 	}
@@ -68,7 +65,7 @@ public class TileEntityCustomSpawner extends TileEntity{
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		nbt.setByte("logicId",logicId);
-		nbt.setLong("actualPos",BlockPosM.tmp(actualX,actualY,actualZ).toLong());
+		nbt.setLong("actualPos",actualPos.toLong());
 		logic.writeToNBT(nbt);
 	}
 	
@@ -76,12 +73,7 @@ public class TileEntityCustomSpawner extends TileEntity{
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
 		createLogic(nbt.getByte("logicId"));
-		
-		BlockPosM actualPos = BlockPosM.fromNBT(nbt,"actualPos");
-		actualX = actualPos.x;
-		actualY = actualPos.y;
-		actualZ = actualPos.z;
-		
+		actualPos = Pos.fromNBT(nbt,"actualPos");
 		logic.readFromNBT(nbt);
 	}
 

@@ -15,11 +15,6 @@ public class BlockPosM{
 	public static AxisAlignedBB getBoundingBox(BlockPosM loc1, BlockPosM loc2){
 		return AxisAlignedBB.getBoundingBox(Math.min(loc1.x,loc2.x),loc1.y,Math.min(loc1.z,loc2.z),Math.max(loc1.x,loc2.x),loc2.y,Math.max(loc1.z,loc2.z));
 	}
-
-	@Deprecated
-	public static BlockPosM fromNBT(NBTTagCompound nbt, String key){
-		return nbt.hasKey(key,NBT.TAG_LONG) ? new BlockPosM(nbt.getLong(key)) : new BlockPosM(nbt.getIntArray(key));
-	}
 	
 	/* === TEMPORARY BLOCKPOS === */
 	

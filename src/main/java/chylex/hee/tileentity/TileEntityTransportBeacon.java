@@ -12,25 +12,22 @@ import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy.MessageType;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory{
 	private boolean hasEnergy, noTampering;
-	private int actualX, actualY = -1, actualZ;
+	private Pos actualPos;
 	private float beamAngle;
 	
 	@Override
 	public void updateEntity(){
 		if (!worldObj.isRemote){
-			if (actualY == -1){
-				actualX = xCoord;
-				actualY = yCoord;
-				actualZ = zCoord;
-			}
+			if (actualPos == null)actualPos = Pos.at(xCoord,yCoord,zCoord);
 			
-			if (xCoord == actualX && yCoord == actualY && zCoord == actualZ && worldObj.provider.dimensionId == 1){
+			if (xCoord == actualPos.getX() && yCoord == actualPos.getY() && zCoord == actualPos.getZ() && worldObj.provider.dimensionId == 1){
 				if (!noTampering){
 					noTampering = true;
 					worldObj.addBlockEvent(xCoord,yCoord,zCoord,BlockList.transport_beacon,0,1);
@@ -120,18 +117,14 @@ public class TileEntityTransportBeacon extends TileEntityAbstractEnergyInventory
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		nbt.setBoolean("hasEng",hasEnergy);
-		nbt.setLong("actualPos",BlockPosM.tmp(actualX,actualY,actualZ).toLong());
+		nbt.setLong("actualPos",actualPos.toLong());
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
 		hasEnergy = nbt.getBoolean("hasEng");
-		
-		BlockPosM actualPos = BlockPosM.fromNBT(nbt,"actualPos");
-		actualX = actualPos.x;
-		actualY = actualPos.y;
-		actualZ = actualPos.z;
+		actualPos = Pos.fromNBT(nbt,"actualPos");
 	}
 	
 	@Override

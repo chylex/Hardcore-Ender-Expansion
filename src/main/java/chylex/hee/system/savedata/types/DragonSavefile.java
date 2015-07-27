@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.savedata.WorldSavefile;
+import chylex.hee.system.util.BlockPosM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -13,13 +16,10 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.util.Constants.NBT;
-import chylex.hee.system.savedata.WorldSavefile;
-import chylex.hee.system.util.BlockPosM;
 
 public class DragonSavefile extends WorldSavefile{
 	private Map<String,ChunkCoordinates> crystals = new HashMap<>();
 	private Set<UUID> templePlayers = new HashSet<>();
-	private BlockPosM portalEggLocation = new BlockPosM(0,100,0);
 	private ChunkCoordIntPair lastDragonChunk = new ChunkCoordIntPair(0,0);
 	private boolean isDragonDead;
 	private int dragonDeathCount;
@@ -95,15 +95,15 @@ public class DragonSavefile extends WorldSavefile{
 		setModified();
 	}
 	
+	@Deprecated
 	public BlockPosM getPortalEggLocation(){
-		return portalEggLocation;
+		return BlockPosM.tmp();
 	}
 
 	@Override
 	protected void onSave(NBTTagCompound nbt){
 		nbt.setShort("dragonDeaths",(short)dragonDeathCount);
 		nbt.setBoolean("dragonDead",isDragonDead);
-		nbt.setLong("portalCoords",portalEggLocation.toLong());
 		nbt.setIntArray("lastChunk",new int[]{ lastDragonChunk.chunkXPos, lastDragonChunk.chunkZPos });
 		
 		NBTTagCompound tagCrystals = new NBTTagCompound();
@@ -122,8 +122,6 @@ public class DragonSavefile extends WorldSavefile{
 	protected void onLoad(NBTTagCompound nbt){
 		dragonDeathCount = nbt.getShort("dragonDeaths");
 		isDragonDead = nbt.getBoolean("dragonDead");
-		
-		portalEggLocation = BlockPosM.fromNBT(nbt,"portalCoords");
 		
 		int[] lastChunk = nbt.getIntArray("lastChunk");
 		if (lastChunk.length == 2)lastDragonChunk = new ChunkCoordIntPair(lastChunk[0],lastChunk[1]);

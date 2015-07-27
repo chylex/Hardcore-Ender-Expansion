@@ -1,14 +1,9 @@
 package chylex.hee.item;
 import java.util.List;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
@@ -17,6 +12,12 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 public class ItemEnergyWand extends Item{
 	@Override
@@ -36,8 +37,8 @@ public class ItemEnergyWand extends Item{
 					tag.setLong("loc",tmpPos.toLong());
 					tile.readTileFromNBT(tag);
 					
-					BlockPosM prevLoc = BlockPosM.fromNBT(ItemUtil.getTagRoot(is,false),"prevLoc");
-					double dist = ItemUtil.getTagRoot(is,false).getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc.x-tmpPos.x,prevLoc.y-tmpPos.y,prevLoc.z-tmpPos.z) : Double.MAX_VALUE;
+					Pos prevLoc = Pos.fromNBT(ItemUtil.getTagRoot(is,false),"prevLoc");
+					double dist = ItemUtil.getTagRoot(is,false).getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc.getX()-tmpPos.x,prevLoc.getY()-tmpPos.y,prevLoc.getZ()-tmpPos.z) : Double.MAX_VALUE;
 					
 					if (dist > 8D){
 						tile.data.setEnergyLevel(tile.data.getEnergyLevel()*(1F-0.5F*Math.min(1F,(float)dist/256F)));

@@ -7,6 +7,7 @@ import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C10ParticleEnergyTransfer;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
@@ -16,7 +17,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public boolean shouldNotExplode = false;
 	private boolean shouldBeDestroyedSilently = false;
 	private byte[] colRgb;
-	private BlockPosM cachedCoords = new BlockPosM(0,-1,0);
+	private Pos cachedCoords;
 	
 	public TileEntityEnergyCluster(){
 		data = new EnergyClusterData();
@@ -32,17 +33,17 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public void updateEntity(){
 		if (shouldBeDestroyedSilently){
 			shouldNotExplode = true;
-			BlockPosM.tmp(xCoord,yCoord,zCoord).setAir(worldObj);
+			Pos.at(xCoord,yCoord,zCoord).setAir(worldObj);
 			return;
 		}
 		
 		if (!worldObj.isRemote){
-			if (cachedCoords.y == -1){
+			if (cachedCoords == null){
 				data.generate(worldObj,xCoord,zCoord);
-				cachedCoords = new BlockPosM(xCoord,yCoord,zCoord);
+				cachedCoords = Pos.at(xCoord,yCoord,zCoord);
 				synchronize();
 			}
-			else if (cachedCoords.x != xCoord || cachedCoords.y != yCoord || cachedCoords.z != zCoord){
+			else if (cachedCoords.getX() != xCoord || cachedCoords.getY() != yCoord || cachedCoords.getZ() != zCoord){
 				BlockEnergyCluster.destroyCluster(this);
 				return;
 			}
@@ -91,7 +92,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	@Override
 	public void readTileFromNBT(NBTTagCompound nbt){
 		colRgb = nbt.getByteArray("col");
-		cachedCoords = BlockPosM.fromNBT(nbt,"loc");
+		cachedCoords = Pos.fromNBT(nbt,"loc");
 		data.readFromNBT(nbt);
 		
 		if (colRgb.length == 0)shouldBeDestroyedSilently = true;
