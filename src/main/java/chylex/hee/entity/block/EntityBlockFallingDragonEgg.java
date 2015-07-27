@@ -47,17 +47,13 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 		}
 		
 		if (onGround){
-			motionX *= 0.7D;
-			motionZ *= 0.7D;
-			motionY *= -0.5D;
-			
 			if (pos.getBlock(worldObj) != Blocks.piston_extension){
 				pos.setBlock(worldObj,func_145805_f()); // OBFUSCATED get block
 			}
 			
 			setDead();
 		}
-		else if (field_145812_b > 100 && !worldObj.isRemote && (pos.getY() < 1 || pos.getY() > 256) || field_145812_b > 600){
+		else if (pos.getY() < 1 || field_145812_b > 600){
 			setDead();
 		}
 	}
