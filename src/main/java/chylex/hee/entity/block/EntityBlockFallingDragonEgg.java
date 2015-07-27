@@ -1,12 +1,10 @@
 package chylex.hee.entity.block;
+import chylex.hee.system.abstractions.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-import chylex.hee.block.override.BlockDragonEggCustom;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 	public EntityBlockFallingDragonEgg(World world){
@@ -41,37 +39,27 @@ public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 		motionX *= 0.9D;
 		motionY *= 0.9D;
 		motionZ *= 0.9D;
-		BlockPosM tmpPos = BlockPosM.tmp(this);
-
-		if (field_145812_b == 1 && tmpPos.getBlock(worldObj) == func_145805_f()){ // OBFUSCATED get block
-			tmpPos.setAir(worldObj);
+		Pos pos = Pos.at(this);
+		
+		if (field_145812_b == 1){
+			if (pos.getBlock(worldObj) == func_145805_f())pos.setAir(worldObj); // OBFUSCATED get block
+			else if (!worldObj.isRemote)setDead();
 		}
-		else if (!worldObj.isRemote && field_145812_b == 1){
-			die();
-		}
-
+		
 		if (onGround){
 			motionX *= 0.7D;
 			motionZ *= 0.7D;
 			motionY *= -0.5D;
-
-			if (tmpPos.getBlock(worldObj) != Blocks.piston_extension){
-				if (tmpPos.setBlock(worldObj,func_145805_f()))setDead(); // OBFUSCATED get block
-				else die();
+			
+			if (pos.getBlock(worldObj) != Blocks.piston_extension){
+				pos.setBlock(worldObj,func_145805_f()); // OBFUSCATED get block
 			}
-			else die();
+			
+			setDead();
 		}
-		else if (field_145812_b > 100 && !worldObj.isRemote && (tmpPos.y < 1 || tmpPos.y > 256) || field_145812_b > 600){
-			die();
+		else if (field_145812_b > 100 && !worldObj.isRemote && (pos.getY() < 1 || pos.getY() > 256) || field_145812_b > 600){
+			setDead();
 		}
-	}
-
-	private void die(){
-		if (!worldObj.isRemote && !BlockDragonEggCustom.teleportNearby(worldObj,MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ))){
-			BlockDragonEggCustom.teleportEntityToPortal(this);
-		}
-		
-		setDead();
 	}
 	
 	@Override

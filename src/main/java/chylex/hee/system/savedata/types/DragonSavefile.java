@@ -94,11 +94,6 @@ public class DragonSavefile extends WorldSavefile{
 		templePlayers.clear();
 		setModified();
 	}
-	
-	@Deprecated
-	public BlockPosM getPortalEggLocation(){
-		return BlockPosM.tmp();
-	}
 
 	@Override
 	protected void onSave(NBTTagCompound nbt){

@@ -108,7 +108,7 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		return false;
 	}
 	
-	public static boolean teleportEntityToPortal(Entity eggEntity){
+	/*public static boolean teleportEntityToPortal(Entity eggEntity){
 		DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
 		
 		if (file.isDragonDead()){
@@ -125,5 +125,5 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		}
 		
 		return false;
-	}
+	}*/
 }

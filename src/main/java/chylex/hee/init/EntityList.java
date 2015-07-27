@@ -9,7 +9,6 @@ import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.item.EntityItemAltar;
-import chylex.hee.entity.item.EntityItemDragonEgg;
 import chylex.hee.entity.item.EntityItemEndPowder;
 import chylex.hee.entity.item.EntityItemIgneousRock;
 import chylex.hee.entity.item.EntityItemInstabilityOrb;
@@ -59,7 +58,6 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityItemInstabilityOrb.class, "ItemInstabilityOrb", 6, 64);
 		GameRegistryUtil.registerEntity(EntityItemAltar.class, "ItemAltar", 19, 128, 1, false);
 		GameRegistryUtil.registerEntity(EntityItemEndPowder.class, "ItemEndPowder", 27, 64);
-		GameRegistryUtil.registerEntity(EntityItemDragonEgg.class, "ItemDragonEgg", 37, 64);
 		
 		GameRegistryUtil.registerEntity(EntityProjectileDragonFireball.class, "ProjectileDragonFireball", 2, 128);
 		GameRegistryUtil.registerEntity(EntityProjectileEnhancedEnderPearl.class, "ProjectileEnhancedEnderPearl", 5, 128);

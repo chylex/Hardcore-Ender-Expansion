@@ -532,7 +532,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	}
 
 	private void createEnderPortal(int x, int z){
-		BlockEndPortal.field_149948_a = true;
+		// TODO
+		/*BlockEndPortal.field_149948_a = true;
 		byte portalSize = 4, bottomY = 64;
 		BlockPosM tmpPos = BlockPosM.tmp();
 
@@ -560,7 +561,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		tmpPos.set(x,bottomY+4,z).setBlock(worldObj,Blocks.dragon_egg);
 		
 		BlockEndPortal.field_149948_a = false;
-		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,bottomY+4,z);
+		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,bottomY+4,z);*/
 	}
 
 	public double[] getMovementOffsets(int offset, float partialTickTime){
