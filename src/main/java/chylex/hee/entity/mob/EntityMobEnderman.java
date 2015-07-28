@@ -1,26 +1,43 @@
 package chylex.hee.entity.mob;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.StatCollector;
-import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.world.loot.PercentageLootTable;
+import chylex.hee.world.loot.info.LootMobInfo;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 
 public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo{
+	private static final PercentageLootTable<LootMobInfo> drops = new PercentageLootTable<>();
+	
+	static{
+		drops.addLoot(Items.ender_pearl).setChances(obj -> {
+			LootMobInfo info = (LootMobInfo)obj;
+			
+			switch(info.looting){
+				case 0: return new float[]{ 0.60F };
+				case 1: return new float[]{ 0.70F };
+				case 2: return new float[]{ 0.65F, 0.10F };
+				default: return new float[]{ 0.72F, 0.16F };
+			}
+		});
+	}
+	
 	public EntityMobEnderman(World world){
 		super(world);
 	}
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
-		super.dropFewItems(recentlyHit,looting);
-		if (recentlyHit && rand.nextInt(Math.max(1,50-looting)) == 0)dropItem(ItemList.enderman_head,1);
+		for(ItemStack drop:drops.generateLoot(new LootMobInfo(this,recentlyHit,looting),rand))entityDropItem(drop,0F);
 	}
 	
 	@Override

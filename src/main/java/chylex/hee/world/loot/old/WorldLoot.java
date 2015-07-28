@@ -1,4 +1,4 @@
-package chylex.hee.world.loot;
+package chylex.hee.world.loot.old;
 import static net.minecraftforge.common.ChestGenHooks.*;
 import java.util.Random;
 import net.minecraft.entity.passive.EntityVillager;

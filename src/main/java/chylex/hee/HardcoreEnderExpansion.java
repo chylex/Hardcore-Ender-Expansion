@@ -40,7 +40,7 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.test.UnitTester;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.world.DimensionOverride;
-import chylex.hee.world.loot.WorldLoot;
+import chylex.hee.world.loot.old.WorldLoot;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;

@@ -39,9 +39,9 @@ import chylex.hee.world.feature.blobs.populators.BlobPopulatorSpikes;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorTransportBeacon;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator.IDecoratorGenPass;
-import chylex.hee.world.loot.IItemPostProcessor;
-import chylex.hee.world.loot.LootItemStack;
-import chylex.hee.world.loot.WeightedLootList;
+import chylex.hee.world.loot.interfaces.IItemPostProcessor;
+import chylex.hee.world.loot.old.LootItemStack;
+import chylex.hee.world.loot.old.WeightedLootList;
 import chylex.hee.world.util.IRandomAmount;
 
 public class WorldGenBlob extends WorldGenerator{

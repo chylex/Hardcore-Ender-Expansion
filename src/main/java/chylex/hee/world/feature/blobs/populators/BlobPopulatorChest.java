@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import chylex.hee.world.feature.blobs.BlobPopulator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.world.loot.WeightedLootList;
+import chylex.hee.world.loot.old.WeightedLootList;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.world.util.IRandomAmount;

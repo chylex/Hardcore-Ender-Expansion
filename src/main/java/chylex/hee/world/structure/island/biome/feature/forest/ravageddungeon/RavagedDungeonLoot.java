@@ -13,9 +13,9 @@ import chylex.hee.mechanics.charms.CharmType;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.system.util.CollectionUtil;
-import chylex.hee.world.loot.IItemPostProcessor;
-import chylex.hee.world.loot.LootItemStack;
-import chylex.hee.world.loot.WeightedLootList;
+import chylex.hee.world.loot.interfaces.IItemPostProcessor;
+import chylex.hee.world.loot.old.LootItemStack;
+import chylex.hee.world.loot.old.WeightedLootList;
 
 public final class RavagedDungeonLoot{
 	public static ItemStack[] flowerPotItems = new ItemStack[]{

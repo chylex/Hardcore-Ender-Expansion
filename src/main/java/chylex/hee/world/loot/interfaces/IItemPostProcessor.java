@@ -1,4 +1,4 @@
-package chylex.hee.world.loot;
+package chylex.hee.world.loot.interfaces;
 import java.util.Random;
 import net.minecraft.item.ItemStack;
 

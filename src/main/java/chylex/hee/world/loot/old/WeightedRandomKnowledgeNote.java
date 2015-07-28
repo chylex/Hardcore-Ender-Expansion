@@ -1,4 +1,4 @@
-package chylex.hee.world.loot;
+package chylex.hee.world.loot.old;
 import java.util.Random;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;

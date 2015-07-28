@@ -14,8 +14,8 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.world.loot.LootItemStack;
-import chylex.hee.world.loot.WeightedLootList;
+import chylex.hee.world.loot.old.LootItemStack;
+import chylex.hee.world.loot.old.WeightedLootList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

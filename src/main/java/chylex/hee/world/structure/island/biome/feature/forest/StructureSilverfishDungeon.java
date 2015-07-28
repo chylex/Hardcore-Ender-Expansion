@@ -14,9 +14,9 @@ import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.loot.IItemPostProcessor;
-import chylex.hee.world.loot.LootItemStack;
-import chylex.hee.world.loot.WeightedLootList;
+import chylex.hee.world.loot.interfaces.IItemPostProcessor;
+import chylex.hee.world.loot.old.LootItemStack;
+import chylex.hee.world.loot.old.WeightedLootList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 

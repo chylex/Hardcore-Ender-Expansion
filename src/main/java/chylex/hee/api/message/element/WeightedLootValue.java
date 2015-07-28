@@ -2,7 +2,7 @@ package chylex.hee.api.message.element;
 import chylex.hee.api.message.MessageRunner;
 import chylex.hee.api.message.element.base.Optional;
 import chylex.hee.api.message.element.base.PreconditionComposite;
-import chylex.hee.world.loot.LootItemStack;
+import chylex.hee.world.loot.old.LootItemStack;
 
 public class WeightedLootValue extends PreconditionComposite<LootItemStack>{
 	public static final WeightedLootValue any(){
