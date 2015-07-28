@@ -1,65 +1,64 @@
 package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.loot.interfaces.IItemPostProcessor;
-import chylex.hee.world.loot.old.LootItemStack;
-import chylex.hee.world.loot.old.WeightedLootList;
+import chylex.hee.world.loot.WeightedLootTable;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.EnumAction;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.EnumChatFormatting;
 
 public class StructureSilverfishDungeon extends AbstractIslandStructure implements ITileEntityGenerator{
-	public static WeightedLootList lootDungeon = new WeightedLootList(new LootItemStack[]{
-		new LootItemStack(Items.paper).setAmount(1,11).setWeight(36),
-		new LootItemStack(Items.book).setAmount(1,8).setWeight(25),
-		new LootItemStack(Items.enchanted_book).setWeight(17),
-		new LootItemStack(Items.string).setAmount(1,4).setWeight(15),
-		new LootItemStack(Items.leather).setAmount(1,4).setWeight(12),
-		new LootItemStack(Items.potato).setAmount(1,3).setWeight(11),
-		new LootItemStack(Items.dye).setDamage(15).setWeight(8),
-		new LootItemStack(Items.poisonous_potato).setAmount(1,4).setWeight(6),
-		new LootItemStack(Items.rotten_flesh).setAmount(1,5).setWeight(6),
-		new LootItemStack(Blocks.wool).setAmount(1,3).setDamage(0,15).setWeight(6),
-		new LootItemStack(ItemList.knowledge_note).setWeight(5),
-		new LootItemStack(Items.chicken).setAmount(1,3).setWeight(5),
-		new LootItemStack(Items.porkchop).setAmount(1,3).setWeight(4),
-		new LootItemStack(Items.leather_helmet).setWeight(4),
-		new LootItemStack(Items.leather_chestplate).setWeight(4),
-		new LootItemStack(Items.leather_leggings).setWeight(4),
-		new LootItemStack(Items.leather_boots).setWeight(4),
-		new LootItemStack(Items.beef).setAmount(1,3).setWeight(3),
-		new LootItemStack(Items.sugar).setAmount(1,2).setWeight(3),
-		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(2)
-	}).addItemPostProcessor((is, rand) -> {
-		if (is.getItemUseAction() == EnumAction.eat){
-			ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"It smells fishy...");
-		}
-		else if (is.getItem() == Items.enchanted_book){
-			is.func_150996_a(Items.book); // OBFUSCATED set item
-			EnchantmentHelper.addRandomEnchantment(rand,is,13+rand.nextInt(7));
-		}
-		else if (is.isItemEnchantable() && is.getItem() != Items.book){
-			if (rand.nextInt(4) != 0)EnchantmentHelper.addRandomEnchantment(rand,is,16+rand.nextInt(5));
-			ItemUtil.setArmorColor(is,rand.nextInt(16777216));
-		}
-		else if (is.getItem() == ItemList.knowledge_note){
-			ItemKnowledgeNote.setRandomNote(is,rand,5);
-		}
+	public static WeightedLootTable lootDungeon = new WeightedLootTable();
+	
+	static{
+		lootDungeon.addLoot(Items.paper).setAmount(1,11).setWeight(36);
+		lootDungeon.addLoot(Items.book).setAmount(1,8).setWeight(25);
+		lootDungeon.addLoot(Items.enchanted_book).setWeight(17);
+		lootDungeon.addLoot(Items.string).setAmount(1,4).setWeight(15);
+		lootDungeon.addLoot(Items.leather).setAmount(1,4).setWeight(12);
+		lootDungeon.addLoot(Items.potato).setAmount(1,3).setWeight(11);
+		lootDungeon.addLoot(Items.dye).setDamage(15).setWeight(8);
+		lootDungeon.addLoot(Items.poisonous_potato).setAmount(1,4).setWeight(6);
+		lootDungeon.addLoot(Items.rotten_flesh).setAmount(1,5).setWeight(6);
+		lootDungeon.addLoot(Blocks.wool).setAmount(1,3).setDamage(0,15).setWeight(6);
+		lootDungeon.addLoot(ItemList.knowledge_note).setWeight(5);
+		lootDungeon.addLoot(Items.chicken).setAmount(1,3).setWeight(5);
+		lootDungeon.addLoot(Items.porkchop).setAmount(1,3).setWeight(4);
+		lootDungeon.addLoot(Items.leather_helmet).setWeight(4);
+		lootDungeon.addLoot(Items.leather_chestplate).setWeight(4);
+		lootDungeon.addLoot(Items.leather_leggings).setWeight(4);
+		lootDungeon.addLoot(Items.leather_boots).setWeight(4);
+		lootDungeon.addLoot(Items.beef).setAmount(1,3).setWeight(3);
+		lootDungeon.addLoot(Items.sugar).setAmount(1,2).setWeight(3);
+		lootDungeon.addLoot(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(2);
 		
-		return is;
-	});
+		lootDungeon.addPostProcessor(ItemKnowledgeNote.createNoteProcessor(5));
+		lootDungeon.addPostProcessor((is, rand) -> {
+			if (is.getItemUseAction() == EnumAction.eat){
+				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"It smells fishy...");
+			}
+			else if (is.getItem() == Items.enchanted_book){
+				is.func_150996_a(Items.book); // OBFUSCATED set item
+				EnchantmentHelper.addRandomEnchantment(rand,is,13+rand.nextInt(7));
+			}
+			else if (is.isItemEnchantable() && is.getItem() != Items.book){
+				if (rand.nextInt(4) != 0)EnchantmentHelper.addRandomEnchantment(rand,is,16+rand.nextInt(5));
+				ItemUtil.setArmorColor(is,rand.nextInt(16777216));
+			}
+			
+			return is;
+		});
+	}
 	
 	@Override
 	protected boolean generate(Random rand){
@@ -172,7 +171,7 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 		if (key.equals("silverfishDungeonChest") && tile instanceof TileEntityChest){
 			TileEntityChest chest = (TileEntityChest)tile;
 			for(int a = 0; a < 7+rand.nextInt(4)+rand.nextInt(6); a++){
-				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootDungeon.generateIS(rand));
+				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootDungeon.generateWeighted(null,rand));
 			}
 		}
 	}

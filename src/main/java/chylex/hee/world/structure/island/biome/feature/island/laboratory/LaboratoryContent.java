@@ -1,22 +1,15 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import chylex.hee.world.util.Direction;
 import chylex.hee.init.BlockList;
-import chylex.hee.init.ItemList;
-import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.world.loot.interfaces.IItemPostProcessor;
-import chylex.hee.world.loot.old.LootItemStack;
-import chylex.hee.world.loot.old.WeightedLootList;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
+import chylex.hee.world.util.Direction;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 
 public final class LaboratoryContent{
 	private enum SmallRoom{
@@ -88,7 +81,7 @@ public final class LaboratoryContent{
 						TileEntityChest chest = (TileEntityChest)tile;
 						
 						for(int a = 0; a < 3+rand.nextInt(8-rand.nextInt(3)); a++){
-							chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),smallChestLoot.generateIS(rand));
+							// TODO chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),smallChestLoot.generateIS(rand));
 						}
 					}
 				});
@@ -185,7 +178,7 @@ public final class LaboratoryContent{
 								TileEntityChest chest = (TileEntityChest)tile;
 								
 								for(int a = 0; a < 3+rand.nextInt(6+rand.nextInt(3)); a++){
-									chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),largeChestLoot.generateIS(rand));
+									// TODO chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),largeChestLoot.generateIS(rand));
 								}
 							}
 						});
@@ -228,6 +221,7 @@ public final class LaboratoryContent{
 		}
 	}
 	
+	/* TODO
 	public static final WeightedLootList smallChestLoot = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(ItemList.end_powder).setAmount(2,6).setWeight(22),
 		new LootItemStack(ItemList.stardust).setAmount(1,5).setWeight(18),
@@ -250,7 +244,7 @@ public final class LaboratoryContent{
 	}).addItemPostProcessor((is, rand) -> {
 		if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,6);
 		return is;
-	});
+	});*/
 	
 	private LaboratoryContent(){}
 }

@@ -1,18 +1,18 @@
 package chylex.hee.world.feature.blobs.populators;
 import java.util.List;
 import java.util.Random;
+import chylex.hee.system.util.BlockPosM;
+import chylex.hee.world.feature.blobs.BlobPopulator;
+import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+import chylex.hee.world.loot.WeightedLootTable;
+import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
+import chylex.hee.world.util.IRandomAmount;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.world.loot.old.WeightedLootList;
-import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGenerator{
-	private WeightedLootList lootList;
+	private WeightedLootTable loot;
 	private IRandomAmount amountGen = IRandomAmount.exact;
 	private int minAmount, maxAmount;
 	private boolean onlyInside;
@@ -21,8 +21,8 @@ public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGene
 		super(weight);
 	}
 	
-	public BlobPopulatorChest loot(WeightedLootList lootList, IRandomAmount amountGen, int minAmount, int maxAmount){
-		this.lootList = lootList;
+	public BlobPopulatorChest loot(WeightedLootTable loot, IRandomAmount amountGen, int minAmount, int maxAmount){
+		this.loot = loot;
 		this.amountGen = amountGen;
 		this.minAmount = minAmount;
 		this.maxAmount = maxAmount;
@@ -59,7 +59,7 @@ public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGene
 		TileEntityChest chest = (TileEntityChest)tile;
 		
 		for(int a = 0, amount = amountGen.generate(rand,minAmount,maxAmount); a < amount; a++){
-			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootList.generateIS(rand));
+			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),loot.generateWeighted(null,rand));
 		}
 	}
 }

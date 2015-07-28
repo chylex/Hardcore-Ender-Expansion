@@ -1,13 +1,5 @@
 package chylex.hee.system.test.list;
 import java.util.Random;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import chylex.hee.api.HeeIMC;
 import chylex.hee.entity.GlobalMobData;
 import chylex.hee.entity.mob.EntityMobVampiricBat;
@@ -23,10 +15,13 @@ import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
 import chylex.hee.tileentity.TileEntityExperienceTable;
-import chylex.hee.world.structure.island.biome.IslandBiomeBase;
-import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
-import chylex.hee.world.structure.tower.ComponentTower;
-import chylex.hee.world.util.SpawnEntry;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 
 public class ImcTests{
 	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.PREINIT)
@@ -94,7 +89,7 @@ public class ImcTests{
 		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,0)),12,"Unexpected item Experience value, expected $2, got $1.");
 		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,1)),12,"Unexpected item Experience value, expected $2, got $1."); // make sure it takes all damage values
 	}
-	
+	/* TODO
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
 	public void testImcWorld(){
 		Assert.equal(ComponentTower.lootFuel.size(),2,"Unexpected list size, expected $2, got $1. List: "+ComponentTower.lootFuel);
@@ -116,7 +111,7 @@ public class ImcTests{
 		}
 		
 		Assert.fail("Unexpected weighted loot check result, never generated the expected item.");
-	}
+	}*/
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
 	public void testImcSystem(){

@@ -1,16 +1,8 @@
 package chylex.hee.world.feature;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.init.BlockList;
-import chylex.hee.init.ItemList;
-import chylex.hee.item.ItemKnowledgeNote;
-import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
@@ -25,24 +17,13 @@ import chylex.hee.world.feature.blobs.generators.BlobGeneratorFromCenter;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorRecursive;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingleCut;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorCave;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorChest;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorCover;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorEndermanSpawner;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorFiller;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorLake;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorLiquidFall;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorOreCluster;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorOreScattered;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorPlant;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorSpikes;
-import chylex.hee.world.feature.blobs.populators.BlobPopulatorTransportBeacon;
+import chylex.hee.world.feature.blobs.populators.*;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
 import chylex.hee.world.feature.util.DecoratorFeatureGenerator.IDecoratorGenPass;
-import chylex.hee.world.loot.interfaces.IItemPostProcessor;
-import chylex.hee.world.loot.old.LootItemStack;
-import chylex.hee.world.loot.old.WeightedLootList;
 import chylex.hee.world.util.IRandomAmount;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenBlob extends WorldGenerator{
 	private enum BlobType{
@@ -118,7 +99,7 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobGeneratorSingle(1).rad(5D,7.5D)
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorFiller(1).block(Blocks.air),
-				new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
+				/* TODO new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
 					new LootItemStack(ItemList.end_powder).setAmount(1,5).setWeight(15),
 					new LootItemStack(ItemList.knowledge_note).setWeight(10),
 					new LootItemStack(Items.ender_pearl).setAmount(1,4).setWeight(9),
@@ -130,7 +111,7 @@ public class WorldGenBlob extends WorldGenerator{
 				}).addItemPostProcessor((is, rand) -> {
 					if (is.getItem() == ItemList.knowledge_note)ItemKnowledgeNote.setRandomNote(is,rand,3);
 					return is;
-				}),IRandomAmount.preferSmaller,3,10).onlyInside(),
+				}),IRandomAmount.preferSmaller,3,10).onlyInside(),*/
 				new BlobPopulatorCover(1).block(BlockList.ender_goo)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),
 			
@@ -171,7 +152,7 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobGeneratorSingle(1).rad(6D,7.7D),
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorEndermanSpawner(1).blockAmount(IRandomAmount.aroundCenter,3,6).attempts(12,17).visiblePlacementAttempts(8).knownBlockLocations(),
-				new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
+				/* TODO new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
 					new LootItemStack(ItemList.end_powder).setAmount(3,9).setWeight(10),
 					new LootItemStack(ItemList.stardust).setAmount(3,7).setWeight(9),
 					new LootItemStack(Items.ender_pearl).setAmount(2,5).setWeight(7),
@@ -186,7 +167,7 @@ public class WorldGenBlob extends WorldGenerator{
 					new LootItemStack(Items.quartz).setAmount(2,7).setWeight(3),
 					new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(3),
 					new LootItemStack(Items.gold_nugget).setAmount(2,8).setWeight(2)
-				}),IRandomAmount.preferSmaller,6,10)
+				}),IRandomAmount.preferSmaller,6,10)*/
 			}).setPopulatorAmountProvider(IRandomAmount.exact,2,2)
 		});
 	}
@@ -251,7 +232,7 @@ public class WorldGenBlob extends WorldGenerator{
 					new BlobGeneratorSingle(1).rad(6D,7.7D),
 				}).addPopulators(new BlobPopulator[]{
 					new BlobPopulatorEndermanSpawner(1).blockAmount(IRandomAmount.aroundCenter,3,6).attempts(12,17).visiblePlacementAttempts(8).knownBlockLocations(),
-					new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
+					/* TODO new BlobPopulatorChest(1).loot(new WeightedLootList(new LootItemStack[]{
 						new LootItemStack(ItemList.end_powder).setAmount(3,9).setWeight(10),
 						new LootItemStack(ItemList.stardust).setAmount(3,7).setWeight(9),
 						new LootItemStack(Items.ender_pearl).setAmount(2,5).setWeight(7),
@@ -266,7 +247,7 @@ public class WorldGenBlob extends WorldGenerator{
 						new LootItemStack(Items.quartz).setAmount(2,7).setWeight(3),
 						new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(3),
 						new LootItemStack(Items.gold_nugget).setAmount(2,8).setWeight(2)
-					}),IRandomAmount.preferSmaller,6,10)
+					}),IRandomAmount.preferSmaller,6,10)*/
 				}).setPopulatorAmountProvider(IRandomAmount.exact,2,2)
 			});
 			

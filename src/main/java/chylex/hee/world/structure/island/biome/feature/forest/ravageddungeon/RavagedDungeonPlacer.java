@@ -1,25 +1,18 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityFlowerPot;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.util.CollectionUtil;
-import chylex.hee.tileentity.TileEntityCustomSpawner;
-import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic;
-import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 
 public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	private static final byte radEntrance = 2, radHallway = 2, radRoom = 7;
@@ -949,6 +942,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	
 	@Override
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
+		// TODO
+		/*
 		if (key.equals("hallwayEmbeddedChest")){
 			TileEntityChest chest = (TileEntityChest)tile;
 			
@@ -1004,7 +999,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					flowerPot.getWorldObj().markBlockForUpdate(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord);
 				}
 			}
-		}
+		}*/
 	}
 	
 	/*

@@ -2,30 +2,18 @@ package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
-import chylex.hee.world.util.Direction;
 import chylex.hee.block.BlockPersegrit;
 import chylex.hee.init.BlockList;
-import chylex.hee.init.ItemList;
-import chylex.hee.item.ItemKnowledgeNote;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
-import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.util.CollectionUtil;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.loot.interfaces.IItemPostProcessor;
-import chylex.hee.world.loot.old.LootItemStack;
-import chylex.hee.world.loot.old.WeightedLootList;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.world.util.Direction;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 
 public class StructureHiddenCellar extends AbstractIslandStructure implements ITileEntityGenerator{
 	public enum EnchantedIslandVariation{
@@ -39,7 +27,8 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		Blocks.grass, Blocks.dirt, Blocks.sand, Blocks.gravel, Blocks.tnt, Blocks.clay, Blocks.pumpkin, Blocks.melon_block, Blocks.mycelium
 	};
 	
-	private static final WeightedLootList normalChest = new WeightedLootList(new LootItemStack[]{
+	// TODO
+	/*private static final WeightedLootList normalChest = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(Items.ender_pearl).setAmount(2,6).setWeight(20),
 		new LootItemStack(ItemList.end_powder).setAmount(3,8).setWeight(20),
 		new LootItemStack(ItemList.stardust).setAmount(4,10).setWeight(17),
@@ -85,9 +74,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}
 		
 		return is;
-	});
+	});*/
 	
-	public static final WeightedLootList[] rareChestVariation = new WeightedLootList[]{
+	/*public static final WeightedLootList[] rareChestVariation = new WeightedLootList[]{
 		rareChest.copy().addAll(new LootItemStack[]{
 			
 		}),
@@ -95,7 +84,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		rareChest.copy().addAll(new LootItemStack[]{
 			new LootItemStack(ItemList.auricion).setWeight(5)
 		})
-	};
+	};*/
 	
 	private EnchantedIslandVariation variation;
 	private final List<BlockPosM> patternBlocks = new ArrayList<>();
@@ -549,7 +538,8 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 
 	@Override
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
-		if (key.startsWith("CellarChestNormal|")){
+		// TODO
+		/*if (key.startsWith("CellarChestNormal|")){
 			WeightedLootList loot = normalChestVariation[DragonUtil.tryParse(key.split("\\|")[1],0)];
 			TileEntityChest chest = (TileEntityChest)tile;
 			
@@ -564,6 +554,6 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 			for(int amount = 0; amount < 3+rand.nextInt(6); amount++){
 				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),loot.generateIS(rand));
 			}
-		}
+		}*/
 	}
 }

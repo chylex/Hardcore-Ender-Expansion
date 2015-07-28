@@ -1,17 +1,18 @@
 package chylex.hee.item;
 import java.util.List;
 import java.util.Random;
+import chylex.hee.mechanics.compendium.events.CompendiumEvents;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C19CompendiumData;
+import chylex.hee.system.util.ItemUtil;
+import chylex.hee.world.loot.interfaces.IItemPostProcessor;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.compendium.events.CompendiumEvents;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C19CompendiumData;
-import chylex.hee.system.util.ItemUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemKnowledgeNote extends Item{
 	public ItemKnowledgeNote(){
@@ -40,6 +41,10 @@ public class ItemKnowledgeNote extends Item{
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		if (is.hasTagCompound())textLines.add(is.getTagCompound().getByte("pts")+" Knowledge Points");
+	}
+	
+	public static IItemPostProcessor createNoteProcessor(final int multiplier){
+		return (is, rand) -> { return ItemKnowledgeNote.setRandomNote(is,rand,multiplier); };
 	}
 	
 	public static ItemStack setRandomNote(ItemStack is, Random rand, int multiplier){

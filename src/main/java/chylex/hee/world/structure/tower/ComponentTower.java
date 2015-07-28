@@ -1,22 +1,7 @@
 package chylex.hee.world.structure.tower;
-import gnu.trove.list.array.TByteArrayList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.tileentity.MobSpawnerBaseLogic;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityBrewingStand;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityDispenser;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.EnumChatFormatting;
 import org.apache.commons.lang3.StringUtils;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.init.BlockList;
@@ -36,93 +21,107 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.spawner.TowerEndermanSpawnerLogic;
-import chylex.hee.world.loot.interfaces.IItemPostProcessor;
-import chylex.hee.world.loot.old.LootItemStack;
-import chylex.hee.world.loot.old.WeightedLootList;
+import chylex.hee.world.loot.WeightedLootTable;
 import chylex.hee.world.structure.ComponentLargeStructureWorld;
 import chylex.hee.world.structure.util.Facing;
 import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
+import gnu.trove.list.array.TByteArrayList;
+import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.tileentity.MobSpawnerBaseLogic;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityBrewingStand;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityDispenser;
+import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.EnumChatFormatting;
 
 public class ComponentTower extends ComponentLargeStructureWorld implements ITileEntityGenerator{
 	private static final byte roomHeight = 6;
 	
-	public static final WeightedLootList lootTower = new WeightedLootList(new LootItemStack[]{
-		new LootItemStack(Blocks.web).setWeight(220),
-		new LootItemStack(ItemList.end_powder).setAmount(1,10).setWeight(212),
-		new LootItemStack(Items.gold_nugget).setAmount(1,12).setWeight(190),
-		new LootItemStack(ItemList.enhanced_ender_pearl).setAmount(1,5).setWeight(182),
-		new LootItemStack(Items.experience_bottle).setAmount(1,8).setWeight(175),
-		new LootItemStack(Items.ender_pearl).setAmount(1,6).setWeight(160),
-		new LootItemStack(Items.emerald).setAmount(1,6).setWeight(152),
-		new LootItemStack(ItemList.igneous_rock).setAmount(1,7).setWeight(140),
-		new LootItemStack(Items.iron_ingot).setAmount(1,13).setWeight(136),
-		new LootItemStack(ItemList.stardust).setAmount(3,11).setWeight(131),
-		new LootItemStack(Items.gold_ingot).setAmount(1,11).setWeight(125),
-		new LootItemStack(ItemList.knowledge_note).setWeight(122),
-		new LootItemStack(BlockList.obsidian_special).setAmount(1,9).setDamage(0,2).setWeight(121),
-		new LootItemStack(ItemList.adventurers_diary).setWeight(117),
-		new LootItemStack(Blocks.yellow_flower).setAmount(1,7).setWeight(116),
-		new LootItemStack(Blocks.red_flower).setAmount(1,5).setWeight(111),
-		new LootItemStack(ItemList.biome_compass).setWeight(110),
-		new LootItemStack(Items.golden_apple).setAmount(1,2).setWeight(109),
-		new LootItemStack(BlockList.obsidian_special_glow).setAmount(1,8).setDamage(0,2).setWeight(104),
-		new LootItemStack(Items.spawn_egg).setDamage(58).setAmount(1,4).setWeight(101),
-		new LootItemStack(Blocks.brown_mushroom).setAmount(1,6).setWeight(92),
-		new LootItemStack(Blocks.red_mushroom).setAmount(1,6).setWeight(90),
-		new LootItemStack(Items.diamond).setAmount(1,5).setWeight(85),
-		new LootItemStack(Items.compass).setWeight(75),
-		new LootItemStack(Items.clock).setWeight(75),
-		new LootItemStack(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(71),
-		new LootItemStack(Items.water_bucket).setWeight(68),
-		new LootItemStack(Blocks.chest).setWeight(60),
-		new LootItemStack(Blocks.tnt).setAmount(1,8).setWeight(58),
-		new LootItemStack(BlockList.enhanced_tnt).setAmount(1,4).setWeight(49),
-		new LootItemStack(Blocks.grass).setAmount(1,6).setWeight(46),
-		new LootItemStack(Blocks.mycelium).setAmount(1,6).setWeight(45),
-		new LootItemStack(Items.cake).setWeight(37),
-		new LootItemStack(Items.ender_eye).setAmount(1,2).setWeight(36),
-		new LootItemStack(ItemList.enhanced_brewing_stand).setWeight(17),
-		new LootItemStack(ItemList.temple_caller).setWeight(14),
-		new LootItemStack(BlockList.essence_altar).setWeight(13),
-		new LootItemStack(Items.golden_apple).setDamage(1).setWeight(4)
-	}).addItemPostProcessor((is, rand) -> {
-		if (is.getItem() == ItemList.enhanced_ender_pearl){
-			List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
-			
-			for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
-				is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
-				if (availableTypes.isEmpty())break;
-			}
-		}
-		else if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_tnt)){
-			List<TNTEnhancements> availableTypes = CollectionUtil.newList(TNTEnhancements.values());
-			
-			for(int a = 0; a < 1+rand.nextInt(2)+Math.round(rand.nextDouble()*2D); a++){
-				is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
-				if (availableTypes.isEmpty())break;
-			}
-		}
-		else if (is.getItem() == ItemList.knowledge_note){
-			ItemKnowledgeNote.setRandomNote(is,rand,5);
-		}
-		else if (is.getItem() == Items.cake){
-			ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"Why are there just pieces of cake");
-			ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"lying all over the place?...");
-		}
-		
-		return is;
-	});
+	public static final WeightedLootTable lootTower = new WeightedLootTable();
+	public static final WeightedLootTable lootFuel = new WeightedLootTable();
 	
-	public static WeightedLootList lootFuel = new WeightedLootList(
-		new LootItemStack(Items.coal).setAmount(1,16).setWeight(32),
-		new LootItemStack(Items.coal).setDamage(1).setAmount(1,16).setWeight(30),
-		new LootItemStack(ItemList.igneous_rock).setAmount(1,6).setWeight(20),
-		new LootItemStack(Blocks.coal_block).setAmount(1,6).setWeight(10),
-		new LootItemStack(Items.blaze_rod).setAmount(1,8).setWeight(18),
-		new LootItemStack(Items.lava_bucket).setWeight(15),
-		new LootItemStack(Blocks.sapling).setAmount(1,20).setDamage(0,3).setWeight(10),
-		new LootItemStack(Items.stick).setAmount(1,32).setWeight(8)
-	);
+	static{
+		lootTower.addLoot(Blocks.web).setWeight(220);
+		lootTower.addLoot(ItemList.end_powder).setAmount(1,10).setWeight(212);
+		lootTower.addLoot(Items.gold_nugget).setAmount(1,12).setWeight(190);
+		lootTower.addLoot(ItemList.enhanced_ender_pearl).setAmount(1,5).setWeight(182);
+		lootTower.addLoot(Items.experience_bottle).setAmount(1,8).setWeight(175);
+		lootTower.addLoot(Items.ender_pearl).setAmount(1,6).setWeight(160);
+		lootTower.addLoot(Items.emerald).setAmount(1,6).setWeight(152);
+		lootTower.addLoot(ItemList.igneous_rock).setAmount(1,7).setWeight(140);
+		lootTower.addLoot(Items.iron_ingot).setAmount(1,13).setWeight(136);
+		lootTower.addLoot(ItemList.stardust).setAmount(3,11).setWeight(131);
+		lootTower.addLoot(Items.gold_ingot).setAmount(1,11).setWeight(125);
+		lootTower.addLoot(ItemList.knowledge_note).setWeight(122);
+		lootTower.addLoot(BlockList.obsidian_special).setAmount(1,9).setDamage(0,2).setWeight(121);
+		lootTower.addLoot(ItemList.adventurers_diary).setWeight(117);
+		lootTower.addLoot(Blocks.yellow_flower).setAmount(1,7).setWeight(116);
+		lootTower.addLoot(Blocks.red_flower).setAmount(1,5).setWeight(111);
+		lootTower.addLoot(ItemList.biome_compass).setWeight(110);
+		lootTower.addLoot(Items.golden_apple).setAmount(1,2).setWeight(109);
+		lootTower.addLoot(BlockList.obsidian_special_glow).setAmount(1,8).setDamage(0,2).setWeight(104);
+		lootTower.addLoot(Items.spawn_egg).setDamage(58).setAmount(1,4).setWeight(101);
+		lootTower.addLoot(Blocks.brown_mushroom).setAmount(1,6).setWeight(92);
+		lootTower.addLoot(Blocks.red_mushroom).setAmount(1,6).setWeight(90);
+		lootTower.addLoot(Items.diamond).setAmount(1,5).setWeight(85);
+		lootTower.addLoot(Items.compass).setWeight(75);
+		lootTower.addLoot(Items.clock).setWeight(75);
+		lootTower.addLoot(ItemList.music_disk).setDamage(0,ItemMusicDisk.getRecordCount()-1).setWeight(71);
+		lootTower.addLoot(Items.water_bucket).setWeight(68);
+		lootTower.addLoot(Blocks.chest).setWeight(60);
+		lootTower.addLoot(Blocks.tnt).setAmount(1,8).setWeight(58);
+		lootTower.addLoot(BlockList.enhanced_tnt).setAmount(1,4).setWeight(49);
+		lootTower.addLoot(Blocks.grass).setAmount(1,6).setWeight(46);
+		lootTower.addLoot(Blocks.mycelium).setAmount(1,6).setWeight(45);
+		lootTower.addLoot(Items.cake).setWeight(37);
+		lootTower.addLoot(Items.ender_eye).setAmount(1,2).setWeight(36);
+		lootTower.addLoot(ItemList.enhanced_brewing_stand).setWeight(17);
+		lootTower.addLoot(ItemList.temple_caller).setWeight(14);
+		lootTower.addLoot(BlockList.essence_altar).setWeight(13);
+		lootTower.addLoot(Items.golden_apple).setDamage(1).setWeight(4);
+		
+		lootTower.addPostProcessor(ItemKnowledgeNote.createNoteProcessor(5));
+		lootTower.addPostProcessor((is, rand) -> {
+			if (is.getItem() == ItemList.enhanced_ender_pearl){
+				List<EnderPearlEnhancements> availableTypes = CollectionUtil.newList(EnderPearlEnhancements.values());
+				
+				for(int a = 0; a < 1+Math.abs(Math.round(rand.nextDouble()*rand.nextGaussian()*2.75D)); a++){
+					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+					if (availableTypes.isEmpty())break;
+				}
+			}
+			else if (is.getItem() == Item.getItemFromBlock(BlockList.enhanced_tnt)){
+				List<TNTEnhancements> availableTypes = CollectionUtil.newList(TNTEnhancements.values());
+				
+				for(int a = 0; a < 1+rand.nextInt(2)+Math.round(rand.nextDouble()*2D); a++){
+					is = EnhancementHandler.addEnhancement(is,availableTypes.remove(rand.nextInt(availableTypes.size())));
+					if (availableTypes.isEmpty())break;
+				}
+			}
+			else if (is.getItem() == Items.cake){
+				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"Why are there just pieces of cake");
+				ItemUtil.addLore(is,EnumChatFormatting.DARK_PURPLE.toString()+EnumChatFormatting.ITALIC+"lying all over the place?...");
+			}
+			
+			return is;
+		});
+		
+		lootFuel.addLoot(Items.coal).setAmount(1,16).setWeight(32);
+		lootFuel.addLoot(Items.coal).setDamage(1).setAmount(1,16).setWeight(30);
+		lootFuel.addLoot(ItemList.igneous_rock).setAmount(1,6).setWeight(20);
+		lootFuel.addLoot(Blocks.coal_block).setAmount(1,6).setWeight(10);
+		lootFuel.addLoot(Items.blaze_rod).setAmount(1,8).setWeight(18);
+		lootFuel.addLoot(Items.lava_bucket).setWeight(15);
+		lootFuel.addLoot(Blocks.sapling).setAmount(1,20).setDamage(0,3).setWeight(10);
+		lootFuel.addLoot(Items.stick).setAmount(1,32).setWeight(8);
+	}
 	
 	private byte lastRoomUsed = -1;
 	
@@ -727,14 +726,14 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			int minItems = DragonUtil.tryParse(split[1],0), maxItems = DragonUtil.tryParse(split[2],0);
 			
 			TileEntityChest chest = (TileEntityChest)tile;
-			for(int a = 0; a < rand.nextInt(maxItems-minItems+1)+minItems; a++)chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootTower.generateIS(rand));
+			for(int a = 0; a < rand.nextInt(maxItems-minItems+1)+minItems; a++)chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootTower.generateWeighted(null,rand));
 		}
 		else if (key.startsWith("Dispenser:")){
 			String[] split = StringUtils.split(key,":",4);
 			int minItems = DragonUtil.tryParse(split[1],0), maxItems = DragonUtil.tryParse(split[2],0);
 			
 			TileEntityDispenser dispenser = (TileEntityDispenser)tile;
-			for(int a = 0; a < rand.nextInt(maxItems-minItems+1)+minItems; a++)dispenser.setInventorySlotContents(rand.nextInt(dispenser.getSizeInventory()),lootTower.generateIS(rand));
+			for(int a = 0; a < rand.nextInt(maxItems-minItems+1)+minItems; a++)dispenser.setInventorySlotContents(rand.nextInt(dispenser.getSizeInventory()),lootTower.generateWeighted(null,rand));
 			
 			tile.blockMetadata = DragonUtil.tryParse(split[3],0);
 		}
@@ -767,7 +766,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			tile.getBlockMetadata();
 		}
 		else if (key.equals("Furnace")){
-			((TileEntityFurnace)tile).setInventorySlotContents(1,lootFuel.generateIS(rand));
+			((TileEntityFurnace)tile).setInventorySlotContents(1,lootFuel.generateWeighted(null,rand));
 		}
 		else if (key.startsWith("BrewingStand")){
 			TileEntityBrewingStand brewingStand = (TileEntityBrewingStand)tile;

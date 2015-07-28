@@ -1,21 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.init.BlockList;
-import chylex.hee.init.ItemList;
-import chylex.hee.item.ItemMusicDisk;
-import chylex.hee.mechanics.charms.CharmType;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
-import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
-import chylex.hee.system.util.CollectionUtil;
-import chylex.hee.world.loot.interfaces.IItemPostProcessor;
-import chylex.hee.world.loot.old.LootItemStack;
-import chylex.hee.world.loot.old.WeightedLootList;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 
 public final class RavagedDungeonLoot{
 	public static ItemStack[] flowerPotItems = new ItemStack[]{
@@ -33,7 +19,8 @@ public final class RavagedDungeonLoot{
 		new ItemStack(BlockList.death_flower,1,15) // decayed death flower
 	};
 	
-	public static final WeightedLootList lootGeneral = new WeightedLootList(new LootItemStack[]{
+	// TODO
+	/*public static final WeightedLootList lootGeneral = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(ItemList.end_powder).setAmount(1,5).setWeight(100),
 		new LootItemStack(Items.paper).setAmount(1,7).setWeight(68),
 		new LootItemStack(BlockList.ravaged_brick).setAmount(1,5).setWeight(56),
@@ -122,7 +109,7 @@ public final class RavagedDungeonLoot{
 		}
 		
 		return is;
-	});
+	});*/
 	
 	private RavagedDungeonLoot(){}
 }

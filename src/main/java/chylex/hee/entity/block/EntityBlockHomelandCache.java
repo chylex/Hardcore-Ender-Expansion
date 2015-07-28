@@ -1,26 +1,22 @@
 package chylex.hee.entity.block;
 import java.util.Iterator;
 import java.util.List;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
-import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.world.loot.old.LootItemStack;
-import chylex.hee.world.loot.old.WeightedLootList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 
 public class EntityBlockHomelandCache extends Entity{
-	public static final WeightedLootList loot = new WeightedLootList(new LootItemStack[]{
+	// TODO remove later
+	/*public static final WeightedLootList loot = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(ItemList.arcane_shard).setWeight(190),
 		new LootItemStack(ItemList.end_powder).setWeight(15),
 		new LootItemStack(ItemList.instability_orb).setWeight(3),
@@ -52,7 +48,7 @@ public class EntityBlockHomelandCache extends Entity{
 		new LootItemStack(Items.melon_seeds).setWeight(2),
 		new LootItemStack(Items.fire_charge).setWeight(2),
 		new LootItemStack(Items.coal).setDamage(0,1).setWeight(2)
-	});
+	});*/
 	
 	public float rotation, prevRotation;
 	
@@ -96,11 +92,13 @@ public class EntityBlockHomelandCache extends Entity{
 				for(int a = 0; a < 20; a++)worldObj.spawnParticle("largesmoke",posX+(rand.nextDouble()-0.5D)*0.8D,posY+0.05D+rand.nextDouble()*1D,posZ+(rand.nextDouble()-0.5D)*0.8D,0D,0D,0D);
 			}
 			else{
+				// TODO
+				/*
 				for(int a = 0; a < 2+rand.nextInt(2+rand.nextInt(2)); a++){
 					EntityItem item = new EntityItem(worldObj,posX+(rand.nextDouble()-0.5D)*0.75D,posY+0.2D+rand.nextDouble()*0.6D,posZ+(rand.nextDouble()-0.5D)*0.75D,loot.generateIS(rand));
 					item.delayBeforeCanPickup = 10;
 					worldObj.spawnEntityInWorld(item);
-				}
+				}*/
 				
 				if (!(source.getEntity() instanceof EntityPlayer))return true;
 				
