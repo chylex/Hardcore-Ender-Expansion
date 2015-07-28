@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public abstract class LootTable<T,ITEM extends LootItem>{
+public abstract class LootTable<ITEM extends LootItem>{
 	protected final List<IItemPostProcessor> postProcessors = new ArrayList<>();
 	
 	abstract ITEM createLootItem(Item item);
@@ -30,7 +30,7 @@ public abstract class LootTable<T,ITEM extends LootItem>{
 	
 	public abstract class LootItem{
 		protected final Item item;
-		protected LootDamageProvider<T> damage;
+		protected LootDamageProvider damage;
 		
 		LootItem(Item item){
 			this.item = item;
@@ -46,12 +46,12 @@ public abstract class LootTable<T,ITEM extends LootItem>{
 			return (ITEM)this;
 		}
 		
-		public ITEM setDamage(LootDamageProvider<T> damageProvider){
+		public ITEM setDamage(LootDamageProvider damageProvider){
 			this.damage = damageProvider;
 			return (ITEM)this;
 		}
 		
-		public abstract ItemStack generate(T obj, Random rand);
+		public abstract ItemStack generate(Object obj, Random rand);
 		
 		@Override
 		public boolean equals(Object obj){

@@ -10,7 +10,7 @@ import chylex.hee.world.loot.interfaces.IItemPostProcessor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class PercentageLootTable<T> extends LootTable<T,PercentageLootItem>{
+public class PercentageLootTable extends LootTable<PercentageLootItem>{
 	private final Set<PercentageLootItem> items = new HashSet<>();
 	
 	@Override
@@ -18,7 +18,7 @@ public class PercentageLootTable<T> extends LootTable<T,PercentageLootItem>{
 		return new PercentageLootItem(item);
 	}
 	
-	public List<ItemStack> generateLoot(T obj, Random rand){
+	public List<ItemStack> generateLoot(Object obj, Random rand){
 		List<ItemStack> list = new ArrayList<>();
 		
 		for(LootItem loot:items){
@@ -33,8 +33,8 @@ public class PercentageLootTable<T> extends LootTable<T,PercentageLootItem>{
 		return list;
 	}
 	
-	public class PercentageLootItem extends LootItem{
-		protected PercentageChance<T> chanceGenerator;
+	public class PercentageLootItem extends LootTable.LootItem{
+		protected PercentageChance chanceGenerator;
 		
 		PercentageLootItem(Item item){
 			super(item);
@@ -47,7 +47,7 @@ public class PercentageLootTable<T> extends LootTable<T,PercentageLootItem>{
 		}
 		
 		@Override
-		public ItemStack generate(T obj, Random rand){
+		public ItemStack generate(Object obj, Random rand){
 			ItemStack is = new ItemStack(item,0,damage == null ? 0 : damage.getDamage(obj,rand));
 			
 			float[] chances = chanceGenerator.getChances(obj);

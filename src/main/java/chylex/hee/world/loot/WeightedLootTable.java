@@ -9,7 +9,7 @@ import chylex.hee.world.util.IRandomAmount;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class WeightedLootTable<T> extends LootTable<T,WeightedLootItem>{
+public class WeightedLootTable extends LootTable<WeightedLootItem>{
 	private WeightedList<WeightedLootItem> weightList = new WeightedList<>();
 	
 	@Override
@@ -17,14 +17,14 @@ public class WeightedLootTable<T> extends LootTable<T,WeightedLootItem>{
 		return new WeightedLootItem(item);
 	}
 	
-	public ItemStack generateWeighted(T obj, Random rand){
+	public ItemStack generateWeighted(Object obj, Random rand){
 		ItemStack is = weightList.getRandomItem(rand).generate(obj,rand);
 		for(IItemPostProcessor processor:postProcessors)is = processor.processItem(is,rand);
 		return is;
 	}
 	
-	public class WeightedLootItem extends LootItem implements IWeightProvider{
-		protected LootAmountProvider<T> amount;
+	public class WeightedLootItem extends LootTable.LootItem implements IWeightProvider{
+		protected LootAmountProvider amount;
 		private short weight;
 		
 		WeightedLootItem(Item item){
@@ -47,7 +47,7 @@ public class WeightedLootTable<T> extends LootTable<T,WeightedLootItem>{
 			return this;
 		}
 		
-		public WeightedLootItem setAmount(LootAmountProvider<T> amountProvider){
+		public WeightedLootItem setAmount(LootAmountProvider amountProvider){
 			this.amount = amountProvider;
 			return this;
 		}
@@ -63,7 +63,7 @@ public class WeightedLootTable<T> extends LootTable<T,WeightedLootItem>{
 		}
 		
 		@Override
-		public ItemStack generate(T obj, Random rand){
+		public ItemStack generate(Object obj, Random rand){
 			return new ItemStack(item,amount.getAmount(obj,rand),damage == null ? 0 : damage.getDamage(obj,rand));
 		}
 	}
