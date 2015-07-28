@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 import chylex.hee.world.loot.LootTable.LootItem;
 import chylex.hee.world.loot.interfaces.IItemPostProcessor;
-import chylex.hee.world.loot.interfaces.LootDamageProvider;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -30,25 +29,9 @@ public abstract class LootTable<ITEM extends LootItem>{
 	
 	public abstract class LootItem{
 		protected final Item item;
-		protected LootDamageProvider damage;
 		
 		LootItem(Item item){
 			this.item = item;
-		}
-		
-		public ITEM setDamage(final int damage){
-			this.damage = (obj, rand) -> damage;
-			return (ITEM)this;
-		}
-		
-		public ITEM setDamage(final int minDamage, final int maxDamage){
-			this.damage = (obj, rand) -> rand.nextInt(maxDamage-minDamage+1)+minDamage;
-			return (ITEM)this;
-		}
-		
-		public ITEM setDamage(LootDamageProvider damageProvider){
-			this.damage = damageProvider;
-			return (ITEM)this;
 		}
 		
 		public abstract ItemStack generate(Object obj, Random rand);

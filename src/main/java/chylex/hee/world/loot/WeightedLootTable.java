@@ -5,6 +5,7 @@ import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.loot.WeightedLootTable.WeightedLootItem;
 import chylex.hee.world.loot.interfaces.IItemPostProcessor;
 import chylex.hee.world.loot.interfaces.LootAmountProvider;
+import chylex.hee.world.loot.interfaces.LootDamageProvider;
 import chylex.hee.world.util.IRandomAmount;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,12 +25,28 @@ public class WeightedLootTable extends LootTable<WeightedLootItem>{
 	}
 	
 	public class WeightedLootItem extends LootTable.LootItem implements IWeightProvider{
+		protected LootDamageProvider damage;
 		protected LootAmountProvider amount;
 		private short weight;
 		
 		WeightedLootItem(Item item){
 			super(item);
 			weightList.add(this);
+		}
+		
+		public WeightedLootItem setDamage(final int damage){
+			this.damage = (obj, rand) -> damage;
+			return this;
+		}
+		
+		public WeightedLootItem setDamage(final int minDamage, final int maxDamage){
+			this.damage = (obj, rand) -> rand.nextInt(maxDamage-minDamage+1)+minDamage;
+			return this;
+		}
+		
+		public WeightedLootItem setDamage(LootDamageProvider damageProvider){
+			this.damage = damageProvider;
+			return this;
 		}
 		
 		public WeightedLootItem setAmount(final int amount){

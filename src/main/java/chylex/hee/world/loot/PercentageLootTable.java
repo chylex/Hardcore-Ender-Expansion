@@ -7,6 +7,7 @@ import java.util.Set;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.PercentageLootTable.PercentageLootItem;
 import chylex.hee.world.loot.interfaces.IItemPostProcessor;
+import chylex.hee.world.loot.interfaces.LootDamageProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -34,11 +35,27 @@ public class PercentageLootTable extends LootTable<PercentageLootItem>{
 	}
 	
 	public class PercentageLootItem extends LootTable.LootItem{
+		protected LootDamageProvider damage;
 		protected PercentageChance chanceGenerator;
 		
 		PercentageLootItem(Item item){
 			super(item);
 			items.add(this);
+		}
+		
+		public PercentageLootItem setDamage(final int damage){
+			this.damage = (obj, rand) -> damage;
+			return this;
+		}
+		
+		public PercentageLootItem setDamage(final int minDamage, final int maxDamage){
+			this.damage = (obj, rand) -> rand.nextInt(maxDamage-minDamage+1)+minDamage;
+			return this;
+		}
+		
+		public PercentageLootItem setDamage(LootDamageProvider damageProvider){
+			this.damage = damageProvider;
+			return this;
 		}
 		
 		public PercentageLootItem setChances(PercentageChance chanceGenerator){
