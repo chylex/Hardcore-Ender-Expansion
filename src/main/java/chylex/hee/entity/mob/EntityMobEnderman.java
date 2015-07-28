@@ -16,7 +16,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo{
-	private static final PercentageLootTable<LootMobInfo> drops = new PercentageLootTable<>();
+	private static final PercentageLootTable drops = new PercentageLootTable();
 	
 	static{
 		drops.addLoot(Items.ender_pearl).setChances(obj -> {
