@@ -1,12 +1,9 @@
 package chylex.hee.world.feature;
-import java.util.List;
 import java.util.Random;
-import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
-import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.blobs.BlobGenerator;
@@ -18,8 +15,6 @@ import chylex.hee.world.feature.blobs.generators.BlobGeneratorRecursive;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
 import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingleCut;
 import chylex.hee.world.feature.blobs.populators.*;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator.IDecoratorGenPass;
 import chylex.hee.world.util.IRandomAmount;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -172,7 +167,7 @@ public class WorldGenBlob extends WorldGenerator{
 		});
 	}
 	
-	private static final IDecoratorGenPass genSmootherPass = new IDecoratorGenPass(){
+	/* TODO private static final IDecoratorGenPass genSmootherPass = new IDecoratorGenPass(){
 		private final byte[] airOffX = new byte[]{ -1, 1, 0, 0, 0, 0 },
 							 airOffY = new byte[]{ 0, 0, 0, 0, -1, 1 },
 							 airOffZ = new byte[]{ 0, 0, -1, 1, 0, 0 };
@@ -188,7 +183,7 @@ public class WorldGenBlob extends WorldGenerator{
 				}
 			}
 		}
-	};
+	};*/
 	
 	private BlobType getBlobType(Random rand, int x, int z){
 		double dist = MathUtil.distance(x,z);
@@ -211,7 +206,7 @@ public class WorldGenBlob extends WorldGenerator{
 			tmpPos.set(x,y-15,z).getBlock(world) != Blocks.air ||
 			tmpPos.set(x,y+15,z).getBlock(world) != Blocks.air)return false;
 		
-		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
+		/* TODO DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 		Pair<BlobGenerator,List<BlobPopulator>> pattern = getBlobType(rand,x,z).patterns.getRandomItem(rand).generatePattern(rand);
 		
 		pattern.getLeft().generate(gen,rand);
@@ -220,7 +215,7 @@ public class WorldGenBlob extends WorldGenerator{
 		
 		if (gen.getOutOfBoundsCounter() > 6)return false;
 		
-		gen.generate(world,rand,x,y,z);
+		gen.generate(world,rand,x,y,z);*/
 		return true;
 	}
 	
@@ -251,7 +246,7 @@ public class WorldGenBlob extends WorldGenerator{
 				}).setPopulatorAmountProvider(IRandomAmount.exact,2,2)
 			});
 			
-			DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
+			/* TODO DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 			Pair<BlobGenerator,List<BlobPopulator>> pattern = patterns.getRandomItem(world.rand).generatePattern(world.rand);
 			
 			Stopwatch.time("WorldGenBlob - test blob generator");
@@ -268,7 +263,7 @@ public class WorldGenBlob extends WorldGenerator{
 			
 			Stopwatch.time("WorldGenBlob - test generate");
 			gen.generate(world,world.rand,(int)player.posX+10,(int)player.posY-5,(int)player.posZ);
-			Stopwatch.finish("WorldGenBlob - test generate");
+			Stopwatch.finish("WorldGenBlob - test generate");*/
 		}
 	};
 }
