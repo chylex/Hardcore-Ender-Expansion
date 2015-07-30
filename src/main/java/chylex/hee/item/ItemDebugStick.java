@@ -61,6 +61,7 @@ public class ItemDebugStick extends Item{
 			final List<Pair<Block,Integer>> blocks = new ArrayList<>();
 			
 			Arrays.stream(player.inventory.mainInventory)
+			.skip(9)
 			.filter(is -> is != null && is.getItem() instanceof ItemBlock)
 			.forEach(is -> {
 				Pair<Block,Integer> data = Pair.of(((ItemBlock)is.getItem()).field_150939_a,is.getItemDamage());
@@ -68,6 +69,7 @@ public class ItemDebugStick extends Item{
 			});
 			
 			final int blockCount = blocks.size();
+			if (blockCount == 0)return;
 			
 			Pos.forEachBlock(pos,Pos.at(nbt.getLong("pos")),blockPos -> {
 				Pair<Block,Integer> selectedBlock = blocks.get(player.worldObj.rand.nextInt(blockCount));
