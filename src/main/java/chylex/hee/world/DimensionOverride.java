@@ -1,6 +1,13 @@
 package chylex.hee.world;
 import java.lang.reflect.Field;
 import java.util.Hashtable;
+import chylex.hee.world.biome.BiomeGenHardcoreEnd;
+import chylex.hee.world.feature.WorldGenStronghold;
+import chylex.hee.world.providers.ChunkProviderHardcoreEndServer;
+import chylex.hee.world.providers.WorldProviderHardcoreEnd;
+import cpw.mods.fml.common.eventhandler.EventPriority;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -11,11 +18,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.InitMapGenEvent;
 import net.minecraftforge.event.terraingen.InitMapGenEvent.EventType;
 import net.minecraftforge.event.world.WorldEvent;
-import chylex.hee.world.biome.BiomeGenHardcoreEnd;
-import chylex.hee.world.providers.ChunkProviderHardcoreEndServer;
-import chylex.hee.world.providers.WorldProviderHardcoreEnd;
-import cpw.mods.fml.common.eventhandler.EventPriority;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class DimensionOverride{
 	public static void setup(){
@@ -25,6 +27,8 @@ public final class DimensionOverride{
 		DimensionOverride instance = new DimensionOverride();
 		MinecraftForge.EVENT_BUS.register(instance);
 		MinecraftForge.TERRAIN_GEN_BUS.register(instance);
+		
+		GameRegistry.registerWorldGenerator(new WorldGenStronghold(),Integer.MAX_VALUE);
 	}
 	
 	public static void postInit(){
