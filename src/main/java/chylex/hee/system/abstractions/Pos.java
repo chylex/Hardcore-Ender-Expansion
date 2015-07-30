@@ -1,4 +1,6 @@
 package chylex.hee.system.abstractions;
+import java.util.function.Consumer;
+import chylex.hee.system.util.MathUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -8,7 +10,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
-import chylex.hee.system.util.MathUtil;
 
 public class Pos{
 	public static final Pos at(int x, int y, int z){
@@ -38,6 +39,22 @@ public class Pos{
 	
 	public static Pos fromNBT(NBTTagCompound nbt, String key){
 		return nbt.hasKey(key,NBT.TAG_LONG) ? Pos.at(nbt.getLong(key)) : Pos.at(nbt.getIntArray(key));
+	}
+	
+	/* === STATIC ACTION METHODS === */
+	public static void forEachBlock(Pos firstPos, Pos secondPos, Consumer<PosMutable> action){
+		int x1 = Math.min(firstPos.getX(),secondPos.getX()), x2 = Math.max(firstPos.getX(),secondPos.getX());
+		int y1 = Math.min(firstPos.getY(),secondPos.getY()), y2 = Math.max(firstPos.getY(),secondPos.getY());
+		int z1 = Math.min(firstPos.getZ(),secondPos.getZ()), z2 = Math.max(firstPos.getZ(),secondPos.getZ());
+		PosMutable mutablePos = new PosMutable();
+		
+		for(int x = x1; x <= x2; x++){
+			for(int y = y1; y <= y2; y++){
+				for(int z = z1; z <= z2; z++){
+					action.accept(mutablePos.set(x,y,z));
+				}
+			}
+		}
 	}
 	
 	/* === IMMUTABLE POS CLASS === */
