@@ -2,6 +2,7 @@ package chylex.hee.item;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.ItemUtil;
@@ -43,6 +44,7 @@ public class ItemDebugStick extends Item{
 	private void doDebugAction(ItemStack is, NBTTagCompound nbt, EntityPlayer player, Pos pos){
 		switch(nbt.getString("type")){
 			case "build": onDebugBuild(nbt,player,pos); break;
+			case "clear": onDebugClear(nbt,player,pos); break;
 			default: player.addChatMessage(new ChatComponentText("Invalid debug stick type!"));
 		}
 	}
@@ -58,8 +60,7 @@ public class ItemDebugStick extends Item{
 		else{
 			final List<Pair<Block,Integer>> blocks = new ArrayList<>();
 			
-			Arrays
-			.stream(player.inventory.mainInventory)
+			Arrays.stream(player.inventory.mainInventory)
 			.filter(is -> is != null && is.getItem() instanceof ItemBlock)
 			.forEach(is -> {
 				Pair<Block,Integer> data = Pair.of(((ItemBlock)is.getItem()).field_150939_a,is.getItemDamage());
@@ -71,6 +72,25 @@ public class ItemDebugStick extends Item{
 			Pos.forEachBlock(pos,Pos.at(nbt.getLong("pos")),blockPos -> {
 				Pair<Block,Integer> selectedBlock = blocks.get(player.worldObj.rand.nextInt(blockCount));
 				blockPos.setBlock(player.worldObj,selectedBlock.getLeft(),selectedBlock.getRight());
+			});
+			
+			nbt.removeTag("pos");
+		}
+	}
+
+	/* === CLEAR === */
+	private void onDebugClear(NBTTagCompound nbt, EntityPlayer player, Pos pos){
+		if (pos == null)nbt.removeTag("pos");
+		else if (!nbt.hasKey("pos"))nbt.setLong("pos",pos.toLong());
+		else{
+			final List<Block> blocks = Arrays.stream(player.inventory.mainInventory)
+			.filter(is -> is != null && is.getItem() instanceof ItemBlock)
+			.map(is -> ((ItemBlock)is.getItem()).field_150939_a)
+			.collect(Collectors.toList());
+			
+			Pos.forEachBlock(pos,Pos.at(nbt.getLong("pos")),blockPos -> {
+				if (blocks.contains(blockPos.getBlock(player.worldObj)))blockPos.setAir(player.worldObj);
+				else if (player.isSneaking() && blockPos.getMaterial(player.worldObj).isLiquid())blockPos.setAir(player.worldObj);
 			});
 			
 			nbt.removeTag("pos");
