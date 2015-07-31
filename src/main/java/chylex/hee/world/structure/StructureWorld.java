@@ -4,16 +4,16 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 import com.google.common.base.Objects;
-import chylex.hee.system.abstractions.Pos.PosMutable;
-import chylex.hee.system.util.MathUtil;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.util.MathUtil;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.set.hash.TIntHashSet;
 
-public abstract class StructureWorld{
+public final class StructureWorld{
 	private final int radX, radZ, sizeX, sizeY, sizeZ;
 	private final Block[] blocks;
 	private final byte[] metadata;
