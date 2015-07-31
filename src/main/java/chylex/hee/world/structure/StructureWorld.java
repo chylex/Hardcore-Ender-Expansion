@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.MathUtil;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -66,6 +67,10 @@ public final class StructureWorld{
 			return true;
 		}
 		else return false;
+	}
+	
+	public boolean setBlock(int x, int y, int z, BlockInfo blockInfo){
+		return setBlock(x,y,z,blockInfo.block,blockInfo.meta);
 	}
 	
 	public boolean setAir(int x, int y, int z){
