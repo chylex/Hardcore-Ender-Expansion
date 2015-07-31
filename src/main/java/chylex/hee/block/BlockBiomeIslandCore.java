@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.system.util.BlockPosM;
-import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 
 public class BlockBiomeIslandCore extends Block{
 	public BlockBiomeIslandCore(){
@@ -32,12 +31,12 @@ public class BlockBiomeIslandCore extends Block{
 		
 		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 		
-		for(IslandBiomeBase biome:IslandBiomeBase.biomeList){
+		/* TODO for(IslandBiomeBase biome:IslandBiomeBase.biomeList){
 			if (biome.isValidMetadata(meta)){
 				biome.updateCore(world,x,y,z,meta);
 				break;
 			}
-		}
+		}*/
 	}
 
 	@Override

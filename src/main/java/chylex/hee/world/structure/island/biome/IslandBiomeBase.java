@@ -1,5 +1,4 @@
 package chylex.hee.world.structure.island.biome;
-import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +18,6 @@ import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.collections.WeightedList;
-import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.ComponentIsland;
@@ -29,15 +27,15 @@ import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
 import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
+import gnu.trove.map.hash.TByteObjectHashMap;
 
 public abstract class IslandBiomeBase{
 	public static final IslandBiomeBase infestedForest = new IslandBiomeInfestedForest(0),
 										burningMountains = new IslandBiomeBurningMountains(1),
 										enchantedIsland = new IslandBiomeEnchantedIsland(2);
 	
-	public static final List<IslandBiomeBase> biomeList = CollectionUtil.newList(infestedForest,burningMountains,enchantedIsland);
+	// TODO public static final List<IslandBiomeBase> biomeList = CollectionUtil.newList(infestedForest,burningMountains,enchantedIsland);
 	
 	public static final IslandBiomeBase pickRandomBiome(Random rand){
 		return biomeList.get(rand.nextInt(biomeList.size()));

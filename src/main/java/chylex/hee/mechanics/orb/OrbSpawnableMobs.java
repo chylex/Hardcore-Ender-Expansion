@@ -11,10 +11,7 @@ import net.minecraft.entity.monster.EntityWitch;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
-import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.world.structure.island.biome.IslandBiomeBase;
-import chylex.hee.world.util.SpawnEntry;
 
 public final class OrbSpawnableMobs{
 	public static final Set<Class<?>> classList = new HashSet<>();
@@ -33,11 +30,11 @@ public final class OrbSpawnableMobs{
 			}
 		}
 		
-		for(IslandBiomeBase biome:IslandBiomeBase.biomeList){
+		/* TODO for(IslandBiomeBase biome:IslandBiomeBase.biomeList){
 			for(WeightedList<SpawnEntry> list:biome.getAllSpawnEntries()){
 				for(SpawnEntry entry:list)classList.add(entry.getMobClass());
 			}
-		}
+		}*/
 
 		for(Class cls:new Class<?>[]{
 			EntityCaveSpider.class, EntityWitch.class, EntitySnowman.class,

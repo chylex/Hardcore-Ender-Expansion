@@ -1,6 +1,4 @@
 package chylex.hee.item;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -20,7 +18,6 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.island.util.IslandSpawnChecker;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -80,7 +77,7 @@ public class ItemBiomeCompass extends Item{
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		byte biome = ItemUtil.getTagRoot(is,true).getByte("curBiome");
-		if (++biome >= IslandBiomeBase.biomeList.size())biome = 0;
+		/* TODO if (++biome >= IslandBiomeBase.biomeList.size())*/biome = 0;
 		
 		is.getTagCompound().setByte("curBiome",biome);
 		return is;
@@ -90,9 +87,9 @@ public class ItemBiomeCompass extends Item{
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister){
 		((TextureMap)iconRegister).setTextureEntry("hardcoreenderexpansion:biome_compass",(TextureAtlasSprite)(itemIcon = new TextureBiomeCompass("hardcoreenderexpansion:biome_compass")));
-
-		locations = new ArrayList<>(IslandBiomeBase.biomeList.size());
-		for(int a = 0; a < IslandBiomeBase.biomeList.size(); a++)locations.add(a,new HashSet<ChunkCoordinates>());
+		
+		/* TODO locations = new ArrayList<>(IslandBiomeBase.biomeList.size());
+		for(int a = 0; a < IslandBiomeBase.biomeList.size(); a++)locations.add(a,new HashSet<ChunkCoordinates>());*/
 		lastSavedX = lastSavedZ = Integer.MAX_VALUE;
 	}
 }
