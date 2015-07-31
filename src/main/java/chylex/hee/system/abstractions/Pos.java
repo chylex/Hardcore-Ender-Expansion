@@ -1,15 +1,16 @@
 package chylex.hee.system.abstractions;
 import java.util.function.Consumer;
-import chylex.hee.system.util.MathUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
+import chylex.hee.system.util.MathUtil;
 
 public class Pos{
 	public static final Pos at(int x, int y, int z){
@@ -37,11 +38,7 @@ public class Pos{
 		return new Pos((int)(serialized>>38),(int)(serialized<<26>>52),(int)(serialized<<38>>38));
 	}
 	
-	public static Pos fromNBT(NBTTagCompound nbt, String key){
-		return nbt.hasKey(key,NBT.TAG_LONG) ? Pos.at(nbt.getLong(key)) : Pos.at(nbt.getIntArray(key));
-	}
-	
-	/* === STATIC ACTION METHODS === */
+	/* === STATIC METHODS === */
 	public static void forEachBlock(Pos firstPos, Pos secondPos, Consumer<PosMutable> action){
 		int x1 = Math.min(firstPos.getX(),secondPos.getX()), x2 = Math.max(firstPos.getX(),secondPos.getX());
 		int y1 = Math.min(firstPos.getY(),secondPos.getY()), y2 = Math.max(firstPos.getY(),secondPos.getY());
@@ -55,6 +52,14 @@ public class Pos{
 				}
 			}
 		}
+	}
+	
+	public static AxisAlignedBB getBoundingBox(Pos loc1, Pos loc2){
+		return AxisAlignedBB.getBoundingBox(Math.min(loc1.getX(),loc2.getX()),Math.min(loc1.getY(),loc2.getY()),Math.min(loc1.getZ(),loc2.getZ()),Math.max(loc1.getX(),loc2.getX()),Math.max(loc1.getY(),loc2.getY()),Math.max(loc1.getZ(),loc2.getZ()));
+	}
+	
+	public static Pos fromNBT(NBTTagCompound nbt, String key){
+		return nbt.hasKey(key,NBT.TAG_LONG) ? Pos.at(nbt.getLong(key)) : Pos.at(nbt.getIntArray(key));
 	}
 	
 	/* === IMMUTABLE POS CLASS === */
