@@ -155,7 +155,7 @@ public class Pos{
 		return world.setBlockMetadataWithNotify(getX(),getY(),getZ(),metadata,flags);
 	}
 	
-	public boolean isAir(World world){
+	public boolean isAir(IBlockAccess world){
 		return world.isAirBlock(getX(),getY(),getZ());
 	}
 	
@@ -175,7 +175,7 @@ public class Pos{
 		return world.getTileEntity(getX(),getY(),getZ());
 	}
 	
-	public boolean checkBlock(World world, Block block, int metadata){
+	public boolean checkBlock(IBlockAccess world, Block block, int metadata){
 		return world.getBlock(getX(),getY(),getZ()) == block && world.getBlockMetadata(getX(),getY(),getZ()) == metadata;
 	}
 	
