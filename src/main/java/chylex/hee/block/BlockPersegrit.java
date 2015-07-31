@@ -1,6 +1,5 @@
 package chylex.hee.block;
 import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -10,10 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
-import chylex.hee.init.BlockList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -65,6 +62,7 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 		for(int a = 1; a < 16; a++)iconArray[a] = iconRegister.registerIcon(tex+names[a-1]);
 	}
 	
+	/* TODO
 	public static int getConnectionMeta(LargeStructureWorld world, Random rand, int x, int y, int z){
 		boolean l = false, r = false, t = false, b = false;
 		
@@ -138,5 +136,5 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 			else return true;
 		}
 		else return false;
-	}
+	}*/
 }
