@@ -10,6 +10,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -54,7 +55,11 @@ public class ItemDebugStick extends Item{
 		if (pos == null)nbt.removeTag("pos");
 		else if (!nbt.hasKey("pos"))nbt.setLong("pos",pos.toLong());
 		else if (player.isSneaking()){
-			Pos.forEachBlock(pos,Pos.at(nbt.getLong("pos")),blockPos -> blockPos.setAir(player.worldObj));
+			ItemStack is = player.inventory.mainInventory[7];
+			Block block = is == null || !(is.getItem() instanceof ItemBlock) ? Blocks.air : ((ItemBlock)is.getItem()).field_150939_a;
+			int meta = block == Blocks.air ? 0 : is.getItemDamage();
+			
+			Pos.forEachBlock(pos,Pos.at(nbt.getLong("pos")),blockPos -> blockPos.setBlock(player.worldObj,block,meta));
 			nbt.removeTag("pos");
 		}
 		else{
