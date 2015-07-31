@@ -22,7 +22,7 @@ public class StructureDungeon extends StructureBase{
 	private final BoundingBox dungeonBoundingBox;
 	private final WeightedList<StructureDungeonPiece> pieces = new WeightedList<>();
 	private StructureDungeonPiece startingPiece;
-	private int minPieces = 0, maxPieces = Integer.MAX_VALUE;
+	private int minPieces = 0, maxPieces = 0;
 	
 	public StructureDungeon(int radX, int sizeY, int radZ){
 		super(radX,sizeY,radZ);
@@ -78,7 +78,7 @@ public class StructureDungeon extends StructureBase{
 		 */
 		private StructureDungeonPiece selectNextPiece(Random rand){
 			StructureDungeonPiece nextPiece = pieces.getRandomItem(rand);
-			return pieceCount.get(nextPiece) >= nextPiece.maxAmount ? null : nextPiece;
+			return nextPiece != null && pieceCount.get(nextPiece) >= nextPiece.maxAmount ? null : nextPiece;
 		}
 		
 		/**
@@ -150,7 +150,7 @@ public class StructureDungeon extends StructureBase{
 			}
 			
 			for(StructureDungeonPieceInst pieceInst:generated){
-				pieceInst.piece.generate(world,rand,pieceInst.boundingBox.getTopLeft());
+				pieceInst.piece.generate(world,rand,pieceInst.boundingBox.x1,pieceInst.boundingBox.y1,pieceInst.boundingBox.z1);
 			}
 				
 			return true;

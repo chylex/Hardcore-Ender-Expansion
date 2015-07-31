@@ -102,11 +102,11 @@ public final class StructureWorld{
 	public void generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
 		PosMutable pos = new PosMutable();
 		int x, y, z, index = 0;
-		
-		for(y = 0; y < sizeY; y++){
+
+		for(z = -radZ; z <= radZ; z++){
 			for(x = -radX; x <= radX; x++){
-				for(z = -radZ; z <= radZ; z++){
-					pos.set(centerX+x,bottomY+y,centerZ+z).setBlock(world,blocks[index],metadata[index],2);
+				for(y = 0; y < sizeY; y++){
+					if (blocks[index] != null)pos.set(centerX+x,bottomY+y,centerZ+z).setBlock(world,blocks[index],metadata[index],2);
 					++index;
 				}
 			}

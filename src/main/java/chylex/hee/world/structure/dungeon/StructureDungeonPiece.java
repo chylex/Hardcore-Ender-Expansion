@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import com.google.common.collect.ImmutableList;
-import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.Facing4;
@@ -42,7 +41,7 @@ public abstract class StructureDungeonPiece implements IWeightProvider{
 		return connections.get(rand.nextInt(connections.size()));
 	}
 	
-	public abstract void generate(StructureWorld world, Random rand, Pos topLeft);
+	public abstract void generate(StructureWorld world, Random rand, int x, int y, int z);
 	
 	@Override
 	public int getWeight(){
@@ -60,4 +59,6 @@ public abstract class StructureDungeonPiece implements IWeightProvider{
 			this.offsetZ = (byte)offsetZ;
 		}
 	}
+	
+	//protected static final void placeWall()
 }
