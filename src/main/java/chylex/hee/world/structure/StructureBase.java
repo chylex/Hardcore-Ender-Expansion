@@ -10,8 +10,16 @@ public abstract class StructureBase{
 		this.sizeY = sizeY;
 		this.radZ = radZ;
 	}
+
+	public boolean tryGenerateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ, int maxAttempts){
+		for(int attempt = 0; attempt < maxAttempts; attempt++){
+			if (generateInWorld(world,rand,centerX,bottomY,centerZ))return true;
+		}
+		
+		return false;
+	}
 	
-	public boolean generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
+	private boolean generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
 		StructureWorld structureWorld = new StructureWorld(radX,sizeY,radZ);
 		
 		if (!createGenerator().generate(structureWorld,rand))return false;

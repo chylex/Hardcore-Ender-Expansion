@@ -30,6 +30,7 @@ public class StructureDungeon extends StructureBase{
 	}
 	
 	public void addPiece(StructureDungeonPiece piece){
+		if (piece.getWeight() == 0)throw new IllegalArgumentException("Invalid structure piece weight: "+piece.getClass().getName());
 		pieces.add(piece);
 	}
 	
@@ -68,6 +69,7 @@ public class StructureDungeon extends StructureBase{
 			StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
 			generated.add(inst);
 			if (inst.getWeight() != 0)weightedInstances.add(inst);
+			pieceCount.adjustOrPutValue(piece,1,1);
 			return inst;
 		}
 		
@@ -141,7 +143,17 @@ public class StructureDungeon extends StructureBase{
 				}
 			}
 			
-			return MathUtil.inRangeIncl(generated.size(),minPieces,maxPieces);
+			if (!MathUtil.inRangeIncl(generated.size(),minPieces,maxPieces))return false;
+			
+			for(StructureDungeonPiece piece:pieces){
+				if (!MathUtil.inRangeIncl(pieceCount.get(piece),piece.minAmount,piece.maxAmount))return false;
+			}
+			
+			for(StructureDungeonPieceInst pieceInst:generated){
+				pieceInst.piece.generate(world,rand,pieceInst.boundingBox.getTopLeft());
+			}
+				
+			return true;
 		}
 	}
 	

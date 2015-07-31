@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import com.google.common.collect.ImmutableList;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.Facing4;
@@ -15,6 +16,12 @@ public abstract class StructureDungeonPiece implements IWeightProvider{
 	public final int weight, minAmount, maxAmount;
 	public final Size size;
 	private final List<Connection> connections = new ArrayList<>();
+	
+	public StructureDungeonPiece(Size size){
+		this.weight = 0;
+		this.minAmount = this.maxAmount = 1;
+		this.size = size;
+	}
 	
 	public StructureDungeonPiece(int weight, int minAmount, int maxAmount, Size size){
 		this.weight = weight;
@@ -35,7 +42,7 @@ public abstract class StructureDungeonPiece implements IWeightProvider{
 		return connections.get(rand.nextInt(connections.size()));
 	}
 	
-	public abstract boolean generate(StructureWorld world);
+	public abstract void generate(StructureWorld world, Random rand, Pos topLeft);
 	
 	@Override
 	public int getWeight(){
