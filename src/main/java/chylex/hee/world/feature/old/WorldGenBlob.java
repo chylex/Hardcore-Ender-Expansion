@@ -1,4 +1,4 @@
-package chylex.hee.world.feature;
+package chylex.hee.world.feature.old;
 import java.util.Random;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.WeightedList;

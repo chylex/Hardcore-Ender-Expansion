@@ -1,4 +1,4 @@
-package chylex.hee.world.feature;
+package chylex.hee.world.feature.old;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
