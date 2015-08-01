@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
+import com.google.common.base.Objects;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.util.MathUtil;
@@ -31,6 +32,7 @@ public class StructureDungeon extends StructureBase{
 	
 	public void addPiece(StructureDungeonPiece piece){
 		if (piece.getWeight() == 0)throw new IllegalArgumentException("Invalid structure piece weight: "+piece.getClass().getName());
+		if (piece.countConnections() == 0)throw new IllegalArgumentException("Invalid structure data, no connections found!");
 		pieces.add(piece);
 	}
 	
@@ -55,9 +57,9 @@ public class StructureDungeon extends StructureBase{
 			BoundingBox box = new BoundingBox(pos1,pos2);
 			if (!box.isInside(dungeonBoundingBox))return false;
 			
-			for(StructureDungeonPieceInst inst:generated){
+			/* TODO for(StructureDungeonPieceInst inst:generated){
 				if (inst.boundingBox.intersects(box))return false;
-			}
+			}*/
 			
 			return true;
 		}
@@ -116,7 +118,7 @@ public class StructureDungeon extends StructureBase{
 			int targetAmount = minPieces+rand.nextInt(maxPieces-minPieces+1);
 			
 			StructureDungeonPiece startPiece = startingPiece == null ? pieces.getRandomItem(rand) : startingPiece;
-			addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,sizeY/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
+			StructureDungeonPieceInst startPieceInst = addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,sizeY/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
 			
 			for(int cycleAttempt = 0, count; cycleAttempt < 1000; cycleAttempt++){
 				StructureDungeonPiece nextPiece = selectNextPiece(rand);
@@ -125,7 +127,7 @@ public class StructureDungeon extends StructureBase{
 				Connection nextPieceConnection = nextPiece.getRandomConnection(rand);
 				
 				for(int placeAttempt = 0; placeAttempt < 10; placeAttempt++){
-					StructureDungeonPieceInst connected = weightedInstances.getRandomItem(rand);
+					StructureDungeonPieceInst connected = Objects.firstNonNull(weightedInstances.getRandomItem(rand),startPieceInst);
 					
 					if (cycleConnections(connected,nextPieceConnection.facing,rand,connection -> {
 						Pos aligned = alignConnections(connected,connection,nextPieceConnection);
