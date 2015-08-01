@@ -4,11 +4,11 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public class StrongholdPieceEndPortal extends StrongholdPiece{
-	public StrongholdPieceEndPortal(){
-		super(new Size(9,10,9));
-		addConnection(new Connection(Facing4.NORTH_NEGZ,0,0,4));
-		addConnection(new Connection(Facing4.SOUTH_POSZ,8,0,4));
+public class StrongholdPieceCorridor extends StrongholdPiece{
+	public StrongholdPieceCorridor(int weight){
+		super(weight,0,20,new Size(5,5,3));
+		addConnection(new Connection(Facing4.NORTH_NEGZ,0,0,2));
+		addConnection(new Connection(Facing4.SOUTH_POSZ,2,0,2));
 	}
 
 	@Override

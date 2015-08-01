@@ -13,6 +13,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureStart;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.feature.stronghold.StrongholdPieceCorridor;
 import chylex.hee.world.feature.stronghold.StrongholdPieceEndPortal;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -24,6 +25,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 		//stronghold.setPieceAmount(28,36);
 		stronghold.setPieceAmount(0,36);
 		stronghold.setStartingPiece(new StrongholdPieceEndPortal());
+		stronghold.addPiece(new StrongholdPieceCorridor(1));
 	}
 	
 	@Override
@@ -40,7 +42,11 @@ public class WorldGenStronghold implements IWorldGenerator{
 			if (args.length < 1)return;
 			
 			if (args[0].equals("custom")){
-				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)+8,80,MathUtil.floor(player.posZ)+8,100);
+				StructureDungeon stronghold = new StructureDungeon(128,48,128);
+				stronghold.setPieceAmount(0,36);
+				stronghold.setStartingPiece(new StrongholdPieceEndPortal());
+				stronghold.addPiece(new StrongholdPieceCorridor(1));
+				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)+8,80,MathUtil.floor(player.posZ)+8,1);
 			}
 			else if (args[0].equals("vanilla")){
 				MapGenStronghold stronghold = new MapGenStronghold();
