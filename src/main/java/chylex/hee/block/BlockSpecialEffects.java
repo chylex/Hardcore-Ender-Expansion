@@ -18,7 +18,7 @@ public class BlockSpecialEffects extends Block implements IBlockSubtypes{
 	public static final byte metaTestOffset = 1;
 	
 	private static final String[] textures = new String[]{
-		"_1", "_2", "_3", "_4", "_5"
+		"_2", "_3", "_4", "_5", "_9", "_10"
 	};
 	
 	@SideOnly(Side.CLIENT)
