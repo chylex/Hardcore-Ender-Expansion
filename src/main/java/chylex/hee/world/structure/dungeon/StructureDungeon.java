@@ -1,9 +1,10 @@
 package chylex.hee.world.structure.dungeon;
+import gnu.trove.impl.Constants;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
-import com.google.common.base.Objects;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.util.MathUtil;
@@ -11,10 +12,10 @@ import chylex.hee.world.structure.IStructureGenerator;
 import chylex.hee.world.structure.StructureBase;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
+import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Type;
 import chylex.hee.world.structure.util.BoundingBox;
 import chylex.hee.world.structure.util.Facing4;
-import gnu.trove.impl.Constants;
-import gnu.trove.map.hash.TObjectIntHashMap;
+import com.google.common.base.Objects;
 
 /**
  * Basic dungeon consisting of multiple cuboids connected to each other.
@@ -84,10 +85,10 @@ public class StructureDungeon extends StructureBase{
 		}
 		
 		/**
-		 * Cycles through available connections for specified facing in random order. Return true from the function to use the connection.
+		 * Cycles through available connections for specified facing and piece type in random order. Return true from the function to use the connection.
 		 */
-		private boolean cycleConnections(StructureDungeonPieceInst inst, Facing4 facing, Random rand, Function<Connection,Boolean> func){
-			List<Connection> list = inst.findConnections(facing);
+		private boolean cycleConnections(StructureDungeonPieceInst inst, Facing4 facing, Type type, Random rand, Function<Connection,Boolean> func){
+			List<Connection> list = inst.findConnections(facing,type);
 			if (list.isEmpty())return false;
 			
 			for(int index = list.size(); index > 0; index--){
@@ -129,7 +130,7 @@ public class StructureDungeon extends StructureBase{
 				for(int placeAttempt = 0; placeAttempt < 10; placeAttempt++){
 					StructureDungeonPieceInst connected = Objects.firstNonNull(weightedInstances.getRandomItem(rand),startPieceInst);
 					
-					if (cycleConnections(connected,nextPieceConnection.facing,rand,connection -> {
+					if (cycleConnections(connected,nextPieceConnection.facing,nextPiece.type,rand,connection -> {
 						Pos aligned = alignConnections(connected,connection,nextPieceConnection);
 						
 						if (canPlaceArea(aligned,aligned.offset(nextPiece.size.sizeX,nextPiece.size.sizeY,nextPiece.size.sizeZ))){

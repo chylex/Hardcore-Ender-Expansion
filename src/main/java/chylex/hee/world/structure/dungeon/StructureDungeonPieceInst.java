@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
+import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Type;
 import chylex.hee.world.structure.util.BoundingBox;
 import chylex.hee.world.structure.util.Facing4;
 
@@ -19,8 +20,8 @@ public class StructureDungeonPieceInst implements IWeightProvider{
 		this.availableConnections.addAll(piece.getConnections());
 	}
 	
-	public List<Connection> findConnections(Facing4 facing){
-		return availableConnections.stream().filter(connection -> connection.facing == facing.opposite()).collect(Collectors.toList());
+	public List<Connection> findConnections(Facing4 facing, Type pieceType){
+		return availableConnections.stream().filter(connection -> connection.facing == facing.opposite() && connection.canConnectWith(pieceType)).collect(Collectors.toList());
 	}
 	
 	public void useConnection(Connection connection){
