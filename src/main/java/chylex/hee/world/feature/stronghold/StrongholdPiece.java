@@ -31,11 +31,11 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		}
 	};
 	
-	public StrongholdPiece(Size size){
-		super(size);
+	public StrongholdPiece(Type type, Size size){
+		super(type,size);
 	}
 	
-	public StrongholdPiece(int weight, int minAmount, int maxAmount, Size size){
-		super(weight,minAmount,maxAmount,size);
+	public StrongholdPiece(Type type, int weight, int minAmount, int maxAmount, Size size){
+		super(type,weight,minAmount,maxAmount,size);
 	}
 }

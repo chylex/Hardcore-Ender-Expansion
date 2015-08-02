@@ -6,9 +6,9 @@ import chylex.hee.world.structure.util.Size;
 
 public class StrongholdPieceCorridor extends StrongholdPiece{
 	public StrongholdPieceCorridor(int weight){
-		super(weight,0,20,new Size(5,5,3));
-		addConnection(new Connection(Facing4.NORTH_NEGZ,0,0,2));
-		addConnection(new Connection(Facing4.SOUTH_POSZ,2,0,2));
+		super(Type.CORRIDOR,weight,0,20,new Size(5,5,3));
+		addConnection(Facing4.NORTH_NEGZ,0,0,2);
+		addConnection(Facing4.SOUTH_POSZ,2,0,2);
 	}
 
 	@Override
