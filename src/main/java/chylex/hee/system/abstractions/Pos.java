@@ -281,6 +281,14 @@ public class Pos{
 			return this;
 		}
 		
+		public PosMutable move(EnumFacing facing){
+			return move(facing.getFrontOffsetX(),facing.getFrontOffsetY(),facing.getFrontOffsetZ());
+		}
+		
+		public PosMutable move(EnumFacing facing, int amount){
+			return move(facing.getFrontOffsetX()*amount,facing.getFrontOffsetY()*amount,facing.getFrontOffsetZ()*amount);
+		}
+		
 		public PosMutable moveUp(){
 			++y;
 			return this;
