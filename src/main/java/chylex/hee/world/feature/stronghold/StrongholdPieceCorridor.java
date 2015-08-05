@@ -2,13 +2,14 @@ package chylex.hee.world.feature.stronghold;
 import java.util.Random;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.Facing4;
+import chylex.hee.world.structure.util.Range;
 import chylex.hee.world.structure.util.Size;
 
 public class StrongholdPieceCorridor extends StrongholdPiece{
 	private boolean dirX;
 	
-	public StrongholdPieceCorridor(int weight, int minAmount, int maxAmount, boolean dirX){
-		super(Type.CORRIDOR,weight,minAmount,maxAmount,new Size(dirX ? 3 : 5,5,dirX ? 5 : 3));
+	public StrongholdPieceCorridor(int weight, Range amount, boolean dirX){
+		super(Type.CORRIDOR,weight,amount,new Size(dirX ? 3 : 5,5,dirX ? 5 : 3));
 		
 		if (dirX){
 			addConnection(Facing4.EAST_POSX,0,0,2);

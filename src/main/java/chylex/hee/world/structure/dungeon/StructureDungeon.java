@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.function.Function;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.WeightedList;
-import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.IStructureGenerator;
 import chylex.hee.world.structure.StructureBase;
 import chylex.hee.world.structure.StructureWorld;
@@ -15,6 +14,7 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Type;
 import chylex.hee.world.structure.util.BoundingBox;
 import chylex.hee.world.structure.util.Facing4;
+import chylex.hee.world.structure.util.Range;
 import com.google.common.base.Objects;
 
 /**
@@ -24,7 +24,7 @@ public class StructureDungeon extends StructureBase{
 	private final BoundingBox dungeonBoundingBox;
 	private final WeightedList<StructureDungeonPiece> pieces = new WeightedList<>();
 	private StructureDungeonPiece startingPiece;
-	private int minPieces = 0, maxPieces = 0;
+	private Range pieceAmount;
 	
 	public StructureDungeon(int radX, int sizeY, int radZ){
 		super(radX,sizeY,radZ);
@@ -42,8 +42,7 @@ public class StructureDungeon extends StructureBase{
 	}
 	
 	public void setPieceAmount(int min, int max){
-		this.minPieces = min;
-		this.maxPieces = max;
+		this.pieceAmount = new Range(min,max);
 	}
 	
 	private class Generator implements IStructureGenerator{
@@ -80,7 +79,7 @@ public class StructureDungeon extends StructureBase{
 		 */
 		private StructureDungeonPiece selectNextPiece(Random rand){
 			StructureDungeonPiece nextPiece = pieces.getRandomItem(rand);
-			return nextPiece != null && pieceCount.get(nextPiece) >= nextPiece.maxAmount ? null : nextPiece;
+			return nextPiece != null && pieceCount.get(nextPiece) >= nextPiece.amount.max ? null : nextPiece;
 		}
 		
 		/**
@@ -115,7 +114,7 @@ public class StructureDungeon extends StructureBase{
 		 */
 		@Override
 		public boolean generate(StructureWorld world, Random rand){
-			int targetAmount = minPieces+rand.nextInt(maxPieces-minPieces+1);
+			int targetAmount = pieceAmount.random(rand);
 			
 			StructureDungeonPiece startPiece = startingPiece == null ? pieces.getRandomItem(rand) : startingPiece;
 			StructureDungeonPieceInst startPieceInst = addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,sizeY/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
@@ -150,10 +149,10 @@ public class StructureDungeon extends StructureBase{
 				}
 			}
 			
-			if (!MathUtil.inRangeIncl(generated.size(),minPieces,maxPieces))return false;
+			if (!pieceAmount.in(generated.size()))return false;
 			
 			for(StructureDungeonPiece piece:pieces){
-				if (!MathUtil.inRangeIncl(pieceCount.get(piece),piece.minAmount,piece.maxAmount))return false;
+				if (!piece.amount.in(pieceCount.get(piece)))return false;
 			}
 			
 			for(StructureDungeonPieceInst pieceInst:generated){

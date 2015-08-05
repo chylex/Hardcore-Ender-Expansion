@@ -7,6 +7,7 @@ import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.Facing4;
+import chylex.hee.world.structure.util.Range;
 import chylex.hee.world.structure.util.Size;
 import com.google.common.collect.ImmutableList;
 
@@ -14,22 +15,22 @@ public abstract class StructureDungeonPiece implements IWeightProvider{
 	public enum Type{ CORRIDOR, ROOM }
 	
 	public final Type type;
-	public final int weight, minAmount, maxAmount;
+	public final int weight;
+	public final Range amount;
 	public final Size size;
 	private final List<Connection> connections = new ArrayList<>();
 	
 	public StructureDungeonPiece(Type type, Size size){
 		this.type = type;
 		this.weight = 0;
-		this.minAmount = this.maxAmount = 1;
+		this.amount = new Range(1,1);
 		this.size = size;
 	}
 	
-	public StructureDungeonPiece(Type type, int weight, int minAmount, int maxAmount, Size size){
+	public StructureDungeonPiece(Type type, int weight, Range amount, Size size){
 		this.type = type;
 		this.weight = weight;
-		this.minAmount = minAmount;
-		this.maxAmount = maxAmount;
+		this.amount = amount;
 		this.size = size;
 	}
 	

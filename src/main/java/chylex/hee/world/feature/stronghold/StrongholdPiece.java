@@ -4,6 +4,7 @@ import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
+import chylex.hee.world.structure.util.Range;
 import chylex.hee.world.structure.util.Size;
 
 public abstract class StrongholdPiece extends StructureDungeonPiece{
@@ -35,7 +36,7 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		super(type,size);
 	}
 	
-	public StrongholdPiece(Type type, int weight, int minAmount, int maxAmount, Size size){
-		super(type,weight,minAmount,maxAmount,size);
+	public StrongholdPiece(Type type, int weight, Range amount, Size size){
+		super(type,weight,amount,size);
 	}
 }
