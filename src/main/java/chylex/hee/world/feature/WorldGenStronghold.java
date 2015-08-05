@@ -16,7 +16,7 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.stronghold.StrongholdPieceCorridor;
 import chylex.hee.world.feature.stronghold.StrongholdPieceEndPortal;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
-import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
+import chylex.hee.world.feature.stronghold.StrongholdPieceCorner;
 import chylex.hee.world.structure.util.Range;
 import cpw.mods.fml.common.IWorldGenerator;
 
@@ -49,10 +49,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 				stronghold.setPieceAmount(8,20);
 				stronghold.setStartingPiece(new StrongholdPieceEndPortal());
 				
-				stronghold.addPiece(1,new Range(0,20),new StructureDungeonPiece[]{
-					new StrongholdPieceCorridor(true),
-					new StrongholdPieceCorridor(false)
-				});
+				stronghold.addPieces(1,new Range(0,20),StrongholdPieceCorridor.generateCorridors(2,3,7));
 				
 				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,1);
 			}
