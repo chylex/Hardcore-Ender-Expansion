@@ -93,6 +93,25 @@ public abstract class StructureDungeonPiece{
 		}
 	}
 	
+	protected static final void placeOutline(StructureWorld world, Random rand, IBlockPicker picker, int x1, int y1, int z1, int x2, int y2, int z2, int insideThickness){
+		int xMin = Math.min(x1,x2), xMax = Math.max(x1,x2);
+		int zMin = Math.min(z1,z2), zMax = Math.max(z1,z2);
+		
+		for(int y = Math.min(y1,y2), yMax = Math.max(y1,y2); y <= yMax; y++){
+			for(int level = 0; level < insideThickness; level++){
+				for(int x = xMin+level; x <= xMax-level; x++){
+					world.setBlock(x,y,zMin+level,picker.pick(rand));
+					world.setBlock(x,y,zMax-level,picker.pick(rand));
+				}
+				
+				for(int z = zMin+1+level; z <= zMax-1-level; z++){
+					world.setBlock(xMin+level,y,z,picker.pick(rand));
+					world.setBlock(xMax-level,y,z,picker.pick(rand));
+				}
+			}
+		}
+	}
+	
 	protected static final void placeWalls(StructureWorld world, Random rand, IBlockPicker picker, int x1, int y1, int z1, int x2, int y2, int z2){
 		if (x1 == x2 || z1 == z2){
 			for(int y = Math.min(y1,y2), yMax = Math.max(y1,y2); y <= yMax; y++){
