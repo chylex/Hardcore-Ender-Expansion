@@ -22,7 +22,7 @@ import com.google.common.base.Objects;
  */
 public class StructureDungeon extends StructureBase{
 	private final BoundingBox dungeonBoundingBox;
-	private final WeightedList<StructureDungeonPiece> pieces = new WeightedList<>();
+	private final WeightedList<StructureDungeonPieceArray> pieces = new WeightedList<>();
 	private StructureDungeonPiece startingPiece;
 	private Range pieceAmount;
 	
@@ -31,10 +31,17 @@ public class StructureDungeon extends StructureBase{
 		dungeonBoundingBox = new BoundingBox(Pos.at(-radX,0,-radZ),Pos.at(radX,sizeY,radZ));
 	}
 	
-	public void addPiece(StructureDungeonPiece piece){
-		if (piece.getWeight() == 0)throw new IllegalArgumentException("Invalid structure piece weight: "+piece.getClass().getName());
+	public void addPiece(int weight, Range amountRange, StructureDungeonPiece piece){
 		if (piece.countConnections() == 0)throw new IllegalArgumentException("Invalid structure data, no connections found!");
-		pieces.add(piece);
+		this.pieces.add(new StructureDungeonPieceArray(weight,amountRange,new StructureDungeonPiece[]{ piece }));
+	}
+	
+	public void addPiece(int weight, Range amountRange, StructureDungeonPiece[] pieces){
+		for(StructureDungeonPiece piece:pieces){
+			if (piece.countConnections() == 0)throw new IllegalArgumentException("Invalid structure data, no connections found!");
+		}
+		
+		this.pieces.add(new StructureDungeonPieceArray(weight,amountRange,pieces));
 	}
 	
 	public void setStartingPiece(StructureDungeonPiece piece){
@@ -48,7 +55,7 @@ public class StructureDungeon extends StructureBase{
 	private class Generator implements IStructureGenerator{
 		private List<StructureDungeonPieceInst> generated = new ArrayList<>();
 		private WeightedList<StructureDungeonPieceInst> weightedInstances = new WeightedList<>();
-		private TObjectIntHashMap<StructureDungeonPiece> pieceCount = new TObjectIntHashMap<>(pieces.size(),Constants.DEFAULT_LOAD_FACTOR,0);
+		private TObjectIntHashMap<StructureDungeonPieceArray> pieceCount = new TObjectIntHashMap<>(pieces.size(),Constants.DEFAULT_LOAD_FACTOR,0);
 		
 		/**
 		 * Checks whether the area is inside the structure and does not intersect any existing pieces.
@@ -70,7 +77,7 @@ public class StructureDungeon extends StructureBase{
 		private StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
 			StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
 			generated.add(inst);
-			pieceCount.adjustOrPutValue(piece,1,1);
+			pieceCount.adjustOrPutValue(piece.getParentArray(),1,1);
 			return inst;
 		}
 		
@@ -78,8 +85,8 @@ public class StructureDungeon extends StructureBase{
 		 * Returns a random piece or null if the search fails.
 		 */
 		private StructureDungeonPiece selectNextPiece(Random rand){
-			StructureDungeonPiece nextPiece = pieces.getRandomItem(rand);
-			return nextPiece != null && pieceCount.get(nextPiece) >= nextPiece.amount.max ? null : nextPiece;
+			StructureDungeonPieceArray nextPieceArray = pieces.getRandomItem(rand);
+			return nextPieceArray != null && pieceCount.get(nextPieceArray) >= nextPieceArray.amount.max ? null : nextPieceArray.getRandomPiece(rand);
 		}
 		
 		/**
@@ -116,7 +123,7 @@ public class StructureDungeon extends StructureBase{
 		public boolean generate(StructureWorld world, Random rand){
 			int targetAmount = pieceAmount.random(rand);
 			
-			StructureDungeonPiece startPiece = startingPiece == null ? pieces.getRandomItem(rand) : startingPiece;
+			StructureDungeonPiece startPiece = startingPiece == null ? pieces.getRandomItem(rand).getRandomPiece(rand) : startingPiece;
 			StructureDungeonPieceInst startPieceInst = addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,sizeY/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
 			if (startPieceInst.getWeight() != 0)weightedInstances.add(startPieceInst);
 			
@@ -127,7 +134,7 @@ public class StructureDungeon extends StructureBase{
 					
 					Connection nextPieceConnection = nextPiece.getRandomConnection(rand);
 					
-					for(int placeAttempt = 0; placeAttempt < 10; placeAttempt++){
+					for(int placeAttempt = 0; placeAttempt < 20; placeAttempt++){
 						StructureDungeonPieceInst connected = Objects.firstNonNull(weightedInstances.getRandomItem(rand),startPieceInst);
 						
 						if (cycleConnections(connected,nextPieceConnection.facing,nextPiece.type,rand,connection -> {
@@ -151,7 +158,7 @@ public class StructureDungeon extends StructureBase{
 			
 			if (!pieceAmount.in(generated.size()))return false;
 			
-			for(StructureDungeonPiece piece:pieces){
+			for(StructureDungeonPieceArray piece:pieces){
 				if (!piece.amount.in(pieceCount.get(piece)))return false;
 			}
 			

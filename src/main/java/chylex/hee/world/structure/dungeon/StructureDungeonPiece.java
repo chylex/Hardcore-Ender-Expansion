@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import chylex.hee.system.abstractions.Pos.PosMutable;
-import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.Facing4;
@@ -11,25 +10,23 @@ import chylex.hee.world.structure.util.Range;
 import chylex.hee.world.structure.util.Size;
 import com.google.common.collect.ImmutableList;
 
-public abstract class StructureDungeonPiece implements IWeightProvider{
+public abstract class StructureDungeonPiece{
 	public enum Type{ CORRIDOR, ROOM }
 	
 	public final Type type;
-	public final int weight;
 	public final Range amount;
 	public final Size size;
 	private final List<Connection> connections = new ArrayList<>();
+	private StructureDungeonPieceArray parentArray;
 	
 	public StructureDungeonPiece(Type type, Size size){
 		this.type = type;
-		this.weight = 0;
 		this.amount = new Range(1,1);
 		this.size = size;
 	}
 	
-	public StructureDungeonPiece(Type type, int weight, Range amount, Size size){
+	public StructureDungeonPiece(Type type, Range amount, Size size){
 		this.type = type;
-		this.weight = weight;
 		this.amount = amount;
 		this.size = size;
 	}
@@ -50,12 +47,16 @@ public abstract class StructureDungeonPiece implements IWeightProvider{
 		return connections.get(rand.nextInt(connections.size()));
 	}
 	
-	public abstract void generate(StructureWorld world, Random rand, int x, int y, int z);
-	
-	@Override
-	public int getWeight(){
-		return weight;
+	public void setParentArray(StructureDungeonPieceArray array){
+		if (this.parentArray == null)this.parentArray = array;
+		else throw new IllegalArgumentException("Cannot set multiple parent arrays for structure dungeon piece!");
 	}
+	
+	public StructureDungeonPieceArray getParentArray(){
+		return parentArray;
+	}
+	
+	public abstract void generate(StructureWorld world, Random rand, int x, int y, int z);
 	
 	public final class Connection{
 		public final Facing4 facing;
@@ -71,6 +72,10 @@ public abstract class StructureDungeonPiece implements IWeightProvider{
 		public boolean canConnectWith(Type type){
 			return StructureDungeonPiece.this.type == Type.ROOM ? type == Type.CORRIDOR : true;
 		}
+	}
+	
+	protected static final void placeBlock(StructureWorld world, Random rand, IBlockPicker picker, int x, int y, int z){
+		world.setBlock(x,y,z,picker.pick(rand));
 	}
 	
 	protected static final void placeCube(StructureWorld world, Random rand, IBlockPicker picker, int x1, int y1, int z1, int x2, int y2, int z2){
