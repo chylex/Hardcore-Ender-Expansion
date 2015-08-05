@@ -19,16 +19,29 @@ public abstract class StructureDungeonPiece{
 	private final List<Connection> connections = new ArrayList<>();
 	private StructureDungeonPieceArray parentArray;
 	
+	/**
+	 * Used as a shortcut for size.sizeXYZ-1 in worldgen.
+	 */
+	protected final int maxX, maxY, maxZ;
+	
 	public StructureDungeonPiece(Type type, Size size){
 		this.type = type;
 		this.amount = new Range(1,1);
 		this.size = size;
+		
+		this.maxX = size.sizeX-1;
+		this.maxY = size.sizeY-1;
+		this.maxZ = size.sizeZ-1;
 	}
 	
 	public StructureDungeonPiece(Type type, Range amount, Size size){
 		this.type = type;
 		this.amount = amount;
 		this.size = size;
+		
+		this.maxX = size.sizeX-1;
+		this.maxY = size.sizeY-1;
+		this.maxZ = size.sizeZ-1;
 	}
 	
 	protected void addConnection(Facing4 facing, int offsetX, int offsetY, int offsetZ){
