@@ -11,6 +11,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.structure.util.Facing4;
 
 public class Pos{
 	public static final Pos at(int x, int y, int z){
@@ -108,6 +109,14 @@ public class Pos{
 	
 	public Pos offset(EnumFacing facing, int amount){
 		return offset(facing.getFrontOffsetX()*amount,facing.getFrontOffsetY()*amount,facing.getFrontOffsetZ()*amount);
+	}
+	
+	public Pos offset(Facing4 facing){
+		return offset(facing.getX(),0,facing.getZ());
+	}
+	
+	public Pos offset(Facing4 facing, int amount){
+		return offset(facing.getX()*amount,0,facing.getZ()*amount);
 	}
 	
 	public Pos getUp(){
@@ -287,6 +296,14 @@ public class Pos{
 		
 		public PosMutable move(EnumFacing facing, int amount){
 			return move(facing.getFrontOffsetX()*amount,facing.getFrontOffsetY()*amount,facing.getFrontOffsetZ()*amount);
+		}
+		
+		public PosMutable move(Facing4 facing){
+			return move(facing.getX(),0,facing.getZ());
+		}
+		
+		public PosMutable move(Facing4 facing, int amount){
+			return move(facing.getX()*amount,0,facing.getZ()*amount);
 		}
 		
 		public PosMutable moveUp(){
