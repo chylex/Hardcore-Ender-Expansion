@@ -6,7 +6,6 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.Facing4;
-import chylex.hee.world.structure.util.Range;
 import chylex.hee.world.structure.util.Size;
 import com.google.common.collect.ImmutableList;
 
@@ -14,7 +13,6 @@ public abstract class StructureDungeonPiece{
 	public enum Type{ CORRIDOR, ROOM }
 	
 	public final Type type;
-	public final Range amount;
 	public final Size size;
 	private final List<Connection> connections = new ArrayList<>();
 	private StructureDungeonPieceArray parentArray;
@@ -26,17 +24,6 @@ public abstract class StructureDungeonPiece{
 	
 	public StructureDungeonPiece(Type type, Size size){
 		this.type = type;
-		this.amount = new Range(1,1);
-		this.size = size;
-		
-		this.maxX = size.sizeX-1;
-		this.maxY = size.sizeY-1;
-		this.maxZ = size.sizeZ-1;
-	}
-	
-	public StructureDungeonPiece(Type type, Range amount, Size size){
-		this.type = type;
-		this.amount = amount;
 		this.size = size;
 		
 		this.maxX = size.sizeX-1;
