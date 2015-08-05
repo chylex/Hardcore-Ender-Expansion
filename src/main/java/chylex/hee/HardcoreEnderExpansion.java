@@ -1,5 +1,6 @@
 package chylex.hee;
 import java.io.File;
+import java.util.Map;
 import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.api.HeeIMC;
 import chylex.hee.entity.boss.dragon.managers.DragonChunkManager;
@@ -53,7 +54,9 @@ import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = "HardcoreEnderExpansion", name = "Hardcore Ender Expansion", version = "", useMetadata = true, guiFactory = "chylex.hee.gui.core.ModGuiFactory")
 public class HardcoreEnderExpansion{
@@ -202,5 +205,10 @@ public class HardcoreEnderExpansion{
 	@EventHandler
 	public void onIMC(IMCEvent e){
 		for(IMCMessage message:e.getMessages())HeeIMC.acceptIMC(message);
+	}
+	
+	@NetworkCheckHandler
+	public boolean onNetworkCheck(Map<String,String> mods, Side side){
+		return mods.getOrDefault("HardcoreEnderExpansion","").equals(modVersion);
 	}
 }
