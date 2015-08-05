@@ -34,7 +34,7 @@ public class StrongholdPieceCorridor extends StrongholdPiece{
 	}
 
 	@Override
-	public void generate(StructureWorld world, Random rand, int x, int y, int z){
+	public void generate(StructureWorld world, Random rand, final int x, final int y, final int z){
 		placeCube(world,rand,placeStoneBrick,x,y,z,x+maxX,y,z+maxZ);
 		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ);
 		

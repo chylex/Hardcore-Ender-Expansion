@@ -31,6 +31,10 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		}
 	};
 	
+	private static final BlockInfo blocksAir = new BlockInfo(Blocks.air);
+	
+	protected static final IBlockPicker placeAir = rand -> blocksAir;
+	
 	public StrongholdPiece(Type type, Size size){
 		super(type,size);
 	}
