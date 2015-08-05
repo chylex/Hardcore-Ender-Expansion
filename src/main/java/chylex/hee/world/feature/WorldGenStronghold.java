@@ -23,10 +23,10 @@ public class WorldGenStronghold implements IWorldGenerator{
 	
 	static{
 		//stronghold.setPieceAmount(28,36);
-		stronghold.setPieceAmount(0,36);
-		stronghold.setStartingPiece(new StrongholdPieceEndPortal());
-		stronghold.addPiece(new StrongholdPieceCorridor(1,true));
-		stronghold.addPiece(new StrongholdPieceCorridor(1,false));
+		//stronghold.setPieceAmount(0,36);
+		//stronghold.setStartingPiece(new StrongholdPieceEndPortal());
+		//stronghold.addPiece(new StrongholdPieceCorridor(1,true));
+		//stronghold.addPiece(new StrongholdPieceCorridor(1,false));
 	}
 	
 	@Override
@@ -46,8 +46,8 @@ public class WorldGenStronghold implements IWorldGenerator{
 				StructureDungeon stronghold = new StructureDungeon(128,48,128);
 				stronghold.setPieceAmount(8,20);
 				stronghold.setStartingPiece(new StrongholdPieceEndPortal());
-				stronghold.addPiece(new StrongholdPieceCorridor(1,true));
-				stronghold.addPiece(new StrongholdPieceCorridor(1,false));
+				stronghold.addPiece(new StrongholdPieceCorridor(1,0,20,true));
+				stronghold.addPiece(new StrongholdPieceCorridor(1,0,20,false));
 				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)+8,80,MathUtil.floor(player.posZ)+8,1);
 			}
 			else if (args[0].equals("vanilla")){
