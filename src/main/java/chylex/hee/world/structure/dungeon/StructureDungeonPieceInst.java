@@ -16,7 +16,7 @@ public class StructureDungeonPieceInst implements IWeightProvider{
 	
 	public StructureDungeonPieceInst(StructureDungeonPiece piece, Pos position){
 		this.piece = piece;
-		this.boundingBox = new BoundingBox(position,position.offset(piece.size.sizeX,piece.size.sizeY,piece.size.sizeZ));
+		this.boundingBox = new BoundingBox(position,position.offset(piece.size.sizeX-1,piece.size.sizeY-1,piece.size.sizeZ-1));
 		this.availableConnections.addAll(piece.getConnections());
 	}
 	

@@ -58,9 +58,9 @@ public class StructureDungeon extends StructureBase{
 			BoundingBox box = new BoundingBox(pos1,pos2);
 			if (!box.isInside(dungeonBoundingBox))return false;
 			
-			/* TODO for(StructureDungeonPieceInst inst:generated){
+			for(StructureDungeonPieceInst inst:generated){
 				if (inst.boundingBox.intersects(box))return false;
-			}*/
+			}
 			
 			return true;
 		}
@@ -134,7 +134,7 @@ public class StructureDungeon extends StructureBase{
 						if (cycleConnections(connected,nextPieceConnection.facing,nextPiece.type,rand,connection -> {
 							Pos aligned = alignConnections(connected,connection,nextPieceConnection);
 							
-							if (canPlaceArea(aligned,aligned.offset(nextPiece.size.sizeX,nextPiece.size.sizeY,nextPiece.size.sizeZ))){
+							if (canPlaceArea(aligned,aligned.offset(nextPiece.size.sizeX-1,nextPiece.size.sizeY-1,nextPiece.size.sizeZ-1))){
 								addPiece(nextPiece,aligned).useConnection(nextPieceConnection);
 								return true;
 							}
