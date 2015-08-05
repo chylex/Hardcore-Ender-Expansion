@@ -1,7 +1,10 @@
 package chylex.hee.system.abstractions;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 
 public final class BlockInfo{
+	public static final BlockInfo air = new BlockInfo(Blocks.air);
+	
 	public final Block block;
 	public final byte meta;
 	
