@@ -71,7 +71,6 @@ public class StructureDungeon extends StructureBase{
 		private StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
 			StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
 			generated.add(inst);
-			if (inst.getWeight() != 0)weightedInstances.add(inst);
 			pieceCount.adjustOrPutValue(piece,1,1);
 			return inst;
 		}
@@ -120,6 +119,7 @@ public class StructureDungeon extends StructureBase{
 			
 			StructureDungeonPiece startPiece = startingPiece == null ? pieces.getRandomItem(rand) : startingPiece;
 			StructureDungeonPieceInst startPieceInst = addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,sizeY/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
+			if (startPieceInst.getWeight() != 0)weightedInstances.add(startPieceInst);
 			
 			if (generated.size() < targetAmount){
 				for(int cycleAttempt = 0, count; cycleAttempt < 1000; cycleAttempt++){
@@ -135,7 +135,9 @@ public class StructureDungeon extends StructureBase{
 							Pos aligned = alignConnections(connected,connection,nextPieceConnection);
 							
 							if (canPlaceArea(aligned,aligned.offset(nextPiece.size.sizeX-1,nextPiece.size.sizeY-1,nextPiece.size.sizeZ-1))){
-								addPiece(nextPiece,aligned).useConnection(nextPieceConnection);
+								StructureDungeonPieceInst newInst = addPiece(nextPiece,aligned);
+								newInst.useConnection(nextPieceConnection);
+								if (newInst.getWeight() != 0)weightedInstances.add(newInst);
 								return true;
 							}
 							else return false;
