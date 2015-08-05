@@ -1,28 +1,40 @@
 package chylex.hee.world.structure.util;
 
+@Deprecated
 public enum Facing{
-	DOWN, UP, NORTH_NEGZ, SOUTH_POSZ, WEST_NEGX, EAST_POSX;
-	
+	@Deprecated DOWN,
+	@Deprecated UP,
+	@Deprecated NORTH_NEGZ,
+	@Deprecated SOUTH_POSZ,
+	@Deprecated WEST_NEGX,
+	@Deprecated EAST_POSX;
+
+	@Deprecated
 	public int get4Directional(){
 		return this == SOUTH_POSZ ? 0 : this == WEST_NEGX ? 1 : this == NORTH_NEGZ ? 2 : this == EAST_POSX ? 3 : -1;
 	}
-	
+
+	@Deprecated
 	public int get6Directional(){
 		return this == DOWN ? 0 : this == UP ? 1 : this == NORTH_NEGZ ? 2 : this == SOUTH_POSZ ? 3 : this == WEST_NEGX ? 4 : 5;
 	}
-	
+
+	@Deprecated
 	public int getStairs(){
 		return this == EAST_POSX ? 0 : this == WEST_NEGX ? 1 : this == SOUTH_POSZ ? 2 : 3;
 	}
-	
+
+	@Deprecated
 	public int getSkull(){
 		return this == NORTH_NEGZ ? 2 : this == SOUTH_POSZ ? 3 : this == EAST_POSX ? 4 : 5;
 	}
-	
+
+	@Deprecated
 	public int getAnvil(){
 		return this == NORTH_NEGZ || this == SOUTH_POSZ ? 0 : 1;
 	}
-	
+
+	@Deprecated
 	public Facing getRotatedLeft(){
 		switch(this){
 			case NORTH_NEGZ: return EAST_POSX;
@@ -32,7 +44,8 @@ public enum Facing{
 			default: return this;
 		}
 	}
-	
+
+	@Deprecated
 	public Facing getRotatedRight(){
 		switch(this){
 			case NORTH_NEGZ: return WEST_NEGX;
@@ -42,7 +55,8 @@ public enum Facing{
 			default: return this;
 		}
 	}
-	
+
+	@Deprecated
 	public Facing getReversed(){
 		switch(this){
 			case DOWN: return UP;
@@ -54,7 +68,8 @@ public enum Facing{
 			default: return this;
 		}
 	}
-	
+
+	@Deprecated
 	public static Facing from4Directional(int index){
 		return index == 0 ? SOUTH_POSZ : index == 1 ? WEST_NEGX : index == 2 ? NORTH_NEGZ : index == 3 ? EAST_POSX : null;
 	}
