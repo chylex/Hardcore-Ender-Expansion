@@ -30,7 +30,7 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityPlayerMP){
+		if (entity.posY <= y+0.05D && entity instanceof EntityPlayerMP){
 			Pos pos = Pos.at(x,y,z);
 			
 			if (pos.getMetadata(world) != 15){
