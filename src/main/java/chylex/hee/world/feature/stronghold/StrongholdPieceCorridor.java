@@ -5,10 +5,21 @@ import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
 public class StrongholdPieceCorridor extends StrongholdPiece{
-	public StrongholdPieceCorridor(int weight){
-		super(Type.CORRIDOR,weight,0,20,new Size(5,5,3));
-		addConnection(Facing4.NORTH_NEGZ,0,0,2);
-		addConnection(Facing4.SOUTH_POSZ,2,0,2);
+	private boolean dirX;
+	
+	public StrongholdPieceCorridor(int weight, boolean dirX){
+		super(Type.CORRIDOR,weight,0,20,new Size(dirX ? 3 : 5,5,dirX ? 5 : 3));
+		
+		if (dirX){
+			addConnection(Facing4.EAST_POSX,0,0,2);
+			addConnection(Facing4.WEST_NEGX,2,0,2);
+		}
+		else{
+			addConnection(Facing4.NORTH_NEGZ,2,0,0);
+			addConnection(Facing4.SOUTH_POSZ,2,0,2);
+		}
+		
+		this.dirX = dirX;
 	}
 
 	@Override

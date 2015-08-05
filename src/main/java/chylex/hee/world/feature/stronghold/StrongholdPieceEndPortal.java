@@ -7,8 +7,10 @@ import chylex.hee.world.structure.util.Size;
 public class StrongholdPieceEndPortal extends StrongholdPiece{
 	public StrongholdPieceEndPortal(){
 		super(Type.ROOM,new Size(9,10,9));
-		addConnection(Facing4.NORTH_NEGZ,0,0,4);
-		addConnection(Facing4.SOUTH_POSZ,8,0,4);
+		addConnection(Facing4.NORTH_NEGZ,4,0,0);
+		addConnection(Facing4.SOUTH_POSZ,4,0,8);
+		addConnection(Facing4.EAST_POSX,0,0,4);
+		addConnection(Facing4.WEST_NEGX,8,0,4);
 	}
 
 	@Override
