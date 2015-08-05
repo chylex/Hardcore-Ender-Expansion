@@ -1,9 +1,10 @@
 package chylex.hee.world.structure;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.set.hash.TIntHashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
-import com.google.common.base.Objects;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -11,8 +12,7 @@ import net.minecraft.world.World;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.MathUtil;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.set.hash.TIntHashSet;
+import com.google.common.base.Objects;
 
 public final class StructureWorld{
 	private final int radX, radZ, sizeX, sizeY, sizeZ;
@@ -106,13 +106,12 @@ public final class StructureWorld{
 	
 	public void generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
 		PosMutable pos = new PosMutable();
-		int x, y, z, index = 0;
+		int x, y, z, index = -1;
 
 		for(z = -radZ; z <= radZ; z++){
 			for(x = -radX; x <= radX; x++){
 				for(y = 0; y < sizeY; y++){
-					if (blocks[index] != null)pos.set(centerX+x,bottomY+y,centerZ+z).setBlock(world,blocks[index],metadata[index],2);
-					++index;
+					if (blocks[++index] != null)pos.set(centerX+x,bottomY+y,centerZ+z).setBlock(world,blocks[index],metadata[index],2);
 				}
 			}
 		}

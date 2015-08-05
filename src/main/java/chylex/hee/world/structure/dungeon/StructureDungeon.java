@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
+import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.world.structure.IStructureGenerator;
@@ -163,6 +164,7 @@ public class StructureDungeon extends StructureBase{
 			}
 			
 			for(StructureDungeonPieceInst pieceInst:generated){
+				StructureDungeonPiece.placeCube(world,rand,random -> BlockInfo.air,pieceInst.boundingBox.x1,pieceInst.boundingBox.y1,pieceInst.boundingBox.z1,pieceInst.boundingBox.x2,pieceInst.boundingBox.y2,pieceInst.boundingBox.z2);
 				pieceInst.piece.generate(world,rand,pieceInst.boundingBox.x1,pieceInst.boundingBox.y1,pieceInst.boundingBox.z1);
 			}
 				
