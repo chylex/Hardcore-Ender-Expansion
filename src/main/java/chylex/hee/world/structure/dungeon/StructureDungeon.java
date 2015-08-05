@@ -107,7 +107,7 @@ public class StructureDungeon extends StructureBase{
 			Pos pos = targetPiece.boundingBox.getTopLeft();
 			pos = pos.offset(targetConnection.offsetX,targetConnection.offsetY,targetConnection.offsetZ);
 			pos = pos.offset(targetConnection.facing.toEnumFacing(),1);
-			pos = pos.offset(-sourceConnection.offsetX,sourceConnection.offsetY,-sourceConnection.offsetZ);
+			pos = pos.offset(-sourceConnection.offsetX,-sourceConnection.offsetY,-sourceConnection.offsetZ);
 			return pos;
 		}
 		
@@ -121,27 +121,29 @@ public class StructureDungeon extends StructureBase{
 			StructureDungeonPiece startPiece = startingPiece == null ? pieces.getRandomItem(rand) : startingPiece;
 			StructureDungeonPieceInst startPieceInst = addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,sizeY/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
 			
-			for(int cycleAttempt = 0, count; cycleAttempt < 1000; cycleAttempt++){
-				StructureDungeonPiece nextPiece = selectNextPiece(rand);
-				if (nextPiece == null)continue;
-				
-				Connection nextPieceConnection = nextPiece.getRandomConnection(rand);
-				
-				for(int placeAttempt = 0; placeAttempt < 10; placeAttempt++){
-					StructureDungeonPieceInst connected = Objects.firstNonNull(weightedInstances.getRandomItem(rand),startPieceInst);
+			if (generated.size() < targetAmount){
+				for(int cycleAttempt = 0, count; cycleAttempt < 1000; cycleAttempt++){
+					StructureDungeonPiece nextPiece = selectNextPiece(rand);
+					if (nextPiece == null)continue;
 					
-					if (cycleConnections(connected,nextPieceConnection.facing,nextPiece.type,rand,connection -> {
-						Pos aligned = alignConnections(connected,connection,nextPieceConnection);
+					Connection nextPieceConnection = nextPiece.getRandomConnection(rand);
+					
+					for(int placeAttempt = 0; placeAttempt < 10; placeAttempt++){
+						StructureDungeonPieceInst connected = Objects.firstNonNull(weightedInstances.getRandomItem(rand),startPieceInst);
 						
-						if (canPlaceArea(aligned,aligned.offset(nextPiece.size.sizeX,nextPiece.size.sizeY,nextPiece.size.sizeZ))){
-							addPiece(nextPiece,aligned);
-							return true;
+						if (cycleConnections(connected,nextPieceConnection.facing,nextPiece.type,rand,connection -> {
+							Pos aligned = alignConnections(connected,connection,nextPieceConnection);
+							
+							if (canPlaceArea(aligned,aligned.offset(nextPiece.size.sizeX,nextPiece.size.sizeY,nextPiece.size.sizeZ))){
+								addPiece(nextPiece,aligned).useConnection(nextPieceConnection);
+								return true;
+							}
+							else return false;
+						})){
+							if (connected.getWeight() == 0)weightedInstances.remove(connected);
+							if (generated.size() >= targetAmount)cycleAttempt = Integer.MAX_VALUE-1;
+							break;
 						}
-						else return false;
-					})){
-						if (connected.getWeight() == 0)weightedInstances.remove(connected);
-						if (generated.size() >= targetAmount)cycleAttempt = Integer.MAX_VALUE;
-						break;
 					}
 				}
 			}
