@@ -107,14 +107,6 @@ public class UtilClassTests{
 	}
 	
 	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
-	public void testMathUtilRange(){
-		Assert.state(MathUtil.inRangeIncl(30,30,50),"Number is supposed to be in range.");
-		Assert.state(!MathUtil.inRangeIncl(29,30,50),"Number is not supposed to be in range.");
-		Assert.state(MathUtil.inRangeIncl(50,30,50),"Number is supposed to be in range.");
-		Assert.state(!MathUtil.inRangeIncl(51,30,50),"Number is not supposed to be in range.");
-	}
-	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
 	public void testMathUtilFloats(){
 		Assert.state(MathUtil.floatEquals(0.333333333F,1F/3F),"Numbers are supposed to be equal.");
 		Assert.state(!MathUtil.floatEquals(0.3333F,1F/3F),"Numbers are not supposed to be equal.");

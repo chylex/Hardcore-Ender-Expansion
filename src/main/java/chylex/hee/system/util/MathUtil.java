@@ -91,10 +91,6 @@ public final class MathUtil{
 		return Math.min(Math.max(value,min),max);
 	}
 	
-	public static boolean inRangeIncl(int value, int min, int max){
-		return value >= min && value <= max;
-	}
-	
 	public static boolean floatEquals(float val1, float val2){
 		return Math.abs(val1-val2) < 0.00001F;
 	}
