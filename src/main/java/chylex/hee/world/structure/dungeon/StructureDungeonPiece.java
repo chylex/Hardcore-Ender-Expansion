@@ -56,7 +56,7 @@ public abstract class StructureDungeonPiece{
 		return parentArray;
 	}
 	
-	public abstract void generate(StructureWorld world, Random rand, final int x, final int y, final int z);
+	public abstract void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, final int x, final int y, final int z);
 	
 	public final class Connection{
 		public final Facing4 facing;

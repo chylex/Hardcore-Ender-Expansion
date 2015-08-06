@@ -168,9 +168,9 @@ public class StructureDungeon extends StructureBase{
 			
 			for(StructureDungeonPieceInst pieceInst:generated){
 				StructureDungeonPiece.placeCube(world,rand,random -> BlockInfo.air,pieceInst.boundingBox.x1,pieceInst.boundingBox.y1,pieceInst.boundingBox.z1,pieceInst.boundingBox.x2,pieceInst.boundingBox.y2,pieceInst.boundingBox.z2);
-				pieceInst.piece.generate(world,rand,pieceInst.boundingBox.x1,pieceInst.boundingBox.y1,pieceInst.boundingBox.z1);
+				pieceInst.piece.generate(pieceInst,world,rand,pieceInst.boundingBox.x1,pieceInst.boundingBox.y1,pieceInst.boundingBox.z1);
 			}
-				
+			
 			return true;
 		}
 	}

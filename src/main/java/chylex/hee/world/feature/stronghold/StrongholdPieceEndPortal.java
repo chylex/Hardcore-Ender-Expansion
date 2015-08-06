@@ -6,6 +6,7 @@ import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
+import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
@@ -23,7 +24,7 @@ public class StrongholdPieceEndPortal extends StrongholdPiece{
 	}
 
 	@Override
-	public void generate(StructureWorld world, Random rand, final int x, final int y, final int z){
+	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, final int x, final int y, final int z){
 		PosMutable mpos = new PosMutable();
 		
 		// box

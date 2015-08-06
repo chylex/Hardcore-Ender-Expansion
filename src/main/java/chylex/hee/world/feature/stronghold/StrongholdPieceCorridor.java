@@ -1,6 +1,7 @@
 package chylex.hee.world.feature.stronghold;
 import java.util.Random;
 import chylex.hee.world.structure.StructureWorld;
+import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
@@ -34,7 +35,7 @@ public class StrongholdPieceCorridor extends StrongholdPiece{
 	}
 
 	@Override
-	public void generate(StructureWorld world, Random rand, final int x, final int y, final int z){
+	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, final int x, final int y, final int z){
 		placeCube(world,rand,placeStoneBrick,x,y,z,x+maxX,y,z+maxZ);
 		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ);
 		

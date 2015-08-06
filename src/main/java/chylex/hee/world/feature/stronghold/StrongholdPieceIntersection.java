@@ -3,6 +3,7 @@ import java.util.Random;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.world.structure.StructureWorld;
+import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
@@ -44,7 +45,7 @@ public class StrongholdPieceIntersection extends StrongholdPiece{
 	}
 	
 	@Override
-	public void generate(StructureWorld world, Random rand, int x, int y, int z){
+	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
 		placeCube(world,rand,placeStoneBrick,x,y,z,x+maxX,y,z+maxZ);
 		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ);
 		placeWalls(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z+maxZ);
