@@ -33,17 +33,14 @@ public class StrongholdPieceIntersection extends StrongholdPiece{
 	
 	private final Facing4[] facings;
 	
-	/**
-	 * Facings array determines the access facing, so the hole generation is then inverted.
-	 */
 	private StrongholdPieceIntersection(Facing4...facings){
 		super(Type.CORRIDOR,new Size(5,5,5));
 		this.facings = facings;
 		
-		if (ArrayUtils.contains(facings,Facing4.NORTH_NEGZ))addConnection(Facing4.NORTH_NEGZ,2,0,4);
-		if (ArrayUtils.contains(facings,Facing4.EAST_POSX))addConnection(Facing4.EAST_POSX,0,0,2);
-		if (ArrayUtils.contains(facings,Facing4.SOUTH_POSZ))addConnection(Facing4.SOUTH_POSZ,2,0,0);
-		if (ArrayUtils.contains(facings,Facing4.WEST_NEGX))addConnection(Facing4.WEST_NEGX,4,0,2);
+		if (ArrayUtils.contains(facings,Facing4.NORTH_NEGZ))addConnection(Facing4.NORTH_NEGZ,2,0,0);
+		if (ArrayUtils.contains(facings,Facing4.EAST_POSX))addConnection(Facing4.EAST_POSX,4,0,2);
+		if (ArrayUtils.contains(facings,Facing4.SOUTH_POSZ))addConnection(Facing4.SOUTH_POSZ,2,0,4);
+		if (ArrayUtils.contains(facings,Facing4.WEST_NEGX))addConnection(Facing4.WEST_NEGX,0,0,2);
 	}
 	
 	@Override
@@ -55,8 +52,6 @@ public class StrongholdPieceIntersection extends StrongholdPiece{
 		PosMutable hole = new PosMutable();
 		
 		for(Facing4 facing:facings){
-			facing = facing.opposite();
-			
 			Facing4 perpendicular = facing.rotateRight();
 			hole.set(x+2,y,z+2).move(facing,2);
 			placeCube(world,rand,placeAir,hole.x-perpendicular.getX(),y+1,hole.z-perpendicular.getZ(),hole.x+perpendicular.getX(),y+3,hole.z+perpendicular.getZ());

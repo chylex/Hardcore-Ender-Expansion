@@ -51,9 +51,9 @@ public enum Facing4{
 	public EnumFacing toEnumFacing(){
 		switch(this){
 			case NORTH_NEGZ: return EnumFacing.NORTH;
-			case WEST_NEGX: return EnumFacing.WEST;
+			case WEST_NEGX: return EnumFacing.EAST; // wtf
 			case SOUTH_POSZ: return EnumFacing.SOUTH;
-			case EAST_POSX: return EnumFacing.EAST;
+			case EAST_POSX: return EnumFacing.WEST; // wtf
 			default: return EnumFacing.DOWN;
 		}
 	}

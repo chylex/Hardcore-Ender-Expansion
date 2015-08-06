@@ -22,8 +22,8 @@ public class StrongholdPieceCorridor extends StrongholdPiece{
 		super(Type.CORRIDOR,new Size(dirX ? length : 5,5,dirX ? 5 : length));
 		
 		if (dirX){
-			addConnection(Facing4.EAST_POSX,0,0,2);
-			addConnection(Facing4.WEST_NEGX,length-1,0,2);
+			addConnection(Facing4.EAST_POSX,length-1,0,2);
+			addConnection(Facing4.WEST_NEGX,0,0,2);
 		}
 		else{
 			addConnection(Facing4.NORTH_NEGZ,2,0,0);

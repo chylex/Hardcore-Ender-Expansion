@@ -14,12 +14,12 @@ public class StrongholdPieceEndPortal extends StrongholdPiece{
 		super(Type.ROOM,new Size(17,13,17));
 		addConnection(Facing4.NORTH_NEGZ,8,0,0);
 		addConnection(Facing4.SOUTH_POSZ,8,0,16);
-		addConnection(Facing4.EAST_POSX,0,0,8);
-		addConnection(Facing4.WEST_NEGX,16,0,8);
+		addConnection(Facing4.EAST_POSX,16,0,8);
+		addConnection(Facing4.WEST_NEGX,0,0,8);
 		addConnection(Facing4.NORTH_NEGZ,8,6,0);
 		addConnection(Facing4.SOUTH_POSZ,8,6,16);
-		addConnection(Facing4.EAST_POSX,0,6,8);
-		addConnection(Facing4.WEST_NEGX,16,6,8);
+		addConnection(Facing4.EAST_POSX,16,6,8);
+		addConnection(Facing4.WEST_NEGX,0,6,8);
 	}
 
 	@Override

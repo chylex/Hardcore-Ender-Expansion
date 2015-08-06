@@ -128,19 +128,19 @@ public class Pos{
 	}
 	
 	public Pos getNorth(){
-		return offset(EnumFacing.NORTH);
+		return offset(Facing4.NORTH_NEGZ);
 	}
 	
 	public Pos getSouth(){
-		return offset(EnumFacing.SOUTH);
+		return offset(Facing4.SOUTH_POSZ);
 	}
 	
 	public Pos getEast(){
-		return offset(EnumFacing.EAST);
+		return offset(Facing4.EAST_POSX);
 	}
 	
 	public Pos getWest(){
-		return offset(EnumFacing.WEST);
+		return offset(Facing4.WEST_NEGX);
 	}
 	
 	/* === WORLD === */

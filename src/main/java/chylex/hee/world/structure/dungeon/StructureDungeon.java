@@ -112,7 +112,7 @@ public class StructureDungeon extends StructureBase{
 		private Pos alignConnections(StructureDungeonPieceInst targetPiece, Connection targetConnection, Connection sourceConnection){
 			Pos pos = targetPiece.boundingBox.getTopLeft();
 			pos = pos.offset(targetConnection.offsetX,targetConnection.offsetY,targetConnection.offsetZ);
-			pos = pos.offset(targetConnection.facing.toEnumFacing(),1);
+			pos = pos.offset(targetConnection.facing,1);
 			pos = pos.offset(-sourceConnection.offsetX,-sourceConnection.offsetY,-sourceConnection.offsetZ);
 			return pos;
 		}
