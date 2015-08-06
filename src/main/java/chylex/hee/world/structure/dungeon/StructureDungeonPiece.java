@@ -112,7 +112,7 @@ public abstract class StructureDungeonPiece{
 		}
 	}
 	
-	protected static final void placeWalls(StructureWorld world, Random rand, IBlockPicker picker, int x1, int y1, int z1, int x2, int y2, int z2){
+	protected static final void placeLine(StructureWorld world, Random rand, IBlockPicker picker, int x1, int y1, int z1, int x2, int y2, int z2){
 		if (x1 == x2 || z1 == z2){
 			for(int y = Math.min(y1,y2), yMax = Math.max(y1,y2); y <= yMax; y++){
 				if (x1 == x2){
@@ -123,17 +123,19 @@ public abstract class StructureDungeonPiece{
 				}
 			}
 		}
-		else{
-			for(int y = Math.min(y1,y2), yMax = Math.max(y1,y2); y <= yMax; y++){
-				for(int x = Math.min(x1,x2), xMax = Math.max(x1,x2); x <= xMax; x++){
-					world.setBlock(x,y,z1,picker.pick(rand));
-					world.setBlock(x,y,z2,picker.pick(rand));
-				}
-				
-				for(int z = Math.min(z1,z2)+1, zMax = Math.max(z1,z2)-1; z <= zMax; z++){
-					world.setBlock(x1,y,z,picker.pick(rand));
-					world.setBlock(x2,y,z,picker.pick(rand));
-				}
+		else throw new IllegalArgumentException("Lines can only be generated on one axis: "+x1+","+z1+" - "+x2+","+z2);
+	}
+	
+	protected static final void placeWalls(StructureWorld world, Random rand, IBlockPicker picker, int x1, int y1, int z1, int x2, int y2, int z2){
+		for(int y = Math.min(y1,y2), yMax = Math.max(y1,y2); y <= yMax; y++){
+			for(int x = Math.min(x1,x2), xMax = Math.max(x1,x2); x <= xMax; x++){
+				world.setBlock(x,y,z1,picker.pick(rand));
+				world.setBlock(x,y,z2,picker.pick(rand));
+			}
+			
+			for(int z = Math.min(z1,z2)+1, zMax = Math.max(z1,z2)-1; z <= zMax; z++){
+				world.setBlock(x1,y,z,picker.pick(rand));
+				world.setBlock(x2,y,z,picker.pick(rand));
 			}
 		}
 	}
