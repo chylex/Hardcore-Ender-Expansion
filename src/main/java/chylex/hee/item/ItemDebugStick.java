@@ -3,11 +3,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.commons.lang3.tuple.Pair;
-import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.util.ItemUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -16,7 +11,14 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.util.ItemUtil;
+import cpw.mods.fml.common.registry.GameData;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemDebugStick extends Item{
 	@Override
@@ -46,6 +48,7 @@ public class ItemDebugStick extends Item{
 		switch(nbt.getString("type")){
 			case "build": onDebugBuild(nbt,player,pos); break;
 			case "clear": onDebugClear(nbt,player,pos); break;
+			case "info": onDebugInfo(nbt,player,pos); break;
 			default: player.addChatMessage(new ChatComponentText("Invalid debug stick type!"));
 		}
 	}
@@ -102,5 +105,11 @@ public class ItemDebugStick extends Item{
 			
 			nbt.removeTag("pos");
 		}
+	}
+
+	/* === INFO === */
+	private void onDebugInfo(NBTTagCompound nbt, EntityPlayer player, Pos pos){
+		player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Block type: "+EnumChatFormatting.RESET+GameData.getBlockRegistry().getNameForObject(pos.getBlock(player.worldObj))));
+		player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Metadata: "+EnumChatFormatting.RESET+pos.getMetadata(player.worldObj)));
 	}
 }
