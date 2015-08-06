@@ -13,6 +13,7 @@ import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureStart;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.feature.stronghold.StrongholdPieceCorridor;
 import chylex.hee.world.feature.stronghold.StrongholdPieceEndPortal;
 import chylex.hee.world.feature.stronghold.StrongholdPieceIntersection;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
@@ -48,7 +49,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 				stronghold.setPieceAmount(8,8);
 				stronghold.setStartingPiece(new StrongholdPieceEndPortal());
 				
-				//stronghold.addPieces(1,new Range(0,20),StrongholdPieceCorridor.generateCorridors(2,3,7));
+				stronghold.addPieces(1,new Range(0,20),StrongholdPieceCorridor.generateCorridors(2,3,7));
 				stronghold.addPieces(1,new Range(0,20),StrongholdPieceIntersection.generateCorners());
 				stronghold.addPieces(1,new Range(0,20),StrongholdPieceIntersection.generateThreeWay());
 				stronghold.addPieces(1,new Range(0,20),StrongholdPieceIntersection.generateFourWay());

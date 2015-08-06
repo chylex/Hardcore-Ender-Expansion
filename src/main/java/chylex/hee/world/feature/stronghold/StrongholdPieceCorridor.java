@@ -39,12 +39,12 @@ public class StrongholdPieceCorridor extends StrongholdPiece{
 		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ);
 		
 		if (dirX){
-			placeWalls(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z);
-			placeWalls(world,rand,placeStoneBrick,x,y+1,z+maxZ,x+maxX,y+maxY-1,z+maxZ);
+			placeLine(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z);
+			placeLine(world,rand,placeStoneBrick,x,y+1,z+maxZ,x+maxX,y+maxY-1,z+maxZ);
 		}
 		else{
-			placeWalls(world,rand,placeStoneBrick,x,y+1,z,x,y+maxY-1,z+maxZ);
-			placeWalls(world,rand,placeStoneBrick,x+maxX,y+1,z,x+maxX,y+maxY-1,z+maxZ);
+			placeLine(world,rand,placeStoneBrick,x,y+1,z,x,y+maxY-1,z+maxZ);
+			placeLine(world,rand,placeStoneBrick,x+maxX,y+1,z,x+maxX,y+maxY-1,z+maxZ);
 		}
 	}
 }
