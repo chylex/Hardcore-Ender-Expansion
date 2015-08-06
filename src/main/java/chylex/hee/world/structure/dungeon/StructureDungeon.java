@@ -122,6 +122,9 @@ public class StructureDungeon extends StructureBase{
 		 */
 		@Override
 		public boolean generate(StructureWorld world, Random rand){
+			int cycleAttempts = 1000;
+			int placeAttempts = 20;
+			
 			int targetAmount = pieceAmount.random(rand);
 			
 			StructureDungeonPiece startPiece = startingPiece == null ? pieces.getRandomItem(rand).getRandomPiece(rand) : startingPiece;
@@ -129,13 +132,13 @@ public class StructureDungeon extends StructureBase{
 			if (startPieceInst.getWeight() != 0)weightedInstances.add(startPieceInst);
 			
 			if (generated.size() < targetAmount){
-				for(int cycleAttempt = 0, count; cycleAttempt < 1000; cycleAttempt++){
-					StructureDungeonPiece nextPiece = selectNextPiece(rand);
+				for(int cycleAttempt = 0, count; cycleAttempt < cycleAttempts; cycleAttempt++){
+					StructureDungeonPiece nextPiece = selectNextPiece(rand); // TODO cycle through all pieces in the array maybe?
 					if (nextPiece == null)continue;
 					
 					Connection nextPieceConnection = nextPiece.getRandomConnection(rand);
 					
-					for(int placeAttempt = 0; placeAttempt < 20; placeAttempt++){
+					for(int placeAttempt = 0; placeAttempt < placeAttempts; placeAttempt++){
 						StructureDungeonPieceInst connected = Objects.firstNonNull(weightedInstances.getRandomItem(rand),startPieceInst);
 						
 						if (cycleConnections(connected,nextPieceConnection.facing,nextPiece.type,rand,connection -> {

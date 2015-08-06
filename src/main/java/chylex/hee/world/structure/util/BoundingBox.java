@@ -35,4 +35,9 @@ public class BoundingBox{
 	public AxisAlignedBB toAABB(){
 		return AxisAlignedBB.getBoundingBox(x1,y1,z1,x2,y2,z2);
 	}
+	
+	@Override
+	public String toString(){
+		return "["+x1+","+y1+","+z1+" -> "+x2+","+y2+","+z2+"]";
+	}
 }
