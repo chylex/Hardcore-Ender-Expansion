@@ -46,12 +46,12 @@ public class WorldGenStronghold implements IWorldGenerator{
 			
 			if (args[0].equals("custom")){
 				StructureDungeon stronghold = new StructureDungeon(128,48,128);
-				stronghold.setPieceAmount(8,8);
+				stronghold.setPieceAmount(10,10);
 				stronghold.setStartingPiece(new StrongholdPieceEndPortal());
 				
-				stronghold.addPieces(1,new Range(0,20),StrongholdPieceCorridor.generateCorridors(2,3,7));
-				stronghold.addPieces(1,new Range(0,20),StrongholdPieceIntersection.generateCorners());
-				stronghold.addPieces(1,new Range(0,20),StrongholdPieceIntersection.generateThreeWay());
+				stronghold.addPieces(4,new Range(0,20),StrongholdPieceCorridor.generateCorridors(2,3,7));
+				stronghold.addPieces(3,new Range(0,20),StrongholdPieceIntersection.generateCorners());
+				stronghold.addPieces(2,new Range(0,20),StrongholdPieceIntersection.generateThreeWay());
 				stronghold.addPieces(1,new Range(0,20),StrongholdPieceIntersection.generateFourWay());
 				
 				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,1);

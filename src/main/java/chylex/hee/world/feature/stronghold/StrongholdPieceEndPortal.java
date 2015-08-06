@@ -78,13 +78,18 @@ public class StrongholdPieceEndPortal extends StrongholdPiece{
 			Facing4 perpendicular = facing.rotateRight();
 			int perX = perpendicular.getX(), perZ = perpendicular.getZ();
 			
-			mpos.set(x+maxX/2,y+1,z+maxZ/2).move(facing,8);
-			placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom side doors
-			placeCube(world,rand,placeAir,mpos.x-perX,y+7,mpos.z-perZ,mpos.x+perX,y+9,mpos.z+perZ); // top side doors
+			boolean bottomUnused = inst.isConnectionFree(facing,connection -> connection.offsetY == 0);
+			boolean topUnused = inst.isConnectionFree(facing,connection -> connection.offsetY == 6);
 			
-			mpos.move(facing,-1);
-			placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom side doors (inner)
-			mpos.move(facing,1);
+			mpos.set(x+maxX/2,y+1,z+maxZ/2).move(facing,8);
+			if (!bottomUnused)placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom side doors
+			if (!topUnused)placeCube(world,rand,placeAir,mpos.x-perX,y+7,mpos.z-perZ,mpos.x+perX,y+9,mpos.z+perZ); // top side doors
+			
+			if (!bottomUnused){
+				mpos.move(facing,-1);
+				placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom side doors (inner)
+				mpos.move(facing,1);
+			}
 			
 			mpos.move(perpendicular,4);
 			placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom windows

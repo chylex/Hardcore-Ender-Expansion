@@ -42,10 +42,14 @@ public class StrongholdPieceCorridor extends StrongholdPiece{
 		if (dirX){
 			placeLine(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z);
 			placeLine(world,rand,placeStoneBrick,x,y+1,z+maxZ,x+maxX,y+maxY-1,z+maxZ);
+			if (inst.isConnectionFree(Facing4.EAST_POSX))placeLine(world,rand,placeStoneBrick,x+maxX,y+1,z+1,x+maxX,y+maxY-1,z+maxZ-1);
+			if (inst.isConnectionFree(Facing4.WEST_NEGX))placeLine(world,rand,placeStoneBrick,x,y+1,z+1,x,y+maxY-1,z+maxZ-1);
 		}
 		else{
 			placeLine(world,rand,placeStoneBrick,x,y+1,z,x,y+maxY-1,z+maxZ);
 			placeLine(world,rand,placeStoneBrick,x+maxX,y+1,z,x+maxX,y+maxY-1,z+maxZ);
+			if (inst.isConnectionFree(Facing4.NORTH_NEGZ))placeLine(world,rand,placeStoneBrick,x+1,y+1,z,x+maxX-1,y+maxY-1,z);
+			if (inst.isConnectionFree(Facing4.SOUTH_POSZ))placeLine(world,rand,placeStoneBrick,x+1,y+1,z+maxZ,x+maxX-1,y+maxY-1,z+maxZ);
 		}
 	}
 }
