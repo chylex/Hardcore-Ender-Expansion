@@ -1,5 +1,6 @@
 package chylex.hee.mechanics.misc;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -104,7 +105,7 @@ public final class Baconizer{
 	public static String sentence(String text){
 		if (!ModCommonProxy.hardcoreEnderbacon)return text;
 		
-		String lc = StatCollector.translateToLocal("baconizer.bacon"), fc = Character.toUpperCase(lc.charAt(0))+lc.substring(1), uc = lc.toUpperCase();
+		String lc = StatCollector.translateToLocal("baconizer.bacon"), fc = Character.toUpperCase(lc.charAt(0))+lc.substring(1), uc = lc.toUpperCase(Locale.ENGLISH);
 		
 		text = lcword.matcher(text).replaceAll(lc);
 		text = fcword.matcher(text).replaceAll(fc);

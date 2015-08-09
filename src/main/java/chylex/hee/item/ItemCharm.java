@@ -1,5 +1,6 @@
 package chylex.hee.item;
 import java.util.List;
+import java.util.Locale;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +25,7 @@ public class ItemCharm extends Item{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		CharmType type = CharmType.getFromDamage(is.getItemDamage()).getLeft();
-		return "item.charm."+(type == null ? "invalid" : type.name().toLowerCase().replaceAll("_",""));
+		return "item.charm."+(type == null ? "invalid" : type.name().toLowerCase(Locale.ENGLISH).replaceAll("_",""));
 	}
 	
 	@Override

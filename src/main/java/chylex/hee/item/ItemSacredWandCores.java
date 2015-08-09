@@ -1,4 +1,5 @@
 package chylex.hee.item;
+import java.util.Locale;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,8 +27,8 @@ public class ItemSacredWandCores extends Item{
 	
 	@Override
 	public String getUnlocalizedName(ItemStack is){
-		if (is.getItemDamage() < 20)return "item.sacredWand.type."+getTypeFromDamage(is.getItemDamage()).toString().toLowerCase();
-		else return "item.sacredWand.core."+getCoreFromDamage(is.getItemDamage()).toString().toLowerCase();
+		if (is.getItemDamage() < 20)return "item.sacredWand.type."+getTypeFromDamage(is.getItemDamage()).toString().toLowerCase(Locale.ENGLISH);
+		else return "item.sacredWand.core."+getCoreFromDamage(is.getItemDamage()).toString().toLowerCase(Locale.ENGLISH);
 	}
 	
 	@Override

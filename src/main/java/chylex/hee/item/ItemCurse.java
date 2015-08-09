@@ -1,5 +1,6 @@
 package chylex.hee.item;
 import java.util.List;
+import java.util.Locale;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -84,7 +85,7 @@ public class ItemCurse extends Item{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
-		return "item.curse."+(type == null ? "invalid" : type.name().toLowerCase().replaceAll("_",""));
+		return "item.curse."+(type == null ? "invalid" : type.name().toLowerCase(Locale.ENGLISH).replaceAll("_",""));
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.enhancements;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.system.logging.Log;
 
@@ -8,8 +9,8 @@ public final class EnhancementEnumHelper{
 	public static String getName(Enum enhancementEnum, EnumChatFormatting color){
 		return new StringBuilder().
 			append(EnumChatFormatting.RESET).append(color).
-			append(enhancementEnum.name().substring(0,1).toUpperCase()).
-			append(enhancementEnum.name().substring(1).toLowerCase().replace('_',' ')).
+			append(enhancementEnum.name().substring(0,1).toUpperCase(Locale.ENGLISH)).
+			append(enhancementEnum.name().substring(1).toLowerCase(Locale.ENGLISH).replace('_',' ')).
 			toString();
 	}
 	

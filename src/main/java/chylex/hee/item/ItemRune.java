@@ -1,5 +1,6 @@
 package chylex.hee.item;
 import java.util.List;
+import java.util.Locale;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -28,7 +29,7 @@ public class ItemRune extends Item{
 	@Override
 	public String getUnlocalizedName(ItemStack is){
 		int damage = is.getItemDamage();
-		return "item.rune."+(damage >= 0 && damage < RuneType.values.length ? RuneType.values[damage].name().toLowerCase() : damage == OreDictionary.WILDCARD_VALUE ? "any" : "invalid");
+		return "item.rune."+(damage >= 0 && damage < RuneType.values.length ? RuneType.values[damage].name().toLowerCase(Locale.ENGLISH) : damage == OreDictionary.WILDCARD_VALUE ? "any" : "invalid");
 	}
 	
 	@Override

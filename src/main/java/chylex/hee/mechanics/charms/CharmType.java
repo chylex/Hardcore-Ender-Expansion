@@ -1,5 +1,6 @@
 package chylex.hee.mechanics.charms;
 import static chylex.hee.mechanics.charms.RuneType.*;
+import java.util.Locale;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.tuple.Pair;
@@ -183,7 +184,7 @@ public enum CharmType{
 		for(CharmType type:values()){
 			for(CharmRecipe recipe:type.recipes){
 				if (recipe.id == damage){
-					String tooltip = StatCollector.translateToLocal(new StringBuilder().append("item.charm.").append(type.name().toLowerCase().replace("_","")).append(".tooltip").toString());
+					String tooltip = StatCollector.translateToLocal(new StringBuilder().append("item.charm.").append(type.name().toLowerCase(Locale.ENGLISH).replace("_","")).append(".tooltip").toString());
 					
 					for(int arg = 0; arg < type.tooltipArgs.length; arg++){
 						String[] args = type.tooltipArgs[arg].split(",");

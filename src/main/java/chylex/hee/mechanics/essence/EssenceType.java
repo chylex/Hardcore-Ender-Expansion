@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.essence;
+import java.util.Locale;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -7,7 +8,7 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.handler.AltarActionHandler;
 import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.mechanics.essence.handler.FieryEssenceHandler;
-import chylex.hee.system.util.IItemSelector;
+stem.util.IItemSelector;
 
 public enum EssenceType{
 	INVALID(0, "Basic", AltarActionHandler.class, new RuneItem[]{}, new float[]{ 1F, 1F, 1F }),
@@ -59,7 +60,7 @@ public enum EssenceType{
 	private EssenceType(int id, String essenceName, Class<? extends AltarActionHandler> actionHandlerClass, RuneItem[] itemsNeeded, float[] glyphColors){
 		this.id = (byte)id;
 		this.essenceName = essenceName;
-		this.essenceNameLowercase = essenceName.toLowerCase();
+		this.essenceNameLowercase = essenceName.toLowerCase(Locale.ENGLISH);
 		this.actionHandlerClass = actionHandlerClass;
 		this.itemsNeeded = itemsNeeded;
 		this.glyphColors = glyphColors;
