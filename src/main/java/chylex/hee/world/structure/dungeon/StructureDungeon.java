@@ -12,7 +12,7 @@ import chylex.hee.world.structure.IStructureGenerator;
 import chylex.hee.world.structure.StructureBase;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
-import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Type;
+import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IType;
 import chylex.hee.world.structure.util.BoundingBox;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Range;
@@ -93,7 +93,7 @@ public class StructureDungeon extends StructureBase{
 		/**
 		 * Cycles through available connections for specified facing and piece type in random order. Return true from the function to use the connection.
 		 */
-		private boolean cycleConnections(StructureDungeonPieceInst inst, Facing4 facing, Type type, Random rand, Function<Connection,Boolean> func){
+		private boolean cycleConnections(StructureDungeonPieceInst inst, Facing4 facing, IType type, Random rand, Function<Connection,Boolean> func){
 			List<Connection> list = inst.findConnections(facing,type);
 			if (list.isEmpty())return false;
 			

@@ -10,9 +10,14 @@ import chylex.hee.world.structure.util.Size;
 import com.google.common.collect.ImmutableList;
 
 public abstract class StructureDungeonPiece{
-	public enum Type{ CORRIDOR, ROOM }
+	public interface IType{}
 	
-	public final Type type;
+	@FunctionalInterface
+	public interface IConnectWith{
+		boolean check(IType type);
+	}
+	
+	public final IType type;
 	public final Size size;
 	private final List<Connection> connections = new ArrayList<>();
 	private StructureDungeonPieceArray parentArray;
@@ -22,7 +27,7 @@ public abstract class StructureDungeonPiece{
 	 */
 	protected final int maxX, maxY, maxZ;
 	
-	public StructureDungeonPiece(Type type, Size size){
+	public StructureDungeonPiece(IType type, Size size){
 		this.type = type;
 		this.size = size;
 		
@@ -31,8 +36,8 @@ public abstract class StructureDungeonPiece{
 		this.maxZ = size.sizeZ-1;
 	}
 	
-	protected void addConnection(Facing4 facing, int offsetX, int offsetY, int offsetZ){
-		connections.add(new Connection(facing,offsetX,offsetY,offsetZ));
+	protected void addConnection(Facing4 facing, int offsetX, int offsetY, int offsetZ, IConnectWith canConnect){
+		connections.add(new Connection(facing,offsetX,offsetY,offsetZ,canConnect));
 	}
 	
 	public ImmutableList<Connection> getConnections(){
@@ -61,16 +66,18 @@ public abstract class StructureDungeonPiece{
 	public final class Connection{
 		public final Facing4 facing;
 		public final byte offsetX, offsetY, offsetZ;
+		private final IConnectWith canConnect;
 		
-		Connection(Facing4 facing, int offsetX, int offsetY, int offsetZ){
+		Connection(Facing4 facing, int offsetX, int offsetY, int offsetZ, IConnectWith canConnect){
 			this.facing = facing;
 			this.offsetX = (byte)offsetX;
 			this.offsetY = (byte)offsetY;
 			this.offsetZ = (byte)offsetZ;
+			this.canConnect = canConnect;
 		}
 		
-		public boolean canConnectWith(Type type){
-			return StructureDungeonPiece.this.type == Type.ROOM ? type == Type.CORRIDOR : true;
+		public boolean canConnectWith(IType type){
+			return canConnect.check(type);
 		}
 	}
 	

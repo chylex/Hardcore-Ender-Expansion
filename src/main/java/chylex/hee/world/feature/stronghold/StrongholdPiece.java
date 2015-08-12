@@ -7,6 +7,11 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
 import chylex.hee.world.structure.util.Size;
 
 public abstract class StrongholdPiece extends StructureDungeonPiece{
+	protected enum Type implements IType{ CORRIDOR, ROOM }
+	
+	protected IConnectWith connectsWithCorridor = type -> type == Type.CORRIDOR;
+	protected IConnectWith connectsWithAnything = type -> true;
+	
 	private static final BlockInfo[] blocksStoneBrick = new BlockInfo[]{
 		new BlockInfo(Blocks.stonebrick,Meta.stoneBrickPlain),
 		new BlockInfo(Blocks.stonebrick,Meta.stoneBrickMossy),
@@ -31,9 +36,9 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		}
 	};
 	
-	private static final BlockInfo blocksAir = new BlockInfo(Blocks.air);
+	protected static final IBlockPicker placeStoneBrickPlain = rand -> blocksStoneBrick[0];
 	
-	protected static final IBlockPicker placeAir = rand -> blocksAir;
+	protected static final IBlockPicker placeAir = rand -> BlockInfo.air;
 	
 	public StrongholdPiece(Type type, Size size){
 		super(type,size);
