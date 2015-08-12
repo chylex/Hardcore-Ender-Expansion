@@ -8,7 +8,6 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.handler.AltarActionHandler;
 import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.mechanics.essence.handler.FieryEssenceHandler;
-stem.util.IItemSelector;
 
 public enum EssenceType{
 	INVALID(0, "Basic", AltarActionHandler.class, new RuneItem[]{}, new float[]{ 1F, 1F, 1F }),
