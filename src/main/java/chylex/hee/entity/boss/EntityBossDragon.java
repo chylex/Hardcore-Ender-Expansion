@@ -645,7 +645,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 					else if (block == Blocks.bedrock || (!angryStatus && (block == Blocks.obsidian || block == BlockList.obsidian_falling || (block == Blocks.iron_bars && tmpPos.moveDown().getBlock(worldObj) == BlockList.obsidian_falling)))){
 						wasBlocked = true;
 					}
-					else if (MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+(0.9D*rand.nextDouble()-0.4D)){
+					else if (block.canEntityDestroy(worldObj,xx,yy,zz,this) && MathUtil.distance(xx-cx,yy-cy,zz-cz) <= rad+(0.9D*rand.nextDouble()-0.4D)){
 						spawnParticles = tmpPos.set(xx,yy,zz).setAir(worldObj) || spawnParticles;
 					}
 				}
