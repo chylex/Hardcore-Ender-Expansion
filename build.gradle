@@ -1,18 +1,30 @@
+configurations{
+    shade
+    compile.extendsFrom shade
+}
+
 buildscript{
     repositories{
         mavenCentral()
+        
         maven{
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+        
         maven{
             name = "sonatype"
             url = "https://oss.sonatype.org/content/repositories/snapshots/"
         }
     }
+    
     dependencies{
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
     }
+}
+
+dependencies {
+    shade files('libs/Java8Checker  MC-1.7.10  v1.1-src.jar')
 }
 
 apply plugin: 'forge'
@@ -27,6 +39,8 @@ targetCompatibility = 1.8
 minecraft{
     version = "1.7.10-10.13.4.1492-1.7.10"
     runDir = "eclipse"
+    
+    srgExtra "PK:chylex/javacheck chylex/shade/javacheck"
 }
 
 processResources{
@@ -46,5 +60,6 @@ processResources{
 jar{
     manifest{
         attributes 'FMLAT': 'hee_at.cfg'
+        attributes 'FMLCorePlugin': 'chylex.javacheck.Java8CheckerCoremod'
     }
 }
