@@ -19,7 +19,6 @@ import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
-import chylex.hee.entity.technical.EntityTechnicalVoidChest;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.system.util.GameRegistryUtil;
@@ -76,7 +75,6 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, 512, 1, false);
 		
 		GameRegistryUtil.registerEntity(EntityTechnicalBiomeInteraction.class, "TechnicalBiomeInteraction", 38, 0, Integer.MAX_VALUE, false);
-		GameRegistryUtil.registerEntity(EntityTechnicalVoidChest.class, "TechnicalVoidChest", 40, 0, 1, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalPuzzleChain.class, "TechnicalPuzzleChain", 43, 0, Integer.MAX_VALUE, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, 0, Integer.MAX_VALUE, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, 64, 1, false);
