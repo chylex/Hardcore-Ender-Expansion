@@ -45,7 +45,10 @@ public class ItemCurse extends Item{
 			CurseType type = CurseType.getFromDamage(is.getItemDamage());
 			if (type == null)return false;
 			
-			if (!world.isRemote)world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,tmpPos.x,tmpPos.y,tmpPos.z,player.getUniqueID(),type,CurseType.isEternal(is.getItemDamage())));
+			if (!world.isRemote){
+				world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,tmpPos.x,tmpPos.y,tmpPos.z,player.getUniqueID(),type,CurseType.isEternal(is.getItemDamage())));
+				--is.stackSize;
+			}
 			else world.playSound(tmpPos.x+0.5D,tmpPos.y,tmpPos.z+0.5D,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
 			
 			return true;
