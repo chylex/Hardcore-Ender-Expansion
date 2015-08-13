@@ -16,7 +16,6 @@ import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.curse.CurseEvents;
-import chylex.hee.mechanics.energy.EnergyEvents;
 import chylex.hee.mechanics.misc.PlayerDataHandler;
 import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
@@ -129,7 +128,6 @@ public class HardcoreEnderExpansion{
 		CharmPouchHandler.register();
 		WorldDataHandler.register();
 		VoidChestEvents.register();
-		EnergyEvents.register();
 		CurseEvents.register();
 		CausatumEvents.register();
 		PlayerTransportBeacons.register();

@@ -9,8 +9,6 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
@@ -43,10 +41,6 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 			
 			if (table.getStoredEnergy() >= EnergyChunkData.minSignificantEnergy){
 				float amount = table.getStoredEnergy();
-				
-				if (world.provider.dimensionId == 1){
-					amount = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,x,z,true).addEnergy(amount);
-				}
 				
 				if (amount >= EnergyChunkData.minSignificantEnergy){
 					int energyMeta = Math.min(15,3+(int)(amount*0.8F));

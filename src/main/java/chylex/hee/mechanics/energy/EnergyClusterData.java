@@ -3,29 +3,17 @@ import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
-import chylex.hee.world.util.Direction;
 
 public final class EnergyClusterData{
 	private EnergyClusterHealth healthStatus = EnergyClusterHealth.HEALTHY;
 	private float energyLevel, maxEnergyLevel;
-	private byte regenTimer, drainTimer;
+	private byte regenTimer;
 	
 	public void generate(World world, int blockX, int blockZ){
-		if (world.provider.dimensionId == 1){
-			int chunkX = blockX>>4, chunkZ = blockZ>>4;
-			EnergySavefile file = WorldDataHandler.get(EnergySavefile.class);
-			
-			float average = file.getFromChunkCoords(world,chunkX,chunkZ,false).getEnergyLevel();
-			for(int a = 0; a < 4; a++)average += file.getFromChunkCoords(world,chunkX+Direction.offsetX[a]*EnergySavefile.sectionSize,chunkZ+Direction.offsetZ[a]*EnergySavefile.sectionSize,false).getEnergyLevel();
-			
-			maxEnergyLevel = (0.25F+world.rand.nextFloat())*average*0.2F;
-		}
-		else maxEnergyLevel = (0.25F+world.rand.nextFloat())*5F;
+		maxEnergyLevel = (0.25F+world.rand.nextFloat())*5F;
 		
 		energyLevel = (0.1F+world.rand.nextFloat()*0.9F)*maxEnergyLevel;
 		healthStatus = EnergyClusterHealth.spawnWeightedList.getRandomItem(world.rand);
@@ -58,21 +46,6 @@ public final class EnergyClusterData{
 			energyLevel += Math.min((EnergyChunkData.energyDrainUnit*0.08F+(float)Math.sqrt(maxEnergyLevel)*0.005F)*healthStatus.regenMultiplier,maxEnergyLevel-energyLevel);
 			cluster.synchronize();
 			regenTimer = 0;
-		}
-		
-		if (world.provider.dimensionId == 1 && rand.nextInt(healthStatus.ordinal()+1) == 0 && ++drainTimer > 10+rand.nextInt(70)){
-			drainTimer = 0;
-			
-			EnergyChunkData environment = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,cluster.xCoord,cluster.zCoord,true);
-			float envLevel = environment.getEnergyLevel();
-			
-			if (envLevel > EnergyChunkData.minSignificantEnergy && maxEnergyLevel < energyLevel){
-				float drain = Math.min(maxEnergyLevel-energyLevel,Math.min(envLevel*0.1F,maxEnergyLevel*0.2F));
-				drain = drain*0.75F+rand.nextFloat()*0.25F*drain;
-				drain = environment.drainEnergy(drain);
-				energyLevel += drain;
-				cluster.synchronize();
-			}
 		}
 	}
 	
@@ -142,7 +115,6 @@ public final class EnergyClusterData{
 		nbt.setFloat("lvl",energyLevel);
 		nbt.setFloat("max",maxEnergyLevel);
 		nbt.setByte("regen",regenTimer);
-		nbt.setByte("drain",drainTimer);
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt){
@@ -152,6 +124,5 @@ public final class EnergyClusterData{
 		energyLevel = nbt.getFloat("lvl");
 		maxEnergyLevel = nbt.getFloat("max");
 		regenTimer = nbt.getByte("regen");
-		drainTimer = nbt.getByte("drain");
 	}
 }

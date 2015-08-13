@@ -12,11 +12,7 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkPosition;
 import chylex.hee.mechanics.energy.EnergyChunkData;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -67,12 +63,6 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 			Stopwatch.timeAverage("TileEntityAbstractEnergyInventory - drain",1000);
 			
 			float drain = energyLeft <= 0F ? getDrainAmount() : energyLeft;
-			
-			if (worldObj.provider.dimensionId == 1){
-				float newDrain = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).drainEnergy(drain);
-				if (!MathUtil.floatEquals(newDrain,drain))PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(this,xCoord+0.5D,yCoord+96D,zCoord+0.5D,(byte)80,(byte)80,(byte)80));
-				drain = newDrain;
-			}
 			
 			if (drain > EnergyChunkData.minSignificantEnergy){
 				List<TileEntityEnergyCluster> clusters = new ArrayList<>();

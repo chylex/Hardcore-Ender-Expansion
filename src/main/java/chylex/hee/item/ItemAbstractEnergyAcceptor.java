@@ -14,8 +14,6 @@ import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
@@ -81,23 +79,6 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 				nbt.removeTag("engDrain");
 				nbt.removeTag("engWait");
 				nbt.removeTag("engDist");
-			}
-		}
-		
-		if (world.provider.dimensionId == 1){
-			short timer = nbt.getShort("engRgnTim");
-			
-			if (++timer <= (42+world.rand.nextInt(20))/getRegenSpeedMultiplier()){
-				nbt.setShort("engRgnTim",timer);
-				return;
-			}
-			else nbt.setShort("engRgnTim",(short)0);
-			
-			EnergyChunkData chunk = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,(int)entity.posX,(int)entity.posZ,true);
-			
-			if (chunk.drainEnergyUnit()){
-				onEnergyAccepted(is);
-				if (entity instanceof EntityPlayer)CausatumUtils.increase((EntityPlayer)entity,CausatumMeters.END_ENERGY,EnergyChunkData.energyDrainUnit);
 			}
 		}
 	}

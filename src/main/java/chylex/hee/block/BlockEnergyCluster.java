@@ -19,8 +19,6 @@ import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -125,7 +123,6 @@ public class BlockEnergyCluster extends BlockContainer{
 		
 		world.newExplosion(null,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true,true);
 		
-		WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(world,x,z,true).addEnergy(tile.data.getEnergyLevel()*0.2F);
 		BlockPosM tmpPos = BlockPosM.tmp();
 		
 		for(int xx = x-idist; xx <= x+idist; xx++){

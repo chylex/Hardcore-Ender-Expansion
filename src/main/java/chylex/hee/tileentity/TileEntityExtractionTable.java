@@ -14,8 +14,6 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.energy.EnergyValues;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.EnergySavefile;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
@@ -64,10 +62,6 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 					for(Iterator<TileEntityEnergyCluster> iter = clusters.iterator(); iter.hasNext();){
 						if ((release = iter.next().addEnergy(release,this)) < EnergyChunkData.minSignificantEnergy)break;
 					}
-				}
-				
-				if (release >= EnergyChunkData.minSignificantEnergy && worldObj.provider.dimensionId == 1){
-					release = WorldDataHandler.<EnergySavefile>get(EnergySavefile.class).getFromBlockCoords(worldObj,xCoord,zCoord,true).addEnergy(release);
 				}
 				
 				if (release >= EnergyChunkData.minSignificantEnergy){
