@@ -38,10 +38,10 @@ public class StrongholdPieceIntersection extends StrongholdPiece{
 		super(Type.CORRIDOR,new Size(5,5,5));
 		this.facings = facings;
 		
-		if (ArrayUtils.contains(facings,Facing4.NORTH_NEGZ))addConnection(Facing4.NORTH_NEGZ,2,0,0,connectsWithAnything);
-		if (ArrayUtils.contains(facings,Facing4.EAST_POSX))addConnection(Facing4.EAST_POSX,4,0,2,connectsWithAnything);
-		if (ArrayUtils.contains(facings,Facing4.SOUTH_POSZ))addConnection(Facing4.SOUTH_POSZ,2,0,4,connectsWithAnything);
-		if (ArrayUtils.contains(facings,Facing4.WEST_NEGX))addConnection(Facing4.WEST_NEGX,0,0,2,connectsWithAnything);
+		if (ArrayUtils.contains(facings,Facing4.NORTH_NEGZ))addConnection(Facing4.NORTH_NEGZ,2,0,0,withAnything);
+		if (ArrayUtils.contains(facings,Facing4.EAST_POSX))addConnection(Facing4.EAST_POSX,4,0,2,withAnything);
+		if (ArrayUtils.contains(facings,Facing4.SOUTH_POSZ))addConnection(Facing4.SOUTH_POSZ,2,0,4,withAnything);
+		if (ArrayUtils.contains(facings,Facing4.WEST_NEGX))addConnection(Facing4.WEST_NEGX,0,0,2,withAnything);
 	}
 	
 	@Override

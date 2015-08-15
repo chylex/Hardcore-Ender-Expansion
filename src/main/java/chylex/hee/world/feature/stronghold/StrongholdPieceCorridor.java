@@ -23,12 +23,12 @@ public class StrongholdPieceCorridor extends StrongholdPiece{
 		super(Type.CORRIDOR,new Size(dirX ? length : 5,5,dirX ? 5 : length));
 		
 		if (dirX){
-			addConnection(Facing4.EAST_POSX,length-1,0,2,connectsWithAnything);
-			addConnection(Facing4.WEST_NEGX,0,0,2,connectsWithAnything);
+			addConnection(Facing4.EAST_POSX,length-1,0,2,withAnything);
+			addConnection(Facing4.WEST_NEGX,0,0,2,withAnything);
 		}
 		else{
-			addConnection(Facing4.NORTH_NEGZ,2,0,0,connectsWithAnything);
-			addConnection(Facing4.SOUTH_POSZ,2,0,length-1,connectsWithAnything);
+			addConnection(Facing4.NORTH_NEGZ,2,0,0,withAnything);
+			addConnection(Facing4.SOUTH_POSZ,2,0,length-1,withAnything);
 		}
 		
 		this.dirX = dirX;
