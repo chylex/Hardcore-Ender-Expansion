@@ -4,8 +4,8 @@
   "31 - 1.8.3": {
     "modVersion": "1.8.3",
     "mcVersions": [ "1.7.10" ],
-    "buildId": 1698150,
-    "releaseDate": "16 Aug 2015"
+    "buildId": 1598150,
+    "releaseDate": "15 Aug 2015"
   },
   
   "30 - 1.8.2": {
