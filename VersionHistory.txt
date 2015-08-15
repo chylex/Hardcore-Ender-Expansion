@@ -1,4 +1,14 @@
 ==================
+Release 1.8.3 (1.7.10)
+15 August 2015
+------------------
+>Bugfixes
+Fixed Ender Dragon destroying protected blocks
+Fixed Curses not getting used when placed on blocks
+Fixed broken block replacement causing issues in other mods
+
+
+==================
 Release 1.8.2 (1.7.10)
 26 June 2015
 ------------------

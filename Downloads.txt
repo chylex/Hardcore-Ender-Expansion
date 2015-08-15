@@ -1,9 +1,9 @@
 {
   "Recommended": {
     "1.7.10": {
-      "Release 1.8.2": {
+      "Release 1.8.3": {
         "links": [
-          "cf 2244398"
+          "cf 2252500"
         ]
       }
     }
@@ -11,6 +11,12 @@
 
   "Old Versions": {
     "1.7.10": {
+      "Release 1.8.2": {
+        "links": [
+          "cf 2244398"
+        ]
+      },
+      
       "Release 1.8.1": {
         "links": [
           "cf 2240590"
