@@ -19,7 +19,7 @@ apply plugin: 'forge'
 
 version = ""
 group = "chylex.hee.HardcoreEnderExpansion"
-archivesBaseName = "HardcoreEnderExpansion  MC-1.7.10  v1.8.2"
+archivesBaseName = "HardcoreEnderExpansion  MC-1.7.10  v1.8.3"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
