@@ -17,7 +17,7 @@ public class StrongholdPieceCorridor extends StrongholdPiece{
 		return corridors;
 	}
 	
-	private boolean dirX;
+	private final boolean dirX;
 	
 	private StrongholdPieceCorridor(boolean dirX, int length){
 		super(Type.CORRIDOR,new Size(dirX ? length : 5,5,dirX ? 5 : length));
