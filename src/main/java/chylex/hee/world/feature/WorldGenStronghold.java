@@ -16,7 +16,9 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.stronghold.StrongholdPieceCorridor;
 import chylex.hee.world.feature.stronghold.StrongholdPieceEndPortal;
 import chylex.hee.world.feature.stronghold.StrongholdPieceIntersection;
+import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
+import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Range;
 import cpw.mods.fml.common.IWorldGenerator;
 
@@ -40,6 +42,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 	}
 	
 	public static final HeeTest $debugTest = new HeeTest(){
+		@SuppressWarnings({ "unused", "null" })
 		@Override
 		public void run(String...args){
 			if (args.length < 1)return;
@@ -55,6 +58,16 @@ public class WorldGenStronghold implements IWorldGenerator{
 				stronghold.addPieces(1,new Range(0,20),StrongholdPieceIntersection.generateFourWay());
 				
 				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,1);
+			}
+			else if (args[0].equals("piece")){
+				StructureDungeonPieceInst inst = null;
+				// edit on runtime
+				
+				if (inst != null){
+					StructureWorld structureWorld = new StructureWorld(128,48,128);
+					inst.piece.generate(inst,structureWorld,world.rand,0,24,0);
+					structureWorld.generateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8);
+				}
 			}
 			else if (args[0].equals("vanilla")){
 				MapGenStronghold stronghold = new MapGenStronghold();
