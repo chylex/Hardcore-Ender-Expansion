@@ -1,5 +1,6 @@
-package chylex.hee.world.feature.stronghold;
+package chylex.hee.world.feature.stronghold.corridors;
 import java.util.Random;
+import chylex.hee.world.feature.stronghold.StrongholdPiece;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
