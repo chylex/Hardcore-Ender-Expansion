@@ -7,6 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -33,6 +35,10 @@ public class Pos{
 	
 	public static Pos at(Entity entity){
 		return new Pos(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ));
+	}
+	
+	public static Pos at(MovingObjectPosition mop){
+		return mop.typeOfHit == MovingObjectType.BLOCK ? new Pos(mop.blockX,mop.blockY,mop.blockZ) : mop.typeOfHit == MovingObjectType.ENTITY ? at(mop.entityHit) : at(0,0,0);
 	}
 	
 	public static Pos at(long serialized){
