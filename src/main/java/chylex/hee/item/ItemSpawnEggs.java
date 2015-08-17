@@ -19,18 +19,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
-import chylex.hee.entity.mob.EntityMobAngryEnderman;
-import chylex.hee.entity.mob.EntityMobBabyEnderman;
-import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.mob.EntityMobEndermage;
-import chylex.hee.entity.mob.EntityMobFireGolem;
-import chylex.hee.entity.mob.EntityMobHauntedMiner;
-import chylex.hee.entity.mob.EntityMobHomelandEnderman;
-import chylex.hee.entity.mob.EntityMobInfestedBat;
-import chylex.hee.entity.mob.EntityMobLouse;
-import chylex.hee.entity.mob.EntityMobParalyzedEnderman;
-import chylex.hee.entity.mob.EntityMobScorchingLens;
-import chylex.hee.entity.mob.EntityMobVampiricBat;
+import chylex.hee.entity.mob.*;
 import chylex.hee.system.util.BlockPosM;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -47,7 +36,7 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		/*  7 */ new EggData("enderEye", EntityMiniBossEnderEye.class, new int[]{ 22,22,22 }, new int[]{ 255,255,255 }),
 		/*  8 */ new EggData("fireFiend", EntityMiniBossFireFiend.class, new int[]{ 68,16,0 }, new int[]{ 33,0,0 }),
 		/*  9 */ new EggData("enderDemon", EntityBossEnderDemon.class, new int[]{ 22,22,22 }, new int[]{ 86,21,111 }),
-		/* 10 */ new EggData("brainlessEnderman", EntityMobParalyzedEnderman.class, new int[]{ 22,22,22 }, new int[]{ 190,190,190 }),
+		/* 10 */ null,
 		/* 11 */ new EggData("louse", EntityMobLouse.class, new int[]{ 45,45,45 }, new int[]{ 80,0,140 }),
 		/* 12 */ new EggData("hauntedMiner", EntityMobHauntedMiner.class, new int[]{ 48,23,23 }, new int[]{ 170,72,37 }),
 		/* 13 */ new EggData("homelandEnderman", EntityMobHomelandEnderman.class, new int[]{ 22,22,22 }, new int[]{ 199,44,44 }),
@@ -61,14 +50,14 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	
 	public static int getDamageForMob(Class<? extends EntityLiving> mobClass){
 		for(int damage = 0; damage < eggTypes.length; damage++){
-			if (eggTypes[damage].entityClass == mobClass)return damage;
+			if (eggTypes[damage] != null && eggTypes[damage].entityClass == mobClass)return damage;
 		}
 		
 		return -1;
 	}
 	
 	public static Class<? extends EntityLiving> getMobFromDamage(int damage){
-		return damage >= 0 && damage < eggTypes.length ? eggTypes[damage].entityClass : null;
+		return damage >= 0 && damage < eggTypes.length && eggTypes[damage] != null ? eggTypes[damage].entityClass : null;
 	}
 	
 	public static String getMobName(Class<?> mobClass){
@@ -147,7 +136,9 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < eggTypes.length; a++)list.add(new ItemStack(item,1,a));
+		for(int a = 0; a < eggTypes.length; a++){
+			if (eggTypes[a] != null)list.add(new ItemStack(item,1,a));
+		}
 	}
 
 	static class EggData{

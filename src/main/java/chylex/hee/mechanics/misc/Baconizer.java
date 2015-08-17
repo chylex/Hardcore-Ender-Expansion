@@ -23,7 +23,6 @@ import chylex.hee.render.entity.RenderMobBabyEnderman;
 import chylex.hee.render.entity.RenderMobEnderman;
 import chylex.hee.render.entity.RenderMobHomelandEnderman;
 import chylex.hee.render.entity.RenderMobInfestedBat;
-import chylex.hee.render.entity.RenderMobParalyzedEnderman;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -69,7 +68,6 @@ public final class Baconizer{
 		baconizeMob(RenderMobAngryEnderman.class,"enderman");
 		baconizeMob(RenderMobBabyEnderman.class,"enderman");
 		baconizeMob(RenderMobHomelandEnderman.class,"enderman");
-		baconizeMob(RenderMobParalyzedEnderman.class,"enderman");
 		baconizeMob(RenderMobInfestedBat.class,"bat_infested");
 		baconizeMob(RenderBossDragon.class,"dragon");
 	}
