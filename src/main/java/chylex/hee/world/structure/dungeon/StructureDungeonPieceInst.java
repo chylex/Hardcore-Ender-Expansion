@@ -36,6 +36,10 @@ public class StructureDungeonPieceInst implements IWeightProvider{
 	public void useConnection(Connection connection){
 		availableConnections.remove(connection);
 	}
+	
+	public void useAllConnections(){
+		availableConnections.clear();
+	}
 
 	@Override
 	public int getWeight(){

@@ -11,10 +11,15 @@ import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.MapGenStructureData;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureStart;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.feature.stronghold.StrongholdPiece;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceCorridor;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceIntersection;
+import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceStairsStraight;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdPieceEndPortal;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
@@ -42,7 +47,6 @@ public class WorldGenStronghold implements IWorldGenerator{
 	}
 	
 	public static final HeeTest $debugTest = new HeeTest(){
-		@SuppressWarnings({ "unused", "null" })
 		@Override
 		public void run(String...args){
 			if (args.length < 1)return;
@@ -59,15 +63,27 @@ public class WorldGenStronghold implements IWorldGenerator{
 				
 				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,1);
 			}
-			else if (args[0].equals("piece")){
-				StructureDungeonPieceInst inst = null;
-				// edit on runtime
+			else if (args[0].equals("pieces")){
+				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
+				pieces.add(new StrongholdPieceEndPortal());
+				pieces.addAll(StrongholdPieceCorridor.generateCorridors(5));
+				pieces.addAll(StrongholdPieceIntersection.generateCorners());
+				pieces.addAll(StrongholdPieceIntersection.generateThreeWay());
+				pieces.addAll(StrongholdPieceIntersection.generateFourWay());
+				pieces.addAll(StrongholdPieceStairsStraight.generateStairs());
 				
-				if (inst != null){
-					StructureWorld structureWorld = new StructureWorld(128,48,128);
-					inst.piece.generate(inst,structureWorld,world.rand,0,24,0);
-					structureWorld.generateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8);
-				}
+				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+1).sum();
+				
+				StructureWorld structureWorld = new StructureWorld(fullWidth/2,48,32);
+				PosMutable pos = new PosMutable(-fullWidth/2,0,0);
+				
+				pieces.stream().map(piece -> new StructureDungeonPieceInst(piece,pos.move(piece.size.sizeX+1,0,0).offset(-piece.size.sizeX,0,-piece.size.sizeZ/2))).forEach(inst -> {
+					Pos piecePos = inst.boundingBox.getTopLeft();
+					inst.useAllConnections();
+					inst.piece.generate(inst,structureWorld,world.rand,piecePos.getX(),piecePos.getY(),piecePos.getZ());
+				});
+				
+				structureWorld.generateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)+3,MathUtil.floor(player.posZ)-8);
 			}
 			else if (args[0].equals("vanilla")){
 				MapGenStronghold stronghold = new MapGenStronghold();
