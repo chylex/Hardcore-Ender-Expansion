@@ -26,5 +26,17 @@ public final class Meta{
 		}
 	}
 	
+	public static byte getDoor(Facing4 opensTowards, boolean upper){
+		if (upper)return 8;
+		
+		switch(opensTowards){
+			case EAST_POSX: return 0;
+			case WEST_NEGX: return 2;
+			case SOUTH_POSZ: return 1;
+			case NORTH_NEGZ: return 3;
+			default: return 0;
+		}
+	}
+	
 	private Meta(){}
 }
