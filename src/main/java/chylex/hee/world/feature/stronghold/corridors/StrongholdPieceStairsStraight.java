@@ -13,19 +13,17 @@ import chylex.hee.world.structure.util.Size;
 public class StrongholdPieceStairsStraight extends StrongholdPiece{
 	public static StrongholdPieceStairsStraight[] generateStairs(){
 		return new StrongholdPieceStairsStraight[]{
-			new StrongholdPieceStairsStraight(Facing4.EAST_POSX),
-			new StrongholdPieceStairsStraight(Facing4.WEST_NEGX),
-			new StrongholdPieceStairsStraight(Facing4.NORTH_NEGZ),
-			new StrongholdPieceStairsStraight(Facing4.SOUTH_POSZ)
+			new StrongholdPieceStairsStraight(true),
+			new StrongholdPieceStairsStraight(false)
 		};
 	}
 	
-	private final Facing4 ascendsTo;
+	private final boolean dirX;
 	
-	public StrongholdPieceStairsStraight(Facing4 ascendsTo){
-		super(Type.CORRIDOR,new Size(ascendsTo.getX() != 0 ? 8 : 5,10,ascendsTo.getX() != 0 ? 5 : 8));
+	public StrongholdPieceStairsStraight(boolean dirX){
+		super(Type.CORRIDOR,new Size(dirX ? 8 : 5,10,dirX ? 5 : 8));
 		
-		if (ascendsTo.getX() != 0){
+		if (dirX){
 			addConnection(Facing4.EAST_POSX,7,5,2,withAnything);
 			addConnection(Facing4.WEST_NEGX,0,0,2,withAnything);
 		}
@@ -34,7 +32,7 @@ public class StrongholdPieceStairsStraight extends StrongholdPiece{
 			addConnection(Facing4.SOUTH_POSZ,2,5,7,withAnything);
 		}
 		
-		this.ascendsTo = ascendsTo;
+		this.dirX = dirX;
 	}
 
 	@Override
@@ -45,32 +43,33 @@ public class StrongholdPieceStairsStraight extends StrongholdPiece{
 		placeWalls(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z+maxZ);
 		
 		// stairs
-		PosMutable stairPos = new PosMutable(x+(ascendsTo.getX() != 0 ? 1 : 2),y+1,z+(ascendsTo.getZ() != 0 ? 1 : 2));
+		Facing4 ascendsTo = dirX ? Facing4.EAST_POSX : Facing4.SOUTH_POSZ;
 		Facing4 perpendicular = ascendsTo.rotateRight();
+		PosMutable stairPos = new PosMutable(x+(ascendsTo.getX() != 0 ? 1 : 2),y,z+(ascendsTo.getZ() != 0 ? 1 : 2));
 		
 		IBlockPicker placeStairs = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTo,false));
 		IBlockPicker placeStairsRev = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTo.opposite(),true));
 		
 		for(int level = 0; level < 6; level++){
-			stairPos.move(Math.abs(ascendsTo.getX()),1,Math.abs(ascendsTo.getZ())).move(perpendicular,-1);
+			stairPos.move(Math.abs(ascendsTo.getX()),1,Math.abs(ascendsTo.getZ())).move(perpendicular,-2);
 			
 			for(int stair = 0; stair < 3; stair++){
-				placeBlock(world,rand,placeStairs,stairPos.x,stairPos.y,stairPos.z); // floor stairs
-				placeBlock(world,rand,placeStairsRev,stairPos.x-Math.abs(ascendsTo.getX()),stairPos.y+3,stairPos.z-Math.abs(ascendsTo.getZ())); // ceiling stairs
 				stairPos.move(perpendicular,1);
+				placeBlock(world,rand,placeStairs,stairPos.x,stairPos.y,stairPos.z); // floor stairs
+				if (level < 5)placeBlock(world,rand,placeStairsRev,stairPos.x-Math.abs(ascendsTo.getX()*2),stairPos.y+3,stairPos.z-Math.abs(ascendsTo.getZ()*2)); // ceiling stairs
 			}
 			
 			stairPos.move(perpendicular,-1);
 		}
 		
 		// holes
-		if (ascendsTo.getX() != 0){
-			placeCube(world,rand,placeAir,x+1,y+1,z,x+3,y+3,z);
-			placeCube(world,rand,placeAir,x+1,y+6,z+maxZ,x+3,y+9,z+maxZ);
+		if (dirX){
+			placeCube(world,rand,placeAir,x,y+1,z+1,x,y+3,z+3);
+			placeCube(world,rand,placeAir,x+maxX,y+6,z+1,x+maxX,y+8,z+3);
 		}
 		else{
-			placeCube(world,rand,placeAir,x,y+1,z+1,x,y+3,z+3);
-			placeCube(world,rand,placeAir,x+maxX,y+6,z+1,x+maxX,y+9,z+3);
+			placeCube(world,rand,placeAir,x+1,y+1,z,x+3,y+3,z);
+			placeCube(world,rand,placeAir,x+1,y+6,z+maxZ,x+3,y+8,z+maxZ);
 		}
 	}
 }
