@@ -20,6 +20,8 @@ public class RenderMobBabyEnderman extends AbstractRenderMobEnderman{
 
 	@Override
 	public void renderEnderman(IEndermanRenderer enderman, double x, double y, double z, float yaw, float partialTickTime){
+		endermanModel.isCarrying = enderman.isCarrying();
+		
 		GL11.glPushMatrix();
 		GL11.glTranslated(x,y,z);
 		GL11.glScalef(0.48F,0.48F,0.48F);
