@@ -1,7 +1,6 @@
 package chylex.hee.item;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
@@ -10,8 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Facing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.StatCollector;
@@ -20,7 +18,7 @@ import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.mob.*;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -36,7 +34,7 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		/*  7 */ new EggData("enderEye", EntityMiniBossEnderEye.class, new int[]{ 22,22,22 }, new int[]{ 255,255,255 }),
 		/*  8 */ new EggData("fireFiend", EntityMiniBossFireFiend.class, new int[]{ 68,16,0 }, new int[]{ 33,0,0 }),
 		/*  9 */ new EggData("enderDemon", EntityBossEnderDemon.class, new int[]{ 22,22,22 }, new int[]{ 86,21,111 }),
-		/* 10 */ null,
+		/* 10 */ EggData.unknown, // removed mob
 		/* 11 */ new EggData("louse", EntityMobLouse.class, new int[]{ 45,45,45 }, new int[]{ 80,0,140 }),
 		/* 12 */ new EggData("hauntedMiner", EntityMobHauntedMiner.class, new int[]{ 48,23,23 }, new int[]{ 170,72,37 }),
 		/* 13 */ new EggData("homelandEnderman", EntityMobHomelandEnderman.class, new int[]{ 22,22,22 }, new int[]{ 199,44,44 }),
@@ -45,22 +43,22 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	
 	private static EggData getEggData(ItemStack is){
 		int damage = is.getItemDamage();
-		return damage >= 0 && damage < eggTypes.length ? eggTypes[damage] : null;
+		return damage >= 0 && damage < eggTypes.length ? eggTypes[damage] : EggData.unknown;
 	}
 	
 	public static int getDamageForMob(Class<? extends EntityLiving> mobClass){
 		for(int damage = 0; damage < eggTypes.length; damage++){
-			if (eggTypes[damage] != null && eggTypes[damage].entityClass == mobClass)return damage;
+			if (eggTypes[damage].entityClass == mobClass)return damage;
 		}
 		
 		return -1;
 	}
 	
 	public static Class<? extends EntityLiving> getMobFromDamage(int damage){
-		return damage >= 0 && damage < eggTypes.length && eggTypes[damage] != null ? eggTypes[damage].entityClass : null;
+		return damage >= 0 && damage < eggTypes.length ? eggTypes[damage].entityClass : null;
 	}
 	
-	public static String getMobName(Class<?> mobClass){
+	public static String getMobName(final Class<?> mobClass){
 		for(EggData eggData:eggTypes){
 			if (eggData.entityClass == mobClass)return StatCollector.translateToLocal("entity."+eggData.entityName+".name");
 		}
@@ -68,36 +66,19 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		return "Unknown Mob";
 	}
 	
-	public ItemSpawnEggs(){
-		setHasSubtypes(true);
-	}
-	
 	@Override
 	public String getItemStackDisplayName(ItemStack is){
-		String s = StatCollector.translateToLocal(getUnlocalizedName()+".name").trim();
-		
-		EggData egg = getEggData(is);
-		if (egg != null)s += " "+StatCollector.translateToLocal("entity."+egg.entityName+".name");
-
-		return s;
+		return StatCollector.translateToLocal(getUnlocalizedName()+".name").trim()+" "+getMobName(getMobFromDamage(is.getItemDamage()));
 	}
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (world.isRemote)return true;
 		
-		Block block = BlockPosM.tmp(x,y,z).getBlock(world);
-		x += Facing.offsetsXForSide[side];
-		y += Facing.offsetsYForSide[side];
-		z += Facing.offsetsZForSide[side];
-
-		EggData egg = getEggData(is);
+		Pos pos = Pos.at(x,y,z).offset(EnumFacing.values()[side]);
+		float yOffset = (side == 1 && pos.getBlock(world).getRenderType() == 11) ? 0.5F : 0F;
 		
-		if (egg != null){
-			egg.spawnMob(world,x+0.5D,y+(side == 1 && block != null && block.getRenderType() == 11 ? 0.5D : 0D),z+0.5D,is);
-			
-			if (!player.capabilities.isCreativeMode)--is.stackSize;
-		}
+		if (getEggData(is).spawnMob(world,pos.getX()+0.5D,pos.getY()+yOffset,pos.getZ()+0.5D,is) != null && !player.capabilities.isCreativeMode)--is.stackSize;
 
 		return true;
 	}
@@ -110,16 +91,9 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		
 		if (mop != null && mop.typeOfHit == MovingObjectType.BLOCK){
 			int x = mop.blockX, y = mop.blockY, z = mop.blockZ;
-
-			if (!world.canMineBlock(player,x,y,z) || !player.canPlayerEdit(x,y,z,mop.sideHit,is))return is;
-
-			if (BlockPosM.tmp(x,y,z).getMaterial(world) == Material.water){
-				EggData egg = getEggData(is);
-				
-				if (egg != null){
-					egg.spawnMob(world,x,y,z,is);
-					if (!player.capabilities.isCreativeMode)--is.stackSize;
-				}
+			
+			if (world.canMineBlock(player,x,y,z) && player.canPlayerEdit(x,y,z,mop.sideHit,is) && Pos.at(x,y,z).getMaterial(world) == Material.water){
+				if (getEggData(is).spawnMob(world,x,y,z,is) != null && !player.capabilities.isCreativeMode)--is.stackSize;
 			}
 		}
 
@@ -130,18 +104,20 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int pass){
 		EggData egg = getEggData(is);
-		return egg != null ? (pass == 0 ? egg.primaryColor : egg.secondaryColor) : 16777215;
+		return pass == 0 ? egg.primaryColor : egg.secondaryColor;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(Item item, CreativeTabs tab, List list){
 		for(int a = 0; a < eggTypes.length; a++){
-			if (eggTypes[a] != null)list.add(new ItemStack(item,1,a));
+			if (eggTypes[a] != EggData.unknown)list.add(new ItemStack(item,1,a));
 		}
 	}
 
 	static class EggData{
+		static EggData unknown = new EggData(null,null,new int[]{ 255, 255, 255 },new int[]{ 255, 255, 255 });
+		
 		final String entityName;
 		final Class<? extends EntityLiving> entityClass;
 		final int primaryColor,secondaryColor;
@@ -158,22 +134,19 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 			
 			try{
 				e = entityClass.getConstructor(World.class).newInstance(world);
+				if (e == null)return null;
 			}catch(NoSuchMethodError | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException ex){
 				ex.printStackTrace();
 				return null;
 			}
 			
-			if (e == null)return null;
-			
-			e.setLocationAndAngles(x,y,z,MathHelper.wrapAngleTo180_float(itemRand.nextFloat()*360F),0F);
-			e.rotationYawHead = e.rotationYaw;
-			e.renderYawOffset = e.rotationYaw;
+			e.setLocationAndAngles(x,y,z,itemRand.nextFloat()*360F-180F,0F);
+			e.rotationYawHead = e.renderYawOffset = e.rotationYaw;
 			e.onSpawnWithEgg((IEntityLivingData)null);
 			world.spawnEntityInWorld(e);
 			e.playLivingSound();
 			
 			if (is.hasDisplayName())e.setCustomNameTag(is.getDisplayName());
-
 			return e;
 		}
 	}
