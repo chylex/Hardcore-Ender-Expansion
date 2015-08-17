@@ -7,9 +7,10 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
 import chylex.hee.world.structure.util.Size;
 
 public abstract class StrongholdPiece extends StructureDungeonPiece{
-	protected enum Type implements IType{ CORRIDOR, ROOM, DEADEND }
+	protected enum Type implements IType{ CORRIDOR, DOOR, ROOM, DEADEND }
 	
-	protected IConnectWith withCorridor = type -> type == Type.CORRIDOR;
+	protected IConnectWith fromRoom = type -> type == Type.CORRIDOR || type == Type.DOOR;
+	protected IConnectWith fromDoor = type -> type == Type.CORRIDOR || type == Type.ROOM;
 	protected IConnectWith withAnything = type -> true;
 	
 	private static final BlockInfo[] blocksStoneBrick = new BlockInfo[]{

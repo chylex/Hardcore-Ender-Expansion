@@ -14,14 +14,14 @@ import chylex.hee.world.structure.util.Size;
 public class StrongholdPieceEndPortal extends StrongholdPiece{
 	public StrongholdPieceEndPortal(){
 		super(Type.ROOM,new Size(17,13,17));
-		addConnection(Facing4.NORTH_NEGZ,8,0,0,withCorridor);
-		addConnection(Facing4.SOUTH_POSZ,8,0,16,withCorridor);
-		addConnection(Facing4.EAST_POSX,16,0,8,withCorridor);
-		addConnection(Facing4.WEST_NEGX,0,0,8,withCorridor);
-		addConnection(Facing4.NORTH_NEGZ,8,6,0,withCorridor);
-		addConnection(Facing4.SOUTH_POSZ,8,6,16,withCorridor);
-		addConnection(Facing4.EAST_POSX,16,6,8,withCorridor);
-		addConnection(Facing4.WEST_NEGX,0,6,8,withCorridor);
+		addConnection(Facing4.NORTH_NEGZ,8,0,0,fromRoom);
+		addConnection(Facing4.SOUTH_POSZ,8,0,16,fromRoom);
+		addConnection(Facing4.EAST_POSX,16,0,8,fromRoom);
+		addConnection(Facing4.WEST_NEGX,0,0,8,fromRoom);
+		addConnection(Facing4.NORTH_NEGZ,8,6,0,fromRoom);
+		addConnection(Facing4.SOUTH_POSZ,8,6,16,fromRoom);
+		addConnection(Facing4.EAST_POSX,16,6,8,fromRoom);
+		addConnection(Facing4.WEST_NEGX,0,6,8,fromRoom);
 	}
 
 	@Override
