@@ -1,7 +1,6 @@
 package chylex.hee.entity.mob;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -13,16 +12,9 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemMinecart;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -30,6 +22,7 @@ import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.util.Constants;
@@ -86,6 +79,17 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	@Override
 	protected Entity findPlayerToAttack(){
 		return entityToAttack;
+	}
+	
+	@Override
+	public void onUpdate(){
+		if (!worldObj.isRemote && worldObj.difficultySetting == EnumDifficulty.PEACEFUL){
+			if (isCarrying())entityDropItem(getCarrying(),0F);
+            setDead();
+            return;
+        }
+		
+		super.onUpdate();
 	}
 	
 	@Override
