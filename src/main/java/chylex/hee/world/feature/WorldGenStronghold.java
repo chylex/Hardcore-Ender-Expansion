@@ -72,12 +72,12 @@ public class WorldGenStronghold implements IWorldGenerator{
 				pieces.addAll(StrongholdPieceIntersection.generateFourWay());
 				pieces.addAll(StrongholdPieceStairsStraight.generateStairs());
 				
-				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+1).sum();
+				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+3).sum();
 				
 				StructureWorld structureWorld = new StructureWorld(fullWidth/2,48,32);
 				PosMutable pos = new PosMutable(-fullWidth/2,0,0);
 				
-				pieces.stream().map(piece -> new StructureDungeonPieceInst(piece,pos.move(piece.size.sizeX+1,0,0).offset(-piece.size.sizeX,0,-piece.size.sizeZ/2))).forEach(inst -> {
+				pieces.stream().map(piece -> new StructureDungeonPieceInst(piece,pos.move(piece.size.sizeX+3,0,0).offset(-piece.size.sizeX,0,-piece.size.sizeZ/2))).forEach(inst -> {
 					Pos piecePos = inst.boundingBox.getTopLeft();
 					inst.useAllConnections();
 					inst.piece.generate(inst,structureWorld,world.rand,piecePos.getX(),piecePos.getY(),piecePos.getZ());
