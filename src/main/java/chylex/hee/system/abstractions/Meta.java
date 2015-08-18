@@ -31,9 +31,19 @@ public final class Meta{
 		
 		switch(opensTowards){
 			case EAST_POSX: return 0;
-			case WEST_NEGX: return 2;
 			case SOUTH_POSZ: return 1;
+			case WEST_NEGX: return 2;
 			case NORTH_NEGZ: return 3;
+			default: return 0;
+		}
+	}
+	
+	public static byte getChest(Facing4 facingTo){
+		switch(facingTo){
+			case EAST_POSX: return 5;
+			case WEST_NEGX: return 4;
+			case SOUTH_POSZ: return 3;
+			case NORTH_NEGZ: return 2;
 			default: return 0;
 		}
 	}
