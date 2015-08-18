@@ -12,10 +12,13 @@ public abstract class StrongholdPieceDoor extends StrongholdPiece{
 	protected StrongholdPieceDoor(Facing4 facing){
 		super(Type.DOOR,new Size(facing.getX() != 0 ? 1 : 5,5,facing.getZ() != 0 ? 1 : 5));
 		this.facing = facing;
+		
+		addConnection(facing,facing.getX() != 0 ? 0 : 2,0,facing.getZ() != 0 ? 0 : 2,fromDoor);
+		addConnection(facing.opposite(),facing.getX() != 0 ? 0 : 2,0,facing.getZ() != 0 ? 0 : 2,fromDoor);
 	}
 
 	@Override
-	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
+	public final void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
 		placeCube(world,rand,placeStoneBrick,x,y,z,x+maxX,y,z+maxZ);
 		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ);
 		placeLine(world,rand,placeStoneBrick,x,y+1,z,x,y+maxY-1,z);
