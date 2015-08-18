@@ -39,13 +39,15 @@ public final class StructureWorld{
 	}
 	
 	private int toIndex(int x, int y, int z){
-		return y+sizeY*(x+radX)+sizeY*sizeX*(z+radZ); // TODO test
+		return y+sizeY*(x+radX)+sizeY*sizeX*(z+radZ);
 	}
 	
 	private void toPos(int index, PosMutable pos){
 		pos.setZ(MathUtil.floor((double)index/(sizeY*sizeX)));
 		pos.setX(MathUtil.floor((double)(index-(pos.getZ()*sizeY*sizeX))/sizeY));
-		pos.setY(index-(sizeY*sizeX*pos.getZ())-(sizeY*pos.getX())); // TODO test
+		pos.setY(index-(sizeY*sizeX*pos.getZ())-(sizeY*pos.getX()));
+		pos.x -= radX;
+		pos.z -= radZ;
 	}
 	
 	public boolean setBlock(int x, int y, int z, Block block){
@@ -118,6 +120,7 @@ public final class StructureWorld{
 		
 		tileEntityMap.forEachEntry((ind, value) -> {
 			toPos(ind,pos);
+			pos.move(centerX,bottomY,centerZ);
 			value.generateTile(pos.getTileEntity(world),rand);
 			return true;
 		});
