@@ -7,22 +7,6 @@ import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
 public abstract class StrongholdPieceDoor extends StrongholdPiece{
-	public static StrongholdPieceDoor[] generateEmpty(){
-		return new StrongholdPieceDoor[]{
-			new StrongholdPieceDoorEmpty(Facing4.EAST_POSX),
-			new StrongholdPieceDoorEmpty(Facing4.SOUTH_POSZ)
-		};
-	}
-	
-	private static class StrongholdPieceDoorEmpty extends StrongholdPieceDoor{
-		StrongholdPieceDoorEmpty(Facing4 facing){
-			super(facing);
-		}
-		
-		@Override
-		protected void generateDoor(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){}
-	}
-	
 	protected final Facing4 facing;
 	
 	protected StrongholdPieceDoor(Facing4 facing){
