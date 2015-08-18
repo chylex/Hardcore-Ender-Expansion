@@ -21,17 +21,17 @@ public class StrongholdPieceStairsVertical extends StrongholdPiece{
 	/*
 	 * base height for levels = 1 is 9
 	 * if exit is to the left of entrance, add 0
-	 * if exit is opposite to entrance, add 1
+	 * if exit is the same as entrance (straight), add 1
 	 * if exit is to the right of entrance, add 2
-	 * if exit is the same facing as entrance, add 3
+	 * if exit is opposite of entrance (return), add 3
 	 * base height for levels = 2 is 13
 	 */
 	private static int calculateHeight(Facing4 toEntrance, Facing4 toExit, int levels){
 		int height = 9+(levels-1)*4;
 		
-		if (toExit == toEntrance.opposite())height += 1;
+		if (toExit == toEntrance)height += 1;
 		else if (toExit == toEntrance.rotateRight())height += 2;
-		else if (toExit == toEntrance)height += 3;
+		else if (toExit == toEntrance.opposite())height += 3;
 		
 		return height;
 	}
@@ -39,7 +39,7 @@ public class StrongholdPieceStairsVertical extends StrongholdPiece{
 	private final Facing4 toEntrance, toExit;
 	
 	public StrongholdPieceStairsVertical(Facing4 toEntrance, Facing4 toExit, int levels){
-		super(Type.CORRIDOR,new Size(5,calculateHeight(toEntrance.opposite(),toExit,levels),5));
+		super(Type.CORRIDOR,new Size(5,calculateHeight(toEntrance,toExit,levels),5));
 		this.toEntrance = toEntrance;
 		this.toExit = toExit;
 		
