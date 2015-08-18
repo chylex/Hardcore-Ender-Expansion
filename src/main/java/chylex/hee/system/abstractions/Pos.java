@@ -217,7 +217,7 @@ public class Pos{
 	
 	@Override
 	public String toString(){
-		return new StringBuilder().append("{ ").append(x).append(", ").append(y).append(", ").append(z).append(" }").toString();
+		return new StringBuilder().append("{ ").append(getX()).append(", ").append(getY()).append(", ").append(getZ()).append(" }").toString();
 	}
 	
 	/* === MUTABLE POS CLASS === */
