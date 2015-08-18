@@ -18,20 +18,20 @@ public enum Facing4{
 	
 	public Facing4 rotateLeft(){
 		switch(this){
-			case NORTH_NEGZ: return EAST_POSX;
-			case EAST_POSX: return SOUTH_POSZ;
-			case SOUTH_POSZ: return WEST_NEGX;
-			case WEST_NEGX: return NORTH_NEGZ;
+			case NORTH_NEGZ: return WEST_NEGX;
+			case WEST_NEGX: return SOUTH_POSZ;
+			case SOUTH_POSZ: return EAST_POSX;
+			case EAST_POSX: return NORTH_NEGZ;
 			default: return INVALID;
 		}
 	}
 	
 	public Facing4 rotateRight(){
 		switch(this){
-			case NORTH_NEGZ: return WEST_NEGX;
-			case WEST_NEGX: return SOUTH_POSZ;
-			case SOUTH_POSZ: return EAST_POSX;
-			case EAST_POSX: return NORTH_NEGZ;
+			case NORTH_NEGZ: return EAST_POSX;
+			case EAST_POSX: return SOUTH_POSZ;
+			case SOUTH_POSZ: return WEST_NEGX;
+			case WEST_NEGX: return NORTH_NEGZ;
 			default: return INVALID;
 		}
 	}
