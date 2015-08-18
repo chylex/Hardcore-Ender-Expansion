@@ -12,6 +12,15 @@ public final class Damage{
 		return new Damage(amount);
 	}
 	
+	public static Damage vanilla(float amount){
+		return new Damage(amount)
+			.addModifier(IDamageModifier.peacefulExclusion)
+			.addModifier(IDamageModifier.difficultyScaling)
+			.addModifier(IDamageModifier.armorProtection)
+			.addModifier(IDamageModifier.enchantmentProtection)
+			.addModifier(IDamageModifier.potionProtection);
+	}
+	
 	private float baseAmount;
 	private List<IDamageModifier> modifiers = new ArrayList<>();
 	private Entity source, indirectSource;
@@ -41,10 +50,14 @@ public final class Damage{
 		List<IDamagePostProcessor> postProcessors = new ArrayList<>();
 
 		float amount = baseAmount;
-		for(IDamageModifier modifier:modifiers)amount = modifier.modify(amount,target,damageSource,postProcessors);
+		
+		for(IDamageModifier modifier:modifiers){
+			amount = modifier.modify(amount,target,damageSource,postProcessors);
+			if (MathUtil.floatEquals(amount,0F))break;
+		}
 		
 		if (!MathUtil.floatEquals(amount,0F) && target.attackEntityFrom(damageSource,amount)){
-			for(IDamagePostProcessor postProcessor:postProcessors)postProcessor.run(amount,target);
+			for(IDamagePostProcessor postProcessor:postProcessors)postProcessor.run(amount);
 			return true;
 		}
 		else return false;
@@ -53,7 +66,7 @@ public final class Damage{
 	private DamageSource createDamageSource(){
 		if (source != null){
 			if (indirectSource == null)return new DamagedByEntity(source);
-			else return new DamagedByEntity.Indirect(source,indirectSource);
+			else return new DamagedByEntity.Indirect(source,indirectSource).setProjectile();
 		}
 		else return new DamagedBy("generic");
 	}
