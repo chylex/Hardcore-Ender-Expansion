@@ -52,8 +52,9 @@ public class StrongholdPieceEndPortal extends StrongholdPiece{
 		placeOutline(world,rand,placeSlabBottom,x+5,y,z+5,x+maxX-5,y,z+maxZ-5,1); // slabs around portal
 		
 		for(Facing4 facing:Facing4.list){
-			Facing4 perpendicular = facing.perpendicular();
-			int perX = perpendicular.getX(), perZ = perpendicular.getZ();
+			int perX = facing.perpendicular().getX(), perZ = facing.perpendicular().getZ();
+			int leftX = facing.rotateLeft().getX(), leftZ = facing.rotateLeft().getZ();
+			int rightX = facing.rotateRight().getX(), rightZ = facing.rotateRight().getZ();
 			
 			mpos.set(x+maxX/2,y,z+maxZ/2).move(facing,4);
 			placeLine(world,rand,placeSlabBottom,mpos.x-perX*2,y,mpos.z-perZ*2,mpos.x+perX*2,y,mpos.z+perZ*2); // outer layer of slabs around portal
@@ -61,13 +62,13 @@ public class StrongholdPieceEndPortal extends StrongholdPiece{
 			// stairs around portal
 			mpos.move(facing,1);
 			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x-perX*2,y,mpos.z-perZ*2,mpos.x+perX*2,y,mpos.z+perZ*2);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),false)),mpos.x-perX*3,y,mpos.z-perZ*3);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),false)),mpos.x+perX*3,y,mpos.z+perZ*3);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),false)),mpos.x+leftX*3,y,mpos.z+leftZ*3);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),false)),mpos.x+rightX*3,y,mpos.z+rightZ*3);
 			mpos.move(facing,-1);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x-perX*3,y,mpos.z-perZ*3);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x+perX*3,y,mpos.z+perZ*3);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),false)),mpos.x-perX*4,y,mpos.z-perZ*4);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),false)),mpos.x+perX*4,y,mpos.z+perZ*4);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),false)),mpos.x+leftX*4,y,mpos.z+leftZ*4);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),false)),mpos.x+rightX*4,y,mpos.z+rightZ*4);
 		}
 		
 		// second floor
