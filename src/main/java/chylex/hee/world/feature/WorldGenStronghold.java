@@ -3,6 +3,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Random;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -20,13 +22,16 @@ import chylex.hee.world.feature.stronghold.StrongholdPiece;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceCorridor;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceIntersection;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceStairsStraight;
-import chylex.hee.world.feature.stronghold.doors.StrongholdPieceDoor;
+import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceStairsVertical;
 import chylex.hee.world.feature.stronghold.doors.StrongholdPieceDoorGrates;
+import chylex.hee.world.feature.stronghold.doors.StrongholdPieceDoorSmall;
 import chylex.hee.world.feature.stronghold.doors.StrongholdPieceDoorWooden;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdPieceEndPortal;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
+import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
+import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Range;
 import cpw.mods.fml.common.IWorldGenerator;
 
@@ -68,25 +73,34 @@ public class WorldGenStronghold implements IWorldGenerator{
 			}
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
-				/*pieces.add(new StrongholdPieceEndPortal());
+				pieces.add(new StrongholdPieceEndPortal());
 				pieces.addAll(StrongholdPieceCorridor.generateCorridors(5));
 				pieces.addAll(StrongholdPieceIntersection.generateCorners());
 				pieces.addAll(StrongholdPieceIntersection.generateThreeWay());
-				pieces.addAll(StrongholdPieceIntersection.generateFourWay());*/
-				pieces.addAll(StrongholdPieceStairsStraight.generateStairs());
-				pieces.addAll(StrongholdPieceDoor.generateEmpty());
+				pieces.addAll(StrongholdPieceIntersection.generateFourWay());
+				pieces.addAll(StrongholdPieceDoorSmall.generateDoors());
 				pieces.addAll(StrongholdPieceDoorWooden.generateDoors());
 				pieces.addAll(StrongholdPieceDoorGrates.generateDoors());
+				pieces.addAll(StrongholdPieceStairsStraight.generateStairs());
+				pieces.addAll(StrongholdPieceStairsVertical.generateStairs(1));
 				
-				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+3).sum();
+				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+2).sum();
 				
 				StructureWorld structureWorld = new StructureWorld(fullWidth/2,48,32);
 				PosMutable pos = new PosMutable(-fullWidth/2,0,0);
 				
-				pieces.stream().map(piece -> new StructureDungeonPieceInst(piece,pos.move(piece.size.sizeX+3,0,0).offset(-piece.size.sizeX,0,-piece.size.sizeZ/2))).forEach(inst -> {
+				pieces.stream().map(piece -> new StructureDungeonPieceInst(piece,pos.move(piece.size.sizeX+2,0,0).offset(-piece.size.sizeX,0,-piece.size.sizeZ/2))).forEach(inst -> {
 					Pos piecePos = inst.boundingBox.getTopLeft();
 					inst.useAllConnections();
 					inst.piece.generate(inst,structureWorld,world.rand,piecePos.getX(),piecePos.getY(),piecePos.getZ());
+					
+					for(Connection connection:inst.piece.getConnections()){
+						Block block = connection.facing == Facing4.NORTH_NEGZ ? Blocks.netherrack :
+									  connection.facing == Facing4.SOUTH_POSZ ? Blocks.sandstone :
+									  connection.facing == Facing4.EAST_POSX ? Blocks.emerald_block : Blocks.wool;
+						
+						structureWorld.setBlock(piecePos.getX()+connection.offsetX,piecePos.getY()+connection.offsetY,piecePos.getZ()+connection.offsetZ,block);
+					}
 				});
 				
 				structureWorld.generateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)+3,MathUtil.floor(player.posZ)-8);
