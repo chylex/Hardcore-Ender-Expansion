@@ -1,4 +1,6 @@
 package chylex.hee.system.abstractions;
+import net.minecraft.tileentity.TileEntityChest;
+import chylex.hee.world.structure.IStructureTileEntity;
 import chylex.hee.world.structure.util.Facing4;
 
 public final class Meta{
@@ -38,14 +40,22 @@ public final class Meta{
 		}
 	}
 	
-	public static byte getChest(Facing4 facingTo){
+	public static IStructureTileEntity generateChest(Facing4 facingTo, IStructureTileEntity call){
+		final int meta;
+		
 		switch(facingTo){
-			case EAST_POSX: return 5;
-			case WEST_NEGX: return 4;
-			case SOUTH_POSZ: return 3;
-			case NORTH_NEGZ: return 2;
-			default: return 0;
+			case EAST_POSX: meta = 5; break;
+			case WEST_NEGX: meta = 4; break;
+			case SOUTH_POSZ: meta = 3; break;
+			case NORTH_NEGZ: meta = 2; break;
+			default: meta = 0;
 		}
+		
+		return (tile, rand) -> {
+			tile.getWorldObj().setBlockMetadataWithNotify(tile.xCoord,tile.yCoord,tile.zCoord,meta,3);
+			((TileEntityChest)tile).adjacentChestChecked = true;
+			call.generateTile(tile,rand);
+		};
 	}
 	
 	private Meta(){}
