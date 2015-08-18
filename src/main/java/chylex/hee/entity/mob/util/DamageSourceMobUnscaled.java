@@ -3,7 +3,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.world.EnumDifficulty;
 
+@Deprecated
 public class DamageSourceMobUnscaled extends EntityDamageSource{
+	@Deprecated
 	public DamageSourceMobUnscaled(Entity entity){
 		super("mob",entity);
 	}

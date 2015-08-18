@@ -7,18 +7,22 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import org.apache.commons.lang3.tuple.Pair;
 
+@Deprecated
 public class MultiDamage{
+	@Deprecated
 	public static MultiDamage from(EntityLivingBase source){
 		return new MultiDamage(source);
 	}
-	
+
+	@Deprecated
 	public static MultiDamage generic(){
 		return new MultiDamage(null);
 	}
 	
 	private final EntityLivingBase source;
 	private final List<Pair<DamageSource,Float>> damageList = new ArrayList<>();
-	
+
+	@Deprecated
 	private MultiDamage(EntityLivingBase source){
 		this.source = source;
 	}
