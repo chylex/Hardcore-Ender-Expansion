@@ -56,7 +56,7 @@ public class StrongholdPieceIntersection extends StrongholdPiece{
 		for(Facing4 facing:facings){
 			if (inst.isConnectionFree(facing))continue;
 			
-			Facing4 perpendicular = facing.rotateRight();
+			Facing4 perpendicular = facing.perpendicular();
 			hole.set(x+2,y,z+2).move(facing,2);
 			placeCube(world,rand,placeAir,hole.x-perpendicular.getX(),y+1,hole.z-perpendicular.getZ(),hole.x+perpendicular.getX(),y+3,hole.z+perpendicular.getZ());
 		}

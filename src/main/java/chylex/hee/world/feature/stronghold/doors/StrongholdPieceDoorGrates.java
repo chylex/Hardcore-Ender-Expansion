@@ -22,7 +22,7 @@ public class StrongholdPieceDoorGrates extends StrongholdPieceDoor{
 	@Override
 	protected void generateDoor(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
 		PosMutable archPos = new PosMutable(x+maxX/2,0,z+maxZ/2);
-		Facing4 perpendicular = facing.rotateRight();
+		Facing4 perpendicular = facing.perpendicular();
 		IBlockPicker placeIronBars = IBlockPicker.basic(Blocks.iron_bars);
 		
 		archPos.move(perpendicular,-1);

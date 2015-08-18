@@ -52,7 +52,7 @@ public class StrongholdPieceEndPortal extends StrongholdPiece{
 		placeOutline(world,rand,placeSlabBottom,x+5,y,z+5,x+maxX-5,y,z+maxZ-5,1); // slabs around portal
 		
 		for(Facing4 facing:Facing4.list){
-			Facing4 perpendicular = facing.rotateRight();
+			Facing4 perpendicular = facing.perpendicular();
 			int perX = perpendicular.getX(), perZ = perpendicular.getZ();
 			
 			mpos.set(x+maxX/2,y,z+maxZ/2).move(facing,4);

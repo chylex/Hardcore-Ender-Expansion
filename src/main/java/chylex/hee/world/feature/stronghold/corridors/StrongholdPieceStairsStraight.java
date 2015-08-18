@@ -44,7 +44,7 @@ public class StrongholdPieceStairsStraight extends StrongholdPiece{
 		
 		// stairs
 		Facing4 ascendsTo = dirX ? Facing4.EAST_POSX : Facing4.SOUTH_POSZ;
-		Facing4 perpendicular = ascendsTo.rotateRight();
+		Facing4 perpendicular = ascendsTo.perpendicular();
 		PosMutable stairPos = new PosMutable(x+(ascendsTo.getX() != 0 ? 1 : 2),y,z+(ascendsTo.getZ() != 0 ? 1 : 2));
 		
 		IBlockPicker placeStairs = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTo,false));

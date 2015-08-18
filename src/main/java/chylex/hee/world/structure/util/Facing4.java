@@ -16,6 +16,16 @@ public enum Facing4{
 		}
 	}
 	
+	public Facing4 perpendicular(){
+		switch(this){
+			case NORTH_NEGZ:
+			case SOUTH_POSZ: return EAST_POSX;
+			case WEST_NEGX:
+			case EAST_POSX: return SOUTH_POSZ;
+			default: return INVALID;
+		}
+	}
+	
 	public Facing4 rotateLeft(){
 		switch(this){
 			case NORTH_NEGZ: return WEST_NEGX;
