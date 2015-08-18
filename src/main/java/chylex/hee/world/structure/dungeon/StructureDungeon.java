@@ -39,7 +39,7 @@ public class StructureDungeon extends StructureBase{
 	
 	public void addPieces(int weight, Range amountRange, StructureDungeonPiece[] pieces){
 		for(StructureDungeonPiece piece:pieces){
-			if (piece.countConnections() == 0)throw new IllegalArgumentException("Invalid structure data, no connections found!");
+			if (piece.countConnections() == 0)throw new IllegalArgumentException("Invalid structure data, no connections found! Class: "+piece.getClass().getName());
 		}
 		
 		this.pieces.add(new StructureDungeonPieceArray(weight,amountRange,pieces));
