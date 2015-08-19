@@ -3,7 +3,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
-abstract class EntityTechnicalBase extends Entity{
+public abstract class EntityTechnicalBase extends Entity{
 	public EntityTechnicalBase(World world){
 		super(world);
 	}

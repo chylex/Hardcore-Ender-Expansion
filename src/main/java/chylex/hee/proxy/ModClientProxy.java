@@ -31,11 +31,7 @@ import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.fx.FXEvents;
 import chylex.hee.entity.mob.*;
 import chylex.hee.entity.projectile.*;
-import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
-import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
-import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
-import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
-import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
+import chylex.hee.entity.technical.EntityTechnicalBase;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
@@ -179,11 +175,7 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltSafe.class, new RenderLightningBolt());
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltDemon.class, new RenderWeatherLightningBoltPurple());
 		
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalBiomeInteraction.class, new RenderNothing());
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleChain.class, new RenderNothing());
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleSolved.class, new RenderNothing());
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalCurseBlock.class, new RenderNothing());
-		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalCurseEntity.class, new RenderNothing());
+		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalBase.class, new RenderNothing());
 
 		Stopwatch.finish("ModClientProxy - renderers");
 		
