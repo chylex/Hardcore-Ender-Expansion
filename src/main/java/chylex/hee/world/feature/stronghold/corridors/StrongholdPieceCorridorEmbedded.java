@@ -39,4 +39,8 @@ public abstract class StrongholdPieceCorridorEmbedded extends StrongholdPiece{
 		Facing4 perpendicular = goingTo.perpendicular();
 		placeCube(world,rand,placeStoneBrick,pos.x-perpendicular.getX(),y+1,pos.z-perpendicular.getZ(),pos.x+perpendicular.getX(),y+3,pos.z+perpendicular.getZ());
 	}
+	
+	protected final Facing4 getRandomFacing(Random rand){
+		return dirX ? (rand.nextBoolean() ? Facing4.NORTH_NEGZ : Facing4.SOUTH_POSZ) : (rand.nextBoolean() ? Facing4.EAST_POSX : Facing4.WEST_NEGX);
+	}
 }

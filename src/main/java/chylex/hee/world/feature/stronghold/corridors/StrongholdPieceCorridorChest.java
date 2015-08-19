@@ -26,15 +26,24 @@ public class StrongholdPieceCorridorChest extends StrongholdPieceCorridorEmbedde
 	
 	public StrongholdPieceCorridorChest(boolean dirX, byte variation){
 		super(dirX,new Size(dirX ? 5 : 7,5,dirX ? 7 : 5));
-		this.variation = variation;
+		
 		if (variation < 0 || variation >= variationCount)throw new IllegalArgumentException("Invalid StrongholdPieceCorridorChest variation: "+variation);
+		this.variation = variation;
+		
+		if (dirX){
+			addConnection(Facing4.EAST_POSX,4,0,3,withAnything);
+			addConnection(Facing4.WEST_NEGX,0,0,3,withAnything);
+		}
+		else{
+			addConnection(Facing4.NORTH_NEGZ,3,0,0,withAnything);
+			addConnection(Facing4.SOUTH_POSZ,3,0,4,withAnything);
+		}
 	}
 	
 	@Override
 	protected void generateEmbedded(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
 		// basic logic
-		Facing4 dir = dirX ? (rand.nextBoolean() ? Facing4.NORTH_NEGZ : Facing4.SOUTH_POSZ) : (rand.nextBoolean() ? Facing4.EAST_POSX : Facing4.WEST_NEGX);
-		Facing4 perpendicular = dir.perpendicular(), left = dir.rotateLeft(), right = dir.rotateRight();
+		Facing4 dir = getRandomFacing(rand), left = dir.rotateLeft(), right = dir.rotateRight();
 
 		placeOutsideWall(world,rand,x,y,z,dir,3);
 		placeOutsideWall(world,rand,x,y,z,dir.opposite(),2);
@@ -46,11 +55,11 @@ public class StrongholdPieceCorridorChest extends StrongholdPieceCorridorEmbedde
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),x,y+2,z);
 		
 		world.setTileEntity(x,y+2,z,Meta.generateChest(dir.opposite(),(tile, random) -> {
-			
+			// TODO loot
 		}));
 		
 		// top slabs that are shared across all patterns
-		placeCube(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),x-perpendicular.getX(),y+3,z-perpendicular.getZ(),x+perpendicular.getX(),y+3,z+perpendicular.getZ());
+		placeLine(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),x+left.getX(),y+3,z+left.getZ(),x+right.getX(),y+3,z+right.getZ());
 		
 		// pattern
 		switch(variation){
