@@ -19,6 +19,7 @@ import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
+import chylex.hee.entity.technical.EntityTechnicalTrigger;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.system.util.GameRegistryUtil;
@@ -78,7 +79,8 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityTechnicalPuzzleSolved.class, "TechnicalPuzzleSolved", 44, 0, Integer.MAX_VALUE, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, 64, 1, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalCurseEntity.class, "TechnicalCurseEntity", 47, 64, 1, false);
-		// last: 53
+		GameRegistryUtil.registerEntity(EntityTechnicalTrigger.class, "TechnicalTrigger", 54, 0, Integer.MAX_VALUE, false);
+		// last: 54
 	}
 	
 	private EntityList(){}
