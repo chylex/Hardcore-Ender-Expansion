@@ -20,6 +20,8 @@ import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.stronghold.StrongholdPiece;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceCorridor;
+import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceCorridorChest;
+import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceCorridorDoubleChest;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceIntersection;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceStairsStraight;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdPieceStairsVertical;
@@ -61,19 +63,30 @@ public class WorldGenStronghold implements IWorldGenerator{
 			
 			if (args[0].equals("custom")){
 				StructureDungeon stronghold = new StructureDungeon(128,48,128);
-				stronghold.setPieceAmount(10,10);
+				stronghold.setPieceAmount(350,400);
 				stronghold.setStartingPiece(new StrongholdPieceEndPortal());
 				
-				stronghold.addPieces(4,new Range(0,20),StrongholdPieceCorridor.generateCorridors(2,3,7));
-				stronghold.addPieces(3,new Range(0,20),StrongholdPieceIntersection.generateCorners());
-				stronghold.addPieces(2,new Range(0,20),StrongholdPieceIntersection.generateThreeWay());
-				stronghold.addPieces(1,new Range(0,20),StrongholdPieceIntersection.generateFourWay());
+				stronghold.addPieces(6,new Range(0,50),StrongholdPieceCorridor.generateCorridors(2,3,7));
+				stronghold.addPieces(4,new Range(0,50),StrongholdPieceIntersection.generateCorners());
+				stronghold.addPieces(2,new Range(0,50),StrongholdPieceIntersection.generateThreeWay());
+				stronghold.addPieces(1,new Range(0,50),StrongholdPieceIntersection.generateFourWay());
+				
+				stronghold.addPieces(2,new Range(0,40),StrongholdPieceDoorSmall.generateDoors());
+				stronghold.addPieces(2,new Range(0,40),StrongholdPieceDoorWooden.generateDoors());
+				stronghold.addPieces(2,new Range(0,40),StrongholdPieceDoorGrates.generateDoors());
+				
+				stronghold.addPieces(3,new Range(0,15),StrongholdPieceStairsStraight.generateStairs());
+				stronghold.addPieces(3,new Range(0,10),StrongholdPieceStairsVertical.generateStairs(1));
+				stronghold.addPieces(1,new Range(0,5),StrongholdPieceStairsVertical.generateStairs(2));
+				
+				stronghold.addPieces(1,new Range(0,15),StrongholdPieceCorridorChest.generateCorridors());
+				stronghold.addPieces(1,new Range(0,6),StrongholdPieceCorridorDoubleChest.generateCorridors());
 				
 				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,1);
 			}
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
-				pieces.add(new StrongholdPieceEndPortal());
+				/*pieces.add(new StrongholdPieceEndPortal());
 				pieces.addAll(StrongholdPieceCorridor.generateCorridors(5));
 				pieces.addAll(StrongholdPieceIntersection.generateCorners());
 				pieces.addAll(StrongholdPieceIntersection.generateThreeWay());
@@ -82,7 +95,9 @@ public class WorldGenStronghold implements IWorldGenerator{
 				pieces.addAll(StrongholdPieceDoorWooden.generateDoors());
 				pieces.addAll(StrongholdPieceDoorGrates.generateDoors());
 				pieces.addAll(StrongholdPieceStairsStraight.generateStairs());
-				pieces.addAll(StrongholdPieceStairsVertical.generateStairs(1));
+				pieces.addAll(StrongholdPieceStairsVertical.generateStairs(1));*/
+				pieces.addAll(StrongholdPieceCorridorChest.generateCorridors());
+				pieces.addAll(StrongholdPieceCorridorDoubleChest.generateCorridors());
 				
 				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+2).sum();
 				

@@ -11,7 +11,7 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public class StrongholdPieceEndPortal extends StrongholdPiece{
+public class StrongholdPieceEndPortal extends StrongholdPiece{ // TODO maybe add stairs to upper level
 	public StrongholdPieceEndPortal(){
 		super(Type.ROOM,new Size(17,13,17));
 		addConnection(Facing4.NORTH_NEGZ,8,0,0,fromRoom);
@@ -77,7 +77,7 @@ public class StrongholdPieceEndPortal extends StrongholdPiece{
 		
 		// general		
 		for(Facing4 facing:Facing4.list){
-			Facing4 perpendicular = facing.rotateRight();
+			Facing4 perpendicular = facing.perpendicular();
 			int perX = perpendicular.getX(), perZ = perpendicular.getZ();
 			
 			boolean bottomUnused = inst.isConnectionFree(facing,connection -> connection.offsetY == 0);
