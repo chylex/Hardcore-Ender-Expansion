@@ -175,6 +175,14 @@ public class Pos{
 		return world.setBlockMetadataWithNotify(getX(),getY(),getZ(),metadata,flags);
 	}
 	
+	public boolean setBlock(World world, BlockInfo info){
+		return world.setBlock(getX(),getY(),getZ(),info.block,info.meta,3);
+	}
+	
+	public boolean setBlock(World world, BlockInfo info, int flags){
+		return world.setBlock(getX(),getY(),getZ(),info.block,info.meta,flags);
+	}
+	
 	public boolean isAir(IBlockAccess world){
 		return world.isAirBlock(getX(),getY(),getZ());
 	}
@@ -185,6 +193,10 @@ public class Pos{
 	
 	public int getMetadata(IBlockAccess world){
 		return world.getBlockMetadata(getX(),getY(),getZ());
+	}
+	
+	public BlockInfo getInfo(IBlockAccess world){
+		return new BlockInfo(getBlock(world),getMetadata(world));
 	}
 	
 	public Material getMaterial(IBlockAccess world){
