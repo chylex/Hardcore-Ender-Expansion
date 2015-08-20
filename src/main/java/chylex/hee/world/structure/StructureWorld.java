@@ -19,6 +19,7 @@ public final class StructureWorld{
 	private final Block[] blocks;
 	private final byte[] metadata;
 	private final TIntHashSet scheduledUpdates = new TIntHashSet(32);
+	private final TIntObjectHashMap<BlockInfo> attentionWhores = new TIntObjectHashMap<>(16);
 	private final TIntObjectHashMap<IStructureTileEntity> tileEntityMap = new TIntObjectHashMap<>(32);
 	private final List<Entity> entityList = new ArrayList<>(8);
 	
@@ -79,6 +80,10 @@ public final class StructureWorld{
 		return setBlock(x,y,z,Blocks.air,0);
 	}
 	
+	public void setAttentionWhore(int x, int y, int z, BlockInfo info){
+		attentionWhores.put(toIndex(x,y,z),info);
+	}
+	
 	public boolean setTileEntity(int x, int y, int z, IStructureTileEntity provider){
 		if (!isInside(x,y,z))return false;
 		
@@ -118,6 +123,12 @@ public final class StructureWorld{
 			}
 		}
 		
+		attentionWhores.forEachEntry((ind, value) -> {
+			toPos(ind,pos);
+			pos.set(centerX+pos.x,bottomY+pos.y,centerZ+pos.z).setBlock(world,value.block,value.meta,3);
+			return true;
+		});
+		
 		tileEntityMap.forEachEntry((ind, value) -> {
 			toPos(ind,pos);
 			pos.move(centerX,bottomY,centerZ);
@@ -127,7 +138,7 @@ public final class StructureWorld{
 		
 		scheduledUpdates.forEach(ind -> {
 			toPos(ind,pos);
-			world.markBlockForUpdate(pos.getX(),pos.getY(),pos.getZ());
+			world.markBlockForUpdate(centerX+pos.getX(),bottomY+pos.getY(),centerZ+pos.getZ());
 			return true;
 		});
 		
