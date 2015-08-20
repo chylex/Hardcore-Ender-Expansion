@@ -79,6 +79,7 @@ public class StrongholdPieceSilverfishTrap extends StrongholdPiece{
 					EntityMobSilverfish silverfish = new EntityMobSilverfish(world);
 					silverfish.setPositionAndRotation(entity.posX+4.5D*(rand.nextInt(2)*2-1),entity.posY+4D,entity.posZ+4.5D*(rand.nextInt(2)*2-1),rand.nextFloat()*360F-180F,0F);
 					silverfish.setAttackTarget(players.get(rand.nextInt(players.size())));
+					silverfish.setCanSummonSilverfish(false);
 					silverfish.setCanHideInBlocks(false);
 					world.spawnEntityInWorld(silverfish);
 					
@@ -90,7 +91,7 @@ public class StrongholdPieceSilverfishTrap extends StrongholdPiece{
 			}
 			else if (++checkTimer > 15){
 				checkTimer = 0;
-				if (world.getClosestPlayerToEntity(entity,5D) != null)spawnsLeft = (byte)(6+world.difficultySetting.ordinal()*2+rand.nextInt(4));
+				if (world.getClosestPlayerToEntity(entity,5D) != null)spawnsLeft = (byte)(6+world.difficultySetting.getDifficultyId()*2+rand.nextInt(4));
 			}
 		}
 	}
