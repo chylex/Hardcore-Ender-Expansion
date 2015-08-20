@@ -23,6 +23,16 @@ public class RenderTexturedMob extends RenderLiving{
 		this(model,shadowSize,texture,1F);
 	}
 	
+	public RenderTexturedMob(ModelBase model, float shadowSize, String domain, String texture, float scale){
+		super(model,shadowSize);
+		this.tex = new ResourceLocation((domain.isEmpty() ? "" : domain+":")+"textures/entity/"+texture);
+		this.scale = scale;
+	}
+	
+	public RenderTexturedMob(ModelBase model, float shadowSize, String domain, String texture){
+		this(model,shadowSize,domain,texture,1F);
+	}
+	
 	@Override
 	protected void preRenderCallback(EntityLivingBase entity, float partialTickTime){
 		GL11.glScalef(scale,scale,scale);
