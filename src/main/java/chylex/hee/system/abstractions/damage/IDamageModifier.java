@@ -7,8 +7,6 @@ import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -16,7 +14,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumDifficulty;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C07AddPlayerVelocity;
+import chylex.hee.packets.client.C06SetPlayerVelocity;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -126,21 +124,21 @@ public interface IDamageModifier{
 		};
 	}
 	
-	static final AttributeModifier noKnockback = new AttributeModifier("HEE NoKnockbackTemp",1D,0);
-	
 	public static IDamageModifier overrideKnockback(final float multiplier){
 		return (amount, target, source, postProcessors) -> {
 			Entity sourceEntity = source.getEntity();
 			
 			if (sourceEntity != null && target instanceof EntityLivingBase){
-				((EntityLivingBase)target).getEntityAttribute(SharedMonsterAttributes.knockbackResistance).applyModifier(noKnockback);
+				final EntityLivingBase livingTarget = (EntityLivingBase)target;
+				final double motX = livingTarget.motionX, motY = livingTarget.motionY, motZ = livingTarget.motionZ;
 				
 				postProcessors.add(finalAmount -> {
-					((EntityLivingBase)target).getEntityAttribute(SharedMonsterAttributes.knockbackResistance).removeModifier(noKnockback);
-					
 					double[] vec = DragonUtil.getNormalizedVector(target.posX-sourceEntity.posX,target.posZ-sourceEntity.posZ);
-					target.addVelocity(vec[0]*0.5D*multiplier,0.4D+0.1D*multiplier,vec[1]*0.5D*multiplier);
-					if (target instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)target,new C07AddPlayerVelocity(vec[0]*0.5D*multiplier,0.4D+0.1D*multiplier,vec[1]*0.5D*multiplier));
+					
+					target.motionX = motX+vec[0]*0.5D*multiplier;
+					target.motionY = motY+(MathUtil.floatEquals(multiplier,0F) ? 0F : multiplier < 1F ? 0.25D+0.15D*multiplier : 0.4D+0.1D*multiplier);
+					target.motionZ = motZ+vec[1]*0.5D*multiplier;
+					if (target instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)target,new C06SetPlayerVelocity(target.motionX,target.motionY,target.motionZ));
 					
 					sourceEntity.motionX *= 0.6D;
 					sourceEntity.motionZ *= 0.6D;
