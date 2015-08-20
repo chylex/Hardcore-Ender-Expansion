@@ -10,14 +10,17 @@ import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
+import chylex.hee.entity.mob.ai.EntityAISummonFromBlock;
 import chylex.hee.entity.mob.ai.EntityAIWanderConstantly;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.util.DragonUtil;
 
 public class EntityMobSilverfish extends EntitySilverfish{
+	private EntityAISummonFromBlock canSummonSilverfish;
 	private EntityAIHideInBlock canHideInBlocks;
 	
 	public EntityMobSilverfish(World world){ // TODO swarm AI
@@ -25,22 +28,35 @@ public class EntityMobSilverfish extends EntitySilverfish{
 		setSize(0.35F,0.6F);
 		
 		tasks.addTask(1,new EntityAISwimming(this));
-		tasks.addTask(2,new EntityAIAttackOnCollide(this,EntityPlayer.class,1D,false));
-		tasks.addTask(3,new EntityAIWanderConstantly(this,1D));
+		tasks.addTask(3,new EntityAIAttackOnCollide(this,EntityPlayer.class,1D,false));
+		tasks.addTask(4,new EntityAIWanderConstantly(this,1D));
+		setCanSummonSilverfish(true);
 		setCanHideInBlocks(true);
-		// TODO vanilla AI
 		
 		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
 		targetTasks.addTask(2,new EntityAINearestAttackableTarget(this,EntityPlayer.class,10,true,true));
 	}
 	
+	public void setCanSummonSilverfish(boolean allow){
+		if (allow && canSummonSilverfish == null){
+			canSummonSilverfish = new EntityAISummonFromBlock(this,Blocks.monster_egg,world -> new EntityMobSilverfish(world));
+			tasks.addTask(2,canSummonSilverfish);
+		}
+		else if (!allow && canSummonSilverfish != null){
+			tasks.removeTask(canSummonSilverfish);
+			canSummonSilverfish = null;
+		}
+	}
+	
 	public void setCanHideInBlocks(boolean allow){
 		if (allow && canHideInBlocks == null){
-			tasks.addTask(5,canHideInBlocks = new EntityAIHideInBlock(this,new Block[]{ Blocks.cobblestone, Blocks.stone, Blocks.stonebrick },target -> {
-				return new BlockInfo(Blocks.monster_egg,BlockSilverfish.func_150195_a(target.block,target.meta));
-			}));
+			canHideInBlocks = new EntityAIHideInBlock(this,new Block[]{ Blocks.cobblestone, Blocks.stone, Blocks.stonebrick },target -> new BlockInfo(Blocks.monster_egg,BlockSilverfish.func_150195_a(target.block,target.meta)));
+			tasks.addTask(5,canHideInBlocks);
 		}
-		else if (!allow && canHideInBlocks != null)tasks.removeTask(canHideInBlocks);
+		else if (!allow && canHideInBlocks != null){
+			tasks.removeTask(canHideInBlocks);
+			canHideInBlocks = null;
+		}
 	}
 	
 	@Override
@@ -58,6 +74,14 @@ public class EntityMobSilverfish extends EntitySilverfish{
 	}
 	
 	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount){
+		if (isEntityInvulnerable())return false;
+		
+		if (canSummonSilverfish != null && (source.getEntity() != null || source == DamageSource.magic))canSummonSilverfish.setSummonTimer(20);
+		return super.attackEntityFrom(source,amount);
+	}
+	
+	@Override
 	protected boolean isAIEnabled(){
 		return true;
 	}
@@ -70,12 +94,14 @@ public class EntityMobSilverfish extends EntitySilverfish{
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
+		nbt.setBoolean("canSummonSilverfish",canSummonSilverfish != null);
 		nbt.setBoolean("canHideInBlocks",canHideInBlocks != null);
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
+		setCanSummonSilverfish(nbt.getBoolean("canSummonSilverfish"));
 		setCanHideInBlocks(nbt.getBoolean("canHideInBlocks"));
 	}
 }
