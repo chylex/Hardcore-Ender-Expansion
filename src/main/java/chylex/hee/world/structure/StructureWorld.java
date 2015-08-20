@@ -133,6 +133,7 @@ public final class StructureWorld{
 		
 		entityList.forEach(entity -> {
 			entity.setPosition(centerX+entity.posX,bottomY+entity.posY,centerZ+entity.posZ);
+			entity.setWorld(world);
 			world.spawnEntityInWorld(entity);
 		});
 	}
