@@ -1,6 +1,7 @@
 package chylex.hee.entity.mob;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSilverfish;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -17,6 +18,8 @@ import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
 import chylex.hee.entity.mob.ai.EntityAISummonFromBlock;
 import chylex.hee.entity.mob.ai.EntityAIWanderConstantly;
 import chylex.hee.system.abstractions.BlockInfo;
+import chylex.hee.system.abstractions.damage.Damage;
+import chylex.hee.system.abstractions.damage.IDamageModifier;
 import chylex.hee.system.util.DragonUtil;
 
 public class EntityMobSilverfish extends EntitySilverfish{
@@ -60,11 +63,11 @@ public class EntityMobSilverfish extends EntitySilverfish{
 	}
 	
 	@Override
-	protected void applyEntityAttributes(){ // TODO update from GDD
+	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(8D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2D);
 	}
 	
 	@Override
@@ -79,6 +82,11 @@ public class EntityMobSilverfish extends EntitySilverfish{
 		
 		if (canSummonSilverfish != null && (source.getEntity() != null || source == DamageSource.magic))canSummonSilverfish.setSummonTimer(20);
 		return super.attackEntityFrom(source,amount);
+	}
+	
+	@Override
+	public boolean attackEntityAsMob(Entity target){
+		return Damage.hostileMob(this).addModifiers(IDamageModifier.rapidDamage(5),IDamageModifier.overrideKnockback(1.5F)).deal(target);
 	}
 	
 	@Override
