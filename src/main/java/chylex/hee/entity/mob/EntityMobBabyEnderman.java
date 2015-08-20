@@ -85,10 +85,10 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	public void onUpdate(){
 		if (!worldObj.isRemote && worldObj.difficultySetting == EnumDifficulty.PEACEFUL){
 			if (isCarrying())entityDropItem(getCarrying(),0F);
-            setDead();
-            return;
-        }
-		
+			setDead();
+			return;
+		}
+
 		super.onUpdate();
 	}
 	

@@ -177,7 +177,7 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("LoadCompleteEvent");
 		
 		try{
-			DimensionOverride.verifyIntegrity();
+			DimensionOverride.verifyIntegrity(); // TODO add verification for more things
 			KnowledgeFragmentCrafting.verifyRecipes();
 			HeeIMC.runLoadComplete();
 			

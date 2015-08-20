@@ -29,6 +29,7 @@ import chylex.hee.world.feature.stronghold.doors.StrongholdPieceDoorGrates;
 import chylex.hee.world.feature.stronghold.doors.StrongholdPieceDoorSmall;
 import chylex.hee.world.feature.stronghold.doors.StrongholdPieceDoorWooden;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdPieceEndPortal;
+import chylex.hee.world.feature.stronghold.rooms.StrongholdPieceSilverfishTrap;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
@@ -95,9 +96,10 @@ public class WorldGenStronghold implements IWorldGenerator{
 				pieces.addAll(StrongholdPieceDoorWooden.generateDoors());
 				pieces.addAll(StrongholdPieceDoorGrates.generateDoors());
 				pieces.addAll(StrongholdPieceStairsStraight.generateStairs());
-				pieces.addAll(StrongholdPieceStairsVertical.generateStairs(1));*/
+				pieces.addAll(StrongholdPieceStairsVertical.generateStairs(1));
 				pieces.addAll(StrongholdPieceCorridorChest.generateCorridors());
-				pieces.addAll(StrongholdPieceCorridorDoubleChest.generateCorridors());
+				pieces.addAll(StrongholdPieceCorridorDoubleChest.generateCorridors());*/
+				pieces.add(new StrongholdPieceSilverfishTrap());
 				
 				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+2).sum();
 				
