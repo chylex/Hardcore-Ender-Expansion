@@ -1,13 +1,12 @@
 package chylex.hee.entity.mob;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSilverfish;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,7 +17,7 @@ import chylex.hee.entity.mob.ai.EntityAIWanderConstantly;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.util.DragonUtil;
 
-public class EntityMobSilverfish extends EntityMob{
+public class EntityMobSilverfish extends EntitySilverfish{
 	private EntityAIHideInBlock canHideInBlocks;
 	
 	public EntityMobSilverfish(World world){ // TODO swarm AI
@@ -54,38 +53,13 @@ public class EntityMobSilverfish extends EntityMob{
 	
 	@Override
 	public void onUpdate(){
-		if (worldObj.isRemote)renderYawOffset = rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,rotationYawHead,30F);
+		if (worldObj.isRemote)rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,rotationYawHead,30F);
 		super.onUpdate();
 	}
 	
 	@Override
 	protected boolean isAIEnabled(){
 		return true;
-	}
-	
-	@Override
-	public EnumCreatureAttribute getCreatureAttribute(){
-		return EnumCreatureAttribute.ARTHROPOD;
-	}
-	
-	@Override
-	protected boolean canTriggerWalking(){
-        return false;
-    }
-	
-	@Override
-	protected String getLivingSound(){
-		return "mob.silverfish.say";
-	}
-	
-	@Override
-	protected String getHurtSound(){
-		return "mob.silverfish.hit";
-	}
-	
-	@Override
-	protected String getDeathSound(){
-		return "mob.silverfish.kill";
 	}
 	
 	@Override
