@@ -38,7 +38,8 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		/* 11 */ new EggData("louse", EntityMobLouse.class, new int[]{ 45,45,45 }, new int[]{ 80,0,140 }),
 		/* 12 */ new EggData("hauntedMiner", EntityMobHauntedMiner.class, new int[]{ 48,23,23 }, new int[]{ 170,72,37 }),
 		/* 13 */ new EggData("homelandEnderman", EntityMobHomelandEnderman.class, new int[]{ 22,22,22 }, new int[]{ 199,44,44 }),
-		/* 14 */ new EggData("endermage", EntityMobEndermage.class, new int[]{ 22,22,22 }, new int[]{ 217,210,84 })
+		/* 14 */ new EggData("endermage", EntityMobEndermage.class, new int[]{ 22,22,22 }, new int[]{ 217,210,84 }),
+		/* 15 */ new EggData("Silverfish", EntityMobSilverfish.class, new int[]{ 80,80,80 }, new int[]{ 30,30,30 })
 	};
 	
 	private static EggData getEggData(ItemStack is){

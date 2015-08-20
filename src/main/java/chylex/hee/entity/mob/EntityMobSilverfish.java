@@ -2,6 +2,7 @@ package chylex.hee.entity.mob;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -13,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
+import chylex.hee.entity.mob.ai.EntityAIWanderConstantly;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.util.DragonUtil;
 
@@ -24,7 +26,8 @@ public class EntityMobSilverfish extends EntityMob{
 		setSize(0.35F,0.6F);
 		
 		tasks.addTask(1,new EntityAISwimming(this));
-		tasks.addTask(3,new EntityAIAttackOnCollide(this,EntityPlayer.class,1D,false));
+		tasks.addTask(2,new EntityAIAttackOnCollide(this,EntityPlayer.class,1D,false));
+		tasks.addTask(3,new EntityAIWanderConstantly(this,1D));
 		setCanHideInBlocks(true);
 		// TODO vanilla AI
 		
@@ -42,6 +45,13 @@ public class EntityMobSilverfish extends EntityMob{
 	}
 	
 	@Override
+	protected void applyEntityAttributes(){ // TODO update from GDD
+		super.applyEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(8D);
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(1D);
+	}
+	
 	@Override
 	public void onUpdate(){
 		if (worldObj.isRemote)renderYawOffset = rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,rotationYawHead,30F);

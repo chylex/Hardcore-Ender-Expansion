@@ -1,19 +1,18 @@
 package chylex.hee.entity.mob.ai;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIBase;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 
-public class EntityAIHideInBlock extends EntityAIWander{
+public class EntityAIHideInBlock extends EntityAIBase{
 	private EntityCreature entity;
 	private Block[] validBlocks;
 	private IHideInBlock handler;
 	private float chance = 0.1F;
 	
 	public EntityAIHideInBlock(EntityCreature owner, Block[] blocks, IHideInBlock handler){
-		super(owner,1D);
 		this.entity = owner;
 		this.validBlocks = blocks;
 		this.handler = handler;
