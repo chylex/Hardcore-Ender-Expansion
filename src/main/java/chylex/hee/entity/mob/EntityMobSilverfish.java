@@ -86,7 +86,7 @@ public class EntityMobSilverfish extends EntitySilverfish{
 	
 	@Override
 	public boolean attackEntityAsMob(Entity target){
-		return Damage.hostileMob(this).addModifiers(IDamageModifier.rapidDamage(5),IDamageModifier.overrideKnockback(1.5F)).deal(target);
+		return Damage.hostileMob(this).addModifiers(IDamageModifier.rapidDamage(5),IDamageModifier.overrideKnockback(0.25F+rand.nextFloat()*0.25F)).deal(target);
 	}
 	
 	@Override
