@@ -9,7 +9,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
-import chylex.hee.mechanics.misc.PlayerDataHandler.IExtendedPropertyInitializer;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 

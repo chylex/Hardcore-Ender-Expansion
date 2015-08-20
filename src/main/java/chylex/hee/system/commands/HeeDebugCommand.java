@@ -1,16 +1,5 @@
 package chylex.hee.system.commands;
 import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
-import com.google.common.reflect.ClassPath;
-import com.google.common.reflect.ClassPath.ClassInfo;
-import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.init.ItemList;
-import chylex.hee.system.logging.Log;
-import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.test.UnitTester;
-import chylex.hee.system.test.data.RunTime;
-import chylex.hee.system.util.ItemUtil;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -19,6 +8,17 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.DimensionManager;
+import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.init.ItemList;
+import chylex.hee.system.logging.Log;
+import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.test.UnitTester;
+import chylex.hee.system.test.data.RunTime;
+import chylex.hee.system.util.ItemUtil;
+import com.google.common.reflect.ClassPath;
+import com.google.common.reflect.ClassPath.ClassInfo;
 
 public class HeeDebugCommand extends BaseCommand{
 	public static float overrideWingSpeed = 1F;

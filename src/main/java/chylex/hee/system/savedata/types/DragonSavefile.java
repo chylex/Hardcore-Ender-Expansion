@@ -6,9 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.savedata.WorldSavefile;
-import chylex.hee.system.util.BlockPosM;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -16,6 +13,7 @@ import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraftforge.common.util.Constants.NBT;
+import chylex.hee.system.savedata.WorldSavefile;
 
 public class DragonSavefile extends WorldSavefile{
 	private Map<String,ChunkCoordinates> crystals = new HashMap<>();

@@ -1,18 +1,17 @@
 package chylex.hee.tileentity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import chylex.hee.block.BlockCustomSpawner;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.spawner.BlobEndermanSpawnerLogic;
 import chylex.hee.tileentity.spawner.CustomSpawnerLogic;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic;
 import chylex.hee.tileentity.spawner.SilverfishDungeonSpawnerLogic;
 import chylex.hee.tileentity.spawner.SilverfishRavagedSpawnerLogic;
 import chylex.hee.tileentity.spawner.TowerEndermanSpawnerLogic;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityCustomSpawner extends TileEntity{
 	private byte logicId;

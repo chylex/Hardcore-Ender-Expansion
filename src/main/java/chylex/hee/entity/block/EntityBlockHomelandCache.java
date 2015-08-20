@@ -1,6 +1,11 @@
 package chylex.hee.entity.block;
 import java.util.Iterator;
 import java.util.List;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
@@ -8,11 +13,6 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
 
 public class EntityBlockHomelandCache extends Entity{
 	// TODO remove later

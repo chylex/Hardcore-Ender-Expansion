@@ -1,5 +1,4 @@
 package chylex.hee.entity.projectile;
-import chylex.hee.item.ItemSacredWand;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -7,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import chylex.hee.item.ItemSacredWand;
 
 public class EntityProjectileSacredWand extends EntityThrowable{
 	private ItemStack wand;

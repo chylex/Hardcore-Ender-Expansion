@@ -2,7 +2,6 @@ package chylex.hee.api.message.handlers;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
-import com.google.common.base.Function;
 import chylex.hee.api.message.MessageHandler;
 import chylex.hee.api.message.MessageRunner;
 import chylex.hee.api.message.element.IntValue;
@@ -17,6 +16,7 @@ import chylex.hee.world.structure.island.biome.IslandBiomeEnchantedIsland;
 import chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.util.SpawnEntry;
+import com.google.common.base.Function;
 
 public final class ImcWorldHandlers extends ImcHandler{
 	// TODO private static final Map<String,WeightedLootList> lootNames = new HashMap<>();

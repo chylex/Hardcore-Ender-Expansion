@@ -1,6 +1,11 @@
 package chylex.hee.item;
 import java.util.List;
 import java.util.Random;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
@@ -8,11 +13,6 @@ import chylex.hee.system.util.ItemUtil;
 import chylex.hee.world.loot.interfaces.IItemPostProcessor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 
 public class ItemKnowledgeNote extends Item{
 	public ItemKnowledgeNote(){

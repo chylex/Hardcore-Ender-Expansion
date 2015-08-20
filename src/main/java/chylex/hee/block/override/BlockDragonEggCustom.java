@@ -4,23 +4,17 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDragonEgg;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.BlockPosM;
 
 public class BlockDragonEggCustom extends BlockDragonEgg{

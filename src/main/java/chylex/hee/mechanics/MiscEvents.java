@@ -1,10 +1,4 @@
 package chylex.hee.mechanics;
-import chylex.hee.init.ItemList;
-import chylex.hee.item.ItemTransferenceGem;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
-import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
-import chylex.hee.system.util.ItemUtil;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.monster.EntitySilverfish;
@@ -13,6 +7,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import chylex.hee.init.ItemList;
+import chylex.hee.item.ItemTransferenceGem;
+import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
+import chylex.hee.system.util.ItemUtil;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class MiscEvents{
 	/*

@@ -1,7 +1,6 @@
 package chylex.hee.entity.boss;
 import java.util.List;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockEndPortal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -63,7 +62,6 @@ import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.util.Direction;
 
 public class EntityBossDragon extends EntityLiving implements IBossDisplayData, IEntityMultiPart, IMob, IIgnoreEnderGoo{
 	public static final byte ATTACK_FIREBALL = 0, ATTACK_BITE = 1;

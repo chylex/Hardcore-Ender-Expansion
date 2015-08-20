@@ -1,10 +1,10 @@
 package chylex.hee.entity.block;
-import chylex.hee.system.abstractions.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityFallingBlock;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
+import chylex.hee.system.abstractions.Pos;
 
 public class EntityBlockFallingDragonEgg extends EntityFallingBlock{
 	public EntityBlockFallingDragonEgg(World world){

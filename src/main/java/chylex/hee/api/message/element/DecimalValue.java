@@ -1,8 +1,8 @@
 package chylex.hee.api.message.element;
-import chylex.hee.api.message.element.base.Precondition;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTBase.NBTPrimitive;
 import net.minecraftforge.common.util.Constants.NBT;
+import chylex.hee.api.message.element.base.Precondition;
 
 public class DecimalValue extends Precondition<Double>{
 	public static final DecimalValue any(){

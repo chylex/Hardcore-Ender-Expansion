@@ -4,12 +4,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.PercentageLootTable.PercentageLootItem;
 import chylex.hee.world.loot.interfaces.IItemPostProcessor;
 import chylex.hee.world.loot.interfaces.LootDamageProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 public class PercentageLootTable extends LootTable<PercentageLootItem>{
 	private final Set<PercentageLootItem> items = new HashSet<>();

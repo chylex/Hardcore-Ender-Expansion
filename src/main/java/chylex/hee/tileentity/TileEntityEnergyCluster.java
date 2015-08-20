@@ -8,7 +8,6 @@ import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
 

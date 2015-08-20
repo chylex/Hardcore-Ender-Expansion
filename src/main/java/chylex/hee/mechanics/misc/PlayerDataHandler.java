@@ -2,7 +2,6 @@ package chylex.hee.mechanics.misc;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.IExtendedEntityProperties;

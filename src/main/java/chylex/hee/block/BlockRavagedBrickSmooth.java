@@ -1,8 +1,8 @@
 package chylex.hee.block;
-import chylex.hee.init.BlockList;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.IIcon;
+import chylex.hee.init.BlockList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

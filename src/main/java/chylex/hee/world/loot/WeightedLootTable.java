@@ -1,5 +1,7 @@
 package chylex.hee.world.loot;
 import java.util.Random;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.loot.WeightedLootTable.WeightedLootItem;
@@ -7,8 +9,6 @@ import chylex.hee.world.loot.interfaces.IItemPostProcessor;
 import chylex.hee.world.loot.interfaces.LootAmountProvider;
 import chylex.hee.world.loot.interfaces.LootDamageProvider;
 import chylex.hee.world.util.IRandomAmount;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 public class WeightedLootTable extends LootTable<WeightedLootItem>{
 	private WeightedList<WeightedLootItem> weightList = new WeightedList<>();

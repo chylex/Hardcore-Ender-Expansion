@@ -2,11 +2,11 @@ package chylex.hee.world.loot;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import chylex.hee.world.loot.LootTable.LootItem;
-import chylex.hee.world.loot.interfaces.IItemPostProcessor;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import chylex.hee.world.loot.LootTable.LootItem;
+import chylex.hee.world.loot.interfaces.IItemPostProcessor;
 
 public abstract class LootTable<ITEM extends LootItem>{
 	protected final List<IItemPostProcessor> postProcessors = new ArrayList<>();
