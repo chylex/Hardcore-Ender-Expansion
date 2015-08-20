@@ -9,18 +9,19 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.ArrayUtils;
-import chylex.hee.system.abstractions.Pos.PosMutable;
-import chylex.hee.system.logging.Stopwatch;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.logging.Stopwatch;
 
 public final class DragonUtil{
 	public static int portalEffectX, portalEffectZ;
@@ -94,16 +95,7 @@ public final class DragonUtil{
 	}
 	
 	public static float rotateSmoothly(float sourceAngle, float targetAngle, float amount){
-		while(sourceAngle < 0F)sourceAngle += 360F;
-		while(sourceAngle >= 360F)sourceAngle -= 360F;
-		
-		float angleDifference = 180F-Math.abs(Math.abs(sourceAngle-targetAngle)-180F);
-		if (angleDifference <= amount)return targetAngle;
-		
-		float d = sourceAngle < 180F ? sourceAngle+180F : sourceAngle-180F;
-		sourceAngle += amount*((targetAngle > d && targetAngle < sourceAngle) || (sourceAngle < 180F && (targetAngle > d || targetAngle < sourceAngle)) ? -1 : 1);
-		
-		return sourceAngle;
+		return sourceAngle+MathUtil.clamp(MathHelper.wrapAngleTo180_float(targetAngle-sourceAngle),-amount,amount);
 	}
 	
 	/**

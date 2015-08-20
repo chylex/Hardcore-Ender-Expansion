@@ -14,6 +14,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
 import chylex.hee.system.abstractions.BlockInfo;
+import chylex.hee.system.util.DragonUtil;
 
 public class EntityMobSilverfish extends EntityMob{
 	private EntityAIHideInBlock canHideInBlocks;
@@ -38,6 +39,13 @@ public class EntityMobSilverfish extends EntityMob{
 			}));
 		}
 		else if (!allow && canHideInBlocks != null)tasks.removeTask(canHideInBlocks);
+	}
+	
+	@Override
+	@Override
+	public void onUpdate(){
+		if (worldObj.isRemote)renderYawOffset = rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,rotationYawHead,30F);
+		super.onUpdate();
 	}
 	
 	@Override
