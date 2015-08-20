@@ -37,7 +37,7 @@ public class EntityMobSilverfish extends EntitySilverfish{
 		setCanHideInBlocks(true);
 		
 		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
-		targetTasks.addTask(2,new EntityAINearestAttackableTarget(this,EntityPlayer.class,10,true,true));
+		targetTasks.addTask(2,new EntityAINearestAttackableTarget(this,EntityPlayer.class,1,true,true));
 	}
 	
 	public void setCanSummonSilverfish(boolean allow){

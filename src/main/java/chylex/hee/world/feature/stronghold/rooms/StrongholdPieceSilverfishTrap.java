@@ -89,9 +89,9 @@ public class StrongholdPieceSilverfishTrap extends StrongholdPiece{
 					}
 				}
 			}
-			else if (++checkTimer > 15){
+			else if (++checkTimer > 10){
 				checkTimer = 0;
-				if (world.getClosestPlayerToEntity(entity,5D) != null)spawnsLeft = (byte)(6+world.difficultySetting.getDifficultyId()*2+rand.nextInt(4));
+				if (world.getClosestPlayerToEntity(entity,5.5D) != null)spawnsLeft = (byte)(6+world.difficultySetting.getDifficultyId()*2+rand.nextInt(4));
 			}
 		}
 	}
