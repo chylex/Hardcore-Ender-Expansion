@@ -34,7 +34,8 @@ public final class FXType{
 		ENDER_GUARDIAN_DASH,
 		SANCTUARY_OVERSEER_SINGLE,
 		SIMPLE_TELEPORT,
-		SIMPLE_TELEPORT_NOSOUND;
+		SIMPLE_TELEPORT_NOSOUND,
+		ENTITY_EXPLOSION_PARTICLE;
 		
 		public static FXType.Entity[] values = values();
 	}

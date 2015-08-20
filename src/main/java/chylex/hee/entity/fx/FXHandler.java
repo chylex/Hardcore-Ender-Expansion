@@ -181,6 +181,14 @@ public final class FXHandler{
 			case SANCTUARY_OVERSEER_SINGLE:
 				for(int a = 0; a < 20; a++)fx.global("portalbig",x+randCenter(width*2D),y+rand.nextDouble()*height,z+randCenter(width*2D),randCenter(0.5D),randCenter(0.5D),randCenter(0.5D));
 				break;
+				
+			case ENTITY_EXPLOSION_PARTICLE:
+				for(int a = 0; a < 20; a++){
+					double offX = rand.nextGaussian()*0.02D, offY = rand.nextGaussian()*0.02D, offZ = rand.nextGaussian()*0.02D;
+					fx.global("explosion",x+randCenter(width)-offX*10D,y+rand.nextFloat()*height-offY*10D,z+randCenter(width)-offZ*10D,offX,offY,offZ);
+				}
+				
+				break;
 		}
 	}
 	

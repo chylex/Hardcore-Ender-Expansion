@@ -3,6 +3,9 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIBase;
 import org.apache.commons.lang3.ArrayUtils;
+import chylex.hee.entity.fx.FXType;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 
@@ -31,7 +34,7 @@ public class EntityAIHideInBlock extends EntityAIBase{
 		
 		if (ArrayUtils.contains(validBlocks,pos.getBlock(entity.worldObj))){
 			pos.setBlock(entity.worldObj,handler.hide(pos.getInfo(entity.worldObj)));
-			entity.spawnExplosionParticle(); // TODO check client
+			PacketPipeline.sendToAllAround(entity,64D,new C21EffectEntity(FXType.Entity.ENTITY_EXPLOSION_PARTICLE,entity));
 			entity.setDead();
 		}
 		
