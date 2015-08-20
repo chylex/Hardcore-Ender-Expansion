@@ -18,6 +18,16 @@ public final class Meta{
 		slabStoneBrickBottom = 5,
 		slabStoneBrickTop = 5+8;
 	
+	public static byte getTorch(Facing4 attachedOn){
+		switch(attachedOn){
+			case WEST_NEGX: return 1;
+			case EAST_POSX: return 2;
+			case NORTH_NEGZ: return 3;
+			case SOUTH_POSZ: return 4;
+			default: return 0;
+		}
+	}
+	
 	public static byte getStairs(Facing4 ascendsTowards, boolean flip){
 		switch(ascendsTowards){
 			case EAST_POSX: return (byte)(0+(flip ? 4 : 0));
