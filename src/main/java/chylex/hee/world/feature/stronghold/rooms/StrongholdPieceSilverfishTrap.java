@@ -73,15 +73,20 @@ public class StrongholdPieceSilverfishTrap extends StrongholdPiece{
 			
 			if (spawnsLeft != -1){
 				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,entity.boundingBox.expand(7D,4.5D,7D).offset(0D,2D,0D));
-				if (players.isEmpty())return;
+				if (players.isEmpty() || rand.nextInt(3) != 0)return;
 				
-				EntityMobSilverfish silverfish = new EntityMobSilverfish(world);
-				silverfish.setPositionAndRotation(entity.posX+4.5D*(rand.nextInt(2)*2-1),entity.posY+4D,entity.posZ+4.5D*(rand.nextInt(2)*2-1),rand.nextFloat()*360F-180F,0F);
-				silverfish.setAttackTarget(players.get(rand.nextInt(players.size())));
-				silverfish.setCanHideInBlocks(false);
-				world.spawnEntityInWorld(silverfish);
-				
-				if (--spawnsLeft == 0)entity.setDead();
+				for(int cycle = 0; cycle < 1+rand.nextInt(2); cycle++){
+					EntityMobSilverfish silverfish = new EntityMobSilverfish(world);
+					silverfish.setPositionAndRotation(entity.posX+4.5D*(rand.nextInt(2)*2-1),entity.posY+4D,entity.posZ+4.5D*(rand.nextInt(2)*2-1),rand.nextFloat()*360F-180F,0F);
+					silverfish.setAttackTarget(players.get(rand.nextInt(players.size())));
+					silverfish.setCanHideInBlocks(false);
+					world.spawnEntityInWorld(silverfish);
+					
+					if (--spawnsLeft == 0){
+						entity.setDead();
+						break;
+					}
+				}
 			}
 			else if (++checkTimer > 15){
 				checkTimer = 0;
