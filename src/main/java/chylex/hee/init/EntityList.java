@@ -46,6 +46,7 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityMobScorchingLens.class, "ScorchedLens", 15, 256);
 		GameRegistryUtil.registerEntity(EntityMobHauntedMiner.class, "HauntedMiner", 35, 256);
 		GameRegistryUtil.registerEntity(EntityMobEndermage.class, "Endermage", 41, 256);
+		GameRegistryUtil.registerEntity(EntityMobSilverfish.class, "Silverfish", 55, 256);
 		// TODO SANCTUARY GameRegistryUtil.registerEntity(EntityMobSanctuaryOverseer.class, "SanctuaryOverseer", 53, 256);
 
 		GameRegistryUtil.registerEntity(EntityBlockFallingDragonEgg.class, "FallingDragonEgg", 25, 128);
@@ -80,7 +81,7 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, 64, 1, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalCurseEntity.class, "TechnicalCurseEntity", 47, 64, 1, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalTrigger.class, "TechnicalTrigger", 54, 0, Integer.MAX_VALUE, false);
-		// last: 54
+		// last: 55
 	}
 	
 	private EntityList(){}
