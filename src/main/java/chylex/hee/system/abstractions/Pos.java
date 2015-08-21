@@ -284,6 +284,10 @@ public class Pos{
 			return this;
 		}
 		
+		public PosMutable set(Entity entity){
+			return set(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ));
+		}
+		
 		public PosMutable setX(int x){
 			this.x = x;
 			return this;
