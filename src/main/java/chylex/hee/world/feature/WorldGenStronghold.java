@@ -19,10 +19,10 @@ import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.stronghold.StrongholdPiece;
-import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorStraight;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorChest;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorDoubleChest;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorIntersection;
+import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorStraight;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdStairsStraight;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdStairsVertical;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorGrates;
@@ -30,6 +30,8 @@ import chylex.hee.world.feature.stronghold.doors.StrongholdDoorSmall;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorTorches;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorWooden;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoomEndPortal;
+import chylex.hee.world.feature.stronghold.rooms.StrongholdRoomLargeIntersection;
+import chylex.hee.world.feature.stronghold.rooms.StrongholdRoomLargeIntersectionTrap;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoomSilverfishTrap;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
@@ -91,20 +93,22 @@ public class WorldGenStronghold implements IWorldGenerator{
 			}
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
-				/*pieces.add(new StrongholdPieceEndPortal());
-				pieces.addAll(StrongholdPieceCorridor.generateCorridors(5));
-				pieces.addAll(StrongholdPieceIntersection.generateCorners());
-				pieces.addAll(StrongholdPieceIntersection.generateThreeWay());
-				pieces.addAll(StrongholdPieceIntersection.generateFourWay());*/
+				/*pieces.add(new StrongholdRoomEndPortal());
+				pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
+				pieces.addAll(StrongholdCorridorIntersection.generateCorners());
+				pieces.addAll(StrongholdCorridorIntersection.generateThreeWay());
+				pieces.addAll(StrongholdCorridorIntersection.generateFourWay());
 				pieces.addAll(StrongholdDoorSmall.generateDoors());
 				pieces.addAll(StrongholdDoorWooden.generateDoors());
 				pieces.addAll(StrongholdDoorGrates.generateDoors());
-				pieces.addAll(StrongholdDoorTorches.generateDoors());/*
-				pieces.addAll(StrongholdPieceStairsStraight.generateStairs());
-				pieces.addAll(StrongholdPieceStairsVertical.generateStairs(1));
-				pieces.addAll(StrongholdPieceCorridorChest.generateCorridors());
-				pieces.addAll(StrongholdPieceCorridorDoubleChest.generateCorridors());
-				pieces.add(new StrongholdPieceSilverfishTrap());*/
+				pieces.addAll(StrongholdDoorTorches.generateDoors());
+				pieces.addAll(StrongholdStairsStraight.generateStairs());
+				pieces.addAll(StrongholdStairsVertical.generateStairs(1));
+				pieces.addAll(StrongholdCorridorChest.generateCorridors());
+				pieces.addAll(StrongholdCorridorDoubleChest.generateCorridors());*/
+				pieces.add(new StrongholdRoomSilverfishTrap());
+				pieces.add(new StrongholdRoomLargeIntersection());
+				pieces.add(new StrongholdRoomLargeIntersectionTrap());
 				
 				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+2).sum();
 				
