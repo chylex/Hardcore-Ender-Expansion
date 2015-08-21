@@ -8,15 +8,15 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 
-public class StrongholdPieceDoorTorches extends StrongholdPieceDoor{
-	public static StrongholdPieceDoorTorches[] generateDoors(){
-		return new StrongholdPieceDoorTorches[]{
-			new StrongholdPieceDoorTorches(Facing4.EAST_POSX),
-			new StrongholdPieceDoorTorches(Facing4.SOUTH_POSZ)
+public class StrongholdDoorTorches extends StrongholdDoor{
+	public static StrongholdDoorTorches[] generateDoors(){
+		return new StrongholdDoorTorches[]{
+			new StrongholdDoorTorches(Facing4.EAST_POSX),
+			new StrongholdDoorTorches(Facing4.SOUTH_POSZ)
 		};
 	}
 	
-	public StrongholdPieceDoorTorches(Facing4 facing){
+	public StrongholdDoorTorches(Facing4 facing){
 		super(facing);
 	}
 

@@ -8,20 +8,13 @@ import chylex.hee.entity.mob.EntityMobSilverfish;
 import chylex.hee.entity.technical.EntityTechnicalTrigger;
 import chylex.hee.entity.technical.EntityTechnicalTrigger.TriggerBase;
 import chylex.hee.system.abstractions.Pos.PosMutable;
-import chylex.hee.world.feature.stronghold.StrongholdPiece;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public class StrongholdPieceSilverfishTrap extends StrongholdPiece{
-	public StrongholdPieceSilverfishTrap(){
-		super(Type.ROOM,new Size(13,7,13));
-		
-		addConnection(Facing4.NORTH_NEGZ,6,0,0,fromRoom);
-		addConnection(Facing4.SOUTH_POSZ,6,0,12,fromRoom);
-		addConnection(Facing4.EAST_POSX,12,0,6,fromRoom);
-		addConnection(Facing4.WEST_NEGX,0,0,6,fromRoom);
+public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
+	public StrongholdRoomSilverfishTrap(){
+		super(new Size(13,7,13));
 	}
 
 	@Override
@@ -53,14 +46,7 @@ public class StrongholdPieceSilverfishTrap extends StrongholdPiece{
 		world.addEntity(new EntityTechnicalTrigger(null,x+maxX/2+0.5F,y+1,z+maxZ/2+0.5F,new TriggerSilverfish()));
 		
 		// connections
-		for(Facing4 facing:Facing4.list){
-			if (!inst.isConnectionFree(facing)){
-				int perX = facing.perpendicular().getX(), perZ = facing.perpendicular().getZ();
-				
-				mpos.set(x+maxX/2,y+1,z+maxZ/2).move(facing,6);
-				placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ);
-			}
-		}
+		super.generate(inst,world,rand,x,y,z);
 	}
 	
 	public static class TriggerSilverfish extends TriggerBase{

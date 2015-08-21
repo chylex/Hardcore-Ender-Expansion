@@ -6,13 +6,13 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public class StrongholdPieceCorridor extends StrongholdPiece{
-	public static StrongholdPieceCorridor[] generateCorridors(int...lengths){
-		StrongholdPieceCorridor[] corridors = new StrongholdPieceCorridor[lengths.length*2];
+public class StrongholdCorridorStraight extends StrongholdPiece{
+	public static StrongholdCorridorStraight[] generateCorridors(int...lengths){
+		StrongholdCorridorStraight[] corridors = new StrongholdCorridorStraight[lengths.length*2];
 		
 		for(int index = 0; index < lengths.length; index++){
-			corridors[index*2] = new StrongholdPieceCorridor(false,lengths[index]);
-			corridors[index*2+1] = new StrongholdPieceCorridor(true,lengths[index]);
+			corridors[index*2] = new StrongholdCorridorStraight(false,lengths[index]);
+			corridors[index*2+1] = new StrongholdCorridorStraight(true,lengths[index]);
 		}
 		
 		return corridors;
@@ -20,7 +20,7 @@ public class StrongholdPieceCorridor extends StrongholdPiece{
 	
 	private final boolean dirX;
 	
-	private StrongholdPieceCorridor(boolean dirX, int length){
+	private StrongholdCorridorStraight(boolean dirX, int length){
 		super(Type.CORRIDOR,new Size(dirX ? length : 5,5,dirX ? 5 : length));
 		
 		if (dirX){

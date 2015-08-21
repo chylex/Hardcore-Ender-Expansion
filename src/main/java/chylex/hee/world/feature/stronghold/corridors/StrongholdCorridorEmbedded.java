@@ -7,10 +7,10 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public abstract class StrongholdPieceCorridorEmbedded extends StrongholdPiece{
+public abstract class StrongholdCorridorEmbedded extends StrongholdPiece{
 	protected final boolean dirX;
 	
-	public StrongholdPieceCorridorEmbedded(boolean dirX, Size size){
+	public StrongholdCorridorEmbedded(boolean dirX, Size size){
 		super(Type.CORRIDOR,size);
 		this.dirX = dirX;
 	}

@@ -8,34 +8,34 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public class StrongholdPieceIntersection extends StrongholdPiece{
-	public static StrongholdPieceIntersection[] generateCorners(){
-		return new StrongholdPieceIntersection[]{
-			new StrongholdPieceIntersection(Facing4.NORTH_NEGZ,Facing4.EAST_POSX),
-			new StrongholdPieceIntersection(Facing4.EAST_POSX,Facing4.SOUTH_POSZ),
-			new StrongholdPieceIntersection(Facing4.SOUTH_POSZ,Facing4.WEST_NEGX),
-			new StrongholdPieceIntersection(Facing4.WEST_NEGX,Facing4.NORTH_NEGZ)
+public class StrongholdCorridorIntersection extends StrongholdPiece{
+	public static StrongholdCorridorIntersection[] generateCorners(){
+		return new StrongholdCorridorIntersection[]{
+			new StrongholdCorridorIntersection(Facing4.NORTH_NEGZ,Facing4.EAST_POSX),
+			new StrongholdCorridorIntersection(Facing4.EAST_POSX,Facing4.SOUTH_POSZ),
+			new StrongholdCorridorIntersection(Facing4.SOUTH_POSZ,Facing4.WEST_NEGX),
+			new StrongholdCorridorIntersection(Facing4.WEST_NEGX,Facing4.NORTH_NEGZ)
 		};
 	}
 	
-	public static StrongholdPieceIntersection[] generateThreeWay(){
-		return new StrongholdPieceIntersection[]{
-			new StrongholdPieceIntersection(Facing4.NORTH_NEGZ,Facing4.EAST_POSX,Facing4.SOUTH_POSZ),
-			new StrongholdPieceIntersection(Facing4.NORTH_NEGZ,Facing4.WEST_NEGX,Facing4.SOUTH_POSZ),
-			new StrongholdPieceIntersection(Facing4.EAST_POSX,Facing4.NORTH_NEGZ,Facing4.WEST_NEGX),
-			new StrongholdPieceIntersection(Facing4.EAST_POSX,Facing4.SOUTH_POSZ,Facing4.WEST_NEGX)
+	public static StrongholdCorridorIntersection[] generateThreeWay(){
+		return new StrongholdCorridorIntersection[]{
+			new StrongholdCorridorIntersection(Facing4.NORTH_NEGZ,Facing4.EAST_POSX,Facing4.SOUTH_POSZ),
+			new StrongholdCorridorIntersection(Facing4.NORTH_NEGZ,Facing4.WEST_NEGX,Facing4.SOUTH_POSZ),
+			new StrongholdCorridorIntersection(Facing4.EAST_POSX,Facing4.NORTH_NEGZ,Facing4.WEST_NEGX),
+			new StrongholdCorridorIntersection(Facing4.EAST_POSX,Facing4.SOUTH_POSZ,Facing4.WEST_NEGX)
 		};
 	}
 	
-	public static StrongholdPieceIntersection[] generateFourWay(){
-		return new StrongholdPieceIntersection[]{
-			new StrongholdPieceIntersection(Facing4.list)
+	public static StrongholdCorridorIntersection[] generateFourWay(){
+		return new StrongholdCorridorIntersection[]{
+			new StrongholdCorridorIntersection(Facing4.list)
 		};
 	}
 	
 	private final Facing4[] facings;
 	
-	private StrongholdPieceIntersection(Facing4...facings){
+	private StrongholdCorridorIntersection(Facing4...facings){
 		super(Type.CORRIDOR,new Size(5,5,5));
 		this.facings = facings;
 		

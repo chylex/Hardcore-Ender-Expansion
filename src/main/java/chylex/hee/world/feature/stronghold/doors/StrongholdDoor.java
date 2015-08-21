@@ -6,10 +6,10 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public abstract class StrongholdPieceDoor extends StrongholdPiece{
+public abstract class StrongholdDoor extends StrongholdPiece{
 	protected final Facing4 facing;
 	
-	protected StrongholdPieceDoor(Facing4 facing){
+	protected StrongholdDoor(Facing4 facing){
 		super(Type.DOOR,new Size(facing.getX() != 0 ? 1 : 5,5,facing.getZ() != 0 ? 1 : 5));
 		this.facing = facing;
 		

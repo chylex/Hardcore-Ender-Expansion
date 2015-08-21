@@ -11,11 +11,11 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public class StrongholdPieceStairsVertical extends StrongholdPiece{
-	public static StrongholdPieceStairsVertical[] generateStairs(final int levels){
+public class StrongholdStairsVertical extends StrongholdPiece{
+	public static StrongholdStairsVertical[] generateStairs(final int levels){
 		return Arrays.stream(Facing4.list).flatMap(entrance -> {
-			return Arrays.stream(Facing4.list).map(exit -> new StrongholdPieceStairsVertical(entrance,exit,levels));
-		}).toArray(StrongholdPieceStairsVertical[]::new);
+			return Arrays.stream(Facing4.list).map(exit -> new StrongholdStairsVertical(entrance,exit,levels));
+		}).toArray(StrongholdStairsVertical[]::new);
 	}
 	
 	/*
@@ -38,7 +38,7 @@ public class StrongholdPieceStairsVertical extends StrongholdPiece{
 	
 	private final Facing4 toEntrance, toExit;
 	
-	public StrongholdPieceStairsVertical(Facing4 toEntrance, Facing4 toExit, int levels){
+	public StrongholdStairsVertical(Facing4 toEntrance, Facing4 toExit, int levels){
 		super(Type.CORRIDOR,new Size(5,calculateHeight(toEntrance,toExit,levels),5));
 		this.toEntrance = toEntrance;
 		this.toExit = toExit;

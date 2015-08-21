@@ -1,20 +1,19 @@
 package chylex.hee.world.feature.stronghold.doors;
-import java.util.Arrays;
 import java.util.Random;
-import net.minecraft.init.Blocks;
-import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos.PosMutable;
-import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 
-public class StrongholdPieceDoorWooden extends StrongholdPieceDoor{
-	public static StrongholdPieceDoorWooden[] generateDoors(){
-		return Arrays.stream(Facing4.list).map(facing -> new StrongholdPieceDoorWooden(facing)).toArray(StrongholdPieceDoorWooden[]::new);
+public class StrongholdDoorSmall extends StrongholdDoor{
+	public static StrongholdDoorSmall[] generateDoors(){
+		return new StrongholdDoorSmall[]{
+			new StrongholdDoorSmall(Facing4.EAST_POSX),
+			new StrongholdDoorSmall(Facing4.SOUTH_POSZ)
+		};
 	}
 	
-	public StrongholdPieceDoorWooden(Facing4 facing){
+	public StrongholdDoorSmall(Facing4 facing){
 		super(facing);
 	}
 
@@ -29,8 +28,5 @@ public class StrongholdPieceDoorWooden extends StrongholdPieceDoor{
 		placeBlock(world,rand,placeStoneBrick,archPos.x,y+3,archPos.z);
 		archPos.move(perpendicular,1);
 		placeLine(world,rand,placeStoneBrick,archPos.x,y+1,archPos.z,archPos.x,y+3,archPos.z);
-		
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_door,Meta.getDoor(facing,false)),x+maxX/2,y+1,z+maxZ/2);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_door,Meta.getDoor(facing,true)),x+maxX/2,y+2,z+maxZ/2);
 	}
 }

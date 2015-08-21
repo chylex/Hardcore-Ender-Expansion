@@ -8,15 +8,15 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public class StrongholdPieceCorridorDoubleChest extends StrongholdPieceCorridorEmbedded{
+public class StrongholdCorridorDoubleChest extends StrongholdCorridorEmbedded{
 	private static final byte variationCount = 2;
 	
-	public static StrongholdPieceCorridorDoubleChest[] generateCorridors(){
-		StrongholdPieceCorridorDoubleChest[] corridors = new StrongholdPieceCorridorDoubleChest[variationCount*2];
+	public static StrongholdCorridorDoubleChest[] generateCorridors(){
+		StrongholdCorridorDoubleChest[] corridors = new StrongholdCorridorDoubleChest[variationCount*2];
 		
 		for(int variation = 0; variation < variationCount; variation++){
-			corridors[variation*2] = new StrongholdPieceCorridorDoubleChest(true,(byte)variation);
-			corridors[variation*2+1] = new StrongholdPieceCorridorDoubleChest(false,(byte)variation);
+			corridors[variation*2] = new StrongholdCorridorDoubleChest(true,(byte)variation);
+			corridors[variation*2+1] = new StrongholdCorridorDoubleChest(false,(byte)variation);
 		}
 		
 		return corridors;
@@ -24,7 +24,7 @@ public class StrongholdPieceCorridorDoubleChest extends StrongholdPieceCorridorE
 	
 	private byte variation;
 	
-	public StrongholdPieceCorridorDoubleChest(boolean dirX, byte variation){
+	public StrongholdCorridorDoubleChest(boolean dirX, byte variation){
 		super(dirX,new Size(dirX ? 5 : 7,5,dirX ? 7 : 5));
 		
 		if (variation < 0 || variation >= variationCount)throw new IllegalArgumentException("Invalid StrongholdPieceCorridorDoubleChest variation: "+variation);

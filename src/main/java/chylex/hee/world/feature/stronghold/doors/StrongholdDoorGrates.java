@@ -7,15 +7,15 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 
-public class StrongholdPieceDoorGrates extends StrongholdPieceDoor{
-	public static StrongholdPieceDoorGrates[] generateDoors(){
-		return new StrongholdPieceDoorGrates[]{
-			new StrongholdPieceDoorGrates(Facing4.EAST_POSX),
-			new StrongholdPieceDoorGrates(Facing4.SOUTH_POSZ)
+public class StrongholdDoorGrates extends StrongholdDoor{
+	public static StrongholdDoorGrates[] generateDoors(){
+		return new StrongholdDoorGrates[]{
+			new StrongholdDoorGrates(Facing4.EAST_POSX),
+			new StrongholdDoorGrates(Facing4.SOUTH_POSZ)
 		};
 	}
 	
-	public StrongholdPieceDoorGrates(Facing4 facing){
+	public StrongholdDoorGrates(Facing4 facing){
 		super(facing);
 	}
 

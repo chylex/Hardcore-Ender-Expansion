@@ -10,17 +10,17 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
-public class StrongholdPieceStairsStraight extends StrongholdPiece{
-	public static StrongholdPieceStairsStraight[] generateStairs(){
-		return new StrongholdPieceStairsStraight[]{
-			new StrongholdPieceStairsStraight(true),
-			new StrongholdPieceStairsStraight(false)
+public class StrongholdStairsStraight extends StrongholdPiece{
+	public static StrongholdStairsStraight[] generateStairs(){
+		return new StrongholdStairsStraight[]{
+			new StrongholdStairsStraight(true),
+			new StrongholdStairsStraight(false)
 		};
 	}
 	
 	private final boolean dirX;
 	
-	public StrongholdPieceStairsStraight(boolean dirX){
+	public StrongholdStairsStraight(boolean dirX){
 		super(Type.CORRIDOR,new Size(dirX ? 8 : 5,10,dirX ? 5 : 8));
 		
 		if (dirX){
