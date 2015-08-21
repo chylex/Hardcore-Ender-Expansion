@@ -15,11 +15,13 @@ public final class Meta{
 		silverfishCracked = 4,
 		silverfishChiseled = 5,
 		
+		slabStoneSmoothBottom = 0,
+		slabStoneSmoothTop = 0+8,
 		slabStoneBrickBottom = 5,
 		slabStoneBrickTop = 5+8;
 	
-	public static byte getTorch(Facing4 attachedOn){
-		switch(attachedOn){
+	public static byte getTorch(Facing4 attachedTo){
+		switch(attachedTo){
 			case WEST_NEGX: return 1;
 			case EAST_POSX: return 2;
 			case NORTH_NEGZ: return 3;

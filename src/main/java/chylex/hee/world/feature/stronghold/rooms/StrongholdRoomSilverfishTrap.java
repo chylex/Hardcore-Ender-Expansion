@@ -19,12 +19,9 @@ public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
 
 	@Override
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
-		PosMutable mpos = new PosMutable();
+		super.generate(inst,world,rand,x,y,z);
 		
-		// box
-		placeCube(world,rand,placeStoneBrick,x,y,z,x+maxX,y,z+maxZ);
-		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ);
-		placeWalls(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z+maxZ);
+		PosMutable mpos = new PosMutable();
 		
 		// silverfish
 		for(int cornerX = 0; cornerX < 2; cornerX++){
@@ -44,9 +41,6 @@ public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
 		
 		// spawner
 		world.addEntity(new EntityTechnicalTrigger(null,x+maxX/2+0.5F,y+1,z+maxZ/2+0.5F,new TriggerSilverfish()));
-		
-		// connections
-		super.generate(inst,world,rand,x,y,z);
 	}
 	
 	public static class TriggerSilverfish extends TriggerBase{

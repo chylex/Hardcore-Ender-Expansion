@@ -19,6 +19,12 @@ public abstract class StrongholdRoom extends StrongholdPiece{
 	
 	@Override
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
+		// box
+		placeCube(world,rand,placeStoneBrick,x,y,z,x+maxX,y,z+maxZ);
+		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ);
+		placeWalls(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z+maxZ);
+		
+		// connections
 		PosMutable mpos = new PosMutable();
 		
 		for(Facing4 facing:Facing4.list){
