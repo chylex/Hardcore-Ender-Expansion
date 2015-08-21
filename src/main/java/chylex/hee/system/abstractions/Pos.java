@@ -183,6 +183,10 @@ public class Pos{
 		return world.setBlock(getX(),getY(),getZ(),info.block,info.meta,flags);
 	}
 	
+	public boolean breakBlock(World world, boolean drop){
+		return world.func_147480_a(getX(),getY(),getZ(),drop);
+	}
+	
 	public boolean isAir(IBlockAccess world){
 		return world.isAirBlock(getX(),getY(),getZ());
 	}

@@ -46,8 +46,8 @@ public class EntityAISummonFromBlock extends EntityAIBase{
 					EntityCreature spawned = spawner.apply(entity.worldObj);
 					spawned.setLocationAndAngles(mpos.x+0.5D,mpos.y,mpos.z+0.5D,rand.nextFloat()*360F-180F,0F);
 					entity.worldObj.spawnEntityInWorld(spawned);
-					mpos.setAir(entity.worldObj);
 					
+					mpos.breakBlock(entity.worldObj,false);
 					PacketPipeline.sendToAllAround(spawned,64D,new C21EffectEntity(FXType.Entity.ENTITY_EXPLOSION_PARTICLE,spawned));
 					
 					if (--spawnsLeft == 0)break;
