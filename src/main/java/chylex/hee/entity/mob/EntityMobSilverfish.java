@@ -38,6 +38,8 @@ public class EntityMobSilverfish extends EntitySilverfish{
 		
 		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
 		targetTasks.addTask(2,new EntityAINearestAttackableTarget(this,EntityPlayer.class,1,true,true));
+		
+		experienceValue = 3;
 	}
 	
 	public void setCanSummonSilverfish(boolean allow){
