@@ -109,7 +109,9 @@ public class ItemDebugStick extends Item{
 
 	/* === INFO === */
 	private void onDebugInfo(NBTTagCompound nbt, EntityPlayer player, Pos pos){
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Block type: "+EnumChatFormatting.RESET+GameData.getBlockRegistry().getNameForObject(pos.getBlock(player.worldObj))));
-		player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Metadata: "+EnumChatFormatting.RESET+pos.getMetadata(player.worldObj)));
+		if (pos != null){
+			player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Block type: "+EnumChatFormatting.RESET+GameData.getBlockRegistry().getNameForObject(pos.getBlock(player.worldObj))));
+			player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Metadata: "+EnumChatFormatting.RESET+pos.getMetadata(player.worldObj)));
+		}
 	}
 }
