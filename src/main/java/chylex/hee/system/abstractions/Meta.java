@@ -1,5 +1,7 @@
 package chylex.hee.system.abstractions;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntitySkull;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.IStructureTileEntity;
 import chylex.hee.world.structure.util.Facing4;
 
@@ -18,9 +20,21 @@ public final class Meta{
 		slabStoneSmoothBottom = 0,
 		slabStoneSmoothTop = 0+8,
 		slabStoneBrickBottom = 5,
-		slabStoneBrickTop = 5+8;
+		slabStoneBrickTop = 5+8,
+		
+		skullGround = 1;
 	
 	public static byte getTorch(Facing4 attachedTo){
+		switch(attachedTo){
+			case WEST_NEGX: return 1;
+			case EAST_POSX: return 2;
+			case NORTH_NEGZ: return 3;
+			case SOUTH_POSZ: return 4;
+			default: return 0;
+		}
+	}
+	
+	public static byte getButton(Facing4 attachedTo){
 		switch(attachedTo){
 			case WEST_NEGX: return 1;
 			case EAST_POSX: return 2;
@@ -67,6 +81,23 @@ public final class Meta{
 			tile.getWorldObj().setBlockMetadataWithNotify(tile.xCoord,tile.yCoord,tile.zCoord,meta,3);
 			((TileEntityChest)tile).adjacentChestChecked = true;
 			call.generateTile(tile,rand);
+		};
+	}
+	
+	public enum Skull { SKELETON, WITHER, ZOMBIE, PLAYER, CREEPER }
+	
+	public static IStructureTileEntity generateSkullGround(final Skull skullType, Pos placedAt, Pos looksAt){
+		final Pos placedAtCopy = Pos.at(placedAt);
+		final Pos looksAtCopy = Pos.at(looksAt);
+		
+		return (tile, rand) -> {
+			TileEntitySkull skull = (TileEntitySkull)tile;
+			skull.func_152107_a(skullType.ordinal()); // OBFUSCATED setSkullType
+			
+			double deg = 67.5D+MathUtil.toDeg(Math.atan2(looksAtCopy.getZ()-placedAtCopy.getZ(),looksAtCopy.getX()-placedAtCopy.getX()));
+			if (deg < 0D)deg += 360D;
+			
+			skull.func_145903_a((1+MathUtil.floor(deg*16D/360D))&15); // OBFUSCATED setSkullRotation
 		};
 	}
 	
