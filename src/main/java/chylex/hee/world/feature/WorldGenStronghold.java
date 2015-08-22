@@ -30,9 +30,9 @@ import chylex.hee.world.feature.stronghold.doors.StrongholdDoorSmall;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorTorches;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorWooden;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoomEndPortal;
-import chylex.hee.world.feature.stronghold.rooms.StrongholdRoomLargeIntersection;
-import chylex.hee.world.feature.stronghold.rooms.StrongholdRoomLargeIntersectionTrap;
-import chylex.hee.world.feature.stronghold.rooms.StrongholdRoomSilverfishTrap;
+import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLargeIntersection;
+import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomLargeIntersectionTrap;
+import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomSilverfishTrap;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
@@ -93,7 +93,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 			}
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
-				/*pieces.add(new StrongholdRoomEndPortal());
+				pieces.add(new StrongholdRoomEndPortal());
 				pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
 				pieces.addAll(StrongholdCorridorIntersection.generateCorners());
 				pieces.addAll(StrongholdCorridorIntersection.generateThreeWay());
@@ -105,7 +105,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 				pieces.addAll(StrongholdStairsStraight.generateStairs());
 				pieces.addAll(StrongholdStairsVertical.generateStairs(1));
 				pieces.addAll(StrongholdCorridorChest.generateCorridors());
-				pieces.addAll(StrongholdCorridorDoubleChest.generateCorridors());*/
+				pieces.addAll(StrongholdCorridorDoubleChest.generateCorridors());
 				pieces.add(new StrongholdRoomSilverfishTrap());
 				pieces.add(new StrongholdRoomLargeIntersection());
 				pieces.add(new StrongholdRoomLargeIntersectionTrap());

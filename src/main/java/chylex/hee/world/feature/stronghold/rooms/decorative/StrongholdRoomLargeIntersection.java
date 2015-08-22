@@ -1,5 +1,6 @@
-package chylex.hee.world.feature.stronghold.rooms;
+package chylex.hee.world.feature.stronghold.rooms.decorative;
 import java.util.Random;
+import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Size;
