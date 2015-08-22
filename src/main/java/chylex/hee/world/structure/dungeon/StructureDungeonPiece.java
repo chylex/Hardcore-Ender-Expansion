@@ -19,7 +19,7 @@ public abstract class StructureDungeonPiece{
 	
 	public final IType type;
 	public final Size size;
-	private final List<Connection> connections = new ArrayList<>();
+	protected final List<Connection> connections = new ArrayList<>();
 	private StructureDungeonPieceArray parentArray;
 	
 	/**

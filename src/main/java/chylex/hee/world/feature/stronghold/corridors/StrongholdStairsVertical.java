@@ -59,8 +59,9 @@ public class StrongholdStairsVertical extends StrongholdPiece{
 		placeWalls(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z+maxZ);
 		
 		// entrance and exit
-		for(Connection connection:getConnections()){
+		for(Connection connection:connections){
 			Facing4 facing = connection.facing, perpendicular = facing.perpendicular();
+			
 			int posX = x+maxX/2+2*facing.getX(), posZ = z+maxZ/2+2*facing.getZ();
 			placeCube(world,rand,placeAir,posX-perpendicular.getX(),y+connection.offsetY+1,posZ-perpendicular.getZ(),posX+perpendicular.getX(),y+connection.offsetY+3,posZ+perpendicular.getZ());
 		}
