@@ -33,7 +33,7 @@ public class BoundingBox{
 	}
 	
 	public AxisAlignedBB toAABB(){
-		return AxisAlignedBB.getBoundingBox(x1,y1,z1,x2,y2,z2);
+		return AxisAlignedBB.getBoundingBox(x1,y1,z1,x2+1D,y2+1D,z2+1D);
 	}
 	
 	@Override
