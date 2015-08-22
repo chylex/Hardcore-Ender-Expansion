@@ -16,6 +16,7 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 	public BlockBasicSlab(Block fullBlock){
 		super(false,fullBlock.getMaterial());
 		this.fullBlock = fullBlock;
+		this.useNeighborBrightness = true;
 	}
 
 	@Override
