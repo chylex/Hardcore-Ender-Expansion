@@ -10,6 +10,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
@@ -110,8 +112,16 @@ public class ItemDebugStick extends Item{
 	/* === INFO === */
 	private void onDebugInfo(NBTTagCompound nbt, EntityPlayer player, Pos pos){
 		if (pos != null){
-			player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Block type: "+EnumChatFormatting.RESET+GameData.getBlockRegistry().getNameForObject(pos.getBlock(player.worldObj))));
+			player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Block Type: "+EnumChatFormatting.RESET+GameData.getBlockRegistry().getNameForObject(pos.getBlock(player.worldObj))));
 			player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Metadata: "+EnumChatFormatting.RESET+pos.getMetadata(player.worldObj)));
+			
+			TileEntity tile = pos.getTileEntity(player.worldObj);
+			
+			if (tile instanceof TileEntitySkull){
+				NBTTagCompound tag = new NBTTagCompound();
+				tile.writeToNBT(tag);
+				player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Skull Rotation: "+EnumChatFormatting.RESET+tag.getByte("Rot")));
+			}
 		}
 	}
 }
