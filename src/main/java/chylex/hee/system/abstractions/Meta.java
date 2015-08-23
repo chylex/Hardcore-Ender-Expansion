@@ -66,6 +66,12 @@ public final class Meta{
 		}
 	}
 	
+	public enum BlockColor{ WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, LIGHT_GRAY, CYAN, PURPLE, BLUE, BROWN, GREEN, RED, BLACK }
+	
+	public static byte getColor(BlockColor color){
+		return (byte)color.ordinal();
+	}
+	
 	public static IStructureTileEntity generateChest(Facing4 facingTo, IStructureTileEntity call){
 		final int meta;
 		
