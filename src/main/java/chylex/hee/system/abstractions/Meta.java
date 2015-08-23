@@ -104,7 +104,7 @@ public final class Meta{
 			TileEntitySkull skull = (TileEntitySkull)tile;
 			skull.func_152107_a(skullType.ordinal()); // OBFUSCATED setSkullType
 			
-			double deg = 67.5D+MathUtil.toDeg(Math.atan2(looksAtCopy.getZ()-placedAtCopy.getZ(),looksAtCopy.getX()-placedAtCopy.getX()));
+			double deg = 78.75D+MathUtil.toDeg(Math.atan2(looksAtCopy.getZ()-placedAtCopy.getZ(),looksAtCopy.getX()-placedAtCopy.getX()));
 			if (deg < 0D)deg += 360D;
 			
 			skull.func_145903_a((1+MathUtil.floor(deg*16D/360D))&15); // OBFUSCATED setSkullRotation
