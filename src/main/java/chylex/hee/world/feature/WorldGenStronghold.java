@@ -30,8 +30,7 @@ import chylex.hee.world.feature.stronghold.doors.StrongholdDoorSmall;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorTorches;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorWooden;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoomEndPortal;
-import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLargeIntersection;
-import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomLargeIntersectionTrap;
+import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitCorners;
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomSilverfishTrap;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
@@ -93,7 +92,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 			}
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
-				pieces.add(new StrongholdRoomEndPortal());
+				/*pieces.add(new StrongholdRoomEndPortal());
 				pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
 				pieces.addAll(StrongholdCorridorIntersection.generateCorners());
 				pieces.addAll(StrongholdCorridorIntersection.generateThreeWay());
@@ -109,6 +108,9 @@ public class WorldGenStronghold implements IWorldGenerator{
 				pieces.add(new StrongholdRoomSilverfishTrap());
 				pieces.add(new StrongholdRoomLargeIntersection());
 				pieces.add(new StrongholdRoomLargeIntersectionTrap());
+				pieces.addAll(StrongholdRoomPrisonTrap.generatePrisons());
+				pieces.add(new StrongholdRoomFountain());*/
+				pieces.addAll(StrongholdRoomLitCorners.generateColors());
 				
 				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+2).sum();
 				

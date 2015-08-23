@@ -19,7 +19,7 @@ public class StrongholdRoomLitPole extends StrongholdRoom{
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
 		super.generate(inst,world,rand,x,y,z);
 		
-		int centerX = x+maxX/2, centerZ = z+maxZ/2;
+		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
 		
 		// basic layout
 		placeOutline(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneSmoothBottom),centerX-1,y+1,centerZ-1,centerX+1,y+1,centerZ+1,1);

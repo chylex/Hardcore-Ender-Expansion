@@ -64,7 +64,7 @@ public enum Facing4{
 			case WEST_NEGX: return EnumFacing.EAST; // wtf
 			case SOUTH_POSZ: return EnumFacing.SOUTH;
 			case EAST_POSX: return EnumFacing.WEST; // wtf
-			default: return EnumFacing.DOWN;
+			default: return EnumFacing.DOWN; // 1.8 fix the wtfs
 		}
 	}
 	

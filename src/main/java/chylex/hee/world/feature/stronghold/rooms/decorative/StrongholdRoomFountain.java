@@ -19,7 +19,7 @@ public class StrongholdRoomFountain extends StrongholdRoom{
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
 		super.generate(inst,world,rand,x,y,z);
 		
-		int centerX = x+maxX/2, centerZ = z+maxZ/2;
+		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
 		PosMutable mpos = new PosMutable();
 		
 		// floor pattern
