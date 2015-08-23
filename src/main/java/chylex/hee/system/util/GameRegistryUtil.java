@@ -4,6 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntity;
 import chylex.hee.HardcoreEnderExpansion;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -38,6 +40,10 @@ public final class GameRegistryUtil{
 		}
 		
 		EntityList.addMapping(newEntityClass,name,entityId);
+	}
+	
+	public static void addSmeltingRecipe(ItemStack input, ItemStack output, float experience){
+		FurnaceRecipes.smelting().func_151394_a(input,output,experience);
 	}
 	
 	private GameRegistryUtil(){}

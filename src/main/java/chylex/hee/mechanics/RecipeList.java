@@ -1,23 +1,36 @@
 package chylex.hee.mechanics;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraftforge.oredict.OreDictionary;
-import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.init.BlockList;
-import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.curse.CurseType;
+import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
 	public static void addRecipes(){
 		Stopwatch.time("RecipeList - addRecipes");
 		
-		// SHAPED
+		// Stone Bricks
 		
-		GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
+		GameRegistry.addShapelessRecipe(new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickMossy),
+			new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickPlain),
+			Blocks.vine
+		);
+		
+		GameRegistryUtil.addSmeltingRecipe(new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickPlain),new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickCracked),0.1F);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickChiseled),
+			"S", "S",
+			'S', new ItemStack(Blocks.stone_slab,1,Meta.slabStoneBrickBottom)
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.stone_brick_wall,6),
+			"BBB", "BBB",
+			'B', Blocks.stonebrick
+		);
+		
+		/*GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
 			"DED",
 			'D', Items.diamond,
 			'E', Items.ender_eye
@@ -250,9 +263,7 @@ public final class RecipeList{
 			ItemList.enhanced_ender_pearl,Items.blaze_powder
 		);
 		
-		// SMELTING
-		
-		FurnaceRecipes.smelting().func_151393_a(BlockList.endium_ore,new ItemStack(ItemList.endium_ingot),0.9F);
+		FurnaceRecipes.smelting().func_151393_a(BlockList.endium_ore,new ItemStack(ItemList.endium_ingot),0.9F);*/
 		
 		Stopwatch.finish("RecipeList - addRecipes");
 	}
