@@ -22,6 +22,9 @@ public final class Meta{
 		slabStoneBrickBottom = 5,
 		slabStoneBrickTop = 5+8,
 		
+		cobbleWallNormal = 0,
+		cobbleWallMossy = 1,
+		
 		skullGround = 1;
 	
 	public static byte getTorch(Facing4 attachedTo){
