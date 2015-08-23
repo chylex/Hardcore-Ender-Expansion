@@ -51,7 +51,7 @@ public class StrongholdRoomLitTotem extends StrongholdRoom{
 		
 		for(Facing4 facing:Facing4.list){
 			placeBlock(world,rand,placeStoneWall,centerX+facing.getX(),y+3,centerZ+facing.getZ());
-			world.setAttentionWhore(centerX+facing.getX(),y+4,centerZ+facing.getZ(),new BlockInfo(Blocks.torch));
+			world.setAttentionWhore(centerX+facing.getX(),y+4,centerZ+facing.getZ(),new BlockInfo(Blocks.torch,Meta.torchGround));
 		}
 	}
 	
