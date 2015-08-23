@@ -2,6 +2,7 @@ package chylex.hee.world.feature.stronghold.rooms.loot;
 import java.util.Arrays;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.Skull;
@@ -87,7 +88,7 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 		}
 		
 		// side wall pillars
-		IBlockPicker placeStoneWall = random -> new BlockInfo(Blocks.cobblestone_wall,random.nextInt(4) == 0 ? Meta.cobbleWallMossy : Meta.cobbleWallNormal);
+		IBlockPicker placeStoneWall = random -> new BlockInfo(BlockList.stone_brick_wall,random.nextInt(4) == 0 ? Meta.cobbleWallMossy : Meta.cobbleWallNormal);
 		mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,6);
 		
 		for(int part = 0; part < 3; part++){
@@ -101,6 +102,9 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 		// wall behind chest area
 		mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,17);
 		placeLine(world,rand,placeStoneBrick,mpos.x+4*left.getX(),y+1,mpos.z+4*left.getZ(),mpos.x+4*right.getX(),y+maxY-1,mpos.z+4*right.getZ());
+
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.torch,Meta.torchGround),mpos.x+2*left.getX(),y+4,mpos.z+2*left.getZ());
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.torch,Meta.torchGround),mpos.x+2*right.getX(),y+4,mpos.z+2*right.getZ());
 		
 		// chest area
 		mpos.move(entranceFrom.opposite(),2);
