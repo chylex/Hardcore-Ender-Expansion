@@ -25,7 +25,8 @@ public final class Meta{
 		cobbleWallNormal = 0,
 		cobbleWallMossy = 1,
 		
-		skullGround = 1;
+		skullGround = 1,
+		torchGround = 5;
 	
 	public static byte getTorch(Facing4 attachedTo){
 		switch(attachedTo){
