@@ -56,6 +56,7 @@ public final class BlockList{
 	
 	// BUILDING BLOCKS
 	
+	public static Block stone_brick_wall;
 	public static Block obsidian_falling;
 	public static Block obsidian_stairs;
 	public static Block obsidian_special;
@@ -128,6 +129,7 @@ public final class BlockList{
 	public static void loadBlocks(){
 		FluidRegistry.registerFluid(BlockEnderGoo.fluid);
 		
+		register("stone_brick_wall", stone_brick_wall = new BlockStoneBrickWall().setBlockName("stoneBrickWall"));
 		register("obsidian_end", obsidian_falling = new BlockObsidianEnd().setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianEnd").setBlockTextureName("obsidian"));
 		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian,0).setHardness(25F).setResistance(1000F).setBlockName("obsidianStairs"));
 		register("obsidian_special", obsidian_special = new BlockObsidianSpecial(false).setHardness(28F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecial").setBlockTextureName("hardcoreenderexpansion:obsidian_smooth"));
@@ -219,6 +221,7 @@ public final class BlockList{
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,
 			dungeon_puzzle,cinder,persegrit,laboratory_obsidian,laboratory_floor,laboratory_stairs,laboratory_glass,
+			stone_brick_wall,
 			/* TODO SANCTUARY sacred_stone,*/crossed_decoration,death_flower
 		);
 		
