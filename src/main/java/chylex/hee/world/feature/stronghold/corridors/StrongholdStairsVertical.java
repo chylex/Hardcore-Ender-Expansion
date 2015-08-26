@@ -60,6 +60,8 @@ public class StrongholdStairsVertical extends StrongholdPiece{
 		
 		// entrance and exit
 		for(Connection connection:connections){
+			if (inst.isConnectionFree(connection))continue;
+			
 			Facing4 facing = connection.facing, perpendicular = facing.perpendicular();
 			
 			int posX = x+maxX/2+2*facing.getX(), posZ = z+maxZ/2+2*facing.getZ();

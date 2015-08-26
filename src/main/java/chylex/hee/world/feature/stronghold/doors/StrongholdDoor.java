@@ -19,6 +19,11 @@ public abstract class StrongholdDoor extends StrongholdPiece{
 
 	@Override
 	public final void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, int x, int y, int z){
+		if (inst.isConnectionFree(connections.get(0)) || inst.isConnectionFree(connections.get(1))){
+			placeCube(world,rand,placeStoneBrick,x,y,z,x+maxX,y+maxY,z+maxZ);
+			return;
+		}
+		
 		placeCube(world,rand,placeStoneBrick,x,y,z,x+maxX,y,z+maxZ);
 		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ);
 		placeLine(world,rand,placeStoneBrick,x,y+1,z,x,y+maxY-1,z);

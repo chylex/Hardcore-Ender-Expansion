@@ -24,8 +24,8 @@ public class StrongholdStairsStraight extends StrongholdPiece{
 		super(Type.CORRIDOR,new Size(dirX ? 8 : 5,10,dirX ? 5 : 8));
 		
 		if (dirX){
-			addConnection(Facing4.EAST_POSX,7,5,2,withAnything);
 			addConnection(Facing4.WEST_NEGX,0,0,2,withAnything);
+			addConnection(Facing4.EAST_POSX,7,5,2,withAnything);
 		}
 		else{
 			addConnection(Facing4.NORTH_NEGZ,2,0,0,withAnything);
@@ -64,12 +64,12 @@ public class StrongholdStairsStraight extends StrongholdPiece{
 		
 		// holes
 		if (dirX){
-			placeCube(world,rand,placeAir,x,y+1,z+1,x,y+3,z+3);
-			placeCube(world,rand,placeAir,x+maxX,y+6,z+1,x+maxX,y+8,z+3);
+			if (!inst.isConnectionFree(Facing4.WEST_NEGX))placeCube(world,rand,placeAir,x,y+1,z+1,x,y+3,z+3);
+			if (!inst.isConnectionFree(Facing4.EAST_POSX))placeCube(world,rand,placeAir,x+maxX,y+6,z+1,x+maxX,y+8,z+3);
 		}
 		else{
-			placeCube(world,rand,placeAir,x+1,y+1,z,x+3,y+3,z);
-			placeCube(world,rand,placeAir,x+1,y+6,z+maxZ,x+3,y+8,z+maxZ);
+			if (!inst.isConnectionFree(Facing4.NORTH_NEGZ))placeCube(world,rand,placeAir,x+1,y+1,z,x+3,y+3,z);
+			if (!inst.isConnectionFree(Facing4.SOUTH_POSZ))placeCube(world,rand,placeAir,x+1,y+6,z+maxZ,x+3,y+8,z+maxZ);
 		}
 	}
 }
