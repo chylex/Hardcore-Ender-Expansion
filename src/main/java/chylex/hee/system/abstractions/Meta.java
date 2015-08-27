@@ -76,6 +76,10 @@ public final class Meta{
 		return (byte)color.ordinal();
 	}
 	
+	public static byte getDye(BlockColor color){
+		return (byte)(15-color.ordinal());
+	}
+	
 	public static IStructureTileEntity generateChest(Facing4 facingTo, IStructureTileEntity call){
 		final int meta;
 		

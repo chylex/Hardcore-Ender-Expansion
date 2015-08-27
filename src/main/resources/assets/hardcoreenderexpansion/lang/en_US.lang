@@ -1,6 +1,22 @@
 # DO NOT MODIFY THIS FILE!
 tile.baconStone.name=Bacon Stone
 tile.stoneBrickWall.name=Stone Brick Wall
+tile.gloomrock.plain.name=Gloomrock
+tile.gloomrock.smooth.name=Smooth Gloomrock
+tile.gloomrock.brick.name=Gloomrock Brick
+tile.gloomrock.color.0.name=Red Gloomrock
+tile.gloomrock.color.1.name=Orange Gloomrock
+tile.gloomrock.color.2.name=Yellow Gloomrock
+tile.gloomrock.color.3.name=Green Gloomrock
+tile.gloomrock.color.4.name=Cyan Gloomrock
+tile.gloomrock.color.5.name=Light Blue Gloomrock
+tile.gloomrock.color.6.name=Blue Gloomrock
+tile.gloomrock.color.7.name=Purple Gloomrock
+tile.gloomrock.color.8.name=Magenta Gloomrock
+tile.gloomrock.color.9.name=Pink Gloomrock
+tile.gloomrock.color.10.name=White Gloomrock
+tile.gloomrock.color.11.name=Gray Gloomrock
+tile.gloomrock.color.12.name=Black Gloomrock
 tile.obsidianEnd.name=Falling Obsidian
 tile.obsidianStairs.name=Obsidian Stairs
 tile.obsidianSpecial.smooth.name=Smooth Obsidian

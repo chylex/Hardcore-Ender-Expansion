@@ -1,8 +1,11 @@
 package chylex.hee.mechanics;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import chylex.hee.block.BlockGloomrock;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
+import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -18,7 +21,11 @@ public final class RecipeList{
 			Blocks.vine
 		);
 		
-		GameRegistryUtil.addSmeltingRecipe(new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickPlain),new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickCracked),0.1F);
+		GameRegistryUtil.addSmeltingRecipe(
+			new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickPlain),
+			new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickCracked),
+			0.1F
+		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickChiseled),
 			"S", "S",
@@ -29,6 +36,33 @@ public final class RecipeList{
 			"BBB", "BBB",
 			'B', Blocks.stonebrick
 		);
+		
+		// Gloomrock
+		
+		GameRegistryUtil.addSmeltingRecipe(
+			new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.PLAIN.value),
+			new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.SMOOTH.value),
+			0.05F
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock,4,BlockGloomrock.Meta.BRICK.value),
+			"SS", "SS",
+			'S', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.SMOOTH.value)
+		);
+		
+		Meta.BlockColor[] gloomrockColors = new Meta.BlockColor[]{
+			BlockColor.RED, BlockColor.ORANGE, BlockColor.YELLOW, BlockColor.LIME, BlockColor.CYAN,
+			BlockColor.LIGHT_BLUE, BlockColor.BLUE, BlockColor.PURPLE, BlockColor.MAGENTA,
+			BlockColor.PINK, BlockColor.WHITE, BlockColor.GRAY, BlockColor.BLACK
+		};
+		
+		for(int color = 0; color < gloomrockColors.length; color++){
+			GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock,8,BlockGloomrock.Meta.firstColor+color),
+				"SSS", "SDS", "SSS",
+				'S', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.SMOOTH.value),
+				'D', new ItemStack(Items.dye,1,Meta.getDye(gloomrockColors[color]))
+			);
+		}
 		
 		/*GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
 			"DED",
