@@ -58,6 +58,10 @@ public final class BlockList{
 	
 	public static Block stone_brick_wall;
 	public static Block gloomrock;
+	public static Block gloomrock_smooth_slab;
+	public static Block gloomrock_smooth_stairs;
+	public static Block gloomrock_brick_slab;
+	public static Block gloomrock_brick_stairs;
 	public static Block obsidian_falling;
 	public static Block obsidian_stairs;
 	public static Block obsidian_special;
@@ -132,6 +136,10 @@ public final class BlockList{
 		
 		register("stone_brick_wall", stone_brick_wall = new BlockStoneBrickWall().setBlockName("stoneBrickWall"));
 		register("gloomrock", gloomrock = new BlockGloomrock().setHardness(5F).setResistance(7F).setStepSound(Block.soundTypeStone).setBlockName("gloomrock"));
+		register("gloomrock_smooth_slab", gloomrock_smooth_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.Meta.SMOOTH.value).setBlockName("gloomrockSmoothSlab"));
+		register("gloomrock_smooth_stairs", gloomrock_smooth_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.Meta.SMOOTH.value).setBlockName("gloomrockSmoothStairs"));
+		register("gloomrock_brick_slab", gloomrock_brick_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.Meta.BRICK.value).setBlockName("gloomrockBrickSlab"));
+		register("gloomrock_brick_stairs", gloomrock_brick_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.Meta.BRICK.value).setBlockName("gloomrockBrickStairs"));
 		register("obsidian_end", obsidian_falling = new BlockObsidianEnd().setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianEnd").setBlockTextureName("obsidian"));
 		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian,0).setBlockName("obsidianStairs"));
 		register("obsidian_special", obsidian_special = new BlockObsidianSpecial(false).setHardness(28F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecial").setBlockTextureName("hardcoreenderexpansion:obsidian_smooth"));
@@ -190,6 +198,8 @@ public final class BlockList{
 		register("block_special_effects", special_effects = new BlockSpecialEffects());
 
 		setItemClass("gloomrock", ItemBlockWithSubtypes.class);
+		setItemClass("gloomrock_smooth_slab", ItemBlockSlab.class);
+		setItemClass("gloomrock_brick_slab", ItemBlockSlab.class);
 		setItemClass("obsidian_special", ItemBlockWithSubtypes.class);
 		setItemClass("obsidian_special_glow", ItemBlockWithSubtypes.class);
 		setItemClass("essence_altar", ItemBlockEssenceAltar.class);
@@ -218,7 +228,7 @@ public final class BlockList{
 		
 		ModCreativeTab.tabMain.list.addBlocks(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
-			gloomrock,
+			gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,
 			essence_altar,transport_beacon,void_chest,decomposition_table,experience_table,accumulation_table,extraction_table,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,

@@ -46,8 +46,8 @@ public final class RecipeList{
 		);
 		
 		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock,4,BlockGloomrock.Meta.BRICK.value),
-			"SS", "SS",
-			'S', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.SMOOTH.value)
+			"GG", "GG",
+			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.SMOOTH.value)
 		);
 		
 		Meta.BlockColor[] gloomrockColors = new Meta.BlockColor[]{
@@ -58,11 +58,31 @@ public final class RecipeList{
 		
 		for(int color = 0; color < gloomrockColors.length; color++){
 			GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock,8,BlockGloomrock.Meta.firstColor+color),
-				"SSS", "SDS", "SSS",
-				'S', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.SMOOTH.value),
+				"GGG", "GDG", "GGG",
+				'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.SMOOTH.value),
 				'D', new ItemStack(Items.dye,1,Meta.getDye(gloomrockColors[color]))
 			);
 		}
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_smooth_slab,6),
+			"GGG",
+			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.SMOOTH.value)
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_smooth_stairs,4),
+			"  G", " GG", "GGG",
+			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.SMOOTH.value)
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_brick_slab,6),
+			"GGG",
+			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.BRICK.value)
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomrock_brick_stairs,4),
+			"  G", " GG", "GGG",
+			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.BRICK.value)
+		);
 		
 		/*GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
 			"DED",
