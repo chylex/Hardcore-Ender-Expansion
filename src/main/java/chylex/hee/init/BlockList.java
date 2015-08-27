@@ -133,22 +133,22 @@ public final class BlockList{
 		register("stone_brick_wall", stone_brick_wall = new BlockStoneBrickWall().setBlockName("stoneBrickWall"));
 		register("gloomrock", gloomrock = new BlockGloomrock().setHardness(5F).setResistance(7F).setStepSound(Block.soundTypeStone).setBlockName("gloomrock"));
 		register("obsidian_end", obsidian_falling = new BlockObsidianEnd().setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianEnd").setBlockTextureName("obsidian"));
-		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian,0).setHardness(25F).setResistance(1000F).setBlockName("obsidianStairs"));
+		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian,0).setBlockName("obsidianStairs"));
 		register("obsidian_special", obsidian_special = new BlockObsidianSpecial(false).setHardness(28F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecial").setBlockTextureName("hardcoreenderexpansion:obsidian_smooth"));
 		register("obsidian_special_glow", obsidian_special_glow = new BlockObsidianSpecial(true).setHardness(28F).setResistance(2000F).setLightLevel(1F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecial").setBlockTextureName("hardcoreenderexpansion:obsidian_smooth"));
 		register("end_stone_terrain", end_terrain = new BlockEndstoneTerrain().setHardness(2.5F).setResistance(15F).setStepSound(Block.soundTypeStone).setBlockName("endStoneTerrain"));
 		register("ravaged_brick", ravaged_brick = new BlockRavagedBrick().setHardness(3.5F).setResistance(28F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrick"));
 		register("ravaged_brick_smooth", ravaged_brick_smooth = new BlockRavagedBrickSmooth().setHardness(1F).setResistance(6F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrickSmooth").setBlockTextureName("hardcoreenderexpansion:ravaged_brick_smooth"));
 		register("ravaged_brick_glow", ravaged_brick_glow = new BlockBasic(Material.rock).setHardness(1F).setResistance(6F).setLightLevel(1F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrickGlow").setBlockTextureName("hardcoreenderexpansion:ravaged_brick_glow"));
-		register("ravaged_brick_slab", ravaged_brick_slab = new BlockBasicSlab(ravaged_brick).setHardness(1.75F).setResistance(14F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrickSlab").setBlockTextureName("hardcoreenderexpansion:ravaged_brick"));
-		register("ravaged_brick_stairs", ravaged_brick_stairs = new BlockBasicStairs(ravaged_brick,0).setHardness(2.25F).setResistance(22F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrickStairs"));
+		register("ravaged_brick_slab", ravaged_brick_slab = new BlockBasicSlab(ravaged_brick).setBlockName("ravagedBrickSlab"));
+		register("ravaged_brick_stairs", ravaged_brick_stairs = new BlockBasicStairs(ravaged_brick).setBlockName("ravagedBrickStairs"));
 		register("ravaged_brick_fence", ravaged_brick_fence = new BlockFence("hardcoreenderexpansion:ravaged_brick",Material.rock).setHardness(1.5F).setResistance(6F).setStepSound(Block.soundTypePiston).setBlockName("ravagedBrickFence"));
 		register("dungeon_puzzle", dungeon_puzzle = new BlockDungeonPuzzle().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal).setBlockName("dungeonPuzzle"));
 		register("cinder", cinder = new BlockBasic(Material.rock).setHardness(1F).setResistance(10F).setStepSound(Block.soundTypeStone).setBlockName("cinder").setBlockTextureName("hardcoreenderexpansion:cinder"));
 		register("persegrit", persegrit = new BlockPersegrit().setHardness(4F).setResistance(0.2F).setStepSound(Block.soundTypeGravel).setBlockName("persegrit").setBlockTextureName("hardcoreenderexpansion:persegrit"));
 		register("laboratory_obsidian", laboratory_obsidian = new BlockBasic(Material.rock).setHardness(40F).setResistance(500F).setStepSound(Block.soundTypeStone).setBlockName("laboratoryObsidian").setBlockTextureName("hardcoreenderexpansion:laboratory_obsidian"));
 		register("laboratory_floor", laboratory_floor = new BlockBasic(Material.rock).setHardness(30F).setResistance(100F).setStepSound(Block.soundTypeStone).setBlockName("laboratoryFloor").setBlockTextureName("hardcoreenderexpansion:laboratory_floor"));
-		register("laboratory_stairs", laboratory_stairs = new BlockBasicStairs(laboratory_floor,0).setHardness(20F).setResistance(80F).setStepSound(Block.soundTypeStone).setBlockName("laboratoryStairs"));
+		register("laboratory_stairs", laboratory_stairs = new BlockBasicStairs(laboratory_floor).setBlockName("laboratoryStairs"));
 		// TODO SANCTUARY register("sacred_stone", sacred_stone = new BlockSacredStone().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeMetal).setBlockName("sacredStone").setBlockTextureName("hardcoreenderexpansion:sacred_stone"));
 		
 		register("end_powder_ore", end_powder_ore = new BlockEndPowderOre().setHardness(3F).setResistance(12F).setStepSound(Block.soundTypeStone).setBlockName("endPowderOre").setBlockTextureName("hardcoreenderexpansion:end_powder_ore"));

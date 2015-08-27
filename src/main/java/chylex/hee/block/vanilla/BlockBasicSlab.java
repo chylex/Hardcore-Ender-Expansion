@@ -18,6 +18,9 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 		super(false,fullBlockInfo.block.getMaterial());
 		this.full = fullBlockInfo;
 		this.useNeighborBrightness = true;
+		setHardness(full.block.blockHardness*0.5F);
+		setResistance(full.block.blockResistance*0.5F);
+        setStepSound(full.block.stepSound);
 	}
 	
 	public BlockBasicSlab(Block fullBlock){
@@ -27,7 +30,7 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 	public BlockBasicSlab(Block fullBlock, int fullMeta){
 		this(new BlockInfo(fullBlock,fullMeta));
 	}
-
+	
 	@Override
 	public String func_150002_b(int meta){
 		return getUnlocalizedName();
