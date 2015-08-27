@@ -7,16 +7,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.item.block.ItemBlockSlab.IBlockSlab;
+import chylex.hee.system.abstractions.BlockInfo;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
-	private final Block fullBlock;
+	private final BlockInfo full;
+	
+	public BlockBasicSlab(BlockInfo fullBlockInfo){
+		super(false,fullBlockInfo.block.getMaterial());
+		this.full = fullBlockInfo;
+		this.useNeighborBrightness = true;
+	}
 	
 	public BlockBasicSlab(Block fullBlock){
-		super(false,fullBlock.getMaterial());
-		this.fullBlock = fullBlock;
-		this.useNeighborBrightness = true;
+		this(new BlockInfo(fullBlock));
+	}
+	
+	public BlockBasicSlab(Block fullBlock, int fullMeta){
+		this(new BlockInfo(fullBlock,fullMeta));
 	}
 
 	@Override
@@ -25,8 +34,8 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 	}
 
 	@Override
-	public Block getFullBlock(){
-		return fullBlock;
+	public BlockInfo getFullBlock(){
+		return full;
 	}
 	
 	@Override
@@ -48,6 +57,6 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta){
-		return fullBlock.getIcon(side,0);
+		return full.block.getIcon(side,full.meta);
 	}
 }
