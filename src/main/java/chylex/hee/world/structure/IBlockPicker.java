@@ -15,5 +15,9 @@ public interface IBlockPicker{
 		return rand -> info;
 	}
 	
+	public static IBlockPicker basic(final BlockInfo info){
+		return rand -> info;
+	}
+	
 	BlockInfo pick(Random rand);
 }
