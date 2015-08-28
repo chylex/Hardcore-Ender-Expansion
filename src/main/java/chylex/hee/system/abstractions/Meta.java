@@ -1,11 +1,17 @@
 package chylex.hee.system.abstractions;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.tileentity.TileEntitySkull;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.IStructureTileEntity;
 import chylex.hee.world.structure.util.Facing4;
 
 public final class Meta{
+	/* === SIMPLE BLOCKS === */
+	
 	public static final byte
 		stoneBrickPlain = 0,
 		stoneBrickMossy = 1,
@@ -28,6 +34,8 @@ public final class Meta{
 		skullGround = 1,
 		torchGround = 5;
 	
+	/* === TORCHES === */
+	
 	public static byte getTorch(Facing4 attachedTo){
 		switch(attachedTo){
 			case WEST_NEGX: return 1;
@@ -37,6 +45,8 @@ public final class Meta{
 			default: return 0;
 		}
 	}
+	
+	/* === BUTTONS === */
 	
 	public static byte getButton(Facing4 attachedTo){
 		switch(attachedTo){
@@ -48,6 +58,8 @@ public final class Meta{
 		}
 	}
 	
+	/* === STAIRS === */
+	
 	public static byte getStairs(Facing4 ascendsTowards, boolean flip){
 		switch(ascendsTowards){
 			case EAST_POSX: return (byte)(0+(flip ? 4 : 0));
@@ -57,6 +69,8 @@ public final class Meta{
 			default: return 0;
 		}
 	}
+	
+	/* === DOORS === */
 	
 	public static byte getDoor(Facing4 opensTowards, boolean upper){
 		if (upper)return 8;
@@ -70,7 +84,9 @@ public final class Meta{
 		}
 	}
 	
-	public enum BlockColor{ WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, LIGHT_GRAY, CYAN, PURPLE, BLUE, BROWN, GREEN, RED, BLACK }
+	/* === DYES AND COLORED BLOCKS === */
+	
+	public enum BlockColor { WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, LIGHT_GRAY, CYAN, PURPLE, BLUE, BROWN, GREEN, RED, BLACK }
 	
 	public static byte getColor(BlockColor color){
 		return (byte)color.ordinal();
@@ -79,6 +95,87 @@ public final class Meta{
 	public static byte getDye(BlockColor color){
 		return (byte)(15-color.ordinal());
 	}
+	
+	/* === LOGS === */
+	
+	public enum LogType { OAK, SPRUCE, BIRCH, JUNGLE, ACACIA, DARK_OAK }
+	
+	public enum LogDirection { PILLAR, EAST_WEST, NORTH_SOUTH }
+	
+	public static BlockInfo getLog(LogType type, Facing4 facing){
+		return getLog(type,(facing == Facing4.EAST_POSX || facing == Facing4.WEST_NEGX) ? LogDirection.EAST_WEST :
+						   (facing == Facing4.NORTH_NEGZ || facing == Facing4.SOUTH_POSZ) ? LogDirection.NORTH_SOUTH :
+						   LogDirection.PILLAR);
+	}
+	
+	public static BlockInfo getLog(LogType type, LogDirection direction){
+		final Block log;
+		int meta;
+		
+		switch(type){
+			case OAK: case SPRUCE: case BIRCH: case JUNGLE:
+				log = Blocks.log;
+				meta = type.ordinal();
+				break;
+				
+			case ACACIA: case DARK_OAK: default:
+				log = Blocks.log2;
+				meta = type.ordinal()-LogType.ACACIA.ordinal();
+				break;
+		}
+		
+		switch(direction){
+			case PILLAR: break;
+			case EAST_WEST: meta += 4; break;
+			case NORTH_SOUTH: meta += 8; break;
+		}
+		
+		return new BlockInfo(log,meta);
+	}
+	
+	/* === FLOWER POTS === */
+	
+	public enum FlowerPotPlant{
+		DANDELION, POPPY, BLUE_ORCHID, ALLIUM, AZURE_BLUET, TULIP_RED, TULIP_ORANGE, TULIP_WHITE, TULIP_PINK, OXEYE_DAISY,
+		SAPLING_OAK, SAPLING_SPRUCE, SAPLING_BIRCH, SAPLING_JUNGLE, SAPLING_ACACIA, SAPLING_DARK_OAK,
+		MUSHROOM_RED, MUSHROOM_BROWN, CACTUS, DEAD_BUSH, FERN
+	}
+	
+	public static IStructureTileEntity getFlowerPot(final FlowerPotPlant plant){
+		return (tile, rand) -> {
+			final Block block;
+			int meta = 0;
+			
+			switch(plant){
+				default:
+				case DANDELION: block = Blocks.yellow_flower; break;
+				case MUSHROOM_RED: block = Blocks.red_mushroom; break;
+				case MUSHROOM_BROWN: block = Blocks.brown_mushroom; break;
+				case CACTUS: block = Blocks.cactus; break;
+				case DEAD_BUSH: block = Blocks.deadbush; break;
+				
+				case POPPY: case BLUE_ORCHID: case ALLIUM: case AZURE_BLUET: case OXEYE_DAISY:
+				case TULIP_RED: case TULIP_ORANGE: case TULIP_WHITE: case TULIP_PINK:
+					block = Blocks.red_flower;
+					meta = plant.ordinal()-FlowerPotPlant.POPPY.ordinal();
+					break;
+				
+				case SAPLING_OAK: case SAPLING_SPRUCE: case SAPLING_BIRCH: case SAPLING_JUNGLE: case SAPLING_ACACIA: case SAPLING_DARK_OAK:
+					block = Blocks.sapling;
+					meta = plant.ordinal()-FlowerPotPlant.SAPLING_OAK.ordinal();
+					break;
+				
+				case FERN:
+					block = Blocks.tallgrass;
+					meta = 2;
+					break;
+			}
+			
+			((TileEntityFlowerPot)tile).func_145964_a(Item.getItemFromBlock(block),meta);
+		};
+	}
+	
+	/* === CHESTS === */
 	
 	public static IStructureTileEntity generateChest(Facing4 facingTo, IStructureTileEntity call){
 		final int meta;
@@ -97,6 +194,8 @@ public final class Meta{
 			call.generateTile(tile,rand);
 		};
 	}
+	
+	/* === SKULLS AND HEADS === */
 	
 	public enum Skull { SKELETON, WITHER, ZOMBIE, PLAYER, CREEPER }
 	
