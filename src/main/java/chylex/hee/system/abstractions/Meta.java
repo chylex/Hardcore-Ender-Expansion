@@ -58,6 +58,18 @@ public final class Meta{
 		}
 	}
 	
+	/* === LADDERS === */
+	
+	public static byte getLadder(Facing4 attachedTo){
+		switch(attachedTo){
+			case SOUTH_POSZ: return 2;
+			case NORTH_NEGZ: return 3;
+			case EAST_POSX: return 4;
+			case WEST_NEGX: return 5;
+			default: return 0;
+		}
+	}
+	
 	/* === STAIRS === */
 	
 	public static byte getStairs(Facing4 ascendsTowards, boolean flip){
