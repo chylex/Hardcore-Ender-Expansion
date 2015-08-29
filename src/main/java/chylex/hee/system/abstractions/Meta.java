@@ -141,7 +141,7 @@ public final class Meta{
 		MUSHROOM_RED, MUSHROOM_BROWN, CACTUS, DEAD_BUSH, FERN
 	}
 	
-	public static IStructureTileEntity getFlowerPot(final FlowerPotPlant plant){
+	public static IStructureTileEntity generateFlowerPot(final FlowerPotPlant plant){
 		return (tile, rand) -> {
 			final Block block;
 			int meta = 0;
