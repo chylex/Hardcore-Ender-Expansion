@@ -34,6 +34,12 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 		facing = facing.perpendicular();
 		placeLine(world,rand,IBlockPicker.basic(Meta.getLog(LogType.DARK_OAK,facing)),centerX+4*facing.getX(),y+maxY-2,centerZ+4*facing.getZ(),centerX-4*facing.getX(),y+maxY-2,centerZ-4*facing.getZ());
 		
+		// floor pattern
+		placeStairFloorLine(world,rand,Facing4.NORTH_NEGZ,3,x,y,z);
+		placeStairFloorLine(world,rand,Facing4.SOUTH_POSZ,3,x,y,z);
+		placeStairFloorLine(world,rand,Facing4.WEST_NEGX,2,x,y,z);
+		placeStairFloorLine(world,rand,Facing4.EAST_POSX,2,x,y,z);
+		
 		// ceiling cobwebs
 		for(int attempts = 18, toPlace = 6+rand.nextInt(7); attempts > 0 && toPlace > 0; attempts--){
 			mpos.set(centerX,y+maxY-1-rand.nextInt(2),centerZ);
@@ -137,5 +143,15 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 		world.setTileEntity(pos.getX(),pos.getY(),pos.getZ(),Meta.generateChest(facing,(tile, random) -> {
 			// TODO loot
 		}));
+	}
+	
+	private void placeStairFloorLine(StructureWorld world, Random rand, Facing4 facing, int halfLength, int x, int y, int z){
+		IBlockPicker placeStairs = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),false));
+		Facing4 perpendicular = facing.perpendicular();
+		
+		x = x+maxX/2+3*facing.getX();
+		z = z+maxZ/2+3*facing.getZ();
+		
+		placeLine(world,rand,placeStairs,x-halfLength*perpendicular.getX(),y,z-halfLength*perpendicular.getZ(),x+halfLength*perpendicular.getX(),y,z+halfLength*perpendicular.getZ());
 	}
 }
