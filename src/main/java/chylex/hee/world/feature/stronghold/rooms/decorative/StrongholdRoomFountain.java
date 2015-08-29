@@ -23,7 +23,7 @@ public class StrongholdRoomFountain extends StrongholdRoom{
 		PosMutable mpos = new PosMutable();
 		
 		// floor pattern
-		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,3,true);
+		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,3,true,false);
 		
 		// stairs around fountain
 		for(Facing4 facing:Facing4.list){

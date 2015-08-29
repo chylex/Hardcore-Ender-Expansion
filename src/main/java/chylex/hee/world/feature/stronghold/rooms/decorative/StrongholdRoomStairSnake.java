@@ -21,7 +21,7 @@ public class StrongholdRoomStairSnake extends StrongholdRoom{
 		int centerX = x+maxX/2, centerZ = z+maxZ/2;
 		
 		// floor pattern
-		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,1,true);
+		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,1,true,false);
 		
 		// snake
 		Facing4 snakeFacing = Facing4.list[rand.nextInt(Facing4.list.length)];

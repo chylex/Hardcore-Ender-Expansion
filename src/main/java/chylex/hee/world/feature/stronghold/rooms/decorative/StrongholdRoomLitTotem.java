@@ -26,7 +26,7 @@ public class StrongholdRoomLitTotem extends StrongholdRoom{
 		// floor patterns
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),centerX,y,centerZ);
 		
-		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,1,true);
+		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,1,true,false);
 		
 		for(Facing4 facing:Facing4.list){
 			Facing4 left = facing.rotateLeft(), right = facing.rotateRight();

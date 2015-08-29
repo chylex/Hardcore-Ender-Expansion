@@ -45,12 +45,12 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	protected static final IBlockPicker placeAir = rand -> BlockInfo.air;
 	
 	// TODO test all pieces
-	protected static final void placeStairOutline(StructureWorld world, Random rand, Block block, int centerX, int y, int centerZ, int distance, boolean outwards){
+	protected static final void placeStairOutline(StructureWorld world, Random rand, Block block, int centerX, int y, int centerZ, int distance, boolean outwards, boolean flip){
 		IBlockPicker[] stairs = new IBlockPicker[]{
-			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.SOUTH_POSZ : Facing4.NORTH_NEGZ,false)),
-			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.NORTH_NEGZ : Facing4.SOUTH_POSZ,false)),
-			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.EAST_POSX : Facing4.WEST_NEGX,false)),
-			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.WEST_NEGX : Facing4.EAST_POSX,false))
+			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.SOUTH_POSZ : Facing4.NORTH_NEGZ,flip)),
+			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.NORTH_NEGZ : Facing4.SOUTH_POSZ,flip)),
+			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.EAST_POSX : Facing4.WEST_NEGX,flip)),
+			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.WEST_NEGX : Facing4.EAST_POSX,flip))
 		};
 		
 		for(int facingInd = 0, off, perX, perZ; facingInd < Facing4.list.length; facingInd++){

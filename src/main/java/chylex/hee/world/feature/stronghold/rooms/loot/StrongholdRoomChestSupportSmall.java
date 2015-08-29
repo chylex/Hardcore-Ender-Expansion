@@ -35,7 +35,7 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 		placeLine(world,rand,IBlockPicker.basic(Meta.getLog(LogType.DARK_OAK,facing)),centerX+4*facing.getX(),y+maxY-2,centerZ+4*facing.getZ(),centerX-4*facing.getX(),y+maxY-2,centerZ-4*facing.getZ());
 		
 		// floor pattern
-		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,3,true);
+		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,3,true,false);
 		
 		// ceiling cobwebs
 		for(int attempts = 18, toPlace = 6+rand.nextInt(7); attempts > 0 && toPlace > 0; attempts--){
