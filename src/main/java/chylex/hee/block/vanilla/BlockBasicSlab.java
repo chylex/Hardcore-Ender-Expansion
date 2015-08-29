@@ -2,6 +2,7 @@ package chylex.hee.block.vanilla;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSlab;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -62,4 +63,8 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 	public IIcon getIcon(int side, int meta){
 		return full.block.getIcon(side,full.meta);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister){}
 }
