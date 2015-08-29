@@ -26,10 +26,7 @@ public class StrongholdRoomLitTotem extends StrongholdRoom{
 		// floor patterns
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),centerX,y,centerZ);
 		
-		placeStairFloorLine(world,rand,Facing4.NORTH_NEGZ,1,x,y,z);
-		placeStairFloorLine(world,rand,Facing4.SOUTH_POSZ,1,x,y,z);
-		placeStairFloorLine(world,rand,Facing4.WEST_NEGX,0,x,y,z);
-		placeStairFloorLine(world,rand,Facing4.EAST_POSX,0,x,y,z);
+		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,1,true);
 		
 		for(Facing4 facing:Facing4.list){
 			Facing4 left = facing.rotateLeft(), right = facing.rotateRight();
@@ -53,15 +50,5 @@ public class StrongholdRoomLitTotem extends StrongholdRoom{
 			placeBlock(world,rand,placeStoneWall,centerX+facing.getX(),y+3,centerZ+facing.getZ());
 			world.setAttentionWhore(centerX+facing.getX(),y+4,centerZ+facing.getZ(),new BlockInfo(Blocks.torch,Meta.torchGround));
 		}
-	}
-	
-	private void placeStairFloorLine(StructureWorld world, Random rand, Facing4 facing, int halfLength, int x, int y, int z){
-		IBlockPicker placeStairs = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),false));
-		Facing4 perpendicular = facing.perpendicular();
-		
-		x = x+maxX/2+facing.getX();
-		z = z+maxZ/2+facing.getZ();
-		
-		placeLine(world,rand,placeStairs,x-halfLength*perpendicular.getX(),y,z-halfLength*perpendicular.getZ(),x+halfLength*perpendicular.getX(),y,z+halfLength*perpendicular.getZ());
 	}
 }

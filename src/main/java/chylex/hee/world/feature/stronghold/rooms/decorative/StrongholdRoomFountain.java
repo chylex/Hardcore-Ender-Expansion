@@ -23,10 +23,7 @@ public class StrongholdRoomFountain extends StrongholdRoom{
 		PosMutable mpos = new PosMutable();
 		
 		// floor pattern
-		placeStairFloorLine(world,rand,Facing4.NORTH_NEGZ,3,x,y,z);
-		placeStairFloorLine(world,rand,Facing4.SOUTH_POSZ,3,x,y,z);
-		placeStairFloorLine(world,rand,Facing4.WEST_NEGX,2,x,y,z);
-		placeStairFloorLine(world,rand,Facing4.EAST_POSX,2,x,y,z);
+		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,3,true);
 		
 		// stairs around fountain
 		for(Facing4 facing:Facing4.list){
@@ -46,15 +43,5 @@ public class StrongholdRoomFountain extends StrongholdRoom{
 		
 		// ceiling
 		placeOutline(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),x+1,y+maxY-1,z+1,x+maxX-1,y+maxY-1,z+maxZ-1,1);
-	}
-	
-	private void placeStairFloorLine(StructureWorld world, Random rand, Facing4 facing, int halfLength, int x, int y, int z){
-		IBlockPicker placeStairs = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),false));
-		Facing4 perpendicular = facing.perpendicular();
-		
-		x = x+maxX/2+3*facing.getX();
-		z = z+maxZ/2+3*facing.getZ();
-		
-		placeLine(world,rand,placeStairs,x-halfLength*perpendicular.getX(),y,z-halfLength*perpendicular.getZ(),x+halfLength*perpendicular.getX(),y,z+halfLength*perpendicular.getZ());
 	}
 }
