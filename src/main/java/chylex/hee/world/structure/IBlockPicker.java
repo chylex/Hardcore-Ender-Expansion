@@ -6,17 +6,11 @@ import chylex.hee.system.abstractions.BlockInfo;
 @FunctionalInterface
 public interface IBlockPicker{
 	public static IBlockPicker basic(final Block block){
-		final BlockInfo info = new BlockInfo(block);
-		return rand -> info;
+		return new BlockInfo(block);
 	}
 	
 	public static IBlockPicker basic(final Block block, final int meta){
-		final BlockInfo info = new BlockInfo(block,meta);
-		return rand -> info;
-	}
-	
-	public static IBlockPicker basic(final BlockInfo info){
-		return rand -> info;
+		return new BlockInfo(block,meta);
 	}
 	
 	BlockInfo pick(Random rand);

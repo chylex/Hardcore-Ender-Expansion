@@ -1,8 +1,10 @@
 package chylex.hee.system.abstractions;
+import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import chylex.hee.world.structure.IBlockPicker;
 
-public final class BlockInfo{
+public final class BlockInfo implements IBlockPicker{
 	public static final BlockInfo air = new BlockInfo(Blocks.air);
 	
 	public final Block block;
@@ -16,6 +18,11 @@ public final class BlockInfo{
 	public BlockInfo(Block block, int meta){
 		this.block = block;
 		this.meta = (byte)meta;
+	}
+	
+	@Override
+	public BlockInfo pick(Random rand){
+		return this;
 	}
 	
 	@Override
