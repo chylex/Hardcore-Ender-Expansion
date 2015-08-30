@@ -23,6 +23,7 @@ public final class Meta{
 		silverfishCracked = 4,
 		silverfishChiseled = 5,
 		
+		slabStoneSmoothDouble = 0,
 		slabStoneSmoothBottom = 0,
 		slabStoneSmoothTop = 0+8,
 		slabStoneBrickBottom = 5,
