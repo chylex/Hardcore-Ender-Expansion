@@ -49,16 +49,16 @@ public class StrongholdRoomLitCorners extends StrongholdRoom{
 		
 		for(Facing4 facingCycle:Facing4.list){
 			mpos.set(centerX,0,centerZ).move(facingCycle,3).move(facingCycle.rotateRight(),2);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facingCycle.rotateRight(),false)),mpos.x,y+1,mpos.z); // bottom
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facingCycle.rotateRight(),true)),mpos.x,y+maxY-1,mpos.z); // top
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),false),mpos.x,y+1,mpos.z); // bottom
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),true),mpos.x,y+maxY-1,mpos.z); // top
 			
 			mpos.move(facingCycle.opposite());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facingCycle.rotateRight(),false)),mpos.x,y+1,mpos.z); // bottom
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facingCycle.rotateRight(),true)),mpos.x,y+maxY-1,mpos.z); // top
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),false),mpos.x,y+1,mpos.z); // bottom
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),true),mpos.x,y+maxY-1,mpos.z); // top
 			
 			mpos.move(facingCycle.rotateRight());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facingCycle,false)),mpos.x,y+1,mpos.z); // bottom
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facingCycle,true)),mpos.x,y+maxY-1,mpos.z); // top
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle,false),mpos.x,y+1,mpos.z); // bottom
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle,true),mpos.x,y+maxY-1,mpos.z); // top
 		}
 	}
 }

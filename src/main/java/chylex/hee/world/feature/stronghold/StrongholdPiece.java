@@ -41,8 +41,12 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		}
 	};
 	
-	protected static final IBlockPicker placeStoneBrickPlain = rand -> blocksStoneBrick[0];
-	protected static final IBlockPicker placeAir = rand -> BlockInfo.air;
+	protected static final IBlockPicker placeStoneBrickPlain = blocksStoneBrick[0];
+	protected static final IBlockPicker placeAir = BlockInfo.air;
+	
+	protected static final IBlockPicker placeStoneBrickStairs(Facing4 ascendsTowards, boolean flip){
+		return new BlockInfo(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTowards,flip));
+	}
 	
 	// TODO test all pieces
 	protected static final void placeStairOutline(StructureWorld world, Random rand, Block block, int centerX, int y, int centerZ, int distance, boolean outwards, boolean flip){

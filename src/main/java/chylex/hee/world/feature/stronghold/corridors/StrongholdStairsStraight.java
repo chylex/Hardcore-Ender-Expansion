@@ -1,7 +1,5 @@
 package chylex.hee.world.feature.stronghold.corridors;
 import java.util.Random;
-import net.minecraft.init.Blocks;
-import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.world.feature.stronghold.StrongholdPiece;
 import chylex.hee.world.structure.IBlockPicker;
@@ -47,8 +45,8 @@ public class StrongholdStairsStraight extends StrongholdPiece{
 		Facing4 perpendicular = ascendsTo.perpendicular();
 		PosMutable stairPos = new PosMutable(x+(ascendsTo.getX() != 0 ? 1 : 2),y,z+(ascendsTo.getZ() != 0 ? 1 : 2));
 		
-		IBlockPicker placeStairs = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTo,false));
-		IBlockPicker placeStairsRev = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTo.opposite(),true));
+		IBlockPicker placeStairs = placeStoneBrickStairs(ascendsTo,false);
+		IBlockPicker placeStairsRev = placeStoneBrickStairs(ascendsTo.opposite(),true);
 		
 		for(int level = 0; level < 6; level++){
 			stairPos.move(Math.abs(ascendsTo.getX()),1,Math.abs(ascendsTo.getZ())).move(perpendicular,-2);

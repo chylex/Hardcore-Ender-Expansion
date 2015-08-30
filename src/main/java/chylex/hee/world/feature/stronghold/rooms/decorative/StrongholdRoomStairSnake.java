@@ -27,7 +27,7 @@ public class StrongholdRoomStairSnake extends StrongholdRoom{
 		Facing4 snakeFacing = Facing4.list[rand.nextInt(Facing4.list.length)];
 		
 		for(int snake = 0; snake < 3; snake++){
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(snakeFacing = snakeFacing.opposite(),false)),centerX,y+1+snake,centerZ);
+			placeBlock(world,rand,placeStoneBrickStairs(snakeFacing = snakeFacing.opposite(),false),centerX,y+1+snake,centerZ);
 		}
 		
 		// top of the snake
@@ -35,8 +35,8 @@ public class StrongholdRoomStairSnake extends StrongholdRoom{
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.torch,Meta.torchGround),centerX,y+5,centerZ);
 		
 		for(Facing4 facing:Facing4.list){
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),true)),centerX+facing.getX(),y+4,centerZ+facing.getZ());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),centerX+2*facing.getX(),y+5,centerZ+2*facing.getZ());
+			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),centerX+facing.getX(),y+4,centerZ+facing.getZ());
+			placeBlock(world,rand,placeStoneBrickStairs(facing,false),centerX+2*facing.getX(),y+5,centerZ+2*facing.getZ());
 		}
 		
 		// cobwebs

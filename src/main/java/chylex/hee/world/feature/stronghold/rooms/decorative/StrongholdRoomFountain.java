@@ -28,13 +28,13 @@ public class StrongholdRoomFountain extends StrongholdRoom{
 		// stairs around fountain
 		for(Facing4 facing:Facing4.list){
 			mpos.set(centerX,0,centerZ).move(facing,2);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),false)),mpos.x,y+1,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),false),mpos.x,y+1,mpos.z);
 			mpos.move(facing.rotateRight());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),false)),mpos.x,y+1,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateLeft(),false),mpos.x,y+1,mpos.z);
 			mpos.move(facing.rotateLeft(),2);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),false)),mpos.x,y+1,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateRight(),false),mpos.x,y+1,mpos.z);
 			mpos.move(facing.opposite());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),false)),mpos.x,y+1,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateRight(),false),mpos.x,y+1,mpos.z);
 		}
 		
 		// fountain

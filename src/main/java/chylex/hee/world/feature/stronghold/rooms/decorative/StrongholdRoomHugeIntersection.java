@@ -51,16 +51,16 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		for(Facing4 facing:Facing4.list){
 			mpos.set(centerX,0,centerZ).move(facing,5);
 			facing = facing.rotateRight();
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),true)),mpos.x,topY,mpos.z,mpos.x+4*facing.getX(),topY,mpos.z+4*facing.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+4*facing.getX(),topY,mpos.z+4*facing.getZ());
 			
 			mpos.move(facing,3).move(facing = facing.rotateRight());
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),true)),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
 			
 			mpos.move(facing).move(facing = facing.rotateLeft());
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),true)),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
 			
 			mpos.move(facing).move(facing.rotateRight());
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),true)),mpos.x,topY,mpos.z,mpos.x+2*facing.getX(),topY,mpos.z+2*facing.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+2*facing.getX(),topY,mpos.z+2*facing.getZ());
 		}
 		
 		// ceiling lower stair layer
@@ -68,10 +68,10 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		for(Facing4 facing:Facing4.list){
 			mpos.set(centerX,0,centerZ).move(facing,5).move(facing = facing.rotateRight(),4);
 			facing = facing.rotateRight();
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),true)),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
 			
 			mpos.move(facing).move(facing = facing.rotateLeft());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),true)),mpos.x,topY,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z);
 		}
 		
 		// alternating content
@@ -96,23 +96,23 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		
 		for(int cycle = 0; cycle < 2; cycle++){
 			mpos.moveUp();
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing,false),mpos.x,mpos.y,mpos.z);
 			mpos.move(facing);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),mpos.x,mpos.y,mpos.z);
 		}
 		
 		mpos.move(facing = facing.rotateRight());
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y,mpos.z);
+		placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),mpos.x,mpos.y,mpos.z);
 		mpos.moveUp();
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y,mpos.z);
+		placeBlock(world,rand,placeStoneBrickStairs(facing,false),mpos.x,mpos.y,mpos.z);
 		mpos.move(facing);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y,mpos.z);
+		placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),mpos.x,mpos.y,mpos.z);
 		mpos.move(facing = facing.rotateRight());
 		
 		for(int cycle = 0; cycle < 2; cycle++){
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),mpos.x,mpos.y,mpos.z);
 			mpos.moveUp();
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing,false),mpos.x,mpos.y,mpos.z);
 			if (cycle == 0)mpos.move(facing);
 		}
 	}
@@ -135,14 +135,14 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		// bottom decoration
 		for(int block = 0; block < 3; block++){
 			mpos.move(facing = facing.rotateRight());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,y+2,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),mpos.x,y+2,mpos.z);
 		}
 		
 		mpos.move(facing = facing.rotateRight()).move(facing = facing.rotateRight(),2);
 		facing = facing.rotateRight();
-		placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),false)),mpos.x,y+1,mpos.z,mpos.x+2*facing.getX(),y+1,mpos.z+2*facing.getZ());
+		placeLine(world,rand,placeStoneBrickStairs(facing.opposite(),false),mpos.x,y+1,mpos.z,mpos.x+2*facing.getX(),y+1,mpos.z+2*facing.getZ());
 		
 		mpos.move(facing,2).move(facing = facing.rotateRight());
-		placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),false)),mpos.x,y+1,mpos.z,mpos.x+facing.getX(),y+1,mpos.z+facing.getZ());
+		placeLine(world,rand,placeStoneBrickStairs(facing.opposite(),false),mpos.x,y+1,mpos.z,mpos.x+facing.getX(),y+1,mpos.z+facing.getZ());
 	}
 }

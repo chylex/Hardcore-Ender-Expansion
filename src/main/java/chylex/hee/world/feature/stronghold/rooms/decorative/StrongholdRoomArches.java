@@ -41,19 +41,19 @@ public class StrongholdRoomArches extends StrongholdRoom{
 			
 			placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z,mpos.x,y+maxY-1,mpos.z); // left half arch pillar
 			mpos.move(facing);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,y+maxY-2,mpos.z); // left half arch
+			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),mpos.x,y+maxY-2,mpos.z); // left half arch
 			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+maxY-1,mpos.z); // left half arch top
 			mpos.move(facing,2);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,true)),mpos.x,y+maxY-2,mpos.z); // right half arch
+			placeBlock(world,rand,placeStoneBrickStairs(facing,true),mpos.x,y+maxY-2,mpos.z); // right half arch
 			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+maxY-1,mpos.z); // right half arch top
 			mpos.move(facing);
 			placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z,mpos.x,y+maxY-1,mpos.z); // right half arch pillar
 			
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),true)),mpos.x,y+maxY-1,mpos.z); // connection stair
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,y+maxY-1,mpos.z); // connection stair
 			mpos.move(facing.rotateRight());
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),mpos.x,y+maxY-1,mpos.z); // connection slab
 			mpos.move(facing);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,true)),mpos.x,y+maxY-1,mpos.z); // connection stair
+			placeBlock(world,rand,placeStoneBrickStairs(facing,true),mpos.x,y+maxY-1,mpos.z); // connection stair
 		}
 		
 		// cobble walls

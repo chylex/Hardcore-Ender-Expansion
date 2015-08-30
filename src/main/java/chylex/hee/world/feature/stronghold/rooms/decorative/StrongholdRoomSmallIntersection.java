@@ -25,12 +25,12 @@ public class StrongholdRoomSmallIntersection extends StrongholdRoom{
 		for(Facing4 facing:Facing4.list){
 			Facing4 left = facing.rotateLeft(), right = facing.rotateRight();
 			
-			IBlockPicker placeStairRight = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(right,true));
-			IBlockPicker placeStairFront = IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,true));
+			IBlockPicker placeStairRight = placeStoneBrickStairs(right,true);
+			IBlockPicker placeStairFront = placeStoneBrickStairs(facing,true);
 			
 			// top stairs and brick blocks
 			mpos.set(x+maxX/2,0,z+maxZ/2).move(facing,3);
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,true)),mpos.x+left.getX(),y+4,mpos.z+left.getZ(),mpos.x+right.getX(),y+4,mpos.z+right.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(facing,true),mpos.x+left.getX(),y+4,mpos.z+left.getZ(),mpos.x+right.getX(),y+4,mpos.z+right.getZ());
 			
 			mpos.move(right,2);
 			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+4,mpos.z);

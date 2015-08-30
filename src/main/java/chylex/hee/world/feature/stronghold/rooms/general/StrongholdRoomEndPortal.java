@@ -62,14 +62,14 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 			
 			// stairs around portal
 			mpos.move(facing,1);
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x-perX*2,y,mpos.z-perZ*2,mpos.x+perX*2,y,mpos.z+perZ*2);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),false)),mpos.x+leftX*3,y,mpos.z+leftZ*3);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),false)),mpos.x+rightX*3,y,mpos.z+rightZ*3);
+			placeLine(world,rand,placeStoneBrickStairs(facing,false),mpos.x-perX*2,y,mpos.z-perZ*2,mpos.x+perX*2,y,mpos.z+perZ*2);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateLeft(),false),mpos.x+leftX*3,y,mpos.z+leftZ*3);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateRight(),false),mpos.x+rightX*3,y,mpos.z+rightZ*3);
 			mpos.move(facing,-1);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x-perX*3,y,mpos.z-perZ*3);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x+perX*3,y,mpos.z+perZ*3);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateLeft(),false)),mpos.x+leftX*4,y,mpos.z+leftZ*4);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),false)),mpos.x+rightX*4,y,mpos.z+rightZ*4);
+			placeBlock(world,rand,placeStoneBrickStairs(facing,false),mpos.x-perX*3,y,mpos.z-perZ*3);
+			placeBlock(world,rand,placeStoneBrickStairs(facing,false),mpos.x+perX*3,y,mpos.z+perZ*3);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateLeft(),false),mpos.x+leftX*4,y,mpos.z+leftZ*4);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateRight(),false),mpos.x+rightX*4,y,mpos.z+rightZ*4);
 		}
 		
 		// second floor

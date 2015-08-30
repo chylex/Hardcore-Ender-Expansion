@@ -75,7 +75,7 @@ public class StrongholdStairsVertical extends StrongholdPiece{
 		
 		for(int index = 0; index <= maxY-5; index++){
 			pos.move(towards);
-			placeBlock(world,rand,useStairs ? IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(towards,false)) : IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickBottom),pos.x,pos.y,pos.z);
+			placeBlock(world,rand,useStairs ? placeStoneBrickStairs(towards,false) : IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickBottom),pos.x,pos.y,pos.z);
 			pos.move(towards);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),pos.x,pos.y,pos.z);
 			towards = towards.rotateRight();

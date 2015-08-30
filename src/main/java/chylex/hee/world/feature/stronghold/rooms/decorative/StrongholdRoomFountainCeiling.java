@@ -39,9 +39,9 @@ public class StrongholdRoomFountainCeiling extends StrongholdRoom{
 		for(int block = 0; block < 4; block++){
 			facing = facing.rotateRight();
 			mpos.move(facing);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),true)),mpos.x,y+maxY-2,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateRight(),true),mpos.x,y+maxY-2,mpos.z);
 			mpos.move(facing);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),true)),mpos.x,y+maxY-2,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateRight(),true),mpos.x,y+maxY-2,mpos.z);
 		}
 		
 		// corner walls

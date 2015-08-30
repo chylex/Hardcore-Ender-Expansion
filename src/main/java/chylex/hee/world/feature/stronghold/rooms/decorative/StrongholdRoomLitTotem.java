@@ -32,13 +32,13 @@ public class StrongholdRoomLitTotem extends StrongholdRoom{
 			Facing4 left = facing.rotateLeft(), right = facing.rotateRight();
 			
 			mpos.set(centerX,0,centerZ).move(facing,2);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),false)),mpos.x,y,mpos.z);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(left,false)),mpos.x+left.getX(),y,mpos.z+left.getZ());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(right,false)),mpos.x+right.getX(),y,mpos.z+right.getZ());
+			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),false),mpos.x,y,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(left,false),mpos.x+left.getX(),y,mpos.z+left.getZ());
+			placeBlock(world,rand,placeStoneBrickStairs(right,false),mpos.x+right.getX(),y,mpos.z+right.getZ());
 			
 			mpos.move(facing);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(left,false)),mpos.x+left.getX(),y,mpos.z+left.getZ());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(right,false)),mpos.x+right.getX(),y,mpos.z+right.getZ());
+			placeBlock(world,rand,placeStoneBrickStairs(left,false),mpos.x+left.getX(),y,mpos.z+left.getZ());
+			placeBlock(world,rand,placeStoneBrickStairs(right,false),mpos.x+right.getX(),y,mpos.z+right.getZ());
 		}
 		
 		// totem

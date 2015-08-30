@@ -30,9 +30,9 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 		
 		// wooden supports
 		facing = rand.nextBoolean() ? Facing4.NORTH_NEGZ : Facing4.WEST_NEGX;
-		placeLine(world,rand,IBlockPicker.basic(Meta.getLog(LogType.DARK_OAK,facing)),centerX+4*facing.getX(),y+maxY-1,centerZ+4*facing.getZ(),centerX-4*facing.getX(),y+maxY-1,centerZ-4*facing.getZ());
+		placeLine(world,rand,Meta.getLog(LogType.DARK_OAK,facing),centerX+4*facing.getX(),y+maxY-1,centerZ+4*facing.getZ(),centerX-4*facing.getX(),y+maxY-1,centerZ-4*facing.getZ());
 		facing = facing.perpendicular();
-		placeLine(world,rand,IBlockPicker.basic(Meta.getLog(LogType.DARK_OAK,facing)),centerX+4*facing.getX(),y+maxY-2,centerZ+4*facing.getZ(),centerX-4*facing.getX(),y+maxY-2,centerZ-4*facing.getZ());
+		placeLine(world,rand,Meta.getLog(LogType.DARK_OAK,facing),centerX+4*facing.getX(),y+maxY-2,centerZ+4*facing.getZ(),centerX-4*facing.getX(),y+maxY-2,centerZ-4*facing.getZ());
 		
 		// floor pattern
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,3,true,false);

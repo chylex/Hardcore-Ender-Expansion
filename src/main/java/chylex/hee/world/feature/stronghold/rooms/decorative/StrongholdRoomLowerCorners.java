@@ -41,10 +41,10 @@ public class StrongholdRoomLowerCorners extends StrongholdRoom{
 		for(Facing4 facing:Facing4.list){
 			mpos.set(centerX,0,centerZ).move(facing,3).move(facing = facing.rotateRight());
 			facing = facing.rotateRight();
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),true)),mpos.x,topY,mpos.z,mpos.x+2*facing.getX(),topY,mpos.z+2*facing.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(facing.rotateRight(),true),mpos.x,topY,mpos.z,mpos.x+2*facing.getX(),topY,mpos.z+2*facing.getZ());
 			
 			mpos.move(facing,2).move(facing = facing.rotateLeft());
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.rotateRight(),true)),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(facing.rotateRight(),true),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
 		}
 	}
 }

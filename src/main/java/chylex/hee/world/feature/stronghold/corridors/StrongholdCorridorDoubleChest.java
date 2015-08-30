@@ -66,8 +66,8 @@ public class StrongholdCorridorDoubleChest extends StrongholdCorridorEmbedded{
 		// pattern
 		switch(variation){
 			case 0:
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(dir,true)),x+left.getX(),y+1,z+left.getZ());
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(dir,true)),x+right.getX(),y+1,z+right.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(dir,true),x+left.getX(),y+1,z+left.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(dir,true),x+right.getX(),y+1,z+right.getZ());
 				placeLine(world,rand,placeStoneBrickPlain,x,y+1,z,x,y+3,z);
 				break;
 				

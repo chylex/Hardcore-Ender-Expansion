@@ -59,16 +59,16 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 			// stairs
 			point1 = Pos.at(mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom).move(sideFacing));
 			point2 = Pos.at(mpos.move(entranceFrom,3));
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,true)),point1.getX(),y+4,point1.getZ(),point2.getX(),y+4,point2.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(sideFacing,true),point1.getX(),y+4,point1.getZ(),point2.getX(),y+4,point2.getZ());
 			
 			point1 = Pos.at(mpos.move(sideFacing));
 			point2 = Pos.at(mpos.set(point1).move(sideFacing,2));
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom.opposite(),true)),point1.getX(),y+4,point1.getZ(),point2.getX(),y+4,point2.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(entranceFrom.opposite(),true),point1.getX(),y+4,point1.getZ(),point2.getX(),y+4,point2.getZ());
 		}
 		
 		// top stairs
 		mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,16);
-		placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom,true)),mpos.x+4*left.getX(),y+maxY-1,mpos.z+4*left.getZ(),mpos.x+4*right.getX(),y+maxY-1,mpos.z+4*right.getZ());
+		placeLine(world,rand,placeStoneBrickStairs(entranceFrom,true),mpos.x+4*left.getX(),y+maxY-1,mpos.z+4*left.getZ(),mpos.x+4*right.getX(),y+maxY-1,mpos.z+4*right.getZ());
 		
 		mpos.move(entranceFrom.opposite());
 		
@@ -76,7 +76,7 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 			Facing4 sideFacing = side == 0 ? left : right;
 			Pos point = Pos.at(mpos).offset(sideFacing,4);
 			
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,true)),point.getX(),y+maxY-1,point.getZ(),point.getX()-10*entranceFrom.getX(),y+maxY-1,point.getZ()-10*entranceFrom.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(sideFacing,true),point.getX(),y+maxY-1,point.getZ(),point.getX()-10*entranceFrom.getX(),y+maxY-1,point.getZ()-10*entranceFrom.getZ());
 		}
 		
 		// redstone blood
@@ -108,11 +108,11 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 		
 		// chest area
 		mpos.move(entranceFrom.opposite(),2);
-		placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom,false)),mpos.x+2*left.getX(),y+1,mpos.z+2*left.getZ(),mpos.x+2*right.getX(),y+1,mpos.z+2*right.getZ());
+		placeLine(world,rand,placeStoneBrickStairs(entranceFrom,false),mpos.x+2*left.getX(),y+1,mpos.z+2*left.getZ(),mpos.x+2*right.getX(),y+1,mpos.z+2*right.getZ());
 		mpos.move(entranceFrom);
 		placeLine(world,rand,placeStoneBrickPlain,mpos.x+2*left.getX(),y+1,mpos.z+2*left.getZ(),mpos.x+2*right.getX(),y+1,mpos.z+2*right.getZ());
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(right,false)),mpos.x+2*left.getX(),y+1,mpos.z+2*left.getZ());
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(left,false)),mpos.x+2*right.getX(),y+1,mpos.z+2*right.getZ());
+		placeBlock(world,rand,placeStoneBrickStairs(right,false),mpos.x+2*left.getX(),y+1,mpos.z+2*left.getZ());
+		placeBlock(world,rand,placeStoneBrickStairs(left,false),mpos.x+2*right.getX(),y+1,mpos.z+2*right.getZ());
 		
 		point1 = Pos.at(mpos).offset(rand.nextBoolean() ? left : right);
 		point2 = Pos.at(mpos).offset(entranceFrom.opposite(),3);

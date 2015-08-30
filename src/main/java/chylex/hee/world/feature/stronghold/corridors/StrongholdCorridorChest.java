@@ -65,26 +65,26 @@ public class StrongholdCorridorChest extends StrongholdCorridorEmbedded{
 		switch(variation){
 			case 0:
 				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),x,y+1,z);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(left,true)),x+left.getX(),y+1,z+left.getZ());
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(right,true)),x+right.getX(),y+1,z+right.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(left,true),x+left.getX(),y+1,z+left.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(right,true),x+right.getX(),y+1,z+right.getZ());
 				break;
 				
 			case 1:
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(dir,true)),x,y+1,z);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(right,false)),x+left.getX(),y+1,z+left.getZ());
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(left,false)),x+right.getX(),y+1,z+right.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(dir,true),x,y+1,z);
+				placeBlock(world,rand,placeStoneBrickStairs(right,false),x+left.getX(),y+1,z+left.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(left,false),x+right.getX(),y+1,z+right.getZ());
 				break;
 				
 			case 2:
 				placeBlock(world,rand,placeStoneBrickPlain,x,y+1,z);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(right,false)),x+left.getX(),y+1,z+left.getZ());
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(left,false)),x+right.getX(),y+1,z+right.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(right,false),x+left.getX(),y+1,z+left.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(left,false),x+right.getX(),y+1,z+right.getZ());
 				break;
 				
 			case 3:
 				placeBlock(world,rand,placeStoneBrickPlain,x,y+1,z);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(dir,true)),x+left.getX(),y+1,z+left.getZ());
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(dir,true)),x+right.getX(),y+1,z+right.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(dir,true),x+left.getX(),y+1,z+left.getZ());
+				placeBlock(world,rand,placeStoneBrickStairs(dir,true),x+right.getX(),y+1,z+right.getZ());
 				break;
 				
 			case 4:
