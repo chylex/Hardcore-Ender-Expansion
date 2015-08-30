@@ -1,4 +1,4 @@
-package chylex.hee.world.feature.stronghold.rooms;
+package chylex.hee.world.feature.stronghold.rooms.general;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.abstractions.BlockInfo;
