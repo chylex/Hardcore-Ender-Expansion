@@ -42,8 +42,8 @@ public abstract class StrongholdRoom extends StrongholdPiece{
 			if (!inst.isConnectionFree(connection)){
 				int perX = connection.facing.perpendicular().getX(), perZ = connection.facing.perpendicular().getZ();
 				
-				mpos.set(x+connection.offsetX,y+connection.offsetY+1,z+connection.offsetZ);
-				placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ);
+				mpos.set(x+connection.offsetX,y+connection.offsetY,z+connection.offsetZ);
+				placeCube(world,rand,placeAir,mpos.x-perX,mpos.y+1,mpos.z-perZ,mpos.x+perX,mpos.y+3,mpos.z+perZ);
 			}
 		}
 	}
