@@ -29,14 +29,10 @@ import chylex.hee.world.feature.stronghold.doors.StrongholdDoorGrates;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorSmall;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorTorches;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorWooden;
-import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomFountain;
-import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLargeIntersection;
-import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitCorners;
-import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitPole;
-import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitTotem;
-import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomSmallIntersection;
+import chylex.hee.world.feature.stronghold.rooms.decorative.*;
 import chylex.hee.world.feature.stronghold.rooms.general.StrongholdRoomEndPortal;
 import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicDungeon;
+import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicFountains;
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomLargeIntersectionTrap;
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomPrisonTrap;
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomSilverfishTrap;
@@ -82,23 +78,24 @@ public class WorldGenStronghold implements IWorldGenerator{
 				stronghold.addPieces(4,new Range(0,50),StrongholdCorridorIntersection.generateThreeWay());
 				stronghold.addPieces(3,new Range(0,50),StrongholdCorridorIntersection.generateFourWay());
 				
+				stronghold.addPieces(4,new Range(0,15),StrongholdStairsStraight.generateStairs());
+				stronghold.addPieces(3,new Range(0,10),StrongholdStairsVertical.generateStairs(1));
+				stronghold.addPieces(1,new Range(0,5),StrongholdStairsVertical.generateStairs(2));
+				
 				stronghold.addPieces(2,new Range(0,20),StrongholdDoorSmall.generateDoors());
 				stronghold.addPieces(2,new Range(0,20),StrongholdDoorWooden.generateDoors());
 				stronghold.addPieces(2,new Range(0,20),StrongholdDoorGrates.generateDoors());
 				stronghold.addPieces(2,new Range(0,20),StrongholdDoorTorches.generateDoors());
 				
-				stronghold.addPieces(4,new Range(0,15),StrongholdStairsStraight.generateStairs());
-				stronghold.addPieces(3,new Range(0,10),StrongholdStairsVertical.generateStairs(1));
-				stronghold.addPieces(1,new Range(0,5),StrongholdStairsVertical.generateStairs(2));
-				
 				stronghold.addPieces(1,new Range(0,15),StrongholdCorridorChest.generateCorridors());
 				stronghold.addPieces(1,new Range(0,6),StrongholdCorridorDoubleChest.generateCorridors());
+
+				stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicDungeon.generateRelicRooms());
+				stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicFountains.generateRelicRooms());
 				
 				stronghold.addPiece(3,new Range(0,3),new StrongholdRoomSilverfishTrap());
 				stronghold.addPiece(3,new Range(0,3),new StrongholdRoomLargeIntersectionTrap());
 				stronghold.addPieces(3,new Range(0,4),StrongholdRoomPrisonTrap.generatePrisons());
-				
-				stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicDungeon.generateRelicRooms());
 				
 				stronghold.addPiece(5,new Range(0,6),new StrongholdRoomFountain());
 				stronghold.addPiece(4,new Range(0,8),new StrongholdRoomLargeIntersection());
@@ -111,28 +108,42 @@ public class WorldGenStronghold implements IWorldGenerator{
 			}
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
-				/*pieces.add(new StrongholdRoomEndPortal());
-				pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
+				
+				pieces.add(new StrongholdRoomEndPortal());
+				
+				/*pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
 				pieces.addAll(StrongholdCorridorIntersection.generateCorners());
 				pieces.addAll(StrongholdCorridorIntersection.generateThreeWay());
 				pieces.addAll(StrongholdCorridorIntersection.generateFourWay());
-				pieces.addAll(StrongholdDoorSmall.generateDoors());
-				pieces.addAll(StrongholdDoorWooden.generateDoors());
-				pieces.addAll(StrongholdDoorGrates.generateDoors());
-				pieces.addAll(StrongholdDoorTorches.generateDoors());
 				pieces.addAll(StrongholdStairsStraight.generateStairs());
 				pieces.addAll(StrongholdStairsVertical.generateStairs(1));
+				
+				pieces.addAll(StrongholdDoorGrates.generateDoors());
+				pieces.addAll(StrongholdDoorSmall.generateDoors());
+				pieces.addAll(StrongholdDoorTorches.generateDoors());
+				pieces.addAll(StrongholdDoorWooden.generateDoors());
+				
 				pieces.addAll(StrongholdCorridorChest.generateCorridors());
 				pieces.addAll(StrongholdCorridorDoubleChest.generateCorridors());
-				pieces.add(new StrongholdRoomSilverfishTrap());
-				pieces.add(new StrongholdRoomLargeIntersection());
+				
+				pieces.addAll(StrongholdRoomRelicDungeon.generateRelicRooms());
+				pieces.addAll(StrongholdRoomRelicFountains.generateRelicRooms());
+				
 				pieces.add(new StrongholdRoomLargeIntersectionTrap());
 				pieces.addAll(StrongholdRoomPrisonTrap.generatePrisons());
-				pieces.add(new StrongholdRoomFountain());
-				pieces.addAll(StrongholdRoomLitCorners.generateColors());
+				pieces.add(new StrongholdRoomSilverfishTrap());*/
+				
+				pieces.add(new StrongholdRoomArches());
+				//pieces.add(new StrongholdRoomFountain());
+				//pieces.add(new StrongholdRoomFountainCeiling());
+				pieces.add(new StrongholdRoomHugeIntersection());
+				pieces.add(new StrongholdRoomLargeIntersection());
+				//pieces.addAll(StrongholdRoomLitCorners.generateColors());
+				pieces.add(new StrongholdRoomLitPole());
 				pieces.add(new StrongholdRoomLitTotem());
-				pieces.add(new StrongholdRoomSmallIntersection());*/
-				pieces.addAll(StrongholdRoomRelicDungeon.generateRelicRooms());
+				pieces.add(new StrongholdRoomLowerCorners());
+				//pieces.add(new StrongholdRoomSmallIntersection());
+				pieces.add(new StrongholdRoomStairSnake());
 				
 				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+2).sum();
 				

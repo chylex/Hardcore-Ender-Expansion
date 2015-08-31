@@ -59,12 +59,13 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 			mpos.move(facing).move(facing = facing.rotateLeft());
 			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
 			
-			mpos.move(facing).move(facing.rotateRight());
+			mpos.move(facing).move(facing = facing.rotateRight());
 			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+2*facing.getX(),topY,mpos.z+2*facing.getZ());
 		}
 		
 		// ceiling lower stair layer
 		topY = y+maxY-2;
+		
 		for(Facing4 facing:Facing4.list){
 			mpos.set(centerX,0,centerZ).move(facing,5).move(facing = facing.rotateRight(),4);
 			facing = facing.rotateRight();
@@ -134,15 +135,16 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		
 		// bottom decoration
 		for(int block = 0; block < 3; block++){
-			mpos.move(facing = facing.rotateRight());
+			mpos.move(block < 2 ? facing : (facing = facing.rotateRight()));
 			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),mpos.x,y+2,mpos.z);
+			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z);
 		}
 		
 		mpos.move(facing = facing.rotateRight()).move(facing = facing.rotateRight(),2);
-		facing = facing.rotateRight();
-		placeLine(world,rand,placeStoneBrickStairs(facing.opposite(),false),mpos.x,y+1,mpos.z,mpos.x+2*facing.getX(),y+1,mpos.z+2*facing.getZ());
+		facing = facing.rotateRight(); // TODO test
+		placeLine(world,rand,placeStoneBrickStairs(facing.rotateRight(),false),mpos.x,y+1,mpos.z,mpos.x+2*facing.getX(),y+1,mpos.z+2*facing.getZ());
 		
 		mpos.move(facing,2).move(facing = facing.rotateRight());
-		placeLine(world,rand,placeStoneBrickStairs(facing.opposite(),false),mpos.x,y+1,mpos.z,mpos.x+facing.getX(),y+1,mpos.z+facing.getZ());
+		placeLine(world,rand,placeStoneBrickStairs(facing.rotateRight(),false),mpos.x,y+1,mpos.z,mpos.x+facing.getX(),y+1,mpos.z+facing.getZ());
 	}
 }

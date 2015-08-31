@@ -12,7 +12,7 @@ import chylex.hee.world.structure.util.Size;
 
 public class StrongholdRoomLowerCorners extends StrongholdRoom{
 	public StrongholdRoomLowerCorners(){
-		super(new Size(9,7,9));
+		super(new Size(9,8,9));
 	}
 	
 	@Override

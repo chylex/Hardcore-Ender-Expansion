@@ -49,6 +49,7 @@ public class StrongholdRoomArches extends StrongholdRoom{
 			mpos.move(facing);
 			placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z,mpos.x,y+maxY-1,mpos.z); // right half arch pillar
 			
+			mpos.move(facing.rotateRight());
 			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,y+maxY-1,mpos.z); // connection stair
 			mpos.move(facing.rotateRight());
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),mpos.x,y+maxY-1,mpos.z); // connection slab
@@ -57,9 +58,11 @@ public class StrongholdRoomArches extends StrongholdRoom{
 		}
 		
 		// cobble walls
+		int wallMeta = rand.nextInt(7) == 0 ? Meta.cobbleWallMossy : Meta.cobbleWallNormal;
+		
 		for(int cornerX = 0; cornerX < 2; cornerX++){
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.cobblestone_wall,Meta.cobbleWallNormal),x+3+4*cornerX,y+1,z+3+4*cornerZ);
+				placeBlock(world,rand,IBlockPicker.basic(Blocks.cobblestone_wall,wallMeta),x+3+4*cornerX,y+1,z+3+4*cornerZ);
 				placeBlock(world,rand,IBlockPicker.basic(Blocks.torch,Meta.torchGround),x+3+4*cornerX,y+2,z+3+4*cornerZ);
 			}
 		}
