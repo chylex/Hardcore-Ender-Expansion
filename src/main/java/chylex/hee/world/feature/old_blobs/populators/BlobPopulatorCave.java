@@ -1,13 +1,5 @@
-package chylex.hee.world.feature.blobs.populators;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.Vec3;
-import chylex.hee.system.util.DragonUtil;
-import chylex.hee.world.feature.blobs.BlobGenerator;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+package chylex.hee.world.feature.old_blobs.populators;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorCave extends BlobPopulator{
@@ -70,7 +62,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 		return this;
 	}
 
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		tmpCavesLeft = totalAmountGen.generate(rand,minTotalCaveAmountLimit,maxTotalCaveAmountLimit);
 		tmpRecursionChance = minRecursionChance+rand.nextDouble()*(maxRecursionChance-minRecursionChance);
@@ -140,5 +132,5 @@ public class BlobPopulatorCave extends BlobPopulator{
 		}
 		
 		return generatedSomething;
-	}
+	}*/
 }

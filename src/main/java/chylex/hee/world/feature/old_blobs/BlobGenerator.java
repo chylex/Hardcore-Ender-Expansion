@@ -1,13 +1,5 @@
-package chylex.hee.world.feature.blobs;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
+package chylex.hee.world.feature.old_blobs;
 import chylex.hee.system.collections.weight.IWeightProvider;
-import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.system.util.BlockPosM;
 
 public abstract class BlobGenerator implements IWeightProvider{
 	private final int weight;
@@ -21,19 +13,19 @@ public abstract class BlobGenerator implements IWeightProvider{
 		return weight;
 	}
 	
-	public abstract void generate(DecoratorFeatureGenerator gen, Random rand);
+	//public abstract void generate(DecoratorFeatureGenerator gen, Random rand);
 	
 	/**
 	 * Returns true if at least one block has changed.
 	 */
-	public static final boolean genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad){
+	/*public static final boolean genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad){
 		return genBlob(gen,x,y,z,rad,Blocks.end_stone);
-	}
+	}*/
 	
 	/**
 	 * Returns true if at least one block has changed.
 	 */
-	public static final boolean genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad, Block block){
+	/*public static final boolean genBlob(DecoratorFeatureGenerator gen, double x, double y, double z, double rad, Block block){
 		boolean generatedSomething = false;
 		double radSq = MathUtil.square(rad+0.5D);
 		int size = MathUtil.ceil(rad), ix = MathUtil.floor(x), iy = MathUtil.floor(y), iz = MathUtil.floor(z);
@@ -53,5 +45,5 @@ public abstract class BlobGenerator implements IWeightProvider{
 		}
 		
 		return generatedSomething;
-	}
+	}*/
 }

@@ -1,8 +1,6 @@
-package chylex.hee.world.feature.blobs.populators;
-import java.util.Random;
+package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
 
 public class BlobPopulatorCover extends BlobPopulator{
 	private Block cover;
@@ -22,7 +20,7 @@ public class BlobPopulatorCover extends BlobPopulator{
 		return this;
 	}
 
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		for(int x = -16; x < 16; x++){
 			for(int z = -16; z < 16; z++){
@@ -30,5 +28,5 @@ public class BlobPopulatorCover extends BlobPopulator{
 				if (y != Integer.MIN_VALUE)gen.setBlock(x,replaceTopBlock ? y : y+1,z,cover);
 			}
 		}
-	}
+	}*/
 }

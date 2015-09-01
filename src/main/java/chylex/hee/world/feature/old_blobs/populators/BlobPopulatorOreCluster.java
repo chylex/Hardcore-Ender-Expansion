@@ -1,10 +1,6 @@
-package chylex.hee.world.feature.blobs.populators;
-import java.util.Random;
+package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorOreCluster extends BlobPopulator{
@@ -41,7 +37,7 @@ public class BlobPopulatorOreCluster extends BlobPopulator{
 		return this;
 	}
 
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		for(int iteration = 0, iterations = iterationAmountGen.generate(rand,minIterationAmount,maxIterationAmount); iteration < iterations; iteration++){
 			boolean succeeded = false;
@@ -101,5 +97,5 @@ public class BlobPopulatorOreCluster extends BlobPopulator{
 				if (succeeded)break;
 			}
 		}
-	}
+	}*/
 }

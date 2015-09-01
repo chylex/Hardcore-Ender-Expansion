@@ -1,19 +1,12 @@
-package chylex.hee.world.feature.blobs.populators;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.init.Blocks;
-import chylex.hee.world.util.Direction;
-import chylex.hee.init.BlockList;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.system.util.BlockPosM;
+package chylex.hee.world.feature.old_blobs.populators;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
 
 public class BlobPopulatorTransportBeacon extends BlobPopulator{
 	public BlobPopulatorTransportBeacon(int weight){
 		super(weight);
 	}
 
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		List<BlockPosM> locs = gen.getUsedLocations();
 		BlockPosM top = null;
@@ -35,5 +28,5 @@ public class BlobPopulatorTransportBeacon extends BlobPopulator{
 		}
 		
 		if (top != null)gen.setBlock(top.x,top.y,top.z,BlockList.transport_beacon);
-	}
+	}*/
 }

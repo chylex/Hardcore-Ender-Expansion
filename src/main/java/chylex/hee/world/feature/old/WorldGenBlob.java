@@ -1,24 +1,24 @@
 package chylex.hee.world.feature.old;
 import java.util.Random;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.feature.blobs.BlobGenerator;
-import chylex.hee.world.feature.blobs.BlobPattern;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.blobs.generators.BlobGeneratorChain;
-import chylex.hee.world.feature.blobs.generators.BlobGeneratorFromCenter;
-import chylex.hee.world.feature.blobs.generators.BlobGeneratorRecursive;
-import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
-import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingleCut;
-import chylex.hee.world.feature.blobs.populators.*;
+import chylex.hee.world.feature.old_blobs.BlobGenerator;
+import chylex.hee.world.feature.old_blobs.BlobPattern;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
+import chylex.hee.world.feature.old_blobs.generators.BlobGeneratorChain;
+import chylex.hee.world.feature.old_blobs.generators.BlobGeneratorFromCenter;
+import chylex.hee.world.feature.old_blobs.generators.BlobGeneratorRecursive;
+import chylex.hee.world.feature.old_blobs.generators.BlobGeneratorSingle;
+import chylex.hee.world.feature.old_blobs.generators.BlobGeneratorSingleCut;
+import chylex.hee.world.feature.old_blobs.populators.*;
 import chylex.hee.world.util.IRandomAmount;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenBlob extends WorldGenerator{
 	private enum BlobType{

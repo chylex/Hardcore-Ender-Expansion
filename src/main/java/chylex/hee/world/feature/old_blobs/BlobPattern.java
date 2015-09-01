@@ -1,4 +1,4 @@
-package chylex.hee.world.feature.blobs;
+package chylex.hee.world.feature.old_blobs;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

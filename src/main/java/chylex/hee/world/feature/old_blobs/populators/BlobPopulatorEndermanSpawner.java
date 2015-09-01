@@ -1,35 +1,23 @@
-package chylex.hee.world.feature.blobs.populators;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+package chylex.hee.world.feature.old_blobs.populators;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
 import chylex.hee.world.util.IRandomAmount;
 
-public class BlobPopulatorOreScattered extends BlobPopulator{
-	private Block ore;
+public class BlobPopulatorEndermanSpawner extends BlobPopulator{
 	private IRandomAmount blockAmountGen = IRandomAmount.exact;
 	private byte minAttempts, maxAttempts, minBlockAmount, maxBlockAmount, visiblePlacementAttempts;
 	private boolean knownBlockLocations;
 	
-	public BlobPopulatorOreScattered(int weight){
+	public BlobPopulatorEndermanSpawner(int weight){
 		super(weight);
 	}
 	
-	public BlobPopulatorOreScattered block(Block ore){
-		this.ore = ore;
-		return this;
-	}
-	
-	public BlobPopulatorOreScattered attempts(int minAttempts, int maxAttempts){
+	public BlobPopulatorEndermanSpawner attempts(int minAttempts, int maxAttempts){
 		this.minAttempts = (byte)minAttempts;
 		this.maxAttempts = (byte)maxAttempts;
 		return this;
 	}
 	
-	public BlobPopulatorOreScattered blockAmount(IRandomAmount blockAmountGen, int minBlockAmount, int maxBlockAmount){
+	public BlobPopulatorEndermanSpawner blockAmount(IRandomAmount blockAmountGen, int minBlockAmount, int maxBlockAmount){
 		this.blockAmountGen = blockAmountGen;
 		this.minBlockAmount = (byte)minBlockAmount;
 		this.maxBlockAmount = (byte)maxBlockAmount;
@@ -39,7 +27,7 @@ public class BlobPopulatorOreScattered extends BlobPopulator{
 	/**
 	 * Amount of attempts per block to find a spot adjacent to air. After the attempts run out, it will choose the first location found.
 	 */
-	public BlobPopulatorOreScattered visiblePlacementAttempts(int visiblePlacementAttempts){
+	public BlobPopulatorEndermanSpawner visiblePlacementAttempts(int visiblePlacementAttempts){
 		this.visiblePlacementAttempts = (byte)visiblePlacementAttempts;
 		return this;
 	}
@@ -47,12 +35,12 @@ public class BlobPopulatorOreScattered extends BlobPopulator{
 	/**
 	 * Populator will know all generated blocks and use those to place ores, attempt amount will still have an effect in cases when the random block is not End Stone.
 	 */
-	public BlobPopulatorOreScattered knownBlockLocations(){
+	public BlobPopulatorEndermanSpawner knownBlockLocations(){
 		this.knownBlockLocations = true;
 		return this;
 	}
 
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		int blocks = blockAmountGen.generate(rand,minBlockAmount,maxBlockAmount);
 		List<BlockPosM> locs = knownBlockLocations ? gen.getUsedLocations() : null;
@@ -92,7 +80,7 @@ public class BlobPopulatorOreScattered extends BlobPopulator{
 					}
 				}
 				
-				gen.setBlock(x,y,z,ore);
+				gen.setBlock(x,y,z,BlockList.custom_spawner,4);
 				--blocks;
 			}
 		}
@@ -102,5 +90,5 @@ public class BlobPopulatorOreScattered extends BlobPopulator{
 		return gen.getBlock(x-1,y,z) == Blocks.air || gen.getBlock(x+1,y,z) == Blocks.air ||
 			   gen.getBlock(x,y-1,z) == Blocks.air || gen.getBlock(x,y+1,z) == Blocks.air ||
 			   gen.getBlock(x,y,z-1) == Blocks.air || gen.getBlock(x,y,z+1) == Blocks.air;
-	}
+	}*/
 }

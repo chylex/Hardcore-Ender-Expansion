@@ -1,10 +1,6 @@
-package chylex.hee.world.feature.blobs.populators;
-import java.util.Random;
+package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
 
 public class BlobPopulatorLake extends BlobPopulator{
 	private Block liquid;
@@ -25,7 +21,7 @@ public class BlobPopulatorLake extends BlobPopulator{
 		return this;
 	}
 
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		for(int attempt = 0, placed = 0, x, y, z; attempt < 90 && placed < 4; attempt++){
 			x = rand.nextInt(32)-16;
@@ -50,5 +46,5 @@ public class BlobPopulatorLake extends BlobPopulator{
 				++placed;
 			}
 		}
-	}
+	}*/
 }

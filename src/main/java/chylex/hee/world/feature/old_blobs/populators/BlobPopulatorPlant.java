@@ -1,11 +1,6 @@
-package chylex.hee.world.feature.blobs.populators;
-import java.util.List;
-import java.util.Random;
+package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorPlant extends BlobPopulator{
@@ -44,7 +39,7 @@ public class BlobPopulatorPlant extends BlobPopulator{
 		return this;
 	}
 
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		int blocks = amountGen.generate(rand,minPlantAmount,maxPlantAmount);
 		List<BlockPosM> locs = knownBlockLocations ? gen.getUsedLocations() : null;
@@ -69,5 +64,5 @@ public class BlobPopulatorPlant extends BlobPopulator{
 				--blocks;
 			}
 		}
-	}
+	}*/
 }

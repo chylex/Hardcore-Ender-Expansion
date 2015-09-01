@@ -1,7 +1,5 @@
-package chylex.hee.world.feature.blobs.generators;
-import java.util.Random;
-import chylex.hee.world.feature.blobs.BlobGenerator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+package chylex.hee.world.feature.old_blobs.generators;
+import chylex.hee.world.feature.old_blobs.BlobGenerator;
 
 public class BlobGeneratorSingle extends BlobGenerator{
 	protected double minRad, maxRad;
@@ -16,8 +14,8 @@ public class BlobGeneratorSingle extends BlobGenerator{
 		return this;
 	}
 	
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		genBlob(gen,0D,0D,0D,minRad+rand.nextDouble()*(maxRad-minRad));
-	}
+	}*/
 }

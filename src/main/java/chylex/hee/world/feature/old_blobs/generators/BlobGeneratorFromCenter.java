@@ -1,9 +1,5 @@
-package chylex.hee.world.feature.blobs.generators;
-import java.util.Random;
-import net.minecraft.util.Vec3;
-import chylex.hee.system.util.DragonUtil;
-import chylex.hee.world.feature.blobs.BlobGenerator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+package chylex.hee.world.feature.old_blobs.generators;
+import chylex.hee.world.feature.old_blobs.BlobGenerator;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobGeneratorFromCenter extends BlobGenerator{
@@ -51,7 +47,7 @@ public class BlobGeneratorFromCenter extends BlobGenerator{
 		return this;
 	}
 	
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		double rad = minRad+rand.nextDouble()*(maxRad-minRad), firstDist = 0D;
 		
@@ -68,5 +64,5 @@ public class BlobGeneratorFromCenter extends BlobGenerator{
 			
 			if (a <= amt-1 && !unifiedSize)rad = minRad+rand.nextDouble()*(maxRad-minRad);
 		}
-	}
+	}*/
 }

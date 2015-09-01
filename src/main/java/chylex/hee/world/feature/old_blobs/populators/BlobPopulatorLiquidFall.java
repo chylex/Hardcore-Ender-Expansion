@@ -1,12 +1,6 @@
-package chylex.hee.world.feature.blobs.populators;
-import java.util.List;
-import java.util.Random;
+package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import chylex.hee.world.util.Direction;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
 import chylex.hee.world.util.IRandomAmount;
 
 public class BlobPopulatorLiquidFall extends BlobPopulator{
@@ -42,7 +36,7 @@ public class BlobPopulatorLiquidFall extends BlobPopulator{
 		return this;
 	}
 
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		List<BlockPosM> blocks = gen.getUsedLocations();
 		if (blocks.isEmpty())return;
@@ -89,5 +83,5 @@ public class BlobPopulatorLiquidFall extends BlobPopulator{
 				else if (block != Blocks.air)break;
 			}
 		}
-	}
+	}*/
 }

@@ -1,17 +1,9 @@
-package chylex.hee.world.feature.blobs.populators;
-import java.util.List;
-import java.util.Random;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.world.feature.blobs.BlobPopulator;
-import chylex.hee.world.feature.util.DecoratorFeatureGenerator;
+package chylex.hee.world.feature.old_blobs.populators;
+import chylex.hee.world.feature.old_blobs.BlobPopulator;
 import chylex.hee.world.loot.WeightedLootTable;
-import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
 import chylex.hee.world.util.IRandomAmount;
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 
-public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGenerator{
+public class BlobPopulatorChest extends BlobPopulator/* implements ITileEntityGenerator*/{
 	private WeightedLootTable loot;
 	private IRandomAmount amountGen = IRandomAmount.exact;
 	private int minAmount, maxAmount;
@@ -37,7 +29,7 @@ public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGene
 		return this;
 	}
 
-	@Override
+	/*@Override
 	public void generate(DecoratorFeatureGenerator gen, Random rand){
 		List<BlockPosM> locs = gen.getUsedLocations();
 		
@@ -61,5 +53,5 @@ public class BlobPopulatorChest extends BlobPopulator implements ITileEntityGene
 		for(int a = 0, amount = amountGen.generate(rand,minAmount,maxAmount); a < amount; a++){
 			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),loot.generateWeighted(null,rand));
 		}
-	}
+	}*/
 }
