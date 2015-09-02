@@ -44,6 +44,7 @@ public final class ItemList{
 	
 	// CRAFTING MATERIALS
 	
+	public static Item ancient_dust;
 	public static Item altar_nexus;
 	public static Item essence;
 	public static Item silverfish_blood;
@@ -103,6 +104,7 @@ public final class ItemList{
 		register("igneous_rock", igneous_rock = new ItemIgneousRock().setUnlocalizedName("igneousRock").setTextureName("hardcoreenderexpansion:igneous_rock"));
 		register("instability_orb", instability_orb = new ItemInstabilityOrb().setUnlocalizedName("instabilityOrb").setTextureName("hardcoreenderexpansion:instability_orb"));
 		
+		register("ancient_dust", ancient_dust = new Item().setUnlocalizedName("ancientDust").setTextureName("hardcoreenderexpansion:ancient_dust"));
 		register("altar_nexus", altar_nexus = new Item().setUnlocalizedName("altarNexus").setTextureName("hardcoreenderexpansion:altar_nexus"));
 		register("essence", essence = new ItemEssence().setUnlocalizedName("essence"));
 		register("silverfish_blood", silverfish_blood = new Item().setUnlocalizedName("silverfishBlood").setTextureName("hardcoreenderexpansion:silverfish_blood"));
@@ -154,7 +156,7 @@ public final class ItemList{
 		}
 		
 		ModCreativeTab.tabMain.list.addItems(
-			ethereum,altar_nexus,essence,enhanced_brewing_stand,
+			ethereum,ancient_dust,altar_nexus,essence,enhanced_brewing_stand,
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			blank_gem,spatial_dash_gem,transference_gem,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,

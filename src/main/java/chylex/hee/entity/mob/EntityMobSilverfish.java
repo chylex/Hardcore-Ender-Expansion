@@ -12,6 +12,7 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
@@ -20,12 +21,25 @@ import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
 import chylex.hee.entity.mob.ai.EntityAIRandomTarget;
 import chylex.hee.entity.mob.ai.EntityAISummonFromBlock;
 import chylex.hee.entity.mob.ai.EntityAIWanderConstantly;
+import chylex.hee.init.ItemList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.damage.Damage;
+import chylex.hee.system.abstractions.damage.DamageUtil;
 import chylex.hee.system.abstractions.damage.IDamageModifier;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.world.loot.PercentageLootTable;
+import chylex.hee.world.loot.info.LootMobInfo;
 
 public class EntityMobSilverfish extends EntitySilverfish{
+	private static final PercentageLootTable drops = new PercentageLootTable();
+	
+	static{
+		drops.addLoot(ItemList.ancient_dust).setChances(obj -> {
+			final boolean critical = DamageUtil.isCriticalHit(((LootMobInfo)obj).entity.func_94060_bK());
+			return critical ? new float[]{ 0.75F, 0.15F } : new float[]{ 0.15F };
+		});
+	}
+	
 	private EntityAISummonFromBlock canSummonSilverfish;
 	private EntityAIHideInBlock canHideInBlocks;
 	
@@ -80,6 +94,11 @@ public class EntityMobSilverfish extends EntitySilverfish{
 	public void onUpdate(){
 		if (worldObj.isRemote)rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,rotationYawHead,30F);
 		super.onUpdate();
+	}
+	
+	@Override
+	protected void dropFewItems(boolean recentlyHit, int looting){
+		for(ItemStack drop:drops.generateLoot(new LootMobInfo(this,recentlyHit,looting),rand))entityDropItem(drop,0F);
 	}
 	
 	@Override
