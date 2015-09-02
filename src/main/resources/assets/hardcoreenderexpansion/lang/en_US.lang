@@ -99,6 +99,7 @@ tile.laboratoryStairs.name=Laboratory Stairs
 tile.laboratoryGlass.name=Laboratory Glass
 tile.sacredStone.name=Sacred Stone
 
+item.ethereum.name=Ethereum
 item.essence.dragon.name=Dragon Essence
 item.essence.dragon.bacon.name=Bacon Essence
 item.essence.fiery.name=Fiery Essence

@@ -40,6 +40,7 @@ public final class ItemList{
 	
 	// BASIC MATERIALS
 	
+	public static Item ethereum;
 	public static Item end_powder;
 	public static Item endium_ingot;
 	public static Item stardust;
@@ -104,6 +105,7 @@ public final class ItemList{
 		register("adventurers_diary", adventurers_diary = new ItemAdventurersDiary().setMaxStackSize(1).setUnlocalizedName("lorePage").setTextureName("hardcoreenderexpansion:lore_page"));
 		register("knowledge_note", knowledge_note = new ItemKnowledgeNote().setMaxStackSize(1).setUnlocalizedName("knowledgeNote").setTextureName("hardcoreenderexpansion:knowledge_fragment"));
 		
+		register("ethereum", ethereum = new Item().setUnlocalizedName("ethereum").setTextureName("hardcoreenderexpansion:ethereum"));
 		register("end_powder", end_powder = new ItemEndPowder().setUnlocalizedName("endPowder").setTextureName("hardcoreenderexpansion:end_powder"));
 		register("endium_ingot", endium_ingot = new Item().setUnlocalizedName("endiumIngot").setTextureName("hardcoreenderexpansion:endium_ingot"));
 		register("stardust", stardust = new Item().setUnlocalizedName("stardust").setTextureName("hardcoreenderexpansion:stardust"));
@@ -162,7 +164,7 @@ public final class ItemList{
 		}
 		
 		ModCreativeTab.tabMain.list.addItems(
-			adventurers_diary,altar_nexus,essence,enhanced_brewing_stand,
+			ethereum,adventurers_diary,altar_nexus,essence,enhanced_brewing_stand,
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			biome_compass,blank_gem,spatial_dash_gem,transference_gem,temple_caller,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,

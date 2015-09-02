@@ -8,6 +8,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
@@ -20,13 +21,20 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 	
 	static{
 		drops.addLoot(Items.ender_pearl).setChances(obj -> {
-			LootMobInfo info = (LootMobInfo)obj;
-			
-			switch(info.looting){
+			switch(((LootMobInfo)obj).looting){
 				case 0: return new float[]{ 0.60F };
 				case 1: return new float[]{ 0.70F };
 				case 2: return new float[]{ 0.65F, 0.10F };
 				default: return new float[]{ 0.72F, 0.16F };
+			}
+		});
+		
+		drops.addLoot(ItemList.ethereum).setChances(obj -> {
+			switch(((LootMobInfo)obj).looting){
+				case 0: return new float[]{ 0.12F };
+				case 1: return new float[]{ 0.16F };
+				case 2: return new float[]{ 0.22F };
+				default: return new float[]{ 0.25F };
 			}
 		});
 	}

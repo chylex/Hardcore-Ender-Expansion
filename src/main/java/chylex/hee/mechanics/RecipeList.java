@@ -4,6 +4,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import chylex.hee.block.BlockGloomrock;
 import chylex.hee.init.BlockList;
+import chylex.hee.init.ItemList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.logging.Stopwatch;
@@ -13,6 +14,14 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public final class RecipeList{
 	public static void addRecipes(){
 		Stopwatch.time("RecipeList - addRecipes");
+		
+		// Ethereum
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.ender_eye),
+			Items.ender_pearl,
+			ItemList.ethereum,
+			Items.gold_nugget
+		);
 		
 		// Stone Bricks
 		
