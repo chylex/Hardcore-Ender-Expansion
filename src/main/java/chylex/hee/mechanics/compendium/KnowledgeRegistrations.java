@@ -1,5 +1,4 @@
 package chylex.hee.mechanics.compendium;
-import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySilverfish;
@@ -42,6 +41,7 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.Loader;
+import gnu.trove.set.hash.TIntHashSet;
 
 public final class KnowledgeRegistrations{
 	public static final KnowledgeObject<? extends IKnowledgeObjectInstance<?>>
@@ -50,7 +50,7 @@ public final class KnowledgeRegistrations{
 		// ===
 		
 		STRONGHOLD = dummy("Stronghold",new ItemStack(Blocks.stonebrick),"ec.title.stronghold"),
-		ADVENTURERS_DIARY = create(ItemList.adventurers_diary),
+		// TODO ADVENTURERS_DIARY = create(ItemList.adventurers_diary),
 		ENDERMAN_HEAD = create(ItemList.enderman_head),
 		MUSIC_DISKS = create(ItemList.music_disk),
 		END_PORTAL = create(Blocks.end_portal_frame,"ec.title.portal"),
@@ -72,7 +72,7 @@ public final class KnowledgeRegistrations{
 		DRAGON_EGG = create(Blocks.dragon_egg),
 		DRAGON_ESSENCE = link(ESSENCE,new ItemStack(ItemList.essence,EssenceType.DRAGON.getItemDamage()),"ec.title.essence"),
 		END_POWDER = create(ItemList.end_powder),
-		TEMPLE_CALLER = create(ItemList.temple_caller),
+		// TODO TEMPLE_CALLER = create(ItemList.temple_caller),
 		ENDER_DRAGON = new KnowledgeObject<ObjectMob>(new ObjectMob(EntityBossDragon.class),new ItemStack(Blocks.dragon_egg),"ec.title.enderDragon"),
 		ANGRY_ENDERMAN = create(EntityMobAngryEnderman.class),
 		VAMPIRE_BAT = create(EntityMobVampiricBat.class),
@@ -109,7 +109,7 @@ public final class KnowledgeRegistrations{
 		VOID_CHEST = create(BlockList.void_chest),
 		SPATIAL_DASH_GEM = create(ItemList.spatial_dash_gem),
 		ENDIUM_INGOT = create(ItemList.endium_ingot),
-		BIOME_COMPASS = create(ItemList.biome_compass),
+		// TODO BIOME_COMPASS = create(ItemList.biome_compass),
 		ENDER_EYE = create(EntityMiniBossEnderEye.class),
 		ANGRY_ENDERMAN_LINKED = new LinkedKnowledgeObject<>(ANGRY_ENDERMAN),
 		
@@ -300,10 +300,10 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(713).setPrice(3).setUnlockRequirements(712)
 			}),
 			
-			ADVENTURERS_DIARY.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			/* TODO ADVENTURERS_DIARY.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(10).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(11).setPrice(2).setUnlockOnDiscovery()
-			}),
+			}),*/
 			
 			ENDERMAN_HEAD.setPos(2,0).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(20).setPrice(2).setUnlockOnDiscovery(),
@@ -378,7 +378,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(113).setPrice(5).setUnlockRequirements(110),
 				new KnowledgeFragmentText(114).setPrice(2).setUnlockRequirements(110),
 				new KnowledgeFragmentItemConversion(115).setItems(new ItemStack(Items.brewing_stand),new ItemStack(ItemList.enhanced_brewing_stand)).setPrice(3).setUnlockRequirements(114).setUnlockCascade(130),
-				new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setNonBuyableRedirect(TEMPLE_CALLER), // 180
+				// TODO new KnowledgeFragmentItemConversion(116).setItems(new ItemStack(Items.ender_eye),new ItemStack(ItemList.temple_caller)).setNonBuyableRedirect(TEMPLE_CALLER), // 180
 				new KnowledgeFragmentItemConversion(117).setItems(new ItemStack(ItemList.ghost_amulet),new ItemStack(ItemList.ghost_amulet,1,1)).setNonBuyableRedirect(GHOST_AMULET), // 463
 			}),
 			
@@ -420,13 +420,13 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(167).setPrice(3).setUnlockCascade(244)
 			}),
 			
-			TEMPLE_CALLER.setPos(2,12).setUnlockPrice(18).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			/* TODO TEMPLE_CALLER.setPos(2,12).setUnlockPrice(18).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(180).setPrice(5).setUnlockCascade(116),
 				new KnowledgeFragmentText(181).setPrice(2),
 				new KnowledgeFragmentText(182).setPrice(8),
 				new KnowledgeFragmentText(183).setPrice(3).setUnlockRequirements(182),
 				new KnowledgeFragmentText(184).setPrice(3).setUnlockRequirements(183)
-			}),
+			}),*/
 			
 			ENDER_DRAGON.setPos(1,3).setUnlockPrice(20).setDiscoveryReward(55).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(190).setPrice(5).setUnlockOnDiscovery(),
@@ -602,15 +602,15 @@ public final class KnowledgeRegistrations{
 			ENDIUM_INGOT.setPos(2,12).setUnlockPrice(30).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(780).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(781).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(780).setUnlockCascade(771),
-				new KnowledgeFragmentCrafting(782).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setNonBuyableRedirect(BIOME_COMPASS) // 303
+				// TODO new KnowledgeFragmentCrafting(782).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setNonBuyableRedirect(BIOME_COMPASS) // 303
 			}),
 			
-			BIOME_COMPASS.setPos(4,13).setUnlockPrice(25).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
+			/* TODO BIOME_COMPASS.setPos(4,13).setUnlockPrice(25).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(300).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(301).setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(300),
 				new KnowledgeFragmentText(302).setPrice(3).setUnlockRequirements(301),
 				new KnowledgeFragmentCrafting(303).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setPrice(8).setUnlockRequirements(300).setUnlockCascade(782)
-			}),
+			}),*/
 			
 			ENDER_EYE.setPos(3,7).setUnlockPrice(20).setDiscoveryReward(32).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(310).setPrice(5).setUnlockOnDiscovery(),

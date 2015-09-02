@@ -4,9 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import thaumcraft.api.ThaumcraftApi.EntityTagsNBT;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockRavagedBrick;
@@ -15,6 +12,9 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.system.integration.IIntegrationHandler;
+import thaumcraft.api.ThaumcraftApi.EntityTagsNBT;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 
 public class ThaumcraftIntegration implements IIntegrationHandler{
 	@Override
@@ -97,8 +97,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(block(BlockList.energy_cluster), meta(0), new AspectList().add(Aspect.ELDRITCH,5).add(Aspect.ENERGY,5).add(Aspect.AURA,2));
 
 		// ITEM APECTS
-
-		registerObjectTag(item(ItemList.adventurers_diary), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15), new AspectList().add(Aspect.MIND,2).add(Aspect.SOUL,1));
+		
 		registerObjectTag(item(ItemList.knowledge_note), meta(0), new AspectList().add(Aspect.MIND,3));
 		
 		registerObjectTag(item(ItemList.altar_nexus), meta(0), new AspectList().add(Aspect.CRYSTAL,8).add(Aspect.MIND,2).add(Aspect.SENSES,4));
@@ -116,7 +115,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(item(ItemList.potion_of_purity), meta(1), new AspectList().add(Aspect.ELDRITCH,3).add(Aspect.ENTROPY,1).add(Aspect.MAGIC,3).add(Aspect.WATER,1));
 		
 		registerObjectTag(new ItemStack(ItemList.transference_gem, 1, OreDictionary.WILDCARD_VALUE), new AspectList().add(Aspect.CRYSTAL,4).add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,2).add(Aspect.TRAVEL,6));
-		registerObjectTag(new ItemStack(ItemList.temple_caller, 1, OreDictionary.WILDCARD_VALUE), new AspectList().add(Aspect.ELDRITCH,6).add(Aspect.MAGIC,5).add(Aspect.MIND,2).add(Aspect.LIGHT,2).add(Aspect.TRAVEL,4));
 		
 		registerObjectTag(item(ItemList.silverfish_blood), meta(0), new AspectList().add(Aspect.BEAST,1).add(Aspect.SOUL,1));
 		registerObjectTag(item(ItemList.dry_splinter), meta(0), new AspectList().add(Aspect.TREE,1));

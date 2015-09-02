@@ -2,6 +2,8 @@ package chylex.hee.system.test.list.ingame;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.common.base.Function;
+import com.google.common.collect.ArrayListMultimap;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -43,8 +45,6 @@ import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
-import com.google.common.base.Function;
-import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -294,7 +294,7 @@ public class BlockTests{
 		// fourth floor - energy - accumulation table
 		
 		ItemStack[] accumulationTable = new ItemStack[]{
-			new ItemStack(ItemList.temple_caller),
+			// TODO new ItemStack(ItemList.temple_caller),
 			new ItemStack(ItemList.spatial_dash_gem,1,ItemList.spatial_dash_gem.getMaxDamage()-1),
 			new ItemStack(ItemList.transference_gem,1,ItemList.transference_gem.getMaxDamage()-1)
 		};
@@ -380,7 +380,7 @@ public class BlockTests{
 			Assert.equal(getEntities(EntityItemAltar.class).get(0).getEntityItem().getItem(),ItemList.enhanced_brewing_stand,"Unexpected altar item, expected $2, got $1.");
 			
 			pos.set(testPos).move(0,1,-3);
-			Assert.equal(getEntities(EntityItemAltar.class).get(0).getEntityItem().getItem(),ItemList.temple_caller,"Unexpected altar item, expected $2, got $1.");
+			// TODO Assert.equal(getEntities(EntityItemAltar.class).get(0).getEntityItem().getItem(),ItemList.temple_caller,"Unexpected altar item, expected $2, got $1.");
 			
 			pos.set(testPos).move(3,1,0);
 			Assert.equal(getEntities(EntityItemAltar.class).get(0).getEntityItem().getItemDamage(),1,"Unexpected altar item damage, expected $2, got $1.");

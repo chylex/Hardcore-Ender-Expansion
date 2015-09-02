@@ -32,7 +32,6 @@ import chylex.hee.tileentity.TileEntityEssenceAltar;
 public class DragonEssenceHandler extends AltarActionHandler{
 	public static final List<AltarItemRecipe> recipes = CollectionUtil.newList(new AltarItemRecipe[]{
 		new AltarItemRecipe(new ItemStack(Items.brewing_stand), new ItemStack(ItemList.enhanced_brewing_stand), 20),
-		new AltarItemRecipe(new ItemStack(Items.ender_eye), new ItemStack(ItemList.temple_caller), 50),
 		new AltarItemRecipe(new ItemStack(ItemList.ghost_amulet,1,0), new ItemStack(ItemList.ghost_amulet,1,1), 8)
 	});
 	

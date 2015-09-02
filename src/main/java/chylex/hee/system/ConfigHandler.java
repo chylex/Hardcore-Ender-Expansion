@@ -7,7 +7,6 @@ import net.minecraftforge.common.config.Property;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.HeeIMC;
 import chylex.hee.block.BlockEnderGoo;
-import chylex.hee.item.ItemTempleCaller;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
@@ -105,7 +104,6 @@ public final class ConfigHandler{
 		
 		ModCommonProxy.opMobs = getBoolValue("overpoweredMobs", false, "Additional abilities and increased attributes of mobs in the End, useful for modpacks with powerful weapons and armor.");
 		BlockEnderGoo.shouldBattleWater = getBoolValue("gooBattlesWater", true, "Ender Goo interacts with Water by battling it, this might cause lag from block updates.");
-		ItemTempleCaller.isEnabled = getBoolValue("enableTempleCaller", true, "Mechanic that allows players to reset the End, may not be desirable on servers.");
 		Log.forceDebugEnabled = getBool("logDebuggingInfo", false, "Only use for debugging, enabling debug logging will have severe impact on game performance!").getBoolean();
 		
 		if (firstTimeGeneral){

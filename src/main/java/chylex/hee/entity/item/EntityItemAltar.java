@@ -86,7 +86,6 @@ public class EntityItemAltar extends EntityItem{
 			
 			if (isDead){
 				if (is.getItem() == ItemList.enhanced_brewing_stand)player.addStat(AchievementManager.ENHANCED_BREWING_STAND,1);
-				else if (is.getItem() == ItemList.temple_caller)player.addStat(AchievementManager.TEMPLE_CALLER,1);
 			}
 		}
 	}

@@ -52,10 +52,8 @@ public final class Baconizer{
 		baconizeItems(new Item[]{
 			ItemList.end_powder,
 			ItemList.endium_ingot,
-			ItemList.adventurers_diary,
 			ItemList.knowledge_note,
 			ItemList.altar_nexus,
-			ItemList.temple_caller,
 			ItemList.dry_splinter,
 			ItemList.spectral_tear,
 			ItemList.living_matter,

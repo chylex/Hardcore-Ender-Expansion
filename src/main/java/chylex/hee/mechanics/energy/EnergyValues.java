@@ -1,5 +1,4 @@
 package chylex.hee.mechanics.energy;
-import gnu.trove.map.hash.TObjectFloatHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -17,6 +16,7 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
+import gnu.trove.map.hash.TObjectFloatHashMap;
 
 public final class EnergyValues{
 	private static final TObjectFloatHashMap<ItemDamagePair> items = new TObjectFloatHashMap<>();
@@ -25,7 +25,6 @@ public final class EnergyValues{
 	static{
 		setItemEnergy(Blocks.end_stone, 0.40F);
 		setItemEnergy(BlockList.end_terrain, 0.50F);
-		setItemEnergy(ItemList.adventurers_diary, 0.50F);
 		setItemEnergy(BlockList.persegrit, 0.55F);
 		setItemEnergy(ItemList.silverfish_blood, 0.65F);
 		setItemEnergy(ItemList.stardust, 0.75F);
@@ -44,7 +43,6 @@ public final class EnergyValues{
 		setItemEnergy(ItemList.rune, 3.25F);
 		setItemEnergy(ItemList.auricion, 3.40F);
 		setItemEnergy(Blocks.ender_chest, 3.75F);
-		setItemEnergy(ItemList.temple_caller, 4.00F);
 		setItemEnergy(ItemList.ectoplasm, 4.20F);
 		setItemEnergy(ItemList.spectral_tear, 4.20F);
 		setItemEnergy(BlockList.void_chest, 4.30F);

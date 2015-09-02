@@ -2,32 +2,21 @@ package chylex.hee.render;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.init.BlockList;
-import chylex.hee.init.ItemList;
-import chylex.hee.item.ItemBiomeCompass;
-import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.energy.EnergyClusterHealth;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -53,63 +42,6 @@ public class OverlayManager{
 	}
 	
 	private OverlayManager(){}
-	
-	@SubscribeEvent
-	public void onRenderTick(RenderWorldLastEvent e){
-		Minecraft mc = Minecraft.getMinecraft();
-		if (mc.thePlayer == null)return;
-		
-		if (mc.thePlayer.dimension == 1){
-			ItemStack is = mc.thePlayer.inventory.getCurrentItem();
-			
-			if (is != null && is.getItem() == ItemList.biome_compass && ItemBiomeCompass.currentBiome != -1){
-				Set<ChunkCoordinates> coords = ItemBiomeCompass.locations.get(ItemBiomeCompass.currentBiome);
-				
-				if (!coords.isEmpty()){
-					GL11.glDisable(GL11.GL_DEPTH_TEST);
-					GL11.glDepthMask(false);
-					GL11.glEnable(GL11.GL_BLEND);
-					GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-					
-					GL11.glPushMatrix();
-					mc.renderEngine.bindTexture(TextureMap.locationItemsTexture);
-					
-					for(ChunkCoordinates coord:coords){
-						double viewRot = 90F+Math.toDegrees(Math.atan2(mc.thePlayer.posX-coord.posX,mc.thePlayer.posZ-coord.posZ));
-						float dist = (float)MathUtil.distance(mc.thePlayer.posX-coord.posX,mc.thePlayer.posZ-coord.posZ);
-						
-						if (dist <= 40F)continue;
-						else if (dist < 140F)GL11.glColor4f(1F,1F,1F,0.5F*((dist-40F)/100F));
-						else GL11.glColor4f(1F,1F,1F,0.5F);
-						
-						GL11.glPushMatrix();
-						GL11.glRotated(viewRot,0F,1F,0F);
-						GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
-						GL11.glTranslated(5F+dist*0.05F,0F,0F);
-						GL11.glPushMatrix();
-	
-						GL11.glTranslatef(0.5F,0.5F,0.5F);
-						GL11.glRotated(270F,0F,1F,0F);
-						GL11.glScalef(6F,6F,6F);
-						GL11.glTranslatef(-0.5F,-0.5F,-0.5F);
-						
-						IIcon icon = ItemList.special_effects.getIconFromDamage(ItemSpecialEffects.biomePointStart+ItemBiomeCompass.currentBiome);
-						ItemRenderer.renderItemIn2D(Tessellator.instance,icon.getMaxU(),icon.getMinV(),icon.getMinU(),icon.getMaxV(),icon.getIconWidth(),icon.getIconHeight(),0.0625F);
-						
-						GL11.glPopMatrix();
-						GL11.glPopMatrix();
-					}
-					
-					GL11.glPopMatrix();
-					
-					GL11.glDisable(GL11.GL_BLEND);
-					GL11.glDepthMask(true);
-					GL11.glEnable(GL11.GL_DEPTH_TEST);
-					GL11.glColor4f(1F,1F,1F,1F);
-				}
-			}
-		}
-	}
 
 	@SubscribeEvent
 	public void onPreRenderGameOverlay(RenderGameOverlayEvent.Pre e){

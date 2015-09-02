@@ -25,7 +25,7 @@ public class ItemHandlingTests{
 		patternTestList.add(new ItemStack(Blocks.dirt,64));
 		patternTestList.add(new ItemStack(Blocks.dirt,1,2));
 		patternTestList.add(new ItemStack(Blocks.grass));
-		patternTestList.add(new ItemStack(ItemList.adventurers_diary));
+		patternTestList.add(new ItemStack(ItemList.ethereum));
 		patternTestList.add(new ItemStack(ItemList.ghost_amulet,1,1));
 		
 		patternTestNbt = new NBTTagCompound();
