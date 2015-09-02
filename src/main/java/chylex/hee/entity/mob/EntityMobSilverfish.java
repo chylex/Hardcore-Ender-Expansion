@@ -1,11 +1,13 @@
 package chylex.hee.entity.mob;
+import java.util.List;
+import java.util.stream.Collectors;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +17,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
+import chylex.hee.entity.mob.ai.EntityAIRandomTarget;
 import chylex.hee.entity.mob.ai.EntityAISummonFromBlock;
 import chylex.hee.entity.mob.ai.EntityAIWanderConstantly;
 import chylex.hee.system.abstractions.BlockInfo;
@@ -26,7 +29,7 @@ public class EntityMobSilverfish extends EntitySilverfish{
 	private EntityAISummonFromBlock canSummonSilverfish;
 	private EntityAIHideInBlock canHideInBlocks;
 	
-	public EntityMobSilverfish(World world){ // TODO swarm AI
+	public EntityMobSilverfish(World world){
 		super(world);
 		setSize(0.35F,0.6F);
 		
@@ -37,7 +40,7 @@ public class EntityMobSilverfish extends EntitySilverfish{
 		setCanHideInBlocks(true);
 		
 		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
-		targetTasks.addTask(2,new EntityAINearestAttackableTarget(this,EntityPlayer.class,1,true,true));
+		targetTasks.addTask(2,new EntityAIRandomTarget(this,EntityPlayer.class,true,true));
 		
 		experienceValue = 3;
 	}
@@ -70,6 +73,7 @@ public class EntityMobSilverfish extends EntitySilverfish{
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(8D);
 		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
 		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2D);
+		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(8D);
 	}
 	
 	@Override
@@ -88,7 +92,17 @@ public class EntityMobSilverfish extends EntitySilverfish{
 	
 	@Override
 	public boolean attackEntityAsMob(Entity target){
-		return Damage.hostileMob(this).addModifiers(IDamageModifier.rapidDamage(5),IDamageModifier.overrideKnockback(0.25F+rand.nextFloat()*0.25F)).deal(target);
+		if (Damage.hostileMob(this).addModifiers(IDamageModifier.rapidDamage(5),IDamageModifier.overrideKnockback(0.25F+rand.nextFloat()*0.25F)).deal(target)){
+			if (rand.nextInt(4) == 0 && worldObj.getEntitiesWithinAABB(EntitySilverfish.class,boundingBox.expand(12D,6D,12D)).stream().anyMatch(mob -> mob != this && ((EntitySilverfish)mob).getAttackTarget() == target)){
+				List<EntityLivingBase> targets = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(4D,4D,4D));
+				targets = targets.stream().filter(entity -> entity.getDistanceSqToEntity(this) <= 64D && getEntitySenses().canSee(entity)).collect(Collectors.toList());
+				
+				if (!targets.isEmpty())setAttackTarget(targets.get(rand.nextInt(targets.size())));
+			}
+			
+			return true;
+		}
+		else return false;
 	}
 	
 	@Override
