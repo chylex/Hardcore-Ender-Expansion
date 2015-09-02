@@ -10,11 +10,9 @@ public class ItemSpecialEffects extends Item{
 	public static final byte glyphIndex = 10;
 	public static final byte questionMark = 18;
 	public static final byte achievementLorePageIcon = 19;
-	public static final byte biomePointStart = 20;
-	public static final byte biomePointEnd = 22;
-	public static final byte achievementCompendiumIcon = 23;
-	public static final byte achievementCurseIcon = 24;
-	public static final byte totalIcons = 25;
+	public static final byte achievementCompendiumIcon = 20;
+	public static final byte achievementCurseIcon = 21;
+	public static final byte totalIcons = 22;
 
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
@@ -35,7 +33,6 @@ public class ItemSpecialEffects extends Item{
 		for(int a = 10; a < 18; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:altar_glyph_"+(c++));
 		iconArray[18] = iconRegister.registerIcon("hardcoreenderexpansion:question_mark");
 		iconArray[19] = iconRegister.registerIcon("hardcoreenderexpansion:achievement_lore_pages");
-		for(int a = 20; a <= biomePointEnd; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:biome_"+(a-20));
 		iconArray[23] = iconRegister.registerIcon("hardcoreenderexpansion:ender_compendium");
 		iconArray[24] = iconRegister.registerIcon("hardcoreenderexpansion:achievement_curse");
 		itemIcon = iconArray[0];
