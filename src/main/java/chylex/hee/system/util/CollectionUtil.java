@@ -3,6 +3,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedSet;
@@ -45,6 +46,12 @@ public final class CollectionUtil{
 	
 	public static <T> ArrayList<T> newList(int capacity, T...elements){
 		ArrayList<T> list = new ArrayList<>(capacity);
+		Collections.addAll(list,elements);
+		return list;
+	}
+	
+	public static <T> HashSet<T> newSet(T...elements){
+		HashSet<T> list = new HashSet<>(elements.length);
 		Collections.addAll(list,elements);
 		return list;
 	}

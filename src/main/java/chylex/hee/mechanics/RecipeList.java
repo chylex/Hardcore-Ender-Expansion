@@ -1,19 +1,38 @@
 package chylex.hee.mechanics;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import chylex.hee.block.BlockGloomrock;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RecipeList{
 	public static void addRecipes(){
 		Stopwatch.time("RecipeList - addRecipes");
+		
+		// Remove unwanted recipes
+		
+		Set<Item> toRemove = CollectionUtil.newSet(new Item[]{
+			Items.ender_eye,
+			Item.getItemFromBlock(Blocks.ender_chest)
+		});
+		
+		for(Iterator<IRecipe> iter = ((List<IRecipe>)CraftingManager.getInstance().getRecipeList()).iterator(); iter.hasNext();){
+			ItemStack is = iter.next().getRecipeOutput();
+			if (is != null && toRemove.remove(is.getItem()) && toRemove.isEmpty())break;
+		}
 		
 		// Ethereum
 		
