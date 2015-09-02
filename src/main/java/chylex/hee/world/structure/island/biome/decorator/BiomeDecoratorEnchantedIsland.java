@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.decorator;
+/*package chylex.hee.world.structure.island.biome.decorator;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.List;
 import net.minecraft.block.Block;
@@ -33,9 +33,9 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 	private final StructureLaboratory genLaboratory = new StructureLaboratory();
 	private final StructureShadowOrchid genShadowOrchid = new StructureShadowOrchid();
 	
-	/*
+	
 	 * HOMELAND
-	 */
+	 
 	
 	public void genHomeland(){
 		// HIDDEN CELLAR
@@ -163,9 +163,9 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 	}
 	
-	/*
+	
 	 * LABORATORY
-	 */
+	 
 	
 	public void genLaboratory(){
 		// HIDDEN CELLAR
@@ -231,3 +231,4 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		}
 	}
 }
+*/

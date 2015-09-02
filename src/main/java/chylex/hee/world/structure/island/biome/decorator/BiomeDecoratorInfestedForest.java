@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.decorator;
+/*package chylex.hee.world.structure.island.biome.decorator;
 import static chylex.hee.world.structure.island.biome.IslandBiomeInfestedForest.MORE_THORNY_BUSHES;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
@@ -24,9 +24,9 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 	private final StructureRuinPillar genRuinPillar = new StructureRuinPillar();
 	private final StructureRuinBuild genRuinBuild = new StructureRuinBuild();
 	
-	/*
+	
 	 * DEEP
-	 */
+	 
 	
 	public void genDeep(){
 		// TREES
@@ -78,9 +78,9 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		}
 	}
 	
-	/*
+	
 	 * RAVAGED
-	 */
+	 
 	
 	public void genRavaged(){
 		// RAVAGED DUNGEON
@@ -140,9 +140,9 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		}
 	}
 	
-	/*
+	
 	 * RUINS
-	 */
+	 
 	
 	public void genRuins(){
 		// BUSHES
@@ -240,3 +240,4 @@ public final class BiomeDecoratorInfestedForest extends IslandBiomeDecorator{
 		}
 	}
 }
+*/

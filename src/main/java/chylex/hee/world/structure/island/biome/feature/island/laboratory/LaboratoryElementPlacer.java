@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.island.laboratory;
+/*package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -325,3 +325,4 @@ public class LaboratoryElementPlacer{
 		return block == blockLab || block == blockFloor;
 	}
 }
+*/

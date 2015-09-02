@@ -1,5 +1,4 @@
 package chylex.hee.world.structure.island.biome;
-import java.util.Random;
 import net.minecraft.stats.Achievement;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobFireGolem;
@@ -8,9 +7,6 @@ import chylex.hee.entity.mob.EntityMobScorchingLens;
 import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
-import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorBurningMountains;
-import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeBurningMountains extends IslandBiomeBase{
@@ -22,7 +18,7 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 	public static final BiomeRandomDeviation LIMITED_ORES = new BiomeRandomDeviation("LimitedOres", MINE);
 	public static final BiomeRandomDeviation DEEP_RESOURCE_PITS = new BiomeRandomDeviation("DeepResPits", MINE);
 	
-	private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
+	//private final BiomeDecoratorBurningMountains decorator = new BiomeDecoratorBurningMountains();
 	
 	protected IslandBiomeBurningMountains(int biomeID){
 		super(biomeID);
@@ -45,11 +41,11 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 		});
 	}
 
-	@Override
+	/*@Override
 	protected void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ){
 		if (data.content == SCORCHING)decorator.genScorching();
 		else if (data.content == MINE)decorator.genMine();
-	}
+	}*/
 	
 	@Override
 	public float getIslandSurfaceHeightMultiplier(){
@@ -76,10 +72,10 @@ public class IslandBiomeBurningMountains extends IslandBiomeBase{
 		return data.content == MINE ? 1.4F : 1.15F;
 	}
 
-	@Override
+	/*@Override
 	protected IslandBiomeDecorator getDecorator(){
 		return decorator;
-	}
+	}*/
 	
 	@Override
 	protected Achievement getAchievement(){

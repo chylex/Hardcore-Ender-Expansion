@@ -8,7 +8,6 @@ import net.minecraft.world.World;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.island.ComponentIsland;
 
 public abstract class AbstractBiomeInteraction{
 	String identifier;
@@ -38,7 +37,7 @@ public abstract class AbstractBiomeInteraction{
 	}
 	
 	protected final AxisAlignedBB getIslandBoundingBox(){
-		return AxisAlignedBB.getBoundingBox(centerX-ComponentIsland.halfSize,10,centerZ-ComponentIsland.halfSize,centerX+ComponentIsland.halfSize,120,centerZ+ComponentIsland.halfSize);
+		return null; // TODO AxisAlignedBB.getBoundingBox(centerX-ComponentIsland.halfSize,10,centerZ-ComponentIsland.halfSize,centerX+ComponentIsland.halfSize,120,centerZ+ComponentIsland.halfSize);
 	}
 	
 	public static final class BiomeInteraction{

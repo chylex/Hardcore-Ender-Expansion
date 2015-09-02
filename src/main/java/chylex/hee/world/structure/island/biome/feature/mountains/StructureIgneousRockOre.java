@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.mountains;
+/*package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
@@ -40,3 +40,4 @@ public class StructureIgneousRockOre extends AbstractIslandStructure{
 		return true;
 	}
 }
+*/

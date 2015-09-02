@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.island.laboratory;
+/*package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import gnu.trove.map.hash.TByteByteHashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -148,3 +148,4 @@ public final class LaboratoryPlan{
 		return new LaboratoryElement(type,x,mostFrequentY,z);
 	}
 }
+*/

@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.tower;
+/*package chylex.hee.world.structure.tower;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -127,7 +127,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 	
 	/**
 	 * Required for reflection.
-	 */
+	 *//*
 	public ComponentTower(){}
 	
 	protected ComponentTower(Random rand, int x, int z){
@@ -335,7 +335,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		
 		/*
 		 * bookshelves on sides and ench. table in the center
-		 */
+		 *//*
 		if (n == 1){
 			structure.setBlock(x,y,z,Blocks.enchanting_table,0);
 			int flowerType = rand.nextInt(3) == 0 ? 15 : rand.nextInt(5);
@@ -357,7 +357,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * heads on dispensers with redstone on floor and spawner in the center
-		 */
+		 *//*
 		else if (n == 2){
 			spawnEndermanSpawner(x,y,z,2+roomNb);
 			
@@ -377,7 +377,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * heads on stairs, flower in center, spawners on sides
-		 */
+		 *//*
 		else if (n == 3){
 			spawnDispenser(x,y,z,0,2,Facing.UP);
 			structure.setBlock(x,y+1,z,BlockList.death_flower_pot,rand.nextInt(3));
@@ -393,7 +393,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * heads on dispensers, spawners between stairs in corners
-		 */
+		 *//*
 		else if (n == 4){
 			for(int a = 0; a < 2; a++){
 				spawnDispenser(x-3+a*6,y,z,0,2,Facing.UP);
@@ -414,7 +414,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * anvils and heads on sides, brewing stand on bookshelves in corners
-		 */
+		 *//*
 		else if (n == 5){
 			for(int a = 0; a < 2; a++){
 				structure.setBlock(x-3+a*6,y,z,Blocks.double_stone_slab,0);
@@ -437,7 +437,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * flowers in corners, iron bars with spawner on ceiling
-		 */
+		 *//*
 		else if (n == 6){
 			spawnEndermanSpawner(x,y+4,z,2+roomNb);
 			
@@ -462,7 +462,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			structure.setBlock(x,y+5,z-1*sign,Blocks.iron_bars,0);
 			
 			fillWithBlocks(world,bb,x,y+5,z+1*sign,x,y+4,z+2*sign,Blocks.iron_bars,Blocks.iron_bars,false);*/
-			
+			/*
 			for(int a = 0, xx, zz; a < 5+rand.nextInt(8); a++){
 				xx = x+rand.nextInt(7)-3;
 				zz = z+rand.nextInt(7)-3;
@@ -474,7 +474,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * beacons and shelves with stairs on sides
-		 */
+		 *//*
 		else if (n == 7){
 			int zOffset = isRoomEven ? -3 : 3;
 			structure.setBlock(x,y+4,z-zOffset,Blocks.stone_brick_stairs,4+getMetadataWithOffset(Blocks.stone_stairs,Facing.SOUTH_POSZ.getStairs()));
@@ -507,7 +507,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * maze
-		 */
+		 *//*
 		else if (n == 8){
 			int[][] pillars = new int[][]{
 				new int[]{ -2, -1 }, new int[]{ 0, -2 }, new int[]{ 1, -2 }, new int[]{ 1, -3 }, new int[]{ -3, 2 },
@@ -537,7 +537,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * ench. table in the center, bookshelves in corners, obsidian with spawners on sides
-		 */
+		 *//*
 		else if (n == 9){
 			structure.setBlock(x,y,z,Blocks.enchanting_table,0);
 			for(int yy = y+3+(roomNb == 0 ? 1 : 0); yy <= y+4; yy++)structure.setBlock(x,yy,z+(isRoomEven ? 3 : -3),Blocks.obsidian);
@@ -575,7 +575,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		
 		/*
 		 * chests between stairs with nether fences and hoppers
-		 */
+		 *//*
 		if (n == 1){
 			for(int a = 0; a < 2; a++){
 				spawnChest(x-3+a*6,y,z,false,7,11,a == 0 ? Facing.WEST_NEGX : Facing.EAST_POSX);
@@ -603,7 +603,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * lots of chests and furnaces with stair decorations
-		 */
+		 *//*
 		else if (n == 2){
 			for(int a = 0; a < 2; a++){
 				spawnEndermanSpawner(x-3+a*6,y,z,6);
@@ -635,7 +635,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 		}
 		/*
 		 * one chest with torches on nether fences in corners
-		 */
+		 *//*
 		else if (n == 3){
 			spawnChest(x,y,z,false,17,21,isRoomEven ? Facing.NORTH_NEGZ : Facing.SOUTH_POSZ);
 			structure.setBlock(x,y+2,z,BlockList.obsidian_special_glow,2,true);
@@ -663,7 +663,7 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 	
 	/*
 	 * SPAWN HELPERS
-	 */
+	 *//*
 	
 	private final int[] potionData = new int[]{
 		0, 16, 8193, 8257, 8225, 8194, 8258, 8226, 8195, 8259, 8227, 8197, 8261, 8229, 8198, 8262, 8201,
@@ -786,4 +786,4 @@ public class ComponentTower extends ComponentLargeStructureWorld implements ITil
 			}
 		}
 	}
-}
+}*/

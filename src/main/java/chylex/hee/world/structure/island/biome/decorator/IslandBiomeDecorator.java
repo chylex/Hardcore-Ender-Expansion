@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.decorator;
+/*package chylex.hee.world.structure.island.biome.decorator;
 import java.util.Random;
 import net.minecraft.block.Block;
 import chylex.hee.world.structure.island.ComponentIsland;
@@ -37,3 +37,4 @@ public abstract class IslandBiomeDecorator{
 	
 	protected abstract IslandBiomeBase getBiome();
 }
+*/

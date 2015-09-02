@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.forest;
+/*package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
@@ -176,3 +176,4 @@ public class StructureSilverfishDungeon extends AbstractIslandStructure implemen
 		}
 	}
 }
+*/

@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.mountains;
+/*package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -68,3 +68,4 @@ public class StructureLavaPool extends AbstractIslandStructure{
 		return true;
 	}
 }
+*/

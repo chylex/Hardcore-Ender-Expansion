@@ -5,28 +5,18 @@ import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.stats.Achievement;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.collections.WeightedList;
-import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.island.ComponentIsland;
-import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
-import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.util.SpawnEntry;
 import gnu.trove.map.hash.TByteObjectHashMap;
 
@@ -35,7 +25,7 @@ public abstract class IslandBiomeBase{
 										burningMountains = new IslandBiomeBurningMountains(1),
 										enchantedIsland = new IslandBiomeEnchantedIsland(2);
 	
-	// TODO public static final List<IslandBiomeBase> biomeList = CollectionUtil.newList(infestedForest,burningMountains,enchantedIsland);
+	public static final List<IslandBiomeBase> biomeList = CollectionUtil.newList(infestedForest,burningMountains,enchantedIsland);
 	
 	public static final IslandBiomeBase pickRandomBiome(Random rand){
 		return biomeList.get(rand.nextInt(biomeList.size()));
@@ -98,7 +88,7 @@ public abstract class IslandBiomeBase{
 		this.data = data;
 	}
 	
-	public final void decorateGen(LargeStructureWorld world, Random rand, int centerX, int centerZ){
+	/*public final void decorateGen(LargeStructureWorld world, Random rand, int centerX, int centerZ){
 		getDecorator().begin(world,rand,centerX,centerZ,data);
 		decorate(world,rand,centerX,centerZ);
 		getDecorator().end();
@@ -112,12 +102,12 @@ public abstract class IslandBiomeBase{
 		}
 		
 		return false;
-	}
+	}*/
 	
 	public void updateCore(World world, int x, int y, int z, int meta){
 		if (world.playerEntities.isEmpty())return;
 		
-		if (world.rand.nextInt(3) == 0){
+		/*if (world.rand.nextInt(3) == 0){
 			int halfsz = ComponentIsland.halfSize, playerCheck = halfsz*2;
 			
 			SpawnEntry entry = spawnEntries.containsKey((byte)meta) ? spawnEntries.get((byte)meta).getRandomItem(world.rand) : null;
@@ -205,7 +195,7 @@ public abstract class IslandBiomeBase{
 					}
 				}
 			}
-		}
+		}*/
 	}
 	
 	private static final boolean hasEntitySpace(World world, Entity entity){
@@ -240,7 +230,7 @@ public abstract class IslandBiomeBase{
 		return 1F;
 	}
 	
-	protected abstract IslandBiomeDecorator getDecorator();
+	//protected abstract IslandBiomeDecorator getDecorator();
 	
 	protected abstract Achievement getAchievement();
 	

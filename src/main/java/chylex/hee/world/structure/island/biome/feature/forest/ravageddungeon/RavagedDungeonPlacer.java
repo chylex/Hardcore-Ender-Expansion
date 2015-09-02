@@ -1,20 +1,14 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
-import java.util.List;
 import java.util.Random;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.util.CollectionUtil;
-import chylex.hee.world.structure.island.biome.IslandBiomeBase;
 import chylex.hee.world.structure.util.Facing;
-import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
 
-public final class RavagedDungeonPlacer implements ITileEntityGenerator{
+public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	private static final byte radEntrance = 2, radHallway = 2, radRoom = 7;
 	
 	private final byte hallHeight;
@@ -32,7 +26,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 	 * ENTRANCE
 	 */
 	
-	public void generateEntrance(LargeStructureWorld world, Random rand, int x, int y, int z, int maxEntranceHeight, DungeonElement entrance){
+	/*public void generateEntrance(LargeStructureWorld world, Random rand, int x, int y, int z, int maxEntranceHeight, DungeonElement entrance){
 		int surfaceY = y-maxEntranceHeight-1;
 		
 		while(++surfaceY <= y){
@@ -47,7 +41,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				}
 			}
 		}
-	}
+	}*/
 	
 	/*
 	 * DESCEND
@@ -64,7 +58,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		ObjectWeightPair.of(EnumDescendDesign.CORNER_LIGHTS, 25)
 	);
 	
-	public void generateDescend(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement descend){
+	/*public void generateDescend(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement descend){
 		generateRoomLayout(world,rand,x,y,z);
 		
 		Block coverBlock = rand.nextInt(3) == 0 ? Blocks.glass : Blocks.air;
@@ -182,7 +176,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				default:
 			}
 		}
-	}
+	}*/
 	
 	/*
 	 * HALLWAY
@@ -207,7 +201,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		ObjectWeightPair.of(EnumHallwayDesign.LAPIS_BLOCK, 4)
 	);
 	
-	public void generateHallway(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement hallway){
+	/*public void generateHallway(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement hallway){
 		for(int yy = y; yy <= y+hallHeight+1; yy++){
 			for(int xx = x-radHallway; xx <= x+radHallway; xx++){
 				for(int zz = z-radHallway; zz <= z+radHallway; zz++){
@@ -456,7 +450,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		}
 		
 		if (connections >= 3 && rand.nextInt(10) == 0)world.setBlock(x,y+hallHeight,z,BlockList.ravaged_brick_glow);
-	}
+	}*/
 	
 	/*
 	 * ROOM
@@ -478,7 +472,7 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 		ObjectWeightPair.of(EnumRoomDesign.TERRARIUM, 17)
 	);
 	
-	private void generateRoomLayout(LargeStructureWorld world, Random rand, int x, int y, int z){
+	/*private void generateRoomLayout(LargeStructureWorld world, Random rand, int x, int y, int z){
 		for(int yy = y; yy <= y+hallHeight+1; yy++){
 			for(int xx = x-radRoom; xx <= x+radRoom; xx++){
 				for(int zz = z-radRoom; zz <= z+radRoom; zz++){
@@ -838,13 +832,13 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 				default:
 			}
 		}
-	}
+	}*/
 	
 	/*
 	 * END
 	 */
 
-	public void generateEndLayout(LargeStructureWorld world, Random rand, int[] x, int y, int[] z, List<DungeonElement> end){
+	/*public void generateEndLayout(LargeStructureWorld world, Random rand, int[] x, int y, int[] z, List<DungeonElement> end){
 		int minX = x[0], maxX = x[0], minZ = z[0], maxZ = z[0];
 		
 		for(int a = 1; a < x.length; a++){
@@ -934,16 +928,16 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 			world.setBlock(topLeftAirX+chestX[a],y+1,topLeftAirZ+chestZ[a],Blocks.chest);
 			world.setTileEntityGenerator(topLeftAirX+chestX[a],y+1,topLeftAirZ+chestZ[a],"endRoomChest",this);
 		}
-	}
+	}*/
 	
 	/*
 	 * TILE ENTITIES
 	 */
 	
-	@Override
+	/*@Override
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
 		// TODO
-		/*
+		
 		if (key.equals("hallwayEmbeddedChest")){
 			TileEntityChest chest = (TileEntityChest)tile;
 			
@@ -999,8 +993,8 @@ public final class RavagedDungeonPlacer implements ITileEntityGenerator{
 					flowerPot.getWorldObj().markBlockForUpdate(flowerPot.xCoord,flowerPot.yCoord,flowerPot.zCoord);
 				}
 			}
-		}*/
-	}
+		}
+	}*/
 	
 	/*
 	 * UTILITIES

@@ -1,5 +1,4 @@
 package chylex.hee.world.structure.island.biome;
-import java.util.Random;
 import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.stats.Achievement;
 import chylex.hee.block.BlockEndstoneTerrain;
@@ -8,10 +7,7 @@ import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
-import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorInfestedForest;
-import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionsInfestedForest.InteractionCollapsingTrees;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeInfestedForest extends IslandBiomeBase{
@@ -22,7 +18,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 	public static final BiomeRandomDeviation TALL_TREES = new BiomeRandomDeviation("TallTrees", DEEP, RAVAGED);
 	public static final BiomeRandomDeviation MORE_THORNY_BUSHES = new BiomeRandomDeviation("ThornyBushes", DEEP);
 	
-	private final BiomeDecoratorInfestedForest decorator = new BiomeDecoratorInfestedForest();
+	//private final BiomeDecoratorInfestedForest decorator = new BiomeDecoratorInfestedForest();
 	
 	protected IslandBiomeInfestedForest(int biomeID){
 		super(biomeID);
@@ -43,12 +39,12 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 		});
 	}
 	
-	@Override
+	/*@Override
 	public void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ){
 		if (data.content == DEEP)decorator.genDeep();
 		else if (data.content == RAVAGED)decorator.genRavaged();
 		else if (data.content == RUINS)decorator.genRuins();
-	}
+	}*/
 	
 	@Override
 	public float getIslandSurfaceHeightMultiplier(){
@@ -80,10 +76,10 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 		return data.content == RAVAGED ? 0.6F : 1F;
 	}
 
-	@Override
+	/*@Override
 	protected IslandBiomeDecorator getDecorator(){
 		return decorator;
-	}
+	}*/
 	
 	@Override
 	protected Achievement getAchievement(){

@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.forest;
+/*package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
@@ -76,3 +76,4 @@ public class StructureRuinPillar extends AbstractIslandStructure{
 		else world.setBlock(x,y,z,rand.nextInt(5) == 0 ? Blocks.stone_stairs : Blocks.stone_brick_stairs,rand.nextInt(4));
 	}
 }
+*/

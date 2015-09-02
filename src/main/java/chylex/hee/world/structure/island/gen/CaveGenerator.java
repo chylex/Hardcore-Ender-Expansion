@@ -1,13 +1,6 @@
 package chylex.hee.world.structure.island.gen;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.Vec3;
-import chylex.hee.init.BlockList;
-import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.island.biome.IslandBiomeBase;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.system.util.BlockPosM;
 
 public class CaveGenerator{
@@ -36,7 +29,7 @@ public class CaveGenerator{
 		this.radZ = radZ;
 	}
 	
-	public void setup(Random rand, IslandBiomeBase biome){
+	/*public void setup(Random rand, IslandBiomeBase biome){
 		for(int a = 0, x, y, z, caveAmount = (int)(biome.getCaveAmountMultiplier()*(8F+rand.nextFloat()*5.5F)); a < caveAmount; a++){
 			x = centerX+(int)(Math.sin(rand.nextDouble()*2D*Math.PI)*radX*(rand.nextDouble()*0.1D+0.9D));
 			z = centerZ+(int)(Math.cos(rand.nextDouble()*2D*Math.PI)*radY*(rand.nextDouble()*0.1D+0.9D));
@@ -111,7 +104,7 @@ public class CaveGenerator{
 		}
 		
 		return onePlaced;
-	}
+	}*/
 	
 	public static double getDistance(int xdiff, int ydiff, int zdiff){
 		if (xdiff < 0)xdiff *= -1;

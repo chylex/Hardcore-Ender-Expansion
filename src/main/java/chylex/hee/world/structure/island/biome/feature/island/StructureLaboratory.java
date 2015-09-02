@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.island;
+/*package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.Random;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
@@ -31,3 +31,4 @@ public class StructureLaboratory extends AbstractIslandStructure{
 		return true;
 	}
 }
+*/

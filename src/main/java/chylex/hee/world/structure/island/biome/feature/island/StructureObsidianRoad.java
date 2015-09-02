@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.island;
+/*package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -52,9 +52,9 @@ public class StructureObsidianRoad extends AbstractIslandStructure{
 		}
 	}
 	
-	/**
+	*//**
 	 * Returns whether we should keep on trying to place roads.
-	 */
+	 *//*
 	private boolean tryPlaceRoadAt(int topLeftX, int topLeftZ){
 		boolean shouldContinue = true;
 		
@@ -71,3 +71,4 @@ public class StructureObsidianRoad extends AbstractIslandStructure{
 		return shouldContinue;
 	}
 }
+*/

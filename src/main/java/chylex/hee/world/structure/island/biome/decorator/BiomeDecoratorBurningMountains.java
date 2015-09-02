@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.decorator;
+/*package chylex.hee.world.structure.island.biome.decorator;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockCrossedDecoration;
@@ -26,9 +26,9 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 	private final StructureResourcePit genResourcePit = new StructureResourcePit();
 	private final StructureMiningSpot genMiningSpot = new StructureMiningSpot();
 	
-	/*
+	
 	 * SCORCHING
-	 */
+	 
 	
 	public void genScorching(){
 		// CINDER
@@ -102,9 +102,9 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		}
 	}
 	
-	/*
+	
 	 * MINE
-	 */
+	 
 	
 	public void genMine(){
 		// RESOURCE PIT
@@ -146,3 +146,4 @@ public class BiomeDecoratorBurningMountains extends IslandBiomeDecorator{
 		generateStructure(genIgneousRockOre.setAttemptAmount(165));
 	}
 }
+*/

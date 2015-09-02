@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island;
+/*package chylex.hee.world.structure.island;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public class ComponentIsland extends ComponentLargeStructureWorld{
 	
 	/**
 	 * Required for reflection.
-	 */
+	 *//*
 	public ComponentIsland(){}
 	
 	public ComponentIsland(Random rand, int x, int z){
@@ -167,3 +167,4 @@ public class ComponentIsland extends ComponentLargeStructureWorld{
 		}
 	};
 }
+*/

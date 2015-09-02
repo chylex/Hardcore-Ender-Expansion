@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.sanctuary;
+/*package chylex.hee.world.structure.sanctuary;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +14,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 	
 	/**
 	 * Required for reflection.
-	 */
+	 *//*
 	public ComponentSanctuary(){}
 	
 	protected ComponentSanctuary(Random rand, int x, int z){
@@ -200,11 +200,11 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 		structure.setBlock(tlX+2+roomWidth,bottom+1+floorHeight,tlZ+2+roomDepth,BlockList.sanctuary_brain);
 		structure.setTileEntityGenerator(tlX+2+roomWidth,bottom+1+floorHeight,tlZ+2+roomDepth,"Brain",this);
 		
-		return bottomY;*/
+		return bottomY;*//*
 	}
 	
 	@Override
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
 		if (key.equals("Brain"))((TileEntitySanctuaryBrain)tile).readCustomData(brainNBT);
 	}
-}
+}*/

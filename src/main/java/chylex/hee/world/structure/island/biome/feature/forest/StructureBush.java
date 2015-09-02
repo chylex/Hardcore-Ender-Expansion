@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.forest;
+/*package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.Random;
 import chylex.hee.world.util.Direction;
 import chylex.hee.init.BlockList;
@@ -27,4 +27,4 @@ public class StructureBush extends AbstractIslandStructure{
 		
 		return true;
 	}
-}
+}*/

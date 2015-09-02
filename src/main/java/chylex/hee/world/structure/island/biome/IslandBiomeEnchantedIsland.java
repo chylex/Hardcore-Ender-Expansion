@@ -1,31 +1,16 @@
 package chylex.hee.world.structure.island.biome;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.stats.Achievement;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.World;
 import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobEndermage;
 import chylex.hee.entity.mob.EntityMobEnderman;
-import chylex.hee.entity.mob.EntityMobHomelandEnderman;
-import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
-import chylex.hee.world.structure.island.biome.decorator.BiomeDecoratorEnchantedIsland;
-import chylex.hee.world.structure.island.biome.decorator.IslandBiomeDecorator;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland.InteractionCellarSounds;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland.InteractionOvertake;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
@@ -36,7 +21,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 	public static final BiomeRandomDeviation GOO_SWAMP = new BiomeRandomDeviation("GooSwamp", HOMELAND);
 	public static final BiomeRandomDeviation MORE_SHADOW_ORCHIDS = new BiomeRandomDeviation("ShadowOrchids", HOMELAND, LABORATORY);
 	
-	private final BiomeDecoratorEnchantedIsland decorator = new BiomeDecoratorEnchantedIsland();
+	//private final BiomeDecoratorEnchantedIsland decorator = new BiomeDecoratorEnchantedIsland();
 	
 	protected IslandBiomeEnchantedIsland(int biomeID){
 		super(biomeID);
@@ -69,7 +54,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		});
 	}
 
-	@Override
+	/*@Override
 	protected void decorate(LargeStructureWorld world, Random rand, int centerX, int centerZ){
 		if (data.content == HOMELAND)decorator.genHomeland();
 		else if (data.content == LABORATORY)decorator.genLaboratory();
@@ -107,7 +92,7 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 				}
 			}
 		}
-	}
+	}*/
 	
 	@Override
 	public float getIslandMassHeightMultiplier(){
@@ -134,10 +119,10 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		return 1.25F;
 	}
 
-	@Override
+	/*@Override
 	protected IslandBiomeDecorator getDecorator(){
 		return decorator;
-	}
+	}*/
 	
 	@Override
 	protected Achievement getAchievement(){

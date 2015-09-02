@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.mountains;
+/*package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -79,3 +79,4 @@ public class StructureMiningSpot extends AbstractIslandStructure{
 		else if (rand.nextBoolean())world.setBlock(x,y,z,Blocks.stone);
 	}
 }
+*/

@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.mountains;
+/*package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.world.util.Direction;
@@ -254,3 +254,4 @@ public class StructureDungeonPuzzle extends AbstractIslandStructure{
 		return rand.nextInt(9) < 7 ? BlockDungeonPuzzle.getUnlit(meta) : BlockDungeonPuzzle.toggleState(BlockDungeonPuzzle.getUnlit(meta));
 	}
 }
+*/

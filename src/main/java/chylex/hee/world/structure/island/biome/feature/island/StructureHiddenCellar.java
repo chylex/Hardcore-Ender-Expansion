@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.island;
+/*package chylex.hee.world.structure.island.biome.feature.island;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -28,7 +28,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	};
 	
 	// TODO
-	/*private static final WeightedLootList normalChest = new WeightedLootList(new LootItemStack[]{
+	private static final WeightedLootList normalChest = new WeightedLootList(new LootItemStack[]{
 		new LootItemStack(Items.ender_pearl).setAmount(2,6).setWeight(20),
 		new LootItemStack(ItemList.end_powder).setAmount(3,8).setWeight(20),
 		new LootItemStack(ItemList.stardust).setAmount(4,10).setWeight(17),
@@ -74,9 +74,9 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		}
 		
 		return is;
-	});*/
+	});
 	
-	/*public static final WeightedLootList[] rareChestVariation = new WeightedLootList[]{
+	public static final WeightedLootList[] rareChestVariation = new WeightedLootList[]{
 		rareChest.copy().addAll(new LootItemStack[]{
 			
 		}),
@@ -84,7 +84,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 		rareChest.copy().addAll(new LootItemStack[]{
 			new LootItemStack(ItemList.auricion).setWeight(5)
 		})
-	};*/
+	};
 	
 	private EnchantedIslandVariation variation;
 	private final List<BlockPosM> patternBlocks = new ArrayList<>();
@@ -539,7 +539,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 	@Override
 	public void onTileEntityRequested(String key, TileEntity tile, Random rand){
 		// TODO
-		/*if (key.startsWith("CellarChestNormal|")){
+		if (key.startsWith("CellarChestNormal|")){
 			WeightedLootList loot = normalChestVariation[DragonUtil.tryParse(key.split("\\|")[1],0)];
 			TileEntityChest chest = (TileEntityChest)tile;
 			
@@ -554,6 +554,7 @@ public class StructureHiddenCellar extends AbstractIslandStructure implements IT
 			for(int amount = 0; amount < 3+rand.nextInt(6); amount++){
 				chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),loot.generateIS(rand));
 			}
-		}*/
+		}
 	}
 }
+*/

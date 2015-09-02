@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.forest;
+/*package chylex.hee.world.structure.island.biome.feature.forest;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
@@ -94,9 +94,9 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		return true;
 	}
 	
-	/*
+	
 	 * ELEMENT GENERATION
-	 */
+	 
 	
 	private int generateEntrance(Random rand, DungeonElementList elements, DungeonElement entrance, int y){
 		placer.generateEntrance(world,rand,getElementX(entrance),y,getElementZ(entrance),maxEntranceHeight,entrance);
@@ -154,9 +154,9 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		}
 	}
 	
-	/*
+	
 	 * OTHER STUFF
-	 */
+	 
 	
 	private int getElementX(DungeonElement element){
 		return islandCenterX-dungHalfW*scale+element.x*scale+scaleHalf;
@@ -166,3 +166,4 @@ public class StructureRavagedDungeon extends AbstractIslandStructure{
 		return islandCenterZ-dungHalfH*scale+element.y*scale+scaleHalf;
 	}
 }
+*/

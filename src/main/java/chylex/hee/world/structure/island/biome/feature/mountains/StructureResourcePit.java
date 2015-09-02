@@ -1,10 +1,9 @@
-package chylex.hee.world.structure.island.biome.feature.mountains;
+/*package chylex.hee.world.structure.island.biome.feature.mountains;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
 import chylex.hee.world.structure.island.biome.IslandBiomeBurningMountains;
-import chylex.hee.world.structure.island.biome.feature.AbstractIslandStructure;
 
 public class StructureResourcePit extends AbstractIslandStructure{
 	@Override
@@ -88,3 +87,4 @@ public class StructureResourcePit extends AbstractIslandStructure{
 		else return BlockList.stardust_ore;
 	}
 }
+*/

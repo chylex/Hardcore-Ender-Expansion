@@ -1,13 +1,7 @@
 package chylex.hee.world.structure.island.gen;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
-import chylex.hee.init.BlockList;
 import chylex.hee.system.util.BlockPosM;
-import chylex.hee.world.structure.island.biome.IslandBiomeBase;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
 
 public class OreGenerator{
 	private static final byte attemptMp = 3;
@@ -26,7 +20,7 @@ public class OreGenerator{
 		this.maxZ = maxZ;
 	}
 	
-	public void setup(Random rand, IslandBiomeBase biome){
+	/*public void setup(Random rand, IslandBiomeBase biome){
 		int amount = (int)(495F*biome.getOreAmountMultiplier());
 		for(int a = 0; a < amount; a++){
 			generateOreCluster(oreListStardust,rand,3+rand.nextInt(7));
@@ -86,7 +80,7 @@ public class OreGenerator{
 		}
 		
 		locList.add(list);
-	}
+	}*/
 	
 	private class OreLocationList{
 		private final List<BlockPosM> blockList;

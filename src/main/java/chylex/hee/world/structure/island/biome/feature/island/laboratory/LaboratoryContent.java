@@ -1,15 +1,6 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
-import java.util.Random;
-import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.world.structure.util.pregen.ITileEntityGenerator;
-import chylex.hee.world.structure.util.pregen.LargeStructureWorld;
-import chylex.hee.world.util.Direction;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 
 public final class LaboratoryContent{
 	private enum SmallRoom{
@@ -25,7 +16,7 @@ public final class LaboratoryContent{
 		ObjectWeightPair.of(SmallRoom.ENDER_CHEST, 9)
 	);
 	
-	public static void populateSmallRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
+	/*public static void populateSmallRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
 		SmallRoom design = smallRoomList.getRandomItem(rand).getObject();
 		
 		switch(design){
@@ -219,7 +210,7 @@ public final class LaboratoryContent{
 				
 			default:
 		}
-	}
+	}*/
 	
 	/* TODO
 	public static final WeightedLootList smallChestLoot = new WeightedLootList(new LootItemStack[]{

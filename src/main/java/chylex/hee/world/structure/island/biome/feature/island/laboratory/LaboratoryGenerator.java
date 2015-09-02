@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.island.biome.feature.island.laboratory;
+/*package chylex.hee.world.structure.island.biome.feature.island.laboratory;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,3 +133,4 @@ public final class LaboratoryGenerator{
 		return elements.get((x+ComponentIsland.halfSize)*(ComponentIsland.size+1)+z);
 	}
 }
+*/
