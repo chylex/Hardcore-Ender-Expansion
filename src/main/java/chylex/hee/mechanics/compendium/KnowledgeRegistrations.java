@@ -20,7 +20,6 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject.LinkedKnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
-import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentItemConversion;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
@@ -29,8 +28,6 @@ import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
-import chylex.hee.mechanics.enhancements.IEnhancementEnum;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
@@ -1161,6 +1158,7 @@ public final class KnowledgeRegistrations{
 			int amtObjects = 0, amtFragments = 0, totalObjPrice = 0, totalFragPrice = 0, totalFragPriceExcCascaded = 0, totalFragPriceExcDiscovery = 0, totalReward = 0;
 			TIntHashSet cascaded = new TIntHashSet();
 			
+			/* TODO
 			for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
 				if (obj == HELP)continue;
 				else if (obj.getDiscoveryReward() == 0 || obj.getUnlockPrice() == 0)throw new IllegalStateException("Knowledge Object "+obj.globalID+"/"+obj.getUnlocalizedTooltip()+" has illegal reward ("+obj.getDiscoveryReward()+") or unlock price ("+obj.getUnlockPrice()+").");
@@ -1191,7 +1189,7 @@ public final class KnowledgeRegistrations{
 			
 			for(IEnhancementEnum enhancement:EnhancementHandler.getAllEnhancements()){
 				if (KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement) == null)throw new IllegalStateException("Enhancement is missing a fragment: "+enhancement);
-			}
+			}*/
 			
 			Log.debug("Knowledge Object amount: $0",amtObjects);
 			Log.debug("Knowledge Fragment amount: $0",amtFragments);

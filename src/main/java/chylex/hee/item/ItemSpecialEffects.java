@@ -33,8 +33,8 @@ public class ItemSpecialEffects extends Item{
 		for(int a = 10; a < 18; a++)iconArray[a] = iconRegister.registerIcon("hardcoreenderexpansion:altar_glyph_"+(c++));
 		iconArray[18] = iconRegister.registerIcon("hardcoreenderexpansion:question_mark");
 		iconArray[19] = iconRegister.registerIcon("hardcoreenderexpansion:achievement_lore_pages");
-		iconArray[23] = iconRegister.registerIcon("hardcoreenderexpansion:ender_compendium");
-		iconArray[24] = iconRegister.registerIcon("hardcoreenderexpansion:achievement_curse");
+		iconArray[20] = iconRegister.registerIcon("hardcoreenderexpansion:ender_compendium");
+		iconArray[21] = iconRegister.registerIcon("hardcoreenderexpansion:achievement_curse");
 		itemIcon = iconArray[0];
 	}
 }
