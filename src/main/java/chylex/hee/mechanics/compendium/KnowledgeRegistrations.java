@@ -54,7 +54,7 @@ public final class KnowledgeRegistrations{
 		ENDERMAN_HEAD = create(ItemList.enderman_head),
 		MUSIC_DISKS = create(ItemList.music_disk),
 		END_PORTAL = create(Blocks.end_portal_frame,"ec.title.portal"),
-		ALTAR_NEXUS = create(ItemList.altar_nexus),
+		// TODO ALTAR_NEXUS = create(ItemList.altar_nexus),
 		BASIC_ESSENCE_ALTAR = create(BlockList.essence_altar,EssenceType.INVALID.id),
 		ENDERMAN = create(EntityMobEnderman.class),
 		SILVERFISH = create(EntitySilverfish.class),
@@ -321,11 +321,11 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(1413).setNonBuyable().setUnlockOnDiscovery()
 			}),
 			
-			ALTAR_NEXUS.setPos(1,9).setUnlockPrice(10).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
+			/* TODO ALTAR_NEXUS.setPos(1,9).setUnlockPrice(10).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(40).setPrice(8),
 				new KnowledgeFragmentCrafting(41).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setPrice(5).setUnlockRequirements(40),
 				new KnowledgeFragmentCrafting(42).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(50)
-			}),
+			}),*/
 			
 			BASIC_ESSENCE_ALTAR.setPos(3,9).setNonBuyable().setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(42),

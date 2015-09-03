@@ -53,7 +53,6 @@ public final class Baconizer{
 			ItemList.end_powder,
 			ItemList.endium_ingot,
 			ItemList.knowledge_note,
-			ItemList.altar_nexus,
 			ItemList.dry_splinter,
 			ItemList.spectral_tear,
 			ItemList.living_matter,

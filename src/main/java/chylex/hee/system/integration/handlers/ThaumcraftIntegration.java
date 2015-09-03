@@ -100,7 +100,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		
 		registerObjectTag(item(ItemList.knowledge_note), meta(0), new AspectList().add(Aspect.MIND,3));
 		
-		registerObjectTag(item(ItemList.altar_nexus), meta(0), new AspectList().add(Aspect.CRYSTAL,8).add(Aspect.MIND,2).add(Aspect.SENSES,4));
+		registerObjectTag(item(ItemList.alteration_nexus), meta(0), new AspectList().add(Aspect.CRYSTAL,8).add(Aspect.MIND,2).add(Aspect.SENSES,4)); // TODO changed
 		registerObjectTag(item(ItemList.essence), meta(EssenceType.DRAGON.getItemDamage()), new AspectList().add(Aspect.BEAST,3).add(Aspect.ELDRITCH,10).add(Aspect.ENERGY,10).add(Aspect.ENTROPY,6).add(Aspect.EXCHANGE,2));
 		registerObjectTag(item(ItemList.essence), meta(EssenceType.FIERY.getItemDamage()), new AspectList().add(Aspect.ELDRITCH,10).add(Aspect.ENERGY,6).add(Aspect.FIRE,10).add(Aspect.TAINT,4));
 		registerObjectTag(item(ItemList.essence), meta(EssenceType.SPECTRAL.getItemDamage()), new AspectList());

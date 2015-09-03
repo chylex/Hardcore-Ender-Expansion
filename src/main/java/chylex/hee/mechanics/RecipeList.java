@@ -34,12 +34,26 @@ public final class RecipeList{
 			if (is != null && toRemove.remove(is.getItem()) && toRemove.isEmpty())break;
 		}
 		
-		// Ethereum
+		// Ethereum & early items
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.ender_eye),
 			Items.ender_pearl,
 			ItemList.ethereum,
 			Items.gold_nugget
+		);
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.alteration_nexus),
+			Items.ender_eye,
+			ItemList.ancient_dust,
+			ItemList.ethereum,
+			Items.diamond
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(Blocks.ender_chest),
+			"ODO", "DND", "ODO",
+			'O', Blocks.obsidian,
+			'D', ItemList.ancient_dust,
+			'N', ItemList.alteration_nexus
 		);
 		
 		// Stone Bricks

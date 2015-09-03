@@ -101,12 +101,11 @@ tile.sacredStone.name=Sacred Stone
 
 item.ethereum.name=Ethereum
 item.ancientDust.name=Ancient Dust
+item.alterationNexus.name=Alteration Nexus
 item.essence.dragon.name=Dragon Essence
 item.essence.dragon.bacon.name=Bacon Essence
 item.essence.fiery.name=Fiery Essence
 item.essence.spectral.name=Spectral Essence
-item.altarNexus.name=Altar Nexus
-item.altarNexus.bacon.name=Bacon Nexus
 item.endPowder.name=End Powder
 item.endPowder.bacon.name=Bacon Powder
 item.endiumIngot.name=Endium Ingot
