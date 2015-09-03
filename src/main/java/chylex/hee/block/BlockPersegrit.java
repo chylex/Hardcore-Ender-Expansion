@@ -43,7 +43,6 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 		return iconArray[MathUtil.clamp(meta,0,iconArray.length-1)];
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){

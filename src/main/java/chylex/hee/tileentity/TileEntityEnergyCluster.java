@@ -91,7 +91,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	@Override
 	public void readTileFromNBT(NBTTagCompound nbt){
 		colRgb = nbt.getByteArray("col");
-		cachedCoords = Pos.fromNBT(nbt,"loc");
+		cachedCoords = Pos.at(nbt.getLong("loc"));
 		data.readFromNBT(nbt);
 		
 		if (colRgb.length == 0)shouldBeDestroyedSilently = true;

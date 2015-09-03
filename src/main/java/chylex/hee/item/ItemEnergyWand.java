@@ -37,7 +37,7 @@ public class ItemEnergyWand extends Item{
 					tag.setLong("loc",tmpPos.toLong());
 					tile.readTileFromNBT(tag);
 					
-					Pos prevLoc = Pos.fromNBT(ItemUtil.getTagRoot(is,false),"prevLoc");
+					Pos prevLoc = Pos.at(ItemUtil.getTagRoot(is,false).getLong("prevLoc"));
 					double dist = ItemUtil.getTagRoot(is,false).getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc.getX()-tmpPos.x,prevLoc.getY()-tmpPos.y,prevLoc.getZ()-tmpPos.z) : Double.MAX_VALUE;
 					
 					if (dist > 8D){

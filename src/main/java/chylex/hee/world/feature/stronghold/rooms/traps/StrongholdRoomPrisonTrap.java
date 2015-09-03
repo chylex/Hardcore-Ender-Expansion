@@ -169,7 +169,7 @@ public class StrongholdRoomPrisonTrap extends StrongholdRoom{
 		
 		@Override
 		protected void load(NBTTagCompound nbt){
-			this.checkBox = new BoundingBox(Pos.fromNBT(nbt,"bbTL"),Pos.fromNBT(nbt,"bbBR"));
+			this.checkBox = new BoundingBox(Pos.at(nbt.getLong("bbTL")),Pos.at(nbt.getLong("bbBR")));
 		}
 	}
 }

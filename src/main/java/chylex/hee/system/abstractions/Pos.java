@@ -3,7 +3,6 @@ import java.util.function.Consumer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
@@ -11,7 +10,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.util.Facing4;
 
@@ -63,10 +61,6 @@ public class Pos{
 	
 	public static AxisAlignedBB getBoundingBox(Pos loc1, Pos loc2){
 		return AxisAlignedBB.getBoundingBox(Math.min(loc1.getX(),loc2.getX()),Math.min(loc1.getY(),loc2.getY()),Math.min(loc1.getZ(),loc2.getZ()),Math.max(loc1.getX(),loc2.getX()),Math.max(loc1.getY(),loc2.getY()),Math.max(loc1.getZ(),loc2.getZ()));
-	}
-	
-	public static Pos fromNBT(NBTTagCompound nbt, String key){
-		return nbt.hasKey(key,NBT.TAG_LONG) ? Pos.at(nbt.getLong(key)) : Pos.at(nbt.getIntArray(key));
 	}
 	
 	/* === IMMUTABLE POS CLASS === */

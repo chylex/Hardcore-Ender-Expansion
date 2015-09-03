@@ -11,7 +11,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -76,7 +76,7 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
+		int meta = Pos.at(x,y,z).getMetadata(world);
 		
 		if (meta == metaSmoothParticlesD){
 			for(int a = 0; a < 10; a++){
@@ -90,8 +90,7 @@ public class BlockObsidianSpecial extends Block implements IBlockSubtypes{
 			}
 		}
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){

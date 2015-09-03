@@ -15,7 +15,7 @@ import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterHealth;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -26,11 +26,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class OverlayManager{
 	private static OverlayManager instance;
 	private static final ResourceLocation texGoo = new ResourceLocation("hardcoreenderexpansion:textures/overlay/endergoo.png");
+	private static final PosMutable tmpPos = new PosMutable();
 	
 	private TileEntityEnergyCluster clusterLookedAt;
 	private final List<Notification> notifications = new ArrayList<>();
-	
-	public static BlockPosM tmpPos = new BlockPosM();
 	
 	public static void addNotification(String notification){
 		if (instance == null)register();
@@ -146,10 +145,10 @@ public class OverlayManager{
 	
 	@SubscribeEvent
 	public void onRenderBlockOutline(DrawBlockHighlightEvent e){
-		BlockPosM tmp = tmpPos.set(e.target.blockX,e.target.blockY,e.target.blockZ);
+		tmpPos.set(e.target.blockX,e.target.blockY,e.target.blockZ);
 		
-		if (tmp.getBlock(e.player.worldObj) == BlockList.energy_cluster){
-			clusterLookedAt = (TileEntityEnergyCluster)tmp.getTileEntity(e.player.worldObj);
+		if (tmpPos.getBlock(e.player.worldObj) == BlockList.energy_cluster){
+			clusterLookedAt = (TileEntityEnergyCluster)tmpPos.getTileEntity(e.player.worldObj);
 			e.setCanceled(true);
 		}
 	}

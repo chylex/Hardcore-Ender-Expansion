@@ -1,4 +1,5 @@
 package chylex.hee.entity.fx;
+import org.lwjgl.opengl.GL11;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
@@ -8,8 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import org.lwjgl.opengl.GL11;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -64,7 +64,7 @@ public abstract class EntitySoulCharmFX extends EntityFX{
 		
 		if (--breakCheckTimer < 0){
 			breakCheckTimer = 10;
-			if (BlockPosM.tmp(this).getBlock(worldObj) != getTargetBlock())age = (byte)(maxAge-18);
+			if (Pos.at(this).getBlock(worldObj) != getTargetBlock())age = (byte)(maxAge-18);
 		}
 		
 		if (rand.nextInt(3) == 0)posX += rand.nextDouble()*0.02D-0.01D;

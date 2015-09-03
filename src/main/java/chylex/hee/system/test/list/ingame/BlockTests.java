@@ -32,11 +32,11 @@ import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.data.MethodType;
 import chylex.hee.system.test.data.RunTime;
 import chylex.hee.system.test.data.UnitTest;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityAccumulationTable;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
@@ -54,15 +54,15 @@ public class BlockTests{
 	
 	private World world;
 	private EntityPlayer player;
-	private BlockPosM pos;
+	private PosMutable pos;
 	
-	private ArrayListMultimap<String,BlockPosM> storedLocs = ArrayListMultimap.create();
+	private ArrayListMultimap<String,PosMutable> storedLocs = ArrayListMultimap.create();
 	
 	public void setup(){
 		if (world != null)return;
 		world = DimensionManager.getWorld(0);
 		player = Minecraft.getMinecraft().thePlayer;
-		pos = new BlockPosM();
+		pos = new PosMutable();
 		storedLocs.clear();
 	}
 	
@@ -171,7 +171,7 @@ public class BlockTests{
 		setPos(2,0);
 		
 		for(int run = 0; run < 2; run++){
-			BlockPosM origin = pos.copy().setX(run == 0 ? 3 : 12).setZ(3);
+			PosMutable origin = pos.copy().setX(run == 0 ? 3 : 12).setZ(3);
 			
 			pos.set(origin).setBlock(world,BlockList.essence_altar,EssenceType.DRAGON.id);
 			storedLocs.put("DragonEssenceAltar",pos.copy());
@@ -353,13 +353,13 @@ public class BlockTests{
 	public void testFallingBlocks(){
 		Assert.equal(storedLocs.get("FallingBlockObsidian").size(),2,"Unexpected amount of stored locs, expected $2, got $1.");
 		
-		for(BlockPosM testPos:storedLocs.get("FallingBlockObsidian")){
+		for(PosMutable testPos:storedLocs.get("FallingBlockObsidian")){
 			Assert.instanceOf(testPos.move(0,-2,0).getBlock(world),BlockObsidianEnd.class,"Unexpected block class, expected $2, got $1.");
 		}
 		
 		Assert.equal(storedLocs.get("FallingBlockDragonEgg").size(),2,"Unexpected amount of stored locs, expected $2, got $1.");
 		
-		for(BlockPosM testPos:storedLocs.get("FallingBlockDragonEgg")){
+		for(PosMutable testPos:storedLocs.get("FallingBlockDragonEgg")){
 			Assert.instanceOf(testPos.move(0,-2,0).getBlock(world),BlockDragonEggCustom.class,"Unexpected block class, expected $2, got $1.");
 		}
 	}
@@ -370,7 +370,7 @@ public class BlockTests{
 		
 		Assert.equal(storedLocs.get("DragonEssenceAltar").size(),2,"Unexpected amount of stored locs, expected $2, got $1.");
 		
-		for(BlockPosM testPos:storedLocs.get("DragonEssenceAltar")){
+		for(PosMutable testPos:storedLocs.get("DragonEssenceAltar")){
 			pos.set(testPos);
 			
 			if (essence1 == -1)essence1 = getTile(TileEntityEssenceAltar.class).getEssenceLevel();
@@ -406,7 +406,7 @@ public class BlockTests{
 			new Object[]{ 0, new ItemStack(ItemList.potion_of_purity) }
 		};
 		
-		List<BlockPosM> stands = storedLocs.get("EnhancedBrewingStand");
+		List<PosMutable> stands = storedLocs.get("EnhancedBrewingStand");
 		
 		for(int a = 0; a < data.length; a++){
 			pos.set(stands.get(a));
@@ -424,7 +424,7 @@ public class BlockTests{
 			59, 59, 63, 61, 57, 57, 64
 		};
 		
-		final List<BlockPosM> decomposition = storedLocs.get("DecompositionTable");
+		final List<PosMutable> decomposition = storedLocs.get("DecompositionTable");
 		
 		for(int a = 0; a < stardust.length; a++){
 			pos.set(decomposition.get(a));

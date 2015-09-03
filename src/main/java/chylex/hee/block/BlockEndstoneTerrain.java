@@ -61,7 +61,6 @@ public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
 		return side == 0 ? blockIcon : (side == 1 ? iconTop[meta] : iconSide[meta]);
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){

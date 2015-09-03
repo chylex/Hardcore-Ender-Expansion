@@ -72,7 +72,7 @@ public class TileEntityCustomSpawner extends TileEntity{
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
 		createLogic(nbt.getByte("logicId"));
-		actualPos = Pos.fromNBT(nbt,"actualPos");
+		actualPos = Pos.at(nbt.getLong("actualPos"));
 		logic.readFromNBT(nbt);
 	}
 

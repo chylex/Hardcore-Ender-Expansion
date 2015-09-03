@@ -3,20 +3,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import net.minecraft.block.BlockBed;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import com.google.common.base.Joiner;
+import com.google.common.collect.ArrayListMultimap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
-import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
-import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
@@ -26,11 +20,7 @@ import chylex.hee.system.savedata.WorldDataHandler;
 import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile.IQuickSavefile;
-import chylex.hee.system.util.BlockPosM;
-import com.google.common.base.Joiner;
-import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
@@ -123,7 +113,7 @@ public final class AchievementEvents implements IQuickSavefile{
 		if (e.smelting.getItem() == ItemList.endium_ingot)e.player.addStat(AchievementManager.ENDIUM_INGOT,1);
 	}
 	
-	@SubscribeEvent
+	/* TODO @SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent e){
 		if (!e.entity.worldObj.isRemote && e.entity.dimension == 1 && e.entity.worldObj.getTotalWorldTime()-EntityBossDragon.lastUpdate < 20 && e.entity instanceof EntityPlayer){
 			for(Object o:e.entity.worldObj.loadedEntityList){
@@ -138,7 +128,7 @@ public final class AchievementEvents implements IQuickSavefile{
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent e){
 		World world = e.entityPlayer.worldObj;
-		BlockPosM tmpPos = BlockPosM.tmp(e.x,e.y,e.z);
+		PosMutable tmpPos = new PosMutable(e.x,e.y,e.z);
 		
 		if (e.action != Action.RIGHT_CLICK_BLOCK || world.isRemote || e.entityPlayer.dimension != 1 || tmpPos.getBlock(world) != Blocks.bed)return;
 		
@@ -169,5 +159,5 @@ public final class AchievementEvents implements IQuickSavefile{
 		}
 		
 		return null;
-	}
+	}*/
 }

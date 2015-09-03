@@ -14,7 +14,7 @@ import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -42,10 +42,10 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 		
 		if (nbt.hasKey("engDrain") && entity instanceof EntityPlayer){
 			boolean stop = false;
-			BlockPosM loc = BlockPosM.tmp(nbt.getLong("engDrain"));
+			Pos loc = Pos.at(nbt.getLong("engDrain"));
 			byte wait = nbt.getByte("engWait");
 			
-			if (!world.isRemote && Math.abs(nbt.getFloat("engDist")-MathUtil.distance(loc.x+0.5D-entity.posX,loc.y+0.5D-entity.posY,loc.z+0.5D-entity.posZ)) > 0.05D)stop = true;
+			if (!world.isRemote && Math.abs(nbt.getFloat("engDist")-MathUtil.distance(loc.getX()+0.5D-entity.posX,loc.getY()+0.5D-entity.posY,loc.getZ()+0.5D-entity.posZ)) > 0.05D)stop = true;
 			else if (wait > 0)nbt.setByte("engWait",(byte)(wait-1));
 			else{
 				TileEntity tile = loc.getTileEntity(world);
@@ -87,14 +87,14 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
 		
-		if (BlockPosM.tmp(x,y,z).getBlock(world) == BlockList.energy_cluster && canAcceptEnergy(is)){
+		if (Pos.at(x,y,z).getBlock(world) == BlockList.energy_cluster && canAcceptEnergy(is)){
 			if (nbt.hasKey("engDrain")){
 				nbt.removeTag("engDrain");
 				nbt.removeTag("engWait");
 				nbt.removeTag("engDist");
 			}
-			else if (BlockPosM.tmp(x,y,z).getTileEntity(world) instanceof TileEntityEnergyCluster){
-				nbt.setLong("engDrain",BlockPosM.tmp(x,y,z).toLong());
+			else if (Pos.at(x,y,z).getTileEntity(world) instanceof TileEntityEnergyCluster){
+				nbt.setLong("engDrain",Pos.at(x,y,z).toLong());
 				nbt.setFloat("engDist",(float)MathUtil.distance(x+0.5D-player.posX,y+0.5D-player.posY,z+0.5D-player.posZ));
 			}
 			
