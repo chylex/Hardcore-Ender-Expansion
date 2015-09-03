@@ -88,7 +88,7 @@ public final class KnowledgeRegistrations{
 		DEATH_FLOWER = create(BlockList.death_flower),
 		ENDER_GOO = create(ItemList.bucket_ender_goo),
 		IGNEOUS_ROCK = create(ItemList.igneous_rock),
-		TRANSPORT_BEACON = create(BlockList.transport_beacon),
+		// TODO TRANSPORT_BEACON = create(BlockList.transport_beacon),
 		
 		// ===
 		
@@ -507,12 +507,12 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(263).setPrice(3).setUnlockRequirements(260)
 			}),
 			
-			TRANSPORT_BEACON.setPos(9,0).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
+			/* TODO TRANSPORT_BEACON.setPos(9,0).setUnlockPrice(20).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(960).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(961).setPrice(5).setUnlockRequirements(960),
 				new KnowledgeFragmentText(962).setPrice(5).setUnlockRequirements(960),
 				new KnowledgeFragmentText(963).setPrice(3).setUnlockRequirements(960),
-			})
+			})*/
 		});
 		
 		// ===

@@ -80,8 +80,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(block(BlockList.sphalerite), meta(1), new AspectList().add(Aspect.EARTH,1).add(Aspect.EXCHANGE,3).add(Aspect.ENERGY,3));
 
 		registerObjectTag(block(BlockList.cinder), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.FIRE,1));
-		
-		registerObjectTag(block(BlockList.transport_beacon), meta(0), new AspectList().add(Aspect.ELDRITCH,8).add(Aspect.TRAVEL,5).add(Aspect.LIGHT,4).add(Aspect.MAGIC,4));
 
 		registerObjectTag(block(BlockList.laboratory_obsidian), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.FIRE,1).add(Aspect.MIND,1));
 		registerObjectTag(block(BlockList.laboratory_floor), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.FIRE,1).add(Aspect.MIND,1));

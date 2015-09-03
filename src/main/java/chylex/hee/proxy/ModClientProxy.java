@@ -1,8 +1,8 @@
 package chylex.hee.proxy;
 import java.util.Calendar;
 import java.util.Random;
+import org.lwjgl.opengl.Display;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBat;
 import net.minecraft.client.model.ModelSilverfish;
 import net.minecraft.client.renderer.entity.RenderFallingBlock;
@@ -18,7 +18,6 @@ import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.MinecraftForgeClient;
-import org.lwjgl.opengl.Display;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
@@ -37,7 +36,6 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiItemViewer;
-import chylex.hee.gui.GuiTransportBeacon;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
@@ -52,7 +50,6 @@ import chylex.hee.render.block.RenderBlockEnhancedTNTPrimed;
 import chylex.hee.render.block.RenderBlockHomelandCache;
 import chylex.hee.render.block.RenderBlockObsidianSpecial;
 import chylex.hee.render.block.RenderBlockSpookyLeaves;
-import chylex.hee.render.block.RenderBlockTransportBeacon;
 import chylex.hee.render.block.RenderBlockVoidChest;
 import chylex.hee.render.entity.*;
 import chylex.hee.render.item.RenderItemVoidChest;
@@ -70,7 +67,6 @@ import chylex.hee.render.tileentity.RenderTileEndPortalFixed;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
 import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.render.tileentity.RenderTileLaserBeam;
-import chylex.hee.render.tileentity.RenderTileTransportBeacon;
 import chylex.hee.render.tileentity.RenderTileVoidChest;
 import chylex.hee.render.weather.RenderWeatherLightningBoltPurple;
 import chylex.hee.sound.MusicManager;
@@ -83,7 +79,6 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityLaserBeam;
-import chylex.hee.tileentity.TileEntityTransportBeacon;
 import chylex.hee.tileentity.TileEntityVoidChest;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
@@ -118,21 +113,18 @@ public class ModClientProxy extends ModCommonProxy{
 		renderIdSpookyLeaves = RenderingRegistry.getNextAvailableRenderId();
 		renderIdCrossedDecoration = RenderingRegistry.getNextAvailableRenderId();
 		renderIdVoidChest = RenderingRegistry.getNextAvailableRenderId();
-		renderIdTransportBeacon = RenderingRegistry.getNextAvailableRenderId();
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockObsidianSpecial());
 		RenderingRegistry.registerBlockHandler(new RenderBlockEndFlowerPot());
 		RenderingRegistry.registerBlockHandler(new RenderBlockSpookyLeaves());
 		RenderingRegistry.registerBlockHandler(new RenderBlockCrossedDecoration());
 		RenderingRegistry.registerBlockHandler(new RenderBlockVoidChest());
-		RenderingRegistry.registerBlockHandler(new RenderBlockTransportBeacon());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEssenceAltar.class, new RenderTileEssenceAltar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndermanHead.class, new RenderTileEndermanHead());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCustomSpawner.class, new RenderTileCustomSpawner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserBeam.class, new RenderTileLaserBeam());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new RenderTileVoidChest());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransportBeacon.class, new RenderTileTransportBeacon());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndPortal.class, new RenderTileEndPortalFixed());
 		
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
@@ -227,16 +219,6 @@ public class ModClientProxy extends ModCommonProxy{
 	@Override
 	public void sendMessage(MessageType msgType, int[] data){
 		switch(msgType){
-			case TRANSPORT_BEACON_GUI:
-				GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-				
-				if (gui instanceof GuiTransportBeacon && data.length == 5){
-					GuiTransportBeacon beacon = (GuiTransportBeacon)gui;
-					if (beacon.centerX == data[0] && beacon.centerY == data[1] && beacon.centerZ == data[2])beacon.updateStatusEvent(data[3],data[4] == 1);
-				}
-				
-				break;
-				
 			case ENHANCEMENT_SLOT_RESET:
 				Container container = Minecraft.getMinecraft().thePlayer.openContainer;
 				if (container instanceof ContainerEndPowderEnhancements)((ContainerEndPowderEnhancements)container).onEnhancementSlotChangeClient(-1);

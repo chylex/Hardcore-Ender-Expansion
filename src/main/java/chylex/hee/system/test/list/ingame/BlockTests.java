@@ -163,7 +163,7 @@ public class BlockTests{
 		setFloor(1,15,15,Blocks.stonebrick);
 		setPos(1,15);
 		
-		setMove(BlockList.transport_beacon);
+		// TODO setMove(BlockList.transport_beacon);
 		setMove(BlockList.void_chest);
 		
 		// third floor - essence altars

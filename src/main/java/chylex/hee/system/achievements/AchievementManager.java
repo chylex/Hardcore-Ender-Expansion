@@ -37,7 +37,7 @@ public final class AchievementManager{
 		/* 51 */ ENHANCED_ENDER_PEARL_FULL = addAchievement(51, "enhancedEnderPearlFull", -4, 3, ItemList.enhanced_ender_pearl, ENHANCED_ENDER_PEARL),
 		/*  4 */ ENDER_EYE_KILL = addAchievement(4, "enderEyeKill", 2, 4, Items.ender_eye, END_POWDER),
 		/* 52 */ TP_NEAR_VOID = addAchievement(52, "tpNearVoid", 3, 6, ItemList.spatial_dash_gem, 32766, ENDER_EYE_KILL),
-		/* 14 */ TRANSPORT_BEACON = addAchievement(14, "transportBeacon", -1, 3, BlockList.transport_beacon, END_POWDER),
+		/* 14 */ //TRANSPORT_BEACON = addAchievement(14, "transportBeacon", -1, 3, BlockList.transport_beacon, END_POWDER),
 		/*  7 */ STARDUST = addAchievement(7, "stardust", -1, 5, ItemList.stardust, END_POWDER).setSpecial(),
 		
 		/*  9 */ ENDIUM_INGOT = addAchievement(9, "endiumIngot", 2, 2, ItemList.endium_ingot, END_POWDER).setSpecial(),

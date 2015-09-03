@@ -37,7 +37,6 @@ public final class GuiHandler implements IGuiHandler{
 			case 4: return y == -1 ? new GuiEndPowderEnhancements(player.inventory) : new GuiEndPowderEnhancements(player.inventory,(IEnhanceableTile)world.getTileEntity(x,y,z));
 			case 5: return new GuiCharmPouch(player);
 			case 7: return new GuiExperienceTable(player.inventory,(TileEntityExperienceTable)world.getTileEntity(x,y,z));
-			case 8: return new GuiTransportBeacon(x,y,z);
 			case 9: return new GuiAccumulationTable(player.inventory,(TileEntityAccumulationTable)world.getTileEntity(x,y,z));
 		}
 		

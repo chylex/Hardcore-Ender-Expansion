@@ -100,7 +100,6 @@ public final class BlockList{
 	public static Block experience_table;
 	public static Block accumulation_table;
 	public static Block extraction_table;
-	public static Block transport_beacon;
 	
 	// OPAQUE BLOCKS
 	
@@ -174,7 +173,6 @@ public final class BlockList{
 		register("experience_table", experience_table = new BlockExperienceTable().setBlockName("experienceTable").setBlockTextureName("experience_table"));
 		register("accumulation_table", accumulation_table = new BlockAccumulationTable().setBlockName("accumulationTable").setBlockTextureName("accumulation_table"));
 		register("energy_extraction_table", extraction_table = new BlockExtractionTable().setBlockName("extractionTable").setBlockTextureName("extraction_table"));
-		register("transport_beacon", transport_beacon = new BlockTransportBeacon().setBlockUnbreakable().setResistance(6000000F).setLightLevel(1F).setBlockName("transportBeacon").setBlockTextureName("hardcoreenderexpansion:transport_beacon"));
 		
 		register("endium_block", endium_block = new BlockCompressed(MapColor.pinkColor).setHardness(14F).setResistance(800F).setStepSound(Block.soundTypeMetal).setBlockName("endiumBlock").setBlockTextureName("hardcoreenderexpansion:endium_block"));
 		register("spooky_log", spooky_log = new BlockSpookyLog().setHardness(0.7F).setStepSound(Block.soundTypeWood).setBlockName("spookyLog"));
@@ -229,7 +227,7 @@ public final class BlockList{
 		ModCreativeTab.tabMain.list.addBlocks(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,
-			essence_altar,transport_beacon,void_chest,decomposition_table,experience_table,accumulation_table,extraction_table,
+			essence_altar,void_chest,decomposition_table,experience_table,accumulation_table,extraction_table,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
@@ -284,7 +282,6 @@ public final class BlockList{
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyCluster.class, "EnergyCluster");
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
 		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
-		GameRegistryUtil.registerTileEntity(TileEntityTransportBeacon.class, "TransportBeacon");
 		GameRegistryUtil.registerTileEntity(TileEntityEndPortalCustom.class, "EndPortal");
 		// TODO SANCTUARY GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
 	}

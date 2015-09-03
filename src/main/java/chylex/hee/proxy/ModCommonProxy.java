@@ -6,7 +6,7 @@ import chylex.hee.system.ConfigHandler;
 public class ModCommonProxy{
 	public static boolean opMobs, hardcoreEnderbacon;
 	public static int achievementStartId;
-	public static int renderIdObsidianSpecial, renderIdFlowerPot, renderIdSpookyLeaves, renderIdCrossedDecoration, renderIdVoidChest, renderIdTransportBeacon;
+	public static int renderIdObsidianSpecial, renderIdFlowerPot, renderIdSpookyLeaves, renderIdCrossedDecoration, renderIdVoidChest;
 	
 	public void loadConfiguration(){
 		ConfigHandler.loadGeneral();
@@ -26,6 +26,6 @@ public class ModCommonProxy{
 	public void sendMessage(MessageType msgType, int[] data){}
 	
 	public static enum MessageType{
-		DEBUG_TITLE_SET, TRANSPORT_BEACON_GUI, ENHANCEMENT_SLOT_RESET
+		DEBUG_TITLE_SET, ENHANCEMENT_SLOT_RESET
 	}
 }
