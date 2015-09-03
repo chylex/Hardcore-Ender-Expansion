@@ -1,12 +1,12 @@
 package chylex.hee.packets.client;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 
 public class C06SetPlayerVelocity extends AbstractClientPacket{
-	private double velX,velY,velZ;
+	private double velX, velY, velZ;
 	
 	public C06SetPlayerVelocity(){}
 	

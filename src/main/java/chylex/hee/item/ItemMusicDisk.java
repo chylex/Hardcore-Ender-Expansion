@@ -14,7 +14,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C02PlayRecord;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -52,13 +52,13 @@ public class ItemMusicDisk extends ItemRecord{
 
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		TileEntityJukebox jukebox = (TileEntityJukebox)BlockPosM.tmp(x,y,z).getTileEntity(world);
+		TileEntityJukebox jukebox = (TileEntityJukebox)Pos.at(x,y,z).getTileEntity(world);
 		
 		if (jukebox != null && jukebox.func_145856_a() == null){
 			if (world.isRemote)return true;
 
 			((BlockJukebox)Blocks.jukebox).func_149926_b(world,x,y,z,is);
-			PacketPipeline.sendToDimension(world.provider.dimensionId,new C02PlayRecord(BlockPosM.tmp(x,y,z),(byte)is.getItemDamage()));
+			PacketPipeline.sendToDimension(world.provider.dimensionId,new C02PlayRecord(Pos.at(x,y,z),(byte)is.getItemDamage()));
 			--is.stackSize;
 			
 			return true;

@@ -1,20 +1,20 @@
 package chylex.hee.packets.server;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import chylex.hee.init.BlockList;
 import chylex.hee.packets.AbstractServerPacket;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
+import io.netty.buffer.ByteBuf;
 
 public class S00DeathFlowerPot extends AbstractServerPacket{
-	private BlockPosM pos;
+	private Pos pos;
 	
 	public S00DeathFlowerPot(){}
 	
-	public S00DeathFlowerPot(BlockPosM pos){
-		this.pos = pos.copy();
+	public S00DeathFlowerPot(Pos pos){
+		this.pos = pos.immutable();
 	}
 	
 	@Override
@@ -24,7 +24,7 @@ public class S00DeathFlowerPot extends AbstractServerPacket{
 
 	@Override
 	public void read(ByteBuf buffer){
-		pos = new BlockPosM(buffer.readLong());
+		pos = Pos.at(buffer.readLong());
 	}
 
 	@Override

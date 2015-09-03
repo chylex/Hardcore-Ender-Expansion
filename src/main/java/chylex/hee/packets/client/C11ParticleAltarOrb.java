@@ -1,5 +1,4 @@
 package chylex.hee.packets.client;
-import io.netty.buffer.ByteBuf;
 import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import chylex.hee.entity.fx.EntityAltarOrbFX;
@@ -9,12 +8,13 @@ import chylex.hee.proxy.FXClientProxy;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 
 public class C11ParticleAltarOrb extends AbstractClientPacket{
-	private double startX,startY,startZ;
-	private double targetX,targetY,targetZ;
-	private byte essenceId,amount;
-	private float width,height;
+	private double startX, startY, startZ;
+	private double targetX, targetY, targetZ;
+	private byte essenceId, amount;
+	private float width, height;
 	
 	public C11ParticleAltarOrb(){}
 	

@@ -3,7 +3,6 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDragonEgg;
 import net.minecraft.block.BlockFalling;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -15,7 +14,8 @@ import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 
 public class BlockDragonEggCustom extends BlockDragonEgg{
 	public BlockDragonEggCustom(){
@@ -24,20 +24,15 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		fallIfPossible(world,x,y,z);
-	}
-
-	private void fallIfPossible(World world, int x, int y, int z){
 		if (BlockFalling.func_149831_e(world,x,y-1,z) && y >= 0){ // OBFUSCATED can fall?
-			byte checkRange = 32;
-			
-			if (!BlockFalling.fallInstantly && world.checkChunksExist(x-checkRange,y-checkRange,z-checkRange,x+checkRange,y+checkRange,z+checkRange)){
+			if (!BlockFalling.fallInstantly && world.checkChunksExist(x-32,y-32,z-32,x+32,y+32,z+32)){
 				world.spawnEntityInWorld(new EntityBlockFallingDragonEgg(world,x+0.5F,y+0.5F,z+0.5F));
 			}
 			else{
-				BlockPosM.tmp(x,y,z).setAir(world);
-				while(BlockFalling.func_149831_e(world,x,y-1,z) && y > 0)--y;
-				if (y > 0)BlockPosM.tmp(x,y,z).setBlock(world,this,0,2);
+				PosMutable testPos = new PosMutable();
+				testPos.set(x,y,z).setAir(world);
+				while(BlockFalling.func_149831_e(world,testPos.x,testPos.y-1,testPos.z) && testPos.y > 0)--testPos.y;
+				if (testPos.y > 0)testPos.setBlock(world,this,0,2);
 			}
 		}
 	}
@@ -59,18 +54,18 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ){
-		teleportNearby(world,x,y,z);
+		teleportNearby(world,Pos.at(x,y,z));
 		return true;
 	}
 	
 	@Override
 	public void dropBlockAsItemWithChance(World world, int x, int y, int z, int meta, float chance, int fortune){
-		teleportNearby(world,x,y,z);
+		teleportNearby(world,Pos.at(x,y,z));
 	}
 	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block block, int meta){
-		teleportNearby(world,x,y,z);
+		teleportNearby(world,Pos.at(x,y,z));
 	}
 	
 	@Override
@@ -83,17 +78,17 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		return 0;
 	}
 	
-	public static boolean teleportNearby(World world, int x, int y, int z){
-		if (BlockPosM.tmp(x,y,z).getBlock(world) == Blocks.dragon_egg && !world.isRemote){
-			BlockPosM tmpPos = BlockPosM.tmp();
+	public static boolean teleportNearby(World world, Pos pos){
+		if (!world.isRemote && pos.getBlock(world) == Blocks.dragon_egg){
+			PosMutable newPos = new PosMutable();
 			
-			for(int attempt = 0; attempt < 1000; ++attempt){
-				tmpPos.set(x+world.rand.nextInt(31)-15,y+world.rand.nextInt(15)-7,z+world.rand.nextInt(31)-15);
-
-				if (tmpPos.getMaterial(world) == Material.air){
-					tmpPos.setBlock(world,Blocks.dragon_egg,tmpPos.getMetadata(world),2);
-					PacketPipeline.sendToAllAround(world.provider.dimensionId,x,y,z,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,x+0.5D,y+0.5D,z+0.5D,tmpPos.x+0.5D,tmpPos.y+0.5D,tmpPos.z+0.5D));
-					tmpPos.set(x,y,z).setAir(world);
+			for(int attempt = 0; attempt < 1000; attempt++){
+				newPos.set(pos).move(world.rand.nextInt(31)-15,world.rand.nextInt(15)-7,world.rand.nextInt(31)-15);
+				
+				if (newPos.isAir(world)){
+					newPos.setBlock(world,Blocks.dragon_egg,pos.getMetadata(world),2);
+					pos.setAir(world);
+					PacketPipeline.sendToAllAround(world.provider.dimensionId,pos,64D,new C22EffectLine(FXType.Line.DRAGON_EGG_TELEPORT,pos,newPos));
 					return true;
 				}
 			}
@@ -101,23 +96,4 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 		
 		return false;
 	}
-	
-	/*public static boolean teleportEntityToPortal(Entity eggEntity){
-		DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
-		
-		if (file.isDragonDead()){
-			BlockPosM coords = file.getPortalEggLocation();
-			World endWorld = MinecraftServer.getServer().worldServerForDimension(1);
-			
-			if (endWorld == null)HardcoreEnderExpansion.notifications.report("Could not teleport Dragon Egg to the End, world is null.");
-			else if (coords.getBlock(endWorld) != Blocks.dragon_egg){
-				coords.setBlock(endWorld,Blocks.dragon_egg);
-				PacketPipeline.sendToAllAround(eggEntity,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,eggEntity));
-				PacketPipeline.sendToAllAround(endWorld.provider.dimensionId,coords.x+0.5D,coords.y+0.5D,coords.z+0.5D,64D,new C20Effect(FXType.Basic.DRAGON_EGG_RESET,coords.x+0.5D,coords.y+0.5D,coords.z+0.5D));
-				return true;
-			}
-		}
-		
-		return false;
-	}*/
 }

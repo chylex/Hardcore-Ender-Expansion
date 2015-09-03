@@ -1,5 +1,4 @@
 package chylex.hee.packets.client;
-import io.netty.buffer.ByteBuf;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -12,18 +11,19 @@ import net.minecraft.util.ResourceLocation;
 import chylex.hee.item.ItemMusicDisk;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.sound.CustomMusicTicker;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 
 public class C02PlayRecord extends AbstractClientPacket{
-	private BlockPosM pos;
+	private Pos pos;
 	private byte diskDamage;
 	
 	public C02PlayRecord(){}
 	
-	public C02PlayRecord(BlockPosM pos, byte diskDamage){
-		this.pos = pos.copy();
+	public C02PlayRecord(Pos pos, byte diskDamage){
+		this.pos = pos.immutable();
 		this.diskDamage = diskDamage;
 	}
 	
@@ -34,7 +34,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 
 	@Override
 	public void read(ByteBuf buffer){
-		pos = new BlockPosM(buffer.readLong());
+		pos = Pos.at(buffer.readLong());
 		diskDamage = buffer.readByte();
 	}
 
@@ -50,7 +50,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 		Minecraft mc = Minecraft.getMinecraft();
 
 		SoundHandler soundHandler = mc.getSoundHandler();
-		ChunkCoordinates coords = new ChunkCoordinates(pos.x,pos.y,pos.z);
+		ChunkCoordinates coords = new ChunkCoordinates(pos.getX(),pos.getY(),pos.getZ());
 		Map mapSoundPositions = mc.renderGlobal.mapSoundPositions;
 		ISound currentSound = (ISound)mapSoundPositions.get(coords);
 
@@ -61,7 +61,7 @@ public class C02PlayRecord extends AbstractClientPacket{
 
 		mc.ingameGUI.setRecordPlayingMessage("qwertygiy - "+recordData[0]);
 		ResourceLocation resource = new ResourceLocation("hardcoreenderexpansion:"+recordData[1]);
-		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,pos.x,pos.y,pos.z);
+		PositionedSoundRecord snd = PositionedSoundRecord.func_147675_a(resource,pos.getX(),pos.getY(),pos.getZ());
 		mapSoundPositions.put(coords,snd);
 		
 		CustomMusicTicker.stopMusicAndPlayJukebox(snd);
