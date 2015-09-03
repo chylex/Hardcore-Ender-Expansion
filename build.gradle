@@ -23,7 +23,7 @@ buildscript{
     }
 }
 
-dependencies {
+dependencies{
     shade files('libs/Java8Checker  MC-1.7.10  v1.1-src.jar')
 }
 
@@ -40,7 +40,7 @@ minecraft{
     version = "1.7.10-10.13.4.1492-1.7.10"
     runDir = "eclipse"
     
-    srgExtra "PK:chylex/javacheck chylex/shade/javacheck"
+    srgExtra "PK: chylex/javacheck chylex/shade/javacheck"
 }
 
 processResources{
@@ -58,6 +58,12 @@ processResources{
 }
 
 jar{
+    configurations.shade.each{ dep ->
+        from(project.zipTree(dep)){
+            exclude 'META-INF', 'META-INF/**'
+        }
+    }
+    
     manifest{
         attributes 'FMLAT': 'hee_at.cfg'
         attributes 'FMLCorePlugin': 'chylex.javacheck.Java8CheckerCoremod'
