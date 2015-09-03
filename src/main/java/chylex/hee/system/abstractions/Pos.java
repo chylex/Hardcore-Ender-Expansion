@@ -95,6 +95,10 @@ public class Pos{
 		return (x&(1L<<26)-1L)<<38|(y&(1L<<12)-1L)<<26|(z&(1L<<26)-1L);
 	}
 	
+	public Pos immutable(){
+		return this;
+	}
+	
 	/* === OFFSET === */
 	
 	public Pos offset(int x, int y, int z){
@@ -269,6 +273,11 @@ public class Pos{
 		@Override
 		public int getZ(){
 			return z;
+		}
+		
+		@Override
+		public Pos immutable(){
+			return Pos.at(x,y,z);
 		}
 		
 		public PosMutable copy(){
