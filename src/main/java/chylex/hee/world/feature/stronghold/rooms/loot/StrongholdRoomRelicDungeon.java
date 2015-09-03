@@ -121,9 +121,6 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 		
 		// chest itself
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,y+2,mpos.z);
-		
-		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(entranceFrom.opposite(),(tile, random) -> {
-			// TODO loot
-		}));
+		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(entranceFrom.opposite(),generateLoot));
 	}
 }

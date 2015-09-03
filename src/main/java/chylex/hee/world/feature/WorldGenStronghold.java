@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -13,6 +14,9 @@ import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.MapGenStructureData;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureStart;
+import chylex.hee.init.ItemList;
+import chylex.hee.system.abstractions.Meta;
+import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.collections.CustomArrayList;
@@ -36,18 +40,37 @@ import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicFountai
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomLargeIntersectionTrap;
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomPrisonTrap;
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomSilverfishTrap;
+import chylex.hee.world.loot.WeightedLootTable;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Range;
+import chylex.hee.world.util.IRandomAmount;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGenStronghold implements IWorldGenerator{
 	private static final StructureDungeon stronghold = new StructureDungeon(128,48,128);
 	
+	public static final WeightedLootTable loot = new WeightedLootTable();
+	
 	static{
+		loot.addLoot(Items.iron_ingot).setAmount(1,5).setWeight(100);
+		loot.addLoot(ItemList.ethereum).setAmount(1,2).setWeight(95);
+		loot.addLoot(Items.gold_ingot).setAmount(1,3).setWeight(92);
+		loot.addLoot(Items.rotten_flesh).setAmount(1,4).setWeight(82);
+		loot.addLoot(Items.leather).setAmount(1,6,IRandomAmount.aroundCenter).setWeight(80);
+		loot.addLoot(ItemList.knowledge_note).setAmount(1).setWeight(72);
+		loot.addLoot(Items.book).setAmount(1).setWeight(70);
+		loot.addLoot(Blocks.obsidian).setAmount(2,3).setWeight(58);
+		loot.addLoot(Items.bowl).setAmount(1,3,IRandomAmount.preferSmaller).setWeight(40);
+		loot.addLoot(Items.string).setAmount(1,3).setWeight(36);
+		loot.addLoot(Items.dye).setDamage(Meta.getDye(BlockColor.BLACK)).setAmount(1).setWeight(30);
+		loot.addLoot(Items.glass_bottle).setAmount(1).setWeight(22);
+		loot.addLoot(Items.potionitem).setAmount(1).setWeight(22);
+		loot.addLoot(Items.diamond).setAmount(1,2).setWeight(14);
+		
 		//stronghold.setPieceAmount(28,36);
 		//stronghold.setPieceAmount(0,36);
 		//stronghold.setStartingPiece(new StrongholdPieceEndPortal());

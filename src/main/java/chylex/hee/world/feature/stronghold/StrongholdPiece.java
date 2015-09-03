@@ -2,13 +2,18 @@ package chylex.hee.world.feature.stronghold;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityChest;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
+import chylex.hee.world.feature.WorldGenStronghold;
 import chylex.hee.world.structure.IBlockPicker;
+import chylex.hee.world.structure.IStructureTileEntity;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
 import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
+import chylex.hee.world.util.IRandomAmount;
 
 public abstract class StrongholdPiece extends StructureDungeonPiece{
 	protected enum Type implements IType{ CORRIDOR, DOOR, ROOM, DEADEND }
@@ -65,6 +70,19 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 			placeLine(world,rand,stairs[facingInd],centerX+distance*facing.getX()-off*perX,y,centerZ+distance*facing.getZ()-off*perZ,centerX+distance*facing.getX()+off*perX,y,centerZ+distance*facing.getZ()+off*perZ);
 		}
 	}
+	
+	protected static final IStructureTileEntity generateLoot = (tile, rand) -> {
+		TileEntityChest chest = (TileEntityChest)tile;
+		
+		for(int items = IRandomAmount.aroundCenter.generate(rand,3,10); items > 0; items--){
+			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),WorldGenStronghold.loot.generateWeighted(null,rand));
+		}
+		
+		for(int cobwebs = rand.nextInt(7), slot; cobwebs > 0; cobwebs--){
+			slot = rand.nextInt(chest.getSizeInventory());
+			if (chest.getStackInSlot(slot) == null)chest.setInventorySlotContents(slot,new ItemStack(Blocks.web));
+		}
+	};
 	
 	public StrongholdPiece(Type type, Size size){
 		super(type,size);
