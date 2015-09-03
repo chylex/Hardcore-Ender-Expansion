@@ -50,7 +50,6 @@ import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C01ParticleEndPortalCreation;
 import chylex.hee.packets.client.C06SetPlayerVelocity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.achievements.AchievementManager;
@@ -461,7 +460,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		
  		if (!worldObj.isRemote){
  			if (deathTicks == 1){
- 				PacketPipeline.sendToDimension(dimension,new C01ParticleEndPortalCreation(MathUtil.floor(posX),MathUtil.floor(posZ)));
  				achievements.onBattleFinished();
  				WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setDragonDead(true);
 				worldObj.playBroadcastSound(1018,(int)posX,(int)posY,(int)posZ,0);
@@ -492,27 +490,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  			
  			if (deathTicks > 40 && deathTicks < 140)rewards.spawnEssence(worldObj,(int)posX,(int)posZ);
 		}
- 		else if (deathTicks > 20 && worldObj.isRemote){
- 			int amount = 1+deathTicks/40, xx = DragonUtil.portalEffectX, zz = DragonUtil.portalEffectZ;
- 			byte bottomY = 64, portalSize = 4;
-
- 			for(int iy = bottomY-1; iy <= bottomY+32; ++iy){
- 				for(int ix = xx-portalSize; ix <= xx+portalSize; ix++){
- 					for(int iz = zz-portalSize; iz <= zz+portalSize; iz++){
- 						double distSq = MathUtil.square(ix-xx)+MathUtil.square(iz-zz);
- 						
- 						if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
- 							if ((iy < bottomY && distSq <= ((portalSize-1)-0.5D)*((portalSize-1)-0.5D)) || iy > bottomY)continue;
- 							for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",ix+rand.nextDouble(),iy+rand.nextDouble()-0.5D,iz+rand.nextDouble(),0D,0D,0D);
- 						}
- 					}
- 				}
- 			}
- 			
- 			for(int minX = 2; minX < 5; minX++){
- 				for(int a = 0; a < rand.nextInt(amount); a++)worldObj.spawnParticle("portal",xx+rand.nextDouble(),bottomY+a+rand.nextDouble()-0.5D,zz+rand.nextDouble(),0D,0D,0D);
- 			}
- 		}
 
 		if (deathTicks >= 180 && deathTicks <= 200){
 			worldObj.spawnParticle("hugeexplosion",posX+(rand.nextFloat()-0.5F)*8F,posY+2D+(rand.nextFloat()-0.5F)*4F,posZ+(rand.nextFloat()-0.5F)*8F,0D,0D,0D);
@@ -523,43 +500,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		if (deathTicks == 200 && !worldObj.isRemote){
 			DragonUtil.spawnXP(this,2000);
-			createEnderPortal(MathUtil.floor(posX),MathUtil.floor(posZ));
 			DragonChunkManager.release(this);
 			setDead();
 		}
-	}
-
-	private void createEnderPortal(int x, int z){
-		// TODO
-		/*BlockEndPortal.field_149948_a = true;
-		byte portalSize = 4, bottomY = 64;
-		BlockPosM tmpPos = BlockPosM.tmp();
-
-		for(int yy = bottomY-1; yy <= bottomY+32; yy++){
-			for(int xx = x-portalSize; xx <= x+portalSize; xx++){
-				for(int zz = z-portalSize; zz <= z+portalSize; zz++){
-					double distSq = MathUtil.square(xx-x)+MathUtil.square(zz-z);
-
-					if (distSq <= (portalSize-0.5D)*(portalSize-0.5D)){
-						tmpPos.set(xx,yy,zz);
-						
-						if (yy < bottomY){
-							if (distSq <= MathUtil.square((portalSize-1)-0.5D))tmpPos.setBlock(worldObj,Blocks.bedrock);
-						}
-						else if (yy > bottomY)tmpPos.setAir(worldObj);
-						else if (distSq > MathUtil.square((portalSize-1)-0.5D))tmpPos.setBlock(worldObj,Blocks.bedrock);
-						else tmpPos.setBlock(worldObj,Blocks.end_portal);
-					}
-				}
-			}
-		}
-		
-		for(int yy = bottomY; yy <= bottomY+3; yy++)tmpPos.set(x,yy,z).setBlock(worldObj,Blocks.bedrock);
-		for(int dir = 0; dir < 4; dir++)tmpPos.set(x+Direction.offsetX[dir],bottomY+2,z+Direction.offsetZ[dir]).setBlock(worldObj,Blocks.torch);
-		tmpPos.set(x,bottomY+4,z).setBlock(worldObj,Blocks.dragon_egg);
-		
-		BlockEndPortal.field_149948_a = false;
-		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getPortalEggLocation().set(x,bottomY+4,z);*/
 	}
 
 	public double[] getMovementOffsets(int offset, float partialTickTime){

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,13 +20,10 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.logging.Stopwatch;
 
 public final class DragonUtil{
-	public static int portalEffectX, portalEffectZ;
-
 	public static final DecimalFormat formatOnePlace = new DecimalFormat("0.0");
 	public static final DecimalFormat formatTwoPlaces = new DecimalFormat("0.00");
 	
