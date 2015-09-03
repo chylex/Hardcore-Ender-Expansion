@@ -81,7 +81,7 @@ public class WeightedLootTable extends LootTable<WeightedLootItem>{
 		
 		@Override
 		public ItemStack generate(Object obj, Random rand){
-			return new ItemStack(item,amount.getAmount(obj,rand),damage == null ? 0 : damage.getDamage(obj,rand));
+			return new ItemStack(item,amount == null ? 1 : amount.getAmount(obj,rand),damage == null ? 0 : damage.getDamage(obj,rand));
 		}
 	}
 }
