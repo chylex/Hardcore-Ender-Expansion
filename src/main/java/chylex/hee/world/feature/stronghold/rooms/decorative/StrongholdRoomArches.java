@@ -3,11 +3,11 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
 public class StrongholdRoomArches extends StrongholdRoom{

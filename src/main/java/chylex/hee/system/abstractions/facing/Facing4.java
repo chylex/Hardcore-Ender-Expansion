@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.util;
+package chylex.hee.system.abstractions.facing;
 import net.minecraft.util.EnumFacing;
 import chylex.hee.system.abstractions.facing.IFacing;
 

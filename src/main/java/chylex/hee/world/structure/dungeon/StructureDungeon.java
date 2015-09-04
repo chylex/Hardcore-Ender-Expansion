@@ -1,12 +1,12 @@
 package chylex.hee.world.structure.dungeon;
-import gnu.trove.impl.Constants;
-import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
+import com.google.common.base.Objects;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.world.structure.IStructureGenerator;
 import chylex.hee.world.structure.StructureBase;
@@ -14,9 +14,9 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IType;
 import chylex.hee.world.structure.util.BoundingBox;
-import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Range;
-import com.google.common.base.Objects;
+import gnu.trove.impl.Constants;
+import gnu.trove.map.hash.TObjectIntHashMap;
 
 /**
  * Basic dungeon consisting of multiple cuboids connected to each other.

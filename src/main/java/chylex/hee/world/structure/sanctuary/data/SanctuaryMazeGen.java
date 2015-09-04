@@ -2,8 +2,8 @@ package chylex.hee.world.structure.sanctuary.data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.util.CycleProtection;
-import chylex.hee.world.structure.util.Facing4;
 
 public final class SanctuaryMazeGen{
 	private final byte width, depth;

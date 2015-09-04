@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IType;
 import chylex.hee.world.structure.util.BoundingBox;
-import chylex.hee.world.structure.util.Facing4;
 
 public class StructureDungeonPieceInst implements IWeightProvider{
 	public final StructureDungeonPiece piece;

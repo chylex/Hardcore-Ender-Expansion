@@ -4,9 +4,9 @@ import net.minecraft.init.Blocks;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.Facing4;
 
 public class StrongholdDoorTorches extends StrongholdDoor{
 	public static StrongholdDoorTorches[] generateDoors(){

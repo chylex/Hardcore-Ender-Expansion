@@ -6,12 +6,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.WorldGenStronghold;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.IStructureTileEntity;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
-import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 import chylex.hee.world.util.IRandomAmount;
 

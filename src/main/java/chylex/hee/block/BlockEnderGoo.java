@@ -19,7 +19,7 @@ import chylex.hee.entity.GlobalMobData;
 import chylex.hee.init.ItemList;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
-import chylex.hee.world.structure.util.Facing6;
+import chylex.hee.system.abstractions.facing.Facing6;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;

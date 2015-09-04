@@ -2,12 +2,12 @@ package chylex.hee.world.structure.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import com.google.common.collect.ImmutableList;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
-import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
-import com.google.common.collect.ImmutableList;
 
 public abstract class StructureDungeonPiece{
 	public interface IType{}

@@ -10,9 +10,9 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.abstractions.facing.IFacing;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.util.Facing4;
 
 public class Pos{
 	public static final Pos at(int x, int y, int z){

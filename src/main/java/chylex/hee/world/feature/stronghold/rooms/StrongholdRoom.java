@@ -3,10 +3,10 @@ import java.util.Random;
 import javax.annotation.Nullable;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.stronghold.StrongholdPiece;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.Facing4;
 import chylex.hee.world.structure.util.Size;
 
 public abstract class StrongholdRoom extends StrongholdPiece{
