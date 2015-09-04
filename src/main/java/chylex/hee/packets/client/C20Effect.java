@@ -1,13 +1,14 @@
 package chylex.hee.packets.client;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
 import chylex.hee.entity.fx.FXHandler;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.AbstractClientPacket;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 
 public class C20Effect extends AbstractClientPacket{	
 	private FXType.Basic type;
@@ -20,6 +21,10 @@ public class C20Effect extends AbstractClientPacket{
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+	
+	public C20Effect(FXType.Basic type, Pos pos){
+		this(type,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D);
 	}
 	
 	public C20Effect(FXType.Basic type, Entity entity){
