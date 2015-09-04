@@ -17,7 +17,9 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.material.MaterialEnderGoo;
 import chylex.hee.entity.GlobalMobData;
 import chylex.hee.init.ItemList;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.world.structure.util.Facing6;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -28,10 +30,6 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	
 	public static final Material enderGoo = new MaterialEnderGoo();
 	public static final Fluid fluid = new Fluid("enderGoo").setDensity(1500).setTemperature(220).setViscosity(1500);
-	
-	private final byte[] xOff = new byte[]{ -1, 1, 0, 0, 0, 0 },
-						 yOff = new byte[]{ 0, 0, -1, 1, 0, 0 },
-						 zOff = new byte[]{ 0, 0, 0, 0, -1, 1 };
 	
 	public BlockEnderGoo(){
 		super(fluid,enderGoo);
@@ -52,22 +50,25 @@ public class BlockEnderGoo extends BlockFluidClassic{
 		super.updateTick(world,x,y,z,rand);
 		
 		if (shouldBattleWater){
-			BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
-			int meta = tmpPos.getMetadata(world);
+			PosMutable mpos = new PosMutable();
+			Pos currentPos = Pos.at(x,y,z);
+			int meta = currentPos.getMetadata(world);
 			
-			for(int a = 0; a < 6; a++){
-				if (tmpPos.set(x+xOff[a],y+yOff[a],z+zOff[a]).getMaterial(world) != Material.water)continue;
+			for(Facing6 facing:Facing6.list){
+				mpos.set(currentPos).move(facing);
 				
-				if ((rand.nextInt(Math.max(1,10-meta-(world.provider.dimensionId == 1 ? 7 : 0)+(a == 2 || a == 3 ? 2 : 0))) == 0)){
-					tmpPos.setBlock(world,this,Math.max(2,tmpPos.getMetadata(world)));
-					if (rand.nextInt(6-meta) == 0)tmpPos.setAir(world);
+				if (mpos.getMaterial(world) != Material.water)continue;
+				
+				if ((rand.nextInt(Math.max(1,10-meta-(world.provider.dimensionId == 1 ? 7 : 0)+(facing.getY() != 0 ? 2 : 0))) == 0)){
+					mpos.setBlock(world,this,Math.max(2,mpos.getMetadata(world)));
+					if (rand.nextInt(6-meta) == 0)mpos.setAir(world);
 				}
 				else if (world.provider.dimensionId != 1 && rand.nextInt(4) != 0){
-					tmpPos.set(x,y,z).setBlock(world,Blocks.flowing_water,2);
+					currentPos.setBlock(world,Blocks.flowing_water,2);
 					
-					for(int b = 0, index; b < 2+rand.nextInt(5); b++){
-						index = rand.nextInt(6);
-						if (tmpPos.set(x+xOff[index],y+yOff[index],z+zOff[index]).getBlock(world) == this)tmpPos.setBlock(world,Blocks.flowing_water,2);
+					for(int b = 0; b < 2+rand.nextInt(5); b++){
+						mpos.set(currentPos).move(Facing6.list[rand.nextInt(Facing6.list.length)]);
+						if (mpos.getBlock(world) == this)mpos.setBlock(world,Blocks.flowing_water,2);
 					}
 					
 					return;
@@ -117,8 +118,10 @@ public class BlockEnderGoo extends BlockFluidClassic{
 	
 	@SubscribeEvent
 	public void onBucketFill(FillBucketEvent e){
-		if (BlockPosM.tmp(e.target.blockX,e.target.blockY,e.target.blockZ).getBlock(e.world) == this){
-			BlockPosM.tmp(e.target.blockX,e.target.blockY,e.target.blockZ).setAir(e.world);
+		Pos pos = Pos.at(e.target);
+		
+		if (pos.getBlock(e.world) == this){
+			pos.setAir(e.world);
 			e.result = new ItemStack(ItemList.bucket_ender_goo);
 			e.setResult(Result.ALLOW);
 		}

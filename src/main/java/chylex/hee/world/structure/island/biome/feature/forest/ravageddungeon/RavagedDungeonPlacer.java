@@ -6,7 +6,7 @@ import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.world.structure.util.Facing;
+import chylex.hee.world.structure.util.Facing4;
 
 public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	private static final byte radEntrance = 2, radHallway = 2, radRoom = 7;
@@ -1028,12 +1028,12 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 		}
 	}
 	
-	private static Facing dirToFacing(DungeonDir dir){
+	private static Facing4 dirToFacing(DungeonDir dir){
 		switch(dir){
-			case UP: return Facing.SOUTH_POSZ;
-			case DOWN: return Facing.NORTH_NEGZ;
-			case LEFT: return Facing.EAST_POSX;
-			case RIGHT: return Facing.WEST_NEGX;
+			case UP: return Facing4.SOUTH_POSZ;
+			case DOWN: return Facing4.NORTH_NEGZ;
+			case LEFT: return Facing4.EAST_POSX;
+			case RIGHT: return Facing4.WEST_NEGX;
 			default: return null;
 		}
 	}

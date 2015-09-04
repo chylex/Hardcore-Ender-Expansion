@@ -23,8 +23,9 @@ import chylex.hee.init.BlockList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.util.Direction;
 import cpw.mods.fml.relauncher.Side;
@@ -75,10 +76,10 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	 * Update chain from the entity, return false to stop the chain.
 	 */
 	public boolean updateChain(World world, int x, int y, int z, byte chainDir){
-		int meta = BlockPosM.tmp(x,y,z).getMetadata(world), toggled = toggleState(meta);
+		int meta = Pos.at(x,y,z).getMetadata(world), toggled = toggleState(meta);
 		
 		if (meta != toggled){
-			BlockPosM.tmp(x,y,z).setMetadata(world,toggled);
+			Pos.at(x,y,z).setMetadata(world,toggled);
 			
 			int unlit = getUnlit(meta);
 			
@@ -96,7 +97,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 					for(zz = -1; zz <= 1; zz++){
 						if ((distrToggled = toggleState(distrMeta = world.getBlockMetadata(x+xx,y,z+zz))) != distrMeta && !(xx == 0 && zz == 0) && world.getBlock(x+xx,y,z+zz) == BlockList.dungeon_puzzle){
 							PacketPipeline.sendToAllAround(world.provider.dimensionId,x+xx+0.5D,y+0.5D,z+zz+0.5D,64D,new C20Effect(FXType.Basic.DUNGEON_PUZZLE_BURN,x+xx+0.5D,y+0.5D,z+zz+0.5D));
-							BlockPosM.tmp(x+xx,y,z+zz).setMetadata(world,distrToggled);
+							Pos.at(x+xx,y,z+zz).setMetadata(world,distrToggled);
 						}
 					}
 				}
@@ -113,7 +114,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	public void checkWinConditions(World world, int x, int y, int z){
 		if (world.getEntitiesWithinAABB(EntityTechnicalPuzzleChain.class,AxisAlignedBB.getBoundingBox(x+0.5D-maxDungeonSize,y,z+0.5D-maxDungeonSize,x+0.5D+maxDungeonSize,y+1D,z+0.5D+maxDungeonSize)).size() == 1){
 			int minX = x, minZ = z, maxX = x, maxZ = z, cnt = 0;
-			BlockPosM tmpPos = BlockPosM.tmp();
+			PosMutable tmpPos = new PosMutable();
 			boolean isFinished = true;
 			
 			Stopwatch.time("BlockDungeonPuzzle - win detection - coords");
@@ -178,7 +179,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	
 	@Override
 	public int getLightValue(IBlockAccess world, int x, int y, int z){
-		return BlockPosM.tmp(x,y,z).getMetadata(world) == metaPortal ? 15 : super.getLightValue(world,x,y,z);
+		return Pos.at(x,y,z).getMetadata(world) == metaPortal ? 15 : super.getLightValue(world,x,y,z);
 	}
 	
 	@Override
@@ -194,7 +195,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
-		if (BlockPosM.tmp(x,y,z).getMetadata(world) == metaPortal){
+		if (Pos.at(x,y,z).getMetadata(world) == metaPortal){
 			for(int a = 0; a < 18; a++)HardcoreEnderExpansion.fx.global("portal",x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,0.6289F,0.3359F,0.0391F);
 			HardcoreEnderExpansion.fx.global("portal",x+0.5D+(rand.nextDouble()-0.5D)*0.3D,y+1D+rand.nextDouble()*2D,z+0.5D+(rand.nextDouble()-0.5D)*0.3D,(rand.nextDouble()-0.5D)*0.8D,(rand.nextDouble()-0.5D)*0.2D,(rand.nextDouble()-0.5D)*0.8D,1F,1F,1F);
 		}
@@ -212,7 +213,7 @@ public class BlockDungeonPuzzle extends Block implements IBlockSubtypes{
 
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
-		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
+		int meta = Pos.at(x,y,z).getMetadata(world);
 		if (meta == metaPortal)meta = metaDisabled;
 		return new ItemStack(this,1,meta);
 	}

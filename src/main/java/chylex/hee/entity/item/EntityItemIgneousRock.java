@@ -20,7 +20,7 @@ import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.init.BlockList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityItemIgneousRock extends EntityItem{
@@ -70,28 +70,28 @@ public class EntityItemIgneousRock extends EntityItem{
 			
 			if (rand.nextInt(64-Math.min(32,is.stackSize/2)) == 0){
 				for(int attempt = 0; attempt < 4+(is.stackSize/8); attempt++){
-					BlockPosM tmpPos = BlockPosM.tmp(this);
-					tmpPos.move(MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D));
+					Pos pos = Pos.at(this);
+					pos = pos.offset(MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D),MathUtil.floor((rand.nextDouble()-0.5D)*4D));
 					
-					Block block = tmpPos.getBlock(worldObj);
+					Block block = pos.getBlock(worldObj);
 					Block target = blockTransformations.get(block);
 					
-					if (target != null)tmpPos.setBlock(worldObj,target);
+					if (target != null)pos.setBlock(worldObj,target);
 					else if (block.getMaterial() == Material.air){
-						if (rand.nextInt(5) == 0)tmpPos.setBlock(worldObj,Blocks.fire);
+						if (rand.nextInt(5) == 0)pos.setBlock(worldObj,Blocks.fire);
 						else continue;
 					}
 					else if (block == Blocks.tnt){
-						tmpPos.setAir(worldObj);
-						worldObj.createExplosion(null,tmpPos.x,tmpPos.y,tmpPos.z,3.9F,true);
+						pos.setAir(worldObj);
+						worldObj.createExplosion(null,pos.getX(),pos.getY(),pos.getZ(),3.9F,true);
 					}
-					else if (block == Blocks.tallgrass && tmpPos.getMetadata(worldObj) != 0){
-						tmpPos.setMetadata(worldObj,0,2);
+					else if (block == Blocks.tallgrass && pos.getMetadata(worldObj) != 0){
+						pos.setMetadata(worldObj,0,2);
 					}
 					else continue;
 					
 					if (block.getMaterial() != Material.air){
-						PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.IGNEOUS_ROCK_MELT,tmpPos.x+0.5D,tmpPos.y+0.5D,tmpPos.z+0.5D));
+						PacketPipeline.sendToAllAround(this,64D,new C20Effect(FXType.Basic.IGNEOUS_ROCK_MELT,pos));
 					}
 					
 					if (rand.nextInt(3) == 0)break;
