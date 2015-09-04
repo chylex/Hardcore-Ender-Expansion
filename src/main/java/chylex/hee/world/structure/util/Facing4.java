@@ -1,7 +1,8 @@
 package chylex.hee.world.structure.util;
 import net.minecraft.util.EnumFacing;
+import chylex.hee.system.abstractions.facing.IFacing;
 
-public enum Facing4{
+public enum Facing4 implements IFacing{
 	NORTH_NEGZ, SOUTH_POSZ, WEST_NEGX, EAST_POSX, INVALID;
 	
 	public static final Facing4[] list = new Facing4[]{ NORTH_NEGZ, SOUTH_POSZ, WEST_NEGX, EAST_POSX };
@@ -58,6 +59,7 @@ public enum Facing4{
 		return facing;
 	}
 	
+	@Override
 	public EnumFacing toEnumFacing(){
 		switch(this){
 			case NORTH_NEGZ: return EnumFacing.NORTH;
@@ -68,6 +70,7 @@ public enum Facing4{
 		}
 	}
 	
+	@Override
 	public int getX(){
 		switch(this){
 			case EAST_POSX: return 1;
@@ -76,6 +79,12 @@ public enum Facing4{
 		}
 	}
 	
+	@Override
+	public int getY(){
+		return 0;
+	}
+	
+	@Override
 	public int getZ(){
 		switch(this){
 			case SOUTH_POSZ: return 1;

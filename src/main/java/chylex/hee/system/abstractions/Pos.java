@@ -10,6 +10,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import chylex.hee.system.abstractions.facing.IFacing;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.util.Facing4;
 
@@ -115,11 +116,11 @@ public class Pos{
 		return offset(facing.getFrontOffsetX()*amount,facing.getFrontOffsetY()*amount,facing.getFrontOffsetZ()*amount);
 	}
 	
-	public Pos offset(Facing4 facing){
+	public Pos offset(IFacing facing){
 		return offset(facing.getX(),0,facing.getZ());
 	}
 	
-	public Pos offset(Facing4 facing, int amount){
+	public Pos offset(IFacing facing, int amount){
 		return offset(facing.getX()*amount,0,facing.getZ()*amount);
 	}
 	
@@ -327,11 +328,11 @@ public class Pos{
 			return move(facing.getFrontOffsetX()*amount,facing.getFrontOffsetY()*amount,facing.getFrontOffsetZ()*amount);
 		}
 		
-		public PosMutable move(Facing4 facing){
+		public PosMutable move(IFacing facing){
 			return move(facing.getX(),0,facing.getZ());
 		}
 		
-		public PosMutable move(Facing4 facing, int amount){
+		public PosMutable move(IFacing facing, int amount){
 			return move(facing.getX()*amount,0,facing.getZ()*amount);
 		}
 		
