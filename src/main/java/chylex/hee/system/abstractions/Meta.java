@@ -97,6 +97,22 @@ public final class Meta{
 		}
 	}
 	
+	/* === VINES === */
+	
+	public static byte getVine(Facing4 attachedTo){
+		switch(attachedTo){
+			case SOUTH_POSZ: return 1;
+			case WEST_NEGX: return 2;
+			case NORTH_NEGZ: return 4;
+			case EAST_POSX: return 8;
+			default: return 0;
+		}
+	}
+	
+	public static byte getVine(Facing4 attachedTo1, Facing4 attachedTo2){
+		return (byte)(getVine(attachedTo1)|getVine(attachedTo2));
+	}
+	
 	/* === DYES AND COLORED BLOCKS === */
 	
 	public enum BlockColor { WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, LIGHT_GRAY, CYAN, PURPLE, BLUE, BROWN, GREEN, RED, BLACK }
