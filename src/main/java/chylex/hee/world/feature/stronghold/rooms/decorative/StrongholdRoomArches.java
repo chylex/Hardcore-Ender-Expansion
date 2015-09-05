@@ -20,16 +20,9 @@ public class StrongholdRoomArches extends StrongholdRoom{
 		super.generate(inst,world,rand,x,y,z);
 		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
 		
-		// ceiling chiseled stone brick
-		IBlockPicker placeChiseledBrick = IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled);
-		
-		placeBlock(world,rand,placeChiseledBrick,centerX,y+maxY-1,centerZ);
-		
-		for(Facing4 facing:Facing4.list){
-			placeLine(world,rand,placeChiseledBrick,centerX+facing.getX(),y+maxY-1,centerZ+facing.getZ(),centerX+4*facing.getX(),y+maxY-1,centerZ+4*facing.getZ());
-		}
-		
 		// wall layout
+		IBlockPicker placeArchTop = rand.nextInt(6) == 0 ? IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled) : placeStoneBrickPlain;
+		
 		PosMutable mpos = new PosMutable();
 		
 		for(Facing4 facing:Facing4.list){
@@ -43,7 +36,11 @@ public class StrongholdRoomArches extends StrongholdRoom{
 			mpos.move(facing);
 			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),mpos.x,y+maxY-2,mpos.z); // left half arch
 			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+maxY-1,mpos.z); // left half arch top
-			mpos.move(facing,2);
+			
+			mpos.move(facing);
+			placeBlock(world,rand,placeArchTop,mpos.x,y+maxY-1,mpos.z); // arch top
+			mpos.move(facing);
+			
 			placeBlock(world,rand,placeStoneBrickStairs(facing,true),mpos.x,y+maxY-2,mpos.z); // right half arch
 			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+maxY-1,mpos.z); // right half arch top
 			mpos.move(facing);

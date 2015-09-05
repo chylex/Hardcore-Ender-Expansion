@@ -12,7 +12,7 @@ import chylex.hee.world.structure.util.Size;
 
 public class StrongholdRoomLitPole extends StrongholdRoom{
 	public StrongholdRoomLitPole(){
-		super(new Size(13,7,13));
+		super(new Size(11,7,11));
 	}
 
 	@Override

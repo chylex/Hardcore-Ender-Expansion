@@ -26,13 +26,13 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		int centerX = x+maxX/2, centerZ = z+maxZ/2;
 		
 		// floors
-		IBlockPicker placeChiseledBrick = IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled);
+		IBlockPicker placeFloorLine = rand.nextInt(4) == 0 ? IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled) : placeStoneBrickPlain;
 		IBlockPicker placeDoubleStoneSlab = IBlockPicker.basic(Blocks.double_stone_slab,Meta.slabStoneSmoothDouble);
 		
 		for(int level = 0, py; level < 2; level++){
 			py = y+5*level;
 			
-			placeBlock(world,rand,placeChiseledBrick,centerX,py,centerZ);
+			placeBlock(world,rand,placeFloorLine,centerX,py,centerZ);
 			
 			for(int line = 0; line < 2; line++){
 				placeLine(world,rand,placeDoubleStoneSlab,centerX-1+2*line,py,centerZ-5,centerX-1+2*line,py,centerZ+5);
@@ -40,7 +40,7 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 			}
 			
 			for(Facing4 facing:Facing4.list){
-				placeLine(world,rand,placeChiseledBrick,centerX+facing.getX(),py,centerZ+facing.getZ(),centerX+5*facing.getX(),py,centerZ+5*facing.getZ());
+				placeLine(world,rand,placeFloorLine,centerX+facing.getX(),py,centerZ+facing.getZ(),centerX+5*facing.getX(),py,centerZ+5*facing.getZ());
 			}
 		}
 		
@@ -51,7 +51,7 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		for(Facing4 facing:Facing4.list){
 			mpos.set(centerX,0,centerZ).move(facing,5);
 			facing = facing.rotateRight();
-			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+4*facing.getX(),topY,mpos.z+4*facing.getZ());
+			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+3*facing.getX(),topY,mpos.z+3*facing.getZ());
 			
 			mpos.move(facing,3).move(facing = facing.rotateRight());
 			placeLine(world,rand,placeStoneBrickStairs(facing.rotateLeft(),true),mpos.x,topY,mpos.z,mpos.x+facing.getX(),topY,mpos.z+facing.getZ());
