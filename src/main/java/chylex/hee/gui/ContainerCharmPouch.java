@@ -35,11 +35,11 @@ public class ContainerCharmPouch extends Container{
 		ItemStack[] charms = ItemCharmPouch.getPouchCharms(player.getHeldItem());
 		for(int a = 0; a < Math.min(charmInv.getSizeInventory(),charms.length); a++)charmInv.setInventorySlotContents(a,charms[a]);
 		
-		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,0,122,18,ItemList.rune,16));
-		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,1,98,38,ItemList.rune,16));
-		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,2,146,38,ItemList.rune,16));
-		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,3,109,63,ItemList.rune,16));
-		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,4,135,63,ItemList.rune,16));
+		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,0,122,18));
+		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,1,98,38));
+		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,2,146,38));
+		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,3,109,63));
+		addSlotToContainer(new SlotCharmPouchRune(runeInv,this,4,135,63));
 		
 		addSlotToContainer(new SlotCharmPouchRuneResult(runeResultInv,runeInv,this,0,122,41));
 		
