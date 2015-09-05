@@ -40,7 +40,7 @@ public class CharmRecipe{
 	public boolean checkRunes(RuneType[] runes){
 		if (runes.length != runeAmount)return false;
 		
-		List<RuneType> runeList = new ArrayList<RuneType>();
+		List<RuneType> runeList = new ArrayList<>();
 		for(RuneType rune:runes)runeList.add(rune);
 		
 		for(TObjectByteIterator<RuneType> iter = this.runes.iterator(); iter.hasNext();){

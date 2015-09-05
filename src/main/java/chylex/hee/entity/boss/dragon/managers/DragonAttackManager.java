@@ -108,7 +108,7 @@ public class DragonAttackManager{
 		if (healthPercentage == 0)return null;
 		
 		if (specialAttackQueue.isEmpty()){
-			WeightedList<DragonSpecialAttackBase> list = new WeightedList<DragonSpecialAttackBase>(specialAttackWeights);
+			WeightedList<DragonSpecialAttackBase> list = new WeightedList<>(specialAttackWeights);
 			
 			for(int a = 0, amt = list.size()-2; a < amt; a++){
 				DragonSpecialAttackBase attack = list.getRandomItem(dragon.worldObj.rand);

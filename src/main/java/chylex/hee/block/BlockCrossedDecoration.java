@@ -60,7 +60,7 @@ public class BlockCrossedDecoration extends BlockFlower implements IShearable, I
 	
 	@Override
 	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int meta, int fortune){
-		return meta == dataLilyFire ? CollectionUtil.newList(new ItemStack(this,1,meta)) : new ArrayList<ItemStack>();
+		return meta == dataLilyFire ? CollectionUtil.newList(new ItemStack(this,1,meta)) : new ArrayList<>();
 	}
 	
 	@Override

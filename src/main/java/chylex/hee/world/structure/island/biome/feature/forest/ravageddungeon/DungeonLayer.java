@@ -65,7 +65,7 @@ public final class DungeonLayer{
 		Set<DungeonElement> connected = elementList.getGrouped(elementList.getAt(x,y));
 		if (connected.size() != 4)throw new IllegalStateException("Cannot create end, invalid dungeon element size!");
 		
-		List<DungeonElement> endElements = new ArrayList<DungeonElement>();
+		List<DungeonElement> endElements = new ArrayList<>();
 		
 		for(DungeonElement element:connected){
 			elementList.remove(element);
@@ -144,7 +144,7 @@ public final class DungeonLayer{
 			RoomCombo shape = DungeonElementType.RoomCombo.random(rand);
 			
 			if (shape != RoomCombo.SINGLE){
-				List<byte[]> rooms = new ArrayList<byte[]>(4);
+				List<byte[]> rooms = new ArrayList<>(4);
 				byte origX = x, origY = y;
 				
 				switch(shape){

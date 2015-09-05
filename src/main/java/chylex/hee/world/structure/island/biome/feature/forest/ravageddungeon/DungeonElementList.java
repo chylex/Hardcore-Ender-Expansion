@@ -56,7 +56,7 @@ public final class DungeonElementList{
 	}
 	
 	public Set<DungeonElement> getGrouped(DungeonElement element){
-		Set<DungeonElement> list = new HashSet<DungeonElement>();
+		Set<DungeonElement> list = new HashSet<>();
 		addElementAndGrouped(element,list);
 		return list;
 	}
