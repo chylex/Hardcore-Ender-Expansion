@@ -126,6 +126,14 @@ public final class RecipeList{
 			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.Meta.BRICK.value)
 		);
 		
+		// Decorations
+		
+		GameRegistryUtil.addSmeltingRecipe(
+			new ItemStack(Blocks.vine),
+			new ItemStack(BlockList.dry_vine),
+			0.05F
+		);
+		
 		/*GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
 			"DED",
 			'D', Items.diamond,

@@ -22,6 +22,7 @@ import chylex.hee.block.override.BlockReplaceHelper;
 import chylex.hee.block.vanilla.BlockBasic;
 import chylex.hee.block.vanilla.BlockBasicSlab;
 import chylex.hee.block.vanilla.BlockBasicStairs;
+import chylex.hee.item.block.ItemBlockDynamicColor;
 import chylex.hee.item.block.ItemBlockEndFlower;
 import chylex.hee.item.block.ItemBlockEnhanceableTile;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
@@ -110,6 +111,7 @@ public final class BlockList{
 	// TRANSPARENT BLOCKS
 	
 	public static Block ender_goo;
+	public static Block dry_vine;
 	public static Block crossed_decoration;
 	public static Block enderman_head;
 	public static Block death_flower;
@@ -179,6 +181,7 @@ public final class BlockList{
 		register("spooky_leaves", spooky_leaves = new BlockSpookyLeaves().setHardness(0.1F).setStepSound(Block.soundTypeGrass).setBlockName("spookyLeaves").setBlockTextureName("hardcoreenderexpansion:spooky_leaves"));
 		
 		register("ender_goo", ender_goo = new BlockEnderGoo().setHardness(150F).setLightOpacity(2).setBlockName("enderGoo").setBlockTextureName("hardcoreenderexpansion:endergoo_flow"));
+		register("dry_vine", dry_vine = new BlockDryVine().setHardness(0.15F).setStepSound(Block.soundTypeGrass).setBlockName("dryVine").setBlockTextureName("vine"));
 		register("crossed_decoration", crossed_decoration = new BlockCrossedDecoration().setHardness(0F).setStepSound(Block.soundTypeGrass).setCreativeTab(null).setBlockName("crossedDecoration"));
 		register("enderman_head_block", enderman_head = new BlockEndermanHead().setHardness(1F).setStepSound(Block.soundTypeStone).setBlockName("endermanHead").setBlockTextureName("hardcoreenderexpansion:enderman_head"));
 		register("death_flower", death_flower = new BlockDeathFlower().setHardness(0F).setResistance(4F).setStepSound(Block.soundTypeGrass).setCreativeTab(null).setBlockName("endFlower").setBlockTextureName("hardcoreenderexpansion:end_flower"));
@@ -204,6 +207,7 @@ public final class BlockList{
 		setItemClass("enhanced_brewing_stand_block", ItemBlockEnhanceableTile.class);
 		setItemClass("enhanced_tnt", ItemBlockEnhanceableTile.class);
 		setItemClass("end_stone_terrain", ItemBlockWithSubtypes.class);
+		setItemClass("dry_vine", ItemBlockDynamicColor.class);
 		setItemClass("crossed_decoration", ItemBlockWithSubtypes.class);
 		setItemClass("death_flower", ItemBlockEndFlower.class);
 		setItemClass("sphalerite", ItemBlockWithSubtypes.class);
@@ -234,7 +238,7 @@ public final class BlockList{
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,
 			dungeon_puzzle,cinder,persegrit,laboratory_obsidian,laboratory_floor,laboratory_stairs,laboratory_glass,
 			stone_brick_wall,
-			/* TODO SANCTUARY sacred_stone,*/crossed_decoration,death_flower
+			/* TODO SANCTUARY sacred_stone,*/dry_vine,crossed_decoration,death_flower
 		);
 		
 		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.addBlocks(special_effects);
