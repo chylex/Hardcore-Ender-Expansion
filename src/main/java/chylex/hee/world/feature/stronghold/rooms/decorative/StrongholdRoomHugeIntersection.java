@@ -119,6 +119,7 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 	}
 	
 	private void generateFountain(StructureWorld world, Random rand, final int centerX, final int y, final int centerZ, Facing4 facing){
+		final Facing4 originalFacing = facing;
 		PosMutable mpos = new PosMutable();
 		
 		// water and internal blockage
@@ -131,12 +132,15 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 			placeBlock(world,rand,placeStoneBrick,mpos.x,y+maxY-1,mpos.z);
 		}
 		
-		mpos.move(facing = facing.rotateRight()); // reset facing and move to corner
-		
 		// bottom decoration
+		facing = originalFacing;
+		mpos.set(centerX,0,centerZ);
+		mpos.move(facing,5).move(facing = facing.rotateRight(),5).move(facing = facing.rotateRight());
+		mpos.move(facing = facing.rotateRight(),-1);
+		
 		for(int block = 0; block < 3; block++){
 			mpos.move(block < 2 ? facing : (facing = facing.rotateRight()));
-			placeBlock(world,rand,placeStoneBrickStairs(facing.opposite(),true),mpos.x,y+2,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateRight(),true),mpos.x,y+2,mpos.z);
 			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z);
 		}
 		
