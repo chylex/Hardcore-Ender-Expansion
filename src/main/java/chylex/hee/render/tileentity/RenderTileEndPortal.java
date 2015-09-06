@@ -10,8 +10,9 @@ import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.proxy.ModClientProxy;
+import chylex.hee.system.abstractions.Meta;
 
-public class RenderTileEndPortalFixed extends RenderEndPortal{
+public class RenderTileEndPortal extends RenderEndPortal{
 	private static final ResourceLocation texPortalBackground = new ResourceLocation("textures/environment/end_sky.png");
 	private static final ResourceLocation texPortalLayers = new ResourceLocation("textures/entity/end_portal.png");
 	private FloatBuffer buffer = GLAllocation.createDirectFloatBuffer(16);
@@ -25,8 +26,10 @@ public class RenderTileEndPortalFixed extends RenderEndPortal{
 		
 		Random rand = ModClientProxy.seedableRand;
 		rand.setSeed(31100L);
-
-		for(int layer = 0; layer < 16; ++layer){
+		
+		int layers = tile.getBlockMetadata() == Meta.endPortalActive ? 16 : 3;
+		
+		for(int layer = 0; layer < layers; ++layer){
 			GL11.glPushMatrix();
 			float revLayer = (16-layer);
 			float scale = 0.0625F;

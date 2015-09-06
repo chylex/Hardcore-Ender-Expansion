@@ -63,7 +63,7 @@ import chylex.hee.render.projectile.RenderProjectileCurse;
 import chylex.hee.render.projectile.RenderProjectileFiendFireball;
 import chylex.hee.render.projectile.RenderProjectilePotion;
 import chylex.hee.render.tileentity.RenderTileCustomSpawner;
-import chylex.hee.render.tileentity.RenderTileEndPortalFixed;
+import chylex.hee.render.tileentity.RenderTileEndPortal;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
 import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.render.tileentity.RenderTileLaserBeam;
@@ -125,7 +125,7 @@ public class ModClientProxy extends ModCommonProxy{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCustomSpawner.class, new RenderTileCustomSpawner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserBeam.class, new RenderTileLaserBeam());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new RenderTileVoidChest());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndPortal.class, new RenderTileEndPortalFixed());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndPortal.class, new RenderTileEndPortal());
 		
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
 

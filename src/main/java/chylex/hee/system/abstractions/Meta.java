@@ -33,7 +33,10 @@ public final class Meta{
 		cobbleWallMossy = 1,
 		
 		skullGround = 1,
-		torchGround = 5;
+		torchGround = 5,
+		
+		endPortalDisabled = 14,
+		endPortalActive = 15,
 	
 	/* === TORCHES === */
 	
