@@ -122,6 +122,7 @@ public final class BlockList{
 	
 	// TECHNICAL
 	
+	public static Block end_portal_frame;
 	public static Block death_flower_pot;
 	public static Block laser_beam;
 	public static Block custom_spawner;
@@ -190,8 +191,9 @@ public final class BlockList{
 		register("corrupted_energy_low", corrupted_energy_low = new BlockCorruptedEnergy(false).setBlockUnbreakable().setResistance(6000000F));
 		register("laboratory_glass", laboratory_glass = new BlockLaboratoryGlass().setHardness(5F).setResistance(50F).setLightOpacity(5).setBlockName("laboratoryGlass").setBlockTextureName("hardcoreenderexpansion:laboratory_glass"));
 		
+		register("end_portal_frame", end_portal_frame = new BlockEndPortalFrame().setBlockUnbreakable().setResistance(6000000F).setLightLevel(0.125F).setStepSound(Block.soundTypeGlass).setBlockName("endPortalFrame"));
 		register("death_flower_pot", death_flower_pot = new BlockDeathFlowerPot().setHardness(0F).setStepSound(Block.soundTypeStone).setBlockName("flowerPot").setBlockTextureName("flower_pot"));
-		register("laser_beam", laser_beam = new BlockLaserBeam().setBlockUnbreakable().setLightLevel(1F).setResistance(6000000F).setBlockName("laserBeam").setBlockTextureName("hardcoreenderexpansion:laser_beam"));
+		register("laser_beam", laser_beam = new BlockLaserBeam().setBlockUnbreakable().setResistance(6000000F).setLightLevel(1F).setBlockName("laserBeam").setBlockTextureName("hardcoreenderexpansion:laser_beam"));
 		register("custom_spawner", custom_spawner = new BlockCustomSpawner().setHardness(5F).setStepSound(Block.soundTypeMetal).setBlockName("mobSpawner").setBlockTextureName("mob_spawner"));
 		register("biome_core", biome_core = new BlockBiomeIslandCore().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeStone).setBlockName("biomeIslandCore").setBlockTextureName("bedrock"));
 		// TODO SANCTUARY register("sanctuary_brain", sanctuary_brain = new BlockSanctuaryBrain().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypeStone).setBlockName("sanctuaryBrain").setBlockTextureName("bedrock"));
@@ -217,6 +219,7 @@ public final class BlockList{
 		setItemClass("block_special_effects", ItemBlockWithSubtypes.class);
 		setItemClass("persegrit", ItemBlockWithSubtypes.class);
 		setItemClass("sacred_stone", ItemBlockWithSubtypes.class);
+		setItemClass("end_portal_frame", ItemBlockWithSubtypes.class);
 	}
 	
 	public static void registerBlocks(){
@@ -287,6 +290,7 @@ public final class BlockList{
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
 		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
 		GameRegistryUtil.registerTileEntity(TileEntityEndPortalCustom.class, "EndPortal");
+		GameRegistryUtil.registerTileEntity(TileEntityEndPortalFrame.class, "EndPortalFrame");
 		// TODO SANCTUARY GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");
 	}
 	

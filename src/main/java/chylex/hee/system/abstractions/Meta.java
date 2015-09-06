@@ -37,6 +37,8 @@ public final class Meta{
 		
 		endPortalDisabled = 14,
 		endPortalActive = 15,
+		endPortalFramePlain = 0,
+		endPortalFrameAcceptor = 1;
 	
 	/* === TORCHES === */
 	
