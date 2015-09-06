@@ -21,7 +21,7 @@ public class BlockBasicSlab extends BlockSlab implements IBlockSlab{
 		this.useNeighborBrightness = true;
 		setHardness(full.block.blockHardness*0.5F);
 		setResistance(full.block.blockResistance*0.5F);
-        setStepSound(full.block.stepSound);
+		setStepSound(full.block.stepSound);
 	}
 	
 	public BlockBasicSlab(Block fullBlock){

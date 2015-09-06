@@ -1,8 +1,5 @@
 package chylex.hee.block;
 import java.util.Random;
-import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockVine;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Blocks;
@@ -10,6 +7,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import chylex.hee.system.util.MathUtil;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockDryVine extends BlockVine{
 	private static final int dryRed = 161, dryGreen = 135, dryBlue = 87;
@@ -49,7 +49,7 @@ public class BlockDryVine extends BlockVine{
 		return recolor(super.colorMultiplier(world,x,y,z));
 	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister){}
+	public void registerBlockIcons(IIconRegister iconRegister){}
 }

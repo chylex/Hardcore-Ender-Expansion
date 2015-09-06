@@ -8,7 +8,7 @@ public class BlockBasicStairs extends BlockStairs{
 		this.useNeighborBrightness = true;
 		setHardness(sourceBlock.blockHardness*0.75F);
 		setResistance(sourceBlock.blockResistance*0.75F);
-        setStepSound(sourceBlock.stepSound);
+		setStepSound(sourceBlock.stepSound);
 	}
 	
 	public BlockBasicStairs(Block sourceBlock){

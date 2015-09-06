@@ -74,7 +74,7 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random rand){
+	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		if (Pos.at(x,y,z).getMetadata(world) == Meta.endPortalActive && rand.nextInt(4) == 0){
 			super.randomDisplayTick(world,x,y,z,rand);
 		}
