@@ -36,10 +36,11 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 		return layer == 0 ? 0.125F : layer == 1 ? 0.5F : 0.0625F;
 	}
 	
-	protected void generateColors(){
+	protected void generateColors(int layer){
 		red = rand.nextFloat()*0.5F+0.1F;
 		green = rand.nextFloat()*0.5F+0.4F;
 		blue = rand.nextFloat()*0.5F+0.5F;
+		if (layer == 0)red = green = blue = 1F; // make sure nextFloat gets called for correct color
 	}
 
 	@Override
@@ -102,16 +103,9 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 			
 			float posAdjustment = revLayer/(offY+ActiveRenderInfo.objectY);
 			GL11.glTranslatef(ActiveRenderInfo.objectX*posAdjustment,ActiveRenderInfo.objectZ*posAdjustment,-globalY);
-			
-			if (layer == 0){
-				colorMp = 0.1F;
-				red = green = blue = 1F;
-				for(int call = 0; call < 3; call++)rand.nextFloat(); // simulate color gen
-			}
-			else{
-				colorMp = 1F/(revLayer+1F);
-				generateColors();
-			}
+
+			colorMp = layer == 0 ? 0.1F : 1F/(revLayer+1F);
+			generateColors(layer);
 
 			Tessellator tessellator = Tessellator.instance;
 			tessellator.startDrawingQuads();
