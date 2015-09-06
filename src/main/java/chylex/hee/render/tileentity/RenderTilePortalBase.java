@@ -16,9 +16,13 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 	private static final ResourceLocation texPortalLayers = new ResourceLocation("textures/entity/end_portal.png");
 	private FloatBuffer buffer = GLAllocation.createDirectFloatBuffer(16);
 	
+	protected static final Random rand = ModClientProxy.seedableRand;
+	
 	protected TileEntity tile;
-	protected final Random rand = ModClientProxy.seedableRand;
 	protected float red, green, blue, colorMp;
+	protected float ptt;
+	
+	protected void onRender(){}
 	
 	protected int getLayers(){
 		return 16;
@@ -41,6 +45,7 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 	@Override
 	public final void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTickTime){
 		this.tile = tile;
+		this.ptt = partialTickTime;
 		
 		final float globalX = (float)field_147501_a.field_147560_j;
 		final float globalY = (float)field_147501_a.field_147561_k;
@@ -51,6 +56,8 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
 		rand.setSeed(31100L);
+		
+		onRender();
 		
 		for(int layer = 0, layers = getLayers(); layer < layers; layer++){
 			GL11.glPushMatrix();
@@ -99,6 +106,7 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 			if (layer == 0){
 				colorMp = 0.1F;
 				red = green = blue = 1F;
+				for(int call = 0; call < 3; call++)rand.nextFloat(); // simulate color gen
 			}
 			else{
 				colorMp = 1F/(revLayer+1F);
