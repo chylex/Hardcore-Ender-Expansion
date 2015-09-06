@@ -28,6 +28,7 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 
 	@Override
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, final int x, final int y, final int z){
+		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
 		PosMutable mpos = new PosMutable();
 		
 		// box
@@ -53,19 +54,22 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 				// slabs in portal corners
 				placeBlock(world,rand,placeSlabBottom,x+7+4*cornerX,y,z+7+4*cornerZ);
 				// walls in corners
-				placeLine(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),x+3+12*cornerX,y+1,z+3+12*cornerZ,x+3+12*cornerX,y+6,z+3+12*cornerZ);
+				placeLine(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),x+3+12*cornerX,y+1,z+3+12*cornerZ,x+3+12*cornerX,y+5,z+3+12*cornerZ);
 			}
 		}
 		
 		placeOutline(world,rand,placeSlabBottom,x+6,y,z+6,x+maxX-6,y,z+maxZ-6,1); // slabs around portal
+		placeCube(world,rand,IBlockPicker.basic(Blocks.end_portal,Meta.endPortalDisabled),centerX-1,y,centerZ-1,centerX+1,y,centerZ+1); // portal
 		
 		for(Facing4 facing:Facing4.list){
 			int perX = facing.perpendicular().getX(), perZ = facing.perpendicular().getZ();
 			int leftX = facing.rotateLeft().getX(), leftZ = facing.rotateLeft().getZ();
 			int rightX = facing.rotateRight().getX(), rightZ = facing.rotateRight().getZ();
 			
-			mpos.set(x+maxX/2,y,z+maxZ/2).move(facing,4);
-			placeLine(world,rand,placeSlabBottom,mpos.x-perX*2,y,mpos.z-perZ*2,mpos.x+perX*2,y,mpos.z+perZ*2); // outer layer of slabs around portal
+			mpos.set(centerX,y,centerZ).move(facing,4);
+			
+			// outer layer of slabs around portal
+			placeLine(world,rand,placeSlabBottom,mpos.x-perX*2,y,mpos.z-perZ*2,mpos.x+perX*2,y,mpos.z+perZ*2);
 			
 			// stairs around portal
 			mpos.move(facing,1);
@@ -79,8 +83,16 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 			placeBlock(world,rand,placeStoneBrickStairs(facing.rotateRight(),false),mpos.x+rightX*4,y,mpos.z+rightZ*4);
 			
 			// vines in corners
-			mpos.set(x+maxX/2,y,z+maxZ/2).move(facing,7).move(facing = facing.rotateRight(),7);
-			placeLine(world,rand,IBlockPicker.basic(BlockList.dry_vine,Meta.getVine(facing,facing.rotateLeft())),mpos.x,y+1,mpos.z,mpos.x,y+5,mpos.z);
+			mpos.set(centerX,y,centerZ).move(facing,7).move(facing = facing.rotateRight(),7);
+			placeLine(world,rand,IBlockPicker.basic(BlockList.dry_vine,Meta.getVine(facing,facing.rotateLeft())),mpos.x,y+1,mpos.z,mpos.x,y+6,mpos.z);
+			
+			// portal frame
+			mpos.set(centerX,y,centerZ).move(facing,2);
+			placeBlock(world,rand,IBlockPicker.basic(BlockList.end_portal_frame,Meta.endPortalFrameAcceptor),mpos.x,y,mpos.z);
+			mpos.move(facing.rotateLeft());
+			placeBlock(world,rand,IBlockPicker.basic(BlockList.end_portal_frame,Meta.endPortalFramePlain),mpos.x,y,mpos.z);
+			mpos.move(facing.rotateRight(),2);
+			placeBlock(world,rand,IBlockPicker.basic(BlockList.end_portal_frame,Meta.endPortalFramePlain),mpos.x,y,mpos.z);
 		}
 		
 		// general		
@@ -91,7 +103,7 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 			boolean bottomUnused = inst.isConnectionFree(facing,connection -> connection.offsetY == 0);
 			boolean topUnused = inst.isConnectionFree(facing,connection -> connection.offsetY == 6);
 			
-			mpos.set(x+maxX/2,y+1,z+maxZ/2).move(facing,9);
+			mpos.set(centerX,y+1,centerZ).move(facing,9);
 			if (!bottomUnused)placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom side doors
 			if (!topUnused)placeCube(world,rand,placeAir,mpos.x-perX,y+7,mpos.z-perZ,mpos.x+perX,y+9,mpos.z+perZ); // top side doors
 			
