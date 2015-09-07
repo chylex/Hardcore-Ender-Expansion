@@ -17,7 +17,6 @@ import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafti
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.misc.PlayerDataHandler;
-import chylex.hee.mechanics.misc.PlayerTransportBeacons;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.packets.PacketPipeline;
@@ -128,7 +127,6 @@ public class HardcoreEnderExpansion{
 		WorldDataHandler.register();
 		CurseEvents.register();
 		CausatumEvents.register();
-		PlayerTransportBeacons.register();
 		DragonChunkManager.register();
 		
 		Stopwatch.finish("PreInitEvent - events");
