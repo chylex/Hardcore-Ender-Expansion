@@ -154,19 +154,19 @@ public class WorldGenStronghold implements IWorldGenerator{
 				
 				pieces.add(new StrongholdRoomLargeIntersectionTrap());
 				pieces.addAll(StrongholdRoomPrisonTrap.generatePrisons());
-				pieces.add(new StrongholdRoomSilverfishTrap());*/
+				pieces.add(new StrongholdRoomSilverfishTrap());
 				
 				pieces.add(new StrongholdRoomArches());
-				//pieces.add(new StrongholdRoomFountain());
-				//pieces.add(new StrongholdRoomFountainCeiling());
+				pieces.add(new StrongholdRoomFountain());
+				pieces.add(new StrongholdRoomFountainCeiling());
 				pieces.add(new StrongholdRoomHugeIntersection());
 				pieces.add(new StrongholdRoomLargeIntersection());
-				//pieces.addAll(StrongholdRoomLitCorners.generateColors());
+				pieces.addAll(StrongholdRoomLitCorners.generateColors());
 				pieces.add(new StrongholdRoomLitPole());
-				pieces.add(new StrongholdRoomLitTotem());
-				pieces.add(new StrongholdRoomLowerCorners());
-				//pieces.add(new StrongholdRoomSmallIntersection());
-				pieces.add(new StrongholdRoomStairSnake());
+				pieces.add(new StrongholdRoomLitTotem());*/
+				//pieces.add(new StrongholdRoomLowerCorners());
+				/*pieces.add(new StrongholdRoomSmallIntersection());
+				pieces.add(new StrongholdRoomStairSnake());*/
 				
 				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+2).sum();
 				
