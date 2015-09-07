@@ -61,6 +61,11 @@ public class BlockEndPortalFrame extends BlockContainer{
 	}
 	
 	@Override
+	public int getDamageValue(World world, int x, int y, int z){
+		return Pos.at(x,y,z).getMetadata(world);
+	}
+	
+	@Override
 	public boolean isOpaqueCube(){
 		return false;
 	}
