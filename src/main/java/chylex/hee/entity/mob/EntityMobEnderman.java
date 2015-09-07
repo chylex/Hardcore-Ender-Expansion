@@ -37,6 +37,10 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 				default: return new float[]{ 0.25F };
 			}
 		});
+		
+		drops.addLoot(ItemList.enderman_head).setChances(obj -> {
+			return new float[]{ 0.03F };
+		});
 	}
 	
 	public EntityMobEnderman(World world){
