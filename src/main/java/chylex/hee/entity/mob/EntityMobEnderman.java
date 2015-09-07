@@ -1,6 +1,8 @@
 package chylex.hee.entity.mob;
+import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -50,6 +52,9 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
 		for(ItemStack drop:drops.generateLoot(new LootMobInfo(this,recentlyHit,looting),rand))entityDropItem(drop,0F);
+		
+		Block carrying = func_146080_bZ(); // OBFUSCATED getCarryingBlock
+		if (carrying != Blocks.air)entityDropItem(new ItemStack(carrying,1,getCarryingData()),0F);
 	}
 	
 	@Override
