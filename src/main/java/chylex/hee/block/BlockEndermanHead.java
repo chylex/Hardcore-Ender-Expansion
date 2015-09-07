@@ -6,8 +6,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import chylex.hee.init.ItemList;
 import chylex.hee.tileentity.TileEntityEndermanHead;
+import cpw.mods.fml.common.Optional;
+import thaumcraft.api.crafting.IInfusionStabiliser;
 
-public class BlockEndermanHead extends BlockSkull{
+@Optional.Interface(iface = "thaumcraft.api.crafting.IInfusionStabiliser", modid = "Thaumcraft")
+public class BlockEndermanHead extends BlockSkull implements IInfusionStabiliser{
 	public BlockEndermanHead(){}
 	
 	@Override
@@ -23,5 +26,10 @@ public class BlockEndermanHead extends BlockSkull{
 	@Override
 	public Item getItem(World world, int x, int y, int z){
 		return ItemList.enderman_head;
+	}
+
+	@Override
+	public boolean canStabaliseInfusion(World world, int x, int y, int z){ // TC API
+		return true;
 	}
 }
