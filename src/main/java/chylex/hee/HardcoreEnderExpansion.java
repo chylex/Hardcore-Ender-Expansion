@@ -24,6 +24,7 @@ import chylex.hee.proxy.FXCommonProxy;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.proxy.NotificationCommonProxy;
 import chylex.hee.system.ConfigHandler;
+import chylex.hee.system.ModTransition;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.achievements.AchievementEvents;
 import chylex.hee.system.achievements.AchievementManager;
@@ -48,6 +49,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCEvent;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
+import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
@@ -199,6 +201,11 @@ public class HardcoreEnderExpansion{
 	@EventHandler
 	public void onIMC(IMCEvent e){
 		for(IMCMessage message:e.getMessages())HeeIMC.acceptIMC(message);
+	}
+	
+	@EventHandler
+	public void onMissingMappings(FMLMissingMappingsEvent e){
+		ModTransition.refreshMappings(e);
 	}
 	
 	@NetworkCheckHandler
