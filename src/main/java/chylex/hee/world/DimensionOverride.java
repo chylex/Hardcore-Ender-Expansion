@@ -21,6 +21,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class DimensionOverride{
 	public static void setup(){
+		BiomeGenBase.getBiomeGenArray()[9] = null;
 		BiomeGenBase.sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
 		BiomeGenBase.getBiomeGenArray()[9] = BiomeGenBase.sky;
 		
