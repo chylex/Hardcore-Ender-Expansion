@@ -11,7 +11,6 @@ import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
-import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.structure.island.ComponentIsland;
 import chylex.hee.world.structure.island.StructureIsland;
@@ -21,8 +20,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public final class DimensionOverride{
 	public static void setup(){
-		Stopwatch.time("DimensionOverride");
-		
+		BiomeGenBase.getBiomeGenArray()[9] = null;
 		BiomeGenBase.sky = new BiomeGenHardcoreEnd(9).setColor(8421631).setBiomeName("Sky").setDisableRain();
 		BiomeGenBase.getBiomeGenArray()[9] = BiomeGenBase.sky;
 
@@ -34,8 +32,6 @@ public final class DimensionOverride{
 		// TODO SANCTUARY MapGenStructureIO.func_143031_a(ComponentSanctuary.class,"hee_EndSanctuaryC");
 		
 		if (BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.register(new DimensionOverride());
-		
-		Stopwatch.finish("DimensionOverride");
 	}
 	
 	public static void postInit(){
