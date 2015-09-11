@@ -3,8 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import com.google.common.base.Joiner;
-import com.google.common.collect.ArrayListMultimap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,19 +11,17 @@ import net.minecraft.stats.AchievementList;
 import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.DragonSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile;
 import chylex.hee.system.savedata.types.QuickSavefile.IQuickSavefile;
+import com.google.common.base.Joiner;
+import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
 public final class AchievementEvents implements IQuickSavefile{
@@ -74,7 +70,7 @@ public final class AchievementEvents implements IQuickSavefile{
 	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent e){
-		if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
+		// TODO if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
 		
 		QuickSavefile file = WorldDataHandler.<QuickSavefile>get(QuickSavefile.class);
 		
@@ -84,13 +80,13 @@ public final class AchievementEvents implements IQuickSavefile{
 		}
 	}
 	
-	@SubscribeEvent
+	/* TODO @SubscribeEvent
 	public void onPlayerChangedDimension(PlayerChangedDimensionEvent e){
 		if (e.toDim == 1){
 			if (WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
 			CausatumUtils.increase(e.player,CausatumMeters.OVERWORLD_PORTAL,100);
 		}
-	}
+	}*/
 	
 	@SubscribeEvent
 	public void onItemPickup(ItemPickupEvent e){

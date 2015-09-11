@@ -142,7 +142,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D+Math.min(90,WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount()*15)+(ModCommonProxy.opMobs ? 80D : 0D));
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(250D+(ModCommonProxy.opMobs ? 80D : 0D));
 	}
 
 	@Override
@@ -195,7 +195,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			if (loadTimer == 0 && !angryStatus && ticksExisted%10 == 0){
 				DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
 				
-				if (save.countCrystals() <= 2+save.getDragonDeathAmount() || attacks.getHealthPercentage() <= 80){
+				if (save.countCrystals() <= 2 || attacks.getHealthPercentage() <= 80){
 					setAngry(true);
 					spawnCooldown = 0;
 				}
@@ -461,7 +461,6 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  		if (!worldObj.isRemote){
  			if (deathTicks == 1){
  				achievements.onBattleFinished();
- 				WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setDragonDead(true);
 				worldObj.playBroadcastSound(1018,(int)posX,(int)posY,(int)posZ,0);
  			}
  			else if (deathTicks == 20 || deathTicks == 140){ // double check

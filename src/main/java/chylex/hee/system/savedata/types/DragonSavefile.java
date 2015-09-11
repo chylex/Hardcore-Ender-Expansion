@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -19,8 +18,6 @@ public class DragonSavefile extends WorldSavefile{
 	private Map<String,ChunkCoordinates> crystals = new HashMap<>();
 	private Set<UUID> templePlayers = new HashSet<>();
 	private ChunkCoordIntPair lastDragonChunk = new ChunkCoordIntPair(0,0);
-	private boolean isDragonDead;
-	private int dragonDeathCount;
 	
 	public DragonSavefile(){
 		super("server.nbt");
@@ -55,48 +52,9 @@ public class DragonSavefile extends WorldSavefile{
 	public ChunkCoordIntPair getLastDragonChunk(){
 		return lastDragonChunk;
 	}
-	
-	public void setDragonDead(boolean isDead){
-		isDragonDead = isDead;
-		setModified();
-	}
-	
-	public boolean isDragonDead(){
-		return isDragonDead;
-	}
-	
-	public void addDragonDeath(){
-		++dragonDeathCount;
-		setModified();
-	}
-	
-	public int getDragonDeathAmount(){
-		return dragonDeathCount;
-	}
-	
-	public void setPlayerIsInTemple(EntityPlayer player, boolean isInTemple){
-		UUID playerID = player.getGameProfile().getId();
-		boolean contains = templePlayers.contains(playerID);
-		
-		if (isInTemple && !contains)templePlayers.add(playerID);
-		else if (!isInTemple && contains)templePlayers.remove(player.getGameProfile().getId());
-		
-		setModified();
-	}
-	
-	public Set<UUID> getPlayersInTemple(){
-		return new HashSet<>(templePlayers);
-	}
-	
-	public void resetPlayersInTemple(){
-		templePlayers.clear();
-		setModified();
-	}
 
 	@Override
 	protected void onSave(NBTTagCompound nbt){
-		nbt.setShort("dragonDeaths",(short)dragonDeathCount);
-		nbt.setBoolean("dragonDead",isDragonDead);
 		nbt.setIntArray("lastChunk",new int[]{ lastDragonChunk.chunkXPos, lastDragonChunk.chunkZPos });
 		
 		NBTTagCompound tagCrystals = new NBTTagCompound();
@@ -113,9 +71,6 @@ public class DragonSavefile extends WorldSavefile{
 
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
-		dragonDeathCount = nbt.getShort("dragonDeaths");
-		isDragonDead = nbt.getBoolean("dragonDead");
-		
 		int[] lastChunk = nbt.getIntArray("lastChunk");
 		if (lastChunk.length == 2)lastDragonChunk = new ChunkCoordIntPair(lastChunk[0],lastChunk[1]);
 		

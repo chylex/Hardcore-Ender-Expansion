@@ -115,7 +115,7 @@ public class DragonChunkManager implements LoadingCallback{
 	public void onWorldLoad(WorldEvent.Load e){
 		if (!e.world.isRemote && e.world.provider.dimensionId == 1){
 			DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
-			if (file.isDragonDead())return;
+			// TODO if (file.isDragonDead())return;
 			
 			ChunkCoordIntPair chunk = file.getLastDragonChunk();
 			e.world.getChunkFromChunkCoords(chunk.chunkXPos,chunk.chunkZPos);
