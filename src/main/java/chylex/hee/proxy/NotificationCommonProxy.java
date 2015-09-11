@@ -45,8 +45,10 @@ public class NotificationCommonProxy{
 	}
 	
 	protected void tryDeliverNotifications(){
-		boolean delivered = false;
 		ServerConfigurationManager manager = MinecraftServer.getServer().getConfigurationManager();
+		if (manager == null)return;
+		
+		boolean delivered = false;
 		List<EntityPlayer> players = manager.playerEntityList;
 		
 		for(EntityPlayer player:players){
