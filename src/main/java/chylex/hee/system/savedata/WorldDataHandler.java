@@ -76,7 +76,7 @@ public final class WorldDataHandler{
 			File root = DimensionManager.getCurrentSaveRootDirectory();
 			
 			if (root != null){
-				worldSaveDir = new File(root,"hee");
+				worldSaveDir = new File(root,"hee2");
 				if (!worldSaveDir.exists())worldSaveDir.mkdirs();
 			}
 		}
