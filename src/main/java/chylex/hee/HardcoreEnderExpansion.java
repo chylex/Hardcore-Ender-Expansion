@@ -206,7 +206,7 @@ public class HardcoreEnderExpansion{
 	
 	@EventHandler
 	public void onMissingMappings(FMLMissingMappingsEvent e){
-		ModTransition.runTransition(e);
+		ModTransition.updateMappings(e);
 	}
 	
 	@NetworkCheckHandler
