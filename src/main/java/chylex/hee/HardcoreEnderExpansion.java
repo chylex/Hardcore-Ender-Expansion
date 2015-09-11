@@ -3,22 +3,14 @@ import java.io.File;
 import java.util.Map;
 import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.api.HeeIMC;
-import chylex.hee.entity.boss.dragon.managers.DragonChunkManager;
 import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.EntityList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
-import chylex.hee.mechanics.causatum.CausatumEvents;
-import chylex.hee.mechanics.charms.handler.CharmPouchHandler;
-import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
-import chylex.hee.mechanics.compendium.events.CompendiumEvents;
-import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.misc.PlayerDataHandler;
-import chylex.hee.mechanics.orb.OrbAcquirableItems;
-import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.FXCommonProxy;
 import chylex.hee.proxy.ModCommonProxy;
@@ -126,12 +118,12 @@ public class HardcoreEnderExpansion{
 		
 		MinecraftForge.EVENT_BUS.register(new MiscEvents());
 		PlayerDataHandler.register();
-		CompendiumEvents.register();
-		CharmPouchHandler.register();
+		// TODO CompendiumEvents.register();
+		// TODO CharmPouchHandler.register();
 		WorldDataHandler.register();
-		CurseEvents.register();
-		CausatumEvents.register();
-		DragonChunkManager.register();
+		// TODO CurseEvents.register();
+		// TODO CausatumEvents.register();
+		// TODO DragonChunkManager.register();
 		ModTransition.register();
 		
 		Stopwatch.finish("PreInitEvent - events");
@@ -164,9 +156,9 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("PostInitEvent");
 		
 		HeeIMC.runPostInit();
-		KnowledgeRegistrations.initialize();
-		OrbAcquirableItems.initialize();
-		OrbSpawnableMobs.initialize();
+		// TODO KnowledgeRegistrations.initialize();
+		// TODO OrbAcquirableItems.initialize();
+		// TODO OrbSpawnableMobs.initialize();
 		ModIntegrationManager.integrateMods();
 		DimensionOverride.postInit();
 		

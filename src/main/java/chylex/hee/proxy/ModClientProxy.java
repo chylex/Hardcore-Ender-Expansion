@@ -1,7 +1,6 @@
 package chylex.hee.proxy;
 import java.util.Calendar;
 import java.util.Random;
-import org.lwjgl.opengl.Display;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBat;
 import net.minecraft.client.model.ModelSilverfish;
@@ -18,6 +17,7 @@ import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.MinecraftForgeClient;
+import org.lwjgl.opengl.Display;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
@@ -38,7 +38,6 @@ import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.charms.handler.CharmPouchHandlerClient;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.misc.Baconizer;
@@ -181,8 +180,8 @@ public class ModClientProxy extends ModCommonProxy{
 		Stopwatch.time("ModClientProxy - events");
 		
 		OverlayManager.register();
-		CompendiumEventsClient.register();
-		CharmPouchHandlerClient.register();
+		// TODO CompendiumEventsClient.register();
+		// TODO CharmPouchHandlerClient.register();
 		MusicManager.register();
 		FXEvents.register();
 		HeeClientCommand.register();
