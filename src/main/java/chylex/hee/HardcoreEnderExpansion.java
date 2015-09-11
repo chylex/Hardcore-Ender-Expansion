@@ -52,10 +52,12 @@ import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkCheckHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = "HardcoreEnderExpansion", name = "Hardcore Ender Expansion", version = "", useMetadata = true, guiFactory = "chylex.hee.gui.core.ModGuiFactory")
 public class HardcoreEnderExpansion{
@@ -190,6 +192,12 @@ public class HardcoreEnderExpansion{
 		}
 		
 		Stopwatch.finish("LoadCompleteEvent");
+	}
+	
+	@EventHandler
+	@SideOnly(Side.SERVER)
+	public void onServerAboutToStart(FMLServerAboutToStartEvent e){
+		ModTransition.convertServer();
 	}
 
 	@EventHandler

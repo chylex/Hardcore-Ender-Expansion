@@ -16,11 +16,13 @@ import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.storage.SaveFormatComparator;
 import net.minecraftforge.client.event.GuiOpenEvent;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import chylex.hee.gui.GuiModTransition;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.logging.Log;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
@@ -28,7 +30,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public final class ModTransition{ // TODO server side
+public final class ModTransition{
 	public static void register(){
 		MinecraftForge.EVENT_BUS.register(new ModTransition());
 	}
@@ -78,9 +80,14 @@ public final class ModTransition{ // TODO server side
 			}
 		}
 		
-		NBTTagCompound playerNBT = levelDatNBT.getCompoundTag("Data").getCompoundTag("Player");
-		convertPlayerTag(playerNBT,worldSpawnPoint);
-		levelDatNBT.getCompoundTag("Data").setTag("Player",playerNBT);
+		NBTTagCompound dataTag = levelDatNBT.getCompoundTag("Data");
+		
+		if (dataTag.hasKey("Player")){
+			NBTTagCompound playerNBT = dataTag.getCompoundTag("Player");
+			convertPlayerTag(playerNBT,worldSpawnPoint);
+			dataTag.setTag("Player",playerNBT);
+		}
+		
 		
 		try(FileOutputStream fileStreamOut = new FileOutputStream(levelDat)){
 			CompressedStreamTools.writeCompressed(levelDatNBT,fileStreamOut);
@@ -104,6 +111,22 @@ public final class ModTransition{ // TODO server side
 			posTag.appendTag(new NBTTagDouble(spawnPoint.getY()));
 			posTag.appendTag(new NBTTagDouble(spawnPoint.getZ()+0.5D));
 			nbt.setTag("Pos",posTag);
+		}
+	}
+	
+	public static void convertServer(){
+		Log.warn("=====================================================");
+		Log.warn("Hardcore Ender Expansion 2 is converting the world...");
+		Log.warn("=====================================================");
+		
+		File root = DimensionManager.getCurrentSaveRootDirectory();
+		
+		if (shouldConvertWorld(root)){
+			try{
+				doConvertWorld(root);
+			}catch(IOException ex){
+				throw new RuntimeException("Could not convert the server world!",ex);
+			}
 		}
 	}
 	
