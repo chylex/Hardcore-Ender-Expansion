@@ -130,6 +130,7 @@ public class HardcoreEnderExpansion{
 		CurseEvents.register();
 		CausatumEvents.register();
 		DragonChunkManager.register();
+		ModTransition.register();
 		
 		Stopwatch.finish("PreInitEvent - events");
 		
