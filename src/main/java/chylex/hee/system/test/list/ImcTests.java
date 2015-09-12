@@ -1,4 +1,5 @@
 package chylex.hee.system.test.list;
+import java.lang.invoke.MethodType;
 import java.util.Random;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -18,13 +19,12 @@ import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.mechanics.orb.OrbSpawnableMobs;
 import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.data.MethodType;
-import chylex.hee.system.test.data.RunTime;
-import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.test.UnitTest;
+import chylex.hee.system.test.UnitTest.RunTime;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 
 public class ImcTests{
-	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.PREINIT)
+	@UnitTest(runTime = RunTime.PREINIT)
 	public void prepareImcs(){
 		for(String msgs:new String[]{
 			"HEE:DragonEssence:AddRecipe { 'input': { 'id': 'ghast_tear' }, 'output': { 'id': '~hee:spectral_tear' }, 'cost': 15 }",
@@ -50,7 +50,7 @@ public class ImcTests{
 		})HeeIMC.acceptString("UnitTester",msgs.replace('\'','"'));
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testImcsDragonEssence(){
 		Assert.equal(DragonEssenceHandler.recipes.size(),3,"Unexpected list size, expected $2, got $1.");
 		Assert.equal(DragonEssenceHandler.recipes.get(1).input.getItem(),Items.ender_eye,"Unexpected second entry, expected $2, got $1. Full list: "+DragonEssenceHandler.recipes);
@@ -65,20 +65,20 @@ public class ImcTests{
 		Assert.fail("Failed searching for the newly added recipe.");
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testImcsMobs(){
 		Assert.state(GlobalMobData.isEnderGooTolerant(new EntityBlaze(null)),"Expected Blaze to be marked as a Goo tolerant mob.");
 		Assert.equal(EnergyValues.getMobEnergy(new EntityMobVampiricBat(null)),EnergyChunkData.energyDrainUnit*2.5F,"Unexpected mob Energy value, expected $2, got $1.");
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testImcsOrb(){
 		Assert.state(OrbSpawnableMobs.classList.contains(EntityVillager.class),"Expected Villager to have been added to mob list.");
 		Assert.state(!OrbSpawnableMobs.classList.contains(EntityWither.class),"Expected Wither to NOT have been added to mob list.");
 		Assert.state(!OrbSpawnableMobs.classList.contains(EntityCreeper.class),"Expected Creeper to have been removed from mob list.");
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testImcTables(){
 		Assert.isNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Blocks.dispenser),new Random()),"Unexpected ingredient list, expected null, got $.");
 		Assert.notNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Items.bow),new Random()),"Unexpected ingredient list, got null.");
@@ -90,7 +90,7 @@ public class ImcTests{
 		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,1)),12,"Unexpected item Experience value, expected $2, got $1."); // make sure it takes all damage values
 	}
 	/* TODO
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testImcWorld(){
 		Assert.equal(ComponentTower.lootFuel.size(),2,"Unexpected list size, expected $2, got $1. List: "+ComponentTower.lootFuel);
 		
@@ -113,7 +113,7 @@ public class ImcTests{
 		Assert.fail("Unexpected weighted loot check result, never generated the expected item.");
 	}*/
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testImcSystem(){
 		Assert.state(ModIntegrationManager.blacklistedMods.contains("NotEnoughItems"),"Missing entry in mod integration blacklist, expected NotEnoughItems to be present.");
 	}

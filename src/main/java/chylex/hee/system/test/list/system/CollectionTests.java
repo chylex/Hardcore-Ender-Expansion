@@ -4,12 +4,10 @@ import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.data.MethodType;
-import chylex.hee.system.test.data.RunTime;
-import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.test.UnitTest;
 
 public class CollectionTests{
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testCustomArrayList(){
 		CustomArrayList<String> customArrayList = new CustomArrayList<>();
 		customArrayList.add("Entry 1");
@@ -20,11 +18,12 @@ public class CollectionTests{
 		Assert.equal(customArrayList.get(2),"Entry 3","Unexpected list entry, expected $2, got $1.");
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testWeightedList(){
 		WeightedList<ObjectWeightPair<String>> list = new WeightedList<>();
 		
 		Assert.isNull(list.getRandomItem(new Random()),"Unexpected list return value, expected null, got $.");
+		Assert.state(!list.tryGetRandomItem(new Random()).isPresent(),"Unexpected list return value, expected null, got $.");
 		
 		list.add(ObjectWeightPair.of("Herp",Integer.MAX_VALUE-1));
 		list.add(ObjectWeightPair.of("Derp",1));

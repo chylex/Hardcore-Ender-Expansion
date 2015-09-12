@@ -10,9 +10,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.data.MethodType;
-import chylex.hee.system.test.data.RunTime;
-import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.test.UnitTest;
 
 public class EnhancedBrewingTests{
 	private final List<Pair<Item,PotionEffect>> stages = new ArrayList<>();
@@ -28,8 +26,7 @@ public class EnhancedBrewingTests{
 	private ItemStack isCustomSpeedL2;
 	private ItemStack isCustomSpeedL3;
 	
-	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.LOADCOMPLETE)
-	public void prepPotions(){
+	{
 		potionList = new Potion[]{
 			Potion.heal,
 			Potion.harm,
@@ -62,7 +59,7 @@ public class EnhancedBrewingTests{
 		isCustomSpeedL3 = PotionTypes.setCustomPotionEffect(isVanillaSpeed.copy(),new PotionEffect(Potion.moveSpeed.id,4200,0)); // 3:30
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testValidation(){
 		for(Item item:specialIngredients){
 			Assert.state(PotionTypes.isSpecialIngredient(item),"Unexpected state, invalid special ingredient: "+item.getUnlocalizedName());
@@ -72,7 +69,7 @@ public class EnhancedBrewingTests{
 		Assert.state(PotionTypes.isPotionItem(Items.potionitem),"Unexpected state, invalid potion item: "+Items.potionitem.getUnlocalizedName());
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testPotionData(){
 		Assert.equal(PotionTypes.getPotionData(isAwkward).getPotionType(),null,"Unexpected potion data, expected $2, got $1.");
 		Assert.equal(PotionTypes.getPotionData(isVanillaHeal).getPotionType(),Potion.heal,"Unexpected potion data, expected $2, got $1.");
@@ -81,7 +78,7 @@ public class EnhancedBrewingTests{
 		Assert.equal(PotionTypes.getPotionData(isCustomSpeed).getPotionType(),Potion.moveSpeed,"Unexpected potion data, expected $2, got $1.");
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testPotionEffects(){
 		Assert.equal(PotionTypes.getEffectIfValid(isAwkward),null,"Unexpected potion effect, expected $2, got $1.");
 		Assert.equal(PotionTypes.getEffectIfValid(isVanillaHeal),new PotionEffect(Potion.heal.id,1,0),"Unexpected potion effect, expected $2, got $1.");
@@ -91,7 +88,7 @@ public class EnhancedBrewingTests{
 		Assert.equal(PotionTypes.getEffectIfValid(isCustomSpeedL2),new PotionEffect(Potion.moveSpeed.id,2700,0),"Unexpected potion effect, expected $2, got $1.");
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testRequiredPowder(){
 		Assert.equal(PotionTypes.getRequiredPowder(Items.nether_wart,isWater),0,"Unexpected powder requirement, expected $2, got $1.");
 		Assert.equal(PotionTypes.getRequiredPowder(ItemList.instability_orb,isAwkward),8,"Unexpected powder requirement, expected $2, got $1.");
@@ -104,7 +101,7 @@ public class EnhancedBrewingTests{
 		Assert.equal(PotionTypes.getRequiredPowder(Items.gunpowder,isCustomSpeed),3,"Unexpected powder requirement, expected $2, got $1.");
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testBrewingHeal2(){
 		stages.clear();
 		stages.add(Pair.of(Items.nether_wart,(PotionEffect)null));
@@ -113,7 +110,7 @@ public class EnhancedBrewingTests{
 		runBrewingTest(isWater.copy(),false,false);
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testBrewingHeal4Fail(){
 		stages.clear();
 		stages.add(Pair.of(Items.nether_wart,(PotionEffect)null));
@@ -124,7 +121,7 @@ public class EnhancedBrewingTests{
 		runBrewingTest(isWater.copy(),false,true);
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testBrewingHeal4Enhanced(){
 		stages.clear();
 		stages.add(Pair.of(Items.nether_wart,(PotionEffect)null));
@@ -135,7 +132,7 @@ public class EnhancedBrewingTests{
 		runBrewingTest(isWater.copy(),true,false);
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testBrewingSpeedLong(){
 		stages.clear();
 		stages.add(Pair.of(Items.nether_wart,(PotionEffect)null));
@@ -152,7 +149,7 @@ public class EnhancedBrewingTests{
 		runBrewingTest(isWater.copy(),false,false);
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testBrewingSpeedLongOverFail(){
 		ItemStack startIS = PotionTypes.setCustomPotionEffect(isCustomSpeed.copy(),new PotionEffect(Potion.moveSpeed.id,11700,0));
 		stages.clear();

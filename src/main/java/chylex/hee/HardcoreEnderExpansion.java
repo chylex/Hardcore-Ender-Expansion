@@ -28,8 +28,8 @@ import chylex.hee.system.integration.ModIntegrationManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.savedata.WorldDataHandler;
+import chylex.hee.system.test.UnitTest.RunTime;
 import chylex.hee.system.test.UnitTester;
-import chylex.hee.system.test.data.RunTime;
 import chylex.hee.world.DimensionOverride;
 import chylex.hee.world.loot.old.WorldLoot;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -129,7 +129,7 @@ public class HardcoreEnderExpansion{
 		Stopwatch.finish("PreInitEvent - events");
 		
 		proxy.registerSidedEvents();
-		proxy.registerRenderers();		
+		proxy.registerRenderers();
 		notifications.register();
 		
 		UnitTester.trigger(RunTime.PREINIT);
@@ -146,8 +146,6 @@ public class HardcoreEnderExpansion{
 		RecipeList.addRecipes();
 		WorldLoot.registerWorldLoot();
 		
-		UnitTester.trigger(RunTime.INIT);
-		
 		Stopwatch.finish("InitEvent");
 	}
 	
@@ -161,8 +159,6 @@ public class HardcoreEnderExpansion{
 		// TODO OrbSpawnableMobs.initialize();
 		ModIntegrationManager.integrateMods();
 		DimensionOverride.postInit();
-		
-		UnitTester.trigger(RunTime.POSTINIT);
 		
 		Stopwatch.finish("PostInitEvent");
 	}

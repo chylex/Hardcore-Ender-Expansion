@@ -7,9 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.init.ItemList;
 import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.data.MethodType;
-import chylex.hee.system.test.data.RunTime;
-import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.test.UnitTest;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.ItemPattern;
 
@@ -19,8 +17,7 @@ public class ItemHandlingTests{
 	private List<ItemStack> patternTestList = new ArrayList<>();
 	private NBTTagCompound patternTestNbt;
 	
-	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.LOADCOMPLETE)
-	public void prepItemPattern(){
+	{
 		patternTestList.add(new ItemStack(Blocks.dirt));
 		patternTestList.add(new ItemStack(Blocks.dirt,64));
 		patternTestList.add(new ItemStack(Blocks.dirt,1,2));
@@ -33,7 +30,7 @@ public class ItemHandlingTests{
 		patternTestList.get(0).setTagCompound(patternTestNbt);
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testItemPatternName(){
 		Assert.equal(new ItemPattern().setItemName("","*").retainMatching(patternTestList).size(),6,matchError);
 		Assert.equal(new ItemPattern().setItemName("HardcoreEnderExpansion","*").retainMatching(patternTestList).size(),2,matchError);
@@ -41,18 +38,18 @@ public class ItemHandlingTests{
 		Assert.equal(new ItemPattern().setItemName("minecraft","sand").retainMatching(patternTestList).size(),0,matchError);
 	}
 
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testItemPatternDamage(){
 		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1 }).retainMatching(patternTestList).size(),1,matchError);
 		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1, 2 }).retainMatching(patternTestList).size(),2,matchError);
 	}
 
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testItemPatternNBT(){
 		Assert.equal(new ItemPattern().setNBT((NBTTagCompound)patternTestNbt.copy()).retainMatching(patternTestList).size(),1,matchError);
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.LOADCOMPLETE)
+	@UnitTest
 	public void testItemDamagePair(){
 		ItemDamagePair pair1 = new ItemDamagePair(Items.gunpowder,0);
 		ItemDamagePair pair2 = new ItemDamagePair(Items.gunpowder,-1);

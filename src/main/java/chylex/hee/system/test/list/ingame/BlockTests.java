@@ -2,8 +2,6 @@ package chylex.hee.system.test.list.ingame;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.common.base.Function;
-import com.google.common.collect.ArrayListMultimap;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -34,9 +32,8 @@ import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.test.Assert;
-import chylex.hee.system.test.data.MethodType;
-import chylex.hee.system.test.data.RunTime;
-import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.test.UnitTest;
+import chylex.hee.system.test.UnitTest.RunTime;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityAccumulationTable;
 import chylex.hee.tileentity.TileEntityDecompositionTable;
@@ -45,6 +42,8 @@ import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityExperienceTable;
 import chylex.hee.tileentity.TileEntityExtractionTable;
+import com.google.common.base.Function;
+import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -66,7 +65,7 @@ public class BlockTests{
 		storedLocs.clear();
 	}
 	
-	@UnitTest(type = MethodType.PREPARATION, runTime = RunTime.INGAME, trigger = testTrigger)
+	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
 	public void prepBlockChunk(){
 		setup();
 		
@@ -349,7 +348,7 @@ public class BlockTests{
 	
 	/* TESTS */
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
 	public void testFallingBlocks(){
 		Assert.equal(storedLocs.get("FallingBlockObsidian").size(),2,"Unexpected amount of stored locs, expected $2, got $1.");
 		
@@ -364,7 +363,7 @@ public class BlockTests{
 		}
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
 	public void testDragonEssence(){
 		int essence1 = -1, essence2 = -1;
 		
@@ -392,7 +391,7 @@ public class BlockTests{
 		Assert.state(essence1 < essence2,"Unexpected Essence levels, expected "+essence1+" to be lower than "+essence2+".");
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
 	public void testBrewing(){		
 		Object[][] data = new Object[][]{
 			new Object[]{ 0, new ItemStack(Items.potionitem,1,16) },
@@ -418,7 +417,7 @@ public class BlockTests{
 		}
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
 	public void testDecompositionTable(){
 		int[] stardust = new int[]{
 			59, 59, 63, 61, 57, 57, 64
@@ -452,17 +451,17 @@ public class BlockTests{
 		Assert.isNull(get.apply(6).getStackInSlot(0),"Unexpected item, expected it to be null.");
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
 	public void testExperienceTable(){
 		
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
 	public void testAccumulationTable(){
 		
 	}
 	
-	@UnitTest(type = MethodType.TEST, runTime = RunTime.INGAME, trigger = testTrigger)
+	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
 	public void testExtractionTable(){
 		
 	}

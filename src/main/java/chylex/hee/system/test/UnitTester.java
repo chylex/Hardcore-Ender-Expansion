@@ -6,19 +6,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import net.minecraftforge.common.ForgeVersion;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.test.data.MethodType;
-import chylex.hee.system.test.data.RunTime;
-import chylex.hee.system.test.data.UnitTest;
+import chylex.hee.system.test.UnitTest.RunTime;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
@@ -26,7 +23,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 
 public final class UnitTester{
 	private static final String prefix = "[HEE-UNIT] ";
-	private static final Multimap<RunTime,Method> registryPrep = HashMultimap.create();
 	private static final Multimap<RunTime,Method> registryTests = HashMultimap.create();
 	
 	private static boolean isLoaded, ingameTestsOnly;
@@ -69,10 +65,9 @@ public final class UnitTester{
 							continue;
 						}
 						
-						if (test.type() == MethodType.PREPARATION)registryPrep.put(test.runTime(),method);
-						else registryTests.put(test.runTime(),method);
+						registryTests.put(test.runTime(),method);
 						
-						Log.debug(prefix+"Registered a $2 method: $0.$1",clsName,method.getName(),test.type() == MethodType.PREPARATION ? "prep" : "test");
+						Log.debug(prefix+"Registered a test method: $0.$1",clsName,method.getName());
 					}
 				}
 			}
@@ -90,46 +85,30 @@ public final class UnitTester{
 	public static void trigger(RunTime time, String trigger){
 		if (!isLoaded || (ingameTestsOnly && time != RunTime.INGAME))return;
 		
-		Set<Method> prepList = new HashSet<>(), testList = new HashSet<>();
+		Set<Method> tests = registryTests.get(time).stream().filter(test -> trigger.equals(test.getAnnotation(UnitTest.class).trigger())).collect(Collectors.toSet());
+		if (tests.isEmpty())return;
 		
-		for(Method prep:registryPrep.get(time)){
-			if (trigger.equals(prep.getAnnotation(UnitTest.class).trigger()))prepList.add(prep);
-		}
-		
-		for(Method test:registryTests.get(time)){
-			if (trigger.equals(test.getAnnotation(UnitTest.class).trigger()))testList.add(test);
-		}
-		
-		if (prepList.isEmpty() && testList.isEmpty())return;
-		
-		Log.debug(prefix+"Running $0 prep method(s) and $1 unit test(s)...",prepList.size(),testList.size());
+		Log.debug(prefix+"Running $0 unit test(s)...",tests.size());
 		
 		Map<Class<?>,Object> objects = new HashMap<>();
 		int succeeded = 0, failed = 0;
 		
-		for(Method method:Iterables.concat(prepList,testList)){
+		for(Method method:tests){
 			try{
 				Class<?> cls = method.getDeclaringClass();
 				Object obj = objects.get(cls);
 				if (obj == null)objects.put(cls,obj = cls.newInstance());
 				
-				boolean isTest = testList.contains(method);
-				
 				try{
 					method.invoke(obj);
 					
-					if (isTest){
-						++succeeded;
-						++menuDisplayOk;
-					}
+					++succeeded;
+					++menuDisplayOk;
 				}catch(InvocationTargetException e){
-					if (!isTest)Log.throwable(e.getCause(),prefix+"Failed preparing a test!");
-					else{
-						Throwable cause = e.getCause();
-						Log.error(prefix+"Unit test ($0.java:$2)~$1 failed: $3",cls.getSimpleName(),method.getName(),cause.getStackTrace()[1].getLineNumber(),cause.getMessage());
-						++failed;
-						++menuDisplayFailed;
-					}
+					Throwable cause = e.getCause();
+					Log.error(prefix+"Unit test ($0.java:$2)~$1 failed: $3",cls.getSimpleName(),method.getName(),cause.getStackTrace()[1].getLineNumber(),cause.getMessage());
+					++failed;
+					++menuDisplayFailed;
 				}
 			}catch(Exception e){
 				Log.throwable(e,prefix+"Error running a unit test!");
