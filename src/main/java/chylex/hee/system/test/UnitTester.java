@@ -1,8 +1,6 @@
 package chylex.hee.system.test;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -22,7 +20,7 @@ import com.google.common.reflect.ClassPath.ClassInfo;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public final class UnitTester{
-	private static final String prefix = "[HEE-UNIT] ";
+	private static final String prefix = "[UNIT] ";
 	private static final Multimap<RunTime,Method> registryTests = HashMultimap.create();
 	
 	private static boolean isLoaded, ingameTestsOnly;
@@ -38,15 +36,11 @@ public final class UnitTester{
 			
 			for(ClassInfo clsInfo:ClassPath.from(UnitTester.class.getClassLoader()).getTopLevelClassesRecursive(basePackage)){
 				Class<?> cls = clsInfo.load();
-				Constructor<?> constr = null;
-				
 				String clsName = clsInfo.getName().substring(basePackage.length()+1).replace('.','/');
 				
 				try{
-					constr = cls.getConstructor();
-				}catch(Exception e){}
-				
-				if (constr == null){
+					cls.getConstructor();
+				}catch(Exception e){
 					Log.error(prefix+"Error registering unit test class $0, a no-arg constructor is required!",clsName);
 					continue;
 				}
@@ -91,32 +85,34 @@ public final class UnitTester{
 		Log.debug(prefix+"Running $0 unit test(s)...",tests.size());
 		
 		Map<Class<?>,Object> objects = new HashMap<>();
-		int succeeded = 0, failed = 0;
+		int[] data = new int[]{ 0, 0 };
+		
+		Assert.setSuccessCallback(() -> {
+			++menuDisplayOk;
+			++data[0];
+		});
 		
 		for(Method method:tests){
 			try{
-				Class<?> cls = method.getDeclaringClass();
+				final Class<?> cls = method.getDeclaringClass();
 				Object obj = objects.get(cls);
 				if (obj == null)objects.put(cls,obj = cls.newInstance());
 				
-				try{
-					method.invoke(obj);
-					
-					++succeeded;
-					++menuDisplayOk;
-				}catch(InvocationTargetException e){
-					Throwable cause = e.getCause();
+				Assert.setFailCallback(ex -> {
+					Throwable cause = ex.getCause();
 					Log.error(prefix+"Unit test ($0.java:$2)~$1 failed: $3",cls.getSimpleName(),method.getName(),cause.getStackTrace()[1].getLineNumber(),cause.getMessage());
-					++failed;
 					++menuDisplayFailed;
-				}
+					++data[1];
+				});
+				
+				method.invoke(obj);
 			}catch(Exception e){
 				Log.throwable(e,prefix+"Error running a unit test!");
 			}
 		}
 		
-		if (time == RunTime.INGAME)Log.reportedDebug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",succeeded,failed);
-		else Log.debug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",succeeded,failed);
+		if (time == RunTime.INGAME)Log.reportedDebug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",data[0],data[1]);
+		else Log.debug(prefix+"Finished unit tests: $0 succeeded, $1 failed.",data[0],data[1]);
 	}
 	
 	public static void finalizeEventTests() throws Throwable{
