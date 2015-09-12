@@ -1,11 +1,14 @@
 package chylex.hee.world.structure.dungeon;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.collections.weight.IWeightProvider;
+import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IType;
 import chylex.hee.world.structure.util.BoundingBox;
@@ -44,9 +47,17 @@ public class StructureDungeonPieceInst implements IWeightProvider{
 	public void useAllConnections(){
 		availableConnections.clear();
 	}
-
+	
 	@Override
 	public int getWeight(){
 		return availableConnections.size();
+	}
+	
+	public void clearArea(StructureWorld world, Random rand){
+		StructureDungeonPiece.placeCube(world,rand,BlockInfo.air,boundingBox.x1,boundingBox.y1,boundingBox.z1,boundingBox.x2,boundingBox.y2,boundingBox.z2);
+	}
+	
+	public void generatePiece(StructureWorld world, Random rand){
+		piece.generate(this,world,rand,boundingBox.x1,boundingBox.y1,boundingBox.z1);
 	}
 }
