@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -99,13 +100,21 @@ public final class UnitTester{
 				if (obj == null)objects.put(cls,obj = cls.newInstance());
 				
 				Assert.setFailCallback(ex -> {
-					Throwable cause = ex.getCause();
-					Log.error(prefix+"Unit test ($0.java:$2)~$1 failed: $3",cls.getSimpleName(),method.getName(),cause.getStackTrace()[1].getLineNumber(),cause.getMessage());
+					String methodName = method.getName();
+					int line = Arrays.stream(ex.getStackTrace()).filter(ele -> ele.getMethodName().equals(methodName)).findFirst().map(ele -> ele.getLineNumber()).orElse(0);
+					
+					Log.error(prefix+"Unit test ($0.java:$2)~$1 failed: $3",cls.getSimpleName(),methodName,line,ex.getMessage());
 					++menuDisplayFailed;
 					++data[1];
 				});
 				
-				method.invoke(obj);
+				try{
+					method.invoke(obj);
+				}catch(Exception e){
+					Log.throwable(e,prefix+"Error running a unit test!");
+					++menuDisplayFailed;
+					++data[1];
+				}
 			}catch(Exception e){
 				Log.throwable(e,prefix+"Error running a unit test!");
 			}

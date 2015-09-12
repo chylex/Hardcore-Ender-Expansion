@@ -1,4 +1,5 @@
 package chylex.hee.system.test;
+import java.util.Collection;
 import chylex.hee.system.util.MathUtil;
 import com.google.common.base.Objects;
 
@@ -116,6 +117,38 @@ public final class Assert{
 	}
 	
 	/**
+	 * Fails if the value is not present in the collection.
+	 */
+	public static void contains(Collection<?> collection, Object value){
+		contains(collection,value,"Expected object $1 to be present in the collection. Collection contents: $2");
+	}
+	
+	/**
+	 * Fails if the value is not present in the collection.
+	 * Use $1 to substitute the value and $2 to substitute the collection contents in the message.
+	 */
+	public static void contains(Collection<?> collection, Object value, String message){
+		if (collection != null && collection.contains(value))onSuccess.call();
+		else onFail.call(new IllegalStateException(message.replace("$1",value == null ? "<null>" : value.toString()).replace("$2",collection == null ? "<null>" : collection.toString())));
+	}
+	
+	/**
+	 * Fails if the value is present in the collection, or if the collection is null.
+	 */
+	public static void notContains(Collection<?> collection, Object value){
+		notContains(collection,value,"Expected object $1 to not be present in the collection. Collection contents: $2");
+	}
+	
+	/**
+	 * Fails if the value is not present in the collection, or if the collection is null.
+	 * Use $1 to substitute the value and $2 to substitute the collection contents in the message.
+	 */
+	public static void notContains(Collection<?> collection, Object value, String message){
+		if (collection == null || !collection.contains(value))onSuccess.call();
+		else onFail.call(new IllegalStateException(message.replace("$1",value == null ? "<null>" : value.toString()).replace("$2",collection.toString())));
+	}
+	
+	/**
 	 * Fails if the value is not equal to target (supports wrapped primitives).
 	 */
 	public static void equal(Object value, Object target){
@@ -124,7 +157,7 @@ public final class Assert{
 	
 	/**
 	 * Fails if the value is not equal to target (supports wrapped primitives).
-	 * Use $1 to substitute value and $2 to substitute the target in the message.
+	 * Use $1 to substitute the value and $2 to substitute the target in the message.
 	 */
 	public static void equal(Object value, Object target, String message){
 		if (Objects.equal(value,target) || arePrimitivesEqual(value,target))onSuccess.call();
