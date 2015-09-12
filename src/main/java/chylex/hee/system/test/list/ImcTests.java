@@ -1,5 +1,4 @@
 package chylex.hee.system.test.list;
-import java.lang.invoke.MethodType;
 import java.util.Random;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -52,9 +51,9 @@ public class ImcTests{
 	
 	@UnitTest
 	public void testImcsDragonEssence(){
-		Assert.equal(DragonEssenceHandler.recipes.size(),3,"Unexpected list size, expected $2, got $1.");
-		Assert.equal(DragonEssenceHandler.recipes.get(1).input.getItem(),Items.ender_eye,"Unexpected second entry, expected $2, got $1. Full list: "+DragonEssenceHandler.recipes);
-		Assert.equal(DragonEssenceHandler.recipes.get(2).cost,15,"Unexpected recipe cost, expected $2, got $1.");
+		Assert.equal(DragonEssenceHandler.recipes.size(),3);
+		Assert.equal(DragonEssenceHandler.recipes.get(1).input.getItem(),Items.ender_eye);
+		// TODO Assert.equal(DragonEssenceHandler.recipes.get(2).cost,15);
 		
 		ItemStack tear = new ItemStack(Items.ghast_tear);
 		
@@ -67,27 +66,27 @@ public class ImcTests{
 	
 	@UnitTest
 	public void testImcsMobs(){
-		Assert.state(GlobalMobData.isEnderGooTolerant(new EntityBlaze(null)),"Expected Blaze to be marked as a Goo tolerant mob.");
-		Assert.equal(EnergyValues.getMobEnergy(new EntityMobVampiricBat(null)),EnergyChunkData.energyDrainUnit*2.5F,"Unexpected mob Energy value, expected $2, got $1.");
+		Assert.isTrue(GlobalMobData.isEnderGooTolerant(new EntityBlaze(null)));
+		Assert.equal(EnergyValues.getMobEnergy(new EntityMobVampiricBat(null)),EnergyChunkData.energyDrainUnit*2.5F);
 	}
 	
 	@UnitTest
 	public void testImcsOrb(){
-		Assert.state(OrbSpawnableMobs.classList.contains(EntityVillager.class),"Expected Villager to have been added to mob list.");
-		Assert.state(!OrbSpawnableMobs.classList.contains(EntityWither.class),"Expected Wither to NOT have been added to mob list.");
-		Assert.state(!OrbSpawnableMobs.classList.contains(EntityCreeper.class),"Expected Creeper to have been removed from mob list.");
+		Assert.contains(OrbSpawnableMobs.classList,EntityVillager.class);
+		Assert.notContains(OrbSpawnableMobs.classList,EntityWither.class);
+		Assert.contains(OrbSpawnableMobs.classList,EntityCreeper.class);
 	}
 	
 	@UnitTest
 	public void testImcTables(){
-		Assert.isNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Blocks.dispenser),new Random()),"Unexpected ingredient list, expected null, got $.");
-		Assert.notNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Items.bow),new Random()),"Unexpected ingredient list, got null.");
+		Assert.isNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Blocks.dispenser),new Random()));
+		Assert.notNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Items.bow),new Random()));
 		
-		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal,1,1)),EnergyChunkData.energyDrainUnit*5.4F,"Unexpected item Energy value, expected $2, got $1.");
-		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal,1,0)),0F,"Unexpected item Energy value, expected $2, got $1."); // make sure it only takes charcoal
+		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal,1,1)),EnergyChunkData.energyDrainUnit*5.4F);
+		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal,1,0)),0F); // make sure it only takes charcoal
 		
-		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,0)),12,"Unexpected item Experience value, expected $2, got $1.");
-		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,1)),12,"Unexpected item Experience value, expected $2, got $1."); // make sure it takes all damage values
+		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,0)),12);
+		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,1)),12); // make sure it takes all damage values
 	}
 	/* TODO
 	@UnitTest
@@ -115,6 +114,6 @@ public class ImcTests{
 	
 	@UnitTest
 	public void testImcSystem(){
-		Assert.state(ModIntegrationManager.blacklistedMods.contains("NotEnoughItems"),"Missing entry in mod integration blacklist, expected NotEnoughItems to be present.");
+		Assert.contains(ModIntegrationManager.blacklistedMods,"NotEnoughItems");
 	}
 }

@@ -47,6 +47,7 @@ import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+// TODO REDO EVERYTHING OMG
 @SideOnly(Side.CLIENT)
 public class BlockTests{
 	private static final String testTrigger = "ingame/blocks";
@@ -388,7 +389,7 @@ public class BlockTests{
 			Assert.equal(getEntities(EntityItemAltar.class).get(0).getEntityItem().getItemDamage(),0,"Unexpected altar item damage, expected $2, got $1.");
 		}
 		
-		Assert.state(essence1 < essence2,"Unexpected Essence levels, expected "+essence1+" to be lower than "+essence2+".");
+		Assert.isTrue(essence1 < essence2,"Unexpected Essence levels, expected "+essence1+" to be lower than "+essence2+".");
 	}
 	
 	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
@@ -437,7 +438,7 @@ public class BlockTests{
 		};
 		
 		Assert.equal(get.apply(0).getStackInSlot(0).getItem(),Items.diamond,"Unexpected item, expected $2, got $1.");
-		Assert.state(get.apply(0).getStackInSlot(0).stackSize > 3,"Unexpected state, expected stack size to be greater than 4.");
+		Assert.isTrue(get.apply(0).getStackInSlot(0).stackSize > 3,"Unexpected state, expected stack size to be greater than 4.");
 		
 		Assert.equal(get.apply(1).getStackInSlot(0).getItem(),Items.diamond,"Unexpected item, expected $2, got $1.");
 		Assert.equal(get.apply(1).getStackInSlot(0).stackSize,1,"Unexpected stack size, expected $2, got $1.");

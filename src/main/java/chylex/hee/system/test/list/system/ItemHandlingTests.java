@@ -12,8 +12,6 @@ import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.ItemPattern;
 
 public class ItemHandlingTests{
-	private final String matchError = "Unexpected matching item list size, expected $2, got $1.";
-	
 	private List<ItemStack> patternTestList = new ArrayList<>();
 	private NBTTagCompound patternTestNbt;
 	
@@ -32,21 +30,21 @@ public class ItemHandlingTests{
 	
 	@UnitTest
 	public void testItemPatternName(){
-		Assert.equal(new ItemPattern().setItemName("","*").retainMatching(patternTestList).size(),6,matchError);
-		Assert.equal(new ItemPattern().setItemName("HardcoreEnderExpansion","*").retainMatching(patternTestList).size(),2,matchError);
-		Assert.equal(new ItemPattern().setItemName("minecraft","dirt").retainMatching(patternTestList).size(),3,matchError);
-		Assert.equal(new ItemPattern().setItemName("minecraft","sand").retainMatching(patternTestList).size(),0,matchError);
+		Assert.equal(new ItemPattern().setItemName("","*").retainMatching(patternTestList).size(),6);
+		Assert.equal(new ItemPattern().setItemName("HardcoreEnderExpansion","*").retainMatching(patternTestList).size(),2);
+		Assert.equal(new ItemPattern().setItemName("minecraft","dirt").retainMatching(patternTestList).size(),3);
+		Assert.equal(new ItemPattern().setItemName("minecraft","sand").retainMatching(patternTestList).size(),0);
 	}
 
 	@UnitTest
 	public void testItemPatternDamage(){
-		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1 }).retainMatching(patternTestList).size(),1,matchError);
-		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1, 2 }).retainMatching(patternTestList).size(),2,matchError);
+		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1 }).retainMatching(patternTestList).size(),1);
+		Assert.equal(new ItemPattern().setDamageValues(new int[]{ 1, 2 }).retainMatching(patternTestList).size(),2);
 	}
 
 	@UnitTest
 	public void testItemPatternNBT(){
-		Assert.equal(new ItemPattern().setNBT((NBTTagCompound)patternTestNbt.copy()).retainMatching(patternTestList).size(),1,matchError);
+		Assert.equal(new ItemPattern().setNBT((NBTTagCompound)patternTestNbt.copy()).retainMatching(patternTestList).size(),1);
 	}
 	
 	@UnitTest
@@ -57,10 +55,10 @@ public class ItemHandlingTests{
 		String error1 = "Failed item damage pair test (expected true).";
 		String error2 = "Failed item damage pair test (expected false).";
 		
-		Assert.state(pair1.check(new ItemStack(Items.gunpowder)),"Failed item damage pair test (expected true).");
-		Assert.state(!pair1.check(new ItemStack(Items.gunpowder,1,1)),"Failed item damage pair test (expected false).");
-		Assert.state(pair2.check(new ItemStack(Items.gunpowder,1,1)),"Failed item damage pair test (expected true).");
-		Assert.state(!pair1.check(new ItemStack(Items.dye)),"Failed item damage pair test (expected false).");
+		Assert.isTrue(pair1.check(new ItemStack(Items.gunpowder)));
+		Assert.isFalse(pair1.check(new ItemStack(Items.gunpowder,1,1)));
+		Assert.isTrue(pair2.check(new ItemStack(Items.gunpowder,1,1)));
+		Assert.isFalse(pair1.check(new ItemStack(Items.dye)));
 		
 	}
 }

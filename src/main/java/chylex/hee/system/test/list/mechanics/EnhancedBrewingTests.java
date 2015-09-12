@@ -62,43 +62,43 @@ public class EnhancedBrewingTests{
 	@UnitTest
 	public void testValidation(){
 		for(Item item:specialIngredients){
-			Assert.state(PotionTypes.isSpecialIngredient(item),"Unexpected state, invalid special ingredient: "+item.getUnlocalizedName());
+			Assert.isTrue(PotionTypes.isSpecialIngredient(item),"Unexpected state, invalid special ingredient: "+item.getUnlocalizedName());
 		}
 
-		Assert.state(PotionTypes.isPotionItem(Items.glass_bottle),"Unexpected state, invalid potion item: "+Items.glass_bottle.getUnlocalizedName());
-		Assert.state(PotionTypes.isPotionItem(Items.potionitem),"Unexpected state, invalid potion item: "+Items.potionitem.getUnlocalizedName());
+		Assert.isTrue(PotionTypes.isPotionItem(Items.glass_bottle));
+		Assert.isTrue(PotionTypes.isPotionItem(Items.potionitem));
 	}
 	
 	@UnitTest
 	public void testPotionData(){
-		Assert.equal(PotionTypes.getPotionData(isAwkward).getPotionType(),null,"Unexpected potion data, expected $2, got $1.");
-		Assert.equal(PotionTypes.getPotionData(isVanillaHeal).getPotionType(),Potion.heal,"Unexpected potion data, expected $2, got $1.");
-		Assert.equal(PotionTypes.getPotionData(isCustomHeal).getPotionType(),Potion.heal,"Unexpected potion data, expected $2, got $1.");
-		Assert.equal(PotionTypes.getPotionData(isVanillaSpeed).getPotionType(),Potion.moveSpeed,"Unexpected potion data, expected $2, got $1.");
-		Assert.equal(PotionTypes.getPotionData(isCustomSpeed).getPotionType(),Potion.moveSpeed,"Unexpected potion data, expected $2, got $1.");
+		Assert.equal(PotionTypes.getPotionData(isAwkward).getPotionType(),null);
+		Assert.equal(PotionTypes.getPotionData(isVanillaHeal).getPotionType(),Potion.heal);
+		Assert.equal(PotionTypes.getPotionData(isCustomHeal).getPotionType(),Potion.heal);
+		Assert.equal(PotionTypes.getPotionData(isVanillaSpeed).getPotionType(),Potion.moveSpeed);
+		Assert.equal(PotionTypes.getPotionData(isCustomSpeed).getPotionType(),Potion.moveSpeed);
 	}
 	
 	@UnitTest
 	public void testPotionEffects(){
-		Assert.equal(PotionTypes.getEffectIfValid(isAwkward),null,"Unexpected potion effect, expected $2, got $1.");
-		Assert.equal(PotionTypes.getEffectIfValid(isVanillaHeal),new PotionEffect(Potion.heal.id,1,0),"Unexpected potion effect, expected $2, got $1.");
-		Assert.equal(PotionTypes.getEffectIfValid(isCustomHeal),new PotionEffect(Potion.heal.id,1,0),"Unexpected potion effect, expected $2, got $1.");
-		Assert.equal(PotionTypes.getEffectIfValid(isCustomSpeed),new PotionEffect(Potion.moveSpeed.id,1200,0),"Unexpected potion effect, expected $2, got $1.");
-		Assert.equal(PotionTypes.getEffectIfValid(isCustomSpeedT2),new PotionEffect(Potion.moveSpeed.id,1200,1),"Unexpected potion effect, expected $2, got $1.");
-		Assert.equal(PotionTypes.getEffectIfValid(isCustomSpeedL2),new PotionEffect(Potion.moveSpeed.id,2700,0),"Unexpected potion effect, expected $2, got $1.");
+		Assert.equal(PotionTypes.getEffectIfValid(isAwkward),null);
+		Assert.equal(PotionTypes.getEffectIfValid(isVanillaHeal),new PotionEffect(Potion.heal.id,1,0));
+		Assert.equal(PotionTypes.getEffectIfValid(isCustomHeal),new PotionEffect(Potion.heal.id,1,0));
+		Assert.equal(PotionTypes.getEffectIfValid(isCustomSpeed),new PotionEffect(Potion.moveSpeed.id,1200,0));
+		Assert.equal(PotionTypes.getEffectIfValid(isCustomSpeedT2),new PotionEffect(Potion.moveSpeed.id,1200,1));
+		Assert.equal(PotionTypes.getEffectIfValid(isCustomSpeedL2),new PotionEffect(Potion.moveSpeed.id,2700,0));
 	}
 	
 	@UnitTest
 	public void testRequiredPowder(){
-		Assert.equal(PotionTypes.getRequiredPowder(Items.nether_wart,isWater),0,"Unexpected powder requirement, expected $2, got $1.");
-		Assert.equal(PotionTypes.getRequiredPowder(ItemList.instability_orb,isAwkward),8,"Unexpected powder requirement, expected $2, got $1.");
-		Assert.equal(PotionTypes.getRequiredPowder(Items.glowstone_dust,isCustomHeal),2,"Unexpected powder requirement, expected $2, got $1.");
-		Assert.equal(PotionTypes.getRequiredPowder(Items.glowstone_dust,isCustomSpeed),2,"Unexpected powder requirement, expected $2, got $1.");
-		Assert.equal(PotionTypes.getRequiredPowder(Items.glowstone_dust,isCustomSpeedT2),4,"Unexpected powder requirement, expected $2, got $1.");
-		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeed),1,"Unexpected powder requirement, expected $2, got $1.");
-		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeedL2),1,"Unexpected powder requirement, expected $2, got $1.");
-		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeedL3),2,"Unexpected powder requirement, expected $2, got $1.");
-		Assert.equal(PotionTypes.getRequiredPowder(Items.gunpowder,isCustomSpeed),3,"Unexpected powder requirement, expected $2, got $1.");
+		Assert.equal(PotionTypes.getRequiredPowder(Items.nether_wart,isWater),0);
+		Assert.equal(PotionTypes.getRequiredPowder(ItemList.instability_orb,isAwkward),8);
+		Assert.equal(PotionTypes.getRequiredPowder(Items.glowstone_dust,isCustomHeal),2);
+		Assert.equal(PotionTypes.getRequiredPowder(Items.glowstone_dust,isCustomSpeed),2);
+		Assert.equal(PotionTypes.getRequiredPowder(Items.glowstone_dust,isCustomSpeedT2),4);
+		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeed),1);
+		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeedL2),1);
+		Assert.equal(PotionTypes.getRequiredPowder(Items.redstone,isCustomSpeedL3),2);
+		Assert.equal(PotionTypes.getRequiredPowder(Items.gunpowder,isCustomSpeed),3);
 	}
 	
 	@UnitTest
@@ -169,7 +169,7 @@ public class EnhancedBrewingTests{
 			}
 			
 			is = PotionTypes.applyIngredientUnsafe(ingredient,is);
-			Assert.equal(PotionTypes.getEffectIfValid(is),stage.getRight(),"Unexpected brewing state effect, expected $2, got $1.");
+			Assert.equal(PotionTypes.getEffectIfValid(is),stage.getRight());
 		}
 		
 		if (shouldFail)Assert.fail("Brewing was supposed to fail, but proceeded to get "+is+".");
