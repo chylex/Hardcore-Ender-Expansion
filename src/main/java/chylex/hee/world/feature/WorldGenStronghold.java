@@ -34,7 +34,12 @@ import chylex.hee.world.feature.stronghold.doors.StrongholdDoorGrates;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorSmall;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorTorches;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorWooden;
-import chylex.hee.world.feature.stronghold.rooms.decorative.*;
+import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomFountain;
+import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLargeIntersection;
+import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitCorners;
+import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitPole;
+import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitTotem;
+import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomSmallIntersection;
 import chylex.hee.world.feature.stronghold.rooms.general.StrongholdRoomEndPortal;
 import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicDungeon;
 import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicFountains;
@@ -46,12 +51,13 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
+import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorAttaching;
 import chylex.hee.world.structure.util.Range;
 import chylex.hee.world.util.IRandomAmount;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGenStronghold implements IWorldGenerator{
-	private static final StructureDungeon stronghold = new StructureDungeon(128,48,128);
+	private static final StructureDungeon stronghold = new StructureDungeon(128,48,128,DungeonGeneratorAttaching::new);
 	
 	public static final WeightedLootTable loot = new WeightedLootTable();
 	
@@ -92,7 +98,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 			if (args.length < 1)return;
 			
 			if (args[0].equals("custom")){
-				StructureDungeon stronghold = new StructureDungeon(128,48,128);
+				StructureDungeon stronghold = new StructureDungeon(128,48,128,DungeonGeneratorAttaching::new);
 				stronghold.setPieceAmount(220,250);
 				stronghold.setStartingPiece(new StrongholdRoomEndPortal());
 				
@@ -176,7 +182,8 @@ public class WorldGenStronghold implements IWorldGenerator{
 				pieces.stream().map(piece -> new StructureDungeonPieceInst(piece,pos.move(piece.size.sizeX+2,0,0).offset(-piece.size.sizeX,0,-piece.size.sizeZ/2))).forEach(inst -> {
 					Pos piecePos = inst.boundingBox.getTopLeft();
 					inst.useAllConnections();
-					inst.piece.generate(inst,structureWorld,world.rand,piecePos.getX(),piecePos.getY(),piecePos.getZ());
+					inst.clearArea(structureWorld,world.rand);
+					inst.generatePiece(structureWorld,world.rand);
 					
 					for(Connection connection:inst.piece.getConnections()){
 						Block block = connection.facing == Facing4.NORTH_NEGZ ? Blocks.netherrack :
