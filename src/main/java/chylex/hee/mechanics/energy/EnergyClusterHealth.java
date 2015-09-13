@@ -1,34 +1,25 @@
 package chylex.hee.mechanics.energy;
-import chylex.hee.system.collections.WeightedList;
-import chylex.hee.system.collections.weight.IWeightProvider;
 
-public enum EnergyClusterHealth implements IWeightProvider{
-	HEALTHY(0x54ff54, 10, 15, 1F, 90, "energy.status.healthy"),
-	WEAKENED(0xffc454, 7, 32, 0.75F, 40, "energy.status.weakened"),
-	TIRED(0xff7a54, 3, 58, 0.4F, 10, "energy.status.tired"),
-	UNSTABLE(0xff5454, 1, -1, 0F, 0, "energy.status.unstable");
+public enum EnergyClusterHealth{
+	HEALTHY (0x54FF54, 1.0F,  2.0F, 0F,     "energy.status.healthy"),
+	WEAKENED(0xFFC454, 0.9F,  1.4F, 0F,     "energy.status.weakened"),
+	TIRED   (0xFF7A54, 0.6F,  0.8F, 0F,     "energy.status.tired"),
+	DAMAGED (0xFF5454, 0.4F,  0.5F, 0.002F, "energy.status.damaged"),
+	UNSTABLE(0xABABAB, 0.15F, 0.2F, 0.01F,  "energy.status.unstable");
 	
 	public static final EnergyClusterHealth[] values = values();
-	public static final WeightedList<EnergyClusterHealth> spawnWeightedList = new WeightedList<>(values);
 	
 	public final int color;
-	public final byte spawnWeight;
-	public final byte regenTimer;
-	public final float regenMultiplier;
-	public final byte chanceToWeaken;
+	public final float regenAmountMp;
+	public final float regenSpeedMp;
+	public final float leakChance;
 	public final String translationText;
 	
-	EnergyClusterHealth(int color, int spawnWeight, int regenTimer, float regenMultiplier, int chanceToWeaken, String translationText){
+	EnergyClusterHealth(int color, float regenAmountMp, float regenSpeedMp, float leakChance, String translationText){
 		this.color = color;
-		this.spawnWeight = (byte)spawnWeight;
-		this.regenTimer = (byte)regenTimer;
-		this.regenMultiplier = regenMultiplier;
-		this.chanceToWeaken = (byte)chanceToWeaken;
+		this.regenAmountMp = regenAmountMp;
+		this.regenSpeedMp = regenSpeedMp;
+		this.leakChance = leakChance;
 		this.translationText = translationText;
-	}
-
-	@Override
-	public int getWeight(){
-		return spawnWeight;
 	}
 }

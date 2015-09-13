@@ -1,6 +1,6 @@
 package chylex.hee.tileentity;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.mechanics.energy.EnergyChunkData;
+import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -33,7 +33,7 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	
 	@Override
 	protected float getDrainAmount(){
-		return time < totalTime ? EnergyChunkData.energyDrainUnit : 0F;
+		return time < totalTime ? EnergyValues.unit : 0F;
 	}
 
 	@Override

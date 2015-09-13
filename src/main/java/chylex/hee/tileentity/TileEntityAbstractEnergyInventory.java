@@ -11,7 +11,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkPosition;
-import chylex.hee.mechanics.energy.EnergyChunkData;
+import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -64,7 +64,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 			
 			float drain = energyLeft <= 0F ? getDrainAmount() : energyLeft;
 			
-			if (drain > EnergyChunkData.minSignificantEnergy){
+			if (drain > EnergyValues.min){
 				List<TileEntityEnergyCluster> clusters = new ArrayList<>();
 				int chunkX = xCoord>>4, chunkZ = zCoord>>4, cx, cz;
 				
@@ -86,14 +86,14 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 					Collections.shuffle(clusters,worldObj.rand);
 					
 					for(Iterator<TileEntityEnergyCluster> iter = clusters.iterator(); iter.hasNext();){
-						if ((drain = iter.next().drainEnergy(drain,this)) < EnergyChunkData.minSignificantEnergy)break;
+						if ((drain = iter.next().drainEnergy(drain,this)) < EnergyValues.min)break;
 					}
 				}
 			}
 			
 			drainTimer = getDrainTimer();
 			
-			if (drain < EnergyChunkData.minSignificantEnergy)energyLeft = 0F;
+			if (drain < EnergyValues.min)energyLeft = 0F;
 			else energyLeft = drain;
 			
 			Stopwatch.finish("TileEntityAbstractEnergyInventory - drain");

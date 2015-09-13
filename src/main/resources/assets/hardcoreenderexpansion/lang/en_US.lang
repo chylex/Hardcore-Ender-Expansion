@@ -264,6 +264,7 @@ energy.overlay.regen=REGENERATING UP TO $
 energy.status.healthy=HEALTHY
 energy.status.weakened=WEAKENED
 energy.status.tired=TIRED
+energy.status.damaged=DAMAGED
 energy.status.unstable=UNSTABLE
 
 namegenerator.middle=, the 

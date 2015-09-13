@@ -2,7 +2,6 @@ package chylex.hee.render;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.lwjgl.opengl.GL11;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -12,9 +11,10 @@ import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.common.MinecraftForge;
+import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.energy.EnergyClusterHealth;
+import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -122,12 +122,14 @@ public class OverlayManager{
 				GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 				GL11.glColor4f(1F,1F,1F,1F);
 				
-				drawStringCentered(font,I18n.format("energy.overlay.title"),x,y-40,255,255,255);
-				drawStringCentered(font,I18n.format("energy.overlay.holding").replace("$",DragonUtil.formatTwoPlaces.format(clusterLookedAt.data.getEnergyLevel())),x,y-30,220,220,220);
-				drawStringCentered(font,I18n.format("energy.overlay.regen").replace("$",DragonUtil.formatTwoPlaces.format(clusterLookedAt.data.getMaxEnergyLevel())),x,y-20,220,220,220);
-
-				EnergyClusterHealth health = clusterLookedAt.data.getHealthStatus();
-				drawStringCentered(font,I18n.format(health.translationText),x,y-10,health.color);
+				EnergyClusterData data = clusterLookedAt.getData().orElse(null);
+				
+				if (data != null){
+					drawStringCentered(font,I18n.format("energy.overlay.title"),x,y-40,255,255,255);
+					drawStringCentered(font,I18n.format("energy.overlay.holding").replace("$",DragonUtil.formatTwoPlaces.format(data.getEnergyLevel())),x,y-30,220,220,220);
+					drawStringCentered(font,I18n.format("energy.overlay.regen").replace("$",DragonUtil.formatTwoPlaces.format(data.getMaxLevel())),x,y-20,220,220,220);
+					drawStringCentered(font,I18n.format(data.getHealth().translationText),x,y-10,data.getHealth().color);
+				}
 
 				GL11.glDisable(GL11.GL_BLEND);
 				clusterLookedAt = null;

@@ -1,62 +1,51 @@
 package chylex.hee.tileentity;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnergyCluster;
-import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.energy.EnergyClusterData;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C10ParticleEnergyTransfer;
+import chylex.hee.mechanics.energy.EnergyClusterGenerator;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.ColorUtil;
-import chylex.hee.system.util.MathUtil;
 
 public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
-	public final EnergyClusterData data;
-	public boolean shouldNotExplode = false;
-	private boolean shouldBeDestroyedSilently = false;
-	private byte[] colRgb;
+	private EnergyClusterData data;
 	private Pos cachedCoords;
+	private byte[] colRgb;
+	public boolean shouldNotExplode = false;
 	
-	public TileEntityEnergyCluster(){
-		data = new EnergyClusterData();
-	}
-	
-	public TileEntityEnergyCluster(World world){
-		this();
-		float[] rgb = ColorUtil.hsvToRgb(world.rand.nextFloat(),0.5F,0.65F);
-		colRgb = new byte[]{ (byte)(Math.floor(rgb[0]*255F)-128), (byte)(Math.floor(rgb[1]*255F)-128), (byte)(Math.floor(rgb[2]*255F)-128) };
+	public void generate(EnergyClusterGenerator generator, Random rand){
+		data = generator.generate(rand);
+		cachedCoords = Pos.at(xCoord,yCoord,zCoord);
+		colRgb = ArrayUtils.toPrimitive(Arrays.stream(ArrayUtils.toObject(ColorUtil.hsvToRgb(rand.nextFloat(),0.5F,0.65F))).map(color -> (byte)(Math.floor(color*255F)-128)).toArray(Byte[]::new));
+		synchronize();
 	}
 
 	@Override
 	public void updateEntity(){
-		if (shouldBeDestroyedSilently){
+		if (data == null || cachedCoords == null){
 			shouldNotExplode = true;
 			Pos.at(xCoord,yCoord,zCoord).setAir(worldObj);
 			return;
 		}
 		
 		if (!worldObj.isRemote){
-			if (cachedCoords == null){
-				data.generate(worldObj,xCoord,zCoord);
-				cachedCoords = Pos.at(xCoord,yCoord,zCoord);
-				synchronize();
-			}
-			else if (cachedCoords.getX() != xCoord || cachedCoords.getY() != yCoord || cachedCoords.getZ() != zCoord){
-				BlockEnergyCluster.destroyCluster(this);
-				return;
-			}
-			
-			data.update(this);
+			if (cachedCoords.getX() != xCoord || cachedCoords.getY() != yCoord || cachedCoords.getZ() != zCoord)BlockEnergyCluster.destroyCluster(this);
+			else if (data.update(this))synchronize();
 		}
-		else{
-			if (worldObj.rand.nextInt(5) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
-		}
+		else if (worldObj.rand.nextInt(5) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
 		
 		shouldNotExplode = false;
 	}
 	
-	public float addEnergy(float amount, TileEntityAbstractEnergyInventory tile){
+	public Optional<EnergyClusterData> getData(){
+		return Optional.ofNullable(data);
+	}
+	
+	/*public float addEnergy(float amount, TileEntityAbstractEnergyInventory tile){
 		if (data.getEnergyLevel() < data.getMaxEnergyLevel())PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
 		
 		float left = data.addEnergy(amount);
@@ -65,12 +54,12 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	}
 	
 	public float drainEnergy(float amount, TileEntityAbstractEnergyInventory tile){
-		if (data.getEnergyLevel() >= EnergyChunkData.minSignificantEnergy)PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
+		if (data.getEnergyLevel() >= EnergyValues.min)PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
 		
 		float left = data.drainEnergy(amount);
 		if (!MathUtil.floatEquals(left,amount))synchronize();
 		return left;
-	}
+	}*/
 	
 	public float getColor(int index){
 		return (colRgb[index]+128F)/255F;
@@ -90,10 +79,8 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 
 	@Override
 	public void readTileFromNBT(NBTTagCompound nbt){
-		colRgb = nbt.getByteArray("col");
+		if ((colRgb = nbt.getByteArray("col")).length != 3)colRgb = new byte[]{ 0, 0, 0 };
 		cachedCoords = Pos.at(nbt.getLong("loc"));
 		data.readFromNBT(nbt);
-		
-		if (colRgb.length == 0)shouldBeDestroyedSilently = true;
 	}
 }

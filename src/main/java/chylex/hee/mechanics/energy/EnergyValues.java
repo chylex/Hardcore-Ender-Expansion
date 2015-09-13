@@ -1,29 +1,21 @@
 package chylex.hee.mechanics.energy;
+import gnu.trove.map.hash.TObjectFloatHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.EntityMiniBossEnderEye;
-import chylex.hee.entity.mob.EntityMobAngryEnderman;
-import chylex.hee.entity.mob.EntityMobBabyEnderman;
-import chylex.hee.entity.mob.EntityMobEndermage;
-import chylex.hee.entity.mob.EntityMobEnderman;
-import chylex.hee.entity.mob.EntityMobHomelandEnderman;
-import chylex.hee.init.BlockList;
-import chylex.hee.init.ItemList;
 import chylex.hee.system.util.ItemDamagePair;
 import chylex.hee.system.util.MathUtil;
-import gnu.trove.map.hash.TObjectFloatHashMap;
 
 public final class EnergyValues{
+	public static final float unit = 0.05F;
+	public static final float min = 0.00001F;
+	
 	private static final TObjectFloatHashMap<ItemDamagePair> items = new TObjectFloatHashMap<>();
 	private static final TObjectFloatHashMap<Class<? extends EntityLivingBase>> mobs = new TObjectFloatHashMap<>();
 	
 	static{
-		setItemEnergy(Blocks.end_stone, 0.40F);
+		/* TODO setItemEnergy(Blocks.end_stone, 0.40F);
 		setItemEnergy(BlockList.end_terrain, 0.50F);
 		setItemEnergy(BlockList.persegrit, 0.55F);
 		setItemEnergy(ItemList.silverfish_blood, 0.65F);
@@ -52,28 +44,20 @@ public final class EnergyValues{
 		setItemEnergy(ItemList.energy_wand, 6.40F);
 		setItemEnergy(ItemList.transference_gem, 7.80F);
 		setItemEnergy(BlockList.endium_block, 10.10F);
-		setItemEnergy(ItemList.living_matter, 10.50F);
-		
-		setMobEnergy(EntityMobEnderman.class, 0.85F);
-		setMobEnergy(EntityMobAngryEnderman.class, 0.85F);
-		setMobEnergy(EntityMobHomelandEnderman.class, 0.85F);
-		setMobEnergy(EntityMobBabyEnderman.class, 0.40F);
-		setMobEnergy(EntityMobEndermage.class, 1.25F);
-		setMobEnergy(EntityMiniBossEnderEye.class, 6.50F);
-		setMobEnergy(EntityBossDragon.class, 24.00F);
+		setItemEnergy(ItemList.living_matter, 10.50F);*/
 	}
 	
 	private static void setItemEnergy(Block block, float energyUnits){
-		items.put(new ItemDamagePair(Item.getItemFromBlock(block),-1),EnergyChunkData.energyDrainUnit*energyUnits);
+		items.put(new ItemDamagePair(Item.getItemFromBlock(block),-1),unit*energyUnits);
 	}
 	
 	private static void setItemEnergy(Item item, float energyUnits){
-		items.put(new ItemDamagePair(item,-1),EnergyChunkData.energyDrainUnit*energyUnits);
+		items.put(new ItemDamagePair(item,-1),unit*energyUnits);
 	}
 	
 	public static boolean setItemEnergy(ItemDamagePair pair, float energyUnits){
 		if (!MathUtil.floatEquals(getItemEnergy(new ItemStack(pair.item,1,pair.damage == -1 ? 0 : pair.damage)),0F))return false;
-		items.put(pair,EnergyChunkData.energyDrainUnit*energyUnits);
+		items.put(pair,unit*energyUnits);
 		return true;
 	}
 	
@@ -83,17 +67,6 @@ public final class EnergyValues{
 		}
 		
 		return 0F;
-	}
-	
-	public static boolean setMobEnergy(Class<? extends EntityLivingBase> entityClass, float energyUnits){
-		if (mobs.containsKey(entityClass))return false;
-		mobs.put(entityClass,EnergyChunkData.energyDrainUnit*energyUnits);
-		return true;
-	}
-	
-	public static float getMobEnergy(EntityLivingBase entity){
-		float amt = mobs.get(entity.getClass());
-		return amt == mobs.getNoEntryValue() ? 0 : amt;
 	}
 	
 	private EnergyValues(){}

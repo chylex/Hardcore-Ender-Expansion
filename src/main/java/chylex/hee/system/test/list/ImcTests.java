@@ -78,7 +78,7 @@ public class ImcTests{
 		Assert.isNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Blocks.dispenser),new Random()));
 		Assert.notNull(StardustDecomposition.getRandomRecipeIngredientsFor(new ItemStack(Items.bow),new Random()));
 		
-		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal,1,1)),EnergyChunkData.energyDrainUnit*5.4F);
+		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal,1,1)),EnergyValues.unit*5.4F);
 		Assert.equal(EnergyValues.getItemEnergy(new ItemStack(Items.coal,1,0)),0F); // make sure it only takes charcoal
 		
 		Assert.equal(TileEntityExperienceTable.getDirectExperience(new ItemStack(Items.coal,1,0)),12);

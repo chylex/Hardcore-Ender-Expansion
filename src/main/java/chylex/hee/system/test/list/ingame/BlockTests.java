@@ -27,6 +27,7 @@ import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
+import chylex.hee.mechanics.energy.EnergyClusterGenerator;
 import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
@@ -244,8 +245,8 @@ public class BlockTests{
 				tag.setByte("status",(byte)0);
 				tag.setFloat("lvl",10F);
 				tag.setFloat("max",10F);
-				getTile(TileEntityEnergyCluster.class).updateEntity();
-				getTile(TileEntityEnergyCluster.class).data.readFromNBT(tag);
+				getTile(TileEntityEnergyCluster.class).generate(EnergyClusterGenerator.creative,world.rand);
+				getTile(TileEntityEnergyCluster.class).getData().get().readFromNBT(tag);
 			}
 		}
 		

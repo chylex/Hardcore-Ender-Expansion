@@ -8,7 +8,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.energy.EnergyChunkData;
+import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.tileentity.TileEntityAbstractTable;
 import cpw.mods.fml.relauncher.Side;
@@ -39,10 +39,10 @@ public abstract class BlockAbstractTable extends BlockAbstractInventory{
 		if (tile instanceof TileEntityAbstractTable){
 			TileEntityAbstractTable table = (TileEntityAbstractTable)tile;
 			
-			if (table.getStoredEnergy() >= EnergyChunkData.minSignificantEnergy){
+			if (table.getStoredEnergy() >= EnergyValues.min){
 				float amount = table.getStoredEnergy();
 				
-				if (amount >= EnergyChunkData.minSignificantEnergy){
+				if (amount >= EnergyValues.min){
 					int energyMeta = Math.min(15,3+(int)(amount*0.8F));
 					BlockPosM tmpPos = BlockPosM.tmp();
 					

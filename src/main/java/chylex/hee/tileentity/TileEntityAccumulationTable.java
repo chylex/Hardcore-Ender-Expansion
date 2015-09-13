@@ -5,7 +5,7 @@ import chylex.hee.mechanics.energy.EnergyChunkData;
 
 public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	private static final int[] slotsAll = new int[]{ 0 };
-	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*50F;
+	private static final float maxStoredEnergy = EnergyValues.unit*50F;
 	
 	private byte channelCooldown;
 	private boolean lastComparatorStatus;
@@ -17,11 +17,11 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	public void updateEntity(){
 		super.updateEntity();
 		
-		if (!worldObj.isRemote && (channelCooldown == 0 || --channelCooldown == 0) && items[0] != null && storedEnergy >= EnergyChunkData.energyDrainUnit && items[0].getItem() instanceof ItemAbstractEnergyAcceptor){
+		if (!worldObj.isRemote && (channelCooldown == 0 || --channelCooldown == 0) && items[0] != null && storedEnergy >= EnergyValues.unit && items[0].getItem() instanceof ItemAbstractEnergyAcceptor){
 			ItemAbstractEnergyAcceptor item = (ItemAbstractEnergyAcceptor)items[0].getItem();
 			
 			if (item.canAcceptEnergy(items[0])){
-				if ((storedEnergy -= EnergyChunkData.energyDrainUnit) < EnergyChunkData.minSignificantEnergy)storedEnergy = 0F;
+				if ((storedEnergy -= EnergyValues.unit) < EnergyValues.min)storedEnergy = 0F;
 				item.onEnergyAccepted(items[0]);
 				channelCooldown = 4;
 				
@@ -55,7 +55,7 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	
 	@Override
 	protected float getDrainAmount(){
-		return EnergyChunkData.energyDrainUnit;
+		return EnergyValues.unit;
 	}
 	
 	@Override

@@ -12,20 +12,19 @@ import net.minecraft.world.ChunkPosition;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1, 2 };
-	private static final float maxStoredEnergy = EnergyChunkData.energyDrainUnit*15F;
+	private static final float maxStoredEnergy = EnergyValues.unit*15F;
 
 	private byte leakTimer = 100;
 	
 	@Override
 	protected float getDrainAmount(){
-		return time < totalTime ? EnergyChunkData.energyDrainUnit*0.25F : 0F;
+		return time < totalTime ? EnergyValues.unit*0.25F : 0F;
 	}
 	
 	@Override
@@ -35,8 +34,8 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 		if (!worldObj.isRemote && leakTimer < 0 || (leakTimer -= (items[2] == null || items[2].getItem() != ItemList.instability_orb ? 16 : Math.max(0,16-items[2].stackSize))) < 0){
 			leakTimer = 100;
 			
-			if (storedEnergy >= EnergyChunkData.minSignificantEnergy){
-				float release = EnergyChunkData.energyDrainUnit*0.08F+(float)Math.sqrt(storedEnergy)*0.005F;
+			if (storedEnergy >= EnergyValues.min){
+				float release = EnergyValues.unit*0.08F+(float)Math.sqrt(storedEnergy)*0.005F;
 				storedEnergy = Math.max(storedEnergy-release,0F);
 				
 				List<TileEntityEnergyCluster> clusters = new ArrayList<>();
@@ -60,11 +59,11 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 					Collections.shuffle(clusters);
 					
 					for(Iterator<TileEntityEnergyCluster> iter = clusters.iterator(); iter.hasNext();){
-						if ((release = iter.next().addEnergy(release,this)) < EnergyChunkData.minSignificantEnergy)break;
+						if ((release = iter.next().addEnergy(release,this)) < EnergyValues.min)break;
 					}
 				}
 				
-				if (release >= EnergyChunkData.minSignificantEnergy){
+				if (release >= EnergyValues.min){
 					BlockPosM tmpPos = BlockPosM.tmp();
 					
 					for(int attempt = 0, placed = 0; attempt < 8 && placed < 4; attempt++){
@@ -89,7 +88,7 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 			float energy = EnergyValues.getItemEnergy(items[0]);
 			
 			if (energy > 0F){
-				requiredStardust = (byte)(1+1.5F*Math.sqrt(energy*4F/EnergyChunkData.energyDrainUnit));
+				requiredStardust = (byte)(1+1.5F*Math.sqrt(energy*4F/EnergyValues.unit));
 				timeStep = (short)Math.max(1,20-(requiredStardust>>1));
 				updateComparatorStatus();
 			}

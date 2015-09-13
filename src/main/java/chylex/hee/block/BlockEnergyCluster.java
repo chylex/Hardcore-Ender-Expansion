@@ -18,8 +18,8 @@ import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
@@ -35,7 +35,7 @@ public class BlockEnergyCluster extends BlockContainer{
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta){
-		return new TileEntityEnergyCluster(world);
+		return new TileEntityEnergyCluster();
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class BlockEnergyCluster extends BlockContainer{
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityArrow || entity instanceof EntityThrowable)BlockPosM.tmp(x,y,z).setAir(world);
+		if (entity instanceof EntityArrow || entity instanceof EntityThrowable)Pos.at(x,y,z).setAir(world);
 	}
 	
 	@Override
@@ -101,22 +101,19 @@ public class BlockEnergyCluster extends BlockContainer{
 		
 		World world = tile.getWorldObj();
 		int x = tile.xCoord, y = tile.yCoord, z = tile.zCoord;
-		int energyMeta = Math.min(15,3+(int)(tile.data.getEnergyLevel()*0.8F));
+		int energyMeta = Math.min(15,3+MathUtil.floor(tile.getData().map(data -> data.getEnergyLevel()).orElse(0F)*0.8F));
 		
 		double dist = 4.4D+energyMeta*0.1D;
 		int idist = MathUtil.ceil(dist);
 		
 		world.newExplosion(null,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true,true);
 		
-		BlockPosM tmpPos = BlockPosM.tmp();
+		Pos pos1 = Pos.at(x,y,z).offset(-idist,-idist,-idist);
+		Pos pos2 = Pos.at(x,y,z).offset(idist,idist,idist);
 		
-		for(int xx = x-idist; xx <= x+idist; xx++){
-			for(int zz = z-idist; zz <= z+idist; zz++){
-				for(int yy = y-idist; yy <= y+idist; yy++){
-					if (MathUtil.distance(xx-x,yy-y,zz-z) <= dist && world.isAirBlock(xx,yy,zz))tmpPos.set(xx,yy,zz).setBlock(world,BlockList.corrupted_energy_high,energyMeta);
-				}
-			}
-		}
+		Pos.forEachBlock(pos1,pos2,pos -> {
+			if (MathUtil.distance(pos.x-x,pos.y-y,pos.z-z) <= dist && pos.isAir(world))pos.setBlock(world,BlockList.corrupted_energy_high,energyMeta);
+		});
 		
 		for(EntityPlayer player:(List<EntityPlayer>)world.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x+0.5D,y+0.5D,z+0.5D,x+0.5D,y+0.5D,z+0.5D).expand(6D,6D,6D))){
 			if (player.getDistance(x+0.5D,y+0.5D,z+0.5D) <= 6D)CausatumUtils.increase(player,CausatumMeters.END_ENERGY,20F);

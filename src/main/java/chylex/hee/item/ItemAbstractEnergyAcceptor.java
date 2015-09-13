@@ -12,7 +12,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
-import chylex.hee.mechanics.energy.EnergyChunkData;
+import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.ItemUtil;
@@ -53,12 +53,12 @@ public abstract class ItemAbstractEnergyAcceptor extends Item{
 				if (tile instanceof TileEntityEnergyCluster){
 					TileEntityEnergyCluster cluster = (TileEntityEnergyCluster)tile;
 					
-					if (cluster.data.drainEnergyUnit()){
+					if (cluster.getData().get().drainUnit()){
 						cluster.synchronize();
 						
 						if (!world.isRemote){
 							onEnergyAccepted(is);
-							CausatumUtils.increase((EntityPlayer)entity,CausatumMeters.END_ENERGY,EnergyChunkData.energyDrainUnit);
+							CausatumUtils.increase((EntityPlayer)entity,CausatumMeters.END_ENERGY,EnergyValues.unit);
 						}
 						else{
 							Random rand = world.rand;
