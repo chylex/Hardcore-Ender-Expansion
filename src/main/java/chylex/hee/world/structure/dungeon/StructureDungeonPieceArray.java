@@ -1,4 +1,6 @@
 package chylex.hee.world.structure.dungeon;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.util.Range;
@@ -17,6 +19,10 @@ public class StructureDungeonPieceArray implements IWeightProvider{
 	
 	public StructureDungeonPiece getRandomPiece(Random rand){
 		return pieces[rand.nextInt(pieces.length)];
+	}
+	
+	public List<StructureDungeonPiece> toList(){
+		return Arrays.asList(pieces);
 	}
 	
 	@Override

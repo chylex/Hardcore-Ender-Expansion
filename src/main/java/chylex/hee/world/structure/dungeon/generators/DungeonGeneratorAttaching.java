@@ -1,31 +1,36 @@
 package chylex.hee.world.structure.dungeon.generators;
 import gnu.trove.impl.Constants;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonGenerator;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
-import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IType;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceArray;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.BoundingBox;
 
 /**
- * Generates a dungeon by choosing a random existing piece and then trying to attach another random piece to it.
+ * Generates a dungeon by choosing a random existing piece and then trying to attach another random piece to it until it has enough pieces or runs out.
+ * TODO test
  */
 public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
-	private WeightedList<StructureDungeonPieceInst> generated = new WeightedList<>();
-	private TObjectIntHashMap<StructureDungeonPieceArray> generatedCount;
+	private final WeightedList<StructureDungeonPieceArray> available;
+	private final WeightedList<StructureDungeonPieceInst> generated;
+	private final TObjectIntHashMap<StructureDungeonPieceArray> generatedCount;
+	
+	private int cycleAttempts = 1000;
+	private int placeAttempts = 20;
+	private StructureDungeonPieceInst startPieceInst;
 	
 	public DungeonGeneratorAttaching(StructureDungeon dungeon){
 		super(dungeon);
+		this.available = new WeightedList<>(dungeon.pieces);
+		this.generated = new WeightedList<>();
 		this.generatedCount = new TObjectIntHashMap<>(dungeon.pieces.size(),Constants.DEFAULT_LOAD_FACTOR,0);
 	}
 
@@ -33,51 +38,27 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	 * Checks whether the area is inside the structure and does not intersect any existing pieces.
 	 */
 	protected boolean canPlaceArea(Pos pos1, Pos pos2){
-		BoundingBox box = new BoundingBox(pos1,pos2);
-		if (!box.isInside(dungeon.boundingBox))return false;
-		
-		for(StructureDungeonPieceInst inst:generated){
-			if (inst.boundingBox.intersects(box))return false;
-		}
-		
-		return true;
+		final BoundingBox box = new BoundingBox(pos1,pos2);
+		return box.isInside(dungeon.boundingBox) && !generated.stream().anyMatch(inst -> inst.boundingBox.intersects(box));
 	}
 	
 	/**
-	 * Adds a new piece to the structure.
+	 * Returns a random piece out of the available piece list, or null if there are no pieces available.
+	 */
+	protected StructureDungeonPieceArray selectNextPiece(Random rand){
+		return available.getRandomItem(rand);
+	}
+	
+	/**
+	 * Adds a new piece to the structure and updates all collections.
 	 */
 	protected StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
 		StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
 		generated.add(inst);
-		generatedCount.adjustOrPutValue(piece.getParentArray(),1,1);
+		
+		StructureDungeonPieceArray parentArray = piece.getParentArray();
+		if (generatedCount.adjustOrPutValue(parentArray,1,1) >= parentArray.amount.max)available.remove(parentArray);
 		return inst;
-	}
-	
-	/**
-	 * Returns a random piece or null if the search fails.
-	 */
-	protected StructureDungeonPiece selectNextPiece(Random rand){
-		StructureDungeonPieceArray nextPieceArray = dungeon.pieces.getRandomItem(rand);
-		return nextPieceArray != null && generatedCount.get(nextPieceArray) >= nextPieceArray.amount.max ? null : nextPieceArray.getRandomPiece(rand);
-	}
-	
-	/**
-	 * Cycles through available connections for specified facing and piece type in random order. Return true from the function to use the connection.
-	 */
-	protected boolean cycleConnections(StructureDungeonPieceInst inst, Facing4 facing, IType type, Random rand, Function<Connection,Boolean> func){
-		List<Connection> list = inst.findConnections(facing,type);
-		if (list.isEmpty())return false;
-		
-		for(int index = list.size(); index > 0; index--){
-			Connection connection = list.remove(rand.nextInt(index));
-			
-			if (func.apply(connection)){
-				inst.useConnection(connection);
-				return true;
-			}
-		}
-		
-		return false;
 	}
 	
 	/**
@@ -96,34 +77,17 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	 */
 	@Override
 	public boolean generate(StructureWorld world, Random rand){
-		int cycleAttempts = 1000;
-		int placeAttempts = 20;
-		
 		int targetAmount = dungeon.getPieceAmountRange().random(rand);
 		
-		StructureDungeonPiece startPiece = dungeon.getStartingPiece().orElseGet(() -> dungeon.pieces.getRandomItem(rand).getRandomPiece(rand));
-		StructureDungeonPieceInst startPieceInst = addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,dungeon.boundingBox.y2/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
+		generateStartPiece(rand);
 		
 		if (generated.size() < targetAmount && generated.getTotalWeight() > 0){
 			for(int cycleAttempt = 0, count; cycleAttempt < cycleAttempts; cycleAttempt++){
-				StructureDungeonPiece nextPiece = selectNextPiece(rand); // TODO cycle through all pieces in the array maybe?
-				if (nextPiece == null)continue;
+				StructureDungeonPieceArray nextArray = selectNextPiece(rand);
+				if (nextArray == null)break;
 				
-				Connection nextPieceConnection = nextPiece.getRandomConnection(rand);
-				
-				for(int placeAttempt = 0; placeAttempt < placeAttempts; placeAttempt++){
-					StructureDungeonPieceInst connected = generated.tryGetRandomItem(rand).orElse(startPieceInst);
-					
-					if (cycleConnections(connected,nextPieceConnection.facing,nextPiece.type,rand,connection -> {
-						Pos aligned = alignConnections(connected,connection,nextPieceConnection);
-						
-						if (canPlaceArea(aligned,aligned.offset(nextPiece.size.sizeX-1,nextPiece.size.sizeY-1,nextPiece.size.sizeZ-1))){
-							StructureDungeonPieceInst newInst = addPiece(nextPiece,aligned);
-							newInst.useConnection(nextPieceConnection);
-							return true;
-						}
-						else return false;
-					})){
+				for(StructureDungeonPiece nextPiece:CollectionUtil.shuffleMe(nextArray.toList(),rand)){
+					if (tryGeneratePiece(nextPiece,rand)){
 						if (generated.size() >= targetAmount)cycleAttempt = Integer.MAX_VALUE-1;
 						break;
 					}
@@ -132,10 +96,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 		}
 		
 		if (!dungeon.getPieceAmountRange().in(generated.size()))return false;
-		
-		for(StructureDungeonPieceArray piece:dungeon.pieces){
-			if (!piece.amount.in(generatedCount.get(piece)))return false;
-		}
+		if (dungeon.pieces.stream().anyMatch(array -> !array.amount.in(generatedCount.get(array))))return true;
 		
 		for(StructureDungeonPieceInst pieceInst:generated){
 			pieceInst.clearArea(world,rand);
@@ -143,5 +104,44 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Generates the start piece. If the dungeon does not have a specified one, a random piece is selected.
+	 */
+	private void generateStartPiece(Random rand){
+		StructureDungeonPiece startPiece = dungeon.getStartingPiece().orElseGet(() -> selectNextPiece(rand).getRandomPiece(rand));
+		startPieceInst = addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,dungeon.boundingBox.y2/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
+	}
+	
+	/**
+	 * Tries to attach a piece to a random existing one.
+	 */
+	private boolean tryGeneratePiece(StructureDungeonPiece piece, Random rand){
+		Connection sourceConnection = piece.getRandomConnection(rand);
+		
+		for(int placeAttempt = 0; placeAttempt < placeAttempts; placeAttempt++){
+			StructureDungeonPieceInst target = generated.tryGetRandomItem(rand).orElse(startPieceInst);
+			
+			for(Connection targetConnection:CollectionUtil.shuffleMe(target.findConnections(sourceConnection.facing,piece.type),rand)){
+				if (tryConnectPieces(piece,sourceConnection,target,targetConnection))return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Tries to connect two pieces together. If it can be done, it adds the piece to the list, uses up both connections and returns true.
+	 */
+	protected boolean tryConnectPieces(StructureDungeonPiece sourcePiece, Connection sourceConnection, StructureDungeonPieceInst targetPiece, Connection targetConnection){
+		Pos aligned = alignConnections(targetPiece,targetConnection,sourceConnection);
+		
+		if (canPlaceArea(aligned,aligned.offset(targetPiece.piece.size.sizeX-1,targetPiece.piece.size.sizeY-1,targetPiece.piece.size.sizeZ-1))){
+			targetPiece.useConnection(targetConnection);
+			addPiece(sourcePiece,aligned).useConnection(sourceConnection);
+			return true;
+		}
+		else return false;
 	}
 }
