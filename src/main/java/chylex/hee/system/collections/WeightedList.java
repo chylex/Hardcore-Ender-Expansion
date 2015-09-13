@@ -17,6 +17,10 @@ public class WeightedList<T extends IWeightProvider> extends ArrayList<T>{
 	public WeightedList(WeightedList<T> weightedItemCollection){
 		for(T item:weightedItemCollection)add(item);
 	}
+	
+	public WeightedList(int initialCapacity){
+		super(initialCapacity);
+	}
 
 	@Override
 	public boolean add(T obj){
