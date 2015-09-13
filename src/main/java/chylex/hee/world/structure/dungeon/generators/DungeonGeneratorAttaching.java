@@ -12,14 +12,12 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceArray;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.BoundingBox;
 
 /**
  * Generates a dungeon by choosing a random existing piece and then trying to attach another random piece to it until it has enough pieces or runs out.
  */
 public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	private final WeightedList<StructureDungeonPieceArray> available;
-	private final WeightedList<StructureDungeonPieceInst> generated;
 	private final TObjectIntHashMap<StructureDungeonPieceArray> generatedCount;
 	
 	private int cycleAttempts = 1000;
@@ -29,16 +27,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	public DungeonGeneratorAttaching(StructureDungeon dungeon){
 		super(dungeon);
 		this.available = new WeightedList<>(dungeon.pieces);
-		this.generated = new WeightedList<>();
 		this.generatedCount = new TObjectIntHashMap<>(dungeon.pieces.size(),Constants.DEFAULT_LOAD_FACTOR,0);
-	}
-
-	/**
-	 * Checks whether the area is inside the structure and does not intersect any existing pieces.
-	 */
-	protected boolean canPlaceArea(Pos pos1, Pos pos2){
-		final BoundingBox box = new BoundingBox(pos1,pos2);
-		return box.isInside(dungeon.boundingBox) && !generated.stream().anyMatch(inst -> inst.boundingBox.intersects(box));
 	}
 	
 	/**
@@ -58,17 +47,6 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 		StructureDungeonPieceArray parentArray = piece.getParentArray();
 		if (generatedCount.adjustOrPutValue(parentArray,1,1) >= parentArray.amount.max)available.remove(parentArray);
 		return inst;
-	}
-	
-	/**
-	 * Aligns two pieces by their connections.
-	 */
-	private Pos alignConnections(StructureDungeonPieceInst targetPiece, Connection targetConnection, Connection sourceConnection){
-		Pos pos = targetPiece.boundingBox.getTopLeft();
-		pos = pos.offset(targetConnection.offsetX,targetConnection.offsetY,targetConnection.offsetZ);
-		pos = pos.offset(targetConnection.facing,1);
-		pos = pos.offset(-sourceConnection.offsetX,-sourceConnection.offsetY,-sourceConnection.offsetZ);
-		return pos;
 	}
 	
 	/**
