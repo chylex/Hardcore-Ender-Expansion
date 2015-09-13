@@ -1,10 +1,7 @@
 package chylex.hee.tileentity;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
@@ -13,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkPosition;
 import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.system.logging.Stopwatch;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,13 +20,13 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 								  chunkOffZ = new byte[]{ -1, 0, 1, -1, 0, 1, -1, 0, 1 };
 	
 	private byte drainTimer;
-	private float energyLeft = -1F;
+	private int unitsLeft = -1;
 	private boolean draining;
 	
 	private boolean hasInsufficientEnergy;
 	
 	protected abstract byte getDrainTimer();
-	protected abstract float getDrainAmount();
+	protected abstract int getDrainUnits();
 	protected abstract boolean isWorking();
 	protected abstract void onWork();
 	
@@ -41,7 +39,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 		if (isWorking()){
 			draining = true;
 			
-			if (MathUtil.floatEquals(energyLeft,0F)){
+			if (unitsLeft == 0){
 				onWork();
 				
 				if (hasInsufficientEnergy){
@@ -49,52 +47,42 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 					worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
 				}
 			}
-			else if (!hasInsufficientEnergy && !MathUtil.floatEquals(energyLeft,-1F)){
+			else if (!hasInsufficientEnergy && unitsLeft != -1){
 				hasInsufficientEnergy = true;
 				worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
 			}
 		}
 		else{
 			draining = hasInsufficientEnergy = false;
-			energyLeft = -1F;
+			unitsLeft = -1;
 		}
 		
 		if (draining && (drainTimer == 0 || --drainTimer == 0)){
 			Stopwatch.timeAverage("TileEntityAbstractEnergyInventory - drain",1000);
 			
-			float drain = energyLeft <= 0F ? getDrainAmount() : energyLeft;
+			int drain = unitsLeft < 0 ? getDrainUnits() : unitsLeft;
+			int chunkX = xCoord>>4, chunkZ = zCoord>>4;
 			
-			if (drain > EnergyValues.min){
+			if (drain > EnergyValues.min && worldObj.checkChunksExist(chunkX-1,0,chunkZ-1,chunkX+1,0,chunkZ+1)){
 				List<TileEntityEnergyCluster> clusters = new ArrayList<>();
-				int chunkX = xCoord>>4, chunkZ = zCoord>>4, cx, cz;
 				
 				for(int a = 0; a < 9; a++){
-					Map<ChunkPosition,TileEntity> tiles = worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).chunkTileEntityMap;
-					cx = chunkX*16+chunkOffX[a]*16;
-					cz = chunkZ*16+chunkOffZ[a]*16;
+					final int cx = chunkX*16+chunkOffX[a]*16, cz = chunkZ*16+chunkOffZ[a]*16;
 					
-					for(Entry<ChunkPosition,TileEntity> entry:tiles.entrySet()){
-						ChunkPosition pos = entry.getKey();
-						
-						if (entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+pos.chunkPosX-xCoord,pos.chunkPosY-yCoord,cz+pos.chunkPosZ-zCoord) <= 16D){
-							clusters.add((TileEntityEnergyCluster)entry.getValue());
-						}
-					}
+					((Map<ChunkPosition,TileEntity>)worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).chunkTileEntityMap).entrySet()
+					.stream()
+					.filter(entry -> entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+entry.getKey().chunkPosX-xCoord,entry.getKey().chunkPosY-yCoord,cz+entry.getKey().chunkPosZ-zCoord) <= 16D)
+					.map(entry -> (TileEntityEnergyCluster)entry.getValue())
+					.forEach(cluster -> clusters.add(cluster));
 				}
 				
-				if (!clusters.isEmpty()){
-					Collections.shuffle(clusters,worldObj.rand);
-					
-					for(Iterator<TileEntityEnergyCluster> iter = clusters.iterator(); iter.hasNext();){
-						if ((drain = iter.next().drainEnergy(drain,this)) < EnergyValues.min)break;
-					}
+				for(TileEntityEnergyCluster cluster:CollectionUtil.shuffleMe(clusters,worldObj.rand)){
+					if ((drain = cluster.tryDrainEnergy(drain,this)) == 0)break;
 				}
 			}
 			
 			drainTimer = getDrainTimer();
-			
-			if (drain < EnergyValues.min)energyLeft = 0F;
-			else energyLeft = drain;
+			unitsLeft = drain;
 			
 			Stopwatch.finish("TileEntityAbstractEnergyInventory - drain");
 		}
@@ -122,13 +110,13 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
 		nbt.setByte("drainTim",drainTimer);
-		nbt.setFloat("engLeft",energyLeft);
+		nbt.setInteger("unitsLeft",unitsLeft);
 	}
-
+	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
 		drainTimer = nbt.getByte("drainTim");
-		energyLeft = nbt.getFloat("engLeft");
+		unitsLeft = nbt.getInteger("unitsLeft");
 	}
 }

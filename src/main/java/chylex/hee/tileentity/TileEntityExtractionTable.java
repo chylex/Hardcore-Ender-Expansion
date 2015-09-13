@@ -1,20 +1,9 @@
 package chylex.hee.tileentity;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.ChunkPosition;
 import org.apache.commons.lang3.ArrayUtils;
-import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.energy.EnergyValues;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.MathUtil;
 
 public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1, 2 };
@@ -23,18 +12,13 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 	private byte leakTimer = 100;
 	
 	@Override
-	protected float getDrainAmount(){
-		return time < totalTime ? EnergyValues.unit*0.25F : 0F;
-	}
-	
-	@Override
 	public void updateEntity(){
 		super.updateEntity();
 		
 		if (!worldObj.isRemote && leakTimer < 0 || (leakTimer -= (items[2] == null || items[2].getItem() != ItemList.instability_orb ? 16 : Math.max(0,16-items[2].stackSize))) < 0){
 			leakTimer = 100;
 			
-			if (storedEnergy >= EnergyValues.min){
+			/* TODO if (storedEnergy >= EnergyValues.min){
 				float release = EnergyValues.unit*0.08F+(float)Math.sqrt(storedEnergy)*0.005F;
 				storedEnergy = Math.max(storedEnergy-release,0F);
 				
@@ -75,7 +59,7 @@ public class TileEntityExtractionTable extends TileEntityAbstractTable{
 						}
 					}
 				}
-			}
+			}*/
 		}
 	}
 	

@@ -8,6 +8,8 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnergyCluster;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.mechanics.energy.EnergyClusterGenerator;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C10ParticleEnergyTransfer;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.ColorUtil;
 
@@ -43,6 +45,22 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	
 	public Optional<EnergyClusterData> getData(){
 		return Optional.ofNullable(data);
+	}
+	
+	public int tryDrainEnergy(final int units, TileEntityAbstractEnergyInventory tile){
+		int left = units;
+		
+		while(left > 0){
+			if (data.drainUnit())--left;
+			else break;
+		}
+		
+		if (left != units){
+			PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
+			synchronize();
+		}
+		
+		return left;
 	}
 	
 	/*public float addEnergy(float amount, TileEntityAbstractEnergyInventory tile){

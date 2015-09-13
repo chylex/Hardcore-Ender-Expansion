@@ -1,7 +1,7 @@
 package chylex.hee.tileentity;
 import net.minecraft.item.ItemStack;
 import chylex.hee.item.ItemAbstractEnergyAcceptor;
-import chylex.hee.mechanics.energy.EnergyChunkData;
+import chylex.hee.mechanics.energy.EnergyValues;
 
 public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	private static final int[] slotsAll = new int[]{ 0 };
@@ -54,8 +54,8 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	}
 	
 	@Override
-	protected float getDrainAmount(){
-		return EnergyValues.unit;
+	protected int getDrainUnits(){
+		return 1;
 	}
 	
 	@Override
@@ -65,7 +65,7 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	
 	@Override
 	protected void onWork(){
-		storedEnergy += getDrainAmount()/getDrainTimer();
+		storedEnergy += (float)getDrainUnits()/getDrainTimer();
 	}
 
 	@Override
