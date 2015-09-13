@@ -4,18 +4,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
-import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.achievements.AchievementManager;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemUtil;
-import chylex.hee.system.util.MathUtil;
-import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -23,7 +15,7 @@ public class ItemEnergyWand extends Item{
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (player.isSneaking() && !world.isRemote){
-			if (ItemUtil.getTagRoot(is,false).hasKey("cluster")){
+			/* TODO if (ItemUtil.getTagRoot(is,false).hasKey("cluster")){
 				BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
 				if (side > 0)tmpPos.move(side);
 	
@@ -73,7 +65,7 @@ public class ItemEnergyWand extends Item{
 				}
 				
 				return true;
-			}
+			}*/
 		}
 		
 		return false;

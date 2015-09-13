@@ -9,8 +9,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import chylex.hee.api.HeeIMC;
 import chylex.hee.entity.GlobalMobData;
-import chylex.hee.entity.mob.EntityMobVampiricBat;
-import chylex.hee.mechanics.energy.EnergyChunkData;
 import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.mechanics.essence.handler.DragonEssenceHandler;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
@@ -30,7 +28,6 @@ public class ImcTests{
 			"HEE:DragonEssence:RemoveRecipe { 'type': 'input', 'search': { 'id': '~hee:*' }, 'limit': 1 }",
 			
 			"HEE:Mobs:SetGooImmune { 'id': 'Blaze' }",
-			"HEE:Mobs:SetEnergy { 'id': 'HardcoreEnderExpansion.VampireBat', 'units': 2.5 }",
 			
 			"HEE:Orb:ItemBlacklist { 'pattern': { 'id': '*' } }",
 			"HEE:Orb:MobAdd { 'id': 'Villager' }",
@@ -67,7 +64,6 @@ public class ImcTests{
 	@UnitTest
 	public void testImcsMobs(){
 		Assert.isTrue(GlobalMobData.isEnderGooTolerant(new EntityBlaze(null)));
-		Assert.equal(EnergyValues.getMobEnergy(new EntityMobVampiricBat(null)),EnergyChunkData.energyDrainUnit*2.5F);
 	}
 	
 	@UnitTest

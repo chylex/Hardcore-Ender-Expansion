@@ -26,22 +26,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEnergyCluster extends BlockContainer{
-	public static final SoundType soundTypeEnergyCluster = new SoundType("holycrapthisisloud",5F,1.6F){
-		@Override
-		public String getStepResourcePath(){
-			return "dig.glass";
-		}
-
-		@Override
-		public String getBreakSound(){
-			return "dig.glass";
-		}
-
-		@Override
-		public String func_150496_b(){ // OBFUSCATED placed block sound
-			return "dig.glass";
-		}
-	};
+	public static final SoundType soundTypeEnergyCluster = new SoundType("glass",5F,1.6F);
 
 	public BlockEnergyCluster(){
 		super(Material.glass);
