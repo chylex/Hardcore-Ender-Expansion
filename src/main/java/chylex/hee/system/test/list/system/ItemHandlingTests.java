@@ -59,6 +59,5 @@ public class ItemHandlingTests{
 		Assert.isFalse(pair1.check(new ItemStack(Items.gunpowder,1,1)));
 		Assert.isTrue(pair2.check(new ItemStack(Items.gunpowder,1,1)));
 		Assert.isFalse(pair1.check(new ItemStack(Items.dye)));
-		
 	}
 }
