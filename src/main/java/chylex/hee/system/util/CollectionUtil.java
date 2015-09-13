@@ -1,13 +1,7 @@
 package chylex.hee.system.util;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public final class CollectionUtil{
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAsc(Map<K,V> map){
@@ -53,6 +47,11 @@ public final class CollectionUtil{
 	public static <T> HashSet<T> newSet(T...elements){
 		HashSet<T> list = new HashSet<>(elements.length);
 		Collections.addAll(list,elements);
+		return list;
+	}
+	
+	public static <T> List<T> shuffleMe(List<T> list, Random rand){
+		Collections.shuffle(list,rand);
 		return list;
 	}
 	
