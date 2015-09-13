@@ -15,7 +15,7 @@ public class StructureDungeon extends StructureBase{
 	
 	public final BoundingBox boundingBox;
 	public final WeightedList<StructureDungeonPieceArray> pieces = new WeightedList<>();
-	private StructureDungeonPiece startingPiece;
+	private StructureDungeonPieceArray startingPiece;
 	private Range pieceAmount;
 	
 	public StructureDungeon(int radX, int sizeY, int radZ, StructureDungeonGenerator.Constructor generator){
@@ -39,10 +39,14 @@ public class StructureDungeon extends StructureBase{
 	}
 	
 	public void setStartingPiece(StructureDungeonPiece piece){
-		this.startingPiece = piece;
+		this.startingPiece = new StructureDungeonPieceArray(0,new Range(1,1),new StructureDungeonPiece[]{ piece });
 	}
 	
-	public Optional<StructureDungeonPiece> getStartingPiece(){
+	public void setStartingPiece(StructureDungeonPiece[] possiblePieces){
+		this.startingPiece = new StructureDungeonPieceArray(0,new Range(1,1),possiblePieces);
+	}
+	
+	public Optional<StructureDungeonPieceArray> getStartingPiece(){
 		return Optional.ofNullable(startingPiece);
 	}
 	

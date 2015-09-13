@@ -16,7 +16,6 @@ import chylex.hee.world.structure.util.BoundingBox;
 
 /**
  * Generates a dungeon by choosing a random existing piece and then trying to attach another random piece to it until it has enough pieces or runs out.
- * TODO test
  */
 public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	private final WeightedList<StructureDungeonPieceArray> available;
@@ -110,7 +109,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	 * Generates the start piece. If the dungeon does not have a specified one, a random piece is selected.
 	 */
 	private void generateStartPiece(Random rand){
-		StructureDungeonPiece startPiece = dungeon.getStartingPiece().orElseGet(() -> selectNextPiece(rand).getRandomPiece(rand));
+		StructureDungeonPiece startPiece = dungeon.getStartingPiece().orElseGet(() -> selectNextPiece(rand)).getRandomPiece(rand);
 		startPieceInst = addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,dungeon.boundingBox.y2/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
 	}
 	
