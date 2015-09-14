@@ -1,4 +1,5 @@
 package chylex.hee.system.abstractions;
+import java.util.Optional;
 import java.util.function.Consumer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -210,8 +211,16 @@ public class Pos{
 		return world.getBlock(getX(),getY(),getZ()).getMaterial();
 	}
 	
-	public TileEntity getTileEntity(IBlockAccess world){
-		return world.getTileEntity(getX(),getY(),getZ());
+	public <T extends TileEntity> T getTileEntity(IBlockAccess world){
+		return (T)world.getTileEntity(getX(),getY(),getZ());
+	}
+	
+	public <T extends TileEntity> Optional<T> tryGetTileEntity(IBlockAccess world){
+		return Optional.ofNullable((T)world.getTileEntity(getX(),getY(),getZ()));
+	}
+	
+	public <T extends TileEntity> void callGetTileEntity(IBlockAccess world, Consumer<T> function){
+		Optional.ofNullable((T)world.getTileEntity(getX(),getY(),getZ())).ifPresent(function);
 	}
 	
 	public boolean checkBlock(IBlockAccess world, Block block, int metadata){
