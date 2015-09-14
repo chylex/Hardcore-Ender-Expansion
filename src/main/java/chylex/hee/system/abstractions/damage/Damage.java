@@ -9,7 +9,7 @@ import chylex.hee.system.abstractions.damage.source.DamagedBy;
 import chylex.hee.system.abstractions.damage.source.DamagedByEntity;
 import chylex.hee.system.util.MathUtil;
 
-public final class Damage{
+public final class Damage implements IDamage{
 	public static Damage base(float amount){
 		return new Damage(amount);
 	}
@@ -50,18 +50,25 @@ public final class Damage{
 		return this;
 	}
 	
-	public boolean deal(Entity target){
-		if (target.hurtResistantTime > 10)return false;
-		
-		DamageSource damageSource = createDamageSource();
-		List<IDamagePostProcessor> postProcessors = new ArrayList<>();
-
+	public float calculateAmount(Entity target, DamageSource damageSource, List<IDamagePostProcessor> postProcessors){
 		float amount = baseAmount;
 		
 		for(IDamageModifier modifier:modifiers){
 			amount = modifier.modify(amount,target,damageSource,postProcessors);
 			if (MathUtil.floatEquals(amount,0F))break;
 		}
+		
+		return amount;
+	}
+	
+	@Override
+	public boolean deal(Entity target){
+		if (target.hurtResistantTime > 10)return false;
+		
+		DamageSource damageSource = createDamageSource();
+		List<IDamagePostProcessor> postProcessors = new ArrayList<>();
+		
+		float amount = calculateAmount(target,damageSource,postProcessors);
 		
 		if (!MathUtil.floatEquals(amount,0F) && target.attackEntityFrom(damageSource,amount)){
 			for(IDamagePostProcessor postProcessor:postProcessors)postProcessor.run(amount);
