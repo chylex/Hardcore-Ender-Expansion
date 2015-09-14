@@ -21,8 +21,7 @@ public class EntityEnergyClusterFX extends EntitySoulCharmFX{
 	public EntityEnergyClusterFX(World world, double x, double y, double z, double red, double green, double blue, EnergyClusterData data){
 		this(world,x,y,z,red,green,blue);
 		
-		float energyAmt = data.getEnergyLevel();
-		particleScale = 0.05F+rand.nextFloat()*0.14F+0.025F*energyAmt;
+		particleScale = 0.05F+rand.nextFloat()*0.05F+0.005F*data.getEnergyLevel();
 		
 		if (rand.nextInt(5)+1 < data.getHealth().ordinal()){
 			float mp = 1F-0.4F*((float)data.getHealth().ordinal()/EnergyClusterHealth.values.length);
@@ -49,9 +48,9 @@ public class EntityEnergyClusterFX extends EntitySoulCharmFX{
 
 	@Override
 	protected void handleMotion(){
-		posX += motionX;
-		posY += motionY;
-		posZ += motionZ;
+		posX += motionX*0.5D;
+		posY += motionY*0.5D;
+		posZ += motionZ*0.5D;
 	}
 	
 	@Override

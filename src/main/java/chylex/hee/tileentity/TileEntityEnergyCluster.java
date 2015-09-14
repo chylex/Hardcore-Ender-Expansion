@@ -38,7 +38,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 			if (cachedCoords.getX() != xCoord || cachedCoords.getY() != yCoord || cachedCoords.getZ() != zCoord)BlockEnergyCluster.destroyCluster(this);
 			else data.update(this);
 		}
-		else if (worldObj.rand.nextInt(5) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
+		else if (worldObj.rand.nextInt(4) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
 		
 		shouldNotExplode = false;
 	}

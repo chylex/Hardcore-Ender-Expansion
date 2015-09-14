@@ -7,15 +7,15 @@ public final class EnergyClusterGenerator{
 	public static final EnergyClusterGenerator
 	
 		creative = new EnergyClusterGenerator(
-			new Range(0,2000),
-			new Range(0,2000),
+			new Range(0,1000),
+			new Range(0,1000),
 			rand -> {
 				int health = rand.nextInt(100);
 				
-				return health < 40 ? EnergyClusterHealth.HEALTHY :
-					   health < 70 ? EnergyClusterHealth.WEAKENED :
-					   health < 85 ? EnergyClusterHealth.TIRED :
-					   health < 95 ? EnergyClusterHealth.DAMAGED : EnergyClusterHealth.UNSTABLE;
+				return health < 30 ? EnergyClusterHealth.HEALTHY :
+					   health < 55 ? EnergyClusterHealth.WEAKENED :
+					   health < 75 ? EnergyClusterHealth.TIRED :
+					   health < 90 ? EnergyClusterHealth.DAMAGED : EnergyClusterHealth.UNSTABLE;
 			}
 		),
 		

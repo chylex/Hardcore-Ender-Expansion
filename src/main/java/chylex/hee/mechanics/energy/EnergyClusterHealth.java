@@ -5,7 +5,7 @@ public enum EnergyClusterHealth{
 	WEAKENED(0xFFC454, 0.9F,  1.4F, 0F,     "energy.status.weakened"),
 	TIRED   (0xFF7A54, 0.6F,  0.8F, 0F,     "energy.status.tired"),
 	DAMAGED (0xFF5454, 0.4F,  0.5F, 0.002F, "energy.status.damaged"),
-	UNSTABLE(0xABABAB, 0.15F, 0.2F, 0.01F,  "energy.status.unstable");
+	UNSTABLE(0x8F8F8F, 0.15F, 0.2F, 0.01F,  "energy.status.unstable");
 	
 	public static final EnergyClusterHealth[] values = values();
 	
