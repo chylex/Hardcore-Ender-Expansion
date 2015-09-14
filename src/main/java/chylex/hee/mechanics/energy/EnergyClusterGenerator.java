@@ -7,8 +7,8 @@ public final class EnergyClusterGenerator{
 	public static final EnergyClusterGenerator
 	
 		creative = new EnergyClusterGenerator(
-			new Range(0,50),
-			new Range(0,50),
+			new Range(0,2000),
+			new Range(0,2000),
 			rand -> {
 				int health = rand.nextInt(100);
 				
@@ -36,6 +36,8 @@ public final class EnergyClusterGenerator{
 	}
 	
 	public EnergyClusterData generate(Random rand){
-		return new EnergyClusterData(EnergyValues.unit*(unitsSpawned.min+rand.nextFloat()*(unitsSpawned.max-unitsSpawned.min)),EnergyValues.unit*(unitsMax.min+rand.nextFloat()*(unitsMax.max-unitsMax.min)),healthGen.apply(rand));
+		float max = EnergyValues.unit*(unitsMax.min+rand.nextFloat()*(unitsMax.max-unitsMax.min));
+		float current = EnergyValues.unit*(unitsSpawned.min+rand.nextFloat()*(unitsSpawned.max-unitsSpawned.min));
+		return new EnergyClusterData(Math.min(current,max),max,healthGen.apply(rand));
 	}
 }

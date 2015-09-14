@@ -5,6 +5,7 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -17,6 +18,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
+import chylex.hee.mechanics.energy.EnergyClusterGenerator;
 import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
@@ -44,6 +46,11 @@ public class BlockEnergyCluster extends BlockContainer{
 		
 		super.breakBlock(world,x,y,z,block,meta);
 		destroyCluster(tile);
+	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase placer, ItemStack is){
+		Pos.at(x,y,z).<TileEntityEnergyCluster>getTileEntity(world).generate(EnergyClusterGenerator.creative,world.rand);
 	}
 	
 	@Override

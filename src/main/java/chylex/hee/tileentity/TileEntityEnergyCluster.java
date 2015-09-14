@@ -63,22 +63,6 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 		return left;
 	}
 	
-	/*public float addEnergy(float amount, TileEntityAbstractEnergyInventory tile){
-		if (data.getEnergyLevel() < data.getMaxEnergyLevel())PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
-		
-		float left = data.addEnergy(amount);
-		if (!MathUtil.floatEquals(left,amount))synchronize();
-		return left;
-	}
-	
-	public float drainEnergy(float amount, TileEntityAbstractEnergyInventory tile){
-		if (data.getEnergyLevel() >= EnergyValues.min)PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
-		
-		float left = data.drainEnergy(amount);
-		if (!MathUtil.floatEquals(left,amount))synchronize();
-		return left;
-	}*/
-	
 	public float getColor(int index){
 		return (colRgb[index]+128F)/255F;
 	}
@@ -90,7 +74,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	@Override
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
 		nbt.setByteArray("col",colRgb);
-		nbt.setLong("loc",cachedCoords.toLong());
+		if (cachedCoords != null)nbt.setLong("loc",cachedCoords.toLong());
 		data.writeToNBT(nbt);
 		return nbt;
 	}
@@ -98,7 +82,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	@Override
 	public void readTileFromNBT(NBTTagCompound nbt){
 		if ((colRgb = nbt.getByteArray("col")).length != 3)colRgb = new byte[]{ 0, 0, 0 };
-		cachedCoords = Pos.at(nbt.getLong("loc"));
+		cachedCoords = nbt.hasKey("loc") ? Pos.at(nbt.getLong("loc")) : null;
 		data.readFromNBT(nbt);
 	}
 }

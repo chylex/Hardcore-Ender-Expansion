@@ -27,7 +27,7 @@ public final class EnergyClusterData{
 		this.maxEnergyLevel = maxEnergyLevel;
 		this.health = health;
 		
-		this.regenAmount = (float)(Math.pow(maxEnergyLevel,0.1D)-1F)*health.regenAmountMp;
+		this.regenAmount = (float)(Math.pow(1F+maxEnergyLevel,0.1D)-1F)*health.regenAmountMp;
 		this.regenTimeLimit = (byte)(20F/health.regenSpeedMp);
 	}
 	
