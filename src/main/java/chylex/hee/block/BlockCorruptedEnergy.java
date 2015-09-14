@@ -92,12 +92,12 @@ public class BlockCorruptedEnergy extends Block{
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityLivingBase && entity.hurtResistantTime == 0 && !GlobalMobData.isCorruptedEnergyTolerant((EntityLivingBase)entity) && ((EntityLivingBase)entity).getHealth() > 0F){
+		if (entity instanceof EntityLivingBase && !GlobalMobData.isCorruptedEnergyTolerant((EntityLivingBase)entity) && ((EntityLivingBase)entity).getHealth() > 0F){
 			int level = (isHighLevel ? 16 : 0)+Pos.at(x,y,z).getMetadata(world);
 			
 			MultiDamage.from(
 				Damage.base(0.8F).addModifiers(IDamageModifier.difficultyScaling,IDamageModifier.armorProtection,IDamageModifier.enchantmentProtection),
-				ForcedDamage.from(Damage.base(level/12F).addModifiers(IDamageModifier.nudityDanger,IDamageModifier.magicDamage,IDamageModifier.rapidDamage(3)))
+				ForcedDamage.from(Damage.base(0.5F+level/15F).addModifiers(IDamageModifier.nudityDanger,IDamageModifier.magicDamage,IDamageModifier.rapidDamage(3)))
 			).deal(entity);
 		}
 	}

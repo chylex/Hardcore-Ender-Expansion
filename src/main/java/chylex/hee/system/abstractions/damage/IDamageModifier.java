@@ -100,11 +100,11 @@ public interface IDamageModifier{
 			}
 			
 			switch(count){
+				default: return amount;
 				case 3: return amount*1.3F;
 				case 2: return amount*1.7F;
 				case 1: return amount*2.3F;
 				case 0: return amount*3.2F;
-				default: return amount;
 			}
 		},
 		

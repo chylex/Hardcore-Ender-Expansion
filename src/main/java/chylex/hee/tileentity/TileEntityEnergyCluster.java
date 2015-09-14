@@ -75,7 +75,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public NBTTagCompound writeTileToNBT(NBTTagCompound nbt){
 		nbt.setByteArray("col",colRgb);
 		if (cachedCoords != null)nbt.setLong("loc",cachedCoords.toLong());
-		data.writeToNBT(nbt);
+		if (data != null)data.writeToNBT(nbt);
 		return nbt;
 	}
 
@@ -83,6 +83,6 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public void readTileFromNBT(NBTTagCompound nbt){
 		if ((colRgb = nbt.getByteArray("col")).length != 3)colRgb = new byte[]{ 0, 0, 0 };
 		cachedCoords = nbt.hasKey("loc") ? Pos.at(nbt.getLong("loc")) : null;
-		data.readFromNBT(nbt);
+		(data = new EnergyClusterData()).readFromNBT(nbt);
 	}
 }
