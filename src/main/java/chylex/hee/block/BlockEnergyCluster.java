@@ -1,25 +1,24 @@
 package chylex.hee.block;
-import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
+import chylex.hee.init.ItemList;
+import chylex.hee.mechanics.energy.EnergyValues;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
@@ -96,29 +95,29 @@ public class BlockEnergyCluster extends BlockContainer{
 		return true;
 	}
 	
-	public static void destroyCluster(TileEntityEnergyCluster tile){
-		Stopwatch.time("BlockEnergyCluster - destroyCluster");
-		
+	public static void destroyCluster(final TileEntityEnergyCluster tile){
 		World world = tile.getWorldObj();
-		int x = tile.xCoord, y = tile.yCoord, z = tile.zCoord;
-		int energyMeta = Math.min(15,3+MathUtil.floor(tile.getData().map(data -> data.getEnergyLevel()).orElse(0F)*0.8F));
+		int units = MathUtil.ceil(tile.getData().map(data -> data.getEnergyLevel()).orElse(0F)/EnergyValues.unit);
 		
-		double dist = 4.4D+energyMeta*0.1D;
-		int idist = MathUtil.ceil(dist);
+		float explosionRad = Math.min(2.5F+(float)Math.sqrt(units)/10F,7F);
+		double blockDist = 2D+Math.pow(units,0.75D)/75D;
+		int energyMeta = 5+MathUtil.ceil(units/60F);
+		int ethereum = MathUtil.floor((1+world.rand.nextInt(3))*Math.pow(units,0.2D));
+
+		int iBlockDist = MathUtil.ceil(blockDist);
+		Pos pos1 = Pos.at(tile).offset(-iBlockDist,-iBlockDist,-iBlockDist);
+		Pos pos2 = Pos.at(tile).offset(iBlockDist,iBlockDist,iBlockDist);
 		
-		world.newExplosion(null,x+0.5D,y+0.5D,z+0.5D,2.8F+(energyMeta-3)*0.225F,true,true);
-		
-		Pos pos1 = Pos.at(x,y,z).offset(-idist,-idist,-idist);
-		Pos pos2 = Pos.at(x,y,z).offset(idist,idist,idist);
+		world.newExplosion(null,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,explosionRad,true,true);
 		
 		Pos.forEachBlock(pos1,pos2,pos -> {
-			if (MathUtil.distance(pos.x-x,pos.y-y,pos.z-z) <= dist && pos.isAir(world))pos.setBlock(world,BlockList.corrupted_energy_high,energyMeta);
+			if (MathUtil.distance(pos.x-tile.xCoord,pos.y-tile.yCoord,pos.z-tile.zCoord) <= blockDist && pos.isAir(world))pos.setBlock(world,BlockList.corrupted_energy_high,energyMeta);
 		});
 		
-		for(EntityPlayer player:(List<EntityPlayer>)world.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x+0.5D,y+0.5D,z+0.5D,x+0.5D,y+0.5D,z+0.5D).expand(6D,6D,6D))){
-			if (player.getDistance(x+0.5D,y+0.5D,z+0.5D) <= 6D)CausatumUtils.increase(player,CausatumMeters.END_ENERGY,20F);
+		while(ethereum-- > 0){
+			EntityItem item = new EntityItem(world,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,new ItemStack(ItemList.ethereum));
+			item.delayBeforeCanPickup = 10;
+			world.spawnEntityInWorld(item);
 		}
-		
-		Stopwatch.finish("BlockEnergyCluster - destroyCluster");
 	}
 }

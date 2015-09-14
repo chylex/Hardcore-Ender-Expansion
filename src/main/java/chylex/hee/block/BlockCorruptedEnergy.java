@@ -5,12 +5,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
@@ -18,7 +15,14 @@ import chylex.hee.block.material.MaterialCorruptedEnergy;
 import chylex.hee.entity.GlobalMobData;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.init.BlockList;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.BlockInfo;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.damage.Damage;
+import chylex.hee.system.abstractions.damage.IDamageModifier;
+import chylex.hee.system.abstractions.damage.special.ForcedDamage;
+import chylex.hee.system.abstractions.damage.special.MultiDamage;
+import chylex.hee.system.abstractions.facing.Facing6;
+import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -28,6 +32,12 @@ public class BlockCorruptedEnergy extends Block{
 	private static final byte[] offsetX = new byte[]{ -1, 1, 0, 0, 0, 0 },
 								offsetY = new byte[]{ 0, 0, -1, 1, 0, 0 },
 								offsetZ = new byte[]{ 0, 0, 0, 0, -1, 1 };
+	
+	public static final BlockInfo getCorruptedEnergy(int level){
+		if (level >= 16)return new BlockInfo(BlockList.corrupted_energy_high,MathUtil.clamp(level-16,0,15));
+		else if (level >= 0)return new BlockInfo(BlockList.corrupted_energy_low,MathUtil.clamp(level,0,15));
+		else return BlockInfo.air;
+	}
 	
 	private final boolean isHighLevel;
 	
@@ -44,41 +54,33 @@ public class BlockCorruptedEnergy extends Block{
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
+		Pos pos = Pos.at(x,y,z);
+		int level = (isHighLevel ? 16 : 0)+pos.getMetadata(world);
+		
 		if (world.isRemote){
-			for(int a = 0; a < 3; a++){
+			for(int a = MathUtil.floor(rand.nextFloat()+level/8F); a > 0; a--){
 				HardcoreEnderExpansion.fx.corruptedEnergy(x,y,z);
 				HardcoreEnderExpansion.fx.enderGoo(x,y,z);
 			}
 			
-			if (world.rand.nextInt(5) == 0)FXHelper.create("explosion").pos(x,y,z).motionRand(0.5D).spawn(rand,1);
+			if (world.rand.nextInt(Math.max(3,7-level/5)) == 0)FXHelper.create("explosion").pos(x,y,z).motionRand(0.5D).spawn(rand,1);
 			return;
 		}
 		
-		int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
-		
-		if (meta > 1){
-			BlockPosM tmpPos = BlockPosM.tmp();
-			
-			for(int a = 0; a < 6; a++){
-				if (rand.nextInt(3) == 0){
-					Block block = tmpPos.set(x+offsetX[a],y+offsetY[a],z+offsetZ[a]).getBlock(world);
-					
-					if (block.getMaterial() == Material.air)tmpPos.setBlock(world,this,meta-1);
-					else if (!block.isOpaqueCube() && tmpPos.set(x+offsetX[a]*2,y+offsetY[a]*2,z+offsetZ[a]*2).getMaterial(world) == Material.air){
-						tmpPos.setBlock(world,this,meta-1,3);
-					}
+		if (level > 0){
+			for(int spreadAttempt = 0; spreadAttempt < 1+rand.nextInt(3); spreadAttempt++){
+				Facing6 side = Facing6.list[rand.nextInt(Facing6.list.length)];
+				Pos spreadPos = pos.offset(side);
+				
+				if (spreadPos.isAir(world))spreadPos.setBlock(world,getCorruptedEnergy(level-1-rand.nextInt(2)));
+				else{
+					spreadPos = spreadPos.offset(side);
+					if (spreadPos.isAir(world))spreadPos.setBlock(world,getCorruptedEnergy(level-2-rand.nextInt(2)));
 				}
 			}
 		}
 		
-		if (world.rand.nextInt(7) <= 3 || world.rand.nextBoolean()){
-			if (meta == 1){
-				if (isHighLevel)BlockPosM.tmp(x,y,z).setBlock(world,BlockList.corrupted_energy_low,15);
-				else BlockPosM.tmp(x,y,z).setAir(world);
-				return;
-			}
-			else BlockPosM.tmp(x,y,z).setMetadata(world,meta-1);
-		}
+		if (rand.nextInt(3) != 0)pos.setBlock(world,getCorruptedEnergy(level-1));
 		
 		world.scheduleBlockUpdate(x,y,z,this,tickRate(world));
 	}
@@ -90,26 +92,13 @@ public class BlockCorruptedEnergy extends Block{
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityLivingBase && !GlobalMobData.isCorruptedEnergyTolerant((EntityLivingBase)entity)){
-			EntityLivingBase living = (EntityLivingBase)entity;
-			int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
+		if (entity instanceof EntityLivingBase && entity.hurtResistantTime == 0 && !GlobalMobData.isCorruptedEnergyTolerant((EntityLivingBase)entity) && ((EntityLivingBase)entity).getHealth() > 0F){
+			int level = (isHighLevel ? 16 : 0)+Pos.at(x,y,z).getMetadata(world);
 			
-			if (world.rand.nextInt(meta >= 10 ? 3 : (meta >= 5 ? 4 : 5)) == 0 && (living.hurtTime <= 3 || world.rand.nextInt(7) == 0) && living.getHealth() > 0F){
-				if (entity instanceof EntityPlayer){
-					EntityPlayer player = (EntityPlayer)entity;
-					if (player.capabilities.isCreativeMode && player.getHealth() <= 1F)return;
-					player.addStat(StatList.damageTakenStat,Math.round(10F));
-				}
-				
-				living.prevHealth = living.getHealth();
-				living.setHealth(living.getHealth()-1F);
-				living.func_110142_aN().func_94547_a(DamageSource.magic,living.prevHealth,1F); // OBFUSCATED combat tracker, second method
-				living.hurtTime = 10; // change hurt time instead of hurtResistantTime
-				
-				if (living.getHealth() <= 0F)living.onDeath(DamageSource.magic);
-			}
-			
-			living.attackEntityFrom(DamageSource.generic,1.5F);
+			MultiDamage.from(
+				Damage.base(0.8F).addModifiers(IDamageModifier.difficultyScaling,IDamageModifier.armorProtection,IDamageModifier.enchantmentProtection),
+				ForcedDamage.from(Damage.base(level/12F).addModifiers(IDamageModifier.nudityDanger,IDamageModifier.magicDamage,IDamageModifier.rapidDamage(3)))
+			).deal(entity);
 		}
 	}
 	
