@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,6 +15,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.material.MaterialCorruptedEnergy;
+import chylex.hee.entity.GlobalMobData;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.util.BlockPosM;
@@ -90,7 +90,7 @@ public class BlockCorruptedEnergy extends Block{
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
-		if (entity instanceof EntityLivingBase && !(entity instanceof IBossDisplayData)){
+		if (entity instanceof EntityLivingBase && !GlobalMobData.isCorruptedEnergyTolerant((EntityLivingBase)entity)){
 			EntityLivingBase living = (EntityLivingBase)entity;
 			int meta = BlockPosM.tmp(x,y,z).getMetadata(world);
 			

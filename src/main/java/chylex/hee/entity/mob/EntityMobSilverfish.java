@@ -17,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
 import chylex.hee.entity.mob.ai.EntityAIRandomTarget;
 import chylex.hee.entity.mob.ai.EntityAISummonFromBlock;
@@ -30,7 +31,7 @@ import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;
 
-public class EntityMobSilverfish extends EntitySilverfish{
+public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnderGoo{
 	private static final PercentageLootTable drops = new PercentageLootTable();
 	
 	static{
