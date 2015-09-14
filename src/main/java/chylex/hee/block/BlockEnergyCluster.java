@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import chylex.hee.block.sound.SoundTypeSingle;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
@@ -27,7 +28,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEnergyCluster extends BlockContainer{
-	public static final SoundType soundTypeEnergyCluster = new SoundType("glass",5F,1.6F);
+	public static final SoundType soundTypeEnergyCluster = new SoundTypeSingle("glass",5F,1.6F);
 
 	public BlockEnergyCluster(){
 		super(Material.glass);
