@@ -36,6 +36,10 @@ public class Pos{
 		return new Pos(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ));
 	}
 	
+	public static Pos at(TileEntity tile){
+		return new Pos(tile.xCoord,tile.yCoord,tile.zCoord);
+	}
+	
 	public static Pos at(MovingObjectPosition mop){
 		return mop.typeOfHit == MovingObjectType.BLOCK ? new Pos(mop.blockX,mop.blockY,mop.blockZ) : mop.typeOfHit == MovingObjectType.ENTITY ? at(mop.entityHit) : at(0,0,0);
 	}
