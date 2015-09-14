@@ -434,7 +434,7 @@ public class BlockTests{
 		
 		Function<Integer,TileEntityChest> get = new Function<Integer,TileEntityChest>(){
 			@Override public TileEntityChest apply(Integer input){
-				return ((TileEntityChest)pos.set(decomposition.get(input)).move(0,-2,0).getTileEntity(world));
+				return (TileEntityChest)pos.set(decomposition.get(input)).move(0,-2,0).getTileEntity(world);
 			}
 		};
 		
