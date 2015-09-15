@@ -25,7 +25,7 @@ public class WorldGenDispersedClusters implements IWorldGenerator{
 					for(int surroundingsCheck = 0; surroundingsCheck < 12; surroundingsCheck++){
 						if (!testPos.set(pos).move(rand.nextInt(7)-3,rand.nextInt(7)-3,rand.nextInt(7)-3).isAir(world)){
 							testPos.setBlock(world,BlockList.energy_cluster);
-							testPos.<TileEntityEnergyCluster>callTileEntity(world,tile -> tile.generate(EnergyClusterGenerator.overworld,rand));
+							testPos.<TileEntityEnergyCluster>tryGetTileEntity(world).ifPresent(tile -> tile.generate(EnergyClusterGenerator.overworld,rand));
 							return;
 						}
 					}
