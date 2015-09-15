@@ -1,15 +1,16 @@
 package chylex.hee.item;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockJukebox;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.packets.PacketPipeline;
@@ -52,19 +53,24 @@ public class ItemMusicDisk extends ItemRecord{
 
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		TileEntityJukebox jukebox = (TileEntityJukebox)BlockPosM.tmp(x,y,z).getTileEntity(world);
+		BlockPosM pos = BlockPosM.tmp(x,y,z);
 		
-		if (jukebox != null && jukebox.func_145856_a() == null){
-			if (world.isRemote)return true;
-
-			((BlockJukebox)Blocks.jukebox).func_149926_b(world,x,y,z,is);
-			PacketPipeline.sendToDimension(world.provider.dimensionId,new C02PlayRecord(BlockPosM.tmp(x,y,z),(byte)is.getItemDamage()));
+		Block block = pos.getBlock(world);
+		if (!(block instanceof BlockJukebox))return false;
+		
+		TileEntity tile = pos.getTileEntity(world);
+		if (!(tile instanceof TileEntityJukebox))return false;
+		
+		TileEntityJukebox jukebox = (TileEntityJukebox)tile;
+		if (jukebox.func_145856_a() != null)return false;
+		
+		if (!world.isRemote){
+			((BlockJukebox)block).func_149926_b(world,x,y,z,is);
+			PacketPipeline.sendToDimension(world.provider.dimensionId,new C02PlayRecord(pos,(byte)is.getItemDamage()));
 			--is.stackSize;
-			
-			return true;
 		}
 		
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -99,7 +105,7 @@ public class ItemMusicDisk extends ItemRecord{
 		iconArray = new IIcon[musicNames.size()];
 
 		for(int index = 0; index < iconArray.length; index++){
-			iconArray[index] = iconRegister.registerIcon(getIconString()+"_"+(index+1));
+			iconArray[index] = iconRegister.registerIcon(iconString+"_"+(index+1));
 		}
 	}
 }
