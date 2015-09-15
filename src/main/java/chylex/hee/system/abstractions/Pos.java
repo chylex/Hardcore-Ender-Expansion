@@ -219,7 +219,7 @@ public class Pos{
 		return Optional.ofNullable((T)world.getTileEntity(getX(),getY(),getZ()));
 	}
 	
-	public <T extends TileEntity> void callGetTileEntity(IBlockAccess world, Consumer<T> function){
+	public <T extends TileEntity> void callTileEntity(IBlockAccess world, Consumer<T> function){
 		Optional.ofNullable((T)world.getTileEntity(getX(),getY(),getZ())).ifPresent(function);
 	}
 	
