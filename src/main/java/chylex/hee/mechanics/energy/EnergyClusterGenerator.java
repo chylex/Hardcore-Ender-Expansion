@@ -22,7 +22,28 @@ public final class EnergyClusterGenerator{
 		overworld = new EnergyClusterGenerator(
 			new Range(0,7),
 			new Range(8,13),
-			rand -> EnergyClusterHealth.HEALTHY // TODO
+			rand -> {
+				int chance = rand.nextInt(4);
+				return chance == 0 ? EnergyClusterHealth.HEALTHY : chance == 1 ? EnergyClusterHealth.TIRED : EnergyClusterHealth.WEAKENED;
+			}
+		),
+		
+		stronghold = new EnergyClusterGenerator(
+			new Range(4,23),
+			new Range(18,35),
+			rand -> {
+				int health = rand.nextInt(100);
+				
+				return health < 35 ? EnergyClusterHealth.DAMAGED :
+					   health < 70 ? EnergyClusterHealth.TIRED :
+					   health < 95 ? EnergyClusterHealth.WEAKENED : EnergyClusterHealth.HEALTHY;
+			}
+		),
+		
+		energyShrine = new EnergyClusterGenerator(
+			new Range(60,150),
+			new Range(110,220),
+			rand -> EnergyClusterHealth.HEALTHY
 		);
 	
 	private final Range unitsSpawned;
