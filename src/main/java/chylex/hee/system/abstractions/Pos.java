@@ -219,8 +219,9 @@ public class Pos{
 		return Optional.ofNullable((T)world.getTileEntity(getX(),getY(),getZ()));
 	}
 	
-	public <T extends TileEntity> void callTileEntity(IBlockAccess world, Consumer<T> function){
-		Optional.ofNullable((T)world.getTileEntity(getX(),getY(),getZ())).ifPresent(function);
+	public <T extends TileEntity> Optional<T> castTileEntity(IBlockAccess world, Class<T> type){
+		TileEntity tile = world.getTileEntity(getX(),getY(),getZ());
+		return tile == null || !type.isAssignableFrom(tile.getClass()) ? Optional.empty() : Optional.of((T)tile);
 	}
 	
 	public boolean checkBlock(IBlockAccess world, Block block, int metadata){
