@@ -9,11 +9,6 @@ public class BiomeDecoratorHardcoreEnd extends BiomeEndDecorator{
 	
 	@Override
 	protected void genDecorations(BiomeGenBase biome){
-		if (currentWorld.provider.dimensionId != 1){
-			super.genDecorations(biome);
-			return;
-		}
-		
-		
+		if (currentWorld.provider.dimensionId != 1)super.genDecorations(biome);
 	}
 }

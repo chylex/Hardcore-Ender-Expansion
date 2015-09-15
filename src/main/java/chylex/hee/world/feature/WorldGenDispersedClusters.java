@@ -12,7 +12,7 @@ import cpw.mods.fml.common.IWorldGenerator;
 public class WorldGenDispersedClusters implements IWorldGenerator{
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider){
-		if (chunkX%2 == 0 && chunkZ%2 == 0 && rand.nextInt(40) == 0){
+		if (world.provider.dimensionId == 0 && chunkX%2 == 0 && chunkZ%2 == 0 && rand.nextInt(40) == 0){
 			int blockX = chunkX*16, blockZ = chunkZ*16;
 			int height = world.getActualHeight()-8;
 			
