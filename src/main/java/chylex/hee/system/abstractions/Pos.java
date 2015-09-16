@@ -153,6 +153,24 @@ public class Pos{
 		return offset(Facing4.WEST_NEGX);
 	}
 	
+	/* === DISTANCE === */
+	
+	public double distance(int x, int y, int z){
+		return MathUtil.distance(x-getX(),y-getY(),z-getZ());
+	}
+	
+	public double distance(Pos pos){
+		return MathUtil.distance(pos.getX()-getX(),pos.getY()-getY(),pos.getZ()-getZ());
+	}
+	
+	public double distance(Entity entity){
+		return MathUtil.distance(entity.posX-(getX()+0.5D),entity.posY-(getY()+0.5D),entity.posZ-(getZ()+0.5D));
+	}
+	
+	public double distance(TileEntity tile){
+		return MathUtil.distance(tile.xCoord-getX(),tile.yCoord-getY(),tile.zCoord-getZ());
+	}
+	
 	/* === WORLD === */
 	
 	public boolean setAir(World world){
