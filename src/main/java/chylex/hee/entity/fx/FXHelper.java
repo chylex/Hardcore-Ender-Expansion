@@ -2,30 +2,28 @@ package chylex.hee.entity.fx;
 import java.util.Random;
 import net.minecraft.entity.Entity;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.proxy.FXCommonProxy;
+import chylex.hee.system.abstractions.Pos;
 
 public class FXHelper{
 	public static FXHelper create(String type){
 		return new FXHelper(type);
 	}
 	
-	private final String type;
-	private double posX, posY, posZ, posRandX, posRandY, posRandZ;
-	private double motionX, motionY, motionZ, motionRandX, motionRandY, motionRandZ;
-	private float param = Float.MIN_VALUE;
+	private static final IFluctuation defaultFluctuation = (rand) -> 0D;
 	
-	private Random tmpRand;
+	private final String type;
+	private double posX, posY, posZ;
+	private double motionX, motionY, motionZ;
+	private IFluctuation posFluct = defaultFluctuation;
+	private IFluctuation motFluct = defaultFluctuation;
+	private float[] params;
 	
 	private FXHelper(String type){
 		this.type = type;
 	}
 	
-	public FXHelper pos(int x, int y, int z){
-		return pos(x+0.5D,y+0.5D,z+0.5D);
-	}
-	
-	public FXHelper pos(int x, int y, int z, double fluctuation){
-		return pos(x+0.5D,y+0.5D,z+0.5D,fluctuation);
-	}
+	/* === POSITION === */
 	
 	public FXHelper pos(double x, double y, double z){
 		this.posX = x;
@@ -34,25 +32,29 @@ public class FXHelper{
 		return this;
 	}
 	
-	public FXHelper pos(double x, double y, double z, double fluctuation){
-		this.posRandX = this.posRandY = this.posRandZ = fluctuation;
-		return pos(x,y,z);
+	public FXHelper pos(int x, int y, int z){
+		return pos(x+0.5D,y+0.5D,z+0.5D);
+	}
+	
+	public FXHelper pos(Pos pos){
+		return pos(pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D);
 	}
 	
 	public FXHelper pos(Entity entity){
 		return pos(entity.posX,entity.posY,entity.posZ);
 	}
-
-	public FXHelper pos(Entity entity, double fluctuation){
-		return pos(entity.posX,entity.posY,entity.posZ,fluctuation);
-	}
 	
-	public FXHelper posRand(double fluctuationX, double fluctuationY, double fluctuationZ){
-		this.posRandX = fluctuationX;
-		this.posRandY = fluctuationY;
-		this.posRandZ = fluctuationZ;
+	public FXHelper fluctuatePos(final double maxAmount){
+		this.posFluct = rand -> (rand.nextDouble()-0.5D)*2D*maxAmount;
 		return this;
 	}
+	
+	public FXHelper fluctuatePos(IFluctuation fluctuation){
+		this.posFluct = fluctuation;
+		return this;
+	}
+	
+	/* === MOTION === */
 	
 	public FXHelper motion(double x, double y, double z){
 		this.motionX = x;
@@ -61,40 +63,74 @@ public class FXHelper{
 		return this;
 	}
 	
-	public FXHelper motion(double x, double y, double z, double fluctuation){
-		this.motionRandX = this.motionRandY = this.motionRandZ = fluctuation;
-		return this.motion(x,y,z);
-	}
-	
-	public FXHelper motionRand(double fluctuation){
-		this.motionRandX = this.motionRandY = this.motionRandZ = fluctuation;
+	public FXHelper fluctuateMotion(final double maxAmount){
+		this.motFluct = rand -> (rand.nextDouble()-0.5D)*2D*maxAmount;
 		return this;
 	}
 	
-	public FXHelper motionRand(double fluctuationX, double fluctuationY, double fluctuationZ){
-		this.motionRandX = fluctuationX;
-		this.motionRandY = fluctuationY;
-		this.motionRandZ = fluctuationZ;
+	public FXHelper fluctuateMotion(IFluctuation fluctuation){
+		this.motFluct = fluctuation;
 		return this;
 	}
 	
-	public FXHelper param(float param){
-		this.param = param;
+	/* === PARAMETERS === */
+	
+	public FXHelper paramSingle(float param){
+		this.params = new float[]{ param };
+		return this;
+	}
+	
+	public FXHelper paramColor(float red, float green, float blue){
+		this.params = new float[]{ red, green, blue };
 		return this;
 	}
 	
 	public void spawn(Random rand, int amount){
-		this.tmpRand = rand;
+		FXCommonProxy fx = HardcoreEnderExpansion.fx;
 		
 		for(int a = 0; a < amount; a++){
-			if (param == Float.MIN_VALUE)HardcoreEnderExpansion.fx.global(type,posX+rnd(posRandX),posY+rnd(posRandY),posZ+rnd(posRandZ),motionX+rnd(motionRandX),motionY+rnd(motionRandY),motionZ+rnd(motionRandZ));
-			else HardcoreEnderExpansion.fx.global(type,posX+rnd(posRandX),posY+rnd(posRandY),posZ+rnd(posRandZ),motionX+rnd(motionRandX),motionY+rnd(motionRandY),motionZ+rnd(motionRandZ),param);
+			if (params == null){
+				fx.global(
+					type,
+					posX+posFluct.fluctuate(rand),
+					posY+posFluct.fluctuate(rand),
+					posZ+posFluct.fluctuate(rand),
+					motionX+motFluct.fluctuate(rand),
+					motionY+motFluct.fluctuate(rand),
+					motionZ+motFluct.fluctuate(rand)
+				);
+			}
+			else if (params.length == 1){
+				fx.global(
+					type,
+					posX+posFluct.fluctuate(rand),
+					posY+posFluct.fluctuate(rand),
+					posZ+posFluct.fluctuate(rand),
+					motionX+motFluct.fluctuate(rand),
+					motionY+motFluct.fluctuate(rand),
+					motionZ+motFluct.fluctuate(rand),
+					params[0]
+				);
+			}
+			else if (params.length == 3){
+				fx.global(
+					type,
+					posX+posFluct.fluctuate(rand),
+					posY+posFluct.fluctuate(rand),
+					posZ+posFluct.fluctuate(rand),
+					motionX+motFluct.fluctuate(rand),
+					motionY+motFluct.fluctuate(rand),
+					motionZ+motFluct.fluctuate(rand),
+					params[0],
+					params[1],
+					params[2]
+				);
+			}
 		}
-		
-		this.tmpRand = null;
 	}
 	
-	private double rnd(double max){
-		return max == 0D ? 0D : (tmpRand.nextDouble()-0.5D)*2D*max;
+	@FunctionalInterface
+	public static interface IFluctuation{
+		double fluctuate(Random rand);
 	}
 }
