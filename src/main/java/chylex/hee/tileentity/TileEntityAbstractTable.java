@@ -26,22 +26,17 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	@Override
-	protected byte getDrainTimer(){
-		return 15;
+	public int getEnergyDrained(){
+		return time < totalTime ? 1 : 0;
 	}
 	
 	@Override
-	protected int getDrainUnits(){
-		return time < totalTime ? 1 : 0;
-	}
-
-	@Override
-	public boolean isWorking(){
+	public boolean isDraining(){
 		return requiredStardust > 0 && getHoldingStardust() >= requiredStardust;
 	}
 
 	@Override
-	protected void onWork(){
+	public void onWork(){
 		if ((time += timeStep) >= totalTime){
 			if (onWorkFinished()){
 				resetTable();
@@ -64,7 +59,7 @@ public abstract class TileEntityAbstractTable extends TileEntityAbstractEnergyIn
 	}
 	
 	public boolean isComparatorOn(){
-		return isWorking();
+		return isDraining();
 	}
 	
 	protected final void updateComparatorStatus(){

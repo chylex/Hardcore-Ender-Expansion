@@ -49,23 +49,23 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	}
 	
 	@Override
-	protected byte getDrainTimer(){
+	public byte getDrainTimer(){
 		return 5;
 	}
 	
 	@Override
-	protected int getDrainUnits(){
+	public int getEnergyDrained(){
 		return 1;
 	}
 	
 	@Override
-	public boolean isWorking(){
+	public boolean isDraining(){
 		return storedEnergy < maxStoredEnergy;
 	}
 	
 	@Override
-	protected void onWork(){
-		storedEnergy += (float)getDrainUnits()/getDrainTimer();
+	public void onWork(){
+		storedEnergy += (float)getEnergyDrained()/getDrainTimer();
 	}
 
 	@Override
