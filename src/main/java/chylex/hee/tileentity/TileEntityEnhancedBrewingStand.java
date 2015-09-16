@@ -174,12 +174,12 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void setRequiredPowder(int requiredPowder){
+	public void setRequiredPowderClient(int requiredPowder){
 		this.requiredPowder = (short)requiredPowder;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void setStartBrewTime(int startBrewTime){
+	public void setStartBrewTimeClient(int startBrewTime){
 		this.startBrewTime = (short)startBrewTime;
 	}
 	

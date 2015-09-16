@@ -74,7 +74,7 @@ public abstract class GuiAbstractTable extends GuiContainer{
 			if (bar > -1)drawTexturedModalRect(guiX+progressBarX,guiY+progressBarY,176,0,bar+1,16);
 		}
 		
-		if (energyIconX != -1 && table.hasInsufficientEnergy())drawTexturedModalRect(guiX+energyIconX,guiY+energyIconY,176,18,10,11);
+		if (energyIconX != -1 && table.hasInsufficientEnergyClient())drawTexturedModalRect(guiX+energyIconX,guiY+energyIconY,176,18,10,11);
 		
 		if (energyStorageX != -1){
 			int energy = table.getScaledStoredEnergyClient(49)-1;

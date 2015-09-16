@@ -62,8 +62,8 @@ public class ContainerEnhancedBrewingStand extends Container{
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int value){
 		if (id == 0)tileBrewingStand.func_145938_d(value); // OBFUSCATED set brew time
-		else if (id == 1)tileBrewingStand.setRequiredPowder(value);
-		else if (id == 2)tileBrewingStand.setStartBrewTime(value);
+		else if (id == 1)tileBrewingStand.setRequiredPowderClient(value);
+		else if (id == 2)tileBrewingStand.setStartBrewTimeClient(value);
 	}
 
 	@Override

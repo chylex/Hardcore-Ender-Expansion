@@ -102,7 +102,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public final boolean hasInsufficientEnergy(){
+	public final boolean hasInsufficientEnergyClient(){
 		return hasInsufficientEnergy;
 	}
 	

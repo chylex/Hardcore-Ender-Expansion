@@ -37,12 +37,12 @@ public class TileEntityEndermanHead extends TileEntityAbstractSynchronized{
 	}
 
 	@SideOnly(Side.CLIENT)
-	public byte getRotation(){
+	public byte getRotationClient(){
 		return rotation;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public byte getMeta(){
+	public byte getMetaClient(){
 		return meta;
 	}
 }
