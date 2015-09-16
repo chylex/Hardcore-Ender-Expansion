@@ -63,7 +63,7 @@ public class BlockCorruptedEnergy extends Block{
 				HardcoreEnderExpansion.fx.enderGoo(x,y,z);
 			}
 			
-			if (world.rand.nextInt(Math.max(3,7-level/5)) == 0)FXHelper.create("explosion").pos(x,y,z).motionRand(0.5D).spawn(rand,1);
+			if (world.rand.nextInt(Math.max(3,7-level/5)) == 0)FXHelper.create("explosion").pos(x,y,z).fluctuateMotion(0.5D).spawn(rand,1);
 			return;
 		}
 		
@@ -146,6 +146,6 @@ public class BlockCorruptedEnergy extends Block{
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand){
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.corruptedEnergy(x,y,z);
 		if (world.rand.nextBoolean())HardcoreEnderExpansion.fx.enderGoo(x,y,z);
-		if (world.rand.nextInt(30) == 0)FXHelper.create("explosion").pos(x,y,z).motionRand(0.5D).spawn(rand,1);
+		if (world.rand.nextInt(30) == 0)FXHelper.create("explosion").pos(x,y,z).fluctuateMotion(0.5D).spawn(rand,1);
 	}
 }

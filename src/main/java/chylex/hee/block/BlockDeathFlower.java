@@ -142,7 +142,7 @@ public class BlockDeathFlower extends BlockFlower{
 				world.playAuxSFX(2005,x,y,z,0);
 			}
 			
-			FXHelper.create("portal").pos(x,y,z,0.5D).spawn(world.rand,3);
+			FXHelper.create("portal").pos(x,y,z).fluctuatePos(0.5D).spawn(world.rand,3);
 		}
 		
 		return true;

@@ -124,7 +124,7 @@ public class EntityItemIgneousRock extends EntityItem{
 		}
 		
 		if (rand.nextInt(30) == 0){
-			FXHelper.create("lava").pos(this,0.1F).spawn(rand,2);
+			FXHelper.create("lava").pos(this).fluctuatePos(0.1D).spawn(rand,2);
 		}
 	}
 	

@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXHelper;
+import chylex.hee.entity.fx.FXHelper.Axis;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
@@ -215,7 +216,12 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		teleportTimer = (byte)(80-level*10);
 		
 		if (worldObj.isRemote){
-			FXHelper.create("portal").pos(posX,posY+rand.nextDouble()*height,posZ).posRand(width,0D,width).motionRand(0.1F).spawn(rand,64);
+			FXHelper.create("portal")
+			.pos(posX,posY,posZ)
+			.fluctuatePos((rand, axis) -> axis == Axis.Y ? rand.nextDouble()*height : (rand.nextDouble()-0.5D)*2D*width)
+			.fluctuateMotion(0.1D)
+			.spawn(rand,64);
+			
 			return;
 		}
 		

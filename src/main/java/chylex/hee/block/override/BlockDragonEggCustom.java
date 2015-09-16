@@ -47,8 +47,8 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 			world.setBlockToAir(x,y,z);
 		}
 		else{
-			FXHelper.create("smoke").pos(x,y,z,0.5D).motionRand(0.08D).param(1.5F).spawn(world.rand,25);
-			FXHelper.create("portalbig").pos(x,y,z,0.5D).motionRand(0.08D).param(0.25F).spawn(world.rand,15);
+			FXHelper.create("smoke").pos(x,y,z).fluctuatePos(0.5D).fluctuateMotion(0.08D).paramSingle(1.5F).spawn(world.rand,25);
+			FXHelper.create("portalbig").pos(x,y,z).fluctuatePos(0.5D).fluctuateMotion(0.08D).paramSingle(0.25F).spawn(world.rand,15);
 		}
 	}
 	
