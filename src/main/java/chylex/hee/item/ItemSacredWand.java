@@ -114,33 +114,18 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 	}
 	
 	@Override
-	public int getMaxDamage(ItemStack is){
-		return calculateMaxDamage(is,SacredWandEnhancements.CAPACITY);
+	public int getEnergyAccepted(ItemStack is){
+		return 7;
 	}
 	
 	@Override
-	public boolean canAcceptEnergy(ItemStack is){
-		return is.getItemDamage() > 0;
-	}
-
-	@Override
-	public void onEnergyAccepted(ItemStack is){
-		is.setItemDamage(is.getItemDamage()-7);
-	}
-
-	@Override
-	public int getEnergyPerUse(ItemStack is){
+	public int getEnergyUsage(ItemStack is){
 		return EnhancementHandler.hasEnhancement(is,SacredWandEnhancements.EFFICIENCY) ? 2 : 3;
 	}
 	
 	@Override
-	protected float getRegenSpeedMultiplier(){
-		return 0.02F;
-	}
-	
-	@Override
 	public boolean hitEntity(ItemStack is, EntityLivingBase entity, EntityLivingBase attacker){
-		damageItem(is,attacker);
+		useEnergy(is,attacker);
 		return true;
 	}
 	
@@ -149,7 +134,7 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		if (!(entity instanceof EntityLivingBase))return false;
 		if (!entity.canAttackWithItem() || entity.hitByEntity(player))return true;
 		
-		if (attackEntity(is,player,(EntityLivingBase)entity,null))damageItem(is,player);
+		if (attackEntity(is,player,(EntityLivingBase)entity,null))useEnergy(is,player);
 		return true; // cancel
 	}
 	
@@ -157,7 +142,7 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (is.getItemDamage() == is.getMaxDamage())return is;
 		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileSacredWand(world,player,is));
-		damageItem(is,player);
+		useEnergy(is,player);
 		return is;
 	}
 	

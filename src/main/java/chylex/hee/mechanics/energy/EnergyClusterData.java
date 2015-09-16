@@ -15,6 +15,7 @@ public final class EnergyClusterData{
 	private byte regenTimeLimit;
 	
 	private byte regenTimer;
+	private boolean resync;
 	
 	public EnergyClusterData(){}
 	
@@ -55,6 +56,11 @@ public final class EnergyClusterData{
 				}
 			}
 		}
+		
+		if (resync){
+			cluster.synchronize();
+			resync = false;
+		}
 	}
 	
 	public float getEnergyLevel(){
@@ -77,6 +83,7 @@ public final class EnergyClusterData{
 		if (energyLevel >= EnergyValues.unit*units){
 			energyLevel -= EnergyValues.unit*units;
 			regenTimer = (byte)-(40F/health.regenSpeedMp);
+			resync = true;
 			return true;
 		}
 		else return false;

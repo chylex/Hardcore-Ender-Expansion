@@ -31,30 +31,15 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
-
+	
 	@Override
-	public int getMaxDamage(ItemStack is){
-		return calculateMaxDamage(is,TransferenceGemEnhancements.CAPACITY);
+	public int getEnergyAccepted(ItemStack is){
+		return 2;
 	}
 	
 	@Override
-	public boolean canAcceptEnergy(ItemStack is){
-		return is.getItemDamage() > 0;
-	}
-
-	@Override
-	public void onEnergyAccepted(ItemStack is){
-		is.setItemDamage(is.getItemDamage()-2);
-	}
-	
-	@Override
-	public int getEnergyPerUse(ItemStack is){
+	public int getEnergyUsage(ItemStack is){
 		return 3;
-	}
-	
-	@Override
-	protected float getRegenSpeedMultiplier(){
-		return 0.06F;
 	}
 	
 	@Override
@@ -116,7 +101,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 			
 			PacketPipeline.sendToAllAround(entity,64D,new C21EffectEntity(FXType.Entity.GEM_TELEPORT_FROM,entity));
 			
-			damageItem(is,player);
+			useEnergy(is,player);
 			
 			if (isLiving)((EntityLivingBase)entity).setPositionAndUpdate(gemData.x+0.5D,gemData.y+1.001D,gemData.z+0.5D);
 			entity.setLocationAndAngles(gemData.x+0.5D,gemData.y+1.001D,gemData.z+0.5D,entity.rotationYaw,entity.rotationPitch);

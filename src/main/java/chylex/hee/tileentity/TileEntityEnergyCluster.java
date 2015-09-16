@@ -55,11 +55,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 			else break;
 		}
 		
-		if (left != units){
-			PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
-			synchronize();
-		}
-		
+		if (left != units)PacketPipeline.sendToAllAround(this,64D,new C10ParticleEnergyTransfer(tile,this));
 		return left;
 	}
 	

@@ -22,7 +22,7 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 			
 			if (item.canAcceptEnergy(items[0])){
 				if ((storedEnergy -= EnergyValues.unit) < EnergyValues.min)storedEnergy = 0F;
-				item.onEnergyAccepted(items[0]);
+				item.acceptEnergy(items[0]);
 				channelCooldown = 4;
 				
 				if (lastComparatorStatus == false){

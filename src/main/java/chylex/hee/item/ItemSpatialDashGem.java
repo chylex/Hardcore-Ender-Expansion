@@ -8,35 +8,19 @@ import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
-import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
+public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{	
 	@Override
-	public int getMaxDamage(ItemStack is){
-		return calculateMaxDamage(is,SpatialDashGemEnhancements.CAPACITY);
+	public int getEnergyAccepted(ItemStack is){
+		return 2;
 	}
 	
 	@Override
-	public boolean canAcceptEnergy(ItemStack is){
-		return is.getItemDamage() > 0;
-	}
-
-	@Override
-	public void onEnergyAccepted(ItemStack is){
-		is.setItemDamage(is.getItemDamage()-2);
-	}
-
-	@Override
-	public int getEnergyPerUse(ItemStack is){
+	public int getEnergyUsage(ItemStack is){
 		return 1;
-	}
-	
-	@Override
-	protected float getRegenSpeedMultiplier(){
-		return 0.05F;
 	}
 	
 	@Override
@@ -56,7 +40,7 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 		if (is.getItemDamage() < getMaxDamage() && (!is.hasTagCompound() || !is.getTagCompound().hasKey("cooldown"))){
 			if (!world.isRemote){
 				CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,0.5F);
-				damageItem(is,player);
+				useEnergy(is,player);
 				world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player,EnhancementHandler.getEnhancements(is)));
 				
 				ItemUtil.getTagRoot(is,true).setByte("cooldown",(byte)18);
