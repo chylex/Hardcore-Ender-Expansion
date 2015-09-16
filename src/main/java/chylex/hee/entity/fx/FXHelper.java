@@ -5,12 +5,12 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.proxy.FXCommonProxy;
 import chylex.hee.system.abstractions.Pos;
 
-public class FXHelper{
+public class FXHelper{ // TODO check what could be ported
 	public static FXHelper create(String type){
 		return new FXHelper(type);
 	}
 	
-	private static final IFluctuation defaultFluctuation = (rand) -> 0D;
+	private static final IFluctuation defaultFluctuation = (rand, axis) -> 0D;
 	
 	private final String type;
 	private double posX, posY, posZ;
@@ -45,7 +45,7 @@ public class FXHelper{
 	}
 	
 	public FXHelper fluctuatePos(final double maxAmount){
-		this.posFluct = rand -> (rand.nextDouble()-0.5D)*2D*maxAmount;
+		this.posFluct = (rand, axis) -> (rand.nextDouble()-0.5D)*2D*maxAmount;
 		return this;
 	}
 	
@@ -64,7 +64,7 @@ public class FXHelper{
 	}
 	
 	public FXHelper fluctuateMotion(final double maxAmount){
-		this.motFluct = rand -> (rand.nextDouble()-0.5D)*2D*maxAmount;
+		this.motFluct = (rand, axis) -> (rand.nextDouble()-0.5D)*2D*maxAmount;
 		return this;
 	}
 	
@@ -92,35 +92,35 @@ public class FXHelper{
 			if (params == null){
 				fx.global(
 					type,
-					posX+posFluct.fluctuate(rand),
-					posY+posFluct.fluctuate(rand),
-					posZ+posFluct.fluctuate(rand),
-					motionX+motFluct.fluctuate(rand),
-					motionY+motFluct.fluctuate(rand),
-					motionZ+motFluct.fluctuate(rand)
+					posX+posFluct.fluctuate(rand,Axis.X),
+					posY+posFluct.fluctuate(rand,Axis.Y),
+					posZ+posFluct.fluctuate(rand,Axis.Z),
+					motionX+motFluct.fluctuate(rand,Axis.X),
+					motionY+motFluct.fluctuate(rand,Axis.Y),
+					motionZ+motFluct.fluctuate(rand,Axis.Z)
 				);
 			}
 			else if (params.length == 1){
 				fx.global(
 					type,
-					posX+posFluct.fluctuate(rand),
-					posY+posFluct.fluctuate(rand),
-					posZ+posFluct.fluctuate(rand),
-					motionX+motFluct.fluctuate(rand),
-					motionY+motFluct.fluctuate(rand),
-					motionZ+motFluct.fluctuate(rand),
+					posX+posFluct.fluctuate(rand,Axis.X),
+					posY+posFluct.fluctuate(rand,Axis.Y),
+					posZ+posFluct.fluctuate(rand,Axis.Z),
+					motionX+motFluct.fluctuate(rand,Axis.X),
+					motionY+motFluct.fluctuate(rand,Axis.Y),
+					motionZ+motFluct.fluctuate(rand,Axis.Z),
 					params[0]
 				);
 			}
 			else if (params.length == 3){
 				fx.global(
 					type,
-					posX+posFluct.fluctuate(rand),
-					posY+posFluct.fluctuate(rand),
-					posZ+posFluct.fluctuate(rand),
-					motionX+motFluct.fluctuate(rand),
-					motionY+motFluct.fluctuate(rand),
-					motionZ+motFluct.fluctuate(rand),
+					posX+posFluct.fluctuate(rand,Axis.X),
+					posY+posFluct.fluctuate(rand,Axis.Y),
+					posZ+posFluct.fluctuate(rand,Axis.Z),
+					motionX+motFluct.fluctuate(rand,Axis.X),
+					motionY+motFluct.fluctuate(rand,Axis.Y),
+					motionZ+motFluct.fluctuate(rand,Axis.Z),
 					params[0],
 					params[1],
 					params[2]
@@ -131,6 +131,10 @@ public class FXHelper{
 	
 	@FunctionalInterface
 	public static interface IFluctuation{
-		double fluctuate(Random rand);
+		double fluctuate(Random rand, Axis axis);
+	}
+	
+	public enum Axis{
+		X, Y, Z
 	}
 }
