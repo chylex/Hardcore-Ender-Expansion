@@ -9,9 +9,9 @@ import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkPosition;
 import chylex.hee.mechanics.energy.EnergyValues;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.util.CollectionUtil;
-import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -71,7 +71,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 					
 					((Map<ChunkPosition,TileEntity>)worldObj.getChunkFromChunkCoords(chunkX+chunkOffX[a],chunkZ+chunkOffZ[a]).chunkTileEntityMap).entrySet()
 					.stream()
-					.filter(entry -> entry.getValue().getClass() == TileEntityEnergyCluster.class && MathUtil.distance(cx+entry.getKey().chunkPosX-xCoord,entry.getKey().chunkPosY-yCoord,cz+entry.getKey().chunkPosZ-zCoord) <= 16D)
+					.filter(entry -> entry.getValue().getClass() == TileEntityEnergyCluster.class && Pos.at(cx+entry.getKey().chunkPosX,entry.getKey().chunkPosY,cz+entry.getKey().chunkPosZ).distance(this) <= 16D)
 					.map(entry -> (TileEntityEnergyCluster)entry.getValue())
 					.forEach(cluster -> clusters.add(cluster));
 				}

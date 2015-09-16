@@ -119,7 +119,7 @@ public class BlockEnergyCluster extends BlockContainer{
 		world.newExplosion(null,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,explosionRad,true,true);
 		
 		Pos.forEachBlock(pos1,pos2,pos -> {
-			if (MathUtil.distance(pos.x-tile.xCoord,pos.y-tile.yCoord,pos.z-tile.zCoord) <= blockDist && pos.isAir(world))pos.setBlock(world,BlockList.corrupted_energy_high,energyMeta);
+			if (pos.distance(tile) <= blockDist && pos.isAir(world))pos.setBlock(world,BlockList.corrupted_energy_high,energyMeta);
 		});
 		
 		while(ethereum-- > 0){
