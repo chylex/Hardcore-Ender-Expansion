@@ -27,7 +27,7 @@ public abstract class ItemAbstractEnergyAcceptor extends Item implements IEnergy
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
 		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
-		if (!nbt.hasKey("engLoc") || !(entity instanceof EntityPlayer))return;
+		if (!nbt.hasKey("engLoc") || !(entity instanceof EntityPlayer) || world.getTotalWorldTime()%4 != 0)return;
 		
 		Pos pos = Pos.at(nbt.getLong("engLoc"));
 		TileEntityEnergyCluster cluster = pos.<TileEntityEnergyCluster>getTileEntity(world);
