@@ -1,7 +1,7 @@
 package chylex.hee.proxy;
 import net.minecraft.entity.player.EntityPlayer;
+import chylex.hee.game.ConfigHandler;
 import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
-import chylex.hee.system.ConfigHandler;
 
 public class ModCommonProxy{
 	public static boolean opMobs, hardcoreEnderbacon;

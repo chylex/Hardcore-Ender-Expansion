@@ -1,6 +1,6 @@
 package chylex.hee.gui;
 import net.minecraft.client.gui.GuiScreen;
-import chylex.hee.system.ConfigHandler;
+import chylex.hee.game.ConfigHandler;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

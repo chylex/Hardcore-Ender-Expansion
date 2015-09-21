@@ -4,10 +4,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
-import chylex.hee.system.achievements.AchievementManager;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
 

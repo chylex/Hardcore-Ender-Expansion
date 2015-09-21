@@ -5,7 +5,7 @@ import chylex.hee.entity.mob.EntityMobBabyEnderman;
 import chylex.hee.entity.mob.EntityMobEnderGuardian;
 import chylex.hee.entity.mob.EntityMobEndermage;
 import chylex.hee.entity.mob.EntityMobEnderman;
-import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;

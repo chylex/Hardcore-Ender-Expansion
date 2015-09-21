@@ -2,11 +2,11 @@ package chylex.hee.packets.client;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.resources.I18n;
+import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.packets.AbstractClientPacket;
 import chylex.hee.render.OverlayManager;
-import chylex.hee.system.achievements.AchievementManager;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

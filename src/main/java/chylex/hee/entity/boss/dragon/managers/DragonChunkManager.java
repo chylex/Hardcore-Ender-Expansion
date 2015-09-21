@@ -13,10 +13,10 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.game.savedata.WorldDataHandler;
+import chylex.hee.game.savedata.types.DragonSavefile;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.savedata.WorldDataHandler;
-import chylex.hee.system.savedata.types.DragonSavefile;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class DragonChunkManager implements LoadingCallback{

@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.init.ItemList;
-import chylex.hee.system.achievements.AchievementManager;
 
 public class EntityItemAltar extends EntityItem{
 	public byte pedestalUpdate;

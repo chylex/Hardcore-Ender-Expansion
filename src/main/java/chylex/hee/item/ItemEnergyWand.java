@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;

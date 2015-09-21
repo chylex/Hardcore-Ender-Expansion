@@ -4,7 +4,7 @@ import chylex.hee.api.message.MessageRunner;
 import chylex.hee.api.message.element.StringValue;
 import chylex.hee.api.message.utils.MessageLogger;
 import chylex.hee.api.message.utils.RunEvent;
-import chylex.hee.system.integration.ModIntegrationManager;
+import chylex.hee.game.integration.ModIntegrationManager;
 
 public class ImcSystemHandlers extends ImcHandler{
 	private static final MessageHandler disableIntegration = new MessageHandler(){

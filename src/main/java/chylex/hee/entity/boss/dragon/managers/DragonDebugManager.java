@@ -1,6 +1,6 @@
 package chylex.hee.entity.boss.dragon.managers;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.system.commands.DebugBoard;
+import chylex.hee.game.commands.DebugBoard;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonDebugManager{

@@ -1,7 +1,7 @@
 package chylex.hee.world.util;
 import gnu.trove.map.hash.TIntIntHashMap;
 import java.util.Random;
-import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
+import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 

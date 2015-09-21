@@ -8,8 +8,8 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
+import chylex.hee.game.commands.DebugBoard;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.commands.DebugBoard;
 import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackDefault extends DragonSpecialAttackBase{

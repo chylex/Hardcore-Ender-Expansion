@@ -9,10 +9,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.game.achievements.AchievementEvents;
+import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
-import chylex.hee.system.achievements.AchievementEvents;
-import chylex.hee.system.achievements.AchievementManager;
 
 public class DragonAchievementManager{
 	private final EntityBossDragon dragon;

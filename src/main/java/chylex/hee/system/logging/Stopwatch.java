@@ -4,7 +4,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import chylex.hee.system.commands.HeeDebugCommand.HeeTest;
+import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 
 public final class Stopwatch{
 	public static boolean isEnabled = true;

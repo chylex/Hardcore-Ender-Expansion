@@ -3,7 +3,7 @@ import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.stats.Achievement;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.entity.mob.EntityMobInfestedBat;
-import chylex.hee.system.achievements.AchievementManager;
+import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
