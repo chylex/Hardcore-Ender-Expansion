@@ -195,7 +195,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			if (loadTimer == 0 && !angryStatus && ticksExisted%10 == 0){
 				DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
 				
-				if (save.countCrystals() <= 2 || attacks.getHealthPercentage() <= 80){
+				if (/* TODO save.countCrystals() <= 2 || */attacks.getHealthPercentage() <= 80){
 					setAngry(true);
 					spawnCooldown = 0;
 				}

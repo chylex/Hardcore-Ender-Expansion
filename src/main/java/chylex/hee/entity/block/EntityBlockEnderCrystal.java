@@ -10,8 +10,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import chylex.hee.game.savedata.WorldDataHandler;
-import chylex.hee.game.savedata.types.DragonSavefile;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing6;
@@ -33,12 +31,17 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float damage){
 		if (isEntityInvulnerable())return false;
-		else if (!isDead && !worldObj.isRemote){
-			health = 0;
-			setDead();
-
+		if (worldObj.isRemote || isDead)return true;
+		
+		health = 0;
+		setDead();
+		
+		if (worldObj.provider.dimensionId != 1){
+			// TODO
+		}
+		else{
 			worldObj.createExplosion(null,posX,posY,posZ,6F,true);
-			if (worldObj.provider.dimensionId == 1)WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).destroyCrystal(crystalKey);
+			// TODO if (worldObj.provider.dimensionId == 1)WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).destroyCrystal(crystalKey);
 			
 			Entity tar = source.getEntity();
 			
