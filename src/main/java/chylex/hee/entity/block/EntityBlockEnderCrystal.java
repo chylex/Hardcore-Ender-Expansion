@@ -13,14 +13,17 @@ import net.minecraft.world.World;
 import chylex.hee.game.savedata.WorldDataHandler;
 import chylex.hee.game.savedata.types.DragonSavefile;
 import chylex.hee.init.BlockList;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityBlockEnderCrystal extends EntityEnderCrystal{
-	public static final byte TNT = 0, BARS = 1, BLAST = 2;
+	public enum Type{
+		TNT, BARS, BLAST
+	}
 
-	private byte crystalType = 0;
+	private Type crystalType = Type.TNT;
 	private String crystalKey = "";
 
 	public EntityBlockEnderCrystal(World world){
@@ -34,12 +37,12 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			health = 0;
 			setDead();
 
-			worldObj.createExplosion((Entity)null,posX,posY,posZ,6F,true);
+			worldObj.createExplosion(null,posX,posY,posZ,6F,true);
 			if (worldObj.provider.dimensionId == 1)WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).destroyCrystal(crystalKey);
 			
 			Entity tar = source.getEntity();
 			
-			if (crystalType == TNT){
+			if (crystalType == Type.TNT){
 				if (tar instanceof EntityPlayer){
 					int limiter = 4+worldObj.difficultySetting.getDifficultyId(), topblock = DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,MathUtil.floor(posX),MathUtil.floor(posZ),MathUtil.floor(posY));
 					
@@ -71,35 +74,31 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 					worldObj.playSoundAtEntity(tnt,"random.fuse",1F,1F);
 				}
 			}
-			else if (crystalType == BLAST){
-				BlockPosM tmpPos = BlockPosM.tmp(this);
-				int terY = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,tmpPos.x,tmpPos.z,tmpPos.y);
+			else if (crystalType == Type.BLAST){
+				final Pos crystalPos = Pos.at(this).offset(Facing6.DOWN_NEGY);
+				crystalPos.setAir(worldObj);
 				
-				tmpPos.moveDown().setAir(worldObj);
-				BlockPosM pos = new BlockPosM();
+				int terY = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,crystalPos.getX(),crystalPos.getZ(),crystalPos.getY()+1);
 				
-				for(pos.x = tmpPos.x-4; pos.x <= tmpPos.x+4; pos.x++){
-					for(pos.z = tmpPos.z-4; pos.z <= tmpPos.z+4; pos.z++){
-						for(pos.y = terY; pos.y <= tmpPos.y; pos.y++){
-							if (pos.getBlock(worldObj) == BlockList.obsidian_falling){
-								pos.setAir(worldObj);
-								double[] vec = DragonUtil.getNormalizedVector(tmpPos.x-pos.x,tmpPos.z-pos.z);
-								EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,pos.x+0.5D,pos.y+0.1D,pos.z+0.5D);
-								obsidian.motionX = (vec[0]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
-								obsidian.motionZ = (vec[1]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
-								obsidian.motionY = -0.25F-rand.nextFloat()*0.4F;
-								worldObj.spawnEntityInWorld(obsidian);
-							}
-						}
+				Pos.forEachBlock(crystalPos.offset(-4,terY-crystalPos.getY(),-4),crystalPos.offset(4,0,4),pos -> {
+					if (pos.getBlock(worldObj) == BlockList.obsidian_falling){
+						pos.setAir(worldObj);
+						double[] vec = DragonUtil.getNormalizedVector(crystalPos.getX()-pos.x,crystalPos.getZ()-pos.z);
+						
+						EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,pos.x+0.5D,pos.y+0.1D,pos.z+0.5D);
+						obsidian.motionX = (vec[0]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
+						obsidian.motionZ = (vec[1]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
+						obsidian.motionY = -0.25F-rand.nextFloat()*0.4F;
+						worldObj.spawnEntityInWorld(obsidian);
 					}
-				}
+				});
 			}
 		}
 		
 		return true;
 	}
 
-	public void setCrystalType(byte type){
+	public void setCrystalType(Type type){
 		this.crystalType = type;
 	}
 	
@@ -110,14 +109,14 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setByte("crystalType",crystalType);
+		nbt.setByte("crystalType",(byte)crystalType.ordinal());
 		nbt.setString("crystalKey",crystalKey);
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		crystalType = nbt.getByte("crystalType");
+		crystalType = Type.values()[MathUtil.clamp(nbt.getByte("crystalType"),0,Type.values().length-1)];
 		crystalKey = nbt.getString("crystalKey");
 	}
 }

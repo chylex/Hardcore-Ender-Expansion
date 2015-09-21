@@ -66,9 +66,9 @@ public class WorldGenObsidianSpike extends WorldGenerator{
 			crystal.setLocationAndAngles(x+0.5D,y+height,z+0.5D,rand.nextFloat()*360F,0F);
 
 			crystal.setCrystalType(
-				bars ? EntityBlockEnderCrystal.BARS :
-				(rand.nextInt(4) != 0 && height*radius*radius*Math.PI < 320D) ? EntityBlockEnderCrystal.BLAST :
-				EntityBlockEnderCrystal.TNT
+				bars ? EntityBlockEnderCrystal.Type.BARS :
+				(rand.nextInt(4) != 0 && height*radius*radius*Math.PI < 320D) ? EntityBlockEnderCrystal.Type.BLAST :
+				EntityBlockEnderCrystal.Type.TNT
 			);
 			
 			world.spawnEntityInWorld(crystal);

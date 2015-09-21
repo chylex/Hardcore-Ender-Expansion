@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -11,7 +12,8 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.init.BlockList;
 import chylex.hee.proxy.ModClientProxy;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -39,27 +41,18 @@ public class ItemEndermanHead extends Item{
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (side == 0 || !BlockPosM.tmp(x,y,z).getMaterial(world).isSolid())return false;
+		Pos pos = Pos.at(x,y,z);
+		Facing6 sideFacing = Facing6.fromSide(side);
+		if (sideFacing == Facing6.DOWN_NEGY || !pos.getMaterial(world).isSolid())return false;
 		
-		BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
-		if (side > 0)tmpPos.move(side);
-
-		if (!player.canPlayerEdit(tmpPos.x,tmpPos.y,tmpPos.z,side,is) || !BlockList.enderman_head.canPlaceBlockAt(world,tmpPos.x,tmpPos.y,tmpPos.z))return false;
-
-		tmpPos.setBlock(world,BlockList.enderman_head,side,2);
+		pos = pos.offset(sideFacing);
+		if (!player.canPlayerEdit(pos.getX(),pos.getY(),pos.getZ(),side,is) || !BlockList.enderman_head.canPlaceBlockAt(world,pos.getX(),pos.getY(),pos.getZ()))return false;
 		
-		/*if (side == 1 && ApocalypseEvents.checkEndermanpocalypseStructure(world,x,y,z)){
-			int rotation = (int)((MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15)*360F/16F);
-			--is.stackSize;
-			return true;
-		}*/
+		pos.setBlock(world,BlockList.enderman_head,side,2);
+		TileEntityEndermanHead tile = (TileEntityEndermanHead)pos.getTileEntity(world);
 		
-		TileEntityEndermanHead tile = (TileEntityEndermanHead)tmpPos.getTileEntity(world);
-		
-		if (tile != null){
-			if (side == 1)tile.setRotation(MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15);
-			else tile.setMeta(side);
-		}
+		if (side == EnumFacing.UP.ordinal())tile.setRotation(MathHelper.floor_double((player.rotationYaw*16F/360F)+0.5D)&15);
+		else tile.setMeta(side);
 
 		--is.stackSize;
 		return true;
