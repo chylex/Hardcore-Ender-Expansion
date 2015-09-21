@@ -1,11 +1,22 @@
 package chylex.hee.system.abstractions.facing;
 import net.minecraft.util.EnumFacing;
-import chylex.hee.system.abstractions.facing.IFacing;
 
 public enum Facing6 implements IFacing{
 	NORTH_NEGZ, SOUTH_POSZ, DOWN_NEGY, UP_POSY, WEST_NEGX, EAST_POSX, INVALID;
 	
 	public static final Facing6[] list = new Facing6[]{ NORTH_NEGZ, SOUTH_POSZ, DOWN_NEGY, UP_POSY, WEST_NEGX, EAST_POSX };
+	
+	public static Facing6 fromSide(int side){
+		switch(side){
+			case 0: return DOWN_NEGY;
+			case 1: return UP_POSY;
+			case 2: return NORTH_NEGZ;
+			case 3: return SOUTH_POSZ;
+			case 4: return WEST_NEGX;
+			case 5: return EAST_POSX;
+			default: return INVALID;
+		}
+	}
 	
 	public Facing6 opposite(){
 		switch(this){
