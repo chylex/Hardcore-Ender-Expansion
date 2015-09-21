@@ -5,8 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import org.apache.commons.lang3.tuple.Pair;
-import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.IWeightProvider;
+import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.world.util.IRandomAmount;
 
 public final class BlobPattern implements IWeightProvider{
@@ -28,12 +28,12 @@ public final class BlobPattern implements IWeightProvider{
 	}
 	
 	public BlobPattern addGenerators(BlobGenerator[] generator){
-		generators.addAll(generator);
+		generators.add(generator);
 		return this;
 	}
 	
 	public BlobPattern addPopulators(BlobPopulator[] populator){
-		populators.addAll(populator);
+		populators.add(populator);
 		return this;
 	}
 	
@@ -49,7 +49,7 @@ public final class BlobPattern implements IWeightProvider{
 		
 		if (populatorAmountGen != null && !populators.isEmpty()){
 			WeightedList<BlobPopulator> blobPopulators = new WeightedList<>();
-			blobPopulators.addAll(populators);
+			blobPopulators.add(populators);
 			
 			for(int a = 0, amount = populatorAmountGen.generate(rand,minPopulatorAmount,maxPopulatorAmount); a < amount && !blobPopulators.isEmpty(); a++){
 				BlobPopulator populator = blobPopulators.getRandomItem(rand);

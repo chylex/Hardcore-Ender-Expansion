@@ -5,8 +5,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.init.BlockList;
-import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.old_blobs.BlobGenerator;
@@ -38,7 +38,7 @@ public class WorldGenBlob extends WorldGenerator{
 		typesFar.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
 		typesFar.add(ObjectWeightPair.of(BlobType.RARE,1));
 		
-		BlobType.COMMON.patterns.addAll(new BlobPattern[]{
+		BlobType.COMMON.patterns.add(new BlobPattern[]{
 			// basic random pattern
 			new BlobPattern(1).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorFromCenter(10).amount(IRandomAmount.preferSmaller,2,6).rad(2.5D,4.5D).dist(3.5D,6D),
@@ -62,7 +62,7 @@ public class WorldGenBlob extends WorldGenerator{
 			}).setPopulatorAmountProvider(IRandomAmount.preferSmaller,1,7)
 		});
 		
-		BlobType.UNCOMMON.patterns.addAll(new BlobPattern[]{
+		BlobType.UNCOMMON.patterns.add(new BlobPattern[]{
 			// tiny blob with ores
 			new BlobPattern(7).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(4).rad(2.5D,3.5D),
@@ -118,7 +118,7 @@ public class WorldGenBlob extends WorldGenerator{
 			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
 		});
 		
-		BlobType.RARE.patterns.addAll(new BlobPattern[]{
+		BlobType.RARE.patterns.add(new BlobPattern[]{
 			// transport beacon
 			new BlobPattern(3).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorFromCenter(10).amount(IRandomAmount.preferSmaller,3,6).rad(2.7D,4.5D).dist(3.2D,5D),

@@ -1,7 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
 import java.util.Random;
-import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.IWeightProvider;
+import chylex.hee.system.collections.weight.WeightedList;
 
 public enum DungeonElementType{
 	EMPTY('#'), ENTRANCE('E'), HALLWAY(' '), ROOM('+'), DESCEND('V'), DESCENDBOTTOM('T'), END('X');
@@ -33,7 +33,7 @@ public enum DungeonElementType{
 			LONG.weight = (byte)longRoom;
 			TURN.weight = (byte)turnRoom;
 			BLOCK.weight = (byte)blockRoom;
-			weights.recalculateWeight();
+			weights.setDirty();
 		}
 		
 		public static RoomCombo random(Random rand){

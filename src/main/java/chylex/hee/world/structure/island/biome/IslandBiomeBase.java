@@ -10,7 +10,7 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.CustomArrayList;
-import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.BiomeInteraction;

@@ -29,7 +29,7 @@ public class IslandBiomeInfestedForest extends IslandBiomeBase{
 		randomDeviations.add(TALL_TREES);
 		randomDeviations.add(MORE_THORNY_BUSHES);
 		
-		getSpawnEntries(DEEP).addAll(new SpawnEntry[]{
+		getSpawnEntries(DEEP).add(new SpawnEntry[]{
 			new SpawnEntry(EntitySilverfish.class,35,35),
 			new SpawnEntry(EntityMobInfestedBat.class,8,10)
 		});

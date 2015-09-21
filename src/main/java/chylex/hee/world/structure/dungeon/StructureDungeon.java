@@ -1,7 +1,7 @@
 package chylex.hee.world.structure.dungeon;
 import java.util.Optional;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.world.structure.IStructureGenerator;
 import chylex.hee.world.structure.StructureBase;
 import chylex.hee.world.structure.util.BoundingBox;

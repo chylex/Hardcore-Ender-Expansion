@@ -33,12 +33,12 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		randomDeviations.add(GOO_SWAMP);
 		randomDeviations.add(MORE_SHADOW_ORCHIDS);
 		
-		getSpawnEntries(HOMELAND).addAll(new SpawnEntry[]{
+		getSpawnEntries(HOMELAND).add(new SpawnEntry[]{
 			new SpawnEntry(EntityMobEnderman.class,22,38),
 			new SpawnEntry(EntityMobBabyEnderman.class,14,20)
 		});
 		
-		getSpawnEntries(LABORATORY).addAll(new SpawnEntry[]{
+		getSpawnEntries(LABORATORY).add(new SpawnEntry[]{
 			new SpawnEntry(EntityMobEndermage.class,7,15),
 			new SpawnEntry(EntityMobEnderman.class,12,10),
 			new SpawnEntry(EntityMobEnderGuardian.class,20,7)

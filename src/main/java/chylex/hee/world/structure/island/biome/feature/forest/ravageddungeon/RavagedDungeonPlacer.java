@@ -5,8 +5,8 @@ import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.facing.Facing4;
-import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.collections.weight.WeightedList;
 
 public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	private static final byte radEntrance = 2, radHallway = 2, radRoom = 7;

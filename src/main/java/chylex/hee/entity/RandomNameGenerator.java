@@ -5,8 +5,8 @@ import java.util.Random;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.StatCollector;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
-import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.IWeightProvider;
+import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.logging.Log;
 
 public class RandomNameGenerator{

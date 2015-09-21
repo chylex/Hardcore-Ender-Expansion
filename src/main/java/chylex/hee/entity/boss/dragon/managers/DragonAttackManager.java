@@ -16,8 +16,8 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.passive.DragonPassiveAttackBase;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackManager{

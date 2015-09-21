@@ -1,6 +1,6 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
-import chylex.hee.system.collections.WeightedList;
 import chylex.hee.system.collections.weight.ObjectWeightPair;
+import chylex.hee.system.collections.weight.WeightedList;
 
 public final class LaboratoryContent{
 	private enum SmallRoom{

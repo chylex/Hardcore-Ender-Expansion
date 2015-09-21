@@ -3,7 +3,7 @@ import gnu.trove.impl.Constants;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.Random;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
