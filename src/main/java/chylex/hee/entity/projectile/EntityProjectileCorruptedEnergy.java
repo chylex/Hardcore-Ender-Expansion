@@ -8,8 +8,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
-import chylex.hee.entity.mob.util.MultiDamage;
-import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityProjectileCorruptedEnergy extends EntityFireball{
 	public EntityProjectileCorruptedEnergy(World world){
@@ -46,7 +44,7 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 		if (ticksExisted % 3 == 0){
 			for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.offset(0D,0.5D,0D).expand(1D,1D,1D))){
 				if (e.hurtResistantTime == 0 && !(e instanceof IIgnoreEnderGoo)){
-					MultiDamage.from(shootingEntity).addMagic(2F).addScaled(ModCommonProxy.opMobs ? 14F : 9F).attack(e);
+					// TODO MultiDamage.from(shootingEntity).addMagic(2F).addScaled(ModCommonProxy.opMobs ? 14F : 9F).attack(e);
 					e.hurtResistantTime = 5;
 				}
 			}

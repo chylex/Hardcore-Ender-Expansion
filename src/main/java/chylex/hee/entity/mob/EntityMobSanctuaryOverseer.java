@@ -13,12 +13,10 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
-import chylex.hee.entity.mob.util.MultiDamage;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -70,7 +68,7 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 			if (screamTimer > 0){
 				if (attackTimer > 0 || ++screamTimer > 55 && screamTimer > 55+rand.nextInt(45)){
 					if (attackTimer > 0 && attackingPlayer != null){
-						MultiDamage.from(this).addMagic(7F).addScaled(ModCommonProxy.opMobs ? 29F : 24F).attack(attackingPlayer);
+						// TODO MultiDamage.from(this).addMagic(7F).addScaled(ModCommonProxy.opMobs ? 29F : 24F).attack(attackingPlayer);
 						
 						double[] vec = DragonUtil.getNormalizedVector(attackingPlayer.posX-posX,attackingPlayer.posZ-posZ);
 						attackingPlayer.addVelocity(vec[0],0.2D,vec[1]);
@@ -93,7 +91,7 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 						}
 						
 						for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(pos1.x,pos1.y,pos1.z,pos2.x,pos2.y,pos2.z).expand(0.9D,0.9D,0.9D))){
-							MultiDamage.from(this).addMagic(5F).addScaled(ModCommonProxy.opMobs ? 22F : 18F).attack(player);
+							// TODO MultiDamage.from(this).addMagic(5F).addScaled(ModCommonProxy.opMobs ? 22F : 18F).attack(player);
 						}
 						
 						for(EntityMobSanctuaryOverseer overseer:(List<EntityMobSanctuaryOverseer>)worldObj.getEntitiesWithinAABB(EntityMobSanctuaryOverseer.class,boundingBox.expand(8D,8D,8D))){

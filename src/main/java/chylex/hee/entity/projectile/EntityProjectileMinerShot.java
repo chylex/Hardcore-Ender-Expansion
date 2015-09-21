@@ -7,8 +7,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.entity.mob.util.MultiDamage;
-import chylex.hee.proxy.ModCommonProxy;
 
 public class EntityProjectileMinerShot extends EntityFireball{
 	public EntityProjectileMinerShot(World world){
@@ -52,7 +50,7 @@ public class EntityProjectileMinerShot extends EntityFireball{
 		}
 		else{
 			if (mop.entityHit != null){
-				MultiDamage.from(shootingEntity).addMagic(3F).addScaled(ModCommonProxy.opMobs ? 18F : 13F).attack(mop.entityHit);
+				// TODO MultiDamage.from(shootingEntity).addMagic(3F).addScaled(ModCommonProxy.opMobs ? 18F : 13F).attack(mop.entityHit);
 				mop.entityHit.setFire(4);
 			}
 			else{
