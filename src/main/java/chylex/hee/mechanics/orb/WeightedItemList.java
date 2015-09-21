@@ -1,26 +1,18 @@
 package chylex.hee.mechanics.orb;
-import chylex.hee.system.collections.WeightedList;
+import chylex.hee.system.collections.weight.WeightedList;
 
 public class WeightedItemList extends WeightedList<WeightedItem>{
-	private static final long serialVersionUID = -5274470224046379374L;
-	
 	@Override
-	public boolean add(WeightedItem obj){
-		for(int a = 0, size = size(); a < size; a++){
-			WeightedItem item = get(a);
-			
-			if (item.getItem() == obj.getItem()){
-				remove(a);
-				
-				if (item.getWeight() > obj.getWeight())obj.setWeight(item.getWeight());
-				obj.combineDamageValues(item);
-				
-				break;
+	public void add(WeightedItem item){
+		for(WeightedItem checkedItem:this){
+			if (checkedItem.getItem() == item.getItem()){
+				if (item.getWeight() > checkedItem.getWeight())checkedItem.setWeight(item.getWeight());
+				checkedItem.combineDamageValues(item);
+				setDirty();
+				return;
 			}
 		}
 		
-		boolean b = super.add(obj);
-		recalculateWeight();
-		return b;
+		super.add(item);
 	}
 }
