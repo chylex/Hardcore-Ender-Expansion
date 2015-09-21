@@ -5,8 +5,7 @@ import net.minecraft.init.Blocks;
 import chylex.hee.block.BlockRavagedBrick;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.facing.Facing4;
-import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.collections.weight.WeightedList;
+import chylex.hee.system.collections.weight.WeightedMap;
 
 public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	private static final byte radEntrance = 2, radHallway = 2, radRoom = 7;
@@ -51,12 +50,12 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 		PILLARS_WITH_SPAWNER, GOO_CORNERS, FENCE_LIGHTS, CORNER_LIGHTS
 	}
 	
-	private static final WeightedList<ObjectWeightPair<EnumDescendDesign>> descendDesignList = new WeightedList<>(
-		ObjectWeightPair.of(EnumDescendDesign.PILLARS_WITH_SPAWNER, 50),
-		ObjectWeightPair.of(EnumDescendDesign.FENCE_LIGHTS, 42),
-		ObjectWeightPair.of(EnumDescendDesign.GOO_CORNERS, 35),
-		ObjectWeightPair.of(EnumDescendDesign.CORNER_LIGHTS, 25)
-	);
+	private static final WeightedMap<EnumDescendDesign> descendDesignList = new WeightedMap<>(EnumDescendDesign.values().length,map -> {
+		map.add(EnumDescendDesign.PILLARS_WITH_SPAWNER, 50);
+		map.add(EnumDescendDesign.FENCE_LIGHTS, 42);
+		map.add(EnumDescendDesign.GOO_CORNERS, 35);
+		map.add(EnumDescendDesign.CORNER_LIGHTS, 25);
+	});
 	
 	/*public void generateDescend(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement descend){
 		generateRoomLayout(world,rand,x,y,z);
@@ -187,19 +186,19 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 		SPAWNERS_IN_WALLS
 	}
 	
-	private static final WeightedList<ObjectWeightPair<EnumHallwayDesign>> hallwayDesignList = new WeightedList<>(
-		ObjectWeightPair.of(EnumHallwayDesign.NONE, 88),
-		ObjectWeightPair.of(EnumHallwayDesign.DEAD_END_CHEST, 45),
-		ObjectWeightPair.of(EnumHallwayDesign.DESTROYED_WALLS, 44),
-		ObjectWeightPair.of(EnumHallwayDesign.EMBEDDED_CHEST, 33),
-		ObjectWeightPair.of(EnumHallwayDesign.STAIR_PATTERN, 32),
-		ObjectWeightPair.of(EnumHallwayDesign.COBWEBS, 24),
-		ObjectWeightPair.of(EnumHallwayDesign.SPAWNERS_IN_WALLS, 24),
-		ObjectWeightPair.of(EnumHallwayDesign.FLOOR_CEILING_SLABS, 21),
-		ObjectWeightPair.of(EnumHallwayDesign.WALL_MOUNTED_SPAWNERS, 19),
-		ObjectWeightPair.of(EnumHallwayDesign.FLOWER_POT, 16),
-		ObjectWeightPair.of(EnumHallwayDesign.LAPIS_BLOCK, 4)
-	);
+	private static final WeightedMap<EnumHallwayDesign> hallwayDesignList = new WeightedMap<>(EnumHallwayDesign.values().length,map -> {
+		map.add(EnumHallwayDesign.NONE, 88);
+		map.add(EnumHallwayDesign.DEAD_END_CHEST, 45);
+		map.add(EnumHallwayDesign.DESTROYED_WALLS, 44);
+		map.add(EnumHallwayDesign.EMBEDDED_CHEST, 33);
+		map.add(EnumHallwayDesign.STAIR_PATTERN, 32);
+		map.add(EnumHallwayDesign.COBWEBS, 24);
+		map.add(EnumHallwayDesign.SPAWNERS_IN_WALLS, 24);
+		map.add(EnumHallwayDesign.FLOOR_CEILING_SLABS, 21);
+		map.add(EnumHallwayDesign.WALL_MOUNTED_SPAWNERS, 19);
+		map.add(EnumHallwayDesign.FLOWER_POT, 16);
+		map.add(EnumHallwayDesign.LAPIS_BLOCK, 4);
+	});
 	
 	/*public void generateHallway(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement hallway){
 		for(int yy = y; yy <= y+hallHeight+1; yy++){
@@ -460,17 +459,17 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 		GOO_FOUNTAINS, BOWLS, CARPET_TARGET, SCATTERED_SPAWNERS_WITH_COAL, GLOWING_ROOM, FOUR_SPAWNERS, ENCASED_CUBICLE, TERRARIUM, RUINS
 	}
 	
-	private static final WeightedList<ObjectWeightPair<EnumRoomDesign>> roomDesignList = new WeightedList<>(
-		ObjectWeightPair.of(EnumRoomDesign.GOO_FOUNTAINS, 56),
-		ObjectWeightPair.of(EnumRoomDesign.RUINS, 56),
-		ObjectWeightPair.of(EnumRoomDesign.BOWLS, 54),
-		ObjectWeightPair.of(EnumRoomDesign.FOUR_SPAWNERS, 51),
-		ObjectWeightPair.of(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 44),
-		ObjectWeightPair.of(EnumRoomDesign.GLOWING_ROOM, 35),
-		ObjectWeightPair.of(EnumRoomDesign.CARPET_TARGET, 26),
-		ObjectWeightPair.of(EnumRoomDesign.ENCASED_CUBICLE, 20),
-		ObjectWeightPair.of(EnumRoomDesign.TERRARIUM, 17)
-	);
+	private static final WeightedMap<EnumRoomDesign> roomDesignList = new WeightedMap<>(EnumRoomDesign.values().length,map -> {
+		map.add(EnumRoomDesign.GOO_FOUNTAINS, 56);
+		map.add(EnumRoomDesign.RUINS, 56);
+		map.add(EnumRoomDesign.BOWLS, 54);
+		map.add(EnumRoomDesign.FOUR_SPAWNERS, 51);
+		map.add(EnumRoomDesign.SCATTERED_SPAWNERS_WITH_COAL, 44);
+		map.add(EnumRoomDesign.GLOWING_ROOM, 35);
+		map.add(EnumRoomDesign.CARPET_TARGET, 26);
+		map.add(EnumRoomDesign.ENCASED_CUBICLE, 20);
+		map.add(EnumRoomDesign.TERRARIUM, 17);
+	});
 	
 	/*private void generateRoomLayout(LargeStructureWorld world, Random rand, int x, int y, int z){
 		for(int yy = y; yy <= y+hallHeight+1; yy++){

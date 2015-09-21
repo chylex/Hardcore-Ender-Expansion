@@ -4,11 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.SortedSet;
 import chylex.hee.system.collections.CustomArrayList;
-import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.UnitTest;
 import chylex.hee.system.util.CollectionUtil;
@@ -25,6 +22,7 @@ public class CollectionTests{
 		Assert.equal(customArrayList.get(2),"Entry 3");
 	}
 	
+	/* TODO
 	@UnitTest
 	public void testWeightedList(){
 		WeightedList<ObjectWeightPair<String>> list = new WeightedList<>();
@@ -46,7 +44,7 @@ public class CollectionTests{
 		
 		Assert.isNull(list.getRandomItem(new Random()));
 		Assert.isFalse(list.tryGetRandomItem(new Random()).isPresent());
-	}
+	}*/
 	
 	@UnitTest
 	public void testCollectionUtil(){

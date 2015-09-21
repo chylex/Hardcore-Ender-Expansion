@@ -21,8 +21,7 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
-import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.collections.weight.WeightedList;
+import chylex.hee.system.collections.weight.WeightedMap;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
@@ -200,18 +199,18 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				if (enchants == null || enchants.tagCount() == 0)return;
 				
 				for(int attempt = 0; attempt < 3; attempt++){
-					WeightedList<ObjectWeightPair<Enchantment>> list = new WeightedList<>();
+					WeightedMap<Enchantment> list = new WeightedMap<>();
 					
 					for(int a = 0; a < enchants.tagCount(); a++){
 						Enchantment e = Enchantment.enchantmentsList[enchants.getCompoundTagAt(a).getShort("id")];
 						if (e == null)continue;
 						
-						list.add(ObjectWeightPair.of(e,e.getWeight()));
+						list.add(e,e.getWeight());
 					}
 					
 					if (list.isEmpty())continue; // the enchantments are no longer in the game
 					
-					Enchantment chosenEnchantment = list.getRandomItem(item.worldObj.rand).getObject();
+					Enchantment chosenEnchantment = list.getRandomItem(item.worldObj.rand);
 					
 					for(int a = 0; a < enchants.tagCount(); a++){
 						NBTTagCompound tag = enchants.getCompoundTagAt(a);

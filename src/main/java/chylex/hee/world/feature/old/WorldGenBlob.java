@@ -5,8 +5,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.init.BlockList;
-import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.collections.weight.WeightedList;
+import chylex.hee.system.collections.weight.WeightedMap;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.old_blobs.BlobGenerator;
@@ -27,16 +27,16 @@ public class WorldGenBlob extends WorldGenerator{
 		WeightedList<BlobPattern> patterns = new WeightedList<>();
 	}
 	
-	private static final WeightedList<ObjectWeightPair<BlobType>> typesClose = new WeightedList<>(),
-																  typesFar = new WeightedList<>();
+	private static final WeightedMap<BlobType> typesClose = new WeightedMap<>(),
+											   typesFar = new WeightedMap<>();
 	
 	static{
-		typesClose.add(ObjectWeightPair.of(BlobType.COMMON,50));
-		typesClose.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
+		typesClose.add(BlobType.COMMON,50);
+		typesClose.add(BlobType.UNCOMMON,7);
 		
-		typesFar.add(ObjectWeightPair.of(BlobType.COMMON,42));
-		typesFar.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
-		typesFar.add(ObjectWeightPair.of(BlobType.RARE,1));
+		typesFar.add(BlobType.COMMON,42);
+		typesFar.add(BlobType.UNCOMMON,7);
+		typesFar.add(BlobType.RARE,1);
 		
 		BlobType.COMMON.patterns.add(new BlobPattern[]{
 			// basic random pattern
@@ -189,8 +189,8 @@ public class WorldGenBlob extends WorldGenerator{
 		double dist = MathUtil.distance(x,z);
 		
 		if (dist < 180D)return BlobType.COMMON;
-		else if (dist < 340D)return typesClose.getRandomItem(rand).getObject();
-		else return typesFar.getRandomItem(rand).getObject();
+		else if (dist < 340D)return typesClose.getRandomItem(rand);
+		else return typesFar.getRandomItem(rand);
 	}
 	
 	@Override

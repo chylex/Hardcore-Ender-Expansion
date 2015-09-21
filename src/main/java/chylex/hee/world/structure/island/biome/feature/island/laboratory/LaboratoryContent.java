@@ -1,20 +1,19 @@
 package chylex.hee.world.structure.island.biome.feature.island.laboratory;
-import chylex.hee.system.collections.weight.ObjectWeightPair;
-import chylex.hee.system.collections.weight.WeightedList;
+import chylex.hee.system.collections.weight.WeightedMap;
 
 public final class LaboratoryContent{
 	private enum SmallRoom{
 		EMPTY, CLUSTER, ENDER_CHEST, FLOWER_POTS, LOOT_CHEST, FLOOR_DESIGN
 	}
 	
-	private static final WeightedList<ObjectWeightPair<SmallRoom>> smallRoomList = new WeightedList<>(
-		ObjectWeightPair.of(SmallRoom.LOOT_CHEST, 18),
-		ObjectWeightPair.of(SmallRoom.FLOOR_DESIGN, 16),
-		ObjectWeightPair.of(SmallRoom.CLUSTER, 15),
-		ObjectWeightPair.of(SmallRoom.FLOWER_POTS, 14),
-		ObjectWeightPair.of(SmallRoom.EMPTY, 11),
-		ObjectWeightPair.of(SmallRoom.ENDER_CHEST, 9)
-	);
+	private static final WeightedMap<SmallRoom> smallRoomList = new WeightedMap<>(SmallRoom.values().length,map -> {
+		map.add(SmallRoom.LOOT_CHEST, 18);
+		map.add(SmallRoom.FLOOR_DESIGN, 16);
+		map.add(SmallRoom.CLUSTER, 15);
+		map.add(SmallRoom.FLOWER_POTS, 14);
+		map.add(SmallRoom.EMPTY, 11);
+		map.add(SmallRoom.ENDER_CHEST, 9);
+	});
 	
 	/*public static void populateSmallRoom(LargeStructureWorld world, Random rand, int x, int y, int z){
 		SmallRoom design = smallRoomList.getRandomItem(rand).getObject();

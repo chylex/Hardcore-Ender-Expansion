@@ -16,8 +16,8 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.passive.DragonPassiveAttackBase;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.collections.weight.ObjectWeightPair;
 import chylex.hee.system.collections.weight.WeightedList;
+import chylex.hee.system.collections.weight.WeightedMap;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonAttackManager{
@@ -91,9 +91,9 @@ public class DragonAttackManager{
 		if (list.isEmpty())return null;
 		else if (list.size() == 1)return list.get(0);
 		
-		WeightedList<ObjectWeightPair<EntityPlayer>> players = new WeightedList<>();
-		for(EntityPlayer p:list)players.add(ObjectWeightPair.of(p,5+((int)p.getHealth()>>1)+(p.getTotalArmorValue()>>2)));
-		return players.getRandomItem(dragon.worldObj.rand).getObject();
+		WeightedMap<EntityPlayer> players = new WeightedMap<>(list.size());
+		for(EntityPlayer player:list)players.add(player,5+((int)player.getHealth()>>1)+(player.getTotalArmorValue()>>2));
+		return players.getRandomItem(dragon.worldObj.rand);
 	}
 	
 	public void updatePassiveAttacks(DragonSpecialAttackBase currentSpecialAttack){
