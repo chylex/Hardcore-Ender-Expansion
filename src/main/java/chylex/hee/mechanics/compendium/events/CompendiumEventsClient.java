@@ -22,7 +22,6 @@ import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03SimpleEvent;
 import chylex.hee.packets.server.S03SimpleEvent.EventType;
-import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -88,12 +87,6 @@ public final class CompendiumEventsClient{
 	
 	public static void showCompendiumAchievement(){
 		instance.displayAchievement(AchievementManager.ENDER_COMPENDIUM);
-	}
-	
-	public static void showVoidChestAchievement(){
-		ModClientProxy.modifyVoidChestDescription = true;
-		instance.displayAchievement(AchievementManager.VOID_CHEST);
-		ModClientProxy.modifyVoidChestDescription = false;
 	}
 	
 	private final KeyBinding keyOpenCompendium;

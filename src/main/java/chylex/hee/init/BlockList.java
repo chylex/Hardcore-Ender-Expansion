@@ -96,7 +96,6 @@ public final class BlockList{
 	public static Block essence_altar;
 	public static Block enhanced_brewing_stand;
 	public static Block enhanced_tnt;
-	public static Block void_chest;
 	public static Block decomposition_table;
 	public static Block experience_table;
 	public static Block accumulation_table;
@@ -171,7 +170,6 @@ public final class BlockList{
 		register("essence_altar", essence_altar = new BlockEssenceAltar().setHardness(8F).setResistance(20F).setLightOpacity(0).setLightLevel(0.4F).setStepSound(Block.soundTypeMetal).setBlockName("essenceAltar").setBlockTextureName("hardcoreenderexpansion:essence_altar"));
 		register("enhanced_brewing_stand_block", enhanced_brewing_stand = new BlockEnhancedBrewingStand().setHardness(0.65F).setLightLevel(0.125F).setBlockName("brewingStand").setBlockTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
 		register("enhanced_tnt", enhanced_tnt = new BlockEnhancedTNT().setHardness(0F).setStepSound(Block.soundTypeGrass).setBlockName("tnt").setBlockTextureName("tnt"));
-		register("void_chest", void_chest = new BlockVoidChest().setHardness(5F).setResistance(140F).setStepSound(Block.soundTypePiston).setBlockName("voidChest"));
 		register("decomposition_table", decomposition_table = new BlockDecompositionTable().setBlockName("decompositionTable").setBlockTextureName("decomposition_table"));
 		register("experience_table", experience_table = new BlockExperienceTable().setBlockName("experienceTable").setBlockTextureName("experience_table"));
 		register("accumulation_table", accumulation_table = new BlockAccumulationTable().setBlockName("accumulationTable").setBlockTextureName("accumulation_table"));
@@ -234,7 +232,7 @@ public final class BlockList{
 		ModCreativeTab.tabMain.list.addBlocks(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,
-			essence_altar,void_chest,decomposition_table,experience_table,accumulation_table,extraction_table,
+			essence_altar,decomposition_table,experience_table,accumulation_table,extraction_table,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
@@ -288,7 +286,6 @@ public final class BlockList{
 		GameRegistryUtil.registerTileEntity(TileEntityExtractionTable.class, "EnergyExtractionTable");
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyCluster.class, "EnergyCluster");
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
-		GameRegistryUtil.registerTileEntity(TileEntityVoidChest.class, "VoidChest");
 		GameRegistryUtil.registerTileEntity(TileEntityEndPortalCustom.class, "EndPortal");
 		GameRegistryUtil.registerTileEntity(TileEntityEndPortalFrame.class, "EndPortalFrame");
 		// TODO SANCTUARY GameRegistryUtil.registerTileEntity(TileEntitySanctuaryBrain.class, "SanctuaryBrain");

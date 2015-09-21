@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.compendium;
+import gnu.trove.set.hash.TIntHashSet;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySilverfish;
@@ -38,7 +39,6 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.Loader;
-import gnu.trove.set.hash.TIntHashSet;
 
 public final class KnowledgeRegistrations{
 	public static final KnowledgeObject<? extends IKnowledgeObjectInstance<?>>
@@ -103,7 +103,7 @@ public final class KnowledgeRegistrations{
 		ENERGY = create(BlockList.energy_cluster,"Energy"),
 		ENDIUM_ORE = create(BlockList.endium_ore),
 		ENDIUM_BLOCK = create(BlockList.endium_block),
-		VOID_CHEST = create(BlockList.void_chest),
+		// TODO VOID_CHEST = create(BlockList.void_chest),
 		SPATIAL_DASH_GEM = create(ItemList.spatial_dash_gem),
 		ENDIUM_INGOT = create(ItemList.endium_ingot),
 		// TODO BIOME_COMPASS = create(ItemList.biome_compass),
@@ -577,15 +577,15 @@ public final class KnowledgeRegistrations{
 			ENDIUM_BLOCK.setPos(4,11).setUnlockPrice(5).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(770).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(771).setRecipeFromRegistry(new ItemStack(BlockList.endium_block)).setPrice(2).setUnlockOnDiscovery().setUnlockRequirements(770).setUnlockCascade(781),
-				new KnowledgeFragmentCrafting(772).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setNonBuyableRedirect(VOID_CHEST), // 801
+				// TODO new KnowledgeFragmentCrafting(772).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setNonBuyableRedirect(VOID_CHEST), // 801
 				new KnowledgeFragmentCrafting(773).setRecipeFromRegistry(new ItemStack(ItemList.blank_gem)).setNonBuyableRedirect(BLANK_GEM), // 1422
 			}),
 			
-			VOID_CHEST.setPos(6,11).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
+			/* TODO VOID_CHEST.setPos(6,11).setUnlockPrice(20).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(800).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(801).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setPrice(8).setUnlockRequirements(800).setUnlockCascade(772),
 				new KnowledgeFragmentText(802).setPrice(3).setUnlockRequirements(800)
-			}),
+			}),*/
 			
 			SPATIAL_DASH_GEM.setPos(6,7).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(290).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(319),

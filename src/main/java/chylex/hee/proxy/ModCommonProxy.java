@@ -6,7 +6,7 @@ import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 public class ModCommonProxy{
 	public static boolean opMobs, hardcoreEnderbacon;
 	public static int achievementStartId;
-	public static int renderIdObsidianSpecial, renderIdFlowerPot, renderIdSpookyLeaves, renderIdCrossedDecoration, renderIdVoidChest;
+	public static int renderIdObsidianSpecial, renderIdFlowerPot, renderIdSpookyLeaves, renderIdCrossedDecoration;
 	
 	public void loadConfiguration(){
 		ConfigHandler.loadGeneral();

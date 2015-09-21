@@ -41,7 +41,7 @@ public final class AchievementManager{
 		/*  7 */ STARDUST = addAchievement(7, "stardust", -1, 5, ItemList.stardust, END_POWDER).setSpecial(),
 		
 		/*  9 */ ENDIUM_INGOT = addAchievement(9, "endiumIngot", 2, 2, ItemList.endium_ingot, END_POWDER).setSpecial(),
-		/* 10 */ VOID_CHEST = addAchievement(10, "voidChest", 3, 0, BlockList.void_chest, ENDIUM_INGOT),
+		/* 10 */ //VOID_CHEST = addAchievement(10, "voidChest", 3, 0, BlockList.void_chest, ENDIUM_INGOT),
 		/* 13 */ //BIOME_COMPASS = addAchievement(13, "biomeCompass", 4, 2, ItemList.biome_compass, ENDIUM_INGOT),
 		
 		/* 15 */ BIOME_INFESTED_FOREST = addAchievement(15, "biomeInfestedForest", 6, -1, BlockList.end_terrain, null),

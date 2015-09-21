@@ -165,7 +165,7 @@ public class BlockTests{
 		setPos(1,15);
 		
 		// TODO setMove(BlockList.transport_beacon);
-		setMove(BlockList.void_chest);
+		// TODO setMove(BlockList.void_chest);
 		
 		// third floor - essence altars
 		setFloor(2,0,6,Blocks.end_stone);
@@ -259,7 +259,7 @@ public class BlockTests{
 			new ItemStack(Items.diamond_chestplate,1,528),
 			new ItemStack(Blocks.planks,4),
 			new ItemStack(ItemList.energy_wand),
-			new ItemStack(BlockList.void_chest),
+			// TODO new ItemStack(BlockList.void_chest),
 			new ItemStack(Blocks.beacon),
 			new ItemStack(Blocks.bedrock)
 		};

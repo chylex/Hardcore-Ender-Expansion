@@ -12,14 +12,12 @@ import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.game.savedata.WorldDataHandler;
 import chylex.hee.game.savedata.types.QuickSavefile;
 import chylex.hee.game.savedata.types.QuickSavefile.IQuickSavefile;
-import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -97,11 +95,6 @@ public final class AchievementEvents implements IQuickSavefile{
 		else if (item == ItemList.stardust)e.player.addStat(AchievementManager.STARDUST,1);
 		else if (item == ItemList.endium_ingot)e.player.addStat(AchievementManager.ENDIUM_INGOT,1);
 		else if (item == ItemList.essence && is.getItemDamage() == EssenceType.FIERY.getItemDamage())e.player.addStat(AchievementManager.FIERY_ESSSENCE,1);
-	}
-	
-	@SubscribeEvent
-	public void onItemCrafted(ItemCraftedEvent e){
-		if (e.crafting.getItem() == Item.getItemFromBlock(BlockList.void_chest))e.player.addStat(AchievementManager.VOID_CHEST,1);
 	}
 	
 	@SubscribeEvent
