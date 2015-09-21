@@ -1,12 +1,5 @@
 package chylex.hee.world.feature.old;
-import java.util.Random;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
-import chylex.hee.init.BlockList;
-import chylex.hee.system.util.BlockPosM;
-
+/* TODO
 public class WorldGenEndPowderOre extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
@@ -61,3 +54,4 @@ public class WorldGenEndPowderOre extends WorldGenerator{
 		return true;
 	}
 }
+*/

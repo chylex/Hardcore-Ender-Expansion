@@ -1,14 +1,6 @@
 package chylex.hee.world.feature.old;
-import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
-import chylex.hee.init.BlockList;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.MathUtil;
 
+/* TODO
 public class WorldGenMeteoroid extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
@@ -55,4 +47,4 @@ public class WorldGenMeteoroid extends WorldGenerator{
 		Block block = BlockPosM.tmp(x,y,z).getBlock(world);
 		return block.getMaterial() == Material.air || block == Blocks.end_stone;
 	}
-}
+}*/

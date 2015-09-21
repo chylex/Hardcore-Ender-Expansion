@@ -7,7 +7,6 @@ import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.collections.weight.WeightedMap;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.old_blobs.BlobGenerator;
 import chylex.hee.world.feature.old_blobs.BlobPattern;
@@ -195,7 +194,7 @@ public class WorldGenBlob extends WorldGenerator{
 	
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
-		BlockPosM tmpPos = BlockPosM.tmp();
+		/* TODO BlockPosM tmpPos = BlockPosM.tmp();
 		
 		if (tmpPos.set(x-7,y,z).getBlock(world) != Blocks.air ||
 			tmpPos.set(x+7,y,z).getBlock(world) != Blocks.air ||
@@ -206,7 +205,7 @@ public class WorldGenBlob extends WorldGenerator{
 			tmpPos.set(x,y-15,z).getBlock(world) != Blocks.air ||
 			tmpPos.set(x,y+15,z).getBlock(world) != Blocks.air)return false;
 		
-		/* TODO DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
+		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 		Pair<BlobGenerator,List<BlobPopulator>> pattern = getBlobType(rand,x,z).patterns.getRandomItem(rand).generatePattern(rand);
 		
 		pattern.getLeft().generate(gen,rand);

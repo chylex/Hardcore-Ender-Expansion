@@ -11,7 +11,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import chylex.hee.init.BlockList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -36,7 +36,7 @@ public class BlockEndstoneTerrain extends Block implements IBlockSubtypes{
 	
 	@Override
 	public boolean canCreatureSpawn(EnumCreatureType type, IBlockAccess world, int x, int y, int z){
-		switch(BlockPosM.tmp(x,y,z).getMetadata(world)){
+		switch(Pos.at(x,y,z).getMetadata(world)){
 			case metaInfested: return BlockList.blockRandom.nextInt(10) <= 2;
 			case metaBurned: return false;
 			case metaEnchanted:

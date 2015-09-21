@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -46,14 +46,14 @@ public class BlockEnhancedTNT extends BlockContainer{
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
 		tryIgniteTNT(world,x,y,z,true,null);
-		BlockPosM.tmp(x,y,z).setAir(world);
+		Pos.at(x,y,z).setAir(world);
 	}
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor){
 		if (world.isBlockIndirectlyGettingPowered(x,y,z)){
 			tryIgniteTNT(world,x,y,z,true,null);
-			BlockPosM.tmp(x,y,z).setAir(world);
+			Pos.at(x,y,z).setAir(world);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int meta, float hitX, float hitY, float hitZ){
 		if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.flint_and_steel){
 			tryIgniteTNT(world,x,y,z,true,player);
-			BlockPosM.tmp(x,y,z).setAir(world);
+			Pos.at(x,y,z).setAir(world);
 			player.getCurrentEquippedItem().damageItem(1,player);
 			return true;
 		}
@@ -103,7 +103,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 
 			if (arrow.isBurning()){
 				tryIgniteTNT(world,x,y,z,true,arrow.shootingEntity instanceof EntityLivingBase ? (EntityLivingBase)arrow.shootingEntity : null);
-				BlockPosM.tmp(x,y,z).setAir(world);
+				Pos.at(x,y,z).setAir(world);
 			}
 		}
 	}

@@ -14,7 +14,7 @@ import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.enhancements.types.EnhancedBrewingStandEnhancements;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -57,7 +57,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		
 		if (filledSlots != filledSlotsCache){
 			filledSlotsCache = (byte)filledSlots;
-			BlockPosM.tmp(xCoord,yCoord,zCoord).setMetadata(worldObj,filledSlots,2);
+			Pos.at(this).setMetadata(worldObj,filledSlots,2);
 		}
 	}
 	

@@ -1,15 +1,6 @@
 package chylex.hee.world.feature.old;
-import java.util.Random;
-import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
-import chylex.hee.entity.block.EntityBlockEnderCrystal;
-import chylex.hee.game.savedata.WorldDataHandler;
-import chylex.hee.game.savedata.types.DragonSavefile;
-import chylex.hee.init.BlockList;
-import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.MathUtil;
 
+/* TODO
 public class WorldGenObsidianSpike extends WorldGenerator{
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
@@ -82,3 +73,4 @@ public class WorldGenObsidianSpike extends WorldGenerator{
 		return false;
 	}
 }
+*/

@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -28,7 +28,7 @@ public class BlockDeathFlowerPot extends BlockFlowerPot{
 
 	@Override
 	public int getDamageValue(World world, int x, int y, int z){
-		return BlockPosM.tmp(x,y,z).getMetadata(world);
+		return Pos.at(x,y,z).getMetadata(world);
 	}
 
 	@Override
