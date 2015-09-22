@@ -2,9 +2,7 @@ package chylex.hee.game.save.handlers;
 import java.io.File;
 import java.util.IdentityHashMap;
 import java.util.Map;
-import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.game.save.ISaveDataHandler;
-import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.SaveFile;
 
 public final class GlobalDataHandler implements ISaveDataHandler{
@@ -26,8 +24,8 @@ public final class GlobalDataHandler implements ISaveDataHandler{
 		if (savefile == null){
 			try{
 				cache.put(cls,savefile = cls.newInstance());
-				savefile.loadFromNBT(SaveData.readFile(savefile.getFile(root)));
-			}catch(InstantiationException | IllegalAccessException e){
+				savefile.loadFromNBT(root);
+			}catch(Exception e){
 				throw new RuntimeException("Could not construct a new instance of SaveFile - "+cls.getName(),e);
 			}
 		}
@@ -37,10 +35,6 @@ public final class GlobalDataHandler implements ISaveDataHandler{
 	
 	@Override
 	public void save(){
-		cache.values().stream().filter(savefile -> savefile.wasModified()).forEach(savefile -> {
-			NBTTagCompound nbt = new NBTTagCompound();
-			savefile.saveToNBT(nbt);
-			SaveData.saveFile(savefile.getFile(root),nbt);
-		});
+		cache.values().stream().filter(savefile -> savefile.wasModified()).forEach(savefile -> savefile.saveToNBT(root));
 	}
 }

@@ -10,7 +10,7 @@ public abstract class SaveFile{
 		this.filename = filename;
 	}
 	
-	public File getFile(File root){
+	protected File getFile(File root){
 		return new File(root,filename);
 	}
 	
@@ -22,14 +22,18 @@ public abstract class SaveFile{
 		return wasModified;
 	}
 	
-	public final void saveToNBT(NBTTagCompound nbt){
+	public final void saveToNBT(File root){
 		wasModified = false;
+		
+		NBTTagCompound nbt = new NBTTagCompound();
 		onSave(nbt);
+		SaveData.saveFile(getFile(root),nbt);
 	}
 	
-	public final void loadFromNBT(NBTTagCompound nbt){
+	public final void loadFromNBT(File root){
 		wasModified = false;
-		onLoad(nbt);
+		
+		onLoad(SaveData.readFile(getFile(root)));
 	}
 	
 	protected abstract void onSave(NBTTagCompound nbt);
