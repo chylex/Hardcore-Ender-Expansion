@@ -1,6 +1,17 @@
 package chylex.hee.mechanics.causatum;
+import net.minecraft.entity.player.EntityPlayer;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.player.CausatumFile;
 
-public final class CausatumData{
+public final class Causatum{
+	public static void trigger(EntityPlayer player, Actions action){
+		SaveData.<CausatumFile>player(player,CausatumFile.class).trigger(action);
+	}
+	
+	public enum Progress{
+		START
+	}
+	
 	public enum Actions{
 		;
 		
@@ -23,5 +34,5 @@ public final class CausatumData{
 		}
 	}
 	
-	private CausatumData(){}
+	private Causatum(){}
 }
