@@ -9,9 +9,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraftforge.common.MinecraftForge;
-import chylex.hee.game.savedata.WorldDataHandler;
-import chylex.hee.game.savedata.types.QuickSavefile;
-import chylex.hee.game.savedata.types.QuickSavefile.IQuickSavefile;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.QuickSaveFile;
+import chylex.hee.game.save.types.QuickSaveFile.IQuickSavefile;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import com.google.common.base.Joiner;
@@ -29,12 +29,12 @@ public final class AchievementEvents implements IQuickSavefile{
 		instance = new AchievementEvents();
 		MinecraftForge.EVENT_BUS.register(instance);
 		FMLCommonHandler.instance().bus().register(instance);
-		QuickSavefile.addHandler(instance);
+		QuickSaveFile.addHandler(instance);
 	}
 	
 	public static void addDelayedAchievement(UUID id, Achievement achievement){
 		instance.delayedAchievements.put(id,achievement);
-		WorldDataHandler.<QuickSavefile>get(QuickSavefile.class).setModified();
+		SaveData.<QuickSaveFile>global(QuickSaveFile.class).setModified();
 	}
 	
 	private ArrayListMultimap<UUID,Achievement> delayedAchievements = ArrayListMultimap.create();
@@ -70,11 +70,9 @@ public final class AchievementEvents implements IQuickSavefile{
 	public void onPlayerLoggedIn(PlayerLoggedInEvent e){
 		// TODO if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
 		
-		QuickSavefile file = WorldDataHandler.<QuickSavefile>get(QuickSavefile.class);
-		
 		if (!delayedAchievements.isEmpty() && delayedAchievements.containsKey(e.player.getUniqueID())){
 			for(Achievement achievement:delayedAchievements.removeAll(e.player.getUniqueID()))e.player.addStat(achievement,1);
-			file.setModified();
+			SaveData.<QuickSaveFile>global(QuickSaveFile.class).setModified();
 		}
 	}
 	

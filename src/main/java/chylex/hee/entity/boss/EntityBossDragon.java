@@ -48,8 +48,8 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.commands.DebugBoard;
 import chylex.hee.game.commands.HeeDebugCommand;
-import chylex.hee.game.savedata.WorldDataHandler;
-import chylex.hee.game.savedata.types.DragonSavefile;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.DragonFile;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;
@@ -193,7 +193,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			}
 			
 			if (loadTimer == 0 && !angryStatus && ticksExisted%10 == 0){
-				DragonSavefile save = WorldDataHandler.get(DragonSavefile.class);
+				DragonFile save = SaveData.global(DragonFile.class);
 				
 				if (/* TODO save.countCrystals() <= 2 || */attacks.getHealthPercentage() <= 80){
 					setAngry(true);

@@ -13,8 +13,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.WorldEvent;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.game.savedata.WorldDataHandler;
-import chylex.hee.game.savedata.types.DragonSavefile;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.DragonFile;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -82,7 +82,7 @@ public class DragonChunkManager implements LoadingCallback{
 	public static void release(EntityBossDragon dragon){
 		if (instance.ticket == null)return;
 		
-		WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).setLastDragonChunk(dragon.chunkCoordX,dragon.chunkCoordZ);
+		SaveData.<DragonFile>global(DragonFile.class).setLastDragonChunk(dragon.chunkCoordX,dragon.chunkCoordZ);
 		ForgeChunkManager.releaseTicket(instance.ticket);
 		instance.ticket = null;
 		instance.clear();
@@ -114,7 +114,7 @@ public class DragonChunkManager implements LoadingCallback{
 	@SubscribeEvent
 	public void onWorldLoad(WorldEvent.Load e){
 		if (!e.world.isRemote && e.world.provider.dimensionId == 1){
-			DragonSavefile file = WorldDataHandler.get(DragonSavefile.class);
+			DragonFile file = SaveData.global(DragonFile.class);
 			// TODO if (file.isDragonDead())return;
 			
 			ChunkCoordIntPair chunk = file.getLastDragonChunk();

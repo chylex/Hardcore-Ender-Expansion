@@ -1,4 +1,4 @@
-package chylex.hee.game.savedata.types;
+package chylex.hee.game.save.types;
 import gnu.trove.iterator.TObjectFloatIterator;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.HashMap;
@@ -8,14 +8,14 @@ import java.util.Set;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.game.savedata.WorldSavefile;
+import chylex.hee.game.save.SaveFile;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.system.logging.Log;
 
-public class CausatumSavefile extends WorldSavefile{
+public class CausatumFile extends SaveFile{
 	private Map<UUID,TObjectFloatHashMap<CausatumMeters>> levels = new HashMap<>();
 	
-	public CausatumSavefile(){
+	public CausatumFile(){
 		super("causatum.nbt");
 	}
 	

@@ -17,8 +17,8 @@ import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
-import chylex.hee.game.savedata.WorldDataHandler;
-import chylex.hee.game.savedata.types.CausatumSavefile;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.CausatumFile;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -144,7 +144,7 @@ public class HeeAdminCommand extends BaseCommand{
 		sub.add(new SubCommand("causatum-check",0,true){
 			@Override
 			void run(ICommandSender sender, String[] args){
-				CausatumSavefile file = WorldDataHandler.get(CausatumSavefile.class);
+				CausatumFile file = SaveData.global(CausatumFile.class);
 				sendMessage(sender,DARK_PURPLE+"Ender Causatum");
 				sendMessage(sender,LIGHT_PURPLE+"[TOTAL] "+RESET+file.getTotalLevel(((EntityPlayer)sender)));
 				

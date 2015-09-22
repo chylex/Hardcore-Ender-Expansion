@@ -1,10 +1,10 @@
-package chylex.hee.game.savedata.types;
+package chylex.hee.game.save.types;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;
-import chylex.hee.game.savedata.WorldSavefile;
+import chylex.hee.game.save.SaveFile;
 
-public class QuickSavefile extends WorldSavefile{
+public class QuickSaveFile extends SaveFile{
 	private static final List<IQuickSavefile> handlers = new ArrayList<>();
 	
 	public static final void addHandler(IQuickSavefile handler){
@@ -20,7 +20,7 @@ public class QuickSavefile extends WorldSavefile{
 		void onLoad(NBTTagCompound nbt);
 	}
 	
-	public QuickSavefile(){
+	public QuickSaveFile(){
 		super("generic.nbt");
 	}
 	

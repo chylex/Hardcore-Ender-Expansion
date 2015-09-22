@@ -1,4 +1,4 @@
-package chylex.hee.game.savedata.types;
+package chylex.hee.game.save.types;
 import gnu.trove.iterator.TByteObjectIterator;
 import gnu.trove.iterator.TLongObjectIterator;
 import gnu.trove.map.hash.TByteObjectHashMap;
@@ -7,9 +7,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
-import chylex.hee.game.savedata.WorldSavefile;
+import chylex.hee.game.save.SaveFile;
 
-public class WorldGenSavefile extends WorldSavefile{
+public class WorldGenFile extends SaveFile{
 	public enum WorldGenElement{
 		DUNGEON_TOWER(1), BIOME_ISLAND(6), INSIDIOUS_SANCTUARY(0 /* ignore collisions */);
 		
@@ -22,7 +22,7 @@ public class WorldGenSavefile extends WorldSavefile{
 	
 	private final TLongObjectHashMap<WorldGenElement> elements = new TLongObjectHashMap<>();
 	
-	public WorldGenSavefile(){
+	public WorldGenFile(){
 		super("worldgen.nbt");
 	}
 	

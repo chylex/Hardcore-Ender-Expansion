@@ -1,12 +1,12 @@
-package chylex.hee.game.savedata.types;
+package chylex.hee.game.save.types;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkCoordIntPair;
-import chylex.hee.game.savedata.WorldSavefile;
+import chylex.hee.game.save.SaveFile;
 
-public class DragonSavefile extends WorldSavefile{
+public class DragonFile extends SaveFile{
 	private ChunkCoordIntPair lastDragonChunk = new ChunkCoordIntPair(0,0);
 	
-	public DragonSavefile(){
+	public DragonFile(){
 		super("server.nbt");
 	}
 	
