@@ -324,6 +324,10 @@ public class Pos{
 			return this;
 		}
 		
+		public PosMutable set(double x, double y, double z){
+			return set(MathUtil.floor(x),MathUtil.floor(y),MathUtil.floor(z));
+		}
+		
 		public PosMutable set(Entity entity){
 			return set(MathUtil.floor(entity.posX),MathUtil.floor(entity.posY),MathUtil.floor(entity.posZ));
 		}
