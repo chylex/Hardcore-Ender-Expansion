@@ -2,12 +2,11 @@ package chylex.hee.world.structure.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import com.google.common.collect.ImmutableList;
-import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.Size;
+import com.google.common.collect.ImmutableList;
 
 public abstract class StructureDungeonPiece{
 	public interface IType{}
@@ -92,7 +91,6 @@ public abstract class StructureDungeonPiece{
 		int xMin = Math.min(x1,x2), xMax = Math.max(x1,x2);
 		int yMin = Math.min(y1,y2), yMax = Math.max(y1,y2);
 		int zMin = Math.min(z1,z2), zMax = Math.max(z1,z2);
-		PosMutable mutablePos = new PosMutable();
 		
 		for(int x = xMin; x <= xMax; x++){
 			for(int y = yMin; y <= yMax; y++){

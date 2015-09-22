@@ -156,7 +156,7 @@ public class ModelLouse extends ModelBase{
 		rMLeg1 = new ModelRenderer(this,25,103);
 		rMLeg1.addBox(-1.033333F,-3F,-1F,2,4,2);
 		rMLeg1.setRotationPoint(-6F,20F,-2F);
-		setRotation(rMLeg1,0F,3.141593F,-0.8726646F);
+		setRotation(rMLeg1,0F,MathUtil.PI,-0.8726646F);
 		
 		rMLeg2 = new ModelRenderer(this,25,110);
 		rMLeg2.addBox(1F,-3F,-1.5F,6,2,3);

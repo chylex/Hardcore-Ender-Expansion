@@ -30,14 +30,14 @@ public class ModelEnderEye extends ModelBase{
 		rightArm.setRotationPoint(0F,0F,0F);
 		rightArm.setTextureSize(128,64);
 		rightArm.mirror = true;
-		setRotation(rightArm,1.570796F,0F,0F);
+		setRotation(rightArm,MathUtil.PI*0.5F,0F,0F);
 		
 		leftArm = new ModelRenderer(this,116,0);
 		leftArm.addBox(9F,-27F,-3F,3,30,3);
 		leftArm.setRotationPoint(0F,0F,0F);
 		leftArm.setTextureSize(128,64);
 		leftArm.mirror = true;
-		setRotation(leftArm,1.570796F,0F,0F);
+		setRotation(leftArm,MathUtil.PI*0.5F,0F,0F);
 		leftArm.mirror = false;
 	}
 
@@ -67,7 +67,7 @@ public class ModelEnderEye extends ModelBase{
 		EntityMiniBossEnderEye eye = (EntityMiniBossEnderEye)entity;
 		byte anim = eye.getAttackAnimationTime();
 		if (anim == 0 && animationAngle > 0F)animationAngle = Math.max(0F,animationAngle-0.10472F);
-		else if (anim > 0)animationAngle = Math.min(1.570796F,animationAngle+0.071399F);
+		else if (anim > 0)animationAngle = Math.min(MathUtil.PI*0.5F,animationAngle+0.071399F);
 		
 		if (eye.isAsleep())wakeupAngle = Math.min(-pitchRad+1.570796F,wakeupAngle+0.098175F);
 		else if (wakeupAngle != 0F)wakeupAngle = Math.max(0F,wakeupAngle-0.098175F);

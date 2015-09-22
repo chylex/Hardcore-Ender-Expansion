@@ -1,6 +1,8 @@
 package chylex.hee.system.util;
 
 public final class MathUtil{
+	public static final float PI = (float)Math.PI;
+	
 	private static final float F_D2R = 0.01745329251994327F;
 	private static final float F_R2D = 57.2957795130823208F;
 	private static final double D_D2R = 0.01745329251994327D;
