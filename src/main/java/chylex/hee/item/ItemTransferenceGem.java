@@ -14,8 +14,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.game.achievements.AchievementManager;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.misc.GemSideEffects;
@@ -115,7 +113,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 			ItemUtil.getTagRoot(is,true).setByte("cooldown",(byte)50);
 			
 			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
-			CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,1F);
+			// TODO CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,1F);
 		}
 		
 		return is;

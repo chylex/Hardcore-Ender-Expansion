@@ -11,8 +11,6 @@ import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.world.loot.PercentageLootTable;
@@ -60,8 +58,8 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (super.attackEntityFrom(source,amount)){
-			if (dimension == 0)CausatumUtils.increase(source,CausatumMeters.OVERWORLD_ENDERMAN_DAMAGE,amount*0.25F);
-			else if (dimension == 1)CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
+			// TODO if (dimension == 0)CausatumUtils.increase(source,CausatumMeters.OVERWORLD_ENDERMAN_DAMAGE,amount*0.25F);
+			// TODO else if (dimension == 1)CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
 			
 			return true;
 		}

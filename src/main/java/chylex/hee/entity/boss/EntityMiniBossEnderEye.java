@@ -22,8 +22,6 @@ import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
@@ -287,7 +285,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 		if (getAttackAnimationTime() > 0)amount *= 0.275F;
 		
 		if (super.attackEntityFrom(source,amount)){
-			CausatumUtils.increase(source,CausatumMeters.ENDER_EYE_DAMAGE,amount*2F);
+			// TODO CausatumUtils.increase(source,CausatumMeters.ENDER_EYE_DAMAGE,amount*2F);
 			return true;
 		}
 		else return false;

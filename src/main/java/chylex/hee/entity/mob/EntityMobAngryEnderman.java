@@ -19,8 +19,6 @@ import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.BlockPosM;
@@ -219,7 +217,7 @@ public class EntityMobAngryEnderman extends EntityMob implements IEndermanRender
 				return false;
 			}
 			else if (super.attackEntityFrom(source,amount)){
-				CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
+				// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
 				return true;
 			}
 			else return false;

@@ -33,8 +33,6 @@ import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.EndermanTask;
@@ -712,7 +710,7 @@ public class EntityMobHomelandEnderman extends EntityMob implements IEndermanRen
 		}
 		
 		if (super.attackEntityFrom(source,amount)){
-			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
+			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
 			return true;
 		}
 		else return false;

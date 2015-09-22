@@ -26,8 +26,6 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.projectile.EntityProjectileMinerShot;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemScorchingPickaxe;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
@@ -355,7 +353,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		Entity sourceEntity = source.getEntity();
 		
 		if (damaged && sourceEntity instanceof EntityLivingBase){
-			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
+			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
 			
 			if (!(sourceEntity instanceof EntityMobHauntedMiner)){
 				target = (EntityLivingBase)sourceEntity;

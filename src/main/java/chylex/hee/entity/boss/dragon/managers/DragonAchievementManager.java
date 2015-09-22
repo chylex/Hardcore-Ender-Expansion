@@ -11,8 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.game.achievements.AchievementEvents;
 import chylex.hee.game.achievements.AchievementManager;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 
 public class DragonAchievementManager{
 	private final EntityBossDragon dragon;
@@ -59,7 +57,7 @@ public class DragonAchievementManager{
 		for(Entry<UUID,AchievementData> entry:playerData.entrySet()){
 			if ((float)entry.getValue().participationCounter/(float)battleTimer < 0.75F)continue;
 
-			CausatumUtils.increase(entry.getKey(),CausatumMeters.DRAGON_KILL_PARTICIPATION,300);
+			// TODO CausatumUtils.increase(entry.getKey(),CausatumMeters.DRAGON_KILL_PARTICIPATION,300);
 			if (finalDiff < 68)continue; // no challenge can be done on peaceful/easy
 			
 			EntityPlayer player = dragon.worldObj.func_152378_a(entry.getKey());

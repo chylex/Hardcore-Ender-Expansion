@@ -2,7 +2,6 @@ package chylex.hee.game.commands;
 import static net.minecraft.util.EnumChatFormatting.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -17,9 +16,8 @@ import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.global.CausatumFile;
+import chylex.hee.game.save.types.player.CausatumFile;
 import chylex.hee.game.save.types.player.CompendiumFile;
-import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
@@ -142,12 +140,12 @@ public class HeeAdminCommand extends BaseCommand{
 		sub.add(new SubCommand("causatum-check",0,true){
 			@Override
 			void run(ICommandSender sender, String[] args){
-				CausatumFile file = SaveData.global(CausatumFile.class);
+				CausatumFile file = SaveData.player((EntityPlayer)sender,CausatumFile.class);
 				sendMessage(sender,DARK_PURPLE+"Ender Causatum");
-				sendMessage(sender,LIGHT_PURPLE+"[TOTAL] "+RESET+file.getTotalLevel(((EntityPlayer)sender)));
+				// TODO sendMessage(sender,LIGHT_PURPLE+"[TOTAL] "+RESET+file.getTotalLevel(((EntityPlayer)sender)));
 				
-				UUID id = ((EntityPlayer)sender).getUniqueID();
-				for(CausatumMeters meter:CausatumMeters.values())sendMessage(sender,LIGHT_PURPLE+"["+meter.name()+"] "+RESET+file.getLevel(id,meter));
+				// TODO UUID id = ((EntityPlayer)sender).getUniqueID();
+				// TODO for(CausatumMeters meter:CausatumMeters.values())sendMessage(sender,LIGHT_PURPLE+"["+meter.name()+"] "+RESET+file.getLevel(id,meter));
 			}
 		});
 		

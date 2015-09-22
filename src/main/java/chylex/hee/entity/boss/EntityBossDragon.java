@@ -51,8 +51,6 @@ import chylex.hee.game.commands.HeeDebugCommand;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.DragonFile;
 import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C06SetPlayerVelocity;
@@ -445,7 +443,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 		}
 
 		if ((source.getEntity() instanceof EntityPlayer || source.isExplosion()) && super.attackEntityFrom(source,amount))hurtResistantTime = (dragonHurtTime = (byte)(hurtTime = 15))+10;
-		CausatumUtils.increase(source,CausatumMeters.DRAGON_DAMAGE,amount*16F);
+		// TODO CausatumUtils.increase(source,CausatumMeters.DRAGON_DAMAGE,amount*16F);
 		return true;
 	}
 

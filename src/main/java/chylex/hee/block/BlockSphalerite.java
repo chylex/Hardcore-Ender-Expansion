@@ -13,8 +13,6 @@ import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -37,7 +35,7 @@ public class BlockSphalerite extends Block implements IBlockSubtypes{
 	@Override
 	public final void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta){
 		super.harvestBlock(world,player,x,y,z,meta);
-		if (meta == 1)CausatumUtils.increase(player,CausatumMeters.END_ORE_MINING,4);
+		// TODO if (meta == 1)CausatumUtils.increase(player,CausatumMeters.END_ORE_MINING,4);
 	}
 
 	@Override

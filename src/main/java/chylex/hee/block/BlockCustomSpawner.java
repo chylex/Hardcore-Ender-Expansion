@@ -4,8 +4,6 @@ import net.minecraft.block.BlockMobSpawner;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class BlockCustomSpawner extends BlockMobSpawner{
@@ -46,6 +44,6 @@ public class BlockCustomSpawner extends BlockMobSpawner{
 			case BlockCustomSpawner.metaBlobEnderman: causatum = 25; break;
 		}
 		
-		if (causatum != -1)CausatumUtils.increase(player,CausatumMeters.END_SPAWNER_MINING,causatum);
+		// TODO if (causatum != -1)CausatumUtils.increase(player,CausatumMeters.END_SPAWNER_MINING,causatum);
 	}
 }

@@ -16,8 +16,6 @@ import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
@@ -113,7 +111,7 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 		else if (source == DamageSource.cactus)amount = 0F;
 		
 		if (amount >= 0.1F && super.attackEntityFrom(source,amount)){
-			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
+			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
 			return true;
 		}
 		else return false;

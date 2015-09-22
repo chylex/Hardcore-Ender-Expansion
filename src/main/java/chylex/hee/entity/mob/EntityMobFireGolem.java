@@ -17,8 +17,6 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
@@ -154,7 +152,7 @@ public class EntityMobFireGolem extends EntityMob{
 		
 		if (super.attackEntityFrom(source,amount)){
 			if (entityToAttack instanceof IBossDisplayData)entityToAttack = null;
-			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
+			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
 			return true;
 		}
 		else return false;

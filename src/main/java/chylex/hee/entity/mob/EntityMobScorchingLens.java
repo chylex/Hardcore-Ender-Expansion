@@ -11,8 +11,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileFlamingBall;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.proxy.ModCommonProxy;
 
@@ -62,7 +60,7 @@ public class EntityMobScorchingLens extends EntityMob{
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (super.attackEntityFrom(source,amount)){
 			if (entityToAttack instanceof IBossDisplayData)entityToAttack = null;
-			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
+			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
 			return true;
 		}
 		return false;

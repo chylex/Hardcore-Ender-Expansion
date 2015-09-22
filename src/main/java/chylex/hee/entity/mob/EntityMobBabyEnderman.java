@@ -31,8 +31,6 @@ import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
@@ -210,7 +208,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		boolean flag = super.attackEntityFrom(source,amount);
-		if (flag)CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
+		// TODO if (flag)CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
 		
 		if (flag && !isFamilyChosen && !worldObj.isRemote && source.getEntity() instanceof EntityPlayer){
 			List<EntityEnderman> endermanList = worldObj.getEntitiesWithinAABB(EntityEnderman.class,boundingBox.expand(32D,32D,32D));

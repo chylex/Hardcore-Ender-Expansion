@@ -5,8 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -39,7 +37,7 @@ public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (is.getItemDamage() < getMaxDamage() && (!is.hasTagCompound() || !is.getTagCompound().hasKey("cooldown"))){
 			if (!world.isRemote){
-				CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,0.5F);
+				// TODO CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,0.5F);
 				useEnergy(is,player);
 				world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player,EnhancementHandler.getEnhancements(is)));
 				

@@ -22,8 +22,6 @@ import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXHelper.Axis;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.charms.RuneType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
@@ -206,7 +204,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		}
 		
 		if (super.attackEntityFrom(source,amount)){
-			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
+			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.25F);
 			return true;
 		}
 		else return false;

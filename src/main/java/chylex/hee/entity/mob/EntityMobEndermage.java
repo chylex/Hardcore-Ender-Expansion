@@ -17,8 +17,6 @@ import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.ai.EntityAIRangedEnergyAttack;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.causatum.CausatumMeters;
-import chylex.hee.mechanics.causatum.CausatumUtils;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
@@ -101,7 +99,7 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 				setPosition(prevPosX,prevPosY,prevPosZ);
 			}
 			
-			CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
+			// TODO CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount);
 			return true;
 		}
 		else return false;
