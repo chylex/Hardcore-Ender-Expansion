@@ -2,11 +2,11 @@ package chylex.hee.mechanics.compendium.render;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 
 public class ObjectDisplayElement{
 	private enum BackgroundTile{
@@ -28,7 +28,7 @@ public class ObjectDisplayElement{
 		this.y = y;
 	}
 	
-	public void render(GuiScreen gui, PlayerCompendiumData compendiumData, int yLowerBound, int yUpperBound){
+	public void render(GuiScreen gui, CompendiumFile compendiumFile, int yLowerBound, int yUpperBound){
 		int x = GuiEnderCompendium.guiObjLeft+object.getX(), y = this.y+object.getY();
 		if (y < yLowerBound || y > yUpperBound)return;
 		
@@ -38,11 +38,11 @@ public class ObjectDisplayElement{
 		
 		BackgroundTile tile = BackgroundTile.DISABLED;
 		
-		if (compendiumData.hasDiscoveredObject(object)){
+		if (compendiumFile.hasDiscoveredObject(object)){
 			boolean hasAll = true;
 			
 			for(KnowledgeFragment fragment:object.getFragments()){
-				if (!compendiumData.hasUnlockedFragment(fragment)){
+				if (!compendiumFile.hasUnlockedFragment(fragment)){
 					hasAll = false;
 					break;
 				}

@@ -12,7 +12,7 @@ public abstract class PlayerFile extends SaveFile{
 	}
 	
 	@Override
-	public File getFile(File root){
+	protected File getFile(File root){
 		File dir = new File(root,folder);
 		if (!dir.exists())dir.mkdirs();
 		

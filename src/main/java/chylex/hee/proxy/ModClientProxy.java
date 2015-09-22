@@ -35,11 +35,11 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.game.ConfigHandler;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.commands.HeeClientCommand;
+import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
-import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
@@ -92,7 +92,7 @@ public class ModClientProxy extends ModCommonProxy{
 	}
 	
 	@Override
-	public PlayerCompendiumData getClientCompendiumData(){
+	public CompendiumFile getClientCompendium(){
 		return CompendiumEventsClient.getClientData();
 	}
 	

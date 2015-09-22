@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import org.apache.commons.lang3.ArrayUtils;
@@ -19,11 +18,11 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.CausatumFile;
+import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
-import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.curse.ICurseCaller;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
@@ -87,9 +86,9 @@ public class HeeAdminCommand extends BaseCommand{
 					return;
 				}
 				
-				PlayerCompendiumData data = CompendiumEvents.getPlayerData(player);
-				data.payPoints(data.getPoints());
-				data.givePoints(amount);
+				CompendiumFile file = CompendiumEvents.getPlayerData(player);
+				file.payPoints(file.getPoints());
+				file.givePoints(amount);
 				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
 				sendMessage(sender,"Compendium points updated.");
 			}
@@ -99,10 +98,10 @@ public class HeeAdminCommand extends BaseCommand{
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
-				PlayerCompendiumData data = CompendiumEvents.getPlayerData(player);
+				CompendiumFile file = CompendiumEvents.getPlayerData(player);
 				
-				for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())data.tryDiscoverObject(object,false);
-				for(KnowledgeFragment fragment:KnowledgeFragment.getAllFragments())data.tryUnlockFragment(fragment);
+				for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())file.tryDiscoverObject(object,false);
+				for(KnowledgeFragment fragment:KnowledgeFragment.getAllFragments())file.tryUnlockFragment(fragment);
 				
 				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
 				sendMessage(sender,pre+"Compendium data unlocked.");
@@ -113,8 +112,7 @@ public class HeeAdminCommand extends BaseCommand{
 			@Override
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
-				PlayerCompendiumData data = CompendiumEvents.getPlayerData(player);
-				data.loadNBTData(new NBTTagCompound());
+				CompendiumEvents.getPlayerData(player).reset();
 				
 				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
 				sendMessage(sender,pre+"Compendium data reset.");

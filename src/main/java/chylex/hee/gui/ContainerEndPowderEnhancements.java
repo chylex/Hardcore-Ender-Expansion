@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.gui.slots.SlotReadOnly;
@@ -23,7 +24,6 @@ import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
-import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.enhancements.IEnhancementEnum;
@@ -180,11 +180,11 @@ public class ContainerEndPowderEnhancements extends Container{
 		
 		if (enhancements == null)return;
 		
-		PlayerCompendiumData compendiumData = mainIS != null ? HardcoreEnderExpansion.proxy.getClientCompendiumData() : null;
+		CompendiumFile file = mainIS != null ? HardcoreEnderExpansion.proxy.getClientCompendium() : null;
 		
 		for(int a = 0; a < enhancements.size(); a++){
 			IEnhancementEnum enhancement = enhancements.get(a);
-			ItemStack is = compendiumData != null && compendiumData.hasUnlockedFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement)) ? enhancement.getItemSelector().getRepresentativeItem() : new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
+			ItemStack is = file != null && file.hasUnlockedFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement)) ? enhancement.getItemSelector().getRepresentativeItem() : new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
 			clientEnhancementItems[a] = is;
 		}
 	}

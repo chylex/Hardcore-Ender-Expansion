@@ -6,30 +6,30 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
+import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
-import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class C19CompendiumData extends AbstractClientPacket{
-	private PlayerCompendiumData data;
+	private CompendiumFile file;
 	
 	public C19CompendiumData(){}
 	
 	public C19CompendiumData(EntityPlayer player){
-		data = CompendiumEvents.getPlayerData(player);
+		file = CompendiumEvents.getPlayerData(player);
 	}
 	
-	public C19CompendiumData(PlayerCompendiumData compendiumData){
-		data = compendiumData;
+	public C19CompendiumData(CompendiumFile compendiumFile){
+		file = compendiumFile;
 	}
 
 	@Override
 	public void write(ByteBuf buffer){
 		NBTTagCompound nbt = new NBTTagCompound();
-		data.saveNBTData(nbt);
+		file.onSave(nbt);
 		
 		try{
 			byte[] compressed = CompressedStreamTools.compress(nbt);
@@ -49,7 +49,7 @@ public class C19CompendiumData extends AbstractClientPacket{
 		byte[] compressed = buffer.readBytes(len).array();
 		
 		try{
-			data = new PlayerCompendiumData(CompressedStreamTools.func_152457_a(compressed,new NBTSizeTracker(2097152L)));
+			file = new CompendiumFile(CompressedStreamTools.func_152457_a(compressed,new NBTSizeTracker(2097152L)));
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -58,6 +58,6 @@ public class C19CompendiumData extends AbstractClientPacket{
 	@Override
 	@SideOnly(Side.CLIENT)
 	protected void handle(EntityClientPlayerMP player){
-		if (data != null)CompendiumEventsClient.loadClientData(data);
+		if (file != null)CompendiumEventsClient.loadClientData(file);
 	}
 }

@@ -14,15 +14,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.common.MinecraftForge;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
-import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.compendium.util.KnowledgeObservation;
-import chylex.hee.mechanics.misc.PlayerDataHandler;
-import chylex.hee.mechanics.misc.PlayerDataHandler.IExtendedPropertyInitializer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.logging.Stopwatch;
@@ -37,8 +36,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
-public final class CompendiumEvents implements IExtendedPropertyInitializer<PlayerCompendiumData>{
-	private static final String playerPropertyIdentifier = "HardcoreEnderExpansion~Compendium";
+public final class CompendiumEvents{
 	private static final byte byteZero = 0;
 	private static final byte byteOne = 1;
 	private static final BlockMetaWrapper bmwReuse = new BlockMetaWrapper(Blocks.air,0);
@@ -51,12 +49,11 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 			instance = new CompendiumEvents();
 			MinecraftForge.EVENT_BUS.register(instance);
 			FMLCommonHandler.instance().bus().register(instance);
-			PlayerDataHandler.registerProperty(playerPropertyIdentifier,instance);
 		}
 	}
 	
-	public static PlayerCompendiumData getPlayerData(EntityPlayer player){
-		return (PlayerCompendiumData)player.getExtendedProperties(playerPropertyIdentifier);
+	public static CompendiumFile getPlayerData(EntityPlayer player){
+		return SaveData.player(player,CompendiumFile.class);
 	}
 	
 	public static KnowledgeObject<ObjectBlock> getBlockObject(ItemStack is){
@@ -113,11 +110,6 @@ public final class CompendiumEvents implements IExtendedPropertyInitializer<Play
 	private final TObjectByteHashMap<UUID> playerTickLimiter = new TObjectByteHashMap<>();
 	
 	private CompendiumEvents(){}
-
-	@Override
-	public PlayerCompendiumData createNew(){
-		return new PlayerCompendiumData();
-	}
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent e){

@@ -5,11 +5,11 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.game.save.types.player.CompendiumFile.FragmentPurchaseStatus;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.player.PlayerCompendiumData.FragmentPurchaseStatus;
 
 public class PurchaseDisplayElement{
 	public final Object object;

@@ -1,15 +1,13 @@
-package chylex.hee.mechanics.compendium.player;
+package chylex.hee.game.save.types.player;
 import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
-import net.minecraft.world.World;
-import net.minecraftforge.common.IExtendedEntityProperties;
 import net.minecraftforge.common.util.Constants.NBT;
 import org.apache.commons.lang3.StringUtils;
+import chylex.hee.game.save.types.PlayerFile;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -19,15 +17,15 @@ import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
+import chylex.hee.mechanics.compendium.player.PlayerDiscoveryList;
 import chylex.hee.mechanics.compendium.player.PlayerDiscoveryList.IObjectSerializer;
-import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class PlayerCompendiumData implements IExtendedEntityProperties{
+public class CompendiumFile extends PlayerFile{
 	private boolean seenHelp;
 	private int pointAmount;
 	
@@ -38,11 +36,14 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	private final TIntHashSet unlockedFragments = new TIntHashSet();
 	
-	public PlayerCompendiumData(){}
+	public CompendiumFile(String filename){
+		super("compendium",filename);
+	}
 	
 	@SideOnly(Side.CLIENT)
-	public PlayerCompendiumData(NBTTagCompound nbt){
-		loadNBTData(nbt);
+	public CompendiumFile(NBTTagCompound nbt){
+		super("","");
+		onLoad(nbt);
 	}
 	
 	public boolean seenHelp(){
@@ -51,6 +52,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	public void setSeenHelp(){
 		seenHelp = true;
+		setModified();
 	}
 	
 	public int getPoints(){
@@ -59,10 +61,12 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	
 	public void givePoints(int amount){
 		pointAmount += Math.max(0,amount);
+		setModified();
 	}
 	
 	public void payPoints(int amount){
 		pointAmount = Math.max(0,pointAmount-amount);
+		setModified();
 	}
 	
 	public boolean tryDiscoverObject(KnowledgeObject<?> object, boolean addReward){
@@ -128,6 +132,8 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 			unlockDiscoveryFragments(object);
 			pointAmount += object.getDiscoveryReward();
 		}
+		
+		setModified();
 	}
 	
 	private void unlockDiscoveryFragments(KnowledgeObject<?> object){
@@ -139,6 +145,7 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 	public boolean tryUnlockFragment(KnowledgeFragment fragment){
 		if (unlockedFragments.add(fragment.globalID)){
 			for(int cascade:fragment.getUnlockCascade())tryUnlockFragment(KnowledgeFragment.getById(cascade));
+			setModified();
 			return true;
 		}
 		else return false;
@@ -159,37 +166,32 @@ public class PlayerCompendiumData implements IExtendedEntityProperties{
 		return FragmentPurchaseStatus.CAN_PURCHASE;
 	}
 	
-	@Override
-	public void init(Entity entity, World world){}
+	public void reset(){
+		onLoad(new NBTTagCompound());
+		setModified();
+	}
 	
 	@Override
-	public void saveNBTData(NBTTagCompound nbt){
-		Stopwatch.time("PlayerCompendiumData - save");
-		NBTTagCompound hee = new NBTTagCompound();
-		hee.setBoolean("hlp",seenHelp);
-		hee.setInteger("kps",pointAmount);
-		hee.setTag("fndBlocks",discoveredBlocks.saveToNBTList());
-		hee.setTag("fndItems",discoveredItems.saveToNBTList());
-		hee.setTag("fndMobs",discoveredMobs.saveToNBTList());
-		hee.setTag("fndMisc",discoveredMisc.saveToNBTList());
-		hee.setTag("unlocked",new NBTTagIntArray(unlockedFragments.toArray()));
-		nbt.setTag("HEE",hee);
-		Stopwatch.finish("PlayerCompendiumData - save");
+	public void onSave(NBTTagCompound nbt){
+		nbt.setBoolean("hlp",seenHelp);
+		nbt.setInteger("kps",pointAmount);
+		nbt.setTag("fndBlocks",discoveredBlocks.saveToNBTList());
+		nbt.setTag("fndItems",discoveredItems.saveToNBTList());
+		nbt.setTag("fndMobs",discoveredMobs.saveToNBTList());
+		nbt.setTag("fndMisc",discoveredMisc.saveToNBTList());
+		nbt.setTag("unlocked",new NBTTagIntArray(unlockedFragments.toArray()));
 	}
 
 	@Override
-	public void loadNBTData(NBTTagCompound nbt){
-		Stopwatch.time("PlayerCompendiumData - load");
-		NBTTagCompound hee = nbt.getCompoundTag("HEE");
-		seenHelp = hee.getBoolean("hlp");
-		pointAmount = hee.getInteger("kps");
-		discoveredBlocks.loadFromNBTList(hee.getTagList("fndBlocks",NBT.TAG_STRING));
-		discoveredItems.loadFromNBTList(hee.getTagList("fndItems",NBT.TAG_STRING));
-		discoveredMobs.loadFromNBTList(hee.getTagList("fndMobs",NBT.TAG_STRING));
-		discoveredMisc.loadFromNBTList(hee.getTagList("fndMisc",NBT.TAG_STRING));
+	protected void onLoad(NBTTagCompound nbt){
+		seenHelp = nbt.getBoolean("hlp");
+		pointAmount = nbt.getInteger("kps");
+		discoveredBlocks.loadFromNBTList(nbt.getTagList("fndBlocks",NBT.TAG_STRING));
+		discoveredItems.loadFromNBTList(nbt.getTagList("fndItems",NBT.TAG_STRING));
+		discoveredMobs.loadFromNBTList(nbt.getTagList("fndMobs",NBT.TAG_STRING));
+		discoveredMisc.loadFromNBTList(nbt.getTagList("fndMisc",NBT.TAG_STRING));
 		unlockedFragments.clear();
-		unlockedFragments.addAll(hee.getIntArray("unlocked"));
-		Stopwatch.finish("PlayerCompendiumData - load");
+		unlockedFragments.addAll(nbt.getIntArray("unlocked"));
 	}
 	
 	// SERIALIZERS

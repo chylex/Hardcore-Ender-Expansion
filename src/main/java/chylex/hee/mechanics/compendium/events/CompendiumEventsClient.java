@@ -12,12 +12,12 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.achievements.AchievementManager;
+import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03SimpleEvent;
@@ -41,11 +41,11 @@ public final class CompendiumEventsClient{
 		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CompendiumEventsClient());
 	}
 	
-	public static void loadClientData(PlayerCompendiumData data){
-		instance.data = data;
+	public static void loadClientData(CompendiumFile file){
+		instance.data = file;
 		
 		if (Minecraft.getMinecraft().currentScreen instanceof GuiEnderCompendium){
-			((GuiEnderCompendium)Minecraft.getMinecraft().currentScreen).updateCompendiumData(data);
+			((GuiEnderCompendium)Minecraft.getMinecraft().currentScreen).updateCompendiumData(file);
 		}
 		
 		if (Minecraft.getMinecraft().thePlayer.openContainer instanceof ContainerEndPowderEnhancements){
@@ -53,7 +53,7 @@ public final class CompendiumEventsClient{
 		}
 	}
 	
-	public static PlayerCompendiumData getClientData(){
+	public static CompendiumFile getClientData(){
 		return instance.data;
 	}
 	
@@ -90,7 +90,7 @@ public final class CompendiumEventsClient{
 	}
 	
 	private final KeyBinding keyOpenCompendium;
-	private PlayerCompendiumData data;
+	private CompendiumFile data;
 	private short newlyDiscoveredId = -1;
 	private long newlyDiscoveredTime = 0L;
 	private byte achievementTimer = Byte.MIN_VALUE;

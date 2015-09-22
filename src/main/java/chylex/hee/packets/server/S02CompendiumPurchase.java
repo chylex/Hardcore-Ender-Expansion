@@ -1,10 +1,10 @@
 package chylex.hee.packets.server;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
+import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
-import chylex.hee.mechanics.compendium.player.PlayerCompendiumData;
 import chylex.hee.packets.AbstractServerPacket;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
@@ -38,20 +38,20 @@ public class S02CompendiumPurchase extends AbstractServerPacket{
 
 	@Override
 	protected void handle(EntityPlayerMP player){
-		PlayerCompendiumData compendiumData = CompendiumEvents.getPlayerData(player);
+		CompendiumFile file = CompendiumEvents.getPlayerData(player);
 		int points = 0;
 		
 		if (isFragment){
 			KnowledgeFragment fragment = KnowledgeFragment.getById(id);
-			if (fragment != null && compendiumData.getPoints() >= fragment.getPrice() && compendiumData.tryUnlockFragment(fragment))points = fragment.getPrice();
+			if (fragment != null && file.getPoints() >= fragment.getPrice() && file.tryUnlockFragment(fragment))points = fragment.getPrice();
 		}
 		else{
 			KnowledgeObject<?> object = KnowledgeObject.getObjectById(id);
-			if (object != null && compendiumData.getPoints() >= object.getUnlockPrice() && compendiumData.tryDiscoverObject(object,false))points = object.getUnlockPrice();
+			if (object != null && file.getPoints() >= object.getUnlockPrice() && file.tryDiscoverObject(object,false))points = object.getUnlockPrice();
 		}
 		
-		if (points > 0)compendiumData.payPoints(points);
+		if (points > 0)file.payPoints(points);
 		
-		PacketPipeline.sendToPlayer(player,new C19CompendiumData(compendiumData));
+		PacketPipeline.sendToPlayer(player,new C19CompendiumData(file));
 	}
 }
