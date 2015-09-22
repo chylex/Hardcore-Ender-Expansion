@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import chylex.hee.system.util.NBTUtil;
 
 public class PlayerDiscoveryList<P extends IKnowledgeObjectInstance<T>,T>{
 	private final IObjectSerializer<T> serializer;
@@ -22,19 +23,16 @@ public class PlayerDiscoveryList<P extends IKnowledgeObjectInstance<T>,T>{
 		return discoveredObjects.contains(object.getUnderlyingObject());
 	}
 	
-	public NBTTagList saveToNBTList(){		
-		NBTTagList list = new NBTTagList();
-		for(T object:discoveredObjects)list.appendTag(new NBTTagString(serializer.serialize(object)));
-		return list;
+	public NBTTagList saveToNBTList(){
+		return NBTUtil.writeList(discoveredObjects.stream().map(object -> new NBTTagString(serializer.serialize(object))));
 	}
 	
 	public void loadFromNBTList(NBTTagList list){
 		discoveredObjects.clear();
 		
-		for(int a = 0, count = list.tagCount(); a < count; a++){
-			T object = serializer.deserialize(list.getStringTagAt(a));
-			if (object != null)discoveredObjects.add((T)KnowledgeObject.getObject(object).getObject().getUnderlyingObject());
-		}
+		NBTUtil.<NBTTagString>readList(list).map(tag -> serializer.deserialize(tag.func_150285_a_())).filter(object -> object != null).forEach(object -> {
+			discoveredObjects.add((T)KnowledgeObject.getObject(object).getObject().getUnderlyingObject());
+		});
 	}
 	
 	public interface IObjectSerializer<T>{

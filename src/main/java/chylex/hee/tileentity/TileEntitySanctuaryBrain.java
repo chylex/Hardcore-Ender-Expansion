@@ -6,16 +6,15 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.entity.mob.EntityMobSanctuaryOverseer;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.NBTUtil;
 
 public class TileEntitySanctuaryBrain extends TileEntity{
 	private BlockPosM point1, point2;
@@ -54,10 +53,7 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		super.writeToNBT(nbt);
 		if (point1 != null)nbt.setLong("p1",point1.toLong());
 		if (point2 != null)nbt.setLong("p2",point2.toLong());
-		
-		NBTTagList ptsTag = new NBTTagList();
-		for(ConquerPointHandler point:conquerPts)ptsTag.appendTag(point.writeToNBT());
-		nbt.setTag("conquer",ptsTag);
+		NBTUtil.writeList(nbt,"conquer",conquerPts.stream().map(point -> point.writeToNBT()));
 	}
 	
 	@Override
@@ -70,13 +66,11 @@ public class TileEntitySanctuaryBrain extends TileEntity{
 		if (nbt.hasKey("p1"))point1 = new BlockPosM(nbt.getLong("p1"));
 		if (nbt.hasKey("p2"))point2 = new BlockPosM(nbt.getLong("p2"));
 		
-		NBTTagList ptsTag = nbt.getTagList("conquer",NBT.TAG_COMPOUND);
-		
-		for(int a = 0; a < ptsTag.tagCount(); a++){
+		NBTUtil.readCompoundList(nbt,"conquer").forEach(tag -> {
 			ConquerPointHandler point = new ConquerPointHandler();
-			point.readFromNBT(ptsTag.getCompoundTagAt(a));
+			point.readFromNBT(tag);
 			conquerPts.add(point);
-		}
+		});
 	}
 	
 	private final class ConquerPointHandler{ // TODO test everything

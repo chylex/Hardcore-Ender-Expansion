@@ -1,6 +1,7 @@
 package chylex.hee.tileentity;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,10 +10,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.util.Constants;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.init.BlockList;
@@ -32,6 +31,7 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.NBTUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -109,13 +109,8 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		nbt.setByte("stage",currentStage);
 		nbt.setByte("essenceTypeId",essenceType.id);
 		nbt.setInteger("essence",essenceLevel);
-				
-		NBTTagList runeTag = new NBTTagList();
-		for(int a = 0; a < runeItems.length; a++){
-			runeTag.appendTag(new NBTTagByte(runeItems[a] == null?-1:runeItems[a].indexInArray));
-		}
 		
-		nbt.setTag("runeItems",runeTag);
+		NBTUtil.writeList(nbt,"runeItems",Arrays.stream(runeItems).map(item -> new NBTTagByte(item == null ? -1 : item.indexInArray)));
 		nbt.setByte("runeIndex",runeItemIndex);
 		
 		nbt.setString("enhancements",EnhancementEnumHelper.serialize(enhancementList));
@@ -131,11 +126,10 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		essenceType = EssenceType.getById(nbt.getByte("essenceTypeId"));
 		essenceLevel = nbt.getInteger("essence");
 		
-		NBTTagList runeTag = nbt.getTagList("runeItems",Constants.NBT.TAG_BYTE);
-		for(int a = 0; a < Math.min(runeItems.length,runeTag.tagCount()); a++){
-			String str = runeTag.getStringTagAt(a);
-			byte data = Byte.parseByte(str.endsWith("b")?str.substring(0,str.length()-1):str);
-			if (data != -1)runeItems[a] = essenceType.itemsNeeded[data];
+		int[] readItems = NBTUtil.readNumericList(nbt,"runeItems").mapToInt(tag -> tag.func_150290_f()).toArray();
+		
+		for(int a = 0; a < Math.min(runeItems.length,readItems.length); a++){
+			if (readItems[a] != -1)runeItems[a] = essenceType.itemsNeeded[readItems[a]];
 		}
 		
 		runeItemIndex = nbt.getByte("runeIndex");

@@ -3,12 +3,11 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
+import chylex.hee.system.util.NBTUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
 public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
@@ -70,11 +69,7 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		
-		NBTTagList nbtEffList = new NBTTagList();
-		for(PotionEffect eff:effects)nbtEffList.appendTag(eff.writeCustomPotionEffectToNBT(new NBTTagCompound()));
-		nbt.setTag("spawnEffects",nbtEffList);
-		
+		NBTUtil.writeList(nbt,"spawnEffects",effects.stream().map(eff -> eff.writeCustomPotionEffectToNBT(new NBTTagCompound())));
 		nbt.setInteger("minY",minY);
 		nbt.setInteger("maxY",maxY);
 	}
@@ -82,10 +77,7 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
-		
-		NBTTagList nbtEffList = nbt.getTagList("spawnEffects",Constants.NBT.TAG_COMPOUND);
-		for(int a = 0; a < nbtEffList.tagCount(); a++)effects.add(PotionEffect.readCustomPotionEffectFromNBT(nbtEffList.getCompoundTagAt(a)));
-		
+		NBTUtil.readCompoundList(nbt,"spawnEffects").forEach(tag -> effects.add(PotionEffect.readCustomPotionEffectFromNBT(tag)));
 		minY = nbt.getInteger("minY");
 		maxY = nbt.getInteger("maxY");
 	}

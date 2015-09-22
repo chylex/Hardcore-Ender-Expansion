@@ -11,8 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.Constants.NBT;
+import org.apache.commons.lang3.EnumUtils;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.enhancements.SlotList.SlotType;
@@ -24,6 +24,7 @@ import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
+import chylex.hee.system.util.NBTUtil;
 
 public final class EnhancementHandler{
 	private static final IdentityHashMap<Item, EnhancementData> itemMap = new IdentityHashMap<>(8);
@@ -96,20 +97,9 @@ public final class EnhancementHandler{
 		List<Enum> enhancements = new ArrayList<>();
 		
 		if (!is.hasTagCompound() || !canEnhanceItem(is.getItem()))return enhancements;
-		NBTTagList list = is.getTagCompound().getTagList("HEE_enhancements",Constants.NBT.TAG_STRING);
+		
 		EnhancementData enhancementData = itemMap.get(is.getItem());
-		
-		for(int a = 0; a < list.tagCount(); a++){
-			String name = list.getStringTagAt(a);
-			
-			for(Enum e:enhancementData.valuesEnum){
-				if (e.name().equals(name)){
-					enhancements.add(e);
-					break;
-				}
-			}
-		}
-		
+		NBTUtil.readStringList(is.getTagCompound(),"HEE_enhancements").map(name -> EnumUtils.getEnum(enhancementData.clsEnum,name)).filter(ele -> ele != null).forEach(enhancements::add);
 		return enhancements;
 	}
 	
