@@ -112,7 +112,7 @@ public final class LaboratoryGenerator{
 							ele.connected[Direction.rotateOpposite[dir]] = false;
 							break;
 						}
-						else{						
+						else{
 							xx += offX;
 							zz += offZ;
 						}

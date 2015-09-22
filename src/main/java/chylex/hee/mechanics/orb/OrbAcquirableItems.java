@@ -76,7 +76,7 @@ public final class OrbAcquirableItems{
 					for(ItemStack item:(List<ItemStack>)((ShapelessRecipes)recipe).recipeItems)addItemToList(item,25-recipe.getRecipeSize()*2);
 				}
 				else if (cls == ShapedOreRecipe.class){
-					ShapedOreRecipe shaped = (ShapedOreRecipe)recipe;					
+					ShapedOreRecipe shaped = (ShapedOreRecipe)recipe;
 					int amt = DragonUtil.getNonNullValues(shaped.getInput()).length;
 					
 					addItemToList(shaped.getRecipeOutput(),20-amt*2);
@@ -91,7 +91,7 @@ public final class OrbAcquirableItems{
 						}
 					}
 				}
-				else if (cls == ShapelessOreRecipe.class){					
+				else if (cls == ShapelessOreRecipe.class){
 					int amt = recipe.getRecipeSize();
 					
 					addItemToList(recipe.getRecipeOutput(),23-amt*2);

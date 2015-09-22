@@ -91,7 +91,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 		GemData gemData = new GemData();
 		gemData.set(is.getTagCompound());
 		
-		if (gemData.isLinked() && entity.dimension == gemData.dim){		
+		if (gemData.isLinked() && entity.dimension == gemData.dim){
 			int itemDamage = is.getItemDamage();
 			if (itemDamage >= is.getMaxDamage())return is;
 			
@@ -171,7 +171,7 @@ public class ItemTransferenceGem extends ItemAbstractEnergyAcceptor{
 		return percBroken > 0.56F ? 1 : 0;
 	}
 	
-	private static class GemData{		
+	private static class GemData{
 		private int dim, x, y, z;
 		
 		private void set(NBTTagCompound nbt){

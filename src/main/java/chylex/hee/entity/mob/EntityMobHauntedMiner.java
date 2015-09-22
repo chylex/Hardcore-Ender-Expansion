@@ -131,7 +131,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 				}
 			}
 		}
-		else{			
+		else{
 			targetX = target.posX;
 			targetZ = target.posZ;
 			targetY = target.posY+2D;

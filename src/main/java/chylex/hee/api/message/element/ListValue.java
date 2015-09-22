@@ -30,7 +30,7 @@ public class ListValue<T> extends Precondition<List<T>>{
 	}
 
 	@Override
-	public boolean checkValue(NBTBase tag){		
+	public boolean checkValue(NBTBase tag){
 		for(NBTBase element:(List<NBTBase>)((NBTTagList)tag).tagList){
 			if (!condition.checkType(element) || !condition.checkValue(element))return false;
 		}

@@ -331,7 +331,7 @@ public final class FXHandler{
 					for(int y = (int)Math.min(y1,y2); y <= Math.max(y1,y2); y++){
 						for(int z = (int)Math.min(z1,z2); z <= Math.max(z1,z2); z++){
 							fx.corruptedEnergy(x,y,z);
-						}						
+						}
 					}
 				}
 				

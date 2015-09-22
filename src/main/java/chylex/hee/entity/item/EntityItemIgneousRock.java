@@ -107,7 +107,7 @@ public class EntityItemIgneousRock extends EntityItem{
 		int ix = MathUtil.floor(posX), iy = MathUtil.floor(posY), iz = MathUtil.floor(posZ);
 		
 		if (rand.nextInt(6) == 0 && worldObj.getBlock(ix,iy,iz).getMaterial() == Material.water){
-			HardcoreEnderExpansion.fx.global("bubble",posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0.6D,0D);		
+			HardcoreEnderExpansion.fx.global("bubble",posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0.6D,0D);
 		}
 		
 		if (worldObj.getBlock(ix,iy-1,iz) == BlockList.dungeon_puzzle){

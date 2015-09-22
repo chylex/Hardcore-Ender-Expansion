@@ -80,7 +80,7 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		// run
 		boolean didHurt = false;
 		
-		for(EntityLivingBase target:attacked){			
+		for(EntityLivingBase target:attacked){
 			if (target.attackEntityFrom(isMelee ? DamageSource.causePlayerDamage(player) : new EntityDamageSourceIndirect("player",projectile,player),magic ? damage*0.8F : damage)){
 				if (knockback > 0){
 					double motX = isMelee ? -MathHelper.sin(MathUtil.toRad(player.rotationYaw)) : projectile.motionX;

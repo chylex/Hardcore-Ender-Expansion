@@ -184,7 +184,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 							tempY = explosionY;
 							tempZ = explosionZ;
 
-							for(float mp = 0.3F; affectedDistance > 0F; affectedDistance -= mp*0.75F){								
+							for(float mp = 0.3F; affectedDistance > 0F; affectedDistance -= mp*0.75F){
 								testPos.set(tempX,tempY,tempZ);
 								Block block = testPos.getBlock(worldObj);
 

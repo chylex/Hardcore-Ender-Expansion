@@ -59,7 +59,7 @@ public class BlockDeathFlower extends BlockFlower{
 							EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(world);
 							enderman.setCanDespawn(false);
 							enderman.setPosition(tmpPos.x+rand.nextFloat(),tmpPos.y+0.01F,tmpPos.z+rand.nextFloat());
-							world.spawnEntityInWorld(enderman);							
+							world.spawnEntityInWorld(enderman);
 							break;
 						}
 					}
@@ -116,7 +116,7 @@ public class BlockDeathFlower extends BlockFlower{
 								EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(world);
 								enderman.setPosition(tmpPos.x+rand.nextFloat(),tmpPos.y+0.01F,tmpPos.z+rand.nextFloat());
 								enderman.setCanDespawn(false);
-								world.spawnEntityInWorld(enderman);								
+								world.spawnEntityInWorld(enderman);
 								break;
 							}
 						}

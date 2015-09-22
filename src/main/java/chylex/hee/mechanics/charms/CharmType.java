@@ -138,7 +138,7 @@ public enum CharmType{
 	
 	/*VOID_RESCUE(16, 0, new CharmRecipe[]{
 		new CharmRecipe(15).rune(DEFENSE).rune(VOID,3).prop("voidrescue",30),
-		new CharmRecipe(16).rune(DEFENSE,2).rune(VOID,3).prop("voidrescue",20)		
+		new CharmRecipe(16).rune(DEFENSE,2).rune(VOID,3).prop("voidrescue",20)
 	}, ""),*/
 	
 	SLAUGHTER_IMPACT(15, 12, new CharmRecipe[]{

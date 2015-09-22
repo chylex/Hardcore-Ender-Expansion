@@ -43,7 +43,7 @@ public final class BiomeInteractionsInfestedForest{
 						attempt = 33;
 						y = yy+1;
 						break;
-					}					
+					}
 				}
 			}
 		}
@@ -82,7 +82,7 @@ public final class BiomeInteractionsInfestedForest{
 								y = yy+1;
 								z = zz;
 								break;
-							}					
+							}
 						}
 					}
 				}

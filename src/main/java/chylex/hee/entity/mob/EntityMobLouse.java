@@ -107,7 +107,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 			}
 		}
 		
-		if (armorCapacity > 0){			
+		if (armorCapacity > 0){
 			if (armorRegenTimer > 0)--armorRegenTimer;
 			else if (armor < armorCapacity){
 				if (++armor >= armorCapacity)armor = armorCapacity;

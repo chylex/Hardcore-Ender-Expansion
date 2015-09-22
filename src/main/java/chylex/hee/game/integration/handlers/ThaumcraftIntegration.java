@@ -4,6 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import thaumcraft.api.ThaumcraftApi.EntityTagsNBT;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 import chylex.hee.block.BlockCrossedDecoration;
 import chylex.hee.block.BlockEndstoneTerrain;
 import chylex.hee.block.BlockRavagedBrick;
@@ -12,9 +15,6 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
-import thaumcraft.api.ThaumcraftApi.EntityTagsNBT;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 
 public class ThaumcraftIntegration implements IIntegrationHandler{
 	@Override
@@ -70,7 +70,7 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(block(BlockList.death_flower), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14), new AspectList().add(Aspect.DEATH,1).add(Aspect.ENTROPY,1).add(Aspect.PLANT,1));
 		registerObjectTag(block(BlockList.death_flower), meta(15), new AspectList().add(Aspect.DEATH,6).add(Aspect.ENTROPY,3).add(Aspect.SENSES,1).add(Aspect.PLANT,1));
 		
-		registerObjectTag(block(BlockList.custom_spawner), meta(0), new AspectList().add(Aspect.BEAST,4).add(Aspect.DEATH,1).add(Aspect.MAGIC,4).add(Aspect.TRAVEL,4));			
+		registerObjectTag(block(BlockList.custom_spawner), meta(0), new AspectList().add(Aspect.BEAST,4).add(Aspect.DEATH,1).add(Aspect.MAGIC,4).add(Aspect.TRAVEL,4));
 		registerObjectTag(block(BlockList.custom_spawner), meta(1), new AspectList().add(Aspect.BEAST,2).add(Aspect.DEATH,2).add(Aspect.EARTH,1).add(Aspect.MAGIC,4).add(Aspect.TRAVEL,4));
 		
 		registerObjectTag(block(BlockList.endium_ore), meta(0), new AspectList().add(Aspect.ELDRITCH,1).add(Aspect.METAL,2).add(Aspect.EARTH,1));

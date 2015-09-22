@@ -95,7 +95,7 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 			placeBlock(world,rand,IBlockPicker.basic(BlockList.end_portal_frame,Meta.endPortalFramePlain),mpos.x,y,mpos.z);
 		}
 		
-		// general		
+		// general
 		for(Facing4 facing:Facing4.list){
 			Facing4 perpendicular = facing.perpendicular();
 			int perX = perpendicular.getX(), perZ = perpendicular.getZ();

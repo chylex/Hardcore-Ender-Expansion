@@ -394,7 +394,7 @@ public class BlockTests{
 	}
 	
 	@UnitTest(runTime = RunTime.INGAME, trigger = testTrigger)
-	public void testBrewing(){		
+	public void testBrewing(){
 		Object[][] data = new Object[][]{
 			new Object[]{ 0, new ItemStack(Items.potionitem,1,16) },
 			new Object[]{ 0, new ItemStack(Items.potionitem,1,8194) },

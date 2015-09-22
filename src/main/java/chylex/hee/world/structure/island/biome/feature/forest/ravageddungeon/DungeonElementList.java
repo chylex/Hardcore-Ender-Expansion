@@ -19,7 +19,7 @@ public final class DungeonElementList{
 	}
 	
 	public void add(DungeonElement element){
-		if (locReference[element.x+element.y*width] != null)remove(locReference[element.x+element.y*width]);		
+		if (locReference[element.x+element.y*width] != null)remove(locReference[element.x+element.y*width]);
 		data.get(element.type).add(element);
 		locReference[element.x+element.y*width] = element;
 	}

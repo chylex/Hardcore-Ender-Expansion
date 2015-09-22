@@ -92,7 +92,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	}
 	
 	@Override
-	public void onLivingUpdate(){		
+	public void onLivingUpdate(){
 		if (isWet()){
 			attackEntityFrom(DamageSource.drown,1F);
 		}

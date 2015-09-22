@@ -227,7 +227,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 		boolean isLR;
 		
 		switch(design){
-			case DESTROYED_WALLS:				
+			case DESTROYED_WALLS:
 				for(int attempt = 0, attempts = 80+rand.nextInt(40+rand.nextInt(30)), xx, yy, zz; attempt < attempts; attempt++){
 					xx = x+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);
 					zz = z+rand.nextInt(radHallway+1)-rand.nextInt(radHallway+1);

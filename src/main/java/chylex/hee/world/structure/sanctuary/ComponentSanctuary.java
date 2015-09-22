@@ -75,7 +75,7 @@ public class ComponentSanctuary extends ComponentLargeStructureWorld implements 
 			}
 		}
 		
-		// rooms		
+		// rooms
 		for(int floor = 0; floor < 2; floor++){
 			int startY = bottom+1+floor*(floorHeight-1);
 			

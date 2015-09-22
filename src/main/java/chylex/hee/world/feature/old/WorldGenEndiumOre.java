@@ -2,7 +2,7 @@ package chylex.hee.world.feature.old;
 /* TODO
 public class WorldGenEndiumOre extends WorldGenerator{
 	@Override
-	public boolean generate(World world, Random rand, int x, int y, int z){		
+	public boolean generate(World world, Random rand, int x, int y, int z){
 		if (BlockPosM.tmp(x,y,z).getBlock(world) != Blocks.end_stone)return false;
 		
 		BlockPosM pos = new BlockPosM(x,y,z), tmpPos = BlockPosM.tmp();
