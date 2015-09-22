@@ -19,7 +19,6 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
-import chylex.hee.mechanics.misc.PlayerDataHandler;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.FXCommonProxy;
 import chylex.hee.proxy.ModCommonProxy;
@@ -117,7 +116,6 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("PreInitEvent - events");
 		
 		MinecraftForge.EVENT_BUS.register(new MiscEvents());
-		PlayerDataHandler.register();
 		// TODO CompendiumEvents.register();
 		// TODO CharmPouchHandler.register();
 		SaveData.register();
