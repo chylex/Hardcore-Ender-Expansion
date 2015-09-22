@@ -142,7 +142,8 @@ public class EntityItemInstabilityOrb extends EntityItem{
 		
 		return super.attackEntityFrom(source,amount);
 	}
-	
+
+	@Deprecated
 	public static final class ExplosionOrb extends Explosion{
 		private final World worldObj;
 		private final int dist = 16;

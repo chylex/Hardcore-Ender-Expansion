@@ -145,6 +145,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		wentIntoWall = nbt.getBoolean("wentIntoWall");
 	}
 	
+	@Deprecated
 	private static final class EnhancedTNTExplosion extends Explosion{
 		private final World worldObj;
 		private final int dist = 16;

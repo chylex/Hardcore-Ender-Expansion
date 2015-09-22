@@ -37,6 +37,7 @@ public class EntityProjectileGolemFireball extends EntityLargeFireball{
 		}
 	}
 	
+	@Deprecated
 	static class FieryExplosion extends Explosion{
 		private final World world;
 		
