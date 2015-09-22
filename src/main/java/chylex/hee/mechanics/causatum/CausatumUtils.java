@@ -3,7 +3,7 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.CausatumFile;
+import chylex.hee.game.save.types.global.CausatumFile;
 
 public class CausatumUtils{
 	public static void increase(DamageSource source, CausatumMeters meter, float amount){

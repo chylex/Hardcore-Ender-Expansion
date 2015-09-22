@@ -1,4 +1,4 @@
-package chylex.hee.game.save.types;
+package chylex.hee.game.save.types.global;
 import gnu.trove.iterator.TObjectFloatIterator;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import java.util.HashMap;

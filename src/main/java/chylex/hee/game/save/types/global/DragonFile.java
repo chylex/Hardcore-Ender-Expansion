@@ -1,4 +1,4 @@
-package chylex.hee.game.save.types;
+package chylex.hee.game.save.types.global;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.ChunkCoordIntPair;
 import chylex.hee.game.save.SaveFile;

@@ -18,7 +18,7 @@ import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.CausatumFile;
+import chylex.hee.game.save.types.global.CausatumFile;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;

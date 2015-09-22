@@ -1,4 +1,4 @@
-package chylex.hee.game.save.types;
+package chylex.hee.game.save.types.global;
 import gnu.trove.iterator.TByteObjectIterator;
 import gnu.trove.iterator.TLongObjectIterator;
 import gnu.trove.map.hash.TByteObjectHashMap;

@@ -1,4 +1,4 @@
-package chylex.hee.game.save.types;
+package chylex.hee.game.save.types.global;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.nbt.NBTTagCompound;

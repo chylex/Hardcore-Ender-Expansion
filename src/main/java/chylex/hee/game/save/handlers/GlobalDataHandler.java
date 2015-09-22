@@ -7,7 +7,7 @@ import chylex.hee.game.save.ISaveDataHandler;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.SaveFile;
 
-public final class GlobalDataHandler implements ISaveDataHandler<Class<? extends SaveFile>>{
+public final class GlobalDataHandler implements ISaveDataHandler{
 	private final Map<Class<? extends SaveFile>,SaveFile> cache = new IdentityHashMap<>();
 	private File root;
 	
@@ -20,8 +20,7 @@ public final class GlobalDataHandler implements ISaveDataHandler<Class<? extends
 		this.root = root;
 	}
 	
-	@Override
-	public <T extends SaveFile> T get(Class<? extends SaveFile> cls){
+	public <T extends SaveFile> T get(Class<T> cls){
 		SaveFile savefile = cache.get(cls);
 		
 		if (savefile == null){

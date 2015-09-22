@@ -3,14 +3,14 @@ import java.io.File;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class SaveFile{
-	private final String filename;
+	protected final String filename;
 	private boolean wasModified = false;
 	
 	public SaveFile(String filename){
 		this.filename = filename;
 	}
 	
-	public final File getFile(File root){
+	public File getFile(File root){
 		return new File(root,filename);
 	}
 	

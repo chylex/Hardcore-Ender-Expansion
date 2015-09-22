@@ -23,12 +23,12 @@ public final class SaveData{
 		for(ISaveDataHandler handler:instance.handlers)handler.register();
 	}
 	
-	public static <T extends SaveFile> T global(Class<? extends SaveFile> cls){
+	public static <T extends SaveFile> T global(Class<T> cls){
 		return instance.global.get(cls);
 	}
 	
-	public static PlayerFile player(EntityPlayer player){
-		return instance.player.get(player);
+	public static <T extends PlayerFile> T player(EntityPlayer player, Class<T> cls){
+		return instance.player.get(player,cls);
 	}
 	
 	private final GlobalDataHandler global;

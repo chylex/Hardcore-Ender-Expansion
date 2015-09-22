@@ -49,7 +49,7 @@ import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.commands.DebugBoard;
 import chylex.hee.game.commands.HeeDebugCommand;
 import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.DragonFile;
+import chylex.hee.game.save.types.global.DragonFile;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.causatum.CausatumMeters;
 import chylex.hee.mechanics.causatum.CausatumUtils;

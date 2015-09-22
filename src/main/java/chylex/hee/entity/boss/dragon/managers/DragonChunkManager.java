@@ -14,7 +14,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.DragonFile;
+import chylex.hee.game.save.types.global.DragonFile;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
