@@ -683,7 +683,7 @@ public final class KnowledgeRegistrations{
 		
 		// ===
 		
-		KnowledgeCategories.BIOME_ISLANDS.addKnowledgeObjects(new KnowledgeObject[]{	
+		KnowledgeCategories.BIOME_ISLANDS.addKnowledgeObjects(new KnowledgeObject[]{
 			BIOME_ISLANDS.setCategoryObject(KnowledgeCategories.BIOME_ISLANDS).setUnlockPrice(50).setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(720).setPrice(7),
 				new KnowledgeFragmentText(721).setPrice(4).setUnlockRequirements(720),

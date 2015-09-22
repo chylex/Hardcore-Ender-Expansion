@@ -87,7 +87,7 @@ public class ItemMusicDisk extends ItemRecord{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){	
+	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
 		textLines.add("qwertygiy - "+musicNames.get(MathUtil.clamp(is.getItemDamage(),0,musicNames.size()-1))[0]);
 	}
 	

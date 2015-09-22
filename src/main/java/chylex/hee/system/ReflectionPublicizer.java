@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 
-public final class ReflectionPublicizer{	
+public final class ReflectionPublicizer{
 	public static Method entityLivingBaseGetExperiencePoints;
 
 	public static void load(){

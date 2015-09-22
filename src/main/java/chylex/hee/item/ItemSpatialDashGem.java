@@ -10,7 +10,7 @@ import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{	
+public class ItemSpatialDashGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	public int getEnergyAccepted(ItemStack is){
 		return 2;

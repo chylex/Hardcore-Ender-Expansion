@@ -20,7 +20,7 @@ import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemCharmPouch extends Item{	
+public class ItemCharmPouch extends Item{
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
 		if (ItemUtil.getTagRoot(is,false).getBoolean("isPouchActive") && entity instanceof EntityPlayer){

@@ -136,7 +136,7 @@ public class HeeDebugCommand extends BaseCommand{
 				ClassPath path = ClassPath.from(HeeDebugCommand.class.getClassLoader());
 				
 				for(ClassInfo clsInfo:path.getAllClasses()){
-					if (clsInfo.getSimpleName().equals(args[1]) && clsInfo.getPackageName().startsWith("chylex.hee")){	
+					if (clsInfo.getSimpleName().equals(args[1]) && clsInfo.getPackageName().startsWith("chylex.hee")){
 						HeeTest test = (HeeTest)clsInfo.load().getField("$debugTest").get(null);
 						test.player = (EntityPlayer)sender;
 						test.world = test.player.worldObj;

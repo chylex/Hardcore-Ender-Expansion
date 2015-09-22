@@ -54,7 +54,7 @@ public class BiomeDecoratorEnchantedIsland extends IslandBiomeDecorator{
 		
 		// OBSIDIAN PILES
 		for(int cx = 0; cx < world.getChunkAmountX(); cx++){
-			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){	
+			for(int cz = 0; cz < world.getChunkAmountZ(); cz++){
 				if (rand.nextInt(5) <= 2){
 					int height = rand.nextInt(14)+(data.hasDeviation(IslandBiomeEnchantedIsland.TALL_PILES) ? 6+rand.nextInt(12) : 4);
 					int radius = rand.nextInt(2)+1;

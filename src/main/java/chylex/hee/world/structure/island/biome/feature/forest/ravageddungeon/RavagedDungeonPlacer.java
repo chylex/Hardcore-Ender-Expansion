@@ -403,7 +403,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 						for(int a = -1; a <= 1; a++){
 							for(int yy = y+1; yy <= y+hallHeight; yy++){
 								if (canReplaceBlock(world.getBlock(x+rotX(dir,a,3),yy,z+rotZ(dir,a,3))))world.setBlock(x+rotX(dir,a,3),yy,z+rotZ(dir,a,3),BlockList.ravaged_brick,getBrickMeta(rand));
-							}	
+							}
 						}
 					}
 				}

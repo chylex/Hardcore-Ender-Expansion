@@ -1,6 +1,6 @@
 package chylex.hee.mechanics.causatum;
 
-public final class CausatumData{	
+public final class CausatumData{
 	public enum Actions{
 		;
 		

@@ -31,7 +31,7 @@ import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
 
-public class EntityItemInstabilityOrb extends EntityItem{	
+public class EntityItemInstabilityOrb extends EntityItem{
 	public EntityItemInstabilityOrb(World world){
 		super(world);
 	}

@@ -8,7 +8,7 @@ import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class C21EffectEntity extends AbstractClientPacket{	
+public class C21EffectEntity extends AbstractClientPacket{
 	private FXType.Entity type;
 	private double x, y, z;
 	private float entityWidth, entityHeight;
