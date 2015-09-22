@@ -1,12 +1,17 @@
-package chylex.hee.game.savedata;
+package chylex.hee.game.save;
+import java.io.File;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class WorldSavefile{
-	public final String filename;
+public abstract class SaveFile{
+	private final String filename;
 	private boolean wasModified = false;
 	
-	public WorldSavefile(String filename){
+	public SaveFile(String filename){
 		this.filename = filename;
+	}
+	
+	public final File getFile(File root){
+		return new File(root,filename);
 	}
 	
 	protected void setModified(){

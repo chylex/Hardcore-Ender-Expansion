@@ -11,7 +11,7 @@ import chylex.hee.game.commands.HeeBaconCommand;
 import chylex.hee.game.commands.HeeDebugCommand;
 import chylex.hee.game.creativetab.ModCreativeTab;
 import chylex.hee.game.integration.ModIntegrationManager;
-import chylex.hee.game.savedata.WorldDataHandler;
+import chylex.hee.game.save.SaveData;
 import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.EntityList;
@@ -120,7 +120,7 @@ public class HardcoreEnderExpansion{
 		PlayerDataHandler.register();
 		// TODO CompendiumEvents.register();
 		// TODO CharmPouchHandler.register();
-		WorldDataHandler.register();
+		SaveData.register();
 		// TODO CurseEvents.register();
 		// TODO CausatumEvents.register();
 		// TODO DragonChunkManager.register();
