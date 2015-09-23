@@ -92,7 +92,7 @@ public class Pos{
 	}
 	
 	public long toLong(){
-		return (x&(1L<<26)-1L)<<38|(y&(1L<<12)-1L)<<26|(z&(1L<<26)-1L);
+		return (getX()&(1L<<26)-1L)<<38|(getY()&(1L<<12)-1L)<<26|(getZ()&(1L<<26)-1L);
 	}
 	
 	public Pos immutable(){
