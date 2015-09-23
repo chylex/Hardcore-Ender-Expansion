@@ -2,21 +2,25 @@ package chylex.hee.system.abstractions;
 import gnu.trove.map.hash.TLongFloatHashMap;
 import io.netty.buffer.ByteBuf;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C01Explosion;
 import chylex.hee.system.abstractions.Pos.PosMutable;
@@ -120,15 +124,16 @@ public class Explosion{
 	}
 	
 	private void explode(boolean client){ // TODO profile
-		if (damageBlocks || spawnFire)handleBlocks(client);
 		if (damageEntities || knockEntities)handleEntities(client);
+		if (damageBlocks || spawnFire)handleBlocks(client);
 	}
 	
 	protected void handleBlocks(boolean client){
 		final net.minecraft.world.Explosion vanillaExplosion = new net.minecraft.world.Explosion(world,explodingEntity,x,y,z,radius);
 		
-		HashSet<Pos> affected = new HashSet<>(150);
-		PosMutable mpos = new PosMutable();
+		Map<Pos,Block> affected = new HashMap<>(client ? 400 : 150);
+		PosMutable mpos = new PosMutable(), prevPos = new PosMutable();
+		float prevResist = 0F;
 		double tempX, tempY, tempZ;
 		
 		for(Vec3 vec:iterationPoints){
@@ -138,15 +143,25 @@ public class Explosion{
 			tempZ = z;
 
 			for(float mp = 0.3F; affectedDistance > 0F; affectedDistance -= mp*0.75F){
-				Block block = mpos.set(tempX,tempY,tempZ).getBlock(world);
+				mpos.set(tempX,tempY,tempZ);
 				
-				if (block.getMaterial() != Material.air){
-					float resistance = block.getExplosionResistance(cause,world,mpos.x,mpos.y,mpos.z,x,y,z);
-					affectedDistance -= (resistance+0.3F)*mp;
+				if (prevPos.equals(mpos)){
+					affectedDistance -= (prevResist+0.3F)*mp;
+				}
+				else{
+					Block block = mpos.getBlock(world);
+					
+					if (block.getMaterial() != Material.air){
+						float resistance = block.getExplosionResistance(explodingEntity,world,mpos.x,mpos.y,mpos.z,x,y,z);
+						affectedDistance -= (resistance+0.3F)*mp;
+						
+						prevPos.set(mpos);
+						prevResist = resistance;
+					}
+					
+					if (affectedDistance > 0F && (block.getMaterial() != Material.air || client))affected.put(mpos.immutable(),block);
 				}
 				
-				if (affectedDistance > 0F)affected.add(mpos.immutable()); // TODO is air needed?
-
 				tempX += vec.xCoord*mp;
 				tempY += vec.yCoord*mp;
 				tempZ += vec.zCoord*mp;
@@ -154,22 +169,28 @@ public class Explosion{
 		}
 
 		if (client){
-			world.playSoundEffect(x,y,z,"random.explode",4F,(1F+(world.rand.nextFloat()-world.rand.nextFloat())*0.2F)*0.7F);
+			world.playSound(x,y,z,"random.explode",4F,(1F+(world.rand.nextFloat()-0.5F)*0.4F)*0.7F,true);
 			
 			if (radius >= 2F && damageBlocks)world.spawnParticle("hugeexplosion",x,y,z,1D,0D,0D);
 			else world.spawnParticle("largeexplode",x,y,z,1D,0D,0D);
 		}
 		
 		if (damageBlocks){
+			int nearbyTNT = client ? world.getEntitiesWithinAABB(EntityTNTPrimed.class,AxisAlignedBB.getBoundingBox(x,y,z,x,y,z).expand(16D,16D,16D)).size() : 0;
+			
 			float dropChance = 1F/radius;
 			
-			for(Pos pos:affected){
-				if (client){
+			for(Entry<Pos,Block> entry:affected.entrySet()){
+				Pos pos = entry.getKey();
+				Block block = entry.getValue();
+				
+				if (client && world.rand.nextInt(3) == 0 && (nearbyTNT <= 1 || world.rand.nextInt(1+(nearbyTNT>>1)) == 0)){
 					double partX = pos.getX()+world.rand.nextFloat();
 					double partY = pos.getY()+world.rand.nextFloat();
 					double partZ = pos.getZ()+world.rand.nextFloat();
 					double diffX = partX-x, diffY = partY-y, diffZ = partZ-z;
 					double dist = MathUtil.distance(diffX,diffY,diffZ);
+					
 					diffX /= dist;
 					diffY /= dist;
 					diffZ /= dist;
@@ -177,13 +198,13 @@ public class Explosion{
 					diffX *= mp;
 					diffY *= mp;
 					diffZ *= mp;
-					world.spawnParticle("explode",(partX+x)/2D,(partY+y)/2D,(partZ+z)/2D,diffX,diffY,diffZ);
-					world.spawnParticle("smoke",partX,partY,partZ,diffX,diffY,diffZ);
+					
+					HardcoreEnderExpansion.fx.setOmnipresent();
+					HardcoreEnderExpansion.fx.global("explosion",(partX+x)/2D,(partY+y)/2D,(partZ+z)/2D,diffX,diffY,diffZ);
+					HardcoreEnderExpansion.fx.global("smoke",partX,partY,partZ,diffX,diffY,diffZ);
 				}
 				
-				Block block = pos.getBlock(world);
-				
-				if (block.getMaterial() != Material.air){
+				if (!client || block.getMaterial() != Material.air){
 					if (block.canDropFromExplosion(vanillaExplosion) && !client){
 						block.dropBlockAsItemWithChance(world,pos.getX(),pos.getY(),pos.getZ(),pos.getMetadata(world),dropChance,0);
 					}
@@ -194,9 +215,9 @@ public class Explosion{
 		}
 		
 		if (spawnFire){
-			for(Pos pos:affected){
-				if (pos.isAir(world) && pos.getDown().getBlock(world).func_149730_j() && calcRand.nextInt(3) == 0){ // OBFUSCATED isOpaque
-					pos.setBlock(world,Blocks.fire);
+			for(Entry<Pos,Block> entry:affected.entrySet()){
+				if (entry.getValue().func_149730_j() && entry.getKey().getUp().isAir(world) && calcRand.nextInt(3) == 0){ // OBFUSCATED isOpaque
+					entry.getKey().setBlock(world,Blocks.fire);
 				}
 			}
 		}

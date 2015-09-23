@@ -257,6 +257,10 @@ public class Pos{
 		else return super.equals(obj);
 	}
 	
+	public boolean equals(Pos pos){
+		return pos.getX() == getX() && pos.getY() == getY() && pos.getZ() == getZ();
+	}
+	
 	@Override
 	public int hashCode(){
 		return (getY()+getZ()*31)*31+getX();
