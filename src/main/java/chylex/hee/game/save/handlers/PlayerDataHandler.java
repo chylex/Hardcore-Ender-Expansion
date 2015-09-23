@@ -82,7 +82,9 @@ public class PlayerDataHandler implements ISaveDataHandler{
 		private String id;
 		
 		@Override
-		public void init(Entity entity, World world){}
+		public void init(Entity entity, World world){
+			id = UUID.randomUUID().toString().replace("-","");
+		}
 		
 		@Override
 		public void saveNBTData(NBTTagCompound nbt){
@@ -92,7 +94,6 @@ public class PlayerDataHandler implements ISaveDataHandler{
 		@Override
 		public void loadNBTData(NBTTagCompound nbt){
 			if (nbt.hasKey("HEE2_PID"))id = nbt.getString("HEE2_PID");
-			else id = UUID.randomUUID().toString().replace("-","");
 		}
 	}
 }
