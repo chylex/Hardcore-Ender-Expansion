@@ -1,4 +1,4 @@
-package chylex.hee.system;
+package chylex.hee.game;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -45,6 +45,7 @@ public final class ModTransition{
 		discard.add(id+"adventurers_diary");
 		discard.add(id+"altar_nexus");
 		discard.add(id+"temple_caller");
+		discard.add(id+"void_chest");
 		
 		e.get().stream().filter(mapping -> discard.contains(mapping.name)).forEach(MissingMapping::ignore);
 	}
