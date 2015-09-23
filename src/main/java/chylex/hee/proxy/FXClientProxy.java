@@ -24,6 +24,7 @@ import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public class FXClientProxy extends FXCommonProxy{
 	private static double renderDist = 64D;
+	private static boolean noClip = false;
 	private static boolean enableLimiter = false;
 	private static byte amountCheck = 0;
 	private static int particleAmount = 0, particleLimiter = 0;
@@ -34,18 +35,22 @@ public class FXClientProxy extends FXCommonProxy{
 	
 	public static void spawn(EntityFX fx){
 		Minecraft mc = Minecraft.getMinecraft();
+		if (mc.renderViewEntity == null)return;
 		
 		if (renderDist == -1 || MathUtil.distanceSquared(mc.renderViewEntity.posX-fx.posX,mc.renderViewEntity.posY-fx.posY,mc.renderViewEntity.posZ-fx.posZ) <= renderDist*renderDist){
-			if (++amountCheck >= 100){
-				amountCheck = 0;
-				particleAmount = Integer.parseInt(mc.effectRenderer.getStatistics());
+			if (enableLimiter){
+				if (++amountCheck >= 100){
+					amountCheck = 0;
+					particleAmount = Integer.parseInt(mc.effectRenderer.getStatistics());
+				}
+				
+				if (particleAmount > 600){
+					if (++particleLimiter < (particleAmount>>5))return;
+					particleLimiter = 0;
+				}
 			}
 			
-			if (particleAmount > 400){
-				if (++particleLimiter < (particleAmount>>3))return;
-				particleLimiter = 0;
-			}
-			
+			if (noClip)fx.noClip = true;
 			mc.effectRenderer.addEffect(fx);
 		}
 	}
@@ -58,6 +63,7 @@ public class FXClientProxy extends FXCommonProxy{
 	public FXCommonProxy reset(){
 		renderDist = 64D;
 		enableLimiter = false;
+		noClip = false;
 		return this;
 	}
 	
@@ -79,6 +85,12 @@ public class FXClientProxy extends FXCommonProxy{
 		return this;
 	}
 	
+	@Override
+	public FXCommonProxy setNoClip(){
+		noClip = true;
+		return super.setNoClip();
+	}
+	
 	/*
 	 * GENERIC
 	 */
@@ -93,6 +105,8 @@ public class FXClientProxy extends FXCommonProxy{
 			case "bubble": spawn(new EntityCustomBubbleFX(world(),x,y,z,motionX,motionY,motionZ)); break;
 			case "flame": spawn(new EntityFlameFX(world(),x,y,z,motionX,motionY,motionZ)); break;
 			case "explosion": spawn(new EntityExplodeFX(world(),x,y,z,motionX,motionY,motionZ)); break;
+			case "largeexplosion": spawn(new EntityLargeExplodeFX(Minecraft.getMinecraft().renderEngine,world(),x,y,z,motionX,motionY,motionZ)); break;
+			case "hugeexplosion": spawn(new EntityHugeExplodeFX(world(),x,y,z,motionX,motionY,motionZ)); break;
 			case "lava": spawn(new EntityLavaFX(world(),x,y,z)); break;
 			
 			case "magiccrit":

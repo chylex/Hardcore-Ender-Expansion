@@ -1,6 +1,7 @@
 package chylex.hee.system.abstractions;
 import gnu.trove.map.hash.TLongFloatHashMap;
 import io.netty.buffer.ByteBuf;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -17,8 +18,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C01Explosion;
@@ -29,7 +32,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class Explosion{
-	private static long lastSoundTick;
+	private static long lastSoundTick, lastRunTick;
 	
 	private static final byte precision = 16;
 	private static final Set<Vec3> iterationPoints;
@@ -121,10 +124,15 @@ public class Explosion{
 	
 	@SideOnly(Side.CLIENT)
 	public void triggerClient(){
-		explode(true);
+		long tick = world.getTotalWorldTime();
+		
+		if (tick > lastRunTick+2){
+			explode(true);
+			lastRunTick = tick;
+		}
 	}
 	
-	private void explode(boolean client){ // TODO profile
+	private void explode(boolean client){
 		if (damageEntities || knockEntities)handleEntities(client);
 		if (damageBlocks || spawnFire)handleBlocks(client);
 	}
@@ -170,6 +178,9 @@ public class Explosion{
 		}
 
 		if (client){
+			HardcoreEnderExpansion.fx.setOmnipresent();
+			HardcoreEnderExpansion.fx.setNoClip();
+			
 			long tick = world.getTotalWorldTime();
 			
 			if (tick > lastSoundTick+2){
@@ -177,23 +188,21 @@ public class Explosion{
 				lastSoundTick = tick;
 			}
 			
-			if (radius >= 2F && damageBlocks)world.spawnParticle("hugeexplosion",x,y,z,1D,0D,0D);
-			else world.spawnParticle("largeexplode",x,y,z,1D,0D,0D);
+			if (radius >= 2F && damageBlocks)HardcoreEnderExpansion.fx.global("hugeexplosion",x,y,z,1D,0D,0D);
+			else HardcoreEnderExpansion.fx.global("largeexplosion",x,y,z,1D,0D,0D);
+			
+
+			HardcoreEnderExpansion.fx.setLimiter();
 		}
 		
 		if (damageBlocks){
 			float dropChance = 1F/radius;
 			
-			if (client){
-				HardcoreEnderExpansion.fx.setOmnipresent();
-				HardcoreEnderExpansion.fx.setLimiter();
-			}
-			
 			for(Entry<Pos,Block> entry:affected.entrySet()){
 				Pos pos = entry.getKey();
 				Block block = entry.getValue();
 				
-				if (client && world.rand.nextInt(3) == 0){
+				if (client && world.rand.nextInt(5) <= 2){
 					double partX = pos.getX()+world.rand.nextFloat();
 					double partY = pos.getY()+world.rand.nextFloat();
 					double partZ = pos.getZ()+world.rand.nextFloat();
@@ -211,18 +220,13 @@ public class Explosion{
 					HardcoreEnderExpansion.fx.global("explosion",(partX+x)/2D,(partY+y)/2D,(partZ+z)/2D,diffX,diffY,diffZ);
 					HardcoreEnderExpansion.fx.global("smoke",partX,partY,partZ,diffX,diffY,diffZ);
 				}
-				
-				if (!client || block.getMaterial() != Material.air){
-					if (block.canDropFromExplosion(vanillaExplosion) && !client){
+				else if (!client){
+					if (block.canDropFromExplosion(vanillaExplosion) && world.loadedEntityList.size() < 1000){
 						block.dropBlockAsItemWithChance(world,pos.getX(),pos.getY(),pos.getZ(),pos.getMetadata(world),dropChance,0);
 					}
 					
 					block.onBlockExploded(world,pos.getX(),pos.getY(),pos.getZ(),vanillaExplosion);
 				}
-			}
-			
-			if (client){
-				HardcoreEnderExpansion.fx.reset();
 			}
 		}
 		
@@ -233,6 +237,10 @@ public class Explosion{
 				}
 			}
 		}
+			
+		if (client){
+			HardcoreEnderExpansion.fx.reset();
+		}
 	}
 	
 	protected void handleEntities(boolean client){
@@ -241,7 +249,7 @@ public class Explosion{
 		double tempX, tempY, tempZ, totalDist;
 		float doubleRadius = radius*2F;
 		
-		final List<Entity> entities = world.getEntitiesWithinAABB(Entity.class,AxisAlignedBB.getBoundingBox(x,y,z,x,y,z).expand(doubleRadius,doubleRadius,doubleRadius));
+		final List<Entity> entities = getEntitiesOptimized(world,AxisAlignedBB.getBoundingBox(x,y,z,x,y,z).expand(doubleRadius,doubleRadius,doubleRadius));
 		final Vec3 locationVec = Vec3.createVectorHelper(x,y,z);
 
 		for(Entity entity:entities){
@@ -275,5 +283,31 @@ public class Explosion{
 				}
 			}
 		}
+	}
+
+	private static List<Entity> getEntitiesOptimized(World world, AxisAlignedBB bb){
+		final List<Entity> list = new ArrayList<>();
+		final int cx1 = MathHelper.floor_double((bb.minX-World.MAX_ENTITY_RADIUS)*0.0625D); // 1/16
+		final int cx2 = MathHelper.floor_double((bb.maxX+World.MAX_ENTITY_RADIUS)*0.0625D);
+		final int cz1 = MathHelper.floor_double((bb.minZ-World.MAX_ENTITY_RADIUS)*0.0625D);
+		final int cz2 = MathHelper.floor_double((bb.maxZ+World.MAX_ENTITY_RADIUS)*0.0625D);
+		final int cy1 = MathHelper.floor_double((bb.minY+World.MAX_ENTITY_RADIUS)*0.0625D);
+		final int cy2 = MathHelper.floor_double((bb.maxY+World.MAX_ENTITY_RADIUS)*0.0625D);
+		
+		for(int x = cx1; x <= cx2; ++x){
+			for(int z = cz1; z <= cz2; ++z){
+				Chunk chunk = world.getChunkFromChunkCoords(x,z);
+				int testY1 = MathUtil.clamp(cy1,0,chunk.entityLists.length-1);
+				int testY2 = MathUtil.clamp(cy2,0,chunk.entityLists.length-1);
+				
+				for(int y = testY1; y <= testY2; ++y){
+					for(Entity entity:(List<Entity>)chunk.entityLists[y]){
+						if (entity.boundingBox.intersectsWith(bb))list.add(entity);
+					}
+				}
+			}
+		}
+
+		return list;
 	}
 }

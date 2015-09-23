@@ -14,6 +14,7 @@ public class FXCommonProxy{
 	public FXCommonProxy setRenderDist(double dist){ return this; }
 	public FXCommonProxy setOmnipresent(){ return this; }
 	public FXCommonProxy setLimiter(){ return this; }
+	public FXCommonProxy setNoClip(){ return this; }
 	
 	// GENERIC
 	public void global(String particleName, double x, double y, double z, double motionX, double motionY, double motionZ){}
