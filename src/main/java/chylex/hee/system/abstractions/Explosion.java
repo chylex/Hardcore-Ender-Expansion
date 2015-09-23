@@ -13,7 +13,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
@@ -30,6 +29,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class Explosion{
+	private static long lastSoundTick;
+	
 	private static final byte precision = 16;
 	private static final Set<Vec3> iterationPoints;
 	
@@ -169,22 +170,30 @@ public class Explosion{
 		}
 
 		if (client){
-			world.playSound(x,y,z,"random.explode",4F,(1F+(world.rand.nextFloat()-0.5F)*0.4F)*0.7F,true);
+			long tick = world.getTotalWorldTime();
+			
+			if (tick > lastSoundTick+2){
+				world.playSound(x,y,z,"random.explode",4F,(1F+(world.rand.nextFloat()-0.5F)*0.4F)*0.7F,true);
+				lastSoundTick = tick;
+			}
 			
 			if (radius >= 2F && damageBlocks)world.spawnParticle("hugeexplosion",x,y,z,1D,0D,0D);
 			else world.spawnParticle("largeexplode",x,y,z,1D,0D,0D);
 		}
 		
 		if (damageBlocks){
-			int nearbyTNT = client ? world.getEntitiesWithinAABB(EntityTNTPrimed.class,AxisAlignedBB.getBoundingBox(x,y,z,x,y,z).expand(16D,16D,16D)).size() : 0;
-			
 			float dropChance = 1F/radius;
+			
+			if (client){
+				HardcoreEnderExpansion.fx.setOmnipresent();
+				HardcoreEnderExpansion.fx.setLimiter();
+			}
 			
 			for(Entry<Pos,Block> entry:affected.entrySet()){
 				Pos pos = entry.getKey();
 				Block block = entry.getValue();
 				
-				if (client && world.rand.nextInt(3) == 0 && (nearbyTNT <= 1 || world.rand.nextInt(1+(nearbyTNT>>1)) == 0)){
+				if (client && world.rand.nextInt(3) == 0){
 					double partX = pos.getX()+world.rand.nextFloat();
 					double partY = pos.getY()+world.rand.nextFloat();
 					double partZ = pos.getZ()+world.rand.nextFloat();
@@ -199,7 +208,6 @@ public class Explosion{
 					diffY *= mp;
 					diffZ *= mp;
 					
-					HardcoreEnderExpansion.fx.setOmnipresent();
 					HardcoreEnderExpansion.fx.global("explosion",(partX+x)/2D,(partY+y)/2D,(partZ+z)/2D,diffX,diffY,diffZ);
 					HardcoreEnderExpansion.fx.global("smoke",partX,partY,partZ,diffX,diffY,diffZ);
 				}
@@ -211,6 +219,10 @@ public class Explosion{
 					
 					block.onBlockExploded(world,pos.getX(),pos.getY(),pos.getZ(),vanillaExplosion);
 				}
+			}
+			
+			if (client){
+				HardcoreEnderExpansion.fx.reset();
 			}
 		}
 		

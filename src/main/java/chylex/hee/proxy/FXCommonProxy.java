@@ -13,6 +13,7 @@ public class FXCommonProxy{
 	public FXCommonProxy reset(){ return this; }
 	public FXCommonProxy setRenderDist(double dist){ return this; }
 	public FXCommonProxy setOmnipresent(){ return this; }
+	public FXCommonProxy setLimiter(){ return this; }
 	
 	// GENERIC
 	public void global(String particleName, double x, double y, double z, double motionX, double motionY, double motionZ){}

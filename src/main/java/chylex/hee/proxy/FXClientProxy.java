@@ -24,6 +24,9 @@ import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public class FXClientProxy extends FXCommonProxy{
 	private static double renderDist = 64D;
+	private static boolean enableLimiter = false;
+	private static byte amountCheck = 0;
+	private static int particleAmount = 0, particleLimiter = 0;
 	
 	private static World world(){
 		return Minecraft.getMinecraft().theWorld;
@@ -33,6 +36,16 @@ public class FXClientProxy extends FXCommonProxy{
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		if (renderDist == -1 || MathUtil.distanceSquared(mc.renderViewEntity.posX-fx.posX,mc.renderViewEntity.posY-fx.posY,mc.renderViewEntity.posZ-fx.posZ) <= renderDist*renderDist){
+			if (++amountCheck >= 100){
+				amountCheck = 0;
+				particleAmount = Integer.parseInt(mc.effectRenderer.getStatistics());
+			}
+			
+			if (particleAmount > 400){
+				if (++particleLimiter < (particleAmount>>3))return;
+				particleLimiter = 0;
+			}
+			
 			mc.effectRenderer.addEffect(fx);
 		}
 	}
@@ -44,6 +57,7 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public FXCommonProxy reset(){
 		renderDist = 64D;
+		enableLimiter = false;
 		return this;
 	}
 	
@@ -56,6 +70,12 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public FXCommonProxy setOmnipresent(){
 		renderDist = -1;
+		return this;
+	}
+	
+	@Override
+	public FXCommonProxy setLimiter(){
+		enableLimiter = true;
 		return this;
 	}
 	
