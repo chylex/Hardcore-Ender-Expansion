@@ -1,6 +1,7 @@
 package chylex.hee.game.commands;
 import java.util.List;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
@@ -11,7 +12,9 @@ import net.minecraftforge.common.DimensionManager;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.test.UnitTest.RunTime;
@@ -173,6 +176,9 @@ public class HeeDebugCommand extends BaseCommand{
 		else if (args[0].equalsIgnoreCase("tmp") && sender instanceof EntityPlayer){
 			EntityPlayer player = (EntityPlayer)sender;
 			// tmp command
+			player.worldObj.loadedEntityList.stream().filter(e -> e instanceof EntityItem).forEach(item -> ((EntityItem)item).setDead());
+			Pos c = Pos.at(player).getDown();
+			Pos.forEachBlock(c.offset(-25,0,-25),c.offset(25,-38,25),pos -> pos.setBlock(player.worldObj,BlockList.enhanced_tnt));
 		}
 		else{
 			sendMessage(sender,"Unknown command.");

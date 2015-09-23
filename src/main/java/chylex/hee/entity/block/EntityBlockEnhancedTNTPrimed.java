@@ -15,6 +15,7 @@ import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+// TODO add a global madness indicator that will control how many packets, particles, and such are going to be handled to reduce lag
 public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	private List<Enum> tntEnhancements = new ArrayList<>();
 	private boolean wentIntoWall = false;
@@ -23,6 +24,11 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		super(world);
 		fuse = 80;
 		yOffset = 0;
+		
+		if (world.isRemote){
+			int count = world.loadedEntityList.size();
+			if (count > 500)setDead();
+		}
 	}
 
 	public EntityBlockEnhancedTNTPrimed(World world, double x, double y, double z, EntityLivingBase igniter, List<Enum> enhancements){
