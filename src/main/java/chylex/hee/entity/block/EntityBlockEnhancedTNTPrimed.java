@@ -94,6 +94,7 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int par9){
+		if (worldObj.loadedEntityList.size() > 500)return; // let client handle motion if there's too much TNT, looks a bit better
 		setPosition(x,y,z);
 		setRotation(yaw,pitch);
 	}

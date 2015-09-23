@@ -302,7 +302,7 @@ public class Explosion{
 				
 				for(int y = testY1; y <= testY2; ++y){
 					for(Entity entity:(List<Entity>)chunk.entityLists[y]){
-						if (entity.boundingBox.intersectsWith(bb))list.add(entity);
+						if (!entity.isDead && entity.boundingBox.intersectsWith(bb))list.add(entity);
 					}
 				}
 			}
