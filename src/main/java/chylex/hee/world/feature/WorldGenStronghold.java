@@ -1,6 +1,8 @@
 package chylex.hee.world.feature;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -114,6 +116,19 @@ public class WorldGenStronghold implements IWorldGenerator{
 		stronghold.addPiece(5,new Range(0,4),new StrongholdRoomLitPole());
 		stronghold.addPiece(5,new Range(0,2),new StrongholdRoomLitTotem());
 		stronghold.addPieces(4,new Range(0,7),StrongholdRoomLitCorners.generateColors());
+	}
+	
+	public static Optional<ChunkCoordIntPair> findNearestStronghold(int chunkX, int chunkZ, World world){
+		List<ChunkCoordIntPair> found = new ArrayList<>();
+		
+		for(int x = -1; x <= 1; x++){
+			for(int z = -1; z <= 1; z++){
+				findSpawnChunk(chunkX+x*gridSize,chunkZ+z*gridSize,world).ifPresent(found::add);
+			}
+		}
+		
+		if (found.isEmpty())return Optional.empty();
+		else return found.stream().min((c1, c2) -> Double.compare(MathUtil.distanceSquared(chunkX-c1.chunkXPos,0,chunkZ-c1.chunkZPos),MathUtil.distanceSquared(chunkX-c2.chunkXPos,0,chunkZ-c2.chunkZPos)));
 	}
 	
 	public static Optional<ChunkCoordIntPair> findSpawnChunk(int chunkX, int chunkZ, World world){
