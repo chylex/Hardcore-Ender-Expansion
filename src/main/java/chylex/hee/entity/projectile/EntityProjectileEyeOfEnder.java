@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
@@ -88,8 +89,8 @@ public class EntityProjectileEyeOfEnder extends Entity{
 				prevBlockPos = center;
 			}
 			
-			if (MathUtil.distance(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ) < 10D){
-				if (speed > 0F)speed -= 0.04F; // should stop ~4 blocks away
+			if (MathUtil.distance(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ) < 7D){
+				if (speed > 0F)speed -= 0.04F;
 			}
 			else{
 				if (timer <= 399 && speed < 1F)speed += 0.02F;
@@ -106,21 +107,29 @@ public class EntityProjectileEyeOfEnder extends Entity{
 				Optional<ChunkCoordIntPair> stronghold = WorldGenStronghold.findNearestStronghold(MathUtil.floor(posX)>>4,MathUtil.floor(posZ)>>4,worldObj);
 				
 				if (stronghold.isPresent()){
-					dataWatcher.updateObject(16,stronghold.get().chunkXPos+8);
-					dataWatcher.updateObject(17,stronghold.get().chunkZPos+8);
+					dataWatcher.updateObject(16,16*stronghold.get().chunkXPos+8);
+					dataWatcher.updateObject(17,16*stronghold.get().chunkZPos+8);
 					foundStronghold = true;
 				}
 			}
 			else if (timer == 35 && !foundStronghold)setDead();
-			else if (timer > 440 && timer > 440+rand.nextInt(100)){
-				if (MathUtil.distance(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ) < 6D){
-					EntityItem item = new EntityItem(worldObj,posX,posY+getRenderOffset(),posZ,new ItemStack(Items.ender_eye));
-					item.delayBeforeCanPickup = 10;
-					worldObj.spawnEntityInWorld(item);
+			else{
+				if (MathUtil.distance(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ) < 7D){
+					if (timer < 500)timer = 500;
+					
+					if (timer > 580){
+						EntityItem item = new EntityItem(worldObj,posX,posY+getRenderOffset(),posZ,new ItemStack(Items.ender_eye));
+						item.delayBeforeCanPickup = 10;
+						worldObj.spawnEntityInWorld(item);
+						
+						PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.POP,posX,posY,posZ,1.5F,1F+rand.nextFloat()*0.25F));
+						setDead();
+					}
 				}
-				else PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_EYE_BREAK,posX,posY+getRenderOffset(),posZ,0F,0F));
-				
-				setDead();
+				else if (timer > 440 && timer > 440+rand.nextInt(100)){
+					PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_EYE_BREAK,posX,posY+getRenderOffset(),posZ,0F,0F));
+					setDead();
+				}
 			}
 		}
 		else{
