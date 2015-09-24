@@ -1,5 +1,6 @@
 package chylex.hee.entity.mob;
 import java.util.List;
+import java.util.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +13,7 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 
 public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	public Entity target;
@@ -31,7 +32,7 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	protected void updateAITasks(){
 		super.updateAITasks();
 
-		if (target == null || (!BlockPosM.tmp(target).isAir(worldObj) || target.isDead || target.posY < 1)){
+		if (target == null || (!Pos.at(target).isAir(worldObj) || target.isDead || target.posY < 1)){
 			if ((target = worldObj.getClosestPlayerToEntity(this,32D)) == null){
 				setDead();
 				return;
@@ -46,7 +47,6 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 		motionZ += (Math.signum(zDiff)*0.5D-motionZ)*0.1D;
 		rotationYaw += MathHelper.wrapAngleTo180_float((float)(Math.atan2(motionZ,motionX)*180D/Math.PI)-90F-rotationYaw);
 		moveForward = 0.5F;
-		
 	}
 	
 	@Override
@@ -56,12 +56,8 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	
 	@Override
 	protected void collideWithNearbyEntities(){
-		List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(0.2D,0D,0.2D));
-		
-		if (list != null){
-			for(Entity entity:list){
-				if (entity.canBePushed())collideWithEntity(entity);
-			}
+		for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.expand(0.2D,0D,0.2D))){
+			if (entity.canBePushed())collideWithEntity(entity);
 		}
 	}
 
@@ -74,14 +70,10 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 				EntityPlayer player = (EntityPlayer)entity;
 				player.attackEntityFrom(DamageSource.causeMobDamage(this),ModCommonProxy.opMobs ? 4F : 2F);
 				
-				for(Object o:worldObj.loadedEntityList){
-					if (o instanceof EntityBossDragon){
-						EntityBossDragon dragon = (EntityBossDragon)o;
-						dragon.heal(1);
-						worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj,dragon.posX,dragon.posY+dragon.height*0.25F,dragon.posZ));
-						break;
-					}
-				}
+				((Optional<EntityBossDragon>)worldObj.loadedEntityList.stream().filter(obj -> obj instanceof EntityBossDragon).findFirst()).ifPresent(dragon -> {
+					dragon.heal(1);
+					worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj,dragon.posX,dragon.posY+dragon.height*0.25F,dragon.posZ));
+				});
 				
 				setDead();
 			}
