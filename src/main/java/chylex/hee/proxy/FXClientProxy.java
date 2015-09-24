@@ -10,6 +10,7 @@ import chylex.hee.entity.fx.EntityBigPortalFX;
 import chylex.hee.entity.fx.EntityCustomBubbleFX;
 import chylex.hee.entity.fx.EntityEnderGooFX;
 import chylex.hee.entity.fx.EntityEnergyClusterFX;
+import chylex.hee.entity.fx.EntityGlitterFX;
 import chylex.hee.entity.fx.EntityOrbitingPortalFX;
 import chylex.hee.entity.fx.behavior.ParticleBehaviorMoveTo;
 import chylex.hee.entity.item.EntityItemAltar;
@@ -141,6 +142,7 @@ public class FXClientProxy extends FXCommonProxy{
 		switch(particleName){
 			case "portal": spawn(new EntityPortalFX(world(),x,y,z,motionX,motionY,motionZ){{ particleRed = red; particleGreen = green; particleBlue = blue; }}); break;
 			case "energy": spawn(new EntityEnergyClusterFX(world(),x,y,z,red,green,blue,motionX,motionY,motionZ)); break;
+			case "glitter": spawn(new EntityGlitterFX(world(),x,y,z,motionX,motionY,motionZ,red,green,blue)); break;
 			
 			case "magiccrit":
 				EntityCritFX fxCrit = new EntityCritFX(world(),x,y,z,motionX,motionY,motionZ);
