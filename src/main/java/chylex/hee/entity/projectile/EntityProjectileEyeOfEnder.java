@@ -57,6 +57,20 @@ public class EntityProjectileEyeOfEnder extends Entity{
 		super.onUpdate();
 		++timer;
 		
+		if (worldObj.provider.dimensionId != 0){
+			if (timer == 1 && worldObj.isRemote)FXHelper.create("smoke").pos(posX,posY+getRenderOffset()+0.2F,posZ).fluctuatePos(0.15D).fluctuateMotion(0.1D).spawn(rand,8);
+			else if (timer > 60 && !worldObj.isRemote){
+				EntityItem item = new EntityItem(worldObj,posX,posY+getRenderOffset(),posZ,new ItemStack(Items.ender_eye));
+				item.delayBeforeCanPickup = 10;
+				worldObj.spawnEntityInWorld(item);
+				
+				PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.POP,posX,posY,posZ,1.5F,1F+rand.nextFloat()*0.25F));
+				setDead();
+			}
+			
+			return;
+		}
+		
 		if (timer == 40){
 			strongholdX = dataWatcher.getWatchableObjectInt(16);
 			strongholdZ = dataWatcher.getWatchableObjectInt(17);
