@@ -81,7 +81,9 @@ public class EntityProjectileEyeOfEnder extends Entity{
 			if (timer <= 399 && speed < 1F)speed += 0.02F;
 			else if (timer >= 400 && speed > 0.25F)speed -= 0.01F;
 			
-			setPosition(posX+moveX*speed,posY+(targetY-posY)*speed*0.025D,posZ+moveZ*speed);
+			if (speed > 0.7F && targetY-posY > 4D)speed -= 0.05F;
+			
+			setPosition(posX+moveX*speed,posY+(targetY-posY)*(timer < 100 ? speed : 1F)*0.03D,posZ+moveZ*speed);
 		}
 		
 		if (!worldObj.isRemote){
