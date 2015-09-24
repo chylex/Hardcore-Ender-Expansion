@@ -298,7 +298,7 @@ public class Pos{
 	}
 	
 	public boolean equals(Pos pos){
-		return pos.getX() == getX() && pos.getY() == getY() && pos.getZ() == getZ();
+		return pos != null && pos.getX() == getX() && pos.getY() == getY() && pos.getZ() == getZ();
 	}
 	
 	@Override
