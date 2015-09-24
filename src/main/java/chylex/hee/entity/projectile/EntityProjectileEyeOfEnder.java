@@ -1,10 +1,17 @@
 package chylex.hee.entity.projectile;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.BlockFluidBase;
 import chylex.hee.entity.fx.FXHelper;
+import chylex.hee.system.abstractions.BlockInfo;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.WorldGenStronghold;
@@ -13,9 +20,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityProjectileEyeOfEnder extends Entity{
 	public int timer;
-	private double moveX, moveZ;
+	private double moveX, moveZ, targetY;
 	private float speed;
 	private boolean foundStronghold;
+	private Pos prevBlockPos;
 	
 	public EntityProjectileEyeOfEnder(World world){
 		super(world);
@@ -42,13 +50,38 @@ public class EntityProjectileEyeOfEnder extends Entity{
 			double[] vec = DragonUtil.getNormalizedVector(dataWatcher.getWatchableObjectInt(16)+0.5D-posX,dataWatcher.getWatchableObjectInt(17)+0.5D-posZ);
 			moveX = vec[0]*0.27D;
 			moveZ = vec[1]*0.27D;
+			targetY = posY;
 		}
 		else if (timer > 40){
-			if (timer <= 91 && speed < 1F)speed += 0.02F;
-			else if (timer >= 400 && speed > 0.25F)speed -= 0.01F;
-			setPosition(posX+moveX*speed,posY,posZ+moveZ*speed);
+			Pos center = Pos.at(this);
 			
-			// TODO y movement
+			if (!center.equals(prevBlockPos)){
+				Set<Pos> checkedBlocks = new HashSet<>(); // y = 0
+				Vec3 perpendicular = Vec3.createVectorHelper(-moveZ*3D,0D,moveX*3D);
+				
+				for(int line = -1; line <= 1; line++){
+					Vec3 vec = Vec3.createVectorHelper(posX+line*perpendicular.xCoord,0D,posZ+line*perpendicular.zCoord);
+					
+					for(int distance = 0; distance < 12; distance++){
+						vec.xCoord += moveX*4D;
+						vec.zCoord += moveZ*4D;
+						checkedBlocks.add(Pos.at(vec.xCoord,0,vec.zCoord));
+					}
+				}
+				
+				targetY = 2.5D+checkedBlocks.stream()
+				.map(pos -> 1+Pos.getTopBlock(worldObj,pos.getX(),pos.getZ(),info -> isConsideredSolid(info)).getY())
+				.sorted((i1, i2) -> Integer.compare(i2,i1))
+				.limit(1+(checkedBlocks.size()/4))
+				.mapToInt(height -> height).average().orElse(posY);
+				
+				prevBlockPos = center;
+			}
+			
+			if (timer <= 399 && speed < 1F)speed += 0.02F;
+			else if (timer >= 400 && speed > 0.25F)speed -= 0.01F;
+			
+			setPosition(posX+moveX*speed,posY+(targetY-posY)*speed*0.025D,posZ+moveZ*speed);
 		}
 		
 		if (!worldObj.isRemote){
@@ -90,5 +123,9 @@ public class EntityProjectileEyeOfEnder extends Entity{
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt){
 		timer = nbt.getShort("eoetim");
+	}
+	
+	private static final boolean isConsideredSolid(BlockInfo info){
+		return (info.block.getMaterial().blocksMovement() && info.block.renderAsNormalBlock()) || info.block instanceof BlockFluidBase || info.block instanceof BlockLiquid;
 	}
 }
