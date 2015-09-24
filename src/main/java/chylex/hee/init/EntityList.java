@@ -71,6 +71,7 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityProjectileCurse.class, "ProjectileCurse", 48, 128);
 		GameRegistryUtil.registerEntity(EntityProjectileExpBottleConsistent.class, "ProjectileExpBottleConsistent", 49, 128);
 		GameRegistryUtil.registerEntity(EntityProjectileSacredWand.class, "ProjectileSacredWand", 52, 128);
+		GameRegistryUtil.registerEntity(EntityProjectileEyeOfEnder.class, "ProjectileEyeOfEnder", 55, 512);
 
 		GameRegistryUtil.registerEntity(EntityWeatherLightningBoltSafe.class, "LightningBoltSafe", 4, 512, 1, false);
 		GameRegistryUtil.registerEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, 512, 1, false);
@@ -81,7 +82,7 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, 64, 1, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalCurseEntity.class, "TechnicalCurseEntity", 47, 64, 1, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalTrigger.class, "TechnicalTrigger", 54, 0, Integer.MAX_VALUE, false);
-		// last: 54
+		// last: 55
 	}
 	
 	private EntityList(){}
