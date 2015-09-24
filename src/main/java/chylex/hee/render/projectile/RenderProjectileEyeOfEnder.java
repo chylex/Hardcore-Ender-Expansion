@@ -13,7 +13,7 @@ public class RenderProjectileEyeOfEnder extends RenderProjectileItem3D{
 	
 	@Override
 	protected float getBob(Entity entity, float partialTickTime){
-		return (float)Math.sin((((EntityProjectileEyeOfEnder)entity).timer+partialTickTime)*0.15D)*0.25F;
+		return 0.35F+(float)Math.sin((((EntityProjectileEyeOfEnder)entity).timer+partialTickTime)*0.15D)*0.25F; // 0.35 offset for bounding box
 	}
 	
 	@Override

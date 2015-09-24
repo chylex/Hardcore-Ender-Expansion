@@ -27,12 +27,12 @@ public class EntityProjectileEyeOfEnder extends Entity{
 	
 	public EntityProjectileEyeOfEnder(World world){
 		super(world);
-		setSize(0.25F,0.25F);
+		setSize(0.5F,1F);
 	}
 	
 	public EntityProjectileEyeOfEnder(World world, Entity thrower){
 		this(world);
-		setPosition(thrower.posX+MathUtil.lendirx(1D,-thrower.rotationYaw),thrower.posY+1.6D+MathUtil.lendirx(1D,-thrower.rotationPitch),thrower.posZ+MathUtil.lendiry(1D,-thrower.rotationYaw));
+		setPosition(thrower.posX+MathUtil.lendirx(1D,-thrower.rotationYaw),thrower.posY+1.1D+MathUtil.lendirx(1D,-thrower.rotationPitch),thrower.posZ+MathUtil.lendiry(1D,-thrower.rotationYaw));
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 			else if (timer > 440 && timer > 440+rand.nextInt(100))setDead();
 		}
 		else{
-			if (timer == 1)FXHelper.create("smoke").pos(this).fluctuatePos(0.15D).fluctuateMotion(0.1D).spawn(rand,8);
+			if (timer == 1)FXHelper.create("smoke").pos(posX,posY+getRenderOffset()+0.2F,posZ).fluctuatePos(0.15D).fluctuateMotion(0.1D).spawn(rand,8);
 			else if (timer > 30){
 				FXHelper.create("glitter")
 				.pos(posX,posY+height*0.5F+(float)Math.sin(timer*0.15D)*0.25F,posZ)
@@ -111,6 +111,10 @@ public class EntityProjectileEyeOfEnder extends Entity{
 				.spawn(rand,3);
 			}
 		}
+	}
+	
+	private final float getRenderOffset(){
+		return 0.35F+(float)Math.sin(timer*0.15D)*0.25F; // RenderProjectileEyeOfEnder
 	}
 	
 	@Override
