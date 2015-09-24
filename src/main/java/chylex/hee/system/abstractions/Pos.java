@@ -1,6 +1,7 @@
 package chylex.hee.system.abstractions;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -50,6 +51,10 @@ public class Pos{
 	}
 	
 	/* === STATIC METHODS === */
+	
+	/**
+	 * Runs a function for every block inside the specified locations.
+	 */
 	public static void forEachBlock(Pos firstPos, Pos secondPos, Consumer<PosMutable> action){
 		int x1 = Math.min(firstPos.getX(),secondPos.getX()), x2 = Math.max(firstPos.getX(),secondPos.getX());
 		int y1 = Math.min(firstPos.getY(),secondPos.getY()), y2 = Math.max(firstPos.getY(),secondPos.getY());
@@ -65,8 +70,43 @@ public class Pos{
 		}
 	}
 	
+	/**
+	 * Returns a bounding box containing all blocks between the specified locations (the edge is extended).
+	 */
 	public static AxisAlignedBB getBoundingBox(Pos loc1, Pos loc2){
-		return AxisAlignedBB.getBoundingBox(Math.min(loc1.getX(),loc2.getX()),Math.min(loc1.getY(),loc2.getY()),Math.min(loc1.getZ(),loc2.getZ()),Math.max(loc1.getX(),loc2.getX()),Math.max(loc1.getY(),loc2.getY()),Math.max(loc1.getZ(),loc2.getZ()));
+		return AxisAlignedBB.getBoundingBox(Math.min(loc1.getX(),loc2.getX()),Math.min(loc1.getY(),loc2.getY()),Math.min(loc1.getZ(),loc2.getZ()),1+Math.max(loc1.getX(),loc2.getX()),1+Math.max(loc1.getY(),loc2.getY()),1+Math.max(loc1.getZ(),loc2.getZ()));
+	}
+
+	/**
+	 * Finds the first non-air block from the top.
+	 */
+	public static Pos getTopBlock(World world, int x, int z){
+		return getTopBlock(world,x,z,world.getHeight());
+	}
+
+	/**
+	 * Finds the first non-air block from the top.
+	 */
+	public static Pos getTopBlock(World world, int x, int z, int startY){
+		PosMutable mpos = new PosMutable(x,startY,z);
+		while(mpos.isAir(world) && --mpos.y >= 0);
+		return mpos.immutable();
+	}
+	
+	/**
+	 * Finds the first block from the top for which the check function returns true.
+	 */
+	public static Pos getTopBlock(World world, int x, int z, Function<BlockInfo,Boolean> checkFunc){
+		return getTopBlock(world,x,z,world.getHeight(),checkFunc);
+	}
+	
+	/**
+	 * Finds the first block from the top for which the check function returns true.
+	 */
+	public static Pos getTopBlock(World world, int x, int z, int startY, Function<BlockInfo,Boolean> checkFunc){
+		PosMutable mpos = new PosMutable(x,startY,z);
+		while(!checkFunc.apply(mpos.getInfo(world)) && --mpos.y >= 0);
+		return mpos.immutable();
 	}
 	
 	/* === IMMUTABLE POS CLASS === */
