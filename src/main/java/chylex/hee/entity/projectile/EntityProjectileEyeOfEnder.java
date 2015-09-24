@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldType;
 import net.minecraftforge.fluids.BlockFluidBase;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXType;
@@ -30,7 +31,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 	private double moveX, moveZ, targetY;
 	private float speed;
 	private Pos prevBlockPos;
-	private int strongholdX, strongholdZ;
+	private int strongholdX, strongholdZ, maxTerrainY;
 	
 	private boolean foundStronghold;
 	
@@ -48,6 +49,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 	protected void entityInit(){
 		dataWatcher.addObject(16,0);
 		dataWatcher.addObject(17,0);
+		dataWatcher.addObject(18,(short)0);
 	}
 	
 	@Override
@@ -58,6 +60,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 		if (timer == 40){
 			strongholdX = dataWatcher.getWatchableObjectInt(16);
 			strongholdZ = dataWatcher.getWatchableObjectInt(17);
+			maxTerrainY = dataWatcher.getWatchableObjectShort(18);
 			
 			double[] vec = DragonUtil.getNormalizedVector(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ);
 			moveX = vec[0]*0.27D;
@@ -81,7 +84,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 				}
 				
 				targetY = 2.5D+checkedBlocks.stream()
-				.map(pos -> 1+Pos.getTopBlock(worldObj,pos.getX(),pos.getZ(),info -> isConsideredSolid(info)).getY())
+				.map(pos -> 1+Pos.getTopBlock(worldObj,pos.getX(),pos.getZ(),maxTerrainY,info -> isConsideredSolid(info)).getY())
 				.sorted((i1, i2) -> Integer.compare(i2,i1))
 				.limit(1+(checkedBlocks.size()/4))
 				.mapToInt(height -> height).average().orElse(posY);
@@ -109,6 +112,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 				if (stronghold.isPresent()){
 					dataWatcher.updateObject(16,16*stronghold.get().chunkXPos+8);
 					dataWatcher.updateObject(17,16*stronghold.get().chunkZPos+8);
+					dataWatcher.updateObject(18,(short)(worldObj.getWorldInfo().getTerrainType() == WorldType.AMPLIFIED ? 256 : 128)); // ignore floating islands from other mods
 					foundStronghold = true;
 				}
 			}
