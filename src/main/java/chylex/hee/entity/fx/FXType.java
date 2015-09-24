@@ -35,7 +35,8 @@ public final class FXType{
 		SANCTUARY_OVERSEER_SINGLE,
 		SIMPLE_TELEPORT,
 		SIMPLE_TELEPORT_NOSOUND,
-		ENTITY_EXPLOSION_PARTICLE;
+		ENTITY_EXPLOSION_PARTICLE,
+		ENDER_EYE_BREAK;
 		
 		public static FXType.Entity[] values = values();
 	}

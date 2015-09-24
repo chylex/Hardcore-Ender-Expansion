@@ -4,12 +4,18 @@ import java.util.Optional;
 import java.util.Set;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidBase;
 import chylex.hee.entity.fx.FXHelper;
+import chylex.hee.entity.fx.FXType;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.DragonUtil;
@@ -22,8 +28,10 @@ public class EntityProjectileEyeOfEnder extends Entity{
 	public int timer;
 	private double moveX, moveZ, targetY;
 	private float speed;
-	private boolean foundStronghold;
 	private Pos prevBlockPos;
+	private int strongholdX, strongholdZ;
+	
+	private boolean foundStronghold;
 	
 	public EntityProjectileEyeOfEnder(World world){
 		super(world);
@@ -47,10 +55,12 @@ public class EntityProjectileEyeOfEnder extends Entity{
 		++timer;
 		
 		if (timer == 40){
-			double[] vec = DragonUtil.getNormalizedVector(dataWatcher.getWatchableObjectInt(16)+0.5D-posX,dataWatcher.getWatchableObjectInt(17)+0.5D-posZ);
+			strongholdX = dataWatcher.getWatchableObjectInt(16);
+			strongholdZ = dataWatcher.getWatchableObjectInt(17);
+			
+			double[] vec = DragonUtil.getNormalizedVector(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ);
 			moveX = vec[0]*0.27D;
 			moveZ = vec[1]*0.27D;
-			targetY = posY;
 		}
 		else if (timer > 40){
 			Pos center = Pos.at(this);
@@ -78,10 +88,15 @@ public class EntityProjectileEyeOfEnder extends Entity{
 				prevBlockPos = center;
 			}
 			
-			if (timer <= 399 && speed < 1F)speed += 0.02F;
-			else if (timer >= 400 && speed > 0.25F)speed -= 0.01F;
-			
-			if (speed > 0.7F && targetY-posY > 4D)speed -= 0.05F;
+			if (MathUtil.distance(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ) < 10D){
+				if (speed > 0F)speed -= 0.04F; // should stop ~4 blocks away
+			}
+			else{
+				if (timer <= 399 && speed < 1F)speed += 0.02F;
+				else if (timer >= 400 && speed > 0.25F)speed -= 0.015F;
+				
+				if (speed > 0.7F && targetY-posY > 4D)speed -= 0.05F;
+			}
 			
 			setPosition(posX+moveX*speed,posY+(targetY-posY)*(timer < 100 ? speed : 1F)*0.03D,posZ+moveZ*speed);
 		}
@@ -97,18 +112,34 @@ public class EntityProjectileEyeOfEnder extends Entity{
 				}
 			}
 			else if (timer == 35 && !foundStronghold)setDead();
-			else if (timer > 440 && timer > 440+rand.nextInt(100))setDead();
+			else if (timer > 440 && timer > 440+rand.nextInt(100)){
+				if (MathUtil.distance(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ) < 6D){
+					EntityItem item = new EntityItem(worldObj,posX,posY+getRenderOffset(),posZ,new ItemStack(Items.ender_eye));
+					item.delayBeforeCanPickup = 10;
+					worldObj.spawnEntityInWorld(item);
+				}
+				else PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_EYE_BREAK,posX,posY+getRenderOffset(),posZ,0F,0F));
+				
+				setDead();
+			}
 		}
 		else{
 			if (timer == 1)FXHelper.create("smoke").pos(posX,posY+getRenderOffset()+0.2F,posZ).fluctuatePos(0.15D).fluctuateMotion(0.1D).spawn(rand,8);
 			else if (timer > 30){
-				FXHelper.create("glitter")
-				.pos(posX,posY+height*0.5F+(float)Math.sin(timer*0.15D)*0.25F,posZ)
-				.fluctuatePos(0.2D)
-				.motion(0D,-0.025D,0)
-				.fluctuateMotion(0.02D)
-				.paramColor(0.15F+rand.nextFloat()*0.3F,0.25F+rand.nextFloat()*0.4F,0.3F+rand.nextFloat()*0.05F)
-				.spawn(rand,3);
+				float r, g, b;
+				
+				if (rand.nextInt(3) == 0){
+					r = 0.3F+rand.nextFloat()*0.2F;
+					g = 0.25F+rand.nextFloat()*0.05F;
+					b = 0.5F+rand.nextFloat()*0.25F;
+				}
+				else{
+					r = 0.2F+rand.nextFloat()*0.1F;
+					g = 0.25F+rand.nextFloat()*0.4F;
+					b = 0.3F+rand.nextFloat()*0.1F;
+				}
+				
+				FXHelper.create("glitter").pos(posX-moveX*1.5D*speed,posY+getRenderOffset(),posZ-moveZ*1.5D*speed).fluctuatePos(0.15D).motion(0D,-0.025D,0D).fluctuateMotion(0.02D).paramColor(r,g,b).spawn(rand,3);
 			}
 		}
 	}

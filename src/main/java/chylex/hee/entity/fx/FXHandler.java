@@ -189,6 +189,13 @@ public final class FXHandler{
 				}
 				
 				break;
+				
+			case ENDER_EYE_BREAK:
+				FXHelper.create("smoke").pos(x,y,z).fluctuatePos(0.2D).motion(0D,0D,0D).fluctuateMotion(0.08D).spawn(rand,18);
+				FXHelper.create("glitter").pos(x,y,z).fluctuatePos(0.1D).motion(0D,0D,0D).fluctuateMotion(0.03D).paramColor(0.35F+rand.nextFloat()*0.1F,0.3F+rand.nextFloat()*0.4F,0.4F+rand.nextFloat()*0.1F).spawn(rand,40);
+				FXHelper.create("glitter").pos(x,y,z).fluctuatePos(0.1D).motion(0D,0D,0D).fluctuateMotion(0.03D).paramColor(0.4F+rand.nextFloat()*0.2F,0.25F+rand.nextFloat()*0.05F,0.6F+rand.nextFloat()*0.25F).spawn(rand,20);
+				world.playSound(x,y,z,"dig.glass",1.25F,1.1F,false);
+				break;
 		}
 	}
 	
