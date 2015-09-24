@@ -2,6 +2,7 @@ package chylex.hee.world.feature;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -57,8 +58,11 @@ import chylex.hee.world.util.IRandomAmount;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGenStronghold implements IWorldGenerator{
-	private static final StructureDungeon stronghold = new StructureDungeon(128,48,128,DungeonGeneratorAttaching::new);
+	private static final int gridSize = 1088/16;
+	private static final int maxDistance = 144/16;
+	private static final Random checkRand = new Random();
 	
+	private static final StructureDungeon stronghold = new StructureDungeon(128,32,128,DungeonGeneratorAttaching::new);
 	public static final WeightedLootTable loot = new WeightedLootTable();
 	
 	static{
@@ -77,19 +81,64 @@ public class WorldGenStronghold implements IWorldGenerator{
 		loot.addLoot(Items.potionitem).setAmount(1).setWeight(22);
 		loot.addLoot(Items.diamond).setAmount(1,2).setWeight(14);
 		
-		//stronghold.setPieceAmount(28,36);
-		//stronghold.setPieceAmount(0,36);
-		//stronghold.setStartingPiece(new StrongholdPieceEndPortal());
-		//stronghold.addPiece(new StrongholdPieceCorridor(1,true));
-		//stronghold.addPiece(new StrongholdPieceCorridor(1,false));
+		stronghold.setPieceAmount(220,250);
+		stronghold.setStartingPiece(new StrongholdRoomEndPortal());
+		
+		stronghold.addPieces(7,new Range(0,50),StrongholdCorridorStraight.generateCorridors(3,5,7,9));
+		stronghold.addPieces(5,new Range(0,50),StrongholdCorridorIntersection.generateCorners());
+		stronghold.addPieces(4,new Range(0,50),StrongholdCorridorIntersection.generateThreeWay());
+		stronghold.addPieces(3,new Range(0,50),StrongholdCorridorIntersection.generateFourWay());
+		
+		stronghold.addPieces(4,new Range(0,15),StrongholdStairsStraight.generateStairs());
+		stronghold.addPieces(3,new Range(0,10),StrongholdStairsVertical.generateStairs(1));
+		stronghold.addPieces(1,new Range(0,5),StrongholdStairsVertical.generateStairs(2));
+		
+		stronghold.addPieces(2,new Range(0,20),StrongholdDoorSmall.generateDoors());
+		stronghold.addPieces(2,new Range(0,20),StrongholdDoorWooden.generateDoors());
+		stronghold.addPieces(2,new Range(0,20),StrongholdDoorGrates.generateDoors());
+		stronghold.addPieces(2,new Range(0,20),StrongholdDoorTorches.generateDoors());
+		
+		stronghold.addPieces(1,new Range(0,15),StrongholdCorridorChest.generateCorridors());
+		stronghold.addPieces(1,new Range(0,6),StrongholdCorridorDoubleChest.generateCorridors());
+
+		stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicDungeon.generateRelicRooms());
+		stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicFountains.generateRelicRooms());
+		
+		stronghold.addPiece(3,new Range(0,3),new StrongholdRoomSilverfishTrap());
+		stronghold.addPiece(3,new Range(0,3),new StrongholdRoomLargeIntersectionTrap());
+		stronghold.addPieces(3,new Range(0,4),StrongholdRoomPrisonTrap.generatePrisons());
+		
+		stronghold.addPiece(5,new Range(0,6),new StrongholdRoomFountain());
+		stronghold.addPiece(4,new Range(0,8),new StrongholdRoomLargeIntersection());
+		stronghold.addPiece(5,new Range(0,5),new StrongholdRoomSmallIntersection());
+		stronghold.addPiece(5,new Range(0,4),new StrongholdRoomLitPole());
+		stronghold.addPiece(5,new Range(0,2),new StrongholdRoomLitTotem());
+		stronghold.addPieces(4,new Range(0,7),StrongholdRoomLitCorners.generateColors());
+	}
+	
+	public static Optional<ChunkCoordIntPair> findSpawnChunk(int chunkX, int chunkZ, World world){
+		if (chunkX < 0)chunkX -= gridSize-1;
+		if (chunkZ < 0)chunkZ -= gridSize-1;
+		
+		final int centerX = gridSize*(chunkX/gridSize)+gridSize/2;
+		final int centerZ = gridSize*(chunkZ/gridSize)+gridSize/2;
+		
+		checkRand.setSeed(centerX*920419813L+centerZ*49979687L+world.getSeed());
+		
+		if (checkRand.nextInt(5) > 2 || Math.abs(centerX) < 50 || Math.abs(centerZ) < 50)return Optional.empty();
+		else return Optional.of(new ChunkCoordIntPair(centerX+checkRand.nextInt(maxDistance*2+1)-maxDistance,centerZ+checkRand.nextInt(maxDistance*2+1)-maxDistance));
 	}
 	
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider){
 		if (world.provider.dimensionId != 0)return;
 		
-		/*stronghold.generateInWorld(world,rand,chunkX+8,80,chunkZ+8);*/
-		// TODO
+		Optional<ChunkCoordIntPair> chunk = findSpawnChunk(chunkX,chunkZ,world);
+		if (!chunk.isPresent())return; // TODO HardcoreEnderExpansion.notifications.report(chunk.get().toString());
+		
+		if (chunk.get().chunkXPos == chunkX && chunk.get().chunkZPos == chunkZ){ // TODO HardcoreEnderExpansion.notifications.report("spawn");
+			stronghold.tryGenerateInWorld(world,rand,chunkX*16+8,4+rand.nextInt(11),chunkZ*16+8,10);
+		}
 	}
 	
 	public static final HeeTest $debugTest = new HeeTest(){
