@@ -1,12 +1,8 @@
 package chylex.hee.mechanics;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
@@ -16,10 +12,14 @@ import chylex.hee.item.ItemTransferenceGem;
 import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.system.util.ItemUtil;
+import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class MiscEvents{
-	@SubscribeEvent
+	/*
+	 * Eye of Ender throwing
+	 */
+	@SubscribeEvent(priority = EventPriority.HIGHEST, receiveCanceled = true)
 	public void onItemUse(PlayerInteractEvent e){
 		if (e.action == Action.RIGHT_CLICK_AIR && !e.world.isRemote && e.entityPlayer.getHeldItem() != null && e.entityPlayer.getHeldItem().getItem() == Items.ender_eye){
 			World world = e.world;
@@ -36,7 +36,7 @@ public class MiscEvents{
 	/*
 	 * Silverfish dropping blood
 	 */
-	@SubscribeEvent
+	/* TODO @SubscribeEvent
 	public void onLivingDrops(LivingDropsEvent e){
 		if (e.entity.worldObj.isRemote || !e.recentlyHit)return;
 		
@@ -55,7 +55,7 @@ public class MiscEvents{
 				e.drops.add(item);
 			}
 		}
-	}
+	}*/
 	
 	/*
 	 * Right-clicking on item frame, mob and item with Transference Gem
