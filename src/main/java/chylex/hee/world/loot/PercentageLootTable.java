@@ -1,7 +1,6 @@
 package chylex.hee.world.loot;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.item.Item;
@@ -19,8 +18,8 @@ public class PercentageLootTable extends LootTable<PercentageLootItem>{
 		return new PercentageLootItem(item);
 	}
 	
-	public List<ItemStack> generateLoot(Object obj, Random rand){
-		List<ItemStack> list = new ArrayList<>();
+	public ArrayList<ItemStack> generateLoot(Object obj, Random rand){
+		ArrayList<ItemStack> list = new ArrayList<>();
 		
 		for(LootItem loot:items){
 			ItemStack is = loot.generate(obj,rand);
