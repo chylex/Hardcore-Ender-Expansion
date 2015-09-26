@@ -265,6 +265,8 @@ public final class BlockList{
 		BlockList.laboratory_floor.setHarvestLevel("pickaxe", 2);
 		Blocks.fire.setFireInfo(BlockList.spooky_log, 10, 10);
 		Blocks.fire.setFireInfo(BlockList.spooky_leaves, 40, 30);
+		Blocks.fire.setFireInfo(Blocks.web, 25, 100);
+		Blocks.fire.setFireInfo(BlockList.ancient_web, 35, 100);
 		
 		OreDictionary.registerOre("blockHeeEndium", BlockList.endium_block);
 		OreDictionary.registerOre("oreHeeEndium", BlockList.endium_ore);
