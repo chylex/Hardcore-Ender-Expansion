@@ -275,7 +275,6 @@ public final class BlockList{
 		OreDictionary.registerOre("oreHeeIgneousRock", BlockList.igneous_rock_ore);
 		OreDictionary.registerOre("oreHeeInstabilityOrb", BlockList.instability_orb_ore);
 		
-		MinecraftForge.EVENT_BUS.register(BlockList.essence_altar);
 		MinecraftForge.EVENT_BUS.register(BlockList.ender_goo);
 		MinecraftForge.EVENT_BUS.register(BlockList.ancient_web);
 	}
