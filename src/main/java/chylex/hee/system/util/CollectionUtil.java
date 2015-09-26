@@ -2,6 +2,7 @@ package chylex.hee.system.util;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
 import java.util.Map.Entry;
+import chylex.hee.system.collections.RandomList;
 
 public final class CollectionUtil{
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAsc(Map<K,V> map){
@@ -50,9 +51,8 @@ public final class CollectionUtil{
 		return list;
 	}
 	
-	public static <T> List<T> shuffleMe(List<T> list, Random rand){
-		Collections.shuffle(list,rand);
-		return list;
+	public static <T> RandomList<T> shuffled(List<T> list, Random rand){
+		return new RandomList(list,rand);
 	}
 	
 	private CollectionUtil(){}
