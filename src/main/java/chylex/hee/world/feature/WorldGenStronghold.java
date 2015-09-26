@@ -54,7 +54,7 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorAttaching;
+import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorSpreading;
 import chylex.hee.world.structure.util.Range;
 import chylex.hee.world.util.IRandomAmount;
 import cpw.mods.fml.common.IWorldGenerator;
@@ -64,7 +64,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 	private static final int maxDistance = 144/16;
 	private static final Random checkRand = new Random();
 	
-	private static final StructureDungeon stronghold = new StructureDungeon(128,32,128,DungeonGeneratorAttaching::new);
+	private static final StructureDungeon<DungeonGeneratorSpreading> stronghold = new StructureDungeon<>(128,32,128,DungeonGeneratorSpreading::new);
 	public static final WeightedLootTable loot = new WeightedLootTable();
 	
 	static{
@@ -162,11 +162,16 @@ public class WorldGenStronghold implements IWorldGenerator{
 			if (args.length < 1)return;
 			
 			if (args[0].equals("custom")){
-				StructureDungeon stronghold = new StructureDungeon(128,48,128,DungeonGeneratorAttaching::new);
+				StructureDungeon<DungeonGeneratorSpreading> stronghold = new StructureDungeon<>(128,32,128,DungeonGeneratorSpreading::new);
+				
+				stronghold.setGeneratorSetupFunc(generator -> {
+					
+				});
+				
 				stronghold.setPieceAmount(220,250);
 				stronghold.setStartingPiece(new StrongholdRoomEndPortal());
 				
-				stronghold.addPieces(7,new Range(0,50),StrongholdCorridorStraight.generateCorridors(3,5,7,9));
+				/*stronghold.addPieces(7,new Range(0,50),StrongholdCorridorStraight.generateCorridors(3,5,7,9));
 				stronghold.addPieces(5,new Range(0,50),StrongholdCorridorIntersection.generateCorners());
 				stronghold.addPieces(4,new Range(0,50),StrongholdCorridorIntersection.generateThreeWay());
 				stronghold.addPieces(3,new Range(0,50),StrongholdCorridorIntersection.generateFourWay());
@@ -195,7 +200,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 				stronghold.addPiece(5,new Range(0,5),new StrongholdRoomSmallIntersection());
 				stronghold.addPiece(5,new Range(0,4),new StrongholdRoomLitPole());
 				stronghold.addPiece(5,new Range(0,2),new StrongholdRoomLitTotem());
-				stronghold.addPieces(4,new Range(0,7),StrongholdRoomLitCorners.generateColors());
+				stronghold.addPieces(4,new Range(0,7),StrongholdRoomLitCorners.generateColors());*/
 				
 				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,1);
 			}

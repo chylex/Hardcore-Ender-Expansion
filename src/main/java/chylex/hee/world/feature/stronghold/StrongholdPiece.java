@@ -13,11 +13,19 @@ import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.IStructureTileEntity;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
+import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorSpreading.ISpreadingGeneratorPieceType;
 import chylex.hee.world.structure.util.Size;
 import chylex.hee.world.util.IRandomAmount;
 
 public abstract class StrongholdPiece extends StructureDungeonPiece{
-	protected enum Type implements IType{ CORRIDOR, DOOR, ROOM, DEADEND }
+	protected enum Type implements ISpreadingGeneratorPieceType{
+		CORRIDOR, DOOR, ROOM, DEADEND;
+		
+		@Override
+		public boolean isRoom(){
+			return this == ROOM || this == DEADEND; // the spreading generator cannot create deadends, so make a couple of them intentionally
+		}
+	}
 	
 	protected static final IConnectWith fromRoom = type -> type == Type.CORRIDOR || type == Type.DOOR;
 	protected static final IConnectWith fromDoor = type -> type == Type.CORRIDOR || type == Type.ROOM;
