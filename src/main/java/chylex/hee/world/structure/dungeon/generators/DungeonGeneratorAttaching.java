@@ -15,6 +15,7 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 
 /**
  * Generates a dungeon by choosing a random existing piece and then trying to attach another random piece to it until it has enough pieces or runs out.
+ * Piece range is used to limit the total amount of pieces in the dungeon.
  */
 public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	private final WeightedList<StructureDungeonPieceArray> available;
@@ -31,32 +32,13 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	}
 	
 	/**
-	 * Returns a random piece out of the available piece list, or null if there are no pieces available.
-	 */
-	protected StructureDungeonPieceArray selectNextPiece(Random rand){
-		return available.getRandomItem(rand);
-	}
-	
-	/**
-	 * Adds a new piece to the structure and updates all collections.
-	 */
-	protected StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
-		StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
-		generated.add(inst);
-		
-		StructureDungeonPieceArray parentArray = piece.getParentArray();
-		if (generatedCount.adjustOrPutValue(parentArray,1,1) >= parentArray.amount.max)available.remove(parentArray);
-		return inst;
-	}
-	
-	/**
 	 * Generates the dungeon.
 	 */
 	@Override
 	public boolean generate(StructureWorld world, Random rand){
 		int targetAmount = dungeon.getPieceAmountRange().random(rand);
 		
-		generateStartPiece(rand);
+		startPieceInst = generateStartPiece(rand);
 		
 		if (generated.size() < targetAmount && generated.getTotalWeight() > 0){
 			for(int cycleAttempt = 0, count; cycleAttempt < cycleAttempts; cycleAttempt++){
@@ -84,11 +66,24 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	}
 	
 	/**
-	 * Generates the start piece. If the dungeon does not have a specified one, a random piece is selected.
+	 * Returns a random piece out of the available piece list, or null if there are no pieces available.
 	 */
-	private void generateStartPiece(Random rand){
-		StructureDungeonPiece startPiece = dungeon.getStartingPiece().orElseGet(() -> selectNextPiece(rand)).getRandomPiece(rand);
-		startPieceInst = addPiece(startPiece,Pos.at(-startPiece.size.sizeX/2,dungeon.boundingBox.y2/2-startPiece.size.sizeY/2,-startPiece.size.sizeZ));
+	@Override
+	protected StructureDungeonPieceArray selectNextPiece(Random rand){
+		return available.getRandomItem(rand);
+	}
+	
+	/**
+	 * Adds a new piece to the structure and updates all collections.
+	 */
+	@Override
+	protected StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
+		StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
+		generated.add(inst);
+		
+		StructureDungeonPieceArray parentArray = piece.getParentArray();
+		if (generatedCount.adjustOrPutValue(parentArray,1,1) >= parentArray.amount.max)available.remove(parentArray);
+		return inst;
 	}
 	
 	/**
@@ -106,19 +101,5 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * Tries to connect two pieces together. If it can be done, it adds the piece to the list, uses up both connections and returns true.
-	 */
-	protected boolean tryConnectPieces(StructureDungeonPiece sourcePiece, Connection sourceConnection, StructureDungeonPieceInst targetPiece, Connection targetConnection){
-		Pos aligned = alignConnections(targetPiece,targetConnection,sourceConnection);
-		
-		if (canPlaceArea(aligned,aligned.offset(targetPiece.piece.size.sizeX-1,targetPiece.piece.size.sizeY-1,targetPiece.piece.size.sizeZ-1))){
-			targetPiece.useConnection(targetConnection);
-			addPiece(sourcePiece,aligned).useConnection(sourceConnection);
-			return true;
-		}
-		else return false;
 	}
 }
