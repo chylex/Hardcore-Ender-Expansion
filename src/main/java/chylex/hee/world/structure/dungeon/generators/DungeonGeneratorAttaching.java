@@ -18,14 +18,14 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
  * Piece range is used to limit the total amount of pieces in the dungeon.
  */
 public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
-	private final WeightedList<StructureDungeonPieceArray> available;
-	private final TObjectIntHashMap<StructureDungeonPieceArray> generatedCount;
+	protected final WeightedList<StructureDungeonPieceArray> available;
+	protected final TObjectIntHashMap<StructureDungeonPieceArray> generatedCount;
 	
 	private int cycleAttempts = 1000;
 	private int placeAttempts = 20;
 	private StructureDungeonPieceInst startPieceInst;
 	
-	public DungeonGeneratorAttaching(StructureDungeon dungeon){
+	public DungeonGeneratorAttaching(StructureDungeon<?> dungeon){
 		super(dungeon);
 		this.available = new WeightedList<>(dungeon.pieces);
 		this.generatedCount = new TObjectIntHashMap<>(dungeon.pieces.size(),Constants.DEFAULT_LOAD_FACTOR,0);
