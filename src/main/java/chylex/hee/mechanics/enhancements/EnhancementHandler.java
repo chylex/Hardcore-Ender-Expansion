@@ -98,8 +98,11 @@ public final class EnhancementHandler{
 		
 		if (!is.hasTagCompound() || !canEnhanceItem(is.getItem()))return enhancements;
 		
-		EnhancementData enhancementData = itemMap.get(is.getItem());
-		NBTUtil.readStringList(is.getTagCompound(),"HEE_enhancements").map(name -> EnumUtils.getEnum(enhancementData.clsEnum,name)).filter(ele -> ele != null).forEach(enhancements::add);
+		NBTUtil.readStringList(is.getTagCompound(),"HEE_enhancements").forEach(name -> {
+			Enum ele = EnumUtils.getEnum(itemMap.get(is.getItem()).clsEnum,name);
+			if (ele != null)enhancements.add(ele);
+		});
+		
 		return enhancements;
 	}
 	
