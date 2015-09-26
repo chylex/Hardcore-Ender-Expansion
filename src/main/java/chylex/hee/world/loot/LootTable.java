@@ -31,6 +31,7 @@ public abstract class LootTable<ITEM extends LootItem>{
 		protected final Item item;
 		
 		LootItem(Item item){
+			if (item == null)throw new IllegalArgumentException("Item cannot be null!");
 			this.item = item;
 		}
 		

@@ -78,7 +78,7 @@ public class PercentageLootTable extends LootTable<PercentageLootItem>{
 			
 			for(int index = 0; index < chances.length; index++){
 				if ((randValue -= chances[index]) < 0){
-					is.stackSize = index;
+					is.stackSize = 1+index;
 					return is;
 				}
 			}
