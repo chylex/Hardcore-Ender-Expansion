@@ -111,6 +111,7 @@ public final class BlockList{
 	
 	public static Block ender_goo;
 	public static Block dry_vine;
+	public static Block ancient_web;
 	public static Block crossed_decoration;
 	public static Block enderman_head;
 	public static Block death_flower;
@@ -181,6 +182,7 @@ public final class BlockList{
 		
 		register("ender_goo", ender_goo = new BlockEnderGoo().setHardness(150F).setLightOpacity(2).setBlockName("enderGoo").setBlockTextureName("hardcoreenderexpansion:endergoo_flow"));
 		register("dry_vine", dry_vine = new BlockDryVine().setHardness(0.15F).setStepSound(Block.soundTypeGrass).setBlockName("dryVine").setBlockTextureName("vine"));
+		register("ancient_web", ancient_web = new BlockAncientCobweb().setLightOpacity(1).setHardness(3.5F).setBlockName("ancientCobweb").setBlockTextureName("web"));
 		register("crossed_decoration", crossed_decoration = new BlockCrossedDecoration().setHardness(0F).setStepSound(Block.soundTypeGrass).setCreativeTab(null).setBlockName("crossedDecoration"));
 		register("enderman_head_block", enderman_head = new BlockEndermanHead().setHardness(1F).setStepSound(Block.soundTypeStone).setBlockName("endermanHead").setBlockTextureName("hardcoreenderexpansion:enderman_head"));
 		register("death_flower", death_flower = new BlockDeathFlower().setHardness(0F).setResistance(4F).setStepSound(Block.soundTypeGrass).setCreativeTab(null).setBlockName("endFlower").setBlockTextureName("hardcoreenderexpansion:end_flower"));
@@ -208,6 +210,7 @@ public final class BlockList{
 		setItemClass("enhanced_tnt", ItemBlockEnhanceableTile.class);
 		setItemClass("end_stone_terrain", ItemBlockWithSubtypes.class);
 		setItemClass("dry_vine", ItemBlockDynamicColor.class);
+		setItemClass("ancient_web", ItemBlockDynamicColor.class);
 		setItemClass("crossed_decoration", ItemBlockWithSubtypes.class);
 		setItemClass("death_flower", ItemBlockEndFlower.class);
 		setItemClass("sphalerite", ItemBlockWithSubtypes.class);
@@ -239,7 +242,7 @@ public final class BlockList{
 			ravaged_brick,ravaged_brick_smooth,ravaged_brick_glow,ravaged_brick_slab,ravaged_brick_stairs,ravaged_brick_fence,
 			dungeon_puzzle,cinder,persegrit,laboratory_obsidian,laboratory_floor,laboratory_stairs,laboratory_glass,
 			stone_brick_wall,
-			/* TODO SANCTUARY sacred_stone,*/dry_vine,crossed_decoration,death_flower
+			/* TODO SANCTUARY sacred_stone,*/dry_vine,ancient_web,crossed_decoration,death_flower
 		);
 		
 		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.addBlocks(special_effects);
@@ -272,6 +275,7 @@ public final class BlockList{
 		
 		MinecraftForge.EVENT_BUS.register(BlockList.essence_altar);
 		MinecraftForge.EVENT_BUS.register(BlockList.ender_goo);
+		MinecraftForge.EVENT_BUS.register(BlockList.ancient_web);
 	}
 	
 	public static void registerTileEntities(){

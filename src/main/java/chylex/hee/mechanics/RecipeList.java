@@ -134,6 +134,11 @@ public final class RecipeList{
 			0.05F
 		);
 		
+		GameRegistry.addShapelessRecipe(
+			new ItemStack(ItemList.ancient_dust),
+			BlockList.ancient_web
+		);
+		
 		/*GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
 			"DED",
 			'D', Items.diamond,

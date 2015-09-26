@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.FlowerPotPlant;
 import chylex.hee.system.abstractions.Meta.LogType;
@@ -44,7 +45,7 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 			mpos.move(rand.nextBoolean() ? facing.rotateLeft() : facing.rotateRight(),rand.nextInt(2));
 			
 			if (world.isAir(mpos.x,mpos.y,mpos.z)){
-				world.setBlock(mpos.x,mpos.y,mpos.z,Blocks.web);
+				world.setBlock(mpos.x,mpos.y,mpos.z,BlockList.ancient_web);
 				--toPlace;
 			}
 		}
@@ -124,7 +125,7 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 				Pos cobweb = posArray[rand.nextInt(posArray.length)];
 				
 				if (world.isAir(cobweb.getX(),cobweb.getY(),cobweb.getZ())){
-					world.setBlock(cobweb.getX(),cobweb.getY(),cobweb.getZ(),Blocks.web);
+					world.setBlock(cobweb.getX(),cobweb.getY(),cobweb.getZ(),BlockList.ancient_web);
 				}
 			}
 		}

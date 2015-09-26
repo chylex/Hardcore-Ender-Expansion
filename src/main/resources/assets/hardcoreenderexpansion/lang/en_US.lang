@@ -52,6 +52,7 @@ tile.endStoneTerrain.infested.name=Infested End Stone
 tile.endStoneTerrain.burned.name=Burned End Stone
 tile.endStoneTerrain.enchanted.name=Enchanted End Stone
 tile.dryVine.name=Dry Vines
+tile.ancientCobweb.name=Ancient Cobweb
 tile.spookyLog.name=Spooky Log
 tile.spookyLeaves.name=Spooky Leaves
 tile.endFlower.name=Death Flower
