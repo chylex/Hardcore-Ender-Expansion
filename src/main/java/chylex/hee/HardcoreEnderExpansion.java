@@ -17,6 +17,7 @@ import chylex.hee.gui.core.GuiHandler;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.EntityList;
 import chylex.hee.init.ItemList;
+import chylex.hee.init.ModInitHandler;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
@@ -131,6 +132,8 @@ public class HardcoreEnderExpansion{
 		notifications.register();
 		
 		UnitTester.trigger(RunTime.PREINIT);
+		
+		ModInitHandler.finishPreInit();
 		
 		Stopwatch.finish("PreInitEvent");
 	}
