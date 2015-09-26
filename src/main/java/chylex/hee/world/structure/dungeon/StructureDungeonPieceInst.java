@@ -10,7 +10,7 @@ import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
-import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IType;
+import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IPieceType;
 import chylex.hee.world.structure.util.BoundingBox;
 
 public class StructureDungeonPieceInst implements IWeightProvider{
@@ -24,7 +24,7 @@ public class StructureDungeonPieceInst implements IWeightProvider{
 		this.availableConnections.addAll(piece.getConnections());
 	}
 	
-	public List<Connection> findConnections(Facing4 facing, IType pieceType){
+	public List<Connection> findConnections(Facing4 facing, IPieceType pieceType){
 		return availableConnections.stream().filter(connection -> connection.facing == facing.opposite() && connection.canConnectWith(pieceType)).collect(Collectors.toList());
 	}
 	

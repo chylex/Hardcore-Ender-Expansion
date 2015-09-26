@@ -9,14 +9,14 @@ import chylex.hee.world.structure.util.Size;
 import com.google.common.collect.ImmutableList;
 
 public abstract class StructureDungeonPiece{
-	public interface IType{}
+	public interface IPieceType{}
 	
 	@FunctionalInterface
 	public interface IConnectWith{
-		boolean check(IType type);
+		boolean check(IPieceType type);
 	}
 	
-	public final IType type;
+	public final IPieceType type;
 	public final Size size;
 	protected final List<Connection> connections = new ArrayList<>();
 	private StructureDungeonPieceArray parentArray;
@@ -26,7 +26,7 @@ public abstract class StructureDungeonPiece{
 	 */
 	protected final int maxX, maxY, maxZ;
 	
-	public StructureDungeonPiece(IType type, Size size){
+	public StructureDungeonPiece(IPieceType type, Size size){
 		this.type = type;
 		this.size = size;
 		
@@ -78,7 +78,7 @@ public abstract class StructureDungeonPiece{
 			this.canConnect = canConnect;
 		}
 		
-		public boolean canConnectWith(IType type){
+		public boolean canConnectWith(IPieceType type){
 			return canConnect.check(type);
 		}
 	}
