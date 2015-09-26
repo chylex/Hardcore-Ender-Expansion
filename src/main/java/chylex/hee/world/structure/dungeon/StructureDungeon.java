@@ -2,7 +2,6 @@ package chylex.hee.world.structure.dungeon;
 import java.util.Optional;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.weight.WeightedList;
-import chylex.hee.world.structure.IStructureGenerator;
 import chylex.hee.world.structure.StructureBase;
 import chylex.hee.world.structure.util.BoundingBox;
 import chylex.hee.world.structure.util.Range;
@@ -10,20 +9,19 @@ import chylex.hee.world.structure.util.Range;
 /**
  * Basic dungeon consisting of multiple cuboids connected to each other.
  */
-public class StructureDungeon extends StructureBase{
-	private final StructureDungeonGenerator.Constructor generator;
+public class StructureDungeon<T extends StructureDungeonGenerator> extends StructureBase<T>{
+	private final StructureDungeonGenerator.Constructor<T> generatorConstructor;
 	
 	public final BoundingBox boundingBox;
 	public final WeightedList<StructureDungeonPieceArray> pieces = new WeightedList<>();
 	private StructureDungeonPieceArray startingPiece;
 	private Range pieceAmount;
 	
-	public StructureDungeon(int radX, int sizeY, int radZ, StructureDungeonGenerator.Constructor generator){
+	public StructureDungeon(int radX, int sizeY, int radZ, StructureDungeonGenerator.Constructor<T> generatorConstructor){
 		super(radX,sizeY,radZ);
-		this.generator = generator;
+		this.generatorConstructor = generatorConstructor;
 		boundingBox = new BoundingBox(Pos.at(-radX,0,-radZ),Pos.at(radX,sizeY,radZ));
 	}
-	
 	
 	public void addPiece(int weight, Range amountRange, StructureDungeonPiece piece){
 		if (piece.countConnections() == 0)throw new IllegalArgumentException("Invalid structure data, no connections found!");
@@ -59,7 +57,7 @@ public class StructureDungeon extends StructureBase{
 	}
 	
 	@Override
-	protected IStructureGenerator createGenerator(){
-		return generator.construct(this);
+	protected T createGenerator(){
+		return generatorConstructor.construct(this);
 	}
 }

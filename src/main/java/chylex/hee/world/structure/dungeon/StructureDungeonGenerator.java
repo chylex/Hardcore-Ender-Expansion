@@ -12,10 +12,10 @@ public abstract class StructureDungeonGenerator implements IStructureGenerator{
 		T construct(StructureDungeon dungeon);
 	}
 	
-	protected final StructureDungeon dungeon;
+	protected final StructureDungeon<?> dungeon;
 	protected final WeightedList<StructureDungeonPieceInst> generated;
 	
-	public StructureDungeonGenerator(StructureDungeon dungeon){
+	public StructureDungeonGenerator(StructureDungeon<?> dungeon){
 		this.dungeon = dungeon;
 		this.generated = new WeightedList<StructureDungeonPieceInst>(dungeon.getPieceAmountRange().max);
 	}
