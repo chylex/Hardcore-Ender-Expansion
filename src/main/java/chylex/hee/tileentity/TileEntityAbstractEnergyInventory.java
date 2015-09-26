@@ -70,7 +70,7 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 						.forEach(clusters::add);
 					});
 					
-					for(TileEntityEnergyCluster cluster:CollectionUtil.shuffleMe(clusters,worldObj.rand)){
+					for(TileEntityEnergyCluster cluster:CollectionUtil.shuffled(clusters,worldObj.rand)){
 						if ((left = cluster.tryDrainEnergy(left,this)) == 0)break;
 					}
 				}

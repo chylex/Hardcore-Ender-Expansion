@@ -45,7 +45,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 				StructureDungeonPieceArray nextArray = selectNextPiece(rand);
 				if (nextArray == null)break;
 				
-				for(StructureDungeonPiece nextPiece:CollectionUtil.shuffleMe(nextArray.toList(),rand)){
+				for(StructureDungeonPiece nextPiece:CollectionUtil.shuffled(nextArray.toList(),rand)){
 					if (tryGeneratePiece(nextPiece,rand)){
 						if (generated.size() >= targetAmount)cycleAttempt = Integer.MAX_VALUE-1;
 						break;
@@ -95,7 +95,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 		for(int placeAttempt = 0; placeAttempt < placeAttempts; placeAttempt++){
 			StructureDungeonPieceInst target = generated.tryGetRandomItem(rand).orElse(startPieceInst);
 			
-			for(Connection targetConnection:CollectionUtil.shuffleMe(target.findConnections(sourceConnection.facing,piece.type),rand)){
+			for(Connection targetConnection:CollectionUtil.shuffled(target.findConnections(sourceConnection.facing,piece.type),rand)){
 				if (tryConnectPieces(piece,sourceConnection,target,targetConnection))return true;
 			}
 		}
