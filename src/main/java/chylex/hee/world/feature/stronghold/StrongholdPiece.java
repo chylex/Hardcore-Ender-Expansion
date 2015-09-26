@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.facing.Facing4;
@@ -53,7 +54,6 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		return new BlockInfo(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTowards,flip));
 	}
 	
-	// TODO test all pieces
 	protected static final void placeStairOutline(StructureWorld world, Random rand, Block block, int centerX, int y, int centerZ, int distance, boolean outwards, boolean flip){
 		IBlockPicker[] stairs = new IBlockPicker[]{
 			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.SOUTH_POSZ : Facing4.NORTH_NEGZ,flip)),
@@ -80,7 +80,7 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		
 		for(int cobwebs = rand.nextInt(7), slot; cobwebs > 0; cobwebs--){
 			slot = rand.nextInt(chest.getSizeInventory());
-			if (chest.getStackInSlot(slot) == null)chest.setInventorySlotContents(slot,new ItemStack(Blocks.web));
+			if (chest.getStackInSlot(slot) == null)chest.setInventorySlotContents(slot,new ItemStack(rand.nextInt(3) == 0 ? BlockList.ancient_web : Blocks.web));
 		}
 	};
 	
