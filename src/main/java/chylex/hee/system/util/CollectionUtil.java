@@ -55,5 +55,9 @@ public final class CollectionUtil{
 		return new RandomList(list,rand);
 	}
 	
+	public static <T> Optional<T> random(List<T> list, Random rand){ // TODO find more places to use
+		return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(rand.nextInt(list.size())));
+	}
+	
 	private CollectionUtil(){}
 }
