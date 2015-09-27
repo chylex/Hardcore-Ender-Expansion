@@ -1,18 +1,20 @@
 package chylex.hee.world.structure;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.set.hash.TIntHashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
+import com.google.common.base.Objects;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
-import com.google.common.base.Objects;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.set.hash.TIntHashSet;
 
 public final class StructureWorld{
 	private final int radX, radZ, sizeX, sizeY, sizeZ;
@@ -81,7 +83,7 @@ public final class StructureWorld{
 	}
 	
 	public void setAttentionWhore(int x, int y, int z, BlockInfo info){
-		attentionWhores.put(toIndex(x,y,z),info);
+		if (isInside(x,y,z))attentionWhores.put(toIndex(x,y,z),info);
 	}
 	
 	public boolean setTileEntity(int x, int y, int z, IStructureTileEntity provider){
@@ -125,14 +127,19 @@ public final class StructureWorld{
 		
 		attentionWhores.forEachEntry((ind, value) -> {
 			toPos(ind,pos);
-			pos.set(centerX+pos.x,bottomY+pos.y,centerZ+pos.z).setBlock(world,value.block,value.meta,3);
+			pos.move(centerX,bottomY,centerZ).setBlock(world,value.block,value.meta,3);
 			return true;
 		});
 		
 		tileEntityMap.forEachEntry((ind, value) -> {
 			toPos(ind,pos);
 			pos.move(centerX,bottomY,centerZ);
-			value.generateTile(pos.getTileEntity(world),rand);
+			
+			TileEntity tile = pos.getTileEntity(world);
+			
+			if (tile != null)value.generateTile(tile,rand);
+			else Log.reportedError("TileEntity is null at $0 - $1.",pos,pos.getBlock(world));
+			
 			return true;
 		});
 		
