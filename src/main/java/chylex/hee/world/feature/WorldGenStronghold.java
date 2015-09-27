@@ -152,7 +152,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 		if (!chunk.isPresent())return; // TODO HardcoreEnderExpansion.notifications.report(chunk.get().toString());
 		
 		if (chunk.get().chunkXPos == chunkX && chunk.get().chunkZPos == chunkZ){ // TODO HardcoreEnderExpansion.notifications.report("spawn");
-			stronghold.tryGenerateInWorld(world,rand,chunkX*16+8,4+rand.nextInt(11),chunkZ*16+8,10);
+			// TODO stronghold.tryGenerateInWorld(world,rand,chunkX*16+8,4+rand.nextInt(11),chunkZ*16+8,10);
 		}
 	}
 	
@@ -165,7 +165,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 				StructureDungeon<DungeonGeneratorSpreading> stronghold = new StructureDungeon<>(128,32,128,DungeonGeneratorSpreading::new);
 				
 				stronghold.setGeneratorSetupFunc(generator -> {
-					
+					generator.setPiecesBetweenRooms(3,10);
 				});
 				
 				stronghold.setPieceAmount(220,250);
