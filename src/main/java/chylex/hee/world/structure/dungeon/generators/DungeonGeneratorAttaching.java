@@ -23,7 +23,6 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	
 	private int cycleAttempts = 1000;
 	private int placeAttempts = 20;
-	private StructureDungeonPieceInst startPieceInst;
 	
 	public DungeonGeneratorAttaching(StructureDungeon<?> dungeon){
 		super(dungeon);
@@ -38,7 +37,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	public boolean generate(StructureWorld world, Random rand){
 		int targetAmount = dungeon.getPieceAmountRange().random(rand);
 		
-		startPieceInst = generateStartPiece(rand);
+		generateStartPiece(rand);
 		
 		if (generated.size() < targetAmount && generated.getTotalWeight() > 0){
 			for(int cycleAttempt = 0, count; cycleAttempt < cycleAttempts; cycleAttempt++){
@@ -55,7 +54,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 		}
 		
 		if (!dungeon.getPieceAmountRange().in(generated.size()))return false;
-		if (dungeon.pieces.stream().anyMatch(array -> !array.amount.in(generatedCount.get(array))))return true;
+		if (!dungeon.pieces.stream().allMatch(array -> array.amount.in(generatedCount.get(array))))return true;
 		
 		for(StructureDungeonPieceInst pieceInst:generated){
 			pieceInst.clearArea(world,rand);
@@ -78,9 +77,7 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 	 */
 	@Override
 	protected StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
-		StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
-		generated.add(inst);
-		
+		StructureDungeonPieceInst inst = super.addPiece(piece,position);
 		StructureDungeonPieceArray parentArray = piece.getParentArray();
 		if (generatedCount.adjustOrPutValue(parentArray,1,1) >= parentArray.amount.max)available.remove(parentArray);
 		return inst;
@@ -93,7 +90,8 @@ public class DungeonGeneratorAttaching extends StructureDungeonGenerator{
 		Connection sourceConnection = piece.getRandomConnection(rand);
 		
 		for(int placeAttempt = 0; placeAttempt < placeAttempts; placeAttempt++){
-			StructureDungeonPieceInst target = generated.tryGetRandomItem(rand).orElse(startPieceInst);
+			StructureDungeonPieceInst target = generated.getRandomItem(rand);
+			if (target == null)break;
 			
 			for(Connection targetConnection:CollectionUtil.shuffled(target.findConnections(sourceConnection.facing,piece.type),rand)){
 				if (tryConnectPieces(piece,sourceConnection,target,targetConnection))return true;

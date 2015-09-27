@@ -1,13 +1,17 @@
 package chylex.hee.world.structure.dungeon.generators;
 import gnu.trove.impl.Constants;
 import gnu.trove.map.hash.TObjectIntHashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.weight.WeightedList;
+import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonGenerator;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
+import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IPieceType;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceArray;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
@@ -48,7 +52,34 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 
 	@Override
 	public boolean generate(StructureWorld world, Random rand){
-		return false;
+		int targetAmount = dungeon.getPieceAmountRange().random(rand);
+		
+		generateStartPiece(rand);
+		
+		for(int room = 1; room < targetAmount; room++){ // start piece counts as 1 room
+			StructureDungeonPieceArray nextArray = selectNextPiece(rand);
+			StructureDungeonPieceInst startingPoint = generated.getRandomItem(rand);
+			if (nextArray == null || startingPoint == null)break;
+			
+			for(Connection connection:CollectionUtil.shuffled(startingPoint.findConnections(),rand)){
+				List<StructureDungeonPieceInst> nextPieces = generateCorridorList(startingPoint,connection,nextArray,piecesBetweenRooms.random(rand));
+				
+				if (nextPieces != null && !nextPieces.isEmpty()){
+					startingPoint.useConnection(connection);
+					nextPieces.stream().forEach(this::addGeneratedPiece);
+					break;
+				}
+			}
+		}
+		
+		if (!rooms.stream().allMatch(array -> array.amount.in(generatedRoomCount.get(array))))return false;
+		
+		for(StructureDungeonPieceInst pieceInst:generated){
+			pieceInst.clearArea(world,rand);
+			pieceInst.generatePiece(world,rand);
+		}
+		
+		return true;
 	}
 	
 	/**
@@ -64,11 +95,30 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 	 */
 	@Override
 	protected StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
-		StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
+		return addGeneratedPiece(new StructureDungeonPieceInst(piece,position));
+	}
+	
+	/**
+	 * Add a piece instance to the structure and returns itself.
+	 */
+	private StructureDungeonPieceInst addGeneratedPiece(StructureDungeonPieceInst inst){
 		generated.add(inst);
-		
-		StructureDungeonPieceArray parentArray = piece.getParentArray();
+		StructureDungeonPieceArray parentArray = inst.piece.getParentArray();
 		if (isRoom(parentArray) && generatedRoomCount.adjustOrPutValue(parentArray,1,1) >= parentArray.amount.max)rooms.remove(parentArray);
 		return inst;
+	}
+	
+	/**
+	 * Generates a list of corridor pieces and the next room piece. It only uses connections on the generated pieces, not on the starting piece.
+	 * The new pieces are not added to the generated piece list, that is up to the calling method after validating the list.
+	 * If the list has a different size than the specified corridor amount, it returns null instead.
+	 */
+	private List<StructureDungeonPieceInst> generateCorridorList(StructureDungeonPieceInst startPiece, Connection startConnection, StructureDungeonPieceArray nextArray, int length){
+		final List<StructureDungeonPieceInst> pieces = new ArrayList<>(length);
+		final TObjectIntHashMap<StructureDungeonPieceArray> corridors = new TObjectIntHashMap<>(length);
+		
+		// TODO
+		
+		return pieces.size() == length ? pieces : null;
 	}
 }

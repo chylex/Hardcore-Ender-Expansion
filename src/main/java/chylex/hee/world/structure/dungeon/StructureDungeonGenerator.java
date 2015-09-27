@@ -54,7 +54,7 @@ public abstract class StructureDungeonGenerator implements IStructureGenerator{
 	}
 	
 	/**
-	 * Generates the start piece and adds it to the structure. If the dungeon does not have a specified one, a random piece is selected.
+	 * Generates the starting piece and adds it to the structure. If the dungeon does not one, a random piece is selected.
 	 */
 	protected StructureDungeonPieceInst generateStartPiece(Random rand){
 		StructureDungeonPiece startPiece = dungeon.getStartingPiece().orElseGet(() -> selectNextPiece(rand)).getRandomPiece(rand);
@@ -62,12 +62,16 @@ public abstract class StructureDungeonGenerator implements IStructureGenerator{
 	}
 	
 	/**
+	 * Adds a new piece to the structure.
+	 */
+	protected StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position){
+		StructureDungeonPieceInst inst = new StructureDungeonPieceInst(piece,position);
+		generated.add(inst);
+		return inst;
+	}
+	
+	/**
 	 * Returns a random piece out of the available piece list, or null if there are no pieces available.
 	 */
 	protected abstract StructureDungeonPieceArray selectNextPiece(Random rand);
-	
-	/**
-	 * Adds a new piece to the structure.
-	 */
-	protected abstract StructureDungeonPieceInst addPiece(StructureDungeonPiece piece, Pos position);
 }

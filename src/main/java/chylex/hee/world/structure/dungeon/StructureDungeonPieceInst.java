@@ -24,6 +24,10 @@ public class StructureDungeonPieceInst implements IWeightProvider{
 		this.availableConnections.addAll(piece.getConnections());
 	}
 	
+	public List<Connection> findConnections(){
+		return new ArrayList<>(availableConnections);
+	}
+	
 	public List<Connection> findConnections(Facing4 facing, IPieceType pieceType){
 		return availableConnections.stream().filter(connection -> connection.facing == facing.opposite() && connection.canConnectWith(pieceType)).collect(Collectors.toList());
 	}
