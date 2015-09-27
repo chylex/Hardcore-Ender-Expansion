@@ -81,6 +81,8 @@ public class GuiModTransition extends GuiScreen{
 			int failed = 0;
 			
 			for(File file:worldsToUpdate){
+				if (!file.exists())continue; // might have been deleted while in the GUI
+				
 				try{
 					ModTransition.doConvertWorld(file);
 				}catch(IOException e){
