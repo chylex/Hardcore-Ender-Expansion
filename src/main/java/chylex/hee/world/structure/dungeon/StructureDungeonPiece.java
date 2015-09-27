@@ -2,6 +2,7 @@ package chylex.hee.world.structure.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
@@ -52,6 +53,10 @@ public abstract class StructureDungeonPiece{
 	
 	public Connection getRandomConnection(Random rand){
 		return connections.get(rand.nextInt(connections.size()));
+	}
+	
+	public List<Connection> findConnections(Facing4 facing, IPieceType pieceType){
+		return connections.stream().filter(connection -> connection.facing == facing.opposite() && connection.canConnectWith(pieceType)).collect(Collectors.toList());
 	}
 	
 	public void setParentArray(StructureDungeonPieceArray array){
