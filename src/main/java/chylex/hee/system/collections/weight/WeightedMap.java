@@ -82,7 +82,12 @@ public class WeightedMap<T> implements IWeightedCollection<T>{
 	@Override
 	public T removeRandomItem(Random rand){
 		T item = getRandomItem(rand);
-		if (item != null)items.remove(item);
+		
+		if (item != null){
+			items.remove(item);
+			dirty = true;
+		}
+		
 		return item;
 	}
 }
