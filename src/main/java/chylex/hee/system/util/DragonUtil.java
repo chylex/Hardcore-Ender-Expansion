@@ -14,7 +14,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
@@ -203,13 +202,6 @@ public final class DragonUtil{
 	
 	public static int getDayDifference(Calendar cal1, Calendar cal2){
 		return MathUtil.floor((double)Math.abs(cal1.getTimeInMillis()-cal2.getTimeInMillis())/(1000*60*60*24));
-	}
-	
-	public static boolean canAddOneItemTo(ItemStack is, ItemStack itemToAdd){
-		return is.isStackable() && is.getItem() == itemToAdd.getItem() &&
-			   (!is.getHasSubtypes() || is.getItemDamage() == itemToAdd.getItemDamage()) &&
-			   ItemStack.areItemStackTagsEqual(is,itemToAdd) &&
-			   is.stackSize+1 <= is.getMaxStackSize();
 	}
 	
 	public static boolean checkSystemProperty(String key){

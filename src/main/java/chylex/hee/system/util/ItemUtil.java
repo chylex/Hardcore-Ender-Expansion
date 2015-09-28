@@ -40,6 +40,13 @@ public final class ItemUtil{
 		getTagSub(is,"display",true).setInteger("color",color);
 	}
 	
+	public static boolean canAddOneItemTo(ItemStack is, ItemStack itemToAdd){
+		return is.isStackable() && is.getItem() == itemToAdd.getItem() &&
+			   (!is.getHasSubtypes() || is.getItemDamage() == itemToAdd.getItemDamage()) &&
+			   ItemStack.areItemStackTagsEqual(is,itemToAdd) &&
+			   is.stackSize+1 <= is.getMaxStackSize();
+	}
+	
 	public static final class NBTTagCompoundDummy extends NBTTagCompound{
 		private NBTTagCompoundDummy(){}
 		@Override public void setBoolean(String key, boolean value){}
