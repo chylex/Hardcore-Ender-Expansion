@@ -20,6 +20,7 @@ import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.logging.Stopwatch;
 
 public final class DragonUtil{

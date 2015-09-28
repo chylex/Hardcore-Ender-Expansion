@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedSet;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.UnitTest;
-import chylex.hee.system.util.CollectionUtil;
 
 public class CollectionTests{
 	@UnitTest

@@ -1,8 +1,7 @@
-package chylex.hee.system.util;
-import java.util.AbstractMap.SimpleEntry;
+package chylex.hee.system.collections;
 import java.util.*;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
-import chylex.hee.system.collections.RandomList;
 
 public final class CollectionUtil{
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAsc(Map<K,V> map){
@@ -55,8 +54,12 @@ public final class CollectionUtil{
 		return new RandomList(list,rand);
 	}
 	
-	public static <T> Optional<T> random(List<T> list, Random rand){ // TODO find more places to use
+	public static <T> Optional<T> random(List<T> list, Random rand){
 		return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(rand.nextInt(list.size())));
+	}
+	
+	public static <T> T randomOrNull(List<T> list, Random rand){
+		return list.isEmpty() ? null : list.get(rand.nextInt(list.size()));
 	}
 	
 	private CollectionUtil(){}

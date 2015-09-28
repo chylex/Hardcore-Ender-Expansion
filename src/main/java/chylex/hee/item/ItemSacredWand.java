@@ -21,7 +21,7 @@ import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.types.SacredWandEnhancements;
 import chylex.hee.mechanics.wand.WandCore;
 import chylex.hee.mechanics.wand.WandType;
-import chylex.hee.system.util.CollectionUtil;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;

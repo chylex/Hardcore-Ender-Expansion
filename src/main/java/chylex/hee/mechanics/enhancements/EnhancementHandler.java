@@ -22,7 +22,7 @@ import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
-import chylex.hee.system.util.CollectionUtil;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.NBTUtil;
 

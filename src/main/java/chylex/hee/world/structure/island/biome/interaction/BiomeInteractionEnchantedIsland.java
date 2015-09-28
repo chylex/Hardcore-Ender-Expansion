@@ -10,7 +10,7 @@ import chylex.hee.mechanics.misc.HomelandEndermen;
 import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
-import chylex.hee.system.util.CollectionUtil;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 

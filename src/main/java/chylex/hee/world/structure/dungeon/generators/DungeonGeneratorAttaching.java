@@ -1,8 +1,8 @@
 package chylex.hee.world.structure.dungeon.generators;
 import java.util.Random;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.weight.WeightedList;
-import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonGenerator;

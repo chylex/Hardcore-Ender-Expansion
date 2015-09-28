@@ -5,8 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraftforge.common.util.Constants.NBT;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.logging.Log;
-import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.ItemUtil;
 
 public enum WandCore{

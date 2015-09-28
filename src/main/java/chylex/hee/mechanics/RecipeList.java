@@ -13,8 +13,8 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.BlockColor;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.logging.Stopwatch;
-import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
 

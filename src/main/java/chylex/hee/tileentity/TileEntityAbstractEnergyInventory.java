@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkPosition;
 import chylex.hee.mechanics.energy.IEnergyBlock;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.util.CollectionUtil;
+import chylex.hee.system.collections.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.block.ItemBlockWithSubtypes.IBlockSubtypes;
-import chylex.hee.system.util.CollectionUtil;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
