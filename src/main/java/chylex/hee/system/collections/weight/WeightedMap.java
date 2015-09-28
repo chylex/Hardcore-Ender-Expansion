@@ -34,6 +34,7 @@ public class WeightedMap<T> implements IWeightedCollection<T>{
 	
 	public void add(T item, int weight){
 		items.put(item,weight);
+		dirty = true;
 	}
 	
 	@Override
