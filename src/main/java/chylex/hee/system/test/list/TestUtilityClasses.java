@@ -31,7 +31,7 @@ public class TestUtilityClasses{
 		Assert.equal(bb.get(0),true);
 		Assert.equal(bb.get(2),false);
 		Assert.equal(bb.get(4),true);
-		Assert.equal(bb.get(5),false);
+		Assert.equal(bb.get(5),true);
 		Assert.equal(bb.get(6),false);
 		Assert.equal(bb.get(7),false);
 	}
@@ -108,7 +108,7 @@ public class TestUtilityClasses{
 		date2.set(2010,4,2,17,0,0);
 		Assert.equal(DragonUtil.getDayDifference(date1,date2),1);
 		date2.set(2010,3,22,16,0,0);
-		Assert.equal(DragonUtil.getDayDifference(date1,date2),10);
+		Assert.equal(DragonUtil.getDayDifference(date1,date2),9);
 		date2.set(2011,4,1,16,0,0);
 		Assert.equal(DragonUtil.getDayDifference(date1,date2),365);
 	}

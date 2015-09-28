@@ -138,7 +138,8 @@ public class TestCollections{
 		filledList.remove(new StringWeight("Item 1",10));
 		
 		Assert.isFalse(filledList.isEmpty());
-		Assert.equal(filledList.size(),1);
+		Assert.equal(filledList.size(),2);
+		Assert.equal(filledList.getTotalWeight(),75);
 		
 		item = filledList.removeRandomItem(rand).str;
 		Assert.isTrue(item.equals("Item 1") || item.equals("Item 2") || item.equals("Item 3"));
@@ -171,8 +172,8 @@ public class TestCollections{
 		lessInvalidList.add(new StringWeight("Okay",1));
 
 		Assert.equal(lessInvalidList.size(),5);
-		Assert.equal(lessInvalidList.getRandomItem(rand),"Okay");
-		Assert.equal(lessInvalidList.removeRandomItem(rand),"Okay");
+		Assert.equal(lessInvalidList.getRandomItem(rand).str,"Okay");
+		Assert.equal(lessInvalidList.removeRandomItem(rand).str,"Okay");
 	}
 	
 	@UnitTest
