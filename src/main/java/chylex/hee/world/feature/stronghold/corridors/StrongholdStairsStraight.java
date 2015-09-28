@@ -1,4 +1,5 @@
 package chylex.hee.world.feature.stronghold.corridors;
+import java.util.Arrays;
 import java.util.Random;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
@@ -10,27 +11,24 @@ import chylex.hee.world.structure.util.Size;
 
 public class StrongholdStairsStraight extends StrongholdPiece{
 	public static StrongholdStairsStraight[] generateStairs(){
-		return new StrongholdStairsStraight[]{
-			new StrongholdStairsStraight(true),
-			new StrongholdStairsStraight(false)
-		};
+		return Arrays.stream(Facing4.list).map(facing -> new StrongholdStairsStraight(facing)).toArray(StrongholdStairsStraight[]::new);
 	}
 	
-	private final boolean dirX;
+	private final Facing4 ascendsTo;
 	
-	public StrongholdStairsStraight(boolean dirX){
-		super(Type.CORRIDOR,new Size(dirX ? 8 : 5,10,dirX ? 5 : 8));
+	public StrongholdStairsStraight(Facing4 ascendsTo){
+		super(Type.CORRIDOR,new Size(ascendsTo.getX() != 0 ? 8 : 5,10,ascendsTo.getZ() != 0 ? 8 : 5));
 		
-		if (dirX){
-			addConnection(Facing4.WEST_NEGX,0,0,2,withAnything);
-			addConnection(Facing4.EAST_POSX,7,5,2,withAnything);
+		if (ascendsTo.getX() != 0){
+			addConnection(Facing4.WEST_NEGX,0,ascendsTo == Facing4.WEST_NEGX ? 5 : 0,2,withAnything);
+			addConnection(Facing4.EAST_POSX,7,ascendsTo == Facing4.EAST_POSX ? 5 : 0,2,withAnything);
 		}
-		else{
-			addConnection(Facing4.NORTH_NEGZ,2,0,0,withAnything);
-			addConnection(Facing4.SOUTH_POSZ,2,5,7,withAnything);
+		else if (ascendsTo.getZ() != 0){
+			addConnection(Facing4.NORTH_NEGZ,2,ascendsTo == Facing4.NORTH_NEGZ ? 5 : 0,0,withAnything);
+			addConnection(Facing4.SOUTH_POSZ,2,ascendsTo == Facing4.SOUTH_POSZ ? 5 : 0,7,withAnything);
 		}
 		
-		this.dirX = dirX;
+		this.ascendsTo = ascendsTo;
 	}
 
 	@Override
@@ -41,33 +39,37 @@ public class StrongholdStairsStraight extends StrongholdPiece{
 		placeWalls(world,rand,placeStoneBrick,x,y+1,z,x+maxX,y+maxY-1,z+maxZ);
 		
 		// stairs
-		Facing4 ascendsTo = dirX ? Facing4.EAST_POSX : Facing4.SOUTH_POSZ;
 		Facing4 perpendicular = ascendsTo.perpendicular();
-		PosMutable stairPos = new PosMutable(x+(ascendsTo.getX() != 0 ? 1 : 2),y,z+(ascendsTo.getZ() != 0 ? 1 : 2));
+		Connection start = connections.stream().filter(connection -> connection.facing == ascendsTo.opposite()).findFirst().get();
+		
+		PosMutable stairPos = new PosMutable(x+start.offsetX,y+start.offsetY,z+start.offsetZ).move(ascendsTo.getX(),0,ascendsTo.getZ());
+		boolean up = start.offsetY == 0;
 		
 		IBlockPicker placeStairs = placeStoneBrickStairs(ascendsTo,false);
 		IBlockPicker placeStairsRev = placeStoneBrickStairs(ascendsTo.opposite(),true);
 		
 		for(int level = 0; level < 6; level++){
-			stairPos.move(Math.abs(ascendsTo.getX()),1,Math.abs(ascendsTo.getZ())).move(perpendicular,-2);
+			stairPos.move(ascendsTo.getX(),up ? 1 : -1,ascendsTo.getZ()).move(perpendicular,-2);
 			
 			for(int stair = 0; stair < 3; stair++){
 				stairPos.move(perpendicular,1);
 				placeBlock(world,rand,placeStairs,stairPos.x,stairPos.y,stairPos.z); // floor stairs
-				if (level < 5)placeBlock(world,rand,placeStairsRev,stairPos.x-Math.abs(ascendsTo.getX()*2),stairPos.y+3,stairPos.z-Math.abs(ascendsTo.getZ()*2)); // ceiling stairs
+				if (level < 5)placeBlock(world,rand,placeStairsRev,stairPos.x-ascendsTo.getX()*2,stairPos.y+3,stairPos.z-ascendsTo.getZ()*2); // ceiling stairs
 			}
 			
 			stairPos.move(perpendicular,-1);
 		}
 		
 		// holes
-		if (dirX){
-			if (!inst.isConnectionFree(Facing4.WEST_NEGX))placeCube(world,rand,placeAir,x,y+1,z+1,x,y+3,z+3);
-			if (!inst.isConnectionFree(Facing4.EAST_POSX))placeCube(world,rand,placeAir,x+maxX,y+6,z+1,x+maxX,y+8,z+3);
-		}
-		else{
-			if (!inst.isConnectionFree(Facing4.NORTH_NEGZ))placeCube(world,rand,placeAir,x+1,y+1,z,x+3,y+3,z);
-			if (!inst.isConnectionFree(Facing4.SOUTH_POSZ))placeCube(world,rand,placeAir,x+1,y+6,z+maxZ,x+3,y+8,z+maxZ);
+		PosMutable mpos = new PosMutable();
+		
+		for(Connection connection:connections){
+			if (!inst.isConnectionFree(connection)){
+				int perX = connection.facing.perpendicular().getX(), perZ = connection.facing.perpendicular().getZ();
+				
+				mpos.set(x+connection.offsetX,y+connection.offsetY,z+connection.offsetZ);
+				placeCube(world,rand,placeAir,mpos.x-perX,mpos.y+1,mpos.z-perZ,mpos.x+perX,mpos.y+3,mpos.z+perZ);
+			}
 		}
 	}
 }
