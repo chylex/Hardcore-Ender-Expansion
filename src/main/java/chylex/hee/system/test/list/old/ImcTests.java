@@ -1,4 +1,4 @@
-package chylex.hee.system.test.list;
+package chylex.hee.system.test.list.old;
 import java.util.Random;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.EntityBlaze;

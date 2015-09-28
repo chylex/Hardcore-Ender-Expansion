@@ -1,4 +1,4 @@
-package chylex.hee.system.test.list.system;
+package chylex.hee.system.test.list.old;
 import java.util.Random;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
@@ -10,7 +10,7 @@ import chylex.hee.system.util.CycleProtection;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
-public class UtilClassTests{
+public class TestUtilClasses{
 	@UnitTest
 	public void testColorUtilHsv(){
 		float[] conv = ColorUtil.hsvToRgb(0.5F,0.55F,0.4F);

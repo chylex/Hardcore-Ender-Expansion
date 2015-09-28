@@ -1,4 +1,4 @@
-package chylex.hee.system.test.list.mechanics;
+package chylex.hee.system.test.list.old;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.init.Items;
