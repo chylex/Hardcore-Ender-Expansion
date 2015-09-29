@@ -1,8 +1,13 @@
 package chylex.hee.system.test.list;
+import gnu.trove.set.hash.TIntHashSet;
+import java.lang.reflect.Method;
 import java.util.Random;
+import net.minecraft.init.Blocks;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.UnitTest;
+import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.BoundingBox;
 import chylex.hee.world.structure.util.Range;
 
@@ -57,6 +62,53 @@ public class TestWorldClasses{
 		for(BoundingBox box:touching){
 			Assert.isFalse(box.isInside(reference));
 			Assert.isFalse(box.intersects(reference));
+		}
+	}
+	
+	@UnitTest
+	public void testStructureWorld(){
+		StructureWorld world = new StructureWorld(2,3,2);
+		
+		Assert.isTrue(world.isInside(0,0,0));
+		Assert.isTrue(world.isInside(-2,0,-2));
+		Assert.isTrue(world.isInside(2,0,2));
+		Assert.isTrue(world.isInside(0,2,0));
+		Assert.isFalse(world.isInside(0,-1,0));
+		Assert.isFalse(world.isInside(0,3,0));
+		Assert.isFalse(world.isInside(3,0,0));
+		
+		int x = 0, y = 1, z = -2;
+		Assert.isTrue(world.isAir(x,y,z));
+		world.setBlock(x,y,z,Blocks.bedrock,1);
+		Assert.equal(world.getBlock(x,y,z),Blocks.bedrock);
+		Assert.equal(world.getMetadata(x,y,z),1);
+		
+		try{
+			Method toIndex = StructureWorld.class.getDeclaredMethod("toIndex",int.class,int.class,int.class);
+			toIndex.setAccessible(true);
+			
+			Method toPos = StructureWorld.class.getDeclaredMethod("toPos",int.class,PosMutable.class);
+			toPos.setAccessible(true);
+			
+			TIntHashSet usedIndexes = new TIntHashSet(76,1F);
+			
+			Pos.forEachBlock(Pos.at(-2,0,-2),Pos.at(2,2,2),pos -> {
+				try{
+					int index = (int)toIndex.invoke(world,pos.getX(),pos.getY(),pos.getZ());
+					usedIndexes.add(index);
+					
+					PosMutable rev = new PosMutable();
+					toPos.invoke(world,index,rev);
+					
+					Assert.equal(rev,pos);
+				}catch(Throwable t){
+					t.printStackTrace();
+				}
+			});
+			
+			Assert.equal(usedIndexes.size(),75);
+		}catch(Throwable t){
+			throw new RuntimeException(t);
 		}
 	}
 }
