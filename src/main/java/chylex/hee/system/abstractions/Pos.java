@@ -12,7 +12,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.abstractions.facing.IFacing;
 import chylex.hee.system.util.MathUtil;
 
@@ -162,35 +162,35 @@ public class Pos{
 	}
 	
 	public Pos offset(IFacing facing){
-		return offset(facing.getX(),0,facing.getZ());
+		return offset(facing.getX(),facing.getY(),facing.getZ());
 	}
 	
 	public Pos offset(IFacing facing, int amount){
-		return offset(facing.getX()*amount,0,facing.getZ()*amount);
+		return offset(facing.getX()*amount,facing.getY()*amount,facing.getZ()*amount);
 	}
 	
 	public Pos getUp(){
-		return offset(EnumFacing.UP);
+		return offset(Facing6.UP_POSY);
 	}
 	
 	public Pos getDown(){
-		return offset(EnumFacing.DOWN);
+		return offset(Facing6.DOWN_NEGY);
 	}
 	
 	public Pos getNorth(){
-		return offset(Facing4.NORTH_NEGZ);
+		return offset(Facing6.NORTH_NEGZ);
 	}
 	
 	public Pos getSouth(){
-		return offset(Facing4.SOUTH_POSZ);
+		return offset(Facing6.SOUTH_POSZ);
 	}
 	
 	public Pos getEast(){
-		return offset(Facing4.EAST_POSX);
+		return offset(Facing6.EAST_POSX);
 	}
 	
 	public Pos getWest(){
-		return offset(Facing4.WEST_NEGX);
+		return offset(Facing6.WEST_NEGX);
 	}
 	
 	/* === DISTANCE === */
@@ -409,11 +409,11 @@ public class Pos{
 		}
 		
 		public PosMutable move(IFacing facing){
-			return move(facing.getX(),0,facing.getZ());
+			return move(facing.getX(),facing.getY(),facing.getZ());
 		}
 		
 		public PosMutable move(IFacing facing, int amount){
-			return move(facing.getX()*amount,0,facing.getZ()*amount);
+			return move(facing.getX()*amount,facing.getY()*amount,facing.getZ()*amount);
 		}
 		
 		public PosMutable moveUp(){
