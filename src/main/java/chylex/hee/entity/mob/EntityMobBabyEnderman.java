@@ -35,6 +35,7 @@ import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.IItemSelector;
 import chylex.hee.system.util.MathUtil;
@@ -108,15 +109,13 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		if (!worldObj.isRemote){
 			if (target == null){
 				if (!hasIS && !isScared && rand.nextInt(550) == 0 && worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){ // set target
-					List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,3D,6D));
-					
-					if (!list.isEmpty()){
-						target = list.get(rand.nextInt(list.size()));
-						
+					CollectionUtil.<EntityPlayer>random(worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,3D,6D)),rand).ifPresent(player -> {
+						target = player;
 						ItemStack headArmor = target.getCurrentArmor(3);
+						
 						if (headArmor != null && headArmor.getItem() == ItemList.enderman_head)target = null;
 						else attentionLossTimer = (byte)(64+rand.nextInt(62));
-					}
+					});
 				}
 				else{ // find stuff on the ground
 					List<EntityItem> list = worldObj.getEntitiesWithinAABB(EntityItem.class,boundingBox.expand(1D,0D,1D));

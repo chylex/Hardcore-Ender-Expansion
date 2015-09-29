@@ -30,6 +30,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -376,7 +377,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 					}
 				}
 				
-				if (maxTargeted > 0 && !viable.isEmpty())viable.get(rand.nextInt(viable.size())).setRevengeTarget((EntityLivingBase)sourceEntity);
+				if (maxTargeted > 0)CollectionUtil.random(viable,rand).ifPresent(entity -> entity.setRevengeTarget((EntityLivingBase)sourceEntity));
 			}
 		}
 		

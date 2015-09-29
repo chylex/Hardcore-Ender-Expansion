@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import chylex.hee.mechanics.brewing.AbstractPotionData;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.brewing.TimedPotion;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemPotionOfInstability extends ItemAbstractPotion{
 	public static final PotionEffect getRandomPotionEffect(Random rand){
 		while(true){
-			AbstractPotionData potion = PotionTypes.potionData.get(rand.nextInt(PotionTypes.potionData.size()));
+			AbstractPotionData potion = CollectionUtil.randomOrNull(PotionTypes.potionData,rand);
 			
 			if (potion instanceof TimedPotion){
 				TimedPotion timed = (TimedPotion)potion;
