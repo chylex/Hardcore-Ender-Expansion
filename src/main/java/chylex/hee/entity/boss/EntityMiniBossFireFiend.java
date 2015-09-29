@@ -29,6 +29,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -186,10 +187,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			}else if (timer >= 2){
 				for(EntityProjectileFiendFireball fireball:controlledFireballs){
 					if (fireball.timer > 1)fireball.updateCenter(this);
-					else if (fireball.timer == 1){
-						List<EntityPlayer> players = getNearbyPlayers();
-						fireball.shootAt(players.isEmpty() ? null : players.get(rand.nextInt(players.size())));
-					}
+					else if (fireball.timer == 1)fireball.shootAt(CollectionUtil.randomOrNull(getNearbyPlayers(),rand));
 				}
 			}
 		}

@@ -21,6 +21,7 @@ import chylex.hee.init.BlockList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C05CustomWeather;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -124,11 +125,9 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 			
 			if (--obsidianSpawnTimer<-120){
 				obsidianSpawnTimer = (byte)(20+rand.nextInt(80));
-				List<EntityPlayer> list = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(128D,64D,128D));
+				EntityPlayer player = CollectionUtil.<EntityPlayer>randomOrNull(worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(128D,64D,128D)),rand);
 				
-				if (!list.isEmpty()){
-					EntityPlayer player = list.get(rand.nextInt(list.size()));
-					
+				if (player != null){
 					for(int attempt = 0, placed = 0, xx, yy, zz; attempt < 25 && placed < 12+worldObj.difficultySetting.getDifficultyId()*2; attempt++){
 						xx = MathUtil.floor(player.posX)+rand.nextInt(9)-4;
 						yy = MathUtil.floor(player.posY)+9+rand.nextInt(6);

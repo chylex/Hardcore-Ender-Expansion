@@ -1,6 +1,5 @@
 package chylex.hee.entity.item;
 import java.util.IdentityHashMap;
-import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,6 +20,8 @@ import chylex.hee.init.BlockList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityItemIgneousRock extends EntityItem{
@@ -99,27 +100,25 @@ public class EntityItemIgneousRock extends EntityItem{
 			}
 			
 			if (rand.nextInt(80-Math.min(32,is.stackSize/3)) == 0){
-				List<EntityLivingBase> nearbyEntities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(3D,3D,3D));
-				if (!nearbyEntities.isEmpty())nearbyEntities.get(rand.nextInt(nearbyEntities.size())).setFire(1+rand.nextInt(4)+getEntityItem().stackSize/10);
+				CollectionUtil.<EntityLivingBase>random(worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(3D,3D,3D)),rand).ifPresent(entity -> {
+					entity.setFire(1+rand.nextInt(4)+getEntityItem().stackSize/10);
+				});
 			}
 		}
 		
-		int ix = MathUtil.floor(posX), iy = MathUtil.floor(posY), iz = MathUtil.floor(posZ);
+		Pos pos = Pos.at(this);
+		Pos below = pos.getDown();
 		
-		if (rand.nextInt(6) == 0 && worldObj.getBlock(ix,iy,iz).getMaterial() == Material.water){
+		if (rand.nextInt(6) == 0 && pos.getMaterial(worldObj) == Material.water){
 			HardcoreEnderExpansion.fx.global("bubble",posX+0.2F*(rand.nextFloat()-0.5F),posY+0.2F*(rand.nextFloat()-0.5F),posZ+0.2F*(rand.nextFloat()-0.5F),0D,0.6D,0D);
 		}
 		
-		if (worldObj.getBlock(ix,iy-1,iz) == BlockList.dungeon_puzzle){
-			int meta = worldObj.getBlockMetadata(ix,iy-1,iz);
+		if (below.getBlock(worldObj) == BlockList.dungeon_puzzle && BlockDungeonPuzzle.canTrigger(below.getMetadata(worldObj))){
+			for(int a = 0; a < 4; a++)HardcoreEnderExpansion.fx.igneousRockBreak(this);
 			
-			if (BlockDungeonPuzzle.canTrigger(meta)){
-				for(int a = 0; a < 4; a++)HardcoreEnderExpansion.fx.igneousRockBreak(this);
-				
-				if (!worldObj.isRemote && onGround){
-					worldObj.spawnEntityInWorld(new EntityTechnicalPuzzleChain(worldObj,ix,iy-1,iz,thrownDirection));
-					setDead();
-				}
+			if (!worldObj.isRemote && onGround){
+				worldObj.spawnEntityInWorld(new EntityTechnicalPuzzleChain(worldObj,below,Facing4.list[thrownDirection])); // TODO check if this even works
+				setDead();
 			}
 		}
 		
@@ -130,7 +129,7 @@ public class EntityItemIgneousRock extends EntityItem{
 	
 	@Override
 	public boolean attackEntityFrom(DamageSource damageSource, float amount){
-		return damageSource.isFireDamage()?false:super.attackEntityFrom(damageSource,amount);
+		return damageSource.isFireDamage() ? false : super.attackEntityFrom(damageSource,amount);
 	}
 	
 	@Override
@@ -142,6 +141,6 @@ public class EntityItemIgneousRock extends EntityItem{
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		rockLife = nbt.hasKey("rockLife")?nbt.getShort("rockLife"):rockLife;
+		rockLife = nbt.hasKey("rockLife") ? nbt.getShort("rockLife") : rockLife;
 	}
 }
