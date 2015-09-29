@@ -11,12 +11,12 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.init.BlockList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 	private int minX, minZ, maxX, maxZ;
-	private final List<BlockPosM> locs = new ArrayList<>();
+	private final List<Pos> locs = new ArrayList<>();
 	private byte appearTimer;
 	
 	public EntityTechnicalPuzzleSolved(World world){
@@ -40,49 +40,47 @@ public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 		if (worldObj.isRemote)return;
 		
 		if (ticksExisted == 1 && appearTimer == 0){
-			int yy = MathUtil.floor(posY);
-			
-			for(int xx = minX; xx <= maxX; xx++){
-				for(int zz = minZ; zz <= maxZ; zz++){
-					if (BlockPosM.tmp(xx,yy,zz).getBlock(worldObj) == BlockList.dungeon_puzzle && BlockPosM.tmp(xx,yy,zz).getMetadata(worldObj) != BlockDungeonPuzzle.metaDisabled)locs.add(new BlockPosM(xx,yy,zz));
+			Pos.forEachBlock(Pos.at(minX,posY,minZ),Pos.at(maxX,posY,maxZ),pos -> {
+				if (pos.getBlock(worldObj) == BlockList.dungeon_puzzle && pos.getMetadata(worldObj) != BlockDungeonPuzzle.metaDisabled){
+					locs.add(pos.immutable());
 				}
-			}
+			});
 		}
 		else if (!locs.isEmpty() && ticksExisted%4 == 0){
 			for(int a = 0; a < 1+rand.nextInt(3) && !locs.isEmpty(); a++){
-				BlockPosM loc = locs.remove(rand.nextInt(locs.size()));
+				Pos loc = locs.remove(rand.nextInt(locs.size()));
 				loc.setMetadata(worldObj,BlockDungeonPuzzle.metaDisabled);
-				worldObj.addBlockEvent(loc.x,loc.y,loc.z,BlockList.dungeon_puzzle,69,0);
+				worldObj.addBlockEvent(loc.getX(),loc.getY(),loc.getZ(),BlockList.dungeon_puzzle,69,0);
 			}
 		}
 		else if (locs.isEmpty() && appearTimer < 12 && ++appearTimer == 12){
-			BlockPosM.tmp(this).setMetadata(worldObj,BlockDungeonPuzzle.metaPortal);
+			Pos.at(this).setMetadata(worldObj,BlockDungeonPuzzle.metaPortal);
 			worldObj.addBlockEvent(MathUtil.floor(posX),MathUtil.floor(posY),MathUtil.floor(posZ),BlockList.dungeon_puzzle,69,1);
 			appearTimer = 69;
 		}
 		else if (appearTimer == 69){
-			if (BlockPosM.tmp(this).getBlock(worldObj) != BlockList.dungeon_puzzle)setDead();
+			if (Pos.at(this).getBlock(worldObj) != BlockList.dungeon_puzzle)setDead();
 			else if (worldObj.getClosestPlayerToEntity(this,1D) != null){
-				BlockPosM tmpPos = BlockPosM.tmp(0,posY,0);
-				
 				for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(minX,posY,minZ,maxX,posY+3D,maxZ))){
-					if (tmpPos.set(player.posX,tmpPos.y,player.posZ).getBlock(worldObj) == BlockList.dungeon_puzzle){
+					Pos pos = Pos.at(player.posX,posY,player.posZ);
+					
+					if (pos.getBlock(worldObj) == BlockList.dungeon_puzzle){
 						if (player.isRiding())player.mountEntity(null);
 						
 						double prevX = player.posX, prevY = player.posY, prevZ = player.posZ;
-						player.setPositionAndUpdate(tmpPos.x+0.5D,worldObj.getTopSolidOrLiquidBlock(tmpPos.x,tmpPos.z),tmpPos.z+0.5D);
+						player.setPositionAndUpdate(pos.getX()+0.5D,worldObj.getTopSolidOrLiquidBlock(pos.getX(),pos.getZ()),pos.getZ()+0.5D);
 						player.fallDistance = 0F;
 						PacketPipeline.sendToAllAround(this,64D,new C22EffectLine(FXType.Line.DUNGEON_PUZZLE_TELEPORT,player.posX,player.posY,player.posZ,prevX,prevY,prevZ));
 					}
 				}
 				
-				tmpPos.set(this);
+				Pos pos = Pos.at(this);
 				
 				EntityMiniBossFireFiend fiend = new EntityMiniBossFireFiend(worldObj);
-				fiend.setLocationAndAngles(tmpPos.x+0.5D+(rand.nextDouble()-0.5D)*18D,worldObj.getTopSolidOrLiquidBlock(tmpPos.x,tmpPos.z)+10,tmpPos.z+0.5D+(rand.nextDouble()-0.5D)*18D,rand.nextFloat()*360F,0F);
+				fiend.setLocationAndAngles(pos.getX()+0.5D+(rand.nextDouble()-0.5D)*18D,worldObj.getTopSolidOrLiquidBlock(pos.getX(),pos.getZ())+10,pos.getZ()+0.5D+(rand.nextDouble()-0.5D)*18D,rand.nextFloat()*360F,0F);
 				worldObj.spawnEntityInWorld(fiend);
 				
-				tmpPos.setMetadata(worldObj,BlockDungeonPuzzle.metaDisabled);
+				pos.setMetadata(worldObj,BlockDungeonPuzzle.metaDisabled);
 				setDead();
 			}
 		}
