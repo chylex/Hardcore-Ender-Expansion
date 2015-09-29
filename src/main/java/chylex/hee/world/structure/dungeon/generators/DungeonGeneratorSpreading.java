@@ -7,8 +7,8 @@ import java.util.Random;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.weight.WeightedList;
-import chylex.hee.system.util.CollectionUtil;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonGenerator;
@@ -126,7 +126,7 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 		
 		for(int index = 0; index < length && corridorsAvailable.getTotalWeight() > 0; index++){
 			final StructureDungeonPieceInst targetPieceInst = index == 0 ? startPiece : pieces.get(index-1);
-			final Connection targetConnection = index == 0 ? startConnection : CollectionUtil.random(targetPieceInst.findConnections(),rand).orElse(null);
+			final Connection targetConnection = index == 0 ? startConnection : CollectionUtil.randomOrNull(targetPieceInst.findConnections(),rand);
 			
 			if (targetConnection == null)break;
 			

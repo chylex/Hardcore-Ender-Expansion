@@ -37,7 +37,7 @@ public abstract class StructureDungeonPiece{
 	}
 	
 	/**
-	 * Adds connection facing outside of the piece bounding box
+	 * Adds connection facing outside of the piece bounding box.
 	 */
 	protected void addConnection(Facing4 facing, int offsetX, int offsetY, int offsetZ, IConnectWith canConnect){
 		connections.add(new Connection(facing,offsetX,offsetY,offsetZ,canConnect));

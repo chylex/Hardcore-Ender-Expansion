@@ -29,7 +29,7 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 	@Override
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, final int x, final int y, final int z){
 		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
-		PosMutable mpos = new PosMutable();
+		PosMutable mpos = new PosMutable(); // TODO lava behind bars
 		
 		// box
 		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ); // ceiling
