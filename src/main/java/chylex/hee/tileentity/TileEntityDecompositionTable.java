@@ -6,8 +6,8 @@ import java.util.Set;
 import net.minecraft.item.ItemStack;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.misc.StardustDecomposition;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemDamagePair;
+import chylex.hee.system.util.ItemUtil;
 
 public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 	private static final int[] slotsTop = new int[]{ 0 }, slotsSides = new int[]{ 1 }, slotsBottom = new int[]{ 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -57,7 +57,7 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 			
 			for(int slot = 0; slot < itemsCopy.length; slot++){
 				if (itemsCopy[slot] == null)itemsCopy[slot] = ingredient.copy();
-				else if (DragonUtil.canAddOneItemTo(itemsCopy[slot],ingredient))++itemsCopy[slot].stackSize;
+				else if (ItemUtil.canAddOneItemTo(itemsCopy[slot],ingredient))++itemsCopy[slot].stackSize;
 				else continue;
 				
 				canAdd = true;
@@ -70,7 +70,7 @@ public class TileEntityDecompositionTable extends TileEntityAbstractTable{
 		for(ItemStack ingredient:chosenIngredients){
 			for(int slot = 2; slot < items.length; slot++){
 				if (items[slot] == null)items[slot] = ingredient.copy();
-				else if (DragonUtil.canAddOneItemTo(items[slot],ingredient))++items[slot].stackSize;
+				else if (ItemUtil.canAddOneItemTo(items[slot],ingredient))++items[slot].stackSize;
 				else continue;
 				break;
 			}
