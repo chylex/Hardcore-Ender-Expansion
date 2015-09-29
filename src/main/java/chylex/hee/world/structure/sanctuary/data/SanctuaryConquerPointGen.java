@@ -2,7 +2,7 @@ package chylex.hee.world.structure.sanctuary.data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import chylex.hee.world.util.Direction;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.logging.Log;
 import com.google.common.collect.ImmutableList;
 
@@ -34,8 +34,8 @@ public class SanctuaryConquerPointGen{
 			}
 		}
 		
-		for(int dir = 0; dir < 4; dir++){
-			tryBlock((byte)(x+Direction.offsetX[dir]*2),(byte)(z+Direction.offsetZ[dir]*2));
+		for(Facing4 dir:Facing4.list){
+			tryBlock((byte)(x+dir.getX()*2),(byte)(z+dir.getZ()*2));
 		}
 		
 		return true;
