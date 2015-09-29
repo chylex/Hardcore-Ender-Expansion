@@ -126,4 +126,21 @@ public class WeightedList<T extends IWeightProvider> implements IWeightedCollect
 		if (item != null)items.remove(item);
 		return item;
 	}
+	
+	// Object methods
+	
+	@Override
+	public boolean equals(Object obj){
+		return obj instanceof WeightedList && ((WeightedList)obj).items.equals(items);
+	}
+	
+	@Override
+	public int hashCode(){
+		return items.hashCode();
+	}
+	
+	@Override
+	public String toString(){
+		return items.toString();
+	}
 }
