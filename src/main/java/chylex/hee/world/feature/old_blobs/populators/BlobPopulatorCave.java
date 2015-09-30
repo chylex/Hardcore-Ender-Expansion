@@ -1,9 +1,9 @@
 package chylex.hee.world.feature.old_blobs.populators;
 import chylex.hee.world.feature.old_blobs.BlobPopulator;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class BlobPopulatorCave extends BlobPopulator{
-	private IRandomAmount fullAmountGen = IRandomAmount.exact, totalAmountGen = IRandomAmount.exact;
+	private RandomAmount fullAmountGen = RandomAmount.exact, totalAmountGen = RandomAmount.exact;
 	private byte minFullCaveAmount, maxFullCaveAmount, minTotalCaveAmountLimit, maxTotalCaveAmountLimit, maxRecursion;
 	private double minRad, maxRad, minRecursionChance, maxRecursionChance, minRecursionRadMp, maxRecursionRadMp;
 	private boolean recursionChanceCached = false;
@@ -24,7 +24,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 	/**
 	 * Sets the amount of full caves that go across the full structure.
 	 */
-	public BlobPopulatorCave fullCaveAmount(IRandomAmount fullAmountGen, int minFullCaveAmount, int maxFullCaveAmount){
+	public BlobPopulatorCave fullCaveAmount(RandomAmount fullAmountGen, int minFullCaveAmount, int maxFullCaveAmount){
 		this.fullAmountGen = fullAmountGen;
 		this.minFullCaveAmount = (byte)minFullCaveAmount;
 		this.maxFullCaveAmount = (byte)maxFullCaveAmount;
@@ -34,7 +34,7 @@ public class BlobPopulatorCave extends BlobPopulator{
 	/**
 	 * Sets the maximum limit for amount of caves, including recursively generated ones.
 	 */
-	public BlobPopulatorCave totalCaveAmount(IRandomAmount totalAmountGen, int minTotalCaveAmountLimit, int maxTotalCaveAmountLimit){
+	public BlobPopulatorCave totalCaveAmount(RandomAmount totalAmountGen, int minTotalCaveAmountLimit, int maxTotalCaveAmountLimit){
 		this.totalAmountGen = totalAmountGen;
 		this.minTotalCaveAmountLimit = (byte)minTotalCaveAmountLimit;
 		this.maxTotalCaveAmountLimit = (byte)maxTotalCaveAmountLimit;

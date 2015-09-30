@@ -1,9 +1,9 @@
 package chylex.hee.world.feature.old_blobs.generators;
 import chylex.hee.world.feature.old_blobs.BlobGenerator;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class BlobGeneratorRecursive extends BlobGenerator{
-	private IRandomAmount baseAmountGen = IRandomAmount.exact, totalAmountGen = IRandomAmount.exact, recursionAmountGen = IRandomAmount.exact;
+	private RandomAmount baseAmountGen = RandomAmount.exact, totalAmountGen = RandomAmount.exact, recursionAmountGen = RandomAmount.exact;
 	private byte minAmount, maxAmount, minTotalAmountLimit, maxTotalAmountLimit, minRecursionAmount, maxRecursionAmount, maxRecursion;
 	private double minRad, maxRad, minRecursionChance, maxRecursionChance, recursionChanceMp, minBlobDistMp, maxBlobDistMp;
 	private boolean recursionChanceCached;
@@ -15,21 +15,21 @@ public class BlobGeneratorRecursive extends BlobGenerator{
 		super(weight);
 	}
 	
-	public BlobGeneratorRecursive baseAmount(IRandomAmount baseAmountGen, int minAmount, int maxAmount){
+	public BlobGeneratorRecursive baseAmount(RandomAmount baseAmountGen, int minAmount, int maxAmount){
 		this.baseAmountGen = baseAmountGen;
 		this.minAmount = (byte)minAmount;
 		this.maxAmount = (byte)maxAmount;
 		return this;
 	}
 	
-	public BlobGeneratorRecursive totalAmount(IRandomAmount totalAmountGen, int minTotalAmountLimit, int maxTotalAmountLimit){
+	public BlobGeneratorRecursive totalAmount(RandomAmount totalAmountGen, int minTotalAmountLimit, int maxTotalAmountLimit){
 		this.totalAmountGen = totalAmountGen;
 		this.minTotalAmountLimit = (byte)minTotalAmountLimit;
 		this.maxTotalAmountLimit = (byte)maxTotalAmountLimit;
 		return this;
 	}
 	
-	public BlobGeneratorRecursive recursionAmount(IRandomAmount recursionAmountGen, int minRecursionAmount, int maxRecursionAmount){
+	public BlobGeneratorRecursive recursionAmount(RandomAmount recursionAmountGen, int minRecursionAmount, int maxRecursionAmount){
 		this.recursionAmountGen = recursionAmountGen;
 		this.minRecursionAmount = (byte)minRecursionAmount;
 		this.maxRecursionAmount = (byte)maxRecursionAmount;

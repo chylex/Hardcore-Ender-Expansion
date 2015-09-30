@@ -1,4 +1,4 @@
-package chylex.hee.world.util;
+package chylex.hee.world;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;

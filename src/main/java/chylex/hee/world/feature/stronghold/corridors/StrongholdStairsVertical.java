@@ -6,10 +6,10 @@ import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.stronghold.StrongholdPiece;
-import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.Size;
+import chylex.hee.world.structure.util.IBlockPicker;
+import chylex.hee.world.util.Size;
 
 public class StrongholdStairsVertical extends StrongholdPiece{
 	public static StrongholdStairsVertical[] generateStairs(final int levels){

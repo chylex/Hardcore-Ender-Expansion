@@ -1,11 +1,11 @@
 package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
 import chylex.hee.world.feature.old_blobs.BlobPopulator;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class BlobPopulatorLiquidFall extends BlobPopulator{
 	private Block liquid;
-	private IRandomAmount amountGen;
+	private RandomAmount amountGen;
 	private byte minAmount, maxAmount, minAttempts, maxAttempts;
 	private boolean requireBlockBelow;
 	
@@ -18,7 +18,7 @@ public class BlobPopulatorLiquidFall extends BlobPopulator{
 		return this;
 	}
 	
-	public BlobPopulatorLiquidFall amount(IRandomAmount amountGen, int minAmount, int maxAmount){
+	public BlobPopulatorLiquidFall amount(RandomAmount amountGen, int minAmount, int maxAmount){
 		this.amountGen = amountGen;
 		this.minAmount = (byte)minAmount;
 		this.maxAmount = (byte)maxAmount;

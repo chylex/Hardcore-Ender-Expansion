@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityEndPortalCustom;
-import chylex.hee.world.util.TeleportHandler;
+import chylex.hee.world.TeleportHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

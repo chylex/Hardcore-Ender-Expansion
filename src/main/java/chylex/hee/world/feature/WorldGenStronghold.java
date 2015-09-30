@@ -57,8 +57,8 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorAttaching;
 import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorSpreading;
-import chylex.hee.world.structure.util.Range;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
+import chylex.hee.world.util.Range;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGenStronghold implements IWorldGenerator{
@@ -74,11 +74,11 @@ public class WorldGenStronghold implements IWorldGenerator{
 		loot.addLoot(ItemList.ethereum).setAmount(1,2).setWeight(95);
 		loot.addLoot(Items.gold_ingot).setAmount(1,3).setWeight(92);
 		loot.addLoot(Items.rotten_flesh).setAmount(1,4).setWeight(82);
-		loot.addLoot(Items.leather).setAmount(1,6,IRandomAmount.aroundCenter).setWeight(80);
+		loot.addLoot(Items.leather).setAmount(1,6,RandomAmount.aroundCenter).setWeight(80);
 		loot.addLoot(ItemList.knowledge_note).setAmount(1).setWeight(72);
 		loot.addLoot(Items.book).setAmount(1).setWeight(70);
 		loot.addLoot(Blocks.obsidian).setAmount(2,3).setWeight(58);
-		loot.addLoot(Items.bowl).setAmount(1,3,IRandomAmount.preferSmaller).setWeight(40);
+		loot.addLoot(Items.bowl).setAmount(1,3,RandomAmount.preferSmaller).setWeight(40);
 		loot.addLoot(Items.string).setAmount(1,3).setWeight(36);
 		loot.addLoot(Items.dye).setDamage(Meta.getDye(BlockColor.BLACK)).setAmount(1).setWeight(30);
 		loot.addLoot(Items.glass_bottle).setAmount(1).setWeight(22);

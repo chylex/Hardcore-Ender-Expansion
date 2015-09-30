@@ -3,8 +3,8 @@ import java.util.Optional;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.world.structure.StructureBase;
-import chylex.hee.world.structure.util.BoundingBox;
-import chylex.hee.world.structure.util.Range;
+import chylex.hee.world.util.BoundingBox;
+import chylex.hee.world.util.Range;
 
 /**
  * Basic dungeon consisting of multiple cuboids connected to each other.

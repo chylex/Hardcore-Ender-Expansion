@@ -11,7 +11,7 @@ import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IPieceType;
-import chylex.hee.world.structure.util.BoundingBox;
+import chylex.hee.world.util.BoundingBox;
 
 public class StructureDungeonPieceInst implements IWeightProvider{
 	public final StructureDungeonPiece piece;

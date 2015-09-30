@@ -1,11 +1,11 @@
 package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
 import chylex.hee.world.feature.old_blobs.BlobPopulator;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class BlobPopulatorOreCluster extends BlobPopulator{
 	private Block ore;
-	private IRandomAmount iterationAmountGen = IRandomAmount.exact, blockAmountGen = IRandomAmount.exact;
+	private RandomAmount iterationAmountGen = RandomAmount.exact, blockAmountGen = RandomAmount.exact;
 	private byte minAttempts, maxAttempts, minIterationAmount, maxIterationAmount, minBlockAmount, maxBlockAmount;
 	
 	public BlobPopulatorOreCluster(int weight){
@@ -17,14 +17,14 @@ public class BlobPopulatorOreCluster extends BlobPopulator{
 		return this;
 	}
 	
-	public BlobPopulatorOreCluster iterationAmount(IRandomAmount iterationAmountGen, int minIterationAmount, int maxIterationAmount){
+	public BlobPopulatorOreCluster iterationAmount(RandomAmount iterationAmountGen, int minIterationAmount, int maxIterationAmount){
 		this.iterationAmountGen = iterationAmountGen;
 		this.minIterationAmount = (byte)minIterationAmount;
 		this.maxIterationAmount = (byte)maxIterationAmount;
 		return this;
 	}
 	
-	public BlobPopulatorOreCluster blockAmount(IRandomAmount blockAmountGen, int minBlockAmount, int maxBlockAmount){
+	public BlobPopulatorOreCluster blockAmount(RandomAmount blockAmountGen, int minBlockAmount, int maxBlockAmount){
 		this.blockAmountGen = blockAmountGen;
 		this.minBlockAmount = (byte)minBlockAmount;
 		this.maxBlockAmount = (byte)maxBlockAmount;

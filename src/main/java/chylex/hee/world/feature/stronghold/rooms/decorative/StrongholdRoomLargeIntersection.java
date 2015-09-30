@@ -3,7 +3,7 @@ import java.util.Random;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.Size;
+import chylex.hee.world.util.Size;
 
 public class StrongholdRoomLargeIntersection extends StrongholdRoom{
 	public StrongholdRoomLargeIntersection(){

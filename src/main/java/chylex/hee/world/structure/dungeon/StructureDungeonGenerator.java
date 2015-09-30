@@ -2,9 +2,9 @@ package chylex.hee.world.structure.dungeon;
 import java.util.Random;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.collections.weight.WeightedList;
-import chylex.hee.world.structure.IStructureGenerator;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
-import chylex.hee.world.structure.util.BoundingBox;
+import chylex.hee.world.structure.util.IStructureGenerator;
+import chylex.hee.world.util.BoundingBox;
 
 public abstract class StructureDungeonGenerator implements IStructureGenerator{
 	@FunctionalInterface

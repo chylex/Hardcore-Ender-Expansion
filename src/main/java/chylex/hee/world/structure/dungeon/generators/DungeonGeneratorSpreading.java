@@ -17,9 +17,9 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IPieceType;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceArray;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.BoundingBox;
-import chylex.hee.world.structure.util.Range;
-import chylex.hee.world.structure.util.Size;
+import chylex.hee.world.util.BoundingBox;
+import chylex.hee.world.util.Range;
+import chylex.hee.world.util.Size;
 
 /**
  * Generates a dungeon by choosing a room piece and then creating a path using corridor pieces. This generator cannot create dead ends.

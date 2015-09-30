@@ -8,8 +8,8 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.UnitTest;
 import chylex.hee.world.structure.StructureWorld;
-import chylex.hee.world.structure.util.BoundingBox;
-import chylex.hee.world.structure.util.Range;
+import chylex.hee.world.util.BoundingBox;
+import chylex.hee.world.util.Range;
 
 public class TestWorldClasses{
 	@UnitTest

@@ -2,7 +2,7 @@ package chylex.hee.world.providers;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.chunk.IChunkProvider;
-import chylex.hee.world.util.TeleportHandler;
+import chylex.hee.world.TeleportHandler;
 
 public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	@Override

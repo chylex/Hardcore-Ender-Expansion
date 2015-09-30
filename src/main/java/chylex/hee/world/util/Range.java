@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.util;
+package chylex.hee.world.util;
 import java.util.Random;
 
 public class Range{

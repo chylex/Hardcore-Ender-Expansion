@@ -8,7 +8,7 @@ import chylex.hee.world.loot.WeightedLootTable.WeightedLootItem;
 import chylex.hee.world.loot.interfaces.IItemPostProcessor;
 import chylex.hee.world.loot.interfaces.LootAmountProvider;
 import chylex.hee.world.loot.interfaces.LootDamageProvider;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class WeightedLootTable extends LootTable<WeightedLootItem>{
 	private WeightedList<WeightedLootItem> weightList = new WeightedList<>();
@@ -59,7 +59,7 @@ public class WeightedLootTable extends LootTable<WeightedLootItem>{
 			return this;
 		}
 		
-		public WeightedLootItem setAmount(final int minAmount, final int maxAmount, final IRandomAmount generator){
+		public WeightedLootItem setAmount(final int minAmount, final int maxAmount, final RandomAmount generator){
 			this.amount = (obj, rand) -> generator.generate(rand,minAmount,maxAmount);
 			return this;
 		}

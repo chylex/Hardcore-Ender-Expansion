@@ -1,11 +1,11 @@
 package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
 import chylex.hee.world.feature.old_blobs.BlobPopulator;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class BlobPopulatorOreScattered extends BlobPopulator{
 	private Block ore;
-	private IRandomAmount blockAmountGen = IRandomAmount.exact;
+	private RandomAmount blockAmountGen = RandomAmount.exact;
 	private byte minAttempts, maxAttempts, minBlockAmount, maxBlockAmount, visiblePlacementAttempts;
 	private boolean knownBlockLocations;
 	
@@ -24,7 +24,7 @@ public class BlobPopulatorOreScattered extends BlobPopulator{
 		return this;
 	}
 	
-	public BlobPopulatorOreScattered blockAmount(IRandomAmount blockAmountGen, int minBlockAmount, int maxBlockAmount){
+	public BlobPopulatorOreScattered blockAmount(RandomAmount blockAmountGen, int minBlockAmount, int maxBlockAmount){
 		this.blockAmountGen = blockAmountGen;
 		this.minBlockAmount = (byte)minBlockAmount;
 		this.maxBlockAmount = (byte)maxBlockAmount;

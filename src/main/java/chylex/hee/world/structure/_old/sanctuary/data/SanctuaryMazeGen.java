@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.sanctuary.data;
+package chylex.hee.world.structure._old.sanctuary.data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

@@ -2,7 +2,7 @@ package chylex.hee.system.abstractions;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import chylex.hee.world.structure.IBlockPicker;
+import chylex.hee.world.structure.util.IBlockPicker;
 
 public final class BlockInfo implements IBlockPicker{
 	public static final BlockInfo air = new BlockInfo(Blocks.air);

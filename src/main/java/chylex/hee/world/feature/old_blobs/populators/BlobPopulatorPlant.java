@@ -1,11 +1,11 @@
 package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
 import chylex.hee.world.feature.old_blobs.BlobPopulator;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class BlobPopulatorPlant extends BlobPopulator{
 	private Block plant;
-	private IRandomAmount amountGen = IRandomAmount.exact;
+	private RandomAmount amountGen = RandomAmount.exact;
 	private byte minAttempts, maxAttempts, minPlantAmount, maxPlantAmount;
 	private boolean knownBlockLocations;
 	
@@ -24,7 +24,7 @@ public class BlobPopulatorPlant extends BlobPopulator{
 		return this;
 	}
 	
-	public BlobPopulatorPlant blockAmount(IRandomAmount amountGen, int minPlantAmount, int maxPlantAmount){
+	public BlobPopulatorPlant blockAmount(RandomAmount amountGen, int minPlantAmount, int maxPlantAmount){
 		this.amountGen = amountGen;
 		this.minPlantAmount = (byte)minPlantAmount;
 		this.maxPlantAmount = (byte)maxPlantAmount;

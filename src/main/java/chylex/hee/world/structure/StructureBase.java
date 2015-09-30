@@ -2,6 +2,7 @@ package chylex.hee.world.structure;
 import java.util.Random;
 import java.util.function.Consumer;
 import net.minecraft.world.World;
+import chylex.hee.world.structure.util.IStructureGenerator;
 
 public abstract class StructureBase<T extends IStructureGenerator>{
 	protected final int radX, sizeY, radZ;

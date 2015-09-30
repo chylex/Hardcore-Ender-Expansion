@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import chylex.hee.system.abstractions.facing.Facing4;
-import chylex.hee.world.structure.IBlockPicker;
 import chylex.hee.world.structure.StructureWorld;
-import chylex.hee.world.structure.util.Size;
+import chylex.hee.world.structure.util.IBlockPicker;
+import chylex.hee.world.util.Size;
 import com.google.common.collect.ImmutableList;
 
 public abstract class StructureDungeonPiece{

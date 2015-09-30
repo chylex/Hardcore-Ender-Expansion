@@ -6,7 +6,7 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.world.feature.stronghold.StrongholdPiece;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.Size;
+import chylex.hee.world.util.Size;
 
 public class StrongholdCorridorIntersection extends StrongholdPiece{
 	public static StrongholdCorridorIntersection[] generateCorners(){

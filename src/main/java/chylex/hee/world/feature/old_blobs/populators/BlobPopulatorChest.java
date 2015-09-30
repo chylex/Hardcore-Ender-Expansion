@@ -1,11 +1,11 @@
 package chylex.hee.world.feature.old_blobs.populators;
 import chylex.hee.world.feature.old_blobs.BlobPopulator;
 import chylex.hee.world.loot.WeightedLootTable;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class BlobPopulatorChest extends BlobPopulator/* implements ITileEntityGenerator*/{
 	private WeightedLootTable loot;
-	private IRandomAmount amountGen = IRandomAmount.exact;
+	private RandomAmount amountGen = RandomAmount.exact;
 	private int minAmount, maxAmount;
 	private boolean onlyInside;
 	
@@ -13,7 +13,7 @@ public class BlobPopulatorChest extends BlobPopulator/* implements ITileEntityGe
 		super(weight);
 	}
 	
-	public BlobPopulatorChest loot(WeightedLootTable loot, IRandomAmount amountGen, int minAmount, int maxAmount){
+	public BlobPopulatorChest loot(WeightedLootTable loot, RandomAmount amountGen, int minAmount, int maxAmount){
 		this.loot = loot;
 		this.amountGen = amountGen;
 		this.minAmount = minAmount;

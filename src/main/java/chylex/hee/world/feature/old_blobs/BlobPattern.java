@@ -7,13 +7,13 @@ import java.util.Random;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.collections.weight.WeightedList;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public final class BlobPattern implements IWeightProvider{
 	private final int weight;
 	private final WeightedList<BlobGenerator> generators = new WeightedList<>();
 	private final WeightedList<BlobPopulator> populators = new WeightedList<>();
-	private IRandomAmount populatorAmountGen;
+	private RandomAmount populatorAmountGen;
 	private int minPopulatorAmount, maxPopulatorAmount;
 	
 	private final Comparator<BlobPopulator> populatorSorter = new Comparator<BlobPopulator>(){
@@ -37,7 +37,7 @@ public final class BlobPattern implements IWeightProvider{
 		return this;
 	}
 	
-	public BlobPattern setPopulatorAmountProvider(IRandomAmount populatorAmountGen, int minPopulatorAmount, int maxPopulatorAmount){
+	public BlobPattern setPopulatorAmountProvider(RandomAmount populatorAmountGen, int minPopulatorAmount, int maxPopulatorAmount){
 		this.populatorAmountGen = populatorAmountGen;
 		this.minPopulatorAmount = minPopulatorAmount;
 		this.maxPopulatorAmount = maxPopulatorAmount;

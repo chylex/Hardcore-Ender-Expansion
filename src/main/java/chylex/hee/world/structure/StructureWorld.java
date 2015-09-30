@@ -13,6 +13,7 @@ import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.structure.util.IStructureTileEntity;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.hash.TIntHashSet;
 

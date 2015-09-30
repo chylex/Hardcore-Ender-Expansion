@@ -21,12 +21,12 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.logging.Log;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
-import chylex.hee.world.structure.IBlockPicker;
-import chylex.hee.world.structure.IStructureTileEntity;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.util.BoundingBox;
-import chylex.hee.world.structure.util.Size;
+import chylex.hee.world.structure.util.IBlockPicker;
+import chylex.hee.world.structure.util.IStructureTileEntity;
+import chylex.hee.world.util.Size;
+import chylex.hee.world.util.BoundingBox;
 
 public class StrongholdRoomPrisonTrap extends StrongholdRoom{
 	public static StrongholdRoomPrisonTrap[] generatePrisons(){

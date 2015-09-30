@@ -1,9 +1,9 @@
 package chylex.hee.world.feature.old_blobs.generators;
 import chylex.hee.world.feature.old_blobs.BlobGenerator;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class BlobGeneratorChain extends BlobGenerator{
-	private IRandomAmount amountGen = IRandomAmount.exact;
+	private RandomAmount amountGen = RandomAmount.exact;
 	private byte minAmount, maxAmount;
 	private double minRad, maxRad, minChainDistMp, maxChainDistMp;
 	private boolean unifiedSize;
@@ -12,7 +12,7 @@ public class BlobGeneratorChain extends BlobGenerator{
 		super(weight);
 	}
 	
-	public BlobGeneratorChain amount(IRandomAmount amountGen, int minAmount, int maxAmount){
+	public BlobGeneratorChain amount(RandomAmount amountGen, int minAmount, int maxAmount){
 		this.amountGen = amountGen;
 		this.minAmount = (byte)minAmount;
 		this.maxAmount = (byte)maxAmount;

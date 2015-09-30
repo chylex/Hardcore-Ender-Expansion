@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.util;
+package chylex.hee.world.util;
 import net.minecraft.util.AxisAlignedBB;
 import chylex.hee.system.abstractions.Pos;
 

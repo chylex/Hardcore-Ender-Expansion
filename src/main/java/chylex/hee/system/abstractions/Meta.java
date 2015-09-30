@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.tileentity.TileEntitySkull;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.structure.IStructureTileEntity;
+import chylex.hee.world.structure.util.IStructureTileEntity;
 
 public final class Meta{
 	/* === SIMPLE BLOCKS === */

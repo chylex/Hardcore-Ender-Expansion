@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.IPieceType;
-import chylex.hee.world.structure.util.Range;
+import chylex.hee.world.util.Range;
 
 public class StructureDungeonPieceArray implements IWeightProvider{
 	public final IPieceType type;

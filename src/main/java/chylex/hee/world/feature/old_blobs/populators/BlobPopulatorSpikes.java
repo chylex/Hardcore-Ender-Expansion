@@ -1,11 +1,11 @@
 package chylex.hee.world.feature.old_blobs.populators;
 import net.minecraft.block.Block;
 import chylex.hee.world.feature.old_blobs.BlobPopulator;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.util.RandomAmount;
 
 public class BlobPopulatorSpikes extends BlobPopulator{
 	private Block block;
-	private IRandomAmount amountGen = IRandomAmount.exact;
+	private RandomAmount amountGen = RandomAmount.exact;
 	private byte minAmount, maxAmount, maxOffsetFromCenter;
 	
 	public BlobPopulatorSpikes(int weight){
@@ -17,7 +17,7 @@ public class BlobPopulatorSpikes extends BlobPopulator{
 		return this;
 	}
 	
-	public BlobPopulatorSpikes amount(IRandomAmount amountGen, int minAmount, int maxAmount){
+	public BlobPopulatorSpikes amount(RandomAmount amountGen, int minAmount, int maxAmount){
 		this.amountGen = amountGen;
 		this.minAmount = (byte)minAmount;
 		this.maxAmount = (byte)maxAmount;

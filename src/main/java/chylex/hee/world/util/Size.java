@@ -1,4 +1,4 @@
-package chylex.hee.world.structure.util;
+package chylex.hee.world.util;
 
 public final class Size{
 	public final int sizeX, sizeY, sizeZ;

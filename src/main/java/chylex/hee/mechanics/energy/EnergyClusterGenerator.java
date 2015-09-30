@@ -1,7 +1,7 @@
 package chylex.hee.mechanics.energy;
 import java.util.Random;
 import java.util.function.Function;
-import chylex.hee.world.structure.util.Range;
+import chylex.hee.world.util.Range;
 
 public final class EnergyClusterGenerator{
 	public static final EnergyClusterGenerator

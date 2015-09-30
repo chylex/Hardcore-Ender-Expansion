@@ -9,13 +9,13 @@ import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.WorldGenStronghold;
-import chylex.hee.world.structure.IBlockPicker;
-import chylex.hee.world.structure.IStructureTileEntity;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
 import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorSpreading.ISpreadingGeneratorPieceType;
-import chylex.hee.world.structure.util.Size;
-import chylex.hee.world.util.IRandomAmount;
+import chylex.hee.world.structure.util.IBlockPicker;
+import chylex.hee.world.structure.util.IStructureTileEntity;
+import chylex.hee.world.util.Size;
+import chylex.hee.world.util.RandomAmount;
 
 public abstract class StrongholdPiece extends StructureDungeonPiece{
 	protected enum Type implements ISpreadingGeneratorPieceType{
@@ -87,7 +87,7 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	protected static final IStructureTileEntity generateLoot = (tile, rand) -> {
 		TileEntityChest chest = (TileEntityChest)tile;
 		
-		for(int items = IRandomAmount.aroundCenter.generate(rand,3,10); items > 0; items--){
+		for(int items = RandomAmount.aroundCenter.generate(rand,3,10); items > 0; items--){
 			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),WorldGenStronghold.loot.generateWeighted(null,rand));
 		}
 		

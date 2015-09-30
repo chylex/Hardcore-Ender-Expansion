@@ -1,3 +1,4 @@
+package chylex.hee.world.structure._old;
 /*package chylex.hee.world.structure.sanctuary;
 import java.util.Random;
 import net.minecraft.nbt.NBTTagCompound;
