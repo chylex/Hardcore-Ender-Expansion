@@ -31,7 +31,6 @@ import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.test.UnitTest.RunTime;
 import chylex.hee.system.test.UnitTester;
 import chylex.hee.world.DimensionOverride;
-import chylex.hee.world.loot.old.WorldLoot;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -145,7 +144,7 @@ public class HardcoreEnderExpansion{
 		PacketPipeline.initializePipeline();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,GuiHandler.instance);
 		RecipeList.addRecipes();
-		WorldLoot.registerWorldLoot();
+		// TODO WorldLoot.registerWorldLoot();
 		
 		Stopwatch.finish("InitEvent");
 	}
