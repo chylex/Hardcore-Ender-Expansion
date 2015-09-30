@@ -29,10 +29,15 @@ import chylex.hee.world.structure.util.Size;
 public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 	public static interface ISpreadingGeneratorPieceType extends IPieceType{
 		boolean isRoom();
+		boolean isDoor();
 	}
 	
 	protected static boolean isRoom(StructureDungeonPieceArray array){
 		return ((ISpreadingGeneratorPieceType)array.type).isRoom();
+	}
+	
+	protected static boolean isDoor(StructureDungeonPieceArray array){
+		return ((ISpreadingGeneratorPieceType)array.type).isDoor();
 	}
 	
 	protected final WeightedList<StructureDungeonPieceArray> rooms;
@@ -119,7 +124,7 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 	 * The new pieces are not added to the generated piece list, that is up to the calling method after validating the list.
 	 * If the list has a different size than the selected corridor amount, it returns null instead.
 	 */
-	private List<StructureDungeonPieceInst> generateCorridorList(StructureDungeonPieceInst startPiece, Connection startConnection, StructureDungeonPieceArray nextArray, Random rand){
+	private List<StructureDungeonPieceInst> generateCorridorList(StructureDungeonPieceInst startPiece, Connection startConnection, StructureDungeonPieceArray roomArray, Random rand){
 		int corridorAmount = piecesBetweenRooms.random(rand);
 		
 		final List<StructureDungeonPieceInst> pieces = new ArrayList<>(corridorAmount);
@@ -133,7 +138,10 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 			if (targetConnection == null)break;
 			
 			for(int attempt = 0; attempt < 201; attempt++){
-				Pair<StructureDungeonPiece,Connection> nextPiece = findSuitablePiece(corridorsAvailable.getRandomItem(rand),targetConnection.facing,targetPieceInst.piece.type,rand);
+				StructureDungeonPieceArray nextArray = corridorsAvailable.getRandomItem(rand);
+				if (isDoor(nextArray) && !(index == 0 || index == corridorAmount-1))continue;
+				
+				Pair<StructureDungeonPiece,Connection> nextPiece = findSuitablePiece(nextArray,targetConnection.facing,targetPieceInst.piece.type,rand);
 				
 				if (nextPiece != null && attempt < 200){
 					final Pos aligned = alignConnections(targetPieceInst,targetConnection,nextPiece.getRight());
@@ -156,7 +164,7 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 		if (pieces.size() == corridorAmount){
 			final StructureDungeonPieceInst targetPieceInst = pieces.isEmpty() ? startPiece : pieces.get(pieces.size()-1);
 			final Connection targetConnection = pieces.isEmpty() ? startConnection : CollectionUtil.randomOrNull(targetPieceInst.findConnections(),rand);
-			final Pair<StructureDungeonPiece,Connection> finalRoom = findSuitablePiece(nextArray,targetConnection.facing,targetPieceInst.piece.type,rand);
+			final Pair<StructureDungeonPiece,Connection> finalRoom = findSuitablePiece(roomArray,targetConnection.facing,targetPieceInst.piece.type,rand);
 			
 			if (finalRoom != null){
 				final Pos aligned = alignConnections(targetPieceInst,targetConnection,finalRoom.getRight());
