@@ -25,10 +25,15 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		public boolean isRoom(){
 			return this == ROOM || this == DEADEND; // the spreading generator cannot create deadends, so make a couple of them intentionally
 		}
+		
+		@Override
+		public boolean isDoor(){
+			return this == DOOR;
+		}
 	}
 	
 	protected static final IConnectWith fromRoom = type -> type == Type.CORRIDOR || type == Type.DOOR;
-	protected static final IConnectWith fromDoor = type -> type == Type.CORRIDOR || type == Type.ROOM;
+	protected static final IConnectWith fromDoor = type -> true;
 	protected static final IConnectWith withAnything = type -> true;
 	
 	private static final BlockInfo[] blocksStoneBrick = new BlockInfo[]{
