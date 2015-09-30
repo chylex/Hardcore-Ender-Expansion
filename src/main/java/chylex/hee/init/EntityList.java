@@ -26,9 +26,9 @@ import chylex.hee.system.util.GameRegistryUtil;
 
 public final class EntityList{
 	public static void registerEntities(){
-		GameRegistryUtil.replaceVanillaEntity(EntityMobEnderman.class,58);
-		GameRegistryUtil.replaceVanillaEntity(EntityMobSilverfish.class,60);
-		GameRegistryUtil.replaceVanillaEntity(EntityBlockEnderCrystal.class,200);
+		GameRegistryUtil.replaceVanillaEntity(EntityMobEnderman.class, 58);
+		GameRegistryUtil.replaceVanillaEntity(EntityMobSilverfish.class, 60);
+		GameRegistryUtil.replaceVanillaEntity(EntityBlockEnderCrystal.class, 200);
 		
 		GameRegistryUtil.registerEntity(EntityBossDragon.class, "Dragon", 8, 320);
 		GameRegistryUtil.registerEntity(EntityBossEnderDemon.class, "EnderDemon", 21, 512);
