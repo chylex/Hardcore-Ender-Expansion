@@ -4,6 +4,7 @@ import java.util.Map;
 import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.api.HeeIMC;
 import chylex.hee.game.ConfigHandler;
+import chylex.hee.game.ModIntegrity;
 import chylex.hee.game.ModTransition;
 import chylex.hee.game.achievements.AchievementEvents;
 import chylex.hee.game.achievements.AchievementManager;
@@ -168,7 +169,6 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("LoadCompleteEvent");
 		
 		try{
-			DimensionOverride.verifyIntegrity(); // TODO add verification for more things
 			KnowledgeFragmentCrafting.verifyRecipes();
 			ModIntegrity.verify();
 			HeeIMC.runLoadComplete();
@@ -177,7 +177,7 @@ public class HardcoreEnderExpansion{
 			UnitTester.finalizeEventTests();
 		}
 		catch(Throwable t){
-			FMLCommonHandler.instance().raiseException(t,"Critical error handling post-load data.",true);
+			FMLCommonHandler.instance().raiseException(t,"Error running LoadComplete event in Hardcore Ender Expansion!",true);
 		}
 		
 		Stopwatch.finish("LoadCompleteEvent");
