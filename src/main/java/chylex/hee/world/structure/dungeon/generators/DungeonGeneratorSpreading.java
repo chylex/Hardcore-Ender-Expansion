@@ -66,10 +66,10 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 		
 		generateStartPiece(rand);
 		
-		for(int room = 1; room < targetAmount; room++){ // start piece counts as 1 room
+		for(int room = 0, placed = 1; room < targetAmount*3 && placed < targetAmount; room++){ // start piece counts as 1 room
 			StructureDungeonPieceArray nextArray = selectNextPiece(rand);
 			StructureDungeonPieceInst startingPoint = generated.getRandomItem(rand);
-			if (nextArray == null || startingPoint == null)break;
+			if (nextArray == null || startingPoint == null)continue;
 			
 			for(Connection connection:CollectionUtil.shuffled(startingPoint.findConnections(),rand)){
 				List<StructureDungeonPieceInst> nextPieces = generateCorridorList(startingPoint,connection,nextArray,rand);
@@ -77,6 +77,7 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 				if (nextPieces != null && !nextPieces.isEmpty()){
 					startingPoint.useConnection(connection);
 					nextPieces.stream().forEach(this::addGeneratedPiece);
+					++placed;
 					break;
 				}
 			}
@@ -137,7 +138,9 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 			
 			if (targetConnection == null)break;
 			
-			for(int attempt = 0; attempt < 201; attempt++){
+			for(int attempt = 0; attempt < 501; attempt++){
+				if (attempt == 500)return null;
+				
 				StructureDungeonPieceArray nextArray = corridorsAvailable.getRandomItem(rand);
 				if (isDoor(nextArray) && !(index == 0 || index == corridorAmount-1))continue;
 				
@@ -156,8 +159,6 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 						break;
 					}
 				}
-				
-				if (attempt == 200)return null;
 			}
 		}
 		
