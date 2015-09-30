@@ -1,6 +1,6 @@
 package chylex.hee.system.test.list;
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
 import java.util.Map.Entry;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.CustomArrayList;
@@ -31,7 +31,7 @@ public class TestCollections{
 		Assert.contains(list,"B");
 		Assert.contains(list,"C");
 		
-		List<String> similarList = CollectionUtil.newList(8,"A","B","C");
+		List<String> similarList = CollectionUtil.newList(8,new String[]{ "A","B","C" });
 		Assert.equal(similarList,list);
 		
 		Set<String> set = CollectionUtil.newSet("A","A","B","C","C","C");
