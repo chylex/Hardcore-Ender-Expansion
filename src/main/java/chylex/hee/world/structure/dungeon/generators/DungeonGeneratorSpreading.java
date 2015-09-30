@@ -66,7 +66,7 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 		
 		generateStartPiece(rand);
 		
-		for(int room = 0, placed = 1; room < targetAmount*3 && placed < targetAmount; room++){ // start piece counts as 1 room
+		for(int attempt = 0, room = 1; attempt < targetAmount*3 && room < targetAmount; attempt++){ // start piece counts as 1 room
 			StructureDungeonPieceArray nextArray = selectNextPiece(rand);
 			StructureDungeonPieceInst startingPoint = generated.getRandomItem(rand);
 			if (nextArray == null || startingPoint == null)continue;
@@ -77,7 +77,7 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 				if (nextPieces != null && !nextPieces.isEmpty()){
 					startingPoint.useConnection(connection);
 					nextPieces.stream().forEach(this::addGeneratedPiece);
-					++placed;
+					++room;
 					break;
 				}
 			}
