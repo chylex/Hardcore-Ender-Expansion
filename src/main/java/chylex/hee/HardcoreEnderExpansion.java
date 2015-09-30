@@ -170,6 +170,7 @@ public class HardcoreEnderExpansion{
 		try{
 			DimensionOverride.verifyIntegrity(); // TODO add verification for more things
 			KnowledgeFragmentCrafting.verifyRecipes();
+			ModIntegrity.verify();
 			HeeIMC.runLoadComplete();
 			
 			UnitTester.trigger(RunTime.LOADCOMPLETE);
