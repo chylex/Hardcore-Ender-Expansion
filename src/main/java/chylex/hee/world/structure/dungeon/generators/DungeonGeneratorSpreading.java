@@ -23,7 +23,8 @@ import chylex.hee.world.structure.util.Size;
 
 /**
  * Generates a dungeon by choosing a room piece and then creating a path using corridor pieces. This generator cannot create dead ends.
- * Piece range of room pieces controls how many will be chosen, and range of other/corridor pieces determines how many can spawn in a single path between rooms.
+ * Total piece range controls controls how many rooms will be generated, and the generator has to be setup with range of pieces that determines length of path between rooms.
+ * Piece range of room pieces controls how many of each room will be chosen, and range of other/corridor pieces determines how many can spawn in one path.
  */
 public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 	public static interface ISpreadingGeneratorPieceType extends IPieceType{
@@ -76,6 +77,7 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 			}
 		}
 		
+		if (generated.stream().filter(inst -> ((ISpreadingGeneratorPieceType)inst.piece.type).isRoom()).count() != targetAmount)return false;
 		if (!rooms.stream().allMatch(array -> array.amount.in(generatedRoomCount.get(array))))return false;
 		
 		for(StructureDungeonPieceInst pieceInst:generated){
@@ -118,22 +120,22 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 	 * If the list has a different size than the selected corridor amount, it returns null instead.
 	 */
 	private List<StructureDungeonPieceInst> generateCorridorList(StructureDungeonPieceInst startPiece, Connection startConnection, StructureDungeonPieceArray nextArray, Random rand){
-		int length = piecesBetweenRooms.random(rand);
+		int corridorAmount = piecesBetweenRooms.random(rand);
 		
-		final List<StructureDungeonPieceInst> pieces = new ArrayList<>(length);
+		final List<StructureDungeonPieceInst> pieces = new ArrayList<>(corridorAmount);
 		final WeightedList<StructureDungeonPieceArray> corridorsAvailable = new WeightedList<>(corridors);
-		final TObjectIntHashMap<StructureDungeonPieceArray> corridorCount = new TObjectIntHashMap<>(length);
+		final TObjectIntHashMap<StructureDungeonPieceArray> corridorCount = new TObjectIntHashMap<>(corridorAmount);
 		
-		for(int index = 0; index < length && corridorsAvailable.getTotalWeight() > 0; index++){
+		for(int index = 0; index < corridorAmount && corridorsAvailable.getTotalWeight() > 0; index++){
 			final StructureDungeonPieceInst targetPieceInst = index == 0 ? startPiece : pieces.get(index-1);
 			final Connection targetConnection = index == 0 ? startConnection : CollectionUtil.randomOrNull(targetPieceInst.findConnections(),rand);
 			
 			if (targetConnection == null)break;
 			
-			for(int attempt = 0; attempt < 100; attempt++){
+			for(int attempt = 0; attempt < 201; attempt++){
 				Pair<StructureDungeonPiece,Connection> nextPiece = findSuitablePiece(corridorsAvailable.getRandomItem(rand),targetConnection.facing,targetPieceInst.piece.type,rand);
 				
-				if (nextPiece != null){
+				if (nextPiece != null && attempt < 200){
 					final Pos aligned = alignConnections(targetPieceInst,targetConnection,nextPiece.getRight());
 					final Size pieceSize = nextPiece.getLeft().size;
 					
@@ -146,17 +148,39 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 						break;
 					}
 				}
+				
+				if (attempt == 200)return null;
 			}
 		}
 		
-		return pieces.size() == length ? pieces : null;
+		if (pieces.size() == corridorAmount){
+			final StructureDungeonPieceInst targetPieceInst = pieces.isEmpty() ? startPiece : pieces.get(pieces.size()-1);
+			final Connection targetConnection = pieces.isEmpty() ? startConnection : CollectionUtil.randomOrNull(targetPieceInst.findConnections(),rand);
+			final Pair<StructureDungeonPiece,Connection> finalRoom = findSuitablePiece(nextArray,targetConnection.facing,targetPieceInst.piece.type,rand);
+			
+			if (finalRoom != null){
+				final Pos aligned = alignConnections(targetPieceInst,targetConnection,finalRoom.getRight());
+				final Size pieceSize = finalRoom.getLeft().size;
+				
+				if (canPlaceAreaExtended(aligned,aligned.offset(pieceSize.sizeX-1,pieceSize.sizeY-1,pieceSize.sizeZ-1),pieces)){
+					StructureDungeonPieceInst inst = new StructureDungeonPieceInst(finalRoom.getLeft(),aligned);
+					inst.useConnection(finalRoom.getRight());
+					pieces.get(pieces.size()-1).useConnection(targetConnection);
+					pieces.add(inst);
+				}
+				
+				return pieces;
+			}
+		}
+		
+		return null;
 	}
 	
 	/**
 	 * Tries to find a piece with suitable connection in a piece array. Returns the piece and one of the suitable connections, or null if no piece has a valid connection.
 	 */
-	private Pair<StructureDungeonPiece,Connection> findSuitablePiece(StructureDungeonPieceArray corridorArray, Facing4 targetFacing, IPieceType targetType, Random rand){
-		for(StructureDungeonPiece piece:CollectionUtil.shuffled(corridorArray.toList(),rand)){
+	private Pair<StructureDungeonPiece,Connection> findSuitablePiece(StructureDungeonPieceArray array, Facing4 targetFacing, IPieceType targetType, Random rand){
+		for(StructureDungeonPiece piece:CollectionUtil.shuffled(array.toList(),rand)){
 			List<Connection> possibleConnections = piece.findConnections(targetFacing,targetType);
 			if (!possibleConnections.isEmpty())return Pair.of(piece,possibleConnections.get(rand.nextInt(possibleConnections.size())));
 		}
