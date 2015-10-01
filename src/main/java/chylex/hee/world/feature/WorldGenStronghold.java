@@ -165,25 +165,26 @@ public class WorldGenStronghold implements IWorldGenerator{
 			if (args.length < 1)return;
 			
 			if (args[0].equals("custom")){
-				StructureDungeon<DungeonGeneratorSpreading> stronghold = new StructureDungeon<>(128,64,128,DungeonGeneratorSpreading::new);
+				StructureDungeon<DungeonGeneratorSpreading> stronghold = new StructureDungeon<>(128,32,128,DungeonGeneratorSpreading::new);
 				
 				stronghold.setGeneratorSetupFunc(generator -> {
-					generator.setPiecesBetweenRooms(2,8);
+					generator.setPiecesBetweenRooms(3,8);
+					generator.setAttemptMultiplier(6);
 				});
 				
-				stronghold.setPieceAmount(20,20);
+				stronghold.setPieceAmount(40,50);
 				stronghold.setStartingPiece(new StrongholdRoomEndPortal());
 				
-				stronghold.addPieces(12,new Range(0,8),StrongholdCorridorStraight.generateCorridors(3,5,7));
-				stronghold.addPieces(6,new Range(0,8),StrongholdCorridorIntersection.generateCorners());
-				stronghold.addPieces(8,new Range(0,5),StrongholdCorridorIntersection.generateThreeWay());
-				stronghold.addPieces(3,new Range(0,5),StrongholdCorridorIntersection.generateFourWay());
+				stronghold.addPieces(16,new Range(0,8),StrongholdCorridorStraight.generateCorridors(3,5,7));
+				stronghold.addPieces(8,new Range(0,8),StrongholdCorridorIntersection.generateCorners());
+				stronghold.addPieces(12,new Range(0,5),StrongholdCorridorIntersection.generateThreeWay());
+				stronghold.addPieces(5,new Range(0,5),StrongholdCorridorIntersection.generateFourWay());
 				
 				stronghold.addPieces(2,new Range(0,1),StrongholdCorridorChest.generateCorridors());
 				stronghold.addPieces(1,new Range(0,1),StrongholdCorridorDoubleChest.generateCorridors());
 				
-				stronghold.addPieces(5,new Range(0,1),StrongholdStairsStraight.generateStairs());
-				stronghold.addPieces(4,new Range(0,1),StrongholdStairsVertical.generateStairs(1));
+				stronghold.addPieces(4,new Range(0,1),StrongholdStairsStraight.generateStairs());
+				stronghold.addPieces(3,new Range(0,1),StrongholdStairsVertical.generateStairs(1));
 				stronghold.addPieces(1,new Range(0,1),StrongholdStairsVertical.generateStairs(2));
 				
 				stronghold.addPieces(10,new Range(0,1),StrongholdDoorSmall.generateDoors());
@@ -198,14 +199,14 @@ public class WorldGenStronghold implements IWorldGenerator{
 				stronghold.addPiece(3,new Range(0,1),new StrongholdRoomLargeIntersectionTrap());
 				stronghold.addPieces(3,new Range(0,2),StrongholdRoomPrisonTrap.generatePrisons());
 				
-				stronghold.addPiece(5,new Range(0,6),new StrongholdRoomFountain());
-				stronghold.addPiece(4,new Range(0,8),new StrongholdRoomLargeIntersection());
-				stronghold.addPiece(5,new Range(0,5),new StrongholdRoomSmallIntersection());
-				stronghold.addPiece(5,new Range(0,4),new StrongholdRoomLitPole());
-				stronghold.addPiece(5,new Range(0,2),new StrongholdRoomLitTotem());
-				stronghold.addPieces(4,new Range(0,7),StrongholdRoomLitCorners.generateColors());
+				stronghold.addPiece(5,new Range(0,10),new StrongholdRoomFountain());
+				stronghold.addPiece(4,new Range(0,13),new StrongholdRoomLargeIntersection());
+				stronghold.addPiece(5,new Range(0,9),new StrongholdRoomSmallIntersection());
+				stronghold.addPiece(5,new Range(0,10),new StrongholdRoomLitPole());
+				stronghold.addPiece(5,new Range(0,5),new StrongholdRoomLitTotem());
+				stronghold.addPieces(4,new Range(0,14),StrongholdRoomLitCorners.generateColors());
 				
-				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,10);
+				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,1);
 			}
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
