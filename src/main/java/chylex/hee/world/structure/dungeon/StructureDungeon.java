@@ -20,7 +20,7 @@ public class StructureDungeon<T extends StructureDungeonGenerator> extends Struc
 	public StructureDungeon(int radX, int sizeY, int radZ, StructureDungeonGenerator.Constructor<T> generatorConstructor){
 		super(radX,sizeY,radZ);
 		this.generatorConstructor = generatorConstructor;
-		boundingBox = new BoundingBox(Pos.at(-radX,0,-radZ),Pos.at(radX,sizeY,radZ));
+		boundingBox = new BoundingBox(Pos.at(-radX,0,-radZ),Pos.at(radX,sizeY-1,radZ));
 	}
 	
 	public void addPiece(int weight, Range amountRange, StructureDungeonPiece piece){
