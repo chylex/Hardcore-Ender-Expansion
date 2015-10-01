@@ -2,6 +2,7 @@ package chylex.hee.item;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +24,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemDebugStick extends Item{
+	public static int counter = 0;
+	public static Consumer<Integer> counterFunc;
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (!world.isRemote)doDebugAction(is,ItemUtil.getTagRoot(is,false),player,null);
@@ -51,6 +55,7 @@ public class ItemDebugStick extends Item{
 			case "build": onDebugBuild(nbt,player,pos); break;
 			case "clear": onDebugClear(nbt,player,pos); break;
 			case "info": onDebugInfo(nbt,player,pos); break;
+			case "count": onDebugCount(nbt,player,pos); break;
 			default: player.addChatMessage(new ChatComponentText("Invalid debug stick type!"));
 		}
 	}
@@ -123,5 +128,13 @@ public class ItemDebugStick extends Item{
 				player.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD+"Skull Rotation: "+EnumChatFormatting.RESET+tag.getByte("Rot")));
 			}
 		}
+	}
+	
+	/* === COUNT === */
+	private void onDebugCount(NBTTagCompound nbt, EntityPlayer player, Pos pos){
+		if (player.isSneaking())counter = 0;
+		else ++counter;
+		
+		if (counterFunc != null)counterFunc.accept(counter);
 	}
 }
