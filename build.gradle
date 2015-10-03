@@ -29,10 +29,6 @@ dependencies{
 
 apply plugin: 'forge'
 
-version = ""
-group = "chylex.hee.HardcoreEnderExpansion"
-archivesBaseName = "HardcoreEnderExpansion  MC-1.7.10  v2.0-dev"
-
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -43,21 +39,21 @@ minecraft{
     srgExtra "PK: chylex/javacheck chylex/shade/javacheck"
 }
 
-processResources{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+String modid = ""
+String modver = ""
 
-    from(sourceSets.main.resources.srcDirs){
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
+processResources{
+    File info = new File(sourceSets.main.resources.srcDirs.iterator().next(), "mcmod.info")
+    def slurp = new groovy.json.JsonSlurper()
+    def data = slurp.parseText(info.getText())[0]
     
-    from(sourceSets.main.resources.srcDirs){
-        exclude 'mcmod.info'
-    }
+    modid = data.modid
+    modver = data.version
 }
 
 jar{
+    archiveName = modid+"  MC-"+project.minecraft.version+"  v"+modver+".jar"
+    
     configurations.shade.each{ dep ->
         from(project.zipTree(dep)){
             exclude 'META-INF', 'META-INF/**'
