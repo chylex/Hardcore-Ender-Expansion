@@ -109,8 +109,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 		if (!worldObj.isRemote){
 			if (target == null){
 				if (!hasIS && !isScared && rand.nextInt(550) == 0 && worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing")){ // set target
-					CollectionUtil.<EntityPlayer>random(worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,3D,6D)),rand).ifPresent(player -> {
-						target = player;
+					CollectionUtil.random(worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,3D,6D)),rand).ifPresent(player -> {
+						target = (EntityPlayer)player;
 						ItemStack headArmor = target.getCurrentArmor(3);
 						
 						if (headArmor != null && headArmor.getItem() == ItemList.enderman_head)target = null;
