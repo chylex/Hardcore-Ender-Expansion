@@ -103,7 +103,7 @@ public class GuiAchievementsCustom extends GuiAchievements{
 				if (x >= -24 && y >= -24 && x <= 224F*field_146570_r && y <= 155F*field_146570_r && realMouseX >= x && realMouseX <= x+22 && realMouseY >= y && realMouseY <= y+22){
 					KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj = ((HeeAchievement)achievement).getKnowledgeObj();
 					if (obj == null)obj = KnowledgeUtils.tryGetFromItemStack(achievement.theItemStack);
-					if (obj != null)CompendiumEventsClient.openCompendium(obj);
+					if (obj != null)CompendiumEventsClient.openCompendium(obj,field_146562_a); // OBFUSCATED parent
 				}
 			}
 		}

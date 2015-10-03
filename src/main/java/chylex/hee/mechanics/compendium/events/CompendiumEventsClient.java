@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.compendium.events;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -66,8 +67,8 @@ public final class CompendiumEventsClient{
 		else return true;
 	}
 	
-	public static void openCompendium(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj){
-		GuiEnderCompendium compendium = new GuiEnderCompendium(instance.data);
+	public static void openCompendium(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj, GuiScreen prevScreen){
+		GuiEnderCompendium compendium = new GuiEnderCompendium(instance.data,prevScreen);
 		Minecraft.getMinecraft().displayGuiScreen(compendium);
 		
 		if (obj != null){
@@ -170,7 +171,7 @@ public final class CompendiumEventsClient{
 					if (obj == null)return;
 				}
 				
-				openCompendium(obj);
+				openCompendium(obj,mc.currentScreen);
 				
 				if (!mc.thePlayer.getStatFileWriter().hasAchievementUnlocked(AchievementManager.ENDER_COMPENDIUM)){
 					PacketPipeline.sendToServer(new S03SimpleEvent(EventType.OPEN_COMPENDIUM));

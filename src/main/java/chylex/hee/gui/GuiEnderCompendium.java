@@ -61,6 +61,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		return prevValue+(value-prevValue)*partialTickTime;
 	}
 	
+	private final GuiScreen prevScreen;
 	private PlayerCompendiumData compendiumData;
 	private GuiEndPortalRenderer portalRenderer;
 	private List<AnimatedFloat> animationList = new ArrayList<>();
@@ -84,7 +85,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private GuiButtonState btnHelp;
 	private byte hoverTriggerTimer = Byte.MIN_VALUE;
 	
-	public GuiEnderCompendium(PlayerCompendiumData compendiumData){
+	public GuiEnderCompendium(PlayerCompendiumData compendiumData, GuiScreen prevScreen){
+		this.prevScreen = prevScreen instanceof GuiEnderCompendium ? ((GuiEnderCompendium)prevScreen).prevScreen : prevScreen;
 		if (!(this.compendiumData = compendiumData).seenHelp())hoverTriggerTimer = 0;
 		
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
@@ -151,8 +153,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		else if (button.id == 2 && !offsetY.isAnimating()){
 			if (currentObject != null)showObject(null);
 			else{
-				mc.displayGuiScreen((GuiScreen)null);
-				mc.setIngameFocus();
+				mc.displayGuiScreen(prevScreen);
+				if (prevScreen == null)mc.setIngameFocus();
 			}
 		}
 		else if (button.id == 3)pageIndex = (byte)Math.max(0,pageIndex-1);
