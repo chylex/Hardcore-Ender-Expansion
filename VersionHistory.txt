@@ -1,4 +1,18 @@
 ==================
+Release 1.8.4 (1.7.10)
+3 October 2015
+------------------
+>Changes
+Not Enough Items integration no longer intercepts recipe/usage keys, only Compendium key
+
+>Bugfixes
+Fixed Compendium not returning to previous screen (caused item loss in crafting table)
+Fixed Music Discs crashing when used on a wrong tile entity
+Fixed biome replacement to stop Anti ID Conflict from complaining
+Fixed debug mode crashing on servers under certain circumstances
+
+
+==================
 Release 1.8.3 (1.7.10)
 15 August 2015
 ------------------
