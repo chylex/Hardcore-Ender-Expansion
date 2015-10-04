@@ -2,6 +2,7 @@ package chylex.hee.mechanics.enhancements;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.system.logging.Log;
 
@@ -15,9 +16,7 @@ public final class EnhancementEnumHelper{
 	}
 	
 	public static String serialize(List<Enum> list){
-		StringBuilder build = new StringBuilder();
-		for(Enum enhancement:list)build.append(enhancement.name()).append(',');
-		return (build.length() > 0 ? build.deleteCharAt(build.length()-1) : build).toString();
+		return list.stream().map(enhancement -> enhancement.name()).collect(Collectors.joining(","));
 	}
 	
 	public static List<Enum> deserialize(String str, Class<? extends Enum> enumClass){
