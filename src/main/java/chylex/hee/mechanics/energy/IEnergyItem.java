@@ -3,6 +3,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 
 public interface IEnergyItem{
+	default boolean canUse(ItemStack is){
+		return is.getItemDamage() < is.getMaxDamage();
+	};
+	
 	default boolean canAcceptEnergy(ItemStack is){
 		return is.getItemDamage() > 0;
 	};
