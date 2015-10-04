@@ -1,6 +1,7 @@
 package chylex.hee.item;
 import java.util.List;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,6 +14,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class ItemAbstractGem extends ItemAbstractEnergyAcceptor{
 	protected abstract byte getCooldown();
+	
+	@Override
+	public boolean canUse(ItemStack is){
+		return super.canUse(is) && !ItemUtil.getTagRoot(is,false).hasKey("cooldown");
+	}
+	
+	@Override
+	public void useEnergy(ItemStack is, EntityLivingBase owner){
+		super.useEnergy(is,owner);
+		ItemUtil.getTagRoot(is,true).setByte("cooldown",getCooldown());
+	}
 	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
