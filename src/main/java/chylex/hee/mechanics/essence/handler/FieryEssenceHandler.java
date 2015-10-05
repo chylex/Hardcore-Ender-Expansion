@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntityBrewingStand;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
-import chylex.hee.mechanics.enhancements._old.types.EssenceAltarEnhancements;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
 import chylex.hee.system.util.MathUtil;

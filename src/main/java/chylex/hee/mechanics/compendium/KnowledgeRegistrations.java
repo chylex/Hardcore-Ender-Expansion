@@ -29,12 +29,12 @@ import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
-import chylex.hee.mechanics.enhancements._old.types.EnderPearlEnhancements;
-import chylex.hee.mechanics.enhancements._old.types.EnhancedBrewingStandEnhancements;
-import chylex.hee.mechanics.enhancements._old.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.enhancements._old.types.SpatialDashGemEnhancements;
-import chylex.hee.mechanics.enhancements._old.types.TNTEnhancements;
-import chylex.hee.mechanics.enhancements._old.types.TransferenceGemEnhancements;
+import chylex.hee.mechanics.enhancements.types.BrewingStandEnhancements;
+import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
+import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
+import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
@@ -457,7 +457,7 @@ public final class KnowledgeRegistrations{
 			
 			ESSENCE_ALTAR_ENHANCEMENTS.setPos(11,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EssenceAltarEnhancements.class,1470,5,10,new int[]{ 160, 51 })),
 			
-			ENHANCED_BREWING_STAND_ENHANCEMENTS.setPos(11,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnhancedBrewingStandEnhancements.class,1500,4,10,new int[]{ 160, 130 })),
+			ENHANCED_BREWING_STAND_ENHANCEMENTS.setPos(11,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(BrewingStandEnhancements.class,1500,4,10,new int[]{ 160, 130 })),
 			
 			TNT_ENHANCEMENTS.setPos(13,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TNTEnhancements.class,140,3,10,new int[]{ 160 })),
 			

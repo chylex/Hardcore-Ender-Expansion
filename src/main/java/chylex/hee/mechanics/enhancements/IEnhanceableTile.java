@@ -1,15 +1,14 @@
 package chylex.hee.mechanics.enhancements;
-import java.util.List;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 
-public interface IEnhanceableTile{
+public interface IEnhanceableTile<T extends Enum<T>>{
 	/**
-	 * Returns an ItemStack with all enhancements stored in the tile.
+	 * Returns an item to be used for enhancing.
 	 */
-	public ItemStack createEnhancedItemStack();
+	Item getEnhancementItem();
 	
 	/**
-	 * Returned collection must be modifiable and reflect the internal enhancement values.
+	 * Returns a modifiable enhancement list.
 	 */
-	public List<Enum> getEnhancements();
+	EnhancementList<T> getEnhancements();
 }

@@ -1,6 +1,4 @@
 package chylex.hee.tileentity;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,16 +8,15 @@ import net.minecraftforge.common.util.Constants;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
+import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements._old.EnhancementEnumHelper;
-import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements._old.types.EnhancedBrewingStandEnhancements;
+import chylex.hee.mechanics.enhancements.types.BrewingStandEnhancements;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand implements IAcceptFieryEssence, IEnhanceableTile{
+public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand implements IAcceptFieryEssence, IEnhanceableTile<BrewingStandEnhancements>{
 	private static final int[] topSlots = new int[]{ 3 },
 							   sideSlots = new int[]{ 0, 1, 2 },
 							   bottomSlots = new int[]{ 4 };
@@ -28,15 +25,14 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	private byte filledSlotsCache;
 	private short startBrewTime, brewTime, requiredPowder;
 	private Item ingredient;
-	
-	private List<Enum> enhancements = new ArrayList<>();
+	private final EnhancementList<BrewingStandEnhancements> enhancements = new EnhancementList<>(BrewingStandEnhancements.class);
 	
 	@Override
 	public void updateEntity(){
 		if (!worldObj.isRemote){
 			if (brewTime > 0){
 				--brewTime;
-				if (brewTime > 1 && brewTime%2 == 0 && enhancements.contains(EnhancedBrewingStandEnhancements.SPEED))--brewTime;
+				// TODO if (brewTime > 1 && brewTime%2 == 0 && enhancements.contains(EnhancedBrewingStandEnhancements.SPEED))--brewTime;
 				
 				if (brewTime == 0){
 					doBrewing();
@@ -74,11 +70,11 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 			if (slotItems[a] == null)continue;
 			++potionCount;
 			
-			if (!PotionTypes.canBeApplied(slotItems[3],slotItems[a],enhancements.contains(EnhancedBrewingStandEnhancements.TIER)))return false;
+			if (!PotionTypes.canBeApplied(slotItems[3],slotItems[a],enhancements.contains(BrewingStandEnhancements.TIER)))return false;
 			requiredPowder += PotionTypes.getRequiredPowder(slotItems[3].getItem(),slotItems[a]);
 		}
 		
-		requiredPowder = (short)Math.min(requiredPowder*(potionCount == 2 ? 0.835F : potionCount == 3 ? 0.7F : 1F)*(enhancements.contains(EnhancedBrewingStandEnhancements.COST) ? 0.65F : 1F),69);
+		requiredPowder = (short)Math.min(requiredPowder*(potionCount == 2 ? 0.835F : potionCount == 3 ? 0.7F : 1F)*(enhancements.contains(BrewingStandEnhancements.COST) ? 0.65F : 1F),69);
 
 		if (potionCount == 0)return false;
 		return requiredPowder == 0 || (slotItems[4] != null && slotItems[4].stackSize >= requiredPowder);
@@ -104,13 +100,13 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 	}
 	
 	@Override
-	public List<Enum> getEnhancements(){
-		return enhancements;
+	public Item getEnhancementItem(){
+		return ItemList.enhanced_brewing_stand;
 	}
 	
 	@Override
-	public ItemStack createEnhancedItemStack(){
-		return EnhancementHandler.addEnhancements(new ItemStack(ItemList.enhanced_brewing_stand),enhancements);
+	public EnhancementList<BrewingStandEnhancements> getEnhancements(){
+		return enhancements;
 	}
 	
 	@Override
@@ -226,7 +222,7 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		nbt.setTag("hedItems",tagItemList);
 		
 		nbt.setShort("hedBrewTime",brewTime);
-		nbt.setString("enhancements",EnhancementEnumHelper.serialize(enhancements));
+		nbt.setString("enhancements2",enhancements.serialize());
 	}
 
 	@Override
@@ -243,6 +239,6 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 		}
 
 		brewTime = nbt.getShort("hedBrewTime");
-		enhancements = EnhancementEnumHelper.deserialize(nbt.getString("enhancements"),EnhancedBrewingStandEnhancements.class);
+		enhancements.deserialize(nbt.getString("enhancements2"));
 	}
 }

@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData;
 import chylex.hee.entity.projectile.EntityProjectileSacredWand;
 import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements._old.types.SacredWandEnhancements;
+import chylex.hee.mechanics.enhancements.types.SacredWandEnhancements;
 import chylex.hee.mechanics.wand.WandCore;
 import chylex.hee.mechanics.wand.WandType;
 import chylex.hee.system.collections.CollectionUtil;

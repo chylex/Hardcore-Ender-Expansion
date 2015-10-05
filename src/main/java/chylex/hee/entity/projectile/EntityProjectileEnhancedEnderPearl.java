@@ -20,7 +20,7 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.mechanics.enhancements._old.EnhancementEnumHelper;
 import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements._old.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import cpw.mods.fml.client.FMLClientHandler;

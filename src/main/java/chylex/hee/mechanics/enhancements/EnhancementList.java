@@ -15,6 +15,22 @@ public class EnhancementList<T extends Enum<T>>{
 		this.map = new EnumMap<>(enumCls);
 	}
 	
+	public boolean has(T enhancement){
+		return map.containsKey(enhancement);
+	}
+	
+	public void set(T enhancement, int level){
+		map.put(enhancement,(byte)level);
+	}
+	
+	public int get(T enhancement){
+		return map.getOrDefault(enhancement,(byte)0);
+	}
+	
+	public void upgrade(T enhancement){
+		map.merge(enhancement,(byte)1,(prev, set) -> (byte)(prev+1));
+	}
+	
 	public String serialize(){
 		return map.entrySet().stream().map(entry -> entry.getKey().name()+":"+entry.getValue()).collect(Collectors.joining(";"));
 	}

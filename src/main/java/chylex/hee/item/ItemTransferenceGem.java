@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements._old.types.TransferenceGemEnhancements;
+import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.misc.GemSideEffects;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;

@@ -10,7 +10,7 @@ import chylex.hee.entity.projectile.EntityProjectileEyeOfEnder;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemTransferenceGem;
 import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements._old.types.TransferenceGemEnhancements;
+import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;

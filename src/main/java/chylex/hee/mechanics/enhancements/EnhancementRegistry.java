@@ -4,13 +4,25 @@ import java.util.Locale;
 import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import chylex.hee.mechanics.enhancements.types.BrewingStandEnhancements;
+import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
+import chylex.hee.mechanics.enhancements.types.SacredWandEnhancements;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
+import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
+import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 
 public final class EnhancementRegistry{
 	private static final Map<Item,EnhancementData> registry = new HashMap<>(16);
 	
 	public static void init(){
+		BrewingStandEnhancements.register();
+		EnderPearlEnhancements.register();
+		EssenceAltarEnhancements.register();
+		SacredWandEnhancements.register();
 		SpatialDashGemEnhancements.register();
+		TNTEnhancements.register();
+		TransferenceGemEnhancements.register();
 	}
 	
 	public static <T extends Enum<T>> EnhancementData registerEnhancement(Block[] blocks, Class<T> enumCls){

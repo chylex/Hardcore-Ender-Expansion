@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,10 +17,9 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
+import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements._old.EnhancementEnumHelper;
-import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements._old.types.EssenceAltarEnhancements;
+import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.ItemUseCache;
 import chylex.hee.mechanics.essence.RuneItem;
@@ -35,7 +35,7 @@ import chylex.hee.system.util.NBTUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized implements IEnhanceableTile{
+public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized implements IEnhanceableTile<EssenceAltarEnhancements>{
 	public static final byte STAGE_BASIC = 0, STAGE_HASTYPE = 1, STAGE_WORKING = 2;
 	
 	private EssenceType essenceType = EssenceType.INVALID;
@@ -47,7 +47,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	private AltarActionHandler actionHandler;
 	private final Map<String,ItemUseCache> playerItemCache = new HashMap<>();
 	
-	private List<Enum> enhancementList = new ArrayList<>();
+	private final EnhancementList<EssenceAltarEnhancements> enhancements = new EnhancementList<>(EssenceAltarEnhancements.class);
 	
 	/*
 	 * GETTERS, LOADING & SAVING
@@ -95,13 +95,13 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	}
 	
 	@Override
-	public List<Enum> getEnhancements(){
-		return enhancementList;
+	public Item getEnhancementItem(){
+		return Item.getItemFromBlock(BlockList.essence_altar);
 	}
 	
 	@Override
-	public ItemStack createEnhancedItemStack(){
-		return EnhancementHandler.addEnhancements(new ItemStack(BlockList.essence_altar,1,essenceType.id),enhancementList);
+	public EnhancementList<EssenceAltarEnhancements> getEnhancements(){
+		return enhancements;
 	}
 	
 	@Override
@@ -113,7 +113,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		NBTUtil.writeList(nbt,"runeItems",Arrays.stream(runeItems).map(item -> new NBTTagByte(item == null ? -1 : item.indexInArray)));
 		nbt.setByte("runeIndex",runeItemIndex);
 		
-		nbt.setString("enhancements",EnhancementEnumHelper.serialize(enhancementList));
+		nbt.setString("enhancements2",enhancements.serialize());
 		
 		if (actionHandler != null)actionHandler.onTileWriteToNBT(nbt);
 		
@@ -134,7 +134,7 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 		
 		runeItemIndex = nbt.getByte("runeIndex");
 		
-		enhancementList = EnhancementEnumHelper.deserialize(nbt.getString("enhancements"),EssenceAltarEnhancements.class);
+		enhancements.deserialize(nbt.getString("enhancements2"));
 		
 		if (currentStage == STAGE_WORKING){
 			createActionHandler();

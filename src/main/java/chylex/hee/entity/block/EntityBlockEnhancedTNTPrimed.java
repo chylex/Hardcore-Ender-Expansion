@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.mechanics.enhancements._old.EnhancementEnumHelper;
-import chylex.hee.mechanics.enhancements._old.types.TNTEnhancements;
+import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.system.abstractions.Explosion;
 import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;

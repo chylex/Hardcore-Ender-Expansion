@@ -1,26 +1,23 @@
 package chylex.hee.tileentity;
-import java.util.ArrayList;
-import java.util.List;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import chylex.hee.init.BlockList;
+import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements._old.EnhancementEnumHelper;
-import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements._old.types.TNTEnhancements;
+import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 
-public class TileEntityEnhancedTNT extends TileEntity implements IEnhanceableTile{
-	private List<Enum> tntEnhancements = new ArrayList<>();
+public class TileEntityEnhancedTNT extends TileEntity implements IEnhanceableTile<TNTEnhancements>{
+	private final EnhancementList<TNTEnhancements> enhancements = new EnhancementList<>(TNTEnhancements.class);
 	
 	@Override
-	public ItemStack createEnhancedItemStack(){
-		return EnhancementHandler.addEnhancements(new ItemStack(BlockList.enhanced_tnt),tntEnhancements);
+	public Item getEnhancementItem(){
+		return Item.getItemFromBlock(BlockList.enhanced_tnt);
 	}
 	
 	@Override
-	public List<Enum> getEnhancements(){
-		return tntEnhancements;
+	public EnhancementList<TNTEnhancements> getEnhancements(){
+		return enhancements;
 	}
 	
 	@Override
@@ -31,12 +28,12 @@ public class TileEntityEnhancedTNT extends TileEntity implements IEnhanceableTil
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		nbt.setString("enhancements",EnhancementEnumHelper.serialize(tntEnhancements));
+		nbt.setString("enhancements2",enhancements.serialize());
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
-		tntEnhancements = EnhancementEnumHelper.deserialize(nbt.getString("enhancements"),TNTEnhancements.class);
+		enhancements.deserialize(nbt.getString("enhancements2"));
 	}
 }
