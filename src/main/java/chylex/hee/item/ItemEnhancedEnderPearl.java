@@ -5,7 +5,6 @@ import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -28,6 +27,6 @@ public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		EnhancementHandler.appendEnhancementNames(is,textLines);
+		// TODO EnhancementHandler.appendEnhancementNames(is,textLines);
 	}
 }

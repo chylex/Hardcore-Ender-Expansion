@@ -1,40 +1,19 @@
 package chylex.hee.mechanics.enhancements.types;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.item.Item;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
-import chylex.hee.mechanics.enhancements.IEnhancementEnum;
-import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
-import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.ItemStackSelector;
-import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
+import chylex.hee.mechanics.enhancements.EnhancementData;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 
-public enum SpatialDashGemEnhancements implements IEnhancementEnum{
-	CAPACITY(new SimpleItemSelector(ItemList.endium_ingot)),
-	RANGE(new ItemStackSelector(new ItemStack(Items.dye,1,4))),
-	INSTANT(new SimpleItemSelector(ItemList.instability_orb));
+public enum SpatialDashGemEnhancements{
+	CAPACITY, RANGE, SPEED;
 	
-	private final String name;
-	public final IRepresentativeItemSelector itemSelector;
-	
-	private SpatialDashGemEnhancements(IRepresentativeItemSelector itemSelector){
-		this.name = EnhancementEnumHelper.getName(this,EnumChatFormatting.LIGHT_PURPLE);
-		this.itemSelector = itemSelector;
-	}
-
-	@Override
-	public String getName(){
-		return name;
-	}
-
-	@Override
-	public IRepresentativeItemSelector getItemSelector(){
-		return itemSelector;
-	}
-	
-	@Override
-	public void onEnhanced(ItemStack is, EntityPlayer player){
-		// TODO if (this == CAPACITY)ItemAbstractEnergyAcceptor.enhanceCapacity(is);
+	public static void register(){
+		EnhancementData<SpatialDashGemEnhancements> data = EnhancementRegistry.registerEnhancement(new Item[]{
+			ItemList.spatial_dash_gem
+		},SpatialDashGemEnhancements.class);
+		
+		data.register(CAPACITY)
+		.setMaxLevel(3)
+		.addPowder(2,amount -> amount*1.5F);
 	}
 }

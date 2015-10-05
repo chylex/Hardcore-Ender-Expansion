@@ -16,7 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
+import chylex.hee.mechanics.enhancements._old.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.packets.PacketPipeline;

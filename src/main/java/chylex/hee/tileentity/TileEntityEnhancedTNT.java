@@ -5,10 +5,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
+import chylex.hee.mechanics.enhancements._old.EnhancementEnumHelper;
+import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
+import chylex.hee.mechanics.enhancements._old.types.TNTEnhancements;
 
 public class TileEntityEnhancedTNT extends TileEntity implements IEnhanceableTile{
 	private List<Enum> tntEnhancements = new ArrayList<>();

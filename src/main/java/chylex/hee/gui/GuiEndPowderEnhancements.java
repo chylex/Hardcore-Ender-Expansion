@@ -1,36 +1,27 @@
 package chylex.hee.gui;
-import java.util.Iterator;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements.SlotList;
-import chylex.hee.mechanics.enhancements.SlotList.SlotType;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.server.S01GuiEnhancementsClick;
-import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRenderer{
-	private static ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/end_powder_enhancements.png");
+	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/end_powder_enhancements.png");
+	private static final int enhListY = 35;
 	
 	private final ContainerEndPowderEnhancements container;
-	private int selectedEnhancementSlot = -1;
+	private Enum selectedEnhancement;
 	
 	private GuiEndPowderEnhancements(Container container){
 		super(container);
 		this.container = (ContainerEndPowderEnhancements)inventorySlots;
-		ySize += 4;
+		ySize = 194;
 	}
 	
 	public GuiEndPowderEnhancements(InventoryPlayer inv){
@@ -43,8 +34,22 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int button){
-		if (container.getSlot(0).getStack() != null){
-			for(int a = 0; a < container.enhancementSlotX.length; a++){
+		if (selectedEnhancement != null){
+			if (checkRect(mouseX,mouseY,guiLeft+xSize/2-64,guiTop+enhListY-2,13,13)){
+				selectedEnhancement = null;
+				return;
+			}
+		}
+		else if (container.getSlot(0).getHasStack()){
+			Enum[] enhancements = EnhancementRegistry.listEnhancements(container.getSlot(0).getStack().getItem());
+			
+			for(int enh = 0; enh < enhancements.length; enh++){
+				if (checkRect(mouseX,mouseY,guiLeft+xSize/2-50,guiTop+enhListY+1+enh*9,100,9)){
+					selectedEnhancement = enhancements[enh];
+					return;
+				}
+			}
+			/* TODO for(int a = 0; a < container.enhancementSlotX.length; a++){
 				int x = container.enhancementSlotX[a];
 				
 				if (checkRect(mouseX-guiLeft,mouseY-guiTop,x,37,17,17) && !container.clientEnhancementBlocked[a]){
@@ -53,15 +58,33 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 					PacketPipeline.sendToServer(new S01GuiEnhancementsClick(a));
 					return;
 				}
-			}
+			}*/
 		}
 		
 		super.mouseClicked(mouseX,mouseY,button);
 	}
 	
 	@Override
+	public void updateScreen(){
+		super.updateScreen();
+		if (!container.getSlot(0).getHasStack())selectedEnhancement = null;
+	}
+	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		String s = I18n.format(ModCommonProxy.hardcoreEnderbacon ? "container.endPowderEnhancements.bacon" : "container.endPowderEnhancements");
+		if (selectedEnhancement != null){
+			fontRendererObj.drawString(EnhancementRegistry.getEnhancementName(selectedEnhancement),41,enhListY+1,0x404040);
+			fontRendererObj.drawString("<",28,enhListY+1,checkRect(mouseX,mouseY,guiLeft+xSize/2-64,guiTop+enhListY-2,13,13) ? 0xEEEEEE : 0x404040);
+		}
+		else if (container.getSlot(0).getHasStack()){
+			Enum[] enhancements = EnhancementRegistry.listEnhancements(container.getSlot(0).getStack().getItem());
+			
+			for(int enh = 0; enh < enhancements.length; enh++){
+				fontRendererObj.drawString(EnhancementRegistry.getEnhancementName(enhancements[enh]),41,enhListY+1+enh*9,checkRect(mouseX,mouseY,guiLeft+40,guiTop+1+enhListY+enh*9,100,8) ? 0xEEEEEE : 0x404040);
+			}
+		}
+		
+		/* TODO String s = I18n.format(ModCommonProxy.hardcoreEnderbacon ? "container.endPowderEnhancements.bacon" : "container.endPowderEnhancements");
 		fontRendererObj.drawString(s,xSize/2-fontRendererObj.getStringWidth(s)/2,6,0x404040);
 		fontRendererObj.drawString(I18n.format("container.inventory"),8,ySize-96+2,0x404040);
 		
@@ -92,8 +115,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			}
 		}
 		
-		GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
-		
+		GuiItemRenderHelper.drawTooltip(this,fontRendererObj);*/
 	}
 
 	@Override
@@ -101,9 +123,28 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 		GL11.glColor4f(1F,1F,1F,1F);
 		mc.getTextureManager().bindTexture(guiResource);
 		
-		int guiX = (width-xSize)>>1, guiY = (height-ySize)>>1;
+		int guiX = (width-xSize)/2, guiY = (height-ySize)/2, centerX = guiX+xSize/2;
 		drawTexturedModalRect(guiX,guiY,0,0,xSize,ySize);
 		
+		if (selectedEnhancement != null){
+			drawTexturedModalRect(centerX-4,guiY+27,101,195,8,4);
+			drawTexturedModalRect(centerX-50,guiY+enhListY-2,0,195,100,2);
+			drawTexturedModalRect(centerX-50,guiY+enhListY,0,198,100,9);
+			drawTexturedModalRect(centerX-50,guiY+enhListY+9,0,208,100,2);
+			drawTexturedModalRect(centerX-64,guiY+enhListY-2,110,195,13,13);
+		}
+		else if (container.getSlot(0).getHasStack()){
+			Enum[] enhancements = EnhancementRegistry.listEnhancements(container.getSlot(0).getStack().getItem());
+			
+			drawTexturedModalRect(centerX-4,guiY+27,101,195,8,4);
+			drawTexturedModalRect(centerX-50,guiY+enhListY-2,0,195,100,2);
+			drawTexturedModalRect(centerX-50,guiY+enhListY+enhancements.length*9,0,208,100,2);
+			
+			for(int enh = 0; enh < enhancements.length; enh++){
+				drawTexturedModalRect(centerX-50,guiY+enhListY+enh*9,0,198,100,9);
+			}
+		}
+		/* TODO
 		if (container.isEnhancingTile())drawTexturedModalRect(guiX+79,guiY+16,176,0,18,18);
 		else drawTexturedModalRect(guiX+52,guiY+16,176,0,72,18);
 		
@@ -134,7 +175,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 					(type == SlotType.POWDER ? container.powderSlots : container.ingredientSlots)[type == SlotType.POWDER ? indexPowder++ : indexIngredient++].xDisplayPosition = x+1;
 				}
 			}
-		}
+		}*/
 	}
 	
 	private void drawRectangle(int x1, int y1, int x2, int y2, int color){

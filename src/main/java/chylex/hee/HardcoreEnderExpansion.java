@@ -22,6 +22,7 @@ import chylex.hee.init.ModInitHandler;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.FXCommonProxy;
 import chylex.hee.proxy.ModCommonProxy;
@@ -145,6 +146,7 @@ public class HardcoreEnderExpansion{
 		PacketPipeline.initializePipeline();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this,GuiHandler.instance);
 		RecipeList.addRecipes();
+		EnhancementRegistry.init();
 		// TODO WorldLoot.registerWorldLoot();
 		
 		Stopwatch.finish("InitEvent");

@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.item.EntityItemEndPowder;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Log;
@@ -23,16 +23,16 @@ public class ItemEndPowder extends ItemAbstractCustomEntity{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		Pos pos = Pos.at(x,y,z);
 		
-		if (EnhancementHandler.canEnhanceBlock(pos.getBlock(world))){
+		if (EnhancementRegistry.canEnhanceBlock(pos.getBlock(world))){
 			if (!(pos.getTileEntity(world) instanceof IEnhanceableTile)){
-				ItemStack prevIS = new ItemStack(pos.getBlock(world));
-				Item newItem = EnhancementHandler.getEnhancementTransformation(prevIS);
+				Item prevItem = Item.getItemFromBlock(pos.getBlock(world));
+				Item newItem = EnhancementRegistry.getItemTransformation(prevItem);
 				
 				if (newItem instanceof ItemBlock){
 					pos.setBlock(world,((ItemBlock)newItem).field_150939_a);
 					
 					if (!(pos.getTileEntity(world) instanceof IEnhanceableTile)){
-						Log.error("Failed converting $0 to enhanceable tile ($1 <-> $2)!",prevIS,newItem,pos.getTileEntity(world));
+						Log.reportedError("Failed converting $0 to enhanceable tile ($1 <-> $2)!",prevItem,newItem,pos.getTileEntity(world));
 						return false;
 					}
 				}

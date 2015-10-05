@@ -1,12 +1,12 @@
-package chylex.hee.mechanics.enhancements.types;
+package chylex.hee.mechanics.enhancements._old.types;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
-import chylex.hee.mechanics.enhancements.IEnhancementEnum;
+import chylex.hee.mechanics.enhancements._old.EnhancementEnumHelper;
+import chylex.hee.mechanics.enhancements._old.IEnhancementEnum;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector.SimpleItemSelector;
 

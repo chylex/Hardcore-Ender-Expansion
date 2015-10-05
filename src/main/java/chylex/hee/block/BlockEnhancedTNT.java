@@ -16,7 +16,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
+import chylex.hee.mechanics.enhancements._old.types.TNTEnhancements;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
 import cpw.mods.fml.relauncher.Side;

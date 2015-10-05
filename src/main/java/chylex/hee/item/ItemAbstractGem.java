@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -49,7 +48,7 @@ public abstract class ItemAbstractGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		EnhancementHandler.appendEnhancementNames(is,textLines);
+		// TODO EnhancementHandler.appendEnhancementNames(is,textLines);
 	}
 	
 	@Override

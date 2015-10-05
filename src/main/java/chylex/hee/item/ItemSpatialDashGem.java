@@ -3,7 +3,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
 
 public class ItemSpatialDashGem extends ItemAbstractGem{
 	public ItemSpatialDashGem(){

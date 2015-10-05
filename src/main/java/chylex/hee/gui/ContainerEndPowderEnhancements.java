@@ -1,8 +1,4 @@
 package chylex.hee.gui;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -12,29 +8,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
-import org.apache.commons.lang3.ArrayUtils;
-import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.game.save.types.player.CompendiumFile;
-import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
-import chylex.hee.gui.slots.SlotReadOnly;
 import chylex.hee.gui.slots.SlotShowCase;
-import chylex.hee.init.ItemList;
-import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentEnhancement;
-import chylex.hee.mechanics.compendium.events.CompendiumEvents;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements.IEnhancementEnum;
-import chylex.hee.mechanics.enhancements.SlotList;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C08PlaySound;
-import chylex.hee.packets.client.C19CompendiumData;
-import chylex.hee.proxy.ModCommonProxy.MessageType;
-import chylex.hee.system.logging.Log;
-import chylex.hee.system.util.DragonUtil;
-import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -43,47 +19,26 @@ public class ContainerEndPowderEnhancements extends Container{
 	
 	public final IInventory containerInv;
 	public final IEnhanceableTile enhanceableTile;
-	public final Slot[] powderSlots = new Slot[8];
-	public final Slot[] ingredientSlots = new Slot[8];
 	
-	public final IInventory enhancementListInv;
-	public final ItemStack[] clientEnhancementItems = new ItemStack[7];
-	public final String[] clientEnhancementTooltips = new String[7];
-	public final boolean[] clientEnhancementBlocked = new boolean[7];
-	public final int[] enhancementSlotX = new int[7];
-	private IEnhancementEnum selectedEnhancement;
-	private int selectedSlot = -1, prevSelectedSlot = -1;
+	private Enum selectedEnhancement;
 	
 	public ContainerEndPowderEnhancements(InventoryPlayer inv, IEnhanceableTile tileOptional){
-		containerInv = new InventoryBasic("",false,2+ingredientSlots.length+powderSlots.length);
+		containerInv = new InventoryBasic("",false,1);
 		this.enhanceableTile = tileOptional;
 		
-		enhancementListInv = new InventoryBasic("",false,enhancementSlotX.length);
-		for(int a = 0; a < enhancementSlotX.length; a++)enhancementSlotX[a] = -3200;
-		
 		if (isEnhancingTile()){
-			addSlotToContainer(new SlotShowCase(containerInv,0,80,17));
+			addSlotToContainer(new SlotShowCase(containerInv,0,80,8));
 			containerInv.setInventorySlotContents(0,tileOptional.createEnhancedItemStack());
-			addSlotToContainer(new SlotReadOnly(containerInv,1,3200,17));
 		}
 		else{
-			addSlotToContainer(new SlotEnhancementsSubject(this,containerInv,0,53,17));
-			addSlotToContainer(new SlotBasicItem(containerInv,1,107,17,null));
-		}
-		
-		for(int a = 0; a < powderSlots.length; a++){
-			addSlotToContainer(powderSlots[a] = new SlotBasicItem(containerInv,2+a,-3200,57,ItemList.end_powder));
-		}
-		
-		for(int a = 0; a < ingredientSlots.length; a++){
-			addSlotToContainer(ingredientSlots[a] = new Slot(containerInv,2+powderSlots.length+a,-3200,57));
+			addSlotToContainer(new SlotEnhancementsSubject(this,containerInv,0,80,8));
 		}
 		
 		for(int i = 0; i < 3; ++i){
-			for(int j = 0; j < 9; ++j)addSlotToContainer(new Slot(inv,j+i*9+9,8+j*18,88+i*18));
+			for(int j = 0; j < 9; ++j)addSlotToContainer(new Slot(inv,j+i*9+9,8+j*18,112+i*18));
 		}
 
-		for(int i = 0; i < 9; ++i)addSlotToContainer(new Slot(inv,i,8+i*18,146));
+		for(int i = 0; i < 9; ++i)addSlotToContainer(new Slot(inv,i,8+i*18,170));
 	}
 	
 	@Override
@@ -102,7 +57,7 @@ public class ContainerEndPowderEnhancements extends Container{
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){/* TODO
 		ItemStack is = null;
 		ItemStack mainIS = containerInv.getStackInSlot(0);
 		Slot slot = (Slot)inventorySlots.get(slotId);
@@ -139,7 +94,7 @@ public class ContainerEndPowderEnhancements extends Container{
 			else slot.onSlotChanged();
 		}
 
-		return is;
+		return is;*/return null;
 	}
 	
 	@Override
@@ -169,7 +124,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		if (isEnhancingTile())onSubjectChanged();
 	}
 	
-	public void updateClientItems(){
+	public void updateClientItems(){/* TODO
 		ItemStack mainIS = getSlot(0).getStack();
 		List<IEnhancementEnum> enhancements = mainIS == null ? null : EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
 		
@@ -186,10 +141,10 @@ public class ContainerEndPowderEnhancements extends Container{
 			IEnhancementEnum enhancement = enhancements.get(a);
 			ItemStack is = file != null && file.hasUnlockedFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement)) ? enhancement.getItemSelector().getRepresentativeItem() : new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
 			clientEnhancementItems[a] = is;
-		}
+		}*/
 	}
 	
-	public void onSubjectChanged(){
+	public void onSubjectChanged(){/* TODO
 		ItemStack mainIS = getSlot(0).getStack();
 		
 		updateClientItems();
@@ -218,10 +173,10 @@ public class ContainerEndPowderEnhancements extends Container{
 		
 		if (owner != null && !owner.worldObj.isRemote){
 			for(ItemStack is:toDrop)owner.dropPlayerItemWithRandomChoice(is,false);
-		}
+		}*/
 	}
 
-	public void onEnhancementSlotClick(int slot){
+	public void onEnhancementSlotClick(int slot){/* TODO
 		if (selectedSlot != slot){ // SELECT SLOT
 			List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(getSlot(0).getStack().getItem());
 			
@@ -333,11 +288,11 @@ public class ContainerEndPowderEnhancements extends Container{
 				
 				PacketPipeline.sendToPlayer(owner,new C08PlaySound(C08PlaySound.RANDOM_BREAK,owner.posX,owner.posY,owner.posZ,0.8F,1.2F));
 			}
-		}
+		}*/
 	}
 	
 	@SideOnly(Side.CLIENT)
-	public void onEnhancementSlotChangeClient(int selectedSlot){
+	public void onEnhancementSlotChangeClient(int selectedSlot){/* TODO
 		ItemStack mainIS = getSlot(0).getStack();
 		
 		if (mainIS == null){
@@ -363,7 +318,7 @@ public class ContainerEndPowderEnhancements extends Container{
 			clientEnhancementBlocked[a] = currentEnhancements.contains(enhancement);
 			
 			build.setLength(0);
-		}
+		}*/
 	}
 	
 	public boolean isEnhancingTile(){

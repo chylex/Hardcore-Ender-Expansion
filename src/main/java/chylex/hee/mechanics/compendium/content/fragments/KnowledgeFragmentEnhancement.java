@@ -10,7 +10,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
-import chylex.hee.mechanics.enhancements.IEnhancementEnum;
+import chylex.hee.mechanics.enhancements._old.IEnhancementEnum;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.relauncher.Side;

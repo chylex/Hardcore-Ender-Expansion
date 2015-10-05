@@ -3,7 +3,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import chylex.hee.gui.ContainerEndPowderEnhancements;
-import chylex.hee.mechanics.enhancements.EnhancementHandler;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 
 public class SlotEnhancementsSubject extends Slot{
 	private final ContainerEndPowderEnhancements container;
@@ -15,7 +15,7 @@ public class SlotEnhancementsSubject extends Slot{
 
 	@Override
 	public boolean isItemValid(ItemStack is){
-		return is != null ? EnhancementHandler.canEnhanceItem(is.getItem()) : false;
+		return is != null ? EnhancementRegistry.canEnhanceItem(is.getItem()) : false;
 	}
 	
 	@Override

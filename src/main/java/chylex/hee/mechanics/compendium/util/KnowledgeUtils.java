@@ -22,7 +22,7 @@ import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.curse.CurseType;
-import chylex.hee.mechanics.enhancements.IEnhancementEnum;
+import chylex.hee.mechanics.enhancements._old.IEnhancementEnum;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 import cpw.mods.fml.relauncher.Side;
