@@ -11,7 +11,7 @@ public interface IItemSelector{
 		ItemStack getRepresentativeItem();
 		
 		public static class SimpleItemSelector implements IRepresentativeItemSelector{
-			private final Item item;
+			protected final Item item;
 			
 			public SimpleItemSelector(Block block){
 				this.item = Item.getItemFromBlock(block);
@@ -29,6 +29,30 @@ public interface IItemSelector{
 			@Override
 			public ItemStack getRepresentativeItem(){
 				return new ItemStack(item);
+			}
+		}
+		
+		public static class DamageItemSelector extends SimpleItemSelector{
+			protected final int damage;
+			
+			public DamageItemSelector(Block block, int meta){
+				super(block);
+				this.damage = meta;
+			}
+			
+			public DamageItemSelector(Item item, int damage){
+				super(item);
+				this.damage = damage;
+			}
+			
+			@Override
+			public boolean isValid(ItemStack is){
+				return super.isValid(is) && is.getItemDamage() == damage;
+			}
+			
+			@Override
+			public ItemStack getRepresentativeItem(){
+				return new ItemStack(item,damage);
 			}
 		}
 		
