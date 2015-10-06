@@ -17,6 +17,7 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -51,12 +52,10 @@ public class BlockEssenceAltar extends BlockContainer{
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
 		if (!world.isRemote){
-			TileEntityEssenceAltar altar = (TileEntityEssenceAltar)world.getTileEntity(x,y,z);
-			
-			if (altar != null){
-				altar.onBlockDestroy();
-				dropBlockAsItem(world,x,y,z,((IEnhanceableTile)altar).createEnhancedItemStack());
-			}
+			Pos.at(x,y,z).castTileEntity(world,TileEntityEssenceAltar.class).ifPresent(tile -> {
+				tile.onBlockDestroy();
+				dropBlockAsItem(world,x,y,z,IEnhanceableTile.createItemStack(tile));
+			});
 		}
 		
 		super.breakBlock(world,x,y,z,oldBlock,oldMeta);

@@ -1,10 +1,16 @@
-package chylex.hee.mechanics.enhancements;
+package chylex.hee.mechanics.enhancements.list;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.EnumUtils;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.system.util.DragonUtil;
 import com.google.common.base.Splitter;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EnhancementList<T extends Enum<T>>{
 	private final Class<T> enumCls;
@@ -15,20 +21,29 @@ public class EnhancementList<T extends Enum<T>>{
 		this.map = new EnumMap<>(enumCls);
 	}
 	
-	public boolean has(T enhancement){
-		return map.containsKey(enhancement);
+	public boolean isEmpty(){
+		return map.isEmpty();
 	}
 	
-	public void set(T enhancement, int level){
-		map.put(enhancement,(byte)level);
+	public boolean has(T enhancement){
+		return map.containsKey(enhancement);
 	}
 	
 	public int get(T enhancement){
 		return map.getOrDefault(enhancement,(byte)0);
 	}
 	
+	public void set(T enhancement, int level){
+		map.put(enhancement,(byte)level);
+	}
+	
 	public void upgrade(T enhancement){
 		map.merge(enhancement,(byte)1,(prev, set) -> (byte)(prev+1));
+	}
+	
+	public void replace(EnhancementList<T> replacement){
+		map.clear();
+		for(Entry<T,Byte> entry:replacement.map.entrySet())map.put(entry.getKey(),entry.getValue());
 	}
 	
 	public String serialize(){
@@ -43,6 +58,16 @@ public class EnhancementList<T extends Enum<T>>{
 			byte lvl = (byte)DragonUtil.tryParse(entry.getValue(),0);
 			
 			if (enh != null && lvl > 0)map.put(enh,Byte.valueOf(lvl));
+		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void addTooltip(List<String> tooltipList, EnumChatFormatting color){
+		if (map.isEmpty())tooltipList.add(EnumChatFormatting.GRAY+"No Enhancements"); // TODO translate
+		else{
+			for(Entry<T,Byte> entry:map.entrySet()){
+				tooltipList.add(color+EnhancementRegistry.getEnhancementName(entry.getKey())+" "+StatCollector.translateToLocal("enchantment.level."+entry.getValue()));
+			}
 		}
 	}
 }

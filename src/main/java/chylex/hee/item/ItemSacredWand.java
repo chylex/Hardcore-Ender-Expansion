@@ -17,8 +17,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData;
 import chylex.hee.entity.projectile.EntityProjectileSacredWand;
-import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements.types.SacredWandEnhancements;
 import chylex.hee.mechanics.wand.WandCore;
 import chylex.hee.mechanics.wand.WandType;
 import chylex.hee.system.collections.CollectionUtil;
@@ -51,8 +49,8 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 		}
 		
 		// enhancements
-		List<Enum> enhancements = EnhancementHandler.getEnhancements(is);
-		boolean hasCapability = enhancements.contains(SacredWandEnhancements.CAPABILITY);
+		// TODO List<Enum> enhancements = EnhancementHandler.getEnhancements(is);
+		boolean hasCapability = false; // TODO enhancements.contains(SacredWandEnhancements.CAPABILITY);
 		
 		if (hasCapability)damage *= 1.1F;
 		
@@ -65,7 +63,7 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 			List<EntityLiving> closest = DragonUtil.getClosestEntities(max,entity,entity.worldObj.getEntitiesWithinAABB(EntityLiving.class,entity.boundingBox.expand(4D,4D,4D)));
 			
 			for(EntityLiving e:closest){
-				if (e.getDistanceToEntity(entity) <= (enhancements.contains(SacredWandEnhancements.RANGE) ? 4D : 2.5D))newAttacked.add(e);
+				if (e.getDistanceToEntity(entity) <= (/* TODO enhancements.contains(SacredWandEnhancements.RANGE) ? 4D : */2.5D))newAttacked.add(e);
 			}
 			
 			attacked = newAttacked.toArray(new EntityLivingBase[newAttacked.size()]);
@@ -120,7 +118,7 @@ public class ItemSacredWand extends ItemAbstractEnergyAcceptor{
 	
 	@Override
 	public int getEnergyUsage(ItemStack is){
-		return EnhancementHandler.hasEnhancement(is,SacredWandEnhancements.EFFICIENCY) ? 2 : 3;
+		return /* TODO EnhancementHandler.hasEnhancement(is,SacredWandEnhancements.EFFICIENCY) ? 2 : */3;
 	}
 	
 	@Override

@@ -1,17 +1,9 @@
 package chylex.hee.mechanics;
-import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import chylex.hee.entity.projectile.EntityProjectileEyeOfEnder;
-import chylex.hee.init.ItemList;
-import chylex.hee.item.ItemTransferenceGem;
-import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
-import chylex.hee.system.util.ItemUtil;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -60,7 +52,7 @@ public class MiscEvents{
 	/*
 	 * Right-clicking on item frame, mob and item with Transference Gem
 	 */
-	@SubscribeEvent
+	/* TODO @SubscribeEvent
 	public void onPlayerInteractEntity(EntityInteractEvent e){
 		if (e.entity.worldObj.isRemote)return;
 		
@@ -78,5 +70,5 @@ public class MiscEvents{
 				e.setCanceled(true);
 			}
 		}
-	}
+	}*/
 }

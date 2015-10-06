@@ -28,8 +28,6 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
 import chylex.hee.mechanics.energy.EnergyClusterGenerator;
-import chylex.hee.mechanics.enhancements.types.BrewingStandEnhancements;
-import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.test.Assert;
@@ -178,8 +176,8 @@ public class BlockTests{
 			storedLocs.put("DragonEssenceAltar",pos.copy());
 			getTile(TileEntityEssenceAltar.class).loadFromDamage(EssenceType.DRAGON.id);
 			
-			getTile(TileEntityEssenceAltar.class).getEnhancements().add(EssenceAltarEnhancements.SPEED);
-			if (run == 1)getTile(TileEntityEssenceAltar.class).getEnhancements().add(EssenceAltarEnhancements.EFFICIENCY);
+			// TODO getTile(TileEntityEssenceAltar.class).getEnhancements().add(EssenceAltarEnhancements.SPEED);
+			// TODO if (run == 1)getTile(TileEntityEssenceAltar.class).getEnhancements().add(EssenceAltarEnhancements.EFFICIENCY);
 			
 			try{
 				Field essenceLevel = TileEntityEssenceAltar.class.getDeclaredField("essenceLevel");
@@ -230,7 +228,7 @@ public class BlockTests{
 			getTile(TileEntityEnhancedBrewingStand.class).setInventorySlotContents(1,new ItemStack(Items.potionitem,1,(Integer)t[0]));
 			getTile(TileEntityEnhancedBrewingStand.class).setInventorySlotContents(3,t[1] instanceof Item ? new ItemStack((Item)t[1]) : (ItemStack)t[1]);
 			if ((Integer)t[2] != 0)getTile(TileEntityEnhancedBrewingStand.class).setInventorySlotContents(4,new ItemStack(ItemList.end_powder,(Integer)t[2]));
-			if (t.length > 3)getTile(TileEntityEnhancedBrewingStand.class).getEnhancements().add(BrewingStandEnhancements.TIER);
+			// TODO if (t.length > 3)getTile(TileEntityEnhancedBrewingStand.class).getEnhancements().add(BrewingStandEnhancements.TIER);
 			move();
 		}
 		

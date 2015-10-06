@@ -4,7 +4,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -14,8 +13,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.game.achievements.AchievementManager;
-import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
-import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.misc.GemSideEffects;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
@@ -71,8 +68,8 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 	
 	@Override
 	public boolean itemInteractionForEntity(ItemStack is, EntityPlayer player, EntityLivingBase entity){
-		if (entity instanceof IBossDisplayData || !EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.BEAST) || player.isSneaking())return false;
-		tryTeleportEntity(is,player,entity);
+		/* TODO if (entity instanceof IBossDisplayData || !EnhancementHandler.hasEnhancement(is,TransferenceGemEnhancements.BEAST) || player.isSneaking())return false;
+		tryTeleportEntity(is,player,entity);*/
 		return true;
 	}
 	

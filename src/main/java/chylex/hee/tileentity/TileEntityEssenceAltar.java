@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,8 +16,8 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
+import chylex.hee.mechanics.enhancements.list.EnhancementList;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.ItemUseCache;
@@ -95,8 +94,8 @@ public class TileEntityEssenceAltar extends TileEntityAbstractSynchronized imple
 	}
 	
 	@Override
-	public Item getEnhancementItem(){
-		return Item.getItemFromBlock(BlockList.essence_altar);
+	public ItemStack getEnhancementItemStack(){
+		return new ItemStack(BlockList.essence_altar,1,essenceType.id);
 	}
 	
 	@Override

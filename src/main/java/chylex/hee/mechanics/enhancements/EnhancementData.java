@@ -30,6 +30,10 @@ public class EnhancementData<T extends Enum<T>>{
 		return transform == null ? current : transform;
 	}
 	
+	public Class<T> getEnhancementClass(){
+		return enumCls;
+	}
+	
 	public T[] listEnhancements(){
 		return enumCls.getEnumConstants();
 	}

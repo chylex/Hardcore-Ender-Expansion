@@ -16,6 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.init.ItemList;
+import chylex.hee.mechanics.enhancements.list.EnhancementList;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
@@ -50,7 +51,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		if (--updatePedestalTimer <= 0){
 			updatePedestalTimer = 20;
 			
-			int maxPedestals = altar.getEnhancements().contains(EssenceAltarEnhancements.RANGE) ? 12 : 8;
+			int maxPedestals = /* TODO altar.getEnhancements().contains(EssenceAltarEnhancements.RANGE) ? 12 : */8;
 			int range = maxPedestals == 12 ? 4 : 3;
 			long currentHash = 0L;
 			
@@ -160,7 +161,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	}
 	
 	private void updatePedestalItem(EntityItemAltar item){
-		List<Enum> enhancements = altar.getEnhancements();
+		EnhancementList<EssenceAltarEnhancements> enhancements = altar.getEnhancements();
 		
 		ItemStack is = item.getEntityItem();
 		
@@ -170,8 +171,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		
 		if (item.worldObj.rand.nextInt(3) != 0){
 			if (is.isItemStackDamageable() && is.getItemDamage() != 0 && is.getItem().isRepairable()){
-				for(int a = enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : 1; a > 0; a--){
-					if (++repairCounter > (enhancements.contains(EssenceAltarEnhancements.EFFICIENCY) ? 72 : 56)){
+				for(int a = /* TODO enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : */1; a > 0; a--){
+					if (++repairCounter > (/* TODO enhancements.contains(EssenceAltarEnhancements.EFFICIENCY) ? 72 : */56)){
 						altar.drainEssence(1);
 						repairCounter = 0;
 					}
@@ -191,7 +192,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		 */
 		
 		else if (is.isItemEnchanted() && is.getItem() != Items.enchanted_book){
-			for(int b = enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : 1; b > 0; b--){
+			for(int b = /* TODO enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : */1; b > 0; b--){
 				if (updateItemCounter(is,"HEE_enchant",1) < 280-is.getItem().getItemEnchantability()*5)return;
 				updateItemCounter(is,"HEE_enchant",0);
 				
@@ -217,7 +218,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						if (tag.getShort("id") != chosenEnchantment.effectId)continue;
 						
 						int level = tag.getShort("lvl"), cost = getEnchantmentCost(chosenEnchantment,level+1);
-						if (enhancements.contains(EssenceAltarEnhancements.EFFICIENCY))cost = MathUtil.ceil(cost*0.65F);
+						// TODO if (enhancements.contains(EssenceAltarEnhancements.EFFICIENCY))cost = MathUtil.ceil(cost*0.65F);
 						if (level >= chosenEnchantment.getMaxLevel() || altar.getEssenceLevel() < cost)continue;
 						
 						altar.drainEssence(cost);
@@ -239,8 +240,8 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		else if (item.worldObj.rand.nextInt(5) == 0){
 			for(AltarItemRecipe recipe:recipes){
 				if (recipe.isApplicable(is)){
-					for(int a = enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : 1; a > 0; a--){
-						if (updateItemCounter(is,"HEE_transform",1) <= Math.max(MathUtil.ceil(recipe.cost*(enhancements.contains(EssenceAltarEnhancements.EFFICIENCY) ? 0.65F : 1F)),recipe.cost>>1)){
+					for(int a = /* TODO enhancements.contains(EssenceAltarEnhancements.SPEED) ? 2 : */1; a > 0; a--){
+						if (updateItemCounter(is,"HEE_transform",1) <= Math.max(MathUtil.ceil(recipe.cost*(/* TODO enhancements.contains(EssenceAltarEnhancements.EFFICIENCY) ? 0.65F : */1F)),recipe.cost>>1)){
 							altar.drainEssence(1);
 							continue;
 						}

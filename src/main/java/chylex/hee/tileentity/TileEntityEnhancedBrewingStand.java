@@ -8,8 +8,8 @@ import net.minecraftforge.common.util.Constants;
 import chylex.hee.api.interfaces.IAcceptFieryEssence;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.brewing.PotionTypes;
-import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
+import chylex.hee.mechanics.enhancements.list.EnhancementList;
 import chylex.hee.mechanics.enhancements.types.BrewingStandEnhancements;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.ItemUtil;
@@ -70,11 +70,11 @@ public class TileEntityEnhancedBrewingStand extends TileEntityBrewingStand imple
 			if (slotItems[a] == null)continue;
 			++potionCount;
 			
-			if (!PotionTypes.canBeApplied(slotItems[3],slotItems[a],enhancements.contains(BrewingStandEnhancements.TIER)))return false;
+			if (!PotionTypes.canBeApplied(slotItems[3],slotItems[a],false/* TODO enhancements.contains(BrewingStandEnhancements.TIER)*/))return false;
 			requiredPowder += PotionTypes.getRequiredPowder(slotItems[3].getItem(),slotItems[a]);
 		}
 		
-		requiredPowder = (short)Math.min(requiredPowder*(potionCount == 2 ? 0.835F : potionCount == 3 ? 0.7F : 1F)*(enhancements.contains(BrewingStandEnhancements.COST) ? 0.65F : 1F),69);
+		requiredPowder = (short)Math.min(requiredPowder*(potionCount == 2 ? 0.835F : potionCount == 3 ? 0.7F : 1F)*(/* TODO enhancements.contains(BrewingStandEnhancements.COST) ? 0.65F : */1F),69);
 
 		if (potionCount == 0)return false;
 		return requiredPowder == 0 || (slotItems[4] != null && slotItems[4].stackSize >= requiredPowder);

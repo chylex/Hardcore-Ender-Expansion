@@ -4,9 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -19,12 +20,7 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 	public boolean placeBlockAt(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ, int metadata){
 		if (super.placeBlockAt(is,player,world,x,y,z,side,hitX,hitY,hitZ,metadata)){
 			IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
-			
-			if (tile != null){
-				tile.getEnhancements().clear();
-				tile.getEnhancements().addAll(EnhancementHandler.getEnhancements(is));
-			}
-			
+			if (tile != null)tile.getEnhancements().replace(EnhancementRegistry.getEnhancementList(is));
 			return true;
 		}
 		else return false;
@@ -39,6 +35,6 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		// TODO EnhancementHandler.appendEnhancementNames(is,textLines);
+		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines,EnumChatFormatting.YELLOW);
 	}
 }

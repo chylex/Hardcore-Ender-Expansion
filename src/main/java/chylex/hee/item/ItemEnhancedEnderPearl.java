@@ -3,8 +3,10 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -13,7 +15,7 @@ public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		world.playSoundAtEntity(player,"random.bow",0.5F,0.4F/(itemRand.nextFloat()*0.4F+0.8F));
 
-		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileEnhancedEnderPearl(world,player));
+		if (!world.isRemote)world.spawnEntityInWorld(new EntityProjectileEnhancedEnderPearl(world,player,EnhancementRegistry.getEnhancementList(is)));
 		if (!player.capabilities.isCreativeMode)--is.stackSize;
 		return is;
 	}
@@ -27,6 +29,6 @@ public class ItemEnhancedEnderPearl extends ItemEnderPearl{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		// TODO EnhancementHandler.appendEnhancementNames(is,textLines);
+		EnhancementRegistry.getEnhancementList(is).addTooltip(textLines,EnumChatFormatting.YELLOW);
 	}
 }

@@ -29,12 +29,6 @@ import chylex.hee.mechanics.compendium.objects.ObjectDummy;
 import chylex.hee.mechanics.compendium.objects.ObjectItem;
 import chylex.hee.mechanics.compendium.objects.ObjectMob;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
-import chylex.hee.mechanics.enhancements._old.types.SpatialDashGemEnhancements;
-import chylex.hee.mechanics.enhancements.types.BrewingStandEnhancements;
-import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
-import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
-import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
-import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
@@ -453,17 +447,17 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(212).setPrice(3).setUnlockRequirements(210)
 			}),
 			
-			ENDER_PEARL_ENHANCEMENTS.setPos(11,0).setUnlockPrice(8).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnderPearlEnhancements.class,170,3,10,new int[]{ 160 })),
+			// TODO ENDER_PEARL_ENHANCEMENTS.setPos(11,0).setUnlockPrice(8).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EnderPearlEnhancements.class,170,3,10,new int[]{ 160 })),
 			
-			ESSENCE_ALTAR_ENHANCEMENTS.setPos(11,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EssenceAltarEnhancements.class,1470,5,10,new int[]{ 160, 51 })),
+			// TODO ESSENCE_ALTAR_ENHANCEMENTS.setPos(11,2).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(EssenceAltarEnhancements.class,1470,5,10,new int[]{ 160, 51 })),
 			
-			ENHANCED_BREWING_STAND_ENHANCEMENTS.setPos(11,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(BrewingStandEnhancements.class,1500,4,10,new int[]{ 160, 130 })),
+			// TODO ENHANCED_BREWING_STAND_ENHANCEMENTS.setPos(11,4).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(BrewingStandEnhancements.class,1500,4,10,new int[]{ 160, 130 })),
 			
-			TNT_ENHANCEMENTS.setPos(13,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TNTEnhancements.class,140,3,10,new int[]{ 160 })),
+			// TODO TNT_ENHANCEMENTS.setPos(13,0).setUnlockPrice(10).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TNTEnhancements.class,140,3,10,new int[]{ 160 })),
 			
-			SPATIAL_DASH_GEM_ENHANCEMENTS.setPos(13,2).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(SpatialDashGemEnhancements.class,1480,4,10,new int[]{ 160, 290 })),
+			// TODO SPATIAL_DASH_GEM_ENHANCEMENTS.setPos(13,2).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(SpatialDashGemEnhancements.class,1480,4,10,new int[]{ 160, 290 })),
 			
-			TRANSFERENCE_GEM_ENHANCEMENTS.setPos(13,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TransferenceGemEnhancements.class,1490,4,10,new int[]{ 160, 1440 }))
+			// TODO TRANSFERENCE_GEM_ENHANCEMENTS.setPos(13,4).setUnlockPrice(12).setDiscoveryReward(10).addFragments(KnowledgeUtils.createEnhancementFragments(TransferenceGemEnhancements.class,1490,4,10,new int[]{ 160, 1440 }))
 		});
 		
 		// ===

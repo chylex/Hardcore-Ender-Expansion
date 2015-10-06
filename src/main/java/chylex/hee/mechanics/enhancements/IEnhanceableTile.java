@@ -1,14 +1,35 @@
 package chylex.hee.mechanics.enhancements;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import chylex.hee.mechanics.enhancements.list.EnhancementList;
 
 public interface IEnhanceableTile<T extends Enum<T>>{
 	/**
 	 * Returns an item to be used for enhancing.
 	 */
-	Item getEnhancementItem();
+	default Item getEnhancementItem(){
+		return Item.getItemFromBlock(Blocks.air);
+	}
+	
+	/**
+	 * Creates a plain ItemStack from the enhancement item.
+	 */
+	default ItemStack getEnhancementItemStack(){
+		return new ItemStack(getEnhancementItem());
+	}
 	
 	/**
 	 * Returns a modifiable enhancement list.
 	 */
 	EnhancementList<T> getEnhancements();
+	
+	/**
+	 * Enhances a new ItemStack returned by the tile entity and returns it.
+	 */
+	public static ItemStack createItemStack(IEnhanceableTile<?> tile){
+		ItemStack is = tile.getEnhancementItemStack();
+		// TODO
+		return is;
+	}
 }

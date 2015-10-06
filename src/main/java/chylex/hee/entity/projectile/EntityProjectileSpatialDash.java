@@ -1,5 +1,4 @@
 package chylex.hee.entity.projectile;
-import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,7 +15,7 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.game.achievements.AchievementManager;
-import chylex.hee.mechanics.enhancements.EnhancementEnumHelper;
+import chylex.hee.mechanics.enhancements.list.EnhancementList;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
@@ -28,24 +27,26 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityProjectileSpatialDash extends EntityThrowable{
-	private List<Enum> enhancements = new ArrayList<>();
+	private final EnhancementList<SpatialDashGemEnhancements> enhancements;
 	private byte ticks;
 	
 	public EntityProjectileSpatialDash(World world){
 		super(world);
+		this.enhancements = new EnhancementList<>(SpatialDashGemEnhancements.class);
 	}
 
-	public EntityProjectileSpatialDash(World world, EntityLivingBase thrower, List<Enum> enhancements){
+	public EntityProjectileSpatialDash(World world, EntityLivingBase thrower, EnhancementList<SpatialDashGemEnhancements> enhancements){
 		super(world,thrower);
 		motionX *= 1.75D;
 		motionY *= 1.75D;
 		motionZ *= 1.75D;
-		this.enhancements.addAll(enhancements);
+		this.enhancements = enhancements;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public EntityProjectileSpatialDash(World world, double x, double y, double z){
 		super(world,x,y,z);
+		this.enhancements = new EnhancementList<>(SpatialDashGemEnhancements.class);
 	}
 	
 	@Override
@@ -57,8 +58,8 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		onEntityUpdate();
 
 		if (!worldObj.isRemote){
-			for(int cycles = enhancements.contains(SpatialDashGemEnhancements.INSTANT) ? 48 : 1; cycles > 0; cycles--){
-				if (++ticks > (enhancements.contains(SpatialDashGemEnhancements.RANGE) ? 48 : 28))setDead();
+			for(int cycles = /* TODO enhancements.contains(SpatialDashGemEnhancements.INSTANT) ? 48 : */1; cycles > 0; cycles--){
+				if (++ticks > (/* TODO enhancements.contains(SpatialDashGemEnhancements.RANGE) ? 48 : */28))setDead();
 		
 				Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
 				Vec3 vecPosWithMotion = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
@@ -197,7 +198,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
 		nbt.setByte("tickTimer",ticks);
-		nbt.setString("enhancements",EnhancementEnumHelper.serialize(enhancements));
+		nbt.setString("enhancements2",enhancements.serialize());
 		nbt.removeTag("inTile");
 		nbt.removeTag("shake");
 	}
@@ -206,6 +207,6 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
 		ticks = nbt.getByte("tickTimer");
-		enhancements = EnhancementEnumHelper.deserialize("enhancements",SpatialDashGemEnhancements.class);
+		enhancements.deserialize(nbt.getString("enhancements2"));
 	}
 }

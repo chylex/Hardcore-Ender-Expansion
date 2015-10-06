@@ -12,8 +12,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.init.ItemList;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements._old.EnhancementHandler;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityEnhancedBrewingStand;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -32,7 +33,7 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 		super.onBlockPlacedBy(world,x,y,z,entity,is);
 		
 		IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
-		if (tile != null)tile.getEnhancements().addAll(EnhancementHandler.getEnhancements(is));
+		if (tile != null)tile.getEnhancements().replace(EnhancementRegistry.getEnhancementList(is));
 	}
 	
 	@Override
@@ -61,9 +62,7 @@ public class BlockEnhancedBrewingStand extends BlockBrewingStand{
 	
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta){
-		TileEntity tile = world.getTileEntity(x,y,z);
-		if (tile instanceof IEnhanceableTile)dropBlockAsItem(world,x,y,z,((IEnhanceableTile)tile).createEnhancedItemStack());
-		
+		Pos.at(x,y,z).castTileEntity(world,TileEntityEnhancedBrewingStand.class).ifPresent(tile -> dropBlockAsItem(world,x,y,z,IEnhanceableTile.createItemStack(tile)));
 		super.breakBlock(world,x,y,z,oldBlock,oldMeta);
 	}
 	

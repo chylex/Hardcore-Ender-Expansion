@@ -16,7 +16,6 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityEnhancedTNT;
 import cpw.mods.fml.relauncher.Side;
@@ -64,7 +63,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 			
 			if (tile != null){
 				EntityBlockEnhancedTNTPrimed tnt = new EntityBlockEnhancedTNTPrimed(world,x+0.5F,y+0.5F,z+0.5F,explosion.getExplosivePlacedBy(),tile.getEnhancements());
-				tnt.fuse = tile.getEnhancements().contains(TNTEnhancements.NO_FUSE) ? 1 : world.rand.nextInt(tnt.fuse/4)+tnt.fuse/8;
+				tnt.fuse = /* TODO tile.getEnhancements().contains(TNTEnhancements.NO_FUSE) ? 1 : */world.rand.nextInt(tnt.fuse/4)+tnt.fuse/8;
 				world.spawnEntityInWorld(tnt);
 			}
 		}
@@ -76,12 +75,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 	public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest){
 		boolean exploded = false;
 		if (!player.capabilities.isCreativeMode)exploded = tryIgniteTNT(world,x,y,z,false,null);
-		
-		if (!exploded){
-			TileEntity tile = world.getTileEntity(x,y,z);
-			if (tile instanceof IEnhanceableTile)dropBlockAsItem(world,x,y,z,((IEnhanceableTile)tile).createEnhancedItemStack());
-		}
-		
+		if (!exploded)Pos.at(x,y,z).castTileEntity(world,TileEntityEnhancedTNT.class).ifPresent(tile -> dropBlockAsItem(world,x,y,z,IEnhanceableTile.createItemStack(tile)));
 		return super.removedByPlayer(world,player,x,y,z,willHarvest);
 	}
 
@@ -112,7 +106,7 @@ public class BlockEnhancedTNT extends BlockContainer{
 		if (!world.isRemote){
 			TileEntityEnhancedTNT tile = (TileEntityEnhancedTNT)world.getTileEntity(x,y,z);
 			
-			if (tile != null && (ignite || tile.getEnhancements().contains(TNTEnhancements.TRAP))){
+			if (tile != null && (ignite/* TODO || tile.getEnhancements().contains(TNTEnhancements.TRAP)*/)){
 				EntityBlockEnhancedTNTPrimed tnt = new EntityBlockEnhancedTNTPrimed(world,x+0.5F,y+0.5F,z+0.5F,igniter,tile.getEnhancements());
 				world.spawnEntityInWorld(tnt);
 				world.playSoundAtEntity(tnt,"game.tnt.primed",1F,1F);
