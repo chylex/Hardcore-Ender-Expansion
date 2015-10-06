@@ -1,15 +1,15 @@
 package chylex.hee.mechanics.enhancements;
-import net.minecraft.item.Item;
+import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import chylex.hee.system.util.MathUtil;
 
 public class EnhancementIngredient{
-	public final Item item;
+	public final IRepresentativeItemSelector selector;
 	private final byte baseAmount;
 	private final IIngredientAmount amountFunc;
 	private final byte minLevel;
 	
-	EnhancementIngredient(Item item, int baseAmount, IIngredientAmount amountFunc, int minLevel){
-		this.item = item;
+	EnhancementIngredient(IRepresentativeItemSelector selector, int baseAmount, IIngredientAmount amountFunc, int minLevel){
+		this.selector = selector;
 		this.baseAmount = (byte)baseAmount;
 		this.amountFunc = amountFunc;
 		this.minLevel = (byte)minLevel;

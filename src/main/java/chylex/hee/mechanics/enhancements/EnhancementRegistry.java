@@ -5,6 +5,7 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import chylex.hee.mechanics.enhancements.EnhancementData.EnhancementInfo;
 import chylex.hee.mechanics.enhancements.types.BrewingStandEnhancements;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
@@ -12,6 +13,7 @@ import chylex.hee.mechanics.enhancements.types.SacredWandEnhancements;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.mechanics.enhancements.types.TransferenceGemEnhancements;
+import com.google.common.collect.ImmutableList;
 
 public final class EnhancementRegistry{
 	private static final Map<Item,EnhancementData> registry = new HashMap<>(16);
@@ -52,6 +54,10 @@ public final class EnhancementRegistry{
 	
 	public static Enum[] listEnhancements(Item item){
 		return registry.get(item).listEnhancements();
+	}
+	
+	public static ImmutableList<EnhancementInfo> listEnhancementInfo(Item item){
+		return registry.get(item).listEnhancementInfo();
 	}
 	
 	public static <T extends Enum<T>> EnhancementList<T> getEnhancementList(ItemStack is){
