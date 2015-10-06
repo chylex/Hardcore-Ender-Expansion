@@ -2,7 +2,6 @@ package chylex.hee.mechanics.enhancements;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import chylex.hee.mechanics.enhancements.list.EnhancementList;
 
 public interface IEnhanceableTile<T extends Enum<T>>{
 	/**

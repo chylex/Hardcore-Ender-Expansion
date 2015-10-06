@@ -3,8 +3,8 @@ import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import chylex.hee.init.BlockList;
+import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.mechanics.enhancements.list.EnhancementList;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 
 public class TileEntityEnhancedTNT extends TileEntity implements IEnhanceableTile<TNTEnhancements>{

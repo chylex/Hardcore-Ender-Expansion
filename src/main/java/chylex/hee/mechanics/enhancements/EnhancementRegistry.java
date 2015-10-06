@@ -5,8 +5,6 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import chylex.hee.mechanics.enhancements.list.EnhancementList;
-import chylex.hee.mechanics.enhancements.list.ItemStackEnhancementList;
 import chylex.hee.mechanics.enhancements.types.BrewingStandEnhancements;
 import chylex.hee.mechanics.enhancements.types.EnderPearlEnhancements;
 import chylex.hee.mechanics.enhancements.types.EssenceAltarEnhancements;
@@ -57,7 +55,7 @@ public final class EnhancementRegistry{
 	}
 	
 	public static <T extends Enum<T>> EnhancementList<T> getEnhancementList(ItemStack is){
-		return new ItemStackEnhancementList<>(registry.get(is.getItem()).getEnhancementClass(),is);
+		return new EnhancementList.LinkedItemStack<>(registry.get(is.getItem()).getEnhancementClass(),is);
 	}
 	
 	public static String getEnhancementName(Enum enhancementEnum){

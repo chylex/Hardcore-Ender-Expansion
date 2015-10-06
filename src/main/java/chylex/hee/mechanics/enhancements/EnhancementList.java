@@ -1,13 +1,14 @@
-package chylex.hee.mechanics.enhancements.list;
+package chylex.hee.mechanics.enhancements;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.EnumUtils;
-import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.system.util.ItemUtil;
 import com.google.common.base.Splitter;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -68,6 +69,32 @@ public class EnhancementList<T extends Enum<T>>{
 			for(Entry<T,Byte> entry:map.entrySet()){
 				tooltipList.add(color+EnhancementRegistry.getEnhancementName(entry.getKey())+" "+StatCollector.translateToLocal("enchantment.level."+entry.getValue()));
 			}
+		}
+	}
+	
+	public static final class LinkedItemStack<T extends Enum<T>> extends EnhancementList<T>{
+		private final ItemStack linkedIS;
+		
+		public LinkedItemStack(Class<T> enumCls, ItemStack linkedIS){
+			super(enumCls);
+			this.linkedIS = linkedIS;
+			
+			String enhancementData = ItemUtil.getTagRoot(linkedIS,false).getString("enhancements2");
+			if (!enhancementData.isEmpty())deserialize(enhancementData);
+		}
+		
+		@Override
+		public void set(T enhancement, int level){
+			super.set(enhancement,level);
+			ItemUtil.getTagRoot(linkedIS,true).setString("enhancements2",serialize());
+			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
+		}
+		
+		@Override
+		public void upgrade(T enhancement){
+			super.upgrade(enhancement);
+			ItemUtil.getTagRoot(linkedIS,true).setString("enhancements2",serialize());
+			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
 		}
 	}
 }

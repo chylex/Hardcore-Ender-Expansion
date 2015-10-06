@@ -6,7 +6,7 @@ import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.mechanics.enhancements.list.EnhancementList;
+import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.types.TNTEnhancements;
 import chylex.hee.system.abstractions.Explosion;
 import chylex.hee.system.abstractions.Pos;
