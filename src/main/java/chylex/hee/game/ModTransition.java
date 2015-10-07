@@ -116,13 +116,13 @@ public final class ModTransition{
 	}
 	
 	public static void convertServer(){
-		Log.warn("=====================================================");
-		Log.warn("Hardcore Ender Expansion 2 is converting the world...");
-		Log.warn("=====================================================");
-		
 		File root = DimensionManager.getCurrentSaveRootDirectory();
 		
 		if (shouldConvertWorld(root)){
+			Log.warn("=====================================================");
+			Log.warn("Hardcore Ender Expansion 2 is converting the world...");
+			Log.warn("=====================================================");
+			
 			try{
 				doConvertWorld(root);
 			}catch(IOException ex){
