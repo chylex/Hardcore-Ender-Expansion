@@ -1,26 +1,27 @@
 package chylex.hee.gui;
+import gnu.trove.iterator.TObjectIntIterator;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.gui.slots.SlotShowCase;
+import chylex.hee.mechanics.enhancements.EnhancementData;
+import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
+import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEndPowderEnhancements extends Container{
-	private EntityPlayerMP owner;
+	private EntityPlayer owner;
 	
 	public final IInventory containerInv;
 	public final IEnhanceableTile enhanceableTile;
-	
-	private Enum selectedEnhancement;
 	
 	public ContainerEndPowderEnhancements(InventoryPlayer inv, IEnhanceableTile tileOptional){
 		containerInv = new InventoryBasic("",false,1);
@@ -39,16 +40,8 @@ public class ContainerEndPowderEnhancements extends Container{
 		}
 
 		for(int i = 0; i < 9; ++i)addSlotToContainer(new Slot(inv,i,8+i*18,170));
-	}
-	
-	@Override
-	public void addCraftingToCrafters(ICrafting crafter){
-		super.addCraftingToCrafters(crafter);
 		
-		if (crafter instanceof EntityPlayerMP){
-			if (owner != null)throw new IllegalArgumentException("Cannot add second player to End Powder Enhancement container!");
-			owner = (EntityPlayerMP)crafter;
-		}
+		owner = inv.player;
 	}
 	
 	@Override
@@ -57,55 +50,31 @@ public class ContainerEndPowderEnhancements extends Container{
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){/* TODO
-		ItemStack is = null;
-		ItemStack mainIS = containerInv.getStackInSlot(0);
+	public ItemStack transferStackInSlot(EntityPlayer player, int slotId){
 		Slot slot = (Slot)inventorySlots.get(slotId);
 
 		if (slot != null && slot.getHasStack()){
 			ItemStack is2 = slot.getStack();
-			is = is2.copy();
-
-			if (slotId < 2+powderSlots.length+ingredientSlots.length){
-				if (!mergeItemStack(is2,2+powderSlots.length+ingredientSlots.length,inventorySlots.size(),true))return null;
+			
+			if (slotId < 1){
+				if (!mergeItemStack(is2,1,inventorySlots.size(),true))return null;
 			}
-			else{
-				int shownPowderSlots = 0, shownIngredientSlots = 0;
-				
-				if (mainIS != null && selectedEnhancement != null){
-					SlotList slots = EnhancementHandler.getEnhancementSlotsForItem(mainIS.getItem());
-					shownPowderSlots = slots.amountPowder;
-					shownIngredientSlots = slots.amountIngredient;
-				}
-				
-				if (EnhancementHandler.canEnhanceItem(is2.getItem()) && !isEnhancingTile()){
-					if (!mergeItemStack(is2,0,1,false))return null;
-				}
-				else if (shownPowderSlots > 0 && is2.getItem() == ItemList.end_powder){
-					if (!mergeItemStack(is2,2,2+shownPowderSlots,false))return null;
-				}
-				else if (shownIngredientSlots > 0 && !mergeItemStack(is2,2+powderSlots.length,2+powderSlots.length+shownIngredientSlots,false))return null;
-				else return null;
-				
-				if (mainIS != null && selectedEnhancement == null)return null;
+			else if (EnhancementRegistry.canEnhanceItem(is2.getItem()) && !isEnhancingTile()){
+				if (!mergeItemStack(is2,0,1,false))return null;
 			}
+			else return null;
 
 			if (is2.stackSize == 0)slot.putStack(null);
 			else slot.onSlotChanged();
 		}
-
-		return is;*/return null;
+		
+		return null;
 	}
 	
 	@Override
 	public void onContainerClosed(EntityPlayer player){
 		super.onContainerClosed(player);
-		
-		for(int a = isEnhancingTile() ? 1 : 0; a < containerInv.getSizeInventory(); a++){
-			if (containerInv.getStackInSlot(a) != null){
-				player.dropPlayerItemWithRandomChoice(containerInv.getStackInSlot(a),false);
-			}
-		}
+		if (!isEnhancingTile() && containerInv.getStackInSlot(0) != null)player.dropPlayerItemWithRandomChoice(containerInv.getStackInSlot(0),false);
 	}
 	
 	@Override
@@ -323,5 +292,31 @@ public class ContainerEndPowderEnhancements extends Container{
 	
 	public boolean isEnhancingTile(){
 		return enhanceableTile != null;
+	}
+	
+	public boolean hasEnoughIngredients(final EnhancementData<?>.EnhancementInfo info, final int level){
+		if (owner == null)return false;
+		
+		TObjectIntHashMap<IRepresentativeItemSelector> left = new TObjectIntHashMap<>(4);
+		info.getIngredients(level).forEach(ingredient -> left.put(ingredient.selector,ingredient.getAmount(level)));
+		
+		for(ItemStack is:owner.inventory.mainInventory){
+			if (is == null)continue;
+			
+			for(TObjectIntIterator<IRepresentativeItemSelector> iter = left.iterator(); iter.hasNext();){
+				iter.advance();
+				
+				if (iter.key().isValid(is)){
+					int newValue = Math.max(0,iter.value()-is.stackSize);
+					
+					if (newValue == 0)iter.remove();
+					else iter.setValue(newValue);
+					
+					break;
+				}
+			}
+		}
+		
+		return left.isEmpty();
 	}
 }

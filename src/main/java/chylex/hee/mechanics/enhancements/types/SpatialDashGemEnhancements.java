@@ -15,5 +15,13 @@ public enum SpatialDashGemEnhancements{
 		data.register(CAPACITY)
 		.setMaxLevel(3)
 		.addPowder(2,amount -> amount*1.5F);
+		
+		data.register(RANGE)
+		.setMaxLevel(3)
+		.addPowder(2,amount -> amount*1.5F);
+		
+		data.register(SPEED)
+		.setMaxLevel(3)
+		.addPowder(2,amount -> amount*1.5F);
 	}
 }
