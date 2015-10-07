@@ -48,6 +48,10 @@ public class StructureDungeon<T extends StructureDungeonGenerator> extends Struc
 		return Optional.ofNullable(startingPiece);
 	}
 	
+	public void setPieceAmount(int amount){
+		this.pieceAmount = new Range(amount,amount);
+	}
+	
 	public void setPieceAmount(int min, int max){
 		this.pieceAmount = new Range(min,max);
 	}

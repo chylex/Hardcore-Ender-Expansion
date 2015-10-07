@@ -45,6 +45,7 @@ import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitPol
 import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitTotem;
 import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomSmallIntersection;
 import chylex.hee.world.feature.stronghold.rooms.general.StrongholdRoomEndPortal;
+import chylex.hee.world.feature.stronghold.rooms.general.StrongholdRoomWorkshop;
 import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicDungeon;
 import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicFountains;
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomLargeIntersectionTrap;
@@ -55,7 +56,6 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeon;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece.Connection;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
-import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorAttaching;
 import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorSpreading;
 import chylex.hee.world.util.RandomAmount;
 import chylex.hee.world.util.Range;
@@ -66,7 +66,6 @@ public class WorldGenStronghold implements IWorldGenerator{
 	private static final int maxDistance = 144/16;
 	private static final Random checkRand = new Random();
 	
-	private static final StructureDungeon<DungeonGeneratorAttaching> stronghold = new StructureDungeon<>(128,32,128,DungeonGeneratorAttaching::new);
 	public static final WeightedLootTable loot = new WeightedLootTable();
 	
 	static{
@@ -84,40 +83,6 @@ public class WorldGenStronghold implements IWorldGenerator{
 		loot.addLoot(Items.glass_bottle).setAmount(1).setWeight(22);
 		loot.addLoot(Items.potionitem).setAmount(1).setWeight(22);
 		loot.addLoot(Items.diamond).setAmount(1,2).setWeight(14);
-		
-		stronghold.setPieceAmount(220,250);
-		stronghold.setStartingPiece(new StrongholdRoomEndPortal());
-		
-		stronghold.addPieces(7,new Range(0,50),StrongholdCorridorStraight.generateCorridors(3,5,7,9));
-		stronghold.addPieces(5,new Range(0,50),StrongholdCorridorIntersection.generateCorners());
-		stronghold.addPieces(4,new Range(0,50),StrongholdCorridorIntersection.generateThreeWay());
-		stronghold.addPieces(3,new Range(0,50),StrongholdCorridorIntersection.generateFourWay());
-		
-		stronghold.addPieces(4,new Range(0,15),StrongholdStairsStraight.generateStairs());
-		stronghold.addPieces(3,new Range(0,10),StrongholdStairsVertical.generateStairs(1));
-		stronghold.addPieces(1,new Range(0,5),StrongholdStairsVertical.generateStairs(2));
-		
-		stronghold.addPieces(2,new Range(0,20),StrongholdDoorSmall.generateDoors());
-		stronghold.addPieces(2,new Range(0,20),StrongholdDoorWooden.generateDoors());
-		stronghold.addPieces(2,new Range(0,20),StrongholdDoorGrates.generateDoors());
-		stronghold.addPieces(2,new Range(0,20),StrongholdDoorTorches.generateDoors());
-		
-		stronghold.addPieces(1,new Range(0,15),StrongholdCorridorChest.generateCorridors());
-		stronghold.addPieces(1,new Range(0,6),StrongholdCorridorDoubleChest.generateCorridors());
-
-		stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicDungeon.generateRelicRooms());
-		stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicFountains.generateRelicRooms());
-		
-		stronghold.addPiece(3,new Range(0,3),new StrongholdRoomSilverfishTrap());
-		stronghold.addPiece(3,new Range(0,3),new StrongholdRoomLargeIntersectionTrap());
-		stronghold.addPieces(3,new Range(0,4),StrongholdRoomPrisonTrap.generatePrisons());
-		
-		stronghold.addPiece(5,new Range(0,6),new StrongholdRoomFountain());
-		stronghold.addPiece(4,new Range(0,8),new StrongholdRoomLargeIntersection());
-		stronghold.addPiece(5,new Range(0,5),new StrongholdRoomSmallIntersection());
-		stronghold.addPiece(5,new Range(0,4),new StrongholdRoomLitPole());
-		stronghold.addPiece(5,new Range(0,2),new StrongholdRoomLitTotem());
-		stronghold.addPieces(4,new Range(0,7),StrongholdRoomLitCorners.generateColors());
 	}
 	
 	public static Optional<ChunkCoordIntPair> findNearestStronghold(int chunkX, int chunkZ, World world){
@@ -146,6 +111,50 @@ public class WorldGenStronghold implements IWorldGenerator{
 		else return Optional.of(new ChunkCoordIntPair(centerX+checkRand.nextInt(maxDistance*2+1)-maxDistance,centerZ+checkRand.nextInt(maxDistance*2+1)-maxDistance));
 	}
 	
+		StructureDungeon<DungeonGeneratorSpreading> stronghold = new StructureDungeon<>(128,32,128,DungeonGeneratorSpreading::new);
+		
+		stronghold.setGeneratorSetupFunc(generator -> {
+			generator.setPiecesBetweenRooms(3,8);
+			generator.setAttemptMultiplier(6);
+		});
+		
+		stronghold.setPieceAmount(40,50);
+		stronghold.setStartingPiece(new StrongholdRoomEndPortal());
+		
+		stronghold.addPieces(16,new Range(0,8),StrongholdCorridorStraight.generateCorridors(3,5,7));
+		stronghold.addPieces(8,new Range(0,8),StrongholdCorridorIntersection.generateCorners());
+		stronghold.addPieces(12,new Range(0,5),StrongholdCorridorIntersection.generateThreeWay());
+		stronghold.addPieces(5,new Range(0,5),StrongholdCorridorIntersection.generateFourWay());
+		
+		stronghold.addPieces(2,new Range(0,1),StrongholdCorridorChest.generateCorridors());
+		stronghold.addPieces(1,new Range(0,1),StrongholdCorridorDoubleChest.generateCorridors());
+		
+		stronghold.addPieces(4,new Range(0,1),StrongholdStairsStraight.generateStairs());
+		stronghold.addPieces(3,new Range(0,1),StrongholdStairsVertical.generateStairs(1));
+		stronghold.addPieces(1,new Range(0,1),StrongholdStairsVertical.generateStairs(2));
+		
+		stronghold.addPieces(10,new Range(0,1),StrongholdDoorSmall.generateDoors());
+		stronghold.addPieces(10,new Range(0,1),StrongholdDoorWooden.generateDoors());
+		stronghold.addPieces(10,new Range(0,1),StrongholdDoorGrates.generateDoors());
+		stronghold.addPieces(10,new Range(0,1),StrongholdDoorTorches.generateDoors());
+		
+		stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicDungeon.generateRelicRooms());
+		stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicFountains.generateRelicRooms());
+		
+		stronghold.addPiece(3,new Range(0,1),new StrongholdRoomSilverfishTrap());
+		stronghold.addPiece(3,new Range(0,1),new StrongholdRoomLargeIntersectionTrap());
+		stronghold.addPieces(3,new Range(0,2),StrongholdRoomPrisonTrap.generatePrisons());
+		
+		stronghold.addPiece(5,new Range(0,10),new StrongholdRoomFountain());
+		stronghold.addPiece(4,new Range(0,13),new StrongholdRoomLargeIntersection());
+		stronghold.addPiece(5,new Range(0,9),new StrongholdRoomSmallIntersection());
+		stronghold.addPiece(5,new Range(0,10),new StrongholdRoomLitPole());
+		stronghold.addPiece(5,new Range(0,5),new StrongholdRoomLitTotem());
+		stronghold.addPieces(4,new Range(0,14),StrongholdRoomLitCorners.generateColors());
+		
+		return stronghold;
+	}
+	
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider){
 		if (world.provider.dimensionId != 0)return;
@@ -155,7 +164,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 		
 		if (chunk.get().chunkXPos == chunkX && chunk.get().chunkZPos == chunkZ){
 			HardcoreEnderExpansion.notifications.report("spawn");
-			stronghold.tryGenerateInWorld(world,rand,chunkX*16+8,4+rand.nextInt(11),chunkZ*16+8,10);
+			createStrongholdGenerator(rand).tryGenerateInWorld(world,rand,chunkX*16+8,4+rand.nextInt(11),chunkZ*16+8,10);
 		}
 	}
 	
@@ -165,48 +174,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 			if (args.length < 1)return;
 			
 			if (args[0].equals("custom")){
-				StructureDungeon<DungeonGeneratorSpreading> stronghold = new StructureDungeon<>(128,32,128,DungeonGeneratorSpreading::new);
-				
-				stronghold.setGeneratorSetupFunc(generator -> {
-					generator.setPiecesBetweenRooms(3,8);
-					generator.setAttemptMultiplier(6);
-				});
-				
-				stronghold.setPieceAmount(40,50);
-				stronghold.setStartingPiece(new StrongholdRoomEndPortal());
-				
-				stronghold.addPieces(16,new Range(0,8),StrongholdCorridorStraight.generateCorridors(3,5,7));
-				stronghold.addPieces(8,new Range(0,8),StrongholdCorridorIntersection.generateCorners());
-				stronghold.addPieces(12,new Range(0,5),StrongholdCorridorIntersection.generateThreeWay());
-				stronghold.addPieces(5,new Range(0,5),StrongholdCorridorIntersection.generateFourWay());
-				
-				stronghold.addPieces(2,new Range(0,1),StrongholdCorridorChest.generateCorridors());
-				stronghold.addPieces(1,new Range(0,1),StrongholdCorridorDoubleChest.generateCorridors());
-				
-				stronghold.addPieces(4,new Range(0,1),StrongholdStairsStraight.generateStairs());
-				stronghold.addPieces(3,new Range(0,1),StrongholdStairsVertical.generateStairs(1));
-				stronghold.addPieces(1,new Range(0,1),StrongholdStairsVertical.generateStairs(2));
-				
-				stronghold.addPieces(10,new Range(0,1),StrongholdDoorSmall.generateDoors());
-				stronghold.addPieces(10,new Range(0,1),StrongholdDoorWooden.generateDoors());
-				stronghold.addPieces(10,new Range(0,1),StrongholdDoorGrates.generateDoors());
-				stronghold.addPieces(10,new Range(0,1),StrongholdDoorTorches.generateDoors());
-				
-				stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicDungeon.generateRelicRooms());
-				stronghold.addPieces(2,new Range(1,1),StrongholdRoomRelicFountains.generateRelicRooms());
-				
-				stronghold.addPiece(3,new Range(0,1),new StrongholdRoomSilverfishTrap());
-				stronghold.addPiece(3,new Range(0,1),new StrongholdRoomLargeIntersectionTrap());
-				stronghold.addPieces(3,new Range(0,2),StrongholdRoomPrisonTrap.generatePrisons());
-				
-				stronghold.addPiece(5,new Range(0,10),new StrongholdRoomFountain());
-				stronghold.addPiece(4,new Range(0,13),new StrongholdRoomLargeIntersection());
-				stronghold.addPiece(5,new Range(0,9),new StrongholdRoomSmallIntersection());
-				stronghold.addPiece(5,new Range(0,10),new StrongholdRoomLitPole());
-				stronghold.addPiece(5,new Range(0,5),new StrongholdRoomLitTotem());
-				stronghold.addPieces(4,new Range(0,14),StrongholdRoomLitCorners.generateColors());
-				
-				stronghold.tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,1);
+				createStrongholdGenerator(world.rand).tryGenerateInWorld(world,world.rand,MathUtil.floor(player.posX)-8,MathUtil.floor(player.posY)-30,MathUtil.floor(player.posZ)-8,1);
 			}
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
