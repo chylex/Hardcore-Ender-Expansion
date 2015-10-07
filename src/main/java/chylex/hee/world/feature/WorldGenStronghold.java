@@ -111,6 +111,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 		else return Optional.of(new ChunkCoordIntPair(centerX+checkRand.nextInt(maxDistance*2+1)-maxDistance,centerZ+checkRand.nextInt(maxDistance*2+1)-maxDistance));
 	}
 	
+	private static StructureDungeon<DungeonGeneratorSpreading> createStrongholdGenerator(Random rand){ // TODO profile and check if cloning instance w/ 100% known pieces would be better
 		StructureDungeon<DungeonGeneratorSpreading> stronghold = new StructureDungeon<>(128,32,128,DungeonGeneratorSpreading::new);
 		
 		stronghold.setGeneratorSetupFunc(generator -> {
@@ -179,8 +180,8 @@ public class WorldGenStronghold implements IWorldGenerator{
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
 				
-				pieces.add(new StrongholdRoomEndPortal());
-				pieces.addAll(StrongholdStairsStraight.generateStairs());
+				//pieces.add(new StrongholdRoomEndPortal());
+				pieces.add(new StrongholdRoomWorkshop());
 				
 				/*pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
 				pieces.addAll(StrongholdCorridorIntersection.generateCorners());
