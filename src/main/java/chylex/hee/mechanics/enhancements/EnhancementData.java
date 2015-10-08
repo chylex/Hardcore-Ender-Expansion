@@ -45,10 +45,6 @@ public class EnhancementData<T extends Enum<T>>{
 		return enumCls;
 	}
 	
-	public T[] listEnhancements(){
-		return enumCls.getEnumConstants();
-	}
-	
 	public ImmutableList<EnhancementInfo> listEnhancementInfo(){
 		return infoImmutableList;
 	}

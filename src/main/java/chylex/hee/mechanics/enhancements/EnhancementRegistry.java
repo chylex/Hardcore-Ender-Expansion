@@ -52,10 +52,6 @@ public final class EnhancementRegistry{
 		return registry.get(item).getTransformationItem(item);
 	}
 	
-	public static Enum[] listEnhancements(Item item){
-		return registry.get(item).listEnhancements();
-	}
-	
 	public static ImmutableList<EnhancementInfo> listEnhancementInfo(Item item){
 		return registry.get(item).listEnhancementInfo();
 	}

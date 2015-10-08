@@ -4,6 +4,7 @@ import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -14,7 +15,9 @@ import net.minecraft.item.ItemStack;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.gui.slots.SlotShowCase;
 import chylex.hee.mechanics.enhancements.EnhancementData;
+import chylex.hee.mechanics.enhancements.EnhancementData.EnhancementInfo;
 import chylex.hee.mechanics.enhancements.EnhancementIngredient;
+import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import cpw.mods.fml.relauncher.Side;
@@ -175,9 +178,18 @@ public class ContainerEndPowderEnhancements extends Container{
 		return enhanceableTile != null;
 	}
 	
-	public Collection<EnhancementIngredient> getMissingIngredients(final EnhancementData<?>.EnhancementInfo info, final int level){
+	public EnhancementList getEnhancements(){
+		return EnhancementRegistry.getEnhancementList(getSlot(0).getStack());
+	}
+	
+	public List<EnhancementInfo> listEnhancementInfo(){
+		return EnhancementRegistry.listEnhancementInfo(getSlot(0).getStack().getItem());
+	}
+	
+	public Collection<EnhancementIngredient> getMissingUpgradeIngredients(final EnhancementData<?>.EnhancementInfo info){
 		if (owner == null)return new HashSet<>();
 		
+		final int level = getEnhancements().get(info.getEnhancement())+1;
 		TObjectIntHashMap<EnhancementIngredient> left = new TObjectIntHashMap<>(4);
 		info.getIngredients(level).forEach(ingredient -> left.put(ingredient,ingredient.getAmount(level)));
 		

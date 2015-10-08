@@ -59,22 +59,24 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			selectedEnhancement = null;
 		}
 		else if (button == enhanceButton){
-			
+			// TODO
 		}
 	}
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int button){
 		if (container.getSlot(0).getHasStack()){
-			List<EnhancementInfo> enhancements = EnhancementRegistry.listEnhancementInfo(container.getSlot(0).getStack().getItem());
+			int enhY = guiTop+enhListY+1;
 			
-			for(int enh = 0; enh < enhancements.size(); enh++){
-				if (checkRect(mouseX,mouseY,guiLeft+xSize/2-50,guiTop+enhListY+1+enh*9,100,9)){
-					selectedEnhancement = enhancements.get(enh);
+			for(EnhancementInfo info:container.listEnhancementInfo()){
+				if (checkRect(mouseX,mouseY,guiLeft+xSize/2-50,enhY,100,9)){
+					selectedEnhancement = info;
 					enhanceButton.visible = true;
 					backButton.visible = true;
 					return;
 				}
+				
+				enhY += 9;
 			}
 		}
 		
@@ -91,8 +93,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 		}
 		
 		if (selectedEnhancement != null){
-			EnhancementList list = EnhancementRegistry.getEnhancementList(container.getSlot(0).getStack());
-			enhanceButton.enabled = container.getMissingIngredients(selectedEnhancement,list.get(selectedEnhancement.getEnhancement())+1).isEmpty();
+			enhanceButton.enabled = container.getMissingUpgradeIngredients(selectedEnhancement).isEmpty();
 		}
 		else{
 			enhanceButton.visible = false;
@@ -108,12 +109,11 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			fontRendererObj.drawStringWithShadow(selectedEnhancement.getName(),41,enhListY+1,0xEEEEEE);
 		}
 		else if (container.getSlot(0).getHasStack()){
-			EnhancementList list = EnhancementRegistry.getEnhancementList(container.getSlot(0).getStack());
 			int offY = enhListY+1;
 			
 			for(EnhancementInfo info:EnhancementRegistry.listEnhancementInfo(container.getSlot(0).getStack().getItem())){
 				int color = checkRect(mouseX,mouseY,guiLeft+40,guiTop+offY,100,8) ? 0xEEEEEE :
-							container.getMissingIngredients(info,list.get(info.getEnhancement())+1).isEmpty() ? 0xFFFF55 : 0xDDDDDD;
+					container.getMissingUpgradeIngredients(info).isEmpty() ? 0xFFFF55 : 0xDDDDDD;
 				
 				fontRendererObj.drawStringWithShadow(info.getName(),41,offY,color);
 				offY += 9;
@@ -137,14 +137,17 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			drawTexturedModalRect(centerX-4,guiY+27,101,226,8,4);
 			drawTexturedModalRect(centerX-4,guiY+enhListY+13,101,226,8,4);
 			drawTexturedModalRect(centerX-4,guiY+enhListY+39,101,226,8,4);
-
-			EnhancementList list = EnhancementRegistry.getEnhancementList(container.getSlot(0).getStack());
-			int level = list.get(selectedEnhancement.getEnhancement())+1;
 			
-			List<EnhancementIngredient> ingredients = selectedEnhancement.getIngredients(level);
+			int level = container.getEnhancements().get(selectedEnhancement.getEnhancement());
+			
+			for(int bar = 0; bar < selectedEnhancement.getMaxLevel(); bar++){
+				drawTexturedModalRect(centerX+45-bar*3,guiY+enhListY+1,level > bar ? 146 : 143,226,2,7);
+			}
+			
+			List<EnhancementIngredient> ingredients = selectedEnhancement.getIngredients(level+1);
+			Collection<EnhancementIngredient> missing = container.getMissingUpgradeIngredients(selectedEnhancement);
+			
 			int ingX = centerX-(18*ingredients.size()+2*(ingredients.size()-1))/2, ingY = guiY+enhListY+19;
-			
-			Collection<EnhancementIngredient> missing = container.getMissingIngredients(selectedEnhancement,level);
 			
 			for(EnhancementIngredient ingredient:ingredients){
 				drawTexturedModalRect(ingX,ingY,124,226,18,18);
@@ -156,7 +159,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			for(EnhancementIngredient ingredient:ingredients){
 				GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(),ingredient.selector.getRepresentativeItem(),ingX+1,ingY+1);
 				
-				String amt = String.valueOf(ingredient.getAmount(level));
+				String amt = String.valueOf(ingredient.getAmount(level+1));
 				GL11.glDisable(GL11.GL_LIGHTING);
 				GL11.glDisable(GL11.GL_DEPTH_TEST);
 				GL11.glDisable(GL11.GL_BLEND);
@@ -174,8 +177,8 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
 		}
 		else if (container.getSlot(0).getHasStack()){
-			List<EnhancementInfo> enhancements = EnhancementRegistry.listEnhancementInfo(container.getSlot(0).getStack().getItem());
-			EnhancementList list = EnhancementRegistry.getEnhancementList(container.getSlot(0).getStack());
+			List<EnhancementInfo> enhancements = container.listEnhancementInfo();
+			EnhancementList list = container.getEnhancements();
 			
 			drawTexturedModalRect(centerX-4,guiY+27,101,226,8,4);
 			drawTexturedModalRect(centerX-50,guiY+enhListY-2,0,226,100,2);
@@ -191,15 +194,6 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 				}
 			}
 		}
-	}
-	
-	private void drawRectangle(int x1, int y1, int x2, int y2, int color){
-		GL11.glColorMask(true,true,true,false);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		drawRect(x1,y1,x2,y2,color);
-		GL11.glColorMask(true,true,true,true);
-		GL11.glEnable(GL11.GL_LIGHTING);
 	}
 	
 	private boolean checkRect(int mouseX, int mouseY, int x, int y, int w, int h){
