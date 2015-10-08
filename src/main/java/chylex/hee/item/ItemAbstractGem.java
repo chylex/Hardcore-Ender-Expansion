@@ -44,7 +44,7 @@ public abstract class ItemAbstractGem extends ItemAbstractEnergyAcceptor{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean hasEffect(ItemStack is, int pass){
-		return is.getItemDamage() == 32766 || super.hasEffect(is,pass);
+		return is.getItemDamage() == 32766 || !EnhancementRegistry.getEnhancementList(is).isEmpty() || super.hasEffect(is,pass);
 	}
 	
 	@Override
