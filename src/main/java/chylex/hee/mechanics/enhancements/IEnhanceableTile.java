@@ -26,9 +26,9 @@ public interface IEnhanceableTile<T extends Enum<T>>{
 	/**
 	 * Enhances a new ItemStack returned by the tile entity and returns it.
 	 */
-	public static ItemStack createItemStack(IEnhanceableTile<?> tile){
+	public static <T extends Enum<T>> ItemStack createItemStack(IEnhanceableTile<T> tile){
 		ItemStack is = tile.getEnhancementItemStack();
-		// TODO
+		EnhancementRegistry.<T>getEnhancementList(is).replace(tile.getEnhancements());
 		return is;
 	}
 }

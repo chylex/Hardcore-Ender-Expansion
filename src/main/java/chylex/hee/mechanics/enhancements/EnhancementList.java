@@ -54,7 +54,7 @@ public class EnhancementList<T extends Enum<T>>{
 	public void deserialize(String str){
 		map.clear();
 		
-		for(Entry<String,String> entry:Splitter.on(';').withKeyValueSeparator(':').split(str).entrySet()){
+		for(Entry<String,String> entry:Splitter.on(';').omitEmptyStrings().withKeyValueSeparator(':').split(str).entrySet()){
 			T enh = EnumUtils.getEnum(enumCls,entry.getKey());
 			byte lvl = (byte)DragonUtil.tryParse(entry.getValue(),0);
 			
@@ -93,6 +93,13 @@ public class EnhancementList<T extends Enum<T>>{
 		@Override
 		public void upgrade(T enhancement){
 			super.upgrade(enhancement);
+			ItemUtil.getTagRoot(linkedIS,true).setString("enhancements2",serialize());
+			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
+		}
+		
+		@Override
+		public void replace(EnhancementList<T> replacement){
+			super.replace(replacement);
 			ItemUtil.getTagRoot(linkedIS,true).setString("enhancements2",serialize());
 			linkedIS.func_150996_a(EnhancementRegistry.getItemTransformation(linkedIS.getItem()));
 		}
