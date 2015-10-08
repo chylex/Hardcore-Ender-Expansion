@@ -15,11 +15,11 @@ public class EnhancementIngredient{
 		this.minLevel = (byte)minLevel;
 	}
 	
-	public int getAmount(int level){
-		return MathUtil.ceil(getAmountFloat(level));
+	public int getAmount(int level, int stackSize){
+		return MathUtil.ceil(getAmountFloat(level)*Math.pow(stackSize,0.9D));
 	}
 	
 	private float getAmountFloat(int level){
-		return level < minLevel ? 0F : level == minLevel ? baseAmount : amountFunc.process(getAmount(level-1));
+		return level < minLevel ? 0F : level == minLevel ? baseAmount : amountFunc.process(getAmountFloat(level-1));
 	}
 }

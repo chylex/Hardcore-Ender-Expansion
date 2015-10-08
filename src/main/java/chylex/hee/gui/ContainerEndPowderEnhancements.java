@@ -3,7 +3,6 @@ import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -24,8 +23,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEndPowderEnhancements extends Container{
-	private EntityPlayer owner;
-	
+	private final EntityPlayer owner;
 	public final IInventory containerInv;
 	public final IEnhanceableTile enhanceableTile;
 	
@@ -98,84 +96,13 @@ public class ContainerEndPowderEnhancements extends Container{
 		super.putStacksInSlots(items);
 		// TODO if (isEnhancingTile())onSubjectChanged();
 	}
-
-	public void onEnhancementSlotClick(int slot){/* TODO
-		
-		else if (selectedEnhancement != null){ // TRY ENHANCE
-			ItemStack mainIS = getSlot(0).getStack();
-			List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
-			
-			if (slot < 0 || slot >= enhancements.size()){
-				Log.reportedError("Received S01 enhancement gui packet with invalid slot - $0",slot);
-				return;
-			}
-			
-			IEnhancementEnum enhancement = enhancements.get(slot);
-			if (EnhancementHandler.getEnhancements(mainIS).contains(enhancement))return;
-			
-			SlotList slots = EnhancementHandler.getEnhancementSlotsForItem(mainIS.getItem());
-			int enhancedAmount = mainIS.stackSize;
-			ItemStack is;
-			
-			for(int a = 0; a < slots.amountIngredient; a++){
-				if ((is = ingredientSlots[a].getStack()) == null || !enhancement.getItemSelector().isValid(is)){
-					enhancedAmount = 0;
-					break;
-				}
-				else if (is.stackSize < enhancedAmount)enhancedAmount = is.stackSize;
-			}
-			
-			for(int a = 0; a < slots.amountPowder; a++){
-				if ((is = powderSlots[a].getStack()) == null){
-					enhancedAmount = 0;
-					break;
-				}
-				else if (is.stackSize < enhancedAmount)enhancedAmount = is.stackSize;
-			}
-			
-			if (enhancedAmount > 0){ // PERFORM ENHANCEMENT
-				ItemStack newIS = EnhancementHandler.addEnhancement(mainIS,enhancement);
-				newIS.stackSize = enhancedAmount;
-				
-				ItemStack currentOutput = getSlot(1).getStack();
-				if (!(currentOutput == null || (currentOutput.getItem() == newIS.getItem() && currentOutput.getItemDamage() == newIS.getItemDamage() && ItemStack.areItemStackTagsEqual(currentOutput,newIS))))return;
-				if (currentOutput != null && currentOutput.stackSize+newIS.stackSize > newIS.getMaxStackSize())newIS.stackSize = enhancedAmount = newIS.getMaxStackSize()-currentOutput.stackSize;
-				if (currentOutput != null)newIS.stackSize += currentOutput.stackSize;
-				if (mainIS.stackSize-enhancedAmount == 0 && mainIS.stackSize > 1)newIS.stackSize = --enhancedAmount;
-				
-				if (owner != null){
-					enhancement.onEnhanced(newIS,owner);
-					
-					if (isEnhancingTile()){
-						enhanceableTile.getEnhancements().clear();
-						enhanceableTile.getEnhancements().addAll(EnhancementHandler.getEnhancements(newIS));
-					}
-				}
-				
-				containerInv.setInventorySlotContents(isEnhancingTile() ? 0 : 1,newIS);
-				if (!isEnhancingTile() && (mainIS.stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(0,null);
-
-				for(int a = 0; a < slots.amountPowder; a++){
-					if ((powderSlots[a].getStack().stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(2+a,null);
-				}
-				
-				for(int a = 0; a < slots.amountIngredient; a++){
-					if ((ingredientSlots[a].getStack().stackSize -= enhancedAmount) <= 0)containerInv.setInventorySlotContents(2+powderSlots.length+a,null);
-				}
-
-				if (isEnhancingTile() || getSlot(0).getStack() == null)onSubjectChanged();
-				
-				if (CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement))){
-					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
-				}
-				
-				PacketPipeline.sendToPlayer(owner,new C08PlaySound(C08PlaySound.EXP_ORB,owner.posX,owner.posY,owner.posZ,1F,1F));
-			}
-		}*/
-	}
 	
 	public boolean isEnhancingTile(){
 		return enhanceableTile != null;
+	}
+	
+	public int getStackSize(){
+		return getSlot(0).getStack().stackSize;
 	}
 	
 	public EnhancementList getEnhancements(){
@@ -186,16 +113,16 @@ public class ContainerEndPowderEnhancements extends Container{
 		return EnhancementRegistry.listEnhancementInfo(getSlot(0).getStack().getItem());
 	}
 	
-	public Collection<EnhancementIngredient> getMissingUpgradeIngredients(final EnhancementData<?>.EnhancementInfo info){
-		if (owner == null)return new HashSet<>();
+	private TObjectIntHashMap<EnhancementIngredient> getIngredientMap(final EnhancementData<?>.EnhancementInfo info, final int level){
+		TObjectIntHashMap<EnhancementIngredient> ingredientMap = new TObjectIntHashMap<>(4);
+		info.getIngredients(level,getStackSize()).forEach(ingredient -> ingredientMap.put(ingredient,ingredient.getAmount(level,getStackSize())));
+		return ingredientMap;
+	}
+	
+	public Collection<EnhancementIngredient> getMissingUpgradeIngredients(final EnhancementData<?>.EnhancementInfo info){ // TODO handle larger stacks
+		TObjectIntHashMap<EnhancementIngredient> left = getIngredientMap(info,getEnhancements().get(info.getEnhancement())+1);
 		
-		final int level = getEnhancements().get(info.getEnhancement())+1;
-		TObjectIntHashMap<EnhancementIngredient> left = new TObjectIntHashMap<>(4);
-		info.getIngredients(level).forEach(ingredient -> left.put(ingredient,ingredient.getAmount(level)));
-		
-		ItemStack[] inventory = Arrays.stream(owner.inventory.mainInventory).filter(is -> is != null).map(is -> is.copy()).toArray(ItemStack[]::new);
-		
-		for(ItemStack is:inventory){
+		Arrays.stream(owner.inventory.mainInventory).filter(is -> is != null).map(is -> is.copy()).forEach(is -> {
 			for(TObjectIntIterator<EnhancementIngredient> iter = left.iterator(); iter.hasNext();){
 				iter.advance();
 				
@@ -207,8 +134,40 @@ public class ContainerEndPowderEnhancements extends Container{
 					else iter.setValue(newValue);
 				}
 			}
-		}
+		});
 		
 		return left.keySet();
+	}
+	
+	public boolean tryUpgradeEnhancement(final EnhancementData<?>.EnhancementInfo info){ // TODO handle larger stacks
+		EnhancementList list = getEnhancements();
+		
+		if (list.get(info.getEnhancement()) >= info.getMaxLevel())return false;
+		if (!getMissingUpgradeIngredients(info).isEmpty())return false;
+		
+		EnhancementList enhancements = getEnhancements();
+		TObjectIntHashMap<EnhancementIngredient> left = getIngredientMap(info,enhancements.get(info.getEnhancement())+1);
+		
+		for(int slot = 0; slot < owner.inventory.mainInventory.length; slot++){
+			ItemStack is = owner.inventory.mainInventory[slot];
+			if (is == null)continue;
+			
+			for(TObjectIntIterator<EnhancementIngredient> iter = left.iterator(); iter.hasNext();){
+				iter.advance();
+				
+				if (iter.key().selector.isValid(is)){
+					int newValue = Math.max(0,iter.value()-is.stackSize);
+					if ((is.stackSize -= iter.value()) <= 0)owner.inventory.mainInventory[slot] = null;
+					
+					if (newValue == 0)iter.remove();
+					else iter.setValue(newValue);
+				}
+			}
+		}
+		
+		enhancements.upgrade(info.getEnhancement());
+		if (isEnhancingTile())enhanceableTile.getEnhancements().upgrade(info.getEnhancement());
+		
+		return true;
 	}
 }

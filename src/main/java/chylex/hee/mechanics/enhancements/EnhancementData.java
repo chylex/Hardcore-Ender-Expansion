@@ -88,8 +88,8 @@ public class EnhancementData<T extends Enum<T>>{
 			return this;
 		}
 		
-		public List<EnhancementIngredient> getIngredients(int level){
-			return level < maxLevel ? ingredients.stream().filter(ingredient -> ingredient.getAmount(level) > 0).collect(Collectors.toList()) : new ArrayList<>(0);
+		public List<EnhancementIngredient> getIngredients(int level, int stackSize){
+			return level <= maxLevel ? ingredients.stream().filter(ingredient -> ingredient.getAmount(level,stackSize) > 0).collect(Collectors.toList()) : new ArrayList<>(0);
 		}
 		
 		public EnhancementInfo setMaxLevel(int maxLevel){

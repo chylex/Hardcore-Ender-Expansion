@@ -16,6 +16,8 @@ import chylex.hee.mechanics.enhancements.EnhancementIngredient;
 import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.server.S01EnhanceItem;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.client.config.GuiButtonExt;
 import cpw.mods.fml.relauncher.Side;
@@ -59,13 +61,13 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			selectedEnhancement = null;
 		}
 		else if (button == enhanceButton){
-			// TODO
+			PacketPipeline.sendToServer(new S01EnhanceItem(selectedEnhancement));
 		}
 	}
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int button){
-		if (container.getSlot(0).getHasStack()){
+		if (container.getSlot(0).getHasStack() && selectedEnhancement == null){
 			int enhY = guiTop+enhListY+1;
 			
 			for(EnhancementInfo info:container.listEnhancementInfo()){
@@ -93,7 +95,8 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 		}
 		
 		if (selectedEnhancement != null){
-			enhanceButton.enabled = container.getMissingUpgradeIngredients(selectedEnhancement).isEmpty();
+			enhanceButton.visible = container.getEnhancements().get(selectedEnhancement.getEnhancement()) < selectedEnhancement.getMaxLevel();
+			enhanceButton.enabled = enhanceButton.visible && container.getMissingUpgradeIngredients(selectedEnhancement).isEmpty();
 		}
 		else{
 			enhanceButton.visible = false;
@@ -113,7 +116,7 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			
 			for(EnhancementInfo info:EnhancementRegistry.listEnhancementInfo(container.getSlot(0).getStack().getItem())){
 				int color = checkRect(mouseX,mouseY,guiLeft+40,guiTop+offY,100,8) ? 0xEEEEEE :
-					container.getMissingUpgradeIngredients(info).isEmpty() ? 0xFFFF55 : 0xDDDDDD;
+					container.getMissingUpgradeIngredients(info).isEmpty() ? 0xD4D4D4 : 0xF67676;
 				
 				fontRendererObj.drawStringWithShadow(info.getName(),41,offY,color);
 				offY += 9;
@@ -135,8 +138,6 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			drawTexturedModalRect(centerX-50,guiY+enhListY+9,0,239,100,2);
 			
 			drawTexturedModalRect(centerX-4,guiY+27,101,226,8,4);
-			drawTexturedModalRect(centerX-4,guiY+enhListY+13,101,226,8,4);
-			drawTexturedModalRect(centerX-4,guiY+enhListY+39,101,226,8,4);
 			
 			int level = container.getEnhancements().get(selectedEnhancement.getEnhancement());
 			
@@ -144,9 +145,13 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 				drawTexturedModalRect(centerX+45-bar*3,guiY+enhListY+1,level > bar ? 146 : 143,226,2,7);
 			}
 			
-			List<EnhancementIngredient> ingredients = selectedEnhancement.getIngredients(level+1);
-			Collection<EnhancementIngredient> missing = container.getMissingUpgradeIngredients(selectedEnhancement);
+			List<EnhancementIngredient> ingredients = selectedEnhancement.getIngredients(level+1,container.getStackSize());
+			if (ingredients.isEmpty())return;
+
+			drawTexturedModalRect(centerX-4,guiY+enhListY+13,101,226,8,4);
+			drawTexturedModalRect(centerX-4,guiY+enhListY+39,101,226,8,4);
 			
+			Collection<EnhancementIngredient> missing = container.getMissingUpgradeIngredients(selectedEnhancement);
 			int ingX = centerX-(18*ingredients.size()+2*(ingredients.size()-1))/2, ingY = guiY+enhListY+19;
 			
 			for(EnhancementIngredient ingredient:ingredients){
@@ -159,11 +164,11 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 			for(EnhancementIngredient ingredient:ingredients){
 				GuiItemRenderHelper.renderItemIntoGUI(mc.getTextureManager(),ingredient.selector.getRepresentativeItem(),ingX+1,ingY+1);
 				
-				String amt = String.valueOf(ingredient.getAmount(level+1));
+				String amt = String.valueOf(ingredient.getAmount(level+1,container.getStackSize()));
 				GL11.glDisable(GL11.GL_LIGHTING);
 				GL11.glDisable(GL11.GL_DEPTH_TEST);
 				GL11.glDisable(GL11.GL_BLEND);
-				fontRendererObj.drawStringWithShadow(amt,ingX+18-fontRendererObj.getStringWidth(amt),ingY+10,missing.contains(ingredient) ? 0xFFC3C3 : 0xFFFFFF);
+				fontRendererObj.drawStringWithShadow(amt,ingX+18-fontRendererObj.getStringWidth(amt),ingY+10,missing.contains(ingredient) ? 0xF67676 : 0xFFFFFF);
 				GL11.glEnable(GL11.GL_LIGHTING);
 				GL11.glEnable(GL11.GL_DEPTH_TEST);
 				
