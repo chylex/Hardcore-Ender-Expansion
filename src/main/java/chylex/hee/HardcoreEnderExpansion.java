@@ -76,10 +76,13 @@ public class HardcoreEnderExpansion{
 	public void onPreInit(FMLPreInitializationEvent e){
 		Stopwatch.time("PreInitEvent");
 		
-		ReflectionPublicizer.load();
 		modVersion = e.getModMetadata().version;
 		configPath = e.getSuggestedConfigurationFile().getParentFile().getName();
 		sourceFile = e.getSourceFile();
+		
+		e.getModMetadata().description = e.getModMetadata().description.replace('$','\u00a7');
+		
+		ReflectionPublicizer.load();
 		Log.initializeDebug();
 		UnitTester.load();
 		
