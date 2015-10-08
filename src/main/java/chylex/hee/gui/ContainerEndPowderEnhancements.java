@@ -1,6 +1,9 @@
 package chylex.hee.gui;
 import gnu.trove.iterator.TObjectIntIterator;
 import gnu.trove.map.hash.TObjectIntHashMap;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -11,9 +14,9 @@ import net.minecraft.item.ItemStack;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.gui.slots.SlotShowCase;
 import chylex.hee.mechanics.enhancements.EnhancementData;
+import chylex.hee.mechanics.enhancements.EnhancementIngredient;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.system.util.IItemSelector.IRepresentativeItemSelector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -82,7 +85,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		super.putStackInSlot(slot,is);
 		
 		if (slot == 0 && isEnhancingTile()){
-			onSubjectChanged();
+			// TODO onSubjectChanged();
 		}
 	}
 	
@@ -90,71 +93,11 @@ public class ContainerEndPowderEnhancements extends Container{
 	@SideOnly(Side.CLIENT)
 	public void putStacksInSlots(ItemStack[] items){
 		super.putStacksInSlots(items);
-		if (isEnhancingTile())onSubjectChanged();
-	}
-	
-	public void updateClientItems(){/* TODO
-		ItemStack mainIS = getSlot(0).getStack();
-		List<IEnhancementEnum> enhancements = mainIS == null ? null : EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
-		
-		for(int a = enhancements == null ? 0 : enhancements.size(); a < enhancementSlotX.length; a++){
-			clientEnhancementItems[a] = null;
-			clientEnhancementTooltips[a] = "";
-		}
-		
-		if (enhancements == null)return;
-		
-		CompendiumFile file = mainIS != null ? HardcoreEnderExpansion.proxy.getClientCompendium() : null;
-		
-		for(int a = 0; a < enhancements.size(); a++){
-			IEnhancementEnum enhancement = enhancements.get(a);
-			ItemStack is = file != null && file.hasUnlockedFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement)) ? enhancement.getItemSelector().getRepresentativeItem() : new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark);
-			clientEnhancementItems[a] = is;
-		}*/
-	}
-	
-	public void onSubjectChanged(){/* TODO
-		ItemStack mainIS = getSlot(0).getStack();
-		
-		updateClientItems();
-		HardcoreEnderExpansion.proxy.sendMessage(MessageType.ENHANCEMENT_SLOT_RESET,ArrayUtils.EMPTY_INT_ARRAY);
-		
-		List<ItemStack> toDrop = new ArrayList<>();
-		SlotList slots = mainIS == null ? new SlotList() : EnhancementHandler.getEnhancementSlotsForItem(mainIS.getItem());
-		
-		for(int a = slots.amountPowder, index; a < powderSlots.length; a++){
-			index = powderSlots[0].slotNumber+a;
-			
-			if (containerInv.getStackInSlot(index) != null){
-				toDrop.add(containerInv.getStackInSlot(index));
-				containerInv.setInventorySlotContents(index,null);
-			}
-		}
-		
-		for(int a = slots.amountIngredient, index; a < ingredientSlots.length; a++){
-			index = ingredientSlots[0].slotNumber+a;
-			
-			if (containerInv.getStackInSlot(index) != null){
-				toDrop.add(containerInv.getStackInSlot(index));
-				containerInv.setInventorySlotContents(index,null);
-			}
-		}
-		
-		if (owner != null && !owner.worldObj.isRemote){
-			for(ItemStack is:toDrop)owner.dropPlayerItemWithRandomChoice(is,false);
-		}*/
+		// TODO if (isEnhancingTile())onSubjectChanged();
 	}
 
 	public void onEnhancementSlotClick(int slot){/* TODO
-		if (selectedSlot != slot){ // SELECT SLOT
-			List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(getSlot(0).getStack().getItem());
-			
-			if (slot < 0 || slot >= enhancements.size())Log.reportedError("Received S01 enhancement gui packet with invalid slot - $0",slot);
-			else{
-				this.selectedEnhancement = enhancements.get(slot);
-				this.selectedSlot = slot;
-			}
-		}
+		
 		else if (selectedEnhancement != null){ // TRY ENHANCE
 			ItemStack mainIS = getSlot(0).getStack();
 			List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
@@ -225,68 +168,6 @@ public class ContainerEndPowderEnhancements extends Container{
 				
 				PacketPipeline.sendToPlayer(owner,new C08PlaySound(C08PlaySound.EXP_ORB,owner.posX,owner.posY,owner.posZ,1F,1F));
 			}
-			else if (owner != null){ // TRY BREAK SOME POWDER
-				for(int a = 0; a < slots.amountPowder; a++){
-					if (powderSlots[a].getStack() == null)return;
-				}
-				
-				for(int a = 0; a < slots.amountIngredient; a++){
-					if (ingredientSlots[a].getStack() == null)return;
-				}
-				
-				Random rand = owner.worldObj.rand;
-				int powderBroken = 1;
-				
-				if (slots.amountPowder > 2){
-					float add = (rand.nextFloat()+rand.nextFloat())*0.49F*(slots.amountPowder-1);
-					powderBroken += rand.nextBoolean() ? MathUtil.floor(add) : MathUtil.ceil(add);
-				}
-				
-				int index;
-				while(powderBroken > 0){
-					if (powderSlots[index = rand.nextInt(slots.amountPowder)].getStack() != null){
-						if (--powderSlots[index].getStack().stackSize <= 0)containerInv.setInventorySlotContents(2+index,null);
-						--powderBroken;
-					}
-				}
-				
-				if (rand.nextInt(4+((slots.amountPowder+slots.amountIngredient)>>1)) == 0){
-					CompendiumEvents.getPlayerData(owner).tryUnlockFragment(KnowledgeFragmentEnhancement.getEnhancementFragment(selectedEnhancement));
-					PacketPipeline.sendToPlayer(owner,new C19CompendiumData(owner));
-				}
-				
-				PacketPipeline.sendToPlayer(owner,new C08PlaySound(C08PlaySound.RANDOM_BREAK,owner.posX,owner.posY,owner.posZ,0.8F,1.2F));
-			}
-		}*/
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public void onEnhancementSlotChangeClient(int selectedSlot){/* TODO
-		ItemStack mainIS = getSlot(0).getStack();
-		
-		if (mainIS == null){
-			prevSelectedSlot = -1;
-			return;
-		}
-		else if (selectedSlot == -1)selectedSlot = prevSelectedSlot;
-		else prevSelectedSlot = selectedSlot;
-		
-		List<IEnhancementEnum> enhancements = EnhancementHandler.getEnhancementsForItem(mainIS.getItem());
-		List<Enum> currentEnhancements = EnhancementHandler.getEnhancements(mainIS);
-		
-		StringBuilder build = new StringBuilder();
-		
-		for(int a = 0; a < enhancements.size(); a++){
-			IEnhancementEnum enhancement = enhancements.get(a);
-
-			clientEnhancementTooltips[a] = build.append(EnumChatFormatting.LIGHT_PURPLE)
-				.append(DragonUtil.stripChatFormatting(enhancement.getName())).append("\n")
-				.append(EnumChatFormatting.GRAY).append(I18n.format(currentEnhancements.contains(enhancement) ? "enhancements.alreadyEnhanced" : (selectedSlot == a ? "enhancements.clickEnhance" : "enhancements.clickSelect")))
-				.toString();
-			
-			clientEnhancementBlocked[a] = currentEnhancements.contains(enhancement);
-			
-			build.setLength(0);
 		}*/
 	}
 	
@@ -294,29 +175,28 @@ public class ContainerEndPowderEnhancements extends Container{
 		return enhanceableTile != null;
 	}
 	
-	public boolean hasEnoughIngredients(final EnhancementData<?>.EnhancementInfo info, final int level){
-		if (owner == null)return false;
+	public Collection<EnhancementIngredient> getMissingIngredients(final EnhancementData<?>.EnhancementInfo info, final int level){
+		if (owner == null)return new HashSet<>();
 		
-		TObjectIntHashMap<IRepresentativeItemSelector> left = new TObjectIntHashMap<>(4);
-		info.getIngredients(level).forEach(ingredient -> left.put(ingredient.selector,ingredient.getAmount(level)));
+		TObjectIntHashMap<EnhancementIngredient> left = new TObjectIntHashMap<>(4);
+		info.getIngredients(level).forEach(ingredient -> left.put(ingredient,ingredient.getAmount(level)));
 		
-		for(ItemStack is:owner.inventory.mainInventory){
-			if (is == null)continue;
-			
-			for(TObjectIntIterator<IRepresentativeItemSelector> iter = left.iterator(); iter.hasNext();){
+		ItemStack[] inventory = Arrays.stream(owner.inventory.mainInventory).filter(is -> is != null).map(is -> is.copy()).toArray(ItemStack[]::new);
+		
+		for(ItemStack is:inventory){
+			for(TObjectIntIterator<EnhancementIngredient> iter = left.iterator(); iter.hasNext();){
 				iter.advance();
 				
-				if (iter.key().isValid(is)){
+				if (iter.key().selector.isValid(is)){
 					int newValue = Math.max(0,iter.value()-is.stackSize);
+					is.stackSize = Math.max(0,is.stackSize-iter.value());
 					
 					if (newValue == 0)iter.remove();
 					else iter.setValue(newValue);
-					
-					break;
 				}
 			}
 		}
 		
-		return left.isEmpty();
+		return left.keySet();
 	}
 }
