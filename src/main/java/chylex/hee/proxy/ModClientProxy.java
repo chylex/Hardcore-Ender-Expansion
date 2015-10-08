@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.StatCollector;
@@ -36,7 +35,6 @@ import chylex.hee.game.ConfigHandler;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.commands.HeeClientCommand;
 import chylex.hee.game.save.types.player.CompendiumFile;
-import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
@@ -201,11 +199,6 @@ public class ModClientProxy extends ModCommonProxy{
 	@Override
 	public void sendMessage(MessageType msgType, int[] data){
 		switch(msgType){
-			case ENHANCEMENT_SLOT_RESET:
-				Container container = Minecraft.getMinecraft().thePlayer.openContainer;
-				if (container instanceof ContainerEndPowderEnhancements)((ContainerEndPowderEnhancements)container).onEnhancementSlotChangeClient(-1);
-				break;
-				
 			case DEBUG_TITLE_SET:
 				Display.setTitle(Display.getTitle()+" - HardcoreEnderExpansion - "+(Log.isDeobfEnvironment ? "dev" : "debug")+' '+HardcoreEnderExpansion.modVersion);
 				break;

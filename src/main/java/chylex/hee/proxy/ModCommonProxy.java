@@ -26,6 +26,6 @@ public class ModCommonProxy{
 	public void sendMessage(MessageType msgType, int[] data){}
 	
 	public static enum MessageType{
-		DEBUG_TITLE_SET, ENHANCEMENT_SLOT_RESET
+		DEBUG_TITLE_SET
 	}
 }

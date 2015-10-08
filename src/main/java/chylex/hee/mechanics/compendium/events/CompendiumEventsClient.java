@@ -13,7 +13,6 @@ import org.lwjgl.input.Mouse;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.save.types.player.CompendiumFile;
-import chylex.hee.gui.ContainerEndPowderEnhancements;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -46,10 +45,6 @@ public final class CompendiumEventsClient{
 		
 		if (Minecraft.getMinecraft().currentScreen instanceof GuiEnderCompendium){
 			((GuiEnderCompendium)Minecraft.getMinecraft().currentScreen).updateCompendiumData(file);
-		}
-		
-		if (Minecraft.getMinecraft().thePlayer.openContainer instanceof ContainerEndPowderEnhancements){
-			((ContainerEndPowderEnhancements)Minecraft.getMinecraft().thePlayer.openContainer).updateClientItems();
 		}
 	}
 	

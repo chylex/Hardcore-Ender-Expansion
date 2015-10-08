@@ -35,7 +35,7 @@ public class ContainerEndPowderEnhancements extends Container{
 			containerInv.setInventorySlotContents(0,IEnhanceableTile.createItemStack(tileOptional));
 		}
 		else{
-			addSlotToContainer(new SlotEnhancementsSubject(this,containerInv,0,80,8));
+			addSlotToContainer(new SlotEnhancementsSubject(containerInv,0,80,8));
 		}
 		
 		for(int i = 0; i < 3; ++i){
