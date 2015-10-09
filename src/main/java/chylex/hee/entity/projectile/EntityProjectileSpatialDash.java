@@ -1,34 +1,32 @@
 package chylex.hee.entity.projectile;
+import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
+import java.util.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
-import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityProjectileSpatialDash extends EntityThrowable{
 	private final EnhancementList<SpatialDashGemEnhancements> enhancements;
-	private byte ticks;
+	private Pos startPos;
 	
 	public EntityProjectileSpatialDash(World world){
 		super(world);
@@ -37,16 +35,24 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 
 	public EntityProjectileSpatialDash(World world, EntityLivingBase thrower, EnhancementList<SpatialDashGemEnhancements> enhancements){
 		super(world,thrower);
-		motionX *= 1.75D;
-		motionY *= 1.75D;
-		motionZ *= 1.75D;
 		this.enhancements = enhancements;
+		this.startPos = Pos.at(this);
+		
+		double speed = 0.5D*(1+enhancements.get(SpatialDashGemEnhancements.SPEED));
+		this.motionX *= speed;
+		this.motionY *= speed;
+		this.motionZ *= speed;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public EntityProjectileSpatialDash(World world, double x, double y, double z){
 		super(world,x,y,z);
 		this.enhancements = new EnhancementList<>(SpatialDashGemEnhancements.class);
+	}
+	
+	@Override
+	public void setThrowableHeading(double motionX, double motionY, double motionZ, float ing, float randomMp){
+		super.setThrowableHeading(motionX,motionY,motionZ,ing,0F);
 	}
 	
 	@Override
@@ -58,55 +64,40 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		onEntityUpdate();
 
 		if (!worldObj.isRemote){
-			for(int cycles = /* TODO enhancements.contains(SpatialDashGemEnhancements.INSTANT) ? 48 : */1; cycles > 0; cycles--){
-				if (++ticks > (/* TODO enhancements.contains(SpatialDashGemEnhancements.RANGE) ? 48 : */28))setDead();
-		
+			boolean instant = enhancements.get(SpatialDashGemEnhancements.SPEED) == 3;
+			
+			for(int cycles = instant ? 1000 : 1; cycles > 0; cycles--){
+				if (startPos.distance(this) >= 40+20*enhancements.get(SpatialDashGemEnhancements.RANGE)){
+					setDead();
+					break;
+				}
+				
 				Vec3 vecPos = Vec3.createVectorHelper(posX,posY,posZ);
 				Vec3 vecPosWithMotion = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
-				Vec3 hitVec;
 				
-				MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos,vecPosWithMotion);
-				vecPos = Vec3.createVectorHelper(posX,posY,posZ);
-		
-				if (mop != null)hitVec = Vec3.createVectorHelper(mop.hitVec.xCoord,mop.hitVec.yCoord,mop.hitVec.zCoord);
-				else hitVec = Vec3.createVectorHelper(posX+motionX,posY+motionY,posZ+motionZ);
-			
-				Entity finalEntity = null;
+				MovingObjectPosition mop = worldObj.rayTraceBlocks(vecPos.addVector(0D,0D,0D),vecPosWithMotion.addVector(0D,0D,0D));
+				Vec3 hitVec = Optional.ofNullable(mop).map(mopTest -> mopTest.hitVec).orElse(vecPosWithMotion).addVector(0D,0D,0D);
+				
 				List<Entity> collisionList = worldObj.getEntitiesWithinAABBExcludingEntity(this,boundingBox.addCoord(motionX,motionY,motionZ).expand(1D,1D,1D));
-				double minDist = Double.MAX_VALUE, dist;
-				EntityLivingBase thrower = getThrower();
-	
-				for(Entity e:collisionList){
-					if (e.canBeCollidedWith() && (e != thrower || ticks >= 5)){
-						AxisAlignedBB aabb = e.boundingBox.expand(0.3F,0.3F,0.3F);
-						MovingObjectPosition mopTest = aabb.calculateIntercept(vecPos,hitVec);
-	
-						if (mopTest != null){
-							dist = vecPos.distanceTo(mopTest.hitVec);
-	
-							if (dist < minDist){
-								finalEntity = e;
-								minDist = dist;
-							}
-						}
-					}
-				}
-	
-				if (finalEntity != null)mop = new MovingObjectPosition(finalEntity);
-	
-				if (mop != null){
+				
+				mop = collisionList.stream()
+				.filter(e -> e.canBeCollidedWith() && (e != getThrower() || ticksExisted >= 5))
+				.map(e -> Pair.of(e,Optional.ofNullable(e.boundingBox.expand(0.3F,0.3F,0.3F).calculateIntercept(vecPos,hitVec)).map(mopTest -> vecPos.distanceTo(mopTest.hitVec)).orElse(Double.MAX_VALUE)))
+				.min((p1, p2) -> p1.getValue().compareTo(p2.getValue())) // returns closest entity
+				.map(pair -> new MovingObjectPosition(pair.getKey()))
+				.orElse(mop);
+				
+				if (mop != null && mop.typeOfHit != MovingObjectType.MISS){
 					onImpact(mop);
 					break;
 				}
 				
-				posX += motionX;
-				posY += motionY;
-				posZ += motionZ;
-				setPosition(posX,posY,posZ);
+				setPosition(posX+motionX,posY+motionY,posZ+motionZ);
+				
+				if (instant)++ticksExisted;
 			}
 			
 			PacketPipeline.sendToAllAround(this,128D,new C22EffectLine(FXType.Line.SPATIAL_DASH_MOVE,lastTickPosX,lastTickPosY,lastTickPosZ,posX,posY,posZ));
-			
 		}
 	}
 
@@ -122,24 +113,20 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					if (player.isRiding())player.mountEntity(null);
 					boolean tryAchievement = player.posY <= 0D;
 					
-					int x, y, z;
+					Vec3 hitVec = mop.hitVec;
+					Vec3 normalizedMotion = Vec3.createVectorHelper(motionX,motionY,motionZ).normalize();
 					
-					if (mop.typeOfHit == MovingObjectType.BLOCK){
-						x = mop.blockX;
-						y = mop.blockY;
-						z = mop.blockZ;
-					}
-					else if (mop.typeOfHit == MovingObjectType.ENTITY){
-						x = MathUtil.floor(posX);
-						y = MathUtil.floor(posY);
-						z = MathUtil.floor(posZ);
-					}
-					else{
-						setDead();
-						return;
-					}
+					if (mop.typeOfHit == MovingObjectType.BLOCK)hitVec = hitVec.addVector(normalizedMotion.xCoord*1.41D,normalizedMotion.yCoord*1.41D,normalizedMotion.zCoord*1.41D);
+					else if (mop.typeOfHit == MovingObjectType.ENTITY)hitVec = hitVec.addVector(-normalizedMotion.xCoord*2.82D,-normalizedMotion.yCoord*2.82D,-normalizedMotion.zCoord*2.82D);
 					
-					boolean found = false;
+					List<Pos> available = new ArrayList<>(8);
+					Pos hitPos = Pos.at(hitVec);
+					
+					Pos.forEachBlock(hitPos.offset(-1,-2,-1),hitPos.offset(1,2,1),pos -> {
+						// TODO
+					});
+					
+					/* TODOboolean found = false;
 					Block block;
 					BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
 					
@@ -173,7 +160,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					if (tryAchievement && BlockPosM.tmp(x,y,z).getBlock(worldObj).isOpaqueCube())player.addStat(AchievementManager.TP_NEAR_VOID,1);
 					player.fallDistance = 0F;
 					
-					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,player));
+					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,player));*/
 				}
 			}
 
@@ -188,16 +175,14 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		if (worldObj.isRemote){
 			for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.spatialDashExplode(this);
 		}
-	}
-	
-	private boolean canSpawnIn(Block blockBottom, Block blockTop){
-		return (blockBottom.getMaterial() == Material.air || !blockBottom.isOpaqueCube()) && (blockTop.getMaterial() == Material.air || !blockTop.isOpaqueCube());
+		
+		if (getThrower() != null)HardcoreEnderExpansion.notifications.report("dist: "+MathUtil.distance(posX-getThrower().posX,posY-getThrower().posY,posZ-getThrower().posZ)); // TODO
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setByte("tickTimer",ticks);
+		nbt.setLong("startPos",startPos.toLong());
 		nbt.setString("enhancements2",enhancements.serialize());
 		nbt.removeTag("inTile");
 		nbt.removeTag("shake");
@@ -206,7 +191,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		ticks = nbt.getByte("tickTimer");
+		startPos = Pos.at(nbt.getLong("startPos"));
 		enhancements.deserialize(nbt.getString("enhancements2"));
 	}
 }
