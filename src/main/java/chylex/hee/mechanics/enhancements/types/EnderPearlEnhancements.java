@@ -15,6 +15,9 @@ public enum EnderPearlEnhancements{
 		
 		data.setTransformationItem(ItemList.enhanced_ender_pearl);
 		
-		//
+		data.register(NO_FALL_DAMAGE)
+		.setMaxLevel(3)
+		.addPowder(2,amount -> amount*1.5F)
+		.addIngredient(ItemList.ancient_dust,5,amount -> amount*1.5F);
 	}
 }
