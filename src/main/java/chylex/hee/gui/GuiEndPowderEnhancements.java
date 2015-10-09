@@ -6,6 +6,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
@@ -196,6 +197,18 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 				
 				for(int bar = 0; bar < enhancements.get(enh).getMaxLevel(); bar++){
 					drawTexturedModalRect(centerX+45-bar*3,guiY+enhListY+1+enh*9,level > bar ? 146 : 143,226,2,7);
+				}
+			}
+		}
+		else{
+			List<Slot> slots = container.inventorySlots;
+			
+			for(int slotIndex = 1; slotIndex < slots.size(); slotIndex++){
+				Slot slot = slots.get(slotIndex);
+				
+				if (slot.getHasStack() && slots.get(0).isItemValid(slot.getStack())){
+					int slotX = guiLeft+slot.xDisplayPosition, slotY = guiTop+slot.yDisplayPosition;
+					drawGradientRect(slotX,slotY,slotX+16,slotY+16,0x55FFFFFF,0x55FFFFFF);
 				}
 			}
 		}
