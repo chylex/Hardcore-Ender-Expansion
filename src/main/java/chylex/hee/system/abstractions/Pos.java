@@ -10,6 +10,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import chylex.hee.system.abstractions.facing.Facing6;
@@ -40,6 +41,10 @@ public class Pos{
 	
 	public static Pos at(TileEntity tile){
 		return new Pos(tile.xCoord,tile.yCoord,tile.zCoord);
+	}
+	
+	public static Pos at(Vec3 vec){
+		return new Pos(MathUtil.floor(vec.xCoord),MathUtil.floor(vec.yCoord),MathUtil.floor(vec.zCoord));
 	}
 	
 	public static Pos at(MovingObjectPosition mop){
