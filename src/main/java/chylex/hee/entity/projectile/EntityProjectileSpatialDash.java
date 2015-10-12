@@ -1,6 +1,7 @@
 package chylex.hee.entity.projectile;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,12 +15,15 @@ import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXType;
+import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.types.SpatialDashGemEnhancements;
 import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -38,10 +42,12 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		this.enhancements = enhancements;
 		this.startPos = Pos.at(this);
 		
-		double speed = 0.5D*(1+enhancements.get(SpatialDashGemEnhancements.SPEED));
-		this.motionX *= speed;
-		this.motionY *= speed;
-		this.motionZ *= speed;
+		double speed = 1.5D+0.5D*enhancements.get(SpatialDashGemEnhancements.SPEED);
+		Vec3 motionVec = Vec3.createVectorHelper(motionX,motionY,motionZ).normalize();
+		
+		this.motionX = motionVec.xCoord*speed;
+		this.motionY = motionVec.yCoord*speed;
+		this.motionZ = motionVec.zCoord*speed;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -119,48 +125,29 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 					if (mop.typeOfHit == MovingObjectType.BLOCK)hitVec = hitVec.addVector(normalizedMotion.xCoord*1.41D,normalizedMotion.yCoord*1.41D,normalizedMotion.zCoord*1.41D);
 					else if (mop.typeOfHit == MovingObjectType.ENTITY)hitVec = hitVec.addVector(-normalizedMotion.xCoord*2.82D,-normalizedMotion.yCoord*2.82D,-normalizedMotion.zCoord*2.82D);
 					
-					List<Pos> available = new ArrayList<>(8);
+					Map<Pos,Double> available = new HashMap<>(10);
 					Pos hitPos = Pos.at(hitVec);
 					
 					Pos.forEachBlock(hitPos.offset(-1,-2,-1),hitPos.offset(1,2,1),pos -> {
-						// TODO
+						if (pos.getMaterial(worldObj).blocksMovement() &&
+							!pos.offset(Facing6.UP_POSY).getBlock(worldObj).isNormalCube() &&
+							!pos.offset(Facing6.UP_POSY,2).getBlock(worldObj).isNormalCube()){
+							available.put(pos.immutable(),pos.distance(hitPos));
+						}
 					});
 					
-					/* TODOboolean found = false;
-					Block block;
-					BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
-					
-					for(int yTest = y; yTest <= y+8; yTest++){
-						if ((block = tmpPos.setY(yTest).getBlock(worldObj)).getBlockHardness(worldObj,x,yTest,z) == -1)break;
+					if (available.isEmpty())player.setPositionAndUpdate(hitVec.xCoord,hitVec.yCoord,hitVec.zCoord);
+					else{
+						double minDistance = available.values().stream().mapToDouble(dist -> dist).min().getAsDouble();
+						Pos[] closest = available.entrySet().stream().filter(entry -> MathUtil.floatEquals(entry.getValue().floatValue(),(float)minDistance)).map(entry -> entry.getKey()).toArray(Pos[]::new);
 						
-						if (canSpawnIn(block,tmpPos.moveUp().getBlock(worldObj))){
-							player.setPositionAndUpdate(x+0.5D,yTest+0.01D,z+0.5D);
-							found = true;
-							break;
-						}
+						Pos selected = closest[rand.nextInt(closest.length)];
+						player.setPositionAndUpdate(selected.getX()+0.5D,selected.getY()+1.001D,selected.getZ()+0.5D);
 					}
 					
-					if (!found){
-						for(int xTest = x-1; xTest <= x+1; xTest++){
-							for(int zTest = z-1; zTest <= z+1; zTest++){
-								for(int yTest = y+1; yTest <= y+8; yTest++){
-									if ((block = tmpPos.set(xTest,yTest,zTest).getBlock(worldObj)).getBlockHardness(worldObj,x,yTest,z) == -1)break;
-									
-									if (canSpawnIn(block,tmpPos.moveUp().getBlock(worldObj))){
-										player.setPositionAndUpdate(xTest+0.5D,yTest+0.01D,zTest+0.5D);
-										found = true;
-										break;
-									}
-								}
-							}
-						}
-					}
-					
-					if (!found)player.setPositionAndUpdate(x+0.5D,y+0.01D,z+0.5D);
-					if (tryAchievement && BlockPosM.tmp(x,y,z).getBlock(worldObj).isOpaqueCube())player.addStat(AchievementManager.TP_NEAR_VOID,1);
 					player.fallDistance = 0F;
-					
-					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,player));*/
+					if (tryAchievement && !player.isEntityInsideOpaqueBlock())player.addStat(AchievementManager.TP_NEAR_VOID,1);
+					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,player));
 				}
 			}
 
@@ -175,8 +162,6 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		if (worldObj.isRemote){
 			for(int a = 0; a < 25; a++)HardcoreEnderExpansion.fx.spatialDashExplode(this);
 		}
-		
-		if (getThrower() != null)HardcoreEnderExpansion.notifications.report("dist: "+MathUtil.distance(posX-getThrower().posX,posY-getThrower().posY,posZ-getThrower().posZ)); // TODO
 	}
 	
 	@Override
