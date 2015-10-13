@@ -42,7 +42,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		this.enhancements = enhancements;
 		this.startPos = Pos.at(this);
 		
-		double speed = 1.5D+0.5D*enhancements.get(SpatialDashGemEnhancements.SPEED);
+		double speed = 1.5D+2D*enhancements.get(SpatialDashGemEnhancements.SPEED);
 		Vec3 motionVec = Vec3.createVectorHelper(motionX,motionY,motionZ).normalize();
 		
 		this.motionX = motionVec.xCoord*speed;
@@ -73,7 +73,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 			boolean instant = enhancements.get(SpatialDashGemEnhancements.SPEED) == 3;
 			
 			for(int cycles = instant ? 1000 : 1; cycles > 0; cycles--){
-				if (startPos.distance(this) >= 40+20*enhancements.get(SpatialDashGemEnhancements.RANGE)){
+				if (startPos.distance(this) >= 32+32*enhancements.get(SpatialDashGemEnhancements.RANGE)){
 					setDead();
 					break;
 				}
@@ -103,7 +103,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 				if (instant)++ticksExisted;
 			}
 			
-			PacketPipeline.sendToAllAround(this,128D,new C22EffectLine(FXType.Line.SPATIAL_DASH_MOVE,lastTickPosX,lastTickPosY,lastTickPosZ,posX,posY,posZ));
+			PacketPipeline.sendToAllAround(this,164D,new C22EffectLine(FXType.Line.SPATIAL_DASH_MOVE,lastTickPosX,lastTickPosY,lastTickPosZ,posX,posY,posZ));
 		}
 	}
 
