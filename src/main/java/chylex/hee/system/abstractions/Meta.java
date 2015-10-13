@@ -118,6 +118,18 @@ public final class Meta{
 		return (byte)(getVine(attachedTo1)|getVine(attachedTo2));
 	}
 	
+	/* === FURNACES === */
+	
+	public static byte getFurnace(Facing4 facingTowards){
+		switch(facingTowards){
+			case NORTH_NEGZ: return 2;
+			case SOUTH_POSZ: return 3;
+			case WEST_NEGX: return 4;
+			case EAST_POSX: return 5;
+			default: return 0;
+		}
+	}
+	
 	/* === DYES AND COLORED BLOCKS === */
 	
 	public enum BlockColor { WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, LIGHT_GRAY, CYAN, PURPLE, BLUE, BROWN, GREEN, RED, BLACK }
