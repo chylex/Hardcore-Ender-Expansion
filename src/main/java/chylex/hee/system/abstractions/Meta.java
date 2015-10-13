@@ -118,18 +118,6 @@ public final class Meta{
 		return (byte)(getVine(attachedTo1)|getVine(attachedTo2));
 	}
 	
-	/* === FURNACES === */
-	
-	public static byte getFurnace(Facing4 facingTowards){
-		switch(facingTowards){
-			case NORTH_NEGZ: return 2;
-			case SOUTH_POSZ: return 3;
-			case WEST_NEGX: return 4;
-			case EAST_POSX: return 5;
-			default: return 0;
-		}
-	}
-	
 	/* === DYES AND COLORED BLOCKS === */
 	
 	public enum BlockColor { WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, LIGHT_GRAY, CYAN, PURPLE, BLUE, BROWN, GREEN, RED, BLACK }
@@ -237,7 +225,26 @@ public final class Meta{
 		return (tile, rand) -> {
 			tile.getWorldObj().setBlockMetadataWithNotify(tile.xCoord,tile.yCoord,tile.zCoord,meta,3);
 			((TileEntityChest)tile).adjacentChestChecked = true;
-			call.generateTile(tile,rand);
+			if (call != null)call.generateTile(tile,rand);
+		};
+	}
+	
+	/* === FURNACES === */
+	
+	public static IStructureTileEntity generateFurnace(Facing4 facingTo, IStructureTileEntity call){
+		final int meta;
+		
+		switch(facingTo){
+			case EAST_POSX: meta = 5; break;
+			case WEST_NEGX: meta = 4; break;
+			case SOUTH_POSZ: meta = 3; break;
+			case NORTH_NEGZ: meta = 2; break;
+			default: meta = 0;
+		}
+		
+		return (tile, rand) -> {
+			tile.getWorldObj().setBlockMetadataWithNotify(tile.xCoord,tile.yCoord,tile.zCoord,meta,3);
+			if (call != null)call.generateTile(tile,rand);
 		};
 	}
 	
