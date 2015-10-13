@@ -3,9 +3,9 @@ import io.netty.buffer.ByteBuf;
 import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Vec3;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.packets.AbstractClientPacket;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
@@ -70,15 +70,15 @@ public class C10ParticleEnergyTransfer extends AbstractClientPacket{
 	protected void handle(EntityClientPlayerMP player){
 		Random rand = player.worldObj.rand;
 		
-		Vec3 vec = Vec3.createVectorHelper(targetX-startX,targetY-startY,targetZ-startZ);
-		int steps = MathUtil.floor(vec.lengthVector()*(1F/spacing));
-		vec = vec.normalize();
+		Vec vec = Vec.xyz(targetX-startX,targetY-startY,targetZ-startZ);
+		int steps = MathUtil.floor(vec.length()*(1F/spacing));
+		vec = vec.normalized();
 		
 		for(int a = 0; a < steps; a++){
 			for(int b = 0; b < density; b++)HardcoreEnderExpansion.fx.global("energy",startX+rand(rand,0.05D),startY+rand(rand,0.05D),startZ+rand(rand,0.05D),rand(rand,0.02D),rand(rand,0.02D),rand(rand,0.02D),(red+128F)/255F,(green+128F)/255F,(blue+128F)/255F);
-			startX += vec.xCoord*spacing;
-			startY += vec.yCoord*spacing;
-			startZ += vec.zCoord*spacing;
+			startX += vec.x*spacing;
+			startY += vec.y*spacing;
+			startZ += vec.z*spacing;
 		}
 	}
 	
