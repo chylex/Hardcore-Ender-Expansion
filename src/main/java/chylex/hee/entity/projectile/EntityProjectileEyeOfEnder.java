@@ -8,7 +8,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -20,6 +19,7 @@ import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.WorldGenStronghold;
@@ -85,15 +85,15 @@ public class EntityProjectileEyeOfEnder extends Entity{
 			
 			if (!center.equals(prevBlockPos)){
 				Set<Pos> checkedBlocks = new HashSet<>(); // y = 0
-				Vec3 perpendicular = Vec3.createVectorHelper(-moveZ*3D,0D,moveX*3D);
+				Vec perpendicular = Vec.xz(-moveZ*3D,moveX*3D);
 				
 				for(int line = -1; line <= 1; line++){
-					Vec3 vec = Vec3.createVectorHelper(posX+line*perpendicular.xCoord,0D,posZ+line*perpendicular.zCoord);
+					Vec vec = Vec.xz(posX+line*perpendicular.x,posZ+line*perpendicular.z);
 					
 					for(int distance = 0; distance < 12; distance++){
-						vec.xCoord += moveX*4D;
-						vec.zCoord += moveZ*4D;
-						checkedBlocks.add(Pos.at(vec.xCoord,0,vec.zCoord));
+						vec.x += moveX*4D;
+						vec.z += moveZ*4D;
+						checkedBlocks.add(vec.toPos());
 					}
 				}
 				

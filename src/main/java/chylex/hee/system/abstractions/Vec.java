@@ -39,4 +39,8 @@ public class Vec{
 	public Vec offset(double offX, double offY, double offZ){
 		return Vec.xyz(x+offX,y+offY,z+offZ);
 	}
+	
+	public Pos toPos(){
+		return Pos.at(x,y,z);
+	}
 }
