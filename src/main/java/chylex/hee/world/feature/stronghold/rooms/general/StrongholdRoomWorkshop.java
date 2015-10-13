@@ -1,8 +1,11 @@
 package chylex.hee.world.feature.stronghold.rooms.general;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
+import chylex.hee.system.abstractions.Meta.FlowerPotPlant;
 import chylex.hee.system.abstractions.Meta.Skull;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
@@ -33,6 +36,8 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 		placeOutline(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneSmoothTop),centerX-2,y+5,centerZ-2,centerX+2,y+5,centerZ+2,1);
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y+5,centerZ,1,true,true);
 		
+		placeLine(world,rand,IBlockPicker.basic(Blocks.lava),centerX,y+1,centerZ,centerX,y+2,centerZ);
+		
 		// corners
 		for(int cornerX = 0; cornerX < 2; cornerX++){
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
@@ -53,6 +58,8 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 		}
 		
 		// walls
+		boolean hasInnerCeiling = rand.nextBoolean();
+		
 		for(Facing4 offFacing:Facing4.list){
 			Pos wall = Pos.at(centerX,0,centerZ).offset(offFacing,6);
 			
@@ -90,12 +97,86 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 			placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+5,mpos.z,mpos.x+2*offFacing.opposite().getX(),y+5,mpos.z+2*offFacing.opposite().getZ());
 			
 			// inner ceiling
-			mpos.move(offFacing.rotateLeft(),2);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),mpos.x,y+5,mpos.z);
-			mpos.move(offFacing.rotateRight());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),mpos.x,y+5,mpos.z);
-			mpos.move(offFacing.opposite());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),mpos.x,y+5,mpos.z);
+			if (hasInnerCeiling){
+				mpos.move(offFacing.rotateLeft(),2);
+				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),mpos.x,y+5,mpos.z);
+				mpos.move(offFacing.rotateRight());
+				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),mpos.x,y+5,mpos.z);
+				mpos.move(offFacing.opposite());
+				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),mpos.x,y+5,mpos.z);
+			}
+		}
+		
+		// tables and utilities
+		for(Facing4 facing:Facing4.list){
+			mpos.set(centerX,0,centerZ).move(facing,5).move(facing.rotateRight(),2);
+			placeUtilitySection(world,rand,mpos.x,y+1,mpos.z,facing.opposite());
+			
+			Facing4 right = facing.rotateRight();
+			mpos.move(right);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(right,true)),mpos.x,y+1,mpos.z);
+			mpos.move(right);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing,true)),mpos.x,y+1,mpos.z);
+			mpos.move(right);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing,true)),mpos.x,y+1,mpos.z);
+			
+			Facing4 back = facing.opposite();
+			mpos.move(back);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(right,true)),mpos.x,y+1,mpos.z);
+			mpos.move(back);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing,true)),mpos.x,y+1,mpos.z);
+
+			mpos.move(back);
+			placeUtilitySection(world,rand,mpos.x,y+1,mpos.z,facing.rotateLeft());
+		}
+		
+		// table decorations
+		FlowerPotPlant[] plants = new FlowerPotPlant[]{
+			FlowerPotPlant.BLUE_ORCHID, FlowerPotPlant.POPPY, FlowerPotPlant.ALLIUM
+		};
+		
+		Set<Pos> usedPos = new HashSet<>();
+		
+		for(int attempts = 4+rand.nextInt(4); attempts > 0; attempts--){
+			Facing4 offFacing = Facing4.list[rand.nextInt(Facing4.list.length)];
+			int offExtra = rand.nextInt(3);
+			
+			mpos.set(centerX,0,centerZ).move(offFacing,5).move(rand.nextBoolean() ? offFacing.rotateLeft() : offFacing.rotateRight(),3+offExtra); // higher chance for corners
+			if (usedPos.contains(mpos))continue;
+			
+			if (offExtra != 2 && rand.nextInt(5) <= 1){
+				/* TODO FIX THIS FUCKING SHIT JESUS ITEM FRAMES SUCK
+				EntityItemFrame frame = new EntityItemFrame(world.getParentWorld(),mpos.x+offFacing.getX(),y+2,mpos.z+offFacing.getZ(),offFacing.toEnumFacing().ordinal());
+				world.addEntity(frame,e -> ((EntityItemFrame)e).setDisplayedItem(new ItemStack(Items.writable_book)));*/
+			}
+			else if (rand.nextInt(4+offExtra) == 0){ // less cobwebs near corners
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.ancient_web),mpos.x,y+2,mpos.z);
+			}
+			else{
+				placeBlock(world,rand,IBlockPicker.basic(Blocks.flower_pot),mpos.x,y+2,mpos.z);
+				world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(plants[rand.nextInt(plants.length)]));
+			}
+			
+			usedPos.add(mpos.immutable());
+		}
+	}
+	
+	private void placeUtilitySection(StructureWorld world, Random rand, int x, int y, int z, Facing4 facingTowards){
+		int type = rand.nextInt(11);
+		
+		if (type < 4){
+			placeLine(world,rand,IBlockPicker.basic(Blocks.bookshelf),x,y,z,x,y+1,z);
+		}
+		else if (type < 7){
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.furnace,Meta.getFurnace(facingTowards)),x,y,z);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.crafting_table),x,y+1,z);
+		}
+		else if (type < 9){
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.bookshelf),x,y,z);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.crafting_table),x,y+1,z);
+		}
+		else if (type < 11){
+			placeLine(world,rand,IBlockPicker.basic(Blocks.furnace,Meta.getFurnace(facingTowards)),x,y,z,x,y+1,z);
 		}
 	}
 }
