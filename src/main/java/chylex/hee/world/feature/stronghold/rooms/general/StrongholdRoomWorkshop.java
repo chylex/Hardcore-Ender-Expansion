@@ -132,7 +132,7 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 		
 		// table decorations
 		FlowerPotPlant[] plants = new FlowerPotPlant[]{
-			FlowerPotPlant.BLUE_ORCHID, FlowerPotPlant.POPPY, FlowerPotPlant.ALLIUM
+			FlowerPotPlant.BLUE_ORCHID, FlowerPotPlant.POPPY, FlowerPotPlant.ALLIUM, FlowerPotPlant.TULIP_WHITE
 		};
 		
 		Set<Pos> usedPos = new HashSet<>();
@@ -168,7 +168,8 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 			placeLine(world,rand,IBlockPicker.basic(Blocks.bookshelf),x,y,z,x,y+1,z);
 		}
 		else if (type < 7){
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.furnace,Meta.getFurnace(facingTowards)),x,y,z);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.furnace),x,y,z);
+			world.setTileEntity(x,y,z,Meta.generateFurnace(facingTowards,null));
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.crafting_table),x,y+1,z);
 		}
 		else if (type < 9){
@@ -176,7 +177,9 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.crafting_table),x,y+1,z);
 		}
 		else if (type < 11){
-			placeLine(world,rand,IBlockPicker.basic(Blocks.furnace,Meta.getFurnace(facingTowards)),x,y,z,x,y+1,z);
+			placeLine(world,rand,IBlockPicker.basic(Blocks.furnace),x,y,z,x,y+1,z);
+			world.setTileEntity(x,y,z,Meta.generateFurnace(facingTowards,null));
+			world.setTileEntity(x,y+1,z,Meta.generateFurnace(facingTowards,null));
 		}
 	}
 }

@@ -219,7 +219,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 				
 				int fullWidth = pieces.stream().mapToInt(piece -> piece.size.sizeX+2).sum();
 				
-				StructureWorld structureWorld = new StructureWorld(fullWidth/2,48,32);
+				StructureWorld structureWorld = new StructureWorld(world,fullWidth/2,48,32);
 				PosMutable pos = new PosMutable(-fullWidth/2,0,0);
 				
 				pieces.stream().map(piece -> new StructureDungeonPieceInst(piece,pos.move(piece.size.sizeX+2,0,0).offset(-piece.size.sizeX,0,-piece.size.sizeZ/2))).forEach(inst -> {
