@@ -27,7 +27,7 @@ public abstract class StructureBase<T extends IStructureGenerator>{
 	}
 	
 	protected boolean generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
-		StructureWorld structureWorld = new StructureWorld(radX,sizeY,radZ);
+		StructureWorld structureWorld = new StructureWorld(world,radX,sizeY,radZ);
 		
 		T generator = createGenerator();
 		if (generatorSetup != null)generatorSetup.accept(generator);

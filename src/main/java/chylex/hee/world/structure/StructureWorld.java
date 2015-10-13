@@ -1,32 +1,36 @@
 package chylex.hee.world.structure;
+import gnu.trove.map.hash.TIntObjectHashMap;
+import gnu.trove.set.hash.TIntHashSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
-import com.google.common.base.Objects;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.util.IStructureTileEntity;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import gnu.trove.set.hash.TIntHashSet;
+import com.google.common.base.Objects;
 
 public final class StructureWorld{
+	private final World world;
 	private final int radX, radZ, sizeX, sizeY, sizeZ;
 	private final Block[] blocks;
 	private final byte[] metadata;
 	private final TIntHashSet scheduledUpdates = new TIntHashSet(32);
 	private final TIntObjectHashMap<BlockInfo> attentionWhores = new TIntObjectHashMap<>(16);
 	private final TIntObjectHashMap<IStructureTileEntity> tileEntityMap = new TIntObjectHashMap<>(32);
-	private final List<Entity> entityList = new ArrayList<>(8);
+	private final List<Pair<Entity,Consumer<Entity>>> entityList = new ArrayList<>(8);
 	
-	public StructureWorld(int radX, int sizeY, int radZ){
+	public StructureWorld(World world, int radX, int sizeY, int radZ){
+		this.world = world;
 		this.radX = radX;
 		this.radZ = radZ;
 		this.sizeX = radX*2+1;
@@ -34,6 +38,14 @@ public final class StructureWorld{
 		this.sizeZ = radZ*2+1;
 		this.blocks = new Block[sizeX*sizeY*sizeZ];
 		this.metadata = new byte[sizeX*sizeY*sizeZ];
+	}
+	
+	public StructureWorld(int radX, int sizeY, int radZ){
+		this(null,radX,sizeY,radZ);
+	}
+	
+	public World getParentWorld(){
+		return world;
 	}
 	
 	public boolean isInside(int x, int y, int z){
@@ -107,11 +119,15 @@ public final class StructureWorld{
 	}
 	
 	public void addEntity(Entity entity){
-		entityList.add(entity);
+		entityList.add(Pair.of(entity,null));
+	}
+	
+	public void addEntity(Entity entity, Consumer<Entity> callback){
+		entityList.add(Pair.of(entity,callback));
 	}
 	
 	public <T extends Entity> Stream<T> getEntities(final Class<T> exactClassToMatch){
-		return (Stream<T>)entityList.stream().filter(entity -> entity.getClass() == exactClassToMatch);
+		return (Stream<T>)entityList.stream().filter(info -> info.getKey().getClass() == exactClassToMatch).map(info -> info.getKey());
 	}
 	
 	public void generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
@@ -150,10 +166,14 @@ public final class StructureWorld{
 			return true;
 		});
 		
-		entityList.forEach(entity -> {
+		entityList.forEach(info -> {
+			Entity entity = info.getKey();
+			
 			entity.setPosition(centerX+entity.posX,bottomY+entity.posY,centerZ+entity.posZ);
 			entity.setWorld(world);
 			world.spawnEntityInWorld(entity);
+			
+			if (info.getValue() != null)info.getValue().accept(entity);
 		});
 	}
 }
