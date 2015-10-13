@@ -100,7 +100,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 			if (eff.getDuration() < 102)eff.combine(new PotionEffect(Potion.poison.id,eff.getDuration()+17,eff.getAmplifier(),eff.getIsAmbient()));
 			
 			Vec3 vec = Vec3.createVectorHelper(0D,0D,0D);
-			super.velocityToAddToEntity(world,x,y,z,entity,vec);
+			super.velocityToAddToEntity(world,x,y,z,entity,vec); // UPD breaks with removed vec mutability in 1.8
 			vec.normalize();
 			
 			entity.addVelocity(vec.xCoord*0.0075D,vec.yCoord*0.005D,vec.zCoord*0.0075D);
