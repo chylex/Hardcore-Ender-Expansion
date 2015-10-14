@@ -11,7 +11,6 @@ public class ItemBlockWithSubtypes extends ItemBlock{
 		super(block);
 		setHasSubtypes(true);
 		setUnlocalizedName(block.getUnlocalizedName());
-		
 		isIBlockSubtypes = block instanceof IBlockSubtypes;
 	}
 	

@@ -36,7 +36,7 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 		placeOutline(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneSmoothTop),centerX-2,y+5,centerZ-2,centerX+2,y+5,centerZ+2,1);
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y+5,centerZ,1,true,true);
 		
-		placeLine(world,rand,IBlockPicker.basic(Blocks.lava),centerX,y+1,centerZ,centerX,y+2,centerZ);
+		placeLine(world,rand,IBlockPicker.basic(Blocks.flowing_lava),centerX,y+1,centerZ,centerX,y+2,centerZ);
 		
 		// corners
 		for(int cornerX = 0; cornerX < 2; cornerX++){

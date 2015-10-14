@@ -13,8 +13,8 @@ import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.IBlockPicker;
-import chylex.hee.world.util.Size;
 import chylex.hee.world.util.BoundingBox;
+import chylex.hee.world.util.Size;
 
 public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 	public static StrongholdRoomRelicDungeon[] generateRelicRooms(){
@@ -121,6 +121,6 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 		
 		// chest itself
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,y+2,mpos.z);
-		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(entranceFrom.opposite(),generateLoot));
+		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(entranceFrom.opposite(),null));
 	}
 }

@@ -45,7 +45,7 @@ import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitPol
 import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitTotem;
 import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomSmallIntersection;
 import chylex.hee.world.feature.stronghold.rooms.general.StrongholdRoomEndPortal;
-import chylex.hee.world.feature.stronghold.rooms.general.StrongholdRoomWorkshop;
+import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomClusterIntersection;
 import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicDungeon;
 import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicFountains;
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomLargeIntersectionTrap;
@@ -181,7 +181,12 @@ public class WorldGenStronghold implements IWorldGenerator{
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
 				
 				//pieces.add(new StrongholdRoomEndPortal());
-				pieces.add(new StrongholdRoomWorkshop());
+				//pieces.add(new StrongholdRoomWorkshop());
+				//pieces.add(new StrongholdRoomChestIntersection());
+				//pieces.addAll(StrongholdRoomRelicHell.generateRelicRooms());
+				//pieces.add(new StrongholdRoomClusterPillar());
+				//pieces.add(new StrongholdRoomClusterFloating());
+				pieces.add(new StrongholdRoomClusterIntersection());
 				
 				/*pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
 				pieces.addAll(StrongholdCorridorIntersection.generateCorners());
