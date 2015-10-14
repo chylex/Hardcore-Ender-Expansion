@@ -23,6 +23,13 @@ public final class Meta{
 		silverfishCracked = 4,
 		silverfishChiseled = 5,
 		
+		planksOak = 0,
+		planksSpruce = 1,
+		planksBirch = 2,
+		planksJungle = 3,
+		planksAcacia = 4,
+		planksDarkOak = 5,
+		
 		slabStoneSmoothDouble = 0,
 		slabStoneSmoothBottom = 0,
 		slabStoneSmoothTop = 0+8,
