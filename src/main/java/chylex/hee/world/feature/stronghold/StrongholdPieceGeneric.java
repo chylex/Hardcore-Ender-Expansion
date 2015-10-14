@@ -9,22 +9,22 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.util.Size;
 
 public abstract class StrongholdPieceGeneric extends StrongholdPiece{
-	public StrongholdPieceGeneric(Type type, Size size){
+	public StrongholdPieceGeneric(Type type, Size size, IConnectWith connection){
 		super(type,size);
 		
-		addConnection(Facing4.NORTH_NEGZ,maxX/2,0,0,fromRoom);
-		addConnection(Facing4.SOUTH_POSZ,maxX/2,0,maxZ,fromRoom);
-		addConnection(Facing4.EAST_POSX,maxX,0,maxZ/2,fromRoom);
-		addConnection(Facing4.WEST_NEGX,0,0,maxZ/2,fromRoom);
+		addConnection(Facing4.NORTH_NEGZ,maxX/2,0,0,connection);
+		addConnection(Facing4.SOUTH_POSZ,maxX/2,0,maxZ,connection);
+		addConnection(Facing4.EAST_POSX,maxX,0,maxZ/2,connection);
+		addConnection(Facing4.WEST_NEGX,0,0,maxZ/2,connection);
 	}
 	
-	public StrongholdPieceGeneric(Type type, Size size, @Nullable Facing4[] connectWith){
+	public StrongholdPieceGeneric(Type type, Size size, @Nullable Facing4[] connectWith, IConnectWith connection){
 		super(type,size);
 		
-		if (ArrayUtils.contains(connectWith,Facing4.NORTH_NEGZ))addConnection(Facing4.NORTH_NEGZ,maxX/2,0,0,fromRoom);
-		if (ArrayUtils.contains(connectWith,Facing4.SOUTH_POSZ))addConnection(Facing4.SOUTH_POSZ,maxX/2,0,maxZ,fromRoom);
-		if (ArrayUtils.contains(connectWith,Facing4.EAST_POSX))addConnection(Facing4.EAST_POSX,maxX,0,maxZ/2,fromRoom);
-		if (ArrayUtils.contains(connectWith,Facing4.WEST_NEGX))addConnection(Facing4.WEST_NEGX,0,0,maxZ/2,fromRoom);
+		if (ArrayUtils.contains(connectWith,Facing4.NORTH_NEGZ))addConnection(Facing4.NORTH_NEGZ,maxX/2,0,0,connection);
+		if (ArrayUtils.contains(connectWith,Facing4.SOUTH_POSZ))addConnection(Facing4.SOUTH_POSZ,maxX/2,0,maxZ,connection);
+		if (ArrayUtils.contains(connectWith,Facing4.EAST_POSX))addConnection(Facing4.EAST_POSX,maxX,0,maxZ/2,connection);
+		if (ArrayUtils.contains(connectWith,Facing4.WEST_NEGX))addConnection(Facing4.WEST_NEGX,0,0,maxZ/2,connection);
 	}
 	
 	@Override

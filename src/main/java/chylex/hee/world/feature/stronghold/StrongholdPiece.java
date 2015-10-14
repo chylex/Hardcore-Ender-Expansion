@@ -14,8 +14,8 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
 import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorSpreading.ISpreadingGeneratorPieceType;
 import chylex.hee.world.structure.util.IBlockPicker;
 import chylex.hee.world.structure.util.IStructureTileEntity;
-import chylex.hee.world.util.Size;
 import chylex.hee.world.util.RandomAmount;
+import chylex.hee.world.util.Size;
 
 public abstract class StrongholdPiece extends StructureDungeonPiece{
 	protected enum Type implements ISpreadingGeneratorPieceType{
@@ -33,6 +33,7 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	}
 	
 	protected static final IConnectWith fromRoom = type -> type == Type.CORRIDOR || type == Type.DOOR;
+	protected static final IConnectWith fromDeadEnd = type -> type == Type.CORRIDOR;
 	protected static final IConnectWith fromDoor = type -> true;
 	protected static final IConnectWith withAnything = type -> true;
 	

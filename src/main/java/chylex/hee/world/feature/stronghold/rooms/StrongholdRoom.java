@@ -6,10 +6,10 @@ import chylex.hee.world.util.Size;
 
 public abstract class StrongholdRoom extends StrongholdPieceGeneric{
 	public StrongholdRoom(Size size){
-		super(Type.ROOM,size);
+		super(Type.ROOM,size,fromRoom);
 	}
 	
 	public StrongholdRoom(Size size, @Nullable Facing4[] connectWith){
-		super(Type.ROOM,size,connectWith);
+		super(Type.ROOM,size,connectWith,fromRoom);
 	}
 }
