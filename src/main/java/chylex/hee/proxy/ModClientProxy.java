@@ -11,9 +11,11 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.client.MinecraftForgeClient;
 import org.lwjgl.opengl.Display;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
@@ -36,6 +38,7 @@ import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.commands.HeeClientCommand;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiItemViewer;
+import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.misc.Baconizer;
@@ -48,6 +51,7 @@ import chylex.hee.render.block.RenderBlockHomelandCache;
 import chylex.hee.render.block.RenderBlockObsidianSpecial;
 import chylex.hee.render.block.RenderBlockSpookyLeaves;
 import chylex.hee.render.entity.*;
+import chylex.hee.render.item.RenderItemLootChest;
 import chylex.hee.render.model.ModelEnderGuardian;
 import chylex.hee.render.model.ModelEndermage;
 import chylex.hee.render.model.ModelEndermanHeadBiped;
@@ -63,6 +67,7 @@ import chylex.hee.render.tileentity.RenderTileEndPortal;
 import chylex.hee.render.tileentity.RenderTileEndermanHead;
 import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.render.tileentity.RenderTileLaserBeam;
+import chylex.hee.render.tileentity.RenderTileLootChest;
 import chylex.hee.render.weather.RenderWeatherLightningBoltPurple;
 import chylex.hee.sound.MusicManager;
 import chylex.hee.system.logging.Log;
@@ -71,13 +76,13 @@ import chylex.hee.tileentity.TileEntityCustomSpawner;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import chylex.hee.tileentity.TileEntityLaserBeam;
+import chylex.hee.tileentity.TileEntityLootChest;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ModClientProxy extends ModCommonProxy{
 	public static final Random seedableRand = new Random();
 	public static final ModelEndermanHeadBiped endermanHeadModelBiped = new ModelEndermanHeadBiped();
-	public static boolean modifyVoidChestDescription = false;
 	
 	@Override
 	public void loadConfiguration(){
@@ -103,6 +108,7 @@ public class ModClientProxy extends ModCommonProxy{
 		renderIdFlowerPot = RenderingRegistry.getNextAvailableRenderId();
 		renderIdSpookyLeaves = RenderingRegistry.getNextAvailableRenderId();
 		renderIdCrossedDecoration = RenderingRegistry.getNextAvailableRenderId();
+		renderIdLootChest = RenderingRegistry.getNextAvailableRenderId();
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockObsidianSpecial());
 		RenderingRegistry.registerBlockHandler(new RenderBlockEndFlowerPot());
@@ -114,6 +120,9 @@ public class ModClientProxy extends ModCommonProxy{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCustomSpawner.class, new RenderTileCustomSpawner());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLaserBeam.class, new RenderTileLaserBeam());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndPortal.class, new RenderTileEndPortal());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLootChest.class, new RenderTileLootChest());
+		
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.loot_chest), new RenderItemLootChest());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon());

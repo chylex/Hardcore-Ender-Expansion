@@ -29,6 +29,7 @@ import chylex.hee.item.block.ItemBlockEnhanceableTile;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
 import chylex.hee.item.block.ItemBlockSlab;
 import chylex.hee.item.block.ItemBlockWithSubtypes;
+import chylex.hee.item.block.ItemBlockWithTooltip;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.tileentity.*;
@@ -100,6 +101,7 @@ public final class BlockList{
 	public static Block experience_table;
 	public static Block accumulation_table;
 	public static Block extraction_table;
+	public static Block loot_chest;
 	
 	// OPAQUE BLOCKS
 	
@@ -175,6 +177,7 @@ public final class BlockList{
 		register("experience_table", experience_table = new BlockExperienceTable().setBlockName("experienceTable").setBlockTextureName("experience_table"));
 		register("accumulation_table", accumulation_table = new BlockAccumulationTable().setBlockName("accumulationTable").setBlockTextureName("accumulation_table"));
 		register("energy_extraction_table", extraction_table = new BlockExtractionTable().setBlockName("extractionTable").setBlockTextureName("extraction_table"));
+		register("loot_chest", loot_chest = new BlockLootChest().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypePiston).setBlockName("lootChest").setBlockTextureName("loot_chest"));
 		
 		register("endium_block", endium_block = new BlockCompressed(MapColor.pinkColor).setHardness(14F).setResistance(800F).setStepSound(Block.soundTypeMetal).setBlockName("endiumBlock").setBlockTextureName("hardcoreenderexpansion:endium_block"));
 		register("spooky_log", spooky_log = new BlockSpookyLog().setHardness(0.7F).setStepSound(Block.soundTypeWood).setBlockName("spookyLog"));
@@ -208,6 +211,7 @@ public final class BlockList{
 		setItemClass("essence_altar", ItemBlockEssenceAltar.class);
 		setItemClass("enhanced_brewing_stand_block", ItemBlockEnhanceableTile.class);
 		setItemClass("enhanced_tnt", ItemBlockEnhanceableTile.class);
+		setItemClass("loot_chest", ItemBlockWithTooltip.class);
 		setItemClass("end_stone_terrain", ItemBlockWithSubtypes.class);
 		setItemClass("dry_vine", ItemBlockDynamicColor.class);
 		setItemClass("ancient_web", ItemBlockDynamicColor.class);
@@ -235,7 +239,7 @@ public final class BlockList{
 		ModCreativeTab.tabMain.list.addBlocks(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,
-			essence_altar,decomposition_table,experience_table,accumulation_table,extraction_table,
+			essence_altar,decomposition_table,experience_table,accumulation_table,extraction_table,loot_chest,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,
 			sphalerite,end_terrain,spooky_log,spooky_leaves,
@@ -289,6 +293,7 @@ public final class BlockList{
 		GameRegistryUtil.registerTileEntity(TileEntityExperienceTable.class, "ExperienceTable");
 		GameRegistryUtil.registerTileEntity(TileEntityAccumulationTable.class, "AccumulationTable");
 		GameRegistryUtil.registerTileEntity(TileEntityExtractionTable.class, "EnergyExtractionTable");
+		GameRegistryUtil.registerTileEntity(TileEntityLootChest.class, "LootChest");
 		GameRegistryUtil.registerTileEntity(TileEntityEnergyCluster.class, "EnergyCluster");
 		GameRegistryUtil.registerTileEntity(TileEntityEnhancedTNT.class, "EnhancedTNT");
 		GameRegistryUtil.registerTileEntity(TileEntityEndPortalCustom.class, "EndPortal");
