@@ -18,6 +18,10 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 public class PlayerDataHandler implements ISaveDataHandler{
 	private static final String dataIdentifier = "HardcoreEnderExpansion2";
 	
+	public static final String getID(EntityPlayer player){
+		return ((PlayerIdProperty)player.getExtendedProperties(dataIdentifier)).id;
+	}
+	
 	private final Map<String,PlayerFile> cache = new HashMap<>();
 	private File root;
 	
@@ -36,7 +40,7 @@ public class PlayerDataHandler implements ISaveDataHandler{
 	}
 	
 	public <T extends PlayerFile> T get(EntityPlayer player, Class<T> cls){
-		String id = ((PlayerIdProperty)player.getExtendedProperties(dataIdentifier)).id;
+		String id = getID(player);
 		String cacheKey = cls.getSimpleName()+"~"+id;
 		
 		PlayerFile savefile = cache.get(cacheKey);
