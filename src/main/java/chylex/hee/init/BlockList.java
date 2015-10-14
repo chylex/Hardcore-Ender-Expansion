@@ -177,7 +177,7 @@ public final class BlockList{
 		register("experience_table", experience_table = new BlockExperienceTable().setBlockName("experienceTable").setBlockTextureName("experience_table"));
 		register("accumulation_table", accumulation_table = new BlockAccumulationTable().setBlockName("accumulationTable").setBlockTextureName("accumulation_table"));
 		register("energy_extraction_table", extraction_table = new BlockExtractionTable().setBlockName("extractionTable").setBlockTextureName("extraction_table"));
-		register("loot_chest", loot_chest = new BlockLootChest().setBlockUnbreakable().setResistance(6000000F).setStepSound(Block.soundTypePiston).setBlockName("lootChest").setBlockTextureName("loot_chest"));
+		register("loot_chest", loot_chest = new BlockLootChest().setBlockUnbreakable().setResistance(6000000F).setLightLevel(0.875F).setStepSound(Block.soundTypePiston).setBlockName("lootChest").setBlockTextureName("loot_chest"));
 		
 		register("endium_block", endium_block = new BlockCompressed(MapColor.pinkColor).setHardness(14F).setResistance(800F).setStepSound(Block.soundTypeMetal).setBlockName("endiumBlock").setBlockTextureName("hardcoreenderexpansion:endium_block"));
 		register("spooky_log", spooky_log = new BlockSpookyLog().setHardness(0.7F).setStepSound(Block.soundTypeWood).setBlockName("spookyLog"));

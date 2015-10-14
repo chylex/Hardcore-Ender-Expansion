@@ -1,4 +1,5 @@
 package chylex.hee.gui;
+import java.util.Optional;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,8 @@ public class InventoryLootChest extends InventoryBasic{
 		super("container.lootChest",false,27);
 		this.playerID = playerID;
 		this.chest = chest;
+		
+		Optional.ofNullable(chest.getInventoryNameIfPresent()).ifPresent(name -> func_110133_a(name)); // OBFUSCATED setInventoryName
 	}
 	
 	public InventoryLootChest(String playerID, TileEntityLootChest chest, InventoryLootChest sourceInventory){
@@ -20,7 +23,7 @@ public class InventoryLootChest extends InventoryBasic{
 		
 		for(int slot = 0; slot < sourceInventory.getSizeInventory(); slot++){
 			ItemStack is = sourceInventory.getStackInSlot(slot);
-			if (is != null)setInventorySlotContents(slot,is);
+			if (is != null)setInventorySlotContents(slot,is.copy());
 		}
 	}
 	

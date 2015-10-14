@@ -25,7 +25,7 @@ public class GuiLootChest extends GuiContainer{
 	
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-		fontRendererObj.drawString(invLootChest.hasCustomInventoryName() ? invLootChest.getInventoryName() : I18n.format(invPlayer.player.capabilities.isCreativeMode ? "container.lootChest.editing" : "container.lootChest"),8,6,4210752);
+		fontRendererObj.drawString(invPlayer.player.capabilities.isCreativeMode ? I18n.format("container.lootChest.editing") : I18n.format(invLootChest.getInventoryName()),8,6,4210752);
 		fontRendererObj.drawString(invPlayer.hasCustomInventoryName() ? invPlayer.getInventoryName() : I18n.format(invPlayer.getInventoryName()),8,ySize-94,4210752);
 	}
 

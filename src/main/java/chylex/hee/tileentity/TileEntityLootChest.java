@@ -5,6 +5,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants.NBT;
 import chylex.hee.game.save.handlers.PlayerDataHandler;
@@ -67,6 +70,19 @@ public class TileEntityLootChest extends TileEntity{
 	
 	public InventoryLootChest getInventoryFor(EntityPlayer player){
 		return player.capabilities.isCreativeMode ? sourceInventory : inventories.computeIfAbsent(PlayerDataHandler.getID(player),id -> new InventoryLootChest(id,this,sourceInventory));
+	}
+	
+	@Override
+	public Packet getDescriptionPacket(){
+		NBTTagCompound packetTag = new NBTTagCompound();
+		if (customName != null)packetTag.setString("customName",customName);
+		return new S35PacketUpdateTileEntity(xCoord,yCoord,zCoord,0,packetTag);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet){
+		NBTTagCompound packetTag = packet.func_148857_g(); // OBFUSCATED get tag data
+		customName = packetTag.hasKey("customName") ? packetTag.getString("customName") : null;
 	}
 	
 	@Override
