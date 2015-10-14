@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
 import chylex.hee.entity.fx.FXHelper;
@@ -76,6 +77,11 @@ public class BlockDragonEggCustom extends BlockDragonEgg{
 	@Override
 	public int quantityDropped(Random rand){
 		return 0;
+	}
+	
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player){
+		return new ItemStack(Blocks.dragon_egg);
 	}
 	
 	public static boolean teleportNearby(World world, Pos pos){
