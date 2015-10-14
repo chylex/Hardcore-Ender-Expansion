@@ -2,6 +2,7 @@ package chylex.hee.world.feature.stronghold.rooms.loot;
 import java.util.Arrays;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.abstractions.Pos.PosMutable;
@@ -116,7 +117,7 @@ public class StrongholdRoomRelicHell extends StrongholdRoom{
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.stained_glass,Meta.getColor(BlockColor.GRAY)),mpos.x,y+1,mpos.z);
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.stained_glass,Meta.getColor(BlockColor.GRAY)),mpos.x+left.getX(),y+1,mpos.z+left.getZ());
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.stained_glass,Meta.getColor(BlockColor.GRAY)),mpos.x+right.getX(),y+1,mpos.z+right.getZ());
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,y+2,mpos.z);
+		placeBlock(world,rand,IBlockPicker.basic(BlockList.loot_chest),mpos.x,y+2,mpos.z);
 		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(entranceFrom.opposite(),null)); // TODO loot
 	}
 }
