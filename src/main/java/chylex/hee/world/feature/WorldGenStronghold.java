@@ -32,6 +32,7 @@ import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorChest;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorDoubleChest;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorIntersection;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorStraight;
+import chylex.hee.world.feature.stronghold.corridors.StrongholdEndWallDecorations;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdStairsStraight;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdStairsVertical;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorGrates;
@@ -45,7 +46,6 @@ import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitPol
 import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLitTotem;
 import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomSmallIntersection;
 import chylex.hee.world.feature.stronghold.rooms.general.StrongholdRoomEndPortal;
-import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomClusterIntersection;
 import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicDungeon;
 import chylex.hee.world.feature.stronghold.rooms.loot.StrongholdRoomRelicFountains;
 import chylex.hee.world.feature.stronghold.rooms.traps.StrongholdRoomLargeIntersectionTrap;
@@ -186,7 +186,10 @@ public class WorldGenStronghold implements IWorldGenerator{
 				//pieces.addAll(StrongholdRoomRelicHell.generateRelicRooms());
 				//pieces.add(new StrongholdRoomClusterPillar());
 				//pieces.add(new StrongholdRoomClusterFloating());
-				pieces.add(new StrongholdRoomClusterIntersection());
+				//pieces.add(new StrongholdRoomClusterIntersection());
+				//pieces.addAll(StrongholdRoomChestPool.generateRooms());
+				//pieces.addAll(StrongholdEndWaterfall.generateDeadEnds());
+				pieces.addAll(StrongholdEndWallDecorations.generateDeadEnds());
 				
 				/*pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
 				pieces.addAll(StrongholdCorridorIntersection.generateCorners());

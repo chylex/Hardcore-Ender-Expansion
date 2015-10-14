@@ -18,7 +18,7 @@ public abstract class StrongholdPieceGeneric extends StrongholdPiece{
 		addConnection(Facing4.WEST_NEGX,0,0,maxZ/2,connection);
 	}
 	
-	public StrongholdPieceGeneric(Type type, Size size, @Nullable Facing4[] connectWith, IConnectWith connection){
+	public StrongholdPieceGeneric(Type type, Size size, @Nullable Facing4[] connectWith, @Nullable IConnectWith connection){
 		super(type,size);
 		
 		if (ArrayUtils.contains(connectWith,Facing4.NORTH_NEGZ))addConnection(Facing4.NORTH_NEGZ,maxX/2,0,0,connection);
