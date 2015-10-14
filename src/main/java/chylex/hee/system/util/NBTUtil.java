@@ -1,6 +1,8 @@
 package chylex.hee.system.util;
 import java.util.List;
 import java.util.stream.Stream;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTBase.NBTPrimitive;
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,6 +35,29 @@ public final class NBTUtil{
 	
 	public static Stream<NBTTagCompound> readCompoundList(NBTTagCompound parent, String key){
 		return ((List<NBTTagCompound>)parent.getTagList(key,NBT.TAG_COMPOUND).tagList).stream();
+	}
+	
+	public static NBTTagList writeInventory(IInventory inv){
+		NBTTagList list = new NBTTagList();
+		
+		for(int slot = 0; slot < inv.getSizeInventory(); slot++){
+			ItemStack is = inv.getStackInSlot(slot);
+			
+			if (is != null){
+				NBTTagCompound itemTag = is.writeToNBT(new NBTTagCompound());
+				itemTag.setByte("_",(byte)slot);
+				list.appendTag(itemTag);
+			}
+		}
+		
+		return list;
+	}
+	
+	public static void readInventory(NBTTagList list, IInventory inv){
+		for(int a = 0; a < list.tagCount(); a++){
+			NBTTagCompound itemTag = list.getCompoundTagAt(a);
+			inv.setInventorySlotContents(itemTag.getByte("_"),ItemStack.loadItemStackFromNBT(itemTag));
+		}
 	}
 	
 	private NBTUtil(){}
