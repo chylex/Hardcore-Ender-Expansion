@@ -41,18 +41,18 @@ public class StrongholdEndWallDecorations extends StrongholdPieceGeneric{
 		placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z,mpos.x,y+2,mpos.z);
 		
 		for(int side = 0; side < 2; side++){
-			final Facing4 facing = side == 0 ? entranceFrom.rotateLeft() : entranceFrom.rotateRight();
+			final Facing4 sideFacing = side == 0 ? entranceFrom.rotateLeft() : entranceFrom.rotateRight();
 			
-			mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom).move(facing);
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,true)),mpos.x,y+5,mpos.z,mpos.x+3*entranceFrom.getX(),y+5,mpos.z+3*entranceFrom.getZ());
+			mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom).move(sideFacing);
+			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,true)),mpos.x,y+5,mpos.z,mpos.x+3*entranceFrom.getX(),y+5,mpos.z+3*entranceFrom.getZ());
 			
-			mpos.move(facing);
+			mpos.move(sideFacing);
 			placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z,mpos.x+4*entranceFrom.getX(),y+1,mpos.z+4*entranceFrom.getZ());
 			placeBlock(world,rand,placeStoneBrickPlain,mpos.x+2*entranceFrom.getX(),y+2,mpos.z+2*entranceFrom.getZ());
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x,y+3,mpos.z,mpos.x+4*entranceFrom.getX(),y+3,mpos.z+4*entranceFrom.getZ());
-			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,true)),mpos.x,y+4,mpos.z,mpos.x+4*entranceFrom.getX(),y+4,mpos.z+4*entranceFrom.getZ());
+			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,false)),mpos.x,y+3,mpos.z,mpos.x+4*entranceFrom.getX(),y+3,mpos.z+4*entranceFrom.getZ());
+			placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,true)),mpos.x,y+4,mpos.z,mpos.x+4*entranceFrom.getX(),y+4,mpos.z+4*entranceFrom.getZ());
 			
-			mpos.move(facing.opposite()).move(entranceFrom,4);
+			mpos.move(sideFacing.opposite()).move(entranceFrom,4);
 			placeBlock(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom,false)),mpos.x,y+3,mpos.z);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom,true)),mpos.x,y+4,mpos.z);

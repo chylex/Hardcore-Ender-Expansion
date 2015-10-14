@@ -54,8 +54,8 @@ public final class NBTUtil{
 	}
 	
 	public static void readInventory(NBTTagList list, IInventory inv){
-		for(int a = 0; a < list.tagCount(); a++){
-			NBTTagCompound itemTag = list.getCompoundTagAt(a);
+		for(int slot = 0; slot < list.tagCount(); slot++){
+			NBTTagCompound itemTag = list.getCompoundTagAt(slot);
 			inv.setInventorySlotContents(itemTag.getByte("_"),ItemStack.loadItemStackFromNBT(itemTag));
 		}
 	}

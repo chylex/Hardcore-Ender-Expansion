@@ -44,34 +44,34 @@ public class StrongholdRoomRelicHell extends StrongholdRoom{
 		
 		// side walls
 		for(int side = 0; side < 2; side++){
-			final Facing4 facing = side == 0 ? left : right;
+			final Facing4 sideFacing = side == 0 ? left : right;
 			
 			for(int level = 0; level < 2; level++){
-				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom).move(facing,2);
+				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom).move(sideFacing,2);
 				int stairY = level == 0 ? y+1 : y+5;
 				
 				for(int part = 0; part < 2; part++){
-					placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,level == 1)),mpos.x,stairY,mpos.z);
-					mpos.move(facing);
+					placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,level == 1)),mpos.x,stairY,mpos.z);
+					mpos.move(sideFacing);
 					placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom.opposite(),level == 1)),mpos.x,stairY,mpos.z);
-					mpos.move(facing);
-					placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,level == 1)),mpos.x,stairY,mpos.z,mpos.x+4*entranceFrom.getX(),stairY,mpos.z+4*entranceFrom.getZ());
-					mpos.move(entranceFrom,4).move(facing.opposite());
+					mpos.move(sideFacing);
+					placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,level == 1)),mpos.x,stairY,mpos.z,mpos.x+4*entranceFrom.getX(),stairY,mpos.z+4*entranceFrom.getZ());
+					mpos.move(entranceFrom,4).move(sideFacing.opposite());
 					placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom,level == 1)),mpos.x,stairY,mpos.z);
-					mpos.move(facing.opposite());
-					placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,level == 1)),mpos.x,stairY,mpos.z,mpos.x+entranceFrom.getX(),stairY,mpos.z+entranceFrom.getZ());
+					mpos.move(sideFacing.opposite());
+					placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,level == 1)),mpos.x,stairY,mpos.z,mpos.x+entranceFrom.getX(),stairY,mpos.z+entranceFrom.getZ());
 					mpos.move(entranceFrom,2);
 				}
 				
-				placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom.opposite(),level == 1)),mpos.x,stairY,mpos.z,mpos.x+2*facing.getX(),stairY,mpos.z+2*facing.getZ());
+				placeLine(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom.opposite(),level == 1)),mpos.x,stairY,mpos.z,mpos.x+2*sideFacing.getX(),stairY,mpos.z+2*sideFacing.getZ());
 			}
 			
 			for(int fountain = 0; fountain < 2; fountain++){
-				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,6*(1+fountain)).move(facing,3);
+				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,6*(1+fountain)).move(sideFacing,3);
 				placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_lava),mpos.x,y+5,mpos.z);
-				mpos.move(facing);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,false)),mpos.x,y+2,mpos.z);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing,true)),mpos.x,y+4,mpos.z);
+				mpos.move(sideFacing);
+				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,false)),mpos.x,y+2,mpos.z);
+				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,true)),mpos.x,y+4,mpos.z);
 			}
 		}
 		
@@ -86,28 +86,28 @@ public class StrongholdRoomRelicHell extends StrongholdRoom{
 			placeLine(world,rand,placeStoneBrickPlain,mpos.x,py,mpos.z,mpos.x+6*entranceFrom.getX(),py,mpos.z+6*entranceFrom.getZ());
 		
 			for(int side = 0; side < 2; side++){
-				final Facing4 facing = side == 0 ? left : right;
+				final Facing4 sideFacing = side == 0 ? left : right;
 				
-				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,16).move(facing);
+				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,16).move(sideFacing);
 				placeLine(world,rand,placeSlab,mpos.x,py,mpos.z,mpos.x+2*entranceFrom.getX(),py,mpos.z+2*entranceFrom.getZ());
-				mpos.move(facing).move(entranceFrom,2);
+				mpos.move(sideFacing).move(entranceFrom,2);
 				placeBlock(world,rand,placeSlab,mpos.x,py,mpos.z);
-				mpos.move(facing);
+				mpos.move(sideFacing);
 				placeLine(world,rand,placeSlab,mpos.x,py,mpos.z,mpos.x+4*entranceFrom.getX(),py,mpos.z+4*entranceFrom.getZ());
 				
-				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,19).move(facing);
+				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,19).move(sideFacing);
 				placeBlock(world,rand,placeStoneBrickPlain,mpos.x,py,mpos.z);
 				placeLine(world,rand,IBlockPicker.basic(Blocks.obsidian),mpos.x+entranceFrom.getX(),py,mpos.z+entranceFrom.getZ(),mpos.x+3*entranceFrom.getX(),py,mpos.z+3*entranceFrom.getZ());
-				mpos.move(facing);
+				mpos.move(sideFacing);
 				placeLine(world,rand,placeStoneBrickPlain,mpos.x,py,mpos.z,mpos.x+3*entranceFrom.getX(),py,mpos.z+3*entranceFrom.getZ());
 				
-				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,23).move(facing);
+				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,23).move(sideFacing);
 				placeLine(world,rand,IBlockPicker.basic(Blocks.obsidian),mpos.x,y+2,mpos.z,mpos.x,y+5,mpos.z);
-				mpos.move(facing);
+				mpos.move(sideFacing);
 				placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+2,mpos.z,mpos.x,y+5,mpos.z);
-				mpos.move(facing);
+				mpos.move(sideFacing);
 				placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_lava),mpos.x,y+5,mpos.z);
-				mpos.move(facing);
+				mpos.move(sideFacing);
 				placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z,mpos.x,y+5,mpos.z);
 			}
 		}
