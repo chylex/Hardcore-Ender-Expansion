@@ -217,10 +217,15 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		
 		// stairs
 		offFacing = offLeft.get(0);
+		boolean dirMatch;
 		
-		generateBottomStairs(world,rand,0,y,0,offFacing,false);
+		dirMatch = offFacing == connections.get(0).facing || offFacing == connections.get(1).facing;
+		mpos.set(centerX,y,centerZ).move(offFacing,4).move(offFacing.rotateRight(),4);
+		generateBottomStairs(world,rand,mpos.x,mpos.y,mpos.z,dirMatch ? offFacing.rotateRight() : offFacing,!dirMatch);
 		
-		boolean dirMatch = offFacing == connections.get(2).facing || offFacing == connections.get(3).facing;
+		offFacing = offFacing.opposite();
+		
+		dirMatch = offFacing == connections.get(2).facing || offFacing == connections.get(3).facing;
 		mpos.set(centerX,y+levels[1],centerZ).move(offFacing,dirMatch ? 4 : 7).move(offFacing.rotateRight(),dirMatch ? 7 : 4);
 		generateMiddleStairs(world,rand,mpos.x,mpos.y,mpos.z,dirMatch ? offFacing : offFacing.rotateRight(),!dirMatch);
 	}
@@ -261,7 +266,6 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(sideFacing.opposite(),true)),mpos.x,mpos.y+4,mpos.z);
 		}
 	}
-	
 	
 	private void generateSecondFloor(StructureWorld world, Random rand, int x, int y, int z){
 		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
@@ -359,7 +363,6 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 			}
 		}
 	}
-	
 	
 	private void generateThirdFloor(StructureWorld world, Random rand, int x, int y, int z){
 		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
@@ -491,9 +494,41 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		}
 	}
 	
-	
 	private void generateBottomStairs(StructureWorld world, Random rand, int x, int y, int z, Facing4 facing, boolean rotateRight){
+		PosMutable mpos = new PosMutable();
 		
+		mpos.set(x,y+4,z).move(facing,4).move(facing.rotateLeft(),2);
+		placeBlock(world,rand,placeAir,mpos.x,mpos.y,mpos.z);
+		world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,BlockInfo.air);
+		mpos.move(facing.rotateLeft(),2).move(facing.opposite(),2);
+		placeBlock(world,rand,placeAir,mpos.x,mpos.y,mpos.z);
+		world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,BlockInfo.air);
+		
+		mpos.set(x,y+1,z);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y,mpos.z);
+		
+		for(int cycle = 0; cycle < 2; cycle++){
+			mpos.move(facing);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+cycle,mpos.z);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+1+cycle,mpos.z);
+		}
+		
+		mpos.move(facing);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+2,mpos.z);
+		mpos.move(facing = rotateRight ? facing.rotateRight() : facing.rotateLeft());
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+2,mpos.z);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+3,mpos.z);
+		mpos.move(facing);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+3,mpos.z);
+		mpos.move(facing = rotateRight ? facing.rotateRight() : facing.rotateLeft());
+		
+		for(int cycle = 0; cycle < 2; cycle++){
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+3+cycle,mpos.z);
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+4+cycle,mpos.z);
+			mpos.move(facing);
+		}
+		
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+5,mpos.z);
 	}
 	
 	private void generateMiddleStairs(StructureWorld world, Random rand, int x, int y, int z, Facing4 facing, boolean rotateRight){
