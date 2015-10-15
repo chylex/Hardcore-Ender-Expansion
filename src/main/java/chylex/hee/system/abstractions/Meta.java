@@ -36,6 +36,9 @@ public final class Meta{
 		slabStoneBrickBottom = 5,
 		slabStoneBrickTop = 5+8,
 		
+		slabWoodSpruceBottom = 1,
+		slabWoodSpruceTop = 1+8,
+		
 		cobbleWallNormal = 0,
 		cobbleWallMossy = 1,
 		
