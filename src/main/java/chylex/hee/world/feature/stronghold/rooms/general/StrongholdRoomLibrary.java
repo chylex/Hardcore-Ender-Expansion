@@ -1,10 +1,14 @@
 package chylex.hee.world.feature.stronghold.rooms.general;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
+import chylex.hee.system.abstractions.Meta.FlowerPotPlant;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
@@ -162,6 +166,63 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		generateFirstFloor(world,rand,x,y+levels[0],z);
 		generateSecondFloor(world,rand,x,y+levels[1],z);
 		generateThirdFloor(world,rand,x,y+levels[2],z);
+		
+		// bottom corner content
+		List<Facing4> offLeft = CollectionUtil.newList(Facing4.list);
+		Facing4 offFacing;
+		
+		// bottom corner group table
+		offFacing = offLeft.remove(rand.nextInt(offLeft.size()));
+		mpos.set(centerX,0,centerZ).move(offFacing,7).move(offFacing = offFacing.rotateRight(),5);
+		
+		placeLine(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(offFacing.rotateLeft(),false)),mpos.x,y+1,mpos.z,mpos.x+2*offFacing.getX(),y+1,mpos.z+2*offFacing.getZ());
+		mpos.move(offFacing,2).move(offFacing = offFacing.rotateRight());
+		placeLine(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(offFacing.rotateLeft(),false)),mpos.x,y+1,mpos.z,mpos.x+offFacing.getX(),y+1,mpos.z+offFacing.getZ());
+		
+		mpos.move(offFacing).move(offFacing = offFacing.rotateRight(),2);
+		
+		for(int corner = 0; corner < 4; corner++){
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(offFacing.rotateRight(),true)),mpos.x,y+1,mpos.z);
+			if (rand.nextInt(4) == 0)placeBlock(world,rand,IBlockPicker.basic(Blocks.flower_pot),mpos.x,y+2,mpos.z);
+			mpos.move(offFacing = offFacing.rotateRight());
+		}
+		
+		// bottom corner work table
+		offFacing = offLeft.remove(rand.nextInt(offLeft.size()));
+		mpos.set(centerX,0,centerZ).move(offFacing,6).move(offFacing = offFacing.rotateRight(),7);
+		
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(offFacing.rotateRight(),false)),mpos.x,y+1,mpos.z);
+		mpos.move(offFacing).move(offFacing = offFacing.rotateLeft());
+		placeLine(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(offFacing,true)),mpos.x,y+1,mpos.z,mpos.x+2*offFacing.rotateLeft().getX(),y+1,mpos.z+2*offFacing.rotateLeft().getZ());
+		mpos.move(offFacing.rotateLeft(),2).move(offFacing);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(offFacing.rotateRight(),true)),mpos.x,y+1,mpos.z);
+		mpos.move(offFacing = offFacing.rotateRight());
+		placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,y+1,mpos.z,mpos.x+offFacing.getX(),y+1,mpos.z+offFacing.getZ());
+		mpos.move(offFacing);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.flower_pot),mpos.x,y+2,mpos.z);
+		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(rand.nextBoolean() ? FlowerPotPlant.TULIP_WHITE : FlowerPotPlant.DANDELION));
+		
+		// corner torches
+		for(Facing4 facing:Facing4.list){
+			for(int level = 0; level < 3; level++){
+				mpos.set(centerX,4*(level+1),centerZ).move(facing,8).move(facing.rotateRight(),6);
+				placeBlock(world,rand,random -> new BlockInfo(Blocks.cobblestone_wall,random.nextInt(7) == 0 ? Meta.cobbleWallMossy : Meta.cobbleWallNormal),mpos.x,mpos.y,mpos.z);
+				world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,new BlockInfo(Blocks.torch,Meta.torchGround));
+				
+				mpos.set(centerX,4*(level+1),centerZ).move(facing,8).move(facing.rotateLeft(),6);
+				placeBlock(world,rand,random -> new BlockInfo(Blocks.cobblestone_wall,random.nextInt(7) == 0 ? Meta.cobbleWallMossy : Meta.cobbleWallNormal),mpos.x,mpos.y,mpos.z);
+				world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,new BlockInfo(Blocks.torch,Meta.torchGround));
+			}
+		}
+		
+		// stairs
+		offFacing = offLeft.get(0);
+		
+		generateBottomStairs(world,rand,0,y,0,offFacing,false);
+		
+		boolean dirMatch = offFacing == connections.get(2).facing || offFacing == connections.get(3).facing;
+		mpos.set(centerX,y+levels[1],centerZ).move(offFacing,dirMatch ? 4 : 7).move(offFacing.rotateRight(),dirMatch ? 7 : 4);
+		generateMiddleStairs(world,rand,mpos.x,mpos.y,mpos.z,dirMatch ? offFacing : offFacing.rotateRight(),!dirMatch);
 	}
 	
 	private void generateFirstFloor(StructureWorld world, Random rand, int x, int y, int z){
@@ -200,6 +261,7 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(sideFacing.opposite(),true)),mpos.x,mpos.y+4,mpos.z);
 		}
 	}
+	
 	
 	private void generateSecondFloor(StructureWorld world, Random rand, int x, int y, int z){
 		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
@@ -297,6 +359,7 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 			}
 		}
 	}
+	
 	
 	private void generateThirdFloor(StructureWorld world, Random rand, int x, int y, int z){
 		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
@@ -426,5 +489,39 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 					break;
 			}
 		}
+	}
+	
+	
+	private void generateBottomStairs(StructureWorld world, Random rand, int x, int y, int z, Facing4 facing, boolean rotateRight){
+		
+	}
+	
+	private void generateMiddleStairs(StructureWorld world, Random rand, int x, int y, int z, Facing4 facing, boolean rotateRight){
+		PosMutable mpos = new PosMutable(x,y+1,z);
+		
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y,mpos.z);
+		mpos.move(facing);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y,mpos.z);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+1,mpos.z);
+		mpos.move(facing);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+1,mpos.z);
+		mpos.move(facing = rotateRight ? facing.rotateRight() : facing.rotateLeft());
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+1,mpos.z);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+2,mpos.z);
+		mpos.move(facing);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+2,mpos.z);
+		mpos.move(facing = rotateRight ? facing.rotateRight() : facing.rotateLeft());
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+2,mpos.z);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+3,mpos.z);
+		mpos.move(facing);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+3,mpos.z);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+4,mpos.z);
+		mpos.move(facing);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+4,mpos.z);
+		
+		mpos.move(facing = rotateRight ? facing.rotateLeft() : facing.rotateRight());
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceTop),mpos.x,mpos.y+4,mpos.z);
+		mpos.move(facing = rotateRight ? facing.rotateLeft() : facing.rotateRight());
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceTop),mpos.x,mpos.y+4,mpos.z);
 	}
 }
