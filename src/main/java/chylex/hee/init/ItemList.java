@@ -13,7 +13,6 @@ import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.game.creativetab.ModCreativeTab;
 import chylex.hee.item.*;
 import chylex.hee.item.block.ItemBlockEnhancedBrewingStand;
-import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.GameRegistryUtil;
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -146,8 +145,7 @@ public final class ItemList{
 		register("exp_bottle_consistent", exp_bottle = new ItemExpBottleConsistent().setUnlocalizedName("expBottle").setTextureName("experience_bottle"));
 		register("spawn_eggs", spawn_eggs = new ItemSpawnEggs().setUnlocalizedName("monsterPlacer").setTextureName("spawn_egg"));
 		register("item_special_effects", special_effects = new ItemSpecialEffects().setUnlocalizedName("itemNumber"));
-		
-		if (Log.isDebugEnabled())register("debug_stick", debug_stick = new ItemDebugStick().setTextureName("minecraft:stick"));
+		register("debug_stick", debug_stick = new ItemDebugStick().setTextureName("stick"));
 	}
 	
 	public static void registerItems(){

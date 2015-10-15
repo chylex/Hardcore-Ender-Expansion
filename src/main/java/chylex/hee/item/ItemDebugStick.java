@@ -17,8 +17,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.ItemUtil;
+import com.google.common.collect.Iterables;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,19 +32,19 @@ public class ItemDebugStick extends Item{
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
-		if (!world.isRemote)doDebugAction(is,ItemUtil.getTagRoot(is,false),player,null);
+		if (!world.isRemote && Log.isDebugEnabled())doDebugAction(is,ItemUtil.getTagRoot(is,false),player,null);
 		return is;
 	}
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (!world.isRemote)doDebugAction(is,ItemUtil.getTagRoot(is,false),player,Pos.at(x,y,z));
+		if (!world.isRemote && Log.isDebugEnabled())doDebugAction(is,ItemUtil.getTagRoot(is,false),player,Pos.at(x,y,z));
 		return true;
 	}
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack is){
-		return "Hardcore Ender Expansion Debug Stick";
+		return "HEE Debug Stick ("+ItemUtil.getTagRoot(is,false).getString("type")+")";
 	}
 	
 	@Override
@@ -54,6 +57,7 @@ public class ItemDebugStick extends Item{
 		switch(nbt.getString("type")){
 			case "build": onDebugBuild(nbt,player,pos); break;
 			case "clear": onDebugClear(nbt,player,pos); break;
+			case "copy": onDebugCopy(nbt,player,pos); break;
 			case "info": onDebugInfo(nbt,player,pos); break;
 			case "count": onDebugCount(nbt,player,pos); break;
 			default: player.addChatMessage(new ChatComponentText("Invalid debug stick type!"));
@@ -111,6 +115,40 @@ public class ItemDebugStick extends Item{
 			});
 			
 			nbt.removeTag("pos");
+		}
+	}
+	
+	/* === COPY === */
+	private void onDebugCopy(NBTTagCompound nbt, EntityPlayer player, Pos pos){
+		if (pos == null){
+			nbt.removeTag("pos1");
+			nbt.removeTag("pos2");
+			player.addChatMessage(new ChatComponentText("Positions reset."));
+		}
+		else if (!nbt.hasKey("pos1")){
+			nbt.setLong("pos1",pos.toLong());
+			player.addChatMessage(new ChatComponentText("Pos 1 set."));
+		}
+		else if (!nbt.hasKey("pos2")){
+			nbt.setLong("pos2",pos.toLong());
+			player.addChatMessage(new ChatComponentText("Pos 2 set."));
+		}
+		else{
+			Pos pos1 = Pos.at(nbt.getLong("pos1")), pos2 = Pos.at(nbt.getLong("pos2"));
+			List<Pair<Pos,BlockInfo>> solidBlocks = new ArrayList<>(), transparentBlocks = new ArrayList<>();
+			
+			Pos.forEachBlock(pos1,pos2,blockPos -> {
+				BlockInfo info = blockPos.getInfo(player.worldObj);
+				
+				if (info.block.isNormalCube())solidBlocks.add(Pair.of(blockPos.immutable(),info));
+				else transparentBlocks.add(Pair.of(blockPos.immutable(),info));
+			});
+			
+			for(Pair<Pos,BlockInfo> data:Iterables.concat(solidBlocks,transparentBlocks)){
+				pos.offset(data.getLeft().getX()-pos1.getX(),data.getLeft().getY()-pos1.getY(),data.getLeft().getZ()-pos1.getZ()).setBlock(player.worldObj,data.getRight());
+			}
+			
+			player.addChatMessage(new ChatComponentText("Copy done."));
 		}
 	}
 
