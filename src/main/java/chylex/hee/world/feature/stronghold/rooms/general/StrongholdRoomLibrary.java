@@ -183,6 +183,7 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 			
 			if (fillHoles)placeBlock(world,rand,placeBookshelf,mpos.x,mpos.y+1,mpos.z);
 			if (extraBottomShelves)placeBlock(world,rand,placeBookshelf,mpos.x+facing.rotateRight().getX(),mpos.y,mpos.z+facing.rotateRight().getZ());
+			if (fillHoles && extraBottomShelves)placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x+facing.rotateRight().getX(),mpos.y+1,mpos.z+facing.rotateRight().getZ());
 		}
 		
 		// tall side shelves
@@ -253,22 +254,33 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 			
 			switch(rand.nextInt(2)){
 				case 0: // expanding towards center
+					boolean slabsOnTop = rand.nextInt(5) <= 1;
+					
 					for(int side = 0; side < 2; side++){
 						final Facing4 sideFacing = side == 0 ? facing.rotateLeft() : facing.rotateRight();
 						
 						mpos.set(x+connection.offsetX,y+1,z+connection.offsetZ).move(facing,4).move(sideFacing,2);
 						placeBlock(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z);
+						if (slabsOnTop)placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+1,mpos.z);
+						
 						mpos.move(facing);
 						placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x,mpos.y+1,mpos.z);
+						if (slabsOnTop)placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+2,mpos.z);
+						
 						mpos.move(facing).move(sideFacing);
 						placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x,mpos.y+1,mpos.z);
+						if (slabsOnTop)placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+2,mpos.z);
+						
 						mpos.move(sideFacing);
 						placeBlock(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z);
+						if (slabsOnTop)placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+1,mpos.z);
 					}
 					
 					break;
 					
 				case 1: // right next to entrance
+					boolean stairOnTop = rand.nextInt(3) != 0;
+					
 					for(int side = 0; side < 2; side++){
 						final Facing4 sideFacing = side == 0 ? facing.rotateLeft() : facing.rotateRight();
 						
@@ -278,6 +290,7 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 						placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x+facing.getX(),mpos.y+1,mpos.z+facing.getZ());
 						mpos.move(facing,2);
 						placeBlock(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z);
+						if (stairOnTop)placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing.opposite(),false)),mpos.x,mpos.y+1,mpos.z);
 					}
 					
 					break;
@@ -295,9 +308,12 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 			if (floorSide == 1)facing = facing.opposite();
 			
 			Facing4 perpendicular = facing.perpendicular();
+			int perX = perpendicular.getX(), perZ = perpendicular.getZ();
 			
-			switch(rand.nextInt(1)){
-				case 0: // large bookshelf wall
+			final int type = rand.nextInt(4);
+			
+			switch(type){
+				case 0: case 1: // bookshelf wall with side extensions
 					for(int side = 0; side < 2; side++){
 						final Facing4 sideFacing = side == 0 ? facing.rotateLeft() : facing.rotateRight();
 						
@@ -313,16 +329,100 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 						placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,mpos.y,mpos.z,mpos.x,mpos.y+2,mpos.z);
 						placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+3,mpos.z);
 						mpos.move(sideFacing.opposite());
-						placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,mpos.y,mpos.z,mpos.x,mpos.y+2,mpos.z);
+						placeLine(world,rand,type == 0 ? IBlockPicker.basic(Blocks.planks,Meta.planksSpruce) : placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x,mpos.y+2,mpos.z);
 						placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+3,mpos.z);
-
+						
 						mpos.set(centerX,y+1,centerZ).move(facing,7).move(sideFacing,2);
 						placeBlock(world,rand,placeStoneBrickPlain,mpos.x,mpos.y-1,mpos.z);
 					}
 					
 					mpos.set(centerX,y+1,centerZ).move(facing,8);
-					placeLine(world,rand,placeBookshelf,mpos.x-2*perpendicular.getX(),mpos.y,mpos.z-2*perpendicular.getZ(),mpos.x+2*perpendicular.getX(),mpos.y+2,mpos.z+2*perpendicular.getZ());
-					placeLine(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x-2*perpendicular.getX(),mpos.y+3,mpos.z-2*perpendicular.getZ(),mpos.x+2*perpendicular.getX(),mpos.y+3,mpos.z+2*perpendicular.getZ());
+					placeLine(world,rand,placeBookshelf,mpos.x-2*perX,mpos.y,mpos.z-2*perZ,mpos.x+2*perX,mpos.y+2,mpos.z+2*perZ);
+					if (type == 1)placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,mpos.y,mpos.z,mpos.x,mpos.y+2,mpos.z);
+					placeLine(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x-2*perX,mpos.y+3,mpos.z-2*perZ,mpos.x+2*perX,mpos.y+3,mpos.z+2*perZ);
+					break;
+					
+				case 2: case 3: // large bookshelf wall
+					for(int side = 0; side < 2; side++){
+						final Facing4 sideFacing = side == 0 ? facing.rotateLeft() : facing.rotateRight();
+						
+						mpos.set(centerX,y+1,centerZ).move(facing,6).move(sideFacing,3);
+						placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y,mpos.z);
+						placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing,true)),mpos.x,mpos.y+3,mpos.z);
+						mpos.move(facing);
+						placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,mpos.y,mpos.z,mpos.x+facing.getX(),mpos.y+3,mpos.z+facing.getZ());
+						mpos.move(sideFacing);
+						placeLine(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(sideFacing.opposite(),false)),mpos.x,mpos.y,mpos.z,mpos.x+facing.getX(),mpos.y,mpos.z+facing.getZ());
+						placeLine(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(sideFacing.opposite(),true)),mpos.x,mpos.y+3,mpos.z,mpos.x+facing.getX(),mpos.y+3,mpos.z+facing.getZ());
+						
+						mpos.set(centerX,y+1,centerZ).move(facing,7).move(sideFacing,2);
+						placeBlock(world,rand,placeStoneBrickPlain,mpos.x,mpos.y-1,mpos.z);
+					}
+					
+					mpos.set(centerX,y+1,centerZ).move(facing,7);
+					placeLine(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing,true)),mpos.x-2*perX,mpos.y+3,mpos.z-2*perZ,mpos.x+2*perX,mpos.y+3,mpos.z+2*perZ);
+					mpos.move(facing);
+					placeLine(world,rand,placeBookshelf,mpos.x-2*perX,mpos.y,mpos.z-2*perZ,mpos.x+2*perX,mpos.y+2,mpos.z+2*perZ);
+					placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x-2*perX,mpos.y+3,mpos.z-2*perZ,mpos.x+2*perX,mpos.y+3,mpos.z+2*perZ);
+					break;
+			}
+		}
+		
+		// center
+		Facing4 connectionFacing = connections.get(4).facing;
+		Facing4 perpendicular = connectionFacing.perpendicular();
+		
+		Pos pos1 = mpos.set(centerX,0,centerZ).move(perpendicular,2).move(connectionFacing).immutable();
+		Pos pos2 = mpos.set(centerX,0,centerZ).move(perpendicular.opposite(),2).move(connectionFacing.opposite()).immutable();
+		placeOutline(world,rand,placeBookshelf,pos1.getX(),y+1,pos1.getZ(),pos2.getX(),y+3,pos2.getZ(),1);
+		
+		mpos.set(centerX,0,centerZ).move(connectionFacing);
+		placeLine(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(connectionFacing.opposite(),false)),mpos.x-perpendicular.getX(),y+4,mpos.z-perpendicular.getZ(),mpos.x+perpendicular.getX(),y+4,mpos.z+perpendicular.getZ());
+		mpos.set(centerX,0,centerZ).move(connectionFacing.opposite());
+		placeLine(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(connectionFacing,false)),mpos.x-perpendicular.getX(),y+4,mpos.z-perpendicular.getZ(),mpos.x+perpendicular.getX(),y+4,mpos.z+perpendicular.getZ());
+		
+		for(int side = 0; side < 2; side++){
+			Facing4 offFacing = side == 0 ? perpendicular : perpendicular.opposite();
+			
+			mpos.set(centerX,y+4,centerZ).move(offFacing,2).move(offFacing.rotateLeft());
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y,mpos.z);
+			mpos.set(centerX,y+4,centerZ).move(offFacing,2).move(offFacing.rotateRight());
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y,mpos.z);
+
+			mpos.set(centerX,0,centerZ).move(offFacing,4);
+			placeLine(world,rand,placeBookshelf,mpos.x,y+1,mpos.z,mpos.x-offFacing.getX(),y+2,mpos.z-offFacing.getZ());
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,y+3,mpos.z);
+			mpos.move(offFacing.opposite());
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(offFacing.opposite(),false)),mpos.x,y+3,mpos.z);
+			mpos.move(offFacing.opposite());
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(offFacing.opposite(),false)),mpos.x,y+4,mpos.z);
+		}
+		
+		// entrance shelves
+		for(int entrance = 4; entrance <= 5; entrance++){
+			final Connection connection = connections.get(entrance);
+			final Facing4 facing = connection.facing.opposite();
+			
+			switch(rand.nextInt(2)){
+				case 0: // simple bookshelves next to the entrance
+					boolean slabsOnTop = rand.nextBoolean();
+					
+					for(int side = 0; side < 2; side++){
+						mpos.set(x+connection.offsetX,y+1,z+connection.offsetZ).move(facing,4).move(side == 0 ? facing.rotateLeft() : facing.rotateRight(),2);
+						placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x+facing.getX(),mpos.y,mpos.z+facing.getZ());
+						if (slabsOnTop)placeLine(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+1,mpos.z,mpos.x+facing.getX(),mpos.y+1,mpos.z+facing.getZ());
+					}
+					
+					break;
+					
+				case 1: // bookshelves in entrance sides
+					for(int side = 0; side < 2; side++){
+						mpos.set(x+connection.offsetX,y+1,z+connection.offsetZ).move(facing,2).move(side == 0 ? facing.rotateLeft() : facing.rotateRight(),2);
+						placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x+facing.getX(),mpos.y+1,mpos.z+facing.getZ());
+						placeBlock(world,rand,placeStoneBrickPlain,mpos.x,mpos.y+2,mpos.z);
+						placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(facing.opposite(),false)),mpos.x+facing.getX(),mpos.y+2,mpos.z+facing.getZ());
+					}
+					
 					break;
 			}
 		}
