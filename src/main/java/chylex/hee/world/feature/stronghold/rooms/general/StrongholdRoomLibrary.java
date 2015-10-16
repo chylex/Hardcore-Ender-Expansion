@@ -228,15 +228,40 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		// corner torches
 		for(Facing4 facing:Facing4.list){
 			for(int level = 0; level < 3; level++){
-				mpos.set(centerX,4*(level+1),centerZ).move(facing,8).move(facing.rotateRight(),6);
+				mpos.set(centerX,y+4*(level+1),centerZ).move(facing,8).move(facing.rotateRight(),6);
 				placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,mpos.y,mpos.z);
 				world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,new BlockInfo(Blocks.torch,Meta.torchGround));
 				
-				mpos.set(centerX,4*(level+1),centerZ).move(facing,8).move(facing.rotateLeft(),6);
+				mpos.set(centerX,y+4*(level+1),centerZ).move(facing,8).move(facing.rotateLeft(),6);
 				placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,mpos.y,mpos.z);
 				world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,new BlockInfo(Blocks.torch,Meta.torchGround));
 			}
 		}
+		
+		// bottom corner wall shelves
+		offFacing = offLeft.remove(rand.nextInt(offLeft.size()));
+		boolean dirMatches = offFacing == connections.get(0).facing || offFacing == connections.get(1).facing;
+		Facing4 frontFacing = dirMatches ? offFacing : offFacing.rotateRight();
+		
+		mpos.set(centerX,0,centerZ).move(frontFacing,3).move(offFacing = (dirMatches ? offFacing.rotateRight() : offFacing),6);
+		placeLine(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(offFacing,false)),mpos.x,y+1,mpos.z,mpos.x+frontFacing.getX(),y+1,mpos.z+frontFacing.getZ());
+		mpos.move(offFacing);
+		placeCube(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,y+1,mpos.z,mpos.x+offFacing.getX()+frontFacing.getX(),y+1,mpos.z+offFacing.getZ()+frontFacing.getZ());
+		
+		mpos.move(frontFacing,2);
+		placeLine(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(frontFacing,false)),mpos.x,y+2,mpos.z,mpos.x+offFacing.getX(),y+2,mpos.z+offFacing.getZ());
+		mpos.move(frontFacing);
+		placeCube(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,y+2,mpos.z,mpos.x+offFacing.getX()+2*frontFacing.getX(),y+2,mpos.z+offFacing.getZ()+2*frontFacing.getZ());
+		
+		mpos.move(offFacing);
+		placeBlock(world,rand,placeAir,mpos.x,y+4,mpos.z);
+		world.setAttentionWhore(mpos.x,y+5,mpos.z,null);
+		mpos.move(offFacing.opposite(),2).move(frontFacing,2);
+		placeBlock(world,rand,placeAir,mpos.x,y+4,mpos.z);
+		world.setAttentionWhore(mpos.x,y+5,mpos.z,null);
+		
+		placeCube(world,rand,placeBookshelf,mpos.x,y+1,mpos.z,mpos.x-offFacing.getX()-3*frontFacing.getX(),y+4,mpos.z-offFacing.getZ()-3*frontFacing.getZ());
+		placeCube(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,y+5,mpos.z,mpos.x-offFacing.getX()-3*frontFacing.getX(),y+5,mpos.z-offFacing.getZ()-3*frontFacing.getZ());
 		
 		// stairs
 		offFacing = offLeft.get(0);
@@ -253,7 +278,45 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		generateMiddleStairs(world,rand,mpos.x,mpos.y,mpos.z,dirMatch ? offFacing : offFacing.rotateRight(),!dirMatch);
 		
 		// middle floor decorations
-		
+		for(int corner = 0; corner < 4; corner++){
+			Facing4 facing = connections.get(2).facing.rotateLeft();
+			if (corner > 1)facing = facing.opposite();
+			
+			Facing4 sideFacing = corner%2 == 0 ? facing.rotateLeft() : facing.rotateRight();
+			mpos.set(centerX,y+levels[1]+1,centerZ).move(facing,8).move(sideFacing);
+			
+			Pos stairCheck1 = mpos.offset(facing.opposite()).offset(sideFacing,3);
+			Pos stairCheck2 = mpos.offset(facing.opposite(),2).offset(sideFacing,4).getDown();
+			
+			if (world.isAir(stairCheck1.getX(),stairCheck1.getY(),stairCheck1.getZ()) && world.isAir(stairCheck2.getX(),stairCheck2.getY(),stairCheck2.getZ())){
+				switch(rand.nextInt(3)){
+					case 0:
+						mpos.move(sideFacing,2);
+						placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y,mpos.z);
+						mpos.move(sideFacing);
+						placeLine(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(sideFacing,false)),mpos.x,mpos.y,mpos.z,mpos.x-2*facing.getX(),mpos.y,mpos.z-2*facing.getZ());
+						break;
+						
+					case 1:
+						mpos.move(sideFacing,2);
+						placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x+sideFacing.getX(),mpos.y+1,mpos.z+sideFacing.getZ());
+						placeLine(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+2,mpos.z,mpos.x+sideFacing.getX(),mpos.y+2,mpos.z+sideFacing.getZ());
+						mpos.move(sideFacing).move(facing.opposite());
+						placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x-facing.getX(),mpos.y+2,mpos.z-facing.getZ());
+						placeLine(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+3,mpos.z,mpos.x-facing.getX(),mpos.y+3,mpos.z-facing.getZ());
+						break;
+						
+					case 2:
+						mpos.move(sideFacing,2);
+						placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x+sideFacing.getX(),mpos.y,mpos.z+sideFacing.getZ());
+						placeLine(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+1,mpos.z,mpos.x+sideFacing.getX(),mpos.y+1,mpos.z+sideFacing.getZ());
+						mpos.move(sideFacing).move(facing.opposite());
+						placeBlock(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z);
+						placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+1,mpos.z);
+						break;
+				}
+			}
+		}
 	}
 	
 	private void generateFirstFloor(StructureWorld world, Random rand, int x, int y, int z){
@@ -283,12 +346,12 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 			Facing4 sideFacing = connections.get(0).facing.perpendicular();
 			if (side == 1)sideFacing = sideFacing.opposite();
 			
-			mpos.set(centerX,y+1,centerZ).move(sideFacing,5);
+			mpos.set(centerX,y+1,centerZ).move(sideFacing,4);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(sideFacing,true)),mpos.x,mpos.y+4,mpos.z);
 			mpos.move(sideFacing);
-			placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x+sideFacing.getX(),mpos.y+3,mpos.z+sideFacing.getZ());
-			placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,mpos.y+4,mpos.z,mpos.x+sideFacing.getX(),mpos.y+4,mpos.z+sideFacing.getZ());
-			mpos.move(sideFacing,2);
+			placeLine(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z,mpos.x+2*sideFacing.getX(),mpos.y+3,mpos.z+2*sideFacing.getZ());
+			placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,mpos.y+4,mpos.z,mpos.x+2*sideFacing.getX(),mpos.y+4,mpos.z+2*sideFacing.getZ());
+			mpos.move(sideFacing,3);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(sideFacing.opposite(),true)),mpos.x,mpos.y+4,mpos.z);
 		}
 	}
@@ -411,6 +474,7 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 						
 						mpos.set(centerX,y+1,centerZ).move(facing,5).move(sideFacing,4);
 						placeBlock(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,mpos.y,mpos.z);
+						world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,new BlockInfo(Blocks.torch,Meta.torchGround));
 						mpos.move(facing);
 						placeBlock(world,rand,placeBookshelf,mpos.x,mpos.y,mpos.z);
 						placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+1,mpos.z);
@@ -441,6 +505,7 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 						mpos.set(centerX,y+1,centerZ).move(facing,6).move(sideFacing,3);
 						placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y,mpos.z);
 						placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(facing,true)),mpos.x,mpos.y+3,mpos.z);
+						world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,new BlockInfo(Blocks.torch,Meta.getTorch(facing)));
 						mpos.move(facing);
 						placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,mpos.y,mpos.z,mpos.x+facing.getX(),mpos.y+3,mpos.z+facing.getZ());
 						mpos.move(sideFacing);
@@ -588,11 +653,17 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+1,mpos.z);
 		mpos.move(facing);
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+1,mpos.z);
-		mpos.move(facing = rotateRight ? facing.rotateRight() : facing.rotateLeft());
+
+		mpos.move(facing = rotateRight ? facing.rotateLeft() : facing.rotateRight());
+		placeBlock(world,rand,placeAir,mpos.x,mpos.y+1,mpos.z);
+		world.setAttentionWhore(mpos.x,mpos.y+2,mpos.z,BlockInfo.air);
+		
+		mpos.move(facing = facing.opposite(),2);
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+1,mpos.z);
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+2,mpos.z);
 		mpos.move(facing);
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+2,mpos.z);
+		
 		mpos.move(facing = rotateRight ? facing.rotateRight() : facing.rotateLeft());
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+2,mpos.z);
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing,false)),mpos.x,mpos.y+3,mpos.z);
