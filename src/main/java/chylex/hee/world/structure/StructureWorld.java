@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -95,8 +96,11 @@ public final class StructureWorld{
 		return setBlock(x,y,z,Blocks.air,0);
 	}
 	
-	public void setAttentionWhore(int x, int y, int z, BlockInfo info){
-		if (isInside(x,y,z))attentionWhores.put(toIndex(x,y,z),info);
+	public void setAttentionWhore(int x, int y, int z, @Nullable BlockInfo info){
+		if (isInside(x,y,z)){
+			if (info == null)attentionWhores.remove(toIndex(x,y,z));
+			else attentionWhores.put(toIndex(x,y,z),info);
+		}
 	}
 	
 	public boolean setTileEntity(int x, int y, int z, IStructureTileEntity provider){
