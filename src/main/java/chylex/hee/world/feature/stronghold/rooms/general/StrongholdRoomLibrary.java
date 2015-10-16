@@ -2,6 +2,7 @@ package chylex.hee.world.feature.stronghold.rooms.general;
 import java.util.List;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.FlowerPotPlant;
@@ -167,7 +168,7 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		generateSecondFloor(world,rand,x,y+levels[1],z);
 		generateThirdFloor(world,rand,x,y+levels[2],z);
 		
-		// bottom corner content
+		// bottom corner decorations
 		List<Facing4> offLeft = CollectionUtil.newList(Facing4.list);
 		Facing4 offFacing;
 		
@@ -202,15 +203,37 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.flower_pot),mpos.x,y+2,mpos.z);
 		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(rand.nextBoolean() ? FlowerPotPlant.TULIP_WHITE : FlowerPotPlant.DANDELION));
 		
+		Facing4 offFacingPrev = offFacing;
+		Pos posPrev = mpos.immutable();
+		
+		for(int attempt = 0; attempt < 2; attempt++){
+			if (rand.nextInt(4) <= 2){
+				offFacing = attempt == 0 ? offFacing.opposite() : offFacing.rotateRight();
+				mpos.move(offFacing,4);
+				
+				if (world.isAir(mpos.x+2*offFacing.getX(),y+1,mpos.z+2*offFacing.getZ())){
+					placeLine(world,rand,placeBookshelf,mpos.x,y+1,mpos.z,mpos.x+offFacing.getX(),y+2,mpos.z+offFacing.getZ());
+					placeLine(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,y+3,mpos.z,mpos.x+offFacing.getX(),y+3,mpos.z+offFacing.getZ());
+				}
+				else{
+					placeBlock(world,rand,placeBookshelf,mpos.x,y+1,mpos.z);
+					placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,y+2,mpos.z);
+				}
+			}
+			
+			offFacing = offFacingPrev;
+			mpos.set(posPrev);
+		}
+		
 		// corner torches
 		for(Facing4 facing:Facing4.list){
 			for(int level = 0; level < 3; level++){
 				mpos.set(centerX,4*(level+1),centerZ).move(facing,8).move(facing.rotateRight(),6);
-				placeBlock(world,rand,random -> new BlockInfo(Blocks.cobblestone_wall,random.nextInt(7) == 0 ? Meta.cobbleWallMossy : Meta.cobbleWallNormal),mpos.x,mpos.y,mpos.z);
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,mpos.y,mpos.z);
 				world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,new BlockInfo(Blocks.torch,Meta.torchGround));
 				
 				mpos.set(centerX,4*(level+1),centerZ).move(facing,8).move(facing.rotateLeft(),6);
-				placeBlock(world,rand,random -> new BlockInfo(Blocks.cobblestone_wall,random.nextInt(7) == 0 ? Meta.cobbleWallMossy : Meta.cobbleWallNormal),mpos.x,mpos.y,mpos.z);
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,mpos.y,mpos.z);
 				world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,new BlockInfo(Blocks.torch,Meta.torchGround));
 			}
 		}
@@ -228,6 +251,9 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		dirMatch = offFacing == connections.get(2).facing || offFacing == connections.get(3).facing;
 		mpos.set(centerX,y+levels[1],centerZ).move(offFacing,dirMatch ? 4 : 7).move(offFacing.rotateRight(),dirMatch ? 7 : 4);
 		generateMiddleStairs(world,rand,mpos.x,mpos.y,mpos.z,dirMatch ? offFacing : offFacing.rotateRight(),!dirMatch);
+		
+		// middle floor decorations
+		
 	}
 	
 	private void generateFirstFloor(StructureWorld world, Random rand, int x, int y, int z){
@@ -497,10 +523,10 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 	private void generateBottomStairs(StructureWorld world, Random rand, int x, int y, int z, Facing4 facing, boolean rotateRight){
 		PosMutable mpos = new PosMutable();
 		
-		mpos.set(x,y+4,z).move(facing,4).move(facing.rotateLeft(),2);
+		mpos.set(x,y+4,z).move(facing,4).move(rotateRight ? facing.rotateRight() : facing.rotateLeft(),2);
 		placeBlock(world,rand,placeAir,mpos.x,mpos.y,mpos.z);
 		world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,BlockInfo.air);
-		mpos.move(facing.rotateLeft(),2).move(facing.opposite(),2);
+		mpos.move(rotateRight ? facing.rotateRight() : facing.rotateLeft(),2).move(facing.opposite(),2);
 		placeBlock(world,rand,placeAir,mpos.x,mpos.y,mpos.z);
 		world.setAttentionWhore(mpos.x,mpos.y+1,mpos.z,BlockInfo.air);
 		
@@ -529,6 +555,28 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		}
 		
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.dark_oak_stairs,Meta.getStairs(facing.opposite(),true)),mpos.x,mpos.y+5,mpos.z);
+		
+		// bookshelves next to wall
+		mpos.move(rotateRight ? facing.rotateLeft() : facing.rotateRight(),2);
+		
+		switch(rand.nextInt(3)){
+			case 0:
+				placeLine(world,rand,placeBookshelf,mpos.x,mpos.y+6,mpos.z,mpos.x+facing.getX(),mpos.y+7,mpos.z+facing.getZ());
+				placeLine(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+8,mpos.z,mpos.x+facing.getX(),mpos.y+8,mpos.z+facing.getZ());
+				break;
+				
+			case 1:
+				placeLine(world,rand,placeBookshelf,mpos.x,mpos.y+6,mpos.z,mpos.x+facing.getX(),mpos.y+6,mpos.z+facing.getZ());
+				placeLine(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+7,mpos.z,mpos.x+facing.getX(),mpos.y+7,mpos.z+facing.getZ());
+				break;
+				
+			case 2:
+				placeLine(world,rand,placeBookshelf,mpos.x,mpos.y+6,mpos.z,mpos.x+facing.getX(),mpos.y+6,mpos.z+facing.getZ());
+				placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,mpos.y+7,mpos.z);
+				placeBlock(world,rand,placeBookshelf,mpos.x+facing.getX(),mpos.y+7,mpos.z+facing.getZ());
+				placeBlock(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x+facing.getX(),mpos.y+8,mpos.z+facing.getZ());
+				break;
+		}
 	}
 	
 	private void generateMiddleStairs(StructureWorld world, Random rand, int x, int y, int z, Facing4 facing, boolean rotateRight){
