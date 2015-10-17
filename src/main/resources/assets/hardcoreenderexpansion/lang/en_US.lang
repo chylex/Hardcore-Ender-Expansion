@@ -283,9 +283,7 @@ container.charmPouch=Charm Pouch
 container.runeCrafting=Rune Crafting
 container.button.travel=Travel
 
-enhancements.clickSelect=Click to select
-enhancements.clickEnhance=Click to enhance
-enhancements.alreadyEnhanced=Already enhanced
+enhancements.none=No Enhancements
 
 compendium.discoveredObject=Unlocked new Knowledge Object
 compendium.cannotBuy=Cannot buy this object

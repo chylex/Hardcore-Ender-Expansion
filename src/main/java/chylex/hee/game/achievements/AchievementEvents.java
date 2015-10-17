@@ -1,20 +1,11 @@
 package chylex.hee.game.achievements;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
-import net.minecraft.stats.AchievementList;
 import net.minecraftforge.common.MinecraftForge;
-import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.global.QuickSaveFile;
-import chylex.hee.game.save.types.global.QuickSaveFile.IQuickSavefile;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
-import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -22,58 +13,31 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 
-public final class AchievementEvents implements IQuickSavefile{
+public final class AchievementEvents{
 	private static AchievementEvents instance;
 	
 	public static void register(){
 		instance = new AchievementEvents();
 		MinecraftForge.EVENT_BUS.register(instance);
 		FMLCommonHandler.instance().bus().register(instance);
-		QuickSaveFile.addHandler(instance);
 	}
 	
 	public static void addDelayedAchievement(UUID id, Achievement achievement){
 		instance.delayedAchievements.put(id,achievement);
-		SaveData.<QuickSaveFile>global(QuickSaveFile.class).setModified();
 	}
 	
 	private ArrayListMultimap<UUID,Achievement> delayedAchievements = ArrayListMultimap.create();
 
 	private AchievementEvents(){}
-
-	@Override
-	public void onSave(NBTTagCompound nbt){
-		for(UUID id:delayedAchievements.keySet()){
-			List<String> achievements = new ArrayList<>();
-			for(Achievement achievement:delayedAchievements.get(id))achievements.add(achievement.statId);
-			nbt.setString(id.toString(),Joiner.on('|').join(achievements));
-		}
-	}
-
-	@Override
-	public void onLoad(NBTTagCompound nbt){
-		delayedAchievements.clear();
-		
-		for(String key:(Set<String>)nbt.func_150296_c()){
-			for(String achievementId:nbt.getString(key).split("\\|")){
-				for(Achievement achievement:(List<Achievement>)AchievementList.achievementList){
-					if (achievement.statId.equals(achievementId)){
-						delayedAchievements.put(UUID.fromString(key),achievement);
-						break;
-					}
-				}
-			}
-		}
-	}
 	
 	@SubscribeEvent
 	public void onPlayerLoggedIn(PlayerLoggedInEvent e){
 		// TODO if (e.player.dimension == 1 && WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).isDragonDead())e.player.addStat(AchievementManager.GO_INTO_THE_END,1);
 		
-		if (!delayedAchievements.isEmpty() && delayedAchievements.containsKey(e.player.getUniqueID())){
+		/* TODO if (!delayedAchievements.isEmpty() && delayedAchievements.containsKey(e.player.getUniqueID())){
 			for(Achievement achievement:delayedAchievements.removeAll(e.player.getUniqueID()))e.player.addStat(achievement,1);
 			SaveData.<QuickSaveFile>global(QuickSaveFile.class).setModified();
-		}
+		}*/
 	}
 	
 	/* TODO @SubscribeEvent

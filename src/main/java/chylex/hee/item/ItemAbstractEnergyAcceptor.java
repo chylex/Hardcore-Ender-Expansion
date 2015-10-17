@@ -13,17 +13,6 @@ import chylex.hee.system.util.ItemUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 
 public abstract class ItemAbstractEnergyAcceptor extends Item implements IEnergyItem{
-	// TODO
-	/*public static void enhanceCapacity(ItemStack is){
-		int prev = is.getItem().getMaxDamage(), now = is.getMaxDamage();
-		is.setItemDamage(is.getItemDamage()+(now-prev));
-	}
-
-	// TODO
-	public final int calculateMaxDamage(ItemStack is, Enum capacityEnhancement){
-		return EnhancementHandler.hasEnhancement(is,capacityEnhancement) ? MathUtil.ceil(1.5F*super.getMaxDamage(is)) : super.getMaxDamage(is);
-	}*/
-	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
 		NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);

@@ -132,7 +132,7 @@ public class TileEntityLootChest extends TileEntity{
 		this.customName = customName;
 	}
 	
-	public String getInventoryNameIfPresent(){ // TODO test
+	public String getInventoryNameIfPresent(){
 		return customName;
 	}
 }

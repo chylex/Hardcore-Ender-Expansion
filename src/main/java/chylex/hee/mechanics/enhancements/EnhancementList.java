@@ -3,6 +3,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -64,7 +65,7 @@ public class EnhancementList<T extends Enum<T>>{
 	
 	@SideOnly(Side.CLIENT)
 	public void addTooltip(List<String> tooltipList, EnumChatFormatting color){
-		if (map.isEmpty())tooltipList.add(EnumChatFormatting.GRAY+"No Enhancements"); // TODO translate
+		if (map.isEmpty())tooltipList.add(EnumChatFormatting.GRAY+I18n.format("enhancements.none"));
 		else{
 			for(Entry<T,Byte> entry:map.entrySet()){
 				tooltipList.add(color+EnhancementRegistry.getEnhancementName(entry.getKey())+" "+StatCollector.translateToLocal("enchantment.level."+entry.getValue()));

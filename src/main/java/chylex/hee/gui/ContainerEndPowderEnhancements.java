@@ -19,8 +19,6 @@ import chylex.hee.mechanics.enhancements.EnhancementIngredient;
 import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerEndPowderEnhancements extends Container{
 	private final EntityPlayer owner;
@@ -81,22 +79,6 @@ public class ContainerEndPowderEnhancements extends Container{
 		if (!isEnhancingTile() && containerInv.getStackInSlot(0) != null)player.dropPlayerItemWithRandomChoice(containerInv.getStackInSlot(0),false);
 	}
 	
-	@Override
-	public void putStackInSlot(int slot, ItemStack is){
-		super.putStackInSlot(slot,is);
-		
-		if (slot == 0 && isEnhancingTile()){
-			// TODO onSubjectChanged();
-		}
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void putStacksInSlots(ItemStack[] items){
-		super.putStacksInSlots(items);
-		// TODO if (isEnhancingTile())onSubjectChanged();
-	}
-	
 	public boolean isEnhancingTile(){
 		return enhanceableTile != null;
 	}
@@ -119,7 +101,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		return ingredientMap;
 	}
 	
-	public Collection<EnhancementIngredient> getMissingUpgradeIngredients(final EnhancementData<?>.EnhancementInfo info){ // TODO handle larger stacks
+	public Collection<EnhancementIngredient> getMissingUpgradeIngredients(final EnhancementData<?>.EnhancementInfo info){
 		TObjectIntHashMap<EnhancementIngredient> left = getIngredientMap(info,getEnhancements().get(info.getEnhancement())+1);
 		
 		Arrays.stream(owner.inventory.mainInventory).filter(is -> is != null).map(is -> is.copy()).forEach(is -> {
@@ -139,7 +121,7 @@ public class ContainerEndPowderEnhancements extends Container{
 		return left.keySet();
 	}
 	
-	public boolean tryUpgradeEnhancement(final EnhancementData<?>.EnhancementInfo info){ // TODO handle larger stacks
+	public boolean tryUpgradeEnhancement(final EnhancementData<?>.EnhancementInfo info){
 		EnhancementList list = getEnhancements();
 		
 		if (list.get(info.getEnhancement()) >= info.getMaxLevel())return false;

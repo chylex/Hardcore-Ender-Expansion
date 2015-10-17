@@ -38,30 +38,6 @@ public class MiscEvents{
 	}
 	
 	/*
-	 * Silverfish dropping blood
-	 */
-	/* TODO @SubscribeEvent
-	public void onLivingDrops(LivingDropsEvent e){
-		if (e.entity.worldObj.isRemote || !e.recentlyHit)return;
-		
-		if (e.entity.getClass() == EntitySilverfish.class && e.entityLiving.getRNG().nextInt(14-Math.min(e.lootingLevel,4)) == 0){
-			boolean drop = e.entityLiving.getRNG().nextInt(4) == 0;
-			boolean isPlayer = e.source.getEntity() instanceof EntityPlayer;
-			
-			if (!drop && isPlayer){
-				ItemStack held = ((EntityPlayer)e.source.getEntity()).inventory.getCurrentItem();
-				if (held != null && held.getItem() == Items.golden_sword)drop = true;
-			}
-			
-			if (drop){
-				EntityItem item = new EntityItem(e.entity.worldObj,e.entity.posX,e.entity.posY,e.entity.posZ,new ItemStack(ItemList.silverfish_blood));
-				item.delayBeforeCanPickup = 10;
-				e.drops.add(item);
-			}
-		}
-	}*/
-	
-	/*
 	 * Right-clicking on item frame, mob and item with Transference Gem
 	 */
 	/* TODO @SubscribeEvent
