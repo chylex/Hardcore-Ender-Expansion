@@ -57,13 +57,12 @@ public final class SaveData{
 			worldIdentifier = id;
 			
 			File root = DimensionManager.getCurrentSaveRootDirectory();
+			if (root == null)throw new IllegalStateException("Could not determine world save directory!");
 			
-			if (root != null){
-				worldSaveDir = new File(root,"hee2");
-				if (!worldSaveDir.exists())worldSaveDir.mkdirs();
-			}
+			worldSaveDir = new File(root,"hee2");
+			if (!worldSaveDir.exists())worldSaveDir.mkdirs();
 			
-			for(ISaveDataHandler handler:handlers)handler.clear(root);
+			for(ISaveDataHandler handler:handlers)handler.clear(worldSaveDir);
 		}
 	}
 	
