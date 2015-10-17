@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.fx.EntityBigPortalFX;
 import chylex.hee.entity.fx.EntityCustomBubbleFX;
 import chylex.hee.entity.fx.EntityEnderGooFX;
-import chylex.hee.entity.fx.EntityEnergyClusterFX;
+import chylex.hee.entity.fx.EntityEnergyFX;
 import chylex.hee.entity.fx.EntityGlitterFX;
 import chylex.hee.entity.fx.EntityOrbitingPortalFX;
 import chylex.hee.entity.fx.behavior.ParticleBehaviorMoveTo;
@@ -141,7 +141,7 @@ public class FXClientProxy extends FXCommonProxy{
 	public void global(String particleName, double x, double y, double z, double motionX, double motionY, double motionZ, final float red, final float green, final float blue){
 		switch(particleName){
 			case "portal": spawn(new EntityPortalFX(world(),x,y,z,motionX,motionY,motionZ){{ particleRed = red; particleGreen = green; particleBlue = blue; }}); break;
-			case "energy": spawn(new EntityEnergyClusterFX(world(),x,y,z,red,green,blue,motionX,motionY,motionZ)); break;
+			case "energy": spawn(new EntityEnergyFX(world(),x,y,z,red,green,blue,motionX,motionY,motionZ)); break;
 			case "glitter": spawn(new EntityGlitterFX(world(),x,y,z,motionX,motionY,motionZ,red,green,blue)); break;
 			
 			case "magiccrit":
@@ -245,7 +245,7 @@ public class FXClientProxy extends FXCommonProxy{
 		
 		for(int a = 0; a < 3; a++){
 			double motX = (rand.nextDouble()-rand.nextDouble())*0.0002D, motY = (rand.nextDouble()-rand.nextDouble())*0.0002D, motZ = (rand.nextDouble()-rand.nextDouble())*0.0002D;
-			spawn(new EntityEnergyClusterFX(world(),x,y,z,0.6D,0.2D,1D,motX,motY,motZ,0.015F));
+			spawn(new EntityEnergyFX(world(),x,y,z,0.6F,0.2F,1F,motX,motY,motZ,0.015F));
 		}
 	}
 	
@@ -269,7 +269,7 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void energyCluster(TileEntityEnergyCluster cluster){
 		Random rand = cluster.getWorldObj().rand;
-		spawn(new EntityEnergyClusterFX(cluster.getWorldObj(),cluster.xCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.yCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.zCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.getData().get()));
+		spawn(new EntityEnergyFX(cluster.getWorldObj(),cluster.xCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.yCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.zCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.getData().get()));
 	}
 	
 	/*

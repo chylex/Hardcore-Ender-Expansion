@@ -16,7 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.block.sound.SoundTypeSingle;
-import chylex.hee.entity.fx.EntityEnergyClusterFX;
+import chylex.hee.entity.fx.EntityEnergyFX;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.energy.EnergyClusterGenerator;
@@ -92,14 +92,14 @@ public class BlockEnergyCluster extends BlockContainer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean addHitEffects(World world, MovingObjectPosition target, EffectRenderer effectRenderer){
-		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyClusterFX(world,target.blockX+0.5D,target.blockY+0.5D,target.blockZ+0.5D,0D,0D,0D,0D,0D,0D));
+		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyFX(world,target.blockX+0.5D,target.blockY+0.5D,target.blockZ+0.5D,0F,0F,0F,0D,0D,0D));
 		return true;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
-		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyClusterFX(world,x+0.5D,y+0.5D,z+0.5D,0D,0D,0D,0D,0D,0D));
+		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyFX(world,x+0.5D,y+0.5D,z+0.5D,0F,0F,0F,0D,0D,0D));
 		return true;
 	}
 	
