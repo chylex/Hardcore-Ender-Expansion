@@ -12,7 +12,6 @@ import net.minecraft.stats.AchievementList;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.block.EntityBlockEnderCrystal;
-import chylex.hee.entity.block.EntityBlockHomelandCache;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.game.save.SaveData;
@@ -125,7 +124,7 @@ public class HeeAdminCommand extends BaseCommand{
 				
 				switch(args[0]){
 					case "endercrystal": e = new EntityBlockEnderCrystal(player.worldObj); break;
-					case "homelandcache": e = new EntityBlockHomelandCache(player.worldObj); break;
+					// TODO token holder
 				}
 				
 				if (e == null)sendMessage(sender,pre+"Unknown entity.");

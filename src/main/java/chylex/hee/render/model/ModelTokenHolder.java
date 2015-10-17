@@ -7,11 +7,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelHomelandCache extends ModelBase{
+public class ModelTokenHolder extends ModelBase{
 	private final ModelRenderer outside;
 	private float tempRotation;
 	
-	public ModelHomelandCache(){
+	public ModelTokenHolder(){
 		textureWidth = 64;
 		textureHeight = 32;
 		

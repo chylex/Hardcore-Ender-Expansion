@@ -277,11 +277,8 @@ container.accumulationTable=Accumulation Table
 container.extractionTable=Extraction Table
 container.lootChest=Loot Chest
 container.lootChest.editing=Loot Chest (Editing)
-container.endPowderEnhancements=End Powder Enhancements
-container.endPowderEnhancements.bacon=Bacon Powder Enhancements
 container.charmPouch=Charm Pouch
 container.runeCrafting=Rune Crafting
-container.button.travel=Travel
 
 enhancements.none=No Enhancements
 

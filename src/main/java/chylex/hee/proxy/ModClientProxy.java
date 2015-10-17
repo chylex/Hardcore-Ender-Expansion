@@ -22,7 +22,7 @@ import chylex.hee.entity.block.EntityBlockEnderCrystal;
 import chylex.hee.entity.block.EntityBlockEnhancedTNTPrimed;
 import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
 import chylex.hee.entity.block.EntityBlockFallingObsidian;
-import chylex.hee.entity.block.EntityBlockHomelandCache;
+import chylex.hee.entity.block.EntityBlockTokenHolder;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
@@ -47,7 +47,7 @@ import chylex.hee.render.RenderNothing;
 import chylex.hee.render.block.RenderBlockCrossedDecoration;
 import chylex.hee.render.block.RenderBlockEndFlowerPot;
 import chylex.hee.render.block.RenderBlockEnhancedTNTPrimed;
-import chylex.hee.render.block.RenderBlockHomelandCache;
+import chylex.hee.render.block.RenderBlockTokenHolder;
 import chylex.hee.render.block.RenderBlockObsidianSpecial;
 import chylex.hee.render.block.RenderBlockSpookyLeaves;
 import chylex.hee.render.entity.*;
@@ -148,7 +148,7 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockFallingObsidian.class, new RenderFallingBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockFallingDragonEgg.class, new RenderFallingBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockEnhancedTNTPrimed.class, new RenderBlockEnhancedTNTPrimed());
-		RenderingRegistry.registerEntityRenderingHandler(EntityBlockHomelandCache.class, new RenderBlockHomelandCache());
+		RenderingRegistry.registerEntityRenderingHandler(EntityBlockTokenHolder.class, new RenderBlockTokenHolder());
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileFlamingBall.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileMinerShot.class, new RenderNothing());
