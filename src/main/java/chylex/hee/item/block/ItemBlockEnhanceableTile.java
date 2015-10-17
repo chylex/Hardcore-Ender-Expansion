@@ -6,8 +6,10 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -21,6 +23,8 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 		if (super.placeBlockAt(is,player,world,x,y,z,side,hitX,hitY,hitZ,metadata)){
 			IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
 			if (tile != null)tile.getEnhancements().replace(EnhancementRegistry.getEnhancementList(is));
+			
+			FXHelper.create("portal").pos(Pos.at(x,y,z)).fluctuatePos(0.65D).fluctuateMotion(0.1D).spawn(world.rand,12); // TODO look at the beauty
 			return true;
 		}
 		else return false;

@@ -1,4 +1,6 @@
 package chylex.hee.item;
+import java.util.Random;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -6,13 +8,32 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.item.EntityItemEndPowder;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.logging.Log;
 
 public class ItemEndPowder extends ItemAbstractCustomEntity{
+	@Override
+	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
+		if (isHeld && world.isRemote && entity == HardcoreEnderExpansion.proxy.getClientSidePlayer() && ((EntityPlayer)entity).openContainer == null){
+			final byte maxDist = 16;
+			Random rand = world.rand;
+			PosMutable mpos = new PosMutable();
+			
+			for(int attempt = 0; attempt < 200; attempt++){
+				mpos.set(entity).move(rand.nextInt(maxDist*2+1-maxDist),rand.nextInt(maxDist*2+1-maxDist),rand.nextInt(maxDist*2+1-maxDist));
+				
+				if (EnhancementRegistry.canEnhanceBlock(mpos.getBlock(world))){
+					FXHelper.create("portal").pos(mpos).fluctuatePos(0.65D).fluctuateMotion(0.1D).spawn(world.rand,3); // TODO look at the beauty
+				}
+			}
+		}
+	}
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		player.openGui(HardcoreEnderExpansion.instance,4,world,0,-1,0);
