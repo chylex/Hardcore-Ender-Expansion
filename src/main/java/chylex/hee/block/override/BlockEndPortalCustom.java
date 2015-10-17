@@ -4,12 +4,17 @@ import java.util.Random;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.player.StrongholdFile;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.tileentity.TileEntityEndPortalCustom;
 import chylex.hee.world.TeleportHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -43,7 +48,10 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 			
 			if (meta == Meta.endPortalActive){
 				if (entity.timeUntilPortal == 0){
-					if (world.provider.dimensionId == 0)TeleportHandler.toEnd((EntityPlayerMP)entity);
+					if (world.provider.dimensionId == 0){
+						SaveData.player((EntityPlayer)entity,StrongholdFile.class).setPortalPos(findCenterPortalBlock(world,pos));
+						TeleportHandler.toEnd((EntityPlayerMP)entity);
+					}
 					else TeleportHandler.toOverworld((EntityPlayerMP)entity);
 				}
 				
@@ -78,5 +86,21 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 		if (Pos.at(x,y,z).getMetadata(world) == Meta.endPortalActive && rand.nextInt(7) == 0){
 	        world.spawnParticle("smoke",x+rand.nextDouble(),y+0.25D,z+rand.nextDouble(),0D,0D,0D);
 		}
+	}
+	
+	private Pos findCenterPortalBlock(World world, Pos anyPos){
+		PosMutable pos1 = new PosMutable(anyPos), pos2 = new PosMutable(anyPos);
+		
+		while(pos1.move(Facing4.NORTH_NEGZ).getBlock(world) == this);
+		pos1.move(Facing4.SOUTH_POSZ);
+		while(pos1.move(Facing4.WEST_NEGX).getBlock(world) == this);
+		pos1.move(Facing4.EAST_POSX);
+		
+		while(pos2.move(Facing4.SOUTH_POSZ).getBlock(world) == this);
+		pos2.move(Facing4.NORTH_NEGZ);
+		while(pos2.move(Facing4.EAST_POSX).getBlock(world) == this);
+		pos2.move(Facing4.WEST_NEGX);
+		
+		return pos1.offset((pos2.getX()-pos1.getX())/2,anyPos.getY(),(pos2.getZ()-pos1.getX())/2);
 	}
 }
