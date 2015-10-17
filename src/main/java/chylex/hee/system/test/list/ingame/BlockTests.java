@@ -256,7 +256,7 @@ public class BlockTests{
 			new ItemStack(Items.diamond_chestplate),
 			new ItemStack(Items.diamond_chestplate,1,528),
 			new ItemStack(Blocks.planks,4),
-			new ItemStack(ItemList.energy_wand),
+			new ItemStack(ItemList.energy_receptacle),
 			// TODO new ItemStack(BlockList.void_chest),
 			new ItemStack(Blocks.beacon),
 			new ItemStack(Blocks.bedrock)
@@ -314,9 +314,9 @@ public class BlockTests{
 				new ItemStack(BlockList.end_terrain,2,2)
 			},
 			new ItemStack[]{
-				new ItemStack(ItemList.energy_wand),
-				new ItemStack(ItemList.energy_wand),
-				new ItemStack(ItemList.energy_wand)
+				new ItemStack(ItemList.energy_receptacle),
+				new ItemStack(ItemList.energy_receptacle),
+				new ItemStack(ItemList.energy_receptacle)
 			},
 			new ItemStack[]{
 				new ItemStack(BlockList.endium_block,64)

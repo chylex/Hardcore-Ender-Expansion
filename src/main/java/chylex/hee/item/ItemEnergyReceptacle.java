@@ -1,20 +1,86 @@
 package chylex.hee.item;
 import java.util.List;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import chylex.hee.game.achievements.AchievementManager;
+import chylex.hee.init.BlockList;
+import chylex.hee.mechanics.energy.EnergyClusterData;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.ItemUtil;
+import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemEnergyWand extends Item{
+public class ItemEnergyReceptacle extends Item{
+	private static final float updateEnergyLevel(float lvl, float limit, int cycles){
+		float lossPerCycle = (float)Math.pow(limit,0.001D)-1F;
+		return Math.max(lvl-lossPerCycle*cycles,0F);
+	}
+	
+	@Override
+	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
+		if (!world.isRemote && ItemUtil.getTagRoot(is,false).hasKey("cluster")){
+			NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
+			long prevTime = nbt.getLong("ltime"), currentTime = world.getTotalWorldTime();
+			
+			if (currentTime-prevTime >= 10){
+				NBTTagCompound clusterTag = nbt.getCompoundTag("cluster");
+				float lvl = clusterTag.getFloat("lvl");
+				float limit = clusterTag.getFloat("max");
+				
+				clusterTag.setFloat("lvl",updateEnergyLevel(lvl,limit,1));
+				nbt.setLong("ltime",currentTime);
+			}
+		}
+	}
+	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		if (player.isSneaking() && !world.isRemote){
+		if (!world.isRemote){
+			Pos pos = Pos.at(x,y,z);
+			
+			if (ItemUtil.getTagRoot(is,false).hasKey("cluster")){
+				if (side > 0)pos = pos.offset(side);
+				if (!player.canPlayerEdit(pos.getX(),pos.getY(),pos.getZ(),side,is) || !pos.isAir(world))return false;
+				
+				NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
+				pos.setBlock(world,BlockList.energy_cluster);
+				
+				TileEntityEnergyCluster tile = pos.getTileEntity(world);
+				tile.readTileFromNBT(nbt);
+				
+				EnergyClusterData data = tile.getData().get();
+				if (data.getEnergyLevel()-nbt.getFloat("origlvl") >= Math.pow(data.getMaxLevel(),0.015D)+0.01D)data.weaken();
+				
+				tile.synchronize();
+				
+				nbt.removeTag("cluster");
+				nbt.removeTag("ltime");
+				nbt.removeTag("origlvl");
+			}
+			else if (pos.getBlock(world) == BlockList.energy_cluster){
+				NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
+				NBTTagCompound clusterTag = new NBTTagCompound();
+				TileEntityEnergyCluster cluster = pos.getTileEntity(world);
+				
+				cluster.writeTileToNBT(clusterTag);
+				cluster.shouldNotExplode = true;
+				pos.breakBlock(world,false);
+				
+				nbt.setTag("cluster",clusterTag);
+				nbt.setFloat("origlvl",clusterTag.getFloat("lvl"));
+				nbt.setLong("ltime",world.getTotalWorldTime());
+			}
+			
+			return true;
+		}
+
+		//if (player.isSneaking() && !world.isRemote){
 			/* TODO if (ItemUtil.getTagRoot(is,false).hasKey("cluster")){
 				BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
 				if (side > 0)tmpPos.move(side);
@@ -66,20 +132,22 @@ public class ItemEnergyWand extends Item{
 				
 				return true;
 			}*/
-		}
+		//}
 		
 		return false;
 	}
 	
 	@Override
-	public void onCreated(ItemStack is, World world, EntityPlayer player){
-		player.addStat(AchievementManager.ENERGY_WAND,1);
-	}
-	
-	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack is, EntityPlayer player, List textLines, boolean showAdvancedInfo){
-		if (ItemUtil.getTagRoot(is,false).hasKey("cluster"))textLines.add(I18n.format("item.energyWand.info.holding").replace("$",DragonUtil.formatTwoPlaces.format(ItemUtil.getTagSub(is,"cluster",false).getFloat("lvl"))));
+		NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
+		
+		if (nbt.hasKey("cluster")){
+			float lvl = nbt.getCompoundTag("cluster").getFloat("lvl");
+			float limit = nbt.getCompoundTag("cluster").getFloat("max");
+			long diff = player.worldObj.getTotalWorldTime()-nbt.getLong("ltime");
+			textLines.add(I18n.format("item.energyReceptacle.holding").replace("$",DragonUtil.formatTwoPlaces.format(updateEnergyLevel(lvl,limit,(int)(diff/10)))));
+		}
 	}
 	
 	@Override

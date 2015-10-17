@@ -52,7 +52,7 @@ public final class AchievementManager{
 		/* 21 */ SCORCHING_PICKAXE = addAchievement(21, "scorchingPickaxe", 8, 2, ItemList.scorching_pickaxe, BIOME_BURNING_MOUNTAINS),
 		/* 17 */ BIOME_ENCHANTED_ISLAND = addAchievement(17, "biomeEnchantedIsland", 6, 5, BlockList.end_terrain, 2, null),
 		/* 22 */ TRANSFERENCE_GEM = addAchievement(22, "transferenceGem", 8, 4, ItemList.transference_gem, BIOME_ENCHANTED_ISLAND),
-		/* 23 */ ENERGY_WAND = addAchievement(23, "energyWand", 8, 5, ItemList.energy_wand, 1, BIOME_ENCHANTED_ISLAND),
+		/* 23 */ ENERGY_WAND = addAchievement(23, "energyWand", 8, 5, ItemList.energy_receptacle, 1, BIOME_ENCHANTED_ISLAND),
 		
 		/*  0 */ CHALLENGE_HARD0DEATHS = addChallenge(0, "hard0Deaths", "hard"),
 		/*  1 */ CHALLENGE_BEDEXPLODE = addChallenge(1, "bedExplode", "mediumorhard"),

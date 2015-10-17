@@ -75,6 +75,10 @@ public final class EnergyClusterData{
 		return health;
 	}
 	
+	public void weaken(){
+		health = EnergyClusterHealth.values[MathUtil.clamp(health.ordinal()+1,0,EnergyClusterHealth.values.length-1)];
+	}
+	
 	public boolean drainUnit(){
 		return drainUnits(1);
 	}

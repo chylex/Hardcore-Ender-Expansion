@@ -76,7 +76,7 @@ public final class ItemList{
 	public static Item charm_pouch;
 	public static Item charm;
 	public static Item scorching_pickaxe;
-	public static Item energy_wand;
+	public static Item energy_receptacle;
 	// TODO SANCTUARY public static Item sacred_wand;
 	
 	// WORLD
@@ -134,7 +134,7 @@ public final class ItemList{
 		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
 		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
 		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe"));
-		register("energy_wand", energy_wand = new ItemEnergyWand().setMaxStackSize(1).setUnlocalizedName("energyWand").setTextureName("hardcoreenderexpansion:energy_wand"));
+		register("energy_receptacle", energy_receptacle = new ItemEnergyReceptacle().setMaxStackSize(1).setUnlocalizedName("energyReceptacle").setTextureName("hardcoreenderexpansion:energy_receptacle"));
 		// TODO SANCTUARY register("sacred_wand", sacred_wand = new ItemSacredWand().setMaxStackSize(1).setMaxDamage(860).setNoRepair().setUnlocalizedName("sacredWand").setTextureName("hardcoreenderexpansion:sacred_wand"));
 		
 		register("knowledge_note", knowledge_note = new ItemKnowledgeNote().setMaxStackSize(1).setUnlocalizedName("knowledgeNote").setTextureName("hardcoreenderexpansion:knowledge_fragment"));
@@ -159,7 +159,7 @@ public final class ItemList{
 			blank_gem,spatial_dash_gem,transference_gem,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
 			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,curse_amulet,
-			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_wand,
+			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_receptacle,
 			enderman_head,bucket_ender_goo,knowledge_note,
 			// TODO SANCTUARY sacred_wand,sacred_wand_cores,
 			music_disk,exp_bottle,spawn_eggs

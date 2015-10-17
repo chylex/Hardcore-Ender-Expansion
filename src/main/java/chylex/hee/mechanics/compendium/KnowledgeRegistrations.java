@@ -206,7 +206,7 @@ public final class KnowledgeRegistrations{
 		OBSIDIAN_ROD = create(ItemList.obsidian_rod),
 		AURICION = create(ItemList.auricion),
 		ENERGY_WAND_CORE = create(ItemList.energy_wand_core),
-		ENERGY_WAND = create(ItemList.energy_wand),
+		ENERGY_WAND = create(ItemList.energy_receptacle),
 		ENDER_GUARDIAN = create(EntityMobEnderGuardian.class),
 		ENDERMAGE = create(EntityMobEndermage.class);
 	
@@ -1098,7 +1098,7 @@ public final class KnowledgeRegistrations{
 			OBSIDIAN_ROD.setPos(4,15).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(830).setPrice(7).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(831).setRecipeFromRegistry(new ItemStack(ItemList.obsidian_rod)).setPrice(5).setUnlockRequirements(830).setUnlockCascade(821),
-				new KnowledgeFragmentCrafting(832).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setNonBuyableRedirect(ENERGY_WAND) // 851
+				new KnowledgeFragmentCrafting(832).setRecipeFromRegistry(new ItemStack(ItemList.energy_receptacle)).setNonBuyableRedirect(ENERGY_WAND) // 851
 			}),
 			
 			AURICION.setPos(12,15).setUnlockPrice(7).setDiscoveryReward(12).addFragments(new KnowledgeFragment[]{
@@ -1110,12 +1110,12 @@ public final class KnowledgeRegistrations{
 			ENERGY_WAND_CORE.setPos(10,15).setUnlockPrice(7).setDiscoveryReward(5).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(840).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(841).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand_core)).setPrice(7).setUnlockRequirements(840).setUnlockCascade(872),
-				new KnowledgeFragmentCrafting(842).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setNonBuyableRedirect(ENERGY_WAND) // 851
+				new KnowledgeFragmentCrafting(842).setRecipeFromRegistry(new ItemStack(ItemList.energy_receptacle)).setNonBuyableRedirect(ENERGY_WAND) // 851
 			}),
 			
 			ENERGY_WAND.setPos(7,15).setUnlockPrice(35).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(850).setPrice(7).setUnlockOnDiscovery(),
-				new KnowledgeFragmentCrafting(851).setRecipeFromRegistry(new ItemStack(ItemList.energy_wand)).setPrice(10).setUnlockRequirements(850).setUnlockCascade(832,842),
+				new KnowledgeFragmentCrafting(851).setRecipeFromRegistry(new ItemStack(ItemList.energy_receptacle)).setPrice(10).setUnlockRequirements(850).setUnlockCascade(832,842),
 				new KnowledgeFragmentText(852).setPrice(7).setUnlockRequirements(850),
 				new KnowledgeFragmentText(853).setPrice(5).setUnlockRequirements(852)
 			}),
