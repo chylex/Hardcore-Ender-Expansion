@@ -101,6 +101,6 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 		while(pos2.move(Facing4.EAST_POSX).getBlock(world) == this);
 		pos2.move(Facing4.WEST_NEGX);
 		
-		return pos1.offset((pos2.getX()-pos1.getX())/2,anyPos.getY(),(pos2.getZ()-pos1.getX())/2);
+		return pos1.offset((pos2.getX()-pos1.getX())/2,0,(pos2.getZ()-pos1.getZ())/2);
 	}
 }

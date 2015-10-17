@@ -1,6 +1,7 @@
 package chylex.hee.world;
 import java.util.Optional;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
@@ -23,6 +24,8 @@ public class TeleportHandler extends Teleporter{
 			Pos portalPos = lastPortal.get();
 			player.playerNetServerHandler.setPlayerLocation(portalPos.getX()+0.5D,portalPos.getY(),portalPos.getZ()+0.5D,player.rotationYaw,0F);
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player,0,new TeleportHandler(player.getServerForPlayer()));
+			player.mcServer.getConfigurationManager().transferPlayerToDimension(player,0,new TeleportHandler(player.getServerForPlayer()));
+			// hey server, I would actually like to teleport the player, like, genuinely teleport them, you cunt
 		}
 		else{
 			player.worldObj.removeEntity(player);
@@ -45,6 +48,8 @@ public class TeleportHandler extends Teleporter{
 	public void placeInPortal(Entity entity, double x, double y, double z, float yaw){
 		entity.setLocationAndAngles(x,y,z,yaw,0F);
 		entity.motionX = entity.motionY = entity.motionZ = 0D;
+		entity.fallDistance = 0F;
+		if (entity instanceof EntityPlayer)((EntityPlayer)entity).addExperienceLevel(0);
 	}
 	
 	@Override
