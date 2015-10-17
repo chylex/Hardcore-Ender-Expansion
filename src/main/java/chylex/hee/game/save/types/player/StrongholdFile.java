@@ -27,6 +27,6 @@ public class StrongholdFile extends PlayerFile{
 
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
-		portalPos = Pos.at(nbt.getLong("portal"));
+		portalPos = nbt.hasKey("portal") ? Pos.at(nbt.getLong("portal")) : null;
 	}
 }
