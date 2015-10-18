@@ -1,6 +1,7 @@
 package chylex.hee.world.feature.stronghold.rooms.decorative;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
@@ -55,11 +56,9 @@ public class StrongholdRoomArches extends StrongholdRoom{
 		}
 		
 		// cobble walls
-		int wallMeta = rand.nextInt(7) == 0 ? Meta.cobbleWallMossy : Meta.cobbleWallNormal;
-		
 		for(int cornerX = 0; cornerX < 2; cornerX++){
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.cobblestone_wall,wallMeta),x+3+4*cornerX,y+1,z+3+4*cornerZ);
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),x+3+4*cornerX,y+1,z+3+4*cornerZ);
 				placeBlock(world,rand,IBlockPicker.basic(Blocks.torch,Meta.torchGround),x+3+4*cornerX,y+2,z+3+4*cornerZ);
 			}
 		}

@@ -71,7 +71,10 @@ public class StrongholdRoomRelicFountains extends StrongholdRoom{
 				placeBlock(world,rand,placeStoneBrickStairs(entranceFrom,true),mpos.x,y+7,mpos.z);
 				placeBlock(world,rand,placeStoneBrickStairs(sideFacing,true),mpos.x-sideFacing.getX(),y+7,mpos.z-sideFacing.getZ());
 				
-				mpos.move(entranceFrom,2);
+				mpos.move(entranceFrom);
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.ethereal_lantern),mpos.x+sideFacing.getX(),y+7,mpos.z+sideFacing.getZ());
+				
+				mpos.move(entranceFrom);
 				placeBlock(world,rand,placeStoneBrickStairs(entranceFrom.opposite(),true),mpos.x,y+7,mpos.z);
 				placeBlock(world,rand,placeStoneBrickStairs(sideFacing,true),mpos.x-sideFacing.getX(),y+7,mpos.z-sideFacing.getZ());
 			}

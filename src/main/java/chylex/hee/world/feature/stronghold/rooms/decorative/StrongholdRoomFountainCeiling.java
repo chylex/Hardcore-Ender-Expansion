@@ -1,7 +1,7 @@
 package chylex.hee.world.feature.stronghold.rooms.decorative;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import chylex.hee.system.abstractions.BlockInfo;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
@@ -38,7 +38,7 @@ public class StrongholdRoomFountainCeiling extends StrongholdRoom{
 		mpos.move(centerX,0,centerZ).move(facing,3).move(facing = facing.rotateRight(),3);
 		
 		for(int cycle = 0; cycle < 2; cycle++){
-			placeBlock(world,rand,random -> new BlockInfo(Blocks.cobblestone_wall,random.nextInt(3) == 0 ? Meta.cobbleWallMossy : Meta.cobbleWallNormal),mpos.x,y+3,mpos.z);
+			placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,y+3,mpos.z);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.torch,Meta.torchGround),mpos.x,y+4,mpos.z);
 			if (cycle == 0)mpos.move(facing.rotateRight(),6).move(facing.rotateRight(2),6);
 		}

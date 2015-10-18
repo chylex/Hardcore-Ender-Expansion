@@ -88,7 +88,7 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	
 	private static final void generateLoot(WeightedLootTable lootTable, int items, int cobwebs, TileEntityChest chest, Random rand){
 		while(items-- > 0){
-			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),WorldGenStronghold.lootGeneral.generateWeighted(null,rand));
+			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),lootTable.generateWeighted(null,rand));
 		}
 		
 		for(int slot; cobwebs > 0; cobwebs--){
@@ -102,11 +102,11 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	};
 	
 	protected static final IStructureTileEntity generateLootLibraryMain = (tile, rand) -> {
-		generateLoot(WorldGenStronghold.lootLibrary,RandomAmount.linear.generate(rand,8,9),2+rand.nextInt(2),(TileEntityChest)tile,rand);
+		generateLoot(WorldGenStronghold.lootLibrary,RandomAmount.linear.generate(rand,9,11),2+rand.nextInt(2),(TileEntityChest)tile,rand);
 	};
 	
 	protected static final IStructureTileEntity generateLootLibrarySecondary = (tile, rand) -> {
-		generateLoot(WorldGenStronghold.lootLibrary,RandomAmount.aroundCenter.generate(rand,3,5),4+rand.nextInt(3),(TileEntityChest)tile,rand);
+		generateLoot(WorldGenStronghold.lootLibrary,RandomAmount.aroundCenter.generate(rand,4,6),4+rand.nextInt(3),(TileEntityChest)tile,rand);
 	};
 	
 	public StrongholdPiece(Type type, Size size){

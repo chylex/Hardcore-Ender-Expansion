@@ -66,7 +66,7 @@ public class StrongholdRoomChestStraight extends StrongholdRoom{
 		for(int cornerX = 0; cornerX < 2; cornerX++){
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
 				placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),x+2+6*cornerX,y+maxY-1,z+2+6*cornerZ);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.glowstone),x+2+6*cornerX,y+maxY-2,z+2+6*cornerZ); // TODO new light block
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.ethereal_lantern),x+2+6*cornerX,y+maxY-2,z+2+6*cornerZ);
 			}
 		}
 	}

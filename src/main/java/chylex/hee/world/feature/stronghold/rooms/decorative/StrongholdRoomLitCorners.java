@@ -2,6 +2,7 @@ package chylex.hee.world.feature.stronghold.rooms.decorative;
 import java.util.Arrays;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.abstractions.Pos.PosMutable;
@@ -41,24 +42,24 @@ public class StrongholdRoomLitCorners extends StrongholdRoom{
 		for(int cornerX = 0; cornerX < 2; cornerX++){
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
 				mpos.set(x+1+6*cornerX,0,z+1+6*cornerZ);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.glowstone),mpos.x,y+1,mpos.z); // light TODO change block
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.glowstone),mpos.x,y+maxY-1,mpos.z); // light TODO change block
-				placeLine(world,rand,IBlockPicker.basic(Blocks.stained_glass,Meta.getColor(glassColor)),mpos.x,y+2,mpos.z,mpos.x,y+maxY-2,mpos.z); // glass
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.ethereal_lantern),mpos.x,y+1,mpos.z);
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.ethereal_lantern),mpos.x,y+maxY-1,mpos.z);
+				placeLine(world,rand,IBlockPicker.basic(Blocks.stained_glass,Meta.getColor(glassColor)),mpos.x,y+2,mpos.z,mpos.x,y+maxY-2,mpos.z);
 			}
 		}
 		
 		for(Facing4 facingCycle:Facing4.list){
 			mpos.set(centerX,0,centerZ).move(facingCycle,3).move(facingCycle.rotateRight(),2);
-			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),false),mpos.x,y+1,mpos.z); // bottom
-			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),true),mpos.x,y+maxY-1,mpos.z); // top
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),false),mpos.x,y+1,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),true),mpos.x,y+maxY-1,mpos.z);
 			
 			mpos.move(facingCycle.opposite());
-			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),false),mpos.x,y+1,mpos.z); // bottom
-			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),true),mpos.x,y+maxY-1,mpos.z); // top
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),false),mpos.x,y+1,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle.rotateRight(),true),mpos.x,y+maxY-1,mpos.z);
 			
 			mpos.move(facingCycle.rotateRight());
-			placeBlock(world,rand,placeStoneBrickStairs(facingCycle,false),mpos.x,y+1,mpos.z); // bottom
-			placeBlock(world,rand,placeStoneBrickStairs(facingCycle,true),mpos.x,y+maxY-1,mpos.z); // top
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle,false),mpos.x,y+1,mpos.z);
+			placeBlock(world,rand,placeStoneBrickStairs(facingCycle,true),mpos.x,y+maxY-1,mpos.z);
 		}
 	}
 }
