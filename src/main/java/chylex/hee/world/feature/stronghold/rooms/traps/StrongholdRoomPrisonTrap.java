@@ -25,8 +25,8 @@ import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.IBlockPicker;
 import chylex.hee.world.structure.util.IStructureTileEntity;
-import chylex.hee.world.util.Size;
 import chylex.hee.world.util.BoundingBox;
+import chylex.hee.world.util.Size;
 
 public class StrongholdRoomPrisonTrap extends StrongholdRoom{
 	public static StrongholdRoomPrisonTrap[] generatePrisons(){
@@ -102,6 +102,11 @@ public class StrongholdRoomPrisonTrap extends StrongholdRoom{
 		
 		IStructureTileEntity skullTile = Meta.generateSkullGround(rand.nextInt(3) == 0 ? Skull.ZOMBIE : Skull.SKELETON,posStart,posStart.offset(facing.rotateRight()).offset(skullCorner ? facing : facing.opposite()));
 		world.setTileEntity(posStart.x,y+1,posStart.z,skullTile);
+		
+		// chest
+		posStart.move(skullCorner ? facing : facing.opposite(),7);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),posStart.x,y+1,posStart.z);
+		world.setTileEntity(posStart.x,y+1,posStart.z,Meta.generateChest(facing.rotateRight(),generateLootGeneral));
 	}
 	
 	public static class TriggerPrisonSilverfish extends TriggerBase{

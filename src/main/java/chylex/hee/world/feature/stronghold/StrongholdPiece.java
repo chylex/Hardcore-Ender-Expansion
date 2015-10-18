@@ -8,6 +8,7 @@ import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.WorldGenStronghold;
 import chylex.hee.world.loot.WeightedLootTable;
 import chylex.hee.world.structure.StructureWorld;
@@ -111,5 +112,14 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	
 	public StrongholdPiece(Type type, Size size){
 		super(type,size);
+	}
+	
+	@Override
+	public int calculateInstWeight(int availableConnections){
+		return type == Type.ROOM ? 2*getWeightFactor(availableConnections) : type == Type.CORRIDOR ? getWeightFactor(availableConnections) : 0;
+	}
+	
+	protected static final int getWeightFactor(int availableConnections){
+		return MathUtil.ceil(Math.pow(availableConnections,1.5D));
 	}
 }

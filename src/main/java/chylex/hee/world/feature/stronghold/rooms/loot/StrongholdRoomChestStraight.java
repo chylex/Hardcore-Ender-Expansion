@@ -3,6 +3,7 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
@@ -38,6 +39,12 @@ public class StrongholdRoomChestStraight extends StrongholdRoom{
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
 				placeLine(world,rand,placeStoneBrick,x+1+8*cornerX,y+1,z+1+8*cornerZ,x+1+8*cornerX,y+4,z+1+8*cornerZ);
 			}
+		}
+		
+		for(Connection connection:connections){
+			PosMutable mpos = new PosMutable(x+connection.offsetX,0,z+connection.offsetZ).move(connection.facing.opposite());
+			Facing4 perpendicular = connection.facing.perpendicular();
+			placeLine(world,rand,placeAir,mpos.x-perpendicular.getX(),y+1,mpos.z-perpendicular.getZ(),mpos.x+perpendicular.getX(),y+1,mpos.z+perpendicular.getZ());
 		}
 		
 		// floor separation

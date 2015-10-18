@@ -126,4 +126,9 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 			mpos.move(facing,1);
 		}
 	}
+	
+	@Override
+	public int calculateInstWeight(int availableConnections){
+		return 3*getWeightFactor(availableConnections);
+	}
 }
