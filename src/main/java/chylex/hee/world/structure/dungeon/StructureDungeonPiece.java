@@ -68,6 +68,13 @@ public abstract class StructureDungeonPiece{
 		return parentArray;
 	}
 	
+	/**
+	 * Used by a piece instance to calculate the weight for choosing the next source piece. Must return 0 if there are no available connections. 
+	 */
+	public int calculateInstWeight(int availableConnections){
+		return availableConnections;
+	}
+	
 	public abstract void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, final int x, final int y, final int z);
 	
 	public final class Connection{

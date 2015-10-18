@@ -54,7 +54,7 @@ public class StructureDungeonPieceInst implements IWeightProvider{
 	
 	@Override
 	public int getWeight(){
-		return availableConnections.size();
+		return piece.calculateInstWeight(availableConnections.size());
 	}
 	
 	public void clearArea(StructureWorld world, Random rand){
