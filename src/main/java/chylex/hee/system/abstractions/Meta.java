@@ -234,7 +234,7 @@ public final class Meta{
 		
 		return (tile, rand) -> {
 			tile.getWorldObj().setBlockMetadataWithNotify(tile.xCoord,tile.yCoord,tile.zCoord,meta,3);
-			((TileEntityChest)tile).adjacentChestChecked = true;
+			if (tile instanceof TileEntityChest)((TileEntityChest)tile).adjacentChestChecked = true;
 			if (call != null)call.generateTile(tile,rand);
 		};
 	}
