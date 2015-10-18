@@ -54,6 +54,7 @@ public interface IDamageModifier{
 		
 		magicDamage = (amount, target, source, postProcessors) -> {
 			source.setMagicDamage();
+			source.damageType = "magic";
 			return amount;
 		},
 		

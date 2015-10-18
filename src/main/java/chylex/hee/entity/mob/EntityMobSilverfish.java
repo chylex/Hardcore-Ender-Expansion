@@ -112,7 +112,7 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	
 	@Override
 	public boolean attackEntityAsMob(Entity target){
-		if (Damage.hostileMob(this).addModifiers(IDamageModifier.rapidDamage(5),IDamageModifier.overrideKnockback(0.25F+rand.nextFloat()*0.25F)).deal(target)){
+		if (Damage.vanillaMob(this).addModifiers(IDamageModifier.rapidDamage(5),IDamageModifier.overrideKnockback(0.25F+rand.nextFloat()*0.25F)).deal(target)){
 			if (rand.nextInt(4) == 0 && worldObj.getEntitiesWithinAABB(EntitySilverfish.class,boundingBox.expand(12D,6D,12D)).stream().anyMatch(mob -> mob != this && ((EntitySilverfish)mob).getAttackTarget() == target)){
 				List<EntityLivingBase> targets = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(4D,4D,4D));
 				targets = targets.stream().filter(entity -> entity.getDistanceSqToEntity(this) <= 64D && getEntitySenses().canSee(entity)).collect(Collectors.toList());

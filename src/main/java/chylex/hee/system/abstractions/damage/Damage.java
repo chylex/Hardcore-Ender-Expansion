@@ -14,7 +14,7 @@ public final class Damage implements IDamage{
 		return new Damage(amount);
 	}
 	
-	public static Damage hostileMob(EntityMob cause){
+	public static Damage vanillaMob(EntityMob cause){
 		return new Damage((float)cause.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue())
 			.addModifiers(IDamageModifier.peacefulExclusion,IDamageModifier.difficultyScaling)
 			.addModifiers(IDamageModifier.armorProtection,IDamageModifier.enchantmentProtection,IDamageModifier.potionProtection)
