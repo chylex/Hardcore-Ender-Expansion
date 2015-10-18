@@ -215,6 +215,7 @@ public final class Meta{
 					break;
 			}
 			
+			Pos.at(tile).setMetadata(tile.getWorldObj(),meta);
 			((TileEntityFlowerPot)tile).func_145964_a(Item.getItemFromBlock(block),meta);
 		};
 	}
