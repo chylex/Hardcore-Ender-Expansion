@@ -169,6 +169,7 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		generateThirdFloor(world,rand,x,y+levels[2],z);
 		
 		// bottom corner decorations
+		int bottomChest = rand.nextInt(2); // 0 = work table, 1 = wall shelves
 		List<Facing4> offLeft = CollectionUtil.newList(Facing4.list);
 		Facing4 offFacing;
 		
@@ -197,6 +198,12 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		placeLine(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(offFacing,true)),mpos.x,y+1,mpos.z,mpos.x+2*offFacing.rotateLeft().getX(),y+1,mpos.z+2*offFacing.rotateLeft().getZ());
 		mpos.move(offFacing.rotateLeft(),2).move(offFacing);
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(offFacing.rotateRight(),true)),mpos.x,y+1,mpos.z);
+		
+		if (bottomChest == 0){
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,y+2,mpos.z);
+			world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(offFacing.opposite(),generateLootLibrarySecondary));
+		}
+		
 		mpos.move(offFacing = offFacing.rotateRight());
 		placeLine(world,rand,IBlockPicker.basic(Blocks.planks,Meta.planksSpruce),mpos.x,y+1,mpos.z,mpos.x+offFacing.getX(),y+1,mpos.z+offFacing.getZ());
 		mpos.move(offFacing);
@@ -262,6 +269,11 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		
 		placeCube(world,rand,placeBookshelf,mpos.x,y+1,mpos.z,mpos.x-offFacing.getX()-3*frontFacing.getX(),y+4,mpos.z-offFacing.getZ()-3*frontFacing.getZ());
 		placeCube(world,rand,IBlockPicker.basic(Blocks.wooden_slab,Meta.slabWoodSpruceBottom),mpos.x,y+5,mpos.z,mpos.x-offFacing.getX()-3*frontFacing.getX(),y+5,mpos.z-offFacing.getZ()-3*frontFacing.getZ());
+		
+		if (bottomChest == 1){
+			placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,y+4,mpos.z);
+			world.setTileEntity(mpos.x,y+4,mpos.z,Meta.generateChest(offFacing,generateLootLibrarySecondary));
+		}
 		
 		// stairs
 		offFacing = offLeft.get(0);
@@ -451,6 +463,20 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 					break;
 			}
 		}
+		
+		// chest
+		Facing4 offFacing = connections.get(2).facing.perpendicular();
+		if (rand.nextBoolean())offFacing = offFacing.opposite();
+		Facing4 chestFacing = rand.nextBoolean() ? offFacing.rotateLeft() : offFacing.rotateRight();
+		
+		mpos.set(centerX,y+2,centerZ).move(offFacing,8);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,mpos.y,mpos.z);
+		world.setTileEntity(mpos.x,mpos.y,mpos.z,Meta.generateChest(chestFacing,generateLootLibraryMain));
+		placeBlock(world,rand,placeAir,mpos.x,mpos.y+1,mpos.z);
+		
+		mpos.move(chestFacing.opposite());
+		placeLine(world,rand,placeBookshelf,mpos.x,mpos.y-1,mpos.z,mpos.x,mpos.y+1,mpos.z);
+		placeBlock(world,rand,IBlockPicker.basic(Blocks.spruce_stairs,Meta.getStairs(chestFacing,false)),mpos.x,mpos.y+2,mpos.z);
 	}
 	
 	private void generateThirdFloor(StructureWorld world, Random rand, int x, int y, int z){

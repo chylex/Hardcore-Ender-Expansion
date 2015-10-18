@@ -4,7 +4,6 @@ import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
-import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
@@ -97,9 +96,9 @@ public class StrongholdRoomRelicHell extends StrongholdRoom{
 				
 				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,19).move(sideFacing);
 				placeBlock(world,rand,placeStoneBrickPlain,mpos.x,py,mpos.z);
-				placeLine(world,rand,IBlockPicker.basic(Blocks.obsidian),mpos.x+entranceFrom.getX(),py,mpos.z+entranceFrom.getZ(),mpos.x+3*entranceFrom.getX(),py,mpos.z+3*entranceFrom.getZ());
+				placeLine(world,rand,IBlockPicker.basic(Blocks.obsidian),mpos.x+entranceFrom.getX(),py,mpos.z+entranceFrom.getZ(),mpos.x+4*entranceFrom.getX(),py,mpos.z+4*entranceFrom.getZ());
 				mpos.move(sideFacing);
-				placeLine(world,rand,placeStoneBrickPlain,mpos.x,py,mpos.z,mpos.x+3*entranceFrom.getX(),py,mpos.z+3*entranceFrom.getZ());
+				placeLine(world,rand,placeStoneBrickPlain,mpos.x,py,mpos.z,mpos.x+4*entranceFrom.getX(),py,mpos.z+4*entranceFrom.getZ());
 				
 				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,23).move(sideFacing);
 				placeLine(world,rand,IBlockPicker.basic(Blocks.obsidian),mpos.x,y+2,mpos.z,mpos.x,y+5,mpos.z);
@@ -114,9 +113,6 @@ public class StrongholdRoomRelicHell extends StrongholdRoom{
 		
 		// relic chest and glass for lighting
 		mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,23);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stained_glass,Meta.getColor(BlockColor.GRAY)),mpos.x,y+1,mpos.z);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stained_glass,Meta.getColor(BlockColor.GRAY)),mpos.x+left.getX(),y+1,mpos.z+left.getZ());
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stained_glass,Meta.getColor(BlockColor.GRAY)),mpos.x+right.getX(),y+1,mpos.z+right.getZ());
 		placeBlock(world,rand,IBlockPicker.basic(BlockList.loot_chest),mpos.x,y+2,mpos.z);
 		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(entranceFrom.opposite(),null)); // TODO loot
 	}

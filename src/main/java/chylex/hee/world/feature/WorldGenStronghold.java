@@ -32,7 +32,6 @@ import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorChest;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorDoubleChest;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorIntersection;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorStraight;
-import chylex.hee.world.feature.stronghold.corridors.StrongholdEndWallDecorations;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdStairsStraight;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdStairsVertical;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorGrates;
@@ -66,23 +65,32 @@ public class WorldGenStronghold implements IWorldGenerator{
 	private static final int maxDistance = 144/16;
 	private static final Random checkRand = new Random();
 	
-	public static final WeightedLootTable loot = new WeightedLootTable();
+	public static final WeightedLootTable lootGeneral = new WeightedLootTable();
+	public static final WeightedLootTable lootLibrary = new WeightedLootTable();
 	
 	static{
-		loot.addLoot(Items.iron_ingot).setAmount(1,5).setWeight(100);
-		loot.addLoot(ItemList.ethereum).setAmount(1,2).setWeight(95);
-		loot.addLoot(Items.gold_ingot).setAmount(1,3).setWeight(92);
-		loot.addLoot(Items.rotten_flesh).setAmount(1,4).setWeight(82);
-		loot.addLoot(Items.leather).setAmount(1,6,RandomAmount.aroundCenter).setWeight(80);
-		loot.addLoot(ItemList.knowledge_note).setAmount(1).setWeight(72);
-		loot.addLoot(Items.book).setAmount(1).setWeight(70);
-		loot.addLoot(Blocks.obsidian).setAmount(2,3).setWeight(58);
-		loot.addLoot(Items.bowl).setAmount(1,3,RandomAmount.preferSmaller).setWeight(40);
-		loot.addLoot(Items.string).setAmount(1,3).setWeight(36);
-		loot.addLoot(Items.dye).setDamage(Meta.getDye(BlockColor.BLACK)).setAmount(1).setWeight(30);
-		loot.addLoot(Items.glass_bottle).setAmount(1).setWeight(22);
-		loot.addLoot(Items.potionitem).setAmount(1).setWeight(22);
-		loot.addLoot(Items.diamond).setAmount(1,2).setWeight(14);
+		lootGeneral.addLoot(Items.iron_ingot).setAmount(1,5).setWeight(100);
+		lootGeneral.addLoot(ItemList.ethereum).setAmount(1,2).setWeight(95);
+		lootGeneral.addLoot(Items.gold_ingot).setAmount(1,3).setWeight(92);
+		lootGeneral.addLoot(Items.rotten_flesh).setAmount(1,4).setWeight(82);
+		lootGeneral.addLoot(Items.ender_pearl).setAmount(1).setWeight(80);
+		lootGeneral.addLoot(Items.leather).setAmount(1,6,RandomAmount.aroundCenter).setWeight(76);
+		lootGeneral.addLoot(ItemList.knowledge_note).setAmount(1).setWeight(72); // TODO add processor
+		lootGeneral.addLoot(Items.book).setAmount(1).setWeight(70);
+		lootGeneral.addLoot(Blocks.obsidian).setAmount(2,3).setWeight(58);
+		lootGeneral.addLoot(Items.bowl).setAmount(1,3,RandomAmount.preferSmaller).setWeight(40);
+		lootGeneral.addLoot(Items.string).setAmount(1,3).setWeight(36);
+		lootGeneral.addLoot(Items.dye).setDamage(Meta.getDye(BlockColor.BLACK)).setAmount(1).setWeight(30);
+		lootGeneral.addLoot(Items.glass_bottle).setAmount(1).setWeight(22);
+		lootGeneral.addLoot(Items.potionitem).setAmount(1).setWeight(22);
+		lootGeneral.addLoot(Items.diamond).setAmount(1,2).setWeight(14);
+		
+		lootLibrary.addLoot(Items.paper).setAmount(1,3).setWeight(50);
+		lootLibrary.addLoot(Items.book).setAmount(1,2).setWeight(45);
+		lootLibrary.addLoot(ItemList.knowledge_note).setAmount(1).setWeight(42); // TODO add processor
+		lootLibrary.addLoot(ItemList.ancient_dust).setAmount(1,2).setWeight(36);
+		lootLibrary.addLoot(Items.compass).setAmount(1).setWeight(22);
+		lootLibrary.addLoot(Items.map).setAmount(1).setWeight(20);
 	}
 	
 	public static Optional<ChunkCoordIntPair> findNearestStronghold(int chunkX, int chunkZ, World world){
@@ -183,13 +191,19 @@ public class WorldGenStronghold implements IWorldGenerator{
 				//pieces.add(new StrongholdRoomEndPortal());
 				//pieces.add(new StrongholdRoomWorkshop());
 				//pieces.add(new StrongholdRoomChestIntersection());
-				//pieces.addAll(StrongholdRoomRelicHell.generateRelicRooms());
 				//pieces.add(new StrongholdRoomClusterPillar());
 				//pieces.add(new StrongholdRoomClusterFloating());
 				//pieces.add(new StrongholdRoomClusterIntersection());
 				//pieces.addAll(StrongholdRoomChestPool.generateRooms());
 				//pieces.addAll(StrongholdEndWaterfall.generateDeadEnds());
-				pieces.addAll(StrongholdEndWallDecorations.generateDeadEnds());
+				//pieces.addAll(StrongholdEndWallDecorations.generateDeadEnds());
+				//pieces.addAll(StrongholdRoomScriptorium.generateScriptoriums());
+				//pieces.add(new StrongholdRoomClusterWaterfall());
+				//pieces.addAll(StrongholdRoomLibrary.generateLibraries());
+				//pieces.add(new StrongholdRoomLibrary(false));
+				
+				pieces.addAll(StrongholdRoomRelicFountains.generateRelicRooms());
+				//pieces.addAll(StrongholdRoomRelicHell.generateRelicRooms());
 				
 				/*pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
 				pieces.addAll(StrongholdCorridorIntersection.generateCorners());
@@ -207,7 +221,6 @@ public class WorldGenStronghold implements IWorldGenerator{
 				pieces.addAll(StrongholdCorridorDoubleChest.generateCorridors());
 				
 				pieces.addAll(StrongholdRoomRelicDungeon.generateRelicRooms());
-				pieces.addAll(StrongholdRoomRelicFountains.generateRelicRooms());
 				
 				pieces.add(new StrongholdRoomLargeIntersectionTrap());
 				pieces.addAll(StrongholdRoomPrisonTrap.generatePrisons());

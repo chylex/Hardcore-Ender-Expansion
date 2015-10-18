@@ -29,7 +29,7 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 	@Override
 	public void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, final int x, final int y, final int z){
 		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
-		PosMutable mpos = new PosMutable(); // TODO lava behind bars
+		PosMutable mpos = new PosMutable();
 		
 		// box
 		placeCube(world,rand,placeStoneBrick,x,y+maxY,z,x+maxX,y+maxY,z+maxZ); // ceiling
@@ -114,13 +114,13 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 			}
 			
 			mpos.move(perpendicular,4);
-			placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom windows
+			placeCube(world,rand,IBlockPicker.basic(Blocks.flowing_lava),mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom windows
 			mpos.move(facing,-1);
 			placeBlock(world,rand,random -> new BlockInfo(Blocks.iron_bars),mpos.x,y+2,mpos.z); // iron bar
 			mpos.move(facing,1);
 			
 			mpos.move(perpendicular,-8);
-			placeCube(world,rand,placeAir,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom windows
+			placeCube(world,rand,IBlockPicker.basic(Blocks.flowing_lava),mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom windows
 			mpos.move(facing,-1);
 			placeBlock(world,rand,random -> new BlockInfo(Blocks.iron_bars),mpos.x,y+2,mpos.z); // iron bar
 			mpos.move(facing,1);
