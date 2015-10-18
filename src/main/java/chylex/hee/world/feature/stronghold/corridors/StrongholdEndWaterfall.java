@@ -60,7 +60,7 @@ public class StrongholdEndWaterfall extends StrongholdPieceGeneric{
 		
 		for(int chest = 0; chest < 2; chest++){
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,chest == 0 ? y+1 : y+3,mpos.z);
-			world.setTileEntity(mpos.x,chest == 0 ? y+1 : y+3,mpos.z,Meta.generateChest(entranceFrom.opposite(),generateLoot));
+			world.setTileEntity(mpos.x,chest == 0 ? y+1 : y+3,mpos.z,Meta.generateChest(entranceFrom.opposite(),generateLootGeneral));
 		}
 	}
 }

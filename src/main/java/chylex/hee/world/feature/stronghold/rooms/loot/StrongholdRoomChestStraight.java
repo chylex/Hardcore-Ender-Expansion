@@ -60,7 +60,7 @@ public class StrongholdRoomChestStraight extends StrongholdRoom{
 		placeCube(world,rand,placeStoneBrick,centerX-1,y+5,centerZ-1,centerX+1,y+5,centerZ+1);
 		
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),centerX,y+6,centerZ);
-		world.setTileEntity(centerX,y+6,centerZ,Meta.generateChest(rand.nextBoolean() ? ladderFacing : ladderFacing.opposite(),generateLoot));
+		world.setTileEntity(centerX,y+6,centerZ,Meta.generateChest(rand.nextBoolean() ? ladderFacing : ladderFacing.opposite(),generateLootGeneral));
 		
 		// top floor lights
 		for(int cornerX = 0; cornerX < 2; cornerX++){

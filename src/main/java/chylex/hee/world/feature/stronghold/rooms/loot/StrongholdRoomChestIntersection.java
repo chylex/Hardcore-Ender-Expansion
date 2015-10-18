@@ -80,7 +80,7 @@ public class StrongholdRoomChestIntersection extends StrongholdRoom{
 			if (!world.isAir(mpos.x,y+2,mpos.z))continue;
 			
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,y+2,mpos.z);
-			world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(offFacing.opposite(),generateLoot));
+			world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(offFacing.opposite(),generateLootGeneral));
 		}
 		
 		FlowerPotPlant[] plants = new FlowerPotPlant[]{

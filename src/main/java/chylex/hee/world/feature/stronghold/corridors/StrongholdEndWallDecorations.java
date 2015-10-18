@@ -71,7 +71,7 @@ public class StrongholdEndWallDecorations extends StrongholdPieceGeneric{
 		}
 		
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,y+2,mpos.z);
-		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(chestOffFacing.opposite(),generateLoot));
+		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(chestOffFacing.opposite(),generateLootGeneral));
 		
 		// skull
 		Facing4 skullOffFacing = chestPos == 2 ? chestOffFacing.opposite() : (rand.nextBoolean() ? chestOffFacing : chestOffFacing.opposite());

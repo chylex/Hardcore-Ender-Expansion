@@ -9,6 +9,7 @@ import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.WorldGenStronghold;
+import chylex.hee.world.loot.WeightedLootTable;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
 import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorSpreading.ISpreadingGeneratorPieceType;
@@ -85,17 +86,27 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		}
 	}
 	
-	protected static final IStructureTileEntity generateLoot = (tile, rand) -> {
-		TileEntityChest chest = (TileEntityChest)tile;
-		
-		for(int items = RandomAmount.aroundCenter.generate(rand,3,10); items > 0; items--){
-			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),WorldGenStronghold.loot.generateWeighted(null,rand));
+	private static final void generateLoot(WeightedLootTable lootTable, int items, int cobwebs, TileEntityChest chest, Random rand){
+		while(items-- > 0){
+			chest.setInventorySlotContents(rand.nextInt(chest.getSizeInventory()),WorldGenStronghold.lootGeneral.generateWeighted(null,rand));
 		}
 		
-		for(int cobwebs = rand.nextInt(7), slot; cobwebs > 0; cobwebs--){
+		for(int slot; cobwebs > 0; cobwebs--){
 			slot = rand.nextInt(chest.getSizeInventory());
 			if (chest.getStackInSlot(slot) == null)chest.setInventorySlotContents(slot,new ItemStack(rand.nextInt(3) == 0 ? BlockList.ancient_web : Blocks.web));
 		}
+	}
+	
+	protected static final IStructureTileEntity generateLootGeneral = (tile, rand) -> {
+		generateLoot(WorldGenStronghold.lootGeneral,RandomAmount.aroundCenter.generate(rand,3,10),rand.nextInt(7),(TileEntityChest)tile,rand);
+	};
+	
+	protected static final IStructureTileEntity generateLootLibraryMain = (tile, rand) -> {
+		generateLoot(WorldGenStronghold.lootLibrary,RandomAmount.linear.generate(rand,8,9),2+rand.nextInt(2),(TileEntityChest)tile,rand);
+	};
+	
+	protected static final IStructureTileEntity generateLootLibrarySecondary = (tile, rand) -> {
+		generateLoot(WorldGenStronghold.lootLibrary,RandomAmount.aroundCenter.generate(rand,3,5),4+rand.nextInt(3),(TileEntityChest)tile,rand);
 	};
 	
 	public StrongholdPiece(Type type, Size size){

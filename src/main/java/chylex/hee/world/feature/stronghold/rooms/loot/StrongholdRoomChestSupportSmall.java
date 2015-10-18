@@ -138,6 +138,6 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 	
 	private void placeChest(StructureWorld world, Random rand, Pos pos, Facing4 facing){
 		world.setBlock(pos.getX(),pos.getY(),pos.getZ(),Blocks.chest);
-		world.setTileEntity(pos.getX(),pos.getY(),pos.getZ(),Meta.generateChest(facing,generateLoot));
+		world.setTileEntity(pos.getX(),pos.getY(),pos.getZ(),Meta.generateChest(facing,generateLootGeneral));
 	}
 }
