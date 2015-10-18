@@ -51,15 +51,15 @@ public class StrongholdRoomChestStraight extends StrongholdRoom{
 		placeCube(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),x+2,y+4,z+2,x+maxX-2,y+4,z+maxZ-2);
 		
 		// ladders
-		Facing4 ladderFacing = dirX ? Facing4.NORTH_NEGZ : Facing4.WEST_NEGX;
+		Facing4 vineFacing = dirX ? Facing4.NORTH_NEGZ : Facing4.WEST_NEGX;
 		
-		for(int ladderSide = 0; ladderSide < 2; ladderSide++){
-			for(int ladderY = 0; ladderY < 4; ladderY++){
-				placeBlock(world,rand,placeStoneBrick,centerX+4*ladderFacing.getX(),y+1+ladderY,centerZ+4*ladderFacing.getZ());
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.ladder,Meta.getLadder(ladderFacing)),centerX+3*ladderFacing.getX(),y+1+ladderY,centerZ+3*ladderFacing.getZ());
+		for(int vineSide = 0; vineSide < 2; vineSide++){
+			for(int vineY = 0; vineY < 4; vineY++){
+				placeBlock(world,rand,placeStoneBrick,centerX+4*vineFacing.getX(),y+1+vineY,centerZ+4*vineFacing.getZ());
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.dry_vine,Meta.getVine(vineFacing)),centerX+3*vineFacing.getX(),y+1+vineY,centerZ+3*vineFacing.getZ());
 			}
 			
-			if (ladderSide == 0)ladderFacing = ladderFacing.opposite();
+			if (vineSide == 0)vineFacing = vineFacing.opposite();
 		}
 		
 		// top floor chest
@@ -67,7 +67,7 @@ public class StrongholdRoomChestStraight extends StrongholdRoom{
 		placeCube(world,rand,placeStoneBrick,centerX-1,y+5,centerZ-1,centerX+1,y+5,centerZ+1);
 		
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),centerX,y+6,centerZ);
-		world.setTileEntity(centerX,y+6,centerZ,Meta.generateChest(rand.nextBoolean() ? ladderFacing : ladderFacing.opposite(),generateLootGeneral));
+		world.setTileEntity(centerX,y+6,centerZ,Meta.generateChest(rand.nextBoolean() ? vineFacing : vineFacing.opposite(),generateLootGeneral));
 		
 		// top floor lights
 		for(int cornerX = 0; cornerX < 2; cornerX++){
