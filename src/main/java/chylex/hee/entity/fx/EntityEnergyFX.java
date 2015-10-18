@@ -102,6 +102,9 @@ public class EntityEnergyFX extends EntityFX{
 		
 		float left = indexX*0.25F, right = left+0.25F,
 			  top = indexY*0.25F, bottom = top+0.25F,
+		      x = (float)(prevPosX+(posX-prevPosX)*partialTickTime-interpPosX),
+		      y = (float)(prevPosY+(posY-prevPosY)*partialTickTime-interpPosY),
+		      z = (float)(prevPosZ+(posZ-prevPosZ)*partialTickTime-interpPosZ);
 		
 		GL11.glPushMatrix();
 		GL11.glDepthMask(false);
@@ -135,4 +138,3 @@ public class EntityEnergyFX extends EntityFX{
 		return 3;
 	}
 }
-
