@@ -59,6 +59,7 @@ public final class BlockList{
 	// BUILDING BLOCKS
 	
 	public static Block stone_brick_wall;
+	public static Block ethereal_lantern;
 	public static Block gloomrock;
 	public static Block gloomrock_smooth_slab;
 	public static Block gloomrock_smooth_stairs;
@@ -139,6 +140,7 @@ public final class BlockList{
 		FluidRegistry.registerFluid(BlockEnderGoo.fluid);
 		
 		register("stone_brick_wall", stone_brick_wall = new BlockStoneBrickWall().setBlockName("stoneBrickWall"));
+		register("ethereal_lantern", ethereal_lantern = new BlockBasic(Material.glass).setHardness(0.5F).setResistance(0.25F).setLightLevel(1F).setBlockName("etherealLantern").setBlockTextureName("hardcoreenderexpansion:ethereal_lantern"));
 		register("gloomrock", gloomrock = new BlockGloomrock().setHardness(5F).setResistance(7F).setStepSound(Block.soundTypeStone).setBlockName("gloomrock"));
 		register("gloomrock_smooth_slab", gloomrock_smooth_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.Meta.SMOOTH.value).setBlockName("gloomrockSmoothSlab"));
 		register("gloomrock_smooth_stairs", gloomrock_smooth_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.Meta.SMOOTH.value).setBlockName("gloomrockSmoothStairs"));
@@ -238,7 +240,7 @@ public final class BlockList{
 		
 		ModCreativeTab.tabMain.list.addBlocks(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
-			gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,
+			ethereal_lantern,gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,
 			essence_altar,decomposition_table,experience_table,accumulation_table,extraction_table,loot_chest,
 			end_powder_ore,endium_ore,stardust_ore,igneous_rock_ore,instability_orb_ore,energy_cluster,
 			endium_block,
