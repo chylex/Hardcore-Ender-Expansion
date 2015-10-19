@@ -55,7 +55,7 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 		setCanHideInBlocks(true);
 		
 		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
-		targetTasks.addTask(2,new EntityAIRandomTarget(this,EntityPlayer.class,true,true));
+		targetTasks.addTask(2,new EntityAIRandomTarget(this,EntityPlayer.class,true).setPredicate(EntityAIRandomTarget.noCreativeMode));
 		
 		experienceValue = 3;
 	}
@@ -93,7 +93,7 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	
 	@Override
 	public void onUpdate(){
-		if (worldObj.isRemote)rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,rotationYawHead,30F);
+		if (worldObj.isRemote)rotationYaw = DragonUtil.rotateSmoothly(rotationYaw,rotationYawHead,30F); // TODO fix rotation somehow
 		super.onUpdate();
 	}
 	
@@ -117,7 +117,7 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 				List<EntityLivingBase> targets = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(4D,4D,4D));
 				targets = targets.stream().filter(entity -> entity.getDistanceSqToEntity(this) <= 64D && getEntitySenses().canSee(entity)).collect(Collectors.toList());
 				
-				if (!targets.isEmpty())setAttackTarget(targets.get(rand.nextInt(targets.size())));
+				if (!targets.isEmpty())setAttackTarget(targets.get(rand.nextInt(targets.size()))); // TODO test in multiplayer
 			}
 			
 			return true;
