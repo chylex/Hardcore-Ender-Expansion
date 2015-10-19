@@ -135,7 +135,7 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 		
 		final List<StructureDungeonPieceInst> pieces = new ArrayList<>(corridorAmount);
 		final WeightedList<StructureDungeonPieceArray> corridorsAvailable = new WeightedList<>(corridors);
-		final TObjectIntHashMap<StructureDungeonPieceArray> corridorCount = new TObjectIntHashMap<>(corridorAmount);
+		final TObjectIntHashMap<StructureDungeonPieceArray> corridorCount = new TObjectIntHashMap<>(corridorAmount,Constants.DEFAULT_LOAD_FACTOR,0);
 		
 		for(int index = 0; index < corridorAmount && corridorsAvailable.getTotalWeight() > 0; index++){
 			final StructureDungeonPieceInst targetPieceInst = index == 0 ? startPiece : pieces.get(index-1);
@@ -147,7 +147,9 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 				if (attempt == 50)return null;
 				
 				StructureDungeonPieceArray nextArray = corridorsAvailable.getRandomItem(rand);
+				
 				if (isDoor(nextArray) && !((index == 0 || index == corridorAmount-1) && ((ISpreadingGeneratorPieceType)targetPieceInst.piece.type).isRoom()))continue;
+				if (corridorCount.get(nextArray) >= nextArray.amount.max)continue;
 				
 				Pair<StructureDungeonPiece,Connection> nextPiece = findSuitablePiece(nextArray,targetConnection.facing,targetPieceInst.piece.type,rand);
 				
@@ -161,10 +163,15 @@ public class DungeonGeneratorSpreading extends StructureDungeonGenerator{
 						if (index > 0)targetPieceInst.useConnection(targetConnection);
 						
 						pieces.add(inst);
+						corridorCount.adjustOrPutValue(nextArray,1,1);
 						break;
 					}
 				}
 			}
+		}
+		
+		for(StructureDungeonPieceArray corridorArray:corridors){
+			if (!corridorArray.amount.in(corridorCount.get(corridorArray)))return null;
 		}
 		
 		if (pieces.size() == corridorAmount){
