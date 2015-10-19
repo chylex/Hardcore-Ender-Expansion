@@ -1,26 +1,43 @@
 package chylex.hee.entity.mob.ai;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
+import net.minecraft.entity.player.EntityPlayer;
 
-public class EntityAIRandomTarget extends EntityAITarget{
-	private final Class<? extends EntityLivingBase> targetClass;
-	private EntityLivingBase currentTarget;
+public class EntityAIRandomTarget<T extends EntityLivingBase> extends EntityAITarget{
+	public static final Predicate<EntityPlayer> noCreativeMode = player -> {
+		return !player.capabilities.isCreativeMode;
+	};
 	
-	public EntityAIRandomTarget(EntityCreature owner, Class<? extends EntityLivingBase> targetClass, boolean checkSight, boolean nearbyOnly){
-		super(owner,checkSight,nearbyOnly);
+	private final Class<T> targetClass;
+	private EntityLivingBase currentTarget;
+	private Predicate<T> predicate;
+	
+	public EntityAIRandomTarget(EntityCreature owner, Class<T> targetClass, boolean checkSight){
+		super(owner,checkSight,false);
 		this.targetClass = targetClass;
 		setMutexBits(1);
+	}
+	
+	public EntityAIRandomTarget setPredicate(Predicate<T> predicate){
+		this.predicate = predicate;
+		return this;
 	}
 
 	@Override
 	public boolean shouldExecute(){
 		double maxDist = getTargetDistance();
 		
-		List<EntityLivingBase> entities = taskOwner.worldObj.getEntitiesWithinAABB(targetClass,taskOwner.boundingBox.expand(maxDist,maxDist*0.5D,maxDist));
-		entities = entities.stream().filter(entity -> entity.getDistanceSqToEntity(taskOwner) <= maxDist*maxDist).collect(Collectors.toList());
+		List<T> entities = taskOwner.worldObj.getEntitiesWithinAABB(targetClass,taskOwner.boundingBox.expand(maxDist,maxDist*0.5D,maxDist));
+		
+		Stream<T> stream = entities.stream().filter(entity -> entity.getDistanceSqToEntity(taskOwner) <= maxDist*maxDist);
+		if (predicate != null)stream = stream.filter(predicate);
+		
+		entities = stream.collect(Collectors.toList());
 		if (entities.isEmpty())return false;
 		
 		currentTarget = entities.get(taskOwner.worldObj.rand.nextInt(entities.size()));
