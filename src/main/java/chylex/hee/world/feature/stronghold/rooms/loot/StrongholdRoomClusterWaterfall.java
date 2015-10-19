@@ -34,7 +34,7 @@ public class StrongholdRoomClusterWaterfall extends StrongholdRoom{
 		
 		// floor and cluster
 		placeOutline(world,rand,placeStoneBrick,x+2,y+2,z+2,x+maxX-2,y+2,z+maxZ-2,1);
-		placeOutline(world,rand,IBlockPicker.basic(Blocks.flowing_water),x+3,y+2,z+3,x+maxX-3,y+2,z+maxZ-3,2);
+		placeOutline(world,rand,placeWater,x+3,y+2,z+3,x+maxX-3,y+2,z+maxZ-3,2);
 		placeCube(world,rand,placeStoneBrick,centerX-3,y+2,centerZ-3,centerX+3,y+2,centerZ+3);
 		
 		placeOutline(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneSmoothBottom),centerX-1,y+3,centerZ-1,centerX+1,y+3,centerZ+1,1);
@@ -52,7 +52,7 @@ public class StrongholdRoomClusterWaterfall extends StrongholdRoom{
 			
 			for(int off = 0; off < 2; off++){
 				final Facing4 offFacing = off == 0 ? facing.rotateLeft() : facing.rotateRight();
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_water),centerX+7*facing.getX()+3*offFacing.getX(),y+maxY-2,centerZ+7*facing.getZ()+3*offFacing.getZ());
+				placeBlock(world,rand,placeWater,centerX+7*facing.getX()+3*offFacing.getX(),y+maxY-2,centerZ+7*facing.getZ()+3*offFacing.getZ());
 			}
 			
 			if (connections.stream().anyMatch(connection -> connection.facing == facing)){
@@ -61,7 +61,7 @@ public class StrongholdRoomClusterWaterfall extends StrongholdRoom{
 				placeCube(world,rand,placeAir,centerX+7*facing.getX()-perpendicular.getX(),y+3,centerZ+7*facing.getZ()-perpendicular.getZ(),centerX+7*facing.getX()+perpendicular.getX(),y+5,centerZ+7*facing.getZ()+perpendicular.getZ());
 			}
 			else{
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_water),centerX+7*facing.getX(),y+maxY-2,centerZ+7*facing.getZ());
+				placeBlock(world,rand,placeWater,centerX+7*facing.getX(),y+maxY-2,centerZ+7*facing.getZ());
 			}
 		}
 	}

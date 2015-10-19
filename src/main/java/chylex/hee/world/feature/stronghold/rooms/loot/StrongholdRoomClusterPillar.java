@@ -25,8 +25,8 @@ public class StrongholdRoomClusterPillar extends StrongholdRoom{
 		final int centerX = x+maxX/2, centerZ = z+maxZ/2;
 		
 		// floor and ceiling patterns
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),centerX,y,centerZ);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),centerX,y+maxY,centerZ);
+		placeBlock(world,rand,placeStoneBrickChiseled,centerX,y,centerZ);
+		placeBlock(world,rand,placeStoneBrickChiseled,centerX,y+maxY,centerZ);
 		
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y+maxY,centerZ,2,false,true);
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y+maxY,centerZ,1,true,true);
@@ -43,7 +43,7 @@ public class StrongholdRoomClusterPillar extends StrongholdRoom{
 		}
 		
 		// pillar and cluster
-		placeLine(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),centerX,y+1,centerZ,centerX,y+maxY-1,centerZ);
+		placeLine(world,rand,placeStoneBrickWall,centerX,y+1,centerZ,centerX,y+maxY-1,centerZ);
 		placeBlock(world,rand,IBlockPicker.basic(BlockList.energy_cluster),centerX,y+2,centerZ);
 		
 		world.setTileEntity(centerX,y+2,centerZ,(tile, random) -> {

@@ -26,7 +26,7 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		int centerX = x+maxX/2, centerZ = z+maxZ/2;
 		
 		// floors
-		IBlockPicker placeFloorLine = rand.nextInt(4) == 0 ? IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled) : placeStoneBrickPlain;
+		IBlockPicker placeFloorLine = rand.nextInt(4) == 0 ? placeStoneBrickChiseled : placeStoneBrickPlain;
 		IBlockPicker placeDoubleStoneSlab = IBlockPicker.basic(Blocks.double_stone_slab,Meta.slabStoneSmoothDouble);
 		
 		for(int level = 0, py; level < 2; level++){
@@ -125,7 +125,7 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		// water and internal blockage
 		mpos.set(centerX,0,centerZ);
 		mpos.move(facing,5).move(facing = facing.rotateRight(),5);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_water),mpos.x,y+maxY-1,mpos.z);
+		placeBlock(world,rand,placeWater,mpos.x,y+maxY-1,mpos.z);
 		
 		for(int block = 0; block < 3; block++){
 			mpos.move(facing = facing.rotateRight());

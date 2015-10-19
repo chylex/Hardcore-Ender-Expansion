@@ -30,7 +30,7 @@ public class StrongholdRoomFountainCeiling extends StrongholdRoom{
 		// ceiling
 		placeOutline(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneSmoothTop),centerX-2,y+maxY-1,centerZ-2,centerX+2,y+maxY-1,centerZ+2,1);
 		placeCube(world,rand,placeStoneBrickPlain,centerX-1,y+maxY-1,centerZ-1,centerX+1,y+maxY-1,centerZ+1);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_water),centerX,y+maxY-2,centerZ);
+		placeBlock(world,rand,placeWater,centerX,y+maxY-2,centerZ);
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y+maxY-2,centerZ,1,true,true);
 		
 		// corner walls
@@ -38,7 +38,7 @@ public class StrongholdRoomFountainCeiling extends StrongholdRoom{
 		mpos.move(centerX,0,centerZ).move(facing,3).move(facing = facing.rotateRight(),3);
 		
 		for(int cycle = 0; cycle < 2; cycle++){
-			placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,y+3,mpos.z);
+			placeBlock(world,rand,placeStoneBrickWall,mpos.x,y+3,mpos.z);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.torch,Meta.torchGround),mpos.x,y+4,mpos.z);
 			if (cycle == 0)mpos.move(facing.rotateRight(),6).move(facing.rotateRight(2),6);
 		}

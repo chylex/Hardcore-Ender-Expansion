@@ -64,7 +64,7 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	};
 	
 	protected static final IBlockPicker placeStoneBrickPlain = blocksStoneBrick[0];
-	protected static final IBlockPicker placeAir = BlockInfo.air;
+	protected static final IBlockPicker placeStoneBrickChiseled = new BlockInfo(Blocks.stonebrick,Meta.stoneBrickChiseled);
 	
 	protected static final IBlockPicker placeStoneBrickStairs(Facing4 ascendsTowards, boolean flip){
 		return new BlockInfo(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTowards,flip));

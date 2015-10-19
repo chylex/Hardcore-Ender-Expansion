@@ -54,7 +54,7 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 				// slabs in portal corners
 				placeBlock(world,rand,placeSlabBottom,x+7+4*cornerX,y,z+7+4*cornerZ);
 				// walls in corners
-				placeLine(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),x+3+12*cornerX,y+1,z+3+12*cornerZ,x+3+12*cornerX,y+5,z+3+12*cornerZ);
+				placeLine(world,rand,placeStoneBrickWall,x+3+12*cornerX,y+1,z+3+12*cornerZ,x+3+12*cornerX,y+5,z+3+12*cornerZ);
 			}
 		}
 		
@@ -114,13 +114,13 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 			}
 			
 			mpos.move(perpendicular,4);
-			placeCube(world,rand,IBlockPicker.basic(Blocks.flowing_lava),mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom windows
+			placeCube(world,rand,placeLava,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom windows
 			mpos.move(facing,-1);
 			placeBlock(world,rand,random -> new BlockInfo(Blocks.iron_bars),mpos.x,y+2,mpos.z); // iron bar
 			mpos.move(facing,1);
 			
 			mpos.move(perpendicular,-8);
-			placeCube(world,rand,IBlockPicker.basic(Blocks.flowing_lava),mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom windows
+			placeCube(world,rand,placeLava,mpos.x-perX,y+1,mpos.z-perZ,mpos.x+perX,y+3,mpos.z+perZ); // bottom windows
 			mpos.move(facing,-1);
 			placeBlock(world,rand,random -> new BlockInfo(Blocks.iron_bars),mpos.x,y+2,mpos.z); // iron bar
 			mpos.move(facing,1);

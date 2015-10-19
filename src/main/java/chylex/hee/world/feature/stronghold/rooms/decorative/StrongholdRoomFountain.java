@@ -39,7 +39,7 @@ public class StrongholdRoomFountain extends StrongholdRoom{
 		
 		// fountain
 		placeLine(world,rand,placeStoneBrick,centerX,y+1,centerZ,centerX,y+3,centerZ);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_water),centerX,y+4,centerZ);
+		placeBlock(world,rand,placeWater,centerX,y+4,centerZ);
 		
 		// ceiling
 		placeOutline(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneBrickTop),x+1,y+maxY-1,z+1,x+maxX-1,y+maxY-1,z+maxZ-1,1);

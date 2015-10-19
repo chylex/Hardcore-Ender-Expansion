@@ -36,7 +36,7 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 		placeOutline(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneSmoothTop),centerX-2,y+5,centerZ-2,centerX+2,y+5,centerZ+2,1);
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y+5,centerZ,1,true,true);
 		
-		placeLine(world,rand,IBlockPicker.basic(Blocks.flowing_lava),centerX,y+1,centerZ,centerX,y+2,centerZ);
+		placeLine(world,rand,placeLava,centerX,y+1,centerZ,centerX,y+2,centerZ);
 		
 		// corners
 		for(int cornerX = 0; cornerX < 2; cornerX++){
@@ -73,13 +73,13 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 				placeLine(world,rand,placeStoneBrick,wall.getX()+2*sideFacing.getX(),y+1,wall.getZ()+2*sideFacing.getZ(),wall.getX()+5*sideFacing.getX(),y+5,wall.getZ()+5*sideFacing.getZ());
 				
 				for(int decoration = 0; decoration < 2; decoration++){
-					placeBlock(world,rand,IBlockPicker.basic(Blocks.iron_bars),wall.getX()+(2+decoration*2)*sideFacing.getX()-offFacing.getX(),y+3,wall.getZ()+(2+decoration*2)*sideFacing.getZ()-offFacing.getZ());
+					placeBlock(world,rand,placeIronBars,wall.getX()+(2+decoration*2)*sideFacing.getX()-offFacing.getX(),y+3,wall.getZ()+(2+decoration*2)*sideFacing.getZ()-offFacing.getZ());
 					
 					int holeX = wall.getX()+(3+decoration*2)*sideFacing.getX(), holeZ = wall.getZ()+(3+decoration*2)*sideFacing.getZ();
 					
 					switch(decorations[decorationIndex++]){
 						case 0: placeBlock(world,rand,placeAir,holeX,y+3,holeZ); break;
-						case 1: placeBlock(world,rand,IBlockPicker.basic(BlockList.ancient_web),holeX,y+3,holeZ); break;
+						case 1: placeBlock(world,rand,placeAncientWeb,holeX,y+3,holeZ); break;
 						case 2:
 							placeBlock(world,rand,IBlockPicker.basic(Blocks.skull,Meta.skullGround),holeX,y+3,holeZ);
 							world.setTileEntity(holeX,y+3,holeZ,Meta.generateSkullGround(Skull.ZOMBIE,Pos.at(holeX,0,holeZ),Pos.at(centerX,0,centerZ).offset(sideFacing,3*decoration)));
@@ -150,10 +150,10 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 				world.addEntity(frame,e -> ((EntityItemFrame)e).setDisplayedItem(new ItemStack(Items.writable_book)));*/
 			}
 			else if (rand.nextInt(4+offExtra) == 0){ // less cobwebs near corners
-				placeBlock(world,rand,IBlockPicker.basic(BlockList.ancient_web),mpos.x,y+2,mpos.z);
+				placeBlock(world,rand,placeAncientWeb,mpos.x,y+2,mpos.z);
 			}
 			else{
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.flower_pot),mpos.x,y+2,mpos.z);
+				placeBlock(world,rand,placeFlowerPot,mpos.x,y+2,mpos.z);
 				world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(plants[rand.nextInt(plants.length)]));
 			}
 			

@@ -46,7 +46,7 @@ public class StrongholdRoomRelicFountains extends StrongholdRoom{
 			Facing4 sideFacing = side == 0 ? left : right;
 			point1 = Pos.at(mpos).offset(sideFacing,2);
 			point2 = Pos.at(point1).offset(sideFacing,3).offset(entranceFrom,16);
-			placeCube(world,rand,IBlockPicker.basic(Blocks.flowing_water),point1.getX(),y+1,point1.getZ(),point2.getX(),y+1,point2.getZ());
+			placeCube(world,rand,placeWater,point1.getX(),y+1,point1.getZ(),point2.getX(),y+1,point2.getZ());
 		}
 		
 		// road
@@ -64,7 +64,7 @@ public class StrongholdRoomRelicFountains extends StrongholdRoom{
 				placeBlock(world,rand,placeStoneBrickStairs(sideFacing,true),mpos.x,y+5,mpos.z); // bottom lower stair
 				placeBlock(world,rand,placeStoneBrickStairs(sideFacing,true),mpos.x,y+6,mpos.z); // bottom upper stair
 				placeBlock(world,rand,placeStoneBrickStairs(sideFacing,false),mpos.x-sideFacing.getX(),y+6,mpos.z-sideFacing.getZ()); // front stair
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_water),mpos.x,y+7,mpos.z); // water
+				placeBlock(world,rand,placeWater,mpos.x,y+7,mpos.z); // water
 				
 				// side stairs
 				mpos.move(entranceFrom.opposite());
@@ -72,7 +72,7 @@ public class StrongholdRoomRelicFountains extends StrongholdRoom{
 				placeBlock(world,rand,placeStoneBrickStairs(sideFacing,true),mpos.x-sideFacing.getX(),y+7,mpos.z-sideFacing.getZ());
 				
 				mpos.move(entranceFrom);
-				placeBlock(world,rand,IBlockPicker.basic(BlockList.ethereal_lantern),mpos.x+sideFacing.getX(),y+7,mpos.z+sideFacing.getZ());
+				placeBlock(world,rand,placeEtherealLantern,mpos.x+sideFacing.getX(),y+7,mpos.z+sideFacing.getZ());
 				
 				mpos.move(entranceFrom);
 				placeBlock(world,rand,placeStoneBrickStairs(entranceFrom.opposite(),true),mpos.x,y+7,mpos.z);
@@ -81,23 +81,23 @@ public class StrongholdRoomRelicFountains extends StrongholdRoom{
 		}
 		
 		// wall outlines
-		placeOutline(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),x+1,y+maxY-1,z+1,x+maxX-1,y+maxY-1,z+maxZ-1,1);
+		placeOutline(world,rand,placeStoneBrickWall,x+1,y+maxY-1,z+1,x+maxX-1,y+maxY-1,z+maxZ-1,1);
 		
 		mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom);
-		placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,y+5,mpos.z);
+		placeBlock(world,rand,placeStoneBrickWall,mpos.x,y+5,mpos.z);
 		
 		for(int side = 0; side < 2; side++){
 			Facing4 sideFacing = side == 0 ? left : right;
 			mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom).move(sideFacing);
-			placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,y+5,mpos.z);
+			placeBlock(world,rand,placeStoneBrickWall,mpos.x,y+5,mpos.z);
 			mpos.move(sideFacing);
-			placeLine(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,y+5,mpos.z,mpos.x,y+2,mpos.z);
+			placeLine(world,rand,placeStoneBrickWall,mpos.x,y+5,mpos.z,mpos.x,y+2,mpos.z);
 			mpos.move(sideFacing);
-			placeLine(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,y+2,mpos.z,mpos.x+sideFacing.getX(),y+2,mpos.z+sideFacing.getZ());
+			placeLine(world,rand,placeStoneBrickWall,mpos.x,y+2,mpos.z,mpos.x+sideFacing.getX(),y+2,mpos.z+sideFacing.getZ());
 			mpos.move(sideFacing,2);
-			placeLine(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,y+2,mpos.z,mpos.x+16*entranceFrom.getX(),y+2,mpos.z+16*entranceFrom.getZ());
+			placeLine(world,rand,placeStoneBrickWall,mpos.x,y+2,mpos.z,mpos.x+16*entranceFrom.getX(),y+2,mpos.z+16*entranceFrom.getZ());
 			mpos.move(entranceFrom,16).move(sideFacing.opposite());
-			placeLine(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),mpos.x,y+2,mpos.z,mpos.x-2*sideFacing.getX(),y+2,mpos.z-2*sideFacing.getZ());
+			placeLine(world,rand,placeStoneBrickWall,mpos.x,y+2,mpos.z,mpos.x-2*sideFacing.getX(),y+2,mpos.z-2*sideFacing.getZ());
 		}
 		
 		// chest

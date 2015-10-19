@@ -49,7 +49,7 @@ public class StrongholdRoomClusterIntersection extends StrongholdRoom{
 		}
 		
 		// ceiling pattern
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),centerX,y+maxY-1,centerZ);
+		placeBlock(world,rand,placeStoneBrickChiseled,centerX,y+maxY-1,centerZ);
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y+maxY-1,centerZ,4,false,true);
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y+maxY-1,centerZ,1,true,true);
 		
@@ -84,8 +84,8 @@ public class StrongholdRoomClusterIntersection extends StrongholdRoom{
 	
 	private void generatePillar(StructureWorld world, Random rand, final int centerX, final int y, final int centerZ, Facing4 facing, boolean hasCluster){
 		int pillarX = centerX+2*facing.getX()+2*facing.rotateRight().getX(), pillarZ = centerZ+2*facing.getZ()+2*facing.rotateRight().getZ();
-		placeLine(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),pillarX,y+1,pillarZ,pillarX,y+maxY-1,pillarZ);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),pillarX,y+4,pillarZ);
+		placeLine(world,rand,placeStoneBrickWall,pillarX,y+1,pillarZ,pillarX,y+maxY-1,pillarZ);
+		placeBlock(world,rand,placeStoneBrickChiseled,pillarX,y+4,pillarZ);
 		
 		if (hasCluster){
 			int clusterY = rand.nextBoolean() ? y+2 : y+6;

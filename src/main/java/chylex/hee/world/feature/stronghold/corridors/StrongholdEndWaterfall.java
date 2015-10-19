@@ -47,10 +47,10 @@ public class StrongholdEndWaterfall extends StrongholdPieceGeneric{
 			final Facing4 sideFacing = side == 0 ? entranceFrom.rotateLeft() : entranceFrom.rotateRight();
 			
 			mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom).move(sideFacing,2);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_water),mpos.x,y+maxY-1,mpos.z);
-			placeLine(world,rand,IBlockPicker.basic(Blocks.flowing_water),mpos.x,y+1,mpos.z,mpos.x+4*entranceFrom.getX(),y+1,mpos.z+4*entranceFrom.getZ());
+			placeBlock(world,rand,placeWater,mpos.x,y+maxY-1,mpos.z);
+			placeLine(world,rand,placeWater,mpos.x,y+1,mpos.z,mpos.x+4*entranceFrom.getX(),y+1,mpos.z+4*entranceFrom.getZ());
 			mpos.move(entranceFrom,4).move(sideFacing.opposite());
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_water),mpos.x,y+1,mpos.z);
+			placeBlock(world,rand,placeWater,mpos.x,y+1,mpos.z);
 			placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing.opposite(),false)),mpos.x,y+2,mpos.z);
 		}
 		
@@ -59,7 +59,7 @@ public class StrongholdEndWaterfall extends StrongholdPieceGeneric{
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom.opposite(),true)),mpos.x,y+2,mpos.z);
 		
 		for(int chest = 0; chest < 2; chest++){
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,chest == 0 ? y+1 : y+3,mpos.z);
+			placeBlock(world,rand,placeChest,mpos.x,chest == 0 ? y+1 : y+3,mpos.z);
 			world.setTileEntity(mpos.x,chest == 0 ? y+1 : y+3,mpos.z,Meta.generateChest(entranceFrom.opposite(),generateLootGeneral));
 		}
 	}

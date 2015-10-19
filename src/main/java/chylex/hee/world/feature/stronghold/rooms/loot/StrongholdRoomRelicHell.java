@@ -39,7 +39,7 @@ public class StrongholdRoomRelicHell extends StrongholdRoom{
 		
 		// floor pattern
 		mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom);
-		placeLine(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),mpos.x,y,mpos.z,mpos.x+14*entranceFrom.getX(),y,mpos.z+14*entranceFrom.getZ());
+		placeLine(world,rand,placeStoneBrickChiseled,mpos.x,y,mpos.z,mpos.x+14*entranceFrom.getX(),y,mpos.z+14*entranceFrom.getZ());
 		
 		// side walls
 		for(int side = 0; side < 2; side++){
@@ -67,7 +67,7 @@ public class StrongholdRoomRelicHell extends StrongholdRoom{
 			
 			for(int fountain = 0; fountain < 2; fountain++){
 				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,6*(1+fountain)).move(sideFacing,3);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_lava),mpos.x,y+5,mpos.z);
+				placeBlock(world,rand,placeLava,mpos.x,y+5,mpos.z);
 				mpos.move(sideFacing);
 				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,false)),mpos.x,y+2,mpos.z);
 				placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(sideFacing,true)),mpos.x,y+4,mpos.z);
@@ -96,16 +96,16 @@ public class StrongholdRoomRelicHell extends StrongholdRoom{
 				
 				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,19).move(sideFacing);
 				placeBlock(world,rand,placeStoneBrickPlain,mpos.x,py,mpos.z);
-				placeLine(world,rand,IBlockPicker.basic(Blocks.obsidian),mpos.x+entranceFrom.getX(),py,mpos.z+entranceFrom.getZ(),mpos.x+4*entranceFrom.getX(),py,mpos.z+4*entranceFrom.getZ());
+				placeLine(world,rand,placeObsidian,mpos.x+entranceFrom.getX(),py,mpos.z+entranceFrom.getZ(),mpos.x+4*entranceFrom.getX(),py,mpos.z+4*entranceFrom.getZ());
 				mpos.move(sideFacing);
 				placeLine(world,rand,placeStoneBrickPlain,mpos.x,py,mpos.z,mpos.x+4*entranceFrom.getX(),py,mpos.z+4*entranceFrom.getZ());
 				
 				mpos.set(x+connection.offsetX,0,z+connection.offsetZ).move(entranceFrom,23).move(sideFacing);
-				placeLine(world,rand,IBlockPicker.basic(Blocks.obsidian),mpos.x,y+2,mpos.z,mpos.x,y+5,mpos.z);
+				placeLine(world,rand,placeObsidian,mpos.x,y+2,mpos.z,mpos.x,y+5,mpos.z);
 				mpos.move(sideFacing);
 				placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+2,mpos.z,mpos.x,y+5,mpos.z);
 				mpos.move(sideFacing);
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.flowing_lava),mpos.x,y+5,mpos.z);
+				placeBlock(world,rand,placeLava,mpos.x,y+5,mpos.z);
 				mpos.move(sideFacing);
 				placeLine(world,rand,placeStoneBrickPlain,mpos.x,y+1,mpos.z,mpos.x,y+5,mpos.z);
 			}

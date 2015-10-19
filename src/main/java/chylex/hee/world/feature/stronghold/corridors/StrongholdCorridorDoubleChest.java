@@ -52,10 +52,10 @@ public class StrongholdCorridorDoubleChest extends StrongholdCorridorEmbedded{
 		z = z+maxZ/2+dir.getZ()*2;
 		
 		// chest
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),x+left.getX(),y+2,z+left.getZ());
+		placeBlock(world,rand,placeChest,x+left.getX(),y+2,z+left.getZ());
 		world.setTileEntity(x+left.getX(),y+2,z+left.getZ(),Meta.generateChest(dir.opposite(),generateLootGeneral));
 		
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),x+right.getX(),y+2,z+right.getZ());
+		placeBlock(world,rand,placeChest,x+right.getX(),y+2,z+right.getZ());
 		world.setTileEntity(x+right.getX(),y+2,z+right.getZ(),Meta.generateChest(dir.opposite(),generateLootGeneral));
 		
 		// pattern

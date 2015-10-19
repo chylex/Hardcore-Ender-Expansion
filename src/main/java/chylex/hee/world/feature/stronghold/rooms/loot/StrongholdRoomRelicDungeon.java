@@ -48,7 +48,7 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 			
 			// torch inside the cube
 			mpos.set(point1).move(entranceFrom);
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.iron_bars),mpos.x,y+2,mpos.z);
+			placeBlock(world,rand,placeIronBars,mpos.x,y+2,mpos.z);
 			world.setAttentionWhore(mpos.x+sideFacing.getX(),y+2,mpos.z+sideFacing.getZ(),new BlockInfo(Blocks.torch,Meta.torchGround));
 			
 			// upper cube

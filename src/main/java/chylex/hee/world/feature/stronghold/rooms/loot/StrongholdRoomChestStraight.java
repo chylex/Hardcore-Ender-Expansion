@@ -66,14 +66,14 @@ public class StrongholdRoomChestStraight extends StrongholdRoom{
 		placeOutline(world,rand,IBlockPicker.basic(Blocks.stone_slab,Meta.slabStoneSmoothBottom),centerX-2,y+5,centerZ-2,centerX+2,y+5,centerZ+2,1);
 		placeCube(world,rand,placeStoneBrick,centerX-1,y+5,centerZ-1,centerX+1,y+5,centerZ+1);
 		
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),centerX,y+6,centerZ);
+		placeBlock(world,rand,placeChest,centerX,y+6,centerZ);
 		world.setTileEntity(centerX,y+6,centerZ,Meta.generateChest(rand.nextBoolean() ? vineFacing : vineFacing.opposite(),generateLootGeneral));
 		
 		// top floor lights
 		for(int cornerX = 0; cornerX < 2; cornerX++){
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
-				placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),x+2+6*cornerX,y+maxY-1,z+2+6*cornerZ);
-				placeBlock(world,rand,IBlockPicker.basic(BlockList.ethereal_lantern),x+2+6*cornerX,y+maxY-2,z+2+6*cornerZ);
+				placeBlock(world,rand,placeStoneBrickWall,x+2+6*cornerX,y+maxY-1,z+2+6*cornerZ);
+				placeBlock(world,rand,placeEtherealLantern,x+2+6*cornerX,y+maxY-2,z+2+6*cornerZ);
 			}
 		}
 	}

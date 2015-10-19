@@ -70,7 +70,7 @@ public class StrongholdEndWallDecorations extends StrongholdPieceGeneric{
 			case 2: mpos.move(entranceFrom,4); break;
 		}
 		
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,y+2,mpos.z);
+		placeBlock(world,rand,placeChest,mpos.x,y+2,mpos.z);
 		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(chestOffFacing.opposite(),generateLootGeneral));
 		
 		// skull
@@ -97,7 +97,7 @@ public class StrongholdEndWallDecorations extends StrongholdPieceGeneric{
 				}
 				
 				if (world.isAir(mpos.x,y+2,mpos.z)){
-					placeBlock(world,rand,IBlockPicker.basic(Blocks.flower_pot),mpos.x,y+2,mpos.z);
+					placeBlock(world,rand,placeFlowerPot,mpos.x,y+2,mpos.z);
 					world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(plants[rand.nextInt(plants.length)]));
 					break;
 				}

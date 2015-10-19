@@ -35,15 +35,15 @@ public class StrongholdRoomLitCorners extends StrongholdRoom{
 		PosMutable mpos = new PosMutable();
 		
 		// floor pattern
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),centerX,y,centerZ);
-		for(Facing4 facing:Facing4.list)placeBlock(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),centerX+facing.getX(),y,centerZ+facing.getZ());
+		placeBlock(world,rand,placeStoneBrickChiseled,centerX,y,centerZ);
+		for(Facing4 facing:Facing4.list)placeBlock(world,rand,placeStoneBrickChiseled,centerX+facing.getX(),y,centerZ+facing.getZ());
 		
 		// corner lights
 		for(int cornerX = 0; cornerX < 2; cornerX++){
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
 				mpos.set(x+1+6*cornerX,0,z+1+6*cornerZ);
-				placeBlock(world,rand,IBlockPicker.basic(BlockList.ethereal_lantern),mpos.x,y+1,mpos.z);
-				placeBlock(world,rand,IBlockPicker.basic(BlockList.ethereal_lantern),mpos.x,y+maxY-1,mpos.z);
+				placeBlock(world,rand,placeEtherealLantern,mpos.x,y+1,mpos.z);
+				placeBlock(world,rand,placeEtherealLantern,mpos.x,y+maxY-1,mpos.z);
 				placeLine(world,rand,IBlockPicker.basic(Blocks.stained_glass,Meta.getColor(glassColor)),mpos.x,y+2,mpos.z,mpos.x,y+maxY-2,mpos.z);
 			}
 		}

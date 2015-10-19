@@ -27,10 +27,10 @@ public class StrongholdRoomChestIntersection extends StrongholdRoom{
 		
 		// floor pattern
 		if (rand.nextInt(3) != 0){
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),centerX,y,centerZ);
+			placeBlock(world,rand,placeStoneBrickChiseled,centerX,y,centerZ);
 			
 			for(Facing4 facing:Facing4.list){
-				placeLine(world,rand,IBlockPicker.basic(Blocks.stonebrick,Meta.stoneBrickChiseled),centerX+facing.getX(),y,centerZ+facing.getZ(),centerX+3*facing.getX(),y,centerZ+3*facing.getZ());
+				placeLine(world,rand,placeStoneBrickChiseled,centerX+facing.getX(),y,centerZ+facing.getZ(),centerX+3*facing.getX(),y,centerZ+3*facing.getZ());
 			}
 		}
 		
@@ -79,7 +79,7 @@ public class StrongholdRoomChestIntersection extends StrongholdRoom{
 			mpos.set(centerX,0,centerZ).move(offFacing,4).move(rand.nextBoolean() ? offFacing.rotateLeft() : offFacing.rotateRight(),3);
 			if (!world.isAir(mpos.x,y+2,mpos.z))continue;
 			
-			placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),mpos.x,y+2,mpos.z);
+			placeBlock(world,rand,placeChest,mpos.x,y+2,mpos.z);
 			world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(offFacing.opposite(),generateLootGeneral));
 		}
 		
@@ -94,10 +94,10 @@ public class StrongholdRoomChestIntersection extends StrongholdRoom{
 			if (!world.isAir(mpos.x,y+2,mpos.z))continue;
 			
 			if (rand.nextInt(7) <= 1){
-				placeBlock(world,rand,IBlockPicker.basic(BlockList.ancient_web),mpos.x,y+2,mpos.z);
+				placeBlock(world,rand,placeAncientWeb,mpos.x,y+2,mpos.z);
 			}
 			else{
-				placeBlock(world,rand,IBlockPicker.basic(Blocks.flower_pot),mpos.x,y+2,mpos.z);
+				placeBlock(world,rand,placeFlowerPot,mpos.x,y+2,mpos.z);
 				world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(plants[rand.nextInt(plants.length)]));
 			}
 		}

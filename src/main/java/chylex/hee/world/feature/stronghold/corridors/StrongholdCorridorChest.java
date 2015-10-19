@@ -52,7 +52,7 @@ public class StrongholdCorridorChest extends StrongholdCorridorEmbedded{
 		z = z+maxZ/2+dir.getZ()*2;
 		
 		// chest
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),x,y+2,z);
+		placeBlock(world,rand,placeChest,x,y+2,z);
 		world.setTileEntity(x,y+2,z,Meta.generateChest(dir.opposite(),generateLootGeneral));
 		
 		// top slabs that are shared across all patterns

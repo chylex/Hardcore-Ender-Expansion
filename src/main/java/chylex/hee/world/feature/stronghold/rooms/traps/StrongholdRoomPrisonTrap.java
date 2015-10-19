@@ -77,7 +77,7 @@ public class StrongholdRoomPrisonTrap extends StrongholdRoom{
 		
 		posStart.move(facing);
 		posEnd.set(posStart).move(facing,4);
-		placeLine(world,rand,IBlockPicker.basic(Blocks.iron_bars),posStart.x,y+1,posStart.z,posEnd.x,y+3,posEnd.z); // prison bars
+		placeLine(world,rand,placeIronBars,posStart.x,y+1,posStart.z,posEnd.x,y+3,posEnd.z); // prison bars
 		
 		// inside prison
 		posStart.set(x+connection.offsetX,y+1,z+connection.offsetZ).move(facing).move(facing.rotateLeft(),3);
@@ -105,7 +105,7 @@ public class StrongholdRoomPrisonTrap extends StrongholdRoom{
 		
 		// chest
 		posStart.move(skullCorner ? facing : facing.opposite(),7);
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),posStart.x,y+1,posStart.z);
+		placeBlock(world,rand,placeChest,posStart.x,y+1,posStart.z);
 		world.setTileEntity(posStart.x,y+1,posStart.z,Meta.generateChest(facing.rotateRight(),generateLootGeneral));
 	}
 	

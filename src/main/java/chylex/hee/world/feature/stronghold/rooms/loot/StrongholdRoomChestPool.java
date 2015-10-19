@@ -52,7 +52,7 @@ public class StrongholdRoomChestPool extends StrongholdRoom{
 		
 		for(int cornerX = 0; cornerX < 2; cornerX++){
 			for(int cornerZ = 0; cornerZ < 2; cornerZ++){
-				placeBlock(world,rand,IBlockPicker.basic(BlockList.stone_brick_wall),x+cornerOff+4*cornerX,y+2,z+cornerOff+4*cornerZ);
+				placeBlock(world,rand,placeStoneBrickWall,x+cornerOff+4*cornerX,y+2,z+cornerOff+4*cornerZ);
 				world.setAttentionWhore(x+cornerOff+4*cornerX,y+3,z+cornerOff+4*cornerZ,new BlockInfo(Blocks.torch,Meta.torchGround));
 			}
 		}
@@ -65,10 +65,10 @@ public class StrongholdRoomChestPool extends StrongholdRoom{
 			
 			placeOutline(world,rand,placeAir,centerX-1,y+1,centerZ-1,centerX+1,y+1,centerZ+1,1);
 		}
-		else placeOutline(world,rand,IBlockPicker.basic(Blocks.flowing_water),centerX-1,y+1,centerZ-1,centerX+1,y+1,centerZ+1,1);
+		else placeOutline(world,rand,placeWater,centerX-1,y+1,centerZ-1,centerX+1,y+1,centerZ+1,1);
 		
 		// chest
-		placeBlock(world,rand,IBlockPicker.basic(Blocks.chest),centerX,y+2,centerZ);
+		placeBlock(world,rand,placeChest,centerX,y+2,centerZ);
 		world.setTileEntity(centerX,y+2,centerZ,Meta.generateChest(Facing4.list[rand.nextInt(Facing4.list.length)],generateLootGeneral));
 	}
 }
