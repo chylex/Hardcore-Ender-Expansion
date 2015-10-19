@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.collections.weight.IWeightProvider;
@@ -58,7 +57,7 @@ public class StructureDungeonPieceInst implements IWeightProvider{
 	}
 	
 	public void clearArea(StructureWorld world, Random rand){
-		StructureDungeonPiece.placeCube(world,rand,BlockInfo.air,boundingBox.x1,boundingBox.y1,boundingBox.z1,boundingBox.x2,boundingBox.y2,boundingBox.z2);
+		piece.clearArea(world,rand,boundingBox);
 	}
 	
 	public void generatePiece(StructureWorld world, Random rand){
