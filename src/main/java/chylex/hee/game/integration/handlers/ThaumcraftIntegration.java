@@ -1,5 +1,6 @@
 package chylex.hee.game.integration.handlers;
 import static thaumcraft.api.ThaumcraftApi.*;
+import java.util.stream.IntStream;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -27,159 +28,166 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		
 		// BLOCK ASPECTS
 		
-		registerObjectTag(block(BlockList.obsidian_falling), meta(0), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
-		registerObjectTag(block(BlockList.obsidian_stairs), meta(0,1,2,3,4,5,6,7), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
-		registerObjectTag(block(BlockList.obsidian_special), meta(0,5), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
-		registerObjectTag(block(BlockList.obsidian_special), meta(1,6), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
-		registerObjectTag(block(BlockList.obsidian_special), meta(2,3,4), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2));
-		registerObjectTag(block(BlockList.obsidian_special_glow), meta(0,5), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.LIGHT,5).add(Aspect.EARTH,2));
-		registerObjectTag(block(BlockList.obsidian_special_glow), meta(1,6), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.LIGHT,5).add(Aspect.EARTH,2));
-		registerObjectTag(block(BlockList.obsidian_special_glow), meta(2,3,4), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.LIGHT,5).add(Aspect.EARTH,2));
+		registerBlock(BlockList.obsidian_falling,0).add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2);
+		registerBlock(BlockList.obsidian_stairs,range(0,7)).add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2);
+		registerBlock(BlockList.obsidian_special,0,5).add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2);
+		registerBlock(BlockList.obsidian_special,1,6).add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2);
+		registerBlock(BlockList.obsidian_special,2,3,4).add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.EARTH,2);
+		registerBlock(BlockList.obsidian_special_glow,0,5).add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.LIGHT,5).add(Aspect.EARTH,2);
+		registerBlock(BlockList.obsidian_special_glow,1,6).add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.LIGHT,5).add(Aspect.EARTH,2);
+		registerBlock(BlockList.obsidian_special_glow,2,3,4).add(Aspect.DARKNESS,1).add(Aspect.FIRE,2).add(Aspect.LIGHT,5).add(Aspect.EARTH,2);
 		
-		registerObjectTag(block(BlockList.essence_altar), meta(EssenceType.INVALID.id), new AspectList().add(Aspect.ELDRITCH,4).add(Aspect.MIND,5).add(Aspect.EARTH,6));
-		registerObjectTag(block(BlockList.essence_altar), meta(EssenceType.DRAGON.id), new AspectList().add(Aspect.ELDRITCH,4).add(Aspect.ENERGY,10).add(Aspect.EXCHANGE,2).add(Aspect.MIND,5).add(Aspect.EARTH,6));
-		registerObjectTag(block(BlockList.essence_altar), meta(EssenceType.FIERY.id), new AspectList().add(Aspect.ELDRITCH,4).add(Aspect.ENERGY,6).add(Aspect.FIRE,10).add(Aspect.MIND,5).add(Aspect.EARTH,6));
-		registerObjectTag(item(ItemList.essence), meta(EssenceType.SPECTRAL.id), new AspectList());
+		registerBlock(BlockList.essence_altar,EssenceType.INVALID.id).add(Aspect.ELDRITCH,4).add(Aspect.MIND,5).add(Aspect.EARTH,6);
+		registerBlock(BlockList.essence_altar,EssenceType.DRAGON.id).add(Aspect.ELDRITCH,4).add(Aspect.ENERGY,10).add(Aspect.EXCHANGE,2).add(Aspect.MIND,5).add(Aspect.EARTH,6);
+		registerBlock(BlockList.essence_altar,EssenceType.FIERY.id).add(Aspect.ELDRITCH,4).add(Aspect.ENERGY,6).add(Aspect.FIRE,10).add(Aspect.MIND,5).add(Aspect.EARTH,6);
 		
-		registerObjectTag(block(BlockList.enhanced_brewing_stand), meta(0,1,2,3), new AspectList().add(Aspect.CRAFT,3).add(Aspect.ENTROPY,3).add(Aspect.FIRE,4).add(Aspect.MAGIC,4).add(Aspect.EARTH,3).add(Aspect.WATER,2));
+		registerBlock(BlockList.enhanced_brewing_stand,range(0,3)).add(Aspect.CRAFT,3).add(Aspect.ENTROPY,3).add(Aspect.FIRE,4).add(Aspect.MAGIC,4).add(Aspect.EARTH,3).add(Aspect.WATER,2);
 		
-		registerObjectTag(block(BlockList.end_powder_ore), meta(0), new AspectList().add(Aspect.MAGIC,1).add(Aspect.EARTH,1));
-		registerObjectTag(block(BlockList.stardust_ore), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15), new AspectList().add(Aspect.ENERGY,3).add(Aspect.EXCHANGE,3).add(Aspect.EARTH,1));
-		registerObjectTag(block(BlockList.igneous_rock_ore), meta(0), new AspectList().add(Aspect.FIRE,3).add(Aspect.EARTH,2));
-		registerObjectTag(block(BlockList.instability_orb_ore), meta(0), new AspectList().add(Aspect.ELDRITCH,1).add(Aspect.EXCHANGE,1).add(Aspect.EARTH,1));
+		registerBlock(BlockList.end_powder_ore,0).add(Aspect.MAGIC,1).add(Aspect.EARTH,1);
+		registerBlock(BlockList.stardust_ore,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15).add(Aspect.ENERGY,3).add(Aspect.EXCHANGE,3).add(Aspect.EARTH,1);
+		registerBlock(BlockList.igneous_rock_ore,0).add(Aspect.FIRE,3).add(Aspect.EARTH,2);
+		registerBlock(BlockList.instability_orb_ore,0).add(Aspect.ELDRITCH,1).add(Aspect.EXCHANGE,1).add(Aspect.EARTH,1);
 		
-		registerObjectTag(block(BlockList.ender_goo), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15), new AspectList().add(Aspect.POISON,4).add(Aspect.TAINT,2));
+		registerBlock(BlockList.ender_goo,range(0,15)).add(Aspect.POISON,4).add(Aspect.TAINT,2);
 		
-		registerObjectTag(block(BlockList.end_terrain), meta(BlockEndstoneTerrain.metaInfested), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.EARTH,1).add(Aspect.POISON,1));
-		registerObjectTag(block(BlockList.end_terrain), meta(BlockEndstoneTerrain.metaBurned), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,1).add(Aspect.EARTH,1));
-		registerObjectTag(block(BlockList.end_terrain), meta(BlockEndstoneTerrain.metaEnchanted), new AspectList().add(Aspect.DARKNESS,1).add(Aspect.EARTH,1).add(Aspect.MAGIC,1));
+		registerBlock(BlockList.end_terrain,BlockEndstoneTerrain.metaInfested).add(Aspect.DARKNESS,1).add(Aspect.EARTH,1).add(Aspect.POISON,1);
+		registerBlock(BlockList.end_terrain,BlockEndstoneTerrain.metaBurned).add(Aspect.DARKNESS,1).add(Aspect.FIRE,1).add(Aspect.EARTH,1);
+		registerBlock(BlockList.end_terrain,BlockEndstoneTerrain.metaEnchanted).add(Aspect.DARKNESS,1).add(Aspect.EARTH,1).add(Aspect.MAGIC,1);
 		
-		registerObjectTag(block(BlockList.crossed_decoration), meta(BlockCrossedDecoration.dataThornBush), new AspectList().add(Aspect.DEATH,1).add(Aspect.PLANT,1).add(Aspect.POISON,1));
-		registerObjectTag(block(BlockList.crossed_decoration), meta(BlockCrossedDecoration.dataInfestedFern), new AspectList().add(Aspect.PLANT,1).add(Aspect.POISON,1));
-		registerObjectTag(block(BlockList.crossed_decoration), meta(BlockCrossedDecoration.dataInfestedGrass), new AspectList().add(Aspect.PLANT,1).add(Aspect.POISON,1));
-		registerObjectTag(block(BlockList.crossed_decoration), meta(BlockCrossedDecoration.dataInfestedTallgrass), new AspectList().add(Aspect.PLANT,1).add(Aspect.POISON,1));
-		registerObjectTag(block(BlockList.crossed_decoration), meta(BlockCrossedDecoration.dataLilyFire), new AspectList().add(Aspect.ELDRITCH,1).add(Aspect.LIFE,1).add(Aspect.PLANT,1));
-		registerObjectTag(block(BlockList.crossed_decoration), meta(BlockCrossedDecoration.dataVioletMossModerate), new AspectList().add(Aspect.ELDRITCH,1).add(Aspect.LIFE,1).add(Aspect.PLANT,1));
-		registerObjectTag(block(BlockList.crossed_decoration), meta(BlockCrossedDecoration.dataVioletMossShort), new AspectList().add(Aspect.ELDRITCH,1).add(Aspect.LIFE,1).add(Aspect.PLANT,1));
-		registerObjectTag(block(BlockList.crossed_decoration), meta(BlockCrossedDecoration.dataVioletMossTall), new AspectList().add(Aspect.ELDRITCH,1).add(Aspect.LIFE,1).add(Aspect.PLANT,1));
+		registerBlock(BlockList.crossed_decoration,BlockCrossedDecoration.dataThornBush).add(Aspect.DEATH,1).add(Aspect.PLANT,1).add(Aspect.POISON,1);
+		registerBlock(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedFern).add(Aspect.PLANT,1).add(Aspect.POISON,1);
+		registerBlock(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedGrass).add(Aspect.PLANT,1).add(Aspect.POISON,1);
+		registerBlock(BlockList.crossed_decoration,BlockCrossedDecoration.dataInfestedTallgrass).add(Aspect.PLANT,1).add(Aspect.POISON,1);
+		registerBlock(BlockList.crossed_decoration,BlockCrossedDecoration.dataLilyFire).add(Aspect.ELDRITCH,1).add(Aspect.LIFE,1).add(Aspect.PLANT,1);
+		registerBlock(BlockList.crossed_decoration,BlockCrossedDecoration.dataVioletMossModerate).add(Aspect.ELDRITCH,1).add(Aspect.LIFE,1).add(Aspect.PLANT,1);
+		registerBlock(BlockList.crossed_decoration,BlockCrossedDecoration.dataVioletMossShort).add(Aspect.ELDRITCH,1).add(Aspect.LIFE,1).add(Aspect.PLANT,1);
+		registerBlock(BlockList.crossed_decoration,BlockCrossedDecoration.dataVioletMossTall).add(Aspect.ELDRITCH,1).add(Aspect.LIFE,1).add(Aspect.PLANT,1);
 		
-		registerObjectTag(block(BlockList.spooky_log), meta(0), new AspectList().add(Aspect.TREE,3));
-		registerObjectTag(block(BlockList.spooky_log), meta(1,2,3,4), new AspectList().add(Aspect.DEATH,2).add(Aspect.SOUL,1).add(Aspect.TREE,3));
-		registerObjectTag(block(BlockList.spooky_leaves), meta(0), new AspectList().add(Aspect.PLANT,1));
+		registerBlock(BlockList.spooky_log,0).add(Aspect.TREE,3);
+		registerBlock(BlockList.spooky_log,range(1,4)).add(Aspect.DEATH,2).add(Aspect.SOUL,1).add(Aspect.TREE,3);
+		registerBlock(BlockList.spooky_leaves,0).add(Aspect.PLANT,1);
 		
-		registerObjectTag(block(BlockList.death_flower), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14), new AspectList().add(Aspect.DEATH,1).add(Aspect.ENTROPY,1).add(Aspect.PLANT,1));
-		registerObjectTag(block(BlockList.death_flower), meta(15), new AspectList().add(Aspect.DEATH,6).add(Aspect.ENTROPY,3).add(Aspect.SENSES,1).add(Aspect.PLANT,1));
+		registerBlock(BlockList.death_flower,range(0,14)).add(Aspect.DEATH,1).add(Aspect.ENTROPY,1).add(Aspect.PLANT,1);
+		registerBlock(BlockList.death_flower,15).add(Aspect.DEATH,6).add(Aspect.ENTROPY,3).add(Aspect.SENSES,1).add(Aspect.PLANT,1);
 		
-		registerObjectTag(block(BlockList.custom_spawner), meta(0), new AspectList().add(Aspect.BEAST,4).add(Aspect.DEATH,1).add(Aspect.MAGIC,4).add(Aspect.TRAVEL,4));
-		registerObjectTag(block(BlockList.custom_spawner), meta(1), new AspectList().add(Aspect.BEAST,2).add(Aspect.DEATH,2).add(Aspect.EARTH,1).add(Aspect.MAGIC,4).add(Aspect.TRAVEL,4));
+		registerBlock(BlockList.custom_spawner,0).add(Aspect.BEAST,4).add(Aspect.DEATH,1).add(Aspect.MAGIC,4).add(Aspect.TRAVEL,4);
+		registerBlock(BlockList.custom_spawner,1).add(Aspect.BEAST,2).add(Aspect.DEATH,2).add(Aspect.EARTH,1).add(Aspect.MAGIC,4).add(Aspect.TRAVEL,4);
 		
-		registerObjectTag(block(BlockList.endium_ore), meta(0), new AspectList().add(Aspect.ELDRITCH,1).add(Aspect.METAL,2).add(Aspect.EARTH,1));
-		registerObjectTag(block(BlockList.endium_block), meta(0), new AspectList().add(Aspect.ELDRITCH,13).add(Aspect.METAL,20));
+		registerBlock(BlockList.endium_ore,0).add(Aspect.ELDRITCH,1).add(Aspect.METAL,2).add(Aspect.EARTH,1);
+		registerBlock(BlockList.endium_block,0).add(Aspect.ELDRITCH,13).add(Aspect.METAL,20);
 
-		registerObjectTag(block(BlockList.sphalerite), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.VOID,1));
-		registerObjectTag(block(BlockList.sphalerite), meta(1), new AspectList().add(Aspect.EARTH,1).add(Aspect.EXCHANGE,3).add(Aspect.ENERGY,3));
+		registerBlock(BlockList.sphalerite,0).add(Aspect.EARTH,1).add(Aspect.VOID,1);
+		registerBlock(BlockList.sphalerite,1).add(Aspect.EARTH,1).add(Aspect.EXCHANGE,3).add(Aspect.ENERGY,3);
 
-		registerObjectTag(block(BlockList.cinder), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.FIRE,1));
+		registerBlock(BlockList.cinder,0).add(Aspect.EARTH,1).add(Aspect.FIRE,1);
 
-		registerObjectTag(block(BlockList.laboratory_obsidian), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.FIRE,1).add(Aspect.MIND,1));
-		registerObjectTag(block(BlockList.laboratory_floor), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.FIRE,1).add(Aspect.MIND,1));
-		registerObjectTag(block(BlockList.laboratory_stairs), meta(0,1,2,3,4,5,6,7), new AspectList().add(Aspect.EARTH,1).add(Aspect.FIRE,1).add(Aspect.MIND,1));
-		registerObjectTag(block(BlockList.laboratory_glass), meta(0), new AspectList().add(Aspect.CRYSTAL,1).add(Aspect.FIRE,1).add(Aspect.MIND,1));
+		registerBlock(BlockList.laboratory_obsidian,0).add(Aspect.EARTH,1).add(Aspect.FIRE,1).add(Aspect.MIND,1);
+		registerBlock(BlockList.laboratory_floor,0).add(Aspect.EARTH,1).add(Aspect.FIRE,1).add(Aspect.MIND,1);
+		registerBlock(BlockList.laboratory_stairs,range(0,15)).add(Aspect.EARTH,1).add(Aspect.FIRE,1).add(Aspect.MIND,1);
+		registerBlock(BlockList.laboratory_glass,0).add(Aspect.CRYSTAL,1).add(Aspect.FIRE,1).add(Aspect.MIND,1);
 		
-		for(int i=0;i<BlockRavagedBrick.metaAmount;i++)registerObjectTag(block(BlockList.ravaged_brick), meta(i), new AspectList().add(Aspect.EARTH,1).add(Aspect.ELDRITCH,1));
-		registerObjectTag(block(BlockList.ravaged_brick_smooth), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.ELDRITCH,1));
-		registerObjectTag(block(BlockList.ravaged_brick_glow), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.ELDRITCH,1).add(Aspect.LIGHT,5));
+		for(int i = 0; i < BlockRavagedBrick.metaAmount; i++)registerBlock(BlockList.ravaged_brick,i).add(Aspect.EARTH,1).add(Aspect.ELDRITCH,1);
+		registerBlock(BlockList.ravaged_brick_smooth,0).add(Aspect.EARTH,1).add(Aspect.ELDRITCH,1);
+		registerBlock(BlockList.ravaged_brick_glow,0).add(Aspect.EARTH,1).add(Aspect.ELDRITCH,1).add(Aspect.LIGHT,5);
 
-		registerObjectTag(block(BlockList.dungeon_puzzle), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15), new AspectList().add(Aspect.EARTH,1).add(Aspect.ELDRITCH,1).add(Aspect.MECHANISM, 1).add(Aspect.MIND, 1));
-		registerObjectTag(block(BlockList.persegrit), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15), new AspectList().add(Aspect.EARTH,1).add(Aspect.DARKNESS,1));
-		registerObjectTag(block(BlockList.energy_cluster), meta(0), new AspectList().add(Aspect.ELDRITCH,5).add(Aspect.ENERGY,5).add(Aspect.AURA,2));
+		registerBlock(BlockList.dungeon_puzzle,range(0,15)).add(Aspect.EARTH,1).add(Aspect.ELDRITCH,1).add(Aspect.MECHANISM,1).add(Aspect.MIND,1);
+		registerBlock(BlockList.persegrit,range(0,15)).add(Aspect.EARTH,1).add(Aspect.DARKNESS,1);
+		registerBlock(BlockList.energy_cluster,0).add(Aspect.ELDRITCH,5).add(Aspect.ENERGY,5).add(Aspect.AURA,2);
 		
-		registerObjectTag(block(BlockList.enderman_head), meta(0,1,2,3,4,5), new AspectList().add(Aspect.DEATH,4).add(Aspect.ELDRITCH,6).add(Aspect.SOUL,4));
+		registerBlock(BlockList.enderman_head,range(0,5)).add(Aspect.DEATH,4).add(Aspect.ELDRITCH,6).add(Aspect.SOUL,4);
 
 		// ITEM APECTS
 		
-		registerObjectTag(item(ItemList.knowledge_note), meta(0), new AspectList().add(Aspect.MIND,3));
+		registerItem(ItemList.knowledge_note,0).add(Aspect.MIND,3);
 		
-		registerObjectTag(item(ItemList.alteration_nexus), meta(0), new AspectList().add(Aspect.CRYSTAL,8).add(Aspect.MIND,2).add(Aspect.SENSES,4)); // TODO changed
-		registerObjectTag(item(ItemList.essence), meta(EssenceType.DRAGON.getItemDamage()), new AspectList().add(Aspect.BEAST,3).add(Aspect.ELDRITCH,10).add(Aspect.ENERGY,10).add(Aspect.ENTROPY,6).add(Aspect.EXCHANGE,2));
-		registerObjectTag(item(ItemList.essence), meta(EssenceType.FIERY.getItemDamage()), new AspectList().add(Aspect.ELDRITCH,10).add(Aspect.ENERGY,6).add(Aspect.FIRE,10).add(Aspect.TAINT,4));
-		registerObjectTag(item(ItemList.essence), meta(EssenceType.SPECTRAL.getItemDamage()), new AspectList());
+		registerItem(ItemList.alteration_nexus,0).add(Aspect.CRYSTAL,8).add(Aspect.MIND,2).add(Aspect.SENSES,4); // TODO changed
+		registerItem(ItemList.essence,EssenceType.DRAGON.getItemDamage()).add(Aspect.BEAST,3).add(Aspect.ELDRITCH,10).add(Aspect.ENERGY,10).add(Aspect.ENTROPY,6).add(Aspect.EXCHANGE,2);
+		registerItem(ItemList.essence,EssenceType.FIERY.getItemDamage()).add(Aspect.ELDRITCH,10).add(Aspect.ENERGY,6).add(Aspect.FIRE,10).add(Aspect.TAINT,4);
 		
-		registerObjectTag(item(ItemList.end_powder), meta(0), new AspectList().add(Aspect.ORDER,1).add(Aspect.SENSES,2));
-		registerObjectTag(item(ItemList.stardust), meta(0), new AspectList().add(Aspect.ENERGY,3).add(Aspect.EXCHANGE,3).add(Aspect.EARTH,1));
-		registerObjectTag(item(ItemList.igneous_rock), meta(0), new AspectList().add(Aspect.ENERGY,2).add(Aspect.FIRE,10).add(Aspect.EARTH,1));
-		registerObjectTag(item(ItemList.instability_orb), meta(0), new AspectList().add(Aspect.ELDRITCH,1).add(Aspect.ENTROPY,5).add(Aspect.EXCHANGE,3));
-		registerObjectTag(item(ItemList.potion_of_instability), meta(0), new AspectList().add(Aspect.ELDRITCH,3).add(Aspect.MAGIC,3).add(Aspect.WATER,1));
-		registerObjectTag(item(ItemList.potion_of_instability), meta(1), new AspectList().add(Aspect.ELDRITCH,3).add(Aspect.ENTROPY,1).add(Aspect.MAGIC,3).add(Aspect.WATER,1));
-		registerObjectTag(item(ItemList.potion_of_purity), meta(0), new AspectList().add(Aspect.ELDRITCH,3).add(Aspect.MAGIC,3).add(Aspect.WATER,1));
-		registerObjectTag(item(ItemList.potion_of_purity), meta(1), new AspectList().add(Aspect.ELDRITCH,3).add(Aspect.ENTROPY,1).add(Aspect.MAGIC,3).add(Aspect.WATER,1));
+		registerItem(ItemList.end_powder,0).add(Aspect.ORDER,1).add(Aspect.SENSES,2);
+		registerItem(ItemList.stardust,0).add(Aspect.ENERGY,3).add(Aspect.EXCHANGE,3).add(Aspect.EARTH,1);
+		registerItem(ItemList.igneous_rock,0).add(Aspect.ENERGY,2).add(Aspect.FIRE,10).add(Aspect.EARTH,1);
+		registerItem(ItemList.instability_orb,0).add(Aspect.ELDRITCH,1).add(Aspect.ENTROPY,5).add(Aspect.EXCHANGE,3);
+		registerItem(ItemList.potion_of_instability,0).add(Aspect.ELDRITCH,3).add(Aspect.MAGIC,3).add(Aspect.WATER,1);
+		registerItem(ItemList.potion_of_instability,1).add(Aspect.ELDRITCH,3).add(Aspect.ENTROPY,1).add(Aspect.MAGIC,3).add(Aspect.WATER,1);
+		registerItem(ItemList.potion_of_purity,0).add(Aspect.ELDRITCH,3).add(Aspect.MAGIC,3).add(Aspect.WATER,1);
+		registerItem(ItemList.potion_of_purity,1).add(Aspect.ELDRITCH,3).add(Aspect.ENTROPY,1).add(Aspect.MAGIC,3).add(Aspect.WATER,1);
+		registerItem(ItemList.transference_gem,OreDictionary.WILDCARD_VALUE).add(Aspect.CRYSTAL,4).add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,2).add(Aspect.TRAVEL,6);
 		
-		registerObjectTag(new ItemStack(ItemList.transference_gem, 1, OreDictionary.WILDCARD_VALUE), new AspectList().add(Aspect.CRYSTAL,4).add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,2).add(Aspect.TRAVEL,6));
+		registerItem(ItemList.silverfish_blood,0).add(Aspect.BEAST,1).add(Aspect.SOUL,1);
+		registerItem(ItemList.dry_splinter,0).add(Aspect.TREE,1);
+		registerItem(ItemList.infestation_remedy,0).add(Aspect.LIFE,2).add(Aspect.MAGIC,1).add(Aspect.WATER,1);
 		
-		registerObjectTag(item(ItemList.silverfish_blood), meta(0), new AspectList().add(Aspect.BEAST,1).add(Aspect.SOUL,1));
-		registerObjectTag(item(ItemList.dry_splinter), meta(0), new AspectList().add(Aspect.TREE,1));
-		registerObjectTag(item(ItemList.infestation_remedy), meta(0), new AspectList().add(Aspect.LIFE,2).add(Aspect.MAGIC,1).add(Aspect.WATER,1));
+		registerItem(ItemList.ghost_amulet,0).add(Aspect.AURA,3).add(Aspect.TAINT,2).add(Aspect.CRYSTAL,1).add(Aspect.ENERGY,2);
+		registerItem(ItemList.ghost_amulet,1).add(Aspect.AURA,5).add(Aspect.CRYSTAL,1).add(Aspect.ENERGY,2);
+		registerItem(ItemList.ectoplasm,0).add(Aspect.ELDRITCH,5).add(Aspect.ENERGY,5).add(Aspect.MAGIC,5).add(Aspect.SENSES,2);
 		
-		registerObjectTag(item(ItemList.ghost_amulet), meta(0), new AspectList().add(Aspect.AURA,3).add(Aspect.TAINT,2).add(Aspect.CRYSTAL,1).add(Aspect.ENERGY,2));
-		registerObjectTag(item(ItemList.ghost_amulet), meta(1), new AspectList().add(Aspect.AURA,5).add(Aspect.CRYSTAL,1).add(Aspect.ENERGY,2));
-		registerObjectTag(item(ItemList.ectoplasm), meta(0), new AspectList().add(Aspect.ELDRITCH,5).add(Aspect.ENERGY,5).add(Aspect.MAGIC,5).add(Aspect.SENSES,2));
+		registerItem(ItemList.bucket_ender_goo,0).add(Aspect.METAL,8).add(Aspect.POISON,4).add(Aspect.TAINT,2).add(Aspect.VOID,1);
 		
-		registerObjectTag(item(ItemList.bucket_ender_goo), meta(0), new AspectList().add(Aspect.METAL,8).add(Aspect.POISON,4).add(Aspect.TAINT,2).add(Aspect.VOID,1));
+		registerItem(ItemList.endium_ingot,0).add(Aspect.METAL,3).add(Aspect.ELDRITCH,2);
 		
-		registerObjectTag(item(ItemList.endium_ingot), meta(0), new AspectList().add(Aspect.METAL,3).add(Aspect.ELDRITCH,2));
-		
-		registerObjectTag(item(ItemList.arcane_shard), meta(0), new AspectList().add(Aspect.ELDRITCH,1).add(Aspect.MAGIC,1));
-		registerObjectTag(item(ItemList.obsidian_fragment), meta(0), new AspectList().add(Aspect.EARTH,1));
-		registerObjectTag(item(ItemList.auricion), meta(0), new AspectList().add(Aspect.METAL,1).add(Aspect.GREED,1).add(Aspect.CRAFT,1));
-		registerObjectTag(item(ItemList.infernium), meta(0), new AspectList().add(Aspect.FIRE,3).add(Aspect.ENERGY,1).add(Aspect.MAGIC,2));
+		registerItem(ItemList.arcane_shard,0).add(Aspect.ELDRITCH,1).add(Aspect.MAGIC,1);
+		registerItem(ItemList.obsidian_fragment,0).add(Aspect.EARTH,1);
+		registerItem(ItemList.auricion,0).add(Aspect.METAL,1).add(Aspect.GREED,1).add(Aspect.CRAFT,1);
+		registerItem(ItemList.infernium,0).add(Aspect.FIRE,3).add(Aspect.ENERGY,1).add(Aspect.MAGIC,2);
 
-		registerObjectTag(item(ItemList.curse_amulet), meta(0), new AspectList().add(Aspect.ELDRITCH,4).add(Aspect.SENSES,3).add(Aspect.MAGIC,3).add(Aspect.TAINT, 1));
-		registerObjectTag(item(ItemList.music_disk), meta(0,1,2,3,4,5,6,7,8,9), new AspectList().add(Aspect.SENSES,4).add(Aspect.AIR,4).add(Aspect.ELDRITCH,4).add(Aspect.GREED, 4));
-		registerObjectTag(item(ItemList.enhanced_brewing_stand), meta(0), new AspectList().add(Aspect.WATER,2).add(Aspect.CRAFT,2).add(Aspect.FIRE,3).add(Aspect.MAGIC,4).add(Aspect.EARTH,2).add(Aspect.ELDRITCH, 3));
+		registerItem(ItemList.curse_amulet,0).add(Aspect.ELDRITCH,4).add(Aspect.SENSES,3).add(Aspect.MAGIC,3).add(Aspect.TAINT, 1);
+		registerItem(ItemList.music_disk,0,1,2,3,4,5,6,7,8,9).add(Aspect.SENSES,4).add(Aspect.AIR,4).add(Aspect.ELDRITCH,4).add(Aspect.GREED, 4);
+		registerItem(ItemList.enhanced_brewing_stand,0).add(Aspect.WATER,2).add(Aspect.CRAFT,2).add(Aspect.FIRE,3).add(Aspect.MAGIC,4).add(Aspect.EARTH,2).add(Aspect.ELDRITCH, 3);
 
-		registerObjectTag(item(ItemList.rune), meta(0), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.ENERGY,2));
-		registerObjectTag(item(ItemList.rune), meta(1), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.MOTION,2));
-		registerObjectTag(item(ItemList.rune), meta(2), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.LIFE,2));
-		registerObjectTag(item(ItemList.rune), meta(3), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.ARMOR,2));
-		registerObjectTag(item(ItemList.rune), meta(4), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,4));
-		registerObjectTag(item(ItemList.rune), meta(5), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.VOID,2));
+		registerItem(ItemList.rune,0).add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.ENERGY,2);
+		registerItem(ItemList.rune,1).add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.MOTION,2);
+		registerItem(ItemList.rune,2).add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.LIFE,2);
+		registerItem(ItemList.rune,3).add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.ARMOR,2);
+		registerItem(ItemList.rune,4).add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,4);
+		registerItem(ItemList.rune,5).add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.VOID,2);
 		
 		// ENTITY ASPECTS
 		
-		registerEntityTag("HardcoreEnderExpansion.EnderEye", new AspectList().add(Aspect.AIR,2).add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,4).add(Aspect.MAGIC,2).add(Aspect.MOTION,1).add(Aspect.SENSES,1));
-		registerEntityTag("HardcoreEnderExpansion.FireFiend", new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,8).add(Aspect.FLIGHT,4));
-		registerEntityTag("HardcoreEnderExpansion.EnderDemon", new AspectList().add(Aspect.AIR,1).add(Aspect.ELDRITCH,4).add(Aspect.FLIGHT,4).add(Aspect.WEATHER,4));
+		registerMob("EnderEye").add(Aspect.AIR,2).add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,4).add(Aspect.MAGIC,2).add(Aspect.MOTION,1).add(Aspect.SENSES,1);
+		registerMob("FireFiend").add(Aspect.DARKNESS,1).add(Aspect.FIRE,8).add(Aspect.FLIGHT,4);
+		registerMob("EnderDemon").add(Aspect.AIR,1).add(Aspect.ELDRITCH,4).add(Aspect.FLIGHT,4).add(Aspect.WEATHER,4);
 		
-		registerEntityTag("HardcoreEnderExpansion.AngryEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.DARKNESS,1).add(Aspect.DEATH,1).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1));
-		registerEntityTag("HardcoreEnderExpansion.BabyEnderman", new AspectList().add(Aspect.AIR,1).add(Aspect.ELDRITCH,3).add(Aspect.EXCHANGE,1));
-		registerEntityTag("HardcoreEnderExpansion.ParalyzedEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.DARKNESS,1).add(Aspect.ORDER,2));
-		registerEntityTag("HardcoreEnderExpansion.EnderGuardian", new AspectList().add(Aspect.AIR,2).add(Aspect.DEATH,2).add(Aspect.ELDRITCH,6));
-		registerEntityTag("HardcoreEnderExpansion.VampireBat", new AspectList().add(Aspect.AIR,1).add(Aspect.BEAST,1).add(Aspect.ELDRITCH,1).add(Aspect.FLIGHT,1).add(Aspect.SOUL,1));
-		registerEntityTag("HardcoreEnderExpansion.InfestedBat", new AspectList().add(Aspect.AIR,1).add(Aspect.BEAST,1).add(Aspect.FLIGHT,1).add(Aspect.POISON,1));
-		registerEntityTag("HardcoreEnderExpansion.FireGolem", new AspectList().add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,1).add(Aspect.FIRE,3).add(Aspect.MAGIC,1));
-		registerEntityTag("HardcoreEnderExpansion.ScorchingLens", new AspectList().add(Aspect.DARKNESS,1).add(Aspect.FIRE,3).add(Aspect.SENSES,1));
-		registerEntityTag("HardcoreEnderExpansion.HauntedMiner", new AspectList().add(Aspect.MINE,4).add(Aspect.FIRE,4).add(Aspect.WEAPON,2).add(Aspect.SOUL,5).add(Aspect.EARTH,1));
+		registerMob("AngryEnderman").add(Aspect.AIR,2).add(Aspect.DARKNESS,1).add(Aspect.DEATH,1).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1);
+		registerMob("BabyEnderman").add(Aspect.AIR,1).add(Aspect.ELDRITCH,3).add(Aspect.EXCHANGE,1);
+		registerMob("ParalyzedEnderman").add(Aspect.AIR,2).add(Aspect.DARKNESS,1).add(Aspect.ORDER,2);
+		registerMob("EnderGuardian").add(Aspect.AIR,2).add(Aspect.DEATH,2).add(Aspect.ELDRITCH,6);
+		registerMob("VampireBat").add(Aspect.AIR,1).add(Aspect.BEAST,1).add(Aspect.ELDRITCH,1).add(Aspect.FLIGHT,1).add(Aspect.SOUL,1);
+		registerMob("InfestedBat").add(Aspect.AIR,1).add(Aspect.BEAST,1).add(Aspect.FLIGHT,1).add(Aspect.POISON,1);
+		registerMob("FireGolem").add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,1).add(Aspect.FIRE,3).add(Aspect.MAGIC,1);
+		registerMob("ScorchingLens").add(Aspect.DARKNESS,1).add(Aspect.FIRE,3).add(Aspect.SENSES,1);
+		registerMob("HauntedMiner").add(Aspect.MINE,4).add(Aspect.FIRE,4).add(Aspect.WEAPON,2).add(Aspect.SOUL,5).add(Aspect.EARTH,1);
 
-		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.EXCHANGE,1), new EntityTagsNBT("homelandRole",(byte)HomelandRole.BUSINESSMAN.ordinal()));
-		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.GREED,1), new EntityTagsNBT("homelandRole",(byte)HomelandRole.COLLECTOR.ordinal()));
-		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.ARMOR,1), new EntityTagsNBT("homelandRole",(byte)HomelandRole.GUARD.ordinal()));
-		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,3), new EntityTagsNBT("homelandRole",(byte)HomelandRole.INTELLIGENCE.ordinal()));
-		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.ORDER,1), new EntityTagsNBT("homelandRole",(byte)HomelandRole.ISLAND_LEADERS.ordinal()));
-		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,2).add(Aspect.MIND,2), new EntityTagsNBT("homelandRole",(byte)HomelandRole.OVERWORLD_EXPLORER.ordinal()));
-		registerEntityTag("HardcoreEnderExpansion.HomelandEnderman", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2), new EntityTagsNBT("homelandRole",(byte)HomelandRole.WORKER.ordinal()));
+		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.BUSINESSMAN.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.EXCHANGE,1);
+		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.COLLECTOR.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.GREED,1);
+		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.GUARD.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.ARMOR,1);
+		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.INTELLIGENCE.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,3);
+		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.ISLAND_LEADERS.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.ORDER,1);
+		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.OVERWORLD_EXPLORER.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,2).add(Aspect.MIND,2);
+		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.WORKER.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2);
 
-		registerEntityTag("HardcoreEnderExpansion.Endermage", new AspectList().add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,2).add(Aspect.MAGIC,4));
+		registerMob("Endermage").add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,2).add(Aspect.MAGIC,4);
 	}
 	
-	private static ItemStack block(Block block){
-		return new ItemStack(block,1,0);
+	private static AspectList registerBlock(Block block, int...meta){
+		AspectList list = new AspectList();
+		registerObjectTag(new ItemStack(block),meta,list);
+		return list;
 	}
 	
-	private static ItemStack item(Item item){
-		return new ItemStack(item,1,0);
+	private static AspectList registerItem(Item item, int...meta){
+		AspectList list = new AspectList();
+		registerObjectTag(new ItemStack(item),meta,list);
+		return list;
 	}
 	
-	private static int[] meta(int...meta){
-		return meta;
+	private static AspectList registerMob(String name, EntityTagsNBT...tags){
+		AspectList list = new AspectList();
+		registerEntityTag("HardcoreEnderExpansion."+name,list,tags);
+		return list;
+	}
+	
+	private static int[] range(int startIncl, int endIncl){
+		return IntStream.rangeClosed(startIncl,endIncl).toArray();
 	}
 }
