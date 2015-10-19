@@ -55,7 +55,7 @@ public class StrongholdRoomClusterWaterfall extends StrongholdRoom{
 				placeBlock(world,rand,placeWater,centerX+7*facing.getX()+3*offFacing.getX(),y+maxY-2,centerZ+7*facing.getZ()+3*offFacing.getZ());
 			}
 			
-			if (connections.stream().anyMatch(connection -> connection.facing == facing)){
+			if (!inst.isConnectionFree(facing)){ // this is probably double reversed, but it works so don't touch it
 				placeCube(world,rand,placeStoneBrick,centerX+4*facing.getX()-perpendicular.getX(),y+2,centerZ+4*facing.getZ()-perpendicular.getZ(),centerX+5*facing.getX()+perpendicular.getX(),y+2,centerZ+5*facing.getZ()+perpendicular.getZ());
 				placeCube(world,rand,placeAir,centerX+4*facing.getX()-2*perpendicular.getX(),y+1,centerZ+4*facing.getZ()-2*perpendicular.getZ(),centerX+5*facing.getX()+2*perpendicular.getX(),y+1,centerZ+5*facing.getZ()+2*perpendicular.getZ());
 				placeCube(world,rand,placeAir,centerX+7*facing.getX()-perpendicular.getX(),y+3,centerZ+7*facing.getZ()-perpendicular.getZ(),centerX+7*facing.getX()+perpendicular.getX(),y+5,centerZ+7*facing.getZ()+perpendicular.getZ());
