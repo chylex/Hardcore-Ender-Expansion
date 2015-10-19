@@ -46,6 +46,7 @@ public final class BlockList{
 	}
 	
 	private static void setItemClass(String blockIdentifier, Class<? extends ItemBlock> itemBlockClass){
+		if (!blocks.containsKey(blockIdentifier))throw new IllegalArgumentException("Block '"+blockIdentifier+"' was not found in the registry!");
 		itemBlocks.put(blockIdentifier,itemBlockClass);
 	}
 	
@@ -227,7 +228,7 @@ public final class BlockList{
 		setItemClass("dungeon_puzzle", ItemBlockWithSubtypes.class);
 		setItemClass("block_special_effects", ItemBlockWithSubtypes.class);
 		setItemClass("persegrit", ItemBlockWithSubtypes.class);
-		setItemClass("sacred_stone", ItemBlockWithSubtypes.class);
+		// TODO setItemClass("sacred_stone", ItemBlockWithSubtypes.class);
 		setItemClass("end_portal_frame", ItemBlockWithSubtypes.class);
 	}
 	
