@@ -128,7 +128,12 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 	}
 	
 	@Override
-	public int calculateInstWeight(int availableConnections){
-		return 3*getWeightFactor(availableConnections);
+	protected float getWeightFactor(){
+		return 1.75F;
+	}
+	
+	@Override
+	protected float getWeightMultiplier(){
+		return 3F;
 	}
 }

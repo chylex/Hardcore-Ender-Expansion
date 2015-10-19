@@ -151,4 +151,14 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		mpos.move(facing,2).move(facing = facing.rotateRight());
 		placeLine(world,rand,placeStoneBrickStairs(facing.rotateRight(),false),mpos.x,y+1,mpos.z,mpos.x+facing.getX(),y+1,mpos.z+facing.getZ());
 	}
+	
+	@Override
+	protected float getWeightFactor(){
+		return 1.5F;
+	}
+	
+	@Override
+	protected float getWeightMultiplier(){
+		return 3F;
+	}
 }

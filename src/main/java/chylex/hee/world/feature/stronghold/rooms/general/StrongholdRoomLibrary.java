@@ -706,4 +706,14 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 		mpos.move(facing = rotateRight ? facing.rotateLeft() : facing.rotateRight());
 		placeBlock(world,rand,placeSpruceSlabTop,mpos.x,mpos.y+4,mpos.z);
 	}
+	
+	@Override
+	protected float getWeightFactor(){
+		return 1.2F;
+	}
+	
+	@Override
+	protected float getWeightMultiplier(){
+		return 12F;
+	}
 }

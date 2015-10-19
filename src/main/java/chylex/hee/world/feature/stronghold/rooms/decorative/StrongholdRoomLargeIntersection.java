@@ -19,4 +19,14 @@ public class StrongholdRoomLargeIntersection extends StrongholdRoom{
 		placeCube(world,rand,placeStoneBrick,x+1,y+1,z+maxZ-3,x+3,y+maxY-1,z+maxZ-1);
 		placeCube(world,rand,placeStoneBrick,x+maxX-3,y+1,z+maxZ-3,x+maxX-1,y+maxY-1,z+maxZ-1);
 	}
+	
+	@Override
+	protected float getWeightFactor(){
+		return 1.75F;
+	}
+	
+	@Override
+	protected float getWeightMultiplier(){
+		return 4F;
+	}
 }

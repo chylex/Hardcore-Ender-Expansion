@@ -64,4 +64,14 @@ public class StrongholdRoomLargeIntersectionTrap extends StrongholdRoomLargeInte
 			}
 		}
 	}
+	
+	@Override
+	protected float getWeightFactor(){
+		return 1.75F;
+	}
+	
+	@Override
+	protected float getWeightMultiplier(){
+		return 4F;
+	}
 }

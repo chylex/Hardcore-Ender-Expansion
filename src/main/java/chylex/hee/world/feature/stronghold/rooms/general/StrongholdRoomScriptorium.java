@@ -14,7 +14,7 @@ import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.IBlockPicker;
 import chylex.hee.world.util.Size;
 
-public class StrongholdRoomScriptorium extends StrongholdRoom{
+public class StrongholdRoomScriptorium extends StrongholdRoom{ // TODO add a chest somewhere?
 	public static StrongholdRoomScriptorium[] generateScriptoriums(){
 		return Arrays.stream(Facing4.list).map(facing -> new StrongholdRoomScriptorium(facing)).toArray(StrongholdRoomScriptorium[]::new);
 	}
@@ -145,5 +145,15 @@ public class StrongholdRoomScriptorium extends StrongholdRoom{
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected float getWeightFactor(){
+		return 2.5F;
+	}
+	
+	@Override
+	protected float getWeightMultiplier(){
+		return 3F;
 	}
 }

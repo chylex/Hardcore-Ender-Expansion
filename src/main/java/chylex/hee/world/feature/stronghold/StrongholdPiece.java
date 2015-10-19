@@ -114,12 +114,21 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 		super(type,size);
 	}
 	
+	/**
+	 * Determines the multiplier of calculated weight. Using the default settings:<br>
+	 * - corridors with several connections get higher increase than rooms, to encourage interesting paths<br>
+	 * - rooms have higher importance than corridors, but have a gentler curve with increasing connections
+	 */
 	@Override
-	public int calculateInstWeight(int availableConnections){
-		return type == Type.ROOM ? 2*getWeightFactor(availableConnections) : type == Type.CORRIDOR ? getWeightFactor(availableConnections) : 0;
+	public final int calculateInstWeight(int availableConnections){
+		return MathUtil.ceil(Math.pow(availableConnections,getWeightFactor())*getWeightMultiplier());
 	}
 	
-	protected static final int getWeightFactor(int availableConnections){
-		return MathUtil.ceil(Math.pow(availableConnections,1.5D));
+	protected float getWeightFactor(){
+		return type == Type.ROOM ? 1.5F : type == Type.CORRIDOR ? 2.5F : 1F;
+	}
+	
+	protected float getWeightMultiplier(){
+		return type == Type.ROOM ? 2F : type == Type.CORRIDOR ? 1F : 0F;
 	}
 }

@@ -131,13 +131,15 @@ public class WorldGenStronghold implements IWorldGenerator{
 		stronghold.setStartingPiece(new StrongholdRoomEndPortal());
 		
 		// corridors
-		stronghold.addPieces(20,new Range(0,8),StrongholdCorridorStraight.generateCorridors(3,5,7));
-		stronghold.addPieces(10,new Range(0,8),StrongholdCorridorIntersection.generateCorners());
-		stronghold.addPieces(14,new Range(0,5),StrongholdCorridorIntersection.generateThreeWay());
-		stronghold.addPieces(6,new Range(0,5),StrongholdCorridorIntersection.generateFourWay());
+		stronghold.addPieces(16,new Range(0,6),StrongholdCorridorStraight.generateCorridors(2,3));
+		stronghold.addPieces(7,new Range(0,1),StrongholdCorridorStraight.generateCorridors(5));
 		
-		stronghold.addPieces(2,new Range(0,1),StrongholdCorridorChest.generateCorridors());
-		stronghold.addPieces(1,new Range(0,1),StrongholdCorridorDoubleChest.generateCorridors());
+		stronghold.addPieces(8,new Range(0,4),StrongholdCorridorIntersection.generateCorners());
+		stronghold.addPieces(11,new Range(0,3),StrongholdCorridorIntersection.generateThreeWay());
+		stronghold.addPieces(6,new Range(0,2),StrongholdCorridorIntersection.generateFourWay());
+		
+		stronghold.addPieces(4,new Range(0,1),StrongholdCorridorChest.generateCorridors());
+		stronghold.addPieces(2,new Range(0,1),StrongholdCorridorDoubleChest.generateCorridors());
 		
 		stronghold.addPieces(4,new Range(0,1),StrongholdStairsStraight.generateStairs());
 		stronghold.addPieces(3,new Range(0,1),StrongholdStairsVertical.generateStairs(1));
@@ -175,10 +177,10 @@ public class WorldGenStronghold implements IWorldGenerator{
 		stronghold.addPiece(6,new Range(0,2),new StrongholdRoomArches());
 		stronghold.addPiece(6,new Range(0,3),new StrongholdRoomFountain());
 		stronghold.addPiece(6,new Range(0,2),new StrongholdRoomFountainCeiling());
-		stronghold.addPiece(6,new Range(0,2),new StrongholdRoomHugeIntersection());
-		stronghold.addPiece(6,new Range(0,2),new StrongholdRoomLargeIntersection());
+		stronghold.addPiece(10,new Range(0,1),new StrongholdRoomHugeIntersection());
+		stronghold.addPiece(7,new Range(0,1),new StrongholdRoomLargeIntersection());
 		stronghold.addPieces(6,new Range(0,3),StrongholdRoomLitCorners.generateColors());
-		stronghold.addPiece(6,new Range(0,3),new StrongholdRoomLitPole());
+		stronghold.addPiece(6,new Range(0,2),new StrongholdRoomLitPole());
 		stronghold.addPiece(6,new Range(0,3),new StrongholdRoomLitTotem());
 		stronghold.addPiece(6,new Range(0,2),new StrongholdRoomLowerCorners());
 		stronghold.addPiece(6,new Range(0,3),new StrongholdRoomSmallIntersection());
@@ -222,8 +224,6 @@ public class WorldGenStronghold implements IWorldGenerator{
 			}
 			else if (args[0].equals("pieces")){
 				CustomArrayList<StrongholdPiece> pieces = new CustomArrayList<>();
-				
-				pieces.addAll(StrongholdRoomPrisonTrap.generatePrisons());
 				
 				/*pieces.addAll(StrongholdCorridorStraight.generateCorridors(5));
 				pieces.addAll(StrongholdCorridorIntersection.generateCorners());

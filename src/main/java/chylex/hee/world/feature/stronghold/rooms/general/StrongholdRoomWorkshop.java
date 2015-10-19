@@ -3,7 +3,6 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import net.minecraft.init.Blocks;
-import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.FlowerPotPlant;
 import chylex.hee.system.abstractions.Meta.Skull;
@@ -181,5 +180,15 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 			world.setTileEntity(x,y,z,Meta.generateFurnace(facingTowards,null));
 			world.setTileEntity(x,y+1,z,Meta.generateFurnace(facingTowards,null));
 		}
+	}
+	
+	@Override
+	protected float getWeightFactor(){
+		return 2.25F;
+	}
+	
+	@Override
+	protected float getWeightMultiplier(){
+		return 2.5F;
 	}
 }
