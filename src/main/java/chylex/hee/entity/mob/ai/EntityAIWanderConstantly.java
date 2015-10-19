@@ -12,21 +12,27 @@ public class EntityAIWanderConstantly extends EntityAIBase{
 	public EntityAIWanderConstantly(EntityCreature owner, double speed){
 		this.entity = owner;
 		this.speed = speed;
+        this.setMutexBits(1);
 	}
 
 	@Override
 	public boolean shouldExecute(){
-		Vec3 vec3 = RandomPositionGenerator.findRandomTarget(entity,10,7);
-		return (this.targetPosition = vec3) != null;
+		return (this.targetPosition = RandomPositionGenerator.findRandomTarget(entity,10,7)) != null;
 	}
 
 	@Override
 	public boolean continueExecuting(){
-		return !entity.getNavigator().noPath();
+		if (entity.getNavigator().noPath())targetPosition = null;
+		return targetPosition != null;
 	}
 
 	@Override
 	public void startExecuting(){
 		entity.getNavigator().tryMoveToXYZ(targetPosition.xCoord,targetPosition.yCoord,targetPosition.zCoord,speed);
+	}
+	
+	@Override
+	public void resetTask(){
+		targetPosition = null;
 	}
 }
