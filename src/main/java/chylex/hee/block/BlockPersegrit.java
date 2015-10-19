@@ -15,6 +15,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockPersegrit extends Block implements IBlockSubtypes{
+	public static final int metaCount = 16;
+	
 	@SideOnly(Side.CLIENT)
 	private IIcon[] iconArray;
 	
@@ -46,19 +48,19 @@ public class BlockPersegrit extends Block implements IBlockSubtypes{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int a = 0; a < iconArray.length; a++)list.add(new ItemStack(item,1,a));
+		for(int a = 0; a < metaCount; a++)list.add(new ItemStack(item,1,a));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[16];
+		iconArray = new IIcon[metaCount];
 		iconArray[0] = iconRegister.registerIcon(textureName);
 		
 		String tex = textureName+"_"; // 1    2     3     4     5     6     7     8     9    10     11     12     13     14   15
 		String[] names = new String[]{ "h", "v", "hl", "hr", "vb", "vt", "tl", "tr", "bl", "br", "trb", "trl", "tbl", "rbl", "x" };
 		
-		for(int a = 1; a < 16; a++)iconArray[a] = iconRegister.registerIcon(tex+names[a-1]);
+		for(int a = 1; a < metaCount; a++)iconArray[a] = iconRegister.registerIcon(tex+names[a-1]);
 	}
 	
 	/* TODO

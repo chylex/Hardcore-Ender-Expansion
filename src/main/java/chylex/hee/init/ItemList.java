@@ -151,19 +151,19 @@ public final class ItemList{
 			GameRegistryUtil.registerItem(entry.getValue(),entry.getKey());
 		}
 		
-		ModCreativeTab.tabMain.list.addItems(
+		ModCreativeTab.tabMain.list.add(
 			ethereum,ancient_dust,alteration_nexus,essence,enhanced_brewing_stand,
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			blank_gem,spatial_dash_gem,transference_gem,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
 			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,curse_amulet,
 			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_receptacle,
-			/* TODO enderman_head,*/bucket_ender_goo,knowledge_note,
+			BlockList.enderman_head,bucket_ender_goo,knowledge_note,
 			// TODO SANCTUARY sacred_wand,sacred_wand_cores,
 			music_disk,exp_bottle,spawn_eggs
 		);
 		
-		ModCreativeTab.tabCharms.list.addItems(
+		ModCreativeTab.tabCharms.list.add(
 			charm
 		);
 	}

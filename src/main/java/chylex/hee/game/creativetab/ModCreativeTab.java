@@ -1,6 +1,5 @@
 package chylex.hee.game.creativetab;
 import java.util.List;
-import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import chylex.hee.init.ItemList;
@@ -17,11 +16,12 @@ public class ModCreativeTab extends CreativeTabs{
 	}
 	
 	private final byte type;
-	public final CreativeTabItemList list = new CreativeTabItemList();
+	public final CreativeTabItemList list;
 	
 	public ModCreativeTab(int type){
 		super("tabHardcoreEnderExpansion");
 		this.type = (byte)type;
+		this.list = new CreativeTabItemList(this);
 	}
 	
 	@Override
@@ -39,13 +39,8 @@ public class ModCreativeTab extends CreativeTabs{
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void displayAllReleventItems(List targetList){
-		for(Block block:list.getBlocks()){
-			block.getSubBlocks(Item.getItemFromBlock(block),this,targetList);
-		}
-		
-		for(Item item:list.getItems()){
-			item.getSubItems(item,this,targetList);
-		}
+		targetList.addAll(list.getAllItems());
 	}
 }

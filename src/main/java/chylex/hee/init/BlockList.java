@@ -240,7 +240,7 @@ public final class BlockList{
 			GameRegistryUtil.registerBlock(entry.getValue(),entry.getKey(),itemBlocks.getOrDefault(entry.getKey(),ItemBlock.class));
 		}
 		
-		ModCreativeTab.tabMain.list.addBlocks(
+		ModCreativeTab.tabMain.list.add(
 			Blocks.dragon_egg,obsidian_falling,obsidian_special,obsidian_special_glow,obsidian_stairs,
 			ethereal_lantern,gloomrock,gloomrock_smooth_slab,gloomrock_smooth_stairs,gloomrock_brick_slab,gloomrock_brick_stairs,
 			essence_altar,decomposition_table,experience_table,accumulation_table,extraction_table,loot_chest,
@@ -253,7 +253,7 @@ public final class BlockList{
 			/* TODO SANCTUARY sacred_stone,*/dry_vine,ancient_web,crossed_decoration,death_flower
 		);
 		
-		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.addBlocks(special_effects);
+		if (Log.isDeobfEnvironment)ModCreativeTab.tabMain.list.add(special_effects);
 	}
 	
 	public static void configureBlocks(){
