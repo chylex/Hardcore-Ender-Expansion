@@ -93,6 +93,8 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(block(BlockList.dungeon_puzzle), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15), new AspectList().add(Aspect.EARTH,1).add(Aspect.ELDRITCH,1).add(Aspect.MECHANISM, 1).add(Aspect.MIND, 1));
 		registerObjectTag(block(BlockList.persegrit), meta(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15), new AspectList().add(Aspect.EARTH,1).add(Aspect.DARKNESS,1));
 		registerObjectTag(block(BlockList.energy_cluster), meta(0), new AspectList().add(Aspect.ELDRITCH,5).add(Aspect.ENERGY,5).add(Aspect.AURA,2));
+		
+		registerObjectTag(block(BlockList.enderman_head), meta(0,1,2,3,4,5), new AspectList().add(Aspect.DEATH,4).add(Aspect.ELDRITCH,6).add(Aspect.SOUL,4));
 
 		// ITEM APECTS
 		
@@ -141,8 +143,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerObjectTag(item(ItemList.rune), meta(3), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.ARMOR,2));
 		registerObjectTag(item(ItemList.rune), meta(4), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,4));
 		registerObjectTag(item(ItemList.rune), meta(5), new AspectList().add(Aspect.EARTH,1).add(Aspect.MIND,1).add(Aspect.MAGIC,2).add(Aspect.VOID,2));
-		
-		registerObjectTag(item(ItemList.enderman_head), meta(0,1,2,3,4,5), new AspectList().add(Aspect.DEATH,4).add(Aspect.ELDRITCH,6).add(Aspect.SOUL,4));
 		
 		// ENTITY ASPECTS
 		

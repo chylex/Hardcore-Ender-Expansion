@@ -113,7 +113,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 						target = (EntityPlayer)player;
 						ItemStack headArmor = target.getCurrentArmor(3);
 						
-						if (headArmor != null && headArmor.getItem() == ItemList.enderman_head)target = null;
+						if (headArmor != null && headArmor.getItem() == Item.getItemFromBlock(BlockList.enderman_head))target = null;
 						else attentionLossTimer = (byte)(64+rand.nextInt(62));
 					});
 				}

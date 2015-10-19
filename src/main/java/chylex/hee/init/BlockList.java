@@ -25,6 +25,7 @@ import chylex.hee.block.vanilla.BlockBasicStairs;
 import chylex.hee.game.creativetab.ModCreativeTab;
 import chylex.hee.item.block.ItemBlockDynamicColor;
 import chylex.hee.item.block.ItemBlockEndFlower;
+import chylex.hee.item.block.ItemBlockEndermanHead;
 import chylex.hee.item.block.ItemBlockEnhanceableTile;
 import chylex.hee.item.block.ItemBlockEssenceAltar;
 import chylex.hee.item.block.ItemBlockSlab;
@@ -218,6 +219,7 @@ public final class BlockList{
 		setItemClass("dry_vine", ItemBlockDynamicColor.class);
 		setItemClass("ancient_web", ItemBlockDynamicColor.class);
 		setItemClass("crossed_decoration", ItemBlockWithSubtypes.class);
+		setItemClass("enderman_head_block", ItemBlockEndermanHead.class);
 		setItemClass("death_flower", ItemBlockEndFlower.class);
 		setItemClass("sphalerite", ItemBlockWithSubtypes.class);
 		setItemClass("ravaged_brick", ItemBlockWithSubtypes.class);

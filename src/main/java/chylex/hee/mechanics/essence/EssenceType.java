@@ -15,7 +15,7 @@ public enum EssenceType{
 	DRAGON(1, "Dragon", DragonEssenceHandler.class, new RuneItem[]{
 		new RuneItem(Items.ender_pearl, "random.glass"),
 		new RuneItem(Items.ender_eye, "random.glass"),
-		new RuneItem(ItemList.enderman_head, "dig.stone").setShowcaseItem(new ItemStack(BlockList.enderman_head)),
+		new RuneItem(BlockList.enderman_head, "dig.stone"),
 		new RuneItem(Blocks.end_stone, "dig.stone"),
 		new RuneItem(Items.book, "hardcoreenderexpansion:player.random.pageflip"),
 		new RuneItem(Blocks.bookshelf, "dig.wood"),

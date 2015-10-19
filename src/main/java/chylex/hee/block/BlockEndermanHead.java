@@ -4,10 +4,11 @@ import net.minecraft.block.BlockSkull;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import chylex.hee.init.ItemList;
+import thaumcraft.api.crafting.IInfusionStabiliser;
 import chylex.hee.tileentity.TileEntityEndermanHead;
 import cpw.mods.fml.common.Optional;
-import thaumcraft.api.crafting.IInfusionStabiliser;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @Optional.Interface(iface = "thaumcraft.api.crafting.IInfusionStabiliser", modid = "Thaumcraft")
 public class BlockEndermanHead extends BlockSkull implements IInfusionStabiliser{
@@ -20,14 +21,21 @@ public class BlockEndermanHead extends BlockSkull implements IInfusionStabiliser
 	
 	@Override
 	public Item getItemDropped(int meta, Random rand, int fortune){
-		return ItemList.enderman_head;
+		return Item.getItemFromBlock(this);
 	}
 	
 	@Override
+    @SideOnly(Side.CLIENT)
 	public Item getItem(World world, int x, int y, int z){
-		return ItemList.enderman_head;
+		return Item.getItemFromBlock(this);
 	}
-
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public String getItemIconName(){
+		return getTextureName();
+	}
+	
 	@Override
 	public boolean canStabaliseInfusion(World world, int x, int y, int z){ // TC API
 		return true;

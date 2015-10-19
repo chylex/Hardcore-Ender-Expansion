@@ -24,11 +24,12 @@ public class ModelEndermanHeadBiped extends ModelBiped{
 		bipedLeftArm.showModel = false;
 		bipedRightLeg.showModel = false;
 		bipedLeftLeg.showModel = false;
+		bipedEars.showModel = false;
+		bipedCloak.showModel = false;
 	}
 	
 	@Override
 	public void render(Entity entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
-		super.render(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 		setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
 		
 		GL11.glPushMatrix();
@@ -39,8 +40,6 @@ public class ModelEndermanHeadBiped extends ModelBiped{
 
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){
-		super.setRotationAngles(limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel,entity);
-		
 		bipedHead.rotateAngleY = MathUtil.toRad(rotationYaw);
 		bipedHead.rotateAngleX = MathUtil.toRad(rotationPitch);
 	}

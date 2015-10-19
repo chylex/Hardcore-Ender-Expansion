@@ -10,6 +10,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.boss.EntityBossDragon;
+import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
@@ -38,7 +39,7 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 			}
 		});
 		
-		drops.addLoot(ItemList.enderman_head).setChances(obj -> {
+		drops.addLoot(BlockList.enderman_head).setChances(obj -> {
 			return new float[]{ 0.03F };
 		});
 	}

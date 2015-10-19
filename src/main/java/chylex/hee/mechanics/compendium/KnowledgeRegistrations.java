@@ -42,7 +42,7 @@ public final class KnowledgeRegistrations{
 		
 		STRONGHOLD = dummy("Stronghold",new ItemStack(Blocks.stonebrick),"ec.title.stronghold"),
 		// TODO ADVENTURERS_DIARY = create(ItemList.adventurers_diary),
-		ENDERMAN_HEAD = create(ItemList.enderman_head),
+		ENDERMAN_HEAD = create(BlockList.enderman_head),
 		MUSIC_DISKS = create(ItemList.music_disk),
 		END_PORTAL = create(Blocks.end_portal_frame,"ec.title.portal"),
 		// TODO ALTAR_NEXUS = create(ItemList.altar_nexus),

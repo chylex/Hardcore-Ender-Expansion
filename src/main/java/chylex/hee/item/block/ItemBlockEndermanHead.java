@@ -1,8 +1,9 @@
-package chylex.hee.item;
+package chylex.hee.item.block;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
@@ -12,6 +13,7 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.init.BlockList;
 import chylex.hee.proxy.ModClientProxy;
+import chylex.hee.render.item.RenderItemEndermanHead;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.tileentity.TileEntityEndermanHead;
@@ -19,10 +21,9 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemEndermanHead extends Item{
-	@Override
-	public String getUnlocalizedName(ItemStack is){
-		return BlockList.enderman_head.getUnlocalizedName();
+public class ItemBlockEndermanHead extends ItemBlock{
+	public ItemBlockEndermanHead(Block block){
+		super(block);
 	}
 	
 	@Override
@@ -78,5 +79,7 @@ public class ItemEndermanHead extends Item{
 		
 		GL11.glColor3f(1F,1F,1F);
 		e.result = e.stack.isItemEnchanted() ? 15 : 1;
+		
+		RenderItemEndermanHead.isRenderingArmor = true;
 	}
 }

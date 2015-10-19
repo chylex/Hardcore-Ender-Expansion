@@ -47,6 +47,7 @@ public final class ModTransition{
 		discard.add(id+"temple_caller");
 		discard.add(id+"void_chest");
 		discard.add(id+"energy_wand");
+		discard.add(id+"enderman_head");
 		
 		e.get().stream().filter(mapping -> discard.contains(mapping.name)).forEach(MissingMapping::ignore);
 	}

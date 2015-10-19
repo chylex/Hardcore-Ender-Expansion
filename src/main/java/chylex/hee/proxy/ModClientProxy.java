@@ -47,10 +47,11 @@ import chylex.hee.render.RenderNothing;
 import chylex.hee.render.block.RenderBlockCrossedDecoration;
 import chylex.hee.render.block.RenderBlockEndFlowerPot;
 import chylex.hee.render.block.RenderBlockEnhancedTNTPrimed;
-import chylex.hee.render.block.RenderBlockTokenHolder;
 import chylex.hee.render.block.RenderBlockObsidianSpecial;
 import chylex.hee.render.block.RenderBlockSpookyLeaves;
+import chylex.hee.render.block.RenderBlockTokenHolder;
 import chylex.hee.render.entity.*;
+import chylex.hee.render.item.RenderItemEndermanHead;
 import chylex.hee.render.item.RenderItemLootChest;
 import chylex.hee.render.model.ModelEnderGuardian;
 import chylex.hee.render.model.ModelEndermage;
@@ -123,6 +124,7 @@ public class ModClientProxy extends ModCommonProxy{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityLootChest.class, new RenderTileLootChest());
 		
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.loot_chest), new RenderItemLootChest());
+		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.enderman_head), new RenderItemEndermanHead());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon());
