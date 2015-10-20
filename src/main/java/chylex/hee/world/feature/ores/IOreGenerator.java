@@ -2,6 +2,7 @@ package chylex.hee.world.feature.ores;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.function.ToDoubleFunction;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.Vec;
@@ -53,10 +54,14 @@ public interface IOreGenerator{
 	 * Generates an ore in the starting position, and then keeps generating ores in random directions from the center.
 	 */
 	public static class DistanceSpread implements IOreGenerator{
-		private final double maxDistance;
+		private final ToDoubleFunction<Random> calculator;
 		
-		public DistanceSpread(double maxDistance){
-			this.maxDistance = maxDistance;
+		public DistanceSpread(final double maxDistance){
+			this.calculator = rand -> rand.nextDouble()*maxDistance;
+		}
+		
+		public DistanceSpread(ToDoubleFunction<Random> distanceCalculator){
+			this.calculator = distanceCalculator;
 		}
 		
 		@Override
@@ -67,7 +72,7 @@ public interface IOreGenerator{
 			for(int ore = 0; ore < ores; ore++){
 				for(int attempt = 0; attempt < 5; attempt++){
 					Vec vec = Vec.xyzRandom(rand);
-					double dist = rand.nextDouble()*maxDistance;
+					double dist = calculator.applyAsDouble(rand);
 					
 					mpos.set(x+vec.x*dist,y+vec.y*dist,z+vec.z*dist);
 					

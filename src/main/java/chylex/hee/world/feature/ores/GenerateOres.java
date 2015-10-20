@@ -1,8 +1,12 @@
 package chylex.hee.world.feature.ores;
 import java.util.Random;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
+import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.IBlockPicker;
@@ -70,14 +74,17 @@ public final class GenerateOres{
 		this.oreGenerator = generator;
 	}
 	
+	/**
+	 * Caution: does not generate ores in edge 'chunks' to prevent cut off clusters.
+	 */
 	public void generate(StructureWorld world, Random rand){
 		BoundingBox worldBox = world.getArea();
 		int totalChunksX = MathUtil.ceil((worldBox.x2-worldBox.x1)/(float)chunkSize);
 		int totalChunksZ = MathUtil.ceil((worldBox.z2-worldBox.z1)/(float)chunkSize);
 		PosMutable mpos = new PosMutable();
 		
-		for(int chunkX = 0; chunkX < totalChunksX; chunkX++){
-			for(int chunkZ = 0; chunkZ < totalChunksZ; chunkZ++){
+		for(int chunkX = 1; chunkX < totalChunksX-1; chunkX++){
+			for(int chunkZ = 1; chunkZ < totalChunksZ-1; chunkZ++){
 				int clusters = clustersPerChunk.next(rand);
 				
 				for(int attempt = 0; attempt < attemptsPerChunk && clusters > 0; attempt++){
@@ -91,4 +98,25 @@ public final class GenerateOres{
 			}
 		}
 	}
+	
+	public static final HeeTest $debugTest = new HeeTest(){
+		@Override
+		public void run(String...args){
+			int amtX = DragonUtil.tryParse(args.length > 0 ? args[0] : "",1);
+			int amtZ = DragonUtil.tryParse(args.length > 1 ? args[1] : "",1);
+			
+			GenerateOres gen = new GenerateOres(Blocks.air,BlockList.end_powder_ore);
+			gen.setChunkSize(12);
+			gen.setY(16,16);
+			gen.setAttemptsPerChunk(1);
+			gen.setClustersPerChunk(1,1);
+			
+			gen.setOresPerCluster(5,8,RandomAmount.preferSmaller);
+			gen.setOreGenerator(new IOreGenerator.AdjacentSpread(true));
+			
+			StructureWorld structureWorld = new StructureWorld(world,12+6*amtX,33,12+6*amtZ);
+			gen.generate(structureWorld,world.rand);
+			structureWorld.generateInWorld(world,world.rand,MathUtil.floor(player.posX),MathUtil.floor(player.posY)-24,MathUtil.floor(player.posZ));
+		}
+	};
 }
