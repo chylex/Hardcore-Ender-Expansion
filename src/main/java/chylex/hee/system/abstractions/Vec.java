@@ -15,7 +15,11 @@ public class Vec{
 		return new Vec(0D,0D,0D);
 	}
 	
-	public static Vec random(Random rand){
+	public static Vec xzRandom(Random rand){
+		return new Vec(rand.nextDouble()-0.5D,0D,rand.nextDouble()-0.5D).normalized();
+	}
+	
+	public static Vec xyzRandom(Random rand){
 		return new Vec(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalized();
 	}
 	

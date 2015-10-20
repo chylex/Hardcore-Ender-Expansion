@@ -12,38 +12,14 @@ import chylex.hee.entity.item.EntityItemAltar;
 import chylex.hee.entity.item.EntityItemEndPowder;
 import chylex.hee.entity.item.EntityItemIgneousRock;
 import chylex.hee.entity.item.EntityItemInstabilityOrb;
-import chylex.hee.entity.mob.EntityMobAngryEnderman;
-import chylex.hee.entity.mob.EntityMobBabyEnderman;
-import chylex.hee.entity.mob.EntityMobEnderGuardian;
-import chylex.hee.entity.mob.EntityMobEndermage;
-import chylex.hee.entity.mob.EntityMobEnderman;
-import chylex.hee.entity.mob.EntityMobFireGolem;
-import chylex.hee.entity.mob.EntityMobForestGhost;
-import chylex.hee.entity.mob.EntityMobHauntedMiner;
-import chylex.hee.entity.mob.EntityMobHomelandEnderman;
-import chylex.hee.entity.mob.EntityMobInfestedBat;
-import chylex.hee.entity.mob.EntityMobLouse;
-import chylex.hee.entity.mob.EntityMobScorchingLens;
-import chylex.hee.entity.mob.EntityMobSilverfish;
-import chylex.hee.entity.mob.EntityMobVampiricBat;
-import chylex.hee.entity.projectile.EntityProjectileCorruptedEnergy;
-import chylex.hee.entity.projectile.EntityProjectileCurse;
-import chylex.hee.entity.projectile.EntityProjectileDragonFireball;
-import chylex.hee.entity.projectile.EntityProjectileEnhancedEnderPearl;
-import chylex.hee.entity.projectile.EntityProjectileExpBottleConsistent;
-import chylex.hee.entity.projectile.EntityProjectileEyeOfEnder;
-import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
-import chylex.hee.entity.projectile.EntityProjectileFlamingBall;
-import chylex.hee.entity.projectile.EntityProjectileGolemFireball;
-import chylex.hee.entity.projectile.EntityProjectileMinerShot;
-import chylex.hee.entity.projectile.EntityProjectilePotion;
-import chylex.hee.entity.projectile.EntityProjectileSacredWand;
-import chylex.hee.entity.projectile.EntityProjectileSpatialDash;
+import chylex.hee.entity.mob.*;
+import chylex.hee.entity.projectile.*;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
+import chylex.hee.entity.technical.EntityTechnicalSpawner;
 import chylex.hee.entity.technical.EntityTechnicalTrigger;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
@@ -107,7 +83,8 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityTechnicalCurseBlock.class, "TechnicalCurseBlock", 46, 64, 1, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalCurseEntity.class, "TechnicalCurseEntity", 47, 64, 1, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalTrigger.class, "TechnicalTrigger", 54, 0, Integer.MAX_VALUE, false);
-		// last: 55
+		GameRegistryUtil.registerEntity(EntityTechnicalSpawner.class, "TechnicalSpawner", 56, 0, Integer.MAX_VALUE, false);
+		// last: 56
 	}
 	
 	private EntityList(){}
