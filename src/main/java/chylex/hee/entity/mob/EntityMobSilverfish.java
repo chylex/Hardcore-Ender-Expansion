@@ -62,7 +62,7 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	
 	public void setCanSummonSilverfish(boolean allow){
 		if (allow && canSummonSilverfish == null){
-			canSummonSilverfish = new EntityAISummonFromBlock(this,Blocks.monster_egg,world -> new EntityMobSilverfish(world));
+			canSummonSilverfish = new EntityAISummonFromBlock(this,Blocks.monster_egg,EntityMobSilverfish::new);
 			tasks.addTask(2,canSummonSilverfish);
 		}
 		else if (!allow && canSummonSilverfish != null){

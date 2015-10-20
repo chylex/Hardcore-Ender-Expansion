@@ -1,12 +1,14 @@
 package chylex.hee.world.feature.stronghold.rooms.general;
 import java.util.Random;
 import net.minecraft.init.Blocks;
+import chylex.hee.entity.technical.EntityTechnicalSpawner;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.stronghold.StrongholdPiece;
+import chylex.hee.world.feature.stronghold.StrongholdSilverfishSpawner;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.IBlockPicker;
@@ -125,6 +127,9 @@ public class StrongholdRoomEndPortal extends StrongholdPiece{ // TODO maybe add 
 			placeBlock(world,rand,random -> new BlockInfo(Blocks.iron_bars),mpos.x,y+2,mpos.z); // iron bar
 			mpos.move(facing,1);
 		}
+		
+		// global silverfish spawner
+		world.addEntity(new EntityTechnicalSpawner(null,0D,0D,0D,new StrongholdSilverfishSpawner()));
 	}
 	
 	@Override
