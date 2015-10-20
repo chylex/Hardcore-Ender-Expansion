@@ -4,10 +4,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.game.save.types.PlayerFile;
 import chylex.hee.system.abstractions.Pos;
 
-public class StrongholdFile extends PlayerFile{
+public class StrongholdPortalFile extends PlayerFile{
 	private Pos portalPos;
 	
-	public StrongholdFile(String filename){
+	public StrongholdPortalFile(String filename){
 		super("stronghold",filename);
 	}
 	

@@ -10,7 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import chylex.hee.game.save.SaveData;
-import chylex.hee.game.save.types.player.StrongholdFile;
+import chylex.hee.game.save.types.player.StrongholdPortalFile;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
@@ -49,7 +49,7 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 			if (meta == Meta.endPortalActive){
 				if (entity.timeUntilPortal == 0){
 					if (world.provider.dimensionId == 0){
-						SaveData.player((EntityPlayer)entity,StrongholdFile.class).setPortalPos(findCenterPortalBlock(world,pos));
+						SaveData.player((EntityPlayer)entity,StrongholdPortalFile.class).setPortalPos(findCenterPortalBlock(world,pos));
 						TeleportHandler.toEnd((EntityPlayerMP)entity);
 					}
 					else TeleportHandler.toOverworld((EntityPlayerMP)entity);
