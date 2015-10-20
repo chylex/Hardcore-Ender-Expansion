@@ -30,7 +30,7 @@ public final class NBTUtil{
 	}
 	
 	public static Stream<NBTPrimitive> readNumericList(NBTTagCompound parent, String key){
-		return ((List<NBTPrimitive>)parent.getTagList(key,NBT.TAG_ANY_NUMERIC).tagList).stream();
+		return ((List<NBTPrimitive>)((NBTTagList)parent.getTag(key)).tagList).stream();
 	}
 	
 	public static Stream<NBTTagCompound> readCompoundList(NBTTagCompound parent, String key){
