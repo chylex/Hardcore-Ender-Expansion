@@ -9,7 +9,7 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.common.IWorldGenerator;
 
-public class WorldGenDispersedClusters implements IWorldGenerator{
+public class WorldGenDispersedCluster implements IWorldGenerator{
 	@Override
 	public void generate(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider){
 		if (world.provider.dimensionId == 0 && chunkX%2 == 0 && chunkZ%2 == 0 && rand.nextInt(40) == 0){
