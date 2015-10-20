@@ -12,6 +12,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraftforge.fluids.BlockFluidBase;
+import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
@@ -20,7 +21,6 @@ import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Vec;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.WorldGenStronghold;
 import cpw.mods.fml.relauncher.Side;
@@ -76,9 +76,9 @@ public class EntityProjectileEyeOfEnder extends Entity{
 			strongholdZ = dataWatcher.getWatchableObjectInt(17);
 			maxTerrainY = dataWatcher.getWatchableObjectShort(18);
 			
-			double[] vec = DragonUtil.getNormalizedVector(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ);
-			moveX = vec[0]*0.27D;
-			moveZ = vec[1]*0.27D;
+			Vec vec = Vec.xz(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ).normalized();
+			moveX = vec.x*0.27D;
+			moveZ = vec.z*0.27D;
 		}
 		else if (timer > 40){
 			Pos center = Pos.at(this);

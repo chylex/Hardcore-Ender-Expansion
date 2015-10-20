@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.ArrayUtils;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,6 +18,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.logging.Stopwatch;
@@ -136,11 +136,13 @@ public final class DragonUtil{
 		return closestEntities;
 	}
 	
+	@Deprecated
 	public static double[] getNormalizedVector(double vecX, double vecZ){
 		double len = Math.sqrt(vecX*vecX+vecZ*vecZ);
 		return len == 0 ? new double[]{ 0, 0 } : new double[]{ vecX/len, vecZ/len };
 	}
-	
+
+	@Deprecated
 	public static Vec3 getRandomVector(Random rand){
 		return Vec3.createVectorHelper(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalize();
 	}

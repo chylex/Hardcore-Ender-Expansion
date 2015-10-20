@@ -12,6 +12,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -86,11 +87,11 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 				Pos.forEachBlock(crystalPos.offset(-4,terY-crystalPos.getY(),-4),crystalPos.offset(4,0,4),pos -> {
 					if (pos.getBlock(worldObj) == BlockList.obsidian_falling){
 						pos.setAir(worldObj);
-						double[] vec = DragonUtil.getNormalizedVector(crystalPos.getX()-pos.x,crystalPos.getZ()-pos.z);
+						Vec vec = Vec.xz(crystalPos.getX()-pos.x,crystalPos.getZ()-pos.z).normalized();
 						
 						EntityBlockFallingObsidian obsidian = new EntityBlockFallingObsidian(worldObj,pos.x+0.5D,pos.y+0.1D,pos.z+0.5D);
-						obsidian.motionX = (vec[0]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
-						obsidian.motionZ = (vec[1]+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
+						obsidian.motionX = (vec.x+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
+						obsidian.motionZ = (vec.z+(rand.nextFloat()*0.5F-0.25F))*2.25F*rand.nextFloat();
 						obsidian.motionY = -0.25F-rand.nextFloat()*0.4F;
 						worldObj.spawnEntityInWorld(obsidian);
 					}
