@@ -18,9 +18,11 @@ import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.MapGenStructureData;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureStart;
-import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.global.StrongholdFile;
 import chylex.hee.init.ItemList;
+import chylex.hee.item.ItemKnowledgeNote;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.abstractions.Pos;
@@ -75,7 +77,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 		lootGeneral.addLoot(Items.rotten_flesh).setAmount(1,4).setWeight(82);
 		lootGeneral.addLoot(Items.ender_pearl).setAmount(1).setWeight(80);
 		lootGeneral.addLoot(Items.leather).setAmount(1,6,RandomAmount.aroundCenter).setWeight(76);
-		lootGeneral.addLoot(ItemList.knowledge_note).setAmount(1).setWeight(72); // TODO add processor
+		lootGeneral.addLoot(ItemList.knowledge_note).setAmount(1).setWeight(72);
 		lootGeneral.addLoot(Items.book).setAmount(1).setWeight(70);
 		lootGeneral.addLoot(Blocks.obsidian).setAmount(2,3).setWeight(58);
 		lootGeneral.addLoot(Items.bowl).setAmount(1,3,RandomAmount.preferSmaller).setWeight(40);
@@ -84,21 +86,26 @@ public class WorldGenStronghold implements IWorldGenerator{
 		lootGeneral.addLoot(Items.glass_bottle).setAmount(1).setWeight(22);
 		lootGeneral.addLoot(Items.potionitem).setAmount(1).setWeight(22);
 		lootGeneral.addLoot(Items.diamond).setAmount(1,2).setWeight(14);
+		lootGeneral.addPostProcessor(ItemKnowledgeNote.createNoteProcessor(1)); // TODO update
 		
 		lootLibrary.addLoot(Items.paper).setAmount(1,3).setWeight(50);
 		lootLibrary.addLoot(Items.book).setAmount(1,2).setWeight(45);
-		lootLibrary.addLoot(ItemList.knowledge_note).setAmount(1).setWeight(42); // TODO add processor
+		lootLibrary.addLoot(ItemList.knowledge_note).setAmount(1).setWeight(42);
 		lootLibrary.addLoot(ItemList.ancient_dust).setAmount(1,2).setWeight(36);
 		lootLibrary.addLoot(Items.compass).setAmount(1).setWeight(22);
 		lootLibrary.addLoot(Items.map).setAmount(1).setWeight(20);
+		lootLibrary.addPostProcessor(ItemKnowledgeNote.createNoteProcessor(1)); // TODO update
 	}
 	
 	public static Optional<ChunkCoordIntPair> findNearestStronghold(int chunkX, int chunkZ, World world){
 		List<ChunkCoordIntPair> found = new ArrayList<>();
+		StrongholdFile strongholds = SaveData.global(StrongholdFile.class);
 		
 		for(int x = -1; x <= 1; x++){
 			for(int z = -1; z <= 1; z++){
-				findSpawnChunk(chunkX+x*gridSize,chunkZ+z*gridSize,world).ifPresent(found::add);
+				findSpawnChunk(chunkX+x*gridSize,chunkZ+z*gridSize,world)
+				.filter(coords -> !world.chunkProvider.chunkExists(coords.chunkXPos,coords.chunkZPos) || strongholds.checkChunkPos(coords.chunkXPos,coords.chunkZPos))
+				.ifPresent(found::add);
 			}
 		}
 		
@@ -119,7 +126,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 		else return Optional.of(new ChunkCoordIntPair(centerX+checkRand.nextInt(maxDistance*2+1)-maxDistance,centerZ+checkRand.nextInt(maxDistance*2+1)-maxDistance));
 	}
 	
-	private static StructureDungeon<DungeonGeneratorSpreading> createStrongholdGenerator(Random rand){ // TODO profile and check if cloning instance w/ 100% known pieces would be better
+	private static StructureDungeon<DungeonGeneratorSpreading> createStrongholdGenerator(Random rand){
 		StructureDungeon<DungeonGeneratorSpreading> stronghold = new StructureDungeon<>(128,32,128,DungeonGeneratorSpreading::new);
 		
 		stronghold.setGeneratorSetupFunc(generator -> {
@@ -206,11 +213,18 @@ public class WorldGenStronghold implements IWorldGenerator{
 		if (world.provider.dimensionId != 0)return;
 		
 		Optional<ChunkCoordIntPair> chunk = findSpawnChunk(chunkX,chunkZ,world);
-		if (!chunk.isPresent())return; // TODO HardcoreEnderExpansion.notifications.report(chunk.get().toString());
+		if (!chunk.isPresent())return;
 		
 		if (chunk.get().chunkXPos == chunkX && chunk.get().chunkZPos == chunkZ){
-			HardcoreEnderExpansion.notifications.report("spawn");
-			createStrongholdGenerator(rand).tryGenerateInWorld(world,rand,chunkX*16+8,4+rand.nextInt(11),chunkZ*16+8,10);
+			for(int cX = chunkX-7; cX <= chunkX+7; cX++){
+				for(int cZ = chunkZ-7; cZ <= chunkZ+7; cZ++){
+					world.getChunkFromChunkCoords(cX,cZ);
+				}
+			}
+			
+			if (createStrongholdGenerator(rand).tryGenerateInWorld(world,rand,chunkX*16+8,4+rand.nextInt(11),chunkZ*16+8,50)){
+				SaveData.global(StrongholdFile.class).addChunkPos(chunkX,chunkZ);
+			}
 		}
 	}
 	

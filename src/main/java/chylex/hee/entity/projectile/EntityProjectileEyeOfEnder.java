@@ -12,7 +12,6 @@ import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraftforge.fluids.BlockFluidBase;
-import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
