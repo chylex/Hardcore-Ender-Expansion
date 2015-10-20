@@ -14,10 +14,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.abstractions.BlockInfo;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.util.IStructureTileEntity;
+import chylex.hee.world.util.BoundingBox;
 import com.google.common.base.Objects;
 
 public final class StructureWorld{
@@ -47,6 +49,10 @@ public final class StructureWorld{
 	
 	public World getParentWorld(){
 		return world;
+	}
+	
+	public BoundingBox getArea(){
+		return new BoundingBox(Pos.at(-radX,0,-radZ),Pos.at(radX,sizeY,radZ));
 	}
 	
 	public boolean isInside(int x, int y, int z){
