@@ -28,6 +28,7 @@ import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.stronghold.StrongholdPiece;
@@ -43,6 +44,7 @@ import chylex.hee.world.feature.stronghold.doors.StrongholdDoorGrates;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorSmall;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorTorches;
 import chylex.hee.world.feature.stronghold.doors.StrongholdDoorWooden;
+import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.feature.stronghold.rooms.decorative.*;
 import chylex.hee.world.feature.stronghold.rooms.general.StrongholdRoomEndPortal;
 import chylex.hee.world.feature.stronghold.rooms.general.StrongholdRoomLibrary;
@@ -157,7 +159,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 		stronghold.addPieces(10,new Range(0,2),StrongholdDoorGrates.generateDoors());
 		stronghold.addPieces(10,new Range(0,2),StrongholdDoorTorches.generateDoors());
 		
-		// rooms
+		// general rooms
 		stronghold.addPieces(3,new Range(0,3),StrongholdEndWaterfall.generateDeadEnds());
 		stronghold.addPieces(3,new Range(0,3),StrongholdEndWallDecorations.generateDeadEnds());
 		
@@ -165,22 +167,32 @@ public class WorldGenStronghold implements IWorldGenerator{
 		stronghold.addPieces(6,new Range(1,1),StrongholdRoomScriptorium.generateScriptoriums());
 		stronghold.addPiece(6,new Range(1,1),new StrongholdRoomWorkshop());
 		
-		// TODO pregenerate
-		stronghold.addPiece(4,new Range(1,1),new StrongholdRoomClusterFloating());
-		stronghold.addPiece(4,new Range(1,1),new StrongholdRoomClusterPillar());
-		stronghold.addPiece(4,new Range(1,1),new StrongholdRoomClusterWaterfall());
-		stronghold.addPiece(4,new Range(1,1),new StrongholdRoomClusterIntersection());
+		// loot rooms
+		List<StrongholdRoom> smallClusterRooms = CollectionUtil.newList(new StrongholdRoomClusterFloating(),new StrongholdRoomClusterPillar(),new StrongholdRoomClusterWaterfall());
+		List<StrongholdRoom> largeClusterRooms = CollectionUtil.newList(new StrongholdRoomClusterIntersection());
 		
-		stronghold.addPiece(4,new Range(0,3),new StrongholdRoomChestIntersection());
-		stronghold.addPieces(4,new Range(0,3),StrongholdRoomChestPool.generateRooms());
-		stronghold.addPieces(4,new Range(0,3),StrongholdRoomChestStraight.generateChestRooms());
-		stronghold.addPiece(4,new Range(0,3),new StrongholdRoomChestSupportSmall());
-		//
+		stronghold.addPiece(4,new Range(1,1),smallClusterRooms.remove(rand.nextInt(smallClusterRooms.size())));
+		stronghold.addPiece(4,new Range(1,2),smallClusterRooms.remove(rand.nextInt(smallClusterRooms.size())));
+		stronghold.addPiece(4,new Range(2,2),smallClusterRooms.remove(rand.nextInt(smallClusterRooms.size())));
+		stronghold.addPiece(5,new Range(1,1),largeClusterRooms.remove(rand.nextInt(largeClusterRooms.size())));
 		
+		List<StrongholdRoom[]> chestRooms = new ArrayList<>(4);
+		chestRooms.add(new StrongholdRoom[]{ new StrongholdRoomChestIntersection() });
+		chestRooms.add(new StrongholdRoom[]{ new StrongholdRoomChestSupportSmall() });
+		chestRooms.add(StrongholdRoomChestPool.generateRooms());
+		chestRooms.add(StrongholdRoomChestStraight.generateChestRooms());
+		
+		stronghold.addPieces(4,new Range(1,1),chestRooms.remove(rand.nextInt(chestRooms.size())));
+		stronghold.addPieces(4,new Range(1,2),chestRooms.remove(rand.nextInt(chestRooms.size())));
+		stronghold.addPieces(4,new Range(2,2),chestRooms.remove(rand.nextInt(chestRooms.size())));
+		stronghold.addPieces(4,new Range(2,3),chestRooms.remove(rand.nextInt(chestRooms.size())));
+		
+		// trap rooms
 		stronghold.addPiece(3,new Range(0,2),new StrongholdRoomSilverfishTrap());
 		stronghold.addPiece(3,new Range(0,2),new StrongholdRoomLargeIntersectionTrap());
 		stronghold.addPieces(3,new Range(1,2),StrongholdRoomPrisonTrap.generatePrisons());
 		
+		// decorative rooms
 		stronghold.addPiece(6,new Range(0,2),new StrongholdRoomArches());
 		stronghold.addPiece(6,new Range(0,3),new StrongholdRoomFountain());
 		stronghold.addPiece(6,new Range(0,2),new StrongholdRoomFountainCeiling());
