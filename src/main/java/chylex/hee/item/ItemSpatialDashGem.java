@@ -12,7 +12,7 @@ public class ItemSpatialDashGem extends ItemAbstractGem{
 	
 	@Override
 	public int getEnergyAccepted(ItemStack is){
-		return 1;
+		return 2;
 	}
 	
 	@Override
@@ -23,6 +23,11 @@ public class ItemSpatialDashGem extends ItemAbstractGem{
 	@Override
 	protected byte getCooldown(){
 		return 17;
+	}
+	
+	@Override
+	public int getMaxDamage(ItemStack is){
+		return super.getMaxDamage(is); // TODO
 	}
 	
 	@Override
