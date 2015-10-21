@@ -2,7 +2,6 @@ package chylex.hee.world.feature.stronghold.rooms.decorative;
 import java.util.Arrays;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.abstractions.Pos.PosMutable;

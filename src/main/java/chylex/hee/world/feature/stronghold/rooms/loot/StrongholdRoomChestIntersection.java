@@ -1,7 +1,6 @@
 package chylex.hee.world.feature.stronghold.rooms.loot;
 import java.util.Random;
 import net.minecraft.init.Blocks;
-import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.FlowerPotPlant;
