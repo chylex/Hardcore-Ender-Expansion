@@ -14,6 +14,16 @@ public interface IOreGenerator{
 	void generate(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z, int ores);
 	
 	/**
+	 * Generates a single ore block in the starting position.
+	 */
+	public static class SinglePiece implements IOreGenerator{
+		@Override
+		public void generate(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z, int ores){
+			world.setBlock(x,y,z,gen.orePicker.pick(rand));
+		}
+	}
+	
+	/**
 	 * Generates an ore in the starting position, and then keeps generating only in positions adjacent to previously generated ores.
 	 * If {@code allowDiagonal} is enabled, it may also generate in any diagonal direction from the chosen position.
 	 */

@@ -75,9 +75,10 @@ public final class GenerateOres{
 	}
 	
 	/**
-	 * Caution: does not generate ores in edge 'chunks' to prevent cut off clusters.
+	 * Divides the world into chunks of customizable size, and cycles through all of them.<br>
+	 * Caution: does not generate ores in edge chunks to prevent cut off ore clusters.
 	 */
-	public void generate(StructureWorld world, Random rand){
+	public void generateSplit(StructureWorld world, Random rand){
 		BoundingBox worldBox = world.getArea();
 		int totalChunksX = MathUtil.ceil((worldBox.x2-worldBox.x1)/(float)chunkSize);
 		int totalChunksZ = MathUtil.ceil((worldBox.z2-worldBox.z1)/(float)chunkSize);
@@ -99,6 +100,25 @@ public final class GenerateOres{
 		}
 	}
 	
+	/**
+	 * Uses the entire world area as a single chunk. Use {@code edgeDistance} to prevent cut off ore clusters.
+	 */
+	public void generateFull(StructureWorld world, Random rand, int edgeDistance){
+		BoundingBox worldBox = world.getArea();
+		PosMutable mpos = new PosMutable();
+		
+		int clusters = clustersPerChunk.next(rand);
+		
+		for(int attempt = 0; attempt < attemptsPerChunk && clusters > 0; attempt++){
+			mpos.set(worldBox.x1+edgeDistance+rand.nextInt(worldBox.x2-worldBox.x1+1-2*edgeDistance),minY,worldBox.z1+edgeDistance+rand.nextInt(worldBox.z2-worldBox.z1+1-2*edgeDistance));
+			
+			if (world.getBlock(mpos.x,mpos.y,mpos.z) == toReplace){
+				oreGenerator.generate(this,world,rand,mpos.x,mpos.y,mpos.z,oresPerCluster.next(rand));
+				--clusters;
+			}
+		}
+	}
+	
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
@@ -115,7 +135,7 @@ public final class GenerateOres{
 			gen.setOreGenerator(new IOreGenerator.AdjacentSpread(true));
 			
 			StructureWorld structureWorld = new StructureWorld(world,12+6*amtX,33,12+6*amtZ);
-			gen.generate(structureWorld,world.rand);
+			gen.generateSplit(structureWorld,world.rand);
 			structureWorld.generateInWorld(world,world.rand,MathUtil.floor(player.posX),MathUtil.floor(player.posY)-24,MathUtil.floor(player.posZ));
 		}
 	};
