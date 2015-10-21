@@ -48,6 +48,7 @@ public final class ModTransition{
 		discard.add(id+"void_chest");
 		discard.add(id+"energy_wand");
 		discard.add(id+"enderman_head");
+		discard.add(id+"biome_core");
 		
 		e.get().stream().filter(mapping -> discard.contains(mapping.name)).forEach(MissingMapping::ignore);
 	}
