@@ -138,6 +138,7 @@ public class HardcoreEnderExpansion{
 		UnitTester.trigger(RunTime.PREINIT);
 		
 		ModInitHandler.finishPreInit();
+		ModIntegrationManager.sendIMCs();
 		
 		Stopwatch.finish("PreInitEvent");
 	}

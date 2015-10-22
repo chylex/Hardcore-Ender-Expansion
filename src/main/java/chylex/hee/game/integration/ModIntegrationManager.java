@@ -7,6 +7,7 @@ import chylex.hee.game.integration.handlers.ThaumcraftIntegration;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.event.FMLInterModComms;
 
 public final class ModIntegrationManager{
 	public static final Set<String> blacklistedMods = new HashSet<>();
@@ -31,5 +32,13 @@ public final class ModIntegrationManager{
 		}
 		
 		Stopwatch.finish("ModIntegrationManager - integrateMods");
+	}
+	
+	public static final void sendIMCs(){
+		FMLInterModComms.sendMessage("rftools","dimlet_blacklist","Material.tile.endiumBlock"); // TODO ffs unlocalized names
+		FMLInterModComms.sendMessage("rftools","dimlet_blacklist","Material.tile.endiumOre");
+		FMLInterModComms.sendMessage("rftools","dimlet_blacklist","Material.tile.igneousRockOre");
+		FMLInterModComms.sendMessage("rftools","dimlet_blacklist","Material.tile.stardustOre");
+		FMLInterModComms.sendMessage("rftools","dimlet_blacklist","Material.tile.instabilityOrbOre");
 	}
 }
