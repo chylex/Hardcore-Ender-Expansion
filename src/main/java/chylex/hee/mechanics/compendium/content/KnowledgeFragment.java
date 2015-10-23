@@ -1,92 +1,32 @@
 package chylex.hee.mechanics.compendium.content;
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
-import java.util.Collection;
-import java.util.Collections;
-import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium.content.fragments.FragmentType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class KnowledgeFragment{
-	private static final TIntObjectMap<KnowledgeFragment> allFragments = new TIntObjectHashMap<>();
-	
-	public static final Collection<KnowledgeFragment> getAllFragments(){
-		return Collections.unmodifiableCollection(allFragments.valueCollection());
-	}
-	
-	public static final KnowledgeFragment getById(int globalID){
-		return allFragments.get(globalID);
-	}
-	
 	public final int globalID;
-	private int price;
-	private boolean unlockOnDiscovery;
-	private int[] unlockRequirements = ArrayUtils.EMPTY_INT_ARRAY;
-	private int[] unlockCascade = ArrayUtils.EMPTY_INT_ARRAY;
-	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> unlockRedirect;
+	public final FragmentType type;
+	public final int price;
 	
-	public KnowledgeFragment(int globalID){
+	public KnowledgeFragment(int globalID, FragmentType type){
+		this(globalID,type,0);
+	}
+	
+	public KnowledgeFragment(int globalID, FragmentType type, int price){
+		if ((price == 0) ^ (type == FragmentType.SECRET)){
+			throw new IllegalArgumentException(price == 0 ? "Secret fragments need to have a price!" : "Only secret fragments can have a price!");
+		}
+		
 		this.globalID = globalID;
-		if (allFragments.putIfAbsent(globalID,this) != null)throw new IllegalArgumentException("Could not initialize Knowledge Fragments, global fragment ID "+globalID+" is already taken!");
-	}
-	
-	public KnowledgeFragment setPrice(int price){
+		this.type = type;
 		this.price = price;
-		return this;
 	}
 	
-	public int getPrice(){
-		return price;
+	public final boolean equals(KnowledgeFragment fragment){
+		return fragment.globalID == globalID;
 	}
 	
-	public KnowledgeFragment setNonBuyable(){
-		this.price = -1;
-		return this;
-	}
-	
-	public KnowledgeFragment setNonBuyableRedirect(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> unlockRedirect){
-		this.price = -1;
-		this.unlockRedirect = unlockRedirect;
-		return this;
-	}
-	
-	public boolean isBuyable(){
-		return price != -1;
-	}
-	
-	public KnowledgeObject<? extends IKnowledgeObjectInstance<?>> getUnlockRedirect(){
-		return unlockRedirect;
-	}
-	
-	public KnowledgeFragment setUnlockOnDiscovery(){
-		this.unlockOnDiscovery = true;
-		return this;
-	}
-	
-	public boolean isUnlockedOnDiscovery(){
-		return unlockOnDiscovery;
-	}
-	
-	public KnowledgeFragment setUnlockRequirements(int...requirements){
-		this.unlockRequirements = requirements;
-		return this;
-	}
-	
-	public int[] getUnlockRequirements(){
-		return unlockRequirements;
-	}
-	
-	public KnowledgeFragment setUnlockCascade(int...cascade){
-		this.unlockCascade = cascade;
-		return this;
-	}
-	
-	public int[] getUnlockCascade(){
-		return unlockCascade;
-	}
-
 	@SideOnly(Side.CLIENT)
 	public abstract int getHeight(GuiEnderCompendium gui, boolean isUnlocked);
 	

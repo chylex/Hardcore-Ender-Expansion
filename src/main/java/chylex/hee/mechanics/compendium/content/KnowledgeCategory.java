@@ -1,44 +1,24 @@
 package chylex.hee.mechanics.compendium.content;
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
-import com.google.common.collect.ImmutableList;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeCategory{
 	private final String tooltip;
-	private final ItemStack showcaseItem;
-	private final List<KnowledgeObject> objectList = new ArrayList<>();
-	private ImmutableList<KnowledgeObject> objectListImmutable;
-	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> categoryObject;
+	private final ItemStack displayItem;
 	
-	public KnowledgeCategory(String tooltip, ItemStack showcaseItem){
+	public KnowledgeCategory(String tooltip, ItemStack displayItem){
 		this.tooltip = tooltip;
-		this.showcaseItem = showcaseItem;
+		this.displayItem = displayItem;
 	}
 	
-	public void addKnowledgeObjects(KnowledgeObject[] objects){
-		for(KnowledgeObject object:objects)objectList.add(object);
-		objectListImmutable = ImmutableList.copyOf(objectList);
+	@SideOnly(Side.CLIENT)
+	public String getTranslatedTooltip(){
+		return I18n.format(tooltip);
 	}
 	
-	public ImmutableList<KnowledgeObject> getAllObjects(){
-		return objectListImmutable;
-	}
-	
-	public void setCategoryObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> obj){
-		this.categoryObject = obj;
-	}
-	
-	public KnowledgeObject<? extends IKnowledgeObjectInstance<?>> getCategoryObject(){
-		return categoryObject;
-	}
-
-	public ItemStack getItemStack(){
-		return showcaseItem;
-	}
-
-	public String getTooltip(){
-		return tooltip;
+	public ItemStack getDisplayItem(){
+		return displayItem;
 	}
 }
