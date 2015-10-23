@@ -13,7 +13,7 @@ import net.minecraftforge.common.AchievementPage;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
+import chylex.hee.mechanics.compendium_old.KnowledgeRegistrations;
 import chylex.hee.proxy.ModCommonProxy;
 
 public final class AchievementManager{

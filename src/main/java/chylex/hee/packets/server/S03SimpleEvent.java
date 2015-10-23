@@ -2,7 +2,7 @@ package chylex.hee.packets.server;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import chylex.hee.game.achievements.AchievementManager;
-import chylex.hee.mechanics.compendium.events.CompendiumEvents;
+import chylex.hee.mechanics.compendium_old.events.CompendiumEvents;
 import chylex.hee.packets.AbstractServerPacket;
 
 public class S03SimpleEvent extends AbstractServerPacket{

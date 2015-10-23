@@ -40,7 +40,7 @@ import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
+import chylex.hee.mechanics.compendium_old.events.CompendiumEventsClient;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
@@ -179,7 +179,7 @@ public class ModClientProxy extends ModCommonProxy{
 		Stopwatch.time("ModClientProxy - events");
 		
 		OverlayManager.register();
-		// TODO CompendiumEventsClient.register();
+		CompendiumEventsClient.register();
 		// TODO CharmPouchHandlerClient.register();
 		MusicManager.register();
 		FXEvents.register();

@@ -1,7 +1,7 @@
-package chylex.hee.mechanics.compendium.objects;
+package chylex.hee.mechanics.compendium_old.objects;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
-import chylex.hee.mechanics.compendium.objects.ObjectBlock.BlockMetaWrapper;
+import chylex.hee.mechanics.compendium_old.objects.ObjectBlock.BlockMetaWrapper;
 
 public class ObjectBlock implements IKnowledgeObjectInstance<BlockMetaWrapper>{
 	private final BlockMetaWrapper wrapper;

@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import chylex.hee.mechanics.compendium.events.CompendiumEvents;
+import chylex.hee.mechanics.compendium_old.events.CompendiumEvents;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.util.ItemUtil;

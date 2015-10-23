@@ -1,4 +1,5 @@
-package chylex.hee.mechanics.compendium.objects;
+package chylex.hee.mechanics.compendium_old.objects;
+import javax.annotation.Nonnull;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -20,7 +21,7 @@ public class ObjectItem implements IKnowledgeObjectInstance<Item>{
 	}
 
 	@Override
-	public boolean checkEquality(Object obj){
+	public boolean checkEquality(@Nonnull Object obj){
 		return obj == item;
 	}
 }

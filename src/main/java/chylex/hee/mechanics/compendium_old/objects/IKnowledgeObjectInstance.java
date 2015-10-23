@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.objects;
+package chylex.hee.mechanics.compendium_old.objects;
 import net.minecraft.item.ItemStack;
 
 public interface IKnowledgeObjectInstance<T>{

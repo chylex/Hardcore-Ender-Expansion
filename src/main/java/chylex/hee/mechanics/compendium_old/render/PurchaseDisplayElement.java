@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.render;
+package chylex.hee.mechanics.compendium_old.render;
 import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
@@ -8,8 +8,8 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.game.save.types.player.CompendiumFile.FragmentPurchaseStatus;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
-import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium_old.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium_old.content.KnowledgeObject;
 
 public class PurchaseDisplayElement{
 	public final Object object;

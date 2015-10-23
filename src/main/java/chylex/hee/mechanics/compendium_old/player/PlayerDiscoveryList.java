@@ -1,10 +1,10 @@
-package chylex.hee.mechanics.compendium.player;
+package chylex.hee.mechanics.compendium_old.player;
 import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium_old.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium_old.objects.IKnowledgeObjectInstance;
 import chylex.hee.system.util.NBTUtil;
 
 public class PlayerDiscoveryList<P extends IKnowledgeObjectInstance<T>,T>{

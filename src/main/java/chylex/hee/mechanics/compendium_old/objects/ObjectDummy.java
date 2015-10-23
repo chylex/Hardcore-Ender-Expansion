@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.objects;
+package chylex.hee.mechanics.compendium_old.objects;
 import net.minecraft.item.ItemStack;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;

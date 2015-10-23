@@ -1,9 +1,9 @@
-package chylex.hee.mechanics.compendium.render;
+package chylex.hee.mechanics.compendium_old.render;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
+import chylex.hee.mechanics.compendium_old.content.KnowledgeCategory;
 
 public class CategoryDisplayElement{
 	public final KnowledgeCategory category;

@@ -1,8 +1,8 @@
 package chylex.hee.game.achievements;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
-import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium_old.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium_old.objects.IKnowledgeObjectInstance;
 
 public class HeeAchievement extends Achievement{
 	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> knowledgeObj;

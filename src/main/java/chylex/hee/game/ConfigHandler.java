@@ -7,7 +7,7 @@ import net.minecraftforge.common.config.Property;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.HeeIMC;
 import chylex.hee.block.BlockEnderGoo;
-import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentText;
+import chylex.hee.mechanics.compendium_old.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.proxy.ModClientProxy;

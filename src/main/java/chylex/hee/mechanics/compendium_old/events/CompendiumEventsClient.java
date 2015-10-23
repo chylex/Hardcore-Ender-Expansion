@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.events;
+package chylex.hee.mechanics.compendium_old.events;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -14,15 +14,14 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
-import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
+import chylex.hee.mechanics.compendium_old.KnowledgeRegistrations;
+import chylex.hee.mechanics.compendium_old.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium_old.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium_old.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03SimpleEvent;
 import chylex.hee.packets.server.S03SimpleEvent.EventType;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -103,16 +102,12 @@ public final class CompendiumEventsClient{
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent e){
-		Stopwatch.time("CompendiumEventsClient - key conflict check");
-		
 		for(KeyBinding kb:Minecraft.getMinecraft().gameSettings.keyBindings){
 			if (kb != instance.keyOpenCompendium && kb.getKeyCode() == instance.keyOpenCompendium.getKeyCode()){
 				HardcoreEnderExpansion.notifications.report(I18n.format("key.openCompendium.conflict").replace("$",I18n.format(kb.getKeyDescription())));
 				break;
 			}
 		}
-
-		Stopwatch.finish("CompendiumEventsClient - key conflict check");
 	}
 	
 	@SubscribeEvent

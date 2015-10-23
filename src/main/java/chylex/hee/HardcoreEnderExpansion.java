@@ -21,7 +21,7 @@ import chylex.hee.init.ItemList;
 import chylex.hee.init.ModInitHandler;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
-import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentCrafting;
+import chylex.hee.mechanics.compendium_old.events.CompendiumEvents;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.FXCommonProxy;
@@ -121,7 +121,7 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("PreInitEvent - events");
 		
 		MinecraftForge.EVENT_BUS.register(new MiscEvents());
-		// TODO CompendiumEvents.register();
+		CompendiumEvents.register();
 		// TODO CharmPouchHandler.register();
 		SaveData.register();
 		// TODO CurseEvents.register();
@@ -175,7 +175,6 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("LoadCompleteEvent");
 		
 		try{
-			KnowledgeFragmentCrafting.verifyRecipes();
 			ModIntegrity.verify();
 			HeeIMC.runLoadComplete();
 			
