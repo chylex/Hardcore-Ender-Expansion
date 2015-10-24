@@ -89,7 +89,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
 		if (ingredients == null || output == null || !isUnlocked || buttonId != 0)return false;
 		
-		KnowledgeObject<? extends IObjectHolder<?>> obj;
+		KnowledgeObject<? extends IObjectHolder<?>> obj = null;
 		
 		for(int a = 0, cnt = 0, xx = x, yy = y; a < ingredients.length; a++, xx += 19){
 			if (ingredients[a] != null){
