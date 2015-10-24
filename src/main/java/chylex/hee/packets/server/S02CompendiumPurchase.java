@@ -1,13 +1,13 @@
 package chylex.hee.packets.server;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import chylex.hee.game.save.types.player.CompendiumFile;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium_old.events.CompendiumEvents;
 import chylex.hee.packets.AbstractServerPacket;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
+import io.netty.buffer.ByteBuf;
 
 public class S02CompendiumPurchase extends AbstractServerPacket{
 	private boolean isFragment;
@@ -27,13 +27,13 @@ public class S02CompendiumPurchase extends AbstractServerPacket{
 	
 	@Override
 	public void write(ByteBuf buffer){
-		buffer.writeBoolean(isFragment).writeInt(id);
+		buffer.writeBoolean(isFragment).writeShort(id);
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
 		isFragment = buffer.readBoolean();
-		id = buffer.readInt();
+		id = buffer.readShort();
 	}
 
 	@Override

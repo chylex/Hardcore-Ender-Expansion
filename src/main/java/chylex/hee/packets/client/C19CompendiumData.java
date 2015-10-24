@@ -1,5 +1,4 @@
 package chylex.hee.packets.client;
-import io.netty.buffer.ByteBuf;
 import java.io.IOException;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,11 +6,12 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.game.save.types.player.CompendiumFile;
-import chylex.hee.mechanics.compendium_old.events.CompendiumEvents;
-import chylex.hee.mechanics.compendium_old.events.CompendiumEventsClient;
+import chylex.hee.mechanics.compendium.events.CompendiumEvents;
+import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 
 public class C19CompendiumData extends AbstractClientPacket{
 	private CompendiumFile file;

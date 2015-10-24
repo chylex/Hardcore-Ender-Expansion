@@ -1,9 +1,8 @@
 package chylex.hee.packets.server;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import chylex.hee.game.achievements.AchievementManager;
-import chylex.hee.mechanics.compendium_old.events.CompendiumEvents;
 import chylex.hee.packets.AbstractServerPacket;
+import io.netty.buffer.ByteBuf;
 
 public class S03SimpleEvent extends AbstractServerPacket{
 	public enum EventType{
@@ -36,7 +35,7 @@ public class S03SimpleEvent extends AbstractServerPacket{
 		
 		switch(type){
 			case OPEN_COMPENDIUM: player.addStat(AchievementManager.ENDER_COMPENDIUM,1); break;
-			case OPEN_COMPENDIUM_HELP: CompendiumEvents.getPlayerData(player).setSeenHelp(); break;
+			case OPEN_COMPENDIUM_HELP: /* TODO CompendiumEvents.getPlayerData(player).setSeenHelp();*/ break;
 		}
 	}
 }

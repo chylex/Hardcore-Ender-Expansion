@@ -13,7 +13,6 @@ import net.minecraftforge.common.AchievementPage;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
-import chylex.hee.mechanics.compendium_old.KnowledgeRegistrations;
 import chylex.hee.proxy.ModCommonProxy;
 
 public final class AchievementManager{
@@ -59,14 +58,14 @@ public final class AchievementManager{
 		/*  2 */ CHALLENGE_NOENDERMAN = addChallenge(2, "noEnderman", "mediumorhard");
 	
 	static{
-		GO_INTO_THE_END.setKnowledgeObj(KnowledgeRegistrations.DRAGON_LAIR);
+		/* TODO GO_INTO_THE_END.setKnowledgeObj(KnowledgeRegistrations.DRAGON_LAIR);
 		ENHANCED_ENDER_PEARL.setKnowledgeObj(KnowledgeRegistrations.ENDER_PEARL_ENHANCEMENTS);
 		ENHANCED_ENDER_PEARL_FULL.setKnowledgeObj(KnowledgeRegistrations.ENDER_PEARL_ENHANCEMENTS);
 		ENDER_EYE_KILL.setKnowledgeObj(KnowledgeRegistrations.ENDER_EYE);
 		BIOME_INFESTED_FOREST.setKnowledgeObj(KnowledgeRegistrations.INFESTED_FOREST_BIOME);
 		CURSE.setKnowledgeObj(KnowledgeRegistrations.CURSE);
 		BIOME_BURNING_MOUNTAINS.setKnowledgeObj(KnowledgeRegistrations.BURNING_MOUNTAINS_BIOME);
-		BIOME_ENCHANTED_ISLAND.setKnowledgeObj(KnowledgeRegistrations.ENCHANTED_ISLAND_BIOME);
+		BIOME_ENCHANTED_ISLAND.setKnowledgeObj(KnowledgeRegistrations.ENCHANTED_ISLAND_BIOME);*/
 	}
 	
 	public static void register(){

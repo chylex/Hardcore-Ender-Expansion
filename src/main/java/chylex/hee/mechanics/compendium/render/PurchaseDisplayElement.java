@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium_old.render;
+package chylex.hee.mechanics.compendium.render;
 import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;

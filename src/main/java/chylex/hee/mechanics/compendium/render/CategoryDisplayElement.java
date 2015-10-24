@@ -1,9 +1,9 @@
-package chylex.hee.mechanics.compendium_old.render;
+package chylex.hee.mechanics.compendium.render;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
 
 public class CategoryDisplayElement{
 	public final KnowledgeCategory category;
@@ -26,7 +26,7 @@ public class CategoryDisplayElement{
 		GL11.glPushMatrix();
 		GL11.glScalef(2F,2F,1F);
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),category.getItemStack(),(GuiEnderCompendium.guiObjLeft+4)>>1,(y+4)>>1);
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),category.getDisplayItem(),(GuiEnderCompendium.guiObjLeft+4)>>1,(y+4)>>1);
 		GL11.glPopMatrix();
 	}
 	

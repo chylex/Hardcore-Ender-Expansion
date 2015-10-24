@@ -1,12 +1,12 @@
-package chylex.hee.mechanics.compendium_old.render;
+package chylex.hee.mechanics.compendium.render;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium_old.objects.IKnowledgeObjectInstance;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 
 public class ObjectDisplayElement{
 	private enum BackgroundTile{
@@ -20,10 +20,10 @@ public class ObjectDisplayElement{
 		}
 	}
 	
-	public final KnowledgeObject<IKnowledgeObjectInstance<?>> object;
+	public final KnowledgeObject<? extends IObjectHolder<?>> object;
 	public final int y;
 	
-	public ObjectDisplayElement(KnowledgeObject<IKnowledgeObjectInstance<?>> object, int y){
+	public ObjectDisplayElement(KnowledgeObject<? extends IObjectHolder<?>> object, int y){
 		this.object = object;
 		this.y = y;
 	}

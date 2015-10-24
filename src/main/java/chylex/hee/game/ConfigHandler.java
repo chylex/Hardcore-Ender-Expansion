@@ -7,7 +7,6 @@ import net.minecraftforge.common.config.Property;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.HeeIMC;
 import chylex.hee.block.BlockEnderGoo;
-import chylex.hee.mechanics.compendium_old.content.fragments.KnowledgeFragmentText;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.proxy.ModClientProxy;
@@ -75,7 +74,7 @@ public final class ConfigHandler{
 	private void loadClientConfig(){
 		currentCategory = "client";
 		
-		KnowledgeFragmentText.smoothRenderingMode = (byte)getInt("compendiumSmoothText", 0, "Special text rendering mode for Ender Compendium, smooths out aliasing in Large GUI scale.").getInt();
+		// TODO KnowledgeFragmentText.smoothRenderingMode = (byte)getInt("compendiumSmoothText", 0, "Special text rendering mode for Ender Compendium, smooths out aliasing in Large GUI scale.").getInt();
 		
 		if (firstTimeClient){
 			ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbaconMode", 0, "0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());

@@ -1,40 +1,6 @@
 package chylex.hee.mechanics.compendium_old;
-import gnu.trove.set.hash.TIntHashSet;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import chylex.hee.block.BlockCrossedDecoration;
-import chylex.hee.block.BlockEndstoneTerrain;
-import chylex.hee.block.BlockSpecialEffects;
-import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.EntityMiniBossEnderEye;
-import chylex.hee.entity.boss.EntityMiniBossFireFiend;
-import chylex.hee.entity.mob.*;
-import chylex.hee.init.BlockList;
-import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeCategory;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeObject.LinkedKnowledgeObject;
-import chylex.hee.mechanics.compendium_old.content.fragments.KnowledgeFragmentCrafting;
-import chylex.hee.mechanics.compendium_old.content.fragments.KnowledgeFragmentItemConversion;
-import chylex.hee.mechanics.compendium_old.content.fragments.KnowledgeFragmentText;
-import chylex.hee.mechanics.compendium_old.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium_old.objects.ObjectBlock;
-import chylex.hee.mechanics.compendium_old.objects.ObjectDummy;
-import chylex.hee.mechanics.compendium_old.objects.ObjectItem;
-import chylex.hee.mechanics.compendium_old.objects.ObjectMob;
-import chylex.hee.mechanics.compendium_old.util.KnowledgeUtils;
-import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.system.logging.Log;
-import chylex.hee.system.logging.Stopwatch;
-import cpw.mods.fml.common.Loader;
 
-public final class KnowledgeRegistrations{
+public final class KnowledgeRegistrations{/*
 	public static final KnowledgeObject<? extends IKnowledgeObjectInstance<?>>
 		HELP = new KnowledgeObject<>(new ObjectDummy("HalpPlz")),
 		
@@ -253,7 +219,7 @@ public final class KnowledgeRegistrations{
 		 * Uncommon and rare objects should give an additional bonus.
 		 * Purely visual objects should also give a small bonus for discovery.
 		 * Objects which are made in a way they should be unlocked with points would only give small reward.
-		 */
+		 *//*
 		
 		HELP.setNonBuyable().addFragments(new KnowledgeFragment[]{
 			new KnowledgeFragmentText(0),
@@ -294,7 +260,7 @@ public final class KnowledgeRegistrations{
 			/* TODO ADVENTURERS_DIARY.setPos(0,0).setUnlockPrice(5).setDiscoveryReward(8).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(10).setPrice(2).setUnlockOnDiscovery(),
 				new KnowledgeFragmentText(11).setPrice(2).setUnlockOnDiscovery()
-			}),*/
+			}),*//*
 			
 			ENDERMAN_HEAD.setPos(2,0).setUnlockPrice(5).setDiscoveryReward(10).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(20).setPrice(2).setUnlockOnDiscovery(),
@@ -316,7 +282,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(40).setPrice(8),
 				new KnowledgeFragmentCrafting(41).setRecipeFromRegistry(new ItemStack(ItemList.altar_nexus)).setPrice(5).setUnlockRequirements(40),
 				new KnowledgeFragmentCrafting(42).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(50)
-			}),*/
+			}),*//*
 			
 			BASIC_ESSENCE_ALTAR.setPos(3,9).setNonBuyable().setDiscoveryReward(20).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentCrafting(50).setRecipeFromRegistry(new ItemStack(BlockList.essence_altar)).setPrice(8).setUnlockCascade(42),
@@ -417,7 +383,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(182).setPrice(8),
 				new KnowledgeFragmentText(183).setPrice(3).setUnlockRequirements(182),
 				new KnowledgeFragmentText(184).setPrice(3).setUnlockRequirements(183)
-			}),*/
+			}),*//*
 			
 			ENDER_DRAGON.setPos(1,3).setUnlockPrice(20).setDiscoveryReward(55).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(190).setPrice(5).setUnlockOnDiscovery(),
@@ -506,7 +472,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(961).setPrice(5).setUnlockRequirements(960),
 				new KnowledgeFragmentText(962).setPrice(5).setUnlockRequirements(960),
 				new KnowledgeFragmentText(963).setPrice(3).setUnlockRequirements(960),
-			})*/
+			})*//*
 		});
 		
 		// ===
@@ -579,7 +545,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(800).setPrice(5).setUnlockOnDiscovery(),
 				new KnowledgeFragmentCrafting(801).setRecipeFromRegistry(new ItemStack(BlockList.void_chest)).setPrice(8).setUnlockRequirements(800).setUnlockCascade(772),
 				new KnowledgeFragmentText(802).setPrice(3).setUnlockRequirements(800)
-			}),*/
+			}),*//*
 			
 			SPATIAL_DASH_GEM.setPos(6,7).setUnlockPrice(25).setDiscoveryReward(15).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(290).setPrice(5).setUnlockOnDiscovery().setUnlockCascade(319),
@@ -601,7 +567,7 @@ public final class KnowledgeRegistrations{
 				new KnowledgeFragmentText(301).setPrice(5).setUnlockOnDiscovery().setUnlockRequirements(300),
 				new KnowledgeFragmentText(302).setPrice(3).setUnlockRequirements(301),
 				new KnowledgeFragmentCrafting(303).setRecipeFromRegistry(new ItemStack(ItemList.biome_compass)).setPrice(8).setUnlockRequirements(300).setUnlockCascade(782)
-			}),*/
+			}),*//*
 			
 			ENDER_EYE.setPos(3,7).setUnlockPrice(20).setDiscoveryReward(32).addFragments(new KnowledgeFragment[]{
 				new KnowledgeFragmentText(310).setPrice(5).setUnlockOnDiscovery(),
@@ -1183,7 +1149,7 @@ public final class KnowledgeRegistrations{
 			
 			for(IEnhancementEnum enhancement:EnhancementHandler.getAllEnhancements()){
 				if (KnowledgeFragmentEnhancement.getEnhancementFragment(enhancement) == null)throw new IllegalStateException("Enhancement is missing a fragment: "+enhancement);
-			}*/
+			}*//*
 			
 			Log.debug("Knowledge Object amount: $0",amtObjects);
 			Log.debug("Knowledge Fragment amount: $0",amtFragments);
@@ -1233,7 +1199,7 @@ public final class KnowledgeRegistrations{
 	
 	public static KnowledgeObject<? extends IKnowledgeObjectInstance<?>> link(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object, ItemStack itemToRender, String tooltip){
 		return new LinkedKnowledgeObject<>(object,itemToRender,tooltip);
-	}
+	}*/
 	
 	private KnowledgeRegistrations(){}
 }

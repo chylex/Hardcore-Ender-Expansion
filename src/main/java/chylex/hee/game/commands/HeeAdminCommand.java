@@ -17,8 +17,6 @@ import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.CausatumFile;
 import chylex.hee.game.save.types.player.CompendiumFile;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium_old.events.CompendiumEvents;
 import chylex.hee.mechanics.curse.ICurseCaller;
 import chylex.hee.packets.PacketPipeline;
@@ -84,8 +82,8 @@ public class HeeAdminCommand extends BaseCommand{
 				}
 				
 				CompendiumFile file = CompendiumEvents.getPlayerData(player);
-				file.payPoints(file.getPoints());
-				file.givePoints(amount);
+				file.offsetPoints(-file.getPoints()+amount);
+				
 				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
 				sendMessage(sender,"Compendium points updated.");
 			}
@@ -96,9 +94,9 @@ public class HeeAdminCommand extends BaseCommand{
 			void run(ICommandSender sender, String[] args){
 				EntityPlayer player = (EntityPlayer)sender;
 				CompendiumFile file = CompendiumEvents.getPlayerData(player);
-				
+				/* TODO
 				for(KnowledgeObject<?> object:KnowledgeObject.getAllObjects())file.tryDiscoverObject(object,false);
-				for(KnowledgeFragment fragment:KnowledgeFragment.getAllFragments())file.tryUnlockFragment(fragment);
+				for(KnowledgeFragment fragment:KnowledgeFragment.getAllFragments())file.tryUnlockFragment(fragment);*/
 				
 				PacketPipeline.sendToPlayer(player,new C19CompendiumData(player));
 				sendMessage(sender,pre+"Compendium data unlocked.");

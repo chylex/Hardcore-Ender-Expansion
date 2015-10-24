@@ -20,23 +20,21 @@ import org.lwjgl.opengl.GL12;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.ConfigHandler;
 import chylex.hee.game.save.types.player.CompendiumFile;
-import chylex.hee.game.save.types.player.CompendiumFile.FragmentPurchaseStatus;
 import chylex.hee.gui.helpers.AnimatedFloat;
 import chylex.hee.gui.helpers.AnimatedFloat.Easing;
 import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.compendium_old.KnowledgeCategories;
+import chylex.hee.mechanics.compendium.KnowledgeCategories;
+import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
+import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
+import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
+import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
 import chylex.hee.mechanics.compendium_old.KnowledgeRegistrations;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeCategory;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium_old.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium_old.content.fragments.KnowledgeFragmentText;
-import chylex.hee.mechanics.compendium_old.objects.IKnowledgeObjectInstance;
-import chylex.hee.mechanics.compendium_old.render.CategoryDisplayElement;
-import chylex.hee.mechanics.compendium_old.render.ObjectDisplayElement;
-import chylex.hee.mechanics.compendium_old.render.PurchaseDisplayElement;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S02CompendiumPurchase;
 import chylex.hee.packets.server.S03SimpleEvent;
@@ -76,7 +74,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
 	private List<PurchaseDisplayElement> purchaseElements = new ArrayList<>();
 	
-	private KnowledgeObject<? extends IKnowledgeObjectInstance<?>> currentObject = null;
+	private KnowledgeObject<? extends IObjectHolder<?>> currentObject = null;
 	private TByteObjectHashMap<Map<KnowledgeFragment,Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
 	private byte pageIndex;
 	private GuiButtonPageArrow[] pageArrows = new GuiButtonPageArrow[2];
@@ -193,7 +191,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				}
 			}
 			
-			KnowledgeObject<? extends IKnowledgeObjectInstance<?>> redirect = null;
+			KnowledgeObject<? extends IObjectHolder<?>> redirect = null;
 			
 			for(PurchaseDisplayElement element:purchaseElements){
 				if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4)){
@@ -303,7 +301,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		}
 	}
 	
-	public void showObject(KnowledgeObject<? extends IKnowledgeObjectInstance<?>> object){
+	public void showObject(KnowledgeObject<? extends IObjectHolder<?>> object){
 		if (currentObject != null){
 			currentObjectPages.clear();
 			purchaseElements.clear();
