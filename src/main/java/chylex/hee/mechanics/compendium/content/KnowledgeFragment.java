@@ -4,23 +4,35 @@ import chylex.hee.mechanics.compendium.content.fragments.FragmentType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class KnowledgeFragment{
+public abstract class KnowledgeFragment<T extends KnowledgeFragment>{
 	public final int globalID;
-	public final FragmentType type;
-	public final int price;
+	private FragmentType type;
+	private int price;
 	
-	public KnowledgeFragment(int globalID, FragmentType type){
-		this(globalID,type,0);
+	public KnowledgeFragment(int globalID){
+		this.globalID = globalID;
 	}
 	
-	public KnowledgeFragment(int globalID, FragmentType type, int price){
+	public T setType(FragmentType type){
+		return setType(type,0);
+	}
+	
+	public T setType(FragmentType type, int price){
 		if ((price == 0) ^ (type == FragmentType.SECRET)){
 			throw new IllegalArgumentException(price == 0 ? "Secret fragments need to have a price!" : "Only secret fragments can have a price!");
 		}
 		
-		this.globalID = globalID;
 		this.type = type;
-		this.price = price;
+		this.price = 0;
+		return (T)this;
+	}
+	
+	public FragmentType getType(){
+		return type;
+	}
+	
+	public int getPrice(){
+		return price;
 	}
 	
 	public final boolean equals(KnowledgeFragment fragment){
@@ -44,5 +56,9 @@ public abstract class KnowledgeFragment{
 	@Override
 	public final int hashCode(){
 		return globalID;
+	}
+	
+	protected static final boolean checkRect(int mouseX, int mouseY, int x, int y, int w, int h){
+		return mouseX >= x && mouseX <= x+w && mouseY >= y && mouseY <= y+h;
 	}
 }

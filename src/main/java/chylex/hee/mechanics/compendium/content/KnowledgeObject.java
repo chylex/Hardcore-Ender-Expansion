@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.compendium.content;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -11,6 +12,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class KnowledgeObject<T extends IObjectHolder<?>>{
 	private static int prevID = 0;
+	private static final TIntObjectHashMap<KnowledgeObject<?>> allObjects = new TIntObjectHashMap<>();
+	
+	public static <T extends IObjectHolder<?>> KnowledgeObject<T> fromObject(Object o){
+		return (KnowledgeObject<T>)allObjects.valueCollection().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(o)).findFirst().orElse(null);
+	}
+	
+	public static <T extends IObjectHolder<?>> KnowledgeObject<T> fromID(int id){
+		return (KnowledgeObject<T>)allObjects.get(id);
+	}
 	
 	public final int globalID;
 	public final T holder;
@@ -32,6 +42,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		this.tooltip = unlocalizedTooltip;
 		this.children = new ArrayList<>(4);
 		this.fragments = new LinkedHashSet<>(6);
+		allObjects.put(globalID,this);
 	}
 	
 	public KnowledgeObject<T> addFragments(KnowledgeFragment...fragments){
@@ -44,8 +55,8 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	}
 	
 	public KnowledgeObject<T> setParent(KnowledgeObject<?> obj, int offX, int offY){
-		this.x = obj.getX()+offX;
-		this.y = obj.getY()+offY;
+		this.x = obj.x+offX;
+		this.y = obj.y+offY;
 		this.parent = obj;
 		this.parent.children.add(this);
 		return this;
@@ -62,11 +73,11 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	}
 	
 	public int getX(){
-		return x;
+		return x*12;
 	}
 	
 	public int getY(){
-		return y;
+		return y*12;
 	}
 	
 	public KnowledgeObject<T> setPrice(int points){
