@@ -17,8 +17,8 @@ import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.item.ItemSpawnEggs;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium_old.objects.ObjectBlock.BlockMetaWrapper;
 import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.DragonUtil;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -214,7 +214,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 				
 				if (item != null){
 					text = StatCollector.translateToLocal(item.getUnlocalizedName(new ItemStack(item,1,meta))+".name");
-					obj = KnowledgeObject.fromObject(type == 'b' ? (item instanceof ItemBlock ? new BlockMetaWrapper(((ItemBlock)item).field_150939_a,meta) : null) : item);
+					obj = KnowledgeObject.fromObject(type == 'b' ? (item instanceof ItemBlock ? new BlockInfo(((ItemBlock)item).field_150939_a,meta) : null) : item);
 				}
 				
 				break;

@@ -1,24 +1,24 @@
 package chylex.hee.mechanics.compendium.content;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.mechanics.compendium.content.fragments.FragmentType;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class KnowledgeFragment<T extends KnowledgeFragment>{
 	public final int globalID;
-	private FragmentType type;
+	private KnowledgeFragmentType type;
 	private int price;
 	
 	public KnowledgeFragment(int globalID){
 		this.globalID = globalID;
 	}
 	
-	public T setType(FragmentType type){
+	public T setType(KnowledgeFragmentType type){
 		return setType(type,0);
 	}
 	
-	public T setType(FragmentType type, int price){
-		if ((price == 0) ^ (type == FragmentType.SECRET)){
+	public T setType(KnowledgeFragmentType type, int price){
+		if ((price == 0) ^ (type == KnowledgeFragmentType.SECRET)){
 			throw new IllegalArgumentException(price == 0 ? "Secret fragments need to have a price!" : "Only secret fragments can have a price!");
 		}
 		
@@ -27,7 +27,7 @@ public abstract class KnowledgeFragment<T extends KnowledgeFragment>{
 		return (T)this;
 	}
 	
-	public FragmentType getType(){
+	public KnowledgeFragmentType getType(){
 		return type;
 	}
 	

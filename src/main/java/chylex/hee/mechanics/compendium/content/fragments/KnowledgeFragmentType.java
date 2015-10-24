@@ -1,6 +1,6 @@
 package chylex.hee.mechanics.compendium.content.fragments;
 
-public enum FragmentType{
+public enum KnowledgeFragmentType{
 	/**
 	 * Always unlocked as long as the Knowledge Object is visible.
 	 */
