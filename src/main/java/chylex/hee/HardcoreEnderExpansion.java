@@ -21,7 +21,7 @@ import chylex.hee.init.ItemList;
 import chylex.hee.init.ModInitHandler;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
-import chylex.hee.mechanics.compendium_old.events.CompendiumEvents;
+import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.FXCommonProxy;

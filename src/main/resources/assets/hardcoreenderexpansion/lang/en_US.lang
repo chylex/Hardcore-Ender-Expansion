@@ -309,8 +309,8 @@ achievement.viewAchievements=View Achievements
 achievement.viewChallenges=View Challenges
 
 achievement.enderCompendium=The more you know
-achievement.enderCompendium.desc=Press '%1$s' to open Ender Compendium
-achievement.enderCompendium.desc.bacon=Press '%1$s' to open Bacon Compendium
+achievement.enderCompendium.desc=Press $ to open Ender Compendium
+achievement.enderCompendium.desc.bacon=Press $ to open Bacon Compendium
 achievement.newAdventures=Time for new adventures!
 achievement.newAdventures.desc=Welcome to Hardcore Ender Expansion!
 achievement.dragonEssence=Learning the powers

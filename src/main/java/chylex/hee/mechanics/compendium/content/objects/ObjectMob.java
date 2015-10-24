@@ -34,6 +34,12 @@ public class ObjectMob implements IObjectHolder<Class<? extends EntityLiving>>{
 		return is;
 	}
 	
+	private static Class<? extends EntityLiving> getMobClass(ItemStack is){
+		if (is.getItem() == ItemList.spawn_eggs)return ItemSpawnEggs.getMobFromDamage(is.getItemDamage());
+		else if (is.getItem() == Items.spawn_egg)return (Class<? extends EntityLiving>)EntityList.IDtoClassMapping.get(is.getItemDamage());
+		else return null;
+	}
+	
 	private final Class<? extends EntityLiving> mobClass;
 	private final ItemStack displayIS;
 	
@@ -54,6 +60,11 @@ public class ObjectMob implements IObjectHolder<Class<? extends EntityLiving>>{
 	
 	@Override
 	public boolean checkEquality(@Nonnull Object obj){
-		return obj == mobClass || obj.getClass() == mobClass; // accepts both Class & EntityLiving
+		return obj == mobClass || obj.getClass() == mobClass; // accepts both class and the entity itself
+	}
+	
+	@Override
+	public boolean checkEquality(ItemStack is){
+		return getMobClass(is) == mobClass;
 	}
 }

@@ -17,7 +17,7 @@ import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.CausatumFile;
 import chylex.hee.game.save.types.player.CompendiumFile;
-import chylex.hee.mechanics.compendium_old.events.CompendiumEvents;
+import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.curse.ICurseCaller;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;

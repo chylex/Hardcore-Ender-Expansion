@@ -36,7 +36,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
-public final class CompendiumEvents{
+public final class CompendiumEvents_{
 	private static final byte byteZero = 0;
 	private static final byte byteOne = 1;
 	private static final BlockMetaWrapper bmwReuse = new BlockMetaWrapper(Blocks.air,0);
@@ -109,7 +109,7 @@ public final class CompendiumEvents{
 	
 	private final TObjectByteHashMap<UUID> playerTickLimiter = new TObjectByteHashMap<>();
 	
-	private CompendiumEvents(){}
+	private CompendiumEvents_(){}
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent e){

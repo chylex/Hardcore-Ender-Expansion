@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.compendium.content.objects;
 import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import chylex.hee.system.abstractions.BlockInfo;
 
@@ -38,6 +39,16 @@ public class ObjectBlock implements IObjectHolder<BlockInfo>{
 	@Override
 	public BlockInfo getUnderlyingObject(){
 		return info;
+	}
+	
+	@Override
+	public boolean checkEquality(Object obj){
+		return IObjectHolder.super.checkEquality(obj);
+	}
+	
+	@Override
+	public boolean checkEquality(ItemStack is){
+		return is.getItem() instanceof ItemBlock && ((ItemBlock)is.getItem()).field_150939_a == info.block && (is.getItemDamage() == info.meta || info.meta == wildcard);
 	}
 	
 	@Override

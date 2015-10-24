@@ -9,12 +9,9 @@ import net.minecraft.client.renderer.entity.RenderFireball;
 import net.minecraft.client.renderer.entity.RenderLightningBolt;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.RenderEnderCrystal;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.stats.IStatStringFormat;
 import net.minecraft.tileentity.TileEntityEndPortal;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.client.MinecraftForgeClient;
 import org.lwjgl.opengl.Display;
 import chylex.hee.HardcoreEnderExpansion;
@@ -34,13 +31,11 @@ import chylex.hee.entity.technical.EntityTechnicalBase;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.game.ConfigHandler;
-import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.commands.HeeClientCommand;
-import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiItemViewer;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.compendium_old.events.CompendiumEventsClient;
+import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.render.OverlayManager;
 import chylex.hee.render.RenderNothing;
@@ -94,11 +89,6 @@ public class ModClientProxy extends ModCommonProxy{
 	@Override
 	public EntityPlayer getClientSidePlayer(){
 		return Minecraft.getMinecraft().thePlayer;
-	}
-	
-	@Override
-	public CompendiumFile getClientCompendium(){
-		return CompendiumEventsClient.getClientData();
 	}
 	
 	@Override
@@ -184,19 +174,6 @@ public class ModClientProxy extends ModCommonProxy{
 		MusicManager.register();
 		FXEvents.register();
 		HeeClientCommand.register();
-		
-		AchievementManager.ENDER_COMPENDIUM.setStatStringFormatter(new IStatStringFormat(){
-			@Override
-			public String formatString(String str){
-				if (hardcoreEnderbacon)str = StatCollector.translateToLocal("achievement.enderCompendium.desc.bacon");
-				
-				try{
-					return String.format(str,GameSettings.getKeyDisplayString(CompendiumEventsClient.getCompendiumKeyCode()));
-				}catch(Exception e){
-					return "Error: "+e.getLocalizedMessage();
-				}
-			}
-		});
 		
 		Stopwatch.finish("ModClientProxy - events");
 	}

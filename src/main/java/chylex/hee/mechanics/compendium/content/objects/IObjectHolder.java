@@ -7,7 +7,11 @@ public interface IObjectHolder<T>{
 	T getUnderlyingObject();
 	
 	default boolean checkEquality(@Nonnull Object obj){
-		return obj.getClass() == getClass() && areObjectsEqual((T)obj);
+		return obj.getClass() == getUnderlyingObject().getClass() && areObjectsEqual((T)obj);
+	}
+	
+	default boolean checkEquality(@Nonnull ItemStack is){
+		return ItemStack.class == getUnderlyingObject().getClass() && areObjectsEqual((T)is);
 	}
 	
 	default boolean areObjectsEqual(@Nonnull T obj){

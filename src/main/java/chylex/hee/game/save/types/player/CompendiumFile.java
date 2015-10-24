@@ -17,7 +17,7 @@ import chylex.hee.system.util.NBTUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CompendiumFile extends PlayerFile{
+public class CompendiumFile extends PlayerFile{ // TODO change stuff to private after fixing other errors
 	private static final byte distanceLimit = 4; // 0 = discovered, 4 = unavailable
 	
 	private int points;
@@ -47,9 +47,26 @@ public class CompendiumFile extends PlayerFile{
 	
 	// Discovery
 	
-	public void discoverObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
-		discoveredObjects.add(obj);
-		setModified();
+	public boolean tryDiscoverObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
+		if (unlockObject(obj)){
+			points += obj.getReward();
+			return true;
+		}
+		else return false;
+	}
+	
+	public boolean tryPurchaseObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
+		if (points >= obj.getPrice() && unlockObject(obj)){
+			offsetPoints(-obj.getPrice());
+			return true;
+		}
+		else return false;
+	}
+	
+	public boolean unlockObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
+		boolean added = discoveredObjects.add(obj);
+		if (added)setModified();
+		return added;
 	}
 	
 	public boolean isDiscovered(KnowledgeObject<? extends IObjectHolder<?>> obj){
@@ -67,13 +84,20 @@ public class CompendiumFile extends PlayerFile{
 	
 	// Fragments
 	
-	public void unlockFragment(KnowledgeFragment fragment){
-		if (fragment.getType() != KnowledgeFragmentType.SECRET || fragment.getType() != KnowledgeFragmentType.HINT){
-			throw new IllegalArgumentException("Fragment is not eligible for manual unlocking!");
+	public boolean tryPurchaseFragment(KnowledgeFragment fragment){
+		if (points >= fragment.getPrice() && unlockFragment(fragment)){
+			offsetPoints(-fragment.getPrice());
+			return true;
 		}
+		else return false;
+	}
+	
+	public boolean unlockFragment(KnowledgeFragment fragment){
+		if (fragment.getType() != KnowledgeFragmentType.SECRET || fragment.getType() != KnowledgeFragmentType.HINT)return false;
 		
-		extraFragments.add(fragment.globalID);
-		setModified();
+		boolean added = extraFragments.add(fragment.globalID);
+		if (added)setModified();
+		return added;
 	}
 	
 	public boolean canSeeFragment(KnowledgeObject<? extends IObjectHolder<?>> obj, KnowledgeFragment fragment){

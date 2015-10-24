@@ -6,7 +6,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.ItemStack;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
+import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,6 +18,11 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	
 	public static <T extends IObjectHolder<?>> KnowledgeObject<T> fromObject(Object o){
 		return (KnowledgeObject<T>)allObjects.valueCollection().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(o)).findFirst().orElse(null);
+	}
+	
+	public static <T extends IObjectHolder<?>> KnowledgeObject<T> fromObject(ItemStack is){
+		if (!KnowledgeUtils.isItemStackViable(is))return null;
+		return (KnowledgeObject<T>)allObjects.valueCollection().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(is)).findFirst().orElse(null);
 	}
 	
 	public static <T extends IObjectHolder<?>> KnowledgeObject<T> fromID(int id){

@@ -1,16 +1,24 @@
 package chylex.hee.mechanics.compendium.content;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class KnowledgeFragment<T extends KnowledgeFragment>{
+	private static final TIntObjectHashMap<KnowledgeFragment<?>> allFragments = new TIntObjectHashMap<>();
+	
+	public static KnowledgeFragment<?> fromID(int id){
+		return allFragments.get(id);
+	}
+	
 	public final int globalID;
 	private KnowledgeFragmentType type;
 	private int price;
 	
 	public KnowledgeFragment(int globalID){
 		this.globalID = globalID;
+		allFragments.put(globalID,this);
 	}
 	
 	public T setType(KnowledgeFragmentType type){

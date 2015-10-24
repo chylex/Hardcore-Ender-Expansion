@@ -1,7 +1,6 @@
 package chylex.hee.proxy;
 import net.minecraft.entity.player.EntityPlayer;
 import chylex.hee.game.ConfigHandler;
-import chylex.hee.game.save.types.player.CompendiumFile;
 
 public class ModCommonProxy{
 	public static boolean opMobs, hardcoreEnderbacon;
@@ -13,10 +12,6 @@ public class ModCommonProxy{
 	}
 	
 	public EntityPlayer getClientSidePlayer(){
-		return null;
-	}
-	
-	public CompendiumFile getClientCompendium(){
 		return null;
 	}
 	
