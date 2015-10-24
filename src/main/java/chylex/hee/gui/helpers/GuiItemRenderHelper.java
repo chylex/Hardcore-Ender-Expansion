@@ -1,4 +1,5 @@
 package chylex.hee.gui.helpers;
+import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -15,6 +16,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import com.google.common.base.Joiner;
 
 public class GuiItemRenderHelper{
 	private static final RenderItem renderItem = new RenderItem();
@@ -84,6 +86,10 @@ public class GuiItemRenderHelper{
 	
 	private static int tooltipX, tooltipY;
 	private static String tooltipString;
+	
+	public static void setupTooltip(int x, int y, List<String> tooltip){
+		setupTooltip(x,y,Joiner.on('\n').join(tooltip));
+	}
 	
 	public static void setupTooltip(int x, int y, String tooltip){
 		tooltipX = x;

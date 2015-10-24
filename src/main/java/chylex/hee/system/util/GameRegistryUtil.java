@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import chylex.hee.HardcoreEnderExpansion;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
 public final class GameRegistryUtil{
 	public static void registerBlock(Block block, String name, Class<? extends ItemBlock> itemBlockClass){
@@ -44,6 +45,26 @@ public final class GameRegistryUtil{
 	
 	public static void addSmeltingRecipe(ItemStack input, ItemStack output, float experience){
 		FurnaceRecipes.smelting().func_151394_a(input,output,experience);
+	}
+	
+	// protection against idiots who can't register their shit properly
+	
+	public static UniqueIdentifier findIdentifier(Block block){
+		try{
+			return GameRegistry.findUniqueIdentifierFor(block);
+		}
+		catch(Exception e){
+			return null;
+		}
+	}
+	
+	public static UniqueIdentifier findIdentifier(Item item){
+		try{
+			return GameRegistry.findUniqueIdentifierFor(item);
+		}
+		catch(Exception e){
+			return null;
+		}
 	}
 	
 	private GameRegistryUtil(){}
