@@ -62,6 +62,10 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		return this;
 	}
 	
+	public KnowledgeObject<?> getParent(){
+		return parent;
+	}
+	
 	public List<KnowledgeObject<?>> getChildren(){
 		return children;
 	}

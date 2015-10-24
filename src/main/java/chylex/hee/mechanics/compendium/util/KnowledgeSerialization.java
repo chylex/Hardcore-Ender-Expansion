@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.compendium.util;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
@@ -21,77 +22,68 @@ import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
 
 public final class KnowledgeSerialization{
 	private static final BiMap<Character,Class<? extends IObjectHolder<?>>> types = HashBiMap.create(4);
-	private static final Map<Class<? extends IObjectHolder<?>>,IObjectSerializer<?,?>> handlers = new HashMap<>(4,1F);
+	private static final Map<Class<? extends IObjectHolder<?>>,IObjectSerializer<?>> handlers = new HashMap<>(4,1F);
 	
 	static{
-		types.put('b',ObjectBlock.class);
-		types.put('i',ObjectItem.class);
-		types.put('m',ObjectMob.class);
-		types.put('d',ObjectDummy.class);
-		
-		handlers.put(ObjectBlock.class,new IObjectSerializer<ObjectBlock,BlockInfo>(){
-			@Override
-			public String serialize(BlockInfo obj){
+		register('b',ObjectBlock.class,
+			obj -> {
 				UniqueIdentifier id = GameRegistryUtil.findIdentifier(obj.block);
 				return id.modId+":"+id.name+"/"+obj.meta;
-			}
-
-			@Override
-			public BlockInfo deserialize(String line){
+			},
+			line -> {
 				String[] data = StringUtils.split(line,'/');
 				return data.length == 2 ? new BlockInfo(GameData.getBlockRegistry().getObject(data[0]),DragonUtil.tryParse(data[1],ObjectBlock.wildcard)) : null;
 			}
-		});
+		);
 		
-		handlers.put(ObjectItem.class,new IObjectSerializer<ObjectItem,ItemStack>(){
-			@Override
-			public String serialize(ItemStack obj){
+		register('i',ObjectItem.class,
+			obj -> {
 				UniqueIdentifier id = GameRegistryUtil.findIdentifier(obj.getItem());
 				return id.modId+":"+id.name+"/"+obj.getItemDamage();
-			}
-
-			@Override
-			public ItemStack deserialize(String line){
+			},
+			line -> {
 				String[] data = StringUtils.split(line,'/');
 				return data.length == 2 ? new ItemStack(GameData.getItemRegistry().getObject(data[0]),1,DragonUtil.tryParse(data[1],ObjectItem.wildcard)) : null;
 			}
-		});
+		);
 		
-		handlers.put(ObjectMob.class,new IObjectSerializer<ObjectMob,Class<? extends EntityLiving>>(){
-			@Override
-			public String serialize(Class<? extends EntityLiving> obj){
-				return (String)EntityList.classToStringMapping.get(obj);
-			}
-
-			@Override
-			public Class<? extends EntityLiving> deserialize(String line){
-				return (Class<? extends EntityLiving>)EntityList.stringToClassMapping.get(line);
-			}
-		});
+		register('m',ObjectMob.class,
+			obj -> (String)EntityList.classToStringMapping.get(obj),
+			line -> (Class<? extends EntityLiving>)EntityList.stringToClassMapping.get(line)
+		);
 		
-		handlers.put(ObjectDummy.class,new IObjectSerializer<ObjectDummy,String>(){
-			@Override
-			public String serialize(String obj){
-				return obj;
-			}
-
-			@Override
-			public String deserialize(String line){
-				return line;
-			}
-		});
+		register('d',ObjectDummy.class,
+			obj -> obj,
+			line -> line
+		);
 	}
 	
 	public static <T extends IObjectHolder<R>,R> String serialize(KnowledgeObject<T> obj){
 		char chr = types.inverse().get(obj.holder.getClass()).charValue();
-		return chr+((IObjectSerializer<T,R>)handlers.get(obj.holder.getClass())).serialize(obj.holder.getUnderlyingObject());
+		return chr+((IObjectSerializer<R>)handlers.get(obj.holder.getClass())).serialize(obj.holder.getUnderlyingObject());
 	}
 	
 	public static <T extends IObjectHolder<R>,R> KnowledgeObject<T> deserialize(String line){
 		return KnowledgeObject.fromObject(handlers.get(types.get(line.charAt(0))).deserialize(line.substring(1)));
 	}
 	
-	private static interface IObjectSerializer<T extends IObjectHolder<R>,R>{
+	private static <T extends IObjectHolder<R>,R> void register(char chr, Class<T> cls, final Function<R,String> serializer, final Function<String,R> deserializer){
+		types.put(Character.valueOf(chr),cls);
+		
+		handlers.put(cls,new IObjectSerializer<R>(){
+			@Override
+			public String serialize(R obj){
+				return serializer.apply(obj);
+			}
+
+			@Override
+			public R deserialize(String line){
+				return deserializer.apply(line);
+			}
+		});
+	}
+	
+	private static interface IObjectSerializer<R>{
 		String serialize(R obj);
 		R deserialize(String line);
 	}
