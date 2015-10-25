@@ -1,5 +1,6 @@
 package chylex.hee.system.abstractions;
 import java.util.Random;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import chylex.hee.system.util.MathUtil;
@@ -29,6 +30,10 @@ public class Vec{
 		return new Vec(rand.nextDouble()-0.5D,rand.nextDouble()-0.5D,rand.nextDouble()-0.5D).normalized();
 	}
 	
+	public static Vec between(Entity source, Entity target){
+		return new Vec(target.posX-source.posX,target.posY-source.posY,target.posZ-source.posX);
+	}
+	
 	public double x, y, z;
 	
 	private Vec(double x, double y, double z){
@@ -52,6 +57,10 @@ public class Vec{
 	
 	public Vec offset(Vec byVec, double factor){
 		return Vec.xyz(x+byVec.x*factor,y+byVec.y*factor,z+byVec.z*factor);
+	}
+	
+	public Vec multiplied(double factor){
+		return Vec.xyz(x*factor,y*factor,z*factor);
 	}
 	
 	public double distance(Vec vec){
