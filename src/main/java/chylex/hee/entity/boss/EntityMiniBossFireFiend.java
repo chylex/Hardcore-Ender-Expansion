@@ -29,9 +29,9 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
@@ -121,9 +121,10 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		}
 		
 		targetAngle += (targetAngleChangeDir ? 1 : -1)*0.02F;
-		double[] vec = DragonUtil.getNormalizedVector((closest.posX+MathHelper.cos(targetAngle)*40D)-posX+(rand.nextDouble()-0.5D)*4D,(closest.posZ+MathHelper.sin(targetAngle)*40D)-posZ+(rand.nextDouble()-0.5D)*4D);
-		motionVec.xCoord = vec[0]*0.5D;
-		motionVec.zCoord = vec[1]*0.5D;
+		Vec vec = Vec.xz((closest.posX+MathHelper.cos(targetAngle)*40D)-posX+(rand.nextDouble()-0.5D)*4D,(closest.posZ+MathHelper.sin(targetAngle)*40D)-posZ+(rand.nextDouble()-0.5D)*4D);
+		vec = vec.normalized().multiplied(0.5D);
+		motionVec.xCoord = vec.x;
+		motionVec.zCoord = vec.z;
 		
 		motionX = motionVec.xCoord*0.1D+motionX*0.9D;
 		motionZ = motionVec.zCoord*0.1D+motionZ*0.9D;

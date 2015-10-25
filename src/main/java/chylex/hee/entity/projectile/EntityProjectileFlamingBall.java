@@ -10,8 +10,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.DragonUtil;
 
 public class EntityProjectileFlamingBall extends EntityFireball{
 	public EntityProjectileFlamingBall(World world){
@@ -47,8 +47,8 @@ public class EntityProjectileFlamingBall extends EntityFireball{
 			boolean isLiving = mop.entityHit instanceof EntityLivingBase;
 			
 			if (isLiving && rand.nextInt(ModCommonProxy.opMobs ? 3 : 4) == 0){
-				double[] vec = DragonUtil.getNormalizedVector(shootingEntity.posX-mop.entityHit.posX,shootingEntity.posZ-mop.entityHit.posZ);
-				((EntityLivingBase)mop.entityHit).knockBack(shootingEntity,0.9F,vec[0]*0.15D*(0.85D+0.2D*rand.nextDouble()),vec[1]*0.15D*(0.85D+0.4D*rand.nextDouble()));
+				Vec vec = Vec.between(mop.entityHit,shootingEntity).normalized();
+				((EntityLivingBase)mop.entityHit).knockBack(shootingEntity,0.9F,vec.x*0.15D*(0.85D+0.2D*rand.nextDouble()),vec.z*0.15D*(0.85D+0.4D*rand.nextDouble()));
 			}
 			
 			mop.entityHit.attackEntityFrom(DamageSource.onFire,3F);

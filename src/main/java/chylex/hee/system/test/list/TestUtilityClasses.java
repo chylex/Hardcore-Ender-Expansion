@@ -1,9 +1,7 @@
 package chylex.hee.system.test.list;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Random;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Vec3;
 import chylex.hee.system.test.Assert;
 import chylex.hee.system.test.UnitTest;
 import chylex.hee.system.util.BooleanByte;
@@ -72,15 +70,6 @@ public class TestUtilityClasses{
 	
 	@UnitTest
 	public void testDragonUtil(){
-		double[] vecArray = DragonUtil.getNormalizedVector(2D,3D);
-		Vec3 vecObj = Vec3.createVectorHelper(2D,0D,3D).normalize();
-		
-		Assert.equal(vecArray[0],vecObj.xCoord);
-		Assert.equal(vecArray[1],vecObj.zCoord);
-		Assert.equal(vecObj.lengthVector(),1D);
-		
-		Assert.equal(DragonUtil.getRandomVector(new Random()).lengthVector(),1D);
-		
 		Assert.equal(DragonUtil.stripChatFormatting(EnumChatFormatting.GOLD+"Text"),"Text");
 		Assert.equal(DragonUtil.stripChatFormatting(EnumChatFormatting.BOLD.toString()+EnumChatFormatting.RED.toString()+"Text"),"Text");
 		

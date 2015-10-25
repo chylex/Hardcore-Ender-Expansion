@@ -17,8 +17,8 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobSanctuaryOverseer extends EntityFlying{
@@ -70,9 +70,9 @@ public class EntityMobSanctuaryOverseer extends EntityFlying{
 					if (attackTimer > 0 && attackingPlayer != null){
 						// TODO MultiDamage.from(this).addMagic(7F).addScaled(ModCommonProxy.opMobs ? 29F : 24F).attack(attackingPlayer);
 						
-						double[] vec = DragonUtil.getNormalizedVector(attackingPlayer.posX-posX,attackingPlayer.posZ-posZ);
-						attackingPlayer.addVelocity(vec[0],0.2D,vec[1]);
-						PacketPipeline.sendToPlayer(attackingPlayer,new C07AddPlayerVelocity(vec[0],0.2D,vec[1]));
+						Vec vec = Vec.between(this,attackingPlayer).normalized();
+						attackingPlayer.addVelocity(vec.x,0.2D,vec.z);
+						PacketPipeline.sendToPlayer(attackingPlayer,new C07AddPlayerVelocity(vec.x,0.2D,vec.z));
 						
 						PacketPipeline.sendToAllAround(this,10D,new C21EffectEntity(FXType.Entity.SANCTUARY_OVERSEER_SINGLE,this));
 					}

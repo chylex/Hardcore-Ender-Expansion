@@ -30,9 +30,9 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
-import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobHauntedMiner extends EntityFlying implements IMob{
@@ -224,17 +224,14 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 									double dist = MathUtil.distance(entity.posX-posX,entity.posZ-posZ);
 									if (dist > 12D)continue;
 									
-									double[] vec = DragonUtil.getNormalizedVector(entity.posX-posX,entity.posZ-posZ);
-									double strength = 0.4D+(12D-dist)*0.2D;
-									vec[0] *= strength;
-									vec[1] *= strength;
+									Vec vec = Vec.between(this,entity).normalized().multiplied(0.4D+(12D-dist)*0.2D);
 									
 									entity.attackEntityFrom(DamageSource.causeMobDamage(this),13F);
-									if (entity instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)entity,new C07AddPlayerVelocity(vec[0],0.4D,vec[1]));
+									if (entity instanceof EntityPlayer)PacketPipeline.sendToPlayer((EntityPlayer)entity,new C07AddPlayerVelocity(vec.x,0.4D,vec.z));
 									
-									entity.motionX += vec[0];
+									entity.motionX += vec.x;
 									entity.motionY += 0.4D;
-									entity.motionZ += vec[1];
+									entity.motionZ += vec.z;
 								}
 								
 								PacketPipeline.sendToAllAround(this,24D,new C08PlaySound(C08PlaySound.HAUNTEDMINER_ATTACK_BLAST,posX,posY,posZ,1.5F,1F));
@@ -289,9 +286,9 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 			else if (dist < 9D)speed = 0D;
 		}
 		
-		double[] xz = DragonUtil.getNormalizedVector(targetX-posX,targetZ-posZ);
-		motionX = xz[0]*speed;
-		motionZ = xz[1]*speed;
+		Vec vec = Vec.xz(targetX-posX,targetZ-posZ).normalized().multiplied(speed);
+		motionX = vec.x;
+		motionZ = vec.z;
 		if (Math.abs(targetY-posY) > 1D)motionY = (targetY-posY)*0.02D;
 		
 		if (MathUtil.distance(targetX-posX,targetZ-posZ) > 0.1D)renderYawOffset = rotationYaw = rotationYawHead = -MathUtil.toDeg((float)Math.atan2(targetX-posX,targetZ-posZ));

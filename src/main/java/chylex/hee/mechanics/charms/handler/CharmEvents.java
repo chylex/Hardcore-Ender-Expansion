@@ -41,6 +41,7 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
@@ -274,17 +275,15 @@ public final class CharmEvents{
 						float mp = 0.5F+0.8F*repulseAmt;
 						Entity source = e.source.getEntity();
 						
-						double[] vec = DragonUtil.getNormalizedVector(source.posX-targetPlayer.posX,source.posZ-targetPlayer.posZ);
-						vec[0] *= mp;
-						vec[1] *= mp;
+						Vec vec = Vec.between(targetPlayer,source).normalized().multiplied(mp);
 						
 						if (source instanceof EntityPlayer){
-							PacketPipeline.sendToPlayer((EntityPlayer)source,new C07AddPlayerVelocity(vec[0],0.25D,vec[1]));
-							source.motionX += vec[0];
+							PacketPipeline.sendToPlayer((EntityPlayer)source,new C07AddPlayerVelocity(vec.x,0.25D,vec.z));
+							source.motionX += vec.x;
 							source.motionY += 0.25D;
-							source.motionZ += vec[1];
+							source.motionZ += vec.z;
 						}
-						else source.addVelocity(vec[0],0.25D,vec[1]);
+						else source.addVelocity(vec.x,0.25D,vec.z);
 						
 						showBlockingEffect = true;
 					}

@@ -26,6 +26,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -149,17 +150,12 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 							}
 							
 							for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,6D,6D))){
-								double[] vec = DragonUtil.getNormalizedVector(player.posX-posX,player.posZ-posZ);
+								Vec vec = Vec.between(this,player).normalized().multiplied(player.isBlocking() ? 1.4D : 2.4D);
 								
-								boolean blocking = player.isBlocking();
-								vec[0] *= (blocking ? 1.4D : 2.4D);
-								vec[1] *= (blocking ? 1.4D : 2.4D);
-								
-								PacketPipeline.sendToPlayer(player,new C07AddPlayerVelocity(vec[0],0.34D,vec[1]));
-								
-								player.motionX += vec[0];
+								PacketPipeline.sendToPlayer(player,new C07AddPlayerVelocity(vec.x,0.34D,vec.z));
+								player.motionX += vec.x;
 								player.motionY += 0.34D;
-								player.motionZ += vec[1];
+								player.motionZ += vec.z;
 								
 								player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
 							}
