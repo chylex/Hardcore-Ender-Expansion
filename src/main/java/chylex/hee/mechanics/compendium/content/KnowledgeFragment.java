@@ -26,7 +26,7 @@ public abstract class KnowledgeFragment<T extends KnowledgeFragment>{
 	}
 	
 	public T setType(KnowledgeFragmentType type, int price){
-		if ((price == 0) ^ (type == KnowledgeFragmentType.SECRET)){
+		if ((price != 0) ^ (type == KnowledgeFragmentType.SECRET)){
 			throw new IllegalArgumentException(price == 0 ? "Secret fragments need to have a price!" : "Only secret fragments can have a price!");
 		}
 		

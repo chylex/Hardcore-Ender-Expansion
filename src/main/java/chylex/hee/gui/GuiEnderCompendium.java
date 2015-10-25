@@ -255,7 +255,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		}
 		
 		if (offsetY.value() > 0)offsetY.set(0F);
-		else if (offsetY.value() < -totalHeight+height-32)offsetY.set(-totalHeight+height-32);
+		else if (offsetY.value() < -totalHeight+height-32)offsetY.set(totalHeight > height ? -totalHeight+height-32F : 0F);
 		
 		/* TODO
 		if (hoverTriggerTimer != Byte.MIN_VALUE && ++hoverTriggerTimer > 12){

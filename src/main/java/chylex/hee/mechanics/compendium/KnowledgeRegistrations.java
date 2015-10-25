@@ -4,6 +4,8 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.content.fragments.FragmentText;
+import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 import chylex.hee.mechanics.compendium.content.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.content.objects.ObjectDummy;
@@ -16,6 +18,11 @@ public final class KnowledgeRegistrations{
 		TEST2 = $(new ObjectBlock(BlockList.decomposition_table));
 	
 	public static void initialize(){
+		HELP.addFragments(new FragmentText(0).setType(KnowledgeFragmentType.VISIBLE));
+		HELP.addFragments(new FragmentText(1).setType(KnowledgeFragmentType.VISIBLE));
+		HELP.addFragments(new FragmentText(2).setType(KnowledgeFragmentType.VISIBLE));
+		HELP.addFragments(new FragmentText(3).setType(KnowledgeFragmentType.VISIBLE));
+		
 		TEST2.setParent(TEST1,0,4);
 	}
 	

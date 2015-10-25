@@ -12,6 +12,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.item.ItemSpawnEggs;
@@ -66,7 +67,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		String str = getString(isUnlocked);
-		renderString(str,x+1,y,GuiEnderCompendium.guiPageWidth-10,255<<24,240<<24);
+		renderString(str,x+1,y,GuiEnderCompendium.guiPageWidth-10,255<<24);
 		
 		if (isUnlocked){
 			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
@@ -241,26 +242,33 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	}
 
 	@SideOnly(Side.CLIENT)
-	private static void renderString(String str, int x, int y, int maxWidth, int normalColor, int smoothColor){
+	private static void renderString(String str, int x, int y, int maxWidth, int color){
 		Minecraft mc = Minecraft.getMinecraft();
 		FontRenderer fontRenderer = mc.fontRenderer;
 		
 		boolean origFont = fontRenderer.getUnicodeFlag();
 		fontRenderer.setUnicodeFlag(true);
 		
-		if (mc.gameSettings.guiScale == 2){
-			fontRenderer.drawSplitString(str,x,y,maxWidth,smoothColor);
+		if (mc.gameSettings.guiScale == 3){
+			float dist = 0.08F;
 			
-			/* TODO
-			GL11.glTranslatef(-0.2F,0F,0F);
-			fontRenderer.drawSplitString(str,x,y,maxWidth,smoothColor);
-			GL11.glTranslatef(0.2F,0F,0F);
-			
-			GL11.glTranslatef(0F,smoothRenderingMode == 1 ? -0.2F : 0.2F,0F);
-			fontRenderer.drawSplitString(str,x,y,maxWidth,smoothColor);
-			GL11.glTranslatef(0F,smoothRenderingMode == 1 ? 0.2F : -0.2F,0F);*/
+			for(int cycle = 0; cycle < 2; cycle++){
+				GL11.glTranslatef(-dist,0F,0F);
+				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
+				GL11.glTranslatef(dist,0F,0F);
+				
+				GL11.glTranslatef(0F,-dist,0F);
+				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
+				GL11.glTranslatef(0F,dist,0F);
+				
+				GL11.glTranslatef(dist,-dist,0F);
+				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
+				GL11.glTranslatef(-dist,dist,0F);
+				
+				dist = -dist;
+			}
 		}
-		else fontRenderer.drawSplitString(str,x,y,maxWidth,normalColor);
+		else fontRenderer.drawSplitString(str,x,y,maxWidth,color);
 		
 		fontRenderer.setUnicodeFlag(origFont);
 	}

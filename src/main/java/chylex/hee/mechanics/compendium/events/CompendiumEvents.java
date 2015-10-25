@@ -36,11 +36,13 @@ public final class CompendiumEvents{
 	}
 	
 	public static boolean tryDiscover(EntityPlayer player, Object obj){
-		return getPlayerData(player).tryDiscoverObject(KnowledgeObject.fromObject(obj));
+		KnowledgeObject knowledgeObj = KnowledgeObject.fromObject(obj);
+		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(knowledgeObj);
 	}
 	
 	public static boolean tryDiscover(EntityPlayer player, ItemStack is){
-		return getPlayerData(player).tryDiscoverObject(KnowledgeObject.fromObject(is));
+		KnowledgeObject knowledgeObj = KnowledgeObject.fromObject(is);
+		return knowledgeObj != null && getPlayerData(player).tryDiscoverObject(knowledgeObj);
 	}
 
 	private final ExpiringSet<UUID> playerLivingTicks = new ExpiringSet<>();
@@ -85,7 +87,6 @@ public final class CompendiumEvents{
 		final World world = player.worldObj;
 		
 		if (e.canInteractWith && !world.isRemote && player.openContainer != player.inventoryContainer && playerContainerTicks.update(player.getGameProfile().getId())){
-			System.out.println("tick"); // TODO test
 			for(Slot slot:(List<Slot>)player.openContainer.inventorySlots){
 				if (slot.getHasStack())tryDiscover(player,slot.getStack());
 			}
