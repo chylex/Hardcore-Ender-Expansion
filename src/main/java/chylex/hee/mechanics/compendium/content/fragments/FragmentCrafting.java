@@ -93,7 +93,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 		
 		for(int a = 0, cnt = 0, xx = x, yy = y; a < ingredients.length; a++, xx += 19){
 			if (ingredients[a] != null){
-				obj = KnowledgeUtils.tryGetFromItemStack(ingredients[a]);
+				obj = KnowledgeObject.fromObject(ingredients[a]);
 				break;
 			}
 			
@@ -104,7 +104,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 			}
 		}
 		
-		if (checkRect(mouseX,mouseY,x+95,y+20,17,17))obj = KnowledgeUtils.tryGetFromItemStack(output);
+		if (checkRect(mouseX,mouseY,x+95,y+20,17,17))obj = KnowledgeObject.fromObject(output);
 		
 		if (obj != null){
 			// TODO gui.showObject(obj);
@@ -141,7 +141,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 				GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),is,xx+2,yy+2);
 				
 				if (isUnlocked && checkRect(mouseX,mouseY,xx+1,yy+1,17,17)){
-					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltip(is));
+					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltipClient(is));
 				}
 			}
 			
@@ -155,7 +155,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 		GuiItemRenderHelper.renderItemIntoGUI(gui.mc.getTextureManager(),output,x+96,y+21);
 		
 		if (isUnlocked && checkRect(mouseX,mouseY,x+95,y+20,17,17)){
-			GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltip(output));
+			GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltipClient(output));
 		}
 	}
 }

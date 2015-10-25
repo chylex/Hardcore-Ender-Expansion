@@ -18,7 +18,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class CompendiumFile extends PlayerFile{ // TODO change stuff to private after fixing other errors
-	private static final byte distanceLimit = 4; // 0 = discovered, 4 = unavailable
+	public static final byte distanceLimit = 4; // 0 = discovered, 4 = unavailable
 	
 	private int points;
 	private final TIntHashSet extraFragments = new TIntHashSet();
@@ -73,13 +73,13 @@ public class CompendiumFile extends PlayerFile{ // TODO change stuff to private 
 		return discoveredObjects.contains(obj);
 	}
 	
-	public int getDiscoveryDistance(KnowledgeObject<? extends IObjectHolder<?>> obj, int limit){
-		for(int level = 0; level < limit; level++){
+	public int getDiscoveryDistance(KnowledgeObject<? extends IObjectHolder<?>> obj){
+		for(int level = 0; level < distanceLimit; level++){
 			if (discoveredObjects.contains(obj))return level;
 			else obj = obj.getParent();
 		}
 		
-		return limit;
+		return distanceLimit;
 	}
 	
 	// Fragments
@@ -103,8 +103,8 @@ public class CompendiumFile extends PlayerFile{ // TODO change stuff to private 
 	public boolean canSeeFragment(KnowledgeObject<? extends IObjectHolder<?>> obj, KnowledgeFragment fragment){
 		switch(fragment.getType()){
 			case VISIBLE: return true;
-			case ESSENTIAL: return getDiscoveryDistance(obj,distanceLimit) != distanceLimit;
-			case DISCOVERY: return getDiscoveryDistance(obj,distanceLimit) == 0;
+			case ESSENTIAL: return getDiscoveryDistance(obj) != distanceLimit;
+			case DISCOVERY: return getDiscoveryDistance(obj) == 0;
 			default: return extraFragments.contains(fragment.globalID);
 		}
 	}

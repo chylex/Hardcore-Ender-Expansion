@@ -2,10 +2,8 @@ package chylex.hee.mechanics.compendium.render;
 import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.resources.I18n;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 
@@ -42,10 +40,10 @@ public class PurchaseDisplayElement{
 		RenderHelper.disableStandardItemLighting();
 		
 		String price = String.valueOf(this.price);
-		int color = status == FragmentPurchaseStatus.CAN_PURCHASE ? 0x404040 :
+		/* TODO int color = status == FragmentPurchaseStatus.CAN_PURCHASE ? 0x404040 :
 					(status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED || status == FragmentPurchaseStatus.NOT_BUYABLE) ? 0x888888 :
-					status == FragmentPurchaseStatus.NOT_ENOUGH_POINTS ? 0xdd2020 : 0;
-		gui.mc.fontRenderer.drawString(price,pageCenterX-gui.mc.fontRenderer.getStringWidth(price)+20,y-5,color);
+					status == FragmentPurchaseStatus.NOT_ENOUGH_POINTS ? 0xdd2020 : 0;*/
+		gui.mc.fontRenderer.drawString(price,pageCenterX-gui.mc.fontRenderer.getStringWidth(price)+20,y-5,0x404040);
 		
 		if (object instanceof KnowledgeObject){
 			String name = ((KnowledgeObject)object).getTranslatedTooltip();
@@ -57,9 +55,9 @@ public class PurchaseDisplayElement{
 			}
 		}
 		else if (isMouseOver(mouseX,mouseY,pageCenterX-3)){
-			if (status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED){
+			/* TODO if (status == FragmentPurchaseStatus.REQUIREMENTS_UNFULFILLED){
 				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,I18n.format("compendium.unfulfilledRequirements"));
-			}
+			}*/
 		}
 	}
 	

@@ -30,8 +30,8 @@ public class FragmentItemConversion extends KnowledgeFragment<FragmentItemConver
 		if (isUnlocked && buttonId == 0 && mouseY >= y && mouseY <= y+17){
 			KnowledgeObject<? extends IObjectHolder<?>> obj = null;
 			
-			if (mouseX >= x && mouseX <= x+17)obj = KnowledgeUtils.tryGetFromItemStack(itemFrom);
-			else if (mouseX >= x+44 && mouseX <= x+61)obj = KnowledgeUtils.tryGetFromItemStack(itemTo);
+			if (mouseX >= x && mouseX <= x+17)obj = KnowledgeObject.fromObject(itemFrom);
+			else if (mouseX >= x+44 && mouseX <= x+61)obj = KnowledgeObject.fromObject(itemTo);
 			
 			if (obj != null){
 				// TODO gui.showObject(obj);
@@ -57,10 +57,10 @@ public class FragmentItemConversion extends KnowledgeFragment<FragmentItemConver
 		
 		if (isUnlocked && mouseY >= y && mouseY <= y+17){
 			if (mouseX >= x && mouseX <= x+17){
-				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltip(itemFrom));
+				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltipClient(itemFrom));
 			}
 			else if (mouseX >= x+44 && mouseX <= x+61){
-				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltip(itemTo));
+				GuiItemRenderHelper.setupTooltip(mouseX,mouseY,KnowledgeUtils.getCompendiumTooltipClient(itemTo));
 			}
 		}
 	}

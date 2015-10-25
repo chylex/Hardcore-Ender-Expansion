@@ -12,13 +12,10 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import chylex.hee.HardcoreEnderExpansion;
-import chylex.hee.game.ConfigHandler;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.helpers.AnimatedFloat;
 import chylex.hee.gui.helpers.AnimatedFloat.Easing;
@@ -26,22 +23,17 @@ import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.init.ItemList;
-import chylex.hee.mechanics.compendium.KnowledgeCategories;
-import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
 import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
-import chylex.hee.mechanics.compendium_old.KnowledgeRegistrations;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S02CompendiumPurchase;
-import chylex.hee.packets.server.S03SimpleEvent;
-import chylex.hee.packets.server.S03SimpleEvent.EventType;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
-import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -82,28 +74,18 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private GuiButtonState btnHelp;
 	private byte hoverTriggerTimer = Byte.MIN_VALUE;
 	
-	public GuiEnderCompendium(CompendiumFile compendiumData){
-		if (!(this.compendiumFile = compendiumData).seenHelp())hoverTriggerTimer = 0;
+	public GuiEnderCompendium(CompendiumFile compendiumFile){
+		this.compendiumFile = compendiumFile;
+		// TODO if (!(this.compendiumFile = compendiumData).seenHelp())hoverTriggerTimer = 0;
 		
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(portalSpeed = new AnimatedFloat(Easing.CUBIC));
 		
 		int y = 0, maxY = 0;
 		
-		for(KnowledgeCategory category:KnowledgeCategories.categoryList){
-			y += 32;
-			categoryElements.add(new CategoryDisplayElement(category,y));
-			y += 44;
-			
-			for(KnowledgeObject obj:category.getAllObjects()){
-				if (!obj.isCategoryObject()){
-					objectElements.add(new ObjectDisplayElement(obj,y));
-					if (obj.getY() > maxY)maxY = obj.getY();
-				}
-			}
-			
-			y += maxY+30;
-			maxY = 0;
+		for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
+			objectElements.add(new ObjectDisplayElement(obj,y));
+			if (obj.getY() > maxY)maxY = obj.getY();
 		}
 		
 		this.totalHeight = y;
@@ -156,7 +138,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		else if (button.id == 3)pageIndex = (byte)Math.max(0,pageIndex-1);
 		else if (button.id == 4)pageIndex = (byte)Math.min(currentObjectPages.size()-1,pageIndex+1);
 		else if (button.id == 5){
-			if (++KnowledgeFragmentText.smoothRenderingMode > 2)KnowledgeFragmentText.smoothRenderingMode = 0;
+			/* TODO if (++KnowledgeFragmentText.smoothRenderingMode > 2)KnowledgeFragmentText.smoothRenderingMode = 0;
 			
 			for(IConfigElement element:ConfigHandler.getGuiConfigElements()){
 				if (element.getName().equals("compendiumSmoothText") && element.isProperty()){
@@ -166,6 +148,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 			
 			HardcoreEnderExpansion.proxy.loadConfiguration(); // does not reload, just saves changes
+			*/
 		}
 		
 		if (button.id == 3 || button.id == 4)updatePurchaseElements();
@@ -176,13 +159,13 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(2));
 		else if (buttonId == 0 && !(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
 			int offY = (int)offsetY.value();
-			
+			/* TODO
 			for(CategoryDisplayElement element:categoryElements){
 				if (element.isMouseOver(mouseX,mouseY,offY)){
 					showObject(element.category.getCategoryObject());
 					return;
 				}
-			}
+			}*/
 			
 			for(ObjectDisplayElement element:objectElements){
 				if (element.isMouseOver(mouseX,mouseY,offY)){
@@ -191,29 +174,16 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				}
 			}
 			
-			KnowledgeObject<? extends IObjectHolder<?>> redirect = null;
-			
 			for(PurchaseDisplayElement element:purchaseElements){
-				if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4)){
-					if (element.getStatus() == FragmentPurchaseStatus.NOT_BUYABLE && element.fragmentHasRedirect){
-						redirect = ((KnowledgeFragment)element.object).getUnlockRedirect();
-						break;
-					}
-					else if (element.getStatus() == FragmentPurchaseStatus.CAN_PURCHASE && compendiumFile.getPoints() >= element.price){
-						Object obj = element.object;
-						
-						if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
-						else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
-						else continue;
-						
-						return;
-					}
+				if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4) && compendiumFile.getPoints() >= element.price){
+					Object obj = element.object;
+					
+					if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
+					else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
+					else continue;
+					
+					return;
 				}
-			}
-			
-			if (redirect != null){
-				showObject(redirect);
-				moveToCurrentObject(true);
 			}
 		}
 		
@@ -287,6 +257,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (offsetY.value() > 0)offsetY.set(0F);
 		else if (offsetY.value() < -totalHeight+height-32)offsetY.set(-totalHeight+height-32);
 		
+		/* TODO
 		if (hoverTriggerTimer != Byte.MIN_VALUE && ++hoverTriggerTimer > 12){
 			if (!compendiumFile.seenHelp())btnHelp.forcedHover = !btnHelp.forcedHover;
 			else if (currentObject == KnowledgeRegistrations.HELP){
@@ -298,7 +269,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 			
 			if (hoverTriggerTimer != Byte.MIN_VALUE)hoverTriggerTimer = 0;
-		}
+		}*/
 	}
 	
 	public void showObject(KnowledgeObject<? extends IObjectHolder<?>> object){
@@ -323,7 +294,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		while(true){
 			KnowledgeFragment fragment = iter.hasNext() ? iter.next() : null;
 			
-			if (fragment == null || yy+(height = 8+fragment.getHeight(this,isUnlocked = (object == KnowledgeRegistrations.HELP || compendiumFile.hasUnlockedFragment(fragment)))) > guiPageHeight){
+			if (fragment == null || yy+(height = 8+fragment.getHeight(this,isUnlocked = compendiumFile.canSeeFragment(object,fragment))) > guiPageHeight){
 				currentObjectPages.put(page++,pageMap);
 				
 				if (fragment == null)break;
@@ -339,6 +310,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			yy += height;
 		}
 		
+		/* TODO
 		if (object == KnowledgeRegistrations.HELP){
 			btnHelp.forcedHover = true;
 			
@@ -349,7 +321,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			
 			purchaseElements.clear();
 			return;
-		}
+		}*/
 		
 		updatePurchaseElements();
 	}
@@ -360,20 +332,20 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		int newY = Integer.MIN_VALUE;
 		
 		for(ObjectDisplayElement element:objectElements){
-			if (element.object.getObject() == currentObject.getObject()){
+			if (element.object == currentObject){
 				newY = -(element.y+element.object.getY()-(height>>1)+11);
 				break;
 			}
 		}
 		
-		if (newY == Integer.MIN_VALUE){
+		/* TODO if (newY == Integer.MIN_VALUE){
 			for(CategoryDisplayElement element:categoryElements){
 				if (element.category.getCategoryObject().getObject() == currentObject.getObject()){
 					newY = -(element.y+element.category.getCategoryObject().getY()-(height>>1)+20);
 					break;
 				}
 			}
-		}
+		}*/
 		
 		if (newY != Integer.MIN_VALUE){
 			if (animate)offsetY.startAnimation(offsetY.value(),newY,0.5F);
@@ -385,8 +357,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		purchaseElements.clear();
 		
 		if (currentObject != null){
-			if (!compendiumFile.hasDiscoveredObject(currentObject)){
-				if (currentObject.isBuyable())purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3,compendiumFile.getPoints() >= currentObject.getUnlockPrice() ? FragmentPurchaseStatus.CAN_PURCHASE : FragmentPurchaseStatus.NOT_ENOUGH_POINTS));
+			if (!compendiumFile.isDiscovered(currentObject)){
+				purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3));
 				return;
 			}
 			
@@ -394,7 +366,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
 				height = entry.getKey().getHeight(this,entry.getValue());
-				if (!entry.getValue())purchaseElements.add(new PurchaseDisplayElement(entry.getKey(),yy+(height>>1)+2,compendiumFile.canPurchaseFragment(entry.getKey())));
+				if (!entry.getValue())purchaseElements.add(new PurchaseDisplayElement(entry.getKey(),yy+(height>>1)+2));
 				yy += 8+height;
 			}
 		}
@@ -440,13 +412,13 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (!(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
 			for(CategoryDisplayElement element:categoryElements){
 				if (element.isMouseOver(mouseX,mouseY,(int)offY)){
-					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.category.getTooltip());
+					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.category.getTranslatedTooltip());
 				}
 			}
 			
 			for(ObjectDisplayElement element:objectElements){
 				if (element.isMouseOver(mouseX,mouseY,(int)offY)){
-					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.object.getTooltip());
+					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.object.getTranslatedTooltip());
 				}
 			}
 		}
@@ -467,7 +439,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		prevMouseX = mouseX;
 	}
 	
-	private void renderScreenPost(int mouseX, int mouseY, float partialTickTime){
+	private void renderScreenPost(int mouseX, int mouseY, float partialTickTime){/* TODO
 		mc.getTextureManager().bindTexture(texBack);
 		GuiButton button = (GuiButton)buttonList.get(5);
 		drawTexturedModalRect(button.xPosition,button.yPosition,KnowledgeFragmentText.smoothRenderingMode > 0 ? 56 : 77,29,20,20);
@@ -482,7 +454,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			GuiItemRenderHelper.setupTooltip(mouseX,mouseY-24,build.toString());
 		}
 		
-		GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
+		GuiItemRenderHelper.drawTooltip(this,fontRendererObj);*/
 	}
 	
 	private void renderBackgroundGUI(){
@@ -540,7 +512,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		mc.getTextureManager().bindTexture(texPage);
 		drawTexturedModalRect(x-(guiPageTexWidth>>1),y-(guiPageTexHeight>>1),0,0,guiPageTexWidth,guiPageTexHeight);
 		
-		if (compendiumFile.hasDiscoveredObject(currentObject)){
+		if (compendiumFile.isDiscovered(currentObject)){ // TODO
 			x = x-(guiPageTexWidth>>1)+guiPageLeft;
 			y = y-(guiPageTexHeight>>1)+guiPageTop;
 			
@@ -558,7 +530,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		for(PurchaseDisplayElement element:purchaseElements)element.render(this,mouseX,mouseY,x);
 		
-		if (!currentObject.isBuyable() && !compendiumFile.hasDiscoveredObject(currentObject)){
+		if (!compendiumFile.isDiscovered(currentObject)){ // TODO
 			RenderHelper.disableStandardItemLighting();
 			String msg = I18n.format("compendium.cannotBuy");
 			mc.fontRenderer.drawString(msg,x-(mc.fontRenderer.getStringWidth(msg)>>1),y-7,0x404040);

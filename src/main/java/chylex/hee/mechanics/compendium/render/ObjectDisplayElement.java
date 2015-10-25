@@ -4,7 +4,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 
@@ -38,7 +37,7 @@ public class ObjectDisplayElement{
 		
 		BackgroundTile tile = BackgroundTile.DISABLED;
 		
-		if (compendiumFile.hasDiscoveredObject(object)){
+		/* TODO if (compendiumFile.hasDiscoveredObject(object)){
 			boolean hasAll = true;
 			
 			for(KnowledgeFragment fragment:object.getFragments()){
@@ -49,7 +48,7 @@ public class ObjectDisplayElement{
 			}
 			
 			tile = hasAll ? BackgroundTile.GOLD : BackgroundTile.PLAIN;
-		}
+		}*/
 		
 		RenderHelper.disableStandardItemLighting();
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);

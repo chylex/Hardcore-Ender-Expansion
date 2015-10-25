@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.compendium.content;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -16,16 +17,20 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	private static int prevID = 0;
 	private static final TIntObjectHashMap<KnowledgeObject<?>> allObjects = new TIntObjectHashMap<>();
 	
-	public static <T extends IObjectHolder<?>> KnowledgeObject<T> fromObject(Object o){
-		return (KnowledgeObject<T>)allObjects.valueCollection().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(o)).findFirst().orElse(null);
+	public static final Collection<KnowledgeObject<?>> getAllObjects(){
+		return allObjects.valueCollection();
 	}
 	
-	public static <T extends IObjectHolder<?>> KnowledgeObject<T> fromObject(ItemStack is){
+	public static final <T extends IObjectHolder<?>> KnowledgeObject<T> fromObject(Object o){
+		return (KnowledgeObject<T>)getAllObjects().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(o)).findFirst().orElse(null);
+	}
+	
+	public static final <T extends IObjectHolder<?>> KnowledgeObject<T> fromObject(ItemStack is){
 		if (!KnowledgeUtils.isItemStackViable(is))return null;
-		return (KnowledgeObject<T>)allObjects.valueCollection().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(is)).findFirst().orElse(null);
+		return (KnowledgeObject<T>)getAllObjects().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(is)).findFirst().orElse(null);
 	}
 	
-	public static <T extends IObjectHolder<?>> KnowledgeObject<T> fromID(int id){
+	public static final <T extends IObjectHolder<?>> KnowledgeObject<T> fromID(int id){
 		return (KnowledgeObject<T>)allObjects.get(id);
 	}
 	

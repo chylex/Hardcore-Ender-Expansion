@@ -21,6 +21,7 @@ import chylex.hee.init.ItemList;
 import chylex.hee.init.ModInitHandler;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.packets.PacketPipeline;
@@ -161,7 +162,7 @@ public class HardcoreEnderExpansion{
 		Stopwatch.time("PostInitEvent");
 		
 		HeeIMC.runPostInit();
-		// TODO KnowledgeRegistrations.initialize();
+		KnowledgeRegistrations.initialize();
 		// TODO OrbAcquirableItems.initialize();
 		// TODO OrbSpawnableMobs.initialize();
 		ModIntegrationManager.integrateMods();
