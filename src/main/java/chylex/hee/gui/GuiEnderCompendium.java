@@ -107,7 +107,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		buttonList.add(new GuiButton(2,(width>>1)+22,height-27,98,20,I18n.format("gui.back")));
 		buttonList.add(pageArrows[0] = new GuiButtonPageArrow(3,0,((height+guiPageTexHeight)>>1)-32,false));
 		buttonList.add(pageArrows[1] = new GuiButtonPageArrow(4,0,((height+guiPageTexHeight)>>1)-32,true));
-		buttonList.add(new GuiButton(5,width-60,height-27,20,20,""));
 		
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 		
@@ -137,19 +136,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		}
 		else if (button.id == 3)pageIndex = (byte)Math.max(0,pageIndex-1);
 		else if (button.id == 4)pageIndex = (byte)Math.min(currentObjectPages.size()-1,pageIndex+1);
-		else if (button.id == 5){
-			/* TODO if (++KnowledgeFragmentText.smoothRenderingMode > 2)KnowledgeFragmentText.smoothRenderingMode = 0;
-			
-			for(IConfigElement element:ConfigHandler.getGuiConfigElements()){
-				if (element.getName().equals("compendiumSmoothText") && element.isProperty()){
-					element.set(KnowledgeFragmentText.smoothRenderingMode);
-					break;
-				}
-			}
-			
-			HardcoreEnderExpansion.proxy.loadConfiguration(); // does not reload, just saves changes
-			*/
-		}
 		
 		if (button.id == 3 || button.id == 4)updatePurchaseElements();
 	}
@@ -387,7 +373,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		RenderHelper.disableStandardItemLighting();
 		super.drawScreen(mouseX,mouseY,partialTickTime);
-		renderScreenPost(mouseX,mouseY,partialTickTime);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 
@@ -437,24 +422,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		else if (currentObject != null)renderPaper((width>>1)+(width>>2)+4,height>>1,mouseX,mouseY);
 		
 		prevMouseX = mouseX;
-	}
-	
-	private void renderScreenPost(int mouseX, int mouseY, float partialTickTime){/* TODO
-		mc.getTextureManager().bindTexture(texBack);
-		GuiButton button = (GuiButton)buttonList.get(5);
-		drawTexturedModalRect(button.xPosition,button.yPosition,KnowledgeFragmentText.smoothRenderingMode > 0 ? 56 : 77,29,20,20);
-		
-		if (mouseX >= button.xPosition && mouseX <= button.xPosition+button.width && mouseY > button.yPosition && mouseY < button.yPosition+button.height){
-			StringBuilder build = new StringBuilder(110);
-			build.append(I18n.format("compendium.smoothText.title")).append('\n');
-			build.append(EnumChatFormatting.GRAY).append(I18n.format("compendium.smoothText.line1")).append('\n');
-			build.append(EnumChatFormatting.GRAY).append(I18n.format("compendium.smoothText.line2")).append('\n');
-			build.append(EnumChatFormatting.DARK_GREEN).append(I18n.format("compendium.smoothText.mode")).append(": ");
-			build.append(KnowledgeFragmentText.smoothRenderingMode == 0 ? I18n.format("compendium.smoothText.disabled") : String.valueOf(KnowledgeFragmentText.smoothRenderingMode));
-			GuiItemRenderHelper.setupTooltip(mouseX,mouseY-24,build.toString());
-		}
-		
-		GuiItemRenderHelper.drawTooltip(this,fontRendererObj);*/
 	}
 	
 	private void renderBackgroundGUI(){
