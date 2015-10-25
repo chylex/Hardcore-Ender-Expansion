@@ -46,6 +46,9 @@ public class ExpiringSet<E> extends AbstractSet<E>{
 		}
 	}
 	
+	/**
+	 * Returns true if the element is present and has expired.
+	 */
 	public boolean expired(E element){
 		if (expireAfterMillis == -1L)return false;
 		
@@ -53,11 +56,24 @@ public class ExpiringSet<E> extends AbstractSet<E>{
 		return time != internal.getNoEntryValue() && toMillis(System.nanoTime()-time) >= expireAfterMillis;
 	}
 	
+	/**
+	 * If the element is missing, it is added to the set and the function returns true.
+	 * If the element is present but expired, the time is reset and the function returns true.
+	 * Otherwise, the function returns false.
+	 */
+	public boolean update(E element){
+		if (!internal.contains(element) || expired(element)){
+			add(element);
+			return true;
+		}
+		else return false;
+	}
+	
 	@Override
 	public boolean add(E e){
-		refresh();
 		long time = System.nanoTime();
 		if (time < oldestEntry)oldestEntry = time;
+		if (expired(e))internal.remove(e);
 		return internal.put(e,time) == internal.getNoEntryValue();
 	}
 
