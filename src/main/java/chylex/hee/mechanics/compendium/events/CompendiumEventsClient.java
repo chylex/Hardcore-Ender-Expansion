@@ -18,7 +18,6 @@ import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
-import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S03SimpleEvent;
 import chylex.hee.packets.server.S03SimpleEvent.EventType;
@@ -128,7 +127,7 @@ public class CompendiumEventsClient{
 						if (slot.getHasStack() && slot.func_111238_b() &&
 							mouseX >= slot.xDisplayPosition-1 && mouseX <= slot.xDisplayPosition+16 &&
 							mouseY >= slot.yDisplayPosition-1 && mouseY <= slot.yDisplayPosition+16){
-							obj = KnowledgeUtils.tryGetFromItemStack(slot.getStack());
+							obj = KnowledgeObject.fromObject(slot.getStack());
 							break;
 						}
 					}

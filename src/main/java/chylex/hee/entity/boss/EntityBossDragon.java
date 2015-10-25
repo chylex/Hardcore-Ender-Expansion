@@ -55,6 +55,7 @@ import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C06SetPlayerVelocity;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
@@ -539,8 +540,8 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 			if (entity instanceof EntityLivingBase || entity instanceof EntityBlockFallingObsidian){
 				while(entity.ridingEntity != null)entity = entity.ridingEntity;
 				
-				double[] vec = DragonUtil.getNormalizedVector(entity.posX-bodyCenterX,entity.posZ-bodyCenterZ);
-				CollisionEvent event = new CollisionEvent(entity,vec[0]*2D,0.2D,vec[1]*2D);
+				Vec vec = Vec.xz(entity.posX-bodyCenterX,entity.posZ-bodyCenterZ).normalized();
+				CollisionEvent event = new CollisionEvent(entity,vec.x*2D,0.2D,vec.z*2D);
 				currentAttack.onCollisionEvent(event);
 				event.collidedEntity.motionX = event.velocityX;
 				event.collidedEntity.motionY = event.velocityY;
