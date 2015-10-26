@@ -7,7 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagString;
 import chylex.hee.game.save.types.PlayerFile;
-import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
@@ -33,7 +32,6 @@ public class CompendiumFile extends PlayerFile{ // TODO change stuff to private 
 	public CompendiumFile(NBTTagCompound nbt){
 		super("","");
 		onLoad(nbt);
-		discoveredObjects.add(KnowledgeRegistrations.HELP); // TODO tmp
 	}
 	
 	// Points

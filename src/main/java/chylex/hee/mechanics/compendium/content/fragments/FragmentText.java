@@ -255,13 +255,9 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 			for(int cycle = 0; cycle < 2; cycle++){
 				GL11.glTranslatef(-dist,0F,0F);
 				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL11.glTranslatef(dist,0F,0F);
-				
-				GL11.glTranslatef(0F,-dist,0F);
-				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL11.glTranslatef(0F,dist,0F);
-				
 				GL11.glTranslatef(dist,-dist,0F);
+				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
+				GL11.glTranslatef(dist,0F,0F);
 				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
 				GL11.glTranslatef(-dist,dist,0F);
 				

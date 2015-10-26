@@ -81,10 +81,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(portalSpeed = new AnimatedFloat(Easing.CUBIC));
 		
-		int y = 0, maxY = 0;
+		int y = 32, maxY = 0;
 		
 		for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
-			objectElements.add(new ObjectDisplayElement(obj,y));
+			if (!obj.isHidden())objectElements.add(new ObjectDisplayElement(obj,y));
 			if (obj.getY() > maxY)maxY = obj.getY();
 		}
 		
@@ -343,8 +343,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		purchaseElements.clear();
 		
 		if (currentObject != null){
-			if (!compendiumFile.isDiscovered(currentObject)){
-				purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-3));
+			if (!compendiumFile.isDiscovered(currentObject) && currentObject.getPrice() != 0){
+				purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-60));
 				return;
 			}
 			
@@ -411,15 +411,15 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		renderFragmentCount((width>>1)-25,24);
+		renderFragmentCount(width-90,24);
 		
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		if (currentObject == KnowledgeRegistrations.HELP)renderPaper(width>>1,height>>1,mouseX,mouseY);
-		else if (currentObject != null)renderPaper((width>>1)+(width>>2)+4,height>>1,mouseX,mouseY);
+		/* TODO if (currentObject == KnowledgeRegistrations.HELP)renderPaper(width>>1,height>>1,mouseX,mouseY);
+		else */if (currentObject != null)renderPaper(width/2,height/2,mouseX,mouseY);
 		
 		prevMouseX = mouseX;
 	}
@@ -479,29 +479,46 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		mc.getTextureManager().bindTexture(texPage);
 		drawTexturedModalRect(x-(guiPageTexWidth>>1),y-(guiPageTexHeight>>1),0,0,guiPageTexWidth,guiPageTexHeight);
 		
-		if (compendiumFile.isDiscovered(currentObject)){ // TODO
-			x = x-(guiPageTexWidth>>1)+guiPageLeft;
-			y = y-(guiPageTexHeight>>1)+guiPageTop;
+		x = x-(guiPageTexWidth>>1)+guiPageLeft;
+		y = y-(guiPageTexHeight>>1)+guiPageTop;
+		
+		int titleOff = currentObject.isHidden() ? 0 : 6;
+		
+		mc.fontRenderer.drawString(currentObject.getTranslatedTooltip(),titleOff+width/2-mc.fontRenderer.getStringWidth(currentObject.getTranslatedTooltip())/2,y,0x404040);
+		// TODO multiline
+		
+		if (!currentObject.isHidden()){
+			int iconX = x-2, iconY = y-4;
 			
-			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
-				entry.getKey().onRender(this,x,y,mouseX,mouseY,entry.getValue());
-				y += 8+entry.getKey().getHeight(this,entry.getValue());
-			}
-			
-			for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
-			pageArrows[0].visible = pageIndex > 0;
-			pageArrows[1].visible = pageIndex < currentObjectPages.size()-1;
-			
-			x = x+(guiPageTexWidth>>1)-guiPageLeft;
+			RenderHelper.enableGUIStandardItemLighting();
+			GL11.glPushMatrix();
+			GL11.glTranslatef(iconX+8,iconY+8,0F);
+			GL11.glScaled(0.75F,0.75F,1F);
+			GL11.glTranslatef(-iconX-8,-iconY-8,0F);
+			GuiEnderCompendium.renderItem.renderItemIntoGUI(mc.fontRenderer,mc.getTextureManager(),currentObject.holder.getDisplayItemStack(),iconX,iconY,true);
+			GL11.glPopMatrix();
 		}
+		
+		y += 12;
+		
+		for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
+			entry.getKey().onRender(this,x,y,mouseX,mouseY,entry.getValue());
+			y += 8+entry.getKey().getHeight(this,entry.getValue());
+		}
+		
+		for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
+		pageArrows[0].visible = pageIndex > 0;
+		pageArrows[1].visible = pageIndex < currentObjectPages.size()-1;
+		
+		x = x+(guiPageTexWidth>>1)-guiPageLeft;
 		
 		for(PurchaseDisplayElement element:purchaseElements)element.render(this,mouseX,mouseY,x);
 		
-		if (!compendiumFile.isDiscovered(currentObject)){ // TODO
+		/*if (!compendiumFile.isDiscovered(currentObject)){ // TODO
 			RenderHelper.disableStandardItemLighting();
 			String msg = I18n.format("compendium.cannotBuy");
 			mc.fontRenderer.drawString(msg,x-(mc.fontRenderer.getStringWidth(msg)>>1),y-7,0x404040);
-		}
+		}*/
 
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}

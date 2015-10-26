@@ -45,7 +45,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	private int x, y, price, reward;
 	
 	public KnowledgeObject(T holder){
-		this(holder,holder.getDisplayItemStack().getUnlocalizedName());
+		this(holder,holder.getDisplayItemStack().getDisplayName());
 	}
 	
 	public KnowledgeObject(T holder, String unlocalizedTooltip){
@@ -86,6 +86,15 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		this.x = x;
 		this.y = y;
 		return this;
+	}
+	
+	public KnowledgeObject<T> setHidden(){
+		this.y = -1;
+		return this;
+	}
+	
+	public boolean isHidden(){
+		return y == -1;
 	}
 	
 	public int getX(){

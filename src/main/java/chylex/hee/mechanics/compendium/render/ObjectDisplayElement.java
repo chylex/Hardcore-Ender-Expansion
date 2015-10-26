@@ -28,7 +28,7 @@ public class ObjectDisplayElement{
 	}
 	
 	public void render(GuiScreen gui, CompendiumFile compendiumFile, int yLowerBound, int yUpperBound){
-		int x = GuiEnderCompendium.guiObjLeft+object.getX(), y = this.y+object.getY();
+		int x = gui.width/2-11+object.getX(), y = this.y+object.getY();
 		if (y < yLowerBound || y > yUpperBound)return;
 		
 		GL11.glEnable(GL11.GL_BLEND);
