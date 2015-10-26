@@ -249,7 +249,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 		boolean origFont = fontRenderer.getUnicodeFlag();
 		fontRenderer.setUnicodeFlag(true);
 		
-		if (mc.gameSettings.guiScale == 3){
+		if ((mc.gameSettings.guiScale&1) == 1){
 			float dist = 0.08F;
 			
 			for(int cycle = 0; cycle < 2; cycle++){

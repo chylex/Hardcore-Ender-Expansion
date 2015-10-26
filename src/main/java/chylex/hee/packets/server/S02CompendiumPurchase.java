@@ -1,13 +1,11 @@
 package chylex.hee.packets.server;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.packets.AbstractServerPacket;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C19CompendiumData;
-import io.netty.buffer.ByteBuf;
 
 public class S02CompendiumPurchase extends AbstractServerPacket{
 	private boolean isFragment;
@@ -42,13 +40,11 @@ public class S02CompendiumPurchase extends AbstractServerPacket{
 		
 		if (isFragment){
 			KnowledgeFragment fragment = KnowledgeFragment.fromID(id);
-			if (fragment != null)file.tryPurchaseFragment(fragment);
+			if (fragment != null)file.tryPurchaseFragment(player,fragment);
 		}
 		else{
 			KnowledgeObject<?> object = KnowledgeObject.fromID(id);
-			if (object != null)file.tryPurchaseObject(object);
+			if (object != null)file.tryPurchaseObject(player,object);
 		}
-		
-		PacketPipeline.sendToPlayer(player,new C19CompendiumData(file));
 	}
 }

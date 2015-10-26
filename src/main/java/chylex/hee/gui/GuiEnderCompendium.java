@@ -81,7 +81,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(portalSpeed = new AnimatedFloat(Easing.CUBIC));
 		
-		int y = 32, maxY = 0;
+		int y = 48, maxY = 0;
 		
 		for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
 			if (!obj.isHidden())objectElements.add(new ObjectDisplayElement(obj,y));
@@ -154,7 +154,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}*/
 			
 			for(ObjectDisplayElement element:objectElements){
-				if (element.isMouseOver(mouseX,mouseY,offY)){
+				if (element.isMouseOver(mouseX,mouseY,width/2,offY)){
 					showObject(element.object);
 					return;
 				}
@@ -390,7 +390,14 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,offY,0F);
 		for(CategoryDisplayElement element:categoryElements)element.render(this,yLowerBound,yUpperBound);
-		for(ObjectDisplayElement element:objectElements)element.render(this,compendiumFile,yLowerBound,yUpperBound);
+		
+		for(ObjectDisplayElement element:objectElements){
+			if (!element.object.isHidden()){
+				element.render(this,compendiumFile,yLowerBound,yUpperBound); // TODO rev & hide if outside of render area
+				element.object.connectToChildren(width/2,48,ObjectDisplayElement.lineRenderer);
+			}
+		}
+		
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
 		
@@ -402,7 +409,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 			
 			for(ObjectDisplayElement element:objectElements){
-				if (element.isMouseOver(mouseX,mouseY,(int)offY)){
+				if (element.isMouseOver(mouseX,mouseY,width/2,(int)offY)){
 					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.object.getTranslatedTooltip());
 				}
 			}

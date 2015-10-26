@@ -14,6 +14,8 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
+import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
@@ -46,6 +48,7 @@ public class HeeDebugCommand extends BaseCommand{
 				"/heedebug dragon-freeze\n"+
 				"/heedebug dragon-debug-start\n"+
 				"/heedebug dragon-debug-stop\n"+
+				"/heedebug compendium-reload\n"+
 				"/heedebug viewitems\n"+
 				"/heedebug speedup\n"+
 				"/heedebug noweather\n"+
@@ -105,6 +108,10 @@ public class HeeDebugCommand extends BaseCommand{
 		}
 		else if (args[0].equalsIgnoreCase("dragon-debug-stop")){
 			DebugBoard.stopDebug();
+		}
+		else if (args[0].equalsIgnoreCase("compendium-reload")){
+			for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects())obj.reset();
+			KnowledgeRegistrations.initialize();
 		}
 		else if (args[0].equalsIgnoreCase("viewitems")){
 			HardcoreEnderExpansion.proxy.openGui("itemviewer");

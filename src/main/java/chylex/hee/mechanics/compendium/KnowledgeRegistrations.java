@@ -16,7 +16,11 @@ public final class KnowledgeRegistrations{
 		HELP = $(new ObjectDummy("HALP",new ItemStack(ItemList.special_effects,1,ItemSpecialEffects.questionMark)),"ec.title.help"),
 		
 		TEST1 = $(new ObjectBlock(BlockList.obsidian_falling)),
-		TEST2 = $(new ObjectBlock(BlockList.decomposition_table));
+		TEST2 = $(new ObjectBlock(BlockList.decomposition_table)),
+		TEST3 = $(new ObjectBlock(BlockList.end_powder_ore)),
+		TEST4 = $(new ObjectBlock(BlockList.endium_block)),
+		TEST5 = $(new ObjectBlock(BlockList.ethereal_lantern)),
+		TEST6 = $(new ObjectBlock(BlockList.laboratory_floor));
 	
 	public static void initialize(){
 		HELP.setHidden().addFragments(new KnowledgeFragment[]{
@@ -27,6 +31,14 @@ public final class KnowledgeRegistrations{
 		});
 		
 		TEST2.setParent(TEST1,0,4);
+		
+		TEST3.setParent(TEST2,-5,3).addParentLine(0,-2).addParentLine(2,-2).addParentLine(2,-3);
+		
+		TEST4.setHidden();
+		
+		TEST5.setHidden();
+		
+		TEST6.setHidden();
 	}
 	
 	private static <T extends IObjectHolder<?>> KnowledgeObject<T> $(T holder){

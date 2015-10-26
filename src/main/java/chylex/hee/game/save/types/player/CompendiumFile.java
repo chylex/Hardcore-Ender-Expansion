@@ -3,6 +3,7 @@ import gnu.trove.set.hash.TIntHashSet;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagString;
@@ -12,12 +13,14 @@ import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 import chylex.hee.mechanics.compendium.util.KnowledgeSerialization;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.NBTUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class CompendiumFile extends PlayerFile{ // TODO change stuff to private after fixing other errors
+public class CompendiumFile extends PlayerFile{
 	public static final byte distanceLimit = 4; // 0 = discovered, 4 = unavailable
 	
 	private int points;
@@ -47,23 +50,25 @@ public class CompendiumFile extends PlayerFile{ // TODO change stuff to private 
 	
 	// Discovery
 	
-	public boolean tryDiscoverObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
+	public boolean tryDiscoverObject(EntityPlayer player, KnowledgeObject<? extends IObjectHolder<?>> obj){
 		if (unlockObject(obj)){
 			points += obj.getReward();
+			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this));
 			return true;
 		}
 		else return false;
 	}
 	
-	public boolean tryPurchaseObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
+	public boolean tryPurchaseObject(EntityPlayer player, KnowledgeObject<? extends IObjectHolder<?>> obj){
 		if (points >= obj.getPrice() && unlockObject(obj)){
 			offsetPoints(-obj.getPrice());
+			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this));
 			return true;
 		}
 		else return false;
 	}
 	
-	public boolean unlockObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
+	private boolean unlockObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
 		boolean added = discoveredObjects.add(obj);
 		if (added)setModified();
 		return added;
@@ -84,15 +89,16 @@ public class CompendiumFile extends PlayerFile{ // TODO change stuff to private 
 	
 	// Fragments
 	
-	public boolean tryPurchaseFragment(KnowledgeFragment fragment){
+	public boolean tryPurchaseFragment(EntityPlayer player, KnowledgeFragment fragment){
 		if (points >= fragment.getPrice() && unlockFragment(fragment)){
 			offsetPoints(-fragment.getPrice());
+			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this));
 			return true;
 		}
 		else return false;
 	}
 	
-	public boolean unlockFragment(KnowledgeFragment fragment){
+	private boolean unlockFragment(KnowledgeFragment fragment){
 		if (fragment.getType() != KnowledgeFragmentType.SECRET || fragment.getType() != KnowledgeFragmentType.HINT)return false;
 		
 		boolean added = extraFragments.add(fragment.globalID);

@@ -10,6 +10,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
+import chylex.hee.system.collections.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -42,6 +43,9 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	private final List<KnowledgeObject<?>> children;
 	private final Set<KnowledgeFragment> fragments;
 	
+	private final List<byte[]> parentLineNodes;
+	private final List<byte[]> childLineNodes;
+	
 	private int x, y, price, reward;
 	
 	public KnowledgeObject(T holder){
@@ -54,8 +58,12 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		this.tooltip = unlocalizedTooltip;
 		this.children = new ArrayList<>(4);
 		this.fragments = new LinkedHashSet<>(6);
+		this.parentLineNodes = CollectionUtil.newList(new byte[]{ 0, 0 });
+		this.childLineNodes = CollectionUtil.newList(new byte[]{ 0, 0 });
 		allObjects.put(globalID,this);
 	}
+	
+	// Fragments
 	
 	public KnowledgeObject<T> addFragments(KnowledgeFragment...fragments){
 		for(KnowledgeFragment fragment:fragments)this.fragments.add(fragment);
@@ -66,9 +74,11 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		return Collections.unmodifiableSet(fragments);
 	}
 	
+	// Relationship
+	
 	public KnowledgeObject<T> setParent(KnowledgeObject<?> obj, int offX, int offY){
-		this.x = obj.x+offX;
-		this.y = obj.y+offY;
+		this.x = obj.x+offX*12;
+		this.y = obj.y+offY*12;
 		this.parent = obj;
 		this.parent.children.add(this);
 		return this;
@@ -82,9 +92,11 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		return children;
 	}
 	
+	// Position
+	
 	public KnowledgeObject<T> setPos(int x, int y){
-		this.x = x;
-		this.y = y;
+		this.x = x*12;
+		this.y = y*12;
 		return this;
 	}
 	
@@ -98,12 +110,51 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	}
 	
 	public int getX(){
-		return x*12;
+		return x;
 	}
 	
 	public int getY(){
-		return y*12;
+		return y;
 	}
+	
+	// Line Nodes
+	
+	public KnowledgeObject<T> addParentLine(int offsetX, int offsetY){
+		parentLineNodes.add(new byte[]{ (byte)(offsetX*12), (byte)(offsetY*12) });
+		return this;
+	}
+	
+	public KnowledgeObject<T> addChildLine(int offsetX, int offsetY){
+		childLineNodes.add(new byte[]{ (byte)(offsetX*12), (byte)(offsetY*12) });
+		return this;
+	}
+	
+	public void connectToChildren(int centerX, int offsetY, ILineCallback callback){
+		byte[] node, lastChildNode;
+		
+		for(int childIndex = 0; childIndex < childLineNodes.size()-1; childIndex++){
+			lastChildNode = childLineNodes.get(childIndex);
+			node = childLineNodes.get(childIndex+1);
+			callback.render(centerX+x+lastChildNode[0],offsetY+y+lastChildNode[1],centerX+x+node[0],offsetY+y+node[1]);
+		}
+		
+		lastChildNode = childLineNodes.get(childLineNodes.size()-1);
+		
+		for(KnowledgeObject<?> child:children){
+			node = child.parentLineNodes.get(child.parentLineNodes.size()-1);
+			callback.render(centerX+x+lastChildNode[0],offsetY+y+lastChildNode[1],centerX+child.x+node[0],offsetY+child.y+node[1]);
+			
+			byte[] prevParentNode = node;
+			
+			for(int parentIndex = child.parentLineNodes.size()-2; parentIndex >= 0; parentIndex--){
+				node = child.parentLineNodes.get(parentIndex);
+				callback.render(centerX+child.x+prevParentNode[0],offsetY+child.y+prevParentNode[1],centerX+child.x+node[0],offsetY+child.y+node[1]);
+				prevParentNode = child.parentLineNodes.get(parentIndex);
+			}
+		}
+	}
+	
+	// Points
 	
 	public KnowledgeObject<T> setPrice(int points){
 		this.price = points;
@@ -123,6 +174,19 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		return reward;
 	}
 	
+	// Utilities
+	
+	public void reset(){
+		x = y = price = reward = 0;
+		parent = null;
+		children.clear();
+		fragments.clear();
+		parentLineNodes.clear();
+		parentLineNodes.add(new byte[]{ 0, 0 });
+		childLineNodes.clear();
+		childLineNodes.add(new byte[]{ 0, 0 });
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public String getTranslatedTooltip(){
 		return I18n.format(tooltip);
@@ -140,5 +204,11 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	@Override
 	public int hashCode(){
 		return globalID;
+	}
+	
+	// Line Interface
+	
+	public static interface ILineCallback{
+		void render(int x1, int y1, int x2, int y2);
 	}
 }
