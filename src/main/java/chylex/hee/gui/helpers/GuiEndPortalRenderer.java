@@ -58,6 +58,11 @@ public final class GuiEndPortalRenderer{
 					scale = 0.2F;
 				}
 			}
+			
+			if (layer >= 1 && layer <= 3){ // skip 3 layers for a little bit of performance
+				for(int col = 0; col < 3; col++)consistentRandom.nextFloat();
+				continue;
+			}
 
 			GL11.glMatrixMode(GL11.GL_TEXTURE);
 			GL11.glPushMatrix();

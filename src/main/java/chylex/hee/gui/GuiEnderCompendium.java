@@ -439,12 +439,12 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		int d = 24;
 		
-		for(int a = 0, amt = ((width-d*2)>>2)-1; a < amt; a++){
+		for(int a = 0, amt = ((width-d*2)>>2)-1; a < amt-2; a++){
 			drawTexturedModalRect(d+8+4*a,d-16,50,0,4,24);
 			drawTexturedModalRect(d+8+4*a,height-d-8,50,25,4,24);
 		}
 		
-		for(int a = 0, amt = ((height-d*2)>>2)-1; a < amt; a++){
+		for(int a = 0, amt = ((height-d*2)>>2)-1; a < amt-2; a++){
 			drawTexturedModalRect(d-16,d+8+4*a,206,0,24,4);
 			drawTexturedModalRect(width-d-8,d+8+4*a,232,0,24,4);
 		}
