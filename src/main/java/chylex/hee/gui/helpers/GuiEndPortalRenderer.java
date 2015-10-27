@@ -32,7 +32,7 @@ public final class GuiEndPortalRenderer{
 		portalTranslation += speed;
 	}
 	
-	public void draw(float x, float y, float portalScale, float partialTickTime){
+	public void render(float x, float y, float portalScale, float partialTickTime){
 		int hw = gui.width>>1, hh = gui.height>>1;
 		
 		float div = (float)portalWidthHalf/portalHeightHalf;

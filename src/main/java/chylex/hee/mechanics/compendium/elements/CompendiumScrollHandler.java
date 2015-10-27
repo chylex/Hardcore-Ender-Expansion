@@ -1,4 +1,5 @@
 package chylex.hee.mechanics.compendium.elements;
+import static chylex.hee.gui.GuiEnderCompendium.getScaleMultiplier;
 import java.util.concurrent.TimeUnit;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.AnimatedFloat;
@@ -18,9 +19,9 @@ public class CompendiumScrollHandler{
 	private final AnimatedFloat offset;
 	private final AnimatedFloat scrollSpeed;
 	
-	private float offsetPrev, offsetDrag, offsetInertia, scrollBy, lastScrollBy;
+	private float offsetPrev, offsetDrag, offsetInertia, scrollBy;
 	private int dragMouseY;
-	private long lastScrollTime; // TODO rename to lastWheelTime
+	private long lastWheelTime;
 	
 	public CompendiumScrollHandler(GuiEnderCompendium compendium, int totalHeight){
 		this.gui = compendium;
@@ -28,11 +29,17 @@ public class CompendiumScrollHandler{
 		this.offset = new AnimatedFloat(Easing.CUBIC);
 		this.offset.set(extraHeight);
 		this.scrollSpeed = new AnimatedFloat(Easing.LINEAR);
-		
+	}
+	
+	public void init(){
+		KeyState.startTracking(GuiHelper.keyHome);
+		KeyState.startTracking(GuiHelper.keyEnd);
 		KeyState.startTracking(GuiHelper.keyArrowUp);
 		KeyState.startTracking(GuiHelper.keyArrowDown);
 		KeyState.startTracking(GuiHelper.keyPageUp);
 		KeyState.startTracking(GuiHelper.keyPageDown);
+		KeyState.startTracking(gui.mc.gameSettings.keyBindForward.getKeyCode());
+		KeyState.startTracking(gui.mc.gameSettings.keyBindBack.getKeyCode());
 	}
 	
 	public float getOffset(float partialTickTime){
@@ -62,36 +69,36 @@ public class CompendiumScrollHandler{
 			dragMouseY = Integer.MIN_VALUE;
 			
 			if (Math.abs(offsetDrag) > 2F){
-				offsetInertia = (float)Math.pow(Math.abs(offsetDrag),1.2D)*Math.signum(offsetDrag);
+				offsetInertia = (float)Math.pow(Math.abs(offsetDrag*getScaleMultiplier()),1.2D)*Math.signum(offsetDrag);
 			}
 		}
 	}
 	
 	public void onMouseWheel(int value){
-		lastScrollBy = scrollBy = value/2;
-		scrollSpeed.startAnimation(scrollSpeed.value(),1F,0.1F,false);
-		lastScrollTime = System.nanoTime();
+		scrollBy = Math.max(Math.abs(scrollBy),Math.abs(value/2)*getScaleMultiplier())*Math.signum(value);
+		scrollSpeed.startAnimation(scrollSpeed.value(),1F,0F,lastWheelTime == 0L);
+		lastWheelTime = System.nanoTime();
 	}
 	
 	public boolean onKeyboardDown(int keyCode){
 		if (keyCode == GuiHelper.keyArrowUp || keyCode == gui.mc.gameSettings.keyBindForward.getKeyCode()){
-			startScrolling(gui.height/10);
+			startScrolling(gui.height*getScaleMultiplier()/10);
 		}
 		else if (keyCode == GuiHelper.keyArrowDown || keyCode == gui.mc.gameSettings.keyBindBack.getKeyCode()){
-			startScrolling(-gui.height/10);
+			startScrolling(-gui.height*getScaleMultiplier()/10);
 		}
 		else if (keyCode == GuiHelper.keyPageUp){
-			startScrolling(gui.height/2);
+			startScrolling(gui.height*getScaleMultiplier()/2);
 		}
 		else if (keyCode == GuiHelper.keyPageDown){
-			startScrolling(-gui.height/2);
+			startScrolling(-gui.height*getScaleMultiplier()/2);
 		}
 		else if (keyCode == GuiHelper.keyHome){
-			stopScrolling();
+			stopScrolling(true);
 			moveTo(Integer.MAX_VALUE,true);
 		}
 		else if (keyCode == GuiHelper.keyEnd){
-			stopScrolling();
+			stopScrolling(true);
 			moveTo(Integer.MIN_VALUE,true);
 		}
 		else return false;
@@ -101,7 +108,7 @@ public class CompendiumScrollHandler{
 	
 	public void onKeyboardUp(int keyCode){
 		for(int code:new int[]{
-			GuiHelper.keyPageUp, GuiHelper.keyPageDown, GuiHelper.keyArrowUp, GuiHelper.keyArrowDown,
+			GuiHelper.keyHome, GuiHelper.keyEnd, GuiHelper.keyPageUp, GuiHelper.keyPageDown, GuiHelper.keyArrowUp, GuiHelper.keyArrowDown,
 			gui.mc.gameSettings.keyBindForward.getKeyCode(), gui.mc.gameSettings.keyBindBack.getKeyCode()
 		}){
 			if (KeyState.isHeld(code)){
@@ -110,17 +117,20 @@ public class CompendiumScrollHandler{
 			}
 		}
 		
-		stopScrolling();
+		stopScrolling(false);
 	}
 	
 	private void startScrolling(float by){
-		lastScrollBy = scrollBy = by;
-		scrollSpeed.startAnimation(scrollSpeed.value(),1F,0.1F,true);
+		scrollBy = by;
+		scrollSpeed.startAnimation(scrollSpeed.value(),1F,0.4F,true);
 	}
 	
-	private void stopScrolling(){
-		scrollBy = 0F;
-		scrollSpeed.startAnimation(scrollSpeed.value(),0F,0.2F,true);
+	private void stopScrolling(boolean force){
+		if (force){
+			scrollBy = 0F;
+			scrollSpeed.set(0F);
+		}
+		else scrollSpeed.startAnimation(scrollSpeed.value(),0F,0.2F,true);
 	}
 	
 	private float clampOffset(float newValue){
@@ -135,9 +145,9 @@ public class CompendiumScrollHandler{
 		offset.update(0.05F);
 		scrollSpeed.update(0.05F);
 		
-		if (!MathUtil.floatEquals(lastScrollBy,0F)){
-			if (MathUtil.floatEquals(scrollSpeed.value(),0F) && !scrollSpeed.isAnimating())lastScrollBy = 0F;
-			else offset.set(clampOffset(offset.value()+lastScrollBy*scrollSpeed.value()));
+		if (!MathUtil.floatEquals(scrollBy,0F)){
+			if (MathUtil.floatEquals(scrollSpeed.value(),0F) && !scrollSpeed.isAnimating())scrollBy = 0F;
+			else offset.set(clampOffset(offset.value()+scrollBy*scrollSpeed.value()));
 		}
 		
 		if (!MathUtil.floatEquals(offsetDrag,0F)){
@@ -152,9 +162,9 @@ public class CompendiumScrollHandler{
 		
 		if (!offset.isAnimating())offset.set(clampOffset(offset.value()));
 		
-		if (lastScrollTime != 0L && TimeUnit.NANOSECONDS.toMillis(System.nanoTime()-lastScrollTime) > 50){
-			stopScrolling();
-			lastScrollTime = 0L;
+		if (lastWheelTime != 0L && TimeUnit.NANOSECONDS.toMillis(System.nanoTime()-lastWheelTime) > 100){
+			stopScrolling(false);
+			lastWheelTime = 0L;
 		}
 	}
 }

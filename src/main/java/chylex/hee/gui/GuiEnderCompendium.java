@@ -1,6 +1,7 @@
 package chylex.hee.gui;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
@@ -89,6 +90,8 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		buttonList.add(new GuiButton(0,width/2-120,height-27,98,20,I18n.format("gui.achievements")));
 		buttonList.add(btnHelp = new GuiButtonState(1,width/2-10,height-27,20,20,"?"));
 		buttonList.add(new GuiButton(2,width/2+22,height-27,98,20,I18n.format("gui.back")));
+		
+		scrollHandler.init();
 		
 		pageHandler.init(buttonList,3,4);
 		pageHandler.setFile(compendiumFile);
@@ -227,7 +230,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDepthFunc(GL11.GL_GEQUAL);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,0F,-200F);
-		portalRenderer.draw(0,-scrollHandler.getOffset(partialTickTime)*0.49F,1F,partialTickTime);
+		portalRenderer.render(0,-scrollHandler.getOffset(partialTickTime)*0.49F,1F/getScaleMultiplier(),partialTickTime);
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		renderScreen(mouseX,mouseY,partialTickTime);
@@ -357,5 +360,17 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	@Override
 	public void callDrawGradientRect(int x1, int y1, int x2, int y2, int color1, int color2){
 		drawGradientRect(x1,y1,x2,y2,color1,color2);
+	}
+	
+	/**
+	 * Magical number that, when used correctly, makes experience with using GUIs consistently amazing.
+	 */
+	public static final float getScaleMultiplier(){
+		switch(Minecraft.getMinecraft().gameSettings.guiScale){
+			case 0: return 1.35F; // auto
+			case 1: return 0.275F; // small
+			case 2: return 0.6F; // normal
+			default: return 1F; // large
+		}
 	}
 }
