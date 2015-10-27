@@ -24,7 +24,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class CompendiumPageHandler{
-	public static final int pageWidth = 152, pageHeight = 226, innerWidth = 126, innerHeight = 176;
+	public static final int pageWidth = 152, pageHeight = 226, innerWidth = 116, innerHeight = 166;
 	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	
 	private final GuiEnderCompendium gui;
@@ -46,7 +46,7 @@ public class CompendiumPageHandler{
 	public void init(List buttonList, int leftArrowId, int rightArrowId){
 		pageX = (gui.width-pageWidth)/2;
 		pageY = (gui.height-pageHeight)/2;
-		innerX = pageX+18;
+		innerX = pageX+17;
 		innerY = pageY+20;
 				
 		buttonList.add(pageArrows[0] = new GuiButtonPageArrow(this.pageArrowIds[0] = (byte)leftArrowId,pageX+pageWidth/2-(pageWidth*3/10)-10,pageY+pageHeight-32,false));
@@ -61,7 +61,7 @@ public class CompendiumPageHandler{
 	}
 	
 	public boolean isMouseInside(int mouseX, int mouseY){
-		return mouseX >= pageX && mouseX <= pageX+pageWidth && mouseY >= pageY && mouseY <= pageY+pageHeight;
+		return currentObject != null && mouseX >= pageX+8 && mouseX <= pageX+pageWidth-8 && mouseY >= pageY+9 && mouseY <= pageY+pageHeight-14; // adjust size to exclude edges
 	}
 	
 	public void onButtonClick(GuiButton button){
@@ -125,8 +125,6 @@ public class CompendiumPageHandler{
 	}
 	
 	public void showObject(KnowledgeObject<?> obj){
-		this.currentObject = obj;
-		
 		if (currentObject != null){
 			currentObjectPages.clear();
 			purchaseElements.clear();
@@ -189,9 +187,9 @@ public class CompendiumPageHandler{
 	}
 	
 	public void render(int mouseX, int mouseY){
-		if (currentObject == null)return;
-		
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
+		
+		if (currentObject == null)return;
 		
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glColor4f(1F,1F,1F,1F);

@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -18,6 +19,7 @@ import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
+import chylex.hee.gui.helpers.KeyState;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -138,25 +140,39 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	protected void mouseMovedOrUp(int mouseX, int mouseY, int event){
-		if (event == 0)scrollHandler.onMouseRelease(mouseX,mouseY);
+		if (event == 0 && !pageHandler.isMouseInside(mouseX,mouseY))scrollHandler.onMouseRelease(mouseX,mouseY);
 		super.mouseMovedOrUp(mouseX,mouseY,event);
 	}
 	
 	@Override
 	protected void mouseClickMove(int mouseX, int mouseY, int lastButton, long timeSinceClick){
-		if (lastButton == 0)scrollHandler.onMouseDrag(mouseX,mouseY);
+		if (lastButton == 0 && !pageHandler.isMouseInside(mouseX,mouseY))scrollHandler.onMouseDrag(mouseX,mouseY);
+	}
+	
+	@Override
+	public void handleKeyboardInput(){
+		int keyCode = Keyboard.getEventKey();
+		boolean isDown = Keyboard.getEventKeyState();
+		
+		KeyState.setState(keyCode,isDown);
+		
+		if (isDown)keyTyped(Keyboard.getEventCharacter(),keyCode);
+		else scrollHandler.onKeyboardUp(keyCode);
+
+		mc.func_152348_aa(); // OBFUSCATED handleInput
 	}
 	
 	@Override
 	protected void keyTyped(char key, int keyCode){
-		if (pageHandler.onKeyboardDown(keyCode))return;
-		if (keyCode == GuiHelper.keyEscape)goBack();
+		if (pageHandler.onKeyboardDown(keyCode));
+		else if (scrollHandler.onKeyboardDown(keyCode));
+		else if (keyCode == GuiHelper.keyEscape)goBack();
 	}
 	
 	private void goBack(){
 		if (currentObject != null)showObject(null);
 		else{
-			mc.displayGuiScreen((GuiScreen)null);
+			mc.displayGuiScreen(null);
 			mc.setIngameFocus();
 		}
 	}
@@ -174,13 +190,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		portalRenderer.update((int)portalSpeed.value());
 		portalSpeed.update(0.05F);
-		
-		int wheel = Mouse.getDWheel();
-		
-		if (wheel != 0){
-			if (pageHandler.onMouseWheel(prevMouseX,prevMouseY,wheel)); // empty statement
-			else scrollHandler.onMouseWheel(wheel);
-		}
 	}
 	
 	public void showObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
@@ -279,6 +288,13 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		pageHandler.render(mouseX,mouseY);
+		
+		int wheel = Mouse.getDWheel();
+		
+		if (wheel != 0){
+			if (pageHandler.onMouseWheel(prevMouseX,prevMouseY,wheel)); // empty statement
+			else scrollHandler.onMouseWheel(wheel);
+		}
 		
 		prevMouseX = mouseX;
 		prevMouseY = mouseY;
