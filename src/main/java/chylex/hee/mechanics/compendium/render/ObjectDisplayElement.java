@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.gui.helpers.GuiRenderHelper;
+import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 
@@ -41,7 +41,7 @@ public class ObjectDisplayElement{
 		
 		final int color = (255<<24)|(brightness<<16)|(brightness<<8)|brightness;
 		
-		object.connectToChildren((x1, y1, x2, y2) -> GuiRenderHelper.renderLine(offX+x1,offY+y1,offX+x2,offY+y2,color));
+		object.connectToChildren((x1, y1, x2, y2) -> GuiHelper.renderLine(offX+x1,offY+y1,offX+x2,offY+y2,color));
 	}
 	
 	public void renderObject(GuiScreen gui, CompendiumFile file, int yLowerBound, int yUpperBound){

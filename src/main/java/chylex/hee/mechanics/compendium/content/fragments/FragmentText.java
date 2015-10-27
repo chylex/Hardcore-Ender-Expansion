@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
-import chylex.hee.gui.helpers.GuiRenderHelper;
+import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.item.ItemSpawnEggs;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -66,7 +66,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		String str = getString(isUnlocked);
-		GuiRenderHelper.renderUnicodeString(str,x+1,y,CompendiumPageHandler.innerWidth,255<<24);
+		GuiHelper.renderUnicodeString(str,x+1,y,CompendiumPageHandler.innerWidth,255<<24);
 		
 		if (isUnlocked){
 			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);

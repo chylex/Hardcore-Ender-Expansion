@@ -9,7 +9,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public final class GuiRenderHelper{
+public final class GuiHelper{
+	public static final int keyArrowLeft = 203,
+							keyArrowRight = 205,
+							keyArrowUp = 200,
+							keyArrowDown = 208,
+							keyPageUp = 201,
+							keyPageDown = 209,
+							keyHome = 199,
+							keyEnd = 207;
+	
 	public static void renderLine(int x1, int y1, int x2, int y2, int color){
 		if (x1 == x2 || y1 == y2){
 			Gui.drawRect(x1-1,y1-1,x2+1,y2+1,color);
@@ -56,5 +65,5 @@ public final class GuiRenderHelper{
 		fontRenderer.setUnicodeFlag(origFont);
 	}
 	
-	private GuiRenderHelper(){}
+	private GuiHelper(){}
 }
