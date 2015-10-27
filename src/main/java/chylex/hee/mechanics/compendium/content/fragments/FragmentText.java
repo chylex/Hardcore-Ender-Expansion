@@ -1,7 +1,6 @@
 package chylex.hee.mechanics.compendium.content.fragments;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityList;
@@ -12,9 +11,9 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
+import chylex.hee.gui.helpers.GuiRenderHelper;
 import chylex.hee.item.ItemSpawnEggs;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
@@ -50,14 +49,13 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	@SideOnly(Side.CLIENT)
 	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
 		if (isUnlocked){
-			/* TODO
 			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
 			
 			if (obj != null){
 				gui.showObject(obj);
 				gui.moveToCurrentObject(true);
 				return true;
-			}*/
+			}
 		}
 		
 		return false;
@@ -67,7 +65,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		String str = getString(isUnlocked);
-		renderString(str,x+1,y,GuiEnderCompendium.guiPageWidth-10,255<<24);
+		GuiRenderHelper.renderUnicodeString(str,x+1,y,GuiEnderCompendium.guiPageWidth-10,255<<24);
 		
 		if (isUnlocked){
 			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
@@ -239,33 +237,5 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 			return Pair.<String,KnowledgeObject<?>>of(text == null ? identifier : text,obj);
 		}
 		else return Pair.<String,KnowledgeObject<?>>of(text,obj);
-	}
-
-	@SideOnly(Side.CLIENT)
-	private static void renderString(String str, int x, int y, int maxWidth, int color){
-		Minecraft mc = Minecraft.getMinecraft();
-		FontRenderer fontRenderer = mc.fontRenderer;
-		
-		boolean origFont = fontRenderer.getUnicodeFlag();
-		fontRenderer.setUnicodeFlag(true);
-		
-		if ((mc.gameSettings.guiScale&1) == 1){
-			float dist = 0.08F;
-			
-			for(int cycle = 0; cycle < 2; cycle++){
-				GL11.glTranslatef(-dist,0F,0F);
-				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL11.glTranslatef(dist,-dist,0F);
-				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL11.glTranslatef(dist,0F,0F);
-				fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-				GL11.glTranslatef(-dist,dist,0F);
-				
-				dist = -dist;
-			}
-		}
-		else fontRenderer.drawSplitString(str,x,y,maxWidth,color);
-		
-		fontRenderer.setUnicodeFlag(origFont);
 	}
 }

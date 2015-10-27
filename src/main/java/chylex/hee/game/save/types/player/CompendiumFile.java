@@ -81,7 +81,7 @@ public class CompendiumFile extends PlayerFile{
 	public int getDiscoveryDistance(KnowledgeObject<? extends IObjectHolder<?>> obj){
 		for(int level = 0; level < distanceLimit; level++){
 			if (discoveredObjects.contains(obj))return level;
-			else obj = obj.getParent();
+			else if ((obj = obj.getParent()) == null)return 0;
 		}
 		
 		return distanceLimit;

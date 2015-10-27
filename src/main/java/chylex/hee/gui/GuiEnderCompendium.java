@@ -88,7 +88,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			if (obj.getY() > maxY)maxY = obj.getY();
 		}
 		
-		this.totalHeight = y;
+		this.totalHeight = y+16+maxY;
 		
 		portalSpeed.startAnimation(30F,15F,1.5F);
 	}
@@ -392,10 +392,11 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		for(CategoryDisplayElement element:categoryElements)element.render(this,yLowerBound,yUpperBound);
 		
 		for(ObjectDisplayElement element:objectElements){
-			if (!element.object.isHidden()){
-				element.render(this,compendiumFile,yLowerBound,yUpperBound); // TODO rev & hide if outside of render area
-				element.object.connectToChildren(width/2,48,ObjectDisplayElement.lineRenderer);
-			}
+			if (!element.object.isHidden())element.renderLine(this,compendiumFile,yLowerBound,yUpperBound);
+		}
+		
+		for(ObjectDisplayElement element:objectElements){
+			if (!element.object.isHidden())element.renderObject(this,compendiumFile,yLowerBound,yUpperBound);
 		}
 		
 		RenderHelper.disableStandardItemLighting();

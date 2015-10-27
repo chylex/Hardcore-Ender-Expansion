@@ -34,11 +34,11 @@ public final class KnowledgeRegistrations{
 		
 		TEST3.setParent(TEST2,-5,3).addParentLine(0,-2).addParentLine(2,-2).addParentLine(2,-3);
 		
-		TEST4.setHidden();
+		TEST4.setParent(TEST2,3,3).addChildLine(0,2);
 		
-		TEST5.setHidden();
+		TEST5.setParent(TEST4,0,20);
 		
-		TEST6.setHidden();
+		TEST6.setParent(TEST4,2,2);
 	}
 	
 	private static <T extends IObjectHolder<?>> KnowledgeObject<T> $(T holder){

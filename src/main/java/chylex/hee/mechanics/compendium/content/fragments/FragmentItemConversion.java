@@ -6,7 +6,6 @@ import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,13 +27,13 @@ public class FragmentItemConversion extends KnowledgeFragment<FragmentItemConver
 	@SideOnly(Side.CLIENT)
 	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
 		if (isUnlocked && buttonId == 0 && mouseY >= y && mouseY <= y+17){
-			KnowledgeObject<? extends IObjectHolder<?>> obj = null;
+			KnowledgeObject<?> obj = null;
 			
 			if (mouseX >= x && mouseX <= x+17)obj = KnowledgeObject.fromObject(itemFrom);
 			else if (mouseX >= x+44 && mouseX <= x+61)obj = KnowledgeObject.fromObject(itemTo);
 			
 			if (obj != null){
-				// TODO gui.showObject(obj);
+				gui.showObject(obj);
 				gui.moveToCurrentObject(true);
 				return true;
 			}

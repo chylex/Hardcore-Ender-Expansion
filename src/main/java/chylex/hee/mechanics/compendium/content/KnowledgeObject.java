@@ -129,26 +129,26 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		return this;
 	}
 	
-	public void connectToChildren(int centerX, int offsetY, ILineCallback callback){
+	public void connectToChildren(ILineCallback callback){
 		byte[] node, lastChildNode;
 		
 		for(int childIndex = 0; childIndex < childLineNodes.size()-1; childIndex++){
 			lastChildNode = childLineNodes.get(childIndex);
 			node = childLineNodes.get(childIndex+1);
-			callback.render(centerX+x+lastChildNode[0],offsetY+y+lastChildNode[1],centerX+x+node[0],offsetY+y+node[1]);
+			callback.call(x+lastChildNode[0],y+lastChildNode[1],x+node[0],y+node[1]);
 		}
 		
 		lastChildNode = childLineNodes.get(childLineNodes.size()-1);
 		
 		for(KnowledgeObject<?> child:children){
 			node = child.parentLineNodes.get(child.parentLineNodes.size()-1);
-			callback.render(centerX+x+lastChildNode[0],offsetY+y+lastChildNode[1],centerX+child.x+node[0],offsetY+child.y+node[1]);
+			callback.call(x+lastChildNode[0],y+lastChildNode[1],child.x+node[0],child.y+node[1]);
 			
 			byte[] prevParentNode = node;
 			
 			for(int parentIndex = child.parentLineNodes.size()-2; parentIndex >= 0; parentIndex--){
 				node = child.parentLineNodes.get(parentIndex);
-				callback.render(centerX+child.x+prevParentNode[0],offsetY+child.y+prevParentNode[1],centerX+child.x+node[0],offsetY+child.y+node[1]);
+				callback.call(child.x+prevParentNode[0],child.y+prevParentNode[1],child.x+node[0],child.y+node[1]);
 				prevParentNode = child.parentLineNodes.get(parentIndex);
 			}
 		}
@@ -209,6 +209,6 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	// Line Interface
 	
 	public static interface ILineCallback{
-		void render(int x1, int y1, int x2, int y2);
+		void call(int x1, int y1, int x2, int y2);
 	}
 }

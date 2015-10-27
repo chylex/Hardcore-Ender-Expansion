@@ -13,7 +13,6 @@ import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.RecipeUnifier;
@@ -89,7 +88,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 	public boolean onClick(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, int buttonId, boolean isUnlocked){
 		if (ingredients == null || output == null || !isUnlocked || buttonId != 0)return false;
 		
-		KnowledgeObject<? extends IObjectHolder<?>> obj = null;
+		KnowledgeObject<?> obj = null;
 		
 		for(int a = 0, cnt = 0, xx = x, yy = y; a < ingredients.length; a++, xx += 19){
 			if (ingredients[a] != null){
@@ -107,7 +106,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 		if (checkRect(mouseX,mouseY,x+95,y+20,17,17))obj = KnowledgeObject.fromObject(output);
 		
 		if (obj != null){
-			// TODO gui.showObject(obj);
+			gui.showObject(obj);
 			gui.moveToCurrentObject(true);
 			return true;
 		}
