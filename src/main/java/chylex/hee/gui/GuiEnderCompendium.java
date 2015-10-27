@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.game.save.types.player.CompendiumFile;
@@ -22,6 +21,7 @@ import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 import chylex.hee.mechanics.compendium.elements.CompendiumPageHandler;
+import chylex.hee.mechanics.compendium.elements.CompendiumScrollHandler;
 import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
 import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import chylex.hee.proxy.ModCommonProxy;
@@ -36,22 +36,15 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	public static final ResourceLocation texFragments = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_fragments.png");
 	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_note);
 	
-	private static float ptt(float value, float prevValue, float partialTickTime){
-		return prevValue+(value-prevValue)*partialTickTime;
-	}
-	
 	private final GuiEndPortalRenderer portalRenderer;
 	private final CompendiumPageHandler pageHandler;
-	private final List<AnimatedFloat> animationList = new ArrayList<>();
+	private final CompendiumScrollHandler scrollHandler;
 	
 	private CompendiumFile compendiumFile;
-	private AnimatedFloat offsetY, portalSpeed;
-	private float prevOffsetY;
-	private int prevMouseX, prevMouseY, totalHeight;
+	private AnimatedFloat portalSpeed;
 	
 	private boolean hasClickedButton = false;
-	private int dragMouseY = Integer.MIN_VALUE;
-	private float prevDragOffsetY;
+	private int prevMouseX, prevMouseY;
 	
 	private List<CategoryDisplayElement> categoryElements = new ArrayList<>();
 	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
@@ -59,16 +52,12 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	private KnowledgeObject<? extends IObjectHolder<?>> currentObject = null;
 	
 	private GuiButtonState btnHelp;
-	private byte hoverTriggerTimer = Byte.MIN_VALUE;
 	
 	public GuiEnderCompendium(CompendiumFile compendiumFile){
 		this.compendiumFile = compendiumFile;
 		
 		this.portalRenderer = new GuiEndPortalRenderer(this);
 		this.pageHandler = new CompendiumPageHandler(this);
-		
-		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
-		animationList.add(portalSpeed = new AnimatedFloat(Easing.CUBIC));
 		
 		int y = 48, maxY = 0;
 		
@@ -77,9 +66,10 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			if (obj.getY() > maxY)maxY = obj.getY();
 		}
 		
-		this.totalHeight = y+16+maxY;
+		this.scrollHandler = new CompendiumScrollHandler(this,maxY);
 		
-		portalSpeed.startAnimation(30F,15F,1.5F);
+		this.portalSpeed = new AnimatedFloat(Easing.CUBIC);
+		this.portalSpeed.startAnimation(30F,15F,1.5F);
 	}
 	
 	public void updateCompendiumData(CompendiumFile newData){
@@ -100,8 +90,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		pageHandler.setFile(compendiumFile);
 		
 		if (currentObject == KnowledgeRegistrations.HELP)btnHelp.forcedHover = true;
-		
-		offsetY.set(0);
 	}
 	
 	@Override
@@ -110,9 +98,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (!(button.enabled && button.visible))return;
 		
-		if (button.id == 0 && !offsetY.isAnimating())mc.displayGuiScreen(new GuiAchievementsCustom(this,mc.thePlayer.getStatFileWriter()));
+		if (button.id == 0)mc.displayGuiScreen(new GuiAchievementsCustom(this,mc.thePlayer.getStatFileWriter()));
 		else if (button.id == 1)showObject(KnowledgeRegistrations.HELP);
-		else if (button.id == 2 && !offsetY.isAnimating()){
+		else if (button.id == 2){
 			if (currentObject != null)showObject(null);
 			else{
 				mc.displayGuiScreen((GuiScreen)null);
@@ -126,7 +114,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(2));
 		else if (buttonId == 0 && !(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
-			int offY = (int)offsetY.value();
+			int offY = (int)scrollHandler.getOffset(1F);
 			/* TODO
 			for(CategoryDisplayElement element:categoryElements){
 				if (element.isMouseOver(mouseX,mouseY,offY)){
@@ -149,33 +137,29 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		super.mouseClicked(mouseX,mouseY,buttonId);
 		
 		if (hasClickedButton)hasClickedButton = false;
-		else dragMouseY = mouseY;
+		else scrollHandler.onMouseClick(mouseX,mouseY);
 	}
 	
 	@Override
 	protected void mouseMovedOrUp(int mouseX, int mouseY, int event){
-		if (dragMouseY != Integer.MIN_VALUE && event == 0)dragMouseY = Integer.MIN_VALUE;
+		if (event == 0)scrollHandler.onMouseRelease(mouseX,mouseY);
 		super.mouseMovedOrUp(mouseX,mouseY,event);
 	}
 	
 	@Override
 	protected void mouseClickMove(int mouseX, int mouseY, int lastButton, long timeSinceClick){
-		if (dragMouseY != Integer.MIN_VALUE && lastButton == 0){
-			prevDragOffsetY = MathUtil.floor((dragMouseY-mouseY)*6);
-			dragMouseY = mouseY;
-		}
-		
-		super.mouseClickMove(mouseX,mouseY,lastButton,timeSinceClick);
+		if (lastButton == 0)scrollHandler.onMouseDrag(mouseX,mouseY);
 	}
 	
 	@Override
 	protected void keyTyped(char key, int keyCode){
 		if (keyCode == 1)actionPerformed((GuiButton)buttonList.get(2));
+		System.out.println(keyCode);
 	}
 	
 	@Override
 	public void updateScreen(){
-		prevOffsetY = offsetY.value();
+		scrollHandler.update();
 
 		if (!portalSpeed.isAnimating()){
 			if (currentObject != null){
@@ -185,9 +169,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		}
 		
 		portalRenderer.update((int)portalSpeed.value());
-		for(AnimatedFloat animation:animationList)animation.update(0.05F);
+		portalSpeed.update(0.05F);
 		
-		int wheel = Mouse.getDWheel();
+		/* TODO int wheel = Mouse.getDWheel();
 		
 		if (wheel != 0){
 			if (currentObject != null && pageHandler.isMouseInside(prevMouseX,prevMouseY)){
@@ -195,28 +179,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				else if (wheel < 0)pageHandler.changePage(true);
 			}
 			else offsetY.set(offsetY.value()+(wheel > 0 ? 80 : -80));
-		}
-		
-		if (!MathUtil.floatEquals(prevDragOffsetY,0F)){
-			offsetY.set(offsetY.value()-prevDragOffsetY);
-			prevDragOffsetY = 0F;
-		}
-		
-		if (offsetY.value() > 0)offsetY.set(0F);
-		else if (offsetY.value() < -totalHeight+height-32)offsetY.set(totalHeight+32 > height ? -totalHeight+height-32 : 0);
-		
-		/* TODO
-		if (hoverTriggerTimer != Byte.MIN_VALUE && ++hoverTriggerTimer > 12){
-			if (!compendiumFile.seenHelp())btnHelp.forcedHover = !btnHelp.forcedHover;
-			else if (currentObject == KnowledgeRegistrations.HELP){
-				if (pageIndex == 0)pageArrows[1].forcedHover = !pageArrows[1].forcedHover;
-				else{
-					hoverTriggerTimer = Byte.MIN_VALUE;
-					pageArrows[1].forcedHover = false;
-				}
-			}
-			
-			if (hoverTriggerTimer != Byte.MIN_VALUE)hoverTriggerTimer = 0;
 		}*/
 	}
 	
@@ -246,10 +208,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 		}*/
 		
-		if (newY != Integer.MIN_VALUE){
-			if (animate)offsetY.startAnimation(offsetY.value(),newY,0.5F);
-			else offsetY.set(newY);
-		}
+		if (newY != Integer.MIN_VALUE)scrollHandler.moveTo(newY,animate);
 	}
 	
 	@Override
@@ -258,7 +217,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glDepthFunc(GL11.GL_GEQUAL);
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,0F,-200F);
-		portalRenderer.draw(0,-ptt(offsetY.value(),prevOffsetY,partialTickTime)*0.49F,1F,partialTickTime);
+		portalRenderer.draw(0,-scrollHandler.getOffset(partialTickTime)*0.49F,1F,partialTickTime);
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		renderScreen(mouseX,mouseY,partialTickTime);
@@ -278,7 +237,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 
 		renderBackgroundGUI();
 		
-		float offY = ptt(offsetY.value(),prevOffsetY,partialTickTime);
+		float offY = scrollHandler.getOffset(partialTickTime);
 		int yLowerBound = -(int)offY-32, yUpperBound = -(int)offY+height;
 		
 		GL11.glPushMatrix();
