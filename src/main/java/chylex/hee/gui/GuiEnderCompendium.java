@@ -170,6 +170,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (pageHandler.onKeyboardDown(keyCode));
 		else if (scrollHandler.onKeyboardDown(keyCode));
 		else if (keyCode == GuiHelper.keyEscape)goBack();
+		else if (keyCode == GuiHelper.keyF1)showObject(currentObject == KnowledgeRegistrations.HELP ? null : KnowledgeRegistrations.HELP);
 	}
 	
 	private void goBack(){
