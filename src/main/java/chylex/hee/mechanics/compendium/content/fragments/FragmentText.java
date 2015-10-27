@@ -17,6 +17,7 @@ import chylex.hee.gui.helpers.GuiRenderHelper;
 import chylex.hee.item.ItemSpawnEggs;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.elements.CompendiumPageHandler;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.logging.Log;
@@ -40,7 +41,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	public int getHeight(GuiEnderCompendium gui, boolean isUnlocked){
 		boolean origFont = gui.mc.fontRenderer.getUnicodeFlag();
 		gui.mc.fontRenderer.setUnicodeFlag(true);
-		int h = gui.mc.fontRenderer.listFormattedStringToWidth(getString(true),GuiEnderCompendium.guiPageWidth-10).size()*gui.mc.fontRenderer.FONT_HEIGHT;
+		int h = gui.mc.fontRenderer.listFormattedStringToWidth(getString(true),CompendiumPageHandler.innerWidth).size()*gui.mc.fontRenderer.FONT_HEIGHT;
 		gui.mc.fontRenderer.setUnicodeFlag(origFont);
 		return h;
 	}
@@ -65,7 +66,7 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	@SideOnly(Side.CLIENT)
 	public void onRender(GuiEnderCompendium gui, int x, int y, int mouseX, int mouseY, boolean isUnlocked){
 		String str = getString(isUnlocked);
-		GuiRenderHelper.renderUnicodeString(str,x+1,y,GuiEnderCompendium.guiPageWidth-10,255<<24);
+		GuiRenderHelper.renderUnicodeString(str,x+1,y,CompendiumPageHandler.innerWidth,255<<24);
 		
 		if (isUnlocked){
 			KnowledgeObject<?> obj = getHoveredObject(gui.mc.fontRenderer,mouseX,mouseY,x,y);
@@ -149,12 +150,12 @@ public class FragmentText extends KnowledgeFragment<FragmentText>{
 	
 	@SideOnly(Side.CLIENT)
 	private KnowledgeObject<?> getHoveredObject(FontRenderer fontRenderer, int mouseX, int mouseY, int x, int y){
-		if (!(mouseX >= x && mouseX <= x+GuiEnderCompendium.guiPageWidth-10 && mouseY >= y && parsed.contains(linkColor)))return null;
+		if (!(mouseX >= x && mouseX <= x+CompendiumPageHandler.innerWidth && mouseY >= y && parsed.contains(linkColor)))return null;
 
 		boolean origFont = fontRenderer.getUnicodeFlag();
 		fontRenderer.setUnicodeFlag(true);
 		
-		List<String> list = fontRenderer.listFormattedStringToWidth(parsed,GuiEnderCompendium.guiPageWidth-10);
+		List<String> list = fontRenderer.listFormattedStringToWidth(parsed,CompendiumPageHandler.innerWidth);
 		
 		if (mouseY <= y+list.size()*fontRenderer.FONT_HEIGHT){
 			boolean multiLine = false;

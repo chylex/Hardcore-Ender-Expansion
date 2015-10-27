@@ -1,11 +1,6 @@
 package chylex.hee.gui;
-import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
@@ -24,14 +19,11 @@ import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
-import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
+import chylex.hee.mechanics.compendium.elements.CompendiumPageHandler;
 import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
 import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
-import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.server.S02CompendiumPurchase;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -39,10 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
-	public static final int guiPageTexWidth = 152, guiPageTexHeight = 226, guiPageWidth = 126, guiPageHeight = 176, guiPageLeft = 18, guiPageTop = 20, guiObjLeft = 32;
-	
 	public static final RenderItem renderItem = new RenderItem();
-	public static final ResourceLocation texPage = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_page.png");
 	public static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
 	public static final ResourceLocation texFragments = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_fragments.png");
 	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_note);
@@ -51,12 +40,14 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		return prevValue+(value-prevValue)*partialTickTime;
 	}
 	
+	private final GuiEndPortalRenderer portalRenderer;
+	private final CompendiumPageHandler pageHandler;
+	private final List<AnimatedFloat> animationList = new ArrayList<>();
+	
 	private CompendiumFile compendiumFile;
-	private GuiEndPortalRenderer portalRenderer;
-	private List<AnimatedFloat> animationList = new ArrayList<>();
 	private AnimatedFloat offsetY, portalSpeed;
 	private float prevOffsetY;
-	private int prevMouseX, totalHeight;
+	private int prevMouseX, prevMouseY, totalHeight;
 	
 	private boolean hasClickedButton = false;
 	private int dragMouseY = Integer.MIN_VALUE;
@@ -64,19 +55,17 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	private List<CategoryDisplayElement> categoryElements = new ArrayList<>();
 	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
-	private List<PurchaseDisplayElement> purchaseElements = new ArrayList<>();
 	
 	private KnowledgeObject<? extends IObjectHolder<?>> currentObject = null;
-	private TByteObjectHashMap<Map<KnowledgeFragment,Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
-	private byte pageIndex;
-	private GuiButtonPageArrow[] pageArrows = new GuiButtonPageArrow[2];
 	
 	private GuiButtonState btnHelp;
 	private byte hoverTriggerTimer = Byte.MIN_VALUE;
 	
 	public GuiEnderCompendium(CompendiumFile compendiumFile){
 		this.compendiumFile = compendiumFile;
-		// TODO if (!(this.compendiumFile = compendiumData).seenHelp())hoverTriggerTimer = 0;
+		
+		this.portalRenderer = new GuiEndPortalRenderer(this);
+		this.pageHandler = new CompendiumPageHandler(this);
 		
 		animationList.add(offsetY = new AnimatedFloat(Easing.CUBIC));
 		animationList.add(portalSpeed = new AnimatedFloat(Easing.CUBIC));
@@ -95,26 +84,24 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	public void updateCompendiumData(CompendiumFile newData){
 		this.compendiumFile = newData;
+		pageHandler.setFile(this.compendiumFile);
 		showObject(currentObject);
 	}
 	
 	@Override
 	public void initGui(){
-		this.portalRenderer = new GuiEndPortalRenderer(this,width-48,height-48,0);
+		portalRenderer.init(width-48,height-48,0);
 		
-		buttonList.add(new GuiButton(0,(width>>1)-120,height-27,98,20,I18n.format("gui.achievements")));
-		buttonList.add(btnHelp = new GuiButtonState(1,(width>>1)-10,height-27,20,20,"?"));
-		buttonList.add(new GuiButton(2,(width>>1)+22,height-27,98,20,I18n.format("gui.back")));
-		buttonList.add(pageArrows[0] = new GuiButtonPageArrow(3,0,((height+guiPageTexHeight)>>1)-32,false));
-		buttonList.add(pageArrows[1] = new GuiButtonPageArrow(4,0,((height+guiPageTexHeight)>>1)-32,true));
+		buttonList.add(new GuiButton(0,width/2-120,height-27,98,20,I18n.format("gui.achievements")));
+		buttonList.add(btnHelp = new GuiButtonState(1,width/2-10,height-27,20,20,"?"));
+		buttonList.add(new GuiButton(2,width/2+22,height-27,98,20,I18n.format("gui.back")));
 		
-		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
+		pageHandler.init(buttonList,3,4);
+		pageHandler.setFile(compendiumFile);
 		
 		if (currentObject == KnowledgeRegistrations.HELP)btnHelp.forcedHover = true;
 		
 		offsetY.set(0);
-		
-		updatePurchaseElements();
 	}
 	
 	@Override
@@ -123,9 +110,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (!(button.enabled && button.visible))return;
 		
-		if (button.id == 0 && !offsetY.isAnimating()){
-			mc.displayGuiScreen(new GuiAchievementsCustom(this,mc.thePlayer.getStatFileWriter()));
-		}
+		if (button.id == 0 && !offsetY.isAnimating())mc.displayGuiScreen(new GuiAchievementsCustom(this,mc.thePlayer.getStatFileWriter()));
 		else if (button.id == 1)showObject(KnowledgeRegistrations.HELP);
 		else if (button.id == 2 && !offsetY.isAnimating()){
 			if (currentObject != null)showObject(null);
@@ -134,10 +119,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 				mc.setIngameFocus();
 			}
 		}
-		else if (button.id == 3)pageIndex = (byte)Math.max(0,pageIndex-1);
-		else if (button.id == 4)pageIndex = (byte)Math.min(currentObjectPages.size()-1,pageIndex+1);
-		
-		if (button.id == 3 || button.id == 4)updatePurchaseElements();
+		else pageHandler.onButtonClick(button);
 	}
 	
 	@Override
@@ -159,29 +141,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 					return;
 				}
 			}
-			
-			for(PurchaseDisplayElement element:purchaseElements){
-				if (element.isMouseOver(mouseX,mouseY,(width>>1)+(width>>2)+4) && compendiumFile.getPoints() >= element.price){
-					Object obj = element.object;
-					
-					if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
-					else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
-					else continue;
-					
-					return;
-				}
-			}
 		}
 		
-		if (currentObject != null){
-			int x = (width>>1)+(width>>2)+4-(guiPageTexWidth>>1)+guiPageLeft;
-			int y = (height>>1)-(guiPageTexHeight>>1)+guiPageTop;
-			
-			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
-				if (entry.getKey().onClick(this,x,y,mouseX,mouseY,buttonId,entry.getValue()))return;
-				y += 8+entry.getKey().getHeight(this,entry.getValue());
-			}
-		}
+		pageHandler.onMouseClick(mouseX,mouseY,buttonId);
 		
 		hasClickedButton = false;
 		super.mouseClicked(mouseX,mouseY,buttonId);
@@ -228,9 +190,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		int wheel = Mouse.getDWheel();
 		
 		if (wheel != 0){
-			if (currentObject != null && (currentObject == KnowledgeRegistrations.HELP || prevMouseX >= width>>1)){
-				if (wheel > 0)actionPerformed((GuiButton)buttonList.get(3));
-				else if (wheel < 0)actionPerformed((GuiButton)buttonList.get(4));
+			if (currentObject != null && pageHandler.isMouseInside(prevMouseX,prevMouseY)){
+				if (wheel > 0)pageHandler.changePage(false);
+				else if (wheel < 0)pageHandler.changePage(true);
 			}
 			else offsetY.set(offsetY.value()+(wheel > 0 ? 80 : -80));
 		}
@@ -241,7 +203,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		}
 		
 		if (offsetY.value() > 0)offsetY.set(0F);
-		else if (offsetY.value() < -totalHeight+height-32)offsetY.set(totalHeight > height ? -totalHeight+height-32F : 0F);
+		else if (offsetY.value() < -totalHeight+height-32)offsetY.set(totalHeight+32 > height ? -totalHeight+height-32 : 0);
 		
 		/* TODO
 		if (hoverTriggerTimer != Byte.MIN_VALUE && ++hoverTriggerTimer > 12){
@@ -258,58 +220,9 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		}*/
 	}
 	
-	public void showObject(KnowledgeObject<? extends IObjectHolder<?>> object){
-		if (currentObject != null){
-			currentObjectPages.clear();
-			purchaseElements.clear();
-			
-			if (currentObject != object){
-				pageIndex = 0;
-				btnHelp.forcedHover = false;
-			}
-		}
-
-		if ((currentObject = object) == null)return;
-		
-		byte page = 0;
-		int yy = 0, height = 0;
-		boolean isUnlocked = false;
-		Map<KnowledgeFragment,Boolean> pageMap = new LinkedHashMap<>();
-		Iterator<KnowledgeFragment> iter = currentObject.getFragments().iterator();
-		
-		while(true){
-			KnowledgeFragment fragment = iter.hasNext() ? iter.next() : null;
-			
-			if (fragment == null || yy+(height = 8+fragment.getHeight(this,isUnlocked = compendiumFile.canSeeFragment(object,fragment))) > guiPageHeight){
-				currentObjectPages.put(page++,pageMap);
-				
-				if (fragment == null)break;
-				else{
-					pageMap = new LinkedHashMap<>();
-					pageMap.put(fragment,isUnlocked);
-					yy = height;
-					continue;
-				}
-			}
-			
-			pageMap.put(fragment,isUnlocked);
-			yy += height;
-		}
-		
-		/* TODO
-		if (object == KnowledgeRegistrations.HELP){
-			btnHelp.forcedHover = true;
-			
-			if (!compendiumFile.seenHelp()){
-				PacketPipeline.sendToServer(new S03SimpleEvent(EventType.OPEN_COMPENDIUM_HELP));
-				compendiumFile.setSeenHelp();
-			}
-			
-			purchaseElements.clear();
-			return;
-		}*/
-		
-		updatePurchaseElements();
+	public void showObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
+		this.currentObject = obj;
+		pageHandler.showObject(obj);
 	}
 	
 	public void moveToCurrentObject(boolean animate){
@@ -336,25 +249,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		if (newY != Integer.MIN_VALUE){
 			if (animate)offsetY.startAnimation(offsetY.value(),newY,0.5F);
 			else offsetY.set(newY);
-		}
-	}
-	
-	private void updatePurchaseElements(){
-		purchaseElements.clear();
-		
-		if (currentObject != null){
-			if (!compendiumFile.isDiscovered(currentObject) && currentObject.getPrice() != 0){
-				purchaseElements.add(new PurchaseDisplayElement(currentObject,(this.height>>1)-60));
-				return;
-			}
-			
-			int yy = ((this.height-guiPageTexHeight)>>1)+guiPageTop, height;
-			
-			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
-				height = entry.getKey().getHeight(this,entry.getValue());
-				if (!entry.getValue())purchaseElements.add(new PurchaseDisplayElement(entry.getKey(),yy+(height>>1)+2));
-				yy += 8+height;
-			}
 		}
 	}
 	
@@ -420,16 +314,14 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		renderFragmentCount(width-90,24);
-		
-		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
-		/* TODO if (currentObject == KnowledgeRegistrations.HELP)renderPaper(width>>1,height>>1,mouseX,mouseY);
-		else */if (currentObject != null)renderPaper(width/2,height/2,mouseX,mouseY);
+		pageHandler.render(mouseX,mouseY);
 		
 		prevMouseX = mouseX;
+		prevMouseY = mouseY;
 	}
 	
 	private void renderBackgroundGUI(){
@@ -473,61 +365,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		String pointAmount = String.valueOf(compendiumFile.getPoints());
 		fontRendererObj.drawString(pointAmount,x+50-fontRendererObj.getStringWidth(pointAmount),y+6,0x404040);
 		
-		GL11.glEnable(GL11.GL_DEPTH_TEST);
-	}
-	
-	private void renderPaper(int x, int y, int mouseX, int mouseY){
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		pageArrows[0].xPosition = x-(guiPageTexWidth*3/10)-10;
-		pageArrows[1].xPosition = x+(guiPageTexWidth*3/10)-10;
-		
-		GL11.glColor4f(1F,1F,1F,1F);
-		RenderHelper.disableStandardItemLighting();
-		
-		mc.getTextureManager().bindTexture(texPage);
-		drawTexturedModalRect(x-(guiPageTexWidth>>1),y-(guiPageTexHeight>>1),0,0,guiPageTexWidth,guiPageTexHeight);
-		
-		x = x-(guiPageTexWidth>>1)+guiPageLeft;
-		y = y-(guiPageTexHeight>>1)+guiPageTop;
-		
-		int titleOff = currentObject.isHidden() ? 0 : 6;
-		
-		mc.fontRenderer.drawString(currentObject.getTranslatedTooltip(),titleOff+width/2-mc.fontRenderer.getStringWidth(currentObject.getTranslatedTooltip())/2,y,0x404040);
-		// TODO multiline
-		
-		if (!currentObject.isHidden()){
-			int iconX = x-2, iconY = y-4;
-			
-			RenderHelper.enableGUIStandardItemLighting();
-			GL11.glPushMatrix();
-			GL11.glTranslatef(iconX+8,iconY+8,0F);
-			GL11.glScaled(0.75F,0.75F,1F);
-			GL11.glTranslatef(-iconX-8,-iconY-8,0F);
-			GuiEnderCompendium.renderItem.renderItemIntoGUI(mc.fontRenderer,mc.getTextureManager(),currentObject.holder.getDisplayItemStack(),iconX,iconY,true);
-			GL11.glPopMatrix();
-		}
-		
-		y += 12;
-		
-		for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
-			entry.getKey().onRender(this,x,y,mouseX,mouseY,entry.getValue());
-			y += 8+entry.getKey().getHeight(this,entry.getValue());
-		}
-		
-		for(int a = 0; a < 2; a++)pageArrows[a].visible = true;
-		pageArrows[0].visible = pageIndex > 0;
-		pageArrows[1].visible = pageIndex < currentObjectPages.size()-1;
-		
-		x = x+(guiPageTexWidth>>1)-guiPageLeft;
-		
-		for(PurchaseDisplayElement element:purchaseElements)element.render(this,mouseX,mouseY,x);
-		
-		/*if (!compendiumFile.isDiscovered(currentObject)){ // TODO
-			RenderHelper.disableStandardItemLighting();
-			String msg = I18n.format("compendium.cannotBuy");
-			mc.fontRenderer.drawString(msg,x-(mc.fontRenderer.getStringWidth(msg)>>1),y-7,0x404040);
-		}*/
-
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
 	

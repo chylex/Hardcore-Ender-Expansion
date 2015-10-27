@@ -21,17 +21,17 @@ public class CategoryDisplayElement{
 		
 		RenderHelper.disableStandardItemLighting();
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
-		gui.drawTexturedModalRect(GuiEnderCompendium.guiObjLeft,y,216,5,40,40);
+		// TODO gui.drawTexturedModalRect(GuiEnderCompendium.guiObjLeft,y,216,5,40,40);
 		
 		GL11.glPushMatrix();
 		GL11.glScalef(2F,2F,1F);
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),category.getDisplayItem(),(GuiEnderCompendium.guiObjLeft+4)>>1,(y+4)>>1);
+		// TODO GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),category.getDisplayItem(),(GuiEnderCompendium.guiObjLeft+4)>>1,(y+4)>>1);
 		GL11.glPopMatrix();
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int offsetY){
-		int x = GuiEnderCompendium.guiObjLeft, y = this.y+offsetY;
+		int x = 0/*GuiEnderCompendium.guiObjLeft*/, y = this.y+offsetY;
 		return mouseX >= x+2 && mouseY >= y && mouseX <= x+42 && mouseY <= y+40;
 	}
 }

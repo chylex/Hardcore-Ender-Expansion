@@ -2,11 +2,12 @@ package chylex.hee.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.mechanics.compendium.elements.CompendiumPageHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-class GuiButtonPageArrow extends GuiButton{
+public class GuiButtonPageArrow extends GuiButton{
 	private final boolean isRightArrow;
 	public boolean forcedHover;
 
@@ -19,7 +20,7 @@ class GuiButtonPageArrow extends GuiButton{
 	public void drawButton(Minecraft mc, int mouseX, int mouseY){
 		if (visible){
 			GL11.glColor4f(1F,1F,1F,1F);
-			mc.getTextureManager().bindTexture(GuiEnderCompendium.texPage);
+			mc.getTextureManager().bindTexture(CompendiumPageHandler.texPage);
 			drawTexturedModalRect(xPosition,yPosition,(mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition+width && mouseY < yPosition+height) || forcedHover ? 23 : 0,231+(!isRightArrow ? 13 : 0),23,13);
 		}
 	}

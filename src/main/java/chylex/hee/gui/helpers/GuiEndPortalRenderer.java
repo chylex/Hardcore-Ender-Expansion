@@ -14,13 +14,15 @@ public final class GuiEndPortalRenderer{
 	private static final Random consistentRandom = new Random(31100L);
 	
 	private final GuiScreen gui;
-	private final int portalWidthHalf, portalHeightHalf, portalTopOffset;
-	private int portalTranslation, prevPortalTranslation;
+	private int portalWidthHalf, portalHeightHalf, portalTopOffset, portalTranslation, prevPortalTranslation;
 	
-	public GuiEndPortalRenderer(GuiScreen ownerGui, int portalWidth, int portalHeight, int portalTopOffset){
+	public GuiEndPortalRenderer(GuiScreen ownerGui){
 		this.gui = ownerGui;
-		this.portalWidthHalf = portalWidth>>1;
-		this.portalHeightHalf = portalHeight>>1;
+	}
+	
+	public void init(int portalWidth, int portalHeight, int portalTopOffset){
+		this.portalWidthHalf = portalWidth/2;
+		this.portalHeightHalf = portalHeight/2;
 		this.portalTopOffset = portalTopOffset;
 		this.prevPortalTranslation = this.portalTranslation = gui.mc.theWorld.rand.nextInt(10000);
 	}
