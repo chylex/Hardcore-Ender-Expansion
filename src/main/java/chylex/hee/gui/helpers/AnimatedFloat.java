@@ -15,11 +15,15 @@ public final class AnimatedFloat{
 	}
 	
 	public void startAnimation(float startValue, float endValue){
-		startAnimation(startValue,endValue,1F);
+		startAnimation(startValue,endValue,1F,false);
 	}
 	
 	public void startAnimation(float startValue, float endValue, float duration){
-		if (isAnimating)return;
+		startAnimation(startValue,endValue,duration,false);
+	}
+	
+	public void startAnimation(float startValue, float endValue, float duration, boolean force){
+		if (isAnimating && !force)return;
 		
 		this.time = 0F;
 		this.startValue = this.currentValue = startValue;
