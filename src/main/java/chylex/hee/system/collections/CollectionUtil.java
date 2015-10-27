@@ -1,6 +1,6 @@
 package chylex.hee.system.collections;
-import java.util.*;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
 import java.util.Map.Entry;
 
 public final class CollectionUtil{
@@ -14,7 +14,7 @@ public final class CollectionUtil{
 			}
 		);
 		
-		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry(entry));
+		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry<>(entry));
 		return sorted;
 	}
 
@@ -28,7 +28,7 @@ public final class CollectionUtil{
 			}
 		);
 		
-		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry(entry));
+		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry<>(entry));
 		return sorted;
 	}
 	
@@ -51,7 +51,7 @@ public final class CollectionUtil{
 	}
 	
 	public static <T> RandomList<T> shuffled(List<T> list, Random rand){
-		return new RandomList(list,rand);
+		return new RandomList<>(list,rand);
 	}
 	
 	public static <T> Optional<T> random(List<T> list, Random rand){

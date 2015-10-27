@@ -7,28 +7,22 @@ import chylex.hee.tileentity.TileEntityLootChest;
 import com.google.common.base.Objects;
 
 public class InventoryLootChest extends InventoryBasic{
-	private final String playerID;
 	private final TileEntityLootChest chest;
 	
-	public InventoryLootChest(String playerID, TileEntityLootChest chest){
+	public InventoryLootChest(TileEntityLootChest chest){
 		super("container.lootChest",false,27);
-		this.playerID = playerID;
 		this.chest = chest;
 		
 		Optional.ofNullable(chest.getInventoryNameIfPresent()).ifPresent(name -> func_110133_a(name)); // OBFUSCATED setInventoryName
 	}
 	
-	public InventoryLootChest(String playerID, TileEntityLootChest chest, InventoryLootChest sourceInventory){
-		this(playerID,chest);
+	public InventoryLootChest(TileEntityLootChest chest, InventoryLootChest sourceInventory){
+		this(chest);
 		
 		for(int slot = 0; slot < sourceInventory.getSizeInventory(); slot++){
 			ItemStack is = sourceInventory.getStackInSlot(slot);
 			if (is != null)setInventorySlotContents(slot,is.copy());
 		}
-	}
-	
-	public InventoryLootChest(TileEntityLootChest chest){
-		this(null,chest);
 	}
 	
 	@Override

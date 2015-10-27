@@ -1,7 +1,6 @@
 package chylex.hee.mechanics.energy;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import chylex.hee.system.util.ItemDamagePair;
@@ -12,7 +11,6 @@ public final class EnergyValues{
 	public static final float min = 0.00001F;
 	
 	private static final TObjectFloatHashMap<ItemDamagePair> items = new TObjectFloatHashMap<>();
-	private static final TObjectFloatHashMap<Class<? extends EntityLivingBase>> mobs = new TObjectFloatHashMap<>();
 	
 	static{
 		/* TODO setItemEnergy(Blocks.end_stone, 0.40F);

@@ -69,7 +69,7 @@ public class TileEntityLootChest extends TileEntity{
 	}
 	
 	public InventoryLootChest getInventoryFor(EntityPlayer player){
-		return player.capabilities.isCreativeMode ? sourceInventory : inventories.computeIfAbsent(PlayerDataHandler.getID(player),id -> new InventoryLootChest(id,this,sourceInventory));
+		return player.capabilities.isCreativeMode ? sourceInventory : inventories.computeIfAbsent(PlayerDataHandler.getID(player),id -> new InventoryLootChest(this,sourceInventory));
 	}
 	
 	@Override
@@ -105,7 +105,7 @@ public class TileEntityLootChest extends TileEntity{
 		NBTTagCompound playerTag = nbt.getCompoundTag("playerInv");
 		
 		for(String id:(Set<String>)playerTag.func_150296_c()){
-			InventoryLootChest inv = new InventoryLootChest(id,this);
+			InventoryLootChest inv = new InventoryLootChest(this);
 			
 			NBTUtil.readInventory(playerTag.getTagList(id,NBT.TAG_COMPOUND),inv);
 			inventories.put(id,inv);
