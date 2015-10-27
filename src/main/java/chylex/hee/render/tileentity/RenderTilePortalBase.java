@@ -36,6 +36,10 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 		return layer == 0 ? 0.125F : layer == 1 ? 0.5F : 0.0625F;
 	}
 	
+	protected long getColorSeed(){
+		return 31100L;
+	}
+	
 	protected void generateColors(int layer){
 		red = rand.nextFloat()*0.5F+0.1F;
 		green = rand.nextFloat()*0.5F+0.4F;
@@ -56,7 +60,7 @@ public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 		
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
-		rand.setSeed(31100L);
+		rand.setSeed(getColorSeed());
 		
 		onRender();
 		
