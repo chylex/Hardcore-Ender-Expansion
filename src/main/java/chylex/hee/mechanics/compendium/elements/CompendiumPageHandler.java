@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiButtonPageArrow;
 import chylex.hee.gui.GuiEnderCompendium;
+import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
@@ -36,7 +37,7 @@ public class CompendiumPageHandler{
 	
 	private CompendiumFile compendiumFile;
 	private KnowledgeObject<?> currentObject;
-	private byte pageIndex;
+	private int pageIndex;
 	
 	public CompendiumPageHandler(GuiEnderCompendium compendium){
 		this.gui = compendium;
@@ -63,6 +64,66 @@ public class CompendiumPageHandler{
 		return mouseX >= pageX && mouseX <= pageX+pageWidth && mouseY >= pageY && mouseY <= pageY+pageHeight;
 	}
 	
+	public void onButtonClick(GuiButton button){
+		if (button.id == pageArrowIds[0])changePage(false);
+		else if (button.id == pageArrowIds[1])changePage(true);
+	}
+	
+	public boolean onMouseClick(int mouseX, int mouseY, int mouseButton){
+		if (currentObject != null && isMouseInside(mouseX,mouseY)){
+			for(PurchaseDisplayElement element:purchaseElements){
+				if (element.isMouseOver(mouseX,mouseY) && compendiumFile.getPoints() >= element.price){
+					Object obj = element.object;
+					
+					if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
+					else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
+					else continue;
+					
+					return true;
+				}
+			}
+			
+			int y = innerY;
+			
+			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
+				if (entry.getKey().onClick(gui,innerX,y,mouseX,mouseY,mouseButton,entry.getValue()))return true;
+				y += 8+entry.getKey().getHeight(gui,entry.getValue());
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean onMouseWheel(int mouseX, int mouseY, int value){
+		if (currentObject != null && isMouseInside(mouseX,mouseY)){
+			changePage(value < 0);
+			return true;
+		}
+		else return false;
+	}
+	
+	public boolean onKeyboardDown(int keyCode){
+		if (currentObject == null)return false;
+		
+		if (keyCode == GuiHelper.keyArrowLeft || keyCode == GuiHelper.keyPageUp || keyCode == gui.mc.gameSettings.keyBindLeft.getKeyCode()){
+			changePage(false);
+		}
+		else if (keyCode == GuiHelper.keyArrowRight || keyCode == GuiHelper.keyPageDown || keyCode == gui.mc.gameSettings.keyBindRight.getKeyCode()){
+			changePage(true);
+		}
+		else if (keyCode == GuiHelper.keyHome){
+			pageIndex = 0;
+			updatePurchaseElements();
+		}
+		else if (keyCode == GuiHelper.keyEnd){
+			pageIndex = currentObjectPages.size()-1;
+			updatePurchaseElements();
+		}
+		else return false;
+		
+		return true;
+	}
+	
 	public void showObject(KnowledgeObject<?> obj){
 		this.currentObject = obj;
 		
@@ -70,9 +131,7 @@ public class CompendiumPageHandler{
 			currentObjectPages.clear();
 			purchaseElements.clear();
 			
-			if (currentObject != obj){
-				pageIndex = 0;
-			}
+			if (currentObject != obj)pageIndex = 0;
 		}
 
 		if ((currentObject = obj) == null)return;
@@ -106,36 +165,8 @@ public class CompendiumPageHandler{
 	}
 	
 	public void changePage(boolean next){
-		pageIndex = (byte)(next ? Math.min(currentObjectPages.size()-1,pageIndex+1) : Math.max(0,pageIndex-1));
+		pageIndex = next ? Math.min(currentObjectPages.size()-1,pageIndex+1) : Math.max(0,pageIndex-1);
 		updatePurchaseElements();
-	}
-	
-	public void onButtonClick(GuiButton button){
-		if (button.id == pageArrowIds[0])changePage(false);
-		else if (button.id == pageArrowIds[1])changePage(true);
-	}
-	
-	public void onMouseClick(int mouseX, int mouseY, int mouseButton){
-		if (currentObject != null && isMouseInside(mouseX,mouseY)){
-			for(PurchaseDisplayElement element:purchaseElements){
-				if (element.isMouseOver(mouseX,mouseY) && compendiumFile.getPoints() >= element.price){
-					Object obj = element.object;
-					
-					if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
-					else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
-					else continue;
-					
-					return;
-				}
-			}
-			
-			int y = innerY;
-			
-			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
-				if (entry.getKey().onClick(gui,innerX,y,mouseX,mouseY,mouseButton,entry.getValue()))return;
-				y += 8+entry.getKey().getHeight(gui,entry.getValue());
-			}
-		}
 	}
 	
 	private void updatePurchaseElements(){
@@ -149,7 +180,7 @@ public class CompendiumPageHandler{
 			
 			int yy = innerY, height;
 			
-			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
+			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
 				height = entry.getKey().getHeight(gui,entry.getValue());
 				if (!entry.getValue())purchaseElements.add(new PurchaseDisplayElement(entry.getKey(),pageX+pageWidth/2,yy+2+height/2));
 				yy += 8+height;
@@ -189,7 +220,7 @@ public class CompendiumPageHandler{
 		
 		y += 12;
 		
-		for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get(pageIndex).entrySet()){
+		for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
 			entry.getKey().onRender(gui,x,y,mouseX,mouseY,entry.getValue());
 			y += 8+entry.getKey().getHeight(gui,entry.getValue());
 		}

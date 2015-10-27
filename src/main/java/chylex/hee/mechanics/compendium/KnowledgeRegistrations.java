@@ -27,7 +27,13 @@ public final class KnowledgeRegistrations{
 			new FragmentText(0).setType(KnowledgeFragmentType.VISIBLE),
 			new FragmentText(1).setType(KnowledgeFragmentType.VISIBLE),
 			new FragmentText(2).setType(KnowledgeFragmentType.VISIBLE),
-			new FragmentText(3).setType(KnowledgeFragmentType.VISIBLE)
+			new FragmentText(3).setType(KnowledgeFragmentType.VISIBLE),
+			new FragmentText(4).setType(KnowledgeFragmentType.VISIBLE),
+			new FragmentText(5).setType(KnowledgeFragmentType.VISIBLE),
+			new FragmentText(6).setType(KnowledgeFragmentType.VISIBLE),
+			new FragmentText(7).setType(KnowledgeFragmentType.VISIBLE),
+			new FragmentText(8).setType(KnowledgeFragmentType.VISIBLE),
+			new FragmentText(9).setType(KnowledgeFragmentType.VISIBLE)
 		});
 		
 		TEST2.setParent(TEST1,0,4);

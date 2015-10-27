@@ -17,7 +17,8 @@ public final class GuiHelper{
 							keyPageUp = 201,
 							keyPageDown = 209,
 							keyHome = 199,
-							keyEnd = 207;
+							keyEnd = 207,
+							keyEscape = 1;
 	
 	public static void renderLine(int x1, int y1, int x2, int y2, int color){
 		if (x1 == x2 || y1 == y2){

@@ -8,7 +8,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class CompendiumScrollHandler{
-	private static final int extraHeight = 32;
+	private static final int extraHeight = 48;
 	
 	private final GuiEnderCompendium gui;
 	private final int totalHeight;
@@ -21,6 +21,7 @@ public class CompendiumScrollHandler{
 		this.gui = compendium;
 		this.totalHeight = totalHeight;
 		this.offset = new AnimatedFloat(Easing.CUBIC);
+		this.offset.set(extraHeight);
 	} // TODO reset offset on init?
 	
 	public float getOffset(float partialTickTime){
@@ -53,6 +54,10 @@ public class CompendiumScrollHandler{
 		}
 	}
 	
+	public void onMouseWheel(int value){
+		offset.set(offset.value()+(value > 0 ? 80 : -80));
+	}
+	
 	public void update(){
 		offsetPrev = offset.value();
 		
@@ -68,7 +73,7 @@ public class CompendiumScrollHandler{
 			else offset.set(offset.value()-offsetInertia);
 		}
 		
-		if (offset.value() > 0)offset.set(0F);
-		else if (offset.value() < -totalHeight+gui.height)offset.set(totalHeight > gui.height ? -totalHeight+gui.height : 0);
+		if (offset.value() > extraHeight)offset.set(extraHeight);
+		else if (offset.value() < -totalHeight+gui.height-extraHeight)offset.set(totalHeight+extraHeight > gui.height ? -totalHeight+gui.height-extraHeight : 0);
 	}
 }

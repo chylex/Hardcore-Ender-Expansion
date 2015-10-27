@@ -8,12 +8,14 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.helpers.AnimatedFloat;
 import chylex.hee.gui.helpers.AnimatedFloat.Easing;
 import chylex.hee.gui.helpers.GuiEndPortalRenderer;
+import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.init.ItemList;
@@ -59,7 +61,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		this.portalRenderer = new GuiEndPortalRenderer(this);
 		this.pageHandler = new CompendiumPageHandler(this);
 		
-		int y = 48, maxY = 0;
+		int y = 0, maxY = 0;
 		
 		for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
 			if (!obj.isHidden())objectElements.add(new ObjectDisplayElement(obj,y));
@@ -100,19 +102,13 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		
 		if (button.id == 0)mc.displayGuiScreen(new GuiAchievementsCustom(this,mc.thePlayer.getStatFileWriter()));
 		else if (button.id == 1)showObject(KnowledgeRegistrations.HELP);
-		else if (button.id == 2){
-			if (currentObject != null)showObject(null);
-			else{
-				mc.displayGuiScreen((GuiScreen)null);
-				mc.setIngameFocus();
-			}
-		}
+		else if (button.id == 2)goBack();
 		else pageHandler.onButtonClick(button);
 	}
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
-		if (buttonId == 1)actionPerformed((GuiButton)buttonList.get(2));
+		if (buttonId == 1)goBack();
 		else if (buttonId == 0 && !(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
 			int offY = (int)scrollHandler.getOffset(1F);
 			/* TODO
@@ -131,7 +127,7 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 			}
 		}
 		
-		pageHandler.onMouseClick(mouseX,mouseY,buttonId);
+		if (pageHandler.onMouseClick(mouseX,mouseY,buttonId))return;
 		
 		hasClickedButton = false;
 		super.mouseClicked(mouseX,mouseY,buttonId);
@@ -153,8 +149,16 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	
 	@Override
 	protected void keyTyped(char key, int keyCode){
-		if (keyCode == 1)actionPerformed((GuiButton)buttonList.get(2));
-		System.out.println(keyCode);
+		if (pageHandler.onKeyboardDown(keyCode))return;
+		if (keyCode == GuiHelper.keyEscape)goBack();
+	}
+	
+	private void goBack(){
+		if (currentObject != null)showObject(null);
+		else{
+			mc.displayGuiScreen((GuiScreen)null);
+			mc.setIngameFocus();
+		}
 	}
 	
 	@Override
@@ -171,15 +175,12 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 		portalRenderer.update((int)portalSpeed.value());
 		portalSpeed.update(0.05F);
 		
-		/* TODO int wheel = Mouse.getDWheel();
+		int wheel = Mouse.getDWheel();
 		
 		if (wheel != 0){
-			if (currentObject != null && pageHandler.isMouseInside(prevMouseX,prevMouseY)){
-				if (wheel > 0)pageHandler.changePage(false);
-				else if (wheel < 0)pageHandler.changePage(true);
-			}
-			else offsetY.set(offsetY.value()+(wheel > 0 ? 80 : -80));
-		}*/
+			if (pageHandler.onMouseWheel(prevMouseX,prevMouseY,wheel)); // empty statement
+			else scrollHandler.onMouseWheel(wheel);
+		}
 	}
 	
 	public void showObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
