@@ -1,5 +1,6 @@
 package chylex.hee.world.feature.ores;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.function.ToDoubleFunction;
@@ -11,7 +12,14 @@ import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.world.structure.StructureWorld;
 
 public interface IOreGenerator{
+	/**
+	 * Runs only if {@code canPlaceAt} returns true for the starting position.
+	 */
 	void generate(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z, int ores);
+	
+	default boolean canPlaceAt(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z){
+		return world.getBlock(x,y,z) == gen.toReplace;
+	}
 	
 	/**
 	 * Generates a single ore block in the starting position.
@@ -50,7 +58,7 @@ public interface IOreGenerator{
 					if (allowDiagonal)mpos.move(rand.nextInt(3)-1,rand.nextInt(3)-1,rand.nextInt(3)-1);
 					else mpos.move(Facing6.list[rand.nextInt(Facing6.list.length)]);
 					
-					if (world.getBlock(mpos.x,mpos.y,mpos.z) == gen.toReplace){
+					if (canPlaceAt(gen,world,rand,mpos.x,mpos.y,mpos.z)){
 						world.setBlock(mpos.x,mpos.y,mpos.z,gen.orePicker.pick(rand));
 						generated.add(mpos.immutable());
 						break;
@@ -86,12 +94,26 @@ public interface IOreGenerator{
 					
 					mpos.set(x+vec.x*dist,y+vec.y*dist,z+vec.z*dist);
 					
-					if (world.getBlock(mpos.x,mpos.y,mpos.z) == gen.toReplace){
+					if (canPlaceAt(gen,world,rand,mpos.x,mpos.y,mpos.z)){
 						world.setBlock(mpos.x,mpos.y,mpos.z,gen.orePicker.pick(rand));
 						break;
 					}
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Allows ores to only generate if there is an air block adjacent to the target positions.
+	 */
+	public static class NextToAir extends OreGeneratorConditioned{
+		public NextToAir(IOreGenerator wrapped){
+			super(wrapped);
+		}
+		
+		@Override
+		public boolean canPlaceAt(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z){
+			return super.canPlaceAt(gen,world,rand,x,y,z) && Arrays.stream(Facing6.list).anyMatch(facing -> world.isAir(x+facing.getX(),y+facing.getY(),z+facing.getZ()));
 		}
 	}
 }

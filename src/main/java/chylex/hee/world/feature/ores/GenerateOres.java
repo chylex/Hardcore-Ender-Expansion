@@ -91,7 +91,7 @@ public final class GenerateOres{
 				for(int attempt = 0; attempt < attemptsPerChunk && clusters > 0; attempt++){
 					mpos.set(worldBox.x1+chunkX*chunkSize,minY,worldBox.z1+chunkZ*chunkSize).move(rand.nextInt(chunkSize),rand.nextInt(maxY-minY+1),rand.nextInt(chunkSize));
 					
-					if (world.getBlock(mpos.x,mpos.y,mpos.z) == toReplace){
+					if (oreGenerator.canPlaceAt(this,world,rand,mpos.x,mpos.y,mpos.z)){
 						oreGenerator.generate(this,world,rand,mpos.x,mpos.y,mpos.z,oresPerCluster.next(rand));
 						--clusters;
 					}
