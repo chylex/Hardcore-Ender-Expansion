@@ -112,17 +112,21 @@ public class CompendiumScrollHandler{
 	}
 	
 	public void onKeyboardUp(int keyCode){
+		if (!restoreHeldKey())stopScrolling(false);
+	}
+	
+	private boolean restoreHeldKey(){
 		for(int code:new int[]{
 			GuiHelper.keyHome, GuiHelper.keyEnd, GuiHelper.keyPageUp, GuiHelper.keyPageDown, GuiHelper.keyArrowUp, GuiHelper.keyArrowDown,
 			gui.mc.gameSettings.keyBindForward.getKeyCode(), gui.mc.gameSettings.keyBindBack.getKeyCode()
 		}){
 			if (KeyState.isHeld(code)){
 				onKeyboardDown(code);
-				return;
+				return true;
 			}
 		}
 		
-		stopScrolling(false);
+		return false;
 	}
 	
 	private void startScrolling(float by){
@@ -169,6 +173,7 @@ public class CompendiumScrollHandler{
 		
 		if (lastWheelTime != 0L && TimeUnit.NANOSECONDS.toMillis(System.nanoTime()-lastWheelTime) > 100){
 			stopScrolling(false);
+			restoreHeldKey();
 			lastWheelTime = 0L;
 		}
 	}
