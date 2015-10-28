@@ -14,6 +14,7 @@ import chylex.hee.game.creativetab.ModCreativeTab;
 import chylex.hee.item.*;
 import chylex.hee.item.block.ItemBlockEnhancedBrewingStand;
 import chylex.hee.system.util.GameRegistryUtil;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IFuelHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -63,10 +64,12 @@ public final class ItemList{
 	
 	// FUNCTIONAL ITEMS
 	
+	public static Item energy_receptacle;
+	public static Item spatial_dash_gem;
+	public static Item amulet_of_recovery;
 	public static Item enhanced_brewing_stand;
 	public static Item enhanced_ender_pearl;
 	public static Item potion_of_instability;
-	public static Item spatial_dash_gem;
 	public static Item transference_gem;
 	public static Item infestation_remedy;
 	public static Item ghost_amulet;
@@ -76,7 +79,6 @@ public final class ItemList{
 	public static Item charm_pouch;
 	public static Item charm;
 	public static Item scorching_pickaxe;
-	public static Item energy_receptacle;
 	// TODO SANCTUARY public static Item sacred_wand;
 	
 	// WORLD
@@ -120,10 +122,12 @@ public final class ItemList{
 		register("energy_wand_core", energy_wand_core = new Item().setUnlocalizedName("energyWandCore").setTextureName("hardcoreenderexpansion:energy_wand_core"));
 		// TODO SANCTUARY register("sacred_wand_cores", sacred_wand_cores = new ItemSacredWandCores().setUnlocalizedName("sacredWandCores"));
 		
+		register("energy_receptacle", energy_receptacle = new ItemEnergyReceptacle().setMaxStackSize(1).setUnlocalizedName("energyReceptacle").setTextureName("hardcoreenderexpansion:energy_receptacle"));
+		register("spatial_dash_gem", spatial_dash_gem = new ItemSpatialDashGem().setMaxStackSize(1).setNoRepair().setUnlocalizedName("spatialDashGem").setTextureName("hardcoreenderexpansion:spatial_dash_gem"));
+		register("amulet_of_recovery", amulet_of_recovery = new ItemAmuletOfRecovery().setMaxStackSize(1).setNoRepair().setUnlocalizedName("amuletOfRecovery").setTextureName("hardcoreenderexpansion:amulet_of_recovery"));
 		register("enhanced_brewing_stand", enhanced_brewing_stand = new ItemBlockEnhancedBrewingStand().setUnlocalizedName("enhancedBrewingStand").setTextureName("hardcoreenderexpansion:enhanced_brewing_stand"));
 		register("enhanced_ender_pearl", enhanced_ender_pearl = new ItemEnhancedEnderPearl().setCreativeTab(null).setUnlocalizedName("enderPearl").setTextureName("ender_pearl"));
 		register("potion_of_instability", potion_of_instability = new ItemPotionOfInstability().setUnlocalizedName("potionOfInstability").setTextureName("hardcoreenderexpansion:potion_of_instability"));
-		register("spatial_dash_gem", spatial_dash_gem = new ItemSpatialDashGem().setMaxStackSize(1).setNoRepair().setUnlocalizedName("spatialDashGem").setTextureName("hardcoreenderexpansion:spatial_dash_gem"));
 		register("transference_gem", transference_gem = new ItemTransferenceGem().setMaxStackSize(1).setNoRepair().setUnlocalizedName("transferenceGem").setTextureName("hardcoreenderexpansion:transference_gem"));
 		register("infestation_remedy", infestation_remedy = new ItemInfestationRemedy().setMaxStackSize(1).setUnlocalizedName("infestationRemedy").setTextureName("hardcoreenderexpansion:infestation_remedy"));
 		register("ghost_amulet", ghost_amulet = new ItemGhostAmulet().setMaxStackSize(1).setUnlocalizedName("ghostAmulet").setTextureName("hardcoreenderexpansion:ghost_amulet"));
@@ -133,7 +137,6 @@ public final class ItemList{
 		register("charm_pouch", charm_pouch = new ItemCharmPouch().setMaxStackSize(1).setUnlocalizedName("charmPouch").setTextureName("hardcoreenderexpansion:charm_pouch"));
 		register("charm", charm = new ItemCharm().setMaxStackSize(1).setUnlocalizedName("charm").setTextureName("hardcoreenderexpansion:charm"));
 		register("schorching_pickaxe", scorching_pickaxe = new ItemScorchingPickaxe().setMaxStackSize(1).setMaxDamage(399).setUnlocalizedName("scorchingPickaxe").setTextureName("hardcoreenderexpansion:scorching_pickaxe"));
-		register("energy_receptacle", energy_receptacle = new ItemEnergyReceptacle().setMaxStackSize(1).setUnlocalizedName("energyReceptacle").setTextureName("hardcoreenderexpansion:energy_receptacle"));
 		// TODO SANCTUARY register("sacred_wand", sacred_wand = new ItemSacredWand().setMaxStackSize(1).setMaxDamage(860).setNoRepair().setUnlocalizedName("sacredWand").setTextureName("hardcoreenderexpansion:sacred_wand"));
 		
 		register("knowledge_note", knowledge_note = new ItemKnowledgeNote().setMaxStackSize(1).setUnlocalizedName("knowledgeNote").setTextureName("hardcoreenderexpansion:knowledge_fragment"));
@@ -152,9 +155,10 @@ public final class ItemList{
 		}
 		
 		ModCreativeTab.tabMain.list.add(
-			ethereum,ancient_dust,alteration_nexus,essence,enhanced_brewing_stand,
+			ethereum,ancient_dust,alteration_nexus,amulet_of_recovery,spatial_dash_gem,
+			essence,enhanced_brewing_stand,
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
-			blank_gem,spatial_dash_gem,transference_gem,
+			blank_gem,transference_gem,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
 			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,curse_amulet,
 			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_receptacle,
@@ -172,6 +176,8 @@ public final class ItemList{
 		OreDictionary.registerOre("ingotHeeEndium", ItemList.endium_ingot);
 		
 		MinecraftForge.EVENT_BUS.register(Item.getItemFromBlock(BlockList.enderman_head));
+		MinecraftForge.EVENT_BUS.register(ItemList.amulet_of_recovery);
+		FMLCommonHandler.instance().bus().register(ItemList.amulet_of_recovery);
 		MinecraftForge.EVENT_BUS.register(ItemList.scorching_pickaxe);
 		GameRegistry.registerFuelHandler((IFuelHandler)ItemList.igneous_rock);
 		

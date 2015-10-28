@@ -103,6 +103,7 @@ tile.sacredStone.name=Sacred Stone
 item.ethereum.name=Ethereum
 item.ancientDust.name=Ancient Dust
 item.alterationNexus.name=Alteration Nexus
+item.amuletOfRecovery.name=Amulet of Recovery
 item.essence.dragon.name=Dragon Essence
 item.essence.dragon.bacon.name=Bacon Essence
 item.essence.fiery.name=Fiery Essence
@@ -280,6 +281,7 @@ container.lootChest=Loot Chest
 container.lootChest.editing=Loot Chest (Editing)
 container.charmPouch=Charm Pouch
 container.runeCrafting=Rune Crafting
+container.amuletOfRecovery=Amulet of Recovery
 
 enhancements.none=No Enhancements
 

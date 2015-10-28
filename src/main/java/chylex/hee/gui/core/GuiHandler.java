@@ -21,6 +21,7 @@ public final class GuiHandler implements IGuiHandler{
 		
 		switch(id){
 			case 0: return pos.castTileEntity(world,TileEntityEnhancedBrewingStand.class).map(tile -> new ContainerEnhancedBrewingStand(player.inventory,tile)).orElse(null);
+			case 1: return new ContainerAmuletOfRecovery(player);
 			case 2: return pos.castTileEntity(world,TileEntityDecompositionTable.class).map(tile -> new ContainerDecompositionTable(player.inventory,tile)).orElse(null);
 			case 3: return pos.castTileEntity(world,TileEntityExtractionTable.class).map(tile -> new ContainerExtractionTable(player.inventory,tile)).orElse(null);
 			case 4: return new ContainerEndPowderEnhancements(player.inventory,y == -1 ? null : (IEnhanceableTile)pos.getTileEntity(world));
@@ -39,6 +40,7 @@ public final class GuiHandler implements IGuiHandler{
 		
 		switch(id){
 			case 0: return pos.castTileEntity(world,TileEntityEnhancedBrewingStand.class).map(tile -> new GuiEnhancedBrewingStand(player.inventory,tile)).orElse(null);
+			case 1: return new GuiAmuletOfRecovery(player);
 			case 2: return pos.castTileEntity(world,TileEntityDecompositionTable.class).map(tile -> new GuiDecompositionTable(player.inventory,tile)).orElse(null);
 			case 3: return pos.castTileEntity(world,TileEntityExtractionTable.class).map(tile -> new GuiExtractionTable(player.inventory,tile)).orElse(null);
 			case 4: return y == -1 ? new GuiEndPowderEnhancements(player.inventory) : new GuiEndPowderEnhancements(player.inventory,(IEnhanceableTile)world.getTileEntity(x,y,z));
