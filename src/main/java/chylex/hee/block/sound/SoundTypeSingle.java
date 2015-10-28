@@ -11,13 +11,13 @@ public class SoundTypeSingle extends SoundType{
 		return soundName;
 	}
 
-    @Override
+	@Override
 	public String getStepResourcePath(){
-        return soundName;
-    }
+		return soundName;
+	}
 
-    @Override
+	@Override
 	public String func_150496_b(){ // OBFUSCATED place block sound
-        return soundName;
-    }
+		return soundName;
+	}
 }

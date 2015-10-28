@@ -25,7 +25,7 @@ public class BlockEndermanHead extends BlockSkull implements IInfusionStabiliser
 	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public Item getItem(World world, int x, int y, int z){
 		return Item.getItemFromBlock(this);
 	}

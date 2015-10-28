@@ -50,9 +50,9 @@ public class RenderProjectileItem3D extends Render{
 		}
 		
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glPopMatrix();
-        bindEntityTexture(entity);
-        TextureUtil.func_147945_b();
+		GL11.glPopMatrix();
+		bindEntityTexture(entity);
+		TextureUtil.func_147945_b();
 	}
 	
 	private void renderDroppedItem(Entity entity, IIcon icon, float partialTickTime, float red, float green, float blue, int pass){

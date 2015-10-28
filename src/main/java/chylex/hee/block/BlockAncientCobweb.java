@@ -69,19 +69,19 @@ public class BlockAncientCobweb extends BlockWeb{
 	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public int colorMultiplier(IBlockAccess world, int x, int y, int z){
 		return 0xDFDFDF;
 	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public int getRenderColor(int meta){
 		return 0xDFDFDF;
 	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public int getBlockColor(){
 		return 0xDFDFDF;
 	}

@@ -175,7 +175,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 	}
 	
 	@Override
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
 	public void setPositionAndRotation2(double x, double y, double z, float rotationYaw, float rotationPitch, int three){}
 	
 	@Override
