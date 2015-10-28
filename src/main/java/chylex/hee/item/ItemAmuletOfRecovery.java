@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import javax.annotation.Nullable;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -14,6 +15,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -79,6 +81,9 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 		return ItemUtil.getTagRoot(is,false).hasKey("amuletItems");
 	}
 	
+	@SideOnly(Side.CLIENT)
+	private IIcon iconHeld;
+	
 	@Override
 	public int getEnergyUsage(ItemStack is){
 		return getMaxDamage(is);
@@ -98,12 +103,6 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 	public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player){
 		if (!world.isRemote && !canAcceptEnergy(is) && hasItems(is))player.openGui(HardcoreEnderExpansion.instance,1,world,0,0,0);
 		return is;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is, int pass){
-		return hasItems(is);
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
@@ -182,5 +181,24 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 		setAmuletInventory(amulet,amuletInv);
 		updateRestorationEnergy(amulet,amuletInv);
 		file.setInventoryItem(0,amulet);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean hasEffect(ItemStack is, int pass){
+		return hasItems(is);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IIcon getIcon(ItemStack is, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining){
+		return iconHeld;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister iconRegister){
+		super.registerIcons(iconRegister);
+		iconHeld = iconRegister.registerIcon(getIconString()+"_held");
 	}
 }
