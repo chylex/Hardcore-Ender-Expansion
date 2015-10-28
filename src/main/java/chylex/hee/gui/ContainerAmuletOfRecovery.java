@@ -39,7 +39,6 @@ public class ContainerAmuletOfRecovery extends ContainerChest{
 				return;
 			}
 			else if (ContainerHelper.hasChanged(this)){
-				System.out.println("save"); // TODO
 				ItemAmuletOfRecovery.setAmuletInventory(player.getHeldItem(),amuletInv);
 			}
 		}

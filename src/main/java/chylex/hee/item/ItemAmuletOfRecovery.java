@@ -44,7 +44,7 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 				}catch(IOException e){}
 			}
 			
-			return 0.333F+enchantmentSum*0.25F+nbtLength*0.01F;
+			return is.stackSize/3F+enchantmentSum*0.25F+nbtLength*0.01F;
 		}).sum());
 	}
 	
@@ -55,7 +55,24 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 	}
 	
 	public static final void setAmuletInventory(ItemStack is, IInventory inv){
-		ItemUtil.getTagRoot(is,true).setTag("amuletItems",NBTUtil.writeInventory(inv));
+		for(int slot = 0; slot < inv.getSizeInventory(); slot++){
+			if (inv.getStackInSlot(slot) != null){
+				ItemUtil.getTagRoot(is,true).setTag("amuletItems",NBTUtil.writeInventory(inv));
+				return;
+			}
+		}
+		
+		ItemUtil.getTagRoot(is,true).removeTag("amuletItems");
+		ItemUtil.getTagRoot(is,true).removeTag("amuletRestoreEnergy");
+		is.setItemDamage(0);
+	}
+	
+	private static void updateRestorationEnergy(ItemStack is, IInventory inv){
+		ItemStack[] items = new ItemStack[inv.getSizeInventory()];
+		IntStream.range(0,items.length).forEach(slot -> items[slot] = inv.getStackInSlot(slot));
+		
+		ItemUtil.getTagRoot(is,true).setInteger("amuletRestoreEnergy",calculateRequiredEnergy(items));
+		is.setItemDamage(is.getMaxDamage());
 	}
 	
 	private static boolean hasItems(ItemStack is){
@@ -111,23 +128,30 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 		IInventory amuletInv = getAmuletInventory(null);
 		ItemStack is;
 		
-		for(int slot = 0; slot < Math.min(36,inv.mainInventory.length); slot++){
+		for(int slot = Math.min(4,inv.armorInventory.length)-1; slot > 0; slot--){
+			if ((is = inv.armorInventory[slot]) != null && is.getItem() != this){
+				amuletInv.setInventorySlotContents(slot,is);
+				inv.armorInventory[slot] = null;
+			}
+		}
+		
+		for(int slot = 9; slot < Math.min(36,inv.mainInventory.length); slot++){
 			if ((is = inv.mainInventory[slot]) != null && is.getItem() != this){
 				amuletInv.setInventorySlotContents(slot,is);
 				inv.mainInventory[slot] = null;
 			}
 		}
 		
-		for(int slot = Math.min(4,inv.armorInventory.length)-1; slot > 0; slot++){
-			if ((is = inv.armorInventory[slot]) != null && is.getItem() != this){
+		for(int slot = 0; slot < Math.min(9,inv.mainInventory.length); slot++){
+			if ((is = inv.mainInventory[slot]) != null && is.getItem() != this){
 				amuletInv.setInventorySlotContents(36+slot,is);
-				inv.armorInventory[slot] = null;
+				inv.mainInventory[slot] = null;
 			}
 		}
 		
 		// save
 		setAmuletInventory(amulet,amuletInv);
-		useEnergy(amulet,player);
+		updateRestorationEnergy(amulet,amuletInv);
 		SaveData.player(player,RespawnFile.class).setInventoryItem(0,amulet);
 	}
 	
@@ -156,6 +180,7 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 		
 		// save
 		setAmuletInventory(amulet,amuletInv);
+		updateRestorationEnergy(amulet,amuletInv);
 		file.setInventoryItem(0,amulet);
 	}
 }
