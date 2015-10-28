@@ -160,12 +160,17 @@ public class CompendiumScrollHandler{
 		}
 		
 		if (!MathUtil.floatEquals(offsetDrag,0F)){
-			offset.set(offset.value()-offsetDrag);
+			offset.set(clampOffset(offset.value()-offsetDrag));
 			offsetDrag = 0F;
+			
+			if (Math.abs(offsetInertia) <= 0.5F && isHoldingAnimationKey())restoreHeldKey();
 		}
 		
 		if (Math.abs(offsetInertia) > 0.5F){
-			if (Math.abs(offsetInertia *= 0.7F) <= 0.5F)offsetInertia = 0F;
+			if (Math.abs(offsetInertia *= 0.7F) <= (isHoldingAnimationKey() ? 8F : 2F)){
+				offsetInertia = 0F;
+				restoreHeldKey();
+			}
 			else offset.set(offset.value()-offsetInertia);
 		}
 		
@@ -176,5 +181,12 @@ public class CompendiumScrollHandler{
 			restoreHeldKey();
 			lastWheelTime = 0L;
 		}
+	}
+	
+	/**
+	 * Returns whether a key which uses animation system is being held. Used to restore key input after calling offset.set()
+	 */
+	private static boolean isHoldingAnimationKey(){
+		return KeyState.isHeld(GuiHelper.keyHome) || KeyState.isHeld(GuiHelper.keyEnd);
 	}
 }
