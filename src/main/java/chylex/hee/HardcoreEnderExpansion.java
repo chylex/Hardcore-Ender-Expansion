@@ -1,7 +1,6 @@
 package chylex.hee;
 import java.io.File;
 import java.util.Map;
-import net.minecraftforge.common.MinecraftForge;
 import chylex.hee.api.HeeIMC;
 import chylex.hee.game.ConfigHandler;
 import chylex.hee.game.ModIntegrity;
@@ -121,7 +120,7 @@ public class HardcoreEnderExpansion{
 
 		Stopwatch.time("PreInitEvent - events");
 		
-		MinecraftForge.EVENT_BUS.register(new MiscEvents());
+		MiscEvents.register();
 		CompendiumEvents.register();
 		// TODO CharmPouchHandler.register();
 		SaveData.register();

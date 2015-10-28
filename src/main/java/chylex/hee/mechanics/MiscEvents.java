@@ -3,13 +3,24 @@ import net.minecraft.entity.item.EntityEnderPearl;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import chylex.hee.entity.projectile.EntityProjectileEyeOfEnder;
+import chylex.hee.game.save.SaveData;
+import chylex.hee.game.save.types.player.RespawnFile;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 
 public class MiscEvents{
+	public static void register(){
+		MiscEvents instance = new MiscEvents();
+		MinecraftForge.EVENT_BUS.register(instance);
+		FMLCommonHandler.instance().bus().register(instance);
+	}
+	
 	/*
 	 * Eye of Ender throwing
 	 * Ender Pearl throwing in creative mode
@@ -37,6 +48,11 @@ public class MiscEvents{
 		}
 	}
 	
+	@SubscribeEvent(priority = EventPriority.LOWEST)
+	public void onPlayerRespawn(PlayerRespawnEvent e){
+		SaveData.player(e.player,RespawnFile.class).loadInventory(e.player);
+	}
+	
 	/*
 	 * Right-clicking on item frame, mob and item with Transference Gem
 	 */
@@ -59,4 +75,6 @@ public class MiscEvents{
 			}
 		}
 	}*/
+	
+	private MiscEvents(){}
 }
