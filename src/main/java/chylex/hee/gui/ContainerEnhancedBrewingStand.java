@@ -5,6 +5,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import chylex.hee.gui.helpers.ContainerHelper;
 import chylex.hee.gui.slots.SlotBasicItem;
 import chylex.hee.gui.slots.SlotBrewingStandIngredient;
 import chylex.hee.gui.slots.SlotBrewingStandPotion;
@@ -25,12 +26,7 @@ public class ContainerEnhancedBrewingStand extends Container{
 		addSlotToContainer(new SlotBrewingStandPotion(tile,2,104,46));
 		ingredientSlot = addSlotToContainer(new SlotBrewingStandIngredient(tile,3,81,17));
 		powderSlot = addSlotToContainer(new SlotBasicItem(tile,4,81,77,ItemList.end_powder));
-		
-		for(int i = 0; i < 3; ++i){
-			for(int j = 0; j < 9; ++j)addSlotToContainer(new Slot(inv,j+i*9+9,9+j*18,108+i*18));
-		}
-
-		for(int i = 0; i < 9; ++i)addSlotToContainer(new Slot(inv,i,9+i*18,166));
+		ContainerHelper.addPlayerInventorySlots(this,inv,1,24);
 	}
 
 	@Override

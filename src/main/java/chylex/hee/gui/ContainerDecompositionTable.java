@@ -19,8 +19,8 @@ public class ContainerDecompositionTable extends ContainerAbstractTable{
 		addSlotToContainer(new SlotTableSubject(table,0,34,17));
 		addSlotToContainer(new SlotBasicItem(table,1,34,53,ItemList.stardust));
 		
-		for(int i = 0; i < 3; ++i){
-			for(int j = 0; j < 3; ++j)addSlotToContainer(new Slot(table,2+i*3+j,90+j*18,17+i*18));
+		for(int row = 0; row < 3; ++row){
+			for(int col = 0; col < 3; ++col)addSlotToContainer(new Slot(table,2+row*3+col,90+col*18,17+row*18));
 		}
 	}
 	

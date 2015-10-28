@@ -11,6 +11,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import chylex.hee.gui.helpers.ContainerHelper;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.gui.slots.SlotShowCase;
 import chylex.hee.mechanics.enhancements.EnhancementData;
@@ -37,12 +38,7 @@ public class ContainerEndPowderEnhancements extends Container{
 			addSlotToContainer(new SlotEnhancementsSubject(containerInv,0,80,8));
 		}
 		
-		for(int i = 0; i < 3; ++i){
-			for(int j = 0; j < 9; ++j)addSlotToContainer(new Slot(inv,j+i*9+9,8+j*18,112+i*18));
-		}
-
-		for(int i = 0; i < 9; ++i)addSlotToContainer(new Slot(inv,i,8+i*18,170));
-		
+		ContainerHelper.addPlayerInventorySlots(this,inv,0,28);
 		owner = inv.player;
 	}
 	

@@ -8,6 +8,7 @@ import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
+import chylex.hee.gui.helpers.ContainerHelper;
 import chylex.hee.gui.slots.SlotCharmPouchItem;
 import chylex.hee.gui.slots.SlotCharmPouchRune;
 import chylex.hee.gui.slots.SlotCharmPouchRuneResult;
@@ -43,11 +44,7 @@ public class ContainerCharmPouch extends Container{
 		
 		addSlotToContainer(new SlotCharmPouchRuneResult(runeResultInv,runeInv,this,0,122,41));
 		
-		for(int a = 0; a < 3; a++){
-			for(int b = 0; b < 9; ++b)addSlotToContainer(new Slot(player.inventory,b+a*9+9,8+b*18,99+a*18));
-		}
-
-		for(int a = 0; a < 9; a++)addSlotToContainer(new Slot(player.inventory,a,8+a*18,157));
+		ContainerHelper.addPlayerInventorySlots(this,player.inventory,0,15);
 	}
 	
 	private boolean isHoldingPouch(){
