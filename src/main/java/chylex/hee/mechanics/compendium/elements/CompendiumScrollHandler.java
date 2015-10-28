@@ -19,7 +19,7 @@ public class CompendiumScrollHandler{
 	private final AnimatedFloat offset;
 	private final AnimatedFloat scrollSpeed;
 	
-	private float offsetPrev, offsetDrag, offsetInertia, scrollBy;
+	private float offsetPrev, offsetDrag, offsetDragPeak, offsetInertia, scrollBy;
 	private int dragMouseY;
 	private long lastWheelTime;
 	
@@ -61,6 +61,10 @@ public class CompendiumScrollHandler{
 		if (dragMouseY != Integer.MIN_VALUE){
 			offsetDrag += dragMouseY-mouseY;
 			dragMouseY = mouseY;
+			
+			if (Math.abs(offsetDrag) > Math.abs(offsetDragPeak) || !MathUtil.floatEquals(Math.signum(offsetDrag),Math.signum(offsetDragPeak))){
+				offsetDragPeak = offsetDrag;
+			}
 		}
 	}
 	
@@ -68,8 +72,9 @@ public class CompendiumScrollHandler{
 		if (dragMouseY != Integer.MIN_VALUE){
 			dragMouseY = Integer.MIN_VALUE;
 			
-			if (Math.abs(offsetDrag) > 2F){
-				offsetInertia = (float)Math.pow(Math.abs(offsetDrag*getScaleMultiplier()),1.2D)*Math.signum(offsetDrag);
+			if (Math.abs(offsetDrag/getScaleMultiplier()) > 2F && Math.abs(offsetDragPeak/getScaleMultiplier()) > 20F){
+				offsetInertia = (float)Math.pow(Math.abs(offsetDragPeak*getScaleMultiplier()),1.25D)*Math.signum(offsetDragPeak);
+				offsetDragPeak = 0F;
 			}
 		}
 	}
