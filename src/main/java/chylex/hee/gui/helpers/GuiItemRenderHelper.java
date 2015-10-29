@@ -115,7 +115,7 @@ public class GuiItemRenderHelper{
 
 		renderItem.zLevel = 300F;
 		
-		int grad1 = -267386864,grad2 = 1347420415,grad3 = (grad2&16711422)>>1|grad2&-16777216;
+		int grad1 = -267386864, grad2 = 1347420415, grad3 = (grad2&16711422)>>1|grad2&-16777216;
 		
 		GuiHelper.renderGradient(xx-3,yy-4,xx+maxWidth+3,yy-3,grad1,grad1,300F);
 		GuiHelper.renderGradient(xx-3,yy+height+3,xx+maxWidth+3,yy+height+4,grad1,grad1,300F);

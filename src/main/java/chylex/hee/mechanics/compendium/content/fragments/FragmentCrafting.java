@@ -74,7 +74,7 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 	}
 	
 	private void verifyRecipe(){
-		
+		// TODO
 	}
 	
 	@Override

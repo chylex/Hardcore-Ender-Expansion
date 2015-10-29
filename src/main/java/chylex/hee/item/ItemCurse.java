@@ -107,6 +107,7 @@ public class ItemCurse extends Item{
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public int getColorFromItemStack(ItemStack is, int pass){
 		CurseType type = CurseType.getFromDamage(is.getItemDamage());
 		return type == null ? 16777215 : type.getColor(pass);
