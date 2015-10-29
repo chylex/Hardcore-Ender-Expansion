@@ -127,31 +127,29 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 		IInventory amuletInv = getAmuletInventory(null);
 		ItemStack is;
 		
-		for(int slot = Math.min(4,inv.armorInventory.length)-1; slot > 0; slot--){
-			if ((is = inv.armorInventory[slot]) != null && is.getItem() != this){
-				amuletInv.setInventorySlotContents(slot,is);
-				inv.armorInventory[slot] = null;
-			}
+		for(int slot = 0; slot < 4; slot++){
+			tryMoveSlot(inv.armorInventory,slot,amuletInv,3-slot);
 		}
 		
-		for(int slot = 9; slot < Math.min(36,inv.mainInventory.length); slot++){
-			if ((is = inv.mainInventory[slot]) != null && is.getItem() != this){
-				amuletInv.setInventorySlotContents(slot,is);
-				inv.mainInventory[slot] = null;
-			}
+		for(int slot = 9; slot < 36; slot++){
+			tryMoveSlot(inv.mainInventory,slot,amuletInv,slot);
 		}
 		
-		for(int slot = 0; slot < Math.min(9,inv.mainInventory.length); slot++){
-			if ((is = inv.mainInventory[slot]) != null && is.getItem() != this){
-				amuletInv.setInventorySlotContents(36+slot,is);
-				inv.mainInventory[slot] = null;
-			}
+		for(int slot = 0; slot < 9; slot++){
+			tryMoveSlot(inv.mainInventory,slot,amuletInv,36+slot);
 		}
 		
 		// save
 		setAmuletInventory(amulet,amuletInv);
 		updateRestorationEnergy(amulet,amuletInv);
 		SaveData.player(player,RespawnFile.class).setInventoryItem(0,amulet);
+	}
+	
+	private void tryMoveSlot(ItemStack[] source, int sourceSlot, IInventory target, int targetSlot){
+		if (source[sourceSlot] != null && source[sourceSlot].getItem() != this){
+			target.setInventorySlotContents(targetSlot,source[sourceSlot]);
+			source[sourceSlot] = null;
+		}
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)

@@ -300,6 +300,7 @@ compendium.crafting.changed=Recipe was modified by another mod
 compendium.crafting.removed=Recipe was removed by another mod
 
 gui.openHeeTracker=Visit Issue Tracker
+gui.moveAndEquip=Move & Equip
 
 key.openCompendium=Ender Compendium
 key.openCompendium.bacon=Bacon Compendium
