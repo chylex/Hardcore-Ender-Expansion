@@ -10,7 +10,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
-import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.mechanics.enhancements.EnhancementData;
 import chylex.hee.mechanics.enhancements.EnhancementData.EnhancementInfo;
 import chylex.hee.mechanics.enhancements.EnhancementIngredient;
@@ -25,7 +24,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRenderer{
+public class GuiEndPowderEnhancements extends GuiContainer{
 	private static final ResourceLocation guiResource = new ResourceLocation("hardcoreenderexpansion:textures/gui/end_powder_enhancements.png");
 	private static final int enhListY = 35;
 	
@@ -216,15 +215,5 @@ public class GuiEndPowderEnhancements extends GuiContainer implements ITooltipRe
 	
 	private boolean checkRect(int mouseX, int mouseY, int x, int y, int w, int h){
 		return mouseX >= x && mouseX <= x+w && mouseY >= y && mouseY <= y+h;
-	}
-
-	@Override
-	public void setZLevel(float newZLevel){
-		this.zLevel = newZLevel;
-	}
-
-	@Override
-	public void callDrawGradientRect(int x1, int y1, int x2, int y2, int color1, int color2){
-		drawGradientRect(x1,y1,x2,y2,color1,color2);
 	}
 }

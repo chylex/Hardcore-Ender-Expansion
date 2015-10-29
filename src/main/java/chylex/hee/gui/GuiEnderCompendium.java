@@ -19,7 +19,6 @@ import chylex.hee.gui.helpers.AnimatedFloat.Easing;
 import chylex.hee.gui.helpers.GuiEndPortalRenderer;
 import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
-import chylex.hee.gui.helpers.GuiItemRenderHelper.ITooltipRenderer;
 import chylex.hee.gui.helpers.KeyState;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
@@ -35,7 +34,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
+public class GuiEnderCompendium extends GuiScreen{
 	public static final RenderItem renderItem = new RenderItem();
 	public static final ResourceLocation texBack = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_back.png");
 	public static final ResourceLocation texFragments = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_fragments.png");
@@ -351,16 +350,6 @@ public class GuiEnderCompendium extends GuiScreen implements ITooltipRenderer{
 	@Override
 	public boolean doesGuiPauseGame(){
 		return false;
-	}
-
-	@Override
-	public void setZLevel(float newZLevel){
-		this.zLevel = newZLevel;
-	}
-
-	@Override
-	public void callDrawGradientRect(int x1, int y1, int x2, int y2, int color1, int color2){
-		drawGradientRect(x1,y1,x2,y2,color1,color2);
 	}
 	
 	/**

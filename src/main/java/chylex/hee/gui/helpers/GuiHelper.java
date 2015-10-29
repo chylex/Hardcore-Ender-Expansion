@@ -2,6 +2,9 @@ package chylex.hee.gui.helpers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.MathUtil;
@@ -20,6 +23,8 @@ public final class GuiHelper{
 							keyEnd = 207,
 							keyEscape = 1,
 							keyF1 = 59;
+	
+	public static final ResourceLocation texUtils = new ResourceLocation("hardcoreenderexpansion:textures/gui/utilities.png");
 	
 	public static void renderLine(int x1, int y1, int x2, int y2, int color){
 		if (x1 == x2 || y1 == y2){
@@ -65,6 +70,35 @@ public final class GuiHelper{
 		else fontRenderer.drawSplitString(str,x,y,maxWidth,color);
 		
 		fontRenderer.setUnicodeFlag(origFont);
+	}
+
+	public static void renderGradient(int x, int y, int w, int h, int color1, int color2, float zLevel){
+		float f = (color1>>24&255)/255F;
+		float f1 = (color1>>16&255)/255F;
+		float f2 = (color1>>8&255)/255F;
+		float f3 = (color1&255)/255F;
+		float f4 = (color2>>24&255)/255F;
+		float f5 = (color2>>16&255)/255F;
+		float f6 = (color2>>8&255)/255F;
+		float f7 = (color2&255)/255F;
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_ALPHA_TEST);
+		OpenGlHelper.glBlendFunc(770,771,1,0);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		Tessellator tessellator = Tessellator.instance;
+		tessellator.startDrawingQuads();
+		tessellator.setColorRGBA_F(f1,f2,f3,f);
+		tessellator.addVertex(w,y,zLevel);
+		tessellator.addVertex(x,y,zLevel);
+		tessellator.setColorRGBA_F(f5,f6,f7,f4);
+		tessellator.addVertex(x,h,zLevel);
+		tessellator.addVertex(w,h,zLevel);
+		tessellator.draw();
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glEnable(GL11.GL_ALPHA_TEST);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
 	}
 	
 	private GuiHelper(){}

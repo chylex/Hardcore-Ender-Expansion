@@ -97,7 +97,7 @@ public class GuiItemRenderHelper{
 		tooltipString = tooltip;
 	}
 	
-	public static void drawTooltip(ITooltipRenderer gui, FontRenderer fontRendererObj){
+	public static void drawTooltip(GuiScreen gui, FontRenderer fontRendererObj){
 		if (tooltipString == null)return;
 		String[] strings = tooltipString.split("\n");
 		
@@ -109,26 +109,24 @@ public class GuiItemRenderHelper{
 		int maxWidth = 0, xx = tooltipX+12, yy = tooltipY-12, height = strings.length > 1 ? 10+(strings.length-1)*10 : 8;
 		
 		for(String s:strings)maxWidth = Math.max(maxWidth,fontRendererObj.getStringWidth(s));
-
-		GuiScreen guiScreen = (GuiScreen)gui;
-		if (xx+maxWidth > guiScreen.width)xx -= 28+maxWidth;
-		if (yy+height+6 > guiScreen.height)yy -= guiScreen.height-height-6;
+		
+		if (xx+maxWidth > gui.width)xx -= 28+maxWidth;
+		if (yy+height+6 > gui.height)yy -= gui.height-height-6;
 
 		renderItem.zLevel = 300F;
-		gui.setZLevel(300F);
 		
 		int grad1 = -267386864,grad2 = 1347420415,grad3 = (grad2&16711422)>>1|grad2&-16777216;
 		
-		gui.callDrawGradientRect(xx-3,yy-4,xx+maxWidth+3,yy-3,grad1,grad1);
-		gui.callDrawGradientRect(xx-3,yy+height+3,xx+maxWidth+3,yy+height+4,grad1,grad1);
-		gui.callDrawGradientRect(xx-3,yy-3,xx+maxWidth+3,yy+height+3,grad1,grad1);
-		gui.callDrawGradientRect(xx-4,yy-3,xx-3,yy+height+3,grad1,grad1);
-		gui.callDrawGradientRect(xx+maxWidth+3,yy-3,xx+maxWidth+4,yy+height+3,grad1,grad1);
+		GuiHelper.renderGradient(xx-3,yy-4,xx+maxWidth+3,yy-3,grad1,grad1,300F);
+		GuiHelper.renderGradient(xx-3,yy+height+3,xx+maxWidth+3,yy+height+4,grad1,grad1,300F);
+		GuiHelper.renderGradient(xx-3,yy-3,xx+maxWidth+3,yy+height+3,grad1,grad1,300F);
+		GuiHelper.renderGradient(xx-4,yy-3,xx-3,yy+height+3,grad1,grad1,300F);
+		GuiHelper.renderGradient(xx+maxWidth+3,yy-3,xx+maxWidth+4,yy+height+3,grad1,grad1,300F);
 		
-		gui.callDrawGradientRect(xx-3,yy-2,xx-2,yy+height+2,grad2,grad3);
-		gui.callDrawGradientRect(xx+maxWidth+2,yy-2,xx+maxWidth+3,yy+height+2,grad2,grad3);
-		gui.callDrawGradientRect(xx-3,yy-3,xx+maxWidth+3,yy-2,grad2,grad2);
-		gui.callDrawGradientRect(xx-3,yy+height+2,xx+maxWidth+3,yy+height+3,grad3,grad3);
+		GuiHelper.renderGradient(xx-3,yy-2,xx-2,yy+height+2,grad2,grad3,300F);
+		GuiHelper.renderGradient(xx+maxWidth+2,yy-2,xx+maxWidth+3,yy+height+2,grad2,grad3,300F);
+		GuiHelper.renderGradient(xx-3,yy-3,xx+maxWidth+3,yy-2,grad2,grad2,300F);
+		GuiHelper.renderGradient(xx-3,yy+height+2,xx+maxWidth+3,yy+height+3,grad3,grad3,300F);
 
 		for(int a = 0; a < strings.length; ++a){
 			fontRendererObj.drawStringWithShadow(strings[a],xx,yy,-1);
@@ -136,16 +134,10 @@ public class GuiItemRenderHelper{
 		}
 
 		renderItem.zLevel = 0F;
-		gui.setZLevel(0F);
 		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 		
 		tooltipString = null;
-	}
-	
-	public static interface ITooltipRenderer{
-		void setZLevel(float newZLevel);
-		void callDrawGradientRect(int x1, int y1, int x2, int y2, int color1, int color2);
 	}
 }
