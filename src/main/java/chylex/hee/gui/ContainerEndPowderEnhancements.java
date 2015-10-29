@@ -12,6 +12,7 @@ import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import chylex.hee.gui.helpers.ContainerHelper;
+import chylex.hee.gui.helpers.IContainerEventHandler;
 import chylex.hee.gui.slots.SlotEnhancementsSubject;
 import chylex.hee.gui.slots.SlotShowCase;
 import chylex.hee.mechanics.enhancements.EnhancementData;
@@ -21,7 +22,7 @@ import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
 
-public class ContainerEndPowderEnhancements extends Container{
+public class ContainerEndPowderEnhancements extends Container implements IContainerEventHandler{
 	private final EntityPlayer owner;
 	public final IInventory containerInv;
 	public final IEnhanceableTile enhanceableTile;
@@ -73,6 +74,12 @@ public class ContainerEndPowderEnhancements extends Container{
 	public void onContainerClosed(EntityPlayer player){
 		super.onContainerClosed(player);
 		if (!isEnhancingTile() && containerInv.getStackInSlot(0) != null)player.dropPlayerItemWithRandomChoice(containerInv.getStackInSlot(0),false);
+	}
+	
+	@Override
+	public void onEvent(EntityPlayer player, int eventID){
+		List<EnhancementInfo> info = listEnhancementInfo();
+		if (eventID >= 0 && eventID < info.size())tryUpgradeEnhancement(info.get(eventID)); // same order as enums
 	}
 	
 	public boolean isEnhancingTile(){

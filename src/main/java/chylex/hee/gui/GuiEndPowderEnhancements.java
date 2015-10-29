@@ -10,14 +10,13 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
+import chylex.hee.gui.helpers.IContainerEventHandler;
 import chylex.hee.mechanics.enhancements.EnhancementData;
 import chylex.hee.mechanics.enhancements.EnhancementData.EnhancementInfo;
 import chylex.hee.mechanics.enhancements.EnhancementIngredient;
 import chylex.hee.mechanics.enhancements.EnhancementList;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
 import chylex.hee.mechanics.enhancements.IEnhanceableTile;
-import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.server.S01EnhanceItem;
 import com.google.common.base.Joiner;
 import cpw.mods.fml.client.config.GuiButtonExt;
 import cpw.mods.fml.relauncher.Side;
@@ -61,7 +60,7 @@ public class GuiEndPowderEnhancements extends GuiContainer{
 			selectedEnhancement = null;
 		}
 		else if (button == enhanceButton){
-			PacketPipeline.sendToServer(new S01EnhanceItem(selectedEnhancement));
+			IContainerEventHandler.sendEvent(selectedEnhancement.getEnhancement().ordinal());
 		}
 	}
 	
