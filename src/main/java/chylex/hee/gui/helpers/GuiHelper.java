@@ -73,14 +73,6 @@ public final class GuiHelper{
 	}
 
 	public static void renderGradient(int x, int y, int w, int h, int color1, int color2, float zLevel){
-		float f = (color1>>24&255)/255F;
-		float f1 = (color1>>16&255)/255F;
-		float f2 = (color1>>8&255)/255F;
-		float f3 = (color1&255)/255F;
-		float f4 = (color2>>24&255)/255F;
-		float f5 = (color2>>16&255)/255F;
-		float f6 = (color2>>8&255)/255F;
-		float f7 = (color2&255)/255F;
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -88,10 +80,10 @@ public final class GuiHelper{
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		Tessellator tessellator = Tessellator.instance;
 		tessellator.startDrawingQuads();
-		tessellator.setColorRGBA_F(f1,f2,f3,f);
+		tessellator.setColorRGBA_F((color1>>16&255)/255F,(color1>>8&255)/255F,(color1&255)/255F,(color1>>24&255)/255F);
 		tessellator.addVertex(w,y,zLevel);
 		tessellator.addVertex(x,y,zLevel);
-		tessellator.setColorRGBA_F(f5,f6,f7,f4);
+		tessellator.setColorRGBA_F((color2>>16&255)/255F,(color2>>8&255)/255F,(color2&255)/255F,(color2>>24&255)/255F);
 		tessellator.addVertex(x,h,zLevel);
 		tessellator.addVertex(w,h,zLevel);
 		tessellator.draw();
