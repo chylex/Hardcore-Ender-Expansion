@@ -42,6 +42,13 @@ public final class RecipeList{
 			Items.gold_nugget
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(ItemList.energy_oracle),
+			" E ", "OGO",
+			'E', Items.ender_eye,
+			'O', Blocks.obsidian,
+			'G', Items.gold_ingot
+		);
+		
 		GameRegistry.addShapelessRecipe(new ItemStack(ItemList.alteration_nexus),
 			Items.ender_eye,
 			ItemList.ancient_dust,

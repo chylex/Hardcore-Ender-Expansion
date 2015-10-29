@@ -64,6 +64,7 @@ public final class ItemList{
 	
 	// FUNCTIONAL ITEMS
 	
+	public static Item energy_oracle;
 	public static Item energy_receptacle;
 	public static Item spatial_dash_gem;
 	public static Item amulet_of_recovery;
@@ -122,6 +123,7 @@ public final class ItemList{
 		register("energy_wand_core", energy_wand_core = new Item().setUnlocalizedName("energyWandCore").setTextureName("hardcoreenderexpansion:energy_wand_core"));
 		// TODO SANCTUARY register("sacred_wand_cores", sacred_wand_cores = new ItemSacredWandCores().setUnlocalizedName("sacredWandCores"));
 		
+		register("energy_oracle", energy_oracle = new ItemEnergyOracle().setMaxStackSize(1).setUnlocalizedName("energyOracle").setTextureName("hardcoreenderexpansion:energy_oracle"));
 		register("energy_receptacle", energy_receptacle = new ItemEnergyReceptacle().setMaxStackSize(1).setUnlocalizedName("energyReceptacle").setTextureName("hardcoreenderexpansion:energy_receptacle"));
 		register("spatial_dash_gem", spatial_dash_gem = new ItemSpatialDashGem().setMaxStackSize(1).setNoRepair().setUnlocalizedName("spatialDashGem").setTextureName("hardcoreenderexpansion:spatial_dash_gem"));
 		register("amulet_of_recovery", amulet_of_recovery = new ItemAmuletOfRecovery().setMaxStackSize(1).setNoRepair().setUnlocalizedName("amuletOfRecovery").setTextureName("hardcoreenderexpansion:amulet_of_recovery"));
@@ -155,13 +157,13 @@ public final class ItemList{
 		}
 		
 		ModCreativeTab.tabMain.list.add(
-			ethereum,ancient_dust,alteration_nexus,amulet_of_recovery,spatial_dash_gem,
+			ethereum,ancient_dust,alteration_nexus,energy_oracle,energy_receptacle,amulet_of_recovery,spatial_dash_gem,
 			essence,enhanced_brewing_stand,
 			end_powder,endium_ingot,stardust,igneous_rock,instability_orb,potion_of_instability,
 			blank_gem,transference_gem,
 			silverfish_blood,dry_splinter,infestation_remedy,charm_pouch,rune,
 			ghost_amulet,ectoplasm,spectral_tear,living_matter,curse,potion_of_purity,curse_amulet,
-			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,energy_receptacle,
+			infernium,scorching_pickaxe,arcane_shard,obsidian_fragment,obsidian_rod,auricion,energy_wand_core,
 			BlockList.enderman_head,bucket_ender_goo,knowledge_note,
 			// TODO SANCTUARY sacred_wand,sacred_wand_cores,
 			music_disk,exp_bottle,spawn_eggs
