@@ -2,6 +2,7 @@ package chylex.hee.system.collections;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.ToDoubleFunction;
 
 public final class CollectionUtil{
 	public static <K,V extends Comparable<? super V>> SortedSet<Entry<K,V>> sortMapByValueAsc(Map<K,V> map){
@@ -30,6 +31,22 @@ public final class CollectionUtil{
 		
 		for(Entry<K,V> entry:map.entrySet())sorted.add(new SimpleEntry<>(entry));
 		return sorted;
+	}
+	
+	public static <T> Optional<T> min(List<T> list, ToDoubleFunction<T> toDouble){
+		T minObj = null;
+		double minValue = Double.MAX_VALUE;
+		
+		for(T obj:list){
+			double value = toDouble.applyAsDouble(obj);
+			
+			if (value < minValue){
+				minObj = obj;
+				minValue = value;
+			}
+		}
+		
+		return Optional.ofNullable(minObj);
 	}
 	
 	public static <T> ArrayList<T> newList(T...elements){

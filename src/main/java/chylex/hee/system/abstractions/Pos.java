@@ -216,6 +216,22 @@ public class Pos{
 		return MathUtil.distance(tile.xCoord-getX(),tile.yCoord-getY(),tile.zCoord-getZ());
 	}
 	
+	public double distanceSquared(int x, int y, int z){
+		return MathUtil.distanceSquared(x-getX(),y-getY(),z-getZ());
+	}
+	
+	public double distanceSquared(Pos pos){
+		return MathUtil.distanceSquared(pos.getX()-getX(),pos.getY()-getY(),pos.getZ()-getZ());
+	}
+	
+	public double distanceSquared(Entity entity){
+		return MathUtil.distanceSquared(entity.posX-(getX()+0.5D),entity.posY-(getY()+0.5D),entity.posZ-(getZ()+0.5D));
+	}
+	
+	public double distanceSquared(TileEntity tile){
+		return MathUtil.distanceSquared(tile.xCoord-getX(),tile.yCoord-getY(),tile.zCoord-getZ());
+	}
+	
 	/* === WORLD === */
 	
 	public boolean setAir(World world){
