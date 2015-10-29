@@ -58,14 +58,13 @@ public abstract class TileEntityAbstractEnergyInventory extends TileEntityAbstra
 				int chunkX = xCoord>>4, chunkZ = zCoord>>4;
 				
 				if (left > 0 && worldObj.checkChunksExist(chunkX-1,0,chunkZ-1,chunkX+1,0,chunkZ+1)){
-					List<TileEntityEnergyCluster> clusters = new ArrayList<>();
+					final Pos me = Pos.at(this);
+					final List<TileEntityEnergyCluster> clusters = new ArrayList<>();
 					
 					Pos.forEachBlock(Pos.at(-1,0,-1),Pos.at(1,0,1),offset -> {
-						final Pos chunkPos = Pos.at(chunkX*16+offset.getX()*16,0,chunkZ*16+offset.getZ()*16);
-						
 						((Map<ChunkPosition,TileEntity>)worldObj.getChunkFromChunkCoords(chunkX+offset.getX(),chunkZ+offset.getZ()).chunkTileEntityMap).entrySet()
 						.stream()
-						.filter(entry -> entry.getValue().getClass() == TileEntityEnergyCluster.class && chunkPos.offset(entry.getKey().chunkPosX,entry.getKey().chunkPosY,entry.getKey().chunkPosZ).distance(this) <= 16D)
+						.filter(entry -> entry.getValue().getClass() == TileEntityEnergyCluster.class && me.distance(entry.getValue()) <= 16D)
 						.map(entry -> (TileEntityEnergyCluster)entry.getValue())
 						.forEach(clusters::add);
 					});
