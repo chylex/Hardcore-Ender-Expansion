@@ -17,6 +17,8 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.NBTUtil;
+import com.google.common.collect.Range;
+import com.google.common.collect.TreeRangeSet;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -25,6 +27,7 @@ public class CompendiumFile extends PlayerFile{
 	
 	private int points;
 	private final TIntHashSet extraFragments = new TIntHashSet();
+	private final TreeRangeSet<Short> readFragments = TreeRangeSet.create();
 	private final Set<KnowledgeObject<? extends IObjectHolder<?>>> discoveredObjects = new HashSet<>(32);
 	
 	public CompendiumFile(String filename){
@@ -115,6 +118,10 @@ public class CompendiumFile extends PlayerFile{
 		}
 	}
 	
+	public void markFragmentsAsRead(int first, int last){ // TODO call
+		readFragments.add(Range.closed((short)first,(short)last));
+	}
+	
 	// Saving & Loading
 	
 	public void reset(){
@@ -127,6 +134,14 @@ public class CompendiumFile extends PlayerFile{
 		nbt.setShort("pts",(short)points);
 		nbt.setTag("efg",new NBTTagIntArray(extraFragments.toArray()));
 		NBTUtil.writeList(nbt,"obj",discoveredObjects.stream().map(obj -> new NBTTagString(KnowledgeSerialization.serialize(obj))));
+		
+		StringBuilder build = new StringBuilder();
+		
+		for(Range<Short> range:readFragments.asRanges()){
+			build.append((char)(32+range.lowerEndpoint().shortValue())).append((char)(32+range.upperEndpoint().shortValue()));
+		}
+		
+		nbt.setString("rfg",build.toString());
 	}
 
 	@Override
@@ -136,5 +151,12 @@ public class CompendiumFile extends PlayerFile{
 		extraFragments.addAll(nbt.getIntArray("efg"));
 		discoveredObjects.clear();
 		NBTUtil.readStringList(nbt,"obj").map(KnowledgeSerialization::deserialize).filter(Objects::nonNull).forEach(discoveredObjects::add);
+		
+		readFragments.clear();
+		String src = nbt.getString("rfg");
+		
+		for(int chr = 0; chr < src.length()-1; chr += 2){
+			readFragments.add(Range.closed((short)(src.charAt(chr)-32),(short)(src.charAt(chr+1)-32)));
+		}
 	}
 }
