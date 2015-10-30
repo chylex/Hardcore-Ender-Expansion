@@ -57,10 +57,7 @@ public final class ConfigHandler{
 	private ConfigHandler(Configuration config){
 		this.config = config;
 		this.config.load();
-		
-		config.getCategory("client").remove("hardcoreEnderbacon");
-		config.moveProperty("general","enableUpdateNotifications","notifications");
-		config.moveProperty("general","enableBuildCheck","notifications");
+		ModTransition.cleanupConfig(config);
 	}
 	
 	@SubscribeEvent
@@ -73,8 +70,6 @@ public final class ConfigHandler{
 	@SideOnly(Side.CLIENT)
 	private void loadClientConfig(){
 		currentCategory = "client";
-		
-		// TODO KnowledgeFragmentText.smoothRenderingMode = (byte)getInt("compendiumSmoothText", 0, "Special text rendering mode for Ender Compendium, smooths out aliasing in Large GUI scale.").getInt();
 		
 		if (firstTimeClient){
 			ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbaconMode", 0, "0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
@@ -90,7 +85,7 @@ public final class ConfigHandler{
 	private void loadNotificationConfig(){
 		currentCategory = "notifications";
 		
-		UpdateNotificationManager.enableNotifications = getBoolValue("enableUpdateNotifications", true, "Notifies users about new updates. The notifications can be customized with other options. Due to occasional misconceptions: the notifications have no effect on the game performance.");
+		UpdateNotificationManager.enableNotifications = getBoolValue("enableUpdateNotifications", true, "Notifies users about new updates. The notifications can be customized with other options, and have no effect on the game performance.");
 		UpdateNotificationManager.enableOneReportPerUpdate = getBoolValue("enableOneReportPerUpdate", false, "Each update only shows a single report.");
 		UpdateNotificationManager.enableNewerMC = getBoolValue("enableNewerMC", false, "Checks whether a new version for newer Minecraft is available.");
 		UpdateNotificationManager.enableBuildCheck = getBoolValue("enableBuildCheck", true, "It is highly suggested to keep this option enabled. This will detect broken builds with critical errors that can crash your game. These are usually fixed very quickly, but it is important to notify people who downloaded the broken build.");

@@ -18,6 +18,7 @@ import net.minecraft.world.storage.SaveFormatComparator;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import chylex.hee.gui.GuiModTransition;
@@ -51,6 +52,13 @@ public final class ModTransition{
 		discard.add(id+"biome_core");
 		
 		e.get().stream().filter(mapping -> discard.contains(mapping.name)).forEach(MissingMapping::ignore);
+	}
+	
+	public static void cleanupConfig(Configuration config){
+		config.getCategory("client").remove("compendiumSmoothText");
+		config.getCategory("general").remove("enableTempleCaller");
+		config.getCategory("general").remove("overrideWorldGen");
+		config.getCategory("general").remove("overrideBiomeMobs");
 	}
 	
 	public static boolean shouldConvertWorld(File root){
