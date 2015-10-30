@@ -1,7 +1,5 @@
 package chylex.hee.render;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.stream.IntStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -14,6 +12,8 @@ import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.init.BlockList;
+import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.mechanics.compendium.elements.KnowledgeNotification;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.DragonUtil;
@@ -28,12 +28,18 @@ public class OverlayManager{
 	private static final ResourceLocation texGoo = new ResourceLocation("hardcoreenderexpansion:textures/overlay/endergoo.png");
 	private static final PosMutable tmpPos = new PosMutable();
 	
-	private TileEntityEnergyCluster clusterLookedAt;
-	private final List<Notification> notifications = new ArrayList<>();
+	private static final KnowledgeNotification[] notifications = new KnowledgeNotification[8];
+	private static boolean hasNotification;
 	
-	public static void addNotification(String notification){
+	private TileEntityEnergyCluster clusterLookedAt;
+	
+	public static void addNotification(final KnowledgeObject<?> obj){
 		if (instance == null)register();
-		instance.notifications.add(new Notification(notification));
+		hasNotification = true;
+		
+		IntStream.range(0,notifications.length).filter(index -> notifications[index] == null).findFirst().ifPresent(index -> {
+			notifications[index] = new KnowledgeNotification(obj);
+		});
 	}
 	
 	public static void register(){
@@ -78,39 +84,17 @@ public class OverlayManager{
 		if (mc.thePlayer == null)return;
 		
 		if (e.type == ElementType.HOTBAR){
-			if (!notifications.isEmpty()){
-				FontRenderer font = mc.fontRenderer;
-				
-				boolean prevUnicode = font.getUnicodeFlag();
-				font.setUnicodeFlag(true);
-	
-				int scale = e.resolution.getScaleFactor();
-				double fontScale = scale == 1 ? 2D:
-								   scale == 2 ? 1D:
-								   scale == 3 ? 0.677D : 0.5D,
-					   fontScale2 = 1D/fontScale;
-				
-				GL11.glPushMatrix();
-				GL11.glScaled(fontScale,fontScale,fontScale);
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+			if (hasNotification){
 				GL11.glColor4f(1F,1F,1F,1F);
 				GL11.glDisable(GL11.GL_DEPTH_TEST);
 				
-				int scaledW = (int)(e.resolution.getScaledWidth()*fontScale2), scaledH = (int)(e.resolution.getScaledHeight()*fontScale2);
-	
-				for(Iterator<Notification> iter = notifications.iterator(); iter.hasNext();){
-					Notification n = iter.next();
-					
-					int w = font.getStringWidth(n.text);
-					font.drawStringWithShadow(n.text,scaledW-w-3,scaledH-10-n.yy,((int)Math.max(4,Math.floor(255F*n.alpha)))<<24|255<<16|255<<8|255);
-					if (n.update())iter.remove();
+				for(int ind = 0; ind < notifications.length; ind++){
+					if (notifications[ind] != null && notifications[ind].render(mc.ingameGUI,e.partialTicks,e.resolution.getScaledWidth()-14-13*ind,e.resolution.getScaledHeight()+12)){
+						notifications[ind] = null;
+					}
 				}
 				
-				font.setUnicodeFlag(prevUnicode);
 				GL11.glEnable(GL11.GL_DEPTH_TEST);
-				GL11.glDisable(GL11.GL_BLEND);
-				GL11.glPopMatrix();
 			}
 			
 			if (clusterLookedAt != null){
@@ -152,28 +136,6 @@ public class OverlayManager{
 		if (tmpPos.getBlock(e.player.worldObj) == BlockList.energy_cluster){
 			clusterLookedAt = (TileEntityEnergyCluster)tmpPos.getTileEntity(e.player.worldObj);
 			e.setCanceled(true);
-		}
-	}
-	
-	private static class Notification{
-		final String text;
-		byte yy;
-		float alpha;
-		long lastTime;
-
-		Notification(String text){
-			this.text = text;
-		}
-
-		boolean update(){
-			if (lastTime == Minecraft.getMinecraft().theWorld.getTotalWorldTime())return false;
-
-			if (((lastTime = Minecraft.getMinecraft().theWorld.getTotalWorldTime())&3) == 0)++yy;
-
-			if (yy < 6)alpha = Math.min(1F,alpha+0.1F);
-			else if (yy > 10 && (alpha -= 0.1F) <= 0F)return true;
-
-			return false;
 		}
 	}
 }

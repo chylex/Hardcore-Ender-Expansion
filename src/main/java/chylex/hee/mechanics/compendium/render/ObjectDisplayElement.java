@@ -1,4 +1,6 @@
 package chylex.hee.mechanics.compendium.render;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
@@ -47,7 +49,7 @@ public class ObjectDisplayElement{
 	public void renderObject(GuiScreen gui, CompendiumFile file, int yLowerBound, int yUpperBound){
 		if (file.getDiscoveryDistance(object) == CompendiumFile.distanceLimit)return;
 		
-		int x = gui.width/2-11+object.getX(), y = this.y-11+object.getY();
+		int x = gui.width/2+object.getX(), y = this.y+object.getY();
 		if (y < yLowerBound || y > yUpperBound)return;
 		
 		GL11.glEnable(GL11.GL_BLEND);
@@ -69,15 +71,21 @@ public class ObjectDisplayElement{
 			tile = hasAll ? BackgroundTile.GOLD : BackgroundTile.PLAIN;
 		}*/
 		
-		RenderHelper.disableStandardItemLighting();
-		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
-		gui.drawTexturedModalRect(x,y,tile.x,tile.y,22,22);
-		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),object.holder.getDisplayItemStack(),x+3,y+3,true);
+		renderObject(object,x,y,file,gui);
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int centerX, int offsetY){
 		int x = centerX-11+object.getX(), y = this.y+object.getY()-11+offsetY;
 		return mouseX >= x && mouseY >= y && mouseX <= x+20 && mouseY <= y+20;
+	}
+	
+	public static void renderObject(KnowledgeObject<?> object, int x, int y, CompendiumFile file, Gui gui){
+		Minecraft mc = Minecraft.getMinecraft();
+		
+		RenderHelper.disableStandardItemLighting();
+		mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
+		// TODO gui.drawTexturedModalRect(x-11,y-11,tile.x,tile.y,22,22);
+		RenderHelper.enableGUIStandardItemLighting();
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(mc.fontRenderer,mc.getTextureManager(),object.holder.getDisplayItemStack(),x+3,y+3,true);
 	}
 }
