@@ -1,4 +1,6 @@
 package chylex.hee.render;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.IntStream;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -89,8 +91,9 @@ public class OverlayManager{
 				GL11.glDisable(GL11.GL_DEPTH_TEST);
 				
 				for(int ind = 0; ind < notifications.length; ind++){
-					if (notifications[ind] != null && notifications[ind].render(mc.ingameGUI,e.partialTicks,e.resolution.getScaledWidth()-14-13*ind,e.resolution.getScaledHeight()+12)){
+					if (notifications[ind] != null && notifications[ind].render(mc.ingameGUI,e.partialTicks,e.resolution.getScaledWidth()-13-24*ind,e.resolution.getScaledHeight()+12)){
 						notifications[ind] = null;
+						if (Arrays.stream(notifications).allMatch(Objects::isNull))hasNotification = false;
 					}
 				}
 				

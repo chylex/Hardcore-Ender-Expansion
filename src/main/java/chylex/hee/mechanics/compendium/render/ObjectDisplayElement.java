@@ -118,10 +118,10 @@ public class ObjectDisplayElement{
 		// render background
 		RenderHelper.disableStandardItemLighting();
 		mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
-		// TODO gui.drawTexturedModalRect(x-11,y-11,tile.x,tile.y,22,22);
+		gui.drawTexturedModalRect(x-11,y-11,113,0,22,22);
 		
 		// render item
 		RenderHelper.enableGUIStandardItemLighting();
-		GuiEnderCompendium.renderItem.renderItemIntoGUI(mc.fontRenderer,mc.getTextureManager(),object.holder.getDisplayItemStack(),x+3,y+3,true);
+		GuiEnderCompendium.renderItem.renderItemIntoGUI(mc.fontRenderer,mc.getTextureManager(),object.holder.getDisplayItemStack(),x-8,y-8,true);
 	}
 }
