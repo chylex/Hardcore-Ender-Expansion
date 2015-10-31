@@ -4,13 +4,15 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class KnowledgeCategory{
+public final class KnowledgeCategory{
 	private final String tooltip;
 	private final ItemStack displayItem;
+	private final KnowledgeObject<?> targetObj;
 	
-	public KnowledgeCategory(String tooltip, ItemStack displayItem){
+	public KnowledgeCategory(String tooltip, ItemStack displayItem, KnowledgeObject<?> targetObj){
 		this.tooltip = tooltip;
 		this.displayItem = displayItem;
+		this.targetObj = targetObj;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -20,5 +22,9 @@ public class KnowledgeCategory{
 	
 	public ItemStack getDisplayItem(){
 		return displayItem;
+	}
+	
+	public KnowledgeObject<?> getTargetObj(){
+		return targetObj;
 	}
 }

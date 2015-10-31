@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
-import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -39,7 +38,7 @@ public final class KnowledgeNotification{
 		}
 		
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		ObjectDisplayElement.renderObject(obj,x,MathUtil.ceil(y-(yOffPrev+(yOff-yOffPrev)*partialTickTime)),CompendiumEventsClient.getClientData(),gui);
+		CompendiumObjectElement.renderObject(obj,x,MathUtil.ceil(y-(yOffPrev+(yOff-yOffPrev)*partialTickTime)),CompendiumEventsClient.getClientData(),gui);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		
 		return false;

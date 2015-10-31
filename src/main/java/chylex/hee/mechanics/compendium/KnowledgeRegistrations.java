@@ -44,7 +44,7 @@ public final class KnowledgeRegistrations{
 		
 		TEST5.setParent(TEST4,0,200);
 		
-		TEST6.setParent(TEST4,2,2);
+		TEST6.setParent(TEST4,3,8);
 	}
 	
 	private static <T extends IObjectHolder<?>> KnowledgeObject<T> $(T holder){

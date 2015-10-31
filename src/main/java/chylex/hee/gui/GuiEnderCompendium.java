@@ -1,6 +1,7 @@
 package chylex.hee.gui;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -23,11 +24,10 @@ import chylex.hee.gui.helpers.KeyState;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
+import chylex.hee.mechanics.compendium.elements.CompendiumObjectElement;
 import chylex.hee.mechanics.compendium.elements.CompendiumPageHandler;
 import chylex.hee.mechanics.compendium.elements.CompendiumScrollHandler;
-import chylex.hee.mechanics.compendium.render.CategoryDisplayElement;
-import chylex.hee.mechanics.compendium.render.ObjectDisplayElement;
+import chylex.hee.mechanics.compendium.elements.CompendiumTabHandler;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -43,37 +43,36 @@ public class GuiEnderCompendium extends GuiScreen{
 	private final GuiEndPortalRenderer portalRenderer;
 	private final CompendiumPageHandler pageHandler;
 	private final CompendiumScrollHandler scrollHandler;
+	private final CompendiumTabHandler tabHandler;
 	
 	private CompendiumFile compendiumFile;
 	private AnimatedFloat portalSpeed;
 	
-	private boolean hasClickedButton = false;
 	private int prevMouseX, prevMouseY;
 	
-	private List<CategoryDisplayElement> categoryElements = new ArrayList<>();
-	private List<ObjectDisplayElement> objectElements = new ArrayList<>();
-	
-	private KnowledgeObject<? extends IObjectHolder<?>> currentObject = null;
+	private List<CompendiumObjectElement> objectElements = new ArrayList<>();
+	private KnowledgeObject<?> currentObject = null;
 	
 	private GuiButtonState btnHelp;
 	
 	public GuiEnderCompendium(CompendiumFile compendiumFile){
 		this.compendiumFile = compendiumFile;
 		
+		this.portalSpeed = new AnimatedFloat(Easing.CUBIC);
+		this.portalSpeed.startAnimation(30F,15F,1.5F);
+		
 		this.portalRenderer = new GuiEndPortalRenderer(this);
 		this.pageHandler = new CompendiumPageHandler(this);
 		
-		int y = 0, maxY = 0;
+		int maxY = 0;
 		
 		for(KnowledgeObject<?> obj:KnowledgeObject.getAllObjects()){
-			if (!obj.isHidden())objectElements.add(new ObjectDisplayElement(obj,y));
+			if (!obj.isHidden())objectElements.add(new CompendiumObjectElement(obj));
 			if (obj.getY() > maxY)maxY = obj.getY();
 		}
 		
 		this.scrollHandler = new CompendiumScrollHandler(this,maxY);
-		
-		this.portalSpeed = new AnimatedFloat(Easing.CUBIC);
-		this.portalSpeed.startAnimation(30F,15F,1.5F);
+		this.tabHandler = new CompendiumTabHandler(this);
 	}
 	
 	public void updateCompendiumData(CompendiumFile newData){
@@ -100,8 +99,6 @@ public class GuiEnderCompendium extends GuiScreen{
 	
 	@Override
 	protected void actionPerformed(GuiButton button){
-		hasClickedButton = true;
-		
 		if (!(button.enabled && button.visible))return;
 		
 		if (button.id == 0)mc.displayGuiScreen(new GuiAchievementsCustom(this,mc.thePlayer.getStatFileWriter()));
@@ -113,31 +110,31 @@ public class GuiEnderCompendium extends GuiScreen{
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 1)goBack();
-		else if (buttonId == 0 && !(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
-			int offY = (int)scrollHandler.getOffset(1F);
-			/* TODO
-			for(CategoryDisplayElement element:categoryElements){
-				if (element.isMouseOver(mouseX,mouseY,offY)){
-					showObject(element.category.getCategoryObject());
-					return;
-				}
-			}*/
-			
-			for(ObjectDisplayElement element:objectElements){
-				if (element.isMouseOver(mouseX,mouseY,width/2,offY)){
-					showObject(element.object);
-					return;
+		else if (buttonId == 0){
+			if (!(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
+				int offY = (int)scrollHandler.getOffset(1F);
+				
+				for(CompendiumObjectElement element:objectElements){
+					if (element.isMouseOver(mouseX,mouseY,width/2,offY)){
+						showObject(element.object);
+						return;
+					}
 				}
 			}
+			
+			if (tabHandler.onMouseClick(mouseX,mouseY,buttonId))return;
+			if (pageHandler.onMouseClick(mouseX,mouseY,buttonId))return;
+			
+			Optional<GuiButton> pressedButton = ((List<GuiButton>)buttonList).stream().filter(btn -> btn.mousePressed(mc,mouseX,mouseY)).findFirst();
+			
+			if (pressedButton.isPresent()){
+				pressedButton.get().func_146113_a(mc.getSoundHandler());
+				actionPerformed(pressedButton.get());
+			}
+			else{
+				scrollHandler.onMouseClick(mouseX,mouseY);
+			}
 		}
-		
-		if (pageHandler.onMouseClick(mouseX,mouseY,buttonId))return;
-		
-		hasClickedButton = false;
-		super.mouseClicked(mouseX,mouseY,buttonId);
-		
-		if (hasClickedButton)hasClickedButton = false;
-		else scrollHandler.onMouseClick(mouseX,mouseY);
 	}
 	
 	@Override
@@ -195,33 +192,17 @@ public class GuiEnderCompendium extends GuiScreen{
 		portalSpeed.update(0.05F);
 	}
 	
-	public void showObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
+	public void showObject(KnowledgeObject<?> obj){
 		this.currentObject = obj;
 		pageHandler.showObject(obj);
 	}
 	
-	public void moveToCurrentObject(boolean animate){
-		if (currentObject == null)return;
-		
-		int newY = Integer.MIN_VALUE;
-		
-		for(ObjectDisplayElement element:objectElements){
-			if (element.object == currentObject){
-				newY = -(element.y+element.object.getY()-(height>>1)+11);
-				break;
-			}
-		}
-		
-		/* TODO if (newY == Integer.MIN_VALUE){
-			for(CategoryDisplayElement element:categoryElements){
-				if (element.category.getCategoryObject().getObject() == currentObject.getObject()){
-					newY = -(element.y+element.category.getCategoryObject().getY()-(height>>1)+20);
-					break;
-				}
-			}
-		}*/
-		
-		if (newY != Integer.MIN_VALUE)scrollHandler.moveTo(newY,animate);
+	public void moveToObject(final KnowledgeObject<?> obj, final boolean animate){
+		objectElements.stream().filter(ele -> ele.object == obj).mapToInt(ele -> -(ele.object.getY()-(height/2)+11)).findFirst().ifPresent(y -> scrollHandler.moveTo(y,animate));
+	}
+	
+	public void moveToCurrentObject(final boolean animate){
+		if (currentObject != null)moveToObject(currentObject,animate);
 	}
 	
 	@Override
@@ -253,34 +234,24 @@ public class GuiEnderCompendium extends GuiScreen{
 		float offY = scrollHandler.getOffset(partialTickTime);
 		int yLowerBound = -(int)offY-32, yUpperBound = -(int)offY+height;
 		
+		tabHandler.render(mouseX,mouseY);
+		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0F,offY,0F);
-		for(CategoryDisplayElement element:categoryElements)element.render(this,yLowerBound,yUpperBound);
 		
-		for(ObjectDisplayElement element:objectElements){
+		for(CompendiumObjectElement element:objectElements){
 			if (!element.object.isHidden())element.renderLine(this,compendiumFile,yLowerBound,yUpperBound);
 		}
 		
-		for(ObjectDisplayElement element:objectElements){
-			if (!element.object.isHidden())element.renderObject(this,compendiumFile,yLowerBound,yUpperBound);
+		for(CompendiumObjectElement element:objectElements){
+			if (!element.object.isHidden()){
+				element.renderObject(this,compendiumFile,yLowerBound,yUpperBound);
+				if (element.isMouseOver(mouseX,mouseY,width/2,(int)offY))GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.object.getTranslatedTooltip());
+			}
 		}
 		
 		RenderHelper.disableStandardItemLighting();
 		GL11.glPopMatrix();
-		
-		if (!(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
-			for(CategoryDisplayElement element:categoryElements){
-				if (element.isMouseOver(mouseX,mouseY,(int)offY)){
-					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.category.getTranslatedTooltip());
-				}
-			}
-			
-			for(ObjectDisplayElement element:objectElements){
-				if (element.isMouseOver(mouseX,mouseY,width/2,(int)offY)){
-					GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.object.getTranslatedTooltip());
-				}
-			}
-		}
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -291,6 +262,8 @@ public class GuiEnderCompendium extends GuiScreen{
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		
 		pageHandler.render(mouseX,mouseY);
+		
+		GuiItemRenderHelper.drawTooltip(this,fontRendererObj);
 		
 		int wheel = Mouse.getDWheel();
 		

@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.render;
+package chylex.hee.mechanics.compendium.elements;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,7 +15,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 
-public class ObjectDisplayElement{
+public final class CompendiumObjectElement{
 	private enum ObjectShape{
 		PLAIN(0,0,0,0), SPECIAL(0,0,0,0);
 		
@@ -40,17 +40,15 @@ public class ObjectDisplayElement{
 	}
 	
 	public final KnowledgeObject<? extends IObjectHolder<?>> object;
-	public final int y;
 	
-	public ObjectDisplayElement(KnowledgeObject<? extends IObjectHolder<?>> object, int y){
+	public CompendiumObjectElement(KnowledgeObject<? extends IObjectHolder<?>> object){
 		this.object = object;
-		this.y = y;
 	}
 	
 	public void renderLine(GuiScreen gui, CompendiumFile file, int yLowerBound, int yUpperBound){
 		if (file.getDiscoveryDistance(object) == CompendiumFile.distanceLimit)return;
 		
-		final int offX = gui.width/2, offY = this.y;
+		final int offX = gui.width/2;
 		int brightness = 224;
 		
 		for(KnowledgeObject<?> child:object.getChildren()){
@@ -61,14 +59,14 @@ public class ObjectDisplayElement{
 		final int color = (255<<24)|(brightness<<16)|(brightness<<8)|brightness;
 		
 		object.connectToChildren((x1, y1, x2, y2) -> {
-			if (!(offY+y1 > yUpperBound || offY+y2 < yLowerBound))GuiHelper.renderLine(offX+x1,offY+y1,offX+x2,offY+y2,color); // TODO test line rendering
+			if (!(y1 > yUpperBound || y2 < yLowerBound))GuiHelper.renderLine(offX+x1,y1,offX+x2,y2,color); // TODO test line rendering
 		});
 	}
 	
 	public void renderObject(GuiScreen gui, CompendiumFile file, int yLowerBound, int yUpperBound){
 		if (file.getDiscoveryDistance(object) == CompendiumFile.distanceLimit)return;
 		
-		int x = gui.width/2+object.getX(), y = this.y+object.getY();
+		int x = gui.width/2+object.getX(), y = object.getY();
 		if (y < yLowerBound || y > yUpperBound)return;
 		
 		GL11.glEnable(GL11.GL_BLEND);
@@ -92,7 +90,7 @@ public class ObjectDisplayElement{
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int centerX, int offsetY){
-		int x = centerX-11+object.getX(), y = this.y+object.getY()-11+offsetY;
+		int x = centerX-11+object.getX(), y = object.getY()-11+offsetY;
 		return mouseX >= x && mouseY >= y && mouseX <= x+20 && mouseY <= y+20;
 	}
 	
