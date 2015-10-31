@@ -14,6 +14,7 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.sound.MusicManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.update.UpdateNotificationManager;
+import chylex.hee.system.util.ItemPattern;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
@@ -104,8 +105,10 @@ public final class ConfigHandler{
 			BiomeGenHardcoreEnd.overworldEndermanMultiplier = (float)getDecimal("overworldEndermanMultiplier", 1F, "Multiplies spawn weight of Endermen for each overworld biome (the weight is adjusted automatically).").setRequiresMcRestart(true).getDouble();
 			OrbAcquirableItems.overrideRemoveBrokenRecipes = getBool("overrideRemoveBrokenRecipes", false, "This will remove broken recipes that would normally crash the game. ALWAYS REPORT THE RECIPES TO THE AUTHORS OF THE BROKEN MODS FIRST!").setShowInGui(false).getBoolean();
 			ModCommonProxy.achievementStartId = getInt("achievementStartId", 3500, "Starting ID of achievements, only change this if there is a conflict.").setShowInGui(false).getInt();
-			StardustDecomposition.addFromString(getString("decompositionBlacklist", "", "Blacklist of items that should not be decomposable or decomposed into. Visit http://hee.chylex.com/config for syntax and examples.").setRequiresMcRestart(true).getString());
-			StardustDecomposition.addFromString("minecraft:fire, ExtraUtilities:unstableingot, witchery:*");
+			
+			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("minecraft","fire"));
+			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("ExtraUtilities","unstableingot"));
+			StardustDecomposition.addToBlacklist(new ItemPattern().setItemName("witchery","*"));
 			
 			String[] imcs = getStringArray("IMC", new String[]{ "Write your message here" }, "List of IMC/API messages, documentation can be found on http://hee-api.chylex.com").setShowInGui(false).getStringList();
 			

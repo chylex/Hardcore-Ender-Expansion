@@ -59,6 +59,7 @@ public final class ModTransition{
 		config.getCategory("general").remove("enableTempleCaller");
 		config.getCategory("general").remove("overrideWorldGen");
 		config.getCategory("general").remove("overrideBiomeMobs");
+		config.getCategory("general").remove("decompositionBlacklist");
 	}
 	
 	public static boolean shouldConvertWorld(File root){
