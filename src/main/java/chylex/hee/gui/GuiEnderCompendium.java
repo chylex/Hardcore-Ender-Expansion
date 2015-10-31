@@ -131,9 +131,7 @@ public class GuiEnderCompendium extends GuiScreen{
 				pressedButton.get().func_146113_a(mc.getSoundHandler());
 				actionPerformed(pressedButton.get());
 			}
-			else{
-				scrollHandler.onMouseClick(mouseX,mouseY);
-			}
+			else scrollHandler.onMouseClick(mouseX,mouseY);
 		}
 	}
 	
@@ -289,8 +287,8 @@ public class GuiEnderCompendium extends GuiScreen{
 		}
 		
 		for(int a = 0, amt = ((height-d*2)>>2)-1; a < amt-2; a++){
-			drawTexturedModalRect(d-16,d+8+4*a,206,0,24,4);
-			drawTexturedModalRect(width-d-8,d+8+4*a,232,0,24,4);
+			drawTexturedModalRect(d-16,d+8+4*a,0,50,24,4);
+			drawTexturedModalRect(width-d-8,d+8+4*a,26,50,24,4);
 		}
 		
 		drawTexturedModalRect(d-16,d-16,0,0,24,24);

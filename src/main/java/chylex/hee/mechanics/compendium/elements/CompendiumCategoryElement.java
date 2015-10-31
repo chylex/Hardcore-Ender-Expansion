@@ -20,7 +20,7 @@ public final class CompendiumCategoryElement{
 		GL11.glColor4f(1F,1F,1F,1F);
 		RenderHelper.disableStandardItemLighting();
 		gui.mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
-		gui.drawTexturedModalRect(startX,startY+y,selected ? 182 : 184,selected ? 0 : 23,23,22);
+		gui.drawTexturedModalRect(startX,startY+y,selected ? 113 : 115,selected ? 0 : 23,23,22);
 		
 		GL11.glPushMatrix();
 		RenderHelper.enableGUIStandardItemLighting();

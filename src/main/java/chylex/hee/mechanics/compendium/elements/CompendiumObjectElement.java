@@ -16,26 +16,26 @@ import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
 
 public final class CompendiumObjectElement{
-	private enum ObjectShape{
-		PLAIN(0,0,0,0), SPECIAL(0,0,0,0);
+	public enum ObjectShape{
+		PLAIN(150,0), IMPORTANT(150,27), SPECIAL(150,54);
 		
-		final int x, y, w, h;
+		final int x, y;
 		
-		private ObjectShape(int x, int y, int w, int h){
+		private ObjectShape(int x, int y){
 			this.x = x;
 			this.y = y;
-			this.w = w;
-			this.h = h;
 		}
 	}
 	
-	private enum ObjectOutline{
-		NONE_UNLOCKED(0), ALL_UNLOCKED(0), ALL_BUT_SECRET(0), UNREAD_HINT(0), ESSENTIAL_ONLY(0), DEFAULT(0);
+	private enum ObjectStatus{
+		NONE_UNLOCKED(255,255,255), ALL_UNLOCKED(255,249,151), ALL_BUT_SECRET(255,215,151), UNREAD_HINT(151,207,255), ESSENTIAL_ONLY(178,255,151), DEFAULT(255,255,255); // TODO tmp
 		
-		final int color;
+		final float red, green, blue;
 		
-		private ObjectOutline(int color){
-			this.color = color;
+		private ObjectStatus(int red, int green, int blue){
+			this.red = red/255F;
+			this.green = green/255F;
+			this.blue = blue/255F;
 		}
 	}
 	
@@ -91,32 +91,41 @@ public final class CompendiumObjectElement{
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int centerX, int offsetY){
 		int x = centerX-11+object.getX(), y = object.getY()-11+offsetY;
-		return mouseX >= x && mouseY >= y && mouseX <= x+20 && mouseY <= y+20;
+		return mouseX >= x && mouseY >= y && mouseX <= x+21 && mouseY <= y+21;
+	}
+	
+	private static ObjectStatus getStatus(KnowledgeObject<?> object, CompendiumFile file){
+		ObjectStatus outline = ObjectStatus.DEFAULT;
+		
+		Set<Entry<KnowledgeFragment,Boolean>> fragments = object.getFragments().stream().collect(Collectors.toMap(f -> f,f -> file.canSeeFragment(object,f))).entrySet();
+		Set<KnowledgeFragment> unlocked = fragments.stream().filter(entry -> entry.getValue().booleanValue()).map(entry -> entry.getKey()).collect(Collectors.toSet());
+		
+		if (unlocked.isEmpty())outline = ObjectStatus.NONE_UNLOCKED;
+		else{
+			if (unlocked.size() == fragments.size())outline = ObjectStatus.ALL_UNLOCKED;
+			else if (unlocked.stream().allMatch(fragment -> fragment.getType() == KnowledgeFragmentType.ESSENTIAL))outline = ObjectStatus.ESSENTIAL_ONLY;
+			else if (unlocked.stream().allMatch(fragment -> fragment.getType() != KnowledgeFragmentType.SECRET))outline = ObjectStatus.ALL_BUT_SECRET;
+			// TODO
+		}
+		
+		return outline;
 	}
 	
 	public static void renderObject(KnowledgeObject<?> object, int x, int y, CompendiumFile file, Gui gui){
 		Minecraft mc = Minecraft.getMinecraft();
 		
-		// shape
-		
-		// outline
-		ObjectOutline outline = ObjectOutline.DEFAULT;
-		
-		Set<Entry<KnowledgeFragment,Boolean>> fragments = object.getFragments().stream().collect(Collectors.toMap(f -> f,f -> file.canSeeFragment(object,f))).entrySet();
-		Set<KnowledgeFragment> unlocked = fragments.stream().filter(entry -> entry.getValue().booleanValue()).map(entry -> entry.getKey()).collect(Collectors.toSet());
-		
-		if (unlocked.isEmpty())outline = ObjectOutline.NONE_UNLOCKED;
-		else{
-			if (unlocked.size() == fragments.size())outline = ObjectOutline.ALL_UNLOCKED;
-			else if (unlocked.stream().allMatch(fragment -> fragment.getType() == KnowledgeFragmentType.ESSENTIAL))outline = ObjectOutline.ESSENTIAL_ONLY;
-			else if (unlocked.stream().allMatch(fragment -> fragment.getType() != KnowledgeFragmentType.SECRET))outline = ObjectOutline.ALL_BUT_SECRET;
-			// TODO
-		}
+		ObjectShape shape = object.getShape();
+		ObjectStatus outline = getStatus(object,file);
 		
 		// render background
 		RenderHelper.disableStandardItemLighting();
 		mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
-		gui.drawTexturedModalRect(x-11,y-11,113,0,22,22);
+		
+		gui.drawTexturedModalRect(x-13,y-13,outline == ObjectStatus.NONE_UNLOCKED && !file.isDiscovered(object) ? shape.x+27 : shape.x,shape.y,26,26);
+		
+		GL11.glColor4f(outline.red,outline.green,outline.blue,1F);
+		gui.drawTexturedModalRect(x-13,y-13,shape.x+54,shape.y,26,26);
+		GL11.glColor4f(1F,1F,1F,1F);
 		
 		// render item
 		RenderHelper.enableGUIStandardItemLighting();

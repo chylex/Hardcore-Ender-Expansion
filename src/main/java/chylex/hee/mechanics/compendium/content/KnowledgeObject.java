@@ -9,6 +9,7 @@ import java.util.Set;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
+import chylex.hee.mechanics.compendium.elements.CompendiumObjectElement.ObjectShape;
 import chylex.hee.mechanics.compendium.util.KnowledgeUtils;
 import chylex.hee.system.collections.CollectionUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -47,6 +48,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	private final List<byte[]> childLineNodes;
 	
 	private int x, y, price, reward;
+	private ObjectShape shape = ObjectShape.PLAIN;
 	
 	public KnowledgeObject(T holder){
 		this(holder,holder.getDisplayItemStack().getDisplayName());
@@ -115,6 +117,22 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	
 	public int getY(){
 		return y;
+	}
+	
+	// Shapes
+	
+	public KnowledgeObject<T> setImportant(){
+		this.shape = ObjectShape.IMPORTANT;
+		return this;
+	}
+	
+	public KnowledgeObject<T> setSpecial(){
+		this.shape = ObjectShape.SPECIAL;
+		return this;
+	}
+	
+	public ObjectShape getShape(){
+		return shape;
 	}
 	
 	// Line Nodes

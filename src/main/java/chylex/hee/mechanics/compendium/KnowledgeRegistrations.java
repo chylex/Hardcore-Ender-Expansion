@@ -40,7 +40,7 @@ public final class KnowledgeRegistrations{
 		
 		TEST3.setParent(TEST2,-5,3).addParentLine(0,-2).addParentLine(2,-2).addParentLine(2,-3);
 		
-		TEST4.setParent(TEST2,3,3).addChildLine(0,2);
+		TEST4.setParent(TEST2,3,3).setImportant().addChildLine(0,2);
 		
 		TEST5.setParent(TEST4,0,200);
 		
