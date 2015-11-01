@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
@@ -18,6 +20,7 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.elements.CompendiumPurchaseElement;
 import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.server.S01CompendiumReadFragments;
 import chylex.hee.packets.server.S02CompendiumPurchase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -53,7 +56,7 @@ public class CompendiumPageHandler{
 		buttonList.add(pageArrows[1] = new GuiButtonPageArrow(this.pageArrowIds[1] = (byte)rightArrowId,pageX+pageWidth/2+(pageWidth*3/10)-10,pageY+pageHeight-32,true));
 		for(int a = 0; a < 2; a++)pageArrows[a].visible = false;
 		
-		updatePurchaseElements();
+		onRefresh();
 	}
 	
 	public void setFile(CompendiumFile file){
@@ -113,11 +116,11 @@ public class CompendiumPageHandler{
 		}
 		else if (keyCode == GuiHelper.keyHome){
 			pageIndex = 0;
-			updatePurchaseElements();
+			onRefresh();
 		}
 		else if (keyCode == GuiHelper.keyEnd){
 			pageIndex = currentObjectPages.size()-1;
-			updatePurchaseElements();
+			onRefresh();
 		}
 		else return false;
 		
@@ -159,18 +162,26 @@ public class CompendiumPageHandler{
 			yy += height;
 		}
 		
-		updatePurchaseElements();
+		onRefresh();
 	}
 	
 	public void changePage(boolean next){
 		pageIndex = next ? Math.min(currentObjectPages.size()-1,pageIndex+1) : Math.max(0,pageIndex-1);
-		updatePurchaseElements();
+		onRefresh();
 	}
 	
-	private void updatePurchaseElements(){
+	private void onRefresh(){
 		purchaseElements.clear();
 		
 		if (currentObject != null){
+			Set<KnowledgeFragment> fragments = currentObjectPages.get((byte)pageIndex).keySet();
+			Set<KnowledgeFragment> unread = fragments.stream().filter(fragment -> !compendiumFile.hasReadFragment(fragment) && compendiumFile.canSeeFragment(currentObject,fragment)).collect(Collectors.toSet());
+			
+			if (!unread.isEmpty()){
+				for(KnowledgeFragment fragment:unread)compendiumFile.markFragmentAsRead((short)fragment.globalID);
+				PacketPipeline.sendToServer(new S01CompendiumReadFragments(unread));
+			}
+			
 			if (!compendiumFile.isDiscovered(currentObject) && currentObject.getPrice() != 0){
 				purchaseElements.add(new CompendiumPurchaseElement(currentObject,pageX+pageWidth/2,innerY+20));
 				return;

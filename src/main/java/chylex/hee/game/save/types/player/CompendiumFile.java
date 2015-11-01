@@ -17,6 +17,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.NBTUtil;
+import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Range;
 import com.google.common.collect.TreeRangeSet;
 import cpw.mods.fml.relauncher.Side;
@@ -27,7 +28,7 @@ public class CompendiumFile extends PlayerFile{
 	
 	private int points;
 	private final TIntHashSet extraFragments = new TIntHashSet();
-	private final TreeRangeSet<Short> readFragments = TreeRangeSet.create();
+	private final TreeRangeSet<Integer> readFragments = TreeRangeSet.create();
 	private final Set<KnowledgeObject<? extends IObjectHolder<?>>> discoveredObjects = new HashSet<>(32);
 	
 	public CompendiumFile(String filename){
@@ -117,8 +118,13 @@ public class CompendiumFile extends PlayerFile{
 		}
 	}
 	
-	public void markFragmentsAsRead(int first, int last){ // TODO call
-		readFragments.add(Range.closed((short)first,(short)last));
+	public void markFragmentAsRead(int id){
+		readFragments.add(Range.singleton(id).canonical(DiscreteDomain.integers()));
+		setModified();
+	}
+	
+	public boolean hasReadFragment(KnowledgeFragment fragment){
+		return readFragments.contains(fragment.globalID);
 	}
 	
 	// Saving & Loading
@@ -136,7 +142,7 @@ public class CompendiumFile extends PlayerFile{
 		
 		StringBuilder build = new StringBuilder();
 		
-		for(Range<Short> range:readFragments.asRanges()){
+		for(Range<Integer> range:readFragments.asRanges()){
 			build.append((char)(32+range.lowerEndpoint().shortValue())).append((char)(32+range.upperEndpoint().shortValue()));
 		}
 		
@@ -155,7 +161,7 @@ public class CompendiumFile extends PlayerFile{
 		String src = nbt.getString("rfg");
 		
 		for(int chr = 0; chr < src.length()-1; chr += 2){
-			readFragments.add(Range.closed((short)(src.charAt(chr)-32),(short)(src.charAt(chr+1)-32)));
+			readFragments.add(Range.closedOpen(src.charAt(chr)-32,src.charAt(chr+1)-32)); // closedOpen because ranges be weird
 		}
 	}
 }
