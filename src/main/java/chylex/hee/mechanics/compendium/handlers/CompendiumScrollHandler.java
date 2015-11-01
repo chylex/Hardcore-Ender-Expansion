@@ -46,6 +46,10 @@ public class CompendiumScrollHandler{
 		return offsetPrev+(offset.value()-offsetPrev)*partialTickTime;
 	}
 	
+	public boolean isAnimating(){
+		return offset.isAnimating();
+	}
+	
 	public void moveTo(float newY, boolean animate){
 		newY = clampOffset(newY);
 		

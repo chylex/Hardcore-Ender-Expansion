@@ -171,6 +171,10 @@ public class GuiEnderCompendium extends GuiScreen{
 		else mc.setIngameFocus();
 	}
 	
+	public CompendiumScrollHandler getScrollHandler(){
+		return scrollHandler;
+	}
+	
 	@Override
 	public void updateScreen(){
 		scrollHandler.update();
@@ -192,7 +196,7 @@ public class GuiEnderCompendium extends GuiScreen{
 	}
 	
 	public void moveToObject(final KnowledgeObject<?> obj, final boolean animate){
-		objectElements.stream().filter(ele -> ele.object == obj).mapToInt(ele -> -(ele.object.getY()-(height/2)+11)).findFirst().ifPresent(y -> scrollHandler.moveTo(y,animate));
+		objectElements.stream().filter(ele -> ele.object == obj).mapToInt(ele -> -(ele.object.getY()-height/2)).findFirst().ifPresent(y -> scrollHandler.moveTo(y,animate));
 	}
 	
 	public void moveToCurrentObject(final boolean animate){
