@@ -17,7 +17,7 @@ import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.item.ItemSpawnEggs;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.elements.CompendiumPageHandler;
+import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.logging.Log;

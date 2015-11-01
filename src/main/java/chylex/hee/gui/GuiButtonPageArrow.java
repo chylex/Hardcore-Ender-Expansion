@@ -2,7 +2,7 @@ package chylex.hee.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import org.lwjgl.opengl.GL11;
-import chylex.hee.mechanics.compendium.elements.CompendiumPageHandler;
+import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

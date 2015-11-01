@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.elements;
+package chylex.hee.mechanics.compendium.handlers;
 import static chylex.hee.gui.GuiEnderCompendium.getScaleMultiplier;
 import java.util.concurrent.TimeUnit;
 import chylex.hee.gui.GuiEnderCompendium;

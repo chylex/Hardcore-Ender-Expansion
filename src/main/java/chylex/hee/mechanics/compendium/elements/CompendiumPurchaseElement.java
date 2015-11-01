@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.render;
+package chylex.hee.mechanics.compendium.elements;
 import java.util.List;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
@@ -6,21 +6,21 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.elements.CompendiumPageHandler;
+import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
 
-public class PurchaseDisplayElement{
+public class CompendiumPurchaseElement{
 	public final Object object;
 	public final int price;
 	private final int x, y;
 	
-	public PurchaseDisplayElement(KnowledgeFragment fragment, int x, int y){
+	public CompendiumPurchaseElement(KnowledgeFragment fragment, int x, int y){
 		this.object = fragment;
 		this.price = fragment.getPrice();
 		this.x = x;
 		this.y = y;
 	}
 	
-	public PurchaseDisplayElement(KnowledgeObject<?> object, int x, int y){
+	public CompendiumPurchaseElement(KnowledgeObject<?> object, int x, int y){
 		this.object = object;
 		this.price = object.getPrice();
 		this.x = x;

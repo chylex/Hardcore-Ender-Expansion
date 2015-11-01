@@ -36,11 +36,17 @@ public final class KnowledgeRegistrations{
 			new FragmentText(9).setType(KnowledgeFragmentType.VISIBLE)
 		});
 		
-		TEST2.setParent(TEST1,0,4);
+		TEST2.setParent(TEST1,0,4).addFragments(new KnowledgeFragment[]{
+			new FragmentText(20).setType(KnowledgeFragmentType.ESSENTIAL),
+			new FragmentText(21).setType(KnowledgeFragmentType.DISCOVERY)
+		});
 		
 		TEST3.setParent(TEST2,-5,3).addParentLine(0,-2).addParentLine(2,-2).addParentLine(2,-3);
 		
-		TEST4.setParent(TEST2,3,3).setImportant().addChildLine(0,2);
+		TEST4.setParent(TEST2,3,3).setImportant().addChildLine(0,2).addFragments(new KnowledgeFragment[]{
+			new FragmentText(40).setType(KnowledgeFragmentType.ESSENTIAL),
+			new FragmentText(41).setType(KnowledgeFragmentType.DISCOVERY)
+		});
 		
 		TEST5.setParent(TEST4,0,200);
 		

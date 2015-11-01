@@ -1,4 +1,4 @@
-package chylex.hee.mechanics.compendium.elements;
+package chylex.hee.mechanics.compendium.handlers;
 import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,7 +16,7 @@ import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
-import chylex.hee.mechanics.compendium.render.PurchaseDisplayElement;
+import chylex.hee.mechanics.compendium.elements.CompendiumPurchaseElement;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S02CompendiumPurchase;
 import cpw.mods.fml.relauncher.Side;
@@ -29,7 +29,7 @@ public class CompendiumPageHandler{
 	
 	private final GuiEnderCompendium gui;
 	private final TByteObjectHashMap<Map<KnowledgeFragment,Boolean>> currentObjectPages = new TByteObjectHashMap<>(5);
-	private final List<PurchaseDisplayElement> purchaseElements = new ArrayList<>(2);
+	private final List<CompendiumPurchaseElement> purchaseElements = new ArrayList<>(2);
 	private final GuiButtonPageArrow[] pageArrows = new GuiButtonPageArrow[2];
 	private final byte[] pageArrowIds = new byte[2];
 	
@@ -71,7 +71,7 @@ public class CompendiumPageHandler{
 	
 	public boolean onMouseClick(int mouseX, int mouseY, int mouseButton){
 		if (currentObject != null && isMouseInside(mouseX,mouseY)){
-			for(PurchaseDisplayElement element:purchaseElements){
+			for(CompendiumPurchaseElement element:purchaseElements){
 				if (element.isMouseOver(mouseX,mouseY) && compendiumFile.getPoints() >= element.price){
 					Object obj = element.object;
 					
@@ -172,7 +172,7 @@ public class CompendiumPageHandler{
 		
 		if (currentObject != null){
 			if (!compendiumFile.isDiscovered(currentObject) && currentObject.getPrice() != 0){
-				purchaseElements.add(new PurchaseDisplayElement(currentObject,pageX+pageWidth/2,innerY+20));
+				purchaseElements.add(new CompendiumPurchaseElement(currentObject,pageX+pageWidth/2,innerY+20));
 				return;
 			}
 			
@@ -180,7 +180,7 @@ public class CompendiumPageHandler{
 			
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
 				height = entry.getKey().getHeight(gui,entry.getValue());
-				if (!entry.getValue())purchaseElements.add(new PurchaseDisplayElement(entry.getKey(),pageX+pageWidth/2,yy+2+height/2));
+				if (!entry.getValue())purchaseElements.add(new CompendiumPurchaseElement(entry.getKey(),pageX+pageWidth/2,yy+2+height/2));
 				yy += 8+height;
 			}
 		}
@@ -227,7 +227,7 @@ public class CompendiumPageHandler{
 		pageArrows[0].visible = pageIndex > 0;
 		pageArrows[1].visible = pageIndex < currentObjectPages.size()-1;
 		
-		for(PurchaseDisplayElement element:purchaseElements)element.render(gui,mouseX,mouseY);
+		for(CompendiumPurchaseElement element:purchaseElements)element.render(gui,mouseX,mouseY);
 		
 		/*if (!compendiumFile.isDiscovered(currentObject)){ // TODO
 			RenderHelper.disableStandardItemLighting();

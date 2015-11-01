@@ -25,9 +25,9 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.elements.CompendiumObjectElement;
-import chylex.hee.mechanics.compendium.elements.CompendiumPageHandler;
-import chylex.hee.mechanics.compendium.elements.CompendiumScrollHandler;
-import chylex.hee.mechanics.compendium.elements.CompendiumTabHandler;
+import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
+import chylex.hee.mechanics.compendium.handlers.CompendiumScrollHandler;
+import chylex.hee.mechanics.compendium.handlers.CompendiumTabHandler;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -41,14 +41,13 @@ public class GuiEnderCompendium extends GuiScreen{
 	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_note);
 	
 	private final GuiEndPortalRenderer portalRenderer;
+	private AnimatedFloat portalSpeed;
+	
 	private final CompendiumPageHandler pageHandler;
 	private final CompendiumScrollHandler scrollHandler;
 	private final CompendiumTabHandler tabHandler;
 	
 	private CompendiumFile compendiumFile;
-	private AnimatedFloat portalSpeed;
-	
-	private int prevMouseX, prevMouseY;
 	
 	private List<CompendiumObjectElement> objectElements = new ArrayList<>();
 	private KnowledgeObject<?> currentObject = null;
@@ -169,10 +168,7 @@ public class GuiEnderCompendium extends GuiScreen{
 	
 	private void goBack(){
 		if (currentObject != null)showObject(null);
-		else{
-			mc.displayGuiScreen(null);
-			mc.setIngameFocus();
-		}
+		else mc.setIngameFocus();
 	}
 	
 	@Override
@@ -244,7 +240,7 @@ public class GuiEnderCompendium extends GuiScreen{
 		for(CompendiumObjectElement element:objectElements){
 			if (!element.object.isHidden()){
 				element.renderObject(this,compendiumFile,yLowerBound,yUpperBound);
-				if (element.isMouseOver(mouseX,mouseY,width/2,(int)offY))GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.object.getTranslatedTooltip());
+				if (element.isMouseOver(mouseX,mouseY,width/2,(int)offY))GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.getTooltip(compendiumFile));
 			}
 		}
 		
@@ -266,12 +262,9 @@ public class GuiEnderCompendium extends GuiScreen{
 		int wheel = Mouse.getDWheel();
 		
 		if (wheel != 0){
-			if (pageHandler.onMouseWheel(prevMouseX,prevMouseY,wheel)); // empty statement
+			if (pageHandler.onMouseWheel(mouseX,mouseY,wheel)); // empty statement
 			else scrollHandler.onMouseWheel(wheel);
 		}
-		
-		prevMouseX = mouseX;
-		prevMouseY = mouseY;
 	}
 	
 	private void renderBackgroundGUI(){

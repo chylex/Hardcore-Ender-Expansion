@@ -6,6 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
@@ -14,7 +16,10 @@ import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import chylex.hee.mechanics.compendium.content.objects.IObjectHolder;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public final class CompendiumObjectElement{
 	public enum ObjectShape{
 		PLAIN(150,0), IMPORTANT(150,27), SPECIAL(150,54);
@@ -28,14 +33,25 @@ public final class CompendiumObjectElement{
 	}
 	
 	private enum ObjectStatus{
-		NONE_UNLOCKED(255,255,255), ALL_UNLOCKED(255,249,151), ALL_BUT_SECRET(255,215,151), UNREAD_HINT(151,207,255), ESSENTIAL_ONLY(178,255,151), DEFAULT(255,255,255); // TODO tmp
+		NONE_UNLOCKED(255,255,255),
+		ALL_UNLOCKED(255,249,151,"ec.tooltip.allUnlocked"),
+		ALL_BUT_SECRET(255,215,151,"ec.tooltip.allButSecret"),
+		UNREAD_HINT(151,207,255,"ec.tooltip.unreadHint"),
+		ESSENTIAL_ONLY(178,255,151),
+		DEFAULT(255,255,255); // TODO tmp
 		
 		final float red, green, blue;
+		final String title;
 		
-		private ObjectStatus(int red, int green, int blue){
+		private ObjectStatus(int red, int green, int blue, String title){
 			this.red = red/255F;
 			this.green = green/255F;
 			this.blue = blue/255F;
+			this.title = title;
+		}
+		
+		private ObjectStatus(int red, int green, int blue){
+			this(red,green,blue,null);
 		}
 	}
 	
@@ -59,7 +75,7 @@ public final class CompendiumObjectElement{
 		final int color = (255<<24)|(brightness<<16)|(brightness<<8)|brightness;
 		
 		object.connectToChildren((x1, y1, x2, y2) -> {
-			if (!(y1 > yUpperBound || y2 < yLowerBound))GuiHelper.renderLine(offX+x1,y1,offX+x2,y2,color); // TODO test line rendering
+			if (!(y1 > yUpperBound || y2 < yLowerBound))GuiHelper.renderLine(offX+x1,y1,offX+x2,y2,color);
 		});
 	}
 	
@@ -72,26 +88,17 @@ public final class CompendiumObjectElement{
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glColor4f(1F,1F,1F,1F);
-		
-		/* TODO if (compendiumFile.hasDiscoveredObject(object)){
-			boolean hasAll = true;
-			
-			for(KnowledgeFragment fragment:object.getFragments()){
-				if (!compendiumFile.hasUnlockedFragment(fragment)){
-					hasAll = false;
-					break;
-				}
-			}
-			
-			tile = hasAll ? BackgroundTile.GOLD : BackgroundTile.PLAIN;
-		}*/
-		
 		renderObject(object,x,y,file,gui);
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int centerX, int offsetY){
 		int x = centerX-11+object.getX(), y = object.getY()-11+offsetY;
 		return mouseX >= x && mouseY >= y && mouseX <= x+21 && mouseY <= y+21;
+	}
+	
+	public String getTooltip(CompendiumFile file){
+		ObjectStatus status = getStatus(object,file);
+		return object.getTranslatedTooltip()+(status.title == null ? "" : "\n"+EnumChatFormatting.GRAY+I18n.format(status.title));
 	}
 	
 	private static ObjectStatus getStatus(KnowledgeObject<?> object, CompendiumFile file){

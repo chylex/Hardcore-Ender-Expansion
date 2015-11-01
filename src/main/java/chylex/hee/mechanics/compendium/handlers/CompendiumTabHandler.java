@@ -1,10 +1,11 @@
-package chylex.hee.mechanics.compendium.elements;
+package chylex.hee.mechanics.compendium.handlers;
 import java.util.ArrayList;
 import java.util.List;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.KnowledgeCategories;
 import chylex.hee.mechanics.compendium.content.KnowledgeCategory;
+import chylex.hee.mechanics.compendium.elements.CompendiumCategoryElement;
 
 public final class CompendiumTabHandler{
 	private final GuiEnderCompendium gui;
