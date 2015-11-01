@@ -68,7 +68,7 @@ public final class CompendiumObjectElement{
 		int brightness = 224;
 		
 		for(KnowledgeObject<?> child:object.getChildren()){
-			int childBrightness = 224-64*file.getDiscoveryDistance(child);
+			int childBrightness = 224-16*file.getDiscoveryDistance(child);
 			if (childBrightness < brightness)brightness = childBrightness;
 		}
 		

@@ -83,8 +83,7 @@ public class CompendiumFile extends PlayerFile{
 	
 	public int getDiscoveryDistance(KnowledgeObject<? extends IObjectHolder<?>> obj){
 		for(int level = 0; level < distanceLimit; level++){
-			if (discoveredObjects.contains(obj))return level;
-			else if ((obj = obj.getParent()) == null)return 0;
+			if (discoveredObjects.contains(obj) || (obj = obj.getParent()) == null)return level;
 		}
 		
 		return distanceLimit;
@@ -112,7 +111,7 @@ public class CompendiumFile extends PlayerFile{
 	public boolean canSeeFragment(KnowledgeObject<? extends IObjectHolder<?>> obj, KnowledgeFragment fragment){
 		switch(fragment.getType()){
 			case VISIBLE: return true;
-			case ESSENTIAL: return getDiscoveryDistance(obj) != distanceLimit;
+			case ESSENTIAL: return getDiscoveryDistance(obj) <= 1;
 			case DISCOVERY: return getDiscoveryDistance(obj) == 0;
 			default: return extraFragments.contains(fragment.globalID);
 		}
