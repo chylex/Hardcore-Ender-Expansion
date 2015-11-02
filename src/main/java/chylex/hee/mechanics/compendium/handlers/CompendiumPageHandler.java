@@ -202,17 +202,18 @@ public class CompendiumPageHandler{
 		
 		final int distance = 16;
 		int titleWidth = (currentObject.isHidden() ? 0 : distance+12)+gui.mc.fontRenderer.getStringWidth(currentObject.getTranslatedTooltip());
-		int left = (gui.width-titleWidth)/2+4;
+		int left = (gui.width-titleWidth)/2+(currentObject.isHidden() ? 0 : 4);
 		
-		gui.mc.fontRenderer.drawString(currentObject.getTranslatedTooltip(),left+distance,innerY,0x404040);
+		gui.mc.fontRenderer.drawString(currentObject.getTranslatedTooltip(),left+(currentObject.isHidden() ? 0 : distance),innerY,0x404040);
 		
 		if (!currentObject.isHidden()){
-			int iconY = innerY-4;
+			int iconY = innerY-5;
 			RenderHelper.enableGUIStandardItemLighting();
 			GL11.glPushMatrix();
 			GL11.glTranslatef(left+8,iconY+8,0F);
 			GL11.glScaled(0.75F,0.75F,1F);
 			GL11.glTranslatef(-left-8,-iconY-8,0F);
+			GL11.glTranslatef(0F,0.5F,0F);
 			GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),currentObject.holder.getDisplayItemStack(),left,iconY,true);
 			GL11.glPopMatrix();
 		}

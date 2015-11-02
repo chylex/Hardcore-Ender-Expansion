@@ -85,9 +85,6 @@ public final class CompendiumObjectElement{
 		int x = gui.width/2+object.getX(), y = object.getY();
 		if (y < yLowerBound || y > yUpperBound)return;
 		
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glColor4f(1F,1F,1F,1F);
 		renderObject(object,x,y,file,gui);
 	}
 	
@@ -125,6 +122,10 @@ public final class CompendiumObjectElement{
 		ObjectStatus outline = getStatus(object,file);
 		
 		// render background
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(1F,1F,1F,1F);
+		
 		RenderHelper.disableStandardItemLighting();
 		mc.getTextureManager().bindTexture(GuiEnderCompendium.texBack);
 		
