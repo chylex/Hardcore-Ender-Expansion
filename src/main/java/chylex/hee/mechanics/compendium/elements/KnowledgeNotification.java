@@ -38,7 +38,7 @@ public final class KnowledgeNotification{
 		}
 		
 		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-		CompendiumObjectElement.renderObject(obj,x,MathUtil.ceil(y-(yOffPrev+(yOff-yOffPrev)*partialTickTime)),CompendiumEventsClient.getClientData(),gui);
+		CompendiumObjectElement.renderObject(obj,x,MathUtil.ceil(y-(yOffPrev+(yOff-yOffPrev)*partialTickTime)),CompendiumEventsClient.getClientData(),gui,false);
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		
 		return false;

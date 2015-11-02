@@ -1,6 +1,7 @@
 package chylex.hee.mechanics.compendium.elements;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -56,9 +57,13 @@ public final class CompendiumObjectElement{
 	}
 	
 	public final KnowledgeObject<? extends IObjectHolder<?>> object;
+	private boolean hasUnreadFragments;
+	private boolean blinkState;
+	private long lastBlinkSwitch;
 	
 	public CompendiumObjectElement(KnowledgeObject<? extends IObjectHolder<?>> object){
 		this.object = object;
+		this.lastBlinkSwitch = System.nanoTime();
 	}
 	
 	public void renderLine(GuiScreen gui, CompendiumFile file, int yLowerBound, int yUpperBound){
@@ -85,7 +90,18 @@ public final class CompendiumObjectElement{
 		int x = gui.width/2+object.getX(), y = object.getY();
 		if (y < yLowerBound || y > yUpperBound)return;
 		
-		renderObject(object,x,y,file,gui);
+		hasUnreadFragments = object.getFragments().stream().anyMatch(fragment -> file.canSeeFragment(object,fragment) && !file.hasReadFragment(fragment));
+		
+		if (hasUnreadFragments){
+			long now = System.nanoTime();
+			
+			if (TimeUnit.NANOSECONDS.toMillis(System.nanoTime()-lastBlinkSwitch) >= 900){
+				lastBlinkSwitch = now;
+				blinkState = !blinkState;
+			}
+		}
+		
+		renderObject(object,x,y,file,gui,blinkState);
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY, int centerX, int offsetY){
@@ -107,15 +123,15 @@ public final class CompendiumObjectElement{
 		if (unlocked.isEmpty())outline = ObjectStatus.NONE_UNLOCKED;
 		else{
 			if (unlocked.size() == fragments.size())outline = ObjectStatus.ALL_UNLOCKED;
+			else if (unlocked.stream().anyMatch(fragment -> fragment.getType() == KnowledgeFragmentType.HINT && file.canSeeFragment(object,fragment) && !file.hasReadFragment(fragment)))outline = ObjectStatus.UNREAD_HINT;
 			else if (unlocked.stream().allMatch(fragment -> fragment.getType() == KnowledgeFragmentType.ESSENTIAL))outline = ObjectStatus.ESSENTIAL_ONLY;
 			else if (unlocked.stream().allMatch(fragment -> fragment.getType() != KnowledgeFragmentType.SECRET))outline = ObjectStatus.ALL_BUT_SECRET;
-			// TODO
 		}
 		
 		return outline;
 	}
 	
-	public static void renderObject(KnowledgeObject<?> object, int x, int y, CompendiumFile file, Gui gui){
+	public static void renderObject(KnowledgeObject<?> object, int x, int y, CompendiumFile file, Gui gui, boolean blink){
 		Minecraft mc = Minecraft.getMinecraft();
 		
 		ObjectShape shape = object.getShape();
@@ -131,7 +147,9 @@ public final class CompendiumObjectElement{
 		
 		gui.drawTexturedModalRect(x-13,y-13,outline == ObjectStatus.NONE_UNLOCKED && !file.isDiscovered(object) ? shape.x+27 : shape.x,shape.y,26,26);
 		
-		GL11.glColor4f(outline.red,outline.green,outline.blue,1F);
+		if (blink)GL11.glColor4f(outline.red*0.65F,outline.green*0.65F,outline.blue*0.65F,1F);
+		else GL11.glColor4f(outline.red,outline.green,outline.blue,1F);
+		
 		gui.drawTexturedModalRect(x-13,y-13,shape.x+54,shape.y,26,26);
 		GL11.glColor4f(1F,1F,1F,1F);
 		
