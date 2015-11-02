@@ -46,5 +46,6 @@ public class S02CompendiumPurchase extends AbstractServerPacket{
 			KnowledgeObject<?> object = KnowledgeObject.fromID(id);
 			if (object != null)file.tryPurchaseObject(player,object);
 		}
+		PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
 	}
 }

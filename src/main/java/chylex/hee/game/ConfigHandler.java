@@ -77,9 +77,11 @@ public final class ConfigHandler{
 			ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbaconMode", 0, "0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
 			MusicManager.enableCustomMusic = getBool("enableMusic", true, "Custom music playing in the End dimension and custom Music Discs.").setRequiresMcRestart(true).getBoolean();
 			MusicManager.removeVanillaDelay = getBool("removeVanillaDelay", false, "Removes long delays between vanilla music tracks.").setRequiresMcRestart(true).getBoolean();
-			GuiEnderCompendium.pausesGame = getBoolValue("compendiumPausesGame", true, "If enabled, in singleplayer the Ender Compendium pauses the game when open.");
 			firstTimeClient = false;
 		}
+		
+		GuiEnderCompendium.pausesGame = getBoolValue("compendiumPausesGame", true, "If enabled, in singleplayer the Ender Compendium pauses the game when open.");
+		GuiEnderCompendium.wasPaused = GuiEnderCompendium.pausesGame;
 		
 		if (config.hasChanged())config.save();
 	}

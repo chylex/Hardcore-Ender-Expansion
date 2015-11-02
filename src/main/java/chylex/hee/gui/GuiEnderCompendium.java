@@ -28,6 +28,8 @@ import chylex.hee.mechanics.compendium.elements.CompendiumObjectElement;
 import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
 import chylex.hee.mechanics.compendium.handlers.CompendiumScrollHandler;
 import chylex.hee.mechanics.compendium.handlers.CompendiumTabHandler;
+import chylex.hee.packets.AbstractPacket;
+import chylex.hee.packets.PacketPipeline;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -40,7 +42,7 @@ public class GuiEnderCompendium extends GuiScreen{
 	public static final ResourceLocation texFragments = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_fragments.png");
 	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_note);
 	
-	public static boolean pausesGame;
+	public static boolean pausesGame = true, wasPaused = pausesGame;
 	
 	private final GuiEndPortalRenderer portalRenderer;
 	private AnimatedFloat portalSpeed;
@@ -324,6 +326,12 @@ public class GuiEnderCompendium extends GuiScreen{
 	@Override
 	public boolean doesGuiPauseGame(){
 		return pausesGame;
+	}
+	
+	public static final void sendPacketToServer(AbstractPacket packet){
+		wasPaused = pausesGame;
+		pausesGame = false;
+		PacketPipeline.sendToServer(packet);
 	}
 	
 	/**

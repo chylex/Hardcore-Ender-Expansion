@@ -174,7 +174,7 @@ public class CompendiumPageHandler{
 			
 			if (!unread.isEmpty()){
 				for(KnowledgeFragment fragment:unread)compendiumFile.markFragmentAsRead((short)fragment.globalID);
-				PacketPipeline.sendToServer(new S01CompendiumReadFragments(unread));
+				GuiEnderCompendium.sendPacketToServer(new S01CompendiumReadFragments(unread));
 			}
 			
 			if (!compendiumFile.isDiscovered(currentObject) && currentObject.getPrice() != 0){

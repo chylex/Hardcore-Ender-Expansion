@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import chylex.hee.game.save.types.player.CompendiumFile;
+import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.compendium.events.CompendiumEventsClient;
@@ -77,5 +78,7 @@ public class C19CompendiumData extends AbstractClientPacket{
 			OverlayManager.addNotification(discovered);
 			player.worldObj.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.pageflip",0.25F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.6F),false);
 		}
+		
+		GuiEnderCompendium.pausesGame = GuiEnderCompendium.wasPaused;System.out.println("set to "+GuiEnderCompendium.wasPaused);
 	}
 }

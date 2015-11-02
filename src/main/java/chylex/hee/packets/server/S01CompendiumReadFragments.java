@@ -7,6 +7,9 @@ import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.packets.AbstractServerPacket;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C09SimpleEvent;
+import chylex.hee.packets.client.C09SimpleEvent.EventType;
 
 public class S01CompendiumReadFragments extends AbstractServerPacket{
 	private TShortHashSet fragments = new TShortHashSet();
@@ -32,5 +35,6 @@ public class S01CompendiumReadFragments extends AbstractServerPacket{
 	@Override
 	protected void handle(EntityPlayerMP player){
 		for(short id:fragments.toArray())SaveData.player(player,CompendiumFile.class).markFragmentAsRead(id);
+		PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
 	}
 }
