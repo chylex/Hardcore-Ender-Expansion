@@ -1,7 +1,7 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
-import chylex.hee.init.BlockList;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import chylex.hee.init.BlockList;
 
 public final class RavagedDungeonLoot{
 	public static ItemStack[] flowerPotItems = new ItemStack[]{

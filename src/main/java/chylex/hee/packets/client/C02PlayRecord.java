@@ -1,4 +1,5 @@
 package chylex.hee.packets.client;
+import io.netty.buffer.ByteBuf;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
@@ -14,7 +15,6 @@ import chylex.hee.sound.CustomMusicTicker;
 import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.buffer.ByteBuf;
 
 public class C02PlayRecord extends AbstractClientPacket{
 	private Pos pos;

@@ -1,4 +1,5 @@
 package chylex.hee.packets.client;
+import io.netty.buffer.ByteBuf;
 import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,6 @@ import chylex.hee.system.abstractions.Vec;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.buffer.ByteBuf;
 
 public class C17AltarRuneItemEffect extends AbstractClientPacket{
 	private Pos pos;

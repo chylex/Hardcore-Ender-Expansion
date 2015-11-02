@@ -1,6 +1,5 @@
 package chylex.hee.system.abstractions.facing;
 import net.minecraft.util.EnumFacing;
-import chylex.hee.system.abstractions.facing.IFacing;
 
 public enum Facing4 implements IFacing{
 	NORTH_NEGZ, SOUTH_POSZ, WEST_NEGX, EAST_POSX, INVALID;

@@ -1,4 +1,5 @@
 package chylex.hee.world.structure.island.biome;
+import gnu.trove.map.hash.TByteObjectHashMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +19,6 @@ import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.data.IslandBiomeData;
 import chylex.hee.world.util.SpawnEntry;
-import gnu.trove.map.hash.TByteObjectHashMap;
 
 public abstract class IslandBiomeBase{
 	public static final IslandBiomeBase infestedForest = new IslandBiomeInfestedForest(0),

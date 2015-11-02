@@ -1,4 +1,5 @@
 package chylex.hee.packets.server;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -6,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import chylex.hee.init.BlockList;
 import chylex.hee.packets.AbstractServerPacket;
 import chylex.hee.system.abstractions.Pos;
-import io.netty.buffer.ByteBuf;
 
 public class S00DeathFlowerPot extends AbstractServerPacket{
 	private Pos pos;
