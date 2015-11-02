@@ -40,6 +40,8 @@ public class GuiEnderCompendium extends GuiScreen{
 	public static final ResourceLocation texFragments = new ResourceLocation("hardcoreenderexpansion:textures/gui/ender_compendium_fragments.png");
 	public static final ItemStack knowledgeFragmentIS = new ItemStack(ItemList.knowledge_note);
 	
+	public static boolean pausesGame;
+	
 	private final GuiEndPortalRenderer portalRenderer;
 	private AnimatedFloat portalSpeed;
 	
@@ -205,6 +207,8 @@ public class GuiEnderCompendium extends GuiScreen{
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTickTime){
+		partialTickTime = Minecraft.getMinecraft().timer.elapsedPartialTicks; // if doesGuiPauseGame() returns true, Minecraft freezes renderPartialTicks
+		
 		drawDefaultBackground();
 		GL11.glDepthFunc(GL11.GL_GEQUAL);
 		GL11.glPushMatrix();
@@ -317,7 +321,7 @@ public class GuiEnderCompendium extends GuiScreen{
 	
 	@Override
 	public boolean doesGuiPauseGame(){
-		return false;
+		return pausesGame;
 	}
 	
 	/**

@@ -7,6 +7,7 @@ import net.minecraftforge.common.config.Property;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.api.HeeIMC;
 import chylex.hee.block.BlockEnderGoo;
+import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.misc.StardustDecomposition;
 import chylex.hee.mechanics.orb.OrbAcquirableItems;
 import chylex.hee.proxy.ModClientProxy;
@@ -76,6 +77,7 @@ public final class ConfigHandler{
 			ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbaconMode", 0, "0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
 			MusicManager.enableCustomMusic = getBool("enableMusic", true, "Custom music playing in the End dimension and custom Music Discs.").setRequiresMcRestart(true).getBoolean();
 			MusicManager.removeVanillaDelay = getBool("removeVanillaDelay", false, "Removes long delays between vanilla music tracks.").setRequiresMcRestart(true).getBoolean();
+			GuiEnderCompendium.pausesGame = getBoolValue("compendiumPausesGame", true, "If enabled, in singleplayer the Ender Compendium pauses the game when open.");
 			firstTimeClient = false;
 		}
 		
