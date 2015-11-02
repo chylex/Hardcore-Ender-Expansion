@@ -3,6 +3,7 @@ import gnu.trove.set.hash.TShortHashSet;
 import io.netty.buffer.ByteBuf;
 import java.util.Collection;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
@@ -35,6 +36,6 @@ public class S01CompendiumReadFragments extends AbstractServerPacket{
 	@Override
 	protected void handle(EntityPlayerMP player){
 		for(short id:fragments.toArray())SaveData.player(player,CompendiumFile.class).markFragmentAsRead(id);
-		PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
+		if (!MinecraftServer.getServer().isDedicatedServer())PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
 	}
 }

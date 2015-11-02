@@ -329,8 +329,11 @@ public class GuiEnderCompendium extends GuiScreen{
 	}
 	
 	public static final void sendPacketToServer(AbstractPacket packet){
-		wasPaused = pausesGame;
-		pausesGame = false;
+		if (Minecraft.getMinecraft().isSingleplayer()){
+			wasPaused = pausesGame;
+			pausesGame = false;
+		}
+		
 		PacketPipeline.sendToServer(packet);
 	}
 	

@@ -1,6 +1,7 @@
 package chylex.hee.packets.server;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.packets.AbstractServerPacket;
@@ -32,6 +33,6 @@ public class S02CompendiumPurchase extends AbstractServerPacket{
 		KnowledgeFragment fragment = KnowledgeFragment.fromID(id);
 		if (fragment != null && CompendiumEvents.getPlayerData(player).tryPurchaseFragment(player,fragment))return; // C19CompendiumData also restores the state
 		
-		PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
+		if (!MinecraftServer.getServer().isDedicatedServer())PacketPipeline.sendToPlayer(player,new C09SimpleEvent(EventType.RESTORE_COMPENDIUM_PAUSE));
 	}
 }
