@@ -2,8 +2,8 @@ package chylex.hee.mechanics.compendium.elements;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.game.save.types.player.CompendiumFile;
 import chylex.hee.gui.GuiEnderCompendium;
-import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
 
@@ -19,8 +19,8 @@ public class CompendiumPurchaseElement{
 		this.y = y;
 	}
 	
-	public void render(GuiScreen gui, int mouseX, int mouseY){
-		GL11.glColor4f(1F,1F,1F,0.985F);
+	public void render(GuiScreen gui, CompendiumFile file, int mouseX, int mouseY){
+		GL11.glColor4f(1F,1F,1F,isMouseOver(mouseX,mouseY) ? 1F : 0.95F);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
 		RenderHelper.disableStandardItemLighting();
@@ -32,12 +32,12 @@ public class CompendiumPurchaseElement{
 		GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),GuiEnderCompendium.knowledgeFragmentIS,x-22,y-8);
 		RenderHelper.disableStandardItemLighting();
 		
-		String price = String.valueOf(this.price);
-		gui.mc.fontRenderer.drawString(price,x-gui.mc.fontRenderer.getStringWidth(price)+20,y-3,0x404040);
+		int red, green, blue;
+		red = green = blue = isMouseOver(mouseX,mouseY) ? 64 : 96;
+		if (file.getPoints() < price)red = Math.min(255,red*4)-64;
 		
-		if (isMouseOver(mouseX,mouseY)){
-			GuiItemRenderHelper.setupTooltip(mouseX,mouseY,"TODO "+y);
-		}
+		String price = String.valueOf(this.price);
+		gui.mc.fontRenderer.drawString(price,x-gui.mc.fontRenderer.getStringWidth(price)+20,y-3,(red<<16)|(green<<8)|blue);
 	}
 	
 	public boolean isMouseOver(int mouseX, int mouseY){

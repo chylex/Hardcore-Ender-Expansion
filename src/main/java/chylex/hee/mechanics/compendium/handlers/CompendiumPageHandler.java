@@ -229,7 +229,7 @@ public class CompendiumPageHandler{
 		pageArrows[0].visible = pageIndex > 0;
 		pageArrows[1].visible = pageIndex < currentObjectPages.size()-1;
 		
-		for(CompendiumPurchaseElement element:purchaseElements)element.render(gui,mouseX,mouseY);
+		for(CompendiumPurchaseElement element:purchaseElements)element.render(gui,compendiumFile,mouseX,mouseY);
 
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}
