@@ -1,4 +1,9 @@
 package chylex.hee.packets;
+import gnu.trove.map.hash.TByteObjectHashMap;
+import gnu.trove.map.hash.TObjectByteHashMap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFutureListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -9,12 +14,12 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.apache.commons.io.FilenameUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.tileentity.TileEntity;
+import org.apache.commons.io.FilenameUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Stopwatch;
@@ -30,11 +35,6 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import gnu.trove.map.hash.TByteObjectHashMap;
-import gnu.trove.map.hash.TObjectByteHashMap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFutureListener;
 
 public class PacketPipeline{
 	private static PacketPipeline instance;

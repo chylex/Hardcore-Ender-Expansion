@@ -144,10 +144,6 @@ public final class ConfigHandler{
 		return config.get(currentCategory,key,defaultValue,comment);
 	}
 	
-	private Property getString(String key, String defaultValue, String comment){
-		return config.get(currentCategory,key,defaultValue,comment);
-	}
-	
 	private Property getStringArray(String key, String[] defaultValue, String comment){
 		return config.get(currentCategory,key,defaultValue,comment);
 	}

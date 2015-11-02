@@ -79,6 +79,6 @@ public class C19CompendiumData extends AbstractClientPacket{
 			player.worldObj.playSound(player.posX,player.posY,player.posZ,"hardcoreenderexpansion:player.random.pageflip",0.25F,0.5F*((player.getRNG().nextFloat()-player.getRNG().nextFloat())*0.7F+1.6F),false);
 		}
 		
-		GuiEnderCompendium.pausesGame = GuiEnderCompendium.wasPaused;System.out.println("set to "+GuiEnderCompendium.wasPaused);
+		GuiEnderCompendium.pausesGame = GuiEnderCompendium.wasPaused;
 	}
 }

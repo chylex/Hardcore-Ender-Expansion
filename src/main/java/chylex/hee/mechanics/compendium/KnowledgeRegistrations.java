@@ -45,7 +45,8 @@ public final class KnowledgeRegistrations{
 		
 		TEST4.setParent(TEST2,3,3).setImportant().addChildLine(0,2).addFragments(new KnowledgeFragment[]{
 			new FragmentText(40).setType(KnowledgeFragmentType.ESSENTIAL),
-			new FragmentText(41).setType(KnowledgeFragmentType.DISCOVERY)
+			new FragmentText(41).setType(KnowledgeFragmentType.DISCOVERY),
+			new FragmentText(42).setType(KnowledgeFragmentType.SECRET,10)
 		});
 		
 		TEST5.setParent(TEST4,0,200);
