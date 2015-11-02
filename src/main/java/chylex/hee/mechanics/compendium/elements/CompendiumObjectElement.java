@@ -37,7 +37,7 @@ public final class CompendiumObjectElement{
 		ALL_UNLOCKED(255,249,151,"ec.tooltip.allUnlocked"),
 		ALL_BUT_SECRET(255,215,151,"ec.tooltip.allButSecret"),
 		UNREAD_HINT(151,207,255,"ec.tooltip.unreadHint"),
-		ESSENTIAL_ONLY(178,255,151),
+		ESSENTIAL_ONLY(178,255,151,"ec.tooltip.essentialOnly"),
 		DEFAULT(255,255,255); // TODO tmp
 		
 		final float red, green, blue;

@@ -248,7 +248,7 @@ public class GuiEnderCompendium extends GuiScreen{
 		for(CompendiumObjectElement element:objectElements){
 			if (!element.object.isHidden()){
 				element.renderObject(this,compendiumFile,yLowerBound,yUpperBound);
-				if (element.isMouseOver(mouseX,mouseY,width/2,(int)offY))GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.getTooltip(compendiumFile));
+				if (currentObject == null && element.isMouseOver(mouseX,mouseY,width/2,(int)offY))GuiItemRenderHelper.setupTooltip(mouseX,mouseY,element.getTooltip(compendiumFile));
 			}
 		}
 		
