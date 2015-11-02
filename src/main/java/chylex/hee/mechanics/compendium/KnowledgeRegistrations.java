@@ -50,7 +50,7 @@ public final class KnowledgeRegistrations{
 		
 		TEST5.setParent(TEST4,0,200);
 		
-		TEST6.setParent(TEST4,3,8);
+		TEST6.setParent(TEST4,3,8).addParentLine(-3,0);
 	}
 	
 	private static <T extends IObjectHolder<?>> KnowledgeObject<T> $(T holder){

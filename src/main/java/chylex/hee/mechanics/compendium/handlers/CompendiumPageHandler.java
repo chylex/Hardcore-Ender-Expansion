@@ -187,11 +187,11 @@ public class CompendiumPageHandler{
 				return;
 			}
 			
-			int yy = innerY, height;
+			int yy = innerY+12, height;
 			
 			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
 				height = entry.getKey().getHeight(gui,entry.getValue());
-				if (!entry.getValue())purchaseElements.add(new CompendiumPurchaseElement(entry.getKey(),pageX+pageWidth/2,yy+2+height/2));
+				if (!entry.getValue())purchaseElements.add(new CompendiumPurchaseElement(entry.getKey(),pageX+pageWidth/2,yy+height/2));
 				yy += 8+height;
 			}
 		}
@@ -209,25 +209,24 @@ public class CompendiumPageHandler{
 		gui.mc.getTextureManager().bindTexture(texPage);
 		gui.drawTexturedModalRect(pageX,pageY,0,0,pageWidth,pageHeight);
 		
-		int x = innerX, y = innerY;
-		int titleOff = currentObject.isHidden() ? 0 : 6;
+		final int distance = 16;
+		int titleWidth = (currentObject.isHidden() ? 0 : distance+12)+gui.mc.fontRenderer.getStringWidth(currentObject.getTranslatedTooltip());
+		int left = (gui.width-titleWidth)/2+4;
 		
-		gui.mc.fontRenderer.drawString(currentObject.getTranslatedTooltip(),titleOff+gui.width/2-gui.mc.fontRenderer.getStringWidth(currentObject.getTranslatedTooltip())/2,y,0x404040);
-		// TODO multiline
+		gui.mc.fontRenderer.drawString(currentObject.getTranslatedTooltip(),left+distance,innerY,0x404040);
 		
 		if (!currentObject.isHidden()){
-			int iconX = x-2, iconY = y-4;
-			
+			int iconY = innerY-4;
 			RenderHelper.enableGUIStandardItemLighting();
 			GL11.glPushMatrix();
-			GL11.glTranslatef(iconX+8,iconY+8,0F);
+			GL11.glTranslatef(left+8,iconY+8,0F);
 			GL11.glScaled(0.75F,0.75F,1F);
-			GL11.glTranslatef(-iconX-8,-iconY-8,0F);
-			GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),currentObject.holder.getDisplayItemStack(),iconX,iconY,true);
+			GL11.glTranslatef(-left-8,-iconY-8,0F);
+			GuiEnderCompendium.renderItem.renderItemIntoGUI(gui.mc.fontRenderer,gui.mc.getTextureManager(),currentObject.holder.getDisplayItemStack(),left,iconY,true);
 			GL11.glPopMatrix();
 		}
 		
-		y += 12;
+		int x = innerX, y = innerY+12;
 		
 		for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
 			entry.getKey().onRender(gui,x,y,mouseX,mouseY,entry.getValue());
