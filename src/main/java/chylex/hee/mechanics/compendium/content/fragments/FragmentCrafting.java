@@ -48,6 +48,9 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 		UNVERIFIED, FINE, CHANGED, REMOVED
 	}
 	
+	private ItemStack findOutput;
+	private ItemStack[] findIngredients;
+	
 	private ItemStack[] ingredients;
 	private ItemStack output;
 	private Status status;
@@ -61,6 +64,9 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 	}
 	
 	public FragmentCrafting setRecipe(ItemStack outputToFind, @Nullable ItemStack[] matchIngredients){
+		this.findOutput = outputToFind;
+		this.findIngredients = matchIngredients;
+		
 		Recipe recipe = findRecipe(outputToFind,matchIngredients);
 		
 		if (recipe != null){
@@ -74,7 +80,26 @@ public class FragmentCrafting extends KnowledgeFragment<FragmentCrafting>{
 	}
 	
 	private void verifyRecipe(){
-		// TODO
+		if (status != Status.UNVERIFIED)return;
+		
+		Recipe recipe = findRecipe(findOutput,findIngredients);
+		
+		if (recipe == null){
+			this.status = Status.REMOVED;
+			this.output = null;
+			this.ingredients = null;
+			return;
+		}
+		else if (ItemStack.areItemStacksEqual(recipe.getOutput(),output) && ingredients != null && ingredients.length == recipe.getIngredientArray().length &&
+				IntStream.range(0,ingredients.length).allMatch(index -> ItemStack.areItemStacksEqual(ingredients[index],recipe.getIngredientArray()[index]))){
+				status = Status.FINE;
+				return;
+		}
+		else{
+			this.ingredients = recipe.getIngredientArray();
+			this.output = recipe.getOutput();
+			this.status = Status.CHANGED;
+		}
 	}
 	
 	@Override
