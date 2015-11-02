@@ -5,24 +5,16 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.gui.helpers.GuiItemRenderHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
-import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.handlers.CompendiumPageHandler;
 
 public class CompendiumPurchaseElement{
-	public final Object object;
+	public final KnowledgeFragment fragment;
 	public final int price;
 	private final int x, y;
 	
 	public CompendiumPurchaseElement(KnowledgeFragment fragment, int x, int y){
-		this.object = fragment;
+		this.fragment = fragment;
 		this.price = fragment.getPrice();
-		this.x = x;
-		this.y = y;
-	}
-	
-	public CompendiumPurchaseElement(KnowledgeObject<?> object, int x, int y){
-		this.object = object;
-		this.price = object.getPrice();
 		this.x = x;
 		this.y = y;
 	}

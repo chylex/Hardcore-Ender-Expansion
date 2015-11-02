@@ -19,7 +19,6 @@ import chylex.hee.gui.helpers.GuiHelper;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.mechanics.compendium.elements.CompendiumPurchaseElement;
-import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.server.S01CompendiumReadFragments;
 import chylex.hee.packets.server.S02CompendiumPurchase;
 import cpw.mods.fml.relauncher.Side;
@@ -177,17 +176,14 @@ public class CompendiumPageHandler{
 				GuiEnderCompendium.sendPacketToServer(new S01CompendiumReadFragments(unread));
 			}
 			
-			if (!compendiumFile.isDiscovered(currentObject) && currentObject.getPrice() != 0){
-				purchaseElements.add(new CompendiumPurchaseElement(currentObject,pageX+pageWidth/2,innerY+20));
-				return;
-			}
-			
-			int yy = innerY+12, height;
-			
-			for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
-				height = entry.getKey().getHeight(gui,entry.getValue());
-				if (!entry.getValue())purchaseElements.add(new CompendiumPurchaseElement(entry.getKey(),pageX+pageWidth/2,yy+height/2));
-				yy += 8+height;
+			if (compendiumFile.isDiscovered(currentObject)){
+				int yy = innerY+12, height;
+				
+				for(Entry<KnowledgeFragment,Boolean> entry:currentObjectPages.get((byte)pageIndex).entrySet()){
+					height = entry.getKey().getHeight(gui,entry.getValue());
+					if (!entry.getValue() && entry.getKey().getPrice() != 0)purchaseElements.add(new CompendiumPurchaseElement(entry.getKey(),pageX+pageWidth/2,yy+height/2));
+					yy += 8+height;
+				}
 			}
 		}
 	}
@@ -233,12 +229,6 @@ public class CompendiumPageHandler{
 		pageArrows[1].visible = pageIndex < currentObjectPages.size()-1;
 		
 		for(CompendiumPurchaseElement element:purchaseElements)element.render(gui,mouseX,mouseY);
-		
-		/*if (!compendiumFile.isDiscovered(currentObject)){ // TODO
-			RenderHelper.disableStandardItemLighting();
-			String msg = I18n.format("compendium.cannotBuy");
-			mc.fontRenderer.drawString(msg,x-(mc.fontRenderer.getStringWidth(msg)>>1),y-7,0x404040);
-		}*/
 
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 	}

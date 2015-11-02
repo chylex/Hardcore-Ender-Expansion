@@ -63,7 +63,7 @@ public class CompendiumFile extends PlayerFile{
 		else return false;
 	}
 	
-	public boolean tryPurchaseObject(EntityPlayer player, KnowledgeObject<? extends IObjectHolder<?>> obj){
+	public boolean tryPurchaseObject(EntityPlayer player, KnowledgeObject<? extends IObjectHolder<?>> obj){ // TODO unused
 		if (points >= obj.getPrice() && unlockObject(obj)){
 			offsetPoints(-obj.getPrice());
 			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this));
