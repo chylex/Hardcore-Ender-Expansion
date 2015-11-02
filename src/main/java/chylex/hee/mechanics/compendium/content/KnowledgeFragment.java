@@ -31,7 +31,7 @@ public abstract class KnowledgeFragment<T extends KnowledgeFragment>{
 		}
 		
 		this.type = type;
-		this.price = 0;
+		this.price = price;
 		return (T)this;
 	}
 	

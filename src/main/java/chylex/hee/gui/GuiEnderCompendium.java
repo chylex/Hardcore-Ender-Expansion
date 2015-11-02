@@ -112,17 +112,6 @@ public class GuiEnderCompendium extends GuiScreen{
 	protected void mouseClicked(int mouseX, int mouseY, int buttonId){
 		if (buttonId == 1)goBack();
 		else if (buttonId == 0){
-			if (!(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
-				int offY = (int)scrollHandler.getOffset(1F);
-				
-				for(CompendiumObjectElement element:objectElements){
-					if (element.isMouseOver(mouseX,mouseY,width/2,offY)){
-						showObject(element.object);
-						return;
-					}
-				}
-			}
-			
 			if (tabHandler.onMouseClick(mouseX,mouseY,buttonId))return;
 			if (pageHandler.onMouseClick(mouseX,mouseY,buttonId))return;
 			
@@ -132,7 +121,20 @@ public class GuiEnderCompendium extends GuiScreen{
 				pressedButton.get().func_146113_a(mc.getSoundHandler());
 				actionPerformed(pressedButton.get());
 			}
-			else scrollHandler.onMouseClick(mouseX,mouseY);
+			else{
+				if (!(mouseX < 24 || mouseX > width-24 || mouseY < 24 || mouseY > height-24)){
+					int offY = (int)scrollHandler.getOffset(1F);
+					
+					for(CompendiumObjectElement element:objectElements){
+						if (element.isMouseOver(mouseX,mouseY,width/2,offY)){
+							showObject(element.object);
+							return;
+						}
+					}
+				}
+				
+				scrollHandler.onMouseClick(mouseX,mouseY);
+			}
 		}
 	}
 	

@@ -102,10 +102,10 @@ public class CompendiumFile extends PlayerFile{
 	}
 	
 	private boolean unlockFragment(KnowledgeFragment fragment){
-		if (fragment.getType() != KnowledgeFragmentType.SECRET || fragment.getType() != KnowledgeFragmentType.HINT)return false;
+		if (fragment.getType() != KnowledgeFragmentType.SECRET && fragment.getType() != KnowledgeFragmentType.HINT)return false;
 		
 		boolean added = extraFragments.add(fragment.globalID);
-		if (added)setModified();
+		if (added)markFragmentAsRead(fragment.globalID); // also calls setModified
 		return added;
 	}
 	

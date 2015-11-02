@@ -75,13 +75,8 @@ public class CompendiumPageHandler{
 	public boolean onMouseClick(int mouseX, int mouseY, int mouseButton){
 		if (currentObject != null && isMouseInside(mouseX,mouseY)){
 			for(CompendiumPurchaseElement element:purchaseElements){
-				if (element.isMouseOver(mouseX,mouseY) && compendiumFile.getPoints() >= element.price){
-					Object obj = element.object;
-					
-					if (obj instanceof KnowledgeObject)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeObject)obj));
-					else if (obj instanceof KnowledgeFragment)PacketPipeline.sendToServer(new S02CompendiumPurchase((KnowledgeFragment)obj));
-					else continue;
-					
+				if (element.isMouseOver(mouseX,mouseY)){
+					if (compendiumFile.getPoints() >= element.price)GuiEnderCompendium.sendPacketToServer(new S02CompendiumPurchase(element.fragment));
 					return true;
 				}
 			}
