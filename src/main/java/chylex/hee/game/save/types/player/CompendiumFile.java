@@ -63,15 +63,6 @@ public class CompendiumFile extends PlayerFile{
 		else return false;
 	}
 	
-	public boolean tryPurchaseObject(EntityPlayer player, KnowledgeObject<? extends IObjectHolder<?>> obj){ // TODO unused
-		if (points >= obj.getPrice() && unlockObject(obj)){
-			offsetPoints(-obj.getPrice());
-			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this));
-			return true;
-		}
-		else return false;
-	}
-	
 	private boolean unlockObject(KnowledgeObject<? extends IObjectHolder<?>> obj){
 		boolean added = discoveredObjects.add(obj);
 		if (added)setModified();
@@ -101,7 +92,7 @@ public class CompendiumFile extends PlayerFile{
 		else return false;
 	}
 	
-	private boolean unlockFragment(KnowledgeFragment fragment){
+	public boolean unlockFragment(KnowledgeFragment fragment){
 		if (fragment.getType() != KnowledgeFragmentType.SECRET && fragment.getType() != KnowledgeFragmentType.HINT)return false;
 		
 		boolean added = extraFragments.add(fragment.globalID);

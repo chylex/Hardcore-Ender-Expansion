@@ -1,5 +1,7 @@
 package chylex.hee.mechanics.compendium.content;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import java.util.Set;
+import java.util.stream.Collectors;
 import chylex.hee.gui.GuiEnderCompendium;
 import chylex.hee.mechanics.compendium.content.fragments.KnowledgeFragmentType;
 import cpw.mods.fml.relauncher.Side;
@@ -10,6 +12,10 @@ public abstract class KnowledgeFragment<T extends KnowledgeFragment>{
 	
 	public static KnowledgeFragment<?> fromID(int id){
 		return allFragments.get(id);
+	}
+	
+	public static Set<KnowledgeFragment> getUnlockableFragments(){
+		return allFragments.valueCollection().stream().filter(fragment -> fragment.getType() == KnowledgeFragmentType.SECRET || fragment.getType() == KnowledgeFragmentType.HINT).collect(Collectors.toSet());
 	}
 	
 	public final int globalID;
