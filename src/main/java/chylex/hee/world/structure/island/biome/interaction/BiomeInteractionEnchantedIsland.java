@@ -3,64 +3,14 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
-import chylex.hee.entity.mob.EntityMobHomelandEnderman;
 import chylex.hee.entity.technical.EntityTechnicalBiomeInteraction;
 import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.misc.HomelandEndermen;
-import chylex.hee.mechanics.misc.HomelandEndermen.OvertakeGroupRole;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
-import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction;
 
 public class BiomeInteractionEnchantedIsland{
-	public static class InteractionOvertake extends AbstractBiomeInteraction{
-		public long groupId = -1L;
-		private int overtakeTimer;
-		
-		@Override
-		public void init(){
-			List<EntityMobHomelandEnderman> endermen = world.getEntitiesWithinAABB(EntityMobHomelandEnderman.class,getIslandBoundingBox());
-			
-			for(int attempt = 0; attempt < 3 && !endermen.isEmpty(); attempt++){
-				EntityMobHomelandEnderman subject = endermen.remove(rand.nextInt(endermen.size()));
-				
-				if (subject.getGroupId() != -1L){
-					List<EntityMobHomelandEnderman> sameGroup = HomelandEndermen.getInSameGroup(subject);
-					if (sameGroup.size() < 5)continue;
-					
-					List<OvertakeGroupRole> roles = CollectionUtil.newList(OvertakeGroupRole.values);
-					for(EntityMobHomelandEnderman enderman:sameGroup)roles.remove(enderman.getGroupRole());
-					
-					if (roles.isEmpty() && rand.nextInt(666) < MathUtil.square(sameGroup.size()) && rand.nextInt(3) == 0){
-						groupId = subject.getGroupId();
-						break;
-					}
-				}
-			}
-			
-			if (groupId == -1L)entity.setDead();
-		}
-
-		@Override
-		public void update(){
-			if (++overtakeTimer > 500+rand.nextInt(300))entity.setDead();
-		}
-
-		@Override
-		public void saveToNBT(NBTTagCompound nbt){
-			nbt.setLong("group",groupId);
-			nbt.setShort("timer",(short)overtakeTimer);
-		}
-
-		@Override
-		public void loadFromNBT(NBTTagCompound nbt){
-			groupId = nbt.getLong("group");
-			overtakeTimer = nbt.getShort("timer");
-		}
-	}
-	
 	public static class InteractionCellarSounds extends AbstractBiomeInteraction{
 		private enum Procedure{
 			FOOTSTEPS, BLOCK_BREAKING, CHEST_OPENING, MOB_KILLING;

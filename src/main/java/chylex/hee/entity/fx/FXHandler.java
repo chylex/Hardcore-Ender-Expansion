@@ -10,7 +10,6 @@ import chylex.hee.block.BlockSpookyLeaves;
 import chylex.hee.block.BlockSpookyLog;
 import chylex.hee.entity.item.EntityItemInstabilityOrb.ExplosionOrb;
 import chylex.hee.init.BlockList;
-import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 import chylex.hee.proxy.FXClientProxy;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -301,22 +300,6 @@ public final class FXHandler{
 				
 				world.playSound(x1,y1,z1,"mob.endermen.portal",1F,1F,false);
 				world.playSound(x2,y2,z2,"mob.endermen.portal",1F,1F,false);
-				break;
-				
-			case HOMELAND_ENDERMAN_GUARD_CALL:
-				addX = lineVec.xCoord*0.25D;
-				addY = lineVec.yCoord*0.25D;
-				addZ = lineVec.zCoord*0.25D;
-				
-				HomelandRole role = HomelandRole.GUARD;
-				
-				for(int a = 0; a < len*4D; a++){
-					if (rand.nextBoolean())fx.global("portal",x1+randCenter(0.25D),y1+randCenter(0.25D),z1+randCenter(0.25D),randCenter(1D),-rand.nextDouble(),randCenter(1D),role.red,role.green,role.blue);
-					x1 += addX;
-					y1 += addY;
-					z1 += addZ;
-				}
-				
 				break;
 				
 			case FIRE_FIEND_GOLEM_CALL:

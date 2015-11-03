@@ -10,7 +10,6 @@ import chylex.hee.world.structure.island.biome.data.AbstractBiomeInteraction.Bio
 import chylex.hee.world.structure.island.biome.data.BiomeContentVariation;
 import chylex.hee.world.structure.island.biome.data.BiomeRandomDeviation;
 import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland.InteractionCellarSounds;
-import chylex.hee.world.structure.island.biome.interaction.BiomeInteractionEnchantedIsland.InteractionOvertake;
 import chylex.hee.world.util.SpawnEntry;
 
 public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
@@ -45,7 +44,6 @@ public class IslandBiomeEnchantedIsland extends IslandBiomeBase{
 		});
 		
 		getInteractions(HOMELAND).addAll(new BiomeInteraction[]{
-			new BiomeInteraction("EI_Homeland_Overtake",InteractionOvertake.class,50,1),
 			new BiomeInteraction("EI_Homeland_CellarSounds",InteractionCellarSounds.class,10,20)
 		});
 		

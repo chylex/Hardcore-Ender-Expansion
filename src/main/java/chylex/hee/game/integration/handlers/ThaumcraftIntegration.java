@@ -15,7 +15,6 @@ import chylex.hee.game.integration.IIntegrationHandler;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
-import chylex.hee.mechanics.misc.HomelandEndermen.HomelandRole;
 
 public class ThaumcraftIntegration implements IIntegrationHandler{
 	@Override
@@ -157,15 +156,6 @@ public class ThaumcraftIntegration implements IIntegrationHandler{
 		registerMob("FireGolem").add(Aspect.DARKNESS,1).add(Aspect.ELDRITCH,1).add(Aspect.FIRE,3).add(Aspect.MAGIC,1);
 		registerMob("ScorchingLens").add(Aspect.DARKNESS,1).add(Aspect.FIRE,3).add(Aspect.SENSES,1);
 		registerMob("HauntedMiner").add(Aspect.MINE,4).add(Aspect.FIRE,4).add(Aspect.WEAPON,2).add(Aspect.SOUL,5).add(Aspect.EARTH,1);
-
-		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.BUSINESSMAN.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.EXCHANGE,1);
-		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.COLLECTOR.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.GREED,1);
-		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.GUARD.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.ARMOR,1);
-		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.INTELLIGENCE.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,3);
-		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.ISLAND_LEADERS.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2).add(Aspect.ORDER,1);
-		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.OVERWORLD_EXPLORER.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,2).add(Aspect.MIND,2);
-		registerMob("HomelandEnderman",new EntityTagsNBT("homelandRole",(byte)HomelandRole.WORKER.ordinal())).add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,1).add(Aspect.MIND,2);
-
 		registerMob("Endermage").add(Aspect.AIR,2).add(Aspect.ELDRITCH,4).add(Aspect.TRAVEL,2).add(Aspect.MAGIC,4);
 	}
 	

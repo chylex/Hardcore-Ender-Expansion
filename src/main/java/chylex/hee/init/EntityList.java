@@ -38,7 +38,6 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityMobEnderman.class, "Enderman", 51, 256);
 		GameRegistryUtil.registerEntity(EntityMobAngryEnderman.class, "AngryEnderman", 1, 256);
 		GameRegistryUtil.registerEntity(EntityMobBabyEnderman.class, "BabyEnderman", 16, 256);
-		GameRegistryUtil.registerEntity(EntityMobHomelandEnderman.class, "HomelandEnderman", 39, 256);
 		GameRegistryUtil.registerEntity(EntityMobEnderGuardian.class, "EnderGuardian", 22, 256);
 		GameRegistryUtil.registerEntity(EntityMobVampiricBat.class, "VampireBat", 10, 256);
 		GameRegistryUtil.registerEntity(EntityMobInfestedBat.class, "InfestedBat", 12, 128);

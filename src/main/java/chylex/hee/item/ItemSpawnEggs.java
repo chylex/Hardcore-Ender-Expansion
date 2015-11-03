@@ -37,7 +37,7 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		/* 10 */ EggData.unknown, // removed mob
 		/* 11 */ new EggData("louse", EntityMobLouse.class, new int[]{ 45,45,45 }, new int[]{ 80,0,140 }),
 		/* 12 */ new EggData("hauntedMiner", EntityMobHauntedMiner.class, new int[]{ 48,23,23 }, new int[]{ 170,72,37 }),
-		/* 13 */ new EggData("homelandEnderman", EntityMobHomelandEnderman.class, new int[]{ 22,22,22 }, new int[]{ 199,44,44 }),
+		/* 13 */ EggData.unknown, // removed mob
 		/* 14 */ new EggData("endermage", EntityMobEndermage.class, new int[]{ 22,22,22 }, new int[]{ 217,210,84 })
 	};
 	
