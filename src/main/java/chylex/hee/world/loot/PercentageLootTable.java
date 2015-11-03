@@ -57,7 +57,7 @@ public class PercentageLootTable extends LootTable<PercentageLootItem>{
 			return this;
 		}
 		
-		public PercentageLootItem setChances(PercentageChance chanceGenerator){
+		public <T> PercentageLootItem setChances(PercentageChance<T> chanceGenerator){
 			this.chanceGenerator = chanceGenerator;
 			return this;
 		}

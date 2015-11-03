@@ -37,8 +37,8 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	private static final PercentageLootTable drops = new PercentageLootTable();
 	
 	static{
-		drops.addLoot(ItemList.ancient_dust).setChances(obj -> {
-			final boolean critical = DamageUtil.isCriticalHit(((LootMobInfo)obj).entity.func_94060_bK());
+		drops.addLoot(ItemList.ancient_dust).<LootMobInfo>setChances(obj -> {
+			final boolean critical = DamageUtil.isCriticalHit(obj.entity.func_94060_bK()); // OBFUSCATED getLastAttacker
 			return critical ? new float[]{ 0.75F, 0.15F } : new float[]{ 0.15F };
 		});
 	}
