@@ -49,6 +49,7 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	
 	private int x, y, price, reward;
 	private ObjectShape shape = ObjectShape.PLAIN;
+	private boolean isCategoryObject;
 	
 	public KnowledgeObject(T holder){
 		this(holder,holder.getDisplayItemStack().getDisplayName());
@@ -63,6 +64,17 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 		this.parentLineNodes = CollectionUtil.newList(new byte[]{ 0, 0 });
 		this.childLineNodes = CollectionUtil.newList(new byte[]{ 0, 0 });
 		allObjects.put(globalID,this);
+	}
+	
+	// Category
+	
+	public KnowledgeObject<T> setCategoryObject(){
+		this.isCategoryObject = true;
+		return this;
+	}
+	
+	public boolean isCategoryObject(){
+		return isCategoryObject;
 	}
 	
 	// Fragments

@@ -13,6 +13,7 @@ public final class KnowledgeCategory{
 		this.tooltip = tooltip;
 		this.displayItem = displayItem;
 		this.targetObj = targetObj;
+		this.targetObj.setCategoryObject();
 	}
 	
 	@SideOnly(Side.CLIENT)
