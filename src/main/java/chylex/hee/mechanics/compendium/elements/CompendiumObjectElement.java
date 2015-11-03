@@ -35,11 +35,12 @@ public final class CompendiumObjectElement{
 	
 	private enum ObjectStatus{
 		NONE_UNLOCKED(255,255,255),
-		ALL_UNLOCKED(255,249,151,"ec.tooltip.allUnlocked"),
-		ALL_BUT_SECRET(255,215,151,"ec.tooltip.allButSecret"),
-		UNREAD_HINT(151,207,255,"ec.tooltip.unreadHint"),
-		ESSENTIAL_ONLY(178,255,151,"ec.tooltip.essentialOnly"),
-		DEFAULT(255,255,255); // TODO tmp
+		ALL_UNLOCKED(255,227,72,"ec.tooltip.allUnlocked"),
+		ALL_BUT_SECRET(92,255,72,"ec.tooltip.allButSecret"),
+		UNREAD_HINT(255,158,72,"ec.tooltip.unreadHint"),
+		HINTS_ONLY(255,158,72,"ec.tooltip.hintsOnly"),
+		ESSENTIAL_ONLY(72,188,255,"ec.tooltip.essentialOnly"),
+		DEFAULT(255,255,255);
 		
 		final float red, green, blue;
 		final String title;
@@ -122,8 +123,9 @@ public final class CompendiumObjectElement{
 		
 		if (unlocked.isEmpty())outline = ObjectStatus.NONE_UNLOCKED;
 		else{
-			if (unlocked.size() == fragments.size())outline = ObjectStatus.ALL_UNLOCKED;
-			else if (unlocked.stream().anyMatch(fragment -> fragment.getType() == KnowledgeFragmentType.HINT && file.canSeeFragment(object,fragment) && !file.hasReadFragment(fragment)))outline = ObjectStatus.UNREAD_HINT;
+			if (unlocked.stream().allMatch(fragment -> fragment.getType() == KnowledgeFragmentType.HINT))outline = ObjectStatus.HINTS_ONLY;
+			else if (unlocked.stream().anyMatch(fragment -> fragment.getType() == KnowledgeFragmentType.HINT && !file.hasReadFragment(fragment)))outline = ObjectStatus.UNREAD_HINT;
+			else if (unlocked.size() == fragments.size())outline = ObjectStatus.ALL_UNLOCKED;
 			else if (unlocked.stream().allMatch(fragment -> fragment.getType() == KnowledgeFragmentType.ESSENTIAL))outline = ObjectStatus.ESSENTIAL_ONLY;
 			else if (unlocked.stream().allMatch(fragment -> fragment.getType() != KnowledgeFragmentType.SECRET))outline = ObjectStatus.ALL_BUT_SECRET;
 		}
@@ -147,7 +149,7 @@ public final class CompendiumObjectElement{
 		
 		gui.drawTexturedModalRect(x-13,y-13,outline == ObjectStatus.NONE_UNLOCKED && !file.isDiscovered(object) ? shape.x+27 : shape.x,shape.y,26,26);
 		
-		if (blink)GL11.glColor4f(outline.red*0.65F,outline.green*0.65F,outline.blue*0.65F,1F);
+		if (blink)GL11.glColor4f(1F,1F,1F,1F);
 		else GL11.glColor4f(outline.red,outline.green,outline.blue,1F);
 		
 		gui.drawTexturedModalRect(x-13,y-13,shape.x+54,shape.y,26,26);

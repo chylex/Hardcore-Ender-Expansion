@@ -49,9 +49,14 @@ public final class KnowledgeRegistrations{
 			new FragmentText(42).setType(KnowledgeFragmentType.SECRET,10)
 		});
 		
-		TEST5.setParent(TEST4,0,200);
+		TEST5.setParent(TEST4,0,10).addFragments(new KnowledgeFragment[]{
+			new FragmentText(50).setType(KnowledgeFragmentType.ESSENTIAL),
+			new FragmentText(51).setType(KnowledgeFragmentType.DISCOVERY)
+		});
 		
-		TEST6.setParent(TEST4,3,8).addParentLine(-3,0);
+		TEST6.setParent(TEST4,3,8).addParentLine(-3,0).addFragments(new KnowledgeFragment[]{
+			new FragmentText(60).setType(KnowledgeFragmentType.HINT)
+		});
 	}
 	
 	private static <T extends IObjectHolder<?>> KnowledgeObject<T> $(T holder){

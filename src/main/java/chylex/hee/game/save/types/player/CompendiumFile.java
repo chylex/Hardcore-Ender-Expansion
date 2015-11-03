@@ -92,6 +92,16 @@ public class CompendiumFile extends PlayerFile{
 		else return false;
 	}
 	
+	public boolean tryUnlockHintFragment(EntityPlayer player, KnowledgeFragment fragment){
+		if (fragment.getType() != KnowledgeFragmentType.HINT)return false;
+		
+		if (extraFragments.add(fragment.globalID)){
+			PacketPipeline.sendToPlayer(player,new C19CompendiumData(this));
+			return true;
+		}
+		else return false;
+	}
+	
 	public boolean unlockFragment(KnowledgeFragment fragment){
 		if (fragment.getType() != KnowledgeFragmentType.SECRET && fragment.getType() != KnowledgeFragmentType.HINT)return false;
 		
