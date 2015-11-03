@@ -50,7 +50,7 @@ public final class KnowledgeRegistrations{
 		});
 		
 		TEST5.setParent(TEST4,0,10).addFragments(new KnowledgeFragment[]{
-			new FragmentText(50).setType(KnowledgeFragmentType.ESSENTIAL),
+			new FragmentText(50).setType(KnowledgeFragmentType.VISIBLE),
 			new FragmentText(51).setType(KnowledgeFragmentType.DISCOVERY)
 		});
 		

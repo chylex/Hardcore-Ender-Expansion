@@ -40,6 +40,7 @@ public final class CompendiumObjectElement{
 		UNREAD_HINT(255,158,72,"ec.tooltip.unreadHint"),
 		HINTS_ONLY(255,158,72,"ec.tooltip.hintsOnly"),
 		ESSENTIAL_ONLY(72,188,255,"ec.tooltip.essentialOnly"),
+		VISIBLE_ONLY(132,72,255,"ec.tooltip.visibleOnly"),
 		DEFAULT(255,255,255);
 		
 		final float red, green, blue;
@@ -69,16 +70,10 @@ public final class CompendiumObjectElement{
 	
 	public void renderLine(GuiScreen gui, CompendiumFile file, int yLowerBound, int yUpperBound){
 		if (file.getDiscoveryDistance(object) == CompendiumFile.distanceLimit)return;
+		if (object.getChildren().stream().allMatch(obj -> file.getDiscoveryDistance(obj) == CompendiumFile.distanceLimit))return;
 		
 		final int offX = gui.width/2;
-		int brightness = 224;
-		
-		for(KnowledgeObject<?> child:object.getChildren()){
-			int childBrightness = 224-16*file.getDiscoveryDistance(child);
-			if (childBrightness < brightness)brightness = childBrightness;
-		}
-		
-		final int color = (255<<24)|(brightness<<16)|(brightness<<8)|brightness;
+		final int color = (255<<24)|(224<<16)|(224<<8)|224;
 		
 		object.connectToChildren((x1, y1, x2, y2) -> {
 			if (!(y1 > yUpperBound || y2 < yLowerBound))GuiHelper.renderLine(offX+x1,y1,offX+x2,y2,color);
@@ -127,7 +122,9 @@ public final class CompendiumObjectElement{
 			else if (unlocked.stream().anyMatch(fragment -> fragment.getType() == KnowledgeFragmentType.HINT && !file.hasReadFragment(fragment)))outline = ObjectStatus.UNREAD_HINT;
 			else if (unlocked.size() == fragments.size())outline = ObjectStatus.ALL_UNLOCKED;
 			else if (unlocked.stream().allMatch(fragment -> fragment.getType() == KnowledgeFragmentType.ESSENTIAL))outline = ObjectStatus.ESSENTIAL_ONLY;
-			else if (unlocked.stream().allMatch(fragment -> fragment.getType() != KnowledgeFragmentType.SECRET))outline = ObjectStatus.ALL_BUT_SECRET;
+			else if (unlocked.stream().allMatch(fragment -> fragment.getType() == KnowledgeFragmentType.VISIBLE))outline = ObjectStatus.VISIBLE_ONLY;
+			else if (fragments.stream().filter(entry -> entry.getKey().getType() == KnowledgeFragmentType.SECRET).findAny().isPresent() &&
+					 unlocked.stream().allMatch(fragment -> fragment.getType() != KnowledgeFragmentType.SECRET))outline = ObjectStatus.ALL_BUT_SECRET;
 		}
 		
 		return outline;
