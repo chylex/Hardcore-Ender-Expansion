@@ -18,6 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
+import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
 import chylex.hee.entity.mob.ai.EntityAIRandomTarget;
 import chylex.hee.entity.mob.ai.EntityAISummonFromBlock;
@@ -47,6 +48,9 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	public EntityMobSilverfish(World world){
 		super(world);
 		setSize(0.35F,0.6F);
+		
+		AIUtil.clearTasks(tasks);
+		AIUtil.clearTasks(targetTasks);
 		
 		tasks.addTask(1,new EntityAISwimming(this));
 		tasks.addTask(3,new EntityAIAttackOnCollide(this,EntityPlayer.class,1D,false));
