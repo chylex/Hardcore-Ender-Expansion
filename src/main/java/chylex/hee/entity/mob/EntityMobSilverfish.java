@@ -18,6 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
+import chylex.hee.entity.mob.ai.AIToggle;
 import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.entity.mob.ai.EntityAIHideInBlock;
 import chylex.hee.entity.mob.ai.EntityAIRandomTarget;
@@ -42,8 +43,8 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 		});
 	}
 	
-	private EntityAISummonFromBlock canSummonSilverfish;
-	private EntityAIHideInBlock canHideInBlocks;
+	private final AIToggle<EntityAISummonFromBlock> canSummonSilverfish;
+	private final AIToggle<EntityAIHideInBlock> canHideInBlocks;
 	
 	public EntityMobSilverfish(World world){
 		super(world);
@@ -51,6 +52,9 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 		
 		AIUtil.clearTasks(tasks);
 		AIUtil.clearTasks(targetTasks);
+		
+		canSummonSilverfish = new AIToggle<>(tasks,2,new EntityAISummonFromBlock(this,Blocks.monster_egg,EntityMobSilverfish::new));
+		canHideInBlocks = new AIToggle<>(tasks,5,new EntityAIHideInBlock(this,new Block[]{ Blocks.cobblestone, Blocks.stone, Blocks.stonebrick },target -> new BlockInfo(Blocks.monster_egg,BlockSilverfish.func_150195_a(target.block,target.meta))));
 		
 		tasks.addTask(1,new EntityAISwimming(this));
 		tasks.addTask(3,new EntityAIAttackOnCollide(this,EntityPlayer.class,1D,false));
@@ -65,25 +69,11 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	}
 	
 	public void setCanSummonSilverfish(boolean allow){
-		if (allow && canSummonSilverfish == null){
-			canSummonSilverfish = new EntityAISummonFromBlock(this,Blocks.monster_egg,EntityMobSilverfish::new);
-			tasks.addTask(2,canSummonSilverfish);
-		}
-		else if (!allow && canSummonSilverfish != null){
-			tasks.removeTask(canSummonSilverfish);
-			canSummonSilverfish = null;
-		}
+		canSummonSilverfish.changeState(allow);
 	}
 	
 	public void setCanHideInBlocks(boolean allow){
-		if (allow && canHideInBlocks == null){
-			canHideInBlocks = new EntityAIHideInBlock(this,new Block[]{ Blocks.cobblestone, Blocks.stone, Blocks.stonebrick },target -> new BlockInfo(Blocks.monster_egg,BlockSilverfish.func_150195_a(target.block,target.meta)));
-			tasks.addTask(5,canHideInBlocks);
-		}
-		else if (!allow && canHideInBlocks != null){
-			tasks.removeTask(canHideInBlocks);
-			canHideInBlocks = null;
-		}
+		canHideInBlocks.changeState(allow);
 	}
 	
 	@Override
@@ -110,7 +100,7 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	public boolean attackEntityFrom(DamageSource source, float amount){
 		if (isEntityInvulnerable())return false;
 		
-		if (canSummonSilverfish != null && (source.getEntity() != null || source == DamageSource.magic))canSummonSilverfish.setSummonTimer(20);
+		if (canSummonSilverfish.isEnabled() && (source.getEntity() != null || source == DamageSource.magic))canSummonSilverfish.getTask().setSummonTimer(20);
 		return super.attackEntityFrom(source,amount);
 	}
 	
@@ -142,8 +132,8 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setBoolean("canSummonSilverfish",canSummonSilverfish != null);
-		nbt.setBoolean("canHideInBlocks",canHideInBlocks != null);
+		nbt.setBoolean("canSummonSilverfish",canSummonSilverfish.isEnabled());
+		nbt.setBoolean("canHideInBlocks",canHideInBlocks.isEnabled());
 	}
 	
 	@Override
