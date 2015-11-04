@@ -67,7 +67,7 @@ public class BlockEnderGoo extends BlockFluidClassic{
 					currentPos.setBlock(world,Blocks.flowing_water,2);
 					
 					for(int b = 0; b < 2+rand.nextInt(5); b++){
-						mpos.set(currentPos).move(Facing6.list[rand.nextInt(Facing6.list.length)]);
+						mpos.set(currentPos).move(Facing6.random(rand));
 						if (mpos.getBlock(world) == this)mpos.setBlock(world,Blocks.flowing_water,2);
 					}
 					

@@ -56,7 +56,7 @@ public interface IOreGenerator{
 					mpos.set(CollectionUtil.randomOrNull(generated,rand));
 					
 					if (allowDiagonal)mpos.move(rand.nextInt(3)-1,rand.nextInt(3)-1,rand.nextInt(3)-1);
-					else mpos.move(Facing6.list[rand.nextInt(Facing6.list.length)]);
+					else mpos.move(Facing6.random(rand));
 					
 					if (canPlaceAt(gen,world,rand,mpos.x,mpos.y,mpos.z)){
 						world.setBlock(mpos.x,mpos.y,mpos.z,gen.orePicker.pick(rand));

@@ -24,7 +24,7 @@ public class StrongholdRoomStairSnake extends StrongholdRoom{
 		placeStairOutline(world,rand,Blocks.stone_brick_stairs,centerX,y,centerZ,1,true,false);
 		
 		// snake
-		Facing4 snakeFacing = Facing4.list[rand.nextInt(Facing4.list.length)];
+		Facing4 snakeFacing = Facing4.random(rand);
 		
 		for(int snake = 0; snake < 3; snake++){
 			placeBlock(world,rand,placeStoneBrickStairs(snakeFacing = snakeFacing.opposite(),false),centerX,y+1+snake,centerZ);

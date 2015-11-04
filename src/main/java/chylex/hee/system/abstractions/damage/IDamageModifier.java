@@ -17,6 +17,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C06SetPlayerVelocity;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.RandUtil;
 
 @FunctionalInterface
 public interface IDamageModifier{
@@ -42,8 +43,8 @@ public interface IDamageModifier{
 						
 						if (armorIS.length > 0){
 							int damage = MathUtil.ceil(finalAmount*0.33F);
-							armorIS[target.worldObj.rand.nextInt(armorIS.length)].damageItem(damage,(EntityPlayer)target);
-							armorIS[target.worldObj.rand.nextInt(armorIS.length)].damageItem(damage,(EntityPlayer)target);
+							RandUtil.anyOf(target.worldObj.rand,armorIS).damageItem(damage,(EntityPlayer)target);
+							RandUtil.anyOf(target.worldObj.rand,armorIS).damageItem(damage,(EntityPlayer)target);
 						}
 					}
 				});
@@ -74,7 +75,7 @@ public interface IDamageModifier{
 					}).toArray(ItemStack[]::new);
 					
 					if (enchArmor.length > 0){
-						enchArmor[target.worldObj.rand.nextInt(enchArmor.length)].damageItem(1,(EntityPlayer)target);
+						RandUtil.anyOf(target.worldObj.rand,enchArmor).damageItem(1,(EntityPlayer)target);
 					}
 				}
 			}

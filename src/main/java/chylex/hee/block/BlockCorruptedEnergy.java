@@ -69,7 +69,7 @@ public class BlockCorruptedEnergy extends Block{
 		
 		if (level > 0){
 			for(int spreadAttempt = 0; spreadAttempt < 1+rand.nextInt(3); spreadAttempt++){
-				Facing6 side = Facing6.list[rand.nextInt(Facing6.list.length)];
+				Facing6 side = Facing6.random(rand);
 				Pos spreadPos = pos.offset(side);
 				
 				if (spreadPos.isAir(world))spreadPos.setBlock(world,getCorruptedEnergy(level-1-rand.nextInt(2)));

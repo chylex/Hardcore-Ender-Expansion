@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import chylex.hee.entity.mob.EntityMobLouse;
 import chylex.hee.proxy.ModClientProxy;
 import chylex.hee.render.model.ModelLouse;
+import chylex.hee.system.util.RandUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAbility;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
@@ -77,7 +78,6 @@ public class RenderMobLouse extends RenderLiving{
 			
 			if (attributes.isEmpty() && abilities.isEmpty())return -1;
 			
-			ResourceLocation res;
 			RuneColor color = RuneColor.RED;
 			
 			if (abilities.isEmpty()){
@@ -99,10 +99,7 @@ public class RenderMobLouse extends RenderLiving{
 			for(EnumLouseAttribute attribute:attributes)rand.nextInt(1+attribute.ordinal());
 			for(EnumLouseAbility ability:abilities)rand.nextInt(1+ability.ordinal());
 			
-			if (pass == 1)res = texLouseRuneBottom[rand.nextInt(texLouseRuneBottom.length)];
-			else res = texLouseRuneTop[rand.nextInt(texLouseRuneTop.length)];
-			
-			bindTexture(res);
+			bindTexture(RandUtil.anyOf(rand,pass == 1 ? texLouseRuneBottom : texLouseRuneTop));
 			GL11.glMatrixMode(GL11.GL_TEXTURE);
 			GL11.glLoadIdentity();
 			setRenderPassModel(mainModel);

@@ -58,7 +58,7 @@ public class StrongholdRoomClusterIntersection extends StrongholdRoom{
 		}
 		
 		// alternate stairs and pillars
-		Facing4 contentFacing = Facing4.list[rand.nextInt(Facing4.list.length)];
+		Facing4 contentFacing = Facing4.random(rand);
 		generateStairs(world,rand,centerX,y,centerZ,contentFacing = contentFacing.rotateRight());
 		generatePillar(world,rand,centerX,y,centerZ,contentFacing = contentFacing.rotateRight(),true);
 		generateStairs(world,rand,centerX,y,centerZ,contentFacing = contentFacing.rotateRight());

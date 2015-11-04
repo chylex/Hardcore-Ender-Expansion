@@ -9,6 +9,7 @@ import chylex.hee.system.abstractions.Meta.Skull;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.util.RandUtil;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
@@ -137,7 +138,7 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 		Set<Pos> usedPos = new HashSet<>();
 		
 		for(int attempts = 4+rand.nextInt(4); attempts > 0; attempts--){
-			Facing4 offFacing = Facing4.list[rand.nextInt(Facing4.list.length)];
+			Facing4 offFacing = Facing4.random(rand);
 			int offExtra = rand.nextInt(3);
 			
 			mpos.set(centerX,0,centerZ).move(offFacing,5).move(rand.nextBoolean() ? offFacing.rotateLeft() : offFacing.rotateRight(),3+offExtra); // higher chance for corners
@@ -153,7 +154,7 @@ public class StrongholdRoomWorkshop extends StrongholdRoom{
 			}
 			else{
 				placeBlock(world,rand,placeFlowerPot,mpos.x,y+2,mpos.z);
-				world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(plants[rand.nextInt(plants.length)]));
+				world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(RandUtil.anyOf(rand,plants)));
 			}
 			
 			usedPos.add(mpos.immutable());

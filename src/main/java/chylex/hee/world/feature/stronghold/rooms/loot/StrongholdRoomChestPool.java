@@ -68,6 +68,6 @@ public class StrongholdRoomChestPool extends StrongholdRoom{
 		
 		// chest
 		placeBlock(world,rand,placeChest,centerX,y+2,centerZ);
-		world.setTileEntity(centerX,y+2,centerZ,Meta.generateChest(Facing4.list[rand.nextInt(Facing4.list.length)],generateLootGeneral));
+		world.setTileEntity(centerX,y+2,centerZ,Meta.generateChest(Facing4.random(rand),generateLootGeneral));
 	}
 }

@@ -10,6 +10,7 @@ import chylex.hee.system.abstractions.Meta.LogType;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.util.RandUtil;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
@@ -41,7 +42,7 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 		// ceiling cobwebs
 		for(int attempts = 18, toPlace = 6+rand.nextInt(7); attempts > 0 && toPlace > 0; attempts--){
 			mpos.set(centerX,y+maxY-1-rand.nextInt(2),centerZ);
-			mpos.move(facing = Facing4.list[rand.nextInt(Facing4.list.length)],1+rand.nextInt(2+rand.nextInt(3)));
+			mpos.move(facing = Facing4.random(rand),1+rand.nextInt(2+rand.nextInt(3)));
 			mpos.move(rand.nextBoolean() ? facing.rotateLeft() : facing.rotateRight(),rand.nextInt(2));
 			
 			if (world.isAir(mpos.x,mpos.y,mpos.z)){
@@ -98,7 +99,7 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 			placeFlowerPot(world,rand,posArray[2]);
 		}
 		else if (type == CornerContent.FLOWER_POT){
-			placeFlowerPot(world,rand,posArray[rand.nextInt(posArray.length)]);
+			placeFlowerPot(world,rand,RandUtil.anyOf(rand,posArray));
 		}
 		else if (type == CornerContent.DOUBLE_CHEST){
 			placeChest(world,rand,posArray[1],facing1.rotateRight());
@@ -110,7 +111,7 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 			
 			if (type == CornerContent.CHEST_FLOWER_POT){
 				for(int attempt = 0; attempt < 3; attempt++){
-					Pos pos = posArray[rand.nextInt(posArray.length)];
+					Pos pos = RandUtil.anyOf(rand,posArray);
 					
 					if (world.isAir(pos.getX(),pos.getY(),pos.getZ())){
 						placeFlowerPot(world,rand,pos);
@@ -122,7 +123,7 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 		
 		for(int webAttempt = 0; webAttempt < 2; webAttempt++){
 			if (rand.nextInt(5) == 0){
-				Pos cobweb = posArray[rand.nextInt(posArray.length)];
+				Pos cobweb = RandUtil.anyOf(rand,posArray);
 				
 				if (world.isAir(cobweb.getX(),cobweb.getY(),cobweb.getZ())){
 					world.setBlock(cobweb.getX(),cobweb.getY(),cobweb.getZ(),BlockList.ancient_web);
@@ -133,7 +134,7 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 	
 	private void placeFlowerPot(StructureWorld world, Random rand, Pos pos){
 		world.setBlock(pos.getX(),pos.getY(),pos.getZ(),Blocks.flower_pot);
-		world.setTileEntity(pos.getX(),pos.getY(),pos.getZ(),Meta.generateFlowerPot(plants[rand.nextInt(plants.length)]));
+		world.setTileEntity(pos.getX(),pos.getY(),pos.getZ(),Meta.generateFlowerPot(RandUtil.anyOf(rand,plants)));
 	}
 	
 	private void placeChest(StructureWorld world, Random rand, Pos pos, Facing4 facing){

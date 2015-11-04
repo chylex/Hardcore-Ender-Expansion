@@ -30,6 +30,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.util.RandUtil;
 
 public class EntityItemInstabilityOrb extends EntityItem{
 	public EntityItemInstabilityOrb(World world){
@@ -112,7 +113,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 				item = new WeightedItem(is.getItem(),is.getItemDamage(),1);
 			}
 			
-			int meta = item.getDamageValues()[rand.nextInt(item.getDamageValues().length)];
+			int meta = RandUtil.anyOf(rand,item.getDamageValues());
 			if (meta == 32767)meta = 0;
 			
 			EntityItem entityitem = new EntityItem(worldObj,posX,posY,posZ,new ItemStack(item.getItem(),1,meta));

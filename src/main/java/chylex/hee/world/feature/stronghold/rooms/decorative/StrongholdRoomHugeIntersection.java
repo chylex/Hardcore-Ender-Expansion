@@ -76,7 +76,7 @@ public class StrongholdRoomHugeIntersection extends StrongholdRoom{
 		}
 		
 		// alternating content
-		Facing4 contentFacing = Facing4.list[rand.nextInt(Facing4.list.length)];
+		Facing4 contentFacing = Facing4.random(rand);
 		generateStairs(world,rand,centerX,y,centerZ,contentFacing = contentFacing.rotateRight());
 		generateFountain(world,rand,centerX,y,centerZ,contentFacing = contentFacing.rotateRight());
 		generateStairs(world,rand,centerX,y,centerZ,contentFacing = contentFacing.rotateRight());

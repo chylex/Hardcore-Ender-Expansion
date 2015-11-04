@@ -6,6 +6,7 @@ import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.FlowerPotPlant;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.util.RandUtil;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
@@ -73,7 +74,7 @@ public class StrongholdRoomChestIntersection extends StrongholdRoom{
 		
 		// chests and decorations
 		for(int chestAttempt = 0; chestAttempt < 1+rand.nextInt(2); chestAttempt++){
-			Facing4 offFacing = Facing4.list[rand.nextInt(Facing4.list.length)];
+			Facing4 offFacing = Facing4.random(rand);
 			
 			mpos.set(centerX,0,centerZ).move(offFacing,4).move(rand.nextBoolean() ? offFacing.rotateLeft() : offFacing.rotateRight(),3);
 			if (!world.isAir(mpos.x,y+2,mpos.z))continue;
@@ -87,7 +88,7 @@ public class StrongholdRoomChestIntersection extends StrongholdRoom{
 		};
 		
 		for(int decorationAttempt = 2+rand.nextInt(3); decorationAttempt > 0; decorationAttempt--){
-			Facing4 offFacing = Facing4.list[rand.nextInt(Facing4.list.length)];
+			Facing4 offFacing = Facing4.random(rand);
 			
 			mpos.set(centerX,0,centerZ).move(offFacing,4).move(rand.nextBoolean() ? offFacing.rotateLeft() : offFacing.rotateRight(),3);
 			if (!world.isAir(mpos.x,y+2,mpos.z))continue;
@@ -97,7 +98,7 @@ public class StrongholdRoomChestIntersection extends StrongholdRoom{
 			}
 			else{
 				placeBlock(world,rand,placeFlowerPot,mpos.x,y+2,mpos.z);
-				world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(plants[rand.nextInt(plants.length)]));
+				world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(RandUtil.anyOf(rand,plants)));
 			}
 		}
 	}

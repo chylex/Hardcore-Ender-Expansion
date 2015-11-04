@@ -7,6 +7,7 @@ import chylex.hee.system.abstractions.Meta.FlowerPotPlant;
 import chylex.hee.system.abstractions.Meta.Skull;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.util.RandUtil;
 import chylex.hee.world.feature.stronghold.StrongholdPieceGeneric;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
@@ -98,7 +99,7 @@ public class StrongholdEndWallDecorations extends StrongholdPieceGeneric{
 				
 				if (world.isAir(mpos.x,y+2,mpos.z)){
 					placeBlock(world,rand,placeFlowerPot,mpos.x,y+2,mpos.z);
-					world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(plants[rand.nextInt(plants.length)]));
+					world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateFlowerPot(RandUtil.anyOf(rand,plants)));
 					break;
 				}
 			}

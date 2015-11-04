@@ -25,6 +25,7 @@ import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.RandUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -141,7 +142,7 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 						double minDistance = available.values().stream().mapToDouble(dist -> dist).min().getAsDouble();
 						Pos[] closest = available.entrySet().stream().filter(entry -> MathUtil.floatEquals(entry.getValue().floatValue(),(float)minDistance)).map(entry -> entry.getKey()).toArray(Pos[]::new);
 						
-						Pos selected = closest[rand.nextInt(closest.length)];
+						Pos selected = RandUtil.anyOf(rand,closest);
 						player.setPositionAndUpdate(selected.getX()+0.5D,selected.getY()+1.001D,selected.getZ()+0.5D);
 					}
 					
