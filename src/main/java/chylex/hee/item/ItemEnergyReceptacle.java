@@ -49,7 +49,7 @@ public class ItemEnergyReceptacle extends Item{
 				float lvl = clusterTag.getFloat("lvl");
 				float limit = clusterTag.getFloat("max");
 				
-				clusterTag.setFloat("lvl",updateEnergyLevel(lvl,limit,1));
+				clusterTag.setFloat("lvl",updateEnergyLevel(lvl,limit,(int)((currentTime-prevTime)/10)));
 				nbt.setLong("ltime",currentTime);
 			}
 		}
