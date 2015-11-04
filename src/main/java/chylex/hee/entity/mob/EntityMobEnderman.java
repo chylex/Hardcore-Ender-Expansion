@@ -21,8 +21,8 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 	private static final PercentageLootTable drops = new PercentageLootTable();
 	
 	static{
-		drops.addLoot(Items.ender_pearl).setChances(obj -> {
-			switch(((LootMobInfo)obj).looting){
+		drops.addLoot(Items.ender_pearl).<LootMobInfo>setChances(obj -> {
+			switch(obj.looting){
 				case 0: return new float[]{ 0.60F };
 				case 1: return new float[]{ 0.70F };
 				case 2: return new float[]{ 0.65F, 0.10F };
@@ -30,8 +30,8 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 			}
 		});
 		
-		drops.addLoot(ItemList.ethereum).setChances(obj -> {
-			switch(((LootMobInfo)obj).looting){
+		drops.addLoot(ItemList.ethereum).<LootMobInfo>setChances(obj -> {
+			switch(obj.looting){
 				case 0: return new float[]{ 0.12F };
 				case 1: return new float[]{ 0.16F };
 				case 2: return new float[]{ 0.22F };
@@ -66,21 +66,17 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 		}
 		else return false;
 	}
-	
+
 	@Override
-	public void onDeath(DamageSource source){
-		if (!worldObj.isRemote && worldObj.provider.dimensionId == 1 && worldObj.getTotalWorldTime()-EntityBossDragon.lastUpdate < 20 && source.getEntity() instanceof EntityPlayer){
-			for(Object o:worldObj.loadedEntityList){
-				if (o instanceof EntityBossDragon){
-					((EntityBossDragon)o).achievements.onPlayerKilledEnderman((EntityPlayer)source.getEntity());
-					break;
-				}
-			}
-		}
-		
-		super.onDeath(source);
+	public void func_146081_a(Block carriedBlock){
+		dataWatcher.updateObject(30,Short.valueOf((short)Block.getIdFromBlock(carriedBlock)));
 	}
-	
+
+	@Override
+	public Block func_146080_bZ(){
+		return Block.getBlockById(dataWatcher.getWatchableObjectShort(30));
+	}
+
 	@Override
 	protected String getLivingSound(){
 		return Baconizer.soundNormal(super.getLivingSound());

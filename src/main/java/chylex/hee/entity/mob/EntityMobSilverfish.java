@@ -50,8 +50,7 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 		super(world);
 		setSize(0.35F,0.6F);
 		
-		AIUtil.clearTasks(tasks);
-		AIUtil.clearTasks(targetTasks);
+		AIUtil.clearEntityTasks(this);
 		
 		canSummonSilverfish = new AIToggle<>(tasks,2,new EntityAISummonFromBlock(this,Blocks.monster_egg,EntityMobSilverfish::new));
 		canHideInBlocks = new AIToggle<>(tasks,5,new EntityAIHideInBlock(this,new Block[]{ Blocks.cobblestone, Blocks.stone, Blocks.stonebrick },target -> new BlockInfo(Blocks.monster_egg,BlockSilverfish.func_150195_a(target.block,target.meta))));
