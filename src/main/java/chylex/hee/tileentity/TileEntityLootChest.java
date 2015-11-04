@@ -72,6 +72,10 @@ public class TileEntityLootChest extends TileEntity{
 		return player.capabilities.isCreativeMode ? sourceInventory : inventories.computeIfAbsent(PlayerDataHandler.getID(player),id -> new InventoryLootChest(this,sourceInventory));
 	}
 	
+	public InventoryLootChest getSourceInventory(){
+		return sourceInventory;
+	}
+	
 	@Override
 	public Packet getDescriptionPacket(){
 		NBTTagCompound packetTag = new NBTTagCompound();

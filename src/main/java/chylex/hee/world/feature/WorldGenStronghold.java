@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.IntStream;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -31,6 +33,7 @@ import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.CustomArrayList;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.system.util.RandUtil;
 import chylex.hee.world.feature.stronghold.StrongholdPiece;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorChest;
 import chylex.hee.world.feature.stronghold.corridors.StrongholdCorridorDoubleChest;
@@ -206,16 +209,28 @@ public class WorldGenStronghold implements IWorldGenerator{
 		stronghold.addPiece(6,new Range(0,2),new StrongholdRoomStairSnake());
 		
 		// relics
-		StrongholdPiece[][] relicRooms = new StrongholdPiece[][]{
+		StrongholdRoomRelic[][] relicRooms = new StrongholdRoomRelic[][]{
 			StrongholdRoomRelicDungeon.generateRelicRooms(),
 			StrongholdRoomRelicFountains.generateRelicRooms(),
 			StrongholdRoomRelicHell.generateRelicRooms()
 		};
 		
-		TIntHashSet relicIndexes = new TIntHashSet(new int[]{ 0, 1, 2 });
-		relicIndexes.remove(rand.nextInt(relicIndexes.size()));
+		int maxDmgGem = ItemList.spatial_dash_gem.getMaxDamage();
+		int maxDmgAmulet = ItemList.amulet_of_recovery.getMaxDamage();
 		
-		for(int index:relicIndexes.toArray())stronghold.addPieces(5,new Range(1,1),relicRooms[index]);
+		List<ItemStack> relicItems = new ArrayList<>(2);
+		relicItems.add(new ItemStack(ItemList.spatial_dash_gem,1,maxDmgGem-RandUtil.percentOf(rand,maxDmgGem,0.5F,0.8F)));
+		relicItems.add(new ItemStack(ItemList.amulet_of_recovery,1,maxDmgAmulet-RandUtil.percentOf(rand,maxDmgAmulet,0.33F,0.83F)));
+		
+		TIntHashSet relicIndexes = new TIntHashSet(IntStream.range(0,relicRooms.length).toArray());
+		while(relicIndexes.size() > 2)relicIndexes.remove(rand.nextInt(relicIndexes.size()));
+		
+		for(int index:relicIndexes.toArray()){
+			ItemStack selectedRelic = relicItems.remove(rand.nextInt(relicItems.size()));
+			
+			for(StrongholdRoomRelic relicRoom:relicRooms[index])relicRoom.setRelicItem(selectedRelic);
+			stronghold.addPieces(5,new Range(1,1),relicRooms[index]);
+		}
 		
 		return stronghold;
 	}

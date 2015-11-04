@@ -7,13 +7,12 @@ import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
-import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.IBlockPicker;
 import chylex.hee.world.util.Size;
 
-public class StrongholdRoomRelicFountains extends StrongholdRoom{
+public class StrongholdRoomRelicFountains extends StrongholdRoomRelic{
 	public static StrongholdRoomRelicFountains[] generateRelicRooms(){
 		return Arrays.stream(Facing4.list).map(facing -> new StrongholdRoomRelicFountains(facing)).toArray(StrongholdRoomRelicFountains[]::new);
 	}
@@ -107,6 +106,6 @@ public class StrongholdRoomRelicFountains extends StrongholdRoom{
 		placeBlock(world,rand,IBlockPicker.basic(Blocks.stone_brick_stairs,Meta.getStairs(entranceFrom,true)),mpos.x+right.getX(),y+2,mpos.z+right.getZ());
 		
 		placeBlock(world,rand,IBlockPicker.basic(BlockList.loot_chest),mpos.x,y+3,mpos.z);
-		world.setTileEntity(mpos.x,y+3,mpos.z,Meta.generateChest(entranceFrom.opposite(),null)); // TODO relic
+		world.setTileEntity(mpos.x,y+3,mpos.z,Meta.generateChest(entranceFrom.opposite(),getRelicGenerator()));
 	}
 }

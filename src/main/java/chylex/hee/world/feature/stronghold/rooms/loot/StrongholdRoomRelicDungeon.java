@@ -9,14 +9,13 @@ import chylex.hee.system.abstractions.Meta.Skull;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
-import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
 import chylex.hee.world.structure.util.IBlockPicker;
 import chylex.hee.world.util.BoundingBox;
 import chylex.hee.world.util.Size;
 
-public class StrongholdRoomRelicDungeon extends StrongholdRoom{
+public class StrongholdRoomRelicDungeon extends StrongholdRoomRelic{
 	public static StrongholdRoomRelicDungeon[] generateRelicRooms(){
 		return Arrays.stream(Facing4.list).map(facing -> new StrongholdRoomRelicDungeon(facing)).toArray(StrongholdRoomRelicDungeon[]::new);
 	}
@@ -121,6 +120,6 @@ public class StrongholdRoomRelicDungeon extends StrongholdRoom{
 		
 		// chest itself
 		placeBlock(world,rand,IBlockPicker.basic(BlockList.loot_chest),mpos.x,y+2,mpos.z);
-		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(entranceFrom.opposite(),null));
+		world.setTileEntity(mpos.x,y+2,mpos.z,Meta.generateChest(entranceFrom.opposite(),getRelicGenerator()));
 	}
 }
