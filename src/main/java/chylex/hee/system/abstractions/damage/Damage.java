@@ -8,22 +8,31 @@ import net.minecraft.util.DamageSource;
 import chylex.hee.system.abstractions.damage.source.DamagedBy;
 import chylex.hee.system.abstractions.damage.source.DamagedByEntity;
 import chylex.hee.system.util.MathUtil;
+import com.google.common.base.Objects;
 
 public final class Damage implements IDamage{
 	public static Damage base(float amount){
 		return new Damage(amount);
 	}
 	
+	public static Damage vanillaGeneric(float amount){
+		return new Damage(amount)
+			.addModifiers(IDamageModifier.difficultyScaling,IDamageModifier.blocking)
+			.addModifiers(IDamageModifier.armorProtection,IDamageModifier.enchantmentProtection,IDamageModifier.potionProtection);
+	}
+	
 	public static Damage vanillaMob(EntityMob cause){
 		return new Damage((float)cause.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue())
 			.addModifiers(IDamageModifier.peacefulExclusion,IDamageModifier.difficultyScaling)
 			.addModifiers(IDamageModifier.armorProtection,IDamageModifier.enchantmentProtection,IDamageModifier.potionProtection)
+			.addModifiers(IDamageModifier.blocking,IDamageModifier.thorns)
 			.setSource(cause);
 	}
 	
 	private float baseAmount;
 	private List<IDamageModifier> modifiers = new ArrayList<>();
 	private Entity source, indirectSource;
+	private String sourceName;
 	
 	Damage(float baseAmount){
 		this.baseAmount = baseAmount;
@@ -36,6 +45,11 @@ public final class Damage implements IDamage{
 	
 	public Damage addModifiers(IDamageModifier...modifiers){
 		for(IDamageModifier modifier:modifiers)this.modifiers.add(modifier);
+		return this;
+	}
+	
+	public Damage setSource(String name){
+		this.sourceName = name;
 		return this;
 	}
 	
@@ -82,6 +96,6 @@ public final class Damage implements IDamage{
 			if (indirectSource == null)return new DamagedByEntity(source);
 			else return new DamagedByEntity.Indirect(source,indirectSource).setProjectile();
 		}
-		else return new DamagedBy("generic");
+		else return new DamagedBy(Objects.firstNonNull(sourceName,"generic"));
 	}
 }

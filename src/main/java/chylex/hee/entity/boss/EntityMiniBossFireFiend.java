@@ -21,7 +21,6 @@ import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.RandomNameGenerator;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.mob.EntityMobFireGolem;
-import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.entity.projectile.EntityProjectileFiendFireball;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
@@ -198,7 +197,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				
 				for(EntityPlayer player:getNearbyPlayers()){
 					player.setFire(fireLength);
-					player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 12F : 8F,worldObj.difficultySetting));
+					// TODO player.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 12F : 8F,worldObj.difficultySetting));
 					PacketPipeline.sendToAllAround(player,64D,new C20Effect(FXType.Basic.FIRE_FIEND_FLAME_ATTACK,player));
 				}
 				
@@ -211,7 +210,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			if (e == this || e.isImmuneToFire())continue;
 			e.setFire(2+rand.nextInt(4));
 			e.hurtResistantTime = 0;
-			e.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs ? 9F : 5F);
+			// TODO e.attackEntityFrom(new DamageSourceMobUnscaled(this),ModCommonProxy.opMobs ? 9F : 5F);
 			e.hurtResistantTime = 7;
 		}
 		

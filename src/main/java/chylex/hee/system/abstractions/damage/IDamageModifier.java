@@ -109,6 +109,10 @@ public interface IDamageModifier{
 			}
 		},
 		
+		blocking = (amount, target, source, postProcessors) -> {
+			return amount; // TODO
+		},
+		
 		thorns = (amount, target, source, postProcessors) -> {
 			return amount; // TODO
 		};

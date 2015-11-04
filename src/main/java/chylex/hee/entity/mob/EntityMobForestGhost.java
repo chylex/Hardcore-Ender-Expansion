@@ -6,8 +6,6 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
-import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 
 public class EntityMobForestGhost extends EntityFlying implements IMob{
@@ -48,7 +46,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 				rotationYaw = (float)(Math.atan2(zDiff,xDiff)*180D/Math.PI);
 				setPositionAndUpdate(posX+Math.cos(Math.toRadians(rotationYaw))*0.35D,posY,posZ+Math.sin(Math.toRadians(rotationYaw))*0.35D);
 			}
-			else if (lifeLeft < 80)target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 9F : 5F,worldObj.difficultySetting));
+			else if (lifeLeft < 80)/*TODO*/;//target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 9F : 5F,worldObj.difficultySetting));
 			
 			if (dist < 2.1D && lifeLeft < 80)target.addPotionEffect(new PotionEffect(Potion.blindness.id,80,0,true));
 		}

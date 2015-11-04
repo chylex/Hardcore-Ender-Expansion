@@ -15,7 +15,6 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.EntityMobAngryEnderman;
-import chylex.hee.entity.mob.util.DamageSourceMobUnscaled;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.init.BlockList;
 import chylex.hee.packets.PacketPipeline;
@@ -80,7 +79,7 @@ public class EntityBossEnderDemon extends EntityFlying implements IBossDisplayDa
 					   yy = lightningTarget.posY,
 					   zz = lightningTarget.posZ+(rand.nextDouble()-0.5D)*1.5D;
 				
-				lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
+				// TODO lightningTarget.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 7F : 4F,worldObj.difficultySetting));
 
 				EntityWeatherEffect bolt = new EntityWeatherLightningBoltDemon(worldObj,xx,yy,zz,this,false);
 				worldObj.weatherEffects.add(bolt);
