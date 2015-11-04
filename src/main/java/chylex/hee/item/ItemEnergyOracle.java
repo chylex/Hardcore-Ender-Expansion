@@ -144,6 +144,7 @@ public class ItemEnergyOracle extends Item{
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public int getRenderPasses(int metadata){
 		return 2;
 	}
