@@ -1,8 +1,10 @@
 package chylex.hee.item;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -19,16 +21,17 @@ import chylex.hee.system.logging.Log;
 public class ItemEndPowder extends ItemAbstractCustomEntity{
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (isHeld && world.isRemote && entity == HardcoreEnderExpansion.proxy.getClientSidePlayer() && ((EntityPlayer)entity).openContainer == null){
-			final byte maxDist = 16;
+		if (isHeld && world.isRemote && entity == HardcoreEnderExpansion.proxy.getClientSidePlayer() && ((EntityPlayer)entity).openContainer == ((EntityPlayer)entity).inventoryContainer){
+			final byte maxDist = 8;
 			Random rand = world.rand;
 			PosMutable mpos = new PosMutable();
 			
-			for(int attempt = 0; attempt < 200; attempt++){
-				mpos.set(entity).move(rand.nextInt(maxDist*2+1-maxDist),rand.nextInt(maxDist*2+1-maxDist),rand.nextInt(maxDist*2+1-maxDist));
+			for(int attempt = 0; attempt < 600; attempt++){
+				mpos.set(entity).move(rand.nextInt(maxDist*2+1)-maxDist,rand.nextInt(maxDist*2+1)-maxDist,rand.nextInt(maxDist*2+1)-maxDist);
+				Block block = mpos.getBlock(world);
 				
-				if (EnhancementRegistry.canEnhanceBlock(mpos.getBlock(world))){
-					FXHelper.create("portal").pos(mpos).fluctuatePos(0.65D).fluctuateMotion(0.1D).spawn(world.rand,3); // TODO look at the beauty
+				if (block != Blocks.air && EnhancementRegistry.canEnhanceBlock(mpos.getBlock(world))){
+					FXHelper.create("portalbig").pos(mpos).fluctuatePos(0.65D).fluctuateMotion(0.02D).paramSingle(0.075F+rand.nextFloat()*0.05F).spawn(world.rand,4);
 				}
 			}
 		}

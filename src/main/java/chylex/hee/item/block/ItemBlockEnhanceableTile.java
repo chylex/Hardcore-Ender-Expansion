@@ -24,7 +24,7 @@ public class ItemBlockEnhanceableTile extends ItemBlock{
 			IEnhanceableTile tile = (IEnhanceableTile)world.getTileEntity(x,y,z);
 			if (tile != null)tile.getEnhancements().replace(EnhancementRegistry.getEnhancementList(is));
 			
-			FXHelper.create("portal").pos(Pos.at(x,y,z)).fluctuatePos(0.65D).fluctuateMotion(0.1D).spawn(world.rand,12); // TODO look at the beauty
+			FXHelper.create("portalbig").pos(Pos.at(x,y,z)).fluctuatePos(0.65D).fluctuateMotion(0.02D).paramSingle(0.075F+world.rand.nextFloat()*0.05F).spawn(world.rand,15);
 			return true;
 		}
 		else return false;
