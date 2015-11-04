@@ -1,11 +1,13 @@
 package chylex.hee.item;
 import java.util.List;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterData;
@@ -22,10 +24,24 @@ public class ItemEnergyReceptacle extends Item{
 		return Math.max(lvl-lossPerCycle*cycles,0F);
 	}
 	
+	@SideOnly(Side.CLIENT)
+	private IIcon iconOverlay;
+	
+	public ItemEnergyReceptacle(){
+		setHasSubtypes(true);
+	}
+	
 	@Override
 	public void onUpdate(ItemStack is, World world, Entity entity, int slot, boolean isHeld){
-		if (!world.isRemote && ItemUtil.getTagRoot(is,false).hasKey("cluster")){
-			NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
+		NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
+		
+		if (nbt.hasKey("fuckcreativemode")){
+			is.setItemDamage(nbt.getByte("fuckcreativemode"));
+			nbt.removeTag("fuckcreativemode");
+		}
+		
+		if (!world.isRemote && nbt.hasKey("cluster")){
+			nbt = ItemUtil.getTagRoot(is,true);
 			long prevTime = nbt.getLong("ltime"), currentTime = world.getTotalWorldTime();
 			
 			if (currentTime-prevTime >= 10){
@@ -49,10 +65,12 @@ public class ItemEnergyReceptacle extends Item{
 				if (!player.canPlayerEdit(pos.getX(),pos.getY(),pos.getZ(),side,is) || !pos.isAir(world))return false;
 				
 				NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
+				nbt.getCompoundTag("cluster").setLong("loc",pos.toLong());
+				
 				pos.setBlock(world,BlockList.energy_cluster);
 				
 				TileEntityEnergyCluster tile = pos.getTileEntity(world);
-				tile.readTileFromNBT(nbt);
+				tile.readTileFromNBT(nbt.getCompoundTag("cluster"));
 				
 				EnergyClusterData data = tile.getData().get();
 				if (data.getEnergyLevel()-nbt.getFloat("origlvl") >= Math.pow(data.getMaxLevel(),0.015D)+0.01D)data.weaken();
@@ -62,6 +80,9 @@ public class ItemEnergyReceptacle extends Item{
 				nbt.removeTag("cluster");
 				nbt.removeTag("ltime");
 				nbt.removeTag("origlvl");
+				
+				if (player.capabilities.isCreativeMode)nbt.setByte("fuckcreativemode",(byte)0);
+				else is.setItemDamage(0);
 			}
 			else if (pos.getBlock(world) == BlockList.energy_cluster){
 				NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
@@ -75,64 +96,13 @@ public class ItemEnergyReceptacle extends Item{
 				nbt.setTag("cluster",clusterTag);
 				nbt.setFloat("origlvl",clusterTag.getFloat("lvl"));
 				nbt.setLong("ltime",world.getTotalWorldTime());
+				
+				if (player.capabilities.isCreativeMode)nbt.setByte("fuckcreativemode",(byte)1);
+				else is.setItemDamage(1);
 			}
 			
 			return true;
 		}
-
-		//if (player.isSneaking() && !world.isRemote){
-			/* TODO if (ItemUtil.getTagRoot(is,false).hasKey("cluster")){
-				BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
-				if (side > 0)tmpPos.move(side);
-	
-				if (!player.canPlayerEdit(tmpPos.x,tmpPos.y,tmpPos.z,side,is) || !tmpPos.isAir(world))return false;
-				
-				tmpPos.setBlock(world,BlockList.energy_cluster);
-				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)tmpPos.getTileEntity(world);
-				
-				if (tile != null){
-					NBTTagCompound tag = ItemUtil.getTagSub(is,"cluster",true);
-					tag.setLong("loc",tmpPos.toLong());
-					tile.readTileFromNBT(tag);
-					
-					Pos prevLoc = Pos.at(ItemUtil.getTagRoot(is,false).getLong("prevLoc"));
-					double dist = ItemUtil.getTagRoot(is,false).getShort("prevDim") == world.provider.dimensionId ? MathUtil.distance(prevLoc.getX()-tmpPos.x,prevLoc.getY()-tmpPos.y,prevLoc.getZ()-tmpPos.z) : Double.MAX_VALUE;
-					
-					if (dist > 8D){
-						tile.data.setEnergyLevel(tile.data.getEnergyLevel()*(1F-0.5F*Math.min(1F,(float)dist/256F)));
-						if (itemRand.nextInt(100) < tile.data.getHealthStatus().chanceToWeaken)tile.data.weakenCluster();
-					}
-					
-					tile.synchronize();
-				}
-				
-				ItemUtil.getTagRoot(is,false).removeTag("cluster");
-				return true;
-			}
-			else if (BlockPosM.tmp(x,y,z).getBlock(world) == BlockList.energy_cluster){
-				TileEntityEnergyCluster tile = (TileEntityEnergyCluster)BlockPosM.tmp(x,y,z).getTileEntity(world);
-				
-				if (tile != null){
-					tile.shouldNotExplode = true;
-					
-					if (!world.isRemote){
-						CausatumUtils.increase(player,CausatumMeters.END_ENERGY,tile.data.getEnergyLevel()*0.5F);
-						
-						NBTTagCompound tag = tile.writeTileToNBT(new NBTTagCompound());
-						tag.setLong("loc",BlockPosM.tmp(0,-1,0).toLong());
-						
-						NBTTagCompound itemNbt = ItemUtil.getTagRoot(is,true);
-						itemNbt.setTag("cluster",tag);
-						itemNbt.setLong("prevLoc",BlockPosM.tmp(x,y,z).toLong());
-						itemNbt.setShort("prevDim",(short)world.provider.dimensionId);
-						
-						BlockPosM.tmp(x,y,z).setAir(world);
-					}
-				}
-				
-				return true;
-			}*/
-		//}
 		
 		return false;
 	}
@@ -152,7 +122,37 @@ public class ItemEnergyReceptacle extends Item{
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean hasEffect(ItemStack is, int pass){
-		return ItemUtil.getTagRoot(is,false).hasKey("cluster");
+	public IIcon getIconFromDamageForRenderPass(int damage, int pass){
+		return pass == 0 ? itemIcon : iconOverlay;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getColorFromItemStack(ItemStack is, int pass){
+		if (pass == 1 && ItemUtil.getTagRoot(is,false).hasKey("cluster")){
+			byte[] colors = is.getTagCompound().getCompoundTag("cluster").getByteArray("col");
+			if (colors.length == 3)return ((colors[0]+128)<<16)|((colors[1]+128)<<8)|(colors[2]+128);
+		}
+		
+		return 16777215;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public boolean requiresMultipleRenderPasses(){
+		return true;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderPasses(int damage){
+		return damage == 0 ? 1 : 2;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IIconRegister iconRegister){
+		super.registerIcons(iconRegister);
+		iconOverlay = iconRegister.registerIcon(getIconString()+"_overlay");
 	}
 }
