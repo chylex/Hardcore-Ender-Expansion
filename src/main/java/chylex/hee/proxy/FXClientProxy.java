@@ -268,8 +268,7 @@ public class FXClientProxy extends FXCommonProxy{
 	
 	@Override
 	public void energyCluster(TileEntityEnergyCluster cluster){
-		Random rand = cluster.getWorldObj().rand;
-		spawn(new EntityEnergyFX(cluster.getWorldObj(),cluster.xCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.yCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.zCoord+0.5D+(rand.nextDouble()-rand.nextDouble())*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.getData().get()));
+		spawn(new EntityEnergyFX(cluster.getWorldObj(),cluster));
 	}
 	
 	/*

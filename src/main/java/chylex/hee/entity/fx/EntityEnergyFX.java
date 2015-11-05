@@ -7,8 +7,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
+import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterData;
 import chylex.hee.mechanics.energy.EnergyClusterHealth;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.tileentity.TileEntityEnergyCluster;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -16,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityEnergyFX extends EntityFX{
 	private static final ResourceLocation texture = new ResourceLocation("hardcoreenderexpansion:textures/particles/energy.png");
 	
-	private byte indexX, indexY, age, maxAge, breakCheckTimer = 10;
+	private byte indexX, indexY, age, maxAge, breakCheckTimer = Byte.MIN_VALUE;
 	
 	private EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue){
 		super(world,x,y,z,0D,0D,0D);
@@ -44,6 +47,11 @@ public class EntityEnergyFX extends EntityFX{
 			particleGreen *= mp;
 			particleBlue *= mp;
 		}
+	}
+	
+	public EntityEnergyFX(World world, TileEntityEnergyCluster cluster){
+		this(world,cluster.xCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.2D,cluster.yCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.zCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.getData().get());
+		this.breakCheckTimer = 10;
 	}
 	
 	public EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue, double motionX, double motionY, double motionZ){
@@ -74,9 +82,9 @@ public class EntityEnergyFX extends EntityFX{
 		posY += motionY*0.5D;
 		posZ += motionZ*0.5D;*/
 		
-		if (--breakCheckTimer < 0){
+		if (breakCheckTimer != Byte.MIN_VALUE && --breakCheckTimer < 0){
 			breakCheckTimer = 10;
-			// TODO if (Pos.at(this).getBlock(worldObj) != getTargetBlock())age = (byte)(maxAge-18);
+			if (Pos.at(this).getBlock(worldObj) != BlockList.energy_cluster)age = (byte)(maxAge-18);
 		}
 		
 		if (rand.nextInt(3) == 0)posX += rand.nextDouble()*0.02D-0.01D;
