@@ -49,7 +49,7 @@ public class ItemEnergyReceptacle extends Item{
 				float lvl = clusterTag.getFloat("lvl");
 				float limit = clusterTag.getFloat("max");
 				
-				clusterTag.setFloat("lvl",updateEnergyLevel(lvl,limit,(int)((currentTime-prevTime)/10)));
+				clusterTag.setFloat("lvl",updateEnergyLevel(lvl,limit,1+(int)((currentTime-prevTime)/10)));
 				nbt.setLong("ltime",currentTime);
 			}
 		}
@@ -59,14 +59,15 @@ public class ItemEnergyReceptacle extends Item{
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
 		if (!world.isRemote){
 			Pos pos = Pos.at(x,y,z);
+			NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
 			
-			if (ItemUtil.getTagRoot(is,false).hasKey("cluster")){
+			if (nbt.hasKey("cluster")){
+				if (nbt.hasKey("ltime") && world.getTotalWorldTime()-nbt.getLong("ltime") >= 10)return false; // needs to be refreshed before placing
+				
 				if (side > 0)pos = pos.offset(side);
 				if (!player.canPlayerEdit(pos.getX(),pos.getY(),pos.getZ(),side,is) || !pos.isAir(world))return false;
 				
-				NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
-				nbt.getCompoundTag("cluster").setLong("loc",pos.toLong());
-				
+				nbt.getCompoundTag("cluster").setLong("loc",pos.toLong()); // nbt has to exist at this point
 				pos.setBlock(world,BlockList.energy_cluster);
 				
 				TileEntityEnergyCluster tile = pos.getTileEntity(world);
@@ -85,7 +86,8 @@ public class ItemEnergyReceptacle extends Item{
 				else is.setItemDamage(0);
 			}
 			else if (pos.getBlock(world) == BlockList.energy_cluster){
-				NBTTagCompound nbt = ItemUtil.getTagRoot(is,true);
+				nbt = ItemUtil.getTagRoot(is,true);
+				
 				NBTTagCompound clusterTag = new NBTTagCompound();
 				TileEntityEnergyCluster cluster = pos.getTileEntity(world);
 				
@@ -116,7 +118,7 @@ public class ItemEnergyReceptacle extends Item{
 			float lvl = nbt.getCompoundTag("cluster").getFloat("lvl");
 			float limit = nbt.getCompoundTag("cluster").getFloat("max");
 			long diff = player.worldObj.getTotalWorldTime()-nbt.getLong("ltime");
-			textLines.add(I18n.format("item.energyReceptacle.holding").replace("$",DragonUtil.formatTwoPlaces.format(updateEnergyLevel(lvl,limit,(int)(diff/10)))));
+			textLines.add(I18n.format("item.energyReceptacle.holding").replace("$",DragonUtil.formatTwoPlaces.format(updateEnergyLevel(lvl,limit,1+(int)(diff/10)))));
 		}
 	}
 	
