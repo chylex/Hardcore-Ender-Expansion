@@ -25,6 +25,7 @@ import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.StrongholdFile;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemKnowledgeNote;
+import chylex.hee.mechanics.compendium.content.LoreTexts;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Meta.BlockColor;
 import chylex.hee.system.abstractions.Pos;
@@ -91,7 +92,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 		lootGeneral.addLoot(Items.glass_bottle).setAmount(1).setWeight(22);
 		lootGeneral.addLoot(Items.potionitem).setAmount(1).setWeight(22);
 		lootGeneral.addLoot(Items.diamond).setAmount(1,2).setWeight(14);
-		lootGeneral.addPostProcessor(ItemKnowledgeNote.createNoteProcessor(1)); // TODO update
+		lootGeneral.addPostProcessor(ItemKnowledgeNote.createNoteProcessor(LoreTexts.STRONGHOLD,1,2));
 		
 		lootLibrary.addLoot(Items.paper).setAmount(1,3).setWeight(50);
 		lootLibrary.addLoot(Items.book).setAmount(1,2).setWeight(45);
@@ -99,7 +100,7 @@ public class WorldGenStronghold implements IWorldGenerator{
 		lootLibrary.addLoot(ItemList.ancient_dust).setAmount(1,2).setWeight(36);
 		lootLibrary.addLoot(Items.compass).setAmount(1).setWeight(22);
 		lootLibrary.addLoot(Items.map).setAmount(1).setWeight(20);
-		lootLibrary.addPostProcessor(ItemKnowledgeNote.createNoteProcessor(1)); // TODO update
+		lootLibrary.addPostProcessor(ItemKnowledgeNote.createNoteProcessor(LoreTexts.STRONGHOLD,1,2));
 	}
 	
 	public static Optional<ChunkCoordIntPair> findNearestStronghold(int chunkX, int chunkZ, World world){

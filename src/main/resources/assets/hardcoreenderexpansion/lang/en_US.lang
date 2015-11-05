@@ -139,6 +139,9 @@ item.curseAmulet.name=Curse Amulet
 item.bucketEnderGoo.name=Ender Goo Bucket
 item.knowledgeNote.name=Knowledge Note
 item.knowledgeNote.bacon.name=Bacon of Knowledge
+item.knowledgeNote.pts=$ Knowledge Points
+item.knowledgeNote.used=Used
+item.knowledgeNote.useless=Useless (sorry)
 item.enhancedBrewingStand.name=Enhanced Brewing Stand
 item.scorchingPickaxe.name=Scorching Pickaxe
 item.scorchingPickaxe.bacon.name=Scorching Bacon
@@ -286,6 +289,7 @@ container.amuletOfRecovery=Amulet of Recovery
 
 enhancements.none=No Enhancements
 
+compendium.notePoints=+$ Knowledge Points
 compendium.discoveredObject=Unlocked new Knowledge Object
 compendium.cannotBuy=Cannot buy this object
 compendium.nonBuyable=The fragment has to be purchased elsewhere

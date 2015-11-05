@@ -34,8 +34,11 @@ public class LoreFile extends PlayerFile{
 	
 	public void markAsRead(LoreTexts category, int index){
 		byte[] read = readTexts.getOrDefault(category,ArrayUtils.EMPTY_BYTE_ARRAY);
-		readTexts.put(category,ArrayUtils.add(read,(byte)index));
-		setModified();
+		
+		if (ArrayUtils.contains(read,(byte)index)){
+			readTexts.put(category,ArrayUtils.add(read,(byte)index));
+			setModified();
+		}
 	}
 
 	@Override
