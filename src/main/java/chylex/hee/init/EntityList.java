@@ -5,7 +5,6 @@ import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
 import chylex.hee.entity.block.EntityBlockFallingObsidian;
 import chylex.hee.entity.block.EntityBlockTokenHolder;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.item.EntityItemAltar;
@@ -21,7 +20,6 @@ import chylex.hee.entity.technical.EntityTechnicalPuzzleChain;
 import chylex.hee.entity.technical.EntityTechnicalPuzzleSolved;
 import chylex.hee.entity.technical.EntityTechnicalSpawner;
 import chylex.hee.entity.technical.EntityTechnicalTrigger;
-import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.system.util.GameRegistryUtil;
 
@@ -32,7 +30,6 @@ public final class EntityList{
 		GameRegistryUtil.replaceVanillaEntity(EntityBlockEnderCrystal.class, 200);
 		
 		GameRegistryUtil.registerEntity(EntityBossDragon.class, "Dragon", 8, 320);
-		GameRegistryUtil.registerEntity(EntityBossEnderDemon.class, "EnderDemon", 21, 512);
 		GameRegistryUtil.registerEntity(EntityMiniBossEnderEye.class, "EnderEye", 11, 256);
 		GameRegistryUtil.registerEntity(EntityMiniBossFireFiend.class, "FireFiend", 23, 256);
 		GameRegistryUtil.registerEntity(EntityMobEnderman.class, "Enderman", 51, 256);
@@ -74,7 +71,6 @@ public final class EntityList{
 		GameRegistryUtil.registerEntity(EntityProjectileEyeOfEnder.class, "ProjectileEyeOfEnder", 55, 512);
 
 		GameRegistryUtil.registerEntity(EntityWeatherLightningBoltSafe.class, "LightningBoltSafe", 4, 512, 1, false);
-		GameRegistryUtil.registerEntity(EntityWeatherLightningBoltDemon.class, "LightningBoltDemon", 21, 512, 1, false);
 		
 		GameRegistryUtil.registerEntity(EntityTechnicalBiomeInteraction.class, "TechnicalBiomeInteraction", 38, 0, Integer.MAX_VALUE, false);
 		GameRegistryUtil.registerEntity(EntityTechnicalPuzzleChain.class, "TechnicalPuzzleChain", 43, 0, Integer.MAX_VALUE, false);

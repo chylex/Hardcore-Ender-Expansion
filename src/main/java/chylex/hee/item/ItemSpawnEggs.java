@@ -14,7 +14,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.mob.*;
@@ -33,7 +32,7 @@ public class ItemSpawnEggs extends ItemMonsterPlacer{
 		/*  6 */ new EggData("scorchingLens", EntityMobScorchingLens.class, new int[]{ 255,112,0 }, new int[]{ 253,9,8 }),
 		/*  7 */ new EggData("enderEye", EntityMiniBossEnderEye.class, new int[]{ 22,22,22 }, new int[]{ 255,255,255 }),
 		/*  8 */ new EggData("fireFiend", EntityMiniBossFireFiend.class, new int[]{ 68,16,0 }, new int[]{ 33,0,0 }),
-		/*  9 */ new EggData("enderDemon", EntityBossEnderDemon.class, new int[]{ 22,22,22 }, new int[]{ 86,21,111 }),
+		/*  9 */ EggData.unknown, // removed mob
 		/* 10 */ EggData.unknown, // removed mob
 		/* 11 */ new EggData("louse", EntityMobLouse.class, new int[]{ 45,45,45 }, new int[]{ 80,0,140 }),
 		/* 12 */ new EggData("hauntedMiner", EntityMobHauntedMiner.class, new int[]{ 48,23,23 }, new int[]{ 170,72,37 }),

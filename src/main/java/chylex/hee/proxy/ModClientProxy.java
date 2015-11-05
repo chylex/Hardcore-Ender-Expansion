@@ -21,14 +21,12 @@ import chylex.hee.entity.block.EntityBlockFallingDragonEgg;
 import chylex.hee.entity.block.EntityBlockFallingObsidian;
 import chylex.hee.entity.block.EntityBlockTokenHolder;
 import chylex.hee.entity.boss.EntityBossDragon;
-import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.fx.FXEvents;
 import chylex.hee.entity.mob.*;
 import chylex.hee.entity.projectile.*;
 import chylex.hee.entity.technical.EntityTechnicalBase;
-import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.game.ConfigHandler;
 import chylex.hee.game.commands.HeeClientCommand;
@@ -45,7 +43,15 @@ import chylex.hee.render.block.RenderBlockEnhancedTNTPrimed;
 import chylex.hee.render.block.RenderBlockObsidianSpecial;
 import chylex.hee.render.block.RenderBlockSpookyLeaves;
 import chylex.hee.render.block.RenderBlockTokenHolder;
-import chylex.hee.render.entity.*;
+import chylex.hee.render.entity.RenderBossDragon;
+import chylex.hee.render.entity.RenderMiniBossEnderEye;
+import chylex.hee.render.entity.RenderMiniBossFireFiend;
+import chylex.hee.render.entity.RenderMobAngryEnderman;
+import chylex.hee.render.entity.RenderMobBabyEnderman;
+import chylex.hee.render.entity.RenderMobEnderman;
+import chylex.hee.render.entity.RenderMobInfestedBat;
+import chylex.hee.render.entity.RenderMobLouse;
+import chylex.hee.render.entity.RenderTexturedMob;
 import chylex.hee.render.item.RenderItemEndermanHead;
 import chylex.hee.render.item.RenderItemLootChest;
 import chylex.hee.render.model.ModelEnderGuardian;
@@ -64,7 +70,6 @@ import chylex.hee.render.tileentity.RenderTileEndermanHead;
 import chylex.hee.render.tileentity.RenderTileEssenceAltar;
 import chylex.hee.render.tileentity.RenderTileLaserBeam;
 import chylex.hee.render.tileentity.RenderTileLootChest;
-import chylex.hee.render.weather.RenderWeatherLightningBoltPurple;
 import chylex.hee.sound.MusicManager;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
@@ -117,7 +122,6 @@ public class ModClientProxy extends ModCommonProxy{
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.enderman_head), new RenderItemEndermanHead());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon());
-		RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon());
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossEnderEye.class, new RenderMiniBossEnderEye());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossFireFiend.class, new RenderMiniBossFireFiend());
@@ -154,7 +158,6 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileEyeOfEnder.class, new RenderProjectileEyeOfEnder());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltSafe.class, new RenderLightningBolt());
-		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltDemon.class, new RenderWeatherLightningBoltPurple());
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalBase.class, new RenderNothing());
 

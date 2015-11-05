@@ -3,7 +3,6 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
-import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -151,9 +150,9 @@ public class ModelEnderDemon extends ModelBase{
 		leftArm3.rotateAngleX = MathHelper.cos(timer*0.64F+0.06F)*0.05F*limbSwingMp;
 		leftArm4.rotateAngleX = MathHelper.cos(timer*0.6F+0.3F)*0.05F*limbSwingMp;
 		
-		if (((EntityBossEnderDemon)entity).isDoingLightningAttack()){
+		/* TODO if (((EntityBossEnderDemon)entity).isDoingLightningAttack()){
 			if (limbSwingMp > 0.05F)limbSwingMp *= 0.92F;
 		}
-		else if (limbSwingMp < 1F)limbSwingMp += 0.05F;
+		else */if (limbSwingMp < 1F)limbSwingMp += 0.05F;
 	}
 }

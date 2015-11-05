@@ -5,7 +5,6 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityWeatherEffect;
 import net.minecraft.world.World;
-import chylex.hee.entity.weather.EntityWeatherLightningBoltDemon;
 import chylex.hee.packets.AbstractClientPacket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -45,7 +44,7 @@ public class C05CustomWeather extends AbstractClientPacket{
 		World world = Minecraft.getMinecraft().theWorld;
 		Entity e = null;
 		
-		if (weatherType == 0)e = new EntityWeatherLightningBoltDemon(world,x,y,z);
+		/* TODO if (weatherType == 0)e = new EntityWeatherLightningBoltDemon(world,x,y,z);
 		else return;
 		
 		e.serverPosX = (int)(x*32D);
@@ -53,6 +52,6 @@ public class C05CustomWeather extends AbstractClientPacket{
 		e.serverPosZ = (int)(z*32D);
 		e.rotationYaw = e.rotationPitch = 0F;
 		e.setEntityId(entityId);
-		world.addWeatherEffect(e);
+		world.addWeatherEffect(e);*/
 	}
 }

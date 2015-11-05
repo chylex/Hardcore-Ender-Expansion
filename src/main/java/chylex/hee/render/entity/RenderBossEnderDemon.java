@@ -3,10 +3,8 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
-import chylex.hee.entity.boss.EntityBossEnderDemon;
 import chylex.hee.render.model.ModelEnderDemon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -27,7 +25,7 @@ public class RenderBossEnderDemon extends RenderLiving{
 	
 	@Override
 	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
-		BossStatus.setBossStatus((EntityBossEnderDemon)entity,true);
+		// TODO BossStatus.setBossStatus((EntityBossEnderDemon)entity,true);
 		super.doRender(entity,x,y,z,yaw,partialTickTime);
 	}
 
