@@ -84,6 +84,10 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 	@SideOnly(Side.CLIENT)
 	private IIcon iconHeld;
 	
+	public ItemAmuletOfRecovery(){
+		setMaxDamage(30);
+	}
+	
 	@Override
 	public int getEnergyUsage(ItemStack is){
 		return getMaxDamage(is);
@@ -96,7 +100,7 @@ public class ItemAmuletOfRecovery extends ItemAbstractEnergyAcceptor{
 
 	@Override
 	public int getMaxDamage(ItemStack is){
-		return hasItems(is) ? is.getTagCompound().getInteger("amuletRestoreEnergy") : 30;
+		return hasItems(is) ? is.getTagCompound().getInteger("amuletRestoreEnergy") : super.getMaxDamage(is);
 	}
 	
 	@Override
