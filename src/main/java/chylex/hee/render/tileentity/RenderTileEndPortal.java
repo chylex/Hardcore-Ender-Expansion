@@ -2,7 +2,10 @@ package chylex.hee.render.tileentity;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEndPortalCustom;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RenderTileEndPortal extends RenderTilePortalBase{
 	private float progress;
 	

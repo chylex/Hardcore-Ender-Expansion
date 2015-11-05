@@ -10,7 +10,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.proxy.ModClientProxy;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public abstract class RenderTilePortalBase extends TileEntitySpecialRenderer{
 	private static final ResourceLocation texPortalBackground = new ResourceLocation("textures/environment/end_sky.png");
 	private static final ResourceLocation texPortalLayers = new ResourceLocation("textures/entity/end_portal.png");
