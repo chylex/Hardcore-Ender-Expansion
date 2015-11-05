@@ -10,6 +10,7 @@ import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.world.structure.StructureWorld;
+import chylex.hee.world.util.RangeGenerator;
 
 public interface IOreGenerator{
 	/**
@@ -97,6 +98,44 @@ public interface IOreGenerator{
 					if (canPlaceAt(gen,world,rand,mpos.x,mpos.y,mpos.z)){
 						world.setBlock(mpos.x,mpos.y,mpos.z,gen.orePicker.pick(rand));
 						break;
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Keeps generating lines in random directions, with the first one starting in the starting positions, and all other lines starting in a random generated ore.
+	 */
+	public static class AttachingLines implements IOreGenerator{
+		private final RangeGenerator oresPerLine;
+		
+		public AttachingLines(RangeGenerator oresPerLine){
+			this.oresPerLine = oresPerLine;
+		}
+		
+		@Override
+		public void generate(GenerateOres gen, StructureWorld world, Random rand, int x, int y, int z, int ores){
+			final List<Pos> generated = new ArrayList<>(ores);
+			
+			world.setBlock(x,y,z,gen.orePicker.pick(rand));
+			generated.add(Pos.at(x,y,z));
+			
+			for(int attempt = 0; attempt < 3*ores; attempt++){
+				int total = oresPerLine.next(rand);
+				Pos startPos = CollectionUtil.randomOrNull(generated,rand);
+				Vec dir = Vec.xyzRandom(rand);
+				Vec pos = Vec.xyz(startPos.getX()+0.5D,startPos.getY()+0.5D,startPos.getZ()+0.5D);
+				
+				for(int cycle = 1, left = total; cycle <= total && left > 0; cycle++){
+					if (generated.size() >= ores)return;
+					
+					Pos nextPos = Pos.at(pos.x += dir.x,pos.y += dir.y,pos.z += dir.z);
+					
+					if (canPlaceAt(gen,world,rand,nextPos.getX(),nextPos.getY(),nextPos.getZ())){
+						world.setBlock(nextPos.getX(),nextPos.getY(),nextPos.getZ(),gen.orePicker.pick(rand));
+						generated.add(nextPos);
+						--left;
 					}
 				}
 			}

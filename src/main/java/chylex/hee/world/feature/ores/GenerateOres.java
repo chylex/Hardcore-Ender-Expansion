@@ -131,8 +131,8 @@ public final class GenerateOres{
 			gen.setAttemptsPerChunk(1);
 			gen.setClustersPerChunk(1,1);
 			
-			gen.setOresPerCluster(5,8,RandomAmount.preferSmaller);
-			gen.setOreGenerator(new IOreGenerator.AdjacentSpread(true));
+			gen.setOresPerCluster(4,4,RandomAmount.preferSmaller);
+			gen.setOreGenerator(new IOreGenerator.AttachingLines(new RangeGenerator(4,4,RandomAmount.aroundCenter)));
 			
 			StructureWorld structureWorld = new StructureWorld(world,12+6*amtX,33,12+6*amtZ);
 			gen.generateSplit(structureWorld,world.rand);
