@@ -49,6 +49,14 @@ public final class CollectionUtil{
 		return Optional.ofNullable(minObj);
 	}
 	
+	public static <T> Optional<T> get(T[] array, int index){
+		return index >= 0 && index < array.length ? Optional.ofNullable(array[index]) : Optional.empty();
+	}
+	
+	public static <T> Optional<T> get(List<T> list, int index){
+		return index >= 0 && index < list.size() ? Optional.ofNullable(list.get(index)) : Optional.empty();
+	}
+	
 	public static <T> ArrayList<T> newList(T...elements){
 		ArrayList<T> list = new ArrayList<>(elements.length);
 		Collections.addAll(list,elements);
