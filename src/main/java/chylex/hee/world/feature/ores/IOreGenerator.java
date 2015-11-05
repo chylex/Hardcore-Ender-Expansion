@@ -106,12 +106,15 @@ public interface IOreGenerator{
 	
 	/**
 	 * Keeps generating lines in random directions, with the first one starting in the starting positions, and all other lines starting in a random generated ore.
+	 * If {@code generateCloser} is enabled, the generator will attempt to place the ores closer by checking more positions in each line, ending up with fewer diagonals.
 	 */
 	public static class AttachingLines implements IOreGenerator{
 		private final RangeGenerator oresPerLine;
+		private final boolean generateCloser;
 		
-		public AttachingLines(RangeGenerator oresPerLine){
+		public AttachingLines(RangeGenerator oresPerLine, boolean generateCloser){
 			this.oresPerLine = oresPerLine;
+			this.generateCloser = generateCloser;
 		}
 		
 		@Override
@@ -127,10 +130,11 @@ public interface IOreGenerator{
 				Vec dir = Vec.xyzRandom(rand);
 				Vec pos = Vec.xyz(startPos.getX()+0.5D,startPos.getY()+0.5D,startPos.getZ()+0.5D);
 				
-				for(int cycle = 1, left = total; cycle <= total && left > 0; cycle++){
+				for(int cycle = 1, left = total; cycle <= (generateCloser ? total*2 : total) && left > 0; cycle++){
 					if (generated.size() >= ores)return;
 					
-					Pos nextPos = Pos.at(pos.x += dir.x,pos.y += dir.y,pos.z += dir.z);
+					double mp = generateCloser ? 0.5D : 1D;
+					Pos nextPos = Pos.at(pos.x += dir.x*mp,pos.y += dir.y*mp,pos.z += dir.z*mp);
 					
 					if (canPlaceAt(gen,world,rand,nextPos.getX(),nextPos.getY(),nextPos.getZ())){
 						world.setBlock(nextPos.getX(),nextPos.getY(),nextPos.getZ(),gen.orePicker.pick(rand));
