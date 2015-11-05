@@ -17,6 +17,7 @@ import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
+import chylex.hee.proxy.ModCommonProxy.MessageType;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.test.UnitTest.RunTime;
@@ -114,10 +115,10 @@ public class HeeDebugCommand extends BaseCommand{
 			KnowledgeRegistrations.initialize();
 		}
 		else if (args[0].equalsIgnoreCase("viewitems")){
-			HardcoreEnderExpansion.proxy.openGui("itemviewer");
+			HardcoreEnderExpansion.proxy.sendMessage(MessageType.VIEW_MOD_CONTENT);
 		}
 		else if (args[0].equalsIgnoreCase("speedup")){
-			HardcoreEnderExpansion.proxy.openGui("speedup");
+			HardcoreEnderExpansion.proxy.sendMessage(MessageType.SPEED_UP_PLAYER);
 		}
 		else if (args[0].equalsIgnoreCase("noweather")){
 			for(WorldServer world:DimensionManager.getWorlds()){

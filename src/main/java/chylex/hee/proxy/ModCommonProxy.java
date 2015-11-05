@@ -17,10 +17,9 @@ public class ModCommonProxy{
 	
 	public void registerRenderers(){}
 	public void registerSidedEvents(){}
-	public void openGui(String type){}
-	public void sendMessage(MessageType msgType, int[] data){}
+	public void sendMessage(MessageType msgType, int...data){}
 	
 	public static enum MessageType{
-		DEBUG_TITLE_SET
+		DEBUG_TITLE_SET, SPEED_UP_PLAYER, VIEW_MOD_CONTENT
 	}
 }

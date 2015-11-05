@@ -178,16 +178,18 @@ public class ModClientProxy extends ModCommonProxy{
 	}
 	
 	@Override
-	public void openGui(String type){
-		if (type.equals("itemviewer"))Minecraft.getMinecraft().displayGuiScreen(new GuiItemViewer());
-		else if (type.equals("speedup"))Minecraft.getMinecraft().thePlayer.capabilities.setFlySpeed(0.3F);
-	}
-	
-	@Override
-	public void sendMessage(MessageType msgType, int[] data){
+	public void sendMessage(MessageType msgType, int...data){
 		switch(msgType){
 			case DEBUG_TITLE_SET:
 				Display.setTitle(Display.getTitle()+" - HardcoreEnderExpansion - "+(Log.isDeobfEnvironment ? "dev" : "debug")+' '+HardcoreEnderExpansion.modVersion);
+				break;
+				
+			case SPEED_UP_PLAYER:
+				Minecraft.getMinecraft().thePlayer.capabilities.setFlySpeed(0.3F);
+				break;
+				
+			case VIEW_MOD_CONTENT:
+				Minecraft.getMinecraft().displayGuiScreen(new GuiItemViewer());
 				break;
 		}
 	}
