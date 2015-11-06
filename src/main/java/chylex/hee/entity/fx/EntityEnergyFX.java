@@ -37,9 +37,9 @@ public class EntityEnergyFX extends EntityFX{
 	}
 	
 	public EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue, EnergyClusterData data){
-		this(world,x,y,z,red,green,blue);
+		this(world,x+(world.rand.nextDouble()-0.5D)*0.005D*data.getEnergyLevel(),y+(world.rand.nextDouble()-0.5D)*0.005D*data.getEnergyLevel(),z+(world.rand.nextDouble()-0.5D)*0.005D*data.getEnergyLevel(),red,green,blue);
 		
-		particleScale = 0.05F+rand.nextFloat()*0.05F+0.005F*data.getEnergyLevel();
+		particleScale = 0.075F+rand.nextFloat()*0.05F+0.005F*data.getEnergyLevel();
 		
 		if (rand.nextInt(5)+1 < data.getHealth().ordinal()){
 			float mp = 1F-0.4F*((float)data.getHealth().ordinal()/EnergyClusterHealth.values.length);
@@ -50,7 +50,7 @@ public class EntityEnergyFX extends EntityFX{
 	}
 	
 	public EntityEnergyFX(World world, TileEntityEnergyCluster cluster){
-		this(world,cluster.xCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.2D,cluster.yCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.zCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.getData().get());
+		this(world,cluster.xCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.yCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.zCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.getData().get());
 		this.breakCheckTimer = 10;
 	}
 	
@@ -87,9 +87,9 @@ public class EntityEnergyFX extends EntityFX{
 			if (Pos.at(this).getBlock(worldObj) != BlockList.energy_cluster)age = (byte)(maxAge-18);
 		}
 		
-		if (rand.nextInt(3) == 0)posX += rand.nextDouble()*0.02D-0.01D;
-		if (rand.nextInt(3) == 0)posY += rand.nextDouble()*0.02D-0.01D;
-		if (rand.nextInt(3) == 0)posZ += rand.nextDouble()*0.02D-0.01D;
+		if (rand.nextInt(3) == 0)posX += rand.nextDouble()*0.012D-0.006D;
+		if (rand.nextInt(3) == 0)posY += rand.nextDouble()*0.012D-0.006D;
+		if (rand.nextInt(3) == 0)posZ += rand.nextDouble()*0.012D-0.006D;
 	}
 	
 	@Override
