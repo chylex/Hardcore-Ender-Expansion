@@ -14,7 +14,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class BlockAbstractSubtypes extends Block implements IBlockSubtypes{
 	@SideOnly(Side.CLIENT)
-	private IIcon[] iconArray;
+	protected IIcon[] iconArray;
 	
 	public BlockAbstractSubtypes(Material material){
 		super(material);
@@ -32,19 +32,19 @@ public abstract class BlockAbstractSubtypes extends Block implements IBlockSubty
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public final IIcon getIcon(int side, int meta){
-		return iconArray[MathUtil.clamp(meta,0,iconArray.length-1)];
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
 	public final void getSubBlocks(Item item, CreativeTabs tab, List list){
 		for(int meta = 0; meta < iconArray.length; meta++)list.add(new ItemStack(item,1,meta));
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public final void registerBlockIcons(IIconRegister iconRegister){
+	public IIcon getIcon(int side, int meta){
+		return iconArray[MathUtil.clamp(meta,0,iconArray.length-1)];
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerBlockIcons(IIconRegister iconRegister){
 		iconArray = new IIcon[countSubtypes()];
 		
 		for(int meta = 0; meta < iconArray.length; meta++){
