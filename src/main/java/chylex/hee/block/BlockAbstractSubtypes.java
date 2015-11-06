@@ -16,6 +16,8 @@ public abstract class BlockAbstractSubtypes extends Block implements IBlockSubty
 	@SideOnly(Side.CLIENT)
 	protected IIcon[] iconArray;
 	
+	private final int count = countSubtypes();
+	
 	public BlockAbstractSubtypes(Material material){
 		super(material);
 	}
@@ -33,7 +35,7 @@ public abstract class BlockAbstractSubtypes extends Block implements IBlockSubty
 	@Override
 	@SideOnly(Side.CLIENT)
 	public final void getSubBlocks(Item item, CreativeTabs tab, List list){
-		for(int meta = 0; meta < iconArray.length; meta++)list.add(new ItemStack(item,1,meta));
+		for(int meta = 0; meta < count; meta++)list.add(new ItemStack(item,1,meta));
 	}
 	
 	@Override
@@ -45,7 +47,7 @@ public abstract class BlockAbstractSubtypes extends Block implements IBlockSubty
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iconRegister){
-		iconArray = new IIcon[countSubtypes()];
+		iconArray = new IIcon[count];
 		
 		for(int meta = 0; meta < iconArray.length; meta++){
 			iconArray[meta] = iconRegister.registerIcon(getTextureName(meta));
