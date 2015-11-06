@@ -30,6 +30,8 @@ public final class Meta{
 		planksAcacia = 4,
 		planksDarkOak = 5,
 		
+		slabTop = 8,
+		
 		slabStoneSmoothDouble = 0,
 		slabStoneSmoothBottom = 0,
 		slabStoneSmoothTop = 0+8,
