@@ -1,8 +1,11 @@
 package chylex.hee.world.structure;
 import java.util.Random;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
+import chylex.hee.system.abstractions.Meta;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.structure.util.IBlockPicker;
 
 /**
@@ -83,6 +86,23 @@ public abstract class StructurePiece{
 				world.setBlock(x1,y,z,picker.pick(rand));
 				world.setBlock(x2,y,z,picker.pick(rand));
 			}
+		}
+	}
+	
+	protected static final void placeStairOutline(StructureWorld world, Random rand, Block block, int centerX, int y, int centerZ, int distance, boolean outwards, boolean flip){
+		IBlockPicker[] stairs = new IBlockPicker[]{
+			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.SOUTH_POSZ : Facing4.NORTH_NEGZ,flip)),
+			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.NORTH_NEGZ : Facing4.SOUTH_POSZ,flip)),
+			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.EAST_POSX : Facing4.WEST_NEGX,flip)),
+			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.WEST_NEGX : Facing4.EAST_POSX,flip))
+		};
+		
+		for(int facingInd = 0, off, perX, perZ; facingInd < Facing4.list.length; facingInd++){
+			Facing4 facing = Facing4.list[facingInd];
+			off = facing.getX() == 0 ? distance-1 : distance;
+			perX = facing.perpendicular().getX();
+			perZ = facing.perpendicular().getZ();
+			placeLine(world,rand,stairs[facingInd],centerX+distance*facing.getX()-off*perX,y,centerZ+distance*facing.getZ()-off*perZ,centerX+distance*facing.getX()+off*perX,y,centerZ+distance*facing.getZ()+off*perZ);
 		}
 	}
 }

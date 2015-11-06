@@ -1,6 +1,5 @@
 package chylex.hee.world.feature.stronghold;
 import java.util.Random;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityChest;
@@ -11,7 +10,6 @@ import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.WorldGenStronghold;
 import chylex.hee.world.loot.WeightedLootTable;
-import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPiece;
 import chylex.hee.world.structure.dungeon.generators.DungeonGeneratorSpreading.ISpreadingGeneratorPieceType;
 import chylex.hee.world.structure.util.IBlockPicker;
@@ -68,23 +66,6 @@ public abstract class StrongholdPiece extends StructureDungeonPiece{
 	
 	protected static final IBlockPicker placeStoneBrickStairs(Facing4 ascendsTowards, boolean flip){
 		return new BlockInfo(Blocks.stone_brick_stairs,Meta.getStairs(ascendsTowards,flip));
-	}
-	
-	protected static final void placeStairOutline(StructureWorld world, Random rand, Block block, int centerX, int y, int centerZ, int distance, boolean outwards, boolean flip){
-		IBlockPicker[] stairs = new IBlockPicker[]{
-			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.SOUTH_POSZ : Facing4.NORTH_NEGZ,flip)),
-			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.NORTH_NEGZ : Facing4.SOUTH_POSZ,flip)),
-			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.EAST_POSX : Facing4.WEST_NEGX,flip)),
-			IBlockPicker.basic(block,Meta.getStairs(outwards ? Facing4.WEST_NEGX : Facing4.EAST_POSX,flip))
-		};
-		
-		for(int facingInd = 0, off, perX, perZ; facingInd < Facing4.list.length; facingInd++){
-			Facing4 facing = Facing4.list[facingInd];
-			off = facing.getX() == 0 ? distance-1 : distance;
-			perX = facing.perpendicular().getX();
-			perZ = facing.perpendicular().getZ();
-			placeLine(world,rand,stairs[facingInd],centerX+distance*facing.getX()-off*perX,y,centerZ+distance*facing.getZ()-off*perZ,centerX+distance*facing.getX()+off*perX,y,centerZ+distance*facing.getZ()+off*perZ);
-		}
 	}
 	
 	private static final void generateLoot(WeightedLootTable lootTable, int items, int cobwebs, TileEntityChest chest, Random rand){
