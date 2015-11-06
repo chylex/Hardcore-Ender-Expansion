@@ -22,8 +22,12 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	public void generate(EnergyClusterGenerator generator, Random rand){
 		data = generator.generate(rand);
 		cachedCoords = Pos.at(xCoord,yCoord,zCoord);
-		colRgb = ArrayUtils.toPrimitive(Arrays.stream(ArrayUtils.toObject(ColorUtil.hsvToRgb(rand.nextFloat(),0.5F,0.65F))).map(color -> (byte)(Math.floor(color*255F)-128)).toArray(Byte[]::new));
+		setColor(ColorUtil.hsvToRgb(rand.nextFloat(),0.5F,0.65F));
 		synchronize();
+	}
+	
+	public void setColor(float[] rgb){
+		colRgb = ArrayUtils.toPrimitive(Arrays.stream(ArrayUtils.toObject(rgb)).map(color -> (byte)(Math.floor(color*255F)-128)).toArray(Byte[]::new));
 	}
 
 	@Override

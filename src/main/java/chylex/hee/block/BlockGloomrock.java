@@ -47,7 +47,7 @@ public class BlockGloomrock extends BlockAbstractSubtypes{
 			case 0: return "hardcoreenderexpansion:gloomrock_plain";
 			case 1: return "hardcoreenderexpansion:gloomrock_smooth";
 			case 2: return "hardcoreenderexpansion:gloomrock_brick";
-			default: return "hardcoreenderexpansion:gloomrock_color_"+(meta-3);
+			default: return "hardcoreenderexpansion:gloomrock_color_"+(meta-2);
 		}
 	}
 }
