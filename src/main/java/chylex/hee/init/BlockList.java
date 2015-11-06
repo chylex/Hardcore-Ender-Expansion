@@ -143,10 +143,10 @@ public final class BlockList{
 		register("stone_brick_wall", stone_brick_wall = new BlockStoneBrickWall().setBlockName("stoneBrickWall"));
 		register("ethereal_lantern", ethereal_lantern = new BlockBasic(Material.glass).setHardness(0.5F).setResistance(0.25F).setLightLevel(1F).setBlockName("etherealLantern").setBlockTextureName("hardcoreenderexpansion:ethereal_lantern"));
 		register("gloomrock", gloomrock = new BlockGloomrock().setHardness(5F).setResistance(7F).setStepSound(Block.soundTypeStone).setBlockName("gloomrock"));
-		register("gloomrock_smooth_slab", gloomrock_smooth_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.Meta.SMOOTH.value).setBlockName("gloomrockSmoothSlab"));
-		register("gloomrock_smooth_stairs", gloomrock_smooth_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.Meta.SMOOTH.value).setBlockName("gloomrockSmoothStairs"));
-		register("gloomrock_brick_slab", gloomrock_brick_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.Meta.BRICK.value).setBlockName("gloomrockBrickSlab"));
-		register("gloomrock_brick_stairs", gloomrock_brick_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.Meta.BRICK.value).setBlockName("gloomrockBrickStairs"));
+		register("gloomrock_smooth_slab", gloomrock_smooth_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.State.SMOOTH.value).setBlockName("gloomrockSmoothSlab"));
+		register("gloomrock_smooth_stairs", gloomrock_smooth_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.State.SMOOTH.value).setBlockName("gloomrockSmoothStairs"));
+		register("gloomrock_brick_slab", gloomrock_brick_slab = new BlockBasicSlab(gloomrock,BlockGloomrock.State.BRICK.value).setBlockName("gloomrockBrickSlab"));
+		register("gloomrock_brick_stairs", gloomrock_brick_stairs = new BlockBasicStairs(gloomrock,BlockGloomrock.State.BRICK.value).setBlockName("gloomrockBrickStairs"));
 		register("obsidian_end", obsidian_falling = new BlockObsidianEnd().setHardness(50F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianEnd").setBlockTextureName("obsidian"));
 		register("obsidian_stairs", obsidian_stairs = new BlockBasicStairs(Blocks.obsidian,0).setBlockName("obsidianStairs"));
 		register("obsidian_special", obsidian_special = new BlockObsidianSpecial(false).setHardness(28F).setResistance(2000F).setStepSound(Block.soundTypeStone).setBlockName("obsidianSpecial").setBlockTextureName("hardcoreenderexpansion:obsidian_smooth"));
