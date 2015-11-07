@@ -74,6 +74,16 @@ public enum Facing4 implements IFacing{
 		}
 	}
 	
+	public Facing6 toFacing6(){
+		switch(this){
+			case NORTH_NEGZ: return Facing6.NORTH_NEGZ;
+			case WEST_NEGX: return Facing6.WEST_NEGX;
+			case SOUTH_POSZ: return Facing6.SOUTH_POSZ;
+			case EAST_POSX: return Facing6.EAST_POSX;
+			default: return Facing6.INVALID;
+		}
+	}
+	
 	@Override
 	public int getX(){
 		switch(this){

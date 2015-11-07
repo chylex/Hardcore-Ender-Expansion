@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityFlowerPot;
 import net.minecraft.tileentity.TileEntitySkull;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.util.IStructureTileEntity;
 
@@ -140,6 +141,12 @@ public final class Meta{
 	
 	public static byte getDye(BlockColor color){
 		return (byte)(15-color.ordinal());
+	}
+	
+	/* === CUSTOM BLOCKS === */
+	
+	public static byte getGloomtorch(Facing6 attachedTo){
+		return (byte)(attachedTo.ordinal()+1);
 	}
 	
 	/* === LOGS === */
