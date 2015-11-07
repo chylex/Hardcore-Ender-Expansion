@@ -40,6 +40,7 @@ import chylex.hee.render.RenderNothing;
 import chylex.hee.render.block.RenderBlockCrossedDecoration;
 import chylex.hee.render.block.RenderBlockEndFlowerPot;
 import chylex.hee.render.block.RenderBlockEnhancedTNTPrimed;
+import chylex.hee.render.block.RenderBlockGloomtorch;
 import chylex.hee.render.block.RenderBlockObsidianSpecial;
 import chylex.hee.render.block.RenderBlockSpookyLeaves;
 import chylex.hee.render.block.RenderBlockTokenHolder;
@@ -105,11 +106,13 @@ public class ModClientProxy extends ModCommonProxy{
 		renderIdSpookyLeaves = RenderingRegistry.getNextAvailableRenderId();
 		renderIdCrossedDecoration = RenderingRegistry.getNextAvailableRenderId();
 		renderIdLootChest = RenderingRegistry.getNextAvailableRenderId();
+		renderIdGloomtorch = RenderingRegistry.getNextAvailableRenderId();
 		
 		RenderingRegistry.registerBlockHandler(new RenderBlockObsidianSpecial());
 		RenderingRegistry.registerBlockHandler(new RenderBlockEndFlowerPot());
 		RenderingRegistry.registerBlockHandler(new RenderBlockSpookyLeaves());
 		RenderingRegistry.registerBlockHandler(new RenderBlockCrossedDecoration());
+		RenderingRegistry.registerBlockHandler(new RenderBlockGloomtorch());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEssenceAltar.class, new RenderTileEssenceAltar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndermanHead.class, new RenderTileEndermanHead());
