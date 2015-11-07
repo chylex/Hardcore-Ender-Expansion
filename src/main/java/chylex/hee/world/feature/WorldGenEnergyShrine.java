@@ -3,6 +3,8 @@ import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import chylex.hee.block.BlockGloomrock;
+import chylex.hee.entity.technical.EntityTechnicalTrigger;
+import chylex.hee.entity.technical.EntityTechnicalTrigger.TriggerBase;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterGenerator;
@@ -61,10 +63,12 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 			else if (hueFull < 310)color = BlockGloomrock.State.COL_PURPLE;
 			else color = BlockGloomrock.State.COL_PINK;
 			
+			IBlockPicker placeColor = IBlockPicker.basic(BlockList.gloomrock,color.value);
+			
 			// entrance
 			mpos.set(0,top,0);
 			placeStairOutline(world,rand,BlockList.gloomrock_smooth_stairs,0,mpos.y,0,1,false,false);
-			placeBlock(world,rand,IBlockPicker.basic(BlockList.gloomrock,color.value),0,mpos.y,0);
+			placeBlock(world,rand,placeColor,0,mpos.y,0);
 			
 			// the fall
 			--mpos.y;
@@ -87,14 +91,14 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 			// the room (layout)
 			mpos.move(roomDir,hallwayLength);
 			
-			point1 = mpos.offset(left,4);
-			point2 = mpos.offset(right,4).offset(roomDir,8);
+			point1 = mpos.offset(left,5);
+			point2 = mpos.offset(right,5).offset(roomDir,10);
 			placeCube(world,rand,IBlockPicker.basic(BlockList.gloomrock,BlockGloomrock.State.SMOOTH.value),point1.getX(),mpos.y,point1.getZ(),point2.getX(),mpos.y,point2.getZ());
 			placeWalls(world,rand,IBlockPicker.basic(BlockList.gloomrock,BlockGloomrock.State.BRICK.value),point1.getX(),mpos.y+1,point1.getZ(),point2.getX(),mpos.y+5,point2.getZ());
 			placeCube(world,rand,IBlockPicker.basic(BlockList.gloomrock,BlockGloomrock.State.PLAIN.value),point1.getX(),mpos.y+6,point1.getZ(),point2.getX(),mpos.y+6,point2.getZ());
 
-			point1 = mpos.offset(left,3).offset(roomDir,1);
-			point2 = mpos.offset(right,3).offset(roomDir,6);
+			point1 = mpos.offset(left,4).offset(roomDir,1);
+			point2 = mpos.offset(right,4).offset(roomDir,8);
 			placeCube(world,rand,placeAir,point1.getX(),mpos.y+1,point1.getZ(),point2.getX(),mpos.y+5,point2.getZ());
 			
 			// entrance to the room
@@ -102,13 +106,39 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 			point2 = mpos.offset(right);
 			placeCube(world,rand,placeAir,point1.getX(),mpos.y+1,point1.getZ(),point2.getX(),mpos.y+3,point2.getZ());
 			
-			// cluster
-			placeBlock(world,rand,IBlockPicker.basic(BlockList.energy_cluster),mpos.x+4*roomDir.getX(),mpos.y+2,mpos.z+4*roomDir.getZ());
+			// trigger
+			mpos.move(roomDir,4);
+			world.addEntity(new EntityTechnicalTrigger(null,mpos.x,mpos.y,mpos.z,new TriggerShrine()));
 			
-			world.setTileEntity(mpos.x+4*roomDir.getX(),mpos.y+2,mpos.z+4*roomDir.getZ(),(tile, random) -> {
+			// cluster
+			mpos.move(roomDir);
+			
+			placeBlock(world,rand,IBlockPicker.basic(BlockList.energy_cluster),mpos.x,mpos.y+2,mpos.z);
+			
+			world.setTileEntity(mpos.x,mpos.y+2,mpos.z,(tile, random) -> {
 				((TileEntityEnergyCluster)tile).generate(EnergyClusterGenerator.energyShrine,random);
 				((TileEntityEnergyCluster)tile).setColor(rgb);
 			});
+			
+			// side colors
+			Pos sidePos;
+			
+			for(Facing4 facing:Facing4.list){
+				if (facing == roomDir.opposite())continue;
+				
+				sidePos = mpos.offset(facing,4);
+				placeLine(world,rand,IBlockPicker.basic(BlockList.gloomrock_brick_stairs,Meta.getStairs(facing,true)),sidePos.getX()+2*facing.rotateLeft().getX(),mpos.y+1,sidePos.getZ()+2*facing.rotateLeft().getZ(),sidePos.getX()+2*facing.rotateRight().getX(),mpos.y+1,sidePos.getZ()+2*facing.rotateRight().getZ());
+				
+				sidePos = mpos.offset(facing,5);
+				placeBlock(world,rand,placeColor,sidePos.getX(),mpos.y+2,sidePos.getZ());
+			}
+		}
+	}
+	
+	public static final class TriggerShrine extends TriggerBase{
+		@Override
+		protected void update(EntityTechnicalTrigger entity, World world, Random rand){
+			
 		}
 	}
 	
