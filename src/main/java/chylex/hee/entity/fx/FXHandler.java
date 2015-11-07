@@ -111,6 +111,11 @@ public final class FXHandler{
 				world.playSound(x,y,z,"random.fizz",2F,2.2F+(rand.nextFloat()-rand.nextFloat())*0.8F,true);
 				break;
 				
+			case SHRINE_GLITTER:
+				double mot = (rand.nextDouble()-0.5D)*0.1D;
+				fx.global("glitter",x,y,z,rand.nextInt(6) == 0 ? mot : 0D,rand.nextInt(6) == 0 ? mot : 0D,rand.nextInt(6) == 0 ? mot : 0D,0.7F,0.5F,1F);
+				break;
+				
 			default:
 		}
 	}

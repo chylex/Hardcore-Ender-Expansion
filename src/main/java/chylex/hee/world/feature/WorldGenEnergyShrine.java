@@ -3,11 +3,14 @@ import java.util.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import chylex.hee.block.BlockGloomrock;
+import chylex.hee.entity.fx.FXType;
 import chylex.hee.entity.technical.EntityTechnicalTrigger;
 import chylex.hee.entity.technical.EntityTechnicalTrigger.TriggerBase;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.init.BlockList;
 import chylex.hee.mechanics.energy.EnergyClusterGenerator;
+import chylex.hee.packets.PacketPipeline;
+import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
@@ -107,12 +110,10 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 			placeCube(world,rand,placeAir,point1.getX(),mpos.y+1,point1.getZ(),point2.getX(),mpos.y+3,point2.getZ());
 			
 			// trigger
-			mpos.move(roomDir,4);
+			mpos.move(roomDir,5);
 			world.addEntity(new EntityTechnicalTrigger(null,mpos.x,mpos.y,mpos.z,new TriggerShrine()));
 			
 			// cluster
-			mpos.move(roomDir);
-			
 			placeBlock(world,rand,IBlockPicker.basic(BlockList.energy_cluster),mpos.x,mpos.y+2,mpos.z);
 			
 			world.setTileEntity(mpos.x,mpos.y+2,mpos.z,(tile, random) -> {
@@ -136,9 +137,21 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 	}
 	
 	public static final class TriggerShrine extends TriggerBase{
+		private byte checkTimer;
+		private boolean running;
+		
 		@Override
 		protected void update(EntityTechnicalTrigger entity, World world, Random rand){
+			if (++checkTimer > 20){
+				checkTimer = 0;
+				running = world.getClosestPlayerToEntity(entity,12D) != null;
+			}
 			
+			if (running){
+				if (rand.nextInt(3) != 0){
+					PacketPipeline.sendToAllAround(entity,16D,new C20Effect(FXType.Basic.SHRINE_GLITTER,entity.posX+(rand.nextDouble()-0.5D)*8D,entity.posY+1D+rand.nextDouble()*4D,entity.posZ+(rand.nextDouble()-0.5D)*8D));
+				}
+			}
 		}
 	}
 	
