@@ -43,7 +43,7 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 			final Facing4 roomDir = Facing4.random(rand), left = roomDir.rotateLeft(), right = roomDir.rotateRight();
 			final int top = height-1;
 			
-			final int fallHeight = 5+rand.nextInt(height-6);
+			final int fallHeight = 7+rand.nextInt(height-5);
 			final int hallwayLength = 6+rand.nextInt(5);
 			
 			PosMutable mpos = new PosMutable(0,top,0);
@@ -81,6 +81,10 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 			
 			// the hallway
 			mpos.y -= fallHeight;
+			
+			placeBlock(world,rand,IBlockPicker.basic(BlockList.gloomtorch,Meta.getGloomtorch(roomDir.opposite().toFacing6())),mpos.x-2*roomDir.getX(),mpos.y+2,mpos.z-2*roomDir.getZ());
+			placeBlock(world,rand,IBlockPicker.basic(BlockList.gloomrock,BlockGloomrock.State.PLAIN.value),mpos.x-3*roomDir.getX(),mpos.y+2,mpos.z-3*roomDir.getZ());
+			
 			mpos.move(roomDir,2);
 			
 			Pos point1 = mpos.offset(left,2);
@@ -97,11 +101,11 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 			point1 = mpos.offset(left,5);
 			point2 = mpos.offset(right,5).offset(roomDir,10);
 			placeCube(world,rand,IBlockPicker.basic(BlockList.gloomrock,BlockGloomrock.State.SMOOTH.value),point1.getX(),mpos.y,point1.getZ(),point2.getX(),mpos.y,point2.getZ());
-			placeWalls(world,rand,IBlockPicker.basic(BlockList.gloomrock,BlockGloomrock.State.BRICK.value),point1.getX(),mpos.y+1,point1.getZ(),point2.getX(),mpos.y+5,point2.getZ());
-			placeCube(world,rand,IBlockPicker.basic(BlockList.gloomrock,BlockGloomrock.State.PLAIN.value),point1.getX(),mpos.y+6,point1.getZ(),point2.getX(),mpos.y+6,point2.getZ());
+			placeWalls(world,rand,IBlockPicker.basic(BlockList.gloomrock,BlockGloomrock.State.BRICK.value),point1.getX(),mpos.y+1,point1.getZ(),point2.getX(),mpos.y+6,point2.getZ());
+			placeCube(world,rand,IBlockPicker.basic(BlockList.gloomrock,BlockGloomrock.State.PLAIN.value),point1.getX(),mpos.y+7,point1.getZ(),point2.getX(),mpos.y+7,point2.getZ());
 
 			point1 = mpos.offset(left,4).offset(roomDir,1);
-			point2 = mpos.offset(right,4).offset(roomDir,8);
+			point2 = mpos.offset(right,4).offset(roomDir,9);
 			placeCube(world,rand,placeAir,point1.getX(),mpos.y+1,point1.getZ(),point2.getX(),mpos.y+5,point2.getZ());
 			
 			// entrance to the room
@@ -121,7 +125,7 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 				((TileEntityEnergyCluster)tile).setColor(rgb);
 			});
 			
-			// side colors
+			// sides
 			Pos sidePos;
 			
 			for(Facing4 facing:Facing4.list){
@@ -129,6 +133,9 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 				
 				sidePos = mpos.offset(facing,4);
 				placeLine(world,rand,IBlockPicker.basic(BlockList.gloomrock_brick_stairs,Meta.getStairs(facing,true)),sidePos.getX()+2*facing.rotateLeft().getX(),mpos.y+1,sidePos.getZ()+2*facing.rotateLeft().getZ(),sidePos.getX()+2*facing.rotateRight().getX(),mpos.y+1,sidePos.getZ()+2*facing.rotateRight().getZ());
+				
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.gloomtorch),sidePos.getX()+2*facing.rotateLeft().getX(),mpos.y+2,sidePos.getZ()+2*facing.rotateLeft().getZ());
+				placeBlock(world,rand,IBlockPicker.basic(BlockList.gloomtorch),sidePos.getX()+2*facing.rotateRight().getX(),mpos.y+2,sidePos.getZ()+2*facing.rotateRight().getZ());
 				
 				sidePos = mpos.offset(facing,5);
 				placeBlock(world,rand,placeColor,sidePos.getX(),mpos.y+2,sidePos.getZ());

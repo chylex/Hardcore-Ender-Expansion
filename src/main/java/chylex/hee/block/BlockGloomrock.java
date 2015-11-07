@@ -1,6 +1,8 @@
 package chylex.hee.block;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -29,6 +31,11 @@ public class BlockGloomrock extends BlockAbstractSubtypes{
 	@Override
 	public int countSubtypes(){
 		return State.count;
+	}
+	
+	@Override
+	public float getBlockHardness(World world, int x, int y, int z){
+		return Pos.at(x,y,z).getMetadata(world) == State.PLAIN.value ? blockHardness*0.5F : blockHardness;
 	}
 
 	@Override
