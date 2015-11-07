@@ -24,6 +24,8 @@ public class EntityTechnicalTrigger extends EntityTechnicalBase{
 	public void onUpdate(){
 		super.onUpdate();
 		
+		if (worldObj.isRemote)return;
+		
 		if (trigger == null)setDead();
 		else trigger.update(this,worldObj,rand);
 	}
