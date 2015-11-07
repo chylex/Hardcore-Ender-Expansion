@@ -133,6 +133,13 @@ public final class RecipeList{
 			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.BRICK.value)
 		);
 		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.gloomtorch,8),
+			" D ", "DED", " G ",
+			'D', Items.glowstone_dust,
+			'E', ItemList.ethereum,
+			'G', new ItemStack(BlockList.gloomrock,1,BlockGloomrock.State.SMOOTH.value)
+		);
+		
 		// Decorations
 		
 		GameRegistryUtil.addSmeltingRecipe(
@@ -144,6 +151,13 @@ public final class RecipeList{
 		GameRegistry.addShapelessRecipe(
 			new ItemStack(ItemList.ancient_dust),
 			BlockList.ancient_web
+		);
+		
+		GameRegistry.addShapedRecipe(new ItemStack(BlockList.ethereal_lantern,4),
+			"GSG", "SES", "GSG",
+			'G', Items.gold_nugget,
+			'S', new ItemStack(Blocks.stonebrick,1,Meta.stoneBrickChiseled),
+			'E', ItemList.ethereum
 		);
 		
 		/*GameRegistry.addShapedRecipe(new ItemStack(ItemList.altar_nexus),
