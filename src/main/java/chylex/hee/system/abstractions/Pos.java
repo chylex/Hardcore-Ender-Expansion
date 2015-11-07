@@ -2,6 +2,7 @@ package chylex.hee.system.abstractions;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -73,6 +74,27 @@ public class Pos{
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Runs a predicate for every block inside the specified locations, and returns true if all blocks match it.
+	 * When any block fails the predicate, the function immediately returns false and stop checking any further blocks.
+	 */
+	public static boolean allBlocksMatch(Pos firstPos, Pos secondPos, Predicate<PosMutable> predicate){
+		int x1 = Math.min(firstPos.getX(),secondPos.getX()), x2 = Math.max(firstPos.getX(),secondPos.getX());
+		int y1 = Math.min(firstPos.getY(),secondPos.getY()), y2 = Math.max(firstPos.getY(),secondPos.getY());
+		int z1 = Math.min(firstPos.getZ(),secondPos.getZ()), z2 = Math.max(firstPos.getZ(),secondPos.getZ());
+		PosMutable mutablePos = new PosMutable();
+		
+		for(int x = x1; x <= x2; x++){
+			for(int y = y1; y <= y2; y++){
+				for(int z = z1; z <= z2; z++){
+					if (!predicate.test(mutablePos.set(x,y,z)))return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	/**
