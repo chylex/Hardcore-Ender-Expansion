@@ -3,6 +3,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -218,6 +219,27 @@ public class FXClientProxy extends FXCommonProxy{
 	@Override
 	public void portalOrbiting(double x, double y, double z, double motionY){
 		spawn(new EntityOrbitingPortalFX(world(),x,y,z,motionY));
+	}
+
+	@Override
+	public void energy(double x, double y, double z, final double targetX, final double targetY, final double targetZ, float red, float green, float blue, float scale, float speed){
+		spawn(new EntityEnergyFX(world(),x,y,z,red,green,blue,0D,0D,0D,scale){
+			final ParticleBehaviorMoveTo moveBehavior = new ParticleBehaviorMoveTo(this,targetX,targetY,targetZ,speed);
+			
+			{ noClip = true; }
+			
+			@Override
+			public void onUpdate(){
+				super.onUpdate();
+				moveBehavior.update(this);
+			}
+			
+			@Override
+			public void renderParticle(Tessellator tessellator, float partialTickTime, float rotX, float rotXZ, float rotZ, float rotYZ, float rotXY){
+				particleAlpha = 1F;
+				super.renderParticle(tessellator,partialTickTime,rotX,rotXZ,rotZ,rotYZ,rotXY);
+			}
+		});
 	}
 	
 	@Override

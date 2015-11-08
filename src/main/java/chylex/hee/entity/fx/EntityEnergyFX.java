@@ -19,7 +19,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityEnergyFX extends EntityFX{
 	private static final ResourceLocation texture = new ResourceLocation("hardcoreenderexpansion:textures/particles/energy.png");
 	
-	private byte indexX, indexY, age, maxAge, breakCheckTimer = Byte.MIN_VALUE;
+	private byte indexX, indexY, age, maxAge;
+	private boolean checkBreaking ;
 	
 	private EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue){
 		super(world,x,y,z,0D,0D,0D);
@@ -51,7 +52,7 @@ public class EntityEnergyFX extends EntityFX{
 	
 	public EntityEnergyFX(World world, TileEntityEnergyCluster cluster){
 		this(world,cluster.xCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.yCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.zCoord+0.5D+(world.rand.nextDouble()-0.5D)*0.1D,cluster.getColor(0),cluster.getColor(1),cluster.getColor(2),cluster.getData().get());
-		this.breakCheckTimer = 10;
+		this.checkBreaking = true;
 	}
 	
 	public EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue, double motionX, double motionY, double motionZ){
@@ -78,18 +79,15 @@ public class EntityEnergyFX extends EntityFX{
 		if (age < 20)particleAlpha = Math.min(1F,particleAlpha+rand.nextFloat()*0.2F);
 		if (age > maxAge-18)particleAlpha = Math.max(0F,particleAlpha-rand.nextFloat()*0.25F);
 		
-		/* TODO posX += motionX*0.5D;
-		posY += motionY*0.5D;
-		posZ += motionZ*0.5D;*/
-		
-		if (breakCheckTimer != Byte.MIN_VALUE && --breakCheckTimer < 0){
-			breakCheckTimer = 10;
-			if (Pos.at(this).getBlock(worldObj) != BlockList.energy_cluster)age = (byte)(maxAge-18);
-		}
+		posX += motionX;
+		posY += motionY;
+		posZ += motionZ;
 		
 		if (rand.nextInt(3) == 0)posX += rand.nextDouble()*0.012D-0.006D;
 		if (rand.nextInt(3) == 0)posY += rand.nextDouble()*0.012D-0.006D;
 		if (rand.nextInt(3) == 0)posZ += rand.nextDouble()*0.012D-0.006D;
+		
+		if (checkBreaking && Pos.at(this).getBlock(worldObj) != BlockList.energy_cluster)setDead();
 	}
 	
 	@Override

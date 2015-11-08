@@ -17,6 +17,7 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 	private EnergyClusterData data;
 	private Pos cachedCoords;
 	private byte[] colRgb;
+	private boolean firstTick;
 	public boolean shouldNotExplode = false;
 	
 	public void generate(EnergyClusterGenerator generator, Random rand){
@@ -42,7 +43,14 @@ public class TileEntityEnergyCluster extends TileEntityAbstractSynchronized{
 			if (cachedCoords.getX() != xCoord || cachedCoords.getY() != yCoord || cachedCoords.getZ() != zCoord)BlockEnergyCluster.destroyCluster(this);
 			else data.update(this);
 		}
-		else if (worldObj.rand.nextInt(4) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
+		else{
+			if (!firstTick){
+				for(int a = 0; a < 12; a++)HardcoreEnderExpansion.fx.energyCluster(this);
+				firstTick = true;
+			}
+			
+			if (worldObj.rand.nextInt(4) == 0)HardcoreEnderExpansion.fx.energyCluster(this);
+		}
 		
 		shouldNotExplode = false;
 	}

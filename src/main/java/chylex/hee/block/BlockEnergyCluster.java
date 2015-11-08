@@ -17,6 +17,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.block.sound.SoundTypeSingle;
 import chylex.hee.entity.fx.EntityEnergyFX;
+import chylex.hee.entity.fx.FXHelper;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.energy.EnergyClusterGenerator;
@@ -28,7 +29,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEnergyCluster extends BlockContainer{
-	public static final SoundType soundTypeEnergyCluster = new SoundTypeSingle("glass",5F,1.6F);
+	public static final SoundType soundTypeEnergyCluster = new SoundTypeSingle("dig.glass",5F,1.6F);
 
 	public BlockEnergyCluster(){
 		super(Material.glass);
@@ -99,7 +100,13 @@ public class BlockEnergyCluster extends BlockContainer{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean addDestroyEffects(World world, int x, int y, int z, int meta, EffectRenderer effectRenderer){
-		for(int a = 0; a < 4; a++)effectRenderer.addEffect(new EntityEnergyFX(world,x+0.5D,y+0.5D,z+0.5D,0F,0F,0F,0D,0D,0D));
+		FXHelper.create("smoke")
+		.pos(x,y,z)
+		.fluctuatePos(0.1D)
+		.fluctuateMotion(0.05D)
+		.paramSingle(0.75F)
+		.spawn(world.rand,18);
+		
 		return true;
 	}
 	
