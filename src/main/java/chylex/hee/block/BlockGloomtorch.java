@@ -22,7 +22,7 @@ public class BlockGloomtorch extends Block{
 	
 	public BlockGloomtorch(){
 		super(Material.circuits);
-		setBlockBounds(0.4F,0F,0.4F,0.6F,0.5F,0.6F);
+		setBlockBounds(0.4375F,0F,0.4375F,0.5625F,0.53125F,0.5625F);
 	}
 
 	@Override
@@ -42,15 +42,16 @@ public class BlockGloomtorch extends Block{
 	
 	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z){
-		float p1 = 0.5625F, p2 = 1F-p1;
+		float min = 0.4375F, max = 0.5625F;
+		float p1 = 0.53125F, p2 = 1F-p1;
 		
 		switch(CollectionUtil.get(Facing6.list,Pos.at(x,y,z).getMetadata(world)-1).orElse(Facing6.DOWN_NEGY)){
-			default: setBlockBounds(0.4F,0F,0.4F,0.6F,p1,0.6F); break;
-			case UP_POSY: setBlockBounds(0.4F,p2,0.4F,0.6F,1F,0.6F); break;
-			case NORTH_NEGZ: setBlockBounds(0.4F,0.4F,0F,0.6F,0.6F,p1); break;
-			case SOUTH_POSZ: setBlockBounds(0.4F,0.4F,p2,0.6F,0.6F,1F); break;
-			case WEST_NEGX: setBlockBounds(0F,0.4F,0.4F,p1,0.6F,0.6F); break;
-			case EAST_POSX: setBlockBounds(p2,0.4F,0.4F,1F,0.6F,0.6F); break;
+			default: setBlockBounds(min,0F,min,max,p1,max); break;
+			case UP_POSY: setBlockBounds(min,p2,min,max,1F,max); break;
+			case NORTH_NEGZ: setBlockBounds(min,min,0F,max,max,p1); break;
+			case SOUTH_POSZ: setBlockBounds(min,min,p2,max,max,1F); break;
+			case WEST_NEGX: setBlockBounds(0F,min,min,p1,max,max); break;
+			case EAST_POSX: setBlockBounds(p2,min,min,1F,max,max); break;
 		}
 	}
 	
