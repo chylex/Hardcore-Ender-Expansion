@@ -11,6 +11,7 @@ import net.minecraftforge.event.terraingen.InitMapGenEvent.EventType;
 import net.minecraftforge.event.world.WorldEvent;
 import chylex.hee.world.biome.BiomeGenHardcoreEnd;
 import chylex.hee.world.feature.WorldGenDispersedCluster;
+import chylex.hee.world.feature.WorldGenEnergyShrine;
 import chylex.hee.world.feature.WorldGenStronghold;
 import chylex.hee.world.providers.ChunkProviderHardcoreEndServer;
 import chylex.hee.world.providers.WorldProviderHardcoreEnd;
@@ -30,6 +31,7 @@ public final class DimensionOverride{
 		
 		GameRegistry.registerWorldGenerator(new WorldGenDispersedCluster(),Integer.MAX_VALUE);
 		GameRegistry.registerWorldGenerator(new WorldGenStronghold(),Integer.MAX_VALUE-1);
+		GameRegistry.registerWorldGenerator(new WorldGenEnergyShrine(),Integer.MAX_VALUE-2);
 	}
 	
 	public static void postInit(){
