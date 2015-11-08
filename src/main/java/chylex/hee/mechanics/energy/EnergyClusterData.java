@@ -67,6 +67,10 @@ public final class EnergyClusterData{
 		return energyLevel;
 	}
 	
+	public int getEnergyUnits(){
+		return MathUtil.floor(energyLevel/EnergyValues.unit);
+	}
+	
 	public float getMaxLevel(){
 		return maxEnergyLevel;
 	}

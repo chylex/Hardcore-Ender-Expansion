@@ -9,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Meta;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.tileentity.TileEntityEndPortalFrame;
@@ -27,7 +26,7 @@ public class BlockEndPortalFrame extends BlockContainer{
 	
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block neighborBlock){
-		if (neighborBlock == BlockList.energy_cluster && Pos.at(x,y,z).getMetadata(world) == Meta.endPortalFrameAcceptor){
+		if (Pos.at(x,y,z).getMetadata(world) == Meta.endPortalFrameAcceptor){
 			Pos.at(x,y,z).castTileEntity(world,TileEntityEndPortalFrame.class).ifPresent(tile -> tile.onNeighborClusterUpdate());
 		}
 	}
