@@ -62,7 +62,7 @@ public class ItemEnergyReceptacle extends Item{
 			NBTTagCompound nbt = ItemUtil.getTagRoot(is,false);
 			
 			if (nbt.hasKey("cluster")){
-				if (nbt.hasKey("ltime") && world.getTotalWorldTime()-nbt.getLong("ltime") >= 10)return false; // needs to be refreshed before placing
+				if (nbt.hasKey("ltime") && world.getTotalWorldTime()-nbt.getLong("ltime") >= 11)return false; // needs to be refreshed before placing
 				
 				if (side > 0)pos = pos.offset(side);
 				if (!player.canPlayerEdit(pos.getX(),pos.getY(),pos.getZ(),side,is) || !pos.isAir(world))return false;
