@@ -36,7 +36,7 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 			boolean underground = type == 0;
 			
 			ShrineSettings settings = new ShrineSettings(rand,underground);
-			int attempts = underground ? 140 : 15;
+			int attempts = underground ? 140 : 10;
 			int minY = (underground ? 15 : 50)+rand.nextInt(10);
 			int maxY = (underground ? 55 : 95)+rand.nextInt(5);
 			
@@ -50,6 +50,8 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 					}
 				}
 			}
+			
+			if (rand.nextInt(3) != 0)return;
 		}
 	}
 	
@@ -119,7 +121,7 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 			this.underground = underground;
 			
 			if (underground){
-				this.fallHeight = 4+rand.nextInt(height-7)/2;
+				this.fallHeight = 6+rand.nextInt(height-7)/2;
 				this.hallwayLength = 9+rand.nextInt(6);
 			}
 			else{
