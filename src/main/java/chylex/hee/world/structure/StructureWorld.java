@@ -128,6 +128,26 @@ public final class StructureWorld{
 		return !isInside(x,y,z) || Objects.firstNonNull(this.blocks[toIndex(x,y,z)],Blocks.air) == Blocks.air;
 	}
 	
+	public int getTopY(int x, int z){
+		return getTopY(x,z,sizeY-1);
+	}
+	
+	public int getTopY(int x, int z, int startY){
+		int y = startY;
+		while(isAir(x,y,z) && --y >= 0);
+		return y;
+	}
+	
+	public int getTopY(int x, int z, Block block){
+		return getTopY(x,z,block,sizeY-1);
+	}
+	
+	public int getTopY(int x, int z, Block block, int startY){
+		int y = startY;
+		while(getBlock(x,y,z) != block && --y >= 0);
+		return y;
+	}
+	
 	public void addEntity(Entity entity){
 		entityList.add(Pair.of(entity,null));
 	}
