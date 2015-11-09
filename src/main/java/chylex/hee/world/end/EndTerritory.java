@@ -1,15 +1,29 @@
 package chylex.hee.world.end;
+import java.util.Random;
 import java.util.stream.IntStream;
 import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraft.world.World;
+import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
+import chylex.hee.world.end.TerritoryGenerator.ITerritoryGeneratorConstructor;
+import chylex.hee.world.end.gen.TerritoryTheHub;
+import chylex.hee.world.structure.StructureWorld;
 
 public enum EndTerritory{
-	THE_HUB(24), // 384 blocks
+	THE_HUB(24, new TerritorySpawnInfo(80,0), TerritoryTheHub::new), // 384 blocks
 	;
 	
 	public final int chunkSize;
+	private final TerritorySpawnInfo info;
+	private final ITerritoryGeneratorConstructor constructor;
 	
-	private EndTerritory(int chunkSize){
+	private EndTerritory(int chunkSize, TerritorySpawnInfo info, ITerritoryGeneratorConstructor constructor){
 		this.chunkSize = chunkSize;
+		this.info = info;
+		this.constructor = constructor;
+	}
+	
+	public StructureWorld createWorld(World world){
+		return new StructureWorld(world,8*chunkSize,info.getHeight(),8*chunkSize);
 	}
 	
 	public static final int chunksBetween = 64; // 1024 blocks
@@ -37,4 +51,27 @@ public enum EndTerritory{
 		
 		return new ChunkCoordIntPair(chunkOffX+chunkOffset,chunkOffZ+chunkOffset);
 	}
+	
+	public static void generateTerritory(EndTerritory territory, ChunkCoordIntPair startPoint, World world, Random rand){
+		for(int chunkX = 0; chunkX < territory.chunkSize; chunkX++){
+			for(int chunkZ = 0; chunkZ < territory.chunkSize; chunkZ++){
+				world.getChunkFromChunkCoords(startPoint.chunkXPos+chunkX,startPoint.chunkZPos+chunkZ);
+			}
+		}
+		
+		StructureWorld structureWorld = territory.createWorld(world);
+		territory.constructor.construct(structureWorld,rand).generate();
+		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,territory.info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2);
+	}
+	
+	public static void generateTerritory(EndTerritory territory, int index, World world, Random rand){
+		generateTerritory(territory,getStartPoint(territory,index),world,rand);
+	}
+	
+	public static final HeeTest $debugTest = new HeeTest(){
+		@Override
+		public void run(String...args){
+			generateTerritory(THE_HUB,0,world,world.rand);
+		}
+	};
 }
