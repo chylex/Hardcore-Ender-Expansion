@@ -25,53 +25,59 @@ public enum EndTerritory{
 	public StructureWorld createWorld(World world){
 		return new StructureWorld(world,8*chunkSize,info.getHeight(),8*chunkSize);
 	}
-	
-	public static final int chunksBetween = 64; // 1024 blocks
-	public static final int chunkOffset = -THE_HUB.chunkSize/2;
-	public static final EndTerritory[] values = values();
-	
+
 	/**
-	 * Finds the top left chunk for a territory using magic. They are generated in this manner:<br>
+	 * Finds the top left chunk for the territory using magic. They are generated in this manner:<br>
 	 * {@code 7|5} <br>
 	 * {@code 3|1} <br>
 	 * {@code 2|0} <br>
 	 * {@code 6|4} <br>
 	 * This was tested using modified values that cannot be used in production. Do not touch this. Ever.
 	 */
-	public static ChunkCoordIntPair getStartPoint(EndTerritory territory, int index){
+	public ChunkCoordIntPair getStartPoint(int index){
 		int chunkOffX = 0;
 		
-		if ((index/2)%2 == 0)chunkOffX = IntStream.range(0,territory.ordinal()).map(level -> chunksBetween+values[level].chunkSize).sum(); // positive x
-		else chunkOffX = -IntStream.rangeClosed(1,territory.ordinal()).map(level -> chunksBetween+values[level].chunkSize).sum(); // negative x
+		if ((index/2)%2 == 0)chunkOffX = IntStream.range(0,ordinal()).map(level -> chunksBetween+values[level].chunkSize).sum(); // positive x
+		else chunkOffX = -IntStream.rangeClosed(1,ordinal()).map(level -> chunksBetween+values[level].chunkSize).sum(); // negative x
 		
 		int distZ = index/4;
 		if (index%2 != 0)distZ = -distZ-1; // moves odd indexes to negative z
 		
-		int chunkOffZ = distZ*(chunksBetween+territory.chunkSize);
+		int chunkOffZ = distZ*(chunksBetween+chunkSize);
 		
 		return new ChunkCoordIntPair(chunkOffX+chunkOffset,chunkOffZ+chunkOffset);
 	}
 	
-	public static void generateTerritory(EndTerritory territory, ChunkCoordIntPair startPoint, World world, Random rand){
-		for(int chunkX = 0; chunkX < territory.chunkSize; chunkX++){
-			for(int chunkZ = 0; chunkZ < territory.chunkSize; chunkZ++){
+	/**
+	 * Preloads required chunks and generates the territory in a specified location.
+	 */
+	public void generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand){
+		for(int chunkX = 0; chunkX < chunkSize; chunkX++){
+			for(int chunkZ = 0; chunkZ < chunkSize; chunkZ++){
 				world.getChunkFromChunkCoords(startPoint.chunkXPos+chunkX,startPoint.chunkZPos+chunkZ);
 			}
 		}
 		
-		StructureWorld structureWorld = territory.createWorld(world);
-		territory.constructor.construct(structureWorld,rand).generate();
-		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,territory.info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2);
+		StructureWorld structureWorld = createWorld(world);
+		constructor.construct(structureWorld,rand).generate();
+		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2);
 	}
 	
-	public static void generateTerritory(EndTerritory territory, int index, World world, Random rand){
-		generateTerritory(territory,getStartPoint(territory,index),world,rand);
+	/**
+	 * Preloads required chunks and generates the territory using the custom index based distribution system.
+	 */
+	public void generateTerritory(int index, World world, Random rand){
+		generateTerritory(getStartPoint(index),world,rand);
 	}
+	
+	public static final int chunksBetween = 64; // 1024 blocks
+	public static final int chunkOffset = -THE_HUB.chunkSize/2;
+	public static final EndTerritory[] values = values();
 	
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
-			generateTerritory(THE_HUB,0,world,world.rand);
+			THE_HUB.generateTerritory(0,world,world.rand);
 		}
 	};
 }
