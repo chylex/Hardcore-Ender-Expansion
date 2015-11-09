@@ -22,7 +22,7 @@ public class TeleportHandler extends Teleporter{
 		
 		if (lastPortal.isPresent()){
 			Pos portalPos = lastPortal.get();
-			player.playerNetServerHandler.setPlayerLocation(portalPos.getX()+0.5D,portalPos.getY(),portalPos.getZ()+0.5D,player.rotationYaw,0F);
+			player.playerNetServerHandler.setPlayerLocation(portalPos.getX()+0.5D,portalPos.getY()+0.5D,portalPos.getZ()+0.5D,player.rotationYaw,0F);
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player,0,new TeleportHandler(player.getServerForPlayer()));
 			player.mcServer.getConfigurationManager().transferPlayerToDimension(player,0,new TeleportHandler(player.getServerForPlayer()));
 			// hey server, I would actually like to teleport the player, like, genuinely teleport them, you cunt
