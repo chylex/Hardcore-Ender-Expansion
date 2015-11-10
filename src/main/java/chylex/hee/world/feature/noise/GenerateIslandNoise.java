@@ -9,8 +9,8 @@ import chylex.hee.world.util.BoundingBox;
 
 public class GenerateIslandNoise{
 	private final Block block;
-	private final NoiseGeneratorOctaves noiseGen1, noiseGen2, noiseGen3, noiseGen4;
-	private double[] noiseData1, noiseData2, noiseData3, noiseData4;
+	private final NoiseGeneratorOctaves noiseGen1, noiseGen2, noiseGen3;
+	private double[] noiseData1, noiseData2, noiseData3;
 	private double[] densities;
 	
 	public GenerateIslandNoise(Block block, Random rand){
@@ -18,7 +18,6 @@ public class GenerateIslandNoise{
 		this.noiseGen1 = new NoiseGeneratorOctaves(rand,16);
 		this.noiseGen2 = new NoiseGeneratorOctaves(rand,16);
 		this.noiseGen3 = new NoiseGeneratorOctaves(rand,8);
-		this.noiseGen4 = new NoiseGeneratorOctaves(rand,10);
 	}
 	
 	private double[] initializeNoiseField(double[] densities, int x, int y, int z, int sizeX, int sizeY, int sizeZ){
@@ -26,27 +25,20 @@ public class GenerateIslandNoise{
 		
 		double noiseScaleXZ = 1368.824D, noiseScaleY = 684.412D;
 		
-		noiseData4 = noiseGen4.generateNoiseOctaves(noiseData4,x,z,sizeX,sizeZ,1.121D,1.121D,0.5D);
 		noiseData1 = noiseGen3.generateNoiseOctaves(noiseData1,x,y,z,sizeX,sizeY,sizeZ,noiseScaleXZ/80D,noiseScaleY/160D,noiseScaleXZ/80D);
 		noiseData2 = noiseGen1.generateNoiseOctaves(noiseData2,x,y,z,sizeX,sizeY,sizeZ,noiseScaleXZ,noiseScaleY,noiseScaleXZ);
 		noiseData3 = noiseGen2.generateNoiseOctaves(noiseData3,x,y,z,sizeX,sizeY,sizeZ,noiseScaleXZ,noiseScaleY,noiseScaleXZ);
+		
 		int indexFull = 0;
-		int indexHorizontal = 0;
+		int topPart = sizeY/2-2;
 
 		for(int xx = 0; xx < sizeX; xx++){
 			for(int zz = 0; zz < sizeZ; zz++){
-				double d2 = Math.min(1D,(noiseData4[indexHorizontal]+256D)/512D);
-				if (d2 < 0D)d2 = 0D;
-				d2 += 0.5D;
-				
-				float distanceX = (xx+x); // TODO divide
-				float distanceZ = (zz+z);
+				float distanceX = xx+x;
+				float distanceZ = zz+z;
 				
 				float f2 = 100F-MathHelper.sqrt_float(distanceX*distanceX+distanceZ*distanceZ)*8F;
 				f2 = MathUtil.clamp(f2,-100F,80F);
-				
-				++indexHorizontal;
-				double d4 = sizeY/2D;
 
 				for(int yy = 0; yy < sizeY; ++yy){
 					double density = 0D;
@@ -58,18 +50,17 @@ public class GenerateIslandNoise{
 					
 					density -= 8D;
 					density += f2;
-					double d10;
 					
-					if (yy > sizeY/2-2){
-						d10 = MathUtil.clamp(((yy-(sizeY/2-2))/64F),0D,1D);
+					if (yy > topPart){
+						double d10 = MathUtil.clamp((yy-topPart)/64F,0D,1D);
 						density = density*(1D-d10)-3000D*d10;
 					}
 					
 					byte bottomPart = 8;
 
 					if (yy < bottomPart){
-						d10 = ((bottomPart-yy)/(bottomPart-1F));
-						density = density*(1D-d10)-30D*d10;
+						double smoothBottom = (bottomPart-yy)/(bottomPart-1F);
+						density = density*(1D-smoothBottom)-30D*smoothBottom;
 					}
 
 					densities[indexFull] = density;
@@ -89,22 +80,22 @@ public class GenerateIslandNoise{
 		for(int xx = 0; xx < 2; xx++){
 			for(int zz = 0; zz < 2; zz++){
 				for(int yy = 0; yy < 32; yy++){
-					double d0 = 0.25D;
+					double verticalSmoothing = 0.25D;
 					double dBL = densities[((xx+0)*noiseSizeXZ+zz+0)*height+yy];
 					double dBR = densities[((xx+0)*noiseSizeXZ+zz+1)*height+yy];
 					double dTL = densities[((xx+1)*noiseSizeXZ+zz+0)*height+yy];
 					double dTR = densities[((xx+1)*noiseSizeXZ+zz+1)*height+yy];
-					double dTopBL = (densities[((xx+0)*noiseSizeXZ+zz+0)*height+yy+1]-dBL)*d0;
-					double dTopBR = (densities[((xx+0)*noiseSizeXZ+zz+1)*height+yy+1]-dBR)*d0;
-					double dTopTL = (densities[((xx+1)*noiseSizeXZ+zz+0)*height+yy+1]-dTL)*d0;
-					double dTopTR = (densities[((xx+1)*noiseSizeXZ+zz+1)*height+yy+1]-dTR)*d0;
+					double dTopBL = (densities[((xx+0)*noiseSizeXZ+zz+0)*height+yy+1]-dBL)*verticalSmoothing;
+					double dTopBR = (densities[((xx+0)*noiseSizeXZ+zz+1)*height+yy+1]-dBR)*verticalSmoothing;
+					double dTopTL = (densities[((xx+1)*noiseSizeXZ+zz+0)*height+yy+1]-dTL)*verticalSmoothing;
+					double dTopTR = (densities[((xx+1)*noiseSizeXZ+zz+1)*height+yy+1]-dTR)*verticalSmoothing;
 					
 					for(int yChunk = 0; yChunk < 4; yChunk++){
-						double d9 = 0.125D;
+						double horizontalSmoothing = 0.125D;
 						double d10 = dBL;
 						double d11 = dBR;
-						double d12 = (dTL-dBL)*d9;
-						double d13 = (dTR-dBR)*d9;
+						double d12 = (dTL-dBL)*horizontalSmoothing;
+						double d13 = (dTR-dBR)*horizontalSmoothing;
 						
 						for(int yBlock = 0; yBlock < 8; yBlock++){
 							int index = yBlock+xx*8<<11|zz*8<<7|yy*4+yChunk;
