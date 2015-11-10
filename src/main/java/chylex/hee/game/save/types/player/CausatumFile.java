@@ -4,20 +4,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagString;
 import org.apache.commons.lang3.EnumUtils;
 import chylex.hee.game.save.types.PlayerFile;
-import chylex.hee.mechanics.causatum.Causatum;
-import chylex.hee.system.util.MathUtil;
+import chylex.hee.mechanics.causatum.Causatum.Actions;
+import chylex.hee.mechanics.causatum.Causatum.Progress;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.NBTUtil;
 
 public class CausatumFile extends PlayerFile{
-	private final EnumSet<Causatum.Actions> ranUniqueActions = EnumSet.noneOf(Causatum.Actions.class);
-	private Causatum.Progress progress = Causatum.Progress.START;
+	private final EnumSet<Actions> ranUniqueActions = EnumSet.noneOf(Actions.class);
+	private Progress progress = Progress.INITIAL;
 	private int level;
 	
 	public CausatumFile(String filename){
 		super("causatum",filename);
 	}
 	
-	public boolean tryProgress(Causatum.Progress target){
+	public boolean tryProgress(Progress target){
 		if (target.ordinal() > progress.ordinal()){
 			progress = target;
 			setModified();
@@ -26,12 +27,13 @@ public class CausatumFile extends PlayerFile{
 		else return false;
 	}
 	
-	public void trigger(Causatum.Actions action){
-		if (!action.canRepeat && ranUniqueActions.contains(action))return;
+	public boolean tryTrigger(Actions action){
+		if (!action.canRepeat && ranUniqueActions.contains(action))return false;
 		
 		if (!action.canRepeat)ranUniqueActions.add(action);
 		level += action.levelIncrease;
 		setModified();
+		return true;
 	}
 	
 	public int getLevel(){
@@ -48,7 +50,7 @@ public class CausatumFile extends PlayerFile{
 	@Override
 	protected void onLoad(NBTTagCompound nbt){
 		level = nbt.getInteger("lvl");
-		progress = Causatum.Progress.values()[MathUtil.clamp(nbt.getByte("prog"),0,Causatum.Progress.values().length-1)];
-		NBTUtil.readStringList(nbt,"uacts").map(name -> EnumUtils.getEnum(Causatum.Actions.class,name)).filter(action -> action != null).forEach(ranUniqueActions::add);
+		progress = CollectionUtil.get(Progress.values(),nbt.getByte("prog")).orElse(Progress.INITIAL);
+		NBTUtil.readStringList(nbt,"uacts").map(name -> EnumUtils.getEnum(Actions.class,name)).filter(action -> action != null).forEach(ranUniqueActions::add);
 	}
 }
