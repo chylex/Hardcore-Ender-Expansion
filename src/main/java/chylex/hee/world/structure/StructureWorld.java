@@ -161,16 +161,17 @@ public final class StructureWorld{
 	}
 	
 	public void generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
+		generateInWorld(world,rand,centerX,bottomY,centerZ,false);
+	}
+	
+	/**
+	 * Generates everything inside the actual World instance on the specified coordinates.
+	 * If {@code useChunksDirectly} is true, the function will set the blocks inside the chunk instance, which is faster but may cause lighting issues (TODO).
+	 */
+	public void generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ, boolean useChunksDirectly){
 		PosMutable pos = new PosMutable();
-		int x, y, z, index = -1;
-
-		for(z = -radZ; z <= radZ; z++){
-			for(x = -radX; x <= radX; x++){
-				for(y = 0; y < sizeY; y++){
-					if (blocks[++index] != null)pos.set(centerX+x,bottomY+y,centerZ+z).setBlock(world,blocks[index],metadata[index],2);
-				}
-			}
-		}
+		
+		generateBlocksInWorld(world,rand,centerX,bottomY,centerZ,useChunksDirectly);
 		
 		attentionWhores.forEachEntry((ind, value) -> {
 			toPos(ind,pos);
@@ -205,5 +206,33 @@ public final class StructureWorld{
 			
 			if (info.getValue() != null)info.getValue().accept(entity);
 		});
+	}
+	
+	private void generateBlocksInWorld(World world, Random rand, int centerX, int bottomY, int centerZ, boolean useChunksDirectly){
+		PosMutable pos = new PosMutable();
+		int x, y, z, index = -1;
+		
+		if (useChunksDirectly){
+			for(z = -radZ; z <= radZ; z++){
+				for(x = -radX; x <= radX; x++){
+					for(y = 0; y < sizeY; y++){
+						if (blocks[++index] != null){
+							pos.set(centerX+x,bottomY+y,centerZ+z);
+							world.getChunkFromBlockCoords(pos.x,pos.z).func_150807_a(pos.x&15,pos.y,pos.z&15,blocks[index],metadata[index]);
+							world.markBlockForUpdate(pos.x,pos.y,pos.z); // TODO optimize
+						}
+					}
+				}
+			}
+		}
+		else{
+			for(z = -radZ; z <= radZ; z++){
+				for(x = -radX; x <= radX; x++){
+					for(y = 0; y < sizeY; y++){
+						if (blocks[++index] != null)pos.set(centerX+x,bottomY+y,centerZ+z).setBlock(world,blocks[index],metadata[index],2);
+					}
+				}
+			}
+		}
 	}
 }
