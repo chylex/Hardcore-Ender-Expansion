@@ -38,7 +38,7 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	
 	static{
 		drops.addLoot(ItemList.ancient_dust).<LootMobInfo>setChances(obj -> {
-			final boolean critical = DamageUtil.isCriticalHit(obj.entity.func_94060_bK()); // OBFUSCATED getLastAttacker
+			final boolean critical = DamageUtil.isCriticalHit(obj.getAttacker());
 			return critical ? new float[]{ 0.75F, 0.15F } : new float[]{ 0.15F };
 		});
 	}
