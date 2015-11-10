@@ -9,7 +9,7 @@ import chylex.hee.world.end.gen.TerritoryTheHub;
 import chylex.hee.world.structure.StructureWorld;
 
 public enum EndTerritory{
-	THE_HUB(24, new TerritorySpawnInfo(80,0), TerritoryTheHub::new), // 384 blocks
+	THE_HUB(24, new TerritorySpawnInfo(128,0), TerritoryTheHub::new), // 384 blocks
 	;
 	
 	public final int chunkSize;
@@ -67,7 +67,7 @@ public enum EndTerritory{
 	 * Preloads required chunks and generates the territory using the custom index based distribution system.
 	 */
 	public void generateTerritory(int index, World world, Random rand){
-		generateTerritory(getStartPoint(index),world,rand,false);
+		generateTerritory(getStartPoint(index),world,rand,true);
 	}
 	
 	public static final int chunksBetween = 64; // 1024 blocks
