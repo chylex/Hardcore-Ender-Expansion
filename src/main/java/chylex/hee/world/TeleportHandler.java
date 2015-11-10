@@ -13,6 +13,7 @@ import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.player.StrongholdPortalFile;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.DragonUtil;
+import chylex.hee.world.providers.ChunkProviderHardcoreEndServer;
 
 public class TeleportHandler extends Teleporter{
 	public static final ChunkCoordinates endSpawn = new ChunkCoordinates(0,256,0);
@@ -36,6 +37,10 @@ public class TeleportHandler extends Teleporter{
 	
 	public static void toEnd(EntityPlayerMP player){ // TODO vanilla achievements + changing their text a bit
 		World end = MinecraftServer.getServer().worldServerForDimension(1);
+		
+		if (end.chunkProvider instanceof ChunkProviderHardcoreEndServer)((ChunkProviderHardcoreEndServer)end.chunkProvider).prepareSpawn();
+		else throw new IllegalStateException("End Dimension server chunk provider was not replaced correctly, cannot prepare spawn!");
+		
 		player.playerNetServerHandler.setPlayerLocation(endSpawn.posX+0.5D,DragonUtil.getTopBlockY(end,Blocks.end_stone,endSpawn.posX,endSpawn.posZ,70)+1D,endSpawn.posZ+0.5D,player.rotationYaw,0F);
 		player.mcServer.getConfigurationManager().transferPlayerToDimension(player,1,new TeleportHandler(player.getServerForPlayer()));
 	}

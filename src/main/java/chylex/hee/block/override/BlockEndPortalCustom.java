@@ -4,7 +4,6 @@ import java.util.Random;
 import net.minecraft.block.BlockEndPortal;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -17,10 +16,13 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.tileentity.TileEntityEndPortalCustom;
 import chylex.hee.world.TeleportHandler;
+import chylex.hee.world.util.EntityPortalStatus;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEndPortalCustom extends BlockEndPortal{
+	private final EntityPortalStatus portalStatus = new EntityPortalStatus();
+	
 	public BlockEndPortalCustom(){
 		super(Material.portal);
 		setBlockUnbreakable().setResistance(6000000F);
@@ -45,17 +47,16 @@ public class BlockEndPortalCustom extends BlockEndPortal{
 		if (entity.posY <= y+0.05D && entity instanceof EntityPlayerMP){
 			Pos pos = Pos.at(x,y,z);
 			int meta = pos.getMetadata(world);
+			EntityPlayerMP player = (EntityPlayerMP)entity;
 			
 			if (meta == Meta.endPortalActive){
-				if (entity.timeUntilPortal == 0){
+				if (portalStatus.onTouch(player)){
 					if (world.provider.dimensionId == 0){
-						SaveData.player((EntityPlayer)entity,StrongholdPortalFile.class).setPortalPos(findCenterPortalBlock(world,pos));
-						TeleportHandler.toEnd((EntityPlayerMP)entity);
+						SaveData.player(player,StrongholdPortalFile.class).setPortalPos(findCenterPortalBlock(world,pos));
+						TeleportHandler.toEnd(player);
 					}
-					else TeleportHandler.toOverworld((EntityPlayerMP)entity);
+					else TeleportHandler.toOverworld(player);
 				}
-				
-				entity.timeUntilPortal = 10;
 			}
 			else if (meta != Meta.endPortalDisabled){
 				pos.setAir(world);

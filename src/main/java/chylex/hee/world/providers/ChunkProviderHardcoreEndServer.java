@@ -20,13 +20,12 @@ public class ChunkProviderHardcoreEndServer extends ChunkProviderServer{
 			
 			if (currentChunkProvider != null){
 				currentChunkProvider.populate(provider,x,z);
-				
-				if (x == -1 && z == 0){ // first generated chunk
-					EndTerritory.THE_HUB.generateTerritory(0,worldObj,new Random(worldObj.getSeed()));
-				}
-				
 				chunk.setChunkModified();
 			}
 		}
+	}
+	
+	public void prepareSpawn(){
+		if (!provideChunk(0,0).isTerrainPopulated)EndTerritory.THE_HUB.generateTerritory(0,worldObj,new Random(worldObj.getSeed()));
 	}
 }
