@@ -22,11 +22,11 @@ import chylex.hee.world.structure.util.IStructureTileEntity;
 import chylex.hee.world.util.BoundingBox;
 import com.google.common.base.Objects;
 
-public final class StructureWorld{
-	private final World world;
-	private final int radX, radZ, sizeX, sizeY, sizeZ;
-	private final Block[] blocks;
-	private final byte[] metadata;
+public class StructureWorld{
+	protected final World world;
+	protected final int radX, radZ, sizeX, sizeY, sizeZ;
+	protected final Block[] blocks;
+	protected final byte[] metadata;
 	private final TIntHashSet scheduledUpdates = new TIntHashSet(32);
 	private final TIntObjectHashMap<BlockInfo> attentionWhores = new TIntObjectHashMap<>(16);
 	private final TIntObjectHashMap<IStructureTileEntity> tileEntityMap = new TIntObjectHashMap<>(32);
@@ -161,17 +161,9 @@ public final class StructureWorld{
 	}
 	
 	public void generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
-		generateInWorld(world,rand,centerX,bottomY,centerZ,false);
-	}
-	
-	/**
-	 * Generates everything inside the actual World instance on the specified coordinates.
-	 * If {@code useChunksDirectly} is true, the function will set the blocks inside the chunk instance, which is faster but may cause lighting issues (TODO).
-	 */
-	public void generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ, boolean useChunksDirectly){
-		PosMutable pos = new PosMutable();
+		generateBlocksInWorld(world,rand,centerX,bottomY,centerZ);
 		
-		generateBlocksInWorld(world,rand,centerX,bottomY,centerZ,useChunksDirectly);
+		PosMutable pos = new PosMutable();
 		
 		attentionWhores.forEachEntry((ind, value) -> {
 			toPos(ind,pos);
@@ -208,31 +200,14 @@ public final class StructureWorld{
 		});
 	}
 	
-	private void generateBlocksInWorld(World world, Random rand, int centerX, int bottomY, int centerZ, boolean useChunksDirectly){
+	protected void generateBlocksInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
 		PosMutable pos = new PosMutable();
 		int x, y, z, index = -1;
 		
-		if (useChunksDirectly){
-			for(z = -radZ; z <= radZ; z++){
-				for(x = -radX; x <= radX; x++){
-					for(y = 0; y < sizeY; y++){
-						if (blocks[++index] != null){
-							pos.set(centerX+x,bottomY+y,centerZ+z);
-							
-							if (world.getChunkFromBlockCoords(pos.x,pos.z).func_150807_a(pos.x&15,pos.y,pos.z&15,blocks[index],metadata[index])){
-								world.markBlockForUpdate(pos.x,pos.y,pos.z); // TODO optimize
-							}
-						}
-					}
-				}
-			}
-		}
-		else{
-			for(z = -radZ; z <= radZ; z++){
-				for(x = -radX; x <= radX; x++){
-					for(y = 0; y < sizeY; y++){
-						if (blocks[++index] != null)pos.set(centerX+x,bottomY+y,centerZ+z).setBlock(world,blocks[index],metadata[index],2);
-					}
+		for(z = -radZ; z <= radZ; z++){
+			for(x = -radX; x <= radX; x++){
+				for(y = 0; y < sizeY; y++){
+					if (blocks[++index] != null)pos.set(centerX+x,bottomY+y,centerZ+z).setBlock(world,blocks[index],metadata[index],2);
 				}
 			}
 		}
