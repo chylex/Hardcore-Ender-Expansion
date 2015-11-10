@@ -7,6 +7,8 @@ import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.world.end.TerritoryGenerator.ITerritoryGeneratorConstructor;
 import chylex.hee.world.end.gen.TerritoryTheHub;
 import chylex.hee.world.structure.StructureWorld;
+import chylex.hee.world.structure.StructureWorldLazy;
+import chylex.hee.world.util.BoundingBox;
 
 public enum EndTerritory{
 	THE_HUB(24, new TerritorySpawnInfo(128,0), TerritoryTheHub::new), // 384 blocks
@@ -23,7 +25,23 @@ public enum EndTerritory{
 	}
 	
 	public StructureWorld createWorld(World world){
-		return new StructureWorld(world,8*chunkSize,info.getHeight(),8*chunkSize);
+		StructureWorldLazy structureWorld = new StructureWorldLazy(world,8*chunkSize,info.getHeight(),8*chunkSize);
+		
+		if ($debugging){
+			structureWorld.setSendToWatchers();
+			
+			BoundingBox box = structureWorld.getArea();
+			
+			for(int x = box.x1; x < box.x2; x++){
+				for(int z = -box.z1; z < box.z2; z++){
+					for(int y = box.y1; y < box.y2; y++){
+						structureWorld.setAir(x,y,z);
+					}
+				}
+			}
+		}
+		
+		return structureWorld;
 	}
 
 	/**
@@ -48,10 +66,7 @@ public enum EndTerritory{
 		return new ChunkCoordIntPair(chunkOffX+chunkOffset,chunkOffZ+chunkOffset);
 	}
 	
-	/**
-	 * Preloads required chunks and generates the territory in a specified location. For {@code useChunkDirectly}, see {@link StructureWorld#generateInWorld(World,Random,int,int,int,boolean)}.
-	 */
-	public void generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand, boolean useChunkDirectly){
+	public void generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand){
 		for(int chunkX = 0; chunkX < chunkSize; chunkX++){
 			for(int chunkZ = 0; chunkZ < chunkSize; chunkZ++){
 				world.getChunkFromChunkCoords(startPoint.chunkXPos+chunkX,startPoint.chunkZPos+chunkZ);
@@ -60,25 +75,24 @@ public enum EndTerritory{
 		
 		StructureWorld structureWorld = createWorld(world);
 		constructor.construct(structureWorld,rand).generate();
-		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2,true);
+		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2);
 	}
 	
-	/**
-	 * Preloads required chunks and generates the territory using the custom index based distribution system.
-	 */
 	public void generateTerritory(int index, World world, Random rand){
-		generateTerritory(getStartPoint(index),world,rand,true);
+		generateTerritory(getStartPoint(index),world,rand);
 	}
 	
 	public static final int chunksBetween = 64; // 1024 blocks
 	public static final int chunkOffset = -THE_HUB.chunkSize/2;
 	public static final EndTerritory[] values = values();
 	
+	private static boolean $debugging = false;
+	
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
-			TerritoryTheHub.$regenerate = true;
-			THE_HUB.generateTerritory(THE_HUB.getStartPoint(0),world,new Random(world.getSeed()),true);
+			$debugging = true;
+			THE_HUB.generateTerritory(THE_HUB.getStartPoint(0),world,new Random(world.getSeed()));
 		}
 	};
 }
