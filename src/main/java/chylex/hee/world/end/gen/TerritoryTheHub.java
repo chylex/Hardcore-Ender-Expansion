@@ -7,6 +7,8 @@ import chylex.hee.world.feature.noise.GenerateIslandNoise;
 import chylex.hee.world.structure.StructureWorld;
 
 public class TerritoryTheHub extends TerritoryGenerator{
+	public static boolean $regenerate = false; // TODO remove
+	
 	private final GenerateIslandNoise island;
 	
 	public TerritoryTheHub(StructureWorld world, Random rand){
@@ -16,9 +18,19 @@ public class TerritoryTheHub extends TerritoryGenerator{
 	
 	@Override
 	public void generate(){
+		if ($regenerate){
+			for(int x = -size; x < size; x++){
+				for(int z = -size; z < size; z++){
+					for(int y = 0; y < height; y++){
+						world.setAir(x,y,z);
+					}
+				}
+			}
+		}
+		
 		island.generate(world);
 		
-		int lowest = 128;
+		int lowest = height;
 		
 		for(int x = -1; x <= 1; x++){
 			for(int z = -1; z <= 1; z++){
@@ -29,6 +41,10 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		for(int x = -1; x <= 1; x++){
 			for(int z = -1; z <= 1; z++){
 				world.setBlock(x,lowest,z,Blocks.end_portal,Meta.endPortalActive);
+				
+				for(int y = lowest+1; y < height; y++){
+					if (!world.isAir(x,y,z))world.setAir(x,y,z);
+				}
 			}
 		}
 	}

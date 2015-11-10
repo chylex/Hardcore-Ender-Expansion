@@ -49,9 +49,9 @@ public enum EndTerritory{
 	}
 	
 	/**
-	 * Preloads required chunks and generates the territory in a specified location.
+	 * Preloads required chunks and generates the territory in a specified location. For {@code useChunkDirectly}, see {@link StructureWorld#generateInWorld(World,Random,int,int,int,boolean)}.
 	 */
-	public void generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand){
+	public void generateTerritory(ChunkCoordIntPair startPoint, World world, Random rand, boolean useChunkDirectly){
 		for(int chunkX = 0; chunkX < chunkSize; chunkX++){
 			for(int chunkZ = 0; chunkZ < chunkSize; chunkZ++){
 				world.getChunkFromChunkCoords(startPoint.chunkXPos+chunkX,startPoint.chunkZPos+chunkZ);
@@ -60,14 +60,14 @@ public enum EndTerritory{
 		
 		StructureWorld structureWorld = createWorld(world);
 		constructor.construct(structureWorld,rand).generate();
-		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2);
+		structureWorld.generateInWorld(world,rand,16*startPoint.chunkXPos+structureWorld.getArea().x2,info.getBottomY(rand),16*startPoint.chunkZPos+structureWorld.getArea().z2,true);
 	}
 	
 	/**
 	 * Preloads required chunks and generates the territory using the custom index based distribution system.
 	 */
 	public void generateTerritory(int index, World world, Random rand){
-		generateTerritory(getStartPoint(index),world,rand);
+		generateTerritory(getStartPoint(index),world,rand,false);
 	}
 	
 	public static final int chunksBetween = 64; // 1024 blocks
@@ -77,7 +77,8 @@ public enum EndTerritory{
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
-			THE_HUB.generateTerritory(0,world,world.rand);
+			TerritoryTheHub.$regenerate = true;
+			THE_HUB.generateTerritory(THE_HUB.getStartPoint(0),world,new Random(world.getSeed()),true);
 		}
 	};
 }

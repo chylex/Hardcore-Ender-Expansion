@@ -218,8 +218,10 @@ public final class StructureWorld{
 					for(y = 0; y < sizeY; y++){
 						if (blocks[++index] != null){
 							pos.set(centerX+x,bottomY+y,centerZ+z);
-							world.getChunkFromBlockCoords(pos.x,pos.z).func_150807_a(pos.x&15,pos.y,pos.z&15,blocks[index],metadata[index]);
-							world.markBlockForUpdate(pos.x,pos.y,pos.z); // TODO optimize
+							
+							if (world.getChunkFromBlockCoords(pos.x,pos.z).func_150807_a(pos.x&15,pos.y,pos.z&15,blocks[index],metadata[index])){
+								world.markBlockForUpdate(pos.x,pos.y,pos.z); // TODO optimize
+							}
 						}
 					}
 				}
