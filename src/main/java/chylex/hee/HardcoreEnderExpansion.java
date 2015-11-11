@@ -20,6 +20,7 @@ import chylex.hee.init.ItemList;
 import chylex.hee.init.ModInitHandler;
 import chylex.hee.mechanics.MiscEvents;
 import chylex.hee.mechanics.RecipeList;
+import chylex.hee.mechanics.causatum.CausatumEventHandler;
 import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.enhancements.EnhancementRegistry;
@@ -124,8 +125,8 @@ public class HardcoreEnderExpansion{
 		CompendiumEvents.register();
 		// TODO CharmPouchHandler.register();
 		SaveData.register();
+		CausatumEventHandler.register();
 		// TODO CurseEvents.register();
-		// TODO CausatumEvents.register();
 		// TODO DragonChunkManager.register();
 		ModTransition.register();
 		

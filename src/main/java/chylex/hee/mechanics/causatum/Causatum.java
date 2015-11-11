@@ -33,15 +33,5 @@ public final class Causatum{
 		}
 	}
 	
-	public enum Events{
-		STAGE_ADVANCE_TO_ENDERMAN_KILLED(-1);
-		
-		public final short requiredLevel;
-		
-		private Events(int requiredLevel){
-			this.requiredLevel = (short)requiredLevel;
-		}
-	}
-	
 	private Causatum(){}
 }
