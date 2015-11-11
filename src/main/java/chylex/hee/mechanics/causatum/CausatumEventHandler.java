@@ -4,10 +4,13 @@ import java.util.Iterator;
 import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.handlers.PlayerDataHandler;
+import chylex.hee.game.save.types.player.CausatumFile;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventState;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -53,7 +56,12 @@ public final class CausatumEventHandler{
 		if (++nextAttemptTimer > 1200){ // 1 minute
 			nextAttemptTimer = 0;
 			
-			// TODO
+			for(EntityPlayerMP player:EntitySelector.players()){
+				if (player.getRNG().nextInt(4) == 0 && !hasActiveEvent(player)){
+					EventTypes type = SaveData.player(player,CausatumFile.class).findRandomEvent(player.getRNG());
+					if (type != null)activeEvents.put(PlayerDataHandler.getID(player),type.createEvent(player));
+				}
+			}
 		}
 	}
 }
