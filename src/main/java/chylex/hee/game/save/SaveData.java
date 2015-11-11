@@ -31,6 +31,10 @@ public final class SaveData{
 		return instance.player.get(player,cls);
 	}
 	
+	public static <T extends PlayerFile> T player(String playerID, Class<T> cls){
+		return instance.player.get(playerID,cls);
+	}
+	
 	private final GlobalDataHandler global;
 	private final PlayerDataHandler player;
 	private final ISaveDataHandler[] handlers;

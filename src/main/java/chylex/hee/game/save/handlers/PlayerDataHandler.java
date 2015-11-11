@@ -40,14 +40,17 @@ public class PlayerDataHandler implements ISaveDataHandler{
 	}
 	
 	public <T extends PlayerFile> T get(EntityPlayer player, Class<T> cls){
-		String id = getID(player);
-		String cacheKey = cls.getSimpleName()+"~"+id;
+		return get(getID(player),cls);
+	}
+	
+	public <T extends PlayerFile> T get(String playerID, Class<T> cls){
+		String cacheKey = cls.getSimpleName()+"~"+playerID;
 		
 		PlayerFile savefile = cache.get(cacheKey);
 		
 		if (savefile == null){
 			try{
-				cache.put(cacheKey,savefile = cls.getConstructor(String.class).newInstance(id+".nbt"));
+				cache.put(cacheKey,savefile = cls.getConstructor(String.class).newInstance(playerID+".nbt"));
 				savefile.loadFromNBT(root);
 			}catch(Exception e){
 				throw new RuntimeException("Could not construct a new instance of PlayerFile - "+cls.getName(),e);
