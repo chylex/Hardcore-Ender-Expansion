@@ -1,5 +1,4 @@
 package chylex.hee.entity.projectile;
-import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityPotion;
@@ -10,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemAbstractPotion;
+import chylex.hee.system.abstractions.util.EntitySelector;
 
 public class EntityProjectilePotion extends EntityPotion{
 	private Item potionItem;
@@ -45,7 +45,7 @@ public class EntityProjectilePotion extends EntityPotion{
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote && potionItem instanceof ItemAbstractPotion){
-			for(Entity entity:(List<Entity>)worldObj.getEntitiesWithinAABB(Entity.class,boundingBox.expand(4D,2D,4D))){
+			for(Entity entity:EntitySelector.any(worldObj,boundingBox.expand(4D,2D,4D))){
 				double dist = getDistanceSqToEntity(entity);
 				if (dist < 16D)((ItemAbstractPotion)potionItem).applyEffectThrown(entity,mop.entityHit == entity ? Double.MAX_VALUE : dist);
 			}

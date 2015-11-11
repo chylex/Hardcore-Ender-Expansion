@@ -8,6 +8,7 @@ import chylex.hee.entity.mob.EntityMobSilverfish;
 import chylex.hee.entity.technical.EntityTechnicalTrigger;
 import chylex.hee.entity.technical.EntityTechnicalTrigger.TriggerBase;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
@@ -53,7 +54,7 @@ public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
 			if (world.difficultySetting == EnumDifficulty.PEACEFUL)return;
 			
 			if (spawnsLeft != -1){
-				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,entity.boundingBox.expand(7D,4.5D,7D).offset(0D,2D,0D));
+				List<EntityPlayer> players = EntitySelector.players(world,entity.boundingBox.expand(7D,4.5D,7D).offset(0D,2D,0D));
 				if (players.isEmpty() || rand.nextInt(3) != 0)return;
 				
 				for(int cycle = 0; cycle < 1+rand.nextInt(2); cycle++){

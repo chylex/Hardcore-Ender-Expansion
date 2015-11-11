@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
+import chylex.hee.system.abstractions.util.EntitySelector;
 
 public class EntityAIRandomTarget<T extends EntityLivingBase> extends EntityAITarget{
 	public static final Predicate<EntityPlayer> noCreativeMode = player -> {
@@ -32,7 +33,7 @@ public class EntityAIRandomTarget<T extends EntityLivingBase> extends EntityAITa
 	public boolean shouldExecute(){
 		double maxDist = getTargetDistance();
 		
-		List<T> entities = taskOwner.worldObj.getEntitiesWithinAABB(targetClass,taskOwner.boundingBox.expand(maxDist,maxDist*0.5D,maxDist));
+		List<T> entities = EntitySelector.type(taskOwner.worldObj,targetClass,taskOwner.boundingBox.expand(maxDist,maxDist*0.5D,maxDist));
 		
 		Stream<T> stream = entities.stream().filter(entity -> entity.getDistanceSqToEntity(taskOwner) <= maxDist*maxDist);
 		if (predicate != null)stream = stream.filter(predicate);

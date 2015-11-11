@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.world.util.BoundingBox;
 import com.google.common.collect.ImmutableList;
@@ -87,7 +88,7 @@ public class EntityTechnicalSpawner<T extends EntityLiving> extends EntityTechni
 		BoundingBox getCheckBox();
 		
 		default List<EntityPlayer> getPlayersInRange(World world){
-			return world.getEntitiesWithinAABB(EntityPlayer.class,getCheckBox().toAABB());
+			return EntitySelector.players(world,getCheckBox().toAABB());
 		}
 		
 		default void findSpawnPosition(World world, Random rand, EntityPlayer target, T entity, double range){

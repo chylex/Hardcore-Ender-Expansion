@@ -1,15 +1,13 @@
 package chylex.hee.mechanics.causatum.events;
-import java.util.List;
 import java.util.function.BiFunction;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.ServerConfigurationManager;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.game.save.types.player.CausatumFile;
 import chylex.hee.mechanics.causatum.Causatum.Progress;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.world.util.Range;
 
 public abstract class CausatumEventInstance{
@@ -82,16 +80,13 @@ public abstract class CausatumEventInstance{
 				onPlayerDied();
 				player = null;
 			}
-			else if (!player.worldObj.playerEntities.contains(player)){
+			else if (!EntitySelector.players(player.worldObj).contains(player)){
 				onPlayerChangedDimension();
 				player = null;
 			}
 		}
 		
-		if (player == null){
-			ServerConfigurationManager manager = MinecraftServer.getServer().getConfigurationManager();
-			if (manager != null)player = ((List<EntityPlayerMP>)manager.playerEntityList).stream().filter(entity -> playerID.equals(PlayerDataHandler.getID(entity))).findFirst().orElse(null);
-		}
+		if (player == null)player = EntitySelector.players().stream().filter(entity -> playerID.equals(PlayerDataHandler.getID(entity))).findAny().orElse(null);
 	}
 	
 	public final EventState getState(){

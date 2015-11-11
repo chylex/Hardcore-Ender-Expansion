@@ -17,6 +17,7 @@ import chylex.hee.mechanics.compendium.content.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.content.objects.ObjectMob;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;
@@ -45,7 +46,7 @@ public class KnowledgeUtils{
 		MovingObjectPosition mopBlock = world.rayTraceBlocks(posVec.toVec3(),interceptVec.toVec3(),true);
 		double distBlock = mopBlock != null && mopBlock.typeOfHit == MovingObjectType.BLOCK ? MathUtil.distance(mopBlock.blockX+0.5D-posVec.x,mopBlock.blockY+0.5D-posVec.y,mopBlock.blockZ+0.5D-posVec.z) : Double.MAX_VALUE;
 		
-		List<Entity> list = world.getEntitiesWithinAABB(Entity.class,posVec.offset(lookVec,5D).toAABB().expand(6D,6D,6D));
+		List<Entity> list = EntitySelector.any(world,posVec.offset(lookVec,5D).toAABB().expand(6D,6D,6D));
 		Entity tracedEntity = null;
 		double distEntity = Double.MAX_VALUE;
 		

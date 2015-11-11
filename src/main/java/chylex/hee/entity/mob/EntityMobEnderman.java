@@ -21,6 +21,7 @@ import chylex.hee.mechanics.causatum.CausatumEventHandler;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;
 
@@ -62,7 +63,7 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 		EntityLivingBase attacker = func_94060_bK();
 		
 		if (attacker != null && attacker instanceof EntityPlayerMP && Causatum.progress((EntityPlayer)attacker,Progress.ENDERMAN_KILLED,Actions.STAGE_ADVANCE_TO_ENDERMAN_KILLED)){
-			for(EntityPlayer nearbyPlayer:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(12D,4D,12D))){
+			for(EntityPlayer nearbyPlayer:EntitySelector.players(worldObj,boundingBox.expand(12D,4D,12D))){
 				Causatum.progress(nearbyPlayer,Progress.ENDERMAN_KILLED);
 			}
 			

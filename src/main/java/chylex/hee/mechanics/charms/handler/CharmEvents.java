@@ -19,7 +19,6 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -42,6 +41,7 @@ import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
@@ -101,7 +101,7 @@ public final class CharmEvents{
 	
 	public void onDisabled(){
 		if (!playerSpeed.isEmpty()){
-			for(EntityPlayerMP player:(List<EntityPlayerMP>)MinecraftServer.getServer().getConfigurationManager().playerEntityList){
+			for(EntityPlayerMP player:EntitySelector.players()){
 				UUID id = player.getGameProfile().getId();
 				
 				if (playerSpeed.containsKey(id)){

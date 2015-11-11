@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockEnderGoo;
 import chylex.hee.init.ItemList;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import com.google.common.collect.Sets;
 
 public class EntityItemEndPowder extends EntityItem{
@@ -39,7 +40,7 @@ public class EntityItemEndPowder extends EntityItem{
 			ingredientList.put(Sets.newHashSet(Items.emerald,Items.string),new ItemStack(ItemList.ghost_amulet));
 			ingredientList.put(Sets.newHashSet(Items.gold_ingot,ItemList.ectoplasm,Items.string),new ItemStack(ItemList.curse_amulet));
 			
-			List<EntityItem> nearbyItems = worldObj.getEntitiesWithinAABB(EntityItem.class,boundingBox.expand(1.8D,1.8D,1.8D));
+			List<EntityItem> nearbyItems = EntitySelector.type(worldObj,EntityItem.class,boundingBox.expand(1.8D,1.8D,1.8D));
 			
 			for(Entry<Set<Item>,ItemStack> entry:ingredientList.entrySet()){
 				Set<Item> ingredients = entry.getKey();

@@ -1,6 +1,5 @@
 package chylex.hee.entity.mob;
 import java.util.List;
-import java.util.Optional;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +13,7 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.util.EntitySelector;
 
 public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	public Entity target;
@@ -70,8 +70,8 @@ public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 				EntityPlayer player = (EntityPlayer)entity;
 				player.attackEntityFrom(DamageSource.causeMobDamage(this),ModCommonProxy.opMobs ? 4F : 2F);
 				
-				((Optional<EntityBossDragon>)worldObj.loadedEntityList.stream().filter(obj -> obj instanceof EntityBossDragon).findFirst()).ifPresent(dragon -> {
-					dragon.heal(1);
+				EntitySelector.any(worldObj).stream().filter(e -> e instanceof EntityBossDragon).findAny().ifPresent(dragon -> {
+					((EntityBossDragon)dragon).heal(1);
 					worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj,dragon.posX,dragon.posY+dragon.height*0.25F,dragon.posZ));
 				});
 				

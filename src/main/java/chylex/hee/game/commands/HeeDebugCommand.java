@@ -1,5 +1,4 @@
 package chylex.hee.game.commands;
-import java.util.List;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,6 +17,7 @@ import chylex.hee.mechanics.compendium.KnowledgeRegistrations;
 import chylex.hee.mechanics.compendium.content.KnowledgeFragment;
 import chylex.hee.mechanics.compendium.content.KnowledgeObject;
 import chylex.hee.proxy.ModCommonProxy.MessageType;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import chylex.hee.system.test.UnitTest.RunTime;
@@ -74,17 +74,12 @@ public class HeeDebugCommand extends BaseCommand{
 				return;
 			}
 			
-			boolean found = false;
+			EntityPlayer target = EntitySelector.players(dragon.worldObj).stream().filter(player -> player.getCommandSenderName().equalsIgnoreCase(args[1])).findAny().orElse(null);
 			
-			for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
-				if (player.getCommandSenderName().equalsIgnoreCase(args[1])){
-					dragon.trySetTarget(player);
-					found = true;
-					break;
-				}
+			if (target != null){
+				dragon.trySetTarget(target);
 			}
-			
-			if (!found){
+			else{
 				sendMessage(sender,"No such player.");
 				return;
 			}

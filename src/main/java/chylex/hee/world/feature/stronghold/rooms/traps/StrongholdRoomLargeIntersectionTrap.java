@@ -12,6 +12,7 @@ import chylex.hee.entity.technical.EntityTechnicalTrigger.TriggerBase;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.abstractions.Pos.PosMutable;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.world.feature.stronghold.rooms.decorative.StrongholdRoomLargeIntersection;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;
@@ -39,7 +40,7 @@ public class StrongholdRoomLargeIntersectionTrap extends StrongholdRoomLargeInte
 				
 				PosMutable mpos = new PosMutable();
 				
-				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,entity.boundingBox.expand(8.5D,4.5D,8.5D).offset(0D,2D,0D));
+				List<EntityPlayer> players = EntitySelector.players(world,entity.boundingBox.expand(8.5D,4.5D,8.5D).offset(0D,2D,0D));
 				if (players.isEmpty())return;
 				
 				for(int attempt = 0, spawnsLeft = 3+rand.nextInt(3)+world.difficultySetting.getDifficultyId(); attempt < 500; attempt++){

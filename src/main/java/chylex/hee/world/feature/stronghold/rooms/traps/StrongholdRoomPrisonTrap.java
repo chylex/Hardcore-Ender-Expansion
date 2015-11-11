@@ -19,6 +19,7 @@ import chylex.hee.system.abstractions.Meta.Skull;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
@@ -132,7 +133,7 @@ public class StrongholdRoomPrisonTrap extends StrongholdRoom{
 			if (++checkTimer >= 14){
 				checkTimer = 0;
 				
-				List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class,checkBox.toAABB().offset(entity.posX,entity.posY,entity.posZ));
+				List<EntityPlayer> players = EntitySelector.players(world,checkBox.toAABB().offset(entity.posX,entity.posY,entity.posZ));
 				if (players.isEmpty())return;
 				
 				if (spawnsLeft == -1)spawnsLeft = (byte)(2+world.difficultySetting.getDifficultyId()/2);

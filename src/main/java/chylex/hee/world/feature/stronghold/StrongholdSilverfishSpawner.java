@@ -9,6 +9,7 @@ import chylex.hee.entity.technical.EntityTechnicalSpawner;
 import chylex.hee.entity.technical.EntityTechnicalSpawner.IVirtualSpawner;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.world.util.BoundingBox;
 import com.google.common.collect.ImmutableList;
 
@@ -73,8 +74,8 @@ public class StrongholdSilverfishSpawner implements IVirtualSpawner<EntityMobSil
 		if (world.getBlockLightValue(pos.getX(),pos.getY(),pos.getZ()) > 7)return false;
 		
 		if (playersInRange.stream().anyMatch(entity::canEntityBeSeen))return false;
-		if (world.getEntitiesWithinAABB(EntityMobSilverfish.class,target.boundingBox.expand(16D,8D,16D)).size() >= 10)return false;
-		if (world.getEntitiesWithinAABB(EntityMobSilverfish.class,box.toAABB()).size() >= 15*playersInRange.size())return false;
+		if (EntitySelector.type(world,EntityMobSilverfish.class,target.boundingBox.expand(16D,8D,16D)).size() >= 10)return false;
+		if (EntitySelector.type(world,EntityMobSilverfish.class,box.toAABB()).size() >= 15*playersInRange.size())return false;
 		
 		return true;
 	}

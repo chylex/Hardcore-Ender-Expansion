@@ -9,6 +9,7 @@ import net.minecraftforge.common.ForgeHooks;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C09SimpleEvent;
 import chylex.hee.packets.client.C09SimpleEvent.EventType;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -49,9 +50,8 @@ public class NotificationCommonProxy{
 		if (manager == null)return;
 		
 		boolean delivered = false;
-		List<EntityPlayer> players = manager.playerEntityList;
 		
-		for(EntityPlayer player:players){
+		for(EntityPlayer player:EntitySelector.players()){
 			if (manager.func_152596_g(player.getGameProfile())){
 				deliverNotificationsToPlayer(player);
 				delivered = true;

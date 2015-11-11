@@ -27,6 +27,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData;
@@ -284,7 +285,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	
 	@Override
 	protected void dropRareDrop(int lootingExtraLuck){
-		int nearbyLice = worldObj.getEntitiesWithinAABB(EntityMobLouse.class,boundingBox.expand(4D,4D,4D)).size();
+		int nearbyLice = EntitySelector.type(worldObj,EntityMobLouse.class,boundingBox.expand(4D,4D,4D)).size();
 		
 		if (rand.nextInt(1+(nearbyLice>>3)) == 0){
 			Set<EnumLouseAttribute> attributes = louseData.getAttributeSet();

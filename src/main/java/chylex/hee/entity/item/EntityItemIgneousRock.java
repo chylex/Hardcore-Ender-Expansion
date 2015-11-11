@@ -21,6 +21,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing4;
+import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 
@@ -100,7 +101,7 @@ public class EntityItemIgneousRock extends EntityItem{
 			}
 			
 			if (rand.nextInt(80-Math.min(32,is.stackSize/3)) == 0){
-				CollectionUtil.random(worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(3D,3D,3D)),rand).ifPresent(entity -> {
+				CollectionUtil.random(EntitySelector.living(worldObj,boundingBox.expand(3D,3D,3D)),rand).ifPresent(entity -> {
 					((EntityLivingBase)entity).setFire(1+rand.nextInt(4)+getEntityItem().stackSize/10);
 				});
 			}
