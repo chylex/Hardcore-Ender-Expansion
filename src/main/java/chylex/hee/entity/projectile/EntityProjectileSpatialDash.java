@@ -23,6 +23,7 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.RandUtil;
@@ -44,11 +45,11 @@ public class EntityProjectileSpatialDash extends EntityThrowable{
 		this.startPos = Pos.at(this);
 		
 		double speed = 1.5D+2D*enhancements.get(SpatialDashGemEnhancements.SPEED);
-		Vec3 motionVec = Vec3.createVectorHelper(motionX,motionY,motionZ).normalize();
 		
-		this.motionX = motionVec.xCoord*speed;
-		this.motionY = motionVec.yCoord*speed;
-		this.motionZ = motionVec.zCoord*speed;
+		Vec motionVec = Vec.xyz(motionX,motionY,motionZ).normalized().multiplied(speed);
+		this.motionX = motionVec.x;
+		this.motionY = motionVec.y;
+		this.motionZ = motionVec.z;
 	}
 
 	@SideOnly(Side.CLIENT)

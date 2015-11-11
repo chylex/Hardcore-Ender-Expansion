@@ -4,10 +4,10 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.opengl.GL11;
 import chylex.hee.mechanics.essence.EssenceType;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityAltarOrbFX extends EntityFX{
 	private static final ResourceLocation tex = new ResourceLocation("hardcoreenderexpansion:textures/particles/altar_orb.png");
 	
-	private final Vec3 movementVec;
+	private final Vec movementVec;
 	private double trueX,trueY,trueZ,targetX,targetY,targetZ;
 	private float offsetDistance,offsetAngle[];
 	private byte offsetAngleMode[];
@@ -36,10 +36,7 @@ public class EntityAltarOrbFX extends EntityFX{
 		particleBlue = essenceType.glyphColors[2];
 		particleAlpha = 1F;
 		
-		movementVec = Vec3.createVectorHelper(targetX-posX,targetY-posY,targetZ-posZ).normalize();
-		movementVec.xCoord *= 0.065D;
-		movementVec.yCoord *= 0.065D;
-		movementVec.zCoord *= 0.065D;
+		movementVec = Vec.xyz(targetX-posX,targetY-posY,targetZ-posZ).normalized().multiplied(0.065D);
 		
 		offsetAngle = new float[3];
 		offsetAngleMode = new byte[3];
@@ -56,9 +53,9 @@ public class EntityAltarOrbFX extends EntityFX{
 		prevPosY = posY;
 		prevPosZ = posZ;
 
-		trueX += movementVec.xCoord;
-		trueY += movementVec.yCoord;
-		trueZ += movementVec.zCoord;
+		trueX += movementVec.x;
+		trueY += movementVec.y;
+		trueZ += movementVec.z;
 		
 		posX = trueX+Math.cos(offsetAngle[0])*offsetDistance;
 		posY = trueY+Math.cos(offsetAngle[1])*offsetDistance;

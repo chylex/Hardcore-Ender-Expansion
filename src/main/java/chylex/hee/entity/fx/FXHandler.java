@@ -3,7 +3,6 @@ import java.util.Random;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockSpookyLeaves;
@@ -11,6 +10,7 @@ import chylex.hee.block.BlockSpookyLog;
 import chylex.hee.entity.item.EntityItemInstabilityOrb.ExplosionOrb;
 import chylex.hee.init.BlockList;
 import chylex.hee.proxy.FXClientProxy;
+import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -204,18 +204,18 @@ public final class FXHandler{
 	}
 	
 	public static void handleLine(World world, EntityClientPlayerMP player, FXType.Line fxType, double x1, double y1, double z1, double x2, double y2, double z2){
-		Vec3 lineVec = Vec3.createVectorHelper(x2-x1,y2-y1,z2-z1);
-		double len = lineVec.lengthVector();
-		lineVec = lineVec.normalize();
+		Vec lineVec = Vec.xyz(x2-x1,y2-y1,z2-z1);
+		double len = lineVec.length();
+		lineVec = lineVec.normalized();
 		
 		double addX, addY, addZ;
 		
 		switch(fxType){
 			case CHARM_SLAUGHTER_IMPACT:
 			case CHARM_DAMAGE_REDIRECTION:
-				addX = lineVec.xCoord*0.5D;
-				addY = lineVec.yCoord*0.5D;
-				addZ = lineVec.zCoord*0.5D;
+				addX = lineVec.x*0.5D;
+				addY = lineVec.y*0.5D;
+				addZ = lineVec.z*0.5D;
 				
 				float red = 0F, green = 0F, blue = 0F;
 				
@@ -241,9 +241,9 @@ public final class FXHandler{
 				break;
 			
 			case DRAGON_EGG_TELEPORT:
-				addX = lineVec.xCoord*0.25D;
-				addY = lineVec.yCoord*0.25D;
-				addZ = lineVec.zCoord*0.25D;
+				addX = lineVec.x*0.25D;
+				addY = lineVec.y*0.25D;
+				addZ = lineVec.z*0.25D;
 				
 				for(int a = 0; a < 35; a++)fx.global("smoke",x1+randCenter(0.8D),y1+randCenter(0.8D),z1+randCenter(0.8D),randCenter(0.01D),randCenter(0.01D),randCenter(0.01D));
 				
@@ -259,9 +259,9 @@ public final class FXHandler{
 				break;
 				
 			case SPATIAL_DASH_MOVE:
-				addX = lineVec.xCoord*0.2D;
-				addY = lineVec.yCoord*0.2D;
-				addZ = lineVec.zCoord*0.2D;
+				addX = lineVec.x*0.2D;
+				addY = lineVec.y*0.2D;
+				addZ = lineVec.z*0.2D;
 				
 				for(int a = 0; a < len*5D; a++){
 					double dist = player.getDistanceSq(x1,y1,z1);
@@ -277,9 +277,9 @@ public final class FXHandler{
 				break;
 				
 			case LOUSE_HEAL_ENTITY:
-				addX = lineVec.xCoord*0.125D;
-				addY = lineVec.yCoord*0.125D;
-				addZ = lineVec.zCoord*0.125D;
+				addX = lineVec.x*0.125D;
+				addY = lineVec.y*0.125D;
+				addZ = lineVec.z*0.125D;
 				
 				for(int a = 0; a < len*8D; a++){
 					fx.aura(x1+randCenter(0.1D),y1+randCenter(0.1D),z1+randCenter(0.1D),0F,0.7F,0F,20+rand.nextInt(20));
@@ -308,9 +308,9 @@ public final class FXHandler{
 				break;
 				
 			case FIRE_FIEND_GOLEM_CALL:
-				addX = lineVec.xCoord*0.5D;
-				addY = lineVec.yCoord*0.5D;
-				addZ = lineVec.zCoord*0.5D;
+				addX = lineVec.x*0.5D;
+				addY = lineVec.y*0.5D;
+				addZ = lineVec.z*0.5D;
 				
 				for(int a = 0; a < len*2D; a++){
 					if (rand.nextBoolean())fx.flame(x1+randCenter(0.1D),y1+randCenter(0.1D),z1+randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),12);
