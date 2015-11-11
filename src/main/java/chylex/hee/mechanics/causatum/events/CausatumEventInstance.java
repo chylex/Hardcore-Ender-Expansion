@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.ServerConfigurationManager;
 import chylex.hee.game.save.SaveData;
@@ -18,15 +18,15 @@ public abstract class CausatumEventInstance{
 		
 		public final short requiredLevel;
 		private final Progress minProgress, maxProgress;
-		private final BiFunction<EventTypes,EntityPlayer,CausatumEventInstance> eventConstructor;
+		private final BiFunction<EventTypes,EntityPlayerMP,CausatumEventInstance> eventConstructor;
 		
-		private EventTypes(BiFunction<EventTypes,EntityPlayer,CausatumEventInstance> eventConstructor){
+		private EventTypes(BiFunction<EventTypes,EntityPlayerMP,CausatumEventInstance> eventConstructor){
 			this.requiredLevel = -1;
 			this.minProgress = this.maxProgress = null;
 			this.eventConstructor = eventConstructor;
 		}
 		
-		private EventTypes(int requiredLevel, Progress minProgress, Progress maxProgress, BiFunction<EventTypes,EntityPlayer,CausatumEventInstance> eventConstructor){
+		private EventTypes(int requiredLevel, Progress minProgress, Progress maxProgress, BiFunction<EventTypes,EntityPlayerMP,CausatumEventInstance> eventConstructor){
 			this.requiredLevel = (short)requiredLevel;
 			this.minProgress = minProgress;
 			this.maxProgress = maxProgress;
@@ -41,7 +41,7 @@ public abstract class CausatumEventInstance{
 			return (minProgress == null || maxProgress == null || new Range(minProgress.ordinal(),maxProgress.ordinal()).in(currentProgress.ordinal())) && (requiredLevel == -1 || level >= requiredLevel);
 		}
 		
-		public CausatumEventInstance createEvent(EntityPlayer player){
+		public CausatumEventInstance createEvent(EntityPlayerMP player){
 			return eventConstructor.apply(this,player);
 		}
 	}
@@ -52,38 +52,54 @@ public abstract class CausatumEventInstance{
 	
 	private final EventTypes eventType;
 	private final String playerID;
-	private @Nullable EntityPlayer player;
-	private @Nonnull EventState state = EventState.WAITING, prevState = state;
+	private @Nullable EntityPlayerMP player;
+	private @Nonnull EventState state = EventState.WAITING;
 	
-	CausatumEventInstance(EventTypes eventType, EntityPlayer player){
+	CausatumEventInstance(EventTypes eventType, EntityPlayerMP player){
 		this.eventType = eventType;
 		this.playerID = PlayerDataHandler.getID(player);
 		this.player = player;
 	}
 	
-	protected final @Nullable EntityPlayer getPlayer(){
+	protected final @Nullable EntityPlayerMP getPlayer(){
 		return player;
 	}
 	
 	protected final void updateState(@Nonnull EventState state){
-		if (state == prevState)return;
+		if (state.ordinal() <= this.state.ordinal())return;
 		
 		this.state = state;
 		if (state == EventState.SATISFIED)SaveData.player(playerID,CausatumFile.class).finishEvent(eventType);
 	}
 	
-	public EventState updateEvent(){
-		if (player == null){
-			ServerConfigurationManager manager = MinecraftServer.getServer().getConfigurationManager();
-			if (manager != null)player = ((List<EntityPlayer>)manager.playerEntityList).stream().filter(entity -> playerID.equals(PlayerDataHandler.getID(entity))).findFirst().orElse(null);
+	public void updateEvent(){
+		if (player != null){ // TODO test all
+			if (!player.playerNetServerHandler.netManager.isChannelOpen()){
+				onPlayerDisconnected();
+				player = null;
+			}
+			else if (player.isDead){
+				onPlayerDied();
+				player = null;
+			}
+			else if (!player.worldObj.playerEntities.contains(player)){
+				onPlayerChangedDimension();
+				player = null;
+			}
 		}
 		
-		// TODO
-		
+		if (player == null){
+			ServerConfigurationManager manager = MinecraftServer.getServer().getConfigurationManager();
+			if (manager != null)player = ((List<EntityPlayerMP>)manager.playerEntityList).stream().filter(entity -> playerID.equals(PlayerDataHandler.getID(entity))).findFirst().orElse(null);
+		}
+	}
+	
+	public final EventState getState(){
 		return state;
 	}
 	
 	protected abstract void onUpdate();
 	protected abstract void onPlayerDisconnected();
+	protected abstract void onPlayerDied();
 	protected abstract void onPlayerChangedDimension();
 }

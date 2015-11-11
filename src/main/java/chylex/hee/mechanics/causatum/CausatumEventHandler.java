@@ -2,6 +2,8 @@ package chylex.hee.mechanics.causatum;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import net.minecraft.entity.player.EntityPlayer;
+import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventState;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -16,6 +18,11 @@ public final class CausatumEventHandler{
 		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CausatumEventHandler());
 	}
 	
+	protected static boolean hasActiveEvent(EntityPlayer player){
+		CausatumEventInstance inst = instance.activeEvents.get(PlayerDataHandler.getID(player));
+		return inst != null && inst.getState() == EventState.WAITING;
+	}
+	
 	private Map<String,CausatumEventInstance> activeEvents = new HashMap<>(4);
 	
 	private CausatumEventHandler(){}
@@ -26,7 +33,10 @@ public final class CausatumEventHandler{
 		
 		if (!activeEvents.isEmpty()){
 			for(Iterator<CausatumEventInstance> iter = activeEvents.values().iterator(); iter.hasNext();){
-				if (iter.next().updateEvent() == EventState.FINISHED)iter.remove();
+				CausatumEventInstance inst = iter.next();
+				inst.updateEvent();
+				
+				if (inst.getState() == EventState.FINISHED)iter.remove();
 			}
 		}
 	}
