@@ -24,12 +24,12 @@ public class KnowledgeObject<T extends IObjectHolder<?>>{
 	}
 	
 	public static final <T extends IObjectHolder<?>> KnowledgeObject<T> fromObject(Object o){
-		return (KnowledgeObject<T>)getAllObjects().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(o)).findFirst().orElse(null);
+		return (KnowledgeObject<T>)getAllObjects().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(o)).findAny().orElse(null);
 	}
 	
 	public static final <T extends IObjectHolder<?>> KnowledgeObject<T> fromObject(ItemStack is){
 		if (!KnowledgeUtils.isItemStackViable(is))return null;
-		return (KnowledgeObject<T>)getAllObjects().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(is)).findFirst().orElse(null);
+		return (KnowledgeObject<T>)getAllObjects().stream().filter(knowledgeObj -> knowledgeObj.holder.checkEquality(is)).findAny().orElse(null);
 	}
 	
 	public static final <T extends IObjectHolder<?>> KnowledgeObject<T> fromID(int id){

@@ -26,6 +26,6 @@ public enum LoreTexts{
 	}
 	
 	public static LoreTexts fromTitle(String title){
-		return Arrays.stream(LoreTexts.values()).filter(category -> category.getTitle().equals(title)).findFirst().orElse(UNKNOWN);
+		return Arrays.stream(LoreTexts.values()).filter(category -> category.getTitle().equals(title)).findAny().orElse(UNKNOWN);
 	}
 }

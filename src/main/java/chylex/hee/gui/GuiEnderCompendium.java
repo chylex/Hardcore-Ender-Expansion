@@ -117,7 +117,7 @@ public class GuiEnderCompendium extends GuiScreen{
 			if (tabHandler.onMouseClick(mouseX,mouseY,buttonId))return;
 			if (pageHandler.onMouseClick(mouseX,mouseY,buttonId))return;
 			
-			Optional<GuiButton> pressedButton = ((List<GuiButton>)buttonList).stream().filter(btn -> btn.mousePressed(mc,mouseX,mouseY)).findFirst();
+			Optional<GuiButton> pressedButton = ((List<GuiButton>)buttonList).stream().filter(btn -> btn.mousePressed(mc,mouseX,mouseY)).findAny();
 			
 			if (pressedButton.isPresent()){
 				pressedButton.get().func_146113_a(mc.getSoundHandler());

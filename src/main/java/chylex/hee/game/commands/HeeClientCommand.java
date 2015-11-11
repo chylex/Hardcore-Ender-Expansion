@@ -57,7 +57,7 @@ public class HeeClientCommand extends BaseCommand{
 			else prop = null;
 			
 			if (prop != null){
-				Optional<IConfigElement> element = ConfigHandler.getGuiConfigElements().stream().filter(ele -> ele.getName().equals(prop) && ele.isProperty()).findFirst();
+				Optional<IConfigElement> element = ConfigHandler.getGuiConfigElements().stream().filter(ele -> ele.getName().equals(prop) && ele.isProperty()).findAny();
 				
 				if (element.isPresent()){
 					element.get().set(args[1].equalsIgnoreCase("enable"));

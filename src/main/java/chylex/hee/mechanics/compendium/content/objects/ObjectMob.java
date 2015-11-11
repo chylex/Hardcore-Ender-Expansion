@@ -22,7 +22,7 @@ public class ObjectMob implements IObjectHolder<Class<? extends EntityLiving>>{
 			name = ItemSpawnEggs.getMobName(mobClass);
 		}
 		else{
-			OptionalInt dmg = IntStream.range(0,256).filter(id -> EntityList.getClassFromID(id) == mobClass).findFirst();
+			OptionalInt dmg = IntStream.range(0,256).filter(id -> EntityList.getClassFromID(id) == mobClass).findAny();
 			
 			if (dmg.isPresent())is = new ItemStack(Items.spawn_egg,1,dmg.getAsInt());
 			name = (String)EntityList.classToStringMapping.get(mobClass);
