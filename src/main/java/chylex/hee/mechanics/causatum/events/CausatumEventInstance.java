@@ -14,7 +14,7 @@ import chylex.hee.world.util.Range;
 
 public abstract class CausatumEventInstance{
 	public enum EventTypes{
-		STAGE_ADVANCE_TO_ENDERMAN_KILLED(null); // TODO
+		STAGE_ADVANCE_TO_ENDERMAN_KILLED(EventAdvanceEndermanKill::new);
 		
 		public final short requiredLevel;
 		private final Progress minProgress, maxProgress;
