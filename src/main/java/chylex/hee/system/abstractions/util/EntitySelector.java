@@ -38,11 +38,11 @@ public final class EntitySelector{
 		return world.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox);
 	}
 	
-	public static @Nonnull List<Entity> mobs(World world, AxisAlignedBB boundingBox){
+	public static @Nonnull List<EntityLiving> mobs(World world, AxisAlignedBB boundingBox){
 		return world.getEntitiesWithinAABB(EntityLiving.class,boundingBox);
 	}
 	
-	public static @Nonnull List<Entity> entities(World world, Class<? extends Entity> extending, AxisAlignedBB boundingBox){
+	public static @Nonnull <T extends Entity> List<T> type(World world, Class<T> extending, AxisAlignedBB boundingBox){
 		return world.getEntitiesWithinAABB(extending,boundingBox);
 	}
 	
