@@ -3,9 +3,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventState;
+import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
@@ -18,12 +20,20 @@ public final class CausatumEventHandler{
 		if (instance == null)FMLCommonHandler.instance().bus().register(instance = new CausatumEventHandler());
 	}
 	
-	protected static boolean hasActiveEvent(EntityPlayer player){
+	public static boolean hasActiveEvent(EntityPlayer player){
 		CausatumEventInstance inst = instance.activeEvents.get(PlayerDataHandler.getID(player));
 		return inst != null && inst.getState() == EventState.WAITING;
 	}
 	
+	public static boolean tryStartEvent(EntityPlayerMP player, EventTypes type){
+		if (hasActiveEvent(player))return false;
+		
+		instance.activeEvents.put(PlayerDataHandler.getID(player),type.createEvent(player));
+		return true;
+	}
+	
 	private Map<String,CausatumEventInstance> activeEvents = new HashMap<>(4);
+	private int nextAttemptTimer;
 	
 	private CausatumEventHandler(){}
 	
@@ -38,6 +48,12 @@ public final class CausatumEventHandler{
 				
 				if (inst.getState() == EventState.FINISHED)iter.remove();
 			}
+		}
+		
+		if (++nextAttemptTimer > 1200){ // 1 minute
+			nextAttemptTimer = 0;
+			
+			// TODO
 		}
 	}
 }
