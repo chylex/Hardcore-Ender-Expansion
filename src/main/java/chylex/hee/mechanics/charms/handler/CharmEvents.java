@@ -414,7 +414,7 @@ public final class CharmEvents{
 		if (e.recentlyHit && e.source.getEntity() instanceof EntityPlayer && e.entityLiving instanceof EntityLiving &&
 			!e.entityLiving.isChild() && e.entity.worldObj.getGameRules().getGameRuleBooleanValue("doMobLoot")){
 			// BASIC_MAGIC / EQUALITY
-			int xp = (int)ReflectionPublicizer.invoke(ReflectionPublicizer.entityLivingBaseGetExperiencePoints,e.entityLiving,(EntityPlayer)e.source.getEntity());
+			int xp = ReflectionPublicizer.m__getExperiencePoints__EntityLivingBase(e.entityLiving,(EntityPlayer)e.source.getEntity());
 			xp = MathUtil.ceil(getPropPercentIncrease((EntityPlayer)e.source.getEntity(),"exp",xp)); // extra xp only
 			DragonUtil.spawnXP(e.entity,xp);
 		}
