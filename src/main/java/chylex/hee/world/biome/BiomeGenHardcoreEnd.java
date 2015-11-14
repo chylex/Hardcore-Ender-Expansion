@@ -36,8 +36,17 @@ public final class BiomeGenHardcoreEnd extends BiomeGenEnd{
 			}
 			
 			if (endermanEntry != null){
+				int baseWeight = Math.round(totalWeight*overworldEndermanMultiplier*0.032F); // ~1.6x of vanilla weight; totalWeight is 505 in most vanilla biomes
+				
+				// update existing entry
 				endermanEntry.entityClass = EntityMobEnderman.class;
-				endermanEntry.itemWeight = Math.round(totalWeight*overworldEndermanMultiplier*0.04F); // ~double of vanilla weight by default
+				endermanEntry.itemWeight = baseWeight;
+				endermanEntry.minGroupCount = endermanEntry.maxGroupCount = 1;
+				
+				// add another entry for grouped Endermen
+				biome.getSpawnableList(EnumCreatureType.monster).add(new SpawnListEntry(EntityMobEnderman.class,baseWeight/3,1,3));
+				
+				// should end up with 16+5 weight, with high chance for lone Endermen and small chance for groups of 2-3
 			}
 		}
 	}
