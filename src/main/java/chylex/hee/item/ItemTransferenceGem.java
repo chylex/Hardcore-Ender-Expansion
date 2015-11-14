@@ -104,7 +104,6 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 			}
 			
 			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
-			// TODO CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,1F);
 		}
 		
 		return is;

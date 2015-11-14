@@ -21,8 +21,10 @@ public final class Causatum{
 		INITIAL, ENDERMAN_KILLED, INTO_THE_END
 	}
 	
-	public enum Actions{
-		STAGE_ADVANCE_TO_ENDERMAN_KILLED(false,100); // TODO 100
+	public enum Actions{ // TODO update
+		STAGE_ADVANCE_TO_ENDERMAN_KILLED(false,100),
+		
+		KILL_ENDERMAN(true,20);
 		
 		public final boolean canRepeat;
 		public final short levelIncrease;

@@ -35,7 +35,6 @@ public class ItemSpatialDashGem extends ItemAbstractGem{
 		if (!canUse(is))return is;
 		
 		if (!world.isRemote){
-			// TODO CausatumUtils.increase(player,CausatumMeters.ITEM_USAGE,0.5F);
 			useEnergy(is,player);
 			world.spawnEntityInWorld(new EntityProjectileSpatialDash(world,player,EnhancementRegistry.getEnhancementList(is)));
 		}
