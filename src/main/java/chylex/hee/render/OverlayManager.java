@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -134,6 +135,8 @@ public class OverlayManager{
 	
 	@SubscribeEvent
 	public void onRenderBlockOutline(DrawBlockHighlightEvent e){
+		if (e.target.typeOfHit != MovingObjectType.BLOCK)return; // why the fuck is this getting called for entities
+		
 		tmpPos.set(e.target.blockX,e.target.blockY,e.target.blockZ);
 		
 		if (tmpPos.getBlock(e.player.worldObj) == BlockList.energy_cluster){
