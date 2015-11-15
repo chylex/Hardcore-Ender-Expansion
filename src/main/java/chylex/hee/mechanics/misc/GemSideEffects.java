@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.storage.WorldInfo;
-import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.util.MathUtil;
@@ -64,7 +63,7 @@ public enum GemSideEffects implements IWeightProvider{
 				break;
 				
 			case ENDERMEN:
-				for(int a = 0; a < rand.nextInt(3)+2; a++)entity.worldObj.spawnEntityInWorld(new EntityMobAngryEnderman(entity.worldObj,entity.posX,entity.posY,entity.posZ));
+				// TODO for(int a = 0; a < rand.nextInt(3)+2; a++)entity.worldObj.spawnEntityInWorld(new EntityMobAngryEnderman(entity.worldObj,entity.posX,entity.posY,entity.posZ));
 				break;
 				
 			case ITEMDROP:

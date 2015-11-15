@@ -16,14 +16,22 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityMiniBossEnderEye;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
-import chylex.hee.entity.mob.*;
+import chylex.hee.entity.mob.EntityMobBabyEnderman;
+import chylex.hee.entity.mob.EntityMobEnderGuardian;
+import chylex.hee.entity.mob.EntityMobEndermage;
+import chylex.hee.entity.mob.EntityMobFireGolem;
+import chylex.hee.entity.mob.EntityMobHauntedMiner;
+import chylex.hee.entity.mob.EntityMobInfestedBat;
+import chylex.hee.entity.mob.EntityMobLouse;
+import chylex.hee.entity.mob.EntityMobScorchingLens;
+import chylex.hee.entity.mob.EntityMobVampiricBat;
 import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemSpawnEggs extends ItemMonsterPlacer{
 	private static final EggData[] eggTypes = new EggData[]{
-		/*  0 */ new EggData("angryEnderman", EntityMobAngryEnderman.class, new int[]{ 22,22,22 }, new int[]{ 87,45,45 }),
+		/*  0 */ EggData.unknown, // removed mob
 		/*  1 */ new EggData("babyEnderman", EntityMobBabyEnderman.class, new int[]{ 22,22,22 }, new int[]{ 91,67,124 }),
 		/*  2 */ new EggData("enderGuardian", EntityMobEnderGuardian.class, new int[]{ 22,22,22 }, new int[]{ 68,45,87 }),
 		/*  3 */ new EggData("vampireBat", EntityMobVampiricBat.class, new int[]{ 76,62,48 }, new int[]{ 70,35,71 }),

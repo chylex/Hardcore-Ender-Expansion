@@ -52,7 +52,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 					
 					for(EntityEnderman enderman:(List<EntityEnderman>)worldObj.getEntitiesWithinAABB(EntityEnderman.class,AxisAlignedBB.getBoundingBox(posX-10D,topblock-5D,posZ-10D,posX+10D,topblock+5D,posZ+10D))){
 						if (enderman.getDistance(posX,topblock,posZ) < 20D){
-							enderman.setTarget(tar);
+							// TODO no longer works enderman.setTarget(tar);
 							if (--limiter <= 0)break;
 						}
 					}

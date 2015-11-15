@@ -6,7 +6,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import chylex.hee.entity.mob.EntityMobAngryEnderman;
 import chylex.hee.system.util.NBTUtil;
 import chylex.hee.tileentity.TileEntityCustomSpawner;
 
@@ -61,9 +60,10 @@ public class TowerEndermanSpawnerLogic extends CustomSpawnerLogic{
 
 	@Override
 	protected EntityLiving createMob(World world){
-		EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(world);
+		/* TODO EntityMobAngryEnderman enderman = new EntityMobAngryEnderman(world);
 		if (world != null)enderman.setCanDespawn(true);
-		return enderman;
+		return enderman;*/
+		return null;
 	}
 
 	@Override

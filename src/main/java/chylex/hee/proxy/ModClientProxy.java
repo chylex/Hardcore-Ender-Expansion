@@ -47,7 +47,6 @@ import chylex.hee.render.block.RenderBlockTokenHolder;
 import chylex.hee.render.entity.RenderBossDragon;
 import chylex.hee.render.entity.RenderMiniBossEnderEye;
 import chylex.hee.render.entity.RenderMiniBossFireFiend;
-import chylex.hee.render.entity.RenderMobAngryEnderman;
 import chylex.hee.render.entity.RenderMobBabyEnderman;
 import chylex.hee.render.entity.RenderMobEnderman;
 import chylex.hee.render.entity.RenderMobInfestedBat;
@@ -130,7 +129,6 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossFireFiend.class, new RenderMiniBossFireFiend());
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderman.class, new RenderMobEnderman());
-		RenderingRegistry.registerEntityRenderingHandler(EntityMobAngryEnderman.class, new RenderMobAngryEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobBabyEnderman.class, new RenderMobBabyEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderGuardian.class, new RenderTexturedMob(new ModelEnderGuardian(), 0.3F, "ender_guardian.png"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobVampiricBat.class, new RenderTexturedMob(new ModelBat(), 0.25F, "bat_vampiric.png", 0.35F));

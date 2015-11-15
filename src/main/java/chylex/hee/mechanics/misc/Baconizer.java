@@ -18,7 +18,6 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.render.entity.RenderBossDragon;
-import chylex.hee.render.entity.RenderMobAngryEnderman;
 import chylex.hee.render.entity.RenderMobBabyEnderman;
 import chylex.hee.render.entity.RenderMobEnderman;
 import chylex.hee.render.entity.RenderMobHomelandEnderman;
@@ -61,7 +60,6 @@ public final class Baconizer{
 		renderers = new HashMap<>();
 		
 		baconizeMob(RenderMobEnderman.class,"enderman");
-		baconizeMob(RenderMobAngryEnderman.class,"enderman");
 		baconizeMob(RenderMobBabyEnderman.class,"enderman");
 		baconizeMob(RenderMobHomelandEnderman.class,"enderman");
 		baconizeMob(RenderMobInfestedBat.class,"bat_infested");

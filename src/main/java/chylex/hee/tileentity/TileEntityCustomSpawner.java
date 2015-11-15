@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import chylex.hee.block.BlockCustomSpawner;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Log;
-import chylex.hee.tileentity.spawner.BlobEndermanSpawnerLogic;
 import chylex.hee.tileentity.spawner.CustomSpawnerLogic;
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic;
 import chylex.hee.tileentity.spawner.SilverfishDungeonSpawnerLogic;
@@ -29,7 +28,7 @@ public class TileEntityCustomSpawner extends TileEntity{
 			case BlockCustomSpawner.metaSilverfishDungeon: logic = new SilverfishDungeonSpawnerLogic(this); break;
 			case BlockCustomSpawner.metaRavagedLouse: logic = new LouseRavagedSpawnerLogic(this); break;
 			case BlockCustomSpawner.metaRavagedSilverfish: logic = new SilverfishRavagedSpawnerLogic(this); break;
-			case BlockCustomSpawner.metaBlobEnderman: logic = new BlobEndermanSpawnerLogic(this); break;
+			// TODO case BlockCustomSpawner.metaBlobEnderman: logic = new BlobEndermanSpawnerLogic(this); break;
 			default:
 				Log.error("Unable to find spawner logic $0, this is not supposed to happen! Substituting empty logic to prevent crashes.",id);
 				logic = new CustomSpawnerLogic.BrokenSpawnerLogic(this);

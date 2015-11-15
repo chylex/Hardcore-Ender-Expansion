@@ -215,13 +215,14 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 			
 			int familySize = Math.min(endermanList.size(),2+rand.nextInt(3)+rand.nextInt(2));
 			for(int a = 0; a < familySize; a++){
-				EntityEnderman orig = endermanList.get(a);
+				/* TODO
+				 * change AI of EntityMobEnderman instead
 				EntityMobAngryEnderman angryEnderman = new EntityMobAngryEnderman(worldObj,orig.posX,orig.posY,orig.posZ);
 				angryEnderman.copyLocationAndAnglesFrom(orig);
-				angryEnderman.setTarget(source.getEntity());
+				// TODO no longer works angryEnderman.setTarget(source.getEntity());
 				
 				orig.setDead();
-				worldObj.spawnEntityInWorld(angryEnderman);
+				worldObj.spawnEntityInWorld(angryEnderman);*/
 			}
 			
 			isFamilyChosen = isScared = true;

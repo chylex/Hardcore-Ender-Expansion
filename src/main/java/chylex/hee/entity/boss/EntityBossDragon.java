@@ -9,7 +9,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -43,8 +42,6 @@ import chylex.hee.entity.boss.dragon.managers.DragonChunkManager;
 import chylex.hee.entity.boss.dragon.managers.DragonDebugManager;
 import chylex.hee.entity.boss.dragon.managers.DragonRewardManager;
 import chylex.hee.entity.boss.dragon.managers.DragonShotManager;
-import chylex.hee.entity.mob.EntityMobAngryEnderman;
-import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.game.commands.DebugBoard;
 import chylex.hee.game.commands.HeeDebugCommand;
@@ -244,11 +241,11 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 						int x = (int)posX+rand.nextInt(301)-150, z = (int)posZ+rand.nextInt(301)-150;
 						int y = 1+DragonUtil.getTopBlockY(worldObj,Blocks.end_stone,x,z);
 						
-						EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(worldObj);
+						/* TODO EntityMobAngryEnderman buddy = new EntityMobAngryEnderman(worldObj);
 						buddy.setPosition(x,y,z);
 						
 						worldObj.addWeatherEffect(new EntityWeatherLightningBoltSafe(worldObj,x,y,z));
-						worldObj.spawnEntityInWorld(buddy);
+						worldObj.spawnEntityInWorld(buddy);*/
 					}
 					
 					lastUpdate = worldObj.getTotalWorldTime();
@@ -466,8 +463,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  				for(Entity entity:(List<Entity>)worldObj.loadedEntityList){
  					if (MathUtil.distance(entity.posX,entity.posZ) > 180D)continue;
  					
- 					if (entity instanceof EntityEnderman)((EntityEnderman)entity).setTarget(null);
- 					else if (entity instanceof EntityMobAngryEnderman)((EntityMobAngryEnderman)entity).setHealth(0F);
+ 					// TODO no longer works if (entity instanceof EntityEnderman)((EntityEnderman)entity).setTarget(null);
  				}
  			}
  			else if (deathTicks > 4 && deathTicks < 70 && deathTicks%4 == 0){
