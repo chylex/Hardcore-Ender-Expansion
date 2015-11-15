@@ -30,6 +30,7 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 	public AbstractRenderMobEnderman(){
 		super(new ModelEnderman(),0.5F);
 		endermanModel = (ModelEnderman)super.mainModel;
+		endermanModel.isAttacking = false;
 		setRenderPassModel(endermanModel);
 		
 		if (ModCommonProxy.hardcoreEnderbacon){
@@ -43,53 +44,75 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 
 	public void renderEnderman(IEndermanRenderer entity, double x, double y, double z, float yaw, float partialTickTime){
 		endermanModel.isCarrying = entity.isCarrying();
-		endermanModel.isAttacking = entity.isAggressive();
-
-		if (entity.isAggressive()){
-			double spazzAmount = 0.02D;
-			x += rand.nextGaussian()*spazzAmount;
-			z += rand.nextGaussian()*spazzAmount;
-		}
-
 		superDoRender(entity,x,y,z,yaw,partialTickTime);
 	}
 
 	protected int renderEyes(IEndermanRenderer enderman, int pass, float partialTickTime){
-		if (pass != 0 || ModCommonProxy.hardcoreEnderbacon)return -1;
-
+		if (pass <= 0 || ModCommonProxy.hardcoreEnderbacon)return -1;
+		
 		bindTexture(texEndermanEyes);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_ALPHA_TEST);
 		GL11.glBlendFunc(GL11.GL_ONE,GL11.GL_ONE);
 		GL11.glDisable(GL11.GL_LIGHTING);
 
-		GL11.glDepthMask(!((Entity)enderman).isInvisible());
+		GL11.glDepthMask(true);
 
 		char c = 61680;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,c%65536,c/65536);
 		GL11.glColor4f(1F,1F,1F,1F);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glColor4f(1F,1F,1F,1F);
+		
 		return 1;
 	}
 	
 	protected void renderEquippedItems(IEndermanRenderer enderman, float partialTickTime){
+		if (!enderman.isCarrying())return;
+		
 		ItemStack carrying = enderman.getCarrying();
 		
-		if (carrying != null){
-			GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-			GL11.glPushMatrix();
-			GL11.glTranslatef(0F,0.6875F,-0.75F);
-			GL11.glRotatef(20F,1F,0F,0F);
-			GL11.glRotatef(45F,0F,1F,0F);
-			GL11.glScalef(-0.5F,-0.5F,0.5F);
-			int brightness = ((Entity)enderman).getBrightnessForRender(partialTickTime);
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,brightness%65536F,brightness/65536F);
-			GL11.glColor4f(1F,1F,1F,1F);
-			bindTexture(TextureMap.locationBlocksTexture);
-			field_147909_c.renderBlockAsItem(Block.getBlockFromItem(carrying.getItem()),carrying.getItemDamage(),1.0F);
-			GL11.glPopMatrix();
-			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0F,0.6875F,-0.75F);
+		GL11.glRotatef(20F,1F,0F,0F);
+		GL11.glRotatef(45F,0F,1F,0F);
+		GL11.glScalef(-0.5F,-0.5F,0.5F);
+		
+		int brightness = ((Entity)enderman).getBrightnessForRender(partialTickTime);
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,brightness%65536F,brightness/65536F);
+		GL11.glColor4f(1F,1F,1F,1F);
+		
+		bindTexture(TextureMap.locationBlocksTexture);
+		field_147909_c.renderBlockAsItem(Block.getBlockFromItem(carrying.getItem()),carrying.getItemDamage(),1F);
+		
+		GL11.glPopMatrix();
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+	}
+	
+	@Override
+	protected void renderModel(EntityLivingBase entity, float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel){
+		super.renderModel(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+		
+		if (((IEndermanRenderer)entity).isAggressive()){
+			rand.setSeed(entity.worldObj.getTotalWorldTime());
+			
+			GL11.glEnable(GL11.GL_BLEND);
+			GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GL11.glDepthMask(false);
+			GL11.glAlphaFunc(GL11.GL_GREATER,0.004F);
+			
+			for(int a = 0; a < 3; a++){
+				GL11.glColor4f(1F,1F,1F,0.025F+rand.nextFloat()*0.075F);
+				GL11.glPushMatrix();
+				GL11.glTranslated(rand.nextGaussian()*0.04D,rand.nextGaussian()*0.04D,rand.nextGaussian()*0.04D);
+				super.renderModel(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
+				GL11.glPopMatrix();
+			}
+			
+			GL11.glDisable(GL11.GL_BLEND);
+			GL11.glAlphaFunc(GL11.GL_GREATER,0.1F);
+			GL11.glDepthMask(true);
 		}
 	}
 

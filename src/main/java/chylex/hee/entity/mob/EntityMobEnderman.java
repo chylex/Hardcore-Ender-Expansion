@@ -19,6 +19,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
 import chylex.hee.entity.mob.ai.AIUtil;
+import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.causatum.Causatum;
@@ -34,7 +35,7 @@ import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;
 
-public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo{
+public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo, IEndermanRenderer{
 	private static final PercentageLootTable drops = new PercentageLootTable();
 	
 	static{
@@ -134,17 +135,17 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 
 	@Override
 	protected String getLivingSound(){
-		return Baconizer.soundNormal(super.getLivingSound());
+		return Baconizer.soundNormal("mob.endermen.idle");
 	}
 	
 	@Override
 	protected String getHurtSound(){
-		return Baconizer.soundNormal(super.getHurtSound());
+		return Baconizer.soundNormal("mob.endermen.hit");
 	}
 	
 	@Override
 	protected String getDeathSound(){
-		return Baconizer.soundDeath(super.getDeathSound());
+		return Baconizer.soundDeath("mob.endermen.death");
 	}
 	
 	@Override
@@ -160,15 +161,15 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 	/**
 	 * Replacement method for the ones that set the carried block and metadata.
 	 */
-	public void setCarrying(BlockInfo info){
-		dataWatcher.updateObject(30,Short.valueOf((short)Block.getIdFromBlock(info.block)));
-		dataWatcher.updateObject(31,info.meta);
+	public void setCarryingInfo(BlockInfo info){
+		dataWatcher.updateObject(30,info == null ? (short)0 : (short)Block.getIdFromBlock(info.block));
+		dataWatcher.updateObject(31,info == null ? (byte)0 : info.meta);
 	}
 	
 	/**
 	 * Replacement method for the ones that return the carried block and metadata.
 	 */
-	public BlockInfo getCarrying(){
+	public BlockInfo getCarryingInfo(){
 		return new BlockInfo(Block.getBlockById(dataWatcher.getWatchableObjectShort(30)),dataWatcher.getWatchableObjectByte(31));
 	}
 	
@@ -177,6 +178,24 @@ public class EntityMobEnderman extends EntityEnderman implements IIgnoreEnderGoo
 	 */
 	public boolean isEndermanWet(){
 		return super.isWet();
+	}
+	
+	// IEndermanRenderer
+	
+	@Override
+	public boolean isCarrying(){
+		return dataWatcher.getWatchableObjectShort(30) != 0;
+	}
+	
+	@Override
+	public ItemStack getCarrying(){
+		BlockInfo info = getCarryingInfo();
+		return new ItemStack(info.block,1,info.meta);
+	}
+	
+	@Override
+	public boolean isAggressive(){
+		return true; // TODO
 	}
 	
 	// Disabled methods
