@@ -105,7 +105,7 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 			for(int a = 0; a < 3; a++){
 				GL11.glColor4f(1F,1F,1F,0.025F+rand.nextFloat()*0.075F);
 				GL11.glPushMatrix();
-				GL11.glTranslated(rand.nextGaussian()*0.04D,rand.nextGaussian()*0.04D,rand.nextGaussian()*0.04D);
+				GL11.glTranslated(rand.nextGaussian()*0.05D,rand.nextGaussian()*0.05D,rand.nextGaussian()*0.05D);
 				super.renderModel(entity,limbSwing,limbSwingAngle,entityTickTime,rotationYaw,rotationPitch,unitPixel);
 				GL11.glPopMatrix();
 			}
