@@ -4,5 +4,5 @@ import net.minecraft.item.ItemStack;
 public interface IEndermanRenderer{
 	boolean isCarrying();
 	ItemStack getCarrying();
-	boolean isScreaming();
+	boolean isAggressive();
 }

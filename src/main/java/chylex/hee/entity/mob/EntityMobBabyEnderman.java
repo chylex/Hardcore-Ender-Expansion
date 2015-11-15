@@ -325,7 +325,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	}
 
 	@Override
-	public boolean isScreaming(){
+	public boolean isAggressive(){
 		return false;
 	}
 

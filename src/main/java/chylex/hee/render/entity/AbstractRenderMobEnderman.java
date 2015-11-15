@@ -43,9 +43,9 @@ public abstract class AbstractRenderMobEnderman extends RenderLiving{
 
 	public void renderEnderman(IEndermanRenderer entity, double x, double y, double z, float yaw, float partialTickTime){
 		endermanModel.isCarrying = entity.isCarrying();
-		endermanModel.isAttacking = entity.isScreaming();
+		endermanModel.isAttacking = entity.isAggressive();
 
-		if (entity.isScreaming()){
+		if (entity.isAggressive()){
 			double spazzAmount = 0.02D;
 			x += rand.nextGaussian()*spazzAmount;
 			z += rand.nextGaussian()*spazzAmount;
