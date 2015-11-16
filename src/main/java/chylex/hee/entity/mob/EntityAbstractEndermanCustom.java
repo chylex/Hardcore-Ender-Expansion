@@ -23,9 +23,9 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 	protected void entityInit(){
 		super.entityInit();
 		entityData = new EntityDataWatcher(this);
-		entityData.addBoolean(Data.AGGRESSIVE,29);
-		entityData.addShort(Data.HELD_BLOCK_ID,30);
-		entityData.addByte(Data.HELD_BLOCK_META,31);
+		entityData.addBoolean(Data.AGGRESSIVE);
+		entityData.addShort(Data.HELD_BLOCK_ID);
+		entityData.addByte(Data.HELD_BLOCK_META);
 	}
 	
 	public void dropCarrying(){

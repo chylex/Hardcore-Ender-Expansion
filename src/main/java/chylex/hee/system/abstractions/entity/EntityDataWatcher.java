@@ -14,8 +14,15 @@ public final class EntityDataWatcher{
 		this.idMap = new TObjectByteHashMap<>(8);
 	}
 	
-	private void addObject(Enum<?> linkedEnum, int internalId, Object obj){
+	private void addObject(Enum<?> linkedEnum, Object obj){
+		int internalId = 31-idMap.size();
 		watcher.addObject(internalId,obj);
+		idMap.put(linkedEnum,(byte)internalId);
+	}
+	
+	private void addObjectByType(Enum<?> linkedEnum, int type){
+		int internalId = 31-idMap.size();
+		watcher.addObjectByDataType(internalId,type);
 		idMap.put(linkedEnum,(byte)internalId);
 	}
 	
@@ -27,12 +34,12 @@ public final class EntityDataWatcher{
 	
 	// BOOLEAN
 	
-	public void addBoolean(Enum<?> linkedEnum, int internalId){
-		addObject(linkedEnum,internalId,Byte.valueOf((byte)0));
+	public void addBoolean(Enum<?> linkedEnum){
+		addObject(linkedEnum,Byte.valueOf((byte)0));
 	}
 	
-	public void addBoolean(Enum<?> linkedEnum, int internalId, boolean initialValue){
-		addObject(linkedEnum,internalId,Byte.valueOf((byte)(initialValue ? 1 : 0)));
+	public void addBoolean(Enum<?> linkedEnum, boolean initialValue){
+		addObject(linkedEnum,Byte.valueOf((byte)(initialValue ? 1 : 0)));
 	}
 	
 	public boolean getBoolean(Enum<?> linkedEnum){
@@ -45,12 +52,12 @@ public final class EntityDataWatcher{
 	
 	// BYTE
 	
-	public void addByte(Enum<?> linkedEnum, int internalId){
-		addObject(linkedEnum,internalId,Byte.valueOf((byte)0));
+	public void addByte(Enum<?> linkedEnum){
+		addObject(linkedEnum,Byte.valueOf((byte)0));
 	}
 	
-	public void addByte(Enum<?> linkedEnum, int internalId, int initialValue){
-		addObject(linkedEnum,internalId,Byte.valueOf((byte)initialValue));
+	public void addByte(Enum<?> linkedEnum, int initialValue){
+		addObject(linkedEnum,Byte.valueOf((byte)initialValue));
 	}
 	
 	public byte getByte(Enum<?> linkedEnum){
@@ -63,12 +70,12 @@ public final class EntityDataWatcher{
 	
 	// SHORT
 	
-	public void addShort(Enum<?> linkedEnum, int internalId){
-		addObject(linkedEnum,internalId,Short.valueOf((short)0));
+	public void addShort(Enum<?> linkedEnum){
+		addObject(linkedEnum,Short.valueOf((short)0));
 	}
 	
-	public void addShort(Enum<?> linkedEnum, int internalId, int initialValue){
-		addObject(linkedEnum,internalId,Short.valueOf((short)initialValue));
+	public void addShort(Enum<?> linkedEnum, int initialValue){
+		addObject(linkedEnum,Short.valueOf((short)initialValue));
 	}
 	
 	public short getShort(Enum<?> linkedEnum){
@@ -81,12 +88,12 @@ public final class EntityDataWatcher{
 	
 	// INTEGER
 	
-	public void addInt(Enum<?> linkedEnum, int internalId){
-		addObject(linkedEnum,internalId,Integer.valueOf(0));
+	public void addInt(Enum<?> linkedEnum){
+		addObject(linkedEnum,Integer.valueOf(0));
 	}
 	
-	public void addInt(Enum<?> linkedEnum, int internalId, int initialValue){
-		addObject(linkedEnum,internalId,Integer.valueOf(initialValue));
+	public void addInt(Enum<?> linkedEnum, int initialValue){
+		addObject(linkedEnum,Integer.valueOf(initialValue));
 	}
 	
 	public int getInt(Enum<?> linkedEnum){
@@ -99,12 +106,12 @@ public final class EntityDataWatcher{
 	
 	// FLOAT
 	
-	public void addFloat(Enum<?> linkedEnum, int internalId){
-		addObject(linkedEnum,internalId,Float.valueOf(0F));
+	public void addFloat(Enum<?> linkedEnum){
+		addObject(linkedEnum,Float.valueOf(0F));
 	}
 	
-	public void addFloat(Enum<?> linkedEnum, int internalId, float initialValue){
-		addObject(linkedEnum,internalId,Float.valueOf(initialValue));
+	public void addFloat(Enum<?> linkedEnum, float initialValue){
+		addObject(linkedEnum,Float.valueOf(initialValue));
 	}
 	
 	public float getFloat(Enum<?> linkedEnum){
@@ -117,12 +124,12 @@ public final class EntityDataWatcher{
 	
 	// STRING
 	
-	public void addString(Enum<?> linkedEnum, int internalId){
-		addObject(linkedEnum,internalId,"");
+	public void addString(Enum<?> linkedEnum){
+		addObject(linkedEnum,"");
 	}
 	
-	public void addString(Enum<?> linkedEnum, int internalId, String initialValue){
-		addObject(linkedEnum,internalId,initialValue);
+	public void addString(Enum<?> linkedEnum, String initialValue){
+		addObject(linkedEnum,initialValue);
 	}
 	
 	public String getString(Enum<?> linkedEnum){
@@ -135,13 +142,12 @@ public final class EntityDataWatcher{
 	
 	// ITEMSTACK
 	
-	public void addItemStack(Enum<?> linkedEnum, int internalId){
-		watcher.addObjectByDataType(internalId,5);
-		idMap.put(linkedEnum,(byte)internalId);
+	public void addItemStack(Enum<?> linkedEnum){
+		addObjectByType(linkedEnum,5);
 	}
 	
-	public void addItemStack(Enum<?> linkedEnum, int internalId, ItemStack initialValue){
-		addObject(linkedEnum,internalId,initialValue);
+	public void addItemStack(Enum<?> linkedEnum, ItemStack initialValue){
+		addObject(linkedEnum,initialValue);
 	}
 	
 	public @Nullable ItemStack getItemStack(Enum<?> linkedEnum){
