@@ -34,7 +34,7 @@ public final class EntitySelector{
 		return world.getEntitiesWithinAABB(Entity.class,boundingBox);
 	}
 	
-	public static @Nonnull List<Entity> living(World world, AxisAlignedBB boundingBox){
+	public static @Nonnull List<EntityLivingBase> living(World world, AxisAlignedBB boundingBox){
 		return world.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox);
 	}
 	
