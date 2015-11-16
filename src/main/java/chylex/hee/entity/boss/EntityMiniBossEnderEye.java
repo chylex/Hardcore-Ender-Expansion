@@ -173,19 +173,15 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					 */
 					else if (attackType == AttackType.Nausea){
 						if (attackAnim == 17){
-							PotionEffect effNausea = new PotionEffect(Potion.confusion.id,220,0,true);
-							for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(6D,6D,6D)))player.addPotionEffect(effNausea);
+							for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(6D,6D,6D)))player.addPotionEffect(new PotionEffect(Potion.confusion.id,220,0,true));
 						}
 						else if (attackAnim == 19){
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_CONFUSION,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
 						}
 						else if (attackAnim == 26){
-							PotionEffect effBlind = new PotionEffect(Potion.blindness.id,160,0,true),
-										 effSlow = new PotionEffect(Potion.moveSlowdown.id,120,0,true);
-							
 							for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(6D,6D,6D))){
-								player.addPotionEffect(effBlind);
-								player.addPotionEffect(effSlow);
+								player.addPotionEffect(new PotionEffect(Potion.blindness.id,160,0,true));
+								player.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id,120,0,true));
 							}
 						}
 					}
