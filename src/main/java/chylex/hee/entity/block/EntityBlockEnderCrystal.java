@@ -11,6 +11,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import chylex.hee.init.BlockList;
+import chylex.hee.system.abstractions.Explosion;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.facing.Facing6;
@@ -41,7 +42,7 @@ public class EntityBlockEnderCrystal extends EntityEnderCrystal{
 			// TODO
 		}
 		else{
-			worldObj.createExplosion(null,posX,posY,posZ,6F,true);
+			new Explosion(worldObj,posX,posY,posZ,6F,null).trigger();
 			// TODO if (worldObj.provider.dimensionId == 1)WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).destroyCrystal(crystalKey);
 			
 			Entity tar = source.getEntity();

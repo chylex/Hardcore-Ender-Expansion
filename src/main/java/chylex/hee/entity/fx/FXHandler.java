@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.block.BlockSpookyLeaves;
 import chylex.hee.block.BlockSpookyLog;
-import chylex.hee.entity.item.EntityItemInstabilityOrb.ExplosionOrb;
 import chylex.hee.init.BlockList;
 import chylex.hee.proxy.FXClientProxy;
 import chylex.hee.system.abstractions.Vec;
@@ -150,12 +149,6 @@ public final class FXHandler{
 			case ORB_TRANSFORMATION:
 				for(int a = 0; a < 18; a++)fx.global("largesmoke",x+randCenter(width),y+0.1D+rand.nextDouble()*height,z+randCenter(width),0D,0D,0D);
 				world.playSound(x,y,z,"hardcoreenderexpansion:block.random.transform",1.4F,1F+rand.nextFloat()*0.2F,false);
-				break;
-				
-			case ORB_EXPLOSION:
-				ExplosionOrb explosion = new ExplosionOrb(world,null,x,y,z,height);
-				explosion.doExplosionA();
-				explosion.doExplosionB(true);
 				break;
 				
 			case LOUSE_REGEN:

@@ -171,14 +171,6 @@ public final class DragonUtil{
 		}
 	}
 	
-	public static void createMobExplosion(Entity entity, double x, double y, double z, float strength, boolean fire){
-		entity.worldObj.newExplosion(entity,x,y,z,strength,fire,entity.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
-	}
-	
-	public static void createMobExplosion(World world, double x, double y, double z, float strength, boolean fire){
-		world.newExplosion(null,x,y,z,strength,fire,world.getGameRules().getGameRuleBooleanValue("mobGriefing"));
-	}
-	
 	public static String stripChatFormatting(String str){
 		return regexChatFormatting.matcher(str).replaceAll("");
 	}

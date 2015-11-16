@@ -22,6 +22,7 @@ import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.energy.EnergyClusterGenerator;
 import chylex.hee.mechanics.energy.EnergyValues;
+import chylex.hee.system.abstractions.Explosion;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEnergyCluster;
@@ -123,7 +124,9 @@ public class BlockEnergyCluster extends BlockContainer{
 		Pos pos1 = Pos.at(tile).offset(-iBlockDist,-iBlockDist,-iBlockDist);
 		Pos pos2 = Pos.at(tile).offset(iBlockDist,iBlockDist,iBlockDist);
 		
-		world.newExplosion(null,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,explosionRad,true,true);
+		Explosion explosion = new Explosion(world,tile.xCoord+0.5D,tile.yCoord+0.5D,tile.zCoord+0.5D,explosionRad,null);
+		explosion.spawnFire = true;
+		explosion.trigger();
 		
 		Pos.forEachBlock(pos1,pos2,pos -> {
 			if (pos.distance(tile) <= blockDist && pos.isAir(world))pos.setBlock(world,BlockList.corrupted_energy_high,energyMeta);

@@ -75,7 +75,10 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		
 		if (--fuse <= 0 && !worldObj.isRemote){
 			setDead();
-			Explosion explosion = new Explosion(worldObj,posX,posY,posZ,4F,this);
+			Explosion explosion = new Explosion(worldObj,posX,posY,posZ,enhancements.has(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F,this);
+			explosion.damageBlocks = !enhancements.has(TNTEnhancements.NO_BLOCK_DAMAGE);
+			explosion.damageEntities = !enhancements.has(TNTEnhancements.NO_ENTITY_DAMAGE);
+			explosion.spawnFire = enhancements.has(TNTEnhancements.FIRE);
 			explosion.trigger();
 		}
 		else{
@@ -85,16 +88,6 @@ public class EntityBlockEnhancedTNTPrimed extends EntityTNTPrimed{
 		}
 		
 		setPosition(posX,posY,posZ);
-	}
-
-	private void explode(){
-		/*EnhancedTNTExplosion explosion = new EnhancedTNTExplosion(worldObj,this,posX,posY,posZ,tntEnhancements.contains(TNTEnhancements.EXTRA_POWER) ? 5.2F : 4F);
-		explosion.isFlaming = tntEnhancements.contains(TNTEnhancements.FIRE);
-		explosion.isSmoking = !tntEnhancements.contains(TNTEnhancements.NO_BLOCK_DAMAGE);
-		explosion.damageEntities = !tntEnhancements.contains(TNTEnhancements.NO_ENTITY_DAMAGE);
-		explosion.doExplosionA();
-		explosion.doExplosionB(true);
-		explosion.doExplosionB(true);*/
 	}
 	
 	@Override

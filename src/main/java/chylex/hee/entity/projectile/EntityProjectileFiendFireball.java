@@ -10,13 +10,11 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityMiniBossFireFiend;
 import chylex.hee.entity.projectile.EntityProjectileGolemFireball.FieryExplosion;
 import chylex.hee.packets.PacketPipeline;
-import chylex.hee.packets.client.C12FiendFireballExplosion;
 import chylex.hee.packets.client.C14FiendFireball;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.MathUtil;
@@ -24,7 +22,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityProjectileFiendFireball extends EntityLargeFireball{
-	private int fiendId;
 	private double centerX, centerZ;
 	private float ang;
 	public byte timer;
@@ -41,7 +38,6 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 		super(world,shooter,0D,0D,0D);
 		setPosition(x,y,z);
 		setSize(0.2F,0.2F);
-		this.fiendId = shooter.getEntityId();
 		this.centerX = x;
 		this.centerZ = z;
 		this.ang = (float)MathUtil.toRad(ang);
@@ -162,16 +158,11 @@ public class EntityProjectileFiendFireball extends EntityLargeFireball{
 
 	@Override
 	protected void onImpact(MovingObjectPosition mop){
-		if (mop.entityHit instanceof EntityMiniBossFireFiend || mop.entityHit instanceof EntityProjectileFiendFireball)return;
+		if (mop.entityHit instanceof EntityMiniBossFireFiend || mop.entityHit instanceof EntityProjectileFiendFireball || worldObj.isRemote)return;
+		
 		if (mop.entityHit != null)mop.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this,shootingEntity),ModCommonProxy.opMobs ? 9F : 4F);
 		
-		if (!worldObj.isRemote){
-			Explosion explosion = new FieryExplosion(worldObj,shootingEntity,posX,posY,posZ,ModCommonProxy.opMobs ? 3.5F : 2.7F);
-			explosion.doExplosionA();
-			explosion.doExplosionB(true);
-			PacketPipeline.sendToAllAround(this,128D,new C12FiendFireballExplosion(this));
-		}
-		
+		new FieryExplosion(worldObj,posX,posY,posZ,ModCommonProxy.opMobs ? 3.5F : 2.7F,this,shootingEntity).trigger();
 		setDead();
 	}
 	
