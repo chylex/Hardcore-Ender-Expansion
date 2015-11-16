@@ -467,7 +467,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 				worldObj.playBroadcastSound(1018,(int)posX,(int)posY,(int)posZ,0);
  			}
  			else if (deathTicks == 20 || deathTicks == 140){ // double check
- 				for(Entity entity:(List<Entity>)worldObj.loadedEntityList){
+ 				for(Entity entity:EntitySelector.any(worldObj)){
  					if (MathUtil.distance(entity.posX,entity.posZ) > 180D)continue;
  					
  					// TODO no longer works if (entity instanceof EntityEnderman)((EntityEnderman)entity).setTarget(null);
@@ -485,7 +485,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
  			}
  			else if (deathTicks > 150 && deathTicks%5 == 0)DragonUtil.spawnXP(this,550+(250*(rewards.getFinalDifficulty()>>2)));
  			else if (deathTicks == 191){
- 				for(EntityPlayer player:(List<EntityPlayer>)worldObj.playerEntities)player.addStat(AchievementManager.GO_INTO_THE_END,1);
+ 				for(EntityPlayer player:EntitySelector.players(worldObj))player.addStat(AchievementManager.GO_INTO_THE_END,1);
  			}
  			else if (deathTicks == 200)DragonUtil.spawnXP(this,4000);
  			

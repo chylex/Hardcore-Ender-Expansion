@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.init.ItemList;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.MathUtil;
 
 public class DragonRewardManager{
@@ -45,7 +46,7 @@ public class DragonRewardManager{
 		byte diff = (byte)dragon.worldObj.difficultySetting.getDifficultyId();
 
 		if ((deadPlayerCheck = deadPlayerCheck^true) == true){
-			for(EntityPlayer p:(List<EntityPlayer>)dragon.worldObj.playerEntities){
+			for(EntityPlayer p:EntitySelector.players(dragon.worldObj)){
 				boolean wasDead = deadPlayers.contains(p.getPersistentID());
 				
 				if (p.isDead && !wasDead){

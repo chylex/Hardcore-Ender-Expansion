@@ -1,5 +1,4 @@
 package chylex.hee.block;
-import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -21,6 +20,8 @@ import chylex.hee.init.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -46,19 +47,9 @@ public class BlockSpookyLog extends Block{
 		super.dropBlockAsItemWithChance(world,x,y,z,meta,chance,fortune);
 		
 		if (meta > 0 && !world.isRemote && world.rand.nextInt(4) == 0){
-			EntityPlayer closest = null;
-			double curDist = 8D;
+			EntityPlayer closest = CollectionUtil.min(EntitySelector.players(world),player -> MathUtil.distance(player.posX-(x+0.5D),player.posZ-(z+0.5D))).orElse(null);
 			
-			for(EntityPlayer player:(List<EntityPlayer>)world.playerEntities){
-				double dist = MathUtil.distance(player.posX-x,player.posZ-z);
-				
-				if (dist < curDist){
-					dist = curDist;
-					closest = player;
-				}
-			}
-			
-			if (closest != null){
+			if (closest != null && MathUtil.distance(closest.posX-(x+0.5D),closest.posZ-(z+0.5D)) <= 8D){
 				boolean foundAmulet = false;
 				ItemStack is;
 				
@@ -164,8 +155,8 @@ public class BlockSpookyLog extends Block{
 	}
 	
 	private boolean isBlockSeen(World world, int x, int y, int z){
-		for(EntityPlayer entity:(List<EntityPlayer>)world.playerEntities){
-			if (Math.abs(entity.posX-x) > 250 || Math.abs(entity.posZ-z) > 250)continue;
+		for(EntityPlayer entity:EntitySelector.players(world)){
+			if (Math.abs(entity.posX-(x+0.5D)) > 250 || Math.abs(entity.posZ-(z+0.5D)) > 250)continue;
 			if (DragonUtil.canEntitySeePoint(entity,x,y,z,0.5D))return true;
 		}
 		

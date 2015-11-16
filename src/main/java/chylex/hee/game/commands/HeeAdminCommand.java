@@ -23,6 +23,7 @@ import chylex.hee.mechanics.compendium.events.CompendiumEvents;
 import chylex.hee.mechanics.curse.ICurseCaller;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C19CompendiumData;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.update.UpdateNotificationManager;
 import chylex.hee.system.util.DragonUtil;
@@ -61,9 +62,9 @@ public class HeeAdminCommand extends BaseCommand{
 			void run(ICommandSender sender, String[] args){
 				int counter = 0;
 				
-				for(Object o:sender.getEntityWorld().loadedEntityList){
-					if (o instanceof IBossDisplayData && o instanceof EntityLiving){
-						((EntityLiving)o).setHealth(0F);
+				for(Entity e:EntitySelector.any(sender.getEntityWorld())){
+					if (e instanceof IBossDisplayData && e instanceof EntityLiving){
+						((EntityLiving)e).setHealth(0F);
 						++counter;
 					}
 				}
@@ -186,7 +187,7 @@ public class HeeAdminCommand extends BaseCommand{
 			void run(ICommandSender sender, String[] args){
 				int counter = 0;
 				
-				for(Entity entity:(List<Entity>)sender.getEntityWorld().loadedEntityList){
+				for(Entity entity:EntitySelector.any(sender.getEntityWorld())){
 					if (entity instanceof ICurseCaller){
 						entity.setDead();
 						((ICurseCaller)entity).onPurify();

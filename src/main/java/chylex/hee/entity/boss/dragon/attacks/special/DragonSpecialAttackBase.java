@@ -1,6 +1,5 @@
 package chylex.hee.entity.boss.dragon.attacks.special;
 import gnu.trove.map.hash.TObjectFloatHashMap;
-import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +10,7 @@ import chylex.hee.entity.boss.dragon.attacks.special.event.DamageTakenEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.MotionUpdateEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetPositionSetEvent;
 import chylex.hee.entity.boss.dragon.attacks.special.event.TargetSetEvent;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.weight.IWeightProvider;
 
 public abstract class DragonSpecialAttackBase implements IWeightProvider{
@@ -62,7 +62,7 @@ public abstract class DragonSpecialAttackBase implements IWeightProvider{
 	}
 	
 	protected void updatePlayerHealth(){
-		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.playerEntities){
+		for(EntityPlayer player:EntitySelector.players(dragon.worldObj)){
 			UUID id = player.getUniqueID();
 			
 			if (lastPlayerHealth.containsKey(id)){
