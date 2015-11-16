@@ -20,8 +20,8 @@ import chylex.hee.init.BlockList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.abstractions.facing.Facing4;
-import chylex.hee.system.abstractions.util.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 

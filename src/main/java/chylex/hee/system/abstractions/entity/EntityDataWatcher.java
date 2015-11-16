@@ -1,4 +1,4 @@
-package chylex.hee.entity.mob.util;
+package chylex.hee.system.abstractions.entity;
 import gnu.trove.map.hash.TObjectByteHashMap;
 import javax.annotation.Nullable;
 import net.minecraft.entity.DataWatcher;

@@ -6,14 +6,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
-import chylex.hee.entity.mob.util.EntityDataWatcher;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.system.abstractions.BlockInfo;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 
 public abstract class EntityAbstractEndermanCustom extends EntityEnderman implements IIgnoreEnderGoo, IEndermanRenderer{
-	private enum Data{
-		AGGRESSIVE, HELD_BLOCK_ID, HELD_BLOCK_META
-	}
+	private enum Data{ AGGRESSIVE, HELD_BLOCK_ID, HELD_BLOCK_META }
 	
 	protected EntityDataWatcher entityData;
 	

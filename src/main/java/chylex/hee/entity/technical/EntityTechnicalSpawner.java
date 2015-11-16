@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import chylex.hee.system.abstractions.Vec;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.world.util.BoundingBox;
 import com.google.common.collect.ImmutableList;

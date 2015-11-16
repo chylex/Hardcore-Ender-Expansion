@@ -25,7 +25,7 @@ import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ReflectionPublicizer;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;
 

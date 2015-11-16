@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 
 public class EntityAIRandomTarget<T extends EntityLivingBase> extends EntityAITarget{
 	public static final Predicate<EntityPlayer> noCreativeMode = player -> {

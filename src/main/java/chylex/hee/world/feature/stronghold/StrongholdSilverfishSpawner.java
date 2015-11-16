@@ -9,7 +9,7 @@ import chylex.hee.entity.technical.EntityTechnicalSpawner;
 import chylex.hee.entity.technical.EntityTechnicalSpawner.IVirtualSpawner;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Vec;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.world.util.BoundingBox;
 import com.google.common.collect.ImmutableList;
 

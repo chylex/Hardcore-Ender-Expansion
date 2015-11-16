@@ -13,7 +13,7 @@ import chylex.hee.entity.weather.EntityWeatherLightningBoltSafe;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 
 public class EntityMobVampiricBat extends EntityBat implements IIgnoreEnderGoo{
 	public Entity target;

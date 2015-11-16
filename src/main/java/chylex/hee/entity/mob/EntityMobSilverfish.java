@@ -28,7 +28,7 @@ import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.damage.Damage;
 import chylex.hee.system.abstractions.damage.DamageUtil;
 import chylex.hee.system.abstractions.damage.IDamageModifier;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;

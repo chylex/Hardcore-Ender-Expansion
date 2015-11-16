@@ -10,7 +10,7 @@ import chylex.hee.game.save.types.player.CausatumFile;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventState;
 import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;

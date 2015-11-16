@@ -7,7 +7,7 @@ import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.game.save.types.player.CausatumFile;
 import chylex.hee.mechanics.causatum.Causatum.Progress;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.world.util.Range;
 
 public abstract class CausatumEventInstance{

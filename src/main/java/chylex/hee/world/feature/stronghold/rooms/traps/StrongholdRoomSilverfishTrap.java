@@ -8,7 +8,7 @@ import chylex.hee.entity.mob.EntityMobSilverfish;
 import chylex.hee.entity.technical.EntityTechnicalTrigger;
 import chylex.hee.entity.technical.EntityTechnicalTrigger.TriggerBase;
 import chylex.hee.system.abstractions.Pos.PosMutable;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.world.feature.stronghold.rooms.StrongholdRoom;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.dungeon.StructureDungeonPieceInst;

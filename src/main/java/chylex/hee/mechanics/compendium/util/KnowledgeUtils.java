@@ -17,7 +17,7 @@ import chylex.hee.mechanics.compendium.content.objects.ObjectBlock;
 import chylex.hee.mechanics.compendium.content.objects.ObjectMob;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.Vec;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.GameRegistryUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.common.registry.GameRegistry.UniqueIdentifier;

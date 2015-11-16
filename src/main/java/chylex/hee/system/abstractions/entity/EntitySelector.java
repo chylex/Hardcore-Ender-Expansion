@@ -1,4 +1,4 @@
-package chylex.hee.system.abstractions.util;
+package chylex.hee.system.abstractions.entity;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;

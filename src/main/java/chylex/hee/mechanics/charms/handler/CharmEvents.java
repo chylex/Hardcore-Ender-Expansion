@@ -41,7 +41,7 @@ import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.abstractions.Vec;
-import chylex.hee.system.abstractions.util.EntitySelector;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
