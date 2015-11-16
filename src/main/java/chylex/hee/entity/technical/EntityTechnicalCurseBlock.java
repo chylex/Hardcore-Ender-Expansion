@@ -89,6 +89,8 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 		else if (ticksExisted == 1)entityData.setByte(Data.CURSE_TYPE,curseType.damage+1);
 		
 		if (ticksExisted%20 == 1){
+			if (worldObj.getEntityByID(ownerEntityID) == null)ownerEntityID = -1;
+			
 			if (ownerEntityID == -1){
 				EntitySelector.players(worldObj).stream().filter(player -> PlayerDataHandler.getID(player).equals(ownerID)).findAny().ifPresent(player -> {
 					entityData.setInt(Data.OWNER_ID,ownerEntityID = player.getEntityId());
