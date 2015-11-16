@@ -3,7 +3,6 @@ import gnu.trove.map.hash.TObjectByteHashMap;
 import javax.annotation.Nullable;
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 public final class EntityDataWatcher{
@@ -137,7 +136,8 @@ public final class EntityDataWatcher{
 	// ITEMSTACK
 	
 	public void addItemStack(Enum<?> linkedEnum, int internalId){
-		addObject(linkedEnum,internalId,new ItemStack(Blocks.air,0));
+		watcher.addObjectByDataType(internalId,5);
+		idMap.put(linkedEnum,(byte)internalId);
 	}
 	
 	public void addItemStack(Enum<?> linkedEnum, int internalId, ItemStack initialValue){
@@ -145,11 +145,10 @@ public final class EntityDataWatcher{
 	}
 	
 	public @Nullable ItemStack getItemStack(Enum<?> linkedEnum){
-		ItemStack is = watcher.getWatchableObjectItemStack(getId(linkedEnum));
-		return is.stackSize == 0 ? null : is;
+		return watcher.getWatchableObjectItemStack(getId(linkedEnum));
 	}
 	
-	public void setItemStack(Enum<?> linkedEnum, ItemStack newValue){
-		watcher.updateObject(getId(linkedEnum),newValue == null ? new ItemStack(Blocks.air,0) : newValue);
+	public void setItemStack(Enum<?> linkedEnum, @Nullable ItemStack newValue){
+		watcher.updateObject(getId(linkedEnum),newValue);
 	}
 }
