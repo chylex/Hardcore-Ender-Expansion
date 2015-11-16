@@ -333,12 +333,6 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	public boolean isAggressive(){
 		return false;
 	}
-
-	@Override
-	public boolean isCarrying(){
-		ItemStack is = getCarrying();
-		return is != null && is.getItem() != Item.getItemFromBlock(Blocks.bedrock);
-	}
 	
 	@Override
 	public ItemStack getCarrying(){
