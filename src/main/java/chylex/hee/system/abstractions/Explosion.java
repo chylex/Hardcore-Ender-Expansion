@@ -18,7 +18,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -75,6 +74,7 @@ public class Explosion{
 	public boolean honorMobGriefingRule = false;
 	
 	private int randSeed;
+	private net.minecraft.world.Explosion vanillaExplosion;
 	private final TLongFloatHashMap blockResistanceCache = new TLongFloatHashMap(150); // TODO implement and profile
 	
 	public Explosion(World world, double x, double y, double z, float radius, Entity explodingEntity, Entity cause){
@@ -86,6 +86,8 @@ public class Explosion{
 		this.calcRand = new Random(this.randSeed = world.rand.nextInt());
 		this.explodingEntity = explodingEntity;
 		this.cause = null;
+		
+		this.vanillaExplosion = new net.minecraft.world.Explosion(world,explodingEntity,x,y,z,radius);
 	}
 	
 	public Explosion(World world, double x, double y, double z, float radius, Entity explodingEntity){
@@ -101,6 +103,8 @@ public class Explosion{
 		this.radius = buffer.readShort()/1000F;
 		this.calcRand = new Random(this.randSeed = buffer.readInt());
 		this.explodingEntity = this.cause = null;
+		
+		this.vanillaExplosion = new net.minecraft.world.Explosion(world,explodingEntity,x,y,z,radius);
 		
 		BooleanByte bb = new BooleanByte(buffer.readByte());
 		damageBlocks = bb.get(0);
@@ -141,9 +145,7 @@ public class Explosion{
 	}
 	
 	protected void handleBlocks(boolean client){
-		final net.minecraft.world.Explosion vanillaExplosion = new net.minecraft.world.Explosion(world,explodingEntity,x,y,z,radius);
-		
-		Map<Pos,Block> affected = new HashMap<>(client ? 400 : 150);
+		Map<Pos,Block> affected = new HashMap<>(client ? 256 : 128);
 		PosMutable mpos = new PosMutable(), prevPos = new PosMutable();
 		float prevResist = 0F;
 		double tempX, tempY, tempZ;
@@ -198,38 +200,7 @@ public class Explosion{
 		}
 		
 		if (damageBlocks){
-			float dropChance = 1F/radius;
-			
-			for(Entry<Pos,Block> entry:affected.entrySet()){
-				Pos pos = entry.getKey();
-				Block block = entry.getValue();
-				
-				if (client && world.rand.nextInt(5) <= 2){
-					double partX = pos.getX()+world.rand.nextFloat();
-					double partY = pos.getY()+world.rand.nextFloat();
-					double partZ = pos.getZ()+world.rand.nextFloat();
-					double diffX = partX-x, diffY = partY-y, diffZ = partZ-z;
-					double dist = MathUtil.distance(diffX,diffY,diffZ);
-					
-					diffX /= dist;
-					diffY /= dist;
-					diffZ /= dist;
-					double mp = (0.5D/(dist/radius+0.1D))*(world.rand.nextFloat()*world.rand.nextFloat()+0.3F);
-					diffX *= mp;
-					diffY *= mp;
-					diffZ *= mp;
-					
-					HardcoreEnderExpansion.fx.global("explosion",(partX+x)/2D,(partY+y)/2D,(partZ+z)/2D,diffX,diffY,diffZ);
-					HardcoreEnderExpansion.fx.global("smoke",partX,partY,partZ,diffX,diffY,diffZ);
-				}
-				else if (!client){
-					if (block.canDropFromExplosion(vanillaExplosion) && world.loadedEntityList.size() < 1000){
-						block.dropBlockAsItemWithChance(world,pos.getX(),pos.getY(),pos.getZ(),pos.getMetadata(world),dropChance,0);
-					}
-					
-					block.onBlockExploded(world,pos.getX(),pos.getY(),pos.getZ(),vanillaExplosion);
-				}
-			}
+			onDamageBlocks(affected,client);
 		}
 		
 		if (spawnFire){
@@ -242,13 +213,13 @@ public class Explosion{
 	}
 	
 	protected void handleEntities(boolean client){
-		final net.minecraft.world.Explosion vanillaExplosion = new net.minecraft.world.Explosion(world,explodingEntity,x,y,z,radius);
-		
 		double tempX, tempY, tempZ, totalDist;
 		float doubleRadius = radius*2F;
 		
 		final List<Entity> entities = getEntitiesOptimized(world,AxisAlignedBB.getBoundingBox(x,y,z,x,y,z).expand(doubleRadius,doubleRadius,doubleRadius));
 		final Vec3 locationVec = Vec3.createVectorHelper(x,y,z);
+		
+		final DamageSource damageSource = DamageSource.setExplosionSource(vanillaExplosion);
 
 		for(Entity entity:entities){
 			if (entity == explodingEntity)continue;
@@ -269,7 +240,7 @@ public class Explosion{
 					double blastPower = (1D-entityDist)*world.getBlockDensity(locationVec,entity.boundingBox);
 					
 					if (damageEntities && !client){
-						onDamageEntity(entity,blastPower,DamageSource.setExplosionSource(vanillaExplosion));
+						onDamageEntity(entity,blastPower,damageSource);
 					}
 					
 					if (knockEntities){
@@ -279,6 +250,41 @@ public class Explosion{
 						entity.motionZ += tempZ*knockbackMp;
 					}
 				}
+			}
+		}
+	}
+	
+	protected void onDamageBlocks(Map<Pos,Block> affected,  boolean client){
+		float dropChance = 1F/radius;
+		
+		for(Entry<Pos,Block> entry:affected.entrySet()){
+			Pos pos = entry.getKey();
+			Block block = entry.getValue();
+			
+			if (client && world.rand.nextInt(5) <= 2){
+				double partX = pos.getX()+world.rand.nextFloat();
+				double partY = pos.getY()+world.rand.nextFloat();
+				double partZ = pos.getZ()+world.rand.nextFloat();
+				double diffX = partX-x, diffY = partY-y, diffZ = partZ-z;
+				double dist = MathUtil.distance(diffX,diffY,diffZ);
+				
+				diffX /= dist;
+				diffY /= dist;
+				diffZ /= dist;
+				double mp = (0.5D/(dist/radius+0.1D))*(world.rand.nextFloat()*world.rand.nextFloat()+0.3F);
+				diffX *= mp;
+				diffY *= mp;
+				diffZ *= mp;
+				
+				HardcoreEnderExpansion.fx.global("explosion",(partX+x)/2D,(partY+y)/2D,(partZ+z)/2D,diffX,diffY,diffZ);
+				HardcoreEnderExpansion.fx.global("smoke",partX,partY,partZ,diffX,diffY,diffZ);
+			}
+			else if (!client){
+				if (block.canDropFromExplosion(vanillaExplosion) && world.loadedEntityList.size() < 1000){
+					block.dropBlockAsItemWithChance(world,pos.getX(),pos.getY(),pos.getZ(),pos.getMetadata(world),dropChance,0);
+				}
+				
+				block.onBlockExploded(world,pos.getX(),pos.getY(),pos.getZ(),vanillaExplosion);
 			}
 		}
 	}
@@ -295,22 +301,25 @@ public class Explosion{
 		entity.attackEntityFrom(source,((int)((blastPower*blastPower+blastPower)/2D*16D*radius+1D))); // TODO
 	}
 	
+	/**
+	 * Retrieves entity list from an area. This is a replacement to getEntitiesWithinAABB, which has a lot of unnecessary clutter.
+	 */
 	private static List<Entity> getEntitiesOptimized(World world, AxisAlignedBB bb){
 		final List<Entity> list = new ArrayList<>();
-		final int cx1 = MathHelper.floor_double((bb.minX-World.MAX_ENTITY_RADIUS)*0.0625D); // 1/16
-		final int cx2 = MathHelper.floor_double((bb.maxX+World.MAX_ENTITY_RADIUS)*0.0625D);
-		final int cz1 = MathHelper.floor_double((bb.minZ-World.MAX_ENTITY_RADIUS)*0.0625D);
-		final int cz2 = MathHelper.floor_double((bb.maxZ+World.MAX_ENTITY_RADIUS)*0.0625D);
-		final int cy1 = MathHelper.floor_double((bb.minY+World.MAX_ENTITY_RADIUS)*0.0625D);
-		final int cy2 = MathHelper.floor_double((bb.maxY+World.MAX_ENTITY_RADIUS)*0.0625D);
+		final int cx1 = MathUtil.floor((bb.minX-World.MAX_ENTITY_RADIUS)*0.0625D); // 1/16
+		final int cx2 = MathUtil.floor((bb.maxX+World.MAX_ENTITY_RADIUS)*0.0625D);
+		final int cz1 = MathUtil.floor((bb.minZ-World.MAX_ENTITY_RADIUS)*0.0625D);
+		final int cz2 = MathUtil.floor((bb.maxZ+World.MAX_ENTITY_RADIUS)*0.0625D);
+		final int cy1 = MathUtil.floor((bb.minY+World.MAX_ENTITY_RADIUS)*0.0625D);
+		final int cy2 = MathUtil.floor((bb.maxY+World.MAX_ENTITY_RADIUS)*0.0625D);
 		
-		for(int x = cx1; x <= cx2; ++x){
-			for(int z = cz1; z <= cz2; ++z){
+		for(int x = cx1; x <= cx2; x++){
+			for(int z = cz1; z <= cz2; z++){
 				Chunk chunk = world.getChunkFromChunkCoords(x,z);
 				int testY1 = MathUtil.clamp(cy1,0,chunk.entityLists.length-1);
 				int testY2 = MathUtil.clamp(cy2,0,chunk.entityLists.length-1);
 				
-				for(int y = testY1; y <= testY2; ++y){
+				for(int y = testY1; y <= testY2; y++){
 					for(Entity entity:(List<Entity>)chunk.entityLists[y]){
 						if (!entity.isDead && entity.boundingBox.intersectsWith(bb))list.add(entity);
 					}
