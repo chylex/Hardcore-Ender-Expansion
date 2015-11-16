@@ -27,6 +27,7 @@ import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
@@ -97,7 +98,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					attackType = null;
 				}
 				else{
-					List<EntityPlayer> nearPlayers = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(8D,4D,8D));
+					List<EntityPlayer> nearPlayers = EntitySelector.players(worldObj,boundingBox.expand(8D,4D,8D));
 					
 					if (!nearPlayers.isEmpty()){
 						target = nearPlayers.get(0);
@@ -153,7 +154,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 								}
 							}
 							
-							for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,6D,6D))){
+							for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(6D,6D,6D))){
 								Vec vec = Vec.between(this,player).normalized().multiplied(player.isBlocking() ? 1.4D : 2.4D);
 								
 								PacketPipeline.sendToPlayer(player,new C07AddPlayerVelocity(vec.x,0.34D,vec.z));
@@ -173,7 +174,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					else if (attackType == AttackType.Nausea){
 						if (attackAnim == 17){
 							PotionEffect effNausea = new PotionEffect(Potion.confusion.id,220,0,true);
-							for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,6D,6D)))player.addPotionEffect(effNausea);
+							for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(6D,6D,6D)))player.addPotionEffect(effNausea);
 						}
 						else if (attackAnim == 19){
 							PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.ENDEREYE_ATTACK_CONFUSION,posX,posY,posZ,1F,rand.nextFloat()*0.2F+0.9F));
@@ -182,7 +183,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 							PotionEffect effBlind = new PotionEffect(Potion.blindness.id,160,0,true),
 										 effSlow = new PotionEffect(Potion.moveSlowdown.id,120,0,true);
 							
-							for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(6D,6D,6D))){
+							for(EntityPlayer player:EntitySelector.players(worldObj,boundingBox.expand(6D,6D,6D))){
 								player.addPotionEffect(effBlind);
 								player.addPotionEffect(effSlow);
 							}

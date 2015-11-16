@@ -22,6 +22,7 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.weight.WeightedMap;
 import chylex.hee.system.util.BlockPosM;
@@ -127,7 +128,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		}
 
 		World world = altar.getWorldObj();
-		List<EntityItem> thrownItems = world.getEntitiesWithinAABB(EntityItem.class,itemBoundingBox);
+		List<EntityItem> thrownItems = EntitySelector.type(world,EntityItem.class,itemBoundingBox);
 		double targX, targY, targZ;
 		
 		for(EntityItem item:thrownItems){
@@ -137,7 +138,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				targZ = loc.z+0.5D;
 				
 				if (Math.abs(item.posX-targX) > 0.001D || Math.abs(item.posY-targY) > 0.001D || Math.abs(item.posZ-targZ) > 0.001D){
-					if (world.getEntitiesWithinAABB(EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).isEmpty() &&
+					if (EntitySelector.type(world,EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).isEmpty() &&
 						Math.sqrt(MathUtil.square(targX-item.posX)+MathUtil.square(targY-item.posY)+MathUtil.square(targZ-item.posZ)) < 0.275D){
 						world.spawnEntityInWorld(new EntityItemAltar(world,targX,targY,targZ,item,EssenceType.DRAGON.id));
 					}

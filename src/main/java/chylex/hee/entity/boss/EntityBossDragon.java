@@ -54,6 +54,7 @@ import chylex.hee.packets.client.C06SetPlayerVelocity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
@@ -530,7 +531,7 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 
 		if (rand.nextInt(10) == 0){
 			float dist = 30F+4F*worldObj.difficultySetting.getDifficultyId()+(ModCommonProxy.opMobs ? 8F : 0F);
-			healingEnderCrystal = DragonUtil.getClosestEntity(this,(List<EntityEnderCrystal>)worldObj.getEntitiesWithinAABB(EntityEnderCrystal.class,boundingBox.expand(dist,dist,dist)));
+			healingEnderCrystal = DragonUtil.getClosestEntity(this,EntitySelector.type(worldObj,EntityEnderCrystal.class,boundingBox.expand(dist,dist,dist)));
 		}
 	}
 

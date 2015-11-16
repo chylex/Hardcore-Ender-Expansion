@@ -297,7 +297,7 @@ public final class CharmEvents{
 				
 				if (redirMobs.length > 0){
 					float[] redirAmt = getProp(targetPlayer,"rediramt");
-					List<EntityLivingBase> nearbyEntities = e.entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class,targetPlayer.boundingBox.expand(6D,3D,6D));
+					List<EntityLivingBase> nearbyEntities = EntitySelector.living(e.entity.worldObj,targetPlayer.boundingBox.expand(6D,3D,6D));
 					Iterator<EntityLivingBase> iter = nearbyEntities.iterator();
 					
 					for(int a = 0; a < redirMobs.length; a++){
@@ -391,9 +391,7 @@ public final class CharmEvents{
 				float lastDamage = e.entityLiving.lastDamage;
 				
 				for(int a = 0; a < impactRad.length; a++){
-					List<EntityLivingBase> entities = e.entity.worldObj.getEntitiesWithinAABB(EntityLivingBase.class,e.entity.boundingBox.expand(impactRad[a],impactRad[a],impactRad[a]));
-					
-					for(EntityLivingBase entity:entities){
+					for(EntityLivingBase entity:EntitySelector.living(e.entity.worldObj,e.entity.boundingBox.expand(impactRad[a],impactRad[a],impactRad[a]))){
 						if (entity == sourcePlayer || entity == e.entity)continue;
 						if (entity.getDistanceToEntity(e.entity) <= impactRad[a]){
 							entity.attackEntityFrom(DamageSource.generic,impactAmt[a]*lastDamage);

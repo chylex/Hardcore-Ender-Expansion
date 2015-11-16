@@ -1,5 +1,4 @@
 package chylex.hee.entity.projectile;
-import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -7,6 +6,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 
 public class EntityProjectileMinerShot extends EntityFireball{
 	public EntityProjectileMinerShot(World world){
@@ -54,8 +54,7 @@ public class EntityProjectileMinerShot extends EntityFireball{
 				mop.entityHit.setFire(4);
 			}
 			else{
-				List<EntityLivingBase> entities = worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.5D,1.5D,1.5D));
-				for(EntityLivingBase entity:entities)entity.setFire(4);
+				for(EntityLivingBase entity:EntitySelector.living(worldObj,boundingBox.expand(1.5D,1.5D,1.5D)))entity.setFire(4);
 			}
 		}
 		

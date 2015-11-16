@@ -131,7 +131,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		
 		if (healAbility > 0 && --healTimer <= 0){
 			healTimer = 25;
-			List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class,boundingBox.expand(5D,1D,5D));
+			List<EntityLiving> list = EntitySelector.mobs(worldObj,boundingBox.expand(5D,1D,5D));
 			
 			if (!list.isEmpty()){
 				for(int attempt = 0, amt = list.size(); attempt < 15; attempt++){

@@ -1,5 +1,4 @@
 package chylex.hee.tileentity;
-import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -9,7 +8,8 @@ import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.proxy.ModCommonProxy;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 
 public class TileEntityLaserBeam extends TileEntity{
 	private float beamAngle;
@@ -20,10 +20,10 @@ public class TileEntityLaserBeam extends TileEntity{
 		beamAngle += 1.5F;
 		
 		if (!worldObj.isRemote && --ticksLeft <= 0){
-			BlockPosM.tmp(xCoord,yCoord,zCoord).setAir(worldObj);
+			Pos.at(this).setAir(worldObj);
 			double x = xCoord+0.5D, z = zCoord+0.5D;
 			
-			for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(x-1.5D,yCoord,z-1.5D,x+1.5D,yCoord+1D,z+1.5D))){
+			for(EntityPlayer player:EntitySelector.players(worldObj,AxisAlignedBB.getBoundingBox(x-1.5D,yCoord,z-1.5D,x+1.5D,yCoord+1D,z+1.5D))){
 				player.hurtResistantTime = 0;
 				player.attackEntityFrom(DamageSource.magic,ModCommonProxy.opMobs ? 5F : 3F);
 				player.hurtResistantTime = 0;
@@ -46,7 +46,6 @@ public class TileEntityLaserBeam extends TileEntity{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		
 		nbt.setFloat("beamAng",beamAngle);
 		nbt.setInteger("ticksLeft",ticksLeft);
 	}
@@ -54,7 +53,6 @@ public class TileEntityLaserBeam extends TileEntity{
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
-		
 		beamAngle = nbt.getFloat("beamAng");
 		ticksLeft = nbt.getInteger("ticksLeft");
 	}

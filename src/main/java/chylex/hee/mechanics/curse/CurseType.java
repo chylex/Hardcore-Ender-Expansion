@@ -24,6 +24,7 @@ import chylex.hee.init.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
 import chylex.hee.system.util.MathUtil;
@@ -137,7 +138,7 @@ public enum CurseType{
 		private EntityLiving getMob(EntityLiving me, double dist){
 			List<EntityLiving> mobs = new ArrayList<>();
 			
-			for(EntityLiving entity:(List<EntityLiving>)me.worldObj.getEntitiesWithinAABB(EntityLiving.class,me.boundingBox.expand(dist,dist/2,dist))){
+			for(EntityLiving entity:EntitySelector.mobs(me.worldObj,me.boundingBox.expand(dist,dist/2,dist))){
 				if (entity == me || me.getDistanceToEntity(entity) > dist)continue;
 				mobs.add(entity);
 			}

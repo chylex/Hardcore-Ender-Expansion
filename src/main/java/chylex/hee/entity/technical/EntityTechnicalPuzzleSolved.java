@@ -12,6 +12,7 @@ import chylex.hee.init.BlockList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
@@ -61,7 +62,7 @@ public class EntityTechnicalPuzzleSolved extends EntityTechnicalBase{
 		else if (appearTimer == 69){
 			if (Pos.at(this).getBlock(worldObj) != BlockList.dungeon_puzzle)setDead();
 			else if (worldObj.getClosestPlayerToEntity(this,1D) != null){
-				for(EntityPlayer player:(List<EntityPlayer>)worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(minX,posY,minZ,maxX,posY+3D,maxZ))){
+				for(EntityPlayer player:EntitySelector.players(worldObj,AxisAlignedBB.getBoundingBox(minX,posY,minZ,maxX,posY+3D,maxZ))){
 					Pos pos = Pos.at(player.posX,posY,player.posZ);
 					
 					if (pos.getBlock(worldObj) == BlockList.dungeon_puzzle){

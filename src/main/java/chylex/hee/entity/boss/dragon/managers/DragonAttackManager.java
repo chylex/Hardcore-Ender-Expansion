@@ -16,6 +16,7 @@ import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.entity.boss.dragon.attacks.passive.DragonPassiveAttackBase;
 import chylex.hee.entity.boss.dragon.attacks.special.DragonSpecialAttackBase;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.collections.weight.WeightedMap;
 import chylex.hee.system.util.MathUtil;
@@ -68,7 +69,7 @@ public class DragonAttackManager{
 	}
 	
 	public List<EntityPlayer> getViablePlayers(){
-		List<EntityPlayer> players = dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,AxisAlignedBB.getBoundingBox(-160D,-32D,-160D,160D,512D,160D));
+		List<EntityPlayer> players = EntitySelector.players(dragon.worldObj,AxisAlignedBB.getBoundingBox(-160D,-32D,-160D,160D,512D,160D));
 		
 		if (players.size() > 1){
 			for(Iterator<EntityPlayer> iter = players.iterator(); iter.hasNext();){
@@ -123,7 +124,7 @@ public class DragonAttackManager{
 	public boolean biteClosePlayers(){
 		boolean res = false;
 		
-		for(EntityPlayer player:(List<EntityPlayer>)dragon.worldObj.getEntitiesWithinAABB(EntityPlayer.class,dragon.dragonPartHead.boundingBox.expand(2.2D,1.5D,2.2D))){
+		for(EntityPlayer player:EntitySelector.players(dragon.worldObj,dragon.dragonPartHead.boundingBox.expand(2.2D,1.5D,2.2D))){
 			int diff = dragon.worldObj.difficultySetting.getDifficultyId(), rm;
 			player.attackEntityFrom(DamageSource.causeMobDamage(dragon),(ModCommonProxy.opMobs ? 14F : 9F)+diff);
 			

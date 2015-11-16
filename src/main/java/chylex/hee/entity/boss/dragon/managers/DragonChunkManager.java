@@ -15,6 +15,7 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.game.save.SaveData;
 import chylex.hee.game.save.types.global.DragonFile;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.logging.Stopwatch;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -121,7 +122,7 @@ public class DragonChunkManager implements LoadingCallback{
 			e.world.getChunkFromChunkCoords(chunk.chunkXPos,chunk.chunkZPos);
 			
 			int xx = chunk.chunkXPos*16, zz = chunk.chunkZPos*16;
-			List<EntityBossDragon> list = e.world.getEntitiesWithinAABB(EntityBossDragon.class,AxisAlignedBB.getBoundingBox(xx,-32,zz,xx+16,512,zz+16));
+			List<EntityBossDragon> list = EntitySelector.type(e.world,EntityBossDragon.class,AxisAlignedBB.getBoundingBox(xx,-32,zz,xx+16,512,zz+16));
 			
 			if (!list.isEmpty()){
 				Log.debug("Loading dragon based on last stored chunk.");

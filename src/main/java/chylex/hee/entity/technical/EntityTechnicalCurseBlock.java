@@ -15,6 +15,7 @@ import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -69,7 +70,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 				boolean forceRenderFX = client.getEntityId() == ownerEntityID || (client.getHeldItem() != null && client.getHeldItem().getItem() == ItemList.curse_amulet);
 				
 				if (!forceRenderFX){
-					for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(1.75D,0.1D,1.75D))){
+					for(EntityLivingBase entity:EntitySelector.living(worldObj,boundingBox.expand(1.75D,0.1D,1.75D))){
 						if (entity == client){
 							disappearTimer = 120;
 							break;

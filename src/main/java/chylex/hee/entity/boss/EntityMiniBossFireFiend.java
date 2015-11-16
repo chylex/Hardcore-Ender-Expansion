@@ -30,6 +30,7 @@ import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
@@ -140,7 +141,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				if (isAngry && worldObj.difficultySetting != EnumDifficulty.PEACEFUL && rand.nextInt(5) == 0){
 					for(EntityPlayer player:getNearbyPlayers()){
 						int targeted = 0;
-						List<EntityMobFireGolem> golems = worldObj.getEntitiesWithinAABB(EntityMobFireGolem.class,player.boundingBox.expand(32D,32D,32D));
+						List<EntityMobFireGolem> golems = EntitySelector.type(worldObj,EntityMobFireGolem.class,player.boundingBox.expand(32D,32D,32D));
 						
 						for(EntityMobFireGolem golem:golems){
 							if (golem.getEntityToAttack() == player && ++targeted >= 2)break;
@@ -148,7 +149,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 						
 						if (targeted >= 2)continue;
 						
-						golems = worldObj.getEntitiesWithinAABB(EntityMobFireGolem.class,player.boundingBox.expand(16D,16D,16D));
+						golems = EntitySelector.type(worldObj,EntityMobFireGolem.class,player.boundingBox.expand(16D,16D,16D));
 						if (golems.isEmpty())continue;
 						
 						for(int attempt = 0, called = ModCommonProxy.opMobs ? 3 : 2; attempt < 3 && !golems.isEmpty() && called > 0; attempt++){
@@ -211,7 +212,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 			}
 		}
 		
-		for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(0.8D,1.65D,0.8D))){
+		for(EntityLivingBase e:EntitySelector.living(worldObj,boundingBox.expand(0.8D,1.65D,0.8D))){
 			if (e == this || e.isImmuneToFire())continue;
 			e.setFire(2+rand.nextInt(4));
 			e.hurtResistantTime = 0;
@@ -230,7 +231,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	}
 	
 	private List<EntityPlayer> getNearbyPlayers(){
-		List<EntityPlayer> allNearby = worldObj.getEntitiesWithinAABB(EntityPlayer.class,boundingBox.expand(164D,164D,164D));
+		List<EntityPlayer> allNearby = EntitySelector.players(worldObj,boundingBox.expand(164D,164D,164D));
 		
 		for(Iterator<EntityPlayer> iter = allNearby.iterator(); iter.hasNext();){
 			EntityPlayer player = iter.next();

@@ -32,6 +32,7 @@ import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
@@ -365,7 +366,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 			
 			if (rand.nextInt(7) == 0 || (getHealth() <= 0F && rand.nextInt(3) != 0)){
 				int maxTargeted = worldObj.difficultySetting.getDifficultyId()-2+rand.nextInt(2);
-				List<EntityMobHauntedMiner> nearby = worldObj.getEntitiesWithinAABB(EntityMobHauntedMiner.class,boundingBox.expand(48D,30D,48D)), viable = new ArrayList<>();
+				List<EntityMobHauntedMiner> nearby = EntitySelector.type(worldObj,EntityMobHauntedMiner.class,boundingBox.expand(48D,30D,48D)), viable = new ArrayList<>();
 				
 				while(!nearby.isEmpty()){
 					EntityMobHauntedMiner miner = nearby.remove(rand.nextInt(nearby.size()));

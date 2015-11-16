@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import chylex.hee.entity.boss.EntityBossDragon;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 
 public class EntityBlockFallingObsidian extends EntityFallingBlock{
 	public EntityBlockFallingObsidian(World world){
@@ -49,7 +50,7 @@ public class EntityBlockFallingObsidian extends EntityFallingBlock{
 			motionZ *= 0.7D;
 			motionY *= -0.5D;
 
-			if (field_145812_b > 5 && pos.getBlock(worldObj) != Blocks.piston_extension && worldObj.getEntitiesWithinAABB(EntityBossDragon.class,boundingBox.expand(1,1,1)).isEmpty()){
+			if (field_145812_b > 5 && pos.getBlock(worldObj) != Blocks.piston_extension && EntitySelector.type(worldObj,EntityBossDragon.class,boundingBox.expand(1,1,1)).isEmpty()){
 				if (pos.setBlock(worldObj,func_145805_f()))setDead();
 			}
 		}

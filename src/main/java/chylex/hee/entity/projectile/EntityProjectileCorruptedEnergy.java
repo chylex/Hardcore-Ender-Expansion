@@ -1,5 +1,4 @@
 package chylex.hee.entity.projectile;
-import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
@@ -8,6 +7,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 
 public class EntityProjectileCorruptedEnergy extends EntityFireball{
 	public EntityProjectileCorruptedEnergy(World world){
@@ -42,7 +42,7 @@ public class EntityProjectileCorruptedEnergy extends EntityFireball{
 		}
 		
 		if (ticksExisted % 3 == 0){
-			for(EntityLivingBase e:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.offset(0D,0.5D,0D).expand(1D,1D,1D))){
+			for(EntityLivingBase e:EntitySelector.living(worldObj,boundingBox.offset(0D,0.5D,0D).expand(1D,1D,1D))){
 				if (e.hurtResistantTime == 0 && !(e instanceof IIgnoreEnderGoo)){
 					// TODO MultiDamage.from(shootingEntity).addMagic(2F).addScaled(ModCommonProxy.opMobs ? 14F : 9F).attack(e);
 					e.hurtResistantTime = 5;

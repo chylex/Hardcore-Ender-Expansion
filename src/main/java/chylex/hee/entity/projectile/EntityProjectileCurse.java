@@ -1,5 +1,4 @@
 package chylex.hee.entity.projectile;
-import java.util.List;
 import java.util.UUID;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
@@ -14,6 +13,7 @@ import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
+import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
 
 public class EntityProjectileCurse extends EntityThrowable{
@@ -64,7 +64,7 @@ public class EntityProjectileCurse extends EntityThrowable{
 	protected void onImpact(MovingObjectPosition mop){
 		if (!worldObj.isRemote){
 			if (mop.typeOfHit == MovingObjectType.ENTITY){
-				for(EntityLivingBase entity:(List<EntityLivingBase>)worldObj.getEntitiesWithinAABB(EntityLivingBase.class,boundingBox.expand(4D,2D,4D))){
+				for(EntityLivingBase entity:EntitySelector.living(worldObj,boundingBox.expand(4D,2D,4D))){
 					if (getDistanceSqToEntity(entity) < 16D && !entity.getUniqueID().equals(throwerID) && !(entity instanceof IBossDisplayData))worldObj.spawnEntityInWorld(new EntityTechnicalCurseEntity(worldObj,entity,curseType,eternal));
 				}
 			}
