@@ -1,5 +1,4 @@
 package chylex.hee.entity.projectile;
-import java.util.UUID;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,16 +10,17 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
+import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.mechanics.curse.CurseType;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
-import chylex.hee.system.util.BlockPosM;
 
 public class EntityProjectileCurse extends EntityThrowable{
 	private enum Data{ CURSE_TYPE }
 	
 	private EntityDataWatcher entityData;
-	private UUID throwerID;
+	private String throwerID;
 	private CurseType curseType;
 	private boolean eternal;
 	
@@ -30,7 +30,7 @@ public class EntityProjectileCurse extends EntityThrowable{
 
 	public EntityProjectileCurse(World world, EntityPlayer thrower, CurseType type, boolean eternal){
 		super(world,thrower);
-		this.throwerID = thrower.getUniqueID();
+		this.throwerID = PlayerDataHandler.getID(thrower);
 		this.curseType = type;
 		this.eternal = eternal;
 	}
@@ -69,8 +69,9 @@ public class EntityProjectileCurse extends EntityThrowable{
 				}
 			}
 			else if (mop.typeOfHit == MovingObjectType.BLOCK){
-				int yy = BlockPosM.tmp(mop.blockX,mop.blockY,mop.blockZ).getBlock(worldObj).isReplaceable(worldObj,mop.blockX,mop.blockY,mop.blockZ) ? mop.blockY-1 : mop.blockY;
-				worldObj.spawnEntityInWorld(new EntityTechnicalCurseBlock(worldObj,mop.blockX,yy,mop.blockZ,throwerID,curseType,eternal));
+				Pos hitPos = Pos.at(mop);
+				if (hitPos.getBlock(worldObj).isReplaceable(worldObj,hitPos.getX(),hitPos.getY(),hitPos.getZ()))hitPos = hitPos.getDown();
+				worldObj.spawnEntityInWorld(new EntityTechnicalCurseBlock(worldObj,hitPos,throwerID,curseType,eternal));
 			}
 
 			setDead();
@@ -86,15 +87,15 @@ public class EntityProjectileCurse extends EntityThrowable{
 		super.writeEntityToNBT(nbt);
 		nbt.setByte("curse",curseType.damage);
 		nbt.setBoolean("eternal",eternal);
-		nbt.setLong("thr1",throwerID.getLeastSignificantBits());
-		nbt.setLong("thr2",throwerID.getMostSignificantBits());
+		nbt.setString("thr",throwerID);
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
 		if ((curseType = CurseType.getFromDamage(nbt.getByte("curse"))) == null)setDead();
+		if (nbt.hasKey("thr1"))setDead();
 		eternal = nbt.getBoolean("eternal");
-		throwerID = new UUID(nbt.getLong("thr2"),nbt.getLong("thr1"));
+		throwerID = nbt.getString("thr");
 	}
 }

@@ -18,8 +18,9 @@ import chylex.hee.entity.projectile.EntityProjectileCurse;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.game.achievements.AchievementManager;
+import chylex.hee.game.save.handlers.PlayerDataHandler;
 import chylex.hee.mechanics.curse.CurseType;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -33,27 +34,23 @@ public class ItemCurse extends Item{
 	
 	@Override
 	public boolean onItemUse(ItemStack is, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ){
-		BlockPosM tmpPos = BlockPosM.tmp(x,y,z);
-		Block block = tmpPos.getBlock(world);
-
-		if (block == Blocks.snow_layer && (tmpPos.getMetadata(world)&7) < 1)side = 1;
-		else if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush && !block.isReplaceable(world,x,y,z)){
-			tmpPos.move(side);
-		}
-
 		if (is.stackSize == 0)return false;
-		else{
-			CurseType type = CurseType.getFromDamage(is.getItemDamage());
-			if (type == null)return false;
-			
-			if (!world.isRemote){
-				world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,tmpPos.x,tmpPos.y,tmpPos.z,player.getUniqueID(),type,CurseType.isEternal(is.getItemDamage())));
-				--is.stackSize;
-			}
-			else world.playSound(tmpPos.x+0.5D,tmpPos.y,tmpPos.z+0.5D,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
-			
-			return true;
+		
+		Pos pos = Pos.at(x,y,z);
+		
+		Block block = pos.getBlock(world);
+		if (block != Blocks.vine && block != Blocks.tallgrass && block != Blocks.deadbush && !block.isReplaceable(world,x,y,z))pos = pos.offset(side);
+		
+		CurseType type = CurseType.getFromDamage(is.getItemDamage());
+		if (type == null)return false;
+		
+		if (!world.isRemote){
+			world.spawnEntityInWorld(new EntityTechnicalCurseBlock(world,pos,PlayerDataHandler.getID(player),type,CurseType.isEternal(is.getItemDamage())));
+			--is.stackSize;
 		}
+		else world.playSound(pos.getX()+0.5D,pos.getY(),pos.getZ()+0.5D,"hardcoreenderexpansion:mob.random.curse",0.8F,0.9F+itemRand.nextFloat()*0.2F,false);
+		
+		return true;
 	}
 	
 	@Override
@@ -126,11 +123,13 @@ public class ItemCurse extends Item{
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public int getRenderPasses(int metadata){
 		return 2;
 	}
 	
 	@Override
+	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iconRegister){
 		icon1 = iconRegister.registerIcon(iconString+"_1");
 		icon2 = iconRegister.registerIcon(iconString+"_2");
