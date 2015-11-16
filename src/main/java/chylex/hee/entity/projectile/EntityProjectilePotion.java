@@ -38,6 +38,7 @@ public class EntityProjectilePotion extends EntityPotion{
 	@Override
 	protected void entityInit(){
 		super.entityInit();
+		entityData = new EntityDataWatcher(this);
 		entityData.addShort(Data.ITEM_ID);
 	}
 	
