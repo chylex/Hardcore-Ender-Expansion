@@ -4,8 +4,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.mechanics.misc.Baconizer;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 
 public class EntityMobInfestedBat extends EntityBat{
+	private enum Data{ SCALE }
+	
+	private EntityDataWatcher entityData;
+	
 	public EntityMobInfestedBat(World world){
 		super(world);
 	}
@@ -13,11 +18,12 @@ public class EntityMobInfestedBat extends EntityBat{
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(17,0.35F+rand.nextFloat()*0.35F);
+		entityData = new EntityDataWatcher(this);
+		entityData.addFloat(Data.SCALE,0.35F+rand.nextFloat()*0.35F);
 	}
 	
 	public float getScale(){
-		return dataWatcher.getWatchableObjectFloat(17);
+		return entityData.getFloat(Data.SCALE);
 	}
 
 	@Override
@@ -31,7 +37,7 @@ public class EntityMobInfestedBat extends EntityBat{
 		super.readEntityFromNBT(nbt);
 		
 		float scale = nbt.getFloat("scale");
-		if (scale != 0F)dataWatcher.updateObject(17,scale);
+		if (scale != 0F)entityData.setFloat(Data.SCALE,scale);
 	}
 
 	@Override

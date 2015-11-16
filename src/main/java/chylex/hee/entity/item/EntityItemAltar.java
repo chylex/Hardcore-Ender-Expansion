@@ -7,8 +7,12 @@ import net.minecraft.world.World;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.game.achievements.AchievementManager;
 import chylex.hee.init.ItemList;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 
 public class EntityItemAltar extends EntityItem{
+	private enum Data{ SPARKLING };
+	
+	private EntityDataWatcher entityData;
 	public byte pedestalUpdate;
 	public byte essenceType;
 	
@@ -42,7 +46,8 @@ public class EntityItemAltar extends EntityItem{
 	@Override
 	public void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(11,Byte.valueOf((byte)0));
+		entityData = new EntityDataWatcher(this);
+		entityData.addBoolean(Data.SPARKLING);
 	}
 
 	@Override
@@ -65,7 +70,7 @@ public class EntityItemAltar extends EntityItem{
 		
 		++age;
 		
-		if (worldObj.isRemote && (ticksExisted&3) == 1 && dataWatcher.getWatchableObjectByte(11) == 1){
+		if (worldObj.isRemote && (ticksExisted&3) == 1 && entityData.getBoolean(Data.SPARKLING)){
 			HardcoreEnderExpansion.fx.altarAura(this);
 		}
 
@@ -91,20 +96,20 @@ public class EntityItemAltar extends EntityItem{
 	}
 	
 	public void setSparkling(){
-		dataWatcher.updateObject(11,Byte.valueOf((byte)1));
+		entityData.setBoolean(Data.SPARKLING,true);
 	}
 	
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setBoolean("sparkling",dataWatcher.getWatchableObjectByte(11) == 1);
+		nbt.setBoolean("sparkling",entityData.getBoolean(Data.SPARKLING));
 		nbt.setByte("essenceType",essenceType);
 	}
 	
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		dataWatcher.updateObject(11,(byte)(nbt.getBoolean("sparkling") ? 1 : 0));
+		if (nbt.getBoolean("sparkling"))entityData.setBoolean(Data.SPARKLING,true);
 		essenceType = nbt.getByte("essenceType");
 	}
 }

@@ -9,9 +9,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import chylex.hee.item.ItemAbstractPotion;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 
 public class EntityProjectilePotion extends EntityPotion{
+	private enum Data{ ITEM_ID }
+	
+	private EntityDataWatcher entityData;
 	private Item potionItem;
 	
 	public EntityProjectilePotion(World world){
@@ -25,7 +29,7 @@ public class EntityProjectilePotion extends EntityPotion{
 	
 	public Item getPotionItem(){
 		if (potionItem == null || potionItem == Items.potionitem){
-			if ((potionItem = Item.getItemById(dataWatcher.getWatchableObjectShort(16))) == null)potionItem = Items.potionitem;
+			if ((potionItem = Item.getItemById(entityData.getShort(Data.ITEM_ID))) == null)potionItem = Items.potionitem;
 		}
 		
 		return potionItem;
@@ -33,13 +37,14 @@ public class EntityProjectilePotion extends EntityPotion{
 	
 	@Override
 	protected void entityInit(){
-		dataWatcher.addObject(16,Short.valueOf((short)0));
+		super.entityInit();
+		entityData.addShort(Data.ITEM_ID);
 	}
 	
 	@Override
 	public void onUpdate(){
 		super.onUpdate();
-		if (ticksExisted == 1)dataWatcher.updateObject(16,(short)Item.getIdFromItem(potionItem));
+		if (ticksExisted == 1)entityData.setShort(Data.ITEM_ID,Item.getIdFromItem(potionItem));
 	}
 	
 	@Override

@@ -13,9 +13,13 @@ import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.entity.technical.EntityTechnicalCurseBlock;
 import chylex.hee.entity.technical.EntityTechnicalCurseEntity;
 import chylex.hee.mechanics.curse.CurseType;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.util.BlockPosM;
 
 public class EntityProjectileCurse extends EntityThrowable{
+	private enum Data{ CURSE_TYPE }
+	
+	private EntityDataWatcher entityData;
 	private UUID throwerID;
 	private CurseType curseType;
 	private boolean eternal;
@@ -32,12 +36,14 @@ public class EntityProjectileCurse extends EntityThrowable{
 	}
 	
 	public CurseType getType(){
-		return curseType == null ? (curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16)-1)) : curseType;
+		return curseType == null ? (curseType = CurseType.getFromDamage(entityData.getByte(Data.CURSE_TYPE)-1)) : curseType;
 	}
 	
 	@Override
 	protected void entityInit(){
-		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+		super.entityInit();
+		entityData = new EntityDataWatcher(this);
+		entityData.addByte(Data.CURSE_TYPE);
 	}
 	
 	@Override
@@ -51,7 +57,7 @@ public class EntityProjectileCurse extends EntityThrowable{
 				for(int a = 0; a < 1+rand.nextInt(2); a++)HardcoreEnderExpansion.fx.curse(posX+(rand.nextDouble()-0.5D)*0.15D,posY+(rand.nextDouble()-0.5D)*0.15D,posZ+(rand.nextDouble()-0.5D)*0.15D,curseType);
 			}
 		}
-		else if (ticksExisted == 1)dataWatcher.updateObject(16,(byte)(curseType.damage+1));
+		else if (ticksExisted == 1)entityData.setByte(Data.CURSE_TYPE,curseType.damage+1);
 	}
 	
 	@Override
