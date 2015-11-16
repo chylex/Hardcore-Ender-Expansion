@@ -26,12 +26,16 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityLaserBeam;
 
 public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
+	private enum Data{ ASLEEP, ANIMATION_TIME }
+	
+	private EntityDataWatcher entityData;
 	private byte sleepTimer, healTimer, attackTimer;
 	private short laserTopY;
 	private AttackType attackType, lastAttackType;
@@ -56,8 +60,9 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(16,Byte.valueOf((byte)1));
-		dataWatcher.addObject(17,Byte.valueOf((byte)0));
+		entityData = new EntityDataWatcher(this);
+		entityData.addBoolean(Data.ASLEEP,true);
+		entityData.addByte(Data.ANIMATION_TIME);
 	}
 	
 	@Override
@@ -330,19 +335,19 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	}
 	
 	public void setIsAsleep(boolean isAsleep){
-		dataWatcher.updateObject(16,Byte.valueOf((byte)(isAsleep ? 1 : 0)));
+		entityData.setBoolean(Data.ASLEEP,isAsleep);
 	}
 	
 	public boolean isAsleep(){
-		return dataWatcher.getWatchableObjectByte(16) != 0;
+		return entityData.getBoolean(Data.ASLEEP);
 	}
 	
 	public void setAttackAnimationTime(byte time){
-		dataWatcher.updateObject(17,time);
+		entityData.setByte(Data.ANIMATION_TIME,time);
 	}
 	
 	public byte getAttackAnimationTime(){
-		return dataWatcher.getWatchableObjectByte(17);
+		return entityData.getByte(Data.ANIMATION_TIME);
 	}
 
 	@Override
@@ -352,7 +357,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 
 	@Override
 	protected String getLivingSound(){
-		return isAsleep()?null:"hardcoreenderexpansion:mob.endereye.living";
+		return isAsleep() ? null : "hardcoreenderexpansion:mob.endereye.living";
 	}
 
 	@Override

@@ -21,13 +21,17 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobFireGolem extends EntityMob{
+	private enum Data{ FLAME_PARTICLES }
+	
 	private static final UUID cancelMovementModifierUUID = UUID.fromString("7107DE5E-7CE8-4030-940E-514C1F160890");
 	private static final AttributeModifier cancelMovement = new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2).setSaved(false);
 	
+	private EntityDataWatcher entityData;
 	private byte rangedStatus = -1, teleportCooldown = 0;
 	
 	public EntityMobFireGolem(World world){
@@ -40,7 +44,8 @@ public class EntityMobFireGolem extends EntityMob{
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(16,Byte.valueOf((byte)0));
+		entityData = new EntityDataWatcher(this);
+		entityData.addByte(Data.FLAME_PARTICLES);
 	}
 	
 	@Override
@@ -62,7 +67,7 @@ public class EntityMobFireGolem extends EntityMob{
 		super.onLivingUpdate();
 
 		if (worldObj.isRemote){
-			byte flameParticleAmount = dataWatcher.getWatchableObjectByte(16);
+			byte flameParticleAmount = entityData.getByte(Data.FLAME_PARTICLES);
 			
 			if (flameParticleAmount > 0){
 				rotationYaw = renderYawOffset = rotationYawHead;
@@ -103,7 +108,7 @@ public class EntityMobFireGolem extends EntityMob{
 						PacketPipeline.sendToAllAround(this,64D,new C08PlaySound(C08PlaySound.SPAWN_FIREBALL,posX,posY,posZ,1.5F,0.85F+rand.nextFloat()*0.1F));
 					}
 					
-					if (dataWatcher.getWatchableObjectByte(16) != flameParticleAmountNew)dataWatcher.updateObject(16,Byte.valueOf(flameParticleAmountNew));
+					if (entityData.getByte(Data.FLAME_PARTICLES) != flameParticleAmountNew)entityData.setByte(Data.FLAME_PARTICLES,flameParticleAmountNew);
 				}
 			}
 		}

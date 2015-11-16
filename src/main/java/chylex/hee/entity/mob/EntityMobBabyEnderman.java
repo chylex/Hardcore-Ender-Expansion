@@ -35,6 +35,7 @@ import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C00ClearInventorySlot;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.IItemSelector;
@@ -42,6 +43,9 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.system.util.NBTUtil;
 
 public class EntityMobBabyEnderman extends EntityMob implements IEndermanRenderer, IIgnoreEnderGoo{
+	private enum Data{ HELD_ITEM }
+	
+	private EntityDataWatcher entityData;
 	private EntityPlayer target;
 	private final List<ItemPriorityLevel> itemPriorities = new ArrayList<>();
 	private ItemPriorityLevel carryingLevel = ItemPriorityLevel.RANDOM;
@@ -73,7 +77,8 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(16,new ItemStack(Blocks.bedrock));
+		entityData = new EntityDataWatcher(this);
+		entityData.addItemStack(Data.HELD_ITEM);
 	}
 	
 	@Override
@@ -269,7 +274,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	}
 	
 	public void setCarriedItemStack(ItemStack is){
-		dataWatcher.updateObject(16,is);
+		entityData.setItemStack(Data.HELD_ITEM,is);
 		
 		for(ItemPriorityLevel level:itemPriorities){
 			if (level.isValid(is)){
@@ -337,7 +342,7 @@ public class EntityMobBabyEnderman extends EntityMob implements IEndermanRendere
 	
 	@Override
 	public ItemStack getCarrying(){
-		return dataWatcher.getWatchableObjectItemStack(16);
+		return entityData.getItemStack(Data.HELD_ITEM);
 	}
 	
 	@Override

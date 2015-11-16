@@ -31,14 +31,18 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMobHauntedMiner extends EntityFlying implements IMob{
+	private enum Data{ ATTACK_TYPE }
+	
 	private static final byte ATTACK_TIMER = 80;
 	private static final byte ATTACK_NONE = 0, ATTACK_PROJECTILES = 1, ATTACK_LAVA = 2, ATTACK_BLAST_WAVE = 3;
 	
+	private EntityDataWatcher entityData;
 	private AxisAlignedBB bottomBB = AxisAlignedBB.getBoundingBox(0D,0D,0D,0D,0D,0D);
 	private EntityLivingBase target;
 	private double targetX, targetY, targetZ;
@@ -57,7 +61,8 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(16,Byte.valueOf(ATTACK_NONE));
+		entityData = new EntityDataWatcher(this);
+		entityData.addByte(Data.ATTACK_TYPE,ATTACK_NONE);
 	}
 	
 	@Override
@@ -262,18 +267,18 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 						currentAttack = ATTACK_NONE;
 						nextAttackTimer = (byte)(ATTACK_TIMER-5*worldObj.difficultySetting.getDifficultyId());
 						currentAttackTime = 0;
-						dataWatcher.updateObject(16,Byte.valueOf((byte)0));
+						entityData.setByte(Data.ATTACK_TYPE,ATTACK_NONE);
 					}
 				}
 				else if (--nextAttackTimer <= 0){
 					currentAttack = (MathUtil.distance(target.posX-posX,target.posZ-posZ) < 7.5D && rand.nextInt(3) != 0) || rand.nextInt(6) == 0 ? ATTACK_BLAST_WAVE : (rand.nextInt(4) != 0 ? ATTACK_PROJECTILES : ATTACK_LAVA);
-					dataWatcher.updateObject(16,Byte.valueOf(currentAttack));
+					entityData.setByte(Data.ATTACK_TYPE,currentAttack);
 				}
 			}
 			
 			if (target.isDead || (currentAttack == ATTACK_NONE && getDistanceToEntity(target) > 40D)){
 				target = null;
-				if (currentAttack != ATTACK_NONE)dataWatcher.updateObject(16,Byte.valueOf(currentAttack = ATTACK_NONE));
+				if (currentAttack != ATTACK_NONE)entityData.setByte(Data.ATTACK_TYPE,currentAttack = ATTACK_NONE);
 			}
 		}
 		
@@ -302,7 +307,7 @@ public class EntityMobHauntedMiner extends EntityFlying implements IMob{
 		if (worldObj.isRemote){
 			for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(posX+(rand.nextDouble()-0.5D)*0.2D,posY,posZ+(rand.nextDouble()-0.5D)*0.2D,0D,-0.05D,0D,8);
 			
-			byte attack = dataWatcher.getWatchableObjectByte(16);
+			byte attack = entityData.getByte(Data.ATTACK_TYPE);
 			
 			if (attack != ATTACK_NONE && !dead){
 				rotationYaw = renderYawOffset = rotationYawHead;

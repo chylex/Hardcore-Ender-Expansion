@@ -14,10 +14,14 @@ import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements ICurseCaller{
+	private enum Data{ CURSE_TYPE, OWNER_ID }
+	
+	private EntityDataWatcher entityData;
 	private UUID owner;
 	private int ownerEntityID = -1;
 	private CurseType curseType;
@@ -44,14 +48,15 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 
 	@Override
 	protected void entityInit(){
-		dataWatcher.addObject(16,Byte.valueOf((byte)0));
-		dataWatcher.addObject(17,-1);
+		entityData = new EntityDataWatcher(this);
+		entityData.addByte(Data.CURSE_TYPE);
+		entityData.addInt(Data.OWNER_ID,-1);
 	}
 	
 	@Override
 	public void onUpdate(){
 		if (worldObj.isRemote){
-			if (curseType == null)curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16)-1);
+			if (curseType == null)curseType = CurseType.getFromDamage(entityData.getByte(Data.CURSE_TYPE)-1);
 			
 			if (curseType != null){
 				EntityPlayer client = HardcoreEnderExpansion.proxy.getClientSidePlayer();
@@ -59,7 +64,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 				double dist = client.getDistanceToEntity(this);
 				if (dist > 32D)return;
 				
-				if (ownerEntityID == -1)ownerEntityID = dataWatcher.getWatchableObjectInt(17);
+				if (ownerEntityID == -1)ownerEntityID = entityData.getInt(Data.OWNER_ID);
 				
 				boolean forceRenderFX = client.getEntityId() == ownerEntityID || (client.getHeldItem() != null && client.getHeldItem().getItem() == ItemList.curse_amulet);
 				
@@ -79,13 +84,13 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 			
 			return;
 		}
-		else if (ticksExisted == 1)dataWatcher.updateObject(16,(byte)(curseType.damage+1));
+		else if (ticksExisted == 1)entityData.setByte(Data.CURSE_TYPE,curseType.damage+1);
 		
 		if (ticksExisted%20 == 1){
 			if (ownerEntityID == -1){
 				for(EntityPlayer player:(List<EntityPlayer>)worldObj.playerEntities){
 					if (player.getUniqueID().equals(owner)){
-						dataWatcher.updateObject(17,ownerEntityID = player.getEntityId());
+						entityData.setInt(Data.OWNER_ID,ownerEntityID = player.getEntityId());
 						break;
 					}
 				}

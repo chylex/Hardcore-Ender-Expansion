@@ -27,6 +27,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
@@ -35,6 +36,9 @@ import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.Enu
 import chylex.hee.tileentity.spawner.LouseRavagedSpawnerLogic.LouseSpawnData.EnumLouseAttribute;
 
 public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
+	private enum Data{ LOUSE_DATA }
+	
+	private EntityDataWatcher entityData;
 	private LouseSpawnData louseData;
 	private float armor;
 	private byte armorCapacity,armorRegenTimer,regenLevel,regenTimer,healAbility,healTimer,teleportTimer;
@@ -53,7 +57,8 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(16,"");
+		entityData = new EntityDataWatcher(this);
+		entityData.addString(Data.LOUSE_DATA);
 	}
 	
 	@Override
@@ -85,7 +90,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		healAbility = (byte)louseData.ability(EnumLouseAbility.HEAL);
 		regenLevel = (byte)attrHealth;
 		
-		dataWatcher.updateObject(16,louseData.serializeToString());
+		entityData.setString(Data.LOUSE_DATA,louseData.serializeToString());
 	}
 	
 	@Override
@@ -99,7 +104,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		
 		if (louseData == null){
 			if (worldObj.isRemote){
-				String data = dataWatcher.getWatchableObjectString(16);
+				String data = entityData.getString(Data.LOUSE_DATA);
 				if (!data.isEmpty())louseData = new LouseSpawnData(data);
 			}
 			else{

@@ -53,14 +53,18 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C06SetPlayerVelocity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.logging.Log;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityBossDragon extends EntityLiving implements IBossDisplayData, IEntityMultiPart, IMob, IIgnoreEnderGoo{
+	private enum Data{ ANGRY, WING_SPEED }
+	
 	public static final byte ATTACK_FIREBALL = 0, ATTACK_BITE = 1;
 	public static long lastUpdate;
+	
 	
 	private double[][] movementBuffer = new double[64][2];
 	private int movementBufferIndex = -1;
@@ -73,16 +77,17 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	public EntityDragonPart dragonPartTail3;
 	public EntityDragonPart dragonPartWing1;
 	public EntityDragonPart dragonPartWing2;
-
+	
 	public EntityEnderCrystal healingEnderCrystal;
-
+	
 	public float prevAnimTime;
 	public float animTime;
 
 	public boolean forceNewTarget;
 	public boolean slowed;
 	public int deathTicks;
-	
+
+	private EntityDataWatcher entityData;
 	public EntityPlayer target;
 	public double targetX, targetY, targetZ;
 	public boolean angryStatus, forceAttackEnd, noViablePlayers, freezeAI, frozen;
@@ -144,8 +149,9 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(17,Byte.valueOf((byte)0));
-		dataWatcher.addObject(18,1F);
+		entityData = new EntityDataWatcher(this);
+		entityData.addBoolean(Data.ANGRY);
+		entityData.addFloat(Data.WING_SPEED);
 	}
 
 	@Override
@@ -673,19 +679,19 @@ public class EntityBossDragon extends EntityLiving implements IBossDisplayData, 
 	}
 
 	public void setAngry(boolean angry){
-		dataWatcher.updateObject(17,Byte.valueOf(angry ? (byte)1 : (byte)0));
+		entityData.setBoolean(Data.ANGRY,angry);
 	}
 
 	public boolean isAngry(){
-		return (dataWatcher.getWatchableObjectByte(17)&1) != 0;
+		return entityData.getBoolean(Data.ANGRY);
 	}
 
 	public void setWingSpeed(float wingSpeed){
-		dataWatcher.updateObject(18,wingSpeed);
+		entityData.setFloat(Data.WING_SPEED,wingSpeed);
 	}
 
 	public float getWingSpeed(){
-		return dataWatcher.getWatchableObjectFloat(18);
+		return entityData.getFloat(Data.WING_SPEED);
 	}
 
 	@Override

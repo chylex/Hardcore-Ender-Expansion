@@ -29,13 +29,17 @@ import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityMiniBossFireFiend extends EntityFlying implements IBossDisplayData, IIgnoreEnderGoo{
+	private enum Data{ ATTACK, ANGRY }
+	
 	private static final byte ATTACK_NONE = 0, ATTACK_FIREBALLS = 1, ATTACK_FLAMES = 2;
 	
+	private EntityDataWatcher entityData;
 	private boolean isAngry;
 	private byte timer, currentAttack = ATTACK_NONE, prevAttack = ATTACK_NONE;
 	private final List<EntityProjectileFiendFireball> controlledFireballs = new ArrayList<>(8);
@@ -60,8 +64,9 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	protected void entityInit(){
 		super.entityInit();
-		dataWatcher.addObject(16,Byte.valueOf((byte)0));
-		dataWatcher.addObject(17,Byte.valueOf((byte)0));
+		entityData = new EntityDataWatcher(this);
+		entityData.addByte(Data.ATTACK);
+		entityData.addBoolean(Data.ANGRY);
 	}
 	
 	@Override
@@ -76,14 +81,14 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		super.onLivingUpdate();
 		
 		if (worldObj.isRemote){
-			byte attack = dataWatcher.getWatchableObjectByte(16);
+			byte attack = entityData.getByte(Data.ATTACK);
 			
 			if (attack == ATTACK_FLAMES){
 				for(int a = 0; a < 5; a++)HardcoreEnderExpansion.fx.flame(posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,8);
 			}
 			else timer = 0;
 			
-			if (!isAngry && dataWatcher.getWatchableObjectByte(17) == 1)isAngry = true;
+			if (!isAngry && entityData.getBoolean(Data.ANGRY))isAngry = true;
 			
 			if (isAngry){
 				for(int a = 0; a < 2; a++)HardcoreEnderExpansion.fx.flame(posX+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,posY+rand.nextDouble()*height,posZ+((rand.nextDouble()-0.5D)*rand.nextDouble())*width,12);
@@ -163,7 +168,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				if (!hasCalledGolems){
 					currentAttack = rand.nextInt(3) != 0 ? ATTACK_FIREBALLS : ATTACK_FLAMES;
 					if (currentAttack == ATTACK_FLAMES && prevAttack == ATTACK_FLAMES)currentAttack = ATTACK_FIREBALLS;
-					dataWatcher.updateObject(16,currentAttack);
+					entityData.setByte(Data.ATTACK,currentAttack);
 					prevAttack = currentAttack;
 					timer = 0;
 				}
@@ -181,7 +186,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				}
 			}
 			else if (timer >= (amt+2)*speed){
-				dataWatcher.updateObject(16,currentAttack = ATTACK_NONE);
+				entityData.setByte(Data.ATTACK,currentAttack = ATTACK_NONE);
 				timer = 0;
 				controlledFireballs.clear();
 			}else if (timer >= 2){
@@ -202,7 +207,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 				}
 				
 				timer = 0;
-				dataWatcher.updateObject(16,currentAttack = ATTACK_NONE);
+				entityData.setByte(Data.ATTACK,currentAttack = ATTACK_NONE);
 			}
 		}
 		
@@ -248,7 +253,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 		
 		if (getHealth() <= getMaxHealth()*0.4F){
 			isAngry = true;
-			dataWatcher.updateObject(17,Byte.valueOf((byte)1));
+			entityData.setBoolean(Data.ANGRY,true);
 		}
 	}
 	
@@ -299,7 +304,7 @@ public class EntityMiniBossFireFiend extends EntityFlying implements IBossDispla
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		if ((isAngry = nbt.getBoolean("isAngry")) == true)dataWatcher.updateObject(17,Byte.valueOf((byte)1));
+		if ((isAngry = nbt.getBoolean("isAngry")) == true)entityData.setBoolean(Data.ANGRY,true);
 	}
 	
 	@Override

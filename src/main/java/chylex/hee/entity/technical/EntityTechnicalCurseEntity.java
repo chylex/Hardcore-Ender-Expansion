@@ -11,9 +11,13 @@ import chylex.hee.mechanics.curse.CurseEvents;
 import chylex.hee.mechanics.curse.CurseType;
 import chylex.hee.mechanics.curse.CurseType.EnumCurseUse;
 import chylex.hee.mechanics.curse.ICurseCaller;
+import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.util.MathUtil;
 
 public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements ICurseCaller{
+	private enum Data{ CURSE_TYPE, TARGET_WIDTH, TARGET_HEIGHT }
+	
+	private EntityDataWatcher entityData;
 	private CurseType curseType;
 	private boolean eternal;
 	private byte usesLeft;
@@ -37,20 +41,21 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 
 	@Override
 	protected void entityInit(){
-		dataWatcher.addObject(16,Byte.valueOf((byte)0));
-		dataWatcher.addObject(17,0F);
-		dataWatcher.addObject(18,0F);
+		entityData = new EntityDataWatcher(this);
+		entityData.addByte(Data.CURSE_TYPE);
+		entityData.addFloat(Data.TARGET_WIDTH);
+		entityData.addFloat(Data.TARGET_HEIGHT);
 	}
 	
 	@Override
 	public void onUpdate(){
 		if (worldObj.isRemote){
 			if (curseType == null){
-				curseType = CurseType.getFromDamage(dataWatcher.getWatchableObjectByte(16)-1);
+				curseType = CurseType.getFromDamage(entityData.getByte(Data.CURSE_TYPE)-1);
 				
 				if (curseType != null){
-					targetWidth = dataWatcher.getWatchableObjectFloat(17);
-					targetHeight = dataWatcher.getWatchableObjectFloat(18);
+					targetWidth = entityData.getFloat(Data.TARGET_WIDTH);
+					targetHeight = entityData.getFloat(Data.TARGET_HEIGHT);
 				}
 			}
 			
@@ -63,12 +68,12 @@ public class EntityTechnicalCurseEntity extends EntityTechnicalBase implements I
 			
 			return;
 		}
-		else if (ticksExisted == 1)dataWatcher.updateObject(16,(byte)(curseType.damage+1));
+		else if (ticksExisted == 1)entityData.setByte(Data.CURSE_TYPE,curseType.damage+1);
 		
 		if (target != null){
 			if (MathUtil.floatEquals(targetWidth,0F)){
-				dataWatcher.updateObject(17,targetWidth = target.width);
-				dataWatcher.updateObject(18,targetHeight = target.height);
+				entityData.setFloat(Data.TARGET_WIDTH,targetWidth = target.width);
+				entityData.setFloat(Data.TARGET_HEIGHT,targetHeight = target.height);
 			}
 			
 			if (target.dimension != dimension){
