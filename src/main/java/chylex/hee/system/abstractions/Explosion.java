@@ -75,6 +75,7 @@ public class Explosion{
 	
 	private int randSeed;
 	private net.minecraft.world.Explosion vanillaExplosion;
+	private final FastRandom clientRand;
 	private final TLongFloatHashMap blockResistanceCache = new TLongFloatHashMap(150); // TODO implement and profile
 	
 	public Explosion(World world, double x, double y, double z, float radius, Entity explodingEntity, Entity cause){
@@ -88,6 +89,7 @@ public class Explosion{
 		this.cause = null;
 		
 		this.vanillaExplosion = new net.minecraft.world.Explosion(world,explodingEntity,x,y,z,radius);
+		this.clientRand = null;
 	}
 	
 	public Explosion(World world, double x, double y, double z, float radius, Entity explodingEntity){
@@ -105,6 +107,7 @@ public class Explosion{
 		this.explodingEntity = this.cause = null;
 		
 		this.vanillaExplosion = new net.minecraft.world.Explosion(world,explodingEntity,x,y,z,radius);
+		this.clientRand = new FastRandom();
 		
 		BooleanByte bb = new BooleanByte(buffer.readByte());
 		damageBlocks = bb.get(0);
@@ -189,7 +192,7 @@ public class Explosion{
 			long tick = world.getTotalWorldTime();
 			
 			if (tick > lastSoundTick+2){
-				world.playSound(x,y,z,"random.explode",4F,(1F+(world.rand.nextFloat()-0.5F)*0.4F)*0.7F,true);
+				world.playSound(x,y,z,"random.explode",4F,(1F+(clientRand.nextFloat()-0.5F)*0.4F)*0.7F,true);
 				lastSoundTick = tick;
 			}
 			
@@ -261,17 +264,17 @@ public class Explosion{
 			Pos pos = entry.getKey();
 			Block block = entry.getValue();
 			
-			if (client && world.rand.nextInt(5) <= 2){
-				double partX = pos.getX()+world.rand.nextFloat();
-				double partY = pos.getY()+world.rand.nextFloat();
-				double partZ = pos.getZ()+world.rand.nextFloat();
+			if (client && clientRand.nextInt(5) <= 2){
+				double partX = pos.getX()+clientRand.nextFloat();
+				double partY = pos.getY()+clientRand.nextFloat();
+				double partZ = pos.getZ()+clientRand.nextFloat();
 				double diffX = partX-x, diffY = partY-y, diffZ = partZ-z;
 				double dist = MathUtil.distance(diffX,diffY,diffZ);
 				
 				diffX /= dist;
 				diffY /= dist;
 				diffZ /= dist;
-				double mp = (0.5D/(dist/radius+0.1D))*(world.rand.nextFloat()*world.rand.nextFloat()+0.3F);
+				double mp = (0.5D/(dist/radius+0.1D))*(clientRand.nextFloat()*clientRand.nextFloat()+0.3F);
 				diffX *= mp;
 				diffY *= mp;
 				diffZ *= mp;
