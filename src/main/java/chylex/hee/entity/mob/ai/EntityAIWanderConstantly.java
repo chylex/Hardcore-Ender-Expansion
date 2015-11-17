@@ -12,7 +12,7 @@ public class EntityAIWanderConstantly extends EntityAIBase{
 	public EntityAIWanderConstantly(EntityCreature owner, double speed){
 		this.entity = owner;
 		this.speed = speed;
-		this.setMutexBits(1);
+		this.setMutexBits(AIUtil.mutexOverrideMovement);
 	}
 
 	@Override
