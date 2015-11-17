@@ -10,13 +10,15 @@ import chylex.hee.block.BlockSpookyLog;
 import chylex.hee.init.BlockList;
 import chylex.hee.proxy.FXClientProxy;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.util.FastRandom;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public final class FXHandler{
-	private static final Random rand = new Random();
+	private static final FastRandom rand = new FastRandom();
+	private static final Random slowRand = new Random();
 	private static final FXClientProxy fx = (FXClientProxy)HardcoreEnderExpansion.fx;
 	
 	public static void handleBasic(World world, EntityClientPlayerMP player, FXType.Basic fxType, double x, double y, double z){
@@ -181,16 +183,16 @@ public final class FXHandler{
 				
 			case ENTITY_EXPLOSION_PARTICLE:
 				for(int a = 0; a < 20; a++){
-					double offX = rand.nextGaussian()*0.02D, offY = rand.nextGaussian()*0.02D, offZ = rand.nextGaussian()*0.02D;
+					double offX = slowRand.nextGaussian()*0.02D, offY = slowRand.nextGaussian()*0.02D, offZ = slowRand.nextGaussian()*0.02D;
 					fx.global("explosion",x+randCenter(width)-offX*10D,y+rand.nextFloat()*height-offY*10D,z+randCenter(width)-offZ*10D,offX,offY,offZ);
 				}
 				
 				break;
 				
 			case ENDER_EYE_BREAK:
-				FXHelper.create("smoke").pos(x,y,z).fluctuatePos(0.2D).motion(0D,0D,0D).fluctuateMotion(0.08D).spawn(rand,18);
-				FXHelper.create("glitter").pos(x,y,z).fluctuatePos(0.1D).motion(0D,0D,0D).fluctuateMotion(0.03D).paramColor(0.35F+rand.nextFloat()*0.1F,0.3F+rand.nextFloat()*0.4F,0.4F+rand.nextFloat()*0.1F).spawn(rand,40);
-				FXHelper.create("glitter").pos(x,y,z).fluctuatePos(0.1D).motion(0D,0D,0D).fluctuateMotion(0.03D).paramColor(0.4F+rand.nextFloat()*0.2F,0.25F+rand.nextFloat()*0.05F,0.6F+rand.nextFloat()*0.25F).spawn(rand,20);
+				FXHelper.create("smoke").pos(x,y,z).fluctuatePos(0.2D).motion(0D,0D,0D).fluctuateMotion(0.08D).spawn(slowRand,18);
+				FXHelper.create("glitter").pos(x,y,z).fluctuatePos(0.1D).motion(0D,0D,0D).fluctuateMotion(0.03D).paramColor(0.35F+rand.nextFloat()*0.1F,0.3F+rand.nextFloat()*0.4F,0.4F+rand.nextFloat()*0.1F).spawn(slowRand,40);
+				FXHelper.create("glitter").pos(x,y,z).fluctuatePos(0.1D).motion(0D,0D,0D).fluctuateMotion(0.03D).paramColor(0.4F+rand.nextFloat()*0.2F,0.25F+rand.nextFloat()*0.05F,0.6F+rand.nextFloat()*0.25F).spawn(slowRand,20);
 				world.playSound(x,y,z,"dig.glass",1.25F,1.1F,false);
 				break;
 		}
@@ -258,7 +260,7 @@ public final class FXHandler{
 				
 				for(int a = 0; a < len*5D; a++){
 					double dist = player.getDistanceSq(x1,y1,z1);
-					if (dist > 600D && rand.nextBoolean())continue;
+					if (dist > 600D && slowRand.nextBoolean())continue;
 					if (dist < 180D)fx.spatialDash(x1,y1,z1);
 					fx.spatialDash(x1,y1,z1);
 					
@@ -306,7 +308,7 @@ public final class FXHandler{
 				addZ = lineVec.z*0.5D;
 				
 				for(int a = 0; a < len*2D; a++){
-					if (rand.nextBoolean())fx.flame(x1+randCenter(0.1D),y1+randCenter(0.1D),z1+randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),12);
+					if (slowRand.nextBoolean())fx.flame(x1+randCenter(0.1D),y1+randCenter(0.1D),z1+randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),randCenter(0.1D),12);
 					x1 += addX;
 					y1 += addY;
 					z1 += addZ;

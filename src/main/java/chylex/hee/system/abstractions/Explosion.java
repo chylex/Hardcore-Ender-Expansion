@@ -1,6 +1,5 @@
 package chylex.hee.system.abstractions;
 import gnu.trove.map.hash.TLongFloatHashMap;
-import io.netty.buffer.ByteBuf;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,7 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -26,9 +24,11 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C01Explosion;
 import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.BooleanByte;
+import chylex.hee.system.util.FastRandom;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 
 public class Explosion{
 	private static long lastSoundTick, lastRunTick;
@@ -61,7 +61,7 @@ public class Explosion{
 	}
 	
 	protected final World world;
-	protected final Random calcRand;
+	protected final FastRandom calcRand;
 	protected final Entity explodingEntity;
 	protected final Entity cause;
 	protected final float x, y, z;
@@ -83,7 +83,7 @@ public class Explosion{
 		this.y = (float)y;
 		this.z = (float)z;
 		this.radius = radius;
-		this.calcRand = new Random(this.randSeed = world.rand.nextInt());
+		this.calcRand = new FastRandom(this.randSeed = world.rand.nextInt());
 		this.explodingEntity = explodingEntity;
 		this.cause = null;
 		
@@ -101,7 +101,7 @@ public class Explosion{
 		this.y = buffer.readFloat();
 		this.z = buffer.readFloat();
 		this.radius = buffer.readShort()/1000F;
-		this.calcRand = new Random(this.randSeed = buffer.readInt());
+		this.calcRand = new FastRandom(this.randSeed = buffer.readInt());
 		this.explodingEntity = this.cause = null;
 		
 		this.vanillaExplosion = new net.minecraft.world.Explosion(world,explodingEntity,x,y,z,radius);
