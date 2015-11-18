@@ -1,7 +1,6 @@
 package chylex.hee.entity.mob.ai;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.ai.EntityAIBase;
 import org.apache.commons.lang3.ArrayUtils;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.packets.PacketPipeline;
@@ -9,11 +8,11 @@ import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Pos;
 
-public class EntityAIHideInBlock extends EntityAIBase{
+public class EntityAIHideInBlock extends EntityAIAbstractContinuous{
 	private final EntityCreature entity;
 	private final Block[] validBlocks;
 	private final IHideInBlock handler;
-	private float chance = 0.1F;
+	private float chance = 1F/10F;
 	
 	public EntityAIHideInBlock(EntityCreature owner, Block[] blocks, IHideInBlock handler){
 		this.entity = owner;
@@ -27,8 +26,8 @@ public class EntityAIHideInBlock extends EntityAIBase{
 	}
 	
 	@Override
-	public boolean shouldExecute(){
-		if (entity.getAttackTarget() != null || !entity.getNavigator().noPath() || entity.getRNG().nextFloat() > chance)return false;
+	public void tick(){
+		if (entity.getAttackTarget() != null || !entity.getNavigator().noPath() || entity.getRNG().nextFloat() > chance)return;
 		
 		Pos pos = Pos.at(entity).offset(entity.getRNG().nextInt(6));
 		
@@ -37,13 +36,6 @@ public class EntityAIHideInBlock extends EntityAIBase{
 			PacketPipeline.sendToAllAround(entity,64D,new C21EffectEntity(FXType.Entity.ENTITY_EXPLOSION_PARTICLE,entity));
 			entity.setDead();
 		}
-		
-		return false;
-	}
-	
-	@Override
-	public boolean continueExecuting(){
-		return false;
 	}
 	
 	@FunctionalInterface
