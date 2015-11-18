@@ -20,6 +20,7 @@ import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,9 +44,9 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(ModCommonProxy.opMobs ? 0.7D : 0.65D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 100D : 80D);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs ? 25D : 17D);
+		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,ModCommonProxy.opMobs ? 0.7D : 0.65D);
+		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 100D : 80D);
+		EntityAttributes.setValue(this,EntityAttributes.attackDamage,ModCommonProxy.opMobs ? 25D : 17D);
 	}
 	
 	@Override
@@ -56,12 +57,12 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 		
 		if (!worldObj.isRemote && !isDead){
 			if (dashCooldown > 0){
-				if (--dashCooldown == 70)getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(dashModifier);
+				if (--dashCooldown == 70)EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,dashModifier);
 				else if (dashCooldown > 1 && dashCooldown < 70 && ((ModCommonProxy.opMobs && rand.nextInt(3) == 0) || rand.nextInt(5) == 0))--dashCooldown;
 			}
 			else if (dashCooldown == 0 && entityToAttack != null && MathUtil.distance(posX-entityToAttack.posX,posZ-entityToAttack.posZ) < 4D && Math.abs(posY-entityToAttack.posY) <= 3){
 				dashCooldown = 80;
-				getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(dashModifier);
+				EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,dashModifier);
 				PacketPipeline.sendToAllAround(this,64D,new C21EffectEntity(FXType.Entity.ENDER_GUARDIAN_DASH,this));
 			}
 		}
@@ -69,7 +70,7 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 	
 	@Override
 	public float getAIMoveSpeed(){
-		return (float)getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()*0.3F;
+		return (float)EntityAttributes.getValue(this,EntityAttributes.movementSpeed)*0.3F;
 	}
 	
 	@Override
@@ -77,7 +78,7 @@ public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo
 		attackTimer = 8;
 		worldObj.setEntityState(this,(byte)4);
 		
-		float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+		float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue(); // TODO
 
 		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),damage)){
 			entity.addVelocity(-MathHelper.sin(MathUtil.toRad(rotationYaw))*1.7D,0.2D,MathHelper.cos(MathUtil.toRad(rotationYaw))*1.7D);

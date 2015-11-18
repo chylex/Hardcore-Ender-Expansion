@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -26,6 +25,7 @@ import chylex.hee.packets.client.C07AddPlayerVelocity;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
@@ -69,8 +69,8 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 350D : 250D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(1.8D);
+		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 350D : 250D);
+		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,1.8D);
 		
 	}
 	
@@ -236,7 +236,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 					double yD = (posY+height*0.5F)-(target.boundingBox.minY+target.height+0.4D);
 					if (Math.abs(yD) >= 0.8D)motionY -= Math.abs(yD)*0.005D*Math.signum(yD);
 					
-					if (distance >= 3D)setMoveForward((float)getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
+					if (distance >= 3D)setMoveForward((float)EntityAttributes.getValue(this,EntityAttributes.movementSpeed));
 					else if (Math.abs(yD) < 1D)/*TODO*/;//target.attackEntityFrom(new DamageSourceMobUnscaled(this),DamageSourceMobUnscaled.getDamage(ModCommonProxy.opMobs ? 6F : 3F,worldObj.difficultySetting));
 					
 					if (target.isDead)target = null;

@@ -8,7 +8,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,6 +23,7 @@ import chylex.hee.init.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
@@ -157,9 +157,7 @@ public enum CurseType{
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			if (!(entity instanceof EntityLiving))return true;
 			
-			if (entity.getEntityAttribute(SharedMonsterAttributes.followRange).getModifier(noNavigation.getID()) == null){
-				entity.getEntityAttribute(SharedMonsterAttributes.followRange).applyModifier(noNavigation);
-			}
+			EntityAttributes.applyModifier(entity,EntityAttributes.followRange,noNavigation);
 			
 			if (entity instanceof EntityCreature){
 				EntityCreature creature = (EntityCreature)entity;
@@ -172,7 +170,7 @@ public enum CurseType{
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			if (entity instanceof EntityLiving)entity.getEntityAttribute(SharedMonsterAttributes.followRange).removeModifier(noNavigation);
+			if (entity instanceof EntityLiving)EntityAttributes.removeModifier(entity,EntityAttributes.followRange,noNavigation);
 		}
 	}),
 	

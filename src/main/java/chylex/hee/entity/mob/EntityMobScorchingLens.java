@@ -1,6 +1,5 @@
 package chylex.hee.entity.mob;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,6 +12,7 @@ import chylex.hee.entity.projectile.EntityProjectileFlamingBall;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 
 public class EntityMobScorchingLens extends EntityMob{
 	public EntityMobScorchingLens(World world){
@@ -24,8 +24,8 @@ public class EntityMobScorchingLens extends EntityMob{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.42D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 32D : 18D);
+		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.42D);
+		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 32D : 18D);
 	}
 	
 	@Override

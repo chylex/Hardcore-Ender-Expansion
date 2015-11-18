@@ -27,6 +27,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
@@ -79,9 +80,9 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 		int attrSpeed = louseData.attribute(EnumLouseAttribute.SPEED);
 		int attrArmor = louseData.attribute(EnumLouseAttribute.ARMOR);
 		
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(14D+(attrHealth > 0 ? 10D+8D*attrHealth : 0D));
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.7D+(attrSpeed > 0 ? 0.1D+0.07D*attrSpeed : 0D));
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(7D+3.5D*louseData.attribute(EnumLouseAttribute.ATTACK));
+		EntityAttributes.setValue(this,EntityAttributes.maxHealth,14D+(attrHealth > 0 ? 10D+8D*attrHealth : 0D));
+		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.7D+(attrSpeed > 0 ? 0.1D+0.07D*attrSpeed : 0D));
+		EntityAttributes.setValue(this,EntityAttributes.attackDamage,7D+3.5D*louseData.attribute(EnumLouseAttribute.ATTACK));
 		
 		setHealth(getMaxHealth());
 		
@@ -153,7 +154,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity){
-		float dmgAmount = (float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+		float dmgAmount = (float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue(); // TODO
 
 		if (entity instanceof EntityLivingBase){
 			dmgAmount += EnchantmentHelper.getEnchantmentModifierLiving(this,(EntityLivingBase)entity);

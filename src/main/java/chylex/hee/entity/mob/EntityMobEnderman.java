@@ -77,6 +77,14 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom{
 	}
 	
 	@Override
+	protected void applyEntityAttributes(){
+		super.applyEntityAttributes();
+		EntityAttributes.setValue(this,EntityAttributes.maxHealth,40D);
+		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.3D);
+		EntityAttributes.setValue(this,EntityAttributes.attackDamage,5D);
+	}
+	
+	@Override
 	protected boolean isAIEnabled(){
 		return true;
 	}

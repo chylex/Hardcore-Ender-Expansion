@@ -4,7 +4,6 @@ import java.util.stream.Collectors;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -28,6 +27,7 @@ import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.damage.Damage;
 import chylex.hee.system.abstractions.damage.DamageUtil;
 import chylex.hee.system.abstractions.damage.IDamageModifier;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.world.loot.PercentageLootTable;
@@ -78,10 +78,10 @@ public class EntityMobSilverfish extends EntitySilverfish implements IIgnoreEnde
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(8D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2D);
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(8D);
+		EntityAttributes.setValue(this,EntityAttributes.maxHealth,8D);
+		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.25D);
+		EntityAttributes.setValue(this,EntityAttributes.attackDamage,2D);
+		EntityAttributes.setValue(this,EntityAttributes.followRange,8D);
 	}
 	
 	@Override

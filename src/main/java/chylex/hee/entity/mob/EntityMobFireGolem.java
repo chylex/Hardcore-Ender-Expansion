@@ -21,6 +21,7 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
@@ -51,9 +52,9 @@ public class EntityMobFireGolem extends EntityMob{
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.55D);
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 42D : 24D);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(ModCommonProxy.opMobs ? 4D : 2D);
+		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 42D : 24D);
+		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.55D);
+		EntityAttributes.setValue(this,EntityAttributes.attackDamage,ModCommonProxy.opMobs ? 4D : 2D);
 	}
 	
 	@Override
@@ -79,7 +80,7 @@ public class EntityMobFireGolem extends EntityMob{
 			}
 		}
 		else{
-			getEntityAttribute(SharedMonsterAttributes.movementSpeed).removeModifier(cancelMovement);
+			EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,cancelMovement);
 			
 			if (teleportCooldown > 0)--teleportCooldown;
 			
@@ -90,7 +91,7 @@ public class EntityMobFireGolem extends EntityMob{
 					rangedStatus = 0;
 				}
 				else if (rangedStatus >= 0){
-					getEntityAttribute(SharedMonsterAttributes.movementSpeed).applyModifier(cancelMovement);
+					EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,cancelMovement);
 					rotationYaw = rotationYawHead;
 					
 					byte flameParticleAmountNew = (byte)(MathUtil.floor(70-rangedStatus)>>2);
@@ -116,7 +117,7 @@ public class EntityMobFireGolem extends EntityMob{
 	
 	@Override
 	public boolean attackEntityAsMob(Entity entity){
-		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),(float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue())){
+		if (entity.attackEntityFrom(DamageSource.causeMobDamage(this),(float)getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue())){ // TODO
 			if (rand.nextInt(5) <= 1)entity.setFire(rand.nextInt(4)+2);
 
 			if (entity instanceof EntityLivingBase){

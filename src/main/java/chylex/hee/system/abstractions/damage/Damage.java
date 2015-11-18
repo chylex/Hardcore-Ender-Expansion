@@ -2,11 +2,11 @@ package chylex.hee.system.abstractions.damage;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.DamageSource;
 import chylex.hee.system.abstractions.damage.source.DamagedBy;
 import chylex.hee.system.abstractions.damage.source.DamagedByEntity;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.util.MathUtil;
 import com.google.common.base.Objects;
 
@@ -22,7 +22,7 @@ public final class Damage implements IDamage{
 	}
 	
 	public static Damage vanillaMob(EntityMob cause){
-		return new Damage((float)cause.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue())
+		return new Damage((float)EntityAttributes.getValue(cause,EntityAttributes.attackDamage))
 			.addModifiers(IDamageModifier.peacefulExclusion,IDamageModifier.difficultyScaling)
 			.addModifiers(IDamageModifier.armorProtection,IDamageModifier.enchantmentProtection,IDamageModifier.potionProtection)
 			.addModifiers(IDamageModifier.blocking,IDamageModifier.thorns)

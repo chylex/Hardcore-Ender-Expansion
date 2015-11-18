@@ -2,7 +2,6 @@ package chylex.hee.entity.mob;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -21,6 +20,7 @@ import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.proxy.ModCommonProxy;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
 
@@ -48,10 +48,10 @@ public class EntityMobEndermage extends EntityMob implements IIgnoreEnderGoo, IR
 	@Override
 	protected void applyEntityAttributes(){
 		super.applyEntityAttributes();
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(ModCommonProxy.opMobs ? 80D : 65D);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.24D);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12D);
-		getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(25D);
+		EntityAttributes.setValue(this,EntityAttributes.maxHealth,ModCommonProxy.opMobs ? 80D : 65D);
+		EntityAttributes.setValue(this,EntityAttributes.movementSpeed,0.24D);
+		EntityAttributes.setValue(this,EntityAttributes.attackDamage,12D);
+		EntityAttributes.setValue(this,EntityAttributes.followRange,25D);
 	}
 	
 	@Override
