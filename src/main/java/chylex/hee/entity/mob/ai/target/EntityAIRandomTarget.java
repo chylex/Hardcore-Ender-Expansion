@@ -1,4 +1,4 @@
-package chylex.hee.entity.mob.ai;
+package chylex.hee.entity.mob.ai.target;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
+import chylex.hee.entity.mob.ai.AIUtil;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 
 public class EntityAIRandomTarget<T extends EntityLivingBase> extends EntityAITarget{
