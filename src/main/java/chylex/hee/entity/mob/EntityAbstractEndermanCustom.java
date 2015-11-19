@@ -1,4 +1,6 @@
 package chylex.hee.entity.mob;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityEnderman;
@@ -6,11 +8,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import chylex.hee.entity.GlobalMobData.IIgnoreEnderGoo;
+import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly.IMoveBlocks;
 import chylex.hee.entity.mob.util.IEndermanRenderer;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 
-public abstract class EntityAbstractEndermanCustom extends EntityEnderman implements IIgnoreEnderGoo, IEndermanRenderer{
+public abstract class EntityAbstractEndermanCustom extends EntityEnderman implements IIgnoreEnderGoo, IEndermanRenderer, IMoveBlocks{
 	private enum Data{ AGGRESSIVE, HELD_BLOCK_ID, HELD_BLOCK_META }
 	
 	protected EntityDataWatcher entityData;
@@ -39,7 +42,7 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 	
 	@Override
 	public ItemStack getCarrying(){
-		BlockInfo info = getCarryingInfo();
+		BlockInfo info = getCarryingBlock();
 		return new ItemStack(info.block,1,info.meta);
 	}
 	
@@ -55,15 +58,17 @@ public abstract class EntityAbstractEndermanCustom extends EntityEnderman implem
 	/**
 	 * Replacement method for the ones that set the carried block and metadata.
 	 */
-	public void setCarryingInfo(BlockInfo info){
-		entityData.setShort(Data.HELD_BLOCK_ID,info == null ? 0 : Block.getIdFromBlock(info.block));
+	@Override
+	public void setCarryingBlock(@Nullable BlockInfo info){
+		entityData.setShort(Data.HELD_BLOCK_ID,info == null ? Block.getIdFromBlock(Blocks.air) : Block.getIdFromBlock(info.block));
 		entityData.setByte(Data.HELD_BLOCK_META,info == null ? 0 : info.meta);
 	}
 	
 	/**
 	 * Replacement method for the ones that return the carried block and metadata.
 	 */
-	public BlockInfo getCarryingInfo(){
+	@Override
+	public @Nonnull BlockInfo getCarryingBlock(){
 		return new BlockInfo(Block.getBlockById(entityData.getShort(Data.HELD_BLOCK_ID)),entityData.getShort(Data.HELD_BLOCK_META));
 	}
 	

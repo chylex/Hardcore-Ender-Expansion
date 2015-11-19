@@ -1,8 +1,9 @@
 package chylex.hee.entity.mob;
 import java.util.IdentityHashMap;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
@@ -11,10 +12,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.ai.AIUtil;
+import chylex.hee.entity.mob.ai.EntityAIMoveBlocksRandomly;
+import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget;
+import chylex.hee.entity.mob.ai.target.EntityAIDirectLookTarget.ITargetOnDirectLook;
 import chylex.hee.init.BlockList;
 import chylex.hee.init.ItemList;
 import chylex.hee.mechanics.causatum.Causatum;
@@ -25,11 +28,15 @@ import chylex.hee.mechanics.causatum.events.CausatumEventInstance.EventTypes;
 import chylex.hee.mechanics.misc.Baconizer;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.ReflectionPublicizer;
+import chylex.hee.system.abstractions.damage.Damage;
+import chylex.hee.system.abstractions.damage.IDamageModifier;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;
 
-public class EntityMobEnderman extends EntityAbstractEndermanCustom{
+public class EntityMobEnderman extends EntityAbstractEndermanCustom implements ITargetOnDirectLook{
+	private static final double lookDistance = 64D;
 	private static final PercentageLootTable drops = new PercentageLootTable();
 	
 	static{
@@ -72,6 +79,10 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom{
 		tasks.addTask(3,new EntityAIWander(this,1D));
 		tasks.addTask(4,new EntityAIWatchClosest(this,EntityPlayer.class,8F));
 		tasks.addTask(4,new EntityAILookIdle(this));
+		tasks.addTask(5,new EntityAIMoveBlocksRandomly(this,this,new Block[0]));
+		
+		targetTasks.addTask(1,new EntityAIHurtByTarget(this,false));
+		targetTasks.addTask(2,new EntityAIDirectLookTarget(this,this).setMaxDistance(lookDistance));
 		
 		experienceValue = 10;
 	}
@@ -97,34 +108,37 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom{
 	
 	@Override
 	protected void dropFewItems(boolean recentlyHit, int looting){
+		dropCarrying();
+		
 		LootMobInfo lootInfo = new LootMobInfo(this,recentlyHit,looting);
 		
-		EntityLivingBase attacker = func_94060_bK();
-		
-		if (attacker != null && attacker instanceof EntityPlayerMP && Causatum.progress((EntityPlayer)attacker,Progress.ENDERMAN_KILLED,Actions.STAGE_ADVANCE_TO_ENDERMAN_KILLED)){
-			for(EntityPlayer nearbyPlayer:EntitySelector.players(worldObj,boundingBox.expand(12D,4D,12D))){
-				Causatum.progress(nearbyPlayer,Progress.ENDERMAN_KILLED);
-			}
+		if (lootInfo.getAttacker() instanceof EntityPlayerMP){
+			EntityPlayerMP attacker = (EntityPlayerMP)lootInfo.getAttacker();
 			
-			entityDropItem(new ItemStack(Items.ender_pearl),0F);
-			CausatumEventHandler.tryStartEvent((EntityPlayerMP)attacker,EventTypes.STAGE_ADVANCE_TO_ENDERMAN_KILLED);
-			return;
+			Causatum.trigger(attacker,Actions.KILL_ENDERMAN);
+			
+			if (Causatum.progress(attacker,Progress.ENDERMAN_KILLED,Actions.STAGE_ADVANCE_TO_ENDERMAN_KILLED)){
+				for(EntityPlayer nearbyPlayer:EntitySelector.players(worldObj,boundingBox.expand(12D,4D,12D))){
+					Causatum.progress(nearbyPlayer,Progress.ENDERMAN_KILLED);
+				}
+				
+				entityDropItem(new ItemStack(Items.ender_pearl),0F);
+				CausatumEventHandler.tryStartEvent(attacker,EventTypes.STAGE_ADVANCE_TO_ENDERMAN_KILLED);
+				return;
+			}
 		}
 		
 		for(ItemStack drop:drops.generateLoot(lootInfo,rand))entityDropItem(drop,0F);
-		
-		dropCarrying();
 	}
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount){
-		if (super.attackEntityFrom(source,amount)){
-			// TODO if (dimension == 0)CausatumUtils.increase(source,CausatumMeters.OVERWORLD_ENDERMAN_DAMAGE,amount*0.25F);
-			// TODO else if (dimension == 1)CausatumUtils.increase(source,CausatumMeters.END_MOB_DAMAGE,amount*0.5F);
-			
-			return true;
-		}
-		else return false;
+	public boolean attackEntityAsMob(Entity target){
+		return Damage.vanillaMob(this).addModifier(IDamageModifier.nudityDanger).deal(target);
+	}
+	
+	@Override
+	public boolean canTargetOnDirectLook(EntityPlayer target, double distance){
+		return distance <= (Causatum.hasReached(target,Progress.ENDERMAN_KILLED) ? lookDistance : lookDistance*0.5D);
 	}
 
 	@Override
