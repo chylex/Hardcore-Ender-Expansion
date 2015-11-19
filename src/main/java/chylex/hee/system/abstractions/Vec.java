@@ -72,6 +72,10 @@ public class Vec{
 		return MathUtil.distance(vec.x-x,vec.y-y,vec.z-z);
 	}
 	
+	public double dotProduct(Vec vec){
+		return vec.x*x+vec.y*y+vec.z*z;
+	}
+	
 	public Pos toPos(){
 		return Pos.at(x,y,z);
 	}
