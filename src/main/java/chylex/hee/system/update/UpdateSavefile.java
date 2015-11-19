@@ -1,9 +1,9 @@
 package chylex.hee.system.update;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.io.Charsets;
 import org.apache.commons.io.FileUtils;
 import chylex.hee.HardcoreEnderExpansion;
 import chylex.hee.system.logging.Log;
@@ -26,7 +26,7 @@ class UpdateSavefile{
 		try{
 			if (!file.exists())file.createNewFile();
 			
-			List<String> lines = FileUtils.readLines(file,Charsets.UTF_8);
+			List<String> lines = FileUtils.readLines(file,StandardCharsets.UTF_8);
 			if (lines.size() >= 1)newestModVersion = lines.get(0);
 			if (lines.size() >= 2)lastCheckTime = Long.parseLong(lines.get(1));
 		}catch(IOException | NumberFormatException e){
