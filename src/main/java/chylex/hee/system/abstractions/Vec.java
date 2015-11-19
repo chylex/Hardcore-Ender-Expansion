@@ -1,6 +1,7 @@
 package chylex.hee.system.abstractions;
 import java.util.Random;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import chylex.hee.system.util.MathUtil;
@@ -32,6 +33,10 @@ public class Vec{
 	
 	public static Vec between(Entity source, Entity target){
 		return new Vec(target.posX-source.posX,target.posY-source.posY,target.posZ-source.posX);
+	}
+	
+	public static Vec look(EntityLivingBase entity){
+		return from(entity.getLookVec());
 	}
 	
 	public double x, y, z;
