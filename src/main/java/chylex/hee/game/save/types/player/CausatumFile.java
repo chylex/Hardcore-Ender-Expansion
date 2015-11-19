@@ -67,6 +67,10 @@ public class CausatumFile extends PlayerFile{
 		setModified();
 	}
 	
+	public Progress getStage(){
+		return progress;
+	}
+	
 	public int getLevel(){
 		return level;
 	}

@@ -17,6 +17,10 @@ public final class Causatum{
 		return SaveData.player(player,CausatumFile.class).tryTrigger(action);
 	}
 	
+	public static boolean hasReached(EntityPlayer player, Progress stage){
+		return SaveData.player(player,CausatumFile.class).getStage().ordinal() >= stage.ordinal();
+	}
+	
 	public enum Progress{
 		INITIAL, ENDERMAN_KILLED, INTO_THE_END
 	}
