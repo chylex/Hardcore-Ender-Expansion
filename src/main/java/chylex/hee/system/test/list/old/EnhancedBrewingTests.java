@@ -14,7 +14,6 @@ import chylex.hee.system.test.UnitTest;
 
 public class EnhancedBrewingTests{
 	private final List<Pair<Item,PotionEffect>> stages = new ArrayList<>();
-	private Potion[] potionList; // unused
 	private Item[] specialIngredients;
 	private ItemStack isWater;
 	private ItemStack isAwkward;
@@ -27,21 +26,6 @@ public class EnhancedBrewingTests{
 	private ItemStack isCustomSpeedL3;
 	
 	{
-		potionList = new Potion[]{
-			Potion.heal,
-			Potion.harm,
-			Potion.moveSpeed,
-			Potion.moveSlowdown,
-			Potion.damageBoost,
-			Potion.weakness,
-			Potion.nightVision,
-			Potion.invisibility,
-			Potion.regeneration,
-			Potion.poison,
-			Potion.fireResistance,
-			Potion.waterBreathing
-		};
-		
 		specialIngredients = new Item[]{
 			ItemList.instability_orb,
 			ItemList.ectoplasm,

@@ -1,14 +1,8 @@
 package chylex.hee.world.structure.island.biome.feature.forest.ravageddungeon;
-import java.util.Random;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-import chylex.hee.block.BlockRavagedBrick;
-import chylex.hee.init.BlockList;
-import chylex.hee.system.abstractions.facing.Facing4;
-import chylex.hee.system.collections.weight.WeightedMap;
 
+// TODO update stuff
 public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
-	private static final byte radEntrance = 2, radHallway = 2, radRoom = 7;
+	//private static final byte radEntrance = 2, radHallway = 2, radRoom = 7;
 	
 	private final byte hallHeight;
 	private byte level;
@@ -46,7 +40,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	 * DESCEND
 	 */
 	
-	private enum EnumDescendDesign{
+	/*private enum EnumDescendDesign{
 		PILLARS_WITH_SPAWNER, GOO_CORNERS, FENCE_LIGHTS, CORNER_LIGHTS
 	}
 	
@@ -55,7 +49,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 		map.add(EnumDescendDesign.FENCE_LIGHTS, 42);
 		map.add(EnumDescendDesign.GOO_CORNERS, 35);
 		map.add(EnumDescendDesign.CORNER_LIGHTS, 25);
-	});
+	});*/
 	
 	/*public void generateDescend(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement descend){
 		generateRoomLayout(world,rand,x,y,z);
@@ -181,7 +175,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	 * HALLWAY
 	 */
 	
-	private enum EnumHallwayDesign{
+	/*private enum EnumHallwayDesign{
 		NONE, DESTROYED_WALLS, STAIR_PATTERN, EMBEDDED_CHEST, COBWEBS, FLOOR_CEILING_SLABS, LAPIS_BLOCK, WALL_MOUNTED_SPAWNERS, DEAD_END_CHEST, FLOWER_POT,
 		SPAWNERS_IN_WALLS
 	}
@@ -198,7 +192,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 		map.add(EnumHallwayDesign.WALL_MOUNTED_SPAWNERS, 19);
 		map.add(EnumHallwayDesign.FLOWER_POT, 16);
 		map.add(EnumHallwayDesign.LAPIS_BLOCK, 4);
-	});
+	});*/
 	
 	/*public void generateHallway(LargeStructureWorld world, Random rand, int x, int y, int z, DungeonElement hallway){
 		for(int yy = y; yy <= y+hallHeight+1; yy++){
@@ -455,7 +449,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	 * ROOM
 	 */
 	
-	private enum EnumRoomDesign{
+	/*private enum EnumRoomDesign{
 		GOO_FOUNTAINS, BOWLS, CARPET_TARGET, SCATTERED_SPAWNERS_WITH_COAL, GLOWING_ROOM, FOUR_SPAWNERS, ENCASED_CUBICLE, TERRARIUM, RUINS
 	}
 	
@@ -469,7 +463,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 		map.add(EnumRoomDesign.CARPET_TARGET, 26);
 		map.add(EnumRoomDesign.ENCASED_CUBICLE, 20);
 		map.add(EnumRoomDesign.TERRARIUM, 17);
-	});
+	});*/
 	
 	/*private void generateRoomLayout(LargeStructureWorld world, Random rand, int x, int y, int z){
 		for(int yy = y; yy <= y+hallHeight+1; yy++){
@@ -999,7 +993,7 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 	 * UTILITIES
 	 */
 	
-	private static boolean canReplaceBlock(Block block){
+	/*private static boolean canReplaceBlock(Block block){
 		return block == Blocks.end_stone || block == BlockList.end_terrain || block == Blocks.air || block == BlockList.crossed_decoration || block == BlockList.stardust_ore || block == BlockList.end_powder_ore;
 	}
 	
@@ -1035,5 +1029,5 @@ public final class RavagedDungeonPlacer/* implements ITileEntityGenerator*/{
 			case RIGHT: return Facing4.WEST_NEGX;
 			default: return null;
 		}
-	}
+	}*/
 }

@@ -1,5 +1,5 @@
 package chylex.hee.system.abstractions;
-import gnu.trove.map.hash.TLongFloatHashMap;
+import io.netty.buffer.ByteBuf;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,7 +28,6 @@ import chylex.hee.system.util.FastRandom;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import io.netty.buffer.ByteBuf;
 
 public class Explosion{
 	private static long lastSoundTick, lastRunTick;
@@ -76,7 +75,6 @@ public class Explosion{
 	private int randSeed;
 	private net.minecraft.world.Explosion vanillaExplosion;
 	private final FastRandom clientRand;
-	private final TLongFloatHashMap blockResistanceCache = new TLongFloatHashMap(150); // TODO implement and profile
 	
 	public Explosion(World world, double x, double y, double z, float radius, Entity explodingEntity, Entity cause){
 		this.world = world;

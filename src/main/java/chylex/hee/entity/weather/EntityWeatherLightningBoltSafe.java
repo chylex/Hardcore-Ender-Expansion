@@ -1,9 +1,8 @@
 package chylex.hee.entity.weather;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import chylex.hee.system.util.BlockPosM;
+import chylex.hee.system.abstractions.Pos;
 
 public class EntityWeatherLightningBoltSafe extends EntityLightningBolt{
 	private int lightningState;
@@ -14,17 +13,13 @@ public class EntityWeatherLightningBoltSafe extends EntityLightningBolt{
 		lightningState = 2;
 		boltVertex = rand.nextLong();
 		boltLivingTime = rand.nextInt(3)+1;
-
-		if (!world.isRemote && world.difficultySetting.getDifficultyId() >= 2 && world.doChunksNearChunkExist(MathHelper.floor_double(x),MathHelper.floor_double(y),MathHelper.floor_double(z),10)){
-			BlockPosM tmpPos = BlockPosM.tmp();
-			
-			for(int testX = -2; testX <= 2; ++testX){
-				for(int testY = -2; testY <= 2; ++testY){
-					for(int testZ = -2; testZ <= 2; ++testZ){
-						if (tmpPos.set(x+testX,y+testY,z+testZ).getBlock(worldObj) == Blocks.fire)tmpPos.setAir(worldObj);
-					}
-				}
-			}
+		
+		Pos pos = Pos.at(this);
+		
+		if (!world.isRemote && world.difficultySetting.getDifficultyId() >= 2 && world.doChunksNearChunkExist(pos.getX(),pos.getY(),pos.getZ(),10)){
+			Pos.forEachBlock(pos.offset(-1,-1,-1),pos.offset(1,1,1),testPos -> {
+				if (testPos.getBlock(worldObj) == Blocks.fire)testPos.setAir(worldObj);
+			});
 		}
 	}
 
