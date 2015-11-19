@@ -62,7 +62,7 @@ public class EntityAltarOrbFX extends EntityFX{
 		posZ = trueZ+Math.cos(offsetAngle[2])*offsetDistance;
 		
 		for(int a = 0; a < 3; a++){
-			if (rand.nextInt(18) == 0)offsetAngleMode[a] = (byte)(offsetAngleMode[a] == 1?-1:1);
+			if (rand.nextInt(18) == 0)offsetAngleMode[a] = (byte)(offsetAngleMode[a] == 1 ? -1 : 1);
 			offsetAngle[a] += offsetAngleMode[a]*0.0698131*rand.nextFloat()*0.2D;
 		}
 		

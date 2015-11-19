@@ -10,7 +10,7 @@ import chylex.hee.system.util.DragonUtil;
 
 public class EntityMobForestGhost extends EntityFlying implements IMob{
 	private EntityPlayer target;
-	private byte lifeLeft;
+	private int lifeLeft;
 	
 	public EntityMobForestGhost(World world){
 		super(world);
@@ -28,7 +28,7 @@ public class EntityMobForestGhost extends EntityFlying implements IMob{
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
 		
-		if (--lifeLeft<-9 || target == null || target.isDead || DragonUtil.canEntitySeePoint(target,posX,posY,posZ,1D,true)){
+		if (--lifeLeft < -9 || target == null || target.isDead || DragonUtil.canEntitySeePoint(target,posX,posY,posZ,1D,true)){
 			if (target != null){
 				PotionEffect blindness = target.getActivePotionEffect(Potion.blindness);
 				if (blindness != null && blindness.getDuration() <= 80)target.removePotionEffect(Potion.blindness.id);

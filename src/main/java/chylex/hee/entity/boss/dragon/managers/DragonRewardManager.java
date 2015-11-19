@@ -21,7 +21,7 @@ public class DragonRewardManager{
 	private float extraHandicap;
 	private int finalDifficulty = -1;
 	
-	private byte difficultyCooldown = 120;
+	private int difficultyCooldown = 120;
 	private boolean deadPlayerCheck;
 	
 	public DragonRewardManager(EntityBossDragon dragon){

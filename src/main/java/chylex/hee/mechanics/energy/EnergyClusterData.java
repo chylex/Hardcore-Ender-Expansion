@@ -12,9 +12,9 @@ public final class EnergyClusterData{
 	private EnergyClusterHealth health = EnergyClusterHealth.HEALTHY;
 	
 	private float regenAmount;
-	private byte regenTimeLimit;
+	private int regenTimeLimit;
 	
-	private byte regenTimer;
+	private int regenTimer;
 	private boolean resync;
 	
 	public EnergyClusterData(){}
@@ -29,7 +29,7 @@ public final class EnergyClusterData{
 		this.health = health;
 		
 		this.regenAmount = (float)(Math.pow(1F+maxEnergyLevel,0.004D)-0.997F)*0.5F*health.regenAmountMp;
-		this.regenTimeLimit = (byte)(20F/health.regenSpeedMp);
+		this.regenTimeLimit = MathUtil.floor(20F/health.regenSpeedMp);
 	}
 	
 	public void update(TileEntityEnergyCluster cluster){
@@ -93,7 +93,7 @@ public final class EnergyClusterData{
 	public boolean drainUnits(int units){
 		if (energyLevel >= EnergyValues.unit*units){
 			energyLevel -= EnergyValues.unit*units;
-			regenTimer = (byte)-(40F/health.regenSpeedMp);
+			regenTimer = -MathUtil.floor(40F/health.regenSpeedMp);
 			resync = true;
 			return true;
 		}
@@ -104,11 +104,9 @@ public final class EnergyClusterData{
 		nbt.setByte("status",(byte)health.ordinal());
 		nbt.setFloat("lvl",energyLevel);
 		nbt.setFloat("max",maxEnergyLevel);
-		nbt.setByte("tim",regenTimer);
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt){
 		setData(nbt.getFloat("lvl"),nbt.getFloat("max"),EnergyClusterHealth.values[MathUtil.clamp(nbt.getByte("status"),0,EnergyClusterHealth.values.length-1)]);
-		regenTimer = nbt.getByte("tim");
 	}
 }

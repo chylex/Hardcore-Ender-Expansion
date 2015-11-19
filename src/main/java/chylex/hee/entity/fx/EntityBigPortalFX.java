@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityBigPortalFX extends EntityFX{
-	private byte realParticleAge;
+	private int realParticleAge;
 	protected float portalParticleScale;
 	
 	public EntityBigPortalFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ){
@@ -25,7 +25,7 @@ public class EntityBigPortalFX extends EntityFX{
 		setParticleTextureIndex((int)(Math.random()*8D));
 		
 		particleScale = portalParticleScale = 2.75F+rand.nextFloat()*0.4F;
-		realParticleAge = (byte)(rand.nextInt(20)+35);
+		realParticleAge = rand.nextInt(20)+35;
 		
 		renderDistanceWeight = 20D;
 	}

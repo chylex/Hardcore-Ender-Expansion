@@ -2,7 +2,7 @@ package chylex.hee.entity.boss.dragon.attacks.passive;
 import chylex.hee.entity.boss.EntityBossDragon;
 
 public class DragonAttackBite extends DragonPassiveAttackBase{
-	private byte biteCooldown, biteCounter;
+	private int biteCooldown, biteCounter;
 	
 	public DragonAttackBite(EntityBossDragon dragon, int attackId){
 		super(dragon,attackId);
@@ -16,7 +16,7 @@ public class DragonAttackBite extends DragonPassiveAttackBase{
 				biteCounter = 0;
 			}
 			
-			biteCooldown = (byte)(dragon.angryStatus ? 7 : 9);
+			biteCooldown = dragon.angryStatus ? 7 : 9;
 		}
 	}
 }

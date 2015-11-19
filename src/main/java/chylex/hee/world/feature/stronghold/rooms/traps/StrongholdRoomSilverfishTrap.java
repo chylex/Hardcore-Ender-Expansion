@@ -46,8 +46,8 @@ public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
 	}
 	
 	public static class TriggerSilverfish extends TriggerBase{
-		private byte checkTimer = 0;
-		private byte spawnsLeft = -1;
+		private int checkTimer = 0;
+		private int spawnsLeft = -1;
 		
 		@Override
 		protected void update(EntityTechnicalTrigger entity, World world, Random rand){
@@ -73,7 +73,7 @@ public class StrongholdRoomSilverfishTrap extends StrongholdRoom{
 			}
 			else if (++checkTimer > 10){
 				checkTimer = 0;
-				if (world.getClosestPlayerToEntity(entity,5.5D) != null)spawnsLeft = (byte)(6+world.difficultySetting.getDifficultyId()*2+rand.nextInt(4));
+				if (world.getClosestPlayerToEntity(entity,5.5D) != null)spawnsLeft = 6+world.difficultySetting.getDifficultyId()*2+rand.nextInt(4);
 			}
 		}
 	}

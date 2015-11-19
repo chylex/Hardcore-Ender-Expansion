@@ -8,12 +8,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityCustomBubbleFX extends EntityBubbleFX{
-	private final byte airLifeSpan;
-	private byte airLife;
+	private final int airLifeSpan;
+	private int airLife;
 	
 	public EntityCustomBubbleFX(World world, double x, double y, double z, double motionX, double motionY, double motionZ){
 		super(world,x,y,z,motionX,motionY,motionZ);
-		airLifeSpan = (byte)(rand.nextInt(40)+18);
+		airLifeSpan = rand.nextInt(40)+18;
 		noClip = true;
 	}
 

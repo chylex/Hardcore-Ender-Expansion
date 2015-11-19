@@ -9,7 +9,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityOrbitingPortalFX extends EntityPortalFX{
 	private final double orbitSpeed, portalPosX, portalPosZ;
 	private final float portalParticleScale;
-	private byte customAge, customMaxAge;
+	private final int customMaxAge;
+	private int customAge;
 	private double orbitAngle;
 
 	public EntityOrbitingPortalFX(World world, double x, double y, double z, double motionY){
@@ -20,8 +21,8 @@ public class EntityOrbitingPortalFX extends EntityPortalFX{
 		orbitAngle = world.rand.nextDouble()*2D*Math.PI;
 		orbitSpeed = (world.rand.nextDouble()*0.3217D+0.1954D)*(rand.nextBoolean() ? 1 : -1);
 		
-		customMaxAge = (byte)((particleAge = particleMaxAge = rand.nextInt(15)+10)*2);
-		particleScale = portalParticleScale = 0.6f;
+		customMaxAge = 2*(particleAge = particleMaxAge = rand.nextInt(15)+10);
+		particleScale = portalParticleScale = 0.6F;
 	}
 	
 	@Override
@@ -44,6 +45,6 @@ public class EntityOrbitingPortalFX extends EntityPortalFX{
 		
 		orbitAngle += orbitSpeed;
 		if (++customAge > customMaxAge)setDead();
-		else if (customAge >= customMaxAge>>1)--particleAge;
+		else if (customAge >= customMaxAge/2)--particleAge;
 	}
 }

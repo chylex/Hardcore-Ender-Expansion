@@ -7,17 +7,17 @@ import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.util.MathUtil;
 
 public class TileEntityEndPortalCustom extends TileEntityEndPortal{
-	private byte activationTimer = Byte.MIN_VALUE;
+	private int activationTimer = -1;
 	
 	public boolean animate = false;
 	public float colorProgress = 1F, prevColorProgress = 1F;
 	
 	@Override
 	public void updateEntity(){
-		if (!worldObj.isRemote && activationTimer != Byte.MIN_VALUE){
-			if (++activationTimer > 120){
+		if (!worldObj.isRemote && activationTimer != -1){
+			if (++activationTimer > 135){
 				Pos.at(this).setMetadata(worldObj,Meta.endPortalActive);
-				activationTimer = Byte.MIN_VALUE;
+				activationTimer = -1;
 			}
 		}
 		
@@ -28,7 +28,7 @@ public class TileEntityEndPortalCustom extends TileEntityEndPortal{
 	}
 	
 	public void startActivating(){
-		activationTimer = -15;
+		activationTimer = 0;
 	}
 	
 	public void startAnimation(){
@@ -49,12 +49,12 @@ public class TileEntityEndPortalCustom extends TileEntityEndPortal{
 	@Override
 	public void writeToNBT(NBTTagCompound nbt){
 		super.writeToNBT(nbt);
-		if (activationTimer != Byte.MIN_VALUE)nbt.setBoolean("activating",true);
+		if (activationTimer != -1)nbt.setBoolean("activating",true);
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt){
 		super.readFromNBT(nbt);
-		if (nbt.getBoolean("activating"))activationTimer = 120;
+		if (nbt.getBoolean("activating"))activationTimer = 135;
 	}
 }

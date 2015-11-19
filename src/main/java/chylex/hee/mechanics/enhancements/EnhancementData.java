@@ -52,7 +52,7 @@ public class EnhancementData<T extends Enum<T>>{
 	public class EnhancementInfo{
 		private final T enhancement;
 		private final List<EnhancementIngredient> ingredients = new ArrayList<>(3);
-		private byte maxLevel = 1;
+		private int maxLevel = 1;
 		
 		EnhancementInfo(T enhancement){
 			this.enhancement = enhancement;
@@ -93,11 +93,11 @@ public class EnhancementData<T extends Enum<T>>{
 		}
 		
 		public EnhancementInfo setMaxLevel(int maxLevel){
-			this.maxLevel = (byte)maxLevel;
+			this.maxLevel = maxLevel;
 			return this;
 		}
 		
-		public byte getMaxLevel(){
+		public int getMaxLevel(){
 			return maxLevel;
 		}
 		

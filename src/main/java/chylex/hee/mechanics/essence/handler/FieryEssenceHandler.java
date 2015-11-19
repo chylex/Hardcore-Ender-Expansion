@@ -18,7 +18,7 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 
 public class FieryEssenceHandler extends AltarActionHandler{
-	private byte essenceUsageCounter = -100;
+	private int essenceUsageCounter = 0;
 	
 	public FieryEssenceHandler(TileEntityEssenceAltar altar){
 		super(altar);
@@ -123,8 +123,8 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	}
 	
 	private boolean tryDrainEssence(){
-		if (++essenceUsageCounter > (/* TODO altar.getEnhancements().contains(EssenceAltarEnhancements.EFFICIENCY) ? 120 : */30)){
-			essenceUsageCounter = -120;
+		if (++essenceUsageCounter > (/* TODO altar.getEnhancements().contains(EssenceAltarEnhancements.EFFICIENCY) ? 220 : */130)){
+			essenceUsageCounter = -20;
 			altar.drainEssence(1);
 			return true;
 		}
@@ -138,12 +138,12 @@ public class FieryEssenceHandler extends AltarActionHandler{
 	
 	@Override
 	public void onTileWriteToNBT(NBTTagCompound nbt){
-		nbt.setByte("F_essenceUsageCnt",essenceUsageCounter);
+		nbt.setShort("F_essenceUsageCnt",(short)essenceUsageCounter);
 	}
 	
 	@Override
 	public void onTileReadFromNBT(NBTTagCompound nbt){
-		essenceUsageCounter = nbt.getByte("F_essenceUsageCnt");
+		essenceUsageCounter = nbt.getShort("F_essenceUsageCnt");
 	}
 	
 	// TileEntityFurnace.canSmelt()

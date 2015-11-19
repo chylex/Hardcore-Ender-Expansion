@@ -42,8 +42,8 @@ public class EntityItemIgneousRock extends EntityItem{
 		blockTransformations.put(Blocks.sand, Blocks.glass);
 	}
 	
-	private short rockLife = 700;
-	private byte thrownDirection;
+	private int rockLife = 700;
+	private int thrownDirection;
 	
 	public EntityItemIgneousRock(World world){
 		super(world);
@@ -53,7 +53,7 @@ public class EntityItemIgneousRock extends EntityItem{
 		super(world,x,y,z,is);
 		
 		EntityPlayer thrower = world.getClosestPlayer(x,y-1.62D,z,1D);
-		if (thrower != null)thrownDirection = (byte)(MathHelper.floor_double((thrower.rotationYaw*4F/360F)+0.5D)&3);
+		if (thrower != null)thrownDirection = MathHelper.floor_double((thrower.rotationYaw*4F/360F)+0.5D)&3;
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class EntityItemIgneousRock extends EntityItem{
 		
 		if (!worldObj.isRemote){
 			ItemStack is = getEntityItem();
-			if ((rockLife -= rand.nextInt(isInWater()?5:3)) < 0){
+			if ((rockLife -= rand.nextInt(isInWater() ? 5 : 3)) < 0){
 				if (--is.stackSize == 0)setDead();
 				else{
 					rockLife = 700;
@@ -137,12 +137,12 @@ public class EntityItemIgneousRock extends EntityItem{
 	@Override
 	public void writeEntityToNBT(NBTTagCompound nbt){
 		super.writeEntityToNBT(nbt);
-		nbt.setShort("rockLife",rockLife);
+		nbt.setShort("rockLife",(short)rockLife);
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound nbt){
 		super.readEntityFromNBT(nbt);
-		rockLife = nbt.hasKey("rockLife") ? nbt.getShort("rockLife") : rockLife;
+		rockLife = nbt.getShort("rockLife");
 	}
 }

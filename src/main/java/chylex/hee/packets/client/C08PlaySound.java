@@ -79,31 +79,31 @@ public class C08PlaySound extends AbstractClientPacket{
 	};
 	
 	private byte soundId;
-	private double x, y, z;
+	private float x, y, z; // float loses precision for positions inside blocks
 	private float volume, pitch;
 	
 	public C08PlaySound(){}
 	
 	public C08PlaySound(byte soundId, double x, double y, double z, float volume, float pitch){
 		this.soundId = soundId;
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this.x = (float)x;
+		this.y = (float)y;
+		this.z = (float)z;
 		this.volume = volume;
 		this.pitch = pitch;
 	}
 	
 	@Override
 	public void write(ByteBuf buffer){
-		buffer.writeByte(soundId).writeDouble(x).writeDouble(y).writeDouble(z).writeFloat(volume).writeFloat(pitch);
+		buffer.writeByte(soundId).writeFloat(x).writeFloat(y).writeFloat(z).writeFloat(volume).writeFloat(pitch);
 	}
 
 	@Override
 	public void read(ByteBuf buffer){
 		soundId = buffer.readByte();
-		x = buffer.readDouble();
-		y = buffer.readDouble();
-		z = buffer.readDouble();
+		x = buffer.readFloat();
+		y = buffer.readFloat();
+		z = buffer.readFloat();
 		volume = buffer.readFloat();
 		pitch = buffer.readFloat();
 	}

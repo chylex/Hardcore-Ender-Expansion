@@ -85,7 +85,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 	/**
 	 * 0 = inactive, -1 = active but undecided (because of randomness in exp drop)
 	 */
-	private byte expAmount;
+	private int expAmount;
 	
 	@Override
 	public void invalidateInventory(){
@@ -105,7 +105,7 @@ public class TileEntityExperienceTable extends TileEntityAbstractTable{
 
 	@Override
 	protected boolean onWorkFinished(){
-		if (expAmount == -1)expAmount = (byte)Math.min(64,getExperience(items[0],worldObj));
+		if (expAmount == -1)expAmount = Math.min(64,getExperience(items[0],worldObj));
 		
 		if (items[2] == null)items[2] = new ItemStack(ItemList.exp_bottle,expAmount);
 		else if (items[2].stackSize+expAmount <= items[2].getMaxStackSize())items[2].stackSize += expAmount;

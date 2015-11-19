@@ -55,7 +55,7 @@ public final class Meta{
 	
 	/* === TORCHES === */
 	
-	public static byte getTorch(Facing4 attachedTo){
+	public static int getTorch(Facing4 attachedTo){
 		switch(attachedTo){
 			case WEST_NEGX: return 1;
 			case EAST_POSX: return 2;
@@ -67,7 +67,7 @@ public final class Meta{
 	
 	/* === BUTTONS === */
 	
-	public static byte getButton(Facing4 attachedTo){
+	public static int getButton(Facing4 attachedTo){
 		switch(attachedTo){
 			case WEST_NEGX: return 1;
 			case EAST_POSX: return 2;
@@ -79,7 +79,7 @@ public final class Meta{
 	
 	/* === LADDERS === */
 	
-	public static byte getLadder(Facing4 attachedTo){
+	public static int getLadder(Facing4 attachedTo){
 		switch(attachedTo){
 			case SOUTH_POSZ: return 2;
 			case NORTH_NEGZ: return 3;
@@ -91,19 +91,19 @@ public final class Meta{
 	
 	/* === STAIRS === */
 	
-	public static byte getStairs(Facing4 ascendsTowards, boolean flip){
+	public static int getStairs(Facing4 ascendsTowards, boolean flip){
 		switch(ascendsTowards){
-			case EAST_POSX: return (byte)(0+(flip ? 4 : 0));
-			case WEST_NEGX: return (byte)(1+(flip ? 4 : 0));
-			case SOUTH_POSZ: return (byte)(2+(flip ? 4 : 0));
-			case NORTH_NEGZ: return (byte)(3+(flip ? 4 : 0));
+			case EAST_POSX: return 0+(flip ? 4 : 0);
+			case WEST_NEGX: return 1+(flip ? 4 : 0);
+			case SOUTH_POSZ: return 2+(flip ? 4 : 0);
+			case NORTH_NEGZ: return 3+(flip ? 4 : 0);
 			default: return 0;
 		}
 	}
 	
 	/* === DOORS === */
 	
-	public static byte getDoor(Facing4 opensTowards, boolean upper){
+	public static int getDoor(Facing4 opensTowards, boolean upper){
 		if (upper)return 8;
 		
 		switch(opensTowards){
@@ -117,7 +117,7 @@ public final class Meta{
 	
 	/* === VINES === */
 	
-	public static byte getVine(Facing4 attachedTo){
+	public static int getVine(Facing4 attachedTo){
 		switch(attachedTo){
 			case SOUTH_POSZ: return 1;
 			case WEST_NEGX: return 2;
@@ -127,26 +127,26 @@ public final class Meta{
 		}
 	}
 	
-	public static byte getVine(Facing4 attachedTo1, Facing4 attachedTo2){
-		return (byte)(getVine(attachedTo1)|getVine(attachedTo2));
+	public static int getVine(Facing4 attachedTo1, Facing4 attachedTo2){
+		return getVine(attachedTo1)|getVine(attachedTo2);
 	}
 	
 	/* === DYES AND COLORED BLOCKS === */
 	
 	public enum BlockColor { WHITE, ORANGE, MAGENTA, LIGHT_BLUE, YELLOW, LIME, PINK, GRAY, LIGHT_GRAY, CYAN, PURPLE, BLUE, BROWN, GREEN, RED, BLACK }
 	
-	public static byte getColor(BlockColor color){
+	public static int getColor(BlockColor color){
 		return (byte)color.ordinal();
 	}
 	
-	public static byte getDye(BlockColor color){
-		return (byte)(15-color.ordinal());
+	public static int getDye(BlockColor color){
+		return 15-color.ordinal();
 	}
 	
 	/* === CUSTOM BLOCKS === */
 	
-	public static byte getGloomtorch(Facing6 attachedTo){
-		return (byte)(attachedTo.ordinal()+1);
+	public static int getGloomtorch(Facing6 attachedTo){
+		return attachedTo.ordinal()+1;
 	}
 	
 	/* === LOGS === */

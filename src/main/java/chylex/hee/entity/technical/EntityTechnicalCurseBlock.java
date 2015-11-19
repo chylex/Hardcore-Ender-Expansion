@@ -33,7 +33,7 @@ public class EntityTechnicalCurseBlock extends EntityTechnicalBase implements IC
 	private final List<EntityLivingBase> prevAffectedEntities = new ArrayList<>();
 	
 	@SideOnly(Side.CLIENT)
-	private byte disappearTimer;
+	private int disappearTimer;
 	
 	public EntityTechnicalCurseBlock(World world){
 		super(world);

@@ -7,7 +7,7 @@ public class TileEntityAccumulationTable extends TileEntityAbstractTable{
 	private static final int[] slotsAll = new int[]{ 0 };
 	private static final float maxStoredEnergy = EnergyValues.unit*50F;
 	
-	private byte channelCooldown;
+	private int channelCooldown;
 	private boolean lastComparatorStatus;
 
 	@Override

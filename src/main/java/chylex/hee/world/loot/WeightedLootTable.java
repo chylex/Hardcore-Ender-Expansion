@@ -27,7 +27,7 @@ public class WeightedLootTable extends LootTable<WeightedLootItem>{
 	public class WeightedLootItem extends LootTable.LootItem implements IWeightProvider{
 		protected LootDamageProvider damage;
 		protected LootAmountProvider amount;
-		private short weight;
+		private int weight;
 		
 		WeightedLootItem(Item item){
 			super(item);

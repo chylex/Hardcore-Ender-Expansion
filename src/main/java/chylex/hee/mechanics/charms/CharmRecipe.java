@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 
 public class CharmRecipe{
-	public final byte id;
+	public final int id;
 	private final TObjectByteHashMap<RuneType> runes = new TObjectByteHashMap<>();
 	private final TObjectFloatHashMap<String> properties = new TObjectFloatHashMap<>();
-	private byte runeAmount;
+	private int runeAmount;
 	
 	public CharmRecipe(int id){
-		this.id = (byte)id;
+		this.id = id;
 	}
 	
 	public CharmRecipe rune(RuneType rune){

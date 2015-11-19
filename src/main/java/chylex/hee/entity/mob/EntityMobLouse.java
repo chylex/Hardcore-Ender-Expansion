@@ -42,7 +42,7 @@ public class EntityMobLouse extends EntityMob implements IIgnoreEnderGoo{
 	private EntityDataWatcher entityData;
 	private LouseSpawnData louseData;
 	private float armor;
-	private byte armorCapacity,armorRegenTimer,regenLevel,regenTimer,healAbility,healTimer,teleportTimer;
+	private byte armorCapacity, armorRegenTimer, regenLevel, regenTimer, healAbility, healTimer, teleportTimer;
 	
 	public EntityMobLouse(World world){
 		super(world);

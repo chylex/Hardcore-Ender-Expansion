@@ -238,7 +238,7 @@ public class WorldGenEnergyShrine implements IWorldGenerator{
 	}
 	
 	public static final class TriggerShrine extends TriggerBase{
-		private byte checkTimer;
+		private int checkTimer;
 		private boolean running;
 		
 		@Override

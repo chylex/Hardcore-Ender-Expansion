@@ -16,7 +16,7 @@ public class DragonAchievementManager{
 	private final EntityBossDragon dragon;
 	private final Map<UUID,AchievementData> playerData;
 	private int battleTimer;
-	private byte playerCheck;
+	private int playerCheck;
 	
 	public DragonAchievementManager(EntityBossDragon dragon){
 		this.dragon = dragon;

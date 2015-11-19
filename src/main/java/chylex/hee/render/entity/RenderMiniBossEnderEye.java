@@ -16,7 +16,7 @@ public class RenderMiniBossEnderEye extends RenderLiving{
 	private static final ResourceLocation texAwake = new ResourceLocation("hardcoreenderexpansion:textures/entity/ender_eye.png");
 	private static final ResourceLocation texAsleep = new ResourceLocation("hardcoreenderexpansion:textures/entity/ender_eye_asleep.png");
 
-	private byte statusTick = 0;
+	private int statusTick = 0;
 	
 	public RenderMiniBossEnderEye(){
 		super(new ModelEnderEye(),0.75F);
@@ -31,7 +31,7 @@ public class RenderMiniBossEnderEye extends RenderLiving{
 	@Override
 	public void doRender(EntityLiving entity, double x, double y, double z, float yaw, float partialTickTime){
 		EntityMiniBossEnderEye eye = (EntityMiniBossEnderEye)entity;
-		if (!eye.isAsleep() || eye.getHealth() != eye.getMaxHealth())statusTick = 126;
+		if (!eye.isAsleep() || eye.getHealth() != eye.getMaxHealth())statusTick = 130;
 		
 		if (statusTick > 0){
 			--statusTick;
@@ -43,7 +43,7 @@ public class RenderMiniBossEnderEye extends RenderLiving{
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity){
-		return ((EntityMiniBossEnderEye)entity).isAsleep()?texAsleep:texAwake;
+		return ((EntityMiniBossEnderEye)entity).isAsleep() ? texAsleep : texAwake;
 	}
 	
 	@Override

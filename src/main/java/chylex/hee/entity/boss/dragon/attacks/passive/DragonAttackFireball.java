@@ -4,7 +4,7 @@ import chylex.hee.entity.boss.dragon.managers.DragonShotManager.ShotType;
 import chylex.hee.proxy.ModCommonProxy;
 
 public class DragonAttackFireball extends DragonPassiveAttackBase{
-	private byte timer;
+	private int timer;
 	
 	public DragonAttackFireball(EntityBossDragon dragon, int attackId){
 		super(dragon,attackId);

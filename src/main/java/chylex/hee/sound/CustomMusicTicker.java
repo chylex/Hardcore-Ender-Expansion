@@ -47,7 +47,7 @@ public final class CustomMusicTicker extends MusicTicker{
 	private final Random rand;
 	private ISound currentMusic;
 	
-	private byte waitAfterNewSong = -1;
+	private int waitAfterNewSong = -1;
 	private int vanillaMusicTimer = 100;
 	private int endMusicTimer;
 	private EndMusicType prevEndMusicType = EndMusicType.EXPLORATION;

@@ -13,7 +13,7 @@ public final class KnowledgeNotification{
 	private final KnowledgeObject<?> obj;
 	private long lastTime;
 	private float yOff, yOffPrev;
-	private byte state;
+	private int state;
 	
 	public KnowledgeNotification(KnowledgeObject<?> obj){
 		this.obj = obj;

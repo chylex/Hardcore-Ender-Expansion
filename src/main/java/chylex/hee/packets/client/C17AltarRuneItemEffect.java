@@ -15,7 +15,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class C17AltarRuneItemEffect extends AbstractClientPacket{
 	private Pos pos;
-	private byte essenceId,runeArrayIndex;
+	private byte essenceId, runeArrayIndex;
 	
 	public C17AltarRuneItemEffect(){}
 	

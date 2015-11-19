@@ -26,7 +26,7 @@ public final class EntityDataWatcher{
 		idMap.put(linkedEnum,(byte)internalId);
 	}
 	
-	private byte getId(Enum<?> linkedEnum){
+	private int getId(Enum<?> linkedEnum){
 		byte value = idMap.get(linkedEnum);
 		if (value == idMap.getNoEntryValue())throw new IllegalArgumentException("Enum was not registered in EntityDataWatcher!");
 		return value;

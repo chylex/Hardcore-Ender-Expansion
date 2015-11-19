@@ -92,7 +92,7 @@ public class DragonChunkManager implements LoadingCallback{
 	
 	private Ticket ticket;
 	private int prevChunkX = Integer.MAX_VALUE, prevChunkZ = Integer.MAX_VALUE;
-	private byte timer;
+	private int timer;
 	
 	@Override
 	public void ticketsLoaded(List<Ticket> tickets, World world){

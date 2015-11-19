@@ -19,7 +19,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityEnergyFX extends EntityFX{
 	private static final ResourceLocation texture = new ResourceLocation("hardcoreenderexpansion:textures/particles/energy.png");
 	
-	private byte indexX, indexY, age, maxAge;
+	private byte indexX, indexY;
+	private int age, maxAge;
 	private boolean checkBreaking ;
 	
 	private EntityEnergyFX(World world, double x, double y, double z, float red, float green, float blue){
@@ -27,7 +28,7 @@ public class EntityEnergyFX extends EntityFX{
 		
 		indexX = (byte)rand.nextInt(4);
 		indexY = (byte)rand.nextInt(4);
-		maxAge = (byte)(70+rand.nextInt(45));
+		maxAge = 70+rand.nextInt(45);
 		particleScale = rand.nextFloat()*0.2F+0.4F;
 		
 		particleRed = red;

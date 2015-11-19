@@ -15,7 +15,7 @@ public class EntityAIDirectLookTarget extends EntityAITarget{
 	private double maxDistance = 32D;
 	
 	private EntityLivingBase currentTarget;
-	private byte tickLimiter;
+	private int tickLimiter;
 	
 	public EntityAIDirectLookTarget(EntityCreature owner, ITargetOnDirectLook lookHandler){
 		super(owner,true,false);

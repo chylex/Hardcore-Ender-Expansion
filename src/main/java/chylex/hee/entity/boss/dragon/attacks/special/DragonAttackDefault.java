@@ -13,13 +13,13 @@ import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.util.DragonUtil;
 
 public class DragonAttackDefault extends DragonSpecialAttackBase{
-	private byte targetCooldown;
+	private int targetCooldown;
 	private int nextTargetTimer = 100;
 	private EntityPlayer overrideTarget;
 	private boolean isOverriding;
 	
 	private TObjectByteHashMap<UUID> seesDragon = new TObjectByteHashMap<>();
-	private byte seesCheck;
+	private int seesCheck;
 	private boolean stealthInProgress;
 	
 	public DragonAttackDefault(EntityBossDragon dragon, int attackId){

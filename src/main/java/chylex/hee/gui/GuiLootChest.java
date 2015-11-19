@@ -13,13 +13,13 @@ public class GuiLootChest extends GuiContainer{
 	
 	private final InventoryPlayer invPlayer;
 	private final InventoryLootChest invLootChest;
-	private final byte inventoryHeight;
+	private final int inventoryHeight;
 	
 	public GuiLootChest(InventoryPlayer inventory, InventoryLootChest chest){
 		super(new ContainerLootChest(inventory,chest));
 		this.invPlayer = inventory;
 		this.invLootChest = chest;
-		inventoryHeight = (byte)(chest.getSizeInventory()*2);
+		inventoryHeight = chest.getSizeInventory()*2;
 		ySize = 114+inventoryHeight;
 	}
 	

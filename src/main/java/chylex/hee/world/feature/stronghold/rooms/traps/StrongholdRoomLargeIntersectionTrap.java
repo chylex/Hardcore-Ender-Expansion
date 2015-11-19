@@ -27,7 +27,7 @@ public class StrongholdRoomLargeIntersectionTrap extends StrongholdRoomLargeInte
 	}
 	
 	public static class TriggerSilverfishBlocks extends TriggerBase{
-		private byte checkTimer = 0;
+		private int checkTimer = 0;
 		
 		@Override
 		protected void update(EntityTechnicalTrigger entity, World world, Random rand){

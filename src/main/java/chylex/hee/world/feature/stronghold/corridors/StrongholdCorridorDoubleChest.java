@@ -22,7 +22,7 @@ public class StrongholdCorridorDoubleChest extends StrongholdCorridorEmbedded{
 		return corridors;
 	}
 	
-	private byte variation;
+	private final int variation;
 	
 	public StrongholdCorridorDoubleChest(boolean dirX, byte variation){
 		super(dirX,new Size(dirX ? 5 : 7,5,dirX ? 7 : 5));

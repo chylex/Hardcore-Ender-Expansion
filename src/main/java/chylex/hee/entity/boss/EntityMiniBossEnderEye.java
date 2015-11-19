@@ -105,7 +105,7 @@ public class EntityMiniBossEnderEye extends EntityFlying implements IBossDisplay
 						sleepTimer = 0;
 					}
 					
-					attackTimer = (byte)(-65+rand.nextInt(15));
+					attackTimer = (byte)(-65+rand.nextInt(15)); // TODO fix this mess
 				}
 			}
 			else if (getDistanceSqToEntity(target) < 60D){
@@ -391,7 +391,7 @@ enum AttackType{
 	Nausea(1,32),
 	LaserBeams(2,104);
 	
-	private byte id,length;
+	private byte id, length;
 	
 	AttackType(int id, int length){
 		this.id = (byte)id;

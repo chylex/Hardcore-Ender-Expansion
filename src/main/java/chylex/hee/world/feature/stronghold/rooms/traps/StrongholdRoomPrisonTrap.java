@@ -112,7 +112,8 @@ public class StrongholdRoomPrisonTrap extends StrongholdRoom{
 	
 	public static class TriggerPrisonSilverfish extends TriggerBase{
 		private BoundingBox checkBox;
-		private byte checkTimer = 0, spawnsLeft = -1;
+		private int checkTimer = 0;
+		private int spawnsLeft = -1;
 		
 		public TriggerPrisonSilverfish(){}
 		
@@ -136,7 +137,7 @@ public class StrongholdRoomPrisonTrap extends StrongholdRoom{
 				List<EntityPlayer> players = EntitySelector.players(world,checkBox.toAABB().offset(entity.posX,entity.posY,entity.posZ));
 				if (players.isEmpty())return;
 				
-				if (spawnsLeft == -1)spawnsLeft = (byte)(2+world.difficultySetting.getDifficultyId()/2);
+				if (spawnsLeft == -1)spawnsLeft = 2+world.difficultySetting.getDifficultyId()/2;
 				else if (spawnsLeft > 0){
 					PosMutable mpos = new PosMutable();
 					
