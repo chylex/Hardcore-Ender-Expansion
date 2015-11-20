@@ -27,10 +27,10 @@ public class StructureWorld{
 	protected final int radX, radZ, sizeX, sizeY, sizeZ;
 	protected final Block[] blocks;
 	protected final byte[] metadata;
-	private final TIntHashSet scheduledUpdates = new TIntHashSet(32);
-	private final TIntObjectHashMap<BlockInfo> attentionWhores = new TIntObjectHashMap<>(16);
-	private final TIntObjectHashMap<IStructureTileEntity> tileEntityMap = new TIntObjectHashMap<>(32);
-	private final List<Pair<Entity,Consumer<Entity>>> entityList = new ArrayList<>(8);
+	protected final TIntHashSet scheduledUpdates = new TIntHashSet(32);
+	protected final TIntObjectHashMap<BlockInfo> attentionWhores = new TIntObjectHashMap<>(16);
+	protected final TIntObjectHashMap<IStructureTileEntity> tileEntityMap = new TIntObjectHashMap<>(32);
+	protected final List<Pair<Entity,Consumer<Entity>>> entityList = new ArrayList<>(8);
 	
 	public StructureWorld(World world, int radX, int sizeY, int radZ){
 		this.world = world;
@@ -47,25 +47,25 @@ public class StructureWorld{
 		this(null,radX,sizeY,radZ);
 	}
 	
-	public World getParentWorld(){
+	public final World getParentWorld(){
 		return world;
 	}
 	
-	public BoundingBox getArea(){
+	public final BoundingBox getArea(){
 		return new BoundingBox(Pos.at(-radX,0,-radZ),Pos.at(radX,sizeY,radZ));
 	}
 	
-	public boolean isInside(int x, int y, int z){
+	public final boolean isInside(int x, int y, int z){
 		x += radX;
 		z += radZ;
 		return x >= 0 && x < sizeX && y >= 0 && y < sizeY && z >= 0 && z < sizeZ;
 	}
 	
-	private int toIndex(int x, int y, int z){
+	protected final int toIndex(int x, int y, int z){
 		return y+sizeY*(x+radX)+sizeY*sizeX*(z+radZ);
 	}
 	
-	private void toPos(int index, PosMutable pos){
+	protected final void toPos(int index, PosMutable pos){
 		pos.setZ(MathUtil.floor((double)index/(sizeY*sizeX)));
 		pos.setX(MathUtil.floor((double)(index-(pos.getZ()*sizeY*sizeX))/sizeY));
 		pos.setY(index-(sizeY*sizeX*pos.getZ())-(sizeY*pos.getX()));
