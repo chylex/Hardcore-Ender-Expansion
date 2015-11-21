@@ -20,7 +20,7 @@ public abstract class BlobGenerator implements IWeightProvider{
 	
 	public abstract void generate(StructureWorldBlob world, Random rand);
 	
-	protected static final void generateBlob(StructureWorldBlob world, double x, double y, double z, float rad){
+	protected static final void generateBlob(StructureWorldBlob world, double x, double y, double z, double rad){
 		double radSq = MathUtil.square(rad+0.5D);
 		int dist = MathUtil.ceil(radSq);
 		Pos center = Pos.at(x,y,z);
@@ -30,5 +30,10 @@ public abstract class BlobGenerator implements IWeightProvider{
 				world.setBlock(pos.x,pos.y,pos.z,Blocks.end_stone);
 			}
 		});
+	}
+	
+	@FunctionalInterface
+	protected static interface IRandGenerator{
+		double generate(Random rand);
 	}
 }

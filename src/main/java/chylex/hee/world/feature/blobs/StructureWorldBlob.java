@@ -36,7 +36,14 @@ public class StructureWorldBlob extends StructureWorldPart{
 		return true;
 	}
 	
+	/**
+	 * Returns a copy of the list of End Stone blocks.
+	 */
 	public List<Pos> getEndStoneBlocks(){
-		return generatedEndStone;
+		return new ArrayList<>(generatedEndStone);
+	}
+	
+	public int getCenterY(){
+		return sizeY/2;
 	}
 }
