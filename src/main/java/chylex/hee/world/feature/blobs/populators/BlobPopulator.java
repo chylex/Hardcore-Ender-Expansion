@@ -1,18 +1,11 @@
 package chylex.hee.world.feature.blobs.populators;
 import java.util.Random;
-import chylex.hee.system.collections.weight.IWeightProvider;
+import chylex.hee.world.feature.blobs.AbstractBlobHandler;
 import chylex.hee.world.feature.blobs.StructureWorldBlob;
 
-public abstract class BlobPopulator implements IWeightProvider{
-	private final int weight;
-	
+public abstract class BlobPopulator extends AbstractBlobHandler{
 	public BlobPopulator(int weight){
-		this.weight = weight;
-	}
-	
-	@Override
-	public int getWeight(){
-		return weight;
+		super(weight);
 	}
 	
 	public abstract void populate(StructureWorldBlob world, Random rand);

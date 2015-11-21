@@ -2,20 +2,13 @@ package chylex.hee.world.feature.blobs.generators;
 import java.util.Random;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.abstractions.Pos;
-import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.feature.blobs.AbstractBlobHandler;
 import chylex.hee.world.feature.blobs.StructureWorldBlob;
 
-public abstract class BlobGenerator implements IWeightProvider{
-	private final int weight;
-	
+public abstract class BlobGenerator extends AbstractBlobHandler{
 	public BlobGenerator(int weight){
-		this.weight = weight;
-	}
-	
-	@Override
-	public final int getWeight(){
-		return weight;
+		super(weight);
 	}
 	
 	public abstract void generate(StructureWorldBlob world, Random rand);
@@ -30,10 +23,5 @@ public abstract class BlobGenerator implements IWeightProvider{
 				world.setBlock(pos.x,pos.y,pos.z,Blocks.end_stone);
 			}
 		});
-	}
-	
-	@FunctionalInterface
-	protected static interface IRandGenerator{
-		double generate(Random rand);
 	}
 }
