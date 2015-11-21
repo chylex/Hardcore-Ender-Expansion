@@ -78,7 +78,7 @@ public class EntityProjectileEyeOfEnder extends Entity{
 		if (timer == 40){
 			strongholdX = entityData.getInt(Data.STRONGHOLD_X);
 			strongholdZ = entityData.getInt(Data.STRONGHOLD_Z);
-			maxTerrainY = entityData.getInt(Data.TERRAIN_HEIGHT);
+			maxTerrainY = entityData.getShort(Data.TERRAIN_HEIGHT);
 			
 			Vec vec = Vec.xz(strongholdX+0.5D-posX,strongholdZ+0.5D-posZ).normalized();
 			moveX = vec.x*0.27D;
