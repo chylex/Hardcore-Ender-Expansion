@@ -41,6 +41,8 @@ import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.ReflectionPublicizer;
 import chylex.hee.system.abstractions.Vec;
+import chylex.hee.system.abstractions.entity.EntityAttributes;
+import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.BlockPosM;
@@ -95,7 +97,7 @@ public final class CharmEvents{
 	private final TObjectFloatHashMap<UUID> playerStealDealtDamage = new TObjectFloatHashMap<>();
 	private final TObjectByteHashMap<UUID> playerLastResortCooldown = new TObjectByteHashMap<>();
 	
-	private final AttributeModifier attrSpeed = new AttributeModifier(UUID.fromString("91AEAA56-376B-4498-935B-2F7F68070635"),"HeeCharmSpeed",0.15D,2);
+	private final AttributeModifier speedModifier = EntityAttributes.createModifier("Charm speed",Operation.MULTIPLY,1.15D);
 	
 	CharmEvents(){}
 	
@@ -106,7 +108,7 @@ public final class CharmEvents{
 				
 				if (playerSpeed.containsKey(id)){
 					IAttributeInstance attribute = player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
-					if (attribute != null)attribute.removeModifier(attrSpeed);
+					if (attribute != null)attribute.removeModifier(speedModifier);
 				}
 			}
 		}
@@ -139,8 +141,8 @@ public final class CharmEvents{
 				IAttributeInstance attribute = e.player.getAttributeMap().getAttributeInstance(SharedMonsterAttributes.movementSpeed);
 				
 				if (attribute != null){
-					attribute.removeModifier(attrSpeed);
-					attribute.applyModifier(new AttributeModifier(attrSpeed.getID(),attrSpeed.getName()+spd,attrSpeed.getAmount()*spd,attrSpeed.getOperation()));
+					attribute.removeModifier(speedModifier);
+					attribute.applyModifier(new AttributeModifier(speedModifier.getID(),speedModifier.getName()+spd,speedModifier.getAmount()*spd,speedModifier.getOperation()));
 				}
 				
 				playerSpeed.put(playerID,spd);

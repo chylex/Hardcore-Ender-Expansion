@@ -1,5 +1,4 @@
 package chylex.hee.entity.mob;
-import java.util.UUID;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,12 +20,13 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
+import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityMobEnderGuardian extends EntityMob implements IIgnoreEnderGoo{
-	private static final AttributeModifier dashModifier = (new AttributeModifier(UUID.fromString("69B01060-4B09-4D5C-A6FA-22BEFB9C2D02"),"Guardian dash speed boost",1.2D,1)).setSaved(false);
+	private static final AttributeModifier dashModifier = EntityAttributes.createModifier("Guardian Dash",Operation.ADD_MULTIPLIED,1.2D);
 	
 	private byte attackTimer, dashCooldown;
 	

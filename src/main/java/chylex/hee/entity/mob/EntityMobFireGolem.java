@@ -1,5 +1,4 @@
 package chylex.hee.entity.mob;
-import java.util.UUID;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,6 +21,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.proxy.ModCommonProxy;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
+import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.abstractions.entity.EntityDataWatcher;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.MathUtil;
@@ -29,8 +29,7 @@ import chylex.hee.system.util.MathUtil;
 public class EntityMobFireGolem extends EntityMob{
 	private enum Data{ FLAME_PARTICLES }
 	
-	private static final UUID cancelMovementModifierUUID = UUID.fromString("7107DE5E-7CE8-4030-940E-514C1F160890");
-	private static final AttributeModifier cancelMovement = new AttributeModifier(cancelMovementModifierUUID,"Movement cancellation",-1,2).setSaved(false);
+	private static final AttributeModifier stopMovingModifier = EntityAttributes.createModifier("Cancel movement",Operation.MULTIPLY,0D);
 	
 	private EntityDataWatcher entityData;
 	private byte rangedStatus = -1, teleportCooldown = 0;
@@ -80,7 +79,7 @@ public class EntityMobFireGolem extends EntityMob{
 			}
 		}
 		else{
-			EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,cancelMovement);
+			EntityAttributes.removeModifier(this,EntityAttributes.movementSpeed,stopMovingModifier);
 			
 			if (teleportCooldown > 0)--teleportCooldown;
 			
@@ -91,7 +90,7 @@ public class EntityMobFireGolem extends EntityMob{
 					rangedStatus = 0;
 				}
 				else if (rangedStatus >= 0){
-					EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,cancelMovement);
+					EntityAttributes.applyModifier(this,EntityAttributes.movementSpeed,stopMovingModifier);
 					rotationYaw = rotationYawHead;
 					
 					byte flameParticleAmountNew = (byte)(MathUtil.floor(70-rangedStatus)>>2);

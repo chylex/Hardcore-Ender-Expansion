@@ -24,6 +24,7 @@ import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C21EffectEntity;
 import chylex.hee.packets.client.C22EffectLine;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
+import chylex.hee.system.abstractions.entity.EntityAttributes.Operation;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ColorUtil;
@@ -152,12 +153,12 @@ public enum CurseType{
 	}),
 	
 	TRANQUILITY(2, new ICurseHandler(){
-		private AttributeModifier noNavigation = new AttributeModifier("HEE NoNavigationCurse",-1D,2);
+		private final AttributeModifier noNavigationModifier = EntityAttributes.createModifier("No navigation",Operation.MULTIPLY,0D);
 		
 		@Override public boolean tickEntity(EntityLivingBase entity, ICurseCaller caller){
 			if (!(entity instanceof EntityLiving))return true;
 			
-			EntityAttributes.applyModifier(entity,EntityAttributes.followRange,noNavigation);
+			EntityAttributes.applyModifier(entity,EntityAttributes.followRange,noNavigationModifier);
 			
 			if (entity instanceof EntityCreature){
 				EntityCreature creature = (EntityCreature)entity;
@@ -170,7 +171,7 @@ public enum CurseType{
 		}
 		
 		@Override public void end(EntityLivingBase entity, ICurseCaller caller){
-			if (entity instanceof EntityLiving)EntityAttributes.removeModifier(entity,EntityAttributes.followRange,noNavigation);
+			if (entity instanceof EntityLiving)EntityAttributes.removeModifier(entity,EntityAttributes.followRange,noNavigationModifier);
 		}
 	}),
 	
