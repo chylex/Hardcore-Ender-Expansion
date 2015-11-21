@@ -22,7 +22,7 @@ public class LoreFile extends PlayerFile{
 		
 		if (read.length < category.getTextCount()){
 			int[] unread = IntStream.range(0,category.getTextCount()).filter(ind -> !ArrayUtils.contains(read,(byte)ind)).toArray();
-			int selected = RandUtil.anyOf(rand,unread);
+			int selected = RandUtil.anyOf(rand,unread,0); // never returns default
 			
 			readTexts.put(category,ArrayUtils.add(read,(byte)selected));
 			setModified();

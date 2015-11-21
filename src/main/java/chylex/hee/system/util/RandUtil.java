@@ -10,12 +10,12 @@ public final class RandUtil{
 		return array.length == 0 ? null : array[rand.nextInt(array.length)];
 	}
 	
-	public static int anyOf(Random rand, int[] array){
-		return array.length == 0 ? null : array[rand.nextInt(array.length)];
+	public static int anyOf(Random rand, int[] array, int defaultValue){
+		return array.length == 0 ? defaultValue : array[rand.nextInt(array.length)];
 	}
 	
-	public static short anyOf(Random rand, short[] array){
-		return array.length == 0 ? null : array[rand.nextInt(array.length)];
+	public static short anyOf(Random rand, short[] array, int defaultValue){
+		return array.length == 0 ? (short)defaultValue : array[rand.nextInt(array.length)];
 	}
 	
 	private RandUtil(){}

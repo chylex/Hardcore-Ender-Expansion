@@ -56,8 +56,7 @@ public final class EntityAttributes{
 		
 		public AttributeModifierBuilder setValue(Operation operation, double value){
 			this.operation = operation;
-			this.value = value;
-			if (this.operation == Operation.MULTIPLY)value -= 1D;
+			this.value = operation == Operation.MULTIPLY ? value-1D : value;
 			return this;
 		}
 		

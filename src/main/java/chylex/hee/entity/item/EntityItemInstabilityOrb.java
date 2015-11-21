@@ -104,7 +104,7 @@ public class EntityItemInstabilityOrb extends EntityItem{
 				item = new WeightedItem(is.getItem(),is.getItemDamage(),1);
 			}
 			
-			int meta = RandUtil.anyOf(rand,item.getDamageValues());
+			int meta = RandUtil.anyOf(rand,item.getDamageValues(),0);
 			if (meta == 32767)meta = 0;
 			
 			EntityItem entityitem = new EntityItem(worldObj,posX,posY,posZ,new ItemStack(item.getItem(),1,meta));

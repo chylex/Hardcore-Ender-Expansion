@@ -3,7 +3,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.client.AnvilConverterException;
@@ -20,7 +24,6 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import chylex.hee.gui.GuiModTransition;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.logging.Log;
@@ -66,7 +69,7 @@ public final class ModTransition{
 		return !new File(root,"hee2").isDirectory() && new File(root,"DIM1").isDirectory(); // DIM1 should always be there, but convert vanilla worlds too
 	}
 	
-	public static void doConvertWorld(File root) throws IOException{
+	public static void doConvertWorld(File root) throws IOException{ // TODO re-test player data
 		Pos worldSpawnPoint = new Pos(0,255,0);
 		
 		File levelDat = new File(root,"level.dat");
@@ -82,10 +85,15 @@ public final class ModTransition{
 		FileUtils.deleteDirectory(new File(root,"DIM1"));
 		FileUtils.deleteDirectory(new File(root,"hee"));
 		
-		for(File file:new File(root,"playerdata").listFiles((file, name) -> FilenameUtils.getExtension(name).equals("dat"))){
-			try(FileInputStream fileStreamIn = new FileInputStream(file)){
-				NBTTagCompound nbt = CompressedStreamTools.readCompressed(fileStreamIn);
-				convertPlayerTag(nbt,worldSpawnPoint);
+		try(DirectoryStream<Path> stream = Files.newDirectoryStream(new File(root,"playerdata").toPath(),"*.dat")){
+			for(Iterator<Path> iter = stream.iterator(); iter.hasNext();){
+				File file = iter.next().toFile();
+				NBTTagCompound nbt;
+				
+				try(FileInputStream fileStreamIn = new FileInputStream(file)){
+					nbt = CompressedStreamTools.readCompressed(fileStreamIn);
+					convertPlayerTag(nbt,worldSpawnPoint);
+				}
 				
 				try(FileOutputStream fileStreamOut = new FileOutputStream(file)){
 					CompressedStreamTools.writeCompressed(nbt,fileStreamOut);
@@ -100,7 +108,6 @@ public final class ModTransition{
 			convertPlayerTag(playerNBT,worldSpawnPoint);
 			dataTag.setTag("Player",playerNBT);
 		}
-		
 		
 		try(FileOutputStream fileStreamOut = new FileOutputStream(levelDat)){
 			CompressedStreamTools.writeCompressed(levelDatNBT,fileStreamOut);
