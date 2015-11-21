@@ -34,7 +34,7 @@ public class RenderBlockCrossedDecoration implements ISimpleBlockRenderingHandle
 		tessellator.setColorOpaque_F(r,g,b);
 		double posX = x, posY = y, posZ = z;
 
-		long offsetSeed = (x*3129871)^z*116129781L^y;
+		long offsetSeed = (x*3129871L)^z*116129781L^y;
 		offsetSeed = offsetSeed*offsetSeed*42317861L+offsetSeed*11L;
 		
 		int meta = world.getBlockMetadata(x,y,z);

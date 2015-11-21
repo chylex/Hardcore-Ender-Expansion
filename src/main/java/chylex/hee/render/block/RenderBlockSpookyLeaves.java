@@ -33,7 +33,7 @@ public class RenderBlockSpookyLeaves implements ISimpleBlockRenderingHandler{
 		tessellator.setColorOpaque_F(r,g,b);
 		double posX = x, posY = y, posZ = z;
 
-		long offsetSeed = (x*3129871)^z*116129781L^y;
+		long offsetSeed = (x*3129871L)^z*116129781L^y;
 		offsetSeed = offsetSeed*offsetSeed*42317861L+offsetSeed*11L;
 		float scale = (float)(1.05D+(((offsetSeed>>16&15L)/15F)-0.5D)*0.08D);
 		posX += (((offsetSeed>>16&15L)/15F)-0.5D)*0.2D;

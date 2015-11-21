@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL12;
 import chylex.hee.init.ItemList;
 import chylex.hee.item.ItemSpecialEffects;
 import chylex.hee.render.BlockRenderHelper;
+import chylex.hee.system.util.DragonUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -95,7 +96,7 @@ public class RenderTileEssenceAltar extends TileEntitySpecialRenderer{
 			for(int a = 0; a < ns.length(); a++){
 				GL11.glPushMatrix();
 				GL11.glTranslatef(-0.4F*a,0F,0F);
-				renderItem(ItemList.special_effects,Integer.valueOf(ns.substring(a,a+1)));
+				renderItem(ItemList.special_effects,DragonUtil.tryParse(ns.substring(a,a+1),0));
 				GL11.glPopMatrix();
 			}
 

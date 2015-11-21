@@ -69,7 +69,7 @@ public class ModelEnderEye extends ModelBase{
 		if (anim == 0 && animationAngle > 0F)animationAngle = Math.max(0F,animationAngle-0.10472F);
 		else if (anim > 0)animationAngle = Math.min(MathUtil.HALF_PI,animationAngle+0.071399F);
 		
-		if (eye.isAsleep())wakeupAngle = Math.min(-pitchRad+1.570796F,wakeupAngle+0.098175F);
+		if (eye.isAsleep())wakeupAngle = Math.min(-pitchRad+MathUtil.HALF_PI,wakeupAngle+0.098175F);
 		else if (wakeupAngle != 0F)wakeupAngle = Math.max(0F,wakeupAngle-0.098175F);
 
 		head.rotateAngleY = yawRad;

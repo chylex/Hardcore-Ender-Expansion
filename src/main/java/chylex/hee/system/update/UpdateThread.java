@@ -109,15 +109,13 @@ class UpdateThread extends Thread{
 						.append(" for ").append(EnumChatFormatting.YELLOW).append("MC ").append(mcVersion).append(EnumChatFormatting.RESET)
 						.append(", released ").append(newestVersionForCurrentMC.releaseDate).append(".");
 					
-					if (counter >= 1){
-						int days = DragonUtil.getDayDifference(Calendar.getInstance(),currentVersion.convertReleaseDate());
-						int months = MathUtil.floor((days+8D)/30D); // ~22 days rounds up to a full month
-						
-						if (months > 0)message.append(" Your version is ").append(months).append(months == 1 ? " month" : " months").append(" old, and you are ");
-						else message.append(" You are ");
-						
-						message.append(counter).append(counter == 1 ? " version behind." : " versions behind.");
-					}
+					int days = DragonUtil.getDayDifference(Calendar.getInstance(),currentVersion.convertReleaseDate());
+					int months = MathUtil.floor((days+8D)/30D); // ~22 days rounds up to a full month
+					
+					if (months > 0)message.append(" Your version is ").append(months).append(months == 1 ? " month" : " months").append(" old, and you are ");
+					else message.append(" You are ");
+					
+					message.append(counter).append(counter == 1 ? " version behind." : " versions behind.");
 					
 					if (UpdateNotificationManager.enableNewerMC && newestVersion != newestVersionForCurrentMC){
 						message.append(" Also found update ").append(EnumChatFormatting.YELLOW).append(newestVersion.modVersion).append(EnumChatFormatting.RESET)

@@ -82,7 +82,7 @@ public abstract class StructureDungeonPiece extends StructurePiece{
 	
 	public abstract void generate(StructureDungeonPieceInst inst, StructureWorld world, Random rand, final int x, final int y, final int z);
 	
-	public final class Connection{
+	public static final class Connection{
 		public final Facing4 facing;
 		public final byte offsetX, offsetY, offsetZ;
 		private final IConnectWith canConnect;

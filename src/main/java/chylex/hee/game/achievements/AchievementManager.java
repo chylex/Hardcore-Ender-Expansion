@@ -19,11 +19,11 @@ public final class AchievementManager{
 	public static final String achievementScreenName = "HEE Achievements";
 	public static final String challengeScreenName = "HEE Challenges";
 	
-	private static List<HeeAchievement> achievements = new ArrayList<>();
-	private static List<HeeAchievement> challenges = new ArrayList<>();
-	public static Map<String,String> challengeStrings = new HashMap<>();
+	private static final List<HeeAchievement> achievements = new ArrayList<>();
+	private static final List<HeeAchievement> challenges = new ArrayList<>();
+	public static final Map<String,String> challengeStrings = new HashMap<>();
 	
-	public static HeeAchievement
+	public static final HeeAchievement
 		/*  8 */ ENDER_COMPENDIUM = addAchievement(8, "enderCompendium", -2, -1, ItemList.special_effects, ItemSpecialEffects.achievementCompendiumIcon, null),
 		/*  0 */ GO_INTO_THE_END = addAchievement(0, "newAdventures", 0, -1, Blocks.dragon_egg, null),
 		

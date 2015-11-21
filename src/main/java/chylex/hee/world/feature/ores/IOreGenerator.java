@@ -93,7 +93,7 @@ public interface IOreGenerator{
 					Vec vec = Vec.xyzRandom(rand);
 					double dist = calculator.applyAsDouble(rand);
 					
-					mpos.set(x+vec.x*dist,y+vec.y*dist,z+vec.z*dist);
+					mpos.set(dx+vec.x*dist,dy+vec.y*dist,dz+vec.z*dist);
 					
 					if (canPlaceAt(gen,world,rand,mpos.x,mpos.y,mpos.z)){
 						world.setBlock(mpos.x,mpos.y,mpos.z,gen.orePicker.pick(rand));

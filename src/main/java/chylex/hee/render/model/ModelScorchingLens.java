@@ -114,8 +114,8 @@ public class ModelScorchingLens extends ModelBase{
 		model.rotateAngleZ = z;
 	}
 	
-	private static final float lx = 0.5235988F;
-	private static final float ex = 1.047198F;
+	private static final float lx = MathUtil.PI/6F;
+	private static final float ex = MathUtil.PI/3F;
 	
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAngle, float entityTickTime, float rotationYaw, float rotationPitch, float unitPixel, Entity entity){

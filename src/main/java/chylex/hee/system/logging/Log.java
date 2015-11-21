@@ -1,6 +1,7 @@
 package chylex.hee.system.logging;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +32,7 @@ public final class Log{
 				Properties properties = new Properties();
 				properties.setProperty("eula","true");
 				properties.store(fos,"Screw your EULA, I don't want that stuff in my workspace.");
-			}catch(Exception e){}
+			}catch(IOException e){}
 		}
 	}
 	

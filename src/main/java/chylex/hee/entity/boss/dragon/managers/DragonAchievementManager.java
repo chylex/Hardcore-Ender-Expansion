@@ -94,7 +94,7 @@ public class DragonAchievementManager{
 		battleTimer = tag.getInteger("___timer");
 	}
 	
-	class AchievementData{
+	static final class AchievementData{
 		private short participationCounter;
 		private short deathAmount;
 		private boolean killedEnderman;

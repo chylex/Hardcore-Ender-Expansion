@@ -70,7 +70,7 @@ public final class ModTransition{
 	}
 	
 	public static void doConvertWorld(File root) throws IOException{ // TODO re-test player data
-		Pos worldSpawnPoint = new Pos(0,255,0);
+		Pos worldSpawnPoint;
 		
 		File levelDat = new File(root,"level.dat");
 		NBTTagCompound levelDatNBT;
