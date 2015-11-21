@@ -29,7 +29,10 @@ public class FieryEssenceHandler extends AltarActionHandler{
 		List<Enum> enhancementList = altar.getEnhancements();
 		
 		World world = altar.getWorldObj();
+		
 		int level = altar.getEssenceLevel();
+		if (level == 0)return;
+		
 		int n = 35+Math.min(60,level>>3);
 		boolean drained = false;
 		
