@@ -80,8 +80,8 @@ public final class ConfigHandler{
 		
 		if (firstTimeClient){
 			ModClientProxy.loadEnderbacon(getInt("hardcoreEnderbaconMode", 0, "0 = enabled on April Fools, 1 = always enabled, 2 = never enabled.").setShowInGui(false).getInt());
-			MusicManager.enableCustomMusic = getBool("enableMusic", true, "Custom music playing in the End dimension and custom Music Discs.").setRequiresMcRestart(true).getBoolean();
-			MusicManager.removeVanillaDelay = getBool("removeVanillaDelay", false, "Removes long delays between vanilla music tracks.").setRequiresMcRestart(true).getBoolean();
+			MusicManager.enableCustomMusic = getBool("enableMusic", true, "Custom music playing in the End dimension and custom Music Discs. If another mod that changes music is installed, HEE music will be disabled.").setRequiresMcRestart(true).getBoolean();
+			MusicManager.removeVanillaDelay = getBool("removeVanillaDelay", false, "Removes long delays between vanilla music tracks. If another mod that changes music is installed, the config option will be disabled.").setRequiresMcRestart(true).getBoolean();
 			firstTimeClient = false;
 		}
 		
