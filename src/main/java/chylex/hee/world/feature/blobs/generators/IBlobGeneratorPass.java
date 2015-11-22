@@ -14,7 +14,7 @@ public interface IBlobGeneratorPass{
 			for(Facing6 facing:Facing6.list){
 				Pos offset = pos.offset(facing);
 				
-				if (world.getBlock(offset.getX(),offset.getY(),offset.getZ()) == Blocks.end_stone){
+				if (world.getBlock(offset.getX(),offset.getY(),offset.getZ()) != Blocks.end_stone){
 					if (++air == 4){
 						world.setBlock(pos.getX(),pos.getY(),pos.getZ(),Blocks.air);
 						break;

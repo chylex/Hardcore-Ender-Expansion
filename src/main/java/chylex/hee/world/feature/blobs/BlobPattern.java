@@ -1,5 +1,6 @@
 package chylex.hee.world.feature.blobs;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -64,6 +65,7 @@ public final class BlobPattern implements IWeightProvider{
 			else break;
 		}
 		
+		Collections.sort(selected,(p1, p2) -> populators.indexOf(p1) < populators.indexOf(p2) ? -1 : 1);
 		return selected;
 	}
 	
