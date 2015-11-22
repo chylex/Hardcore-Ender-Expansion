@@ -52,23 +52,27 @@ public class BlobPopulatorLiquidStream extends BlobPopulator{
 			Facing4 facing = findStreamStart(world,pos);
 			if (facing == null)continue;
 			
-			world.setBlock(pos.getX()+facing.getX(),pos.getY(),pos.getZ()+facing.getZ(),block);
+			world.setBlock(pos.getX(),pos.getY(),pos.getZ(),block);
 			
+			pos = pos.offset(facing);
 			int y = pos.getY();
+			
 			while(--y > 0 && !isContained(world,pos.getX(),y,pos.getZ()))world.setAir(pos.getX(),y,pos.getZ());
+			
+			if (--targetAmount <= 0)return;
 		}
 	}
 	
 	private @Nullable Facing4 findStreamStart(StructureWorldBlob world, Pos pos){
-		if (!world.isAir(pos.getX(),pos.getY(),pos.getZ()))return null;
+		if (!(canHaveAirAbove || world.getBlock(pos.getX(),pos.getY()+1,pos.getZ()) == Blocks.end_stone))return null;
+		if (world.isAir(pos.getX(),pos.getY()-1,pos.getZ()))return null;
 		
 		Facing4 suitable = null;
 		
 		for(Facing4 facing:Facing4.list){
 			Pos offset = pos.offset(facing);
 			
-			if (world.getBlock(offset.getX(),offset.getY(),offset.getZ()) == Blocks.end_stone &&
-				(canHaveAirAbove || world.getBlock(offset.getX(),offset.getY()+1,offset.getZ()) == Blocks.end_stone)){
+			if (world.isAir(offset.getX(),offset.getY(),offset.getZ())){
 				if (suitable == null)suitable = facing;
 				else return null; // only one side
 			}
