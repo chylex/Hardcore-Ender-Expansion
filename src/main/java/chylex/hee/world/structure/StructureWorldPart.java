@@ -26,7 +26,7 @@ public class StructureWorldPart extends StructureWorld{
 			for(x = -radX; x <= radX; x++){
 				for(y = 0; y < sizeY; y++){
 					if (blocks[++index] != null){
-						targetWorld.setBlock(x+centerX,y+bottomY,z+centerZ,blocks[index],metadata[index]);
+						targetWorld.setBlock(centerX+x,bottomY+y,centerZ+z,blocks[index],metadata[index]);
 					}
 				}
 			}

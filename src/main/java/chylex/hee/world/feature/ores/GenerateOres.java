@@ -46,6 +46,7 @@ public final class GenerateOres{
 	}
 	
 	public void setY(int minY, int maxY){
+		if (maxY < minY)throw new IllegalArgumentException("maxY cannot be smaller than minY!");
 		this.minY = minY;
 		this.maxY = maxY;
 	}
@@ -110,7 +111,9 @@ public final class GenerateOres{
 		int clusters = clustersPerChunk.next(rand);
 		
 		for(int attempt = 0; attempt < attemptsPerChunk && clusters > 0; attempt++){
-			mpos.set(worldBox.x1+edgeDistance+rand.nextInt(worldBox.x2-worldBox.x1+1-2*edgeDistance),minY,worldBox.z1+edgeDistance+rand.nextInt(worldBox.z2-worldBox.z1+1-2*edgeDistance));
+			mpos.set(worldBox.x1+edgeDistance+rand.nextInt(worldBox.x2-worldBox.x1+1-2*edgeDistance),
+					 minY+rand.nextInt(1+maxY-minY),
+					 worldBox.z1+edgeDistance+rand.nextInt(worldBox.z2-worldBox.z1+1-2*edgeDistance));
 			
 			if (world.getBlock(mpos.x,mpos.y,mpos.z) == toReplace){
 				oreGenerator.generate(this,world,rand,mpos.x,mpos.y,mpos.z,oresPerCluster.next(rand));

@@ -1,4 +1,6 @@
 package chylex.hee.world.feature.blobs.populators;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -20,13 +22,21 @@ public class BlobPopulatorFill extends BlobPopulator{
 
 	@Override
 	public void populate(StructureWorldBlob world, Random rand){
-		world.getEndStoneBlocks().forEach(pos -> {
+		List<Pos> toRemove = world.getEndStoneBlocks();
+		
+		for(Iterator<Pos> iter = toRemove.iterator(); iter.hasNext();){
+			Pos pos = iter.next();
+			
 			for(Facing6 facing:Facing6.list){
 				Pos offset = pos.offset(facing);
-				if (world.getBlock(offset.getX(),offset.getY(),offset.getZ()) != Blocks.end_stone)return;
+				
+				if (world.getBlock(offset.getX(),offset.getY(),offset.getZ()) != Blocks.end_stone){
+					iter.remove();
+					break;
+				}
 			}
-			
-			world.setBlock(pos.getX(),pos.getY(),pos.getZ(),block);
-		});
+		}
+		
+		for(Pos pos:toRemove)world.setBlock(pos.getX(),pos.getY(),pos.getZ(),block);
 	}
 }
