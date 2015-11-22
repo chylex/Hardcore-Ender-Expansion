@@ -47,9 +47,15 @@ public class Vec{
 		this.z = z;
 	}
 	
-	public double length(){
-		return Math.sqrt(x*x+y*y+z*z);
+	// Mutable
+	
+	public void moveBy(Vec vec){
+		this.x += vec.x;
+		this.y += vec.y;
+		this.z += vec.z;
 	}
+	
+	// Immutable
 	
 	public Vec normalized(){
 		double len = length();
@@ -60,12 +66,22 @@ public class Vec{
 		return Vec.xyz(x+offX,y+offY,z+offZ);
 	}
 	
+	public Vec offset(Vec byVec){
+		return Vec.xyz(x+byVec.x,y+byVec.y,z+byVec.z);
+	}
+	
 	public Vec offset(Vec byVec, double factor){
 		return Vec.xyz(x+byVec.x*factor,y+byVec.y*factor,z+byVec.z*factor);
 	}
 	
 	public Vec multiplied(double factor){
 		return Vec.xyz(x*factor,y*factor,z*factor);
+	}
+	
+	// Calculations
+	
+	public double length(){
+		return Math.sqrt(x*x+y*y+z*z);
 	}
 	
 	public double distance(Vec vec){
@@ -75,6 +91,8 @@ public class Vec{
 	public double dotProduct(Vec vec){
 		return vec.x*x+vec.y*y+vec.z*z;
 	}
+	
+	// Conversions
 	
 	public Pos toPos(){
 		return Pos.at(x,y,z);
@@ -86,5 +104,29 @@ public class Vec{
 	
 	public AxisAlignedBB toAABB(){
 		return AxisAlignedBB.getBoundingBox(x,y,z,x,y,z);
+	}
+	
+	@Override
+	public String toString(){
+		return "{ "+x+", "+y+", "+z+" }";
+	}
+	
+	// Equality
+	
+	@Override
+	public boolean equals(Object obj){
+		if (obj == this)return true;
+		
+		if (obj instanceof Vec){
+			Vec vec = (Vec)obj;
+			return vec.x == x && vec.y == y && vec.z == z;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public int hashCode(){
+		return (Double.hashCode(y)+Double.hashCode(z)*31)*31+Double.hashCode(x);
 	}
 }
