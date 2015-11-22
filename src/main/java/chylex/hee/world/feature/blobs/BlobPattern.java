@@ -7,6 +7,7 @@ import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.world.feature.blobs.generators.BlobGenerator;
 import chylex.hee.world.feature.blobs.populators.BlobPopulator;
+import chylex.hee.world.util.RandomAmount;
 import chylex.hee.world.util.RangeGenerator;
 
 public final class BlobPattern implements IWeightProvider{
@@ -40,9 +41,8 @@ public final class BlobPattern implements IWeightProvider{
 		this.populatorAmount = amount;
 	}
 	
-	public void addPopulators(BlobPopulator[] populators, RangeGenerator amount){
-		this.populators.add(populators);
-		this.populatorAmount = amount;
+	public void setPopulatorAmount(int amount){
+		this.populatorAmount = new RangeGenerator(amount,amount,RandomAmount.exact);
 	}
 	
 	public Optional<BlobGenerator> selectGenerator(Random rand){

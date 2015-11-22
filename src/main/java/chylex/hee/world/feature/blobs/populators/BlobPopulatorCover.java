@@ -7,6 +7,7 @@ import chylex.hee.world.util.BoundingBox;
 
 public class BlobPopulatorCover extends BlobPopulator{
 	private Block block = Blocks.air;
+	private double chance = 1D;
 	private boolean replaceTop;
 	
 	public BlobPopulatorCover(int weight){
@@ -15,6 +16,11 @@ public class BlobPopulatorCover extends BlobPopulator{
 	
 	public BlobPopulatorCover setBlock(Block block){
 		this.block = block;
+		return this;
+	}
+	
+	public BlobPopulatorCover setChance(double chance){
+		this.chance = chance;
 		return this;
 	}
 	
@@ -29,8 +35,10 @@ public class BlobPopulatorCover extends BlobPopulator{
 		
 		for(int x = area.x1; x <= area.x2; x++){
 			for(int z = area.z1; z <= area.z2; z++){
-				int y = world.getTopY(x,z,Blocks.end_stone);
-				if (y != -1)world.setBlock(x,replaceTop ? y : y+1,z,block);
+				if (chance == 1D || rand.nextFloat() < chance){
+					int y = world.getTopY(x,z,Blocks.end_stone);
+					if (y != -1)world.setBlock(x,replaceTop ? y : y+1,z,block);
+				}
 			}
 		}
 	}
