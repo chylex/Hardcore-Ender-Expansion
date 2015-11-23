@@ -57,6 +57,10 @@ public class Vec{
 	
 	// Immutable
 	
+	public Vec copy(){
+		return new Vec(x,y,z);
+	}
+	
 	public Vec normalized(){
 		double len = length();
 		return MathUtil.floatEquals((float)len,0F) ? Vec.zero() : Vec.xyz(x/len,y/len,z/len);
