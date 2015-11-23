@@ -9,13 +9,13 @@ public class BlobGeneratorSingle extends BlobGenerator{
 		super(weight);
 	}
 	
-	public BlobGeneratorSingle setRadius(IRandGenerator radiusGenerator){
-		this.radius = radiusGenerator;
+	public BlobGeneratorSingle setRadius(double minRadius, double maxRadius){
+		this.radius = rand -> minRadius+rand.nextDouble()*(maxRadius-minRadius);
 		return this;
 	}
 	
-	public BlobGeneratorSingle setRadius(double minRadius, double maxRadius){
-		this.radius = rand -> minRadius+rand.nextDouble()*(maxRadius-minRadius);
+	public BlobGeneratorSingle setRadius(IRandGenerator radiusGenerator){
+		this.radius = radiusGenerator;
 		return this;
 	}
 

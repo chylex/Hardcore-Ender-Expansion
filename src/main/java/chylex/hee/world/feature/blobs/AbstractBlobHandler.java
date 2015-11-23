@@ -3,6 +3,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.collections.weight.IWeightProvider;
 import chylex.hee.system.util.MathUtil;
 
@@ -16,6 +17,17 @@ public abstract class AbstractBlobHandler implements IWeightProvider{
 	@Override
 	public int getWeight(){
 		return weight;
+	}
+	
+	protected static final boolean isBlobInsideWorld(StructureWorldBlob world, double x, double y, double z, double rad){
+		int ix = MathUtil.floor(x), iy = MathUtil.floor(y), iz = MathUtil.floor(z), irad = MathUtil.ceil(rad)-1;
+		if (!world.isInside(ix,iy,iz))return false;
+		
+		for(Facing6 facing:Facing6.list){
+			if (!world.isInside(ix+facing.getX()*irad,iy+facing.getY()*irad,iz+facing.getZ()*irad))return false;
+		}
+		
+		return true;
 	}
 	
 	protected static final void generateBlob(StructureWorldBlob world, double x, double y, double z, double rad){

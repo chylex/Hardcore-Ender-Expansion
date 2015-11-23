@@ -5,7 +5,7 @@ import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.collections.weight.WeightedList;
 import chylex.hee.system.util.MathUtil;
-import chylex.hee.world.feature.blobs.generators.BlobGeneratorSingle;
+import chylex.hee.world.feature.blobs.generators.BlobGeneratorAttaching;
 import chylex.hee.world.feature.blobs.generators.IBlobGeneratorPass;
 import chylex.hee.world.feature.blobs.populators.BlobPopulator;
 import chylex.hee.world.feature.blobs.populators.BlobPopulatorCaves;
@@ -50,7 +50,7 @@ public class GenerateBlobs{
 			ores.setOreGenerator(new IOreGenerator.AdjacentSpread(false));
 			
 			BlobPattern pattern = new BlobPattern(1);
-			pattern.addGenerator(new BlobGeneratorSingle(1).setRadius(12D,12D));
+			pattern.addGenerator(new BlobGeneratorAttaching(1).setAmount(6).setRadiusFirst(5D,7D).setRadiusOther(3D,4D).setDistanceMp(2D,2D));
 			pattern.addPopulator(new BlobPopulatorOre(1).setGenerator(ores));
 			pattern.addPopulator(new BlobPopulatorCaves(1)
 									.setMainAmount(1,1).setMainRadius(2D,2D).setMainCycles(100,100));
