@@ -53,6 +53,16 @@ public class BlobGeneratorAttaching extends BlobGenerator{
 		return this;
 	}
 	
+	public BlobGeneratorAttaching setRadiusBoth(double minRadius, double maxRadius){
+		this.radiusFirst = this.radiusOther = rand -> minRadius+rand.nextDouble()*(maxRadius-minRadius);
+		return this;
+	}
+	
+	public BlobGeneratorAttaching setRadiusBoth(IRandGenerator radiusGenerator){
+		this.radiusFirst = this.radiusOther = radiusGenerator;
+		return this;
+	}
+	
 	public BlobGeneratorAttaching setDistanceMp(double minMp, double maxMp){
 		this.distance = rand -> minMp+rand.nextDouble()*(maxMp-minMp);
 		return this;

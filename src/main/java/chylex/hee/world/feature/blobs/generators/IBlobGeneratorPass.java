@@ -8,19 +8,29 @@ public interface IBlobGeneratorPass{
 	void run(StructureWorldBlob world);
 	
 	public static final IBlobGeneratorPass passSmoothing = world -> {
+		runSmoothingPass(world,4);
+		runSmoothingPass(world,5);
+	};
+	
+	static void runSmoothingPass(StructureWorldBlob world, final int airAmount){
 		for(Pos pos:world.getEndStoneBlocks()){
-			int air = 0;
-			
-			for(Facing6 facing:Facing6.list){
-				Pos offset = pos.offset(facing);
-				
-				if (world.getBlock(offset.getX(),offset.getY(),offset.getZ()) != Blocks.end_stone){
-					if (++air == 4){
-						world.setBlock(pos.getX(),pos.getY(),pos.getZ(),Blocks.air);
-						break;
-					}
-				}
+			if (checkAdjacentAir(world,pos,airAmount)){
+				world.setBlock(pos.getX(),pos.getY(),pos.getZ(),Blocks.air);
 			}
 		}
-	};
+	}
+	
+	static boolean checkAdjacentAir(StructureWorldBlob world, Pos pos, final int targetAmount){
+		int air = 0;
+		
+		for(Facing6 facing:Facing6.list){
+			Pos offset = pos.offset(facing);
+			
+			if (world.getBlock(offset.getX(),offset.getY(),offset.getZ()) != Blocks.end_stone){
+				if (++air == targetAmount)return true;
+			}
+		}
+		
+		return air == targetAmount; // makes it work for targetAmount == 0, but it's not used so the logic isn't handled in the cycle
+	}
 }
