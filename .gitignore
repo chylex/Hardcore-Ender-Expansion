@@ -1,13 +1,10 @@
 bin/
 build/
 eclipse/
-gradle/
 .gradle/
 .settings/
 .classpath
 .project
 .DS_Store
 Thumbs.db
-gradlew
-gradlew.bat
 Mod Update Process.txt
