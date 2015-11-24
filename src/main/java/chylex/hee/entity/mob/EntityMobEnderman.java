@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import chylex.hee.entity.mob.ai.AIUtil;
@@ -32,6 +33,7 @@ import chylex.hee.system.abstractions.damage.Damage;
 import chylex.hee.system.abstractions.damage.IDamageModifier;
 import chylex.hee.system.abstractions.entity.EntityAttributes;
 import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.loot.PercentageLootTable;
 import chylex.hee.world.loot.info.LootMobInfo;
 
@@ -70,6 +72,8 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 		});
 	}
 	
+	private int waterTimer;
+	
 	public EntityMobEnderman(World world){
 		super(world);
 		AIUtil.clearEntityTasks(this);
@@ -103,7 +107,23 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	@Override
 	public void onLivingUpdate(){
 		super.onLivingUpdate();
-		// TODO
+		
+		if (isEndermanWet()){
+			++waterTimer;
+			
+			if (waterTimer == 1){
+				setAggressive(true);
+			}
+			
+			if (waterTimer > 80){
+				attackEntityFrom(DamageSource.drown,2F);
+				setAttackTarget(null);
+			}
+		}
+		else if (waterTimer > 0){
+			waterTimer = 0;
+			setAggressive(getAttackTarget() != null);
+		}
 	}
 	
 	@Override
@@ -164,5 +184,20 @@ public class EntityMobEnderman extends EntityAbstractEndermanCustom implements I
 	@Override
 	public boolean getCanSpawnHere(){
 		return super.getCanSpawnHere() && (worldObj.provider.dimensionId != 0 || worldObj.skylightSubtracted <= 5);
+	}
+	
+	@Override
+	protected void despawnEntity(){
+		if (isNoDespawnRequired()){
+			entityAge = 0;
+			return;
+		}
+		
+		EntityPlayer closest = worldObj.getClosestPlayerToEntity(this,-1D);
+		
+		if (closest == null || MathUtil.distanceSquared(closest.posX-posX,closest.posY-posY,closest.posZ-posZ) > 25600D){ // 160 blocks
+			setDead();
+			return;
+		}
 	}
 }
