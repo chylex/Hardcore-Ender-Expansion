@@ -184,6 +184,10 @@ public class StructureWorld{
 		return getMetadata(pos.getX(),pos.getY(),pos.getZ());
 	}
 	
+	public final boolean isAir(Pos pos){
+		return isAir(pos.getX(),pos.getY(),pos.getZ());
+	}
+	
 	// Entities
 	
 	public void addEntity(Entity entity){
