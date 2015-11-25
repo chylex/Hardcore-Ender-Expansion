@@ -29,7 +29,7 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		this.endPowderOreMain.setY(10,50);
 		this.endPowderOreMain.setChunkSize(24);
 		this.endPowderOreMain.setAttemptsPerChunk(36);
-		this.endPowderOreMain.setClustersPerChunk(8,14);
+		this.endPowderOreMain.setGeneratedPerChunk(8,14);
 		this.endPowderOreMain.setOresPerCluster(2,6,RandomAmount.preferSmaller);
 		this.endPowderOreMain.setOreGenerator(new IOreGenerator.AdjacentSpread(true));
 		
@@ -37,7 +37,7 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		this.endPowderOreSurface.setY(36,50);
 		this.endPowderOreSurface.setChunkSize(24);
 		this.endPowderOreSurface.setAttemptsPerChunk(18);
-		this.endPowderOreSurface.setClustersPerChunk(6,9);
+		this.endPowderOreSurface.setGeneratedPerChunk(6,9);
 		this.endPowderOreSurface.setOresPerCluster(3,9,RandomAmount.preferSmaller);
 		this.endPowderOreSurface.setOreGenerator(new IOreGenerator.AdjacentSpread(true));
 	}

@@ -5,25 +5,19 @@ import net.minecraft.init.Blocks;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
-import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
+import chylex.hee.world.feature.GenerateFeature;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.IBlockPicker;
-import chylex.hee.world.util.BoundingBox;
 import chylex.hee.world.util.IRangeGenerator;
 import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
 
-public final class GenerateOres{
+public final class GenerateOres extends GenerateFeature{
 	final Block toReplace;
 	final IBlockPicker orePicker;
 	
-	private int chunkSize = 16;
-	private IRangeGenerator yGenerator = new RangeGenerator(0,256,RandomAmount.linear);
-	
-	private int attemptsPerChunk;
-	private IRangeGenerator clustersPerChunk;
 	private IRangeGenerator oresPerCluster;
 	private IOreGenerator oreGenerator;
 	
@@ -42,34 +36,6 @@ public final class GenerateOres{
 		this.orePicker = new BlockInfo(oreBlock,oreMeta);
 	}
 	
-	public void setChunkSize(int chunkSize){
-		this.chunkSize = chunkSize;
-	}
-	
-	public void setY(int minY, int maxY){
-		this.yGenerator = new RangeGenerator(minY,maxY,RandomAmount.linear);
-	}
-	
-	public void setY(int minY, int maxY, RandomAmount distribution){
-		this.yGenerator = new RangeGenerator(minY,maxY,distribution);
-	}
-	
-	public void setY(IRangeGenerator yGenerator){
-		this.yGenerator = yGenerator;
-	}
-	
-	public void setAttemptsPerChunk(int attempts){
-		this.attemptsPerChunk = attempts;
-	}
-	
-	public void setClustersPerChunk(int min, int max){
-		this.clustersPerChunk = new RangeGenerator(min,max,RandomAmount.linear);
-	}
-	
-	public void setClustersPerChunk(int min, int max, RandomAmount distribution){
-		this.clustersPerChunk = new RangeGenerator(min,max,distribution);
-	}
-	
 	public void setOresPerCluster(int min, int max){
 		this.oresPerCluster = new RangeGenerator(min,max,RandomAmount.linear);
 	}
@@ -82,53 +48,23 @@ public final class GenerateOres{
 		this.oreGenerator = generator;
 	}
 	
-	/**
-	 * Divides the world into chunks of customizable size, and cycles through all of them.<br>
-	 * Caution: does not generate ores in edge chunks to prevent cut off ore clusters.
-	 */
+	@Override
 	public void generateSplit(StructureWorld world, Random rand){
-		BoundingBox worldBox = world.getArea();
-		int totalChunksX = MathUtil.ceil((worldBox.x2-worldBox.x1)/(float)chunkSize);
-		int totalChunksZ = MathUtil.ceil((worldBox.z2-worldBox.z1)/(float)chunkSize);
-		PosMutable mpos = new PosMutable();
-		
-		for(int chunkX = 1; chunkX < totalChunksX-1; chunkX++){
-			for(int chunkZ = 1; chunkZ < totalChunksZ-1; chunkZ++){
-				int clusters = clustersPerChunk.next(rand);
-				
-				for(int attempt = 0; attempt < attemptsPerChunk && clusters > 0; attempt++){
-					mpos.x = worldBox.x1+chunkX*chunkSize+rand.nextInt(chunkSize);
-					mpos.y = yGenerator.next(rand);
-					mpos.z = worldBox.z1+chunkZ*chunkSize+rand.nextInt(chunkSize);
-					
-					if (oreGenerator.canPlaceAt(this,world,rand,mpos.x,mpos.y,mpos.z)){
-						oreGenerator.generate(this,world,rand,mpos.x,mpos.y,mpos.z,oresPerCluster.next(rand));
-						--clusters;
-					}
-				}
-			}
-		}
+		generateSplitInternal(world,rand,1);
 	}
 	
-	/**
-	 * Uses the entire world area as a single chunk. Use {@code edgeDistance} to prevent cut off ore clusters.
-	 */
-	public void generateFull(StructureWorld world, Random rand, int edgeDistance){
-		BoundingBox worldBox = world.getArea();
-		PosMutable mpos = new PosMutable();
-		
-		int clusters = clustersPerChunk.next(rand);
-		
-		for(int attempt = 0; attempt < attemptsPerChunk && clusters > 0; attempt++){
-			mpos.x = worldBox.x1+edgeDistance+rand.nextInt(worldBox.x2-worldBox.x1+1-2*edgeDistance);
-			mpos.y = yGenerator.next(rand);
-			mpos.z = worldBox.z1+edgeDistance+rand.nextInt(worldBox.z2-worldBox.z1+1-2*edgeDistance);
-			
-			if (world.getBlock(mpos) == toReplace){
-				oreGenerator.generate(this,world,rand,mpos.x,mpos.y,mpos.z,oresPerCluster.next(rand));
-				--clusters;
-			}
+	@Override
+	public void generateFull(StructureWorld world, Random rand){
+		generateFullInternal(world,rand,4);
+	}
+	
+	@Override
+	protected boolean tryGenerateFeature(StructureWorld world, Random rand, int x, int y, int z){
+		if (world.getBlock(x,y,z) == toReplace){
+			oreGenerator.generate(this,world,rand,x,y,z,oresPerCluster.next(rand));
+			return true;
 		}
+		else return false;
 	}
 	
 	public static final HeeTest $debugTest = new HeeTest(){
@@ -141,7 +77,7 @@ public final class GenerateOres{
 			gen.setChunkSize(12);
 			gen.setY(16,16);
 			gen.setAttemptsPerChunk(1);
-			gen.setClustersPerChunk(1,1);
+			gen.setGeneratedPerChunk(1,1);
 			
 			gen.setOresPerCluster(4,4,RandomAmount.preferSmaller);
 			gen.setOreGenerator(new IOreGenerator.AttachingLines(new RangeGenerator(4,4,RandomAmount.aroundCenter),false));
