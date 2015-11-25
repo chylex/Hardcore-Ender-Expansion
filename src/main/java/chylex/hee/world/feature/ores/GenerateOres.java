@@ -19,8 +19,8 @@ public final class GenerateOres{
 	final IBlockPicker orePicker;
 	
 	private int chunkSize = 16;
-	private int minY = 0;
-	private int maxY = 256;
+	private RangeGenerator yGenerator = new RangeGenerator(0,256,RandomAmount.linear);
+	
 	private int attemptsPerChunk;
 	private RangeGenerator clustersPerChunk;
 	private RangeGenerator oresPerCluster;
@@ -46,9 +46,11 @@ public final class GenerateOres{
 	}
 	
 	public void setY(int minY, int maxY){
-		if (maxY < minY)throw new IllegalArgumentException("maxY cannot be smaller than minY!");
-		this.minY = minY;
-		this.maxY = maxY;
+		this.yGenerator = new RangeGenerator(minY,maxY,RandomAmount.linear);
+	}
+	
+	public void setY(RangeGenerator yGenerator){
+		this.yGenerator = yGenerator;
 	}
 	
 	public void setAttemptsPerChunk(int attempts){
@@ -90,7 +92,9 @@ public final class GenerateOres{
 				int clusters = clustersPerChunk.next(rand);
 				
 				for(int attempt = 0; attempt < attemptsPerChunk && clusters > 0; attempt++){
-					mpos.set(worldBox.x1+chunkX*chunkSize,minY,worldBox.z1+chunkZ*chunkSize).move(rand.nextInt(chunkSize),rand.nextInt(maxY-minY+1),rand.nextInt(chunkSize));
+					mpos.x = worldBox.x1+chunkX*chunkSize+rand.nextInt(chunkSize);
+					mpos.y = yGenerator.next(rand);
+					mpos.z = worldBox.z1+chunkZ*chunkSize+rand.nextInt(chunkSize);
 					
 					if (oreGenerator.canPlaceAt(this,world,rand,mpos.x,mpos.y,mpos.z)){
 						oreGenerator.generate(this,world,rand,mpos.x,mpos.y,mpos.z,oresPerCluster.next(rand));
@@ -111,9 +115,9 @@ public final class GenerateOres{
 		int clusters = clustersPerChunk.next(rand);
 		
 		for(int attempt = 0; attempt < attemptsPerChunk && clusters > 0; attempt++){
-			mpos.set(worldBox.x1+edgeDistance+rand.nextInt(worldBox.x2-worldBox.x1+1-2*edgeDistance),
-					 minY+rand.nextInt(1+maxY-minY),
-					 worldBox.z1+edgeDistance+rand.nextInt(worldBox.z2-worldBox.z1+1-2*edgeDistance));
+			mpos.x = worldBox.x1+edgeDistance+rand.nextInt(worldBox.x2-worldBox.x1+1-2*edgeDistance);
+			mpos.y = yGenerator.next(rand);
+			mpos.z = worldBox.z1+edgeDistance+rand.nextInt(worldBox.z2-worldBox.z1+1-2*edgeDistance);
 			
 			if (world.getBlock(mpos) == toReplace){
 				oreGenerator.generate(this,world,rand,mpos.x,mpos.y,mpos.z,oresPerCluster.next(rand));
