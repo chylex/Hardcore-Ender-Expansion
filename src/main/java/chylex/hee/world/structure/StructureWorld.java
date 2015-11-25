@@ -61,6 +61,8 @@ public class StructureWorld{
 		return x >= 0 && x < sizeX && y >= 0 && y < sizeY && z >= 0 && z < sizeZ;
 	}
 	
+	// Internal methods
+	
 	protected final int toIndex(int x, int y, int z){
 		return y+sizeY*(x+radX)+sizeY*sizeX*(z+radZ);
 	}
@@ -73,7 +75,9 @@ public class StructureWorld{
 		pos.z -= radZ;
 	}
 	
-	public boolean setBlock(int x, int y, int z, Block block){
+	// Setting block information
+	
+	public final boolean setBlock(int x, int y, int z, Block block){
 		return setBlock(x,y,z,block,0);
 	}
 	
@@ -94,11 +98,11 @@ public class StructureWorld{
 		else return false;
 	}
 	
-	public boolean setBlock(int x, int y, int z, BlockInfo blockInfo){
+	public final boolean setBlock(int x, int y, int z, BlockInfo blockInfo){
 		return setBlock(x,y,z,blockInfo.block,blockInfo.meta);
 	}
 	
-	public boolean setAir(int x, int y, int z){
+	public final boolean setAir(int x, int y, int z){
 		return setBlock(x,y,z,Blocks.air,0);
 	}
 	
@@ -116,6 +120,8 @@ public class StructureWorld{
 		return true;
 	}
 	
+	// Getting block information
+	
 	public Block getBlock(int x, int y, int z){
 		return isInside(x,y,z) ? Objects.firstNonNull(this.blocks[toIndex(x,y,z)],Blocks.air) : Blocks.air;
 	}
@@ -128,7 +134,7 @@ public class StructureWorld{
 		return !isInside(x,y,z) || Objects.firstNonNull(this.blocks[toIndex(x,y,z)],Blocks.air) == Blocks.air;
 	}
 	
-	public int getTopY(int x, int z){
+	public final int getTopY(int x, int z){
 		return getTopY(x,z,sizeY-1);
 	}
 	
@@ -138,7 +144,7 @@ public class StructureWorld{
 		return y;
 	}
 	
-	public int getTopY(int x, int z, Block block){
+	public final int getTopY(int x, int z, Block block){
 		return getTopY(x,z,block,sizeY-1);
 	}
 	
@@ -147,6 +153,38 @@ public class StructureWorld{
 		while(getBlock(x,y,z) != block && --y >= 0);
 		return y;
 	}
+	
+	// Pos utility methods
+	
+	public final boolean setBlock(Pos pos, Block block){
+		return setBlock(pos.getX(),pos.getY(),pos.getZ(),block,0);
+	}
+	
+	public final boolean setBlock(Pos pos, Block block, int metadata){
+		return setBlock(pos.getX(),pos.getY(),pos.getZ(),block,metadata);
+	}
+	
+	public final boolean setBlock(Pos pos, BlockInfo blockInfo){
+		return setBlock(pos.getX(),pos.getY(),pos.getZ(),blockInfo.block,blockInfo.meta);
+	}
+	
+	public final boolean setAir(Pos pos){
+		return setAir(pos.getX(),pos.getY(),pos.getZ());
+	}
+	
+	public final boolean setTileEntity(Pos pos, IStructureTileEntity provider){
+		return setTileEntity(pos.getX(),pos.getY(),pos.getZ(),provider);
+	}
+	
+	public final Block getBlock(Pos pos){
+		return getBlock(pos.getX(),pos.getY(),pos.getZ());
+	}
+	
+	public final int getMetadata(Pos pos){
+		return getMetadata(pos.getX(),pos.getY(),pos.getZ());
+	}
+	
+	// Entities
 	
 	public void addEntity(Entity entity){
 		entityList.add(Pair.of(entity,null));
@@ -159,6 +197,8 @@ public class StructureWorld{
 	public <T extends Entity> Stream<T> getEntities(final Class<T> exactClassToMatch){
 		return (Stream<T>)entityList.stream().filter(info -> info.getKey().getClass() == exactClassToMatch).map(info -> info.getKey());
 	}
+	
+	// Generating
 	
 	public void generateInWorld(World world, Random rand, int centerX, int bottomY, int centerZ){
 		generateBlocksInWorld(world,rand,centerX,bottomY,centerZ);
