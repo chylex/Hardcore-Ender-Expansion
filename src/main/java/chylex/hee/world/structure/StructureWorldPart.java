@@ -1,4 +1,5 @@
 package chylex.hee.world.structure;
+import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import chylex.hee.system.abstractions.Pos.PosMutable;
@@ -7,6 +8,12 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
  * Represents a Structure World that can be inserted into another one.
  */
 public class StructureWorldPart extends StructureWorld{
+	public static interface IWorldInsertPredicate{
+		boolean isValid(StructureWorld targetWorld, int x, int y, int z);
+	}
+	
+	public static IWorldInsertPredicate requireAir = (targetWorld, x, y, z) -> targetWorld.isAir(x,y,z) && targetWorld.isInside(x,y,z);
+	
 	public StructureWorldPart(World world, int radX, int sizeY, int radZ){
 		super(world,radX,sizeY,radZ);
 	}
@@ -56,5 +63,24 @@ public class StructureWorldPart extends StructureWorld{
 			entity.setPosition(centerX+entity.posX,bottomY+entity.posY,centerZ+entity.posZ);
 			targetWorld.entityList.add(info);
 		});
+	}
+	
+	public boolean insertIf(StructureWorld targetWorld, int centerX, int bottomY, int centerZ, @Nullable IWorldInsertPredicate predicate){
+		if (predicate != null){
+			int x, y, z, index = -1;
+			
+			for(z = -radZ; z <= radZ; z++){
+				for(x = -radX; x <= radX; x++){
+					for(y = 0; y < sizeY; y++){
+						if (blocks[++index] != null && !predicate.isValid(targetWorld,centerX+x,bottomY+y,centerZ+z)){
+							return false;
+						}
+					}
+				}
+			}
+		}
+		
+		insertInto(targetWorld,centerX,bottomY,centerZ);
+		return true;
 	}
 }
