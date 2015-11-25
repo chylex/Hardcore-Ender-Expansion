@@ -6,11 +6,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.world.feature.blobs.StructureWorldBlob;
+import chylex.hee.world.util.IRangeGenerator;
+import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
-import chylex.hee.world.util.RangeGenerator;
 
 public class BlobGeneratorAttaching extends BlobGenerator{
-	protected RangeGenerator amount;
+	protected IRangeGenerator amount;
 	protected IRandGenerator radiusFirst = rand -> 0D, radiusOther = rand -> 0D;
 	protected IRandGenerator distance = rand -> 0.05D+rand.nextDouble()*0.7D;
 	
@@ -28,7 +29,7 @@ public class BlobGeneratorAttaching extends BlobGenerator{
 		return this;
 	}
 	
-	public BlobGeneratorAttaching setAmount(RangeGenerator amountGenerator){
+	public BlobGeneratorAttaching setAmount(IRangeGenerator amountGenerator){
 		this.amount = amountGenerator;
 		return this;
 	}

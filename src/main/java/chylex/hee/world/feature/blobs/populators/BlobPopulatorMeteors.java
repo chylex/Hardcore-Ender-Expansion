@@ -7,11 +7,12 @@ import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.blobs.StructureWorldBlob;
+import chylex.hee.world.util.IRangeGenerator;
+import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
-import chylex.hee.world.util.RangeGenerator;
 
 public class BlobPopulatorMeteors extends BlobPopulator{
-	private RangeGenerator amount;
+	private IRangeGenerator amount;
 	private IRandGenerator radius = (rand) -> 0D;
 	
 	public BlobPopulatorMeteors(int weight){
@@ -23,7 +24,7 @@ public class BlobPopulatorMeteors extends BlobPopulator{
 		return this;
 	}
 	
-	public BlobPopulatorMeteors setAmount(RangeGenerator amountGenerator){
+	public BlobPopulatorMeteors setAmount(IRangeGenerator amountGenerator){
 		this.amount = amountGenerator;
 		return this;
 	}

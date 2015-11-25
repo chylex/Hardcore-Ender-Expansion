@@ -10,7 +10,7 @@ import chylex.hee.system.abstractions.Vec;
 import chylex.hee.system.abstractions.facing.Facing6;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.world.structure.StructureWorld;
-import chylex.hee.world.util.RangeGenerator;
+import chylex.hee.world.util.IRangeGenerator;
 
 public interface IOreGenerator{
 	/**
@@ -109,10 +109,10 @@ public interface IOreGenerator{
 	 * If {@code generateCloser} is enabled, the generator will attempt to place the ores closer by checking more positions in each line, ending up with fewer diagonals.
 	 */
 	public static class AttachingLines implements IOreGenerator{
-		private final RangeGenerator oresPerLine;
+		private final IRangeGenerator oresPerLine;
 		private final boolean generateCloser;
 		
-		public AttachingLines(RangeGenerator oresPerLine, boolean generateCloser){
+		public AttachingLines(IRangeGenerator oresPerLine, boolean generateCloser){
 			this.oresPerLine = oresPerLine;
 			this.generateCloser = generateCloser;
 		}

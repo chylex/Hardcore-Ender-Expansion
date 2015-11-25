@@ -8,12 +8,13 @@ import net.minecraft.init.Blocks;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.blobs.StructureWorldBlob;
+import chylex.hee.world.util.IRangeGenerator;
+import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
-import chylex.hee.world.util.RangeGenerator;
 
 public class BlobPopulatorLiquidPool extends BlobPopulator{
 	private Block block = Blocks.air;
-	private RangeGenerator amount;
+	private IRangeGenerator amount;
 	private int minBlocks;
 	
 	public BlobPopulatorLiquidPool(int weight){
@@ -30,7 +31,7 @@ public class BlobPopulatorLiquidPool extends BlobPopulator{
 		return this;
 	}
 	
-	public BlobPopulatorLiquidPool setAmount(RangeGenerator amount){
+	public BlobPopulatorLiquidPool setAmount(IRangeGenerator amount){
 		this.amount = amount;
 		return this;
 	}

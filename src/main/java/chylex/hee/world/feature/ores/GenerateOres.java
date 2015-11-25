@@ -11,19 +11,20 @@ import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.structure.StructureWorld;
 import chylex.hee.world.structure.util.IBlockPicker;
 import chylex.hee.world.util.BoundingBox;
+import chylex.hee.world.util.IRangeGenerator;
+import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
-import chylex.hee.world.util.RangeGenerator;
 
 public final class GenerateOres{
 	final Block toReplace;
 	final IBlockPicker orePicker;
 	
 	private int chunkSize = 16;
-	private RangeGenerator yGenerator = new RangeGenerator(0,256,RandomAmount.linear);
+	private IRangeGenerator yGenerator = new RangeGenerator(0,256,RandomAmount.linear);
 	
 	private int attemptsPerChunk;
-	private RangeGenerator clustersPerChunk;
-	private RangeGenerator oresPerCluster;
+	private IRangeGenerator clustersPerChunk;
+	private IRangeGenerator oresPerCluster;
 	private IOreGenerator oreGenerator;
 	
 	public GenerateOres(Block toReplace, IBlockPicker orePicker){
@@ -49,7 +50,11 @@ public final class GenerateOres{
 		this.yGenerator = new RangeGenerator(minY,maxY,RandomAmount.linear);
 	}
 	
-	public void setY(RangeGenerator yGenerator){
+	public void setY(int minY, int maxY, RandomAmount distribution){
+		this.yGenerator = new RangeGenerator(minY,maxY,distribution);
+	}
+	
+	public void setY(IRangeGenerator yGenerator){
 		this.yGenerator = yGenerator;
 	}
 	

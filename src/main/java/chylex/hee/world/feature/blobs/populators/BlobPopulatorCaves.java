@@ -10,22 +10,23 @@ import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.world.feature.blobs.StructureWorldBlob;
 import chylex.hee.world.util.BoundingBox;
+import chylex.hee.world.util.IRangeGenerator;
+import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
-import chylex.hee.world.util.RangeGenerator;
 
 public class BlobPopulatorCaves extends BlobPopulator{
-	private static final RangeGenerator zero = new RangeGenerator(0,0,RandomAmount.exact);
+	private static final IRangeGenerator zero = new RangeGenerator(0,0,RandomAmount.exact);
 	
 	private final List<Pair<Vec,Double>> tmpCavePositions = new ArrayList<>();
 	private BoundingBox tmpArea;
 	
 	private IRandGenerator radiusMain = rand -> 0D, radiusMinorMp = rand -> 1D;
-	private RangeGenerator amountMain = zero, amountMinor = zero;
+	private IRangeGenerator amountMain = zero, amountMinor = zero;
 	
 	/**
 	 * Each cycle moves the position iteration by one block.
 	 */
-	private RangeGenerator cyclesMain = zero, cyclesMinor = zero;
+	private IRangeGenerator cyclesMain = zero, cyclesMinor = zero;
 	
 	public BlobPopulatorCaves(int weight){
 		super(weight);

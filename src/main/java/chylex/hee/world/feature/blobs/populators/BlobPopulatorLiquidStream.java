@@ -7,12 +7,13 @@ import net.minecraft.init.Blocks;
 import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.world.feature.blobs.StructureWorldBlob;
+import chylex.hee.world.util.IRangeGenerator;
+import chylex.hee.world.util.IRangeGenerator.RangeGenerator;
 import chylex.hee.world.util.RandomAmount;
-import chylex.hee.world.util.RangeGenerator;
 
 public class BlobPopulatorLiquidStream extends BlobPopulator{
 	private Block block = Blocks.air;
-	private RangeGenerator amount;
+	private IRangeGenerator amount;
 	private boolean canHaveAirAbove, strictFlowCheck;
 	
 	public BlobPopulatorLiquidStream(int weight){
@@ -29,7 +30,7 @@ public class BlobPopulatorLiquidStream extends BlobPopulator{
 		return this;
 	}
 	
-	public BlobPopulatorLiquidStream setAmount(RangeGenerator amount){
+	public BlobPopulatorLiquidStream setAmount(IRangeGenerator amount){
 		this.amount = amount;
 		return this;
 	}
