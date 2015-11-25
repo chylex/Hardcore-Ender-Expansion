@@ -115,7 +115,7 @@ public final class GenerateOres{
 					 minY+rand.nextInt(1+maxY-minY),
 					 worldBox.z1+edgeDistance+rand.nextInt(worldBox.z2-worldBox.z1+1-2*edgeDistance));
 			
-			if (world.getBlock(mpos.x,mpos.y,mpos.z) == toReplace){
+			if (world.getBlock(mpos) == toReplace){
 				oreGenerator.generate(this,world,rand,mpos.x,mpos.y,mpos.z,oresPerCluster.next(rand));
 				--clusters;
 			}

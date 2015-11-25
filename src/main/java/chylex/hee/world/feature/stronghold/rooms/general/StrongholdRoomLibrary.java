@@ -302,7 +302,7 @@ public class StrongholdRoomLibrary extends StrongholdRoom{
 			Pos stairCheck1 = mpos.offset(facing.opposite()).offset(sideFacing,3);
 			Pos stairCheck2 = mpos.offset(facing.opposite(),2).offset(sideFacing,4).getDown();
 			
-			if (world.isAir(stairCheck1.getX(),stairCheck1.getY(),stairCheck1.getZ()) && world.isAir(stairCheck2.getX(),stairCheck2.getY(),stairCheck2.getZ())){
+			if (world.isAir(stairCheck1) && world.isAir(stairCheck2)){
 				switch(rand.nextInt(3)){
 					case 0:
 						mpos.move(sideFacing,2);

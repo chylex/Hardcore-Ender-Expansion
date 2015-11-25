@@ -60,7 +60,7 @@ public interface IOreGenerator{
 					else mpos.move(Facing6.random(rand));
 					
 					if (canPlaceAt(gen,world,rand,mpos.x,mpos.y,mpos.z)){
-						world.setBlock(mpos.x,mpos.y,mpos.z,gen.orePicker.pick(rand));
+						world.setBlock(mpos,gen.orePicker.pick(rand));
 						generated.add(mpos.immutable());
 						break;
 					}
@@ -96,7 +96,7 @@ public interface IOreGenerator{
 					mpos.set(dx+vec.x*dist,dy+vec.y*dist,dz+vec.z*dist);
 					
 					if (canPlaceAt(gen,world,rand,mpos.x,mpos.y,mpos.z)){
-						world.setBlock(mpos.x,mpos.y,mpos.z,gen.orePicker.pick(rand));
+						world.setBlock(mpos,gen.orePicker.pick(rand));
 						break;
 					}
 				}
@@ -137,7 +137,7 @@ public interface IOreGenerator{
 					Pos nextPos = Pos.at(pos.x += dir.x*mp,pos.y += dir.y*mp,pos.z += dir.z*mp);
 					
 					if (canPlaceAt(gen,world,rand,nextPos.getX(),nextPos.getY(),nextPos.getZ())){
-						world.setBlock(nextPos.getX(),nextPos.getY(),nextPos.getZ(),gen.orePicker.pick(rand));
+						world.setBlock(nextPos,gen.orePicker.pick(rand));
 						generated.add(nextPos);
 						--left;
 					}

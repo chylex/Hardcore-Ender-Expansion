@@ -15,7 +15,7 @@ public interface IBlobGeneratorPass{
 	static void runSmoothingPass(StructureWorldBlob world, final int airAmount){
 		for(Pos pos:world.getEndStoneBlocks()){
 			if (checkAdjacentAir(world,pos,airAmount)){
-				world.setBlock(pos.getX(),pos.getY(),pos.getZ(),Blocks.air);
+				world.setBlock(pos,Blocks.air);
 			}
 		}
 	}
@@ -26,7 +26,7 @@ public interface IBlobGeneratorPass{
 		for(Facing6 facing:Facing6.list){
 			Pos offset = pos.offset(facing);
 			
-			if (world.getBlock(offset.getX(),offset.getY(),offset.getZ()) != Blocks.end_stone){
+			if (world.getBlock(offset) != Blocks.end_stone){
 				if (++air == targetAmount)return true;
 			}
 		}

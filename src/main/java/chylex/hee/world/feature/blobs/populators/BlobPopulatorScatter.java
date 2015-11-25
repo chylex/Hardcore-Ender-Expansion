@@ -41,15 +41,14 @@ public class BlobPopulatorScatter extends BlobPopulator{
 		
 		for(Pos pos:world.getEndStoneBlocks()){
 			if (rand.nextDouble() < genChance && (!visibleOnly || isVisible(world,pos))){
-				world.setBlock(pos.getX(),pos.getY(),pos.getZ(),block);
+				world.setBlock(pos,block);
 			}
 		}
 	}
 	
 	private boolean isVisible(StructureWorldBlob world, Pos pos){
 		for(Facing6 facing:Facing6.list){
-			Pos offset = pos.offset(facing);
-			if (world.isAir(offset.getX(),offset.getY(),offset.getZ()))return true;
+			if (world.isAir(pos.offset(facing)))return true;
 		}
 		
 		return false;

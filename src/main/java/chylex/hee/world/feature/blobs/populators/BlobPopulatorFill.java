@@ -28,15 +28,13 @@ public class BlobPopulatorFill extends BlobPopulator{
 			Pos pos = iter.next();
 			
 			for(Facing6 facing:Facing6.list){
-				Pos offset = pos.offset(facing);
-				
-				if (world.getBlock(offset.getX(),offset.getY(),offset.getZ()) != Blocks.end_stone){
+				if (world.getBlock(pos.offset(facing)) != Blocks.end_stone){
 					iter.remove();
 					break;
 				}
 			}
 		}
 		
-		for(Pos pos:toRemove)world.setBlock(pos.getX(),pos.getY(),pos.getZ(),block);
+		for(Pos pos:toRemove)world.setBlock(pos,block);
 	}
 }

@@ -45,8 +45,8 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 			mpos.move(facing = Facing4.random(rand),1+rand.nextInt(2+rand.nextInt(3)));
 			mpos.move(rand.nextBoolean() ? facing.rotateLeft() : facing.rotateRight(),rand.nextInt(2));
 			
-			if (world.isAir(mpos.x,mpos.y,mpos.z)){
-				world.setBlock(mpos.x,mpos.y,mpos.z,BlockList.ancient_web);
+			if (world.isAir(mpos)){
+				world.setBlock(mpos,BlockList.ancient_web);
 				--toPlace;
 			}
 		}
@@ -113,7 +113,7 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 				for(int attempt = 0; attempt < 3; attempt++){
 					Pos pos = RandUtil.anyOf(rand,posArray);
 					
-					if (world.isAir(pos.getX(),pos.getY(),pos.getZ())){
+					if (world.isAir(pos)){
 						placeFlowerPot(world,rand,pos);
 						break;
 					}
@@ -126,19 +126,19 @@ public class StrongholdRoomChestSupportSmall extends StrongholdRoom{
 				Pos cobweb = RandUtil.anyOf(rand,posArray);
 				
 				if (world.isAir(cobweb.getX(),cobweb.getY(),cobweb.getZ())){
-					world.setBlock(cobweb.getX(),cobweb.getY(),cobweb.getZ(),BlockList.ancient_web);
+					world.setBlock(cobweb,BlockList.ancient_web);
 				}
 			}
 		}
 	}
 	
 	private void placeFlowerPot(StructureWorld world, Random rand, Pos pos){
-		world.setBlock(pos.getX(),pos.getY(),pos.getZ(),Blocks.flower_pot);
-		world.setTileEntity(pos.getX(),pos.getY(),pos.getZ(),Meta.generateFlowerPot(RandUtil.anyOf(rand,plants)));
+		world.setBlock(pos,Blocks.flower_pot);
+		world.setTileEntity(pos,Meta.generateFlowerPot(RandUtil.anyOf(rand,plants)));
 	}
 	
 	private void placeChest(StructureWorld world, Random rand, Pos pos, Facing4 facing){
-		world.setBlock(pos.getX(),pos.getY(),pos.getZ(),Blocks.chest);
-		world.setTileEntity(pos.getX(),pos.getY(),pos.getZ(),Meta.generateChest(facing,generateLootGeneral));
+		world.setBlock(pos,Blocks.chest);
+		world.setTileEntity(pos,Meta.generateChest(facing,generateLootGeneral));
 	}
 }

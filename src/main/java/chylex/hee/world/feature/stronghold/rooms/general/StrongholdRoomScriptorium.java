@@ -129,11 +129,11 @@ public class StrongholdRoomScriptorium extends StrongholdRoom{ // TODO add a che
 		for(int cobwebs = 7+rand.nextInt(6); cobwebs > 0; cobwebs--){
 			for(int attempt = 0; attempt < 50; attempt++){
 				mpos.set(x+1+rand.nextInt(maxX-1),y+1,z+1+rand.nextInt(maxZ-1));
-				while(!world.isAir(mpos.x,mpos.y,mpos.z) && ++mpos.y < maxY);
+				while(!world.isAir(mpos) && ++mpos.y < maxY);
 				
 				if (mpos.y == y+1 && rand.nextInt(4) != 0)continue;
 				
-				if (world.isAir(mpos.x,mpos.y,mpos.z) && (mpos.y > y+1 || Arrays.stream(Facing4.list).anyMatch(off -> !world.isAir(mpos.x+off.getX(),mpos.y,mpos.z+off.getZ())))){
+				if (world.isAir(mpos) && (mpos.y > y+1 || Arrays.stream(Facing4.list).anyMatch(off -> !world.isAir(mpos.x+off.getX(),mpos.y,mpos.z+off.getZ())))){
 					Block below = world.getBlock(mpos.x,mpos.y-1,mpos.z);
 					
 					if (below == Blocks.bookshelf || below == Blocks.stonebrick || below == Blocks.monster_egg || below == Blocks.stone_slab){

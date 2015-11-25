@@ -41,7 +41,7 @@ public abstract class AbstractBlobHandler implements IWeightProvider{
 		
 		Pos.forEachBlock(center.offset(-dist,-dist,-dist),center.offset(dist,dist,dist),pos -> {
 			if (MathUtil.distanceSquared(pos.x-x,pos.y-y,pos.z-z) <= radSq){
-				world.setBlock(pos.x,pos.y,pos.z,block);
+				world.setBlock(pos,block);
 			}
 		});
 	}
