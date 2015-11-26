@@ -1,4 +1,5 @@
 package chylex.hee.world.structure;
+import java.util.Random;
 import javax.annotation.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -8,11 +9,7 @@ import chylex.hee.system.abstractions.Pos.PosMutable;
  * Represents a Structure World that can be inserted into another one.
  */
 public class StructureWorldPart extends StructureWorld{
-	public static interface IWorldInsertPredicate{
-		boolean isValid(StructureWorld targetWorld, int x, int y, int z);
-	}
-	
-	public static IWorldInsertPredicate requireAir = (targetWorld, x, y, z) -> targetWorld.isAir(x,y,z) && targetWorld.isInside(x,y,z);
+	public static IWorldPositionPredicate requireAir = (targetWorld, rand, x, y, z) -> targetWorld.isAir(x,y,z) && targetWorld.isInside(x,y,z);
 	
 	public StructureWorldPart(World world, int radX, int sizeY, int radZ){
 		super(world,radX,sizeY,radZ);
@@ -65,14 +62,14 @@ public class StructureWorldPart extends StructureWorld{
 		});
 	}
 	
-	public boolean insertIf(StructureWorld targetWorld, int centerX, int bottomY, int centerZ, @Nullable IWorldInsertPredicate predicate){
+	public boolean insertIf(StructureWorld targetWorld, Random rand, int centerX, int bottomY, int centerZ, @Nullable IWorldPositionPredicate predicate){
 		if (predicate != null){
 			int x, y, z, index = -1;
 			
 			for(z = -radZ; z <= radZ; z++){
 				for(x = -radX; x <= radX; x++){
 					for(y = 0; y < sizeY; y++){
-						if (blocks[++index] != null && !predicate.isValid(targetWorld,centerX+x,bottomY+y,centerZ+z)){
+						if (blocks[++index] != null && !predicate.check(targetWorld,rand,centerX+x,bottomY+y,centerZ+z)){
 							return false;
 						}
 					}
