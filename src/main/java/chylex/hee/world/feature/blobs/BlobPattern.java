@@ -23,28 +23,34 @@ public final class BlobPattern implements IWeightProvider{
 		this.weight = weight;
 	}
 	
-	public void addGenerator(BlobGenerator generator){
+	public BlobPattern addGenerator(BlobGenerator generator){
 		this.generators.add(generator);
+		return this;
 	}
 	
-	public void addGenerators(BlobGenerator[] generators){
+	public BlobPattern addGenerators(BlobGenerator[] generators){
 		this.generators.add(generators);
+		return this;
 	}
 	
-	public void addPopulator(BlobPopulator populator){
+	public BlobPattern addPopulator(BlobPopulator populator){
 		this.populators.add(populator);
+		return this;
 	}
 	
-	public void addPopulators(BlobPopulator[] populators){
+	public BlobPattern addPopulators(BlobPopulator[] populators){
 		this.populators.add(populators);
+		return this;
 	}
 	
-	public void setPopulatorAmount(IRangeGenerator amount){
+	public BlobPattern setPopulatorAmount(IRangeGenerator amount){
 		this.populatorAmount = amount;
+		return this;
 	}
 	
-	public void setPopulatorAmount(int amount){
+	public BlobPattern setPopulatorAmount(int amount){
 		this.populatorAmount = new RangeGenerator(amount,amount,RandomAmount.exact);
+		return this;
 	}
 	
 	public Optional<BlobGenerator> selectGenerator(Random rand){
