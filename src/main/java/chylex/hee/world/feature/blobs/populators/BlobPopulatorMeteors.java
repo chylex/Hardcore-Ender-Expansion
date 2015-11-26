@@ -54,7 +54,7 @@ public class BlobPopulatorMeteors extends BlobPopulator{
 			Pos block = CollectionUtil.random(endStone,rand).orElseGet(() -> Pos.at(0,world.getCenterY(),0));
 			Vec pos = Vec.xyz(block.getX()+0.5D,block.getY()+0.5D,block.getZ()+0.5D).offset(dir,rad+2D+4D*rand.nextDouble());
 			
-			if (isBlobSeparated(world,pos.x,pos.y,pos.z,rad)){
+			if (isBlobSeparated(world,pos.x,pos.y,pos.z,rad) && isBlobInsideWorld(world,pos.x,pos.y,pos.z,rad)){
 				generateBlob(world,pos.x,pos.y,pos.z,rad);
 				--meteorsLeft;
 			}
