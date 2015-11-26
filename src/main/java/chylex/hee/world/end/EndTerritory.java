@@ -33,7 +33,7 @@ public enum EndTerritory{
 			BoundingBox box = structureWorld.getArea();
 			
 			for(int x = box.x1; x < box.x2; x++){
-				for(int z = -box.z1; z < box.z2; z++){
+				for(int z = box.z1; z < box.z2; z++){
 					for(int y = box.y1; y < box.y2; y++){
 						structureWorld.setAir(x,y,z);
 					}
