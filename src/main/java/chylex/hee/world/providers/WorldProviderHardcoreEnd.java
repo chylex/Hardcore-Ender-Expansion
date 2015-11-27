@@ -1,14 +1,22 @@
 package chylex.hee.world.providers;
+import javax.annotation.Nonnull;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProviderEnd;
 import net.minecraft.world.chunk.IChunkProvider;
-import org.lwjgl.opengl.GL11;
+import net.minecraftforge.client.IRenderHandler;
+import chylex.hee.render.environment.RenderEnvironmentSky;
 import chylex.hee.world.TeleportHandler;
+import chylex.hee.world.end.EndTerritory;
+import chylex.hee.world.end.TerritoryEnvironment;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class WorldProviderHardcoreEnd extends WorldProviderEnd{
+	@SideOnly(Side.CLIENT)
+	private IRenderHandler skyRenderer;
+	
 	@Override
 	public IChunkProvider createChunkGenerator(){
 		return new ChunkProviderHardcoreEnd(worldObj,worldObj.getSeed());
@@ -34,22 +42,33 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 		return TeleportHandler.endSpawn;
 	}
 	
-	// OVERRIDES FOR TESTING AND MESSING AROUND
-
+	@SideOnly(Side.CLIENT)
+	public final @Nonnull TerritoryEnvironment getEnvironment(Minecraft mc){
+		if (mc.thePlayer != null && mc.thePlayer.dimension == 1){
+			EndTerritory territory = EndTerritory.fromPosition(mc.thePlayer.posX);
+			if (territory != null)return territory.environment;
+		}
+		
+		return TerritoryEnvironment.defaultEnvironment;
+	}
+	
+	// Environment overrides
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public boolean doesXZShowFog(int x, int z){
-		GL11.glFogi(GL11.GL_FOG_MODE,GL11.GL_EXP);
-		GL11.glFogf(GL11.GL_FOG_DENSITY,0.02F);
-		GL11.glHint(GL11.GL_FOG_HINT,GL11.GL_DONT_CARE);
-		return true;
-	}
-
-	@Override
-	public float calculateCelestialAngle(long worldTime, float partialTickTime){
-		return 0F;
+		return getEnvironment(Minecraft.getMinecraft()).setupFog();
 	}
 	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public IRenderHandler getSkyRenderer(){
+		if (skyRenderer == null)skyRenderer = new RenderEnvironmentSky();
+		return skyRenderer;
+	}
+	
+	// OVERRIDES FOR TESTING AND MESSING AROUND
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public float[] calcSunriseSunsetColors(float celestialAngle, float partialTickTime){
@@ -59,18 +78,9 @@ public class WorldProviderHardcoreEnd extends WorldProviderEnd{
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Vec3 getFogColor(float celestialAngle, float partialTickTime){
-		int color = 10518688;
-		//float omgThisIsGeniusMojang = MathUtil.clamp(MathHelper.cos(celestialAngle*MathUtil.PI*2F)*2F+0.5F,0F,1F);
-
-		float r = (color>>16&255)/255F;
-		float g = (color>>8&255)/255F;
-		float b = (color&255)/255F;
-		
-		r *= 0.015F;
-		g *= 0.015F;
-		b *= 0.015F;
-		
-		return Vec3.createVectorHelper(r,g,b);
+		TerritoryEnvironment environment = getEnvironment(Minecraft.getMinecraft());
+		environment.updateFogColor();
+		return environment.getFogColor();
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import net.minecraft.init.Blocks;
 import chylex.hee.init.BlockList;
 import chylex.hee.system.abstractions.BlockInfo;
 import chylex.hee.system.abstractions.Meta;
+import chylex.hee.world.end.TerritoryEnvironment;
 import chylex.hee.world.end.TerritoryGenerator;
 import chylex.hee.world.feature.noise.GenerateIslandNoise;
 import chylex.hee.world.feature.ores.GenerateOres;
@@ -66,5 +67,9 @@ public class TerritoryTheHub extends TerritoryGenerator{
 		
 		endPowderOreMain.generateSplit(world,rand);
 		endPowderOreSurface.generateSplit(world,rand);
+	}
+	
+	public static class Environment extends TerritoryEnvironment{
+		
 	}
 }

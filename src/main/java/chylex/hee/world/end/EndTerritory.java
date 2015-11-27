@@ -1,6 +1,7 @@
 package chylex.hee.world.end;
 import java.util.Random;
 import java.util.stream.IntStream;
+import javax.annotation.Nullable;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import chylex.hee.game.commands.HeeDebugCommand.HeeTest;
@@ -11,16 +12,19 @@ import chylex.hee.world.structure.StructureWorldLazy;
 import chylex.hee.world.util.BoundingBox;
 
 public enum EndTerritory{
-	THE_HUB(24, new TerritorySpawnInfo(128,0), TerritoryTheHub::new), // 384 blocks
+	THE_HUB(24, new TerritorySpawnInfo(128,0), new TerritoryTheHub.Environment(), TerritoryTheHub::new), // 384 blocks
 	;
 	
-	public final int chunkSize;
+	private final int chunkSize;
 	private final TerritorySpawnInfo info;
 	private final ITerritoryGeneratorConstructor constructor;
+
+	public final TerritoryEnvironment environment;
 	
-	private EndTerritory(int chunkSize, TerritorySpawnInfo info, ITerritoryGeneratorConstructor constructor){
+	private EndTerritory(int chunkSize, TerritorySpawnInfo info, TerritoryEnvironment environment, ITerritoryGeneratorConstructor constructor){
 		this.chunkSize = chunkSize;
 		this.info = info;
+		this.environment = environment;
 		this.constructor = constructor;
 	}
 	
@@ -85,6 +89,10 @@ public enum EndTerritory{
 	public static final int chunksBetween = 64; // 1024 blocks
 	public static final int chunkOffset = -THE_HUB.chunkSize/2;
 	public static final EndTerritory[] values = values();
+	
+	public static @Nullable EndTerritory fromPosition(double posX){ // TODO figure this out
+		return EndTerritory.THE_HUB;
+	}
 	
 	private static boolean $debugging = false;
 	
