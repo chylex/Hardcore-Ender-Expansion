@@ -13,7 +13,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import chylex.hee.entity.fx.FXType;
 import chylex.hee.game.achievements.AchievementManager;
-import chylex.hee.mechanics.misc.GemSideEffects;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C20Effect;
 import chylex.hee.packets.client.C21EffectEntity;
@@ -98,10 +97,10 @@ public class ItemTransferenceGem extends ItemAbstractGem{
 			entity.setLocationAndAngles(gemData.x+0.5D,gemData.y+1.001D,gemData.z+0.5D,entity.rotationYaw,entity.rotationPitch);
 			entity.fallDistance = 0F;
 			
-			float percBroken = itemDamage/(float)is.getMaxDamage();
+			/* TODO probably remove completely | float percBroken = itemDamage/(float)is.getMaxDamage();
 			if (percBroken > 0.66F && entity.worldObj.rand.nextFloat()*1.4F < percBroken){
 				GemSideEffects.performRandomEffect(entity,percBroken);
-			}
+			}*/
 			
 			PacketPipeline.sendToAllAround(entity,64D,new C20Effect(FXType.Basic.GEM_TELEPORT_TO,entity));
 		}
