@@ -20,9 +20,10 @@ import chylex.hee.init.ItemList;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C08PlaySound;
 import chylex.hee.packets.client.C20Effect;
+import chylex.hee.system.abstractions.Pos;
+import chylex.hee.system.abstractions.Pos.PosMutable;
 import chylex.hee.system.abstractions.entity.EntitySelector;
 import chylex.hee.system.collections.CollectionUtil;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.DragonUtil;
 import chylex.hee.system.util.MathUtil;
 import cpw.mods.fml.relauncher.Side;
@@ -78,22 +79,26 @@ public class BlockSpookyLog extends Block{
 		}
 		
 		if (!world.isRemote && world.rand.nextInt(8) == 0)dropBlockAsItem(world,x,y,z,new ItemStack(ItemList.dry_splinter));
+		
+		Pos pos = Pos.at(x,y+1,z);
 
-		if (BlockPosM.tmp(x,y+1,z).getBlock(world) == this){
-			dropBlockAsItemWithChance(world,x,y+1,z,BlockPosM.tmp(x,y+1,z).getMetadata(world),chance,fortune);
+		if (pos.getBlock(world) == this){
+			dropBlockAsItemWithChance(world,x,y+1,z,pos.getMetadata(world),chance,fortune);
 			PacketPipeline.sendToAllAround(world.provider.dimensionId,x+0.5D,y+0.5D,z+0.5D,64D,new C20Effect(FXType.Basic.SPOOKY_LOG_DECAY,x,y,z));
-			BlockPosM.tmp(x,y+1,z).setAir(world);
+			pos.setAir(world);
 		}
 	}
 
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand){
-		if (world.isRemote || BlockPosM.tmp(x,y,z).getMetadata(world) == 0)return;
+		if (world.isRemote)return;
+		
+		Pos pos = Pos.at(x,y,z);
+		if (pos.getMetadata(world) == 0)return;
 		
 		if (rand.nextInt(4) == 0 && !isBlockSeen(world,x,y,z)){
 			int w = rand.nextInt(5); // 0,1 = rotate, 2 = move up or down, 3,4 = move tree
 			boolean moved = false;
-			BlockPosM pos = new BlockPosM(x,y,z);
 			
 			if (w == 0 || w == 1){
 				pos.setMetadata(world,rand.nextInt(4)+1);
@@ -102,42 +107,46 @@ public class BlockSpookyLog extends Block{
 			}
 			else if (w == 2){
 				int dir = rand.nextInt(2)*2-1;
-				BlockPosM tmpPos = BlockPosM.tmp();
+				Pos above = pos.offset(0,dir,0);
 				
-				if (tmpPos.set(x,y+dir,z).getBlock(world) == this){
-					tmpPos.setMetadata(world,pos.getMetadata(world));
+				if (above.getBlock(world) == this){
+					above.setMetadata(world,pos.getMetadata(world));
 					pos.setMetadata(world,0);
-					world.scheduleBlockUpdate(x,y+dir,z,this,tickRate(world));
+					world.scheduleBlockUpdate(above.getX(),above.getY(),above.getZ(),this,tickRate(world));
 					moved = true;
 				}
 			}
 			else{
-				BlockPosM tmpPos = BlockPosM.tmp();
+				PosMutable testPos = new PosMutable();
 				
 				for(int attempt = 0; attempt < 50; attempt++){
-					if (tmpPos.set(x+rand.nextInt(31)-15,y,z+rand.nextInt(31)-15).getBlock(world) == this){
+					testPos.set(pos).move(rand.nextInt(31)-15,0,rand.nextInt(31)-15);
+					
+					if (testPos.getBlock(world) == this){
 						boolean hasFace = false;
 						
 						for(int testY = y; true; testY++){
-							if (tmpPos.setY(testY).getBlock(world) != this)break;
-							if (tmpPos.getMetadata(world) > 0){
+							if (testPos.setY(testY).getBlock(world) != this)break;
+							if (testPos.getMetadata(world) > 0){
 								hasFace = true;
 								break;
 							}
 						}
 						
 						for(int testY = y; true; testY--){
-							if (tmpPos.setY(testY).getBlock(world) != this)break;
-							if (tmpPos.getMetadata(world) > 0){
+							if (testPos.setY(testY).getBlock(world) != this)break;
+							if (testPos.getMetadata(world) > 0){
 								hasFace = true;
 								break;
 							}
 						}
 						
-						if (!hasFace && !isBlockSeen(world,tmpPos.x,y,tmpPos.z)){
-							tmpPos.setY(y).setMetadata(world,pos.getMetadata(world));
+						Pos targetPos = Pos.at(testPos.x,y,testPos.z);
+						
+						if (!hasFace && !isBlockSeen(world,targetPos.getX(),targetPos.getY(),targetPos.getZ())){
+							targetPos.setMetadata(world,pos.getMetadata(world));
 							pos.setMetadata(world,0);
-							world.scheduleBlockUpdate(tmpPos.x,tmpPos.y,tmpPos.z,this,tickRate(world));
+							world.scheduleBlockUpdate(targetPos.getX(),targetPos.getY(),targetPos.getZ(),this,tickRate(world));
 							moved = true;
 						}
 					}

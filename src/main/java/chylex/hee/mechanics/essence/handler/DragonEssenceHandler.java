@@ -22,10 +22,11 @@ import chylex.hee.mechanics.essence.EssenceType;
 import chylex.hee.mechanics.essence.handler.dragon.AltarItemRecipe;
 import chylex.hee.packets.PacketPipeline;
 import chylex.hee.packets.client.C11ParticleAltarOrb;
+import chylex.hee.system.abstractions.Pos;
 import chylex.hee.system.abstractions.entity.EntitySelector;
+import chylex.hee.system.abstractions.facing.Facing4;
 import chylex.hee.system.collections.CollectionUtil;
 import chylex.hee.system.collections.weight.WeightedMap;
-import chylex.hee.system.util.BlockPosM;
 import chylex.hee.system.util.ItemUtil;
 import chylex.hee.system.util.MathUtil;
 import chylex.hee.tileentity.TileEntityEssenceAltar;
@@ -37,7 +38,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 	});
 	
 	private AxisAlignedBB itemBoundingBox;
-	private final List<BlockPosM> pedestals = new ArrayList<>();
+	private final List<Pos> pedestals = new ArrayList<>();
 	private byte updatePedestalTimer = 2;
 	private long pedestalAreaHash;
 	private byte lastMaxPedestals;
@@ -65,7 +66,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 			
 			for(int xx = -range,id; xx <= range; xx++){
 				for(int zz = -range; zz <= range; zz++){
-					id = Block.getIdFromBlock(BlockPosM.tmp(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz).getBlock(world));
+					id = Block.getIdFromBlock(Pos.at(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz).getBlock(world));
 					currentHash += ((4+xx)*7+(4+zz)+id)*262144L+(xx*id)+(zz*id);
 				}
 			}
@@ -77,30 +78,28 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				IdentityHashMap<Block,Byte> blockCounts = new IdentityHashMap<>();
 				Block[][] blocks = new Block[range*2+1][range*2+1];
 				
-				BlockPosM tmpPos = BlockPosM.tmp();
+				Pos tilePos = Pos.at(altar);
 				
-				for(int xx = altar.xCoord-range; xx <= altar.xCoord+range; xx++){
-					for(int zz = altar.zCoord-range; zz <= altar.zCoord+range; zz++){
-						if (Math.abs(xx-altar.xCoord) <= 1 && Math.abs(zz-altar.zCoord) <= 1)continue;
-						
-						if (tmpPos.set(xx,altar.yCoord+1,zz).isAir(world) &&
-							(tmpPos.set(xx-1,altar.yCoord,zz).isAir(world) || !hasCollisionBox(altar,xx-1,altar.yCoord,zz)) &&
-							(tmpPos.set(xx+1,altar.yCoord,zz).isAir(world) || !hasCollisionBox(altar,xx+1,altar.yCoord,zz)) &&
-							(tmpPos.set(xx,altar.yCoord,zz-1).isAir(world) || !hasCollisionBox(altar,xx,altar.yCoord,zz-1)) &&
-							(tmpPos.set(xx,altar.yCoord,zz+1).isAir(world) || !hasCollisionBox(altar,xx,altar.yCoord,zz+1)) &&
-							hasCollisionBox(altar,xx,altar.yCoord,zz)){
-							Block block = tmpPos.set(xx,altar.yCoord,zz).getBlock(world);
-							if (block.getMaterial() == Material.air)continue;
-							
-							blocks[range+xx-altar.xCoord][range+zz-altar.zCoord] = block;
-							
-							if (blockCounts.containsKey(block))blockCounts.put(block,(byte)(blockCounts.get(block)+1));
-							else blockCounts.put(block,(byte)1);
-						}
+				Pos.forEachBlock(tilePos.offset(-range,0,-range),tilePos.offset(range,0,range),pos -> { // TODO rework a bit?
+					if (Math.abs(pos.x-tilePos.getX()) <= 1 && Math.abs(pos.z-tilePos.getZ()) <= 1)return;
+					if (!(pos.getUp().isAir(world) && hasCollisionBox(altar,pos.getX(),pos.getY(),pos.getZ())))return;
+					
+					for(Facing4 facing:Facing4.list){
+						Pos offset = pos.offset(facing);
+						if (!(offset.isAir(world) || !hasCollisionBox(altar,offset.getX(),offset.getY(),offset.getZ())))return;
 					}
-				}
+					
+					Block block = pos.getBlock(world);
+					if (block.getMaterial() == Material.air)return;
+					
+					blocks[range+pos.getX()-tilePos.getX()][range+pos.getZ()-tilePos.getZ()] = block;
+					
+					if (blockCounts.containsKey(block))blockCounts.put(block,(byte)(blockCounts.get(block)+1));
+					else blockCounts.put(block,(byte)1);
+				});
 				
 				SortedSet<Entry<Block,Byte>> sorted = CollectionUtil.sortMapByValueDesc(blockCounts);
+				
 				for(Entry<Block,Byte> entry:sorted){
 					if (entry.getValue() > maxPedestals)continue;
 					
@@ -108,7 +107,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 						for(int zz = -range; zz <= range; zz++){
 							if (blocks[range+xx][range+zz] != entry.getKey())continue;
 							
-							pedestals.add(new BlockPosM(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz));
+							pedestals.add(Pos.at(altar.xCoord+xx,altar.yCoord,altar.zCoord+zz));
 						}
 					}
 					
@@ -116,9 +115,9 @@ public class DragonEssenceHandler extends AltarActionHandler{
 				}
 			}
 			
-			for(BlockPosM loc:pedestals){
+			for(Pos pos:pedestals){
 				if (world.rand.nextInt(5) <= 1){
-					PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,loc.x+0.5D,altar.yCoord+0.5D,loc.z+0.5D));
+					PacketPipeline.sendToAllAround(altar,64D,new C11ParticleAltarOrb(altar,pos.getX()+0.5D,pos.getY()+0.5D,pos.getZ()+0.5D));
 				}
 			}
 		}
@@ -132,10 +131,10 @@ public class DragonEssenceHandler extends AltarActionHandler{
 		double targX, targY, targZ;
 		
 		for(EntityItem item:thrownItems){
-			for(BlockPosM loc:pedestals){
-				targX = loc.x+0.5D;
-				targY = loc.y+1.15D;
-				targZ = loc.z+0.5D;
+			for(Pos pos:pedestals){
+				targX = pos.getX()+0.5D;
+				targY = pos.getY()+1.15D;
+				targZ = pos.getZ()+0.5D;
 				
 				if (Math.abs(item.posX-targX) > 0.001D || Math.abs(item.posY-targY) > 0.001D || Math.abs(item.posZ-targZ) > 0.001D){
 					if (EntitySelector.type(world,EntityItemAltar.class,AxisAlignedBB.getBoundingBox(targX,targY,targZ,targX,targY,targZ)).isEmpty() &&
@@ -149,7 +148,7 @@ public class DragonEssenceHandler extends AltarActionHandler{
 					updatePedestalItem(altarItem);
 					
 					if (world.rand.nextInt(5) == 0){
-						PacketPipeline.sendToAllAround(altar.getWorldObj().provider.dimensionId,targX,loc.y+0.5D,targZ,64D,new C11ParticleAltarOrb(targX,loc.y+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
+						PacketPipeline.sendToAllAround(altar.getWorldObj().provider.dimensionId,targX,pos.getY()+0.5D,targZ,64D,new C11ParticleAltarOrb(targX,pos.getY()+0.5D,targZ,item.posX,item.posY+0.3D,item.posZ,altar.getEssenceType().id,(byte)1));
 					}
 				}
 			}
